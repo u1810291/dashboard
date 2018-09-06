@@ -1,5 +1,6 @@
 {
   "signin.title": "Sign In",
+  "signin.action": "Sign In",
   "signin.form.email": "Email",
   "signin.form.password": "Password"
 }
