@@ -3,16 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "formik": "^1.1.1",
     "history": "^4.7.2",
-    "mgi-ui-components": "../mgi-ui-components",
-    "mobx": "^5.1.0",
-    "mobx-react": "^5.2.5",
+    "mgi-ui-components": "git+ssh://git@bitbucket.org:mati_face/mgi-ui-components.git#master",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-intl": "^2.4.0",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.5"
+    "react-scripts": "1.1.5",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -23,6 +25,7 @@
   "devDependencies": {
     "babel-plugin-transform-decorators": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.5",
+    "nwb": "^0.23.0",
     "react-app-rewired": "^1.6.2"
   }
 }
