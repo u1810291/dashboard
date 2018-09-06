@@ -27,8 +27,10 @@ export function signIn(credentials) {
 const initialState = {}
 
 const reducer = createReducer(initialState, {
-  [types.AUTH_SIGNIN_SUCCESS]: function(state, { payload: { token, user }}) {
-    debugger
+  [types.AUTH_SIGNIN_SUCCESS]: function(
+    state,
+    { payload: { token, user }}
+  ) {
     return {
       ...state,
       token,
