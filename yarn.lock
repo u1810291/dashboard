@@ -4568,8 +4568,9 @@ methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
 
-mgi-ui-components@../mgi-ui-components:
+"mgi-ui-components@git+ssh://git@bitbucket.org:mati_face/mgi-ui-components.git#master":
   version "1.0.0"
+  resolved "git+ssh://git@bitbucket.org:mati_face/mgi-ui-components.git#0d0f3f8c05fa6813106cb67f6a3f71a83984e768"
 
 micromatch@^2.1.5, micromatch@^2.3.11:
   version "2.3.11"
