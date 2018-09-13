@@ -1,0 +1,26 @@
+# This is a sample build configuration for JavaScript.
+# Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: node:8.9.4
+
+pipelines:
+
+  branches:
+    master:
+      - step:
+          name: Build
+          deployment: production
+          caches:
+            - node
+          script:
+            - yarn
+            - yarn build
+          artifacts:
+            - dist/**
+      - step:
+          name: Deploy to S3
+          image: atlassian/pipelines-awscli
+          script:
+            - aws s3 sync --delete --acl public-read dist s3://io.mati.staging.mgi-dashboard
