@@ -1,0 +1,16 @@
+{
+  "Paths": {
+    "Quantity": 7,
+    "Items": [
+      "/asset-manifest.json",
+      "/manifest.json",
+      "/index.html",
+      "/favicon.ico",
+      "/static/js/*",
+      "/static/css/*",
+      "/static/media/*",
+      "/service-worker.js"
+    ]
+  },
+  "CallerReference": "signup-invalidation"
+}
