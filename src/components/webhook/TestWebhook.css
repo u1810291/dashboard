@@ -1,0 +1,15 @@
+:local(.testWebhookContainer) .test-webhook-card {
+  height: 55px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+}
+
+:local(.testWebhookContainer) .test-webhook-card .test-webhook-card-types {
+  min-width: 40%;
+}
+
+:local(.testWebhookContainer) .test-webhook-card .test-webhook-card-name {
+  flex: 1
+}

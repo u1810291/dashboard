@@ -1,0 +1,8 @@
+:local(.form) {
+  display: flex;
+}
+
+:local(.form) input {
+  flex: 1;
+  margin-right: 15px;
+}

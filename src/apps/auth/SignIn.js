@@ -10,12 +10,12 @@ import { signIn } from 'src/state/auth'
 const formikSettings = {
   handleSubmit(values, { props }) {
     const { email, password } = values
-    props.dispatch(signIn({ email, password }))
+    props.signIn({ email, password }).then(data => props.history.push('/dashboard'))
   }
 }
 
 @setI18nContext('signin.form')
-@connect()
+@connect(null, { signIn })
 @withFormik(formikSettings)
 export default class SignIn extends React.Component {
   render() {

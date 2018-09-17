@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "classnames": "^2.2.6",
     "formik": "^1.1.1",
     "history": "^4.7.2",
     "mgi-ui-components": "git+ssh://git@bitbucket.org:mati_face/mgi-ui-components.git#master",
@@ -14,6 +15,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.5",
     "redux": "^4.0.0",
+    "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {

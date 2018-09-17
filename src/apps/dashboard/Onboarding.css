@@ -1,0 +1,23 @@
+:local(.onboarding) {
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+}
+
+:local(.onboarding) section {
+  margin-bottom: 38px;
+}
+
+:local(.content), :local(.sidebar) {
+  flex: 1;
+  padding: 28px 35px;
+}
+
+:local(.sidebar) {
+  background: var(--mgi-secondary-background-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
