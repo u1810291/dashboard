@@ -12,13 +12,8 @@ pipelines:
       - step:
           name: Build
           deployment: production
-<<<<<<< HEAD
           caches:
             - node
-=======
-          # caches:
-          #   - node
->>>>>>> 177bac9d4003547904d96548d23d691f35e2b71e
           script:
             - yarn
             - yarn build
