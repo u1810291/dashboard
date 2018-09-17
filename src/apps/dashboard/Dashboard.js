@@ -10,10 +10,10 @@ import SettingsIcon from 'src/assets/icon-settings.svg'
 import DocumentIcon from 'src/assets/icon-document.svg'
 
 const sidebarItems = [
-  <Link to="/" className="mgi-application-box-logo"><img src={MatiLogo} /></Link>,
-  <Link to="/dashboard"><img src={HomeIcon} /></Link>,
-  <Link to="/settings"><img src={SettingsIcon} /></Link>,
-  <Link to="/help"><img src={DocumentIcon} /></Link>
+  <Link to="/" className="mgi-application-box-logo"><img src={MatiLogo} alt=""/></Link>,
+  <Link to="/dashboard"><img src={HomeIcon} alt=""/></Link>,
+  <Link to="/settings"><img src={SettingsIcon} alt=""/></Link>,
+  <Link to="/help"><img src={DocumentIcon} alt=""/></Link>
 ]
 
 export default function Dashboard(props) {

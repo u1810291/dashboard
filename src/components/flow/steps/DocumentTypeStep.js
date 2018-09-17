@@ -31,7 +31,7 @@ export default function DocumentTypeStep({
             )}
             // onClick={this.handleCardClick.bind(this, type)}
           >
-            <img src={icons[type]} />
+            <img src={icons[type]} alt=""/>
             <FormattedMessage id={`flow.documentTypeStep.${type}`} />
           </Card>
         ))}

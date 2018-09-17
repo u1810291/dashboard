@@ -22,7 +22,7 @@ export default function ButtonLanguageStep({
             className={classNames(CSS.flowCard, CSS.languageCard, 'text-secondary', 'text-caption')}
             // onClick={this.handleCardClick.bind(this, type)}
           >
-            <img src={icons[lang]} />
+            <img src={icons[lang]} alt=""/>
             <FormattedMessage id={`flow.languageStep.${lang}`} />
           </Card>
         ))}

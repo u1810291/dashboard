@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
 import { Card } from 'mgi-ui-components'
 import CSS from './steps.css'
-import icons from './language-icons'
 
 export default function GlobalWatchlistStep({
   enableWatchList = true
