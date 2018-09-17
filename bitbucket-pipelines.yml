@@ -16,6 +16,7 @@ pipelines:
             - node
           script:
             - yarn
+            - yarn update mgi-ui-components
             - yarn build
           artifacts:
             - build/**
