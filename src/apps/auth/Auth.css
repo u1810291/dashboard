@@ -1,0 +1,7 @@
+:local(.name) {
+  display: flex;
+}
+
+:local(.name) *:not(:last-child) {
+  margin-right: 25px;
+}

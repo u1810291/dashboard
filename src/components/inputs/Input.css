@@ -1,0 +1,15 @@
+:local(.input) {
+  margin-bottom: 20px;
+}
+
+:local(.input) label {
+  font-size: 80%;
+  padding-bottom: 10px;
+  display: inline-block;
+}
+
+:local(.error) {
+  font-size: 80%;
+  padding-top: 10px;
+  color: #EB5757;
+}

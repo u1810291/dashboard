@@ -13,6 +13,12 @@ html {
   font-family: "Proxima Nova"
 }
 
+/* Move the rest of this file to the mgi theme */
+
+p {
+  margin-bottom: 25px;
+}
+
 .text-secondary {
   color: #909090;
 }
@@ -22,6 +28,11 @@ html {
   font-size: 12px;
   font-weight: 600;
   line-height: 1.2;
+}
+
+a {
+  color: #2196F3;
+  text-decoration: none;
 }
 
 h2 {
@@ -34,6 +45,13 @@ h3 {
   font-size: 18px;
   margin-bottom: 18px;
   font-weight: 600;
+}
+
+h2 small,
+h3 small {
+  display: block;
+  font-size: 1rem;
+  font-weight: lighter;
 }
 
 p {

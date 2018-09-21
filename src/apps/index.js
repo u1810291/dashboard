@@ -1,15 +1,39 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { Auth } from './auth'
 import { Dashboard } from './dashboard'
 import { NotFound } from './not-found'
 
-export default function Root() {
-  return (
-    <Switch>
-      <Route path="/auth" component={Auth} />
-      <Route path="/dashboard" component={Dashboard} />
-      <Route component={NotFound} />
-    </Switch>
-  )
+export default class Root extends React.Component {
+  render() {
+    return (
+      <Switch>
+        <Route path="/auth" component={Auth} />
+        <PrivateRoute path="/" component={Dashboard} />
+      </Switch>
+    )
+  }
+}
+
+@connect(state => ({ loggedIn: state.auth.token }))
+class PrivateRoute extends React.Component {
+  render() {
+    const { component: Component, loggedIn, ...rest } = this.props
+    return <Route
+      {...rest}
+      render={props =>
+        loggedIn ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/auth/signin",
+              state: { from: props.location }
+            }}
+          />
+        )
+      }
+    />
+  }
 }
