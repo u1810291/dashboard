@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { Auth } from './auth'
 import { Dashboard } from './dashboard'
-import { NotFound } from './not-found'
 
 export default class Root extends React.Component {
   render() {

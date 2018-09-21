@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
 import PasswordRecovery from './PasswordRecovery'
