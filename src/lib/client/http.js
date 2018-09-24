@@ -1,7 +1,11 @@
 import axios from 'axios'
 
 const http = axios.create({
-  baseURL: 'http://api.globalid.mati.io/api/v1'
+  baseURL: 'https://api.globalid.mati.io/api/v1'
 })
 
 export default http
+
+export function getAuthHeader(token) {
+  return { Authorization: `Bearer ${token}` }
+}
