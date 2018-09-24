@@ -6,10 +6,9 @@ import CSS from './steps.css'
 import icons from './language-icons'
 
 export default function ButtonLanguageStep({
-  availableLanguages = [
-    'en_US',
-    'es_MX'
-  ]
+  availableLanguages = [],
+  language,
+  onClick = () => {}
 }) {
   return (
     <div className="configure-flow-card">
@@ -19,8 +18,10 @@ export default function ButtonLanguageStep({
       <div className={CSS.flowCards}>
         {availableLanguages.map(lang => (
           <Card
+            key={lang}
             className={classNames(CSS.flowCard, CSS.languageCard, 'text-secondary', 'text-caption')}
-            // onClick={this.handleCardClick.bind(this, type)}
+            cardBorderStyle={lang === language ? 'blue' : 'default'}
+            onClick={onClick.bind(null, { language: lang })}
           >
             <img src={icons[lang]} alt=""/>
             <FormattedMessage id={`flow.languageStep.${lang}`} />

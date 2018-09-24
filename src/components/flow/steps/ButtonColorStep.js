@@ -5,14 +5,9 @@ import { Card } from 'mgi-ui-components'
 import CSS from './steps.css'
 
 export default function ButtonColorStep({
-  availableButtonColors = [
-    'blue',
-    'green',
-    'red',
-    'pink',
-    'orange',
-    'yellow'
-  ]
+  availableButtonColors = [],
+  color,
+  onClick = () => {}
 }) {
   return (
     <div className="configure-flow-card">
@@ -20,16 +15,23 @@ export default function ButtonColorStep({
         <FormattedMessage id="flow.colorStep.title" />
       </h3>
       <div className={CSS.flowCards}>
-        {availableButtonColors.map(color => (
+        {availableButtonColors.map(c => (
           <Card
-            className={classNames(CSS.flowCard, CSS.colorCard, 'text-secondary', 'text-caption')}
-            // onClick={this.handleCardClick.bind(this, type)}
+            key={c}
+            onClick={onClick.bind(null, { color: c })}
+            className={classNames(
+              CSS.flowCard,
+              CSS.colorCard,
+              'text-secondary',
+              'text-caption',
+            )}
+            cardBorderStyle={c === color ? 'blue' : 'default'}
           >
             <span
-              className={classNames(CSS.documentColorCardIcon, `card-icon-${color}`)}
+              className={classNames(CSS.documentColorCardIcon, `card-icon-${c}`)}
             >
             </span>
-            <FormattedMessage id={`flow.colorStep.${color}`} />
+            <FormattedMessage id={`flow.colorStep.${c}`} />
           </Card>
         ))}
       </div>

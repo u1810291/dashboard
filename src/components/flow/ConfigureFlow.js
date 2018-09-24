@@ -43,10 +43,25 @@ export default class ConfigureFlow extends React.Component {
 
   render() {
     const steps = [
-      <DocumentTypeStep />,
-      <ButtonColorStep />,
-      <ButtonLanguageStep />,
-      <GlobalWatchlistStep />
+      <DocumentTypeStep
+        availableDocumentTypes={this.props.availableDocumentTypes}
+        documents={this.props.documents}
+        onClick={this.props.updateConfiguration}
+      />,
+      <ButtonColorStep
+        availableButtonColors={this.props.availableButtonColors}
+        color={this.props.color}
+        onClick={this.props.updateConfiguration}
+      />,
+      <ButtonLanguageStep
+        availableLanguages={this.props.availableLanguages}
+        language={this.props.language}
+        onClick={this.props.updateConfiguration}
+      />,
+      <GlobalWatchlistStep
+        globalWatchList={this.props.globalWatchList}
+        onClick={this.props.updateConfiguration}
+      />
     ]
     return (
       <div>

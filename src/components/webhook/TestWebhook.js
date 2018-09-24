@@ -15,11 +15,11 @@ export default class TestWebhook extends React.Component {
   render() {
     return (
       <div className={CSS.testWebhookContainer}>
-        {this.props.webhooks.map(webhook => (
-          <Card className='test-webhook-card'>
+        {this.props.webhooks.map((webhook, i) => (
+          <Card className='test-webhook-card' key={i}>
             <div className="test-webhook-card-types">
               {webhook.types.map(type => (
-                <Label labelStyle={`primary bg-${DOCUMENT_TYPE_COLORS[type]} rounded`}>
+                <Label key={type} labelStyle={`primary bg-${DOCUMENT_TYPE_COLORS[type]} rounded`}>
                   <FormattedMessage id={`flow.documentTypeStep.${type}`} />
                 </Label>
               )).reduce((prev, curr) => [prev, ' + ', curr])}

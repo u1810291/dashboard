@@ -2,6 +2,7 @@ import React from 'react'
 import { injectIntl } from 'react-intl'
 import { TextField } from 'mgi-ui-components'
 import { withI18nContext } from 'src/components/i18n-context'
+import classNames from 'classnames'
 import { get } from 'lodash'
 import CSS from './Input.css'
 
@@ -17,6 +18,8 @@ export default class Input extends React.Component {
       type = 'text',
       intl,
       i18nContext,
+      hideLabel = false,
+      className,
       ...inputOptions
     } = this.props
 
@@ -29,8 +32,10 @@ export default class Input extends React.Component {
     const error = get(form.status, field.name)
 
     return (
-      <div className={CSS.input}>
-        <label>{label || i18nLabel}</label>
+      <div className={classNames(CSS.input, className)}>
+        {
+          !hideLabel && <label>{label || i18nLabel}</label>
+        }
         <TextField
           type={type}
           placeholder={placeholder || i18nPlaceholder}

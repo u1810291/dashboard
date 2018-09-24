@@ -57,12 +57,13 @@
   "flow.colorStep.orange": "orange",
   "flow.colorStep.yellow": "yellow",
   "flow.languageStep.title": "Language in which to display the verification flow for your users",
-  "flow.languageStep.en_US": "EN",
-  "flow.languageStep.es_MX": "ES",
+  "flow.languageStep.en": "EN",
+  "flow.languageStep.es": "ES",
   "flow.watchlistStep.title": "Do you want to add Global watchlist?",
   "flow.watchlistStep.title": "Do you want to add Global watchlist?",
   "flow.watchlistStep.yes": "Yes",
   "flow.watchlistStep.no": "No",
   "webhookUrl.save": "Save",
-  "webhookUrl.placeholer": "https://yoursite.com/"
+  "onboarding.webhooks.labels.url": "Subscribe to webhook",
+  "onboarding.webhooks.placeholders.url": "https://yoursite.com/"
 }
