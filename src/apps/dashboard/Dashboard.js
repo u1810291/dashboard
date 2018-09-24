@@ -7,8 +7,8 @@ import { Onboarding } from '.'
 import { signOut } from 'src/state/auth'
 import MatiLogo from 'src/assets/mati-logo.svg'
 import HomeIcon from 'src/assets/icon-home.svg'
-import SettingsIcon from 'src/assets/icon-settings.svg'
-import DocumentIcon from 'src/assets/icon-document.svg'
+// import SettingsIcon from 'src/assets/icon-settings.svg'
+// import DocumentIcon from 'src/assets/icon-document.svg'
 import CSS from './Dashboard.css'
 
 const sidebarItems = [

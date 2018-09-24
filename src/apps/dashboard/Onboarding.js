@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Button } from 'mgi-ui-components'
+// import { Button } from 'mgi-ui-components'
 import { ConfigureFlow } from 'src/components/flow'
 import { TestWebhook } from 'src/components/webhook'
 import { WebhookURLForm } from 'src/components/webhook-url-form'
