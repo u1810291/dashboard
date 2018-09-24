@@ -18,12 +18,12 @@ const sidebarItems = [
   <Link to="/dashboard">
     <img src={HomeIcon} alt="" />
   </Link>,
-  <Link to="/settings">
-    <img src={SettingsIcon} alt="" />
-  </Link>,
-  <Link to="/help">
-    <img src={DocumentIcon} alt="" />
-  </Link>
+  // <Link to="/settings">
+  //   <img src={SettingsIcon} alt="" />
+  // </Link>,
+  // <Link to="/help">
+  //   <img src={DocumentIcon} alt="" />
+  // </Link>
 ]
 
 @connect(null, { signOut })

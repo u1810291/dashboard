@@ -13,20 +13,22 @@ import {
   AVAILABLE_LANGUAGES,
   AVAILABLE_DOCUMENT_TYPES
 } from 'src/state/merchant'
-import { subscribeToWebhook } from 'src/state/webhooks'
+import { subscribeToWebhook, getWebhooks } from 'src/state/webhooks'
 
 import styles from './Onboarding.css'
 
 @connect(
   state => ({
     token: state.auth.token,
-    configuration: state.merchant.configuration
+    configuration: state.merchant.configuration,
+    lastWebhook: state.webhooks
   }),
-  { getMerchant, saveConfiguration, subscribeToWebhook }
+  { getMerchant, saveConfiguration, subscribeToWebhook, getWebhooks }
 )
 export default class Onboarding extends React.Component {
   componentDidMount() {
     this.props.getMerchant(this.props.token)
+    this.props.getWebhooks(this.props.token)
   }
 
   updateConfiguration = settings => {
@@ -67,16 +69,17 @@ export default class Onboarding extends React.Component {
             <WebhookURLForm
               token={this.props.token}
               subscribeToWebhook={this.props.subscribeToWebhook}
+              url={this.props.lastWebhook.url}
             />
           </section>
-          <section>
+          {/* <section>
             <h2>
               <FormattedMessage id="onboarding.pricing.title" />
             </h2>
             <Button buttonStyle="primary">
               <FormattedMessage id="onboarding.pricing.button" />
             </Button>
-          </section>
+          </section> */}
         </div>
         <div className={styles.sidebar}>
           <h3>

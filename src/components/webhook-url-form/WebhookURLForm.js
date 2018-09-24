@@ -11,13 +11,17 @@ const formikSettings = {
     const { url } = values
     const { token } = props
     setStatus({})
-    props.subscribeToWebhook(token, { url })
+    props.subscribeToWebhook(token, { url, secret: token })
     .then(data => {
       setSubmitting(false)
     })
     .catch(error => {
+      const status = {}
+      error.response.data.details.forEach(e => {
+        status[e.path.toString()] = e.message
+      })
       setSubmitting(false)
-      setStatus({email: error.response.data.details})
+      setStatus(status)
     })
   }
 }
