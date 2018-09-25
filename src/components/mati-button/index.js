@@ -1,5 +1,12 @@
 import React from 'react'
 
+const languagesMap = {
+  en: 'us',
+  es: 'mx',
+  fr: 'fr',
+  pt: 'pt'
+}
+
 export class MatiButton extends React.Component {
   componentDidMount() {
     window.Mati.render({
@@ -19,7 +26,7 @@ export class MatiButton extends React.Component {
       <div
         className="mati-button"
         data-product="kyc"
-        data-country={this.props.language}
+        data-country={languagesMap[this.props.language]}
         ref={element => this.element = element}
       >
       </div>
