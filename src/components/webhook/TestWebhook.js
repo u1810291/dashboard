@@ -25,7 +25,9 @@ export default class TestWebhook extends React.Component {
               )).reduce((prev, curr) => [prev, ' + ', curr])}
             </div>
             <div className="test-webhook-card-name">{webhook.name}</div>
-            <div className="test-webhook-card-date">{webhook.date}</div>
+            <div className="test-webhook-card-date">
+              {(new Date(webhook.date)).toLocaleDateString()}
+            </div>
           </Card>
         ))}
       </div>
@@ -38,22 +40,22 @@ TestWebhook.defaultProps = {
     {
       types: ['face', 'passport'],
       name: 'Tommy Foster',
-      date: '2018-08-21 03:11:00 pm'
+      date: '2018/08/21 03:11:00'
     },
     {
       types: ['national-id', 'passport'],
       name: 'Viola Luna',
-      date: '2018-08-21 03:11:00 pm'
+      date: '2018/08/21 03:11:00'
     },
     {
       types: ['driving-license'],
       name: 'Bertha Diaz',
-      date: '2018-08-21 03:11:00 pm'
+      date: '2018/08/21 03:11:00'
     },
     {
       types: ['proof-of-residency'],
       name: 'Tommy Foster',
-      date: '2018-08-21 03:11:00 pm'
+      date: '2018/08/21 03:11:00'
     }
   ]
 }

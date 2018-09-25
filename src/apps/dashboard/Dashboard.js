@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch, Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
+import { Helmet } from "react-helmet"
 import { ApplicationBox, Button } from 'mgi-ui-components'
 import { Onboarding } from '.'
 import { signOut } from 'src/state/auth'
@@ -36,6 +37,9 @@ export default class Dashboard extends React.Component {
 
   render() {
     return <ApplicationBox sidebarItems={sidebarItems}>
+      <Helmet>
+        <title>Mati Dashboard</title>
+      </Helmet>
       <Button className={CSS.signoutButton} onClick={this.handleSignOut}>
         <FormattedMessage id="signout" />
       </Button>

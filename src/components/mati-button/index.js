@@ -19,6 +19,7 @@ export class MatiButton extends React.Component {
       <div
         className="mati-button"
         data-product="kyc"
+        data-country={this.props.language}
         ref={element => this.element = element}
       >
       </div>

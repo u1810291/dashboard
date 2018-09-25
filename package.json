@@ -10,6 +10,7 @@
     "mgi-ui-components": "git+ssh://git@bitbucket.org:mati_face/mgi-ui-components.git#master",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-helmet": "^5.2.0",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",

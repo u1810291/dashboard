@@ -88,7 +88,7 @@ export default class Onboarding extends React.Component {
           <p className="text-secondary">
             <FormattedMessage id="onboarding.demo.help-text" />
           </p>
-          <MatiButton />
+          <MatiButton language={this.props.configuration.language} />
         </div>
       </div>
     )

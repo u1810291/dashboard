@@ -63,7 +63,7 @@ const initialState = {
     version: 0,
     documents: [],
     color: undefined,
-    language: undefined,
+    language: 'en',
     globalWatchList: false,
   }
 }
