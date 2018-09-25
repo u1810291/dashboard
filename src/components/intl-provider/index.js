@@ -5,7 +5,7 @@ import es from 'react-intl/locale-data/es'
 import translations from 'src/translations'
 
 addLocaleData([...en, ...es])
-const defaultLang = navigator.language.split(/[-_]/)[0]
+const defaultLang = 'en'
 
 export default function Intl({language = defaultLang, children}) {
   return (

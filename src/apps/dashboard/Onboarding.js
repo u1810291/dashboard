@@ -18,11 +18,12 @@ import { subscribeToWebhook, getWebhooks } from 'src/state/webhooks'
 import styles from './Onboarding.css'
 
 @connect(
-  state => ({
+  state => {debugger; return {
     token: state.auth.token,
     configuration: state.merchant.configuration,
-    lastWebhook: state.webhooks
-  }),
+    lastWebhook: state.webhooks.lastWebhook,
+    testWebhooks: state.webhooks.testWebhooks
+  }},
   { getMerchant, saveConfiguration, subscribeToWebhook, getWebhooks }
 )
 export default class Onboarding extends React.Component {
@@ -60,7 +61,7 @@ export default class Onboarding extends React.Component {
             <h2>
               <FormattedMessage id="onboarding.webhook.title" />
             </h2>
-            <TestWebhook />
+            <TestWebhook webhooks={this.props.testWebhooks}/>
           </section>
           <section>
             <h2>

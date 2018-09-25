@@ -1,8 +1,10 @@
 :local(.testWebhookContainer) .test-webhook-card {
-  height: 55px;
+  /* height: 55px; */
   margin-bottom: 15px;
+  padding: 15px;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
+  flex-wrap: wrap;
   /* justify-content: space-between; */
 }
 
@@ -12,4 +14,38 @@
 
 :local(.testWebhookContainer) .test-webhook-card .test-webhook-card-name {
   flex: 1
+}
+
+:local(.testWebhookContainer) .test-webhook-card .test-webhook-card-details {
+  width: 100%;
+  padding-top: 25px;
+}
+
+:local(.testWebhookContainer) .test-webhook-card-details-pictures {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -45px;
+}
+
+:local(.testWebhookContainer) .test-webhook-card-details-picture {
+  width: 50%;
+  padding-right: 45px;
+  padding-bottom: 45px;
+}
+
+:local(.testWebhookContainer) .test-webhook-card-details-picture img {
+  max-width: 100%;
+}
+
+:local(.testWebhookContainer) .test-webhook-card-details pre  {
+  max-width: 100%;
+}
+
+:local(.testWebhookContainer) .test-webhook-card-details-picture .text-caption {
+  padding-bottom: 7px;
+}
+
+:local(.testWebhookContainer) .test-webhook-card-expand {
+  padding-right: 15px;
+  cursor: pointer;
 }
