@@ -24,5 +24,6 @@ pipelines:
           name: Deploy to S3
           image: atlassian/pipelines-awscli
           script:
+            - sed -i -e "s/mgi-dashboard-invalidation/mgi-dashboard-invalidation-$(date +%FT%T)/g" invbatch.json
             - aws s3 sync --delete --acl public-read build s3://io.mati.staging.mgi-dashboard
             - aws cloudfront create-invalidation --region us-west-2 --distribution-id E3SBBQ1P1YP0EG --invalidation-batch file://invbatch.json
