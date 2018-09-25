@@ -1,7 +1,8 @@
 {
   "Paths": {
-    "Quantity": 8,
+    "Quantity": 9,
     "Items": [
+      "/",
       "/asset-manifest.json",
       "/manifest.json",
       "/index.html",
