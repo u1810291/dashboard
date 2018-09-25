@@ -38,7 +38,7 @@ class WebhookLine extends React.Component {
             <Label key={type} labelStyle={`primary bg-${DOCUMENT_TYPE_COLORS[type]} rounded`}>
               <FormattedMessage id={`flow.documentTypeStep.${type}`} />
             </Label>
-          )).reduce((prev, curr) => [prev, ' + ', curr])}
+          )).reduce((prev, curr) => [prev, ' ', curr])}
         </div>
         <div className="test-webhook-card-name">{webhook.fullName}</div>
         <div className="test-webhook-card-date">

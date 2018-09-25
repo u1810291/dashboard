@@ -66,7 +66,7 @@ const reducer = createReducer(initialState, {
   [types.WEBHOOKS_LIST_SUCCESS]: function(state, { payload }) {
     return {
       ...state,
-      lastWebhook: payload.data[payload.data.length - 1]
+      testWebhooks: payload.data
     }
   },
 })

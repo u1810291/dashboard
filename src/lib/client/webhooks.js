@@ -7,7 +7,7 @@ export function subscribeToWebhook(token, webhook) {
 }
 
 export function getWebhooks(token) {
-  return http.get('/v1/webhooks', {
+  return http.get('/v1/webhooks/samples', {
     headers: { ...getAuthHeader(token) }
   })
 }
