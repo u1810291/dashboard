@@ -23,3 +23,7 @@
   padding-top: 100px;
 }
 
+:local(.showIntegrationCodeButton) {
+  margin-top: 88px;
+  margin-bottom: 25px;
+}

@@ -4,6 +4,7 @@ import client from 'src/lib/client'
 export const types = {
   ...createTypesSequence('MERCHANT_GET'),
   ...createTypesSequence('CONFIGURATION_SAVE'),
+  ...createTypesSequence('INTEGRATION_CODE'),
 }
 
 export const AVAILABLE_COLORS = [
@@ -43,6 +44,21 @@ export function getMerchant(token) {
   }
 }
 
+export function getIntegrationCode(token) {
+  return function(dispatch) {
+    dispatch({ type: types.INTEGRATION_CODE_REQUEST })
+    return client.merchant.getIntegrationCode(token)
+    .then(payload => {
+      dispatch({ type: types.INTEGRATION_CODE_SUCCESS, payload })
+      return payload
+    })
+    .catch(error => {
+      dispatch({ type: types.INTEGRATION_CODE_FAILURE })
+      throw error
+    })
+  }
+}
+
 export function saveConfiguration(token, configuration) {
   return function(dispatch) {
     dispatch({ type: types.CONFIGURATION_SAVE_REQUEST })
@@ -59,6 +75,7 @@ export function saveConfiguration(token, configuration) {
 }
 
 const initialState = {
+  integrationCode: undefined,
   configuration: {
     version: 0,
     documents: [],
@@ -78,6 +95,13 @@ const reducer = createReducer(initialState, {
         ...state.configuration,
         ...payload.data.configurations[payload.data.configurations.length - 1]
       }
+    }
+  },
+
+  [types.INTEGRATION_CODE_SUCCESS]: function(state, { payload }) {
+    return {
+      ...state,
+      integrationCode: payload.data
     }
   },
 

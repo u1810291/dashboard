@@ -11,3 +11,9 @@ export function getMerchant(token) {
     headers: { ...getAuthHeader(token) }
   })
 }
+
+export function getIntegrationCode(token) {
+  return http.get('/api/v1/merchants/integration-code', {
+    headers: { ...getAuthHeader(token) }
+  })
+}
