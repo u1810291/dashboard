@@ -22,7 +22,7 @@ export class MatiButton extends React.Component {
     this.root.appendChild(this.element)
 
     window.Mati.render({
-      clientId: '5baa92f04771685a2673e90c',
+      clientId: this.props.clientId,
       element: this.element,
       hideChat: true
     })
