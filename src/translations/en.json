@@ -1,6 +1,6 @@
 {
   "signout": "Sign out",
-  "terms-of-conditions": "By clicking this button you agree on <a href='https://drive.google.com/file/d/1eXXvHSpt_MPXxcj8FkMrpIDUvpGJlq7-/view' target='_blank'>Terms and Conditions</a> and <a href='https://drive.google.com/file/d/17OkH13zS45e9_4siMRqQQ2qSuMCBjuq9/view' target='_blank'>Privacy Notice</p>",
+  "terms-of-conditions": "By clicking this button you agree on <a href=https://getmati.com/legal#terms target='_blank'>Terms and Conditions</a> and <a href=https://getmati.com/legal#privacy target='_blank'>Privacy Notice</p>",
 
   "recovery.title": "Recovery",
   "recovery.subtitle": "Please, provide your email address, to get a password reset link",
