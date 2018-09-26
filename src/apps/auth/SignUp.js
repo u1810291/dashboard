@@ -19,12 +19,8 @@ const formikSettings = {
       props.history.push('/')
     })
     .catch(error => {
-      const status = {}
-      error.response.data.details.forEach(e => {
-        status[e.path.toString()] = e.message
-      })
       setSubmitting(false)
-      setStatus(status)
+      setStatus({password: error.response.data.message})
     })
   }
 }
