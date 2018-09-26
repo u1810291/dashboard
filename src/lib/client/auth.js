@@ -12,3 +12,6 @@ export function recovery(credentials) {
   return http.post('/api/v1/auth/recovery', credentials)
 }
 
+export function reset(credentials) {
+  return http.put('/api/v1/auth/reset-password', credentials)
+}

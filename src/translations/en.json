@@ -9,6 +9,14 @@
   "recovery.action": "Request reset link",
   "recovery.signin": "Back to sign in page",
 
+  "passwordReset.title": "Reset your password",
+  "passwordReset.subtitle": "Please, submit a new password for your account",
+  "passwordReset.form.labels.password": "Password",
+  "passwordReset.form.placeholders.password": "Password",
+  "passwordReset.form.labels.confirm": "Confirm password",
+  "passwordReset.form.placeholders.confirm": "Confirm password",
+  "passwordReset.action": "Reset password",
+
   "signin.title": "Welcome back!",
   "signin.subtitle": "No account yet?",
   "signin.subtitle.link": "Sign up for free",

@@ -6,6 +6,7 @@ export const types = {
   ...createTypesSequence('AUTH_SIGNOUT'),
   ...createTypesSequence('AUTH_SIGNUP'),
   ...createTypesSequence('AUTH_RECOVERY'),
+  ...createTypesSequence('PASSWORD_RESET'),
 }
 
 export function signIn(credentials) {
@@ -59,6 +60,21 @@ export function passwordRecovery(credentials) {
   }
 }
 
+export function passwordReset(credentials) {
+  return function(dispatch) {
+    dispatch({ type: types.PASSWORD_RESET_REQUEST })
+    return client.auth.reset(credentials)
+    .then(payload => {
+      dispatch({ type: types.PASSWORD_RESET_SUCCESS, payload })
+      return payload
+    })
+    .catch(error => {
+      dispatch({ type: types.PASSWORD_RESET_FAILURE })
+      throw error
+    })
+  }
+}
+
 const initialState = {}
 
 const reducer = createReducer(initialState, {
@@ -79,6 +95,10 @@ const reducer = createReducer(initialState, {
   },
 
   [types.AUTH_SIGNOUT_REQUEST]: function() {
+    return initialState
+  },
+
+  [types.PASSWORD_RESET_SUCCESS]: function() {
     return initialState
   }
 })
