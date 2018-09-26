@@ -66,5 +66,7 @@
   "webhookUrl.save": "Save",
   "webhookUrl.confirmation": "Webhook URL was updated",
   "onboarding.webhooks.labels.url": "Subscribe to webhook",
-  "onboarding.webhooks.placeholders.url": "https://yoursite.com/"
+  "onboarding.webhooks.placeholders.url": "https://yoursite.com/",
+  "onboarding.integrationCode.button": "Show integration code",
+  "onboarding.integrationCode.modalTitle": "Copy&Paste Mati button code into your website"
 }

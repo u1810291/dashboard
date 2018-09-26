@@ -1,8 +1,8 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { connect } from 'react-redux'
 import SyntaxHighlighter from 'react-syntax-highlighter/prism'
-import { Button } from 'mgi-ui-components'
+import { Button, Modal } from 'mgi-ui-components'
 import { ConfigureFlow } from 'src/components/flow'
 import { TestWebhook } from 'src/components/webhook'
 import { WebhookURLForm } from 'src/components/webhook-url-form'
@@ -19,6 +19,7 @@ import { subscribeToWebhook, getWebhooks } from 'src/state/webhooks'
 
 import styles from './Onboarding.css'
 
+@injectIntl
 @connect(
   state => ({
     token: state.auth.token,
@@ -52,9 +53,7 @@ export default class Onboarding extends React.Component {
   }
 
   toggleIntegrationCode = () => {
-    this.setState({
-      hideIntegrationCode: !this.state.hideIntegrationCode
-    })
+    this.refs.integrationCodeModal.open()
   }
 
   render() {
@@ -117,15 +116,18 @@ export default class Onboarding extends React.Component {
               <path d="M15.8661 5.79125L11.8036 1.72884C11.7455 1.67076 11.6786 1.6416 11.6032 1.6416C11.5275 1.6416 11.4609 1.67076 11.4026 1.72884L10.9668 2.16472C10.9087 2.22282 10.8798 2.2896 10.8798 2.36524C10.8798 2.44087 10.9087 2.50768 10.9668 2.56575L14.393 5.99183L10.9668 9.41809C10.9087 9.47617 10.8798 9.54307 10.8798 9.61849C10.8798 9.69415 10.9087 9.76102 10.9668 9.8191L11.4026 10.2548C11.4609 10.313 11.5275 10.3419 11.6032 10.3419C11.6786 10.3419 11.7455 10.3129 11.8036 10.2548L15.8661 6.19238C15.9242 6.1343 15.9532 6.06731 15.9532 5.99177C15.9532 5.9162 15.9242 5.84933 15.8661 5.79125Z" fill="#2196F3"/>
               </svg>
               {' '}
-              Open integration code
+              <FormattedMessage id="onboarding.integrationCode.button" />
             </Button>
           </div>
 
-          <div className={styles.showIntegrationCodeButtonSnippet} hidden={this.state.hideIntegrationCode}>
-            <SyntaxHighlighter language='javascript'>
+          <Modal
+            className={styles.integrationCodeModal}
+            title={this.props.intl.formatMessage({ id: 'onboarding.integrationCode.modalTitle' })}
+            ref="integrationCodeModal">
+            <SyntaxHighlighter language='html'>
               {this.props.integrationCode}
             </SyntaxHighlighter>
-          </div>
+          </Modal>
         </div>
       </div>
     )

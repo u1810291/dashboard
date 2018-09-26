@@ -27,3 +27,8 @@
   margin-top: 88px;
   margin-bottom: 25px;
 }
+
+:local(.integrationCodeModal) {
+  width: 800px;
+  height: 500px;
+}
