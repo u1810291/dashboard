@@ -17,3 +17,9 @@ export function getIntegrationCode(token) {
     headers: { ...getAuthHeader(token) }
   })
 }
+
+export function getMerchantApps(token) {
+  return http.get('/api/v1/merchants/apps', {
+    headers: { ...getAuthHeader(token) }
+  })
+}
