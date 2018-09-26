@@ -96,7 +96,10 @@ const initialState = {
   anyApplication: {},
   configuration: {
     version: 0,
-    documents: [],
+    documents: {
+      required: [],
+      optional: []
+    },
     color: undefined,
     language: 'en',
     globalWatchList: false,

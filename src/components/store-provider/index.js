@@ -9,8 +9,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import * as reducers from 'src/state/reducers'
 
 const persistConfig = {
-  key: 'mgi-dashboard',
-  whitelist: ['auth', 'merchant'],
+  key: 'mgi-dashboard-2',
   storage
 }
 

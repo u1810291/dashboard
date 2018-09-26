@@ -5,13 +5,17 @@ import { Card } from 'mgi-ui-components'
 import CSS from './steps.css'
 import icons from './document-type-icons'
 
-const flatten = array => array.reduce((acc, val) => acc.concat(val), [])
+const mandatoryTypes = ['face']
+
+function uniq(value, index, self) {
+  return self.indexOf(value) === index
+}
+
 const toggle = (array, element) => {
   const elements = [...array]
   const index = elements.indexOf(element)
   index === -1 ? elements.push(element) : elements.splice(index, 1)
   return elements
-
 }
 
 export default function DocumentTypeStep({
@@ -19,6 +23,9 @@ export default function DocumentTypeStep({
   documents = [],
   onClick = () => {}
 }) {
+  let required = documents.required || []
+  required = required.concat(mandatoryTypes).filter(uniq)
+  const optional = documents.optional || []
   return (
     <div className="configure-flow-card">
       <h3>
@@ -27,7 +34,7 @@ export default function DocumentTypeStep({
       <div className={CSS.flowCards}>
         {availableDocumentTypes.map(type => (
           <Card
-            cardBorderStyle={flatten(documents).includes(type) ? 'blue' : 'default'}
+            cardBorderStyle={required.includes(type) ? 'blue' : 'default'}
             key={type}
             className={classNames(
               CSS.flowCard,
@@ -35,9 +42,16 @@ export default function DocumentTypeStep({
               'text-secondary',
               'text-caption'
             )}
-            onClick={() => onClick({ documents: toggle(flatten(documents), type).map(e => [e]) })}
+            onClick={() =>
+              onClick({
+                documents: {
+                  required: toggle(required, type),
+                  optional
+                }
+              })
+            }
           >
-            <img src={icons[type]} alt=""/>
+            <img src={icons[type]} alt="" />
             <FormattedMessage id={`flow.documentTypeStep.${type}`} />
           </Card>
         ))}
