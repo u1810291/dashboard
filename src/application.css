@@ -55,6 +55,7 @@ h3 small {
   display: block;
   font-size: 1rem;
   font-weight: lighter;
+  line-height: 2;
 }
 
 p {
