@@ -81,6 +81,7 @@ export function saveConfiguration(token, configuration) {
     return client.merchant.saveConfiguration(token, configuration)
     .then(payload => {
       dispatch({ type: types.CONFIGURATION_SAVE_SUCCESS, payload })
+      getIntegrationCode(token);
       return payload
     })
     .catch(error => {
