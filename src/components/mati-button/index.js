@@ -8,28 +8,33 @@ const languagesMap = {
 }
 
 export class MatiButton extends React.Component {
-  componentDidMount() {
+  renderButton() {
+    if (this.element) {
+      const index = this.element.dataset.index
+      const iframe = document.querySelector(`iframe#mati-iframe-${index}`)
+      if (iframe) iframe.remove()
+      this.element.remove()
+    }
+    this.element = document.createElement('div')
+    this.element.dataset.country = languagesMap[this.props.language]
+    this.element.dataset.style = this.props.color
+    this.element.dataset.product = 'kyc'
+    this.root.appendChild(this.element)
+
     window.Mati.render({
-      clientId: '5ae0c3fbb01a23351872ab18',
+      clientId: '5baa92f04771685a2673e90c',
       element: this.element,
-      hideChat: true,
-      metadata:  {
-        userId: 101150998,
-        medio: 'PORTAL',
-        token: 6150000227,
-        identityId: '5b89d66b1222051ccf956362'
-      },
-    });
+      hideChat: true
+    })
+  }
+  componentDidUpdate() {
+    this.renderButton()
+  }
+
+  componentDidMount() {
+    this.renderButton()
   }
   render() {
-    return (
-      <div
-        className="mati-button"
-        data-product="kyc"
-        data-country={languagesMap[this.props.language]}
-        ref={element => this.element = element}
-      >
-      </div>
-    )
+    return <div ref={root => this.root = root}></div>
   }
 }
