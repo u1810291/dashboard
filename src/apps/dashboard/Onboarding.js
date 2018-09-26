@@ -49,7 +49,9 @@ export default class Onboarding extends React.Component {
       ...settings,
       version: (parseInt(this.props.configuration.version, 10) || 0) + 1
     }
-    this.props.saveConfiguration(this.props.token, configuration)
+    this.props.saveConfiguration(this.props.token, configuration).then(() => {
+      this.props.getIntegrationCode(this.props.token)
+    })
   }
 
   toggleIntegrationCode = () => {
