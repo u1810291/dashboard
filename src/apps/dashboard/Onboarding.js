@@ -43,7 +43,8 @@ export default class Onboarding extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      hideIntegrationCode: true
+      hideIntegrationCode: true,
+      showDemoNotification: false
     }
   }
   componentDidMount() {
@@ -60,6 +61,18 @@ export default class Onboarding extends React.Component {
       version: (parseInt(this.props.configuration.version, 10) || 0) + 1
     }
     this.props.saveConfiguration(this.props.token, configuration)
+  }
+
+  showDemoNotification = () => {
+    this.setState({
+      showDemoNotification: true
+    })
+
+    setInterval(() => {
+      this.setState({
+        showDemoNotification: false
+      })
+    }, 10000)
   }
 
   toggleIntegrationCode = () => {
@@ -118,7 +131,13 @@ export default class Onboarding extends React.Component {
             language={this.props.configuration.language}
             color={this.props.configuration.color}
             clientId={this.props.clientId}
+            onSuccess={this.showDemoNotification}
           />
+          {this.state.showDemoNotification && (
+            <p className="text-secondary">
+              <FormattedMessage id="onboarding.demo.confirmation" />
+            </p>
+          )}
           <div className={styles.showIntegrationCodeButton}>
             <Button onClick={this.toggleIntegrationCode}>
               <svg

@@ -27,14 +27,21 @@ export class MatiButton extends React.Component {
       hideChat: true
     })
   }
-  componentDidUpdate() {
-    this.renderButton()
+  componentDidUpdate(prevProps) {
+    // if (
+    //   this.props.clientId !== prevProps.clientId ||
+    //   this.props.language !== prevProps.language ||
+    //   this.props.color !== prevProps.color
+    // ) {
+      this.renderButton()
+    // }
   }
 
   componentDidMount() {
     this.renderButton()
+    window.Mati.on('mati:success', this.props.onSuccess)
   }
   render() {
-    return <div ref={root => this.root = root}></div>
+    return <div ref={root => (this.root = root)} />
   }
 }

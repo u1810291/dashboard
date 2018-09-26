@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
+import { difference } from 'lodash'
 import { Card } from 'mgi-ui-components'
 import CSS from './steps.css'
 import icons from './document-type-icons'
@@ -45,7 +46,7 @@ export default function DocumentTypeStep({
             onClick={() =>
               onClick({
                 documents: {
-                  required: toggle(required, type),
+                  required: difference(toggle(required, type), mandatoryTypes),
                   optional
                 }
               })
