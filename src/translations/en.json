@@ -64,6 +64,7 @@
   "flow.watchlistStep.yes": "Yes",
   "flow.watchlistStep.no": "No",
   "webhookUrl.save": "Save",
+  "webhookUrl.confirmation": "Webhook URL was updated",
   "onboarding.webhooks.labels.url": "Subscribe to webhook",
   "onboarding.webhooks.placeholders.url": "https://yoursite.com/"
 }
