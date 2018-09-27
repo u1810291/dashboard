@@ -55,6 +55,7 @@ export default class Onboarding extends React.Component {
   }
 
   updateConfiguration = settings => {
+    this.props.getMerchantApps(this.props.token)
     const configuration = {
       ...this.props.configuration,
       ...settings,
@@ -68,13 +69,11 @@ export default class Onboarding extends React.Component {
     //   showDemoNotification: true
     // })
 
-    // if(showDemoNotification) {
-    //   setInterval(() => {
-    //     this.setState({
-    //       showDemoNotification: false
-    //     })
-    //   }, 10000)
-    // }
+    // setInterval(() => {
+    //   this.setState({
+    //     showDemoNotification: false
+    //   })
+    // }, 10000)
   }
 
   toggleIntegrationCode = () => {
