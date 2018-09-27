@@ -77,5 +77,5 @@
   "onboarding.webhooks.placeholders.url": "https://yoursite.com/",
   "onboarding.integrationCode.button": "Show integration code",
   "onboarding.integrationCode.modalTitle": "Copy&Paste Mati button code into your website",
-  "onboarding.demo.confirmation": "You will receive result on your email."
+  "onboarding.demo.confirmation": "The result was sent to your registered email."
 }

@@ -24,11 +24,15 @@
 }
 
 :local(.showIntegrationCodeButton) {
-  margin-top: 88px;
+  margin-top: 63px;
   margin-bottom: 25px;
 }
 
 :local(.integrationCodeModal) {
   width: 800px;
   height: 500px;
+}
+
+:local(.matiButton) {
+  padding-bottom: 25px;
 }

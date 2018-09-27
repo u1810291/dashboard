@@ -26,6 +26,14 @@ export class MatiButton extends React.Component {
       element: this.element,
       hideChat: true
     })
+
+    window.addEventListener('message', event => {
+      const data = JSON.parse(event.data)
+      const index = this.element.dataset.index || 0
+      if (this.props.onSuccess && data.action === `mati-signup-${index}::success`) {
+        this.props.onSuccess()
+      }
+    })
   }
   componentDidUpdate(prevProps) {
     // if (
@@ -42,6 +50,6 @@ export class MatiButton extends React.Component {
     window.Mati.on('mati:success', this.props.onSuccess)
   }
   render() {
-    return <div ref={root => (this.root = root)} />
+    return <div className={this.props.className} ref={root => (this.root = root)} />
   }
 }

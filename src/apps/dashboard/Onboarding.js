@@ -132,6 +132,7 @@ export default class Onboarding extends React.Component {
             color={this.props.configuration.color}
             clientId={this.props.clientId}
             onSuccess={this.showDemoNotification}
+            className={styles.matiButton}
           />
           {this.state.showDemoNotification && (
             <p className="text-secondary">
