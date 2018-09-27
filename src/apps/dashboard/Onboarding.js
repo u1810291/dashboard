@@ -44,7 +44,7 @@ export default class Onboarding extends React.Component {
     super(props)
     this.state = {
       hideIntegrationCode: true,
-      showDemoNotification: false
+      // showDemoNotification: false
     }
   }
   componentDidMount() {
@@ -64,15 +64,17 @@ export default class Onboarding extends React.Component {
   }
 
   showDemoNotification = () => {
-    this.setState({
-      showDemoNotification: true
-    })
+    // this.setState({
+    //   showDemoNotification: true
+    // })
 
-    setInterval(() => {
-      this.setState({
-        showDemoNotification: false
-      })
-    }, 10000)
+    // if(showDemoNotification) {
+    //   setInterval(() => {
+    //     this.setState({
+    //       showDemoNotification: false
+    //     })
+    //   }, 10000)
+    // }
   }
 
   toggleIntegrationCode = () => {
@@ -136,11 +138,11 @@ export default class Onboarding extends React.Component {
             onSuccess={this.showDemoNotification}
             className={styles.matiButton}
           />
-          {this.state.showDemoNotification && (
+          {/* {this.state.showDemoNotification && (
             <p className="text-secondary">
               <FormattedMessage id="onboarding.demo.confirmation" />
             </p>
-          )}
+          )} */}
           <div className={styles.showIntegrationCodeButton}>
             <Button onClick={this.toggleIntegrationCode}>
               <svg
