@@ -13,6 +13,7 @@
 
 :local(.layoutBackground) {
   width: 40%;
-  background: url('./AuthBackground.svg') no-repeat;
+  background: url('./sign-in-mati-tech.svg') no-repeat;
   background-size:cover;
+  background-position: top center;
 }
