@@ -76,7 +76,9 @@ export default class Onboarding extends React.Component {
   }
 
   toggleIntegrationCode = () => {
-    this.refs.integrationCodeModal.open()
+    this.props.getIntegrationCode(this.props.token).then(value => {
+      this.refs.integrationCodeModal.open()
+    })
   }
 
   render() {
