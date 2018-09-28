@@ -43,7 +43,7 @@
   "signup.form.placeholders.roleInCompany": "Engineer",
 
   "onboarding.flow.title": "1. Create your verification flow",
-  "onboarding.webhook.title": "2. Test webhook",
+  "onboarding.webhook.title": "2. Sample Webhook",
   "onboarding.webhookUrl.title": "3. Your webhook URL",
   "onboarding.pricing.title": "4. Great you're done!",
   "onboarding.pricing.button": "See pricing now",
