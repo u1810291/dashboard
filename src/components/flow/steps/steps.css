@@ -1,13 +1,12 @@
 .configure-flow-card {
-  min-height: 280px;
+  min-height: 241px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding-top: 20px;
 }
 
 :local(.flowCard) {
-  margin-right: 10px;
+  margin-right: 15px;
   margin-bottom: 10px;
   flex-shrink: 1;
   display: flex;
@@ -21,12 +20,16 @@
 :local(.flowCards) {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   margin-right: -10px;
+  min-height: 185px;
 }
 
 :local(.documentTypeCard) {
+  justify-content: initial !important;
   width: 100px;
   height: 155px;
+  padding-top: 30px;
 }
 
 :local(.documentTypeCard) img {
