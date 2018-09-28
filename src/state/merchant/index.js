@@ -27,7 +27,9 @@ export const AVAILABLE_DOCUMENT_TYPES = [
 
 export const AVAILABLE_LANGUAGES = [
   'en',
-  'es'
+  'es',
+  'fr',
+  'pt'
 ]
 
 export function getMerchant(token) {
