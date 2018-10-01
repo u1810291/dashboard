@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const http = axios.create({
-  baseURL: 'https://api.globalid.mati.io'
+  baseURL: process.env.REACT_APP_API_URL
 })
 
 export default http
