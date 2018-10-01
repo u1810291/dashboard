@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "env-cmd": "^8.0.2",
     "formik": "^1.1.1",
     "history": "^4.7.2",
     "mgi-ui-components": "git+ssh://git@bitbucket.org:mati_face/mgi-ui-components.git#master",
@@ -24,6 +25,8 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
+    "build:staging": "env-cmd .env.staging npm run build",
+    "build:production": "env-cmd .env.production npm run build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-app-rewired eject"
   },

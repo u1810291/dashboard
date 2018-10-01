@@ -17,7 +17,26 @@ pipelines:
           script:
             - yarn
             - yarn upgrade mgi-ui-components
-            - yarn build
+            - yarn build:production
+          artifacts:
+            - build/**
+      - step:
+          name: Deploy to S3
+          image: atlassian/pipelines-awscli
+          script:
+            - sed -i -e "s/mgi-dashboard-invalidation/mgi-dashboard-invalidation-$(date +%FT%T)/g" invbatch.json
+            - aws s3 sync --delete --acl public-read build s3://mgi.webapps/dashboard/staging/
+            - aws cloudfront create-invalidation --region us-east-1 --distribution-id E26BZYPCK2NWND --invalidation-batch file://invbatch.json
+    develop:
+      - step:
+          name: Build
+          deployment: staging
+          caches:
+            - node
+          script:
+            - yarn
+            - yarn upgrade mgi-ui-components
+            - yarn build:staging
           artifacts:
             - build/**
       - step:
