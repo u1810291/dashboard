@@ -1,0 +1,72 @@
+:root {
+  --mgi-button-background-primary: #47A8E8;
+  --mgi-button-background-default: white;
+  --mgi-button-color-primary: white;
+  --mgi-button-color-default: black;
+  --mgi-button-color-gray: #909090;
+  --mgi-button-color-blue: #2196F3;
+  --mgi-button-padding: 0 20px;
+  --mgi-button-border-color-default: #ECECEC;
+  --mgi-button-border-color-primary: #4993CD;
+  --mgi-button-shadow: 0px 5.66708px 9.44513px rgba(49, 53, 65, 0.15), 0px 1.88903px 1.88903px rgba(0, 0, 0, 0.1);
+}
+
+:local(.button) {
+  padding: 0;
+  border: 0;
+  padding: var(--mgi-button-padding);
+  height: 35px;
+  line-height: 35px;
+  outline: 0;
+  font: inherit;
+  font-size: 14px;
+  border: 2px solid;
+  border-radius: 4px;
+  letter-spacing: 0.01em;
+}
+
+:local(.button):hover {
+  cursor: pointer;
+}
+
+:local(.button).default {
+  background: var(--mgi-button-background-default);
+  color: var(--mgi-button-color-default);
+  border-color: var(--mgi-button-border-color-default);
+  box-shadow: var(--mgi-button-shadow);
+}
+
+:local(.button).icon-left i {
+  padding-right: 10px;
+  font-style: normal;
+}
+
+:local(.button).icon-right i {
+  padding-left: 10px;
+  font-style: normal;
+}
+
+:local(.button).primary {
+  background: var(--mgi-button-background-primary);
+  color: var(--mgi-button-color-primary);
+  border-color: var(--mgi-button-border-color-primary);
+  box-shadow: var(--mgi-button-shadow);
+  font-weight: 300;
+}
+
+:local(.button).no-borders.default {
+  background: transparent;
+  color: var(--mgi-button-color-gray);
+  border: none;
+  box-shadow: none;
+  text-transform: uppercase;
+}
+
+:local(.button).no-borders.primary {
+  background: transparent;
+  color: var(--mgi-button-color-blue);
+  border: none;
+  box-shadow: none;
+  text-transform: uppercase;
+  font-weight: 400;
+}

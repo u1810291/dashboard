@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
 import { difference } from 'lodash'
-import { Card } from 'mgi-ui-components'
+import Card from 'src/components/card'
 import CSS from './steps.css'
 import icons from './document-type-icons'
 
@@ -29,13 +29,13 @@ export default function DocumentTypeStep({
   const optional = documents.optional || []
   return (
     <div className="configure-flow-card">
-      <h3>
+      <p>
         <FormattedMessage id="flow.documentTypeStep.title" />
-      </h3>
+      </p>
       <div className={CSS.flowCards}>
         {availableDocumentTypes.map(type => (
           <Card
-            cardBorderStyle={required.includes(type) ? 'blue' : 'default'}
+            cardBorderStyle={required.includes(type) ? 'selected' : 'default'}
             key={type}
             className={classNames(
               CSS.flowCard,

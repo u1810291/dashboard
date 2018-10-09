@@ -1,7 +1,7 @@
 /* reset.css from https://meyerweb.com/eric/tools/css/reset/ */
 a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700');
 
 * {
   box-sizing: border-box;
@@ -12,8 +12,12 @@ html, body, #root {
 }
 
 html {
-  font-family: Open Sans, sans-serif;
-  font-size: 14px;
+  font-family: Montserrat, sans-serif;
+  font-size: 18px;
+}
+
+body {
+  line-height: 30px;
 }
 
 /* Move the rest of this file to the mgi theme */
@@ -22,8 +26,21 @@ p {
   margin-bottom: 25px;
 }
 
+small {
+  font-size: 14px;
+  line-height: 24px;
+}
+
+strong {
+  font-weight: 700;
+}
+
 .text-secondary {
   color: #909090;
+}
+
+.text-success {
+  color: #47A8E8;
 }
 
 .text-caption {
@@ -39,15 +56,15 @@ a {
 }
 
 h2 {
-  font-size: 22px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
   margin-bottom: 20px;
 }
 
 h3 {
   font-size: 18px;
   margin-bottom: 18px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 h2 small,
@@ -60,4 +77,17 @@ h3 small {
 
 p {
   margin-bottom: 15px;
+}
+
+section.mgi-section-separated {
+  margin-bottom: 0;
+  padding-bottom: 30px;
+}
+
+section.mgi-section-separated:not(:first-of-type) {
+  padding-top: 30px;
+}
+
+section.mgi-section-separated:not(:last-of-type) {
+  border-bottom: 1px solid #E3E3E3;
 }

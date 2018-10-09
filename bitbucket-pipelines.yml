@@ -16,7 +16,6 @@ pipelines:
             - node
           script:
             - yarn
-            - yarn upgrade mgi-ui-components
             - yarn build:production
           artifacts:
             - build/**
@@ -35,7 +34,6 @@ pipelines:
             - node
           script:
             - yarn
-            - yarn upgrade mgi-ui-components
             - yarn build:staging
           artifacts:
             - build/**

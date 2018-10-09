@@ -6157,12 +6157,6 @@ methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
 
-"mgi-ui-components@git+ssh://git@bitbucket.org:mati_face/mgi-ui-components.git#master":
-  version "1.0.0"
-  resolved "git+ssh://git@bitbucket.org:mati_face/mgi-ui-components.git#71447816cb67d0a55eb0ce4efe0e690a794d9cbe"
-  dependencies:
-    classnames "^2.2.6"
-
 micromatch@^2.1.5, micromatch@^2.3.11:
   version "2.3.11"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-2.3.11.tgz#86677c97d1720b363431d04d0d15293bd38c1565"

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
-import { Card } from 'mgi-ui-components'
+import Card from 'src/components/card'
 import CSS from './steps.css'
 
 export default function GlobalWatchlistStep({
@@ -10,19 +10,19 @@ export default function GlobalWatchlistStep({
 }) {
   return (
     <div className="configure-flow-card">
-      <h3>
+      <p>
         <FormattedMessage id="flow.watchlistStep.title" />
-      </h3>
+      </p>
       <div className={CSS.flowCards}>
         <Card
-          cardBorderStyle={globalWatchList ? 'blue' : 'default'}
+          cardBorderStyle={globalWatchList ? 'selected' : 'default'}
           className={classNames(CSS.flowCard, CSS.watchlistCard, 'text-secondary', 'text-caption')}
           onClick={onClick.bind(null, { globalWatchList: true })}
         >
           <FormattedMessage id={`flow.watchlistStep.yes`} />
         </Card>
         <Card
-          cardBorderStyle={globalWatchList ? 'default' : 'blue' }
+          cardBorderStyle={globalWatchList ? 'default' : 'selected' }
           className={classNames(CSS.flowCard, CSS.watchlistCard, 'text-secondary', 'text-caption')}
           onClick={onClick.bind(null, { globalWatchList: false })}
         >

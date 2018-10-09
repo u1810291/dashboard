@@ -46,7 +46,8 @@
   "onboarding.webhook.title": "2. Sample Webhook",
   "onboarding.webhookUrl.title": "3. Your webhook URL",
   "onboarding.pricing.title": "4. Great you're done!",
-  "onboarding.pricing.button": "See pricing now",
+  "onboarding.pricing.text": "Now you’re on a Basic Free plan, that’s mean you can use Mati but not all options.",
+  "onboarding.pricing.link": "See all plans",
   "onboarding.demo.help-text": "Click button to see preview",
   "onboarding.demo.title": "This is your verification button",
   "flow.next": "Next",
@@ -78,5 +79,47 @@
   "onboarding.webhooks.placeholders.url": "https://yoursite.com/",
   "onboarding.integrationCode.button": "Show integration code",
   "onboarding.integrationCode.modalTitle": "Copy&Paste Mati button code into your website",
-  "onboarding.demo.confirmation": "The result was sent to your registered email."
+  "onboarding.demo.confirmation": "The result was sent to your registered email.",
+  "plan.title": "Upgrade your plan",
+  "plan.cards.starter.caption": "Starter",
+  "plan.cards.safety-pro.caption": "Safety Pro",
+  "plan.cards.enterprise.caption": "Enterprise",
+  "plan.cards.starter.price": "Free",
+  "plan.cards.safety-pro.price": "$0.99",
+  "plan.cards.safety-pro.sub-price": "per user",
+  "plan.cards.enterprise.alternative-price": "You have more than 5'000 verifications a month?",
+  "plan.cards.starter.price-description": "1,500 verifications per month",
+  "plan.cards.safety-pro.price-description": "Unlimited verifications",
+  "plan.cards.starter.CTA": "Try Mati for free",
+  "plan.cards.safety-pro.CTA": "Get started",
+  "plan.cards.enterprise.CTA": "Contact us",
+  "plan.cards.starter.features": [
+    "Mati button installation",
+    "Configure your own button style",
+    "Receive users' documents via webhook",
+    "OCR for all documents & IDs",
+    "Face recognition \\ Facematch"
+  ],
+  "plan.cards.safety-pro.features": [
+    ["Global Watchlists", "Make sure you are meeting the highest security threshold. Read more"],
+    ["Liveness check", "Are your users alive or just a printed picture? Find out more"],
+    ["New Features", "Direct line of communication to the product team."],
+    ["Test for free!", "First 100 verifications are free"]
+  ],
+  "plan.details.safety-pro.title": "Global WatchList",
+  "plan.details.liveness.title": "Liveness check",
+  "plan.details.new-features.title": "New Features",
+  "plan.details.safety-pro.description": "Make sure you are meeting the highest security threshold. Usually prices around $10 per user, we built our own integrations around the World to bring this useful feature to more companies.",
+  "plan.details.liveness.description": "Are your users alive or just a printed picture? After checking if the face matches the one in the document, this computer vision technique verifies users in real time, automatically, that they are moving, 3D objects, and not a picture or a video of the user. It's especially important for companies that want to instil a safety-first approach on their platform. ",
+  "plan.details.new-features.description": "Direct line of communication to the product team. You want to a special feature, and you want it ASAP? That's why we put this here. Your comments will go directly into our next SPRINT.",
+  "plan.details.safety-pro.extra.title": "A check consists of: ",
+  "plan.details.safety-pro.extra.items": [
+    "Government Sanctions",
+    "Politically Exposed Persons",
+    "Bank black lists",
+    "Anti-Terrorism watchlists",
+    "Anti-Money Laundering watchlists",
+    "CIA and other government agency wanted/watchlists",
+    "Disqualified directors (global)"
+  ]
 }

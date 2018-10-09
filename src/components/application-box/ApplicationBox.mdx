@@ -1,0 +1,29 @@
+---
+name: ApplicationBox
+---
+
+import {Playground, PropsTable} from 'docz'
+import ApplicationBox from './ApplicationBox'
+import Logo from './docs/logo.svg'
+import Dashboard from './docs/dashboard.svg'
+import Settings from './docs/settings.svg'
+import Documents from './docs/documents.svg'
+
+# ApplicationBox
+<PropsTable of={ApplicationBox}/>
+
+## Basic usage
+<Playground>
+  <div style={{height: '500px', boxShadow: '3px 3px 10px rgba(0, 0, 0, 0.2)'}}>
+    <ApplicationBox sidebarItems={[
+      <a href="/" className="mgi-application-box-logo"><img src={Logo} alt="" /></a>,
+      <a href="/dashboard" className="active"><img src={Dashboard} alt="" /></a>,
+      <a href="/settings"><img src={Settings} alt="" /></a>,
+      <a href="/documents"><img src={Documents} alt="" /></a>
+    ]}>
+      <div style={{height: '1000px', background: 'royalblue', padding: '30px', color: 'white'}}>
+        Huge application content with 1000px height and strange background.
+      </div>
+    </ApplicationBox>
+  </div>
+</Playground>

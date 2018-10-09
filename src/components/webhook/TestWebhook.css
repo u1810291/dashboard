@@ -10,6 +10,7 @@
 
 :local(.testWebhookContainer) .test-webhook-card .test-webhook-card-types {
   min-width: 40%;
+  flex: 2
 }
 
 :local(.testWebhookContainer) .test-webhook-card .test-webhook-card-name {

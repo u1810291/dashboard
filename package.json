@@ -8,7 +8,6 @@
     "env-cmd": "^8.0.2",
     "formik": "^1.1.1",
     "history": "^4.7.2",
-    "mgi-ui-components": "git+ssh://git@bitbucket.org:mati_face/mgi-ui-components.git#master",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-helmet": "^5.2.0",

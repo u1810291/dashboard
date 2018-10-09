@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
-import { Card } from 'mgi-ui-components'
+import Card from 'src/components/card'
 import CSS from './steps.css'
 
 export default function ButtonColorStep({
@@ -11,9 +11,9 @@ export default function ButtonColorStep({
 }) {
   return (
     <div className="configure-flow-card">
-      <h3>
+      <p>
         <FormattedMessage id="flow.colorStep.title" />
-      </h3>
+      </p>
       <div className={CSS.flowCards}>
         {availableButtonColors.map(c => (
           <Card
@@ -25,13 +25,12 @@ export default function ButtonColorStep({
               'text-secondary',
               'text-caption',
             )}
-            cardBorderStyle={c === color ? 'blue' : 'default'}
+            cardBorderStyle={c === color ? 'selected' : 'default'}
           >
             <span
               className={classNames(CSS.documentColorCardIcon, `card-icon-${c}`)}
             >
             </span>
-            <FormattedMessage id={`flow.colorStep.${c}`} />
           </Card>
         ))}
       </div>

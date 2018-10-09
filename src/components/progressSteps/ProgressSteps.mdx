@@ -1,0 +1,21 @@
+---
+name: Progress Steps
+---
+
+import { Playground, PropsTable } from 'docz'
+import ProgressSteps from './ProgressSteps'
+
+# Progress Steps
+<PropsTable of={ ProgressSteps }/>
+
+## Basic Usage
+<Playground>
+  <ProgressSteps stepsNum={4} step={2}/>
+</Playground>
+
+## Styles
+<Playground>
+  <ProgressSteps stepsNum={10} step={3} color="yellow" colorSelected="red"/>
+  <ProgressSteps stepsNum={30} step={3} color="blue" colorSelected="pink"/>
+  <ProgressSteps stepsNum={5} step={2} color="green" colorSelected="orange"/>
+</Playground>

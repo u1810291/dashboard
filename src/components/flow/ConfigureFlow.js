@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
-import { ProgressSteps, Button } from 'mgi-ui-components'
+import Button from 'src/components/button'
 import { DocumentTypeStep, ButtonColorStep, ButtonLanguageStep, GlobalWatchlistStep } from './steps'
 import CSS from './ConfigureFlow.css'
 
@@ -16,7 +16,6 @@ function Pagination({ step, length, onClick }) {
         <i>←</i>
         <FormattedMessage id="flow.prev" />
       </Button>
-      <ProgressSteps stepsNum={length} step={step} onClick={onClick} />
       <Button
         onClick={() => onClick(step + 1)}
         buttonStyle="no-borders primary icon-right"
@@ -65,12 +64,12 @@ export default class ConfigureFlow extends React.Component {
     ]
     return (
       <div>
-        {steps[this.state.currentStep]}
-        <Pagination
+        {steps}
+        {/* <Pagination
           step={this.state.currentStep}
           length={steps.length}
           onClick={this.handleStepChange}
-        />
+        /> */}
       </div>
     )
   }

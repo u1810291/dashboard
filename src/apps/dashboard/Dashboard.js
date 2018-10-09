@@ -3,12 +3,14 @@ import { connect } from 'react-redux'
 import { Route, Switch, Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { Helmet } from "react-helmet"
-import { ApplicationBox, Button } from 'mgi-ui-components'
+import Button from 'src/components/button'
+import ApplicationBox from 'src/components/application-box'
 import { Onboarding } from '.'
+import { UpgradePlan } from '.'
 import { signOut } from 'src/state/auth'
 import MatiLogo from 'src/assets/mati-logo.svg'
 import HomeIcon from 'src/assets/icon-home.svg'
-// import SettingsIcon from 'src/assets/icon-settings.svg'
+import SettingsIcon from 'src/assets/icon-settings.svg'
 // import DocumentIcon from 'src/assets/icon-document.svg'
 import CSS from './Dashboard.css'
 
@@ -19,9 +21,9 @@ const sidebarItems = [
   <Link to="/dashboard">
     <img src={HomeIcon} alt="" />
   </Link>,
-  // <Link to="/settings">
-  //   <img src={SettingsIcon} alt="" />
-  // </Link>,
+  <Link to="/upgrade">
+    <img src={SettingsIcon} alt="" />
+  </Link>,
   // <Link to="/help">
   //   <img src={DocumentIcon} alt="" />
   // </Link>
@@ -40,10 +42,8 @@ export default class Dashboard extends React.Component {
       <Helmet>
         <title>Mati Dashboard</title>
       </Helmet>
-      <Button className={CSS.signoutButton} onClick={this.handleSignOut}>
-        <FormattedMessage id="signout" />
-      </Button>
       <Switch>
+        <Route exact path="/upgrade" component={UpgradePlan} />
         <Route path="/" component={Onboarding} />
       </Switch>
     </ApplicationBox>

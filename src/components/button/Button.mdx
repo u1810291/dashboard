@@ -1,0 +1,47 @@
+---
+name: Button
+---
+
+import {Playground, PropsTable} from 'docz'
+import Button from './Button'
+
+
+# Button
+<PropsTable of={Button}/>
+
+## Basic usage
+<Playground>
+  <Button>Button text</Button>
+</Playground>
+
+## Styles
+<Playground>
+  <p><Button buttonStyle="primary">Primary</Button></p>
+  <p><Button buttonStyle="default">Default</Button></p>
+  <p><Button buttonStyle="default icon-left">
+    <i>🔒</i>
+    Default with icon left
+  </Button></p>
+  <p><Button buttonStyle="default icon-right">
+    Default with icon right
+    <i>🔒</i>
+  </Button></p>
+  <p><Button buttonStyle="no-borders default primary">
+    No borders primary
+  </Button></p>
+  <p><Button buttonStyle="no-borders default">
+    No borders
+  </Button></p>
+  <p><Button buttonStyle="no-borders default icon-left">
+    <i>←</i>
+    No borders with icon left
+  </Button></p>
+  <p><Button buttonStyle="no-borders default icon-right">
+    No borders with icon right
+    <i>→</i>
+  </Button></p>
+  <p><Button buttonStyle="no-borders primary icon-right">
+    No borders with icon right
+    <i>→</i>
+  </Button></p>
+</Playground>

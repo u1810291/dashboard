@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
-import { Card } from 'mgi-ui-components'
+import Card from 'src/components/card'
 import CSS from './steps.css'
 
 export default function ButtonColorStep({

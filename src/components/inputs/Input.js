@@ -1,6 +1,6 @@
 import React from 'react'
 import { injectIntl } from 'react-intl'
-import { TextField } from 'mgi-ui-components'
+import TextField from 'src/components/text-field'
 import { withI18nContext } from 'src/components/i18n-context'
 import classNames from 'classnames'
 import { get } from 'lodash'

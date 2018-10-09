@@ -1,0 +1,54 @@
+:root {
+  --mgi-secondary-background-color: #F7F7FA;
+}
+
+:local(.box) {
+  height: 100%;
+  display: flex;
+}
+
+:local(.menu) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 80px;
+  background: var(--mgi-secondary-background-color);
+}
+
+:local(.menu) a {
+  display: inline-block;
+  margin: 15px;
+}
+
+:local(.menu) .mgi-application-box-logo {
+  margin-bottom: 25px;
+}
+
+:local(.menu) .mgi-application-box-logo img {
+  width: 48px;
+}
+
+:local(.contentWrapper) {
+  flex: 1;
+  overflow-y: scroll;
+}
+
+:local(.contentSubWrapper) {
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+}
+
+:local(.content) {
+  flex: 1;
+}
+
+:local(.sidebar), :local(.content) {
+  padding: 28px 35px;
+}
+
+:local(.sidebar) {
+  width: 483px;
+  background: var(--mgi-secondary-background-color);
+}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'mgi-ui-components'
+import Button from 'src/components/button'
 import { Input } from 'src/components/inputs'
 import { FormattedMessage } from 'react-intl'
 import { withFormik, Field, Form } from 'formik'

@@ -1,0 +1,66 @@
+:root {
+  --mgi-color-options-padding: 10px;
+  --mgi-color-options-blue: #2196F3;
+  --mgi-color-options-green: #00B257;
+  --mgi-color-options-red: #EB5757;
+  --mgi-color-options-pink: #FF527E;
+  --mgi-color-options-orange: #F2994A;
+  --mgi-color-options-yellow: #FFBD00;
+  --mgi-color-options-border-gray: #E3E3E3;
+  --mgi-color-options-color-gray: #909090;
+  --mgi-color-options-shadow: 0px 3.77805px 7.55611px rgba(0, 0, 0, 0.3);
+}
+
+:local(.colorOptions) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70px;
+  padding: var(--mgi-color-options-padding);
+  border: 1px solid var(--mgi-color-options-border-gray);
+  border-radius: 5px;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--mgi-color-options-color-gray);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  line-height: 10px;
+  cursor: pointer;
+}
+
+:local(.colorOptions).selected {
+  border: 1px solid var(--mgi-color-options-blue);
+  box-shadow: var(--mgi-color-options-shadow);
+  cursor: initial;
+}
+
+:local(.colorExample) {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  margin-bottom: 6px;
+}
+
+:local(.colorExample).blue {
+  background-color: var(--mgi-color-options-blue);
+}
+
+:local(.colorExample).green {
+  background-color: var(--mgi-color-options-green);
+}
+
+:local(.colorExample).red {
+  background-color: var(--mgi-color-options-red);
+}
+
+:local(.colorExample).pink {
+  background-color: var(--mgi-color-options-pink);
+}
+
+:local(.colorExample).orange {
+  background-color: var(--mgi-color-options-orange);
+}
+
+:local(.colorExample).yellow {
+  background-color: var(--mgi-color-options-yellow);
+}
