@@ -1,9 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch, Link } from 'react-router-dom'
-import { FormattedMessage } from 'react-intl'
 import { Helmet } from "react-helmet"
-import Button from 'src/components/button'
 import ApplicationBox from 'src/components/application-box'
 import { Onboarding } from '.'
 import { UpgradePlan } from '.'
@@ -12,7 +10,6 @@ import MatiLogo from 'src/assets/mati-logo.svg'
 import HomeIcon from 'src/assets/icon-home.svg'
 import SettingsIcon from 'src/assets/icon-settings.svg'
 // import DocumentIcon from 'src/assets/icon-document.svg'
-import CSS from './Dashboard.css'
 
 const sidebarItems = [
   <Link to="/" className="mgi-application-box-logo">

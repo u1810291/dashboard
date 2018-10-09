@@ -23,7 +23,6 @@ class PlanCard extends React.Component {
 
   render() {
     const id = this.props.plan
-    const { intl } = this.props
     const caption = this.getI18nMessage(`plan.cards.${id}.caption`)
     const price = this.getI18nMessage(`plan.cards.${id}.price`)
     const subPrice = this.getI18nMessage(`plan.cards.${id}.sub-price`)
