@@ -33,8 +33,8 @@ class PlanCard extends React.Component {
     return (
       <Card className={classNames(CSS.card, id)}>
         <header>
-          <div class="text-caption text-secondary">{caption}</div>
-          <div class={CSS.price}>
+          <div className="text-caption text-secondary">{caption}</div>
+          <div className={CSS.price}>
             {price && <em>{price}</em>}
             {subPrice && <small>/ {subPrice}</small>}
             {alternativePrice && <span className="alternative">{alternativePrice}</span>}
@@ -105,9 +105,9 @@ export default class UpgradePlan extends React.Component {
           <FormattedMessage id="plan.title" />
         </h2>
 
-        <div class={CSS.cardsContainer}>{plans.map(plan => <PlanCard plan={plan} />)}</div>
+        <div className={CSS.cardsContainer}>{plans.map(plan => <PlanCard plan={plan} />)}</div>
 
-        <div class={CSS.detailsContainer}>{details.map(type => <DetailCard type={type} />)}</div>
+        <div className={CSS.detailsContainer}>{details.map(type => <DetailCard type={type} />)}</div>
       </Content>
     )
   }

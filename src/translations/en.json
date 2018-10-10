@@ -58,6 +58,7 @@
   "flow.documentTypeStep.national-id": "National ID",
   "flow.documentTypeStep.passport": "Passport",
   "flow.documentTypeStep.proof-of-residency": "Proof of recidency",
+  "flow.documentTypeStep.optional": "Optional",
   "flow.colorStep.title": "Choose color of your button",
   "flow.colorStep.blue": "blue",
   "flow.colorStep.green": "green",

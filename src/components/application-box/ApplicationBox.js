@@ -28,7 +28,7 @@ ApplicationBox.propTypes = {
 
 export function Sidebar(props) {
   return (
-    <div class={classNames(CSS.sidebar, props.className)}>
+    <div className={classNames(CSS.sidebar, props.className)}>
       {props.children}
     </div>
   )
@@ -36,7 +36,7 @@ export function Sidebar(props) {
 
 export function Content(props) {
   return (
-    <div class={classNames(CSS.content, props.className)}>
+    <div className={classNames(CSS.content, props.className)}>
       {props.children}
     </div>
   )

@@ -119,8 +119,8 @@ export default class Onboarding extends React.Component {
             <h2>
               <FormattedMessage id="onboarding.flow.title" />
             </h2>
-            {flowSteps.map(step => (
-              <section className="mgi-section-separated">
+            {flowSteps.map((step, index) => (
+              <section className="mgi-section-separated" key={index}>
                 {step}
               </section>
             ))}

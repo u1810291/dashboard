@@ -12,18 +12,15 @@ import SettingsIcon from 'src/assets/icon-settings.svg'
 // import DocumentIcon from 'src/assets/icon-document.svg'
 
 const sidebarItems = [
-  <Link to="/" className="mgi-application-box-logo">
+  <Link to="/" className="mgi-application-box-logo" key="/">
     <img src={MatiLogo} alt="" />
   </Link>,
-  <Link to="/dashboard">
+  <Link to="/dashboard" key="/dashboard">
     <img src={HomeIcon} alt="" />
   </Link>,
-  <Link to="/upgrade">
+  <Link to="/upgrade" key="/upgrade">
     <img src={SettingsIcon} alt="" />
-  </Link>,
-  // <Link to="/help">
-  //   <img src={DocumentIcon} alt="" />
-  // </Link>
+  </Link>
 ]
 
 @connect(null, { signOut })

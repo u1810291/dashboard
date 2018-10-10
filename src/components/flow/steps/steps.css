@@ -28,6 +28,11 @@
   width: 100px;
   height: 155px;
   padding-top: 30px;
+  padding-bottom: 4px;
+}
+
+:local(.documentTypeName) {
+  flex: 1;
 }
 
 :local(.documentTypeCard) img {
