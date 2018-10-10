@@ -24,8 +24,8 @@ pipelines:
           image: atlassian/pipelines-awscli
           script:
             - sed -i -e "s/mgi-dashboard-invalidation/mgi-dashboard-invalidation-$(date +%FT%T)/g" invbatch.json
-            - aws s3 sync --delete --acl public-read build s3://mgi.webapps/dashboard/staging/
-            - aws cloudfront create-invalidation --region us-east-1 --distribution-id E26BZYPCK2NWND --invalidation-batch file://invbatch.json
+            - aws s3 sync --delete --acl public-read build s3://mgi.webapps/dashboard/production/
+            - aws cloudfront create-invalidation --region us-east-1 --distribution-id E2KAQDZKSAY41M --invalidation-batch file://invbatch.json
     develop:
       - step:
           name: Build
@@ -42,5 +42,5 @@ pipelines:
           image: atlassian/pipelines-awscli
           script:
             - sed -i -e "s/mgi-dashboard-invalidation/mgi-dashboard-invalidation-$(date +%FT%T)/g" invbatch.json
-            - aws s3 sync --delete --acl public-read build s3://io.mati.staging.mgi-dashboard
-            - aws cloudfront create-invalidation --region us-west-2 --distribution-id E3SBBQ1P1YP0EG --invalidation-batch file://invbatch.json
+            - aws s3 sync --delete --acl public-read build s3://mgi.webapps/dashboard/staging/
+            - aws cloudfront create-invalidation --region us-west-2 --distribution-id E26BZYPCK2NWND --invalidation-batch file://invbatch.json
