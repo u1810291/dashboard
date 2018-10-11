@@ -2,36 +2,53 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch, Link } from 'react-router-dom'
 import { Helmet } from "react-helmet"
+import classNames from 'classnames'
 import ApplicationBox from 'src/components/application-box'
+import Button from 'src/components/button'
 import { Onboarding } from '.'
 import { UpgradePlan } from '.'
 import { signOut } from 'src/state/auth'
+import { getMerchant } from 'src/state/merchant'
 import MatiLogo from 'src/assets/mati-logo.svg'
 import HomeIcon from 'src/assets/icon-home.svg'
 import SettingsIcon from 'src/assets/icon-settings.svg'
-// import DocumentIcon from 'src/assets/icon-document.svg'
+import CSS from './Dashboard.css'
 
-const sidebarItems = [
-  <Link to="/" className="mgi-application-box-logo" key="/">
-    <img src={MatiLogo} alt="" />
-  </Link>,
-  <Link to="/dashboard" key="/dashboard">
-    <img src={HomeIcon} alt="" />
-  </Link>,
-  <Link to="/upgrade" key="/upgrade">
-    <img src={SettingsIcon} alt="" />
-  </Link>
-]
-
-@connect(null, { signOut })
+@connect(state => ({ token: state.auth.token }), { signOut, getMerchant })
 export default class Dashboard extends React.Component {
+
+  componentDidMount() {
+    this.props.getMerchant(this.props.token).catch(error => {
+      if (error.response.status === 401) this.handleSignOut()
+    })
+  }
+
   handleSignOut = () => {
     this.props.signOut()
-    window.localStorage.clear()
     this.props.history.push('/')
   }
 
   render() {
+    const sidebarItems = [
+      <Link to="/" className="mgi-application-box-logo" key="/">
+        <img src={MatiLogo} alt="" />
+      </Link>,
+      <Link to="/dashboard" key="/dashboard">
+        <img src={HomeIcon} alt="" />
+      </Link>,
+      <Link to="/upgrade" key="/upgrade">
+        <img src={SettingsIcon} alt="" />
+      </Link>,
+      <Button
+        key="signout"
+        className={classNames('mgi-application-box-sidebar-bottom', CSS.signoutButton)}
+        buttonStyle="no-borders default"
+        onClick={this.handleSignOut}
+      >
+        <span>&times;</span>
+      </Button>,
+    ]
+
     return <ApplicationBox sidebarItems={sidebarItems}>
       <Helmet>
         <title>Mati Dashboard</title>

@@ -42,6 +42,7 @@ export function signUp(credentials) {
 export function signOut() {
   return function(dispatch) {
     dispatch({ type: types.AUTH_SIGNOUT_REQUEST })
+    window.localStorage.clear()
   }
 }
 

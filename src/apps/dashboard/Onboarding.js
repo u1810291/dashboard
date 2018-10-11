@@ -39,7 +39,6 @@ import styles from './Onboarding.css'
     clientId: state.merchant.anyApplication.clientId
   }),
   {
-    getMerchant,
     saveConfiguration,
     subscribeToWebhook,
     getWebhooks,
@@ -56,7 +55,6 @@ export default class Onboarding extends React.Component {
     }
   }
   componentDidMount() {
-    this.props.getMerchant(this.props.token)
     this.props.getWebhooks(this.props.token)
     this.props.getIntegrationCode(this.props.token)
     this.props.getMerchantApps(this.props.token)
