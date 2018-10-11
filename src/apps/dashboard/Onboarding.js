@@ -16,7 +16,6 @@ import { WebhookURLForm } from 'src/components/webhook-url-form'
 import { MatiButton } from 'src/components/mati-button'
 import { Sidebar, Content } from 'src/components/application-box'
 import {
-  getMerchant,
   getIntegrationCode,
   getMerchantApps,
   saveConfiguration,
