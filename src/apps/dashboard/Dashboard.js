@@ -11,7 +11,7 @@ import { signOut } from 'src/state/auth'
 import { getMerchant } from 'src/state/merchant'
 import MatiLogo from 'src/assets/mati-logo.svg'
 import HomeIcon from 'src/assets/icon-home.svg'
-import SettingsIcon from 'src/assets/icon-settings.svg'
+import PricingIcon from 'src/assets/icon-pricing.svg'
 import CSS from './Dashboard.css'
 
 @connect(state => ({ token: state.auth.token }), { signOut, getMerchant })
@@ -37,7 +37,7 @@ export default class Dashboard extends React.Component {
         <img src={HomeIcon} alt="" />
       </Link>,
       <Link to="/upgrade" key="/upgrade">
-        <img src={SettingsIcon} alt="" />
+        <img src={PricingIcon} alt="" />
       </Link>,
       <Button
         key="signout"
