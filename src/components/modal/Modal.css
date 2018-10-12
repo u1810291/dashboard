@@ -53,9 +53,9 @@
 :local(.modal) .modal-title {
   position: absolute;
   z-index: 1;
-  top: 5px;
-  left: 5px;
-  padding: 5px 10px;
+  width: 100%;
+  background: white;
+  padding: 10px 20px;
   font-weight: bold;
   line-height: 1.4;
 }
