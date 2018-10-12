@@ -88,39 +88,36 @@
   "plan.cards.starter.price": "Free",
   "plan.cards.safety-pro.price": "$0.99",
   "plan.cards.safety-pro.sub-price": "per user",
-  "plan.cards.enterprise.alternative-price": "You have more than 5'000 verifications a month?",
-  "plan.cards.starter.price-description": "1,500 verifications per month",
+  "plan.cards.enterprise.alternative-price": "You need more than 5,000 verifications per month?",
+  "plan.cards.starter.price-description": "1,000 verifications per month",
   "plan.cards.safety-pro.price-description": "Unlimited verifications",
   "plan.cards.starter.CTA": "Try Mati for free",
   "plan.cards.safety-pro.CTA": "Get started",
   "plan.cards.enterprise.CTA": "Contact us",
   "plan.cards.starter.features": [
     "Mati button installation",
-    "Configure your own button style",
+    "Configure your own flow",
     "Receive users' documents via webhook",
-    "OCR for all documents & IDs",
+    "OCR Scan for all Documents & IDs",
     "Face recognition \\ Facematch"
   ],
   "plan.cards.safety-pro.features": [
-    ["Global Watchlists", "Make sure you are meeting the highest security threshold. Read more"],
-    ["Liveness check", "Are your users alive or just a printed picture? Find out more"],
+    ["Global Watchlists", "Make sure you are meeting the highest security threshold."],
+    ["Liveness check", "Are your users alive or just a printed picture?"],
     ["New Features", "Direct line of communication to the product team."],
-    ["Test for free!", "First 100 verifications are free"]
+    ["Test for free!", "First 100 verifications are free."]
   ],
   "plan.details.safety-pro.title": "Global WatchList",
   "plan.details.liveness.title": "Liveness check",
-  "plan.details.new-features.title": "New Features",
-  "plan.details.safety-pro.description": "Make sure you are meeting the highest security threshold. Usually prices around $10 per user, we built our own integrations around the World to bring this useful feature to more companies.",
-  "plan.details.liveness.description": "Are your users alive or just a printed picture? After checking if the face matches the one in the document, this computer vision technique verifies users in real time, automatically, that they are moving, 3D objects, and not a picture or a video of the user. It's especially important for companies that want to instil a safety-first approach on their platform. ",
-  "plan.details.new-features.description": "Direct line of communication to the product team. You want to a special feature, and you want it ASAP? That's why we put this here. Your comments will go directly into our next SPRINT.",
+  "plan.details.new-features.title": "New features",
+  "plan.details.safety-pro.description": "Comply with the highest standards of security. We provide with access to multiple database searches directly integrated into our system. Fully automated, and plug-and-play.",
+  "plan.details.liveness.description": "Are your users alive or just a photo? After comparing the face match between the photo and the ID, our proprietary computer vision algorithm verifies that there is a real person on the other side, not just a photo or a even a video. Safety first.",
+  "plan.details.new-features.description": "Direct line of communication to our Product Engineering Team. You want a special feature and you want it ASAP? Let us know!",
   "plan.details.safety-pro.extra.title": "A check consists of: ",
   "plan.details.safety-pro.extra.items": [
-    "Government Sanctions",
-    "Politically Exposed Persons",
-    "Bank black lists",
-    "Anti-Terrorism watchlists",
-    "Anti-Money Laundering watchlists",
-    "CIA and other government agency wanted/watchlists",
-    "Disqualified directors (global)"
+    "Global Terrorism Watchlists",
+    "International Wanted Criminals Lists",
+    "Sanctioned Individuals Lists",
+    "Anti-Money Laundering Lists (AML)"
   ]
 }
