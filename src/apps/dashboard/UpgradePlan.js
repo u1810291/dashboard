@@ -41,11 +41,13 @@ class PlanCard extends React.Component {
           </div>
           {priceDescription && <small className="text-secondary">{priceDescription}</small>}
         </header>
-        <Button disabled className={CSS.cardButton}>{CTA}</Button>
+        <Button disabled className={CSS.cardButton}>
+          {CTA}
+        </Button>
         {features && (
           <ul className={CSS.features}>
-            {features.map(feature => (
-              <li>
+            {features.map((feature, index) => (
+              <li key={index}>
                 {Array.isArray(feature) ? (
                   <React.Fragment>
                     <strong>
@@ -88,7 +90,11 @@ class DetailCard extends React.Component {
             <ul className={CSS.detailsExtra}>
               {this.props.intl
                 .formatMessage({ id: `plan.details.${type}.extra.items` })
-                .map(item => <li><small>{item}</small></li>)}
+                .map((item, index) => (
+                  <li key={index}>
+                    <small>{item}</small>
+                  </li>
+                ))}
             </ul>
           </React.Fragment>
         )}
@@ -105,9 +111,13 @@ export default class UpgradePlan extends React.Component {
           <FormattedMessage id="plan.title" />
         </h2>
 
-        <div className={CSS.cardsContainer}>{plans.map(plan => <PlanCard plan={plan} />)}</div>
+        <div className={CSS.cardsContainer}>
+          {plans.map(plan => <PlanCard plan={plan} key={plan} />)}
+        </div>
 
-        <div className={CSS.detailsContainer}>{details.map(type => <DetailCard type={type} />)}</div>
+        <div className={CSS.detailsContainer}>
+          {details.map(type => <DetailCard type={type} key={type} />)}
+        </div>
       </Content>
     )
   }

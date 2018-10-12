@@ -12,7 +12,7 @@ export default function ApplicationBox({
       <div className={CSS.menu}>
         {sidebarItems}
       </div>
-      <div className={CSS.contentWrapper}>
+      <div className={classNames(CSS.contentWrapper, 'router--scroll-to-top')}>
         <div className={CSS.contentSubWrapper}>
           {children}
         </div>

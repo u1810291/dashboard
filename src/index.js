@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import IntlProvider from 'src/components/intl-provider'
 import StoreProvider from 'src/components/store-provider'
+import ScrollToTop from 'src/components/scroll-to-top'
 import Root from 'src/apps'
 
 import './application.css'
@@ -12,7 +13,9 @@ ReactDOM.render(
     <IntlProvider>
       <StoreProvider>
         <BrowserRouter>
-          <Root />
+          <ScrollToTop>
+            <Root />
+          </ScrollToTop>
         </BrowserRouter>
       </StoreProvider>
     </IntlProvider>
