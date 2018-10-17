@@ -114,7 +114,7 @@ const initialState = {
     color: undefined,
     language: 'en',
     globalWatchList: false,
-    onboardingModalShown: true
+    onboardingModalShown: false
   }
 }
 
