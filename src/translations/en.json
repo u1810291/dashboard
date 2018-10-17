@@ -23,8 +23,17 @@
   "signin.action": "Login",
   "signin.form.labels.email": "Email",
   "signin.form.labels.password": "Password",
+  "signup.form.labels.companyUrl": "Company URL",
+  "signup.form.labels.numVerifications": "Verifications per month needed",
   "signin.form.placeholders.email": "Email",
   "signin.form.placeholders.password": "Password",
+  "signup.form.placeholders.companyUrl": "Company URL",
+  "signup.form.options.numVerifications": {
+    "0,100": "–100",
+    "100,1000": "100–1000",
+    "1000,5000": "1000–5000",
+    "5000,": "+5000"
+  },
   "signin.recovery": "I forgot my password",
 
   "signup.title": "Create your new account",
@@ -119,5 +128,12 @@
     "International Wanted Criminals Lists",
     "Sanctioned Individuals Lists",
     "Anti-Money Laundering Lists (AML)"
-  ]
+  ],
+  "onboarding-modal.messages.step-0": "Fastest way to verify your users",
+  "onboarding-modal.messages.step-1": "Verify documents from anywhere in the world",
+  "onboarding-modal.messages.step-2": "Ask for the documents you need",
+  "onboarding-modal.messages.step-3": "Mati web sdk takes few lines of code to integrate",
+  "onboarding-modal.messages.step-4": "Receive verification status of every user via webhooks in minutes",
+  "onboarding-modal.next": "Next",
+  "onboarding-modal.close": "Skip"
 }

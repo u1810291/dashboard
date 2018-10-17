@@ -1,22 +1,25 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch, Link } from 'react-router-dom'
-import { Helmet } from "react-helmet"
+import { Helmet } from 'react-helmet'
 import classNames from 'classnames'
 import ApplicationBox from 'src/components/application-box'
 import Button from 'src/components/button'
+import { OnboardingModal } from 'src/components/onboarding-modal'
 import { Onboarding } from '.'
 import { UpgradePlan } from '.'
 import { signOut } from 'src/state/auth'
-import { getMerchant } from 'src/state/merchant'
+import { getMerchant, saveConfiguration } from 'src/state/merchant'
 import MatiLogo from 'src/assets/mati-logo.svg'
 import HomeIcon from 'src/assets/icon-home.svg'
 import PricingIcon from 'src/assets/icon-pricing.svg'
 import CSS from './Dashboard.css'
 
-@connect(state => ({ token: state.auth.token }), { signOut, getMerchant })
+@connect(
+  state => ({ token: state.auth.token, configuration: state.merchant.configuration }),
+  { signOut, getMerchant, saveConfiguration }
+)
 export default class Dashboard extends React.Component {
-
   componentDidMount() {
     this.props.getMerchant(this.props.token).catch(error => {
       if (error.response.status === 401) this.handleSignOut()
@@ -25,7 +28,13 @@ export default class Dashboard extends React.Component {
 
   handleSignOut = () => {
     this.props.signOut()
-    this.props.history.push('/')
+    window.location = '/'
+  }
+
+  handleOnboardingModalClose = () => {
+    this.props.saveConfiguration(this.props.token, {
+      onboardingModalShown: true
+    })
   }
 
   render() {
@@ -46,17 +55,22 @@ export default class Dashboard extends React.Component {
         onClick={this.handleSignOut}
       >
         <span>&times;</span>
-      </Button>,
+      </Button>
     ]
-
-    return <ApplicationBox sidebarItems={sidebarItems}>
-      <Helmet>
-        <title>Mati Dashboard</title>
-      </Helmet>
-      <Switch>
-        <Route exact path="/upgrade" component={UpgradePlan} />
-        <Route path="/" component={Onboarding} />
-      </Switch>
-    </ApplicationBox>
+    console.log('this.props.configuration.onboardingModalShown', this.props.configuration.onboardingModalShown)
+    return (
+      <ApplicationBox sidebarItems={sidebarItems}>
+        {!this.props.configuration.onboardingModalShown && (
+          <OnboardingModal onClose={this.handleOnboardingModalClose} />
+        )}
+        <Helmet>
+          <title>Mati Dashboard</title>
+        </Helmet>
+        <Switch>
+          <Route exact path="/upgrade" component={UpgradePlan} />
+          <Route path="/" component={Onboarding} />
+        </Switch>
+      </ApplicationBox>
+    )
   }
 }

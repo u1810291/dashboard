@@ -28,7 +28,7 @@ export class MatiButton extends React.Component {
     })
 
     window.addEventListener('message', event => {
-      const data = JSON.parse(event.data)
+      const data = event.data ? JSON.parse(event.data) : {}
       const index = this.element.dataset.index || 0
       if (this.props.onSuccess && data.action === `mati-signup-${index}::success`) {
         this.props.onSuccess()

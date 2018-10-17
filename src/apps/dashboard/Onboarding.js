@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import SyntaxHighlighter from 'react-syntax-highlighter/prism'
 import Button from 'src/components/button'
-import Modal from 'src/components/modal'
+import { Modal } from 'src/components/modal'
 import {
   DocumentTypeStep,
   ButtonColorStep,
@@ -61,12 +61,7 @@ export default class Onboarding extends React.Component {
 
   updateConfiguration = settings => {
     this.props.getMerchantApps(this.props.token)
-    const configuration = {
-      ...this.props.configuration,
-      ...settings,
-      version: (parseInt(this.props.configuration.version, 10) || 0) + 1
-    }
-    this.props.saveConfiguration(this.props.token, configuration)
+    this.props.saveConfiguration(this.props.token, settings)
   }
 
   showDemoNotification = () => {
@@ -83,7 +78,7 @@ export default class Onboarding extends React.Component {
 
   toggleIntegrationCode = () => {
     this.props.getIntegrationCode(this.props.token).then(value => {
-      this.refs.integrationCodeModal.open()
+      this.setState({hideIntegrationCode: false})
     })
   }
 
@@ -176,13 +171,19 @@ export default class Onboarding extends React.Component {
             </Button>
           </div>
 
-          <Modal
-            className={styles.integrationCodeModal}
-            title={this.props.intl.formatMessage({ id: 'onboarding.integrationCode.modalTitle' })}
-            ref="integrationCodeModal"
-          >
-            <SyntaxHighlighter language="html">{this.props.integrationCode}</SyntaxHighlighter>
-          </Modal>
+          {
+            !this.state.hideIntegrationCode && (
+              <Modal
+                onClose={() => this.setState({ hideIntegrationCode: true })}
+                className={styles.integrationCodeModal}
+              >
+                <header className="modal-header">
+                  <FormattedMessage id="onboarding.integrationCode.modalTitle" />
+                </header>
+                <SyntaxHighlighter language="html">{this.props.integrationCode}</SyntaxHighlighter>
+              </Modal>
+            )
+          }
         </Sidebar>
       </React.Fragment>
     )

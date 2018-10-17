@@ -1,42 +1,41 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
+import ReactDOM from 'react-dom'
 import CSS from './Modal.css'
 
-export default class Modal extends React.Component {
+const modalRoot = document.getElementById('modalRoot')
 
-  static propTypes = {
-    title: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node
-  }
+const ModalWindow = ({
+  children,
+  onClose = () => {}
+}) => (
+  <div className={CSS.overlay} onClick={e => e.target === e.currentTarget && onClose()}>
+    <div className={CSS.window}>
+      <button className={CSS.closeButton} onClick={onClose}></button>
+      {children}
+    </div>
+  </div>
+)
 
+export class Modal extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = { closed: true };
+    super(props)
+    this.modalContainer = document.createElement('div')
   }
 
-  close() {
-    this.setState({ closed: true });
+  componentDidMount() {
+    modalRoot.appendChild(this.modalContainer)
   }
 
-  open() {
-    this.setState({ closed: false });
-  };
+  componentWillUnmount() {
+    modalRoot.removeChild(this.modalContainer)
+  }
 
   render() {
-    const openCloseClassName = this.state.closed ? 'closed' : '';
-    return (
-      <div className={classNames(CSS.modal, this.props.className, openCloseClassName)}>
-        <div className="modal-title">{this.props.title}</div>
-        <button className="close-button" onClick={this.close.bind(this)}>
-          &times;
-        </button>
-        <div className="modal-body">
-          {this.props.children}
-        </div>
-      </div>
+    return ReactDOM.createPortal(
+      <ModalWindow {...this.props}>
+        {this.props.children}
+      </ModalWindow>,
+      this.modalContainer
     )
   }
 }
-

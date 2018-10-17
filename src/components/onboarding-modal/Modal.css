@@ -1,0 +1,27 @@
+:local(.modalContainer) img {
+  max-width: 100%;
+}
+
+:local(.modalContainer) {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 330px;
+}
+
+:local(.modalContainer) label {
+  font-size: 22px;
+  text-align: center;
+}
+
+:local(.modalContainer) footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+:local(.modalContainer) .close-button {
+  padding: 0;
+}

@@ -1,0 +1,30 @@
+.mgi-select-field {
+  appearance: none;
+  border: 1px solid #ECECEC;
+  box-shadow: 0px 3px 5px rgba(49, 53, 65, 0.05), 0px 1px 1px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  height: 35px;
+  line-height: 35px;
+  font: inherit;
+  font-size: 14px;
+  width: 100%;
+  padding: 0 12px;
+}
+
+.mgi-select-field--wrapper {
+  position: relative;
+}
+
+.mgi-select-field--wrapper:before {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-top: -6px;
+  display: block;
+  content: ' ';
+  background: url('../../assets/caret.svg');
+  width: 7px;
+  height: 12px;
+  transform: rotate(90deg);
+  pointer-events: none;
+}

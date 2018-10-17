@@ -31,7 +31,6 @@
 
 :local(.button).default {
   background: var(--mgi-button-background-default);
-  color: var(--mgi-button-color-default);
   border-color: var(--mgi-button-border-color-default);
   box-shadow: var(--mgi-button-shadow);
 }
@@ -56,10 +55,8 @@
 
 :local(.button).no-borders.default {
   background: transparent;
-  color: var(--mgi-button-color-gray);
   border: none;
   box-shadow: none;
-  text-transform: uppercase;
 }
 
 :local(.button).no-borders.primary {
