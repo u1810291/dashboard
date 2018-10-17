@@ -114,19 +114,21 @@ const initialState = {
     color: undefined,
     language: 'en',
     globalWatchList: false,
-    onboardingModalShown: false
+    onboardingModalShown: true
   }
 }
 
 const reducer = createReducer(initialState, {
   [types.MERCHANT_GET_SUCCESS]: function(state, { payload }) {
+    const configuration = payload.data.configurations[payload.data.configurations.length - 1]
     return {
       ...state,
       ...payload.data,
 
       configuration: {
         ...state.configuration,
-        ...payload.data.configurations[payload.data.configurations.length - 1]
+        ...configuration,
+        onboardingModalShown: configuration.onboardingModalShown
       }
     }
   },
