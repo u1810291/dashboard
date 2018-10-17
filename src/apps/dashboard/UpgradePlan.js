@@ -115,6 +115,10 @@ export default class UpgradePlan extends React.Component {
           {plans.map(plan => <PlanCard plan={plan} key={plan} />)}
         </div>
 
+        <h2>
+          <FormattedMessage id="plan.safety-pro-title" />
+        </h2>
+
         <div className={CSS.detailsContainer}>
           {details.map(type => <DetailCard type={type} key={type} />)}
         </div>

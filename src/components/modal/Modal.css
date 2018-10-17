@@ -19,7 +19,28 @@
   overflow: scroll;
   padding: 15px;
   border-radius: 6px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+:local(.window) > main {
+  flex: 1
+}
+
+:local(.window) > header, :local(.window) > footer {
+  background: #f7f9fc;
+  padding: 15px;
+}
+
+:local(.window) > header {
+  margin: -15px -15px 0 -15px;
+  text-align: center;
+}
+
+:local(.window) > footer {
+  margin: 0 -15px -15px -15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 :local(.closeButton) {
@@ -28,7 +49,7 @@
   right: 15px;
   width: 18px;
   height: 18px;
-  background: url('./icon-close.svg');
+  background: url('../../assets/icon-close.svg');
   cursor: pointer;
   padding: 0;
   border: 0;

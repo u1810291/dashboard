@@ -1,5 +1,7 @@
 {
   "signout": "Sign out",
+  "done": "Done",
+  "copy-to-clipboard": "Copy to clipboard",
   "terms-of-conditions": "By clicking this button you agree on <a href=https://getmati.com/legal#terms target='_blank'>Terms and Conditions</a> and <a href=https://getmati.com/legal#privacy target='_blank'>Privacy Notice</p>",
 
   "recovery.title": "Recovery",
@@ -53,6 +55,7 @@
 
   "onboarding.flow.title": "1. Create your verification flow",
   "onboarding.webhook.title": "2. Sample Webhook",
+  "onboarding.webhook.webhook": "Webhook",
   "onboarding.webhookUrl.title": "3. Your webhook URL",
   "onboarding.pricing.title": "4. Great you're done!",
   "onboarding.pricing.text": "Now you’re on a Basic Free plan, that’s mean you can use Mati but not all options.",
@@ -88,9 +91,11 @@
   "onboarding.webhooks.labels.url": "Subscribe to webhook",
   "onboarding.webhooks.placeholders.url": "https://yoursite.com/",
   "onboarding.integrationCode.button": "Show integration code",
-  "onboarding.integrationCode.modalTitle": "Copy&Paste Mati button code into your website",
+  "onboarding.integrationCode.modalTitle": "Integrate code into your website",
+  "onboarding.integrationCode.confirmation": "Integration code was copied to clipboard",
   "onboarding.demo.confirmation": "The result was sent to your registered email.",
   "plan.title": "Upgrade your plan",
+  "plan.safety-pro-title": "Safety Pro Features",
   "plan.cards.starter.caption": "Starter",
   "plan.cards.safety-pro.caption": "Safety Pro",
   "plan.cards.enterprise.caption": "Enterprise",

@@ -2,7 +2,6 @@ import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import SyntaxHighlighter from 'react-syntax-highlighter/prism'
 import Button from 'src/components/button'
 import { Modal } from 'src/components/modal'
 import {
@@ -23,7 +22,10 @@ import {
   AVAILABLE_LANGUAGES,
   AVAILABLE_DOCUMENT_TYPES
 } from 'src/state/merchant'
+import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
 import { subscribeToWebhook, getWebhooks } from 'src/state/webhooks'
+import clipboard from 'clipboard-polyfill'
+import { sendNotification } from 'src/components/notification'
 import IntegrationIcon from 'src/assets/icon-integration.svg'
 import styles from './Onboarding.css'
 
@@ -49,7 +51,7 @@ export default class Onboarding extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      hideIntegrationCode: true,
+      hideIntegrationCode: true
       // showDemoNotification: false
     }
   }
@@ -68,7 +70,6 @@ export default class Onboarding extends React.Component {
     // this.setState({
     //   showDemoNotification: true
     // })
-
     // setInterval(() => {
     //   this.setState({
     //     showDemoNotification: false
@@ -76,10 +77,21 @@ export default class Onboarding extends React.Component {
     // }, 10000)
   }
 
+  handleIntegrationCodeCopy = () => {
+    clipboard.writeText(this.props.integrationCode)
+    sendNotification(
+      this.props.intl.formatMessage({ id: 'onboarding.integrationCode.confirmation' })
+    )
+  }
+
   toggleIntegrationCode = () => {
     this.props.getIntegrationCode(this.props.token).then(value => {
-      this.setState({hideIntegrationCode: false})
+      this.setState({ hideIntegrationCode: false })
     })
+  }
+
+  closeIntegrationCode = () => {
+    this.setState({ hideIntegrationCode: true })
   }
 
   render() {
@@ -138,9 +150,10 @@ export default class Onboarding extends React.Component {
               <FormattedMessage id="onboarding.pricing.title" />
             </h2>
             <p>
-              <FormattedMessage id="onboarding.pricing.text" />
-              {' '}
-              <Link to="/upgrade"><FormattedMessage id="onboarding.pricing.link" /></Link>
+              <FormattedMessage id="onboarding.pricing.text" />{' '}
+              <Link to="/upgrade">
+                <FormattedMessage id="onboarding.pricing.link" />
+              </Link>
             </p>
           </section>
         </Content>
@@ -165,25 +178,36 @@ export default class Onboarding extends React.Component {
           )} */}
           <div className={styles.showIntegrationCodeButton}>
             <Button onClick={this.toggleIntegrationCode}>
-              <img src={IntegrationIcon} alt="" />
-              {' '}
+              <img src={IntegrationIcon} alt="" />{' '}
               <FormattedMessage id="onboarding.integrationCode.button" />
             </Button>
           </div>
 
-          {
-            !this.state.hideIntegrationCode && (
-              <Modal
-                onClose={() => this.setState({ hideIntegrationCode: true })}
-                className={styles.integrationCodeModal}
-              >
-                <header className="modal-header">
-                  <FormattedMessage id="onboarding.integrationCode.modalTitle" />
-                </header>
+          {!this.state.hideIntegrationCode && (
+            <Modal
+              onClose={this.closeIntegrationCode}
+              closeButton={false}
+              className={styles.integrationCodeModal}
+            >
+              <header>
+                <FormattedMessage id="onboarding.integrationCode.modalTitle" />
+              </header>
+              <main>
                 <SyntaxHighlighter language="html">{this.props.integrationCode}</SyntaxHighlighter>
-              </Modal>
-            )
-          }
+              </main>
+              <footer>
+                <Button
+                  buttonStyle="no-borders default text-secondary"
+                  onClick={this.handleIntegrationCodeCopy}
+                >
+                  <FormattedMessage id="copy-to-clipboard" />
+                </Button>
+                <Button buttonStyle="primary" onClick={this.closeIntegrationCode}>
+                  <FormattedMessage id="done" />
+                </Button>
+              </footer>
+            </Modal>
+          )}
         </Sidebar>
       </React.Fragment>
     )

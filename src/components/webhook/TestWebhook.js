@@ -2,8 +2,7 @@ import React from 'react'
 import Card from 'src/components/card'
 import Label from 'src/components/label'
 import { FormattedMessage } from 'react-intl'
-import SyntaxHighlighter from 'react-syntax-highlighter/prism'
-import JSONPretty from 'react-json-pretty';
+import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
 import CSS from './TestWebhook.css'
 
 const DOCUMENT_TYPE_COLORS = {
@@ -58,8 +57,11 @@ class WebhookLine extends React.Component {
               </div>
             ))}
           </div>
-          <SyntaxHighlighter language='javascript'>
-            <JSONPretty json={webhook.contents} />
+          <div className="text-caption text-secondary">
+            <FormattedMessage id="onboarding.webhook.webhook" />
+          </div>
+          <SyntaxHighlighter language='javascript' dark>
+            {JSON.stringify(JSON.parse(webhook.contents), null, 1)}
           </SyntaxHighlighter>
         </div>
       </Card>

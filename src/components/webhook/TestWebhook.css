@@ -35,7 +35,7 @@
 }
 
 :local(.testWebhookContainer) .test-webhook-card-details-picture img {
-  max-width: 100%;
+  width: 100%;
 }
 
 :local(.testWebhookContainer) .test-webhook-card-details pre  {
