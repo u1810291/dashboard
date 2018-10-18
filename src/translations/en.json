@@ -33,7 +33,7 @@
   "signin.form.placeholders.password": "Password",
   "signup.form.placeholders.companyUrl": "Company URL",
   "signup.form.options.numVerifications": {
-    "0,100": "–100",
+    "0,100": "0–100",
     "100,1000": "100–1000",
     "1000,5000": "1000–5000",
     "5000,": "+5000"
