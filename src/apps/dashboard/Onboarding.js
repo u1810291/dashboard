@@ -52,7 +52,6 @@ export default class Onboarding extends React.Component {
     super(props)
     this.state = {
       hideIntegrationCode: true
-      // showDemoNotification: false
     }
   }
   componentDidMount() {
@@ -67,14 +66,10 @@ export default class Onboarding extends React.Component {
   }
 
   showDemoNotification = () => {
-    // this.setState({
-    //   showDemoNotification: true
-    // })
-    // setInterval(() => {
-    //   this.setState({
-    //     showDemoNotification: false
-    //   })
-    // }, 10000)
+    sendNotification(
+      this.props.intl.formatMessage({ id: 'onboarding.demo.confirmation' }),
+      5000
+    )
   }
 
   handleIntegrationCodeCopy = () => {
@@ -171,11 +166,6 @@ export default class Onboarding extends React.Component {
             onSuccess={this.showDemoNotification}
             className={styles.matiButton}
           />
-          {/* {this.state.showDemoNotification && (
-            <p className="text-secondary">
-              <FormattedMessage id="onboarding.demo.confirmation" />
-            </p>
-          )} */}
           <div className={styles.showIntegrationCodeButton}>
             <Button onClick={this.toggleIntegrationCode}>
               <img src={IntegrationIcon} alt="" />{' '}

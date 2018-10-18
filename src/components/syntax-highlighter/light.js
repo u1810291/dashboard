@@ -39,7 +39,7 @@ export default {
         "overflow": "auto",
         "border": "1px solid #dddddd",
         "backgroundColor": "white",
-        "box-shadow": "0px 1px 3px rgba(0, 0, 0, 0.2)",
+        "boxShadow": "0px 1px 3px rgba(0, 0, 0, 0.2)",
         "borderRadius": "4px"
     },
     "pre[class*=\"language-\"]::-moz-selection": {

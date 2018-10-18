@@ -2,13 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import CSS from './Notification.css'
 
-export function sendNotification(message) {
+export function sendNotification(message, timeout = 3000) {
   const el = document.createElement('div')
   const close = function() {
     el.remove()
   }
 
-  setTimeout(close, 3000)
+  setTimeout(close, timeout)
   document.getElementById('notificationsRoot').appendChild(el)
 
   ReactDOM.render(

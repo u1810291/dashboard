@@ -41,7 +41,7 @@ export default {
         "borderRadius": "4px",
         "background": "#1d1f21",
         "fontSize": "14px",
-        "box-shadow": "0px 1px 3px rgba(0, 0, 0, 0.2)"
+        "boxShadow": "0px 1px 3px rgba(0, 0, 0, 0.2)"
     },
     ":not(pre) > code[class*=\"language-\"]": {
         "background": "#1d1f21",

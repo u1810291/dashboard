@@ -8,6 +8,25 @@ const languagesMap = {
 }
 
 export class MatiButton extends React.Component {
+  constructor(props) {
+    super(props)
+    let success
+
+    window.addEventListener('message', event => {
+      const data = event.data ? JSON.parse(event.data) : {}
+      const index = this.element.dataset.index || 0
+      if (this.props.onSuccess && data.action === `mati-signup-${index}::loaded`) {
+        success = false
+      }
+      if (this.props.onSuccess && data.action === `mati-signup-${index}::success`) {
+        success = true
+      }
+      if (this.props.onSuccess && data.action === `mati-signup-${index}::exit`) {
+        if (success) this.props.onSuccess()
+      }
+    })
+  }
+
   renderButton() {
     if (this.element) {
       const index = this.element.dataset.index
@@ -25,14 +44,6 @@ export class MatiButton extends React.Component {
       clientId: this.props.clientId,
       element: this.element,
       hideChat: true
-    })
-
-    window.addEventListener('message', event => {
-      const data = event.data ? JSON.parse(event.data) : {}
-      const index = this.element.dataset.index || 0
-      if (this.props.onSuccess && data.action === `mati-signup-${index}::success`) {
-        this.props.onSuccess()
-      }
     })
   }
   componentDidUpdate(prevProps) {
