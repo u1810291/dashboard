@@ -54,6 +54,15 @@ class WebhookLine extends React.Component {
                   {pic.label}
                 </div>
                 <img src={pic.url} alt="" />
+                {
+                  pic.label === 'Face Verification' && <div className={CSS.faceMatchStatus}>
+                    <FormattedMessage id="onboarding.webhook.facematch" />
+                    {': '}
+                    <span className={webhook.faceMatch ? 'text-success': 'text-failure'}>
+                      <FormattedMessage id={webhook.faceMatch ? 'yes' : 'no'} />
+                    </span>
+                  </div>
+                }
               </div>
             ))}
           </div>

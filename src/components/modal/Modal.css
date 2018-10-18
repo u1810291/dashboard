@@ -16,7 +16,7 @@
   width: 600px;
   min-height: 360px;
   max-height: calc(100vh - 40px);
-  overflow: scroll;
+  overflow: auto;
   padding: 15px;
   border-radius: 6px;
   display: flex;

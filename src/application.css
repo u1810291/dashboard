@@ -39,8 +39,16 @@ strong {
   color: #909090;
 }
 
-.text-success {
+.text-info {
   color: #47A8E8;
+}
+
+.text-success {
+  color: #00B257;
+}
+
+.text-failure {
+  color: #EB5757;
 }
 
 .text-caption {

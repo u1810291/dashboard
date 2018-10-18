@@ -84,7 +84,7 @@ class DetailCard extends React.Component {
         </p>
         {this.props.intl.messages[`plan.details.${type}.extra.title`] && (
           <React.Fragment>
-            <p className="text-caption text-success">
+            <p className="text-caption text-info">
               <FormattedMessage id={`plan.details.${type}.extra.title`} />
             </p>
             <ul className={CSS.detailsExtra}>
