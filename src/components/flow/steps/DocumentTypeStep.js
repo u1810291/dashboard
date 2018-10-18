@@ -62,7 +62,7 @@ function DocumentTypeStep({
                   const { checked } = event.target
                   onClick({
                     documents: {
-                      required: toggle(required, type, !checked),
+                      required: difference(toggle(required, type, !checked), mandatoryTypes),
                       optional: toggle(optional, type, checked)
                     }
                   })
