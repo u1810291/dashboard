@@ -84,7 +84,7 @@ class DetailCard extends React.Component {
         </p>
         {this.props.intl.messages[`plan.details.${type}.extra.title`] && (
           <React.Fragment>
-            <p className="text-caption text-success">
+            <p className="text-caption text-info">
               <FormattedMessage id={`plan.details.${type}.extra.title`} />
             </p>
             <ul className={CSS.detailsExtra}>
@@ -114,6 +114,10 @@ export default class UpgradePlan extends React.Component {
         <div className={CSS.cardsContainer}>
           {plans.map(plan => <PlanCard plan={plan} key={plan} />)}
         </div>
+
+        <h2>
+          <FormattedMessage id="plan.safety-pro-title" />
+        </h2>
 
         <div className={CSS.detailsContainer}>
           {details.map(type => <DetailCard type={type} key={type} />)}

@@ -1,5 +1,9 @@
 {
+  "yes": "Yes",
+  "no": "No",
   "signout": "Sign out",
+  "done": "Done",
+  "copy-to-clipboard": "Copy to clipboard",
   "terms-of-conditions": "By clicking this button you agree on <a href=https://getmati.com/legal#terms target='_blank'>Terms and Conditions</a> and <a href=https://getmati.com/legal#privacy target='_blank'>Privacy Notice</p>",
 
   "recovery.title": "Recovery",
@@ -23,8 +27,17 @@
   "signin.action": "Login",
   "signin.form.labels.email": "Email",
   "signin.form.labels.password": "Password",
+  "signup.form.labels.companyUrl": "Company URL",
+  "signup.form.labels.numVerifications": "Verifications per month needed",
   "signin.form.placeholders.email": "Email",
   "signin.form.placeholders.password": "Password",
+  "signup.form.placeholders.companyUrl": "Company URL",
+  "signup.form.options.numVerifications": {
+    "0,100": "0–100",
+    "100,1000": "100–1000",
+    "1000,5000": "1000–5000",
+    "5000,": "+5000"
+  },
   "signin.recovery": "I forgot my password",
 
   "signup.title": "Create your new account",
@@ -44,6 +57,8 @@
 
   "onboarding.flow.title": "1. Create your verification flow",
   "onboarding.webhook.title": "2. Sample Webhook",
+  "onboarding.webhook.webhook": "Webhook",
+  "onboarding.webhook.facematch": "Face match",
   "onboarding.webhookUrl.title": "3. Your webhook URL",
   "onboarding.pricing.title": "4. Great you're done!",
   "onboarding.pricing.text": "Now you’re on a Basic Free plan, that’s mean you can use Mati but not all options.",
@@ -79,9 +94,11 @@
   "onboarding.webhooks.labels.url": "Subscribe to webhook",
   "onboarding.webhooks.placeholders.url": "https://yoursite.com/",
   "onboarding.integrationCode.button": "Show integration code",
-  "onboarding.integrationCode.modalTitle": "Copy&Paste Mati button code into your website",
+  "onboarding.integrationCode.modalTitle": "Integrate code into your website",
+  "onboarding.integrationCode.confirmation": "Integration code was copied to clipboard",
   "onboarding.demo.confirmation": "The result was sent to your registered email.",
   "plan.title": "Upgrade your plan",
+  "plan.safety-pro-title": "Safety Pro Features",
   "plan.cards.starter.caption": "Starter",
   "plan.cards.safety-pro.caption": "Safety Pro",
   "plan.cards.enterprise.caption": "Enterprise",
@@ -119,5 +136,12 @@
     "International Wanted Criminals Lists",
     "Sanctioned Individuals Lists",
     "Anti-Money Laundering Lists (AML)"
-  ]
+  ],
+  "onboarding-modal.messages.step-0": "Fastest way to verify your users",
+  "onboarding-modal.messages.step-1": "Verify documents from anywhere in the world",
+  "onboarding-modal.messages.step-2": "Ask for the documents you need",
+  "onboarding-modal.messages.step-3": "Mati web sdk takes few lines of code to integrate",
+  "onboarding-modal.messages.step-4": "Receive verification status of every user via webhooks in minutes",
+  "onboarding-modal.next": "Next",
+  "onboarding-modal.close": "Skip"
 }

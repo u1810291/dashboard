@@ -1,5 +1,6 @@
 import { createReducer, createTypesSequence } from 'src/state/utils'
 import client from 'src/lib/client'
+import { store } from 'src/components/store-provider'
 
 export const types = {
   ...createTypesSequence('MERCHANT_GET'),
@@ -80,7 +81,14 @@ export function getIntegrationCode(token) {
 export function saveConfiguration(token, configuration) {
   return function(dispatch) {
     dispatch({ type: types.CONFIGURATION_SAVE_REQUEST })
-    return client.merchant.saveConfiguration(token, configuration)
+    const oldConfiguration = store.getState().merchant.configuration
+    const newConfiguration = {
+      ...oldConfiguration,
+      ...configuration,
+      version: (parseInt(oldConfiguration.version, 10) || 0) + 1
+    }
+
+    return client.merchant.saveConfiguration(token, newConfiguration)
     .then(payload => {
       dispatch({ type: types.CONFIGURATION_SAVE_SUCCESS, payload })
       getIntegrationCode(token);
@@ -106,18 +114,21 @@ const initialState = {
     color: undefined,
     language: 'en',
     globalWatchList: false,
+    onboardingModalShown: true
   }
 }
 
 const reducer = createReducer(initialState, {
   [types.MERCHANT_GET_SUCCESS]: function(state, { payload }) {
+    const configuration = payload.data.configurations[payload.data.configurations.length - 1]
     return {
       ...state,
       ...payload.data,
 
       configuration: {
         ...state.configuration,
-        ...payload.data.configurations[payload.data.configurations.length - 1]
+        ...configuration,
+        onboardingModalShown: configuration.onboardingModalShown
       }
     }
   },
