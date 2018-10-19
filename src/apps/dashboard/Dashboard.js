@@ -21,6 +21,16 @@ import CSS from './Dashboard.css'
 )
 export default class Dashboard extends React.Component {
   componentDidMount() {
+    this.loadData()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.token !== this.props.token) {
+      this.loadData()
+    }
+  }
+
+  loadData() {
     this.props.getMerchant(this.props.token).catch(error => {
       if (error.response.status === 401) this.handleSignOut()
     })
@@ -57,7 +67,6 @@ export default class Dashboard extends React.Component {
         <span>&times;</span>
       </Button>
     ]
-    console.log('this.props.configuration.onboardingModalShown', this.props.configuration.onboardingModalShown)
     return (
       <ApplicationBox sidebarItems={sidebarItems}>
         {!this.props.configuration.onboardingModalShown && (

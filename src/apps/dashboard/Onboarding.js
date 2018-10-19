@@ -54,7 +54,18 @@ export default class Onboarding extends React.Component {
       hideIntegrationCode: true
     }
   }
+
   componentDidMount() {
+    this.loadData()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!this.props.clientId) {
+      this.loadData()
+    }
+  }
+
+  loadData() {
     this.props.getWebhooks(this.props.token)
     this.props.getIntegrationCode(this.props.token)
     this.props.getMerchantApps(this.props.token)
