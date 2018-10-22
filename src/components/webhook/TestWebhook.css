@@ -53,6 +53,7 @@
 
 :local(.faceMatchStatus) {
   font-size: 11px;
+  line-height: 1.4;
   font-weight: bold;
   text-transform: uppercase;
   text-align: center;

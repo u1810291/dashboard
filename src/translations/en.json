@@ -1,6 +1,8 @@
 {
   "yes": "Yes",
   "no": "No",
+  "passed": "Passed",
+  "flagged": "Flagged",
   "signout": "Sign out",
   "done": "Done",
   "copy-to-clipboard": "Copy to clipboard",
@@ -59,6 +61,7 @@
   "onboarding.webhook.title": "2. Sample Webhook",
   "onboarding.webhook.webhook": "Webhook",
   "onboarding.webhook.facematch": "Face match",
+  "onboarding.webhook.liveness": "Liveness",
   "onboarding.webhookUrl.title": "3. Your webhook URL",
   "onboarding.pricing.title": "4. Great you're done!",
   "onboarding.pricing.text": "Now you’re on a Basic Free plan, that’s mean you can use Mati but not all options.",
