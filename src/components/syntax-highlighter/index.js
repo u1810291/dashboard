@@ -6,10 +6,12 @@ import { default as darkStyle } from './dark'
 export const SyntaxHighlighter = ({
   dark = false,
   ...props
-}) => (
-  <PrismSyntaxHighlighter
-    style={dark ? darkStyle : lightStyle}
+}) => {
+  const style = dark ? darkStyle : lightStyle
+  return <PrismSyntaxHighlighter
+    style={style}
     showLineNumbers={true}
+    lineNumberContainerStyle={style.lineNumbers}
     {...props}
   />
-)
+}

@@ -1,11 +1,14 @@
 :local(.testWebhookContainer) .test-webhook-card {
-  /* height: 55px; */
   margin-bottom: 15px;
-  padding: 15px;
+}
+
+:local(.testWebhookContainer) .test-webhook-card-info {
+  width: 100%;
+  height: 55px;
+  padding: 0 20px;
   display: flex;
-  /* align-items: center; */
-  flex-wrap: wrap;
-  /* justify-content: space-between; */
+  align-items: center;
+  cursor: pointer;
 }
 
 :local(.testWebhookContainer) .test-webhook-card .test-webhook-card-types {
@@ -19,7 +22,7 @@
 
 :local(.testWebhookContainer) .test-webhook-card .test-webhook-card-details {
   width: 100%;
-  padding-top: 25px;
+  padding: 15px 20px 15px 20px;
 }
 
 :local(.testWebhookContainer) .test-webhook-card-details-pictures {
@@ -31,7 +34,7 @@
 :local(.testWebhookContainer) .test-webhook-card-details-picture {
   width: 50%;
   padding-right: 45px;
-  padding-bottom: 45px;
+  padding-bottom: 24px;
 }
 
 :local(.testWebhookContainer) .test-webhook-card-details-picture img {
