@@ -15,8 +15,12 @@
 }
 
 :local(.integrationCodeModal) {
-  width: 800px;
-  height: 500px;
+  min-width: 700px;
+  min-height: 500px;
+}
+
+:local(.integrationCodeModal) main {
+  padding: 0 45px;
 }
 
 :local(.matiButton) {

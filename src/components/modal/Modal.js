@@ -1,16 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import classNames from 'classnames'
 import CSS from './Modal.css'
 
 const modalRoot = document.getElementById('modalRoot')
 
-const ModalWindow = ({
-  children,
-  onClose = () => {}
-}) => (
-  <div className={CSS.overlay} onClick={e => e.target === e.currentTarget && onClose()}>
-    <div className={CSS.window}>
-      <button className={CSS.closeButton} onClick={onClose}></button>
+const ModalWindow = ({ children, className, onClose = () => {} }) => (
+  <div
+    className={CSS.overlay}
+    onClick={e => e.target === e.currentTarget && onClose()}
+  >
+    <div className={classNames(CSS.window, className)}>
+      <button className={CSS.closeButton} onClick={onClose} />
       {children}
     </div>
   </div>
@@ -32,9 +33,7 @@ export class Modal extends React.Component {
 
   render() {
     return ReactDOM.createPortal(
-      <ModalWindow {...this.props}>
-        {this.props.children}
-      </ModalWindow>,
+      <ModalWindow {...this.props}>{this.props.children}</ModalWindow>,
       this.modalContainer
     )
   }
