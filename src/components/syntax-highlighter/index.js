@@ -16,7 +16,7 @@ function handleCopyToClipboard(text, notification) {
 
 
 export const SyntaxHighlighter = ({
-  dark = false,
+  dark = true,
   children,
   copyToClipboard = false,
   copyNotification,
