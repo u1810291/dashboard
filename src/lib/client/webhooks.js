@@ -7,6 +7,18 @@ export function subscribeToWebhook(token, webhook) {
 }
 
 export function getWebhooks(token) {
+  return http.get('/v1/webhooks', {
+    headers: { ...getAuthHeader(token) }
+  })
+}
+
+export function deleteWebhook(token, id) {
+  return http.delete(`/v1/webhooks/${id}`, {
+    headers: { ...getAuthHeader(token) }
+  })
+}
+
+export function getWebhooksSamples(token) {
   return http.get('/v1/webhooks/samples', {
     headers: { ...getAuthHeader(token) }
   })

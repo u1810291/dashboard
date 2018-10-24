@@ -24,7 +24,12 @@ import {
 } from 'src/state/merchant'
 import { sendNotification } from 'src/components/notification'
 import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
-import { subscribeToWebhook, getWebhooks } from 'src/state/webhooks'
+import {
+  subscribeToWebhook,
+  getWebhooks,
+  getWebhooksSamples,
+  deleteWebhook
+} from 'src/state/webhooks'
 import IntegrationIcon from 'src/assets/icon-integration.svg'
 import styles from './Onboarding.css'
 
@@ -41,7 +46,9 @@ import styles from './Onboarding.css'
   {
     saveConfiguration,
     subscribeToWebhook,
+    deleteWebhook,
     getWebhooks,
+    getWebhooksSamples,
     getIntegrationCode,
     getMerchantApps
   }
@@ -66,6 +73,7 @@ export default class Onboarding extends React.Component {
 
   loadData() {
     this.props.getWebhooks(this.props.token)
+    this.props.getWebhooksSamples(this.props.token)
     this.props.getIntegrationCode(this.props.token)
     this.props.getMerchantApps(this.props.token)
   }
@@ -87,6 +95,13 @@ export default class Onboarding extends React.Component {
 
   closeIntegrationCode = () => {
     this.setState({ hideIntegrationCode: true })
+  }
+
+  handleSubscribeToWebhook = url => {
+    const { token, lastWebhook, intl, subscribeToWebhook, deleteWebhook } = this.props
+    if (lastWebhook.id) deleteWebhook(token, lastWebhook.id)
+    return subscribeToWebhook(token, { url })
+      .then(() => sendNotification(intl.formatMessage({ id: 'webhookUrl.confirmation' })))
   }
 
   render() {
@@ -135,8 +150,7 @@ export default class Onboarding extends React.Component {
               <FormattedMessage id="onboarding.webhookUrl.title" />
             </h2>
             <WebhookURLForm
-              token={this.props.token}
-              subscribeToWebhook={this.props.subscribeToWebhook}
+              subscribeToWebhook={this.handleSubscribeToWebhook}
               url={this.props.lastWebhook.url}
             />
           </section>

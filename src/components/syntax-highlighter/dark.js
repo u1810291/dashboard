@@ -45,7 +45,7 @@ export default {
     overflow: 'auto',
     background: '#18243B',
     fontSize: '12px',
-    webkitFontSmoothing: 'antialiased'
+    WebkitFontSmoothing: 'antialiased'
   },
   ':not(pre) > code[class*="language-"]': {
     background: '#18243B',

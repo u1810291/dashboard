@@ -23,8 +23,7 @@ export default {
     WebkitHyphens: 'none',
     MozHyphens: 'none',
     msHyphens: 'none',
-    hyphens: 'none',
-    webkitFontSmoothing: 'antialiased'
+    hyphens: 'none'
   },
   'pre[class*="language-"]': {
     color: '#393A34',
