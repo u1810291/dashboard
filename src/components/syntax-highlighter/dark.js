@@ -15,7 +15,7 @@ export default {
     whiteSpace: 'pre',
     wordSpacing: 'normal',
     wordBreak: 'normal',
-    lineHeight: '1.5',
+    lineHeight: '1.33em',
     MozTabSize: '4',
     OTabSize: '4',
     tabSize: '4',
@@ -23,7 +23,7 @@ export default {
     MozHyphens: 'none',
     msHyphens: 'none',
     hyphens: 'none',
-    fontSize: '13px'
+    fontSize: '12px'
   },
   'pre[class*="language-"]': {
     color: 'white',
@@ -33,7 +33,7 @@ export default {
     whiteSpace: 'pre',
     wordSpacing: 'normal',
     wordBreak: 'normal',
-    lineHeight: '1.5',
+    lineHeight: '1.33em',
     MozTabSize: '4',
     OTabSize: '4',
     tabSize: '4',
@@ -42,12 +42,9 @@ export default {
     msHyphens: 'none',
     hyphens: 'none',
     padding: '2em 1em',
-    margin: '.5em 0',
     overflow: 'auto',
-    borderRadius: '4px',
     background: '#18243B',
-    fontSize: '13px',
-    boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.2)',
+    fontSize: '12px',
     webkitFontSmoothing: 'antialiased'
   },
   ':not(pre) > code[class*="language-"]': {

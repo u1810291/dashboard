@@ -53,9 +53,9 @@ class WebhookLine extends React.Component {
           <div className="test-webhook-card-details-pictures">
             {(webhook.pictures || []).map(pic => (
               <div className="test-webhook-card-details-picture" key={pic.label}>
-                <div className="text-caption text-secondary">
+                <h4 className="text-caption text-secondary">
                   {pic.label}
-                </div>
+                </h4>
                 <img src={pic.url} alt="" />
                 {
                   pic.label === 'Face Verification' && (
@@ -80,9 +80,9 @@ class WebhookLine extends React.Component {
               </div>
             ))}
           </div>
-          <div className="text-caption text-secondary">
+          <h4 className="text-caption text-secondary">
             <FormattedMessage id="onboarding.webhook.webhook" />
-          </div>
+          </h4>
           <SyntaxHighlighter language='json' dark>
             {stringify(JSON.parse(webhook.contents))}
           </SyntaxHighlighter>

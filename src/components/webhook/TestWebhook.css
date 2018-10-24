@@ -45,7 +45,7 @@
   max-width: 100%;
 }
 
-:local(.testWebhookContainer) .test-webhook-card-details-picture .text-caption {
+:local(.testWebhookContainer) h4 {
   padding-bottom: 7px;
 }
 

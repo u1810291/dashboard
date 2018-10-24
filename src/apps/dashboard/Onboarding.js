@@ -22,10 +22,9 @@ import {
   AVAILABLE_LANGUAGES,
   AVAILABLE_DOCUMENT_TYPES
 } from 'src/state/merchant'
+import { sendNotification } from 'src/components/notification'
 import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
 import { subscribeToWebhook, getWebhooks } from 'src/state/webhooks'
-import clipboard from 'clipboard-polyfill'
-import { sendNotification } from 'src/components/notification'
 import IntegrationIcon from 'src/assets/icon-integration.svg'
 import styles from './Onboarding.css'
 
@@ -77,17 +76,7 @@ export default class Onboarding extends React.Component {
   }
 
   showDemoNotification = () => {
-    sendNotification(
-      this.props.intl.formatMessage({ id: 'onboarding.demo.confirmation' }),
-      5000
-    )
-  }
-
-  handleIntegrationCodeCopy = () => {
-    clipboard.writeText(this.props.integrationCode)
-    sendNotification(
-      this.props.intl.formatMessage({ id: 'onboarding.integrationCode.confirmation' })
-    )
+    sendNotification(this.props.intl.formatMessage({ id: 'onboarding.demo.confirmation' }), 5000)
   }
 
   toggleIntegrationCode = () => {
@@ -179,32 +168,30 @@ export default class Onboarding extends React.Component {
           />
           <div className={styles.showIntegrationCodeButton}>
             <Button onClick={this.toggleIntegrationCode}>
-              <img src={IntegrationIcon} alt="" />{' '}
+              <img src={IntegrationIcon} alt="" />
               <FormattedMessage id="onboarding.integrationCode.button" />
             </Button>
           </div>
 
           {!this.state.hideIntegrationCode && (
-            <Modal
-              onClose={this.closeIntegrationCode}
-              closeButton={false}
-              className={styles.integrationCodeModal}
-            >
+            <Modal onClose={this.closeIntegrationCode} className={styles.integrationCodeModal}>
               <header>
                 <FormattedMessage id="onboarding.integrationCode.modalTitle" />
               </header>
               <main>
-                <SyntaxHighlighter language="html">{this.props.integrationCode}</SyntaxHighlighter>
-              </main>
-              <footer>
-                <Button
-                  buttonStyle="no-borders default text-secondary"
-                  onClick={this.handleIntegrationCodeCopy}
+                <SyntaxHighlighter
+                  language="html"
+                  copyToClipboard
+                  copyNotification={this.props.intl.formatMessage({
+                    id: 'onboarding.integrationCode.confirmation'
+                  })}
                 >
-                  <FormattedMessage id="copy-to-clipboard" />
-                </Button>
+                  {this.props.integrationCode}
+                </SyntaxHighlighter>
+              </main>
+              <footer className="modal--footer-transparent modal--footer-center">
                 <Button buttonStyle="primary" onClick={this.closeIntegrationCode}>
-                  <FormattedMessage id="done" />
+                  <FormattedMessage id="got-it" />
                 </Button>
               </footer>
             </Modal>
