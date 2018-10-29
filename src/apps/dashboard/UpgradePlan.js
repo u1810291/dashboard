@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import classNames from 'classnames'
 import { Content } from 'src/components/application-box'
-import Button from 'src/components/button'
+// import Button from 'src/components/button'
 import Card from 'src/components/card'
 import CSS from './UpgradePlan.css'
 
@@ -28,7 +28,7 @@ class PlanCard extends React.Component {
     const subPrice = this.getI18nMessage(`plan.cards.${id}.sub-price`)
     const alternativePrice = this.getI18nMessage(`plan.cards.${id}.alternative-price`)
     const priceDescription = this.getI18nMessage(`plan.cards.${id}.price-description`)
-    const CTA = this.getI18nMessage(`plan.cards.${id}.CTA`)
+    // const CTA = this.getI18nMessage(`plan.cards.${id}.CTA`)
     const features = this.getI18nMessage(`plan.cards.${id}.features`)
     return (
       <Card className={classNames(CSS.card, id)}>
@@ -41,9 +41,9 @@ class PlanCard extends React.Component {
           </div>
           {priceDescription && <small className="text-secondary">{priceDescription}</small>}
         </header>
-        <Button disabled className={CSS.cardButton}>
+        {/* <Button disabled className={CSS.cardButton}>
           {CTA}
-        </Button>
+        </Button> */}
         {features && (
           <ul className={CSS.features}>
             {features.map((feature, index) => (
