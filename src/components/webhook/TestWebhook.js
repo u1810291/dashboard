@@ -2,6 +2,7 @@ import React from 'react'
 import Card from 'src/components/card'
 import Label from 'src/components/label'
 import { FormattedMessage } from 'react-intl'
+import MediaQuery from 'react-responsive'
 import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
 import stringify from 'src/lib/stringify'
 import CSS from './TestWebhook.css'
@@ -38,13 +39,15 @@ class WebhookLine extends React.Component {
           <div className="test-webhook-card-name">
             <small><strong>{webhook.fullName}</strong></small>
           </div>
-          <div className="test-webhook-card-types">
-            {webhook.steps.map(type => (
-              <Label key={type} labelStyle={`${DOCUMENT_TYPE_COLORS[type]}`}>
-                <FormattedMessage id={`flow.documentTypeStep.${type}`} />
-              </Label>
-            )).reduce((prev, curr, i) => [prev, <Label key={i}>+</Label>, curr])}
-          </div>
+          <MediaQuery query="(min-width: 480px)">
+            <div className="test-webhook-card-types">
+              {webhook.steps.map(type => (
+                <Label key={type} labelStyle={`${DOCUMENT_TYPE_COLORS[type]}`}>
+                  <FormattedMessage id={`flow.documentTypeStep.${type}`} />
+                </Label>
+              )).reduce((prev, curr, i) => [prev, <Label key={i}>+</Label>, curr])}
+            </div>
+          </MediaQuery>
           <div className="test-webhook-card-date">
             <small>{(new Date(webhook.dateCreated)).toLocaleDateString()}</small>
           </div>

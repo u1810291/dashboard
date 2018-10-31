@@ -1,7 +1,6 @@
 .configure-flow-card {
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
 }
 
 :local(.flowCard) {

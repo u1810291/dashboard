@@ -101,6 +101,7 @@
 
 :local(.cardsContainer) {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   margin-bottom: 100px;
 }
@@ -108,6 +109,7 @@
 :local(.detailsContainer) {
   display: flex;
   align-items: flex-start;
+  flex-wrap: wrap;
 }
 
 :local(.detailsContainer) > * {
@@ -134,4 +136,19 @@
 
 :local(.detailsContainer) > *:not(:last-of-type) {
   margin-right: 30px;
+}
+
+@media (max-width: 480px) {
+  :local(.detailsContainer), :local(.cardsContainer) {
+    flex-direction: column;
+  }
+
+  :local(.card):not(:last-of-type), :local(.detailsContainer) > *:not(:last-of-type) {
+    margin-right: 0px;
+    margin-bottom: 30px;
+  }
+
+  :local(.card) {
+    min-height: auto;
+  }
 }

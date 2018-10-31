@@ -20,13 +20,14 @@ export const SyntaxHighlighter = ({
   children,
   copyToClipboard = false,
   copyNotification,
+  lineNumbers = true,
   ...props
 }) => {
   const style = dark ? darkStyle : lightStyle
   return <div className={CSS.container}>
     <PrismSyntaxHighlighter
       style={style}
-      showLineNumbers={true}
+      showLineNumbers={lineNumbers}
       lineNumberContainerStyle={style.lineNumbers}
       {...props}
     >

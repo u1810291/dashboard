@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import MediaQuery from 'react-responsive'
 import Button from 'src/components/button'
 import { Modal } from 'src/components/modal'
 import {
@@ -34,6 +35,80 @@ import IntegrationIcon from 'src/assets/icon-integration.svg'
 import styles from './Onboarding.css'
 
 @injectIntl
+class OnboardingSidebar extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      hideIntegrationCode: true
+    }
+  }
+
+  showDemoNotification = () => {
+    sendNotification(this.props.intl.formatMessage({ id: 'onboarding.demo.confirmation' }), 5000)
+  }
+
+  closeIntegrationCode = () => {
+    this.setState({ hideIntegrationCode: true })
+  }
+
+  toggleIntegrationCode = () => {
+    this.props.getIntegrationCode(this.props.token).then(value => {
+      this.setState({ hideIntegrationCode: false })
+    })
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <h3>
+          <FormattedMessage id="onboarding.demo.title" />
+        </h3>
+        <p className="text-secondary">
+          <FormattedMessage id="onboarding.demo.help-text" />
+        </p>
+        <MatiButton
+          language={this.props.configuration.language}
+          color={this.props.configuration.color}
+          clientId={this.props.clientId}
+          onSuccess={this.showDemoNotification}
+          className={styles.matiButton}
+        />
+        <div className={styles.showIntegrationCodeButton}>
+          <Button onClick={this.toggleIntegrationCode}>
+            <img src={IntegrationIcon} alt="" />
+            <FormattedMessage id="onboarding.integrationCode.button" />
+          </Button>
+        </div>
+
+        {!this.state.hideIntegrationCode && (
+          <Modal onClose={this.closeIntegrationCode} className={styles.integrationCodeModal}>
+            <header>
+              <FormattedMessage id="onboarding.integrationCode.modalTitle" />
+            </header>
+            <main>
+              <SyntaxHighlighter
+                language="html"
+                copyToClipboard
+                copyNotification={this.props.intl.formatMessage({
+                  id: 'onboarding.integrationCode.confirmation'
+                })}
+              >
+                {this.props.integrationCode}
+              </SyntaxHighlighter>
+            </main>
+            <footer className="modal--footer-transparent modal--footer-center">
+              <Button buttonStyle="primary" onClick={this.closeIntegrationCode}>
+                <FormattedMessage id="got-it" />
+              </Button>
+            </footer>
+          </Modal>
+        )}
+      </React.Fragment>
+    )
+  }
+}
+
+@injectIntl
 @connect(
   state => ({
     token: state.auth.token,
@@ -54,13 +129,6 @@ import styles from './Onboarding.css'
   }
 )
 export default class Onboarding extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      hideIntegrationCode: true
-    }
-  }
-
   componentDidMount() {
     this.loadData()
   }
@@ -81,20 +149,6 @@ export default class Onboarding extends React.Component {
   updateConfiguration = settings => {
     this.props.getMerchantApps(this.props.token)
     this.props.saveConfiguration(this.props.token, settings)
-  }
-
-  showDemoNotification = () => {
-    sendNotification(this.props.intl.formatMessage({ id: 'onboarding.demo.confirmation' }), 5000)
-  }
-
-  toggleIntegrationCode = () => {
-    this.props.getIntegrationCode(this.props.token).then(value => {
-      this.setState({ hideIntegrationCode: false })
-    })
-  }
-
-  closeIntegrationCode = () => {
-    this.setState({ hideIntegrationCode: true })
   }
 
   handleSubscribeToWebhook = url => {
@@ -126,11 +180,14 @@ export default class Onboarding extends React.Component {
         onClick={this.updateConfiguration}
       />
     ]
+    let stepsIndex = 0
+    const getIndex = () => `${++stepsIndex}. `
     return (
       <React.Fragment>
         <Content className={styles.content}>
           <section>
             <h2>
+              {getIndex()}
               <FormattedMessage id="onboarding.flow.title" />
             </h2>
             {flowSteps.map((step, index) => (
@@ -139,14 +196,46 @@ export default class Onboarding extends React.Component {
               </section>
             ))}
           </section>
+          <MediaQuery query="(max-width: 480px)">
+            <section>
+              <h2>
+                {getIndex()}
+                <FormattedMessage id="onboarding.demo.title" />
+              </h2>
+              <p>
+                <FormattedMessage id="onboarding.demo.help-text" />
+              </p>
+              <MatiButton
+                language={this.props.configuration.language}
+                color={this.props.configuration.color}
+                clientId={this.props.clientId}
+                onSuccess={this.showDemoNotification}
+                className={styles.matiButton}
+              />
+              <p>
+                <FormattedMessage id="onboarding.integrationCode.modalTitle" />
+              </p>
+              <SyntaxHighlighter
+                language="html"
+                copyToClipboard
+                copyNotification={this.props.intl.formatMessage({
+                  id: 'onboarding.integrationCode.confirmation'
+                })}
+              >
+                {this.props.integrationCode || ""}
+              </SyntaxHighlighter>
+            </section>
+          </MediaQuery>
           <section>
             <h2>
+              {getIndex()}
               <FormattedMessage id="onboarding.webhook.title" />
             </h2>
             <TestWebhook webhooks={this.props.testWebhooks} />
           </section>
           <section>
             <h2>
+              {getIndex()}
               <FormattedMessage id="onboarding.webhookUrl.title" />
             </h2>
             <WebhookURLForm
@@ -156,6 +245,7 @@ export default class Onboarding extends React.Component {
           </section>
           <section>
             <h2>
+              {getIndex()}
               <FormattedMessage id="onboarding.pricing.title" />
             </h2>
             <p>
@@ -166,51 +256,17 @@ export default class Onboarding extends React.Component {
             </p>
           </section>
         </Content>
-        <Sidebar className={styles.sidebar}>
-          <h3>
-            <FormattedMessage id="onboarding.demo.title" />
-          </h3>
-          <p className="text-secondary">
-            <FormattedMessage id="onboarding.demo.help-text" />
-          </p>
-          <MatiButton
-            language={this.props.configuration.language}
-            color={this.props.configuration.color}
-            clientId={this.props.clientId}
-            onSuccess={this.showDemoNotification}
-            className={styles.matiButton}
-          />
-          <div className={styles.showIntegrationCodeButton}>
-            <Button onClick={this.toggleIntegrationCode}>
-              <img src={IntegrationIcon} alt="" />
-              <FormattedMessage id="onboarding.integrationCode.button" />
-            </Button>
-          </div>
-
-          {!this.state.hideIntegrationCode && (
-            <Modal onClose={this.closeIntegrationCode} className={styles.integrationCodeModal}>
-              <header>
-                <FormattedMessage id="onboarding.integrationCode.modalTitle" />
-              </header>
-              <main>
-                <SyntaxHighlighter
-                  language="html"
-                  copyToClipboard
-                  copyNotification={this.props.intl.formatMessage({
-                    id: 'onboarding.integrationCode.confirmation'
-                  })}
-                >
-                  {this.props.integrationCode}
-                </SyntaxHighlighter>
-              </main>
-              <footer className="modal--footer-transparent modal--footer-center">
-                <Button buttonStyle="primary" onClick={this.closeIntegrationCode}>
-                  <FormattedMessage id="got-it" />
-                </Button>
-              </footer>
-            </Modal>
-          )}
-        </Sidebar>
+        <MediaQuery query="(min-width: 480px)">
+          <Sidebar className={styles.sidebar}>
+            <OnboardingSidebar
+              token={this.props.token}
+              configuration={this.props.configuration}
+              clientId={this.props.clientId}
+              getIntegrationCode={this.props.getIntegrationCode}
+              integrationCode={this.props.integrationCode}
+            />
+          </Sidebar>
+        </MediaQuery>
       </React.Fragment>
     )
   }

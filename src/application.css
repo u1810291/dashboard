@@ -3,6 +3,11 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700');
 
+:root {
+  --mgi-theme-font-size: 18px;
+  --mgi-section-spacing: 1.66rem
+}
+
 * {
   box-sizing: border-box;
 }
@@ -13,17 +18,17 @@ html, body, #root {
 
 html {
   font-family: Montserrat, sans-serif;
-  font-size: 18px;
+  font-size: var(--mgi-theme-font-size);
 }
 
 body {
-  line-height: 30px;
+  line-height: 1.6;
 }
 
 /* Move the rest of this file to the mgi theme */
 
 p {
-  margin-bottom: 25px;
+  margin-bottom: 0.8em;
 }
 
 small {
@@ -64,14 +69,14 @@ a {
 }
 
 h2 {
-  font-size: 20px;
+  font-size: 1.1rem;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 1.1rem;
 }
 
 h3 {
-  font-size: 18px;
-  margin-bottom: 18px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
   font-weight: 700;
 }
 
@@ -83,19 +88,21 @@ h3 small {
   line-height: 2;
 }
 
-p {
-  margin-bottom: 15px;
-}
-
 section.mgi-section-separated {
   margin-bottom: 0;
-  padding-bottom: 30px;
+  padding-bottom: var(--mgi-section-spacing);
 }
 
 section.mgi-section-separated:not(:first-of-type) {
-  padding-top: 30px;
+  padding-top: var(--mgi-section-spacing);
 }
 
 section.mgi-section-separated:not(:last-of-type) {
   border-bottom: 1px solid #E3E3E3;
+}
+
+@media (max-width: 480px) {
+  :root {
+    --mgi-theme-font-size: 15px;
+  }
 }
