@@ -21,7 +21,7 @@ export const DOCUMENT_TYPE_COLORS = {
   'proof-of-residency': 'yellow'
 }
 
-const Percents = ({ children }) => (parseInt(children) || 0 * 100).toFixed(0) + '%'
+const Percents = ({ children }) => (parseInt(children, 10) || 0 * 100).toFixed(0) + '%'
 
 const PicturePreview = ({ type, href }) => (
   <div>
@@ -117,7 +117,7 @@ export default class Identities extends React.Component {
                           </h4>
                           <strong><small>{
                             <Percents>
-                              {(identity.facematchScore.find(s => s[0] == doc.type) || [])[1]}
+                              {(identity.facematchScore.find(s => s[0] === doc.type) || [])[1]}
                             </Percents>
                           }</small></strong>
                         </li>
