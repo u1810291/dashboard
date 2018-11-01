@@ -47,13 +47,7 @@ export class MatiButton extends React.Component {
     })
   }
   componentDidUpdate(prevProps) {
-    // if (
-    //   this.props.clientId !== prevProps.clientId ||
-    //   this.props.language !== prevProps.language ||
-    //   this.props.color !== prevProps.color
-    // ) {
-      this.renderButton()
-    // }
+    this.renderButton()
   }
 
   componentDidMount() {

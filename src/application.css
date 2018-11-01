@@ -5,6 +5,7 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
 
 :root {
   --mgi-theme-font-size: 18px;
+  --mgi-theme-color-secondary: #909090;
   --mgi-section-spacing: 1.66rem
 }
 
@@ -41,7 +42,7 @@ strong {
 }
 
 .text-secondary {
-  color: #909090;
+  color: var(--mgi-theme-color-secondary);
 }
 
 .text-info {

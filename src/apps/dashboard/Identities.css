@@ -1,0 +1,36 @@
+:local(.infoFullName) {
+  flex: 1;
+}
+
+:local(.infoDocumentTypes) {
+  flex: 2
+}
+
+:local(.cardImages) {
+  display: flex;
+}
+
+:local(.cardImages) h4 {
+  margin-bottom: 7px
+}
+
+:local(.cardImages) img {
+  width: 282px;
+}
+
+:local(.cardImages) > *:not(:last-child) {
+  margin-right: 43px;
+}
+
+:local(.documentFields) li {
+  display: flex;
+  align-items: baseline;
+}
+
+:local(.documentFields) h4 {
+  flex: 1
+}
+
+:local(.documentFields) strong {
+  flex: 5
+}

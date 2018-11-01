@@ -16,16 +16,16 @@
   cursor: pointer;
 }
 
-:local(.testWebhookContainer) .test-webhook-card .test-webhook-card-types {
+:local(.testWebhookContainer) .test-webhook-card-types {
   min-width: 40%;
   flex: 2
 }
 
-:local(.testWebhookContainer) .test-webhook-card .test-webhook-card-name {
+:local(.testWebhookContainer) .test-webhook-card-name {
   flex: 1
 }
 
-:local(.testWebhookContainer) .test-webhook-card .test-webhook-card-details {
+:local(.testWebhookContainer) .test-webhook-card-details {
   width: 100%;
   padding: var(--mgi-card-expandable-details-spacing);
 }
@@ -52,11 +52,6 @@
 
 :local(.testWebhookContainer) h4 {
   padding-bottom: 7px;
-}
-
-:local(.testWebhookContainer) .test-webhook-card-expand {
-  padding-right: 15px;
-  cursor: pointer;
 }
 
 :local(.faceMatchStatus) {

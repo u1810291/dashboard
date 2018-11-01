@@ -7,7 +7,7 @@ import BooleanField from 'src/components/boolean-field'
 import CSS from './steps.css'
 import icons from './document-type-icons'
 
-const mandatoryTypes = ['face']
+const mandatoryTypes = ['liveness']
 
 const toggle = (array, element, addPredicate) => {
   const elements = [...array]

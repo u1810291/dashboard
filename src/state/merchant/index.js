@@ -19,7 +19,7 @@ export const AVAILABLE_COLORS = [
 ]
 
 export const AVAILABLE_DOCUMENT_TYPES = [
-  'face',
+  'liveness',
   'passport',
   'national-id',
   'driving-license',

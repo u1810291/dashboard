@@ -9,3 +9,7 @@ export default http
 export function getAuthHeader(token) {
   return { Authorization: `Bearer ${token}` }
 }
+
+export function authorizedUrl(url, token) {
+  return `${url}?access_token=${token}`
+}

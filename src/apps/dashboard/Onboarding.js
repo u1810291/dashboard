@@ -17,7 +17,6 @@ import { MatiButton } from 'src/components/mati-button'
 import { Sidebar, Content } from 'src/components/application-box'
 import {
   getIntegrationCode,
-  getMerchantApps,
   saveConfiguration,
   AVAILABLE_COLORS,
   AVAILABLE_LANGUAGES,
@@ -110,22 +109,18 @@ class OnboardingSidebar extends React.Component {
 
 @injectIntl
 @connect(
-  state => ({
-    token: state.auth.token,
-    configuration: state.merchant.configuration,
-    lastWebhook: state.webhooks.lastWebhook,
-    testWebhooks: state.webhooks.testWebhooks,
-    integrationCode: state.merchant.integrationCode,
-    clientId: state.merchant.anyApplication.clientId
-  }),
+  ({
+    auth: { token },
+    merchant: { configuration, integrationCode },
+    webhooks: { lastWebhook, testWebhooks }
+  }) => ({ token, configuration, lastWebhook, testWebhooks, integrationCode }),
   {
     saveConfiguration,
     subscribeToWebhook,
     deleteWebhook,
     getWebhooks,
     getWebhooksSamples,
-    getIntegrationCode,
-    getMerchantApps
+    getIntegrationCode
   }
 )
 export default class Onboarding extends React.Component {
@@ -133,29 +128,21 @@ export default class Onboarding extends React.Component {
     this.loadData()
   }
 
-  componentDidUpdate(prevProps) {
-    if (!this.props.clientId) {
-      this.loadData()
-    }
-  }
-
   loadData() {
     this.props.getWebhooks(this.props.token)
     this.props.getWebhooksSamples(this.props.token)
-    this.props.getIntegrationCode(this.props.token)
-    this.props.getMerchantApps(this.props.token)
   }
 
   updateConfiguration = settings => {
-    this.props.getMerchantApps(this.props.token)
     this.props.saveConfiguration(this.props.token, settings)
   }
 
   handleSubscribeToWebhook = url => {
     const { token, lastWebhook, intl, subscribeToWebhook, deleteWebhook } = this.props
     if (lastWebhook.id) deleteWebhook(token, lastWebhook.id)
-    return subscribeToWebhook(token, { url })
-      .then(() => sendNotification(intl.formatMessage({ id: 'webhookUrl.confirmation' })))
+    return subscribeToWebhook(token, { url }).then(() =>
+      sendNotification(intl.formatMessage({ id: 'webhookUrl.confirmation' }))
+    )
   }
 
   render() {
@@ -208,7 +195,7 @@ export default class Onboarding extends React.Component {
               <MatiButton
                 language={this.props.configuration.language}
                 color={this.props.configuration.color}
-                clientId={this.props.clientId}
+                clientId={this.props.token}
                 onSuccess={this.showDemoNotification}
                 className={styles.matiButton}
               />
@@ -261,7 +248,7 @@ export default class Onboarding extends React.Component {
             <OnboardingSidebar
               token={this.props.token}
               configuration={this.props.configuration}
-              clientId={this.props.clientId}
+              clientId={this.props.token}
               getIntegrationCode={this.props.getIntegrationCode}
               integrationCode={this.props.integrationCode}
             />
