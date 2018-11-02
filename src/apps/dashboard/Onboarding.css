@@ -1,5 +1,6 @@
+
 :local(.content) > section {
-  margin-bottom: 38px;
+  margin-bottom: var(--mgi-section-spacing);
 }
 
 :local(.sidebar) {

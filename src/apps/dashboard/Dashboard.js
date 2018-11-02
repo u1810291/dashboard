@@ -34,13 +34,13 @@ export default class Dashboard extends React.Component {
 
   loadData() {
     this.props.getMerchant(this.props.token).catch(error => {
-      if (error.response.status === 401) this.handleSignOut()
+      if (error.response && error.response.status === 401) this.handleSignOut()
     })
   }
 
   handleSignOut = () => {
-    this.props.signOut()
-    window.location = '/'
+    // this.props.signOut()
+    // window.location = '/'
   }
 
   handleOnboardingModalClose = () => {

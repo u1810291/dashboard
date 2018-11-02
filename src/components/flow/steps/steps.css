@@ -1,11 +1,18 @@
+:root {
+  --mgi-flow-card-spacing: 15px;
+  --mgi-flow-small-card-size: 50px;
+  --mgi-document-type-card-width: 100px;
+  --mgi-document-type-card-height: calc(var(--mgi-document-type-card-width) * 1.5);
+}
+
 .configure-flow-card {
   display: flex;
   flex-direction: column;
 }
 
 :local(.flowCard) {
-  margin-right: 15px;
-  margin-bottom: 10px;
+  margin-right: var(--mgi-flow-card-spacing);
+  margin-bottom: var(--mgi-flow-card-spacing);
   flex-shrink: 1;
   display: flex;
   flex-direction: column;
@@ -19,33 +26,49 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin-right: -10px;
+  margin-right: calc(-1 * var(--mgi-flow-card-spacing));
 }
 
 :local(.documentTypeCard) {
-  justify-content: initial !important;
-  width: 100px;
-  height: 155px;
-  padding-top: 30px;
-  padding-bottom: 4px;
+  width: var(--mgi-document-type-card-width);
+  height: var(--mgi-document-type-card-height);
+  padding: 5px;
 }
 
 :local(.documentTypeName) {
-  flex: 1;
+  margin-top: auto;
+  min-height: 2.4em;
 }
 
 :local(.documentTypeCard) img {
-  margin-bottom: 15px;
+  flex: 1;
+}
+
+:local(.documentTypeOptional) {
+  font-size: 0.9rem;
+  min-height: 1.5em;
+}
+
+:local(.documentTypeOptional) label:not([hidden]) {
+  display: flex;
+  align-items: center;
+}
+
+:local(.documentTypeOptional) input {
+  margin: 0;
+  margin-right: 1px;
+  width: 0.9rem;
+  height: 0.9rem;
 }
 
 :local(.colorCard) {
-  width: 50px;
-  height: 50px;
+  width: var(--mgi-flow-small-card-size);
+  height: var(--mgi-flow-small-card-size);
 }
 
 :local(.languageCard) {
-  width: 50px;
-  height: 50px;
+  width: var(--mgi-flow-small-card-size);
+  height: var(--mgi-flow-small-card-size);
 }
 
 :local(.languageCard) img {
@@ -53,8 +76,8 @@
 }
 
 :local(.watchlistCard) {
-  width: 50px;
-  height: 50px;
+  width: var(--mgi-flow-small-card-size);
+  height: var(--mgi-flow-small-card-size);
 }
 
 :local(.documentColorCardIcon) {
@@ -86,3 +109,10 @@
   background-color: #FFBD00;
 }
 
+@media (max-width: 769px) {
+  :root {
+    --mgi-document-type-card-width: 90px;
+    --mgi-flow-card-spacing: 12px;
+    --mgi-flow-small-card-size: 45px;
+  }
+}

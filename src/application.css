@@ -6,7 +6,8 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
 :root {
   --mgi-theme-font-size: 18px;
   --mgi-theme-color-secondary: #909090;
-  --mgi-section-spacing: 1.66rem
+  --mgi-section-spacing: 1.66rem;
+  --mgi-theme-caption-font-size: 12px;
 }
 
 * {
@@ -18,7 +19,7 @@ html, body, #root {
 }
 
 html {
-  font-family: Montserrat, sans-serif;
+  font-family: Montserrat, "Helvetica Neue", sans-serif;
   font-size: var(--mgi-theme-font-size);
 }
 
@@ -34,7 +35,7 @@ p {
 
 small {
   font-size: 14px;
-  line-height: 24px;
+  line-height: 1.5em;
 }
 
 strong {
@@ -59,7 +60,7 @@ strong {
 
 .text-caption {
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: var(--mgi-theme-caption-font-size);
   font-weight: 500;
   line-height: 1.2;
 }
@@ -102,8 +103,10 @@ section.mgi-section-separated:not(:last-of-type) {
   border-bottom: 1px solid #E3E3E3;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 769px) {
   :root {
     --mgi-theme-font-size: 15px;
+    --mgi-theme-caption-font-size: 11px;
+    --mgi-section-spacing: 1rem;
   }
 }

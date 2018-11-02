@@ -8,12 +8,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: var(--mgi-section-spacing);
 }
 
 :local(.window) {
   background: white;
   width: 600px;
+  max-width: 100%;
   min-height: 360px;
   max-height: calc(100vh - 40px);
   overflow: auto;

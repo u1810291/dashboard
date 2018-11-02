@@ -62,7 +62,7 @@
   text-align: center;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 769px) {
   :root {
     --mgi-card-expandable-details-spacing: 10px 15px 10px 15px;
     --mgi-card-expandable-info-spacing: 0 15px;

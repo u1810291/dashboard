@@ -7,7 +7,7 @@
 
 :local(.layoutContent) {
   width: 505px;
-  padding: 40px;
+  padding: var(--mgi-section-spacing);
   margin: 0 auto;
 }
 
@@ -16,4 +16,10 @@
   background: url('./sign-in-mati-tech.svg') no-repeat;
   background-size:cover;
   background-position: top center;
+}
+
+@media (max-width: 769px) {
+  :local(.layoutContent) {
+    width: 100%;
+  }
 }

@@ -53,7 +53,7 @@ function DocumentTypeStep({
             <span className={classNames(CSS.documentTypeName, 'text-secondary', 'text-caption')}>
               <FormattedMessage id={`flow.documentTypeStep.${type}`} />
             </span>
-            <small className="text-secondary">
+            <small className={classNames(CSS.documentTypeOptional, 'text-secondary')}>
               <BooleanField
                 label={intl.formatMessage({ id: 'flow.documentTypeStep.optional' })}
                 checked={optional.includes(type)}

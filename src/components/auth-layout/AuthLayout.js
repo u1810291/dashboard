@@ -10,7 +10,7 @@ export default class AuthLayout extends React.Component {
         <Helmet>
           <title>Mati Dashboard</title>
         </Helmet>
-        <MediaQuery query="(min-width: 480px)">
+        <MediaQuery query="(min-width: 769px)">
           <div className={CSS.layoutBackground} />
         </MediaQuery>
         <div className={CSS.layoutContent}>

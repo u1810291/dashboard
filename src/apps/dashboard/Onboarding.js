@@ -131,6 +131,7 @@ export default class Onboarding extends React.Component {
   loadData() {
     this.props.getWebhooks(this.props.token)
     this.props.getWebhooksSamples(this.props.token)
+    this.props.getIntegrationCode(this.props.token)
   }
 
   updateConfiguration = settings => {
@@ -183,7 +184,7 @@ export default class Onboarding extends React.Component {
               </section>
             ))}
           </section>
-          <MediaQuery query="(max-width: 480px)">
+          <MediaQuery query="(max-width: 769px)">
             <section>
               <h2>
                 {getIndex()}
@@ -198,6 +199,7 @@ export default class Onboarding extends React.Component {
                 clientId={this.props.token}
                 onSuccess={this.showDemoNotification}
                 className={styles.matiButton}
+                responsive
               />
               <p>
                 <FormattedMessage id="onboarding.integrationCode.modalTitle" />
@@ -205,6 +207,7 @@ export default class Onboarding extends React.Component {
               <SyntaxHighlighter
                 language="html"
                 copyToClipboard
+                lineNumbers={false}
                 copyNotification={this.props.intl.formatMessage({
                   id: 'onboarding.integrationCode.confirmation'
                 })}
@@ -243,7 +246,7 @@ export default class Onboarding extends React.Component {
             </p>
           </section>
         </Content>
-        <MediaQuery query="(min-width: 480px)">
+        <MediaQuery query="(min-width: 769px)">
           <Sidebar className={styles.sidebar}>
             <OnboardingSidebar
               token={this.props.token}

@@ -13,6 +13,7 @@
 }
 
 :local(.menu) {
+  flex-shrink: 0;
   display: flex;
   position: fixed;
   flex-direction: column;
@@ -74,12 +75,12 @@
   background: var(--mgi-secondary-background-color);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 769px) {
   :root {
-    --mgi-application-box-menu-width: 60px;
-    --mgi-application-box-menu-item-spacing: 10px;
-    --mgi-application-box-menu-item-width: 20px;
+    --mgi-application-box-menu-width: 40px;
+    --mgi-application-box-menu-item-spacing: 12px;
+    --mgi-application-box-menu-item-width: 16px;
     --mgi-application-box-menu-logo-bottom-spacing: 15px;
-    --mgi-application-box-menu-logo-width: 40px;
+    --mgi-application-box-menu-logo-width: 35px;
   }
 }
