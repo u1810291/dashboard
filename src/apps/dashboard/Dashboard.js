@@ -39,8 +39,8 @@ export default class Dashboard extends React.Component {
   }
 
   handleSignOut = () => {
-    // this.props.signOut()
-    // window.location = '/'
+    this.props.signOut()
+    window.location = '/'
   }
 
   handleOnboardingModalClose = () => {
