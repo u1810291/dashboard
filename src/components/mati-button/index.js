@@ -38,6 +38,9 @@ export class MatiButton extends React.Component {
     this.element.dataset.country = languagesMap[this.props.language]
     this.element.dataset.style = this.props.color
     this.element.dataset.product = 'kyc'
+    if (this.props.responsive) {
+      this.element.classList.add('responsive')
+    }
     this.root.appendChild(this.element)
 
     window.Mati.render({
@@ -47,13 +50,7 @@ export class MatiButton extends React.Component {
     })
   }
   componentDidUpdate(prevProps) {
-    // if (
-    //   this.props.clientId !== prevProps.clientId ||
-    //   this.props.language !== prevProps.language ||
-    //   this.props.color !== prevProps.color
-    // ) {
-      this.renderButton()
-    // }
+    this.renderButton()
   }
 
   componentDidMount() {

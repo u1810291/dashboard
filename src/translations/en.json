@@ -58,13 +58,13 @@
   "signup.form.labels.roleInCompany": "Role in company",
   "signup.form.placeholders.roleInCompany": "Engineer",
 
-  "onboarding.flow.title": "1. Create your verification flow",
-  "onboarding.webhook.title": "2. Sample Webhook",
+  "onboarding.flow.title": "Create your verification flow",
+  "onboarding.webhook.title": "Sample Webhook",
   "onboarding.webhook.webhook": "Webhook",
   "onboarding.webhook.facematch": "Face match",
   "onboarding.webhook.liveness": "Liveness",
-  "onboarding.webhookUrl.title": "3. Your webhook URL",
-  "onboarding.pricing.title": "4. Great you're done!",
+  "onboarding.webhookUrl.title": "Your webhook URL",
+  "onboarding.pricing.title": "Great you're done!",
   "onboarding.pricing.text": "Now you’re on a Basic Free plan, that’s mean you can use Mati but not all options.",
   "onboarding.pricing.link": "See all plans",
   "onboarding.demo.help-text": "Click button to see preview",
@@ -73,7 +73,8 @@
   "flow.prev": "Back",
   "flow.documentTypeStep.title": "Select which documents you would like to verify from your users",
   "flow.documentTypeStep.face": "Face verification",
-  "flow.documentTypeStep.driving-license": "Driving Licence",
+  "flow.documentTypeStep.liveness": "Face verification",
+  "flow.documentTypeStep.driving-license": "Driving License",
   "flow.documentTypeStep.national-id": "National ID",
   "flow.documentTypeStep.passport": "Passport",
   "flow.documentTypeStep.proof-of-residency": "Proof of recidency",
@@ -147,5 +148,19 @@
   "onboarding-modal.messages.step-3": "Mati web sdk takes few lines of code to integrate",
   "onboarding-modal.messages.step-4": "Receive verification status of every user via webhooks in minutes",
   "onboarding-modal.next": "Next",
-  "onboarding-modal.close": "Skip"
+  "onboarding-modal.close": "Skip",
+
+  "dashboard.title": "Verification history",
+  "dashboard.unknown-name": "Unknown",
+  "identities.details.check": "check",
+  "identities.details.webhook": "Webhook",
+  "identities.fields.faceMatch": "Face match score",
+  "identities.fields.dateOfBirth": "Date of birth",
+  "identities.fields.expiry": "Expiry",
+  "identities.fields.address": "Address",
+  "identities.fields.country": "Country",
+  "identities.fields.documentNumber": "Document number",
+  "identities.fields.emission": "Emission",
+  "identities.fields.fullName": "Full name"
+
 }

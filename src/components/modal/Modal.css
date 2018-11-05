@@ -1,5 +1,9 @@
+:root {
+  --mgi-modal-header-font-size: 22px;
+}
+
 :local(.overlay) {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -8,12 +12,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: var(--mgi-spacing);
 }
 
 :local(.window) {
   background: white;
   width: 600px;
+  max-width: 100%;
   min-height: 360px;
   max-height: calc(100vh - 40px);
   overflow: auto;
@@ -28,17 +33,19 @@
 
 :local(.window) > header, :local(.window) > footer {
   background: #f7f9fc;
-  padding: 15px;
+  padding: var(--mgi-spacing);
 }
 
 :local(.window) > header {
-  margin: -15px -15px 25px -15px;
+  margin: calc(-1 * var(--mgi-spacing));
+  margin-bottom: var(--mgi-spacing);
   text-align: center;
-  font-size: 22px;
+  font-size: var(--mgi-modal-header-font-size);
 }
 
 :local(.window) > footer {
-  margin: 25px -15px -15px -15px;
+  margin: calc(-1 * var(--mgi-spacing));
+  margin-top: var(--mgi-spacing);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -62,4 +69,10 @@
   cursor: pointer;
   padding: 0;
   border: 0;
+}
+
+@media (max-width: 769px) {
+  :root {
+    --mgi-modal-header-font-size: 16px;
+  }
 }

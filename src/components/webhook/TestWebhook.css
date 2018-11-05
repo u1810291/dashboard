@@ -1,3 +1,8 @@
+:root {
+  --mgi-card-expandable-details-spacing: 15px 20px 15px 20px;
+  --mgi-card-expandable-info-spacing: 0 20px;
+}
+
 :local(.testWebhookContainer) .test-webhook-card {
   margin-bottom: 15px;
 }
@@ -5,24 +10,24 @@
 :local(.testWebhookContainer) .test-webhook-card-info {
   width: 100%;
   height: 55px;
-  padding: 0 20px;
+  padding: var(--mgi-card-expandable-info-spacing);
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 
-:local(.testWebhookContainer) .test-webhook-card .test-webhook-card-types {
+:local(.testWebhookContainer) .test-webhook-card-types {
   min-width: 40%;
   flex: 2
 }
 
-:local(.testWebhookContainer) .test-webhook-card .test-webhook-card-name {
+:local(.testWebhookContainer) .test-webhook-card-name {
   flex: 1
 }
 
-:local(.testWebhookContainer) .test-webhook-card .test-webhook-card-details {
+:local(.testWebhookContainer) .test-webhook-card-details {
   width: 100%;
-  padding: 15px 20px 15px 20px;
+  padding: var(--mgi-card-expandable-details-spacing);
 }
 
 :local(.testWebhookContainer) .test-webhook-card-details-pictures {
@@ -49,15 +54,28 @@
   padding-bottom: 7px;
 }
 
-:local(.testWebhookContainer) .test-webhook-card-expand {
-  padding-right: 15px;
-  cursor: pointer;
-}
-
 :local(.faceMatchStatus) {
   font-size: 11px;
   line-height: 1.4;
   font-weight: bold;
   text-transform: uppercase;
   text-align: center;
+}
+
+@media (max-width: 769px) {
+  :root {
+    --mgi-card-expandable-details-spacing: 10px 15px 10px 15px;
+    --mgi-card-expandable-info-spacing: 0 15px;
+  }
+
+  :local(.testWebhookContainer) .test-webhook-card-details-pictures {
+    flex-direction: column;
+    margin-right: 0;
+  }
+
+  :local(.testWebhookContainer) .test-webhook-card-details-picture {
+    width: auto;
+    padding-right: 0;
+    padding-bottom: 24px;
+  }
 }

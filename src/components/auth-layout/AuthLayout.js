@@ -1,5 +1,6 @@
 import React from 'react'
 import { Helmet } from "react-helmet"
+import MediaQuery from 'react-responsive'
 import CSS from './AuthLayout.css'
 
 export default class AuthLayout extends React.Component {
@@ -9,8 +10,9 @@ export default class AuthLayout extends React.Component {
         <Helmet>
           <title>Mati Dashboard</title>
         </Helmet>
-        <div className={CSS.layoutBackground}>
-        </div>
+        <MediaQuery query="(min-width: 769px)">
+          <div className={CSS.layoutBackground} />
+        </MediaQuery>
         <div className={CSS.layoutContent}>
           {this.props.children}
         </div>

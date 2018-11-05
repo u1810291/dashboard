@@ -1,5 +1,6 @@
+
 :local(.content) > section {
-  margin-bottom: 38px;
+  margin-bottom: var(--mgi-spacing);
 }
 
 :local(.sidebar) {
@@ -15,8 +16,7 @@
 }
 
 :local(.integrationCodeModal) {
-  min-width: 700px;
-  min-height: 500px;
+  /* min-height: 500px; */
 }
 
 :local(.integrationCodeModal) main {
@@ -25,4 +25,20 @@
 
 :local(.matiButton) {
   padding-bottom: 25px;
+}
+
+:local(.matiMobileButton) .mati-button, :local(.matiMobileButton) .mati-container {
+  min-width: inherit!important;
+  width: 100%;
+}
+
+:local(.mobileShowIntegration) {
+  width: 100%;
+  margin-bottom: calc(2 * var(--mgi-spacing));
+}
+
+@media (max-width: 769px) {
+  :local(.integrationCodeModal) main {
+    padding: 0;
+  }
 }

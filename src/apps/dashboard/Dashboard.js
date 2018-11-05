@@ -8,10 +8,13 @@ import Button from 'src/components/button'
 import { OnboardingModal } from 'src/components/onboarding-modal'
 import { Onboarding } from '.'
 import { UpgradePlan } from '.'
+import { Identities } from '.'
 import { signOut } from 'src/state/auth'
 import { getMerchant, saveConfiguration } from 'src/state/merchant'
 import MatiLogo from 'src/assets/mati-logo.svg'
 import HomeIcon from 'src/assets/icon-home.svg'
+import HelpIcon from 'src/assets/icon-help.svg'
+import DocumentIcon from 'src/assets/icon-document.svg'
 import PricingIcon from 'src/assets/icon-pricing.svg'
 import CSS from './Dashboard.css'
 
@@ -32,7 +35,7 @@ export default class Dashboard extends React.Component {
 
   loadData() {
     this.props.getMerchant(this.props.token).catch(error => {
-      if (error.response.status === 401) this.handleSignOut()
+      if (error.response && error.response.status === 401) this.handleSignOut()
     })
   }
 
@@ -55,9 +58,19 @@ export default class Dashboard extends React.Component {
       <Link to="/dashboard" key="/dashboard">
         <img src={HomeIcon} alt="" />
       </Link>,
+      <Link to="/identities" key="/identities">
+        <img src={DocumentIcon} alt="" />
+      </Link>,
       <Link to="/upgrade" key="/upgrade">
         <img src={PricingIcon} alt="" />
       </Link>,
+      <a
+        href="https://github.com/MatiFace/mati-global-id-sdk"
+        target="_blank"
+        key="/help"
+        rel="noopener noreferrer">
+        <img src={HelpIcon} alt="" />
+      </a>,
       <Button
         key="signout"
         className={classNames('mgi-application-box-sidebar-bottom', CSS.signoutButton)}
@@ -76,6 +89,7 @@ export default class Dashboard extends React.Component {
           <title>Mati Dashboard</title>
         </Helmet>
         <Switch>
+          <Route exact path="/identities" component={Identities} />
           <Route exact path="/upgrade" component={UpgradePlan} />
           <Route path="/" component={Onboarding} />
         </Switch>

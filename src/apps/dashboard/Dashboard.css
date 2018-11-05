@@ -1,6 +1,6 @@
 :local(.signoutButton) {
-  font-size: 40px;
+  font-size: 2rem;
   color: #95A6BB;
   padding: 0;
-  height: 23px;
+  height: var(--mgi-application-box-menu-item-width);
 }
