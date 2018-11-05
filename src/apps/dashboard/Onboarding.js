@@ -209,7 +209,7 @@ export default class Onboarding extends React.Component {
             <MatiButton
               language={this.props.configuration.language}
               color={this.props.configuration.color}
-              clientId={this.props.clientId}
+              clientId={this.props.token}
               onSuccess={this.showDemoNotification}
               className={styles.matiButton}
             />
