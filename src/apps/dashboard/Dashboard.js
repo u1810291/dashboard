@@ -13,7 +13,6 @@ import { signOut } from 'src/state/auth'
 import { getMerchant, saveConfiguration } from 'src/state/merchant'
 import MatiLogo from 'src/assets/mati-logo.svg'
 import HomeIcon from 'src/assets/icon-home.svg'
-import HelpIcon from 'src/assets/icon-help.svg'
 import DocumentIcon from 'src/assets/icon-document.svg'
 import PricingIcon from 'src/assets/icon-pricing.svg'
 import CSS from './Dashboard.css'
@@ -64,13 +63,6 @@ export default class Dashboard extends React.Component {
       <Link to="/upgrade" key="/upgrade">
         <img src={PricingIcon} alt="" />
       </Link>,
-      <a
-        href="https://github.com/MatiFace/mati-global-id-sdk"
-        target="_blank"
-        key="/help"
-        rel="noopener noreferrer">
-        <img src={HelpIcon} alt="" />
-      </a>,
       <Button
         key="signout"
         className={classNames('mgi-application-box-sidebar-bottom', CSS.signoutButton)}

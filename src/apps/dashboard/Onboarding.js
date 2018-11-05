@@ -155,7 +155,7 @@ export default class Onboarding extends React.Component {
                 <img src={IntegrationIcon} alt="" />
                 <FormattedMessage id="onboarding.integrationCode.button" />
               </Button>
-{/*
+              {/*
               <SyntaxHighlighter
                 language="html"
                 copyToClipboard
@@ -236,6 +236,15 @@ export default class Onboarding extends React.Component {
               >
                 {this.props.integrationCode}
               </SyntaxHighlighter>
+              <small>
+                <a
+                  href="https://github.com/MatiFace/mati-global-id-sdk"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Check out our mobile SDK
+                </a>
+              </small>
             </main>
             <footer className="modal--footer-transparent modal--footer-center">
               <Button buttonStyle="primary" onClick={this.closeIntegrationCode}>

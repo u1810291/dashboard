@@ -52,6 +52,7 @@
 }
 
 :local(.window) > footer.modal--footer-transparent {
+  margin-top: 0;
   background: transparent;
 }
 
