@@ -7,7 +7,7 @@
 
 :local(.layoutContent) {
   width: 505px;
-  padding: var(--mgi-section-spacing);
+  padding: var(--mgi-spacing);
   margin: 0 auto;
 }
 

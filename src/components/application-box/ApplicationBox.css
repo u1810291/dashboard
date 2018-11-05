@@ -13,7 +13,7 @@
 }
 
 :local(.menu) {
-  flex-shrink: 0;
+  /* flex-shrink: 0; */
   display: flex;
   position: fixed;
   flex-direction: column;
@@ -50,9 +50,10 @@
 }
 
 :local(.contentWrapper) {
+  width: calc(100% - var(--mgi-application-box-menu-width));
+  box-sizing: border-box;
   flex: 1;
-  overflow-y: scroll;
-  padding-left: var(--mgi-application-box-menu-width);
+  margin-left: var(--mgi-application-box-menu-width);
 }
 
 :local(.contentSubWrapper) {
@@ -67,7 +68,7 @@
 }
 
 :local(.sidebar), :local(.content) {
-  padding: var(--mgi-section-spacing);
+  padding: var(--mgi-spacing);
 }
 
 :local(.sidebar) {

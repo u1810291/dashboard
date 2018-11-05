@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { startCase, flatten, uniq } from 'lodash'
+import { startCase, flatten, uniq, get } from 'lodash'
+import MediaQuery from 'react-responsive'
 import { getIdentities } from 'src/state/identities'
 import { AVAILABLE_DOCUMENT_TYPES } from 'src/state/merchant'
 import { Content } from 'src/components/application-box'
@@ -78,10 +79,12 @@ export default class Identities extends React.Component {
                   )}
                 </strong>
               </div>
-              <div className={CSS.infoDocumentTypes}>
-                <DocumentTypesLabel types={getDoumentTypes(identity.facematchScore)} />
-              </div>
-              <div>{new Date(identity.dateCreated).toLocaleDateString()}</div>
+              <MediaQuery query="(min-width: 769px)">
+                <div className={CSS.infoDocumentTypes}>
+                  <DocumentTypesLabel types={getDoumentTypes(identity.facematchScore)} />
+                </div>
+                <div>{new Date(identity.dateCreated).toLocaleDateString()}</div>
+              </MediaQuery>
             </React.Fragment>
           )
 
@@ -91,10 +94,12 @@ export default class Identities extends React.Component {
               .then(documents => (
                 <React.Fragment>
                   <CardExpandable.Detail className={CSS.cardImages}>
-                    <PicturePreview
-                      type="face"
-                      href={authorizedUrl(identity._links.photo.href + '.jpg', this.props.token)}
-                    />
+                    {get(identity, "_links.photo.href") && (
+                      <PicturePreview
+                        type="face"
+                        href={authorizedUrl(identity._links.photo.href + '.jpg', this.props.token)}
+                      />
+                    )}
                     {documents.map(doc => (
                       <PicturePreview
                         type={doc.type}

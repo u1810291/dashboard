@@ -6,7 +6,7 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
 :root {
   --mgi-theme-font-size: 18px;
   --mgi-theme-color-secondary: #909090;
-  --mgi-section-spacing: 1.66rem;
+  --mgi-spacing: 1.66rem;
   --mgi-theme-caption-font-size: 12px;
 }
 
@@ -92,11 +92,11 @@ h3 small {
 
 section.mgi-section-separated {
   margin-bottom: 0;
-  padding-bottom: var(--mgi-section-spacing);
+  padding-bottom: var(--mgi-spacing);
 }
 
 section.mgi-section-separated:not(:first-of-type) {
-  padding-top: var(--mgi-section-spacing);
+  padding-top: var(--mgi-spacing);
 }
 
 section.mgi-section-separated:not(:last-of-type) {
@@ -107,6 +107,6 @@ section.mgi-section-separated:not(:last-of-type) {
   :root {
     --mgi-theme-font-size: 15px;
     --mgi-theme-caption-font-size: 11px;
-    --mgi-section-spacing: 1rem;
+    --mgi-spacing: 1rem;
   }
 }
