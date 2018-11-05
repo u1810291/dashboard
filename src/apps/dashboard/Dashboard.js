@@ -64,7 +64,11 @@ export default class Dashboard extends React.Component {
       <Link to="/upgrade" key="/upgrade">
         <img src={PricingIcon} alt="" />
       </Link>,
-      <a href="https://github.com/MatiFace/mati-global-id-sdk" target="_blank" key="/help">
+      <a
+        href="https://github.com/MatiFace/mati-global-id-sdk"
+        target="_blank"
+        key="/help"
+        rel="noopener noreferrer">
         <img src={HelpIcon} alt="" />
       </a>,
       <Button
