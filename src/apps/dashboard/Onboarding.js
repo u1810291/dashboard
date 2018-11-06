@@ -115,145 +115,140 @@ export default class Onboarding extends React.Component {
         onClick={this.updateConfiguration}
       />
     ]
-    let stepsIndex = 0
+    let stepsIndex
     const getIndex = () => `${++stepsIndex}. `
+    const resetIndex = () => { stepsIndex = 0 }
     return (
-      <React.Fragment>
-        <Content className={styles.content}>
-          <section>
-            <h2>
-              {getIndex()}
-              <FormattedMessage id="onboarding.flow.title" />
-            </h2>
-            {flowSteps.map((step, index) => (
-              <section className="mgi-section-separated" key={index}>
-                {step}
+      <MediaQuery query="(max-width: 769px)">
+        {mobile => (
+          <React.Fragment>
+            <Content className={styles.content}>
+              {resetIndex()}
+              <section>
+                <h2>
+                  {getIndex()}
+                  <FormattedMessage id="onboarding.flow.title" />
+                </h2>
+                {flowSteps.map((step, index) => (
+                  <section className="mgi-section-separated" key={index}>
+                    {step}
+                  </section>
+                ))}
               </section>
-            ))}
-          </section>
-          <MediaQuery query="(max-width: 769px)">
-            <section>
-              <h2>
-                {getIndex()}
-                <FormattedMessage id="onboarding.demo.title" />
-              </h2>
-              <p>
-                <FormattedMessage id="onboarding.demo.help-text" />
-              </p>
-              <MatiButton
-                language={this.props.configuration.language}
-                color={this.props.configuration.color}
-                clientId={this.props.token}
-                onSuccess={this.showDemoNotification}
-                className={styles.matiMobileButton}
-                responsive
-              />
-              <p>
-                <FormattedMessage id="onboarding.integrationCode.modalTitle" />
-              </p>
-              <Button onClick={this.toggleIntegrationCode} className={styles.mobileShowIntegration}>
-                <img src={IntegrationIcon} alt="" />
-                <FormattedMessage id="onboarding.integrationCode.button" />
-              </Button>
-              {/*
-              <SyntaxHighlighter
-                language="html"
-                copyToClipboard
-                lineNumbers={false}
-                copyNotification={this.props.intl.formatMessage({
-                  id: 'onboarding.integrationCode.confirmation'
-                })}
-              >
-                {this.props.integrationCode || ""}
-              </SyntaxHighlighter> */}
-            </section>
-          </MediaQuery>
-          <section>
-            <h2>
-              {getIndex()}
-              <FormattedMessage id="onboarding.webhook.title" />
-            </h2>
-            <TestWebhook webhooks={this.props.testWebhooks} />
-          </section>
-          <section>
-            <h2>
-              {getIndex()}
-              <FormattedMessage id="onboarding.webhookUrl.title" />
-            </h2>
-            <WebhookURLForm
-              subscribeToWebhook={this.handleSubscribeToWebhook}
-              url={this.props.lastWebhook.url}
-            />
-          </section>
-          <section>
-            <h2>
-              {getIndex()}
-              <FormattedMessage id="onboarding.pricing.title" />
-            </h2>
-            <p>
-              <FormattedMessage id="onboarding.pricing.text" />{' '}
-              <Link to="/upgrade">
-                <FormattedMessage id="onboarding.pricing.link" />
-              </Link>
-            </p>
-          </section>
-        </Content>
-        <MediaQuery query="(min-width: 769px)">
-          <Sidebar className={styles.sidebar}>
-            <h3>
-              <FormattedMessage id="onboarding.demo.title" />
-            </h3>
-            <p className="text-secondary">
-              <FormattedMessage id="onboarding.demo.help-text" />
-            </p>
-            <MatiButton
-              language={this.props.configuration.language}
-              color={this.props.configuration.color}
-              clientId={this.props.token}
-              onSuccess={this.showDemoNotification}
-              className={styles.matiButton}
-            />
-            <div className={styles.showIntegrationCodeButton}>
-              <Button onClick={this.toggleIntegrationCode}>
-                <img src={IntegrationIcon} alt="" />
-                <FormattedMessage id="onboarding.integrationCode.button" />
-              </Button>
-            </div>
-          </Sidebar>
-        </MediaQuery>
-        {!this.state.hideIntegrationCode && (
-          <Modal onClose={this.closeIntegrationCode} className={styles.integrationCodeModal}>
-            <header>
-              <FormattedMessage id="onboarding.integrationCode.modalTitle" />
-            </header>
-            <main>
-              <SyntaxHighlighter
-                language="html"
-                copyToClipboard
-                copyNotification={this.props.intl.formatMessage({
-                  id: 'onboarding.integrationCode.confirmation'
-                })}
-              >
-                {this.props.integrationCode}
-              </SyntaxHighlighter>
-              <small>
-                <a
-                  href="https://github.com/MatiFace/mati-global-id-sdk"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Check out our mobile SDK
-                </a>
-              </small>
-            </main>
-            <footer className="modal--footer-transparent modal--footer-center">
-              <Button buttonStyle="primary" onClick={this.closeIntegrationCode}>
-                <FormattedMessage id="got-it" />
-              </Button>
-            </footer>
-          </Modal>
+              { mobile && (
+                <section>
+                  <h2>
+                    {getIndex()}
+                    <FormattedMessage id="onboarding.demo.title" />
+                  </h2>
+                  <p>
+                    <FormattedMessage id="onboarding.demo.help-text" />
+                  </p>
+                  <MatiButton
+                    language={this.props.configuration.language}
+                    color={this.props.configuration.color}
+                    clientId={this.props.token}
+                    onSuccess={this.showDemoNotification}
+                    className={styles.matiMobileButton}
+                    responsive
+                  />
+                  <p>
+                    <FormattedMessage id="onboarding.integrationCode.modalTitle" />
+                  </p>
+                  <Button onClick={this.toggleIntegrationCode} className={styles.mobileShowIntegration}>
+                    <img src={IntegrationIcon} alt="" />
+                    <FormattedMessage id="onboarding.integrationCode.button" />
+                  </Button>
+                </section>
+              )}
+              <section>
+                <h2>
+                  {getIndex()}
+                  <FormattedMessage id="onboarding.webhook.title" />
+                </h2>
+                <TestWebhook webhooks={this.props.testWebhooks} />
+              </section>
+              <section>
+                <h2>
+                  {getIndex()}
+                  <FormattedMessage id="onboarding.webhookUrl.title" />
+                </h2>
+                <WebhookURLForm
+                  subscribeToWebhook={this.handleSubscribeToWebhook}
+                  url={this.props.lastWebhook.url}
+                />
+              </section>
+              <section>
+                <h2>
+                  {getIndex()}
+                  <FormattedMessage id="onboarding.pricing.title" />
+                </h2>
+                <p>
+                  <FormattedMessage id="onboarding.pricing.text" />{' '}
+                  <Link to="/upgrade">
+                    <FormattedMessage id="onboarding.pricing.link" />
+                  </Link>
+                </p>
+              </section>
+            </Content>
+            {!mobile && (
+              <Sidebar className={styles.sidebar}>
+                <h3>
+                  <FormattedMessage id="onboarding.demo.title" />
+                </h3>
+                <p className="text-secondary">
+                  <FormattedMessage id="onboarding.demo.help-text" />
+                </p>
+                <MatiButton
+                  language={this.props.configuration.language}
+                  color={this.props.configuration.color}
+                  clientId={this.props.token}
+                  onSuccess={this.showDemoNotification}
+                  className={styles.matiButton}
+                />
+                <div className={styles.showIntegrationCodeButton}>
+                  <Button onClick={this.toggleIntegrationCode}>
+                    <img src={IntegrationIcon} alt="" />
+                    <FormattedMessage id="onboarding.integrationCode.button" />
+                  </Button>
+                </div>
+              </Sidebar>
+            )}
+            {!this.state.hideIntegrationCode && (
+              <Modal onClose={this.closeIntegrationCode} className={styles.integrationCodeModal}>
+                <header>
+                  <FormattedMessage id="onboarding.integrationCode.modalTitle" />
+                </header>
+                <main>
+                  <SyntaxHighlighter
+                    language="html"
+                    copyToClipboard
+                    copyNotification={this.props.intl.formatMessage({
+                      id: 'onboarding.integrationCode.confirmation'
+                    })}
+                  >
+                    {this.props.integrationCode}
+                  </SyntaxHighlighter>
+                  <small>
+                    <a
+                      href="https://github.com/MatiFace/mati-global-id-sdk"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Check out our mobile SDK
+                    </a>
+                  </small>
+                </main>
+                <footer className="modal--footer-transparent modal--footer-center">
+                  <Button buttonStyle="primary" onClick={this.closeIntegrationCode}>
+                    <FormattedMessage id="got-it" />
+                  </Button>
+                </footer>
+              </Modal>
+            )}
+          </React.Fragment>
         )}
-      </React.Fragment>
+      </MediaQuery>
     )
   }
 }
