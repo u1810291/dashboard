@@ -47,12 +47,13 @@ export const DocumentTypesLabel = ({ types }) => {
     ])
 }
 
+export default
 @connect(
   state => ({ identities: state.identities.identities, token: state.auth.token }),
   { getIdentities }
 )
 @injectIntl
-export default class Identities extends React.Component {
+class Identities extends React.Component {
   componentDidMount() {
     this.props.getIdentities(this.props.token)
   }

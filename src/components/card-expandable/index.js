@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import Card from 'src/components/card'
 import CSS from './CardExpandable.css'
-import carret from './carret.svg'
+import Carret from './carret.svg'
 
 export class CardExpandable extends React.Component {
   constructor(props) {
@@ -26,7 +26,7 @@ export class CardExpandable extends React.Component {
       <Card className={CSS.card}>
         <div className={CSS.cardInfo} onClick={this.handleExpand}>
           <div className={CSS.carret}>
-            <img src={carret} alt="" />
+            <Carret />
           </div>
           {this.props.info}
         </div>

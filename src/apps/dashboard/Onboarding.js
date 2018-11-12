@@ -33,6 +33,7 @@ import {
 import IntegrationIcon from 'src/assets/icon-integration.svg'
 import styles from './Onboarding.css'
 
+export default
 @injectIntl
 @connect(
   ({
@@ -49,7 +50,7 @@ import styles from './Onboarding.css'
     getIntegrationCode
   }
 )
-export default class Onboarding extends React.Component {
+class Onboarding extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -156,7 +157,7 @@ export default class Onboarding extends React.Component {
                     <FormattedMessage id="onboarding.integrationCode.modalTitle" />
                   </p>
                   <Button onClick={this.toggleIntegrationCode} className={styles.mobileShowIntegration}>
-                    <img src={IntegrationIcon} alt="" />
+                    <IntegrationIcon />
                     <FormattedMessage id="onboarding.integrationCode.button" />
                   </Button>
                 </section>
@@ -208,7 +209,7 @@ export default class Onboarding extends React.Component {
                 />
                 <div className={styles.showIntegrationCodeButton}>
                   <Button onClick={this.toggleIntegrationCode}>
-                    <img src={IntegrationIcon} alt="" />
+                    <IntegrationIcon />
                     <FormattedMessage id="onboarding.integrationCode.button" />
                   </Button>
                 </div>

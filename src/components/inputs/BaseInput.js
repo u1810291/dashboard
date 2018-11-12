@@ -5,9 +5,10 @@ import classNames from 'classnames'
 import { get } from 'lodash'
 import CSS from './Input.css'
 
+export default
 @injectIntl
 @withI18nContext
-export default class BaseInput extends React.Component {
+class BaseInput extends React.Component {
   render() {
     const {
       field,

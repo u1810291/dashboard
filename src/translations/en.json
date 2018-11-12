@@ -161,6 +161,12 @@
   "identities.fields.country": "Country",
   "identities.fields.documentNumber": "Document number",
   "identities.fields.emission": "Emission",
-  "identities.fields.fullName": "Full name"
+  "identities.fields.fullName": "Full name",
 
+  "dashboard.menu.identities": "Verification history",
+  "dashboard.menu.configuration": "Product configuration",
+  "dashboard.menu.account": "Account",
+  "dashboard.menu.developers": "Developers",
+  "dashboard.menu.upgrade": "Upgrade",
+  "dashboard.menu.signout": "Sign Out"
 }

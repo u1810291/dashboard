@@ -5,7 +5,9 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
 
 :root {
   --mgi-theme-font-size: 18px;
+  --mgi-theme-font-size-small: 14px;
   --mgi-theme-color-secondary: #909090;
+  --mgi-theme-color-active: #47A8E8;
   --mgi-spacing: 1.66rem;
   --mgi-theme-caption-font-size: 12px;
 }
@@ -29,12 +31,16 @@ body {
 
 /* Move the rest of this file to the mgi theme */
 
+img {
+  display: flex;
+}
+
 p {
   margin-bottom: 0.8em;
 }
 
 small {
-  font-size: 14px;
+  font-size: var(--mgi-theme-font-size-small);
   line-height: 1.5em;
 }
 
@@ -66,7 +72,7 @@ strong {
 }
 
 a {
-  color: #2196F3;
+  color: #47A8E8;
   text-decoration: none;
 }
 

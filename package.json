@@ -18,24 +18,30 @@
     "react-redux": "^5.0.7",
     "react-responsive": "^6.0.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.5",
+    "react-scripts": "2.1.1",
     "react-syntax-highlighter": "^8.0.1",
     "redux": "^4.0.0",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "start": "craco start",
+    "build": "craco build",
     "build:staging": "env-cmd .env.staging npm run build",
     "build:production": "env-cmd .env.production npm run build",
-    "test": "react-app-rewired test --env=jsdom",
-    "eject": "react-app-rewired eject"
+    "test": "craco test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "babel-plugin-transform-decorators": "^6.24.1",
-    "babel-plugin-transform-decorators-legacy": "^1.3.5",
-    "nwb": "^0.23.0",
-    "react-app-rewired": "^1.6.2"
-  }
+    "@babel/plugin-proposal-decorators": "^7.1.2",
+    "@craco/craco": "^2.2.1",
+    "babel-plugin-inline-react-svg": "^1.0.1",
+    "babel-plugin-module-resolver": "^3.1.1"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

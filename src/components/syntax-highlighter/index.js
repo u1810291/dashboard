@@ -7,7 +7,7 @@ import { sendNotification } from 'src/components/notification'
 import { default as lightStyle } from './light'
 import { default as darkStyle } from './dark'
 import CSS from './SyntaxHighlighter.css'
-import icon from './copy-icon.svg'
+import Icon from './copy-icon.svg'
 
 function handleCopyToClipboard(text, notification) {
   clipboard.writeText(text)
@@ -38,7 +38,7 @@ export const SyntaxHighlighter = ({
           buttonStyle="no-borders default text-secondary"
           onClick={() => handleCopyToClipboard(children, copyNotification)}
         >
-          <img src={icon} alt="" />
+          <Icon />
           <span className="text-caption text-info">
             <FormattedMessage id="copy-to-clipboard"/>
           </span>

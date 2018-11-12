@@ -25,9 +25,10 @@ const formikSettings = {
   }
 }
 
+export default
 @setI18nContext('onboarding.webhooks')
 @withFormik(formikSettings)
-export default class WebhookURLForm extends React.Component {
+class WebhookURLForm extends React.Component {
   render() {
     return (
       <Form className={CSS.form}>
