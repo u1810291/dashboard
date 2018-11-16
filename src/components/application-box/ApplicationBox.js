@@ -37,7 +37,7 @@ export function MenuItemLink({ children, to, label, icon, external = false }) {
     if (props.to) {
       if (props.external) {
         return (
-          <a {...props} href={props.to} target="_blank" without rel="noopener noreferrer" >
+          <a {...props} href={props.to} target="_blank" rel="noopener noreferrer">
             {props.children}
           </a>
         )

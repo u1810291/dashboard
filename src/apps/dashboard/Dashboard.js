@@ -11,9 +11,9 @@ import ApplicationBox, {
   MenuItemCollection
 } from 'src/components/application-box'
 import { OnboardingModal } from 'src/components/onboarding-modal'
-import { Onboarding } from '.'
-import { UpgradePlan } from '.'
-import { Identities } from '.'
+import { Configuration } from 'src/apps/configuration'
+import UpgradePlan from './UpgradePlan'
+import Identities from './Identities'
 import { signOut } from 'src/state/auth'
 import { getMerchant, saveConfiguration } from 'src/state/merchant'
 import MatiLogo from 'src/assets/mati-logo.svg'
@@ -108,7 +108,7 @@ class Dashboard extends React.Component {
           <Switch>
             <Route exact path="/identities" component={Identities} />
             <Route exact path="/upgrade" component={UpgradePlan} />
-            <Route path="/" component={Onboarding} />
+            <Route path="/" component={Configuration} />
           </Switch>
         </ApplicationBox>
       </React.Fragment>

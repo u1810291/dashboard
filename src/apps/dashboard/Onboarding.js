@@ -136,85 +136,28 @@ class Onboarding extends React.Component {
                   </section>
                 ))}
               </section>
-              { mobile && (
-                <section>
-                  <h2>
-                    {getIndex()}
-                    <FormattedMessage id="onboarding.demo.title" />
-                  </h2>
-                  <p>
-                    <FormattedMessage id="onboarding.demo.help-text" />
-                  </p>
-                  <MatiButton
-                    language={this.props.configuration.language}
-                    color={this.props.configuration.color}
-                    clientId={this.props.token}
-                    onSuccess={this.showDemoNotification}
-                    className={styles.matiMobileButton}
-                    responsive
-                  />
-                  <p>
-                    <FormattedMessage id="onboarding.integrationCode.modalTitle" />
-                  </p>
-                  <Button onClick={this.toggleIntegrationCode} className={styles.mobileShowIntegration}>
-                    <IntegrationIcon />
-                    <FormattedMessage id="onboarding.integrationCode.button" />
-                  </Button>
-                </section>
-              )}
-              <section>
-                <h2>
-                  {getIndex()}
-                  <FormattedMessage id="onboarding.webhook.title" />
-                </h2>
-                <TestWebhook webhooks={this.props.testWebhooks} />
-              </section>
-              <section>
-                <h2>
-                  {getIndex()}
-                  <FormattedMessage id="onboarding.webhookUrl.title" />
-                </h2>
-                <WebhookURLForm
-                  subscribeToWebhook={this.handleSubscribeToWebhook}
-                  url={this.props.lastWebhook.url}
-                />
-              </section>
-              <section>
-                <h2>
-                  {getIndex()}
-                  <FormattedMessage id="onboarding.pricing.title" />
-                </h2>
-                <p>
-                  <FormattedMessage id="onboarding.pricing.text" />{' '}
-                  <Link to="/upgrade">
-                    <FormattedMessage id="onboarding.pricing.link" />
-                  </Link>
-                </p>
-              </section>
             </Content>
-            {!mobile && (
-              <Sidebar className={styles.sidebar}>
-                <h3>
-                  <FormattedMessage id="onboarding.demo.title" />
-                </h3>
-                <p className="text-secondary">
-                  <FormattedMessage id="onboarding.demo.help-text" />
-                </p>
-                <MatiButton
-                  language={this.props.configuration.language}
-                  color={this.props.configuration.color}
-                  clientId={this.props.token}
-                  onSuccess={this.showDemoNotification}
-                  className={styles.matiButton}
-                />
-                <div className={styles.showIntegrationCodeButton}>
-                  <Button onClick={this.toggleIntegrationCode}>
-                    <IntegrationIcon />
-                    <FormattedMessage id="onboarding.integrationCode.button" />
-                  </Button>
-                </div>
-              </Sidebar>
-            )}
+            <Sidebar className={styles.sidebar}>
+              <h3>
+                <FormattedMessage id="onboarding.demo.title" />
+              </h3>
+              <p className="text-secondary">
+                <FormattedMessage id="onboarding.demo.help-text" />
+              </p>
+              <MatiButton
+                language={this.props.configuration.language}
+                color={this.props.configuration.color}
+                clientId={this.props.token}
+                onSuccess={this.showDemoNotification}
+                className={styles.matiButton}
+              />
+              <div className={styles.showIntegrationCodeButton}>
+                <Button onClick={this.toggleIntegrationCode}>
+                  <IntegrationIcon />
+                  <FormattedMessage id="onboarding.integrationCode.button" />
+                </Button>
+              </div>
+            </Sidebar>
             {!this.state.hideIntegrationCode && (
               <Modal onClose={this.closeIntegrationCode} className={styles.integrationCodeModal}>
                 <header>

@@ -54,6 +54,9 @@ export class MatiButton extends React.Component {
   }
 
   componentDidMount() {
+    if (!window.Mati) {
+      return
+    }
     this.renderButton()
     window.Mati.on('mati:success', this.props.onSuccess)
   }

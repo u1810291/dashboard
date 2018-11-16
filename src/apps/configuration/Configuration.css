@@ -1,0 +1,50 @@
+
+:local(.content) > section {
+  margin-bottom: var(--mgi-spacing);
+}
+
+:local(.sidebar) {
+  display: flex;
+  flex-direction: column;
+  align-items:stretch;
+  justify-content: space-between;
+}
+
+:local(.showIntegrationCodeButton) button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+:local(.integrationCodeModal) {
+  /* min-height: 500px; */
+}
+
+:local(.matiButtonConfiguration) {
+  display: flex;
+  justify-content: center;
+}
+
+:local(.integrationCodeModal) main {
+  padding: 0 45px;
+}
+
+:local(.matiButton) {
+  padding-bottom: 25px;
+}
+
+:local(.matiMobileButton) .mati-button, :local(.matiMobileButton) .mati-container {
+  min-width: inherit!important;
+  width: 100%;
+}
+
+:local(.mobileShowIntegration) {
+  width: 100%;
+  margin-bottom: calc(2 * var(--mgi-spacing));
+}
+
+@media (max-width: 769px) {
+  :local(.integrationCodeModal) main {
+    padding: 0;
+  }
+}

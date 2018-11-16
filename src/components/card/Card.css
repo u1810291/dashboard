@@ -53,7 +53,6 @@
 }
 
 :local(.card).selected {
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
   border-color: var(--mgi-card-border-color-blue);
 }
 

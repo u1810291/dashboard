@@ -26,6 +26,8 @@ export const AVAILABLE_DOCUMENT_TYPES = [
   'proof-of-residency'
 ]
 
+export const MANDATORY_DOCUMENT_TYPES = ['liveness']
+
 export const AVAILABLE_LANGUAGES = [
   'en',
   'es',
@@ -80,13 +82,14 @@ export function getIntegrationCode(token) {
 
 export function saveConfiguration(token, configuration) {
   return function(dispatch) {
-    dispatch({ type: types.CONFIGURATION_SAVE_REQUEST })
     const oldConfiguration = store.getState().merchant.configuration
     const newConfiguration = {
       ...oldConfiguration,
       ...configuration,
       version: (parseInt(oldConfiguration.version, 10) || 0) + 1
     }
+
+    dispatch({ type: types.CONFIGURATION_SAVE_REQUEST, configuration: newConfiguration })
 
     return client.merchant.saveConfiguration(token, newConfiguration)
     .then(payload => {
@@ -145,6 +148,13 @@ const reducer = createReducer(initialState, {
     return {
       ...state,
       integrationCode: payload.data
+    }
+  },
+
+  [types.CONFIGURATION_SAVE_REQUEST]: function(state, { configuration }) {
+    return {
+      ...state,
+      configuration
     }
   },
 
