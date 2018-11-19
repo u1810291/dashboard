@@ -30,7 +30,7 @@ pipelines:
           name: Run test on Jenkins
           script:
             - curl 'http://apiuser:P8qSGrw9XX7T@jenkins.mati.io/job/QA/job/Dashboard-GlobalID-production-test/build?token=lksfsduhf8rfjwfh7hvc7sfksfksfijf'
-    develop:
+    develop_:
       - step:
           name: Build
           deployment: staging
