@@ -39,4 +39,4 @@ pipelines:
           script:
             - yarn
             - yarn build:staging
-            - curl 'http://apiuser:P8qSGrw9XX7T@jenkins.mati.io/buildWithParameters?token=dndhc752gfd0cjdcysdgfwdvskjdg8ujdemf'
+            - curl 'http://apiuser:P8qSGrw9XX7T@jenkins.mati.io/job/WebApps-deployment/job/mgi-dashboard-staging/build?token=dndhc752gfd0cjdcysdgfwdvskjdg8ujdemf'
