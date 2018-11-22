@@ -1,5 +1,4 @@
 :root {
-  --mgi-secondary-background-color: #F7F7FA;
   --mgi-application-box-menu-height: 60px;
   --mgi-application-box-menu-logo-width: 60px;
   --mgi-application-box-menu-item-spacing: 30px;
@@ -26,6 +25,7 @@
   display: flex;
   align-items: center;
   padding: 0 var(--mgi-application-box-spacing);
+  z-index: 2;
 }
 
 :local(.menuItem):not(:last-child) {
@@ -69,6 +69,7 @@
   width: 100%;
   box-sizing: border-box;
   flex: 1;
+  background: var(--mgi-theme-palette-lighter);
 }
 
 :local(.contentSubWrapper) {
@@ -89,7 +90,6 @@
 
 :local(.sidebar) {
   width: 483px;
-  background: var(--mgi-secondary-background-color);
   padding: var(--mgi-spacing);
 }
 

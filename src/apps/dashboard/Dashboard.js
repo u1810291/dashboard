@@ -13,7 +13,7 @@ import ApplicationBox, {
 import { OnboardingModal } from 'src/components/onboarding-modal'
 import { Configuration } from 'src/apps/configuration'
 import UpgradePlan from './UpgradePlan'
-import Identities from './Identities'
+import VerificationHistory from 'src/apps/verification-history'
 import { signOut } from 'src/state/auth'
 import { getMerchant, saveConfiguration } from 'src/state/merchant'
 import MatiLogo from 'src/assets/mati-logo.svg'
@@ -64,7 +64,7 @@ class Dashboard extends React.Component {
           <MatiLogo />
         </MenuItemLink>
         <MenuItemLink
-          to="/identities"
+          to="/verifications"
           label={formatMessage({ id: 'dashboard.menu.identities' })}
           icon={<IdentitiesIcon />}
         />
@@ -106,7 +106,7 @@ class Dashboard extends React.Component {
         </Helmet>
         <ApplicationBox menu={this.renderMenu()}>
           <Switch>
-            <Route exact path="/identities" component={Identities} />
+            <Route exact path="/verifications" component={VerificationHistory} />
             <Route exact path="/upgrade" component={UpgradePlan} />
             <Route path="/" component={Configuration} />
           </Switch>

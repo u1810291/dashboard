@@ -1,4 +1,9 @@
+import { isEmpty } from 'lodash';
 import { createReducer, createTypesSequence } from 'src/state/utils'
+import {
+  buildInitialMonthlyIdentities,
+  computeMonthlyStatisticsForIdentities
+} from './analytics'
 import client from 'src/lib/client'
 
 window.client = client
@@ -54,16 +59,22 @@ export function getDocumentPictures(token, id) {
 }
 
 const initialState = {
-  identities: []
+  identities: [],
+  monthlyIdentities: buildInitialMonthlyIdentities(12)
 }
 
 const reducer = createReducer(initialState, {
   [types.IDENTITY_LIST_SUCCESS]: function(state, { payload }) {
+    const monthlyIdentities = isEmpty(payload.data)
+      ? buildInitialMonthlyIdentities(12)
+      : computeMonthlyStatisticsForIdentities(payload.data)
+      
     return {
       ...state,
-      identities: payload.data
+      identities: payload.data,
+      monthlyIdentities
     }
-  },
+  }
 })
 
 export default reducer

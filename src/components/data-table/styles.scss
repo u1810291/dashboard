@@ -1,0 +1,38 @@
+:root {
+  --mgi-table-row-height: 50px;
+}
+
+:local(.table) {
+  width: 100%;
+  table-layout: fixed;
+
+  td, th {
+    height: var(--mgi-table-row-height);
+    padding: 0 var(--mgi-spacing);
+    vertical-align: middle;
+  }
+
+  thead {
+    th {
+      text-align: left;
+      font-weight: 600;
+      height: calc(.75 * var(--mgi-table-row-height));
+    }
+
+    tr {
+      border-bottom: 2px solid var(--mgi-theme-palette-light);
+    }
+  }
+
+  tbody {
+    font-size: var(--mgi-theme-font-size-small);
+
+    tr {
+      border-bottom: 1px solid var(--mgi-theme-palette-light);
+    }
+
+    tr:hover {
+      background-color: var(--mgi-theme-palette-lighter);
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "mdi-dashboard",
+  "name": "mati-dashboard",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -21,6 +21,7 @@
     "react-scripts": "2.1.1",
     "react-select": "^2.1.1",
     "react-syntax-highlighter": "^8.0.1",
+    "recharts": "^1.4.1",
     "redux": "^4.0.0",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0"
@@ -37,7 +38,9 @@
     "@babel/plugin-proposal-decorators": "^7.1.2",
     "@craco/craco": "^2.2.1",
     "babel-plugin-inline-react-svg": "^1.0.1",
-    "babel-plugin-module-resolver": "^3.1.1"
+    "babel-plugin-module-resolver": "^3.1.1",
+    "node-sass": "^4.10.0",
+    "react-styleguidist": "^8.0.5"
   },
   "browserslist": [
     ">0.2%",

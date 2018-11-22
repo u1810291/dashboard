@@ -67,7 +67,6 @@ class Identities extends React.Component {
           <FormattedMessage id="dashboard.title" />
         </h2>
         {this.props.identities.map(identity => {
-          console.log(identity)
           const info = (
             <React.Fragment>
               <div className={CSS.infoFullName}>

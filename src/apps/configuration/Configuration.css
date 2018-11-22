@@ -1,4 +1,6 @@
-
+:local(.content) {
+  background: white;
+}
 :local(.content) > section {
   margin-bottom: var(--mgi-spacing);
 }

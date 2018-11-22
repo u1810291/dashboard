@@ -1,0 +1,13 @@
+:local(.fullName) {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+
+  .verification-unknown-name {
+    color: var(--mgi-theme-color-secondary);
+  }
+
+  svg {
+    margin-left: .5rem;
+  }
+}

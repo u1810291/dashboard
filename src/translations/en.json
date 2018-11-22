@@ -8,6 +8,10 @@
   "got-it": "Got it",
   "copy-to-clipboard": "Copy to clipboard",
   "terms-of-conditions": "By clicking this button you agree on <a href=https://getmati.com/legal#terms target='_blank'>Terms and Conditions</a> and <a href=https://getmati.com/legal#privacy target='_blank'>Privacy Notice</p>",
+  "analytics": "Analytics",
+
+  "statuses.unverified": "Unverified",
+  "statuses.verified": "Verified",
 
   "recovery.title": "Recovery",
   "recovery.subtitle": "Please, provide your email address, to get a password reset link",
@@ -149,8 +153,8 @@
   "onboarding-modal.next": "Next",
   "onboarding-modal.close": "Skip",
 
-  "dashboard.title": "Verification history",
-  "dashboard.unknown-name": "Unknown",
+  "identities.title": "Verification history",
+  "identities.unknownName": "Incomplete identity",
   "identities.details.check": "check",
   "identities.details.webhook": "Webhook",
   "identities.fields.faceMatch": "Face match score",
@@ -161,11 +165,20 @@
   "identities.fields.documentNumber": "Document number",
   "identities.fields.emission": "Emission",
   "identities.fields.fullName": "Full name",
+  "identities.fields.documentTypes": "Document types",
+  "identities.fields.status": "Status",
+  "identities.fields.date": "Date",
+  "identities.fields.actions": "Actions",
+  "identities.total": "Total Verifications:",
 
   "dashboard.menu.identities": "Verification history",
   "dashboard.menu.configuration": "Product configuration",
   "dashboard.menu.account": "Account",
   "dashboard.menu.developers": "Developers",
   "dashboard.menu.upgrade": "Upgrade",
-  "dashboard.menu.signout": "Sign Out"
+  "dashboard.menu.signout": "Sign Out",
+
+  "users.all": "All users",
+  "users.verified": "Verified",
+  "users.verified_manually": "Manual review"
 }
