@@ -12,7 +12,7 @@ export default function Panel({ caption, children }) {
 }
 
 export function PanelBody({ children, padded = true }) {
-  return <div className={classNames(CSS.panelBody, { padded })}>{children}</div>
+  return <div className={classNames('panel-body', CSS.panelBody, { padded })}>{children}</div>
 }
 
 export function PanelHeader({ children }) {
