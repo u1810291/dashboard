@@ -8,10 +8,12 @@
 }
 
 :local(.panel) + :local(.panel) {
-  margin-top: 16px;
+  margin-top: calc(1.25 * var(--mgi-spacing));
 }
 
 :local(.panelHeader) {
+  display: flex;
+
   background-color: var(--mgi-panel-header-background);
   padding: var(--mgi-panel-padding);
 
@@ -20,6 +22,10 @@
 
   font-size: var(--mgi-theme-font-size-small);
   line-height: 17px;
+
+  & svg:first-child {
+    margin: 0.2rem 0.5rem 0 0;
+  }
 }
 
 :local(.panelBody) {
