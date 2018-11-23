@@ -34,9 +34,7 @@ class BaseInput extends React.Component {
 
     return (
       <div className={classNames(CSS.input, className)}>
-        {
-          !hideLabel && <label>{label || i18nLabel}</label>
-        }
+        {!hideLabel && <label className="text-caption">{label || i18nLabel}</label>}
         {renderer({
           placeholder: placeholder || i18nPlaceholder,
           ...field,

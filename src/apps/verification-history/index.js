@@ -1,18 +1,18 @@
-import React from "react"
-import { connect } from "react-redux"
-import { flatten, uniq } from "lodash"
-import { getIdentities } from "src/state/identities"
-import { FormattedMessage } from "react-intl"
-import { AVAILABLE_DOCUMENT_TYPES } from "src/state/merchant"
-import { Content } from "src/components/application-box"
-import Panel from "src/components/panel"
-import Chart from "src/components/chart"
-import ChartLegendItem from "src/components/chart/legend-item"
-import ChartTooltip from "src/components/chart/chart-tooltip"
-import DataTable from "src/components/data-table"
-import VerificationFullNameLabel from "src/components/verification-full-name-label"
-import DocumentTypesLabel from "src/components/document-types-label"
-import Status from "src/components/status-label"
+import React from 'react'
+import { connect } from 'react-redux'
+import { flatten, uniq } from 'lodash'
+import { getIdentities } from 'src/state/identities'
+import { FormattedMessage } from 'react-intl'
+import { AVAILABLE_DOCUMENT_TYPES } from 'src/state/merchant'
+import { Content } from 'src/components/application-box'
+import Panel from 'src/components/panel'
+import Chart from 'src/components/chart'
+import ChartLegendItem from 'src/components/chart/legend-item'
+import ChartTooltip from 'src/components/chart/chart-tooltip'
+import DataTable from 'src/components/data-table'
+import VerificationFullNameLabel from 'src/components/verification-full-name-label'
+import DocumentTypesLabel from 'src/components/document-types-label'
+import Status from 'src/components/status-label'
 
 function getDoсumentTypes(facematchScore) {
   return uniq(
@@ -47,7 +47,7 @@ const tableColumns = [
   },
   {
     label: <FormattedMessage id="identities.fields.actions" />,
-    content: identity => "..."
+    content: identity => '...'
   }
 ]
 
@@ -97,7 +97,7 @@ class VerificationHistory extends React.Component {
         </Panel>
         <Panel caption={<FormattedMessage id="analytics" />}>
           <Panel.Header>
-            <FormattedMessage id="identities.total" />{" "}
+            <FormattedMessage id="identities.total" />{' '}
             <strong>{this.props.identities.length}</strong>
           </Panel.Header>
           <Panel.Body>

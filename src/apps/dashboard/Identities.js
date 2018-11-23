@@ -94,7 +94,7 @@ class Identities extends React.Component {
               .then(documents => (
                 <React.Fragment>
                   <CardExpandable.Detail className={CSS.cardImages}>
-                    {get(identity, "_links.photo.href") && (
+                    {get(identity, '_links.photo.href') && (
                       <PicturePreview
                         type="face"
                         href={authorizedUrl(identity._links.photo.href + '.jpg', this.props.token)}

@@ -1,30 +1,65 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { injectIntl } from 'react-intl'
+import {
+  subscribeToWebhook,
+  deleteWebhook,
+  getWebhooks,
+  getWebhooksSamples
+} from 'src/state/webhooks'
+import { sendNotification } from 'src/components/notification'
 import { Content } from 'src/components/application-box'
+import { WebhookURLForm } from 'src/components/webhook-url-form'
 import Icons from 'src/components/icons'
 import { Tabs, TabList, Tab, TabPanel } from 'src/components/tabs'
 import classNames from 'classnames'
 import Panel from 'src/components/panel'
 import { Input } from 'src/components/inputs'
 import Button from 'src/components/button'
-import { withFormik, Field, Form } from 'formik'
+import CSS from './styles.scss'
 
 export default
 @connect(
-  state => ({}),
-  {}
+  ({ auth: { token }, webhooks: { lastWebhook, testWebhooks } }) => ({
+    token,
+    lastWebhook,
+    testWebhooks
+  }),
+  {
+    subscribeToWebhook,
+    deleteWebhook,
+    getWebhooks,
+    getWebhooksSamples
+  }
 )
-@withFormik({})
+@injectIntl
 class Developers extends React.Component {
+  handleSubscribeToWebhook = url => {
+    const {
+      token,
+      lastWebhook,
+      intl,
+      subscribeToWebhook,
+      deleteWebhook
+    } = this.props
+    if (lastWebhook.id) deleteWebhook(token, lastWebhook.id)
+    return subscribeToWebhook(token, { url }).then(() =>
+      sendNotification(intl.formatMessage({ id: 'webhookUrl.confirmation' }))
+    )
+  }
+
+  componentDidMount() {
+    this.props.getWebhooks(this.props.token)
+    this.props.getWebhooksSamples(this.props.token)
+  }
+
   render() {
     return (
       <Content>
         <Panel caption="Webhook">
           <Panel.Header>
-            <div>
-              <Icons.Info />
-            </div>
-            <span>
+            <Icons.Info />
+            <span className={CSS.webhookUrlHeader}>
               The weekhook is the way to receive the verification information on
               your backend. You will receive all user information: images of
               selfie & documents, document information (full name, document
@@ -34,16 +69,10 @@ class Developers extends React.Component {
             </span>
           </Panel.Header>
           <Panel.Body>
-            <Form>
-              <Field type="url" name="webhookURL" component={Input} />
-
-              <div>
-                <Button type="submit" buttonStyle="primary">
-                  Save changes
-                </Button>
-                <Button>Send sample Webhook</Button>
-              </div>
-            </Form>
+            <WebhookURLForm
+              subscribeToWebhook={this.handleSubscribeToWebhook}
+              url={this.props.lastWebhook.url}
+            />
           </Panel.Body>
         </Panel>
         <Panel caption="Developers integration sheet">
@@ -79,15 +108,6 @@ class Developers extends React.Component {
               Instruction here how to GET sample to fetch images in the webhook
               response
             </span>
-          </Panel.Header>
-          <Panel.Body />
-        </Panel>
-        <Panel caption="Mati verification link">
-          <Panel.Header>
-            <div>
-              <Icons.Info />{' '}
-            </div>
-            <span>You can send this link to users to verify them.</span>
           </Panel.Header>
           <Panel.Body />
         </Panel>
