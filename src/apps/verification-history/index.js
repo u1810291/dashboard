@@ -57,17 +57,17 @@ function VerificationsChartTooltip({ payload }) {
       <ChartLegendItem
         color="blue"
         label={<FormattedMessage id="users.all" />}
-        value={payload.value || 0}
+        value={String(payload.value || 0)}
       />
       <ChartLegendItem
         color="green"
         label={<FormattedMessage id="users.verified_manually" />}
-        value={String(payload.verified) || 0}
+        value={String(payload.verified || 0)}
       />
       <ChartLegendItem
         color="orange"
         label={<FormattedMessage id="users.verified_manually" />}
-        value={payload.unverified || 0}
+        value={String(payload.unverified || 0)}
       />
     </ChartTooltip>
   )
