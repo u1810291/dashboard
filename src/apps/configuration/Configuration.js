@@ -137,12 +137,8 @@ class Configuration extends React.Component {
               <SyntaxHighlighter
                 language="html"
                 copyToClipboard
-                copyNotification={this.props.intl.formatMessage({
-                  id: 'onboarding.integrationCode.confirmation'
-                })}
-              >
-                {this.props.integrationCode}
-              </SyntaxHighlighter>
+                code={this.props.integrationCode}
+              />
               <small>
                 <a
                   href="https://github.com/MatiFace/mati-global-id-sdk"

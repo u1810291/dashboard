@@ -1,0 +1,23 @@
+:root {
+  --mgi-verification-detail-photo-width: 236px;
+}
+
+:local(.photos) {
+  display: flex;
+  overflow-x: scroll;
+
+  > :not(:last-child) {
+    margin-right: var(--mgi-spacing);
+  }
+
+  > * {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  img {
+    max-width: var(--mgi-verification-detail-photo-width);
+    margin-bottom: 1rem
+  }
+}

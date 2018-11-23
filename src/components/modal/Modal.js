@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import CSS from './Modal.css'
 
-const modalRoot = document.getElementById('modalRoot')
-
 const ModalWindow = ({ children, className, onClose = () => {} }) => (
   <div
     className={CSS.overlay}
@@ -24,11 +22,12 @@ export class Modal extends React.Component {
   }
 
   componentDidMount() {
-    modalRoot.appendChild(this.modalContainer)
+    const modalRoot = document.getElementById('modalRoot')
+    modalRoot && modalRoot.appendChild(this.modalContainer)
   }
 
   componentWillUnmount() {
-    modalRoot.removeChild(this.modalContainer)
+    this.modalContainer && this.modalContainer.remove()
   }
 
   render() {

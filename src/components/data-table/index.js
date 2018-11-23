@@ -26,8 +26,8 @@ export default function DataTable({
       <tbody>
         {rows.map(element => (
           <tr>
-            {columns.map(({ content }) => (
-              <td>{content(element)}</td>
+            {columns.map(({ content, className }) => (
+              <td className={className}>{content(element)}</td>
             ))}
           </tr>
         ))}

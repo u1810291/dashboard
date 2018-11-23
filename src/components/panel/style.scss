@@ -1,5 +1,6 @@
 :root {
   --mgi-panel-padding: 17px 25px;
+  --mgi-panel-spacing: 16px;
   --mgi-panel-header-background: #f7f9fc;
 }
 
@@ -8,7 +9,7 @@
 }
 
 :local(.panel) + :local(.panel) {
-  margin-top: calc(1.25 * var(--mgi-spacing));
+  margin-top: var(--mgi-panel-spacing);
 }
 
 :local(.panelHeader) {

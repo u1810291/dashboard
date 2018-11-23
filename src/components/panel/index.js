@@ -2,21 +2,27 @@ import React from 'react'
 import classNames from 'classnames'
 import CSS from './style.scss'
 
-export default function Panel({ caption, children }) {
+export default function Panel({ caption, children, className }) {
   return (
-    <div className={CSS.panel}>
+    <div className={classNames(CSS.panel, className)}>
       {caption ? <h5>{caption}</h5> : null}
-      <div>{children}</div>
+      {children}
     </div>
   )
 }
 
-export function PanelBody({ children, padded = true }) {
-  return <div className={classNames(CSS.panelBody, { padded })}>{children}</div>
+export function PanelBody({ children, className, padded = true }) {
+  return (
+    <div className={classNames(CSS.panelBody, className, { padded })}>
+      {children}
+    </div>
+  )
 }
 
-export function PanelHeader({ children }) {
-  return <div className={CSS.panelHeader}>{children}</div>
+export function PanelHeader({ children, className }) {
+  return (
+    <div className={classNames(CSS.panelHeader, className)}>{children}</div>
+  )
 }
 
 Panel.Body = PanelBody

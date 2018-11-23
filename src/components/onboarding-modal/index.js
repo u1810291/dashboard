@@ -27,7 +27,7 @@ export class OnboardingModal extends React.Component {
   render() {
     return (
       <Modal onClose={this.props.onClose}>
-        <div className={CSS.modalContainer}>
+        <main className={CSS.modalContainer}>
           <img
             src={IMAGES[this.state.step]}
             alt=""
@@ -36,20 +36,20 @@ export class OnboardingModal extends React.Component {
           <label>
             <FormattedMessage id={`onboarding-modal.messages.step-${this.state.step}`} />
           </label>
-          <footer>
-            <Button
-              buttonStyle="no-borders default text-secondary"
-              className="close-button"
-              onClick={this.props.onClose}
-            >
-              <FormattedMessage id="onboarding-modal.close" />
-            </Button>
-            <Pager count={STEPS_COUNT} active={this.state.step} onClick={this.setStep} />
-            <Button buttonStyle="primary" onClick={() => this.setStep(this.state.step + 1)}>
-              <FormattedMessage id="onboarding-modal.next" />
-            </Button>
-          </footer>
-        </div>
+        </main>
+        <footer>
+          <Button
+            buttonStyle="no-borders default text-secondary"
+            className="close-button"
+            onClick={this.props.onClose}
+          >
+            <FormattedMessage id="onboarding-modal.close" />
+          </Button>
+          <Pager count={STEPS_COUNT} active={this.state.step} onClick={this.setStep} />
+          <Button buttonStyle="primary" onClick={() => this.setStep(this.state.step + 1)}>
+            <FormattedMessage id="onboarding-modal.next" />
+          </Button>
+        </footer>
       </Modal>
     )
   }
