@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import CSS from './style.css'
+import CSS from './style.scss'
 
 export default function Panel({ caption, children, className }) {
   return (

@@ -1,0 +1,9 @@
+:local(.webhookExamples) {
+  display: flex;
+}
+
+:local(.webhookExample) {
+  flex-grow: 1;
+  
+  padding: var(--mgi-spacing);
+}

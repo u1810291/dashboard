@@ -9,6 +9,11 @@
   "copy-to-clipboard": "Copy to clipboard",
   "terms-of-conditions": "By clicking this button you agree on <a href=https://getmati.com/legal#terms target='_blank'>Terms and Conditions</a> and <a href=https://getmati.com/legal#privacy target='_blank'>Privacy Notice</p>",
   "analytics": "Analytics",
+  "webhook": "Webhook",
+  "global_watchlist":"Global Watchlist",
+  "face_match": "Face Match",
+  "liveness": "Liveness",
+  "ocr_data": "OCR data",
 
   "statuses.unverified": "Unverified",
   "statuses.verified": "Verified",
@@ -97,9 +102,9 @@
   "flow.safetyProStep.globalWatchList": "Global Watchlist",
   "flow.safetyProStep.databaseValidation": "Database Validation (only in Mexico)",
   "flow.safetyProStep.liveness": "Biometric Liveness Check",
-  "webhookUrl.save": "Save",
+  "webhookUrl.save": "Save changes",
   "webhookUrl.confirmation": "Webhook URL was updated",
-  "onboarding.webhooks.labels.url": "Subscribe to webhook",
+  "onboarding.webhooks.labels.url": "Your Webhook URL",
   "onboarding.webhooks.placeholders.url": "https://yoursite.com/",
   "onboarding.integrationCode.button": "Show integration code",
   "onboarding.integrationCode.modalTitle": "Integrate code into your website",
@@ -196,5 +201,10 @@
 
   "users.all": "All users",
   "users.verified": "Verified",
-  "users.verified_manually": "Manual review"
+  "users.verified_manually": "Manual review",
+
+  "developers.webhook.form.description": "The webhook is the way to receive the verification information on your backend. You will receive all user information: images of selfie & documents, document information (full name, document number, face match, and more), liveness score, global watchlist, etc... With this information on your backend, you will be able to fully automate your verifiation flow.",
+  "developers.webhook.example.user.verified": "User got correctly verified",
+  "developers.webhook.example.user.found.watchlist": "User was found in a Global Watchlist",
+  "developers.webhook.example.header": "Developers integration sheet"
 }

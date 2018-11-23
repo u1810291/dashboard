@@ -32,7 +32,7 @@ class WebhookURLForm extends React.Component {
   render() {
     return (
       <Form className={CSS.form}>
-        <Field name="url" hideLabel className={CSS.input} component={Input} />
+        <Field name="url" className={CSS.input} component={Input} />
         <Button type="submit" buttonStyle="primary">
           <FormattedMessage id="webhookUrl.save" />
         </Button>
