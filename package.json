@@ -13,8 +13,6 @@
     "react-dom": "^16.4.2",
     "react-helmet": "^5.2.0",
     "react-intl": "^2.4.0",
-    "react-json-pretty": "^1.7.9",
-    "react-notification-system": "^0.2.17",
     "react-redux": "^5.0.7",
     "react-responsive": "^6.0.0",
     "react-router-dom": "^4.3.1",
@@ -33,13 +31,21 @@
     "build:staging": "env-cmd .env.staging npm run build",
     "build:production": "env-cmd .env.production npm run build",
     "test": "craco test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "yarn run eslint \"src/**/*.js\""
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.1.2",
-    "@craco/craco": "^2.2.1",
+    "@craco/craco": "^3.1.0",
+    "babel-eslint": "^9.0.0",
     "babel-plugin-inline-react-svg": "^1.0.1",
     "babel-plugin-module-resolver": "^3.1.1",
+    "eslint": "5.6.0",
+    "eslint-config-react-app": "^3.0.5",
+    "eslint-plugin-flowtype": "^3.2.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
     "node-sass": "^4.10.0",
     "react-styleguidist": "^8.0.5"
   },
