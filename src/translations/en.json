@@ -171,6 +171,22 @@
   "identities.fields.actions": "Actions",
   "identities.total": "Total Verifications:",
 
+  "verifirationModal.photos.caption": "Photos",
+  "verifirationModal.origin": "from",
+  "verifirationModal.n-a": "n/a",
+  "verifirationModal.header": "Verification details",
+  "verifirationModal.webhookResponse": "Webhook Response",
+  "verifirationModal.done": "Done",
+  "verifirationModal.back": "Back",
+  "verifirationModal.idcheck": "ID Check",
+  "verifirationModal.fields.face": "Selfie",
+  "verifirationModal.fields.liveness": "Selfie",
+  "verifirationModal.fields.driving-license": "Driving License",
+  "verifirationModal.fields.national-id": "National ID",
+  "verifirationModal.fields.passport": "Passport",
+  "verifirationModal.fields.proof-of-residency": "Proof of residency",
+
+
   "dashboard.menu.identities": "Verification history",
   "dashboard.menu.configuration": "Product configuration",
   "dashboard.menu.account": "Account",

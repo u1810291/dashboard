@@ -1,6 +1,7 @@
 import React from 'react'
 import { default as PrismSyntaxHighlighter } from 'react-syntax-highlighter/prism'
 import { FormattedMessage } from 'react-intl'
+import classNames from 'classnames'
 import clipboard from 'clipboard-polyfill'
 import Button from 'src/components/button'
 import { sendNotification } from 'src/components/notification'
@@ -11,32 +12,38 @@ import Icon from './copy-icon.svg'
 
 function handleCopyToClipboard(text, notification) {
   clipboard.writeText(text)
-  sendNotification(notification)
+  if (notification) {
+    sendNotification(notification)
+  }
 }
 
 export const SyntaxHighlighter = ({
   dark = true,
-  children,
+  code='',
   copyToClipboard = false,
-  copyNotification,
+  onCopy = () => {},
   lineNumbers = true,
+  wrapperClassName = undefined,
+  wrapperStyle = {},
   ...props
 }) => {
   const style = dark ? darkStyle : lightStyle
   return <div className={CSS.container}>
-    <PrismSyntaxHighlighter
-      style={style}
-      showLineNumbers={lineNumbers}
-      lineNumberContainerStyle={style.lineNumbers}
-      {...props}
-    >
-      {children}
-    </PrismSyntaxHighlighter>
+    <div className={classNames(CSS.wrapper, wrapperClassName)} style={wrapperStyle}>
+      <PrismSyntaxHighlighter
+        style={style}
+        showLineNumbers={lineNumbers}
+        lineNumberContainerStyle={style.lineNumbers}
+        {...props}
+      >
+        {code}
+      </PrismSyntaxHighlighter>
+    </div>
     {copyToClipboard && (
       <div className={CSS.copyToClipboard}>
         <Button
           buttonStyle="no-borders default text-secondary"
-          onClick={() => handleCopyToClipboard(children, copyNotification)}
+          onClick={() => handleCopyToClipboard(code, onCopy)}
         >
           <Icon />
           <span className="text-caption text-info">

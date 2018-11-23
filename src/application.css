@@ -57,7 +57,7 @@ small {
 }
 
 strong {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .text-secondary {
@@ -80,7 +80,8 @@ strong {
   text-transform: uppercase;
   font-size: var(--mgi-theme-caption-font-size);
   font-weight: 500;
-  line-height: 1.2;
+  /* keep it same as <small> */
+  line-height: 1.35rem;
   letter-spacing: 0.5px;
 }
 
