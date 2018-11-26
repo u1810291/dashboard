@@ -76,6 +76,10 @@ strong {
   color: #EB5757;
 }
 
+.text-warning {
+  color: var(--mgi-theme-palette-orange);
+}
+
 .text-caption {
   text-transform: uppercase;
   font-size: var(--mgi-theme-caption-font-size);
