@@ -206,5 +206,8 @@
   "developers.webhook.form.description": "The webhook is the way to receive the verification information on your backend. You will receive all user information: images of selfie & documents, document information (full name, document number, face match, and more), liveness score, global watchlist, etc... With this information on your backend, you will be able to fully automate your verifiation flow.",
   "developers.webhook.example.user.verified": "User got correctly verified",
   "developers.webhook.example.user.found.watchlist": "User was found in a Global Watchlist",
+  "developers.webhook.example.user.invalid.facematch": "User got flagged on document Face Match",
+  "developers.webhook.example.user.invalid.liveness": "User got flagged on Liveness",
+  "developers.webhook.example.user.invalid.ocr": "A field was missing on the document & document got flagged on doc authenticity",
   "developers.webhook.example.header": "Developers integration sheet"
 }
