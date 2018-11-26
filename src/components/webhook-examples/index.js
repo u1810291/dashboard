@@ -31,6 +31,7 @@ class extends Component {
                   </h5>
                   <SyntaxHighlighter
                     language="json"
+                    dark={false}
                     wrapperClassName={CSS['webhook-example__code-wrapper']}
                     code={tab.webhooks[0].response}
                   />
@@ -41,6 +42,7 @@ class extends Component {
                   </h5>
                   <SyntaxHighlighter
                     language="json"
+                    dark={false}
                     code={tab.webhooks[1].response}
                     wrapperClassName={CSS['webhook-example__code-wrapper']}
                     wrapLines={true}
