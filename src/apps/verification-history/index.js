@@ -123,7 +123,8 @@ class VerificationHistory extends React.Component {
           showVerificationModal: true,
           lastVerificationPhotos: photos,
           lastVerificationDocuments: documents,
-          lastVerificationWebhook: stringify(identity)
+          lastVerificationWebhook: stringify(identity),
+          lastVerificationFullName: identity.fullName
         })
       })
   }
@@ -177,7 +178,7 @@ class VerificationHistory extends React.Component {
         {this.state.showVerificationModal && (
           <VerificationModal
             onClose={() => this.setState({ showVerificationModal: false })}
-            fullName="Daniela Hernandez"
+            fullName={this.state.lastVerificationFullName}
             photos={this.state.lastVerificationPhotos}
             documents={this.state.lastVerificationDocuments}
             webhook={this.state.lastVerificationWebhook}

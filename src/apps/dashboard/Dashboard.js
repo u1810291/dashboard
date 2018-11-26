@@ -76,8 +76,7 @@ class Dashboard extends React.Component {
         />
         <MenuItemSpacer />
         <MenuItemLink
-          to="https://github.com/MatiFace/mati-global-id-sdk"
-          external
+          to="/developers"
           label={formatMessage({ id: 'dashboard.menu.developers' })}
           icon={<DevelopersIcon />}
         />
