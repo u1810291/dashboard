@@ -5,6 +5,7 @@ import IntlProvider from 'src/components/intl-provider'
 import StoreProvider from 'src/components/store-provider'
 import ScrollToTop from 'src/components/scroll-to-top'
 import Root from 'src/apps'
+import { Container as NotificationsContainer } from 'src/components/notification'
 import 'clipboard-polyfill'
 
 import './application.css'
@@ -16,6 +17,7 @@ ReactDOM.render(
         <BrowserRouter>
           <ScrollToTop>
             <Root />
+            <NotificationsContainer draggable={false} autoClose={false} />
           </ScrollToTop>
         </BrowserRouter>
       </StoreProvider>

@@ -7,7 +7,7 @@ import {
   getWebhooks,
   getWebhooksSamples
 } from 'src/state/webhooks'
-import { sendNotification } from 'src/components/notification'
+import { notification } from 'src/components/notification'
 import { Content } from 'src/components/application-box'
 import { WebhookURLForm } from 'src/components/webhook-url-form'
 import Icons from 'src/components/icons'
@@ -41,7 +41,7 @@ class Developers extends React.Component {
     } = this.props
     if (lastWebhook.id) deleteWebhook(token, lastWebhook.id)
     return subscribeToWebhook(token, { url }).then(() =>
-      sendNotification(intl.formatMessage({ id: 'webhookUrl.confirmation' }))
+      notification.info(intl.formatMessage({ id: 'webhookUrl.confirmation' }))
     )
   }
 

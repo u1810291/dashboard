@@ -13,7 +13,7 @@ import {
   AVAILABLE_DOCUMENT_TYPES,
   MANDATORY_DOCUMENT_TYPES
 } from 'src/state/merchant'
-import { sendNotification } from 'src/components/notification'
+import { notification } from 'src/components/notification'
 import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
 import IntegrationIcon from 'src/assets/icon-integration.svg'
 import ColorStep from './ColorStep'
@@ -43,7 +43,9 @@ class Configuration extends React.Component {
   }
 
   showDemoNotification = () => {
-    sendNotification(this.props.intl.formatMessage({ id: 'onboarding.demo.confirmation' }), 5000)
+    notification.info(
+      this.props.intl.formatMessage({ id: 'onboarding.demo.confirmation' })
+    )
   }
 
   closeIntegrationCode = () => {

@@ -4,16 +4,16 @@ import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
 import clipboard from 'clipboard-polyfill'
 import Button from 'src/components/button'
-import { sendNotification } from 'src/components/notification'
+import { notification } from 'src/components/notification'
 import { default as lightStyle } from './light'
 import { default as darkStyle } from './dark'
 import CSS from './SyntaxHighlighter.css'
 import Icon from './copy-icon.svg'
 
-function handleCopyToClipboard(text, notification) {
+function handleCopyToClipboard(text, notificationMessage) {
   clipboard.writeText(text)
-  if (notification) {
-    sendNotification(notification)
+  if (notificationMessage) {
+    notification.info(notificationMessage)
   }
 }
 
