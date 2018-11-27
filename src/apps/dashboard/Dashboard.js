@@ -22,6 +22,7 @@ import IdentitiesIcon from './icons/icon-history.svg'
 import ConfigurationIcon from './icons/icon-customize.svg'
 import AccountIcon from './icons/icon-account.svg'
 import DevelopersIcon from './icons/icon-developers.svg'
+import FAQIcon from './icons/icon-faq.svg'
 
 export default
 @injectIntl
@@ -79,6 +80,12 @@ class Dashboard extends React.Component {
           to="/developers"
           label={formatMessage({ id: 'dashboard.menu.developers' })}
           icon={<DevelopersIcon />}
+        />
+        <MenuItemLink
+          to="https://faq.getmati.com"
+          external={true}
+          label={formatMessage({ id: 'dashboard.menu.faq' })}
+          icon={<FAQIcon />}
         />
         <MenuItemCollection
           label={formatMessage({ id: 'dashboard.menu.account' })}
