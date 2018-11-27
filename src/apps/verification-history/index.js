@@ -186,8 +186,11 @@ class VerificationHistory extends React.Component {
         )}
         <Panel caption={<FormattedMessage id="analytics" />}>
           <Panel.Header>
-            <FormattedMessage id="identities.total" />{' '}
-            <strong>{this.props.identities.length}</strong>
+            <span>
+              {this.props.intl.formatMessage({id: 'identities.total'})}
+              {' '}
+              <strong>{this.props.identities.length}</strong>
+            </span>
           </Panel.Header>
           <Panel.Body>
             <Chart
