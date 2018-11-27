@@ -156,7 +156,7 @@ class Configuration extends React.Component {
             <div className={CSS.matiButtonHint}>
               <IconCurlyArrowUp />
               <br />
-              <FormattedMessage id="onboarding.verify_button_hint" />
+              <FormattedMessage id="onboarding.verify-button-hint" />
             </div>
           </div>
           <div>
@@ -170,11 +170,11 @@ class Configuration extends React.Component {
             <div className={CSS.mobileSdkButtons}>
               <Button onClick={this.openIosManual}>
                 <IconIOS />
-                <FormattedMessage id="onboarding.ios_sdk_link" />
+                <FormattedMessage id="onboarding.ios-sdk-link" />
               </Button>
               <Button onClick={this.openAndroidManual}>
                 <IconAndroid />
-                <FormattedMessage id="onboarding.android_sdk_link" />
+                <FormattedMessage id="onboarding.android-sdk-link" />
               </Button>
             </div>
           </div>

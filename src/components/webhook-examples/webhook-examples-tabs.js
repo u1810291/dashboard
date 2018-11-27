@@ -14,7 +14,7 @@ const WEBHOOK_RESPONSE_STRING = printJSON(WEBHOOK_RESPONSE)
 
 export default [
   {
-    label: 'global_watchlist',
+    label: 'global-watchlist',
     icon: <Icons.Spy />,
     webhooks: [
       {
@@ -29,7 +29,7 @@ export default [
     ]
   },
   {
-    label: 'face_match',
+    label: 'face-match',
     icon: <Icons.FaceMatch />,
     webhooks: [
       {
@@ -59,7 +59,7 @@ export default [
     ]
   },
   {
-    label: 'ocr_data',
+    label: 'ocr-data',
     icon: <Icons.WarningTriangle />,
     webhooks: [
       {
