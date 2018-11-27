@@ -1,25 +1,44 @@
 :local(.content) {
   background: white;
 }
-:local(.content) > section {
+
+:local(.content)>section {
   margin-bottom: var(--mgi-spacing);
 }
 
 :local(.sidebar) {
   display: flex;
   flex-direction: column;
-  align-items:stretch;
+  align-items: stretch;
   justify-content: space-between;
+  max-height: calc(100vh - var(--mgi-application-box-menu-height));
 }
 
-:local(.showIntegrationCodeButton) button {
+:local(.showIntegrationCodeButton) {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-:local(.integrationCodeModal) {
-  /* min-height: 500px; */
+:local(.mobileSdkButtons) {
+  display: flex;
+  margin-top: var(--mgi-spacing);
+  justify-content: space-between;
+}
+
+:local(.mobileSdkButtons) button {
+  width: 50%;
+  justify-content: center;
+}
+
+:local(.onboardingVideoLink) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: var(--mgi-theme-font-size-small);
+
+  color: #6B7C93;
 }
 
 :local(.matiButtonConfiguration) {
@@ -27,26 +46,23 @@
   justify-content: center;
 }
 
-:local(.integrationCodeModal) main {
-  padding: 0 45px;
+:local(.matiButtonHint) {
+  padding-top: 1rem;
+  text-align: center;
+  color: var(--mgi-theme-palette-neutral);
 }
 
 :local(.matiButton) {
   padding-bottom: 25px;
 }
 
-:local(.matiMobileButton) .mati-button, :local(.matiMobileButton) .mati-container {
-  min-width: inherit!important;
+:local(.matiMobileButton) .mati-button,
+:local(.matiMobileButton) .mati-container {
+  min-width: inherit !important;
   width: 100%;
 }
 
 :local(.mobileShowIntegration) {
   width: 100%;
   margin-bottom: calc(2 * var(--mgi-spacing));
-}
-
-@media (max-width: 769px) {
-  :local(.integrationCodeModal) main {
-    padding: 0;
-  }
 }

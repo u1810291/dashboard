@@ -21,14 +21,19 @@ import DocumentTypesStep from './DocumentTypesStep'
 import LanguageStep from './LanguageStep'
 import SafetyProStep from './SafetyProStep'
 import CSS from './Configuration.css'
+import IconCurlyArrowUp from 'src/assets/icon-curly-arrow-up.svg'
+import IconIOS from 'src/assets/icon-ios.svg'
+import IconAndroid from 'src/assets/icon-android.svg'
+import IconPlay from 'src/assets/icon-play.svg'
 
 export default
 @injectIntl
 @connect(
-  ({
-    auth: { token },
-    merchant: { configuration, integrationCode }
-  }) => ({ token, configuration, integrationCode }),
+  ({ auth: { token }, merchant: { configuration, integrationCode } }) => ({
+    token,
+    configuration,
+    integrationCode
+  }),
   {
     saveConfiguration,
     getIntegrationCode
@@ -56,6 +61,22 @@ class Configuration extends React.Component {
     this.props.getIntegrationCode(this.props.token).then(value => {
       this.setState({ hideIntegrationCode: false })
     })
+  }
+
+  openIosManual() {
+    const tab = window.open(
+      'https://github.com/MatiFace/mati-global-id-sdk/blob/master/Integration_iOS.md',
+      '_blank'
+    )
+    tab.focus()
+  }
+
+  openAndroidManual() {
+    const tab = window.open(
+      'https://github.com/MatiFace/mati-global-id-sdk/blob/master/Integration_android.md',
+      '_blank'
+    )
+    tab.focus()
   }
 
   componentDidMount() {
@@ -114,24 +135,55 @@ class Configuration extends React.Component {
         </Content>
         <Sidebar className={CSS.sidebar}>
           <p className="text-center">
-            <FormattedMessage id="onboarding.demo.title" />
+            <a
+              className={CSS.onboardingVideoLink}
+              href="https://www.youtube.com/watch?v=NWRc84vkB5I&rel=0"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <IconPlay />
+              <FormattedMessage id="onboarding.video.link" />
+            </a>
           </p>
-          <MatiButton
-            language={this.props.configuration.language}
-            color={this.props.configuration.color}
-            clientId={this.props.token}
-            onSuccess={this.showDemoNotification}
-            className={CSS.matiButtonConfiguration}
-          />
-          <div className={CSS.showIntegrationCodeButton}>
-            <Button onClick={this.toggleIntegrationCode}>
+          <div>
+            <MatiButton
+              language={this.props.configuration.language}
+              color={this.props.configuration.color}
+              clientId={this.props.token}
+              onSuccess={this.showDemoNotification}
+              className={CSS.matiButtonConfiguration}
+            />
+            <div className={CSS.matiButtonHint}>
+              <IconCurlyArrowUp />
+              <br />
+              <FormattedMessage id="onboarding.verify_button_hint" />
+            </div>
+          </div>
+          <div>
+            <Button
+              className={CSS.showIntegrationCodeButton}
+              onClick={this.toggleIntegrationCode}
+            >
               <IntegrationIcon />
               <FormattedMessage id="onboarding.integrationCode.button" />
             </Button>
+            <div className={CSS.mobileSdkButtons}>
+              <Button onClick={this.openIosManual}>
+                <IconIOS />
+                <FormattedMessage id="onboarding.ios_sdk_link" />
+              </Button>
+              <Button onClick={this.openAndroidManual}>
+                <IconAndroid />
+                <FormattedMessage id="onboarding.android_sdk_link" />
+              </Button>
+            </div>
           </div>
         </Sidebar>
         {!this.state.hideIntegrationCode && (
-          <Modal onClose={this.closeIntegrationCode} className={CSS.integratConfiguration}>
+          <Modal
+            onClose={this.closeIntegrationCode}
+            className={CSS.integratConfiguration}
+          >
             <header>
               <FormattedMessage id="onboarding.integrationCode.modalTitle" />
             </header>
