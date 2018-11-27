@@ -59,18 +59,26 @@ export function getDocumentPictures(token, id) {
 }
 
 const initialState = {
+  isLoading: true,
   identities: [],
   monthlyIdentities: buildInitialMonthlyIdentities(12)
 }
 
 const reducer = createReducer(initialState, {
+  [types.IDENTITY_LIST_REQUEST]: function(state) {
+    return {
+      ...state,
+      isLoading: true
+    }
+  },
   [types.IDENTITY_LIST_SUCCESS]: function(state, { payload }) {
     const monthlyIdentities = isEmpty(payload.data)
       ? buildInitialMonthlyIdentities(12)
       : computeMonthlyStatisticsForIdentities(payload.data)
-      
+
     return {
       ...state,
+      isLoading: false,
       identities: payload.data,
       monthlyIdentities
     }

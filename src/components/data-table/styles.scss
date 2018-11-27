@@ -36,3 +36,14 @@
     }
   }
 }
+
+:local(.tableEmptyBody) {
+  display: flex;
+  flex-direction: column;
+  min-height: 360px;
+  align-items: center;
+  justify-content: center;
+  
+  font-size: 1.125rem;
+  color: var(--mgi-theme-color-secondary);
+}

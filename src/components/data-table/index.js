@@ -1,13 +1,16 @@
 import React from 'react'
 import classNames from 'classnames'
+import EmptyTableIcon from './empty-table.svg'
 import CSS from './styles.scss'
 
 export default function DataTable({
   columns,
   rows,
-  className
+  className,
+  emptyBodyLabel
 }) {
-  const sizeFraction = 100 / columns.map(({ size = 1 }) => size).reduce((sum, val) => sum + val)
+  const sizeFraction =
+    100 / columns.map(({ size = 1 }) => size).reduce((sum, val) => sum + val)
 
   return (
     <table className={classNames(CSS.table, className)}>
@@ -31,6 +34,16 @@ export default function DataTable({
             ))}
           </tr>
         ))}
+        {emptyBodyLabel && !rows.length ? (
+          <tr>
+            <td colspan={columns.length}>
+              <div className={CSS.tableEmptyBody}>
+                <EmptyTableIcon />
+                <p>{emptyBodyLabel}</p>
+              </div>
+            </td>
+          </tr>
+        ) : null}
       </tbody>
     </table>
   )

@@ -180,6 +180,7 @@
   "identities.fields.date": "Date",
   "identities.fields.actions": "Actions",
   "identities.total": "Total Verifications:",
+  "identities.no-data": "No one has been verified yet",
 
   "verifirationModal.photos.caption": "Photos",
   "verifirationModal.origin": "from",

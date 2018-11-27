@@ -17,6 +17,7 @@ import VerificationFullNameLabel from 'src/components/verification-full-name-lab
 import DocumentTypesLabel from 'src/components/document-types-label'
 import Status from 'src/components/status-label'
 import VerificationModal from 'src/components/verification-modal'
+import Spinner from 'src/components/spinner'
 import stringify from 'src/lib/stringify'
 import CSS from './styles.css'
 import MoreIcon from './more.svg'
@@ -54,6 +55,7 @@ const percents = val => (parseInt(val, 10) || 0 * 100).toFixed(0) + '%'
 export default
 @connect(
   state => ({
+    isLoading: state.identities.isLoading,
     identities: state.identities.identities,
     token: state.auth.token,
     monthlyIdentities: state.identities.monthlyIdentities
@@ -173,6 +175,14 @@ class VerificationHistory extends React.Component {
   }
 
   render() {
+    if (this.props.isLoading) {
+      return (
+        <Content>
+          <Spinner />
+        </Content>
+      )
+    }
+
     return (
       <Content>
         {this.state.showVerificationModal && (
@@ -204,6 +214,9 @@ class VerificationHistory extends React.Component {
             <DataTable
               rows={this.props.identities}
               columns={this.getTableColumns()}
+              emptyBodyLabel={this.props.intl.formatMessage({
+                id: 'identities.no-data'
+              })}
             />
           </Panel.Body>
         </Panel>
