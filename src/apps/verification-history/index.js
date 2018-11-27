@@ -37,7 +37,7 @@ function VerificationsChartTooltip({ payload }) {
       />
       <ChartLegendItem
         color="green"
-        label={<FormattedMessage id="users.verified_manually" />}
+        label={<FormattedMessage id="users.verified" />}
         value={String(payload.verified || 0)}
       />
       <ChartLegendItem
