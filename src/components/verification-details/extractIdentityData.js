@@ -9,6 +9,9 @@ const SUSPICIOUS_FACEMATCH_LEVEL = 70
 export default function extractIdentityData(identity) {
   const photos = []
   const documents = []
+  const watchlists = identity.watchlists
+    ? Object.values(identity.watchlists).some(list => list.length)
+    : false
 
   if (get(identity, '_links.photo.href')) {
     photos.push({
@@ -16,6 +19,38 @@ export default function extractIdentityData(identity) {
       href: identity._links.photo.href + '.jpg'
     })
   }
+
+  documents.push({
+    caption: <FormattedMessage id="verifirationModal.backgroundCheck" />,
+    fields: [
+      {
+        caption: (
+          <FormattedMessage id="verifirationModal.backgroundCheck.liveness" />
+        ),
+        value: (
+          <FormattedMessage
+            id={`verifirationModal.backgroundCheck.${
+              identity.alive ? 'passed' : 'failed'
+            }`}
+          />
+        ),
+        status: identity.alive ? 'ready' : 'warning'
+      },
+      {
+        caption: (
+          <FormattedMessage id="verifirationModal.backgroundCheck.globalWatchlists" />
+        ),
+        value: (
+          <FormattedMessage
+            id={`verifirationModal.backgroundCheck.${
+              watchlists ? 'failed' : 'passed'
+            }`}
+          />
+        ),
+        status: watchlists ? 'warning' : 'ready'
+      }
+    ]
+  })
 
   if (identity.documents) {
     identity.documents.forEach(doc => {

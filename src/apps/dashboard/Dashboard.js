@@ -67,14 +67,14 @@ class Dashboard extends React.Component {
           <MatiLogo />
         </MenuItemLink>
         <MenuItemLink
-          to="/verifications"
-          label={formatMessage({ id: 'dashboard.menu.identities' })}
-          icon={<IdentitiesIcon />}
-        />
-        <MenuItemLink
           to="/"
           label={formatMessage({ id: 'dashboard.menu.configuration' })}
           icon={<ConfigurationIcon />}
+        />
+        <MenuItemLink
+          to="/verifications"
+          label={formatMessage({ id: 'dashboard.menu.identities' })}
+          icon={<IdentitiesIcon />}
         />
         <MenuItemSpacer />
         <MenuItemLink
