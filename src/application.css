@@ -5,6 +5,7 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
 
 :root {
   --mgi-spacing: 1.5rem;
+  --mgi-spacing-l: 0.875rem;
   --mgi-theme-palette-lighter: #fafbfc;
   --mgi-theme-palette-light: #DFE6EE;
   --mgi-theme-palette-neutral: #95A6BB;

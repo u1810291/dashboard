@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import ReactQueryParams from 'react-query-params'
 import { flatten, uniq, get } from 'lodash'
 import { getIdentities } from 'src/state/identities'
 import { FormattedMessage, injectIntl } from 'react-intl'
@@ -18,6 +19,7 @@ import DocumentTypesLabel from 'src/components/document-types-label'
 import Status from 'src/components/status-label'
 import VerificationModal from 'src/components/verification-modal'
 import Spinner from 'src/components/spinner'
+import FiltersForm from './filters-form'
 import stringify from 'src/lib/stringify'
 import CSS from './styles.css'
 import MoreIcon from './more.svg'
@@ -63,7 +65,7 @@ export default
   { getIdentities }
 )
 @injectIntl
-class VerificationHistory extends React.Component {
+class VerificationHistory extends ReactQueryParams {
   constructor(props) {
     super(props)
     this.state = {}
@@ -197,8 +199,7 @@ class VerificationHistory extends React.Component {
         <Panel caption={<FormattedMessage id="analytics" />}>
           <Panel.Header>
             <span>
-              {this.props.intl.formatMessage({id: 'identities.total'})}
-              {' '}
+              {this.props.intl.formatMessage({ id: 'identities.total' })}{' '}
               <strong>{this.props.identities.length}</strong>
             </span>
           </Panel.Header>
@@ -210,6 +211,22 @@ class VerificationHistory extends React.Component {
           </Panel.Body>
         </Panel>
         <Panel caption={<FormattedMessage id="identities.title" />}>
+          <Panel.Header>
+            <FiltersForm
+              types={this.queryParams.types}
+              states={this.queryParams.states}
+              onChange={change => {
+                this.setQueryParams(change)
+              }}
+              onClear={() => {
+                this.setQueryParams({
+                  states: [],
+                  types: [],
+                  search: this.state.search
+                })
+              }}
+            />
+          </Panel.Header>
           <Panel.Body padded={false}>
             <DataTable
               rows={this.props.identities}

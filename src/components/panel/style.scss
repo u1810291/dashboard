@@ -24,7 +24,7 @@
   font-size: var(--mgi-theme-font-size-small);
   line-height: 17px;
 
-  & svg:first-child {
+  & > svg:first-child {
     margin: 0.2rem 0.5rem 0 0;
     flex-shrink: 0;
   }
