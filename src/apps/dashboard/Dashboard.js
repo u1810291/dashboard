@@ -14,6 +14,7 @@ import { OnboardingModal } from 'src/components/onboarding-modal'
 import { Configuration } from 'src/apps/configuration'
 import UpgradePlan from './UpgradePlan'
 import VerificationHistory from 'src/apps/verification-history'
+import VerificationItem from 'src/apps/verification-history/verification-item'
 import DevelopersRoute from 'src/apps/developers'
 import { signOut } from 'src/state/auth'
 import { getMerchant, saveConfiguration } from 'src/state/merchant'
@@ -115,6 +116,7 @@ class Dashboard extends React.Component {
           <Switch>
             <Route exact path="/developers" component={DevelopersRoute} />
             <Route exact path="/verifications" component={VerificationHistory} />
+            <Route exact path="/verifications/:id" component={VerificationItem} />
             <Route exact path="/upgrade" component={UpgradePlan} />
             <Route path="/" component={Configuration} />
           </Switch>

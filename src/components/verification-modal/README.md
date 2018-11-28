@@ -1,6 +1,9 @@
 ```js
-const { documents, photos } = require('./verification-details/__mocks__');
-const stringify = require('src/lib/stringify').default;
+const {
+  documents,
+  photos
+} = require('src/components/verification-details/__mocks__')
+const stringify = require('src/lib/stringify').default
 
 class Container extends React.Component {
   constructor(props) {
@@ -22,7 +25,7 @@ class Container extends React.Component {
         </button>
         {this.state.opened && (
           <VerificationModal
-            onClose={() => this.setState({ opened: false }) }
+            onClose={() => this.setState({ opened: false })}
             fullName="Daniela Hernandez"
             photos={photos}
             documents={documents}
@@ -32,7 +35,6 @@ class Container extends React.Component {
       </React.Fragment>
     )
   }
-};
-<Container />
-
+}
+;<Container />
 ```

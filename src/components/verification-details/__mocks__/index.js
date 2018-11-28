@@ -22,7 +22,7 @@ export const photos = [
   {
     caption: 'Password',
     href:
-      'https://upload.wikimedia.org/wikipedia/en/b/b9/BVIPassportDatapage.jpg'
+      'https://upload.wikimedia.org/wikipedia/commons/6/6a/Pasaporte-eua.jpg'
   }
 ]
 
@@ -33,7 +33,7 @@ export const documents = [
       {
         caption: 'Liveness',
         value: <span>Passed <span className="text-secondary">100%</span></span>,
-        status: 'success'
+        status: 'ready'
       },
       {
         caption: 'Global watchlist',
@@ -49,21 +49,21 @@ export const documents = [
       {
         caption: 'Full name',
         value: 'Daniela Hernandez',
-        status: 'success'
+        status: 'ready'
       },
       {
         caption: 'Address',
         value: 'Col Piedad Narvarte 03000 Benito Juarez, D.F.',
-        status: 'success'
+        status: 'ready'
       },
       {
         caption: 'Date of birth',
         value: '19/10/1990',
-        status: 'success'
+        status: 'ready'
       },
       {
         caption: 'date of emission',
-        status: 'failure'
+        status: 'queued'
       }
     ]
   },
@@ -77,21 +77,21 @@ export const documents = [
       {
         caption: 'Full name',
         value: 'Daniela Hernandez',
-        status: 'success'
+        status: 'ready'
       },
       {
         caption: 'Address',
         value: 'Col Piedad Narvarte 03000 Benito Juarez, D.F.',
-        status: 'success'
+        status: 'ready'
       },
       {
         caption: 'Date of birth',
         value: '19/10/1990',
-        status: 'success'
+        status: 'ready'
       },
       {
         caption: 'date of emission',
-        status: 'failure'
+        status: 'queued'
       }
     ]
   }

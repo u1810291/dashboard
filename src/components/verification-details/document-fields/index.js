@@ -1,7 +1,7 @@
 import React from 'react'
 import { injectIntl } from 'react-intl'
 import classNames from 'classnames'
-import CSS from './styles.scss'
+import CSS from './document-fields.module.scss'
 
 const icons = {
   ready: require('./success.svg'),
