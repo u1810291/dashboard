@@ -1,11 +1,10 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import ReactQueryParams from 'react-query-params'
-import { flatten, uniq, get } from 'lodash'
-import { getIdentities } from 'src/state/identities'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { connect } from 'react-redux'
+import { flatten, uniq } from 'lodash'
+import { getIdentities, getIdentityWithNestedData } from 'src/state/identities'
+import { FormattedMessage } from 'react-intl'
 import { AVAILABLE_DOCUMENT_TYPES } from 'src/state/merchant'
-import client from 'src/lib/client'
 import { authorizedUrl } from 'src/lib/client/http'
 import { Content } from 'src/components/application-box'
 import Button from 'src/components/button'
@@ -20,6 +19,7 @@ import Status from 'src/components/status-label'
 import VerificationModal from 'src/components/verification-modal'
 import Spinner from 'src/components/spinner'
 import FiltersForm from './filters-form'
+import { extractIdentityData } from 'src/components/verification-details'
 import stringify from 'src/lib/stringify'
 import CSS from './styles.css'
 import MoreIcon from './more.svg'
@@ -52,8 +52,6 @@ function VerificationsChartTooltip({ payload }) {
   )
 }
 
-const percents = val => (parseInt(val, 10) || 0 * 100).toFixed(0) + '%'
-
 export default
 @connect(
   state => ({
@@ -62,9 +60,8 @@ export default
     token: state.auth.token,
     monthlyIdentities: state.identities.monthlyIdentities
   }),
-  { getIdentities }
+  { getIdentities, getIdentityWithNestedData }
 )
-@injectIntl
 class VerificationHistory extends ReactQueryParams {
   constructor(props) {
     super(props)
@@ -75,62 +72,20 @@ class VerificationHistory extends ReactQueryParams {
     this.props.getIdentities(this.props.token)
   }
 
-  showVerificationModal = identity => {
-    const { intl, token } = this.props
-
-    client.identities
-      .getDocumentsFullData(token, identity.id)
-      .then(response => {
-        const photos = []
-        if (get(identity, '_links.photo.href')) {
-          photos.push({
-            caption: intl.formatMessage({
-              id: 'verifirationModal.fields.face'
-            }),
-            href: authorizedUrl(identity._links.photo.href + '.jpg', token)
-          })
-        }
-
-        const documents = []
-
-        response.forEach(doc => {
-          photos.push({
-            caption: intl.formatMessage({
-              id: `verifirationModal.fields.${doc.type}`
-            }),
-            href: authorizedUrl(doc.pictures[0]._links.file.href, token)
-          })
-          const document = {
-            caption: intl.formatMessage({ id: 'verifirationModal.idcheck' }),
-            origin: intl.formatMessage({
-              id: `verifirationModal.fields.${doc.type}`
-            }),
-            fields: doc.fields.map(field => ({
-              caption: intl.formatMessage({
-                id: `identities.fields.${field.id}`
-              }),
-              value: field.value,
-              status: doc.status
-            }))
-          }
-          const faceMatchValue = (identity.facematchScore.find(
-            s => s[0] === doc.type
-          ) || [])[1]
-          document.fields.unshift({
-            caption: intl.formatMessage({ id: 'identities.fields.faceMatch' }),
-            value: percents(faceMatchValue),
-            status: parseInt(faceMatchValue, 10) > 70 ? 'ready' : 'warning'
-          })
-          documents.push(document)
-        })
-        this.setState({
-          showVerificationModal: true,
-          lastVerificationPhotos: photos,
-          lastVerificationDocuments: documents,
-          lastVerificationWebhook: stringify(identity),
-          lastVerificationFullName: identity.fullName
-        })
+  showVerificationModal = ({ id }) => {
+    const { token, getIdentityWithNestedData } = this.props
+    getIdentityWithNestedData(token, id).then(identityWithNestedData => {
+      window.history.replaceState(null, null, `/verifications/${id}`)
+      this.setState({
+        showVerificationModal: true,
+        identityWithNestedData
       })
+    })
+  }
+
+  closeVerificationModal = () => {
+    window.history.replaceState(null, null, '/verifications')
+    this.setState({ showVerificationModal: false })
   }
 
   getTableColumns = () => {
@@ -189,17 +144,19 @@ class VerificationHistory extends ReactQueryParams {
       <Content>
         {this.state.showVerificationModal && (
           <VerificationModal
-            onClose={() => this.setState({ showVerificationModal: false })}
+            onClose={this.closeVerificationModal}
             fullName={this.state.lastVerificationFullName}
-            photos={this.state.lastVerificationPhotos}
-            documents={this.state.lastVerificationDocuments}
-            webhook={this.state.lastVerificationWebhook}
+            signURL={url => authorizedUrl(url, this.props.token)}
+            webhook={stringify(
+              this.state.identityWithNestedData.originalIdentity
+            )}
+            {...extractIdentityData(this.state.identityWithNestedData)}
           />
         )}
         <Panel caption={<FormattedMessage id="analytics" />}>
           <Panel.Header>
             <span>
-              {this.props.intl.formatMessage({ id: 'identities.total' })}{' '}
+              <FormattedMessage id="identities.total" />{' '}
               <strong>{this.props.identities.length}</strong>
             </span>
           </Panel.Header>
@@ -231,9 +188,7 @@ class VerificationHistory extends ReactQueryParams {
             <DataTable
               rows={this.props.identities}
               columns={this.getTableColumns()}
-              emptyBodyLabel={this.props.intl.formatMessage({
-                id: 'identities.no-data'
-              })}
+              emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
             />
           </Panel.Body>
         </Panel>

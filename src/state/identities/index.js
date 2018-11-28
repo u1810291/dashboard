@@ -10,6 +10,7 @@ window.client = client
 
 export const types = {
   ...createTypesSequence('IDENTITY_LIST'),
+  ...createTypesSequence('IDENTITY_FETCH'),
   ...createTypesSequence('IDENTITY_DOCUMENTS_LIST'),
 }
 
@@ -28,31 +29,16 @@ export function getIdentities(token) {
   }
 }
 
-export function getDocuments(token, id) {
+export function getIdentityWithNestedData(token, id) {
   return function(dispatch) {
-    dispatch({ type: types.IDENTITY_DOCUMENTS_LIST_REQUEST })
-    return client.identities.getDocuments(token, id)
-    .then(payload => {
-      dispatch({ type: types.IDENTITY_DOCUMENTS_LIST_SUCCESS, payload })
-      return payload
+    dispatch({ type: types.IDENTITY_FETCH_REQUEST })
+    return client.identities.getIdentityWithNestedData(token, id)
+    .then(identity => {
+      dispatch({ type: types.IDENTITY_FETCH_SUCCESS, identity })
+      return identity
     })
     .catch(error => {
-      dispatch({ type: types.IDENTITY_DOCUMENTS_LIST_FAILURE })
-      throw error
-    })
-  }
-}
-
-export function getDocumentPictures(token, id) {
-  return function(dispatch) {
-    dispatch({ type: types.IDENTITY_DOCUMENT_PICTURES_LIST_REQUEST })
-    return client.identities.getDocumentPictures(token, id)
-    .then(payload => {
-      dispatch({ type: types.IDENTITY_DOCUMENT_PICTURES_LIST_SUCCESS, payload })
-      return payload
-    })
-    .catch(error => {
-      dispatch({ type: types.IDENTITY_DOCUMENT_PICTURES_LIST_FAILURE })
+      dispatch({ type: types.IDENTITY_FETCH_FAILURE })
       throw error
     })
   }
@@ -61,16 +47,28 @@ export function getDocumentPictures(token, id) {
 const initialState = {
   isLoading: true,
   identities: [],
+  instances: {},
   monthlyIdentities: buildInitialMonthlyIdentities(12)
 }
 
 const reducer = createReducer(initialState, {
+  [types.IDENTITY_FETCH_SUCCESS]: function(state, { identity }) {
+    return {
+      ...state,
+      instances: {
+        ...state.instances,
+        [identity.id]: identity
+      }
+    }
+  },
+
   [types.IDENTITY_LIST_REQUEST]: function(state) {
     return {
       ...state,
       isLoading: true
     }
   },
+
   [types.IDENTITY_LIST_SUCCESS]: function(state, { payload }) {
     const monthlyIdentities = isEmpty(payload.data)
       ? buildInitialMonthlyIdentities(12)

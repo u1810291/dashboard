@@ -15,22 +15,26 @@ export default function DataTable({
   return (
     <table className={classNames(CSS.table, className)}>
       <colgroup>
-        {columns.map(({ size = 1 }) => (
-          <col style={{ width: `${sizeFraction * size}%` }} />
+        {columns.map(({ size = 1 }, index) => (
+          <col key={index} style={{ width: `${sizeFraction * size}%` }} />
         ))}
       </colgroup>
       <thead>
         <tr className="text-caption text-secondary">
-          {columns.map(({ label }) => (
-            <th scope="col">{label}</th>
+          {columns.map(({ label }, index) => (
+            <th scope="col" key={index}>
+              {label}
+            </th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {rows.map(element => (
-          <tr>
-            {columns.map(({ content, className }) => (
-              <td className={className}>{content(element)}</td>
+        {rows.map((element, index) => (
+          <tr key={index}>
+            {columns.map(({ content, className }, index) => (
+              <td className={className} key={index}>
+                {content(element)}
+              </td>
             ))}
           </tr>
         ))}

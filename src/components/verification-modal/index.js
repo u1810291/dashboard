@@ -4,7 +4,7 @@ import { Modal } from 'src/components/modal'
 import Button from 'src/components/button'
 import Panel from 'src/components/panel'
 import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
-import VerificationDetails from './verification-details'
+import VerificationDetails from 'src/components/verification-details'
 import WebbhooksIcon from './webhooks-icon.svg'
 import CSS from './styles.scss'
 
@@ -21,6 +21,7 @@ export default class VerificationModal extends React.Component {
       <VerificationDetails
         photos={this.props.photos}
         documents={this.props.documents}
+        signURL={this.props.signURL}
       />,
       <Panel caption="Webhooks">
         <Panel.Body padded={false}>

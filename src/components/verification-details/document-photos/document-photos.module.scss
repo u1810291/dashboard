@@ -1,10 +1,11 @@
 :root {
-  --mgi-verification-detail-photo-width: 236px;
+  --mgi-verification-detail-photo-height: 150px;
 }
 
 :local(.photos) {
   display: flex;
   overflow-x: scroll;
+  text-align: center;
 
   > :not(:last-child) {
     margin-right: var(--mgi-spacing);
@@ -17,7 +18,8 @@
   }
 
   img {
-    max-width: var(--mgi-verification-detail-photo-width);
+    object-fit: contain;
+    height: var(--mgi-verification-detail-photo-height);
     margin-bottom: 1rem
   }
 }

@@ -170,6 +170,7 @@
   "identities.unknownName": "Incomplete identity",
   "identities.details.check": "check",
   "identities.details.webhook": "Webhook",
+  "identities.details.backToList": "← Back to verification history",
   "identities.fields.faceMatch": "Face match score",
   "identities.fields.dateOfBirth": "Date of birth",
   "identities.fields.expiry": "Expiry",
