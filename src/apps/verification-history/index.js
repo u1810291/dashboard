@@ -80,6 +80,9 @@ class VerificationHistory extends ReactQueryParams {
 
   showVerificationModal = ({ id }) => {
     const { token, getIdentityWithNestedData } = this.props
+    // save current URL, so we can restore it on modal close
+    this.previousURL = `${window.location.pathname}${window.location.search}`
+
     getIdentityWithNestedData(token, id).then(identityWithNestedData => {
       window.history.replaceState(null, null, `/verifications/${id}`)
       this.setState({
@@ -90,7 +93,7 @@ class VerificationHistory extends ReactQueryParams {
   }
 
   closeVerificationModal = () => {
-    window.history.replaceState(null, null, '/verifications')
+    window.history.replaceState(null, null, this.previousURL)
     this.setState({ showVerificationModal: false })
   }
 
