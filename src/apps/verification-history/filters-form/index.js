@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { injectIntl, FormattedMessage } from 'react-intl'
-import { Input } from 'src/components/inputs'
+import { DebounceInput } from 'src/components/inputs'
 import Button from 'src/components/button'
 import CheckboxGroup from 'src/components/checkbox-group'
 import Dropdown from './dropdown'
@@ -60,8 +60,10 @@ class VerificationsFiltersForm extends Component {
   render() {
     return (
       <div className={CSS.form}>
-        <Input
+        <DebounceInput
           name="search"
+          placeholder={this.props.intl.formatMessage({id: 'identities.filters.placeholder.search'})}
+          maxLength={30}
           value={this.props.search}
           className={CSS.searchField}
           hideLabel={true}

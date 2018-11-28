@@ -137,15 +137,11 @@ class VerificationHistory extends ReactQueryParams {
     ]
   }
 
-  setQueryParams() {
-    return ReactQueryParams.prototype.setQueryParams.apply(this, arguments);
-  }
-
   clearSelectedFilters() {
     this.setQueryParams({
-      states: JSON.stringify([]),
-      types: JSON.stringify([]),
-      search: ''
+      states: [],
+      types: [],
+      search: this.queryParams.search
     })
   }
 
@@ -157,8 +153,6 @@ class VerificationHistory extends ReactQueryParams {
         </Content>
       )
     }
-
-    console.log(`SEARCH param !${this.queryParams.search}!`)
 
     return (
       <Content>
