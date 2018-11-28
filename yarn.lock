@@ -9099,10 +9099,10 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-query-params@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/react-query-params/-/react-query-params-1.0.9.tgz#a4359dace3fcea1676dfb7698c1e2e862b72de22"
-  integrity sha512-ByZq0fQgwv22kfeDkX1GDWbNghuKomHbUczmtepOV2WmhjISW91AkM32xzP0BJNcjpM6LwA8pCKzzymAaNdwgQ==
+react-query-params@1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-query-params/-/react-query-params-1.0.8.tgz#ba48470cd4ec9c925783618fb8ef4c148409a4b6"
+  integrity sha512-tcnmBZHwq9duDEwDY6m/dkIBwXH7KH9MYJCMG/Fy3TnbHnVfMa6KqHKi9nBIVnDS90Um5mpM7DKu+q1OcmZWWQ==
   dependencies:
     history "^4.6.0"
 

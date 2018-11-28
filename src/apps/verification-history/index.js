@@ -63,6 +63,12 @@ export default
   { getIdentities, getIdentityWithNestedData }
 )
 class VerificationHistory extends ReactQueryParams {
+  defaultQueryParams = {
+    states: '[]',
+    types: '[]',
+    search: ''
+  }
+
   constructor(props) {
     super(props)
     this.state = {}
@@ -131,6 +137,18 @@ class VerificationHistory extends ReactQueryParams {
     ]
   }
 
+  setQueryParams() {
+    return ReactQueryParams.prototype.setQueryParams.apply(this, arguments);
+  }
+
+  clearSelectedFilters() {
+    this.setQueryParams({
+      states: JSON.stringify([]),
+      types: JSON.stringify([]),
+      search: ''
+    })
+  }
+
   render() {
     if (this.props.isLoading) {
       return (
@@ -139,6 +157,8 @@ class VerificationHistory extends ReactQueryParams {
         </Content>
       )
     }
+
+    console.log(`SEARCH param !${this.queryParams.search}!`)
 
     return (
       <Content>
@@ -170,18 +190,11 @@ class VerificationHistory extends ReactQueryParams {
         <Panel caption={<FormattedMessage id="identities.title" />}>
           <Panel.Header>
             <FiltersForm
+              search={decodeURIComponent(this.queryParams.search)}
               types={this.queryParams.types}
               states={this.queryParams.states}
-              onChange={change => {
-                this.setQueryParams(change)
-              }}
-              onClear={() => {
-                this.setQueryParams({
-                  states: [],
-                  types: [],
-                  search: this.state.search
-                })
-              }}
+              onChange={this.setQueryParams.bind(this)}
+              onClear={this.clearSelectedFilters.bind(this)}
             />
           </Panel.Header>
           <Panel.Body padded={false}>

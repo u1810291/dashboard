@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { injectIntl, FormattedMessage } from 'react-intl'
-import { withFormik, Field, Form } from 'formik'
-import { setI18nContext } from 'src/components/i18n-context'
 import { Input } from 'src/components/inputs'
 import Button from 'src/components/button'
 import CheckboxGroup from 'src/components/checkbox-group'
@@ -10,21 +8,9 @@ import FiltersIcon from 'src/assets/icon-filters.svg'
 import IconClose from 'src/assets/icon-close.svg'
 import CSS from './filters-form.module.scss'
 
-const formikSettings = {
-  handleSubmit() {}
-}
-
 export default
-@setI18nContext('identities.filters')
-@withFormik(formikSettings)
 @injectIntl
 class VerificationsFiltersForm extends Component {
-  defaultQueryParams = {
-    search: '',
-    types: [],
-    states: []
-  }
-
   get VERIFICATION_TYPES_OPTIONS() {
     return [
       {
@@ -73,12 +59,15 @@ class VerificationsFiltersForm extends Component {
 
   render() {
     return (
-      <Form className={CSS.form}>
-        <Field
+      <div className={CSS.form}>
+        <Input
           name="search"
+          value={this.props.search}
           className={CSS.searchField}
           hideLabel={true}
-          component={Input}
+          onChange={e => {
+            this.props.onChange({ search: e.target.value })
+          }}
         />
 
         <Dropdown className={CSS.filtersControl}>
@@ -118,7 +107,7 @@ class VerificationsFiltersForm extends Component {
             </Button>
           </Dropdown.Content>
         </Dropdown>
-      </Form>
+      </div>
     )
   }
 }
