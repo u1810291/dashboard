@@ -1,5 +1,4 @@
 import { isEmpty } from 'lodash'
-import { compose } from 'lodash/fp'
 
 const itemVerificationsFilterFunctions = {
   'face-verification': item => !!item.alive,

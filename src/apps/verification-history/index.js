@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactQueryParams from 'react-query-params'
 import { connect } from 'react-redux'
-import { flatten, uniq, isEmpty } from 'lodash'
+import { flatten, uniq } from 'lodash'
 import { compose } from 'lodash/fp'
 import { getIdentities, getIdentityWithNestedData } from 'src/state/identities'
 import {
