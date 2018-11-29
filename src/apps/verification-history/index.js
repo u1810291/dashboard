@@ -63,7 +63,17 @@ class VerificationHistory extends ReactQueryParams {
   }
 
   showVerificationModal = ({ id }) => {
-    const { token, getIdentityWithNestedData } = this.props
+    // Move this crazy api call to redux
+    const fetchIdentity = (id) => {
+      const { token, getIdentityWithNestedData } = this.props
+      return getIdentityWithNestedData(token, id).then(identityWithNestedData => {
+        this.setState({
+          isModalLoading: false,
+          identityWithNestedData
+        })
+        return identityWithNestedData
+      })
+    }
 
     // save current URL, so we can restore it on modal close
     this.previousURL = `${window.location.pathname}${window.location.search}`
@@ -74,14 +84,9 @@ class VerificationHistory extends ReactQueryParams {
       isModalLoading: true
     })
     window.clearInterval(this.modalInterval)
-    getIdentityWithNestedData(token, id).then(identityWithNestedData => {
-      window.history.replaceState(null, null, `/verifications/${id}`)
-      this.setState({
-        isModalLoading: false,
-        identityWithNestedData
-      })
-      window.setInterval(
-        () => getIdentityWithNestedData(token, id),
+    fetchIdentity(id).then(() => {
+      this.modalInterval = window.setInterval(
+        () => fetchIdentity(id),
         IDENTITY_CHECK_INTERVAL
       )
     })
