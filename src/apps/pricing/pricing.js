@@ -8,7 +8,7 @@ export default
 class Pricing extends React.Component {
   render() {
     const contactSalesLink =
-      'mailto:contact@getmati.com?Subject=Request%20enterprise%20pricing'
+      'mailto:hello@getmati.com'
     const { formatMessage } = this.props.intl
     const t = variableName => formatMessage({ id: variableName })
 
