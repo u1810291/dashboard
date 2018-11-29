@@ -59,9 +59,26 @@
   }
 }
 
+.pricing-plan__header-top-hint {
+  position: absolute;
+  height: 16px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 171, 98, 0.1);
+  font-size: 8px;
+  font-weight: bold;
+  line-height: 16px;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 0.4px;
+  color: var(--mgi-theme-palette-green);
+}
+
 .pricing-plan__header,
 .pricing-plan__price,
 .pricing-plan__features {
+  position: relative;
   padding: 20px;
   border-bottom: 1px solid #d8dde7;
 }
@@ -76,7 +93,7 @@
   }
   .pricing-plans__headers {
     display: block;
-    & > div {
+    &>div {
       display: flex;
       align-items: center;
     }
@@ -89,8 +106,8 @@
   }
   .pricing-plan__features {
     height: 380px;
-    font-size: 14px;
-    & ul > li {
+    & ul>li {
+      font-size: 14px;
       line-height: 24px;
     }
   }
