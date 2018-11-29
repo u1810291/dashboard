@@ -9,7 +9,7 @@ function caption(document, intl) {
   const cap = [document.caption]
   if (document.origin) {
     cap.push(
-      <span class="text-secondary">
+      <span className="text-secondary">
         {' '}
         ({intl.formatMessage({ id: 'verifirationModal.origin' })}{' '}
         {document.origin})

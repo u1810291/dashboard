@@ -2396,7 +2396,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.0, classnames@^2.2.5, classnames@^2.2.6, classnames@~2.2.5:
+classnames@^2.1.2, classnames@^2.2.0, classnames@^2.2.5, classnames@^2.2.6, classnames@~2.2.5:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
@@ -5023,7 +5023,7 @@ highlight.js@~9.12.0:
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.12.0.tgz#e6d9dbe57cbefe60751f02af336195870c90c01e"
   integrity sha1-5tnb5Xy+/mB1HwKvM2GVhwyQwB4=
 
-history@^4.7.2:
+history@^4.6.0, history@^4.7.2:
   version "4.7.2"
   resolved "https://registry.yarnpkg.com/history/-/history-4.7.2.tgz#22b5c7f31633c5b8021c7f4a8a954ac139ee8d5b"
   integrity sha512-1zkBRWW6XweO0NBcjiphtVJVsIQ+SXF29z9DVkceeaSLVMFXHool+fdCZD4spDCfZJCILPILc3bm7Bc+HRi0nA==
@@ -6697,7 +6697,7 @@ lodash.clonedeep@^4.3.2, lodash.clonedeep@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
   integrity sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=
 
-lodash.debounce@^4.0.8:
+lodash.debounce@^4, lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
@@ -8764,7 +8764,7 @@ prompts@^0.1.9:
     kleur "^2.0.1"
     sisteransi "^0.1.1"
 
-prop-types@^15.5.0, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@~15.6.0:
+prop-types@^15, prop-types@^15.5.0, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@~15.6.0:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   integrity sha512-3pboPvLiWD7dkI3qf3KbUe6hKFKa52w+AE0VCqECtf+QHAKgOL37tTaNCnuX1nAAQ4ZhyP+kYVKf8rLmJ/feDQ==
@@ -8967,6 +8967,14 @@ react-codemirror2@^5.1.0:
   resolved "https://registry.yarnpkg.com/react-codemirror2/-/react-codemirror2-5.1.0.tgz#62de4460178adea40eb52eabf7491669bf3794b8"
   integrity sha512-Cksbgbviuf2mJfMyrKmcu7ycK6zX/ukuQO8dvRZdFWqATf5joalhjFc6etnBdGCcPA2LbhIwz+OPnQxLN/j1Fw==
 
+react-debounce-input@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-debounce-input/-/react-debounce-input-3.2.0.tgz#6978c6061d898f549f40417fb0d2ebbecf50aaaa"
+  integrity sha1-aXjGBh2Jj1SfQEF/sNLrvs9Qqqo=
+  dependencies:
+    lodash.debounce "^4"
+    prop-types "^15"
+
 react-dev-utils@^6.0.5, react-dev-utils@^6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-6.1.1.tgz#a07e3e8923c4609d9f27e5af5207e3ca20724895"
@@ -9098,6 +9106,13 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-query-params@1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/react-query-params/-/react-query-params-1.0.9.tgz#a4359dace3fcea1676dfb7698c1e2e862b72de22"
+  integrity sha512-ByZq0fQgwv22kfeDkX1GDWbNghuKomHbUczmtepOV2WmhjISW91AkM32xzP0BJNcjpM6LwA8pCKzzymAaNdwgQ==
+  dependencies:
+    history "^4.6.0"
 
 react-redux@^5.0.7:
   version "5.1.1"
@@ -9231,6 +9246,14 @@ react-side-effect@^1.1.0:
   dependencies:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
+
+react-simple-dropdown@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/react-simple-dropdown/-/react-simple-dropdown-3.2.3.tgz#c9737bcb7a54c7de267a1afeeec04de588a3fa7b"
+  integrity sha512-NmyyvA0D4wph5ctzkn8U4wmblOacavJMl9gTOhQR3v8I997mc1FL1NFKkj3Mx+HNysBKRD/HI+kpxXCAgXumPw==
+  dependencies:
+    classnames "^2.1.2"
+    prop-types "^15.5.8"
 
 react-smooth@~1.0.0:
   version "1.0.2"

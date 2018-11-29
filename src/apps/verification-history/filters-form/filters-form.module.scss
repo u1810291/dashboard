@@ -1,0 +1,11 @@
+:local(.form) {
+  display: flex;
+}
+
+:local(.searchField) {
+  margin-bottom: 0;
+}
+
+:local(.filtersControl) {
+  margin-left: var(--mgi-spacing)
+}

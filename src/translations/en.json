@@ -14,9 +14,12 @@
   "face-match": "Face Match",
   "liveness": "Liveness",
   "ocr-data": "OCR data",
+  "filters": "Filters",
+  "clear-all": "Clear all",
 
   "statuses.unverified": "Unverified",
   "statuses.verified": "Verified",
+  "statuses.manual-review": "Manual review",
 
   "recovery.title": "Recovery",
   "recovery.subtitle": "Please, provide your email address, to get a password reset link",
@@ -182,7 +185,17 @@
   "identities.fields.actions": "Actions",
   "identities.total": "Total Verifications:",
   "identities.no-data": "No one has been verified yet",
-
+  "identities.filters.labels.search": "Search",
+  "identities.filters.labels.type-filter": "VERIFICATION ITEMS:",
+  "identities.filters.labels.state-filter": "STATUS:",
+  "identities.filters.placeholder.search": "Find a person...",
+  
+  "verification.type.face": "Face verification",
+  "verification.type.national": "National ID",
+  "verification.type.driving-license": "Driving License",
+  "verification.type.passport": "Passport",
+  "verification.type.residency": "Proof of residency",
+  
   "verifirationModal.photos.caption": "Photos",
   "verifirationModal.origin": "from",
   "verifirationModal.n-a": "n/a",

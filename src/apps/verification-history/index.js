@@ -1,7 +1,14 @@
 import React from 'react'
+import ReactQueryParams from 'react-query-params'
 import { connect } from 'react-redux'
 import { flatten, uniq } from 'lodash'
+import { compose } from 'lodash/fp'
 import { getIdentities, getIdentityWithNestedData } from 'src/state/identities'
+import {
+  filterBySearch,
+  filterByStates,
+  filterByTypes
+} from 'src/state/identities/filtering'
 import { FormattedMessage } from 'react-intl'
 import { AVAILABLE_DOCUMENT_TYPES } from 'src/state/merchant'
 import { authorizedUrl } from 'src/lib/client/http'
@@ -17,6 +24,7 @@ import DocumentTypesLabel from 'src/components/document-types-label'
 import Status from 'src/components/status-label'
 import VerificationModal from 'src/components/verification-modal'
 import Spinner from 'src/components/spinner'
+import FiltersForm from './filters-form'
 import { extractIdentityData } from 'src/components/verification-details'
 import stringify from 'src/lib/stringify'
 import CSS from './styles.css'
@@ -60,7 +68,13 @@ export default
   }),
   { getIdentities, getIdentityWithNestedData }
 )
-class VerificationHistory extends React.Component {
+class VerificationHistory extends ReactQueryParams {
+  defaultQueryParams = {
+    states: '[]',
+    types: '[]',
+    search: ''
+  }
+
   constructor(props) {
     super(props)
     this.state = {}
@@ -72,6 +86,9 @@ class VerificationHistory extends React.Component {
 
   showVerificationModal = ({ id }) => {
     const { token, getIdentityWithNestedData } = this.props
+    // save current URL, so we can restore it on modal close
+    this.previousURL = `${window.location.pathname}${window.location.search}`
+
     getIdentityWithNestedData(token, id).then(identityWithNestedData => {
       window.history.replaceState(null, null, `/verifications/${id}`)
       this.setState({
@@ -82,7 +99,7 @@ class VerificationHistory extends React.Component {
   }
 
   closeVerificationModal = () => {
-    window.history.replaceState(null, null, '/verifications')
+    window.history.replaceState(null, null, this.previousURL)
     this.setState({ showVerificationModal: false })
   }
 
@@ -129,6 +146,14 @@ class VerificationHistory extends React.Component {
     ]
   }
 
+  clearSelectedFilters() {
+    this.setQueryParams({
+      states: [],
+      types: [],
+      search: this.queryParams.search
+    })
+  }
+
   render() {
     if (this.props.isLoading) {
       return (
@@ -137,6 +162,16 @@ class VerificationHistory extends React.Component {
         </Content>
       )
     }
+
+    const search = decodeURIComponent(this.queryParams.search || '')
+
+    const filterIdentities = compose(
+      filterBySearch(search.trim().toLowerCase()),
+      filterByStates(this.queryParams.states),
+      filterByTypes(this.queryParams.types)
+    )
+
+    const visibleIdentities = filterIdentities(this.props.identities)
 
     return (
       <Content>
@@ -166,9 +201,18 @@ class VerificationHistory extends React.Component {
           </Panel.Body>
         </Panel>
         <Panel caption={<FormattedMessage id="identities.title" />}>
+          <Panel.Header>
+            <FiltersForm
+              search={search}
+              types={this.queryParams.types}
+              states={this.queryParams.states}
+              onChange={this.setQueryParams.bind(this)}
+              onClear={this.clearSelectedFilters.bind(this)}
+            />
+          </Panel.Header>
           <Panel.Body padded={false}>
             <DataTable
-              rows={this.props.identities}
+              rows={visibleIdentities}
               columns={this.getTableColumns()}
               emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
             />

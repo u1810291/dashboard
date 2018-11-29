@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { Dropdown } from 'src/components/dropdown'
+import Dropdown from 'src/components/dropdown'
 import CSS from './ApplicationBox.css'
 
 export default function ApplicationBox({ children, menu }) {
@@ -83,23 +83,21 @@ export class MenuItemCollection extends React.Component {
     const { icon, label, children } = this.props
     return (
       <React.Fragment>
-        <span
-          className={classNames(CSS.menuItem, 'mgi-menu-item-collection')}
-          onClick={() => this.setState({ opened: true })}
-          ref="label"
-        >
-          {icon && <span className={CSS.menuItemIcon}>{icon}</span>}
-          {label && <span className={CSS.menuItemLabel}>{label}</span>}
-        </span>
-        {this.state.opened && (
-          <Dropdown
-            onClose={() => this.setState({ opened: false })}
-            target={this.refs.label}
-          >
+        <Dropdown className={CSS.menuItemDropdown}>
+          <Dropdown.Trigger>
+            <span
+              className={classNames(CSS.menuItem, 'mgi-menu-item-collection')}
+              ref="label"
+            >
+              {icon && <span className={CSS.menuItemIcon}>{icon}</span>}
+              {label && <span className={CSS.menuItemLabel}>{label}</span>}
+            </span>
+          </Dropdown.Trigger>
+          <Dropdown.Content>
             {children}
-          </Dropdown>
-        )}
-    </React.Fragment>
+          </Dropdown.Content>
+        </Dropdown>
+      </React.Fragment>
     )
   }
 }

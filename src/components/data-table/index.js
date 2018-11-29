@@ -40,7 +40,7 @@ export default function DataTable({
         ))}
         {emptyBodyLabel && !rows.length ? (
           <tr>
-            <td colspan={columns.length}>
+            <td colSpan={columns.length}>
               <div className={CSS.tableEmptyBody}>
                 <EmptyTableIcon />
                 <p>{emptyBodyLabel}</p>
