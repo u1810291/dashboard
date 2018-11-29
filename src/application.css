@@ -65,6 +65,10 @@ strong {
   color: var(--mgi-theme-color-secondary);
 }
 
+.text-muted {
+  color: var(--mgi-theme-palette-neutral);
+}
+
 .text-info {
   color: #47A8E8;
 }

@@ -12,7 +12,7 @@ import ApplicationBox, {
 } from 'src/components/application-box'
 import { OnboardingModal } from 'src/components/onboarding-modal'
 import { Configuration } from 'src/apps/configuration'
-import UpgradePlan from './UpgradePlan'
+import PricingPage from 'src/apps/pricing'
 import VerificationHistory from 'src/apps/verification-history'
 import VerificationItem from 'src/apps/verification-history/verification-item'
 import DevelopersRoute from 'src/apps/developers'
@@ -92,7 +92,7 @@ class Dashboard extends React.Component {
           label={formatMessage({ id: 'dashboard.menu.account' })}
           icon={<AccountIcon />}
         >
-          <MenuItemLink to="/upgrade" label={formatMessage({ id: 'dashboard.menu.upgrade' })} />
+          <MenuItemLink to="/pricing" label={formatMessage({ id: 'dashboard.menu.upgrade' })} />
           <MenuItemButton
             onClick={this.handleSignOut}
             label={formatMessage({ id: 'dashboard.menu.signout' })}
@@ -117,7 +117,7 @@ class Dashboard extends React.Component {
             <Route exact path="/developers" component={DevelopersRoute} />
             <Route exact path="/verifications" component={VerificationHistory} />
             <Route exact path="/verifications/:id" component={VerificationItem} />
-            <Route exact path="/upgrade" component={UpgradePlan} />
+            <Route exact path="/pricing" component={PricingPage} />
             <Route path="/" component={Configuration} />
           </Switch>
         </ApplicationBox>
