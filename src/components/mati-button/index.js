@@ -58,7 +58,6 @@ export class MatiButton extends React.Component {
       return
     }
     this.renderButton()
-    window.Mati.on('mati:success', this.props.onSuccess)
   }
   render() {
     return <div className={this.props.className} ref={root => (this.root = root)} />

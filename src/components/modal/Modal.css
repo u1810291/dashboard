@@ -27,6 +27,11 @@
   display: flex;
   flex-direction: column;
 }
+
+:local(.window).wide {
+  width: 800px
+}
+
 :local(.window) > main {
   flex: 1;
   overflow-y: auto;

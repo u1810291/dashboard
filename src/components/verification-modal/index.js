@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Modal } from 'src/components/modal'
 import Button from 'src/components/button'
 import Panel from 'src/components/panel'
+import SpinnerPage from 'src/components/spinner-page'
 import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
 import VerificationDetails from 'src/components/verification-details'
 import WebbhooksIcon from './webhooks-icon.svg'
@@ -64,12 +65,17 @@ export default class VerificationModal extends React.Component {
             {this.props.fullName}
           </strong>
         </header>
-        <main>
-          {contentSteps[this.state.step]}
-        </main>
-        <footer>
-          {buttonSteps[this.state.step]}
-        </footer>
+        {this.props.isLoading ? <SpinnerPage /> : (
+          <React.Fragment>
+            <main>
+              {contentSteps[this.state.step]}
+            </main>
+
+            <footer>
+              {buttonSteps[this.state.step]}
+            </footer>
+          </React.Fragment>
+        )}
       </Modal>
     )
   }

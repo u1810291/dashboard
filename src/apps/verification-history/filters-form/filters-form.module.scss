@@ -2,7 +2,9 @@
   display: flex;
 }
 
-:local(.searchField) {}
+:local(.searchField) {
+  margin-bottom: 0;
+}
 
 :local(.filtersControl) {
   margin-left: var(--mgi-spacing)

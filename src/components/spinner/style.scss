@@ -1,10 +1,18 @@
 :local(.spinner) {
-  width: 40px;
-  height: 40px;
-  margin: 100px auto;
+  /* margin: 100px auto; */
   background-color: var(--mgi-theme-color-primary);
   border-radius: 100%;
   animation: sk-scaleout 1s infinite ease-in-out;
+
+  &.spinner-small {
+    width: 15px;
+    height: 15px;
+  }
+
+  &.spinner-large {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 @keyframes sk-scaleout {

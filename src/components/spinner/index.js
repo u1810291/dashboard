@@ -1,6 +1,9 @@
 import React from 'react'
-import CSS from './style.css'
+import classNames from 'classnames'
+import CSS from './style.scss'
 
-export default () => {
-  return <div className={CSS.spinner} />
+export default ({ className, size = 'small' }) => {
+  return (
+    <div className={classNames(CSS.spinner, `spinner-${size}`, className)} />
+  )
 }
