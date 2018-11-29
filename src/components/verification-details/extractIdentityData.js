@@ -6,6 +6,10 @@ const percents = val => (parseInt(val, 10) || 0 * 100).toFixed(0) + '%'
 
 const SUSPICIOUS_FACEMATCH_LEVEL = 70
 
+function detectError(string) {
+  return !string || !!string.match(/^([A-Z]+_[A-Z]+)+$/)
+}
+
 export default function extractIdentityData(identity) {
   const photos = []
   const documents = []
@@ -34,7 +38,7 @@ export default function extractIdentityData(identity) {
             }`}
           />
         ),
-        status: identity.alive ? 'ready' : 'warning'
+        status: identity.alive ? 'success' : 'warning'
       },
       {
         caption: (
@@ -47,7 +51,7 @@ export default function extractIdentityData(identity) {
             }`}
           />
         ),
-        status: watchlists ? 'warning' : 'ready'
+        status: watchlists ? 'warning' : 'success'
       }
     ]
   })
@@ -66,10 +70,15 @@ export default function extractIdentityData(identity) {
         origin: (
           <FormattedMessage id={`verifirationModal.fields.${doc.type}`} />
         ),
+        queued: doc.status === 'queued',
         fields: doc.fields.map(field => ({
           caption: <FormattedMessage id={`identities.fields.${field.id}`} />,
-          value: field.value,
-          status: doc.status
+          value: detectError(field.value) ? (
+            <FormattedMessage id="verifirationModal.n-a" />
+          ) : (
+            field.value
+          ),
+          status: detectError(field.value) ? 'failure' : 'success'
         }))
       }
 
@@ -82,7 +91,7 @@ export default function extractIdentityData(identity) {
         value: percents(faceMatchValue),
         status:
           parseInt(faceMatchValue, 10) > SUSPICIOUS_FACEMATCH_LEVEL
-            ? 'ready'
+            ? 'success'
             : 'warning'
       })
 

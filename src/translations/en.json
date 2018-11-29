@@ -235,5 +235,7 @@
   "developers.webhook.example.user.invalid.facematch": "User got flagged on document Face Match",
   "developers.webhook.example.user.invalid.liveness": "User got flagged on Liveness",
   "developers.webhook.example.user.invalid.ocr": "A field was missing on the document & document got flagged on doc authenticity",
-  "developers.webhook.example.header": "Developers integration sheet"
+  "developers.webhook.example.header": "Developers integration sheet",
+
+  "verifications.inProgress": "Getting information..."
 }

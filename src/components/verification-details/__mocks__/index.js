@@ -33,7 +33,7 @@ export const documents = [
       {
         caption: 'Liveness',
         value: <span>Passed <span className="text-secondary">100%</span></span>,
-        status: 'ready'
+        status: 'success'
       },
       {
         caption: 'Global watchlist',
@@ -49,26 +49,24 @@ export const documents = [
       {
         caption: 'Full name',
         value: 'Daniela Hernandez',
-        status: 'ready'
+        status: 'success'
       },
       {
         caption: 'Address',
         value: 'Col Piedad Narvarte 03000 Benito Juarez, D.F.',
-        status: 'ready'
+        status: 'success'
       },
       {
         caption: 'Date of birth',
         value: '19/10/1990',
-        status: 'ready'
+        status: 'success'
       },
       {
         caption: 'date of emission',
-        status: 'queued'
+        value: 'n/a',
+        status: 'failure'
       }
     ]
-  },
-  {
-    caption: 'Biometric & Background checks'
   },
   {
     caption: 'ID check',
@@ -77,22 +75,28 @@ export const documents = [
       {
         caption: 'Full name',
         value: 'Daniela Hernandez',
-        status: 'ready'
+        status: 'success'
       },
       {
         caption: 'Address',
         value: 'Col Piedad Narvarte 03000 Benito Juarez, D.F.',
-        status: 'ready'
+        status: 'success'
       },
       {
         caption: 'Date of birth',
         value: '19/10/1990',
-        status: 'ready'
+        status: 'success'
       },
       {
         caption: 'date of emission',
-        status: 'queued'
+        value: 'n/a',
+        status: 'failure'
       }
     ]
+  },
+  {
+    caption: 'ID check',
+    origin: 'Driving License',
+    queued: true
   }
 ]

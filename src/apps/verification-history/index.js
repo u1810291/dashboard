@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactQueryParams from 'react-query-params'
 import { connect } from 'react-redux'
+// import { Link } from 'react-router-dom'
 import { flatten, uniq } from 'lodash'
 import { compose } from 'lodash/fp'
 import { getIdentities, getIdentityWithNestedData } from 'src/state/identities'
@@ -15,46 +16,23 @@ import { authorizedUrl } from 'src/lib/client/http'
 import { Content } from 'src/components/application-box'
 import Button from 'src/components/button'
 import Panel from 'src/components/panel'
-import Chart from 'src/components/chart'
-import ChartLegendItem from 'src/components/chart/legend-item'
-import ChartTooltip from 'src/components/chart/chart-tooltip'
 import DataTable from 'src/components/data-table'
 import VerificationFullNameLabel from 'src/components/verification-full-name-label'
 import DocumentTypesLabel from 'src/components/document-types-label'
 import Status from 'src/components/status-label'
 import VerificationModal from 'src/components/verification-modal'
-import Spinner from 'src/components/spinner'
+import SpinnerPage from 'src/components/spinner-page'
 import FiltersForm from './filters-form'
 import { extractIdentityData } from 'src/components/verification-details'
 import stringify from 'src/lib/stringify'
 import CSS from './styles.css'
 import MoreIcon from './more.svg'
 
+const IDENTITY_CHECK_INTERVAL = 5000
+
 function getDoсumentTypes(facematchScore) {
   return uniq(
     flatten(facematchScore).filter(t => AVAILABLE_DOCUMENT_TYPES.includes(t))
-  )
-}
-
-function VerificationsChartTooltip({ payload }) {
-  return (
-    <ChartTooltip header={payload.tooltipHeader}>
-      <ChartLegendItem
-        color="blue"
-        label={<FormattedMessage id="users.all" />}
-        value={String(payload.value || 0)}
-      />
-      <ChartLegendItem
-        color="green"
-        label={<FormattedMessage id="users.verified" />}
-        value={String(payload.verified || 0)}
-      />
-      <ChartLegendItem
-        color="orange"
-        label={<FormattedMessage id="users.verified-manually" />}
-        value={String(payload.unverified || 0)}
-      />
-    </ChartTooltip>
   )
 }
 
@@ -86,21 +64,33 @@ class VerificationHistory extends ReactQueryParams {
 
   showVerificationModal = ({ id }) => {
     const { token, getIdentityWithNestedData } = this.props
+
     // save current URL, so we can restore it on modal close
     this.previousURL = `${window.location.pathname}${window.location.search}`
 
+    this.setState({
+      showVerificationModal: true,
+      identityWithNestedData: {},
+      isModalLoading: true
+    })
+    window.clearInterval(this.modalInterval)
     getIdentityWithNestedData(token, id).then(identityWithNestedData => {
       window.history.replaceState(null, null, `/verifications/${id}`)
       this.setState({
-        showVerificationModal: true,
+        isModalLoading: false,
         identityWithNestedData
       })
+      window.setInterval(
+        () => getIdentityWithNestedData(token, id),
+        IDENTITY_CHECK_INTERVAL
+      )
     })
   }
 
   closeVerificationModal = () => {
     window.history.replaceState(null, null, this.previousURL)
     this.setState({ showVerificationModal: false })
+    window.clearInterval(this.modalInterval)
   }
 
   getTableColumns = () => {
@@ -135,6 +125,9 @@ class VerificationHistory extends ReactQueryParams {
         label: <FormattedMessage id="identities.fields.actions" />,
         className: CSS.actionRow,
         content: identity => (
+          // <Link to={`/verifications/${identity.id}`}>
+          // <MoreIcon />
+          // </Link>
           <Button
             onClick={() => this.showVerificationModal(identity)}
             buttonStyle="no-borders default"
@@ -156,11 +149,7 @@ class VerificationHistory extends ReactQueryParams {
 
   render() {
     if (this.props.isLoading) {
-      return (
-        <Content>
-          <Spinner />
-        </Content>
-      )
+      return <SpinnerPage />
     }
 
     const search = decodeURIComponent(this.queryParams.search || '')
@@ -178,28 +167,15 @@ class VerificationHistory extends ReactQueryParams {
         {this.state.showVerificationModal && (
           <VerificationModal
             onClose={this.closeVerificationModal}
+            isLoading={this.state.isModalLoading}
             fullName={this.state.lastVerificationFullName}
             signURL={url => authorizedUrl(url, this.props.token)}
             webhook={stringify(
-              this.state.identityWithNestedData.originalIdentity
+              this.state.identityWithNestedData.originalIdentity || {}
             )}
             {...extractIdentityData(this.state.identityWithNestedData)}
           />
         )}
-        <Panel caption={<FormattedMessage id="analytics" />}>
-          <Panel.Header>
-            <span>
-              <FormattedMessage id="identities.total" />{' '}
-              <strong>{this.props.identities.length}</strong>
-            </span>
-          </Panel.Header>
-          <Panel.Body>
-            <Chart
-              tooltipContent={<VerificationsChartTooltip />}
-              data={this.props.monthlyIdentities}
-            />
-          </Panel.Body>
-        </Panel>
         <Panel caption={<FormattedMessage id="identities.title" />}>
           <Panel.Header>
             <FiltersForm

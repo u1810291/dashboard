@@ -167,6 +167,10 @@ section.mgi-section-separated {
   align-items: center;
 }
 
+.mgi-items--narrow {
+  --mgi-theme-items-gutter: calc(.5 * var(--mgi-spacing));
+}
+
 @media (max-width: 769px) {
   :root {
     --mgi-theme-font-size: 15px;
