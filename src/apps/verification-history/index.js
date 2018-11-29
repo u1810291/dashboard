@@ -1,8 +1,14 @@
 import React from 'react'
 import ReactQueryParams from 'react-query-params'
 import { connect } from 'react-redux'
-import { flatten, uniq } from 'lodash'
+import { flatten, uniq, isEmpty } from 'lodash'
+import { compose } from 'lodash/fp'
 import { getIdentities, getIdentityWithNestedData } from 'src/state/identities'
+import {
+  filterBySearch,
+  filterByStates,
+  filterByTypes
+} from 'src/state/identities/filtering'
 import { FormattedMessage } from 'react-intl'
 import { AVAILABLE_DOCUMENT_TYPES } from 'src/state/merchant'
 import { authorizedUrl } from 'src/lib/client/http'
@@ -157,6 +163,16 @@ class VerificationHistory extends ReactQueryParams {
       )
     }
 
+    const search = decodeURIComponent(this.queryParams.search || '')
+
+    const filterIdentities = compose(
+      filterBySearch(search.trim().toLowerCase()),
+      filterByStates(this.queryParams.states),
+      filterByTypes(this.queryParams.types)
+    )
+
+    const visibleIdentities = filterIdentities(this.props.identities)
+
     return (
       <Content>
         {this.state.showVerificationModal && (
@@ -187,7 +203,7 @@ class VerificationHistory extends ReactQueryParams {
         <Panel caption={<FormattedMessage id="identities.title" />}>
           <Panel.Header>
             <FiltersForm
-              search={decodeURIComponent(this.queryParams.search)}
+              search={search}
               types={this.queryParams.types}
               states={this.queryParams.states}
               onChange={this.setQueryParams.bind(this)}
@@ -196,7 +212,7 @@ class VerificationHistory extends ReactQueryParams {
           </Panel.Header>
           <Panel.Body padded={false}>
             <DataTable
-              rows={this.props.identities}
+              rows={visibleIdentities}
               columns={this.getTableColumns()}
               emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
             />
