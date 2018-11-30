@@ -13,7 +13,6 @@ import {
   AVAILABLE_DOCUMENT_TYPES,
   MANDATORY_DOCUMENT_TYPES
 } from 'src/state/merchant'
-import { notification } from 'src/components/notification'
 import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
 import IntegrationIcon from 'src/assets/icon-integration.svg'
 import ColorStep from './ColorStep'
@@ -47,10 +46,8 @@ class Configuration extends React.Component {
     }
   }
 
-  showDemoNotification = () => {
-    notification.info(
-      this.props.intl.formatMessage({ id: 'onboarding.demo.confirmation' })
-    )
+  redirectToIdentity = ({ identityId }) => {
+    this.props.history.push(`/verifications/${identityId}`)
   }
 
   closeIntegrationCode = () => {
@@ -150,7 +147,7 @@ class Configuration extends React.Component {
               language={this.props.configuration.language}
               color={this.props.configuration.color}
               clientId={this.props.token}
-              onSuccess={this.showDemoNotification}
+              onSuccess={this.redirectToIdentity}
               className={CSS.matiButtonConfiguration}
             />
             <div className={CSS.matiButtonHint}>
