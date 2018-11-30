@@ -1,0 +1,25 @@
+:root {
+  --mgi-verification-detail-photo-height: 150px;
+}
+
+:local(.photos) {
+  display: flex;
+  overflow-x: scroll;
+  text-align: center;
+
+  > :not(:last-child) {
+    margin-right: var(--mgi-spacing);
+  }
+
+  > * {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  img {
+    object-fit: contain;
+    height: var(--mgi-verification-detail-photo-height);
+    margin-bottom: 1rem
+  }
+}

@@ -3,14 +3,17 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import CSS from './Modal.css'
 
-const modalRoot = document.getElementById('modalRoot')
-
-const ModalWindow = ({ children, className, onClose = () => {} }) => (
+const ModalWindow = ({
+  children,
+  className,
+  onClose = () => {},
+  wide = false
+}) => (
   <div
     className={CSS.overlay}
     onClick={e => e.target === e.currentTarget && onClose()}
   >
-    <div className={classNames(CSS.window, className)}>
+    <div className={classNames(CSS.window, className, { wide })}>
       <button className={CSS.closeButton} onClick={onClose} />
       {children}
     </div>
@@ -24,11 +27,12 @@ export class Modal extends React.Component {
   }
 
   componentDidMount() {
-    modalRoot.appendChild(this.modalContainer)
+    const modalRoot = document.getElementById('modalRoot')
+    modalRoot && modalRoot.appendChild(this.modalContainer)
   }
 
   componentWillUnmount() {
-    modalRoot.removeChild(this.modalContainer)
+    this.modalContainer && this.modalContainer.remove()
   }
 
   render() {

@@ -1,0 +1,20 @@
+:local(.webhookExamples) {
+  display: flex;
+}
+
+:local(.webhookExample) {
+  flex-grow: 1;
+  max-width: 50%;
+  padding: var(--mgi-spacing);
+}
+
+.webhook-example__highlighted-line span {
+  color: var(--mgi-theme-palette-orange) !important;
+}
+
+:local(.webhook-example__code-wrapper) {
+  overflow: auto;
+  & pre {
+    height: 360px;
+  }
+}

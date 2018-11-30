@@ -8,8 +8,9 @@ import PasswordReset from './PasswordReset'
 import { NotFound } from 'src/apps/not-found'
 import AuthLayout from 'src/components/auth-layout'
 
+export default
 @connect(state => ({ loggedIn: state.auth.token }))
-export default class Auth extends React.Component {
+class Auth extends React.Component {
   render() {
     return (
       <AuthLayout>

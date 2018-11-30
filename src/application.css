@@ -1,13 +1,27 @@
 /* reset.css from https://meyerweb.com/eric/tools/css/reset/ */
 a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
 
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700');
 
 :root {
-  --mgi-theme-font-size: 18px;
-  --mgi-theme-color-secondary: #909090;
-  --mgi-spacing: 1.66rem;
+  --mgi-spacing: 1.5rem;
+  --mgi-spacing-l: 0.875rem;
+  --mgi-theme-palette-lighter: #fafbfc;
+  --mgi-theme-palette-light: #DFE6EE;
+  --mgi-theme-palette-neutral: #95A6BB;
+  --mgi-theme-palette-blue: #47A8E8;
+  --mgi-theme-palette-green: #00AB62;
+  --mgi-theme-palette-red: #EB5757;
+  --mgi-theme-palette-pink: #FF527E;
+  --mgi-theme-palette-orange: #F2994A;
+  --mgi-theme-palette-yellow: #FFBD00;
+  --mgi-theme-font-size: 16px;
+  --mgi-theme-font-size-small: 14px;
+  --mgi-theme-color-primary: #34495E;
+  --mgi-theme-color-secondary: #747F8A;
+  --mgi-theme-color-active: #47A8E8;
   --mgi-theme-caption-font-size: 12px;
+  --mgi-theme-items-gutter: var(--mgi-spacing)
 }
 
 * {
@@ -19,7 +33,8 @@ html, body, #root {
 }
 
 html {
-  font-family: Montserrat, "Helvetica Neue", sans-serif;
+  color: var(--mgi-theme-color-primary);
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
   font-size: var(--mgi-theme-font-size);
 }
 
@@ -29,21 +44,29 @@ body {
 
 /* Move the rest of this file to the mgi theme */
 
-p {
+img {
+  display: flex;
+}
+
+p:not(:last-child) {
   margin-bottom: 0.8em;
 }
 
 small {
-  font-size: 14px;
+  font-size: var(--mgi-theme-font-size-small);
   line-height: 1.5em;
 }
 
 strong {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .text-secondary {
   color: var(--mgi-theme-color-secondary);
+}
+
+.text-muted {
+  color: var(--mgi-theme-palette-neutral);
 }
 
 .text-info {
@@ -58,16 +81,32 @@ strong {
   color: #EB5757;
 }
 
+.text-warning {
+  color: var(--mgi-theme-palette-orange);
+}
+
 .text-caption {
   text-transform: uppercase;
   font-size: var(--mgi-theme-caption-font-size);
   font-weight: 500;
-  line-height: 1.2;
+  /* keep it same as <small> */
+  line-height: 1.35rem;
+  letter-spacing: 0.5px;
+}
+
+.text-center {
+  text-align: center;
 }
 
 a {
-  color: #2196F3;
+  color: #47A8E8;
   text-decoration: none;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-bottom: var(--mgi-spacing);
+  font-weight: 700;
 }
 
 h2 {
@@ -90,17 +129,50 @@ h3 small {
   line-height: 2;
 }
 
-section.mgi-section-separated {
+h4 {
+  line-height: 15px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+
+h1 p, h2 p, h3 p, h4 p {
+  font-size: 1rem;
+  font-weight: normal;
   margin-bottom: 0;
-  padding-bottom: var(--mgi-spacing);
 }
 
-section.mgi-section-separated:not(:first-of-type) {
-  padding-top: var(--mgi-spacing);
+h5 {
+  font-size: var(--mgi-theme-font-size-small);
+  font-weight: 600;
+  margin-bottom: .5rem;
 }
 
-section.mgi-section-separated:not(:last-of-type) {
-  border-bottom: 1px solid #E3E3E3;
+section.mgi-section-separated {
+  margin-bottom: calc(1.5 * var(--mgi-spacing));
+}
+
+.mgi-items {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: calc(-1 * var(--mgi-theme-items-gutter));
+  margin-bottom: calc(-1 * var(--mgi-theme-items-gutter));
+  justify-content: start;
+}
+
+.mgi-items > * {
+  margin-right: var(--mgi-theme-items-gutter);
+  margin-bottom: var(--mgi-theme-items-gutter);
+}
+
+.mgi-items--centered {
+  align-items: center;
+}
+
+.mgi-items--narrow {
+  --mgi-theme-items-gutter: calc(.5 * var(--mgi-spacing));
 }
 
 @media (max-width: 769px) {

@@ -8,6 +8,7 @@ import CSS from './WebhookURLForm.css'
 
 const formikSettings = {
   enableReinitialize: true,
+  mapPropsToValues: props => ({ url: props.url }),
   handleSubmit(values, { props, setSubmitting, setStatus }) {
     const { url } = values
     setStatus({})
@@ -25,13 +26,14 @@ const formikSettings = {
   }
 }
 
+export default
 @setI18nContext('onboarding.webhooks')
 @withFormik(formikSettings)
-export default class WebhookURLForm extends React.Component {
+class WebhookURLForm extends React.Component {
   render() {
     return (
       <Form className={CSS.form}>
-        <Field name="url" hideLabel className={CSS.input} component={Input} />
+        <Field name="url" className={CSS.input} component={Input} />
         <Button type="submit" buttonStyle="primary">
           <FormattedMessage id="webhookUrl.save" />
         </Button>

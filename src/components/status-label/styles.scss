@@ -1,0 +1,19 @@
+:local(.status) {
+  display: flex;
+  align-items: center;
+
+  i {
+    margin-right: .25rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+  }
+
+  &.unverified i {
+    background-color: var(--mgi-theme-palette-orange);
+  }
+
+  &.verified i {
+    background-color: var(--mgi-theme-palette-green);
+  }
+}

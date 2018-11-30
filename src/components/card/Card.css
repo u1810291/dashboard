@@ -17,7 +17,12 @@
   border: var(--mgi-card-border);
   background-color: transparent;
   /* padding: var(--mgi-card-padding); */
-  border-radius: 5px;
+  border-radius: 4px;
+}
+
+:local(.card).shadow {
+  box-shadow: 0px 2px 4px rgba(52, 73, 94, 0.1);
+  border: 0;
 }
 
 :local(.card).default {
@@ -53,7 +58,6 @@
 }
 
 :local(.card).selected {
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
   border-color: var(--mgi-card-border-color-blue);
 }
 

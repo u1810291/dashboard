@@ -24,10 +24,11 @@ const formikSettings = {
   }
 }
 
+export default
 @setI18nContext('signin.form')
 @connect(null, { signIn })
 @withFormik(formikSettings)
-export default class SignIn extends React.Component {
+class SignIn extends React.Component {
   render() {
     return (
       <Form>

@@ -24,10 +24,11 @@ const formikSettings = {
   }
 }
 
+export default
 @setI18nContext('passwordReset.form')
 @connect(null, { passwordReset })
 @withFormik(formikSettings)
-export default class PasswordReset extends React.Component {
+class PasswordReset extends React.Component {
   render() {
     if (this.props.status === true) return <Redirect to="/" />
     return (

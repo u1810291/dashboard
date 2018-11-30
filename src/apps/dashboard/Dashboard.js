@@ -1,27 +1,37 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Route, Switch, Link } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import classNames from 'classnames'
-import ApplicationBox from 'src/components/application-box'
-import Button from 'src/components/button'
+import { injectIntl } from 'react-intl'
+import ApplicationBox, {
+  Menu,
+  MenuItemLink,
+  MenuItemButton,
+  MenuItemSpacer,
+  MenuItemCollection
+} from 'src/components/application-box'
 import { OnboardingModal } from 'src/components/onboarding-modal'
-import { Onboarding } from '.'
-import { UpgradePlan } from '.'
-import { Identities } from '.'
+import { Configuration } from 'src/apps/configuration'
+import PricingPage from 'src/apps/pricing'
+import VerificationHistory from 'src/apps/verification-history'
+import VerificationItem from 'src/apps/verification-history/verification-item'
+import DevelopersRoute from 'src/apps/developers'
 import { signOut } from 'src/state/auth'
 import { getMerchant, saveConfiguration } from 'src/state/merchant'
 import MatiLogo from 'src/assets/mati-logo.svg'
-import HomeIcon from 'src/assets/icon-home.svg'
-import DocumentIcon from 'src/assets/icon-document.svg'
-import PricingIcon from 'src/assets/icon-pricing.svg'
-import CSS from './Dashboard.css'
+import IdentitiesIcon from './icons/icon-history.svg'
+import ConfigurationIcon from './icons/icon-customize.svg'
+import AccountIcon from './icons/icon-account.svg'
+import DevelopersIcon from './icons/icon-developers.svg'
+import FAQIcon from './icons/icon-faq.svg'
 
+export default
+@injectIntl
 @connect(
   state => ({ token: state.auth.token, configuration: state.merchant.configuration }),
   { signOut, getMerchant, saveConfiguration }
 )
-export default class Dashboard extends React.Component {
+class Dashboard extends React.Component {
   componentDidMount() {
     this.loadData()
   }
@@ -49,43 +59,69 @@ export default class Dashboard extends React.Component {
     })
   }
 
-  render() {
-    const sidebarItems = [
-      <Link to="/" className="mgi-application-box-logo" key="/">
-        <img src={MatiLogo} alt="" />
-      </Link>,
-      <Link to="/dashboard" key="/dashboard">
-        <img src={HomeIcon} alt="" />
-      </Link>,
-      <Link to="/identities" key="/identities">
-        <img src={DocumentIcon} alt="" />
-      </Link>,
-      <Link to="/upgrade" key="/upgrade">
-        <img src={PricingIcon} alt="" />
-      </Link>,
-      <Button
-        key="signout"
-        className={classNames('mgi-application-box-sidebar-bottom', CSS.signoutButton)}
-        buttonStyle="no-borders default"
-        onClick={this.handleSignOut}
-      >
-        <span>&times;</span>
-      </Button>
-    ]
+  renderMenu() {
+    const { formatMessage } = this.props.intl
     return (
-      <ApplicationBox sidebarItems={sidebarItems}>
+      <Menu>
+        <MenuItemLink to="/">
+          <MatiLogo />
+        </MenuItemLink>
+        <MenuItemLink
+          to="/"
+          label={formatMessage({ id: 'dashboard.menu.configuration' })}
+          icon={<ConfigurationIcon />}
+        />
+        <MenuItemLink
+          to="/verifications"
+          label={formatMessage({ id: 'dashboard.menu.identities' })}
+          icon={<IdentitiesIcon />}
+        />
+        <MenuItemSpacer />
+        <MenuItemLink
+          to="/developers"
+          label={formatMessage({ id: 'dashboard.menu.developers' })}
+          icon={<DevelopersIcon />}
+        />
+        <MenuItemLink
+          to="https://faq.getmati.com"
+          external={true}
+          label={formatMessage({ id: 'dashboard.menu.faq' })}
+          icon={<FAQIcon />}
+        />
+        <MenuItemCollection
+          label={formatMessage({ id: 'dashboard.menu.account' })}
+          icon={<AccountIcon />}
+        >
+          <MenuItemLink to="/pricing" label={formatMessage({ id: 'dashboard.menu.upgrade' })} />
+          <MenuItemButton
+            onClick={this.handleSignOut}
+            label={formatMessage({ id: 'dashboard.menu.signout' })}
+          />
+        </MenuItemCollection>
+      </Menu>
+    )
+  }
+
+  render() {
+    return (
+      <React.Fragment>
         {!this.props.configuration.onboardingModalShown && (
           <OnboardingModal onClose={this.handleOnboardingModalClose} />
         )}
+
         <Helmet>
           <title>Mati Dashboard</title>
         </Helmet>
-        <Switch>
-          <Route exact path="/identities" component={Identities} />
-          <Route exact path="/upgrade" component={UpgradePlan} />
-          <Route path="/" component={Onboarding} />
-        </Switch>
-      </ApplicationBox>
+        <ApplicationBox menu={this.renderMenu()}>
+          <Switch>
+            <Route exact path="/developers" component={DevelopersRoute} />
+            <Route exact path="/verifications" component={VerificationHistory} />
+            <Route exact path="/verifications/:id" component={VerificationItem} />
+            <Route exact path="/pricing" component={PricingPage} />
+            <Route path="/" component={Configuration} />
+          </Switch>
+        </ApplicationBox>
+      </React.Fragment>
     )
   }
 }

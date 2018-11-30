@@ -25,10 +25,11 @@ const formikSettings = {
   }
 }
 
+export default
 @setI18nContext('recovery.form')
 @connect(null, { passwordRecovery })
 @withFormik(formikSettings)
-export default class PasswordRecovery extends React.Component {
+class PasswordRecovery extends React.Component {
   render() {
     if (this.props.status === true) return <Redirect to="/" />
     return (

@@ -1,0 +1,17 @@
+:local(.fields) li {
+  display: flex;
+  align-items: center;
+
+  &:not(:last-child) {
+    margin-bottom: 15px;
+  }
+}
+
+:local(.caption) {
+  flex-basis: 135px;
+  flex-shrink: 0;
+}
+
+:local(.icon) {
+  margin-right: 10px;
+}

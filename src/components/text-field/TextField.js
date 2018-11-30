@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import CSS from './TextField.css'
 
-export default function Button({
+export default function TextField({
   type = 'text',
   className,
   ...inputProps
@@ -17,7 +17,7 @@ export default function Button({
   )
 }
 
-Button.propTypes = {
+TextField.propTypes = {
   type: PropTypes.string,
   className: PropTypes.string
 }

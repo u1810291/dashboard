@@ -26,12 +26,14 @@ export function subscribeToWebhook(token, data) {
   }
 }
 
-export function deleteWebhook(token, id) {
+export function deleteWebhook(token, id, clearState = true) {
   return function(dispatch) {
     dispatch({ type: types.WEBHOOKS_DELETE_REQUEST })
     return client.webhooks.deleteWebhook(token, id)
     .then(payload => {
-      dispatch({ type: types.WEBHOOKS_DELETE_SUCCESS, payload })
+      if (clearState) {
+        dispatch({ type: types.WEBHOOKS_DELETE_SUCCESS, payload })
+      }
       return payload
     })
     .catch(error => {

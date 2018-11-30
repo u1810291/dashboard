@@ -4,6 +4,7 @@
 
 :local(.overlay) {
   position: fixed;
+  z-index: 1000;
   top: 0;
   bottom: 0;
   left: 0;
@@ -21,14 +22,20 @@
   max-width: 100%;
   min-height: 360px;
   max-height: calc(100vh - 40px);
-  overflow: auto;
-  padding: 15px;
+  overflow: hidden;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
 }
+
+:local(.window).wide {
+  width: 800px
+}
+
 :local(.window) > main {
-  flex: 1
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
 }
 
 :local(.window) > header, :local(.window) > footer {
@@ -37,18 +44,17 @@
 }
 
 :local(.window) > header {
-  margin: calc(-1 * var(--mgi-spacing));
-  margin-bottom: var(--mgi-spacing);
   text-align: center;
   font-size: var(--mgi-modal-header-font-size);
 }
 
 :local(.window) > footer {
-  margin: calc(-1 * var(--mgi-spacing));
-  margin-top: var(--mgi-spacing);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+}
+
+.modal--footer-spacer {
+  flex: 1;
 }
 
 :local(.window) > footer.modal--footer-transparent {

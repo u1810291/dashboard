@@ -27,6 +27,7 @@ const formikSettings = {
   }
 }
 
+export default
 @setI18nContext('signup.form')
 @connect(
   null,
@@ -34,7 +35,7 @@ const formikSettings = {
 )
 @withFormik(formikSettings)
 @injectIntl
-export default class SignUp extends React.Component {
+class SignUp extends React.Component {
   render() {
     return (
       <Form>
