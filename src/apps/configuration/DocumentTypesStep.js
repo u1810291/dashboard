@@ -7,7 +7,9 @@ import CSS from './DocumentTypesStep.css'
 const toggle = (array, element, addPredicate) => {
   const elements = [...array]
   const index = array.indexOf(element)
-  addPredicate ? elements.push(element) : (index > -1 && elements.splice(index, 1))
+  addPredicate
+    ? elements.push(element)
+    : index > -1 && elements.splice(index, 1)
   return uniq(elements)
 }
 
@@ -23,12 +25,14 @@ function DocumentTypesStep({
   const optional = documents.optional || []
 
   const handleChange = ({ checked, indeterminate }, type) => {
-    onClick({
-      documents: {
-        required: difference(toggle(required, type, checked), mandatoryDocumentTypes),
-        optional: toggle(optional, type, indeterminate)
-      }
-    })
+    const documents = {
+      required: difference(
+        toggle(required, type, checked && !indeterminate),
+        mandatoryDocumentTypes
+      ),
+      optional: toggle(optional, type, indeterminate)
+    }
+    onClick({ documents })
   }
 
   return (
@@ -49,12 +53,11 @@ function DocumentTypesStep({
         ))}
       </div>
       <p>
-      <small className="text-secondary">
-        {'* '}
-        <input type="checkbox" disabled />
-        {' '}
-        <FormattedMessage id="flow.documentTypeStep.optionalHint" />
-      </small>
+        <small className="text-secondary">
+          {'* '}
+          <input type="checkbox" disabled />{' '}
+          <FormattedMessage id="flow.documentTypeStep.optionalHint" />
+        </small>
       </p>
     </div>
   )

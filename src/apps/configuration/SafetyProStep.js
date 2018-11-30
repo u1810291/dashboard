@@ -14,15 +14,15 @@ export default function SafetyProStep({
         </strong>
       </h4>
       <div className="mgi-items">
-          {['globalWatchList', 'liveness', 'databaseValidation'].map(t => (
-            <section>
-            <h4>
-              <FormattedMessage id={`flow.safetyProStep.${t}`} />
-            </h4>
-            <ToggleField
-              checked={props[t]}
-              onClick={onClick.bind(null, { [t]: !props[t] })}
-            />
+          {['globalWatchList', 'liveness'/*, 'databaseValidation'*/].map(t => (
+            <section key={t}>
+              <h4>
+                <FormattedMessage id={`flow.safetyProStep.${t}`} />
+              </h4>
+              <ToggleField
+                checked={props[t]}
+                onClick={onClick.bind(null, { [t]: !props[t] })}
+              />
             </section>
           ))}
       </div>
