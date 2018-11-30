@@ -64,9 +64,9 @@ class Pricing extends React.Component {
                     / {t('plan.price.safety-pro.per-user')}
                   </span>
                 </div>
-                <p className="text-success">
-                  {t('plan.price.safety-pro.free-verifications')}
-                </p>
+                <strong className="text-success">
+                  <small>{t('plan.price.safety-pro.free-verifications')}</small>
+                </strong>
               </div>
             </div>
             <div className="pricing-plan__features">
@@ -112,7 +112,7 @@ class Pricing extends React.Component {
             </div>
             <div className="pricing-plan__price">
               <a href={contactSalesLink}>
-                {t('plan.price.enterprise.contact-sales')}
+                <small>{t('plan.price.enterprise.contact-sales')}</small>
               </a>
             </div>
             <div className="pricing-plan__features">
