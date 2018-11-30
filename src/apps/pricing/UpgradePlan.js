@@ -31,13 +31,10 @@ class DetailCard extends React.Component {
               <FormattedMessage id={`plan.details.${type}.extra.title`} />
             </p>
             <ul className={CSS.detailsExtra}>
-              {this.props.intl
-                .formatMessage({ id: `plan.details.${type}.extra.items` })
-                .map((item, index) => (
-                  <li key={index}>
-                    <small>{item}</small>
-                  </li>
-                ))}
+              <li>{this.props.intl.formatMessage({ id: 'plan.details.safety-pro.extra.items.watchlist' })}</li>
+              <li>{this.props.intl.formatMessage({ id: 'plan.details.safety-pro.extra.items.criminals' })}</li>
+              <li>{this.props.intl.formatMessage({ id: 'plan.details.safety-pro.extra.items.individuals' })}</li>
+              <li>{this.props.intl.formatMessage({ id: 'plan.details.safety-pro.extra.items.laundering' })}</li>
             </ul>
           </React.Fragment>
         )}
