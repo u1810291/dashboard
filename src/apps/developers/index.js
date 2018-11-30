@@ -46,7 +46,7 @@ class Developers extends React.Component {
 
     if (url) {
       await subscribeToWebhook(token, { url })
-      notification.info(intl.formatMessage({ id: 'webhookUrl.confirmation' }))
+      notification.success(intl.formatMessage({ id: 'webhookUrl.confirmation' }))
     }
   }
 

@@ -11,17 +11,21 @@ import 'clipboard-polyfill'
 import './application.css'
 
 ReactDOM.render(
-  (
-    <IntlProvider>
-      <StoreProvider>
-        <BrowserRouter>
-          <ScrollToTop>
-            <Root />
-            <NotificationsContainer draggable={false} autoClose={false} />
-          </ScrollToTop>
-        </BrowserRouter>
-      </StoreProvider>
-    </IntlProvider>
-  ),
+  <IntlProvider>
+    <StoreProvider>
+      <BrowserRouter>
+        <ScrollToTop>
+          <Root />
+          <NotificationsContainer
+            closeButton={false}
+            hideProgressBar={true}
+            pauseOnHover={false}
+            draggable={false}
+            autoClose={5000}
+          />
+        </ScrollToTop>
+      </BrowserRouter>
+    </StoreProvider>
+  </IntlProvider>,
   document.getElementById('root')
 )
