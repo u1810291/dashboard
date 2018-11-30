@@ -3,13 +3,8 @@ import ReactQueryParams from 'react-query-params'
 import { connect } from 'react-redux'
 // import { Link } from 'react-router-dom'
 import { flatten, uniq } from 'lodash'
-import { compose } from 'lodash/fp'
 import { getIdentities, getIdentityWithNestedData } from 'src/state/identities'
-import {
-  filterBySearch,
-  filterByStates,
-  filterByTypes
-} from 'src/state/identities/filtering'
+import { buildFiltersChain } from 'src/state/identities/filtering'
 import { FormattedMessage } from 'react-intl'
 import { AVAILABLE_DOCUMENT_TYPES } from 'src/state/merchant'
 import { authorizedUrl } from 'src/lib/client/http'
@@ -64,15 +59,17 @@ class VerificationHistory extends ReactQueryParams {
 
   showVerificationModal = ({ id }) => {
     // Move this crazy api call to redux
-    const fetchIdentity = (id) => {
+    const fetchIdentity = id => {
       const { token, getIdentityWithNestedData } = this.props
-      return getIdentityWithNestedData(token, id).then(identityWithNestedData => {
-        this.setState({
-          isModalLoading: false,
-          identityWithNestedData
-        })
-        return identityWithNestedData
-      })
+      return getIdentityWithNestedData(token, id).then(
+        identityWithNestedData => {
+          this.setState({
+            isModalLoading: false,
+            identityWithNestedData
+          })
+          return identityWithNestedData
+        }
+      )
     }
 
     // save current URL, so we can restore it on modal close
@@ -160,12 +157,11 @@ class VerificationHistory extends ReactQueryParams {
 
     const search = decodeURIComponent(this.queryParams.search || '')
 
-    const filterIdentities = compose(
-      filterBySearch(search.trim().toLowerCase()),
-      filterByStates(this.queryParams.states),
-      filterByTypes(this.queryParams.types)
+    const filterIdentities = buildFiltersChain(
+      search,
+      this.queryParams.types,
+      this.queryParams.states
     )
-
     const visibleIdentities = filterIdentities(this.props.identities)
 
     return (

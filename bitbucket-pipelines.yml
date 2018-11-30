@@ -16,6 +16,7 @@ pipelines:
             - node
           script:
             - yarn
+            - yarn test
             - yarn build:production
             - curl 'http://apiuser:P8qSGrw9XX7T@jenkins.mati.io/job/WebApps-deployment/job/mgi-dashboard-production/build?token=dmd7wc752gfd0cjdmd987dcmenvesf'
     develop:
@@ -26,5 +27,6 @@ pipelines:
             - node
           script:
             - yarn
+            - yarn test
             - yarn build:staging
             - curl 'http://apiuser:P8qSGrw9XX7T@jenkins.mati.io/job/WebApps-deployment/job/mgi-dashboard-staging/build?token=dndhc752gfd0cjdcysdgfwdvskjdg8ujdemf'
