@@ -11,18 +11,23 @@ export class MatiButton extends React.Component {
   constructor(props) {
     super(props)
     let success
+    let payload
 
     window.addEventListener('message', event => {
       const data = event.data && typeof event.data === 'string' ? JSON.parse(event.data) : event.data || {}
       const index = this.element.dataset.index || 0
       if (this.props.onSuccess && data.action === `mati-signup-${index}::loaded`) {
         success = false
+        payload = null
       }
       if (this.props.onSuccess && data.action === `mati-signup-${index}::success`) {
         success = true
+        payload = data.payload
       }
       if (this.props.onSuccess && data.action === `mati-signup-${index}::exit`) {
-        if (success) this.props.onSuccess()
+        if (success) {
+          this.props.onSuccess(payload)
+        }
       }
     })
   }
