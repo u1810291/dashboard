@@ -132,7 +132,7 @@
   "plan.starter.description-1": "Startups with up to",
   "plan.starter.description-2": "1,000 verifications / month",
   "plan.safety-pro.description-1": "Companies with up to",
-  "plan.safety-pro.description-2": "1,000 – 5,000 verifications / month",
+  "plan.safety-pro.description-2": "5,000 verifications / month",
   "plan.enterprise.description-1": "Large companies with more than",
   "plan.enterprise.description-2": "5,000 verifications / month",
 
@@ -144,24 +144,25 @@
   "plan.price.safety-pro.free-verifications": "14 days FREE trial",
   "plan.price.enterprise.contact-sales": "Contact Sales",
 
-  "plan.starter.features.button": "Mati button installation",
-  "plan.starter.features.button-configure": "Configure your own button style",
-  "plan.starter.features.webhook": "Receive users' documents via webhook OCR for all documents & IDs",
-  "plan.starter.features.face": "Face recognition / Facematch",
+  "plan.starter.features.0": "10min web & mobile integration",
+  "plan.starter.features.1": "Configure your own button style, language & features",
+  "plan.starter.features.2": "Face recognition & Face match",
+  "plan.starter.features.3": "All documents & IDs scanning",
+  "plan.starter.features.4": "Receive users' documents via webhook",
   "plan.safety-pro.features.header": "Same as Starter and more:",
   "plan.safety-pro.features.watchlist": "Global Watchlists",
   "plan.safety-pro.features.watchlist.desc": "Make sure you are meeting the highest security threshold.",
   "plan.safety-pro.features.liveness": "Liveness check",
   "plan.safety-pro.features.liveness.desc": "Are your users alive or just a printed picture?",
-  "plan.safety-pro.features.new": "New Features",
-  "plan.safety-pro.features.new.desc": "Direct line of communication to the product team.",
+  "plan.safety-pro.features.auth": "Document authenticity check",
+  "plan.safety-pro.features.auth.desc": "Check if the ID has all the features of an authentic one",
   "plan.safety-pro.features.trial": "Test for free!",
   "plan.safety-pro.features.trial.desc": "First 100 verifications are free",
 
-  "plan.enterprise.features.header": "Same as Safety Pro and more:",
+  "plan.enterprise.features.header": "Same as Starter and Safety Pro + Custom Settings",
   "plan.enterprise.features.settings": "Personal Settings",
   "plan.enterprise.features.pricing": "Personal Pricing",
-  
+
   "plan.details.safety-pro.title": "Global WatchList",
   "plan.details.liveness.title": "Liveness check",
   "plan.details.new-features.title": "New features",
@@ -204,12 +205,12 @@
   "identities.filters.labels.type-filter": "VERIFICATION ITEMS:",
   "identities.filters.labels.state-filter": "STATUS:",
   "identities.filters.placeholder.search": "Find a person...",
-  
+
   "verification.type.national": "National ID",
   "verification.type.driving-license": "Driving License",
   "verification.type.passport": "Passport",
   "verification.type.residency": "Proof of residency",
-  
+
   "verifirationModal.photos.caption": "Photos",
   "verifirationModal.origin": "from",
   "verifirationModal.n-a": "n/a",

@@ -86,14 +86,16 @@ export default function extractIdentityData(identity) {
         s => s[0] === doc.type
       ) || [])[1]
 
-      document.fields.unshift({
-        caption: <FormattedMessage id="identities.fields.faceMatch" />,
-        value: percents(faceMatchValue),
-        status:
-          parseInt(faceMatchValue, 10) > SUSPICIOUS_FACEMATCH_LEVEL
-            ? 'success'
-            : 'warning'
-      })
+      if (faceMatchValue) {
+        document.fields.unshift({
+          caption: <FormattedMessage id="identities.fields.faceMatch" />,
+          value: percents(faceMatchValue),
+          status:
+            parseInt(faceMatchValue, 10) > SUSPICIOUS_FACEMATCH_LEVEL
+              ? 'success'
+              : 'warning'
+        })
+      }
 
       documents.push(document)
     })
