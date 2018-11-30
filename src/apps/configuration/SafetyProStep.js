@@ -20,7 +20,10 @@ export default function SafetyProStep({
                 <FormattedMessage id={`flow.safetyProStep.${t}`} />
               </h4>
               <ToggleField
-                checked={props[t]}
+                // checked={props[t]}
+                // TODO: remove next two lines after mati.io migration.
+                checked
+                disabled
                 onClick={onClick.bind(null, { [t]: !props[t] })}
               />
             </section>

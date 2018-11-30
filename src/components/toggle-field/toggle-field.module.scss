@@ -16,26 +16,30 @@
   cursor: pointer;
   position: relative;
   transition: background-color .3s ease, border-color .3s ease;
-}
 
-:local(.toggle):before {
-  display: block;
-  content: ' ';
-  width: var(--mgi-toggle-height);
-  height: var(--mgi-toggle-height);
-  background: var(--mgi-toggle-handle-color);
-  border-radius: 100%;
-  position: absolute;
-  transition: left .3s ease;
-  top: 0;
-  left: 0;
-}
+  &:before {
+    display: block;
+    content: ' ';
+    width: var(--mgi-toggle-height);
+    height: var(--mgi-toggle-height);
+    background: var(--mgi-toggle-handle-color);
+    border-radius: 100%;
+    position: absolute;
+    transition: left .3s ease;
+    top: 0;
+    left: 0;
+  }
 
-:local(.toggle).checked {
-  border-color: var(--mgi-toggle-active-color);
-  background: var(--mgi-toggle-active-color);
-}
+  &:global(.checked) {
+    border-color: var(--mgi-toggle-active-color);
+    background: var(--mgi-toggle-active-color);
+  }
 
-:local(.toggle).checked:before {
-  left: var(--mgi-toggle-height);
+  &:global(.checked):before {
+    left: var(--mgi-toggle-height);
+  }
+
+  &:global(.disabled) {
+    cursor: not-allowed;
+  }
 }
