@@ -2,38 +2,14 @@ import { createReducer, createTypesSequence } from 'src/state/utils'
 import client from 'src/lib/client'
 import { store } from 'src/components/store-provider'
 
+export * from './consts'
+
 export const types = {
   ...createTypesSequence('MERCHANT_GET'),
   ...createTypesSequence('CONFIGURATION_SAVE'),
   ...createTypesSequence('INTEGRATION_CODE'),
   ...createTypesSequence('GET_MERCHANT_APPS'),
 }
-
-export const AVAILABLE_COLORS = [
-  'blue',
-  'green',
-  'red',
-  'pink',
-  'orange',
-  'yellow'
-]
-
-export const AVAILABLE_DOCUMENT_TYPES = [
-  'liveness',
-  'passport',
-  'national-id',
-  'driving-license',
-  'proof-of-residency'
-]
-
-export const MANDATORY_DOCUMENT_TYPES = ['liveness']
-
-export const AVAILABLE_LANGUAGES = [
-  'en',
-  'es',
-  'fr',
-  'pt'
-]
 
 export function getMerchant(token) {
   return function(dispatch) {
