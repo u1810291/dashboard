@@ -1,7 +1,8 @@
 import React from 'react'
-import './style.scss'
 import Panel from 'src/components/panel'
+import { times } from 'lodash'
 import { injectIntl } from 'react-intl'
+import './style.scss'
 
 export default
 @injectIntl
@@ -37,10 +38,11 @@ class Pricing extends React.Component {
             </div>
             <div className="pricing-plan__features">
               <ul>
-                <li>{t('plan.starter.features.button')}</li>
-                <li>{t('plan.starter.features.button-configure')}</li>
-                <li>{t('plan.starter.features.webhook')}</li>
-                <li>{t('plan.starter.features.face')}</li>
+                {
+                  times(5).map(i => (
+                    <li>{t(`plan.starter.features.${i}`)}</li>
+                  ))
+                }
               </ul>
             </div>
           </div>
@@ -83,19 +85,19 @@ class Pricing extends React.Component {
                 <li>
                   <strong>{t('plan.safety-pro.features.liveness')}</strong>
                   <p>
-                    <span>{t('plan.safety-pro.features.liveness')}</span>{' '}
+                    <span>{t('plan.safety-pro.features.liveness.desc')}</span>{' '}
                     {/* <a href="#">{t('link.find-out-more')}</a> */}
                   </p>
                 </li>
                 <li>
-                  <strong>{t('plan.safety-pro.features.new')}</strong>
+                  <strong>{t('plan.safety-pro.features.auth')}</strong>
                   <p>
-                    <span>{t('plan.safety-pro.features.new.desc')}</span>{' '}
+                    <span>{t('plan.safety-pro.features.auth.desc')}</span>{' '}
                     {/* <a href="#">{t('link.read-more')}</a> */}
                   </p>
                 </li>
                 <li>
-                  <b>{t('plan.safety-pro.features.trial')}</b>
+                  <strong>{t('plan.safety-pro.features.trial')}</strong>
                   <p>{t('plan.safety-pro.features.trial.desc')}</p>
                 </li>
               </ul>
@@ -117,10 +119,6 @@ class Pricing extends React.Component {
             </div>
             <div className="pricing-plan__features">
               <h3>{t('plan.enterprise.features.header')}</h3>
-              <ul>
-                <li>{t('plan.enterprise.features.settings')}</li>
-                <li>{t('plan.enterprise.features.pricing')}</li>
-              </ul>
             </div>
           </div>
         </Panel.Body>
