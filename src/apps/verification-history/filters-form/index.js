@@ -14,10 +14,6 @@ class VerificationsFiltersForm extends Component {
   get VERIFICATION_TYPES_OPTIONS() {
     return [
       {
-        label: this.props.intl.formatMessage({ id: 'verification.type.face' }),
-        value: 'face-verification'
-      },
-      {
         label: this.props.intl.formatMessage({
           id: 'verification.type.national'
         }),
@@ -39,7 +35,7 @@ class VerificationsFiltersForm extends Component {
         label: this.props.intl.formatMessage({
           id: 'verification.type.residency'
         }),
-        value: 'residency'
+        value: 'proof-of-residency'
       }
     ]
   }
@@ -52,7 +48,7 @@ class VerificationsFiltersForm extends Component {
       },
       {
         label: this.props.intl.formatMessage({ id: 'statuses.manual-review' }),
-        value: 'manual'
+        value: 'manual_review'
       }
     ]
   }

@@ -205,7 +205,6 @@
   "identities.filters.labels.state-filter": "STATUS:",
   "identities.filters.placeholder.search": "Find a person...",
   
-  "verification.type.face": "Face verification",
   "verification.type.national": "National ID",
   "verification.type.driving-license": "Driving License",
   "verification.type.passport": "Passport",
