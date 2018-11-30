@@ -17,19 +17,7 @@ pipelines:
           script:
             - yarn
             - yarn build:production
-          artifacts:
-            - build/**
-      - step:
-          name: Deploy to S3
-          image: atlassian/pipelines-awscli
-          script:
-            - sed -i -e "s/mgi-dashboard-invalidation/mgi-dashboard-invalidation-$(date +%FT%T)/g" invbatch.json
-            - aws s3 sync --delete --acl public-read build s3://mgi.webapps/dashboard/production/
-            - aws cloudfront create-invalidation --region us-east-1 --distribution-id E2KAQDZKSAY41M --invalidation-batch file://invbatch.json
-      - step:
-          name: Run test on Jenkins
-          script:
-            - curl 'http://apiuser:P8qSGrw9XX7T@jenkins.mati.io/job/QA/job/Dashboard-GlobalID-production-test/build?token=lksfsduhf8rfjwfh7hvc7sfksfksfijf'
+            - curl 'http://apiuser:P8qSGrw9XX7T@jenkins.mati.io/job/WebApps-deployment/job/mgi-dashboard-production/build?token=dmd7wc752gfd0cjdmd987dcmenvesf'
     develop:
       - step:
           name: Build & deploy
