@@ -31,7 +31,7 @@ export default
 )
 @injectIntl
 class Developers extends React.Component {
-  handleSubscribeToWebhook = url => {
+  handleSubscribeToWebhook = async url => {
     const {
       token,
       lastWebhook,
@@ -39,10 +39,15 @@ class Developers extends React.Component {
       subscribeToWebhook,
       deleteWebhook
     } = this.props
-    if (lastWebhook.id) deleteWebhook(token, lastWebhook.id)
-    return subscribeToWebhook(token, { url }).then(() =>
+
+    if (lastWebhook.id) {
+      await deleteWebhook(token, lastWebhook.id, false)
+    }
+
+    if (url) {
+      await subscribeToWebhook(token, { url })
       notification.info(intl.formatMessage({ id: 'webhookUrl.confirmation' }))
-    )
+    }
   }
 
   componentDidMount() {
@@ -63,7 +68,7 @@ class Developers extends React.Component {
           <Panel.Body>
             <WebhookURLForm
               subscribeToWebhook={this.handleSubscribeToWebhook}
-              url={this.props.lastWebhook.url}
+              url={this.props.lastWebhook.url || ''}
             />
           </Panel.Body>
         </Panel>

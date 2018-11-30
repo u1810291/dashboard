@@ -8,6 +8,7 @@ import CSS from './WebhookURLForm.css'
 
 const formikSettings = {
   enableReinitialize: true,
+  mapPropsToValues: props => ({ url: props.url }),
   handleSubmit(values, { props, setSubmitting, setStatus }) {
     const { url } = values
     setStatus({})
