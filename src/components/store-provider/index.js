@@ -5,6 +5,7 @@ import ReduxThunk from 'redux-thunk'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { PersistGate } from 'redux-persist/integration/react'
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
 
 import * as reducers from 'src/state/reducers'
 
@@ -21,7 +22,7 @@ const persistedReducer = persistReducer(
 
 export const store = createStore(
   persistedReducer,
-  applyMiddleware(ReduxThunk)
+  composeWithDevTools(applyMiddleware(ReduxThunk))
 )
 
 let persistor = persistStore(store)

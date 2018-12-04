@@ -16,8 +16,8 @@ const formikSettings = {
     setStatus({})
     props
       .signUp(pick(values, 'firstName', 'lastName', 'email', 'password', 'roleInCompany'))
-      .then(data => {
-        setSubmitting(false)
+      .then(response => {
+        setSubmitting(false);
         props.history.push('/')
       })
       .catch(error => {

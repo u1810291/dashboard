@@ -1,5 +1,6 @@
 import { createReducer, createTypesSequence } from 'src/state/utils'
 import client from 'src/lib/client'
+import { updateIntercom } from 'src/lib/intercom'
 
 export const types = {
   ...createTypesSequence('AUTH_SIGNIN'),
@@ -30,6 +31,7 @@ export function signUp(credentials) {
     return client.auth.signup(credentials)
     .then(payload => {
       dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload })
+      updateIntercom(payload.data.user);
       return payload
     })
     .catch(error => {
