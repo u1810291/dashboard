@@ -36,7 +36,7 @@ pipeline {
         beforeAgent true
       }
       steps {
-        build './mgi-dashboard-production'
+        build '../mgi-dashboard-production'
       }
     }
   }
