@@ -26,6 +26,7 @@
     "react-toastify": "^4.4.3",
     "recharts": "^1.4.1",
     "redux": "^4.0.0",
+    "redux-mock-store": "^1.5.3",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0"
   },
@@ -34,7 +35,7 @@
     "build": "craco build",
     "build:staging": "env-cmd .env.staging npm run build",
     "build:production": "env-cmd .env.production npm run build",
-    "test": "craco test --env=jsdom",
+    "test": "NODE_PATH='.' craco test --env=jsdom",
     "test:ci": "CI=true yarn test",
     "eject": "react-scripts eject",
     "lint": "yarn run eslint \"src/**/*.js\""
@@ -52,7 +53,8 @@
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
     "node-sass": "^4.10.0",
-    "react-styleguidist": "^8.0.5"
+    "react-styleguidist": "^8.0.5",
+    "redux-devtools-extension": "^2.13.7"
   },
   "browserslist": [
     ">0.2%",
