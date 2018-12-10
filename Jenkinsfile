@@ -27,7 +27,7 @@ pipeline {
         beforeAgent true
       }
       steps {
-        build '../../mgi-dashboard-staging'
+        build './mgi-dashboard-staging'
       }
     }
     stage('Deploy to production') {
@@ -36,7 +36,7 @@ pipeline {
         beforeAgent true
       }
       steps {
-        build '../../mgi-dashboard-production'
+        build './mgi-dashboard-production'
       }
     }
   }
