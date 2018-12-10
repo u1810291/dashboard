@@ -35,6 +35,7 @@
     "build:staging": "env-cmd .env.staging npm run build",
     "build:production": "env-cmd .env.production npm run build",
     "test": "craco test --env=jsdom",
+    "test:ci": "CI=true yarn test",
     "eject": "react-scripts eject",
     "lint": "yarn run eslint \"src/**/*.js\""
   },
