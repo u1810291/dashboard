@@ -18,7 +18,7 @@ const formikSettings = {
       .signUp(pick(values, 'firstName', 'lastName', 'email', 'password', 'roleInCompany'))
       .then(response => {
         setSubmitting(false);
-        props.history.push('/')
+        window.location.assign('https://getmati.com/thank-you/');
       })
       .catch(error => {
         setSubmitting(false)
