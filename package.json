@@ -35,7 +35,7 @@
     "build": "craco build",
     "build:staging": "env-cmd .env.staging npm run build",
     "build:production": "env-cmd .env.production npm run build",
-    "test": "NODE_PATH='.' craco test --env=jsdom",
+    "test": "cross-env NODE_PATH='.' craco test --env=jsdom",
     "test:ci": "CI=true yarn test",
     "eject": "react-scripts eject",
     "lint": "yarn run eslint \"src/**/*.js\""
@@ -46,6 +46,7 @@
     "babel-eslint": "^9.0.0",
     "babel-plugin-inline-react-svg": "^1.0.1",
     "babel-plugin-module-resolver": "^3.1.1",
+    "cross-env": "^5.2.0",
     "eslint": "5.6.0",
     "eslint-config-react-app": "^3.0.5",
     "eslint-plugin-flowtype": "^3.2.0",
