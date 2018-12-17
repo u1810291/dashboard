@@ -9,50 +9,70 @@ export const types = {
   ...createTypesSequence('CONFIGURATION_SAVE'),
   ...createTypesSequence('INTEGRATION_CODE'),
   ...createTypesSequence('GET_MERCHANT_APPS'),
+  ...createTypesSequence('CREATE_APPLICATION')
 }
 
 export function getMerchant(token) {
   return function(dispatch) {
     dispatch({ type: types.MERCHANT_GET_REQUEST })
-    return client.merchant.getMerchant(token)
-    .then(payload => {
-      dispatch({ type: types.MERCHANT_GET_SUCCESS, payload })
-      return payload
-    })
-    .catch(error => {
-      dispatch({ type: types.MERCHANT_GET_FAILURE })
-      throw error
-    })
+    return client.merchant
+      .getMerchant(token)
+      .then(payload => {
+        dispatch({ type: types.MERCHANT_GET_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.MERCHANT_GET_FAILURE })
+        throw error
+      })
   }
 }
 
 export function getMerchantApps(token) {
   return function(dispatch) {
     dispatch({ type: types.GET_MERCHANT_APPS_REQUEST })
-    return client.merchant.getMerchantApps(token)
-    .then(payload => {
-      dispatch({ type: types.GET_MERCHANT_APPS_SUCCESS, payload })
-      return payload
-    })
-    .catch(error => {
-      dispatch({ type: types.GET_MERCHANT_APPS_FAILURE })
-      throw error
-    })
+    return client.merchant
+      .getMerchantApps(token)
+      .then(payload => {
+        dispatch({ type: types.GET_MERCHANT_APPS_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.GET_MERCHANT_APPS_FAILURE })
+        throw error
+      })
+  }
+}
+
+export function createApplication(token) {
+  return function(dispatch) {
+    dispatch({ type: types.CREATE_APPLICATION_REQUEST })
+    return client.merchant
+      .createApplication(token)
+      .then(payload => {
+        dispatch({ type: types.CREATE_APPLICATION_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.CREATE_APPLICATION_FAILURE })
+        throw error
+      })
   }
 }
 
 export function getIntegrationCode(token) {
   return function(dispatch) {
     dispatch({ type: types.INTEGRATION_CODE_REQUEST })
-    return client.merchant.getIntegrationCode(token)
-    .then(payload => {
-      dispatch({ type: types.INTEGRATION_CODE_SUCCESS, payload })
-      return payload
-    })
-    .catch(error => {
-      dispatch({ type: types.INTEGRATION_CODE_FAILURE })
-      throw error
-    })
+    return client.merchant
+      .getIntegrationCode(token)
+      .then(payload => {
+        dispatch({ type: types.INTEGRATION_CODE_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.INTEGRATION_CODE_FAILURE })
+        throw error
+      })
   }
 }
 
@@ -65,25 +85,29 @@ export function saveConfiguration(token, configuration) {
       version: (parseInt(oldConfiguration.version, 10) || 0) + 1
     }
 
-    dispatch({ type: types.CONFIGURATION_SAVE_REQUEST, configuration: newConfiguration })
+    dispatch({
+      type: types.CONFIGURATION_SAVE_REQUEST,
+      configuration: newConfiguration
+    })
 
-    return client.merchant.saveConfiguration(token, newConfiguration)
-    .then(payload => {
-      dispatch({ type: types.CONFIGURATION_SAVE_SUCCESS, payload })
-      getIntegrationCode(token);
-      return payload
-    })
-    .catch(error => {
-      dispatch({ type: types.CONFIGURATION_SAVE_FAILURE })
-      throw error
-    })
+    return client.merchant
+      .saveConfiguration(token, newConfiguration)
+      .then(payload => {
+        dispatch({ type: types.CONFIGURATION_SAVE_SUCCESS, payload })
+        getIntegrationCode(token)
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.CONFIGURATION_SAVE_FAILURE })
+        throw error
+      })
   }
 }
 
 const initialState = {
   integrationCode: undefined,
   apps: [],
-  anyApplication: {},
+  lastApplication: {},
   configuration: {
     version: 0,
     documents: {
@@ -99,7 +123,8 @@ const initialState = {
 
 const reducer = createReducer(initialState, {
   [types.MERCHANT_GET_SUCCESS]: function(state, { payload }) {
-    const configuration = payload.data.configurations[payload.data.configurations.length - 1]
+    const configuration =
+      payload.data.configurations[payload.data.configurations.length - 1]
     return {
       ...state,
       ...payload.data,
@@ -116,7 +141,7 @@ const reducer = createReducer(initialState, {
     return {
       ...state,
       apps: payload.data.apps,
-      anyApplication: payload.data.apps[0] || {}
+      lastApplication: payload.data.apps[0] || {}
     }
   },
 
@@ -145,6 +170,16 @@ const reducer = createReducer(initialState, {
       }
     }
   },
+
+  [types.CREATE_APPLICATION_SUCCESS]: function(state, { payload }) {
+    return {
+      ...state,
+      apps: [
+        ...state.apps,
+        { clientId: payload.data.id, clientSecret: payload.data.secret }
+      ]
+    }
+  }
 })
 
 export default reducer

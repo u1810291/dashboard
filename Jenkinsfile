@@ -13,7 +13,7 @@ pipeline {
     }
     stage('Build') {
       steps {
-        sh "yarn build"
+        sh "yarn lint"
       }
     }
     stage('Test') {

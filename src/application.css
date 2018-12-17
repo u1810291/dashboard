@@ -158,13 +158,15 @@ section.mgi-section-separated {
   display: flex;
   flex-wrap: wrap;
   margin-right: calc(-1 * var(--mgi-theme-items-gutter));
-  margin-bottom: calc(-1 * var(--mgi-theme-items-gutter));
   justify-content: start;
+}
+
+.mgi-items .mgi-items--grow {
+  flex: 1;
 }
 
 .mgi-items > * {
   margin-right: var(--mgi-theme-items-gutter);
-  margin-bottom: var(--mgi-theme-items-gutter);
 }
 
 .mgi-items--centered {

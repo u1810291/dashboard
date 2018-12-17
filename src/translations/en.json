@@ -251,6 +251,13 @@
   "developers.webhook.example.user.invalid.liveness": "User got flagged on Liveness",
   "developers.webhook.example.user.invalid.ocr": "A field was missing on the document & document got flagged on doc authenticity",
   "developers.webhook.example.header": "Developers integration sheet",
+  "developers.token.caption": "Your client token",
 
-  "verifications.inProgress": "Getting information..."
+  "verifications.inProgress": "Getting information...",
+
+  "manage_applications.labels.clientId": "Client ID",
+  "manage_applications.placeholders.clientId": "Client ID",
+  "manage_applications.labels.clientSecret": "Client Secret",
+  "manage_applications.placeholders.clientSecret": "Client Secret",
+  "manage_applications.generate": "Generate new application"
 }
