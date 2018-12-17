@@ -1,7 +1,7 @@
 /* reset.css from https://meyerweb.com/eric/tools/css/reset/ */
 a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,500,600,700');
 
 :root {
   --mgi-spacing: 1.5rem;
@@ -18,7 +18,7 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
   --mgi-theme-font-size: 16px;
   --mgi-theme-font-size-small: 14px;
   --mgi-theme-color-primary: #34495E;
-  --mgi-theme-color-secondary: #747F8A;
+  --mgi-theme-color-secondary: #9B9C9E;
   --mgi-theme-color-active: #47A8E8;
   --mgi-theme-caption-font-size: 12px;
   --mgi-theme-items-gutter: var(--mgi-spacing)
@@ -34,7 +34,7 @@ html, body, #root {
 
 html {
   color: var(--mgi-theme-color-primary);
-  font-family: "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: "Lato", "Helvetica Neue", sans-serif;
   font-size: var(--mgi-theme-font-size);
 }
 
@@ -104,7 +104,7 @@ a {
 }
 
 h1 {
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-bottom: var(--mgi-spacing);
   font-weight: 700;
 }
@@ -139,7 +139,7 @@ h4 {
 }
 
 h1 p, h2 p, h3 p, h4 p {
-  font-size: 1rem;
+  font-size: 1.125rem;
   font-weight: normal;
   margin-bottom: 0;
 }
@@ -148,6 +148,10 @@ h5 {
   font-size: var(--mgi-theme-font-size-small);
   font-weight: 600;
   margin-bottom: .5rem;
+}
+
+.mgi-page-title--light {
+  font-weight: 300;
 }
 
 section.mgi-section-separated {

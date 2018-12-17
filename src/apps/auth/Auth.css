@@ -5,3 +5,22 @@
 :local(.name) *:not(:last-child) {
   margin-right: 25px;
 }
+
+:local(.title) {
+  margin-bottom: calc(2 * var(--mgi-spacing))
+}
+
+:local(.logo) {
+  width: 60px;
+  height: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+:local(.haveAccount) {
+  margin-bottom: 30px;
+}
+
+:local(.submit) {
+  padding: 0 70px;
+}

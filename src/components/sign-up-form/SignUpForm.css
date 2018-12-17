@@ -1,0 +1,12 @@
+:local(.name) {
+  display: flex;
+}
+
+:local(.name) *:not(:last-child) {
+  margin-right: 25px;
+}
+
+:local(.submit) {
+  padding: 0 70px;
+  margin-top: 15px;
+}

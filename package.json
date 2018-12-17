@@ -38,7 +38,8 @@
     "test": "cross-env NODE_PATH='.' craco test --env=jsdom",
     "test:ci": "CI=true yarn test",
     "eject": "react-scripts eject",
-    "lint": "yarn run eslint \"src/**/*.js\" --max-warnings=0"
+    "lint": "yarn run eslint \"src/**/*.js\" --max-warnings=0",
+    "styleguidist": "npx styleguidist server"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.1.2",
@@ -54,6 +55,7 @@
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
     "node-sass": "^4.10.0",
+    "prettier": "^1.15.3",
     "react-styleguidist": "^8.0.5",
     "redux-devtools-extension": "^2.13.7"
   },

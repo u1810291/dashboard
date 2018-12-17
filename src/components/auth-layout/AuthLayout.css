@@ -12,8 +12,8 @@
 }
 
 :local(.layoutBackground) {
-  width: 40%;
-  background: url('./sign-in-mati-tech.svg') no-repeat;
+  width: 33%;
+  background: url('./sign-up-mati-tech.svg') no-repeat;
   background-size:cover;
   background-position: top center;
 }

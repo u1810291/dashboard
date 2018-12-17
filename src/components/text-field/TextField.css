@@ -1,11 +1,11 @@
 :local(.textField) {
-  border: 1px solid #ECECEC;
-  box-shadow: 0px 3px 5px rgba(49, 53, 65, 0.05), 0px 1px 1px rgba(0, 0, 0, 0.05);
-  borderRadius: 4px;
-  height: 35px;
-  line-height: 35px;
+  border: 1px solid #CBD4DC;
+  border-radius: 4px;
+  height: 42px;
+  line-height: 42px;
   font: inherit;
-  font-size: 14px;
+  font-size: 15px;
   width: 100%;
   padding: 0 12px;
+  color: #393939;
 }

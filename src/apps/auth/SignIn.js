@@ -7,6 +7,8 @@ import Button from 'src/components/button'
 import { setI18nContext } from 'src/components/i18n-context'
 import { Input } from 'src/components/inputs'
 import { signIn } from 'src/state/auth'
+import MatiLogo from 'src/assets/mati-logo.svg'
+import CSS from './Auth.css'
 
 const formikSettings = {
   handleSubmit(values, { props, setSubmitting, setStatus }) {
@@ -32,18 +34,19 @@ class SignIn extends React.Component {
   render() {
     return (
       <Form>
-        <h2>
+        <MatiLogo className={CSS.logo}/>
+        <h1 className={'mgi-page-title--light ' + CSS.title}>
           <FormattedMessage id="signin.title" />
-          <small className="text-secondary">
+          <p className="text-secondary">
             <FormattedMessage id="signin.subtitle" />
             {' '}
             <Link to="/auth/signup"><FormattedMessage id="signin.subtitle.link" /></Link>
-          </small>
-        </h2>
+          </p>
+        </h1>
         <Field type="email" name="email" component={Input} />
         <Field type="password" name="password" component={Input} />
         <p>
-          <Button type="submit" disabled={this.props.isSubmitting} buttonStyle="primary">
+          <Button className={CSS.submit} type="submit" disabled={this.props.isSubmitting} buttonStyle="primary">
             <FormattedMessage id="signin.action" />
           </Button>
         </p>

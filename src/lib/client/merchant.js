@@ -16,6 +16,12 @@ export function getMerchant(token) {
   })
 }
 
+export function putMerchants(token, credentials) {
+  return http.put('/api/v1/merchants', credentials, {
+    headers: { ...getAuthHeader(token) }
+  })
+}
+
 export function getIntegrationCode(token) {
   return http.get('/api/v1/merchants/integration-code', {
     headers: { ...getAuthHeader(token) }

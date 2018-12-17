@@ -20,9 +20,11 @@ class BaseInput extends React.Component {
       hideLabel = false,
       renderer = () => {},
       className,
+      error,
       ...inputOptions
     } = this.props
     let i18nLabel, i18nPlaceholder
+    let validationError;
 
     if (!hideLabel && !label && i18nContext && field) {
       i18nLabel = intl.formatMessage({
@@ -36,7 +38,11 @@ class BaseInput extends React.Component {
       })
     }
 
-    const error = form && field ? get(form.status, field.name) : null
+    if (error) {
+      validationError = intl.formatMessage({ id: error })
+    } else {
+      validationError = form && field ? get(form.status, field.name) : null
+    }
 
     return (
       <div className={classNames(CSS.input, className)}>
@@ -48,7 +54,7 @@ class BaseInput extends React.Component {
           ...field,
           ...inputOptions
         })}
-        {error && <p className={CSS.error}>{error}</p>}
+        {validationError && <p className={CSS.error}>{validationError}</p>}
       </div>
     )
   }

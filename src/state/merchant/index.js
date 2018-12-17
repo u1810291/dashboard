@@ -6,6 +6,7 @@ export * from './consts'
 
 export const types = {
   ...createTypesSequence('MERCHANT_GET'),
+  ...createTypesSequence('MERCHANTS_PUT'),
   ...createTypesSequence('CONFIGURATION_SAVE'),
   ...createTypesSequence('INTEGRATION_CODE'),
   ...createTypesSequence('GET_MERCHANT_APPS'),
@@ -23,6 +24,21 @@ export function getMerchant(token) {
       })
       .catch(error => {
         dispatch({ type: types.MERCHANT_GET_FAILURE })
+        throw error
+      })
+  }
+}
+
+export function putMerchants(token, credentials) {
+  return function(dispatch) {
+    dispatch({ type: types.MERCHANTS_PUT_REQUEST })
+    return client.merchant.putMerchants(token, credentials)
+      .then(payload => {
+        dispatch({ type: types.MERCHANTS_PUT_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.MERCHANTS_PUT_FAILURE })
         throw error
       })
   }
