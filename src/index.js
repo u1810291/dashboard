@@ -7,7 +7,6 @@ import ScrollToTop from 'src/components/scroll-to-top'
 import Root from 'src/apps'
 import { Container as NotificationsContainer } from 'src/components/notification'
 import 'clipboard-polyfill'
-import Panel from 'src/components/panel'
 
 import './application.css'
 

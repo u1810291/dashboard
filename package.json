@@ -38,7 +38,7 @@
     "test": "cross-env NODE_PATH='.' craco test --env=jsdom",
     "test:ci": "CI=true yarn test",
     "eject": "react-scripts eject",
-    "lint": "yarn run eslint \"src/**/*.js\""
+    "lint": "yarn run eslint \"src/**/*.js\" --max-warnings=0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.1.2",

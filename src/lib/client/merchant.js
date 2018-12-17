@@ -1,9 +1,13 @@
 import http, { getAuthHeader } from './http'
 
 export function saveConfiguration(token, configurations) {
-  return http.patch('/api/v1/merchants', { configurations }, {
-    headers: { ...getAuthHeader(token) }
-  })
+  return http.patch(
+    '/api/v1/merchants',
+    { configurations },
+    {
+      headers: { ...getAuthHeader(token) }
+    }
+  )
 }
 
 export function getMerchant(token) {
@@ -22,4 +26,16 @@ export function getMerchantApps(token) {
   return http.get('/api/v1/merchants/apps', {
     headers: { ...getAuthHeader(token) }
   })
+}
+
+export function createApplication(token) {
+  return http.post(
+    '/api/v1/merchants/apps',
+    {
+      redirect_uris: ['https://demo.mati.io']
+    },
+    {
+      headers: { ...getAuthHeader(token) }
+    }
+  )
 }
