@@ -24,7 +24,7 @@ class BaseInput extends React.Component {
       ...inputOptions
     } = this.props
     let i18nLabel, i18nPlaceholder
-    let validationError;
+    let validationError
 
     if (!hideLabel && !label && i18nContext && field) {
       i18nLabel = intl.formatMessage({
@@ -46,9 +46,7 @@ class BaseInput extends React.Component {
 
     return (
       <div className={classNames(CSS.input, className)}>
-        {!hideLabel && (
-          <label className="text-caption">{label || i18nLabel}</label>
-        )}
+        {!hideLabel && <label>{label || i18nLabel}</label>}
         {renderer({
           placeholder: placeholder || i18nPlaceholder,
           ...field,

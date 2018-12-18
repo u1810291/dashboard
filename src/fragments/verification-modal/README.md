@@ -2,7 +2,7 @@
 const {
   documents,
   photos
-} = require('src/components/verification-details/__mocks__')
+} = require('src/fragments/verification-details/__mocks__')
 const stringify = require('src/lib/stringify').default
 
 class Container extends React.Component {

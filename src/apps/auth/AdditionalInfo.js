@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { putMerchants } from 'src/state/merchant'
-import AdditionalInfoForm from 'src/components/additional-info-form'
+import AdditionalInfoForm from 'src/fragments/additional-info-form'
 import CSS from './Auth.css'
 import MatiLogo from 'src/assets/mati-logo.svg'
 

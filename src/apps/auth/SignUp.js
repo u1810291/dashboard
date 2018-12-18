@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FormattedMessage, FormattedHTMLMessage, injectIntl } from 'react-intl'
 import { signUp } from 'src/state/auth'
-import SignUpForm from 'src/components/sign-up-form'
+import SignUpForm from 'src/fragments/sign-up-form'
 import CSS from './Auth.css'
 import MatiLogo from 'src/assets/mati-logo.svg'
 

@@ -7,9 +7,9 @@ import { Content } from 'src/components/application-box'
 import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
 import VerificationDetails, {
   extractIdentityData
-} from 'src/components/verification-details'
+} from 'src/fragments/verification-details'
 import stringify from 'src/lib/stringify'
-import WebbhooksIcon from 'src/components/verification-modal/webhooks-icon.svg'
+import WebbhooksIcon from 'src/fragments/verification-modal/webhooks-icon.svg'
 import Button from 'src/components/button'
 import { Modal } from 'src/components/modal'
 import SpinnerPage from 'src/components/spinner-page'

@@ -10,7 +10,7 @@
   "terms-of-conditions": "By clicking this button you agree on <a href=https://getmati.com/legal#terms target='_blank'>Terms and Conditions</a> and <a href=https://getmati.com/legal#privacy target='_blank'>Privacy Notice</p>",
   "analytics": "Analytics",
   "webhook": "Webhook",
-  "global-watchlist":"Global Watchlist",
+  "global-watchlist": "Global Watchlist",
   "face-match": "Face Match",
   "liveness": "Liveness",
   "ocr-data": "OCR data",
@@ -80,9 +80,9 @@
   "additionalInfo.form.labels.websiteUrl": "Website URL",
   "additionalInfo.form.placeholders.websiteUrl": "Website URL",
 
-  "validations.required" : "Field is required",
-  "validations.cleanText" : "No special characters allowed",
-  "validations.email" : "Invalid email address",
+  "validations.required": "Field is required",
+  "validations.cleanText": "No special characters allowed",
+  "validations.email": "Invalid email address",
 
   "onboarding.flow.title": "Customize and Preview your verification flow",
   "onboarding.flow.subtitle": "Test and tailor what your users see when they verify their identity",
@@ -150,7 +150,6 @@
   "plan.enterprise.description-1": "Large companies with more than",
   "plan.enterprise.description-2": "5,000 verifications / month",
 
-
   "plan.price.free": "Free",
   "plan.price.safety-pro": "$0.99",
   "plan.price.safety-pro.per-user": "per user",
@@ -188,13 +187,6 @@
   "plan.details.safety-pro.extra.items.criminals": "International Wanted Criminals Lists",
   "plan.details.safety-pro.extra.items.individuals": "Sanctioned Individuals Lists",
   "plan.details.safety-pro.extra.items.laundering": "Anti-Money Laundering Lists (AML)",
-  "onboarding-modal.messages.step-0": "Fastest way to verify your users",
-  "onboarding-modal.messages.step-1": "Verify documents from anywhere in the world",
-  "onboarding-modal.messages.step-2": "Ask for the documents you need",
-  "onboarding-modal.messages.step-3": "Mati web sdk takes few lines of code to integrate",
-  "onboarding-modal.messages.step-4": "Receive verification status of every user via webhooks in minutes",
-  "onboarding-modal.next": "Next",
-  "onboarding-modal.close": "Skip",
 
   "identities.title": "Verification history",
   "identities.unknownName": "Incomplete identity",
@@ -244,7 +236,6 @@
   "verifirationModal.fields.national-id": "National ID",
   "verifirationModal.fields.passport": "Passport",
   "verifirationModal.fields.proof-of-residency": "Proof of residency",
-
 
   "dashboard.menu.identities": "Verification history",
   "dashboard.menu.configuration": "Product configuration",

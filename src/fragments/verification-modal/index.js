@@ -5,7 +5,7 @@ import Button from 'src/components/button'
 import Panel from 'src/components/panel'
 import SpinnerPage from 'src/components/spinner-page'
 import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
-import VerificationDetails from 'src/components/verification-details'
+import VerificationDetails from 'src/fragments/verification-details'
 import WebbhooksIcon from './webhooks-icon.svg'
 import CSS from './styles.scss'
 
@@ -39,7 +39,7 @@ export default class VerificationModal extends React.Component {
     const buttonSteps = [
       <React.Fragment>
         <span className="modal--footer-spacer" />
-        <Button onClick={() => this.setState({step: 1})}>
+        <Button onClick={() => this.setState({ step: 1 })}>
           <WebbhooksIcon />
           <FormattedMessage id="verifirationModal.webhookResponse" />
         </Button>
@@ -48,7 +48,7 @@ export default class VerificationModal extends React.Component {
         </Button>
       </React.Fragment>,
       <React.Fragment>
-        <Button onClick={() => this.setState({step: 0})}>
+        <Button onClick={() => this.setState({ step: 0 })}>
           <FormattedMessage id="verifirationModal.back" />
         </Button>
         <span className="modal--footer-spacer" />
@@ -60,20 +60,17 @@ export default class VerificationModal extends React.Component {
     return (
       <Modal onClose={this.props.onClose} className={CSS.modalWindow}>
         <header>
-          <FormattedMessage id="verifirationModal.header" />{': '}
-          <strong>
-            {this.props.fullName}
-          </strong>
+          <FormattedMessage id="verifirationModal.header" />
+          {': '}
+          <strong>{this.props.fullName}</strong>
         </header>
-        {this.props.isLoading ? <SpinnerPage /> : (
+        {this.props.isLoading ? (
+          <SpinnerPage />
+        ) : (
           <React.Fragment>
-            <main>
-              {contentSteps[this.state.step]}
-            </main>
+            <main>{contentSteps[this.state.step]}</main>
 
-            <footer>
-              {buttonSteps[this.state.step]}
-            </footer>
+            <footer>{buttonSteps[this.state.step]}</footer>
           </React.Fragment>
         )}
       </Modal>

@@ -32,7 +32,8 @@ export function getMerchant(token) {
 export function putMerchants(token, credentials) {
   return function(dispatch) {
     dispatch({ type: types.MERCHANTS_PUT_REQUEST })
-    return client.merchant.putMerchants(token, credentials)
+    return client.merchant
+      .putMerchants(token, credentials)
       .then(payload => {
         dispatch({ type: types.MERCHANTS_PUT_SUCCESS, payload })
         return payload
@@ -132,8 +133,7 @@ const initialState = {
     },
     color: undefined,
     language: 'en',
-    globalWatchList: false,
-    onboardingModalShown: true
+    globalWatchList: false
   }
 }
 
@@ -147,8 +147,7 @@ const reducer = createReducer(initialState, {
 
       configuration: {
         ...state.configuration,
-        ...configuration,
-        onboardingModalShown: configuration.onboardingModalShown
+        ...configuration
       }
     }
   },

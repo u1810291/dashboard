@@ -10,7 +10,6 @@ import ApplicationBox, {
   MenuItemSpacer,
   MenuItemCollection
 } from 'src/components/application-box'
-import { OnboardingModal } from 'src/components/onboarding-modal'
 import { Configuration } from 'src/apps/configuration'
 import PricingPage from 'src/apps/pricing'
 import VerificationHistory from 'src/apps/verification-history'
@@ -28,7 +27,10 @@ import FAQIcon from './icons/icon-faq.svg'
 export default
 @injectIntl
 @connect(
-  state => ({ token: state.auth.token, configuration: state.merchant.configuration }),
+  state => ({
+    token: state.auth.token,
+    configuration: state.merchant.configuration
+  }),
   { signOut, getMerchant, saveConfiguration }
 )
 class Dashboard extends React.Component {
@@ -51,12 +53,6 @@ class Dashboard extends React.Component {
   handleSignOut = () => {
     this.props.signOut()
     window.location = '/'
-  }
-
-  handleOnboardingModalClose = () => {
-    this.props.saveConfiguration(this.props.token, {
-      onboardingModalShown: true
-    })
   }
 
   renderMenu() {
@@ -92,7 +88,10 @@ class Dashboard extends React.Component {
           label={formatMessage({ id: 'dashboard.menu.account' })}
           icon={<AccountIcon />}
         >
-          <MenuItemLink to="/pricing" label={formatMessage({ id: 'dashboard.menu.upgrade' })} />
+          <MenuItemLink
+            to="/pricing"
+            label={formatMessage({ id: 'dashboard.menu.upgrade' })}
+          />
           <MenuItemButton
             onClick={this.handleSignOut}
             label={formatMessage({ id: 'dashboard.menu.signout' })}
@@ -105,18 +104,22 @@ class Dashboard extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {!this.props.configuration.onboardingModalShown && (
-          <OnboardingModal onClose={this.handleOnboardingModalClose} />
-        )}
-
         <Helmet>
           <title>Mati Dashboard</title>
         </Helmet>
         <ApplicationBox menu={this.renderMenu()}>
           <Switch>
             <Route exact path="/developers" component={DevelopersRoute} />
-            <Route exact path="/verifications" component={VerificationHistory} />
-            <Route exact path="/verifications/:id" component={VerificationItem} />
+            <Route
+              exact
+              path="/verifications"
+              component={VerificationHistory}
+            />
+            <Route
+              exact
+              path="/verifications/:id"
+              component={VerificationItem}
+            />
             <Route exact path="/pricing" component={PricingPage} />
             <Route path="/" component={Configuration} />
           </Switch>

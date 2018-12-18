@@ -11,10 +11,10 @@ import {
 import { getMerchantApps, createApplication } from 'src/state/merchant'
 import { notification } from 'src/components/notification'
 import { Content } from 'src/components/application-box'
-import { WebhookURLForm } from 'src/components/webhook-url-form'
+import WebhookURLForm from 'src/fragments/webhook-url-form'
 import Icons from 'src/components/icons'
-import WebhookExamples from 'src/components/webhook-examples'
-import ManageApplicationsForm from 'src/components/manage-applications-form'
+import WebhookExamples from 'src/fragments/webhook-examples'
+import ManageApplicationsForm from 'src/fragments/manage-applications-form'
 import Panel from 'src/components/panel'
 import CSS from './style.scss'
 

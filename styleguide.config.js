@@ -2,21 +2,32 @@ const path = require('path')
 const webpackConfig = require('react-scripts/config/webpack.config.dev.js')
 
 webpackConfig.resolve.alias.src = path.resolve(__dirname, 'src')
-// TODO: fix next plugin lines with something more adequately
-webpackConfig.module.rules[2].oneOf[1].options.plugins.push(
-  ['@babel/proposal-decorators', { legacy: true }]
-)
-webpackConfig.module.rules[2].oneOf[1].options.plugins.push(
-  ['inline-react-svg']
-)
+webpackConfig.module.rules[2].oneOf[1].options.plugins.push([
+  '@babel/proposal-decorators',
+  { legacy: true }
+])
+webpackConfig.module.rules[2].oneOf[1].options.plugins.push([
+  'inline-react-svg'
+])
 module.exports = {
   webpackConfig,
-  require: [
-    path.join(__dirname, 'src/application.css')
-  ],
+  require: [path.join(__dirname, 'src/application.css')],
   styleguideComponents: {
     Wrapper: path.join(__dirname, 'src/styleguide/components/Wrapper')
   },
   components: 'src/components/**/index.js',
-  skipComponentsWithoutExample: true
+  skipComponentsWithoutExample: true,
+  pagePerSection: true,
+  sections: [
+    {
+      name: 'UI Components Library',
+      description: 'Global ID UI library',
+      components: 'src/components/**/index.js'
+    },
+    {
+      name: 'Fragments',
+      description: 'Application UI fragments in isolation',
+      components: 'src/fragments/**/index.js'
+    }
+  ]
 }

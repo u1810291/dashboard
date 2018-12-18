@@ -1,5 +1,126 @@
 /* reset.css from https://meyerweb.com/eric/tools/css/reset/ */
-a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
+a,
+abbr,
+acronym,
+address,
+applet,
+article,
+aside,
+audio,
+b,
+big,
+blockquote,
+body,
+canvas,
+caption,
+center,
+cite,
+code,
+dd,
+del,
+details,
+dfn,
+div,
+dl,
+dt,
+em,
+embed,
+fieldset,
+figcaption,
+figure,
+footer,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header,
+hgroup,
+html,
+i,
+iframe,
+img,
+ins,
+kbd,
+label,
+legend,
+li,
+mark,
+menu,
+nav,
+object,
+ol,
+output,
+p,
+pre,
+q,
+ruby,
+s,
+samp,
+section,
+small,
+span,
+strike,
+strong,
+sub,
+summary,
+sup,
+table,
+tbody,
+td,
+tfoot,
+th,
+thead,
+time,
+tr,
+tt,
+u,
+ul,
+var,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:after,
+blockquote:before,
+q:after,
+q:before {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
 
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,500,600,700');
 
@@ -7,34 +128,36 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
   --mgi-spacing: 1.5rem;
   --mgi-spacing-l: 0.875rem;
   --mgi-theme-palette-lighter: #fafbfc;
-  --mgi-theme-palette-light: #DFE6EE;
-  --mgi-theme-palette-neutral: #95A6BB;
-  --mgi-theme-palette-blue: #47A8E8;
-  --mgi-theme-palette-green: #00AB62;
-  --mgi-theme-palette-red: #EB5757;
-  --mgi-theme-palette-pink: #FF527E;
-  --mgi-theme-palette-orange: #F2994A;
-  --mgi-theme-palette-yellow: #FFBD00;
+  --mgi-theme-palette-light: #dfe6ee;
+  --mgi-theme-palette-neutral: #95a6bb;
+  --mgi-theme-palette-blue: #47a8e8;
+  --mgi-theme-palette-green: #00ab62;
+  --mgi-theme-palette-red: #eb5757;
+  --mgi-theme-palette-pink: #ff527e;
+  --mgi-theme-palette-orange: #f2994a;
+  --mgi-theme-palette-yellow: #ffbd00;
   --mgi-theme-font-size: 16px;
   --mgi-theme-font-size-small: 14px;
-  --mgi-theme-color-primary: #34495E;
-  --mgi-theme-color-secondary: #9B9C9E;
-  --mgi-theme-color-active: #47A8E8;
+  --mgi-theme-color-primary: #34495e;
+  --mgi-theme-color-secondary: #9b9c9e;
+  --mgi-theme-color-active: #47a8e8;
   --mgi-theme-caption-font-size: 12px;
-  --mgi-theme-items-gutter: var(--mgi-spacing)
+  --mgi-theme-items-gutter: var(--mgi-spacing);
 }
 
 * {
   box-sizing: border-box;
 }
 
-html, body, #root {
-  height: 100%
+html,
+body,
+#root {
+  height: 100%;
 }
 
 html {
   color: var(--mgi-theme-color-primary);
-  font-family: "Lato", "Helvetica Neue", sans-serif;
+  font-family: 'Lato', 'Helvetica Neue', sans-serif;
   font-size: var(--mgi-theme-font-size);
 }
 
@@ -70,15 +193,15 @@ strong {
 }
 
 .text-info {
-  color: #47A8E8;
+  color: #47a8e8;
 }
 
 .text-success {
-  color: #00B257;
+  color: #00b257;
 }
 
 .text-failure {
-  color: #EB5757;
+  color: #eb5757;
 }
 
 .text-warning {
@@ -88,7 +211,7 @@ strong {
 .text-caption {
   text-transform: uppercase;
   font-size: var(--mgi-theme-caption-font-size);
-  font-weight: 500;
+  font-weight: 600;
   /* keep it same as <small> */
   line-height: 1.35rem;
   letter-spacing: 0.5px;
@@ -99,7 +222,7 @@ strong {
 }
 
 a {
-  color: #47A8E8;
+  color: #47a8e8;
   text-decoration: none;
 }
 
@@ -138,7 +261,10 @@ h4 {
   margin-bottom: 0.8rem;
 }
 
-h1 p, h2 p, h3 p, h4 p {
+h1 p,
+h2 p,
+h3 p,
+h4 p {
   font-size: 1.125rem;
   font-weight: normal;
   margin-bottom: 0;
@@ -147,7 +273,7 @@ h1 p, h2 p, h3 p, h4 p {
 h5 {
   font-size: var(--mgi-theme-font-size-small);
   font-weight: 600;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .mgi-page-title--light {
@@ -178,7 +304,7 @@ section.mgi-section-separated {
 }
 
 .mgi-items--narrow {
-  --mgi-theme-items-gutter: calc(.5 * var(--mgi-spacing));
+  --mgi-theme-items-gutter: calc(0.5 * var(--mgi-spacing));
 }
 
 @media (max-width: 769px) {
