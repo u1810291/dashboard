@@ -1,6 +1,7 @@
 import { createReducer, createTypesSequence } from 'src/state/utils'
 import client from 'src/lib/client'
 import { updateIntercom } from 'src/lib/intercom'
+import * as Mixpanel from 'src/lib/mixpanel'
 
 export const types = {
   ...createTypesSequence('AUTH_SIGNIN'),
@@ -16,6 +17,7 @@ export function signIn(credentials) {
     return client.auth.signin(credentials)
     .then(payload => {
       dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload })
+      Mixpanel.addUser({ ...payload.data.user, email: credentials.email })
       return payload
     })
     .catch(error => {
@@ -31,7 +33,8 @@ export function signUp(credentials) {
     return client.auth.signup(credentials)
     .then(payload => {
       dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload })
-      updateIntercom(payload.data.user);
+      updateIntercom(payload.data.user)
+      Mixpanel.addUser({ ...payload.data.user, email: credentials.email })
       return payload
     })
     .catch(error => {

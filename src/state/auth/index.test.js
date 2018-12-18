@@ -4,28 +4,46 @@ import thunk from 'redux-thunk'
 import { signUp } from './index'
 import { updateIntercom } from 'src/lib/intercom'
 import client from 'src/lib/client'
+import * as Mixpanel from 'src/lib/mixpanel'
 
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
 const store = mockStore({})
 
-describe('test intercom after signup', () => {
+describe('.signUp', () => {
   const mockUpdateIntercom = jest.fn(updateIntercom)
+  const mockAddUser = jest.fn(Mixpanel.addUser)
 
-  it('updateIntercom should be called on success', () => {
+  describe('on success', () => {
     client.auth.signup = jest.fn().mockResolvedValue({})
 
-    store.dispatch(signUp()).then(() => {
-      expect(mockUpdateIntercom.mock.calls.length).toBe(1)
-    }).catch(() => {})
-  })
+    it('updateIntercom should be called', () => {
+      store.dispatch(signUp()).then(() => {
+        expect(mockUpdateIntercom.mock.calls.length).toBe(1)
+      }).catch(() => {})
+    })
 
-  it('updateIntercom should not be called on error', () => {
-    client.auth.signup = jest.fn().mockRejectedValue({  })
-
-    store.dispatch(signUp()).catch(() => {
-      expect(mockUpdateIntercom.mock.calls.length).toBe(0)
+    it('Mixpanel.addUser should be called', () => {
+      store.dispatch(signUp()).then(() => {
+        expect(mockAddUser.mock.calls.length).toBe(1)
+      }).catch(() => {})
     })
   })
+
+  describe('on error', () => {
+    client.auth.signup = jest.fn().mockRejectedValue({  })
+
+    it('updateIntercom should not be called', () => {
+      store.dispatch(signUp()).catch(() => {
+        expect(mockUpdateIntercom.mock.calls.length).toBe(0)
+      })
+    })
+    it('updateIntercom should not be called', () => {
+      store.dispatch(signUp()).catch(() => {
+        expect(mockAddUser.mock.calls.length).toBe(0)
+      })
+    })
+  })
+
 })
 
