@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,500,600,700');
+@import './variables.scss';
+@import './elements.scss';
+@import './helpers.scss';
+
+section.mgi-section-separated {
+  margin-bottom: calc(1.5 * var(--mgi-spacing));
+}
+
+.mgi-items {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: calc(-1 * var(--mgi-theme-items-gutter));
+  justify-content: start;
+}
+
+.mgi-items .mgi-items--grow {
+  flex: 1;
+}
+
+.mgi-items > * {
+  margin-right: var(--mgi-theme-items-gutter);
+}
+
+.mgi-items--centered {
+  align-items: center;
+}
+
+.mgi-items--narrow {
+  --mgi-theme-items-gutter: calc(0.5 * var(--mgi-spacing));
+}

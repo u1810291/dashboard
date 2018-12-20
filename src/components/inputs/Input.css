@@ -7,7 +7,6 @@
 }
 
 :local(.input) label {
-  font-size: var(--mgi-theme-font-size-small);
   font-weight: 600;
   padding-bottom: 5px;
   display: inline-block;

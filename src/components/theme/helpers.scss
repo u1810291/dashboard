@@ -1,0 +1,27 @@
+.text-light {
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.text-secondary {
+  color: var(--mgi-theme-palette-secondary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.text-active {
+  color: var(--mgi-theme-palette-active);
+}
+
+.text-success {
+  color: var(--mgi-theme-palette-success);
+}
+
+.text-warning {
+  color: var(--mgi-theme-palette-warning);
+}
+
+.text-error {
+  color: var(--mgi-theme-palette-error);
+}

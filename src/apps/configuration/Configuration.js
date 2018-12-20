@@ -131,7 +131,7 @@ class Configuration extends React.Component {
           </section>
         </Content>
         <Sidebar className={CSS.sidebar}>
-          <p className="text-center">
+          <p className={CSS.sidebarIcon}>
             <a
               className={CSS.onboardingVideoLink}
               href="https://www.youtube.com/watch?v=NWRc84vkB5I&rel=0"
@@ -190,15 +190,13 @@ class Configuration extends React.Component {
                 copyToClipboard
                 code={this.props.integrationCode}
               />
-              <small>
-                <a
-                  href="https://github.com/MatiFace/mati-global-id-sdk"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Check out our mobile SDK
-                </a>
-              </small>
+              <a
+                href="https://github.com/MatiFace/mati-global-id-sdk"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Check out our mobile SDK
+              </a>
             </main>
             <footer className="modal--footer-transparent modal--footer-center">
               <Button buttonStyle="primary" onClick={this.closeIntegrationCode}>

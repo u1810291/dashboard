@@ -5,7 +5,7 @@ import CSS from './style.scss'
 export default function Panel({ caption, children, className }) {
   return (
     <div className={classNames(CSS.panel, className)}>
-      {caption ? <h5>{caption}</h5> : null}
+      {caption ? <h3>{caption}</h3> : null}
       {children}
     </div>
   )

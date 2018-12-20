@@ -11,7 +11,7 @@ webpackConfig.module.rules[2].oneOf[1].options.plugins.push([
 ])
 module.exports = {
   webpackConfig,
-  require: [path.join(__dirname, 'src/application.css')],
+  require: [path.join(__dirname, 'src/components/theme/styles.scss')],
   styleguideComponents: {
     Wrapper: path.join(__dirname, 'src/styleguide/components/Wrapper')
   },

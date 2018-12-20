@@ -20,10 +20,10 @@ export default function DataTable({
         ))}
       </colgroup>
       <thead>
-        <tr className="text-caption text-secondary">
+        <tr className="text-secondary">
           {columns.map(({ label }, index) => (
             <th scope="col" key={index}>
-              {label}
+              <strong>{label}</strong>
             </th>
           ))}
         </tr>

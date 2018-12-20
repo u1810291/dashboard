@@ -22,7 +22,7 @@ class AdditionalInfo extends React.Component {
     return (
       <React.Fragment>
         <MatiLogo className={CSS.logo} />
-        <h1 className={'mgi-page-title--light ' + CSS.title}>
+        <h1 className={'text-light ' + CSS.title}>
           <FormattedMessage id="additionalInfo.title" />
           <p className="text-secondary">
             <FormattedMessage id="additionalInfo.subtitle" />

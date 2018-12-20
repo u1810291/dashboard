@@ -1,11 +1,11 @@
 :local(.button) {
   padding: 12px;
-  background-color: var(--mgi-theme-palette-lighter);
+  background-color: var(--mgi-theme-palette-lightergray);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 :local(.button) label:first-child {
-  margin-right: calc(var(--mgi-spacing) * .5)
+  margin-right: calc(var(--mgi-spacing) * 0.5);
 }

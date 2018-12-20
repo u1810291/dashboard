@@ -12,7 +12,7 @@
     border-color: var(--mgi-theme-palette-blue);
   }
   input[type='checkbox']:disabled + :local(.checkboxIcon) {
-    background: var(--mgi-theme-palette-lighter);
+    background: var(--mgi-theme-palette-lightergray);
   }
 }
 
@@ -29,7 +29,6 @@
 
 :local(.checkboxTitle) {
   margin-left: 0.8rem;
-  font-size: var(--mgi-theme-font-size-small);
   line-height: var(--mgi-checkbox-size);
 }
 

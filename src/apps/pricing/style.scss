@@ -37,7 +37,7 @@
     font-weight: bold;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    color: var(--mgi-theme-color-primary);
+    color: var(--mgi-theme-palette-default);
   }
   &__description {
     font-size: 12px;
@@ -93,7 +93,7 @@
   }
   .pricing-plans__headers {
     display: block;
-    &>div {
+    & > div {
       display: flex;
       align-items: center;
     }
@@ -106,7 +106,7 @@
   }
   .pricing-plan__features {
     height: 380px;
-    & ul>li {
+    & ul > li {
       font-size: 14px;
       line-height: 24px;
     }

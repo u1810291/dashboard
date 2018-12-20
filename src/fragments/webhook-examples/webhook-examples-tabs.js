@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   WEBHOOK_RESPONSE,
   WEBHOOK_RESPONSE_WATCHLISTS,
@@ -6,7 +5,6 @@ import {
   WEBHOOK_RESPONSE_LIVENESS,
   WEBHOOK_RESPONSE_OCR
 } from './webhook-response-examples'
-import Icons from 'src/components/icons'
 
 const printJSON = json => JSON.stringify(json, null, 2)
 
@@ -15,7 +13,6 @@ const WEBHOOK_RESPONSE_STRING = printJSON(WEBHOOK_RESPONSE)
 export default [
   {
     label: 'global-watchlist',
-    icon: <Icons.Spy />,
     webhooks: [
       {
         label: 'developers.webhook.example.user.verified',
@@ -30,7 +27,6 @@ export default [
   },
   {
     label: 'face-match',
-    icon: <Icons.FaceMatch />,
     webhooks: [
       {
         label: 'developers.webhook.example.user.verified',
@@ -45,7 +41,6 @@ export default [
   },
   {
     label: 'liveness',
-    icon: <Icons.TickFilled />,
     webhooks: [
       {
         label: 'developers.webhook.example.user.verified',
@@ -60,7 +55,6 @@ export default [
   },
   {
     label: 'ocr-data',
-    icon: <Icons.WarningTriangle />,
     webhooks: [
       {
         label: 'developers.webhook.example.user.verified',

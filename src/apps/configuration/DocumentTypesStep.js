@@ -37,9 +37,9 @@ function DocumentTypesStep({
 
   return (
     <div className="configure-flow-card">
-      <h4>
+      <h3>
         <FormattedMessage id="flow.documentTypeStep.title" />
-      </h4>
+      </h3>
       <div className={CSS.buttons}>
         {availableDocumentTypes.map(type => (
           <CheckButton
@@ -53,11 +53,11 @@ function DocumentTypesStep({
         ))}
       </div>
       <p>
-        <small className="text-secondary">
+        <span className="text-secondary">
           {'* '}
           <input type="checkbox" disabled />{' '}
           <FormattedMessage id="flow.documentTypeStep.optionalHint" />
-        </small>
+        </span>
       </p>
     </div>
   )

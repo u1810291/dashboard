@@ -8,7 +8,7 @@ import Root from 'src/apps'
 import { Container as NotificationsContainer } from 'src/components/notification'
 import 'clipboard-polyfill'
 
-import './application.css'
+import 'src/components/theme/styles.scss'
 
 ReactDOM.render(
   <IntlProvider>

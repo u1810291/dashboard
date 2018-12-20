@@ -19,7 +19,7 @@ function handleCopyToClipboard(text, notificationMessage) {
 
 export const SyntaxHighlighter = ({
   dark = true,
-  code='',
+  code = '',
   copyToClipboard = false,
   onCopy = () => {},
   lineNumbers = true,
@@ -28,29 +28,34 @@ export const SyntaxHighlighter = ({
   ...props
 }) => {
   const style = dark ? darkStyle : lightStyle
-  return <div className={CSS.container}>
-    <div className={classNames(CSS.wrapper, wrapperClassName)} style={wrapperStyle}>
-      <PrismSyntaxHighlighter
-        style={style}
-        showLineNumbers={lineNumbers}
-        lineNumberContainerStyle={style.lineNumbers}
-        {...props}
+  return (
+    <div className={CSS.container}>
+      <div
+        className={classNames(CSS.wrapper, wrapperClassName)}
+        style={wrapperStyle}
       >
-        {code}
-      </PrismSyntaxHighlighter>
-    </div>
-    {copyToClipboard && (
-      <div className={CSS.copyToClipboard}>
-        <Button
-          buttonStyle="no-borders default text-secondary"
-          onClick={() => handleCopyToClipboard(code, onCopy)}
+        <PrismSyntaxHighlighter
+          style={style}
+          showLineNumbers={lineNumbers}
+          lineNumberContainerStyle={style.lineNumbers}
+          {...props}
         >
-          <Icon />
-          <span className="text-caption text-info">
-            <FormattedMessage id="copy-to-clipboard"/>
-          </span>
-        </Button>
+          {code}
+        </PrismSyntaxHighlighter>
       </div>
-    )}
-  </div>
+      {copyToClipboard && (
+        <div className={CSS.copyToClipboard}>
+          <Button
+            buttonStyle="no-borders default text-secondary"
+            onClick={() => handleCopyToClipboard(code, onCopy)}
+          >
+            <Icon />
+            <span className="text-active">
+              <FormattedMessage id="copy-to-clipboard" />
+            </span>
+          </Button>
+        </div>
+      )}
+    </div>
+  )
 }

@@ -1,8 +1,8 @@
 :root {
   --mgi-toggle-height: 20px;
   --mgi-toggle-border: 2.5px;
-  --mgi-toggle-active-color: var(--mgi-theme-color-active);
-  --mgi-toggle-color: var(--mgi-theme-palette-neutral);
+  --mgi-toggle-active-color: var(--mgi-theme-palette-active);
+  --mgi-toggle-color: var(--mgi-theme-palette-secondary);
   --mgi-toggle-handle-color: white;
 }
 
@@ -15,7 +15,7 @@
   box-sizing: content-box;
   cursor: pointer;
   position: relative;
-  transition: background-color .3s ease, border-color .3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 
   &:before {
     display: block;
@@ -25,7 +25,7 @@
     background: var(--mgi-toggle-handle-color);
     border-radius: 100%;
     position: absolute;
-    transition: left .3s ease;
+    transition: left 0.3s ease;
     top: 0;
     left: 0;
   }

@@ -12,38 +12,44 @@ const formikSettings = {
   handleSubmit(values, { props, setSubmitting, setStatus }) {
     const { password } = values
     setStatus({})
-    props.passwordReset({ password, token: props.match.params.token })
-    .then(data => {
-      setSubmitting(false)
-      setStatus(true)
-    })
-    .catch(error => {
-      setSubmitting(false)
-      setStatus({password: error.response.data.message})
-    })
+    props
+      .passwordReset({ password, token: props.match.params.token })
+      .then(data => {
+        setSubmitting(false)
+        setStatus(true)
+      })
+      .catch(error => {
+        setSubmitting(false)
+        setStatus({ password: error.response.data.message })
+      })
   }
 }
 
 export default
 @setI18nContext('passwordReset.form')
-@connect(null, { passwordReset })
+@connect(
+  null,
+  { passwordReset }
+)
 @withFormik(formikSettings)
 class PasswordReset extends React.Component {
   render() {
     if (this.props.status === true) return <Redirect to="/" />
     return (
       <Form>
-        <h2>
+        <h1 className="text-light">
           <FormattedMessage id="passwordReset.title" />
-          <small className="text-secondary">
+          <p>
             <FormattedMessage id="passwordReset.subtitle" />
-          </small>
-        </h2>
+          </p>
+        </h1>
         <Field type="password" name="password" component={Input} />
         <p>
-          <Button type="submit"
+          <Button
+            type="submit"
             disabled={this.props.isSubmitting}
-            buttonStyle="primary">
+            buttonStyle="primary"
+          >
             <FormattedMessage id="passwordReset.action" />
           </Button>
         </p>

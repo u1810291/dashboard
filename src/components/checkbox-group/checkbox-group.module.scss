@@ -1,6 +1,9 @@
 :local(.checkboxGroup) {
   display: flex;
   flex-direction: column;
+  border: 0;
+  padding: 0;
+  margin: 0;
 }
 
 :local(.checkboxGroupLabel) {
@@ -9,7 +12,8 @@
   line-height: 15px;
   font-weight: 600;
   letter-spacing: 0.5px;
-  color: var(--mgi-theme-color-primary);
+  padding: 0;
+  color: var(--mgi-theme-palette-default);
   text-transform: uppercase;
 }
 

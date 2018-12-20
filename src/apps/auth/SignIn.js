@@ -14,44 +14,56 @@ const formikSettings = {
   handleSubmit(values, { props, setSubmitting, setStatus }) {
     const { email, password } = values
     setStatus({})
-    props.signIn({ email, password })
-    .then(data => {
-      setSubmitting(false)
-      props.history.push('/')
-    })
-    .catch(error => {
-      setSubmitting(false)
-      setStatus({email: error.response.data.details})
-    })
+    props
+      .signIn({ email, password })
+      .then(data => {
+        setSubmitting(false)
+        props.history.push('/')
+      })
+      .catch(error => {
+        setSubmitting(false)
+        setStatus({ email: error.response.data.details })
+      })
   }
 }
 
 export default
 @setI18nContext('signin.form')
-@connect(null, { signIn })
+@connect(
+  null,
+  { signIn }
+)
 @withFormik(formikSettings)
 class SignIn extends React.Component {
   render() {
     return (
       <Form>
-        <MatiLogo className={CSS.logo}/>
-        <h1 className={'mgi-page-title--light ' + CSS.title}>
+        <MatiLogo className={CSS.logo} />
+        <h1 className={'text-light ' + CSS.title}>
           <FormattedMessage id="signin.title" />
           <p className="text-secondary">
-            <FormattedMessage id="signin.subtitle" />
-            {' '}
-            <Link to="/auth/signup"><FormattedMessage id="signin.subtitle.link" /></Link>
+            <FormattedMessage id="signin.subtitle" />{' '}
+            <Link to="/auth/signup">
+              <FormattedMessage id="signin.subtitle.link" />
+            </Link>
           </p>
         </h1>
         <Field type="email" name="email" component={Input} />
         <Field type="password" name="password" component={Input} />
         <p>
-          <Button className={CSS.submit} type="submit" disabled={this.props.isSubmitting} buttonStyle="primary">
+          <Button
+            className={CSS.submit}
+            type="submit"
+            disabled={this.props.isSubmitting}
+            buttonStyle="primary"
+          >
             <FormattedMessage id="signin.action" />
           </Button>
         </p>
         <p>
-          <Link to="/auth/password-recovery"><FormattedMessage id="signin.recovery" /></Link>
+          <Link to="/auth/password-recovery">
+            <FormattedMessage id="signin.recovery" />
+          </Link>
         </p>
       </Form>
     )

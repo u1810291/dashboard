@@ -35,11 +35,11 @@ export default function LanguageStep({
   onClick = () => {}
 }) {
   const options = availableLanguages.map(code => ({ value: code }))
-  return(
+  return (
     <div className="configure-flow-card">
-      <h4>
+      <h3>
         <FormattedMessage id="flow.languageStep.title" />
-      </h4>
+      </h3>
       <div className={CSS.flowCards}>
         <Select
           onChange={({ value }) => onClick({ language: value })}

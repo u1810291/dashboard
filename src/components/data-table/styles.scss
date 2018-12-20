@@ -5,8 +5,11 @@
 :local(.table) {
   width: 100%;
   table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
 
-  td, th {
+  td,
+  th {
     height: var(--mgi-table-row-height);
     padding: 0 var(--mgi-spacing);
     vertical-align: middle;
@@ -16,23 +19,21 @@
     th {
       text-align: left;
       font-weight: 600;
-      height: calc(.75 * var(--mgi-table-row-height));
+      height: calc(0.75 * var(--mgi-table-row-height));
     }
 
     tr {
-      border-bottom: 2px solid var(--mgi-theme-palette-light);
+      border-bottom: 2px solid var(--mgi-theme-palette-lightgray);
     }
   }
 
   tbody {
-    font-size: var(--mgi-theme-font-size-small);
-
     tr {
-      border-bottom: 1px solid var(--mgi-theme-palette-light);
+      border-bottom: 1px solid var(--mgi-theme-palette-lightgray);
     }
 
     tr:hover {
-      background-color: var(--mgi-theme-palette-lighter);
+      background-color: var(--mgi-theme-palette-lightergray);
     }
   }
 }
@@ -43,7 +44,7 @@
   min-height: 360px;
   align-items: center;
   justify-content: center;
-  
+
   font-size: 1.125rem;
-  color: var(--mgi-theme-color-secondary);
+  color: var(--mgi-theme-palette-secondary);
 }

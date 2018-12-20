@@ -1,6 +1,12 @@
+:local(.fields) {
+  margin: 0;
+  padding: 0;
+}
+
 :local(.fields) li {
   display: flex;
   align-items: center;
+  margin: 0;
 
   &:not(:last-child) {
     margin-bottom: 15px;

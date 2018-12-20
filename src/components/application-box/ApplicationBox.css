@@ -4,8 +4,8 @@
   --mgi-application-box-menu-item-spacing: 30px;
   --mgi-application-box-spacing: calc(var(--mgi-spacing) * 2);
 
-  --mgi-item-color: var(--mgi-theme-color-secondary);
-  --mgi-item-color-active: var(--mgi-theme-color-active);
+  --mgi-item-color: var(--mgi-theme-palette-secondary);
+  --mgi-item-color-active: var(--mgi-theme-palette-active);
   --mgi-item-background: white;
   --mgi-item-background-active: white;
 
@@ -37,7 +37,6 @@
 }
 
 :local(.menuItem) {
-  font-size: var(--mgi-theme-font-size-small);
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -50,10 +49,10 @@
 }
 
 :local(.menuItemDropdown) .dropdown__content {
-  --mgi-item-color: var(--mgi-theme-color-secondary);
+  --mgi-item-color: var(--mgi-theme-palette-secondary);
   --mgi-item-color-active: white;
   --mgi-item-background: white;
-  --mgi-item-background-active: var(--mgi-theme-color-active);
+  --mgi-item-background-active: var(--mgi-theme-palette-active);
   right: 0;
   padding: 5px 0;
   width: var(--mgi-item-dropdown-width);
@@ -67,7 +66,7 @@
 }
 
 :local(.menuItemIcon) {
-  padding-right: .2rem;
+  padding-right: 0.2rem;
   display: flex;
 }
 
@@ -75,7 +74,8 @@
   fill: var(--mgi-item-color);
 }
 
-:local(.menuItem).active, :local(.menuItem):hover {
+:local(.menuItem).active,
+:local(.menuItem):hover {
   color: var(--mgi-item-color-active);
   background: var(--mgi-item-background-active);
 }
@@ -93,7 +93,7 @@
   width: 100%;
   box-sizing: border-box;
   flex: 1;
-  background: var(--mgi-theme-palette-lighter);
+  background: var(--mgi-theme-palette-lightergray);
 }
 
 :local(.contentSubWrapper) {
@@ -130,5 +130,4 @@
   :local(.menuItemDropdown) :local(.menuItemLabel) {
     display: inline;
   }
-
 }

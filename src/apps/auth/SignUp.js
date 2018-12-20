@@ -23,7 +23,7 @@ class SignUp extends React.Component {
     return (
       <React.Fragment>
         <MatiLogo className={CSS.logo} />
-        <h1 className={'mgi-page-title--light ' + CSS.title}>
+        <h1 className={'text-light ' + CSS.title}>
           <FormattedMessage id="signup.title" />
           <p className="text-secondary">
             <FormattedMessage id="signup.subtitle" />
@@ -33,17 +33,15 @@ class SignUp extends React.Component {
         <SignUpForm handleSubmit={this.handleSubmit} />
 
         <div className={CSS.haveAccount}>
-          <small>
-            <FormattedMessage id="signup.haveAccount" />{' '}
-            <Link to="/auth/signin">
-              <FormattedMessage id="signup.haveAccount.link" />
-            </Link>
-          </small>
+          <FormattedMessage id="signup.haveAccount" />{' '}
+          <Link to="/auth/signin">
+            <FormattedMessage id="signup.haveAccount.link" />
+          </Link>
         </div>
         <p className="text-secondary">
-          <small>
+          <span>
             <FormattedHTMLMessage id="terms-of-conditions" />
-          </small>
+          </span>
         </p>
       </React.Fragment>
     )

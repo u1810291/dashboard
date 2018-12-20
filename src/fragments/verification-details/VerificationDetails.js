@@ -22,10 +22,10 @@ function caption(document, intl) {
 
 function DocumentInProgress() {
   return (
-    <small className="text-secondary mgi-items mgi-items--centered mgi-items--narrow">
+    <span className="text-secondary mgi-items mgi-items--centered mgi-items--narrow">
       <Spinner size="small" />
       <FormattedMessage id="verifications.inProgress" />
-    </small>
+    </span>
   )
 }
 

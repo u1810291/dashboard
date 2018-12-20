@@ -26,9 +26,9 @@ class extends Component {
             <TabPanel key={index}>
               <div className={CSS.webhookExamples}>
                 <div className={CSS.webhookExample}>
-                  <h5 className="text-success">
+                  <h3 className="text-success">
                     <FormattedMessage id={tab.webhooks[0].label} />
-                  </h5>
+                  </h3>
                   <SyntaxHighlighter
                     language="json"
                     dark={false}
@@ -37,9 +37,9 @@ class extends Component {
                   />
                 </div>
                 <div className={CSS.webhookExample}>
-                  <h5 className="text-warning">
+                  <h3 className="text-warning">
                     <FormattedMessage id={tab.webhooks[1].label} />
-                  </h5>
+                  </h3>
                   <SyntaxHighlighter
                     language="json"
                     dark={false}

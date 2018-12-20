@@ -18,26 +18,26 @@
   height: auto;
 }
 
-:local(.checkButton)[data-color=blue] {
-  background-color: var(--mgi-theme-palette-blue);
+:local(.checkButton)[data-color='blue'] {
+  background-color: var(--mgi-theme-palette-lightblue);
 }
 
-:local(.checkButton)[data-color=green] {
+:local(.checkButton)[data-color='green'] {
   background-color: var(--mgi-theme-palette-green);
 }
 
-:local(.checkButton)[data-color=red] {
+:local(.checkButton)[data-color='red'] {
   background-color: var(--mgi-theme-palette-red);
 }
 
-:local(.checkButton)[data-color=pink] {
+:local(.checkButton)[data-color='pink'] {
   background-color: var(--mgi-theme-palette-pink);
 }
 
-:local(.checkButton)[data-color=orange] {
+:local(.checkButton)[data-color='orange'] {
   background-color: var(--mgi-theme-palette-orange);
 }
 
-:local(.checkButton)[data-color=yellow] {
+:local(.checkButton)[data-color='yellow'] {
   background-color: var(--mgi-theme-palette-yellow);
 }

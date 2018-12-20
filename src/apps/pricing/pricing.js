@@ -8,8 +8,7 @@ export default
 @injectIntl
 class Pricing extends React.Component {
   render() {
-    const contactSalesLink =
-      'mailto:hello@getmati.com'
+    const contactSalesLink = 'mailto:hello@getmati.com'
     const { formatMessage } = this.props.intl
     const t = variableName => formatMessage({ id: variableName })
 
@@ -38,11 +37,9 @@ class Pricing extends React.Component {
             </div>
             <div className="pricing-plan__features">
               <ul>
-                {
-                  times(5).map(i => (
-                    <li>{t(`plan.starter.features.${i}`)}</li>
-                  ))
-                }
+                {times(5).map(i => (
+                  <li>{t(`plan.starter.features.${i}`)}</li>
+                ))}
               </ul>
             </div>
           </div>
@@ -62,12 +59,12 @@ class Pricing extends React.Component {
               <div className="">
                 <div className="pricing-plan__price-header">
                   <strong>{t('plan.price.safety-pro')}</strong>{' '}
-                  <span className="text-muted">
+                  <span className="text-secondary">
                     / {t('plan.price.safety-pro.per-user')}
                   </span>
                 </div>
                 <strong className="text-success">
-                  <small>{t('plan.price.safety-pro.free-verifications')}</small>
+                  {t('plan.price.safety-pro.free-verifications')}
                 </strong>
               </div>
             </div>
@@ -114,7 +111,7 @@ class Pricing extends React.Component {
             </div>
             <div className="pricing-plan__price">
               <a href={contactSalesLink}>
-                <small>{t('plan.price.enterprise.contact-sales')}</small>
+                {t('plan.price.enterprise.contact-sales')}
               </a>
             </div>
             <div className="pricing-plan__features">

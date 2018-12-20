@@ -11,9 +11,9 @@ export default function ColorStep({
 }) {
   return (
     <div>
-      <h4>
+      <h3>
         <FormattedMessage id="flow.colorStep.title" />
-      </h4>
+      </h3>
       <div className={classNames('mgi-items', CSS.buttons)}>
         {availableButtonColors.map(color => (
           <ColorCheckButton

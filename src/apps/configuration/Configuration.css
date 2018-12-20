@@ -2,7 +2,7 @@
   background: white;
 }
 
-:local(.content)>section {
+:local(.content) > section {
   margin-bottom: var(--mgi-spacing);
 }
 
@@ -12,6 +12,10 @@
   align-items: stretch;
   justify-content: space-between;
   max-height: calc(100vh - var(--mgi-application-box-menu-height));
+}
+
+:local(.sidebarIcon) {
+  text-align: center;
 }
 
 :local(.showIntegrationCodeButton) {
@@ -35,10 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-  font-size: var(--mgi-theme-font-size-small);
-
-  color: #6B7C93;
+  color: #6b7c93;
 }
 
 :local(.matiButtonConfiguration) {
@@ -49,7 +50,7 @@
 :local(.matiButtonHint) {
   padding-top: 1rem;
   text-align: center;
-  color: var(--mgi-theme-palette-neutral);
+  color: var(--mgi-theme-palette-secondary);
 }
 
 :local(.matiButton) {
