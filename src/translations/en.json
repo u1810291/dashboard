@@ -229,7 +229,7 @@
   "verifirationModal.backgroundCheck.passed": "Passed",
   "verifirationModal.backgroundCheck.failed": "Manual review needed",
   "verifirationModal.backgroundCheck.liveness": "Liveness",
-  "verifirationModal.backgroundCheck.globalWatchlists": "global watchlists",
+  "verifirationModal.backgroundCheck.globalWatchlists": "Global Watchlists",
   "verifirationModal.fields.face": "Selfie",
   "verifirationModal.fields.liveness": "Selfie",
   "verifirationModal.fields.driving-license": "Driving License",

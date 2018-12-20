@@ -1,6 +1,5 @@
 import React from 'react'
 import { injectIntl } from 'react-intl'
-import { titleCase } from 'src/lib/string'
 
 import classNames from 'classnames'
 import CSS from './document-fields.module.scss'
@@ -18,7 +17,7 @@ function DocumentFields({ fields = [], intl }) {
         <React.Fragment>
           <li>
             <strong className={classNames(CSS.caption, 'text-secondary')}>
-              {titleCase(field.caption)}
+              {field.caption}
             </strong>
             <img
               className={CSS.icon}
