@@ -19,20 +19,22 @@ export default class Root extends React.Component {
 class PrivateRoute extends React.Component {
   render() {
     const { component: Component, loggedIn, ...rest } = this.props
-    return <Route
-      {...rest}
-      render={props =>
-        loggedIn ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/auth/signin',
-              state: { from: props.location }
-            }}
-          />
-        )
-      }
-    />
+    return (
+      <Route
+        {...rest}
+        render={props =>
+          loggedIn ? (
+            <Component {...props} />
+          ) : (
+            <Redirect
+              to={{
+                pathname: '/auth/signin',
+                state: { from: props.location }
+              }}
+            />
+          )
+        }
+      />
+    )
   }
 }

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`When a JS error is caught in a child component renders the report feedback link 1`] = `
+<button
+  onClick={[Function]}
+>
+  Report feedback
+</button>
+`;
+
+exports[`When no JS errors are caught in a child component renders children 1`] = `
+<span>
+  Component with no errors
+</span>
+`;

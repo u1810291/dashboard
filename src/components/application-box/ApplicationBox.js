@@ -21,11 +21,19 @@ ApplicationBox.propTypes = {
 }
 
 export function Sidebar(props) {
-  return <div className={classNames(CSS.sidebar, props.className)}>{props.children}</div>
+  return (
+    <div className={classNames(CSS.sidebar, props.className)}>
+      {props.children}
+    </div>
+  )
 }
 
 export function Content(props) {
-  return <div className={classNames(CSS.content, props.className)}>{props.children}</div>
+  return (
+    <div className={classNames(CSS.content, props.className)}>
+      {props.children}
+    </div>
+  )
 }
 
 export function Menu({ children }) {
@@ -37,16 +45,19 @@ export function MenuItemLink({ children, to, label, icon, external = false }) {
     if (props.to) {
       if (props.external) {
         return (
-          <a {...props} href={props.to} target="_blank" rel="noopener noreferrer">
+          <a
+            {...props}
+            href={props.to}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {props.children}
           </a>
         )
-      }
-      else {
+      } else {
         return <NavLink {...props} exact activeClassName="active" />
       }
-    }
-    else {
+    } else {
       return <span {...props} />
     }
   }
@@ -93,9 +104,7 @@ export class MenuItemCollection extends React.Component {
               {label && <span className={CSS.menuItemLabel}>{label}</span>}
             </span>
           </Dropdown.Trigger>
-          <Dropdown.Content>
-            {children}
-          </Dropdown.Content>
+          <Dropdown.Content>{children}</Dropdown.Content>
         </Dropdown>
       </React.Fragment>
     )
