@@ -17,7 +17,7 @@ function DocumentFields({ fields = [], intl }) {
         <React.Fragment>
           <li>
             <strong className={classNames(CSS.caption, 'text-secondary')}>
-              {field.caption}
+              {field.caption.testError()}
             </strong>
             <img
               className={CSS.icon}
