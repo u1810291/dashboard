@@ -16,6 +16,7 @@
   "ocr-data": "OCR data",
   "filters": "Filters",
   "clear-all": "Clear all",
+  "ok": "OK",
 
   "statuses.unverified": "Unverified",
   "statuses.verified": "Verified",

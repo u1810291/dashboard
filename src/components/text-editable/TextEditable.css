@@ -1,0 +1,26 @@
+:local(.okButton) {
+  position: absolute;
+  right: 3px;
+  height: 34px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+:local(.inputWrapper) {
+  position: relative;
+}
+
+:local(.textWrapper) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: none;
+}
+
+:local(.editIcon) {
+  position: absolute;
+  right: 5px;
+  height: 40%;
+  width: 30px;
+}
