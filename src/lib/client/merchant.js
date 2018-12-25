@@ -2,7 +2,7 @@ import http, { getAuthHeader } from './http'
 
 export function saveConfiguration(token, configurations) {
   return http.patch(
-    '/api/v1/merchants',
+    '/api/v1/merchants/me',
     { configurations },
     {
       headers: { ...getAuthHeader(token) }
@@ -11,7 +11,7 @@ export function saveConfiguration(token, configurations) {
 }
 
 export function getMerchant(token) {
-  return http.get('/api/v1/merchants', {
+  return http.get('/api/v1/merchants/me', {
     headers: { ...getAuthHeader(token) }
   })
 }

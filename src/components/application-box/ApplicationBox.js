@@ -41,9 +41,9 @@ export function Menu({ children }) {
 }
 
 export function MenuItemLink({ children, to, label, icon, external = false }) {
-  const Wrapper = props => {
+  const Wrapper = ({ external, ...props }) => {
     if (props.to) {
-      if (props.external) {
+      if (external) {
         return (
           <a
             {...props}

@@ -31,19 +31,22 @@ function SingleValue({ children, ...props }) {
 
 export default function LanguageStep({
   availableLanguages = [],
-  language,
+  style = {},
   onClick = () => {}
 }) {
   const options = availableLanguages.map(code => ({ value: code }))
-  return (
+  const handleChange = (value) => {
+    onClick({ style: { ...style, language: value } })
+  }
+  return(
     <div className="configure-flow-card">
       <h3>
         <FormattedMessage id="flow.languageStep.title" />
       </h3>
       <div className={CSS.flowCards}>
         <Select
-          onChange={({ value }) => onClick({ language: value })}
-          value={{ value: language }}
+          onChange={({ value }) => handleChange(value)}
+          value={{ value: style.language }}
           options={options}
           components={{ SingleValue, Option }}
         />

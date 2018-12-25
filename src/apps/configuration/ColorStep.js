@@ -6,9 +6,12 @@ import CSS from './ColorStep.css'
 
 export default function ColorStep({
   availableButtonColors = [],
-  currentColor,
+  style = {},
   onClick = () => {}
 }) {
+  const handleChange = (value) => {
+    onClick({ style: { ...style, color: value } })
+  }
   return (
     <div>
       <h3>
@@ -19,8 +22,8 @@ export default function ColorStep({
           <ColorCheckButton
             key={color}
             color={color}
-            checked={color === currentColor}
-            onChange={() => onClick({ color })}
+            checked={color === style.color}
+            onChange={() => handleChange(color)}
           />
         ))}
       </div>

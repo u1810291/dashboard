@@ -92,24 +92,22 @@ class Configuration extends React.Component {
     const flowSteps = [
       <LanguageStep
         availableLanguages={AVAILABLE_LANGUAGES}
-        language={this.props.configuration.language}
+        style={this.props.configuration.style}
         onClick={this.updateConfiguration}
       />,
       <ColorStep
         availableButtonColors={AVAILABLE_COLORS}
-        currentColor={this.props.configuration.color}
+        style={this.props.configuration.style}
         onClick={this.updateConfiguration}
       />,
       <DocumentTypesStep
         availableDocumentTypes={AVAILABLE_DOCUMENT_TYPES}
         mandatoryDocumentTypes={MANDATORY_DOCUMENT_TYPES}
-        documents={this.props.configuration.documents}
+        documents={this.props.configuration.flow}
         onClick={this.updateConfiguration}
       />,
       <SafetyProStep
-        globalWatchList={this.props.configuration.globalWatchList}
-        liveness={this.props.configuration.liveness}
-        databaseValidation={this.props.configuration.databaseValidation}
+        system={this.props.configuration.system}
         onClick={this.updateConfiguration}
       />
     ]
@@ -144,8 +142,8 @@ class Configuration extends React.Component {
           </p>
           <div>
             <MatiButton
-              language={this.props.configuration.language}
-              color={this.props.configuration.color}
+              language={this.props.configuration.style.language}
+              color={this.props.configuration.style.color}
               clientId={this.props.token}
               onSuccess={this.redirectToIdentity}
               className={CSS.matiButtonConfiguration}

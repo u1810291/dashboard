@@ -82,16 +82,12 @@ export default function extractIdentityData(identity) {
         }))
       }
 
-      const faceMatchValue = (identity.facematchScore.find(
-        s => s[0] === doc.type
-      ) || [])[1]
-
-      if (faceMatchValue) {
+      if (doc.faceMatchScore) {
         document.fields.unshift({
           caption: <FormattedMessage id="identities.fields.faceMatch" />,
-          value: percents(faceMatchValue),
+          value: percents(doc.faceMatchScore),
           status:
-            parseInt(faceMatchValue, 10) > SUSPICIOUS_FACEMATCH_LEVEL
+            parseInt(doc.faceMatchScore, 10) > SUSPICIOUS_FACEMATCH_LEVEL
               ? 'success'
               : 'warning'
         })

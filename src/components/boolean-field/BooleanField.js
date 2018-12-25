@@ -22,6 +22,8 @@ export default class BooleanField extends React.Component {
       onChange = () => {},
       onClick = () => {},
       checked = false,
+      // eslint-disable-next-line no-unused-vars
+      indeterminate = false, // excludes the boolean value from inputProps
       ...inputProps
     } = this.props
 

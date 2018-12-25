@@ -32,7 +32,7 @@ function DocumentTypesStep({
       ),
       optional: toggle(optional, type, indeterminate)
     }
-    onClick({ documents })
+    onClick({ flow: documents })
   }
 
   return (

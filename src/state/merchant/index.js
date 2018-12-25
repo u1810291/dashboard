@@ -99,7 +99,6 @@ export function saveConfiguration(token, configuration) {
     const newConfiguration = {
       ...oldConfiguration,
       ...configuration,
-      version: (parseInt(oldConfiguration.version, 10) || 0) + 1
     }
 
     dispatch({
@@ -126,21 +125,25 @@ const initialState = {
   apps: [],
   lastApplication: {},
   configuration: {
-    version: 0,
-    documents: {
+    flow: {
       required: [],
       optional: []
     },
-    color: undefined,
-    language: 'en',
-    globalWatchList: false
+    style: {
+      color: undefined,
+      language: 'en',
+    },
+    system: {
+      watchlists: true,
+      liveness: true,
+    },
   }
 }
 
 const reducer = createReducer(initialState, {
   [types.MERCHANT_GET_SUCCESS]: function(state, { payload }) {
-    const configuration =
-      payload.data.configurations[payload.data.configurations.length - 1]
+    const configuration = payload.data.configurations
+    Reflect.deleteProperty(configuration, 'version')
     return {
       ...state,
       ...payload.data,
@@ -175,13 +178,15 @@ const reducer = createReducer(initialState, {
   },
 
   [types.CONFIGURATION_SAVE_SUCCESS]: function(state, { payload }) {
+    const configuration = payload.data.configurations
+    Reflect.deleteProperty(configuration, 'version')
     return {
       ...state,
       ...payload.data,
 
       configuration: {
         ...state.configuration,
-        ...payload.data.configurations[payload.data.configurations.length - 1]
+        ...configuration
       }
     }
   },
