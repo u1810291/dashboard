@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
-import CSS from './styles.scss'
+import CSS from './StatusLabel.scss'
 
 export default function StatusLabel({ status }) {
   return (

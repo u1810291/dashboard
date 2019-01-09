@@ -1,0 +1,31 @@
+:local(.dropdownContent) {
+  padding: 5px 0;
+}
+
+:local(.dropdownItem) {
+  padding: 0 var(--mgi-spacing);
+  height: var(--mgi-item-nested-height);
+  line-height: var(--mgi-item-nested-height);
+  cursor: pointer;
+}
+
+:local(.dropdownItem):hover {
+  background: var(--mgi-theme-color-active);
+  color: white;
+}
+
+:local(.activeStatusLabel) {
+  display: inline-block;
+  margin-right: 5px;
+  &.manual-review {
+    color: var(--mgi-theme-palette-orange);
+  }
+
+  &.unverified {
+    color: var(--mgi-theme-palette-red);
+  }
+
+  &.verified {
+    color: var(--mgi-theme-palette-green);
+  }
+}
