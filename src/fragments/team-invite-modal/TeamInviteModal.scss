@@ -1,0 +1,17 @@
+:local(.modalWindow) {
+  width: 80%;
+  height: 100%;
+}
+
+:local(.inviteSuccessModal) {
+  main {
+    height: 347px;
+    padding-top: 138px;
+    padding-bottom: 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 22px;
+  }
+}

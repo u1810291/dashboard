@@ -15,6 +15,7 @@ import PricingPage from 'src/apps/pricing'
 import VerificationHistory from 'src/apps/verification-history'
 import VerificationItem from 'src/apps/verification-history/verification-item'
 import DevelopersRoute from 'src/apps/developers'
+//import { AccountSettings } from 'src/apps/account-settings'
 import { signOut } from 'src/state/auth'
 import { getMerchant, saveConfiguration } from 'src/state/merchant'
 import MatiLogo from 'src/assets/mati-logo.svg'
@@ -92,6 +93,7 @@ class Dashboard extends React.Component {
             to="/pricing"
             label={formatMessage({ id: 'dashboard.menu.upgrade' })}
           />
+          {/*<MenuItemLink to="/account-settings" label={formatMessage({ id: 'dashboard.menu.accountSettings' })} />*/}
           <MenuItemButton
             onClick={this.handleSignOut}
             label={formatMessage({ id: 'dashboard.menu.signout' })}
@@ -120,6 +122,7 @@ class Dashboard extends React.Component {
               path="/verifications/:id"
               component={VerificationItem}
             />
+            {/*<Route exact path="/account-settings" component={AccountSettings} />*/}
             <Route exact path="/pricing" component={PricingPage} />
             <Route path="/" component={Configuration} />
           </Switch>

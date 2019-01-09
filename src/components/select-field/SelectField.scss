@@ -1,0 +1,9 @@
+:local(.selectField) {
+
+}
+
+:local(.error) {
+  .select-field__control {
+    border-color: var(--mgi-theme-palette-red);
+  }
+}

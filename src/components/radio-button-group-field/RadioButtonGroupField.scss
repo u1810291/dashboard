@@ -1,0 +1,36 @@
+:local(.itemWrapper) {
+  display: block !important;
+  position: relative;
+  cursor: pointer;
+  padding-left: 25px;
+  user-select: none;
+  font-weight: normal !important;
+  font-size: 15px !important;
+  padding-bottom: 2px !important;
+  padding-top: 2px !important;
+  margin-bottom: 3px;
+}
+
+:local(.itemWrapper input) {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+:local(.checkmark) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+  height: 11px;
+  width: 11px;
+  border: 1px solid var(--mgi-theme-palette-lightgray);
+  border-radius: 50%;
+}
+
+/* When the radio button is checked, add a blue background */
+:local(.itemWrapper input:checked + .checkmark) {
+  background-color: var(--mgi-theme-palette-lightblue);
+  border: 1px solid var(--mgi-theme-palette-lightblue);
+}

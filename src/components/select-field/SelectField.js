@@ -1,20 +1,28 @@
 import React from 'react'
+import CSS from './SelectField.scss'
+import Select, {components} from 'react-select'
 import classNames from 'classnames'
-import './SelectField.css'
+import DownArrow from './downArrow.svg';
+
+const DropdownIndicator = (props) => {
+  return components.DropdownIndicator && (
+    <components.DropdownIndicator {...props}>
+      <DownArrow />
+    </components.DropdownIndicator>
+  )
+}
 
 export default function SelectField({
   className,
-  children,
+  error,
   ...inputProps
 }) {
   return (
-    <div className="mgi-select-field--wrapper">
-      <select
-        className={classNames('mgi-select-field', className)}
-        {...inputProps}
-      >
-        {children}
-      </select>
-    </div>
+    <Select
+      className={classNames(CSS.selectField, error && CSS.error, className)}
+      classNamePrefix="select-field"
+      components={{DropdownIndicator}}
+      {...inputProps}
+    />
   )
 }

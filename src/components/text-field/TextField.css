@@ -9,3 +9,7 @@
   padding: 0 12px;
   color: #393939;
 }
+
+:local(.error) {
+  border-color: var(--mgi-theme-palette-red);
+}

@@ -6,11 +6,12 @@ import CSS from './TextField.css'
 export default function TextField({
   type = 'text',
   className,
+  error,
   ...inputProps
 }) {
   return (
     <input
-      className={classNames(CSS.textField, className)}
+      className={classNames(CSS.textField, error && CSS.error, className)}
       type={type}
       {...inputProps}
     />

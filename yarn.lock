@@ -4484,6 +4484,11 @@ flatten@^1.0.2:
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
   integrity sha1-2uRqnXj74lKSJYzB54CkHZXAN4I=
 
+flex-box-grid@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/flex-box-grid/-/flex-box-grid-1.0.0.tgz#f02aadae916d70fe95fd4618e7bfb8057cd05973"
+  integrity sha512-0YrZVuAo2ZaZkIIbxmSY5TJBNsJzKsEy8gvIIfCYMUgalmOiYCX4LHSGgxcJMkfyOtPwCGPNzOOUmvvOq9sjRg==
+
 flush-write-stream@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/flush-write-stream/-/flush-write-stream-1.0.3.tgz#c5d586ef38af6097650b49bc41b55fabb19f35bd"

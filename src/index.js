@@ -9,6 +9,8 @@ import Root from 'src/apps'
 import { Container as NotificationsContainer } from 'src/components/notification'
 import 'clipboard-polyfill'
 import * as Sentry from '@sentry/browser'
+
+import 'flex-box-grid/dist/scss/index.scss'
 import 'src/components/theme/styles.scss'
 
 let ErrorLoggerWrapper = React.Fragment

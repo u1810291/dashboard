@@ -1,6 +1,7 @@
 import React from 'react'
 import { DebounceInput } from 'react-debounce-input'
 import BaseInput from './BaseInput'
+import classNames from 'classnames'
 import CSS from '../text-field/TextField.css'
 
 export default props => (
@@ -8,7 +9,7 @@ export default props => (
     {...props}
     renderer={fieldProps => (
       <DebounceInput
-        className={CSS.textField}
+        className={classNames(CSS.textField, fieldProps.error && CSS.error)}
         debounceTimeout={props.debounceTimeout || 300}
         {...fieldProps}
       />

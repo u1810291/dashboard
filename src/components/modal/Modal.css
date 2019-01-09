@@ -20,7 +20,7 @@
   background: white;
   width: 600px;
   max-width: 100%;
-  min-height: 360px;
+  min-height: 300px;
   max-height: calc(100vh - 40px);
   overflow: hidden;
   border-radius: 6px;

@@ -49,6 +49,7 @@ class BaseInput extends React.Component {
         {!hideLabel && <label>{label || i18nLabel}</label>}
         {renderer({
           placeholder: placeholder || i18nPlaceholder,
+          error: validationError,
           ...field,
           ...inputOptions
         })}

@@ -19,10 +19,10 @@ const formikSettings = {
   validate: values => {
     let errors = {}
 
-    errors.firstName = required(values.firstName, 'First Name') || cleanText(values.firstName)
-    errors.lastName = required(values.lastName, 'Last Name') || cleanText(values.lastName)
-    errors.email = required(values.email, 'Email') || email(values.email)
-    errors.password = required(values.password, 'Password')
+    errors.firstName = required(values.firstName) || cleanText(values.firstName)
+    errors.lastName = required(values.lastName) || cleanText(values.lastName)
+    errors.email = required(values.email) || email(values.email)
+    errors.password = required(values.password)
     errors = pickBy(errors, v => v)
     return errors
   }

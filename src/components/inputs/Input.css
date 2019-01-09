@@ -15,6 +15,6 @@
 :local(.error) {
   font-size: 80%;
   padding-top: 2px;
-  color: #eb5757;
+  color: var(--mgi-theme-palette-red);
   position: absolute;
 }

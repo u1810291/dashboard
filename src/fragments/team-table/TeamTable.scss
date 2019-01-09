@@ -1,0 +1,48 @@
+:local(.table) {
+  margin-bottom: var(--mgi-spacing)
+}
+
+:local(.teamName) {
+  font-weight: 600;
+}
+
+:local(.deleteButton) {
+  display: inherit;
+  box-sizing: content-box;
+  cursor: pointer;
+  padding: 3px;
+}
+
+:local(.deleteModal) {
+  font-size: 18px;
+}
+
+:local(.deleteSuccessModal) {
+  main {
+    height: 347px;
+    padding-top: 138px;
+    padding-bottom: 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 22px;
+  }
+}
+
+:local(.roleSelect) {
+  width: 80px;
+  margin-bottom: 0;
+  &:focus,
+  .select-field__value-container:focus,
+  .select-field__control {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  .select-field__control {
+    border: none;
+  }
+  .select-field__indicator-separator {
+    display: none;
+  }
+}
