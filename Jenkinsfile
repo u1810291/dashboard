@@ -23,7 +23,7 @@ pipeline {
     }
     stage('Deploy to staging') {
       when {
-        branch 'develop'
+        branch 'master'
         beforeAgent true
       }
       steps {
@@ -32,11 +32,20 @@ pipeline {
     }
     stage('Deploy to production') {
       when {
-        branch 'master'
+        branch 'stable'
         beforeAgent true
       }
       steps {
         build '../mgi-dashboard-production'
+      }
+    }
+    stage('Deploy to development') {
+      when {
+        branch 'development'
+        beforeAgent true
+      }
+      steps {
+        build '../../Deployment/dev-01/frontend'
       }
     }
   }

@@ -35,6 +35,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "build:dev01": "env-cmd .env.dev01 npm run build",
     "build:staging": "env-cmd .env.staging npm run build",
     "build:production": "env-cmd .env.production npm run build",
     "test": "cross-env NODE_PATH='.' craco test --env=jsdom",
