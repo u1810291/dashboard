@@ -41,7 +41,7 @@ pipeline {
     }
     stage('Deploy to development') {
       when {
-        branch 'development'
+        branch 'develop'
         beforeAgent true
       }
       steps {
