@@ -45,7 +45,7 @@ pipeline {
         beforeAgent true
       }
       steps {
-        build '../../Deployment/dev-01/frontend'
+        build '../../../Deployment/dev-01/frontend'
       }
     }
   }
