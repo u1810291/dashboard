@@ -24,7 +24,7 @@ export default function extractIdentityData(identity) {
     })
   }
 
-  documents.push({
+  const backgroundCheck = {
     caption: <FormattedMessage id="verifirationModal.backgroundCheck" />,
     fields: [
       {
@@ -39,22 +39,27 @@ export default function extractIdentityData(identity) {
           />
         ),
         status: identity.alive ? 'success' : 'warning'
-      },
-      {
-        caption: (
-          <FormattedMessage id="verifirationModal.backgroundCheck.globalWatchlists" />
-        ),
-        value: (
-          <FormattedMessage
-            id={`verifirationModal.backgroundCheck.${
-              watchlists ? 'failed' : 'passed'
-            }`}
-          />
-        ),
-        status: watchlists ? 'warning' : 'success'
       }
     ]
-  })
+  }
+
+  if (identity.status !== 'unverified') {
+    backgroundCheck.fields.push({
+      caption: (
+        <FormattedMessage id="verifirationModal.backgroundCheck.globalWatchlists" />
+      ),
+      value: (
+        <FormattedMessage
+          id={`verifirationModal.backgroundCheck.${
+            watchlists ? 'failed' : 'passed'
+          }`}
+        />
+      ),
+      status: watchlists ? 'warning' : 'success'
+    })
+  }
+
+  documents.push(backgroundCheck)
 
   if (identity.documents) {
     identity.documents.forEach(doc => {
@@ -82,12 +87,12 @@ export default function extractIdentityData(identity) {
         }))
       }
 
-      if (doc.faceMatchScore) {
+      if (doc.facematchScore) {
         document.fields.unshift({
           caption: <FormattedMessage id="identities.fields.faceMatch" />,
-          value: percents(doc.faceMatchScore),
+          value: percents(doc.facematchScore),
           status:
-            parseInt(doc.faceMatchScore, 10) > SUSPICIOUS_FACEMATCH_LEVEL
+            parseInt(doc.facematchScore, 10) > SUSPICIOUS_FACEMATCH_LEVEL
               ? 'success'
               : 'warning'
         })
