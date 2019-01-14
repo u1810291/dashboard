@@ -43,7 +43,7 @@ export default function extractIdentityData(identity) {
     ]
   }
 
-  if (identity.status !== 'unverified') {
+  if (identity.fullName) {
     backgroundCheck.fields.push({
       caption: (
         <FormattedMessage id="verifirationModal.backgroundCheck.globalWatchlists" />
