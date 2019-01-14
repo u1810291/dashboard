@@ -4,7 +4,7 @@ import { get } from 'lodash'
 
 const percents = val => (parseInt(val, 10) || 0 * 100).toFixed(0) + '%'
 
-const SUSPICIOUS_FACEMATCH_LEVEL = 70
+const SUSPICIOUS_FACEMATCH_LEVEL = 42
 
 function detectError(string) {
   return !string || !!string.match(/^([A-Z]+_[A-Z]+)+$/)
@@ -99,6 +99,28 @@ export default function extractIdentityData(identity) {
       }
 
       documents.push(document)
+
+      if (doc.verifiedData && doc.verifiedData.length) {
+        const verifiedDocument = {
+          caption: <FormattedMessage id="verifirationModal.idcheck" />,
+          origin: (
+            <FormattedMessage id={`verifirationModal.fields.${doc.type}`} />
+          ),
+          via: <FormattedMessage id={'verifirationModal.govChecks'} />,
+          queued: doc.status === 'queued',
+          fields: doc.verifiedData.map(field => ({
+            caption: <FormattedMessage id={`identities.fields.${field.id}`} />,
+            value: detectError(field.value) ? (
+              <FormattedMessage id="verifirationModal.n-a" />
+            ) : (
+              field.value
+            ),
+            status: detectError(field.value) ? 'failure' : 'success'
+          }))
+        }
+
+        documents.push(verifiedDocument)
+      }
     })
   }
 

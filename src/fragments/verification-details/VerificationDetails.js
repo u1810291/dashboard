@@ -12,8 +12,17 @@ function caption(document, intl) {
     cap.push(
       <span className="text-secondary">
         {' '}
-        ({intl.formatMessage({ id: 'verifirationModal.origin' })}{' '}
-        {document.origin})
+        {intl.formatMessage({ id: 'verifirationModal.origin' })}{' '}
+        {document.origin}
+      </span>
+    )
+  }
+
+  if (document.via) {
+    cap.push(
+      <span className="text-secondary">
+        {', '}
+        {intl.formatMessage({ id: 'verifirationModal.via' })} {document.via}
       </span>
     )
   }
