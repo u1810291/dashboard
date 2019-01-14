@@ -63,12 +63,14 @@ export default function extractIdentityData(identity) {
 
   if (identity.documents) {
     identity.documents.forEach(doc => {
-      photos.push({
-        caption: (
-          <FormattedMessage id={`verifirationModal.fields.${doc.type}`} />
-        ),
-        href: doc.pictures[0]._links.file.href
-      })
+      if (doc.pictures && doc.pictures.length) {
+        photos.push({
+          caption: (
+            <FormattedMessage id={`verifirationModal.fields.${doc.type}`} />
+          ),
+          href: doc.pictures[0]._links.file.href
+        })
+      }
 
       const document = {
         caption: <FormattedMessage id="verifirationModal.idcheck" />,

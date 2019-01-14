@@ -17,7 +17,7 @@ export function getMerchant(token) {
 }
 
 export function putMerchants(token, credentials) {
-  return http.put('/api/v1/merchants', credentials, {
+  return http.patch('/api/v1/merchants/me', credentials, {
     headers: { ...getAuthHeader(token) }
   })
 }
