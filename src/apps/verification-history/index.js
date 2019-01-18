@@ -11,20 +11,14 @@ import {
 import { buildFiltersChain } from 'src/state/identities/filtering'
 import { FormattedMessage } from 'react-intl'
 import { AVAILABLE_DOCUMENT_TYPES } from 'src/state/merchant'
-import { authorizedUrl } from 'src/lib/client/http'
 import { Content } from 'src/components/application-box'
 import Panel from 'src/components/panel'
 import DataTable from 'src/components/data-table'
 import VerificationFullNameLabel from 'src/fragments/verification-full-name-label'
 import DocumentTypesLabel from 'src/fragments/document-types-label'
 import Status from 'src/fragments/status-label'
-import VerificationModal from 'src/fragments/verification-modal'
 import SpinnerPage from 'src/components/spinner-page'
 import FiltersForm from './filters-form'
-import { extractIdentityData } from 'src/fragments/verification-details'
-import stringify from 'src/lib/stringify'
-
-const IDENTITY_CHECK_INTERVAL = 5000
 
 function getDocumentTypes(facematchScore) {
   return uniq(
@@ -67,44 +61,8 @@ class VerificationHistory extends ReactQueryParams {
     this.props.patchDocument(this.props.token, docId, [field])
   }
 
-  showVerificationModal = ({ id, fullName, status }) => {
-    // Move this crazy api call to redux
-    const fetchIdentity = id => {
-      const { token, getIdentityWithNestedData } = this.props
-      return getIdentityWithNestedData(token, id).then(
-        identityWithNestedData => {
-          this.setState({
-            isModalLoading: false,
-            identityWithNestedData
-          })
-          return identityWithNestedData
-        }
-      )
-    }
-
-    // save current URL, so we can restore it on modal close
-    this.previousURL = `${window.location.pathname}${window.location.search}`
-    window.history.pushState(null, null, `/verifications/${id}`)
-    window.clearInterval(this.modalInterval)
-    this.setState({
-      showVerificationModal: true,
-      identityWithNestedData: {},
-      openedIdentity: {id, fullName, status},
-      isModalLoading: true
-    })
-
-    fetchIdentity(id).then(() => {
-      this.modalInterval = window.setInterval(
-        () => fetchIdentity(id),
-        IDENTITY_CHECK_INTERVAL
-      )
-    })
-  }
-
-  closeVerificationModal = () => {
-    window.history.replaceState(null, null, this.previousURL)
-    this.setState({ showVerificationModal: false })
-    window.clearInterval(this.modalInterval)
+  openVerification = ({ id, fullName, status }) => {
+    this.props.history.push(`/verifications/${id}`)
   }
 
   getTableColumns = () => {
@@ -162,20 +120,6 @@ class VerificationHistory extends ReactQueryParams {
 
     return (
       <Content>
-        {this.state.showVerificationModal && (
-          <VerificationModal
-            onClose={this.closeVerificationModal}
-            isLoading={this.state.isModalLoading}
-            signURL={url => authorizedUrl(url, this.props.token)}
-            webhook={stringify(
-              this.state.identityWithNestedData.originalIdentity || {}
-            )}
-            onStatusChange={this.onStatusChange}
-            onFieldChange={this.onFieldChange}
-            {...this.state.openedIdentity}
-            {...extractIdentityData(this.state.identityWithNestedData)}
-          />
-        )}
         <Panel caption={<FormattedMessage id="identities.title" />}>
           <Panel.Header>
             <FiltersForm
@@ -191,7 +135,7 @@ class VerificationHistory extends ReactQueryParams {
               rows={visibleIdentities}
               columns={this.getTableColumns()}
               emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
-              onRowClick={this.showVerificationModal}
+              onRowClick={this.openVerification}
             />
           </Panel.Body>
         </Panel>
