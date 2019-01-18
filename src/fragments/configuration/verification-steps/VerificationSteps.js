@@ -36,7 +36,7 @@ export default function VerificationSteps({
 }) {
   const onRemoveItem = index => {
     if (window.confirm('Please, confirm.')) {
-      onChange({ steps: removeItem(steps, index) })
+      onChange({ verificationSteps: removeItem(steps, index) })
     }
   }
 
@@ -53,7 +53,7 @@ export default function VerificationSteps({
         onSave={values => {
           closeOverlay()
           onChange({
-            steps:
+            verificationSteps:
               index !== undefined
                 ? replaceItem(steps, index, values)
                 : addItem(steps, values)
