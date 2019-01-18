@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { connect } from 'react-redux'
-import Button from 'src/components/button'
-import { Modal } from 'src/components/modal'
 import { MatiButton } from 'src/components/mati-button'
 import { Sidebar, Content } from 'src/components/application-box'
+import Button from 'src/components/button'
+import { createOverlay, closeOverlay } from 'src/components/overlay'
 import {
   getIntegrationCode,
   saveConfiguration,
@@ -13,10 +13,9 @@ import {
   AVAILABLE_DOCUMENT_TYPES,
   MANDATORY_DOCUMENT_TYPES
 } from 'src/state/merchant'
-import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
 import IntegrationIcon from 'src/assets/icon-integration.svg'
 import ColorStep from './ColorStep'
-import DocumentTypesStep from './DocumentTypesStep'
+import VerificationSteps from 'src/fragments/configuration/verification-steps'
 import LanguageStep from './LanguageStep'
 import SafetyProStep from './SafetyProStep'
 import CSS from './Configuration.css'
@@ -24,13 +23,18 @@ import IconCurlyArrowUp from 'src/assets/icon-curly-arrow-up.svg'
 import IconIOS from 'src/assets/icon-ios.svg'
 import IconAndroid from 'src/assets/icon-android.svg'
 import IconPlay from 'src/assets/icon-play.svg'
+import IntegrationCodeModal from 'src/fragments/configuration/integration-code-modal'
 
 export default
 @injectIntl
 @connect(
-  ({ auth: { token }, merchant: { configuration, integrationCode } }) => ({
+  ({
+    auth: { token },
+    merchant: { configuration, configurations, integrationCode }
+  }) => ({
     token,
     configuration,
+    configurations,
     integrationCode
   }),
   {
@@ -39,24 +43,18 @@ export default
   }
 )
 class Configuration extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      hideIntegrationCode: true
-    }
-  }
-
   redirectToIdentity = ({ identityId }) => {
     this.props.history.push(`/verifications/${identityId}`)
   }
 
-  closeIntegrationCode = () => {
-    this.setState({ hideIntegrationCode: true })
-  }
-
   toggleIntegrationCode = () => {
     this.props.getIntegrationCode(this.props.token).then(value => {
-      this.setState({ hideIntegrationCode: false })
+      createOverlay(
+        <IntegrationCodeModal
+          integrationCode={this.props.integrationCode}
+          onClose={closeOverlay}
+        />
+      )
     })
   }
 
@@ -100,11 +98,13 @@ class Configuration extends React.Component {
         style={this.props.configuration.style}
         onClick={this.updateConfiguration}
       />,
-      <DocumentTypesStep
+      <VerificationSteps
         availableDocumentTypes={AVAILABLE_DOCUMENT_TYPES}
         mandatoryDocumentTypes={MANDATORY_DOCUMENT_TYPES}
-        documents={this.props.configuration.flow}
-        onClick={this.updateConfiguration}
+        steps={this.props.configuration.verificationSteps}
+        onChange={({ steps }) => {
+          this.updateConfiguration({ dashboard: { steps } })
+        }}
       />,
       <SafetyProStep
         system={this.props.configuration.system}
@@ -174,35 +174,6 @@ class Configuration extends React.Component {
             </div>
           </div>
         </Sidebar>
-        {!this.state.hideIntegrationCode && (
-          <Modal
-            onClose={this.closeIntegrationCode}
-            className={CSS.integratConfiguration}
-          >
-            <header>
-              <FormattedMessage id="onboarding.integrationCode.modalTitle" />
-            </header>
-            <main>
-              <SyntaxHighlighter
-                language="html"
-                copyToClipboard
-                code={this.props.integrationCode}
-              />
-              <a
-                href="https://github.com/MatiFace/mati-global-id-sdk"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Check out our mobile SDK
-              </a>
-            </main>
-            <footer className="modal--footer-transparent modal--footer-center">
-              <Button buttonStyle="primary" onClick={this.closeIntegrationCode}>
-                <FormattedMessage id="got-it" />
-              </Button>
-            </footer>
-          </Modal>
-        )}
       </React.Fragment>
     )
   }

@@ -3,18 +3,18 @@ import { FormattedMessage } from 'react-intl'
 import ToggleField from 'src/components/toggle-field'
 
 export default function SafetyProStep({ onClick = () => {}, system }) {
-  const handleClick = (value) => {
+  const handleClick = value => {
     onClick({ system: { ...system, ...value } })
   }
   return (
-    <div>
-      <h3 className="text-success">
-        <strong>
+    <fieldset className="mgi-fieldset">
+      <legend>
+        <h3 className="text-success">
           <FormattedMessage id="flow.watchlistStep.title" />
-        </strong>
-      </h3>
+        </h3>
+      </legend>
       <div className="mgi-items">
-        {['watchlists', 'liveness'/*, 'databases'*/].map(t => (
+        {['watchlists', 'liveness' /*, 'databases'*/].map(t => (
           <section key={t}>
             <h3>
               <FormattedMessage id={`flow.safetyProStep.${t}`} />
@@ -29,6 +29,6 @@ export default function SafetyProStep({ onClick = () => {}, system }) {
           </section>
         ))}
       </div>
-    </div>
+    </fieldset>
   )
 }

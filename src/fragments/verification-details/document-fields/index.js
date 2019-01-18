@@ -13,8 +13,8 @@ const icons = {
 function DocumentFields({ fields = [], intl, onFieldChange }) {
   return (
     <ul className={CSS.fields}>
-      {fields.map(field => (
-        <React.Fragment>
+      {fields.map((field, index) => (
+        <React.Fragment key={index}>
           <li>
             <strong className={classNames(CSS.caption, 'text-secondary')}>
               {field.caption}

@@ -12,9 +12,9 @@
   align-items: center;
 }
 
-:local(.button) + :local(.button) {
-  margin-left: var(--mgi-spacing);
-}
+/* :local(.button) + :local(.button) {
+  margin-left: calc(0.5 * var(--mgi-spacing));
+} */
 
 :local(.button):hover {
   cursor: pointer;
@@ -26,8 +26,7 @@
 }
 
 :local(.button) img:first-child,
-:local(.button) svg:first-child
-{
+:local(.button) svg:first-child {
   margin-right: 5px;
 }
 
@@ -71,4 +70,20 @@
   box-shadow: none;
   text-transform: uppercase;
   font-weight: 400;
+}
+
+:local(.button).invisible {
+  background: transparent;
+  padding: 0;
+  border: 0;
+  height: auto;
+}
+
+:local(.button).invisible svg {
+  margin: 0;
+}
+
+:local(.button)[disabled] {
+  background: var(--mgi-button-color-gray);
+  cursor: not-allowed;
 }

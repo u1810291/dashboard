@@ -1,5 +1,5 @@
 import React from 'react'
-import { parse } from 'src/lib/json';
+import { parse } from 'src/lib/json'
 
 const languagesMap = {
   en: 'us',
@@ -15,17 +15,29 @@ export class MatiButton extends React.Component {
     let payload
 
     window.addEventListener('message', event => {
-      const data = event.data && typeof event.data === 'string' ? parse(event.data) : event.data || {}
+      const data =
+        event.data && typeof event.data === 'string'
+          ? parse(event.data)
+          : event.data || {}
       const index = this.element.dataset.index || 0
-      if (this.props.onSuccess && data.action === `mati-signup-${index}::loaded`) {
+      if (
+        this.props.onSuccess &&
+        data.action === `mati-signup-${index}::loaded`
+      ) {
         success = false
         payload = null
       }
-      if (this.props.onSuccess && data.action === `mati-signup-${index}::success`) {
+      if (
+        this.props.onSuccess &&
+        data.action === `mati-signup-${index}::success`
+      ) {
         success = true
         payload = data.payload
       }
-      if (this.props.onSuccess && data.action === `mati-signup-${index}::exit`) {
+      if (
+        this.props.onSuccess &&
+        data.action === `mati-signup-${index}::exit`
+      ) {
         if (success) {
           this.props.onSuccess(payload)
         }
@@ -49,11 +61,13 @@ export class MatiButton extends React.Component {
     }
     this.root.appendChild(this.element)
 
-    window.Mati.render({
-      clientId: this.props.clientId,
-      element: this.element,
-      hideChat: true
-    })
+    if (window.Mati) {
+      window.Mati.render({
+        clientId: this.props.clientId,
+        element: this.element,
+        hideChat: true
+      })
+    }
   }
   componentDidUpdate(prevProps) {
     this.renderButton()
@@ -66,6 +80,8 @@ export class MatiButton extends React.Component {
     this.renderButton()
   }
   render() {
-    return <div className={this.props.className} ref={root => (this.root = root)} />
+    return (
+      <div className={this.props.className} ref={root => (this.root = root)} />
+    )
   }
 }

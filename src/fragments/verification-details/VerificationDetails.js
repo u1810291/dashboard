@@ -52,8 +52,12 @@ function VerificationDetails({ intl, photos = [], documents = [], signURL, onFie
           </Panel.Body>
         </Panel>
       )}
-      {documents.map(doc => (
-        <Panel caption={caption(doc, intl)} className={CSS.documentPanel}>
+      {documents.map((doc, index) => (
+        <Panel
+          caption={caption(doc, intl)}
+          className={CSS.documentPanel}
+          key={index}
+        >
           <Panel.Body className={CSS.documentPanelBody}>
             {doc.queued ? (
               <DocumentInProgress />

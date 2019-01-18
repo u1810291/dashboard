@@ -1,0 +1,192 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VerificationSteps mandatory steps 1`] = `
+<fieldset
+  className="mgi-fieldset"
+>
+  <legend>
+    <h3>
+      <FormattedMessage
+        id="flow.documentTypeStep.title"
+        values={Object {}}
+      />
+    </h3>
+  </legend>
+  <fieldset
+    className="mgi-fieldset"
+    key="0"
+  >
+    <legend
+      className="text-active"
+    >
+      <FormattedMessage
+        id="flow.documentTypeStep.stepNo"
+        values={Object {}}
+      />
+       
+      1
+    </legend>
+    <div
+      className="mgi-items"
+    >
+      <span
+        className="mgi-items--grow"
+      >
+        <FormattedMessage
+          id="flow.documentTypeStep.liveness"
+          values={Object {}}
+        />
+      </span>
+      <span
+        className="text-secondary"
+      >
+        <FormattedMessage
+          id="required"
+          values={Object {}}
+        />
+      </span>
+    </div>
+  </fieldset>
+  <Button
+    buttonStyle="primary"
+    disabled={false}
+    onClick={[Function]}
+  >
+    Add another step
+  </Button>
+</fieldset>
+`;
+
+exports[`VerificationSteps steps  1`] = `
+<fieldset
+  className="mgi-fieldset"
+>
+  <legend>
+    <h3>
+      <FormattedMessage
+        id="flow.documentTypeStep.title"
+        values={Object {}}
+      />
+    </h3>
+  </legend>
+  <fieldset
+    className="mgi-fieldset"
+    key="0"
+  >
+    <legend
+      className="text-active"
+    >
+      <div
+        className="mgi-items"
+      >
+        <span
+          className="mgi-items--grow"
+        >
+          <FormattedMessage
+            id="flow.documentTypeStep.stepNo"
+            values={Object {}}
+          />
+           
+          1
+        </span>
+        <div
+          className="mgi-items mgi-items--narrow"
+        >
+          <Button
+            buttonStyle="invisible"
+          >
+            <pencil.svg
+              className="svg-active"
+              onClick={[Function]}
+            />
+          </Button>
+          <Button
+            buttonStyle="invisible"
+          >
+            <trash-bin.svg
+              className="svg-error"
+              onClick={[Function]}
+            />
+          </Button>
+        </div>
+      </div>
+    </legend>
+    <div>
+      <FormattedMessage
+        id="flow.documentTypeStep.driving-license"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="text-secondary"
+    >
+      <FormattedMessage
+        id="or"
+        values={Object {}}
+      />
+    </div>
+    <div>
+      <FormattedMessage
+        id="flow.documentTypeStep.national-id"
+        values={Object {}}
+      />
+    </div>
+  </fieldset>
+  <fieldset
+    className="mgi-fieldset"
+    key="1"
+  >
+    <legend
+      className="text-active"
+    >
+      <div
+        className="mgi-items"
+      >
+        <span
+          className="mgi-items--grow"
+        >
+          <FormattedMessage
+            id="flow.documentTypeStep.stepNo"
+            values={Object {}}
+          />
+           
+          2
+        </span>
+        <div
+          className="mgi-items mgi-items--narrow"
+        >
+          <Button
+            buttonStyle="invisible"
+          >
+            <pencil.svg
+              className="svg-active"
+              onClick={[Function]}
+            />
+          </Button>
+          <Button
+            buttonStyle="invisible"
+          >
+            <trash-bin.svg
+              className="svg-error"
+              onClick={[Function]}
+            />
+          </Button>
+        </div>
+      </div>
+    </legend>
+    <div>
+      <FormattedMessage
+        id="flow.documentTypeStep.proof-of-residency"
+        values={Object {}}
+      />
+    </div>
+  </fieldset>
+  <Button
+    buttonStyle="primary"
+    disabled={false}
+    onClick={[Function]}
+  >
+    Add another step
+  </Button>
+</fieldset>
+`;

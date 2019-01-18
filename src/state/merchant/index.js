@@ -98,7 +98,7 @@ export function saveConfiguration(token, configuration) {
     const oldConfiguration = store.getState().merchant.configuration
     const newConfiguration = {
       ...oldConfiguration,
-      ...configuration,
+      ...configuration
     }
 
     dispatch({
@@ -131,12 +131,14 @@ const initialState = {
     },
     style: {
       color: undefined,
-      language: 'en',
+      language: 'en'
     },
     system: {
       watchlists: true,
-      liveness: true,
+      liveness: true
     },
+    verificationSteps: [],
+    dashboard: {}
   }
 }
 

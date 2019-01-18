@@ -25,3 +25,27 @@
 .text-error {
   color: var(--mgi-theme-palette-error);
 }
+
+.text-large {
+  font-size: 16px;
+}
+
+.svg-secondary path {
+  fill: var(--mgi-theme-palette-secondary);
+}
+
+.svg-active path {
+  fill: var(--mgi-theme-palette-active);
+}
+
+.svg-success path {
+  fill: var(--mgi-theme-palette-success);
+}
+
+.svg-warning path {
+  fill: var(--mgi-theme-palette-warning);
+}
+
+.svg-error path {
+  fill: var(--mgi-theme-palette-error);
+}

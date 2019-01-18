@@ -4,22 +4,22 @@ import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { authorizedUrl } from 'src/lib/client/http'
 import { Content } from 'src/components/application-box'
-import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
 import VerificationDetails, {
   extractIdentityData
 } from 'src/fragments/verification-details'
 import stringify from 'src/lib/stringify'
 import VerificationFullNameLabel from 'src/fragments/verification-full-name-label'
 import StatusSelect from 'src/fragments/status-select'
-import WebbhooksIcon from 'src/fragments/verification-modal/webhooks-icon.svg'
+import WebbhooksIcon from './webhooks-icon.svg'
 import Button from 'src/components/button'
-import { Modal } from 'src/components/modal'
 import SpinnerPage from 'src/components/spinner-page'
 import {
   getIdentityWithNestedData,
   patchIdentity,
   patchDocument
 } from 'src/state/identities'
+import { createOverlay, closeOverlay } from 'src/components/overlay'
+import VerificationWebhookModal from 'src/fragments/verifications/verification-webhook-modal'
 
 const CHECK_INTERVAL = 5000
 
@@ -60,6 +60,15 @@ class VerificationItem extends React.Component {
     )
   }
 
+  openWebhookModal = () => {
+    createOverlay(
+      <VerificationWebhookModal
+        webhook={stringify(this.props.identity.originalIdentity)}
+        onClose={closeOverlay}
+      />
+    )
+  }
+
   loadData = () => {
     const { token, getIdentityWithNestedData } = this.props
     const { id } = this.props.match.params
@@ -78,32 +87,6 @@ class VerificationItem extends React.Component {
     const { identity, token } = this.props
     return (
       <Content>
-        {this.state.webhookModalOpened && (
-          <Modal
-            onClose={() => this.setState({ webhookModalOpened: false })}
-            wide
-          >
-            <header>
-              <FormattedMessage id="verificationModal.webhookResponse" />
-            </header>
-            <main>
-              <SyntaxHighlighter
-                dark={false}
-                copyToClipboard
-                code={stringify(identity.originalIdentity)}
-                language="javascript"
-              />
-            </main>
-            <footer>
-              <Button
-                onClick={() => this.setState({ webhookModalOpened: false })}
-                buttonStyle="primary"
-              >
-                <FormattedMessage id="done" />
-              </Button>
-            </footer>
-          </Modal>
-        )}
         <h1>
           <VerificationFullNameLabel>
             {identity.fullName}
@@ -127,7 +110,7 @@ class VerificationItem extends React.Component {
           />
         </section>
         <section>
-          <Button onClick={() => this.setState({ webhookModalOpened: true })}>
+          <Button onClick={this.openWebhookModal}>
             <WebbhooksIcon />
             <FormattedMessage id="verificationModal.webhookResponse" />
           </Button>

@@ -27,7 +27,14 @@ module.exports = {
     {
       name: 'Fragments',
       description: 'Application UI fragments in isolation',
-      components: 'src/fragments/**/index.js'
+      components: 'src/fragments/!(configuration)/**/index.js',
+      sections: [
+        {
+          name: 'Configuration',
+          description: 'Configuration page fragments',
+          components: 'src/fragments/configuration/**/index.js'
+        }
+      ]
     }
   ]
 }

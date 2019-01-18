@@ -17,6 +17,8 @@
   "filters": "Filters",
   "clear-all": "Clear all",
   "ok": "OK",
+  "required": "required",
+  "or": "or",
 
   "statuses.unverified": "Unverified",
   "statuses.verified": "Verified",
@@ -104,7 +106,7 @@
   "onboarding.demo.title": "This is your verification button",
   "flow.next": "Next",
   "flow.prev": "Back",
-  "flow.documentTypeStep.title": "What to verify?",
+  "flow.documentTypeStep.title": "Verification Steps",
   "flow.documentTypeStep.face": "Selfie",
   "flow.documentTypeStep.liveness": "Selfie",
   "flow.documentTypeStep.driving-license": "Driving License",
@@ -113,6 +115,7 @@
   "flow.documentTypeStep.proof-of-residency": "Proof of residency",
   "flow.documentTypeStep.optional": "Optional",
   "flow.documentTypeStep.optionalHint": "Multiple Documents into 1 step. User will choose only one of the document to verify.",
+  "flow.documentTypeStep.stepNo": "Step",
   "flow.colorStep.title": "Button color",
   "flow.languageStep.title": "Verification flow language",
   "flow.languageStep.en": "English",
@@ -336,5 +339,15 @@
   "manage_applications.placeholders.clientId": "Client ID",
   "manage_applications.labels.clientSecret": "Client Secret",
   "manage_applications.placeholders.clientSecret": "Client Secret",
-  "manage_applications.generate": "Generate new application"
+  "manage_applications.generate": "Generate new application",
+
+  "verification_items.face": "Selfie",
+  "verification_items.liveness": "Selfie",
+  "verification_items.driving-license": "Driving License",
+  "verification_items.national-id": "National ID",
+  "verification_items.passport": "Passport",
+  "verification_items.proof-of-residency": "Proof of residency",
+
+  "fragments.configuration.verification_steps_modal.title": "Edit step",
+  "fragments.configuration.verification_steps_modal.subtitle": "Edit documents you want include in this step. One of them will be required."
 }

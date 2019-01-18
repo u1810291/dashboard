@@ -7,6 +7,7 @@ import SentryLogger from 'src/components/sentry-logger'
 import ScrollToTop from 'src/components/scroll-to-top'
 import Root from 'src/apps'
 import { Container as NotificationsContainer } from 'src/components/notification'
+import { Container as OverlayContainer } from 'src/components/overlay'
 import 'clipboard-polyfill'
 import * as Sentry from '@sentry/browser'
 
@@ -37,6 +38,7 @@ ReactDOM.render(
               draggable={false}
               autoClose={5000}
             />
+            <OverlayContainer />
           </ScrollToTop>
         </BrowserRouter>
       </StoreProvider>

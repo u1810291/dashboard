@@ -53,14 +53,6 @@ class VerificationHistory extends ReactQueryParams {
     this.props.getIdentities(this.props.token)
   }
 
-  onStatusChange = (id, status) => {
-    this.props.patchIdentity(this.props.token, id, { status })
-  }
-
-  onFieldChange = (docId, field) => {
-    this.props.patchDocument(this.props.token, docId, [field])
-  }
-
   openVerification = ({ id, fullName, status }) => {
     this.props.history.push(`/verifications/${id}`)
   }

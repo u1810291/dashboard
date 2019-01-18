@@ -35,14 +35,16 @@ export default function LanguageStep({
   onClick = () => {}
 }) {
   const options = availableLanguages.map(code => ({ value: code }))
-  const handleChange = (value) => {
+  const handleChange = value => {
     onClick({ style: { ...style, language: value } })
   }
-  return(
-    <div className="configure-flow-card">
-      <h3>
-        <FormattedMessage id="flow.languageStep.title" />
-      </h3>
+  return (
+    <fieldset className="mgi-fieldset configure-flow-card">
+      <legend>
+        <h3>
+          <FormattedMessage id="flow.languageStep.title" />
+        </h3>
+      </legend>
       <div className={CSS.flowCards}>
         <Select
           onChange={({ value }) => handleChange(value)}
@@ -51,6 +53,6 @@ export default function LanguageStep({
           components={{ SingleValue, Option }}
         />
       </div>
-    </div>
+    </fieldset>
   )
 }

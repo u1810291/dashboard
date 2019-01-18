@@ -9,14 +9,16 @@ export default function ColorStep({
   style = {},
   onClick = () => {}
 }) {
-  const handleChange = (value) => {
+  const handleChange = value => {
     onClick({ style: { ...style, color: value } })
   }
   return (
-    <div>
-      <h3>
-        <FormattedMessage id="flow.colorStep.title" />
-      </h3>
+    <fieldset className="mgi-fieldset">
+      <legend>
+        <h3>
+          <FormattedMessage id="flow.colorStep.title" />
+        </h3>
+      </legend>
       <div className={classNames('mgi-items', CSS.buttons)}>
         {availableButtonColors.map(color => (
           <ColorCheckButton
@@ -27,6 +29,6 @@ export default function ColorStep({
           />
         ))}
       </div>
-    </div>
+    </fieldset>
   )
 }

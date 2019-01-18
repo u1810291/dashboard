@@ -11,9 +11,9 @@
     "flex-box-grid": "^1.0.0",
     "formik": "^1.1.1",
     "history": "^4.7.2",
-    "react": "^16.4.2",
+    "react": "^16.7.0",
     "react-debounce-input": "^3.2.0",
-    "react-dom": "^16.4.2",
+    "react-dom": "^16.7.0",
     "react-helmet": "^5.2.0",
     "react-intl": "^2.4.0",
     "react-query-params": "1.0.9",
@@ -51,6 +51,9 @@
     "babel-plugin-inline-react-svg": "^1.0.1",
     "babel-plugin-module-resolver": "^3.1.1",
     "cross-env": "^5.2.0",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
+    "enzyme-to-json": "^3.3.5",
     "eslint": "5.6.0",
     "eslint-config-react-app": "^3.0.5",
     "eslint-plugin-flowtype": "^3.2.0",
@@ -68,5 +71,10 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  }
 }

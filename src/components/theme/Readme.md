@@ -49,3 +49,48 @@ const style = window.getComputedStyle(document.body)
 <p className="text-warning">.text-warning</p>
 <p className="text-error">.text-error</p>
 ```
+
+### Fieldset
+
+Use `.mgi-fieldset` for representing a field with legend and some input-like content
+
+Basic example
+
+```js
+const Button = require('../button').default
+
+;<React.Fragment>
+  <fieldset className="mgi-fieldset">
+    <legend>Legend content</legend>
+    <div>Input content</div>
+    <div>on several lines</div>
+  </fieldset>
+
+  <fieldset className="mgi-fieldset">
+    <legend>
+      <h3>Legend content</h3>
+    </legend>
+    <Button buttonStyle="primary">Button</Button>
+  </fieldset>
+
+  <fieldset className="mgi-fieldset">
+    <legend className="text-active">Legend content</legend>
+    <strong>Fieldset content</strong>
+  </fieldset>
+
+  <fieldset className="mgi-fieldset">
+    <legend>With nested fieldsets</legend>
+    <fieldset className="mgi-fieldset">
+      <legend className="text-active">Item 1</legend>
+      <div>Item 1.1</div>
+      <div>Item 1.2</div>
+    </fieldset>
+    <fieldset className="mgi-fieldset">
+      <legend className="text-active">Item 2</legend>
+      <div>Item 2.1</div>
+      <div>Item 2.2</div>
+    </fieldset>
+    <Button buttonStyle="primary">Item 3</Button>
+  </fieldset>
+</React.Fragment>
+```
