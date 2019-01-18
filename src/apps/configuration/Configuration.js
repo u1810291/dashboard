@@ -102,9 +102,7 @@ class Configuration extends React.Component {
         availableDocumentTypes={AVAILABLE_DOCUMENT_TYPES}
         mandatoryDocumentTypes={MANDATORY_DOCUMENT_TYPES}
         steps={this.props.configuration.verificationSteps}
-        onChange={({ steps }) => {
-          this.updateConfiguration({ dashboard: { steps } })
-        }}
+        onChange={this.updateConfiguration}
       />,
       <SafetyProStep
         system={this.props.configuration.system}
