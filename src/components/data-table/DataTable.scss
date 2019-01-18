@@ -43,6 +43,13 @@
   }
 }
 
+:local(.clickable) {
+  cursor: pointer;
+  label {
+    cursor: pointer;
+  }
+}
+
 :local(.tableEmptyBody) {
   display: flex;
   flex-direction: column;

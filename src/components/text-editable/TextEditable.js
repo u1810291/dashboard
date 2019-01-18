@@ -80,7 +80,7 @@ export default class TextEditable extends React.Component {
             onMouseLeave={this.onMouseLeave}
           >
             <TextField
-              className={classNames(CSS.textEditable, textClassName)}
+              className={classNames(CSS.textEditable, inputClassName)}
               type="text"
               value={this.state.editingText}
               onBlur={this.onBlur}
@@ -89,13 +89,15 @@ export default class TextEditable extends React.Component {
               autoFocus
               {...inputOptions}
             />
-            <Button
-              buttonStyle="primary"
-              className={CSS.okButton}
-              onClick={this.onSubmit}
-            >
+            <div>
+              <Button
+                buttonStyle="primary"
+                className={CSS.okButton}
+                onClick={this.onSubmit}
+              >
               <FormattedMessage id="ok" />
             </Button>
+            </div>
           </div>
         </div>
       )
@@ -106,7 +108,7 @@ export default class TextEditable extends React.Component {
           className={classNames(
             TextFieldCSS.textField,
             CSS.textWrapper,
-            inputClassName
+            textClassName
           )}
           onClick={this.onFocus}
         >

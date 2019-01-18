@@ -19,21 +19,21 @@ export default function extractIdentityData(identity) {
 
   if (get(identity, '_links.photo.href')) {
     photos.push({
-      caption: <FormattedMessage id="verifirationModal.fields.face" />,
+      caption: <FormattedMessage id="verificationModal.fields.face" />,
       href: identity._links.photo.href + '.jpg'
     })
   }
 
   const backgroundCheck = {
-    caption: <FormattedMessage id="verifirationModal.backgroundCheck" />,
+    caption: <FormattedMessage id="verificationModal.backgroundCheck" />,
     fields: [
       {
         caption: (
-          <FormattedMessage id="verifirationModal.backgroundCheck.liveness" />
+          <FormattedMessage id="verificationModal.backgroundCheck.liveness" />
         ),
         value: (
           <FormattedMessage
-            id={`verifirationModal.backgroundCheck.${
+            id={`verificationModal.backgroundCheck.${
               identity.alive ? 'passed' : 'failed'
             }`}
           />
@@ -46,11 +46,11 @@ export default function extractIdentityData(identity) {
   if (identity.fullName) {
     backgroundCheck.fields.push({
       caption: (
-        <FormattedMessage id="verifirationModal.backgroundCheck.globalWatchlists" />
+        <FormattedMessage id="verificationModal.backgroundCheck.globalWatchlists" />
       ),
       value: (
         <FormattedMessage
-          id={`verifirationModal.backgroundCheck.${
+          id={`verificationModal.backgroundCheck.${
             watchlists ? 'failed' : 'passed'
           }`}
         />
@@ -66,26 +66,29 @@ export default function extractIdentityData(identity) {
       if (doc.pictures && doc.pictures.length) {
         photos.push({
           caption: (
-            <FormattedMessage id={`verifirationModal.fields.${doc.type}`} />
+            <FormattedMessage id={`verificationModal.fields.${doc.type}`} />
           ),
           href: doc.pictures[0]._links.file.href
         })
       }
 
       const document = {
-        caption: <FormattedMessage id="verifirationModal.idcheck" />,
+        caption: <FormattedMessage id="verificationModal.idcheck" />,
         origin: (
-          <FormattedMessage id={`verifirationModal.fields.${doc.type}`} />
+          <FormattedMessage id={`verificationModal.fields.${doc.type}`} />
         ),
         queued: doc.status === 'queued',
         fields: doc.fields.map(field => ({
           caption: <FormattedMessage id={`identities.fields.${field.id}`} />,
           value: detectError(field.value) ? (
-            <FormattedMessage id="verifirationModal.n-a" />
+            <FormattedMessage id="verificationModal.n-a" />
           ) : (
             field.value
           ),
-          status: detectError(field.value) ? 'failure' : 'success'
+          status: detectError(field.value) ? 'failure' : 'success',
+          editable: true,
+          id: field.id,
+          docId: doc.id
         }))
       }
 
@@ -104,16 +107,16 @@ export default function extractIdentityData(identity) {
 
       if (doc.verifiedData && doc.verifiedData.length) {
         const verifiedDocument = {
-          caption: <FormattedMessage id="verifirationModal.idcheck" />,
+          caption: <FormattedMessage id="verificationModal.idcheck" />,
           origin: (
-            <FormattedMessage id={`verifirationModal.fields.${doc.type}`} />
+            <FormattedMessage id={`verificationModal.fields.${doc.type}`} />
           ),
-          via: <FormattedMessage id={'verifirationModal.govChecks'} />,
+          via: <FormattedMessage id={'verificationModal.govChecks'} />,
           queued: doc.status === 'queued',
           fields: doc.verifiedData.map(field => ({
             caption: <FormattedMessage id={`identities.fields.${field.id}`} />,
             value: detectError(field.value) ? (
-              <FormattedMessage id="verifirationModal.n-a" />
+              <FormattedMessage id="verificationModal.n-a" />
             ) : (
               field.value
             ),

@@ -11,7 +11,9 @@ window.client = client
 export const types = {
   ...createTypesSequence('IDENTITY_LIST'),
   ...createTypesSequence('IDENTITY_FETCH'),
+  ...createTypesSequence('IDENTITY_PATCH'),
   ...createTypesSequence('IDENTITY_DOCUMENTS_LIST'),
+  ...createTypesSequence('DOCUMENT_PATCH'),
 }
 
 export function getIdentities(token) {
@@ -41,6 +43,36 @@ export function getIdentityWithNestedData(token, id) {
       dispatch({ type: types.IDENTITY_FETCH_FAILURE })
       throw error
     })
+  }
+}
+
+export function patchIdentity(token, id, data) {
+  return function(dispatch) {
+    dispatch({ type: types.IDENTITY_PATCH_REQUEST, payload: {id, data} })
+    return client.identities.patchIdentity(token, id, data)
+      .then(payload => {
+        dispatch({ type: types.IDENTITY_PATCH_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.IDENTITY_PATCH_FAILURE })
+        throw error
+      })
+  }
+}
+
+export function patchDocument(token, id, fields) {
+  return function(dispatch) {
+    dispatch({ type: types.DOCUMENT_PATCH_REQUEST, payload: {id, fields} })
+    return client.identities.patchDocument(token, id, fields)
+      .then(payload => {
+        dispatch({ type: types.DOCUMENT_PATCH_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.DOCUMENT_PATCH_FAILURE })
+        throw error
+      })
   }
 }
 
@@ -80,7 +112,18 @@ const reducer = createReducer(initialState, {
       identities: payload.data,
       monthlyIdentities
     }
-  }
+  },
+  [types.IDENTITY_PATCH_REQUEST]: function(state, { payload }) {
+    let identities = [].concat(state.identities)
+    let identityToEdit = identities.find((identity) => identity.id === payload.id)
+    if (identityToEdit) {
+      identityToEdit.status = payload.data.status
+    }
+    return {
+      ...state,
+      identities
+    }
+  },
 })
 
 export default reducer

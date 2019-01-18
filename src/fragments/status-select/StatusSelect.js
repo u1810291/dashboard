@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
 import StatusLabel from 'src/fragments/status-label'
 import Dropdown from 'src/components/dropdown'
@@ -24,25 +25,31 @@ export default class StatusSelect extends React.Component {
   render() {
     return (
       <div>
+        <span className={CSS.statusText}>
+          <FormattedMessage id="statusSelect.status" />
+        </span>
         <Dropdown className={CSS.menuItemDropdown} ref="dropdown">
           <div className={classNames(CSS.activeStatusLabel, this.state.status)}>
             <StatusLabel status={this.state.status}/>
           </div>
           <Dropdown.Trigger>
-          <span>
-            (change)
+          <span className={CSS.changeText}>
+            (<FormattedMessage id="statusSelect.change" />)
           </span>
           </Dropdown.Trigger>
           <Dropdown.Content className={CSS.dropdownContent}>
-            <ul>
+            <ul className={CSS.dropdownList}>
               <li className={CSS.dropdownItem} onClick={this.selectStatus('verified')}>
                 <StatusLabel status="verified"/>
               </li>
               <li className={CSS.dropdownItem} onClick={this.selectStatus('unverified')}>
                 <StatusLabel status="unverified"/>
               </li>
-              <li className={CSS.dropdownItem} onClick={this.selectStatus('manual-review')}>
-                <StatusLabel status="manual-review"/>
+              <li className={CSS.dropdownItem} onClick={this.selectStatus('manual')}>
+                <StatusLabel status="manual"/>
+              </li>
+              <li className={CSS.dropdownItem} onClick={this.selectStatus('fraudulent')}>
+                <StatusLabel status="fraudulent"/>
               </li>
             </ul>
           </Dropdown.Content>

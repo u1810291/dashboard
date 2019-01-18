@@ -7,7 +7,8 @@ export default function DataTable({
   columns,
   rows,
   className,
-  emptyBodyLabel
+  emptyBodyLabel,
+  onRowClick
 }) {
   const sizeFraction =
     100 / columns.map(({ size = 1 }) => size).reduce((sum, val) => sum + val)
@@ -31,7 +32,11 @@ export default function DataTable({
       </thead>
       <tbody>
         {rows.map((element, index) => (
-          <tr key={index}>
+          <tr
+            key={index}
+            onClick={onRowClick && (() => onRowClick(element))}
+            className={onRowClick && CSS.clickable}
+          >
             {columns.map(({ content, className }, index) => (
               <td className={className} key={index}>
                 {content(element)}

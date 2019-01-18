@@ -1,5 +1,5 @@
 :local(.fields) {
-  margin: 0;
+
   padding: 0;
 }
 
@@ -16,6 +16,24 @@
 :local(.caption) {
   flex-basis: 135px;
   flex-shrink: 0;
+}
+
+:local(.textEditableWrapper) {
+  display: block;
+  width: 100%;
+}
+
+:local(.textEditableText) {
+  height: auto;
+  font-size: 1rem;
+  padding-left: 0;
+}
+
+:local(.textEditableInput) {
+  font-size: 1rem;
+  height: auto;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 
 :local(.icon) {

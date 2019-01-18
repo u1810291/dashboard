@@ -9,11 +9,13 @@ import VerificationDetails, {
   extractIdentityData
 } from 'src/fragments/verification-details'
 import stringify from 'src/lib/stringify'
+import VerificationFullNameLabel from 'src/fragments/verification-full-name-label'
+import StatusSelect from 'src/fragments/status-select'
 import WebbhooksIcon from 'src/fragments/verification-modal/webhooks-icon.svg'
 import Button from 'src/components/button'
 import { Modal } from 'src/components/modal'
 import SpinnerPage from 'src/components/spinner-page'
-import { getIdentityWithNestedData } from 'src/state/identities'
+import { getIdentityWithNestedData, patchIdentity, patchDocument } from 'src/state/identities'
 
 const CHECK_INTERVAL = 5000
 
@@ -23,7 +25,7 @@ export default
     token: state.auth.token,
     identity: state.identities.instances[props.match.params.id]
   }),
-  { getIdentityWithNestedData }
+  { getIdentityWithNestedData, patchIdentity, patchDocument }
 )
 class VerificationItem extends React.Component {
   constructor(props) {
@@ -38,6 +40,15 @@ class VerificationItem extends React.Component {
 
   componentWillUnmount() {
     window.clearInterval(this.checkInterval)
+  }
+
+  onStatusChange = (status) => {
+    const { id } = this.props.match.params
+    this.props.patchIdentity(this.props.token, id, { status })
+  }
+
+  onFieldChange = (docId, field) => {
+    this.props.patchDocument(this.props.token, docId, [field])
   }
 
   loadData = () => {
@@ -64,7 +75,7 @@ class VerificationItem extends React.Component {
             wide
           >
             <header>
-              <FormattedMessage id="verifirationModal.webhookResponse" />
+              <FormattedMessage id="verificationModal.webhookResponse" />
             </header>
             <main>
               <SyntaxHighlighter
@@ -85,9 +96,10 @@ class VerificationItem extends React.Component {
           </Modal>
         )}
         <h1>
-          <FormattedMessage id="verifirationModal.header" />
-          {': '}
-          {identity.fullName}
+          <VerificationFullNameLabel>{identity.fullName}</VerificationFullNameLabel>
+          <StatusSelect
+            status={identity.status}
+            onSelect={this.onStatusChange} />
           <p className="text-secondary">
             <Link to="/verifications">
               <FormattedMessage id="identities.details.backToList" />
@@ -99,12 +111,13 @@ class VerificationItem extends React.Component {
             fullName={identity.fullName}
             {...extractIdentityData(identity)}
             signURL={url => authorizedUrl(url, token)}
+            onFieldChange={this.onFieldChange}
           />
         </section>
         <section>
           <Button onClick={() => this.setState({ webhookModalOpened: true })}>
             <WebbhooksIcon />
-            <FormattedMessage id="verifirationModal.webhookResponse" />
+            <FormattedMessage id="verificationModal.webhookResponse" />
           </Button>
         </section>
       </Content>

@@ -9,8 +9,12 @@
     border-radius: 10px;
   }
 
-  &.manual-review i {
+  &.manual i {
     background-color: var(--mgi-theme-palette-orange);
+  }
+
+  &.fraudulent i {
+    background-color: var(--mgi-theme-palette-black);
   }
 
   &.unverified i {

@@ -40,6 +40,7 @@
   background: var(--mgi-theme-palette-blue);
   color: white;
   font-weight: 300;
+  border: none;
 }
 
 :local(.button).outline {

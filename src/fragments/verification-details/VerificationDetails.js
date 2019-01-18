@@ -12,7 +12,7 @@ function caption(document, intl) {
     cap.push(
       <span className="text-secondary">
         {' '}
-        {intl.formatMessage({ id: 'verifirationModal.origin' })}{' '}
+        {intl.formatMessage({ id: 'verificationModal.origin' })}{' '}
         {document.origin}
       </span>
     )
@@ -22,7 +22,7 @@ function caption(document, intl) {
     cap.push(
       <span className="text-secondary">
         {', '}
-        {intl.formatMessage({ id: 'verifirationModal.via' })} {document.via}
+        {intl.formatMessage({ id: 'verificationModal.via' })} {document.via}
       </span>
     )
   }
@@ -38,13 +38,13 @@ function DocumentInProgress() {
   )
 }
 
-function VerificationDetails({ intl, photos = [], documents = [], signURL }) {
+function VerificationDetails({ intl, photos = [], documents = [], signURL, onFieldChange }) {
   return (
     <div className={CSS.details}>
       {photos.length > 0 && (
         <Panel
           caption={intl.formatMessage({
-            id: 'verifirationModal.photos.caption'
+            id: 'verificationModal.photos.caption'
           })}
         >
           <Panel.Body>
@@ -58,7 +58,7 @@ function VerificationDetails({ intl, photos = [], documents = [], signURL }) {
             {doc.queued ? (
               <DocumentInProgress />
             ) : (
-              <DocumentFields fields={doc.fields} />
+              <DocumentFields fields={doc.fields} onFieldChange={onFieldChange}/>
             )}
           </Panel.Body>
         </Panel>

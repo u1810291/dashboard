@@ -12,6 +12,12 @@ export function getIdentities(token) {
   })
 }
 
+export function patchIdentity(token, id, data) {
+  return http.patch(`/v1/identities/${id}`, data, {
+    headers: { ...getAuthHeader(token) }
+  })
+}
+
 function getDocuments(token, id) {
   return http.get(`/v1/identities/${id}/documents?access_token=${token}`)
 }
@@ -33,4 +39,10 @@ export function getIdentityWithNestedData(token, id) {
     originalIdentity: data,
     documents: await getDocumentsFullData(token, id)
   }))
+}
+
+export function patchDocument(token, id, fields) {
+  return http.patch(`/v1/documents/${id}`, { fields }, {
+    headers: { ...getAuthHeader(token) }
+  })
 }

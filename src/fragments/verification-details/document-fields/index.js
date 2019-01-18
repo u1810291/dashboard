@@ -1,8 +1,8 @@
 import React from 'react'
 import { injectIntl } from 'react-intl'
-
+import TextEditable from 'src/components/text-editable'
 import classNames from 'classnames'
-import CSS from './document-fields.module.scss'
+import CSS from './document-fields.scss'
 
 const icons = {
   success: require('./success.svg'),
@@ -10,7 +10,7 @@ const icons = {
   warning: require('./warning.svg')
 }
 
-function DocumentFields({ fields = [], intl }) {
+function DocumentFields({ fields = [], intl, onFieldChange }) {
   return (
     <ul className={CSS.fields}>
       {fields.map(field => (
@@ -24,7 +24,19 @@ function DocumentFields({ fields = [], intl }) {
               src={icons[field.status]}
               alt={field.status}
             />
-            <strong>{field.value}</strong>
+            {field.editable && (
+              <strong className={CSS.textEditableWrapper}>
+                <TextEditable
+                  text={field.value}
+                  textClassName={CSS.textEditableText}
+                  inputClassName={CSS.textEditableInput}
+                  onSubmit={value =>
+                    onFieldChange(field.docId, { id: field.id, value })
+                  }
+                />
+              </strong>
+            )}
+            {!field.editable && <strong>{field.value}</strong>}
           </li>
         </React.Fragment>
       ))}

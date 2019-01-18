@@ -6,8 +6,10 @@ import Panel from 'src/components/panel'
 import SpinnerPage from 'src/components/spinner-page'
 import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
 import VerificationDetails from 'src/fragments/verification-details'
+import StatusSelect from 'src/fragments/status-select'
+import VerificationFullNameLabel from 'src/fragments/verification-full-name-label'
 import WebbhooksIcon from './webhooks-icon.svg'
-import CSS from './styles.scss'
+import CSS from './verification-modal.scss'
 
 export default class VerificationModal extends React.Component {
   constructor(props) {
@@ -23,6 +25,7 @@ export default class VerificationModal extends React.Component {
         photos={this.props.photos}
         documents={this.props.documents}
         signURL={this.props.signURL}
+        onFieldChange={this.props.onFieldChange}
       />,
       <Panel caption="Webhooks">
         <Panel.Body padded={false}>
@@ -41,28 +44,29 @@ export default class VerificationModal extends React.Component {
         <span className="modal--footer-spacer" />
         <Button onClick={() => this.setState({ step: 1 })}>
           <WebbhooksIcon />
-          <FormattedMessage id="verifirationModal.webhookResponse" />
+          <FormattedMessage id="verificationModal.webhookResponse" />
         </Button>
         <Button onClick={this.props.onClose} buttonStyle="primary">
-          <FormattedMessage id="verifirationModal.done" />
+          <FormattedMessage id="verificationModal.done" />
         </Button>
       </React.Fragment>,
       <React.Fragment>
         <Button onClick={() => this.setState({ step: 0 })}>
-          <FormattedMessage id="verifirationModal.back" />
+          <FormattedMessage id="verificationModal.back" />
         </Button>
         <span className="modal--footer-spacer" />
         <Button onClick={this.props.onClose} buttonStyle="primary">
-          <FormattedMessage id="verifirationModal.done" />
+          <FormattedMessage id="verificationModal.done" />
         </Button>
       </React.Fragment>
     ]
     return (
       <Modal onClose={this.props.onClose} className={CSS.modalWindow}>
-        <header>
-          <FormattedMessage id="verifirationModal.header" />
-          {': '}
-          <strong>{this.props.fullName}</strong>
+        <header className={CSS.header}>
+          <VerificationFullNameLabel>{this.props.fullName}</VerificationFullNameLabel>
+          <StatusSelect
+            status={this.props.status}
+            onSelect={(status) => this.props.onStatusChange(this.props.id, status)} />
         </header>
         {this.props.isLoading ? (
           <SpinnerPage />

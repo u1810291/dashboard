@@ -17,11 +17,16 @@
   align-items: center;
   border: none;
   cursor: text;
+  padding-right: 30px;
+}
+
+:local(.textEditable) {
+  padding-right: 70px;
 }
 
 :local(.editIcon) {
   position: absolute;
-  right: 5px;
-  height: 40%;
+  right: 0;
+  height: 15px;
   width: 30px;
 }
