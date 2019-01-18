@@ -15,7 +15,11 @@ import WebbhooksIcon from 'src/fragments/verification-modal/webhooks-icon.svg'
 import Button from 'src/components/button'
 import { Modal } from 'src/components/modal'
 import SpinnerPage from 'src/components/spinner-page'
-import { getIdentityWithNestedData, patchIdentity, patchDocument } from 'src/state/identities'
+import {
+  getIdentityWithNestedData,
+  patchIdentity,
+  patchDocument
+} from 'src/state/identities'
 
 const CHECK_INTERVAL = 5000
 
@@ -42,13 +46,18 @@ class VerificationItem extends React.Component {
     window.clearInterval(this.checkInterval)
   }
 
-  onStatusChange = (status) => {
+  onStatusChange = status => {
     const { id } = this.props.match.params
     this.props.patchIdentity(this.props.token, id, { status })
   }
 
   onFieldChange = (docId, field) => {
-    this.props.patchDocument(this.props.token, docId, [field])
+    this.props.patchDocument(
+      this.props.token,
+      this.props.match.params.id,
+      docId,
+      [field]
+    )
   }
 
   loadData = () => {
@@ -96,10 +105,13 @@ class VerificationItem extends React.Component {
           </Modal>
         )}
         <h1>
-          <VerificationFullNameLabel>{identity.fullName}</VerificationFullNameLabel>
+          <VerificationFullNameLabel>
+            {identity.fullName}
+          </VerificationFullNameLabel>
           <StatusSelect
             status={identity.status}
-            onSelect={this.onStatusChange} />
+            onSelect={this.onStatusChange}
+          />
           <p className="text-secondary">
             <Link to="/verifications">
               <FormattedMessage id="identities.details.backToList" />

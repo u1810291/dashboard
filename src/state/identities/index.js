@@ -61,9 +61,9 @@ export function patchIdentity(token, id, data) {
   }
 }
 
-export function patchDocument(token, id, fields) {
+export function patchDocument(token, identityId, id, fields) {
   return function(dispatch) {
-    dispatch({ type: types.DOCUMENT_PATCH_REQUEST, payload: {id, fields} })
+    dispatch({ type: types.DOCUMENT_PATCH_REQUEST, payload: { identityId, id, fields } })
     return client.identities.patchDocument(token, id, fields)
       .then(payload => {
         dispatch({ type: types.DOCUMENT_PATCH_SUCCESS, payload })
@@ -122,6 +122,25 @@ const reducer = createReducer(initialState, {
     return {
       ...state,
       identities
+    }
+  },
+  [types.DOCUMENT_PATCH_REQUEST]: function(state, { payload }) {
+    let instances = {...state.instances}
+    if (!instances[payload.identityId]) return state
+    let documentToEdit = instances[payload.identityId].documents.find((doc) => {
+      return doc.id === payload.id
+    })
+    if (!documentToEdit) return state
+    documentToEdit.fields.forEach(docField => {
+      payload.fields.forEach(fieldToEdit => {
+        if (docField.id === fieldToEdit.id) {
+          docField.value = fieldToEdit.value
+        }
+      })
+    })
+    return {
+      ...state,
+      instances
     }
   },
 })
