@@ -115,6 +115,10 @@ const reducer = createReducer(initialState, {
   },
   [types.IDENTITY_PATCH_REQUEST]: function(state, { payload }) {
     let identities = [].concat(state.identities)
+    let instances = {...state.instances}
+    if (instances[payload.id]) {
+      instances[payload.id].status = payload.data.status
+    }
     let identityToEdit = identities.find((identity) => identity.id === payload.id)
     if (identityToEdit) {
       identityToEdit.status = payload.data.status
