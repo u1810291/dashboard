@@ -16,10 +16,10 @@ export const types = {
   ...createTypesSequence('DOCUMENT_PATCH'),
 }
 
-export function getIdentities(token) {
+export function getIdentities(token, params) {
   return function(dispatch) {
     dispatch({ type: types.IDENTITY_LIST_REQUEST })
-    return client.identities.getIdentities(token)
+    return client.identities.getIdentities(token, params)
     .then(payload => {
       dispatch({ type: types.IDENTITY_LIST_SUCCESS, payload })
       return payload

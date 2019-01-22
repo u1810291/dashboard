@@ -1,15 +1,10 @@
 import React from 'react'
-import ReactQueryParams from 'react-query-params'
 import { connect } from 'react-redux'
-import { flatten, uniq } from 'lodash'
-import {
-  getIdentities,
-  getIdentityWithNestedData,
-  patchIdentity,
-  patchDocument
-} from 'src/state/identities'
-import { buildFiltersChain } from 'src/state/identities/filtering'
+import { flatten, uniq, isEmpty, pickBy, mapValues, get } from 'lodash'
+import fp from 'lodash/fp'
+import { getIdentities, getIdentityWithNestedData } from 'src/state/identities'
 import { FormattedMessage } from 'react-intl'
+import moment from 'moment'
 import { AVAILABLE_DOCUMENT_TYPES } from 'src/state/merchant'
 import { Content } from 'src/components/application-box'
 import Panel from 'src/components/panel'
@@ -17,7 +12,6 @@ import DataTable from 'src/components/data-table'
 import VerificationFullNameLabel from 'src/fragments/verification-full-name-label'
 import DocumentTypesLabel from 'src/fragments/document-types-label'
 import Status from 'src/fragments/status-label'
-import SpinnerPage from 'src/components/spinner-page'
 import FiltersForm from './filters-form'
 
 function getDocumentTypes(facematchScore) {
@@ -26,31 +20,95 @@ function getDocumentTypes(facematchScore) {
   )
 }
 
+const FILTERS = ['search', 'status', 'dateUpdated[start]', 'dateUpdated[end]']
+
+const FILTER_TRANSFORMERS = {
+  status: string => string.split(','),
+  'dateUpdated[start]': string => (string ? moment(string) : undefined),
+  'dateUpdated[end]': string => (string ? moment(string) : undefined)
+}
+
+function transformValue(key, value) {
+  return get(FILTER_TRANSFORMERS, key, v => v)(value)
+}
+
+const FILTER_FORMATTERS = {
+  status: array => array.join(','),
+  'dateUpdated[start]': date => date.toJSON(),
+  'dateUpdated[end]': date => date.toJSON()
+}
+
+function formatValue(key, value) {
+  return get(FILTER_FORMATTERS, key, v => v)(value)
+}
+
+// takes an URLSearchParams instance as input, returns object with params
+export function prepareParams(searchString, allowedKeys) {
+  return fp.flow(
+    string => new URLSearchParams(searchString),
+    params => Array.from(params),
+    fp.fromPairs,
+    allowedKeys ? fp.pick(allowedKeys) : fp.identity,
+    fp.pickBy(v => !isEmpty(v))
+  )(searchString)
+}
+
 export default
 @connect(
   state => ({
     isLoading: state.identities.isLoading,
     identities: state.identities.identities,
-    token: state.auth.token,
-    monthlyIdentities: state.identities.monthlyIdentities,
-    openedIdentity: {}
+    token: state.auth.token
   }),
-  { getIdentities, getIdentityWithNestedData, patchIdentity, patchDocument }
+  { getIdentities, getIdentityWithNestedData }
 )
-class VerificationHistory extends ReactQueryParams {
-  defaultQueryParams = {
-    states: '[]',
-    types: '[]',
-    search: ''
-  }
-
+class VerificationHistory extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      params: {}
+    }
   }
 
   componentDidMount() {
-    this.props.getIdentities(this.props.token)
+    const params = prepareParams(this.props.location.search, FILTERS)
+    this.setState({ params }, this.fetchIdentities)
+  }
+
+  fetchIdentities() {
+    this.props.getIdentities(
+      this.props.token,
+      pickBy(this.state.params, v => !isEmpty(v))
+    )
+  }
+
+  replaceLocation() {
+    const search = new URLSearchParams(this.props.location.search)
+    FILTERS.forEach(key =>
+      isEmpty(this.state.params[key])
+        ? search.delete(key)
+        : search.set(key, this.state.params[key])
+    )
+    window.history.replaceState(
+      null,
+      null,
+      Array.from(search.keys()).length
+        ? `?${search.toString()}`
+        : this.props.location.pathname
+    )
+  }
+
+  onFilterChange = params => {
+    const formattedParams = mapValues(params, (value, key) =>
+      formatValue(key, value)
+    )
+    this.setState(
+      { params: { ...this.state.params, ...formattedParams } },
+      () => {
+        this.fetchIdentities()
+        this.replaceLocation()
+      }
+    )
   }
 
   openVerification = ({ id, fullName, status }) => {
@@ -83,48 +141,40 @@ class VerificationHistory extends ReactQueryParams {
       {
         size: 1,
         label: <FormattedMessage id="identities.fields.date" />,
-        content: identity => new Date(identity.dateCreated).toLocaleDateString()
+        content: identity => new Date(identity.dateUpdated).toLocaleDateString()
       }
     ]
   }
 
-  clearSelectedFilters() {
-    this.setQueryParams({
-      states: [],
-      types: [],
-      search: this.queryParams.search
+  clearSelectedFilters = () => {
+    const params = {}
+    if (this.state.params.search) {
+      params.search = this.state.params.search
+    }
+    this.setState({ params }, () => {
+      this.fetchIdentities()
+      this.replaceLocation()
     })
   }
 
   render() {
-    if (this.props.isLoading) {
-      return <SpinnerPage />
-    }
-
-    const search = decodeURIComponent(this.queryParams.search || '')
-
-    const filterIdentities = buildFiltersChain(
-      search,
-      this.queryParams.types,
-      this.queryParams.states
+    const transformedParams = mapValues(this.state.params, (value, key) =>
+      transformValue(key, value)
     )
-    const visibleIdentities = filterIdentities(this.props.identities)
 
     return (
       <Content>
         <Panel caption={<FormattedMessage id="identities.title" />}>
           <Panel.Header>
             <FiltersForm
-              search={search}
-              types={this.queryParams.types}
-              states={this.queryParams.states}
-              onChange={this.setQueryParams.bind(this)}
-              onClear={this.clearSelectedFilters.bind(this)}
+              onChange={this.onFilterChange}
+              onClear={this.clearSelectedFilters}
+              {...transformedParams}
             />
           </Panel.Header>
           <Panel.Body padded={false}>
             <DataTable
-              rows={visibleIdentities}
+              rows={this.props.identities}
               columns={this.getTableColumns()}
               emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
               onRowClick={this.openVerification}

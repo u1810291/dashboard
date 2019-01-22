@@ -6,8 +6,10 @@ export function getIdentity(token, id) {
   })
 }
 
-export function getIdentities(token) {
+export function getIdentities(token, params) {
   return http.get('/v1/identities', {
+    params,
+    paramsSerializer: paramsSerializer,
     headers: { ...getAuthHeader(token) }
   })
 }
@@ -45,4 +47,20 @@ export function patchDocument(token, id, fields) {
   return http.patch(`/v1/documents/${id}`, { fields }, {
     headers: { ...getAuthHeader(token) }
   })
+}
+
+function paramsSerializer(params) {
+  // return qs.stringify(params, {arrayFormat: 'comma'})
+  const searchParams = new URLSearchParams();
+  for (const key of Object.keys(params)) {
+    const param = params[key];
+    if (Array.isArray(param)) {
+      searchParams.append(key, param.join(','))
+    } else if (typeof param === 'object') {
+      searchParams.append(key, JSON.stringify(param))
+    } else {
+      searchParams.append(key, param);
+    }
+  }
+  return searchParams.toString();
 }
