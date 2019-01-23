@@ -66,7 +66,6 @@ class VerificationsFiltersForm extends Component {
       <div className={CSS.form}>
         <DebounceInput
           name="search"
-          type="search"
           placeholder={this.props.intl.formatMessage({
             id: 'identities.filters.placeholder.search'
           })}
