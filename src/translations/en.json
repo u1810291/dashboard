@@ -339,7 +339,6 @@
   "manage_applications.placeholders.clientId": "Client ID",
   "manage_applications.labels.clientSecret": "Client Secret",
   "manage_applications.placeholders.clientSecret": "Client Secret",
-  "manage_applications.generate": "Generate new application",
 
   "verification_items.face": "Selfie",
   "verification_items.liveness": "Selfie",

@@ -12,7 +12,7 @@ import { isEmpty } from 'lodash'
 import 'react-dates/lib/css/_datepicker.css'
 import FiltersIcon from 'src/assets/icon-filters.svg'
 import IconClose from 'src/assets/icon-close.svg'
-import CSS from './filters-form.module.scss'
+import CSS from './filters-form.scss'
 
 export default
 @injectIntl
@@ -97,19 +97,21 @@ class VerificationsFiltersForm extends Component {
                 this.props.onChange({ status })
               }}
             />
-
-            <DateRangePicker
-              startDate={this.props['dateUpdated[start]']}
-              startDateId="startDate"
-              isOutsideRange={day => moment().diff(day) < 1000}
-              endDate={this.props['dateUpdated[end]']}
-              endDateId="endDate"
-              onDatesChange={this.onDatesChange}
-              focusedInput={this.state.focusedInput}
-              onFocusChange={focusedInput => {
-                this.setState({ focusedInput })
-              }}
-            />
+            <div className={CSS.datePicker}>
+              <DateRangePicker
+                startDate={this.props['dateUpdated[start]']}
+                startDateId="startDate"
+                isOutsideRange={day => moment().diff(day) < 1000}
+                endDate={this.props['dateUpdated[end]']}
+                endDateId="endDate"
+                onDatesChange={this.onDatesChange}
+                focusedInput={this.state.focusedInput}
+                hideKeyboardShortcutsPanel={true}
+                onFocusChange={focusedInput => {
+                  this.setState({ focusedInput })
+                }}
+              />
+            </div>
 
             <Button className="no-borders" onClick={this.props.onClear}>
               <IconClose />
