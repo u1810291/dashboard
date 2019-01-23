@@ -23,7 +23,7 @@ pipeline {
     }
     stage('Deploy to staging') {
       when {
-        branch 'master'
+        branch 'pre-release'
         beforeAgent true
       }
       steps {
@@ -32,7 +32,7 @@ pipeline {
     }
     stage('Deploy to production') {
       when {
-        branch 'stable'
+        branch 'master'
         beforeAgent true
       }
       steps {
