@@ -9,3 +9,9 @@
 :local(.filtersControl) {
   margin-left: var(--mgi-spacing)
 }
+
+:local(.datePicker) {
+  .CalendarMonth_caption {
+    padding-bottom: 50px;
+  }
+}

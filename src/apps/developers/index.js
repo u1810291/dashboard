@@ -8,7 +8,7 @@ import {
   getWebhooks,
   getWebhooksSamples
 } from 'src/state/webhooks'
-import { getMerchantApps, createApplication } from 'src/state/merchant'
+import { getMerchantApps } from 'src/state/merchant'
 import { notification } from 'src/components/notification'
 import { Content } from 'src/components/application-box'
 import WebhookURLForm from 'src/fragments/webhook-url-form'
@@ -35,8 +35,7 @@ export default
     deleteWebhook,
     getWebhooks,
     getWebhooksSamples,
-    getMerchantApps,
-    createApplication
+    getMerchantApps
   }
 )
 @injectIntl
@@ -69,7 +68,7 @@ class Developers extends React.Component {
   }
 
   render() {
-    const { token, clientApplication, createApplication } = this.props
+    const { clientApplication } = this.props
     return (
       <Content>
         <Panel caption={this.props.intl.formatMessage({ id: 'webhook' })}>
@@ -95,7 +94,6 @@ class Developers extends React.Component {
             <ManageApplicationsForm
               clientId={clientApplication.clientId}
               clientSecret={clientApplication.clientSecret}
-              createApplication={() => createApplication(token)}
             />
           </Panel.Body>
         </Panel>
