@@ -1,4 +1,4 @@
-:local(.input) {
+:local(.input):not(:last-child) {
   margin-bottom: 20px;
 }
 

@@ -1,0 +1,10 @@
+section.mgi-section:not(:last-child) {
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--mgi-theme-palette-lightgray);
+}
+
+section.mgi-section.mgi-section__no-border {
+  border-bottom: 0 !important;
+  padding-bottom: 0;
+}

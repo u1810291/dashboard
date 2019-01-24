@@ -10,6 +10,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.text-wrap {
+  word-break: break-all;
+}
+
 .text-active {
   color: var(--mgi-theme-palette-active);
 }

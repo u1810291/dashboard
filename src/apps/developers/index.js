@@ -1,18 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { injectIntl, FormattedMessage } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { last } from 'lodash'
 import {
   subscribeToWebhook,
   deleteWebhook,
-  getWebhooks,
-  getWebhooksSamples
+  getWebhooks
 } from 'src/state/webhooks'
 import { getMerchantApps } from 'src/state/merchant'
-import { notification } from 'src/components/notification'
 import { Content } from 'src/components/application-box'
-import WebhookURLForm from 'src/fragments/webhook-url-form'
-import Icons from 'src/components/icons'
+import Webhooks from 'src/fragments/account/webhooks'
 import WebhookExamples from 'src/fragments/webhook-examples'
 import ManageApplicationsForm from 'src/fragments/manage-applications-form'
 import Panel from 'src/components/panel'
@@ -20,50 +17,32 @@ import CSS from './style.scss'
 
 export default
 @connect(
-  ({
-    auth: { token },
-    webhooks: { lastWebhook, testWebhooks },
-    merchant: { apps }
-  }) => ({
+  ({ auth: { token }, webhooks: { webhooks }, merchant: { apps } }) => ({
     token,
-    lastWebhook,
-    testWebhooks,
+    webhooks,
     clientApplication: last(apps) || {}
   }),
   {
     subscribeToWebhook,
     deleteWebhook,
     getWebhooks,
-    getWebhooksSamples,
     getMerchantApps
   }
 )
 @injectIntl
 class Developers extends React.Component {
-  handleSubscribeToWebhook = async url => {
-    const {
-      token,
-      lastWebhook,
-      intl,
-      subscribeToWebhook,
-      deleteWebhook
-    } = this.props
+  handleSubscribeToWebhook = (url, secret) => {
+    const { token, subscribeToWebhook } = this.props
+    return subscribeToWebhook(token, { url, secret })
+  }
 
-    if (lastWebhook.id) {
-      await deleteWebhook(token, lastWebhook.id, false)
-    }
-
-    if (url) {
-      await subscribeToWebhook(token, { url })
-      notification.success(
-        intl.formatMessage({ id: 'webhookUrl.confirmation' })
-      )
-    }
+  handleDeleteWebhook = id => {
+    const { deleteWebhook, token, getWebhooks } = this.props
+    return deleteWebhook(token, id).then(getWebhooks.bind(null, token))
   }
 
   componentDidMount() {
     this.props.getWebhooks(this.props.token)
-    this.props.getWebhooksSamples(this.props.token)
     this.props.getMerchantApps(this.props.token)
   }
 
@@ -71,41 +50,34 @@ class Developers extends React.Component {
     const { clientApplication } = this.props
     return (
       <Content>
-        <Panel caption={this.props.intl.formatMessage({ id: 'webhook' })}>
-          <Panel.Header>
-            <Icons.Info />
-            <span className={CSS.webhookUrlHeader}>
-              <FormattedMessage id="developers.webhook.form.description" />
-            </span>
-          </Panel.Header>
-          <Panel.Body>
-            <WebhookURLForm
-              subscribeToWebhook={this.handleSubscribeToWebhook}
-              url={this.props.lastWebhook.url || ''}
-            />
-          </Panel.Body>
-        </Panel>
-        <Panel
-          caption={this.props.intl.formatMessage({
-            id: 'developers.token.caption'
-          })}
-        >
-          <Panel.Body>
-            <ManageApplicationsForm
-              clientId={clientApplication.clientId}
-              clientSecret={clientApplication.clientSecret}
-            />
-          </Panel.Body>
-        </Panel>
-        <Panel
-          caption={this.props.intl.formatMessage({
-            id: 'developers.webhook.example.header'
-          })}
-        >
-          <Panel.Body padded={false}>
-            <WebhookExamples />
-          </Panel.Body>
-        </Panel>
+        <div className={CSS.content}>
+          <Webhooks
+            subscribeToWebhook={this.handleSubscribeToWebhook}
+            deleteWebhook={this.handleDeleteWebhook}
+            webhooks={this.props.webhooks}
+          />
+          <Panel
+            caption={this.props.intl.formatMessage({
+              id: 'developers.token.caption'
+            })}
+          >
+            <Panel.Body>
+              <ManageApplicationsForm
+                clientId={clientApplication.clientId}
+                clientSecret={clientApplication.clientSecret}
+              />
+            </Panel.Body>
+          </Panel>
+          <Panel
+            caption={this.props.intl.formatMessage({
+              id: 'developers.webhook.example.header'
+            })}
+          >
+            <Panel.Body padded={false}>
+              <WebhookExamples />
+            </Panel.Body>
+          </Panel>
+        </div>
       </Content>
     )
   }

@@ -5,7 +5,9 @@
   "flagged": "Flagged",
   "signout": "Sign out",
   "done": "Done",
+  "cancel": "Cancel",
   "got-it": "Got it",
+  "confirm": "Confirm",
   "copy-to-clipboard": "Copy to clipboard",
   "terms-of-conditions": "By clicking this button you agree on <a href=https://getmati.com/legal#terms target='_blank'>Terms and Conditions</a> and <a href=https://getmati.com/legal#privacy target='_blank'>Privacy Notice</p>",
   "analytics": "Analytics",
@@ -132,6 +134,8 @@
   "webhookUrl.confirmation": "Webhook URL was updated",
   "onboarding.webhooks.labels.url": "Your Webhook URL",
   "onboarding.webhooks.placeholders.url": "https://yoursite.com/",
+  "onboarding.webhooks.labels.secret": "Webhook secret",
+  "onboarding.webhooks.placeholders.secret": "Secret string",
   "onboarding.verify-button-hint": "Click button to see preview",
   "onboarding.integrationCode.button": "Open Web integration code",
   "onboarding.integrationCode.modalTitle": "Integrate code into your website",
@@ -348,5 +352,10 @@
   "verification_items.proof-of-residency": "Proof of residency",
 
   "fragments.configuration.verification_steps_modal.title": "Edit step",
-  "fragments.configuration.verification_steps_modal.subtitle": "Edit documents you want include in this step. One of them will be required."
+  "fragments.configuration.verification_steps_modal.subtitle": "Edit documents you want include in this step. One of them will be required.",
+  "fragments.account.new_webhook_modal.title": "Add webhook",
+  "fragments.account.webhooks.add": "Add new webhook",
+  "fragments.account.webhooks.confirm": "Delete the webhook?",
+  "fragments.account.webhooks.labels.url": "Webhook URL",
+  "fragments.account.webhooks.labels.delete": "Delete"
 }

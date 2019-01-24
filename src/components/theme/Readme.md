@@ -94,3 +94,50 @@ const Button = require('../button').default
   </fieldset>
 </React.Fragment>
 ```
+
+### Section
+
+```js
+const Panel = require('../panel').default
+
+;<Panel>
+  <Panel.Body>
+    <section className="mgi-section">
+      <h3>
+        After Hours
+        <p>
+          American black comedy film[3] directed by Martin Scorsese, written by
+          Joseph Minion, and starring Griffin Dunne with an ensemble cast. The
+          film follows Paul Hackett, portrayed by Dunne, as he experiences a
+          series of misadventures while making his way home from New York City
+          SoHo district during the night.
+        </p>
+        <p>
+          Warner Home Video released the film on VHS in 1991 for both widescreen
+          and pan-and-scan NTSC laserdiscs. It has also been released on DVD.
+        </p>
+      </h3>
+    </section>
+    <section className="mgi-section">
+      <p>
+        After a long and boring day at work, Paul Hackett, a computer word
+        processor, meets Marcy Franklin in a local cafe in New York City. They
+        discuss their common interest in Henry Miller. Marcy leaves Paul her
+        number and informs him that she lives with a sculptor named Kiki
+        Bridges, who makes and sells plaster of Paris paperweights resembling
+        cream cheese bagels. Later in the night, under the pretense of buying a
+        paperweight, Paul visits Marcy, taking a cab to her apartment. On his
+        way to visit Marcy, his $20 bill is blown out the window of the cab,
+        leaving him with only some spare pocket change. The cab driver is
+        furious that he could not pay. This is the first in a long series of
+        misadventures for Paul that turn hostile through no fault of his own. At
+        the apartment, Paul meets the sculptor Kiki and Marcy, and comes across
+        a collection of photographs and medications which imply that Marcy is
+        severely disfigured from burns on her legs and torso. As a result of
+        this implication, and as a result of a strained conversation with Marcy,
+        Paul abruptly slips out of the apartment.
+      </p>
+    </section>
+  </Panel.Body>
+</Panel>
+```

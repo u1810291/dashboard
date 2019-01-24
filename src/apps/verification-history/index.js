@@ -7,7 +7,6 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import { AVAILABLE_DOCUMENT_TYPES } from 'src/state/merchant'
 import { Content } from 'src/components/application-box'
-import Panel from 'src/components/panel'
 import DataTable from 'src/components/data-table'
 import VerificationFullNameLabel from 'src/fragments/verification-full-name-label'
 import DocumentTypesLabel from 'src/fragments/document-types-label'
@@ -164,23 +163,24 @@ class VerificationHistory extends React.Component {
 
     return (
       <Content>
-        <Panel caption={<FormattedMessage id="identities.title" />}>
-          <Panel.Header>
-            <FiltersForm
-              onChange={this.onFilterChange}
-              onClear={this.clearSelectedFilters}
-              {...transformedParams}
-            />
-          </Panel.Header>
-          <Panel.Body padded={false}>
-            <DataTable
-              rows={this.props.identities}
-              columns={this.getTableColumns()}
-              emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
-              onRowClick={this.openVerification}
-            />
-          </Panel.Body>
-        </Panel>
+        <h3>
+          <FormattedMessage id="identities.title" />
+        </h3>
+        <section className="mgi-section mgi-section__no-border">
+          <FiltersForm
+            onChange={this.onFilterChange}
+            onClear={this.clearSelectedFilters}
+            {...transformedParams}
+          />
+        </section>
+        <section className="mgi-section">
+          <DataTable
+            rows={this.props.identities}
+            columns={this.getTableColumns()}
+            emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
+            onRowClick={this.openVerification}
+          />
+        </section>
       </Content>
     )
   }

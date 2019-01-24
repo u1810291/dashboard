@@ -3,7 +3,7 @@ import Spy from './spy.svg'
 import TickFilled from './tick-filled.svg'
 import WarningTriangle from './warning-triangle.svg'
 import Info from './info.svg'
-import TrashBin from './trash-bin.svg'
+import TrashBin from './trashbin.svg'
 import Pencil from './pencil.svg'
 
 export default {

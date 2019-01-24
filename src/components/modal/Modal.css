@@ -15,6 +15,11 @@
   flex-direction: column;
 }
 
+:local(.window).small {
+  width: 400px;
+  min-height: 150px;
+}
+
 :local(.window).wide {
   width: 800px;
 }
@@ -28,7 +33,7 @@
 :local(.window) > header,
 :local(.window) > footer {
   background: #f7f9fc;
-  padding: var(--mgi-spacing);
+  padding: 15px;
 }
 
 :local(.window) > header {

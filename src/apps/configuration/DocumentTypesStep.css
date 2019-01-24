@@ -1,6 +1,0 @@
-:local(.buttons) {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(100px, 1fr));
-  grid-gap: calc(var(--mgi-spacing) * .5);
-  margin-bottom: calc(var(--mgi-spacing) * .5);
-}
