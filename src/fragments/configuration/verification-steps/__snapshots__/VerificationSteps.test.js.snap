@@ -103,7 +103,7 @@ exports[`VerificationSteps steps  1`] = `
           <Button
             buttonStyle="invisible"
           >
-            <trash-bin.svg
+            <trashbin.svg
               className="svg-error"
               onClick={[Function]}
             />
@@ -166,7 +166,7 @@ exports[`VerificationSteps steps  1`] = `
           <Button
             buttonStyle="invisible"
           >
-            <trash-bin.svg
+            <trashbin.svg
               className="svg-error"
               onClick={[Function]}
             />
