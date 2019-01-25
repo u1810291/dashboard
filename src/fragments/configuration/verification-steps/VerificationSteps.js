@@ -4,6 +4,7 @@ import { difference, without } from 'lodash'
 import Icons from 'src/components/icons'
 import Button from 'src/components/button'
 import { createOverlay, closeOverlay } from 'src/components/overlay'
+import confirm from 'src/components/confirm'
 import VerificationStepModal from '../verification-steps-modal'
 
 export function removeItem(steps, index) {
@@ -35,9 +36,9 @@ export default function VerificationSteps({
   onChange = () => {}
 }) {
   const onRemoveItem = index => {
-    if (window.confirm('Please, confirm.')) {
+    confirm(<FormattedMessage id="confirm_string" />).then(() =>
       onChange({ verificationSteps: removeItem(steps, index) })
-    }
+    )
   }
 
   const onEditItem = index => {
