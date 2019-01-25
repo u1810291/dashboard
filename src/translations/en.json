@@ -95,7 +95,7 @@
   "validations.cleanText": "No special characters allowed",
   "validations.email": "Invalid email address",
 
-  "onboarding.flow.title": "Customize and Preview your verification flow",
+  "onboarding.flow.title": "Customize your verification flow",
   "onboarding.flow.subtitle": "Test and tailor what your users see when they verify their identity",
   "onboarding.webhook.title": "Sample Webhook",
   "onboarding.webhook.webhook": "Webhook",
@@ -110,8 +110,7 @@
   "flow.next": "Next",
   "flow.prev": "Back",
   "flow.documentTypeStep.title": "Verification Steps",
-  "flow.documentTypeStep.face": "Selfie",
-  "flow.documentTypeStep.liveness": "Selfie",
+  "flow.documentTypeStep.liveness": "Liveness",
   "flow.documentTypeStep.driving-license": "Driving License",
   "flow.documentTypeStep.national-id": "National ID",
   "flow.documentTypeStep.passport": "Passport",

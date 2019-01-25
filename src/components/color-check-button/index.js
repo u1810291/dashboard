@@ -1,5 +1,4 @@
 import React from 'react'
-import CheckIcon from './icon.svg'
 import CSS from './styles.css'
 
 export default function({
@@ -8,8 +7,11 @@ export default function({
   checked = false
 }) {
   return (
-    <div onClick={onChange} data-color={color} className={CSS.checkButton}>
-      {checked && <CheckIcon />}
-    </div>
+    <div
+      onClick={onChange}
+      data-color={color}
+      className={CSS.checkButton}
+      data-checked={checked}
+    />
   )
 }

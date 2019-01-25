@@ -1,23 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { flatten, uniq, isEmpty, pickBy, mapValues, get } from 'lodash'
+import { isEmpty, pickBy, mapValues, get } from 'lodash'
 import fp from 'lodash/fp'
 import { getIdentities, getIdentityWithNestedData } from 'src/state/identities'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import { AVAILABLE_DOCUMENT_TYPES } from 'src/state/merchant'
 import { Content } from 'src/components/application-box'
 import DataTable from 'src/components/data-table'
 import VerificationFullNameLabel from 'src/fragments/verification-full-name-label'
-import DocumentTypesLabel from 'src/fragments/document-types-label'
 import Status from 'src/fragments/status-label'
 import FiltersForm from './filters-form'
-
-function getDocumentTypes(facematchScore) {
-  return uniq(
-    flatten(facematchScore).filter(t => AVAILABLE_DOCUMENT_TYPES.includes(t))
-  )
-}
 
 const FILTERS = ['search', 'status', 'dateUpdated[start]', 'dateUpdated[end]']
 
@@ -125,15 +117,6 @@ class VerificationHistory extends React.Component {
       },
       {
         size: 3,
-        label: <FormattedMessage id="identities.fields.documentTypes" />,
-        content: identity => (
-          <DocumentTypesLabel
-            types={getDocumentTypes(identity.facematchScore)}
-          />
-        )
-      },
-      {
-        size: 3,
         label: <FormattedMessage id="identities.fields.status" />,
         content: identity => <Status status={identity.status} />
       },
@@ -163,24 +146,20 @@ class VerificationHistory extends React.Component {
 
     return (
       <Content>
-        <h3>
+        <h1>
           <FormattedMessage id="identities.title" />
-        </h3>
-        <section className="mgi-section mgi-section__no-border">
-          <FiltersForm
-            onChange={this.onFilterChange}
-            onClear={this.clearSelectedFilters}
-            {...transformedParams}
-          />
-        </section>
-        <section className="mgi-section">
-          <DataTable
-            rows={this.props.identities}
-            columns={this.getTableColumns()}
-            emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
-            onRowClick={this.openVerification}
-          />
-        </section>
+        </h1>
+        <FiltersForm
+          onChange={this.onFilterChange}
+          onClear={this.clearSelectedFilters}
+          {...transformedParams}
+        />
+        <DataTable
+          rows={this.props.identities}
+          columns={this.getTableColumns()}
+          emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
+          onRowClick={this.openVerification}
+        />
       </Content>
     )
   }

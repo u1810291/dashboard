@@ -1,5 +1,6 @@
 :root {
-  --mgi-color-check-button-size: 32px;
+  --mgi-color-check-button-size: 20px;
+  --mgi-color-check-check-margin: 2px;
 }
 
 :local(.checkButton) {
@@ -11,6 +12,24 @@
   background: red;
   border-radius: 100%;
   cursor: pointer;
+  position: relative;
+}
+
+:local(.checkButton)[data-checked='true']::before {
+  width: calc(
+    var(--mgi-color-check-button-size) - 2 * var(--mgi-color-check-check-margin)
+  );
+  height: calc(
+    var(--mgi-color-check-button-size) - 2 * var(--mgi-color-check-check-margin)
+  );
+  box-sizing: border-box;
+  display: block;
+  content: ' ';
+  position: absolute;
+  top: var(--mgi-color-check-check-margin);
+  left: var(--mgi-color-check-check-margin);
+  border: 1px solid white;
+  border-radius: 100%;
 }
 
 :local(.checkButton) svg {

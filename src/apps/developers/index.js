@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { injectIntl } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import { last } from 'lodash'
 import {
   subscribeToWebhook,
@@ -56,16 +56,19 @@ class Developers extends React.Component {
             deleteWebhook={this.handleDeleteWebhook}
             webhooks={this.props.webhooks}
           />
-          <Panel
-            caption={this.props.intl.formatMessage({
-              id: 'developers.token.caption'
-            })}
-          >
+          <Panel>
             <Panel.Body>
-              <ManageApplicationsForm
-                clientId={clientApplication.clientId}
-                clientSecret={clientApplication.clientSecret}
-              />
+              <section className="mgi-section">
+                <h3>
+                  <FormattedMessage id="developers.token.caption" />
+                </h3>
+              </section>
+              <section className="mgi-section">
+                <ManageApplicationsForm
+                  clientId={clientApplication.clientId}
+                  clientSecret={clientApplication.clientSecret}
+                />
+              </section>
             </Panel.Body>
           </Panel>
           <Panel

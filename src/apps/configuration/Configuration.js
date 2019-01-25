@@ -17,7 +17,6 @@ import IntegrationIcon from 'src/assets/icon-integration.svg'
 import ColorStep from './ColorStep'
 import VerificationSteps from 'src/fragments/configuration/verification-steps'
 import LanguageStep from './LanguageStep'
-import SafetyProStep from './SafetyProStep'
 import CSS from './Configuration.css'
 import IconCurlyArrowUp from 'src/assets/icon-curly-arrow-up.svg'
 import IconIOS from 'src/assets/icon-ios.svg'
@@ -103,28 +102,24 @@ class Configuration extends React.Component {
         mandatoryDocumentTypes={MANDATORY_DOCUMENT_TYPES}
         steps={this.props.configuration.verificationSteps}
         onChange={this.updateConfiguration}
-      />,
-      <SafetyProStep
-        system={this.props.configuration.system}
-        onClick={this.updateConfiguration}
       />
     ]
     return (
       <React.Fragment>
         <Content className={CSS.content}>
-          <section>
+          <section className="mgi-section">
             <h1>
               <FormattedMessage id="onboarding.flow.title" />
               <p className="text-secondary">
                 <FormattedMessage id="onboarding.flow.subtitle" />
               </p>
             </h1>
-            {flowSteps.map((step, index) => (
-              <section className="mgi-section-separated" key={index}>
-                {step}
-              </section>
-            ))}
           </section>
+          {flowSteps.map((step, index) => (
+            <section className="mgi-section mgi-section__no-border" key={index}>
+              {step}
+            </section>
+          ))}
         </Content>
         <Sidebar className={CSS.sidebar}>
           <p className={CSS.sidebarIcon}>
@@ -152,24 +147,19 @@ class Configuration extends React.Component {
               <FormattedMessage id="onboarding.verify-button-hint" />
             </div>
           </div>
-          <div>
-            <Button
-              className={CSS.showIntegrationCodeButton}
-              onClick={this.toggleIntegrationCode}
-            >
+          <div className={CSS.helpButtons}>
+            <Button onClick={this.toggleIntegrationCode}>
               <IntegrationIcon />
               <FormattedMessage id="onboarding.integrationCode.button" />
             </Button>
-            <div className={CSS.mobileSdkButtons}>
-              <Button onClick={this.openIosManual}>
-                <IconIOS />
-                <FormattedMessage id="onboarding.ios-sdk-link" />
-              </Button>
-              <Button onClick={this.openAndroidManual}>
-                <IconAndroid />
-                <FormattedMessage id="onboarding.android-sdk-link" />
-              </Button>
-            </div>
+            <Button onClick={this.openIosManual}>
+              <IconIOS />
+              <FormattedMessage id="onboarding.ios-sdk-link" />
+            </Button>
+            <Button onClick={this.openAndroidManual}>
+              <IconAndroid />
+              <FormattedMessage id="onboarding.android-sdk-link" />
+            </Button>
           </div>
         </Sidebar>
       </React.Fragment>
