@@ -77,19 +77,21 @@ export default function extractIdentityData(identity) {
         origin: (
           <FormattedMessage id={`verificationModal.fields.${doc.type}`} />
         ),
-        queued: doc.status === 'queued',
-        fields: doc.fields.map(field => ({
-          caption: <FormattedMessage id={`identities.fields.${field.id}`} />,
-          value: detectError(field.value) ? (
-            <FormattedMessage id="verificationModal.n-a" />
-          ) : (
-            field.value
-          ),
-          status: detectError(field.value) ? 'failure' : 'success',
-          editable: true,
-          id: field.id,
-          docId: doc.id
-        }))
+        queued: ['queued', 'processing'].includes(doc.status),
+        fields: doc.fields
+          .filter(field => field.id !== 'docError')
+          .map(field => ({
+            caption: <FormattedMessage id={`identities.fields.${field.id}`} />,
+            value: detectError(field.value) ? (
+              <FormattedMessage id="verificationModal.n-a" />
+            ) : (
+              field.value
+            ),
+            status: detectError(field.value) ? 'failure' : 'success',
+            editable: true,
+            id: field.id,
+            docId: doc.id
+          }))
       }
 
       if (doc.facematchScore) {
@@ -112,7 +114,7 @@ export default function extractIdentityData(identity) {
             <FormattedMessage id={`verificationModal.fields.${doc.type}`} />
           ),
           via: <FormattedMessage id={'verificationModal.govChecks'} />,
-          queued: doc.status === 'queued',
+          queued: ['queued', 'processing'].includes(doc.status),
           fields: doc.verifiedData.map(field => ({
             caption: <FormattedMessage id={`identities.fields.${field.id}`} />,
             value: detectError(field.value) ? (

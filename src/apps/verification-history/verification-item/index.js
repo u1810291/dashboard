@@ -73,7 +73,11 @@ class VerificationItem extends React.Component {
     const { token, getIdentityWithNestedData } = this.props
     const { id } = this.props.match.params
     getIdentityWithNestedData(token, id).then(identity => {
-      if (identity.documents.every(doc => doc.status !== 'queued')) {
+      if (
+        identity.documents.every(
+          doc => !['queued', 'processing'].includes(doc.status)
+        )
+      ) {
         window.clearInterval(this.checkInterval)
       }
     })
