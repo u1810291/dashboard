@@ -16,13 +16,6 @@ export default function IntegrationModal({ integrationCode, onClose }) {
           copyToClipboard
           code={integrationCode}
         />
-        <a
-          href="https://github.com/MatiFace/mati-global-id-sdk"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Check out our mobile SDK
-        </a>
       </main>
       <footer className="modal--footer-transparent modal--footer-center">
         <Button buttonStyle="primary" onClick={onClose}>
