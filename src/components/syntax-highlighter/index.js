@@ -21,7 +21,7 @@ export const SyntaxHighlighter = ({
   dark = true,
   code = '',
   copyToClipboard = false,
-  onCopy = () => {},
+  copyNotification,
   lineNumbers = true,
   wrapperClassName = undefined,
   wrapperStyle = {},
@@ -47,7 +47,7 @@ export const SyntaxHighlighter = ({
         <div className={CSS.copyToClipboard}>
           <Button
             buttonStyle="no-borders default text-secondary"
-            onClick={() => handleCopyToClipboard(code, onCopy)}
+            onClick={() => handleCopyToClipboard(code, copyNotification)}
           >
             <Icon />
             <span className="text-active">
