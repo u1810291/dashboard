@@ -7,7 +7,7 @@ const percents = val => (parseInt(val, 10) || 0 * 100).toFixed(0) + '%'
 const SUSPICIOUS_FACEMATCH_LEVEL = 59
 
 function detectError(string) {
-  return !string || !!string.match(/^([A-Z]+_[A-Z]+)+$/)
+  return !string || !!string.toString().match(/^([A-Z]+_[A-Z]+)+$/)
 }
 
 export default function extractIdentityData(identity) {
