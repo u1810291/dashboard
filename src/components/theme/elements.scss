@@ -65,9 +65,15 @@ h3 {
 h1 {
   font-size: 2rem;
   font-weight: 700;
+  line-height: 1.2;
 
   p {
     font-size: 1.125rem;
+    line-height: 1.5;
+  }
+
+  p:first-of-type {
+    margin-top: calc(0.5 * var(--mgi-spacing));
   }
 
   &:not(:last-child) {

@@ -40,8 +40,15 @@ export function Menu({ children }) {
   return <div className={CSS.menu}>{children}</div>
 }
 
-export function MenuItemLink({ children, to, label, icon, external = false }) {
-  const Wrapper = ({ external, ...props }) => {
+export function MenuItemLink({
+  children,
+  to,
+  label,
+  icon,
+  external = false,
+  noActive = false
+}) {
+  const Wrapper = ({ external, noActive, ...props }) => {
     if (props.to) {
       if (external) {
         return (
@@ -62,7 +69,11 @@ export function MenuItemLink({ children, to, label, icon, external = false }) {
     }
   }
   return (
-    <Wrapper className={classNames(CSS.menuItem)} to={to} external={external}>
+    <Wrapper
+      className={classNames(CSS.menuItem, { 'no-active': noActive })}
+      to={to}
+      external={external}
+    >
       {icon && <span className={CSS.menuItemIcon}>{icon}</span>}
       {label && <span className={CSS.menuItemLabel}>{label}</span>}
       {children}

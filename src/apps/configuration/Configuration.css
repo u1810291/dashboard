@@ -1,9 +1,7 @@
 :local(.content) {
   background: white;
-}
-
-:local(.content) > section {
-  margin-bottom: var(--mgi-spacing);
+  width: 500px;
+  border-right: 1px solid var(--mgi-theme-palette-lightgray);
 }
 
 :local(.sidebar) {
@@ -12,27 +10,22 @@
   align-items: stretch;
   justify-content: space-between;
   max-height: calc(100vh - var(--mgi-application-box-menu-height));
+  margin: 0 auto;
 }
 
 :local(.sidebarIcon) {
   text-align: center;
 }
 
-:local(.showIntegrationCodeButton) {
-  width: 100%;
+:local(.helpButtons) {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  width: 300px;
+  align-self: center;
 }
 
-:local(.mobileSdkButtons) {
-  display: flex;
-  margin-top: var(--mgi-spacing);
-  justify-content: space-between;
-}
-
-:local(.mobileSdkButtons) button {
-  width: 50%;
-  justify-content: center;
+:local(.helpButtons) > *:not(:last-child) {
+  margin-bottom: calc(0.5 * var(--mgi-spacing));
 }
 
 :local(.onboardingVideoLink) {

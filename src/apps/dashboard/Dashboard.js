@@ -18,7 +18,7 @@ import DevelopersRoute from 'src/apps/developers'
 //import { AccountSettings } from 'src/apps/account-settings'
 import { signOut } from 'src/state/auth'
 import { getMerchant, saveConfiguration } from 'src/state/merchant'
-import MatiLogo from 'src/assets/mati-logo.svg'
+import MatiLogo from 'src/assets/mati-logo-white.svg'
 import IdentitiesIcon from './icons/icon-history.svg'
 import ConfigurationIcon from './icons/icon-customize.svg'
 import AccountIcon from './icons/icon-account.svg'
@@ -60,7 +60,7 @@ class Dashboard extends React.Component {
     const { formatMessage } = this.props.intl
     return (
       <Menu>
-        <MenuItemLink to="/">
+        <MenuItemLink to="/" noActive>
           <MatiLogo />
         </MenuItemLink>
         <MenuItemLink

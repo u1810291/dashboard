@@ -146,24 +146,20 @@ class VerificationHistory extends React.Component {
 
     return (
       <Content>
-        <h3>
+        <h1>
           <FormattedMessage id="identities.title" />
-        </h3>
-        <section className="mgi-section mgi-section__no-border">
-          <FiltersForm
-            onChange={this.onFilterChange}
-            onClear={this.clearSelectedFilters}
-            {...transformedParams}
-          />
-        </section>
-        <section className="mgi-section">
-          <DataTable
-            rows={this.props.identities}
-            columns={this.getTableColumns()}
-            emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
-            onRowClick={this.openVerification}
-          />
-        </section>
+        </h1>
+        <FiltersForm
+          onChange={this.onFilterChange}
+          onClear={this.clearSelectedFilters}
+          {...transformedParams}
+        />
+        <DataTable
+          rows={this.props.identities}
+          columns={this.getTableColumns()}
+          emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
+          onRowClick={this.openVerification}
+        />
       </Content>
     )
   }
