@@ -241,6 +241,8 @@
   "identities.fields.ineNumber": "INE",
   "identities.fields.expirationDate": "Expiration date",
   "identities.fields.rfc": "RFC",
+  "identities.fields.validComposite": "Valid composite",
+  "identities.fields.issueCountry": "Issues country",
   "identities.total": "Total Verifications:",
   "identities.no-data": "No one has been verified yet",
   "identities.filters.labels.search": "Search",
