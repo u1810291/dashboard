@@ -68,11 +68,16 @@ export default function extractIdentityData(identity) {
   if (identity.documents) {
     identity.documents.forEach(doc => {
       if (doc.pictures && doc.pictures.length) {
-        photos.push({
-          caption: (
-            <FormattedMessage id={`verificationModal.fields.${doc.type}`} />
-          ),
-          href: doc.pictures[0]._links.file.href
+        doc.pictures.forEach((photo, index) => {
+          photos.push({
+            caption: (
+              <span>
+                <FormattedMessage id={`verificationModal.fields.${doc.type}`} />{' '}
+                ({doc.metadata.sides[index]})
+              </span>
+            ),
+            href: photo._links.file.href
+          })
         })
       }
 
