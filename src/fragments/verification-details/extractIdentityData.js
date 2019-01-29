@@ -45,20 +45,22 @@ export default function extractIdentityData(identity) {
   }
 
   const backgroundCheck = identity.fullName && {
-    caption: <FormattedMessage id="verificationModal.backgroundCheck"/>,
-    fields: [{
-      caption: (
-        <FormattedMessage id="verificationModal.backgroundCheck.globalWatchlists"/>
-      ),
-      value: (
-        <FormattedMessage
-          id={`verificationModal.backgroundCheck.${
-            watchlists ? 'failed' : 'passed'
+    caption: <FormattedMessage id="verificationModal.backgroundCheck" />,
+    fields: [
+      {
+        caption: (
+          <FormattedMessage id="verificationModal.backgroundCheck.globalWatchlists" />
+        ),
+        value: (
+          <FormattedMessage
+            id={`verificationModal.backgroundCheck.${
+              watchlists ? 'failed' : 'passed'
             }`}
-        />
-      ),
-      status: watchlists ? 'warning' : 'success'
-    }],
+          />
+        ),
+        status: watchlists ? 'warning' : 'success'
+      }
+    ]
   }
 
   backgroundCheck && documents.push(backgroundCheck)
@@ -79,7 +81,7 @@ export default function extractIdentityData(identity) {
         origin: (
           <FormattedMessage id={`verificationModal.fields.${doc.type}`} />
         ),
-        queued: ['queued', 'processing'].includes(doc.status),
+        queued: doc.fields.length === 0,
         fields: doc.fields
           .filter(field => field.id !== 'docError')
           .map(field => ({
@@ -109,14 +111,14 @@ export default function extractIdentityData(identity) {
 
       documents.push(document)
 
-      if (doc.verifiedData && doc.verifiedData.length) {
+      if (doc.verifiedData) {
         const verifiedDocument = {
           caption: <FormattedMessage id="verificationModal.idcheck" />,
           origin: (
             <FormattedMessage id={`verificationModal.fields.${doc.type}`} />
           ),
           via: <FormattedMessage id={'verificationModal.govChecks'} />,
-          queued: ['queued', 'processing'].includes(doc.status),
+          queued: doc.verifiedData.length === 0,
           fields: doc.verifiedData.map(field => ({
             caption: <FormattedMessage id={`identities.fields.${field.id}`} />,
             value: detectError(field.value) ? (
