@@ -4,16 +4,12 @@ fieldset.mgi-fieldset {
   margin: 0;
 
   &:not(:last-child) {
-    margin-bottom: 40px;
-  }
-
-  fieldset.mgi-fieldset:not(:last-child) {
     margin-bottom: 20px;
   }
 
   legend {
     padding: 0;
-    margin-bottom: 8px;
+    margin-bottom: 7px;
     width: 100%;
   }
 

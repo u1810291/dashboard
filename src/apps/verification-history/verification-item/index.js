@@ -13,7 +13,6 @@ import WebbhooksIcon from './webhooks-icon.svg'
 import DeleteIcon from './delete-icon.svg'
 import Button from 'src/components/button'
 import Panel from 'src/components/panel'
-import SpinnerPage from 'src/components/spinner-page'
 import {
   getIdentityWithNestedData,
   patchIdentity,
@@ -23,8 +22,7 @@ import {
 import { createOverlay, closeOverlay } from 'src/components/overlay'
 import VerificationWebhookModal from 'src/fragments/verifications/verification-webhook-modal'
 import confirm from 'src/components/confirm'
-import StatusLabel from 'src/fragments/status-label'
-import classNames from 'classnames'
+import DocumentStatusHelp from 'src/fragments/verifications/document-status-help'
 import CSS from './VerificationItem.scss'
 
 const CHECK_INTERVAL = 5000
@@ -77,11 +75,13 @@ class VerificationItem extends React.Component {
 
   deleteIdentity = () => {
     const { id } = this.props.match.params
-    confirm(<FormattedMessage  id="verificationModal.delete.confirm"/>)
-      .then(() => {
-        this.props.deleteIdentity(this.props.token, id)
+    confirm(<FormattedMessage id="verificationModal.delete.confirm" />).then(
+      () => {
+        this.props
+          .deleteIdentity(this.props.token, id)
           .then(this.props.history.push('/verifications'))
-      })
+      }
+    )
   }
 
   loadData = () => {
@@ -99,24 +99,21 @@ class VerificationItem extends React.Component {
   }
 
   render() {
-    if (!this.props.identity) {
-      return <SpinnerPage />
-    }
-
+    if (!this.props.identity) return null
     const { identity, token } = this.props
     return (
-      <div className={classNames('container', CSS.container)}>
-        <div className="row">
-          <div className="X12 L8 XL7 L--offset1 X--order1 L--order0">
-            <Content className={CSS.detailsPanel}>
-              <h1>
-                <Link to="/verifications">
-                  <Button className="text-active mgi-section-separated">
-                      <FormattedMessage id="identities.details.backToList" />
-                  </Button>
-                </Link>
-              </h1>
-              <section className="mgi-section-separated">
+      <Content>
+        <h1>
+          <Link to="/verifications">
+            <Button className="text-active mgi-section-separated">
+              <FormattedMessage id="identities.details.backToList" />
+            </Button>
+          </Link>
+        </h1>
+        <div className="mgi-items">
+          <section>
+            <Panel>
+              <Panel.Body>
                 <VerificationDetails
                   fullName={identity.fullName}
                   {...extractIdentityData(identity)}
@@ -125,57 +122,31 @@ class VerificationItem extends React.Component {
                   status={identity.status}
                   onStatusChange={this.onStatusChange}
                 />
-              </section>
-            </Content>
-          </div>
-          <div className="X12 L3 X--order0 L--order1">
-            <section className={CSS.rightPanel}>
-              <Button className={CSS.rightButton} onClick={this.openWebhookModal}>
+              </Panel.Body>
+            </Panel>
+          </section>
+
+          <section className={CSS.rightPanel}>
+            <section className="mgi-section mgi-section__no-border">
+              <Button onClick={this.openWebhookModal}>
                 <WebbhooksIcon />
                 <FormattedMessage id="verificationModal.webhookResponse" />
               </Button>
-              {/*<Button className={CSS.rightButton}>*/}
-                {/*<DownloadIcon />*/}
-                {/*<FormattedMessage id="verificationModal.downloadData" />*/}
-              {/*</Button>*/}
-              <Button className={CSS.rightButton} onClick={this.deleteIdentity}>
+            </section>
+            {/*<Button>*/}
+            {/*<DownloadIcon />*/}
+            {/*<FormattedMessage id="verificationModal.downloadData" />*/}
+            {/*</Button>*/}
+            <section className="mgi-section mgi-section__huge">
+              <Button onClick={this.deleteIdentity}>
                 <DeleteIcon />
                 <FormattedMessage id="verificationModal.delete" />
               </Button>
             </section>
-            <div className={CSS.statusesHelpPanel}>
-              <Panel>
-                <Panel.Body>
-                  <fieldset className="mgi-fieldset no-left-margin">
-                    <legend>
-                      <StatusLabel status="inProgress" coloredText={true}/>
-                    </legend>
-                    <FormattedMessage id="statuses.inProgress.info" />
-                  </fieldset>
-                  <fieldset className="mgi-fieldset no-left-margin">
-                    <legend>
-                      <StatusLabel status="verified" coloredText={true}/>
-                    </legend>
-                    <FormattedMessage id="statuses.verified.info" />
-                  </fieldset>
-                  <fieldset className="mgi-fieldset no-left-margin">
-                    <legend>
-                      <StatusLabel status="manual" coloredText={true}/>
-                    </legend>
-                    <FormattedMessage id="statuses.manual.info" />
-                  </fieldset>
-                  <fieldset className="mgi-fieldset no-left-margin">
-                    <legend>
-                      <StatusLabel status="unverified" coloredText={true}/>
-                    </legend>
-                    <FormattedMessage id="statuses.unverified.info" />
-                  </fieldset>
-                </Panel.Body>
-              </Panel>
-            </div>
-          </div>
+            <DocumentStatusHelp />
+          </section>
         </div>
-      </div>
+      </Content>
     )
   }
 }

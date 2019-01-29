@@ -6,7 +6,6 @@ import CSS from './verificationDetails.scss'
 import VerificationFullNameLabel from 'src/fragments/verification-full-name-label'
 import StatusSelect from 'src/fragments/status-select'
 import ContentPreloader from 'src/components/content-preloader'
-import classNames from 'classnames'
 
 function caption(document, intl) {
   const cap = [document.caption]
@@ -31,41 +30,44 @@ function caption(document, intl) {
   return cap
 }
 
-function VerificationDetails({ intl, photos = [], documents = [], signURL, onFieldChange, fullName, status, onStatusChange }) {
+function VerificationDetails({
+  intl,
+  photos = [],
+  documents = [],
+  signURL,
+  onFieldChange,
+  fullName,
+  status,
+  onStatusChange
+}) {
   return (
-    <div className={classNames(CSS.details, 'container')}>
-      <div className="row">
-        <div className="X12 M4">
-          {photos.length > 0 && (
-            <DocumentPhotos photos={photos} signURL={signURL} />
-          )}
-        </div>
-        <div className="X12 M8">
-          <div className={CSS.details}>
-            <section className="mgi-section">
-              <h1>
-                <VerificationFullNameLabel>
-                  {fullName}
-                </VerificationFullNameLabel>
-                <StatusSelect
-                  status={status}
-                  onSelect={onStatusChange}
-                />
-              </h1>
-            </section>
-            {documents.map((doc, index) => (
-              <section className="mgi-section" key={index}>
-                <h4>{caption(doc, intl)}</h4>
-                {doc.queued ? (
-                  <ContentPreloader />
-                ) : (
-                  <DocumentFields fields={doc.fields} onFieldChange={onFieldChange}/>
-                )}
-              </section>
-            ))}
-          </div>
-        </div>
-      </div>
+    <div className="mgi-items">
+      <section className={CSS.photos}>
+        {photos.length > 0 && (
+          <DocumentPhotos photos={photos} signURL={signURL} />
+        )}
+      </section>
+      <section>
+        <section className="mgi-section">
+          <h1>
+            <VerificationFullNameLabel>{fullName}</VerificationFullNameLabel>
+            <StatusSelect status={status} onSelect={onStatusChange} />
+          </h1>
+        </section>
+        {documents.map((doc, index) => (
+          <section className="mgi-section" key={index}>
+            <h4>{caption(doc, intl)}</h4>
+            {doc.queued ? (
+              <ContentPreloader />
+            ) : (
+              <DocumentFields
+                fields={doc.fields}
+                onFieldChange={onFieldChange}
+              />
+            )}
+          </section>
+        ))}
+      </section>
     </div>
   )
 }

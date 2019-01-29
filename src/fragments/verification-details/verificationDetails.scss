@@ -7,6 +7,7 @@
   flex: 1;
 }
 
-:local(.details) {
-  padding-left: 30px;
+:local(.photos) {
+  width: 250px;
+  flex-shrink: 0;
 }

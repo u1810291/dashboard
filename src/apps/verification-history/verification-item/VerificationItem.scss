@@ -1,40 +1,4 @@
-:local(.container) {
-  width: 100%;
-}
-
-:local(.detailsPanel) {
-  background: white;
-}
-
 :local(.rightPanel) {
-  padding-top: 50px;
-  padding-left: 20px;
-}
-
-:local(.rightButton) {
-  width: 100%;
-  margin-bottom: var(--mgi-spacing-l);
-  svg {
-    margin-left: 0 !important;
-    width: 25px;
-  }
-}
-
-:local(.statusesHelpPanel) {
-  display: none;
-  padding: 0 20px;
-  margin-top: 30px;
-}
-
-@media screen and (min-width: 768px) {
-  :local(.rightButton) {
-    width: 200px;
-    margin-right: var(--mgi-spacing-l);
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  :local(.statusesHelpPanel) {
-    display: block;
-  }
+  width: 312px;
+  flex-shrink: 0;
 }
