@@ -47,7 +47,7 @@ function VerificationDetails({
           <DocumentPhotos photos={photos} signURL={signURL} />
         )}
       </section>
-      <section>
+      <section className="mgi-items--grow">
         <section className="mgi-section">
           <h1>
             <VerificationFullNameLabel>{fullName}</VerificationFullNameLabel>

@@ -111,7 +111,7 @@ class VerificationItem extends React.Component {
           </Link>
         </h1>
         <div className="mgi-items">
-          <section>
+          <section className="mgi-items--grow">
             <Panel>
               <Panel.Body>
                 <VerificationDetails
