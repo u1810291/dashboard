@@ -1,10 +1,12 @@
 import React from 'react'
-import { injectIntl, FormattedMessage } from 'react-intl'
-import Panel from 'src/components/panel'
+import { injectIntl } from 'react-intl'
 import DocumentFields from './document-fields'
 import DocumentPhotos from './document-photos'
-import Spinner from 'src/components/spinner'
-import CSS from './verification-details.module.scss'
+import CSS from './verificationDetails.scss'
+import VerificationFullNameLabel from 'src/fragments/verification-full-name-label'
+import StatusSelect from 'src/fragments/status-select'
+import ContentPreloader from 'src/components/content-preloader'
+import classNames from 'classnames'
 
 function caption(document, intl) {
   const cap = [document.caption]
@@ -29,44 +31,41 @@ function caption(document, intl) {
   return cap
 }
 
-function DocumentInProgress() {
+function VerificationDetails({ intl, photos = [], documents = [], signURL, onFieldChange, fullName, status, onStatusChange }) {
   return (
-    <span className="text-secondary mgi-items mgi-items--centered mgi-items--narrow">
-      <Spinner size="small" />
-      <FormattedMessage id="verifications.inProgress" />
-    </span>
-  )
-}
-
-function VerificationDetails({ intl, photos = [], documents = [], signURL, onFieldChange }) {
-  return (
-    <div className={CSS.details}>
-      {photos.length > 0 && (
-        <Panel
-          caption={intl.formatMessage({
-            id: 'verificationModal.photos.caption'
-          })}
-        >
-          <Panel.Body>
+    <div className={classNames(CSS.details, 'container')}>
+      <div className="row">
+        <div className="X12 M4">
+          {photos.length > 0 && (
             <DocumentPhotos photos={photos} signURL={signURL} />
-          </Panel.Body>
-        </Panel>
-      )}
-      {documents.map((doc, index) => (
-        <Panel
-          caption={caption(doc, intl)}
-          className={CSS.documentPanel}
-          key={index}
-        >
-          <Panel.Body className={CSS.documentPanelBody}>
-            {doc.queued ? (
-              <DocumentInProgress />
-            ) : (
-              <DocumentFields fields={doc.fields} onFieldChange={onFieldChange}/>
-            )}
-          </Panel.Body>
-        </Panel>
-      ))}
+          )}
+        </div>
+        <div className="X12 M8">
+          <div className={CSS.details}>
+            <section className="mgi-section">
+              <h1>
+                <VerificationFullNameLabel>
+                  {fullName}
+                </VerificationFullNameLabel>
+                <StatusSelect
+                  status={status}
+                  onSelect={onStatusChange}
+                />
+              </h1>
+            </section>
+            {documents.map((doc, index) => (
+              <section className="mgi-section" key={index}>
+                <h4>{caption(doc, intl)}</h4>
+                {doc.queued ? (
+                  <ContentPreloader />
+                ) : (
+                  <DocumentFields fields={doc.fields} onFieldChange={onFieldChange}/>
+                )}
+              </section>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

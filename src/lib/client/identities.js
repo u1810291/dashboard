@@ -20,6 +20,12 @@ export function patchIdentity(token, id, data) {
   })
 }
 
+export function deleteIdentity(token, id) {
+  return http.delete(`/v1/identities/${id}`, {
+    headers: { ...getAuthHeader(token) }
+  })
+}
+
 function getDocuments(token, id) {
   return http.get(`/v1/identities/${id}/documents?access_token=${token}`)
 }

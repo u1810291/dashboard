@@ -12,6 +12,7 @@ export const types = {
   ...createTypesSequence('IDENTITY_LIST'),
   ...createTypesSequence('IDENTITY_FETCH'),
   ...createTypesSequence('IDENTITY_PATCH'),
+  ...createTypesSequence('IDENTITY_DELETE'),
   ...createTypesSequence('IDENTITY_DOCUMENTS_LIST'),
   ...createTypesSequence('DOCUMENT_PATCH'),
 }
@@ -56,6 +57,21 @@ export function patchIdentity(token, id, data) {
       })
       .catch(error => {
         dispatch({ type: types.IDENTITY_PATCH_FAILURE })
+        throw error
+      })
+  }
+}
+
+export function deleteIdentity(token, id) {
+  return function(dispatch) {
+    dispatch({ type: types.IDENTITY_DELETE_REQUEST, payload: { id } })
+    return client.identities.deleteIdentity(token, id)
+      .then(payload => {
+        dispatch({ type: types.IDENTITY_DELETE_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.IDENTITY_DELETE_FAILURE })
         throw error
       })
   }

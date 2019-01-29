@@ -19,17 +19,18 @@ export default function extractIdentityData(identity) {
 
   if (get(identity, '_links.photo.href')) {
     photos.push({
+      isMainPhoto: true,
       caption: <FormattedMessage id="verificationModal.fields.face" />,
       href: identity._links.photo.href + '.jpg'
     })
   }
 
-  const backgroundCheck = {
-    caption: <FormattedMessage id="verificationModal.backgroundCheck" />,
+  const livenessCheck = {
+    caption: <FormattedMessage id="verificationModal.liveness" />,
     fields: [
       {
         caption: (
-          <FormattedMessage id="verificationModal.backgroundCheck.liveness" />
+          <FormattedMessage id="verificationModal.liveness.livenessCheck" />
         ),
         value: (
           <FormattedMessage
@@ -43,23 +44,24 @@ export default function extractIdentityData(identity) {
     ]
   }
 
-  if (identity.fullName) {
-    backgroundCheck.fields.push({
+  const backgroundCheck = identity.fullName && {
+    caption: <FormattedMessage id="verificationModal.backgroundCheck"/>,
+    fields: [{
       caption: (
-        <FormattedMessage id="verificationModal.backgroundCheck.globalWatchlists" />
+        <FormattedMessage id="verificationModal.backgroundCheck.globalWatchlists"/>
       ),
       value: (
         <FormattedMessage
           id={`verificationModal.backgroundCheck.${
             watchlists ? 'failed' : 'passed'
-          }`}
+            }`}
         />
       ),
       status: watchlists ? 'warning' : 'success'
-    })
+    }],
   }
 
-  documents.push(backgroundCheck)
+  backgroundCheck && documents.push(backgroundCheck)
 
   if (identity.documents) {
     identity.documents.forEach(doc => {
@@ -130,6 +132,8 @@ export default function extractIdentityData(identity) {
       }
     })
   }
+
+  documents.push(livenessCheck)
 
   return { documents, photos }
 }

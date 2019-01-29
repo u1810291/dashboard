@@ -20,4 +20,8 @@ fieldset.mgi-fieldset {
   > :not(legend) {
     margin-left: 14px;
   }
+
+  &.no-left-margin > * {
+    margin-left: 0;
+  }
 }

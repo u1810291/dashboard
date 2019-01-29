@@ -1,3 +1,7 @@
+:local(.container) {
+  font-weight: 400;
+}
+
 :local(.dropdownContent) {
   padding: 5px 0;
 }
@@ -34,19 +38,4 @@
   display: inline-block;
   margin-right: 5px;
   font-size: 1rem;
-  &.manual {
-    color: var(--mgi-theme-palette-orange);
-  }
-
-  &.unverified {
-    color: var(--mgi-theme-palette-red);
-  }
-
-  &.verified {
-    color: var(--mgi-theme-palette-green);
-  }
-
-  &.fraudulent i {
-    color: var(--mgi-theme-palette-black);
-  }
 }

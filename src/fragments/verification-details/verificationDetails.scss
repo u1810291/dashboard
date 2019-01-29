@@ -1,0 +1,12 @@
+:local(.documentPanel) {
+  display: flex;
+  flex-direction: column;
+}
+
+:local(.documentPanelBody) {
+  flex: 1;
+}
+
+:local(.details) {
+  padding-left: 30px;
+}
