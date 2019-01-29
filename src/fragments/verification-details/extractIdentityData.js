@@ -111,7 +111,7 @@ export default function extractIdentityData(identity) {
 
       documents.push(document)
 
-      if (doc.verifiedData) {
+      if (doc.verifiedData && doc.verifiedData.length > 0) {
         const verifiedDocument = {
           caption: <FormattedMessage id="verificationModal.idcheck" />,
           origin: (
