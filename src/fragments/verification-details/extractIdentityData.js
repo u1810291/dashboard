@@ -111,7 +111,12 @@ export default function extractIdentityData(identity) {
 
       documents.push(document)
 
-      if (doc.verifiedData && doc.verifiedData.length > 0) {
+      // TODO: wait untill better statuses on backend and fix this
+      if (
+        doc.verifiedData &&
+        doc.type === 'national-id' &&
+        get(doc, 'metadata.country') === 'MX'
+      ) {
         const verifiedDocument = {
           caption: <FormattedMessage id="verificationModal.idcheck" />,
           origin: (
