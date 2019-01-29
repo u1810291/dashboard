@@ -211,6 +211,7 @@
   "identities.details.check": "check",
   "identities.details.webhook": "Webhook",
   "identities.details.backToList": "← Verifications",
+  "identities.fields.status": "Status",
   "identities.fields.faceMatch": "Face match",
   "identities.fields.expirationDate": "Expiration Date",
   "identities.fields.address": "Address",
