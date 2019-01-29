@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { isEmpty, pickBy, mapValues, get } from 'lodash'
 import fp from 'lodash/fp'
-import { getIdentities, getIdentityWithNestedData } from 'src/state/identities'
+import { getIdentities, getIdentitiesCount } from 'src/state/identities'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import { Content } from 'src/components/application-box'
@@ -10,13 +10,22 @@ import DataTable from 'src/components/data-table'
 import VerificationFullNameLabel from 'src/fragments/verification-full-name-label'
 import Status from 'src/fragments/status-label'
 import FiltersForm from './filters-form'
+import Pagination from 'src/components/pagination'
+import Panel from 'src/components/panel'
 
-const FILTERS = ['search', 'status', 'dateUpdated[start]', 'dateUpdated[end]']
+const FILTERS = [
+  'search',
+  'status',
+  'offset',
+  'dateUpdated[start]',
+  'dateUpdated[end]'
+]
 
 const FILTER_TRANSFORMERS = {
   status: string => string.split(','),
   'dateUpdated[start]': string => (string ? moment(string) : undefined),
-  'dateUpdated[end]': string => (string ? moment(string) : undefined)
+  'dateUpdated[end]': string => (string ? moment(string) : undefined),
+  offset: offset => offset
 }
 
 function transformValue(key, value) {
@@ -26,8 +35,11 @@ function transformValue(key, value) {
 const FILTER_FORMATTERS = {
   status: array => array.join(','),
   'dateUpdated[start]': date => date.toJSON(),
-  'dateUpdated[end]': date => date.toJSON()
+  'dateUpdated[end]': date => date.toJSON(),
+  offset: offset => offset
 }
+
+const ITEMS_PER_PAGE = 20
 
 function formatValue(key, value) {
   return get(FILTER_FORMATTERS, key, v => v)(value)
@@ -49,9 +61,10 @@ export default
   state => ({
     isLoading: state.identities.isLoading,
     identities: state.identities.identities,
+    count: state.identities.count,
     token: state.auth.token
   }),
-  { getIdentities, getIdentityWithNestedData }
+  { getIdentities, getIdentitiesCount }
 )
 class VerificationHistory extends React.Component {
   constructor(props) {
@@ -63,14 +76,26 @@ class VerificationHistory extends React.Component {
 
   componentDidMount() {
     const params = prepareParams(this.props.location.search, FILTERS)
-    this.setState({ params }, this.fetchIdentities)
+    this.setState({ params }, () => {
+      this.fetchIdentities()
+      this.fetchIdentitiesCount()
+    })
   }
 
   fetchIdentities() {
-    this.props.getIdentities(
-      this.props.token,
-      pickBy(this.state.params, v => !isEmpty(v))
+    const params = pickBy(this.state.params, v => !isEmpty(v))
+    this.props.getIdentities(this.props.token, {
+      ...params,
+      limit: ITEMS_PER_PAGE
+    })
+  }
+
+  fetchIdentitiesCount() {
+    const params = pickBy(
+      this.state.params,
+      (v, k) => !isEmpty(v) && !['offset'].includes(k)
     )
+    this.props.getIdentitiesCount(this.props.token, params)
   }
 
   replaceLocation() {
@@ -93,8 +118,26 @@ class VerificationHistory extends React.Component {
     const formattedParams = mapValues(params, (value, key) =>
       formatValue(key, value)
     )
+    formattedParams.offset = 0
     this.setState(
       { params: { ...this.state.params, ...formattedParams } },
+      () => {
+        this.fetchIdentities()
+        this.fetchIdentitiesCount()
+        this.replaceLocation()
+      }
+    )
+  }
+
+  onPageChange = ({ selected: pageNum }) => {
+    if (pageNum === undefined) return
+    this.setState(
+      {
+        params: {
+          ...this.state.params,
+          offset: (pageNum * ITEMS_PER_PAGE).toString()
+        }
+      },
       () => {
         this.fetchIdentities()
         this.replaceLocation()
@@ -102,8 +145,8 @@ class VerificationHistory extends React.Component {
     )
   }
 
-  openVerification = ({ id, fullName, status }) => {
-    this.props.history.push(`/verifications/${id}`)
+  openVerification = ({ identity }) => {
+    this.props.history.push(`/verifications/${identity.id}`)
   }
 
   getTableColumns = () => {
@@ -111,14 +154,16 @@ class VerificationHistory extends React.Component {
       {
         size: 5,
         label: <FormattedMessage id="identities.fields.fullName" />,
-        content: ({ fullName }) => (
-          <VerificationFullNameLabel>{fullName}</VerificationFullNameLabel>
+        content: ({ identity }) => (
+          <VerificationFullNameLabel>
+            {identity.fullName}
+          </VerificationFullNameLabel>
         )
       },
       {
         size: 3,
         label: <FormattedMessage id="identities.fields.status" />,
-        content: identity => <Status status={identity.status} />
+        content: identity => <Status status={identity.identity.status} />
       },
       {
         size: 1,
@@ -144,6 +189,9 @@ class VerificationHistory extends React.Component {
       transformValue(key, value)
     )
 
+    // const pageCount = Math.ceil(this.props.identitiesCount / this.LIMIT)
+    const forcePage = Math.floor(this.state.params.offset / ITEMS_PER_PAGE) || 0
+
     return (
       <Content>
         <h1>
@@ -160,6 +208,17 @@ class VerificationHistory extends React.Component {
           emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
           onRowClick={this.openVerification}
         />
+        {this.props.count > ITEMS_PER_PAGE && (
+          <Panel>
+            <Pagination
+              pageCount={this.props.count}
+              pageRangeDisplayed={3}
+              marginPagesDisplayed={2}
+              forcePage={forcePage}
+              onPageChange={this.onPageChange}
+            />
+          </Panel>
+        )}
       </Content>
     )
   }

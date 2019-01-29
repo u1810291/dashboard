@@ -8305,6 +8305,13 @@ react-outside-click-handler@^1.2.0:
     object.values "^1.0.4"
     prop-types "^15.6.1"
 
+react-paginate@^6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/react-paginate/-/react-paginate-6.2.1.tgz#90735c95c9836edb73597b605c6ffd8d3f2eaa32"
+  integrity sha512-7MaWiVi4SAFYq5tAGcMCaZE6AK4XxCDM0zEo6+ZthVkhYNnKy1LLkO6syYQu+dBvNfukJ7CurOIpGWnkydJiDQ==
+  dependencies:
+    prop-types "^15.6.1"
+
 react-portal@^4.1.5:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/react-portal/-/react-portal-4.2.0.tgz#5400831cdb0ae64dccb8128121cf076089ab1afd"
