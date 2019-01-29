@@ -116,7 +116,7 @@ class Configuration extends React.Component {
             </h1>
           </section>
           {flowSteps.map((step, index) => (
-            <section className="mgi-section mgi-section__no-border" key={index}>
+            <section className="mgi-section mgi-section__huge" key={index}>
               {step}
             </section>
           ))}

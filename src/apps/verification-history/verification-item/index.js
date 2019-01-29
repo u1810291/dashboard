@@ -8,18 +8,22 @@ import VerificationDetails, {
   extractIdentityData
 } from 'src/fragments/verification-details'
 import stringify from 'src/lib/stringify'
-import VerificationFullNameLabel from 'src/fragments/verification-full-name-label'
-import StatusSelect from 'src/fragments/status-select'
 import WebbhooksIcon from './webhooks-icon.svg'
+//import DownloadIcon from './download-icon.svg'
+import DeleteIcon from './delete-icon.svg'
 import Button from 'src/components/button'
-import SpinnerPage from 'src/components/spinner-page'
+import Panel from 'src/components/panel'
 import {
   getIdentityWithNestedData,
   patchIdentity,
+  deleteIdentity,
   patchDocument
 } from 'src/state/identities'
 import { createOverlay, closeOverlay } from 'src/components/overlay'
 import VerificationWebhookModal from 'src/fragments/verifications/verification-webhook-modal'
+import confirm from 'src/components/confirm'
+import DocumentStatusHelp from 'src/fragments/verifications/document-status-help'
+import CSS from './VerificationItem.scss'
 
 const CHECK_INTERVAL = 5000
 
@@ -29,7 +33,7 @@ export default
     token: state.auth.token,
     identity: state.identities.instances[props.match.params.id]
   }),
-  { getIdentityWithNestedData, patchIdentity, patchDocument }
+  { getIdentityWithNestedData, patchIdentity, deleteIdentity, patchDocument }
 )
 class VerificationItem extends React.Component {
   constructor(props) {
@@ -69,6 +73,17 @@ class VerificationItem extends React.Component {
     )
   }
 
+  deleteIdentity = () => {
+    const { id } = this.props.match.params
+    confirm(<FormattedMessage id="verificationModal.delete.confirm" />).then(
+      () => {
+        this.props
+          .deleteIdentity(this.props.token, id)
+          .then(this.props.history.push('/verifications'))
+      }
+    )
+  }
+
   loadData = () => {
     const { token, getIdentityWithNestedData } = this.props
     const { id } = this.props.match.params
@@ -84,41 +99,53 @@ class VerificationItem extends React.Component {
   }
 
   render() {
-    if (!this.props.identity) {
-      return <SpinnerPage />
-    }
-
+    if (!this.props.identity) return null
     const { identity, token } = this.props
     return (
       <Content>
         <h1>
-          <VerificationFullNameLabel>
-            {identity.fullName}
-          </VerificationFullNameLabel>
-          <StatusSelect
-            status={identity.status}
-            onSelect={this.onStatusChange}
-          />
-          <p className="text-secondary">
-            <Link to="/verifications">
+          <Link to="/verifications">
+            <Button className="text-active mgi-section-separated">
               <FormattedMessage id="identities.details.backToList" />
-            </Link>
-          </p>
+            </Button>
+          </Link>
         </h1>
-        <section className="mgi-section-separated">
-          <VerificationDetails
-            fullName={identity.fullName}
-            {...extractIdentityData(identity)}
-            signURL={url => authorizedUrl(url, token)}
-            onFieldChange={this.onFieldChange}
-          />
-        </section>
-        <section>
-          <Button onClick={this.openWebhookModal}>
-            <WebbhooksIcon />
-            <FormattedMessage id="verificationModal.webhookResponse" />
-          </Button>
-        </section>
+        <div className="mgi-items">
+          <section className="mgi-items--grow">
+            <Panel>
+              <Panel.Body>
+                <VerificationDetails
+                  fullName={identity.fullName}
+                  {...extractIdentityData(identity)}
+                  signURL={url => authorizedUrl(url, token)}
+                  onFieldChange={this.onFieldChange}
+                  status={identity.status}
+                  onStatusChange={this.onStatusChange}
+                />
+              </Panel.Body>
+            </Panel>
+          </section>
+
+          <section className={CSS.rightPanel}>
+            <section className="mgi-section mgi-section__no-border">
+              <Button onClick={this.openWebhookModal}>
+                <WebbhooksIcon />
+                <FormattedMessage id="verificationModal.webhookResponse" />
+              </Button>
+            </section>
+            {/*<Button>*/}
+            {/*<DownloadIcon />*/}
+            {/*<FormattedMessage id="verificationModal.downloadData" />*/}
+            {/*</Button>*/}
+            <section className="mgi-section mgi-section__huge">
+              <Button onClick={this.deleteIdentity}>
+                <DeleteIcon />
+                <FormattedMessage id="verificationModal.delete" />
+              </Button>
+            </section>
+            <DocumentStatusHelp />
+          </section>
+        </div>
       </Content>
     )
   }

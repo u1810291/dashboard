@@ -19,17 +19,18 @@ export default function extractIdentityData(identity) {
 
   if (get(identity, '_links.photo.href')) {
     photos.push({
+      isMainPhoto: true,
       caption: <FormattedMessage id="verificationModal.fields.face" />,
       href: identity._links.photo.href + '.jpg'
     })
   }
 
-  const backgroundCheck = {
-    caption: <FormattedMessage id="verificationModal.backgroundCheck" />,
+  const livenessCheck = {
+    caption: <FormattedMessage id="verificationModal.liveness" />,
     fields: [
       {
         caption: (
-          <FormattedMessage id="verificationModal.backgroundCheck.liveness" />
+          <FormattedMessage id="verificationModal.liveness.livenessCheck" />
         ),
         value: (
           <FormattedMessage
@@ -43,23 +44,26 @@ export default function extractIdentityData(identity) {
     ]
   }
 
-  if (identity.fullName) {
-    backgroundCheck.fields.push({
-      caption: (
-        <FormattedMessage id="verificationModal.backgroundCheck.globalWatchlists" />
-      ),
-      value: (
-        <FormattedMessage
-          id={`verificationModal.backgroundCheck.${
-            watchlists ? 'failed' : 'passed'
-          }`}
-        />
-      ),
-      status: watchlists ? 'warning' : 'success'
-    })
+  const backgroundCheck = identity.fullName && {
+    caption: <FormattedMessage id="verificationModal.backgroundCheck" />,
+    fields: [
+      {
+        caption: (
+          <FormattedMessage id="verificationModal.backgroundCheck.globalWatchlists" />
+        ),
+        value: (
+          <FormattedMessage
+            id={`verificationModal.backgroundCheck.${
+              watchlists ? 'failed' : 'passed'
+            }`}
+          />
+        ),
+        status: watchlists ? 'warning' : 'success'
+      }
+    ]
   }
 
-  documents.push(backgroundCheck)
+  backgroundCheck && documents.push(backgroundCheck)
 
   if (identity.documents) {
     identity.documents.forEach(doc => {
@@ -77,7 +81,7 @@ export default function extractIdentityData(identity) {
         origin: (
           <FormattedMessage id={`verificationModal.fields.${doc.type}`} />
         ),
-        queued: ['queued', 'processing'].includes(doc.status),
+        queued: doc.fields.length === 0,
         fields: doc.fields
           .filter(field => field.id !== 'docError')
           .map(field => ({
@@ -107,14 +111,19 @@ export default function extractIdentityData(identity) {
 
       documents.push(document)
 
-      if (doc.verifiedData && doc.verifiedData.length) {
+      // TODO: wait untill better statuses on backend and fix this
+      if (
+        doc.verifiedData &&
+        doc.type === 'national-id' &&
+        get(doc, 'metadata.country') === 'MX'
+      ) {
         const verifiedDocument = {
           caption: <FormattedMessage id="verificationModal.idcheck" />,
           origin: (
             <FormattedMessage id={`verificationModal.fields.${doc.type}`} />
           ),
           via: <FormattedMessage id={'verificationModal.govChecks'} />,
-          queued: ['queued', 'processing'].includes(doc.status),
+          queued: doc.verifiedData.length === 0,
           fields: doc.verifiedData.map(field => ({
             caption: <FormattedMessage id={`identities.fields.${field.id}`} />,
             value: detectError(field.value) ? (
@@ -130,6 +139,8 @@ export default function extractIdentityData(identity) {
       }
     })
   }
+
+  documents.push(livenessCheck)
 
   return { documents, photos }
 }

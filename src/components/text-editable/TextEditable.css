@@ -1,10 +1,12 @@
 :local(.okButton) {
   position: absolute;
   right: 3px;
-  height: 34px;
+  height: 22px;
   top: 0;
   bottom: 0;
   margin: auto;
+  font-size: 12px;
+  padding: 0 10px;
 }
 
 :local(.inputWrapper) {
@@ -21,12 +23,12 @@
 }
 
 :local(.textEditable) {
-  padding-right: 70px;
+  padding-right: 45px;
 }
 
 :local(.editIcon) {
   position: absolute;
   right: 0;
-  height: 15px;
+  height: 12px;
   width: 30px;
 }

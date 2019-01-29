@@ -11,7 +11,7 @@ section.mgi-section-separated {
 
 .mgi-items {
   display: flex;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
   margin-right: calc(-1 * var(--mgi-theme-items-gutter));
   justify-content: start;
 }

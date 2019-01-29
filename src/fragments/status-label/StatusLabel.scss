@@ -3,7 +3,7 @@
   align-items: center;
 
   i {
-    margin-right: .25rem;
+    margin-right: 0.27rem;
     width: 10px;
     height: 10px;
     border-radius: 10px;
@@ -17,11 +17,37 @@
     background-color: var(--mgi-theme-palette-black);
   }
 
+  &.inProgress i {
+    background-color: var(--mgi-theme-palette-black);
+  }
+
   &.unverified i {
     background-color: var(--mgi-theme-palette-red);
   }
 
   &.verified i {
     background-color: var(--mgi-theme-palette-green);
+  }
+}
+
+:local(.coloredText) {
+  &.manual {
+    color: var(--mgi-theme-palette-orange);
+  }
+
+  &.fraudulent {
+    color: var(--mgi-theme-palette-black);
+  }
+
+  &.inProgress {
+    color: var(--mgi-theme-palette-black);
+  }
+
+  &.unverified {
+    color: var(--mgi-theme-palette-red);
+  }
+
+  &.verified {
+    color: var(--mgi-theme-palette-green);
   }
 }

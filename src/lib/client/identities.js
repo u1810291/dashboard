@@ -1,5 +1,17 @@
 import http, { getAuthHeader } from './http'
 
+export function getIdentityListCount(token) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (token) {
+        resolve({ data: 4 })
+      } else {
+        throw new Error('Token is required!')
+      }
+    }, 1000)
+  })
+}
+
 export function getIdentity(token, id) {
   return http.get(`/v1/identities/${id}`, {
     headers: { ...getAuthHeader(token) }
@@ -14,8 +26,22 @@ export function getIdentities(token, params) {
   })
 }
 
+export function getIdentitiesCount(token, params) {
+  return http.get('/v1/identities/count', {
+    params,
+    paramsSerializer: paramsSerializer,
+    headers: { ...getAuthHeader(token) }
+  })
+}
+
 export function patchIdentity(token, id, data) {
   return http.patch(`/v1/identities/${id}`, data, {
+    headers: { ...getAuthHeader(token) }
+  })
+}
+
+export function deleteIdentity(token, id) {
+  return http.delete(`/v1/identities/${id}`, {
     headers: { ...getAuthHeader(token) }
   })
 }

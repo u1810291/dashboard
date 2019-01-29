@@ -1,0 +1,13 @@
+:local(.documentPanel) {
+  display: flex;
+  flex-direction: column;
+}
+
+:local(.documentPanelBody) {
+  flex: 1;
+}
+
+:local(.photos) {
+  width: 250px;
+  flex-shrink: 0;
+}

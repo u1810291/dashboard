@@ -24,13 +24,13 @@ export default class StatusSelect extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className={CSS.container}>
         <span className={CSS.statusText}>
           <FormattedMessage id="statusSelect.status" />
         </span>
         <Dropdown className={CSS.menuItemDropdown} ref="dropdown">
           <div className={classNames(CSS.activeStatusLabel, this.state.status)}>
-            <StatusLabel status={this.state.status}/>
+            <StatusLabel status={this.state.status} coloredText={true}/>
           </div>
           <Dropdown.Trigger>
           <span className={CSS.changeText}>

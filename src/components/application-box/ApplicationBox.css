@@ -22,7 +22,6 @@
   align-items: stretch;
   padding: 0 var(--mgi-application-box-spacing);
   z-index: 2;
-  margin: 0 calc(-1 * var(--mgi-application-box-menu-item-spacing));
 }
 
 :local(.menuItem) {

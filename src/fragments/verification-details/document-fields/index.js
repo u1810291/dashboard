@@ -16,16 +16,16 @@ function DocumentFields({ fields = [], intl, onFieldChange }) {
       {fields.map((field, index) => (
         <React.Fragment key={index}>
           <li>
-            <strong className={classNames(CSS.caption, 'text-secondary')}>
+            <span className={classNames(CSS.caption, 'text-secondary')}>
               {field.caption}
-            </strong>
+            </span>
             <img
               className={CSS.icon}
               src={icons[field.status]}
               alt={field.status}
             />
             {field.editable && (
-              <strong className={CSS.textEditableWrapper}>
+              <span className={CSS.textEditableWrapper}>
                 <TextEditable
                   text={field.value}
                   textClassName={CSS.textEditableText}
@@ -34,9 +34,9 @@ function DocumentFields({ fields = [], intl, onFieldChange }) {
                     onFieldChange(field.docId, { id: field.id, value })
                   }
                 />
-              </strong>
+              </span>
             )}
-            {!field.editable && <strong>{field.value}</strong>}
+            {!field.editable && <span>{field.value}</span>}
           </li>
         </React.Fragment>
       ))}
