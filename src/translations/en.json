@@ -264,6 +264,7 @@
   "identities.fields.weight": "Weight",
   "identities.fields.zipcode": "Zip Code",
   "identities.fields.docError": "Document Error",
+  "identities.fields.gender": "Gender",
   "identities.total": "Total Verifications:",
   "identities.no-data": "No one has been verified yet",
   "identities.filters.labels.search": "Search",
