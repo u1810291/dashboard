@@ -19,6 +19,7 @@ function TableWrapper({ inline, children }) {
 export default function DataTable({
   columns,
   rows,
+  disabledRows,
   className,
   emptyBodyLabel,
   onRowClick,
@@ -53,8 +54,8 @@ export default function DataTable({
             {rows.map((element, index) => (
               <tr
                 key={index}
-                onClick={onRowClick && (() => onRowClick(element))}
-                className={onRowClick && CSS.clickable}
+                onClick={!disabledRows.includes(element) && onRowClick ? (() => onRowClick(element)) : undefined}
+                className={!disabledRows.includes(element) && onRowClick ? CSS.clickable : ''}
               >
                 {columns.map(
                   ({ content, className, align = 'left' }, index) => (

@@ -5,6 +5,7 @@ import {
   computeMonthlyStatisticsForIdentities
 } from './analytics'
 import client from 'src/lib/client'
+import { notification } from 'src/components/notification'
 
 window.client = client
 
@@ -102,12 +103,13 @@ export function deleteIdentity(token, id) {
   return function(dispatch) {
     dispatch({ type: types.IDENTITY_DELETE_REQUEST, payload: { id } })
     return client.identities.deleteIdentity(token, id)
-      .then(payload => {
-        dispatch({ type: types.IDENTITY_DELETE_SUCCESS, payload })
-        return payload
+      .then(() => {
+        dispatch({ type: types.IDENTITY_DELETE_SUCCESS, payload: { id } })
+        return { payload: { id } }
       })
       .catch(error => {
-        dispatch({ type: types.IDENTITY_DELETE_FAILURE })
+        dispatch({ type: types.IDENTITY_DELETE_FAILURE , payload: { id } })
+        notification.error('Something went wrong. Please retry')
         throw error
       })
   }
@@ -134,6 +136,7 @@ export function patchDocument(token, identityId, id, fields) {
 
 const initialState = {
   isLoading: true,
+  deletingIdentities: [],
   identities: [],
   count: 0,
   instances: {},
@@ -209,6 +212,33 @@ const reducer = createReducer(initialState, {
     return {
       ...state,
       instances
+    }
+  },
+  [types.IDENTITY_DELETE_REQUEST]: function(state, { payload }) {
+    let deletingIdentities = [].concat(state.deletingIdentities)
+    deletingIdentities.push(payload.id)
+    return {
+      ...state,
+      deletingIdentities
+    }
+  },
+  [types.IDENTITY_DELETE_SUCCESS]: function(state, { payload }) {
+    let identities = [].concat(state.identities)
+    let deletingIdentities = [].concat(state.deletingIdentities)
+    identities = identities.filter(identity => identity.identity.id !== payload.id)
+    deletingIdentities = deletingIdentities.filter(id => id !== payload.id)
+    return {
+      ...state,
+      identities,
+      deletingIdentities
+    }
+  },
+  [types.IDENTITY_DELETE_FAILURE]: function(state, { payload }) {
+    let deletingIdentities = [].concat(state.deletingIdentities)
+    deletingIdentities = deletingIdentities.filter(id => id !== payload.id)
+    return {
+      ...state,
+      deletingIdentities
     }
   },
   [types.IDENTITY_LIST_COUNT_SUCCESS]: function(state, { payload }) {

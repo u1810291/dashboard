@@ -23,6 +23,7 @@ import { createOverlay, closeOverlay } from 'src/components/overlay'
 import VerificationWebhookModal from 'src/fragments/verifications/verification-webhook-modal'
 import confirm from 'src/components/confirm'
 import DocumentStatusHelp from 'src/fragments/verifications/document-status-help'
+import Spinner from 'src/components/spinner'
 import CSS from './VerificationItem.scss'
 
 const CHECK_INTERVAL = 5000
@@ -31,7 +32,8 @@ export default
 @connect(
   (state, props) => ({
     token: state.auth.token,
-    identity: state.identities.instances[props.match.params.id]
+    identity: state.identities.instances[props.match.params.id],
+    deletingIdentities: state.identities.deletingIdentities
   }),
   { getIdentityWithNestedData, patchIdentity, deleteIdentity, patchDocument }
 )
@@ -77,10 +79,10 @@ class VerificationItem extends React.Component {
     const { id } = this.props.match.params
     confirm(<FormattedMessage id="verificationModal.delete.confirm" />).then(
       () => {
-        this.props
-          .deleteIdentity(this.props.token, id)
-          .then(this.props.history.push('/verifications'))
-      }
+        this.props.deleteIdentity(this.props.token, id)
+          .then(() => this.props.history.push('/verifications'))
+      },
+      () => {}
     )
   }
 
@@ -100,7 +102,8 @@ class VerificationItem extends React.Component {
 
   render() {
     if (!this.props.identity) return null
-    const { identity, token } = this.props
+    const { identity, token, deletingIdentities } = this.props
+    const isDeleting = deletingIdentities.includes(identity.id)
     return (
       <Content>
         <h1>
@@ -138,8 +141,8 @@ class VerificationItem extends React.Component {
             {/*<FormattedMessage id="verificationModal.downloadData" />*/}
             {/*</Button>*/}
             <section className="mgi-section mgi-section__huge">
-              <Button onClick={this.deleteIdentity}>
-                <DeleteIcon />
+              <Button onClick={this.deleteIdentity} disabled={isDeleting}>
+                {isDeleting ? <Spinner /> : <DeleteIcon />}
                 <FormattedMessage id="verificationModal.delete" />
               </Button>
             </section>

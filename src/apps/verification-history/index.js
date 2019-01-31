@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { isEmpty, pickBy, mapValues, get } from 'lodash'
+import { isEmpty, pickBy, mapValues, get, compact } from 'lodash'
 import fp from 'lodash/fp'
-import { getIdentities, getIdentitiesCount } from 'src/state/identities'
-import { FormattedMessage } from 'react-intl'
+import { getIdentities, getIdentitiesCount, deleteIdentity } from 'src/state/identities'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import moment from 'moment'
 import { Content } from 'src/components/application-box'
 import DataTable from 'src/components/data-table'
@@ -12,6 +12,11 @@ import Status from 'src/fragments/status-label'
 import FiltersForm from './filters-form'
 import Pagination from 'src/components/pagination'
 import Panel from 'src/components/panel'
+import { DebounceInput } from 'src/components/inputs'
+import Spinner from 'src/components/spinner'
+import confirm from 'src/components/confirm'
+import DeleteIcon from './verification-item/delete-icon.svg'
+import CSS from './VerificationHistory.scss'
 
 const FILTERS = [
   'search',
@@ -60,12 +65,14 @@ export default
 @connect(
   state => ({
     isLoading: state.identities.isLoading,
+    deletingIdentities: state.identities.deletingIdentities,
     identities: state.identities.identities,
     count: state.identities.count,
     token: state.auth.token
   }),
-  { getIdentities, getIdentitiesCount }
+  { getIdentities, getIdentitiesCount, deleteIdentity }
 )
+@injectIntl
 class VerificationHistory extends React.Component {
   constructor(props) {
     super(props)
@@ -115,6 +122,7 @@ class VerificationHistory extends React.Component {
   }
 
   onFilterChange = params => {
+    params.status = compact(params.status)
     const formattedParams = mapValues(params, (value, key) =>
       formatValue(key, value)
     )
@@ -145,6 +153,14 @@ class VerificationHistory extends React.Component {
     )
   }
 
+  deleteIdentity = (e, identity) => {
+    e.stopPropagation()
+    confirm(<FormattedMessage id="verificationModal.delete.confirm" />).then(
+      () => this.props.deleteIdentity(this.props.token, identity.identity.id),
+      () => {}
+    )
+  }
+
   openVerification = ({ identity }) => {
     this.props.history.push(`/verifications/${identity.id}`)
   }
@@ -169,6 +185,20 @@ class VerificationHistory extends React.Component {
         size: 1,
         label: <FormattedMessage id="identities.fields.date" />,
         content: identity => new Date(identity.dateUpdated).toLocaleDateString()
+      },
+      {
+        size: 1,
+        label: '',
+        align: 'right',
+        content: identity => {
+          let isDeleting = this.props.deletingIdentities.includes(identity.identity.id)
+          return (
+            <div className={CSS.deleteIdentity}
+              onClick={(e) => !isDeleting && this.deleteIdentity(e, identity)}>
+              {isDeleting ? <Spinner/> : <DeleteIcon/>}
+            </div>
+          )
+        }
       }
     ]
   }
@@ -189,36 +219,64 @@ class VerificationHistory extends React.Component {
       transformValue(key, value)
     )
 
-    // const pageCount = Math.ceil(this.props.identitiesCount / this.LIMIT)
-    const forcePage = Math.floor(this.state.params.offset / ITEMS_PER_PAGE) || 0
+    const disabledRows = this.props.identities.filter((identity) => {
+      return this.props.deletingIdentities.includes(identity.identity.id)
+    })
 
+    const forcePage = Math.floor(this.state.params.offset / ITEMS_PER_PAGE) || 0
     return (
       <Content>
-        <h1>
-          <FormattedMessage id="identities.title" />
-        </h1>
-        <FiltersForm
-          onChange={this.onFilterChange}
-          onClear={this.clearSelectedFilters}
-          {...transformedParams}
-        />
-        <DataTable
-          rows={this.props.identities}
-          columns={this.getTableColumns()}
-          emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
-          onRowClick={this.openVerification}
-        />
-        {this.props.count > ITEMS_PER_PAGE && (
-          <Panel>
-            <Pagination
-              pageCount={this.props.count}
-              pageRangeDisplayed={3}
-              marginPagesDisplayed={2}
-              forcePage={forcePage}
-              onPageChange={this.onPageChange}
+        <div>
+          <DebounceInput
+            name="search"
+            placeholder={this.props.intl.formatMessage({
+              id: 'identities.filters.placeholder.search'
+            })}
+            maxLength={30}
+            value={transformedParams.search}
+            className={CSS.searchField}
+            hideLabel={true}
+            onChange={e => {
+              this.onFilterChange({ search: e.target.value })
+            }}
+          />
+        </div>
+        <div className="mgi-items">
+          <section className="mgi-items--grow">
+
+            <DataTable
+              rows={this.props.identities}
+              columns={this.getTableColumns()}
+              disabledRows={disabledRows}
+              emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
+              onRowClick={this.openVerification}
             />
-          </Panel>
-        )}
+            {this.props.count > ITEMS_PER_PAGE && (
+              <Panel>
+                <Pagination
+                  pageCount={this.props.count}
+                  pageRangeDisplayed={3}
+                  marginPagesDisplayed={2}
+                  forcePage={forcePage}
+                  onPageChange={this.onPageChange}
+                />
+              </Panel>
+            )}
+
+          </section>
+          <section className={CSS.rightPanel}>
+            <Panel className={CSS.filtersPanel}>
+              <Panel.Body>
+                <FiltersForm
+                  onChange={this.onFilterChange}
+                  onClear={this.clearSelectedFilters}
+                  {...transformedParams}
+                />
+              </Panel.Body>
+            </Panel>
+          </section>
+        </div>
+
       </Content>
     )
   }

@@ -268,7 +268,8 @@
   "identities.no-data": "No one has been verified yet",
   "identities.filters.labels.search": "Search",
   "identities.filters.labels.type-filter": "VERIFICATION ITEMS:",
-  "identities.filters.labels.status-filter": "STATUS:",
+  "identities.filters.labels.status-filter": "Status",
+  "identities.filters.labels.date-filter": "Date",
   "identities.filters.placeholder.search": "Find a person...",
 
   "verification.type.national": "National ID",
