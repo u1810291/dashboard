@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Panel from 'src/components/panel'
-import StatusLabel from '../../status-label'
+import StatusLabel from 'src/fragments/verifications/status-label'
 
 export default function DocumentStatusHelp() {
   return (

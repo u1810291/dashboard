@@ -6,7 +6,7 @@ import { authorizedUrl } from 'src/lib/client/http'
 import { Content } from 'src/components/application-box'
 import VerificationDetails, {
   extractIdentityData
-} from 'src/fragments/verification-details'
+} from 'src/fragments/verifications/verification-details'
 import stringify from 'src/lib/stringify'
 import WebbhooksIcon from './webhooks-icon.svg'
 //import DownloadIcon from './download-icon.svg'
@@ -79,7 +79,8 @@ class VerificationItem extends React.Component {
     const { id } = this.props.match.params
     confirm(<FormattedMessage id="verificationModal.delete.confirm" />).then(
       () => {
-        this.props.deleteIdentity(this.props.token, id)
+        this.props
+          .deleteIdentity(this.props.token, id)
           .then(() => this.props.history.push('/verifications'))
       },
       () => {}

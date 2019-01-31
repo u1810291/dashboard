@@ -3,8 +3,8 @@ import { injectIntl } from 'react-intl'
 import DocumentFields from './document-fields'
 import DocumentPhotos from './document-photos'
 import CSS from './verificationDetails.scss'
-import VerificationFullNameLabel from 'src/fragments/verification-full-name-label'
-import StatusSelect from 'src/fragments/status-select'
+import VerificationFullNameLabel from 'src/fragments/verifications/verification-full-name-label'
+import StatusSelect from 'src/fragments/verifications/status-select'
 import ContentPreloader from 'src/components/content-preloader'
 
 function caption(document, intl) {

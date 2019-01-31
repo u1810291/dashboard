@@ -2,13 +2,17 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { isEmpty, pickBy, mapValues, get, compact } from 'lodash'
 import fp from 'lodash/fp'
-import { getIdentities, getIdentitiesCount, deleteIdentity } from 'src/state/identities'
+import {
+  getIdentities,
+  getIdentitiesCount,
+  deleteIdentity
+} from 'src/state/identities'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import moment from 'moment'
 import { Content } from 'src/components/application-box'
 import DataTable from 'src/components/data-table'
-import VerificationFullNameLabel from 'src/fragments/verification-full-name-label'
-import Status from 'src/fragments/status-label'
+import VerificationFullNameLabel from 'src/fragments/verifications/verification-full-name-label'
+import Status from 'src/fragments/verifications/status-label'
 import FiltersForm from './filters-form'
 import Pagination from 'src/components/pagination'
 import Panel from 'src/components/panel'
@@ -191,11 +195,15 @@ class VerificationHistory extends React.Component {
         label: '',
         align: 'right',
         content: identity => {
-          let isDeleting = this.props.deletingIdentities.includes(identity.identity.id)
+          let isDeleting = this.props.deletingIdentities.includes(
+            identity.identity.id
+          )
           return (
-            <div className={CSS.deleteIdentity}
-              onClick={(e) => !isDeleting && this.deleteIdentity(e, identity)}>
-              {isDeleting ? <Spinner/> : <DeleteIcon/>}
+            <div
+              className={CSS.deleteIdentity}
+              onClick={e => !isDeleting && this.deleteIdentity(e, identity)}
+            >
+              {isDeleting ? <Spinner /> : <DeleteIcon />}
             </div>
           )
         }
@@ -219,7 +227,7 @@ class VerificationHistory extends React.Component {
       transformValue(key, value)
     )
 
-    const disabledRows = this.props.identities.filter((identity) => {
+    const disabledRows = this.props.identities.filter(identity => {
       return this.props.deletingIdentities.includes(identity.identity.id)
     })
 
@@ -243,7 +251,6 @@ class VerificationHistory extends React.Component {
         </div>
         <div className="mgi-items">
           <section className="mgi-items--grow">
-
             <DataTable
               rows={this.props.identities}
               columns={this.getTableColumns()}
@@ -262,7 +269,6 @@ class VerificationHistory extends React.Component {
                 />
               </Panel>
             )}
-
           </section>
           <section className={CSS.rightPanel}>
             <Panel className={CSS.filtersPanel}>
@@ -276,7 +282,6 @@ class VerificationHistory extends React.Component {
             </Panel>
           </section>
         </div>
-
       </Content>
     )
   }

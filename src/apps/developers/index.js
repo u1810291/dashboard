@@ -10,8 +10,8 @@ import {
 import { getMerchantApps } from 'src/state/merchant'
 import { Content } from 'src/components/application-box'
 import Webhooks from 'src/fragments/account/webhooks'
-import WebhookExamples from 'src/fragments/webhook-examples'
-import ManageApplicationsForm from 'src/fragments/manage-applications-form'
+import WebhookExamples from 'src/fragments/account/webhook-examples'
+import ManageApplicationsForm from 'src/fragments/account/manage-applications-form'
 import Panel from 'src/components/panel'
 import CSS from './style.scss'
 

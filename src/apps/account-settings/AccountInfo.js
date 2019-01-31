@@ -1,19 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import AccountForm from 'src/fragments/account-form'
+import AccountForm from 'src/fragments/signup/account-form'
 
 export default
 @connect(
   () => ({
     initialValues: null
   }),
-  null,
+  null
 )
 class AccountInfo extends React.Component {
-
-  onSubmit = (data) => {
-
-  }
+  onSubmit = data => {}
 
   render() {
     return (
