@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
 import StatusLabel from 'src/fragments/verifications/status-label'
 import Dropdown from 'src/components/dropdown'
+import Spinner from 'src/components/spinner'
 import CSS from './StatusSelect.scss'
 
 export default class StatusSelect extends React.Component {
@@ -23,6 +24,7 @@ export default class StatusSelect extends React.Component {
   }
 
   render() {
+    const activeStatus = this.props.error ? this.props.status : this.state.status
     return (
       <div className={CSS.container}>
         <span className={CSS.statusText}>
@@ -30,7 +32,7 @@ export default class StatusSelect extends React.Component {
         </span>
         <Dropdown className={CSS.menuItemDropdown} ref="dropdown">
           <div className={classNames(CSS.activeStatusLabel, this.state.status)}>
-            <StatusLabel status={this.state.status} coloredText={true} />
+            <StatusLabel status={activeStatus} coloredText={true} />
           </div>
           <Dropdown.Trigger>
             <span className={CSS.changeText}>
@@ -66,6 +68,7 @@ export default class StatusSelect extends React.Component {
             </ul>
           </Dropdown.Content>
         </Dropdown>
+        {this.props.isLoading && <Spinner className={CSS.spinner}/>}
       </div>
     )
   }

@@ -3,6 +3,8 @@
   background-color: var(--mgi-theme-palette-default);
   border-radius: 100%;
   animation: sk-scaleout 1s infinite ease-in-out;
+  animation-delay: -0.5s;
+  display: inline-block;
 
   &.spinner-small {
     width: 15px;

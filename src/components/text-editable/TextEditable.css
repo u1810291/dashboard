@@ -26,9 +26,17 @@
   padding-right: 45px;
 }
 
-:local(.editIcon) {
+:local(.editIcon),
+:local(.spinner) {
   position: absolute;
-  right: 0;
   height: 12px;
   width: 30px;
+}
+
+:local(.editIcon) {
+  right: 0;
+}
+
+:local(.spinner) {
+  right: 9px;
 }

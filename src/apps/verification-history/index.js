@@ -69,6 +69,7 @@ export default
 @connect(
   state => ({
     isLoading: state.identities.isLoading,
+    countIsLoading: state.identities.countIsLoading,
     deletingIdentities: state.identities.deletingIdentities,
     identities: state.identities.identities,
     count: state.identities.count,
@@ -183,10 +184,10 @@ class VerificationHistory extends React.Component {
       {
         size: 3,
         label: <FormattedMessage id="identities.fields.status" />,
-        content: identity => <Status status={identity.identity.status} />
+        content: identity => <Status status={identity.identity.status} coloredText={true} />
       },
       {
-        size: 1,
+        size: 1.5,
         label: <FormattedMessage id="identities.fields.date" />,
         content: identity => new Date(identity.dateUpdated).toLocaleDateString()
       },
@@ -231,6 +232,8 @@ class VerificationHistory extends React.Component {
       return this.props.deletingIdentities.includes(identity.identity.id)
     })
 
+    const pageCount = Math.ceil(this.props.count / ITEMS_PER_PAGE)
+
     const forcePage = Math.floor(this.state.params.offset / ITEMS_PER_PAGE) || 0
     return (
       <Content>
@@ -257,11 +260,12 @@ class VerificationHistory extends React.Component {
               disabledRows={disabledRows}
               emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
               onRowClick={this.openVerification}
+              isLoading={this.props.isLoading}
             />
-            {this.props.count > ITEMS_PER_PAGE && (
+            {this.props.count > ITEMS_PER_PAGE && !this.props.countIsLoading && (
               <Panel>
                 <Pagination
-                  pageCount={this.props.count}
+                  pageCount={pageCount}
                   pageRangeDisplayed={3}
                   marginPagesDisplayed={2}
                   forcePage={forcePage}

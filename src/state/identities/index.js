@@ -46,6 +46,7 @@ export function getIdentities(token, params) {
       })
       .catch(error => {
         dispatch({ type: types.IDENTITY_LIST_FAILURE })
+        notification.error('Something went wrong. Please retry')
         throw error
       })
   }
@@ -62,6 +63,7 @@ export function getIdentitiesCount(token, params) {
       })
       .catch(error => {
         dispatch({ type: types.IDENTITY_COUNT_FAILURE })
+        notification.error('Something went wrong. Please retry')
         throw error
       })
   }
@@ -94,6 +96,7 @@ export function patchIdentity(token, id, data) {
       })
       .catch(error => {
         dispatch({ type: types.IDENTITY_PATCH_FAILURE })
+        notification.error('Something went wrong. Please retry')
         throw error
       })
   }
@@ -121,14 +124,14 @@ export function patchDocument(token, identityId, id, fields) {
       type: types.DOCUMENT_PATCH_REQUEST,
       payload: { identityId, id, fields }
     })
-    return client.identities
-      .patchDocument(token, id, fields)
+    return client.identities.patchDocument(token, id, fields)
       .then(payload => {
-        dispatch({ type: types.DOCUMENT_PATCH_SUCCESS, payload })
+        dispatch({ type: types.DOCUMENT_PATCH_SUCCESS, payload: { identityId, id, fields } })
         return payload
       })
       .catch(error => {
-        dispatch({ type: types.DOCUMENT_PATCH_FAILURE })
+        dispatch({ type: types.DOCUMENT_PATCH_FAILURE , payload: { identityId, id, fields } })
+        notification.error('Something went wrong. Please retry')
         throw error
       })
   }
@@ -136,6 +139,11 @@ export function patchDocument(token, identityId, id, fields) {
 
 const initialState = {
   isLoading: true,
+  countIsLoading: true,
+  patchIsLoading: false,
+  patchError: false,
+  patchingFields: [],
+  erroredFields: [],
   deletingIdentities: [],
   identities: [],
   count: 0,
@@ -173,14 +181,39 @@ const reducer = createReducer(initialState, {
       monthlyIdentities
     }
   },
+  [types.IDENTITY_LIST_FAILURE]: function(state) {
+    return {
+      ...state,
+      isLoading: false
+    }
+  },
+  [types.IDENTITY_COUNT_REQUEST]: function(state, { payload }) {
+    return {
+      ...state,
+      countIsLoading: true
+    }
+  },
   [types.IDENTITY_COUNT_SUCCESS]: function(state, { payload }) {
     return {
       ...state,
-      isLoading: false,
+      countIsLoading: false,
       count: payload.data.count
     }
   },
-  [types.IDENTITY_PATCH_REQUEST]: function(state, { payload }) {
+  [types.IDENTITY_COUNT_FAILURE]: function(state, { payload }) {
+    return {
+      ...state,
+      countIsLoading: false
+    }
+  },
+  [types.IDENTITY_PATCH_REQUEST]: function(state) {
+    return {
+      ...state,
+      patchError: false,
+      patchIsLoading: true
+    }
+  },
+  [types.IDENTITY_PATCH_SUCCESS]: function(state, { payload }) {
     let identities = [].concat(state.identities)
     let instances = { ...state.instances }
     if (instances[payload.id]) {
@@ -192,11 +225,37 @@ const reducer = createReducer(initialState, {
     }
     return {
       ...state,
-      identities
+      identities,
+      patchIsLoading: false
+    }
+  },
+  [types.IDENTITY_PATCH_FAILURE]: function(state) {
+    return {
+      ...state,
+      patchIsLoading: false,
+      patchError: true
     }
   },
   [types.DOCUMENT_PATCH_REQUEST]: function(state, { payload }) {
     let instances = { ...state.instances }
+    let patchingFields = [].concat(state.patchingFields)
+    let erroredFields = [].concat(state.erroredFields)
+    let documentToEdit = instances[payload.identityId].documents.find(doc => {
+      return doc.id === payload.id
+    })
+    patchingFields.push({ docId: documentToEdit.id, id: payload.fields[0].id })
+    erroredFields = erroredFields.filter((erroredField) => {
+      return !(erroredField.docId === payload.id && erroredField.id === payload.fields[0].id)
+    })
+    return {
+      ...state,
+      patchingFields,
+      erroredFields
+    }
+  },
+  [types.DOCUMENT_PATCH_SUCCESS]: function(state, { payload }) {
+    let instances = { ...state.instances }
+    let patchingFields = [].concat(state.patchingFields)
     if (!instances[payload.identityId]) return state
     let documentToEdit = instances[payload.identityId].documents.find(doc => {
       return doc.id === payload.id
@@ -209,9 +268,31 @@ const reducer = createReducer(initialState, {
         }
       })
     })
+    patchingFields = patchingFields.filter((patchingField) => {
+      return !(patchingField.docId === payload.id && patchingField.id === payload.fields[0].id)
+    })
     return {
       ...state,
-      instances
+      instances,
+      patchingFields
+    }
+  },
+  [types.DOCUMENT_PATCH_FAILURE]: function(state, { payload }) {
+    let instances = { ...state.instances }
+    let erroredFields = [].concat(state.erroredFields)
+    let patchingFields = [].concat(state.patchingFields)
+    if (!instances[payload.identityId]) return state
+    let documentToEdit = instances[payload.identityId].documents.find(doc => {
+      return doc.id === payload.id
+    })
+    patchingFields = patchingFields.filter((patchingField) => {
+      return !(patchingField.docId === payload.id && patchingField.id === payload.fields[0].id)
+    })
+    erroredFields.push({ docId: documentToEdit.id, id: payload.fields[0].id })
+    return {
+      ...state,
+      patchingFields,
+      erroredFields
     }
   },
   [types.IDENTITY_DELETE_REQUEST]: function(state, { payload }) {

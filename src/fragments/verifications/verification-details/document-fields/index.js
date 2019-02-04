@@ -10,7 +10,7 @@ const icons = {
   warning: require('./warning.svg')
 }
 
-function DocumentFields({ fields = [], intl, onFieldChange }) {
+function DocumentFields({ fields = [], intl, patchingFields, erroredFields, onFieldChange }) {
   return (
     <ul className={CSS.fields}>
       {fields.map((field, index) => (
@@ -30,6 +30,10 @@ function DocumentFields({ fields = [], intl, onFieldChange }) {
                   text={field.value}
                   textClassName={CSS.textEditableText}
                   inputClassName={CSS.textEditableInput}
+                  isLoading={patchingFields.find((patchingField) => patchingField.id === field.id &&
+                    patchingField.docId === field.docId)}
+                  error={erroredFields.find((erroredField) => erroredField.id === field.id &&
+                    erroredField.docId === field.docId)}
                   onSubmit={value =>
                     onFieldChange(field.docId, { id: field.id, value })
                   }

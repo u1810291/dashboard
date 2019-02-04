@@ -38,6 +38,10 @@ function VerificationDetails({
   onFieldChange,
   fullName,
   status,
+  patchIsLoading,
+  patchError,
+  patchingFields,
+  erroredFields,
   onStatusChange
 }) {
   return (
@@ -51,7 +55,12 @@ function VerificationDetails({
         <section className="mgi-section">
           <h1>
             <VerificationFullNameLabel>{fullName}</VerificationFullNameLabel>
-            <StatusSelect status={status} onSelect={onStatusChange} />
+            <StatusSelect
+              status={status}
+              onSelect={onStatusChange}
+              isLoading={patchIsLoading}
+              error={patchError}
+            />
           </h1>
         </section>
         {documents.map((doc, index) => (
@@ -63,6 +72,8 @@ function VerificationDetails({
               <DocumentFields
                 fields={doc.fields}
                 onFieldChange={onFieldChange}
+                patchingFields={patchingFields}
+                erroredFields={erroredFields}
               />
             )}
           </section>

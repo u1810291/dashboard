@@ -33,7 +33,11 @@ export default
   (state, props) => ({
     token: state.auth.token,
     identity: state.identities.instances[props.match.params.id],
-    deletingIdentities: state.identities.deletingIdentities
+    deletingIdentities: state.identities.deletingIdentities,
+    patchIsLoading: state.identities.patchIsLoading,
+    patchError: state.identities.patchError,
+    patchingFields: state.identities.patchingFields,
+    erroredFields: state.identities.erroredFields
   }),
   { getIdentityWithNestedData, patchIdentity, deleteIdentity, patchDocument }
 )
@@ -125,6 +129,10 @@ class VerificationItem extends React.Component {
                   onFieldChange={this.onFieldChange}
                   status={identity.status}
                   onStatusChange={this.onStatusChange}
+                  patchIsLoading={this.props.patchIsLoading}
+                  patchError={this.props.patchError}
+                  patchingFields={this.props.patchingFields}
+                  erroredFields={this.props.erroredFields}
                 />
               </Panel.Body>
             </Panel>

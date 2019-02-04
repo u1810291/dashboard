@@ -7,6 +7,7 @@ import TextField from 'src/components/text-field'
 import CSS from './TextEditable.css'
 import TextFieldCSS from 'src/components/text-field/TextField.css'
 import EditIcon from './icon-edit.svg'
+import Spinner from 'src/components/spinner'
 
 export default class TextEditable extends React.Component {
   constructor(props) {
@@ -68,6 +69,7 @@ export default class TextEditable extends React.Component {
       className,
       inputClassName,
       textClassName,
+      isLoading,
       ...inputOptions
     } = this.props
 
@@ -112,8 +114,8 @@ export default class TextEditable extends React.Component {
           )}
           onClick={this.onFocus}
         >
-          <span>{this.state.savedText || '—'}</span>
-          <EditIcon className={CSS.editIcon} />
+          <span>{(this.props.error ? this.props.text : this.state.savedText) || '—'}</span>
+          {isLoading ? <Spinner className={CSS.spinner} /> : <EditIcon className={CSS.editIcon} />}
         </div>
       </div>
     )
