@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 import { injectIntl, FormattedMessage } from 'react-intl'
-import { DebounceInput } from 'src/components/inputs'
 import Button from 'src/components/button'
 import CheckboxGroup from 'src/components/checkbox-group'
-import Dropdown from 'src/components/dropdown'
 import 'react-dates/initialize'
 import { DateRangePicker } from 'react-dates'
 import moment from 'moment'
 import { isEmpty } from 'lodash'
+import FilterIcon from './filter.svg'
 
 import 'react-dates/lib/css/_datepicker.css'
-import FiltersIcon from 'src/assets/icon-filters.svg'
 import IconClose from 'src/assets/icon-close.svg'
 import CSS from './filters-form.scss'
 
@@ -64,61 +62,46 @@ class VerificationsFiltersForm extends Component {
   render() {
     return (
       <div className={CSS.form}>
-        <DebounceInput
-          name="search"
-          placeholder={this.props.intl.formatMessage({
-            id: 'identities.filters.placeholder.search'
-          })}
-          maxLength={30}
-          value={this.props.search}
-          className={CSS.searchField}
-          hideLabel={true}
-          onChange={e => {
-            this.props.onChange({ search: e.target.value })
-          }}
-        />
-        <Dropdown className={CSS.filtersControl}>
-          <Dropdown.Trigger>
-            <Button>
-              <FiltersIcon />
-              <FormattedMessage id="filters" />
-            </Button>
-          </Dropdown.Trigger>
-
-          <Dropdown.Content>
-            <CheckboxGroup
-              label={this.props.intl.formatMessage({
-                id: 'identities.filters.labels.status-filter'
-              })}
-              name="status"
-              values={this.props.status}
-              items={this.VERIFICATION_STATUS_OPTIONS}
-              onChange={status => {
-                this.props.onChange({ status })
+        <h3 className={CSS.title}>
+          <FilterIcon />
+          <FormattedMessage id="filters" />
+        </h3>
+        <div className={CSS.datePicker}>
+            <label>
+              <strong>
+                <FormattedMessage id="identities.filters.labels.date-filter"/>
+              </strong>
+            </label>
+            <DateRangePicker
+              startDate={this.props['dateUpdated[start]']}
+              startDateId="startDate"
+              isOutsideRange={day => moment().diff(day) < 1000}
+              endDate={this.props['dateUpdated[end]']}
+              endDateId="endDate"
+              onDatesChange={this.onDatesChange}
+              focusedInput={this.state.focusedInput}
+              hideKeyboardShortcutsPanel={true}
+              onFocusChange={focusedInput => {
+                this.setState({ focusedInput })
               }}
             />
-            <div className={CSS.datePicker}>
-              <DateRangePicker
-                startDate={this.props['dateUpdated[start]']}
-                startDateId="startDate"
-                isOutsideRange={day => moment().diff(day) < 1000}
-                endDate={this.props['dateUpdated[end]']}
-                endDateId="endDate"
-                onDatesChange={this.onDatesChange}
-                focusedInput={this.state.focusedInput}
-                hideKeyboardShortcutsPanel={true}
-                onFocusChange={focusedInput => {
-                  this.setState({ focusedInput })
-                }}
-              />
-            </div>
+        </div>
+        <CheckboxGroup
+          label={this.props.intl.formatMessage({
+            id: 'identities.filters.labels.status-filter'
+          })}
+          name="status"
+          values={this.props.status}
+          items={this.VERIFICATION_STATUS_OPTIONS}
+          onChange={status => {
+            this.props.onChange({ status })
+          }}
+        />
 
-            <Button className="no-borders" onClick={this.props.onClear}>
-              <IconClose />
-              <FormattedMessage id="clear-all" />
-            </Button>
-          </Dropdown.Content>
-        </Dropdown>
+        <Button className="no-borders" onClick={this.props.onClear}>
+          <IconClose />
+          <FormattedMessage id="clear-all" />
+        </Button>
       </div>
     )
   }

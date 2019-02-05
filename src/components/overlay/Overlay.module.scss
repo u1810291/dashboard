@@ -10,6 +10,12 @@
   align-items: center;
   justify-content: center;
   padding: var(--mgi-spacing);
+  transition: all 0.2s ease-in-out;
+  opacity: 0;
+}
+
+.overlayVisible {
+  opacity: 1;
 }
 
 .overlayInline {
@@ -35,4 +41,11 @@
 .overlayContent {
   max-height: 100%;
   overflow-y: auto;
+  opacity: 0;
+  transform: translateY(-50px);
+  transition: all 0.2s ease-in-out;
+}
+.overlayContentVisible {
+  opacity: 1;
+  transform: translateY(0);
 }

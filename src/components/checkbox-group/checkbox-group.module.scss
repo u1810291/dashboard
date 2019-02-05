@@ -8,13 +8,12 @@
 
 :local(.checkboxGroupLabel) {
   margin-bottom: 0.875rem;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 15px;
   font-weight: 600;
   letter-spacing: 0.5px;
   padding: 0;
   color: var(--mgi-theme-palette-default);
-  text-transform: uppercase;
 }
 
 :local(.checkboxGroupItem) {

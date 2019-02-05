@@ -27,12 +27,24 @@ module.exports = {
     {
       name: 'Fragments',
       description: 'Application UI fragments in isolation',
-      components: 'src/fragments/!(configuration)/**/index.js',
+      // components: 'src/fragments/!(configuration)/**/index.js',
       sections: [
         {
           name: 'Configuration',
           description: 'Configuration page fragments',
           components: 'src/fragments/configuration/**/index.js'
+        },
+        {
+          name: 'Verifications',
+          components: 'src/fragments/verifications/**/index.js'
+        },
+        {
+          name: 'Account settings',
+          components: 'src/fragments/account/**/index.js'
+        },
+        {
+          name: 'Signup and signin',
+          components: 'src/fragments/signup/**/index.js'
         }
       ]
     }

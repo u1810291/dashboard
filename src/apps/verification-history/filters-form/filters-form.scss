@@ -1,17 +1,27 @@
-:local(.form) {
-  display: flex;
-}
-
-:local(.searchField) {
-  margin-bottom: 0;
+:local(.title) {
+  margin-bottom: var(--mgi-spacing) !important;
+  svg {
+    margin-right: 5px;
+  }
 }
 
 :local(.filtersControl) {
-  margin-left: var(--mgi-spacing)
+  margin-left: var(--mgi-spacing);
 }
 
 :local(.datePicker) {
+  margin-bottom: var(--mgi-spacing);
   .CalendarMonth_caption {
     padding-bottom: 50px;
+  }
+  label {
+    display: block;
+    margin-bottom: var(--mgi-spacing-l);
+  }
+  .DateInput {
+    width: 115px;
+  }
+  .DateInput_input {
+    font-size: 16px;
   }
 }

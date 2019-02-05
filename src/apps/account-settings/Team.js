@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import TeamTable from 'src/fragments/team-table'
-
+import TeamTable from 'src/fragments/account/team-table'
 
 export default
 @connect(
@@ -9,25 +8,16 @@ export default
     rows: [],
     teamName: ''
   }),
-  null,
+  null
 )
 class Team extends React.Component {
+  onInviteSubmit = data => {}
 
-  onInviteSubmit = (data) => {
+  onTeamNameChange = teamName => {}
 
-  }
+  onDeleteSubmit = userName => {}
 
-  onTeamNameChange = (teamName) => {
-
-  }
-
-  onDeleteSubmit = (userName) => {
-
-  }
-
-  onRoleChange = (userName, role) => {
-
-  }
+  onRoleChange = (userName, role) => {}
 
   render() {
     return (

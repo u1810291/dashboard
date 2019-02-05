@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import Panel from 'src/components/panel'
 import EmptyTableIcon from './empty-table.svg'
+import Spinner from 'src/components/spinner'
 import CSS from './DataTable.scss'
 
 function TableWrapper({ inline, children }) {
@@ -19,9 +20,11 @@ function TableWrapper({ inline, children }) {
 export default function DataTable({
   columns,
   rows,
+  disabledRows = [],
   className,
   emptyBodyLabel,
   onRowClick,
+  isLoading,
   inline = false
 }) {
   const sizeFraction =
@@ -50,11 +53,19 @@ export default function DataTable({
             </tr>
           </thead>
           <tbody>
-            {rows.map((element, index) => (
+            {!isLoading && rows.map((element, index) => (
               <tr
                 key={index}
-                onClick={onRowClick && (() => onRowClick(element))}
-                className={onRowClick && CSS.clickable}
+                onClick={
+                  !disabledRows.includes(element) && onRowClick
+                    ? () => onRowClick(element)
+                    : undefined
+                }
+                className={
+                  !disabledRows.includes(element) && onRowClick
+                    ? CSS.clickable
+                    : ''
+                }
               >
                 {columns.map(
                   ({ content, className, align = 'left' }, index) => (
@@ -71,7 +82,7 @@ export default function DataTable({
                 )}
               </tr>
             ))}
-            {emptyBodyLabel && !rows.length ? (
+            {emptyBodyLabel && !rows.length && !isLoading ? (
               <tr>
                 <td colSpan={columns.length}>
                   <div className={CSS.tableEmptyBody}>
@@ -83,6 +94,9 @@ export default function DataTable({
             ) : null}
           </tbody>
         </table>
+        {isLoading && <div className={CSS.preloader}>
+          <Spinner size="large" />
+        </div>}
       </div>
     </TableWrapper>
   )

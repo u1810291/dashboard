@@ -6,7 +6,7 @@ import { authorizedUrl } from 'src/lib/client/http'
 import { Content } from 'src/components/application-box'
 import VerificationDetails, {
   extractIdentityData
-} from 'src/fragments/verification-details'
+} from 'src/fragments/verifications/verification-details'
 import stringify from 'src/lib/stringify'
 import WebbhooksIcon from './webhooks-icon.svg'
 //import DownloadIcon from './download-icon.svg'
@@ -23,6 +23,7 @@ import { createOverlay, closeOverlay } from 'src/components/overlay'
 import VerificationWebhookModal from 'src/fragments/verifications/verification-webhook-modal'
 import confirm from 'src/components/confirm'
 import DocumentStatusHelp from 'src/fragments/verifications/document-status-help'
+import Spinner from 'src/components/spinner'
 import CSS from './VerificationItem.scss'
 
 const CHECK_INTERVAL = 5000
@@ -31,7 +32,12 @@ export default
 @connect(
   (state, props) => ({
     token: state.auth.token,
-    identity: state.identities.instances[props.match.params.id]
+    identity: state.identities.instances[props.match.params.id],
+    deletingIdentities: state.identities.deletingIdentities,
+    patchIsLoading: state.identities.patchIsLoading,
+    patchError: state.identities.patchError,
+    patchingFields: state.identities.patchingFields,
+    erroredFields: state.identities.erroredFields
   }),
   { getIdentityWithNestedData, patchIdentity, deleteIdentity, patchDocument }
 )
@@ -79,8 +85,9 @@ class VerificationItem extends React.Component {
       () => {
         this.props
           .deleteIdentity(this.props.token, id)
-          .then(this.props.history.push('/verifications'))
-      }
+          .then(() => this.props.history.push('/verifications'))
+      },
+      () => {}
     )
   }
 
@@ -100,7 +107,8 @@ class VerificationItem extends React.Component {
 
   render() {
     if (!this.props.identity) return null
-    const { identity, token } = this.props
+    const { identity, token, deletingIdentities } = this.props
+    const isDeleting = deletingIdentities.includes(identity.id)
     return (
       <Content>
         <h1>
@@ -121,6 +129,10 @@ class VerificationItem extends React.Component {
                   onFieldChange={this.onFieldChange}
                   status={identity.status}
                   onStatusChange={this.onStatusChange}
+                  patchIsLoading={this.props.patchIsLoading}
+                  patchError={this.props.patchError}
+                  patchingFields={this.props.patchingFields}
+                  erroredFields={this.props.erroredFields}
                 />
               </Panel.Body>
             </Panel>
@@ -138,8 +150,8 @@ class VerificationItem extends React.Component {
             {/*<FormattedMessage id="verificationModal.downloadData" />*/}
             {/*</Button>*/}
             <section className="mgi-section mgi-section__huge">
-              <Button onClick={this.deleteIdentity}>
-                <DeleteIcon />
+              <Button onClick={this.deleteIdentity} disabled={isDeleting}>
+                {isDeleting ? <Spinner /> : <DeleteIcon />}
                 <FormattedMessage id="verificationModal.delete" />
               </Button>
             </section>

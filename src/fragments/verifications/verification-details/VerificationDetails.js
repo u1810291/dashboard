@@ -3,8 +3,8 @@ import { injectIntl } from 'react-intl'
 import DocumentFields from './document-fields'
 import DocumentPhotos from './document-photos'
 import CSS from './verificationDetails.scss'
-import VerificationFullNameLabel from 'src/fragments/verification-full-name-label'
-import StatusSelect from 'src/fragments/status-select'
+import VerificationFullNameLabel from 'src/fragments/verifications/verification-full-name-label'
+import StatusSelect from 'src/fragments/verifications/status-select'
 import ContentPreloader from 'src/components/content-preloader'
 
 function caption(document, intl) {
@@ -38,6 +38,10 @@ function VerificationDetails({
   onFieldChange,
   fullName,
   status,
+  patchIsLoading,
+  patchError,
+  patchingFields,
+  erroredFields,
   onStatusChange
 }) {
   return (
@@ -51,7 +55,12 @@ function VerificationDetails({
         <section className="mgi-section">
           <h1>
             <VerificationFullNameLabel>{fullName}</VerificationFullNameLabel>
-            <StatusSelect status={status} onSelect={onStatusChange} />
+            <StatusSelect
+              status={status}
+              onSelect={onStatusChange}
+              isLoading={patchIsLoading}
+              error={patchError}
+            />
           </h1>
         </section>
         {documents.map((doc, index) => (
@@ -63,6 +72,8 @@ function VerificationDetails({
               <DocumentFields
                 fields={doc.fields}
                 onFieldChange={onFieldChange}
+                patchingFields={patchingFields}
+                erroredFields={erroredFields}
               />
             )}
           </section>

@@ -1,6 +1,7 @@
 :local(.content) {
   background: white;
   width: 500px;
+  min-width: auto;
   border-right: 1px solid var(--mgi-theme-palette-lightgray);
 }
 

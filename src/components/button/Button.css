@@ -30,11 +30,13 @@ button {
 }
 
 :local(.button) img:first-child,
+:local(.button) .spinner-small:first-child,
 :local(.button) svg:first-child {
   margin-right: 5px;
 }
 
 :local(.button) img:last-child,
+:local(.button) .spinner-small:last-child,
 :local(.button) svg:last-child {
   margin-left: 5px;
 }
@@ -89,6 +91,6 @@ button {
 }
 
 :local(.button)[disabled] {
-  background: var(--mgi-button-color-gray);
+  background: var(--mgi-theme-palette-lightgray);
   cursor: not-allowed;
 }

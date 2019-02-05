@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
-import StatusLabel from 'src/fragments/status-label'
+import StatusLabel from 'src/fragments/verifications/status-label'
 import Dropdown from 'src/components/dropdown'
+import Spinner from 'src/components/spinner'
 import CSS from './StatusSelect.scss'
 
 export default class StatusSelect extends React.Component {
@@ -14,15 +15,16 @@ export default class StatusSelect extends React.Component {
     }
   }
 
-  selectStatus = (status) => () => {
+  selectStatus = status => () => {
     this.setState({ status })
-    this.refs.dropdown.hide();
+    this.refs.dropdown.hide()
     if (this.props.onSelect) {
       this.props.onSelect(status)
     }
   }
 
   render() {
+    const activeStatus = this.props.error ? this.props.status : this.state.status
     return (
       <div className={CSS.container}>
         <span className={CSS.statusText}>
@@ -30,30 +32,43 @@ export default class StatusSelect extends React.Component {
         </span>
         <Dropdown className={CSS.menuItemDropdown} ref="dropdown">
           <div className={classNames(CSS.activeStatusLabel, this.state.status)}>
-            <StatusLabel status={this.state.status} coloredText={true}/>
+            <StatusLabel status={activeStatus} coloredText={true} />
           </div>
           <Dropdown.Trigger>
-          <span className={CSS.changeText}>
-            (<FormattedMessage id="statusSelect.change" />)
-          </span>
+            <span className={CSS.changeText}>
+              (<FormattedMessage id="statusSelect.change" />)
+            </span>
           </Dropdown.Trigger>
           <Dropdown.Content className={CSS.dropdownContent}>
             <ul className={CSS.dropdownList}>
-              <li className={CSS.dropdownItem} onClick={this.selectStatus('verified')}>
-                <StatusLabel status="verified"/>
+              <li
+                className={CSS.dropdownItem}
+                onClick={this.selectStatus('verified')}
+              >
+                <StatusLabel status="verified" />
               </li>
-              <li className={CSS.dropdownItem} onClick={this.selectStatus('unverified')}>
-                <StatusLabel status="unverified"/>
+              <li
+                className={CSS.dropdownItem}
+                onClick={this.selectStatus('unverified')}
+              >
+                <StatusLabel status="unverified" />
               </li>
-              <li className={CSS.dropdownItem} onClick={this.selectStatus('manual')}>
-                <StatusLabel status="manual"/>
+              <li
+                className={CSS.dropdownItem}
+                onClick={this.selectStatus('manual')}
+              >
+                <StatusLabel status="manual" />
               </li>
-              <li className={CSS.dropdownItem} onClick={this.selectStatus('fraudulent')}>
-                <StatusLabel status="fraudulent"/>
+              <li
+                className={CSS.dropdownItem}
+                onClick={this.selectStatus('fraudulent')}
+              >
+                <StatusLabel status="fraudulent" />
               </li>
             </ul>
           </Dropdown.Content>
         </Dropdown>
+        {this.props.isLoading && <Spinner className={CSS.spinner}/>}
       </div>
     )
   }
