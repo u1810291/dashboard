@@ -6,13 +6,13 @@ import Button from '../button'
 
 export function ConfirmModal({ message, onClose, onConfirm }) {
   return (
-    <Modal className="small">
+    <Modal className="small" data-role="confirmationModal">
       <main>{message}</main>
       <footer className="mgi-items modal--footer-transparent">
-        <Button buttonStyle="primary" onClick={onConfirm}>
+        <Button buttonStyle="primary" onClick={onConfirm} data-role="confirm">
           <FormattedMessage id="confirm" />
         </Button>
-        <Button onClick={onClose}>
+        <Button onClick={onClose} data-role="cancel">
           <FormattedMessage id="cancel" />
         </Button>
       </footer>
@@ -32,13 +32,8 @@ export default function confirm(message) {
       resolve()
     }
 
-    createOverlay(
-      <ConfirmModal
-        message={message}
-        onClose={onClose}
-        onConfirm={onConfirm}
-      />,
-      { onClose }
-    )
+    createOverlay(<ConfirmModal message={message} onClose={onClose} onConfirm={onConfirm} />, {
+      onClose
+    })
   })
 }

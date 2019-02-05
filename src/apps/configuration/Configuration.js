@@ -27,10 +27,7 @@ import IntegrationCodeModal from 'src/fragments/configuration/integration-code-m
 export default
 @injectIntl
 @connect(
-  ({
-    auth: { token },
-    merchant: { configuration, configurations, integrationCode }
-  }) => ({
+  ({ auth: { token }, merchant: { configuration, configurations, integrationCode } }) => ({
     token,
     configuration,
     configurations,
@@ -49,10 +46,7 @@ class Configuration extends React.Component {
   toggleIntegrationCode = () => {
     this.props.getIntegrationCode(this.props.token).then(value => {
       createOverlay(
-        <IntegrationCodeModal
-          integrationCode={this.props.integrationCode}
-          onClose={closeOverlay}
-        />
+        <IntegrationCodeModal integrationCode={this.props.integrationCode} onClose={closeOverlay} />
       )
     })
   }
@@ -87,16 +81,20 @@ class Configuration extends React.Component {
 
   render() {
     const flowSteps = [
-      <LanguageStep
-        availableLanguages={AVAILABLE_LANGUAGES}
-        style={this.props.configuration.style}
-        onClick={this.updateConfiguration}
-      />,
-      <ColorStep
-        availableButtonColors={AVAILABLE_COLORS}
-        style={this.props.configuration.style}
-        onClick={this.updateConfiguration}
-      />,
+      <div id="language">
+        <LanguageStep
+          availableLanguages={AVAILABLE_LANGUAGES}
+          style={this.props.configuration.style}
+          onClick={this.updateConfiguration}
+        />
+      </div>,
+      <div id="buttonColor">
+        <ColorStep
+          availableButtonColors={AVAILABLE_COLORS}
+          style={this.props.configuration.style}
+          onClick={this.updateConfiguration}
+        />
+      </div>,
       <VerificationSteps
         availableDocumentTypes={AVAILABLE_DOCUMENT_TYPES}
         mandatoryDocumentTypes={MANDATORY_DOCUMENT_TYPES}
