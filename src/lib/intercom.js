@@ -4,3 +4,7 @@ export function updateIntercom(user) {
     user_id: user.id
   });
 }
+
+export function showIntercom() {
+  window.Intercom('show')
+}
