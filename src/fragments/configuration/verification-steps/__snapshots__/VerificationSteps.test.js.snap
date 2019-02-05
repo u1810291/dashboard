@@ -49,6 +49,7 @@ exports[`VerificationSteps mandatory steps 1`] = `
   </fieldset>
   <Button
     buttonStyle="primary"
+    data-role="newVerificationStep"
     disabled={false}
     onClick={[Function]}
   >
@@ -71,6 +72,7 @@ exports[`VerificationSteps steps  1`] = `
   </legend>
   <fieldset
     className="mgi-fieldset"
+    data-role="verificationStep"
     key="0"
   >
     <legend
@@ -102,6 +104,7 @@ exports[`VerificationSteps steps  1`] = `
           </Button>
           <Button
             buttonStyle="invisible"
+            data-role="deleteVerificationStep"
           >
             <trashbin.svg
               className="svg-error"
@@ -134,6 +137,7 @@ exports[`VerificationSteps steps  1`] = `
   </fieldset>
   <fieldset
     className="mgi-fieldset"
+    data-role="verificationStep"
     key="1"
   >
     <legend
@@ -165,6 +169,7 @@ exports[`VerificationSteps steps  1`] = `
           </Button>
           <Button
             buttonStyle="invisible"
+            data-role="deleteVerificationStep"
           >
             <trashbin.svg
               className="svg-error"
@@ -183,6 +188,7 @@ exports[`VerificationSteps steps  1`] = `
   </fieldset>
   <Button
     buttonStyle="primary"
+    data-role="newVerificationStep"
     disabled={false}
     onClick={[Function]}
   >
