@@ -1,3 +1,26 @@
 :local(.content) {
-  // max-width: 800px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+:local(.supportPanel) {
+  box-shadow: none;
+  border: 1px solid var(--mgi-theme-palette-blue);
+}
+
+:local(.supportContainer) {
+  display: flex;
+  justify-content: space-between;
+}
+
+:local(.supportIconWrapper) {
+  width: 50px;
+}
+
+:local(.supportText) {
+  width: 400px;
+}
+
+:local(.supportButtonWrapper) {
+  width: 150px;
 }

@@ -10,9 +10,11 @@ import {
 import { getMerchantApps } from 'src/state/merchant'
 import { Content } from 'src/components/application-box'
 import Webhooks from 'src/fragments/account/webhooks'
-import WebhookExamples from 'src/fragments/account/webhook-examples'
 import ManageApplicationsForm from 'src/fragments/account/manage-applications-form'
+import Button from 'src/components/button'
 import Panel from 'src/components/panel'
+import { showIntercom } from 'src/lib/intercom'
+import SupportIcon from './support.svg'
 import CSS from './style.scss'
 
 export default
@@ -51,6 +53,23 @@ class Developers extends React.Component {
     return (
       <Content>
         <div className={CSS.content}>
+          <Panel>
+            <Panel.Body className={CSS.supportPanel}>
+              <div className={CSS.supportContainer}>
+                <div className={CSS.supportIconWrapper}>
+                  <SupportIcon />
+                </div>
+                <div className={CSS.supportText}>
+                  <FormattedMessage id="developers.support.chat"/>
+                </div>
+                <div className={CSS.supportButtonWrapper}>
+                  <Button buttonStyle="primary" onClick={showIntercom}>
+                    <FormattedMessage id="developers.support.contact"/>
+                  </Button>
+                </div>
+              </div>
+            </Panel.Body>
+          </Panel>
           <Webhooks
             subscribeToWebhook={this.handleSubscribeToWebhook}
             deleteWebhook={this.handleDeleteWebhook}
@@ -69,15 +88,6 @@ class Developers extends React.Component {
                   clientSecret={clientApplication.clientSecret}
                 />
               </section>
-            </Panel.Body>
-          </Panel>
-          <Panel
-            caption={this.props.intl.formatMessage({
-              id: 'developers.webhook.example.header'
-            })}
-          >
-            <Panel.Body padded={false}>
-              <WebhookExamples />
             </Panel.Body>
           </Panel>
         </div>
