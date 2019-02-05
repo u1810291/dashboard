@@ -16,7 +16,9 @@ function LanguageLine({ language }) {
 function Option({ children, ...props }) {
   return (
     <components.Option {...props}>
-      <LanguageLine language={props.data.value} />
+      <span data-role={`languageOption-${props.data.value}`}>
+        <LanguageLine language={props.data.value} />
+      </span>
     </components.Option>
   )
 }
@@ -24,16 +26,14 @@ function Option({ children, ...props }) {
 function SingleValue({ children, ...props }) {
   return (
     <components.SingleValue {...props}>
-      <LanguageLine language={props.data.value} />
+      <span data-role="languageSingleValue">
+        <LanguageLine language={props.data.value} />
+      </span>
     </components.SingleValue>
   )
 }
 
-export default function LanguageStep({
-  availableLanguages = [],
-  style = {},
-  onClick = () => {}
-}) {
+export default function LanguageStep({ availableLanguages = [], style = {}, onClick = () => {} }) {
   const options = availableLanguages.map(code => ({ value: code }))
   const handleChange = value => {
     onClick({ style: { ...style, language: value } })
