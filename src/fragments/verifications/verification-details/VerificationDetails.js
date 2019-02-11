@@ -6,6 +6,7 @@ import CSS from './verificationDetails.scss'
 import VerificationFullNameLabel from 'src/fragments/verifications/verification-full-name-label'
 import StatusSelect from 'src/fragments/verifications/status-select'
 import ContentPreloader from 'src/components/content-preloader'
+import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
 
 function caption(document, intl) {
   const cap = [document.caption]
@@ -55,12 +56,12 @@ function VerificationDetails({
         <section className="mgi-section">
           <h1>
             <VerificationFullNameLabel>{fullName}</VerificationFullNameLabel>
-            <StatusSelect
+            {isFeatureEnabled('STATUSES') && <StatusSelect
               status={status}
               onSelect={onStatusChange}
               isLoading={patchIsLoading}
               error={patchError}
-            />
+            />}
           </h1>
         </section>
         {documents.map((doc, index) => (

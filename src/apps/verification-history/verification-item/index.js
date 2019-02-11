@@ -24,6 +24,7 @@ import VerificationWebhookModal from 'src/fragments/verifications/verification-w
 import confirm from 'src/components/confirm'
 import DocumentStatusHelp from 'src/fragments/verifications/document-status-help'
 import Spinner from 'src/components/spinner'
+import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
 import CSS from './VerificationItem.scss'
 
 const CHECK_INTERVAL = 5000
@@ -155,7 +156,7 @@ class VerificationItem extends React.Component {
                 <FormattedMessage id="verificationModal.delete" />
               </Button>
             </section>
-            <DocumentStatusHelp />
+            {isFeatureEnabled('STATUSES') && <DocumentStatusHelp />}
           </section>
         </div>
       </Content>

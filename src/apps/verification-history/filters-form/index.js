@@ -6,6 +6,7 @@ import 'react-dates/initialize'
 import { DateRangePicker } from 'react-dates'
 import moment from 'moment'
 import { isEmpty } from 'lodash'
+import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
 import FilterIcon from './filter.svg'
 
 import 'react-dates/lib/css/_datepicker.css'
@@ -86,7 +87,7 @@ class VerificationsFiltersForm extends Component {
               }}
             />
         </div>
-        <CheckboxGroup
+        {isFeatureEnabled('STATUSES') && <CheckboxGroup
           label={this.props.intl.formatMessage({
             id: 'identities.filters.labels.status-filter'
           })}
@@ -96,7 +97,7 @@ class VerificationsFiltersForm extends Component {
           onChange={status => {
             this.props.onChange({ status })
           }}
-        />
+        />}
 
         <Button className="no-borders" onClick={this.props.onClear}>
           <IconClose />

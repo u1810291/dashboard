@@ -19,6 +19,7 @@ import Panel from 'src/components/panel'
 import { DebounceInput } from 'src/components/inputs'
 import Spinner from 'src/components/spinner'
 import confirm from 'src/components/confirm'
+import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
 import DeleteIcon from './verification-item/delete-icon.svg'
 import CSS from './VerificationHistory.scss'
 
@@ -171,7 +172,7 @@ class VerificationHistory extends React.Component {
   }
 
   getTableColumns = () => {
-    return [
+    let columns = [
       {
         size: 5,
         label: <FormattedMessage id="identities.fields.fullName" />,
@@ -180,11 +181,6 @@ class VerificationHistory extends React.Component {
             {identity.fullName}
           </VerificationFullNameLabel>
         )
-      },
-      {
-        size: 3,
-        label: <FormattedMessage id="identities.fields.status" />,
-        content: identity => <Status status={identity.identity.status} coloredText={true} />
       },
       {
         size: 1.5,
@@ -210,6 +206,14 @@ class VerificationHistory extends React.Component {
         }
       }
     ]
+    if (isFeatureEnabled('STATUSES')) {
+      columns.splice(1, 0, {
+        size: 3,
+        label: <FormattedMessage id="identities.fields.status" />,
+        content: identity => <Status status={identity.identity.status} coloredText={true} />
+      })
+    }
+    return columns
   }
 
   clearSelectedFilters = () => {
