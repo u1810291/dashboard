@@ -7,6 +7,7 @@ import { setI18nContext } from 'src/components/i18n-context'
 import { FormattedMessage } from 'react-intl'
 import { cleanText, email, required } from 'src/lib/validations'
 import { pickBy, pick } from 'lodash'
+import { notification } from 'src/components/notification'
 
 const formikSettings = {
   initialValues: {
@@ -34,14 +35,14 @@ class SignUpForm extends React.Component {
   onSubmit = (values, { setSubmitting, setStatus }) => {
     setStatus({})
     let data = pick(values, 'firstName', 'lastName', 'email', 'password')
-    this.props
-      .handleSubmit(data)
+    this.props.handleSubmit(data)
       .then(() => {
         setSubmitting(false)
       })
       .catch(error => {
         setSubmitting(false)
-        setStatus({ password: error.response.data.message })
+        notification.error((error && error.response && error.response.data.message) ||
+        'Something went wrong. Please retry later')
       })
   }
   render() {
