@@ -1,34 +1,30 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { injectIntl, FormattedMessage } from 'react-intl'
-import { last } from 'lodash'
-import {
-  subscribeToWebhook,
-  deleteWebhook,
-  getWebhooks
-} from 'src/state/webhooks'
-import { getMerchantApps } from 'src/state/merchant'
+import { subscribeToWebhook, deleteWebhook, getWebhooks } from 'src/state/webhooks'
+import { getMerchantApps, createApplication } from 'src/state/merchant'
 import { Content } from 'src/components/application-box'
 import Webhooks from 'src/fragments/account/webhooks'
-import ManageApplicationsForm from 'src/fragments/account/manage-applications-form'
 import Button from 'src/components/button'
 import Panel from 'src/components/panel'
 import { showIntercom } from 'src/lib/intercom'
 import SupportIcon from './support.svg'
 import CSS from './style.scss'
+import ApplicationsList from '../../fragments/account/applications-list'
 
 export default
 @connect(
   ({ auth: { token }, webhooks: { webhooks }, merchant: { apps } }) => ({
     token,
     webhooks,
-    clientApplication: last(apps) || {}
+    clientApplicationsList: apps || []
   }),
   {
     subscribeToWebhook,
     deleteWebhook,
     getWebhooks,
-    getMerchantApps
+    getMerchantApps,
+    createApplication
   }
 )
 @injectIntl
@@ -49,7 +45,7 @@ class Developers extends React.Component {
   }
 
   render() {
-    const { clientApplication } = this.props
+    const { token, createApplication, clientApplicationsList } = this.props
     return (
       <Content>
         <div className={CSS.content}>
@@ -60,11 +56,11 @@ class Developers extends React.Component {
                   <SupportIcon />
                 </div>
                 <div className={CSS.supportText}>
-                  <FormattedMessage id="developers.support.chat"/>
+                  <FormattedMessage id="developers.support.chat" />
                 </div>
                 <div className={CSS.supportButtonWrapper}>
                   <Button buttonStyle="primary" onClick={showIntercom}>
-                    <FormattedMessage id="developers.support.contact"/>
+                    <FormattedMessage id="developers.support.contact" />
                   </Button>
                 </div>
               </div>
@@ -82,12 +78,10 @@ class Developers extends React.Component {
                   <FormattedMessage id="developers.token.caption" />
                 </h3>
               </section>
-              <section className="mgi-section">
-                <ManageApplicationsForm
-                  clientId={clientApplication.clientId}
-                  clientSecret={clientApplication.clientSecret}
-                />
-              </section>
+              <ApplicationsList
+                clientApplicationsList={clientApplicationsList}
+                createApplication={() => createApplication(token)}
+              />
             </Panel.Body>
           </Panel>
         </div>
