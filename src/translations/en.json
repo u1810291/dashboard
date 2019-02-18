@@ -232,6 +232,7 @@
   "identities.fields.eyeColor": "Eye Color",
   "identities.fields.folio": "Folio",
   "identities.fields.firstName": "First Name",
+  "identities.fields.gender": "Gender",
   "identities.fields.hairColor": "Hair Color",
   "identities.fields.height": "Height",
   "identities.fields.inventoryControlNumber": "Inventory Control Number",

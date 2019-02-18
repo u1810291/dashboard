@@ -35,6 +35,7 @@ function VerificationDetails({
   intl,
   photos = [],
   documents = [],
+  selfie,
   signURL,
   onFieldChange,
   fullName,
@@ -49,7 +50,7 @@ function VerificationDetails({
     <div className="mgi-items">
       <section className={CSS.photos}>
         {photos.length > 0 && (
-          <DocumentPhotos photos={photos} signURL={signURL} />
+          <DocumentPhotos selfie={selfie} photos={photos} signURL={signURL} />
         )}
       </section>
       <section className="mgi-items--grow">
