@@ -11,10 +11,12 @@ function detectError(string) {
 }
 
 export function getSelfie(identity) {
-  return (get(identity, '_links.photo.href')) ? {
-    caption: <FormattedMessage id="verificationModal.fields.face" />,
-    href: identity._links.photo.href + '.jpg'
-  } : null
+  return get(identity, '_links.photo.href')
+    ? {
+        caption: <FormattedMessage id="verificationModal.fields.face" />,
+        href: identity._links.photo.href + '.jpg'
+      }
+    : null
 }
 
 function getLivenessCheck(identity) {
@@ -25,9 +27,7 @@ function getLivenessCheck(identity) {
         caption: <FormattedMessage id="verificationModal.liveness.livenessCheck" />,
         value: (
           <FormattedMessage
-            id={`verificationModal.backgroundCheck.${
-              identity.alive ? 'passed' : 'failed'
-              }`}
+            id={`verificationModal.backgroundCheck.${identity.alive ? 'passed' : 'failed'}`}
           />
         ),
         status: identity.alive ? 'success' : 'warning'
@@ -46,8 +46,8 @@ function getBackgroundCheck(identity) {
       {
         caption: <FormattedMessage id="verificationModal.backgroundCheck.globalWatchlists" />,
         value: (
-          <FormattedMessage id={`verificationModal.backgroundCheck.${
-            watchlists ? 'failed' : 'passed'}`}
+          <FormattedMessage
+            id={`verificationModal.backgroundCheck.${watchlists ? 'failed' : 'passed'}`}
           />
         ),
         status: watchlists ? 'warning' : 'success'
@@ -58,19 +58,22 @@ function getBackgroundCheck(identity) {
 
 export function getPhotos(identity) {
   let photos = []
-  identity.documents && identity.documents.forEach(doc => {
-    doc.pictures && doc.pictures.length && doc.pictures.forEach((photo, index) => {
-      photos.push({
-        caption: (
-          <span>
-            <FormattedMessage id={`verificationModal.fields.${doc.type}`}/>{' '}
-            ({doc.metadata.sides[index]})
-          </span>
-        ),
-        href: photo._links.file.href
-      })
+  identity.documents &&
+    identity.documents.forEach(doc => {
+      doc.pictures &&
+        doc.pictures.length &&
+        doc.pictures.forEach((photo, index) => {
+          photos.push({
+            caption: (
+              <span>
+                <FormattedMessage id={`verificationModal.fields.${doc.type}`} /> (
+                {doc.metadata.sides[index]})
+              </span>
+            ),
+            href: photo._links.file.href
+          })
+        })
     })
-  })
   return photos
 }
 
@@ -78,9 +81,7 @@ function getFacematchScore(doc) {
   return {
     caption: <FormattedMessage id="identities.fields.faceMatch" />,
     value: percents(doc.facematchScore),
-    status: parseInt(doc.facematchScore, 10) > SUSPICIOUS_FACEMATCH_LEVEL
-      ? 'success'
-      : 'warning'
+    status: parseInt(doc.facematchScore, 10) > SUSPICIOUS_FACEMATCH_LEVEL ? 'success' : 'warning'
   }
 }
 
@@ -89,7 +90,7 @@ function getVerifiedDocument(doc) {
     caption: <FormattedMessage id="verificationModal.idcheck" />,
     origin: <FormattedMessage id={`verificationModal.fields.${doc.type}`} />,
     via: <FormattedMessage id={'verificationModal.govChecks'} />,
-    queued: doc.verifiedData.length === 0,
+    inProgress: doc.verifiedData.length === 0,
     fields: doc.verifiedData.map(field => ({
       caption: <FormattedMessage id={`identities.fields.${field.id}`} />,
       value: detectError(field.value) ? (
@@ -109,7 +110,9 @@ function getFields(doc) {
       caption: <FormattedMessage id={`identities.fields.${field.id}`} />,
       value: detectError(field.value) ? (
         <FormattedMessage id="verificationModal.n-a" />
-      ) : field.value,
+      ) : (
+        field.value
+      ),
       status: detectError(field.value) ? 'failure' : 'success',
       editable: true,
       id: field.id,
@@ -126,19 +129,20 @@ export function getDocuments(identity) {
   const documents = []
   identity.fullName && documents.push(getBackgroundCheck(identity))
 
-  identity.documents && identity.documents.forEach(doc => {
-    documents.push({
-      caption: <FormattedMessage id="verificationModal.idcheck" />,
-      origin: <FormattedMessage id={`verificationModal.fields.${doc.type}`} />,
-      queued: doc.fields.length === 0,
-      fields: getFields(doc)
-    })
+  identity.documents &&
+    identity.documents.forEach(doc => {
+      documents.push({
+        caption: <FormattedMessage id="verificationModal.idcheck" />,
+        origin: <FormattedMessage id={`verificationModal.fields.${doc.type}`} />,
+        inProgress: doc.status !== 'ready',
+        fields: getFields(doc)
+      })
 
-    // TODO: wait untill better statuses on backend and fix this
-    if (doc.verifiedData && doc.type === 'national-id' && get(doc, 'metadata.country') === 'MX') {
-      documents.push(getVerifiedDocument(doc))
-    }
-  })
+      // TODO: wait untill better statuses on backend and fix this
+      if (doc.verifiedData && doc.type === 'national-id' && get(doc, 'metadata.country') === 'MX') {
+        documents.push(getVerifiedDocument(doc))
+      }
+    })
 
   documents.push(getLivenessCheck(identity))
   return documents

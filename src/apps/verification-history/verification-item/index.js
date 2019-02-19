@@ -5,7 +5,11 @@ import { FormattedMessage } from 'react-intl'
 import { authorizedUrl } from 'src/lib/client/http'
 import { Content } from 'src/components/application-box'
 import VerificationDetails from 'src/fragments/verifications/verification-details'
-import { getSelfie, getPhotos, getDocuments } from 'src/fragments/verifications/verification-details/extractIdentityData'
+import {
+  getSelfie,
+  getPhotos,
+  getDocuments
+} from 'src/fragments/verifications/verification-details/extractIdentityData'
 import stringify from 'src/lib/stringify'
 import WebbhooksIcon from './webhooks-icon.svg'
 //import DownloadIcon from './download-icon.svg'
@@ -62,12 +66,7 @@ class VerificationItem extends React.Component {
   }
 
   onFieldChange = (docId, field) => {
-    this.props.patchDocument(
-      this.props.token,
-      this.props.match.params.id,
-      docId,
-      [field]
-    )
+    this.props.patchDocument(this.props.token, this.props.match.params.id, docId, [field])
   }
 
   openWebhookModal = () => {
@@ -95,11 +94,7 @@ class VerificationItem extends React.Component {
     const { token, getIdentityWithNestedData } = this.props
     const { id } = this.props.match.params
     getIdentityWithNestedData(token, id).then(identity => {
-      if (
-        identity.documents.every(
-          doc => !['queued', 'processing'].includes(doc.status)
-        )
-      ) {
+      if (identity.documents.every(doc => doc.status === 'ready')) {
         window.clearInterval(this.checkInterval)
       }
     })

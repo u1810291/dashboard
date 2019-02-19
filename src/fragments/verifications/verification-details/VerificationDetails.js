@@ -14,8 +14,7 @@ function caption(document, intl) {
     cap.push(
       <span className="text-secondary">
         {' '}
-        {intl.formatMessage({ id: 'verificationModal.origin' })}{' '}
-        {document.origin}
+        {intl.formatMessage({ id: 'verificationModal.origin' })} {document.origin}
       </span>
     )
   }
@@ -49,26 +48,26 @@ function VerificationDetails({
   return (
     <div className="mgi-items">
       <section className={CSS.photos}>
-        {photos.length > 0 && (
-          <DocumentPhotos selfie={selfie} photos={photos} signURL={signURL} />
-        )}
+        {photos.length > 0 && <DocumentPhotos selfie={selfie} photos={photos} signURL={signURL} />}
       </section>
       <section className="mgi-items--grow">
         <section className="mgi-section">
           <h1>
             <VerificationFullNameLabel>{fullName}</VerificationFullNameLabel>
-            {isFeatureEnabled('STATUSES') && <StatusSelect
-              status={status}
-              onSelect={onStatusChange}
-              isLoading={patchIsLoading}
-              error={patchError}
-            />}
+            {isFeatureEnabled('STATUSES') && (
+              <StatusSelect
+                status={status}
+                onSelect={onStatusChange}
+                isLoading={patchIsLoading}
+                error={patchError}
+              />
+            )}
           </h1>
         </section>
         {documents.map((doc, index) => (
           <section className="mgi-section" key={index}>
             <h4>{caption(doc, intl)}</h4>
-            {doc.queued ? (
+            {doc.inProgress ? (
               <ContentPreloader />
             ) : (
               <DocumentFields

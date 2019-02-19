@@ -8,8 +8,7 @@ export const photos = [
   },
   {
     caption: 'Driving License',
-    href:
-      'https://upload.wikimedia.org/wikipedia/commons/3/3f/A_Licence_2013_Front.jpg'
+    href: 'https://upload.wikimedia.org/wikipedia/commons/3/3f/A_Licence_2013_Front.jpg'
   },
   {
     caption: 'National ID (front)',
@@ -21,8 +20,7 @@ export const photos = [
   },
   {
     caption: 'Password',
-    href:
-      'https://upload.wikimedia.org/wikipedia/commons/6/6a/Pasaporte-eua.jpg'
+    href: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Pasaporte-eua.jpg'
   }
 ]
 
@@ -32,7 +30,11 @@ export const documents = [
     fields: [
       {
         caption: 'Liveness',
-        value: <span>Passed <span className="text-secondary">100%</span></span>,
+        value: (
+          <span>
+            Passed <span className="text-secondary">100%</span>
+          </span>
+        ),
         status: 'success'
       },
       {
@@ -97,6 +99,6 @@ export const documents = [
   {
     caption: 'ID check',
     origin: 'Driving License',
-    queued: true
+    inProgress: true
   }
 ]

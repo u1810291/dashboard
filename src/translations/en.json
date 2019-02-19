@@ -393,5 +393,6 @@
   "fragments.account.webhooks.add": "Add new webhook",
   "fragments.account.webhooks.confirm": "Delete the webhook?",
   "fragments.account.webhooks.labels.url": "Webhook URL",
-  "fragments.account.webhooks.labels.delete": "Delete"
+  "fragments.account.webhooks.labels.delete": "Delete",
+  "fragments.verifications.verification_detail.no_data": "No data was detected on the image"
 }

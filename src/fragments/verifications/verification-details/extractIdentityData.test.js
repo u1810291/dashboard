@@ -41,7 +41,7 @@ describe('.getPhotos', () => {
             },
             {
               _links: { file: { href: 'hrefString2' } }
-            },
+            }
           ]
         },
         {
@@ -50,7 +50,7 @@ describe('.getPhotos', () => {
           pictures: [
             {
               _links: { file: { href: 'hrefString3' } }
-            },
+            }
           ]
         }
       ]
@@ -59,8 +59,7 @@ describe('.getPhotos', () => {
       {
         caption: (
           <span>
-            <FormattedMessage id="verificationModal.fields.type1"/>{' '}
-            ({sides[0]})
+            <FormattedMessage id="verificationModal.fields.type1" /> ({sides[0]})
           </span>
         ),
         href: 'hrefString'
@@ -68,8 +67,7 @@ describe('.getPhotos', () => {
       {
         caption: (
           <span>
-            <FormattedMessage id="verificationModal.fields.type1"/>{' '}
-            ({sides[1]})
+            <FormattedMessage id="verificationModal.fields.type1" /> ({sides[1]})
           </span>
         ),
         href: 'hrefString2'
@@ -77,8 +75,7 @@ describe('.getPhotos', () => {
       {
         caption: (
           <span>
-            <FormattedMessage id="verificationModal.fields.type2"/>{' '}
-            ({sides[0]})
+            <FormattedMessage id="verificationModal.fields.type2" /> ({sides[0]})
           </span>
         ),
         href: 'hrefString3'
@@ -90,7 +87,6 @@ describe('.getPhotos', () => {
 })
 
 describe('.getDocuments', () => {
-
   it('should return documents', () => {
     const identity = {
       alive: true,
@@ -100,14 +96,14 @@ describe('.getDocuments', () => {
         {
           id: '001a',
           type: 'driving-lisense',
-          fields: [],
+          status: 'processing',
+          fields: []
         },
         {
           id: '001b',
           type: 'passport',
-          fields: [
-            { id: 'name', value: 'FIELD_NOT_VISIBLE' }, { id: 'address', value: 'Mexico' }
-          ],
+          status: 'ready',
+          fields: [{ id: 'name', value: 'FIELD_NOT_VISIBLE' }, { id: 'address', value: 'Mexico' }]
         }
       ]
     }
@@ -119,8 +115,8 @@ describe('.getDocuments', () => {
           {
             caption: <FormattedMessage id="verificationModal.backgroundCheck.globalWatchlists" />,
             value: (
-              <FormattedMessage id={`verificationModal.backgroundCheck.${
-                watchlists ? 'failed' : 'passed'}`}
+              <FormattedMessage
+                id={`verificationModal.backgroundCheck.${watchlists ? 'failed' : 'passed'}`}
               />
             ),
             status: watchlists ? 'warning' : 'success'
@@ -130,17 +126,17 @@ describe('.getDocuments', () => {
       {
         caption: <FormattedMessage id="verificationModal.idcheck" />,
         origin: <FormattedMessage id="verificationModal.fields.driving-lisense" />,
-        queued: true,
+        inProgress: true,
         fields: []
       },
       {
         caption: <FormattedMessage id="verificationModal.idcheck" />,
         origin: <FormattedMessage id="verificationModal.fields.passport" />,
-        queued: false,
+        inProgress: false,
         fields: [
           {
             caption: <FormattedMessage id="identities.fields.name" />,
-            value:  <FormattedMessage id="verificationModal.n-a" />,
+            value: <FormattedMessage id="verificationModal.n-a" />,
             status: 'failure',
             editable: true,
             id: 'name',
@@ -161,7 +157,7 @@ describe('.getDocuments', () => {
         fields: [
           {
             caption: <FormattedMessage id="verificationModal.liveness.livenessCheck" />,
-            value: ( <FormattedMessage id={`verificationModal.backgroundCheck.${'passed'}`}/> ),
+            value: <FormattedMessage id={`verificationModal.backgroundCheck.${'passed'}`} />,
             status: 'success'
           }
         ]
