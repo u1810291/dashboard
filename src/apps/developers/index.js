@@ -19,7 +19,8 @@ export default
   ({ auth: { token }, webhooks: { webhooks }, merchant: { apps } }) => ({
     token,
     webhooks,
-    clientApplicationsList: apps || []
+    clientApplicationsList: apps || [],
+    firstClientApp: get(apps, '[0]', {})
   }),
   {
     subscribeToWebhook,
@@ -31,23 +32,28 @@ export default
 )
 @injectIntl
 class Developers extends React.Component {
-  handleSubscribeToWebhook = (url, secret) => {
-    const { token, subscribeToWebhook } = this.props
-    return subscribeToWebhook(token, { url, secret })
+  handleSubscribeToWebhook = async (url, secret) => {
+    const { firstClientApp, subscribeToWebhook } = this.props
+    await subscribeToWebhook(firstClientApp.clientId, { url, secret })
+    await getWebhooks(firstClientApp.clientId)
   }
 
-  handleDeleteWebhook = id => {
-    const { deleteWebhook, token, getWebhooks } = this.props
-    return deleteWebhook(token, id).then(getWebhooks.bind(null, token))
+  handleDeleteWebhook = async id => {
+    const { deleteWebhook, firstClientApp, getWebhooks } = this.props
+    await deleteWebhook(firstClientApp.clientId, id)
+    await getWebhooks(firstClientApp.clientId)
   }
 
-  componentDidMount() {
-    this.props.getWebhooks(this.props.token)
-    this.props.getMerchantApps(this.props.token)
+  async componentDidMount() {
+    const { getMerchantApps, getWebhooks, token } = this.props
+    const {
+      data: { apps }
+    } = await getMerchantApps(token)
+    await getWebhooks(apps[0].clientId)
   }
 
   render() {
-    const { token, createApplication, clientApplicationsList } = this.props
+    const { token, firstClientApp, createApplication, clientApplicationsList } = this.props
     return (
       <Content>
         <div className={CSS.content}>
@@ -75,7 +81,7 @@ class Developers extends React.Component {
           />
           <Permalink
             urlBase={process.env.REACT_APP_SIGNUP_URL}
-            clientId={get(clientApplicationsList, '[0].clientId')}
+            clientId={firstClientApp.clientId}
           />
           <Panel>
             <Panel.Body>
