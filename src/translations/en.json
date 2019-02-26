@@ -10,6 +10,7 @@
   "confirm": "Confirm",
   "confirm_string": "Please, confirm",
   "copy-to-clipboard": "Copy to clipboard",
+  "copied": "Text was copied to clipboard",
   "terms-of-conditions": "By clicking this button you agree on <a href=https://getmati.com/legal#terms target='_blank'>Terms and Conditions</a> and <a href=https://getmati.com/legal#privacy target='_blank'>Privacy Notice</p>",
   "analytics": "Analytics",
   "webhook": "Webhook",
@@ -368,6 +369,9 @@
   "developers.webhook.example.user.invalid.ocr": "A field was missing on the document & document got flagged on doc authenticity",
   "developers.webhook.example.header": "Developers integration sheet",
   "developers.token.caption": "Your client token",
+
+  "developers.permalink.caption": "Mati verification link",
+  "developers.permalink.description": "You can send this link to users to verify them. Metadata param will be sent with webhook.",
 
   "developers.support.chat": "If you want to know more about webhooks you can chat with our support about that.",
   "developers.support.contact": "Contact Support",

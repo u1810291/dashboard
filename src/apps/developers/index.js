@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { injectIntl, FormattedMessage } from 'react-intl'
+import { get } from 'lodash'
 import { subscribeToWebhook, deleteWebhook, getWebhooks } from 'src/state/webhooks'
 import { getMerchantApps, createApplication } from 'src/state/merchant'
 import { Content } from 'src/components/application-box'
 import Webhooks from 'src/fragments/account/webhooks'
+import Permalink from 'src/fragments/account/permalink'
 import Button from 'src/components/button'
 import Panel from 'src/components/panel'
 import { showIntercom } from 'src/lib/intercom'
@@ -70,6 +72,10 @@ class Developers extends React.Component {
             subscribeToWebhook={this.handleSubscribeToWebhook}
             deleteWebhook={this.handleDeleteWebhook}
             webhooks={this.props.webhooks}
+          />
+          <Permalink
+            urlBase={process.env.REACT_APP_SIGNUP_URL}
+            clientId={get(clientApplicationsList, '[0].clientId')}
           />
           <Panel>
             <Panel.Body>
