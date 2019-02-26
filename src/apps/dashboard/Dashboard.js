@@ -80,6 +80,11 @@ class Dashboard extends React.Component {
           icon={<DevelopersIcon />}
         />
         <MenuItemLink
+          to="https://docs.getmati.com"
+          external={true}
+          label={formatMessage({ id: 'dashboard.menu.docs' })}
+        />
+        <MenuItemLink
           to="https://faq.getmati.com"
           external={true}
           label={formatMessage({ id: 'dashboard.menu.faq' })}
