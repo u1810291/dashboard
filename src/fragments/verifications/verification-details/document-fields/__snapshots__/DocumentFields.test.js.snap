@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DocumentFields Empty fields 1`] = `
+<ul>
+  <li
+    className="text-secondary"
+  >
+    <FormattedMessage
+      id="fragments.verifications.verification_detail.no_data"
+      values={Object {}}
+    />
+  </li>
+</ul>
+`;
+
+exports[`DocumentFields With editable fields 1`] = `
+<ul>
+  <li>
+    <span
+      className="text-secondary"
+    >
+      Document field caption
+    </span>
+    <img
+      alt="success"
+      src={
+        Object {
+          "ReactComponent": [Function],
+          "__esModule": true,
+          "default": "success.svg",
+        }
+      }
+    />
+    <span>
+      <TextEditable
+        onSubmit={[Function]}
+        text="Value"
+      />
+    </span>
+  </li>
+</ul>
+`;
+
+exports[`DocumentFields With static fields 1`] = `
+<ul>
+  <li>
+    <span
+      className="text-secondary"
+    >
+      Document field caption
+    </span>
+    <img
+      alt="failure"
+      src={
+        Object {
+          "ReactComponent": [Function],
+          "__esModule": true,
+          "default": "failure.svg",
+        }
+      }
+    />
+    <span>
+      Value
+    </span>
+  </li>
+</ul>
+`;
