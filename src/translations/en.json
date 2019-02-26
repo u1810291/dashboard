@@ -311,6 +311,7 @@
   "dashboard.menu.configuration": "Product configuration",
   "dashboard.menu.account": "Account",
   "dashboard.menu.developers": "Developers",
+  "dashboard.menu.docs": "Documentation",
   "dashboard.menu.upgrade": "Upgrade",
   "dashboard.menu.accountSettings": "Account Settings",
   "dashboard.menu.signout": "Sign Out",
