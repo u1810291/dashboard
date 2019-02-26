@@ -16,6 +16,7 @@ export default class Container extends Component {
   componentDidMount() {
     const root = document.createElement('div')
     root.id = 'overlayRoot'
+    root.style.position = 'relative'
     document.body.appendChild(root)
   }
 

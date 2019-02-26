@@ -30,8 +30,15 @@ export default class Overlay extends React.Component {
     parent.classList.remove(CSS.noScroll)
   }
 
+  onClose = () => {
+    this.setState({ visible: false })
+    setTimeout(() => {
+      this.props.onClose && this.props.onClose()
+    }, 200)
+  }
+
   render() {
-    const { children, inline, onClose = () => {} } = this.props
+    const { children, inline } = this.props
     return (
       <div
         className={classNames(
@@ -39,10 +46,10 @@ export default class Overlay extends React.Component {
           this.state.visible && CSS.overlayVisible,
           { [CSS.overlayInline]: inline }
         )}
-        onClick={e => e.target === e.currentTarget && onClose()}
+        onClick={e => e.target === e.currentTarget && this.onClose()}
         ref="overlay"
       >
-        <button className={CSS.closeButton} onClick={onClose} />
+        <button className={CSS.closeButton} onClick={this.onClose} />
         <div
           className={classNames(
             CSS.overlayContent,
