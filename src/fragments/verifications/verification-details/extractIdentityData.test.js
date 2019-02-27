@@ -91,7 +91,7 @@ describe('.getDocuments', () => {
     const identity = {
       alive: true,
       fullName: 'Name',
-      watchlists: { interpol: false },
+      watchlists: { interpol: false, ofac: true },
       documents: [
         {
           id: '001a',
@@ -107,7 +107,7 @@ describe('.getDocuments', () => {
         }
       ]
     }
-    const watchlists = false
+    const watchlists = true
     const expected = [
       {
         caption: <FormattedMessage id="verificationModal.backgroundCheck" />,

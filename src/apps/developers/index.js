@@ -12,7 +12,8 @@ import Panel from 'src/components/panel'
 import { showIntercom } from 'src/lib/intercom'
 import SupportIcon from './support.svg'
 import CSS from './style.scss'
-import ApplicationsList from '../../fragments/account/applications-list'
+import ApplicationsList from 'src/fragments/account/applications-list'
+import GooglePlayLink from 'src/fragments/account/google-play-link'
 
 export default
 @connect(
@@ -58,7 +59,7 @@ class Developers extends React.Component {
       <Content>
         <div className={CSS.content}>
           <Panel>
-            <Panel.Body className={CSS.supportPanel}>
+            <Panel.Body className={CSS.blueBorder}>
               <div className={CSS.supportContainer}>
                 <div className={CSS.supportIconWrapper}>
                   <SupportIcon />
@@ -74,6 +75,9 @@ class Developers extends React.Component {
               </div>
             </Panel.Body>
           </Panel>
+          <GooglePlayLink
+            clientApplicationsList={clientApplicationsList}
+          />
           <Webhooks
             subscribeToWebhook={this.handleSubscribeToWebhook}
             deleteWebhook={this.handleDeleteWebhook}

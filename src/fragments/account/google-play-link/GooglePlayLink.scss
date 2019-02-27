@@ -1,0 +1,25 @@
+
+:local(.container) {
+  margin-bottom: var(--mgi-spacing);
+}
+
+:local(.googlePlay) {
+  display: inline-block;
+  width: 154px;
+  height: 45px;
+  background: url(./google-play.png);
+  background-size: 154px 45px;
+  margin-bottom: var(--mgi-spacing-l);
+}
+
+:local(.googlePlayWrapper) {
+  text-align: center;
+  margin-top: var(--mgi-spacing);
+}
+
+:local(.clientId) {
+  background: var(--mgi-theme-palette-lightergray);
+  padding: 10px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+}

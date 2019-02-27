@@ -378,6 +378,12 @@
   "developers.support.chat": "If you want to know more about webhooks you can chat with our support about that.",
   "developers.support.contact": "Contact Support",
 
+  "developers.demo.demo": "Demo",
+  "developers.demo.description": "You can try demo of Mati (version for Android) by clicking on button below.",
+  "developers.demo.buttonDescription": "Mati works on Web, Android and iOS",
+  "developers.demo.clientId": "Your Client ID",
+  "developers.demo.clientIdDescription": "This is your Client ID which you should enter on the first screen of the app.",
+
   "verifications.inProgress": "Getting information...",
 
   "manage_applications.labels.clientId": "Client ID",
