@@ -3,7 +3,7 @@
   margin: 0 auto;
 }
 
-:local(.supportPanel) {
+:local(.blueBorder) {
   box-shadow: none;
   border: 1px solid var(--mgi-theme-palette-blue);
 }
@@ -24,3 +24,4 @@
 :local(.supportButtonWrapper) {
   width: 150px;
 }
+
