@@ -13,6 +13,7 @@ import {
   AVAILABLE_DOCUMENT_TYPES,
   MANDATORY_DOCUMENT_TYPES
 } from 'src/state/merchant'
+import { getCountries } from 'src/state/countries'
 import IntegrationIcon from 'src/assets/icon-integration.svg'
 import ColorStep from './ColorStep'
 import VerificationSteps from 'src/fragments/configuration/verification-steps'
@@ -23,19 +24,27 @@ import IconIOS from 'src/assets/icon-ios.svg'
 import IconAndroid from 'src/assets/icon-android.svg'
 import IconPlay from 'src/assets/icon-play.svg'
 import IntegrationCodeModal from 'src/fragments/configuration/integration-code-modal'
+import Countries from 'src/fragments/configuration/countries'
 
 export default
 @injectIntl
 @connect(
-  ({ auth: { token }, merchant: { configuration, configurations, integrationCode } }) => ({
+  ({
+     auth: { token },
+     merchant: { configuration, configurations, integrationCode },
+     countries: { countries, isLoading }
+  }) => ({
     token,
     configuration,
     configurations,
-    integrationCode
+    integrationCode,
+    countries,
+    countriesAreLoading: isLoading
   }),
   {
     saveConfiguration,
-    getIntegrationCode
+    getIntegrationCode,
+    getCountries
   }
 )
 class Configuration extends React.Component {
@@ -69,6 +78,7 @@ class Configuration extends React.Component {
 
   componentDidMount() {
     this.loadData()
+    this.props.getCountries()
   }
 
   loadData() {
@@ -81,6 +91,12 @@ class Configuration extends React.Component {
 
   render() {
     const flowSteps = [
+      <Countries
+        countries={this.props.countries}
+        onSubmit={this.updateConfiguration}
+        supportedCountries={this.props.configuration.supportedCountries}
+        isLoading={this.props.countriesAreLoading}
+      />,
       <div id="language">
         <LanguageStep
           availableLanguages={AVAILABLE_LANGUAGES}
