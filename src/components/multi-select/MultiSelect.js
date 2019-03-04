@@ -20,9 +20,10 @@ export default class MultiSelect extends React.Component {
   }
 
   deleteOption = (optionIndex) => {
-    this.setState({
-      value: this.state.value.filter((option, index) => index !== optionIndex)
-    })
+    this.setState(
+      { value: this.state.value.filter((option, index) => index !== optionIndex) },
+      () => this.props.onChange && this.props.onChange(this.state.value)
+    )
   }
 
   render() {
@@ -51,7 +52,7 @@ export default class MultiSelect extends React.Component {
               key={index}
               className={CSS.valueItem}
               onClick={() => this.deleteOption(index)}
-            >{option.value}</button>
+            >{option.label}</button>
           )}
         </div>
       </div>
