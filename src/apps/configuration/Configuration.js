@@ -30,9 +30,9 @@ export default
 @injectIntl
 @connect(
   ({
-     auth: { token },
-     merchant: { configuration, configurations, integrationCode },
-     countries: { countries, isLoading }
+    auth: { token },
+    merchant: { configuration, configurations, integrationCode },
+    countries: { countries, isLoading }
   }) => ({
     token,
     configuration,
@@ -78,7 +78,7 @@ class Configuration extends React.Component {
 
   componentDidMount() {
     this.loadData()
-    this.props.getCountries()
+    this.props.getCountries(this.props.token)
   }
 
   loadData() {
