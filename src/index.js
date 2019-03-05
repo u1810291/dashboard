@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
+// Next line must stay on the top because of css variables
+import 'src/components/theme/styles.scss'
 import IntlProvider from 'src/components/intl-provider'
 import StoreProvider from 'src/components/store-provider'
 import SentryLogger from 'src/components/sentry-logger'
@@ -12,7 +14,6 @@ import 'clipboard-polyfill'
 import * as Sentry from '@sentry/browser'
 
 import 'flex-box-grid/dist/scss/index.scss'
-import 'src/components/theme/styles.scss'
 
 let ErrorLoggerWrapper = React.Fragment
 

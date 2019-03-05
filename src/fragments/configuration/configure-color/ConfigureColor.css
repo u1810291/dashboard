@@ -1,0 +1,23 @@
+:local(.buttons) {
+  --mgi-theme-items-gutter: 1rem;
+}
+
+:local(.colorPicker) {
+  position: absolute;
+}
+
+:local(.colorPickerWrapper) {
+  position: relative;
+}
+
+:local(.colorPickerButton) {
+  cursor: pointer;
+}
+
+:local(.colorPickerButton) path:not(:first-child) {
+  stroke: none;
+}
+
+:local(.colorPickerButton) path:first-child {
+  stroke: unset;
+}
