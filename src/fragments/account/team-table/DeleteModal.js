@@ -2,15 +2,15 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Modal } from 'src/components/modal'
 import Button from 'src/components/button'
-
+import Spinner from 'src/components/spinner'
 
 export default class DeleteModal extends React.Component {
   render() {
     const {
       className,
-      userName,
-      teamName,
+      user,
       onSubmit,
+      isDeleting,
       ...modalProps
     } = this.props
     return (
@@ -22,14 +22,14 @@ export default class DeleteModal extends React.Component {
           <FormattedMessage
             id="teamTable.deleteModal.description"
             values={{
-              userName: <strong>{userName}</strong>,
-              teamName: <strong>{teamName}</strong>
+              userName: <strong>{user.name || ''}</strong>,
             }} />
         </main>
         <footer className="modal--footer-center">
-          <Button type="submit" buttonStyle="danger" onClick={onSubmit}>
+          <Button type="submit" buttonStyle="danger" onClick={() => onSubmit(user.id)}>
             <FormattedMessage id="teamTable.deleteModal.delete" />
           </Button>
+          {isDeleting && <Spinner size="large" />}
         </footer>
       </Modal>
     )

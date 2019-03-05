@@ -8,14 +8,14 @@ import { createOverlay, closeOverlay } from 'src/components/overlay'
 import {
   getIntegrationCode,
   saveConfiguration,
-  AVAILABLE_COLORS,
+  COLOR_PRESETS,
   AVAILABLE_LANGUAGES,
   AVAILABLE_DOCUMENT_TYPES,
   MANDATORY_DOCUMENT_TYPES
 } from 'src/state/merchant'
 import { getCountries } from 'src/state/countries'
 import IntegrationIcon from 'src/assets/icon-integration.svg'
-import ColorStep from './ColorStep'
+import ConfigureColor from 'src/fragments/configuration/configure-color'
 import VerificationSteps from 'src/fragments/configuration/verification-steps'
 import LanguageStep from './LanguageStep'
 import CSS from './Configuration.css'
@@ -105,8 +105,8 @@ class Configuration extends React.Component {
         />
       </div>,
       <div id="buttonColor">
-        <ColorStep
-          availableButtonColors={AVAILABLE_COLORS}
+        <ConfigureColor
+          presets={COLOR_PRESETS}
           style={this.props.configuration.style}
           onClick={this.updateConfiguration}
         />

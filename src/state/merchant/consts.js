@@ -1,11 +1,11 @@
-
-export const AVAILABLE_COLORS = [
-  'blue',
-  'green',
-  'red',
-  'pink',
-  'orange',
-  'yellow'
+import { cssVariable } from 'src/lib/dom'
+export const COLOR_PRESETS = [
+  [cssVariable('--mgi-theme-palette-lightblue'), 'blue'],
+  [cssVariable('--mgi-theme-palette-green'), 'green'],
+  [cssVariable('--mgi-theme-palette-red'), 'red'],
+  [cssVariable('--mgi-theme-palette-pink'), 'pink'],
+  [cssVariable('--mgi-theme-palette-orange'), 'orange'],
+  [cssVariable('--mgi-theme-palette-yellow'), 'yellow']
 ]
 
 export const AVAILABLE_DOCUMENT_TYPES = [
@@ -18,9 +18,4 @@ export const AVAILABLE_DOCUMENT_TYPES = [
 
 export const MANDATORY_DOCUMENT_TYPES = ['liveness']
 
-export const AVAILABLE_LANGUAGES = [
-  'en',
-  'es',
-  'fr',
-  'pt'
-]
+export const AVAILABLE_LANGUAGES = ['en', 'es', 'fr', 'pt']
