@@ -325,7 +325,10 @@
   "dashboard.menu.faq": "FAQ",
 
   "accountSettings.accountInfo": "Account Info",
-  "accountSettings.team": "Team",
+  "accountSettings.yourTeam": "Your Team",
+  "accountSettings.personalSettings": "Personal Settings",
+  "accountSettings.teamSettings": "Team Settings",
+  "accountSettings.webhookSettings": "Webhook Settings",
 
   "myAccount.form.placeholders.firstName": "First Name",
   "myAccount.form.labels.firstName": "First Name",
@@ -340,11 +343,12 @@
   "teamTable.role": "Role",
   "teamTable.no-data": "No users in your team yet",
   "teamTable.invite": "Invite",
+  "teamTable.inviteTeammate": "Invite Teammate",
   "teamTable.inviteModal.title": "Invite your teammate",
   "teamTable.delete": "Delete",
   "teamTable.deleteModal.title": "Delete your teammate",
   "teamTable.deleteModal.delete": "Delete",
-  "teamTable.deleteModal.description": "Are you sure you want to delete {userName} from {teamName} team?",
+  "teamTable.deleteModal.description": "Are you sure you want to delete {userName}?",
   "teamTable.deleteSuccessModal.description": "Your teammate was deleted",
   "teamTable.deleteSuccessModal.done": "Done",
   "teamTable.inviteSuccessModal.description": "Your teammate was invited",
@@ -360,10 +364,10 @@
   "teamTable.invite.form.placeholders.role": "Role",
 
   "teamTable.invite.form.roles.agent": "Agent (can’t delete data from verification history)",
-  "teamTable.invite.form.roles.admin": "Admin",
+  "teamTable.invite.form.roles.manager": "Manager",
 
   "teamTable.roles.agent": "Agent",
-  "teamTable.roles.admin": "Admin",
+  "teamTable.roles.manager": "Manager",
 
   "users.all": "All users",
   "users.verified": "Verified",

@@ -1,5 +1,4 @@
 :local(.table) {
-  margin-bottom: var(--mgi-spacing)
 }
 
 :local(.teamName) {
@@ -10,7 +9,10 @@
   display: inherit;
   box-sizing: content-box;
   cursor: pointer;
-  padding: 3px;
+  padding: 8px;
+  &:hover {
+    filter: brightness(40%);
+  }
 }
 
 :local(.deleteModal) {
@@ -31,7 +33,7 @@
 }
 
 :local(.roleSelect) {
-  width: 80px;
+  width: 100px;
   margin-bottom: 0;
   &:focus,
   .select-field__value-container:focus,
@@ -45,4 +47,9 @@
   .select-field__indicator-separator {
     display: none;
   }
+}
+
+:local(.roleSelectWrapper) {
+  display: flex;
+  align-items: center;
 }
