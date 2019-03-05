@@ -21,7 +21,7 @@ class TeamTable extends React.Component {
     },
     {
       label: this.props.intl.formatMessage({
-        id: 'teamTable.roles.manager'
+        id: 'teamTable.roles.admin'
       }),
       value: 1
     }

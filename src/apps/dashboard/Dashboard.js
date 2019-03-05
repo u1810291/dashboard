@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { injectIntl } from 'react-intl'
 import ApplicationBox, {
@@ -30,7 +30,10 @@ export default
 @connect(
   state => ({
     token: state.auth.token,
-    configuration: state.merchant.configuration
+    configuration: state.merchant.configuration,
+    isOwner: !state.merchant.collaborators || !state.merchant.collaborators
+      .find(col => (col.user === state.auth.user.id) && col.role === 2),
+    isOwnerIsLoading: !state.merchant.collaborators
   }),
   { signOut, getMerchant, saveConfiguration }
 )
@@ -58,27 +61,34 @@ class Dashboard extends React.Component {
 
   renderMenu() {
     const { formatMessage } = this.props.intl
+    const { isOwner, isOwnerIsLoading } = this.props
+    if (isOwnerIsLoading) return <Menu />
     return (
       <Menu>
-        <MenuItemLink to="/" noActive>
-          <MatiLogo />
-        </MenuItemLink>
-        <MenuItemLink
+        {isOwner ?
+          (<MenuItemLink to="/" noActive>
+            <MatiLogo/>
+          </MenuItemLink>) :
+          (<MenuItemLink to="/verifications" noActive>
+            <MatiLogo/>
+          </MenuItemLink>)
+        }
+        {isOwner && <MenuItemLink
           to="/"
           label={formatMessage({ id: 'dashboard.menu.configuration' })}
           icon={<ConfigurationIcon />}
-        />
+        />}
         <MenuItemLink
           to="/verifications"
           label={formatMessage({ id: 'dashboard.menu.identities' })}
           icon={<IdentitiesIcon />}
         />
         <MenuItemSpacer />
-        <MenuItemLink
+        {isOwner && <MenuItemLink
           to="/developers"
           label={formatMessage({ id: 'dashboard.menu.developers' })}
           icon={<DevelopersIcon />}
-        />
+        />}
         <MenuItemLink
           to="https://docs.getmati.com"
           external={true}
@@ -94,14 +104,14 @@ class Dashboard extends React.Component {
           label={formatMessage({ id: 'dashboard.menu.account' })}
           icon={<AccountIcon />}
         >
-          <MenuItemLink
+          {isOwner && <MenuItemLink
             to="/pricing"
             label={formatMessage({ id: 'dashboard.menu.upgrade' })}
-          />
-          <MenuItemLink
+          />}
+          {isOwner && <MenuItemLink
             to="/account-settings"
             label={formatMessage({ id: 'dashboard.menu.accountSettings' })}
-          />
+          />}
           <MenuItemButton
             onClick={this.handleSignOut}
             label={formatMessage({ id: 'dashboard.menu.signout' })}
@@ -112,6 +122,8 @@ class Dashboard extends React.Component {
   }
 
   render() {
+    const { isOwnerIsLoading } = this.props
+    if (isOwnerIsLoading) return null
     return (
       <React.Fragment>
         <Helmet>
@@ -119,7 +131,7 @@ class Dashboard extends React.Component {
         </Helmet>
         <ApplicationBox menu={this.renderMenu()}>
           <Switch>
-            <Route exact path="/developers" component={DevelopersRoute} />
+            <OwnersRoute exact path="/developers" component={DevelopersRoute} />
             <Route
               exact
               path="/verifications"
@@ -130,12 +142,41 @@ class Dashboard extends React.Component {
               path="/verifications/:id"
               component={VerificationItem}
             />
-            <Route exact path="/account-settings" component={AccountSettings} />
-            <Route exact path="/pricing" component={PricingPage} />
-            <Route path="/" component={Configuration} />
+            <OwnersRoute exact path="/account-settings" component={AccountSettings} />
+            <OwnersRoute exact path="/pricing" component={PricingPage} />
+            <OwnersRoute path="/" component={Configuration} />
           </Switch>
         </ApplicationBox>
       </React.Fragment>
     )
   }
 }
+
+
+@connect(state => ({
+  isOwner: !state.merchant.collaborators || !state.merchant.collaborators
+  .find(col => (col.user === state.auth.user.id) && col.role === 2)
+}))
+class OwnersRoute extends React.Component {
+  render() {
+    const { component: Component, isOwner, ...rest } = this.props
+    return (
+      <Route
+        {...rest}
+        render={props =>
+          isOwner ? (
+            <Component {...props} />
+          ) : (
+            <Redirect
+              to={{
+                pathname: '/verifications',
+                state: { from: props.location }
+              }}
+            />
+          )
+        }
+      />
+    )
+  }
+}
+

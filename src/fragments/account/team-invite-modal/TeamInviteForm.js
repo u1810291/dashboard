@@ -37,7 +37,7 @@ class TeamInviteForm extends React.Component {
     },
     {
       label: this.props.intl.formatMessage({
-        id: 'teamTable.invite.form.roles.manager'
+        id: 'teamTable.invite.form.roles.admin'
       }),
       value: 1
     }

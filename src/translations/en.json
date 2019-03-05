@@ -363,11 +363,11 @@
   "teamTable.invite.form.labels.role": "Role",
   "teamTable.invite.form.placeholders.role": "Role",
 
-  "teamTable.invite.form.roles.agent": "Agent (can’t delete data from verification history)",
-  "teamTable.invite.form.roles.manager": "Manager",
+  "teamTable.invite.form.roles.agent": "Verification agent",
+  "teamTable.invite.form.roles.admin": "Admin",
 
   "teamTable.roles.agent": "Agent",
-  "teamTable.roles.manager": "Manager",
+  "teamTable.roles.admin": "Admin",
 
   "users.all": "All users",
   "users.verified": "Verified",
