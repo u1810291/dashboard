@@ -47,7 +47,7 @@ function VerificationDetails({
   return (
     <div className="mgi-items">
       <section className={CSS.photos}>
-        <DocumentPhotos selfie={selfie} photos={photos} />
+        {photos.length > 0 && <DocumentPhotos selfie={selfie} photos={photos} />}
       </section>
       <section className="mgi-items--grow">
         <section className="mgi-section">

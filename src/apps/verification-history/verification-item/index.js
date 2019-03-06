@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
-import { get } from 'lodash'
 import { Content } from 'src/components/application-box'
 import VerificationDetails from 'src/fragments/verifications/verification-details'
 import {
@@ -29,7 +28,6 @@ import DocumentStatusHelp from 'src/fragments/verifications/document-status-help
 import Spinner from 'src/components/spinner'
 import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
 import CSS from './VerificationItem.scss'
-
 
 const CHECK_INTERVAL = 5000
 
@@ -95,18 +93,9 @@ class VerificationItem extends React.Component {
     const { token, getIdentityWithNestedData } = this.props
     const { id } = this.props.match.params
     getIdentityWithNestedData(token, id).then(identity => {
-      if (get(identity, '_embedded.verification.documents.length')) {
-        if (identity._embedded.verification.documents.every(doc => {
-          return doc.steps.every(step => step.status === 200)
-        })) {
-          window.clearInterval(this.checkInterval);
-        }
-      }
-      else {
-        if (identity.documents.every(doc => doc.status === 'ready')) {
-          window.clearInterval(this.checkInterval)
-        }
-      }
+      // if (identity.documents.every(doc => doc.status === 'ready')) {
+      //   window.clearInterval(this.checkInterval)
+      // }
     })
   }
 
