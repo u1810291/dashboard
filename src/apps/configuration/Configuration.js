@@ -8,13 +8,14 @@ import { createOverlay, closeOverlay } from 'src/components/overlay'
 import {
   getIntegrationCode,
   saveConfiguration,
-  AVAILABLE_COLORS,
+  COLOR_PRESETS,
   AVAILABLE_LANGUAGES,
   AVAILABLE_DOCUMENT_TYPES,
   MANDATORY_DOCUMENT_TYPES
 } from 'src/state/merchant'
+import { getCountries } from 'src/state/countries'
 import IntegrationIcon from 'src/assets/icon-integration.svg'
-import ColorStep from './ColorStep'
+import ConfigureColor from 'src/fragments/configuration/configure-color'
 import VerificationSteps from 'src/fragments/configuration/verification-steps'
 import LanguageStep from './LanguageStep'
 import CSS from './Configuration.css'
@@ -23,19 +24,27 @@ import IconIOS from 'src/assets/icon-ios.svg'
 import IconAndroid from 'src/assets/icon-android.svg'
 import IconPlay from 'src/assets/icon-play.svg'
 import IntegrationCodeModal from 'src/fragments/configuration/integration-code-modal'
+import Countries from 'src/fragments/configuration/countries'
 
 export default
 @injectIntl
 @connect(
-  ({ auth: { token }, merchant: { configuration, configurations, integrationCode } }) => ({
+  ({
+    auth: { token },
+    merchant: { configuration, configurations, integrationCode },
+    countries: { countries, isLoading }
+  }) => ({
     token,
     configuration,
     configurations,
-    integrationCode
+    integrationCode,
+    countries,
+    countriesAreLoading: isLoading
   }),
   {
     saveConfiguration,
-    getIntegrationCode
+    getIntegrationCode,
+    getCountries
   }
 )
 class Configuration extends React.Component {
@@ -69,6 +78,7 @@ class Configuration extends React.Component {
 
   componentDidMount() {
     this.loadData()
+    this.props.getCountries(this.props.token)
   }
 
   loadData() {
@@ -81,6 +91,12 @@ class Configuration extends React.Component {
 
   render() {
     const flowSteps = [
+      <Countries
+        countries={this.props.countries}
+        onSubmit={this.updateConfiguration}
+        supportedCountries={this.props.configuration.supportedCountries}
+        isLoading={this.props.countriesAreLoading}
+      />,
       <div id="language">
         <LanguageStep
           availableLanguages={AVAILABLE_LANGUAGES}
@@ -89,8 +105,8 @@ class Configuration extends React.Component {
         />
       </div>,
       <div id="buttonColor">
-        <ColorStep
-          availableButtonColors={AVAILABLE_COLORS}
+        <ConfigureColor
+          presets={COLOR_PRESETS}
           style={this.props.configuration.style}
           onClick={this.updateConfiguration}
         />

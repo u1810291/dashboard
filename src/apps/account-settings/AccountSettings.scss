@@ -1,0 +1,29 @@
+:local(.container) {
+  display: flex;
+  max-width: 1300px;
+  min-width: 1100px;
+  margin: auto;
+}
+
+:local(.leftBlock) {
+  width: 200px;
+  padding-right: var(--mgi-spacing);
+  margin-right: var(--mgi-spacing);
+  padding-top: calc(var(--mgi-spacing) + 2rem);
+}
+:local(.mainBlock) {
+  //width: 1000px;
+}
+
+:local(.leftMenu) {
+  li {
+    padding: 10px 15px;
+    white-space: nowrap;
+    margin-bottom: 3px;
+    &.active {
+      font-weight: 600;
+      background: var(--mgi-theme-palette-lightgray);
+      border-radius: 4px;
+    }
+  }
+}

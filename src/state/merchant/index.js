@@ -138,6 +138,7 @@ const initialState = {
       liveness: true
     },
     verificationSteps: [],
+    supportedCountries: [],
     dashboard: {}
   }
 }

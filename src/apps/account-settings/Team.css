@@ -1,0 +1,13 @@
+:local(.container) {
+  display: flex;
+}
+
+:local(.mainBlock) {
+  width: 900px;
+}
+
+:local(.rightBlock) {
+  width: 200px;
+  white-space: nowrap;
+  padding-left: var(--mgi-spacing);
+}

@@ -1,12 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Content } from 'src/components/application-box'
-import Panel from 'src/components/panel'
 import classNames from 'classnames'
 import { passwordRecovery } from 'src/state/auth'
-import AccountInfo from './AccountInfo'
-import CSS from './AccountSettings.css'
+// import AccountInfo from './AccountInfo'
+import CSS from './AccountSettings.scss'
 import Team from './Team'
 
 export default
@@ -18,24 +17,19 @@ export default
 class AccountSettings extends React.Component {
   render() {
     return (
-      <Content>
-        <div className="container">
-          <div className="row">
-            <div className={classNames(CSS.block, 'X12 S6')}>
-              <Panel caption={this.props.intl.formatMessage({ id: 'accountSettings.accountInfo' })}>
-                <Panel.Body>
-                  <AccountInfo />
-                </Panel.Body>
-              </Panel>
-            </div>
-            <div className={classNames(CSS.block, 'X12 S6')}>
-              <Panel caption={this.props.intl.formatMessage({ id: 'accountSettings.team' })}>
-                <Panel.Body>
-                  <Team />
-                </Panel.Body>
-              </Panel>
-            </div>
-          </div>
+      <Content className={CSS.container}>
+        {/*<div className={CSS.leftBlock}>*/}
+          {/*<ul className={CSS.leftMenu}>*/}
+            {/*<li><FormattedMessage id="accountSettings.personalSettings"/></li>*/}
+            {/*<li className='active'><FormattedMessage id="accountSettings.teamSettings"/></li>*/}
+            {/*<li><FormattedMessage id="accountSettings.webhookSettings"/></li>*/}
+          {/*</ul>*/}
+        {/*</div>*/}
+        <div className={classNames(CSS.mainBlock)}>
+          <h1>
+            <FormattedMessage id="accountSettings.yourTeam" />
+          </h1>
+          <Team {...this.props}/>
         </div>
       </Content>
     )

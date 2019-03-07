@@ -38,7 +38,7 @@ function getLivenessCheck(identity) {
 
 function getBackgroundCheck(identity) {
   const watchlists = identity.watchlists
-    ? Object.values(identity.watchlists).some(list => list.length)
+    ? Object.values(identity.watchlists).some(value => value)
     : false
   return {
     caption: <FormattedMessage id="verificationModal.backgroundCheck" />,

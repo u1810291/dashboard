@@ -10,7 +10,7 @@ const formikSettings = {
   initialValues: {
     firstName: '',
     lastName: '',
-    role: 'agent',
+    role: 2,
     email: ''
   },
 
@@ -33,13 +33,13 @@ class TeamInviteForm extends React.Component {
       label: this.props.intl.formatMessage({
         id: 'teamTable.invite.form.roles.agent'
       }),
-      value: 'agent'
+      value: 2
     },
     {
       label: this.props.intl.formatMessage({
         id: 'teamTable.invite.form.roles.admin'
       }),
-      value: 'admin'
+      value: 1
     }
   ]
 
@@ -53,6 +53,7 @@ class TeamInviteForm extends React.Component {
       })
       .catch(error => {
         setSubmitting(false)
+        if (!error || !error.response || !error.response.data) return
         setStatus({ password: error.response.data.message })
       })
   }
@@ -66,22 +67,16 @@ class TeamInviteForm extends React.Component {
         validate={formikSettings.validate}
         render={props => (
           <form onSubmit={props.handleSubmit}>
-            <div className="row">
-              <div className="X12 S6">
-                <Field
-                  name="firstName"
-                  component={Input}
-                  error={props.touched.firstName && props.errors.firstName}
-                />
-              </div>
-              <div className="X12 S6">
-                <Field
-                  name="lastName"
-                  component={Input}
-                  error={props.touched.lastName && props.errors.lastName}
-                />
-              </div>
-            </div>
+            <Field
+              name="firstName"
+              component={Input}
+              error={props.touched.firstName && props.errors.firstName}
+            />
+            <Field
+              name="lastName"
+              component={Input}
+              error={props.touched.lastName && props.errors.lastName}
+            />
             <Field
               name="role"
               component={RadioButtonGroup}
