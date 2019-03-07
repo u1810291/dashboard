@@ -303,6 +303,7 @@
   "verificationModal.webhookResponse": "Webhook Response",
   "verificationModal.downloadData": "Download Data",
   "verificationModal.selfieIsLoading": "Selfie is loading",
+  "verificationModal.selfieNotLoaded": "Selfie was not loaded",
   "verificationModal.delete": "Delete",
   "verificationModal.delete.confirm": "Delete this verification?",
   "verificationModal.done": "Done",

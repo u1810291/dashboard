@@ -12,6 +12,9 @@ function detectError(string) {
 }
 
 export function getSelfie(identity, token) {
+  if (get(identity, '_embedded.verification.steps[0].status') === 0) return {
+    error: true
+  }
   if (get(identity, '_embedded.verification.steps[0].data.selfieUrl')) {
     return get(identity, '_embedded.verification.steps[0].data.selfieUrl')
       ? {
