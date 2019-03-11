@@ -206,7 +206,25 @@ function getFieldsFromSteps(doc) {
           })
         })
       }
-    } else {
+    }
+    else if (step.id === 'mexican-curp-validation') {
+      if (step.status !== 200 || step.error) {
+        fields.push({
+          caption: <FormattedMessage id={'identities.fields.mexican-curp-validation'} />,
+          value: getStepValue(step),
+          status: getStatusValue(step)
+        })
+      } else {
+        Object.entries(step.data).forEach(entry => {
+          fields.push({
+            caption: <FormattedMessage id={`identities.fields.${entry[0]}`} />,
+            value: entry[1],
+            status: 'success'
+          })
+        })
+      }
+    }
+    else {
       fields.push({
         caption: <FormattedMessage id={`identities.fields.${step.id}`} />,
         value: getStepValue(step),
