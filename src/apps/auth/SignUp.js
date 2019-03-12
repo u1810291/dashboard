@@ -16,7 +16,7 @@ export default
 class SignUp extends React.Component {
   handleSubmit = data => {
     return this.props.signUp(data).then(() => {
-      this.props.history.push('/auth/additional-info')
+      this.props.history.push('/')
     })
   }
   render() {
