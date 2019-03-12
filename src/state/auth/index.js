@@ -18,6 +18,7 @@ export function signIn(credentials) {
     .then(payload => {
       dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload })
       Mixpanel.addUser({ ...payload.data.user, email: credentials.email })
+      Mixpanel.trackEvent('dash_signin')
       return payload
     })
     .catch(error => {
@@ -35,6 +36,7 @@ export function signUp(credentials) {
       dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload })
       updateIntercom(payload.data.user)
       Mixpanel.addUser({ ...payload.data.user, email: credentials.email })
+      Mixpanel.trackEvent('dash_signup')
       return payload
     })
     .catch(error => {
