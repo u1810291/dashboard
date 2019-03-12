@@ -239,16 +239,19 @@ function getStatusValue(step) {
   if (step.status === 100) {
     return 'loading'
   }
-  if (step.status === 400) {
+  if (step.error) {
     return 'failure'
   }
-  if (step.error) {
+  if (step.status === 400) {
     return 'failure'
   }
   return 'success'
 }
 
 function getStepValue(step) {
+  if (step.error) {
+    return step.error.message || <FormattedMessage id="identities.fields.value.failed" />
+  }
   if (step.status === 100) {
     return (step.error && step.error.message) ||
       <FormattedMessage id="identities.fields.value.loading" />
