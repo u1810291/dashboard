@@ -8,11 +8,11 @@ import { FormattedMessage } from 'react-intl'
 export default function DocumentPhotos({ photos = [], selfie }) {
   return (
     <div className={CSS.photos}>
-      {(!selfie || selfie.error) && <div className={classNames(CSS.mainPhoto, CSS.photo)}>
+      {(!selfie || (selfie && selfie.error)) && <div className={classNames(CSS.mainPhoto, CSS.photo)}>
         <div className={classNames(CSS.selfiePlaceholder)}>
           <SelfieIsLoadingIcon />
           <br/>
-          {selfie.error ?
+          {(selfie && selfie.error) ?
             <FormattedMessage id="verificationModal.selfieNotLoaded" /> :
             <FormattedMessage id="verificationModal.selfieIsLoading" />
           }

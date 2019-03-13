@@ -315,6 +315,7 @@
   "verificationModal.backgroundCheck.passed": "Passed",
   "verificationModal.backgroundCheck.failed": "Manual review needed",
   "verificationModal.backgroundCheck.liveness": "Liveness",
+  "verificationModal.backgroundCheck.loading": "Loading",
   "verificationModal.backgroundCheck.globalWatchlists": "Global Watchlists",
   "verificationModal.liveness": "Liveness",
   "verificationModal.liveness.livenessCheck": "Liveness check",
