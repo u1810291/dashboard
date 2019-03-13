@@ -9,6 +9,7 @@ describe('.getSelfie', () => {
 
   it('should return null when gets null href', () => {
     let identity = {
+      _embedded: {},
       _links: { photo: { href: null } }
     }
     expect(getSelfie(identity)).toBeNull()
@@ -21,7 +22,7 @@ describe('.getSelfie', () => {
     }
     const expected = {
       caption: <FormattedMessage id="verificationModal.fields.face" />,
-      href: identity._links.photo.href + '.jpg'
+      href: identity._links.photo.href + '.jpg?access_token=undefined'
     }
     expect(getSelfie(identity)).toEqual(expected)
   })
@@ -31,6 +32,7 @@ describe('.getPhotos', () => {
   it('should return photos', () => {
     let sides = ['front', 'back']
     const identity = {
+      _embedded: {},
       documents: [
         {
           type: 'type1',
@@ -62,7 +64,7 @@ describe('.getPhotos', () => {
             <FormattedMessage id="verificationModal.fields.type1" /> ({sides[0]})
           </span>
         ),
-        href: 'hrefString'
+        href: 'hrefString?access_token=undefined'
       },
       {
         caption: (
@@ -70,7 +72,7 @@ describe('.getPhotos', () => {
             <FormattedMessage id="verificationModal.fields.type1" /> ({sides[1]})
           </span>
         ),
-        href: 'hrefString2'
+        href: 'hrefString2?access_token=undefined'
       },
       {
         caption: (
@@ -78,7 +80,7 @@ describe('.getPhotos', () => {
             <FormattedMessage id="verificationModal.fields.type2" /> ({sides[0]})
           </span>
         ),
-        href: 'hrefString3'
+        href: 'hrefString3?access_token=undefined'
       }
     ]
 
@@ -105,7 +107,8 @@ describe('.getDocuments', () => {
           status: 'ready',
           fields: [{ id: 'name', value: 'FIELD_NOT_VISIBLE' }, { id: 'address', value: 'Mexico' }]
         }
-      ]
+      ],
+      _embedded: {}
     }
     const watchlists = true
     const expected = [

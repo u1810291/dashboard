@@ -2,10 +2,12 @@ import React from 'react'
 import CSS from './AdditionalInfoForm.css'
 import { Input } from 'src/components/inputs'
 import Button from 'src/components/button'
+import { Link } from 'react-router-dom'
 import { Field, Formik } from 'formik'
 import { setI18nContext } from 'src/components/i18n-context'
 import { FormattedMessage } from 'react-intl'
 import { pick } from 'lodash'
+import { showVideo } from 'src/fragments/configuration/onboarding-video'
 
 export default
 @setI18nContext('additionalInfo.form')
@@ -17,12 +19,18 @@ class AdditionalInfoForm extends React.Component {
       .handleSubmit(data)
       .then(() => {
         setSubmitting(false)
+        this.showOnboardingVideo()
       })
       .catch(error => {
         setSubmitting(false)
         setStatus({ websiteUrl: error.response.data.message })
       })
   }
+
+  showOnboardingVideo = () => {
+    setTimeout(() => showVideo(), 1000)
+  }
+
   render() {
     return (
       <Formik
@@ -32,7 +40,7 @@ class AdditionalInfoForm extends React.Component {
             <Field type="text" name="businessName" component={Input} />
             <Field type="text" name="websiteUrl" component={Input} />
             <p>
-              <a href="https://getmati.com/thank-you/" className={CSS.skipLink}>
+              <Link to="/" onClick={this.showOnboardingVideo} className={CSS.skipLink}>
                 <Button
                   className={CSS.submit}
                   disabled={props.isSubmitting}
@@ -40,7 +48,7 @@ class AdditionalInfoForm extends React.Component {
                 >
                   <FormattedMessage id="additionalInfo.skip" />
                 </Button>
-              </a>
+              </Link>
               <Button
                 type="submit"
                 className={CSS.submit}
