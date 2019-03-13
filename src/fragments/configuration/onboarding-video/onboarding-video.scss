@@ -1,0 +1,23 @@
+:local(.content) {
+  max-width: calc(100vw - var(--mgi-application-box-menu-item-spacing) * 2);
+  width: 767px;
+
+  h1 {
+    color: white;
+  }
+}
+:local(.player) {
+  padding-top: 75%;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid white;
+  background: black;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}

@@ -7,6 +7,7 @@ import CSS from './document-fields.scss'
 const icons = {
   success: require('./success.svg'),
   failure: require('./failure.svg'),
+  loading: require('./warning.svg'),
   warning: require('./warning.svg')
 }
 

@@ -13,7 +13,7 @@ export function getIdentityListCount(token) {
 }
 
 export function getIdentity(token, id) {
-  return http.get(`/v1/identities/${id}`, {
+  return http.get(`/v1/identities/${id}?embed=verification`, {
     headers: { ...getAuthHeader(token) }
   })
 }
@@ -62,11 +62,16 @@ async function getDocumentsFullData(token, id) {
 }
 
 export function getIdentityWithNestedData(token, id) {
-  return getIdentity(token, id).then(async ({ data }) => ({
-    ...data,
-    originalIdentity: data,
-    documents: await getDocumentsFullData(token, id)
-  }))
+  return getIdentity(token, id).then(async ({ data }) => {
+    let identity = {
+      ...data,
+      originalIdentity: data
+    }
+    if (!data._embedded || !data._embedded.verification) {
+      identity.documents = await getDocumentsFullData(token, id)
+    }
+    return identity
+  })
 }
 
 export function patchDocument(token, id, fields) {

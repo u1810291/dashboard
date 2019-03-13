@@ -52,7 +52,7 @@ class SignUpForm extends React.Component {
         onSubmit={this.onSubmit}
         validate={formikSettings.validate}
         render={props => (
-          <form onSubmit={props.handleSubmit}>
+          <form onSubmit={props.handleSubmit} id="signup_form">
             <div className={CSS.name}>
               <Field
                 name="firstName"
@@ -80,6 +80,7 @@ class SignUpForm extends React.Component {
             <p>
               <Button
                 type="submit"
+                id="sign_up"
                 className={CSS.submit}
                 disabled={props.isSubmitting}
                 buttonStyle="primary"

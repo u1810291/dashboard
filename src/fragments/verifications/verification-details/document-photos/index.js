@@ -5,21 +5,24 @@ import SelfieIsLoadingIcon from './selfie-is-loading.svg'
 import CSS from './document-photos.module.scss'
 import { FormattedMessage } from 'react-intl'
 
-export default function DocumentPhotos({ photos = [], selfie, signURL = url => url }) {
+export default function DocumentPhotos({ photos = [], selfie }) {
   return (
     <div className={CSS.photos}>
-      {!selfie && <div className={classNames(CSS.mainPhoto, CSS.photo)}>
+      {(!selfie || (selfie && selfie.error)) && <div className={classNames(CSS.mainPhoto, CSS.photo)}>
         <div className={classNames(CSS.selfiePlaceholder)}>
           <SelfieIsLoadingIcon />
           <br/>
-          <FormattedMessage id="verificationModal.selfieIsLoading" />
+          {(selfie && selfie.error) ?
+            <FormattedMessage id="verificationModal.selfieNotLoaded" /> :
+            <FormattedMessage id="verificationModal.selfieIsLoading" />
+          }
         </div>
       </div>}
 
       {selfie && <div className={classNames(CSS.mainPhoto, CSS.photo)}>
-        <a href={signURL(selfie.href)} target="_blank" rel="noopener noreferrer">
+        <a href={selfie.href} target="_blank" rel="noopener noreferrer">
           <div className={CSS.photoWrapper}>
-            <img src={signURL(selfie.href)} alt={selfie.caption} />
+            <img src={selfie.href} alt={selfie.caption} />
             <ZoomIcon className={CSS.zoomIcon}/>
           </div>
         </a>
@@ -27,9 +30,9 @@ export default function DocumentPhotos({ photos = [], selfie, signURL = url => u
 
       {photos.map(({ href, caption }, index) => (
         <div key={index} className={classNames(CSS.photo)}>
-          <a href={signURL(href)} target="_blank" rel="noopener noreferrer">
+          <a href={href} target="_blank" rel="noopener noreferrer">
             <div className={CSS.photoWrapper}>
-              <img src={signURL(href)} alt={caption} />
+              <img src={href} alt={caption} />
               <ZoomIcon className={CSS.zoomIcon}/>
             </div>
           </a>

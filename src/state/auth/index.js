@@ -2,6 +2,7 @@ import { createReducer, createTypesSequence } from 'src/state/utils'
 import client from 'src/lib/client'
 import { updateIntercom } from 'src/lib/intercom'
 import * as Mixpanel from 'src/lib/mixpanel'
+import * as GTM from 'src/lib/gtm'
 
 export const types = {
   ...createTypesSequence('AUTH_SIGNIN'),
@@ -18,6 +19,7 @@ export function signIn(credentials) {
     .then(payload => {
       dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload })
       Mixpanel.addUser({ ...payload.data.user, email: credentials.email })
+      Mixpanel.trackEvent('dash_signin')
       return payload
     })
     .catch(error => {
@@ -35,6 +37,8 @@ export function signUp(credentials) {
       dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload })
       updateIntercom(payload.data.user)
       Mixpanel.addUser({ ...payload.data.user, email: credentials.email })
+      Mixpanel.trackEvent('dash_signup')
+      GTM.pushEvent({ 'event': 'Sign Up Success' })
       return payload
     })
     .catch(error => {

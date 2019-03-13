@@ -15,7 +15,7 @@ export default
 class AdditionalInfo extends React.Component {
   handleSubmit = data => {
     return this.props.putMerchants(this.props.token, data).then(() => {
-      window.location.assign('https://getmati.com/thank-you/')
+      this.props.history.push('/')
     })
   }
   render() {
