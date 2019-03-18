@@ -4,6 +4,7 @@
 @import './helpers.scss';
 @import './fieldsets.scss';
 @import './sections.scss';
+@import './tables.scss';
 
 section.mgi-section-separated {
   margin-bottom: calc(1.5 * var(--mgi-spacing));
@@ -14,6 +15,7 @@ section.mgi-section-separated {
   // flex-wrap: wrap;
   margin-right: calc(-1 * var(--mgi-theme-items-gutter));
   justify-content: start;
+  align-items: flex-start;
 }
 
 .mgi-items .mgi-items--grow {

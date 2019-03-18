@@ -1,0 +1,7 @@
+:local(.copyButtonColumn) {
+  width: var(--mgi-spacing);
+}
+
+:local(.headerColumn) {
+  width: 180px;
+}

@@ -10,4 +10,5 @@
   width: 200px;
   white-space: nowrap;
   padding-left: var(--mgi-spacing);
+  padding-top: 4rem;
 }
