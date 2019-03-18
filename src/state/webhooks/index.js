@@ -87,12 +87,6 @@ const initialState = {
 }
 
 const reducer = createReducer(initialState, {
-  [types.WEBHOOKS_SUBSCRIBE_SUCCESS]: function(state, { payload }) {
-    return {
-      ...state,
-      webhooks: [...state.webhooks, payload.data]
-    }
-  },
   [types.WEBHOOKS_LIST_SUCCESS]: function(state, { payload, token }) {
     return {
       ...state,
