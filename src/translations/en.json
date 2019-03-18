@@ -303,7 +303,7 @@
   "verificationModal.via": "via",
   "verificationModal.n-a": "n/a",
   "verificationModal.header": "Verification details",
-  "verificationModal.webhookResponse": "Webhook Response",
+  "verificationModal.webhookData": "Webhook Data",
   "verificationModal.downloadData": "Download Data",
   "verificationModal.selfieIsLoading": "Selfie is loading",
   "verificationModal.selfieNotLoaded": "Selfie was not loaded",
@@ -326,6 +326,8 @@
   "verificationModal.fields.national-id": "National ID",
   "verificationModal.fields.passport": "Passport",
   "verificationModal.fields.proof-of-residency": "Proof of residency",
+
+  "verificationWebhookModal.title": "Webhook data",
 
   "dashboard.menu.identities": "Verification history",
   "dashboard.menu.configuration": "Product configuration",

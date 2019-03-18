@@ -8,7 +8,7 @@ export default function({ webhook, onClose }) {
   return (
     <Modal wide>
       <header>
-        <FormattedMessage id="verificationModal.webhookResponse" />
+        <FormattedMessage id="verificationWebhookModal.title" />
       </header>
       <main>
         <SyntaxHighlighter
