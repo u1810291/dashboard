@@ -34,20 +34,22 @@ export function getSelfie(identity, token) {
 }
 
 function getLivenessCheck(identity) {
-  if (identity._embedded.verification && identity._embedded.verification.documents) {
+  if (get(identity, '_embedded.verification.steps[0]')) {
     let statusCode = identity._embedded.verification.steps[0].status
+    let error = identity._embedded.verification.steps[0].error
     let result
     let status
     if (statusCode === 100) {
-      result = 'loading'
+      result = <FormattedMessage id="verificationModal.backgroundCheck.loading"/>
       status = 'loading'
     }
-    else if (statusCode === 200) {
-      result = 'passed'
+    else if (statusCode === 200 && !error) {
+      result = <FormattedMessage id="verificationModal.backgroundCheck.passed"/>
       status = 'success'
     }
     else {
-      result = 'failed'
+      result = (error && error.message) ? error.message :
+        <FormattedMessage id="verificationModal.backgroundCheck.failed"/>
       status = 'failure'
     }
     return {
@@ -55,11 +57,7 @@ function getLivenessCheck(identity) {
       fields: [
         {
           caption: <FormattedMessage id="verificationModal.liveness.livenessCheck" />,
-          value: (
-            <FormattedMessage
-              id={`verificationModal.backgroundCheck.${result}`}
-            />
-          ),
+          value: result,
           status: status
         }
       ]
