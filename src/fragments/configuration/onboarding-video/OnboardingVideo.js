@@ -20,7 +20,7 @@ export default class OnboardingVideo extends React.Component {
             frameBorder="0"
             allowFullScreen=""
             title="Mati Dashboard Video"
-            src="https://onelineplayer.com/player.html?autoplay=false&loop=true&autopause=false&muted=false&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D6k9CD1t6LBQ%26feature%3Dyoutu.be&poster=null&time=true&progressBar=true&playButton=true&overlay=true&muteButton=false&fullscreenButton=true&style=light&logo=false&quality=1080p" />
+            src="https://onelineplayer.com/player.html?autoplay=false&loop=true&autopause=false&muted=false&url=https%3A%2F%2Fyoutu.be%2FH6-KDkZYS94&poster=null&time=true&progressBar=true&playButton=true&overlay=true&muteButton=false&fullscreenButton=true&style=light&logo=false&quality=1080p" />
         </div>
       </div>
     )
