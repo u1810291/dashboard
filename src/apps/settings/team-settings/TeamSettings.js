@@ -12,11 +12,11 @@ import Button from 'src/components/button'
 import { closeOverlay, createOverlay } from 'src/components/overlay'
 import TeamInviteModal from 'src/fragments/account/team-invite-modal/TeamInviteModal'
 import InviteSuccessModal from 'src/fragments/account/team-invite-modal/InviteSuccessModal'
-import CSS from './Team.css'
+import CSS from './TeamSettings.css'
 import Panel from 'src/components/panel'
-import InviteIcon from './invite.svg'
+import InviteIcon from '../invite.svg'
 
-const mapCollaborators = (collaborator) => ({
+const mapCollaborators = collaborator => ({
   role: collaborator.role,
   name: collaborator.user.firstName + ' ' + collaborator.user.lastName,
   id: collaborator.user.id,
@@ -32,7 +32,8 @@ export default
     isPosting: collaborators.isPosting,
     isDeleting: collaborators.isDeleting,
     isPatchingArray: collaborators.isPatchingArray,
-    merchantId: merchant.id
+    merchantId: merchant.id,
+    token
   }),
   {
     getCollaborators,
@@ -41,10 +42,10 @@ export default
     patchCollaborators
   }
 )
-class Team extends React.Component {
-
+class TeamSettings extends React.Component {
   componentDidMount() {
     if (this.props.merchantId) {
+      console.log(this.props.token)
       this.props.getCollaborators(this.props.token, this.props.merchantId)
     }
   }
@@ -75,7 +76,8 @@ class Team extends React.Component {
         lastName: data.lastName
       }
     }
-    return this.props.postCollaborators(this.props.token, this.props.merchantId, dataToSend)
+    return this.props
+      .postCollaborators(this.props.token, this.props.merchantId, dataToSend)
       .then(() => this.openInviteSuccessModal())
   }
 
@@ -90,15 +92,16 @@ class Team extends React.Component {
   }
 
   openInviteSuccessModal = () => {
-    createOverlay(
-      <InviteSuccessModal onClose={closeOverlay} />
-    )
+    createOverlay(<InviteSuccessModal onClose={closeOverlay} />)
   }
 
   render() {
     return (
       <div className={CSS.container}>
         <div className={CSS.mainBlock}>
+          <h2>
+            <FormattedMessage id="settings.teamSettings.title" />
+          </h2>
           <Panel>
             <TeamTable
               onRoleChange={this.onRoleChange}
@@ -110,7 +113,7 @@ class Team extends React.Component {
         <div className={CSS.rightBlock}>
           <Button buttonStyle="primary" onClick={this.openInviteModal}>
             <InviteIcon />
-            <FormattedMessage id="teamTable.inviteTeammate" />
+            <FormattedMessage id="settings.teamSettings.inviteTeammate" />
           </Button>
         </div>
       </div>

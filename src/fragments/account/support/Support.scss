@@ -1,0 +1,16 @@
+:local(.titleWrapper) {
+  display: flex;
+  align-items: center;
+}
+
+:local(.title) {
+  color: #3757FF;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+:local(.supportButton) {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}

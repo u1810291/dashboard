@@ -57,17 +57,8 @@ describe('helpers', () => {
     const mandatory = ['a']
     const available = ['b', 'c', 'd', 'e', 'f']
     const steps = [['b', 'c'], ['d']]
-    expect(accessibleItems(available, mandatory, steps, 0)).toEqual([
-      'b',
-      'c',
-      'e',
-      'f'
-    ])
-    expect(accessibleItems(available, mandatory, steps, 1)).toEqual([
-      'd',
-      'e',
-      'f'
-    ])
+    expect(accessibleItems(available, mandatory, steps, 0)).toEqual(['b', 'c', 'e', 'f'])
+    expect(accessibleItems(available, mandatory, steps, 1)).toEqual(['d', 'e', 'f'])
     expect(accessibleItems(available, mandatory, steps)).toEqual(['e', 'f'])
   })
 })

@@ -14,16 +14,28 @@ import { Configuration } from 'src/apps/configuration'
 import PricingPage from 'src/apps/pricing'
 import VerificationHistory from 'src/apps/verification-history'
 import VerificationItem from 'src/apps/verification-history/verification-item'
-import DevelopersRoute from 'src/apps/developers'
-import { AccountSettings } from 'src/apps/account-settings'
+import { Settings } from 'src/apps/settings'
 import { signOut } from 'src/state/auth'
 import { getMerchant, saveConfiguration } from 'src/state/merchant'
 import MatiLogo from 'src/assets/mati-logo-white.svg'
 import IdentitiesIcon from './icons/icon-history.svg'
 import ConfigurationIcon from './icons/icon-customize.svg'
 import AccountIcon from './icons/icon-account.svg'
-import DevelopersIcon from './icons/icon-developers.svg'
 import FAQIcon from './icons/icon-faq.svg'
+import SettingsIcon from './icons/settings.svg'
+// import FeaturesIcon from './icons/features.svg'
+import LogoutIcon from './icons/logout.svg'
+import PricingIcon from './icons/pricing.svg'
+import CSS from './Dashboard.css'
+
+function MenuIconWrapper({icon}) {
+  return (
+    <div className={CSS.menuIconWrapper}>
+      {icon}
+    </div>
+  )
+}
+
 
 export default
 @injectIntl
@@ -31,8 +43,9 @@ export default
   state => ({
     token: state.auth.token,
     configuration: state.merchant.configuration,
-    isOwner: !state.merchant.collaborators || !state.merchant.collaborators
-      .find(col => (col.user === state.auth.user.id) && col.role === 2),
+    isOwner:
+      !state.merchant.collaborators ||
+      !state.merchant.collaborators.find(col => col.user === state.auth.user.id && col.role === 2),
     isOwnerIsLoading: !state.merchant.collaborators
   }),
   { signOut, getMerchant, saveConfiguration }
@@ -65,30 +78,28 @@ class Dashboard extends React.Component {
     if (isOwnerIsLoading) return <Menu />
     return (
       <Menu>
-        {isOwner ?
-          (<MenuItemLink to="/" noActive>
-            <MatiLogo/>
-          </MenuItemLink>) :
-          (<MenuItemLink to="/verifications" noActive>
-            <MatiLogo/>
-          </MenuItemLink>)
-        }
-        {isOwner && <MenuItemLink
-          to="/"
-          label={formatMessage({ id: 'dashboard.menu.configuration' })}
-          icon={<ConfigurationIcon />}
-        />}
+        {isOwner ? (
+          <MenuItemLink to="/" noActive>
+            <MatiLogo />
+          </MenuItemLink>
+        ) : (
+          <MenuItemLink to="/verifications" noActive>
+            <MatiLogo />
+          </MenuItemLink>
+        )}
+        {isOwner && (
+          <MenuItemLink
+            to="/"
+            label={formatMessage({ id: 'dashboard.menu.configuration' })}
+            icon={<ConfigurationIcon />}
+          />
+        )}
         <MenuItemLink
           to="/verifications"
           label={formatMessage({ id: 'dashboard.menu.identities' })}
           icon={<IdentitiesIcon />}
         />
         <MenuItemSpacer />
-        {isOwner && <MenuItemLink
-          to="/developers"
-          label={formatMessage({ id: 'dashboard.menu.developers' })}
-          icon={<DevelopersIcon />}
-        />}
         <MenuItemLink
           to="https://docs.getmati.com"
           external={true}
@@ -104,17 +115,24 @@ class Dashboard extends React.Component {
           label={formatMessage({ id: 'dashboard.menu.account' })}
           icon={<AccountIcon />}
         >
-          {isOwner && <MenuItemLink
-            to="/pricing"
-            label={formatMessage({ id: 'dashboard.menu.upgrade' })}
-          />}
-          {isOwner && <MenuItemLink
-            to="/account-settings"
-            label={formatMessage({ id: 'dashboard.menu.accountSettings' })}
-          />}
+          {isOwner && (
+            <MenuItemLink
+              to="/pricing"
+              label={formatMessage({ id: 'dashboard.menu.upgrade' })}
+              icon={<MenuIconWrapper icon={<PricingIcon/>} />}
+            />
+          )}
+          {isOwner && (
+            <MenuItemLink
+              to="/settings"
+              label={formatMessage({ id: 'dashboard.menu.settings' })}
+              icon={<MenuIconWrapper icon={<SettingsIcon/>} />}
+            />
+          )}
           <MenuItemButton
             onClick={this.handleSignOut}
             label={formatMessage({ id: 'dashboard.menu.signout' })}
+            icon={<MenuIconWrapper icon={<LogoutIcon/>} />}
           />
         </MenuItemCollection>
       </Menu>
@@ -131,18 +149,9 @@ class Dashboard extends React.Component {
         </Helmet>
         <ApplicationBox menu={this.renderMenu()}>
           <Switch>
-            <OwnersRoute exact path="/developers" component={DevelopersRoute} />
-            <Route
-              exact
-              path="/verifications"
-              component={VerificationHistory}
-            />
-            <Route
-              exact
-              path="/verifications/:id"
-              component={VerificationItem}
-            />
-            <OwnersRoute exact path="/account-settings" component={AccountSettings} />
+            <Route exact path="/verifications" component={VerificationHistory} />
+            <Route exact path="/verifications/:id" component={VerificationItem} />
+            <OwnersRoute path="/settings" component={Settings} />
             <OwnersRoute exact path="/pricing" component={PricingPage} />
             <OwnersRoute path="/" component={Configuration} />
           </Switch>
@@ -152,10 +161,10 @@ class Dashboard extends React.Component {
   }
 }
 
-
 @connect(state => ({
-  isOwner: !state.merchant.collaborators || !state.merchant.collaborators
-  .find(col => (col.user === state.auth.user.id) && col.role === 2)
+  isOwner:
+    !state.merchant.collaborators ||
+    !state.merchant.collaborators.find(col => col.user === state.auth.user.id && col.role === 2)
 }))
 class OwnersRoute extends React.Component {
   render() {
@@ -179,4 +188,3 @@ class OwnersRoute extends React.Component {
     )
   }
 }
-

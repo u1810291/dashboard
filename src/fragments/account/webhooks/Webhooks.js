@@ -10,17 +10,12 @@ import NewWebhookModal from '../new-webhook-modal'
 
 export default class Webhooks extends React.Component {
   handleAddNewWebhook = () => {
-    createOverlay(
-      <NewWebhookModal
-        onSave={this.props.subscribeToWebhook}
-        onClose={closeOverlay}
-      />
-    )
+    createOverlay(<NewWebhookModal onSave={this.props.subscribeToWebhook} onClose={closeOverlay} />)
   }
 
   handleDeleteWebhook = ({ id }) => {
-    confirm(<FormattedMessage id="fragments.account.webhooks.confirm" />).then(
-      () => this.props.deleteWebhook(id)
+    confirm(<FormattedMessage id="fragments.account.webhooks.confirm" />).then(() =>
+      this.props.deleteWebhook(id)
     )
   }
 
@@ -33,14 +28,9 @@ export default class Webhooks extends React.Component {
         content: webhook => <code className="text-wrap">{webhook.url}</code>
       },
       {
-        label: (
-          <FormattedMessage id="fragments.account.webhooks.labels.delete" />
-        ),
+        label: <FormattedMessage id="fragments.account.webhooks.labels.delete" />,
         content: webhook => (
-          <Button
-            buttonStyle="invisible"
-            onClick={this.handleDeleteWebhook.bind(this, webhook)}
-          >
+          <Button buttonStyle="invisible" onClick={this.handleDeleteWebhook.bind(this, webhook)}>
             <Icons.TrashBin className="svg-error" />
           </Button>
         ),
@@ -60,12 +50,7 @@ export default class Webhooks extends React.Component {
           </section>
           {webhooks.length > 0 && (
             <section className="mgi-section mgi-section__no-border">
-              <DataTable
-                rows={webhooks}
-                columns={columns}
-                borderAround
-                inline
-              />
+              <DataTable rows={webhooks} columns={columns} borderAround inline />
             </section>
           )}
           <section className="mgi-section">

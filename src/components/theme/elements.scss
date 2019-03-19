@@ -21,6 +21,12 @@ body {
   overflow-x: hidden;
 }
 
+code {
+  font-family: Courier, monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 img {
   /* Remove extra space below image */
   display: flex;
@@ -51,6 +57,7 @@ a {
 }
 
 h1,
+h2,
 h3 {
   margin: 0;
 
@@ -80,6 +87,12 @@ h1 {
   &:not(:last-child) {
     margin-bottom: var(--mgi-spacing);
   }
+}
+
+h2 {
+  font-size: 1.28rem;
+  font-weight: 700;
+  margin-bottom: var(--mgi-spacing);
 }
 
 h3 {
