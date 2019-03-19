@@ -22,6 +22,20 @@ import IdentitiesIcon from './icons/icon-history.svg'
 import ConfigurationIcon from './icons/icon-customize.svg'
 import AccountIcon from './icons/icon-account.svg'
 import FAQIcon from './icons/icon-faq.svg'
+import SettingsIcon from './icons/settings.svg'
+// import FeaturesIcon from './icons/features.svg'
+import LogoutIcon from './icons/logout.svg'
+import PricingIcon from './icons/pricing.svg'
+import CSS from './Dashboard.css'
+
+function MenuIconWrapper({icon}) {
+  return (
+    <div className={CSS.menuIconWrapper}>
+      {icon}
+    </div>
+  )
+}
+
 
 export default
 @injectIntl
@@ -102,14 +116,23 @@ class Dashboard extends React.Component {
           icon={<AccountIcon />}
         >
           {isOwner && (
-            <MenuItemLink to="/pricing" label={formatMessage({ id: 'dashboard.menu.upgrade' })} />
+            <MenuItemLink
+              to="/pricing"
+              label={formatMessage({ id: 'dashboard.menu.upgrade' })}
+              icon={<MenuIconWrapper icon={<PricingIcon/>} />}
+            />
           )}
           {isOwner && (
-            <MenuItemLink to="/settings" label={formatMessage({ id: 'dashboard.menu.settings' })} />
+            <MenuItemLink
+              to="/settings"
+              label={formatMessage({ id: 'dashboard.menu.settings' })}
+              icon={<MenuIconWrapper icon={<SettingsIcon/>} />}
+            />
           )}
           <MenuItemButton
             onClick={this.handleSignOut}
             label={formatMessage({ id: 'dashboard.menu.signout' })}
+            icon={<MenuIconWrapper icon={<LogoutIcon/>} />}
           />
         </MenuItemCollection>
       </Menu>
