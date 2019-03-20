@@ -73,7 +73,7 @@ class VerificationItem extends React.Component {
   openWebhookModal = () => {
     createOverlay(
       <VerificationWebhookModal
-        webhook={stringify(this.props.identity.originalIdentity)}
+        webhook={stringify(this.props.identity.originalIdentity._embedded)}
         onClose={closeOverlay}
       />
     )
@@ -148,7 +148,7 @@ class VerificationItem extends React.Component {
             <section className="mgi-section mgi-section__no-border">
               <Button onClick={this.openWebhookModal}>
                 <WebbhooksIcon />
-                <FormattedMessage id="verificationModal.webhookResponse" />
+                <FormattedMessage id="verificationModal.webhookData" />
               </Button>
             </section>
             {/*<Button>*/}

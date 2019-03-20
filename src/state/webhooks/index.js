@@ -22,9 +22,7 @@ export function subscribeToWebhook(token, data) {
         dispatch({ type: types.WEBHOOKS_SUBSCRIBE_FAILURE })
         const details = get(error, 'response.data.details')
         if (details) {
-          throw fromPairs(
-            details.map(detail => [detail.path.join('.'), detail.message])
-          )
+          throw fromPairs(details.map(detail => [detail.path.join('.'), detail.message]))
         } else {
           throw error
         }
@@ -56,7 +54,7 @@ export function getWebhooks(token) {
     return client.webhooks
       .getWebhooks(token)
       .then(payload => {
-        dispatch({ type: types.WEBHOOKS_LIST_SUCCESS, payload })
+        dispatch({ type: types.WEBHOOKS_LIST_SUCCESS, payload, token })
         return payload
       })
       .catch(error => {
@@ -84,21 +82,18 @@ export function getWebhooksSamples(token) {
 
 const initialState = {
   lastWebhook: {},
-  webhooks: [],
+  webhooks: {},
   testWebhooks: []
 }
 
 const reducer = createReducer(initialState, {
-  [types.WEBHOOKS_SUBSCRIBE_SUCCESS]: function(state, { payload }) {
+  [types.WEBHOOKS_LIST_SUCCESS]: function(state, { payload, token }) {
     return {
       ...state,
-      webhooks: [...state.webhooks, payload.data]
-    }
-  },
-  [types.WEBHOOKS_LIST_SUCCESS]: function(state, { payload }) {
-    return {
-      ...state,
-      webhooks: payload.data || []
+      webhooks: {
+        ...state.webhooks,
+        [token]: payload.data || []
+      }
     }
   },
   [types.WEBHOOKS_SAMPLES_LIST_SUCCESS]: function(state, { payload }) {

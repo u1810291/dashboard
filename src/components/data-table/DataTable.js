@@ -19,7 +19,7 @@ function TableWrapper({ inline, children }) {
 
 export default function DataTable({
   columns,
-  rows,
+  rows = [],
   disabledRows = [],
   className,
   emptyBodyLabel,
@@ -27,8 +27,7 @@ export default function DataTable({
   isLoading,
   inline = false
 }) {
-  const sizeFraction =
-    100 / columns.map(({ size = 1 }) => size).reduce((sum, val) => sum + val)
+  const sizeFraction = 100 / columns.map(({ size = 1 }) => size).reduce((sum, val) => sum + val)
 
   return (
     <TableWrapper inline={inline}>
@@ -53,35 +52,27 @@ export default function DataTable({
             </tr>
           </thead>
           <tbody>
-            {!isLoading && rows.map((element, index) => (
-              <tr
-                key={index}
-                onClick={
-                  !disabledRows.includes(element) && onRowClick
-                    ? () => onRowClick(element)
-                    : undefined
-                }
-                className={
-                  !disabledRows.includes(element) && onRowClick
-                    ? CSS.clickable
-                    : ''
-                }
-              >
-                {columns.map(
-                  ({ content, className, align = 'left' }, index) => (
+            {!isLoading &&
+              rows.map((element, index) => (
+                <tr
+                  key={index}
+                  onClick={
+                    !disabledRows.includes(element) && onRowClick
+                      ? () => onRowClick(element)
+                      : undefined
+                  }
+                  className={!disabledRows.includes(element) && onRowClick ? CSS.clickable : ''}
+                >
+                  {columns.map(({ content, className, align = 'left' }, index) => (
                     <td
-                      className={classNames(
-                        className,
-                        `mgi-data-table_align-${align}`
-                      )}
+                      className={classNames(className, `mgi-data-table_align-${align}`)}
                       key={index}
                     >
                       {content(element)}
                     </td>
-                  )
-                )}
-              </tr>
-            ))}
+                  ))}
+                </tr>
+              ))}
             {emptyBodyLabel && !rows.length && !isLoading ? (
               <tr>
                 <td colSpan={columns.length}>
@@ -94,9 +85,11 @@ export default function DataTable({
             ) : null}
           </tbody>
         </table>
-        {isLoading && <div className={CSS.preloader}>
-          <Spinner size="large" />
-        </div>}
+        {isLoading && (
+          <div className={CSS.preloader}>
+            <Spinner size="large" />
+          </div>
+        )}
       </div>
     </TableWrapper>
   )

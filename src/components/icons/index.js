@@ -5,6 +5,7 @@ import WarningTriangle from './warning-triangle.svg'
 import Info from './info.svg'
 import TrashBin from './trashbin.svg'
 import Pencil from './pencil.svg'
+import Clipboard from './Clipboard.svg'
 
 export default {
   FaceMatch,
@@ -13,5 +14,6 @@ export default {
   WarningTriangle,
   Info,
   Pencil,
-  TrashBin
+  TrashBin,
+  Clipboard
 }

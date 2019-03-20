@@ -1,13 +1,11 @@
 import React from 'react'
 import { injectIntl } from 'react-intl'
+import fp from 'lodash/fp'
 import { withI18nContext } from 'src/components/i18n-context'
 import classNames from 'classnames'
 import { get } from 'lodash'
 import CSS from './Input.css'
 
-export default
-@injectIntl
-@withI18nContext
 class BaseInput extends React.Component {
   render() {
     const {
@@ -58,3 +56,8 @@ class BaseInput extends React.Component {
     )
   }
 }
+
+export default fp.flow(
+  injectIntl,
+  withI18nContext
+)(BaseInput)
