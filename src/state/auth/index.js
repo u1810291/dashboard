@@ -18,8 +18,7 @@ export function signIn(credentials) {
     return client.auth.signin(credentials)
     .then(payload => {
       dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload })
-      Mixpanel.addUser({ ...payload.data.user, email: credentials.email })
-      Mixpanel.trackEvent('dash_signin')
+      Mixpanel.addUser({ ...payload.data.merchant, email: credentials.email })
       return payload
     })
     .catch(error => {
@@ -36,7 +35,7 @@ export function signUp(credentials) {
     .then(payload => {
       dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload })
       updateIntercom(payload.data.user)
-      Mixpanel.addUser({ ...payload.data.user, email: credentials.email })
+      Mixpanel.addUser({ ...payload.data.merchant, email: credentials.email })
       Mixpanel.trackEvent('dash_signup')
       GTM.pushEvent({ 'event': 'Sign Up Success' })
       return payload
