@@ -21,18 +21,18 @@ function ClientApplications({
   useEffect(() => {
     getMerchantApps(token).then(response => {
       const apps = get(response, 'data.apps', [])
-      apps.forEach(app => getWebhooks(app.clientId))
+      apps.forEach(app => getWebhooks(token, app.clientId))
     })
   }, [])
 
   async function handleSubscribeToWebhook(clientId, url, secret) {
-    await subscribeToWebhook(clientId, { url, secret })
-    await getWebhooks(clientId)
+    await subscribeToWebhook(token, clientId, { url, secret })
+    await getWebhooks(token, clientId)
   }
 
   async function handleDeleteWebhook(clientId, id) {
-    await deleteWebhook(clientId, id)
-    await getWebhooks(clientId)
+    await deleteWebhook(token, clientId, id)
+    await getWebhooks(token, clientId)
   }
 
   return (
