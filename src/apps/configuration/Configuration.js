@@ -8,6 +8,7 @@ import { createOverlay, closeOverlay } from 'src/components/overlay'
 import {
   getIntegrationCode,
   saveConfiguration,
+  getMerchantApps,
   COLOR_PRESETS,
   AVAILABLE_LANGUAGES,
   AVAILABLE_DOCUMENT_TYPES,
@@ -31,7 +32,7 @@ export default
 @connect(
   ({
     auth: { token },
-    merchant: { configuration, configurations, integrationCode },
+    merchant: { configuration, configurations, integrationCode, apps = [] },
     countries: { countries, isLoading }
   }) => ({
     token,
@@ -39,12 +40,14 @@ export default
     configurations,
     integrationCode,
     countries,
+    apps,
     countriesAreLoading: isLoading
   }),
   {
     saveConfiguration,
     getIntegrationCode,
-    getCountries
+    getCountries,
+    getMerchantApps
   }
 )
 class Configuration extends React.Component {
@@ -77,12 +80,10 @@ class Configuration extends React.Component {
   }
 
   componentDidMount() {
-    this.loadData()
-    this.props.getCountries(this.props.token)
-  }
-
-  loadData() {
     this.props.getIntegrationCode(this.props.token)
+    this.props.getCountries(this.props.token)
+    this.props.getMerchantApps(this.props.token)
+
   }
 
   updateConfiguration = settings => {
@@ -147,20 +148,24 @@ class Configuration extends React.Component {
               <FormattedMessage id="onboarding.video.link" />
             </a>
           </p>
-          <div>
-            <MatiButton
-              language={this.props.configuration.style.language}
-              color={this.props.configuration.style.color}
-              clientId={this.props.token}
-              onSuccess={this.redirectToIdentity}
-              className={CSS.matiButtonConfiguration}
-            />
-            <div className={CSS.matiButtonHint}>
-              <IconCurlyArrowUp />
-              <br />
-              <FormattedMessage id="onboarding.verify-button-hint" />
-            </div>
-          </div>
+          {
+            this.props.apps[0] && (
+              <div>
+                <MatiButton
+                  language={this.props.configuration.style.language}
+                  color={this.props.configuration.style.color}
+                  clientId={this.props.apps[0].clientId}
+                  onSuccess={this.redirectToIdentity}
+                  className={CSS.matiButtonConfiguration}
+                />
+                <div className={CSS.matiButtonHint}>
+                  <IconCurlyArrowUp />
+                  <br />
+                  <FormattedMessage id="onboarding.verify-button-hint" />
+                </div>
+              </div>
+            )
+          }
           <div className={CSS.helpButtons}>
             <Button onClick={this.toggleIntegrationCode}>
               <IntegrationIcon />
