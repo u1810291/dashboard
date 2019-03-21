@@ -5,15 +5,14 @@ import client from 'src/lib/client'
 export const types = {
   ...createTypesSequence('WEBHOOKS_SUBSCRIBE'),
   ...createTypesSequence('WEBHOOKS_DELETE'),
-  ...createTypesSequence('WEBHOOKS_LIST'),
-  ...createTypesSequence('WEBHOOKS_SAMPLES_LIST')
+  ...createTypesSequence('WEBHOOKS_LIST')
 }
 
-export function subscribeToWebhook(token, data) {
+export function subscribeToWebhook(token, clientId, data) {
   return function(dispatch) {
     dispatch({ type: types.WEBHOOKS_SUBSCRIBE_REQUEST })
     return client.webhooks
-      .subscribeToWebhook(token, data)
+      .subscribeToWebhook(token, clientId, data)
       .then(payload => {
         dispatch({ type: types.WEBHOOKS_SUBSCRIBE_SUCCESS, payload })
         return payload
@@ -30,15 +29,13 @@ export function subscribeToWebhook(token, data) {
   }
 }
 
-export function deleteWebhook(token, id, clearState = true) {
+export function deleteWebhook(token, clientId, id) {
   return function(dispatch) {
     dispatch({ type: types.WEBHOOKS_DELETE_REQUEST })
     return client.webhooks
-      .deleteWebhook(token, id)
+      .deleteWebhook(token, clientId, id)
       .then(payload => {
-        if (clearState) {
-          dispatch({ type: types.WEBHOOKS_DELETE_SUCCESS, payload })
-        }
+        dispatch({ type: types.WEBHOOKS_DELETE_SUCCESS, payload })
         return payload
       })
       .catch(error => {
@@ -48,13 +45,13 @@ export function deleteWebhook(token, id, clearState = true) {
   }
 }
 
-export function getWebhooks(token) {
+export function getWebhooks(token, clientId) {
   return function(dispatch) {
     dispatch({ type: types.WEBHOOKS_LIST_REQUEST })
     return client.webhooks
-      .getWebhooks(token)
+      .getWebhooks(token, clientId)
       .then(payload => {
-        dispatch({ type: types.WEBHOOKS_LIST_SUCCESS, payload, token })
+        dispatch({ type: types.WEBHOOKS_LIST_SUCCESS, payload, clientId })
         return payload
       })
       .catch(error => {
@@ -64,42 +61,18 @@ export function getWebhooks(token) {
   }
 }
 
-export function getWebhooksSamples(token) {
-  return function(dispatch) {
-    dispatch({ type: types.WEBHOOKS_SAMPLES_LIST_REQUEST })
-    return client.webhooks
-      .getWebhooksSamples(token)
-      .then(payload => {
-        dispatch({ type: types.WEBHOOKS_SAMPLES_LIST_SUCCESS, payload })
-        return payload
-      })
-      .catch(error => {
-        dispatch({ type: types.WEBHOOKS_SAMPLES_LIST_FAILURE })
-        throw error
-      })
-  }
-}
-
 const initialState = {
-  lastWebhook: {},
-  webhooks: {},
-  testWebhooks: []
+  webhooks: {}
 }
 
 const reducer = createReducer(initialState, {
-  [types.WEBHOOKS_LIST_SUCCESS]: function(state, { payload, token }) {
+  [types.WEBHOOKS_LIST_SUCCESS]: function(state, { payload, clientId }) {
     return {
       ...state,
       webhooks: {
         ...state.webhooks,
-        [token]: payload.data || []
+        [clientId]: payload.data || []
       }
-    }
-  },
-  [types.WEBHOOKS_SAMPLES_LIST_SUCCESS]: function(state, { payload }) {
-    return {
-      ...state,
-      testWebhooks: payload.data
     }
   }
 })

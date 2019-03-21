@@ -1,25 +1,22 @@
 import http, { getAuthHeader } from './http'
 
-export function subscribeToWebhook(token, webhook) {
+export function subscribeToWebhook(token, clientId, webhook) {
   return http.post('/v1/webhooks', webhook, {
-    headers: { ...getAuthHeader(token) }
+    headers: { ...getAuthHeader(token) },
+    params: { clientId }
   })
 }
 
-export function getWebhooks(token) {
+export function getWebhooks(token, clientId) {
   return http.get('/v1/webhooks', {
-    headers: { ...getAuthHeader(token) }
+    headers: { ...getAuthHeader(token) },
+    params: { clientId }
   })
 }
 
-export function deleteWebhook(token, id) {
+export function deleteWebhook(token, clientId, id) {
   return http.delete(`/v1/webhooks/${id}`, {
-    headers: { ...getAuthHeader(token) }
-  })
-}
-
-export function getWebhooksSamples(token) {
-  return http.get('/v1/webhooks/samples', {
-    headers: { ...getAuthHeader(token) }
+    headers: { ...getAuthHeader(token) },
+    params: { clientId }
   })
 }

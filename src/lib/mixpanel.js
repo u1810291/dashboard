@@ -7,8 +7,10 @@ export function addUser(user) {
   window.mixpanel.people.set({
     $email: user.email,
     $first_name: user.firstName,
-    $last_name: user.lastName
-  });
+    $last_name: user.lastName,
+    lead_qualification: 0,
+    is_live: false
+  })
 }
 
 export function trackEvent(event, props) {
