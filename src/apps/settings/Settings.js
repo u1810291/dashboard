@@ -7,6 +7,7 @@ import TeamSettings from './team-settings'
 import IntegrationCode from './integration-code'
 import DemoForMobile from './demo-for-mobile'
 import ClientApplications from './client-applications'
+import InstallationGuide from './installation-guide'
 import CSS from './Settings.scss'
 
 export default function Settings() {
@@ -14,7 +15,10 @@ export default function Settings() {
     <Content className={CSS.container}>
       <div className={CSS.leftBlock}>
         <ul className={CSS.leftMenu}>
-          <NavLink to="/settings/" exact>
+          <NavLink to="/settings" exact>
+            <FormattedMessage id="settings.installationGuide"/>
+          </NavLink>
+          <NavLink to="/settings/team-settings">
             <FormattedMessage id="settings.teamSettings" />
           </NavLink>
           <NavLink to="/settings/demo-for-mobile">
@@ -31,10 +35,11 @@ export default function Settings() {
 
       <div className={classNames(CSS.mainBlock)}>
         <Switch>
+          <Route path="/settings/team-settings" component={TeamSettings} />
           <Route path="/settings/integration-code" component={IntegrationCode} />
           <Route path="/settings/demo-for-mobile" component={DemoForMobile} />
           <Route path="/settings/applications" component={ClientApplications} />
-          <Route path="/settings" component={TeamSettings} />
+          <Route path="/settings" component={InstallationGuide} />
         </Switch>
       </div>
     </Content>
