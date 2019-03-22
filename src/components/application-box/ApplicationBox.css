@@ -13,84 +13,6 @@
   --mgi-item-nested-height: 40px;
 }
 
-:local(.menu) {
-  background: var(--mgi-theme-palette-darkergray);
-  position: relative;
-  height: var(--mgi-application-box-menu-height);
-  top: 0;
-  display: flex;
-  align-items: stretch;
-  padding: 0 var(--mgi-application-box-spacing);
-  z-index: 2;
-}
-
-:local(.menuItem) {
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  color: var(--mgi-item-color);
-  background: var(--mgi-item-background);
-  cursor: pointer;
-  padding: 0 var(--mgi-application-box-menu-item-spacing);
-}
-
-:local(.menuItemDropdown) {
-  position: relative;
-  display: flex;
-  align-items: stretch;
-}
-
-:local(.menuItemDropdown) .dropdown__trigger {
-  display: flex;
-  align-items: stretch;
-}
-
-:local(.menuItemDropdown) .dropdown__content {
-  --mgi-item-color: var(--mgi-theme-palette-secondary);
-  --mgi-item-color-active: white;
-  --mgi-item-background: white;
-  --mgi-item-background-active: var(--mgi-theme-palette-active);
-  right: 0;
-  top: var(--mgi-application-box-menu-height);
-  padding: 5px 0;
-  width: var(--mgi-item-dropdown-width);
-}
-
-:local(.menuItemDropdown) .dropdown__content :local(.menuItem) {
-  height: var(--mgi-item-nested-height);
-  line-height: var(--mgi-item-nested-height);
-  padding: 0 var(--mgi-spacing);
-}
-
-:local(.menuItemIcon) {
-  padding-right: 0.5rem;
-  display: flex;
-}
-
-:local(.menuItemIcon) path {
-  fill: var(--mgi-item-color);
-}
-
-:local(.menuItem):not(.no-active).active,
-:local(.menuItem):not(.no-active):hover {
-  color: var(--mgi-item-color-active);
-  background: var(--mgi-item-background-active);
-}
-
-:local(.menuItem):not(.active, :hover) {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-:local(.menuItem).active :local(.menuItemIcon) path,
-:local(.menuItem):hover :local(.menuItemIcon) path {
-  fill: var(--mgi-item-color-active);
-}
-
-:local(.menuItemSpacer) {
-  flex: 1;
-}
-
 :local(.contentWrapper) {
   width: 100%;
   box-sizing: border-box;
@@ -123,13 +45,5 @@
   :root {
     --mgi-application-box-menu-height: 50px;
     --mgi-application-box-menu-item-spacing: 20px;
-  }
-
-  :local(.menuItemLabel) {
-    display: none;
-  }
-
-  :local(.menuItemDropdown) :local(.menuItemLabel) {
-    display: inline;
   }
 }

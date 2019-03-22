@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { injectIntl } from 'react-intl'
-import ApplicationBox, {
-  Menu,
+import ApplicationBox from 'src/components/application-box'
+import ApplicationMenu, {
   MenuItemLink,
   MenuItemButton,
   MenuItemSpacer,
   MenuItemCollection
-} from 'src/components/application-box'
+} from 'src/components/application-menu'
 import { Configuration } from 'src/apps/configuration'
 import PricingPage from 'src/apps/pricing'
 import VerificationHistory from 'src/apps/verification-history'
@@ -17,7 +17,7 @@ import VerificationItem from 'src/apps/verification-history/verification-item'
 import { Settings } from 'src/apps/settings'
 import { signOut } from 'src/state/auth'
 import { getMerchant, saveConfiguration } from 'src/state/merchant'
-import MatiLogo from 'src/assets/mati-logo-white.svg'
+import MatiLogo from 'src/assets/mati-logo-v2.svg'
 import IdentitiesIcon from './icons/icon-history.svg'
 import ConfigurationIcon from './icons/icon-customize.svg'
 import AccountIcon from './icons/icon-account.svg'
@@ -26,16 +26,6 @@ import SettingsIcon from './icons/settings.svg'
 // import FeaturesIcon from './icons/features.svg'
 import LogoutIcon from './icons/logout.svg'
 import PricingIcon from './icons/pricing.svg'
-import CSS from './Dashboard.css'
-
-function MenuIconWrapper({icon}) {
-  return (
-    <div className={CSS.menuIconWrapper}>
-      {icon}
-    </div>
-  )
-}
-
 
 export default
 @injectIntl
@@ -75,9 +65,9 @@ class Dashboard extends React.Component {
   renderMenu() {
     const { formatMessage } = this.props.intl
     const { isOwner, isOwnerIsLoading } = this.props
-    if (isOwnerIsLoading) return <Menu />
+    if (isOwnerIsLoading) return <ApplicationMenu />
     return (
-      <Menu>
+      <ApplicationMenu>
         {isOwner ? (
           <MenuItemLink to="/" noActive>
             <MatiLogo />
@@ -119,23 +109,23 @@ class Dashboard extends React.Component {
             <MenuItemLink
               to="/pricing"
               label={formatMessage({ id: 'dashboard.menu.upgrade' })}
-              icon={<MenuIconWrapper icon={<PricingIcon/>} />}
+              icon={<PricingIcon />}
             />
           )}
           {isOwner && (
             <MenuItemLink
               to="/settings"
               label={formatMessage({ id: 'dashboard.menu.settings' })}
-              icon={<MenuIconWrapper icon={<SettingsIcon/>} />}
+              icon={<SettingsIcon />}
             />
           )}
           <MenuItemButton
             onClick={this.handleSignOut}
             label={formatMessage({ id: 'dashboard.menu.signout' })}
-            icon={<MenuIconWrapper icon={<LogoutIcon/>} />}
+            icon={<LogoutIcon />}
           />
         </MenuItemCollection>
-      </Menu>
+      </ApplicationMenu>
     )
   }
 
