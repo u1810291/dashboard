@@ -15,6 +15,25 @@ section.mgi-section-separated {
   // flex-wrap: wrap;
   margin-right: calc(-1 * var(--mgi-theme-items-gutter));
   justify-content: start;
+  align-items: flex-start;
+
+  // 12-cols grid
+  $cols: 12;
+  @for $i from 1 through $cols {
+    &--col-#{$i} {
+      width: $i/$cols * 100%;
+    }
+  }
+
+  // inline
+  &--inline {
+    display: inline-flex;
+  }
+
+  // stretch
+  &.stretch {
+    align-items: stretch;
+  }
 }
 
 .mgi-items .mgi-items--grow {
@@ -32,3 +51,4 @@ section.mgi-section-separated {
 .mgi-items--narrow {
   --mgi-theme-items-gutter: calc(0.5 * var(--mgi-spacing));
 }
+

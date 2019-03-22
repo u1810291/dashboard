@@ -1,0 +1,62 @@
+:local(.content) {
+  max-width: 37rem;
+  margin: 0 auto;
+
+  .panel {
+    position: relative;
+    height: 100%;
+
+    &-body {
+      box-shadow: 0 0 0 1px var(--mgi-theme-palette-lightgray);
+      height: 100%;
+
+      &.padded {
+        padding-bottom: 2.14rem;
+      }
+
+      .link {
+        position: absolute;
+        left: 0;
+        right: 0;
+        padding: var(--mgi-panel-padding);
+        padding-top: .7rem;
+        padding-bottom: .7rem;
+        border-top: 1px solid var(--mgi-theme-palette-lightgray);
+        bottom: 0;
+        text-align: center;
+
+        a {
+          font-size: .96rem;
+        }
+      }
+    }
+  }
+
+  .mgi-items {
+    align-items: stretch;
+  }
+
+  .content {
+    padding-bottom: 2.75rem;
+
+    ul {
+
+      li {
+        padding: 0 0 0 1.71rem;
+        background: url('../../../assets/arrow-check-blue.svg') no-repeat 0 3px;
+        font-size: 1rem;
+        line-height: 1.2;
+
+        + li {
+          margin-top: .71rem;
+        }
+      }
+    }
+  }
+
+  h3 {
+    font-size: 1.7rem;
+    padding-bottom: 1.75rem;
+    line-height: 1.25;
+  }
+}

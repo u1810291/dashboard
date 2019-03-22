@@ -1,7 +1,8 @@
 button {
   margin: 0;
 }
-:local(.button) {
+:local(.button),
+.mgi-btn-link {
   padding: var(--mgi-theme-button-padding);
 
   height: 42px;
@@ -41,9 +42,17 @@ button {
   margin-left: 5px;
 }
 
-:local(.button).primary {
+:local(.button).primary,
+.mgi-btn-link.primary {
   background: var(--mgi-theme-palette-blue);
   color: white;
+  font-weight: 300;
+  border: none;
+}
+
+:local(.button).primary-revert {
+  background: white;
+  color:  var(--mgi-theme-palette-blue);
   font-weight: 300;
   border: none;
 }

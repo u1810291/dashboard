@@ -215,6 +215,59 @@
   "plan.details.safety-pro.extra.items.individuals": "Sanctioned Individuals Lists",
   "plan.details.safety-pro.extra.items.laundering": "Anti-Money Laundering Lists (AML)",
 
+  "pricing.trial.title": "Free Trial",
+  "pricing.trial.subTitle": "Start from",
+  "pricing.trial.logo": "pricing-trial.png",
+  "pricing.trial.description.item.days": "14 days trial",
+  "pricing.trial.description.item.verifications": "Free 50 verifications",
+  "pricing.trial.description.item.card": "No credit card required",
+
+  "pricing.afterTrial.title": "After Free Trial",
+  
+  "pricing.professional.subTitle": "Professional",
+  "pricing.professional.price": "$0.99",
+  "pricing.professional.price.item": "verification",
+  "pricing.professional.description.item.automate": "Automate your KYC checks from tomorrow",
+  "pricing.professional.description.item.access": "Full access to all Mati Identity verification features",
+  "pricing.professional.description.item.sdk": "Web, iOS, Android SDKs",
+  "pricing.professional.description.item.identity": "Identity-as-a-service (pay as you go)",
+  "pricing.professional.description.item.volumes": "No minimum volume required, just integrate Mati",
+  "pricing.professional.description.item.dashboard": "Multi-users dashboard for your support team",
+
+  "pricing.company.title": "Enterprise",
+  "pricing.company.subTitle": "Company",
+  "pricing.company.description.item.customisation": "Special customisation",
+  "pricing.company.description.item.support": "Premium support",
+  "pricing.company.description.item.integration": "Integration engineers assigned",
+  "pricing.company.button.title": "Contact us",
+  "pricing.company.button.url": "https://getmati.com/contact",
+
+  "pricing.complianceFeature.title": "With mati you have:",
+
+  "features.compliance.title": "Full compliance",
+  "features.compliance.description.item.automate": "Automate your KYC compliance for your company",
+  "features.compliance.description.item.compliance": "Get compliant & stop over-paying",
+  "features.compliance.button.title": "See more",
+  "features.compliance.button.url": "https://getmati.com/legal",
+
+  "features.feature.title": "ID Features",
+  "features.feature.description.item.liveness": "Liveness",
+  "features.feature.description.item.faceMatch": "Face Match",
+  "features.feature.description.item.watchlist": "Watchlists",
+  "features.feature.description.item.templateMatching": "Template Matching",
+  "features.feature.description.item.documentReading": "Document Reading",
+  "features.feature.description.item.alterationDetection": "Alteration Detection",
+  "features.feature.button.title": "See more",
+  "features.feature.button.url": "https://getmati.com/features",
+
+  "pricing.feedbacks.title": "What our clients say about us:",
+
+  "feedbacks.feedback.0.content": "We are very pleased to work with this new generation of companies. The developments that we implement with Mati are very agile and efficient.",
+  "feedbacks.feedback.0.author": "Martín Lopez, Profuturo",
+  "feedbacks.feedback.1.content": "Mati has given us greater certainty in the loan applications we approved. It is a technological tool that mitigates fraud and identity theft. Very efficient, friendly and easy to use.",
+  "feedbacks.feedback.1.author": "Juan Carlos Flores, Doopla",
+
+
   "identities.title": "Verification history",
   "identities.unknownName": "Incomplete identity",
   "identities.details.check": "check",

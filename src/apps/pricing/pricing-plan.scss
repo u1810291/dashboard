@@ -1,0 +1,24 @@
+:local(.content) {
+  padding: 2rem 0 4rem;
+
+  h2 {
+    font-size: 1.71rem;
+    font-weight: normal;
+  }
+
+  .pricing-plan {
+
+    &__trial,
+    &__after-trial,
+    &__preferences {
+      padding-bottom: 5rem;
+      max-width: 37rem;
+      margin: 0 auto;
+    }
+
+    &__clients {
+      max-width: 57rem;
+      margin: 0 auto;
+    }
+  }
+}
