@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { MatiButton } from 'src/components/mati-button'
+import Button from 'src/components/button'
 import { Content } from 'src/components/application-box'
 import { createOverlay, closeOverlay } from 'src/components/overlay'
 import {
@@ -22,6 +22,7 @@ import CSS from './Configuration.css'
 import IconPlay from 'src/assets/icon-play.svg'
 import IntegrationCodeModal from 'src/fragments/configuration/integration-code-modal'
 import Countries from 'src/fragments/configuration/countries'
+import { showVideo } from 'src/fragments/configuration/how-it-works-video'
 
 export default
 @injectIntl
@@ -83,6 +84,10 @@ class Configuration extends React.Component {
 
   updateConfiguration = settings => {
     this.props.saveConfiguration(this.props.token, settings)
+  }
+
+  showOnboardingVideo = () => {
+    showVideo()
   }
 
   render() {
@@ -152,15 +157,16 @@ class Configuration extends React.Component {
             )}{' '}
           </section>
           <section className="mgi-section mgi-section__no-border">
-            <a
-              className={classNames(CSS.onboardingVideoLink, 'text-secondary')}
-              href="https://www.youtube.com/watch?v=NWRc84vkB5I&rel=0"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <IconPlay />
-              <FormattedMessage id="onboarding.video.link" />
-            </a>
+            <p className={CSS.sidebarIcon}>
+              <Button
+                className={CSS.onboardingVideoLink}
+                buttonStyle="link"
+                onClick={this.showOnboardingVideo}
+              >
+                <IconPlay />
+                <FormattedMessage id="onboarding.video.link" />
+              </Button>
+            </p>
           </section>
         </Content>
       </React.Fragment>

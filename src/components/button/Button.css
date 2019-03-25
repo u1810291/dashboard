@@ -30,6 +30,14 @@ button {
   border-color: var(--mgi-theme-palette-lightgray);
 }
 
+:local(.button).link {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  height: auto;
+  line-height: inherit;
+}
+
 :local(.button) img:first-child,
 :local(.button) .spinner-small:first-child,
 :local(.button) svg:first-child {
