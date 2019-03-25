@@ -1,6 +1,10 @@
 :local(.content) {
   text-align: center;
 
+  h1 {
+    font-weight: normal;
+  }
+
   .mgi-items--inline {
     align-items: flex-end;
 
@@ -10,6 +14,7 @@
       border-radius: 50%;
       background-size: cover;
     }
+
     .logo {
       margin-left: -25%;
       width: 30px;
@@ -20,7 +25,6 @@
   }
 
   .clients-lopez {
-
     .client-photo {
       background-image: url('../../../assets/feedback/lopez.png');
     }
@@ -30,7 +34,6 @@
   }
 
   .clients-flores {
-
     .client-photo {
       background-image: url('../../../assets/feedback/flores.png');
     }
@@ -41,14 +44,5 @@
 
   .feedback {
     font-style: italic;
-    font-size: .96rem;
-    line-height: .96rem;
-    color: var(--mgi-theme-palette-darkgray);
-    padding: .5rem 0 .75rem;
-  }
-
-  .company {
-    font-size: .96rem;
-    color: var(--mgi-theme-palette-gray);
   }
 }

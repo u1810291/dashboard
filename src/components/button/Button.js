@@ -1,7 +1,22 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import CSS from './Button.css'
+
+function ButtonElement({ href, children, ...props }) {
+  if (href) {
+    const extraProps = {}
+    if (href.match('^http[s]?:')) {
+      extraProps.target = '_blank'
+    }
+    return (
+      <a href={href} {...extraProps} {...props}>
+        {children}
+      </a>
+    )
+  } else {
+    return <button {...props}>{children}</button>
+  }
+}
 
 export default function Button({
   type = 'button',
@@ -11,17 +26,12 @@ export default function Button({
   ...buttonProps
 }) {
   return (
-    <button
+    <ButtonElement
       className={classNames(CSS.button, buttonStyle, className)}
       type={type}
       {...buttonProps}
     >
       {children}
-    </button>
+    </ButtonElement>
   )
-}
-
-Button.propTypes = {
-  type: PropTypes.string,
-  buttonStyle: PropTypes.string
 }

@@ -12,8 +12,6 @@ section.mgi-section-separated {
 
 .mgi-items {
   display: flex;
-  // flex-wrap: wrap;
-  margin-right: calc(-1 * var(--mgi-theme-items-gutter));
   justify-content: start;
   align-items: flex-start;
 
@@ -40,7 +38,7 @@ section.mgi-section-separated {
   flex: 1;
 }
 
-.mgi-items > * {
+.mgi-items > *:not(:last-child) {
   margin-right: var(--mgi-theme-items-gutter);
 }
 
@@ -51,4 +49,3 @@ section.mgi-section-separated {
 .mgi-items--narrow {
   --mgi-theme-items-gutter: calc(0.5 * var(--mgi-spacing));
 }
-

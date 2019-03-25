@@ -223,7 +223,7 @@
   "pricing.trial.description.item.card": "No credit card required",
 
   "pricing.afterTrial.title": "After Free Trial",
-  
+
   "pricing.professional.subTitle": "Professional",
   "pricing.professional.price": "$0.99",
   "pricing.professional.price.item": "verification",
@@ -260,13 +260,10 @@
   "features.feature.button.title": "See more",
   "features.feature.button.url": "https://getmati.com/features",
 
-  "pricing.feedbacks.title": "What our clients say about us:",
-
   "feedbacks.feedback.0.content": "We are very pleased to work with this new generation of companies. The developments that we implement with Mati are very agile and efficient.",
   "feedbacks.feedback.0.author": "Martín Lopez, Profuturo",
   "feedbacks.feedback.1.content": "Mati has given us greater certainty in the loan applications we approved. It is a technological tool that mitigates fraud and identity theft. Very efficient, friendly and easy to use.",
   "feedbacks.feedback.1.author": "Juan Carlos Flores, Doopla",
-
 
   "identities.title": "Verification history",
   "identities.unknownName": "Incomplete identity",
@@ -391,6 +388,7 @@
   "dashboard.menu.settings": "Settings",
   "dashboard.menu.signout": "Sign Out",
   "dashboard.menu.faq": "FAQ",
+  "dashboard.menu.info": "Info",
 
   "settings.accountInfo": "Account Info",
   "settings.yourTeam": "Your Team",
@@ -509,6 +507,9 @@
   "verification_items.passport": "Passport",
   "verification_items.proof-of-residency": "Proof of residency",
 
+  "apps.info.menu.info": "About Mati",
+  "apps.info.info.title": "Information",
+
   "fragments.configuration.verification_steps_modal.title": "Edit step",
   "fragments.configuration.verification_steps_modal.subtitle": "Edit documents you want include in this step. One of them will be required.",
   "fragments.account.new_webhook_modal.title": "Add webhook",
@@ -525,5 +526,10 @@
   "fragments.client_application.permalink": "Permalink",
   "fragments.client_application.webhook": "Webhook URL",
   "fragments.account.client_applications_help.title": "Test your webhook in 5 minutes",
-  "fragments.verifications.verification_detail.no_data": "No data was detected on the image"
+  "fragments.verifications.verification_detail.no_data": "No data was detected on the image",
+  "fragments.info.faq.title": "Popular Questions",
+  "fragments.info.faq-panel.subtitle": "For more information go to",
+  "fragments.info.faq-panel.title": "Mati FAQ",
+  "fragments.info.faq-panel.cta": "See more information",
+  "fragments.info.feedback.title": "Our clients say"
 }

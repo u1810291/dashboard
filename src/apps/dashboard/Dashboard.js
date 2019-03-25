@@ -10,18 +10,19 @@ import ApplicationMenu, {
   MenuItemSpacer,
   MenuItemCollection
 } from 'src/components/application-menu'
+import Icons from 'src/components/icons'
 import { Configuration } from 'src/apps/configuration'
 import PricingPage from 'src/apps/pricing'
 import VerificationHistory from 'src/apps/verification-history'
 import VerificationItem from 'src/apps/verification-history/verification-item'
 import { Settings } from 'src/apps/settings'
+import Info from 'src/apps/info'
 import { signOut } from 'src/state/auth'
 import { getMerchant, saveConfiguration } from 'src/state/merchant'
 import MatiLogo from 'src/assets/mati-logo-v2.svg'
 import IdentitiesIcon from './icons/icon-history.svg'
 import ConfigurationIcon from './icons/icon-customize.svg'
 import AccountIcon from './icons/icon-account.svg'
-import FAQIcon from './icons/icon-faq.svg'
 import SettingsIcon from './icons/settings.svg'
 // import FeaturesIcon from './icons/features.svg'
 import LogoutIcon from './icons/logout.svg'
@@ -95,12 +96,13 @@ class Dashboard extends React.Component {
           external={true}
           label={formatMessage({ id: 'dashboard.menu.docs' })}
         />
+
         <MenuItemLink
-          to="https://faq.getmati.com"
-          external={true}
-          label={formatMessage({ id: 'dashboard.menu.faq' })}
-          icon={<FAQIcon />}
+          to="/info"
+          label={formatMessage({ id: 'dashboard.menu.info' })}
+          icon={<Icons.Info />}
         />
+
         <MenuItemCollection
           label={formatMessage({ id: 'dashboard.menu.account' })}
           icon={<AccountIcon />}
@@ -142,6 +144,7 @@ class Dashboard extends React.Component {
             <Route exact path="/verifications" component={VerificationHistory} />
             <Route exact path="/verifications/:id" component={VerificationItem} />
             <OwnersRoute path="/settings" component={Settings} />
+            <Route path="/info" component={Info} />
             <OwnersRoute exact path="/pricing" component={PricingPage} />
             <OwnersRoute path="/" component={Configuration} />
           </Switch>
