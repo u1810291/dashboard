@@ -489,9 +489,9 @@
   "settings.teamSettings.inviteTeammate": "Invite Teammate",
   "settings.integrationCode.title": "Integration Code",
   "settings.integrationCode.matiDocumentation": "Mati Documentation",
-  "settings.integrationCode.webhookDocumentation": "Webhook documentation",
-  "settings.integrationCode.iosDocumentation": "iOS documentation",
-  "settings.integrationCode.androidDocumentation": "Android documentation",
+  "settings.integrationCode.webhookDocumentation": "Webhook",
+  "settings.integrationCode.iosDocumentation": "iOS",
+  "settings.integrationCode.androidDocumentation": "Android",
 
   "verifications.inProgress": "Getting information...",
 

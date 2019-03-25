@@ -1,0 +1,64 @@
+/**
+ * mati-docs.scss
+ * fragment setting page
+ */
+:local(.content) {
+  margin: var(--mgi-spacing) 0;
+
+  h3 {
+    margin-bottom: 1.5rem;
+    color: var(--mgi-theme-palette-blue);
+  }
+  .doc-item {
+    width: 11rem;
+    max-width: 33.333%;
+    margin-bottom: 1rem;
+
+    &--icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 80px;
+    }
+
+    a {
+      display: block;
+      padding: .5rem 2rem 2rem;
+      border: 1px solid rgba(#3757ff, .5);
+      border-radius: 4px;
+      transition: all linear .2s;
+      position: relative;
+      color: black;
+      overflow: hidden;
+
+      svg, p {
+        position: relative;
+      }
+
+      svg {
+
+        g, path {
+          transition: all linear .2s;
+        }
+      }
+
+      &:hover {
+        border-color: var(--mgi-theme-palette-blue);
+        color: var(--mgi-theme-palette-blue);
+
+        svg {
+
+          g {
+            opacity: 1;
+          }
+          .main-fill  {
+            fill: var(--mgi-theme-palette-blue);
+          }
+          .main-fill-stroke  {
+            stroke: var(--mgi-theme-palette-blue);
+          }
+        }
+      }
+    }
+  }
+}

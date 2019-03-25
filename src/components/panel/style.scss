@@ -2,6 +2,8 @@
   --mgi-panel-padding: 17px 25px;
   --mgi-panel-spacing: calc(1.5 * var(--mgi-spacing));
   --mgi-panel-header-background: #f7f9fc;
+  --mgi-panel-radius: 4px;
+  --mgi-panel-shadow: 0px 2px 4px rgba(52, 73, 94, 0.1);
 }
 
 :local(.panel) {
@@ -19,7 +21,7 @@
   padding: var(--mgi-panel-padding);
 
   border-radius: 4px 4px 0 0;
-  box-shadow: 0px 2px 4px rgba(52, 73, 94, 0.1);
+  box-shadow: 0 2px 4px rgba(52, 73, 94, 0.1);
 
   line-height: 17px;
 
@@ -32,8 +34,8 @@
 :local(.panelBody) {
   background-color: white;
 
-  border-radius: 4px;
-  box-shadow: 0px 2px 4px rgba(52, 73, 94, 0.1);
+  border-radius: var(--mgi-panel-radius);
+  box-shadow: var(--mgi-panel-shadow);
 }
 
 :local(.panelBody).padded {
