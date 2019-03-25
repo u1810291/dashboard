@@ -1,1 +1,1 @@
-export { default, Sidebar, Content } from './ApplicationBox'
+export { default, Content } from './ApplicationBox'

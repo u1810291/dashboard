@@ -7,7 +7,7 @@ import { subscribeToWebhook, deleteWebhook, getWebhooks } from 'src/state/webhoo
 import ClientApplication from 'src/fragments/account/client-application'
 import Support from 'src/fragments/account/support'
 // import ClientApplicationsHelp from 'src/fragments/account/client-applications-help'
-import SettingsCSS from '../Settings.scss'
+import SettingsLayout from '../SettingsLayout'
 
 function ClientApplications({
   apps = [],
@@ -37,11 +37,11 @@ function ClientApplications({
 
   return (
     <React.Fragment>
-      <h2>
+      <h1>
         <FormattedMessage id="settings.applications" />
-      </h2>
-      <div className="mgi-items">
-        <section className={SettingsCSS.centralBlock}>
+      </h1>
+      <SettingsLayout>
+        <main>
           {apps.map(app => (
             <ClientApplication
               key={app.clientId}
@@ -51,11 +51,11 @@ function ClientApplications({
               deleteWebhook={handleDeleteWebhook.bind(null, app.clientId)}
             />
           ))}
-        </section>
-        <section className={SettingsCSS.rightBlock}>
+        </main>
+        <aside>
           <Support />
-        </section>
-      </div>
+        </aside>
+      </SettingsLayout>
     </React.Fragment>
   )
 }

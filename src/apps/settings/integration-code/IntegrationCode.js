@@ -4,8 +4,8 @@ import Panel from 'src/components/panel'
 import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
 import { getIntegrationCode } from 'src/state/merchant'
 import Support from 'src/fragments/account/support'
-import SettingsCSS from '../Settings.scss'
 import { FormattedMessage } from 'react-intl'
+import SettingsLayout from '../SettingsLayout'
 
 export default
 @connect(
@@ -24,21 +24,21 @@ class IntegrationCode extends React.Component {
 
   render() {
     return (
-      <div>
-        <h2>
+      <React.Fragment>
+        <h1>
           <FormattedMessage id="settings.integrationCode.title" />
-        </h2>
-        <div className={SettingsCSS.insideContainer}>
-          <div className={SettingsCSS.centralBlock}>
+        </h1>
+        <SettingsLayout>
+          <main>
             <SyntaxHighlighter
               dark={false}
               language="html"
               copyToClipboard
               code={this.props.integrationCode}
             />
-          </div>
+          </main>
 
-          <div className={SettingsCSS.rightBlock}>
+          <aside>
             <Panel>
               <Panel.Header>
                 <FormattedMessage id="settings.integrationCode.matiDocumentation" />
@@ -69,9 +69,9 @@ class IntegrationCode extends React.Component {
               </Panel.Body>
             </Panel>
             <Support />
-          </div>
-        </div>
-      </div>
+          </aside>
+        </SettingsLayout>
+      </React.Fragment>
     )
   }
 }

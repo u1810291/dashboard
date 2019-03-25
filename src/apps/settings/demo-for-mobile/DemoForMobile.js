@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { getMerchantApps } from 'src/state/merchant'
 import GooglePlayLink from 'src/fragments/account/google-play-link'
-import SettingsCSS from '../Settings.scss'
+import SettingsLayout from '../SettingsLayout'
 
 export default
 @connect(
@@ -24,14 +24,16 @@ class DemoForMobile extends React.Component {
   render() {
     const { clientApplicationsList } = this.props
     return (
-      <div>
-        <h2>
+      <React.Fragment>
+        <h1>
           <FormattedMessage id="settings.demo_for_mobile" />
-        </h2>
-        <div className={SettingsCSS.centralBlock}>
-          <GooglePlayLink clientApplicationsList={clientApplicationsList} />
-        </div>
-      </div>
+        </h1>
+        <SettingsLayout>
+          <main>
+            <GooglePlayLink clientApplicationsList={clientApplicationsList} />
+          </main>
+        </SettingsLayout>
+      </React.Fragment>
     )
   }
 }
