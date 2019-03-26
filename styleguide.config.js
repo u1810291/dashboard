@@ -45,6 +45,10 @@ module.exports = {
           components: 'src/fragments/info/**/index.js'
         },
         {
+          name: 'Integration',
+          components: 'src/fragments/integration/**/index.js'
+        },
+        {
           name: 'Signup and signin',
           components: 'src/fragments/signup/**/index.js'
         }

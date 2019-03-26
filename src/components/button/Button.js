@@ -1,17 +1,21 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import classNames from 'classnames'
 import CSS from './Button.css'
 
-function ButtonElement({ href, children, ...props }) {
-  if (href) {
-    const extraProps = {}
-    if (href.match('^http[s]?:')) {
-      extraProps.target = '_blank'
-    }
+function ButtonElement({ href, external, children, ...props }) {
+  if (href && external) {
     return (
-      <a href={href} {...extraProps} {...props}>
+      <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
         {children}
       </a>
+    )
+  }
+  if (href) {
+    return (
+      <NavLink to={href} {...props}>
+        {children}
+      </NavLink>
     )
   } else {
     return <button {...props}>{children}</button>

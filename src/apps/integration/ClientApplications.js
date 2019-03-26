@@ -6,8 +6,7 @@ import { getMerchantApps } from 'src/state/merchant'
 import { subscribeToWebhook, deleteWebhook, getWebhooks } from 'src/state/webhooks'
 import ClientApplication from 'src/fragments/account/client-application'
 import Support from 'src/fragments/account/support'
-// import ClientApplicationsHelp from 'src/fragments/account/client-applications-help'
-import SettingsLayout from '../SettingsLayout'
+import Layout from './IntegrationLayout'
 
 function ClientApplications({
   apps = [],
@@ -38,9 +37,9 @@ function ClientApplications({
   return (
     <React.Fragment>
       <h1>
-        <FormattedMessage id="settings.applications" />
+        <FormattedMessage id="apps.integration.menu.applications" />
       </h1>
-      <SettingsLayout>
+      <Layout>
         <main>
           {apps.map(app => (
             <ClientApplication
@@ -55,7 +54,7 @@ function ClientApplications({
         <aside>
           <Support />
         </aside>
-      </SettingsLayout>
+      </Layout>
     </React.Fragment>
   )
 }

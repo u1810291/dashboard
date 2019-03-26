@@ -4,7 +4,7 @@ import CSS from './feedback.scss'
 
 export default function Feedback() {
   return (
-    <div className={CSS.content}>
+    <section className={CSS.content}>
       <h1>
         <FormattedMessage id="fragments.info.feedback.title" />
       </h1>
@@ -26,6 +26,6 @@ export default function Feedback() {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   )
 }

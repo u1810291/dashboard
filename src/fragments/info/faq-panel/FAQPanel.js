@@ -17,7 +17,7 @@ export default function FAQPanel() {
           </h1>
         </div>
         <Background />
-        <Button buttonStyle="primary-revert" href="https://faq.getmati.com/">
+        <Button buttonStyle="primary-revert" external href="https://faq.getmati.com/">
           <FormattedMessage id="fragments.info.faq-panel.cta" />
         </Button>
       </Panel.Body>

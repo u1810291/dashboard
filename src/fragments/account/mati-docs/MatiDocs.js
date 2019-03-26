@@ -2,12 +2,11 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Panel from 'src/components/panel'
 import CSS from './mati-docs.scss'
-import IconApple from '/src/assets/icon-apple-documents.svg'
-import IconAndroid from '/src/assets/icon-android-documents.svg'
-import IconWebhook from '/src/assets/icon-webhook.svg'
+import IconApple from '../../../assets/icon-apple-documents.svg'
+import IconAndroid from '../../../assets/icon-android-documents.svg'
+import IconWebhook from '../../../assets/icon-webhook.svg'
 
 export default function MatiDocs() {
-
   return (
     <div className={CSS.content}>
       <Panel>

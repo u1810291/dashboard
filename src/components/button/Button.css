@@ -15,6 +15,8 @@ button {
   letter-spacing: 0.01em;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
 /* :local(.button) + :local(.button) {
@@ -60,7 +62,7 @@ button {
 
 :local(.button).primary-revert {
   background: white;
-  color:  var(--mgi-theme-palette-blue);
+  color: var(--mgi-theme-palette-blue);
   font-weight: 300;
   border: none;
 }

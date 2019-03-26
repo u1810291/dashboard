@@ -199,3 +199,25 @@ const Button = require('../button').default
   <caption>Simple table, header on left</caption>
 </table>
 ```
+
+### Lists
+
+Check list inverted
+
+```js
+<ul className="mgi-list mgi-list--check">
+  <li>We try hard</li>
+  <li>to write good policies</li>
+  <li>at Basecamp.</li>
+  <li>Make them plain and easy to understand.</li>
+</ul>
+```
+
+```js
+<ul className="mgi-list mgi-list--check-inverted" style={{ background: 'pink' }}>
+  <li>We try hard</li>
+  <li>to write good policies</li>
+  <li>at Basecamp.</li>
+  <li>Make them plain and easy to understand.</li>
+</ul>
+```

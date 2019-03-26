@@ -1,0 +1,39 @@
+:local(.trialPlanPanel) {
+  min-height: 230px;
+}
+
+:local(.trialPlanPanelImage) {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+}
+
+:local(.pricingHeader) {
+  display: flex;
+  align-items: baseline;
+
+  small {
+    font-size: 1rem;
+    font-weight: normal;
+    opacity: 0.6;
+  }
+}
+
+:local(.otherPlans) {
+  display: grid;
+  grid-column-gap: var(--mgi-spacing);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+:local(.companyPlan) {
+  display: flex;
+  flex-direction: column;
+
+  ul {
+    flex: 1;
+  }
+}
+
+:local(.companyPlanLink) {
+  align-self: center;
+}

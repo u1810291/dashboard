@@ -12,5 +12,8 @@ section.mgi-section.mgi-section__no-border {
 section.mgi-section.mgi-section__huge {
   border-bottom: 0 !important;
   padding-bottom: 0;
-  margin-bottom: 36px;
+
+  &:not(:last-child) {
+    margin-bottom: 36px;
+  }
 }

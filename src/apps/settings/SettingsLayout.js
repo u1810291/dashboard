@@ -1,29 +1,42 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
+import { signOut } from 'src/state/auth'
+import Button from 'src/components/button'
 import PageContentLayout from 'src/components/page-content-layout'
+import confirm from 'src/components/confirm'
+import LogoutIcon from './logout.svg'
 
-export default function SettingsLayout({ children }) {
+function SettingsLayout({ children, signOut }) {
+  async function handleLogout() {
+    await confirm(<FormattedMessage id="confirm_string" />)
+    signOut()
+    window.location = '/'
+  }
+
   return (
     <PageContentLayout>
       <nav>
-        <NavLink to="/settings" exact>
-          <FormattedMessage id="settings.installationGuide" />
+        <NavLink exact to="/settings">
+          <FormattedMessage id="apps.settings.teamSettings" />
         </NavLink>
-        <NavLink to="/settings/team-settings">
-          <FormattedMessage id="settings.teamSettings" />
+        <NavLink to="/settings/pricing">
+          <FormattedMessage id="apps.settings.pricing" />
         </NavLink>
-        <NavLink to="/settings/demo-for-mobile">
-          <FormattedMessage id="settings.demo_for_mobile" />
-        </NavLink>
-        <NavLink to="/settings/applications">
-          <FormattedMessage id="settings.applications" />
-        </NavLink>
-        <NavLink to="/settings/integration-code">
-          <FormattedMessage id="settings.integration_code" />
-        </NavLink>
+        <Button onClick={handleLogout}>
+          <span className="mgi-items mgi-items--centered">
+            <FormattedMessage id="apps.settings.signout" />
+            <LogoutIcon className="svg-active" />
+          </span>
+        </Button>
       </nav>
       {children}
     </PageContentLayout>
   )
 }
+
+export default connect(
+  null,
+  { signOut }
+)(SettingsLayout)
