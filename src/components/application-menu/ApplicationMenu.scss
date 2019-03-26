@@ -1,0 +1,92 @@
+:root {
+  --mgi-application-menu-height: 60px;
+  --mgi-application-menu-nested-width: 155px;
+  --mgi-application-menu-nested-height: 40px;
+  --mgi-application-menu-background: var(--mgi-theme-palette-lightergray);
+  --mgi-application-menu-color: var(--mgi-theme-palette-default);
+  --mgi-application-menu-icon: var(--mgi-theme-palette-active);
+  --mgi-application-menu-border: var(--mgi-theme-palette-lightgray);
+}
+
+:local(.menu) {
+  background: var(--mgi-application-menu-background);
+  height: var(--mgi-application-menu-height);
+  border-bottom: 1px solid var(--mgi-application-menu-border);
+  padding: 0 calc(var(--mgi-spacing) * 2);
+  position: relative;
+  top: 0;
+  display: flex;
+  align-items: stretch;
+  z-index: 2;
+}
+
+:local(.menuItem):not(.no-active) {
+  &.active {
+    --mgi-application-menu-background: var(--mgi-theme-palette-active);
+    --mgi-application-menu-color: white;
+    --mgi-application-menu-icon: white;
+    --mgi-application-menu-border: var(--mgi-application-menu-background);
+  }
+}
+
+:local(.menuItem) {
+  color: var(--mgi-application-menu-color);
+  background: var(--mgi-application-menu-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 0 var(--mgi-spacing);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &:not(:last-child) {
+    border-right: 1px solid var(--mgi-application-menu-border);
+  }
+}
+
+:local(.menuItemIcon) {
+  padding-right: 0.5rem;
+  display: flex;
+
+  svg {
+    height: 18px;
+    width: auto;
+  }
+
+  path {
+    fill: var(--mgi-application-menu-icon);
+  }
+}
+
+:local(.menuItemSpacer) {
+  flex: 1;
+  cursor: default;
+}
+
+:local(.menuItemDropdown).dropdown {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+
+  .dropdown__trigger {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .dropdown__content {
+    --mgi-application-menu-background: white;
+    top: var(--mgi-application-menu-height);
+    width: var(--mgi-application-menu-nested-width);
+    padding: 5px 0;
+    right: 0;
+  }
+
+  .dropdown__content :local(.menuItem) {
+    height: var(--mgi-application-menu-nested-height);
+    line-height: var(--mgi-application-menu-nested-height);
+  }
+
+  :local(.menuItemIcon) {
+    width: 21px;
+  }
+}

@@ -2,11 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { isEmpty, pickBy, mapValues, get, compact } from 'lodash'
 import fp from 'lodash/fp'
-import {
-  getIdentities,
-  getIdentitiesCount,
-  deleteIdentity
-} from 'src/state/identities'
+import { getIdentities, getIdentitiesCount, deleteIdentity } from 'src/state/identities'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import moment from 'moment'
 import { Content } from 'src/components/application-box'
@@ -19,17 +15,12 @@ import Panel from 'src/components/panel'
 import { DebounceInput } from 'src/components/inputs'
 import Spinner from 'src/components/spinner'
 import confirm from 'src/components/confirm'
+import PageContentLayout from 'src/components/page-content-layout'
 import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
 import DeleteIcon from './verification-item/delete-icon.svg'
 import CSS from './VerificationHistory.scss'
 
-const FILTERS = [
-  'search',
-  'status',
-  'offset',
-  'dateUpdated[start]',
-  'dateUpdated[end]'
-]
+const FILTERS = ['search', 'status', 'offset', 'dateUpdated[start]', 'dateUpdated[end]']
 
 const FILTER_TRANSFORMERS = {
   status: string => string.split(','),
@@ -104,43 +95,31 @@ class VerificationHistory extends React.Component {
   }
 
   fetchIdentitiesCount() {
-    const params = pickBy(
-      this.state.params,
-      (v, k) => !isEmpty(v) && !['offset'].includes(k)
-    )
+    const params = pickBy(this.state.params, (v, k) => !isEmpty(v) && !['offset'].includes(k))
     this.props.getIdentitiesCount(this.props.token, params)
   }
 
   replaceLocation() {
     const search = new URLSearchParams(this.props.location.search)
     FILTERS.forEach(key =>
-      isEmpty(this.state.params[key])
-        ? search.delete(key)
-        : search.set(key, this.state.params[key])
+      isEmpty(this.state.params[key]) ? search.delete(key) : search.set(key, this.state.params[key])
     )
     window.history.replaceState(
       null,
       null,
-      Array.from(search.keys()).length
-        ? `?${search.toString()}`
-        : this.props.location.pathname
+      Array.from(search.keys()).length ? `?${search.toString()}` : this.props.location.pathname
     )
   }
 
   onFilterChange = params => {
     params.status = compact(params.status)
-    const formattedParams = mapValues(params, (value, key) =>
-      formatValue(key, value)
-    )
+    const formattedParams = mapValues(params, (value, key) => formatValue(key, value))
     formattedParams.offset = 0
-    this.setState(
-      { params: { ...this.state.params, ...formattedParams } },
-      () => {
-        this.fetchIdentities()
-        this.fetchIdentitiesCount()
-        this.replaceLocation()
-      }
-    )
+    this.setState({ params: { ...this.state.params, ...formattedParams } }, () => {
+      this.fetchIdentities()
+      this.fetchIdentitiesCount()
+      this.replaceLocation()
+    })
   }
 
   onPageChange = ({ selected: pageNum }) => {
@@ -177,9 +156,7 @@ class VerificationHistory extends React.Component {
         size: 5,
         label: <FormattedMessage id="identities.fields.fullName" />,
         content: ({ identity }) => (
-          <VerificationFullNameLabel>
-            {identity.fullName}
-          </VerificationFullNameLabel>
+          <VerificationFullNameLabel>{identity.fullName}</VerificationFullNameLabel>
         )
       },
       {
@@ -192,9 +169,7 @@ class VerificationHistory extends React.Component {
         label: '',
         align: 'right',
         content: identity => {
-          let isDeleting = this.props.deletingIdentities.includes(
-            identity.identity.id
-          )
+          let isDeleting = this.props.deletingIdentities.includes(identity.identity.id)
           return (
             <div
               className={CSS.deleteIdentity}
@@ -241,23 +216,21 @@ class VerificationHistory extends React.Component {
     const forcePage = Math.floor(this.state.params.offset / ITEMS_PER_PAGE) || 0
     return (
       <Content>
-        <div>
-          <DebounceInput
-            name="search"
-            placeholder={this.props.intl.formatMessage({
-              id: 'identities.filters.placeholder.search'
-            })}
-            maxLength={30}
-            value={transformedParams.search}
-            className={CSS.searchField}
-            hideLabel={true}
-            onChange={e => {
-              this.onFilterChange({ search: e.target.value })
-            }}
-          />
-        </div>
-        <div className="mgi-items">
-          <section className="mgi-items--grow">
+        <DebounceInput
+          name="search"
+          placeholder={this.props.intl.formatMessage({
+            id: 'identities.filters.placeholder.search'
+          })}
+          maxLength={30}
+          value={transformedParams.search}
+          className={CSS.searchField}
+          hideLabel={true}
+          onChange={e => {
+            this.onFilterChange({ search: e.target.value })
+          }}
+        />
+        <PageContentLayout>
+          <main>
             <DataTable
               rows={this.props.identities}
               columns={this.getTableColumns()}
@@ -277,8 +250,8 @@ class VerificationHistory extends React.Component {
                 />
               </Panel>
             )}
-          </section>
-          <section className={CSS.rightPanel}>
+          </main>
+          <aside>
             <Panel className={CSS.filtersPanel}>
               <Panel.Body>
                 <FiltersForm
@@ -288,8 +261,8 @@ class VerificationHistory extends React.Component {
                 />
               </Panel.Body>
             </Panel>
-          </section>
-        </div>
+          </aside>
+        </PageContentLayout>
       </Content>
     )
   }
