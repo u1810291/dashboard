@@ -18,3 +18,11 @@
   color: var(--mgi-theme-palette-red);
   position: absolute;
 }
+
+:local(.singleDatePicker) {
+  display: block;
+}
+
+:local(.singleDatePickerError) .SingleDatePickerInput__withBorder{
+  border-color: var(--mgi-theme-palette-red) !important;
+}

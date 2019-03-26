@@ -2,36 +2,34 @@ import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { connect } from 'react-redux'
 import { MatiButton } from 'src/components/mati-button'
-import { Sidebar, Content } from 'src/components/application-box'
 import Button from 'src/components/button'
+import { Content } from 'src/components/application-box'
 import { createOverlay, closeOverlay } from 'src/components/overlay'
 import {
   getIntegrationCode,
   saveConfiguration,
+  getMerchantApps,
   COLOR_PRESETS,
   AVAILABLE_LANGUAGES,
   AVAILABLE_DOCUMENT_TYPES,
   MANDATORY_DOCUMENT_TYPES
 } from 'src/state/merchant'
 import { getCountries } from 'src/state/countries'
-import IntegrationIcon from 'src/assets/icon-integration.svg'
 import ConfigureColor from 'src/fragments/configuration/configure-color'
 import VerificationSteps from 'src/fragments/configuration/verification-steps'
 import LanguageStep from './LanguageStep'
 import CSS from './Configuration.css'
-import IconCurlyArrowUp from 'src/assets/icon-curly-arrow-up.svg'
-import IconIOS from 'src/assets/icon-ios.svg'
-import IconAndroid from 'src/assets/icon-android.svg'
 import IconPlay from 'src/assets/icon-play.svg'
 import IntegrationCodeModal from 'src/fragments/configuration/integration-code-modal'
 import Countries from 'src/fragments/configuration/countries'
+import { showVideo } from 'src/fragments/configuration/how-it-works-video'
 
 export default
 @injectIntl
 @connect(
   ({
     auth: { token },
-    merchant: { configuration, configurations, integrationCode },
+    merchant: { configuration, configurations, integrationCode, apps = [] },
     countries: { countries, isLoading }
   }) => ({
     token,
@@ -39,12 +37,14 @@ export default
     configurations,
     integrationCode,
     countries,
+    apps,
     countriesAreLoading: isLoading
   }),
   {
     saveConfiguration,
     getIntegrationCode,
-    getCountries
+    getCountries,
+    getMerchantApps
   }
 )
 class Configuration extends React.Component {
@@ -77,16 +77,17 @@ class Configuration extends React.Component {
   }
 
   componentDidMount() {
-    this.loadData()
-    this.props.getCountries(this.props.token)
-  }
-
-  loadData() {
     this.props.getIntegrationCode(this.props.token)
+    this.props.getCountries(this.props.token)
+    this.props.getMerchantApps(this.props.token)
   }
 
   updateConfiguration = settings => {
     this.props.saveConfiguration(this.props.token, settings)
+  }
+
+  showOnboardingVideo = () => {
+    showVideo()
   }
 
   render() {
@@ -120,7 +121,7 @@ class Configuration extends React.Component {
     ]
     return (
       <React.Fragment>
-        <Content className={CSS.content}>
+        <Content fullwidth={false} className={CSS.content}>
           <section className="mgi-section">
             <h1>
               <FormattedMessage id="onboarding.flow.title" />
@@ -135,47 +136,39 @@ class Configuration extends React.Component {
             </section>
           ))}
         </Content>
-        <Sidebar className={CSS.sidebar}>
-          <p className={CSS.sidebarIcon}>
-            <a
-              className={CSS.onboardingVideoLink}
-              href="https://www.youtube.com/watch?v=NWRc84vkB5I&rel=0"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <IconPlay />
-              <FormattedMessage id="onboarding.video.link" />
-            </a>
-          </p>
-          <div>
-            <MatiButton
-              language={this.props.configuration.style.language}
-              color={this.props.configuration.style.color}
-              clientId={this.props.token}
-              onSuccess={this.redirectToIdentity}
-              className={CSS.matiButtonConfiguration}
-            />
-            <div className={CSS.matiButtonHint}>
-              <IconCurlyArrowUp />
-              <br />
-              <FormattedMessage id="onboarding.verify-button-hint" />
-            </div>
-          </div>
-          <div className={CSS.helpButtons}>
-            <Button onClick={this.toggleIntegrationCode}>
-              <IntegrationIcon />
-              <FormattedMessage id="onboarding.integrationCode.button" />
-            </Button>
-            <Button onClick={this.openIosManual}>
-              <IconIOS />
-              <FormattedMessage id="onboarding.ios-sdk-link" />
-            </Button>
-            <Button onClick={this.openAndroidManual}>
-              <IconAndroid />
-              <FormattedMessage id="onboarding.android-sdk-link" />
-            </Button>
-          </div>
-        </Sidebar>
+        <Content>
+          <section className="mgi-section mgi-section__no-border">
+            <h1>
+              Preview Zone
+              <p>Here you can see the result of your customizing.</p>
+            </h1>
+          </section>
+          <section className="mgi-section mgi-section__no-border">
+            {this.props.apps[0] && (
+              <div>
+                <h3>Your button</h3>
+                <MatiButton
+                  language={this.props.configuration.style.language}
+                  color={this.props.configuration.style.color}
+                  clientId={this.props.apps[0].clientId}
+                  onSuccess={this.redirectToIdentity}
+                />
+              </div>
+            )}{' '}
+          </section>
+          <section className="mgi-section mgi-section__no-border">
+            <p className={CSS.sidebarIcon}>
+              <Button
+                className={CSS.onboardingVideoLink}
+                buttonStyle="link"
+                onClick={this.showOnboardingVideo}
+              >
+                <IconPlay />
+                <FormattedMessage id="onboarding.video.link" />
+              </Button>
+            </p>
+          </section>
+        </Content>
       </React.Fragment>
     )
   }

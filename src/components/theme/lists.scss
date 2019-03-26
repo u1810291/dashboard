@@ -1,0 +1,25 @@
+ul.mgi-list {
+  list-style-type: none;
+
+  li {
+    line-height: 1.9;
+  }
+
+  &--check,
+  &--check-inverted {
+    li {
+      line-height: 1.9;
+      padding-left: 22px;
+      background-repeat: no-repeat;
+      background-position: left 0.5rem;
+    }
+  }
+
+  &--check li {
+    background-image: url('./list-style-check.svg');
+  }
+
+  &--check-inverted li {
+    background-image: url('./list-style-check-inverted.svg');
+  }
+}

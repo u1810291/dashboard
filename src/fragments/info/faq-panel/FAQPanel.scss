@@ -1,0 +1,17 @@
+:local(.panel) {
+  background-color: var(--mgi-theme-palette-active);
+  color: white;
+  align-items: center;
+  justify-content: space-between;
+  white-space: nowrap;
+}
+
+:local(.label) {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  h1 {
+    font-size: 36px;
+    font-weight: normal;
+  }
+}

@@ -38,6 +38,36 @@
   text-align: right;
 }
 
+.text-center {
+  text-align: center;
+}
+
+.background-active {
+  background: var(--mgi-theme-palette-active) !important;
+}
+
+.background-success {
+  background-color: var(--mgi-theme-palette-success) !important;
+}
+
+.background-warning {
+  background-color: var(--mgi-theme-palette-warning) !important;
+}
+
+.background-error {
+  background-color: var(--mgi-theme-palette-error) !important;
+}
+
+.background-active,
+.background-success,
+.background-warning,
+.background-error {
+  --mgi-theme-palette-secondary: var(--mgi-theme-palette-lightgray);
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .svg-secondary path {
   fill: var(--mgi-theme-palette-secondary);
 }

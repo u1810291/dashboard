@@ -27,9 +27,8 @@ import VerificationWebhookModal from 'src/fragments/verifications/verification-w
 import confirm from 'src/components/confirm'
 import DocumentStatusHelp from 'src/fragments/verifications/document-status-help'
 import Spinner from 'src/components/spinner'
+import PageContentLayout from 'src/components/page-content-layout'
 import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
-import CSS from './VerificationItem.scss'
-
 
 const CHECK_INTERVAL = 5000
 
@@ -96,13 +95,14 @@ class VerificationItem extends React.Component {
     const { id } = this.props.match.params
     getIdentityWithNestedData(token, id).then(identity => {
       if (get(identity, '_embedded.verification.documents.length')) {
-        if (identity._embedded.verification.documents.every(doc => {
-          return doc.steps.every(step => step.status === 200)
-        })) {
-          window.clearInterval(this.checkInterval);
+        if (
+          identity._embedded.verification.documents.every(doc => {
+            return doc.steps.every(step => step.status === 200)
+          })
+        ) {
+          window.clearInterval(this.checkInterval)
         }
-      }
-      else {
+      } else {
         if (identity.documents.every(doc => doc.status === 'ready')) {
           window.clearInterval(this.checkInterval)
         }
@@ -123,8 +123,8 @@ class VerificationItem extends React.Component {
             </Button>
           </Link>
         </h1>
-        <div className="mgi-items">
-          <section className="mgi-items--grow">
+        <PageContentLayout>
+          <main>
             <Panel>
               <Panel.Body>
                 <VerificationDetails
@@ -142,9 +142,9 @@ class VerificationItem extends React.Component {
                 />
               </Panel.Body>
             </Panel>
-          </section>
+          </main>
 
-          <section className={CSS.rightPanel}>
+          <aside>
             <section className="mgi-section mgi-section__no-border">
               <Button onClick={this.openWebhookModal}>
                 <WebbhooksIcon />
@@ -162,8 +162,8 @@ class VerificationItem extends React.Component {
               </Button>
             </section>
             {isFeatureEnabled('STATUSES') && <DocumentStatusHelp />}
-          </section>
-        </div>
+          </aside>
+        </PageContentLayout>
       </Content>
     )
   }

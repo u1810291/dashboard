@@ -1,10 +1,11 @@
 import React from 'react'
 import IconCheckmark from '../../assets/icon-checkmark.svg'
 import CSS from './checkbox.module.scss'
+import classNames from 'classnames'
 
-export default ({ name, label, value, checked, onChange }) => {
+export default ({ className, name, label, value, checked, onChange }) => {
   return (
-    <div className={CSS.checkbox}>
+    <div className={classNames(CSS.checkbox, className)}>
       <label className={CSS.checkboxLabel}>
         <input
           type="checkbox"

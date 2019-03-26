@@ -6,9 +6,7 @@ webpackConfig.module.rules[2].oneOf[1].options.plugins.push([
   '@babel/proposal-decorators',
   { legacy: true }
 ])
-webpackConfig.module.rules[2].oneOf[1].options.plugins.push([
-  'inline-react-svg'
-])
+webpackConfig.module.rules[2].oneOf[1].options.plugins.push(['inline-react-svg'])
 module.exports = {
   webpackConfig,
   require: [path.join(__dirname, 'src/components/theme/styles.scss')],
@@ -41,6 +39,14 @@ module.exports = {
         {
           name: 'Account settings',
           components: 'src/fragments/account/**/index.js'
+        },
+        {
+          name: 'Info',
+          components: 'src/fragments/info/**/index.js'
+        },
+        {
+          name: 'Integration',
+          components: 'src/fragments/integration/**/index.js'
         },
         {
           name: 'Signup and signin',

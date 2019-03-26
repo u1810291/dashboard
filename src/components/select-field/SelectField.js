@@ -15,13 +15,24 @@ const DropdownIndicator = (props) => {
 export default function SelectField({
   className,
   error,
+  onChange,
   ...inputProps
 }) {
+
+  function onSelectChange(value) {
+    onChange({
+      target: {
+        name: inputProps.name,
+        value
+      }
+    })
+  }
   return (
     <Select
       className={classNames(CSS.selectField, error && CSS.error, className)}
       classNamePrefix="select-field"
       components={{DropdownIndicator}}
+      onChange={onSelectChange}
       {...inputProps}
     />
   )

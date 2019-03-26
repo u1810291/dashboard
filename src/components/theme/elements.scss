@@ -10,6 +10,7 @@ body,
 
 html {
   color: var(--mgi-theme-palette-default);
+  background: var(--mgi-theme-palette-lightergray);
   font-family: 'Lato', 'Helvetica Neue', sans-serif;
   font-size: var(--mgi-theme-font-size);
 }
@@ -92,7 +93,18 @@ h1 {
 h2 {
   font-size: 1.28rem;
   font-weight: 700;
-  margin-bottom: var(--mgi-spacing);
+
+  p {
+    font-size: 1rem;
+  }
+
+  p:first-of-type {
+    margin-top: calc(0.5 * var(--mgi-spacing));
+  }
+
+  &:not(:last-child) {
+    margin-bottom: var(--mgi-spacing);
+  }
 }
 
 h3 {

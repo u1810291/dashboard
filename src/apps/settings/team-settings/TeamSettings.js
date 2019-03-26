@@ -12,9 +12,9 @@ import Button from 'src/components/button'
 import { closeOverlay, createOverlay } from 'src/components/overlay'
 import TeamInviteModal from 'src/fragments/account/team-invite-modal/TeamInviteModal'
 import InviteSuccessModal from 'src/fragments/account/team-invite-modal/InviteSuccessModal'
-import CSS from './TeamSettings.css'
 import Panel from 'src/components/panel'
 import InviteIcon from '../invite.svg'
+import SettingsLayout from '../SettingsLayout'
 
 const mapCollaborators = collaborator => ({
   role: collaborator.role,
@@ -45,7 +45,6 @@ export default
 class TeamSettings extends React.Component {
   componentDidMount() {
     if (this.props.merchantId) {
-      console.log(this.props.token)
       this.props.getCollaborators(this.props.token, this.props.merchantId)
     }
   }
@@ -97,26 +96,28 @@ class TeamSettings extends React.Component {
 
   render() {
     return (
-      <div className={CSS.container}>
-        <div className={CSS.mainBlock}>
-          <h2>
-            <FormattedMessage id="settings.teamSettings.title" />
-          </h2>
-          <Panel>
-            <TeamTable
-              onRoleChange={this.onRoleChange}
-              onDeleteSubmit={this.onDeleteSubmit}
-              {...this.props}
-            />
-          </Panel>
-        </div>
-        <div className={CSS.rightBlock}>
-          <Button buttonStyle="primary" onClick={this.openInviteModal}>
-            <InviteIcon />
-            <FormattedMessage id="settings.teamSettings.inviteTeammate" />
-          </Button>
-        </div>
-      </div>
+      <React.Fragment>
+        <h1>
+          <FormattedMessage id="settings.teamSettings.title" />
+        </h1>
+        <SettingsLayout>
+          <main>
+            <Panel>
+              <TeamTable
+                onRoleChange={this.onRoleChange}
+                onDeleteSubmit={this.onDeleteSubmit}
+                {...this.props}
+              />
+            </Panel>
+          </main>
+          <aside>
+            <Button buttonStyle="primary" onClick={this.openInviteModal}>
+              <InviteIcon />
+              <FormattedMessage id="settings.teamSettings.inviteTeammate" />
+            </Button>
+          </aside>
+        </SettingsLayout>
+      </React.Fragment>
     )
   }
 }

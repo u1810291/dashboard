@@ -1,0 +1,44 @@
+:local(.content) {
+  text-align: center;
+
+  .mgi-items--inline {
+    align-items: flex-end;
+
+    .client-photo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-size: cover;
+    }
+
+    .logo {
+      margin-left: -25%;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-size: cover;
+    }
+  }
+
+  .clients-lopez {
+    .client-photo {
+      background-image: url('../../../assets/feedback/lopez.png');
+    }
+    .logo {
+      background-image: url('../../../assets/feedback/lopez-logo.svg');
+    }
+  }
+
+  .clients-flores {
+    .client-photo {
+      background-image: url('../../../assets/feedback/flores.png');
+    }
+    .logo {
+      background-image: url('../../../assets/feedback/flores-logo.svg');
+    }
+  }
+
+  .feedback {
+    font-style: italic;
+  }
+}

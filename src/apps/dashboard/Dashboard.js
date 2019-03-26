@@ -3,39 +3,27 @@ import { connect } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { injectIntl } from 'react-intl'
-import ApplicationBox, {
-  Menu,
+import ApplicationBox from 'src/components/application-box'
+import ApplicationMenu, {
   MenuItemLink,
   MenuItemButton,
-  MenuItemSpacer,
-  MenuItemCollection
-} from 'src/components/application-box'
+  MenuItemSpacer
+} from 'src/components/application-menu'
+import Icons from 'src/components/icons'
 import { Configuration } from 'src/apps/configuration'
-import PricingPage from 'src/apps/pricing'
 import VerificationHistory from 'src/apps/verification-history'
 import VerificationItem from 'src/apps/verification-history/verification-item'
 import { Settings } from 'src/apps/settings'
+import Info from 'src/apps/info'
+import Integration from 'src/apps/integration'
 import { signOut } from 'src/state/auth'
 import { getMerchant, saveConfiguration } from 'src/state/merchant'
-import MatiLogo from 'src/assets/mati-logo-white.svg'
+import MatiLogo from 'src/assets/mati-logo-v2.svg'
 import IdentitiesIcon from './icons/icon-history.svg'
 import ConfigurationIcon from './icons/icon-customize.svg'
 import AccountIcon from './icons/icon-account.svg'
-import FAQIcon from './icons/icon-faq.svg'
 import SettingsIcon from './icons/settings.svg'
-// import FeaturesIcon from './icons/features.svg'
 import LogoutIcon from './icons/logout.svg'
-import PricingIcon from './icons/pricing.svg'
-import CSS from './Dashboard.css'
-
-function MenuIconWrapper({icon}) {
-  return (
-    <div className={CSS.menuIconWrapper}>
-      {icon}
-    </div>
-  )
-}
-
 
 export default
 @injectIntl
@@ -75,9 +63,9 @@ class Dashboard extends React.Component {
   renderMenu() {
     const { formatMessage } = this.props.intl
     const { isOwner, isOwnerIsLoading } = this.props
-    if (isOwnerIsLoading) return <Menu />
+    if (isOwnerIsLoading) return <ApplicationMenu />
     return (
-      <Menu>
+      <ApplicationMenu>
         {isOwner ? (
           <MenuItemLink to="/" noActive>
             <MatiLogo />
@@ -101,41 +89,35 @@ class Dashboard extends React.Component {
         />
         <MenuItemSpacer />
         <MenuItemLink
-          to="https://docs.getmati.com"
-          external={true}
-          label={formatMessage({ id: 'dashboard.menu.docs' })}
+          to="/info"
+          label={formatMessage({ id: 'dashboard.menu.info' })}
+          icon={<Icons.Info />}
         />
-        <MenuItemLink
-          to="https://faq.getmati.com"
-          external={true}
-          label={formatMessage({ id: 'dashboard.menu.faq' })}
-          icon={<FAQIcon />}
-        />
-        <MenuItemCollection
-          label={formatMessage({ id: 'dashboard.menu.account' })}
-          icon={<AccountIcon />}
-        >
-          {isOwner && (
-            <MenuItemLink
-              to="/pricing"
-              label={formatMessage({ id: 'dashboard.menu.upgrade' })}
-              icon={<MenuIconWrapper icon={<PricingIcon/>} />}
-            />
-          )}
-          {isOwner && (
-            <MenuItemLink
-              to="/settings"
-              label={formatMessage({ id: 'dashboard.menu.settings' })}
-              icon={<MenuIconWrapper icon={<SettingsIcon/>} />}
-            />
-          )}
+
+        {isOwner && (
+          <MenuItemLink
+            to="/integration"
+            label={formatMessage({ id: 'dashboard.menu.integration' })}
+            icon={<SettingsIcon />}
+          />
+        )}
+
+        {isOwner && (
+          <MenuItemLink
+            to="/settings"
+            label={formatMessage({ id: 'dashboard.menu.account' })}
+            icon={<AccountIcon />}
+          />
+        )}
+
+        {!isOwner && (
           <MenuItemButton
             onClick={this.handleSignOut}
             label={formatMessage({ id: 'dashboard.menu.signout' })}
-            icon={<MenuIconWrapper icon={<LogoutIcon/>} />}
+            icon={<LogoutIcon />}
           />
-        </MenuItemCollection>
-      </Menu>
+        )}
+      </ApplicationMenu>
     )
   }
 
@@ -152,7 +134,8 @@ class Dashboard extends React.Component {
             <Route exact path="/verifications" component={VerificationHistory} />
             <Route exact path="/verifications/:id" component={VerificationItem} />
             <OwnersRoute path="/settings" component={Settings} />
-            <OwnersRoute exact path="/pricing" component={PricingPage} />
+            <Route path="/info" component={Info} />
+            <OwnersRoute path="/integration" component={Integration} />
             <OwnersRoute path="/" component={Configuration} />
           </Switch>
         </ApplicationBox>
