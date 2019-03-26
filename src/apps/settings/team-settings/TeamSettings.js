@@ -45,7 +45,6 @@ export default
 class TeamSettings extends React.Component {
   componentDidMount() {
     if (this.props.merchantId) {
-      console.log(this.props.token)
       this.props.getCollaborators(this.props.token, this.props.merchantId)
     }
   }

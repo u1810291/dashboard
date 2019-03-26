@@ -1,0 +1,47 @@
+:local(.skipLink) {
+  margin-right: var(--mgi-spacing);
+}
+
+:local(.submit) {
+  padding: 0 70px !important;
+}
+
+:local(.row) {
+  display: flex;
+  margin-bottom: calc(1.2 * var(--mgi-spacing));
+}
+
+:local(.colLeft) {
+  width: 300px;
+  margin-right: 20px;
+}
+:local(.colRight) {
+  width: 200px;
+}
+
+:local(.checkbox) {
+  margin-top: 35px;
+}
+
+:local(.startDate) {
+  input {
+    height: 36px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: hsl(0,0%,50%);
+    width: 298px;
+  }
+  .SingleDatePickerInput__withBorder {
+    border: 1px solid hsl(0,0%,80%);
+    border-radius: 4px;
+    width: 300px;
+  }
+  .DateInput {
+    border-radius: 4px;
+    width: 298px;
+  }
+}
+
+:local(.verificationNum) {
+  width: 300px;
+}

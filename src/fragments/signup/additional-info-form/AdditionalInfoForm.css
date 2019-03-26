@@ -1,7 +1,0 @@
-:local(.skipLink) {
-  margin-right: var(--mgi-spacing);
-}
-
-:local(.submit) {
-  padding: 0 70px !important;
-}

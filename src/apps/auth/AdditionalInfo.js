@@ -5,6 +5,8 @@ import { putMerchants } from 'src/state/merchant'
 import AdditionalInfoForm from 'src/fragments/signup/additional-info-form'
 import CSS from './Auth.css'
 import MatiLogo from 'src/assets/mati-logo.svg'
+import { setUserProperties } from 'src/lib/mixpanel'
+import { showVideo } from 'src/fragments/configuration/onboarding-video'
 
 export default
 @connect(
@@ -14,10 +16,12 @@ export default
 @injectIntl
 class AdditionalInfo extends React.Component {
   handleSubmit = data => {
-    return this.props.putMerchants(this.props.token, data).then(() => {
-      this.props.history.push('/')
-    })
+    setUserProperties(data)
+    setTimeout(() => showVideo(), 1000)
+    this.props.history.push('/')
   }
+
+
   render() {
     return (
       <React.Fragment>
