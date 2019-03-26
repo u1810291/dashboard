@@ -5,6 +5,10 @@ export function updateIntercom(user) {
   });
 }
 
+export function updateData(data) {
+  window.Intercom('update', data);
+}
+
 export function showIntercom() {
   window.Intercom('show')
 }
