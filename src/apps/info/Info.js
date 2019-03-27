@@ -4,6 +4,7 @@ import Support from 'src/fragments/account/support'
 import FAQ from 'src/fragments/info/faq'
 import FAQPanel from 'src/fragments/info/faq-panel'
 import Feedback from 'src/fragments/info/feedback'
+import Sections from 'src/components/sections'
 import InfoLayout from './InfoLayout'
 import FAQData from './faq-data'
 
@@ -15,15 +16,11 @@ function Info({ intl }) {
       </h1>
       <InfoLayout>
         <main>
-          <section className="mgi-section mgi-section__huge">
+          <Sections extraGap>
             <FAQ questions={FAQData[intl.locale]} />
-          </section>
-          <section className="mgi-section mgi-section__huge">
             <FAQPanel />
-          </section>
-          <section className="mgi-section mgi-section__huge">
             <Feedback />
-          </section>
+          </Sections>
         </main>
         <aside>
           <Support />

@@ -3,8 +3,8 @@
 exports[`ClientApplication no webhooks 1`] = `
 <Panel>
   <PanelBody>
-    <section
-      className="mgi-section"
+    <Sections
+      withBorder={true}
     >
       <h3
         className="text-active"
@@ -13,17 +13,7 @@ exports[`ClientApplication no webhooks 1`] = `
           id="fragments.client_application.production_title"
           values={Object {}}
         />
-        <p>
-          <FormattedMessage
-            id="fragments.client_application.production_subtitle"
-            values={Object {}}
-          />
-        </p>
       </h3>
-    </section>
-    <section
-      className="mgi-section"
-    >
       <table
         className="mgi-table"
       >
@@ -102,7 +92,7 @@ exports[`ClientApplication no webhooks 1`] = `
           </tr>
         </tbody>
       </table>
-    </section>
+    </Sections>
   </PanelBody>
 </Panel>
 `;
@@ -110,8 +100,8 @@ exports[`ClientApplication no webhooks 1`] = `
 exports[`ClientApplication one webhook 1`] = `
 <Panel>
   <PanelBody>
-    <section
-      className="mgi-section"
+    <Sections
+      withBorder={true}
     >
       <h3
         className="text-active"
@@ -120,17 +110,7 @@ exports[`ClientApplication one webhook 1`] = `
           id="fragments.client_application.production_title"
           values={Object {}}
         />
-        <p>
-          <FormattedMessage
-            id="fragments.client_application.production_subtitle"
-            values={Object {}}
-          />
-        </p>
       </h3>
-    </section>
-    <section
-      className="mgi-section"
-    >
       <table
         className="mgi-table"
       >
@@ -222,7 +202,7 @@ exports[`ClientApplication one webhook 1`] = `
           </tr>
         </tbody>
       </table>
-    </section>
+    </Sections>
   </PanelBody>
 </Panel>
 `;
@@ -230,8 +210,8 @@ exports[`ClientApplication one webhook 1`] = `
 exports[`ClientApplication two webhooks 1`] = `
 <Panel>
   <PanelBody>
-    <section
-      className="mgi-section"
+    <Sections
+      withBorder={true}
     >
       <h3
         className="text-active"
@@ -240,17 +220,7 @@ exports[`ClientApplication two webhooks 1`] = `
           id="fragments.client_application.production_title"
           values={Object {}}
         />
-        <p>
-          <FormattedMessage
-            id="fragments.client_application.production_subtitle"
-            values={Object {}}
-          />
-        </p>
       </h3>
-    </section>
-    <section
-      className="mgi-section"
-    >
       <table
         className="mgi-table"
       >
@@ -342,7 +312,7 @@ exports[`ClientApplication two webhooks 1`] = `
           </tr>
         </tbody>
       </table>
-    </section>
+    </Sections>
   </PanelBody>
 </Panel>
 `;

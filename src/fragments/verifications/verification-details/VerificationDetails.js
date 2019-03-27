@@ -6,6 +6,7 @@ import CSS from './verificationDetails.scss'
 import VerificationFullNameLabel from 'src/fragments/verifications/verification-full-name-label'
 import StatusSelect from 'src/fragments/verifications/status-select'
 import ContentPreloader from 'src/components/content-preloader'
+import Sections from 'src/components/sections'
 import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
 
 function caption(document, intl) {
@@ -50,7 +51,7 @@ function VerificationDetails({
         <DocumentPhotos selfie={selfie} photos={photos} />
       </section>
       <section className="mgi-items--grow">
-        <section className="mgi-section">
+        <Sections withBorder>
           <h1>
             <VerificationFullNameLabel>{fullName}</VerificationFullNameLabel>
             {isFeatureEnabled('STATUSES') && (
@@ -62,22 +63,22 @@ function VerificationDetails({
               />
             )}
           </h1>
-        </section>
-        {documents.map((doc, index) => (
-          <section className="mgi-section" key={index}>
-            <h4>{caption(doc, intl)}</h4>
-            {doc.inProgress ? (
-              <ContentPreloader />
-            ) : (
-              <DocumentFields
-                fields={doc.fields}
-                onFieldChange={onFieldChange}
-                patchingFields={patchingFields}
-                erroredFields={erroredFields}
-              />
-            )}
-          </section>
-        ))}
+          {documents.map((doc, index) => (
+            <section key={index}>
+              <h3>{caption(doc, intl)}</h3>
+              {doc.inProgress ? (
+                <ContentPreloader />
+              ) : (
+                <DocumentFields
+                  fields={doc.fields}
+                  onFieldChange={onFieldChange}
+                  patchingFields={patchingFields}
+                  erroredFields={erroredFields}
+                />
+              )}
+            </section>
+          ))}
+        </Sections>
       </section>
     </div>
   )

@@ -3,13 +3,8 @@
 @import './elements.scss';
 @import './helpers.scss';
 @import './fieldsets.scss';
-@import './sections.scss';
 @import './tables.scss';
 @import './lists.scss';
-
-section.mgi-section-separated {
-  margin-bottom: calc(1.5 * var(--mgi-spacing));
-}
 
 .mgi-items {
   display: flex;

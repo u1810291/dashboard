@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import Feature from 'src/fragments/account/pricing-features'
 import PricingPlan from 'src/fragments/account/pricing-plan'
 import Feedback from 'src/fragments/info/feedback'
+import Sections from 'src/components/sections'
 import SettingsLayout from './SettingsLayout'
 
 export default class Pricing extends React.Component {
@@ -14,9 +15,11 @@ export default class Pricing extends React.Component {
         </h1>
         <SettingsLayout>
           <main>
-            <PricingPlan />
-            <Feature />
-            <Feedback />
+            <Sections extraGap>
+              <PricingPlan />
+              <Feature />
+              <Feedback />
+            </Sections>
           </main>
         </SettingsLayout>
       </React.Fragment>
