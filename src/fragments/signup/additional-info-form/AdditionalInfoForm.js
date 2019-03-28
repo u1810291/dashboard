@@ -1,23 +1,22 @@
 import React from 'react'
-import CSS from './AdditionalInfoForm.scss'
-import { Select, SingleDateInput, Input } from 'src/components/inputs'
+import { Select, Input } from 'src/components/inputs'
 import Button from 'src/components/button'
 import { Field, Formik } from 'formik'
 import { setI18nContext } from 'src/components/i18n-context'
 import { FormattedMessage } from 'react-intl'
 import { pick, pickBy } from 'lodash'
-import Checkbox from 'src/components/checkbox'
 import { required } from 'src/lib/validations'
-import moment from 'moment'
 
 const formikSettings = {
   initialValues: {
     businessName: '',
     websiteUrl: '',
     startDate: null,
-    today: false,
     verificationNum: null,
-    dontKnow: false
+    dontKnow: false,
+    companySize: null,
+    purpose: null,
+    alreadyUseJYC: null
   },
 
   validate: values => {
@@ -27,73 +26,82 @@ const formikSettings = {
     errors.websiteUrl = required(values.websiteUrl)
     errors.startDate = required(values.startDate)
     errors.verificationNum = required(values.verificationNum) && required(values.dontKnow)
+    errors.companySize = required(values.companySize)
+    errors.alreadyUseJYC = required(values.alreadyUseJYC)
+    errors.purpose = required(values.purpose)
     errors = pickBy(errors, v => v)
     return errors
   },
 
   verificationsNumOptions: [
     {
-      label: '0-100',
-      value: '0-100'
+      label: 'I don\'t know',
+      value: 'I don\'t know'
     },
     {
-      label: '100-1000',
-      value: '100-1000'
+      label: '0–100',
+      value: '0–100'
     },
     {
-      label: '1000-5000',
-      value: '1000-5000'
+      label: '100–1000',
+      value: '100–1000'
     },
     {
-      label: '>5000',
-      value: '>5000'
+      label: '1000–5000',
+      value: '1000–5000'
     },
-  ]
-}
+    {
+      label: '> 5000',
+      value: '> 5000'
+    }
+  ],
 
+  companySizeOptions: [
+    { label: '< 5', value: '< 5' },
+    { label: '6–20', value: '6–20' },
+    { label: '21–100', value: '21–100' },
+    { label: '+100', value: '+100' }
+  ],
+
+  purposeOptions: [
+    {
+      label: 'I need to be compliant with regulations',
+      value: 'I need to be compliant with regulations'
+    },
+    { label: 'I need to manage fraud', value: 'I need to manage fraud' },
+    {
+      label: 'I want to provide a sense of security to my users',
+      value: 'I want to provide a sense of security to my users'
+    },
+    { label: 'For other reasons', value: 'For other reasons' }
+  ],
+
+  startDateOptions: [
+    { label: 'Urgently', value: 'urgently' },
+    { label: 'Soon', value: 'soon' },
+    { label: 'Not sure yet', value: 'not sure yet' }
+  ],
+
+  alreadyUseJYCOptions: [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }]
+}
 
 export default
 @setI18nContext('additionalInfo.form')
 class AdditionalInfoForm extends React.Component {
-
   onSubmit = (values, { setSubmitting, setStatus }) => {
     setStatus({})
-    let data = pick(values, 'startDate', 'verificationNum', 'businessName', 'websiteUrl')
-    data.startDate = data.startDate.format('L')
-    if (values.dontKnow) {
-      data.verificationNum = 'dontKnow'
-    } else {
-      data.verificationNum = data.verificationNum.value
-    }
+    let data = pick(
+      values,
+      'businessName',
+      'websiteUrl',
+      'startDate',
+      'verificationNum',
+      'dontKnow',
+      'companySize',
+      'purpose',
+      'alreadyUseJYC'
+    )
     this.props.handleSubmit(data)
-  }
-
-  onTodayChange = (e, props) => {
-    const value = e.target.checked
-    props.setFieldValue('today', value)
-    if (value) {
-      props.setFieldValue('startDate', moment())
-    }
-  }
-
-  onStartDateChange = (e, props) => {
-    props.handleChange(e)
-    props.setFieldValue('today', false)
-    props.setFieldTouched('startDate', true, true)
-  }
-
-  onDontKnowChange = (e, props) => {
-    const value = e.target.checked
-    props.setFieldValue('dontKnow', value)
-    if (value) {
-      props.setFieldValue('verificationNum', null)
-    }
-  }
-
-  onVerificationNumChange = (e, props) => {
-    props.handleChange(e)
-    props.setFieldValue('dontKnow', false)
-    props.setFieldTouched('verificationNum', true, true)
   }
 
   render() {
@@ -105,6 +113,13 @@ class AdditionalInfoForm extends React.Component {
         render={props => {
           return (
             <form onSubmit={props.handleSubmit}>
+              <h1 className={'text-light ' + CSS.title}>
+                <FormattedMessage id="additionalInfo.title" />
+                <p className="text-secondary">
+                  <FormattedMessage id="additionalInfo.subtitle" />
+                </p>
+              </h1>
+
               <Field
                 type="text"
                 name="businessName"
@@ -117,47 +132,41 @@ class AdditionalInfoForm extends React.Component {
                 component={Input}
                 error={props.touched.websiteUrl && props.errors.websiteUrl}
               />
-              <div className={CSS.row}>
-                <div className={CSS.colLeft}>
-                  <Field
-                    className={CSS.verificationNum}
-                    name="verificationNum"
-                    component={Select}
-                    options={formikSettings.verificationsNumOptions}
-                    value={props.values.verificationNum}
-                    onChange={(e) => this.onVerificationNumChange(e, props)}
-                    error={props.touched.verificationNum && props.errors.verificationNum}
-                  />
-                </div>
-                <div className={CSS.colRight}>
-                  <Checkbox
-                    className={CSS.checkbox}
-                    label="I don't know"
-                    checked={props.values.dontKnow}
-                    onChange={(e) => this.onDontKnowChange(e, props)}
-                  />
-                </div>
-              </div>
-              <div className={CSS.row}>
-                <div className={CSS.colLeft}>
-                  <Field
-                    className={CSS.startDate}
-                    name="startDate"
-                    component={SingleDateInput}
-                    id="startDate"
-                    date={props.values.startDate}
-                    onChange={(e) => this.onStartDateChange(e, props)}
-                    error={props.touched.startDate && props.errors.startDate}
-                  />
-                </div>
-                <div className={CSS.colRight}>
-                  <Checkbox
-                    className={CSS.checkbox}
-                    label="Today"
-                    checked={props.values.today}
-                    onChange={(e) => this.onTodayChange(e, props)} />
-                </div>
-              </div>
+              <Field
+                name="companySize"
+                component={Select}
+                options={formikSettings.companySizeOptions}
+                value={props.values.companySizeOptions}
+                error={props.touched.companySize && props.errors.companySize}
+              />
+              <Field
+                name="verificationNum"
+                component={Select}
+                options={formikSettings.verificationsNumOptions}
+                value={props.values.verificationNum}
+                error={props.touched.verificationNum && props.errors.verificationNum}
+              />
+              <Field
+                name="alreadyUseJYC"
+                component={Select}
+                options={formikSettings.alreadyUseJYCOptions}
+                value={props.values.alreadyUseJYC}
+                error={props.touched.alreadyUseJYC && props.errors.alreadyUseJYC}
+              />
+              <Field
+                name="startDate"
+                component={Select}
+                options={formikSettings.startDateOptions}
+                date={props.values.startDate}
+                error={props.touched.startDate && props.errors.startDate}
+              />
+              <Field
+                name="purpose"
+                component={Select}
+                options={formikSettings.purposeOptions}
+                value={props.values.purpose}
+                error={props.touched.purpose && props.errors.purpose}
+              />
               <p>
                 <Button
                   type="submit"
