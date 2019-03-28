@@ -2,19 +2,22 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { createOverlay, closeOverlay } from '../overlay'
 import { Modal } from '../modal'
+import Items from '../items'
 import Button from '../button'
 
 export function ConfirmModal({ message, onClose, onConfirm }) {
   return (
     <Modal className="small" data-role="confirmationModal">
       <main>{message}</main>
-      <footer className="mgi-items modal--footer-transparent">
-        <Button buttonStyle="primary" onClick={onConfirm} data-role="confirm">
-          <FormattedMessage id="confirm" />
-        </Button>
-        <Button onClick={onClose} data-role="cancel">
-          <FormattedMessage id="cancel" />
-        </Button>
+      <footer className="modal--footer-transparent">
+        <Items inline>
+          <Button buttonStyle="primary" onClick={onConfirm} data-role="confirm">
+            <FormattedMessage id="confirm" />
+          </Button>
+          <Button onClick={onClose} data-role="cancel">
+            <FormattedMessage id="cancel" />
+          </Button>
+        </Items>
       </footer>
     </Modal>
   )

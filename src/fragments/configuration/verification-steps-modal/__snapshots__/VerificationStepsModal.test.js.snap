@@ -38,9 +38,7 @@ exports[`VerificationStepModal is disaled with empty values 1`] = `
       values={Array []}
     />
   </main>
-  <footer
-    className="mgi-items"
-  >
+  <footer>
     <Button
       buttonStyle="primary"
       disabled={true}
@@ -97,9 +95,7 @@ exports[`VerificationStepModal is enabled and has pre-checked values 1`] = `
       }
     />
   </main>
-  <footer
-    className="mgi-items"
-  >
+  <footer>
     <Button
       buttonStyle="primary"
       disabled={false}

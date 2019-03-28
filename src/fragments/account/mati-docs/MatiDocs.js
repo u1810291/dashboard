@@ -1,11 +1,25 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Panel from 'src/components/panel'
+import Items from 'src/components/items'
 import CSS from './mati-docs.scss'
 import IconApple from '../../../assets/icon-apple-documents.svg'
 import IconAndroid from '../../../assets/icon-android-documents.svg'
 import IconWebhook from '../../../assets/icon-webhook.svg'
 
+const docsSections = [
+  [
+    'https://github.com/MatiFace/mati-global-id-sdk/blob/master/Integration_iOS.md',
+    <IconApple />,
+    'iosDocumentation'
+  ],
+  [
+    'https://github.com/MatiFace/mati-global-id-sdk-integration-android',
+    <IconAndroid />,
+    'androidDocumentation'
+  ],
+  ['https://docs.getmati.com', <IconWebhook />, 'webhookDocumentation']
+]
 export default function MatiDocs() {
   return (
     <div className={CSS.content}>
@@ -14,38 +28,19 @@ export default function MatiDocs() {
           <h3>
             <FormattedMessage id="settings.integrationCode.matiDocumentation" />
           </h3>
-          <div className="mgi-items text-center">
-            <div className="doc-item">
-              <a href="https://github.com/MatiFace/mati-global-id-sdk/blob/master/Integration_iOS.md">
-                <div className="doc-item--icon">
-                  <IconApple />
-                </div>
-                <p>
-                  <FormattedMessage id="settings.integrationCode.iosDocumentation" />
-                </p>
-              </a>
-            </div>
-            <div className="doc-item">
-              <a href="https://github.com/MatiFace/mati-global-id-sdk-integration-android">
-                <div className="doc-item--icon">
-                  <IconAndroid />
-                </div>
-                <p>
-                  <FormattedMessage id="settings.integrationCode.androidDocumentation" />
-                </p>
-              </a>
-            </div>
-            <div className="doc-item">
-              <a href="https://docs.getmati.com">
-                <div className="doc-item--icon">
-                  <IconWebhook />
-                </div>
-                <p>
-                  <FormattedMessage id="settings.integrationCode.webhookDocumentation" />
-                </p>
-              </a>
-            </div>
-          </div>
+
+          <Items>
+            {docsSections.map(([url, icon, message], index) => (
+              <div className="doc-item text-center" key={index}>
+                <a href={url} target="_blank" rel="noopener noreferrer">
+                  <div className="doc-item--icon">{icon}</div>
+                  <p>
+                    <FormattedMessage id={`settings.integrationCode.${message}`} />
+                  </p>
+                </a>
+              </div>
+            ))}
+          </Items>
         </Panel.Body>
       </Panel>
     </div>

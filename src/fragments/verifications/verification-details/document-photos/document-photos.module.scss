@@ -3,17 +3,11 @@
 }
 
 :local(.photos) {
-  text-align: center;
-  margin-bottom: var(--mgi-spacing-l);
-  width: 100%;
+  display: grid;
+  grid-gap: calc(var(--mgi-spacing));
 }
 
 :local(.photo) {
-  width: 47%;
-  float: left;
-  margin-right: 3%;
-  margin-bottom: var(--mgi-spacing-l);
-
   img {
     object-fit: cover;
     width: 100%;
@@ -23,7 +17,7 @@
 }
 
 :local(.mainPhoto) {
-  width: 100%;
+  grid-column-end: span 2;
 }
 
 :local(.photoWrapper) {

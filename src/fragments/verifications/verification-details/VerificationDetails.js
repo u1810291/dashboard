@@ -7,6 +7,7 @@ import VerificationFullNameLabel from 'src/fragments/verifications/verification-
 import StatusSelect from 'src/fragments/verifications/status-select'
 import ContentPreloader from 'src/components/content-preloader'
 import Sections from 'src/components/sections'
+import Items from 'src/components/items'
 import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
 
 function caption(document, intl) {
@@ -46,11 +47,11 @@ function VerificationDetails({
   onStatusChange
 }) {
   return (
-    <div className="mgi-items">
+    <Items template="auto minmax(auto, 100%)">
       <section className={CSS.photos}>
         <DocumentPhotos selfie={selfie} photos={photos} />
       </section>
-      <section className="mgi-items--grow">
+      <section>
         <Sections withBorder>
           <h1>
             <VerificationFullNameLabel>{fullName}</VerificationFullNameLabel>
@@ -80,7 +81,7 @@ function VerificationDetails({
           ))}
         </Sections>
       </section>
-    </div>
+    </Items>
   )
 }
 

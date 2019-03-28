@@ -1,0 +1,34 @@
+:local(.root) {
+  display: grid;
+  grid-gap: var(--mgi-spacing);
+  grid-auto-flow: column;
+  justify-content: flex-start;
+
+  &:not(.inline) {
+    display: grid;
+  }
+
+  &.inline {
+    display: inline-grid;
+  }
+
+  &.align-top {
+    align-items: flex-start;
+  }
+
+  &.align-bottom {
+    align-items: flex-end;
+  }
+
+  &.align-center {
+    align-items: center;
+  }
+
+  &.align-stretch {
+    align-items: stretch;
+  }
+
+  &.smallGap {
+    grid-gap: calc(0.5 * var(--mgi-spacing));
+  }
+}

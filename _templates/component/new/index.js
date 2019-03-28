@@ -2,10 +2,7 @@ const inflection = require('inflection')
 module.exports = {
   params: ({ args }) => {
     return {
-      componentName: inflection.transform(args.name.replace(/\-/g, '_'), [
-        'classify',
-        'demodulize'
-      ]),
+      componentName: inflection.camelize(args.name.replace(/.+\/([^\/]+)$/g, '$1')),
       ...args
     }
   }

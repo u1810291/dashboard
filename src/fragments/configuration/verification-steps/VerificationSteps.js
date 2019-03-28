@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { difference, without } from 'lodash'
 import Icons from 'src/components/icons'
 import Button from 'src/components/button'
+import Items from 'src/components/items'
 import { createOverlay, closeOverlay } from 'src/components/overlay'
 import confirm from 'src/components/confirm'
 import VerificationStepModal from '../verification-steps-modal'
@@ -69,33 +70,31 @@ export default function VerificationSteps({
           <legend className="text-active">
             <FormattedMessage id="flow.documentTypeStep.stepNo" /> {index + 1}
           </legend>
-          <div className="mgi-items">
-            <span className="mgi-items--grow">
-              <FormattedMessage id={`flow.documentTypeStep.${doc}`} />
-            </span>
+          <Items template="minmax(auto, 100%) auto">
+            <FormattedMessage id={`flow.documentTypeStep.${doc}`} />
             <span className="text-secondary">
               <FormattedMessage id="required" />
             </span>
-          </div>
+          </Items>
         </fieldset>
       ))}
       {steps.map((step, index) => (
         <fieldset className="mgi-fieldset" key={index} data-role="verificationStep">
           <legend className="text-active">
-            <div className="mgi-items">
-              <span className="mgi-items--grow">
+            <Items template="minmax(auto, 100%) auto">
+              <span>
                 <FormattedMessage id="flow.documentTypeStep.stepNo" />{' '}
                 {index + mandatoryDocumentTypes.length + 1}
               </span>
-              <div className="mgi-items mgi-items--narrow">
+              <Items inline smallGap align="center">
                 <Button buttonStyle="invisible">
                   <Icons.Pencil className="svg-active" onClick={onEditItem.bind(this, index)} />
                 </Button>
                 <Button buttonStyle="invisible" data-role="deleteVerificationStep">
                   <Icons.TrashBin className="svg-error" onClick={onRemoveItem.bind(this, index)} />
                 </Button>
-              </div>
-            </div>
+              </Items>
+            </Items>
           </legend>
           {step.sort().map((doc, docIndex) => (
             <React.Fragment key={doc}>

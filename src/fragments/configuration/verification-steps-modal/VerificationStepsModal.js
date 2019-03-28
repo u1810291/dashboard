@@ -41,7 +41,7 @@ export default class VerificationStepModal extends React.Component {
             onChange={values => this.setState({ values })}
           />
         </main>
-        <footer className="mgi-items">
+        <footer>
           <Button
             buttonStyle="primary"
             disabled={!this.state.values.length}

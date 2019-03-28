@@ -179,22 +179,22 @@ exports[`ClientApplication one webhook 1`] = `
                 values={Object {}}
               />
             </th>
-            <td
-              className="mgi-items"
-            >
-              <code
-                className="mgi-items--grow"
+            <td>
+              <Items
+                template="minmax(auto, 100%) auto"
               >
-                https://mati-callbacks-demo.firebaseio.com/webhooks.json
-              </code>
-              <Button
-                buttonStyle="invisible"
-                onClick={[Function]}
-              >
-                <trashbin.svg
-                  className="svg-error"
-                />
-              </Button>
+                <code>
+                  https://mati-callbacks-demo.firebaseio.com/webhooks.json
+                </code>
+                <Button
+                  buttonStyle="invisible"
+                  onClick={[Function]}
+                >
+                  <trashbin.svg
+                    className="svg-error"
+                  />
+                </Button>
+              </Items>
             </td>
             <CopyToClipboardCell
               text="https://mati-callbacks-demo.firebaseio.com/webhooks.json"
@@ -289,22 +289,22 @@ exports[`ClientApplication two webhooks 1`] = `
                 values={Object {}}
               />
             </th>
-            <td
-              className="mgi-items"
-            >
-              <code
-                className="mgi-items--grow"
+            <td>
+              <Items
+                template="minmax(auto, 100%) auto"
               >
-                https://mati-callbacks-demo.firebaseio.com/webhooks.json
-              </code>
-              <Button
-                buttonStyle="invisible"
-                onClick={[Function]}
-              >
-                <trashbin.svg
-                  className="svg-error"
-                />
-              </Button>
+                <code>
+                  https://mati-callbacks-demo.firebaseio.com/webhooks.json
+                </code>
+                <Button
+                  buttonStyle="invisible"
+                  onClick={[Function]}
+                >
+                  <trashbin.svg
+                    className="svg-error"
+                  />
+                </Button>
+              </Items>
             </td>
             <CopyToClipboardCell
               text="https://mati-callbacks-demo.firebaseio.com/webhooks.json"

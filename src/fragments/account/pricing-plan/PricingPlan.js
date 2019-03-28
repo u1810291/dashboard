@@ -4,14 +4,15 @@ import classNames from 'classnames'
 import CSS from './pricing-plan.scss'
 import Panel from 'src/components/panel'
 import Sections from 'src/components/sections'
+import Items from 'src/components/items'
 import PricingTrialLogo from './icon-logo-pricing-trial.svg'
 
 function TrialPlanPanel() {
   return (
     <Panel>
       <Panel.Body>
-        <div className={classNames('mgi-items', CSS.trialPlanPanel)}>
-          <div className="mgi-items--col-6">
+        <Items className={CSS.trialPlanPanel} template="1fr 1fr">
+          <div>
             <p>
               <FormattedMessage id="pricing.trial.subTitle" />
             </p>
@@ -27,10 +28,10 @@ function TrialPlanPanel() {
               ))}
             </ul>
           </div>
-          <div className={classNames('mgi-items--col-6', CSS.trialPlanPanelImage)}>
+          <div className={CSS.trialPlanPanelImage}>
             <PricingTrialLogo />
           </div>
-        </div>
+        </Items>
       </Panel.Body>
     </Panel>
   )
@@ -99,10 +100,10 @@ export default class PricingPlan extends React.Component {
             <FormattedMessage id="pricing.afterTrial.title" />
           </h1>
 
-          <div className={CSS.otherPlans}>
+          <Items align="stretch" template="1fr 1fr">
             <ProfessionalPlanPanel />
             <CompanyPlanPanel />
-          </div>
+          </Items>
         </section>
       </Sections>
     )

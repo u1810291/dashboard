@@ -1,6 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import Items from 'src/components/items'
 import CSS from './feedback.scss'
+
+const logos = {
+  profuturo: require('./profuturo.png'),
+  doopla: require('./doopla.png')
+}
 
 export default function Feedback() {
   return (
@@ -8,16 +14,13 @@ export default function Feedback() {
       <h1>
         <FormattedMessage id="fragments.info.feedback.title" />
       </h1>
-      <div className="mgi-items">
-        {['lopez', 'flores'].map((name, index) => (
-          <div className={`mgi-items--col-6 clients-${name}`}>
-            <p className="client-and-logo text-center">
-              <div className="mgi-items--inline">
-                <div className="client-photo" />
-                <div className="logo" />
-              </div>
+      <Items template="1fr 1fr">
+        {['profuturo', 'doopla'].map((name, index) => (
+          <div>
+            <p className={CSS.logo}>
+              <img src={logos[name]} alt={name} />
             </p>
-            <p className="feedback">
+            <p className="feedback text-center">
               <FormattedMessage id={`feedbacks.feedback.${index}.content`} />
             </p>
             <div className="text-secondary">
@@ -25,7 +28,7 @@ export default function Feedback() {
             </div>
           </div>
         ))}
-      </div>
+      </Items>
     </section>
   )
 }

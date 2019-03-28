@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Sections from 'src/components/sections'
 import Panel from 'src/components/panel'
-import CSS from './feature.scss'
+import Items from 'src/components/items'
 
 export default class Feature extends React.Component {
   render() {
@@ -11,7 +11,7 @@ export default class Feature extends React.Component {
         <h1 className="text-center">
           <FormattedMessage id="pricing.complianceFeature.title" />
         </h1>
-        <div className={CSS.panels}>
+        <Items align="stretch" template="1fr 1fr">
           <Panel.Body>
             <Sections>
               <h2>
@@ -56,7 +56,7 @@ export default class Feature extends React.Component {
               </section>
             </Sections>
           </Panel.Body>
-        </div>
+        </Items>
       </section>
     )
   }
