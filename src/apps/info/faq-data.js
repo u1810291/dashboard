@@ -1,58 +1,58 @@
 module.exports = {
   en: [
     {
-      summary: 'How will Mati verify my users?',
+      summary: 'How can I use Mati?',
       details: `
-Mati is flexible enough so that you can select the right amount of layers of verification for your company.
-
-Here is the extensive list of features we offer :
-
-**Liveness**. Make sure that the user in front of the camera is real, and not a piece of paper  
-**Face match**. Confirm that the documents belong to that user going through the verification flow  
-**Document authenticity**. Verify that the documents have not been modified. Most fraudsters change the  picture or the text on the document.  
-**Document OCR**. We annotate the document for you.
+Mati is your new online user verification tool. Our verification is AI-based, and built with love from San Francisco.
       `
     },
     {
-      summary: 'Is Mati secure?',
+      summary: 'When should I use Mati?',
       details: `
-**In short, yes it is**. In fact, the lack of security in most of the applications we use today is the reason we built Mati.
-We strongly believe the only path forward in securing our digital lives is to lift this responsibility away from users and put it on the technology around us. As we see it, security is either missing altogether or too frustrating to use.
-
-That is why we tried to minimize the difficulty and make Mati easy to use, but keep **security as the highest priority**.We use highly secure **cryptographic methods** to secure your data at Mati. All of your sensitive data is encrypted using standards-based crypto-algorithms.
-
-Unlike proprietary algorithms, standards-based algorithms have gone through public scrutiny by industry and security experts that reduces the chance of any inherent weaknesses or vulnerabilities.We also continuously make the best effort to secure our servers online and client applications locally.
+Whenever you need to verify your users, Mati will help you. Whether you need to be KYC/AML compliant, manage your fraud or increase your level of security in your service, Mati verification SDKs will solve your problems.
       `
     },
     {
-      summary: 'Which countries do you support?',
+      summary: 'What is Mati`s mission?',
       details: `
-Our product is built so that we support documents from any country around the world, as long as the document has latin alphabet on it.  
-Which means most countries in Europe, United States, Latin America, Australia, etc…  
-We do not support Mandarin, Hindu, etc… yet.
+We are making the web more secure by working on great and affordable user verification services. Identity is a missing part of the world-wide-web. Mati is building it now.
       `
     },
     {
-      summary: 'How long does it take to integrate Mati?',
+      summary: 'Is Mati on-demand?',
       details: `
-Mati integration is very fast. In 10 minutes you will have your button running on your website or app to start real test with users. It contains 2 steps:
-
-**1. MATI BUTTON**  
-Installing Mati button on your website or App. Usually 10 minutes, just some code to copy paste. This code is available on the Dashboard, for Web, Android and IOS.  
-**2. WEBHOOKS**  
-Receive webhook data & build your own logic to automate your flow, usually 2 hours. Also available on the Dashboard: Developpers and Documentation.  
+Yes. We love simplicity. No need to talk to us, no need to sign crazy contracts, no need to organise endless meetings. Just integrate Mati SDKs & be compliant the same day. But if you want to chat, we will always be very happy to do so! 🙂
       `
     },
     {
-      summary: 'What documents can Mati verify right now?',
+      summary: 'What platforms does Mati support?',
       details: `
-Mati verifies:
+We support Web (Chrome, Mozilla, Firefox), iOS & Android. Find more details inside our documentations.
+      `
+    },
+    {
+      summary: 'How does Mati verify my users?',
+      details: `
+Mati offers a whole suite of checks to make sure that you stay compliant.
 
-**Passports**. Fields read: name, date of expiry, document number, date of birth, date of emission and country.  
-**National IDs**. Fields read: name, date of expiry, document number, date of birth, date of emission, address, country.  
-**Driving licences**. Fields read: name, date of expiry, document number, date of birth, date of emission, address, country.  
-**Proof of residencies**. Fields read: name, address, date of expiry  
-Of course we are not going to stop here, we will keep adding new documents
+**Liveness**: make sure you collect the real face of your user, and not a printed piece of paper (like most fraud to get online credit).
+
+**Face Match**: get a proof that the user's face matches the face on the document.
+
+**Document reading**: collect most important fields from document (full name, date of birth, document number)
+
+**Watchlists check**: make sure that your user is not flagged in any global watchlist.
+
+**Alteration detection**: make sure that the uploaded document was not modified by the user.
+
+**Template matching**: make sure that the uploaded document matches a valid revision from its country of origin. This feature is available in certain countries only. If you need more details, please contact us.
+      `
+    },
+    {
+      summary: 'I could finish Mati verification with the document of a friend. Is it normal?',
+      details: `
+Yes. It’s because all the checks Mati performs are made on our backend. We usually do not block users on the SDK side for UI/UX reasons. 
+But if something is wrong in the verification, Mati will let you know on the backend side once you integrated our webhooks.
       `
     }
   ]
