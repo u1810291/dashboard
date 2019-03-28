@@ -3,111 +3,111 @@
 exports[`IntegrationSteps blocks render 1`] = `
 Array [
   <Panel>
-    <PanelBody
-      className="mgi-items mgi-items--centered"
-    >
-      <section
-        className="mgi-items--col-7"
+    <PanelBody>
+      <Items
+        align="center"
+        template="7fr 5fr"
       >
-        <h2>
-          <FormattedMessage
-            id="settings.installationGuide.configure.title"
-            values={Object {}}
-          />
-          <p>
+        <section>
+          <h2>
             <FormattedMessage
-              id="settings.installationGuide.configure.description"
+              id="settings.installationGuide.configure.title"
               values={Object {}}
             />
-          </p>
-        </h2>
-      </section>
-      <Button
-        buttonStyle="primary"
-        className="mgi-items--col-5"
-        href="/"
-      >
-        <FormattedMessage
-          id="settings.installationGuide.configure.button"
-          values={Object {}}
-        />
-      </Button>
+            <p>
+              <FormattedMessage
+                id="settings.installationGuide.configure.description"
+                values={Object {}}
+              />
+            </p>
+          </h2>
+        </section>
+        <Button
+          buttonStyle="primary"
+          href="/"
+        >
+          <FormattedMessage
+            id="settings.installationGuide.configure.button"
+            values={Object {}}
+          />
+        </Button>
+      </Items>
     </PanelBody>
   </Panel>,
   <Panel>
-    <PanelBody
-      className="mgi-items mgi-items--centered"
-    >
-      <section
-        className="mgi-items--col-7"
+    <PanelBody>
+      <Items
+        align="center"
+        template="7fr 5fr"
       >
-        <h2>
-          <FormattedMessage
-            id="settings.installationGuide.install.title"
-            values={Object {}}
-          />
-          <p>
+        <section>
+          <h2>
             <FormattedMessage
-              id="settings.installationGuide.install.description"
+              id="settings.installationGuide.install.title"
               values={Object {}}
             />
-          </p>
-        </h2>
-      </section>
-      <Button
-        buttonStyle="primary"
-        className="mgi-items--col-5"
-        href="/integration/integration-code"
-      >
-        <FormattedMessage
-          id="settings.installationGuide.install.button"
-          values={Object {}}
-        />
-      </Button>
+            <p>
+              <FormattedMessage
+                id="settings.installationGuide.install.description"
+                values={Object {}}
+              />
+            </p>
+          </h2>
+        </section>
+        <Button
+          buttonStyle="primary"
+          href="/integration/integration-code"
+        >
+          <FormattedMessage
+            id="settings.installationGuide.install.button"
+            values={Object {}}
+          />
+        </Button>
+      </Items>
     </PanelBody>
   </Panel>,
   <Panel>
-    <PanelBody
-      className="mgi-items mgi-items--centered"
-    >
-      <section
-        className="mgi-items--col-7"
+    <PanelBody>
+      <Items
+        align="center"
+        template="7fr 5fr"
       >
-        <h2>
+        <section>
+          <h2>
+            <FormattedMessage
+              id="settings.installationGuide.receive.title"
+              values={Object {}}
+            />
+            <p>
+              <FormattedMessage
+                id="settings.installationGuide.receive.description"
+                values={Object {}}
+              />
+            </p>
+          </h2>
+          <p>
+            <a
+              href="https://docs.getmati.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <FormattedMessage
+                id="settings.installationGuide.receive.link"
+                values={Object {}}
+              />
+            </a>
+          </p>
+        </section>
+        <Button
+          buttonStyle="primary"
+          href="/integration/applications"
+        >
           <FormattedMessage
-            id="settings.installationGuide.receive.title"
+            id="settings.installationGuide.receive.button"
             values={Object {}}
           />
-          <p>
-            <FormattedMessage
-              id="settings.installationGuide.receive.description"
-              values={Object {}}
-            />
-          </p>
-        </h2>
-        <p>
-          <a
-            href="https://docs.getmati.com"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <FormattedMessage
-              id="settings.installationGuide.receive.link"
-              values={Object {}}
-            />
-          </a>
-        </p>
-      </section>
-      <Button
-        buttonStyle="primary"
-        className="mgi-items--col-5"
-        href="/integration/applications"
-      >
-        <FormattedMessage
-          id="settings.installationGuide.receive.button"
-          values={Object {}}
-        />
-      </Button>
+        </Button>
+      </Items>
     </PanelBody>
   </Panel>,
 ]

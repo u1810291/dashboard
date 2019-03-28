@@ -6,7 +6,7 @@ export default function Details({ summary, children, defaultOpened = false }) {
   const [state, setState] = useState({ opened: defaultOpened })
 
   return (
-    <React.Fragment>
+    <section>
       <h3
         className={classNames(CSS.summary, { opened: state.opened })}
         onClick={() => setState({ opened: !state.opened })}
@@ -14,6 +14,6 @@ export default function Details({ summary, children, defaultOpened = false }) {
         {summary}
       </h3>
       {state.opened && <div className="text-secondary">{children}</div>}
-    </React.Fragment>
+    </section>
   )
 }

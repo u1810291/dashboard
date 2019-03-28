@@ -19,12 +19,6 @@
   }
 }
 
-:local(.otherPlans) {
-  display: grid;
-  grid-column-gap: var(--mgi-spacing);
-  grid-template-columns: repeat(2, 1fr);
-}
-
 :local(.companyPlan) {
   display: flex;
   flex-direction: column;

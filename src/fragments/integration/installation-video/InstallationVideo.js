@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { createOverlay } from 'src/components/overlay'
 import Panel from 'src/components/panel'
+import Items from 'src/components/items'
 import InstallationVideoImage from './installation-video.svg'
 
 export function showVideo() {
@@ -28,8 +29,8 @@ export default function InstallationVideo() {
   return (
     <Panel>
       <Panel.Body>
-        <div className="mgi-items mgi-items--centered">
-          <section className="mgi-items--col-5">
+        <Items align="center" template="5fr 7fr">
+          <section>
             <h2>
               <FormattedMessage id="settings.installationGuide.video.title" />
               <p>
@@ -37,10 +38,8 @@ export default function InstallationVideo() {
               </p>
             </h2>
           </section>
-          <section className="mgi-items--col-7">
-            <InstallationVideoImage onClick={showVideo} className={CSS.installationVideoImage} />
-          </section>
-        </div>
+          <InstallationVideoImage onClick={showVideo} className={CSS.installationVideoImage} />
+        </Items>
       </Panel.Body>
     </Panel>
   )

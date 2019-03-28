@@ -4,7 +4,7 @@
   position: relative;
   padding-right: calc(1em + var(--mgi-details-handle-height) * 2);
 
-  &::after {
+  &::before {
     display: block;
     content: ' ';
     position: absolute;

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { MatiButton } from 'src/components/mati-button'
 import Button from 'src/components/button'
 import { Content } from 'src/components/application-box'
+import Sections from 'src/components/sections'
 import { createOverlay, closeOverlay } from 'src/components/overlay'
 import {
   getIntegrationCode,
@@ -70,7 +71,7 @@ class Configuration extends React.Component {
 
   openAndroidManual() {
     const tab = window.open(
-      'https://github.com/MatiFace/mati-global-id-sdk/blob/master/Integration_android.md',
+      'https://github.com/MatiFace/mati-global-id-sdk-integration-android',
       '_blank'
     )
     tab.focus()
@@ -92,22 +93,16 @@ class Configuration extends React.Component {
 
   render() {
     const flowSteps = [
-      <Countries
-        countries={this.props.countries}
-        onSubmit={this.updateConfiguration}
-        supportedCountries={this.props.configuration.supportedCountries}
-        isLoading={this.props.countriesAreLoading}
-      />,
-      <div id="language">
-        <LanguageStep
-          availableLanguages={AVAILABLE_LANGUAGES}
+      <div id="buttonColor">
+        <ConfigureColor
+          presets={COLOR_PRESETS}
           style={this.props.configuration.style}
           onClick={this.updateConfiguration}
         />
       </div>,
-      <div id="buttonColor">
-        <ConfigureColor
-          presets={COLOR_PRESETS}
+      <div id="language">
+        <LanguageStep
+          availableLanguages={AVAILABLE_LANGUAGES}
           style={this.props.configuration.style}
           onClick={this.updateConfiguration}
         />
@@ -117,46 +112,46 @@ class Configuration extends React.Component {
         mandatoryDocumentTypes={MANDATORY_DOCUMENT_TYPES}
         steps={this.props.configuration.verificationSteps}
         onChange={this.updateConfiguration}
+      />,
+      <Countries
+        countries={this.props.countries}
+        onSubmit={this.updateConfiguration}
+        supportedCountries={this.props.configuration.supportedCountries}
+        isLoading={this.props.countriesAreLoading}
       />
     ]
     return (
       <React.Fragment>
         <Content fullwidth={false} className={CSS.content}>
-          <section className="mgi-section">
+          <Sections extraGap>
             <h1>
               <FormattedMessage id="onboarding.flow.title" />
-              <p className="text-secondary">
-                <FormattedMessage id="onboarding.flow.subtitle" />
-              </p>
             </h1>
-          </section>
-          {flowSteps.map((step, index) => (
-            <section className="mgi-section mgi-section__huge" key={index}>
-              {step}
-            </section>
-          ))}
+
+            <Sections extraGap>
+              {flowSteps.map((step, index) => (
+                <section key={index}>{step}</section>
+              ))}
+            </Sections>
+          </Sections>
         </Content>
         <Content>
-          <section className="mgi-section mgi-section__no-border">
+          <Sections>
             <h1>
-              Preview Zone
-              <p>Here you can see the result of your customizing.</p>
+              <FormattedMessage id="fragments.configuration.title" />
             </h1>
-          </section>
-          <section className="mgi-section mgi-section__no-border">
+
             {this.props.apps[0] && (
-              <div>
-                <h3>Your button</h3>
+              <section>
                 <MatiButton
                   language={this.props.configuration.style.language}
                   color={this.props.configuration.style.color}
                   clientId={this.props.apps[0].clientId}
                   onSuccess={this.redirectToIdentity}
                 />
-              </div>
-            )}{' '}
-          </section>
-          <section className="mgi-section mgi-section__no-border">
+              </section>
+            )}
+
             <p className={CSS.sidebarIcon}>
               <Button
                 className={CSS.onboardingVideoLink}
@@ -167,7 +162,7 @@ class Configuration extends React.Component {
                 <FormattedMessage id="onboarding.video.link" />
               </Button>
             </p>
-          </section>
+          </Sections>
         </Content>
       </React.Fragment>
     )

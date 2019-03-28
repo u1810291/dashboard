@@ -5,13 +5,8 @@
 :local(.content) {
   margin: var(--mgi-spacing) 0;
 
-  h3 {
-    margin-bottom: 1.5rem;
-    color: var(--mgi-theme-palette-blue);
-  }
   .doc-item {
     width: 11rem;
-    max-width: 33.333%;
     margin-bottom: 1rem;
 
     &--icon {
@@ -23,22 +18,23 @@
 
     a {
       display: block;
-      padding: .5rem 2rem 2rem;
-      border: 1px solid rgba(#3757ff, .5);
+      padding: 0.5rem 2rem 2rem;
+      border: 1px solid rgba(#3757ff, 0.5);
       border-radius: 4px;
-      transition: all linear .2s;
+      transition: all linear 0.2s;
       position: relative;
       color: black;
       overflow: hidden;
 
-      svg, p {
+      svg,
+      p {
         position: relative;
       }
 
       svg {
-
-        g, path {
-          transition: all linear .2s;
+        g,
+        path {
+          transition: all linear 0.2s;
         }
       }
 
@@ -47,14 +43,13 @@
         color: var(--mgi-theme-palette-blue);
 
         svg {
-
           g {
             opacity: 1;
           }
-          .main-fill  {
+          .main-fill {
             fill: var(--mgi-theme-palette-blue);
           }
-          .main-fill-stroke  {
+          .main-fill-stroke {
             stroke: var(--mgi-theme-palette-blue);
           }
         }

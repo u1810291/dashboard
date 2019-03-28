@@ -6,6 +6,7 @@ import { signOut } from 'src/state/auth'
 import Button from 'src/components/button'
 import PageContentLayout from 'src/components/page-content-layout'
 import confirm from 'src/components/confirm'
+import Items from 'src/components/items'
 import LogoutIcon from './logout.svg'
 
 function SettingsLayout({ children, signOut }) {
@@ -25,10 +26,10 @@ function SettingsLayout({ children, signOut }) {
           <FormattedMessage id="apps.settings.pricing" />
         </NavLink>
         <Button onClick={handleLogout}>
-          <span className="mgi-items mgi-items--centered">
+          <Items inline align="center">
             <FormattedMessage id="apps.settings.signout" />
             <LogoutIcon className="svg-active" />
-          </span>
+          </Items>
         </Button>
       </nav>
       {children}

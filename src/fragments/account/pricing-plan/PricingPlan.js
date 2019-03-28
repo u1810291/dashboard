@@ -3,14 +3,16 @@ import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
 import CSS from './pricing-plan.scss'
 import Panel from 'src/components/panel'
+import Sections from 'src/components/sections'
+import Items from 'src/components/items'
 import PricingTrialLogo from './icon-logo-pricing-trial.svg'
 
 function TrialPlanPanel() {
   return (
     <Panel>
       <Panel.Body>
-        <div className={classNames('mgi-items', CSS.trialPlanPanel)}>
-          <div className="mgi-items--col-6">
+        <Items className={CSS.trialPlanPanel} template="1fr 1fr">
+          <div>
             <p>
               <FormattedMessage id="pricing.trial.subTitle" />
             </p>
@@ -19,21 +21,17 @@ function TrialPlanPanel() {
             </h1>
 
             <ul className="mgi-list mgi-list--check">
-              <li>
-                <FormattedMessage id="pricing.trial.description.item.days" />
-              </li>
-              <li>
-                <FormattedMessage id="pricing.trial.description.item.verifications" />
-              </li>
-              <li>
-                <FormattedMessage id="pricing.trial.description.item.card" />
-              </li>
+              {['days', 'verifications', 'card'].map(key => (
+                <li>
+                  <FormattedMessage id={`pricing.trial.description.item.${key}`} key={key} />
+                </li>
+              ))}
             </ul>
           </div>
-          <div className={classNames('mgi-items--col-6', CSS.trialPlanPanelImage)}>
+          <div className={CSS.trialPlanPanelImage}>
             <PricingTrialLogo />
           </div>
-        </div>
+        </Items>
       </Panel.Body>
     </Panel>
   )
@@ -52,24 +50,11 @@ function ProfessionalPlanPanel() {
         </small>
       </h1>
       <ul className="mgi-list mgi-list--check-inverted">
-        <li>
-          <FormattedMessage id="pricing.professional.description.item.automate" />
-        </li>
-        <li>
-          <FormattedMessage id="pricing.professional.description.item.access" />
-        </li>
-        <li>
-          <FormattedMessage id="pricing.professional.description.item.sdk" />
-        </li>
-        <li>
-          <FormattedMessage id="pricing.professional.description.item.identity" />
-        </li>
-        <li>
-          <FormattedMessage id="pricing.professional.description.item.volumes" />
-        </li>
-        <li>
-          <FormattedMessage id="pricing.professional.description.item.dashboard" />
-        </li>
+        {['automate', 'access', 'sdk', 'identity', 'volumes', 'dashboard'].map(key => (
+          <li>
+            <FormattedMessage id={`pricing.professional.description.item.${key}`} />
+          </li>
+        ))}
       </ul>
     </Panel.Body>
   )
@@ -86,15 +71,11 @@ function CompanyPlanPanel() {
       </h1>
 
       <ul className="mgi-list--check">
-        <li>
-          <FormattedMessage id="pricing.company.description.item.customisation" />
-        </li>
-        <li>
-          <FormattedMessage id="pricing.company.description.item.support" />
-        </li>
-        <li>
-          <FormattedMessage id="pricing.company.description.item.integration" />
-        </li>
+        {['customisation', 'support', 'integration'].map(key => (
+          <li>
+            <FormattedMessage id={`pricing.company.description.item.${key}`} key={key} />
+          </li>
+        ))}
       </ul>
 
       <a
@@ -112,21 +93,19 @@ function CompanyPlanPanel() {
 export default class PricingPlan extends React.Component {
   render() {
     return (
-      <React.Fragment>
-        <section className="mgi-section mgi-section__huge">
-          <TrialPlanPanel />
-        </section>
-        <section className="mgi-section mgi-section__huge">
+      <Sections extraGap>
+        <TrialPlanPanel />
+        <section>
           <h1 className="text-center">
             <FormattedMessage id="pricing.afterTrial.title" />
           </h1>
 
-          <div className={CSS.otherPlans}>
+          <Items align="stretch" template="1fr 1fr">
             <ProfessionalPlanPanel />
             <CompanyPlanPanel />
-          </div>
+          </Items>
         </section>
-      </React.Fragment>
+      </Sections>
     )
   }
 }

@@ -3,6 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import Panel from 'src/components/panel'
 import Button from 'src/components/button'
 import Icons from 'src/components/icons'
+import Sections from 'src/components/sections'
+import Items from 'src/components/items'
 import { createOverlay, closeOverlay } from 'src/components/overlay'
 import confirm from 'src/components/confirm'
 import { copyToClipboard } from 'src/components/clipboard'
@@ -42,15 +44,10 @@ export default function ClientApplication({
   return (
     <Panel>
       <Panel.Body>
-        <section className="mgi-section">
+        <Sections withBorder>
           <h3 className="text-active">
             <FormattedMessage id="fragments.client_application.production_title" />
-            <p>
-              <FormattedMessage id="fragments.client_application.production_subtitle" />
-            </p>
           </h3>
-        </section>
-        <section className="mgi-section">
           <table className="mgi-table">
             <colgroup>
               <col className={CSS.headerColumn} />
@@ -86,11 +83,16 @@ export default function ClientApplication({
                       <FormattedMessage id="fragments.client_application.webhook" />
                     </th>
                   )}
-                  <td className="mgi-items">
-                    <code className="mgi-items--grow">{webhook.url}</code>
-                    <Button buttonStyle="invisible" onClick={() => handleDeleteWebhook(webhook.id)}>
-                      <Icons.TrashBin className="svg-error" />
-                    </Button>
+                  <td>
+                    <Items template="minmax(auto, 100%) auto">
+                      <code>{webhook.url}</code>
+                      <Button
+                        buttonStyle="invisible"
+                        onClick={() => handleDeleteWebhook(webhook.id)}
+                      >
+                        <Icons.TrashBin className="svg-error" />
+                      </Button>
+                    </Items>
                   </td>
                   <CopyToClipboardCell text={webhook.url} />
                 </tr>
@@ -110,7 +112,7 @@ export default function ClientApplication({
               )}
             </tbody>
           </table>
-        </section>
+        </Sections>
       </Panel.Body>
     </Panel>
   )

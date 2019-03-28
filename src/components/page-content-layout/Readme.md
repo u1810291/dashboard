@@ -3,6 +3,7 @@ All elements
 ```js
 const { NavLink } = require('react-router-dom')
 const Panel = require('../panel').default
+const Sections = require('../sections').default
 ;<React.Fragment>
   <h1>Sample page layout</h1>
   <PageContentLayout>
@@ -38,15 +39,13 @@ const Panel = require('../panel').default
     <aside>
       <Panel>
         <Panel.Body>
-          <section className="mgi-section">
+          <Sections withBorder>
             <h3>Support</h3>
-          </section>
-          <section className="mgi-section">
             <p>
               If you want to know more about integration code you can chat with our support about
               that.
             </p>
-          </section>
+          </Sections>
         </Panel.Body>
       </Panel>
     </aside>
@@ -85,15 +84,13 @@ const Panel = require('../panel').default
   <aside>
     <Panel>
       <Panel.Body>
-        <section className="mgi-section">
+        <Sections withBorder>
           <h3>Support</h3>
-        </section>
-        <section className="mgi-section">
           <p>
             If you want to know more about integration code you can chat with our support about
             that.
           </p>
-        </section>
+        </Sections>
       </Panel.Body>
     </Panel>
   </aside>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import classNames from 'classnames'
 import { debounce } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import { ChromePicker } from 'react-color'
 import ColorCheckButton from 'src/components/color-check-button'
+import Items from 'src/components/items'
 import ColorPicker from './color-picker.svg'
 import CSS from './ConfigureColor.css'
 
@@ -53,7 +53,7 @@ export default function ConfigureColor({ presets = [], style = {}, onClick = () 
           <FormattedMessage id="flow.colorStep.title" />
         </h3>
       </legend>
-      <div className={classNames('mgi-items', CSS.buttons)}>
+      <Items smallGap>
         {presets.map(([presetName, presetColor]) => (
           <ColorCheckButton
             key={presetName}
@@ -74,7 +74,7 @@ export default function ConfigureColor({ presets = [], style = {}, onClick = () 
             </div>
           )}
         </div>
-      </div>
+      </Items>
     </fieldset>
   )
 }

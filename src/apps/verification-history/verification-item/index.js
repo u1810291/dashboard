@@ -16,6 +16,7 @@ import WebbhooksIcon from './webhooks-icon.svg'
 import DeleteIcon from './delete-icon.svg'
 import Button from 'src/components/button'
 import Panel from 'src/components/panel'
+import Sections from 'src/components/sections'
 import {
   getIdentityWithNestedData,
   patchIdentity,
@@ -118,7 +119,7 @@ class VerificationItem extends React.Component {
       <Content>
         <h1>
           <Link to="/verifications">
-            <Button className="text-active mgi-section-separated">
+            <Button className="text-active">
               <FormattedMessage id="identities.details.backToList" />
             </Button>
           </Link>
@@ -145,23 +146,17 @@ class VerificationItem extends React.Component {
           </main>
 
           <aside>
-            <section className="mgi-section mgi-section__no-border">
+            <Sections>
               <Button onClick={this.openWebhookModal}>
                 <WebbhooksIcon />
                 <FormattedMessage id="verificationModal.webhookData" />
               </Button>
-            </section>
-            {/*<Button>*/}
-            {/*<DownloadIcon />*/}
-            {/*<FormattedMessage id="verificationModal.downloadData" />*/}
-            {/*</Button>*/}
-            <section className="mgi-section mgi-section__huge">
               <Button onClick={this.deleteIdentity} disabled={isDeleting}>
                 {isDeleting ? <Spinner /> : <DeleteIcon />}
                 <FormattedMessage id="verificationModal.delete" />
               </Button>
-            </section>
-            {isFeatureEnabled('STATUSES') && <DocumentStatusHelp />}
+              {isFeatureEnabled('STATUSES') && <DocumentStatusHelp />}
+            </Sections>
           </aside>
         </PageContentLayout>
       </Content>

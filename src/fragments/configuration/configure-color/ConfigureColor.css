@@ -1,7 +1,3 @@
-:local(.buttons) {
-  --mgi-theme-items-gutter: 1rem;
-}
-
 :local(.colorPicker) {
   position: absolute;
 }
