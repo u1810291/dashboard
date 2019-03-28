@@ -26,7 +26,7 @@ export default function MatiDocs() {
               </a>
             </div>
             <div className="doc-item">
-              <a href="https://github.com/MatiFace/mati-global-id-sdk/blob/master/Integration_android.md">
+              <a href="https://github.com/MatiFace/mati-global-id-sdk-integration-android">
                 <div className="doc-item--icon">
                   <IconAndroid />
                 </div>

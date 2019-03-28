@@ -71,7 +71,7 @@ class Configuration extends React.Component {
 
   openAndroidManual() {
     const tab = window.open(
-      'https://github.com/MatiFace/mati-global-id-sdk/blob/master/Integration_android.md',
+      'https://github.com/MatiFace/mati-global-id-sdk-integration-android',
       '_blank'
     )
     tab.focus()
