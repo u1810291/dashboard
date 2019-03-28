@@ -93,22 +93,16 @@ class Configuration extends React.Component {
 
   render() {
     const flowSteps = [
-      <Countries
-        countries={this.props.countries}
-        onSubmit={this.updateConfiguration}
-        supportedCountries={this.props.configuration.supportedCountries}
-        isLoading={this.props.countriesAreLoading}
-      />,
-      <div id="language">
-        <LanguageStep
-          availableLanguages={AVAILABLE_LANGUAGES}
+      <div id="buttonColor">
+        <ConfigureColor
+          presets={COLOR_PRESETS}
           style={this.props.configuration.style}
           onClick={this.updateConfiguration}
         />
       </div>,
-      <div id="buttonColor">
-        <ConfigureColor
-          presets={COLOR_PRESETS}
+      <div id="language">
+        <LanguageStep
+          availableLanguages={AVAILABLE_LANGUAGES}
           style={this.props.configuration.style}
           onClick={this.updateConfiguration}
         />
@@ -118,17 +112,20 @@ class Configuration extends React.Component {
         mandatoryDocumentTypes={MANDATORY_DOCUMENT_TYPES}
         steps={this.props.configuration.verificationSteps}
         onChange={this.updateConfiguration}
+      />,
+      <Countries
+        countries={this.props.countries}
+        onSubmit={this.updateConfiguration}
+        supportedCountries={this.props.configuration.supportedCountries}
+        isLoading={this.props.countriesAreLoading}
       />
     ]
     return (
       <React.Fragment>
         <Content fullwidth={false} className={CSS.content}>
-          <Sections withBorder>
+          <Sections extraGap>
             <h1>
               <FormattedMessage id="onboarding.flow.title" />
-              <p className="text-secondary">
-                <FormattedMessage id="onboarding.flow.subtitle" />
-              </p>
             </h1>
 
             <Sections extraGap>
@@ -141,13 +138,11 @@ class Configuration extends React.Component {
         <Content>
           <Sections>
             <h1>
-              Preview Zone
-              <p>Here you can see the result of your customizing.</p>
+              <FormattedMessage id="fragments.configuration.title" />
             </h1>
 
             {this.props.apps[0] && (
               <section>
-                <h3>Your button</h3>
                 <MatiButton
                   language={this.props.configuration.style.language}
                   color={this.props.configuration.style.color}

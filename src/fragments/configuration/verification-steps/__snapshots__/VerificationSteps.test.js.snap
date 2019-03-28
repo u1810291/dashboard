@@ -53,7 +53,10 @@ exports[`VerificationSteps mandatory steps 1`] = `
     disabled={false}
     onClick={[Function]}
   >
-    Add another step
+    <FormattedMessage
+      id="flow.documentTypeStep.button.title"
+      values={Object {}}
+    />
   </Button>
 </fieldset>
 `;
@@ -192,7 +195,10 @@ exports[`VerificationSteps steps  1`] = `
     disabled={false}
     onClick={[Function]}
   >
-    Add another step
+    <FormattedMessage
+      id="flow.documentTypeStep.button.title"
+      values={Object {}}
+    />
   </Button>
 </fieldset>
 `;

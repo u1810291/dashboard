@@ -82,6 +82,13 @@ class Dashboard extends React.Component {
             icon={<ConfigurationIcon />}
           />
         )}
+        {isOwner && (
+          <MenuItemLink
+            to="/integration"
+            label={formatMessage({ id: 'dashboard.menu.integration' })}
+            icon={<SettingsIcon />}
+          />
+        )}
         <MenuItemLink
           to="/verifications"
           label={formatMessage({ id: 'dashboard.menu.identities' })}
@@ -93,14 +100,6 @@ class Dashboard extends React.Component {
           label={formatMessage({ id: 'dashboard.menu.info' })}
           icon={<Icons.Info />}
         />
-
-        {isOwner && (
-          <MenuItemLink
-            to="/integration"
-            label={formatMessage({ id: 'dashboard.menu.integration' })}
-            icon={<SettingsIcon />}
-          />
-        )}
 
         {isOwner && (
           <MenuItemLink

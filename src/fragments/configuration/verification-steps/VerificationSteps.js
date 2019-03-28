@@ -117,7 +117,7 @@ export default function VerificationSteps({
         disabled={difference(availableDocumentTypes, mandatoryDocumentTypes, ...steps).length === 0}
         data-role="newVerificationStep"
       >
-        Add another step
+        <FormattedMessage id="flow.documentTypeStep.button.title" />
       </Button>
     </fieldset>
   )
