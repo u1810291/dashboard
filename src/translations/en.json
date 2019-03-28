@@ -353,7 +353,7 @@
   "verificationModal.via": "via",
   "verificationModal.n-a": "n/a",
   "verificationModal.header": "Verification details",
-  "verificationModal.webhookData": "Webhook Data",
+  "verificationModal.webhookData": "Verification data",
   "verificationModal.downloadData": "Download Data",
   "verificationModal.selfieIsLoading": "Selfie is loading",
   "verificationModal.selfieNotLoaded": "Selfie was not loaded",
