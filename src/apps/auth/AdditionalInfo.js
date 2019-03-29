@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { transform } from 'inflection'
 import { putMerchants } from 'src/state/merchant'
 import AdditionalInfoForm from 'src/fragments/signup/additional-info-form'
 import CSS from './Auth.css'
@@ -16,7 +17,14 @@ export default
 class AdditionalInfo extends React.Component {
   handleSubmit = data => {
     setUserProperties(data)
-    updateData(data)
+    updateData(
+      Object.fromEntries(
+        Object.entries(data).map(([key, value]) => [
+          transform(key, ['underscore', 'titleize']),
+          value
+        ])
+      )
+    )
     setTimeout(() => showVideo(), 1000)
     this.props.history.push('/')
   }

@@ -104,8 +104,8 @@
   "additionalInfo.form.placeholders.companySize": "Choose amount",
   "additionalInfo.form.labels.purpose": "Why do you need a KYC provider?",
   "additionalInfo.form.placeholders.purpose": "Choose a purpose",
-  "additionalInfo.form.labels.alreadyUseJYC": "Do you already use a KYC provider?",
-  "additionalInfo.form.placeholders.alreadyUseJYC": "Choose an answer",
+  "additionalInfo.form.labels.alreadyUseKYC": "Do you already use a KYC provider?",
+  "additionalInfo.form.placeholders.alreadyUseKYC": "Choose an answer",
 
   "validations.required": "Field is required",
   "validations.cleanText": "No special characters allowed",

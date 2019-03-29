@@ -15,7 +15,7 @@ const formikSettings = {
     verificationNum: null,
     companySize: null,
     purpose: null,
-    alreadyUseJYC: null
+    alreadyUseKYC: null
   },
 
   validate: values => {
@@ -26,7 +26,7 @@ const formikSettings = {
     errors.startDate = required(values.startDate)
     errors.verificationNum = required(values.verificationNum)
     errors.companySize = required(values.companySize)
-    errors.alreadyUseJYC = required(values.alreadyUseJYC)
+    errors.alreadyUseKYC = required(values.alreadyUseKYC)
     errors.purpose = required(values.purpose)
     errors = pickBy(errors, v => v)
     return errors
@@ -81,7 +81,10 @@ const formikSettings = {
     { label: 'Not sure yet', value: 'not sure yet' }
   ],
 
-  alreadyUseJYCOptions: [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }]
+  alreadyUseKYCOptions: [
+    { label: 'Yes', value: 'yes' },
+    { label: 'No', value: 'no' }
+  ]
 }
 
 export default
@@ -97,7 +100,7 @@ class AdditionalInfoForm extends React.Component {
       'verificationNum',
       'companySize',
       'purpose',
-      'alreadyUseJYC'
+      'alreadyUseKYC'
     )
     this.props.handleSubmit(data)
   }
@@ -142,14 +145,18 @@ class AdditionalInfoForm extends React.Component {
                 component={Select}
                 options={formikSettings.verificationsNumOptions}
                 value={props.values.verificationNum}
-                error={props.touched.verificationNum && props.errors.verificationNum}
+                error={
+                  props.touched.verificationNum && props.errors.verificationNum
+                }
               />
               <Field
-                name="alreadyUseJYC"
+                name="alreadyUseKYC"
                 component={Select}
-                options={formikSettings.alreadyUseJYCOptions}
-                value={props.values.alreadyUseJYC}
-                error={props.touched.alreadyUseJYC && props.errors.alreadyUseJYC}
+                options={formikSettings.alreadyUseKYCOptions}
+                value={props.values.alreadyUseKYC}
+                error={
+                  props.touched.alreadyUseKYC && props.errors.alreadyUseKYC
+                }
               />
               <Field
                 name="startDate"
