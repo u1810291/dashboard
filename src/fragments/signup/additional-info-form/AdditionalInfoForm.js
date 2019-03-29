@@ -13,7 +13,6 @@ const formikSettings = {
     websiteUrl: '',
     startDate: null,
     verificationNum: null,
-    dontKnow: false,
     companySize: null,
     purpose: null,
     alreadyUseJYC: null
@@ -25,7 +24,7 @@ const formikSettings = {
     errors.businessName = required(values.businessName)
     errors.websiteUrl = required(values.websiteUrl)
     errors.startDate = required(values.startDate)
-    errors.verificationNum = required(values.verificationNum) && required(values.dontKnow)
+    errors.verificationNum = required(values.verificationNum)
     errors.companySize = required(values.companySize)
     errors.alreadyUseJYC = required(values.alreadyUseJYC)
     errors.purpose = required(values.purpose)
@@ -96,7 +95,6 @@ class AdditionalInfoForm extends React.Component {
       'websiteUrl',
       'startDate',
       'verificationNum',
-      'dontKnow',
       'companySize',
       'purpose',
       'alreadyUseJYC'
@@ -136,7 +134,7 @@ class AdditionalInfoForm extends React.Component {
                 name="companySize"
                 component={Select}
                 options={formikSettings.companySizeOptions}
-                value={props.values.companySizeOptions}
+                value={props.values.companySize}
                 error={props.touched.companySize && props.errors.companySize}
               />
               <Field
