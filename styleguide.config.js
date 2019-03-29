@@ -9,7 +9,10 @@ webpackConfig.module.rules[2].oneOf[1].options.plugins.push([
 webpackConfig.module.rules[2].oneOf[1].options.plugins.push(['inline-react-svg'])
 module.exports = {
   webpackConfig,
-  require: [path.join(__dirname, 'src/components/theme/styles.scss')],
+  require: [
+    path.join(__dirname, 'src/components/theme/styles.scss'),
+    path.join(__dirname, 'node_modules/react-dates/lib/css/_datepicker.css')
+  ],
   styleguideComponents: {
     Wrapper: path.join(__dirname, 'src/styleguide/components/Wrapper')
   },
