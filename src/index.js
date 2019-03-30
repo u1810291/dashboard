@@ -11,6 +11,7 @@ import Root from 'src/apps'
 import { Container as NotificationsContainer } from 'src/components/notification'
 import { Container as OverlayContainer } from 'src/components/overlay'
 import 'clipboard-polyfill'
+import 'polyfill-object.fromentries'
 import * as Sentry from '@sentry/browser'
 
 import 'flex-box-grid/dist/scss/index.scss'
