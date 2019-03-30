@@ -11,7 +11,7 @@ import Layout from './IntegrationLayout'
 function ClientApplications({
   apps = [],
   token,
-  webhooks,
+  webhooks = {},
   getMerchantApps,
   subscribeToWebhook,
   deleteWebhook,
