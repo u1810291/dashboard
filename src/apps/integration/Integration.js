@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Support from 'src/fragments/account/support'
-import InstallationVideo from 'src/fragments/integration/installation-video'
 import IntegrationSteps from 'src/fragments/integration/integration-steps'
 import IntegrationLayout from './IntegrationLayout'
 
@@ -13,7 +12,6 @@ export default function Info() {
       </h1>
       <IntegrationLayout>
         <main>
-          <InstallationVideo />
           <IntegrationSteps />
         </main>
         <aside>
