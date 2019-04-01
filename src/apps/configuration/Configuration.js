@@ -135,7 +135,7 @@ class Configuration extends React.Component {
             </Sections>
           </Sections>
         </Content>
-        <Content>
+        <Content fullwidth={false}>
           <Sections>
             <h1>
               <FormattedMessage id="fragments.configuration.title" />
