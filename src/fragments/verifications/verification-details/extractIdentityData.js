@@ -196,7 +196,7 @@ function getFieldsFromSteps(doc) {
           status: getStatusValue(step)
         })
       } else {
-        Object.entries(step.data).forEach(entry => {
+        Object.entries(step.data || {}).forEach(entry => {
           fields.push({
             caption: <FormattedMessage id={`identities.fields.${entry[0]}`} />,
             value: entry[1].value,
@@ -264,7 +264,7 @@ export function getDocuments(identity) {
   const documents = []
   if (identity._embedded.verification && identity._embedded.verification.documents) {
     documents.push(getLivenessCheck(identity))
-    identity._embedded.verification.documents.forEach(doc => {
+    identity._embedded.verification.documents.filter(doc => doc.steps.length).forEach(doc => {
       documents.push({
         caption: <FormattedMessage id="verificationModal.idcheck" />,
         origin: <FormattedMessage id={`verificationModal.fields.${doc.type}`} />,
