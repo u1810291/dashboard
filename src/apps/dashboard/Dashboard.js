@@ -19,10 +19,10 @@ import Integration from 'src/apps/integration'
 import { signOut } from 'src/state/auth'
 import { getMerchant, saveConfiguration } from 'src/state/merchant'
 import MatiLogo from 'src/assets/mati-logo-v2.svg'
-import IdentitiesIcon from './icons/icon-history.svg'
-import ConfigurationIcon from './icons/icon-customize.svg'
+import IdentitiesIcon from './icons/icon-menu-verifications.svg'
+import ConfigurationIcon from './icons/icon-menu-customize.svg'
 import AccountIcon from './icons/icon-account.svg'
-import SettingsIcon from './icons/settings.svg'
+import SettingsIcon from './icons/icon-menu-integrate.svg'
 import LogoutIcon from './icons/logout.svg'
 
 export default
