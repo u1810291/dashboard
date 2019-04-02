@@ -5,9 +5,7 @@ import { MatiButton } from 'src/components/mati-button'
 import Button from 'src/components/button'
 import { Content } from 'src/components/application-box'
 import Sections from 'src/components/sections'
-import { createOverlay, closeOverlay } from 'src/components/overlay'
 import {
-  getIntegrationCode,
   saveConfiguration,
   getMerchantApps,
   COLOR_PRESETS,
@@ -21,9 +19,8 @@ import VerificationSteps from 'src/fragments/configuration/verification-steps'
 import LanguageStep from './LanguageStep'
 import CSS from './Configuration.css'
 import IconPlay from 'src/assets/icon-play.svg'
-import IntegrationCodeModal from 'src/fragments/configuration/integration-code-modal'
 import Countries from 'src/fragments/configuration/countries'
-import { showVideo } from 'src/fragments/configuration/how-it-works-video'
+import { showVideo as showOnboardingVideo } from 'src/fragments/configuration/how-it-works-video'
 
 export default
 @injectIntl
@@ -43,7 +40,6 @@ export default
   }),
   {
     saveConfiguration,
-    getIntegrationCode,
     getCountries,
     getMerchantApps
   }
@@ -53,42 +49,13 @@ class Configuration extends React.Component {
     this.props.history.push(`/verifications/${identityId}`)
   }
 
-  toggleIntegrationCode = () => {
-    this.props.getIntegrationCode(this.props.token).then(value => {
-      createOverlay(
-        <IntegrationCodeModal integrationCode={this.props.integrationCode} onClose={closeOverlay} />
-      )
-    })
-  }
-
-  openIosManual() {
-    const tab = window.open(
-      'https://github.com/MatiFace/mati-global-id-sdk/blob/master/Integration_iOS.md',
-      '_blank'
-    )
-    tab.focus()
-  }
-
-  openAndroidManual() {
-    const tab = window.open(
-      'https://github.com/MatiFace/mati-global-id-sdk-integration-android',
-      '_blank'
-    )
-    tab.focus()
-  }
-
   componentDidMount() {
-    this.props.getIntegrationCode(this.props.token)
     this.props.getCountries(this.props.token)
     this.props.getMerchantApps(this.props.token)
   }
 
   updateConfiguration = settings => {
     this.props.saveConfiguration(this.props.token, settings)
-  }
-
-  showOnboardingVideo = () => {
-    showVideo()
   }
 
   render() {
@@ -156,7 +123,7 @@ class Configuration extends React.Component {
               <Button
                 className={CSS.onboardingVideoLink}
                 buttonStyle="link"
-                onClick={this.showOnboardingVideo}
+                onClick={showOnboardingVideo}
               >
                 <IconPlay />
                 <FormattedMessage id="onboarding.video.link" />

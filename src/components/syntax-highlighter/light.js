@@ -1,14 +1,6 @@
 export default {
-  lineNumbers: {
-    float: 'left',
-    padding: '2em 1em',
-    margin: '-2em 1.5em -2em -1em',
-    background: '#F7F7FA',
-    color: '#B0BAC5',
-    textAlign: 'right'
-  },
   'code[class*="language-"]': {
-    color: '#393A34',
+    color: 'var(--mgi-theme-palette-black)',
     fontFamily: 'Menlo, monospace',
     direction: 'ltr',
     textAlign: 'left',
@@ -23,10 +15,10 @@ export default {
     WebkitHyphens: 'none',
     MozHyphens: 'none',
     msHyphens: 'none',
-    hyphens: 'none',
+    hyphens: 'none'
   },
   'pre[class*="language-"]': {
-    color: '#393A34',
+    color: 'var(--mgi-theme-palette-black)',
     fontFamily: 'Menlo, monospace',
     direction: 'ltr',
     textAlign: 'left',
@@ -42,9 +34,9 @@ export default {
     MozHyphens: 'none',
     msHyphens: 'none',
     hyphens: 'none',
-    padding: '2em 1em',
-    overflow: 'auto',
-    backgroundColor: 'white',
+    padding: 'var(--mgi-spacing)',
+    margin: '0',
+    overflow: 'auto'
   },
   'pre[class*="language-"]::-moz-selection': {
     background: '#C1DEF1'
@@ -78,7 +70,7 @@ export default {
     border: '1px solid #dddddd'
   },
   comment: {
-    color: '#97A4B1'
+    color: 'var(--mgi-theme-palette-gray)'
   },
   prolog: {
     color: '#008000',
@@ -96,10 +88,10 @@ export default {
     Opacity: '.7'
   },
   string: {
-    color: '#2F80ED'
+    color: 'var(--mgi-theme-palette-green)'
   },
   punctuation: {
-    color: '#393A34'
+    color: 'var(--mgi-theme-palette-black)'
   },
   operator: {
     color: '#393A34'
@@ -126,25 +118,25 @@ export default {
     color: '#36acaa'
   },
   atrule: {
-    color: '#2F80ED'
+    color: 'var(--mgi-theme-palette-green)'
   },
   keyword: {
-    color: '#2F80ED'
+    color: 'var(--mgi-theme-palette-green)'
   },
   'attr-value': {
-    color: '#2F80ED'
+    color: 'var(--mgi-theme-palette-green)'
   },
   '.language-autohotkey .token.selector': {
-    color: '#2F80ED'
+    color: 'var(--mgi-theme-palette-green)'
   },
   '.language-json .token.boolean': {
-    color: '#2F80ED'
+    color: 'var(--mgi-theme-palette-green)'
   },
   '.language-json .token.number': {
-    color: '#2F80ED'
+    color: 'var(--mgi-theme-palette-green)'
   },
   'code[class*="language-css"]': {
-    color: '#2F80ED'
+    color: 'var(--mgi-theme-palette-green)'
   },
   function: {
     color: '#393A34'
@@ -156,7 +148,7 @@ export default {
     color: '#9a050f'
   },
   selector: {
-    color: '#B874F3'
+    color: 'var(--mgi-theme-palette-blue)'
   },
   '.language-autohotkey .token.keyword': {
     color: '#00009f'
@@ -177,19 +169,19 @@ export default {
     color: '#2B91AF'
   },
   tag: {
-    color: '#B874F3'
+    color: 'var(--mgi-theme-palette-blue)'
   },
   'attr-name': {
-    color: '#27AE60'
+    color: 'var(--mgi-theme-palette-black)'
   },
   property: {
-    color: '#27AE60'
+    color: 'var(--mgi-theme-palette-black)'
   },
   regex: {
-    color: '#27AE60'
+    color: 'var(--mgi-theme-palette-black)'
   },
   entity: {
-    color: '#27AE60'
+    color: 'var(--mgi-theme-palette-black)'
   },
   'directive.tag  .tag': {
     background: '#ffff00',
@@ -202,6 +194,7 @@ export default {
     color: '#2B91AF'
   },
   '.line-highlight': {
-    background: 'linear-gradient(to right, rgba(193, 222, 241, 0.2) 70%, rgba(221, 222, 241, 0))'
+    background:
+      'linear-gradient(to right, rgba(193, 222, 241, 0.2) 70%, rgba(221, 222, 241, 0))'
   }
 }

@@ -1,12 +1,18 @@
+:root {
+  --mgi-theme-button-padding: 20px;
+  --mgi-theme-button-height: 42px;
+}
+
 button {
   margin: 0;
 }
+
 :local(.button),
 .mgi-btn-link {
-  padding: var(--mgi-theme-button-padding);
+  padding: 0 var(--mgi-theme-button-padding);
 
-  height: 42px;
-  line-height: 42px;
+  height: var(--mgi-theme-button-height);
+  line-height: var(--mgi-theme-button-height);
   outline: 0;
   font: inherit;
   font-size: 14px;
@@ -17,6 +23,11 @@ button {
   align-items: center;
   justify-content: center;
   white-space: nowrap;
+}
+
+:local(.button).small {
+  --mgi-theme-button-height: 36px;
+  --mgi-theme-button-padding: 10px;
 }
 
 /* :local(.button) + :local(.button) {
@@ -110,6 +121,8 @@ button {
 }
 
 :local(.button)[disabled] {
-  background: var(--mgi-theme-palette-lightgray);
+  background: white;
+  font-weight: normal;
+  color: var(--mgi-theme-palette-secondary);
   cursor: not-allowed;
 }

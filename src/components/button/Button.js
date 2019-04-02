@@ -25,13 +25,14 @@ function ButtonElement({ href, external, children, ...props }) {
 export default function Button({
   type = 'button',
   buttonStyle = 'default',
+  size = 'default',
   children,
   className,
   ...buttonProps
 }) {
   return (
     <ButtonElement
-      className={classNames(CSS.button, buttonStyle, className)}
+      className={classNames(CSS.button, size, buttonStyle, className)}
       type={type}
       {...buttonProps}
     >

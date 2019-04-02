@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { SyntaxHighlighter } from 'src/components/syntax-highlighter'
 import { getIntegrationCode } from 'src/state/merchant'
 import Support from 'src/fragments/account/support'
 import MatiDocs from 'src/fragments/account/mati-docs'
+import IntegrationCode from 'src/fragments/integration/integration-code'
 import Layout from './IntegrationLayout'
 
-function IntegrationCode({ integrationCode, getIntegrationCode, token }) {
+function IntegrationCodePage({ integrationCode, getIntegrationCode, token }) {
   useEffect(() => {
     getIntegrationCode(token)
   })
@@ -20,10 +20,9 @@ function IntegrationCode({ integrationCode, getIntegrationCode, token }) {
 
       <Layout>
         <main>
-          <SyntaxHighlighter dark={false} language="html" copyToClipboard code={integrationCode} />
+          <IntegrationCode integrationCode={integrationCode} />
           <MatiDocs />
         </main>
-
         <aside>
           <Support />
         </aside>
@@ -40,4 +39,4 @@ export default connect(
   {
     getIntegrationCode
   }
-)(IntegrationCode)
+)(IntegrationCodePage)

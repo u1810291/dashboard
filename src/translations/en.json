@@ -483,14 +483,9 @@
   "settings.installationGuide.receive.link": "Read webhooks documentation",
   "settings.installationGuide.receive.button": "Go to Application Keys",
   "settings.demo_for_mobile": "Demo for Mobile",
-  "settings.integration_code": "Integration Code",
   "settings.teamSettings.title": "Team Settings",
   "settings.teamSettings.inviteTeammate": "Invite Teammate",
   "settings.integrationCode.title": "Integration Code",
-  "settings.integrationCode.matiDocumentation": "Mati Documentation",
-  "settings.integrationCode.webhookDocumentation": "Webhook",
-  "settings.integrationCode.iosDocumentation": "iOS",
-  "settings.integrationCode.androidDocumentation": "Android",
 
   "verifications.inProgress": "Getting information...",
 
@@ -512,7 +507,7 @@
   "apps.integration.menu.integration": "Installation Guide",
   "apps.integration.menu.mobile_demo": "Demo for Mobile",
   "apps.integration.menu.applications": "Application Keys",
-  "apps.integration.menu.integration_code": "Integration Code",
+  "apps.integration.menu.integration_code": "SDKs",
 
   "apps.settings.accountInfo": "Account Info",
   "apps.settings.yourTeam": "Your Team",
@@ -543,5 +538,12 @@
   "fragments.info.faq-panel.subtitle": "For more information go to",
   "fragments.info.faq-panel.title": "Mati FAQ",
   "fragments.info.faq-panel.cta": "See more information",
-  "fragments.info.feedback.title": "Our clients say"
+  "fragments.info.feedback.title": "Our clients say",
+  "fragments.account.mati-docs.iosDocumentation": "iOS",
+  "fragments.account.mati-docs.androidDocumentation": "Android",
+  "fragments.account.mati-docs.github": "Go to GutHub",
+  "fragments.integration.integration-code.title": "Web SDK",
+  "fragments.integration.integration-code.javascript": "JavaScript",
+  "fragments.integration.integration-code.react": "React.js (coming soon)",
+  "fragments.integration.integration-code.angular": "Angular (coming soon)"
 }

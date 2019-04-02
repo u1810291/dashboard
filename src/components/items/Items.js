@@ -8,11 +8,17 @@ export default function Items({
   align = 'top',
   template = 'none',
   smallGap,
+  extraGap,
   className
 }) {
   return (
     <div
-      className={classNames(CSS.root, `align-${align}`, { inline, smallGap }, className)}
+      className={classNames(
+        CSS.root,
+        `align-${align}`,
+        { inline, smallGap, extraGap },
+        className
+      )}
       style={{ gridTemplateColumns: template }}
     >
       {children}

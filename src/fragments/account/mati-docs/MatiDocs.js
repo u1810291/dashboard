@@ -2,10 +2,10 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Panel from 'src/components/panel'
 import Items from 'src/components/items'
+import Sections from 'src/components/sections'
 import CSS from './mati-docs.scss'
-import IconApple from '../../../assets/icon-apple-documents.svg'
-import IconAndroid from '../../../assets/icon-android-documents.svg'
-import IconWebhook from '../../../assets/icon-webhook.svg'
+import IconApple from './icon-apple-documents.svg'
+import IconAndroid from './icon-android-documents.svg'
 
 const docsSections = [
   [
@@ -17,32 +17,34 @@ const docsSections = [
     'https://github.com/MatiFace/mati-global-id-sdk-integration-android',
     <IconAndroid />,
     'androidDocumentation'
-  ],
-  ['https://docs.getmati.com', <IconWebhook />, 'webhookDocumentation']
+  ]
 ]
 export default function MatiDocs() {
   return (
     <div className={CSS.content}>
-      <Panel>
-        <Panel.Body>
-          <h3>
-            <FormattedMessage id="settings.integrationCode.matiDocumentation" />
-          </h3>
-
-          <Items>
-            {docsSections.map(([url, icon, message], index) => (
-              <div className="doc-item text-center" key={index}>
+      <Items template="1fr 1fr" extraGap>
+        {docsSections.map(([url, icon, message], index) => (
+          <Panel.Body key={index}>
+            <Items align="center">
+              <a href={url} target="_blank" rel="noopener noreferrer">
+                {icon}
+              </a>
+              <Sections smallGap>
+                <h3>
+                  <a href={url} target="_blank" rel="noopener noreferrer">
+                    <FormattedMessage
+                      id={`fragments.account.mati-docs.${message}`}
+                    />
+                  </a>
+                </h3>
                 <a href={url} target="_blank" rel="noopener noreferrer">
-                  <div className="doc-item--icon">{icon}</div>
-                  <p>
-                    <FormattedMessage id={`settings.integrationCode.${message}`} />
-                  </p>
+                  <FormattedMessage id="fragments.account.mati-docs.github" />
                 </a>
-              </div>
-            ))}
-          </Items>
-        </Panel.Body>
-      </Panel>
+              </Sections>
+            </Items>
+          </Panel.Body>
+        ))}
+      </Items>
     </div>
   )
 }

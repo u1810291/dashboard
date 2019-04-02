@@ -31,4 +31,8 @@
   &.smallGap {
     grid-gap: calc(0.5 * var(--mgi-spacing));
   }
+
+  &.extraGap {
+    grid-gap: calc(2 * var(--mgi-spacing));
+  }
 }
