@@ -9,11 +9,6 @@ import { setUserProperties } from 'src/lib/mixpanel'
 import { updateData } from 'src/lib/intercom'
 import { showVideo } from 'src/fragments/configuration/onboarding-video'
 
-export default
-@connect(
-  state => ({ token: state.auth.token }),
-  { putMerchants }
-)
 class AdditionalInfo extends React.Component {
   handleSubmit = data => {
     setUserProperties(data)
@@ -38,3 +33,8 @@ class AdditionalInfo extends React.Component {
     )
   }
 }
+
+export default connect(
+  state => ({ token: state.auth.token }),
+  { putMerchants }
+)(AdditionalInfo)

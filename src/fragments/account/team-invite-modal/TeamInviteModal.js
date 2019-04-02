@@ -6,12 +6,9 @@ import { setI18nContext } from 'src/components/i18n-context'
 import TeamInviteForm from './TeamInviteForm'
 import Spinner from 'src/components/spinner'
 
-export default
-@setI18nContext('teamTable.form')
 class TeamInviteModal extends React.Component {
-
   onInviteClick = () => {
-    const teamInviteForm = this.refs.teamInviteForm;
+    const teamInviteForm = this.refs.teamInviteForm
     teamInviteForm.submitForm()
   }
 
@@ -20,11 +17,7 @@ class TeamInviteModal extends React.Component {
   }
 
   render() {
-    const {
-      className,
-      isPosting,
-      ...modalProps
-    } = this.props
+    const { className, isPosting, ...modalProps } = this.props
 
     return (
       <Modal className={className} {...modalProps}>
@@ -32,10 +25,17 @@ class TeamInviteModal extends React.Component {
           <FormattedMessage id="teamTable.inviteModal.title" />
         </header>
         <main>
-          <TeamInviteForm ref="teamInviteForm" handleSubmit={this.handleSubmit}/>
+          <TeamInviteForm
+            ref="teamInviteForm"
+            handleSubmit={this.handleSubmit}
+          />
         </main>
         <footer className="modal--footer-center">
-          <Button type="submit" buttonStyle="primary" onClick={this.onInviteClick}>
+          <Button
+            type="submit"
+            buttonStyle="primary"
+            onClick={this.onInviteClick}
+          >
             <FormattedMessage id="teamTable.invite" />
           </Button>
           {isPosting && <Spinner size="large" />}
@@ -44,3 +44,5 @@ class TeamInviteModal extends React.Component {
     )
   }
 }
+
+export default setI18nContext('teamTable.form')(TeamInviteModal)

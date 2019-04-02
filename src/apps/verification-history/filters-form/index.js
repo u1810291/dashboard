@@ -13,8 +13,6 @@ import 'react-dates/lib/css/_datepicker.css'
 import IconClose from 'src/assets/icon-close.svg'
 import CSS from './filters-form.scss'
 
-export default
-@injectIntl
 class VerificationsFiltersForm extends Component {
   constructor() {
     super()
@@ -68,36 +66,38 @@ class VerificationsFiltersForm extends Component {
           <FormattedMessage id="filters" />
         </h3>
         <div className={CSS.datePicker}>
-            <label>
-              <strong>
-                <FormattedMessage id="identities.filters.labels.date-filter"/>
-              </strong>
-            </label>
-            <DateRangePicker
-              startDate={this.props['dateUpdated[start]']}
-              startDateId="startDate"
-              isOutsideRange={day => moment().diff(day) < 1000}
-              endDate={this.props['dateUpdated[end]']}
-              endDateId="endDate"
-              onDatesChange={this.onDatesChange}
-              focusedInput={this.state.focusedInput}
-              hideKeyboardShortcutsPanel={true}
-              onFocusChange={focusedInput => {
-                this.setState({ focusedInput })
-              }}
-            />
+          <label>
+            <strong>
+              <FormattedMessage id="identities.filters.labels.date-filter" />
+            </strong>
+          </label>
+          <DateRangePicker
+            startDate={this.props['dateUpdated[start]']}
+            startDateId="startDate"
+            isOutsideRange={day => moment().diff(day) < 1000}
+            endDate={this.props['dateUpdated[end]']}
+            endDateId="endDate"
+            onDatesChange={this.onDatesChange}
+            focusedInput={this.state.focusedInput}
+            hideKeyboardShortcutsPanel={true}
+            onFocusChange={focusedInput => {
+              this.setState({ focusedInput })
+            }}
+          />
         </div>
-        {isFeatureEnabled('STATUSES') && <CheckboxGroup
-          label={this.props.intl.formatMessage({
-            id: 'identities.filters.labels.status-filter'
-          })}
-          name="status"
-          values={this.props.status}
-          items={this.VERIFICATION_STATUS_OPTIONS}
-          onChange={status => {
-            this.props.onChange({ status })
-          }}
-        />}
+        {isFeatureEnabled('STATUSES') && (
+          <CheckboxGroup
+            label={this.props.intl.formatMessage({
+              id: 'identities.filters.labels.status-filter'
+            })}
+            name="status"
+            values={this.props.status}
+            items={this.VERIFICATION_STATUS_OPTIONS}
+            onChange={status => {
+              this.props.onChange({ status })
+            }}
+          />
+        )}
 
         <Button className="no-borders" onClick={this.props.onClear}>
           <IconClose />
@@ -107,3 +107,5 @@ class VerificationsFiltersForm extends Component {
     )
   }
 }
+
+export default injectIntl(VerificationsFiltersForm)

@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { flowRight } from 'lodash/fp'
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router'
 import { FormattedMessage } from 'react-intl'
@@ -26,13 +27,6 @@ const formikSettings = {
   }
 }
 
-export default
-@setI18nContext('recovery.form')
-@connect(
-  null,
-  { passwordRecovery }
-)
-@withFormik(formikSettings)
 class PasswordRecovery extends React.Component {
   render() {
     if (this.props.status === true) return <Redirect to="/" />
@@ -63,3 +57,12 @@ class PasswordRecovery extends React.Component {
     )
   }
 }
+
+export default flowRight(
+  setI18nContext('recovery.form'),
+  connect(
+    null,
+    { passwordRecovery }
+  ),
+  withFormik(formikSettings)
+)(PasswordRecovery)

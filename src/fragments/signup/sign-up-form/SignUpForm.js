@@ -29,20 +29,21 @@ const formikSettings = {
   }
 }
 
-export default
-@setI18nContext('signup.form')
 class SignUpForm extends React.Component {
   onSubmit = (values, { setSubmitting, setStatus }) => {
     setStatus({})
     let data = pick(values, 'firstName', 'lastName', 'email', 'password')
-    this.props.handleSubmit(data)
+    this.props
+      .handleSubmit(data)
       .then(() => {
         setSubmitting(false)
       })
       .catch(error => {
         setSubmitting(false)
-        notification.error((error && error.response && error.response.data.message) ||
-        'Something went wrong. Please retry later')
+        notification.error(
+          (error && error.response && error.response.data.message) ||
+            'Something went wrong. Please retry later'
+        )
       })
   }
   render() {
@@ -94,3 +95,5 @@ class SignUpForm extends React.Component {
     )
   }
 }
+
+export default setI18nContext('signup.form')(SignUpForm)

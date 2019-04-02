@@ -9,8 +9,6 @@ import SelectField from 'src/components/select-field'
 import { createOverlay, closeOverlay } from 'src/components/overlay'
 import Spinner from 'src/components/spinner'
 
-export default
-@injectIntl
 class TeamTable extends React.Component {
   roleOptions = [
     {
@@ -47,7 +45,7 @@ class TeamTable extends React.Component {
             className={CSS.roleSelect}
             options={this.roleOptions}
             value={this.roleOptions.find(option => option.value === user.role)}
-            onChange={({value}) => {
+            onChange={({ value }) => {
               this.props.onRoleChange(user.id, value)
             }}
           />
@@ -61,7 +59,7 @@ class TeamTable extends React.Component {
         <TrashBox
           className={CSS.deleteButton}
           onClick={() => {
-            this.setState({deletingUser: user})
+            this.setState({ deletingUser: user })
             this.openDeleteModal(user)
           }}
         />
@@ -103,7 +101,7 @@ class TeamTable extends React.Component {
     )
   }
 
-  onDeleteSubmit = (id) => {
+  onDeleteSubmit = id => {
     this.props.onDeleteSubmit(id).then(() => this.openDeleteSuccessModal())
   }
 
@@ -121,3 +119,5 @@ class TeamTable extends React.Component {
     )
   }
 }
+
+export default injectIntl(TeamTable)

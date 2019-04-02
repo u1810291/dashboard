@@ -33,19 +33,6 @@ import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
 
 const CHECK_INTERVAL = 5000
 
-export default
-@connect(
-  (state, props) => ({
-    token: state.auth.token,
-    identity: state.identities.instances[props.match.params.id],
-    deletingIdentities: state.identities.deletingIdentities,
-    patchIsLoading: state.identities.patchIsLoading,
-    patchError: state.identities.patchError,
-    patchingFields: state.identities.patchingFields,
-    erroredFields: state.identities.erroredFields
-  }),
-  { getIdentityWithNestedData, patchIdentity, deleteIdentity, patchDocument }
-)
 class VerificationItem extends React.Component {
   constructor(props) {
     super(props)
@@ -67,7 +54,12 @@ class VerificationItem extends React.Component {
   }
 
   onFieldChange = (docId, field) => {
-    this.props.patchDocument(this.props.token, this.props.match.params.id, docId, [field])
+    this.props.patchDocument(
+      this.props.token,
+      this.props.match.params.id,
+      docId,
+      [field]
+    )
   }
 
   openWebhookModal = () => {
@@ -163,3 +155,16 @@ class VerificationItem extends React.Component {
     )
   }
 }
+
+export default connect(
+  (state, props) => ({
+    token: state.auth.token,
+    identity: state.identities.instances[props.match.params.id],
+    deletingIdentities: state.identities.deletingIdentities,
+    patchIsLoading: state.identities.patchIsLoading,
+    patchError: state.identities.patchError,
+    patchingFields: state.identities.patchingFields,
+    erroredFields: state.identities.erroredFields
+  }),
+  { getIdentityWithNestedData, patchIdentity, deleteIdentity, patchDocument }
+)(VerificationItem)

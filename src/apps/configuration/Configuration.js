@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { MatiButton } from 'src/components/mati-button'
 import Button from 'src/components/button'
@@ -22,28 +22,6 @@ import IconPlay from 'src/assets/icon-play.svg'
 import Countries from 'src/fragments/configuration/countries'
 import { showVideo as showOnboardingVideo } from 'src/fragments/configuration/how-it-works-video'
 
-export default
-@injectIntl
-@connect(
-  ({
-    auth: { token },
-    merchant: { configuration, configurations, integrationCode, apps = [] },
-    countries: { countries, isLoading }
-  }) => ({
-    token,
-    configuration,
-    configurations,
-    integrationCode,
-    countries,
-    apps,
-    countriesAreLoading: isLoading
-  }),
-  {
-    saveConfiguration,
-    getCountries,
-    getMerchantApps
-  }
-)
 class Configuration extends React.Component {
   redirectToIdentity = ({ identityId }) => {
     this.props.history.push(`/verifications/${identityId}`)
@@ -135,3 +113,24 @@ class Configuration extends React.Component {
     )
   }
 }
+
+export default connect(
+  ({
+    auth: { token },
+    merchant: { configuration, configurations, integrationCode, apps = [] },
+    countries: { countries, isLoading }
+  }) => ({
+    token,
+    configuration,
+    configurations,
+    integrationCode,
+    countries,
+    apps,
+    countriesAreLoading: isLoading
+  }),
+  {
+    saveConfiguration,
+    getCountries,
+    getMerchantApps
+  }
+)(Configuration)

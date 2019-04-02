@@ -1,18 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { FormattedMessage, FormattedHTMLMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { signUp } from 'src/state/auth'
 import SignUpForm from 'src/fragments/signup/sign-up-form'
 import CSS from './Auth.css'
 import MatiLogo from 'src/assets/mati-logo.svg'
 
-export default
-@connect(
-  null,
-  { signUp }
-)
-@injectIntl
 class SignUp extends React.Component {
   handleSubmit = data => {
     return this.props.signUp(data).then(() => {
@@ -47,3 +41,8 @@ class SignUp extends React.Component {
     )
   }
 }
+
+export default connect(
+  null,
+  { signUp }
+)(SignUp)

@@ -87,8 +87,6 @@ const formikSettings = {
   ]
 }
 
-export default
-@setI18nContext('additionalInfo.form')
 class AdditionalInfoForm extends React.Component {
   onSubmit = (values, { setSubmitting, setStatus }) => {
     setStatus({})
@@ -189,3 +187,5 @@ class AdditionalInfoForm extends React.Component {
     )
   }
 }
+
+export default setI18nContext('additionalInfo.form')(AdditionalInfoForm)

@@ -9,8 +9,6 @@ import PasswordReset from './PasswordReset'
 import { NotFound } from 'src/apps/not-found'
 import AuthLayout from 'src/components/auth-layout'
 
-export default
-@connect(state => ({ loggedIn: state.auth.token }))
 class Auth extends React.Component {
   render() {
     return (
@@ -20,11 +18,12 @@ class Auth extends React.Component {
           <Route path="/auth/additional-info" component={AdditionalInfo} />
           <Route path="/auth/signin" component={SignIn} />
           <Route path="/auth/password-recovery" component={PasswordRecovery} />
-          <Route path="/auth/password-reset/:token"
-            component={PasswordReset} />
+          <Route path="/auth/password-reset/:token" component={PasswordReset} />
           <Route component={NotFound} />
         </Switch>
       </AuthLayout>
     )
   }
 }
+
+export default connect(state => ({ loggedIn: state.auth.token }))(Auth)

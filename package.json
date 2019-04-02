@@ -49,7 +49,6 @@
     "styleguidist": "npx styleguidist server"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.1.2",
     "@craco/craco": "^3.1.0",
     "babel-eslint": "^9.0.0",
     "babel-plugin-inline-react-svg": "^1.0.1",
