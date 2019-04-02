@@ -60,16 +60,16 @@ class Configuration extends React.Component {
 
   render() {
     const flowSteps = [
-      <div id="buttonColor">
-        <ConfigureColor
-          presets={COLOR_PRESETS}
+      <div id="language">
+        <LanguageStep
+          availableLanguages={AVAILABLE_LANGUAGES}
           style={this.props.configuration.style}
           onClick={this.updateConfiguration}
         />
       </div>,
-      <div id="language">
-        <LanguageStep
-          availableLanguages={AVAILABLE_LANGUAGES}
+      <div id="buttonColor">
+        <ConfigureColor
+          presets={COLOR_PRESETS}
           style={this.props.configuration.style}
           onClick={this.updateConfiguration}
         />
