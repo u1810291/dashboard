@@ -508,6 +508,7 @@
   "apps.integration.menu.mobile_demo": "Demo for Mobile",
   "apps.integration.menu.applications": "Application Keys",
   "apps.integration.menu.integration_code": "SDKs",
+  "apps.integration.menu.webhooks": "Webhooks",
 
   "apps.settings.accountInfo": "Account Info",
   "apps.settings.yourTeam": "Your Team",
@@ -547,5 +548,15 @@
   "fragments.integration.integration-code.title": "Web SDK",
   "fragments.integration.integration-code.javascript": "JavaScript",
   "fragments.integration.integration-code.react": "React.js (coming soon)",
-  "fragments.integration.integration-code.angular": "Angular (coming soon)"
+  "fragments.integration.integration-code.angular": "Angular (coming soon)",
+  "fragments.integration.webhooks-test-panel.title": "Test your webhook in 5 minutes",
+  "fragments.integration.webhooks-test-panel.list.0": "Go to <a href=\"https://webhook.site\" target=\"_blank\" rel=\"noopener noreferrer\">webhook.site</a>",
+  "fragments.integration.webhooks-test-panel.list.1": "Copy paste your test <strong>Webhook URL</strong>",
+  "fragments.integration.webhooks-test-panel.list.2": "Enter your test <strong>Webhook URL</strong> into Mati Dashboard",
+  "fragments.integration.webhooks-test-panel.list.3": "Go through our <strong>SDK</strong> flow and observe your webhook on <strong>webhook.site</strong>",
+  "fragments.integration.webhooks-test-panel.pro-tip.caption": "Pro Tip",
+  "fragments.integration.webhooks-test-panel.pro-tip.message": "User verification data will be contained inside the webhook’s resource URL",
+  "fragments.integration.webhooks-docs-panel.title": "Recieve user verification data",
+  "fragments.integration.webhooks-docs-panel.subtitle": "Recieve verification information via webhook",
+  "fragments.integration.webhooks-docs-panel.button": "Webhook Documentation"
 }

@@ -1,5 +1,5 @@
 :root {
-  --mgi-panel-padding: 17px 25px;
+  --mgi-panel-padding: var(--mgi-spacing);
   --mgi-panel-spacing: calc(1.5 * var(--mgi-spacing));
   --mgi-panel-radius: 4px;
   --mgi-panel-shadow: 0px 2px 4px rgba(52, 73, 94, 0.1);
@@ -27,6 +27,18 @@
   padding: var(--mgi-panel-padding);
 }
 
+:local(.panelBody).padded.smallPadding {
+  padding: calc(var(--mgi-panel-padding) * 0.5);
+}
+
+:local(.panelBody).padded.extraSmallPadding {
+  padding: calc(var(--mgi-panel-padding) * 0.25);
+}
+
+:local(.panelBody).padded.extraPadding {
+  padding: calc(var(--mgi-panel-padding) * 2);
+}
+
 :local(.panelHeader) + :local(.panelBody) {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -38,4 +50,8 @@
 
 :local(.border-blue) {
   border-color: var(--mgi-theme-palette-blue);
+}
+
+:local(.border-darkpink) {
+  border-color: var(--mgi-theme-palette-darkpink);
 }

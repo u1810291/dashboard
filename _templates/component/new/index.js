@@ -3,7 +3,7 @@ module.exports = {
   params: ({ args }) => {
     return {
       componentName: inflection.camelize(
-        args.name.replace('-', '_').replace(/.+\/([^\/]+)$/g, '$1')
+        args.name.replace(/-/g, '_').replace(/.+\/([^\/]+)$/g, '$1')
       ),
       ...args
     }

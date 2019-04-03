@@ -66,4 +66,9 @@
   &.extraGap {
     grid-gap: calc(2 * var(--mgi-spacing));
   }
+
+  & > svg {
+    width: 100%;
+    height: auto;
+  }
 }
