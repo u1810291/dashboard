@@ -28,6 +28,37 @@
     align-items: stretch;
   }
 
+  &.justify-content {
+
+    &--start {
+      justify-content: start;
+    }
+
+    &--end {
+      justify-content: end;
+    }
+
+    &--center {
+      justify-content: center;
+    }
+
+    &--space-around {
+      justify-content: space-around;
+    }
+
+    &--space-between {
+      justify-content: space-between;
+    }
+
+    &--stretch {
+      justify-content: stretch;
+    }
+
+    &--space-evenly {
+      justify-content: space-evenly;
+    }
+  }
+
   &.smallGap {
     grid-gap: calc(0.5 * var(--mgi-spacing));
   }

@@ -6,6 +6,7 @@ export default function Items({
   children,
   inline,
   align = 'top',
+  justifyContent = 'flex-start',
   template = 'none',
   smallGap,
   extraGap,
@@ -16,6 +17,7 @@ export default function Items({
       className={classNames(
         CSS.root,
         `align-${align}`,
+        `justify-content--${justifyContent}`,
         { inline, smallGap, extraGap },
         className
       )}

@@ -30,6 +30,15 @@ button {
   --mgi-theme-button-padding: 10px;
 }
 
+:local(.button).big {
+  --mgi-theme-button-height: 60px;
+  --mgi-theme-button-padding: 16px;
+}
+
+:local(.button).big svg:first-child {
+  margin-right: calc(var(--mgi-theme-button-padding)/2);
+}
+
 /* :local(.button) + :local(.button) {
   margin-left: calc(0.5 * var(--mgi-spacing));
 } */

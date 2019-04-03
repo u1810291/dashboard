@@ -8,3 +8,9 @@
   display: flex;
   align-items: center;
 }
+
+:local(.matiButtonWrapper) {
+  border: 1px dashed var(--mgi-theme-palette-darkergray);
+  border-radius: 10px;
+  height: 200px;
+}

@@ -519,6 +519,8 @@
   "fragments.configuration.verification_steps_modal.title": "Edit step",
   "fragments.configuration.verification_steps_modal.subtitle": "Edit documents you want include in this step. One of them will be required.",
   "fragments.configuration.title": "Try your user verification here",
+  "fragments.configuration.button.start-integration": "Start Integration",
+  "fragments.configuration.button.common-questions": "Common Questions",
   "fragments.account.new_webhook_modal.title": "Add webhook",
   "fragments.account.webhooks.add": "Add new webhook",
   "fragments.account.webhooks.confirm": "Delete the webhook?",
