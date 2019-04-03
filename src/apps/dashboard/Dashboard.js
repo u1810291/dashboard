@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { flowRight } from 'lodash/fp'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { injectIntl } from 'react-intl'
@@ -19,25 +20,12 @@ import Integration from 'src/apps/integration'
 import { signOut } from 'src/state/auth'
 import { getMerchant, saveConfiguration } from 'src/state/merchant'
 import MatiLogo from 'src/assets/mati-logo-v2.svg'
-import IdentitiesIcon from './icons/icon-history.svg'
-import ConfigurationIcon from './icons/icon-customize.svg'
+import IdentitiesIcon from './icons/icon-menu-verifications.svg'
+import ConfigurationIcon from './icons/icon-menu-customize.svg'
 import AccountIcon from './icons/icon-account.svg'
-import SettingsIcon from './icons/settings.svg'
+import SettingsIcon from './icons/icon-menu-integrate.svg'
 import LogoutIcon from './icons/logout.svg'
 
-export default
-@injectIntl
-@connect(
-  state => ({
-    token: state.auth.token,
-    configuration: state.merchant.configuration,
-    isOwner:
-      !state.merchant.collaborators ||
-      !state.merchant.collaborators.find(col => col.user === state.auth.user.id && col.role === 2),
-    isOwnerIsLoading: !state.merchant.collaborators
-  }),
-  { signOut, getMerchant, saveConfiguration }
-)
 class Dashboard extends React.Component {
   componentDidMount() {
     this.loadData()
@@ -130,8 +118,16 @@ class Dashboard extends React.Component {
         </Helmet>
         <ApplicationBox menu={this.renderMenu()}>
           <Switch>
-            <Route exact path="/verifications" component={VerificationHistory} />
-            <Route exact path="/verifications/:id" component={VerificationItem} />
+            <Route
+              exact
+              path="/verifications"
+              component={VerificationHistory}
+            />
+            <Route
+              exact
+              path="/verifications/:id"
+              component={VerificationItem}
+            />
             <OwnersRoute path="/settings" component={Settings} />
             <Route path="/info" component={Info} />
             <OwnersRoute path="/integration" component={Integration} />
@@ -143,12 +139,24 @@ class Dashboard extends React.Component {
   }
 }
 
-@connect(state => ({
-  isOwner:
-    !state.merchant.collaborators ||
-    !state.merchant.collaborators.find(col => col.user === state.auth.user.id && col.role === 2)
-}))
-class OwnersRoute extends React.Component {
+export default flowRight(
+  injectIntl,
+  connect(
+    state => ({
+      token: state.auth.token,
+      configuration: state.merchant.configuration,
+      isOwner:
+        !state.merchant.collaborators ||
+        !state.merchant.collaborators.find(
+          col => col.user === state.auth.user.id && col.role === 2
+        ),
+      isOwnerIsLoading: !state.merchant.collaborators
+    }),
+    { signOut, getMerchant, saveConfiguration }
+  )
+)(Dashboard)
+
+class OwnersRouteComponent extends React.Component {
   render() {
     const { component: Component, isOwner, ...rest } = this.props
     return (
@@ -170,3 +178,11 @@ class OwnersRoute extends React.Component {
     )
   }
 }
+
+const OwnersRoute = connect(state => ({
+  isOwner:
+    !state.merchant.collaborators ||
+    !state.merchant.collaborators.find(
+      col => col.user === state.auth.user.id && col.role === 2
+    )
+}))(OwnersRouteComponent)

@@ -1,5 +1,5 @@
 import React from 'react'
-import { flow } from 'lodash/fp'
+import { flowRight } from 'lodash/fp'
 import { FormattedMessage } from 'react-intl'
 import { withFormik, Field, Form } from 'formik'
 import { Input } from 'src/components/inputs'
@@ -46,7 +46,7 @@ const formikSettings = {
   }
 }
 
-export default flow(
+export default flowRight(
   setI18nContext('onboarding.webhooks'),
   withFormik(formikSettings)
 )(NewWebhookModal)

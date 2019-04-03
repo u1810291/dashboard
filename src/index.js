@@ -14,8 +14,6 @@ import 'clipboard-polyfill'
 import 'polyfill-object.fromentries'
 import * as Sentry from '@sentry/browser'
 
-import 'flex-box-grid/dist/scss/index.scss'
-
 let ErrorLoggerWrapper = React.Fragment
 
 if (process.env.REACT_APP_SENTRY_DSN) {

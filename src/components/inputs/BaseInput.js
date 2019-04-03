@@ -57,7 +57,7 @@ class BaseInput extends React.Component {
   }
 }
 
-export default fp.flow(
+export default fp.flowRight(
   injectIntl,
   withI18nContext
 )(BaseInput)

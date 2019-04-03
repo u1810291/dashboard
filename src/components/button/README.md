@@ -16,5 +16,11 @@ Buttons examples
   <p><Button buttonStyle="no-borders default">
     No borders
   </Button></p>
+  <p><Button buttonStyle="default" size="big">
+    Big button
+  </Button></p>
+  <p><Button buttonStyle="default" size="small">
+    Small button
+  </Button></p>
 </div>
 ```

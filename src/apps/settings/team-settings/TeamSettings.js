@@ -23,25 +23,6 @@ const mapCollaborators = collaborator => ({
   email: collaborator.user.email
 })
 
-export default
-@connect(
-  ({ auth: { token }, collaborators, merchant }) => ({
-    rows: [],
-    collaborators: collaborators.collaborators && collaborators.collaborators.map(mapCollaborators),
-    isLoading: collaborators.isLoading,
-    isPosting: collaborators.isPosting,
-    isDeleting: collaborators.isDeleting,
-    isPatchingArray: collaborators.isPatchingArray,
-    merchantId: merchant.id,
-    token
-  }),
-  {
-    getCollaborators,
-    deleteCollaborators,
-    postCollaborators,
-    patchCollaborators
-  }
-)
 class TeamSettings extends React.Component {
   componentDidMount() {
     if (this.props.merchantId) {
@@ -59,11 +40,17 @@ class TeamSettings extends React.Component {
   }
 
   onDeleteSubmit = id => {
-    return this.props.deleteCollaborators(this.props.token, this.props.merchantId, id)
+    return this.props.deleteCollaborators(
+      this.props.token,
+      this.props.merchantId,
+      id
+    )
   }
 
   onRoleChange = (id, role) => {
-    this.props.patchCollaborators(this.props.token, this.props.merchantId, id, { role })
+    this.props.patchCollaborators(this.props.token, this.props.merchantId, id, {
+      role
+    })
   }
 
   onInviteSubmit = data => {
@@ -121,3 +108,24 @@ class TeamSettings extends React.Component {
     )
   }
 }
+
+export default connect(
+  ({ auth: { token }, collaborators, merchant }) => ({
+    rows: [],
+    collaborators:
+      collaborators.collaborators &&
+      collaborators.collaborators.map(mapCollaborators),
+    isLoading: collaborators.isLoading,
+    isPosting: collaborators.isPosting,
+    isDeleting: collaborators.isDeleting,
+    isPatchingArray: collaborators.isPatchingArray,
+    merchantId: merchant.id,
+    token
+  }),
+  {
+    getCollaborators,
+    deleteCollaborators,
+    postCollaborators,
+    patchCollaborators
+  }
+)(TeamSettings)

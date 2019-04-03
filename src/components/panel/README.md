@@ -1,13 +1,8 @@
 Basic example
 
 ```js
-<Panel caption="Panel caption">
-  <Panel.Header>
-    Panel header
-  </Panel.Header>
-  <Panel.Body>
-    Basic Panel 
-  </Panel.Body>
+<Panel>
+  <Panel.Body>Basic Panel</Panel.Body>
 </Panel>
 ```
 

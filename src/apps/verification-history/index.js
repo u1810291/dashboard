@@ -1,8 +1,12 @@
 import React from 'react'
+import fp from 'lodash/fp'
 import { connect } from 'react-redux'
 import { isEmpty, pickBy, mapValues, get, compact } from 'lodash'
-import fp from 'lodash/fp'
-import { getIdentities, getIdentitiesCount, deleteIdentity } from 'src/state/identities'
+import {
+  getIdentities,
+  getIdentitiesCount,
+  deleteIdentity
+} from 'src/state/identities'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import moment from 'moment'
 import { Content } from 'src/components/application-box'
@@ -20,7 +24,13 @@ import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
 import DeleteIcon from './verification-item/delete-icon.svg'
 import CSS from './VerificationHistory.scss'
 
-const FILTERS = ['search', 'status', 'offset', 'dateUpdated[start]', 'dateUpdated[end]']
+const FILTERS = [
+  'search',
+  'status',
+  'offset',
+  'dateUpdated[start]',
+  'dateUpdated[end]'
+]
 
 const FILTER_TRANSFORMERS = {
   status: string => string.split(','),
@@ -57,19 +67,6 @@ export function prepareParams(searchString, allowedKeys) {
   )(searchString)
 }
 
-export default
-@connect(
-  state => ({
-    isLoading: state.identities.isLoading,
-    countIsLoading: state.identities.countIsLoading,
-    deletingIdentities: state.identities.deletingIdentities,
-    identities: state.identities.identities,
-    count: state.identities.count,
-    token: state.auth.token
-  }),
-  { getIdentities, getIdentitiesCount, deleteIdentity }
-)
-@injectIntl
 class VerificationHistory extends React.Component {
   constructor(props) {
     super(props)
@@ -95,31 +92,43 @@ class VerificationHistory extends React.Component {
   }
 
   fetchIdentitiesCount() {
-    const params = pickBy(this.state.params, (v, k) => !isEmpty(v) && !['offset'].includes(k))
+    const params = pickBy(
+      this.state.params,
+      (v, k) => !isEmpty(v) && !['offset'].includes(k)
+    )
     this.props.getIdentitiesCount(this.props.token, params)
   }
 
   replaceLocation() {
     const search = new URLSearchParams(this.props.location.search)
     FILTERS.forEach(key =>
-      isEmpty(this.state.params[key]) ? search.delete(key) : search.set(key, this.state.params[key])
+      isEmpty(this.state.params[key])
+        ? search.delete(key)
+        : search.set(key, this.state.params[key])
     )
     window.history.replaceState(
       null,
       null,
-      Array.from(search.keys()).length ? `?${search.toString()}` : this.props.location.pathname
+      Array.from(search.keys()).length
+        ? `?${search.toString()}`
+        : this.props.location.pathname
     )
   }
 
   onFilterChange = params => {
     params.status = compact(params.status)
-    const formattedParams = mapValues(params, (value, key) => formatValue(key, value))
+    const formattedParams = mapValues(params, (value, key) =>
+      formatValue(key, value)
+    )
     formattedParams.offset = 0
-    this.setState({ params: { ...this.state.params, ...formattedParams } }, () => {
-      this.fetchIdentities()
-      this.fetchIdentitiesCount()
-      this.replaceLocation()
-    })
+    this.setState(
+      { params: { ...this.state.params, ...formattedParams } },
+      () => {
+        this.fetchIdentities()
+        this.fetchIdentitiesCount()
+        this.replaceLocation()
+      }
+    )
   }
 
   onPageChange = ({ selected: pageNum }) => {
@@ -156,7 +165,9 @@ class VerificationHistory extends React.Component {
         size: 5,
         label: <FormattedMessage id="identities.fields.fullName" />,
         content: ({ identity }) => (
-          <VerificationFullNameLabel>{identity.fullName}</VerificationFullNameLabel>
+          <VerificationFullNameLabel>
+            {identity.fullName}
+          </VerificationFullNameLabel>
         )
       },
       {
@@ -169,7 +180,9 @@ class VerificationHistory extends React.Component {
         label: '',
         align: 'right',
         content: identity => {
-          let isDeleting = this.props.deletingIdentities.includes(identity.identity.id)
+          let isDeleting = this.props.deletingIdentities.includes(
+            identity.identity.id
+          )
           return (
             <div
               className={CSS.deleteIdentity}
@@ -185,7 +198,9 @@ class VerificationHistory extends React.Component {
       columns.splice(1, 0, {
         size: 3,
         label: <FormattedMessage id="identities.fields.status" />,
-        content: identity => <Status status={identity.identity.status} coloredText={true} />
+        content: identity => (
+          <Status status={identity.identity.status} coloredText={true} />
+        )
       })
     }
     return columns
@@ -267,3 +282,18 @@ class VerificationHistory extends React.Component {
     )
   }
 }
+
+export default fp.flowRight(
+  connect(
+    state => ({
+      isLoading: state.identities.isLoading,
+      countIsLoading: state.identities.countIsLoading,
+      deletingIdentities: state.identities.deletingIdentities,
+      identities: state.identities.identities,
+      count: state.identities.count,
+      token: state.auth.token
+    }),
+    { getIdentities, getIdentitiesCount, deleteIdentity }
+  ),
+  injectIntl
+)(VerificationHistory)

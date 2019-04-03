@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { flowRight } from 'lodash/fp'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { withFormik, Field, Form } from 'formik'
@@ -15,26 +16,22 @@ const formikSettings = {
   handleSubmit(values, { props, setSubmitting, setStatus }) {
     const { email, password } = values
     setStatus({})
-    props.signIn({ email, password })
+    props
+      .signIn({ email, password })
       .then(data => {
         setSubmitting(false)
         props.history.push('/')
       })
       .catch(error => {
         setSubmitting(false)
-        notification.error((error && error.response && error.response.data.details) ||
-          'Something went wrong. Please retry later')
+        notification.error(
+          (error && error.response && error.response.data.details) ||
+            'Something went wrong. Please retry later'
+        )
       })
   }
 }
 
-export default
-@setI18nContext('signin.form')
-@connect(
-  null,
-  { signIn }
-)
-@withFormik(formikSettings)
 class SignIn extends React.Component {
   render() {
     return (
@@ -70,3 +67,12 @@ class SignIn extends React.Component {
     )
   }
 }
+
+export default flowRight(
+  setI18nContext('signin.form'),
+  connect(
+    null,
+    { signIn }
+  ),
+  withFormik(formikSettings)
+)(SignIn)

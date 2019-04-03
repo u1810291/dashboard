@@ -72,6 +72,45 @@ Stretch
 </Items>
 ```
 
+### Justify-content
+
+Start (default)
+
+```js
+<Items inline justifyContent="start">
+  <div style={{ minHeight: '20px', width: '150px', background: 'gray' }} />
+  <div style={{ minHeight: '60px', width: '300px', background: 'black' }} />
+</Items>
+```
+
+End
+
+```js
+<Items inline justifyContent="end">
+  <div style={{ minHeight: '20px', width: '150px', background: 'gray' }} />
+  <div style={{ minHeight: '60px', width: '300px', background: 'black' }} />
+</Items>
+```
+
+Center
+
+```js
+<Items inline justifyContent="center">
+  <div style={{ minHeight: '20px', width: '150px', background: 'gray' }} />
+  <div style={{ minHeight: '60px', width: '300px', background: 'black' }} />
+</Items>
+```
+
+Space around
+
+```js
+<Items inline justifyContent="space-around">
+  <div style={{ minHeight: '20px', width: '150px', background: 'gray' }} />
+  <div style={{ minHeight: '60px', width: '300px', background: 'black' }} />
+</Items>
+```
+
+
 ### Template
 
 Use template property for adding size to columns. Use values from `grid-temnplate-columns` CSS rule

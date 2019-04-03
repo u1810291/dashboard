@@ -28,7 +28,47 @@
     align-items: stretch;
   }
 
+  &.justify-content {
+
+    &--start {
+      justify-content: start;
+    }
+
+    &--end {
+      justify-content: end;
+    }
+
+    &--center {
+      justify-content: center;
+    }
+
+    &--space-around {
+      justify-content: space-around;
+    }
+
+    &--space-between {
+      justify-content: space-between;
+    }
+
+    &--stretch {
+      justify-content: stretch;
+    }
+
+    &--space-evenly {
+      justify-content: space-evenly;
+    }
+  }
+
   &.smallGap {
     grid-gap: calc(0.5 * var(--mgi-spacing));
+  }
+
+  &.extraGap {
+    grid-gap: calc(2 * var(--mgi-spacing));
+  }
+
+  & > svg {
+    width: 100%;
+    height: auto;
   }
 }

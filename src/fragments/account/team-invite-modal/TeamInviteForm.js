@@ -1,5 +1,6 @@
 import React from 'react'
 import { Field, Formik } from 'formik'
+import { flowRight } from 'lodash/fp'
 import { setI18nContext } from 'src/components/i18n-context'
 import { Input, RadioButtonGroup } from 'src/components/inputs'
 import { pickBy, pick } from 'lodash'
@@ -24,10 +25,7 @@ const formikSettings = {
   }
 }
 
-@setI18nContext('teamTable.invite.form')
-@injectIntl
 class TeamInviteForm extends React.Component {
-
   roleOptions = [
     {
       label: this.props.intl.formatMessage({
@@ -96,5 +94,9 @@ class TeamInviteForm extends React.Component {
   }
 }
 
-export default
-React.forwardRef((props, ref) => <TeamInviteForm innerRef={ref} {...props}/>)
+export default flowRight(
+  setI18nContext('teamTable.invite.form'),
+  injectIntl,
+  Component =>
+    React.forwardRef((props, ref) => <Component innerRef={ref} {...props} />)
+)(TeamInviteForm)

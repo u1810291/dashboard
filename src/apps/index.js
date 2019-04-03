@@ -15,8 +15,7 @@ export default class Root extends React.Component {
   }
 }
 
-@connect(state => ({ loggedIn: state.auth.token }))
-class PrivateRoute extends React.Component {
+class PrivateRouteComponent extends React.Component {
   render() {
     const { component: Component, loggedIn, ...rest } = this.props
     return (
@@ -38,3 +37,7 @@ class PrivateRoute extends React.Component {
     )
   }
 }
+
+const PrivateRoute = connect(state => ({ loggedIn: state.auth.token }))(
+  PrivateRouteComponent
+)

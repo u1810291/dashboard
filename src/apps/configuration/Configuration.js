@@ -1,13 +1,12 @@
 import React from 'react'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { MatiButton } from 'src/components/mati-button'
 import Button from 'src/components/button'
 import { Content } from 'src/components/application-box'
 import Sections from 'src/components/sections'
-import { createOverlay, closeOverlay } from 'src/components/overlay'
+import Items from 'src/components/items'
 import {
-  getIntegrationCode,
   saveConfiguration,
   getMerchantApps,
   COLOR_PRESETS,
@@ -20,65 +19,18 @@ import ConfigureColor from 'src/fragments/configuration/configure-color'
 import VerificationSteps from 'src/fragments/configuration/verification-steps'
 import LanguageStep from './LanguageStep'
 import CSS from './Configuration.css'
-import IconPlay from 'src/assets/icon-play.svg'
-import IntegrationCodeModal from 'src/fragments/configuration/integration-code-modal'
+import IconPlay from 'src/assets/icon-play-rounded.svg'
+import IconIntegrate from 'src/assets/icon-integrate.svg'
+import IconFaq from 'src/assets/icon-faq.svg'
 import Countries from 'src/fragments/configuration/countries'
-import { showVideo } from 'src/fragments/configuration/how-it-works-video'
+import { showVideo as showOnboardingVideo } from 'src/fragments/configuration/how-it-works-video'
 
-export default
-@injectIntl
-@connect(
-  ({
-    auth: { token },
-    merchant: { configuration, configurations, integrationCode, apps = [] },
-    countries: { countries, isLoading }
-  }) => ({
-    token,
-    configuration,
-    configurations,
-    integrationCode,
-    countries,
-    apps,
-    countriesAreLoading: isLoading
-  }),
-  {
-    saveConfiguration,
-    getIntegrationCode,
-    getCountries,
-    getMerchantApps
-  }
-)
 class Configuration extends React.Component {
   redirectToIdentity = ({ identityId }) => {
     this.props.history.push(`/verifications/${identityId}`)
   }
 
-  toggleIntegrationCode = () => {
-    this.props.getIntegrationCode(this.props.token).then(value => {
-      createOverlay(
-        <IntegrationCodeModal integrationCode={this.props.integrationCode} onClose={closeOverlay} />
-      )
-    })
-  }
-
-  openIosManual() {
-    const tab = window.open(
-      'https://github.com/MatiFace/mati-global-id-sdk/blob/master/Integration_iOS.md',
-      '_blank'
-    )
-    tab.focus()
-  }
-
-  openAndroidManual() {
-    const tab = window.open(
-      'https://github.com/MatiFace/mati-global-id-sdk-integration-android',
-      '_blank'
-    )
-    tab.focus()
-  }
-
   componentDidMount() {
-    this.props.getIntegrationCode(this.props.token)
     this.props.getCountries(this.props.token)
     this.props.getMerchantApps(this.props.token)
   }
@@ -87,22 +39,18 @@ class Configuration extends React.Component {
     this.props.saveConfiguration(this.props.token, settings)
   }
 
-  showOnboardingVideo = () => {
-    showVideo()
-  }
-
   render() {
     const flowSteps = [
-      <div id="buttonColor">
-        <ConfigureColor
-          presets={COLOR_PRESETS}
+      <div id="language">
+        <LanguageStep
+          availableLanguages={AVAILABLE_LANGUAGES}
           style={this.props.configuration.style}
           onClick={this.updateConfiguration}
         />
       </div>,
-      <div id="language">
-        <LanguageStep
-          availableLanguages={AVAILABLE_LANGUAGES}
+      <div id="buttonColor">
+        <ConfigureColor
+          presets={COLOR_PRESETS}
           style={this.props.configuration.style}
           onClick={this.updateConfiguration}
         />
@@ -135,36 +83,85 @@ class Configuration extends React.Component {
             </Sections>
           </Sections>
         </Content>
-        <Content>
-          <Sections>
+        <Content fullwidth={false}>
+          <Sections extraGap>
             <h1>
               <FormattedMessage id="fragments.configuration.title" />
             </h1>
 
             {this.props.apps[0] && (
               <section>
-                <MatiButton
-                  language={this.props.configuration.style.language}
-                  color={this.props.configuration.style.color}
-                  clientId={this.props.apps[0].clientId}
-                  onSuccess={this.redirectToIdentity}
-                />
+                <Items align="center"  justifyContent="center" className={CSS.matiButtonWrapper}>
+                  <MatiButton
+                    language={this.props.configuration.style.language}
+                    color={this.props.configuration.style.color}
+                    clientId={this.props.apps[0].clientId}
+                    onSuccess={this.redirectToIdentity}
+                  />
+                </Items>
               </section>
             )}
 
-            <p className={CSS.sidebarIcon}>
-              <Button
-                className={CSS.onboardingVideoLink}
-                buttonStyle="link"
-                onClick={this.showOnboardingVideo}
-              >
-                <IconPlay />
-                <FormattedMessage id="onboarding.video.link" />
-              </Button>
-            </p>
+            <section>
+              <Items align="center" justifyContent="center">
+                <p className={CSS.sidebarIcon}>
+                  <Button
+                    className={CSS.onboardingVideoLink}
+                    buttonStyle="link"
+                    onClick={showOnboardingVideo}
+                  >
+                    <IconPlay />
+                    <FormattedMessage id="onboarding.video.link" />
+                  </Button>
+                </p>
+              </Items>
+            </section>
+
+            <section>
+              <Items align="center" template="1fr 1fr" smallGap={true}>
+                <Button
+                  buttonStyle="primary"
+                  href="/integration"
+                  size="big"
+                >
+                  <IconIntegrate />
+                  <FormattedMessage id="fragments.configuration.button.start-integration" />
+                </Button>
+                <Button
+                  buttonStyle="primary primary-revert"
+                  href="/info"
+                  size="big"
+                >
+                  <IconFaq />
+                  <FormattedMessage id="fragments.configuration.button.common-questions" />
+                </Button>
+              </Items>
+            </section>
+
           </Sections>
         </Content>
       </React.Fragment>
     )
   }
 }
+
+export default connect(
+  ({
+    auth: { token },
+    merchant: { configuration, configurations, integrationCode, apps = [] },
+    countries: { countries, isLoading }
+  }) => ({
+    token,
+    configuration,
+    configurations,
+    integrationCode,
+    countries,
+    apps,
+    countriesAreLoading: isLoading
+  }),
+  {
+    saveConfiguration,
+    getCountries,
+    getMerchantApps
+  }
+)(Configuration)

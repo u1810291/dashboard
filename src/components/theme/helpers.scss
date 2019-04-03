@@ -30,6 +30,10 @@
   color: var(--mgi-theme-palette-error);
 }
 
+.text-darkpink {
+  color: var(--mgi-theme-palette-darkpink);
+}
+
 .text-large {
   font-size: 16px;
 }
@@ -56,6 +60,18 @@
 
 .background-error {
   background-color: var(--mgi-theme-palette-error) !important;
+}
+
+.background-pink {
+  background-color: var(--mgi-theme-palette-pink) !important;
+}
+
+.background-softpink {
+  background-color: var(--mgi-theme-palette-softpink) !important;
+}
+
+.background-transparent {
+  background-color: transparent !important;
 }
 
 .background-active,
@@ -86,4 +102,8 @@
 
 .svg-error path {
   fill: var(--mgi-theme-palette-error);
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
