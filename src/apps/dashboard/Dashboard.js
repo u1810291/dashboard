@@ -18,7 +18,11 @@ import { Settings } from 'src/apps/settings'
 import Info from 'src/apps/info'
 import Integration from 'src/apps/integration'
 import { signOut } from 'src/state/auth'
-import { getMerchant, saveConfiguration } from 'src/state/merchant'
+import {
+  getMerchant,
+  saveConfiguration,
+  getIntegrationCode
+} from 'src/state/merchant'
 import MatiLogo from 'src/assets/mati-logo-v2.svg'
 import IdentitiesIcon from './icons/icon-menu-verifications.svg'
 import ConfigurationIcon from './icons/icon-menu-customize.svg'
@@ -37,10 +41,15 @@ class Dashboard extends React.Component {
     }
   }
 
-  loadData() {
-    this.props.getMerchant(this.props.token).catch(error => {
+  async loadData() {
+    const { getIntegrationCode, getMerchant, token } = this.props
+    try {
+      await getIntegrationCode(token)
+      await getMerchant(token)
+    } catch (error) {
       if (error.response && error.response.status === 401) this.handleSignOut()
-    })
+      else throw error
+    }
   }
 
   handleSignOut = () => {
@@ -152,7 +161,7 @@ export default flowRight(
         ),
       isOwnerIsLoading: !state.merchant.collaborators
     }),
-    { signOut, getMerchant, saveConfiguration }
+    { signOut, getMerchant, saveConfiguration, getIntegrationCode }
   )
 )(Dashboard)
 
