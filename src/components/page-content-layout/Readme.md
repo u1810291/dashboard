@@ -19,8 +19,8 @@ const Sections = require('../sections').default
         <Panel.Body>
           <h2>1. Configure Mati verification flow</h2>
           <p>
-            On first step you can configure your verification flow with colours, countries, language
-            and documents.
+            On first step you can configure your verification flow with colours,
+            countries, language and documents.
           </p>
         </Panel.Body>
       </Panel>
@@ -29,8 +29,8 @@ const Sections = require('../sections').default
         <Panel.Body>
           <h2>1. Configure Mati verification flow</h2>
           <p>
-            On first step you can configure your verification flow with colours, countries, language
-            and documents.
+            On first step you can configure your verification flow with colours,
+            countries, language and documents.
           </p>
         </Panel.Body>
       </Panel>
@@ -39,11 +39,12 @@ const Sections = require('../sections').default
     <aside>
       <Panel>
         <Panel.Body>
-          <Sections withBorder>
+          <Sections>
             <h3>Support</h3>
+            <hr />
             <p>
-              If you want to know more about integration code you can chat with our support about
-              that.
+              If you want to know more about integration code you can chat with
+              our support about that.
             </p>
           </Sections>
         </Panel.Body>
@@ -64,8 +65,8 @@ const Panel = require('../panel').default
       <Panel.Body>
         <h2>1. Configure Mati verification flow</h2>
         <p>
-          On first step you can configure your verification flow with colours, countries, language
-          and documents.
+          On first step you can configure your verification flow with colours,
+          countries, language and documents.
         </p>
       </Panel.Body>
     </Panel>
@@ -74,8 +75,8 @@ const Panel = require('../panel').default
       <Panel.Body>
         <h2>1. Configure Mati verification flow</h2>
         <p>
-          On first step you can configure your verification flow with colours, countries, language
-          and documents.
+          On first step you can configure your verification flow with colours,
+          countries, language and documents.
         </p>
       </Panel.Body>
     </Panel>
@@ -84,11 +85,12 @@ const Panel = require('../panel').default
   <aside>
     <Panel>
       <Panel.Body>
-        <Sections withBorder>
+        <Sections>
           <h3>Support</h3>
+          <hr />
           <p>
-            If you want to know more about integration code you can chat with our support about
-            that.
+            If you want to know more about integration code you can chat with
+            our support about that.
           </p>
         </Sections>
       </Panel.Body>
@@ -115,8 +117,8 @@ const Panel = require('../panel').default
       <Panel.Body>
         <h2>1. Configure Mati verification flow</h2>
         <p>
-          On first step you can configure your verification flow with colours, countries, language
-          and documents.
+          On first step you can configure your verification flow with colours,
+          countries, language and documents.
         </p>
       </Panel.Body>
     </Panel>
@@ -125,8 +127,8 @@ const Panel = require('../panel').default
       <Panel.Body>
         <h2>1. Configure Mati verification flow</h2>
         <p>
-          On first step you can configure your verification flow with colours, countries, language
-          and documents.
+          On first step you can configure your verification flow with colours,
+          countries, language and documents.
         </p>
       </Panel.Body>
     </Panel>
@@ -145,8 +147,8 @@ const Panel = require('../panel').default
       <Panel.Body>
         <h2>1. Configure Mati verification flow</h2>
         <p>
-          On first step you can configure your verification flow with colours, countries, language
-          and documents.
+          On first step you can configure your verification flow with colours,
+          countries, language and documents.
         </p>
       </Panel.Body>
     </Panel>
@@ -155,8 +157,8 @@ const Panel = require('../panel').default
       <Panel.Body>
         <h2>1. Configure Mati verification flow</h2>
         <p>
-          On first step you can configure your verification flow with colours, countries, language
-          and documents.
+          On first step you can configure your verification flow with colours,
+          countries, language and documents.
         </p>
       </Panel.Body>
     </Panel>

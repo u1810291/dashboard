@@ -1,0 +1,286 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components storyshots components/stacks/Sections Default 1`] = `
+<div
+  className=""
+>
+  <div
+    style={
+      Object {
+        "background": "pink",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "background": "crimson",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "background": "red",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Components storyshots components/stacks/Sections With custom className 1`] = `
+<div
+  className="background-pink"
+>
+  <div
+    style={
+      Object {
+        "background": "black",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "background": "gray",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "background": "silver",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Components storyshots components/stacks/Sections With horizontal line in between 1`] = `
+<div
+  className=""
+>
+  <div
+    style={
+      Object {
+        "background": "pink",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+  <hr />
+  <div
+    style={
+      Object {
+        "background": "crimson",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+  <hr />
+  <div
+    style={
+      Object {
+        "background": "red",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Components storyshots components/stacks/Sections extraGap 1`] = `
+<div
+  className="extraGap"
+>
+  <div
+    style={
+      Object {
+        "background": "pink",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "background": "crimson",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "background": "red",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Components storyshots components/stacks/Sections smallGap 1`] = `
+<div
+  className="smallGap"
+>
+  <div
+    style={
+      Object {
+        "background": "pink",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "background": "crimson",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "background": "red",
+        "borderRadius": "5px",
+        "height": "50px",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Fragments storyshots fragments/integration/WebhooksDocsPanel Default 1`] = `
+<div
+  className="padded extraPadding"
+>
+  <div
+    className="extraGap"
+  >
+    <h2>
+      title
+      <p>
+        subtitle
+      </p>
+    </h2>
+    <div
+      className="align-top justify-content--flex-start extraGap"
+      style={
+        Object {
+          "gridTemplateColumns": "1fr 1fr",
+        }
+      }
+    >
+      <svg>
+        picture.svg
+      </svg>
+      <svg
+        className="cursor-pointer"
+        onClick={[Function]}
+      >
+        installation-video.svg
+      </svg>
+    </div>
+    <section>
+      <a
+        className="default primary"
+        href="https://docs.getmati.com"
+        rel="noopener noreferrer"
+        target="_blank"
+        type="button"
+      >
+        button
+      </a>
+    </section>
+  </div>
+</div>
+`;
+
+exports[`Fragments storyshots fragments/integration/WebhooksTestPanel default 1`] = `
+<div
+  className="background-softpink padded extraPadding"
+>
+  <div
+    className=""
+  >
+    <h2>
+      title
+    </h2>
+    <div
+      className="align-center justify-content--flex-start"
+      style={
+        Object {
+          "gridTemplateColumns": "1fr 1fr",
+        }
+      }
+    >
+      <ol
+        className="mgi-list"
+      >
+        <li>
+          0
+        </li>
+        <li>
+          1
+        </li>
+        <li>
+          2
+        </li>
+        <li>
+          3
+        </li>
+      </ol>
+      <svg>
+        picture.svg
+      </svg>
+    </div>
+    <section>
+      <h3
+        className="text-darkpink"
+      >
+        <small>
+          caption
+        </small>
+      </h3>
+      <div
+        className="align-top justify-content--flex-start inline"
+        style={
+          Object {
+            "gridTemplateColumns": "none",
+          }
+        }
+      >
+        <div
+          className="background-transparent text-darkpink padded extraSmallPadding undefined"
+        >
+          <small>
+            message
+          </small>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+`;

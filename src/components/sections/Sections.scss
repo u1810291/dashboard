@@ -6,19 +6,6 @@
     margin-bottom: var(--mgi-spacing);
   }
 
-  &.withBorder > :not(:last-child) {
-    position: relative;
-    margin-bottom: calc(2 * var(--mgi-spacing) + 1px);
-    &::after {
-      content: ' ';
-      display: block;
-      width: 100%;
-      bottom: calc(-1 * var(--mgi-spacing));
-      border-bottom: 1px solid var(--mgi-theme-palette-lightgray);
-      position: absolute;
-    }
-  }
-
   &.extraGap > :not(:last-child) {
     margin-bottom: calc(2 * var(--mgi-spacing));
   }

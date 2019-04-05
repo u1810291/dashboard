@@ -32,22 +32,25 @@ export default function ClientApplication({
   }&metadata={}`
 
   const handleAddNewWebhook = () => {
-    createOverlay(<NewWebhookModal onSave={subscribeToWebhook} onClose={closeOverlay} />)
+    createOverlay(
+      <NewWebhookModal onSave={subscribeToWebhook} onClose={closeOverlay} />
+    )
   }
 
   const handleDeleteWebhook = id => {
-    confirm(<FormattedMessage id="fragments.client_application.confirm_delete_webhook" />).then(
-      () => deleteWebhook(id)
-    )
+    confirm(
+      <FormattedMessage id="fragments.client_application.confirm_delete_webhook" />
+    ).then(() => deleteWebhook(id))
   }
 
   return (
     <Panel>
       <Panel.Body>
-        <Sections withBorder>
+        <Sections>
           <h3 className="text-active">
             <FormattedMessage id="fragments.client_application.production_title" />
           </h3>
+          <hr />
           <table className="mgi-table">
             <colgroup>
               <col className={CSS.headerColumn} />
