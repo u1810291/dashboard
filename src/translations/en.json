@@ -544,7 +544,7 @@
   "fragments.info.feedback.title": "Our clients say",
   "fragments.account.mati-docs.iosDocumentation": "iOS",
   "fragments.account.mati-docs.androidDocumentation": "Android",
-  "fragments.account.mati-docs.github": "Go to GutHub",
+  "fragments.account.mati-docs.github": "Go to GitHub",
   "fragments.integration.integration-code.title": "Web SDK",
   "fragments.integration.integration-code.javascript": "JavaScript",
   "fragments.integration.integration-code.react": "React.js (coming soon)",
