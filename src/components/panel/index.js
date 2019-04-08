@@ -11,6 +11,7 @@ export function PanelBody({
   className,
   padded = true,
   border,
+  aside,
   smallPadding,
   extraSmallPadding,
   extraPadding
@@ -26,7 +27,8 @@ export function PanelBody({
         [CSS[`border-${border}`]]: border
       })}
     >
-      {children}
+      {aside}
+      <main>{children}</main>
     </div>
   )
 }

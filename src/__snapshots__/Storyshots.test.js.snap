@@ -1,5 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Components storyshots components/Panel Default 1`] = `
+<div
+  className="padded"
+>
+  <aside
+    className="background-softpink"
+    style={
+      Object {
+        "width": "25px",
+      }
+    }
+  >
+    S T U B
+  </aside>
+  <main>
+    <p
+      style={
+        Object {
+          "color": "crimson",
+          "fontSize": "48px",
+        }
+      }
+    >
+      Panel content
+    </p>
+  </main>
+</div>
+`;
+
+exports[`Components storyshots components/YoutubeOverlay Default 1`] = `
+Array [
+  " ",
+  <button
+    onClick={[Function]}
+  >
+    Sample Overlay
+  </button>,
+]
+`;
+
 exports[`Components storyshots components/stacks/Sections Default 1`] = `
 <div
   className=""
@@ -172,49 +212,319 @@ exports[`Components storyshots components/stacks/Sections smallGap 1`] = `
 </div>
 `;
 
-exports[`Fragments storyshots fragments/integration/WebhooksDocsPanel Default 1`] = `
+exports[`Fragments storyshots fragments/integration/InstallationGuidePanels ApplicationsPanel 1`] = `
 <div
   className="padded extraPadding"
 >
-  <div
-    className="extraGap"
+  <aside
+    className="aside background-apricot"
   >
-    <h2>
-      title
-      <p>
-        subtitle
-      </p>
+    <h2
+      className="text-darkapricot"
+    >
+      2
     </h2>
+  </aside>
+  <main>
     <div
-      className="align-top justify-content--flex-start extraGap"
+      className="align-center justify-content--flex-start extraGap"
       style={
         Object {
-          "gridTemplateColumns": "1fr 1fr",
+          "gridTemplateColumns": "4fr 5fr",
         }
       }
     >
+      <div
+        className="extraGap"
+      >
+        <div
+          className="smallGap"
+        >
+          <h2>
+            fragments.integration.installation-guide-panels.applications-panel.title
+          </h2>
+          <p>
+            fragments.integration.installation-guide-panels.applications-panel.message
+          </p>
+        </div>
+        <a
+          aria-current={null}
+          className="default primary"
+          href="/integration/applications"
+          onClick={[Function]}
+          type="button"
+        >
+          fragments.integration.installation-guide-panels.applications-panel.button
+        </a>
+      </div>
       <svg>
-        picture.svg
+        applications.svg
       </svg>
+    </div>
+  </main>
+</div>
+`;
+
+exports[`Fragments storyshots fragments/integration/InstallationGuidePanels InstallFrontendCodePanel 1`] = `
+<div
+  className="padded extraPadding"
+>
+  <aside
+    className="aside background-apricot"
+  >
+    <h2
+      className="text-darkapricot"
+    >
+      3
+    </h2>
+  </aside>
+  <main>
+    <div
+      className="align-center justify-content--flex-start extraGap"
+      style={
+        Object {
+          "gridTemplateColumns": "4fr 5fr",
+        }
+      }
+    >
+      <div
+        className="extraGap"
+      >
+        <div
+          className="smallGap"
+        >
+          <h2>
+            fragments.integration.installation-guide-panels.jssdk-panel.title
+          </h2>
+          <p>
+            fragments.integration.installation-guide-panels.jssdk-panel.message
+          </p>
+        </div>
+        <a
+          aria-current={null}
+          className="default primary"
+          href="/integration/integration-code"
+          onClick={[Function]}
+          type="button"
+        >
+          fragments.integration.installation-guide-panels.jssdk-panel.button
+        </a>
+      </div>
       <svg
         className="cursor-pointer"
         onClick={[Function]}
       >
-        installation-video.svg
+        video.svg
       </svg>
     </div>
-    <section>
-      <a
-        className="default primary"
-        href="https://docs.getmati.com"
-        rel="noopener noreferrer"
-        target="_blank"
-        type="button"
+  </main>
+</div>
+`;
+
+exports[`Fragments storyshots fragments/integration/InstallationGuidePanels LetsStartPanel 1`] = `
+<div
+  className="background-apricot padded extraPadding"
+>
+  <aside
+    className="aside background-apricot"
+  >
+    <h2
+      className="text-darkapricot"
+    />
+  </aside>
+  <main>
+    <div
+      className="align-center justify-content--flex-start extraGap"
+      style={
+        Object {
+          "gridTemplateColumns": "4fr 5fr",
+        }
+      }
+    >
+      <section>
+        <h2>
+          fragments.integration.installation-guide-panels.start-panel.title
+        </h2>
+        <p>
+          fragments.integration.installation-guide-panels.start-panel.message
+        </p>
+      </section>
+      <svg>
+        lets-start.svg
+      </svg>
+    </div>
+  </main>
+</div>
+`;
+
+exports[`Fragments storyshots fragments/integration/InstallationGuidePanels SetWebhooksPanel 1`] = `
+<div
+  className="padded extraPadding"
+>
+  <aside
+    className="aside background-apricot"
+  >
+    <h2
+      className="text-darkapricot"
+    >
+      4
+    </h2>
+  </aside>
+  <main>
+    <div
+      className="align-center justify-content--flex-start extraGap"
+      style={
+        Object {
+          "gridTemplateColumns": "4fr 5fr",
+        }
+      }
+    >
+      <div
+        className="extraGap"
       >
-        button
-      </a>
-    </section>
-  </div>
+        <div
+          className="smallGap"
+        >
+          <h2>
+            fragments.integration.installation-guide-panels.webhooks-panel.title
+          </h2>
+          <p>
+            fragments.integration.installation-guide-panels.webhooks-panel.message
+          </p>
+        </div>
+        <a
+          aria-current={null}
+          className="default primary"
+          href="/integration/webhooks"
+          onClick={[Function]}
+          type="button"
+        >
+          fragments.integration.installation-guide-panels.webhooks-panel.button
+        </a>
+      </div>
+      <div
+        className=""
+      >
+        <svg
+          className="cursor-pointer"
+          onClick={[Function]}
+        >
+          video.svg
+        </svg>
+        <section>
+          fragments.integration.installation-guide-panels.webhooks-panel.link
+          : 
+          <a
+            href="https://docs.getmati.com"
+          >
+            docs.getmati.com
+          </a>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+`;
+
+exports[`Fragments storyshots fragments/integration/InstallationGuidePanels VerificationPanel 1`] = `
+<div
+  className="padded extraPadding"
+>
+  <aside
+    className="aside background-apricot"
+  >
+    <h2
+      className="text-darkapricot"
+    >
+      1
+    </h2>
+  </aside>
+  <main>
+    <div
+      className="align-center justify-content--flex-start extraGap"
+      style={
+        Object {
+          "gridTemplateColumns": "4fr 5fr",
+        }
+      }
+    >
+      <div
+        className="extraGap"
+      >
+        <div
+          className="smallGap"
+        >
+          <h2>
+            fragments.integration.installation-guide-panels.verification-panel.title
+          </h2>
+          <p>
+            fragments.integration.installation-guide-panels.verification-panel.message
+          </p>
+        </div>
+        <a
+          aria-current="page"
+          className="default primary active"
+          href="/"
+          onClick={[Function]}
+          style={Object {}}
+          type="button"
+        >
+          fragments.integration.installation-guide-panels.verification-panel.button
+        </a>
+      </div>
+      <svg>
+        verification.svg
+      </svg>
+    </div>
+  </main>
+</div>
+`;
+
+exports[`Fragments storyshots fragments/integration/WebhooksDocsPanel Default 1`] = `
+<div
+  className="padded extraPadding"
+>
+  <main>
+    <div
+      className="extraGap"
+    >
+      <h2>
+        fragments.integration.webhooks-docs-panel.title
+        <p>
+          fragments.integration.webhooks-docs-panel.subtitle
+        </p>
+      </h2>
+      <div
+        className="align-top justify-content--flex-start extraGap"
+        style={
+          Object {
+            "gridTemplateColumns": "1fr 1fr",
+          }
+        }
+      >
+        <svg>
+          picture.svg
+        </svg>
+        <svg
+          className="cursor-pointer"
+          onClick={[Function]}
+        >
+          installation-video.svg
+        </svg>
+      </div>
+      <section>
+        <a
+          className="default primary"
+          href="https://docs.getmati.com"
+          rel="noopener noreferrer"
+          target="_blank"
+          type="button"
+        >
+          fragments.integration.webhooks-docs-panel.button
+        </a>
+      </section>
+    </div>
+  </main>
 </div>
 `;
 
@@ -222,65 +532,69 @@ exports[`Fragments storyshots fragments/integration/WebhooksTestPanel default 1`
 <div
   className="background-softpink padded extraPadding"
 >
-  <div
-    className=""
-  >
-    <h2>
-      title
-    </h2>
+  <main>
     <div
-      className="align-center justify-content--flex-start"
-      style={
-        Object {
-          "gridTemplateColumns": "1fr 1fr",
-        }
-      }
+      className=""
     >
-      <ol
-        className="mgi-list"
-      >
-        <li>
-          0
-        </li>
-        <li>
-          1
-        </li>
-        <li>
-          2
-        </li>
-        <li>
-          3
-        </li>
-      </ol>
-      <svg>
-        picture.svg
-      </svg>
-    </div>
-    <section>
-      <h3
-        className="text-darkpink"
-      >
-        <small>
-          caption
-        </small>
-      </h3>
+      <h2>
+        fragments.integration.webhooks-test-panel.title
+      </h2>
       <div
-        className="align-top justify-content--flex-start inline"
+        className="align-center justify-content--flex-start"
         style={
           Object {
-            "gridTemplateColumns": "none",
+            "gridTemplateColumns": "1fr 1fr",
           }
         }
       >
-        <div
-          className="background-transparent text-darkpink padded extraSmallPadding undefined"
+        <ol
+          className="mgi-list"
+        >
+          <li>
+            fragments.integration.webhooks-test-panel.list.0
+          </li>
+          <li>
+            fragments.integration.webhooks-test-panel.list.1
+          </li>
+          <li>
+            fragments.integration.webhooks-test-panel.list.2
+          </li>
+          <li>
+            fragments.integration.webhooks-test-panel.list.3
+          </li>
+        </ol>
+        <svg>
+          picture.svg
+        </svg>
+      </div>
+      <section>
+        <h3
+          className="text-darkpink"
         >
           <small>
-            message
+            fragments.integration.webhooks-test-panel.pro-tip.caption
           </small>
+        </h3>
+        <div
+          className="align-top justify-content--flex-start inline"
+          style={
+            Object {
+              "gridTemplateColumns": "none",
+            }
+          }
+        >
+          <div
+            className="background-transparent text-darkpink padded extraSmallPadding undefined"
+          >
+            <main>
+              <small>
+                fragments.integration.webhooks-test-panel.pro-tip.message
+              </small>
+            </main>
+          </div>
         </div>
-      </div>
-    </section>
-  </div>
+      </section>
+    </div>
+  </main>
 </div>
 `;

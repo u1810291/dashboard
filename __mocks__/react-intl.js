@@ -1,5 +1,4 @@
 import React from 'react'
-import { last } from 'lodash'
 const Intl = jest.genMockFromModule('react-intl')
 
 // Here goes intl context injected into component, feel free to extend
@@ -13,7 +12,7 @@ Intl.injectIntl = Node => {
   return renderWrapped
 }
 
-Intl.FormattedMessage = ({ id }) => last(id.split('.'))
+Intl.FormattedMessage = ({ id }) => id
 Intl.FormattedHTMLMessage = Intl.FormattedMessage
 
 module.exports = Intl

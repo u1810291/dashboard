@@ -4,28 +4,12 @@ import Panel from 'src/components/panel'
 import Items from 'src/components/items'
 import Button from 'src/components/button'
 import Sections from 'src/components/sections'
-import { createOverlay } from 'src/components/overlay'
+import openYoutubeOverlay from 'src/components/youtube-overlay'
 import { ReactComponent as Picture } from './picture.svg'
 import { ReactComponent as InstallationVideo } from './installation-video.svg'
 
 function showVideo() {
-  createOverlay(<InstallationVideoOverlay />)
-}
-
-function InstallationVideoOverlay() {
-  return (
-    <div>
-      <iframe
-        title="Installation Video"
-        width="919"
-        height="517"
-        src="https://www.youtube.com/embed/Gmgl_lxeFlY"
-        frameBorder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
-    </div>
-  )
+  openYoutubeOverlay({ id: 'Gmgl_lxeFlY' })
 }
 
 export default function WebhooksDocsPanel({ message }) {
