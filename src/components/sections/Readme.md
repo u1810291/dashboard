@@ -18,9 +18,11 @@ with `withBorder` property enabled
 const style = { height: '50px', borderRadius: '5px' }
 
 ;<React.Fragment>
-  <Sections withBorder>
+  <Sections>
     <div style={{ ...style, background: 'RosyBrown' }} />
+    <hr />
     <div style={{ ...style, background: 'Brown' }} />
+    <hr />
     <div style={{ ...style, background: 'Wheat' }} />
   </Sections>
 </React.Fragment>

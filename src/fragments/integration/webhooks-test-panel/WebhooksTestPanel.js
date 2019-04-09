@@ -15,7 +15,7 @@ export default function WebhookTestPanel({ message }) {
         <Items template="1fr 1fr" align="center">
           <ol className="mgi-list">
             {Array.from(Array(4)).map((a, index) => (
-              <li>
+              <li key={index}>
                 <FormattedHTMLMessage
                   id={`fragments.integration.webhooks-test-panel.list.${index}`}
                 />

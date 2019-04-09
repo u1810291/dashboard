@@ -23,25 +23,39 @@
   }
 }
 
-:local(.panelBody).padded {
+:local(.panelBody).padded > main {
   padding: var(--mgi-panel-padding);
 }
 
 :local(.panelBody).padded.smallPadding {
-  padding: calc(var(--mgi-panel-padding) * 0.5);
+  --mgi-panel-padding: calc(var(--mgi-spacing) * 0.5);
 }
 
 :local(.panelBody).padded.extraSmallPadding {
-  padding: calc(var(--mgi-panel-padding) * 0.25);
+  --mgi-panel-padding: calc(var(--mgi-spacing) * 0.25);
 }
 
 :local(.panelBody).padded.extraPadding {
-  padding: calc(var(--mgi-panel-padding) * 2);
+  --mgi-panel-padding: calc(var(--mgi-spacing) * 2);
 }
 
 :local(.panelHeader) + :local(.panelBody) {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+:local(.panelBody) {
+  display: flex;
+
+  > aside {
+    overflow: hidden;
+    border-radius: var(--mgi-panel-radius) 0 0 var(--mgi-panel-radius);
+    flex-shrink: 0;
+  }
+
+  > main {
+    flex: 1;
+  }
 }
 
 :local(.border) {

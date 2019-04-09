@@ -12,11 +12,14 @@ export default function FAQ({ questions = [] }) {
         <h2>
           <FormattedMessage id="fragments.info.faq.title" />
         </h2>
-        <Sections withBorder>
-          {questions.map(({ summary, details = '' }) => (
-            <Details summary={summary}>
-              <div dangerouslySetInnerHTML={{ __html: marked(details) }} />
-            </Details>
+        <Sections>
+          {questions.map(({ summary, details = '' }, index) => (
+            <React.Fragment key={summary}>
+              <Details summary={summary}>
+                <div dangerouslySetInnerHTML={{ __html: marked(details) }} />
+              </Details>
+              {index < questions.length - 1 && <hr />}
+            </React.Fragment>
           ))}
         </Sections>
       </Panel.Body>

@@ -12,4 +12,7 @@ Intl.injectIntl = Node => {
   return renderWrapped
 }
 
+Intl.FormattedMessage = ({ id }) => id
+Intl.FormattedHTMLMessage = Intl.FormattedMessage
+
 module.exports = Intl

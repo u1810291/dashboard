@@ -36,7 +36,7 @@ button {
 }
 
 :local(.button).big svg:first-child {
-  margin-right: calc(var(--mgi-theme-button-padding)/2);
+  margin-right: calc(var(--mgi-theme-button-padding) / 2);
 }
 
 /* :local(.button) + :local(.button) {
@@ -133,5 +133,5 @@ button {
   background: white;
   font-weight: normal;
   color: var(--mgi-theme-palette-secondary);
-  cursor: not-allowed;
+  cursor: default;
 }

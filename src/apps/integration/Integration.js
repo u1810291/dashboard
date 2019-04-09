@@ -1,16 +1,25 @@
 import React from 'react'
-import Support from 'src/fragments/account/support'
-import IntegrationSteps from 'src/fragments/integration/integration-steps'
+import Sections from 'src/components/sections'
+import {
+  LetsStartPanel,
+  VerificationPanel,
+  ApplicationsPanel,
+  InstallFrontendCodePanel,
+  SetWebhooksPanel
+} from 'src/fragments/integration/installation-guide-panels'
 
 export default function Info() {
   return (
     <React.Fragment>
       <main>
-        <IntegrationSteps />
+        <Sections>
+          <LetsStartPanel />
+          <VerificationPanel />
+          <ApplicationsPanel />
+          <InstallFrontendCodePanel />
+          <SetWebhooksPanel />
+        </Sections>
       </main>
-      <aside>
-        <Support />
-      </aside>
     </React.Fragment>
   )
 }

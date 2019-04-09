@@ -16,7 +16,8 @@ function caption(document, intl) {
     cap.push(
       <span className="text-secondary">
         {' '}
-        {intl.formatMessage({ id: 'verificationModal.origin' })} {document.origin}
+        {intl.formatMessage({ id: 'verificationModal.origin' })}{' '}
+        {document.origin}
       </span>
     )
   }
@@ -64,20 +65,24 @@ function VerificationDetails({
               />
             )}
           </h1>
+          <hr />
           {documents.map((doc, index) => (
-            <section key={index}>
-              <h3>{caption(doc, intl)}</h3>
-              {doc.inProgress ? (
-                <ContentPreloader />
-              ) : (
-                <DocumentFields
-                  fields={doc.fields}
-                  onFieldChange={onFieldChange}
-                  patchingFields={patchingFields}
-                  erroredFields={erroredFields}
-                />
-              )}
-            </section>
+            <React.Fragment key={index}>
+              <section>
+                <h3>{caption(doc, intl)}</h3>
+                {doc.inProgress ? (
+                  <ContentPreloader />
+                ) : (
+                  <DocumentFields
+                    fields={doc.fields}
+                    onFieldChange={onFieldChange}
+                    patchingFields={patchingFields}
+                    erroredFields={erroredFields}
+                  />
+                )}
+              </section>
+              {index < documents.length - 1 && <hr />}
+            </React.Fragment>
           ))}
         </Sections>
       </section>
