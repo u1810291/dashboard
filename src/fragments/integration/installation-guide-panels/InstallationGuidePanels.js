@@ -88,7 +88,7 @@ export function InstallFrontendCodePanel() {
         </Sections>
         <VideoPicture
           className="cursor-pointer"
-          onClick={openYoutubeOverlay.bind(null, { id: 'Gmgl_lxeFlY' })}
+          onClick={openYoutubeOverlay.bind(null, { id: 'wm_nG8wfVMU' })}
         />
       </Items>
     </Panel.Body>
