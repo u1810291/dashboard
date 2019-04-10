@@ -13,11 +13,15 @@ function NewWebhookModal({ onSave, onClose }) {
     <Form>
       <Modal>
         <main>
-          <h1>
-            <FormattedMessage id="fragments.account.new_webhook_modal.title" />
-          </h1>
-          <Field name="url" component={Input} />
-          <Field name="secret" component={Input} />
+          <Items flow="row">
+            <h1>
+              <FormattedMessage id="fragments.account.new_webhook_modal.title" />
+            </h1>
+            <section>
+              <Field name="url" component={Input} />
+              <Field name="secret" component={Input} />
+            </section>
+          </Items>
         </main>
         <footer>
           <Items>

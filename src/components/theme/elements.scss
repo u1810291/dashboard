@@ -37,10 +37,6 @@ p {
   margin: 0;
 }
 
-p:not(:last-child) {
-  margin-bottom: 0.5em;
-}
-
 ul,
 ol {
   margin: 0;
@@ -64,7 +60,6 @@ h3 {
 
   p {
     font-weight: normal;
-    margin-bottom: 0;
     color: var(--mgi-theme-palette-secondary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -75,6 +70,7 @@ h1 {
   font-size: 2rem;
   font-weight: 700;
   line-height: 1.2;
+  margin: 0;
 
   p {
     font-size: 1.125rem;
@@ -83,10 +79,6 @@ h1 {
 
   p:first-of-type {
     margin-top: calc(0.5 * var(--mgi-spacing));
-  }
-
-  &:not(:last-child) {
-    margin-bottom: var(--mgi-spacing);
   }
 }
 
@@ -101,19 +93,11 @@ h2 {
   p:first-of-type {
     margin-top: calc(0.5 * var(--mgi-spacing));
   }
-
-  &:not(:last-child) {
-    margin-bottom: var(--mgi-spacing);
-  }
 }
 
 h3 {
   font-size: inherit;
   font-weight: 600;
-
-  &:not(:last-child) {
-    margin-bottom: 0.5rem;
-  }
 }
 
 hr {
@@ -121,8 +105,4 @@ hr {
   padding: 0;
   border: 0;
   border-bottom: 1px solid var(--mgi-theme-palette-lightgray);
-
-  &:not(:last-child) {
-    margin-bottom: calc(0.5 * var(--mgi-spacing));
-  }
 }

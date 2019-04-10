@@ -46,12 +46,19 @@ export default function VerificationSteps({
     createOverlay(
       <VerificationStepModal
         values={index !== undefined ? steps[index] : []}
-        items={accessibleItems(availableDocumentTypes, mandatoryDocumentTypes, steps, index)}
+        items={accessibleItems(
+          availableDocumentTypes,
+          mandatoryDocumentTypes,
+          steps,
+          index
+        )}
         onSave={values => {
           closeOverlay()
           onChange({
             verificationSteps:
-              index !== undefined ? replaceItem(steps, index, values) : addItem(steps, values)
+              index !== undefined
+                ? replaceItem(steps, index, values)
+                : addItem(steps, values)
           })
         }}
       />
@@ -70,7 +77,7 @@ export default function VerificationSteps({
           <legend className="text-active">
             <FormattedMessage id="flow.documentTypeStep.stepNo" /> {index + 1}
           </legend>
-          <Items template="minmax(auto, 100%) auto">
+          <Items templateColumns="minmax(auto, 100%) auto" justifyContent="start">
             <FormattedMessage id={`flow.documentTypeStep.${doc}`} />
             <span className="text-secondary">
               <FormattedMessage id="required" />
@@ -79,19 +86,32 @@ export default function VerificationSteps({
         </fieldset>
       ))}
       {steps.map((step, index) => (
-        <fieldset className="mgi-fieldset" key={index} data-role="verificationStep">
+        <fieldset
+          className="mgi-fieldset"
+          key={index}
+          data-role="verificationStep"
+        >
           <legend className="text-active">
-            <Items template="minmax(auto, 100%) auto">
+            <Items templateColumns="minmax(auto, 100%) auto">
               <span>
                 <FormattedMessage id="flow.documentTypeStep.stepNo" />{' '}
                 {index + mandatoryDocumentTypes.length + 1}
               </span>
-              <Items inline smallGap align="center">
+              <Items inline gap={1} align="center">
                 <Button buttonStyle="invisible">
-                  <Icons.Pencil className="svg-active" onClick={onEditItem.bind(this, index)} />
+                  <Icons.Pencil
+                    className="svg-active"
+                    onClick={onEditItem.bind(this, index)}
+                  />
                 </Button>
-                <Button buttonStyle="invisible" data-role="deleteVerificationStep">
-                  <Icons.TrashBin className="svg-error" onClick={onRemoveItem.bind(this, index)} />
+                <Button
+                  buttonStyle="invisible"
+                  data-role="deleteVerificationStep"
+                >
+                  <Icons.TrashBin
+                    className="svg-error"
+                    onClick={onRemoveItem.bind(this, index)}
+                  />
                 </Button>
               </Items>
             </Items>
@@ -113,7 +133,10 @@ export default function VerificationSteps({
       <Button
         buttonStyle="primary"
         onClick={() => onEditItem()}
-        disabled={difference(availableDocumentTypes, mandatoryDocumentTypes, ...steps).length === 0}
+        disabled={
+          difference(availableDocumentTypes, mandatoryDocumentTypes, ...steps)
+            .length === 0
+        }
         data-role="newVerificationStep"
       >
         <FormattedMessage id="flow.documentTypeStep.button.title" />

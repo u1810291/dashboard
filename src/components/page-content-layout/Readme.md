@@ -39,14 +39,14 @@ const Sections = require('../sections').default
     <aside>
       <Panel>
         <Panel.Body>
-          <Sections>
+          <Items flow="row">
             <h3>Support</h3>
             <hr />
             <p>
               If you want to know more about integration code you can chat with
               our support about that.
             </p>
-          </Sections>
+          </Items>
         </Panel.Body>
       </Panel>
     </aside>
@@ -85,14 +85,14 @@ const Panel = require('../panel').default
   <aside>
     <Panel>
       <Panel.Body>
-        <Sections>
+        <Items flow="row">
           <h3>Support</h3>
           <hr />
           <p>
             If you want to know more about integration code you can chat with
             our support about that.
           </p>
-        </Sections>
+        </Items>
       </Panel.Body>
     </Panel>
   </aside>

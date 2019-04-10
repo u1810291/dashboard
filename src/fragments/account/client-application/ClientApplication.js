@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import Panel from 'src/components/panel'
 import Button from 'src/components/button'
 import Icons from 'src/components/icons'
-import Sections from 'src/components/sections'
 import Items from 'src/components/items'
 import { createOverlay, closeOverlay } from 'src/components/overlay'
 import confirm from 'src/components/confirm'
@@ -46,7 +45,7 @@ export default function ClientApplication({
   return (
     <Panel>
       <Panel.Body>
-        <Sections>
+        <Items flow="row">
           <h3 className="text-active">
             <FormattedMessage id="fragments.client_application.production_title" />
           </h3>
@@ -87,7 +86,7 @@ export default function ClientApplication({
                     </th>
                   )}
                   <td>
-                    <Items template="minmax(auto, 100%) auto">
+                    <Items templateColumns="minmax(auto, 100%) auto">
                       <code>{webhook.url}</code>
                       <Button
                         buttonStyle="invisible"
@@ -115,7 +114,7 @@ export default function ClientApplication({
               )}
             </tbody>
           </table>
-        </Sections>
+        </Items>
       </Panel.Body>
     </Panel>
   )

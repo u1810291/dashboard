@@ -10,7 +10,7 @@ export default function FAQPanel() {
   return (
     <Panel>
       <Panel.Body className={CSS.panel}>
-        <Items align="center" template="auto minmax(auto, 100%) auto">
+        <Items align="center" templateColumns="auto minmax(auto, 100%) auto">
           <div className={CSS.label}>
             <FormattedMessage id="fragments.info.faq-panel.subtitle" />
             <h1>

@@ -14,7 +14,6 @@ import TeamInviteModal from 'src/fragments/account/team-invite-modal/TeamInviteM
 import InviteSuccessModal from 'src/fragments/account/team-invite-modal/InviteSuccessModal'
 import Panel from 'src/components/panel'
 import InviteIcon from '../invite.svg'
-import SettingsLayout from '../SettingsLayout'
 
 const mapCollaborators = collaborator => ({
   role: collaborator.role,
@@ -84,26 +83,21 @@ class TeamSettings extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h1>
-          <FormattedMessage id="settings.teamSettings.title" />
-        </h1>
-        <SettingsLayout>
-          <main>
-            <Panel>
-              <TeamTable
-                onRoleChange={this.onRoleChange}
-                onDeleteSubmit={this.onDeleteSubmit}
-                {...this.props}
-              />
-            </Panel>
-          </main>
-          <aside>
-            <Button buttonStyle="primary" onClick={this.openInviteModal}>
-              <InviteIcon />
-              <FormattedMessage id="settings.teamSettings.inviteTeammate" />
-            </Button>
-          </aside>
-        </SettingsLayout>
+        <main>
+          <Panel>
+            <TeamTable
+              onRoleChange={this.onRoleChange}
+              onDeleteSubmit={this.onDeleteSubmit}
+              {...this.props}
+            />
+          </Panel>
+        </main>
+        <aside>
+          <Button buttonStyle="primary" onClick={this.openInviteModal}>
+            <InviteIcon />
+            <FormattedMessage id="settings.teamSettings.inviteTeammate" />
+          </Button>
+        </aside>
       </React.Fragment>
     )
   }

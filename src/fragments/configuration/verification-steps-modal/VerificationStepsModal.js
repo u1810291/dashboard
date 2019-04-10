@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Button from 'src/components/button'
+import Items from 'src/components/items'
 import { Modal } from 'src/components/modal'
 import CheckboxGroup from 'src/components/checkbox-group'
 
@@ -29,17 +30,19 @@ export default class VerificationStepModal extends React.Component {
     return (
       <Modal>
         <main>
-          <h1>
-            <FormattedMessage id="fragments.configuration.verification_steps_modal.title" />
-            <p>
-              <FormattedMessage id="fragments.configuration.verification_steps_modal.subtitle" />
-            </p>
-          </h1>
-          <CheckboxGroup
-            items={items}
-            values={values}
-            onChange={values => this.setState({ values })}
-          />
+          <Items flow="row">
+            <h1>
+              <FormattedMessage id="fragments.configuration.verification_steps_modal.title" />
+              <p>
+                <FormattedMessage id="fragments.configuration.verification_steps_modal.subtitle" />
+              </p>
+            </h1>
+            <CheckboxGroup
+              items={items}
+              values={values}
+              onChange={values => this.setState({ values })}
+            />
+          </Items>
         </main>
         <footer>
           <Button

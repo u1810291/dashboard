@@ -1,6 +1,5 @@
 :local(.root) {
   display: grid;
-  grid-gap: var(--mgi-spacing);
   grid-auto-flow: column;
   justify-content: flex-start;
 
@@ -12,59 +11,10 @@
     display: inline-grid;
   }
 
-  &.align-top {
-    align-items: flex-start;
-  }
-
-  &.align-bottom {
-    align-items: flex-end;
-  }
-
-  &.align-center {
-    align-items: center;
-  }
-
-  &.align-stretch {
-    align-items: stretch;
-  }
-
-  &.justify-content {
-
-    &--start {
-      justify-content: start;
+  @each $gap in (0, 1, 2, 3, 4) {
+    &[data-gap='#{$gap}'] {
+      grid-gap: calc(0.5 * #{$gap} * var(--mgi-spacing));
     }
-
-    &--end {
-      justify-content: end;
-    }
-
-    &--center {
-      justify-content: center;
-    }
-
-    &--space-around {
-      justify-content: space-around;
-    }
-
-    &--space-between {
-      justify-content: space-between;
-    }
-
-    &--stretch {
-      justify-content: stretch;
-    }
-
-    &--space-evenly {
-      justify-content: space-evenly;
-    }
-  }
-
-  &.smallGap {
-    grid-gap: calc(0.5 * var(--mgi-spacing));
-  }
-
-  &.extraGap {
-    grid-gap: calc(2 * var(--mgi-spacing));
   }
 
   & > svg {

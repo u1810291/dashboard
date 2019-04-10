@@ -14,11 +14,11 @@
     "inflection": "^1.12.0",
     "marked": "^0.6.1",
     "polyfill-object.fromentries": "^1.0.1",
-    "react": "^16.8.2",
+    "react": "^16.8.6",
     "react-color": "^2.17.0",
     "react-dates": "^18.4.0",
     "react-debounce-input": "^3.2.0",
-    "react-dom": "^16.8.2",
+    "react-dom": "^16.8.6",
     "react-helmet": "^5.2.0",
     "react-intl": "^2.4.0",
     "react-paginate": "^6.2.1",
@@ -34,7 +34,8 @@
     "recharts": "^1.4.1",
     "redux": "^4.0.0",
     "redux-persist": "^5.10.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "showdown": "^1.9.0"
   },
   "scripts": {
     "start": "craco start",
@@ -54,6 +55,7 @@
     "@craco/craco": "^3.1.0",
     "@emotion/core": "^10.0.10",
     "@storybook/addon-actions": "^5.0.6",
+    "@storybook/addon-knobs": "^5.0.6",
     "@storybook/addon-links": "^5.0.6",
     "@storybook/addon-storyshots": "^5.0.6",
     "@storybook/addon-storyshots-puppeteer": "^5.0.6",
@@ -72,8 +74,9 @@
     "hygen": "^4.0.2",
     "node-sass": "^4.10.0",
     "prettier": "^1.15.3",
+    "react-intl-translations-manager": "^5.0.3",
     "react-styleguidist": "^8.0.5",
-    "react-test-renderer": "^16.7.0",
+    "react-test-renderer": "^16.8.6",
     "redux-devtools-extension": "^2.13.7",
     "redux-mock-store": "^1.5.3",
     "require-context.macro": "^1.0.4"

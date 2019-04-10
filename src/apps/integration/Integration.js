@@ -1,5 +1,5 @@
 import React from 'react'
-import Sections from 'src/components/sections'
+import Items from 'src/components/items'
 import {
   LetsStartPanel,
   VerificationPanel,
@@ -12,13 +12,13 @@ export default function Info() {
   return (
     <React.Fragment>
       <main>
-        <Sections>
+        <Items flow="row">
           <LetsStartPanel />
           <VerificationPanel />
           <ApplicationsPanel />
           <InstallFrontendCodePanel />
           <SetWebhooksPanel />
-        </Sections>
+        </Items>
       </main>
     </React.Fragment>
   )

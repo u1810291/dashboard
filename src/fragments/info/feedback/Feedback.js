@@ -10,13 +10,13 @@ const logos = {
 
 export default function Feedback() {
   return (
-    <section className={CSS.content}>
+    <Items className={CSS.content} flow="row">
       <h1>
         <FormattedMessage id="fragments.info.feedback.title" />
       </h1>
-      <Items template="1fr 1fr">
+      <Items templateColumns="1fr 1fr">
         {['profuturo', 'doopla'].map((name, index) => (
-          <div>
+          <Items flow="row" gap={1}>
             <p className={CSS.logo}>
               <img src={logos[name]} alt={name} />
             </p>
@@ -26,9 +26,9 @@ export default function Feedback() {
             <div className="text-secondary">
               <FormattedMessage id={`feedbacks.feedback.${index}.author`} />
             </div>
-          </div>
+          </Items>
         ))}
       </Items>
-    </section>
+    </Items>
   )
 }

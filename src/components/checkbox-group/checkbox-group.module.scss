@@ -16,6 +16,6 @@
   color: var(--mgi-theme-palette-default);
 }
 
-:local(.checkboxGroupItem) {
+:local(.checkboxGroupItem):not(:last-child) {
   margin-bottom: var(--mgi-spacing-l);
 }

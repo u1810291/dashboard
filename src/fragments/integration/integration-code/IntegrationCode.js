@@ -3,17 +3,16 @@ import { FormattedMessage } from 'react-intl'
 import Panel from 'src/components/panel'
 import Button from 'src/components/button'
 import Items from 'src/components/items'
-import Sections from 'src/components/sections'
 import SyntaxHighlighter from 'src/components/syntax-highlighter'
 
 export default function IntegrationCode({ integrationCode }) {
   return (
     <Panel.Body>
-      <Sections>
+      <Items flow="row">
         <h3>
           <FormattedMessage id="fragments.integration.integration-code.title" />
         </h3>
-        <Items smallGap>
+        <Items gap={1} justifyContent="start">
           <Button buttonStyle="primary" size="small">
             <FormattedMessage id="fragments.integration.integration-code.javascript" />
           </Button>
@@ -25,7 +24,7 @@ export default function IntegrationCode({ integrationCode }) {
           </Button>
         </Items>
         <SyntaxHighlighter language="html" code={integrationCode} />
-      </Sections>
+      </Items>
     </Panel.Body>
   )
 }

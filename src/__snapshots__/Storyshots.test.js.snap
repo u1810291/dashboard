@@ -1,5 +1,120 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Components storyshots components/Details Default 1`] = `
+<div
+  className=""
+  data-gap={1}
+  style={
+    Object {
+      "alignItems": "start",
+      "gridAutoFlow": "row",
+      "gridTemplateColumns": "none",
+      "gridTemplateRows": "none",
+      "justifyContent": "normal",
+    }
+  }
+>
+  <h3
+    className=""
+    onClick={[Function]}
+  >
+    Is Mati secure?
+  </h3>
+</div>
+`;
+
+exports[`Components storyshots components/Details Pre-opened 1`] = `
+<div
+  className=""
+  data-gap={1}
+  style={
+    Object {
+      "alignItems": "start",
+      "gridAutoFlow": "row",
+      "gridTemplateColumns": "none",
+      "gridTemplateRows": "none",
+      "justifyContent": "normal",
+    }
+  }
+>
+  <h3
+    className="opened"
+    onClick={[Function]}
+  >
+    Is Mati secure?
+  </h3>
+  <div
+    className="text-secondary"
+  >
+    <p>
+      In short, yes it is. In fact, the lack of security in most of the applications we use today is the reason we built Mati.
+    </p>
+    <p>
+      We strongly believe the only path forward in securing our digital lives is to lift this responsibility away from users and put it on the technology around us. As we see it, security is either missing altogether or too frustrating to use.
+    </p>
+    <p>
+      That is why we tried to minimize the difficulty and make Mati easy to use, but keep security as the highest priority.We use highly secure cryptographic methods to secure your data at Mati. All of your sensitive data is encrypted using standards-based crypto-algorithms.
+    </p>
+    <p>
+      Unlike proprietary algorithms, standards-based algorithms have gone through public scrutiny by industry and security experts that reduces the chance of any inherent weaknesses or vulnerabilities.We also continuously make the best effort to secure our servers online and client applications locally.
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Components storyshots components/Items Default 1`] = `
+<div
+  className=""
+  data-gap={2}
+  style={
+    Object {
+      "alignItems": "start",
+      "gridAutoFlow": "column",
+      "gridTemplateColumns": "none",
+      "gridTemplateRows": "none",
+      "justifyContent": "normal",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "background": "orange",
+        "minHeight": "80px",
+        "minWidth": "100px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "background": "blue",
+        "minHeight": "160px",
+        "minWidth": "40px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "background": "orange",
+        "minHeight": "80px",
+        "minWidth": "100px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "background": "blue",
+        "minHeight": "160px",
+        "minWidth": "40px",
+      }
+    }
+  />
+</div>
+`;
+
 exports[`Components storyshots components/Panel Default 1`] = `
 <div
   className="padded"
@@ -40,175 +155,206 @@ Array [
 ]
 `;
 
-exports[`Components storyshots components/stacks/Sections Default 1`] = `
+exports[`Fragments storyshots fragments/info/Faq Default 1`] = `
 <div
   className=""
 >
   <div
-    style={
-      Object {
-        "background": "pink",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "background": "crimson",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "background": "red",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
+    className="padded"
+  >
+    <main>
+      <div
+        className=""
+        data-gap={2}
+        style={
+          Object {
+            "alignItems": "start",
+            "gridAutoFlow": "row",
+            "gridTemplateColumns": "none",
+            "gridTemplateRows": "none",
+            "justifyContent": "normal",
+          }
+        }
+      >
+        <h2>
+          fragments.info.faq.title
+        </h2>
+        <div
+          className=""
+          data-gap={2}
+          style={
+            Object {
+              "alignItems": "start",
+              "gridAutoFlow": "row",
+              "gridTemplateColumns": "none",
+              "gridTemplateRows": "none",
+              "justifyContent": "normal",
+            }
+          }
+        >
+          <div
+            className=""
+            data-gap={1}
+            style={
+              Object {
+                "alignItems": "start",
+                "gridAutoFlow": "row",
+                "gridTemplateColumns": "none",
+                "gridTemplateRows": "none",
+                "justifyContent": "normal",
+              }
+            }
+          >
+            <h3
+              className=""
+              onClick={[Function]}
+            >
+              How will Mati verify my users?
+            </h3>
+          </div>
+          <hr />
+          <div
+            className=""
+            data-gap={1}
+            style={
+              Object {
+                "alignItems": "start",
+                "gridAutoFlow": "row",
+                "gridTemplateColumns": "none",
+                "gridTemplateRows": "none",
+                "justifyContent": "normal",
+              }
+            }
+          >
+            <h3
+              className=""
+              onClick={[Function]}
+            >
+              Is Mati secure?
+            </h3>
+          </div>
+          <hr />
+          <div
+            className=""
+            data-gap={1}
+            style={
+              Object {
+                "alignItems": "start",
+                "gridAutoFlow": "row",
+                "gridTemplateColumns": "none",
+                "gridTemplateRows": "none",
+                "justifyContent": "normal",
+              }
+            }
+          >
+            <h3
+              className=""
+              onClick={[Function]}
+            >
+              Which countries do you support?
+            </h3>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </div>
 `;
 
-exports[`Components storyshots components/stacks/Sections With custom className 1`] = `
-<div
-  className="background-pink"
->
-  <div
-    style={
-      Object {
-        "background": "black",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "background": "gray",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "background": "silver",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
-</div>
-`;
-
-exports[`Components storyshots components/stacks/Sections With horizontal line in between 1`] = `
+exports[`Fragments storyshots fragments/integration/GooglePlayLink Default 1`] = `
 <div
   className=""
 >
   <div
-    style={
-      Object {
-        "background": "pink",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
-  <hr />
-  <div
-    style={
-      Object {
-        "background": "crimson",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
-  <hr />
-  <div
-    style={
-      Object {
-        "background": "red",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
-</div>
-`;
-
-exports[`Components storyshots components/stacks/Sections extraGap 1`] = `
-<div
-  className="extraGap"
->
-  <div
-    style={
-      Object {
-        "background": "pink",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "background": "crimson",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "background": "red",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
-</div>
-`;
-
-exports[`Components storyshots components/stacks/Sections smallGap 1`] = `
-<div
-  className="smallGap"
->
-  <div
-    style={
-      Object {
-        "background": "pink",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "background": "crimson",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "background": "red",
-        "borderRadius": "5px",
-        "height": "50px",
-      }
-    }
-  />
+    className="padded"
+  >
+    <main>
+      <div
+        className=""
+        data-gap={2}
+        style={
+          Object {
+            "alignItems": "start",
+            "gridAutoFlow": "row",
+            "gridTemplateColumns": "none",
+            "gridTemplateRows": "none",
+            "justifyContent": "normal",
+          }
+        }
+      >
+        <div
+          className=""
+          data-gap={4}
+          style={
+            Object {
+              "alignItems": "start",
+              "gridAutoFlow": "row",
+              "gridTemplateColumns": "none",
+              "gridTemplateRows": "none",
+              "justifyContent": "normal",
+            }
+          }
+        >
+          <h3>
+            developers.demo.demo
+            <p>
+              developers.demo.description
+            </p>
+          </h3>
+          <div
+            className=""
+            data-gap={1}
+            style={
+              Object {
+                "alignItems": "start",
+                "gridAutoFlow": "row",
+                "gridTemplateColumns": "none",
+                "gridTemplateRows": "none",
+                "justifyContent": "center",
+              }
+            }
+          >
+            <a
+              href="https://play.google.com/store/apps/details?id=com.matilock.mati_global_demo"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                alt="Google Play"
+                src="google-play.png"
+              />
+            </a>
+            <p>
+              developers.demo.buttonDescription
+            </p>
+          </div>
+          <div
+            className=""
+            data-gap={1}
+            style={
+              Object {
+                "alignItems": "start",
+                "gridAutoFlow": "row",
+                "gridTemplateColumns": "none",
+                "gridTemplateRows": "none",
+                "justifyContent": "normal",
+              }
+            }
+          >
+            <h3>
+              developers.demo.clientId
+              <p>
+                developers.demo.clientIdDescription
+              </p>
+            </h3>
+            <div>
+              CLIENT ID NUMBER
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </div>
 `;
 
@@ -227,18 +373,43 @@ exports[`Fragments storyshots fragments/integration/InstallationGuidePanels Appl
   </aside>
   <main>
     <div
-      className="align-center justify-content--flex-start extraGap"
+      className=""
+      data-gap={4}
       style={
         Object {
+          "alignItems": "center",
+          "gridAutoFlow": "column",
           "gridTemplateColumns": "4fr 5fr",
+          "gridTemplateRows": "none",
+          "justifyContent": "normal",
         }
       }
     >
       <div
-        className="extraGap"
+        className=""
+        data-gap={4}
+        style={
+          Object {
+            "alignItems": "start",
+            "gridAutoFlow": "row",
+            "gridTemplateColumns": "none",
+            "gridTemplateRows": "none",
+            "justifyContent": "normal",
+          }
+        }
       >
         <div
-          className="smallGap"
+          className=""
+          data-gap={1}
+          style={
+            Object {
+              "alignItems": "start",
+              "gridAutoFlow": "row",
+              "gridTemplateColumns": "none",
+              "gridTemplateRows": "none",
+              "justifyContent": "normal",
+            }
+          }
         >
           <h2>
             fragments.integration.installation-guide-panels.applications-panel.title
@@ -280,18 +451,43 @@ exports[`Fragments storyshots fragments/integration/InstallationGuidePanels Inst
   </aside>
   <main>
     <div
-      className="align-center justify-content--flex-start extraGap"
+      className=""
+      data-gap={4}
       style={
         Object {
+          "alignItems": "center",
+          "gridAutoFlow": "column",
           "gridTemplateColumns": "4fr 5fr",
+          "gridTemplateRows": "none",
+          "justifyContent": "normal",
         }
       }
     >
       <div
-        className="extraGap"
+        className=""
+        data-gap={4}
+        style={
+          Object {
+            "alignItems": "start",
+            "gridAutoFlow": "row",
+            "gridTemplateColumns": "none",
+            "gridTemplateRows": "none",
+            "justifyContent": "normal",
+          }
+        }
       >
         <div
-          className="smallGap"
+          className=""
+          data-gap={1}
+          style={
+            Object {
+              "alignItems": "start",
+              "gridAutoFlow": "row",
+              "gridTemplateColumns": "none",
+              "gridTemplateRows": "none",
+              "justifyContent": "normal",
+            }
+          }
         >
           <h2>
             fragments.integration.installation-guide-panels.jssdk-panel.title
@@ -334,21 +530,38 @@ exports[`Fragments storyshots fragments/integration/InstallationGuidePanels Lets
   </aside>
   <main>
     <div
-      className="align-center justify-content--flex-start extraGap"
+      className=""
+      data-gap={4}
       style={
         Object {
+          "alignItems": "center",
+          "gridAutoFlow": "column",
           "gridTemplateColumns": "4fr 5fr",
+          "gridTemplateRows": "none",
+          "justifyContent": "normal",
         }
       }
     >
-      <section>
+      <div
+        className=""
+        data-gap={2}
+        style={
+          Object {
+            "alignItems": "start",
+            "gridAutoFlow": "row",
+            "gridTemplateColumns": "none",
+            "gridTemplateRows": "none",
+            "justifyContent": "normal",
+          }
+        }
+      >
         <h2>
           fragments.integration.installation-guide-panels.start-panel.title
         </h2>
         <p>
           fragments.integration.installation-guide-panels.start-panel.message
         </p>
-      </section>
+      </div>
       <svg>
         lets-start.svg
       </svg>
@@ -372,18 +585,43 @@ exports[`Fragments storyshots fragments/integration/InstallationGuidePanels SetW
   </aside>
   <main>
     <div
-      className="align-center justify-content--flex-start extraGap"
+      className=""
+      data-gap={4}
       style={
         Object {
+          "alignItems": "center",
+          "gridAutoFlow": "column",
           "gridTemplateColumns": "4fr 5fr",
+          "gridTemplateRows": "none",
+          "justifyContent": "normal",
         }
       }
     >
       <div
-        className="extraGap"
+        className=""
+        data-gap={4}
+        style={
+          Object {
+            "alignItems": "start",
+            "gridAutoFlow": "row",
+            "gridTemplateColumns": "none",
+            "gridTemplateRows": "none",
+            "justifyContent": "normal",
+          }
+        }
       >
         <div
-          className="smallGap"
+          className=""
+          data-gap={1}
+          style={
+            Object {
+              "alignItems": "start",
+              "gridAutoFlow": "row",
+              "gridTemplateColumns": "none",
+              "gridTemplateRows": "none",
+              "justifyContent": "normal",
+            }
+          }
         >
           <h2>
             fragments.integration.installation-guide-panels.webhooks-panel.title
@@ -404,6 +642,16 @@ exports[`Fragments storyshots fragments/integration/InstallationGuidePanels SetW
       </div>
       <div
         className=""
+        data-gap={2}
+        style={
+          Object {
+            "alignItems": "start",
+            "gridAutoFlow": "row",
+            "gridTemplateColumns": "none",
+            "gridTemplateRows": "none",
+            "justifyContent": "normal",
+          }
+        }
       >
         <svg
           className="cursor-pointer"
@@ -441,18 +689,43 @@ exports[`Fragments storyshots fragments/integration/InstallationGuidePanels Veri
   </aside>
   <main>
     <div
-      className="align-center justify-content--flex-start extraGap"
+      className=""
+      data-gap={4}
       style={
         Object {
+          "alignItems": "center",
+          "gridAutoFlow": "column",
           "gridTemplateColumns": "4fr 5fr",
+          "gridTemplateRows": "none",
+          "justifyContent": "normal",
         }
       }
     >
       <div
-        className="extraGap"
+        className=""
+        data-gap={4}
+        style={
+          Object {
+            "alignItems": "start",
+            "gridAutoFlow": "row",
+            "gridTemplateColumns": "none",
+            "gridTemplateRows": "none",
+            "justifyContent": "normal",
+          }
+        }
       >
         <div
-          className="smallGap"
+          className=""
+          data-gap={1}
+          style={
+            Object {
+              "alignItems": "start",
+              "gridAutoFlow": "row",
+              "gridTemplateColumns": "none",
+              "gridTemplateRows": "none",
+              "justifyContent": "normal",
+            }
+          }
         >
           <h2>
             fragments.integration.installation-guide-panels.verification-panel.title
@@ -486,7 +759,17 @@ exports[`Fragments storyshots fragments/integration/WebhooksDocsPanel Default 1`
 >
   <main>
     <div
-      className="extraGap"
+      className=""
+      data-gap={4}
+      style={
+        Object {
+          "alignItems": "start",
+          "gridAutoFlow": "row",
+          "gridTemplateColumns": "none",
+          "gridTemplateRows": "none",
+          "justifyContent": "normal",
+        }
+      }
     >
       <h2>
         fragments.integration.webhooks-docs-panel.title
@@ -495,10 +778,15 @@ exports[`Fragments storyshots fragments/integration/WebhooksDocsPanel Default 1`
         </p>
       </h2>
       <div
-        className="align-top justify-content--flex-start extraGap"
+        className=""
+        data-gap={4}
         style={
           Object {
+            "alignItems": "start",
+            "gridAutoFlow": "column",
             "gridTemplateColumns": "1fr 1fr",
+            "gridTemplateRows": "none",
+            "justifyContent": "normal",
           }
         }
       >
@@ -535,15 +823,30 @@ exports[`Fragments storyshots fragments/integration/WebhooksTestPanel default 1`
   <main>
     <div
       className=""
+      data-gap={2}
+      style={
+        Object {
+          "alignItems": "start",
+          "gridAutoFlow": "row",
+          "gridTemplateColumns": "none",
+          "gridTemplateRows": "none",
+          "justifyContent": "normal",
+        }
+      }
     >
       <h2>
         fragments.integration.webhooks-test-panel.title
       </h2>
       <div
-        className="align-center justify-content--flex-start"
+        className=""
+        data-gap={2}
         style={
           Object {
+            "alignItems": "center",
+            "gridAutoFlow": "column",
             "gridTemplateColumns": "1fr 1fr",
+            "gridTemplateRows": "none",
+            "justifyContent": "normal",
           }
         }
       >
@@ -567,7 +870,19 @@ exports[`Fragments storyshots fragments/integration/WebhooksTestPanel default 1`
           picture.svg
         </svg>
       </div>
-      <section>
+      <div
+        className=""
+        data-gap={1}
+        style={
+          Object {
+            "alignItems": "start",
+            "gridAutoFlow": "row",
+            "gridTemplateColumns": "none",
+            "gridTemplateRows": "none",
+            "justifyContent": "normal",
+          }
+        }
+      >
         <h3
           className="text-darkpink"
         >
@@ -576,10 +891,15 @@ exports[`Fragments storyshots fragments/integration/WebhooksTestPanel default 1`
           </small>
         </h3>
         <div
-          className="align-top justify-content--flex-start inline"
+          className="inline"
+          data-gap={2}
           style={
             Object {
+              "alignItems": "start",
+              "gridAutoFlow": "column",
               "gridTemplateColumns": "none",
+              "gridTemplateRows": "none",
+              "justifyContent": "start",
             }
           }
         >
@@ -593,7 +913,7 @@ exports[`Fragments storyshots fragments/integration/WebhooksTestPanel default 1`
             </main>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   </main>
 </div>

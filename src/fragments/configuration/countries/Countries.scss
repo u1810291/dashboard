@@ -4,19 +4,8 @@
   border: none;
   padding: 0.7rem 1.2rem;
   border-radius: 4px;
-  margin-right: var(--mgi-spacing-l);
-  margin-bottom: var(--mgi-spacing-l);
   font-size: 1rem;
   &:focus {
     outline: none;
   }
-}
-
-:local(.countryItemsList) {
-  margin-bottom: var(--mgi-spacing);
-}
-
-:local(.Button) {
-  padding-left: 51px;
-  padding-right: 51px;
 }

@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { MatiButton } from 'src/components/mati-button'
 import Button from 'src/components/button'
 import { Content } from 'src/components/application-box'
-import Sections from 'src/components/sections'
 import Items from 'src/components/items'
 import {
   saveConfiguration,
@@ -71,27 +70,31 @@ class Configuration extends React.Component {
     return (
       <React.Fragment>
         <Content fullwidth={false} className={CSS.content}>
-          <Sections extraGap>
+          <Items flow="row" gap={4}>
             <h1>
               <FormattedMessage id="onboarding.flow.title" />
             </h1>
 
-            <Sections extraGap>
+            <Items flow="row" gap={4}>
               {flowSteps.map((step, index) => (
                 <section key={index}>{step}</section>
               ))}
-            </Sections>
-          </Sections>
+            </Items>
+          </Items>
         </Content>
         <Content fullwidth={false}>
-          <Sections extraGap>
+          <Items flow="row" gap={4}>
             <h1>
               <FormattedMessage id="fragments.configuration.title" />
             </h1>
 
             {this.props.apps[0] && (
               <section>
-                <Items align="center"  justifyContent="center" className={CSS.matiButtonWrapper}>
+                <Items
+                  align="center"
+                  justifyContent="center"
+                  className={CSS.matiButtonWrapper}
+                >
                   <MatiButton
                     language={this.props.configuration.style.language}
                     color={this.props.configuration.style.color}
@@ -118,12 +121,8 @@ class Configuration extends React.Component {
             </section>
 
             <section>
-              <Items align="center" template="1fr 1fr" smallGap={true}>
-                <Button
-                  buttonStyle="primary"
-                  href="/integration"
-                  size="big"
-                >
+              <Items align="center" templateColumns="1fr 1fr" gap={1}>
+                <Button buttonStyle="primary" href="/integration" size="big">
                   <IconIntegrate />
                   <FormattedMessage id="fragments.configuration.button.start-integration" />
                 </Button>
@@ -137,8 +136,7 @@ class Configuration extends React.Component {
                 </Button>
               </Items>
             </section>
-
-          </Sections>
+          </Items>
         </Content>
       </React.Fragment>
     )

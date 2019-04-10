@@ -1,13 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Button from 'src/components/button/index'
+import Button from 'src/components/button'
+import Items from 'src/components/items'
 import { createOverlay, closeOverlay } from 'src/components/overlay'
 import CountriesModal from '../countries-modal'
 import Spinner from 'src/components/spinner'
 import CSS from './Countries.scss'
 
 export default class Countries extends React.Component {
-
   openCountriesModal = () => {
     createOverlay(
       <CountriesModal
@@ -18,18 +18,18 @@ export default class Countries extends React.Component {
     )
   }
 
-  onSubmit = (value) => {
+  onSubmit = value => {
     closeOverlay()
-    this.props.onSubmit({ supportedCountries: value.map((item) => item.value) })
+    this.props.onSubmit({ supportedCountries: value.map(item => item.value) })
   }
 
-  mapCountries = (item) => ({
+  mapCountries = item => ({
     value: item.code,
     label: item.name
   })
 
-  mapValues = (item) => {
-    const country = this.props.countries.find((country) => country.code === item)
+  mapValues = item => {
+    const country = this.props.countries.find(country => country.code === item)
     return {
       value: item,
       label: country && country.name
@@ -37,45 +37,50 @@ export default class Countries extends React.Component {
   }
 
   render() {
-    const { supportedCountries, isLoading } = this.props;
+    const { supportedCountries, isLoading } = this.props
     return (
       <fieldset className="mgi-fieldset">
         <legend>
           <h3>
-            <FormattedMessage id="flow.countries.title"/>
+            <FormattedMessage id="flow.countries.title" />
           </h3>
         </legend>
-        <p className="text-secondary">
-          <FormattedMessage id="flow.countries.description"/>
-        </p>
-        {!!supportedCountries.length && (
-          <p>
-            <FormattedMessage id="flow.countries.verifying"/>
+        <Items flow="row" gap={1} justifyContent="start">
+          <p className="text-secondary">
+            <FormattedMessage id="flow.countries.description" />
           </p>
-        )}
-        {isLoading ? <Spinner/> : (
-          <div>
-            <div className={CSS.countryItemsList}>
-              {
-                supportedCountries.map(this.mapValues).map((country, index) =>
-                  <button key={index} className={CSS.countryItem}>
-                    {country.label}
-                  </button>
-                )
-              }
-            </div>
-            <Button
-              buttonStyle="primary"
-              className={CSS.Button}
-              onClick={this.openCountriesModal}
-            >
-              {supportedCountries.length ?
-                <FormattedMessage id="flow.countries.edit"/> :
-                <FormattedMessage id="flow.countries.add"/>
-              }
-            </Button>
-          </div>
-        )}
+          {!!supportedCountries.length && (
+            <p>
+              <FormattedMessage id="flow.countries.verifying" />
+            </p>
+          )}
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <Items flow="row" justifyContent="start">
+              {supportedCountries.length > 0 && (
+                <Items flow="column" gap={1}>
+                  {supportedCountries
+                    .map(this.mapValues)
+                    .map((country, index) => (
+                      <button key={index} className={CSS.countryItem}>
+                        {country.label}
+                      </button>
+                    ))}
+                </Items>
+              )}
+              <section>
+                <Button buttonStyle="primary" onClick={this.openCountriesModal}>
+                  {supportedCountries.length ? (
+                    <FormattedMessage id="flow.countries.edit" />
+                  ) : (
+                    <FormattedMessage id="flow.countries.add" />
+                  )}
+                </Button>
+              </section>
+            </Items>
+          )}
+        </Items>
       </fieldset>
     )
   }
