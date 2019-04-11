@@ -10,9 +10,7 @@ import { required } from 'src/lib/validations'
 const formikSettings = {
   initialValues: {
     businessName: '',
-    websiteUrl: '',
     startDate: null,
-    verificationNum: null,
     companySize: null,
     purpose: null,
     alreadyUseKYC: null
@@ -22,38 +20,13 @@ const formikSettings = {
     let errors = {}
 
     errors.businessName = required(values.businessName)
-    errors.websiteUrl = required(values.websiteUrl)
     errors.startDate = required(values.startDate)
-    errors.verificationNum = required(values.verificationNum)
     errors.companySize = required(values.companySize)
     errors.alreadyUseKYC = required(values.alreadyUseKYC)
     errors.purpose = required(values.purpose)
     errors = pickBy(errors, v => v)
     return errors
   },
-
-  verificationsNumOptions: [
-    {
-      label: 'I don\'t know',
-      value: 'I don\'t know'
-    },
-    {
-      label: '0–100',
-      value: '0–100'
-    },
-    {
-      label: '100–1000',
-      value: '100–1000'
-    },
-    {
-      label: '1000–5000',
-      value: '1000–5000'
-    },
-    {
-      label: '> 5000',
-      value: '> 5000'
-    }
-  ],
 
   companySizeOptions: [
     { label: '< 5', value: '< 5' },
@@ -93,9 +66,7 @@ class AdditionalInfoForm extends React.Component {
     let data = pick(
       values,
       'businessName',
-      'websiteUrl',
       'startDate',
-      'verificationNum',
       'companySize',
       'purpose',
       'alreadyUseKYC'
@@ -126,26 +97,11 @@ class AdditionalInfoForm extends React.Component {
                 error={props.touched.businessName && props.errors.businessName}
               />
               <Field
-                type="text"
-                name="websiteUrl"
-                component={Input}
-                error={props.touched.websiteUrl && props.errors.websiteUrl}
-              />
-              <Field
                 name="companySize"
                 component={Select}
                 options={formikSettings.companySizeOptions}
                 value={props.values.companySize}
                 error={props.touched.companySize && props.errors.companySize}
-              />
-              <Field
-                name="verificationNum"
-                component={Select}
-                options={formikSettings.verificationsNumOptions}
-                value={props.values.verificationNum}
-                error={
-                  props.touched.verificationNum && props.errors.verificationNum
-                }
               />
               <Field
                 name="alreadyUseKYC"
