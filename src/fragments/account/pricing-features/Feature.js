@@ -1,19 +1,18 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Sections from 'src/components/sections'
 import Panel from 'src/components/panel'
 import Items from 'src/components/items'
 
 export default class Feature extends React.Component {
   render() {
     return (
-      <section>
+      <Items flow="row">
         <h1 className="text-center">
           <FormattedMessage id="pricing.complianceFeature.title" />
         </h1>
-        <Items align="stretch" template="1fr 1fr">
-          <Panel.Body>
-            <Sections>
+        <Items align="stretch" templateColumns="1fr 1fr">
+          <Panel.Body extraPadding>
+            <Items flow="row">
               <h2>
                 <FormattedMessage id="features.compliance.title" />
               </h2>
@@ -27,11 +26,11 @@ export default class Feature extends React.Component {
                   </li>
                 ))}
               </ul>
-            </Sections>
+            </Items>
           </Panel.Body>
 
-          <Panel.Body>
-            <Sections>
+          <Panel.Body extraPadding>
+            <Items flow="row">
               <h2>
                 <FormattedMessage id="features.feature.title" />
               </h2>
@@ -45,19 +44,26 @@ export default class Feature extends React.Component {
                   'alterationDetection'
                 ].map(key => (
                   <li>
-                    <FormattedMessage id={`features.feature.description.item.${key}`} key={key} />
+                    <FormattedMessage
+                      id={`features.feature.description.item.${key}`}
+                      key={key}
+                    />
                   </li>
                 ))}
               </ul>
               <section>
-                <a target="_blank" rel="noopener noreferrer" href="https://getmati.com/features">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://getmati.com/features"
+                >
                   <FormattedMessage id="features.feature.button.title" />
                 </a>
               </section>
-            </Sections>
+            </Items>
           </Panel.Body>
         </Items>
-      </section>
+      </Items>
     )
   }
 }

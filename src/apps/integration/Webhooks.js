@@ -1,5 +1,5 @@
 import React from 'react'
-import Sections from 'src/components/sections'
+import Items from 'src/components/items'
 import Support from 'src/fragments/account/support'
 import WebhooksDocsPanel from 'src/fragments/integration/webhooks-docs-panel'
 import WebhooksTestPanel from 'src/fragments/integration/webhooks-test-panel'
@@ -8,10 +8,10 @@ export default function Info() {
   return (
     <React.Fragment>
       <main>
-        <Sections extraGap>
+        <Items flow="row" gap={4}>
           <WebhooksDocsPanel />
           <WebhooksTestPanel />
-        </Sections>
+        </Items>
       </main>
       <aside>
         <Support />

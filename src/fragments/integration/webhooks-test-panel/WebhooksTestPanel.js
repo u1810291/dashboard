@@ -2,17 +2,16 @@ import React from 'react'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import Panel from 'src/components/panel'
 import Items from 'src/components/items'
-import Sections from 'src/components/sections'
 import { ReactComponent as Picture } from './picture.svg'
 
 export default function WebhookTestPanel({ message }) {
   return (
     <Panel.Body className="background-softpink" extraPadding>
-      <Sections>
+      <Items flow="row">
         <h2>
           <FormattedMessage id="fragments.integration.webhooks-test-panel.title" />
         </h2>
-        <Items template="1fr 1fr" align="center">
+        <Items templateColumns="1fr 1fr" align="center">
           <ol className="mgi-list">
             {Array.from(Array(4)).map((a, index) => (
               <li key={index}>
@@ -24,13 +23,13 @@ export default function WebhookTestPanel({ message }) {
           </ol>
           <Picture />
         </Items>
-        <section>
+        <Items flow="row" gap={1}>
           <h3 className="text-darkpink">
             <small>
               <FormattedMessage id="fragments.integration.webhooks-test-panel.pro-tip.caption" />
             </small>
           </h3>
-          <Items inline>
+          <Items inline justifyContent="start">
             <Panel.Body
               border="darkpink"
               extraSmallPadding
@@ -41,8 +40,8 @@ export default function WebhookTestPanel({ message }) {
               </small>
             </Panel.Body>
           </Items>
-        </section>
-      </Sections>
+        </Items>
+      </Items>
     </Panel.Body>
   )
 }

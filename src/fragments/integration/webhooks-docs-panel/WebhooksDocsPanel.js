@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import Panel from 'src/components/panel'
 import Items from 'src/components/items'
 import Button from 'src/components/button'
-import Sections from 'src/components/sections'
 import openYoutubeOverlay from 'src/components/youtube-overlay'
 import { ReactComponent as Picture } from './picture.svg'
 import { ReactComponent as InstallationVideo } from './installation-video.svg'
@@ -15,14 +14,14 @@ function showVideo() {
 export default function WebhooksDocsPanel({ message }) {
   return (
     <Panel.Body extraPadding>
-      <Sections extraGap>
+      <Items flow="row" gap={4}>
         <h2>
           <FormattedMessage id="fragments.integration.webhooks-docs-panel.title" />
           <p>
             <FormattedMessage id="fragments.integration.webhooks-docs-panel.subtitle" />
           </p>
         </h2>
-        <Items template="1fr 1fr" extraGap>
+        <Items templateColumns="1fr 1fr" gap={4}>
           <Picture />
           <InstallationVideo onClick={showVideo} className="cursor-pointer" />
         </Items>
@@ -35,7 +34,7 @@ export default function WebhooksDocsPanel({ message }) {
             <FormattedMessage id="fragments.integration.webhooks-docs-panel.button" />
           </Button>
         </section>
-      </Sections>
+      </Items>
     </Panel.Body>
   )
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import Button from 'src/components/button'
+import Items from 'src/components/items'
 import CheckboxGroup from 'src/components/checkbox-group'
 import 'react-dates/initialize'
 import { DateRangePicker } from 'react-dates'
@@ -60,30 +61,35 @@ class VerificationsFiltersForm extends Component {
 
   render() {
     return (
-      <div className={CSS.form}>
-        <h3 className={CSS.title}>
+      <Items flow="row">
+        <Items justifyContent="start" gap={1} align="center">
           <FilterIcon />
-          <FormattedMessage id="filters" />
-        </h3>
+          <h3>
+            <FormattedMessage id="filters" />
+          </h3>
+        </Items>
+
         <div className={CSS.datePicker}>
-          <label>
-            <strong>
-              <FormattedMessage id="identities.filters.labels.date-filter" />
-            </strong>
-          </label>
-          <DateRangePicker
-            startDate={this.props['dateUpdated[start]']}
-            startDateId="startDate"
-            isOutsideRange={day => moment().diff(day) < 1000}
-            endDate={this.props['dateUpdated[end]']}
-            endDateId="endDate"
-            onDatesChange={this.onDatesChange}
-            focusedInput={this.state.focusedInput}
-            hideKeyboardShortcutsPanel={true}
-            onFocusChange={focusedInput => {
-              this.setState({ focusedInput })
-            }}
-          />
+          <Items flow="row" gap={1}>
+            <label>
+              <strong>
+                <FormattedMessage id="identities.filters.labels.date-filter" />
+              </strong>
+            </label>
+            <DateRangePicker
+              startDate={this.props['dateUpdated[start]']}
+              startDateId="startDate"
+              isOutsideRange={day => moment().diff(day) < 1000}
+              endDate={this.props['dateUpdated[end]']}
+              endDateId="endDate"
+              onDatesChange={this.onDatesChange}
+              focusedInput={this.state.focusedInput}
+              hideKeyboardShortcutsPanel={true}
+              onFocusChange={focusedInput => {
+                this.setState({ focusedInput })
+              }}
+            />
+          </Items>
         </div>
         {isFeatureEnabled('STATUSES') && (
           <CheckboxGroup
@@ -99,11 +105,18 @@ class VerificationsFiltersForm extends Component {
           />
         )}
 
-        <Button className="no-borders" onClick={this.props.onClear}>
-          <IconClose />
-          <FormattedMessage id="clear-all" />
-        </Button>
-      </div>
+        <section>
+          <Button
+            buttonStyle="no-borders invisible"
+            onClick={this.props.onClear}
+          >
+            <Items justifyContent="start" align="center" gap={1}>
+              <IconClose />
+              <FormattedMessage id="clear-all" />
+            </Items>
+          </Button>
+        </section>
+      </Items>
     )
   }
 }

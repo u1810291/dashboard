@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
+import Items from 'src/components/items'
 import CSS from './Details.scss'
 
 export default function Details({ summary, children, defaultOpened = false }) {
   const [state, setState] = useState({ opened: defaultOpened })
 
   return (
-    <section>
+    <Items flow="row" gap={1}>
       <h3
         className={classNames(CSS.summary, { opened: state.opened })}
         onClick={() => setState({ opened: !state.opened })}
@@ -14,6 +15,6 @@ export default function Details({ summary, children, defaultOpened = false }) {
         {summary}
       </h3>
       {state.opened && <div className="text-secondary">{children}</div>}
-    </section>
+    </Items>
   )
 }

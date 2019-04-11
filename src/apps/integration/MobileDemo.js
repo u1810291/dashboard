@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import { getMerchantApps } from 'src/state/merchant'
 import GooglePlayLink from 'src/fragments/integration/google-play-link'
 
-function MobileDemo({ getMerchantApps, token, clientApplicationsList }) {
+function MobileDemo({ getMerchantApps, token, clientId }) {
   useEffect(() => {
     getMerchantApps(token)
   })
   return (
     <React.Fragment>
       <main>
-        <GooglePlayLink clientApplicationsList={clientApplicationsList} />
+        <GooglePlayLink clientId={clientId} />
       </main>
     </React.Fragment>
   )
@@ -19,6 +19,7 @@ function MobileDemo({ getMerchantApps, token, clientApplicationsList }) {
 export default connect(
   ({ auth: { token }, merchant: { apps } }) => ({
     clientApplicationsList: apps || [],
+    clientId: ((apps || [])[0] || {}).clientId,
     token
   }),
   {

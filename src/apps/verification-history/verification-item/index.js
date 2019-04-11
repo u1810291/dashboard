@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { get } from 'lodash'
 import { Content } from 'src/components/application-box'
+import Items from 'src/components/items'
 import VerificationDetails from 'src/fragments/verifications/verification-details'
 import {
   getSelfie,
@@ -16,7 +17,6 @@ import WebbhooksIcon from './webhooks-icon.svg'
 import DeleteIcon from './delete-icon.svg'
 import Button from 'src/components/button'
 import Panel from 'src/components/panel'
-import Sections from 'src/components/sections'
 import {
   getIdentityWithNestedData,
   patchIdentity,
@@ -109,48 +109,50 @@ class VerificationItem extends React.Component {
     const isDeleting = deletingIdentities.includes(identity.id)
     return (
       <Content>
-        <h1>
-          <Link to="/verifications">
-            <Button className="text-active">
-              <FormattedMessage id="identities.details.backToList" />
-            </Button>
-          </Link>
-        </h1>
-        <PageContentLayout>
-          <main>
-            <Panel>
-              <Panel.Body>
-                <VerificationDetails
-                  fullName={identity.fullName}
-                  documents={getDocuments(identity)}
-                  photos={getPhotos(identity, token)}
-                  selfie={getSelfie(identity, token)}
-                  onFieldChange={this.onFieldChange}
-                  status={identity.status}
-                  onStatusChange={this.onStatusChange}
-                  patchIsLoading={this.props.patchIsLoading}
-                  patchError={this.props.patchError}
-                  patchingFields={this.props.patchingFields}
-                  erroredFields={this.props.erroredFields}
-                />
-              </Panel.Body>
-            </Panel>
-          </main>
+        <Items flow="row">
+          <h1>
+            <Link to="/verifications">
+              <Button className="text-active">
+                <FormattedMessage id="identities.details.backToList" />
+              </Button>
+            </Link>
+          </h1>
+          <PageContentLayout>
+            <main>
+              <Panel>
+                <Panel.Body>
+                  <VerificationDetails
+                    fullName={identity.fullName}
+                    documents={getDocuments(identity)}
+                    photos={getPhotos(identity, token)}
+                    selfie={getSelfie(identity, token)}
+                    onFieldChange={this.onFieldChange}
+                    status={identity.status}
+                    onStatusChange={this.onStatusChange}
+                    patchIsLoading={this.props.patchIsLoading}
+                    patchError={this.props.patchError}
+                    patchingFields={this.props.patchingFields}
+                    erroredFields={this.props.erroredFields}
+                  />
+                </Panel.Body>
+              </Panel>
+            </main>
 
-          <aside>
-            <Sections>
-              <Button onClick={this.openWebhookModal}>
-                <WebbhooksIcon />
-                <FormattedMessage id="verificationModal.webhookData" />
-              </Button>
-              <Button onClick={this.deleteIdentity} disabled={isDeleting}>
-                {isDeleting ? <Spinner /> : <DeleteIcon />}
-                <FormattedMessage id="verificationModal.delete" />
-              </Button>
-              {isFeatureEnabled('STATUSES') && <DocumentStatusHelp />}
-            </Sections>
-          </aside>
-        </PageContentLayout>
+            <aside>
+              <Items flow="row">
+                <Button onClick={this.openWebhookModal}>
+                  <WebbhooksIcon />
+                  <FormattedMessage id="verificationModal.webhookData" />
+                </Button>
+                <Button onClick={this.deleteIdentity} disabled={isDeleting}>
+                  {isDeleting ? <Spinner /> : <DeleteIcon />}
+                  <FormattedMessage id="verificationModal.delete" />
+                </Button>
+                {isFeatureEnabled('STATUSES') && <DocumentStatusHelp />}
+              </Items>
+            </aside>
+          </PageContentLayout>
+        </Items>
       </Content>
     )
   }

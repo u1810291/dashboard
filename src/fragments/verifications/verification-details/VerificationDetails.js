@@ -6,7 +6,6 @@ import CSS from './verificationDetails.scss'
 import VerificationFullNameLabel from 'src/fragments/verifications/verification-full-name-label'
 import StatusSelect from 'src/fragments/verifications/status-select'
 import ContentPreloader from 'src/components/content-preloader'
-import Sections from 'src/components/sections'
 import Items from 'src/components/items'
 import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
 
@@ -48,12 +47,12 @@ function VerificationDetails({
   onStatusChange
 }) {
   return (
-    <Items template="auto minmax(auto, 100%)">
+    <Items templateColumns="auto minmax(auto, 100%)">
       <section className={CSS.photos}>
         <DocumentPhotos selfie={selfie} photos={photos} />
       </section>
       <section>
-        <Sections withBorder>
+        <Items flow="row" withBorder>
           <h1>
             <VerificationFullNameLabel>{fullName}</VerificationFullNameLabel>
             {isFeatureEnabled('STATUSES') && (
@@ -68,7 +67,7 @@ function VerificationDetails({
           <hr />
           {documents.map((doc, index) => (
             <React.Fragment key={index}>
-              <section>
+              <Items flow="row" gap={1}>
                 <h3>{caption(doc, intl)}</h3>
                 {doc.inProgress ? (
                   <ContentPreloader />
@@ -80,11 +79,11 @@ function VerificationDetails({
                     erroredFields={erroredFields}
                   />
                 )}
-              </section>
+              </Items>
               {index < documents.length - 1 && <hr />}
             </React.Fragment>
           ))}
-        </Sections>
+        </Items>
       </section>
     </Items>
   )

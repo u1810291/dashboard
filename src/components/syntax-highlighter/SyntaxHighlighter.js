@@ -3,7 +3,7 @@ import { default as PrismSyntaxHighlighter } from 'react-syntax-highlighter/pris
 import { FormattedMessage } from 'react-intl'
 import Button from 'src/components/button'
 import Panel from 'src/components/panel'
-import Sections from 'src/components/sections'
+import Items from 'src/components/items'
 import { copyToClipboard } from '../clipboard'
 import style from './light'
 import Icon from './copy-icon.v2.svg'
@@ -15,7 +15,7 @@ export default function SyntaxHighlighter({
   ...props
 }) {
   return (
-    <Sections className={CSS.sections}>
+    <Items flow="row" className={CSS.sections}>
       <Panel.Body padded={false} border="blue" className={CSS.codeBlock}>
         <PrismSyntaxHighlighter style={style} {...props}>
           {code}
@@ -31,6 +31,6 @@ export default function SyntaxHighlighter({
           <FormattedMessage id="copy-to-clipboard" />
         </Button>
       </section>
-    </Sections>
+    </Items>
   )
 }

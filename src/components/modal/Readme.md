@@ -5,7 +5,7 @@ const Items = require('../items').default
   <header>Modal title</header>
   <main>Modal content</main>
   <footer>
-    <Items align="center" template="minmax(auto, 100%) auto">
+    <Items align="center" templateColumns="minmax(auto, 100%) auto">
       <span className="text-center">Modal footer</span>
       <Button buttonStyle="primary">Modal footer</Button>
     </Items>

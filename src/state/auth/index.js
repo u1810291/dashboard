@@ -36,7 +36,6 @@ export function signUp(credentials) {
       .signup(credentials)
       .then(payload => {
         dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload })
-        debugger
         updateIntercom(payload.data.user)
         Mixpanel.addUser({ ...payload.data.merchant, email: credentials.email })
         Mixpanel.trackEvent('dash_signup')

@@ -1,16 +1,27 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Route, Switch } from 'react-router-dom'
 import { Content } from 'src/components/application-box'
+import Items from 'src/components/items'
 import TeamSettings from './team-settings'
 import Pricing from './Pricing'
+import SettingsLayout from './SettingsLayout'
 
 export default function Settings() {
   return (
     <Content>
-      <Switch>
-        <Route path="/settings/pricing" component={Pricing} />
-        <Route path="/settings" component={TeamSettings} />
-      </Switch>
+      <Items flow="row">
+        <h1>
+          <FormattedMessage id="dashboard.menu.account" />
+        </h1>
+
+        <SettingsLayout>
+          <Switch>
+            <Route path="/settings/pricing" component={Pricing} />
+            <Route path="/settings" component={TeamSettings} />
+          </Switch>
+        </SettingsLayout>
+      </Items>
     </Content>
   )
 }

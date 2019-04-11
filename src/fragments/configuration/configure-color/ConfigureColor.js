@@ -7,7 +7,11 @@ import Items from 'src/components/items'
 import ColorPicker from './color-picker.svg'
 import CSS from './ConfigureColor.css'
 
-export default function ConfigureColor({ presets = [], style = {}, onClick = () => {} }) {
+export default function ConfigureColor({
+  presets = [],
+  style = {},
+  onClick = () => {}
+}) {
   const [showPicker, setShowPicker] = useState(false)
   const [color, setColor] = useState(null)
 
@@ -53,7 +57,7 @@ export default function ConfigureColor({ presets = [], style = {}, onClick = () 
           <FormattedMessage id="flow.colorStep.title" />
         </h3>
       </legend>
-      <Items smallGap>
+      <Items gap={1} justifyContent="start">
         {presets.map(([presetName, presetColor]) => (
           <ColorCheckButton
             key={presetName}
@@ -62,7 +66,10 @@ export default function ConfigureColor({ presets = [], style = {}, onClick = () 
             onChange={() => handleChange(presetColor, presetName)}
           />
         ))}
-        <div className={CSS.colorPickerWrapper} onClick={e => e.stopPropagation()}>
+        <div
+          className={CSS.colorPickerWrapper}
+          onClick={e => e.stopPropagation()}
+        >
           <ColorPicker
             className={CSS.colorPickerButton}
             stroke={color}
@@ -70,7 +77,11 @@ export default function ConfigureColor({ presets = [], style = {}, onClick = () 
           />
           {showPicker && (
             <div className={CSS.colorPicker}>
-              <ChromePicker color={color} disableAlpha onChangeComplete={handlePickerChange} />
+              <ChromePicker
+                color={color}
+                disableAlpha
+                onChangeComplete={handlePickerChange}
+              />
             </div>
           )}
         </div>

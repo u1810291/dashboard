@@ -1,17 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { pick } from 'lodash'
 import { Link } from 'react-router-dom'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { signUp } from 'src/state/auth'
+import { updateData } from 'src/lib/intercom'
 import SignUpForm from 'src/fragments/signup/sign-up-form'
 import CSS from './Auth.css'
 import MatiLogo from 'src/assets/mati-logo.svg'
 
 class SignUp extends React.Component {
-  handleSubmit = data => {
-    return this.props.signUp(data).then(() => {
-      this.props.history.push('/auth/additional-info')
-    })
+  handleSubmit = async data => {
+    updateData(pick(data, 'verificationNum', 'websiteUrl'))
+    await this.props.signUp(
+      pick(data, 'firstName', 'lastName', 'email', 'password')
+    )
+    this.props.history.push('/auth/additional-info')
   }
   render() {
     return (
