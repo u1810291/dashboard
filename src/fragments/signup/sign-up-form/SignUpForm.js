@@ -15,7 +15,8 @@ const formikSettings = {
     lastName: '',
     email: '',
     password: '',
-    verificationNum: ''
+    verificationNum: '',
+    websiteUrl: ''
   },
 
   verificationsNumOptions: [
