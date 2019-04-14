@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Panel from 'src/components/panel'
+import Card from 'src/components/card'
 import Items from 'src/components/items'
 
 export default class Feature extends React.Component {
@@ -11,7 +11,7 @@ export default class Feature extends React.Component {
           <FormattedMessage id="pricing.complianceFeature.title" />
         </h1>
         <Items align="stretch" templateColumns="1fr 1fr">
-          <Panel.Body extraPadding>
+          <Card padding={4}>
             <Items flow="row">
               <h2>
                 <FormattedMessage id="features.compliance.title" />
@@ -27,9 +27,9 @@ export default class Feature extends React.Component {
                 ))}
               </ul>
             </Items>
-          </Panel.Body>
+          </Card>
 
-          <Panel.Body extraPadding>
+          <Card padding={4}>
             <Items flow="row">
               <h2>
                 <FormattedMessage id="features.feature.title" />
@@ -61,7 +61,7 @@ export default class Feature extends React.Component {
                 </a>
               </section>
             </Items>
-          </Panel.Body>
+          </Card>
         </Items>
       </Items>
     )

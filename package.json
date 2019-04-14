@@ -3,6 +3,8 @@
   "version": "1.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/core": "^10.0.10",
+    "@emotion/styled": "^10.0.10",
     "@sentry/browser": "^4.4.2",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
@@ -53,7 +55,6 @@
   },
   "devDependencies": {
     "@craco/craco": "^3.1.0",
-    "@emotion/core": "^10.0.10",
     "@storybook/addon-actions": "^5.0.6",
     "@storybook/addon-knobs": "^5.0.6",
     "@storybook/addon-links": "^5.0.6",

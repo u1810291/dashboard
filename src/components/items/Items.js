@@ -1,7 +1,8 @@
-import React from 'react'
+/** @jsx jsx */
+
+import styled from '@emotion/styled'
+import { css } from '@emotion/core'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
-import CSS from './Items.scss'
 
 export const aligns = [
   'auto',
@@ -30,33 +31,34 @@ export const flows = ['column', 'row']
 
 export const gaps = [0, 1, 2, 3, 4]
 
-export default function Items({
-  children,
-  inline = false,
-  align = 'start',
-  justifyContent = 'normal',
-  templateColumns = 'none',
-  templateRows = 'none',
-  flow = 'column',
-  gap = 2,
-  className
-}) {
-  return (
-    <div
-      className={classNames(CSS.root, { inline }, className)}
-      data-gap={gap}
-      style={{
-        gridTemplateColumns: templateColumns,
-        gridTemplateRows: templateRows,
-        alignItems: align,
-        gridAutoFlow: flow,
-        justifyContent
-      }}
-    >
-      {children}
-    </div>
-  )
-}
+const Items = styled.div(
+  ({
+    inline = false,
+    align = 'start',
+    flow = 'column',
+    justifyContent = 'normal',
+    templateColumns = 'none',
+    templateRows = 'none',
+    alignContent = 'normal',
+    justifyItems = 'normal',
+    gap = 2
+  }) => css`
+    display: ${inline ? 'inline-grid' : 'grid'};
+    grid-auto-flow: ${flow};
+    grid-gap: calc(0.5 * ${gap} * var(--mgi-spacing));
+    grid-template-columns: ${templateColumns};
+    grid-template-rows: ${templateRows};
+    align-items: ${align};
+    align-content: ${alignContent};
+    justify-content: ${justifyContent};
+    justify-items: ${justifyItems};
+
+    & > svg {
+      width: 100%;
+      height: auto;
+    }
+  `
+)
 
 Items.propTypes = {
   gap: PropTypes.oneOf(gaps),
@@ -65,3 +67,5 @@ Items.propTypes = {
   justifyContent: PropTypes.oneOf(justifies),
   flow: PropTypes.oneOf(flows)
 }
+
+export default Items

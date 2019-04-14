@@ -1,18 +1,88 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Components storyshots components/Card Default 1`] = `
+<div
+  className="background-white border-transparent  css-16liexg-Card"
+>
+  Panel content
+</div>
+`;
+
+exports[`Components storyshots components/Card Left aside element 1`] = `
+<div
+  className="background-active border-transparent  css-16liexg-Card"
+>
+  <h3>
+    Some title
+    <p>
+      Panel content
+    </p>
+  </h3>
+</div>
+`;
+
+exports[`Components storyshots components/Click Default 1`] = `
+<div
+  className="background-white border-transparent css-1opud1h-Click"
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  onMouseOut={[Function]}
+  onMouseOver={[Function]}
+  role="button"
+  tabIndex={0}
+>
+  La Button
+</div>
+`;
+
+exports[`Components storyshots components/Click Link 1`] = `
+<a
+  className="background-active border-transparent css-1opud1h-Click"
+  href="/"
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  onMouseOut={[Function]}
+  onMouseOver={[Function]}
+  role="button"
+  tabIndex={0}
+>
+  La Button
+</a>
+`;
+
+exports[`Components storyshots components/Click Not inline 1`] = `
+<div
+  className="background-white border-transparent css-1isq01e-Click"
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  onMouseOut={[Function]}
+  onMouseOver={[Function]}
+  role="button"
+  tabIndex={0}
+>
+  La Button
+</div>
+`;
+
+exports[`Components storyshots components/Click With Shadow 1`] = `
+<div
+  className="background-white border-transparent css-105t1i5-Click"
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  onMouseOut={[Function]}
+  onMouseOver={[Function]}
+  role="button"
+  tabIndex={0}
+>
+  <strong>
+    La Button
+  </strong>
+</div>
+`;
+
 exports[`Components storyshots components/Details Default 1`] = `
 <div
-  className=""
-  data-gap={1}
-  style={
-    Object {
-      "alignItems": "start",
-      "gridAutoFlow": "row",
-      "gridTemplateColumns": "none",
-      "gridTemplateRows": "none",
-      "justifyContent": "normal",
-    }
-  }
+  className="css-1qo54az"
 >
   <h3
     className=""
@@ -25,17 +95,7 @@ exports[`Components storyshots components/Details Default 1`] = `
 
 exports[`Components storyshots components/Details Pre-opened 1`] = `
 <div
-  className=""
-  data-gap={1}
-  style={
-    Object {
-      "alignItems": "start",
-      "gridAutoFlow": "row",
-      "gridTemplateColumns": "none",
-      "gridTemplateRows": "none",
-      "justifyContent": "normal",
-    }
-  }
+  className="css-1qo54az"
 >
   <h3
     className="opened"
@@ -64,17 +124,7 @@ exports[`Components storyshots components/Details Pre-opened 1`] = `
 
 exports[`Components storyshots components/Items Default 1`] = `
 <div
-  className=""
-  data-gap={2}
-  style={
-    Object {
-      "alignItems": "start",
-      "gridAutoFlow": "column",
-      "gridTemplateColumns": "none",
-      "gridTemplateRows": "none",
-      "justifyContent": "normal",
-    }
-  }
+  className="css-1274dzz"
 >
   <div
     style={
@@ -112,35 +162,6 @@ exports[`Components storyshots components/Items Default 1`] = `
       }
     }
   />
-</div>
-`;
-
-exports[`Components storyshots components/Panel Default 1`] = `
-<div
-  className="padded"
->
-  <aside
-    className="background-softpink"
-    style={
-      Object {
-        "width": "25px",
-      }
-    }
-  >
-    S T U B
-  </aside>
-  <main>
-    <p
-      style={
-        Object {
-          "color": "crimson",
-          "fontSize": "48px",
-        }
-      }
-    >
-      Panel content
-    </p>
-  </main>
 </div>
 `;
 
@@ -157,210 +178,299 @@ Array [
 
 exports[`Fragments storyshots fragments/info/Faq Default 1`] = `
 <div
-  className=""
+  className="background-white border-transparent  css-16liexg-Card"
 >
+  <h2>
+    fragments.info.faq.title
+  </h2>
   <div
-    className="padded"
+    className="css-uqbefl"
   >
-    <main>
-      <div
+    <div
+      className="css-1qo54az"
+    >
+      <h3
         className=""
-        data-gap={2}
-        style={
+        onClick={[Function]}
+      >
+        How will Mati verify my users?
+      </h3>
+    </div>
+    <hr />
+    <div
+      className="css-1qo54az"
+    >
+      <h3
+        className=""
+        onClick={[Function]}
+      >
+        Is Mati secure?
+      </h3>
+    </div>
+    <hr />
+    <div
+      className="css-1qo54az"
+    >
+      <h3
+        className=""
+        onClick={[Function]}
+      >
+        Which countries do you support?
+      </h3>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Fragments storyshots fragments/info/Features Default 1`] = `
+<div
+  className="css-uqbefl"
+>
+  <h2>
+    Security Features
+  </h2>
+  <div
+    className="css-1tphajl"
+  >
+    <div
+      className="background-white border-transparent css-1t7c5od-Click"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <img
+        alt="liveness"
+        src={
           Object {
-            "alignItems": "start",
-            "gridAutoFlow": "row",
-            "gridTemplateColumns": "none",
-            "gridTemplateRows": "none",
-            "justifyContent": "normal",
+            "ReactComponent": [Function],
+            "__esModule": true,
+            "default": "liveness.svg",
           }
         }
+      />
+      <h2
+        className="text-light"
       >
-        <h2>
-          fragments.info.faq.title
-        </h2>
-        <div
-          className=""
-          data-gap={2}
-          style={
-            Object {
-              "alignItems": "start",
-              "gridAutoFlow": "row",
-              "gridTemplateColumns": "none",
-              "gridTemplateRows": "none",
-              "justifyContent": "normal",
-            }
+        fragments.info.features.liveness.title
+      </h2>
+    </div>
+    <div
+      className="background-white border-transparent css-1t7c5od-Click"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <img
+        alt="template-matching"
+        src={
+          Object {
+            "ReactComponent": [Function],
+            "__esModule": true,
+            "default": "template-matching.svg",
           }
-        >
-          <div
-            className=""
-            data-gap={1}
-            style={
-              Object {
-                "alignItems": "start",
-                "gridAutoFlow": "row",
-                "gridTemplateColumns": "none",
-                "gridTemplateRows": "none",
-                "justifyContent": "normal",
-              }
-            }
-          >
-            <h3
-              className=""
-              onClick={[Function]}
-            >
-              How will Mati verify my users?
-            </h3>
-          </div>
-          <hr />
-          <div
-            className=""
-            data-gap={1}
-            style={
-              Object {
-                "alignItems": "start",
-                "gridAutoFlow": "row",
-                "gridTemplateColumns": "none",
-                "gridTemplateRows": "none",
-                "justifyContent": "normal",
-              }
-            }
-          >
-            <h3
-              className=""
-              onClick={[Function]}
-            >
-              Is Mati secure?
-            </h3>
-          </div>
-          <hr />
-          <div
-            className=""
-            data-gap={1}
-            style={
-              Object {
-                "alignItems": "start",
-                "gridAutoFlow": "row",
-                "gridTemplateColumns": "none",
-                "gridTemplateRows": "none",
-                "justifyContent": "normal",
-              }
-            }
-          >
-            <h3
-              className=""
-              onClick={[Function]}
-            >
-              Which countries do you support?
-            </h3>
-          </div>
-        </div>
-      </div>
-    </main>
+        }
+      />
+      <h2
+        className="text-light"
+      >
+        fragments.info.features.template-matching.title
+      </h2>
+    </div>
+    <div
+      className="background-white border-transparent css-1t7c5od-Click"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <img
+        alt="watchlist"
+        src={
+          Object {
+            "ReactComponent": [Function],
+            "__esModule": true,
+            "default": "watchlist.svg",
+          }
+        }
+      />
+      <h2
+        className="text-light"
+      >
+        fragments.info.features.watchlist.title
+      </h2>
+    </div>
+    <div
+      className="background-white border-transparent css-1t7c5od-Click"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <img
+        alt="facematch"
+        src={
+          Object {
+            "ReactComponent": [Function],
+            "__esModule": true,
+            "default": "facematch.svg",
+          }
+        }
+      />
+      <h2
+        className="text-light"
+      >
+        fragments.info.features.facematch.title
+      </h2>
+    </div>
+    <div
+      className="background-white border-transparent css-1t7c5od-Click"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <img
+        alt="document-reading"
+        src={
+          Object {
+            "ReactComponent": [Function],
+            "__esModule": true,
+            "default": "document-reading.svg",
+          }
+        }
+      />
+      <h2
+        className="text-light"
+      >
+        fragments.info.features.document-reading.title
+      </h2>
+    </div>
+    <div
+      className="background-white border-transparent css-1t7c5od-Click"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <img
+        alt="curp-validation"
+        src={
+          Object {
+            "ReactComponent": [Function],
+            "__esModule": true,
+            "default": "curp-validation.svg",
+          }
+        }
+      />
+      <h2
+        className="text-light"
+      >
+        fragments.info.features.curp-validation.title
+      </h2>
+    </div>
+    <div
+      className="background-white border-transparent css-1t7c5od-Click"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <img
+        alt="alteration-detection"
+        src={
+          Object {
+            "ReactComponent": [Function],
+            "__esModule": true,
+            "default": "alteration-detection.svg",
+          }
+        }
+      />
+      <h2
+        className="text-light"
+      >
+        fragments.info.features.alteration-detection.title
+      </h2>
+    </div>
   </div>
 </div>
 `;
 
 exports[`Fragments storyshots fragments/integration/GooglePlayLink Default 1`] = `
 <div
-  className=""
+  className="background-white border-transparent  css-16liexg-Card"
 >
   <div
-    className="padded"
+    className="css-uqbefl"
   >
-    <main>
+    <div
+      className="css-6aswc1"
+    >
+      <h3>
+        developers.demo.demo
+        <p>
+          developers.demo.description
+        </p>
+      </h3>
       <div
-        className=""
-        data-gap={2}
-        style={
-          Object {
-            "alignItems": "start",
-            "gridAutoFlow": "row",
-            "gridTemplateColumns": "none",
-            "gridTemplateRows": "none",
-            "justifyContent": "normal",
-          }
-        }
+        className="css-5w61r0"
       >
-        <div
-          className=""
-          data-gap={4}
-          style={
-            Object {
-              "alignItems": "start",
-              "gridAutoFlow": "row",
-              "gridTemplateColumns": "none",
-              "gridTemplateRows": "none",
-              "justifyContent": "normal",
-            }
-          }
+        <a
+          href="https://play.google.com/store/apps/details?id=com.matilock.mati_global_demo"
+          rel="noopener noreferrer"
+          target="_blank"
         >
-          <h3>
-            developers.demo.demo
-            <p>
-              developers.demo.description
-            </p>
-          </h3>
-          <div
-            className=""
-            data-gap={1}
-            style={
-              Object {
-                "alignItems": "start",
-                "gridAutoFlow": "row",
-                "gridTemplateColumns": "none",
-                "gridTemplateRows": "none",
-                "justifyContent": "center",
-              }
-            }
-          >
-            <a
-              href="https://play.google.com/store/apps/details?id=com.matilock.mati_global_demo"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <img
-                alt="Google Play"
-                src="google-play.png"
-              />
-            </a>
-            <p>
-              developers.demo.buttonDescription
-            </p>
-          </div>
-          <div
-            className=""
-            data-gap={1}
-            style={
-              Object {
-                "alignItems": "start",
-                "gridAutoFlow": "row",
-                "gridTemplateColumns": "none",
-                "gridTemplateRows": "none",
-                "justifyContent": "normal",
-              }
-            }
-          >
-            <h3>
-              developers.demo.clientId
-              <p>
-                developers.demo.clientIdDescription
-              </p>
-            </h3>
-            <div>
+          <img
+            alt="Google Play"
+            src="google-play.png"
+          />
+        </a>
+        <p>
+          developers.demo.buttonDescription
+        </p>
+      </div>
+      <div
+        className="css-1qo54az"
+      >
+        <h3>
+          developers.demo.clientId
+          <p>
+            developers.demo.clientIdDescription
+          </p>
+        </h3>
+        <div
+          className="background-lightergray border-transparent  css-or8dev-Card"
+        >
+          <strong>
+            <code>
               CLIENT ID NUMBER
-            </div>
-          </div>
+            </code>
+          </strong>
         </div>
       </div>
-    </main>
+    </div>
   </div>
 </div>
 `;
 
 exports[`Fragments storyshots fragments/integration/InstallationGuidePanels ApplicationsPanel 1`] = `
 <div
-  className="padded extraPadding"
+  className="background-white border-transparent  css-1vw7yee-Card"
 >
   <aside
     className="aside background-apricot"
@@ -371,74 +481,42 @@ exports[`Fragments storyshots fragments/integration/InstallationGuidePanels Appl
       2
     </h2>
   </aside>
-  <main>
+  <div
+    className="background-white border-transparent  css-oiazn5-Card"
+  >
     <div
-      className=""
-      data-gap={4}
-      style={
-        Object {
-          "alignItems": "center",
-          "gridAutoFlow": "column",
-          "gridTemplateColumns": "4fr 5fr",
-          "gridTemplateRows": "none",
-          "justifyContent": "normal",
-        }
-      }
+      className="css-6aswc1"
     >
       <div
-        className=""
-        data-gap={4}
-        style={
-          Object {
-            "alignItems": "start",
-            "gridAutoFlow": "row",
-            "gridTemplateColumns": "none",
-            "gridTemplateRows": "none",
-            "justifyContent": "normal",
-          }
-        }
+        className="css-1qo54az"
       >
-        <div
-          className=""
-          data-gap={1}
-          style={
-            Object {
-              "alignItems": "start",
-              "gridAutoFlow": "row",
-              "gridTemplateColumns": "none",
-              "gridTemplateRows": "none",
-              "justifyContent": "normal",
-            }
-          }
-        >
-          <h2>
-            fragments.integration.installation-guide-panels.applications-panel.title
-          </h2>
-          <p>
-            fragments.integration.installation-guide-panels.applications-panel.message
-          </p>
-        </div>
-        <a
-          aria-current={null}
-          className="default primary"
-          href="/integration/applications"
-          onClick={[Function]}
-          type="button"
-        >
-          fragments.integration.installation-guide-panels.applications-panel.button
-        </a>
+        <h2>
+          fragments.integration.installation-guide-panels.applications-panel.title
+        </h2>
+        <p>
+          fragments.integration.installation-guide-panels.applications-panel.message
+        </p>
       </div>
-      <svg>
-        applications.svg
-      </svg>
+      <a
+        aria-current={null}
+        className="default primary"
+        href="/integration/applications"
+        onClick={[Function]}
+        type="button"
+      >
+        fragments.integration.installation-guide-panels.applications-panel.button
+      </a>
     </div>
-  </main>
+    <svg>
+      applications.svg
+    </svg>
+  </div>
 </div>
 `;
 
 exports[`Fragments storyshots fragments/integration/InstallationGuidePanels InstallFrontendCodePanel 1`] = `
 <div
-  className="padded extraPadding"
+  className="background-white border-transparent  css-1vw7yee-Card"
 >
   <aside
     className="aside background-apricot"
@@ -449,77 +527,45 @@ exports[`Fragments storyshots fragments/integration/InstallationGuidePanels Inst
       3
     </h2>
   </aside>
-  <main>
+  <div
+    className="background-white border-transparent  css-oiazn5-Card"
+  >
     <div
-      className=""
-      data-gap={4}
-      style={
-        Object {
-          "alignItems": "center",
-          "gridAutoFlow": "column",
-          "gridTemplateColumns": "4fr 5fr",
-          "gridTemplateRows": "none",
-          "justifyContent": "normal",
-        }
-      }
+      className="css-6aswc1"
     >
       <div
-        className=""
-        data-gap={4}
-        style={
-          Object {
-            "alignItems": "start",
-            "gridAutoFlow": "row",
-            "gridTemplateColumns": "none",
-            "gridTemplateRows": "none",
-            "justifyContent": "normal",
-          }
-        }
+        className="css-1qo54az"
       >
-        <div
-          className=""
-          data-gap={1}
-          style={
-            Object {
-              "alignItems": "start",
-              "gridAutoFlow": "row",
-              "gridTemplateColumns": "none",
-              "gridTemplateRows": "none",
-              "justifyContent": "normal",
-            }
-          }
-        >
-          <h2>
-            fragments.integration.installation-guide-panels.jssdk-panel.title
-          </h2>
-          <p>
-            fragments.integration.installation-guide-panels.jssdk-panel.message
-          </p>
-        </div>
-        <a
-          aria-current={null}
-          className="default primary"
-          href="/integration/integration-code"
-          onClick={[Function]}
-          type="button"
-        >
-          fragments.integration.installation-guide-panels.jssdk-panel.button
-        </a>
+        <h2>
+          fragments.integration.installation-guide-panels.jssdk-panel.title
+        </h2>
+        <p>
+          fragments.integration.installation-guide-panels.jssdk-panel.message
+        </p>
       </div>
-      <svg
-        className="cursor-pointer"
+      <a
+        aria-current={null}
+        className="default primary"
+        href="/integration/integration-code"
         onClick={[Function]}
+        type="button"
       >
-        video.svg
-      </svg>
+        fragments.integration.installation-guide-panels.jssdk-panel.button
+      </a>
     </div>
-  </main>
+    <svg
+      className="cursor-pointer"
+      onClick={[Function]}
+    >
+      video.svg
+    </svg>
+  </div>
 </div>
 `;
 
 exports[`Fragments storyshots fragments/integration/InstallationGuidePanels LetsStartPanel 1`] = `
 <div
-  className="background-apricot padded extraPadding"
+  className="background-white border-transparent  css-1vw7yee-Card"
 >
   <aside
     className="aside background-apricot"
@@ -528,51 +574,29 @@ exports[`Fragments storyshots fragments/integration/InstallationGuidePanels Lets
       className="text-darkapricot"
     />
   </aside>
-  <main>
+  <div
+    className="background-apricot border-transparent  css-oiazn5-Card"
+  >
     <div
-      className=""
-      data-gap={4}
-      style={
-        Object {
-          "alignItems": "center",
-          "gridAutoFlow": "column",
-          "gridTemplateColumns": "4fr 5fr",
-          "gridTemplateRows": "none",
-          "justifyContent": "normal",
-        }
-      }
+      className="css-uqbefl"
     >
-      <div
-        className=""
-        data-gap={2}
-        style={
-          Object {
-            "alignItems": "start",
-            "gridAutoFlow": "row",
-            "gridTemplateColumns": "none",
-            "gridTemplateRows": "none",
-            "justifyContent": "normal",
-          }
-        }
-      >
-        <h2>
-          fragments.integration.installation-guide-panels.start-panel.title
-        </h2>
-        <p>
-          fragments.integration.installation-guide-panels.start-panel.message
-        </p>
-      </div>
-      <svg>
-        lets-start.svg
-      </svg>
+      <h2>
+        fragments.integration.installation-guide-panels.start-panel.title
+      </h2>
+      <p>
+        fragments.integration.installation-guide-panels.start-panel.message
+      </p>
     </div>
-  </main>
+    <svg>
+      lets-start.svg
+    </svg>
+  </div>
 </div>
 `;
 
 exports[`Fragments storyshots fragments/integration/InstallationGuidePanels SetWebhooksPanel 1`] = `
 <div
-  className="padded extraPadding"
+  className="background-white border-transparent  css-1vw7yee-Card"
 >
   <aside
     className="aside background-apricot"
@@ -583,100 +607,58 @@ exports[`Fragments storyshots fragments/integration/InstallationGuidePanels SetW
       4
     </h2>
   </aside>
-  <main>
+  <div
+    className="background-white border-transparent  css-oiazn5-Card"
+  >
     <div
-      className=""
-      data-gap={4}
-      style={
-        Object {
-          "alignItems": "center",
-          "gridAutoFlow": "column",
-          "gridTemplateColumns": "4fr 5fr",
-          "gridTemplateRows": "none",
-          "justifyContent": "normal",
-        }
-      }
+      className="css-6aswc1"
     >
       <div
-        className=""
-        data-gap={4}
-        style={
-          Object {
-            "alignItems": "start",
-            "gridAutoFlow": "row",
-            "gridTemplateColumns": "none",
-            "gridTemplateRows": "none",
-            "justifyContent": "normal",
-          }
-        }
+        className="css-1qo54az"
       >
-        <div
-          className=""
-          data-gap={1}
-          style={
-            Object {
-              "alignItems": "start",
-              "gridAutoFlow": "row",
-              "gridTemplateColumns": "none",
-              "gridTemplateRows": "none",
-              "justifyContent": "normal",
-            }
-          }
-        >
-          <h2>
-            fragments.integration.installation-guide-panels.webhooks-panel.title
-          </h2>
-          <p>
-            fragments.integration.installation-guide-panels.webhooks-panel.message
-          </p>
-        </div>
-        <a
-          aria-current={null}
-          className="default primary"
-          href="/integration/webhooks"
-          onClick={[Function]}
-          type="button"
-        >
-          fragments.integration.installation-guide-panels.webhooks-panel.button
-        </a>
+        <h2>
+          fragments.integration.installation-guide-panels.webhooks-panel.title
+        </h2>
+        <p>
+          fragments.integration.installation-guide-panels.webhooks-panel.message
+        </p>
       </div>
-      <div
-        className=""
-        data-gap={2}
-        style={
-          Object {
-            "alignItems": "start",
-            "gridAutoFlow": "row",
-            "gridTemplateColumns": "none",
-            "gridTemplateRows": "none",
-            "justifyContent": "normal",
-          }
-        }
+      <a
+        aria-current={null}
+        className="default primary"
+        href="/integration/webhooks"
+        onClick={[Function]}
+        type="button"
       >
-        <svg
-          className="cursor-pointer"
-          onClick={[Function]}
-        >
-          video.svg
-        </svg>
-        <section>
-          fragments.integration.installation-guide-panels.webhooks-panel.link
-          : 
-          <a
-            href="https://docs.getmati.com"
-          >
-            docs.getmati.com
-          </a>
-        </section>
-      </div>
+        fragments.integration.installation-guide-panels.webhooks-panel.button
+      </a>
     </div>
-  </main>
+    <div
+      className="css-uqbefl"
+    >
+      <svg
+        className="cursor-pointer"
+        onClick={[Function]}
+      >
+        video.svg
+      </svg>
+      <section>
+        fragments.integration.installation-guide-panels.webhooks-panel.link
+        : 
+        <a
+          href="https://docs.getmati.com"
+        >
+          docs.getmati.com
+        </a>
+      </section>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`Fragments storyshots fragments/integration/InstallationGuidePanels VerificationPanel 1`] = `
 <div
-  className="padded extraPadding"
+  className="background-white border-transparent  css-1vw7yee-Card"
 >
   <aside
     className="aside background-apricot"
@@ -687,234 +669,143 @@ exports[`Fragments storyshots fragments/integration/InstallationGuidePanels Veri
       1
     </h2>
   </aside>
-  <main>
+  <div
+    className="background-white border-transparent  css-oiazn5-Card"
+  >
     <div
-      className=""
-      data-gap={4}
-      style={
-        Object {
-          "alignItems": "center",
-          "gridAutoFlow": "column",
-          "gridTemplateColumns": "4fr 5fr",
-          "gridTemplateRows": "none",
-          "justifyContent": "normal",
-        }
-      }
+      className="css-6aswc1"
     >
       <div
-        className=""
-        data-gap={4}
-        style={
-          Object {
-            "alignItems": "start",
-            "gridAutoFlow": "row",
-            "gridTemplateColumns": "none",
-            "gridTemplateRows": "none",
-            "justifyContent": "normal",
-          }
-        }
+        className="css-1qo54az"
       >
-        <div
-          className=""
-          data-gap={1}
-          style={
-            Object {
-              "alignItems": "start",
-              "gridAutoFlow": "row",
-              "gridTemplateColumns": "none",
-              "gridTemplateRows": "none",
-              "justifyContent": "normal",
-            }
-          }
-        >
-          <h2>
-            fragments.integration.installation-guide-panels.verification-panel.title
-          </h2>
-          <p>
-            fragments.integration.installation-guide-panels.verification-panel.message
-          </p>
-        </div>
-        <a
-          aria-current="page"
-          className="default primary active"
-          href="/"
-          onClick={[Function]}
-          style={Object {}}
-          type="button"
-        >
-          fragments.integration.installation-guide-panels.verification-panel.button
-        </a>
+        <h2>
+          fragments.integration.installation-guide-panels.verification-panel.title
+        </h2>
+        <p>
+          fragments.integration.installation-guide-panels.verification-panel.message
+        </p>
       </div>
-      <svg>
-        verification.svg
-      </svg>
+      <a
+        aria-current="page"
+        className="default primary active"
+        href="/"
+        onClick={[Function]}
+        style={Object {}}
+        type="button"
+      >
+        fragments.integration.installation-guide-panels.verification-panel.button
+      </a>
     </div>
-  </main>
+    <svg>
+      verification.svg
+    </svg>
+  </div>
 </div>
 `;
 
 exports[`Fragments storyshots fragments/integration/WebhooksDocsPanel Default 1`] = `
 <div
-  className="padded extraPadding"
+  className="background-white border-transparent  css-dubmwf-Card"
 >
-  <main>
+  <div
+    className="css-6aswc1"
+  >
+    <h2>
+      fragments.integration.webhooks-docs-panel.title
+      <p>
+        fragments.integration.webhooks-docs-panel.subtitle
+      </p>
+    </h2>
     <div
-      className=""
-      data-gap={4}
-      style={
-        Object {
-          "alignItems": "start",
-          "gridAutoFlow": "row",
-          "gridTemplateColumns": "none",
-          "gridTemplateRows": "none",
-          "justifyContent": "normal",
-        }
-      }
+      className="css-b54nyf"
     >
-      <h2>
-        fragments.integration.webhooks-docs-panel.title
-        <p>
-          fragments.integration.webhooks-docs-panel.subtitle
-        </p>
-      </h2>
-      <div
-        className=""
-        data-gap={4}
-        style={
-          Object {
-            "alignItems": "start",
-            "gridAutoFlow": "column",
-            "gridTemplateColumns": "1fr 1fr",
-            "gridTemplateRows": "none",
-            "justifyContent": "normal",
-          }
-        }
+      <svg>
+        picture.svg
+      </svg>
+      <svg
+        className="cursor-pointer"
+        onClick={[Function]}
       >
-        <svg>
-          picture.svg
-        </svg>
-        <svg
-          className="cursor-pointer"
-          onClick={[Function]}
-        >
-          installation-video.svg
-        </svg>
-      </div>
-      <section>
-        <a
-          className="default primary"
-          href="https://docs.getmati.com"
-          rel="noopener noreferrer"
-          target="_blank"
-          type="button"
-        >
-          fragments.integration.webhooks-docs-panel.button
-        </a>
-      </section>
+        installation-video.svg
+      </svg>
     </div>
-  </main>
+    <section>
+      <a
+        className="background-active border-transparent css-1opud1h-Click"
+        href="https://docs.getmati.com"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        rel="noopener noreferrer"
+        role="button"
+        tabIndex={0}
+        target="_blank"
+      >
+        fragments.integration.webhooks-docs-panel.button
+      </a>
+    </section>
+  </div>
 </div>
 `;
 
 exports[`Fragments storyshots fragments/integration/WebhooksTestPanel default 1`] = `
 <div
-  className="background-softpink padded extraPadding"
+  className="background-softpink border-transparent  css-dubmwf-Card"
 >
-  <main>
+  <div
+    className="css-uqbefl"
+  >
+    <h2>
+      fragments.integration.webhooks-test-panel.title
+    </h2>
     <div
-      className=""
-      data-gap={2}
-      style={
-        Object {
-          "alignItems": "start",
-          "gridAutoFlow": "row",
-          "gridTemplateColumns": "none",
-          "gridTemplateRows": "none",
-          "justifyContent": "normal",
-        }
-      }
+      className="css-1uehtmq"
     >
-      <h2>
-        fragments.integration.webhooks-test-panel.title
-      </h2>
-      <div
-        className=""
-        data-gap={2}
-        style={
-          Object {
-            "alignItems": "center",
-            "gridAutoFlow": "column",
-            "gridTemplateColumns": "1fr 1fr",
-            "gridTemplateRows": "none",
-            "justifyContent": "normal",
-          }
-        }
+      <ol
+        className="mgi-list"
       >
-        <ol
-          className="mgi-list"
-        >
-          <li>
-            fragments.integration.webhooks-test-panel.list.0
-          </li>
-          <li>
-            fragments.integration.webhooks-test-panel.list.1
-          </li>
-          <li>
-            fragments.integration.webhooks-test-panel.list.2
-          </li>
-          <li>
-            fragments.integration.webhooks-test-panel.list.3
-          </li>
-        </ol>
-        <svg>
-          picture.svg
-        </svg>
-      </div>
-      <div
-        className=""
-        data-gap={1}
-        style={
-          Object {
-            "alignItems": "start",
-            "gridAutoFlow": "row",
-            "gridTemplateColumns": "none",
-            "gridTemplateRows": "none",
-            "justifyContent": "normal",
-          }
-        }
+        <li>
+          fragments.integration.webhooks-test-panel.list.0
+        </li>
+        <li>
+          fragments.integration.webhooks-test-panel.list.1
+        </li>
+        <li>
+          fragments.integration.webhooks-test-panel.list.2
+        </li>
+        <li>
+          fragments.integration.webhooks-test-panel.list.3
+        </li>
+      </ol>
+      <svg>
+        picture.svg
+      </svg>
+    </div>
+    <div
+      className="css-bukpbg"
+    >
+      <h3
+        className="text-darkpink"
       >
-        <h3
-          className="text-darkpink"
-        >
-          <small>
-            fragments.integration.webhooks-test-panel.pro-tip.caption
-          </small>
-        </h3>
+        <small>
+          fragments.integration.webhooks-test-panel.pro-tip.caption
+        </small>
+      </h3>
+      <div
+        className="css-dso5ro"
+      >
         <div
-          className="inline"
-          data-gap={2}
-          style={
-            Object {
-              "alignItems": "start",
-              "gridAutoFlow": "column",
-              "gridTemplateColumns": "none",
-              "gridTemplateRows": "none",
-              "justifyContent": "start",
-            }
-          }
+          className="background-transparent border-darkpink  css-or8dev-Card"
         >
-          <div
-            className="background-transparent text-darkpink padded extraSmallPadding undefined"
+          <small
+            className="text-darkpink"
           >
-            <main>
-              <small>
-                fragments.integration.webhooks-test-panel.pro-tip.message
-              </small>
-            </main>
-          </div>
+            fragments.integration.webhooks-test-panel.pro-tip.message
+          </small>
         </div>
       </div>
     </div>
-  </main>
+  </div>
 </div>
 `;

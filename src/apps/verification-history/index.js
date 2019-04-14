@@ -15,7 +15,7 @@ import VerificationFullNameLabel from 'src/fragments/verifications/verification-
 import Status from 'src/fragments/verifications/status-label'
 import FiltersForm from './filters-form'
 import Pagination from 'src/components/pagination'
-import Panel from 'src/components/panel'
+import Items from 'src/components/items'
 import { DebounceInput } from 'src/components/inputs'
 import Spinner from 'src/components/spinner'
 import confirm from 'src/components/confirm'
@@ -246,36 +246,33 @@ class VerificationHistory extends React.Component {
         />
         <PageContentLayout>
           <main>
-            <DataTable
-              rows={this.props.identities}
-              columns={this.getTableColumns()}
-              disabledRows={disabledRows}
-              emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
-              onRowClick={this.openVerification}
-              isLoading={this.props.isLoading}
-            />
-            {this.props.count > ITEMS_PER_PAGE && !this.props.countIsLoading && (
-              <Panel>
-                <Pagination
-                  pageCount={pageCount}
-                  pageRangeDisplayed={3}
-                  marginPagesDisplayed={2}
-                  forcePage={forcePage}
-                  onPageChange={this.onPageChange}
-                />
-              </Panel>
-            )}
+            <Items flow="row">
+              <DataTable
+                rows={this.props.identities}
+                columns={this.getTableColumns()}
+                disabledRows={disabledRows}
+                emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
+                onRowClick={this.openVerification}
+                isLoading={this.props.isLoading}
+              />
+              {this.props.count > ITEMS_PER_PAGE &&
+                !this.props.countIsLoading && (
+                  <Pagination
+                    pageCount={pageCount}
+                    pageRangeDisplayed={3}
+                    marginPagesDisplayed={2}
+                    forcePage={forcePage}
+                    onPageChange={this.onPageChange}
+                  />
+                )}
+            </Items>
           </main>
           <aside>
-            <Panel className={CSS.filtersPanel}>
-              <Panel.Body>
-                <FiltersForm
-                  onChange={this.onFilterChange}
-                  onClear={this.clearSelectedFilters}
-                  {...transformedParams}
-                />
-              </Panel.Body>
-            </Panel>
+            <FiltersForm
+              onChange={this.onFilterChange}
+              onClear={this.clearSelectedFilters}
+              {...transformedParams}
+            />
           </aside>
         </PageContentLayout>
       </Content>

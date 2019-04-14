@@ -7,6 +7,7 @@ import VerificationFullNameLabel from 'src/fragments/verifications/verification-
 import StatusSelect from 'src/fragments/verifications/status-select'
 import ContentPreloader from 'src/components/content-preloader'
 import Items from 'src/components/items'
+import Card from 'src/components/card'
 import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
 
 function caption(document, intl) {
@@ -47,45 +48,47 @@ function VerificationDetails({
   onStatusChange
 }) {
   return (
-    <Items templateColumns="auto minmax(auto, 100%)">
-      <section className={CSS.photos}>
-        <DocumentPhotos selfie={selfie} photos={photos} />
-      </section>
-      <section>
-        <Items flow="row" withBorder>
-          <h1>
-            <VerificationFullNameLabel>{fullName}</VerificationFullNameLabel>
-            {isFeatureEnabled('STATUSES') && (
-              <StatusSelect
-                status={status}
-                onSelect={onStatusChange}
-                isLoading={patchIsLoading}
-                error={patchError}
-              />
-            )}
-          </h1>
-          <hr />
-          {documents.map((doc, index) => (
-            <React.Fragment key={index}>
-              <Items flow="row" gap={1}>
-                <h3>{caption(doc, intl)}</h3>
-                {doc.inProgress ? (
-                  <ContentPreloader />
-                ) : (
-                  <DocumentFields
-                    fields={doc.fields}
-                    onFieldChange={onFieldChange}
-                    patchingFields={patchingFields}
-                    erroredFields={erroredFields}
-                  />
-                )}
-              </Items>
-              {index < documents.length - 1 && <hr />}
-            </React.Fragment>
-          ))}
-        </Items>
-      </section>
-    </Items>
+    <Card>
+      <Items templateColumns="auto minmax(auto, 100%)">
+        <section className={CSS.photos}>
+          <DocumentPhotos selfie={selfie} photos={photos} />
+        </section>
+        <section>
+          <Items flow="row" withBorder>
+            <h1>
+              <VerificationFullNameLabel>{fullName}</VerificationFullNameLabel>
+              {isFeatureEnabled('STATUSES') && (
+                <StatusSelect
+                  status={status}
+                  onSelect={onStatusChange}
+                  isLoading={patchIsLoading}
+                  error={patchError}
+                />
+              )}
+            </h1>
+            <hr />
+            {documents.map((doc, index) => (
+              <React.Fragment key={index}>
+                <Items flow="row" gap={1}>
+                  <h3>{caption(doc, intl)}</h3>
+                  {doc.inProgress ? (
+                    <ContentPreloader />
+                  ) : (
+                    <DocumentFields
+                      fields={doc.fields}
+                      onFieldChange={onFieldChange}
+                      patchingFields={patchingFields}
+                      erroredFields={erroredFields}
+                    />
+                  )}
+                </Items>
+                {index < documents.length - 1 && <hr />}
+              </React.Fragment>
+            ))}
+          </Items>
+        </section>
+      </Items>
+    </Card>
   )
 }
 

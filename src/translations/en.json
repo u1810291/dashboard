@@ -561,5 +561,12 @@
   "fragments.integration.installation-guide-panels.webhooks-panel.button": "Go to Webhooks",
   "fragments.integration.installation-guide-panels.webhooks-panel.link": "Webhook documentation",
   "fragments.integration.installation-guide-panels.start-panel.title": "Let’s start to use Mati",
-  "fragments.integration.installation-guide-panels.start-panel.message": "Here’s a short guide which will help you to understand our product and how to start to use it."
+  "fragments.integration.installation-guide-panels.start-panel.message": "Here’s a short guide which will help you to understand our product and how to start to use it.",
+  "fragments.info.features.liveness.title": "Liveness",
+  "fragments.info.features.template-matching.title": "Template Matching",
+  "fragments.info.features.watchlist.title": "Watchlist",
+  "fragments.info.features.facematch.title": "Facematch",
+  "fragments.info.features.document-reading.title": "Document Reading",
+  "fragments.info.features.curp-validation.title": "CURP validation",
+  "fragments.info.features.alteration-detection.title": "Alteration Detection"
 }

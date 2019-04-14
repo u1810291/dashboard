@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import Panel from 'src/components/panel'
+import Card from 'src/components/card'
 import EmptyTableIcon from './empty-table.svg'
 import Spinner from 'src/components/spinner'
 import CSS from './DataTable.scss'
@@ -9,11 +9,7 @@ function TableWrapper({ inline, children }) {
   if (inline) {
     return <React.Fragment>{children}</React.Fragment>
   } else {
-    return (
-      <Panel>
-        <Panel.Body padded={false}>{children}</Panel.Body>
-      </Panel>
-    )
+    return <Card padding={0}>{children}</Card>
   }
 }
 
@@ -27,7 +23,8 @@ export default function DataTable({
   isLoading,
   inline = false
 }) {
-  const sizeFraction = 100 / columns.map(({ size = 1 }) => size).reduce((sum, val) => sum + val)
+  const sizeFraction =
+    100 / columns.map(({ size = 1 }) => size).reduce((sum, val) => sum + val)
 
   return (
     <TableWrapper inline={inline}>
@@ -61,16 +58,25 @@ export default function DataTable({
                       ? () => onRowClick(element)
                       : undefined
                   }
-                  className={!disabledRows.includes(element) && onRowClick ? CSS.clickable : ''}
+                  className={
+                    !disabledRows.includes(element) && onRowClick
+                      ? CSS.clickable
+                      : ''
+                  }
                 >
-                  {columns.map(({ content, className, align = 'left' }, index) => (
-                    <td
-                      className={classNames(className, `mgi-data-table_align-${align}`)}
-                      key={index}
-                    >
-                      {content(element)}
-                    </td>
-                  ))}
+                  {columns.map(
+                    ({ content, className, align = 'left' }, index) => (
+                      <td
+                        className={classNames(
+                          className,
+                          `mgi-data-table_align-${align}`
+                        )}
+                        key={index}
+                      >
+                        {content(element)}
+                      </td>
+                    )
+                  )}
                 </tr>
               ))}
             {emptyBodyLabel && !rows.length && !isLoading ? (

@@ -2,48 +2,46 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
 import CSS from './pricing-plan.scss'
-import Panel from 'src/components/panel'
+import Card from 'src/components/card'
 import Items from 'src/components/items'
 import PricingTrialLogo from './icon-logo-pricing-trial.svg'
 
 function TrialPlanPanel() {
   return (
-    <Panel>
-      <Panel.Body extraPadding>
-        <Items templateColumns="1fr 1fr" align="center">
-          <Items flow="row">
-            <header>
-              <p>
-                <FormattedMessage id="pricing.trial.subTitle" />
-              </p>
-              <h1>
-                <FormattedMessage id="pricing.trial.title" />
-              </h1>
-            </header>
+    <Card padding={4}>
+      <Items templateColumns="1fr 1fr" align="center">
+        <Items flow="row">
+          <header>
+            <p>
+              <FormattedMessage id="pricing.trial.subTitle" />
+            </p>
+            <h1>
+              <FormattedMessage id="pricing.trial.title" />
+            </h1>
+          </header>
 
-            <ul className="mgi-list mgi-list--check">
-              {['days', 'verifications', 'card'].map(key => (
-                <li>
-                  <FormattedMessage
-                    id={`pricing.trial.description.item.${key}`}
-                    key={key}
-                  />
-                </li>
-              ))}
-            </ul>
-          </Items>
-          <div className={CSS.trialPlanPanelImage}>
-            <PricingTrialLogo />
-          </div>
+          <ul className="mgi-list mgi-list--check">
+            {['days', 'verifications', 'card'].map(key => (
+              <li>
+                <FormattedMessage
+                  id={`pricing.trial.description.item.${key}`}
+                  key={key}
+                />
+              </li>
+            ))}
+          </ul>
         </Items>
-      </Panel.Body>
-    </Panel>
+        <div className={CSS.trialPlanPanelImage}>
+          <PricingTrialLogo />
+        </div>
+      </Items>
+    </Card>
   )
 }
 
 function ProfessionalPlanPanel() {
   return (
-    <Panel.Body className="background-active" extraPadding>
+    <Card background="active" padding={4}>
       <Items flow="row">
         <header>
           <p>
@@ -73,13 +71,13 @@ function ProfessionalPlanPanel() {
           ))}
         </ul>
       </Items>
-    </Panel.Body>
+    </Card>
   )
 }
 
 function CompanyPlanPanel() {
   return (
-    <Panel.Body className={CSS.companyPlan} extraPadding>
+    <Card className={CSS.companyPlan} padding={4}>
       <Items flow="row" justifyContent="start">
         <Items flow="row" gap={0}>
           <p>
@@ -112,7 +110,7 @@ function CompanyPlanPanel() {
           </a>
         </section>
       </Items>
-    </Panel.Body>
+    </Card>
   )
 }
 
