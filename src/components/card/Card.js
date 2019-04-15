@@ -4,7 +4,7 @@ import { css, jsx } from '@emotion/core'
 import Items from '../items'
 
 export const shadowValue = shadow => css`
-  box-shadow: 0px 2px calc(2px + 2px * ${shadow})
+  0px 2px calc(2px + 2px * ${shadow})
     rgba(52, 73, 94, calc(0.1 * ${shadow}));
 `
 
