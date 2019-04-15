@@ -2,8 +2,9 @@ import React from 'react'
 import requireContext from 'require-context.macro'
 import { addParameters, addDecorator, configure } from '@storybook/react'
 import 'src/components/theme/styles.scss'
+import { Container as OverlayContainer } from 'src/components/overlay'
+import IntlProvider from 'src/components/intl-provider'
 import storyStylesDecorator from './storyStylesDecorator'
-import intlDecorator from './intlDecorator'
 
 import { BrowserRouter } from 'react-router-dom'
 
@@ -11,9 +12,20 @@ function fakeRouterDecorator(story) {
   return <BrowserRouter>{story()}</BrowserRouter>
 }
 
-addDecorator(intlDecorator)
+function overlayDecorator(story) {
+  return (
+    <IntlProvider>
+      <React.Fragment>
+        {story()}
+        <OverlayContainer />
+      </React.Fragment>
+    </IntlProvider>
+  )
+}
+
 addDecorator(storyStylesDecorator)
 addDecorator(fakeRouterDecorator)
+addDecorator(overlayDecorator)
 
 const req = requireContext('../src', true, /\.stories\.js$/)
 function loadStories() {

@@ -1,18 +1,18 @@
 import React from 'react'
-import { injectIntl } from 'react-intl'
 import Items from 'src/components/items'
+import Features from 'src/fragments/info/features'
+import FeaturesPoster from 'src/fragments/info/features-poster'
 import Support from 'src/fragments/account/support'
-import FAQ from 'src/fragments/info/faq'
 import FAQPanel from 'src/fragments/info/faq-panel'
 import Feedback from 'src/fragments/info/feedback'
-import FAQData from './faq-data'
 
-function Info({ intl }) {
+export default function FeaturesPage() {
   return (
     <React.Fragment>
       <main>
         <Items flow="row" gap={4}>
-          <FAQ questions={FAQData[intl.locale]} />
+          <FeaturesPoster />
+          <Features />
           <FAQPanel />
           <Feedback />
         </Items>
@@ -23,5 +23,3 @@ function Info({ intl }) {
     </React.Fragment>
   )
 }
-
-export default injectIntl(Info)

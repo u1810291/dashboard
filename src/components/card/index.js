@@ -1,1 +1,1 @@
-export { default } from './Card'
+export { default, shadowValue, paddingValue } from './Card'

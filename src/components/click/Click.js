@@ -1,8 +1,7 @@
 /** @jsx jsx */
 
-import { useState } from 'react'
 import { css, jsx } from '@emotion/core'
-import Card from '../card'
+import Card, { shadowValue, paddingValue } from '../card'
 
 export default function Click({
   children,
@@ -15,19 +14,13 @@ export default function Click({
   justifyItems = 'center',
   ...props
 }) {
-  const [currentShadow, setCurrentShadow] = useState(shadow)
-  const onMouseOver = setCurrentShadow.bind(null, shadow + 1)
-  const onMouseOut = setCurrentShadow.bind(null, shadow)
-
   return (
     <Card
       inline={inline}
       padding={padding}
-      shadow={currentShadow}
+      shadow={shadow}
       justifyContent={justifyContent}
       justifyItems={justifyItems}
-      onMouseOver={onMouseOver}
-      onMouseOut={onMouseOut}
       tabIndex={tabIndex}
       onClick={onClick}
       onKeyPress={event =>
@@ -40,6 +33,13 @@ export default function Click({
         border: 0;
         cursor: pointer;
         text-decoration: none;
+        padding-left: ${paddingValue(padding * 2)};
+        padding-right: ${paddingValue(padding * 2)};
+
+        &:hover,
+        &:active {
+          ${shadowValue(shadow + 1)}
+        }
       `}
       {...props}
     >
