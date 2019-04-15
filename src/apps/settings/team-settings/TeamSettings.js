@@ -12,7 +12,6 @@ import Button from 'src/components/button'
 import { closeOverlay, createOverlay } from 'src/components/overlay'
 import TeamInviteModal from 'src/fragments/account/team-invite-modal/TeamInviteModal'
 import InviteSuccessModal from 'src/fragments/account/team-invite-modal/InviteSuccessModal'
-import Panel from 'src/components/panel'
 import InviteIcon from '../invite.svg'
 
 const mapCollaborators = collaborator => ({
@@ -84,13 +83,11 @@ class TeamSettings extends React.Component {
     return (
       <React.Fragment>
         <main>
-          <Panel>
-            <TeamTable
-              onRoleChange={this.onRoleChange}
-              onDeleteSubmit={this.onDeleteSubmit}
-              {...this.props}
-            />
-          </Panel>
+          <TeamTable
+            onRoleChange={this.onRoleChange}
+            onDeleteSubmit={this.onDeleteSubmit}
+            {...this.props}
+          />
         </main>
         <aside>
           <Button buttonStyle="primary" onClick={this.openInviteModal}>

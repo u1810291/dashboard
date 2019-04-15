@@ -107,15 +107,13 @@ class TeamTable extends React.Component {
 
   render() {
     return (
-      <div>
-        <DataTable
-          className={CSS.table}
-          rows={this.props.collaborators}
-          columns={this.columns}
-          emptyBodyLabel={<FormattedMessage id="teamTable.no-data" />}
-          isLoading={this.props.isLoading}
-        />
-      </div>
+      <DataTable
+        className={CSS.table}
+        rows={this.props.collaborators}
+        columns={this.columns}
+        emptyBodyLabel={<FormattedMessage id="teamTable.no-data" />}
+        isLoading={this.props.isLoading}
+      />
     )
   }
 }

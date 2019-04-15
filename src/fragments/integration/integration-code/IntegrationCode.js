@@ -1,13 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Panel from 'src/components/panel'
+import Card from 'src/components/card'
 import Button from 'src/components/button'
 import Items from 'src/components/items'
 import SyntaxHighlighter from 'src/components/syntax-highlighter'
 
 export default function IntegrationCode({ integrationCode }) {
   return (
-    <Panel.Body>
+    <Card>
       <Items flow="row">
         <h3>
           <FormattedMessage id="fragments.integration.integration-code.title" />
@@ -25,6 +25,6 @@ export default function IntegrationCode({ integrationCode }) {
         </Items>
         <SyntaxHighlighter language="html" code={integrationCode} />
       </Items>
-    </Panel.Body>
+    </Card>
   )
 }

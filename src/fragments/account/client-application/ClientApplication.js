@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Panel from 'src/components/panel'
+import Card from 'src/components/card'
 import Button from 'src/components/button'
 import Icons from 'src/components/icons'
 import Items from 'src/components/items'
@@ -43,79 +43,77 @@ export default function ClientApplication({
   }
 
   return (
-    <Panel>
-      <Panel.Body>
-        <Items flow="row">
-          <h3 className="text-active">
-            <FormattedMessage id="fragments.client_application.production_title" />
-          </h3>
-          <hr />
-          <table className="mgi-table">
-            <colgroup>
-              <col className={CSS.headerColumn} />
-              <col />
-              <col className={CSS.copyButtonColumn} />
-            </colgroup>
-            <tbody>
-              <tr>
-                <th>
-                  <FormattedMessage id="fragments.client_application.client_id" />
-                </th>
-                <td className="text-secondary">{application.clientId}</td>
-                <CopyToClipboardCell text={application.clientId} />
-              </tr>
-              <tr>
-                <th>
-                  <FormattedMessage id="fragments.client_application.client_secret" />
-                </th>
-                <td className="text-secondary">{application.clientSecret}</td>
-                <CopyToClipboardCell text={application.clientSecret} />
-              </tr>
-              <tr>
-                <th>
-                  <FormattedMessage id="fragments.client_application.permalink" />
-                </th>
-                <td className="text-secondary">{permalink}</td>
-                <CopyToClipboardCell text={permalink} />
-              </tr>
-              {webhooks.map((webhook, index) => (
-                <tr key={webhook.id}>
-                  {index === 0 && (
-                    <th rowSpan={webhooks.length}>
-                      <FormattedMessage id="fragments.client_application.webhook" />
-                    </th>
-                  )}
-                  <td>
-                    <Items templateColumns="minmax(auto, 100%) auto">
-                      <code>{webhook.url}</code>
-                      <Button
-                        buttonStyle="invisible"
-                        onClick={() => handleDeleteWebhook(webhook.id)}
-                      >
-                        <Icons.TrashBin className="svg-error" />
-                      </Button>
-                    </Items>
-                  </td>
-                  <CopyToClipboardCell text={webhook.url} />
-                </tr>
-              ))}
-
-              {webhooks.length === 0 && (
-                <tr>
-                  <th>
+    <Card>
+      <Items flow="row">
+        <h3 className="text-active">
+          <FormattedMessage id="fragments.client_application.production_title" />
+        </h3>
+        <hr />
+        <table className="mgi-table">
+          <colgroup>
+            <col className={CSS.headerColumn} />
+            <col />
+            <col className={CSS.copyButtonColumn} />
+          </colgroup>
+          <tbody>
+            <tr>
+              <th>
+                <FormattedMessage id="fragments.client_application.client_id" />
+              </th>
+              <td className="text-secondary">{application.clientId}</td>
+              <CopyToClipboardCell text={application.clientId} />
+            </tr>
+            <tr>
+              <th>
+                <FormattedMessage id="fragments.client_application.client_secret" />
+              </th>
+              <td className="text-secondary">{application.clientSecret}</td>
+              <CopyToClipboardCell text={application.clientSecret} />
+            </tr>
+            <tr>
+              <th>
+                <FormattedMessage id="fragments.client_application.permalink" />
+              </th>
+              <td className="text-secondary">{permalink}</td>
+              <CopyToClipboardCell text={permalink} />
+            </tr>
+            {webhooks.map((webhook, index) => (
+              <tr key={webhook.id}>
+                {index === 0 && (
+                  <th rowSpan={webhooks.length}>
                     <FormattedMessage id="fragments.client_application.webhook" />
                   </th>
-                  <td>
-                    <Button buttonStyle="primary" onClick={handleAddNewWebhook}>
-                      <FormattedMessage id="fragments.client_application.add_webhook" />
+                )}
+                <td>
+                  <Items templateColumns="minmax(auto, 100%) auto">
+                    <code>{webhook.url}</code>
+                    <Button
+                      buttonStyle="invisible"
+                      onClick={() => handleDeleteWebhook(webhook.id)}
+                    >
+                      <Icons.TrashBin className="svg-error" />
                     </Button>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </Items>
-      </Panel.Body>
-    </Panel>
+                  </Items>
+                </td>
+                <CopyToClipboardCell text={webhook.url} />
+              </tr>
+            ))}
+
+            {webhooks.length === 0 && (
+              <tr>
+                <th>
+                  <FormattedMessage id="fragments.client_application.webhook" />
+                </th>
+                <td>
+                  <Button buttonStyle="primary" onClick={handleAddNewWebhook}>
+                    <FormattedMessage id="fragments.client_application.add_webhook" />
+                  </Button>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </Items>
+    </Card>
   )
 }

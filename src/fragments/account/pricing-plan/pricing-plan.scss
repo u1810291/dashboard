@@ -15,15 +15,6 @@
   }
 }
 
-:local(.companyPlan) {
-  display: flex;
-  flex-direction: column;
-
-  ul {
-    flex: 1;
-  }
-}
-
 :local(.companyPlanLink) {
   align-self: center;
 }

@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Panel from 'src/components/panel'
+import Card from 'src/components/card'
 import Items from 'src/components/items'
-import Button from 'src/components/button'
+import Click from 'src/components/click'
 import openYoutubeOverlay from 'src/components/youtube-overlay'
 import { ReactComponent as Picture } from './picture.svg'
 import { ReactComponent as InstallationVideo } from './installation-video.svg'
@@ -13,7 +13,7 @@ function showVideo() {
 
 export default function WebhooksDocsPanel({ message }) {
   return (
-    <Panel.Body extraPadding>
+    <Card padding={4}>
       <Items flow="row" gap={4}>
         <h2>
           <FormattedMessage id="fragments.integration.webhooks-docs-panel.title" />
@@ -26,15 +26,17 @@ export default function WebhooksDocsPanel({ message }) {
           <InstallationVideo onClick={showVideo} className="cursor-pointer" />
         </Items>
         <section>
-          <Button
+          <Click
+            as="a"
             href="https://docs.getmati.com"
-            external
-            buttonStyle="primary"
+            target="_blank"
+            rel="noopener noreferrer"
+            background="active"
           >
             <FormattedMessage id="fragments.integration.webhooks-docs-panel.button" />
-          </Button>
+          </Click>
         </section>
       </Items>
-    </Panel.Body>
+    </Card>
   )
 }

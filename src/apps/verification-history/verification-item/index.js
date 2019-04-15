@@ -16,7 +16,6 @@ import WebbhooksIcon from './webhooks-icon.svg'
 //import DownloadIcon from './download-icon.svg'
 import DeleteIcon from './delete-icon.svg'
 import Button from 'src/components/button'
-import Panel from 'src/components/panel'
 import {
   getIdentityWithNestedData,
   patchIdentity,
@@ -119,23 +118,19 @@ class VerificationItem extends React.Component {
           </h1>
           <PageContentLayout>
             <main>
-              <Panel>
-                <Panel.Body>
-                  <VerificationDetails
-                    fullName={identity.fullName}
-                    documents={getDocuments(identity)}
-                    photos={getPhotos(identity, token)}
-                    selfie={getSelfie(identity, token)}
-                    onFieldChange={this.onFieldChange}
-                    status={identity.status}
-                    onStatusChange={this.onStatusChange}
-                    patchIsLoading={this.props.patchIsLoading}
-                    patchError={this.props.patchError}
-                    patchingFields={this.props.patchingFields}
-                    erroredFields={this.props.erroredFields}
-                  />
-                </Panel.Body>
-              </Panel>
+              <VerificationDetails
+                fullName={identity.fullName}
+                documents={getDocuments(identity)}
+                photos={getPhotos(identity, token)}
+                selfie={getSelfie(identity, token)}
+                onFieldChange={this.onFieldChange}
+                status={identity.status}
+                onStatusChange={this.onStatusChange}
+                patchIsLoading={this.props.patchIsLoading}
+                patchError={this.props.patchError}
+                patchingFields={this.props.patchingFields}
+                erroredFields={this.props.erroredFields}
+              />
             </main>
 
             <aside>

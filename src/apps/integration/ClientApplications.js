@@ -7,6 +7,7 @@ import {
   deleteWebhook,
   getWebhooks
 } from 'src/state/webhooks'
+import Items from 'src/components/items'
 import ClientApplication from 'src/fragments/account/client-application'
 import Support from 'src/fragments/account/support'
 
@@ -39,18 +40,20 @@ function ClientApplications({
   return (
     <React.Fragment>
       <main>
-        {apps.map(app => (
-          <ClientApplication
-            key={app.clientId}
-            application={app}
-            webhooks={webhooks[app.clientId]}
-            subscribeToWebhook={handleSubscribeToWebhook.bind(
-              null,
-              app.clientId
-            )}
-            deleteWebhook={handleDeleteWebhook.bind(null, app.clientId)}
-          />
-        ))}
+        <Items flow="row">
+          {apps.map(app => (
+            <ClientApplication
+              key={app.clientId}
+              application={app}
+              webhooks={webhooks[app.clientId]}
+              subscribeToWebhook={handleSubscribeToWebhook.bind(
+                null,
+                app.clientId
+              )}
+              deleteWebhook={handleDeleteWebhook.bind(null, app.clientId)}
+            />
+          ))}
+        </Items>
       </main>
       <aside>
         <Support />

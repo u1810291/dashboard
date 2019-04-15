@@ -30,7 +30,8 @@ code {
 
 img {
   /* Remove extra space below image */
-  display: flex;
+  display: inline-flex;
+  max-width: 100%;
 }
 
 p {

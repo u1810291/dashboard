@@ -1,5 +1,5 @@
 .text-light {
-  font-weight: 300;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -12,6 +12,10 @@
 
 .text-wrap {
   word-break: break-all;
+}
+
+.text-nowrap {
+  white-space: nowrap;
 }
 
 .text-active {
@@ -55,39 +59,47 @@
 }
 
 .background-active {
-  background: var(--mgi-theme-palette-active) !important;
+  background: var(--mgi-theme-palette-active);
+}
+
+.background-lightergray {
+  background: var(--mgi-theme-palette-lightergray);
 }
 
 .background-success {
-  background-color: var(--mgi-theme-palette-success) !important;
+  background-color: var(--mgi-theme-palette-success);
 }
 
 .background-warning {
-  background-color: var(--mgi-theme-palette-warning) !important;
+  background-color: var(--mgi-theme-palette-warning);
 }
 
 .background-error {
-  background-color: var(--mgi-theme-palette-error) !important;
+  background-color: var(--mgi-theme-palette-error);
 }
 
 .background-pink {
-  background-color: var(--mgi-theme-palette-pink) !important;
+  background-color: var(--mgi-theme-palette-pink);
 }
 
 .background-softpink {
-  background-color: var(--mgi-theme-palette-softpink) !important;
+  background-color: var(--mgi-theme-palette-softpink);
 }
 
 .background-apricot {
-  background-color: var(--mgi-theme-palette-apricot) !important;
+  background-color: var(--mgi-theme-palette-apricot);
+}
+
+.background-white {
+  background-color: white;
 }
 
 .background-darkapricot {
-  background-color: var(--mgi-theme-palette-darkapricot) !important;
+  background-color: var(--mgi-theme-palette-darkapricot);
 }
 
 .background-transparent {
-  background-color: transparent !important;
+  background-color: transparent;
 }
 
 .background-active,
@@ -96,8 +108,6 @@
 .background-error {
   --mgi-theme-palette-secondary: var(--mgi-theme-palette-lightgray);
   color: white;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 .svg-secondary path {
@@ -122,4 +132,113 @@
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+[class*='border-']:not(.border-transparent) {
+  border-style: solid;
+  border-width: 1px;
+}
+
+.border-black {
+  border-color: var(--mgi-theme-palette-black);
+}
+
+.border-white {
+  border-color: var(white);
+}
+
+.border-gray {
+  border-color: var(--mgi-theme-palette-gray);
+}
+
+.border-darkgray {
+  border-color: var(--mgi-theme-palette-darkgray);
+}
+
+.border-darkergray {
+  border-color: var(--mgi-theme-palette-darkergray);
+}
+
+.border-lightgray {
+  border-color: var(--mgi-theme-palette-lightgray);
+}
+
+.border-lightergray {
+  border-color: var(--mgi-theme-palette-lightergray);
+}
+
+.border-blue {
+  border-color: var(--mgi-theme-palette-blue);
+}
+
+.border-lightblue {
+  border-color: var(--mgi-theme-palette-lightblue);
+}
+
+.border-lighterblue {
+  border-color: var(--mgi-theme-palette-lighterblue);
+}
+
+.border-green {
+  border-color: var(--mgi-theme-palette-green);
+}
+
+.border-red {
+  border-color: var(--mgi-theme-palette-red);
+}
+
+.border-pink {
+  border-color: var(--mgi-theme-palette-pink);
+}
+
+.border-softpink {
+  border-color: var(--mgi-theme-palette-softpink);
+}
+
+.border-darkpink {
+  border-color: var(--mgi-theme-palette-darkpink);
+}
+
+.border-orange {
+  border-color: var(--mgi-theme-palette-orange);
+}
+
+.border-yellow {
+  border-color: var(--mgi-theme-palette-yellow);
+}
+
+.border-apricot {
+  border-color: var(--mgi-theme-palette-apricot);
+}
+
+.border-darkapricot {
+  border-color: var(--mgi-theme-palette-darkapricot);
+}
+
+.border-default {
+  border-color: var(--mgi-theme-palette-default);
+}
+
+.border-secondary {
+  border-color: var(--mgi-theme-palette-secondary);
+}
+
+.border-disabled {
+  border-color: var(--mgi-theme-palette-disabled);
+}
+
+.border-active {
+  border-color: var(--mgi-theme-palette-active);
+}
+
+.border-success {
+  border-color: var(--mgi-theme-palette-success);
+}
+
+.border-warning {
+  border-color: var(--mgi-theme-palette-warning);
+}
+
+.border-error {
+  border-color: var(--mgi-theme-palette-error);
 }
