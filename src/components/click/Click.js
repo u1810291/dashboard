@@ -38,7 +38,7 @@ export default function Click({
 
         &:hover,
         &:active {
-          ${shadowValue(shadow + 1)}
+          box-shadow: ${shadowValue(shadow + 1)};
         }
       `}
       {...props}
