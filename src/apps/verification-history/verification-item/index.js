@@ -121,6 +121,7 @@ class VerificationItem extends React.Component {
               <VerificationDetails
                 fullName={identity.fullName}
                 documents={getDocuments(identity)}
+                metadata={identity.metadata}
                 photos={getPhotos(identity, token)}
                 selfie={getSelfie(identity, token)}
                 onFieldChange={this.onFieldChange}

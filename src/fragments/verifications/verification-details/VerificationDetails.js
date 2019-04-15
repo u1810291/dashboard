@@ -1,13 +1,15 @@
 import React from 'react'
-import { injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import DocumentFields from './document-fields'
 import DocumentPhotos from './document-photos'
 import CSS from './verificationDetails.scss'
 import VerificationFullNameLabel from 'src/fragments/verifications/verification-full-name-label'
 import StatusSelect from 'src/fragments/verifications/status-select'
 import ContentPreloader from 'src/components/content-preloader'
+import SyntaxHighlighter from 'src/components/syntax-highlighter'
 import Items from 'src/components/items'
 import Card from 'src/components/card'
+import stringify from 'src/lib/stringify'
 import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
 
 function caption(document, intl) {
@@ -37,6 +39,7 @@ function VerificationDetails({
   intl,
   photos = [],
   documents = [],
+  metadata,
   selfie,
   onFieldChange,
   fullName,
@@ -54,7 +57,7 @@ function VerificationDetails({
           <DocumentPhotos selfie={selfie} photos={photos} />
         </section>
         <section>
-          <Items flow="row" withBorder>
+          <Items flow="row">
             <h1>
               <VerificationFullNameLabel>{fullName}</VerificationFullNameLabel>
               {isFeatureEnabled('STATUSES') && (
@@ -85,6 +88,23 @@ function VerificationDetails({
                 {index < documents.length - 1 && <hr />}
               </React.Fragment>
             ))}
+            {metadata && (
+              <>
+                <hr />
+                <Items flow="row" gap={1}>
+                  <h3>
+                    <FormattedMessage id="verificationModal.fields.metadata" />
+                  </h3>
+                  <SyntaxHighlighter
+                    code={stringify(metadata)}
+                    language="javascript"
+                    showCopyToClipboard={false}
+                    border="transparent"
+                    background="lightergray"
+                  />
+                </Items>
+              </>
+            )}
           </Items>
         </section>
       </Items>

@@ -34,7 +34,7 @@ export default {
     MozHyphens: 'none',
     msHyphens: 'none',
     hyphens: 'none',
-    padding: 'var(--mgi-spacing)',
+    padding: '0',
     margin: '0',
     overflow: 'auto'
   },

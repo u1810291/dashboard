@@ -386,6 +386,7 @@
   "verificationModal.fields.national-id": "National ID",
   "verificationModal.fields.passport": "Passport",
   "verificationModal.fields.proof-of-residency": "Proof of residency",
+  "verificationModal.fields.metadata": "Metadata",
 
   "verificationWebhookModal.title": "Webhook data",
 
