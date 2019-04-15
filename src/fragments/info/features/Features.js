@@ -5,7 +5,7 @@ import Click from 'src/components/click'
 import PopupWindow from 'src/components/popup-window'
 import { createOverlay, closeOverlay } from 'src/components/overlay'
 import images from './images'
-import gifs from './gifs'
+import gifs from './popup-images'
 
 export const FEATURES = [
   'liveness',
