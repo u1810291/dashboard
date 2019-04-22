@@ -583,5 +583,37 @@
   "fragments.info.features-poster.label": "Mati Features",
   "fragments.info.features-poster.title": "Everything you need to increase security of your company",
   "fragments.info.features-poster.description": "Mati support 7 checks which will provide a high level security of your company. And it’s only beginning.",
-  "fragments.info.features-poster.cta": "Start to Integrate"
+  "fragments.info.features-poster.cta": "Start to Integrate",
+  "DocumentReadingStep.notParsed": "Not Extracted",
+  "DocumentReadingStep.error": "Unable to read document data: <span class=\"text-error\">{message}</span>",
+  "MexicanCurpValidationStep.title": "Mexican CURP Validation",
+
+  "SecurityCheckStep.alteration-detection": "Document {message}",
+  "SecurityCheckStep.alteration-detection.failure": "was altered",
+  "SecurityCheckStep.alteration-detection.success": "is not altered",
+
+  "SecurityCheckStep.facematch": "Faces on liveness video and document are {message}",
+  "SecurityCheckStep.facematch.success": "matched",
+  "SecurityCheckStep.facematch.failure": "not matched",
+
+  "SecurityCheckStep.template-matching": "Document {message} other documents from this region",
+  "SecurityCheckStep.template-matching.success": "looks like",
+  "SecurityCheckStep.template-matching.failure": "doesn't look like",
+
+  "SecurityCheckStep.watchlists": "The person's name is {message}",
+  "SecurityCheckStep.watchlists.success": "not in watchlist",
+  "SecurityCheckStep.watchlists.failure": "in watchlist",
+
+  "DocumentStep.title": "{document} from {country}",
+
+  "LivenessStep.InProgress.title": "Liveness check",
+  "LivenessStep.InProgress.description": "Liveness video check is in progress",
+  "LivenessStep.Success.title": "Liveness check",
+  "LivenessStep.Success.description": "This person behind camera is {message}",
+  "LivenessStep.Success.message": "alive",
+  "LivenessStep.Error.title": "Liveness failed",
+  "LivenessStep.Skipped.title": "No liveness video",
+  "LivenessStep.Skipped.description": "Liveness check was cancelled by user",
+
+  "VerificationMetadata.title": "Metadata"
 }

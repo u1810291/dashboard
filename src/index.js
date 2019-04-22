@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 // Next line must stay on the top because of css variables
 import 'src/components/theme/styles.scss'
 import IntlProvider from 'src/components/intl-provider'
+import { I18nProvider } from '@lingui/react'
 import StoreProvider from 'src/components/store-provider'
 import SentryLogger from 'src/components/sentry-logger'
 import ScrollToTop from 'src/components/scroll-to-top'
@@ -26,23 +27,25 @@ if (process.env.REACT_APP_SENTRY_DSN) {
 
 ReactDOM.render(
   <ErrorLoggerWrapper>
-    <IntlProvider>
-      <StoreProvider>
-        <BrowserRouter>
-          <ScrollToTop>
-            <Root />
-            <NotificationsContainer
-              closeButton={false}
-              hideProgressBar={true}
-              pauseOnHover={false}
-              draggable={false}
-              autoClose={5000}
-            />
-            <OverlayContainer />
-          </ScrollToTop>
-        </BrowserRouter>
-      </StoreProvider>
-    </IntlProvider>
+    <I18nProvider locale="en">
+      <IntlProvider>
+        <StoreProvider>
+          <BrowserRouter>
+            <ScrollToTop>
+              <Root />
+              <NotificationsContainer
+                closeButton={false}
+                hideProgressBar={true}
+                pauseOnHover={false}
+                draggable={false}
+                autoClose={5000}
+              />
+              <OverlayContainer />
+            </ScrollToTop>
+          </BrowserRouter>
+        </StoreProvider>
+      </IntlProvider>
+    </I18nProvider>
   </ErrorLoggerWrapper>,
   document.getElementById('root')
 )

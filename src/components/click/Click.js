@@ -6,12 +6,15 @@ import Card, { shadowValue, paddingValue } from '../card'
 export default function Click({
   children,
   padding = 1,
+  gap = 1,
   inline = true,
   shadow = 0,
   tabIndex = 0,
   onClick = () => {},
   justifyContent = 'center',
   justifyItems = 'center',
+  flow = 'column',
+  align = 'center',
   ...props
 }) {
   return (
@@ -23,6 +26,9 @@ export default function Click({
       justifyItems={justifyItems}
       tabIndex={tabIndex}
       onClick={onClick}
+      flow={flow}
+      gap={gap}
+      align={align}
       onKeyPress={event =>
         ['Enter', ' '].includes(event.key) &&
         (event.preventDefault(), onClick(event))

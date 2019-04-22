@@ -1,5 +1,6 @@
 import { isEmpty } from 'lodash'
 import { createReducer, createTypesSequence } from 'src/state/utils'
+import { toPairs, fromPairs } from 'lodash'
 import {
   buildInitialMonthlyIdentities,
   computeMonthlyStatisticsForIdentities
@@ -105,13 +106,14 @@ export function patchIdentity(token, id, data) {
 export function deleteIdentity(token, id) {
   return function(dispatch) {
     dispatch({ type: types.IDENTITY_DELETE_REQUEST, payload: { id } })
-    return client.identities.deleteIdentity(token, id)
+    return client.identities
+      .deleteIdentity(token, id)
       .then(() => {
         dispatch({ type: types.IDENTITY_DELETE_SUCCESS, payload: { id } })
         return { payload: { id } }
       })
       .catch(error => {
-        dispatch({ type: types.IDENTITY_DELETE_FAILURE , payload: { id } })
+        dispatch({ type: types.IDENTITY_DELETE_FAILURE, payload: { id } })
         notification.error('Something went wrong. Please retry')
         throw error
       })
@@ -124,13 +126,20 @@ export function patchDocument(token, identityId, id, fields) {
       type: types.DOCUMENT_PATCH_REQUEST,
       payload: { identityId, id, fields }
     })
-    return client.identities.patchDocument(token, id, fields)
+    return client.identities
+      .patchDocument(token, id, fields)
       .then(payload => {
-        dispatch({ type: types.DOCUMENT_PATCH_SUCCESS, payload: { identityId, id, fields } })
+        dispatch({
+          type: types.DOCUMENT_PATCH_SUCCESS,
+          payload: { identityId, id, fields }
+        })
         return payload
       })
       .catch(error => {
-        dispatch({ type: types.DOCUMENT_PATCH_FAILURE , payload: { identityId, id, fields } })
+        dispatch({
+          type: types.DOCUMENT_PATCH_FAILURE,
+          payload: { identityId, id, fields }
+        })
         notification.error('Something went wrong. Please retry')
         throw error
       })
@@ -151,13 +160,42 @@ const initialState = {
   monthlyIdentities: buildInitialMonthlyIdentities(12)
 }
 
+// FOR GOVCHECK DATA:
+// turns `data: {key: value, ...}` to `data: {key: {value: value}, ...}`
+// as we already have for document reading step
+function normalizeCURPData(identity) {
+  if (!identity._embedded || !identity._embedded.verification) return identity
+  // debugger
+  return {
+    ...identity,
+    _embedded: {
+      ...identity._embedded,
+      verification: {
+        ...identity._embedded.verification,
+        documents: identity._embedded.verification.documents.map(doc => ({
+          ...doc,
+          steps: doc.steps.map(step => ({
+            ...step,
+            data:
+              step.data && step.id === 'mexican-curp-validation'
+                ? fromPairs(
+                    toPairs(step.data).map(([key, value]) => [key, { value }])
+                  )
+                : step.data
+          }))
+        }))
+      }
+    }
+  }
+}
+
 const reducer = createReducer(initialState, {
   [types.IDENTITY_FETCH_SUCCESS]: function(state, { identity }) {
     return {
       ...state,
       instances: {
         ...state.instances,
-        [identity.id]: identity
+        [identity.id]: normalizeCURPData(identity)
       }
     }
   },
@@ -244,8 +282,11 @@ const reducer = createReducer(initialState, {
       return doc.id === payload.id
     })
     patchingFields.push({ docId: documentToEdit.id, id: payload.fields[0].id })
-    erroredFields = erroredFields.filter((erroredField) => {
-      return !(erroredField.docId === payload.id && erroredField.id === payload.fields[0].id)
+    erroredFields = erroredFields.filter(erroredField => {
+      return !(
+        erroredField.docId === payload.id &&
+        erroredField.id === payload.fields[0].id
+      )
     })
     return {
       ...state,
@@ -268,8 +309,11 @@ const reducer = createReducer(initialState, {
         }
       })
     })
-    patchingFields = patchingFields.filter((patchingField) => {
-      return !(patchingField.docId === payload.id && patchingField.id === payload.fields[0].id)
+    patchingFields = patchingFields.filter(patchingField => {
+      return !(
+        patchingField.docId === payload.id &&
+        patchingField.id === payload.fields[0].id
+      )
     })
     return {
       ...state,
@@ -285,8 +329,11 @@ const reducer = createReducer(initialState, {
     let documentToEdit = instances[payload.identityId].documents.find(doc => {
       return doc.id === payload.id
     })
-    patchingFields = patchingFields.filter((patchingField) => {
-      return !(patchingField.docId === payload.id && patchingField.id === payload.fields[0].id)
+    patchingFields = patchingFields.filter(patchingField => {
+      return !(
+        patchingField.docId === payload.id &&
+        patchingField.id === payload.fields[0].id
+      )
     })
     erroredFields.push({ docId: documentToEdit.id, id: payload.fields[0].id })
     return {
@@ -306,7 +353,9 @@ const reducer = createReducer(initialState, {
   [types.IDENTITY_DELETE_SUCCESS]: function(state, { payload }) {
     let identities = [].concat(state.identities)
     let deletingIdentities = [].concat(state.deletingIdentities)
-    identities = identities.filter(identity => identity.identity.id !== payload.id)
+    identities = identities.filter(
+      identity => identity.identity.id !== payload.id
+    )
     deletingIdentities = deletingIdentities.filter(id => id !== payload.id)
     return {
       ...state,

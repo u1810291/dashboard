@@ -13,7 +13,7 @@ import ApplicationMenu, {
 import Icons from 'src/components/icons'
 import { Configuration } from 'src/apps/configuration'
 import VerificationHistory from 'src/apps/verification-history'
-import VerificationItem from 'src/apps/verification-history/verification-item'
+import VerificationDetail from 'src/apps/verification-detail'
 import { Settings } from 'src/apps/settings'
 import Info from 'src/apps/info'
 import Integration from 'src/apps/integration'
@@ -135,7 +135,7 @@ class Dashboard extends React.Component {
             <Route
               exact
               path="/verifications/:id"
-              component={VerificationItem}
+              component={VerificationDetail}
             />
             <OwnersRoute path="/settings" component={Settings} />
             <Route path="/info" component={Info} />
