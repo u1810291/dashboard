@@ -4,7 +4,6 @@ import { BrowserRouter } from 'react-router-dom'
 // Next line must stay on the top because of css variables
 import 'src/components/theme/styles.scss'
 import IntlProvider from 'src/components/intl-provider'
-import { I18nProvider } from '@lingui/react'
 import StoreProvider from 'src/components/store-provider'
 import SentryLogger from 'src/components/sentry-logger'
 import ScrollToTop from 'src/components/scroll-to-top'
