@@ -26,25 +26,23 @@ if (process.env.REACT_APP_SENTRY_DSN) {
 
 ReactDOM.render(
   <ErrorLoggerWrapper>
-    <I18nProvider locale="en">
-      <IntlProvider>
-        <StoreProvider>
-          <BrowserRouter>
-            <ScrollToTop>
-              <Root />
-              <NotificationsContainer
-                closeButton={false}
-                hideProgressBar={true}
-                pauseOnHover={false}
-                draggable={false}
-                autoClose={5000}
-              />
-              <OverlayContainer />
-            </ScrollToTop>
-          </BrowserRouter>
-        </StoreProvider>
-      </IntlProvider>
-    </I18nProvider>
+    <IntlProvider>
+      <StoreProvider>
+        <BrowserRouter>
+          <ScrollToTop>
+            <Root />
+            <NotificationsContainer
+              closeButton={false}
+              hideProgressBar={true}
+              pauseOnHover={false}
+              draggable={false}
+              autoClose={5000}
+            />
+            <OverlayContainer />
+          </ScrollToTop>
+        </BrowserRouter>
+      </StoreProvider>
+    </IntlProvider>
   </ErrorLoggerWrapper>,
   document.getElementById('root')
 )
