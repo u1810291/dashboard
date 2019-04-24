@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import Card from 'src/components/card'
 import Items from 'src/components/items'
-import { ReactComponent as Picture } from './picture.svg'
+import Picture from './picture.svg'
 
 export default function WebhookTestPanel({ message }) {
   return (
@@ -21,7 +21,7 @@ export default function WebhookTestPanel({ message }) {
               </li>
             ))}
           </ol>
-          <Picture />
+          <img src={Picture} alt="" className="content-cover" />
         </Items>
         <Items flow="row" gap={0}>
           <h3 className="text-darkpink">

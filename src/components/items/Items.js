@@ -52,15 +52,6 @@ const Items = styled.div(
     align-content: ${alignContent};
     justify-content: ${justifyContent};
     justify-items: ${justifyItems};
-
-    & > {
-      svg,
-      video,
-      img {
-        width: 100%;
-        height: auto;
-      }
-    }
   `
 )
 

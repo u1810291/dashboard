@@ -9,10 +9,10 @@ import { DateRangePicker } from 'react-dates'
 import moment from 'moment'
 import { isEmpty } from 'lodash'
 import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
-import FilterIcon from './filter.svg'
+import { ReactComponent as FilterIcon } from './filter.svg'
 
 import 'react-dates/lib/css/_datepicker.css'
-import IconClose from 'src/assets/icon-close.svg'
+import { ReactComponent as IconClose } from 'src/assets/icon-close.svg'
 import CSS from './filters-form.scss'
 
 class VerificationsFiltersForm extends Component {

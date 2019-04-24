@@ -29,6 +29,7 @@ function LivenessVideo({ url }) {
         target.pause()
       }}
       src={url}
+      className="content-cover"
     />
   )
 }

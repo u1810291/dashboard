@@ -4,8 +4,8 @@ import Card from 'src/components/card'
 import Items from 'src/components/items'
 import Click from 'src/components/click'
 import openYoutubeOverlay from 'src/components/youtube-overlay'
-import { ReactComponent as Picture } from './picture.svg'
-import { ReactComponent as InstallationVideo } from './installation-video.svg'
+import Picture from './picture.svg'
+import InstallationVideo from './installation-video.svg'
 
 function showVideo() {
   openYoutubeOverlay({ id: 'Gmgl_lxeFlY' })
@@ -22,8 +22,13 @@ export default function WebhooksDocsPanel({ message }) {
           </p>
         </h2>
         <Items templateColumns="1fr 1fr" gap={4}>
-          <Picture />
-          <InstallationVideo onClick={showVideo} className="cursor-pointer" />
+          <img src={Picture} className="content-cover" alt="" />
+          <img
+            src={InstallationVideo}
+            className="content-cover cursor-pointer"
+            alt=""
+            onClick={showVideo}
+          />
         </Items>
         <section>
           <Click

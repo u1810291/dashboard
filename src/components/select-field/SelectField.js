@@ -2,7 +2,7 @@ import React from 'react'
 import CSS from './SelectField.scss'
 import Select, { components } from 'react-select'
 import classNames from 'classnames'
-import DownArrow from './downArrow.svg'
+import { ReactComponent as DownArrow } from './downArrow.svg'
 
 const DropdownIndicator = props => {
   return (

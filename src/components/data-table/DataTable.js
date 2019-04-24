@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import Card from 'src/components/card'
-import EmptyTableIcon from './empty-table.svg'
+import { ReactComponent as EmptyTableIcon } from './empty-table.svg'
 import Spinner from 'src/components/spinner'
 import CSS from './DataTable.scss'
 

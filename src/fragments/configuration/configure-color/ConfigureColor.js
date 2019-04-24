@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { ChromePicker } from 'react-color'
 import ColorCheckButton from 'src/components/color-check-button'
 import Items from 'src/components/items'
-import ColorPicker from './color-picker.svg'
+import { ReactComponent as ColorPicker } from './color-picker.svg'
 import CSS from './ConfigureColor.css'
 
 export default function ConfigureColor({

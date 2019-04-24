@@ -21,7 +21,7 @@ import Spinner from 'src/components/spinner'
 import confirm from 'src/components/confirm'
 import PageContentLayout from 'src/components/page-content-layout'
 import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
-import DeleteIcon from '../verification-detail/delete-icon.svg'
+import { ReactComponent as DeleteIcon } from '../verification-detail/delete-icon.svg'
 import CSS from './VerificationHistory.scss'
 
 const FILTERS = [

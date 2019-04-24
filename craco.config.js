@@ -8,8 +8,7 @@ module.exports = {
         {
           root: ['.']
         }
-      ],
-      ['inline-react-svg']
+      ]
     ]
   },
   style: {

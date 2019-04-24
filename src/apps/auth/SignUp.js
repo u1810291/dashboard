@@ -7,7 +7,7 @@ import { signUp } from 'src/state/auth'
 import { updateData } from 'src/lib/intercom'
 import SignUpForm from 'src/fragments/signup/sign-up-form'
 import CSS from './Auth.css'
-import MatiLogo from 'src/assets/mati-logo.svg'
+import { ReactComponent as MatiLogo } from 'src/assets/mati-logo.svg'
 
 class SignUp extends React.Component {
   handleSubmit = async data => {

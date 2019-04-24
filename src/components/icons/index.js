@@ -1,11 +1,11 @@
-import FaceMatch from './face-match.svg'
-import Spy from './spy.svg'
-import TickFilled from './tick-filled.svg'
-import WarningTriangle from './warning-triangle.svg'
-import Info from './info.v2.svg'
-import TrashBin from './trashbin.svg'
-import Pencil from './pencil.svg'
-import Clipboard from './Clipboard.svg'
+import { ReactComponent as FaceMatch } from './face-match.svg'
+import { ReactComponent as Spy } from './spy.svg'
+import { ReactComponent as TickFilled } from './tick-filled.svg'
+import { ReactComponent as WarningTriangle } from './warning-triangle.svg'
+import { ReactComponent as Info } from './info.v2.svg'
+import { ReactComponent as TrashBin } from './trashbin.svg'
+import { ReactComponent as Pencil } from './pencil.svg'
+import { ReactComponent as Clipboard } from './Clipboard.svg'
 
 export default {
   FaceMatch,
