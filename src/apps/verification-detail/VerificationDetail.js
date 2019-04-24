@@ -1,18 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, memo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { titleize } from 'inflection'
 import { connect } from 'react-redux'
-import { get } from 'lodash'
+import { get, isEqual } from 'lodash'
 import { getIdentityWithNestedData, deleteIdentity } from 'src/state/identities'
 import { getCountries } from 'src/state/countries'
 import { Content } from 'src/components/application-box'
 import Items from 'src/components/items'
 import Click from 'src/components/click'
 import confirm from 'src/components/confirm'
+import { createOverlay } from 'src/components/overlay'
 import PageContentLayout from 'src/components/page-content-layout'
 import DocumentStep from 'src/fragments/verifications/document-step'
 import LivenessStep from 'src/fragments/verifications/liveness-step'
 import VerificationMetadata from 'src/fragments/verifications/verification-metadata'
+import VerificationWebhookModal from 'src/fragments/verifications/verification-webhook-modal'
 import Spinner from 'src/components/spinner'
 import { ReactComponent as DeleteIcon } from './delete-icon.svg'
 
@@ -24,6 +26,10 @@ async function handleDeleteIdentity(dispatch, history, token, id) {
   await confirm(<FormattedMessage id="verificationModal.delete.confirm" />)
   await dispatch(deleteIdentity(token, id))
   history.push('/verifications')
+}
+
+function openWebhookModal(identity) {
+  createOverlay(<VerificationWebhookModal webhook={identity} />)
 }
 
 function loadData(dispatch, token, id) {
@@ -38,6 +44,44 @@ function isLoaded(verification) {
     )
   )
 }
+
+const MemoizedPageContent = memo(
+  ({ identity, countries }) => {
+    let verification
+    if (!(verification = get(identity, '_embedded.verification'))) return null
+
+    const livenessStep = verification.steps.find(s => s.id === 'liveness')
+    return (
+      <>
+        {livenessStep && <LivenessStep step={livenessStep} />}
+        {verification.documents.map(doc => (
+          <DocumentStep document={doc} countries={countries} key={doc.type} />
+        ))}
+      </>
+    )
+  },
+  function(next, prev) {
+    function normalize(identity) {
+      const verification = get(identity, '_embedded.verification', {
+        steps: [],
+        documents: []
+      })
+
+      return {
+        id: verification.id,
+        steps: verification.steps.map(s => ({ status: s.status, id: s.id })),
+        documents: verification.documents.map(d => ({
+          type: d.type,
+          steps: d.steps.map(ds => ({
+            id: ds.id,
+            status: ds.status
+          }))
+        }))
+      }
+    }
+    return isEqual(normalize(prev.identity), normalize(next.identity))
+  }
+)
 
 function VerificationDetail({
   token,
@@ -58,21 +102,17 @@ function VerificationDetail({
 
   useEffect(
     () => {
-      if (
-        !get(identity, '_embedded.verification') ||
-        !isLoaded(identity._embedded.verification)
-      ) {
-        setTimeout(() => loadData(dispatch, token, id), 5000)
-      }
+      setTimeout(function() {
+        const verification = get(identity, '_embedded.verification')
+        if (verification && !isLoaded(verification)) {
+          loadData(dispatch, token, id)
+        }
+      }, 5000)
     },
     [identity]
   )
 
   if (!identity) return null
-
-  const livenessStep =
-    get(identity, '_embedded.verification') &&
-    identity._embedded.verification.steps.find(step => step.id === 'liveness')
 
   const isDeleting = deletingIdentities.includes(identity.id)
 
@@ -89,43 +129,42 @@ function VerificationDetail({
         <PageContentLayout>
           <main>
             <Items flow="row">
-              {get(identity, '_embedded.verification') && (
-                <>
-                  {livenessStep && <LivenessStep step={livenessStep} />}
-                  {identity._embedded.verification.documents.map(step => (
-                    <DocumentStep
-                      document={step}
-                      countries={countries}
-                      key={step.type}
-                    />
-                  ))}
-                </>
-              )}
+              <MemoizedPageContent identity={identity} countries={countries} />
               {identity.metadata && (
                 <VerificationMetadata metadata={identity.metadata} />
               )}
-              <section>
-                <Click
-                  background="error"
-                  shadow={1}
-                  onClick={handleDeleteIdentity.bind(
-                    null,
-                    dispatch,
-                    history,
-                    token,
-                    id
-                  )}
-                >
-                  {isDeleting ? (
-                    <Spinner />
-                  ) : (
-                    <DeleteIcon className="svg-white" />
-                  )}
-                  <FormattedMessage id="verificationModal.delete" />
-                </Click>
-              </section>
             </Items>
           </main>
+          <aside>
+            <Items flow="row" justifyItems="start">
+              <Click
+                background="error"
+                shadow={1}
+                onClick={handleDeleteIdentity.bind(
+                  null,
+                  dispatch,
+                  history,
+                  token,
+                  id
+                )}
+              >
+                {isDeleting ? (
+                  <Spinner />
+                ) : (
+                  <DeleteIcon className="svg-white" />
+                )}
+                <FormattedMessage id="verificationModal.delete" />
+              </Click>
+              <Click
+                onClick={openWebhookModal.bind(
+                  null,
+                  get(identity, 'originalIdentity._embedded.verification', {})
+                )}
+              >
+                <FormattedMessage id="verificationModal.webhookData" />
+              </Click>
+            </Items>
+          </aside>
         </PageContentLayout>
       </Items>
     </Content>
