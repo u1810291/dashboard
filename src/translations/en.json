@@ -615,5 +615,6 @@
   "LivenessStep.Skipped.title": "No liveness video",
   "LivenessStep.Skipped.description": "Liveness check was cancelled by user",
 
-  "VerificationMetadata.title": "Metadata"
+  "VerificationMetadata.title": "Metadata",
+  "LetsStartPanel.cta": "Download Presentation"
 }

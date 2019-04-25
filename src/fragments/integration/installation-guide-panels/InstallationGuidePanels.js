@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { FormattedMessage } from 'react-intl'
 import Card from 'src/components/card'
 import Items from 'src/components/items'
+import Click from 'src/components/click'
 import Button from 'src/components/button'
 import openYoutubeOverlay from 'src/components/youtube-overlay'
 import CSS from './InstallationGuidePanels.module.scss'
@@ -10,6 +11,7 @@ import LetsStartPicture from './lets-start.svg'
 import VerificationPicture from './verification.svg'
 import ApplicationsPicture from './applications.svg'
 import VideoPicture from './video.svg'
+import PresentationFile from './mati-integration-sales-pres.pdf'
 
 function Aside({ children }) {
   return (
@@ -171,16 +173,20 @@ export function LetsStartPanel() {
       templateColumns="4fr 5fr"
       background="apricot"
     >
-      <Items flow="row" gap={4}>
-        <Items flow="row">
-          <h2>
-            <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.title" />
-          </h2>
-          <p>
-            <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.message" />
-          </p>
-        </Items>
+      <Items flow="row">
+        <h2>
+          <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.title" />
+        </h2>
+        <p>
+          <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.message" />
+        </p>
+        <section>
+          <Click background="active" href={PresentationFile} as="a">
+            <FormattedMessage id="LetsStartPanel.cta" />
+          </Click>
+        </section>
       </Items>
+
       <img src={LetsStartPicture} alt="" className="content-cover" />
     </CardWithAside>
   )
