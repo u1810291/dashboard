@@ -1,7 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { transform } from 'inflection'
-import { putMerchants } from 'src/state/merchant'
 import AdditionalInfoForm from 'src/fragments/signup/additional-info-form'
 import CSS from './Auth.css'
 import { ReactComponent as MatiLogo } from 'src/assets/mati-logo.svg'
@@ -9,7 +7,7 @@ import { setUserProperties, trackEvent } from 'src/lib/mixpanel'
 import { updateData } from 'src/lib/intercom'
 import { showVideo } from 'src/fragments/configuration/onboarding-video'
 
-class AdditionalInfo extends React.Component {
+export default class AdditionalInfo extends React.Component {
   handleSubmit = data => {
     setUserProperties(data)
     updateData(
@@ -34,8 +32,3 @@ class AdditionalInfo extends React.Component {
     )
   }
 }
-
-export default connect(
-  state => ({ token: state.auth.token }),
-  { putMerchants }
-)(AdditionalInfo)
