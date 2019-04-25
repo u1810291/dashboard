@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { pick } from 'lodash'
+import { pick, fromPairs, toPairs } from 'lodash'
 import { Link } from 'react-router-dom'
+import { transform } from 'inflection'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { signUp } from 'src/state/auth'
 import { updateData } from 'src/lib/intercom'
@@ -11,7 +12,16 @@ import { ReactComponent as MatiLogo } from 'src/assets/mati-logo.svg'
 
 class SignUp extends React.Component {
   handleSubmit = async data => {
-    updateData(pick(data, 'verificationNum', 'websiteUrl'))
+    const intercomFields = pick(data, 'verificationNum', 'websiteUrl')
+    updateData(
+      fromPairs(
+        toPairs(intercomFields).map(([key, value]) => [
+          transform(key, ['underscore', 'titleize']),
+          value
+        ])
+      )
+    )
+
     await this.props.signUp(
       pick(data, 'firstName', 'lastName', 'email', 'password')
     )
