@@ -1,4 +1,5 @@
-import http, { getAuthHeader } from './http'
+import { get } from 'lodash'
+import http, { getAuthHeader, authorizedUrl } from './http'
 
 export function getIdentityListCount(token) {
   return new Promise((resolve, reject) => {
@@ -55,10 +56,16 @@ async function getDocumentPictures(token, id) {
 }
 
 async function getDocumentsFullData(token, id) {
-  return getDocuments(token, id).then(({ data }) => Promise.all(data.map(async document => ({
-    ...document,
-    pictures: await getDocumentPictures(token, document.id).then(({data}) => data)
-  }))))
+  return getDocuments(token, id).then(({ data }) =>
+    Promise.all(
+      data.map(async document => ({
+        ...document,
+        pictures: await getDocumentPictures(token, document.id).then(
+          ({ data }) => data
+        )
+      }))
+    )
+  )
 }
 
 export function getIdentityWithNestedData(token, id) {
@@ -70,28 +77,48 @@ export function getIdentityWithNestedData(token, id) {
     if (!data._embedded || !data._embedded.verification) {
       identity.documents = await getDocumentsFullData(token, id)
     }
+    if (
+      get(data, '_embedded.verification.steps') &&
+      get(data, '_links.video.href') &&
+      data._embedded.verification.steps.find(step => step.id === 'liveness')
+    ) {
+      const video = await http.get(authorizedUrl(data._links.video.href, token))
+      const stepIndex = data._embedded.verification.steps.findIndex(
+        step => step.id === 'liveness'
+      )
+
+      const step = identity._embedded.verification.steps[stepIndex]
+      identity._embedded.verification.steps[stepIndex].data = {
+        ...step.data,
+        videoUrl: authorizedUrl(video.data._links.file.href, token)
+      }
+    }
     return identity
   })
 }
 
 export function patchDocument(token, id, fields) {
-  return http.patch(`/v1/documents/${id}`, { fields }, {
-    headers: { ...getAuthHeader(token) }
-  })
+  return http.patch(
+    `/v1/documents/${id}`,
+    { fields },
+    {
+      headers: { ...getAuthHeader(token) }
+    }
+  )
 }
 
 function paramsSerializer(params) {
   // return qs.stringify(params, {arrayFormat: 'comma'})
-  const searchParams = new URLSearchParams();
+  const searchParams = new URLSearchParams()
   for (const key of Object.keys(params)) {
-    const param = params[key];
+    const param = params[key]
     if (Array.isArray(param)) {
       searchParams.append(key, param.join(','))
     } else if (typeof param === 'object') {
       searchParams.append(key, JSON.stringify(param))
     } else {
-      searchParams.append(key, param);
+      searchParams.append(key, param)
     }
   }
-  return searchParams.toString();
+  return searchParams.toString()
 }

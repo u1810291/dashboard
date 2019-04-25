@@ -98,6 +98,18 @@
   background-color: var(--mgi-theme-palette-darkapricot);
 }
 
+.background-darkgray {
+  background-color: var(--mgi-theme-palette-darkgray);
+}
+
+.background-black {
+  background-color: var(--mgi-theme-palette-black);
+}
+
+.background-gray {
+  background-color: var(--mgi-theme-palette-gray);
+}
+
 .background-transparent {
   background-color: transparent;
 }
@@ -112,6 +124,10 @@
 
 .svg-secondary path {
   fill: var(--mgi-theme-palette-secondary);
+}
+
+.svg-white path {
+  fill: white;
 }
 
 .svg-active path {
@@ -241,4 +257,9 @@
 
 .border-error {
   border-color: var(--mgi-theme-palette-error);
+}
+
+.content-cover {
+  width: 100%;
+  height: auto;
 }

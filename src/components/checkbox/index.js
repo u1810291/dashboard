@@ -1,5 +1,5 @@
 import React from 'react'
-import IconCheckmark from '../../assets/icon-checkmark.svg'
+import { ReactComponent as IconCheckmark } from '../../assets/icon-checkmark.svg'
 import CSS from './checkbox.module.scss'
 import classNames from 'classnames'
 

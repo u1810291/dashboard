@@ -52,11 +52,6 @@ const Items = styled.div(
     align-content: ${alignContent};
     justify-content: ${justifyContent};
     justify-items: ${justifyItems};
-
-    & > svg {
-      width: 100%;
-      height: auto;
-    }
   `
 )
 

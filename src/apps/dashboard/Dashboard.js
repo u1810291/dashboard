@@ -13,7 +13,7 @@ import ApplicationMenu, {
 import Icons from 'src/components/icons'
 import { Configuration } from 'src/apps/configuration'
 import VerificationHistory from 'src/apps/verification-history'
-import VerificationItem from 'src/apps/verification-history/verification-item'
+import VerificationDetail from 'src/apps/verification-detail'
 import { Settings } from 'src/apps/settings'
 import Info from 'src/apps/info'
 import Integration from 'src/apps/integration'
@@ -23,12 +23,12 @@ import {
   saveConfiguration,
   getIntegrationCode
 } from 'src/state/merchant'
-import MatiLogo from 'src/assets/mati-logo-v2.svg'
-import IdentitiesIcon from './icons/icon-menu-verifications.svg'
-import ConfigurationIcon from './icons/icon-menu-customize.svg'
-import AccountIcon from './icons/icon-account.svg'
-import SettingsIcon from './icons/icon-menu-integrate.svg'
-import LogoutIcon from './icons/logout.svg'
+import { ReactComponent as MatiLogo } from 'src/assets/mati-logo-v2.svg'
+import { ReactComponent as IdentitiesIcon } from './icons/icon-menu-verifications.svg'
+import { ReactComponent as ConfigurationIcon } from './icons/icon-menu-customize.svg'
+import { ReactComponent as AccountIcon } from './icons/icon-account.svg'
+import { ReactComponent as SettingsIcon } from './icons/icon-menu-integrate.svg'
+import { ReactComponent as LogoutIcon } from './icons/logout.svg'
 
 class Dashboard extends React.Component {
   componentDidMount() {
@@ -135,7 +135,7 @@ class Dashboard extends React.Component {
             <Route
               exact
               path="/verifications/:id"
-              component={VerificationItem}
+              component={VerificationDetail}
             />
             <OwnersRoute path="/settings" component={Settings} />
             <Route path="/info" component={Info} />

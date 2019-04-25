@@ -7,7 +7,7 @@ import Button from 'src/components/button'
 import PageContentLayout from 'src/components/page-content-layout'
 import confirm from 'src/components/confirm'
 import Items from 'src/components/items'
-import LogoutIcon from './logout.svg'
+import { ReactComponent as LogoutIcon } from './logout.svg'
 
 function SettingsLayout({ children, signOut }) {
   async function handleLogout() {

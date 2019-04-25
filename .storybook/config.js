@@ -4,6 +4,7 @@ import { addParameters, addDecorator, configure } from '@storybook/react'
 import 'src/components/theme/styles.scss'
 import { Container as OverlayContainer } from 'src/components/overlay'
 import IntlProvider from 'src/components/intl-provider'
+import { Container as NotificationsContainer } from 'src/components/notification'
 import storyStylesDecorator from './storyStylesDecorator'
 
 import { BrowserRouter } from 'react-router-dom'
@@ -17,6 +18,7 @@ function overlayDecorator(story) {
     <IntlProvider>
       <React.Fragment>
         {story()}
+        <NotificationsContainer />
         <OverlayContainer />
       </React.Fragment>
     </IntlProvider>

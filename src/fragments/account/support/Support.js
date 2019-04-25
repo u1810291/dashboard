@@ -5,7 +5,7 @@ import Card from 'src/components/card'
 import Items from 'src/components/items'
 import Button from 'src/components/button'
 import CSS from './Support.scss'
-import SupportIcon from './support.svg'
+import { ReactComponent as SupportIcon } from './support.svg'
 
 export default function Support() {
   return (

@@ -6,7 +6,7 @@ import Button from 'src/components/button'
 import TextField from 'src/components/text-field'
 import CSS from './TextEditable.css'
 import TextFieldCSS from 'src/components/text-field/TextField.css'
-import EditIcon from './icon-edit.svg'
+import { ReactComponent as EditIcon } from './icon-edit.svg'
 import Spinner from 'src/components/spinner'
 
 export default class TextEditable extends React.Component {
@@ -41,11 +41,11 @@ export default class TextEditable extends React.Component {
     this.setState({ isEditing: true })
   }
 
-  onChange = (e) => {
+  onChange = e => {
     this.setState({ editingText: e.target.value })
   }
 
-  onKeyDown = (e) => {
+  onKeyDown = e => {
     if (e.key === 'Tab') {
       e.preventDefault()
       return
@@ -97,8 +97,8 @@ export default class TextEditable extends React.Component {
                 className={CSS.okButton}
                 onClick={this.onSubmit}
               >
-              <FormattedMessage id="ok" />
-            </Button>
+                <FormattedMessage id="ok" />
+              </Button>
             </div>
           </div>
         </div>
@@ -114,8 +114,14 @@ export default class TextEditable extends React.Component {
           )}
           onClick={this.onFocus}
         >
-          <span>{(this.props.error ? this.props.text : this.state.savedText) || '—'}</span>
-          {isLoading ? <Spinner className={CSS.spinner} /> : <EditIcon className={CSS.editIcon} />}
+          <span>
+            {(this.props.error ? this.props.text : this.state.savedText) || '—'}
+          </span>
+          {isLoading ? (
+            <Spinner className={CSS.spinner} />
+          ) : (
+            <EditIcon className={CSS.editIcon} />
+          )}
         </div>
       </div>
     )

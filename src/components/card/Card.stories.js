@@ -29,17 +29,3 @@ stories.add('Default', () => (
     Panel content
   </Card>
 ))
-
-const aside = (
-  <aside className="background-pink" style={{ width: '80px' }}>
-    <h2>ASIDE</h2>
-  </aside>
-)
-stories.add('Left aside element', () => (
-  <Card background="active" aside={aside}>
-    <h3>
-      Some title
-      <p>Panel content</p>
-    </h3>
-  </Card>
-))

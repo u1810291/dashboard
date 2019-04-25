@@ -3,11 +3,16 @@ import classNames from 'classnames'
 import Items from 'src/components/items'
 import CSS from './Details.scss'
 
-export default function Details({ summary, children, defaultOpened = false }) {
+export default function Details({
+  summary,
+  children,
+  defaultOpened = false,
+  ...itemsProps
+}) {
   const [state, setState] = useState({ opened: defaultOpened })
 
   return (
-    <Items flow="row" gap={1}>
+    <Items flow="row" gap={1} {...itemsProps}>
       <h3
         className={classNames(CSS.summary, { opened: state.opened })}
         onClick={() => setState({ opened: !state.opened })}

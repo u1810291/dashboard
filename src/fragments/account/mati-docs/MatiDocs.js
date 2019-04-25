@@ -3,8 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import Card from 'src/components/card'
 import Items from 'src/components/items'
 import CSS from './mati-docs.scss'
-import IconApple from './icon-apple-documents.svg'
-import IconAndroid from './icon-android-documents.svg'
+import { ReactComponent as IconApple } from './icon-apple-documents.svg'
+import { ReactComponent as IconAndroid } from './icon-android-documents.svg'
 
 const docsSections = [
   [

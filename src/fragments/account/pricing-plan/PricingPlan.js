@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import CSS from './pricing-plan.scss'
 import Card from 'src/components/card'
 import Items from 'src/components/items'
-import PricingTrialLogo from './icon-logo-pricing-trial.svg'
+import { ReactComponent as PricingTrialLogo } from './icon-logo-pricing-trial.svg'
 
 function TrialPlanPanel() {
   return (

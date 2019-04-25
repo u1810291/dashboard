@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
 import { titleCase } from 'src/lib/string'
 import CSS from './styles.scss'
-import WarningIcon from './warning.svg'
+import { ReactComponent as WarningIcon } from './warning.svg'
 
 export default function VerificationFullNameLabel({ children, className }) {
   return (

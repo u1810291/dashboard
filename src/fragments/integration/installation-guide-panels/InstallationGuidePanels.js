@@ -6,10 +6,10 @@ import Items from 'src/components/items'
 import Button from 'src/components/button'
 import openYoutubeOverlay from 'src/components/youtube-overlay'
 import CSS from './InstallationGuidePanels.module.scss'
-import { ReactComponent as LetsStartPicture } from './lets-start.svg'
-import { ReactComponent as VerificationPicture } from './verification.svg'
-import { ReactComponent as ApplicationsPicture } from './applications.svg'
-import { ReactComponent as VideoPicture } from './video.svg'
+import LetsStartPicture from './lets-start.svg'
+import VerificationPicture from './verification.svg'
+import ApplicationsPicture from './applications.svg'
+import VideoPicture from './video.svg'
 
 function Aside({ children }) {
   return (
@@ -53,7 +53,7 @@ export function VerificationPanel() {
           <FormattedMessage id="fragments.integration.installation-guide-panels.verification-panel.button" />
         </Button>
       </Items>
-      <VerificationPicture />
+      <img src={VerificationPicture} alt="" className="content-cover" />
     </CardWithAside>
   )
 }
@@ -81,7 +81,7 @@ export function ApplicationsPanel() {
           <FormattedMessage id="fragments.integration.installation-guide-panels.applications-panel.button" />
         </Button>
       </Items>
-      <ApplicationsPicture />
+      <img src={ApplicationsPicture} alt="" className="content-cover" />
     </CardWithAside>
   )
 }
@@ -109,8 +109,10 @@ export function InstallFrontendCodePanel() {
           <FormattedMessage id="fragments.integration.installation-guide-panels.jssdk-panel.button" />
         </Button>
       </Items>
-      <VideoPicture
-        className="cursor-pointer"
+      <img
+        src={VideoPicture}
+        alt=""
+        className="content-cover cursor-pointer"
         onClick={openYoutubeOverlay.bind(null, { id: 'wm_nG8wfVMU' })}
       />
     </CardWithAside>
@@ -141,10 +143,13 @@ export function SetWebhooksPanel() {
         </Button>
       </Items>
       <Items flow="row" extraPadding>
-        <VideoPicture
-          className="cursor-pointer"
+        <img
+          src={VideoPicture}
+          alt=""
+          className="content-cover cursor-pointer"
           onClick={openYoutubeOverlay.bind(null, { id: 'Gmgl_lxeFlY' })}
         />
+
         <section>
           <FormattedMessage id="fragments.integration.installation-guide-panels.webhooks-panel.link" />
           {': '}
@@ -166,15 +171,17 @@ export function LetsStartPanel() {
       templateColumns="4fr 5fr"
       background="apricot"
     >
-      <Items flow="row">
-        <h2>
-          <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.title" />
-        </h2>
-        <p>
-          <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.message" />
-        </p>
+      <Items flow="row" gap={4}>
+        <Items flow="row">
+          <h2>
+            <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.title" />
+          </h2>
+          <p>
+            <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.message" />
+          </p>
+        </Items>
       </Items>
-      <LetsStartPicture />
+      <img src={LetsStartPicture} alt="" className="content-cover" />
     </CardWithAside>
   )
 }

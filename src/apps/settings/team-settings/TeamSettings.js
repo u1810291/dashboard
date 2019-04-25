@@ -12,7 +12,7 @@ import Button from 'src/components/button'
 import { closeOverlay, createOverlay } from 'src/components/overlay'
 import TeamInviteModal from 'src/fragments/account/team-invite-modal/TeamInviteModal'
 import InviteSuccessModal from 'src/fragments/account/team-invite-modal/InviteSuccessModal'
-import InviteIcon from '../invite.svg'
+import { ReactComponent as InviteIcon } from '../invite.svg'
 
 const mapCollaborators = collaborator => ({
   role: collaborator.role,

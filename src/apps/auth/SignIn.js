@@ -8,7 +8,7 @@ import Button from 'src/components/button'
 import { setI18nContext } from 'src/components/i18n-context'
 import { Input } from 'src/components/inputs'
 import { signIn } from 'src/state/auth'
-import MatiLogo from 'src/assets/mati-logo.svg'
+import { ReactComponent as MatiLogo } from 'src/assets/mati-logo.svg'
 import CSS from './Auth.css'
 import { notification } from 'src/components/notification'
 

@@ -4,7 +4,7 @@ import Card from 'src/components/card'
 import Button from 'src/components/button'
 import Items from 'src/components/items'
 import CSS from './FAQPanel.scss'
-import Background from './background.svg'
+import { ReactComponent as Background } from './background.svg'
 
 export default function FAQPanel() {
   return (
