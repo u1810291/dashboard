@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field, Formik } from 'formik'
-import { flowRight } from 'lodash/fp'
+import { flow } from 'lodash/fp'
 import { setI18nContext } from 'src/components/i18n-context'
 import { Input, RadioButtonGroup } from 'src/components/inputs'
 import { pickBy, pick } from 'lodash'
@@ -94,7 +94,7 @@ class TeamInviteForm extends React.Component {
   }
 }
 
-export default flowRight(
+export default flow(
   setI18nContext('teamTable.invite.form'),
   injectIntl,
   Component =>
