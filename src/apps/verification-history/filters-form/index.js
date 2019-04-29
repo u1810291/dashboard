@@ -90,6 +90,8 @@ class VerificationsFiltersForm extends Component {
                 onFocusChange={focusedInput => {
                   this.setState({ focusedInput })
                 }}
+                appendToBody
+                numberOfMonths={1}
               />
             </Items>
           </div>
