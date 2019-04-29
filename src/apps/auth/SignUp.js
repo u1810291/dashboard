@@ -14,6 +14,10 @@ import { ReactComponent as MatiLogo } from 'src/assets/mati-logo.svg'
 class SignUp extends React.Component {
   handleSubmit = async data => {
     const intercomFields = pick(data, 'verificationNum', 'websiteUrl')
+    await this.props.signUp(
+      pick(data, 'firstName', 'lastName', 'email', 'password')
+    )
+    this.props.getIntegrationCode(this.props.token)
     updateData(
       fromPairs(
         toPairs(intercomFields).map(([key, value]) => [
@@ -23,10 +27,6 @@ class SignUp extends React.Component {
       )
     )
 
-    await this.props.signUp(
-      pick(data, 'firstName', 'lastName', 'email', 'password')
-    )
-    this.props.getIntegrationCode(this.props.token)
     this.props.history.push('/auth/additional-info')
   }
   render() {
