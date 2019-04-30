@@ -38,7 +38,7 @@ function Success({ step }) {
         <col width="100%" />
       </colgroup>
       <tbody>
-        {Object.entries(step.data).map(([label, { value }]) => (
+        {Object.entries(step.data || {}).map(([label, { value }]) => (
           <tr key={label}>
             <td className="text-secondary text-nowrap">
               <FormattedMessage
