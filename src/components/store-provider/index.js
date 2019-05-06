@@ -11,7 +11,7 @@ import * as reducers from 'src/state/reducers'
 
 const persistConfig = {
   key: 'mgi-dashboard-3',
-  whitelist: ['auth', 'webhooks', 'merchant', 'countries'],
+  whitelist: ['auth', 'webhooks', 'countries'],
   storage
 }
 
