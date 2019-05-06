@@ -1,7 +1,7 @@
 import React from 'react'
-import Items from 'src/components/items'
+import Items from 'components/items'
 import SecurityCheckStep from '../security-check-step'
-import Spinner from 'src/components/spinner'
+import Spinner from 'components/spinner'
 
 export default function SecurityCheckCollection({ steps = [] }) {
   const done = steps.filter(step => step.status === 200)

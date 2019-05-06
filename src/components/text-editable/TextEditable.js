@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { FormattedMessage } from 'react-intl'
-import Button from 'src/components/button'
-import TextField from 'src/components/text-field'
-import CSS from './TextEditable.css'
-import TextFieldCSS from 'src/components/text-field/TextField.css'
+import Button from 'components/button'
+import TextField from 'components/text-field'
+import CSS from './TextEditable.module.css'
+import TextFieldCSS from 'components/text-field/TextField.module.css'
 import { ReactComponent as EditIcon } from './icon-edit.svg'
-import Spinner from 'src/components/spinner'
+import Spinner from 'components/spinner'
 
 export default class TextEditable extends React.Component {
   constructor(props) {

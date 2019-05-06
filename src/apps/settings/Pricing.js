@@ -1,8 +1,8 @@
 import React from 'react'
-import Items from 'src/components/items'
-import Feature from 'src/fragments/account/pricing-features'
-import PricingPlan from 'src/fragments/account/pricing-plan'
-import Feedback from 'src/fragments/info/feedback'
+import Items from 'components/items'
+import Feature from 'fragments/account/pricing-features'
+import PricingPlan from 'fragments/account/pricing-plan'
+import Feedback from 'fragments/info/feedback'
 
 export default class Pricing extends React.Component {
   render() {

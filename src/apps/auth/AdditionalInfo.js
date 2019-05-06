@@ -1,11 +1,11 @@
 import React from 'react'
 import { transform } from 'inflection'
-import AdditionalInfoForm from 'src/fragments/signup/additional-info-form'
-import CSS from './Auth.css'
-import { ReactComponent as MatiLogo } from 'src/assets/mati-logo.svg'
-import { setUserProperties, trackEvent } from 'src/lib/mixpanel'
-import { updateData } from 'src/lib/intercom'
-import { showVideo } from 'src/fragments/configuration/onboarding-video'
+import AdditionalInfoForm from 'fragments/signup/additional-info-form'
+import CSS from './Auth.module.css'
+import { ReactComponent as MatiLogo } from 'assets/mati-logo.svg'
+import { setUserProperties, trackEvent } from 'lib/mixpanel'
+import { updateData } from 'lib/intercom'
+import { showVideo } from 'fragments/configuration/onboarding-video'
 
 export default class AdditionalInfo extends React.Component {
   handleSubmit = data => {

@@ -4,10 +4,10 @@ import { flowRight } from 'lodash/fp'
 import { FormattedMessage } from 'react-intl'
 import { Redirect } from 'react-router'
 import { withFormik, Field, Form } from 'formik'
-import Button from 'src/components/button'
-import { setI18nContext } from 'src/components/i18n-context'
-import { Input } from 'src/components/inputs'
-import { passwordReset } from 'src/state/auth'
+import Button from 'components/button'
+import { setI18nContext } from 'components/i18n-context'
+import { Input } from 'components/inputs'
+import { passwordReset } from 'state/auth'
 
 const formikSettings = {
   handleSubmit(values, { props, setSubmitting, setStatus }) {

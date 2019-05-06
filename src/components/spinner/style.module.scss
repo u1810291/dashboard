@@ -6,12 +6,12 @@
   animation-delay: -0.5s;
   display: inline-block;
 
-  &.spinner-small {
+  &:global(.spinner-small) {
     width: 15px;
     height: 15px;
   }
 
-  &.spinner-large {
+  &:global(.spinner-large) {
     width: 40px;
     height: 40px;
   }

@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { titleize, underscore, humanize } from 'inflection'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import ContentPreloader from 'src/components/content-preloader'
+import ContentPreloader from 'components/content-preloader'
 
 function formatValue(label, string) {
   function checkLabel(name, keys) {

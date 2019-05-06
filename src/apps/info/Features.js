@@ -1,10 +1,10 @@
 import React from 'react'
-import Items from 'src/components/items'
-import Features from 'src/fragments/info/features'
-import FeaturesPoster from 'src/fragments/info/features-poster'
-import Support from 'src/fragments/account/support'
-import FAQPanel from 'src/fragments/info/faq-panel'
-import Feedback from 'src/fragments/info/feedback'
+import Items from 'components/items'
+import Features from 'fragments/info/features'
+import FeaturesPoster from 'fragments/info/features-poster'
+import Support from 'fragments/account/support'
+import FAQPanel from 'fragments/info/faq-panel'
+import Feedback from 'fragments/info/feedback'
 
 export default function FeaturesPage() {
   return (

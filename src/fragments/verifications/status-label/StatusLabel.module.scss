@@ -9,45 +9,45 @@
     border-radius: 10px;
   }
 
-  &.manual i {
+  &:global(.manual) i {
     background-color: var(--mgi-theme-palette-orange);
   }
 
-  &.fraudulent i {
+  &:global(.fraudulent) i {
     background-color: var(--mgi-theme-palette-black);
   }
 
-  &.inProgress i {
+  &:global(.inProgress) i {
     background-color: var(--mgi-theme-palette-black);
   }
 
-  &.unverified i {
+  &:global(.unverified) i {
     background-color: var(--mgi-theme-palette-red);
   }
 
-  &.verified i {
+  &:global(.verified) i {
     background-color: var(--mgi-theme-palette-green);
   }
 }
 
 :local(.coloredText) {
-  &.manual {
+  &:global(.manual) {
     color: var(--mgi-theme-palette-orange);
   }
 
-  &.fraudulent {
+  &:global(.fraudulent) {
     color: var(--mgi-theme-palette-black);
   }
 
-  &.inProgress {
+  &:global(.inProgress) {
     color: var(--mgi-theme-palette-black);
   }
 
-  &.unverified {
+  &:global(.unverified) {
     color: var(--mgi-theme-palette-red);
   }
 
-  &.verified {
+  &:global(.verified) {
     color: var(--mgi-theme-palette-green);
   }
 }

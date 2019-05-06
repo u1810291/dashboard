@@ -1,17 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import TeamTable from 'src/fragments/account/team-table'
+import TeamTable from 'fragments/account/team-table'
 import {
   getCollaborators,
   deleteCollaborators,
   postCollaborators,
   patchCollaborators
-} from 'src/state/collaborators'
-import Button from 'src/components/button'
-import { closeOverlay, createOverlay } from 'src/components/overlay'
-import TeamInviteModal from 'src/fragments/account/team-invite-modal/TeamInviteModal'
-import InviteSuccessModal from 'src/fragments/account/team-invite-modal/InviteSuccessModal'
+} from 'state/collaborators'
+import Button from 'components/button'
+import { closeOverlay, createOverlay } from 'components/overlay'
+import TeamInviteModal from 'fragments/account/team-invite-modal/TeamInviteModal'
+import InviteSuccessModal from 'fragments/account/team-invite-modal/InviteSuccessModal'
 import { ReactComponent as InviteIcon } from '../invite.svg'
 
 const mapCollaborators = collaborator => ({

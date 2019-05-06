@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Card from 'src/components/card'
-import Items from 'src/components/items'
+import Card from 'components/card'
+import Items from 'components/items'
 
 export default class Feature extends React.Component {
   render() {

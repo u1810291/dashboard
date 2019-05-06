@@ -22,7 +22,7 @@
   position: relative;
 }
 
-:local(.content).fullwidth {
+:local(.content):global(.fullwidth) {
   flex-grow: 1;
   max-width: var(--mgi-application-box-max-content-width);
   min-width: var(--mgi-application-box-min-content-width);

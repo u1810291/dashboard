@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { getIntegrationCode } from 'src/state/merchant'
-import Support from 'src/fragments/account/support'
-import MatiDocs from 'src/fragments/account/mati-docs'
-import IntegrationCode from 'src/fragments/integration/integration-code'
+import { getIntegrationCode } from 'state/merchant'
+import Support from 'fragments/account/support'
+import MatiDocs from 'fragments/account/mati-docs'
+import IntegrationCode from 'fragments/integration/integration-code'
 
 function IntegrationCodePage({ integrationCode, getIntegrationCode, token }) {
   useEffect(() => {

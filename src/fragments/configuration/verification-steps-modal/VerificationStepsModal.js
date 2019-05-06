@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Button from 'src/components/button'
-import Items from 'src/components/items'
-import { Modal } from 'src/components/modal'
-import CheckboxGroup from 'src/components/checkbox-group'
+import Button from 'components/button'
+import Items from 'components/items'
+import { Modal } from 'components/modal'
+import CheckboxGroup from 'components/checkbox-group'
 
 export default class VerificationStepModal extends React.Component {
   constructor(props) {

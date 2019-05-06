@@ -28,7 +28,7 @@
 }
 
 :local(.page + .page) {
- border-left: none;
+  border-left: none;
 }
 
 :local(.activePage) {
@@ -38,7 +38,7 @@
 :local(.prevNextPage) {
   width: auto;
 
-  &.disabled a {
+  &:global(.disabled) a {
     color: var(--mgi-theme-palette-lightgray);
   }
 }

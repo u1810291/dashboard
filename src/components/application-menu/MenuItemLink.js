@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { NavLink } from 'react-router-dom'
-import CSS from './ApplicationMenu.scss'
+import CSS from './ApplicationMenu.module.scss'
 
 export default function MenuItemLink({
   children,
@@ -15,7 +15,12 @@ export default function MenuItemLink({
     if (props.to) {
       if (external) {
         return (
-          <a {...props} href={props.to} target="_blank" rel="noopener noreferrer">
+          <a
+            {...props}
+            href={props.to}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {props.children}
           </a>
         )

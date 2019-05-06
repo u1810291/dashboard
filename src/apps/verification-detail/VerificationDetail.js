@@ -3,19 +3,19 @@ import { FormattedMessage } from 'react-intl'
 import { titleize } from 'inflection'
 import { connect } from 'react-redux'
 import { get, isEqual } from 'lodash'
-import { getIdentityWithNestedData, deleteIdentity } from 'src/state/identities'
-import { getCountries } from 'src/state/countries'
-import { Content } from 'src/components/application-box'
-import Items from 'src/components/items'
-import Click from 'src/components/click'
-import confirm from 'src/components/confirm'
-import { createOverlay } from 'src/components/overlay'
-import PageContentLayout from 'src/components/page-content-layout'
-import DocumentStep from 'src/fragments/verifications/document-step'
-import LivenessStep from 'src/fragments/verifications/liveness-step'
-import VerificationMetadata from 'src/fragments/verifications/verification-metadata'
-import VerificationWebhookModal from 'src/fragments/verifications/verification-webhook-modal'
-import Spinner from 'src/components/spinner'
+import { getIdentityWithNestedData, deleteIdentity } from 'state/identities'
+import { getCountries } from 'state/countries'
+import { Content } from 'components/application-box'
+import Items from 'components/items'
+import Click from 'components/click'
+import confirm from 'components/confirm'
+import { createOverlay } from 'components/overlay'
+import PageContentLayout from 'components/page-content-layout'
+import DocumentStep from 'fragments/verifications/document-step'
+import LivenessStep from 'fragments/verifications/liveness-step'
+import VerificationMetadata from 'fragments/verifications/verification-metadata'
+import VerificationWebhookModal from 'fragments/verifications/verification-webhook-modal'
+import Spinner from 'components/spinner'
 import { ReactComponent as DeleteIcon } from './delete-icon.svg'
 
 function formatId(id = '') {
@@ -98,19 +98,16 @@ function VerificationDetail({
   useEffect(() => {
     dispatch(getCountries(token))
     dispatch(getIdentityWithNestedData(token, id))
-  }, [])
+  }, [dispatch, token, id])
 
-  useEffect(
-    () => {
-      setTimeout(function() {
-        const verification = get(identity, '_embedded.verification')
-        if (verification && !isLoaded(verification)) {
-          loadData(dispatch, token, id)
-        }
-      }, 5000)
-    },
-    [identity]
-  )
+  useEffect(() => {
+    setTimeout(function() {
+      const verification = get(identity, '_embedded.verification')
+      if (verification && !isLoaded(verification)) {
+        loadData(dispatch, token, id)
+      }
+    }, 5000)
+  }, [identity, dispatch, token, id])
 
   if (!identity) return null
 

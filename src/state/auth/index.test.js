@@ -2,9 +2,9 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 
 import { signUp } from './index'
-import { updateIntercom } from 'src/lib/intercom'
-import client from 'src/lib/client'
-import * as Mixpanel from 'src/lib/mixpanel'
+import { updateIntercom } from 'lib/intercom'
+import client from 'lib/client'
+import * as Mixpanel from 'lib/mixpanel'
 
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)

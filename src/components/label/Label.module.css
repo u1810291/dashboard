@@ -6,11 +6,11 @@
   --mgi-label-color-primary: black;
   --mgi-label-color-gray: #909090;
   --mgi-label-color-white: white;
-  --mgi-label-bg-blue: #2196F3;
-  --mgi-label-bg-orange: #F2994A;
-  --mgi-label-bg-green: #27AE60;
-  --mgi-label-bg-yellow: #FFBD00;
-  --mgi-label-bg-red: #EB5757;
+  --mgi-label-bg-blue: #2196f3;
+  --mgi-label-bg-orange: #f2994a;
+  --mgi-label-bg-green: #27ae60;
+  --mgi-label-bg-yellow: #ffbd00;
+  --mgi-label-bg-red: #eb5757;
 }
 
 :local(.label) {
@@ -22,25 +22,25 @@
   font-weight: 600;
   padding: var(--mgi-label-rounded-padding);
   text-transform: uppercase;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
 }
 
-:local(.label).blue {
+:local(.label):global(.blue) {
   color: var(--mgi-label-bg-blue);
 }
 
-:local(.label).orange {
+:local(.label):global(.orange) {
   color: var(--mgi-label-bg-orange);
 }
 
-:local(.label).green {
+:local(.label):global(.green) {
   color: var(--mgi-label-bg-green);
 }
 
-:local(.label).yellow {
+:local(.label):global(.yellow) {
   color: var(--mgi-label-bg-yellow);
 }
 
-:local(.label).red {
+:local(.label):global(.red) {
   color: var(--mgi-label-bg-red);
 }

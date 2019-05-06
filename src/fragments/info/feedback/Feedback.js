@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Items from 'src/components/items'
-import CSS from './feedback.scss'
+import Items from 'components/items'
+import CSS from './feedback.module.scss'
 
 const logos = {
   profuturo: require('./profuturo.png'),

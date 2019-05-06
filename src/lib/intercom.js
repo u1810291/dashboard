@@ -1,13 +1,17 @@
 export function updateIntercom(user) {
-  window.Intercom('update', {
-    name: user.firstName + ' ' + user.lastName,
-    user_id: user.id,
-    email: user.email
-  })
+  if (process.env.NODE_ENV === 'production') {
+    window.Intercom('update', {
+      name: user.firstName + ' ' + user.lastName,
+      user_id: user.id,
+      email: user.email
+    })
+  }
 }
 
 export function updateData(data) {
-  window.Intercom('update', data)
+  if (process.env.NODE_ENV === 'production') {
+    window.Intercom('update', data)
+  }
 }
 
 export function showIntercom() {

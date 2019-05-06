@@ -1,15 +1,11 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { get } from 'lodash'
-import { getMerchantApps } from 'src/state/merchant'
-import {
-  subscribeToWebhook,
-  deleteWebhook,
-  getWebhooks
-} from 'src/state/webhooks'
-import Items from 'src/components/items'
-import ClientApplication from 'src/fragments/account/client-application'
-import Support from 'src/fragments/account/support'
+import { getMerchantApps } from 'state/merchant'
+import { subscribeToWebhook, deleteWebhook, getWebhooks } from 'state/webhooks'
+import Items from 'components/items'
+import ClientApplication from 'fragments/account/client-application'
+import Support from 'fragments/account/support'
 
 function ClientApplications({
   apps = [],
@@ -25,7 +21,7 @@ function ClientApplications({
       const apps = get(response, 'data.apps', [])
       apps.forEach(app => getWebhooks(token, app.clientId))
     })
-  }, [])
+  }, [getMerchantApps, getWebhooks, token])
 
   async function handleSubscribeToWebhook(clientId, url, secret) {
     await subscribeToWebhook(token, clientId, { url, secret })

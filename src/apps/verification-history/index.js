@@ -6,23 +6,23 @@ import {
   getIdentities,
   getIdentitiesCount,
   deleteIdentity
-} from 'src/state/identities'
+} from 'state/identities'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import moment from 'moment'
-import { Content } from 'src/components/application-box'
-import DataTable from 'src/components/data-table'
-import VerificationFullNameLabel from 'src/fragments/verifications/verification-full-name-label'
-import Status from 'src/fragments/verifications/status-label'
+import { Content } from 'components/application-box'
+import DataTable from 'components/data-table'
+import VerificationFullNameLabel from 'fragments/verifications/verification-full-name-label'
+import Status from 'fragments/verifications/status-label'
 import FiltersForm from './filters-form'
-import Pagination from 'src/components/pagination'
-import Items from 'src/components/items'
-import { DebounceInput } from 'src/components/inputs'
-import Spinner from 'src/components/spinner'
-import confirm from 'src/components/confirm'
-import PageContentLayout from 'src/components/page-content-layout'
-import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
+import Pagination from 'components/pagination'
+import Items from 'components/items'
+import { DebounceInput } from 'components/inputs'
+import Spinner from 'components/spinner'
+import confirm from 'components/confirm'
+import PageContentLayout from 'components/page-content-layout'
+import { isFeatureEnabled } from 'lib/isFeatureEnabled'
 import { ReactComponent as DeleteIcon } from '../verification-detail/delete-icon.svg'
-import CSS from './VerificationHistory.scss'
+import CSS from './VerificationHistory.module.scss'
 
 const FILTERS = [
   'search',

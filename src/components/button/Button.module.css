@@ -8,7 +8,7 @@ button {
 }
 
 :local(.button),
-.mgi-btn-link {
+:global(.mgi-btn-link) {
   padding: 0 var(--mgi-theme-button-padding);
 
   height: var(--mgi-theme-button-height);
@@ -25,17 +25,17 @@ button {
   white-space: nowrap;
 }
 
-:local(.button).small {
+:local(.button):global(.small) {
   --mgi-theme-button-height: 36px;
   --mgi-theme-button-padding: 10px;
 }
 
-:local(.button).big {
+:local(.button):global(.big) {
   --mgi-theme-button-height: 60px;
   --mgi-theme-button-padding: 16px;
 }
 
-:local(.button).big svg:first-child {
+:local(.button):global(.big) svg:first-child {
   margin-right: calc(var(--mgi-theme-button-padding) / 2);
 }
 
@@ -47,12 +47,12 @@ button {
   cursor: pointer;
 }
 
-:local(.button).default {
+:local(.button):global(.default) {
   background: white;
   border-color: var(--mgi-theme-palette-lightgray);
 }
 
-:local(.button).link {
+:local(.button):global(.link) {
   background: transparent;
   border: 0;
   padding: 0;
@@ -72,7 +72,7 @@ button {
   margin-left: 5px;
 }
 
-:local(.button).primary,
+:local(.button):global(.primary),
 .mgi-btn-link.primary {
   background: var(--mgi-theme-palette-blue);
   color: white;
@@ -80,27 +80,27 @@ button {
   border: none;
 }
 
-:local(.button).primary-revert {
+:local(.button):global(.primary-revert) {
   background: white;
   color: var(--mgi-theme-palette-blue);
   font-weight: 300;
   border: none;
 }
 
-:local(.button).outline {
+:local(.button):global(.outline) {
   background: transparent;
   border: 1px solid var(--mgi-theme-palette-blue);
   color: var(--mgi-theme-palette-blue);
   font-weight: normal;
 }
-:local(.button).danger {
+:local(.button):global(.danger) {
   background: var(--mgi-theme-palette-red);
   border: 1px solid var(--mgi-theme-palette-red);
   color: white;
   font-weight: normal;
 }
 
-:local(.button).no-borders.default {
+:local(.button):global(.no-borders.default) {
   background: transparent;
   border: none;
   box-shadow: none;
@@ -108,7 +108,7 @@ button {
   padding-right: 0;
 }
 
-:local(.button).no-borders.primary {
+:local(.button):global(.no-borders.primary) {
   background: transparent;
   color: var(--mgi-theme-palette-blue);
   border: none;
@@ -117,7 +117,7 @@ button {
   font-weight: 400;
 }
 
-:local(.button).invisible {
+:local(.button):global(.invisible) {
   background: transparent;
   padding: 0;
   border: 0;
@@ -125,11 +125,11 @@ button {
   border-radius: 0;
 }
 
-:local(.button).invisible svg {
+:local(.button):global(.invisible) svg {
   margin: 0;
 }
 
-:local(.button)[disabled] {
+:local(.button):global([disabled]) {
   background: white;
   font-weight: normal;
   color: var(--mgi-theme-palette-secondary);

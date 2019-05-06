@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
-import Items from 'src/components/items'
-import CSS from './Details.scss'
+import Items from 'components/items'
+import CSS from './Details.module.scss'
 
 export default function Details({
   summary,

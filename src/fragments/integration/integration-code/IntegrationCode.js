@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Card from 'src/components/card'
-import Button from 'src/components/button'
-import Items from 'src/components/items'
-import SyntaxHighlighter from 'src/components/syntax-highlighter'
+import Card from 'components/card'
+import Button from 'components/button'
+import Items from 'components/items'
+import SyntaxHighlighter from 'components/syntax-highlighter'
 
 export default function IntegrationCode({ integrationCode }) {
   return (

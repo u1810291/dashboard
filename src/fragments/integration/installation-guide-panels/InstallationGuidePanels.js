@@ -1,17 +1,19 @@
 import React from 'react'
 import classNames from 'classnames'
 import { FormattedMessage } from 'react-intl'
-import Card from 'src/components/card'
-import Items from 'src/components/items'
-import Click from 'src/components/click'
-import Button from 'src/components/button'
-import openYoutubeOverlay from 'src/components/youtube-overlay'
+import Card from 'components/card'
+import Items from 'components/items'
+import Click from 'components/click'
+import Button from 'components/button'
+import openYoutubeOverlay from 'components/youtube-overlay'
 import CSS from './InstallationGuidePanels.module.scss'
 import LetsStartPicture from './lets-start.svg'
 import VerificationPicture from './verification.svg'
 import ApplicationsPicture from './applications.svg'
 import VideoPicture from './video.svg'
-import PresentationFile from './mati-integration-sales-pres.pdf'
+
+const PresentationFile =
+  'https://drive.google.com/file/d/1EQlmq5WpMCWTZQQRYhS0EUw22JrvCSv6/view?usp=sharing'
 
 function Aside({ children }) {
   return (
@@ -181,7 +183,13 @@ export function LetsStartPanel() {
           <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.message" />
         </p>
         <section>
-          <Click background="active" href={PresentationFile} as="a">
+          <Click
+            background="active"
+            href={PresentationFile}
+            as="a"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <FormattedMessage id="LetsStartPanel.cta" />
           </Click>
         </section>

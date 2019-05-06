@@ -4,26 +4,26 @@ import { flowRight } from 'lodash/fp'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { injectIntl } from 'react-intl'
-import ApplicationBox from 'src/components/application-box'
+import ApplicationBox from 'components/application-box'
 import ApplicationMenu, {
   MenuItemLink,
   MenuItemButton,
   MenuItemSpacer
-} from 'src/components/application-menu'
-import Icons from 'src/components/icons'
-import { Configuration } from 'src/apps/configuration'
-import VerificationHistory from 'src/apps/verification-history'
-import VerificationDetail from 'src/apps/verification-detail'
-import { Settings } from 'src/apps/settings'
-import Info from 'src/apps/info'
-import Integration from 'src/apps/integration'
-import { signOut } from 'src/state/auth'
+} from 'components/application-menu'
+import Icons from 'components/icons'
+import { Configuration } from 'apps/configuration'
+import VerificationHistory from 'apps/verification-history'
+import VerificationDetail from 'apps/verification-detail'
+import { Settings } from 'apps/settings'
+import Info from 'apps/info'
+import Integration from 'apps/integration'
+import { signOut } from 'state/auth'
 import {
   getMerchant,
   saveConfiguration,
   getIntegrationCode
-} from 'src/state/merchant'
-import { ReactComponent as MatiLogo } from 'src/assets/mati-logo-v2.svg'
+} from 'state/merchant'
+import { ReactComponent as MatiLogo } from 'assets/mati-logo-v2.svg'
 import { ReactComponent as IdentitiesIcon } from './icons/icon-menu-verifications.svg'
 import { ReactComponent as ConfigurationIcon } from './icons/icon-menu-customize.svg'
 import { ReactComponent as AccountIcon } from './icons/icon-account.svg'

@@ -1,8 +1,4 @@
-.dropdown {}
-
-.dropdown__trigger {}
-
-.dropdown__content {
+:global(.dropdown__content) {
   min-width: var(--mgi-dropdown-width);
 
   margin-top: 2px;

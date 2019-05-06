@@ -1,14 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Card from 'src/components/card'
-import Button from 'src/components/button'
-import Icons from 'src/components/icons'
-import Items from 'src/components/items'
-import { createOverlay, closeOverlay } from 'src/components/overlay'
-import confirm from 'src/components/confirm'
-import { copyToClipboard } from 'src/components/clipboard'
+import Card from 'components/card'
+import Button from 'components/button'
+import Icons from 'components/icons'
+import Items from 'components/items'
+import { createOverlay, closeOverlay } from 'components/overlay'
+import confirm from 'components/confirm'
+import { copyToClipboard } from 'components/clipboard'
 import NewWebhookModal from '../new-webhook-modal'
-import CSS from './ClientApplication.css'
+import CSS from './ClientApplication.module.css'
 
 function CopyToClipboardCell({ text }) {
   return (

@@ -7,7 +7,7 @@ import storage from 'redux-persist/lib/storage'
 import { PersistGate } from 'redux-persist/integration/react'
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
 
-import * as reducers from 'src/state/reducers'
+import * as reducers from 'state/reducers'
 
 const persistConfig = {
   key: 'mgi-dashboard-3',

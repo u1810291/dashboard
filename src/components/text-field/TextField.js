@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import CSS from './TextField.css'
+import CSS from './TextField.module.css'
 
 export default function TextField({
   type = 'text',

@@ -1,5 +1,5 @@
 import React from 'react'
-import SelectField from 'src/components/select-field'
+import SelectField from 'components/select-field'
 import BaseInput from './BaseInput'
 
 export const Select = props => (

@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { MatiButton } from 'src/components/mati-button'
-import Button from 'src/components/button'
-import { Content } from 'src/components/application-box'
-import Items from 'src/components/items'
+import { MatiButton } from 'components/mati-button'
+import Button from 'components/button'
+import { Content } from 'components/application-box'
+import Items from 'components/items'
 import {
   saveConfiguration,
   getMerchantApps,
@@ -12,17 +12,17 @@ import {
   AVAILABLE_LANGUAGES,
   AVAILABLE_DOCUMENT_TYPES,
   MANDATORY_DOCUMENT_TYPES
-} from 'src/state/merchant'
-import { getCountries } from 'src/state/countries'
-import ConfigureColor from 'src/fragments/configuration/configure-color'
-import VerificationSteps from 'src/fragments/configuration/verification-steps'
+} from 'state/merchant'
+import { getCountries } from 'state/countries'
+import ConfigureColor from 'fragments/configuration/configure-color'
+import VerificationSteps from 'fragments/configuration/verification-steps'
 import LanguageStep from './LanguageStep'
-import CSS from './Configuration.css'
-import { ReactComponent as IconPlay } from 'src/assets/icon-play-rounded.svg'
-import { ReactComponent as IconIntegrate } from 'src/assets/icon-integrate.svg'
-import { ReactComponent as IconFaq } from 'src/assets/icon-faq.svg'
-import Countries from 'src/fragments/configuration/countries'
-import { showVideo as showOnboardingVideo } from 'src/fragments/configuration/how-it-works-video'
+import CSS from './Configuration.module.css'
+import { ReactComponent as IconPlay } from 'assets/icon-play-rounded.svg'
+import { ReactComponent as IconIntegrate } from 'assets/icon-integrate.svg'
+import { ReactComponent as IconFaq } from 'assets/icon-faq.svg'
+import Countries from 'fragments/configuration/countries'
+import { showVideo as showOnboardingVideo } from 'fragments/configuration/how-it-works-video'
 
 class Configuration extends React.Component {
   redirectToIdentity = ({ identityId }) => {

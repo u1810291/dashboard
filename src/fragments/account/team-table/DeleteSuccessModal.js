@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Modal } from 'src/components/modal'
-import Button from 'src/components/button'
+import { Modal } from 'components/modal'
+import Button from 'components/button'
 import { ReactComponent as DeleteSuccessIcon } from './deleteSuccess.svg'
 
 export default class DeleteSuccessModal extends React.Component {

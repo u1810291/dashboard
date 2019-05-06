@@ -15,12 +15,12 @@
   flex-direction: column;
 }
 
-:local(.window).small {
+:local(.window):global(.small) {
   width: 400px;
   min-height: 150px;
 }
 
-:local(.window).wide {
+:local(.window):global(.wide) {
   width: 800px;
 }
 

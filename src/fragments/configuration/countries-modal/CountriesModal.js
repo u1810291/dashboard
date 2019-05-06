@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import Button from 'src/components/button'
-import Items from 'src/components/items'
-import CSS from './CountriesModal.scss'
-import { Modal } from 'src/components/modal'
-import MultiSelect from 'src/components/multi-select'
+import Button from 'components/button'
+import Items from 'components/items'
+import CSS from './CountriesModal.module.scss'
+import { Modal } from 'components/modal'
+import MultiSelect from 'components/multi-select'
 
 export default function CountriesModal({
   supportedCountries,
@@ -13,12 +13,9 @@ export default function CountriesModal({
 }) {
   const [value, setValue] = useState(supportedCountries)
 
-  useEffect(
-    () => {
-      setValue(supportedCountries)
-    },
-    [supportedCountries]
-  )
+  useEffect(() => {
+    setValue(supportedCountries)
+  }, [supportedCountries])
 
   return (
     <Modal className={CSS.countriesModal}>

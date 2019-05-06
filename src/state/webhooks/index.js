@@ -1,6 +1,6 @@
-import { createReducer, createTypesSequence } from 'src/state/utils'
+import { createReducer, createTypesSequence } from 'state/utils'
 import { get, fromPairs } from 'lodash'
-import client from 'src/lib/client'
+import client from 'lib/client'
 
 export const types = {
   ...createTypesSequence('WEBHOOKS_SUBSCRIBE'),

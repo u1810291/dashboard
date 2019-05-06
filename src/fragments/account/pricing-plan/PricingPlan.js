@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
-import CSS from './pricing-plan.scss'
-import Card from 'src/components/card'
-import Items from 'src/components/items'
+import CSS from './pricing-plan.module.scss'
+import Card from 'components/card'
+import Items from 'components/items'
 import { ReactComponent as PricingTrialLogo } from './icon-logo-pricing-trial.svg'
 
 function TrialPlanPanel() {

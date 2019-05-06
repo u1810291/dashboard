@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Card from 'src/components/card'
-import Items from 'src/components/items'
-import Click from 'src/components/click'
+import Card from 'components/card'
+import Items from 'components/items'
+import Click from 'components/click'
 import { ReactComponent as Picture } from './picture.svg'
 
 export default function FeaturesPoster() {

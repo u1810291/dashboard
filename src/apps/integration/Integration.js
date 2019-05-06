@@ -1,12 +1,12 @@
 import React from 'react'
-import Items from 'src/components/items'
+import Items from 'components/items'
 import {
   LetsStartPanel,
   VerificationPanel,
   ApplicationsPanel,
   InstallFrontendCodePanel,
   SetWebhooksPanel
-} from 'src/fragments/integration/installation-guide-panels'
+} from 'fragments/integration/installation-guide-panels'
 
 export default function Info() {
   return (

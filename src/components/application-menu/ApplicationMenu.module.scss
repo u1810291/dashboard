@@ -20,13 +20,11 @@
   z-index: 2;
 }
 
-:local(.menuItem):not(.no-active) {
-  &.active {
-    --mgi-application-menu-background: var(--mgi-theme-palette-active);
-    --mgi-application-menu-color: white;
-    --mgi-application-menu-icon: white;
-    --mgi-application-menu-border: var(--mgi-application-menu-background);
-  }
+:local(.menuItem):global(.active:not(.no-active)) {
+  --mgi-application-menu-background: var(--mgi-theme-palette-active);
+  --mgi-application-menu-color: white;
+  --mgi-application-menu-icon: white;
+  --mgi-application-menu-border: var(--mgi-application-menu-background);
 }
 
 :local(.menuItem) {
@@ -62,7 +60,7 @@
   cursor: default;
 }
 
-:local(.menuItemDropdown).dropdown {
+:local(.menuItemDropdown):global(.dropdown) {
   position: relative;
   display: flex;
   align-items: stretch;

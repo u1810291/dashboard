@@ -6,8 +6,8 @@ import SignUp from './SignUp'
 import AdditionalInfo from './AdditionalInfo'
 import PasswordRecovery from './PasswordRecovery'
 import PasswordReset from './PasswordReset'
-import { NotFound } from 'src/apps/not-found'
-import AuthLayout from 'src/components/auth-layout'
+import { NotFound } from 'apps/not-found'
+import AuthLayout from 'components/auth-layout'
 
 class Auth extends React.Component {
   render() {

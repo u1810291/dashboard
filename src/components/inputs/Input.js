@@ -1,5 +1,5 @@
 import React from 'react'
-import TextField from 'src/components/text-field'
+import TextField from 'components/text-field'
 import BaseInput from './BaseInput'
 
 export const Input = props => (

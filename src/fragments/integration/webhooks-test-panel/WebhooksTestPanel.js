@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import Card from 'src/components/card'
-import Items from 'src/components/items'
+import Card from 'components/card'
+import Items from 'components/items'
 import Picture from './picture.svg'
 
 export default function WebhookTestPanel({ message }) {

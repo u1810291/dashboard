@@ -1,5 +1,5 @@
 ---
-to: src/<%= name %>/<%= componentName %>.scss
+to: src/<%= name %>/<%= componentName %>.module.scss
 ---
 :local(.root) {
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Card from 'src/components/card'
-import StatusLabel from 'src/fragments/verifications/status-label'
+import Card from 'components/card'
+import StatusLabel from 'fragments/verifications/status-label'
 
 export default function DocumentStatusHelp() {
   return (

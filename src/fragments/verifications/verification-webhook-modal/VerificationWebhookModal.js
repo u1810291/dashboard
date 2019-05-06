@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import SyntaxHighlighter from 'src/components/syntax-highlighter'
-import { Modal } from 'src/components/modal'
-import Button from 'src/components/button'
-import stringify from 'src/lib/stringify'
+import SyntaxHighlighter from 'components/syntax-highlighter'
+import { Modal } from 'components/modal'
+import Button from 'components/button'
+import stringify from 'lib/stringify'
 
 export default function({ webhook, onClose }) {
   return (

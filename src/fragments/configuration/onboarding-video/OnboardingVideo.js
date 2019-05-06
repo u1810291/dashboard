@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import CSS from './onboarding-video.scss'
-import { createOverlay } from 'src/components/overlay'
+import CSS from './onboarding-video.module.scss'
+import { createOverlay } from 'components/overlay'
 
 export function showVideo() {
   createOverlay(<OnboardingVideo />)

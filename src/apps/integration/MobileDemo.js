@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { getMerchantApps } from 'src/state/merchant'
-import GooglePlayLink from 'src/fragments/integration/google-play-link'
+import { getMerchantApps } from 'state/merchant'
+import GooglePlayLink from 'fragments/integration/google-play-link'
 
 function MobileDemo({ getMerchantApps, token, clientId }) {
   useEffect(() => {

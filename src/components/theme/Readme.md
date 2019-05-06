@@ -113,10 +113,11 @@ const Button = require('../button').default
     <tr>
       <td>Column A</td>
       <td>
-        American black comedy film[3] directed by Martin Scorsese, written by Joseph Minion, and
-        starring Griffin Dunne with an ensemble cast. The film follows Paul Hackett, portrayed by
-        Dunne, as he experiences a series of misadventures while making his way home from New York
-        City SoHo district during the night.
+        American black comedy film[3] directed by Martin Scorsese, written by
+        Joseph Minion, and starring Griffin Dunne with an ensemble cast. The
+        film follows Paul Hackett, portrayed by Dunne, as he experiences a
+        series of misadventures while making his way home from New York City
+        SoHo district during the night.
       </td>
       <td>Column C</td>
     </tr>
@@ -145,10 +146,11 @@ const Button = require('../button').default
     <tr>
       <th>Column B</th>
       <td>
-        American black comedy film[3] directed by Martin Scorsese, written by Joseph Minion, and
-        starring Griffin Dunne with an ensemble cast. The film follows Paul Hackett, portrayed by
-        Dunne, as he experiences a series of misadventures while making his way home from New York
-        City SoHo district during the night.
+        American black comedy film[3] directed by Martin Scorsese, written by
+        Joseph Minion, and starring Griffin Dunne with an ensemble cast. The
+        film follows Paul Hackett, portrayed by Dunne, as he experiences a
+        series of misadventures while making his way home from New York City
+        SoHo district during the night.
       </td>
       <td>Column B</td>
     </tr>
@@ -176,7 +178,10 @@ Check list inverted
 ```
 
 ```js
-<ul className="mgi-list mgi-list--check-inverted" style={{ background: 'pink' }}>
+<ul
+  className="mgi-list mgi-list--check-inverted"
+  style={{ background: 'pink' }}
+>
   <li>We try hard</li>
   <li>to write good policies</li>
   <li>at Basecamp.</li>

@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import marked from 'marked'
-import Card from 'src/components/card'
-import Details from 'src/components/details'
-import Items from 'src/components/items'
+import Card from 'components/card'
+import Details from 'components/details'
+import Items from 'components/items'
 
 export default function FAQ({ questions = [] }) {
   return (

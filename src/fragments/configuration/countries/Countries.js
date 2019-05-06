@@ -1,11 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Button from 'src/components/button'
-import Items from 'src/components/items'
-import { createOverlay, closeOverlay } from 'src/components/overlay'
+import Button from 'components/button'
+import Items from 'components/items'
+import { createOverlay, closeOverlay } from 'components/overlay'
 import CountriesModal from '../countries-modal'
-import Spinner from 'src/components/spinner'
-import CSS from './Countries.scss'
+import Spinner from 'components/spinner'
+import CSS from './Countries.module.scss'
 
 export default class Countries extends React.Component {
   openCountriesModal = () => {
