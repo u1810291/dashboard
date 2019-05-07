@@ -10,7 +10,7 @@ import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
 import * as reducers from 'src/state/reducers'
 
 const persistConfig = {
-  key: 'mgi-dashboard-3',
+  key: 'mgi-dashboard-4',
   whitelist: ['auth', 'webhooks', 'countries'],
   storage
 }
