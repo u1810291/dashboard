@@ -10,6 +10,7 @@ export default function Click({
   inline = true,
   shadow = 0,
   tabIndex = 0,
+  hoverShadow = true,
   onClick = () => {},
   justifyContent = 'center',
   justifyItems = 'center',
@@ -44,7 +45,7 @@ export default function Click({
 
         &:hover,
         &:active {
-          box-shadow: ${shadowValue(shadow + 1)};
+          box-shadow: ${shadowValue((shadow + 1) * hoverShadow ? 1 : 0)};
         }
       `}
       {...props}

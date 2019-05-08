@@ -2,17 +2,18 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getMerchantApps } from 'state/merchant'
 import GooglePlayLink from 'fragments/integration/google-play-link'
+import IntegrationLayout from './IntegrationLayout'
 
 function MobileDemo({ getMerchantApps, token, clientId }) {
   useEffect(() => {
     getMerchantApps(token)
   })
   return (
-    <React.Fragment>
+    <IntegrationLayout>
       <main>
         <GooglePlayLink clientId={clientId} />
       </main>
-    </React.Fragment>
+    </IntegrationLayout>
   )
 }
 

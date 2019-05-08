@@ -4,6 +4,7 @@ import { getIntegrationCode } from 'state/merchant'
 import Support from 'fragments/account/support'
 import MatiDocs from 'fragments/account/mati-docs'
 import IntegrationCode from 'fragments/integration/integration-code'
+import IntegrationLayout from './IntegrationLayout'
 
 function IntegrationCodePage({ integrationCode, getIntegrationCode, token }) {
   useEffect(() => {
@@ -11,7 +12,7 @@ function IntegrationCodePage({ integrationCode, getIntegrationCode, token }) {
   })
 
   return (
-    <React.Fragment>
+    <IntegrationLayout>
       <main>
         <IntegrationCode integrationCode={integrationCode} />
         <MatiDocs />
@@ -19,7 +20,7 @@ function IntegrationCodePage({ integrationCode, getIntegrationCode, token }) {
       <aside>
         <Support />
       </aside>
-    </React.Fragment>
+    </IntegrationLayout>
   )
 }
 

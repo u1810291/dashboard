@@ -7,10 +7,11 @@ import {
   InstallFrontendCodePanel,
   SetWebhooksPanel
 } from 'fragments/integration/installation-guide-panels'
+import IntegrationLayout from './IntegrationLayout'
 
 export default function Info() {
   return (
-    <React.Fragment>
+    <IntegrationLayout>
       <main>
         <Items flow="row">
           <LetsStartPanel />
@@ -20,6 +21,6 @@ export default function Info() {
           <SetWebhooksPanel />
         </Items>
       </main>
-    </React.Fragment>
+    </IntegrationLayout>
   )
 }

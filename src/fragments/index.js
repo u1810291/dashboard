@@ -1,0 +1,5 @@
+export { default as PricingPlans } from './account/pricing-plans'
+export { default as PricingRefundNotice } from './account/pricing-refund-notice'
+export { default as PricingLargePlans } from './account/pricing-large-plans'
+export { default as CompaniesUsingMati } from './info/companies-using-mati'
+export { default as MatiNumbers } from './info/mati-numbers'

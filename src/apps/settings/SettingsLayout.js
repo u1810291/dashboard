@@ -4,12 +4,12 @@ import { NavLink } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { signOut } from 'state/auth'
 import Button from 'components/button'
-import PageContentLayout from 'components/page-content-layout'
+import { PageContentLayout, PageContentMenu } from 'components'
 import confirm from 'components/confirm'
 import Items from 'components/items'
 import { ReactComponent as LogoutIcon } from './logout.svg'
 
-function SettingsLayout({ children, signOut }) {
+function SettingsLayout({ children, signOut, ...props }) {
   async function handleLogout() {
     await confirm(<FormattedMessage id="confirm_string" />)
     signOut()
@@ -17,8 +17,8 @@ function SettingsLayout({ children, signOut }) {
   }
 
   return (
-    <PageContentLayout>
-      <nav>
+    <PageContentLayout {...props}>
+      <PageContentMenu>
         <NavLink exact to="/settings">
           <FormattedMessage id="apps.settings.teamSettings" />
         </NavLink>
@@ -31,7 +31,7 @@ function SettingsLayout({ children, signOut }) {
             <LogoutIcon className="svg-active" />
           </Items>
         </Button>
-      </nav>
+      </PageContentMenu>
       {children}
     </PageContentLayout>
   )

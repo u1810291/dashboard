@@ -13,6 +13,7 @@ import { closeOverlay, createOverlay } from 'components/overlay'
 import TeamInviteModal from 'fragments/account/team-invite-modal/TeamInviteModal'
 import InviteSuccessModal from 'fragments/account/team-invite-modal/InviteSuccessModal'
 import { ReactComponent as InviteIcon } from '../invite.svg'
+import SettingsLayout from '../SettingsLayout'
 
 const mapCollaborators = collaborator => ({
   role: collaborator.role,
@@ -81,7 +82,7 @@ class TeamSettings extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <SettingsLayout>
         <main>
           <TeamTable
             onRoleChange={this.onRoleChange}
@@ -95,7 +96,7 @@ class TeamSettings extends React.Component {
             <FormattedMessage id="settings.teamSettings.inviteTeammate" />
           </Button>
         </aside>
-      </React.Fragment>
+      </SettingsLayout>
     )
   }
 }

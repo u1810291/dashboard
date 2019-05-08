@@ -5,10 +5,11 @@ import FeaturesPoster from 'fragments/info/features-poster'
 import Support from 'fragments/account/support'
 import FAQPanel from 'fragments/info/faq-panel'
 import Feedback from 'fragments/info/feedback'
+import InfoLayout from './InfoLayout'
 
 export default function FeaturesPage() {
   return (
-    <React.Fragment>
+    <InfoLayout>
       <main>
         <Items flow="row" gap={4}>
           <FeaturesPoster />
@@ -20,6 +21,6 @@ export default function FeaturesPage() {
       <aside>
         <Support />
       </aside>
-    </React.Fragment>
+    </InfoLayout>
   )
 }

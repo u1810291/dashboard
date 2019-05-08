@@ -1,12 +1,11 @@
-:local(.content) {
+.content {
   text-align: center;
-
-  .feedback {
-    font-style: italic;
-  }
+}
+.feedback {
+  font-style: italic;
 }
 
-:local(.logo) {
+.logo {
   display: flex;
   justify-content: center;
 

@@ -244,7 +244,7 @@ class VerificationHistory extends React.Component {
             this.onFilterChange({ search: e.target.value })
           }}
         />
-        <PageContentLayout>
+        <PageContentLayout navigation={false}>
           <main>
             <Items flow="row">
               <DataTable

@@ -123,7 +123,7 @@ function VerificationDetail({
           </span>
           <p>{new Date(identity.dateCreated).toLocaleDateString()}</p>
         </h1>
-        <PageContentLayout>
+        <PageContentLayout navigation={false}>
           <main>
             <Items flow="row">
               <MemoizedPageContent identity={identity} countries={countries} />

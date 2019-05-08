@@ -531,7 +531,6 @@
   "fragments.info.faq-panel.subtitle": "For more information go to",
   "fragments.info.faq-panel.title": "Mati FAQ",
   "fragments.info.faq-panel.cta": "See more information",
-  "fragments.info.feedback.title": "Our clients say",
   "fragments.account.mati-docs.iosDocumentation": "iOS",
   "fragments.account.mati-docs.androidDocumentation": "Android",
   "fragments.account.mati-docs.github": "Go to GitHub",
@@ -616,5 +615,30 @@
   "LivenessStep.Skipped.description": "Liveness check was cancelled by user",
 
   "VerificationMetadata.title": "Metadata",
-  "LetsStartPanel.cta": "Download Presentation"
+  "LetsStartPanel.cta": "Download Presentation",
+
+  "PricingPlans.starter.title": "Starter",
+  "PricingPlans.regular.title": "Regular",
+  "PricingPlans.growth.title": "Growth",
+
+  "PricingRefundNotice.title": "No happy? Get your money back within the first 30 days",
+  "PricingRefundNotice.subtitle": "No questions asked!",
+
+  "PricingLargePlans.contactUs": "Contact Us",
+  "PricingLargePlans.highgrowth.title": "Hight Growth",
+  "PricingLargePlans.highgrowth.priceline": "<strong>$3000</strong>/month",
+  "PricingLargePlans.enterprise.title": "Enterprise",
+  "PricingLargePlans.enterprise.priceline": "Large scale deployments",
+  "PricingPlans.upTo": "up to",
+  "PricingPlans.verificationsPerMonth": "verifications/month",
+  "PricingPlans.pricePerMonth": "/month",
+  "PricingPlans.limitationsNotice": "Additional cost apply over this limit",
+  "PricingPlans.start": "start plan",
+
+  "MatiNumbers.0.title": "100+",
+  "MatiNumbers.0.description": "Countries’ ID supported",
+  "MatiNumbers.1.title": "<2 hours",
+  "MatiNumbers.1.description": "Integration process",
+  "MatiNumbers.2.title": "24/7",
+  "MatiNumbers.2.description": "Dedicated Staff Support"
 }

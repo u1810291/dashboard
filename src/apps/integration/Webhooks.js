@@ -3,10 +3,11 @@ import Items from 'components/items'
 import Support from 'fragments/account/support'
 import WebhooksDocsPanel from 'fragments/integration/webhooks-docs-panel'
 import WebhooksTestPanel from 'fragments/integration/webhooks-test-panel'
+import IntegrationLayout from './IntegrationLayout'
 
 export default function Info() {
   return (
-    <React.Fragment>
+    <IntegrationLayout>
       <main>
         <Items flow="row" gap={4}>
           <WebhooksDocsPanel />
@@ -16,6 +17,6 @@ export default function Info() {
       <aside>
         <Support />
       </aside>
-    </React.Fragment>
+    </IntegrationLayout>
   )
 }

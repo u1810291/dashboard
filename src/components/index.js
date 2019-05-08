@@ -1,3 +1,6 @@
 export { default as Items } from './items'
 export { default as Card } from './card'
 export { default as Click } from './click'
+export { default as Text, H1, H2 } from './text'
+export { default as PageContentLayout } from './page-content-layout'
+export { default as PageContentMenu } from './page-content-menu'

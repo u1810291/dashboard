@@ -5,7 +5,6 @@ import { Content } from 'components/application-box'
 import Items from 'components/items'
 import Info from './Info'
 import Features from './Features'
-import InfoLayout from './InfoLayout'
 
 export default function InfoPage() {
   return (
@@ -14,12 +13,10 @@ export default function InfoPage() {
         <h1>
           <FormattedMessage id="apps.info.info.title" />
         </h1>
-        <InfoLayout>
-          <Switch>
-            <Route path="/info/features" component={Features} />
-            <Route path="/info" component={Info} />
-          </Switch>
-        </InfoLayout>
+        <Switch>
+          <Route path="/info/features" component={Features} />
+          <Route path="/info" component={Info} />
+        </Switch>
       </Items>
     </Content>
   )

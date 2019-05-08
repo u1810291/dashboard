@@ -8,9 +8,14 @@ export const shadowValue = shadow => css`
     rgba(52, 73, 94, calc(0.1 * ${shadow}));
 `
 
-export const paddingValue = padding => css`
-  calc(var(--mgi-spacing) * 0.5 * ${padding});
-`
+export const paddingValue = padding =>
+  css(
+    padding
+      .toString()
+      .split('/')
+      .map(value => `calc(var(--mgi-spacing) * 0.5 * ${value})`)
+      .join(' ')
+  )
 
 export default function Card({
   children,
@@ -23,7 +28,6 @@ export default function Card({
 }) {
   const cardStyles = css`
     --mgi-card-border-radius: 4px;
-    overflow: hidden;
     border-radius: var(--mgi-card-border-radius);
     box-shadow: ${shadowValue(shadow)}
     transition: box-shadow 0.2s ease-in-out;

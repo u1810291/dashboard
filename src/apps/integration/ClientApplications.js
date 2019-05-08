@@ -6,6 +6,7 @@ import { subscribeToWebhook, deleteWebhook, getWebhooks } from 'state/webhooks'
 import Items from 'components/items'
 import ClientApplication from 'fragments/account/client-application'
 import Support from 'fragments/account/support'
+import IntegrationLayout from './IntegrationLayout'
 
 function ClientApplications({
   apps = [],
@@ -34,7 +35,7 @@ function ClientApplications({
   }
 
   return (
-    <React.Fragment>
+    <IntegrationLayout>
       <main>
         <Items flow="row">
           {apps.map(app => (
@@ -54,7 +55,7 @@ function ClientApplications({
       <aside>
         <Support />
       </aside>
-    </React.Fragment>
+    </IntegrationLayout>
   )
 }
 
