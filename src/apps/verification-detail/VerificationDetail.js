@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { titleize } from 'inflection'
 import { connect } from 'react-redux'
 import { get, isEqual } from 'lodash'
+import moment from 'moment'
 import { getIdentityWithNestedData, deleteIdentity } from 'src/state/identities'
 import { getCountries } from 'src/state/countries'
 import { Content } from 'src/components/application-box'
@@ -100,17 +101,14 @@ function VerificationDetail({
     dispatch(getIdentityWithNestedData(token, id))
   }, [])
 
-  useEffect(
-    () => {
-      setTimeout(function() {
-        const verification = get(identity, '_embedded.verification')
-        if (verification && !isLoaded(verification)) {
-          loadData(dispatch, token, id)
-        }
-      }, 5000)
-    },
-    [identity]
-  )
+  useEffect(() => {
+    setTimeout(function() {
+      const verification = get(identity, '_embedded.verification')
+      if (verification && !isLoaded(verification)) {
+        loadData(dispatch, token, id)
+      }
+    }, 5000)
+  }, [identity])
 
   if (!identity) return null
 
@@ -124,11 +122,7 @@ function VerificationDetail({
           <span className="text-secondary text-light">
             #{formatId(identity.id)}
           </span>
-          <p>
-            {new Date(identity.dateCreated).toLocaleDateString('en-US', {
-              timeZone: 'Europe/London'
-            })}
-          </p>
+          <p>{moment(identity.dateCreated).format('MMM D, YYYY')}</p>
         </h1>
         <PageContentLayout>
           <main>

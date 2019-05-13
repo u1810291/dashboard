@@ -1,5 +1,6 @@
 import React from 'react'
 import fp from 'lodash/fp'
+import moment from 'moment'
 import { connect } from 'react-redux'
 import { isEmpty, pickBy, mapValues, get, compact } from 'lodash'
 import {
@@ -8,7 +9,6 @@ import {
   deleteIdentity
 } from 'src/state/identities'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import moment from 'moment'
 import { Content } from 'src/components/application-box'
 import DataTable from 'src/components/data-table'
 import VerificationFullNameLabel from 'src/fragments/verifications/verification-full-name-label'
@@ -173,10 +173,7 @@ class VerificationHistory extends React.Component {
       {
         size: 1.5,
         label: <FormattedMessage id="identities.fields.date" />,
-        content: identity =>
-          new Date(identity.dateUpdated).toLocaleDateString('en-US', {
-            timeZone: 'Europe/London'
-          })
+        content: identity => moment(identity.dateUpdated).format('MMM D, YYYY')
       },
       {
         size: 1,
