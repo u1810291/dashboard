@@ -14,18 +14,10 @@ function formatValue(label, string) {
   }
 
   if (checkLabel(label, ['date'])) {
-    const attempts = [
-      moment(string).toDate(),
-      moment(string, 'DD-MM-YYYY').toDate()
-    ].filter(date => date.getDate())
-    return attempts.length > 0
-      ? attempts[0].toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          timeZone: 'Europe/London'
-        })
-      : string
+    const attempts = [moment(string), moment(string, 'DD-MM-YYYY')].filter(
+      date => date.toDate().getDate()
+    )
+    return attempts.length > 0 ? attempts[0].format('MMM D, YYYY') : string
   }
 
   return string

@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { titleize } from 'inflection'
 import { connect } from 'react-redux'
 import { get, isEqual } from 'lodash'
+import moment from 'moment'
 import { getIdentityWithNestedData, deleteIdentity } from 'state/identities'
 import { getCountries } from 'state/countries'
 import { Content } from 'components/application-box'
@@ -121,11 +122,7 @@ function VerificationDetail({
           <span className="text-secondary text-light">
             #{formatId(identity.id)}
           </span>
-          <p>
-            {new Date(identity.dateCreated).toLocaleDateString('en-US', {
-              timeZone: 'Europe/London'
-            })}
-          </p>
+          <p>{moment(identity.dateCreated).format('MMM D, YYYY')}</p>
         </h1>
         <PageContentLayout navigation={false}>
           <main>
