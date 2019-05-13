@@ -22,7 +22,8 @@ function formatValue(label, string) {
       ? attempts[0].toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'short',
-          day: 'numeric'
+          day: 'numeric',
+          timeZone: 'Europe/London'
         })
       : string
   }
