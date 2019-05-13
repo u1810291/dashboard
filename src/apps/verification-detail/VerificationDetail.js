@@ -124,7 +124,11 @@ function VerificationDetail({
           <span className="text-secondary text-light">
             #{formatId(identity.id)}
           </span>
-          <p>{new Date(identity.dateCreated).toLocaleDateString()}</p>
+          <p>
+            {new Date(identity.dateCreated).toLocaleDateString('en-US', {
+              timeZone: 'Europe/London'
+            })}
+          </p>
         </h1>
         <PageContentLayout>
           <main>

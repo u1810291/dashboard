@@ -173,7 +173,10 @@ class VerificationHistory extends React.Component {
       {
         size: 1.5,
         label: <FormattedMessage id="identities.fields.date" />,
-        content: identity => new Date(identity.dateUpdated).toLocaleDateString()
+        content: identity =>
+          new Date(identity.dateUpdated).toLocaleDateString('en-US', {
+            timeZone: 'Europe/London'
+          })
       },
       {
         size: 1,
