@@ -391,6 +391,7 @@
   "verificationWebhookModal.title": "Webhook data",
 
   "dashboard.menu.identities": "My verifications",
+  "dashboard.menu.launch": "Launch",
   "dashboard.menu.configuration": "Customize",
   "dashboard.menu.integration": "Integrate",
   "dashboard.menu.account": "Account",
@@ -562,8 +563,8 @@
   "fragments.integration.installation-guide-panels.webhooks-panel.message": "Here you can test your webhooks and look at webhook documentation",
   "fragments.integration.installation-guide-panels.webhooks-panel.button": "Go to Webhooks",
   "fragments.integration.installation-guide-panels.webhooks-panel.link": "Webhook documentation",
-  "fragments.integration.installation-guide-panels.start-panel.title": "Let’s start to use Mati",
-  "fragments.integration.installation-guide-panels.start-panel.message": "Here’s a short guide which will help you to understand our product and how to start to use it.",
+  "fragments.integration.installation-guide-panels.start-panel.title": "Let’s start to integrate Mati",
+  "fragments.integration.installation-guide-panels.start-panel.message": "Here’s a short presentation which will help you to understand how to integrate our product.",
   "fragments.info.features.title": "Security Features",
   "fragments.info.features.liveness.title": "Liveness",
   "fragments.info.features.liveness.description": "Contains the proof of life response, making sure your user is a real person (and not a printed paper)",
@@ -640,5 +641,18 @@
   "MatiNumbers.1.title": "<2 hours",
   "MatiNumbers.1.description": "Integration process",
   "MatiNumbers.2.title": "24/7",
-  "MatiNumbers.2.description": "Dedicated Staff Support"
+  "MatiNumbers.2.description": "Dedicated Staff Support",
+
+  "LaunchComplianceStarter.title": "I want to be compliant. Where do I start?",
+  "LaunchComplianceStarter.cta": "Compliance Starter",
+  "LaunchComplianceStarter.description": "No matter in what country you operate, or what product you sell, we will help you be KYC/AML compliant",
+  "LaunchPricing.title": "Choose my plan",
+  "LaunchPricing.cta": "Go to Pricing",
+  "LaunchPricing.description": "We suggest you 3 plans depends of your needs. From Start Up to Middle Size Business and even enterprise.",
+  "LaunchIntegrate.title": "Integrate Mati",
+  "LaunchIntegrate.cta": "Integrate",
+  "LaunchIntegrate.description": "Here you can add URL for receiving webhooks. Also before it you can test webhooks.",
+  "LaunchCustomize.title": "Customize my verification flow",
+  "LaunchCustomize.cta": "Go to Customize",
+  "LaunchCustomize.description": "On first step you can configure your verification flow with colours, countries, language and documents."
 }

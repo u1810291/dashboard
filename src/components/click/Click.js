@@ -1,16 +1,16 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/core'
-import Card, { shadowValue, paddingValue } from '../card'
+import Card, { shadowValue } from '../card'
 
 export default function Click({
   children,
-  padding = 1,
   gap = 1,
   inline = true,
   shadow = 0,
   tabIndex = 0,
   hoverShadow = true,
+  padding = '1/2',
   onClick = () => {},
   justifyContent = 'center',
   justifyItems = 'center',
@@ -21,12 +21,12 @@ export default function Click({
   return (
     <Card
       inline={inline}
-      padding={padding}
       shadow={shadow}
       justifyContent={justifyContent}
       justifyItems={justifyItems}
       tabIndex={tabIndex}
       onClick={onClick}
+      padding={padding}
       flow={flow}
       gap={gap}
       align={align}
@@ -40,9 +40,6 @@ export default function Click({
         border: 0;
         cursor: pointer;
         text-decoration: none;
-        padding-left: ${paddingValue(padding * 2)};
-        padding-right: ${paddingValue(padding * 2)};
-
         &:hover,
         &:active {
           box-shadow: ${shadowValue((shadow + 1) * hoverShadow ? 1 : 0)};

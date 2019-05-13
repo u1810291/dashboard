@@ -15,6 +15,7 @@ import { Configuration } from 'apps/configuration'
 import VerificationHistory from 'apps/verification-history'
 import VerificationDetail from 'apps/verification-detail'
 import { Settings } from 'apps/settings'
+import Launch from 'apps/launch'
 import Info from 'apps/info'
 import Integration from 'apps/integration'
 import { signOut } from 'state/auth'
@@ -28,6 +29,7 @@ import { ReactComponent as IdentitiesIcon } from './icons/icon-menu-verification
 import { ReactComponent as ConfigurationIcon } from './icons/icon-menu-customize.svg'
 import { ReactComponent as AccountIcon } from './icons/icon-account.svg'
 import { ReactComponent as SettingsIcon } from './icons/icon-menu-integrate.svg'
+import { ReactComponent as LaunchIcon } from './icons/icon-menu-launch.svg'
 import { ReactComponent as LogoutIcon } from './icons/logout.svg'
 
 class Dashboard extends React.Component {
@@ -75,6 +77,13 @@ class Dashboard extends React.Component {
         {isOwner && (
           <MenuItemLink
             to="/"
+            label={formatMessage({ id: 'dashboard.menu.launch' })}
+            icon={<LaunchIcon />}
+          />
+        )}
+        {isOwner && (
+          <MenuItemLink
+            to="/configuration"
             label={formatMessage({ id: 'dashboard.menu.configuration' })}
             icon={<ConfigurationIcon />}
           />
@@ -140,7 +149,8 @@ class Dashboard extends React.Component {
             <OwnersRoute path="/settings" component={Settings} />
             <Route path="/info" component={Info} />
             <OwnersRoute path="/integration" component={Integration} />
-            <OwnersRoute path="/" component={Configuration} />
+            <OwnersRoute path="/configuration" component={Configuration} />
+            <OwnersRoute path="/" component={Launch} />
           </Switch>
         </ApplicationBox>
       </React.Fragment>

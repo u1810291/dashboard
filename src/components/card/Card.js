@@ -3,6 +3,14 @@
 import { css, jsx } from '@emotion/core'
 import Items from '../items'
 
+function splitCSSValues(value, transform = s => s) {
+  return value
+    .toString()
+    .split('/')
+    .map(transform)
+    .join(' ')
+}
+
 export const shadowValue = shadow => css`
   0px 2px calc(2px + 2px * ${shadow})
     rgba(52, 73, 94, calc(0.1 * ${shadow}));
@@ -10,11 +18,10 @@ export const shadowValue = shadow => css`
 
 export const paddingValue = padding =>
   css(
-    padding
-      .toString()
-      .split('/')
-      .map(value => `calc(var(--mgi-spacing) * 0.5 * ${value})`)
-      .join(' ')
+    splitCSSValues(
+      padding,
+      value => `calc(var(--mgi-spacing) * 0.5 * ${value})`
+    )
   )
 
 export default function Card({
@@ -23,13 +30,18 @@ export default function Card({
   border = 'transparent',
   padding = 2,
   shadow = 1,
+  borderRadius = 1,
   className,
   ...props
 }) {
   const cardStyles = css`
     --mgi-card-border-radius: 4px;
-    border-radius: var(--mgi-card-border-radius);
-    box-shadow: ${shadowValue(shadow)}
+    overflow: hidden;
+    border-radius: ${splitCSSValues(
+      borderRadius,
+      value => `calc(var(--mgi-card-border-radius) * ${value})`
+    )};
+    box-shadow: ${shadowValue(shadow)};
     transition: box-shadow 0.2s ease-in-out;
     padding: ${paddingValue(padding)};
   `
