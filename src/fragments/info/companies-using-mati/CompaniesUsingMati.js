@@ -16,7 +16,7 @@ export default function CompaniesUsingMati() {
       <H1>200+ companies are already compliant with mati</H1>
       <Items gap="4" align="center">
         {LOGOS.map(url => (
-          <img src={url} alt="" />
+          <img src={url} alt="" key={url} />
         ))}
       </Items>
     </Items>

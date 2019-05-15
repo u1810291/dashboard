@@ -12,7 +12,7 @@ export default function Feedback() {
   return (
     <Items templateColumns="1fr 1fr" gap="4">
       {['profuturo', 'doopla'].map((name, index) => (
-        <Items flow="row" gap={1}>
+        <Items flow="row" gap={1} key={index}>
           <p className={CSS.logo}>
             <img src={logos[name]} alt={name} />
           </p>

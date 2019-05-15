@@ -75,9 +75,10 @@ export default function Pricing() {
             <Items>
               {PLANS.map(plan => (
                 <PricingPlans
-                  {...plan}
+                  key={plan.planId}
                   onChoosePlan={handlePlanClick.bind(this, plan)}
                   current={plan.planId === dashboardData.planId}
+                  {...plan}
                 />
               ))}
             </Items>

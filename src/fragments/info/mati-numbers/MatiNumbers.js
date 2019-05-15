@@ -7,7 +7,7 @@ export default function MatiNumbers() {
   return (
     <Items justifyContent="center" gap="12">
       {times(3).map(i => (
-        <Items flow="row" gap={1}>
+        <Items flow="row" gap={1} key={i}>
           <H1 color="active">
             <FormattedMessage id={`MatiNumbers.${i}.title`} />
           </H1>

@@ -5,7 +5,11 @@ import { Link } from 'react-router-dom'
 import { transform } from 'inflection'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { signUp } from 'state/auth'
-import { getIntegrationCode } from 'state/merchant'
+import {
+  getIntegrationCode,
+  saveConfiguration,
+  getMerchant
+} from 'state/merchant'
 import { updateData } from 'lib/intercom'
 import SignUpForm from 'fragments/signup/sign-up-form'
 import CSS from './Auth.module.css'
@@ -17,7 +21,15 @@ class SignUp extends React.Component {
     await this.props.signUp(
       pick(data, 'firstName', 'lastName', 'email', 'password')
     )
-    this.props.getIntegrationCode(this.props.token)
+    await this.props.getIntegrationCode(this.props.token)
+    await this.props.getMerchant(this.props.token)
+    await this.props.saveConfiguration(this.props.token, {
+      dashboard: {
+        ...this.props.merchant.dashboard,
+        usePlans: true
+      }
+    })
+
     updateData(
       fromPairs(
         toPairs(intercomFields).map(([key, value]) => [
@@ -59,6 +71,6 @@ class SignUp extends React.Component {
 }
 
 export default connect(
-  state => ({ token: state.auth.token }),
-  { signUp, getIntegrationCode }
+  state => ({ token: state.auth.token, merchant: state.merchant }),
+  { signUp, getIntegrationCode, saveConfiguration, getMerchant }
 )(SignUp)

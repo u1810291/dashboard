@@ -1,8 +1,6 @@
 /** @jsx jsx */
-
 import styled from '@emotion/styled'
 import { css } from '@emotion/core'
-import PropTypes from 'prop-types'
 
 export const aligns = [
   'auto',
@@ -54,13 +52,5 @@ const Items = styled.div(
     justify-items: ${justifyItems};
   `
 )
-
-Items.propTypes = {
-  gap: PropTypes.oneOf(gaps),
-  inline: PropTypes.bool,
-  align: PropTypes.oneOf(aligns),
-  justifyContent: PropTypes.oneOf(justifies),
-  flow: PropTypes.oneOf(flows)
-}
 
 export default Items
