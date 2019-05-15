@@ -671,6 +671,9 @@
   "CheckoutModal.planPrice": "${planPrice}/month",
   "CheckoutModal.priceChargeNotice": "will charged at the 1st day of billing cycle",
   "CheckoutModal.extraPriceNotice": "for every verification above the included limit",
+  "CheckoutModal.cardNumber": "Credit card number",
+  "CheckoutModal.expDate": "Expiration Date",
+  "CheckoutModal.cvc": "CVC",
 
   "NoPlanSelected.title": "Before integration you should choose the pricing plan",
   "NoPlanSelected.link": "Go to Pricing"
