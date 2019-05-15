@@ -17,7 +17,11 @@ function formatValue(label, string) {
     const attempts = [moment(string), moment(string, 'DD-MM-YYYY')].filter(
       date => date.toDate().getDate()
     )
-    return attempts.length > 0 ? attempts[0].format('MMM D, YYYY') : string
+    return attempts.length > 0
+      ? attempts[0]
+          .utcOffset(new Date().getTimezoneOffset())
+          .format('MMM D, YYYY')
+      : string
   }
 
   return string

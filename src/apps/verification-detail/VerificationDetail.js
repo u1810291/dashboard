@@ -122,7 +122,11 @@ function VerificationDetail({
           <span className="text-secondary text-light">
             #{formatId(identity.id)}
           </span>
-          <p>{moment(identity.dateCreated).format('MMM D, YYYY')}</p>
+          <p>
+            {moment(identity.dateCreated)
+              .utcOffset(new Date().getTimezoneOffset())
+              .format('MMM D, YYYY')}
+          </p>
         </h1>
         <PageContentLayout>
           <main>

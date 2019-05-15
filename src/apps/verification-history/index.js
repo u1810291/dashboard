@@ -173,7 +173,10 @@ class VerificationHistory extends React.Component {
       {
         size: 1.5,
         label: <FormattedMessage id="identities.fields.date" />,
-        content: identity => moment(identity.dateUpdated).format('MMM D, YYYY')
+        content: identity =>
+          moment(identity.dateUpdated)
+            .utcOffset(new Date().getTimezoneOffset())
+            .format('MMM D, YYYY')
       },
       {
         size: 1,
