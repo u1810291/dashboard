@@ -1,6 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
+import {
+  Elements as StripeElements,
+  StripeProvider
+} from 'react-stripe-elements'
 // Next line must stay on the top because of css variables
 import 'components/theme/styles.scss'
 import IntlProvider from 'components/intl-provider'
@@ -26,23 +30,27 @@ if (process.env.REACT_APP_SENTRY_DSN) {
 
 ReactDOM.render(
   <ErrorLoggerWrapper>
-    <IntlProvider>
-      <StoreProvider>
-        <BrowserRouter>
-          <ScrollToTop>
-            <Root />
-            <NotificationsContainer
-              closeButton={false}
-              hideProgressBar={true}
-              pauseOnHover={false}
-              draggable={false}
-              autoClose={5000}
-            />
-            <OverlayContainer />
-          </ScrollToTop>
-        </BrowserRouter>
-      </StoreProvider>
-    </IntlProvider>
+    <StripeProvider apiKey={process.env.REACT_APP_STRIPE_PUBLIC_KEY}>
+      <StripeElements>
+        <IntlProvider>
+          <StoreProvider>
+            <BrowserRouter>
+              <ScrollToTop>
+                <Root />
+                <NotificationsContainer
+                  closeButton={false}
+                  hideProgressBar={true}
+                  pauseOnHover={false}
+                  draggable={false}
+                  autoClose={5000}
+                />
+                <OverlayContainer />
+              </ScrollToTop>
+            </BrowserRouter>
+          </StoreProvider>
+        </IntlProvider>
+      </StripeElements>
+    </StripeProvider>
   </ErrorLoggerWrapper>,
   document.getElementById('root')
 )

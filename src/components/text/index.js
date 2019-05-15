@@ -1,1 +1,1 @@
-export { default, H1, H2 } from './Text'
+export { default, H1, H2, Small } from './Text'

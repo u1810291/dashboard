@@ -10,3 +10,4 @@ export {
 export { default as LaunchCustomize } from './launch/launch-customize'
 export { default as LaunchPricing } from './launch/launch-pricing'
 export { default as LaunchIntegrate } from './launch/launch-integrate'
+export { default as CheckoutModal } from './account/checkout-modal'

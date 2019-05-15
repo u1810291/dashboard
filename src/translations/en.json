@@ -24,6 +24,7 @@
   "ok": "OK",
   "required": "required",
   "or": "or",
+  "currency": "${value}",
 
   "statuses.unverified": "Unverified",
   "statuses.verified": "Verified",
@@ -588,6 +589,9 @@
   "DocumentReadingStep.error": "Unable to read document data: <span class=\"text-error\">{message}</span>",
   "MexicanCurpValidationStep.title": "Mexican CURP Validation",
 
+  "Pricing.notification.success": "Card was saved to your account",
+  "Pricing.notification.failure": "Unable to make a test charge from card",
+
   "SecurityCheckStep.alteration-detection": "Document {message}",
   "SecurityCheckStep.alteration-detection.failure": "was altered",
   "SecurityCheckStep.alteration-detection.success": "is not altered",
@@ -635,6 +639,7 @@
   "PricingPlans.pricePerMonth": "/month",
   "PricingPlans.limitationsNotice": "Additional cost apply over this limit",
   "PricingPlans.start": "start plan",
+  "PricingPlans.currentPlan": "Current Plan",
 
   "MatiNumbers.0.title": "100+",
   "MatiNumbers.0.description": "Countries’ ID supported",
@@ -654,5 +659,16 @@
   "LaunchIntegrate.description": "Here you can add URL for receiving webhooks. Also before it you can test webhooks.",
   "LaunchCustomize.title": "Customize my verification flow",
   "LaunchCustomize.cta": "Go to Customize",
-  "LaunchCustomize.description": "On first step you can configure your verification flow with colours, countries, language and documents."
+  "LaunchCustomize.description": "On first step you can configure your verification flow with colours, countries, language and documents.",
+
+  "CheckoutModal.submit": "Buy",
+  "CheckoutModal.planName.starter": "Starter",
+  "CheckoutModal.planName.regular": "Regular",
+  "CheckoutModal.planName.growth": "Growth",
+  "CheckoutModal.refund.0": "No happy?",
+  "CheckoutModal.refund.1": " Get your money back within the first 30 days",
+  "CheckoutModal.refund.2": "No questions asked!",
+  "CheckoutModal.planPrice": "${planPrice}/month",
+  "CheckoutModal.priceChargeNotice": "will charged at the 1st day of billing cycle",
+  "CheckoutModal.extraPriceNotice": "for every verification above the included limit"
 }
