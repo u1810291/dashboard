@@ -59,7 +59,12 @@ export default class Countries extends React.Component {
           ) : (
             <Items flow="row" justifyContent="start">
               {supportedCountries.length > 0 && (
-                <Items flow="column" gap={1}>
+                <Items
+                  flow="row"
+                  templateColumns="repeat(3, 1fr)"
+                  align="stretch"
+                  gap={1}
+                >
                   {supportedCountries
                     .map(this.mapValues)
                     .map((country, index) => (
