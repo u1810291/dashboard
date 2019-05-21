@@ -20,6 +20,10 @@ export function H2({ size = 3, weight = 4, ...props }) {
   return <Text size={size} weight={weight} as="h2" {...props} />
 }
 
+export function H3({ size = 2, weight = 4, ...props }) {
+  return <Text size={size} weight={weight} as="h3" {...props} />
+}
+
 export function Small({ size = 1.5, ...props }) {
   return <Text size={size} as="small" {...props} />
 }

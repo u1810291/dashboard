@@ -513,7 +513,8 @@
   "fragments.configuration.verification_steps_modal.subtitle": "Edit documents you want include in this step. One of them will be required.",
   "fragments.configuration.title": "Try your user verification here",
   "fragments.configuration.button.start-integration": "Start Integration",
-  "fragments.configuration.button.common-questions": "Common Questions",
+  "fragments.configuration.usecase-modal": "See usecase how product work",
+  "fragments.configuration.permalink-title": "Share your custom flow using the link below",
   "fragments.account.new_webhook_modal.title": "Add webhook",
   "fragments.account.webhooks.add": "Add new webhook",
   "fragments.account.webhooks.confirm": "Delete the webhook?",
@@ -641,7 +642,7 @@
   "PricingPlans.regular.title": "Regular",
   "PricingPlans.growth.title": "Growth",
 
-  "PricingRefundNotice.title": "No happy? Get your money back within the first 30 days",
+  "PricingRefundNotice.title": "Not happy? Get your money back within the first 30 days",
   "PricingRefundNotice.subtitle": "No questions asked!",
 
   "PricingLargePlans.contactUs": "Contact Us",
@@ -680,7 +681,7 @@
   "CheckoutModal.planName.starter": "Starter",
   "CheckoutModal.planName.regular": "Regular",
   "CheckoutModal.planName.growth": "Growth",
-  "CheckoutModal.refund.0": "No happy?",
+  "CheckoutModal.refund.0": "Not happy?",
   "CheckoutModal.refund.1": " Get your money back within the first 30 days",
   "CheckoutModal.refund.2": "No questions asked!",
   "CheckoutModal.planPrice": "${planPrice}/month",
@@ -691,5 +692,6 @@
   "CheckoutModal.cvc": "CVC",
 
   "NoPlanSelected.title": "Before integration you should choose the pricing plan",
-  "NoPlanSelected.link": "Go to Pricing"
+  "NoPlanSelected.link": "Go to Pricing",
+  "UsecaseModal.title": "See usecase about documents you want to verify"
 }

@@ -46,9 +46,11 @@ export default function Click({
         text-decoration: none;
         &:hover,
         &:active {
-          box-shadow: ${shadowValue(
-            (shadow + 1) * (hoverShadow && !disabled) ? 1 : 0
-          )};
+          ${hoverShadow &&
+            !disabled &&
+            css`
+              box-shadow: ${shadowValue(parseInt(shadow) + 1)};
+            `}
         }
         &[disabled] {
           cursor: default;
