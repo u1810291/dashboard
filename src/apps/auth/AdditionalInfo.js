@@ -5,7 +5,6 @@ import CSS from './Auth.module.css'
 import { ReactComponent as MatiLogo } from 'assets/mati-logo.svg'
 import { setUserProperties, trackEvent } from 'lib/mixpanel'
 import { updateData } from 'lib/intercom'
-import { showVideo } from 'fragments/configuration/onboarding-video'
 
 export default class AdditionalInfo extends React.Component {
   handleSubmit = data => {
@@ -19,7 +18,6 @@ export default class AdditionalInfo extends React.Component {
       )
     )
     trackEvent('dash_completed_additional_questions')
-    setTimeout(() => showVideo(), 1000)
     this.props.history.push('/')
   }
 
