@@ -123,7 +123,7 @@ function VerificationDetail({
           <span className="text-secondary text-light">
             #{formatId(identity.id)}
           </span>
-          <p>{moment(identity.dateCreated).format('MMM D, YYYY')}</p>
+          <p>{moment.utc(identity.dateCreated).format('MMM D, YYYY')}</p>
         </h1>
         <PageContentLayout navigation={false}>
           <main>
