@@ -16,6 +16,7 @@ import DocumentStep from 'fragments/verifications/document-step'
 import LivenessStep from 'fragments/verifications/liveness-step'
 import VerificationMetadata from 'fragments/verifications/verification-metadata'
 import VerificationWebhookModal from 'fragments/verifications/verification-webhook-modal'
+import MatiChecks from 'fragments/verifications/mati-checks'
 import Spinner from 'components/spinner'
 import { ReactComponent as DeleteIcon } from './delete-icon.svg'
 
@@ -131,6 +132,7 @@ function VerificationDetail({
               {identity.metadata && (
                 <VerificationMetadata metadata={identity.metadata} />
               )}
+              <MatiChecks />
             </Items>
           </main>
           <aside>
