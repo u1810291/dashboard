@@ -120,11 +120,7 @@ class Configuration extends React.Component {
                   <FormattedMessage id="fragments.configuration.permalink-title" />
                 </H3>
                 <Card shadow="0" border="blue" padding="1">
-                  <Text
-                    color="blue"
-                    as="a"
-                    href={permalink(this.props.apps[0].clientId)}
-                  >
+                  <Text color="blue">
                     {permalink(this.props.apps[0].clientId)}
                   </Text>
                 </Card>

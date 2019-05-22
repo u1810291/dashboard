@@ -8,7 +8,7 @@ export default function LaunchCustomize() {
     <CardWithStub
       stub={
         <Stub background="apricot">
-          <Text color="darkapricot">2</Text>
+          <Text color="darkapricot">1</Text>
         </Stub>
       }
       flow="column"

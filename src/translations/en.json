@@ -606,7 +606,7 @@
   "MexicanCurpValidationStep.title": "Mexican CURP Validation",
 
   "Pricing.notification.success": "Card was saved to your account",
-  "Pricing.notification.failure": "Unable to make a test charge from card",
+  "Pricing.notification.failure": "Unable charge your card",
 
   "SecurityCheckStep.alteration-detection": "Document {message}",
   "SecurityCheckStep.alteration-detection.failure": "was altered",

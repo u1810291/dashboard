@@ -8,7 +8,7 @@ export default function LaunchIntegrate() {
     <CardWithStub
       stub={
         <Stub background="apricot">
-          <Text color="darkapricot">4</Text>
+          <Text color="darkapricot">3</Text>
         </Stub>
       }
       flow="column"

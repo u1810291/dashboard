@@ -8,7 +8,7 @@ export default function LaunchPricing() {
     <CardWithStub
       stub={
         <Stub background="apricot">
-          <Text color="darkapricot">3</Text>
+          <Text color="darkapricot">2</Text>
         </Stub>
       }
       flow="column"
