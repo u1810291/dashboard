@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Items from 'src/components/items'
-import Click from 'src/components/click'
-import PopupWindow from 'src/components/popup-window'
-import { createOverlay, closeOverlay } from 'src/components/overlay'
+import Items from 'components/items'
+import Click from 'components/click'
+import PopupWindow from 'components/popup-window'
+import { createOverlay, closeOverlay } from 'components/overlay'
 import images from './images'
 import gifs from './popup-images'
 

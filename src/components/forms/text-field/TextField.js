@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/core'
-import Card from 'src/components/card'
+import Card from 'components/card'
 
 export default function TextField({
   padding = 1,

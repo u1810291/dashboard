@@ -1,5 +1,5 @@
 import React from 'react'
-import { createOverlay } from 'src/components/overlay'
+import { createOverlay } from 'components/overlay'
 
 function YoutubeOverlay({ id }) {
   return (

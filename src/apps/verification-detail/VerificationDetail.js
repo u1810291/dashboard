@@ -4,19 +4,20 @@ import { titleize } from 'inflection'
 import { connect } from 'react-redux'
 import { get, isEqual } from 'lodash'
 import moment from 'moment'
-import { getIdentityWithNestedData, deleteIdentity } from 'src/state/identities'
-import { getCountries } from 'src/state/countries'
-import { Content } from 'src/components/application-box'
-import Items from 'src/components/items'
-import Click from 'src/components/click'
-import confirm from 'src/components/confirm'
-import { createOverlay } from 'src/components/overlay'
-import PageContentLayout from 'src/components/page-content-layout'
-import DocumentStep from 'src/fragments/verifications/document-step'
-import LivenessStep from 'src/fragments/verifications/liveness-step'
-import VerificationMetadata from 'src/fragments/verifications/verification-metadata'
-import VerificationWebhookModal from 'src/fragments/verifications/verification-webhook-modal'
-import Spinner from 'src/components/spinner'
+import { getIdentityWithNestedData, deleteIdentity } from 'state/identities'
+import { getCountries } from 'state/countries'
+import { Content } from 'components/application-box'
+import Items from 'components/items'
+import Click from 'components/click'
+import confirm from 'components/confirm'
+import { createOverlay } from 'components/overlay'
+import PageContentLayout from 'components/page-content-layout'
+import DocumentStep from 'fragments/verifications/document-step'
+import LivenessStep from 'fragments/verifications/liveness-step'
+import VerificationMetadata from 'fragments/verifications/verification-metadata'
+import VerificationWebhookModal from 'fragments/verifications/verification-webhook-modal'
+import MatiChecks from 'fragments/verifications/mati-checks'
+import Spinner from 'components/spinner'
 import { ReactComponent as DeleteIcon } from './delete-icon.svg'
 
 function formatId(id = '') {
@@ -99,7 +100,7 @@ function VerificationDetail({
   useEffect(() => {
     dispatch(getCountries(token))
     dispatch(getIdentityWithNestedData(token, id))
-  }, [])
+  }, [dispatch, token, id])
 
   useEffect(() => {
     setTimeout(function() {
@@ -108,7 +109,7 @@ function VerificationDetail({
         loadData(dispatch, token, id)
       }
     }, 5000)
-  }, [identity])
+  }, [identity, dispatch, token, id])
 
   if (!identity) return null
 
@@ -122,19 +123,16 @@ function VerificationDetail({
           <span className="text-secondary text-light">
             #{formatId(identity.id)}
           </span>
-          <p>
-            {moment(identity.dateCreated)
-              .utcOffset(new Date().getTimezoneOffset())
-              .format('MMM D, YYYY')}
-          </p>
+          <p>{moment.utc(identity.dateCreated).format('MMM D, YYYY')}</p>
         </h1>
-        <PageContentLayout>
+        <PageContentLayout navigation={false}>
           <main>
             <Items flow="row">
               <MemoizedPageContent identity={identity} countries={countries} />
               {identity.metadata && (
                 <VerificationMetadata metadata={identity.metadata} />
               )}
+              <MatiChecks />
             </Items>
           </main>
           <aside>

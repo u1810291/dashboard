@@ -9,6 +9,8 @@ class TestErrorComponent extends React.Component {
   render() {
     // eslint-disable-next-line no-throw-literal
     throw 'test error'
+    // eslint-disable-next-line no-unreachable
+    return null
   }
 }
 

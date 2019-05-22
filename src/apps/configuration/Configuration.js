@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { MatiButton } from 'src/components/mati-button'
-import Button from 'src/components/button'
-import { Content } from 'src/components/application-box'
-import Items from 'src/components/items'
+import { MatiButton } from 'components/mati-button'
+import { Content } from 'components/application-box'
+import { Click, Items, Icons, Card, H3, Text, createOverlay } from 'components'
+import { UsecaseModal } from 'fragments'
 import {
   saveConfiguration,
   getMerchantApps,
@@ -12,17 +12,23 @@ import {
   AVAILABLE_LANGUAGES,
   AVAILABLE_DOCUMENT_TYPES,
   MANDATORY_DOCUMENT_TYPES
-} from 'src/state/merchant'
-import { getCountries } from 'src/state/countries'
-import ConfigureColor from 'src/fragments/configuration/configure-color'
-import VerificationSteps from 'src/fragments/configuration/verification-steps'
+} from 'state/merchant'
+import { getCountries } from 'state/countries'
+import ConfigureColor from 'fragments/configuration/configure-color'
+import VerificationSteps from 'fragments/configuration/verification-steps'
 import LanguageStep from './LanguageStep'
-import CSS from './Configuration.css'
-import { ReactComponent as IconPlay } from 'src/assets/icon-play-rounded.svg'
-import { ReactComponent as IconIntegrate } from 'src/assets/icon-integrate.svg'
-import { ReactComponent as IconFaq } from 'src/assets/icon-faq.svg'
-import Countries from 'src/fragments/configuration/countries'
-import { showVideo as showOnboardingVideo } from 'src/fragments/configuration/how-it-works-video'
+import CSS from './Configuration.module.css'
+import { ReactComponent as IconIntegrate } from 'assets/icon-repeat.svg'
+import Countries from 'fragments/configuration/countries'
+
+function showUsecaseModal() {
+  createOverlay(<UsecaseModal />)
+}
+
+function permalink(cliendId) {
+  const baseURL = process.env.REACT_APP_SIGNUP_URL
+  return `${baseURL}/?merchantToken=${cliendId}&metadata={}`
+}
 
 class Configuration extends React.Component {
   redirectToIdentity = ({ identityId }) => {
@@ -83,59 +89,54 @@ class Configuration extends React.Component {
           </Items>
         </Content>
         <Content fullwidth={false}>
-          <Items flow="row" gap={4}>
+          <Items flow="row" gap={4} className={CSS.sidebar}>
             <h1>
               <FormattedMessage id="fragments.configuration.title" />
             </h1>
 
             {this.props.apps[0] && (
-              <section>
-                <Items
-                  align="center"
-                  justifyContent="center"
-                  className={CSS.matiButtonWrapper}
-                >
-                  <MatiButton
-                    language={this.props.configuration.style.language}
-                    color={this.props.configuration.style.color}
-                    clientId={this.props.apps[0].clientId}
-                    onSuccess={this.redirectToIdentity}
-                  />
-                </Items>
-              </section>
+              <Items
+                align="center"
+                justifyContent="center"
+                className={CSS.matiButtonWrapper}
+              >
+                <MatiButton
+                  language={this.props.configuration.style.language}
+                  color={this.props.configuration.style.color}
+                  clientId={this.props.apps[0].clientId}
+                  onSuccess={this.redirectToIdentity}
+                />
+              </Items>
             )}
 
-            <section>
-              <Items align="center" justifyContent="center">
-                <p className={CSS.sidebarIcon}>
-                  <Button
-                    className={CSS.onboardingVideoLink}
-                    buttonStyle="link"
-                    onClick={showOnboardingVideo}
-                  >
-                    <IconPlay />
-                    <FormattedMessage id="onboarding.video.link" />
-                  </Button>
-                </p>
-              </Items>
-            </section>
+            <Click onClick={showUsecaseModal} background="active" shadow="2">
+              <Icons.Play />
+              <FormattedMessage id="fragments.configuration.usecase-modal" />
+            </Click>
 
-            <section>
-              <Items align="center" templateColumns="1fr 1fr" gap={1}>
-                <Button buttonStyle="primary" href="/integration" size="big">
-                  <IconIntegrate />
-                  <FormattedMessage id="fragments.configuration.button.start-integration" />
-                </Button>
-                <Button
-                  buttonStyle="primary primary-revert"
-                  href="/info"
-                  size="big"
-                >
-                  <IconFaq />
-                  <FormattedMessage id="fragments.configuration.button.common-questions" />
-                </Button>
+            {this.props.apps[0] && (
+              <Items flow="row" gap="1">
+                <H3>
+                  <FormattedMessage id="fragments.configuration.permalink-title" />
+                </H3>
+                <Card shadow="0" border="blue" padding="1">
+                  <Text
+                    color="blue"
+                    as="a"
+                    href={permalink(this.props.apps[0].clientId)}
+                  >
+                    {permalink(this.props.apps[0].clientId)}
+                  </Text>
+                </Card>
               </Items>
-            </section>
+            )}
+
+            <Items justifyContent="end" gap={1}>
+              <Click background="active" href="/integration" as="a">
+                <IconIntegrate />
+                <FormattedMessage id="fragments.configuration.button.start-integration" />
+              </Click>
+            </Items>
           </Items>
         </Content>
       </React.Fragment>

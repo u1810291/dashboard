@@ -1,6 +1,6 @@
-import { createReducer, createTypesSequence } from 'src/state/utils'
-import client from 'src/lib/client'
-import { store } from 'src/components/store-provider'
+import { createReducer, createTypesSequence } from 'state/utils'
+import client from 'lib/client'
+import { store } from 'components/store-provider'
 
 export * from './consts'
 

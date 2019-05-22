@@ -1,12 +1,12 @@
 import { isEmpty } from 'lodash'
-import { createReducer, createTypesSequence } from 'src/state/utils'
+import { createReducer, createTypesSequence } from 'state/utils'
 import { toPairs, fromPairs } from 'lodash'
 import {
   buildInitialMonthlyIdentities,
   computeMonthlyStatisticsForIdentities
 } from './analytics'
-import client from 'src/lib/client'
-import { notification } from 'src/components/notification'
+import client from 'lib/client'
+import { notification } from 'components/notification'
 
 window.client = client
 

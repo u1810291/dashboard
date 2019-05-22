@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { showIntercom } from 'src/lib/intercom'
-import Card from 'src/components/card'
-import Items from 'src/components/items'
-import Button from 'src/components/button'
-import CSS from './Support.scss'
+import { showIntercom } from 'lib/intercom'
+import Card from 'components/card'
+import Items from 'components/items'
+import Button from 'components/button'
+import CSS from './Support.module.scss'
 import { ReactComponent as SupportIcon } from './support.svg'
 
 export default function Support() {

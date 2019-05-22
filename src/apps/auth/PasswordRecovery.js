@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 import { withFormik, Field, Form } from 'formik'
-import Button from 'src/components/button'
-import { setI18nContext } from 'src/components/i18n-context'
-import { Input } from 'src/components/inputs'
-import { passwordRecovery } from 'src/state/auth'
+import Button from 'components/button'
+import { setI18nContext } from 'components/i18n-context'
+import { Input } from 'components/inputs'
+import { passwordRecovery } from 'state/auth'
 
 const formikSettings = {
   handleSubmit(values, { props, setSubmitting, setStatus }) {

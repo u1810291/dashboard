@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Modal } from 'src/components/modal'
-import Button from 'src/components/button'
-import { setI18nContext } from 'src/components/i18n-context'
+import { Modal } from 'components/modal'
+import Button from 'components/button'
+import { setI18nContext } from 'components/i18n-context'
 import TeamInviteForm from './TeamInviteForm'
-import Spinner from 'src/components/spinner'
+import Spinner from 'components/spinner'
 
 class TeamInviteModal extends React.Component {
   onInviteClick = () => {

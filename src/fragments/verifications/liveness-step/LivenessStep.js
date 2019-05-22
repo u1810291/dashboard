@@ -2,9 +2,9 @@
 
 import { css, jsx } from '@emotion/core'
 import { FormattedMessage } from 'react-intl'
-import Card from 'src/components/card'
-import Items from 'src/components/items'
-import ContentPreloader from 'src/components/content-preloader'
+import Card from 'components/card'
+import Items from 'components/items'
+import ContentPreloader from 'components/content-preloader'
 import { ReactComponent as Check } from './check.svg'
 import { ReactComponent as Failure } from './failure.svg'
 

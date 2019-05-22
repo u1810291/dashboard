@@ -6,6 +6,7 @@ import { ReactComponent as Info } from './info.v2.svg'
 import { ReactComponent as TrashBin } from './trashbin.svg'
 import { ReactComponent as Pencil } from './pencil.svg'
 import { ReactComponent as Clipboard } from './Clipboard.svg'
+import { ReactComponent as Play } from './play.svg'
 
 export default {
   FaceMatch,
@@ -15,5 +16,6 @@ export default {
   Info,
   Pencil,
   TrashBin,
-  Clipboard
+  Clipboard,
+  Play
 }

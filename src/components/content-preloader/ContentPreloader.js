@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import CSS from './ContentPreloader.scss'
+import CSS from './ContentPreloader.module.scss'
 
 export default ({ className }) => {
   return (

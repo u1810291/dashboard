@@ -1,6 +1,35 @@
-import React from 'react'
-import CSS from './PageContentLayout.scss'
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core'
+import { Items } from 'components'
+import './PageContentLayout.module.scss'
 
-export default function PageContentLayout({ children }) {
-  return <div className={CSS.pageContentLayout}>{children}</div>
+export default function PageContentLayout({
+  navigation = true,
+  aside = true,
+  children
+}) {
+  return (
+    <Items
+      css={css`
+        grid-template-columns:
+          var(--mgi-page-content-layout-menu-width)
+          1fr
+          var(--mgi-page-content-layout-aside-width);
+        > nav {
+          grid-column-start: 1;
+          grid-column-end: 2;
+        }
+        > main {
+          grid-column-start: ${navigation ? 2 : 1};
+          grid-column-end: ${aside ? 3 : 4};
+        }
+        > aside {
+          grid-column-start: 3;
+          grid-column-end: 4;
+        }
+      `}
+    >
+      {children}
+    </Items>
+  )
 }

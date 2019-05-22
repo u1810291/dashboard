@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Checkbox from 'src/components/checkbox'
+import Checkbox from 'components/checkbox'
 import CSS from './checkbox-group.module.scss'
 
 export default class CheckboxGroup extends Component {

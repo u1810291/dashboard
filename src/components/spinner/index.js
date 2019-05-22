@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import CSS from './style.scss'
+import CSS from './style.module.scss'
 
 export default ({ className, size = 'small' }) => {
   return (

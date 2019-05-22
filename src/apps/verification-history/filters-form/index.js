@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import { injectIntl, FormattedMessage } from 'react-intl'
-import Button from 'src/components/button'
-import Items from 'src/components/items'
-import Card from 'src/components/card'
-import CheckboxGroup from 'src/components/checkbox-group'
+import Button from 'components/button'
+import Items from 'components/items'
+import Card from 'components/card'
+import CheckboxGroup from 'components/checkbox-group'
 import 'react-dates/initialize'
 import { DateRangePicker } from 'react-dates'
 import moment from 'moment'
 import { isEmpty } from 'lodash'
-import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
+import { isFeatureEnabled } from 'lib/isFeatureEnabled'
 import { ReactComponent as FilterIcon } from './filter.svg'
 
 import 'react-dates/lib/css/_datepicker.css'
-import { ReactComponent as IconClose } from 'src/assets/icon-close.svg'
-import CSS from './filters-form.scss'
+import { ReactComponent as IconClose } from 'assets/icon-close.svg'
+import CSS from './filters-form.module.scss'
 
 class VerificationsFiltersForm extends Component {
   constructor() {

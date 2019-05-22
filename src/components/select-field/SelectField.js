@@ -1,5 +1,5 @@
 import React from 'react'
-import CSS from './SelectField.scss'
+import CSS from './SelectField.module.scss'
 import Select, { components } from 'react-select'
 import classNames from 'classnames'
 import { ReactComponent as DownArrow } from './downArrow.svg'

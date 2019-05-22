@@ -1,0 +1,46 @@
+.mati-checks {
+  grid-gap: 0;
+  table {
+    border: 0;
+    border-top: 1px solid var(--mgi-theme-palette-lightgray);
+    colgroup col {
+      width: auto !important;
+    }
+    th {
+      background: transparent;
+      color: var(--mgi-theme-palette-darkergray);
+      height: 0;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    th, td {
+      border-right: 0 !important;
+      &:first-child {
+        font-weight: 600;
+        padding-left: 40px;
+        white-space: nowrap;
+      }
+    }
+    tbody tr:nth-child(odd) {
+      background-color: rgba(55, 87, 255, 0.03);
+    }
+    td {
+      height: 70px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    tr:hover {
+      background-color: transparent;
+    }
+  }
+  .icon-checked {
+    margin-right: 9px;
+  }
+  .dialog-stripe {
+    padding: 10px;
+    padding-left: 40px;
+    &::before {
+      right: 17px;
+    }
+  }
+}

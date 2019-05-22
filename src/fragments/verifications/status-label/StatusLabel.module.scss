@@ -1,0 +1,53 @@
+:local(.status) {
+  display: flex;
+  align-items: center;
+
+  i {
+    margin-right: 0.27rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+  }
+
+  &:global(.manual) i {
+    background-color: var(--mgi-theme-palette-orange);
+  }
+
+  &:global(.fraudulent) i {
+    background-color: var(--mgi-theme-palette-black);
+  }
+
+  &:global(.inProgress) i {
+    background-color: var(--mgi-theme-palette-black);
+  }
+
+  &:global(.unverified) i {
+    background-color: var(--mgi-theme-palette-red);
+  }
+
+  &:global(.verified) i {
+    background-color: var(--mgi-theme-palette-green);
+  }
+}
+
+:local(.coloredText) {
+  &:global(.manual) {
+    color: var(--mgi-theme-palette-orange);
+  }
+
+  &:global(.fraudulent) {
+    color: var(--mgi-theme-palette-black);
+  }
+
+  &:global(.inProgress) {
+    color: var(--mgi-theme-palette-black);
+  }
+
+  &:global(.unverified) {
+    color: var(--mgi-theme-palette-red);
+  }
+
+  &:global(.verified) {
+    color: var(--mgi-theme-palette-green);
+  }
+}

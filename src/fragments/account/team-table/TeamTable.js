@@ -1,13 +1,13 @@
 import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import DataTable from 'src/components/data-table'
+import DataTable from 'components/data-table'
 import DeleteModal from './DeleteModal'
 import DeleteSuccessModal from './DeleteSuccessModal'
 import { ReactComponent as TrashBox } from './trashbox.svg'
-import CSS from './TeamTable.scss'
-import SelectField from 'src/components/select-field'
-import { createOverlay, closeOverlay } from 'src/components/overlay'
-import Spinner from 'src/components/spinner'
+import CSS from './TeamTable.module.scss'
+import SelectField from 'components/select-field'
+import { createOverlay, closeOverlay } from 'components/overlay'
+import Spinner from 'components/spinner'
 
 class TeamTable extends React.Component {
   roleOptions = [

@@ -46,6 +46,10 @@
   color: var(--mgi-theme-palette-darkapricot);
 }
 
+.text-darkergray {
+  color: var(--mgi-theme-palette-darkergray);
+}
+
 .text-large {
   font-size: 16px;
 }
@@ -108,6 +112,14 @@
 
 .background-gray {
   background-color: var(--mgi-theme-palette-gray);
+}
+
+.background-pistachio {
+  background-color: var(--mgi-theme-palette-pistachio);
+}
+
+.background-disabled {
+  background-color: var(--mgi-theme-palette-disabled);
 }
 
 .background-transparent {

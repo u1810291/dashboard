@@ -1,8 +1,8 @@
-import { createReducer, createTypesSequence } from 'src/state/utils'
-import client from 'src/lib/client'
-import { updateIntercom } from 'src/lib/intercom'
-import * as Mixpanel from 'src/lib/mixpanel'
-import * as GTM from 'src/lib/gtm'
+import { createReducer, createTypesSequence } from 'state/utils'
+import client from 'lib/client'
+import { updateIntercom } from 'lib/intercom'
+import * as Mixpanel from 'lib/mixpanel'
+import * as GTM from 'lib/gtm'
 
 export const types = {
   ...createTypesSequence('AUTH_SIGNIN'),

@@ -1,4 +1,4 @@
-import { cssVariable } from 'src/lib/dom'
+import { cssVariable } from 'lib/dom'
 export const COLOR_PRESETS = [
   [cssVariable('--mgi-theme-palette-lightblue'), 'blue'],
   [cssVariable('--mgi-theme-palette-green'), 'green'],

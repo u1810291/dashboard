@@ -1,5 +1,5 @@
 ```js
-const { Container } = require('src/components/overlay')
+const { Container } = require('components/overlay')
 initialState = {
   steps: [['national-id', 'driving-license'], ['proof-of-residency']],
   availableDocumentTypes: [

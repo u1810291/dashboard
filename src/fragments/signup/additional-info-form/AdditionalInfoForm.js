@@ -1,11 +1,11 @@
 import React from 'react'
-import { Select, Input } from 'src/components/inputs'
-import Button from 'src/components/button'
+import { Select, Input } from 'components/inputs'
+import Button from 'components/button'
 import { Field, Formik } from 'formik'
-import { setI18nContext } from 'src/components/i18n-context'
+import { setI18nContext } from 'components/i18n-context'
 import { FormattedMessage } from 'react-intl'
 import { pick, pickBy } from 'lodash'
-import { required } from 'src/lib/validations'
+import { required } from 'lib/validations'
 
 const formikSettings = {
   initialValues: {

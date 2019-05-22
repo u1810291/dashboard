@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Select, { components } from 'react-select'
-import icons from 'src/assets/language-icons'
-import CSS from './LanguageStep.css'
+import icons from 'assets/language-icons'
+import CSS from './LanguageStep.module.css'
 
 function LanguageLine({ language }) {
   return (
@@ -33,7 +33,11 @@ function SingleValue({ children, ...props }) {
   )
 }
 
-export default function LanguageStep({ availableLanguages = [], style = {}, onClick = () => {} }) {
+export default function LanguageStep({
+  availableLanguages = [],
+  style = {},
+  onClick = () => {}
+}) {
   const options = availableLanguages.map(code => ({ value: code }))
   const handleChange = value => {
     onClick({ style: { ...style, language: value } })

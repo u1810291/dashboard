@@ -1,19 +1,19 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
-import PageContentLayout from 'src/components/page-content-layout'
+import { PageContentLayout, PageContentMenu } from 'components'
 
 export default function InfoLayout({ children }) {
   return (
     <PageContentLayout>
-      <nav>
+      <PageContentMenu>
         <NavLink to="/info" exact>
           <FormattedMessage id="apps.info.menu.info" />
         </NavLink>
         <NavLink to="/info/features" exact>
           <FormattedMessage id="apps.info.menu.features" />
         </NavLink>
-      </nav>
+      </PageContentMenu>
       {children}
     </PageContentLayout>
   )

@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Details from 'src/components/details'
-import Spinner from 'src/components/spinner'
-import Items from 'src/components/items'
+import Details from 'components/details'
+import Spinner from 'components/spinner'
+import Items from 'components/items'
 import DocumentReadingStep from '../document-reading-step'
 
 function Success({ step }) {

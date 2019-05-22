@@ -3,7 +3,7 @@ import Dropdown, {
   DropdownContent
 } from 'react-simple-dropdown'
 import 'react-simple-dropdown/styles/Dropdown.css'
-import './style.scss'
+import './style.module.scss'
 
 export default Dropdown
 

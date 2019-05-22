@@ -1,11 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { difference, without } from 'lodash'
-import Icons from 'src/components/icons'
-import Button from 'src/components/button'
-import Items from 'src/components/items'
-import { createOverlay, closeOverlay } from 'src/components/overlay'
-import confirm from 'src/components/confirm'
+import Icons from 'components/icons'
+import Button from 'components/button'
+import Items from 'components/items'
+import { createOverlay, closeOverlay } from 'components/overlay'
+import confirm from 'components/confirm'
 import VerificationStepModal from '../verification-steps-modal'
 
 export function removeItem(steps, index) {

@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { titleize, underscore, humanize } from 'inflection'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import ContentPreloader from 'src/components/content-preloader'
+import ContentPreloader from 'components/content-preloader'
 
 function formatValue(label, string) {
   function checkLabel(name, keys) {
@@ -14,14 +14,11 @@ function formatValue(label, string) {
   }
 
   if (checkLabel(label, ['date'])) {
-    const attempts = [moment(string), moment(string, 'DD-MM-YYYY')].filter(
-      date => date.toDate().getDate()
-    )
-    return attempts.length > 0
-      ? attempts[0]
-          .utcOffset(new Date().getTimezoneOffset())
-          .format('MMM D, YYYY')
-      : string
+    const attempts = [
+      moment.utc(string),
+      moment.utc(string, 'DD-MM-YYYY')
+    ].filter(date => date.toDate().getDate())
+    return attempts.length > 0 ? attempts[0].format('MMM D, YYYY') : string
   }
 
   return string
