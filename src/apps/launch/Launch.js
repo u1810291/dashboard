@@ -2,7 +2,6 @@ import React from 'react'
 import { Content, PageContentLayout, Items, H1, H2 } from 'components'
 import {
   Support,
-  LaunchComplianceStarter,
   LaunchCustomize,
   LaunchPricing,
   LaunchIntegrate
@@ -18,7 +17,6 @@ export default class Launch extends React.Component {
           <PageContentLayout navigation={false}>
             <main>
               <Items flow="row">
-                <LaunchComplianceStarter />
                 <LaunchCustomize />
                 <LaunchPricing />
                 <LaunchIntegrate />

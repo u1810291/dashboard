@@ -12,6 +12,7 @@ stories.add('Default', () => (
         planId="starter"
         planPrice="187"
         extraPrice="1.86"
+        amount="200"
         name="Vadim Rastyagaev"
         customerId="CUSTOMER_ID"
       />

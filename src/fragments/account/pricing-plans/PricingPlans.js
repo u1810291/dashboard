@@ -37,8 +37,11 @@ export default function PricingPlans({
             <FormattedMessage id="PricingPlans.pricePerMonth" />
           </Text>
         </section>
-        <Text weight={1} color="secondary">
-          <FormattedMessage id="PricingPlans.limitationsNotice" />
+        <Text weight={1} color="secondary" align="center">
+          <FormattedMessage
+            id={'PricingPlans.limitationsNotice'}
+            values={{ amount }}
+          />
         </Text>
       </Items>
       <Click background="active" onClick={onChoosePlan} disabled={current}>

@@ -641,8 +641,9 @@
   "PricingPlans.starter.title": "Starter",
   "PricingPlans.regular.title": "Regular",
   "PricingPlans.growth.title": "Growth",
+  "PricingPlans.limitationsNotice": "Additional cost apply over {value} verifications/month",
 
-  "PricingRefundNotice.title": "Not happy? Get your money back within the first 30 days",
+  "PricingRefundNotice.title": "Get your money back within the first 30 days.",
   "PricingRefundNotice.subtitle": "No questions asked!",
 
   "PricingLargePlans.contactUs": "Contact Us",
@@ -653,7 +654,6 @@
   "PricingPlans.upTo": "up to",
   "PricingPlans.verificationsPerMonth": "verifications/month",
   "PricingPlans.pricePerMonth": "/month",
-  "PricingPlans.limitationsNotice": "Additional cost apply over this limit",
   "PricingPlans.start": "start plan",
   "PricingPlans.currentPlan": "Current Plan",
 
@@ -664,24 +664,20 @@
   "MatiNumbers.2.title": "24/7",
   "MatiNumbers.2.description": "Dedicated Staff Support",
 
-  "LaunchComplianceStarter.title": "I want to be compliant. Where do I start?",
-  "LaunchComplianceStarter.cta": "Compliance Starter",
-  "LaunchComplianceStarter.description": "No matter in what country you operate, or what product you sell, we will help you be KYC/AML compliant",
-  "LaunchPricing.title": "Choose my plan",
-  "LaunchPricing.cta": "Go to Pricing",
-  "LaunchPricing.description": "We suggest you 3 plans depends of your needs. From Start Up to Middle Size Business and even enterprise.",
+  "LaunchPricing.title": "Pick a monthly plan",
+  "LaunchPricing.cta": "Pick a Plan",
+  "LaunchPricing.description": "Depending on your verification need, Mati has different monthly plans available.",
   "LaunchIntegrate.title": "Integrate Mati",
   "LaunchIntegrate.cta": "Integrate",
-  "LaunchIntegrate.description": "Here you can add URL for receiving webhooks. Also before it you can test webhooks.",
+  "LaunchIntegrate.description": "Mati has the simplest and fastest integration process. It won’t take you more than a couple hours.",
   "LaunchCustomize.title": "Customize my verification flow",
-  "LaunchCustomize.cta": "Go to Customize",
-  "LaunchCustomize.description": "On first step you can configure your verification flow with colours, countries, language and documents.",
+  "LaunchCustomize.cta": "Start Customisation",
+  "LaunchCustomize.description": "Configure your verification flow with different documents, colours, countries, language and more...",
 
   "CheckoutModal.submit": "Buy",
   "CheckoutModal.planName.starter": "Starter",
   "CheckoutModal.planName.regular": "Regular",
   "CheckoutModal.planName.growth": "Growth",
-  "CheckoutModal.refund.0": "Not happy?",
   "CheckoutModal.refund.1": " Get your money back within the first 30 days",
   "CheckoutModal.refund.2": "No questions asked!",
   "CheckoutModal.planPrice": "${planPrice}/month",
@@ -690,6 +686,7 @@
   "CheckoutModal.cardNumber": "Credit card number",
   "CheckoutModal.expDate": "Expiration Date",
   "CheckoutModal.cvc": "CVC",
+  "CheckoutModal.limitation": "<strong>${extraPrice}</strong> for every verification<br />above the <strong>{amount}</strong> verifications/month",
 
   "NoPlanSelected.title": "Before integration you should choose the pricing plan",
   "NoPlanSelected.link": "Go to Pricing",

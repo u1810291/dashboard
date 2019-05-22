@@ -7,14 +7,15 @@ import {
   CardCVCElement,
   injectStripe
 } from 'react-stripe-elements'
-import { FormattedMessage } from 'react-intl'
-import { Card, Items, Click, Text, Small } from 'components'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { Card, Items, Click, Text } from 'components'
 import MatiLogoURL from './Mati.svg'
 
 function CheckoutModal({
   planId,
   planPrice,
   extraPrice,
+  amount,
   name,
   stripe,
   onSubmit = () => {}
@@ -45,13 +46,7 @@ function CheckoutModal({
         />
       </Items>
       <Items flow="row">
-        <Items
-          flow="row"
-          gap={0}
-          css={css`
-            line-height: 1.5;
-          `}
-        >
+        <Items flow="row" gap={0}>
           <FormattedMessage id={`CheckoutModal.planName.${planId}`} />
           <Text color="active" size="4" weight="4">
             <FormattedMessage
@@ -59,17 +54,15 @@ function CheckoutModal({
               values={{ planPrice }}
             />
           </Text>
-          <Small>
-            <FormattedMessage id="CheckoutModal.priceChargeNotice" />
-          </Small>
-          <span>
-            <Text weight="4">
-              <FormattedMessage id="currency" values={{ value: extraPrice }} />
-            </Text>{' '}
-            <FormattedMessage id="CheckoutModal.extraPriceNotice" />
-          </span>
         </Items>
-        <hr />
+        <Items flow="row" gap={0}>
+          <FormattedHTMLMessage
+            id="CheckoutModal.limitation"
+            values={{ extraPrice, amount }}
+          />
+          <hr />
+        </Items>
+
         <Items flow="row">
           <Items gap="1" flow="row">
             <strong>
@@ -102,13 +95,8 @@ function CheckoutModal({
         <hr />
       </Items>
       <Items flow="row" justifyItems="center" gap={1}>
-        <Items flow="row" gap="0" justifyItems="center">
-          <FormattedMessage id="CheckoutModal.refund.0" />
-          <FormattedMessage id="CheckoutModal.refund.1" />
-        </Items>
-        <Text weight="4">
-          <FormattedMessage id="CheckoutModal.refund.2" />
-        </Text>
+        <FormattedMessage id="CheckoutModal.refund.1" />
+        <FormattedMessage id="CheckoutModal.refund.2" />
       </Items>
       <Click background="active" onClick={handleSubmit} disabled={disabled}>
         <FormattedMessage id="CheckoutModal.submit" />

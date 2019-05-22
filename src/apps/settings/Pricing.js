@@ -18,7 +18,12 @@ import client from 'lib/client'
 import SettingsLayout from './SettingsLayout'
 
 const PLANS = [
-  { planId: 'starter', amount: '120', planPrice: '187', extraPrice: '1.56' },
+  {
+    planId: 'starter',
+    amount: '120',
+    planPrice: '187',
+    extraPrice: '1.56'
+  },
   {
     planId: 'regular',
     amount: '300',
@@ -26,7 +31,12 @@ const PLANS = [
     extraPrice: '1.33',
     highlight: true
   },
-  { planId: 'growth', amount: '800', planPrice: '799', extraPrice: '0.99' }
+  {
+    planId: 'growth',
+    amount: '800',
+    planPrice: '799',
+    extraPrice: '0.99'
+  }
 ]
 
 export default function Pricing() {
