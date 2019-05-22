@@ -14,9 +14,10 @@ function formatValue(label, string) {
   }
 
   if (checkLabel(label, ['date'])) {
-    const attempts = [moment.utc(string), moment.utc(string, 'DD-MM-YYYY')].filter(
-      date => date.toDate().getDate()
-    )
+    const attempts = [
+      moment.utc(string),
+      moment.utc(string, 'DD-MM-YYYY')
+    ].filter(date => date.toDate().getDate())
     return attempts.length > 0 ? attempts[0].format('MMM D, YYYY') : string
   }
 
