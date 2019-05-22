@@ -641,7 +641,7 @@
   "PricingPlans.starter.title": "Starter",
   "PricingPlans.regular.title": "Regular",
   "PricingPlans.growth.title": "Growth",
-  "PricingPlans.limitationsNotice": "Additional cost apply over {value} verifications/month",
+  "PricingPlans.limitationsNotice": "Additional cost apply over {amount} verifications/month",
 
   "PricingRefundNotice.title": "Get your money back within the first 30 days.",
   "PricingRefundNotice.subtitle": "No questions asked!",
