@@ -1,9 +1,20 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/core'
+import { withRouter } from 'react-router-dom'
 import Card, { shadowValue } from '../card'
 
-export default function Click({
+function handleClick(onClick, history, event) {
+  const href = event.currentTarget.getAttribute('href')
+  if (!onClick && href.match(/^\//)) {
+    event.preventDefault()
+    history.push(href)
+  } else {
+    onClick(event)
+  }
+}
+
+function Click({
   children,
   gap = 1,
   inline = true,
@@ -13,11 +24,12 @@ export default function Click({
   hoverShadow = true,
   padding = '1/2',
   background,
-  onClick = () => {},
+  onClick,
   justifyContent = 'center',
   justifyItems = 'center',
   flow = 'column',
   align = 'center',
+  history,
   ...props
 }) {
   return (
@@ -28,7 +40,7 @@ export default function Click({
       justifyContent={justifyContent}
       justifyItems={justifyItems}
       tabIndex={tabIndex}
-      onClick={disabled ? () => {} : onClick}
+      onClick={disabled ? () => {} : handleClick.bind(null, onClick, history)}
       padding={padding}
       background={disabled ? 'disabled' : background}
       flow={flow}
@@ -63,3 +75,5 @@ export default function Click({
     </Card>
   )
 }
+
+export default withRouter(Click)
