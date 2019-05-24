@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { CardWithStub, Items, Stub, Text, Click } from 'components'
-import Button from 'components/button'
 import openYoutubeOverlay from 'components/youtube-overlay'
 import VerificationPicture from './verification.svg'
 import ApplicationsPicture from './applications.svg'
@@ -34,9 +33,9 @@ export function VerificationPanel() {
             <FormattedMessage id="fragments.integration.installation-guide-panels.verification-panel.message" />
           </p>
         </Items>
-        <Button buttonStyle="primary" href="/">
+        <Click background="active" as="a" href="/configuration">
           <FormattedMessage id="fragments.integration.installation-guide-panels.verification-panel.button" />
-        </Button>
+        </Click>
       </Items>
       <img src={VerificationPicture} alt="" className="content-cover" />
     </CardWithStub>
@@ -66,9 +65,9 @@ export function ApplicationsPanel() {
             <FormattedMessage id="fragments.integration.installation-guide-panels.applications-panel.message" />
           </p>
         </Items>
-        <Button buttonStyle="primary" href="/integration/applications">
+        <Click background="active" as="a" href="/integration/applications">
           <FormattedMessage id="fragments.integration.installation-guide-panels.applications-panel.button" />
-        </Button>
+        </Click>
       </Items>
       <img src={ApplicationsPicture} alt="" className="content-cover" />
     </CardWithStub>
@@ -98,9 +97,9 @@ export function InstallFrontendCodePanel() {
             <FormattedMessage id="fragments.integration.installation-guide-panels.jssdk-panel.message" />
           </p>
         </Items>
-        <Button buttonStyle="primary" href="/integration/integration-code">
+        <Click background="active" as="a" href="/integration/integration-code">
           <FormattedMessage id="fragments.integration.installation-guide-panels.jssdk-panel.button" />
-        </Button>
+        </Click>
       </Items>
       <img
         src={VideoPicture}
@@ -135,9 +134,9 @@ export function SetWebhooksPanel() {
             <FormattedMessage id="fragments.integration.installation-guide-panels.webhooks-panel.message" />
           </p>
         </Items>
-        <Button buttonStyle="primary" href="/integration/webhooks">
+        <Click background="active" as="a" href="/integration/webhooks">
           <FormattedMessage id="fragments.integration.installation-guide-panels.webhooks-panel.button" />
-        </Button>
+        </Click>
       </Items>
       <Items flow="row" extraPadding>
         <img
