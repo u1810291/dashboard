@@ -27,7 +27,8 @@ function showUsecaseModal() {
 
 function permalink(cliendId) {
   const baseURL = process.env.REACT_APP_SIGNUP_URL
-  return `${baseURL}/?merchantToken=${cliendId}&metadata={}`
+  const metadata = '{"email":"user@example.com"}'
+  return `${baseURL}/?merchantToken=${cliendId}&metadata=${metadata}`
 }
 
 class Configuration extends React.Component {

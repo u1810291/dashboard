@@ -26,9 +26,10 @@ export default function ClientApplication({
   subscribeToWebhook = () => {},
   deleteWebhook = () => {}
 }) {
+  const metadata = '{"email":"user@example.com"}'
   const permalink = `${process.env.REACT_APP_SIGNUP_URL}?merchantToken=${
     application.clientId
-  }&metadata={}`
+  }&metadata=${metadata}`
 
   const handleAddNewWebhook = () => {
     createOverlay(
