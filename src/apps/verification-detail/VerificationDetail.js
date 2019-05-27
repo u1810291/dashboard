@@ -10,7 +10,7 @@ import { Content } from 'components/application-box'
 import Items from 'components/items'
 import Click from 'components/click'
 import confirm from 'components/confirm'
-import { createOverlay } from 'components/overlay'
+import { createOverlay, closeOverlay } from 'components/overlay'
 import PageContentLayout from 'components/page-content-layout'
 import DocumentStep from 'fragments/verifications/document-step'
 import LivenessStep from 'fragments/verifications/liveness-step'
@@ -31,7 +31,7 @@ async function handleDeleteIdentity(dispatch, history, token, id) {
 }
 
 function openWebhookModal(identity) {
-  createOverlay(<VerificationWebhookModal webhook={identity} />)
+  createOverlay(<VerificationWebhookModal webhook={identity} onClose={closeOverlay} />)
 }
 
 function loadData(dispatch, token, id) {
