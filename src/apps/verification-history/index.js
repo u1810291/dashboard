@@ -162,6 +162,12 @@ class VerificationHistory extends React.Component {
   getTableColumns = () => {
     let columns = [
       {
+        size: 1.5,
+        align: 'left',
+        label: <FormattedMessage id="identities.fields.id" />,
+        content: ({ identity }) => <div>#{identity.id.slice(-6)}</div>
+      },
+      {
         size: 5,
         label: <FormattedMessage id="identities.fields.fullName" />,
         content: ({ identity }) => (
