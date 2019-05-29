@@ -1,0 +1,45 @@
+:root {
+  --mgi-table-row-height: 50px;
+  --mgi-table-color: rgba(36, 36, 36, 0.5);
+}
+
+@mixin green-title {
+  width: 30%;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--mgi-theme-palette-lightgreen);
+}
+
+@mixin red-title {
+  width: 30%;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--mgi-theme-palette-red);
+}
+
+.cardBox {
+  width: 466px;
+}
+
+.mtTable {
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: var(--mgi-theme-palette-lightgray);
+  td {
+    height: var(--mgi-table-row-height);
+    border: 1px solid var(--mgi-theme-palette-lightgray);
+    padding: 10px;
+    font-weight: 400;
+    color: var(--mgi-table-color);
+    vertical-align: top;
+  }
+
+}
+
+:global td.col-00 {
+  @include green-title;
+}
+
+:global td.col-10 {
+  @include red-title;
+}

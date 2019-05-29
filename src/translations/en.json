@@ -624,6 +624,34 @@
   "SecurityCheckStep.watchlists.success": "not in watchlist",
   "SecurityCheckStep.watchlists.failure": "in watchlist",
 
+  "fragments.verifications.help-messages.facematch.title": "Liveness",
+  "fragments.verifications.help-messages.facematch.subtitle": "Mati analysed the user’s video, and makes sure that the person behing the camera is alive (and not a printed paper attack)",
+  "fragments.verifications.help-messages.facematch.table.1.1": "Liveness Passed",
+  "fragments.verifications.help-messages.facematch.table.1.2": "The person behind the camera is alive.",
+  "fragments.verifications.help-messages.facematch.table.2.1": "Liveness failed",
+  "fragments.verifications.help-messages.facematch.table.2.2": "Mati detected a risk of fraud",
+
+  "fragments.verifications.help-messages.alteration-detection.title": "Alteration Detection",
+  "fragments.verifications.help-messages.alteration-detection.subtitle": "Checks that the document was not altered (i.e. document was edited by Photoshop)",
+  "fragments.verifications.help-messages.alteration-detection.table.1.1": "Not Alterated",
+  "fragments.verifications.help-messages.alteration-detection.table.1.2": "Document is not altered.",
+  "fragments.verifications.help-messages.alteration-detection.table.2.1": "Alterated",
+  "fragments.verifications.help-messages.alteration-detection.table.2.2": "This document is altered.",
+
+  "fragments.verifications.help-messages.template-matching.title": "Template Matching",
+  "fragments.verifications.help-messages.template-matching.subtitle": "Checks that the document matches with a legally valid revision",
+  "fragments.verifications.help-messages.template-matching.table.1.1": "Matched",
+  "fragments.verifications.help-messages.template-matching.table.1.2": "Document revision is valid.",
+  "fragments.verifications.help-messages.template-matching.table.2.1": "Not Mached",
+  "fragments.verifications.help-messages.template-matching.table.2.2": "Document does is NOT valid, or a different document was updated.",
+
+  "fragments.verifications.help-messages.watchlists.title": "Watchlist",
+  "fragments.verifications.help-messages.watchlists.subtitle": "Checks if the user’s name is inside a watchlist. If a match was found, you should perform a more extensive due diligence on that user",
+  "fragments.verifications.help-messages.watchlists.table.1.1": "Matched",
+  "fragments.verifications.help-messages.watchlists.table.1.2": "The users name is was not found in any watch-lists (international or local)",
+  "fragments.verifications.help-messages.watchlists.table.2.1": "Not matched",
+  "fragments.verifications.help-messages.watchlists.table.2.2": "The users name was found in one or multiple watch-lists (international or local)",
+
   "DocumentStep.title": "{document} from {country}",
 
   "LivenessStep.InProgress.title": "Liveness check",
