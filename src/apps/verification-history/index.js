@@ -171,7 +171,9 @@ class VerificationHistory extends React.Component {
         size: 2,
         label: <FormattedMessage id="identities.fields.verificationStatus" />,
         content: ({ identity }) => (
-          <div className={CSS[`verification-${identity.status}`]}>{identity.status}</div>
+          <div className={CSS[`verification-${identity.status.toLowerCase()}`]}>
+            {identity.status}
+          </div>
         )
       },
       {
