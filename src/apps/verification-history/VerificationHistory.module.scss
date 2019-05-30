@@ -4,6 +4,22 @@
   margin-top: 30px;
 }
 
+:local(.verification-actionNeeded) {
+  color: var(--mgi-theme-palette-orange);
+}
+
+:local(.verification-rejected) {
+  color: var(--mgi-theme-palette-red);
+}
+
+:local(.verification-verified) {
+  color: var(--mgi-theme-palette-green);
+}
+
+:local(.verification-pending) {
+  color: var(--mgi-theme-palette-gray);
+}
+
 :local(.deleteIdentity) {
   display: inline-block;
   width: 35px;

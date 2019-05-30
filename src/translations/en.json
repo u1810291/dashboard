@@ -279,6 +279,7 @@
   "identities.details.webhook": "Webhook",
   "identities.details.backToList": "← Verifications",
   "identities.fields.id": "Identity ID",
+  "identities.fields.verificationStatus": "Verification Status",
   "identities.fields.status": "Status",
   "identities.fields.faceMatch": "Face match",
   "identities.fields.expirationDate": "Expiration Date",

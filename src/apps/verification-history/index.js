@@ -168,6 +168,13 @@ class VerificationHistory extends React.Component {
         content: ({ identity }) => <div>#{identity.id.slice(-6)}</div>
       },
       {
+        size: 2,
+        label: <FormattedMessage id="identities.fields.verificationStatus" />,
+        content: ({ identity }) => (
+          <div className={CSS[`verification-${identity.status}`]}>{identity.status}</div>
+        )
+      },
+      {
         size: 5,
         label: <FormattedMessage id="identities.fields.fullName" />,
         content: ({ identity }) => (
