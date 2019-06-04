@@ -116,7 +116,7 @@ export function SetWebhooksPanel() {
     <CardWithStub
       stub={
         <Stub background="apricot">
-          <Text color="darkapricot">3</Text>
+          <Text color="darkapricot">4</Text>
         </Stub>
       }
       padding={4}
