@@ -47,15 +47,22 @@ function isLoaded(verification) {
   )
 }
 
+
 const MemoizedPageContent = memo(
   ({ identity, countries }) => {
     let verification
-    if (!(verification = get(identity, '_embedded.verification'))) return null
-
+    if (!(verification = get(identity, '_embedded.verification'))) {
+      return null
+    }
     const livenessStep = verification.steps.find(s => s.id === 'liveness')
+    const userInfo = { 
+      fullName: titleize(identity.fullName || ''),
+      dateCreated: moment.utc(identity.dateCreated).format('YYYY.MM.DD  HH:mm')
+    }
+
     return (
       <>
-        {livenessStep && <LivenessStep step={livenessStep} />}
+        {livenessStep && <LivenessStep step={livenessStep} info={userInfo} />}
         {verification.documents.map(doc => (
           <DocumentStep document={doc} countries={countries} key={doc.type} />
         ))}
@@ -117,13 +124,11 @@ function VerificationDetail({
 
   return (
     <Content>
-      <Items flow="row" gap={4}>
+      <Items flow="row" gap={2.6}>
         <h1>
-          {titleize(identity.fullName || '')}{' '}
-          <span className="text-secondary text-light">
-            #{formatId(identity.id)}
+          <span className="text-light">
+            Verification #{formatId(identity.id)}
           </span>
-          <p>{moment.utc(identity.dateCreated).format('MMM D, YYYY')}</p>
         </h1>
         <PageContentLayout navigation={false}>
           <main>

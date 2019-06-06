@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { titleize, underscore, humanize } from 'inflection'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import ContentPreloader from 'components/content-preloader'
+import { default as Text } from 'components/text'
 
 function formatValue(label, string) {
   function checkLabel(name, keys) {
@@ -34,32 +34,28 @@ function Success({ step }) {
       <tbody>
         {Object.entries(step.data || {}).map(([label, { value }]) => (
           <tr key={label}>
-            <td className="text-secondary text-nowrap">
+            <td className="text-nowrap">
               <FormattedMessage
                 id={`DocumentReadingStep.fields.${label}`}
                 defaultMessage={humanize(underscore(label))}
               />
             </td>
             <td>
-              <strong>
-                {value ? (
-                  formatValue(label, value)
-                ) : (
-                  <span className="text-secondary">
-                    <FormattedMessage id="DocumentReadingStep.notParsed" />
-                  </span>
-                )}
-              </strong>
+              {value ?
+                <Text weight={4}>
+                  {formatValue(label, value)}
+                </Text>
+              : (
+                <Text weight={2} color={'gray'}>
+                  <FormattedMessage id="DocumentReadingStep.notParsed" />
+                </Text>
+              )}
             </td>
           </tr>
         ))}
       </tbody>
     </table>
   )
-}
-
-function InProgress() {
-  return <ContentPreloader />
 }
 
 function Error({ error: { message } }) {
@@ -76,10 +72,6 @@ function Error({ error: { message } }) {
 export default function DocumentReadingStep({ step }) {
   if (step.error) {
     return <Error error={step.error} />
-  }
-
-  if (step.status < 200) {
-    return <InProgress />
   }
 
   if (step.status === 200 && !step.error) {

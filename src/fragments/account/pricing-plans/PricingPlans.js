@@ -17,9 +17,6 @@ export default function PricingPlans({
           <FormattedMessage id={`PricingPlans.${planId}.title`} />
         </H2>
         <Items gap={0} flow="row">
-          <Text size={4} weight="1">
-            <FormattedMessage id="PricingPlans.upTo" />
-          </Text>
           <Text size={16} weight={4}>
             {amount}
           </Text>

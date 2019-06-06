@@ -1,0 +1,26 @@
+{
+  "skipped": {
+    "checks": {
+      "color": "darkergray",
+      "message": "LivenessStep.Checks.skipped"
+    }
+  },
+  "inProgress": {
+    "checks": {
+      "color": "darkergray",
+      "message": "LivenessStep.Checks.inProgress"
+    }
+  },
+  "error": {
+    "checks": {
+      "color": "red",
+      "message": "LivenessStep.Checks.error"
+    }
+  },
+  "success": {
+    "checks": {
+      "color": "lightgreen",
+      "message": "LivenessStep.Checks.success"
+    }
+  }
+}
