@@ -22,20 +22,20 @@ const PLANS = [
     planId: 'starter',
     amount: '120',
     planPrice: '187',
-    extraPrice: '1.56'
+    extraPrice: '1.9'
   },
   {
     planId: 'regular',
     amount: '300',
     planPrice: '399',
-    extraPrice: '1.33',
+    extraPrice: '1.9',
     highlight: true
   },
   {
     planId: 'growth',
     amount: '800',
     planPrice: '799',
-    extraPrice: '0.99'
+    extraPrice: '1.9'
   }
 ]
 
