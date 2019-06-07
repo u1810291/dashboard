@@ -16,8 +16,8 @@ export default function SecurityCheckCollection({ steps = [] }) {
   return (
     <table className="mgi-table">
       <colgroup>
-        <col />
-        <col width="100%" />
+        <col width="40%"/>
+        <col width="60%" />
       </colgroup>
       <tbody>
         { steps.map(({id, error}) => (

@@ -28,8 +28,8 @@ function Success({ step }) {
   return (
     <table className="mgi-table">
       <colgroup>
-        <col />
-        <col width="100%" />
+        <col width="40%"/>
+        <col width="60%" />
       </colgroup>
       <tbody>
         {Object.entries(step.data || {}).map(([label, { value }]) => (
