@@ -69,7 +69,7 @@ const Checks = ({
     <div>
       <Text lineHeight={3}>
         <FormattedMessage id="LivenessStep.Checks.statusTitle" />
-        <Click padding="0" onClick={showHelpMessage.bind(null, 'facematch')} className={CSS.iconBox}>
+        <Click padding="0" onClick={showHelpMessage.bind(null, 'liveness')} className={CSS.iconBox}>
           <QuestionMark />
         </Click>
       </Text>

@@ -48,7 +48,7 @@ export default function DocumentStep({
       <DocumentStepTitle />
       <HR />
 
-      <Card padding={0} shadow={0} borderRadius={0} templateColumns="5fr 4fr">
+      <Card padding={0} shadow={0} borderRadius={0} templateColumns="5fr 3fr" justify-content="right">
         <span>
           <Items flow="row">
             <h2 className={classNames({'loading': onReading})}>
@@ -60,6 +60,7 @@ export default function DocumentStep({
                 {documentReadingStep && (
                   <DocumentReadingStep step={documentReadingStep} />
                 )}
+                <br />
                 {curpValidationStep && (
                   <MexicanCurpValidationStep step={curpValidationStep} />
                 )}
@@ -76,11 +77,11 @@ export default function DocumentStep({
           </Items>
         </span>
 
-        <Items gap={1} flow="row">
+        <Items gap={1} flow="row" justifyContent="right">
           {photos.map(photo => (
             <div key={photo} css={css`max-width: 300px;`}>
               <a href={photo} target="_blank" rel="noopener noreferrer">
-                <img src={photo} alt={type} />
+                <img src={photo} alt={type} css={css`max-height: 220px;`}/>
               </a>
             </div>
           ))}
