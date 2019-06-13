@@ -113,7 +113,7 @@
   "validations.cleanText": "No special characters allowed",
   "validations.email": "Invalid email address",
 
-  "onboarding.flow.title": "Customize your Mati user verification",
+  "onboarding.flow.title": "Customize your User Verification Flow",
   "onboarding.flow.subtitle": "Test and tailor what your users see when they verify their identity",
   "onboarding.webhook.title": "Sample Webhook",
   "onboarding.webhook.webhook": "Webhook",
@@ -133,9 +133,9 @@
   "flow.countries.add": "Add country restriction",
   "flow.countries.edit": "Edit filter",
   "flow.countries.modal.title": "Country Filter",
-  "flow.countries.modal.description": "Choose documents you want include in this step. One of them will be is required.",
+  "flow.countries.modal.description": "Select the country or countries from which users will be able to upload their ID documents. If you do not select any country, documents from all countries will be accepted.",
   "flow.documentTypeStep.title": "Verification requirements",
-  "flow.documentTypeStep.liveness": "Liveness",
+  "flow.documentTypeStep.liveness": "Liveness Check",
   "flow.documentTypeStep.driving-license": "Driving License",
   "flow.documentTypeStep.national-id": "National ID",
   "flow.documentTypeStep.passport": "Passport",
@@ -144,7 +144,7 @@
   "flow.documentTypeStep.optionalHint": "Multiple Documents into 1 step. User will choose only one of the document to verify.",
   "flow.documentTypeStep.stepNo": "Requirement",
   "flow.documentTypeStep.button.title": "Add verification requirement",
-  "flow.colorStep.title": "Mati SDK button colour",
+  "flow.colorStep.title": "Mati SDK button color",
   "flow.languageStep.title": "Default language",
   "flow.languageStep.en": "English",
   "flow.languageStep.es": "Spanish",
@@ -510,11 +510,11 @@
   "apps.settings.signout": "Sign Out",
   "apps.settings.pricing": "Pricing",
 
-  "fragments.configuration.verification_steps_modal.title": "Edit step",
-  "fragments.configuration.verification_steps_modal.subtitle": "Edit documents you want include in this step. One of them will be required.",
-  "fragments.configuration.title": "Try your user verification here",
+  "fragments.configuration.verification_steps_modal.title": "Verification Documents",
+  "fragments.configuration.verification_steps_modal.subtitle": "Select the documents you want your user to use to verify themselves. At least one document is required.",
+  "fragments.configuration.title": "Test your user verification flow by click on the button below",
   "fragments.configuration.button.start-integration": "Start Integration",
-  "fragments.configuration.usecase-modal": "See usecase how product work",
+  "fragments.configuration.usecase-modal": "Click here to how our product works on live use case",
   "fragments.configuration.permalink-title": "Share your custom flow using the link below",
   "fragments.account.new_webhook_modal.title": "Add webhook",
   "fragments.account.webhooks.add": "Add new webhook",
@@ -731,5 +731,5 @@
 
   "NoPlanSelected.title": "Before integration you should choose the pricing plan",
   "NoPlanSelected.link": "Go to Pricing",
-  "UsecaseModal.title": "See usecase about documents you want to verify"
+  "UsecaseModal.title": "Select the live use case you want to view"
 }
