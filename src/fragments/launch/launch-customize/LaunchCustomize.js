@@ -19,10 +19,10 @@ export default function LaunchCustomize() {
     >
       <Items flow="row" gap={4} justifyItems="start">
         <Items flow="row" gap={1}>
-          <H2>
+          <H2 lineHeight={2}>
             <FormattedMessage id="LaunchCustomize.title" />
           </H2>
-          <Text color="secondary">
+          <Text color="secondary" lineHeight={1.3}>
             <FormattedMessage id="LaunchCustomize.description" />
           </Text>
         </Items>

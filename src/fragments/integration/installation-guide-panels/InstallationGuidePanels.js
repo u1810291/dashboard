@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { CardWithStub, Items, Stub, Text, Click } from 'components'
+import { CardWithStub, Items, Stub, Click } from 'components'
+import { default as Text, H2} from 'components/text'
 import openYoutubeOverlay from 'components/youtube-overlay'
 import VerificationPicture from './verification.svg'
 import ApplicationsPicture from './applications.svg'
@@ -26,12 +27,12 @@ export function VerificationPanel() {
     >
       <Items flow="row" gap={4}>
         <Items flow="row" gap={1}>
-          <h2>
+          <H2 lineHeight={2}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.verification-panel.title" />
-          </h2>
-          <p>
+          </H2>
+          <Text lineHeight={1.3}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.verification-panel.message" />
-          </p>
+          </Text>
         </Items>
         <Click background="active" as="a" href="/configuration">
           <FormattedMessage id="fragments.integration.installation-guide-panels.verification-panel.button" />
@@ -58,12 +59,12 @@ export function ApplicationsPanel() {
     >
       <Items flow="row" gap={4}>
         <Items flow="row" gap={1}>
-          <h2>
+          <H2 lineHeight={2}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.applications-panel.title" />
-          </h2>
-          <p>
+          </H2>
+          <Text lineHeight={1.3}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.applications-panel.message" />
-          </p>
+          </Text>
         </Items>
         <Click background="active" as="a" href="/integration/applications">
           <FormattedMessage id="fragments.integration.installation-guide-panels.applications-panel.button" />
@@ -90,12 +91,12 @@ export function InstallFrontendCodePanel() {
     >
       <Items flow="row" gap={4}>
         <Items flow="row" gap={1}>
-          <h2>
+          <H2 lineHeight={2}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.jssdk-panel.title" />
-          </h2>
-          <p>
+          </H2>
+          <Text lineHeight={1.3}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.jssdk-panel.message" />
-          </p>
+          </Text>
         </Items>
         <Click background="active" as="a" href="/integration/integration-code">
           <FormattedMessage id="fragments.integration.installation-guide-panels.jssdk-panel.button" />
@@ -127,12 +128,12 @@ export function SetWebhooksPanel() {
     >
       <Items flow="row" gap={4}>
         <Items flow="row" gap={1}>
-          <h2>
+          <H2 lineHeight={2}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.webhooks-panel.title" />
-          </h2>
-          <p>
+          </H2>
+          <Text lineHeight={1.3}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.webhooks-panel.message" />
-          </p>
+          </Text>
         </Items>
         <Click background="active" as="a" href="/integration/webhooks">
           <FormattedMessage id="fragments.integration.installation-guide-panels.webhooks-panel.button" />
@@ -168,12 +169,12 @@ export function LetsStartPanel() {
       background="apricot"
     >
       <Items flow="row">
-        <h2>
+        <H2 lineHeight={2}>
           <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.title" />
-        </h2>
-        <p>
+        </H2>
+        <Text lineHeight={1.3}>
           <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.message" />
-        </p>
+        </Text>
         <section>
           <Click
             background="active"
