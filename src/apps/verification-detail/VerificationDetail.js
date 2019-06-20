@@ -4,7 +4,7 @@ import { titleize } from 'inflection'
 import { connect } from 'react-redux'
 import { get, isEqual } from 'lodash'
 import moment from 'moment'
-import { getIdentityWithNestedData, deleteIdentity } from 'state/identities'
+import { getIdentityWithNestedData, deleteIdentity, getDemoVerification } from 'state/identities'
 import { getCountries } from 'state/countries'
 import { Content } from 'components/application-box'
 import Items from 'components/items'
@@ -33,20 +33,6 @@ async function handleDeleteIdentity(dispatch, history, token, id) {
 function openWebhookModal(identity) {
   createOverlay(<VerificationWebhookModal webhook={identity} onClose={closeOverlay} />)
 }
-
-function loadData(dispatch, token, id) {
-  dispatch(getIdentityWithNestedData(token, id))
-}
-
-function isLoaded(verification) {
-  return (
-    verification.steps.every(step => step.status === 200) &&
-    verification.documents.every(document =>
-      document.steps.every(docStep => docStep.status === 200)
-    )
-  )
-}
-
 
 const MemoizedPageContent = memo(
   ({ identity, countries }) => {
@@ -92,7 +78,7 @@ const MemoizedPageContent = memo(
   }
 )
 
-function VerificationDetail({
+const VerificationDetail = ({
   token,
   countries,
   identity,
@@ -100,26 +86,18 @@ function VerificationDetail({
   history,
   deletingIdentities,
   match: {
-    params: { id }
+    params: { id, demo }
   },
   ...props
-}) {
+}) => {
   useEffect(() => {
     dispatch(getCountries(token))
-    dispatch(getIdentityWithNestedData(token, id))
-  }, [dispatch, token, id])
-
-  useEffect(() => {
-    setTimeout(function() {
-      const verification = get(identity, '_embedded.verification')
-      if (verification && !isLoaded(verification)) {
-        loadData(dispatch, token, id)
-      }
-    }, 5000)
-  }, [identity, dispatch, token, id])
+    demo ?
+      dispatch(getDemoVerification(token, id)) :
+      dispatch(getIdentityWithNestedData(token, id));
+  }, [dispatch, token, id, demo]);
 
   if (!identity) return null
-
   const isDeleting = deletingIdentities.includes(identity.id)
 
   return (

@@ -32,6 +32,6 @@ export function Small({ size = 1.5, ...props }) {
   return <Text size={size} as="small" {...props} />
 }
 
-export function HR({ margin = 10, ...props }) { 
-  return <hr css={css`margin: ${margin}px 0;`} {...props} />
+export function HR({ margin = 10, width = 1, ...props }) { 
+  return <hr css={css`margin: ${margin}px 0; border-width: ${width}px;`} {...props} />
 }

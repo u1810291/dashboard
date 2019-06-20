@@ -142,8 +142,7 @@ class Dashboard extends React.Component {
               component={VerificationHistory}
             />
             <Route
-              exact
-              path="/verifications/:id"
+              path="/verifications/:demo?/:id"
               component={VerificationDetail}
             />
             <OwnersRoute path="/settings" component={Settings} />

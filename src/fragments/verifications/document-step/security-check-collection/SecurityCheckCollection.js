@@ -21,7 +21,7 @@ export default function SecurityCheckCollection({ steps = [] }) {
       </colgroup>
       <tbody>
         { steps.map(({id, error}) => (
-          <tr>
+          <tr key={id}>
             <td css={css`white-space: nowrap;`}>
               <FormattedMessage id={`SecurityCheckStep.${id}.title`} />
               <Click padding="0" onClick={showHelpMessage.bind(null, id)} className={CSS.iconBox}>

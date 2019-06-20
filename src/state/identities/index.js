@@ -86,6 +86,22 @@ export function getIdentityWithNestedData(token, id) {
   }
 }
 
+export function getDemoVerification(token, id) {
+  return function(dispatch) {
+    dispatch({ type: types.IDENTITY_FETCH_REQUEST })
+    return client.identities
+      .getVerificationData(token, id)
+      .then(identity => {
+        dispatch({ type: types.IDENTITY_FETCH_SUCCESS, identity })
+        return identity
+      })
+      .catch(error => {
+        dispatch({ type: types.IDENTITY_FETCH_FAILURE })
+        throw error
+      })
+  }
+}
+
 export function patchIdentity(token, id, data) {
   return function(dispatch) {
     dispatch({ type: types.IDENTITY_PATCH_REQUEST, payload: { id, data } })
@@ -155,7 +171,7 @@ const initialState = {
   erroredFields: [],
   deletingIdentities: [],
   identities: [],
-  count: 0,
+  count: null,
   instances: {},
   monthlyIdentities: buildInitialMonthlyIdentities(12)
 }
@@ -165,7 +181,6 @@ const initialState = {
 // as we already have for document reading step
 function normalizeCURPData(identity) {
   if (!identity._embedded || !identity._embedded.verification) return identity
-  // debugger
   return {
     ...identity,
     _embedded: {
