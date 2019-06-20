@@ -1,10 +1,10 @@
 import React from 'react'
 import { Field, Formik } from 'formik'
 import { flow } from 'lodash/fp'
-import { setI18nContext } from 'src/components/i18n-context'
-import { Input, RadioButtonGroup } from 'src/components/inputs'
+import { setI18nContext } from 'components/i18n-context'
+import { Input, RadioButtonGroup } from 'components/inputs'
 import { pickBy, pick } from 'lodash'
-import { cleanText, email, required } from 'src/lib/validations'
+import { cleanText, email, required } from 'lib/validations'
 import { injectIntl } from 'react-intl'
 
 const formikSettings = {

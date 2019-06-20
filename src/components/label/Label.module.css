@@ -1,0 +1,46 @@
+:root {
+  --mgi-label-rounded-padding: 0 3px;
+  --mgi-label-rounded-border-radius: 11px;
+  --mgi-label-rounded-font-size: 11px;
+  --mgi-label-rounded-letter-spacing: 0.08em;
+  --mgi-label-color-primary: black;
+  --mgi-label-color-gray: #909090;
+  --mgi-label-color-white: white;
+  --mgi-label-bg-blue: #2196f3;
+  --mgi-label-bg-orange: #f2994a;
+  --mgi-label-bg-green: #27ae60;
+  --mgi-label-bg-yellow: #ffbd00;
+  --mgi-label-bg-red: #eb5757;
+}
+
+:local(.label) {
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: var(--mgi-label-rounded-font-size);
+  font-weight: 600;
+  padding: var(--mgi-label-rounded-padding);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+:local(.label):global(.blue) {
+  color: var(--mgi-label-bg-blue);
+}
+
+:local(.label):global(.orange) {
+  color: var(--mgi-label-bg-orange);
+}
+
+:local(.label):global(.green) {
+  color: var(--mgi-label-bg-green);
+}
+
+:local(.label):global(.yellow) {
+  color: var(--mgi-label-bg-yellow);
+}
+
+:local(.label):global(.red) {
+  color: var(--mgi-label-bg-red);
+}

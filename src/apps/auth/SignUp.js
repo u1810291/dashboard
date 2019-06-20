@@ -4,12 +4,16 @@ import { pick, fromPairs, toPairs } from 'lodash'
 import { Link } from 'react-router-dom'
 import { transform } from 'inflection'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { signUp } from 'src/state/auth'
-import { getIntegrationCode } from 'src/state/merchant'
-import { updateData } from 'src/lib/intercom'
-import SignUpForm from 'src/fragments/signup/sign-up-form'
-import CSS from './Auth.css'
-import { ReactComponent as MatiLogo } from 'src/assets/mati-logo.svg'
+import { signUp } from 'state/auth'
+import {
+  getIntegrationCode,
+  saveConfiguration,
+  getMerchant
+} from 'state/merchant'
+import { updateData } from 'lib/intercom'
+import SignUpForm from 'fragments/signup/sign-up-form'
+import CSS from './Auth.module.css'
+import { ReactComponent as MatiLogo } from 'assets/mati-logo.svg'
 
 class SignUp extends React.Component {
   handleSubmit = async data => {
@@ -17,7 +21,15 @@ class SignUp extends React.Component {
     await this.props.signUp(
       pick(data, 'firstName', 'lastName', 'email', 'password')
     )
-    this.props.getIntegrationCode(this.props.token)
+    await this.props.getIntegrationCode(this.props.token)
+    await this.props.getMerchant(this.props.token)
+    await this.props.saveConfiguration(this.props.token, {
+      dashboard: {
+        ...this.props.merchant.dashboard,
+        usePlans: true
+      }
+    })
+
     updateData(
       fromPairs(
         toPairs(intercomFields).map(([key, value]) => [
@@ -59,6 +71,6 @@ class SignUp extends React.Component {
 }
 
 export default connect(
-  state => ({ token: state.auth.token }),
-  { signUp, getIntegrationCode }
+  state => ({ token: state.auth.token, merchant: state.merchant }),
+  { signUp, getIntegrationCode, saveConfiguration, getMerchant }
 )(SignUp)

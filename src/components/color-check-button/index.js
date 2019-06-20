@@ -1,5 +1,5 @@
 import React from 'react'
-import CSS from './styles.css'
+import CSS from './styles.module.css'
 
 export default function({
   color = 'blue',

@@ -1,13 +1,13 @@
 import React from 'react'
-import CSS from './SignUpForm.css'
-import { Select, Input } from 'src/components/inputs'
-import Button from 'src/components/button'
+import CSS from './SignUpForm.module.css'
+import { Select, Input } from 'components/inputs'
+import Button from 'components/button'
 import { Field, Formik } from 'formik'
-import { setI18nContext } from 'src/components/i18n-context'
+import { setI18nContext } from 'components/i18n-context'
 import { FormattedMessage } from 'react-intl'
-import { cleanText, email, required } from 'src/lib/validations'
+import { cleanText, email, required } from 'lib/validations'
 import { pickBy, pick } from 'lodash'
-import { notification } from 'src/components/notification'
+import { notification } from 'components/notification'
 
 const formikSettings = {
   initialValues: {

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import CSS from './Label.css'
+import CSS from './Label.module.css'
 
 export default function Label({
   type = 'label',
@@ -11,11 +11,11 @@ export default function Label({
 }) {
   return (
     <label
-      type = { type }
-      className = { classNames(CSS.label, labelStyle) }
-      { ...labelProps }
+      type={type}
+      className={classNames(CSS.label, labelStyle)}
+      {...labelProps}
     >
-      { children }
+      {children}
     </label>
   )
 }

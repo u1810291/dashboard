@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import classNames from 'classnames'
-import CSS from './Button.css'
+import CSS from './Button.module.css'
 
 function ButtonElement({ href, external, children, ...props }) {
   if (href && external) {

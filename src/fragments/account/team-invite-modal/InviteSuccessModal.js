@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Modal } from 'src/components/modal/index'
-import Button from 'src/components/button/index'
+import { Modal } from 'components/modal/index'
+import Button from 'components/button/index'
 import { ReactComponent as InviteSuccessIcon } from './inviteSuccess.svg'
 import classNames from 'classnames'
-import CSS from './TeamInviteModal.scss'
+import CSS from './TeamInviteModal.module.scss'
 
 export default class InviteSuccessModal extends React.Component {
   render() {

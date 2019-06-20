@@ -2,11 +2,11 @@ import React from 'react'
 import { flowRight } from 'lodash/fp'
 import { FormattedMessage } from 'react-intl'
 import { withFormik, Field, Form } from 'formik'
-import { Input } from 'src/components/inputs'
-import { setI18nContext } from 'src/components/i18n-context'
-import { Modal } from 'src/components/modal'
-import Button from 'src/components/button'
-import Items from 'src/components/items'
+import { Input } from 'components/inputs'
+import { setI18nContext } from 'components/i18n-context'
+import { Modal } from 'components/modal'
+import Button from 'components/button'
+import Items from 'components/items'
 
 function NewWebhookModal({ onSave, onClose }) {
   return (

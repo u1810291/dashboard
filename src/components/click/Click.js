@@ -1,31 +1,48 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/core'
-import Card, { shadowValue, paddingValue } from '../card'
+import { withRouter } from 'react-router-dom'
+import Card, { shadowValue } from '../card'
 
-export default function Click({
+function handleClick(onClick, history, event) {
+  const href = event.currentTarget.getAttribute('href')
+  if (!onClick && href.match(/^\//)) {
+    event.preventDefault()
+    history.push(href)
+  } else {
+    onClick(event)
+  }
+}
+
+function Click({
   children,
-  padding = 1,
   gap = 1,
   inline = true,
+  disabled,
   shadow = 0,
   tabIndex = 0,
-  onClick = () => {},
+  hoverShadow = true,
+  padding = '1/2',
+  background,
+  onClick,
   justifyContent = 'center',
   justifyItems = 'center',
   flow = 'column',
   align = 'center',
+  history,
   ...props
 }) {
   return (
     <Card
       inline={inline}
-      padding={padding}
       shadow={shadow}
+      disabled={disabled}
       justifyContent={justifyContent}
       justifyItems={justifyItems}
       tabIndex={tabIndex}
-      onClick={onClick}
+      onClick={disabled ? () => {} : handleClick.bind(null, onClick, history)}
+      padding={padding}
+      background={disabled ? 'disabled' : background}
       flow={flow}
       gap={gap}
       align={align}
@@ -39,12 +56,17 @@ export default function Click({
         border: 0;
         cursor: pointer;
         text-decoration: none;
-        padding-left: ${paddingValue(padding * 2)};
-        padding-right: ${paddingValue(padding * 2)};
-
         &:hover,
         &:active {
-          box-shadow: ${shadowValue(shadow + 1)};
+          ${hoverShadow &&
+            !disabled &&
+            css`
+              box-shadow: ${shadowValue(parseInt(shadow) + 1)};
+            `}
+        }
+        &[disabled] {
+          cursor: default;
+          outline: 0;
         }
       `}
       {...props}
@@ -53,3 +75,5 @@ export default function Click({
     </Card>
   )
 }
+
+export default withRouter(Click)

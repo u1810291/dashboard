@@ -1,12 +1,12 @@
 import { isEmpty } from 'lodash'
-import { createReducer, createTypesSequence } from 'src/state/utils'
+import { createReducer, createTypesSequence } from 'state/utils'
 import { toPairs, fromPairs } from 'lodash'
 import {
   buildInitialMonthlyIdentities,
   computeMonthlyStatisticsForIdentities
 } from './analytics'
-import client from 'src/lib/client'
-import { notification } from 'src/components/notification'
+import client from 'lib/client'
+import { notification } from 'components/notification'
 
 window.client = client
 
@@ -75,6 +75,22 @@ export function getIdentityWithNestedData(token, id) {
     dispatch({ type: types.IDENTITY_FETCH_REQUEST })
     return client.identities
       .getIdentityWithNestedData(token, id)
+      .then(identity => {
+        dispatch({ type: types.IDENTITY_FETCH_SUCCESS, identity })
+        return identity
+      })
+      .catch(error => {
+        dispatch({ type: types.IDENTITY_FETCH_FAILURE })
+        throw error
+      })
+  }
+}
+
+export function getDemoVerification(token, id) {
+  return function(dispatch) {
+    dispatch({ type: types.IDENTITY_FETCH_REQUEST })
+    return client.identities
+      .getVerificationData(token, id)
       .then(identity => {
         dispatch({ type: types.IDENTITY_FETCH_SUCCESS, identity })
         return identity
@@ -155,7 +171,7 @@ const initialState = {
   erroredFields: [],
   deletingIdentities: [],
   identities: [],
-  count: 0,
+  count: null,
   instances: {},
   monthlyIdentities: buildInitialMonthlyIdentities(12)
 }
@@ -165,7 +181,6 @@ const initialState = {
 // as we already have for document reading step
 function normalizeCURPData(identity) {
   if (!identity._embedded || !identity._embedded.verification) return identity
-  // debugger
   return {
     ...identity,
     _embedded: {

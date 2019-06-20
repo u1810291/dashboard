@@ -1,5 +1,5 @@
 import React from 'react'
-import { parse } from 'src/lib/json'
+import { parse } from 'lib/json'
 
 const languagesMap = {
   en: 'us',

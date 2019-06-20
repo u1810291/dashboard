@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { titleize, underscore, humanize } from 'inflection'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import ContentPreloader from 'src/components/content-preloader'
+import { default as Text } from 'components/text'
 
 function formatValue(label, string) {
   function checkLabel(name, keys) {
@@ -15,16 +15,10 @@ function formatValue(label, string) {
 
   if (checkLabel(label, ['date'])) {
     const attempts = [
-      moment(string).toDate(),
-      moment(string, 'DD-MM-YYYY').toDate()
-    ].filter(date => date.getDate())
-    return attempts.length > 0
-      ? attempts[0].toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        })
-      : string
+      moment.utc(string),
+      moment.utc(string, 'DD-MM-YYYY')
+    ].filter(date => date.toDate().getDate())
+    return attempts.length > 0 ? attempts[0].format('MMM D, YYYY') : string
   }
 
   return string
@@ -34,38 +28,34 @@ function Success({ step }) {
   return (
     <table className="mgi-table">
       <colgroup>
-        <col />
-        <col width="100%" />
+        <col width="40%"/>
+        <col width="60%" />
       </colgroup>
       <tbody>
         {Object.entries(step.data || {}).map(([label, { value }]) => (
           <tr key={label}>
-            <td className="text-secondary text-nowrap">
+            <td className="text-nowrap">
               <FormattedMessage
                 id={`DocumentReadingStep.fields.${label}`}
                 defaultMessage={humanize(underscore(label))}
               />
             </td>
             <td>
-              <strong>
-                {value ? (
-                  formatValue(label, value)
-                ) : (
-                  <span className="text-secondary">
-                    <FormattedMessage id="DocumentReadingStep.notParsed" />
-                  </span>
-                )}
-              </strong>
+              {value ?
+                <Text weight={4}>
+                  {formatValue(label, value)}
+                </Text>
+              : (
+                <Text weight={2} color={'gray'}>
+                  <FormattedMessage id="DocumentReadingStep.notParsed" />
+                </Text>
+              )}
             </td>
           </tr>
         ))}
       </tbody>
     </table>
   )
-}
-
-function InProgress() {
-  return <ContentPreloader />
 }
 
 function Error({ error: { message } }) {
@@ -82,10 +72,6 @@ function Error({ error: { message } }) {
 export default function DocumentReadingStep({ step }) {
   if (step.error) {
     return <Error error={step.error} />
-  }
-
-  if (step.status < 200) {
-    return <InProgress />
   }
 
   if (step.status === 200 && !step.error) {

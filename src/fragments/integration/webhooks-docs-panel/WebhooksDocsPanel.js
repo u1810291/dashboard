@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Card from 'src/components/card'
-import Items from 'src/components/items'
-import Click from 'src/components/click'
-import openYoutubeOverlay from 'src/components/youtube-overlay'
+import Card from 'components/card'
+import Items from 'components/items'
+import Click from 'components/click'
+import openYoutubeOverlay from 'components/youtube-overlay'
 import Picture from './picture.svg'
 import InstallationVideo from './installation-video.svg'
 

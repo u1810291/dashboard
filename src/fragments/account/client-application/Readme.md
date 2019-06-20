@@ -1,5 +1,5 @@
 ```js
-const { Container } = require('src/components/overlay')
+const { Container } = require('components/overlay')
 
 function subscribeToWebhook(url, secret) {
   return new Promise((resolve, reject) => {

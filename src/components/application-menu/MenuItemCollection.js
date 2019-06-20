@@ -1,6 +1,6 @@
 import React from 'react'
-import Dropdown from 'src/components/dropdown'
-import CSS from './ApplicationMenu.scss'
+import Dropdown from 'components/dropdown'
+import CSS from './ApplicationMenu.module.scss'
 
 export default class MenuItemCollection extends React.Component {
   constructor(props) {

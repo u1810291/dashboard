@@ -3,19 +3,21 @@ import { FormattedMessage } from 'react-intl'
 import { titleize } from 'inflection'
 import { connect } from 'react-redux'
 import { get, isEqual } from 'lodash'
-import { getIdentityWithNestedData, deleteIdentity } from 'src/state/identities'
-import { getCountries } from 'src/state/countries'
-import { Content } from 'src/components/application-box'
-import Items from 'src/components/items'
-import Click from 'src/components/click'
-import confirm from 'src/components/confirm'
-import { createOverlay } from 'src/components/overlay'
-import PageContentLayout from 'src/components/page-content-layout'
-import DocumentStep from 'src/fragments/verifications/document-step'
-import LivenessStep from 'src/fragments/verifications/liveness-step'
-import VerificationMetadata from 'src/fragments/verifications/verification-metadata'
-import VerificationWebhookModal from 'src/fragments/verifications/verification-webhook-modal'
-import Spinner from 'src/components/spinner'
+import moment from 'moment'
+import { getIdentityWithNestedData, deleteIdentity, getDemoVerification } from 'state/identities'
+import { getCountries } from 'state/countries'
+import { Content } from 'components/application-box'
+import Items from 'components/items'
+import Click from 'components/click'
+import confirm from 'components/confirm'
+import { createOverlay, closeOverlay } from 'components/overlay'
+import PageContentLayout from 'components/page-content-layout'
+import DocumentStep from 'fragments/verifications/document-step'
+import LivenessStep from 'fragments/verifications/liveness-step'
+import VerificationMetadata from 'fragments/verifications/verification-metadata'
+import VerificationWebhookModal from 'fragments/verifications/verification-webhook-modal'
+import MatiChecks from 'fragments/verifications/mati-checks'
+import Spinner from 'components/spinner'
 import { ReactComponent as DeleteIcon } from './delete-icon.svg'
 
 function formatId(id = '') {
@@ -29,31 +31,24 @@ async function handleDeleteIdentity(dispatch, history, token, id) {
 }
 
 function openWebhookModal(identity) {
-  createOverlay(<VerificationWebhookModal webhook={identity} />)
-}
-
-function loadData(dispatch, token, id) {
-  dispatch(getIdentityWithNestedData(token, id))
-}
-
-function isLoaded(verification) {
-  return (
-    verification.steps.every(step => step.status === 200) &&
-    verification.documents.every(document =>
-      document.steps.every(docStep => docStep.status === 200)
-    )
-  )
+  createOverlay(<VerificationWebhookModal webhook={identity} onClose={closeOverlay} />)
 }
 
 const MemoizedPageContent = memo(
   ({ identity, countries }) => {
     let verification
-    if (!(verification = get(identity, '_embedded.verification'))) return null
-
+    if (!(verification = get(identity, '_embedded.verification'))) {
+      return null
+    }
     const livenessStep = verification.steps.find(s => s.id === 'liveness')
+    const userInfo = { 
+      fullName: titleize(identity.fullName || ''),
+      dateCreated: moment.utc(identity.dateCreated).format('YYYY.MM.DD  HH:mm')
+    }
+
     return (
       <>
-        {livenessStep && <LivenessStep step={livenessStep} />}
+        {livenessStep && <LivenessStep step={livenessStep} info={userInfo} />}
         {verification.documents.map(doc => (
           <DocumentStep document={doc} countries={countries} key={doc.type} />
         ))}
@@ -83,7 +78,7 @@ const MemoizedPageContent = memo(
   }
 )
 
-function VerificationDetail({
+const VerificationDetail = ({
   token,
   countries,
   identity,
@@ -91,48 +86,36 @@ function VerificationDetail({
   history,
   deletingIdentities,
   match: {
-    params: { id }
+    params: { id, demo }
   },
   ...props
-}) {
+}) => {
   useEffect(() => {
     dispatch(getCountries(token))
-    dispatch(getIdentityWithNestedData(token, id))
-  }, [])
-
-  useEffect(
-    () => {
-      setTimeout(function() {
-        const verification = get(identity, '_embedded.verification')
-        if (verification && !isLoaded(verification)) {
-          loadData(dispatch, token, id)
-        }
-      }, 5000)
-    },
-    [identity]
-  )
+    demo ?
+      dispatch(getDemoVerification(token, id)) :
+      dispatch(getIdentityWithNestedData(token, id));
+  }, [dispatch, token, id, demo]);
 
   if (!identity) return null
-
   const isDeleting = deletingIdentities.includes(identity.id)
 
   return (
     <Content>
-      <Items flow="row" gap={4}>
+      <Items flow="row" gap={2.6}>
         <h1>
-          {titleize(identity.fullName || '')}{' '}
-          <span className="text-secondary text-light">
-            #{formatId(identity.id)}
+          <span className="text-light">
+            Verification #{formatId(identity.id)}
           </span>
-          <p>{new Date(identity.dateCreated).toLocaleDateString()}</p>
         </h1>
-        <PageContentLayout>
+        <PageContentLayout navigation={false}>
           <main>
             <Items flow="row">
               <MemoizedPageContent identity={identity} countries={countries} />
               {identity.metadata && (
                 <VerificationMetadata metadata={identity.metadata} />
               )}
+              <MatiChecks />
             </Items>
           </main>
           <aside>

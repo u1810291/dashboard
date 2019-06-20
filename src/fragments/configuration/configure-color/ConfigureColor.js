@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { debounce } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import { ChromePicker } from 'react-color'
-import ColorCheckButton from 'src/components/color-check-button'
-import Items from 'src/components/items'
+import ColorCheckButton from 'components/color-check-button'
+import Items from 'components/items'
 import { ReactComponent as ColorPicker } from './color-picker.svg'
-import CSS from './ConfigureColor.css'
+import CSS from './ConfigureColor.module.css'
+
+function getColorValue(value, presets) {
+  const preset = presets.find(([, preset]) => preset === value)
+  return preset ? preset[0] : value
+}
 
 export default function ConfigureColor({
   presets = [],
@@ -17,17 +22,12 @@ export default function ConfigureColor({
 
   const onClickDebounced = debounce(onClick, 600)
 
-  const getColorValue = value => {
-    const preset = presets.find(([, preset]) => preset === value)
-    return preset ? preset[0] : value
-  }
-
   const onBackgroundClick = () => {
     setShowPicker(false)
   }
 
   const handleChange = value => {
-    setColor(getColorValue(value))
+    setColor(getColorValue(value, presets))
     onClick({ style: { ...style, color: value } })
   }
 
@@ -43,12 +43,9 @@ export default function ConfigureColor({
     }
   }, [])
 
-  useEffect(
-    () => {
-      if (!color) setColor(getColorValue(style.color))
-    },
-    [style.color]
-  )
+  useEffect(() => {
+    if (!color) setColor(getColorValue(style.color, presets))
+  }, [style.color, color, presets])
 
   return (
     <fieldset className="mgi-fieldset">

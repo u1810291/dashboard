@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Card from 'src/components/card'
-import Items from 'src/components/items'
-import CSS from './GooglePlayLink.scss'
+import Card from 'components/card'
+import Items from 'components/items'
+import CSS from './GooglePlayLink.module.scss'
 import GooglePlayImage from './google-play.png'
 
 export default function GooglePlayLink({ clientId }) {

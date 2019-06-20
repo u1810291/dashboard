@@ -1,5 +1,5 @@
-import { createReducer, createTypesSequence } from 'src/state/utils'
-import client from 'src/lib/client'
+import { createReducer, createTypesSequence } from 'state/utils'
+import client from 'lib/client'
 import { notification } from '../../components/notification'
 
 export const types = {

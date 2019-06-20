@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
-import StatusLabel from 'src/fragments/verifications/status-label'
-import Dropdown from 'src/components/dropdown'
-import Spinner from 'src/components/spinner'
-import CSS from './StatusSelect.scss'
+import StatusLabel from 'fragments/verifications/status-label'
+import Dropdown from 'components/dropdown'
+import Spinner from 'components/spinner'
+import CSS from './StatusSelect.module.scss'
 
 export default class StatusSelect extends React.Component {
   constructor(props) {
@@ -24,7 +24,9 @@ export default class StatusSelect extends React.Component {
   }
 
   render() {
-    const activeStatus = this.props.error ? this.props.status : this.state.status
+    const activeStatus = this.props.error
+      ? this.props.status
+      : this.state.status
     return (
       <div className={CSS.container}>
         <span className={CSS.statusText}>
@@ -68,7 +70,7 @@ export default class StatusSelect extends React.Component {
             </ul>
           </Dropdown.Content>
         </Dropdown>
-        {this.props.isLoading && <Spinner className={CSS.spinner}/>}
+        {this.props.isLoading && <Spinner className={CSS.spinner} />}
       </div>
     )
   }

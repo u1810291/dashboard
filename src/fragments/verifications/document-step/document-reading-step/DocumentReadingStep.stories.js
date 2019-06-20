@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import DocumentReadingStep from '.'
-import Card from 'src/components/card'
+import Card from 'components/card'
 
 const stories = storiesOf(
   'fragments/verifications/DocumentStep/DocumentReadingStep',

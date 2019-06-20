@@ -22,7 +22,7 @@ Mati.init({
 });
 </script>
 `
-const { Container } = require('src/components/notification')
+const { Container } = require('components/notification')
 
 ;<React.Fragment>
   <Container />

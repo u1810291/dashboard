@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import ReactPaginate from 'react-paginate'
-import CSS from './Pagination.scss'
+import CSS from './Pagination.module.scss'
 
 export default function Pagination({
   pageClassName,

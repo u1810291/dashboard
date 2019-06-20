@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Container } from 'src/components/overlay'
+import { Container } from 'components/overlay'
 import {
   LetsStartPanel,
   VerificationPanel,

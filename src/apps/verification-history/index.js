@@ -1,28 +1,34 @@
 import React from 'react'
 import fp from 'lodash/fp'
+import moment from 'moment'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom';
 import { isEmpty, pickBy, mapValues, get, compact } from 'lodash'
 import {
   getIdentities,
   getIdentitiesCount,
   deleteIdentity
-} from 'src/state/identities'
+} from 'state/identities'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import moment from 'moment'
-import { Content } from 'src/components/application-box'
-import DataTable from 'src/components/data-table'
-import VerificationFullNameLabel from 'src/fragments/verifications/verification-full-name-label'
-import Status from 'src/fragments/verifications/status-label'
+import { Content } from 'components/application-box'
+import DataTable from 'components/data-table'
+import VerificationFullNameLabel from 'fragments/verifications/verification-full-name-label'
+import Status from 'fragments/verifications/status-label'
 import FiltersForm from './filters-form'
-import Pagination from 'src/components/pagination'
-import Items from 'src/components/items'
-import { DebounceInput } from 'src/components/inputs'
-import Spinner from 'src/components/spinner'
-import confirm from 'src/components/confirm'
-import PageContentLayout from 'src/components/page-content-layout'
-import { isFeatureEnabled } from 'src/lib/isFeatureEnabled'
+import Pagination from 'components/pagination'
+import Items from 'components/items'
+import { DebounceInput } from 'components/inputs'
+import Spinner from 'components/spinner'
+import confirm from 'components/confirm'
+import PageContentLayout from 'components/page-content-layout'
+import { isFeatureEnabled } from 'lib/isFeatureEnabled'
 import { ReactComponent as DeleteIcon } from '../verification-detail/delete-icon.svg'
-import CSS from './VerificationHistory.scss'
+import CSS from './VerificationHistory.module.scss'
+import { default as Text, H2, HR } from 'components/text'
+import Card from 'components/card'
+import { ReactComponent as NationalId } from './national-id.svg'
+import { ReactComponent as Passport } from './passport.svg'
+import { ReactComponent as DrivingLicense } from './driving-license.svg'
 
 const FILTERS = [
   'search',
@@ -65,6 +71,19 @@ export function prepareParams(searchString, allowedKeys) {
     allowedKeys ? fp.pick(allowedKeys) : fp.identity,
     fp.pickBy(v => !isEmpty(v))
   )(searchString)
+}
+
+const ExampleCard = ({icon, labelId, link}) => {
+  return (
+    <Link to={{ pathname: link }}>
+      <Card border="lightergray" className={CSS.demoCard}>
+        <Text align="center">{icon}</Text>
+        <Text size={3} color="blue">
+          <FormattedMessage id={`verificationDemo.${labelId}.label`} />
+        </Text>
+      </Card>
+    </Link>
+  )
 }
 
 class VerificationHistory extends React.Component {
@@ -162,6 +181,12 @@ class VerificationHistory extends React.Component {
   getTableColumns = () => {
     let columns = [
       {
+        size: 1.5,
+        align: 'left',
+        label: <FormattedMessage id="identities.fields.id" />,
+        content: ({ identity }) => <div>#{identity.id.slice(-6)}</div>
+      },
+      {
         size: 5,
         label: <FormattedMessage id="identities.fields.fullName" />,
         content: ({ identity }) => (
@@ -173,7 +198,8 @@ class VerificationHistory extends React.Component {
       {
         size: 1.5,
         label: <FormattedMessage id="identities.fields.date" />,
-        content: identity => new Date(identity.dateUpdated).toLocaleDateString()
+        content: identity =>
+          moment.utc(identity.dateUpdated).format('MMM D, YYYY')
       },
       {
         size: 1,
@@ -227,9 +253,37 @@ class VerificationHistory extends React.Component {
     })
 
     const pageCount = Math.ceil(this.props.count / ITEMS_PER_PAGE)
-
     const forcePage = Math.floor(this.state.params.offset / ITEMS_PER_PAGE) || 0
-    return (
+    
+    return this.props.count === 0 ? 
+    ( 
+      <Content>
+        <H2 lineHeight={4}>
+          <FormattedMessage id="verificationDemo.nullCounter" values={{counter: 0}} />
+        </H2>
+        <PageContentLayout navigation={false}>
+          <main>
+            <Card padding={4} className={CSS.containerBox}>
+              <Text size={4.5} weight={2} align="center">
+                <FormattedMessage id="verificationDemo.title" />
+              </Text>
+              <Text size={3} weight={4} align="center">
+                <FormattedMessage id="verificationDemo.subtitle" />
+              </Text>
+              
+              <HR width={0} margin={15} />
+
+              <Items flow="column" gap={4} justifyContent="center">
+                <ExampleCard icon={<NationalId />} labelId="nationalId" link="/verifications/demo/1" key="2344" />
+                <ExampleCard icon={<Passport />} labelId="passport" link="/verifications/demo/2" key="2345" />
+                <ExampleCard icon={<DrivingLicense />} labelId="drivingLicense" link="/verifications/demo/3" key="2346" />
+              </Items>
+            </Card>
+          </main>
+        </PageContentLayout>
+      </Content> 
+    ) :
+    (
       <Content>
         <DebounceInput
           name="search"
@@ -244,7 +298,7 @@ class VerificationHistory extends React.Component {
             this.onFilterChange({ search: e.target.value })
           }}
         />
-        <PageContentLayout>
+        <PageContentLayout navigation={false}>
           <main>
             <Items flow="row">
               <DataTable

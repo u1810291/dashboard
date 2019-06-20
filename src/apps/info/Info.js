@@ -1,15 +1,16 @@
 import React from 'react'
 import { injectIntl } from 'react-intl'
-import Items from 'src/components/items'
-import Support from 'src/fragments/account/support'
-import FAQ from 'src/fragments/info/faq'
-import FAQPanel from 'src/fragments/info/faq-panel'
-import Feedback from 'src/fragments/info/feedback'
+import Items from 'components/items'
+import Support from 'fragments/account/support'
+import FAQ from 'fragments/info/faq'
+import FAQPanel from 'fragments/info/faq-panel'
+import Feedback from 'fragments/info/feedback'
 import FAQData from './faq-data'
+import InfoLayout from './InfoLayout'
 
 function Info({ intl }) {
   return (
-    <React.Fragment>
+    <InfoLayout>
       <main>
         <Items flow="row" gap={4}>
           <FAQ questions={FAQData[intl.locale]} />
@@ -20,7 +21,7 @@ function Info({ intl }) {
       <aside>
         <Support />
       </aside>
-    </React.Fragment>
+    </InfoLayout>
   )
 }
 

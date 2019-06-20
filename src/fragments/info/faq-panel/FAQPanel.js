@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Card from 'src/components/card'
-import Button from 'src/components/button'
-import Items from 'src/components/items'
-import CSS from './FAQPanel.scss'
+import Card from 'components/card'
+import Button from 'components/button'
+import Items from 'components/items'
+import CSS from './FAQPanel.module.scss'
 import { ReactComponent as Background } from './background.svg'
 
 export default function FAQPanel() {

@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import CSS from './MultiSelect.scss'
+import CSS from './MultiSelect.module.scss'
 import Select from 'react-select'
 
 export default class MultiSelect extends React.Component {
@@ -12,16 +12,18 @@ export default class MultiSelect extends React.Component {
     }
   }
 
-  onChange = (value) => {
+  onChange = value => {
     this.setState({
       value
     })
     this.props.onChange && this.props.onChange(value)
   }
 
-  deleteOption = (optionIndex) => {
+  deleteOption = optionIndex => {
     this.setState(
-      { value: this.state.value.filter((option, index) => index !== optionIndex) },
+      {
+        value: this.state.value.filter((option, index) => index !== optionIndex)
+      },
       () => this.props.onChange && this.props.onChange(this.state.value)
     )
   }
@@ -47,13 +49,15 @@ export default class MultiSelect extends React.Component {
           onChange={this.onChange}
         />
         <div className={valuesClassName}>
-          {value.map((option, index) =>
+          {value.map((option, index) => (
             <button
               key={index}
               className={CSS.valueItem}
               onClick={() => this.deleteOption(index)}
-            >{option.label}</button>
-          )}
+            >
+              {option.label}
+            </button>
+          ))}
         </div>
       </div>
     )

@@ -1,7 +1,7 @@
 How to use notifications in code:
 
 ```js static
-import { notification } from 'src/components/notification'
+import { notification } from 'components/notification'
 
 ...
   notification('Default notification')
@@ -18,8 +18,8 @@ import { notification } from 'src/components/notification'
 Demo toast
 
 ```js
-const NotificationContainer = require('src/components/notification').Container
-const notification = require('src/components/notification').notification
+const NotificationContainer = require('components/notification').Container
+const notification = require('components/notification').notification
 
 const showAllNotifications = () => {
   notification.info('Info notification example')

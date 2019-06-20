@@ -46,6 +46,10 @@
   color: var(--mgi-theme-palette-darkapricot);
 }
 
+.text-darkergray {
+  color: var(--mgi-theme-palette-darkergray);
+}
+
 .text-large {
   font-size: 16px;
 }
@@ -108,6 +112,14 @@
 
 .background-gray {
   background-color: var(--mgi-theme-palette-gray);
+}
+
+.background-pistachio {
+  background-color: var(--mgi-theme-palette-pistachio);
+}
+
+.background-disabled {
+  background-color: var(--mgi-theme-palette-disabled);
 }
 
 .background-transparent {
@@ -262,4 +274,16 @@
 .content-cover {
   width: 100%;
   height: auto;
+}
+.loading:after {
+  display: inline-block;
+  animation: dotty steps(1,end) 1s infinite;
+  content: '';
+}
+@keyframes dotty {
+    0%   { content: ''; }
+    25%  { content: '.'; }
+    50%  { content: '..'; }
+    75%  { content: '...'; }
+    100% { content: ''; }
 }

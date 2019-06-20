@@ -1,41 +1,24 @@
 import React from 'react'
-import classNames from 'classnames'
 import { FormattedMessage } from 'react-intl'
-import Card from 'src/components/card'
-import Items from 'src/components/items'
-import Click from 'src/components/click'
-import Button from 'src/components/button'
-import openYoutubeOverlay from 'src/components/youtube-overlay'
-import CSS from './InstallationGuidePanels.module.scss'
-import LetsStartPicture from './lets-start.svg'
+import { CardWithStub, Items, Stub, Click } from 'components'
+import { default as Text, H2} from 'components/text'
+import openYoutubeOverlay from 'components/youtube-overlay'
 import VerificationPicture from './verification.svg'
 import ApplicationsPicture from './applications.svg'
+import LetsStartPicture from './lets-start.svg'
 import VideoPicture from './video.svg'
-import PresentationFile from './mati-integration-sales-pres.pdf'
 
-function Aside({ children }) {
-  return (
-    <aside className={classNames(CSS.aside, 'background-apricot')}>
-      <h2 className="text-darkapricot">{children}</h2>
-    </aside>
-  )
-}
-
-function CardWithAside({ aside, children, shadow, ...cardProps }) {
-  return (
-    <Card padding={0} gap={0} shadow={shadow} flow="column" align="stretch">
-      {aside}
-      <Card shadow={0} {...cardProps}>
-        {children}
-      </Card>
-    </Card>
-  )
-}
+const PresentationFile =
+  'https://drive.google.com/file/d/1EQlmq5WpMCWTZQQRYhS0EUw22JrvCSv6/view?usp=sharing'
 
 export function VerificationPanel() {
   return (
-    <CardWithAside
-      aside={<Aside>1</Aside>}
+    <CardWithStub
+      stub={
+        <Stub background="apricot">
+          <Text color="darkapricot">1</Text>
+        </Stub>
+      }
       flow="column"
       align="center"
       padding={4}
@@ -44,26 +27,30 @@ export function VerificationPanel() {
     >
       <Items flow="row" gap={4}>
         <Items flow="row" gap={1}>
-          <h2>
+          <H2 lineHeight={2}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.verification-panel.title" />
-          </h2>
-          <p>
+          </H2>
+          <Text lineHeight={1.3}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.verification-panel.message" />
-          </p>
+          </Text>
         </Items>
-        <Button buttonStyle="primary" href="/">
+        <Click background="active" as="a" href="/configuration">
           <FormattedMessage id="fragments.integration.installation-guide-panels.verification-panel.button" />
-        </Button>
+        </Click>
       </Items>
       <img src={VerificationPicture} alt="" className="content-cover" />
-    </CardWithAside>
+    </CardWithStub>
   )
 }
 
 export function ApplicationsPanel() {
   return (
-    <CardWithAside
-      aside={<Aside>2</Aside>}
+    <CardWithStub
+      stub={
+        <Stub background="apricot">
+          <Text color="darkapricot">2</Text>
+        </Stub>
+      }
       padding={4}
       flow="column"
       align="center"
@@ -72,26 +59,30 @@ export function ApplicationsPanel() {
     >
       <Items flow="row" gap={4}>
         <Items flow="row" gap={1}>
-          <h2>
+          <H2 lineHeight={2}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.applications-panel.title" />
-          </h2>
-          <p>
+          </H2>
+          <Text lineHeight={1.3}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.applications-panel.message" />
-          </p>
+          </Text>
         </Items>
-        <Button buttonStyle="primary" href="/integration/applications">
+        <Click background="active" as="a" href="/integration/applications">
           <FormattedMessage id="fragments.integration.installation-guide-panels.applications-panel.button" />
-        </Button>
+        </Click>
       </Items>
       <img src={ApplicationsPicture} alt="" className="content-cover" />
-    </CardWithAside>
+    </CardWithStub>
   )
 }
 
 export function InstallFrontendCodePanel() {
   return (
-    <CardWithAside
-      aside={<Aside>3</Aside>}
+    <CardWithStub
+      stub={
+        <Stub background="apricot">
+          <Text color="darkapricot">3</Text>
+        </Stub>
+      }
       padding={4}
       flow="column"
       align="center"
@@ -100,16 +91,16 @@ export function InstallFrontendCodePanel() {
     >
       <Items flow="row" gap={4}>
         <Items flow="row" gap={1}>
-          <h2>
+          <H2 lineHeight={2}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.jssdk-panel.title" />
-          </h2>
-          <p>
+          </H2>
+          <Text lineHeight={1.3}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.jssdk-panel.message" />
-          </p>
+          </Text>
         </Items>
-        <Button buttonStyle="primary" href="/integration/integration-code">
+        <Click background="active" as="a" href="/integration/integration-code">
           <FormattedMessage id="fragments.integration.installation-guide-panels.jssdk-panel.button" />
-        </Button>
+        </Click>
       </Items>
       <img
         src={VideoPicture}
@@ -117,14 +108,18 @@ export function InstallFrontendCodePanel() {
         className="content-cover cursor-pointer"
         onClick={openYoutubeOverlay.bind(null, { id: 'wm_nG8wfVMU' })}
       />
-    </CardWithAside>
+    </CardWithStub>
   )
 }
 
 export function SetWebhooksPanel() {
   return (
-    <CardWithAside
-      aside={<Aside>4</Aside>}
+    <CardWithStub
+      stub={
+        <Stub background="apricot">
+          <Text color="darkapricot">4</Text>
+        </Stub>
+      }
       padding={4}
       flow="column"
       align="center"
@@ -133,16 +128,16 @@ export function SetWebhooksPanel() {
     >
       <Items flow="row" gap={4}>
         <Items flow="row" gap={1}>
-          <h2>
+          <H2 lineHeight={2}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.webhooks-panel.title" />
-          </h2>
-          <p>
+          </H2>
+          <Text lineHeight={1.3}>
             <FormattedMessage id="fragments.integration.installation-guide-panels.webhooks-panel.message" />
-          </p>
+          </Text>
         </Items>
-        <Button buttonStyle="primary" href="/integration/webhooks">
+        <Click background="active" as="a" href="/integration/webhooks">
           <FormattedMessage id="fragments.integration.installation-guide-panels.webhooks-panel.button" />
-        </Button>
+        </Click>
       </Items>
       <Items flow="row" extraPadding>
         <img
@@ -158,14 +153,14 @@ export function SetWebhooksPanel() {
           <a href="https://docs.getmati.com">docs.getmati.com</a>
         </section>
       </Items>
-    </CardWithAside>
+    </CardWithStub>
   )
 }
 
 export function LetsStartPanel() {
   return (
-    <CardWithAside
-      aside={<Aside />}
+    <CardWithStub
+      stub={<Stub background="apricot" />}
       padding={4}
       flow="column"
       align="center"
@@ -174,20 +169,26 @@ export function LetsStartPanel() {
       background="apricot"
     >
       <Items flow="row">
-        <h2>
+        <H2 lineHeight={2}>
           <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.title" />
-        </h2>
-        <p>
+        </H2>
+        <Text lineHeight={1.3}>
           <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.message" />
-        </p>
+        </Text>
         <section>
-          <Click background="active" href={PresentationFile} as="a">
+          <Click
+            background="active"
+            href={PresentationFile}
+            as="a"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <FormattedMessage id="LetsStartPanel.cta" />
           </Click>
         </section>
       </Items>
 
       <img src={LetsStartPicture} alt="" className="content-cover" />
-    </CardWithAside>
+    </CardWithStub>
   )
 }

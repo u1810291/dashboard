@@ -1,16 +1,17 @@
 import React from 'react'
-import Items from 'src/components/items'
+import { Items } from 'components'
 import {
   LetsStartPanel,
   VerificationPanel,
   ApplicationsPanel,
   InstallFrontendCodePanel,
   SetWebhooksPanel
-} from 'src/fragments/integration/installation-guide-panels'
+} from 'fragments/integration/installation-guide-panels'
+import IntegrationLayout from './IntegrationLayout'
 
 export default function Info() {
   return (
-    <React.Fragment>
+    <IntegrationLayout>
       <main>
         <Items flow="row">
           <LetsStartPanel />
@@ -20,6 +21,6 @@ export default function Info() {
           <SetWebhooksPanel />
         </Items>
       </main>
-    </React.Fragment>
+    </IntegrationLayout>
   )
 }

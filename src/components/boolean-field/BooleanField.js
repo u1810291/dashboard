@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import CSS from './BooleanField.css'
+import CSS from './BooleanField.module.css'
 
 export default class BooleanField extends React.Component {
   componentDidMount() {
@@ -30,7 +30,9 @@ export default class BooleanField extends React.Component {
     return (
       <label
         className={classNames(CSS.booleanField, className)}
-        onClick={event => onClick(event, event.currentTarget.querySelector('input').checked)}
+        onClick={event =>
+          onClick(event, event.currentTarget.querySelector('input').checked)
+        }
       >
         <input
           ref="input"
@@ -39,7 +41,7 @@ export default class BooleanField extends React.Component {
           checked={checked}
           {...inputProps}
         />
-        {label && (<span>{label}</span>)}
+        {label && <span>{label}</span>}
       </label>
     )
   }

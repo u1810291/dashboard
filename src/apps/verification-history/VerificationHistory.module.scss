@@ -1,0 +1,27 @@
+:local(.searchField) {
+  margin-bottom: var(--mgi-spacing);
+  max-width: 400px;
+  margin-top: 30px;
+}
+
+:local(.deleteIdentity) {
+  display: inline-block;
+  width: 35px;
+  padding: 10px;
+  svg {
+    width: 13px;
+    height: 13px;
+  }
+  &:hover {
+    filter: brightness(40%);
+  }
+}
+
+.demoCard {
+  width: 165px;
+  justify-content: 'center';
+}
+
+.containerBox {
+  min-width: 730px;
+}

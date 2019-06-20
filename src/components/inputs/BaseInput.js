@@ -1,10 +1,10 @@
 import React from 'react'
 import { injectIntl } from 'react-intl'
 import fp from 'lodash/fp'
-import { withI18nContext } from 'src/components/i18n-context'
+import { withI18nContext } from 'components/i18n-context'
 import classNames from 'classnames'
 import { get } from 'lodash'
-import CSS from './Input.css'
+import CSS from './Input.module.css'
 
 class BaseInput extends React.Component {
   render() {

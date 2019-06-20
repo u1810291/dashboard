@@ -1,7 +1,7 @@
 import {
   YEAR_MONTH_FORMATTER,
   YEAR_MONTH_SHORT_FORMATTER
-} from 'src/state/utils'
+} from 'state/utils'
 import { toPairs } from 'lodash'
 
 const mapIdentityByMonth = identity => [

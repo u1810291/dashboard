@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Card from 'src/components/card'
-import Items from 'src/components/items'
-import CSS from './mati-docs.scss'
+import Card from 'components/card'
+import Items from 'components/items'
+import CSS from './mati-docs.module.scss'
 import { ReactComponent as IconApple } from './icon-apple-documents.svg'
 import { ReactComponent as IconAndroid } from './icon-android-documents.svg'
 
