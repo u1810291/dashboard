@@ -19,6 +19,9 @@ function SettingsLayout({ children, signOut, ...props }) {
   return (
     <PageContentLayout {...props}>
       <PageContentMenu>
+        <NavLink exact to="/settings/personal">
+          <FormattedMessage id="apps.settings.personalSettings" />
+        </NavLink>
         <NavLink exact to="/settings">
           <FormattedMessage id="apps.settings.teamSettings" />
         </NavLink>
