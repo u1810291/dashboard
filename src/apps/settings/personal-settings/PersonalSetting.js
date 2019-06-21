@@ -2,35 +2,37 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { Card, closeOverlay, createOverlay } from 'components';
-import { passwordReset } from 'state/auth'
+
+import { passwordChange } from 'state/auth';
 
 import SettingsLayout from './../SettingsLayout'
 import ChangePasswordModal from './modal/ChangePasswordModal';
 
 import CSS from './PersonalSettings.module.scss'
 
-function openChangePasswordModal() {
-  createOverlay(<ChangePasswordModal onSubmit={handleSubmit} />)
-}
+function PersonalSettings({ user, passwordChange, token  }) {
+  function openChangePasswordModal() {
+    createOverlay(<ChangePasswordModal onSubmit={handleSubmit} />)
+  }
 
-function handleSubmit (values, { props, setSubmitting, setStatus }) {
-  setStatus({});
+  function handleSubmit (values, { props, setSubmitting, setStatus }) {
+    const { password, oldPassword } = values;
 
-  props.passwordReset({ values, token: props.token })
-    .then(data => {
-      setSubmitting(false);
-      setStatus(true);
-      closeOverlay();
-    })
-    .catch(error => {
-      setSubmitting(false);
-      setStatus({ password: error.response.data.message })
-    });
+    setStatus({});
+    passwordChange({ password, oldPassword }, token)
+      .then(data => {
+        setSubmitting(false);
+        setStatus(true);
+        closeOverlay();
+      })
+      .catch(error => {
+        setSubmitting(false);
+        setStatus({ password: error.response.data.message })
+      });
 
-  return false;
-}
+    return false;
+  }
 
-function PersonalSettings({ user  }) {
   return (
     <SettingsLayout aside={false}>
       <Card flow="row" padding={2} className={CSS.personalSettings}>
@@ -66,5 +68,5 @@ export default connect(
     token: state.auth.token,
     user: state.auth.user,
   }),
-  { passwordReset }
+  { passwordChange }
 )(PersonalSettings);

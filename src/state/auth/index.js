@@ -9,8 +9,9 @@ export const types = {
   ...createTypesSequence('AUTH_SIGNOUT'),
   ...createTypesSequence('AUTH_SIGNUP'),
   ...createTypesSequence('AUTH_RECOVERY'),
-  ...createTypesSequence('PASSWORD_RESET')
-}
+  ...createTypesSequence('PASSWORD_RESET'),
+  ...createTypesSequence('PASSWORD_CHANGE'),
+};
 
 export function signIn(credentials) {
   return function(dispatch) {
@@ -87,6 +88,21 @@ export function passwordReset(credentials) {
       })
   }
 }
+export function passwordChange(credentials, token) {
+  return function(dispatch) {
+    dispatch({ type: types.PASSWORD_CHANGE_REQUEST })
+    return client.auth
+      .changePassword(credentials, token)
+      .then(payload => {
+        dispatch({ type: types.PASSWORD_CHANGE_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.PASSWORD_CHANGE_FAILURE })
+        throw error
+      })
+  }
+}
 
 const initialState = {}
 
@@ -127,7 +143,11 @@ const reducer = createReducer(initialState, {
 
   [types.PASSWORD_RESET_SUCCESS]: function() {
     return initialState
-  }
-})
+  },
+
+  [types.PASSWORD_CHANGE_SUCCESS]: function() {
+    return initialState
+  },
+});
 
 export default reducer

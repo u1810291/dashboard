@@ -109,14 +109,16 @@
   "additionalInfo.form.labels.alreadyUseKYC": "Do you already use a KYC provider?",
   "additionalInfo.form.placeholders.alreadyUseKYC": "Choose an answer",
 
-  "personalSettings.labels.currentPassword": "Current Password",
-  "personalSettings.placeholders.currentPassword": "Current Password",
-  "personalSettings.errors.currentPassword": "Current Password is wrong",
-  "personalSettings.labels.newPassword": "New Password",
-  "personalSettings.placeholders.newPassword": "New Password",
-  "personalSettings.errors.newPassword": "Passwords not matched",
-  "personalSettings.labels.repeatPassword": "Repeat New Password",
+  "personalSettings.labels.oldPassword": "Current Password",
+  "personalSettings.placeholders.oldPassword": "Current Password",
+  "personalSettings.errors.oldPassword": "Current Password is wrong",
+  "personalSettings.labels.password": "New Password",
+  "personalSettings.placeholders.password": "New Password",
+  "personalSettings.errors.password": "Password is not correct",
+  "personalSettings.labels.repeatPassword": "Confirm New Password",
   "personalSettings.placeholders.repeatPassword": "New Password",
+  "personalSettings.errors.repeatPassword": "Passwords not matched",
+  "personalSettings.errors.notAllowed": "Password needs to be 8 characters long and at least one number",
 
   "validations.required": "Field is required",
   "validations.cleanText": "No special characters allowed",
@@ -690,7 +692,7 @@
   "LivenessStep.Checks.title": "Checks",
   "LivenessStep.Checks.statusTitle": "Biometric Check",
   "LivenessStep.Checks.noname": "Unknown name",
-  
+
   "LivenessStep.Checks.inProgress": "Checking...",
   "LivenessStep.Checks.success": "Liveness Passed",
   "LivenessStep.Checks.error": "Liveness Failed",
