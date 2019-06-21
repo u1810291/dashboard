@@ -1,36 +1,40 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Field, Formik } from 'formik';
+import { flowRight } from 'lodash/fp';
+import { Field, Formik, withFormik } from 'formik';
 import { pickBy } from 'lodash';
 
 import { Modal } from 'components/modal';
 import Button from 'components/button';
 import { Input } from 'components/inputs';
 import { setI18nContext } from 'components/i18n-context';
-import { required } from 'lib/validations';
+import { required, password } from 'lib/validations';
 
 import CSS from './ChangePasswordModal.module.scss';
+import connect from 'react-redux/es/connect/connect';
+
+const formikSettings = {
+  initialValues: {
+    oldPassword: '',
+    password: '',
+    repeatPassword: '',
+  },
+
+  validate: values => {
+    let errors = {};
+
+    errors.oldPassword = required(values.oldPassword);
+    errors.password = required(values.password)
+      || password(values, 'personalSettings.errors.notAllowed');
+    errors.repeatPassword = required(values.repeatPassword)
+      || (values.repeatPassword !== values.password && 'personalSettings.errors.repeatPassword');
+
+    errors = pickBy(errors, v => v);
+    return errors;
+  },
+};
 
 function ChangePasswordModal({ onSubmit }) {
-  const formikSettings = {
-    initialValues: {
-      currentPassword: '',
-      newPassword: '',
-      repeatPassword: '',
-    },
-
-    validate: values => {
-      let errors = {};
-
-      errors.currentPassword = required(values.currentPassword);
-      errors.newPassword = required(values.newPassword);
-      errors.repeatPassword = required(values.repeatPassword);
-
-      errors = pickBy(errors, v => v);
-      return errors;
-    },
-  };
-
   return (
     <Modal small>
       <main className={CSS.content}>
@@ -48,30 +52,30 @@ function ChangePasswordModal({ onSubmit }) {
             return (
               <form onSubmit={props.handleSubmit}>
                 <>
-                  {props.touched.currentPassword && props.errors.currentPassword && (
+                  {props.touched.oldPassword && props.errors.oldPassword && (
                     <span className={CSS.error}>
-                      <FormattedMessage id="personalSettings.errors.currentPassword"/>
+                      <FormattedMessage id="personalSettings.errors.oldPassword"/>
                     </span>
                   )}
                   <Field
                     type="password"
-                    name="currentPassword"
+                    name="oldPassword"
                     className={CSS.current}
                     component={Input}
-                    error={props.touched.currentPassword && props.errors.currentPassword}
+                    error={props.touched.oldPassword && props.errors.oldPassword}
                   />
                 </>
                 <>
-                  {props.touched.newPassword && props.errors.newPassword && (
+                  {props.touched.password && props.errors.password && (
                     <span className={CSS.error}>
-                      <FormattedMessage id="personalSettings.errors.newPassword"/>
+                      <FormattedMessage id="personalSettings.errors.password"/>
                     </span>
                   )}
                   <Field
                     type="password"
-                    name="newPassword"
+                    name="password"
                     component={Input}
-                    error={props.touched.newPassword && props.errors.newPassword}
+                    error={props.touched.password && props.errors.password}
                   />
                 </>
                 <Field
@@ -99,4 +103,11 @@ function ChangePasswordModal({ onSubmit }) {
   );
 }
 
-export default setI18nContext('personalSettings')(ChangePasswordModal);
+export default flowRight(
+  setI18nContext('personalSettings'),
+  connect(
+    null,
+  ),
+  withFormik(formikSettings)
+)(ChangePasswordModal)
+
