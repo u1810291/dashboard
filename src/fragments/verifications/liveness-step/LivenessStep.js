@@ -15,7 +15,7 @@ import config from './config'
 
 const videoStyle = css`
   width: 230px;
-  height: 165px;
+  max-height: 306px;
   object-fit: cover;
   object-position: center;
 `
