@@ -356,7 +356,7 @@
 
   "verificationDemo.nullCounter": "Verifications ({counter})",
   "verificationDemo.title": "You don't have verifications yet",
-  "verificationDemo.subtitle": "Here are the examples",
+  "verificationDemo.subtitle": "Here are some examples",
   "verificationDemo.nationalId.label": "National ID from Netherlands",
   "verificationDemo.passport.label": "Passport from Germany",
   "verificationDemo.drivingLicense.label": "Driving License from USA, CA",
