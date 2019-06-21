@@ -5,6 +5,7 @@ import { Content } from 'components/application-box'
 import Items from 'components/items'
 import TeamSettings from './team-settings'
 import Pricing from './Pricing'
+import PersonalSetting from './personal-settings'
 
 export default function Settings() {
   return (
@@ -14,6 +15,7 @@ export default function Settings() {
           <FormattedMessage id="dashboard.menu.account" />
         </h1>
         <Switch>
+          <Route path="/settings/personal" component={PersonalSetting} />
           <Route path="/settings/pricing" component={Pricing} />
           <Route path="/settings" component={TeamSettings} />
         </Switch>

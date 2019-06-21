@@ -109,7 +109,7 @@ class Dashboard extends React.Component {
 
         {isOwner && (
           <MenuItemLink
-            to="/settings"
+            to="/settings/personal"
             label={formatMessage({ id: 'dashboard.menu.account' })}
             icon={<AccountIcon />}
           />
