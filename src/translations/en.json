@@ -117,7 +117,7 @@
   "personalSettings.errors.password": "Password is not correct",
   "personalSettings.labels.repeatPassword": "Confirm New Password",
   "personalSettings.placeholders.repeatPassword": "New Password",
-  "personalSettings.errors.repeatPassword": "Passwords not matched",
+  "personalSettings.errors.repeatPassword": "Passwords do not matched",
   "personalSettings.errors.notAllowed": "Password needs to be 8 characters long and at least one number",
 
   "validations.required": "Field is required",

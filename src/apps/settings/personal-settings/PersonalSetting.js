@@ -27,7 +27,7 @@ function PersonalSettings({ user, passwordChange, token  }) {
       })
       .catch(error => {
         setSubmitting(false);
-        setStatus({ password: error.response.data.message })
+        setStatus({ oldPassword: error.response.data.message })
       });
 
     return false;

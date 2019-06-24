@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
 import { flowRight } from 'lodash/fp';
 import { Field, Formik, withFormik } from 'formik';
 import { pickBy } from 'lodash';
@@ -13,6 +14,7 @@ import { required, password } from 'lib/validations';
 import CSS from './ChangePasswordModal.module.scss';
 import connect from 'react-redux/es/connect/connect';
 
+
 const formikSettings = {
   initialValues: {
     oldPassword: '',
@@ -23,9 +25,10 @@ const formikSettings = {
   validate: values => {
     let errors = {};
 
-    errors.oldPassword = required(values.oldPassword);
+    errors.oldPassword = required(values.oldPassword)
+      || password(values, 'personalSettings.errors.notAllowed', 'oldPassword');
     errors.password = required(values.password)
-      || password(values, 'personalSettings.errors.notAllowed');
+      || password(values, 'personalSettings.errors.notAllowed', 'password');
     errors.repeatPassword = required(values.repeatPassword)
       || (values.repeatPassword !== values.password && 'personalSettings.errors.repeatPassword');
 
