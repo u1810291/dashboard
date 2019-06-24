@@ -25,9 +25,9 @@ const formikSettings = {
     let errors = {};
 
     errors.oldPassword = required(values.oldPassword)
-      || password(values, 'personalSettings.errors.notAllowed');
+      || password(values, 'personalSettings.errors.notAllowed', 'oldPassword');
     errors.password = required(values.password)
-      || password(values, 'personalSettings.errors.notAllowed');
+      || password(values, 'personalSettings.errors.notAllowed', 'password');
     errors.repeatPassword = required(values.repeatPassword)
       || (values.repeatPassword !== values.password && 'personalSettings.errors.repeatPassword');
 
