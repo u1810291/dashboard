@@ -19,7 +19,7 @@ export function email(value) {
 }
 
 export function password(value, message) {
-  const PASSWORD = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+  const PASSWORD = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\S]{8,}$/;
 
   if (!PASSWORD.test(value.password)) {
     return message;
