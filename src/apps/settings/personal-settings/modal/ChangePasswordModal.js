@@ -12,7 +12,6 @@ import { setI18nContext } from 'components/i18n-context';
 import { required, password } from 'lib/validations';
 
 import CSS from './ChangePasswordModal.module.scss';
-import connect from 'react-redux/es/connect/connect';
 
 
 const formikSettings = {
