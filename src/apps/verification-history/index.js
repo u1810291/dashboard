@@ -254,8 +254,10 @@ class VerificationHistory extends React.Component {
 
     const pageCount = Math.ceil(this.props.count / ITEMS_PER_PAGE)
     const forcePage = Math.floor(this.state.params.offset / ITEMS_PER_PAGE) || 0
-    
-    return this.props.count === 0 ? 
+
+    return (isEmpty(this.state.params.search) && 
+      !this.props.countIsLoading && 
+      this.props.count === 0) ? 
     ( 
       <Content>
         <H2 lineHeight={4}>
