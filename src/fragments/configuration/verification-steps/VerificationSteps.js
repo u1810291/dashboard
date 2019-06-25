@@ -175,7 +175,7 @@ const verificationStep =  function VerificationSteps({
           <SelectField
             className={CSS.roleSelect}
             options={biometricOptions}
-            value={biometricOptions.find(option => option.value === patterns.biometrics)}
+            defaultValue={biometricOptions.find(option => option.value === patterns.biometrics)}
             onChange={({target:{value}}) => {
               onChange({
                 verificationPatterns: { ...patterns, biometrics: value }
