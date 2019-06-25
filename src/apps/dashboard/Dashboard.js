@@ -109,7 +109,7 @@ class Dashboard extends React.Component {
 
         {isOwner && (
           <MenuItemLink
-            to="/settings"
+            to="/settings/personal"
             label={formatMessage({ id: 'dashboard.menu.account' })}
             icon={<AccountIcon />}
           />
@@ -142,8 +142,7 @@ class Dashboard extends React.Component {
               component={VerificationHistory}
             />
             <Route
-              exact
-              path="/verifications/:id"
+              path="/verifications/:demo?/:id"
               component={VerificationDetail}
             />
             <OwnersRoute path="/settings" component={Settings} />

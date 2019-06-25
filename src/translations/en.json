@@ -109,6 +109,17 @@
   "additionalInfo.form.labels.alreadyUseKYC": "Do you already use a KYC provider?",
   "additionalInfo.form.placeholders.alreadyUseKYC": "Choose an answer",
 
+  "personalSettings.labels.oldPassword": "Current Password",
+  "personalSettings.placeholders.oldPassword": "Current Password",
+  "personalSettings.errors.oldPassword": "Current Password is wrong",
+  "personalSettings.labels.password": "New Password",
+  "personalSettings.placeholders.password": "New Password",
+  "personalSettings.errors.password": "Password is not correct",
+  "personalSettings.labels.repeatPassword": "Confirm New Password",
+  "personalSettings.placeholders.repeatPassword": "New Password",
+  "personalSettings.errors.repeatPassword": "Passwords do not matched",
+  "personalSettings.errors.notAllowed": "Password needs to be 8 characters long and at least one number",
+
   "validations.required": "Field is required",
   "validations.cleanText": "No special characters allowed",
   "validations.email": "Invalid email address",
@@ -133,7 +144,11 @@
   "flow.countries.add": "Add country restriction",
   "flow.countries.edit": "Edit filter",
   "flow.countries.modal.title": "Country Filter",
+<<<<<<< HEAD
   "flow.countries.modal.description": "Select the country or countries from which users will be able to upload their ID documents. If you do not select any country, documents from all countries will be accepted.",
+=======
+  "flow.countries.modal.description": "Force users to upload documents from selected countries by choosing them here. If no countries are selected here, you will allow IDs from all countries.",
+>>>>>>> pre-release
   "flow.documentTypeStep.title": "Verification requirements",
   "flow.documentTypeStep.liveness": "Liveness Check",
   "flow.documentTypeStep.driving-license": "Driving License",
@@ -354,6 +369,13 @@
   "identities.filters.labels.date-filter": "Date",
   "identities.filters.placeholder.search": "Find a person...",
 
+  "verificationDemo.nullCounter": "Verifications ({counter})",
+  "verificationDemo.title": "You don't have verifications yet",
+  "verificationDemo.subtitle": "Here are some examples",
+  "verificationDemo.nationalId.label": "National ID from Netherlands",
+  "verificationDemo.passport.label": "Passport from Germany",
+  "verificationDemo.drivingLicense.label": "Driving License from USA, CA",
+
   "verification.type.national": "National ID",
   "verification.type.driving-license": "Driving License",
   "verification.type.passport": "Passport",
@@ -506,15 +528,28 @@
   "apps.settings.accountInfo": "Account Info",
   "apps.settings.yourTeam": "Your Team",
   "apps.settings.personalSettings": "Personal Settings",
+  "apps.settings.personalSettings.title": "Email & Password",
+  "apps.settings.personalSettings.email": "Email",
+  "apps.settings.personalSettings.password": "Password",
+  "apps.settings.personalSettings.defaultPassword": "********",
+  "apps.settings.personalSettings.change": "Change Password",
+  "apps.settings.personalSettings.youCanChange": "You can change your password here",
   "apps.settings.teamSettings": "Team Settings",
   "apps.settings.signout": "Sign Out",
   "apps.settings.pricing": "Pricing",
 
   "fragments.configuration.verification_steps_modal.title": "Verification Documents",
+<<<<<<< HEAD
   "fragments.configuration.verification_steps_modal.subtitle": "Select the documents you want your user to use to verify themselves. At least one document is required.",
   "fragments.configuration.title": "Test your user verification flow by click on the button below",
   "fragments.configuration.button.start-integration": "Start Integration",
   "fragments.configuration.usecase-modal": "Click here to how our product works on live use case",
+=======
+  "fragments.configuration.verification_steps_modal.subtitle": "Select the documents required to verify your users. At least one is required.",
+  "fragments.configuration.title": "Test your verification flow below",
+  "fragments.configuration.button.start-integration": "Start Integration",
+  "fragments.configuration.usecase-modal": "Click here to see how our product works",
+>>>>>>> pre-release
   "fragments.configuration.permalink-title": "Share your custom flow using the link below",
   "fragments.account.new_webhook_modal.title": "Add webhook",
   "fragments.account.webhooks.add": "Add new webhook",
@@ -582,7 +617,7 @@
   "fragments.integration.installation-guide-panels.webhooks-panel.button": "Go to Webhooks",
   "fragments.integration.installation-guide-panels.webhooks-panel.link": "Webhook documentation",
   "fragments.integration.installation-guide-panels.start-panel.title": "Start to integrate Mati",
-  "fragments.integration.installation-guide-panels.start-panel.message": "Check out this short presnention with step by step instrucions to integrate our product.",
+  "fragments.integration.installation-guide-panels.start-panel.message": "Check out this short presentation with step by step instructions to integrate our product.",
   "fragments.info.features.title": "Security Features",
   "fragments.info.features.liveness.title": "Liveness",
   "fragments.info.features.liveness.description": "Contains the proof of life response, making sure your user is a real person (and not a printed paper)",
@@ -668,7 +703,7 @@
   "LivenessStep.Checks.title": "Checks",
   "LivenessStep.Checks.statusTitle": "Biometric Check",
   "LivenessStep.Checks.noname": "Unknown name",
-  
+
   "LivenessStep.Checks.inProgress": "Checking...",
   "LivenessStep.Checks.success": "Liveness Passed",
   "LivenessStep.Checks.error": "Liveness Failed",
@@ -719,7 +754,7 @@
   "CheckoutModal.planName.starter": "Starter",
   "CheckoutModal.planName.regular": "Regular",
   "CheckoutModal.planName.growth": "Growth",
-  "CheckoutModal.refund.1": " Get your money back within the first 30 days",
+  "CheckoutModal.refund.1": "Get your money back within the first 30 days",
   "CheckoutModal.refund.2": "No questions asked!",
   "CheckoutModal.planPrice": "${planPrice}/month",
   "CheckoutModal.priceChargeNotice": "will charged at the 1st day of billing cycle",
@@ -731,5 +766,9 @@
 
   "NoPlanSelected.title": "Before integration you should choose the pricing plan",
   "NoPlanSelected.link": "Go to Pricing",
+<<<<<<< HEAD
   "UsecaseModal.title": "Select the live use case you want to view"
+=======
+  "UsecaseModal.title": "Click on a use case to watch how it works"
+>>>>>>> pre-release
 }
