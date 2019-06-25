@@ -171,7 +171,7 @@ const verificationStep =  function VerificationSteps({
         <Text lineHeight="2" weight="4">
           <FormattedMessage id="flow.documentTypeStep.biometric" />
         </Text>
-        <div>
+        <div className={CSS.marginLeft}>
           <Select
             options={biometricOptions}
             value={biometricOptions.find(option => option.value === patterns.biometrics)}
