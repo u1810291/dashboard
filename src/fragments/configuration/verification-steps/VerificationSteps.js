@@ -1,11 +1,11 @@
 import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { difference, without } from 'lodash'
-import classNames from 'classnames'
 import Icons from 'components/icons'
 import Button from 'components/button'
+import Text from 'components/text'
 import Items from 'components/items'
-import SelectField from 'components/select-field'
+import Select from 'react-select'
 import { createOverlay, closeOverlay } from 'components/overlay'
 import confirm from 'components/confirm'
 import VerificationStepModal from '../verification-steps-modal'
@@ -167,16 +167,15 @@ const verificationStep =  function VerificationSteps({
       >
         <FormattedMessage id="flow.documentTypeStep.button.title" />
       </Button>
-      <legend className={classNames('text-active', CSS.marginBlock)}>
-        <span className={CSS.marginElement}>
+      <legend className={CSS.marginBlock}>
+        <Text lineHeight="2" weight="4">
           <FormattedMessage id="flow.documentTypeStep.biometric" />
-        </span>
-        <div className={CSS.roleSelectWrapper}>
-          <SelectField
-            className={CSS.roleSelect}
+        </Text>
+        <div className={CSS.marginLeft}>
+          <Select
             options={biometricOptions}
-            defaultValue={biometricOptions.find(option => option.value === patterns.biometrics)}
-            onChange={({target:{value}}) => {
+            value={biometricOptions.find(option => option.value === patterns.biometrics)}
+            onChange={({value}) => {
               onChange({
                 verificationPatterns: { ...patterns, biometrics: value }
               })

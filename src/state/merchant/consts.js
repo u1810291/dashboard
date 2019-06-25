@@ -16,6 +16,6 @@ export const AVAILABLE_DOCUMENT_TYPES = [
   'proof-of-residency'
 ]
 
-export const MANDATORY_DOCUMENT_TYPES = ['liveness']
+export const MANDATORY_DOCUMENT_TYPES = []
 
 export const AVAILABLE_LANGUAGES = ['en', 'es', 'fr', 'pt']
