@@ -56,12 +56,6 @@ const verificationStep =  function VerificationSteps({
     },
     {
       label: intl.formatMessage({
-        id: 'flow.biometricStep.selfie'
-      }),
-      value: 'selfie'
-    },
-    {
-      label: intl.formatMessage({
         id: 'flow.biometricStep.liveness'
       }),
       value: 'liveness'
