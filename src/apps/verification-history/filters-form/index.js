@@ -30,7 +30,7 @@ class VerificationsFiltersForm extends Component {
         value: 'verified'
       },
       {
-        label: this.props.intl.formatMessage({ id: 'statuses.manual-review' }),
+        label: this.props.intl.formatMessage({ id: 'statuses.manual' }),
         value: 'manual'
       },
       {
