@@ -367,7 +367,7 @@
   "identities.filters.labels.type-filter": "VERIFICATION ITEMS:",
   "identities.filters.labels.status-filter": "Status",
   "identities.filters.labels.date-filter": "Date",
-  "identities.filters.placeholder.search": "Find a person...",
+  "identities.filters.placeholder.search": "Search...",
 
   "verificationDemo.nullCounter": "Verifications ({counter})",
   "verificationDemo.title": "You don't have verifications yet",
