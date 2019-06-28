@@ -8,7 +8,6 @@ export default function StatusLabel({ status, coloredText }) {
     <span
       className={classNames(coloredText && CSS.coloredText, CSS.status, status)}
     >
-      <i />
       <FormattedMessage id={`statuses.${status}`} />
     </span>
   )
