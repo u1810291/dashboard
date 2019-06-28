@@ -1,12 +1,15 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { difference, without } from 'lodash'
 import Icons from 'components/icons'
 import Button from 'components/button'
+import Text from 'components/text'
 import Items from 'components/items'
+import Select from 'react-select'
 import { createOverlay, closeOverlay } from 'components/overlay'
 import confirm from 'components/confirm'
 import VerificationStepModal from '../verification-steps-modal'
+import CSS from './VerificationSteps.module.scss'
 
 export function removeItem(steps, index) {
   const updatedSteps = [...steps]
@@ -30,10 +33,12 @@ export function accessibleItems(available, mandatory, steps, index) {
   return difference(available, mandatory, ...without(steps, steps[index]))
 }
 
-export default function VerificationSteps({
+const verificationStep =  function VerificationSteps({
+  intl,
   steps = [],
   availableDocumentTypes = [],
   mandatoryDocumentTypes = [],
+  patterns = {},
   onChange = () => {}
 }) {
   const onRemoveItem = index => {
@@ -41,6 +46,21 @@ export default function VerificationSteps({
       onChange({ verificationSteps: removeItem(steps, index) })
     )
   }
+
+  const biometricOptions = [
+    {
+      label: intl.formatMessage({
+        id: 'flow.biometricStep.none'
+      }),
+      value: 'none'
+    },
+    {
+      label: intl.formatMessage({
+        id: 'flow.biometricStep.liveness'
+      }),
+      value: 'liveness'
+    },
+  ];
 
   const onEditItem = index => {
     createOverlay(
@@ -141,6 +161,24 @@ export default function VerificationSteps({
       >
         <FormattedMessage id="flow.documentTypeStep.button.title" />
       </Button>
+      <legend className={CSS.marginBlock}>
+        <Text lineHeight="2" weight="4">
+          <FormattedMessage id="flow.documentTypeStep.biometric" />
+        </Text>
+        <div className={CSS.marginLeft}>
+          <Select
+            options={biometricOptions}
+            value={biometricOptions.find(option => option.value === patterns.biometrics)}
+            onChange={({value}) => {
+              onChange({
+                verificationPatterns: { ...patterns, biometrics: value }
+              })
+            }}
+          />
+        </div>
+      </legend>
     </fieldset>
   )
 }
+
+export default injectIntl(verificationStep);
