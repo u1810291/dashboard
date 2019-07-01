@@ -199,7 +199,7 @@ class VerificationHistory extends React.Component {
         size: 1.5,
         label: <FormattedMessage id="identities.fields.date" />,
         content: identity =>
-          moment.utc(identity.dateUpdated).format('MMM D, YYYY')
+          moment.utc(identity.identity.dateUpdated).format('MMM D, YYYY')
       },
       {
         size: 1,
@@ -255,7 +255,7 @@ class VerificationHistory extends React.Component {
     const pageCount = Math.ceil(this.props.count / ITEMS_PER_PAGE)
     const forcePage = Math.floor(this.state.params.offset / ITEMS_PER_PAGE) || 0
 
-    return (isEmpty(this.state.params.search) && 
+    return (isEmpty(this.state.params) && 
       !this.props.countIsLoading && 
       this.props.count === 0) ? 
     ( 
