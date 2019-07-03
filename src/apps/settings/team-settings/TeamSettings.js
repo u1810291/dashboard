@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { isEmpty } from 'lodash'
 import TeamTable from 'fragments/account/team-table'
 import {
   getCollaborators,
@@ -15,12 +16,14 @@ import InviteSuccessModal from 'fragments/account/team-invite-modal/InviteSucces
 import { ReactComponent as InviteIcon } from '../invite.svg'
 import SettingsLayout from '../SettingsLayout'
 
-const mapCollaborators = collaborator => ({
-  role: collaborator.role,
-  name: collaborator.user.firstName + ' ' + collaborator.user.lastName,
-  id: collaborator.user.id,
-  email: collaborator.user.email
-})
+const mapCollaborators = collab => collab
+  .filter(entry => !isEmpty(entry.user))
+  .map(entry => ({
+    role: entry.role,
+    name: entry.user.firstName + ' ' + entry.user.lastName,
+    id: entry.user.id,
+    email: entry.user.email
+  }));
 
 class TeamSettings extends React.Component {
   componentDidMount() {
@@ -104,9 +107,7 @@ class TeamSettings extends React.Component {
 export default connect(
   ({ auth: { token }, collaborators, merchant }) => ({
     rows: [],
-    collaborators:
-      collaborators.collaborators &&
-      collaborators.collaborators.map(mapCollaborators),
+    collaborators: mapCollaborators(collaborators.collaborators),
     isLoading: collaborators.isLoading,
     isPosting: collaborators.isPosting,
     isDeleting: collaborators.isDeleting,
