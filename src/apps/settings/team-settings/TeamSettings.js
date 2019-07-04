@@ -8,6 +8,7 @@ import {
   postCollaborators,
   patchCollaborators
 } from 'state/collaborators'
+import { isEmpty } from 'lodash'
 import Button from 'components/button'
 import { closeOverlay, createOverlay } from 'components/overlay'
 import TeamInviteModal from 'fragments/account/team-invite-modal/TeamInviteModal'
@@ -15,12 +16,14 @@ import InviteSuccessModal from 'fragments/account/team-invite-modal/InviteSucces
 import { ReactComponent as InviteIcon } from '../invite.svg'
 import SettingsLayout from '../SettingsLayout'
 
-const mapCollaborators = collaborator => ({
-  role: collaborator.role,
-  name: collaborator.user.firstName + ' ' + collaborator.user.lastName,
-  id: collaborator.user.id,
-  email: collaborator.user.email
-})
+const mapCollaborators = collab => collab
+  .filter(entry => !isEmpty(entry.user))
+  .map(entry => ({
+    role: entry.role,
+    name: `${entry.user.firstName} ${entry.user.lastName}`,
+    id: entry.user.id,
+    email: entry.user.email
+  }));
 
 class TeamSettings extends React.Component {
   componentDidMount() {
