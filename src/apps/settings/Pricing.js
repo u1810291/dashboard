@@ -50,7 +50,6 @@ export default function Pricing() {
 
   const handlePlanClick = plan => {
     trackEvent('merchant_clicked_select_plan', {
-      clientId,
       ...(pick(plan, ['planId', 'planPrice']))
     });
     createOverlay(
@@ -61,7 +60,6 @@ export default function Pricing() {
   const handleCardSubmit = async (plan, token = {}) => {
     try {
       trackEvent('merchant_entered_cc', {
-        clientId, 
         ...(pick(plan, ['planId', 'planPrice']))
       });
 
@@ -80,7 +78,6 @@ export default function Pricing() {
         })
       )
       trackEvent('merchant_cc_stored', {
-        clientId, 
         ...(pick(plan, ['planId', 'planPrice']))
       });
       notification.success(
