@@ -12,7 +12,7 @@ function formatDate(value) {
   if (dateAsMoment.isValid()) {
     const { length: dateLength } = value.replace(RE_NON_DIGIT, '');
 
-    if (dateLength > 6) {
+    if (dateLength > 7) {
       return dateAsMoment.format('MMM D, YYYY');
     } else if (dateLength > 4) {
       return dateAsMoment.format('MMM, YYYY');
