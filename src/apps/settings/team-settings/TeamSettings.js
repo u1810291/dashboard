@@ -20,7 +20,7 @@ const mapCollaborators = collab => collab
   .filter(entry => !isEmpty(entry.user))
   .map(entry => ({
     role: entry.role,
-    name: entry.user.firstName + ' ' + entry.user.lastName,
+    name: `${entry.user.firstName} ${entry.user.lastName}`,
     id: entry.user.id,
     email: entry.user.email
   }));

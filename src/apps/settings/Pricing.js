@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { Items, createOverlay, closeOverlay } from 'components'
 import Feedback from 'fragments/info/feedback'
+import { pick } from 'lodash'
 import {
   PricingPlans,
   PricingRefundNotice,
@@ -16,6 +17,7 @@ import { showIntercom } from 'lib/intercom'
 import { saveConfiguration } from 'state/merchant'
 import client from 'lib/client'
 import SettingsLayout from './SettingsLayout'
+import { trackEvent } from 'lib/mixpanel'
 
 const PLANS = [
   {
@@ -47,6 +49,10 @@ export default function Pricing() {
   const dispatch = useDispatch()
 
   const handlePlanClick = plan => {
+    trackEvent('merchant_clicked_select_plan', {
+      clientId,
+      ...(pick(plan, ['planId', 'planPrice']))
+    });
     createOverlay(
       <CheckoutModal {...plan} onSubmit={handleCardSubmit.bind(this, plan)} />
     )
@@ -54,6 +60,11 @@ export default function Pricing() {
 
   const handleCardSubmit = async (plan, token = {}) => {
     try {
+      trackEvent('merchant_entered_cc', {
+        clientId, 
+        ...(pick(plan, ['planId', 'planPrice']))
+      });
+
       const { data } = await client.stripe.createClient(
         token.id,
         fullName,
@@ -68,6 +79,10 @@ export default function Pricing() {
           }
         })
       )
+      trackEvent('merchant_cc_stored', {
+        clientId, 
+        ...(pick(plan, ['planId', 'planPrice']))
+      });
       notification.success(
         <FormattedMessage id="Pricing.notification.success" />
       )
