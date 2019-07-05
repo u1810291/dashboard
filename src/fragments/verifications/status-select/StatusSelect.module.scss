@@ -1,47 +1,116 @@
-:local(.container) {
+.container {
   font-weight: 400;
+  width: 100%;
+
+  .statusDropdown {
+    position: relative;
+    width: 100%;
+    z-index: 10;
+    border-radius: 3px;
+
+    .triggerBlock {
+      display: flex;
+      justify-content: space-between;
+      color: #ffffff;
+      align-items: center;
+      cursor: pointer;
+      padding: 10px;
+
+      .statusText {
+        padding-right: 5px;
+      }
+
+      .activeStatusLabel {
+        display: inline-block;
+        margin-right: 5px;
+        font-size: 1rem;
+        line-height: 19px;
+        font-weight: 600;
+      }
+
+      .downArrow {
+        path {
+          fill: #ffffff;
+        }
+      }
+    }
+
+    .dropdownContent {
+      width: 100%;
+      padding: 0;
+      margin-top: -2px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+
+      .dropdownList {
+        padding: 0;
+
+        .dropdownItem {
+          width: 100%;
+          padding: 10px;
+          font-weight: 600;
+          cursor: pointer;
+          height: var(--mgi-item-nested-height);
+          line-height: var(--mgi-item-nested-height);
+          border-bottom: 2px solid var(--mgi-theme-palette-lightergray);
+
+          &.manualReview {
+            color: var(--mgi-theme-palette-orange);
+          }
+
+          &.rejected {
+            color: var(--mgi-theme-palette-red);
+          }
+
+          &.accepted {
+            color: var(--mgi-theme-palette-green);
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+
+    &.manualReview {
+      background-color: var(--mgi-theme-palette-orange);
+      border-color: var(--mgi-theme-palette-orange);
+      box-shadow: 0 0 0 1 var(--mgi-theme-palette-orange);
+    }
+
+    &.rejected {
+      background-color: var(--mgi-theme-palette-red);
+      border-color: var(--mgi-theme-palette-red);
+      box-shadow: 0 0 0 1 var(--mgi-theme-palette-red);
+    }
+
+    &.accepted {
+      background-color: var(--mgi-theme-palette-green);
+      border-color: var(--mgi-theme-palette-green);
+      box-shadow: 0 0 0 1 var(--mgi-theme-palette-green);
+    }
+
+    &.pending {
+      background-color: var(--mgi-theme-palette-gray);
+      border-color: var(--mgi-theme-palette-gray);
+      box-shadow: 0 0 0 1 var(--mgi-theme-palette-gray);
+    }
+  }
+
+  :global(.dropdown--active) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    .downArrow {
+      transform: rotateZ(180deg);
+    }
+  }
 }
 
-:local(.dropdownContent) {
-  padding: 5px 0;
-}
-
-:local(.dropdownList) {
-  list-style-type: none;
-  padding: 0;
-  font-size: 1rem;
-}
-
-:local(.dropdownItem) {
-  padding: 0 var(--mgi-spacing);
-  height: var(--mgi-item-nested-height);
-  line-height: var(--mgi-item-nested-height);
-  cursor: pointer;
-}
-
-:local(.dropdownItem):hover {
-  background: var(--mgi-theme-palette-lighterblue);
-}
-
-:local(.statusText) {
-  font-size: 1.2rem;
-  margin-right: 0.5rem;
-}
-
-:local(.changeText) {
-  font-size: 1rem;
-  color: var(--mgi-theme-palette-darkgray);
-  cursor: pointer;
-}
-
-:local(.activeStatusLabel) {
-  display: inline-block;
-  margin-right: 5px;
-  font-size: 1rem;
-}
-
-:local(.spinner) {
-  display: inline-block;
-  margin-bottom: -3px;
+.spinner {
   margin-left: 5px;
+  margin-bottom: -3px;
+  display: inline-block;
 }

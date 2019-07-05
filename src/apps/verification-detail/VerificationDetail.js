@@ -4,7 +4,12 @@ import { titleize } from 'inflection'
 import { connect } from 'react-redux'
 import { get, isEqual } from 'lodash'
 import moment from 'moment'
-import { getIdentityWithNestedData, deleteIdentity, getDemoVerification } from 'state/identities'
+import {
+  getIdentityWithNestedData,
+  deleteIdentity,
+  patchIdentity,
+  getDemoVerification,
+} from 'state/identities'
 import { getCountries } from 'state/countries'
 import { Content } from 'components/application-box'
 import Items from 'components/items'
@@ -19,6 +24,7 @@ import VerificationWebhookModal from 'fragments/verifications/verification-webho
 import MatiChecks from 'fragments/verifications/mati-checks'
 import Spinner from 'components/spinner'
 import { ReactComponent as DeleteIcon } from './delete-icon.svg'
+import StatusSelect from '../../fragments/verifications/status-select/StatusSelect';
 
 function formatId(id = '') {
   return id.slice(-6)
@@ -41,7 +47,7 @@ const MemoizedPageContent = memo(
       return null
     }
     const livenessStep = verification.steps.find(s => s.id === 'liveness')
-    const userInfo = { 
+    const userInfo = {
       fullName: titleize(identity.fullName || ''),
       dateCreated: moment.utc(identity.dateCreated).format('YYYY.MM.DD  HH:mm')
     }
@@ -120,6 +126,13 @@ const VerificationDetail = ({
           </main>
           <aside>
             <Items flow="row" justifyItems="start">
+              <StatusSelect
+                status={identity.status}
+                onSelect={async (status) => {
+                  identity.status = status;
+                  await dispatch(patchIdentity(token, identity.id, identity));
+                }}
+              />
               <Click
                 background="error"
                 shadow={1}
@@ -152,7 +165,7 @@ const VerificationDetail = ({
       </Items>
     </Content>
   )
-}
+};
 
 export default connect((state, props) => ({
   token: state.auth.token,

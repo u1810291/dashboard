@@ -2,81 +2,69 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
-import StatusLabel from 'fragments/verifications/status-label'
 import Dropdown from 'components/dropdown'
 import Spinner from 'components/spinner'
+import { ReactComponent as DownArrow } from 'components/select-field/downArrow.svg'
+
 import CSS from './StatusSelect.module.scss'
 
 export default class StatusSelect extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      status: this.props.status || ''
-    }
+      status: this.props.status || 'manualReview',
+    };
   }
 
   selectStatus = status => () => {
-    this.setState({ status })
-    this.refs.dropdown.hide()
+    this.setState({ status });
+    this.refs.dropdown.hide();
     if (this.props.onSelect) {
-      this.props.onSelect(status)
+      this.setState({ status: 'pending' });
+      this.props.onSelect(status);
     }
+  };
+
+  filterStatuses(status) {
+    return ['rejected', 'accepted', 'manualReview'].filter(item => item !== status);
   }
 
   render() {
-    const activeStatus = this.props.error
-      ? this.props.status
-      : this.state.status
+    const { status } = this.state;
+
     return (
       <div className={CSS.container}>
-        <span className={CSS.statusText}>
-          <FormattedMessage id="statusSelect.status" />
-        </span>
-        <Dropdown className={CSS.menuItemDropdown} ref="dropdown">
-          <div className={classNames(CSS.activeStatusLabel, this.state.status)}>
-            <StatusLabel status={activeStatus} coloredText={true} />
-          </div>
-          <Dropdown.Trigger>
-            <span className={CSS.changeText}>
-              (<FormattedMessage id="statusSelect.change" />)
-            </span>
+        <Dropdown className={classNames(CSS.statusDropdown, CSS[status])} ref="dropdown">
+          <Dropdown.Trigger className={CSS.triggerBlock}>
+            <div className={CSS.activeStatusLabel}>
+               <span className={CSS.statusText}>
+                  <FormattedMessage id="statusSelect.status"/>
+               </span>
+              <FormattedMessage id={`statuses.${status}`}/>
+            </div>
+            <DownArrow className={CSS.downArrow} />
           </Dropdown.Trigger>
           <Dropdown.Content className={CSS.dropdownContent}>
             <ul className={CSS.dropdownList}>
-              <li
-                className={CSS.dropdownItem}
-                onClick={this.selectStatus('verified')}
-              >
-                <StatusLabel status="verified" />
-              </li>
-              <li
-                className={CSS.dropdownItem}
-                onClick={this.selectStatus('unverified')}
-              >
-                <StatusLabel status="unverified" />
-              </li>
-              <li
-                className={CSS.dropdownItem}
-                onClick={this.selectStatus('manual')}
-              >
-                <StatusLabel status="manual" />
-              </li>
-              <li
-                className={CSS.dropdownItem}
-                onClick={this.selectStatus('fraudulent')}
-              >
-                <StatusLabel status="fraudulent" />
-              </li>
+              {this.filterStatuses(status).map(item => (
+                <li
+                  key={item}
+                  className={classNames(CSS.dropdownItem, CSS[item])}
+                  onClick={this.selectStatus(item)}
+                >
+                  <FormattedMessage id={`statuses.${item}`}/>
+                </li>
+              ))}
             </ul>
           </Dropdown.Content>
         </Dropdown>
-        {this.props.isLoading && <Spinner className={CSS.spinner} />}
+        {this.props.isLoading && <Spinner className={CSS.spinner}/>}
       </div>
-    )
+    );
   }
 }
 
 StatusSelect.propTypes = {
   status: PropTypes.string,
-  onSelect: PropTypes.func
-}
+  onSelect: PropTypes.func,
+};
