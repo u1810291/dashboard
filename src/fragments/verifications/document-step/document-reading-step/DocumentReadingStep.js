@@ -5,7 +5,7 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { default as Text } from 'components/text'
 
 function formatDate(value) {
-  const INPUT_DATE_FORMATS = [moment.ISO_8601, 'YYYY', 'MMM D, YYYY', 'MMM D, YYYY'];
+  const INPUT_DATE_FORMATS = [moment.ISO_8601, 'YYYY', 'MMM, YYYY', 'MMM D, YYYY'];
   const RE_NON_DIGIT = /\D/g;
 
   const dateAsMoment = moment.utc(value, INPUT_DATE_FORMATS);
@@ -14,7 +14,7 @@ function formatDate(value) {
 
     if (dateLength > 7) {
       return dateAsMoment.format('MMM D, YYYY');
-    } else if (dateLength > 4) {
+    } else if (dateLength > 5) {
       return dateAsMoment.format('MMM, YYYY');
     } else {
       return dateAsMoment.format('YYYY');
