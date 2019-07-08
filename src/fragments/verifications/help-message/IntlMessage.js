@@ -1,5 +1,5 @@
 /**
- * Auxilary class for 
+ * Auxiliary class for 
  * - helper methods for KVP path builders
  * - creation 2d array for making table
  * from flat list of translation KVPs

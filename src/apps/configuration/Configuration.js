@@ -11,7 +11,7 @@ import {
   COLOR_PRESETS,
   AVAILABLE_LANGUAGES,
   AVAILABLE_DOCUMENT_TYPES,
-  MANDATORY_DOCUMENT_TYPES
+  MANDATORY_DOCUMENT_TYPES,
 } from 'state/merchant'
 import { getCountries } from 'state/countries'
 import ConfigureColor from 'fragments/configuration/configure-color'
@@ -65,6 +65,7 @@ class Configuration extends React.Component {
         availableDocumentTypes={AVAILABLE_DOCUMENT_TYPES}
         mandatoryDocumentTypes={MANDATORY_DOCUMENT_TYPES}
         steps={this.props.configuration.verificationSteps}
+        patterns={this.props.configuration.verificationPatterns}
         onChange={this.updateConfiguration}
       />,
       <Countries

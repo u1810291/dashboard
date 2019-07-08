@@ -29,7 +29,12 @@ const error = {
   error: { message: 'Test error message' }
 }
 
-stories.add('Success', () => <LivenessStep step={success} />)
-stories.add('In Progress', () => <LivenessStep step={inProgress} />)
-stories.add('Error', () => <LivenessStep step={error} />)
-stories.add('Skipped', () => <LivenessStep step={skipped} />)
+const info = {
+  fullName: 'Daniela Hernandez',
+  dateCreated: 'May 21, 2019'
+}
+
+stories.add('Success', () => <LivenessStep step={success} info={info} />)
+stories.add('In Progress', () => <LivenessStep step={inProgress} info={info} />)
+stories.add('Error', () => <LivenessStep step={error} info={info} />)
+stories.add('Skipped', () => <LivenessStep step={skipped} info={info} />)

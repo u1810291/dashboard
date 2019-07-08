@@ -1,8 +1,12 @@
-import React from 'react'
+/** @jsx jsx */
+
+import { css, jsx } from '@emotion/core'
 import { FormattedMessage } from 'react-intl'
 import { compact } from 'lodash'
 import Card from 'components/card'
 import Items from 'components/items'
+import classNames from 'classnames';
+import { default as Text, HR } from 'components/text'
 import SecurityCheckCollection from './security-check-collection'
 import DocumentReadingStep from './document-reading-step'
 import MexicanCurpValidationStep from './mexican-curp-validation-step'
@@ -21,47 +25,69 @@ export default function DocumentStep({
       'facematch'
     ].includes(s.id)
   )
+  const onReading = documentReadingStep.status < 200;
 
   const countryName =
     (countries.find(c => c.code === country) || {}).name || country
 
+  const DocumentStepTitle = () => 
+    <Text size={4.5} weight={4}>
+      <FormattedMessage
+        id="DocumentStep.title"
+        values={{
+          document: (
+            <FormattedMessage id={`flow.documentTypeStep.${type}`} />
+          ),
+          country: compact([countryName, region]).join(', ')
+        }}
+      />
+    </Text>
+  
   return (
-    <Card padding={4} templateColumns="5fr 4fr">
-      <Items flow="row">
-        <h2>
-          <FormattedMessage
-            id="DocumentStep.title"
-            values={{
-              document: (
-                <FormattedMessage id={`flow.documentTypeStep.${type}`} />
-              ),
-              country: compact([countryName, region]).join(', ')
-            }}
-          />
-        </h2>
+    <Card padding={4}>
+      <DocumentStepTitle />
+      <HR />
 
-        {securityCheckSteps && (
-          <SecurityCheckCollection steps={securityCheckSteps} />
-        )}
+      <Card padding={0} shadow={0} borderRadius={0} templateColumns="5fr 3fr" justify-content="right">
+        <span>
+          <Items flow="row">
+            <h2 className={classNames({'loading': onReading})}>
+              <FormattedMessage id={onReading ? 'DocumentStep.Data.titleReading' 
+              : 'DocumentStep.Data.title'} />
+            </h2>
+            { !onReading &&
+              <div>
+                {documentReadingStep && (
+                  <DocumentReadingStep step={documentReadingStep} />
+                )}
+                <br />
+                {curpValidationStep && (
+                  <MexicanCurpValidationStep step={curpValidationStep} />
+                )}
+              </div>
+            }
+            <HR />
+            
+            <h2>
+              <FormattedMessage id={'DocumentStep.Checks.title'} />
+            </h2>
+            {securityCheckSteps && (
+              <SecurityCheckCollection steps={securityCheckSteps} />
+            )}
+          </Items>
+        </span>
 
-        {documentReadingStep && (
-          <DocumentReadingStep step={documentReadingStep} />
-        )}
+        <Items gap={1} flow="row" justifyContent="right">
+          {photos.map(photo => (
+            <div key={photo} css={css`max-width: 300px;`}>
+              <a href={photo} target="_blank" rel="noopener noreferrer">
+                <img src={photo} alt={type} css={css`max-height: 220px;`}/>
+              </a>
+            </div>
+          ))}
+        </Items>
 
-        {curpValidationStep && (
-          <MexicanCurpValidationStep step={curpValidationStep} />
-        )}
-      </Items>
-
-      <Items gap={1}>
-        {photos.map(photo => (
-          <Card padding={0} shadow={0} key={photo}>
-            <a href={photo} target="_blank" rel="noopener noreferrer">
-              <img src={photo} alt={type} />
-            </a>
-          </Card>
-        ))}
-      </Items>
+      </Card> 
     </Card>
   )
 }

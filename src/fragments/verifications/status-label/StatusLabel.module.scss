@@ -36,7 +36,7 @@
   }
 
   &:global(.fraudulent) {
-    color: var(--mgi-theme-palette-black);
+    color: var(--mgi-theme-palette-red);
   }
 
   &:global(.inProgress) {
@@ -44,7 +44,7 @@
   }
 
   &:global(.unverified) {
-    color: var(--mgi-theme-palette-red);
+    color: var(--mgi-theme-palette-darkgray);
   }
 
   &:global(.verified) {

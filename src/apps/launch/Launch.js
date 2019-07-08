@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Content, PageContentLayout, Items, H1, H2 } from 'components'
 import {
   Support,
@@ -12,8 +13,10 @@ export default class Launch extends React.Component {
     return (
       <Content>
         <Items flow="row" gap="2">
-          <H1>Your Launch list</H1>
-          <H2 weight="2">Enterprise level KYC/AML compliance - automated.</H2>
+          <H1><FormattedMessage id="Launch.title" /></H1>
+          <H2 weight="2">
+            <FormattedMessage id="Launch.subtitle" />
+          </H2>
           <PageContentLayout navigation={false}>
             <main>
               <Items flow="row">

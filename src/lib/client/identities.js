@@ -19,6 +19,12 @@ export function getIdentity(token, id) {
   })
 }
 
+export function getDemoVerification(token, id) {
+  return http.get(`/v1/identities/demo/${id}`, {
+    headers: { ...getAuthHeader(token) }
+  })
+}
+
 export function getIdentities(token, params) {
   return http.get('/v1/identities', {
     params,
@@ -95,6 +101,17 @@ export function getIdentityWithNestedData(token, id) {
     }
     return identity
   })
+}
+
+export function getVerificationData(token, id) {
+  return getDemoVerification(token, id).then(async ({ data }) => {
+    const identity = {
+      id,
+      ...data,
+      originalIdentity: data
+    }
+    return identity;
+  });
 }
 
 export function patchDocument(token, id, fields) {

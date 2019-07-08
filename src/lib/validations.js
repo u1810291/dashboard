@@ -17,3 +17,11 @@ export function email(value) {
     return 'validations.email'
   }
 }
+
+export function password(value, message, field) {
+  const PASSWORD = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\S]{8,}$/;
+
+  if (!PASSWORD.test(value[field])) {
+    return message;
+  }
+}

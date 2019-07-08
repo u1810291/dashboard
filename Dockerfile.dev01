@@ -1,6 +1,4 @@
-FROM node:8-alpine
-
-RUN apk add git
+FROM registry.mati.io/dashboard-pre:latest
 
 WORKDIR /app
 COPY ./yarn.lock ./package.json ./

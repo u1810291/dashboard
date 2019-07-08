@@ -1,0 +1,32 @@
+.personalSettings {
+  .title {
+    margin-top: -10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--mgi-theme-palette-lightgray);
+  }
+
+  .dataContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-bottom: 40px;
+
+    .data {
+      width: 50%;
+
+      h3 {
+        padding-bottom: 8px;
+      }
+
+      .change {
+        padding-top: 15px;
+
+        span {
+          cursor: pointer;
+          color: var(--mgi-theme-palette-blue);
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
