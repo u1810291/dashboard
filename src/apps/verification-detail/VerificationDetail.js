@@ -130,7 +130,9 @@ const VerificationDetail = ({
                 status={identity.status}
                 onSelect={async (status) => {
                   identity.status = status;
-                  await dispatch(patchIdentity(token, identity.id, identity));
+                  await dispatch(patchIdentity(token, identity.id, {
+                    status: identity.status,
+                  }));
                 }}
               />
               <Click
