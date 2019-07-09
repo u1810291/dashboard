@@ -87,7 +87,9 @@ const MemoizedPageContent = memo(
 const VerificationDetail = ({
   token,
   countries,
-  identity,
+  identities: {
+    instances,
+  },
   dispatch,
   history,
   deletingIdentities,
@@ -102,7 +104,7 @@ const VerificationDetail = ({
       dispatch(getDemoVerification(token, id)) :
       dispatch(getIdentityWithNestedData(token, id));
   }, [dispatch, token, id, demo]);
-
+  const identity = instances[id];
   if (!identity) return null
   const isDeleting = deletingIdentities.includes(identity.id)
 
@@ -173,7 +175,7 @@ const VerificationDetail = ({
 
 export default connect((state, props) => ({
   token: state.auth.token,
-  identity: state.identities.instances[props.match.params.id],
+  identities: state.identities,
   countries: state.countries.countries,
   deletingIdentities: state.identities.deletingIdentities
 }))(VerificationDetail)
