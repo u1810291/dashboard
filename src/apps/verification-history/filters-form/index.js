@@ -27,19 +27,19 @@ class VerificationsFiltersForm extends Component {
     return [
       {
         label: this.props.intl.formatMessage({ id: 'statuses.verified' }),
-        value: 'verified'
+        value: 'accepted'
       },
       {
-        label: this.props.intl.formatMessage({ id: 'statuses.manual' }),
-        value: 'manual'
+        label: this.props.intl.formatMessage({ id: 'statuses.manualReview' }),
+        value: 'manualReview'
       },
       {
-        label: this.props.intl.formatMessage({ id: 'statuses.unverified' }),
-        value: 'unverified'
+        label: this.props.intl.formatMessage({ id: 'statuses.pending' }),
+        value: 'pending'
       },
       {
-        label: this.props.intl.formatMessage({ id: 'statuses.fraudulent' }),
-        value: 'fraudulent'
+        label: this.props.intl.formatMessage({ id: 'statuses.rejected' }),
+        value: 'rejected'
       }
     ]
   }

@@ -287,3 +287,7 @@
     75%  { content: '...'; }
     100% { content: ''; }
 }
+.threedots:after {
+  content:"...";
+  margin:0 3px;
+}

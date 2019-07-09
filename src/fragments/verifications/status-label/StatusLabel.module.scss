@@ -9,45 +9,37 @@
     border-radius: 10px;
   }
 
-  &:global(.manual) i {
+  &:global(.manualReview) i {
     background-color: var(--mgi-theme-palette-orange);
   }
 
-  &:global(.fraudulent) i {
-    background-color: var(--mgi-theme-palette-black);
-  }
-
-  &:global(.inProgress) i {
-    background-color: var(--mgi-theme-palette-black);
-  }
-
-  &:global(.unverified) i {
+  &:global(.rejected) i {
     background-color: var(--mgi-theme-palette-red);
   }
 
-  &:global(.verified) i {
+  &:global(.pending) i {
+    background-color: var(--mgi-theme-palette-red);
+  }
+
+  &:global(.accepted) i {
     background-color: var(--mgi-theme-palette-green);
   }
 }
 
 :local(.coloredText) {
-  &:global(.manual) {
+  &:global(.manualReview) {
     color: var(--mgi-theme-palette-orange);
   }
 
-  &:global(.fraudulent) {
+  &:global(.rejected) {
     color: var(--mgi-theme-palette-red);
   }
 
-  &:global(.inProgress) {
-    color: var(--mgi-theme-palette-black);
-  }
-
-  &:global(.unverified) {
+  &:global(.pending) {
     color: var(--mgi-theme-palette-darkgray);
   }
 
-  &:global(.verified) {
+  &:global(.accepted) {
     color: var(--mgi-theme-palette-green);
   }
 }
