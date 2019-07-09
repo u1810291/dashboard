@@ -32,10 +32,13 @@
   "statuses.manual": "Action needed",
   "statuses.inProgress": "In Progress",
   "statuses.fraudulent": "Rejected",
+  
   "statuses.rejected": "Rejected",
-  "statuses.accepted": "Accepted",
-  "statuses.manualReview": "Manual review",
+  "statuses.accepted": "Verified",
+  "statuses.manualReview": "Manual review needed",
   "statuses.pending": "Pending",
+
+
   "statuses.unverified.info": "Only your company can mark a user as “Rejected”. Mati will only mark a user as “verified” or “manual review”.",
   "statuses.verified.info": "Mati recommends to accept the user since  nothing suspicious was found in the verification.",
   "statuses.inProgress.info": "Mati is still verifying the user, and the verification is not done yet.",
@@ -294,6 +297,7 @@
 
   "identities.title": "Verification history",
   "identities.unknownName": "Incomplete identity",
+  "identities.nameNotFound": "Name Not Found",
   "identities.details.check": "check",
   "identities.details.webhook": "Webhook",
   "identities.details.backToList": "← Verifications",

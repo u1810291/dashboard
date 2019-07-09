@@ -12,7 +12,6 @@ import {
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Content } from 'components/application-box'
 import DataTable from 'components/data-table'
-import VerificationFullNameLabel from 'fragments/verifications/verification-full-name-label'
 import Status from 'fragments/verifications/status-label'
 import FiltersForm from './filters-form'
 import Pagination from 'components/pagination'
@@ -29,6 +28,8 @@ import Card from 'components/card'
 import { ReactComponent as NationalId } from './national-id.svg'
 import { ReactComponent as Passport } from './passport.svg'
 import { ReactComponent as DrivingLicense } from './driving-license.svg'
+import classNames from 'classnames'
+import { titleCase } from 'lib/string'
 
 const FILTERS = [
   'search',
@@ -181,31 +182,23 @@ class VerificationHistory extends React.Component {
   getTableColumns = () => {
     let columns = [
       {
-        size: 1.5,
+        size: 2,
         align: 'left',
         label: <FormattedMessage id="identities.fields.id" />,
         content: ({ identity }) => <div>#{identity.id.slice(-6)}</div>
       },
       {
-        size: 2,
-        label: <FormattedMessage id="identities.fields.verificationStatus" />,
-        content: ({ identity }) => (
-          <div className={CSS[`verification-${identity.status.toLowerCase()}`]}>
-            {identity.status}
-          </div>
-        )
-      },
-      {
-        size: 5,
+        size: 4,
         label: <FormattedMessage id="identities.fields.fullName" />,
-        content: ({ identity }) => (
-          <VerificationFullNameLabel>
-            {identity.fullName}
-          </VerificationFullNameLabel>
-        )
+        content: ({ identity }) =>
+          !isEmpty(identity.fullName) ? 
+            titleCase(identity.fullName) : 
+            <Text color='gray'>
+              <FormattedMessage id="identities.nameNotFound" />
+            </Text>
       },
       {
-        size: 1.5,
+        size: 3,
         label: <FormattedMessage id="identities.fields.date" />,
         content: identity =>
           moment.utc(identity.identity.dateUpdated).format('MMM D, YYYY')
@@ -233,8 +226,12 @@ class VerificationHistory extends React.Component {
       columns.splice(1, 0, {
         size: 3,
         label: <FormattedMessage id="identities.fields.status" />,
-        content: identity => (
-          <Status status={identity.identity.status} coloredText={true} />
+        content: ({ identity }) => (
+          <Status 
+            status={identity.status} 
+            coloredText={true} 
+            className={classNames({threedots: identity.status === 'pending'})} 
+          />
         )
       })
     }

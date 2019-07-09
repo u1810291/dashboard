@@ -126,13 +126,17 @@ const VerificationDetail = ({
           </main>
           <aside>
             <Items flow="row" justifyItems="start">
-              <StatusSelect
-                status={identity.status}
-                onSelect={async (status) => {
-                  identity.status = status;
-                  await dispatch(patchIdentity(token, identity.id, identity));
-                }}
-              />
+              { identity.status !== 'pending' &&
+                <StatusSelect
+                  status={identity.status}
+                  onSelect={async (status) => {
+                    identity.status = status;
+                    await dispatch(patchIdentity(token, identity.id, {
+                      status: identity.status,
+                    }));
+                  }}
+                />
+              }
               <Click
                 background="error"
                 shadow={1}
