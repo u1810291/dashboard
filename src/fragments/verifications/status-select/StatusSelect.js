@@ -9,10 +9,6 @@ import { ReactComponent as DownArrow } from 'components/select-field/downArrow.s
 import CSS from './StatusSelect.module.scss'
 
 export default class StatusSelect extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   selectStatus = status => () => {
     this.refs.dropdown.hide();
     if (this.props.onSelect) {
