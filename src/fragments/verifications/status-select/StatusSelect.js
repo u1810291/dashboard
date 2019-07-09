@@ -11,16 +11,11 @@ import CSS from './StatusSelect.module.scss'
 export default class StatusSelect extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      status: this.props.status || 'manualReview',
-    };
   }
 
   selectStatus = status => () => {
-    this.setState({ status });
     this.refs.dropdown.hide();
     if (this.props.onSelect) {
-      this.setState({ status: 'pending' });
       this.props.onSelect(status);
     }
   };
@@ -30,7 +25,7 @@ export default class StatusSelect extends React.Component {
   }
 
   render() {
-    const { status } = this.state;
+    const { status } = this.props;
 
     return (
       <div className={CSS.container}>
