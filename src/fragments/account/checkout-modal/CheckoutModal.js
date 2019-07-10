@@ -24,7 +24,7 @@ function CheckoutModal({
   async function handleSubmit() {
     setDisabled(true)
     const { token } = await stripe.createToken({ name })
-    await onSubmit(token)
+    await onSubmit(token);
     setDisabled(false)
   }
 

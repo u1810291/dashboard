@@ -3,12 +3,18 @@ import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
 import CSS from './StatusLabel.module.scss'
 
-export default function StatusLabel({ status, coloredText }) {
+export default function StatusLabel({ 
+  status, 
+  coloredText, 
+  ellipsis = false,
+  className,
+  bullet = false,
+}) {
   return (
     <span
-      className={classNames(coloredText && CSS.coloredText, CSS.status, status)}
+      className={classNames(className, coloredText && CSS.coloredText, CSS.status, status, {'loading': ellipsis})}
     >
-      <i />
+      { bullet && <i /> }
       <FormattedMessage id={`statuses.${status}`} />
     </span>
   )
