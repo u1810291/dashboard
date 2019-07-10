@@ -48,8 +48,10 @@ const Header = ({
 }) => (
   <div>
     <p>
-      <Text size={4.5} weight={4}> {fullName ? fullName : 
-        <FormattedMessage id="LivenessStep.Checks.noname" />}
+      <Text size={4.5} weight={4} color='gray'> 
+        { fullName ? fullName : 
+          <FormattedMessage id="identities.nameNotFound" />
+        }
       </Text>
     </p>
     { dateCreated &&
