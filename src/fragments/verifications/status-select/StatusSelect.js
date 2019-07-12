@@ -17,7 +17,7 @@ export default class StatusSelect extends React.Component {
   };
 
   filterStatuses(status) {
-    return ['rejected', 'accepted', 'manualReview'].filter(item => item !== status);
+    return ['rejected', 'verified', 'reviewNeeded'].filter(item => item !== status);
   }
 
   render() {

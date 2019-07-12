@@ -9,7 +9,7 @@
     border-radius: 10px;
   }
 
-  &:global(.manualReview) i {
+  &:global(.reviewNeeded) i {
     background-color: var(--mgi-theme-palette-orange);
   }
 
@@ -21,13 +21,13 @@
     background-color: var(--mgi-theme-palette-red);
   }
 
-  &:global(.accepted) i {
+  &:global(.verified) i {
     background-color: var(--mgi-theme-palette-green);
   }
 }
 
 :local(.coloredText) {
-  &:global(.manualReview) {
+  &:global(.reviewNeeded) {
     color: var(--mgi-theme-palette-orange);
   }
 
@@ -39,7 +39,7 @@
     color: var(--mgi-theme-palette-darkgray);
   }
 
-  &:global(.accepted) {
+  &:global(.verified) {
     color: var(--mgi-theme-palette-green);
   }
 }

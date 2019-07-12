@@ -55,7 +55,7 @@
           line-height: var(--mgi-item-nested-height);
           border-bottom: 2px solid var(--mgi-theme-palette-lightergray);
 
-          &.manualReview {
+          &.reviewNeeded {
             color: var(--mgi-theme-palette-orange);
           }
 
@@ -63,7 +63,7 @@
             color: var(--mgi-theme-palette-red);
           }
 
-          &.accepted {
+          &.verified {
             color: var(--mgi-theme-palette-green);
           }
 
@@ -74,7 +74,7 @@
       }
     }
 
-    &.manualReview {
+    &.reviewNeeded {
       background-color: var(--mgi-theme-palette-orange);
       border-color: var(--mgi-theme-palette-orange);
       box-shadow: 0 0 0 1 var(--mgi-theme-palette-orange);
@@ -86,7 +86,7 @@
       box-shadow: 0 0 0 1 var(--mgi-theme-palette-red);
     }
 
-    &.accepted {
+    &.verified {
       background-color: var(--mgi-theme-palette-green);
       border-color: var(--mgi-theme-palette-green);
       box-shadow: 0 0 0 1 var(--mgi-theme-palette-green);

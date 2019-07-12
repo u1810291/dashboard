@@ -27,15 +27,14 @@
   "currency": "${value}",
 
   "statuses.unverified": "Pending...",
-  "statuses.verified": "Verified",
   "statuses.manual-review": "Manual review",
   "statuses.manual": "Action needed",
   "statuses.inProgress": "In Progress",
   "statuses.fraudulent": "Rejected",
   
   "statuses.rejected": "Rejected",
-  "statuses.accepted": "Verified",
-  "statuses.manualReview": "Manual review needed",
+  "statuses.verified": "Verified",
+  "statuses.reviewNeeded": "Manual review needed",
   "statuses.pending": "Pending",
 
 
