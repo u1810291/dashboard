@@ -23,11 +23,11 @@ pipeline {
     }
     stage('Deploy to staging') {
       when {
-        branch 'pre-release'
+        branch 'staging'
         beforeAgent true
       }
       steps {
-        build '../mgi-dashboard-pre-release'
+        build '../mgi-dashboard-staging'
       }
     }
     stage('Deploy to production') {
@@ -37,7 +37,7 @@ pipeline {
       }
       steps {
         build '../mgi-dashboard-production'
-        build '../mgi-dashboard-staging'
+        build '../mgi-dashboard-master-branch-deploy-on-stage'
       }
     }
   }
