@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { Items, createOverlay, closeOverlay } from 'components'
 import Feedback from 'fragments/info/feedback'
-import { pick } from 'lodash'
+import { pick, get } from 'lodash'
 import {
   PricingPlans,
   PricingRefundNotice,
@@ -57,6 +57,14 @@ export default function Pricing() {
     )
   }
 
+  const requestHandler = error => {
+    const data = get(error, 'response.data');
+    if (!data) {
+      return null;
+    }
+    return <p>Stripe Error: {data.message}</p>
+  };
+
   const handleCardSubmit = async (plan, token = {}) => {
     try {
       trackEvent('merchant_entered_cc', {
@@ -85,7 +93,12 @@ export default function Pricing() {
       )
       closeOverlay()
     } catch (e) {
-      notification.error(<FormattedMessage id="Pricing.notification.failure" />)
+      notification.error(
+        <>
+          <FormattedMessage id="Pricing.notification.failure" />
+          { requestHandler(e) }
+        </>
+      )
     }
   }
 
