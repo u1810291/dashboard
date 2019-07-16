@@ -201,7 +201,7 @@ class VerificationHistory extends React.Component {
         size: 3,
         label: <FormattedMessage id="identities.fields.date" />,
         content: identity =>
-          moment.utc(identity.identity.dateUpdated).format('MMM D, YYYY')
+          moment.utc(identity.identity.dateCreated).format('MMM D, YYYY')
       },
       {
         size: 1,
