@@ -35,14 +35,14 @@ const FILTERS = [
   'search',
   'status',
   'offset',
-  'dateUpdated[start]',
-  'dateUpdated[end]'
+  'dateCreated[start]',
+  'dateCreated[end]'
 ]
 
 const FILTER_TRANSFORMERS = {
   status: string => string.split(','),
-  'dateUpdated[start]': string => (string ? moment(string) : undefined),
-  'dateUpdated[end]': string => (string ? moment(string) : undefined),
+  'dateCreated[start]': string => (string ? moment(string) : undefined),
+  'dateCreated[end]': string => (string ? moment(string) : undefined),
   offset: offset => offset
 }
 
@@ -52,8 +52,8 @@ function transformValue(key, value) {
 
 const FILTER_FORMATTERS = {
   status: array => array.join(','),
-  'dateUpdated[start]': date => date.toJSON(),
-  'dateUpdated[end]': date => date.toJSON(),
+  'dateCreated[start]': date => date.toJSON(),
+  'dateCreated[end]': date => date.toJSON(),
   offset: offset => offset
 }
 
