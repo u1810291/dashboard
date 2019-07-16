@@ -48,11 +48,11 @@ class VerificationsFiltersForm extends Component {
     let params = {}
     if (startDate) {
       startDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-      params['dateUpdated[start]'] = startDate
+      params['dateCreated[start]'] = startDate
     }
     if (endDate) {
       endDate.set({ hour: 23, minute: 59, second: 59, millisecond: 999 })
-      params['dateUpdated[end]'] = endDate
+      params['dateCreated[end]'] = endDate
     }
 
     if (!isEmpty(params)) {
@@ -79,10 +79,10 @@ class VerificationsFiltersForm extends Component {
                 </strong>
               </label>
               <DateRangePicker
-                startDate={this.props['dateUpdated[start]']}
+                startDate={this.props['dateCreated[start]']}
                 startDateId="startDate"
                 isOutsideRange={day => moment().diff(day) < 1000}
-                endDate={this.props['dateUpdated[end]']}
+                endDate={this.props['dateCreated[end]']}
                 endDateId="endDate"
                 onDatesChange={this.onDatesChange}
                 focusedInput={this.state.focusedInput}
