@@ -686,7 +686,7 @@
   "fragments.verifications.help-messages.template-matching.table.1.1": "Matched",
   "fragments.verifications.help-messages.template-matching.table.1.2": "Document revision is valid.",
   "fragments.verifications.help-messages.template-matching.table.2.1": "Not Mached",
-  "fragments.verifications.help-messages.template-matching.table.2.2": "Document does is NOT valid, or a different document was updated.",
+  "fragments.verifications.help-messages.template-matching.table.2.2": "Document is not valid or a different document was uploaded",
 
   "fragments.verifications.help-messages.watchlists.title": "Watchlist",
   "fragments.verifications.help-messages.watchlists.subtitle": "Checks if the user’s name is inside a watchlist. If a match was found, you should perform a more extensive due diligence on that user",
