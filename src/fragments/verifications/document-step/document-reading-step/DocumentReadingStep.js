@@ -4,6 +4,26 @@ import { titleize, underscore, humanize } from 'inflection'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { default as Text } from 'components/text'
 
+function formatDate(value) {
+  const INPUT_DATE_FORMATS = [moment.ISO_8601, 'YYYY', 'MMM, YYYY', 'MMM D, YYYY'];
+  const RE_NON_DIGIT = /\D/g;
+
+  const dateAsMoment = moment.utc(value, INPUT_DATE_FORMATS);
+  if (dateAsMoment.isValid()) {
+    const { length: dateLength } = value.replace(RE_NON_DIGIT, '');
+
+    if (dateLength > 7) {
+      return dateAsMoment.format('MMM D, YYYY');
+    } else if (dateLength > 5) {
+      return dateAsMoment.format('MMM, YYYY');
+    } else {
+      return dateAsMoment.format('YYYY');
+    }
+  } else {
+    return value;
+  }
+}
+
 function formatValue(label, string) {
   function checkLabel(name, keys) {
     return keys.some(s => name.toLowerCase().includes(s))
@@ -14,11 +34,7 @@ function formatValue(label, string) {
   }
 
   if (checkLabel(label, ['date'])) {
-    const attempts = [
-      moment.utc(string),
-      moment.utc(string, 'DD-MM-YYYY')
-    ].filter(date => date.toDate().getDate())
-    return attempts.length > 0 ? attempts[0].format('MMM D, YYYY') : string
+    return formatDate(string)
   }
 
   return string

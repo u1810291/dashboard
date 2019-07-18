@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { Items, createOverlay, closeOverlay } from 'components'
 import Feedback from 'fragments/info/feedback'
-import { pick } from 'lodash'
+import { pick, get } from 'lodash'
 import {
   PricingPlans,
   PricingRefundNotice,
@@ -50,7 +50,6 @@ export default function Pricing() {
 
   const handlePlanClick = plan => {
     trackEvent('merchant_clicked_select_plan', {
-      clientId,
       ...(pick(plan, ['planId', 'planPrice']))
     });
     createOverlay(
@@ -58,8 +57,20 @@ export default function Pricing() {
     )
   }
 
+  const requestHandler = error => {
+    const data = get(error, 'response.data');
+    if (!data) {
+      return null;
+    }
+    return <p>Stripe Error: {data.message}</p>
+  };
+
   const handleCardSubmit = async (plan, token = {}) => {
     try {
+      trackEvent('merchant_entered_cc', {
+        ...(pick(plan, ['planId', 'planPrice']))
+      });
+
       const { data } = await client.stripe.createClient(
         token.id,
         fullName,
@@ -74,12 +85,20 @@ export default function Pricing() {
           }
         })
       )
+      trackEvent('merchant_cc_stored', {
+        ...(pick(plan, ['planId', 'planPrice']))
+      });
       notification.success(
         <FormattedMessage id="Pricing.notification.success" />
       )
       closeOverlay()
     } catch (e) {
-      notification.error(<FormattedMessage id="Pricing.notification.failure" />)
+      notification.error(
+        <>
+          <FormattedMessage id="Pricing.notification.failure" />
+          { requestHandler(e) }
+        </>
+      )
     }
   }
 

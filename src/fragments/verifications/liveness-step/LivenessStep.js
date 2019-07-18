@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/core'
-import { get } from 'lodash'
+import { get, isEmpty } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import Card from 'components/card'
 import { default as Text, HR } from 'components/text';
@@ -12,6 +12,7 @@ import { FaRegQuestionCircle as QuestionMark } from 'react-icons/fa'
 import { createOverlay } from 'components/overlay'
 import HelpMessage from '../help-message'
 import config from './config'
+import classNames from 'classnames'
 
 const videoStyle = css`
   width: 230px;
@@ -48,8 +49,10 @@ const Header = ({
 }) => (
   <div>
     <p>
-      <Text size={4.5} weight={4}> {fullName ? fullName : 
-        <FormattedMessage id="LivenessStep.Checks.noname" />}
+      <Text size={4.5} weight={4} color={classNames({'gray': isEmpty(fullName)})}> 
+        { fullName ? fullName : 
+          <FormattedMessage id="identities.nameNotFound" />
+        }
       </Text>
     </p>
     { dateCreated &&

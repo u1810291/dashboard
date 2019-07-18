@@ -27,11 +27,17 @@
   "currency": "${value}",
 
   "statuses.unverified": "Pending...",
-  "statuses.verified": "Verified",
   "statuses.manual-review": "Manual review",
   "statuses.manual": "Action needed",
   "statuses.inProgress": "In Progress",
   "statuses.fraudulent": "Rejected",
+  
+  "statuses.rejected": "Rejected",
+  "statuses.verified": "Verified",
+  "statuses.reviewNeeded": "Manual review needed",
+  "statuses.pending": "Pending",
+
+
   "statuses.unverified.info": "Only your company can mark a user as “Rejected”. Mati will only mark a user as “verified” or “manual review”.",
   "statuses.verified.info": "Mati recommends to accept the user since  nothing suspicious was found in the verification.",
   "statuses.inProgress.info": "Mati is still verifying the user, and the verification is not done yet.",
@@ -290,6 +296,7 @@
 
   "identities.title": "Verification history",
   "identities.unknownName": "Incomplete identity",
+  "identities.nameNotFound": "Name Not Found",
   "identities.details.check": "check",
   "identities.details.webhook": "Webhook",
   "identities.details.backToList": "← Verifications",
@@ -679,7 +686,7 @@
   "fragments.verifications.help-messages.template-matching.table.1.1": "Matched",
   "fragments.verifications.help-messages.template-matching.table.1.2": "Document revision is valid.",
   "fragments.verifications.help-messages.template-matching.table.2.1": "Not Mached",
-  "fragments.verifications.help-messages.template-matching.table.2.2": "Document does is NOT valid, or a different document was updated.",
+  "fragments.verifications.help-messages.template-matching.table.2.2": "Document is not valid or a different document was uploaded",
 
   "fragments.verifications.help-messages.watchlists.title": "Watchlist",
   "fragments.verifications.help-messages.watchlists.subtitle": "Checks if the user’s name is inside a watchlist. If a match was found, you should perform a more extensive due diligence on that user",

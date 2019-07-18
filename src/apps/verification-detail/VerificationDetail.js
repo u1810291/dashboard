@@ -4,7 +4,12 @@ import { titleize } from 'inflection'
 import { connect } from 'react-redux'
 import { get, isEqual } from 'lodash'
 import moment from 'moment'
-import { getIdentityWithNestedData, deleteIdentity, getDemoVerification } from 'state/identities'
+import {
+  getIdentityWithNestedData,
+  deleteIdentity,
+  patchIdentity,
+  getDemoVerification,
+} from 'state/identities'
 import { getCountries } from 'state/countries'
 import { Content } from 'components/application-box'
 import Items from 'components/items'
@@ -19,6 +24,7 @@ import VerificationWebhookModal from 'fragments/verifications/verification-webho
 import MatiChecks from 'fragments/verifications/mati-checks'
 import Spinner from 'components/spinner'
 import { ReactComponent as DeleteIcon } from './delete-icon.svg'
+import StatusSelect from '../../fragments/verifications/status-select/StatusSelect';
 
 function formatId(id = '') {
   return id.slice(-6)
@@ -41,7 +47,7 @@ const MemoizedPageContent = memo(
       return null
     }
     const livenessStep = verification.steps.find(s => s.id === 'liveness')
-    const userInfo = { 
+    const userInfo = {
       fullName: titleize(identity.fullName || ''),
       dateCreated: moment.utc(identity.dateCreated).format('YYYY.MM.DD  HH:mm')
     }
@@ -81,7 +87,9 @@ const MemoizedPageContent = memo(
 const VerificationDetail = ({
   token,
   countries,
-  identity,
+  identities: {
+    instances,
+  },
   dispatch,
   history,
   deletingIdentities,
@@ -96,7 +104,7 @@ const VerificationDetail = ({
       dispatch(getDemoVerification(token, id)) :
       dispatch(getIdentityWithNestedData(token, id));
   }, [dispatch, token, id, demo]);
-
+  const identity = instances[id];
   if (!identity) return null
   const isDeleting = deletingIdentities.includes(identity.id)
 
@@ -120,6 +128,17 @@ const VerificationDetail = ({
           </main>
           <aside>
             <Items flow="row" justifyItems="start">
+              { identity.status !== 'pending' &&
+                <StatusSelect
+                  status={identity.status}
+                  onSelect={async (status) => {
+                    identity.status = status;
+                    await dispatch(patchIdentity(token, identity.id, {
+                      status: identity.status,
+                    }));
+                  }}
+                />
+              }
               <Click
                 background="error"
                 shadow={1}
@@ -152,11 +171,11 @@ const VerificationDetail = ({
       </Items>
     </Content>
   )
-}
+};
 
 export default connect((state, props) => ({
   token: state.auth.token,
-  identity: state.identities.instances[props.match.params.id],
+  identities: state.identities,
   countries: state.countries.countries,
   deletingIdentities: state.identities.deletingIdentities
 }))(VerificationDetail)

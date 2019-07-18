@@ -9,19 +9,15 @@
     border-radius: 10px;
   }
 
-  &:global(.manual) i {
+  &:global(.reviewNeeded) i {
     background-color: var(--mgi-theme-palette-orange);
   }
 
-  &:global(.fraudulent) i {
-    background-color: var(--mgi-theme-palette-black);
+  &:global(.rejected) i {
+    background-color: var(--mgi-theme-palette-red);
   }
 
-  &:global(.inProgress) i {
-    background-color: var(--mgi-theme-palette-black);
-  }
-
-  &:global(.unverified) i {
+  &:global(.pending) i {
     background-color: var(--mgi-theme-palette-red);
   }
 
@@ -31,19 +27,15 @@
 }
 
 :local(.coloredText) {
-  &:global(.manual) {
+  &:global(.reviewNeeded) {
     color: var(--mgi-theme-palette-orange);
   }
 
-  &:global(.fraudulent) {
+  &:global(.rejected) {
     color: var(--mgi-theme-palette-red);
   }
 
-  &:global(.inProgress) {
-    color: var(--mgi-theme-palette-black);
-  }
-
-  &:global(.unverified) {
+  &:global(.pending) {
     color: var(--mgi-theme-palette-darkgray);
   }
 

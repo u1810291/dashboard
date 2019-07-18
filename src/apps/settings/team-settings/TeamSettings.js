@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { isEmpty } from 'lodash'
 import TeamTable from 'fragments/account/team-table'
 import {
   getCollaborators,
@@ -107,9 +108,7 @@ class TeamSettings extends React.Component {
 export default connect(
   ({ auth: { token }, collaborators, merchant }) => ({
     rows: [],
-    collaborators:
-      collaborators.collaborators &&
-      collaborators.collaborators.map(mapCollaborators),
+    collaborators: mapCollaborators(collaborators.collaborators),
     isLoading: collaborators.isLoading,
     isPosting: collaborators.isPosting,
     isDeleting: collaborators.isDeleting,
