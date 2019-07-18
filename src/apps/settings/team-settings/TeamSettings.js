@@ -9,7 +9,6 @@ import {
   postCollaborators,
   patchCollaborators
 } from 'state/collaborators'
-import { isEmpty } from 'lodash'
 import Button from 'components/button'
 import { closeOverlay, createOverlay } from 'components/overlay'
 import TeamInviteModal from 'fragments/account/team-invite-modal/TeamInviteModal'
