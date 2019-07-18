@@ -245,6 +245,7 @@ class VerificationHistory extends React.Component {
     }
     this.setState({ params }, () => {
       this.fetchIdentities()
+      this.fetchIdentitiesCount()
       this.replaceLocation()
     })
   }
