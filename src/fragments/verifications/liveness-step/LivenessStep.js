@@ -1,10 +1,10 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/core'
-import { get, isEmpty } from 'lodash'
+import { get } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import Card from 'components/card'
-import { default as Text, HR } from 'components/text';
+import { default as Text } from 'components/text';
 import { Click } from 'components'
 import { ReactComponent as Placeholder } from './placeholder.svg'
 import CSS from './LivenessStep.module.scss'
@@ -12,7 +12,6 @@ import { FaRegQuestionCircle as QuestionMark } from 'react-icons/fa'
 import { createOverlay } from 'components/overlay'
 import HelpMessage from '../help-message'
 import config from './config'
-import classNames from 'classnames'
 
 const videoStyle = css`
   width: 230px;
@@ -40,28 +39,6 @@ const LivenessVideo = ({url}) => url ? (
       src={url}
     />
   ) : <Placeholder />
-
-const Header = ({ 
-  info: {
-    fullName,
-    dateCreated
-  }
-}) => (
-  <div>
-    <p>
-      <Text size={4.5} weight={4} color={classNames({'gray': isEmpty(fullName)})}> 
-        { fullName ? fullName : 
-          <FormattedMessage id="identities.nameNotFound" />
-        }
-      </Text>
-    </p>
-    { dateCreated &&
-      <p>
-        <Text color="gray" lineHeight={3}>{dateCreated}</Text>
-      </p>
-    }
-  </div>
-)
   
 const Checks = ({
   color = 'gray',
@@ -88,8 +65,6 @@ const Checks = ({
 const LivenessStep = ({status, step, info}) => (
   <Card flow="column" padding={4} templateColumns="5fr auto">
     <div>
-      <Header info={info} />
-      <HR />
       <Checks color={config[status].checks.color}>
         <FormattedMessage id={config[status].checks.message} />
       </Checks>
