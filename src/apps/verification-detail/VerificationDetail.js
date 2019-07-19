@@ -33,7 +33,6 @@ import MatiChecks from 'fragments/verifications/mati-checks'
 import Spinner from 'components/spinner'
 import { ReactComponent as DeleteIcon } from './delete-icon.svg'
 import StatusSelect from '../../fragments/verifications/status-select/StatusSelect';
-import TextEditable from 'components/text-editable';
 
 function formatId(id = '') {
   return id.slice(-6)
@@ -80,7 +79,7 @@ const MemoizedPageContent = memo(
     const livenessStep = verification.steps.find(s => s.id === 'liveness');
     const userInfo = {
       fullName: titleize(identity.fullName || ''),
-      dateCreated: moment.utc(identity.dateCreated).format('MMM, Mo, YYYY HH:mm')
+      dateCreated: moment.utc(identity.dateCreated).format('MMM, Do, YYYY HH:mm')
     };
 
     return (
