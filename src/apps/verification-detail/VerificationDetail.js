@@ -1,8 +1,14 @@
-import React, { useEffect, memo } from 'react'
+/** @jsx jsx */
+
+import { css, jsx } from '@emotion/core';
+
 import { FormattedMessage } from 'react-intl'
 import { titleize } from 'inflection'
 import { connect } from 'react-redux'
-import { get, isEqual } from 'lodash'
+import { get, isEqual, isEmpty } from 'lodash'
+import Card from 'components/card'
+// eslint-disable-next-line
+import React, { useEffect, memo } from 'react'
 import moment from 'moment'
 import {
   getIdentityWithNestedData,
@@ -15,6 +21,8 @@ import { Content } from 'components/application-box'
 import Items from 'components/items'
 import Click from 'components/click'
 import confirm from 'components/confirm'
+import { default as Text } from 'components/text';
+import classNames from 'classnames';
 import { createOverlay, closeOverlay } from 'components/overlay'
 import PageContentLayout from 'components/page-content-layout'
 import DocumentStep from 'fragments/verifications/document-step'
@@ -40,20 +48,45 @@ function openWebhookModal(identity) {
   createOverlay(<VerificationWebhookModal webhook={identity} onClose={closeOverlay} />)
 }
 
+const Header = ({ 
+  info: {
+    fullName,
+    dateCreated
+  }
+}) => (
+  <div css={css`padding-left:15px;`}>
+    <p css={css`padding-bottom:15px;`}>
+      <Text size={4.5} weight={4} color={classNames({'gray': isEmpty(fullName)})}>
+        { fullName ? fullName :
+          <FormattedMessage id="identities.nameNotFound" />
+        }
+      </Text>
+    </p>
+    { dateCreated &&
+      <p>
+        <Text color="gray">{dateCreated}</Text>
+      </p>
+    }
+  </div>
+)
+
 const MemoizedPageContent = memo(
   ({ identity, countries }) => {
     let verification
     if (!(verification = get(identity, '_embedded.verification'))) {
       return null
     }
-    const livenessStep = verification.steps.find(s => s.id === 'liveness')
+    const livenessStep = verification.steps.find(s => s.id === 'liveness');
     const userInfo = {
       fullName: titleize(identity.fullName || ''),
-      dateCreated: moment.utc(identity.dateCreated).format('YYYY.MM.DD  HH:mm')
-    }
+      dateCreated: moment.utc(identity.dateCreated).format('MMM, Do, YYYY HH:mm')
+    };
 
     return (
       <>
+        <Card flow="column" templateColumns="5fr auto">
+          <Header info={userInfo} />
+        </Card>
         {livenessStep && <LivenessStep step={livenessStep} info={userInfo} />}
         {verification.documents.map(doc => (
           <DocumentStep document={doc} countries={countries} key={doc.type} />
