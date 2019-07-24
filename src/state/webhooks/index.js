@@ -5,8 +5,9 @@ import client from 'lib/client'
 export const types = {
   ...createTypesSequence('WEBHOOKS_SUBSCRIBE'),
   ...createTypesSequence('WEBHOOKS_DELETE'),
-  ...createTypesSequence('WEBHOOKS_LIST')
-}
+  ...createTypesSequence('WEBHOOKS_LIST'),
+  ...createTypesSequence('WEBHOOK_SEND'),
+};
 
 export function subscribeToWebhook(token, clientId, data) {
   return function(dispatch) {
@@ -60,6 +61,23 @@ export function getWebhooks(token, clientId) {
       })
   }
 }
+
+export function sendWebhook(token, id) {
+  return function(dispatch) {
+    dispatch({ type: types.WEBHOOK_SEND_REQUEST })
+    return client.webhooks
+      .sendWebhook(token, id)
+      .then(payload => {
+        dispatch({ type: types.WEBHOOK_SEND_SUCCESS, payload, id })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.WEBHOOK_SEND_FAILURE })
+        throw error
+      })
+  }
+}
+
 
 const initialState = {
   webhooks: {}

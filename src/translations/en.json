@@ -398,7 +398,7 @@
   "verificationModal.downloadData": "Download Data",
   "verificationModal.selfieIsLoading": "Selfie is loading",
   "verificationModal.selfieNotLoaded": "Selfie was not loaded",
-  "verificationModal.delete": "Delete",
+  "verificationModal.delete": "Delete Verification",
   "verificationModal.delete.confirm": "Delete this verification?",
   "verificationModal.done": "Done",
   "verificationModal.back": "Back",
@@ -418,8 +418,13 @@
   "verificationModal.fields.passport": "Passport",
   "verificationModal.fields.proof-of-residency": "Proof of residency",
   "verificationModal.fields.metadata": "Metadata",
+  "verificationDetails.tools.sendWebhook": "Send Webhook",
 
   "verificationWebhookModal.title": "Webhook data",
+  "verificationWebhookModal.confirm": "Yes, send webhook",
+  "verificationWebhookModal.cancel": "No, just save",
+  "verificationWebhookModal.header": "Send Webhook to your backend?",
+  "verificationWebhookModal.body": "You have the option to send an update webhook to your server. This allows you to synch your backend with this user’s updated information.",
 
   "dashboard.menu.identities": "My verifications",
   "dashboard.menu.launch": "Launch",
