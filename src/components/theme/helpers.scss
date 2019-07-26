@@ -142,6 +142,10 @@
   fill: white;
 }
 
+.svg-black path {
+  fill: black;
+}
+
 .svg-active path {
   fill: var(--mgi-theme-palette-active);
 }

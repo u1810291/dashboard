@@ -20,3 +20,9 @@ export function deleteWebhook(token, clientId, id) {
     params: { clientId }
   })
 }
+
+export function sendWebhook(token, id, data) {
+  return http.post(`/v1/identities/${id}/send-webhook`, null, {
+    headers: { ...getAuthHeader(token) }
+  });
+}

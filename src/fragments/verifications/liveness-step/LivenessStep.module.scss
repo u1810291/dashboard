@@ -1,5 +1,7 @@
 .checkSection {
-  margin-top: 25px;
+  h2 {
+    line-height: 3;
+  }
 }
 
 .iconBox {
@@ -9,7 +11,13 @@
     box-shadow: none !important;
   }
 }
-
-.statusMessage {
-  padding-left: 30px;
+.biometricTitle {
+  min-width: 140px;
+  vertical-align: top;
+}
+.videoFrame {
+  min-width: 233px;
+}
+.messageBox {
+  min-width: 163px;
 }

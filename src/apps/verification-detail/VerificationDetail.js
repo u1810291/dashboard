@@ -17,10 +17,12 @@ import {
   getDemoVerification,
 } from 'state/identities'
 import { getCountries } from 'state/countries'
+import { sendWebhook } from 'state/webhooks';
 import { Content } from 'components/application-box'
 import Items from 'components/items'
 import Click from 'components/click'
-import confirm from 'components/confirm'
+import confirm from 'components/confirm';
+import confirmStyled from 'components/confirm/ConfirmStyled';
 import { default as Text } from 'components/text';
 import classNames from 'classnames';
 import { createOverlay, closeOverlay } from 'components/overlay'
@@ -33,6 +35,8 @@ import MatiChecks from 'fragments/verifications/mati-checks'
 import Spinner from 'components/spinner'
 import { ReactComponent as DeleteIcon } from './delete-icon.svg'
 import StatusSelect from '../../fragments/verifications/status-select/StatusSelect';
+import { FiUpload, FiCode } from 'react-icons/fi';
+import CSS from './VerificationDetail.module.scss';
 
 function formatId(id = '') {
   return id.slice(-6)
@@ -46,6 +50,16 @@ async function handleDeleteIdentity(dispatch, history, token, id) {
 
 function openWebhookModal(identity) {
   createOverlay(<VerificationWebhookModal webhook={identity} onClose={closeOverlay} />)
+}
+
+async function handleSendWebhook(dispatch, token, id) {
+  await confirmStyled({
+    header: <FormattedMessage id="verificationWebhookModal.header" />,
+    message: <FormattedMessage id="verificationWebhookModal.body" />,
+    confirmText: <FormattedMessage id="verificationWebhookModal.confirm" />,
+    cancelText: <FormattedMessage id="verificationWebhookModal.cancel" />
+  });
+  await dispatch(sendWebhook(token, id));
 }
 
 const Header = ({ 
@@ -161,7 +175,7 @@ const VerificationDetail = ({
             </Items>
           </main>
           <aside>
-            <Items flow="row" justifyItems="start">
+            <Items flow="row" justifyContent="inherit" gap={1} className={CSS.aside}>
               { identity.status !== 'pending' &&
                 <StatusSelect
                   status={identity.status}
@@ -173,10 +187,30 @@ const VerificationDetail = ({
                   }}
                 />
               }
+
+              {/* Send Webhook */}
+              <Click 
+                onClick={ handleSendWebhook.bind(null, dispatch, token, id) } 
+              >
+                <FiUpload />
+                <FormattedMessage id="verificationDetails.tools.sendWebhook" />
+              </Click>
+              
+              {/* Show verification data */}
               <Click
-                background="error"
+                onClick={ openWebhookModal.bind(
+                  null,
+                  get(identity, 'originalIdentity._embedded.verification', {})
+                )}
+              >
+                <FiCode />
+                <FormattedMessage id="verificationModal.webhookData" />
+              </Click>
+
+              {/* Delete Verification */}
+              <Click
                 shadow={1}
-                onClick={handleDeleteIdentity.bind(
+                onClick={ handleDeleteIdentity.bind(
                   null,
                   dispatch,
                   history,
@@ -187,17 +221,9 @@ const VerificationDetail = ({
                 {isDeleting ? (
                   <Spinner />
                 ) : (
-                  <DeleteIcon className="svg-white" />
+                  <DeleteIcon className="svg-black" />
                 )}
                 <FormattedMessage id="verificationModal.delete" />
-              </Click>
-              <Click
-                onClick={openWebhookModal.bind(
-                  null,
-                  get(identity, 'originalIdentity._embedded.verification', {})
-                )}
-              >
-                <FormattedMessage id="verificationModal.webhookData" />
               </Click>
             </Items>
           </aside>

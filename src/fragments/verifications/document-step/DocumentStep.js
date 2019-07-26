@@ -66,17 +66,10 @@ export default function DocumentStep({
                 )}
               </div>
             }
-            <HR />
-            
-            <h2>
-              <FormattedMessage id={'DocumentStep.Checks.title'} />
-            </h2>
-            {securityCheckSteps && (
-              <SecurityCheckCollection steps={securityCheckSteps} />
-            )}
           </Items>
         </span>
-
+        
+        {/* Document Images */}
         <Items gap={1} flow="row" justifyContent="right">
           {photos.map(photo => (
             <div key={photo} css={css`max-width: 300px;`}>
@@ -86,8 +79,19 @@ export default function DocumentStep({
             </div>
           ))}
         </Items>
+      </Card>
 
-      </Card> 
+      { securityCheckSteps && (
+        <div>
+          <HR />
+          <h2>
+            <Text lineHeight="3">
+              <FormattedMessage id={'DocumentStep.Checks.title'} />
+            </Text>
+          </h2>
+          <SecurityCheckCollection steps={securityCheckSteps} />
+        </div>
+      )}
     </Card>
   )
 }
