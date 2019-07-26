@@ -47,13 +47,21 @@ const Checks = ({
   <div className={CSS.checkSection}>
     <h2><FormattedMessage id="LivenessStep.Checks.title" /></h2>
     <div>
-      <Text lineHeight={3}>
-        <FormattedMessage id="LivenessStep.Checks.statusTitle" />
-        <Click padding="0" onClick={showHelpMessage.bind(null, 'liveness')} className={CSS.iconBox}>
-          <QuestionMark />
-        </Click>
-      </Text>
-      <Text color={color} className={CSS.statusMessage}>{children}</Text>
+      <table>
+        <tr>
+          <td className={CSS.biometricTitle}>
+            <Text>
+              <FormattedMessage id="LivenessStep.Checks.statusTitle" />
+              <Click padding="0" onClick={showHelpMessage.bind(null, 'liveness')} className={CSS.iconBox}>
+                <QuestionMark />
+              </Click>
+            </Text>
+          </td>
+          <td className={CSS.messageBox}>
+            <Text color={color} className={CSS.statusMessage}>{children}</Text>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 )
@@ -69,7 +77,7 @@ const LivenessStep = ({status, step, info}) => (
         <FormattedMessage id={config[status].checks.message} />
       </Checks>
     </div>
-    <Card padding={0} shadow={get(step, 'data.videoUrl', 0)}>
+    <Card padding={0} shadow={get(step, 'data.videoUrl', 0)} className={CSS.videoFrame}>
       <LivenessVideo url={step.data && step.data.videoUrl} />
     </Card>
   </Card>  

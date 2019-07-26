@@ -663,7 +663,7 @@
 
   "SecurityCheckStep.watchlists.title": "Watchlist",
   "SecurityCheckStep.watchlists.success": "Not in watchlist",
-  "SecurityCheckStep.watchlists.failure": "The users name was found in any watchlists.",
+  "SecurityCheckStep.watchlists.failure": "The user’s name was found in a watchlist.",
 
   "fragments.verifications.help-messages.liveness.title": "Liveness",
   "fragments.verifications.help-messages.liveness.subtitle": "Checks proof of life. The response contains a selfie video that ensures your user is a real person.",
@@ -710,9 +710,9 @@
   "LivenessStep.Checks.noname": "Unknown name",
 
   "LivenessStep.Checks.inProgress": "Checking...",
-  "LivenessStep.Checks.success": "Liveness Passed",
+  "LivenessStep.Checks.success": "Passed",
   "LivenessStep.Checks.error": "Liveness Failed",
-  "LivenessStep.Checks.skipped": "No liveness extracted",
+  "LivenessStep.Checks.skipped": "Potential fraud detected. It appears there is not a real person in this video.",
 
   "VerificationMetadata.title": "Metadata",
   "LetsStartPanel.cta": "Download Presentation",
