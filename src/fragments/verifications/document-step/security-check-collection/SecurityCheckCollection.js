@@ -29,7 +29,7 @@ export default function SecurityCheckCollection({ steps = [] }) {
               </Click>
             </td>
             <td>
-              <span className={error ? 'text-error' : 'text-success'}>
+              <span className={error ? 'text-error' : 'text-normal'}>
                 <FormattedMessage id={`SecurityCheckStep.${id}.${error ? 'failure' : 'success'}`} />
               </span>
             </td>
