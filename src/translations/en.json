@@ -650,20 +650,20 @@
   "Pricing.notification.failure": "Unable charge your card",
 
   "SecurityCheckStep.alteration-detection.title": "Alteration Detection",
-  "SecurityCheckStep.alteration-detection.failure": "Alterated",
   "SecurityCheckStep.alteration-detection.success": "Not Alterated",
+  "SecurityCheckStep.alteration-detection.failure": "Document shows signs of tampering or attempted fraud. Mati cannot validate the document's authenticity.",
 
   "SecurityCheckStep.facematch.title": "Facematch",
   "SecurityCheckStep.facematch.success": "Matched",
-  "SecurityCheckStep.facematch.failure": "Not Matched",
+  "SecurityCheckStep.facematch.failure": "The faces in the document and the user’s video/selfie are different. This can also be the result of poor lightning, blurriness, or flash on the ID card.",
 
   "SecurityCheckStep.template-matching.title": "Template Matching",
   "SecurityCheckStep.template-matching.success": "Matched",
-  "SecurityCheckStep.template-matching.failure": "Not Matched",
+  "SecurityCheckStep.template-matching.failure": "There was no match with any valid revisions of the document.",
 
   "SecurityCheckStep.watchlists.title": "Watchlist",
-  "SecurityCheckStep.watchlists.success": "Not Matched",
-  "SecurityCheckStep.watchlists.failure": "Matched",
+  "SecurityCheckStep.watchlists.success": "Not in watchlist",
+  "SecurityCheckStep.watchlists.failure": "The users name was found in any watchlists.",
 
   "fragments.verifications.help-messages.liveness.title": "Liveness",
   "fragments.verifications.help-messages.liveness.subtitle": "Checks proof of life. The response contains a selfie video that ensures your user is a real person.",
