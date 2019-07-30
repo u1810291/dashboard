@@ -176,7 +176,7 @@ const VerificationDetail = ({
           </main>
           <aside>
             <Items flow="row" justifyContent="inherit" gap={1} className={CSS.aside}>
-              { identity.status !== 'pending' &&
+              { !['pending', 'running'].includes(identity.status) &&
                 <StatusSelect
                   status={identity.status}
                   onSelect={async (status) => {

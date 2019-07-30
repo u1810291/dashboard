@@ -36,7 +36,7 @@
   "statuses.verified": "Verified",
   "statuses.reviewNeeded": "Manual review needed",
   "statuses.pending": "Pending",
-
+  "statuses.running": "Running",
 
   "statuses.unverified.info": "Only your company can mark a user as “Rejected”. Mati will only mark a user as “verified” or “manual review”.",
   "statuses.verified.info": "Mati recommends to accept the user since  nothing suspicious was found in the verification.",
