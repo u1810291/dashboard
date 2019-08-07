@@ -642,7 +642,7 @@
   "fragments.info.features-poster.title": "Everything you need to increase security of your company",
   "fragments.info.features-poster.description": "Mati support 7 checks which will provide a high level security of your company. And it’s only beginning.",
   "fragments.info.features-poster.cta": "Start to Integrate",
-  "DocumentReadingStep.notParsed": "Not Extracted",
+  "DocumentReadingStep.notParsed": "Data wasn't extracted",
   "DocumentReadingStep.error": "Unable to read document data: <span class=\"text-error\">{message}</span>",
   "MexicanCurpValidationStep.title": "Mexican CURP Validation",
 

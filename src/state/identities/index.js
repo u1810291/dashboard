@@ -141,7 +141,7 @@ export function patchDocument(token, identityId, id, fields) {
     dispatch({
       type: types.DOCUMENT_PATCH_REQUEST,
       payload: { identityId, id, fields }
-    })
+    });
     return client.identities
       .patchDocument(token, id, fields)
       .then(payload => {
@@ -149,7 +149,7 @@ export function patchDocument(token, identityId, id, fields) {
           type: types.DOCUMENT_PATCH_SUCCESS,
           payload: { identityId, id, fields }
         })
-        return payload
+        return payload;
       })
       .catch(error => {
         dispatch({
@@ -157,7 +157,7 @@ export function patchDocument(token, identityId, id, fields) {
           payload: { identityId, id, fields }
         })
         notification.error('Something went wrong. Please retry')
-        throw error
+        throw error;
       })
   }
 }
@@ -290,19 +290,17 @@ const reducer = createReducer(initialState, {
     }
   },
   [types.DOCUMENT_PATCH_REQUEST]: function(state, { payload }) {
-    let instances = { ...state.instances }
-    let patchingFields = [].concat(state.patchingFields)
-    let erroredFields = [].concat(state.erroredFields)
-    let documentToEdit = instances[payload.identityId].documents.find(doc => {
-      return doc.id === payload.id
-    })
-    patchingFields.push({ docId: documentToEdit.id, id: payload.fields[0].id })
-    erroredFields = erroredFields.filter(erroredField => {
-      return !(
-        erroredField.docId === payload.id &&
-        erroredField.id === payload.fields[0].id
-      )
-    })
+    // let instances = { ...state.instances };
+    let patchingFields = [].concat(state.patchingFields);
+    let erroredFields = [].concat(state.erroredFields);
+
+    // patchingFields.push({ docId: payload.id, id: payload.fields })
+    // erroredFields = erroredFields.filter(erroredField => {
+    //   return !(
+    //     erroredField.docId === payload.id &&
+    //     erroredField.id === payload.fields[0].id
+    //   )
+    // })
     return {
       ...state,
       patchingFields,
@@ -310,26 +308,31 @@ const reducer = createReducer(initialState, {
     }
   },
   [types.DOCUMENT_PATCH_SUCCESS]: function(state, { payload }) {
-    let instances = { ...state.instances }
-    let patchingFields = [].concat(state.patchingFields)
-    if (!instances[payload.identityId]) return state
-    let documentToEdit = instances[payload.identityId].documents.find(doc => {
-      return doc.id === payload.id
-    })
-    if (!documentToEdit) return state
-    documentToEdit.fields.forEach(docField => {
-      payload.fields.forEach(fieldToEdit => {
-        if (docField.id === fieldToEdit.id) {
-          docField.value = fieldToEdit.value
-        }
-      })
-    })
-    patchingFields = patchingFields.filter(patchingField => {
-      return !(
-        patchingField.docId === payload.id &&
-        patchingField.id === payload.fields[0].id
-      )
-    })
+    console.log(state, payload)
+    let instances = { ...state.instances };
+    let patchingFields = [].concat(state.patchingFields);
+    // if (!instances[payload.identityId]) {
+    //   return state;
+    // }
+    // let documentToEdit = instances[payload.identityId].documents.find(doc => {
+    //   return doc.id === payload.id;
+    // });
+    // if (!documentToEdit) {
+    //   return state;
+    // }
+    // documentToEdit.fields.forEach(docField => {
+    //   payload.fields.forEach(fieldToEdit => {
+    //     if (docField.id === fieldToEdit.id) {
+    //       docField.value = fieldToEdit.value;
+    //     }
+    //   })
+    // })
+    // patchingFields = patchingFields.filter(patchingField => {
+    //   return !(
+    //     patchingField.docId === payload.id &&
+    //     patchingField.id === payload.fields[0].id
+    //   )
+    // })
     return {
       ...state,
       instances,
@@ -337,20 +340,21 @@ const reducer = createReducer(initialState, {
     }
   },
   [types.DOCUMENT_PATCH_FAILURE]: function(state, { payload }) {
-    let instances = { ...state.instances }
+    console.log(state, payload)
+    // let instances = { ...state.instances }
     let erroredFields = [].concat(state.erroredFields)
     let patchingFields = [].concat(state.patchingFields)
-    if (!instances[payload.identityId]) return state
-    let documentToEdit = instances[payload.identityId].documents.find(doc => {
-      return doc.id === payload.id
-    })
-    patchingFields = patchingFields.filter(patchingField => {
-      return !(
-        patchingField.docId === payload.id &&
-        patchingField.id === payload.fields[0].id
-      )
-    })
-    erroredFields.push({ docId: documentToEdit.id, id: payload.fields[0].id })
+    // if (!instances[payload.identityId]) return state
+    // let documentToEdit = instances[payload.identityId].documents.find(doc => {
+    //   return doc.id === payload.id
+    // })
+    // patchingFields = patchingFields.filter(patchingField => {
+    //   return !(
+    //     patchingField.docId === payload.id &&
+    //     patchingField.id === payload.fields[0].id
+    //   )
+    // })
+    // erroredFields.push({ docId: documentToEdit.id, id: payload.fields[0].id })
     return {
       ...state,
       patchingFields,

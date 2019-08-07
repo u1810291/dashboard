@@ -5,7 +5,7 @@ import { css, jsx } from '@emotion/core';
 import { FormattedMessage } from 'react-intl'
 import { titleize } from 'inflection'
 import { connect } from 'react-redux'
-import { get, isEqual, isEmpty } from 'lodash'
+import { get, isEmpty } from 'lodash'
 import Card from 'components/card'
 // eslint-disable-next-line
 import React, { useEffect, memo } from 'react'
@@ -14,6 +14,7 @@ import {
   getIdentityWithNestedData,
   deleteIdentity,
   patchIdentity,
+  patchDocument,
   getDemoVerification,
 } from 'state/identities'
 import { getCountries } from 'state/countries'
@@ -62,6 +63,13 @@ async function handleSendWebhook(dispatch, token, id) {
   await dispatch(sendWebhook(token, id));
 }
 
+function onSubmit(...args) {
+  // args.shift()
+  const [dispatch, token, identityId, documentId, key, value] = args;
+  dispatch(patchDocument(token, identityId, documentId, {[key]: {value}}))
+  // console.log(dispatch, identityId, documentId, key, value, args);
+}
+
 const Header = ({ 
   info: {
     fullName,
@@ -84,52 +92,9 @@ const Header = ({
   </div>
 )
 
-const MemoizedPageContent = memo(
-  ({ identity, countries }) => {
-    let verification
-    if (!(verification = get(identity, '_embedded.verification'))) {
-      return null
-    }
-    const livenessStep = verification.steps.find(s => s.id === 'liveness');
-    const userInfo = {
-      fullName: titleize(identity.fullName || ''),
-      dateCreated: moment.utc(identity.dateCreated).format('MMM, Do, YYYY HH:mm')
-    };
-
-    return (
-      <>
-        <Card flow="column" templateColumns="5fr auto">
-          <Header info={userInfo} />
-        </Card>
-        {livenessStep && <LivenessStep step={livenessStep} info={userInfo} />}
-        {verification.documents.map(doc => (
-          <DocumentStep document={doc} countries={countries} key={doc.type} />
-        ))}
-      </>
-    )
-  },
-  function(next, prev) {
-    function normalize(identity) {
-      const verification = get(identity, '_embedded.verification', {
-        steps: [],
-        documents: []
-      })
-
-      return {
-        id: verification.id,
-        steps: verification.steps.map(s => ({ status: s.status, id: s.id })),
-        documents: verification.documents.map(d => ({
-          type: d.type,
-          steps: d.steps.map(ds => ({
-            id: ds.id,
-            status: ds.status
-          }))
-        }))
-      }
-    }
-    return isEqual(normalize(prev.identity), normalize(next.identity))
-  }
-)
+const findDocumentId = (type, sources) => {
+  return get(sources.find(doc => doc.type === type), 'id');
+}
 
 const VerificationDetail = ({
   token,
@@ -151,9 +116,19 @@ const VerificationDetail = ({
       dispatch(getDemoVerification(token, id)) :
       dispatch(getIdentityWithNestedData(token, id));
   }, [dispatch, token, id, demo]);
+  let verification;
   const identity = instances[id];
-  if (!identity) return null
-  const isDeleting = deletingIdentities.includes(identity.id)
+
+  if (!identity || !(verification = get(identity, '_embedded.verification'))) {
+    return null;
+  }
+  const isDeleting = deletingIdentities.includes(identity.id);
+  const documentsSources = get(identity, '_embedded.documents');
+  const livenessStep = verification.steps.find(s => s.id === 'liveness');
+  const userInfo = {
+    fullName: titleize(identity.fullName || ''),
+    dateCreated: moment.utc(identity.dateCreated).format('MMM, Do, YYYY HH:mm')
+  };
 
   return (
     <Content>
@@ -166,13 +141,39 @@ const VerificationDetail = ({
         <PageContentLayout navigation={false}>
           <main>
             <Items flow="row">
-              <MemoizedPageContent identity={identity} countries={countries} />
+              <Card flow="column" templateColumns="5fr auto">
+                <Header info={userInfo} />
+              </Card>
+
+              {/* Liveness */}
+              { livenessStep && <LivenessStep step={livenessStep} info={userInfo} /> }
+              
+              {/* Documents */}
+              { verification.documents.map(doc => 
+                  <DocumentStep 
+                    document={doc}
+                    source={documentsSources}
+                    countries={countries} 
+                    key={doc.type}
+                    onSubmit={onSubmit.bind(
+                      null,
+                      dispatch,
+                      token,
+                      identity.id,
+                      findDocumentId(doc.type, documentsSources)
+                    )} 
+                  />
+                )
+              }
+              
+              {/* Metadata */}
               {identity.metadata && (
                 <VerificationMetadata metadata={identity.metadata} />
               )}
               <MatiChecks />
             </Items>
           </main>
+
           <aside>
             <Items flow="row" justifyContent="inherit" gap={1} className={CSS.aside}>
               { !['pending', 'running'].includes(identity.status) &&
@@ -188,9 +189,7 @@ const VerificationDetail = ({
               }
 
               {/* Send Webhook */}
-              <Click 
-                onClick={ handleSendWebhook.bind(null, dispatch, token, id) } 
-              >
+              <Click onClick={ handleSendWebhook.bind(null, dispatch, token, id) }>
                 <FiUpload />
                 <FormattedMessage id="verificationDetails.tools.sendWebhook" />
               </Click>

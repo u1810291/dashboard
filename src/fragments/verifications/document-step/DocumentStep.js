@@ -13,10 +13,13 @@ import MexicanCurpValidationStep from './mexican-curp-validation-step'
 
 export default function DocumentStep({
   document: { steps = [], country, type, region, photos = [] },
-  countries
+  source,
+  countries,
+  onSubmit
 }) {
-  const documentReadingStep = steps.find(s => s.id === 'document-reading')
-  const curpValidationStep = steps.find(s => s.id === 'mexican-curp-validation')
+  const documentReadingStep = steps.find(s => s.id === 'document-reading');
+  const documentReadingSource = source.find(s => s.type === type);
+  const curpValidationStep = steps.find(s => s.id === 'mexican-curp-validation');
   const securityCheckSteps = steps.filter(s =>
     [
       'template-matching',
@@ -24,9 +27,8 @@ export default function DocumentStep({
       'watchlists',
       'facematch'
     ].includes(s.id)
-  )
+  );
   const onReading = documentReadingStep.status < 200;
-
   const countryName =
     (countries.find(c => c.code === country) || {}).name || country
 
@@ -58,7 +60,10 @@ export default function DocumentStep({
             { !onReading &&
               <div>
                 {documentReadingStep && (
-                  <DocumentReadingStep step={documentReadingStep} />
+                  <DocumentReadingStep 
+                    step={documentReadingStep}
+                    source={documentReadingSource}
+                    onSubmit={onSubmit} />
                 )}
                 <br />
                 {curpValidationStep && (
