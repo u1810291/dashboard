@@ -31,7 +31,7 @@
   "statuses.manual": "Action needed",
   "statuses.inProgress": "In Progress",
   "statuses.fraudulent": "Rejected",
-  
+
   "statuses.rejected": "Rejected",
   "statuses.verified": "Verified",
   "statuses.reviewNeeded": "Manual review needed",
@@ -427,6 +427,7 @@
   "verificationWebhookModal.body": "You have the option to send an update webhook to your server. This allows you to synch your backend with this user’s updated information.",
 
   "dashboard.menu.identities": "My verifications",
+  "dashboard.menu.home": "Home",
   "dashboard.menu.launch": "Launch",
   "dashboard.menu.configuration": "Customize",
   "dashboard.menu.integration": "Integrate",
@@ -643,6 +644,19 @@
   "fragments.info.features-poster.description": "Mati support 7 checks which will provide a high level security of your company. And it’s only beginning.",
   "fragments.info.features-poster.cta": "Start to Integrate",
   "DocumentReadingStep.notParsed": "Data wasn't extracted",
+
+  "fragments.home.verification.card.text": "You have <i>{count}</i> verifications with <i>{statusType}</i> status",
+  "fragments.home.verification.card.link": "Go to Verifications List ->",
+  "fragments.home.verification.card.amount": "Amount of verifications",
+  "fragments.home.verification.filters.days30": "Last 30 days",
+  "fragments.home.verification.filters.month": "This month",
+  "fragments.home.verification.filters.week": "This week",
+  "fragments.home.verification.statistic.all": "Verifications for all time",
+  "fragments.home.verification.statistic.days": "Verifications for 30 day",
+  "fragments.home.verification.statistic.month": "Verifications this month",
+  "fragments.home.verification.statistic.today": "Verifications today",
+  "fragments.home.verification.statistic.week": "Verifications this week",
+
   "DocumentReadingStep.error": "Unable to read document data: <span class=\"text-error\">{message}</span>",
   "MexicanCurpValidationStep.title": "Mexican CURP Validation",
 

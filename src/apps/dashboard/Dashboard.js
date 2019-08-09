@@ -4,6 +4,7 @@ import { flowRight } from 'lodash/fp'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { injectIntl } from 'react-intl'
+import { FaHome as HomeIcon } from 'react-icons/fa'
 import ApplicationBox from 'components/application-box'
 import ApplicationMenu, {
   MenuItemLink,
@@ -16,6 +17,7 @@ import VerificationHistory from 'apps/verification-history'
 import VerificationDetail from 'apps/verification-detail'
 import { Settings } from 'apps/settings'
 import Launch from 'apps/launch'
+import Home from 'apps/home'
 import Info from 'apps/info'
 import Integration from 'apps/integration'
 import { signOut } from 'state/auth'
@@ -83,6 +85,13 @@ class Dashboard extends React.Component {
         )}
         {isOwner && (
           <MenuItemLink
+            to="/home"
+            label={formatMessage({ id: 'dashboard.menu.home' })}
+            icon={<HomeIcon />}
+          />
+        )}
+        {isOwner && (
+          <MenuItemLink
             to="/configuration"
             label={formatMessage({ id: 'dashboard.menu.configuration' })}
             icon={<ConfigurationIcon />}
@@ -146,6 +155,7 @@ class Dashboard extends React.Component {
               component={VerificationDetail}
             />
             <OwnersRoute path="/settings" component={Settings} />
+            <OwnersRoute path="/home" component={Home} />
             <Route path="/info" component={Info} />
             <OwnersRoute path="/integration" component={Integration} />
             <OwnersRoute path="/configuration" component={Configuration} />
