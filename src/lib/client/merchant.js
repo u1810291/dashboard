@@ -46,6 +46,24 @@ export function getMerchantApps(token) {
   })
 }
 
+export function setMerchantToken(token, source) {
+  return http.put('/api/v1/merchants/me/billing/providers/stripe', { source }, {
+    headers: { ...getAuthHeader(token) },
+  })
+}
+
+export function setMerchantPlan(token, planId) {
+  return http.put(`/api/v1/merchants/me/billing/providers/stripe/plans/${planId}`, {}, {
+    headers: { ...getAuthHeader(token) },
+  })
+}
+
+export function updateMerchantPlan(token, planId) {
+  return http.patch(`/api/v1/merchant/me/billing/providers/stripe/plans/${planId}`, {}, {
+    headers: { ...getAuthHeader(token) },
+  })
+}
+
 export function createApplication(token) {
   return http.post(
     '/api/v1/merchants/apps',

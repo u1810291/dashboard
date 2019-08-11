@@ -23,3 +23,13 @@ stories.add('Highlight', () => (
     onChoosePlan={action('Start plan')}
   />
 ))
+
+stories.add('Current', () => (
+  <PricingPlans
+    planId="regular"
+    planPrice="300"
+    amount="200"
+    current
+    onChoosePlan={action('Start plan')}
+  />
+))

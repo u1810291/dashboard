@@ -5,6 +5,7 @@ import * as identities from './identities'
 import * as countries from './countries'
 import * as collaborators from './collaborators'
 import * as stripe from './stripe'
+import * as plans from './plans'
 
 export default {
   auth,
@@ -13,5 +14,6 @@ export default {
   identities,
   collaborators,
   countries,
-  stripe
+  stripe,
+  plans,
 }

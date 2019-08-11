@@ -32,7 +32,7 @@ export default function DocumentStep({
   const countryName =
     (countries.find(c => c.code === country) || {}).name || country
 
-  const DocumentStepTitle = () => 
+  const DocumentStepTitle = () =>
     <Text size={4.5} weight={4}>
       <FormattedMessage
         id="DocumentStep.title"
@@ -44,7 +44,7 @@ export default function DocumentStep({
         }}
       />
     </Text>
-  
+
   return (
     <Card padding={4}>
       <DocumentStepTitle />
@@ -54,7 +54,7 @@ export default function DocumentStep({
         <span>
           <Items flow="row">
             <h2 className={classNames({'loading': onReading})}>
-              <FormattedMessage id={onReading ? 'DocumentStep.Data.titleReading' 
+              <FormattedMessage id={onReading ? 'DocumentStep.Data.titleReading'
               : 'DocumentStep.Data.title'} />
             </h2>
             { !onReading &&
@@ -73,7 +73,7 @@ export default function DocumentStep({
             }
           </Items>
         </span>
-        
+
         {/* Document Images */}
         <Items gap={1} flow="row" justifyContent="right">
           {photos.map(photo => (

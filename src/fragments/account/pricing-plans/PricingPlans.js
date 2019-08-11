@@ -3,22 +3,27 @@ import { FormattedMessage } from 'react-intl'
 import { Items, Card, Click, Text, H2 } from 'components'
 
 export default function PricingPlans({
-  planId,
-  amount,
-  planPrice,
-  current,
+  subscriptionPrice,
+  name,
+  current = false,
   highlight = false,
-  onChoosePlan = () => {}
+  includedVerifications,
+  onChoosePlan,
 }) {
+  const hasBorder = highlight || current;
+
   return (
-    <Card gap={4} background={highlight ? 'pistachio' : 'white'}>
+    <Card gap={4} background="white" border={hasBorder ? 'blue' : 'transparent' }>
       <Items flow="row" gap={2}>
         <H2>
-          <FormattedMessage id={`PricingPlans.${planId}.title`} />
+          {name}
         </H2>
+        <Text size={5} weight={1}>
+          <FormattedMessage id="PricingPlans.upTo" />
+        </Text>
         <Items gap={0} flow="row">
           <Text size={16} weight={4}>
-            {amount}
+            {includedVerifications}
           </Text>
           <Text size={4} weight="1">
             <FormattedMessage id="PricingPlans.verificationsPerMonth" />
@@ -28,7 +33,7 @@ export default function PricingPlans({
       <Items justifyItems="center" flow="row" gap={1}>
         <section>
           <Text size={4} weight={4}>
-            ${planPrice}
+            ${subscriptionPrice}
           </Text>
           <Text size={4}>
             <FormattedMessage id="PricingPlans.pricePerMonth" />
@@ -37,17 +42,28 @@ export default function PricingPlans({
         <Text weight={1} color="secondary" align="center">
           <FormattedMessage
             id={'PricingPlans.limitationsNotice'}
-            values={{ amount }}
+            values={{ amount: subscriptionPrice }}
           />
         </Text>
       </Items>
-      <Click background="active" onClick={onChoosePlan} disabled={current}>
-        <Text uppercase>
-          <FormattedMessage
-            id={current ? 'PricingPlans.currentPlan' : 'PricingPlans.start'}
-          />
-        </Text>
-      </Click>
+      {current && (
+        <Items gap={0} flow="row" justifyContent="center">
+          <Text uppercase color="active" lineHeight={2.5}>
+            <FormattedMessage
+              id={'PricingPlans.currentPlan'}
+            />
+          </Text>
+        </Items>
+      )}
+      {!current && (
+        <Click background="active" onClick={onChoosePlan}>
+          <Text uppercase>
+            <FormattedMessage
+              id={'PricingPlans.start'}
+            />
+          </Text>
+        </Click>
+      )}
     </Card>
   )
 }
