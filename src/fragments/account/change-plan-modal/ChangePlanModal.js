@@ -42,7 +42,7 @@ function ChangePlanModal({
           <Text color="active" size="4" weight="4" lineHeight={2}>
             <FormattedMessage
               id="CardModal.planPrice"
-              values={{ planPrice: subscriptionPrice }}
+              values={{ planPrice: Math.floor(subscriptionPrice / 100) }}
             />
           </Text>
         </Items>

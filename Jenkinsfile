@@ -29,8 +29,10 @@ pipeline {
         beforeAgent true
       }
       steps {
-        build '../mgi-dashboard-staging'
-        build '../../../QA/Dashboard-release-test'
+        build job: '../mgi-dashboard-staging'
+        catchError {
+            build job: '../../../QA/Dashboard-release-test'
+        }
       }
     }
     stage('Deploy to production') {

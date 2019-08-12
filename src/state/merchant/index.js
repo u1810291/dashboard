@@ -194,26 +194,6 @@ export function setMerchantToken(token, source) {
   }
 }
 
-export function updateMerchantPlan(token, plan) {
-  return function(dispatch) {
-    dispatch({
-      type: types.UPDATE_MERCHANT_PLAN_REQUEST,
-      plan: plan
-    })
-
-    return client.merchant
-      .updateMerchantPlan(token, plan)
-      .then(payload => {
-        dispatch({ type: types.UPDATE_MERCHANT_PLAN_SUCCESS, payload })
-        return payload
-      })
-      .catch(error => {
-        dispatch({ type: types.UPDATE_MERCHANT_PLAN_FAILURE })
-        throw error
-      })
-  }
-}
-
 const initialState = {
   integrationCode: undefined,
   apps: [],

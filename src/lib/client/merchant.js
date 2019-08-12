@@ -58,12 +58,6 @@ export function setMerchantPlan(token, planId) {
   })
 }
 
-export function updateMerchantPlan(token, planId) {
-  return http.patch(`/api/v1/merchant/me/billing/providers/stripe/plans/${planId}`, {}, {
-    headers: { ...getAuthHeader(token) },
-  })
-}
-
 export function createApplication(token) {
   return http.post(
     '/api/v1/merchants/apps',

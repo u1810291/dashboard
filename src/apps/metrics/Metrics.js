@@ -5,7 +5,7 @@ import { Chart, ChartFilters, VerificationsCard, VerificationStatistic } from 'f
 import { getIdentitiesCount } from 'state/identities'
 import { getMerchantStatistic, getMerchantStatisticFilter } from 'state/merchant'
 
-export default function Home() {
+export default function Metrics() {
   const [filter, handleClick] = useState('currentWeek');
   const [reviewNeededCount, setReviewNeededCount] = useState(0);
   const [statistic, setStatistic] = useState({});
