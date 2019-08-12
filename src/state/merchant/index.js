@@ -6,10 +6,15 @@ export * from './consts'
 
 export const types = {
   ...createTypesSequence('MERCHANT_GET'),
+  ...createTypesSequence('MERCHANT_STATISTIC_GET'),
+  ...createTypesSequence('MERCHANT_STATISTIC_FILTER_GET'),
   ...createTypesSequence('MERCHANTS_PUT'),
   ...createTypesSequence('CONFIGURATION_SAVE'),
   ...createTypesSequence('INTEGRATION_CODE'),
   ...createTypesSequence('GET_MERCHANT_APPS'),
+  ...createTypesSequence('SET_MERCHANT_PLAN'),
+  ...createTypesSequence('SET_MERCHANT_TOKEN'),
+  ...createTypesSequence('UPDATE_MERCHANT_PLAN'),
   ...createTypesSequence('CREATE_APPLICATION')
 }
 
@@ -24,6 +29,38 @@ export function getMerchant(token) {
       })
       .catch(error => {
         dispatch({ type: types.MERCHANT_GET_FAILURE })
+        throw error
+      })
+  }
+}
+
+export function getMerchantStatistic(token) {
+  return function(dispatch) {
+    dispatch({ type: types.MERCHANT_STATISTIC_GET_REQUEST })
+    return client.merchant
+      .getMerchantStatistic(token)
+      .then(payload => {
+        dispatch({ type: types.MERCHANT_STATISTIC_GET_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.MERCHANT_STATISTIC_GET_FAILURE })
+        throw error
+      })
+  }
+}
+
+export function getMerchantStatisticFilter(token, filter) {
+  return function(dispatch) {
+    dispatch({ type: types.MERCHANT_STATISTIC_FILTER_GET_REQUEST })
+    return client.merchant
+      .getMerchantStatisticFilter(token, filter)
+      .then(payload => {
+        dispatch({ type: types.MERCHANT_STATISTIC_FILTER_GET_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.MERCHANT_STATISTIC_FILTER_GET_FAILURE })
         throw error
       })
   }
@@ -115,6 +152,63 @@ export function saveConfiguration(token, configuration) {
       })
       .catch(error => {
         dispatch({ type: types.CONFIGURATION_SAVE_FAILURE })
+        throw error
+      })
+  }
+}
+
+export function setMerchantPlan(token, planId) {
+  return function(dispatch) {
+    dispatch({
+      type: types.SET_MERCHANT_PLAN_REQUEST,
+      planId,
+    })
+
+    return client.merchant
+      .setMerchantPlan(token, planId)
+      .then(payload => {
+        dispatch({ type: types.SET_MERCHANT_PLAN_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.SET_MERCHANT_PLAN_FAILURE })
+        throw error
+      })
+  }
+}
+
+export function setMerchantToken(token, source) {
+  return function(dispatch) {
+    dispatch({ type: types.SET_MERCHANT_TOKEN_REQUEST })
+
+    return client.merchant
+      .setMerchantToken(token, source)
+      .then(payload => {
+        dispatch({ type: types.SET_MERCHANT_TOKEN_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.SET_MERCHANT_TOKEN_FAILURE })
+        throw error
+      })
+  }
+}
+
+export function updateMerchantPlan(token, plan) {
+  return function(dispatch) {
+    dispatch({
+      type: types.UPDATE_MERCHANT_PLAN_REQUEST,
+      plan: plan
+    })
+
+    return client.merchant
+      .updateMerchantPlan(token, plan)
+      .then(payload => {
+        dispatch({ type: types.UPDATE_MERCHANT_PLAN_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.UPDATE_MERCHANT_PLAN_FAILURE })
         throw error
       })
   }

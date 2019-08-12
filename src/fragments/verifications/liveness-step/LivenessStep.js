@@ -48,6 +48,7 @@ const Checks = ({
     <h2><FormattedMessage id="LivenessStep.Checks.title" /></h2>
     <div>
       <table>
+        <tbody>
         <tr>
           <td className={CSS.biometricTitle}>
             <Text>
@@ -61,6 +62,7 @@ const Checks = ({
             <Text color={color} className={CSS.statusMessage}>{children}</Text>
           </td>
         </tr>
+        </tbody>
       </table>
     </div>
   </div>

@@ -14,7 +14,7 @@ export function getIdentityListCount(token) {
 }
 
 export function getIdentity(token, id) {
-  return http.get(`/v1/identities/${id}?embed=verification`, {
+  return http.get(`/v1/identities/${id}?embed=verification,documents`, {
     headers: { ...getAuthHeader(token) }
   })
 }

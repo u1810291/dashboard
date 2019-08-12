@@ -13,10 +13,13 @@ import MexicanCurpValidationStep from './mexican-curp-validation-step'
 
 export default function DocumentStep({
   document: { steps = [], country, type, region, photos = [] },
-  countries
+  source,
+  countries,
+  onSubmit
 }) {
-  const documentReadingStep = steps.find(s => s.id === 'document-reading')
-  const curpValidationStep = steps.find(s => s.id === 'mexican-curp-validation')
+  const documentReadingStep = steps.find(s => s.id === 'document-reading');
+  const documentReadingSource = source.find(s => s.type === type);
+  const curpValidationStep = steps.find(s => s.id === 'mexican-curp-validation');
   const securityCheckSteps = steps.filter(s =>
     [
       'template-matching',
@@ -24,13 +27,12 @@ export default function DocumentStep({
       'watchlists',
       'facematch'
     ].includes(s.id)
-  )
+  );
   const onReading = documentReadingStep.status < 200;
-
   const countryName =
     (countries.find(c => c.code === country) || {}).name || country
 
-  const DocumentStepTitle = () => 
+  const DocumentStepTitle = () =>
     <Text size={4.5} weight={4}>
       <FormattedMessage
         id="DocumentStep.title"
@@ -42,7 +44,7 @@ export default function DocumentStep({
         }}
       />
     </Text>
-  
+
   return (
     <Card padding={4}>
       <DocumentStepTitle />
@@ -52,13 +54,16 @@ export default function DocumentStep({
         <span>
           <Items flow="row">
             <h2 className={classNames({'loading': onReading})}>
-              <FormattedMessage id={onReading ? 'DocumentStep.Data.titleReading' 
+              <FormattedMessage id={onReading ? 'DocumentStep.Data.titleReading'
               : 'DocumentStep.Data.title'} />
             </h2>
             { !onReading &&
               <div>
                 {documentReadingStep && (
-                  <DocumentReadingStep step={documentReadingStep} />
+                  <DocumentReadingStep 
+                    step={documentReadingStep}
+                    source={documentReadingSource}
+                    onSubmit={onSubmit} />
                 )}
                 <br />
                 {curpValidationStep && (
@@ -68,7 +73,7 @@ export default function DocumentStep({
             }
           </Items>
         </span>
-        
+
         {/* Document Images */}
         <Items gap={1} flow="row" justifyContent="right">
           {photos.map(photo => (

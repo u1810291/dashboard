@@ -6,6 +6,7 @@ const id = 'alteration-detection';
 const intlMessages = {
   'fragments.verifications.help-messages.alteration-detection.title': 'Alteration Detection',
   'fragments.verifications.help-messages.alteration-detection.subtitle': 'Checks that the document was not altered (i.e. document was edited by Photoshop)',
+  'fragments.verifications.help-messages.alteration-detection.table.0.1': 'Checking...',
   'fragments.verifications.help-messages.alteration-detection.table.1.1': 'Not Alterated',
   'fragments.verifications.help-messages.alteration-detection.table.1.2': 'Document is not altered.',
   'fragments.verifications.help-messages.alteration-detection.table.2.1': 'Alterated',
