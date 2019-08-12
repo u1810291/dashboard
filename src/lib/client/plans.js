@@ -12,6 +12,11 @@ export function getPlans(token, page) {
   });
 }
 
+export function getMerchantPlan(token) {
+  return http.get('/api/v1/merchant/me/billing/plan-details', {
+    headers: { ...getAuthHeader(token) }
+  });
+}
 export function cancelPlans(token) {
   return http.delete('/api/v1/merchant/me/billing', {
     headers: { ...getAuthHeader(token) }
