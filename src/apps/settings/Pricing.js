@@ -17,7 +17,7 @@ import {
 } from 'fragments';
 import { showIntercom } from 'lib/intercom';
 import { trackEvent } from 'lib/mixpanel';
-import { setMerchantPlan, setMerchantToken, updateMerchantPlan } from 'state/merchant';
+import { setMerchantPlan, setMerchantToken } from 'state/merchant';
 import { getPlans } from 'state/plans';
 
 import SettingsLayout from './SettingsLayout';
@@ -26,6 +26,7 @@ import { FormattedMessage } from 'react-intl';
 export default function Pricing() {
   const matiToken = useSelector(s => s.auth.token);
   const merchantPlan = useSelector(s => s.merchant.billing.planDetails);
+  console.log(merchantPlan);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPlan, setCurrentPlan] = useState((merchantPlan && merchantPlan.plan) || '');
   const [planList, setPlanList] = useState({});
@@ -86,12 +87,16 @@ export default function Pricing() {
   const handlePlanChange = async (plan) => {
     try {
       await dispatch(
-        updateMerchantPlan(matiToken, plan._id),
+        setMerchantPlan(matiToken, plan._id),
       );
+
       trackEvent('merchant_plan_changed', {
         ...(pick(plan, ['_id'])),
         subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
       });
+
+      setCurrentPlan(plan._id);
+
       closeOverlay();
     } catch (e) {
       notification.error(
@@ -115,7 +120,8 @@ export default function Pricing() {
       ...(pick(plan, ['_id'])),
       subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
     });
-    if (currentPlan && currentPlan.plan) {
+
+    if (currentPlan) {
       createOverlay(
         <ChangePlanModal {...plan} onSubmit={handlePlanChange.bind(this, plan)}/>,
       );
