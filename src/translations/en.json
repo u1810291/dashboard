@@ -668,22 +668,22 @@
   "Billing.notification.changeFailure": "Unable change your plan",
 
   "SecurityCheckStep.alteration-detection.title": "Alteration Detection",
-  "SecurityCheckStep.alteration-detection.checking": "Checking...",
+  "SecurityCheckStep.alteration-detection.checking": "Loading...",
   "SecurityCheckStep.alteration-detection.success": "Not Alterated",
   "SecurityCheckStep.alteration-detection.failure": "Document shows signs of tampering or attempted fraud. Mati cannot validate the document's authenticity.",
 
   "SecurityCheckStep.facematch.title": "Facematch",
-  "SecurityCheckStep.facematch.checking": "Checking...",
+  "SecurityCheckStep.facematch.checking": "Loading...",
   "SecurityCheckStep.facematch.success": "Matched",
   "SecurityCheckStep.facematch.failure": "The faces in the document and the user’s video/selfie are different. This can also be the result of poor lightning, blurriness, or flash on the ID card.",
 
   "SecurityCheckStep.template-matching.title": "Template Matching",
-  "SecurityCheckStep.template-matching.checking": "Checking...",
+  "SecurityCheckStep.template-matching.checking": "Loading...",
   "SecurityCheckStep.template-matching.success": "Matched",
   "SecurityCheckStep.template-matching.failure": "There was no match with any valid revisions of the document.",
 
   "SecurityCheckStep.watchlists.title": "Watchlist",
-  "SecurityCheckStep.watchlists.checking": "Checking...",
+  "SecurityCheckStep.watchlists.checking": "Loading...",
   "SecurityCheckStep.watchlists.success": "Not in watchlist",
   "SecurityCheckStep.watchlists.failure": "The user’s name was found in a watchlist.",
 
@@ -821,7 +821,7 @@
   "NoPlanSelected.title": "Before integration you should choose the pricing plan",
   "NoPlanSelected.link": "Go to Pricing",
   "UsecaseModal.title": "Click on a use case to watch how it works",
-  
+
   "StatesExplanation.verified.label": "Verified",
   "StatesExplanation.verified.text": "When the user finished the verification flow and there were no errors on any of the steps.",
   "StatesExplanation.reviewNeeded.label": "Review Needed",
