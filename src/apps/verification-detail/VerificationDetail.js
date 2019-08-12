@@ -71,7 +71,7 @@ function onSubmit(...args) {
   // console.log(dispatch, identityId, documentId, key, value, args);
 }
 
-const Header = ({ 
+const Header = ({
   info: {
     fullName,
     dateCreated
@@ -128,7 +128,7 @@ const VerificationDetail = ({
   const livenessStep = verification.steps.find(s => s.id === 'liveness');
   const userInfo = {
     fullName: titleize(identity.fullName || ''),
-    dateCreated: moment.utc(identity.dateCreated).format('MMM, Do, YYYY HH:mm')
+    dateCreated: moment.utc(identity.dateCreated).format('DD MMM, YYYY HH:mm')
   };
 
   return (
@@ -148,13 +148,13 @@ const VerificationDetail = ({
 
               {/* Liveness */}
               { livenessStep && <LivenessStep step={livenessStep} info={userInfo} /> }
-              
+
               {/* Documents */}
-              { verification.documents.map(doc => 
-                  <DocumentStep 
+              { verification.documents.map(doc =>
+                  <DocumentStep
                     document={doc}
                     source={documentsSources}
-                    countries={countries} 
+                    countries={countries}
                     key={doc.type}
                     onSubmit={onSubmit.bind(
                       null,
@@ -162,11 +162,11 @@ const VerificationDetail = ({
                       token,
                       identity.id,
                       findDocumentId(doc.type, documentsSources)
-                    )} 
+                    )}
                   />
                 )
               }
-              
+
               {/* Metadata */}
               {identity.metadata && (
                 <VerificationMetadata metadata={identity.metadata} />
@@ -194,7 +194,7 @@ const VerificationDetail = ({
                 <FiUpload />
                 <FormattedMessage id="verificationDetails.tools.sendWebhook" />
               </Click>
-              
+
               {/* Show verification data */}
               <Click
                 className="button"
