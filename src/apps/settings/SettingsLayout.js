@@ -10,8 +10,8 @@ import Items from 'components/items'
 import { ReactComponent as LogoutIcon } from './logout.svg'
 
 function SettingsLayout({ children, signOut, hasMerchantPlan, ...props }) {
-  const merchantPlan = useSelector(s => s.merchant.billing.planDetails);
-  const hasBillingPage = hasMerchantPlan || (merchantPlan && merchantPlan.plan);
+  const billing = useSelector(s => s.merchant.billing.providers);
+  const hasBillingPage = hasMerchantPlan || billing.length;
 
   async function handleLogout() {
     await confirm(<FormattedMessage id="confirm_string" />)
