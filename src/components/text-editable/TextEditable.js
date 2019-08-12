@@ -33,10 +33,12 @@ export default class TextEditable extends React.Component {
 
   onBlur = () => {
     if (this.state.doNotBlur) return
-    this.setState({
-      editingText: this.state.savedText,
-      isEditing: false
-    })
+    setTimeout(() => {
+      this.setState({
+        editingText: this.state.savedText,
+        isEditing: false
+      })
+    }, 0)
   }
 
   onFocus = () => {
@@ -72,9 +74,10 @@ export default class TextEditable extends React.Component {
       inputClassName,
       textClassName,
       isLoading,
+      isEditing,
       ...inputOptions
     } = this.props
-
+    
     if (this.state.isEditing) {
       return (
         <div className={className}>
