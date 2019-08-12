@@ -18,17 +18,22 @@ export default function Billing() {
   const merchantBillingProviders = useSelector(s => s.merchant.billing.providers);
   const merchantPlanDetails = useSelector(s => s.merchant.billing.planDetails);
   const [plan, setPlan] = useState({});
+  const [card, setCard] = useState({});
   const dispatch = useDispatch();
   const hasMerchantPlan = merchantPlanDetails && merchantPlanDetails.plan;
   const hadMerchantPlan = merchantPlanDetails && !merchantPlanDetails.activatedAt && merchantPlanDetails.invoiceAt;
-  const card = merchantBillingProviders &&
-    merchantBillingProviders.filter(provider => provider.name === 'stripe')[0].data.card;
+  const provider = merchantBillingProviders &&
+    merchantBillingProviders.filter(provider => provider.name === 'stripe');
 
   useEffect(() => {
     dispatch(
       getPlan(token, merchantPlanDetails.plan),
     ).then(({ data }) => {
       setPlan(data);
+
+      if (provider.length && provider[0].data) {
+        setCard(provider[0].data.card);
+      }
     })
   }, [token, merchantPlanDetails.plan, dispatch]);
 
