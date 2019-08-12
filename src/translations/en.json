@@ -426,10 +426,10 @@
   "verificationWebhookModal.header": "Send Webhook to your backend?",
   "verificationWebhookModal.body": "You have the option to send an update webhook to your server. This allows you to synch your backend with this user’s updated information.",
 
-  "dashboard.menu.identities": "My verifications",
-  "dashboard.menu.home": "Home",
+  "dashboard.menu.identities": "Verification List",
+  "dashboard.menu.metrics": "Metrics",
   "dashboard.menu.launch": "Launch",
-  "dashboard.menu.configuration": "Customize",
+  "dashboard.menu.product": "Product",
   "dashboard.menu.integration": "Integrate",
   "dashboard.menu.account": "Account",
   "dashboard.menu.developers": "Developers",
@@ -592,10 +592,11 @@
   "fragments.info.faq-panel.subtitle": "For more information go to",
   "fragments.info.faq-panel.title": "Mati FAQ",
   "fragments.info.faq-panel.cta": "See more information",
-  "fragments.account.mati-docs.iosDocumentation": "iOS",
-  "fragments.account.mati-docs.androidDocumentation": "Android",
+  "fragments.account.mati-docs.iosDocumentation": "iOS SDK",
+  "fragments.account.mati-docs.androidDocumentation": "Android SDK",
   "fragments.account.mati-docs.github": "Go to GitHub",
-  "fragments.integration.integration-code.title": "Web SDK",
+  "fragments.integration.integration-code.titleWeb": "Web SDK",
+  "fragments.integration.integration-code.titleMobile": "Mobile SDK",
   "fragments.integration.integration-code.javascript": "JavaScript",
   "fragments.integration.integration-code.react": "React.js (coming soon)",
   "fragments.integration.integration-code.angular": "Angular (coming soon)",
@@ -818,10 +819,13 @@
   "PlanCancelModal.text": "In this case you can use all verification what you have on your account till date of next purchase.",
   "PlanCancelModal.submit": "Cancel Plan",
 
+  "Product.switcher.customization": "Customization",
+  "Product.switcher.integration": "Integration",
+
   "NoPlanSelected.title": "Before integration you should choose the pricing plan",
   "NoPlanSelected.link": "Go to Pricing",
   "UsecaseModal.title": "Click on a use case to watch how it works",
-  
+
   "StatesExplanation.verified.label": "Verified",
   "StatesExplanation.verified.text": "When the user finished the verification flow and there were no errors on any of the steps.",
   "StatesExplanation.reviewNeeded.label": "Review Needed",

@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { CardWithStub, Items, Stub, Click } from 'components'
+import { CardWithStub, Items, Stub, Card, Click } from 'components'
 import { default as Text, H2} from 'components/text'
 import openYoutubeOverlay from 'components/youtube-overlay'
 import VerificationPicture from './verification.svg'
@@ -190,5 +190,103 @@ export function LetsStartPanel() {
 
       <img src={LetsStartPicture} alt="" className="content-cover" />
     </CardWithStub>
+  )
+}
+
+export function LetsStartPanelIntegration() {
+  return (
+    <Card
+      gap={2}
+      padding={2}
+      flow="column"
+      align="center"
+      templateColumns="4fr 5fr"
+      background="apricot"
+    >
+      <Items flow="row">
+        <H2 lineHeight={2}>
+          <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.title" />
+        </H2>
+        <Text lineHeight={1.3}>
+          <FormattedMessage id="fragments.integration.installation-guide-panels.start-panel.message" />
+        </Text>
+        <section>
+          <Click
+            background="active"
+            href={PresentationFile}
+            as="a"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FormattedMessage id="LetsStartPanel.cta" />
+          </Click>
+        </section>
+      </Items>
+
+      <img src={LetsStartPicture} alt="" className="content-cover" />
+    </Card>
+  )
+}
+
+export function InstallFrontendCodePanelIntegration() {
+  return (
+    <Card
+      padding={2}
+      flow="column"
+      align="center"
+      gap={2}
+      templateColumns="3fr 6fr"
+      background="apricot"
+    >
+      <Items flow="row" gap={4}>
+        <Items flow="row" gap={1}>
+          <H2 lineHeight={2}>
+            <FormattedMessage id="fragments.integration.installation-guide-panels.jssdk-panel.title" />
+          </H2>
+          <Text lineHeight={1.3}>
+            <FormattedMessage id="fragments.integration.installation-guide-panels.jssdk-panel.message" />
+          </Text>
+        </Items>
+      </Items>
+      <img
+        src={VideoPicture}
+        alt=""
+        className="content-cover cursor-pointer"
+        onClick={openYoutubeOverlay.bind(null, { id: 'wm_nG8wfVMU' })}
+      />
+    </Card>
+  )
+}
+
+export function SetWebhooksPanelIntegration() {
+  return (
+    <Card
+      padding={2}
+      flow="column"
+      align="center"
+      gap={2}
+      templateColumns="3fr 6fr"
+      background="apricot"
+    >
+      <Items flow="row" gap={4}>
+        <Items flow="row" gap={1}>
+          <H2 lineHeight={2}>
+            <FormattedMessage id="fragments.integration.installation-guide-panels.webhooks-panel.title" />
+          </H2>
+          <Text lineHeight={1.3}>
+            <FormattedMessage id="fragments.integration.installation-guide-panels.webhooks-panel.message" />
+          </Text>
+          <a href="https://docs.getmati.com">docs.getmati.com</a>
+        </Items>
+      </Items>
+      <Items flow="row" extraPadding>
+        <img
+          src={VideoPicture}
+          alt=""
+          className="content-cover cursor-pointer"
+          onClick={openYoutubeOverlay.bind(null, { id: 'Gmgl_lxeFlY' })}
+        />
+      </Items>
+    </Card>
   )
 }

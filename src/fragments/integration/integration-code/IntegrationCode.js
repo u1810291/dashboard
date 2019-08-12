@@ -1,30 +1,24 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Card from 'components/card'
-import Button from 'components/button'
 import Items from 'components/items'
 import SyntaxHighlighter from 'components/syntax-highlighter'
+import MatiDocs from 'fragments/account/mati-docs'
 
 export default function IntegrationCode({ integrationCode }) {
   return (
-    <Card>
+    <Items flow="column" templateColumns="2fr 1fr" gap={2}>
       <Items flow="row">
         <h3>
-          <FormattedMessage id="fragments.integration.integration-code.title" />
+          <FormattedMessage id="fragments.integration.integration-code.titleWeb" />
         </h3>
-        <Items gap={1} justifyContent="start">
-          <Button buttonStyle="primary" size="small">
-            <FormattedMessage id="fragments.integration.integration-code.javascript" />
-          </Button>
-          <Button buttonStyle="default" disabled size="small">
-            <FormattedMessage id="fragments.integration.integration-code.react" />
-          </Button>
-          <Button buttonStyle="default" disabled size="small">
-            <FormattedMessage id="fragments.integration.integration-code.angular" />
-          </Button>
-        </Items>
         <SyntaxHighlighter language="html" code={integrationCode} />
       </Items>
-    </Card>
+      <Items flow="row" gap={2}>
+        <h3>
+          <FormattedMessage id="fragments.integration.integration-code.titleMobile" />
+        </h3>
+        <MatiDocs />
+      </Items>
+    </Items>
   )
 }

@@ -1,7 +1,6 @@
 :local(.content) {
   background: white;
   width: 500px;
-  border-right: 1px solid var(--mgi-theme-palette-lightgray);
 }
 
 :local(.matiButtonWrapper) {

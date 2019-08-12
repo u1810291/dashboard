@@ -5,7 +5,6 @@ import { getMerchantApps } from 'state/merchant'
 import { subscribeToWebhook, deleteWebhook, getWebhooks } from 'state/webhooks'
 import Items from 'components/items'
 import ClientApplication from 'fragments/account/client-application'
-import Support from 'fragments/account/support'
 import IntegrationLayout from './IntegrationLayout'
 
 function ClientApplications({
@@ -22,7 +21,7 @@ function ClientApplications({
       const apps = get(response, 'data.apps', [])
       apps.forEach(app => getWebhooks(token, app.clientId))
     })
-  }, [getMerchantApps, getWebhooks, token])
+  }, [token, getMerchantApps, getWebhooks])
 
   async function handleSubscribeToWebhook(clientId, url, secret) {
     await subscribeToWebhook(token, clientId, { url, secret })
@@ -52,9 +51,6 @@ function ClientApplications({
           ))}
         </Items>
       </main>
-      <aside>
-        <Support />
-      </aside>
     </IntegrationLayout>
   )
 }

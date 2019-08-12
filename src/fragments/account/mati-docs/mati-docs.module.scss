@@ -3,8 +3,6 @@
  * fragment setting page
  */
 :local(.content) {
-  margin: var(--mgi-spacing) 0;
-
   .doc-item {
     width: 11rem;
     margin-bottom: 1rem;
@@ -53,6 +51,28 @@
             stroke: var(--mgi-theme-palette-blue);
           }
         }
+      }
+    }
+  }
+
+  .buttonContent {
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+
+    .buttonRepo {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: left;
+      border: 1px solid var(--mgi-theme-palette-blue);
+      border-color: var(--mgi-theme-palette-blue);
+
+      svg:last-child {
+        margin-left: 0;
+      }
+
+      svg:first-child {
+        margin-right: 15px;
       }
     }
   }
