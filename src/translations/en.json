@@ -816,5 +816,14 @@
 
   "NoPlanSelected.title": "Before integration you should choose the pricing plan",
   "NoPlanSelected.link": "Go to Pricing",
-  "UsecaseModal.title": "Click on a use case to watch how it works"
+  "UsecaseModal.title": "Click on a use case to watch how it works",
+  
+  "StatesExplanation.verified.label": "Verified",
+  "StatesExplanation.verified.text": "When the user finished the verification flow and there were no errors on any of the steps.",
+  "StatesExplanation.reviewNeeded.label": "Review Needed",
+  "StatesExplanation.reviewNeeded.text": "When the user finished the verification flow and there is an error, for example, Biometric check failed. You should double-check the verification results.",
+  "StatesExplanation.running.label": "Running",
+  "StatesExplanation.running.text": "When the user has completed the verification and Mati is reviewing it.",
+  "StatesExplanation.rejected.label": "Rejected",
+  "StatesExplanation.rejected.text": "Only you as a merchant can edit a verification status and change it to “rejected”. Mati does not reject users."
 }

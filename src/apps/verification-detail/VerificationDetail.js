@@ -24,7 +24,7 @@ import Items from 'components/items'
 import Click from 'components/click'
 import confirm from 'components/confirm';
 import confirmStyled from 'components/confirm/ConfirmStyled';
-import { default as Text } from 'components/text';
+import { default as Text, HR } from 'components/text';
 import classNames from 'classnames';
 import { createOverlay, closeOverlay } from 'components/overlay'
 import PageContentLayout from 'components/page-content-layout'
@@ -38,6 +38,7 @@ import { ReactComponent as DeleteIcon } from './delete-icon.svg'
 import StatusSelect from '../../fragments/verifications/status-select/StatusSelect';
 import { FiUpload, FiCode } from 'react-icons/fi';
 import CSS from './VerificationDetail.module.scss';
+import StatesExplanation from 'fragments/verifications/states-explanation';
 
 function formatId(id = '') {
   return id.slice(-6)
@@ -196,6 +197,7 @@ const VerificationDetail = ({
               
               {/* Show verification data */}
               <Click
+                className="button"
                 onClick={ openWebhookModal.bind(
                   null,
                   get(identity, 'originalIdentity._embedded.verification', {})
@@ -207,6 +209,7 @@ const VerificationDetail = ({
 
               {/* Delete Verification */}
               <Click
+                className="button"
                 shadow={1}
                 onClick={ handleDeleteIdentity.bind(
                   null,
@@ -223,6 +226,8 @@ const VerificationDetail = ({
                 )}
                 <FormattedMessage id="verificationModal.delete" />
               </Click>
+              <HR width="0" />
+              <StatesExplanation />
             </Items>
           </aside>
         </PageContentLayout>
