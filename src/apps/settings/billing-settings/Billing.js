@@ -23,20 +23,24 @@ export default function Billing() {
   const hadMerchantPlan = hasMerchantPlan && !hasMerchantPlan.activatedAt && hasMerchantPlan.invoiceAt;
 
   useEffect(() => {
-    dispatch(
-      getPlan(token, merchantPlan.plan),
-    ).then(({ data }) => {
-      setPlan(data);
-    })
+    if (merchantPlan) {
+      dispatch(
+        getPlan(token, merchantPlan.plan),
+      ).then(({ data }) => {
+        setPlan(data);
+      })
+    }
   }, [token, merchantPlan, dispatch]);
 
   useEffect(() => {
-    dispatch(
-      getMerchantPlan(token),
-    ).then(({ data: { cardDetails } }) => {
-      setCard(cardDetails.last4);
-    })
-  }, [token, card, dispatch]);
+    if (merchantPlan) {
+      dispatch(
+        getMerchantPlan(token),
+      ).then(({ data: { cardDetails } }) => {
+        setCard(cardDetails.last4);
+      })
+    }
+  }, [token, card, merchantPlan, dispatch]);
 
   const handleCancelPlan = async () => {
     try {
