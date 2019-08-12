@@ -49,7 +49,8 @@ export default function Pricing() {
   const handleCardSubmit = async (plan, token = {}) => {
     try {
       trackEvent('merchant_entered_cc', {
-        ...(pick(plan, ['_id', 'subscriptionPrice'])),
+        ...(pick(plan, ['_id'])),
+        subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
       });
 
       await dispatch(
@@ -63,7 +64,8 @@ export default function Pricing() {
       setCurrentPlan(plan._id);
 
       trackEvent('merchant_cc_stored', {
-        ...(pick(plan, ['_id', 'subscriptionPrice'])),
+        ...(pick(plan, ['_id'])),
+        subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
       });
 
       closeOverlay();
@@ -87,7 +89,8 @@ export default function Pricing() {
         updateMerchantPlan(matiToken, plan._id),
       );
       trackEvent('merchant_plan_changed', {
-        ...(pick(plan, ['_id', 'subscriptionPrice'])),
+        ...(pick(plan, ['_id'])),
+        subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
       });
       closeOverlay();
     } catch (e) {
@@ -109,7 +112,8 @@ export default function Pricing() {
 
   const handlePlanClick = plan => {
     trackEvent('merchant_clicked_select_plan', {
-      ...(pick(plan, ['_id', 'subscriptionPrice'])),
+      ...(pick(plan, ['_id'])),
+      subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
     });
     if (currentPlan && currentPlan.plan) {
       createOverlay(
