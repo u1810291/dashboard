@@ -24,7 +24,7 @@ export default function PricingLargePlans({ name, subscriptionPrice, onClick = (
       <Plan
         title={name}
         price={ +subscriptionPrice ?
-          <FormattedMessage id="CardModal.planPrice" values={{ planPrice: subscriptionPrice }} />
+          <FormattedMessage id="CardModal.planPrice" values={{ planPrice: Math.floor(subscriptionPrice / 100) }} />
           : subscriptionPrice
         }
         onClick={onClick}

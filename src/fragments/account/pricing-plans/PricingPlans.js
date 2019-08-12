@@ -33,7 +33,7 @@ export default function PricingPlans({
       <Items justifyItems="center" flow="row" gap={1}>
         <section>
           <Text size={4} weight={4}>
-            ${subscriptionPrice}
+            ${Math.floor(subscriptionPrice / 100)}
           </Text>
           <Text size={4}>
             <FormattedMessage id="PricingPlans.pricePerMonth" />
@@ -42,7 +42,7 @@ export default function PricingPlans({
         <Text weight={1} color="secondary" align="center">
           <FormattedMessage
             id={'PricingPlans.limitationsNotice'}
-            values={{ amount: subscriptionPrice }}
+            values={{ amount: Math.floor(subscriptionPrice / 100) }}
           />
         </Text>
       </Items>

@@ -15,20 +15,20 @@ import CSS from './Billing.module.scss'
 
 export default function Billing() {
   const token = useSelector(s => s.auth.token);
-  const merchantPlanDetails = useSelector(s => s.merchant.billing.planDetails);
+  const merchantPlan = useSelector(s => s.merchant.billing.planDetails);
   const [plan, setPlan] = useState({});
   const [card, setCard] = useState({});
   const dispatch = useDispatch();
-  const hasMerchantPlan = merchantPlanDetails && merchantPlanDetails.plan;
-  const hadMerchantPlan = merchantPlanDetails && !merchantPlanDetails.activatedAt && merchantPlanDetails.invoiceAt;
+  const hasMerchantPlan = merchantPlan ? merchantPlan.plan : {};
+  const hadMerchantPlan = hasMerchantPlan && !hasMerchantPlan.activatedAt && hasMerchantPlan.invoiceAt;
 
   useEffect(() => {
     dispatch(
-      getPlan(token, merchantPlanDetails.plan),
+      getPlan(token, merchantPlan.plan),
     ).then(({ data }) => {
       setPlan(data);
     })
-  }, [token, merchantPlanDetails, dispatch]);
+  }, [token, merchantPlan, dispatch]);
 
   useEffect(() => {
     dispatch(
@@ -44,7 +44,7 @@ export default function Billing() {
         cancelPlan(token),
       );
       trackEvent('merchant_plan_declined', {
-        ...(pick(merchantPlanDetails.plan, ['_id'])),
+        ...(pick(hasMerchantPlan, ['plan'])),
       });
       closeOverlay();
     } catch (e) {
@@ -58,7 +58,7 @@ export default function Billing() {
 
   const handleCancel = () => {
     createOverlay(
-      <PlanCancelModal onSubmit={handleCancelPlan.bind(this, merchantPlanDetails.plan)} />
+      <PlanCancelModal onSubmit={handleCancelPlan.bind(this, plan.id)} />
     )
   };
 
@@ -123,7 +123,7 @@ export default function Billing() {
                     <FormattedMessage id="Billing.form.price" />
                   </Text>
                   <Text size={3} lineHeight={0}>
-                    <FormattedMessage id="CardModal.planPrice" values={{ planPrice: plan.subscriptionPrice }} />
+                    <FormattedMessage id="CardModal.planPrice" values={{ planPrice: Math.floor(plan.subscriptionPrice / 100) }} />
                   </Text>
                 </Items>
                 <Items flow="row">
