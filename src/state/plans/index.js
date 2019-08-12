@@ -82,10 +82,10 @@ const reducer = createReducer(initialState, {
       plans: payload,
     }
   },
-  [types.PLANS_DELETE_FAILURE]: function(state) {
+  [types.PLANS_DELETE_SUCCESS]: function(state, { payload }) {
     return {
       ...state,
-      plans: [],
+      ...payload.data,
     }
   },
 })

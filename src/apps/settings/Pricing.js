@@ -25,8 +25,8 @@ import { FormattedMessage } from 'react-intl';
 
 export default function Pricing() {
   const matiToken = useSelector(s => s.auth.token);
+  const merchantBilling = useSelector(s => s.merchant.billing.providers);
   const merchantPlan = useSelector(s => s.merchant.billing.planDetails);
-  console.log(merchantPlan);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPlan, setCurrentPlan] = useState((merchantPlan && merchantPlan.plan) || '');
   const [planList, setPlanList] = useState({});
@@ -121,7 +121,7 @@ export default function Pricing() {
       subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
     });
 
-    if (currentPlan) {
+    if (currentPlan || merchantBilling.length) {
       createOverlay(
         <ChangePlanModal {...plan} onSubmit={handlePlanChange.bind(this, plan)}/>,
       );
