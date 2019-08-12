@@ -260,6 +260,13 @@ const reducer = createReducer(initialState, {
     }
   },
 
+  [types.SET_MERCHANT_PLAN_SUCCESS]: function(state, { payload }) {
+    return {
+      ...state,
+      ...payload.data,
+    }
+  },
+
   [types.INTEGRATION_CODE_SUCCESS]: function(state, { payload }) {
     return {
       ...state,
