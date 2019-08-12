@@ -24,11 +24,11 @@ export function getPlans(token, page) {
   }
 }
 
-export function getCard(id) {
+export function getMerchantPlan(id) {
   return function(dispatch) {
     dispatch({ type: types.CARD_GET_REQUEST })
 
-    return client.plans.getCard(id)
+    return client.plans.getMerchantPlan(id)
       .then(payload => {
         dispatch({ type: types.CARD_GET_SUCCESS, payload })
         return payload

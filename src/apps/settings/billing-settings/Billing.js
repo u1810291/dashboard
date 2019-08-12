@@ -8,34 +8,35 @@ import { PlanCancelModal } from 'fragments'
 import Button from 'components/button'
 import { notification } from 'components/notification'
 import { trackEvent } from 'lib/mixpanel'
-import { cancelPlan, getPlan } from 'state/plans'
+import { cancelPlan, getPlan, getMerchantPlan } from 'state/plans'
 
 import SettingsLayout from '../SettingsLayout'
 import CSS from './Billing.module.scss'
 
 export default function Billing() {
   const token = useSelector(s => s.auth.token);
-  const merchantBillingProviders = useSelector(s => s.merchant.billing.providers);
   const merchantPlanDetails = useSelector(s => s.merchant.billing.planDetails);
   const [plan, setPlan] = useState({});
   const [card, setCard] = useState({});
   const dispatch = useDispatch();
   const hasMerchantPlan = merchantPlanDetails && merchantPlanDetails.plan;
   const hadMerchantPlan = merchantPlanDetails && !merchantPlanDetails.activatedAt && merchantPlanDetails.invoiceAt;
-  const provider = merchantBillingProviders &&
-    merchantBillingProviders.filter(provider => provider.name === 'stripe');
 
   useEffect(() => {
     dispatch(
       getPlan(token, merchantPlanDetails.plan),
     ).then(({ data }) => {
       setPlan(data);
-
-      if (provider.length && provider[0].data) {
-        setCard(provider[0].data.card);
-      }
     })
-  }, [token, merchantPlanDetails.plan, dispatch]);
+  }, [token, merchantPlanDetails, dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      getMerchantPlan(token),
+    ).then(({ data: { cardDetails } }) => {
+      setCard(cardDetails.last4);
+    })
+  }, [token, card, dispatch]);
 
   const handleCancelPlan = async () => {
     try {
@@ -112,7 +113,7 @@ export default function Billing() {
                     <FormattedMessage id="Billing.form.payment" />
                   </Text>
                   <Text size={3} lineHeight={0}>
-                    <FormattedMessage id="Billing.form.card" values={{ last4: card && card.last4 }} />
+                    <FormattedMessage id="Billing.form.card" values={{ last4: card }} />
                   </Text>
                 </Items>
               </Items>
