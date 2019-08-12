@@ -308,7 +308,6 @@ const reducer = createReducer(initialState, {
     }
   },
   [types.DOCUMENT_PATCH_SUCCESS]: function(state, { payload }) {
-    console.log(state, payload)
     let instances = { ...state.instances };
     let patchingFields = [].concat(state.patchingFields);
     // if (!instances[payload.identityId]) {
@@ -340,7 +339,6 @@ const reducer = createReducer(initialState, {
     }
   },
   [types.DOCUMENT_PATCH_FAILURE]: function(state, { payload }) {
-    console.log(state, payload)
     // let instances = { ...state.instances }
     let erroredFields = [].concat(state.erroredFields)
     let patchingFields = [].concat(state.patchingFields)

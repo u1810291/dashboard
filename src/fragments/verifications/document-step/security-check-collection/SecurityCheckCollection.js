@@ -12,6 +12,14 @@ function showHelpMessage(id) {
   createOverlay(<HelpMessage id={id} />)
 }
 
+function getStepStatus(id, error, status) {
+  if (status === 200) {
+    return error ? 'failure' : 'success';
+  }
+
+  return 'checking';
+}
+
 export default function SecurityCheckCollection({ steps = [] }) {
   return (
     <table className="mgi-table">
@@ -20,7 +28,7 @@ export default function SecurityCheckCollection({ steps = [] }) {
         <col width="60%" />
       </colgroup>
       <tbody>
-        { steps.map(({id, error}) => (
+        {steps.map(({id, error, status}) => (
           <tr key={id}>
             <td css={css`white-space: nowrap;`}>
               <FormattedMessage id={`SecurityCheckStep.${id}.title`} />
@@ -30,7 +38,7 @@ export default function SecurityCheckCollection({ steps = [] }) {
             </td>
             <td>
               <span className={error ? 'text-error' : 'text-normal'}>
-                <FormattedMessage id={`SecurityCheckStep.${id}.${error ? 'failure' : 'success'}`} />
+                <FormattedMessage id={`SecurityCheckStep.${id}.${getStepStatus(id, error, status)}`} />
               </span>
             </td>
           </tr>

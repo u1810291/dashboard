@@ -104,7 +104,7 @@ function Error({ error: { message } }) {
 
 export default function DocumentReadingStep({ step, source, onSubmit, isEditable=true }) {
   source = get(source, 'fields', {});
-  console.log('isEditable',isEditable)
+  
   if (step.error) {
     return <Error error={step.error} />
   }

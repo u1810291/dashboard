@@ -26,6 +26,6 @@ export function trackEvent(event, props) {
     console.warn('Mixpanel was not initialized')
     return
   }
-  console.log(event, props);
+
   window.mixpanel.track(event, props)
 }
