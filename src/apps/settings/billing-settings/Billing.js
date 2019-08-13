@@ -16,9 +16,9 @@ import CSS from './Billing.module.scss'
 export default function Billing() {
   const token = useSelector(s => s.auth.token);
   const billing = useSelector(s => s.merchant.billing.providers);
-  const merchantplanDetails = useSelector(s => s.merchant.billing.planDetails);
+  const merchantPlanDetails = useSelector(s => s.merchant.billing.planDetails);
   const [plan, setPlan] = useState(false);
-  const [merchantPlan, setMerchantPlan] = useState(merchantplanDetails);
+  const [merchantPlan, setMerchantPlan] = useState(merchantPlanDetails);
   const [card, setCard] = useState(false);
   const dispatch = useDispatch();
   const hadMerchantPlan = billing.length;
