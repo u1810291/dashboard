@@ -9,36 +9,36 @@ import { Configuration } from 'apps/configuration'
 import CSS from './Product.module.scss'
 
 export default function Product() {
-  const [toggle, changeToggle] = useState(true)
+  const [toggle, changeToggle] = useState(false)
 
   return (
     <Content>
       <div className={CSS.switcher}>
         <Button
           className={classNames([{
-            [CSS.active]: !toggle,
+            [CSS.active]: toggle,
           }, CSS.left])}
-          buttonStyle={toggle ? 'primary' : 'active'}
-          onClick={changeToggle.bind(this, true)}
+          buttonStyle={toggle ? 'active' : 'primary'}
+          onClick={() => changeToggle(false)}
         >
           <FormattedMessage id="Product.switcher.customization" />
         </Button>
         <Button
           className={classNames([{
-            [CSS.active]: toggle,
+            [CSS.active]: !toggle,
           }, CSS.right])}
-          buttonStyle={toggle ? 'active' : 'primary'}
-          onClick={changeToggle.bind(this, false)}
+          buttonStyle={toggle ? 'primary' : 'active'}
+          onClick={() => changeToggle(true)}
         >
           <FormattedMessage id="Product.switcher.integration" />
         </Button>
       </div>
-      {toggle && (
+      {!toggle && (
         <Items gap={12} padding={0} templateColumns="4fr 4fr">
-          <Configuration />
+          <Configuration goToIntegration={changeToggle} />
         </Items>
       )}
-      {!toggle && (
+      {toggle && (
         <Integration />
       )}
     </Content>

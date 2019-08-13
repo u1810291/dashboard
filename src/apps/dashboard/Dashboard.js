@@ -18,7 +18,6 @@ import { Settings } from 'apps/settings'
 import Launch from 'apps/launch'
 import Metrics from 'apps/metrics'
 import Info from 'apps/info'
-import Integration from 'apps/integration'
 import { signOut } from 'state/auth'
 import {
   getMerchant,
@@ -141,7 +140,6 @@ class Dashboard extends React.Component {
             <OwnersRoute path="/settings" component={Settings} />
             <OwnersRoute path="/metrics" component={Metrics} />
             <Route path="/info" component={Info} />
-            <OwnersRoute path="/integration" component={Integration} />
             <OwnersRoute path="/product" component={Product} />
             <OwnersRoute path="/" component={Launch} />
           </Switch>
