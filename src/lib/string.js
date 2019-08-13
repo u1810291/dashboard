@@ -41,12 +41,13 @@ export function formatValue(label, string) {
 
   return string
 }
+const parseDashboardFormat = value => moment.utc(value, 'MMM D, YYYY', true);
 
 export function ifDateFormat(value) {
-  const dateAsMoment = moment.utc(value, INPUT_DATE_FORMATS);
+  const dateAsMoment = parseDashboardFormat(value);
   return dateAsMoment.isValid();
 }
 
 export function formatISODate(value) {
-  return moment.utc(value, INPUT_DATE_FORMATS).format('YYYY-MM-DD');
+  return parseDashboardFormat(value).format('YYYY-MM-DD');
 }
