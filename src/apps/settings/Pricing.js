@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Waypoint } from 'react-waypoint';
-import _, { pick } from 'lodash';
+import { pick, sortBy } from 'lodash';
 import { closeOverlay, createOverlay, Items } from 'components';
 import { notification } from 'components/notification';
 import Feedback from 'fragments/info/feedback';
@@ -41,8 +41,8 @@ export default function Pricing() {
       if (data && data.rows.length) {
         setPlanList(data);
         setCurrentPage(data.page);
-        setBasicPlans(_.sortBy(data.rows.filter(plan => (!plan.isCustom)), ['order']));
-        setCustomPlans(_.sortBy(data.rows.filter(plan => (plan.isCustom)), ['order']));
+        setBasicPlans(sortBy(data.rows.filter(plan => (!plan.isCustom)), ['order']));
+        setCustomPlans(sortBy(data.rows.filter(plan => (plan.isCustom)), ['order']));
       }
     })
   }, [matiToken, currentPage, dispatch]);
@@ -164,7 +164,7 @@ export default function Pricing() {
                   />
                 ))}
               </Items>
-              <Items flow="none" templateColumns="repeat(2, 1fr)" gap={2}>
+              <Items flow="none" templateColumns="1fr" justifyItems="center" gap={2}>
                 {customPlans.map(plan => (
                   <PricingLargePlans
                     key={plan._id}
