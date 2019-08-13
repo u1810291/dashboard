@@ -26,7 +26,7 @@ export default function LaunchIntegrate() {
             <FormattedMessage id="LaunchIntegrate.description" />
           </Text>
         </Items>
-        <Click href="/integration" as="a" background="active">
+        <Click href="/product" as="a" background="active">
           <FormattedMessage id="LaunchIntegrate.cta" />
         </Click>
       </Items>

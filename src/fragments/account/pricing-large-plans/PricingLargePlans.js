@@ -4,7 +4,7 @@ import { Items, Card, Text, Click } from 'components'
 
 function Plan({ title, price, onClick }) {
   return (
-    <Card justifyItems="center" padding={2}>
+    <Card justifyItems="center" padding={2} style={{ width: '330px' }}>
       <Text size="7" weight="1">
         {title}
       </Text>
