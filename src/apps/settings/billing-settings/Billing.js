@@ -15,18 +15,18 @@ import CSS from './Billing.module.scss'
 
 export default function Billing() {
   const token = useSelector(s => s.auth.token);
-  const billing = useSelector(s => s.merchant.billing.providers);
   const merchantPlanDetails = useSelector(s => s.merchant.billing.planDetails);
+  const [loading, setLoading] = useState(true);
   const [plan, setPlan] = useState(false);
-  const [merchantPlan, setMerchantPlan] = useState(merchantPlanDetails);
+  const [merchantPlan, setMerchantPlan] = useState(merchantPlanDetails ? merchantPlanDetails.plan : false);
+  const [isPlanExist, setCurrentPlan] = useState(merchantPlan && merchantPlan.activatedAt);
   const [card, setCard] = useState(false);
   const dispatch = useDispatch();
-  const hadMerchantPlan = billing.length;
 
   useEffect(() => {
-    if (merchantPlan.plan) {
+    if (merchantPlan) {
       dispatch(
-        getPlan(token, merchantPlan.plan),
+        getPlan(token, merchantPlan),
       ).then(({ data }) => {
         setPlan(data);
       })
@@ -34,12 +34,14 @@ export default function Billing() {
   }, [token, merchantPlan, dispatch]);
 
   useEffect(() => {
-    if (merchantPlan.plan) {
+    if (merchantPlan) {
       dispatch(
         getMerchantPlan(token),
       ).then(({ data: { cardDetails, planDetails } }) => {
         setCard(cardDetails.last4);
-        setMerchantPlan(planDetails);
+        setMerchantPlan(planDetails.plan);
+        setCurrentPlan(!!planDetails.activatedAt);
+        setLoading(false);
       })
     }
   }, [token, card, merchantPlan, dispatch]);
@@ -74,98 +76,100 @@ export default function Billing() {
 
   return (
     <SettingsLayout aside={false} hasMerchantPlan>
-      <main>
-        <Items flow="row" gap={12}>
-          {(merchantPlan.activatedAt && card) && (
-            <Card padding={2.5}>
-              <Items gap={4} templateColumns="1fr 3fr">
+      {!loading && (
+        <main>
+          <Items flow="row" gap={12}>
+            {(isPlanExist && card) && (
+              <Card padding={2.5}>
+                <Items gap={4} templateColumns="1fr 3fr">
+                  <Items flow="row" alignContent="top">
+                    <Text color="gray">
+                      <FormattedMessage id="Billing.form.plan" />
+                    </Text>
+                    <Text size={3}>
+                      <div className={CSS.planActions}>
+                        <Items
+                          gap={1}
+                          templateColumns="3fr 2fr 3fr"
+                        >
+                          <Text lineHeight={1}>
+                            {plan.name}
+                          </Text>
+                          <Button
+                            buttonStyle="primary-revert"
+                            href="/settings/pricing"
+                          >
+                            <Text
+                              color="active"
+                              textDecoration="underline"
+                            >
+                              <FormattedMessage id="Billing.form.change" />
+                            </Text>
+                          </Button>
+                          <Button
+                            buttonStyle="primary-revert"
+                            onClick={handleCancel}
+                          >
+                            <Text
+                              color="error"
+                              textDecoration="underline"
+                            >
+                              <FormattedMessage id="Billing.form.cancel" />
+                            </Text>
+                          </Button>
+                        </Items>
+                      </div>
+                    </Text>
+                  </Items>
+                  <Items flow="row">
+                    <Text color="gray">
+                      <FormattedMessage id="Billing.form.payment" />
+                    </Text>
+                    <Text size={3} lineHeight={0}>
+                      <FormattedMessage id="Billing.form.card" values={{ last4: card }} />
+                    </Text>
+                  </Items>
+                </Items>
+                <Items gap={4} templateColumns="1fr 3fr">
+                  <Items flow="row">
+                    <Text color="gray" padding="12px 0 0 0">
+                      <FormattedMessage id="Billing.form.price" />
+                    </Text>
+                    <Text size={3} lineHeight={0}>
+                      <FormattedMessage id="CardModal.planPrice" values={{ planPrice: Math.floor(plan.subscriptionPrice / 100) }} />
+                    </Text>
+                  </Items>
+                  <Items flow="row">
+                    <Text color="gray" padding="12px 0 0 0">
+                      <FormattedMessage id="Billing.form.verification" />
+                    </Text>
+                    <Text size={3} lineHeight={0}>
+                      <FormattedMessage id="Billing.form.verification.data" values={{ amount: plan.includedVerifications }} />
+                    </Text>
+                  </Items>
+                </Items>
+              </Card>
+            )}
+            {!isPlanExist && (
+              <Card padding={2.5}>
                 <Items flow="row" alignContent="top">
                   <Text color="gray">
                     <FormattedMessage id="Billing.form.plan" />
                   </Text>
-                  <Text size={3}>
-                    <div className={CSS.planActions}>
-                      <Items
-                        gap={1}
-                        templateColumns="3fr 2fr 3fr"
-                      >
-                        <Text lineHeight={1}>
-                          {plan.name}
-                        </Text>
-                        <Button
-                          buttonStyle="primary-revert"
-                          href="/settings/pricing"
-                        >
-                          <Text
-                            color="active"
-                            textDecoration="underline"
-                          >
-                            <FormattedMessage id="Billing.form.change" />
-                          </Text>
-                        </Button>
-                        <Button
-                          buttonStyle="primary-revert"
-                          onClick={handleCancel}
-                        >
-                          <Text
-                            color="error"
-                            textDecoration="underline"
-                          >
-                            <FormattedMessage id="Billing.form.cancel" />
-                          </Text>
-                        </Button>
-                      </Items>
-                    </div>
+                  <Text color="error" size={3} lineHeight={0}>
+                    <FormattedMessage
+                      id="Billing.form.cancelPlan"
+                      values={{
+                        planName: plan.name,
+                        date: moment(plan.invoiceAt).format('DD MMMM YYYY')
+                      }} />
                   </Text>
                 </Items>
-                <Items flow="row">
-                  <Text color="gray">
-                    <FormattedMessage id="Billing.form.payment" />
-                  </Text>
-                  <Text size={3} lineHeight={0}>
-                    <FormattedMessage id="Billing.form.card" values={{ last4: card }} />
-                  </Text>
-                </Items>
-              </Items>
-              <Items gap={4} templateColumns="1fr 3fr">
-                <Items flow="row">
-                  <Text color="gray" padding="12px 0 0 0">
-                    <FormattedMessage id="Billing.form.price" />
-                  </Text>
-                  <Text size={3} lineHeight={0}>
-                    <FormattedMessage id="CardModal.planPrice" values={{ planPrice: Math.floor(plan.subscriptionPrice / 100) }} />
-                  </Text>
-                </Items>
-                <Items flow="row">
-                  <Text color="gray" padding="12px 0 0 0">
-                    <FormattedMessage id="Billing.form.verification" />
-                  </Text>
-                  <Text size={3} lineHeight={0}>
-                    <FormattedMessage id="Billing.form.verification.data" values={{ amount: plan.includedVerifications }} />
-                  </Text>
-                </Items>
-              </Items>
-            </Card>
-          )}
-          {(merchantPlan.activatedAt === null && hadMerchantPlan) && (
-            <Card padding={2.5}>
-              <Items flow="row" alignContent="top">
-                <Text color="gray">
-                  <FormattedMessage id="Billing.form.plan" />
-                </Text>
-                <Text color="error" size={3} lineHeight={0}>
-                  <FormattedMessage
-                    id="Billing.form.cancelPlan"
-                    values={{
-                      planName: plan.name,
-                      date: moment(plan.invoiceAt).format('DD MMMM YYYY')
-                    }} />
-                </Text>
-              </Items>
-            </Card>
-          )}
-        </Items>
-      </main>
+              </Card>
+            )}
+          </Items>
+        </main>
+      )}
     </SettingsLayout>
   )
 }
