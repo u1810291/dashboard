@@ -28,7 +28,7 @@ export default function Pricing() {
   const merchantBilling = useSelector(s => s.merchant.billing.providers);
   const merchantPlan = useSelector(s => s.merchant.billing.planDetails);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentPlan, setCurrentPlan] = useState(!!merchantPlan.activatedAt || '');
+  const [isPlanExist, setCurrentPlan] = useState(!!merchantPlan.activatedAt || '');
   const [planList, setPlanList] = useState({});
   const [customPlans, setCustomPlans] = useState([]);
   const [basicPlans, setBasicPlans] = useState([]);
@@ -121,7 +121,7 @@ export default function Pricing() {
       subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
     });
 
-    if (currentPlan || merchantBilling.length) {
+    if (isPlanExist || merchantBilling.length) {
       createOverlay(
         <ChangePlanModal {...plan} onSubmit={handlePlanChange.bind(this, plan)}/>,
       );
@@ -139,7 +139,7 @@ export default function Pricing() {
   };
 
   return (
-    <SettingsLayout aside={false} hasMerchantPlan={currentPlan}>
+    <SettingsLayout aside={false} hasMerchantPlan={isPlanExist}>
       <main>
         <Items flow="row" gap={12}>
           {planList.rows && (
@@ -149,7 +149,7 @@ export default function Pricing() {
                   <PricingPlans
                     key={plan._id}
                     onChoosePlan={handlePlanClick.bind(this, plan)}
-                    current={currentPlan && plan._id === currentPlan}
+                    current={isPlanExist && plan._id === isPlanExist}
                     {...plan}
                   />
                 ))}
