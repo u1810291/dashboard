@@ -16,11 +16,11 @@ import CSS from './Billing.module.scss'
 export default function Billing() {
   const token = useSelector(s => s.auth.token);
   const billing = useSelector(s => s.merchant.billing.providers);
-  const merchantPlan = useSelector(s => s.merchant.billing.planDetails);
+  const merchantplanDetails = useSelector(s => s.merchant.billing.planDetails);
   const [plan, setPlan] = useState(false);
+  const [merchantPlan, setMerchantPlan] = useState(merchantplanDetails);
   const [card, setCard] = useState(false);
   const dispatch = useDispatch();
-  const hasMerchantPlan = merchantPlan ? merchantPlan.plan : {};
   const hadMerchantPlan = billing.length;
 
   useEffect(() => {
@@ -37,22 +37,23 @@ export default function Billing() {
     if (merchantPlan.plan) {
       dispatch(
         getMerchantPlan(token),
-      ).then(({ data: { cardDetails } }) => {
+      ).then(({ data: { cardDetails, planDetails } }) => {
         setCard(cardDetails.last4);
+        setMerchantPlan(planDetails);
       })
     }
   }, [token, card, merchantPlan, dispatch]);
 
-  const handleCancelPlan = () => {
+  const handleCancelPlan = async () => {
     try {
-      dispatch(
+      await dispatch(
         cancelPlan(token),
       );
 
       setCard(false);
 
       trackEvent('merchant_plan_declined', {
-        ...(pick(hasMerchantPlan, ['plan'])),
+        ...(pick(plan)),
       });
 
       closeOverlay();
@@ -75,7 +76,7 @@ export default function Billing() {
     <SettingsLayout aside={false} hasMerchantPlan>
       <main>
         <Items flow="row" gap={12}>
-          {card && (
+          {(merchantPlan.activatedAt && card) && (
             <Card padding={2.5}>
               <Items gap={4} templateColumns="1fr 3fr">
                 <Items flow="row" alignContent="top">
@@ -146,7 +147,7 @@ export default function Billing() {
               </Items>
             </Card>
           )}
-          {!card && hadMerchantPlan && plan.activatedAt === null && (
+          {(merchantPlan.activatedAt === null && hadMerchantPlan) && (
             <Card padding={2.5}>
               <Items flow="row" alignContent="top">
                 <Text color="gray">

@@ -72,14 +72,16 @@ export function cancelPlan(token) {
 }
 
 const initialState = {
-  plans: [],
+  merchant: {
+    billing: null
+  },
 }
 
 const reducer = createReducer(initialState, {
   [types.PLANS_GET_SUCCESS]: function(state, { payload }) {
     return {
       ...state,
-      plans: payload,
+      ...payload.data,
     }
   },
   [types.PLANS_DELETE_SUCCESS]: function(state, { payload }) {
