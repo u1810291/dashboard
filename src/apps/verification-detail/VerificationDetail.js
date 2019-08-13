@@ -39,6 +39,7 @@ import StatusSelect from '../../fragments/verifications/status-select/StatusSele
 import { FiUpload, FiCode } from 'react-icons/fi';
 import CSS from './VerificationDetail.module.scss';
 import StatesExplanation from 'fragments/verifications/states-explanation';
+import { ifDateFormat, formatISODate } from 'lib/string';
 
 function formatId(id = '') {
   return id.slice(-6)
@@ -64,11 +65,16 @@ async function handleSendWebhook(dispatch, token, id) {
   await dispatch(sendWebhook(token, id));
 }
 
+function formatDateBeforeSend(text) {
+  return ifDateFormat(text) ? formatISODate(text) : text;
+}
+
 function onSubmit(...args) {
-  // args.shift()
   const [dispatch, token, identityId, documentId, key, value] = args;
-  dispatch(patchDocument(token, identityId, documentId, {[key]: {value}}))
-  // console.log(dispatch, identityId, documentId, key, value, args);
+  const valueToSend = {
+    [key]: {value: formatDateBeforeSend(value)}
+  }
+  dispatch(patchDocument(token, identityId, documentId, valueToSend ));
 }
 
 const Header = ({

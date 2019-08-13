@@ -24,20 +24,17 @@ export default function MatiDocs() {
       <div className={CSS.buttonContent}>
         {docsSections.map(([url, icon, message], index) => (
           <Button
+            external
             href={url}
             key={index}
             className={CSS.buttonRepo}
           >
             <Items gap={0} align="center" justifyContent="left" justifyItems="left">
-              <a href={url} target="_blank" rel="noopener noreferrer">
-                {icon}
-              </a>
+              {icon}
               <h3>
-                <a href={url} target="_blank" rel="noopener noreferrer">
-                  <FormattedMessage
-                    id={`fragments.account.mati-docs.${message}`}
-                  />
-                </a>
+                <FormattedMessage
+                  id={`fragments.account.mati-docs.${message}`}
+                />
               </h3>
             </Items>
           </Button>

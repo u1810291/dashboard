@@ -15,15 +15,16 @@ import CSS from './Billing.module.scss'
 
 export default function Billing() {
   const token = useSelector(s => s.auth.token);
-  const merchantPlan = useSelector(s => s.merchant.billing.planDetails);
-  const [plan, setPlan] = useState({});
-  const [card, setCard] = useState({});
+  const billing = useSelector(s => s.merchant.billing.providers);
+  const merchantPlanDetails = useSelector(s => s.merchant.billing.planDetails);
+  const [plan, setPlan] = useState(false);
+  const [merchantPlan, setMerchantPlan] = useState(merchantPlanDetails);
+  const [card, setCard] = useState(false);
   const dispatch = useDispatch();
-  const hasMerchantPlan = merchantPlan ? merchantPlan.plan : {};
-  const hadMerchantPlan = hasMerchantPlan && !hasMerchantPlan.activatedAt && hasMerchantPlan.invoiceAt;
+  const hadMerchantPlan = billing.length;
 
   useEffect(() => {
-    if (merchantPlan) {
+    if (merchantPlan.plan) {
       dispatch(
         getPlan(token, merchantPlan.plan),
       ).then(({ data }) => {
@@ -33,11 +34,12 @@ export default function Billing() {
   }, [token, merchantPlan, dispatch]);
 
   useEffect(() => {
-    if (merchantPlan) {
+    if (merchantPlan.plan) {
       dispatch(
         getMerchantPlan(token),
-      ).then(({ data: { cardDetails } }) => {
+      ).then(({ data: { cardDetails, planDetails } }) => {
         setCard(cardDetails.last4);
+        setMerchantPlan(planDetails);
       })
     }
   }, [token, card, merchantPlan, dispatch]);
@@ -47,9 +49,13 @@ export default function Billing() {
       await dispatch(
         cancelPlan(token),
       );
+
+      setCard(false);
+
       trackEvent('merchant_plan_declined', {
-        ...(pick(hasMerchantPlan, ['plan'])),
+        ...(pick(plan)),
       });
+
       closeOverlay();
     } catch (e) {
       notification.error(
@@ -70,7 +76,7 @@ export default function Billing() {
     <SettingsLayout aside={false} hasMerchantPlan>
       <main>
         <Items flow="row" gap={12}>
-          {hasMerchantPlan && (
+          {(merchantPlan.activatedAt && card) && (
             <Card padding={2.5}>
               <Items gap={4} templateColumns="1fr 3fr">
                 <Items flow="row" alignContent="top">
@@ -141,7 +147,7 @@ export default function Billing() {
               </Items>
             </Card>
           )}
-          {hadMerchantPlan && (
+          {(merchantPlan.activatedAt === null && hadMerchantPlan) && (
             <Card padding={2.5}>
               <Items flow="row" alignContent="top">
                 <Text color="gray">
