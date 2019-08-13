@@ -28,7 +28,7 @@ export default function Pricing() {
   const merchantBilling = useSelector(s => s.merchant.billing.providers);
   const merchantPlan = useSelector(s => s.merchant.billing.planDetails);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isPlanExist, setCurrentPlan] = useState(!!merchantPlan.activatedAt || '');
+  const [isPlanExist, setCurrentPlan] = useState(merchantPlan && merchantPlan.activatedAt);
   const [planList, setPlanList] = useState({});
   const [customPlans, setCustomPlans] = useState([]);
   const [basicPlans, setBasicPlans] = useState([]);

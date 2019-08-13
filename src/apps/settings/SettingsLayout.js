@@ -31,7 +31,7 @@ function SettingsLayout({ children, signOut, hasMerchantPlan, ...props }) {
         <NavLink to="/settings/pricing">
           <FormattedMessage id="apps.settings.pricing" />
         </NavLink>
-        {hasBillingPage && (
+        {!!hasBillingPage && (
           <NavLink to="/settings/billing">
             <FormattedMessage id="apps.settings.billing" />
           </NavLink>
