@@ -9,6 +9,8 @@ import TextFieldCSS from 'components/text-field/TextField.module.css'
 import { ReactComponent as EditIcon } from './icon-edit.svg'
 import Spinner from 'components/spinner'
 
+const DataWasntExtracted = () => <FormattedMessage id='DocumentReadingStep.notParsed' />
+
 export default class TextEditable extends React.Component {
   constructor(props) {
     super(props)
@@ -31,10 +33,12 @@ export default class TextEditable extends React.Component {
 
   onBlur = () => {
     if (this.state.doNotBlur) return
-    this.setState({
-      editingText: this.state.savedText,
-      isEditing: false
-    })
+    setTimeout(() => {
+      this.setState({
+        editingText: this.state.savedText,
+        isEditing: false
+      })
+    }, 0)
   }
 
   onFocus = () => {
@@ -70,9 +74,10 @@ export default class TextEditable extends React.Component {
       inputClassName,
       textClassName,
       isLoading,
+      isEditing,
       ...inputOptions
     } = this.props
-
+    
     if (this.state.isEditing) {
       return (
         <div className={className}>
@@ -95,7 +100,7 @@ export default class TextEditable extends React.Component {
               <Button
                 buttonStyle="primary"
                 className={CSS.okButton}
-                onClick={this.onSubmit}
+                onClick={this.onSubmit.bind(this)}
               >
                 <FormattedMessage id="ok" />
               </Button>
@@ -115,7 +120,7 @@ export default class TextEditable extends React.Component {
           onClick={this.onFocus}
         >
           <span>
-            {(this.props.error ? this.props.text : this.state.savedText) || '—'}
+            {(this.props.error ? this.props.text : this.state.savedText) || <DataWasntExtracted /> }
           </span>
           {isLoading ? (
             <Spinner className={CSS.spinner} />
@@ -134,5 +139,5 @@ TextEditable.propTypes = {
   textClassName: PropTypes.string,
   inputClassName: PropTypes.string,
   text: PropTypes.string,
-  onSubmit: PropTypes.func
+  // onSubmit: PropTypes.func
 }

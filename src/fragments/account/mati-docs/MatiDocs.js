@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Card from 'components/card'
+import Button from 'components/button'
 import Items from 'components/items'
 import CSS from './mati-docs.module.scss'
 import { ReactComponent as IconApple } from './icon-apple-documents.svg'
@@ -21,29 +21,25 @@ const docsSections = [
 export default function MatiDocs() {
   return (
     <div className={CSS.content}>
-      <Items templateColumns="1fr 1fr" gap={4}>
+      <div className={CSS.buttonContent}>
         {docsSections.map(([url, icon, message], index) => (
-          <Card key={index}>
-            <Items align="center" justifyContent="start">
-              <a href={url} target="_blank" rel="noopener noreferrer">
-                {icon}
-              </a>
-              <Items flow="row" gap={1}>
-                <h3>
-                  <a href={url} target="_blank" rel="noopener noreferrer">
-                    <FormattedMessage
-                      id={`fragments.account.mati-docs.${message}`}
-                    />
-                  </a>
-                </h3>
-                <a href={url} target="_blank" rel="noopener noreferrer">
-                  <FormattedMessage id="fragments.account.mati-docs.github" />
-                </a>
-              </Items>
+          <Button
+            external
+            href={url}
+            key={index}
+            className={CSS.buttonRepo}
+          >
+            <Items gap={0} align="center" justifyContent="left" justifyItems="left">
+              {icon}
+              <h3>
+                <FormattedMessage
+                  id={`fragments.account.mati-docs.${message}`}
+                />
+              </h3>
             </Items>
-          </Card>
+          </Button>
         ))}
-      </Items>
+      </div>
     </div>
   )
 }

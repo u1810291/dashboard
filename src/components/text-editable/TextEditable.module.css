@@ -23,6 +23,7 @@
 }
 
 :local(.textEditable) {
+  outline: 0;
   padding-right: 45px;
 }
 

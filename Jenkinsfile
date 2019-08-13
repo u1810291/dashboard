@@ -1,3 +1,5 @@
+def BUILD_NUM = "${env.BUILD_NUMBER}"
+
 pipeline {
   agent {
     docker {
@@ -27,7 +29,10 @@ pipeline {
         beforeAgent true
       }
       steps {
-        build '../mgi-dashboard-staging'
+        build job: '../mgi-dashboard-staging'
+        catchError {
+            build job: '../../../QA/Dashboard-release-test'
+        }
       }
     }
     stage('Deploy to production') {
@@ -38,6 +43,16 @@ pipeline {
       steps {
         build '../mgi-dashboard-production'
         build '../mgi-dashboard-master-branch-deploy-on-stage'
+      }
+    }
+    stage('Deploy to dev-01') {
+      when {
+        branch 'develop'
+        beforeAgent true
+      }
+      steps {
+        build job: '../build-develop-dev01', parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: BUILD_NUM] ]
+        build job: '../deploy-develop-dev01', parameters: [[$class: 'StringParameterValue', name: 'VERSION', value: BUILD_NUM] ]
       }
     }
   }

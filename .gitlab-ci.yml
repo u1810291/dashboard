@@ -1,0 +1,15 @@
+image: "node:latest"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  path:
+    - node_modules/
+
+before_script:
+  - yarn install
+
+lint:
+  script: yarn lint
+
+build:
+  script: yarn build

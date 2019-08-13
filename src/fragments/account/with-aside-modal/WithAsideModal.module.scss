@@ -1,0 +1,56 @@
+.withAsideModal {
+  border-radius: 4px 0 0 4px;
+  height: 540px;
+  width: 290px;
+  max-width: 290px;
+
+  img {
+    width: 64px;
+  }
+
+  .dooplaText {
+    padding: 0 26px 0 0;
+    line-height: 14px;
+    opacity: 0.7;
+  }
+
+  .title {
+    line-height: 40px;
+    height: 330px;
+    display: flex;
+    align-items: center;
+  }
+
+  .phrase {
+    height: 75px;
+    position: relative;
+
+    .veridicatioTop {
+      position: absolute;
+      margin-left: -2px;
+      margin-top: -25px;
+    }
+
+    .veridicatioBottom {
+      position: absolute;
+      margin-left: 185px;
+      margin-top: 50px;
+    }
+  }
+
+  .doopla {
+    padding-top: 20px;
+
+    span {
+      line-height: 0;
+    }
+  }
+}
+
+.withAsideModalContent {
+  height: 540px;
+  width: 370px;
+  max-width: 370px;
+  border-radius: 0 4px 4px 0;
+}
+

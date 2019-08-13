@@ -5,3 +5,17 @@
 :local(.headerColumn) {
   width: 180px;
 }
+
+.row {
+  position: relative;
+}
+
+.copy {
+  border: none;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  position: absolute;
+  top: -5px;
+  right: 10px;
+}

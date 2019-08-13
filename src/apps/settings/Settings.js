@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 import { Content } from 'components/application-box'
 import Items from 'components/items'
 import TeamSettings from './team-settings'
+import Billing from './billing-settings'
 import Pricing from './Pricing'
 import PersonalSetting from './personal-settings'
 
@@ -17,6 +18,7 @@ export default function Settings() {
         <Switch>
           <Route path="/settings/personal" component={PersonalSetting} />
           <Route path="/settings/pricing" component={Pricing} />
+          <Route path="/settings/billing" component={Billing} />
           <Route path="/settings" component={TeamSettings} />
         </Switch>
       </Items>

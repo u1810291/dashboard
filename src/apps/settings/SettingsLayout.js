@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { signOut } from 'state/auth'
@@ -9,7 +9,10 @@ import confirm from 'components/confirm'
 import Items from 'components/items'
 import { ReactComponent as LogoutIcon } from './logout.svg'
 
-function SettingsLayout({ children, signOut, ...props }) {
+function SettingsLayout({ children, signOut, hasMerchantPlan, ...props }) {
+  const billing = useSelector(s => s.merchant.billing.providers);
+  const hasBillingPage = hasMerchantPlan || billing.length;
+
   async function handleLogout() {
     await confirm(<FormattedMessage id="confirm_string" />)
     signOut()
@@ -28,6 +31,11 @@ function SettingsLayout({ children, signOut, ...props }) {
         <NavLink to="/settings/pricing">
           <FormattedMessage id="apps.settings.pricing" />
         </NavLink>
+        {!!hasBillingPage && (
+          <NavLink to="/settings/billing">
+            <FormattedMessage id="apps.settings.billing" />
+          </NavLink>
+        )}
         <Button onClick={handleLogout}>
           <Items inline align="center">
             <FormattedMessage id="apps.settings.signout" />

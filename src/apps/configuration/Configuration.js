@@ -130,7 +130,7 @@ class Configuration extends React.Component {
             )}
 
             <Items justifyContent="end" gap={1}>
-              <Click background="active" href="/integration" as="a">
+              <Click background="active" onClick={this.props.goToIntegration}>
                 <IconIntegrate />
                 <FormattedMessage id="fragments.configuration.button.start-integration" />
               </Click>
@@ -147,6 +147,8 @@ export default connect(
     auth: { token },
     merchant: { configuration, configurations, integrationCode, apps = [] },
     countries: { countries, isLoading }
+  }, {
+    goToIntegration,
   }) => ({
     token,
     configuration,
@@ -154,6 +156,7 @@ export default connect(
     integrationCode,
     countries,
     apps,
+    goToIntegration,
     countriesAreLoading: isLoading
   }),
   {

@@ -1,17 +1,16 @@
 :root {
-  --mgi-application-menu-height: 60px;
+  --mgi-application-menu-height: 50px;
   --mgi-application-menu-nested-width: 155px;
   --mgi-application-menu-nested-height: 40px;
-  --mgi-application-menu-background: var(--mgi-theme-palette-lightergray);
-  --mgi-application-menu-color: var(--mgi-theme-palette-default);
-  --mgi-application-menu-icon: var(--mgi-theme-palette-active);
-  --mgi-application-menu-border: var(--mgi-theme-palette-lightgray);
+  --mgi-application-menu-background: var(--mgi-theme-palette-blue);
+  --mgi-application-menu-color: #ffffff;
+  --mgi-application-menu-icon: #ffffff;
 }
 
 :local(.menu) {
   background: var(--mgi-application-menu-background);
   height: var(--mgi-application-menu-height);
-  border-bottom: 1px solid var(--mgi-application-menu-border);
+  border-bottom: 1px solid #ffffff;
   padding: 0 calc(var(--mgi-spacing) * 2);
   position: relative;
   top: 0;
@@ -21,10 +20,10 @@
 }
 
 :local(.menuItem):global(.active:not(.no-active)) {
-  --mgi-application-menu-background: var(--mgi-theme-palette-active);
+  background: rgba(255, 255, 255, 0.3);
   --mgi-application-menu-color: white;
   --mgi-application-menu-icon: white;
-  --mgi-application-menu-border: var(--mgi-application-menu-background);
+  border-bottom: 2px solid #ffffff;
 }
 
 :local(.menuItem) {
@@ -36,10 +35,7 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-
-  &:not(:last-child) {
-    border-right: 1px solid var(--mgi-application-menu-border);
-  }
+  border-right: 1px solid rgb(105, 129, 255);
 }
 
 :local(.menuItemIcon) {

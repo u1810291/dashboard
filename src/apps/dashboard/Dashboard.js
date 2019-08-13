@@ -11,25 +11,21 @@ import ApplicationMenu, {
   MenuItemSpacer
 } from 'components/application-menu'
 import Icons from 'components/icons'
-import { Configuration } from 'apps/configuration'
+import Product from 'apps/product'
 import VerificationHistory from 'apps/verification-history'
 import VerificationDetail from 'apps/verification-detail'
 import { Settings } from 'apps/settings'
 import Launch from 'apps/launch'
+import Metrics from 'apps/metrics'
 import Info from 'apps/info'
-import Integration from 'apps/integration'
 import { signOut } from 'state/auth'
 import {
   getMerchant,
   saveConfiguration,
   getIntegrationCode
 } from 'state/merchant'
-import { ReactComponent as MatiLogo } from 'assets/mati-logo-v2.svg'
-import { ReactComponent as IdentitiesIcon } from './icons/icon-menu-verifications.svg'
-import { ReactComponent as ConfigurationIcon } from './icons/icon-menu-customize.svg'
+import { ReactComponent as MatiLogo } from 'assets/mati-logo-white.svg'
 import { ReactComponent as AccountIcon } from './icons/icon-account.svg'
-import { ReactComponent as SettingsIcon } from './icons/icon-menu-integrate.svg'
-import { ReactComponent as LaunchIcon } from './icons/icon-menu-launch.svg'
 import { ReactComponent as LogoutIcon } from './icons/logout.svg'
 
 class Dashboard extends React.Component {
@@ -78,27 +74,23 @@ class Dashboard extends React.Component {
           <MenuItemLink
             to="/"
             label={formatMessage({ id: 'dashboard.menu.launch' })}
-            icon={<LaunchIcon />}
           />
         )}
         {isOwner && (
           <MenuItemLink
-            to="/configuration"
-            label={formatMessage({ id: 'dashboard.menu.configuration' })}
-            icon={<ConfigurationIcon />}
+            to="/product"
+            label={formatMessage({ id: 'dashboard.menu.product' })}
           />
         )}
         {isOwner && (
           <MenuItemLink
-            to="/integration"
-            label={formatMessage({ id: 'dashboard.menu.integration' })}
-            icon={<SettingsIcon />}
+            to="/metrics"
+            label={formatMessage({ id: 'dashboard.menu.metrics' })}
           />
         )}
         <MenuItemLink
           to="/verifications"
           label={formatMessage({ id: 'dashboard.menu.identities' })}
-          icon={<IdentitiesIcon />}
         />
         <MenuItemSpacer />
         <MenuItemLink
@@ -146,9 +138,9 @@ class Dashboard extends React.Component {
               component={VerificationDetail}
             />
             <OwnersRoute path="/settings" component={Settings} />
+            <OwnersRoute path="/metrics" component={Metrics} />
             <Route path="/info" component={Info} />
-            <OwnersRoute path="/integration" component={Integration} />
-            <OwnersRoute path="/configuration" component={Configuration} />
+            <OwnersRoute path="/product" component={Product} />
             <OwnersRoute path="/" component={Launch} />
           </Switch>
         </ApplicationBox>

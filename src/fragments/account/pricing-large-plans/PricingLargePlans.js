@@ -1,14 +1,14 @@
 import React from 'react'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Items, Card, Text, Click } from 'components'
 
 function Plan({ title, price, onClick }) {
   return (
-    <Card justifyItems="center">
+    <Card justifyItems="center" padding={2}>
       <Text size="7" weight="1">
         {title}
       </Text>
-      <Text size="4">{price}</Text>
+      <Text size="4" weight={4} padding="20px 0 30px 0">{price}</Text>
       <Click hoverShadow={false} onClick={onClick}>
         <Text color="active" uppercase>
           <FormattedMessage id="PricingLargePlans.contactUs" />
@@ -18,22 +18,14 @@ function Plan({ title, price, onClick }) {
   )
 }
 
-export default function PricingLargePlans({ onClick = () => {} }) {
+export default function PricingLargePlans({ name, subscriptionPrice, onClick = () => {} }) {
   return (
     <Items>
       <Plan
-        title={<FormattedMessage id="PricingLargePlans.highgrowth.title" />}
-        price={
-          <FormattedHTMLMessage id="PricingLargePlans.highgrowth.priceline" />
-        }
-        onClick={onClick}
-      />
-      <Plan
-        title={<FormattedMessage id="PricingLargePlans.enterprise.title" />}
-        price={
-          <Text weight="4">
-            <FormattedMessage id="PricingLargePlans.enterprise.priceline" />
-          </Text>
+        title={name}
+        price={ +subscriptionPrice ?
+          <FormattedMessage id="CardModal.planPrice" values={{ planPrice: Math.floor(subscriptionPrice / 100) }} />
+          : subscriptionPrice
         }
         onClick={onClick}
       />

@@ -21,7 +21,7 @@ export function deleteWebhook(token, clientId, id) {
   })
 }
 
-export function sendWebhook(token, id, data) {
+export function sendWebhook(token, id) {
   return http.post(`/v1/identities/${id}/send-webhook`, null, {
     headers: { ...getAuthHeader(token) }
   });
