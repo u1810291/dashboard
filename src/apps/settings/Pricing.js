@@ -18,7 +18,7 @@ import {
 import { showIntercom } from 'lib/intercom';
 import { trackEvent } from 'lib/mixpanel';
 import { setMerchantPlan, setMerchantToken } from 'state/merchant';
-import { getPlans } from 'state/plans';
+import { getMerchantPlan, getPlans } from 'state/plans';
 
 import SettingsLayout from './SettingsLayout';
 import { FormattedMessage } from 'react-intl';
@@ -28,7 +28,7 @@ export default function Pricing() {
   const merchantBilling = useSelector(s => s.merchant.billing.providers);
   const merchantPlan = useSelector(s => s.merchant.billing.planDetails);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isPlanExist, setCurrentPlan] = useState(!!merchantPlan.activatedAt || '');
+  const [isPlanExist, setCurrentPlan] = useState(merchantPlan && merchantPlan.activatedAt);
   const [planList, setPlanList] = useState({});
   const [customPlans, setCustomPlans] = useState([]);
   const [basicPlans, setBasicPlans] = useState([]);
@@ -46,6 +46,16 @@ export default function Pricing() {
       }
     })
   }, [matiToken, currentPage, dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      getMerchantPlan(matiToken),
+    ).then(({ data: { planDetails } }) => {
+      if (!!planDetails.activatedAt) {
+        setCurrentPlan(planDetails.plan);
+      }
+    })
+  }, [matiToken, dispatch]);
 
   const handleCardSubmit = async (plan, token = {}) => {
     try {
