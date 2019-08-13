@@ -18,7 +18,7 @@ import {
 import { showIntercom } from 'lib/intercom';
 import { trackEvent } from 'lib/mixpanel';
 import { setMerchantPlan, setMerchantToken } from 'state/merchant';
-import { getPlans } from 'state/plans';
+import { getMerchantPlan, getPlans } from 'state/plans';
 
 import SettingsLayout from './SettingsLayout';
 import { FormattedMessage } from 'react-intl';
@@ -46,6 +46,16 @@ export default function Pricing() {
       }
     })
   }, [matiToken, currentPage, dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      getMerchantPlan(matiToken),
+    ).then(({ data: { planDetails } }) => {
+      if (!!planDetails.activatedAt) {
+        setCurrentPlan(planDetails.plan);
+      }
+    })
+  }, [matiToken, dispatch]);
 
   const handleCardSubmit = async (plan, token = {}) => {
     try {
