@@ -26,7 +26,7 @@ export default function LaunchCustomize() {
             <FormattedMessage id="LaunchCustomize.description" />
           </Text>
         </Items>
-        <Click href="/configuration" as="a" background="active">
+        <Click href="/product" as="a" background="active">
           <FormattedMessage id="LaunchCustomize.cta" />
         </Click>
       </Items>
