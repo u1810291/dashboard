@@ -5,7 +5,6 @@ import Icons from 'components/icons'
 import Items from 'components/items'
 import { createOverlay, closeOverlay } from 'components/overlay'
 import confirm from 'components/confirm'
-import classNames from 'classnames'
 import { copyToClipboard } from 'components/clipboard'
 import NewWebhookModal from '../new-webhook-modal'
 import CSS from './ClientApplication.module.css'
@@ -13,13 +12,9 @@ import { ReactComponent as Icon } from 'assets/copy-icon.v1.svg'
 
 function CopyToClipboardCell({ text }) {
   return (
-    <td className={classNames(['text-right', CSS.row])} onClick={() => copyToClipboard(text)}>
-      <Button
-        className={CSS.copy}
-      >
-        <Icon />
-      </Button>
-    </td>
+    <Button className={CSS.copy} onClick={() => copyToClipboard(text)}>
+      <Icon />
+    </Button>
   )
 }
 
@@ -86,15 +81,17 @@ export default function ClientApplication({
               <td>
                 <Items templateColumns="minmax(auto, 100%) auto">
                   <code>{webhook.url}</code>
-                  <Button
-                    buttonStyle="invisible"
-                    onClick={() => handleDeleteWebhook(webhook.id)}
-                  >
-                    <Icons.TrashBin className="svg-error" />
-                  </Button>
                 </Items>
               </td>
-              <CopyToClipboardCell text={webhook.url} />
+              <Items>
+                <CopyToClipboardCell text={webhook.url} />
+                <Button
+                  buttonStyle="invisible"
+                  onClick={() => handleDeleteWebhook(webhook.id)}
+                >
+                  <Icons.TrashBin className="svg-error" />
+                </Button>
+              </Items>
             </tr>
           ))}
 
