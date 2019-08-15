@@ -2,7 +2,7 @@ import moment from 'moment';
 import { titleize } from 'inflection';
 import { startCase } from 'lodash';
 
-const INPUT_DATE_FORMATS = [moment.ISO_8601, 'YYYY', 'MMM, YYYY', 'MMM D, YYYY'];
+const INPUT_DATE_FORMATS = [moment.ISO_8601, 'YYYY', 'MMM, YYYY', 'MMM D, YYYY', 'DD/MM/YYYY'];
 const RE_NON_DIGIT = /\D/g;
 
 export function titleCase(string = '') {
