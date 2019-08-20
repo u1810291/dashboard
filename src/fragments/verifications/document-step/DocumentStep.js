@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import { default as Text, HR } from 'components/text'
 import SecurityCheckCollection from './security-check-collection'
 import DocumentReadingStep from './document-reading-step'
+import ZoomableImage from './zoomable-image'
 import MexicanCurpValidationStep from './mexican-curp-validation-step'
 
 export default function DocumentStep({
@@ -32,7 +33,7 @@ export default function DocumentStep({
   const countryName =
     (countries.find(c => c.code === country) || {}).name || country
 
-  const DocumentStepTitle = () => 
+  const DocumentStepTitle = () =>
     <Text size={4.5} weight={4}>
       <FormattedMessage
         id="DocumentStep.title"
@@ -44,11 +45,11 @@ export default function DocumentStep({
         }}
       />
     </Text>
-  
+
   if(documentReadingSource.demo === true) {
     isEditable = false;
   }
-  
+
   return (
     <Card padding={4}>
       <DocumentStepTitle />
@@ -58,13 +59,13 @@ export default function DocumentStep({
         <span>
           <Items flow="row">
             <h2 className={classNames({'loading': onReading})}>
-              <FormattedMessage id={onReading ? 'DocumentStep.Data.titleReading' 
+              <FormattedMessage id={onReading ? 'DocumentStep.Data.titleReading'
               : 'DocumentStep.Data.title'} />
             </h2>
             { !onReading &&
               <div>
                 {documentReadingStep && (
-                  <DocumentReadingStep 
+                  <DocumentReadingStep
                     step={documentReadingStep}
                     source={documentReadingSource}
                     isEditable={isEditable}
@@ -78,14 +79,12 @@ export default function DocumentStep({
             }
           </Items>
         </span>
-        
+
         {/* Document Images */}
         <Items gap={1} flow="row" justifyContent="right">
           {photos.map(photo => (
             <div key={photo} css={css`max-width: 300px;`}>
-              <a href={photo} target="_blank" rel="noopener noreferrer">
-                <img src={photo} alt={type} css={css`max-height: 220px;`}/>
-              </a>
+              <ZoomableImage src={photo} alt={type} />
             </div>
           ))}
         </Items>

@@ -24,7 +24,7 @@ import {
   saveConfiguration,
   getIntegrationCode
 } from 'state/merchant'
-import { ReactComponent as MatiLogo } from 'assets/mati-logo-white.svg'
+import MatiLogo from 'assets/header-mati-logo.png'
 import { ReactComponent as AccountIcon } from './icons/icon-account.svg'
 import { ReactComponent as LogoutIcon } from './icons/logout.svg'
 
@@ -63,11 +63,11 @@ class Dashboard extends React.Component {
       <ApplicationMenu>
         {isOwner ? (
           <MenuItemLink to="/" noActive>
-            <MatiLogo />
+            <img src={MatiLogo} alt="header-logo" />
           </MenuItemLink>
         ) : (
           <MenuItemLink to="/verifications" noActive>
-            <MatiLogo />
+            <img src={MatiLogo} alt="header-logo" />
           </MenuItemLink>
         )}
         {isOwner && (
