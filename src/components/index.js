@@ -1,4 +1,4 @@
-export { closeOverlay, createOverlay } from './overlay'
+export { closeOverlay, createOverlay, OverlayWithBlur } from './overlay'
 export { default as Items } from './items'
 export { default as Card } from './card'
 export { default as CardWithStub, Stub } from './card-with-stub'

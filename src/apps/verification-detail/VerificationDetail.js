@@ -134,7 +134,7 @@ const VerificationDetail = ({
   const livenessStep = verification.steps.find(s => s.id === 'liveness');
   const userInfo = {
     fullName: titleize(identity.fullName || ''),
-    dateCreated: moment.utc(identity.dateCreated).format('DD MMM, YYYY HH:mm')
+    dateCreated: moment(identity.dateCreated).local().format('DD MMM, YYYY HH:mm'),
   };
 
   return (

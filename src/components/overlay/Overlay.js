@@ -3,10 +3,19 @@ import classNames from 'classnames'
 import CSS from './Overlay.module.scss'
 
 export function findRelativeParent(element) {
-  const parent = element.nodeName === 'HTML' ? element : element.parentElement
-  return parent.style.position === 'relative' || parent.nodeName === 'HTML'
-    ? parent
-    : findRelativeParent(parent)
+  if (!element) {
+    return;
+  }
+
+  const parent = element.nodeName === 'HTML' ? element : element.parentElement;
+
+  if (parent) {
+    return parent.style.position === 'relative' || parent.nodeName === 'HTML'
+      ? parent
+      : findRelativeParent(parent)
+  } else {
+    return element;
+  }
 }
 
 export default class Overlay extends React.Component {
