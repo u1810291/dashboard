@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { difference, without } from 'lodash'
+import classNames from 'classnames'
 import Icons from 'components/icons'
 import Button from 'components/button'
 import Text from 'components/text'
@@ -35,6 +36,7 @@ export function accessibleItems(available, mandatory, steps, index) {
 
 const verificationStep =  function VerificationSteps({
   intl,
+  bio,
   steps = [],
   availableDocumentTypes = [],
   mandatoryDocumentTypes = [],
@@ -91,100 +93,111 @@ const verificationStep =  function VerificationSteps({
     )
   }
 
-  return (
+  return !bio ? (
     <fieldset className="mgi-fieldset">
-      <legend>
-        <h3>
+      <div className={CSS.verificationSteps}>
+        <Text size={3} weight={4}>
           <FormattedMessage id="flow.documentTypeStep.title" />
-        </h3>
-      </legend>
-      {mandatoryDocumentTypes.map((doc, index) => (
-        <fieldset className="mgi-fieldset" key={index}>
-          <legend className="text-active">
-            <FormattedMessage id="flow.documentTypeStep.stepNo" /> {index + 1}
-          </legend>
-          <Items templateColumns="minmax(auto, 100%) auto" justifyContent="start">
-            <FormattedMessage id={`flow.documentTypeStep.${doc}`} />
-            <span className="text-secondary">
-              <FormattedMessage id="required" />
-            </span>
-          </Items>
-        </fieldset>
-      ))}
-      {steps.map((step, index) => (
-        <fieldset
-          className="mgi-fieldset"
-          key={index}
-          data-role="verificationStep"
-        >
-          <legend className="text-active">
-            <Items templateColumns="minmax(auto, 100%) auto">
-              <span>
-                <FormattedMessage id="flow.documentTypeStep.stepNo" />{' '}
-                {index + mandatoryDocumentTypes.length + 1}
-              </span>
-              <Items inline gap={1} align="center">
-                <Button buttonStyle="invisible">
-                  <Icons.Pencil
-                    className="svg-active"
-                    onClick={onEditItem.bind(this, index)}
-                  />
-                </Button>
-                <Button
-                  buttonStyle="invisible"
-                  data-role="deleteVerificationStep"
-                >
-                  <Icons.TrashBin
-                    className="svg-error"
-                    onClick={onRemoveItem.bind(this, index)}
-                  />
-                </Button>
+        </Text>
+        {mandatoryDocumentTypes.map((doc, index) => (
+          <fieldset className="mgi-fieldset" key={index}>
+            <legend className="text-active">
+              <FormattedMessage id="flow.documentTypeStep.stepNo" /> {index + 1}
+            </legend>
+            <Items templateColumns="minmax(auto, 100%) auto" justifyContent="start">
+              <FormattedMessage id={`flow.documentTypeStep.${doc}`} />
+              <span className="text-secondary">
+                  <FormattedMessage id="required" />
+                </span>
+            </Items>
+          </fieldset>
+        ))}
+        {steps.map((step, index) => (
+          <div
+            key={index}
+            className={CSS.verificationInfo}
+          >
+            <div className={classNames('text-active', [CSS.docTitle])}>
+              <Items templateColumns="minmax(auto, 100%) auto">
+                <Text size={2} weight={4}>
+                  <FormattedMessage id="flow.documentTypeStep.stepNo" />{' - '}
+                  {index + mandatoryDocumentTypes.length + 1}
+                </Text>
+              </Items>
+            </div>
+            <Items gap={1} align="center">
+              <Items
+                flow="row"
+                gap={step.length > 1 ? 0 : 1}
+                className={classNames({
+                  [CSS.docWrapper]: step.length === 1,
+                  [CSS.docWrapperMany]: step.length > 1,
+                })}
+              >
+                {step.sort().map((doc, docIndex) => (
+                  <Items flow="row" key={doc} className={[CSS.children]}>
+                    <div className={[CSS.child]}>
+                      <FormattedMessage id={`flow.documentTypeStep.${doc}`} />
+                    </div>
+                  </Items>
+                ))}
+              </Items>
+              <Items flow="row" gap={1}>
+                <Items flow="column">
+                  <Button buttonStyle="invisible">
+                    <Icons.Pencil
+                      className="svg-primary"
+                      onClick={onEditItem.bind(this, index)}
+                    />
+                  </Button>
+                  <Button
+                    buttonStyle="invisible"
+                    data-role="deleteVerificationStep"
+                  >
+                    <Icons.TrashBin
+                      className="svg-error"
+                      onClick={onRemoveItem.bind(this, index)}
+                    />
+                  </Button>
+                </Items>
               </Items>
             </Items>
-          </legend>
-          {step.sort().map((doc, docIndex) => (
-            <React.Fragment key={doc}>
-              <div>
-                <FormattedMessage id={`flow.documentTypeStep.${doc}`} />
-              </div>
-              {docIndex < step.length - 1 && (
-                <div className="text-secondary">
-                  <FormattedMessage id="or" />
-                </div>
-              )}
-            </React.Fragment>
-          ))}
-        </fieldset>
-      ))}
-      <Button
-        buttonStyle="primary"
-        onClick={() => onEditItem()}
-        disabled={
-          difference(availableDocumentTypes, mandatoryDocumentTypes, ...steps)
-            .length === 0
-        }
-        data-role="newVerificationStep"
-      >
-        <FormattedMessage id="flow.documentTypeStep.button.title" />
-      </Button>
-      <legend className={CSS.marginBlock}>
-        <Text lineHeight="2" weight="4">
+          </div>
+        ))}
+      </div>
+      {difference(availableDocumentTypes, mandatoryDocumentTypes, ...steps).length > 0 && (
+        <Button
+          className={CSS.newStep}
+          onClick={() => onEditItem()}
+          disabled={
+            difference(availableDocumentTypes, mandatoryDocumentTypes, ...steps)
+              .length === 0
+          }
+          data-role="newVerificationStep"
+        >
+          <FormattedMessage id="flow.documentTypeStep.button.title" />
+        </Button>
+      )}
+    </fieldset>
+  ) : (
+    <fieldset className="mgi-fieldset">
+      <div>
+        <Text size={3} weight={4}>
           <FormattedMessage id="flow.documentTypeStep.biometric" />
         </Text>
-        <div className={CSS.marginLeft}>
-          <Select
-            options={biometricOptions}
-            value={biometricOptions.find(option => option.value === patterns.biometrics)}
-            onChange={({value}) => {
-              onChange({
-                verificationPatterns: { ...patterns, biometrics: value }
-              })
-            }}
-          />
-        </div>
-      </legend>
+        <Select
+          className={CSS.marginBlock}
+          options={biometricOptions}
+          value={biometricOptions.find(option => option.value === patterns.biometrics)}
+          onChange={({value}) => {
+            onChange({
+              verificationPatterns: { ...patterns, biometrics: value }
+            })
+          }}
+        />
+      </div>
     </fieldset>
   )
-}
+};
 
 export default injectIntl(verificationStep);

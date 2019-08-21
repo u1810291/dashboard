@@ -1,11 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import classNames from 'classnames'
 import Button from 'components/button'
 import Items from 'components/items'
 import { createOverlay, closeOverlay } from 'components/overlay'
 import CountriesModal from '../countries-modal'
 import Spinner from 'components/spinner'
 import CSS from './Countries.module.scss'
+import Text from '../../../components/text';
 
 export default class Countries extends React.Component {
   openCountriesModal = () => {
@@ -40,13 +42,11 @@ export default class Countries extends React.Component {
     const { supportedCountries, isLoading } = this.props
     return (
       <fieldset className="mgi-fieldset">
-        <legend>
-          <h3>
-            <FormattedMessage id="flow.countries.title" />
-          </h3>
-        </legend>
+        <Text size={3} weight={4}>
+          <FormattedMessage id="flow.countries.title" />
+        </Text>
         <Items flow="row" gap={1} justifyContent="start">
-          <p className="text-secondary">
+          <p className={classNames('text-secondary', [CSS.description])} >
             <FormattedMessage id="flow.countries.description" />
           </p>
           {!!supportedCountries.length && (
@@ -75,7 +75,7 @@ export default class Countries extends React.Component {
                 </Items>
               )}
               <section>
-                <Button buttonStyle="primary" onClick={this.openCountriesModal}>
+                <Button className={CSS.action} onClick={this.openCountriesModal}>
                   {supportedCountries.length ? (
                     <FormattedMessage id="flow.countries.edit" />
                   ) : (
