@@ -1,46 +1,35 @@
 import React, { useState } from 'react'
-import classNames from 'classnames'
-import { Content, Items } from 'components'
-import Button from 'components/button'
-import { FormattedMessage } from 'react-intl'
+import { Content, Tab } from 'components';
 import Integration from 'apps/integration'
-import { Configuration } from 'apps/configuration'
-
-import CSS from './Product.module.scss'
+import {
+  Configuration,
+  MatiButtonAside
+} from 'apps/configuration'
+import IntegrationAside from 'apps/integration/IntegrationAside';
 
 export default function Product() {
-  const [toggle, changeToggle] = useState(false)
+  const [activeTabIndex, changeActiveTab] = useState(0)
 
   return (
     <Content>
-      <div className={CSS.switcher}>
-        <Button
-          className={classNames([{
-            [CSS.active]: toggle,
-          }, CSS.left])}
-          buttonStyle={toggle ? 'active' : 'primary'}
-          onClick={() => changeToggle(false)}
-        >
-          <FormattedMessage id="Product.switcher.customization" />
-        </Button>
-        <Button
-          className={classNames([{
-            [CSS.active]: !toggle,
-          }, CSS.right])}
-          buttonStyle={toggle ? 'primary' : 'active'}
-          onClick={() => changeToggle(true)}
-        >
-          <FormattedMessage id="Product.switcher.integration" />
-        </Button>
-      </div>
-      {!toggle && (
-        <Items gap={12} padding={0} templateColumns="4fr 4fr">
-          <Configuration goToIntegration={changeToggle} />
-        </Items>
-      )}
-      {toggle && (
-        <Integration />
-      )}
+      <Tab
+        withAside
+        padding={2}
+        active={activeTabIndex}
+        onClick={changeActiveTab}
+        tabs={[
+          'Product.tab.customization',
+          'Product.tab.integration',
+        ]}
+        contents={[
+          <Configuration />,
+          <Integration />
+        ]}
+        aside={[
+          <MatiButtonAside />,
+          <IntegrationAside />,
+        ]}
+      />
     </Content>
   );
 }
