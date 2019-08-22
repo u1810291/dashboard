@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Content, Tab } from 'components';
 import Integration from 'apps/integration'
 import {
@@ -7,11 +7,21 @@ import {
   MatiButtonAside
 } from 'apps/configuration'
 import IntegrationAside from 'apps/integration/IntegrationAside';
+import { getMerchantPlan } from 'state/plans';
 
 export default function Product() {
   const [activeTabIndex, changeActiveTab] = useState(0);
-  const { merchantPlan } = useSelector(s => s.merchant.billing);
-  const hasPlan = merchantPlan && merchantPlan.activatedAt;
+  const { token } = useSelector(s => s.auth);
+  const [hasPlan, setHasPlan] = useState(false);
+  const dispatch  = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      getMerchantPlan(token),
+    ).then(({ data: { planDetails } }) => {
+      setHasPlan(!!planDetails.activatedAt);
+    })
+  }, [token, dispatch]);
 
   return (
     <Content>
