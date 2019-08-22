@@ -24,19 +24,18 @@
 
   li {
     width: 225px;
-    height: 30px;
+    height: 43px;
     padding-left: 20px;
     cursor: pointer;
-    line-height: 30px;
+    line-height: 43px;
     border-radius: 0 4px 4px 0;
-    margin-bottom: 6px;
+    margin-bottom: 3px;
 
     &.active {
-      font-weight: bold;
       background-color: var(--mgi-theme-palette-lightergray);
 
       svg {
-        stroke-width: 3px;
+        stroke-width: 2px;
         color: var(--mgi-theme-palette-blue)
       }
     }
