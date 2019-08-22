@@ -1,32 +1,32 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { flowRight } from 'lodash/fp'
-import { Redirect, Route, Switch } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
-import { injectIntl } from 'react-intl'
+import React from 'react';
+import { connect } from 'react-redux';
+import { flowRight } from 'lodash/fp';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { injectIntl } from 'react-intl';
 import ApplicationBox from 'components/application-box'
 import ApplicationMenu, {
   MenuItemLink,
   MenuItemButton,
   MenuItemSpacer
-} from 'components/application-menu'
-import Icons from 'components/icons'
-import Product from 'apps/product'
-import VerificationHistory from 'apps/verification-history'
-import VerificationDetail from 'apps/verification-detail'
-import { Settings } from 'apps/settings'
-import Launch from 'apps/launch'
-import Metrics from 'apps/metrics'
-import Info from 'apps/info'
+} from 'components/application-menu';
+import Icons from 'components/icons';
+import Product from 'apps/product';
+import VerificationHistory from 'apps/verification-history';
+import VerificationDetail from 'apps/verification-detail';
+import { Settings } from 'apps/settings';
+import Launch from 'apps/launch';
+import Metrics from 'apps/metrics';
+import Info from 'apps/info';
 import { signOut } from 'state/auth'
 import {
   getMerchant,
   saveConfiguration,
   getIntegrationCode
-} from 'state/merchant'
-import MatiLogo from 'assets/header-mati-logo.png'
-import { ReactComponent as AccountIcon } from './icons/icon-account.svg'
-import { ReactComponent as LogoutIcon } from './icons/logout.svg'
+} from 'state/merchant';
+import MatiLogo from 'assets/header-mati-logo.png';
+import { ReactComponent as AccountIcon } from './icons/icon-account.svg';
+import { ReactComponent as LogoutIcon } from './icons/logout.svg';
 
 class Dashboard extends React.Component {
   componentDidMount() {

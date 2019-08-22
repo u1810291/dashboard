@@ -3,7 +3,7 @@ import { debounce } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import { ChromePicker } from 'react-color'
 import ColorCheckButton from 'components/color-check-button'
-import Items from 'components/items'
+import { Text, Items } from 'components'
 import { ReactComponent as ColorPicker } from './color-picker.svg'
 import CSS from './ConfigureColor.module.css'
 
@@ -49,11 +49,9 @@ export default function ConfigureColor({
 
   return (
     <fieldset className="mgi-fieldset">
-      <legend>
-        <h3>
-          <FormattedMessage id="flow.colorStep.title" />
-        </h3>
-      </legend>
+      <Text size={3} weight={4}>
+        <FormattedMessage id="flow.colorStep.title" />
+      </Text>
       <Items gap={1} justifyContent="start">
         {presets.map(([presetName, presetColor]) => (
           <ColorCheckButton

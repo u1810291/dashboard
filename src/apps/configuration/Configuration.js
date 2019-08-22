@@ -1,167 +1,119 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
-import { MatiButton } from 'components/mati-button'
-import { Content } from 'components/application-box'
-import { Click, Items, Icons, Card, H3, Text, createOverlay } from 'components'
-import { UsecaseModal } from 'fragments'
+import React, { useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { FiDroplet, FiFileText, FiEye, FiFlag } from 'react-icons/fi';
+import classNames from 'classnames';
+import { Content } from 'components/application-box';
+import { Items } from 'components';
 import {
-  saveConfiguration,
-  getMerchantApps,
-  COLOR_PRESETS,
-  AVAILABLE_LANGUAGES,
   AVAILABLE_DOCUMENT_TYPES,
+  COLOR_PRESETS,
+  getMerchantApps,
   MANDATORY_DOCUMENT_TYPES,
-} from 'state/merchant'
-import { getCountries } from 'state/countries'
-import ConfigureColor from 'fragments/configuration/configure-color'
-import VerificationSteps from 'fragments/configuration/verification-steps'
-import LanguageStep from './LanguageStep'
-import CSS from './Configuration.module.css'
-import { ReactComponent as IconIntegrate } from 'assets/icon-repeat.svg'
-import Countries from 'fragments/configuration/countries'
+  saveConfiguration,
+} from 'state/merchant';
+import { getCountries } from 'state/countries';
+import ConfigureColor from 'fragments/configuration/configure-color';
+import VerificationSteps from 'fragments/configuration/verification-steps';
+import Countries from 'fragments/configuration/countries';
 
-function showUsecaseModal() {
-  createOverlay(<UsecaseModal />)
-}
+import CSS from './Configuration.module.scss';
 
-function permalink(cliendId) {
-  const baseURL = process.env.REACT_APP_SIGNUP_URL
-  const metadata = '{"email":"user@example.com"}'
-  return `${baseURL}/?merchantToken=${cliendId}&metadata=${metadata}`
-}
+export default function Configuration() {
+  const { token } = useSelector(s => s.auth);
+  const { apps, configuration } = useSelector(s => s.merchant);
+  const { countries, isLoading } = useSelector(s => s.countries);
+  const [active, setActive] = useState(0);
+  const dispatch = useDispatch();
 
-class Configuration extends React.Component {
-  redirectToIdentity = ({ identityId }) => {
-    this.props.history.push(`/verifications/${identityId}`)
-  }
+  const updateConfiguration = (settings) => {
+    dispatch(
+      saveConfiguration(token, settings)
+    );
+  };
 
-  componentDidMount() {
-    this.props.getCountries(this.props.token)
-    this.props.getMerchantApps(this.props.token)
-  }
+  useEffect(() => {
+    dispatch(
+      getMerchantApps(token)
+    );
+  }, [token, apps.length, dispatch]);
 
-  updateConfiguration = settings => {
-    this.props.saveConfiguration(this.props.token, settings)
-  }
+  useEffect(() => {
+    dispatch(
+      getCountries(token)
+    );
+  }, [token, countries.length, dispatch]);
 
-  render() {
-    const flowSteps = [
-      <div id="language">
-        <LanguageStep
-          availableLanguages={AVAILABLE_LANGUAGES}
-          style={this.props.configuration.style}
-          onClick={this.updateConfiguration}
-        />
-      </div>,
-      <div id="buttonColor">
+  const flowSteps = [
+    {
+      title: 'Product.configuration.buttonsColor',
+      icon: <FiDroplet />,
+      body: <div id="buttonColor">
         <ConfigureColor
           presets={COLOR_PRESETS}
-          style={this.props.configuration.style}
-          onClick={this.updateConfiguration}
+          style={configuration.style}
+          onClick={updateConfiguration}
         />
       </div>,
-      <VerificationSteps
+    },
+    {
+      title: 'Product.configuration.verification',
+      icon: <FiFileText />,
+      body: <VerificationSteps
         availableDocumentTypes={AVAILABLE_DOCUMENT_TYPES}
         mandatoryDocumentTypes={MANDATORY_DOCUMENT_TYPES}
-        steps={this.props.configuration.verificationSteps}
-        patterns={this.props.configuration.verificationPatterns}
-        onChange={this.updateConfiguration}
+        steps={configuration.verificationSteps}
+        patterns={configuration.verificationPatterns}
+        onChange={updateConfiguration}
       />,
-      <Countries
-        countries={this.props.countries}
-        onSubmit={this.updateConfiguration}
-        supportedCountries={this.props.configuration.supportedCountries}
-        isLoading={this.props.countriesAreLoading}
-      />
-    ]
-    return (
-      <React.Fragment>
-        <Content fullwidth={false} className={CSS.content}>
-          <Items flow="row" gap={4}>
-            <h1>
-              <FormattedMessage id="onboarding.flow.title" />
-            </h1>
+    },
+    {
+      title: 'Product.configuration.biometric',
+      icon: <FiEye />,
+      body: <VerificationSteps
+        bio
+        availableDocumentTypes={AVAILABLE_DOCUMENT_TYPES}
+        mandatoryDocumentTypes={MANDATORY_DOCUMENT_TYPES}
+        steps={configuration.verificationSteps}
+        patterns={configuration.verificationPatterns}
+        onChange={updateConfiguration}
+      />,
+    },
+    {
+      title: 'Product.configuration.country',
+      icon: <FiFlag />,
+      body: <Countries
+        countries={countries}
+        onSubmit={updateConfiguration}
+        supportedCountries={configuration.supportedCountries}
+        isLoading={isLoading}
+      />,
+    },
+  ];
 
-            <Items flow="row" gap={4}>
-              {flowSteps.map((step, index) => (
-                <section key={index}>{step}</section>
-              ))}
-            </Items>
-          </Items>
-        </Content>
-        <Content fullwidth={false}>
-          <Items flow="row" gap={4} className={CSS.sidebar}>
-            <h1>
-              <FormattedMessage id="fragments.configuration.title" />
-            </h1>
-
-            {this.props.apps[0] && (
-              <Items
-                align="center"
-                justifyContent="center"
-                className={CSS.matiButtonWrapper}
-              >
-                <MatiButton
-                  language={this.props.configuration.style.language}
-                  color={this.props.configuration.style.color}
-                  clientId={this.props.apps[0].clientId}
-                  onSuccess={this.redirectToIdentity}
-                />
+  return (
+    <Content fullwidth={false} className={CSS.content}>
+      <Items gap={0} justifyContent="left">
+        <ul className={CSS.list}>
+          {flowSteps.map((step, index) => (
+            <li
+              key={step.title}
+              className={classNames({
+                [CSS.active]: index === active
+              })}
+              onClick={() => setActive(index)}
+            >
+              <Items gap={0} justifyContent="left" align="center">
+                {step.icon}
+                <FormattedMessage id={step.title} />
               </Items>
-            )}
-
-            <Click onClick={showUsecaseModal} background="active" shadow="2">
-              <Icons.Play />
-              <FormattedMessage id="fragments.configuration.usecase-modal" />
-            </Click>
-
-            {this.props.apps[0] && (
-              <Items flow="row" gap="1">
-                <H3>
-                  <FormattedMessage id="fragments.configuration.permalink-title" />
-                </H3>
-                <Card shadow="0" border="blue" padding="1">
-                  <Text color="blue">
-                    {permalink(this.props.apps[0].clientId)}
-                  </Text>
-                </Card>
-              </Items>
-            )}
-
-            <Items justifyContent="end" gap={1}>
-              <Click background="active" onClick={this.props.goToIntegration}>
-                <IconIntegrate />
-                <FormattedMessage id="fragments.configuration.button.start-integration" />
-              </Click>
-            </Items>
-          </Items>
-        </Content>
-      </React.Fragment>
-    )
-  }
+            </li>
+          ))}
+        </ul>
+        <Items>
+          {flowSteps[active].body}
+        </Items>
+      </Items>
+    </Content>
+  );
 }
-
-export default connect(
-  ({
-    auth: { token },
-    merchant: { configuration, configurations, integrationCode, apps = [] },
-    countries: { countries, isLoading }
-  }, {
-    goToIntegration,
-  }) => ({
-    token,
-    configuration,
-    configurations,
-    integrationCode,
-    countries,
-    apps,
-    goToIntegration,
-    countriesAreLoading: isLoading
-  }),
-  {
-    saveConfiguration,
-    getCountries,
-    getMerchantApps
-  }
-)(Configuration)

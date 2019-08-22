@@ -4,6 +4,7 @@
 
 :local(.colorPickerWrapper) {
   position: relative;
+  margin-top: 20px;
 }
 
 :local(.colorPickerButton) {

@@ -9,3 +9,15 @@
     outline: none;
   }
 }
+
+.action {
+  border: none;
+  color: var(--mgi-theme-palette-blue);
+  text-decoration: underline;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.description {
+  margin: 10px 20px 40px 0;
+}
