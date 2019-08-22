@@ -13,7 +13,7 @@ export default function Product() {
   const [activeTabIndex, changeActiveTab] = useState(0);
   const { token } = useSelector(s => s.auth);
   const [hasPlan, setHasPlan] = useState(false);
-  const dispatch  = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(
