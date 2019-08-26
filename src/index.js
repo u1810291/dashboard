@@ -18,6 +18,9 @@ import 'clipboard-polyfill'
 import 'core-js'
 import * as Sentry from '@sentry/browser'
 
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
+
 let ErrorLoggerWrapper = React.Fragment
 
 if (process.env.REACT_APP_SENTRY_DSN) {
@@ -28,29 +31,56 @@ if (process.env.REACT_APP_SENTRY_DSN) {
   ErrorLoggerWrapper = SentryLogger
 }
 
+const theme = createMuiTheme({
+  overrides: {
+    MuiToolbar: {
+      root: {
+        backgroundColor: '#3757FF',
+      }
+    },
+    MuiMenuItem: {
+      root: {
+        color: 'white'
+      }
+    }
+  },
+  typography: {
+    fontFamily: [
+      'Lato',
+      'Helvetica Neue',
+      'sans-serif'
+    ]
+  },
+  palette: {
+    type: 'light'
+  }
+});
+
 ReactDOM.render(
-  <ErrorLoggerWrapper>
-    <StripeProvider apiKey={process.env.REACT_APP_STRIPE_PUBLIC_KEY}>
-      <StripeElements>
-        <IntlProvider>
+  <ThemeProvider theme={theme}>
+    <ErrorLoggerWrapper>
+      <StripeProvider apiKey={process.env.REACT_APP_STRIPE_PUBLIC_KEY}>
+        <StripeElements>
           <StoreProvider>
-            <BrowserRouter>
-              <ScrollToTop>
-                <Root />
-                <NotificationsContainer
-                  closeButton={false}
-                  hideProgressBar={true}
-                  pauseOnHover={false}
-                  draggable={false}
-                  autoClose={5000}
-                />
-                <OverlayContainer />
-              </ScrollToTop>
-            </BrowserRouter>
+            <IntlProvider>
+              <BrowserRouter>
+                <ScrollToTop>
+                  <Root />
+                  <NotificationsContainer
+                    closeButton={false}
+                    hideProgressBar={true}
+                    pauseOnHover={false}
+                    draggable={false}
+                    autoClose={5000}
+                  />
+                  <OverlayContainer />
+                </ScrollToTop>
+              </BrowserRouter>
+            </IntlProvider>
           </StoreProvider>
-        </IntlProvider>
-      </StripeElements>
-    </StripeProvider>
-  </ErrorLoggerWrapper>,
+        </StripeElements>
+      </StripeProvider>
+    </ErrorLoggerWrapper>
+  </ThemeProvider>,
   document.getElementById('root')
 )

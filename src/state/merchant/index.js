@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { createReducer, createTypesSequence } from 'state/utils'
 import client from 'lib/client'
 import { store } from 'components/store-provider'
@@ -15,7 +16,8 @@ export const types = {
   ...createTypesSequence('SET_MERCHANT_PLAN'),
   ...createTypesSequence('SET_MERCHANT_TOKEN'),
   ...createTypesSequence('UPDATE_MERCHANT_PLAN'),
-  ...createTypesSequence('CREATE_APPLICATION')
+  ...createTypesSequence('CREATE_APPLICATION'),
+  ...createTypesSequence('SET_MERCHANT_LANG'),
 }
 
 export function getMerchant(token) {
@@ -24,6 +26,7 @@ export function getMerchant(token) {
     return client.merchant
       .getMerchant(token)
       .then(payload => {
+        // payload.data.configurations.dashboard.language='es';
         dispatch({ type: types.MERCHANT_GET_SUCCESS, payload })
         return payload
       })
@@ -180,7 +183,7 @@ export function setMerchantPlan(token, planId) {
 export function setMerchantToken(token, source) {
   return function(dispatch) {
     dispatch({ type: types.SET_MERCHANT_TOKEN_REQUEST })
-
+    
     return client.merchant
       .setMerchantToken(token, source)
       .then(payload => {
@@ -189,6 +192,23 @@ export function setMerchantToken(token, source) {
       })
       .catch(error => {
         dispatch({ type: types.SET_MERCHANT_TOKEN_FAILURE })
+        throw error
+      })
+  }
+}
+
+export function setMerchantLanguage(token, lang) {
+  return function(dispatch) {
+    dispatch({ type: types.SET_MERCHANT_LANG_REQUEST })
+
+    return client.merchant
+      .setMerchantToken(token)
+      .then(payload => {
+        dispatch({ type: types.SET_MERCHANT_LANG_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.SET_MERCHANT_LANG_FAILURE })
         throw error
       })
   }
@@ -213,7 +233,9 @@ const initialState = {
     },
     verificationSteps: [],
     supportedCountries: [],
-    dashboard: {}
+    dashboard: {
+      language: 'en'
+    }
   }
 }
 
@@ -221,13 +243,19 @@ const reducer = createReducer(initialState, {
   [types.MERCHANT_GET_SUCCESS]: function(state, { payload }) {
     const configuration = payload.data.configurations
     Reflect.deleteProperty(configuration, 'version')
+
     return {
       ...state,
       ...payload.data,
 
       configuration: {
         ...state.configuration,
-        ...configuration
+        ...configuration,
+        dashboard: {
+          ...state.configuration.dashboard,
+          ...get(configuration, 'dashboard'),
+          language: get(configuration, 'dashboard.language') || get(state.configuration, 'dashboard.language')
+        }
       }
     }
   },
@@ -258,6 +286,20 @@ const reducer = createReducer(initialState, {
     return {
       ...state,
       configuration
+    }
+  },
+
+  [types.CONFIGURATION_SAVE_SUCCESS]: function(state, { payload }) {
+    const configuration = payload.data.configurations
+    Reflect.deleteProperty(configuration, 'version')
+    return {
+      ...state,
+      ...payload.data,
+
+      configuration: {
+        ...state.configuration,
+        ...configuration
+      }
     }
   },
 
