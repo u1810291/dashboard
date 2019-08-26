@@ -34,10 +34,6 @@ class VerificationsFiltersForm extends Component {
         value: 'reviewNeeded'
       },
       {
-        label: this.props.intl.formatMessage({ id: 'statuses.pending' }),
-        value: 'pending'
-      },
-      {
         label: this.props.intl.formatMessage({ id: 'statuses.rejected' }),
         value: 'rejected'
       }
