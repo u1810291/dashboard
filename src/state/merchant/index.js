@@ -18,6 +18,7 @@ export const types = {
   ...createTypesSequence('UPDATE_MERCHANT_PLAN'),
   ...createTypesSequence('CREATE_APPLICATION'),
   ...createTypesSequence('SET_MERCHANT_LANG'),
+  ...createTypesSequence('UPLOAD_MERCHANT_MEDIA'),
 }
 
 export function getMerchant(token) {
@@ -183,7 +184,7 @@ export function setMerchantPlan(token, planId) {
 export function setMerchantToken(token, source) {
   return function(dispatch) {
     dispatch({ type: types.SET_MERCHANT_TOKEN_REQUEST })
-    
+
     return client.merchant
       .setMerchantToken(token, source)
       .then(payload => {
@@ -214,6 +215,23 @@ export function setMerchantLanguage(token, lang) {
   }
 }
 
+export function uploadMerchantMedia(token, form) {
+  return function(dispatch) {
+    dispatch({ type: types.UPLOAD_MERCHANT_MEDIA_REQUEST })
+
+    return client.merchant
+      .setMerchantLogo(token, form)
+      .then(payload => {
+        dispatch({ type: types.UPLOAD_MERCHANT_MEDIA_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.UPLOAD_MERCHANT_MEDIA_FAILURE })
+        throw error
+      })
+  }
+}
+
 const initialState = {
   integrationCode: undefined,
   apps: [],
@@ -236,8 +254,9 @@ const initialState = {
     dashboard: {
       language: 'en'
     }
-  }
-}
+  },
+  logoUrl: '',
+};
 
 const reducer = createReducer(initialState, {
   [types.MERCHANT_GET_SUCCESS]: function(state, { payload }) {
@@ -272,6 +291,13 @@ const reducer = createReducer(initialState, {
     return {
       ...state,
       ...payload.data,
+    }
+  },
+
+  [types.UPLOAD_MERCHANT_MEDIA_SUCCESS]: function(state, { payload }) {
+    return {
+      ...state,
+      logoUrl: payload.data.publicUrl,
     }
   },
 
