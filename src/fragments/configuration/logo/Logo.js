@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { useDropzone } from 'react-dropzone';
 import { Items, Text } from 'components';
+import Icons from 'components/icons';
+import Button from 'components/button';
 import { notification } from 'components/notification';
 import { putMerchants, uploadMerchantMedia } from 'state/merchant';
 import { compressImage } from 'lib/compressImage.js';
@@ -55,6 +57,12 @@ export default function Logo() {
     );
   }, []);
 
+  const clearLogo = async () => {
+    await dispatch(
+      putMerchants(token, { logoUrl: '' }),
+    );
+  };
+
   const { getRootProps, getInputProps } = useDropzone({
     onDropAccepted,
     onDropRejected,
@@ -94,6 +102,17 @@ export default function Logo() {
             </Text>
           </div>
         </div>
+        {logoUrl && (
+          <Button
+            buttonStyle="invisible"
+            data-role="deleteVerificationStep"
+            onClick={clearLogo}
+          >
+            <Icons.TrashBin
+              className="svg-error"
+            />
+          </Button>
+        )}
       </Items>
     </fieldset>
   );
