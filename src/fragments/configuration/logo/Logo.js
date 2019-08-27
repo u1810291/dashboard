@@ -90,7 +90,7 @@ export default function Logo() {
             <Text size={2.5}>
               {logoUrl ?
                 <img src={logoUrl} alt="logo-preview" className={CSS.logoPreview} /> :
-                <FormattedMessage id="flow.documentTypeStep.button.title" />}
+                <FormattedMessage id="flow.logoStep.button.title" />}
             </Text>
           </div>
         </div>
