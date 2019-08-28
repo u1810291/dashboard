@@ -17,93 +17,9 @@ import {
   bindToggle,
   bindPopper,
 } from 'material-ui-popup-state/hooks';
-import { saveConfiguration } from 'state/merchant'
-
-import { makeStyles } from '@material-ui/core/styles';
-
-import { ReactComponent as EnIcon } from './en.svg';
-import { ReactComponent as EsIcon } from './es.svg';
-
-function arrowGenerator(color) {
-  return {
-    '&[x-placement*="bottom"] $arrow': {
-      top: 0,
-      left: 0,
-      marginTop: '-0.95em',
-      width: '2em',
-      height: '1em',
-      '&::before': {
-        borderWidth: '0 1em 1em 1em',
-        borderColor: `transparent transparent ${color} transparent`,
-      },
-    },
-    '&[x-placement*="top"] $arrow': {
-      bottom: 0,
-      left: 0,
-      marginBottom: '-0.95em',
-      width: '2em',
-      height: '1em',
-      '&::before': {
-        borderWidth: '1em 1em 0 1em',
-        borderColor: `${color} transparent transparent transparent`,
-      },
-    },
-    '&[x-placement*="right"] $arrow': {
-      left: 0,
-      marginLeft: '-0.95em',
-      height: '2em',
-      width: '1em',
-      '&::before': {
-        borderWidth: '1em 1em 1em 0',
-        borderColor: `transparent ${color} transparent transparent`,
-      },
-    },
-    '&[x-placement*="left"] $arrow': {
-      right: 0,
-      marginRight: '-0.95em',
-      height: '2em',
-      width: '1em',
-      '&::before': {
-        borderWidth: '1em 0 1em 1em',
-        borderColor: `transparent transparent transparent ${color}`,
-      },
-    },
-  };
-};
-
-const useStyles = makeStyles(theme => ({
-  intlButton: {
-    '&:hover': {
-      backgroundColor: 'transparent'
-    }
-  },
-  avatar: {
-    height: 'auto',
-    backgroundColor: 'transparent',
-  },
-  listItem: {
-    paddingLeft: theme.spacing(1),
-  },
-  itemAvatar: {
-    minWidth: 'auto'
-  },
-  arrow: {
-    position: 'absolute',
-    fontSize: 6,
-    '&::before': {
-      content: '""',
-      margin: 'auto',
-      display: 'block',
-      width: 0,
-      height: 0,
-      borderStyle: 'solid',
-    },
-  },
-  popper: {
-    ...arrowGenerator('white'),
-    'z-index': 10000
-  }
-}));
+import { saveConfiguration } from 'state/merchant';
+import { default as useStyles } from './styles';
+import { languages } from './langs';
 
 const IntlButton = () => {
   const classes = useStyles();
@@ -121,17 +37,6 @@ const IntlButton = () => {
     .then(result => {
       popupState.close();
     });
-  };
-
-  const languages = {
-    en: {
-      label: 'English',
-      icon: <EnIcon />
-    },
-    es: {
-      label: 'Español',
-      icon: <EsIcon />
-    },
   };
 
   const popperModifiers = {
