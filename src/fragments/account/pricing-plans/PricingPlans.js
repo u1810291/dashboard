@@ -42,7 +42,7 @@ export default function PricingPlans({
         <Text weight={1} color="secondary" align="center">
           <FormattedMessage
             id={'PricingPlans.limitationsNotice'}
-            values={{ amount: Math.floor(subscriptionPrice / 100) }}
+            values={{ amount: includedVerifications }}
           />
         </Text>
       </Items>

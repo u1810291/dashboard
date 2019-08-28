@@ -39,7 +39,7 @@ function CardModal({
       <Items flow="row">
         <Items flow="row">
           <Items flow="row">
-            <Text weight={4} size={4.5} lineHeight={0} padding="30px 0 0 0">
+            <Text weight={4} size={4.5} lineHeight={1} padding="30px 0 0 0">
               <FormattedMessage id="CardModal.enterCard.1" />
             </Text>
             <Text size={1.5} padding="0 0 20px 0">

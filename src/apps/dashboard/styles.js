@@ -66,5 +66,5 @@ export default makeStyles(theme => ({
   },
   countryIcon: {
     position: 'relative'
-  }
+  },
 }));

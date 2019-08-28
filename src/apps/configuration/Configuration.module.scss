@@ -23,11 +23,11 @@
   margin-right: 20px;
 
   li {
+    display: flex;
     width: 225px;
     height: 43px;
     padding-left: 20px;
     cursor: pointer;
-    line-height: 43px;
     border-radius: 0 4px 4px 0;
     margin-bottom: 3px;
 
