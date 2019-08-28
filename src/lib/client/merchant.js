@@ -58,6 +58,12 @@ export function setMerchantPlan(token, planId) {
   })
 }
 
+export function setMerchantLogo(token, form) {
+  return http.post('/v1/media', form, {
+    headers: { ...getAuthHeader(token) },
+  })
+}
+
 export function createApplication(token) {
   return http.post(
     '/api/v1/merchants/apps',

@@ -137,7 +137,9 @@ const verificationStep =  function VerificationSteps({
                 {step.sort().map((doc, docIndex) => (
                   <Items flow="row" key={doc} className={[CSS.children]}>
                     <div className={[CSS.child]}>
-                      <FormattedMessage id={`flow.documentTypeStep.${doc}`} />
+                      <Text>
+                        <FormattedMessage id={`flow.documentTypeStep.${doc}`} />
+                      </Text>
                     </div>
                   </Items>
                 ))}

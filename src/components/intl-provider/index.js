@@ -1,16 +1,18 @@
 import React from 'react'
-import { IntlProvider, addLocaleData } from 'react-intl'
-import en from 'react-intl/locale-data/en'
-import es from 'react-intl/locale-data/es'
+import { get } from 'lodash'
+import { IntlProvider } from 'react-intl'
 import translations from 'translations'
+import { useSelector } from 'react-redux';
 
-addLocaleData([...en, ...es])
 const defaultLang = 'en'
 
-export default function Intl({ language = defaultLang, children }) {
+const Intl = ({ language = defaultLang, children }) => {
+  const currentLang = useSelector(state => get(state, 'merchant.configuration.dashboard.language'));
   return (
-    <IntlProvider locale={language} messages={translations[language]}>
+    <IntlProvider locale={currentLang} messages={translations[currentLang]}>
       {children}
     </IntlProvider>
   )
 }
+
+export default Intl
