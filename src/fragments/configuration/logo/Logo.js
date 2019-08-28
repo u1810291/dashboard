@@ -59,7 +59,7 @@ export default function Logo() {
 
   const clearLogo = async () => {
     await dispatch(
-      putMerchants(token, { logoUrl: '' }),
+      putMerchants(token, { logoUrl: null }),
     );
   };
 
