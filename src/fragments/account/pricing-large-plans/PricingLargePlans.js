@@ -1,10 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import classNames from 'classnames'
 import { Items, Card, Text, Click } from 'components'
 
-function Plan({ title, price, onClick }) {
+import CSS from './PricingLargePlans.module.scss'
+
+function Plan({ title, price, isOnePlan, onClick }) {
   return (
-    <Card justifyItems="center" padding={2} style={{ width: '330px' }}>
+    <Card justifyItems="center" padding={2} className={classNames({ [CSS.singlePlan]: isOnePlan })}>
       <Text size="7" weight="1">
         {title}
       </Text>
@@ -18,12 +21,13 @@ function Plan({ title, price, onClick }) {
   )
 }
 
-export default function PricingLargePlans({ name, subscriptionPrice, onClick = () => {} }) {
+export default function PricingLargePlans({ name, subscriptionPrice, isOnePlan, onClick = () => {} }) {
   return (
     <Items>
       <Plan
+        isOnePlan={isOnePlan}
         title={name}
-        price={ +subscriptionPrice ?
+        price={+subscriptionPrice ?
           <FormattedMessage id="CardModal.planPrice" values={{ planPrice: Math.floor(subscriptionPrice / 100) }} />
           : subscriptionPrice
         }
