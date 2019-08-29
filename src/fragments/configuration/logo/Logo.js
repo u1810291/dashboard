@@ -26,11 +26,19 @@ export default function Logo() {
     }
   }, [shouldLogoUpdate, logoUrl, token, dispatch]);
 
+  const showError = () => {
+    notification.error(
+      <>
+        <FormattedMessage id="flow.logoStep.button.error" />
+      </>,
+    );
+  };
+
   const onDropAccepted = useCallback(async files => {
     try {
       const file = files[0];
       const form = new FormData();
-      const compressedFile = await compressImage(file);
+      const compressedFile = await compressImage(file, { maxSideSize: 159 });
       form.append('media', compressedFile);
 
       await dispatch(
@@ -39,26 +47,17 @@ export default function Logo() {
 
       setShouldLogoUpdate(true);
     } catch (error) {
-      notification.error(
-        <>
-          <FormattedMessage id="flow.logoStep.button.error" />
-        </>,
-      );
+      showError();
     }
   }, [token, dispatch]);
 
   const onDropRejected = useCallback(() => {
-    notification.error(
-      <>
-        <FormattedMessage id="flow.logoStep.button.error" />
-      </>,
-    );
+    showError();
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDropAccepted,
     onDropRejected,
-    maxSize: 100 * 1024,
     multiple: false,
     accept: 'image/*',
   });
