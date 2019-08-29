@@ -1,10 +1,14 @@
-export const IMAGE_COMPRESSION_SETTINGS = {
+const defaultSettings = {
   maxSideSize: 2048,
   type: 'image/jpeg',
   quality: 0.25
 };
 
-export function compressImage(blob, options = IMAGE_COMPRESSION_SETTINGS) {
+export function compressImage(blob, options = {}) {
+  options = {
+    ...defaultSettings,
+    ...options
+  };
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   const image = new Image();
