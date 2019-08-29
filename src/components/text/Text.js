@@ -11,9 +11,9 @@ const Text = styled.span(
     lineHeight,
     textTransform: uppercase ? 'uppercase' : null,
     textAlign: align,
-    padding: padding,
-    opacity: opacity,
-    textDecoration: textDecoration,
+    padding,
+    opacity,
+    textDecoration,
   })
 )
 
