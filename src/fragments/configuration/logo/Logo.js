@@ -28,9 +28,7 @@ export default function Logo() {
 
   const showError = () => {
     notification.error(
-      <>
         <FormattedMessage id="flow.logoStep.button.error" />
-      </>,
     );
   };
 
