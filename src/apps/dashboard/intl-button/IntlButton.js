@@ -1,25 +1,43 @@
-import React from 'react';
+import React, { useRef, useEffect} from 'react';
 import { omit, get } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 
-import IconButton from '@material-ui/core/IconButton';
-import Popper from '@material-ui/core/Popper';
-import Fade from '@material-ui/core/Fade';
-import Paper from '@material-ui/core/Paper'
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
+import {
+  IconButton,
+  Popper,
+  Fade,
+  Paper,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
+} from '@material-ui/core';
 
 import {
   usePopupState,
   bindToggle,
   bindPopper,
 } from 'material-ui-popup-state/hooks';
+
 import { saveConfiguration } from 'state/merchant';
 import { default as useStyles } from './styles';
 import { languages } from './langs';
+
+function useOutsideAlerter(ref, popupState) {
+  function handleClickOutside(event) {
+    if (ref.current && !ref.current.contains(event.target)) {
+      event.stopImmediatePropagation();
+      popupState.close();
+    }
+  }
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  });
+}
 
 const IntlButton = () => {
   const classes = useStyles();
@@ -29,14 +47,15 @@ const IntlButton = () => {
   const dashboard = useSelector(state => get(state, 'merchant.configuration.dashboard'));
   const token = useSelector(state => get(state, 'auth.token'));
   const dispatch = useDispatch();
+  const wrapperRef = useRef(null);
 
-  const updateLanguage = language => {
-    dispatch(saveConfiguration(token, 
+  useOutsideAlerter(wrapperRef, popupState);
+
+  const updateLanguage = async (language) => {
+    await dispatch(saveConfiguration(token, 
       { dashboard: { ...dashboard, language }} 
-    ))
-    .then(result => {
-      popupState.close();
-    });
+    ));
+    popupState.close();
   };
 
   const popperModifiers = {
@@ -69,7 +88,7 @@ const IntlButton = () => {
       >
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={200}>
-            <Paper>
+            <Paper ref={wrapperRef}>
               <List>
                 { Object.entries(omit(languages, currentLang))
                   .map(([key, {label, icon}]) => (
