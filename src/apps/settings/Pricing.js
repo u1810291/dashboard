@@ -164,9 +164,10 @@ export default function Pricing() {
                   />
                 ))}
               </Items>
-              <Items flow="none" templateColumns="1fr" justifyItems="center" gap={2}>
+              <Items flow="none" templateColumns="1fr" justifyItems={customPlans.length > 1 ? 'left': 'center'} gap={2}>
                 {customPlans.map(plan => (
                   <PricingLargePlans
+                    isOnePlan={!(customPlans.length > 1)}
                     key={plan._id}
                     onClick={showIntercom}
                     {...plan}

@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { createReducer, createTypesSequence } from 'state/utils'
 import client from 'lib/client'
 import { store } from 'components/store-provider'
@@ -15,7 +16,9 @@ export const types = {
   ...createTypesSequence('SET_MERCHANT_PLAN'),
   ...createTypesSequence('SET_MERCHANT_TOKEN'),
   ...createTypesSequence('UPDATE_MERCHANT_PLAN'),
-  ...createTypesSequence('CREATE_APPLICATION')
+  ...createTypesSequence('CREATE_APPLICATION'),
+  ...createTypesSequence('SET_MERCHANT_LANG'),
+  ...createTypesSequence('UPLOAD_MERCHANT_MEDIA'),
 }
 
 export function getMerchant(token) {
@@ -24,6 +27,7 @@ export function getMerchant(token) {
     return client.merchant
       .getMerchant(token)
       .then(payload => {
+        // payload.data.configurations.dashboard.language='es';
         dispatch({ type: types.MERCHANT_GET_SUCCESS, payload })
         return payload
       })
@@ -194,6 +198,40 @@ export function setMerchantToken(token, source) {
   }
 }
 
+export function setMerchantLanguage(token, lang) {
+  return function(dispatch) {
+    dispatch({ type: types.SET_MERCHANT_LANG_REQUEST })
+
+    return client.merchant
+      .setMerchantToken(token)
+      .then(payload => {
+        dispatch({ type: types.SET_MERCHANT_LANG_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.SET_MERCHANT_LANG_FAILURE })
+        throw error
+      })
+  }
+}
+
+export function uploadMerchantMedia(token, form) {
+  return function(dispatch) {
+    dispatch({ type: types.UPLOAD_MERCHANT_MEDIA_REQUEST })
+
+    return client.merchant
+      .setMerchantLogo(token, form)
+      .then(payload => {
+        dispatch({ type: types.UPLOAD_MERCHANT_MEDIA_SUCCESS, payload })
+        return payload
+      })
+      .catch(error => {
+        dispatch({ type: types.UPLOAD_MERCHANT_MEDIA_FAILURE })
+        throw error
+      })
+  }
+}
+
 const initialState = {
   integrationCode: undefined,
   apps: [],
@@ -201,33 +239,42 @@ const initialState = {
   configuration: {
     flow: {
       required: [],
-      optional: []
+      optional: [],
     },
     style: {
       color: undefined,
-      language: 'en'
+      language: 'en',
     },
     system: {
       watchlists: true,
-      liveness: true
+      liveness: true,
     },
     verificationSteps: [],
     supportedCountries: [],
-    dashboard: {}
-  }
-}
+    dashboard: {
+      language: 'en',
+    }
+  },
+  logoUrl: null,
+};
 
 const reducer = createReducer(initialState, {
   [types.MERCHANT_GET_SUCCESS]: function(state, { payload }) {
     const configuration = payload.data.configurations
     Reflect.deleteProperty(configuration, 'version')
+
     return {
       ...state,
       ...payload.data,
 
       configuration: {
         ...state.configuration,
-        ...configuration
+        ...configuration,
+        dashboard: {
+          ...state.configuration.dashboard,
+          ...get(configuration, 'dashboard'),
+          language: get(configuration, 'dashboard.language') || get(state.configuration, 'dashboard.language')
+        }
       }
     }
   },
@@ -247,6 +294,17 @@ const reducer = createReducer(initialState, {
     }
   },
 
+  [types.MERCHANTS_PUT_SUCCESS]: function(state, { payload }) {
+    return { ...state, ...payload.data };
+  },
+
+  [types.UPLOAD_MERCHANT_MEDIA_SUCCESS]: function(state, { payload }) {
+    return {
+      ...state,
+      logoUrl: payload.data.publicUrl,
+    }
+  },
+
   [types.INTEGRATION_CODE_SUCCESS]: function(state, { payload }) {
     return {
       ...state,
@@ -258,6 +316,20 @@ const reducer = createReducer(initialState, {
     return {
       ...state,
       configuration
+    }
+  },
+
+  [types.CONFIGURATION_SAVE_SUCCESS]: function(state, { payload }) {
+    const configuration = payload.data.configurations
+    Reflect.deleteProperty(configuration, 'version')
+    return {
+      ...state,
+      ...payload.data,
+
+      configuration: {
+        ...state.configuration,
+        ...configuration
+      }
     }
   },
 
