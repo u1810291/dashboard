@@ -15,7 +15,7 @@ import CSS from './Logo.module.scss';
 export default function Logo() {
   const { token } = useSelector(s => s.auth);
   const { logoUrl } = useSelector(s => s.merchant);
-  const [shouldLogoUpdate, setShouldLogoUpdate] = useState(false);
+  const [ shouldLogoUpdate, setShouldLogoUpdate ] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,14 +23,13 @@ export default function Logo() {
       dispatch(
         putMerchants(token, { logoUrl }),
       );
-
       setShouldLogoUpdate(false);
     }
   }, [shouldLogoUpdate, logoUrl, token, dispatch]);
 
   const showError = () => {
     notification.error(
-        <FormattedMessage id="flow.logoStep.button.error" />
+      <FormattedMessage id="flow.logoStep.button.error" />
     );
   };
 
