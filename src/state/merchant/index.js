@@ -239,23 +239,23 @@ const initialState = {
   configuration: {
     flow: {
       required: [],
-      optional: []
+      optional: [],
     },
     style: {
       color: undefined,
-      language: 'en'
+      language: 'en',
     },
     system: {
       watchlists: true,
-      liveness: true
+      liveness: true,
     },
     verificationSteps: [],
     supportedCountries: [],
     dashboard: {
-      language: 'en'
+      language: 'en',
     }
   },
-  logoUrl: '',
+  logoUrl: null,
 };
 
 const reducer = createReducer(initialState, {
@@ -292,6 +292,10 @@ const reducer = createReducer(initialState, {
       ...state,
       ...payload.data,
     }
+  },
+
+  [types.MERCHANTS_PUT_SUCCESS]: function(state, { payload }) {
+    return { ...state, ...payload.data };
   },
 
   [types.UPLOAD_MERCHANT_MEDIA_SUCCESS]: function(state, { payload }) {
