@@ -37,8 +37,12 @@ export default function Logo() {
   const onDropAccepted = useCallback(async files => {
     try {
       const file = files[0];
+      const compressionOptions = {
+        maxSideSize: 159,
+        type: file.type === 'image/png' ? file.type : 'image/jpeg'
+      };
       const form = new FormData();
-      const compressedFile = await compressImage(file, { maxSideSize: 159 });
+      const compressedFile = await compressImage(file, compressionOptions);
       form.append('media', compressedFile);
 
       const mediaPayload = await dispatch(
