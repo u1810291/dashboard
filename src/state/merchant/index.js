@@ -220,7 +220,7 @@ export function uploadMerchantMedia(token, form) {
     dispatch({ type: types.UPLOAD_MERCHANT_MEDIA_REQUEST })
 
     return client.merchant
-      .setMerchantLogo(token, form)
+      .uploadMerchantMedia(token, form)
       .then(payload => {
         dispatch({ type: types.UPLOAD_MERCHANT_MEDIA_SUCCESS, payload })
         return payload
