@@ -16,17 +16,16 @@ export default function Logo() {
   const { token } = useSelector(s => s.auth);
   const { logoUrl } = useSelector(s => s.merchant);
   const [ shouldLogoUpdate, setShouldLogoUpdate ] = useState(false);
-  const [ innerLogoUrl, setInnerLogoUrl ] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (shouldLogoUpdate) {
       dispatch(
-        putMerchants(token, { logoUrl: innerLogoUrl }),
+        putMerchants(token, { logoUrl }),
       );
       setShouldLogoUpdate(false);
     }
-  }, [shouldLogoUpdate, innerLogoUrl, token, dispatch]);
+  }, [shouldLogoUpdate, logoUrl, token, dispatch]);
 
   const showError = () => {
     notification.error(
@@ -44,12 +43,9 @@ export default function Logo() {
       const form = new FormData();
       const compressedFile = await compressImage(file, compressionOptions);
       form.append('media', compressedFile);
-
-      const mediaPayload = await dispatch(
+      await dispatch(
         uploadMerchantMedia(token, form),
       );
-      setInnerLogoUrl(mediaPayload.data.url);
-
       setShouldLogoUpdate(true);
     } catch (error) {
       showError();
