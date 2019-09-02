@@ -10,7 +10,6 @@ import Product from 'apps/product'
 import VerificationHistory from 'apps/verification-history'
 import VerificationDetail from 'apps/verification-detail'
 import { Settings } from 'apps/settings'
-import Launch from 'apps/launch'
 import Metrics from 'apps/metrics'
 import Info from 'apps/info'
 import { signOut } from 'state/auth'
@@ -72,10 +71,9 @@ class Dashboard extends React.Component {
               component={VerificationDetail}
             />
             <OwnersRoute path="/settings" component={Settings} />
-            <OwnersRoute path="/metrics" component={Metrics} />
             <Route path="/info" component={Info} />
             <OwnersRoute path="/product" component={Product} />
-            <OwnersRoute path="/" component={Launch} />
+            <OwnersRoute path="/" component={Metrics} />
           </Switch>
         </ApplicationBox>
       </React.Fragment>
