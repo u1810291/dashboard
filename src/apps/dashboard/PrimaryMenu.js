@@ -21,17 +21,12 @@ export default function PrimaryMenu({ isOwner }) {
     {
       show: isOwner,
       to: '/',
-      label: intl.formatMessage({ id: 'dashboard.menu.launch' })
+      label: intl.formatMessage({ id: 'dashboard.menu.metrics' })
     },
     {
       show: isOwner,
       to: '/product',
       label: intl.formatMessage({ id: 'dashboard.menu.product' })
-    },
-    {
-      show: isOwner,
-      to: '/metrics',
-      label: intl.formatMessage({ id: 'dashboard.menu.metrics' })
     },
     {
       to: '/verifications',

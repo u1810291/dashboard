@@ -1,6 +1,6 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { Items, Card, Click, Text, H2 } from 'components'
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Items, Card, Click, Text, H2 } from 'components';
 
 export default function PricingPlans({
   subscriptionPrice,
@@ -13,7 +13,7 @@ export default function PricingPlans({
   const hasBorder = highlight || current;
 
   return (
-    <Card gap={4} background="white" border={hasBorder ? 'blue' : 'transparent' }>
+    <Card gap={4} background="white" border={hasBorder ? 'blue' : 'transparent' } style={{'min-width':'225px'}}>
       <Items flow="row" gap={2}>
         <H2>
           {name}
