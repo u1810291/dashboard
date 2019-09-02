@@ -58,7 +58,7 @@ export function setMerchantPlan(token, planId) {
   })
 }
 
-export function setMerchantLogo(token, form) {
+export function uploadMerchantMedia(token, form) {
   return http.post('/v1/media', form, {
     headers: { ...getAuthHeader(token) },
   })
