@@ -1,12 +1,13 @@
-export { closeOverlay, createOverlay, OverlayWithBlur } from './overlay'
-export { default as Items } from './items'
-export { default as Card } from './card'
-export { default as CardWithStub, Stub } from './card-with-stub'
-export { default as Click } from './click'
-export { default as Text, H1, H2, H3, Small } from './text'
-export { Content } from 'components/application-box'
-export { default as PageContentLayout } from './page-content-layout'
-export { default as PageContentMenu } from './page-content-menu'
-export { default as VideoPlayer } from './video-player'
-export { default as Icons } from './icons'
-export { default as Tab, TabWrapper } from './tab'
+export { closeOverlay, createOverlay, OverlayWithBlur } from './overlay';
+export { default as Items } from './items';
+export { default as Card } from './card';
+export { default as CardWithStub, Stub } from './card-with-stub';
+export { default as Click } from './click';
+export { MatiButton } from './mati-button';
+export { default as Text, H1, H2, H3, Small } from './text';
+export { Content } from 'components/application-box';
+export { default as PageContentLayout } from './page-content-layout';
+export { default as PageContentMenu } from './page-content-menu';
+export { default as VideoPlayer } from './video-player';
+export { default as Icons } from './icons';
+export { default as Tab, TabWrapper } from './tab';
