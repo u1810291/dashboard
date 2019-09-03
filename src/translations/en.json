@@ -547,6 +547,8 @@
   "fragments.account.mati-docs.androidDocumentation": "Android SDK",
   "fragments.account.mati-docs.github": "Go to GitHub",
   "fragments.integration.integration-code.titleWeb": "Web SDK",
+  "fragments.integration.integration-code.oldCode": "(Show old code)",
+  "fragments.integration.integration-code.newCode": "(Show new code)",
   "fragments.integration.integration-code.titleMobile": "Mobile SDK",
   "fragments.integration.integration-code.javascript": "JavaScript",
   "fragments.integration.integration-code.react": "React.js (coming soon)",
