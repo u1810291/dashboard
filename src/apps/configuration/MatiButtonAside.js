@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import 'mati-button';
 import { useIntl } from 'react-intl';
 import { UsecaseModal } from 'fragments';
 import {
-  MatiButton,
   Click,
   Icons,
   Items,
@@ -11,11 +11,6 @@ import {
 } from 'components';
 
 import CSS from './Configuration.module.scss';
-
-
-function redirectToIdentity({ identityId }) {
-  this.props.history.push(`/verifications/${identityId}`);
-}
 
 function showUsecaseModal() {
   createOverlay(<UsecaseModal />)
@@ -33,12 +28,15 @@ export default function MatiButtonAside() {
         justifyContent="center"
         className={CSS.matiButtonWrapper}
       >
-        <MatiButton
-          language={configuration.style.language}
-          color={configuration.style.color}
-          clientId={apps[0] && apps[0].clientId}
-          onSuccess={redirectToIdentity}
-        />
+        {(apps[0] && apps[0].clientId) &&
+          <mati-button
+            color={configuration.style.color}
+            clientId={apps[0] && apps[0].clientId}
+            language={configuration.style.language}
+            apiHost={process.env.REACT_APP_API_URL}
+            signupHost={process.env.REACT_APP_SIGNUP_URL}
+          />
+        }
       </Items>
       <Click onClick={showUsecaseModal} background="active" shadow="2">
         <Icons.Play />
