@@ -700,7 +700,7 @@
   "Billing.form.cancel": "Cancel",
   "MatiNumbers.0.title": "100+",
   "MatiNumbers.0.description": "Countries’ ID supported",
-  "MatiNumbers.1.title": "<2 hours",
+  "MatiNumbers.1.title": "{lt}2 hours",
   "MatiNumbers.1.description": "Integration process",
   "MatiNumbers.2.title": "24\/7",
   "MatiNumbers.2.description": "Dedicated Staff Support",
@@ -754,5 +754,7 @@
   "flow.logoStep.title": "Set your logo",
   "flow.logoStep.button.title": "+ Add Logo",
   "flow.logoStep.button.error": "Unable to load a file",
-  "Product.configuration.logo": "Add company logo"
+  "Product.configuration.logo": "Add company logo",
+  "AlertBanner.text": "To unlock all Mati features and increase the your verification volume - upgrade your plan",
+  "AlertBanner.buttonText": "Upgrade plan"
 }

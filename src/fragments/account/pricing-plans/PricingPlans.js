@@ -13,7 +13,7 @@ export default function PricingPlans({
   const hasBorder = highlight || current;
 
   return (
-    <Card gap={4} background="white" border={hasBorder ? 'blue' : 'transparent' } style={{'min-width':'225px'}}>
+    <Card gap={4} background="white" border={hasBorder ? 'blue' : 'transparent' } style={{'minWidth':'225px'}}>
       <Items flow="row" gap={2}>
         <H2>
           {name}

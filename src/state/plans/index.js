@@ -62,6 +62,10 @@ export function cancelPlan(token) {
     return client.plans.cancelPlans(token)
       .then(payload => {
         dispatch({ type: types.PLANS_DELETE_SUCCESS, payload })
+        dispatch({
+          type: 'SET_MERCHANT_PLAN_SUCCESS',
+          payload,
+        });
         return payload
       })
       .catch(error => {

@@ -62,7 +62,7 @@ class SignUp extends React.Component {
         </div>
         <p className="text-secondary">
           <span>
-            <FormattedHTMLMessage id="terms-of-conditions" />
+            <FormattedHTMLMessage id="terms-of-conditions" defaultMessage="" />
           </span>
         </p>
       </React.Fragment>

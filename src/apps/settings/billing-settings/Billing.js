@@ -51,7 +51,7 @@ export default function Billing() {
       await dispatch(
         cancelPlan(token),
       );
-
+      
       setCard(false);
 
       trackEvent('merchant_plan_declined', {
