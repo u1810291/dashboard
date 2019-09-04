@@ -1,24 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { FormattedMessage } from 'react-intl'
-import { useDispatch, useSelector } from 'react-redux'
-import { pick } from 'lodash'
-import moment from 'moment'
-import { Items, Card, Text, createOverlay, closeOverlay } from 'components'
-import { PlanCancelModal } from 'fragments'
-import Button from 'components/button'
-import { notification } from 'components/notification'
-import { trackEvent } from 'lib/mixpanel'
-import { cancelPlan, getPlan, getMerchantPlan } from 'state/plans'
+import React, { useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { pick } from 'lodash';
+import moment from 'moment';
 
-import SettingsLayout from '../SettingsLayout'
-import CSS from './Billing.module.scss'
+import { Items, Card, Text, createOverlay, closeOverlay } from 'components';
+import { PlanCancelModal } from 'fragments';
+import Button from 'components/button';
+import { notification } from 'components/notification';
+import { trackEvent } from 'lib/mixpanel';
+import { cancelPlan, getPlan, getMerchantPlan } from 'state/plans';
+
+import SettingsLayout from '../SettingsLayout';
+import CSS from './Billing.module.scss';
 
 export default function Billing() {
-  const token = useSelector(s => s.auth.token);
-  const merchantPlanDetails = useSelector(s => s.merchant.billing.planDetails);
+  const token = useSelector(({ auth = {} }) => auth.token);
+  const merchantPlanDetails = useSelector(
+    ({ merchant = {} }) => merchant.billing && merchant.billing.planDetails,
+  );
   const [loading, setLoading] = useState(true);
   const [plan, setPlan] = useState(false);
-  const [merchantPlan, setMerchantPlan] = useState(merchantPlanDetails ? merchantPlanDetails.plan : false);
+  const [merchantPlan, setMerchantPlan] = useState(
+    merchantPlanDetails ? merchantPlanDetails.plan : false,
+  );
   const [isPlanExist, setCurrentPlan] = useState(merchantPlan && merchantPlan.activatedAt);
   const [card, setCard] = useState(false);
   const dispatch = useDispatch();
@@ -29,7 +34,7 @@ export default function Billing() {
         getPlan(token, merchantPlan),
       ).then(({ data }) => {
         setPlan(data);
-      })
+      });
     }
   }, [token, merchantPlan, dispatch]);
 
@@ -42,7 +47,7 @@ export default function Billing() {
         setMerchantPlan(planDetails.plan);
         setCurrentPlan(!!planDetails.activatedAt);
         setLoading(false);
-      })
+      });
     }
   }, [token, card, merchantPlan, dispatch]);
 
@@ -51,7 +56,7 @@ export default function Billing() {
       await dispatch(
         cancelPlan(token),
       );
-      
+
       setCard(false);
 
       trackEvent('merchant_plan_declined', {
@@ -62,7 +67,7 @@ export default function Billing() {
     } catch (e) {
       notification.error(
         <>
-          <FormattedMessage id="Billing.notification.failure"/>
+          <FormattedMessage id="Billing.notification.failure" />
         </>,
       );
     }
@@ -70,8 +75,8 @@ export default function Billing() {
 
   const handleCancel = () => {
     createOverlay(
-      <PlanCancelModal onSubmit={handleCancelPlan.bind(this, plan.id)} />
-    )
+      <PlanCancelModal onSubmit={() => handleCancelPlan(plan.id)} />,
+    );
   };
 
   return (
@@ -161,8 +166,9 @@ export default function Billing() {
                       id="Billing.form.cancelPlan"
                       values={{
                         planName: plan.name,
-                        date: moment(plan.invoiceAt).format('DD MMMM YYYY')
-                      }} />
+                        date: moment(plan.invoiceAt).format('DD MMMM YYYY'),
+                      }}
+                    />
                   </Text>
                 </Items>
               </Card>
@@ -171,5 +177,5 @@ export default function Billing() {
         </main>
       )}
     </SettingsLayout>
-  )
+  );
 }

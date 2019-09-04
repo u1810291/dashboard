@@ -1,6 +1,8 @@
-import React from 'react'
-import classNames from 'classnames'
-import CSS from './ApplicationBox.module.css'
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import classNames from 'classnames';
+import CSS from './ApplicationBox.module.css';
 
 export default function ApplicationBox({ children, menu }) {
   return (
@@ -10,13 +12,26 @@ export default function ApplicationBox({ children, menu }) {
         {children}
       </div>
     </div>
-  )
+  );
 }
 
-export function Content({ className, children, fullwidth = true }) {
+ApplicationBox.propTypes = {
+  menu: PropTypes.node.isRequired,
+};
+
+
+export function Content({ className, children, fullwidth }) {
   return (
     <div className={classNames(CSS.content, className, { fullwidth })}>
       {children}
     </div>
-  )
+  );
 }
+
+Content.propTypes = {
+  fullwidth: PropTypes.bool,
+};
+
+Content.defaultProps = {
+  fullwidth: true,
+};

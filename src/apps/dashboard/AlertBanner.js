@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import {
   Box,
@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 
-const AlertPaper = withStyles(theme => ({
+const AlertPaper = withStyles(() => ({
   root: {
     height: 50,
     color: 'white',
@@ -20,7 +20,7 @@ const AlertPaper = withStyles(theme => ({
   },
 }))(Paper);
 
-const AlertButton = withStyles(theme => ({
+const AlertButton = withStyles(() => ({
   root: {
     color: '#ff6b00',
     backgroundColor: '#fff',
@@ -29,22 +29,22 @@ const AlertButton = withStyles(theme => ({
     marginRight: 10,
     border: 'none',
     '&:hover': {
-      backgroundColor: '#fff'
-    }
-  }
+      backgroundColor: '#fff',
+    },
+  },
 }))(Button);
 
 const AlertBanner = () => {
   const intl = useIntl();
 
   return (
-    <AlertPaper square={true}>
+    <AlertPaper square>
       <Box fontWeight={600} fontSize={16} m={1}>
-        { intl.formatMessage({id:'AlertBanner.text'}) }
+        { intl.formatMessage({ id: 'AlertBanner.text' }) }
       </Box>
       <Link to="/settings/pricing">
         <AlertButton variant="outlined">
-          {intl.formatMessage({id:'AlertBanner.buttonText'})}
+          {intl.formatMessage({ id: 'AlertBanner.buttonText' })}
         </AlertButton>
       </Link>
     </AlertPaper>

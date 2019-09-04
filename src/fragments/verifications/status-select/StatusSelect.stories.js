@@ -1,7 +1,7 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import StatusSelect from '.'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import StatusSelect from '.';
 
-const stories = storiesOf('fragments/verifications/StatusSelect', module)
+const stories = storiesOf('fragments/verifications/StatusSelect', module);
 
-stories.add('Default', () => (<StatusSelect message="hello" />))
+stories.add('Default', () => (<StatusSelect message="hello" />));

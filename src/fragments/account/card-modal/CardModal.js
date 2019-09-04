@@ -1,37 +1,39 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { useState } from 'react'
+import PropTypes from 'prop-types';
+import { jsx } from '@emotion/core';
+import { useState } from 'react';
 import {
   CardNumberElement,
   CardExpiryElement,
   CardCVCElement,
   injectStripe,
-} from 'react-stripe-elements'
-import { FormattedMessage } from 'react-intl'
-import { Card, Items, Click, Text } from 'components'
+} from 'react-stripe-elements';
+import { FormattedMessage } from 'react-intl';
 
-import WithAsideModal from '../with-aside-modal'
+import { Card, Items, Click, Text } from 'components';
+
+import WithAsideModal from '../with-aside-modal';
 
 function CardModal({
- name,
- stripe,
- onSubmit = () => {}
+  name,
+  stripe,
+  onSubmit = () => {},
 }) {
-  const [disabled, setDisabled] = useState(false)
-  const [error, setError] = useState(false)
+  const [disabled, setDisabled] = useState(false);
+  const [isError, setError] = useState(false);
 
   async function handleSubmit() {
-    setDisabled(true)
-    const {token, error} = await stripe.createToken({ name })
+    setDisabled(true);
+    const { token, error } = await stripe.createToken({ name });
 
     if (error) {
-      setDisabled(false)
-      setError(true)
+      setDisabled(false);
+      setError(true);
       return;
     }
 
     await onSubmit(token);
-    setDisabled(false)
+    setDisabled(false);
   }
 
   return (
@@ -49,7 +51,7 @@ function CardModal({
 
           <Items gap={1} flow="row">
             <FormattedMessage id="CardModal.cardNumber" />
-            <Card border={error ? 'error' : 'active'} shadow="0" padding="1">
+            <Card border={isError ? 'error' : 'active'} shadow="0" padding="1">
               <CardNumberElement />
             </Card>
           </Items>
@@ -57,14 +59,14 @@ function CardModal({
           <Items templateColumns="1fr 1fr">
             <Items gap={1} flow="row">
               <FormattedMessage id="CardModal.expDate" />
-              <Card border={error ? 'error' : 'active'} shadow="0" padding="1">
+              <Card border={isError ? 'error' : 'active'} shadow="0" padding="1">
                 <CardExpiryElement />
               </Card>
             </Items>
 
             <Items gap={1} flow="row">
               <FormattedMessage id="CardModal.cvc" />
-              <Card border={error ? 'error' : 'active'} shadow="0" padding="1">
+              <Card border={isError ? 'error' : 'active'} shadow="0" padding="1">
                 <CardCVCElement />
               </Card>
             </Items>
@@ -85,7 +87,19 @@ function CardModal({
         </Items>
       </Items>
     </WithAsideModal>
-  )
+  );
 }
 
-export default injectStripe(CardModal)
+export default injectStripe(CardModal);
+
+CardModal.propTypes = {
+  name: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func,
+  stripe: PropTypes.shape({
+    createToken: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+CardModal.defaultProps = {
+  onSubmit: () => {},
+};

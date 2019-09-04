@@ -1,8 +1,10 @@
-import React from 'react'
-import { Card, Items } from 'components'
-import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types';
+import React from 'react';
 
-import CSS from './VerificationsStatistic.module.scss'
+import { Card, Items } from 'components';
+import { FormattedMessage } from 'react-intl';
+
+import CSS from './VerificationsStatistic.module.scss';
 
 export default function VerificationStatistic({ statistic }) {
   const { total, days30, currentMonth, today, currentWeek } = statistic;
@@ -46,3 +48,7 @@ export default function VerificationStatistic({ statistic }) {
     </Card>
   );
 }
+
+VerificationStatistic.propTypes = {
+  statistic: PropTypes.shape().isRequired,
+};

@@ -1,11 +1,11 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { showIntercom } from 'lib/intercom'
-import Card from 'components/card'
-import Items from 'components/items'
-import Button from 'components/button'
-import CSS from './Support.module.scss'
-import { ReactComponent as SupportIcon } from './support.svg'
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { showIntercom } from 'lib/intercom';
+import Card from 'components/card';
+import Items from 'components/items';
+import Button from 'components/button';
+import CSS from './Support.module.scss';
+import { ReactComponent as SupportIcon } from './support.svg';
 
 export default function Support() {
   return (
@@ -31,5 +31,5 @@ export default function Support() {
         </p>
       </Items>
     </Card>
-  )
+  );
 }

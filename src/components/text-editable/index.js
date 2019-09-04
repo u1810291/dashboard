@@ -1,1 +1,1 @@
-export { default } from './TextEditable'
+export { default } from './TextEditable';

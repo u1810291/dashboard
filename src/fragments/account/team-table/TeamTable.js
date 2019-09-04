@@ -1,82 +1,94 @@
-import React from 'react'
-import { FormattedMessage, injectIntl } from 'react-intl'
-import DataTable from 'components/data-table'
-import DeleteModal from './DeleteModal'
-import DeleteSuccessModal from './DeleteSuccessModal'
-import { ReactComponent as TrashBox } from './trashbox.svg'
-import CSS from './TeamTable.module.scss'
-import SelectField from 'components/select-field'
-import { createOverlay, closeOverlay } from 'components/overlay'
-import Spinner from 'components/spinner'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage, injectIntl } from 'react-intl';
+
+import DataTable from 'components/data-table';
+import SelectField from 'components/select-field';
+import { createOverlay, closeOverlay } from 'components/overlay';
+import Spinner from 'components/spinner';
+import DeleteModal from './DeleteModal';
+import DeleteSuccessModal from './DeleteSuccessModal';
+import { ReactComponent as TrashBox } from './trashbox.svg';
+import CSS from './TeamTable.module.scss';
 
 class TeamTable extends React.Component {
+  static propTypes = {
+    collaborators: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    isDeleting: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    isPatchingArray: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    onDeleteSubmit: PropTypes.func.isRequired,
+    onRoleChange: PropTypes.func.isRequired,
+  }
+
   roleOptions = [
     {
       label: this.props.intl.formatMessage({
-        id: 'teamTable.roles.agent'
+        id: 'teamTable.roles.agent',
       }),
-      value: 2
+      value: 2,
     },
     {
       label: this.props.intl.formatMessage({
-        id: 'teamTable.roles.admin'
+        id: 'teamTable.roles.admin',
       }),
-      value: 1
-    }
+      value: 1,
+    },
   ]
 
   columns = [
     {
       size: 3,
       label: <FormattedMessage id="teamTable.name" />,
-      content: ({ name }) => <div>{name}</div>
+      content: ({ name }) => <div>{name}</div>,
     },
     {
       size: 4,
       label: <FormattedMessage id="teamTable.email" />,
-      content: ({ email }) => <div>{email}</div>
+      content: ({ email }) => <div>{email}</div>,
     },
     {
       size: 3,
       label: <FormattedMessage id="teamTable.role" />,
-      content: user => (
+      content: (user) => (
         <div className={CSS.roleSelectWrapper}>
           <SelectField
             className={CSS.roleSelect}
             options={this.roleOptions}
-            value={this.roleOptions.find(option => option.value === user.role)}
+            value={this.roleOptions.find((option) => option.value === user.role)}
             onChange={({ value }) => {
-              this.props.onRoleChange(user.id, value)
+              this.props.onRoleChange(user.id, value);
             }}
           />
           {this.props.isPatchingArray.includes(user.id) && <Spinner />}
         </div>
-      )
+      ),
     },
     {
       size: 1,
-      content: user => (
+      content: (user) => (
         <TrashBox
           className={CSS.deleteButton}
           onClick={() => {
-            this.setState({ deletingUser: user })
-            this.openDeleteModal(user)
+            this.setState({ deletingUser: user });
+            this.openDeleteModal(user);
           }}
         />
-      )
-    }
+      ),
+    },
   ]
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      deletingUser: {}
-    }
+      deletingUser: {},
+    };
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.isDeleting !== this.props.isDeleting) {
-      this.openDeleteModal(this.state.deletingUser)
+    const { props: { isDeleting }, state: { deletingUser } } = this;
+    if (prevProps.isDeleting !== isDeleting) {
+      this.openDeleteModal(deletingUser);
     }
   }
 
@@ -85,11 +97,11 @@ class TeamTable extends React.Component {
       <DeleteSuccessModal
         onClose={closeOverlay}
         className={CSS.deleteSuccessModal}
-      />
-    )
+      />,
+    );
   }
 
-  openDeleteModal = user => {
+  openDeleteModal = (user) => {
     createOverlay(
       <DeleteModal
         onClose={closeOverlay}
@@ -97,25 +109,26 @@ class TeamTable extends React.Component {
         className={CSS.deleteModal}
         isDeleting={this.props.isDeleting}
         user={user}
-      />
-    )
+      />,
+    );
   }
 
-  onDeleteSubmit = id => {
-    this.props.onDeleteSubmit(id).then(() => this.openDeleteSuccessModal())
+  onDeleteSubmit = (id) => {
+    this.props.onDeleteSubmit(id).then(() => this.openDeleteSuccessModal());
   }
 
   render() {
+    const { collaborators, isLoading } = this.props;
     return (
       <DataTable
         className={CSS.table}
-        rows={this.props.collaborators}
+        rows={collaborators}
         columns={this.columns}
         emptyBodyLabel={<FormattedMessage id="teamTable.no-data" />}
-        isLoading={this.props.isLoading}
+        isLoading={isLoading}
       />
-    )
+    );
   }
 }
 
-export default injectIntl(TeamTable)
+export default injectIntl(TeamTable);

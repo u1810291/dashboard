@@ -1,1 +1,1 @@
-export { default } from './CompaniesUsingMati'
+export { default } from './CompaniesUsingMati';

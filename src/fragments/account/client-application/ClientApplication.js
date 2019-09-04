@@ -1,45 +1,47 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import Button from 'components/button'
-import Icons from 'components/icons'
-import Items from 'components/items'
-import { createOverlay, closeOverlay } from 'components/overlay'
-import confirm from 'components/confirm'
-import { copyToClipboard } from 'components/clipboard'
-import NewWebhookModal from '../new-webhook-modal'
-import CSS from './ClientApplication.module.css'
-import { ReactComponent as Icon } from 'assets/copy-icon.v1.svg'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+
+import Button from 'components/button';
+import Icons from 'components/icons';
+import Items from 'components/items';
+import { createOverlay, closeOverlay } from 'components/overlay';
+import confirm from 'components/confirm';
+import copyToClipboard from 'components/clipboard';
+import { ReactComponent as Icon } from 'assets/copy-icon.v1.svg';
+import NewWebhookModal from '../new-webhook-modal';
+import CSS from './ClientApplication.module.css';
 
 function CopyToClipboardCell({ text }) {
   return (
     <Button className={CSS.copy} onClick={() => copyToClipboard(text)}>
       <Icon />
     </Button>
-  )
+  );
 }
 
 export default function ClientApplication({
   application = {},
   webhooks = [],
   subscribeToWebhook = () => {},
-  deleteWebhook = () => {}
+  deleteWebhook = () => {},
 }) {
-  const metadata = '{"email":"user@example.com"}'
+  const metadata = '{"email":"user@example.com"}';
   const permalink = `${process.env.REACT_APP_SIGNUP_URL}?merchantToken=${
     application.clientId
-  }&metadata=${metadata}`
+  }&metadata=${metadata}`;
 
   const handleAddNewWebhook = () => {
     createOverlay(
-      <NewWebhookModal onSave={subscribeToWebhook} onClose={closeOverlay} />
-    )
-  }
+      <NewWebhookModal onSave={subscribeToWebhook} onClose={closeOverlay} />,
+    );
+  };
 
-  const handleDeleteWebhook = id => {
+  const handleDeleteWebhook = (id) => {
     confirm(
-      <FormattedMessage id="fragments.client_application.confirm_delete_webhook" />
-    ).then(() => deleteWebhook(id))
-  }
+      <FormattedMessage id="fragments.client_application.confirm_delete_webhook" />,
+    ).then(() => deleteWebhook(id));
+  };
 
   return (
     <Items flow="row">
@@ -55,21 +57,27 @@ export default function ClientApplication({
               <FormattedMessage id="fragments.client_application.client_id" />
             </th>
             <td className="text-secondary">{application.clientId}</td>
-            <CopyToClipboardCell text={application.clientId} />
+            <td>
+              <CopyToClipboardCell text={application.clientId} />
+            </td>
           </tr>
           <tr>
             <th>
               <FormattedMessage id="fragments.client_application.client_secret" />
             </th>
             <td className="text-secondary">{application.clientSecret}</td>
-            <CopyToClipboardCell text={application.clientSecret} />
+            <td>
+              <CopyToClipboardCell text={application.clientSecret} />
+            </td>
           </tr>
           <tr>
             <th>
               <FormattedMessage id="fragments.client_application.permalink" />
             </th>
             <td className="text-secondary">{permalink}</td>
-            <CopyToClipboardCell text={permalink} />
+            <td>
+              <CopyToClipboardCell text={permalink} />
+            </td>
           </tr>
           {webhooks.map((webhook, index) => (
             <tr key={webhook.id}>
@@ -83,15 +91,17 @@ export default function ClientApplication({
                   <code>{webhook.url}</code>
                 </Items>
               </td>
-              <Items>
-                <CopyToClipboardCell text={webhook.url} />
-                <Button
-                  buttonStyle="invisible"
-                  onClick={() => handleDeleteWebhook(webhook.id)}
-                >
-                  <Icons.TrashBin className="svg-error" />
-                </Button>
-              </Items>
+              <td>
+                <Items>
+                  <CopyToClipboardCell text={webhook.url} />
+                  <Button
+                    buttonStyle="invisible"
+                    onClick={() => handleDeleteWebhook(webhook.id)}
+                  >
+                    <Icons.TrashBin className="svg-error" />
+                  </Button>
+                </Items>
+              </td>
             </tr>
           ))}
 
@@ -110,5 +120,23 @@ export default function ClientApplication({
         </tbody>
       </table>
     </Items>
-  )
+  );
 }
+
+CopyToClipboardCell.propTypes = {
+  text: PropTypes.string.isRequired,
+};
+
+ClientApplication.propTypes = {
+  application: PropTypes.shape(),
+  deleteWebhook: PropTypes.func,
+  subscribeToWebhook: PropTypes.func,
+  webhooks: PropTypes.arrayOf(PropTypes.shape({})),
+};
+
+ClientApplication.defaultProps = {
+  application: {},
+  deleteWebhook: () => {},
+  subscribeToWebhook: () => {},
+  webhooks: [],
+};

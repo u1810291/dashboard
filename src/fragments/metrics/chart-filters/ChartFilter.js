@@ -1,7 +1,9 @@
-import React from 'react'
-import { Items } from 'components'
-import Button from 'components/button'
-import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import { Items } from 'components';
+import Button from 'components/button';
+import { FormattedMessage } from 'react-intl';
 
 export default function ChartFilters({ handleClick, filter }) {
   return (
@@ -30,3 +32,8 @@ export default function ChartFilters({ handleClick, filter }) {
     </Items>
   );
 }
+
+ChartFilters.propTypes = {
+  filter: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
+};

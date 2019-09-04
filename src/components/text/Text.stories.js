@@ -1,8 +1,8 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import Text, { H1, H2 } from '.'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import Text, { H1, H2 } from '.';
 
-const stories = storiesOf('components/Text', module)
+const stories = storiesOf('components/Text', module);
 
 const colors = [
   'black',
@@ -23,47 +23,57 @@ const colors = [
   'yellow',
   'apricot',
   'darkapricot',
-  'pistachio'
-]
+  'pistachio',
+];
 
 stories.add('Size', () => (
   <>
-    {[0, 1, 2, 3, 4, 5, 6, 7, 8].map(size => (
+    {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((size) => (
       <p>
-        Size {size}:{' '}
+        Size
+        {' '}
+        {size}
+:
+        {' '}
         <Text size={size}>All their equipment and instruments are alive.</Text>
       </p>
     ))}
   </>
-))
+));
 
 stories.add('Color', () => (
   <>
-    {colors.map(color => (
+    {colors.map((color) => (
       <p>
         <Text size={4} color={color}>
-          Color {color}: All their equipment and instruments are alive.
+          Color
+          {' '}
+          {color}
+: All their equipment and instruments are alive.
         </Text>
       </p>
     ))}
   </>
-))
+));
 
 stories.add('Weight', () => (
   <>
-    {[0, 1, 2, 3, 4].map(weight => (
+    {[0, 1, 2, 3, 4].map((weight) => (
       <p>
         <Text size={4} weight={weight}>
-          Weight {weight}: All their equipment and instruments are alive.
+          Weight
+          {' '}
+          {weight}
+: All their equipment and instruments are alive.
         </Text>
       </p>
     ))}
   </>
-))
+));
 
 stories.add('Presets', () => (
   <>
     <H1>H1: All their equipment and instruments are alive.</H1>
     <H2>H2: All their equipment and instruments are alive.</H2>
   </>
-))
+));

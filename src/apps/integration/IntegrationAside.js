@@ -1,13 +1,13 @@
-import React from 'react'
-import { Items } from 'components'
+import React from 'react';
+import { Items } from 'components';
 import {
   InstallFrontendCodePanelIntegration,
   LetsStartPanelIntegration,
   SetWebhooksPanelIntegration,
 } from 'fragments/integration/installation-guide-panels';
-import Webhooks from './Webhooks'
+import Webhooks from './Webhooks';
 
-import CSS from './IntegrationContent.module.scss'
+import CSS from './IntegrationContent.module.scss';
 
 export default function InfoPage() {
   return (
@@ -17,5 +17,5 @@ export default function InfoPage() {
       <SetWebhooksPanelIntegration />
       <Webhooks />
     </Items>
-  )
+  );
 }

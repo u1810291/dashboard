@@ -1,24 +1,23 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { CardWithStub, Items, Stub, Card, Click } from 'components'
-import { default as Text, H2} from 'components/text'
-import openYoutubeOverlay from 'components/youtube-overlay'
-import VerificationPicture from './verification.svg'
-import ApplicationsPicture from './applications.svg'
-import LetsStartPicture from './lets-start.svg'
-import VideoPicture from './video.svg'
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { CardWithStub, Items, Stub, Card, Click } from 'components';
+import Text, { H2 } from 'components/text';
+import openYoutubeOverlay from 'components/youtube-overlay';
+import VerificationPicture from './verification.svg';
+import ApplicationsPicture from './applications.svg';
+import LetsStartPicture from './lets-start.svg';
+import VideoPicture from './video.svg';
 
-const PresentationFile =
-  'https://drive.google.com/file/d/1EQlmq5WpMCWTZQQRYhS0EUw22JrvCSv6/view?usp=sharing'
+const PresentationFile = 'https://drive.google.com/file/d/1EQlmq5WpMCWTZQQRYhS0EUw22JrvCSv6/view?usp=sharing';
 
 export function VerificationPanel() {
   return (
     <CardWithStub
-      stub={
+      stub={(
         <Stub background="apricot">
           <Text color="darkapricot">1</Text>
         </Stub>
-      }
+)}
       flow="column"
       align="center"
       padding={4}
@@ -40,17 +39,17 @@ export function VerificationPanel() {
       </Items>
       <img src={VerificationPicture} alt="" className="content-cover" />
     </CardWithStub>
-  )
+  );
 }
 
 export function ApplicationsPanel() {
   return (
     <CardWithStub
-      stub={
+      stub={(
         <Stub background="apricot">
           <Text color="darkapricot">2</Text>
         </Stub>
-      }
+)}
       padding={4}
       flow="column"
       align="center"
@@ -72,17 +71,17 @@ export function ApplicationsPanel() {
       </Items>
       <img src={ApplicationsPicture} alt="" className="content-cover" />
     </CardWithStub>
-  )
+  );
 }
 
 export function InstallFrontendCodePanel() {
   return (
     <CardWithStub
-      stub={
+      stub={(
         <Stub background="apricot">
           <Text color="darkapricot">3</Text>
         </Stub>
-      }
+)}
       padding={4}
       flow="column"
       align="center"
@@ -103,23 +102,25 @@ export function InstallFrontendCodePanel() {
         </Click>
       </Items>
       <img
-        src={VideoPicture}
         alt=""
         className="content-cover cursor-pointer"
         onClick={openYoutubeOverlay.bind(null, { id: 'wm_nG8wfVMU' })}
+        onKeyUp={() => {}}
+        role="presentation"
+        src={VideoPicture}
       />
     </CardWithStub>
-  )
+  );
 }
 
 export function SetWebhooksPanel() {
   return (
     <CardWithStub
-      stub={
+      stub={(
         <Stub background="apricot">
           <Text color="darkapricot">4</Text>
         </Stub>
-      }
+)}
       padding={4}
       flow="column"
       align="center"
@@ -141,10 +142,12 @@ export function SetWebhooksPanel() {
       </Items>
       <Items flow="row" extraPadding>
         <img
-          src={VideoPicture}
           alt=""
           className="content-cover cursor-pointer"
           onClick={openYoutubeOverlay.bind(null, { id: 'Gmgl_lxeFlY' })}
+          onKeyUp={() => {}}
+          role="presentation"
+          src={VideoPicture}
         />
 
         <section>
@@ -154,7 +157,7 @@ export function SetWebhooksPanel() {
         </section>
       </Items>
     </CardWithStub>
-  )
+  );
 }
 
 export function LetsStartPanel() {
@@ -190,7 +193,7 @@ export function LetsStartPanel() {
 
       <img src={LetsStartPicture} alt="" className="content-cover" />
     </CardWithStub>
-  )
+  );
 }
 
 export function LetsStartPanelIntegration() {
@@ -225,7 +228,7 @@ export function LetsStartPanelIntegration() {
 
       <img src={LetsStartPicture} alt="" className="content-cover" />
     </Card>
-  )
+  );
 }
 
 export function InstallFrontendCodePanelIntegration() {
@@ -249,13 +252,15 @@ export function InstallFrontendCodePanelIntegration() {
         </Items>
       </Items>
       <img
-        src={VideoPicture}
         alt=""
         className="content-cover cursor-pointer"
         onClick={openYoutubeOverlay.bind(null, { id: 'wm_nG8wfVMU' })}
+        onKeyUp={() => {}}
+        role="presentation"
+        src={VideoPicture}
       />
     </Card>
-  )
+  );
 }
 
 export function SetWebhooksPanelIntegration() {
@@ -281,12 +286,14 @@ export function SetWebhooksPanelIntegration() {
       </Items>
       <Items flow="row" extraPadding>
         <img
-          src={VideoPicture}
           alt=""
           className="content-cover cursor-pointer"
           onClick={openYoutubeOverlay.bind(null, { id: 'Gmgl_lxeFlY' })}
+          onKeyUp={() => {}}
+          role="presentation"
+          src={VideoPicture}
         />
       </Items>
     </Card>
-  )
+  );
 }

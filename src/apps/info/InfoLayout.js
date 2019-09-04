@@ -1,7 +1,8 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { FormattedMessage } from 'react-intl'
-import { PageContentLayout, PageContentMenu } from 'components'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
+
+import { PageContentLayout, PageContentMenu } from 'components';
 
 export default function InfoLayout({ children }) {
   return (
@@ -16,5 +17,5 @@ export default function InfoLayout({ children }) {
       </PageContentMenu>
       {children}
     </PageContentLayout>
-  )
+  );
 }

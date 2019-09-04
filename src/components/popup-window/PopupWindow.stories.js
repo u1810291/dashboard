@@ -1,8 +1,8 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import PopupWindow from '.'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import PopupWindow from '.';
 
-const stories = storiesOf('components/PopupWindow', module)
+const stories = storiesOf('components/PopupWindow', module);
 
 stories.add('Default', () => (
   <PopupWindow>
@@ -18,4 +18,4 @@ stories.add('Default', () => (
       <button type="submit">Submit</button>
     </form>
   </PopupWindow>
-))
+));

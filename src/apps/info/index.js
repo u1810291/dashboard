@@ -1,10 +1,11 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { Route, Switch } from 'react-router-dom'
-import { Content } from 'components/application-box'
-import Items from 'components/items'
-import Info from './Info'
-import Features from './Features'
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Route, Switch } from 'react-router-dom';
+
+import { Content } from 'components/application-box';
+import Items from 'components/items';
+import Info from './Info';
+import Features from './Features';
 
 export default function InfoPage() {
   return (
@@ -19,5 +20,5 @@ export default function InfoPage() {
         </Switch>
       </Items>
     </Content>
-  )
+  );
 }

@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { Items } from 'components'
+import { css, jsx } from '@emotion/core';
+import { Items } from 'components';
 
 export default function PageContentMenu({ children }) {
   return (
@@ -28,5 +28,5 @@ export default function PageContentMenu({ children }) {
     >
       {children}
     </Items>
-  )
+  );
 }

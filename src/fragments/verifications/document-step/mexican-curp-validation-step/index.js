@@ -1,1 +1,1 @@
-export { default } from './MexicanCurpValidationStep'
+export { default } from './MexicanCurpValidationStep';

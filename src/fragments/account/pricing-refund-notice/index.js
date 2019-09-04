@@ -1,1 +1,1 @@
-export { default } from './PricingRefundNotice'
+export { default } from './PricingRefundNotice';

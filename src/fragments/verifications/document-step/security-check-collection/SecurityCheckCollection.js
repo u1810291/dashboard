@@ -1,15 +1,16 @@
 /** @jsx jsx */
 
-import { css, jsx } from '@emotion/core'
-import { Click } from 'components'
-import { FormattedMessage } from 'react-intl'
-import { FaRegQuestionCircle as QuestionMark } from 'react-icons/fa'
-import CSS from './SecurityCheckCollection.module.scss'
-import { createOverlay } from 'components/overlay'
-import HelpMessage from '../../help-message'
+import PropTypes from 'prop-types';
+import { css, jsx } from '@emotion/core';
+import { Click } from 'components';
+import { FormattedMessage } from 'react-intl';
+import { FaRegQuestionCircle as QuestionMark } from 'react-icons/fa';
+import { createOverlay } from 'components/overlay';
+import CSS from './SecurityCheckCollection.module.scss';
+import HelpMessage from '../../help-message';
 
 function showHelpMessage(id) {
-  createOverlay(<HelpMessage id={id} />)
+  createOverlay(<HelpMessage id={id} />);
 }
 
 function getStepStatus(id, error, status) {
@@ -24,15 +25,15 @@ export default function SecurityCheckCollection({ steps = [] }) {
   return (
     <table className="mgi-table">
       <colgroup>
-        <col width="40%"/>
+        <col width="40%" />
         <col width="60%" />
       </colgroup>
       <tbody>
-        {steps.map(({id, error, status}) => (
+        {steps.map(({ id, error, status }) => (
           <tr key={id}>
             <td css={css`white-space: nowrap;`}>
               <FormattedMessage id={`SecurityCheckStep.${id}.title`} />
-              <Click padding="0" onClick={showHelpMessage.bind(null, id)} className={CSS.iconBox}>
+              <Click padding="0" onClick={() => showHelpMessage(id)} className={CSS.iconBox}>
                 <QuestionMark />
               </Click>
             </td>
@@ -45,5 +46,13 @@ export default function SecurityCheckCollection({ steps = [] }) {
         ))}
       </tbody>
     </table>
-  )
+  );
 }
+
+SecurityCheckCollection.propTypes = {
+  steps: PropTypes.arrayOf(PropTypes.shape({})),
+};
+
+SecurityCheckCollection.defaultProps = {
+  steps: [],
+};

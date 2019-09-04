@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Items } from 'components';
 
 export default function IntegrationLayout({ children }) {
@@ -6,5 +6,5 @@ export default function IntegrationLayout({ children }) {
     <Items>
       {children}
     </Items>
-  )
+  );
 }

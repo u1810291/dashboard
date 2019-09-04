@@ -1,58 +1,57 @@
-/** @jsx jsx */
+import PropTypes from 'prop-types';
+import { css } from '@emotion/core';
+import { FormattedMessage } from 'react-intl';
+import { titleize } from 'inflection';
+import { connect } from 'react-redux';
+import { get, isEmpty } from 'lodash';
+import Card from 'components/card';
+import React, { useEffect } from 'react';
+import moment from 'moment';
 
-import { css, jsx } from '@emotion/core';
-
-import { FormattedMessage } from 'react-intl'
-import { titleize } from 'inflection'
-import { connect } from 'react-redux'
-import { get, isEmpty } from 'lodash'
-import Card from 'components/card'
-// eslint-disable-next-line
-import React, { useEffect, memo } from 'react'
-import moment from 'moment'
 import {
-  getIdentityWithNestedData,
   deleteIdentity,
-  patchIdentity,
-  patchDocument,
   getDemoVerification,
-} from 'state/identities'
-import { getCountries } from 'state/countries'
+  getIdentityWithNestedData,
+  patchDocument,
+  patchIdentity,
+} from 'state/identities';
+import { getCountries } from 'state/countries';
 import { sendWebhook } from 'state/webhooks';
-import { Content } from 'components/application-box'
-import Items from 'components/items'
-import Click from 'components/click'
+import { Content } from 'components/application-box';
+import Items from 'components/items';
+import Click from 'components/click';
 import confirm from 'components/confirm';
 import confirmStyled from 'components/confirm/ConfirmStyled';
-import { default as Text, HR } from 'components/text';
+import Text, { HR } from 'components/text';
 import classNames from 'classnames';
-import { createOverlay, closeOverlay } from 'components/overlay'
-import PageContentLayout from 'components/page-content-layout'
-import DocumentStep from 'fragments/verifications/document-step'
-import LivenessStep from 'fragments/verifications/liveness-step'
-import VerificationMetadata from 'fragments/verifications/verification-metadata'
-import VerificationWebhookModal from 'fragments/verifications/verification-webhook-modal'
-import MatiChecks from 'fragments/verifications/mati-checks'
-import Spinner from 'components/spinner'
-import { ReactComponent as DeleteIcon } from './delete-icon.svg'
-import StatusSelect from '../../fragments/verifications/status-select/StatusSelect';
+import { createOverlay, closeOverlay } from 'components/overlay';
+import PageContentLayout from 'components/page-content-layout';
+import DocumentStep from 'fragments/verifications/document-step';
+import LivenessStep from 'fragments/verifications/liveness-step';
+import VerificationMetadata from 'fragments/verifications/verification-metadata';
+import VerificationWebhookModal from 'fragments/verifications/verification-webhook-modal';
+import MatiChecks from 'fragments/verifications/mati-checks';
+import Spinner from 'components/spinner';
 import { FiUpload, FiCode } from 'react-icons/fi';
-import CSS from './VerificationDetail.module.scss';
 import StatesExplanation from 'fragments/verifications/states-explanation';
 import { ifDateFormat, formatISODate } from 'lib/string';
 
+import { ReactComponent as DeleteIcon } from './delete-icon.svg';
+import StatusSelect from '../../fragments/verifications/status-select/StatusSelect';
+import CSS from './VerificationDetail.module.scss';
+
 function formatId(id = '') {
-  return id.slice(-6)
+  return id.slice(-6);
 }
 
 async function handleDeleteIdentity(dispatch, history, token, id) {
-  await confirm(<FormattedMessage id="verificationModal.delete.confirm" />)
-  await dispatch(deleteIdentity(token, id))
-  history.push('/verifications')
+  await confirm(<FormattedMessage id="verificationModal.delete.confirm" />);
+  await dispatch(deleteIdentity(token, id));
+  history.push('/verifications');
 }
 
 function openWebhookModal(identity) {
-  createOverlay(<VerificationWebhookModal webhook={identity} onClose={closeOverlay} />)
+  createOverlay(<VerificationWebhookModal webhook={identity} onClose={closeOverlay} />);
 }
 
 async function handleSendWebhook(dispatch, token, id) {
@@ -60,7 +59,7 @@ async function handleSendWebhook(dispatch, token, id) {
     header: <FormattedMessage id="verificationWebhookModal.header" />,
     message: <FormattedMessage id="verificationWebhookModal.body" />,
     confirmText: <FormattedMessage id="verificationWebhookModal.confirm" />,
-    cancelText: <FormattedMessage id="verificationWebhookModal.cancel" />
+    cancelText: <FormattedMessage id="verificationWebhookModal.cancel" />,
   });
   await dispatch(sendWebhook(token, id));
 }
@@ -72,36 +71,41 @@ function formatDateBeforeSend(text) {
 function onSubmit(...args) {
   const [dispatch, token, identityId, documentId, key, value] = args;
   const valueToSend = {
-    [key]: {value: formatDateBeforeSend(value)}
-  }
-  dispatch(patchDocument(token, identityId, documentId, valueToSend ));
+    [key]: { value: formatDateBeforeSend(value) },
+  };
+  dispatch(patchDocument(token, identityId, documentId, valueToSend));
 }
 
 const Header = ({
   info: {
     fullName,
-    dateCreated
-  }
+    dateCreated,
+  },
 }) => (
+  /* TODO: investigate this (css prop on div) */
   <div css={css`padding-left:15px;`}>
     <p css={css`padding-bottom:15px;`}>
-      <Text size={4.5} weight={4} color={classNames({'gray': isEmpty(fullName)})}>
-        { fullName ? fullName :
-          <FormattedMessage id="identities.nameNotFound" />
-        }
+      <Text size={4.5} weight={4} color={classNames({ gray: isEmpty(fullName) })}>
+        { fullName || <FormattedMessage id="identities.nameNotFound" />}
       </Text>
     </p>
-    { dateCreated &&
+    { dateCreated
+      && (
       <p>
         <Text color="gray">{dateCreated}</Text>
       </p>
-    }
+      )}
   </div>
-)
+);
 
-const findDocumentId = (type, sources) => {
-  return get(sources.find(doc => doc.type === type), 'id');
-}
+Header.propTypes = {
+  info: PropTypes.shape({
+    fullName: PropTypes.string,
+    dateCreated: PropTypes.string,
+  }).isRequired,
+};
+
+const findDocumentId = (type, sources) => get(sources.find((doc) => doc.type === type), 'id');
 
 const VerificationDetail = ({
   token,
@@ -113,25 +117,26 @@ const VerificationDetail = ({
   history,
   deletingIdentities,
   match: {
-    params: { id, demo }
+    params: { id, demo },
   },
-  ...props
 }) => {
   useEffect(() => {
-    dispatch(getCountries(token))
-    demo ?
-      dispatch(getDemoVerification(token, id)) :
+    dispatch(getCountries(token));
+    if (demo) {
+      dispatch(getDemoVerification(token, id));
+    } else {
       dispatch(getIdentityWithNestedData(token, id));
+    }
   }, [dispatch, token, id, demo]);
-  let verification;
   const identity = instances[id];
-
-  if (!identity || !(verification = get(identity, '_embedded.verification'))) {
+  const verification = get(identity, '_embedded.verification');
+  if (!identity || !(verification)) {
     return null;
   }
+
   const isDeleting = deletingIdentities.includes(identity.id);
   const documentsSources = get(identity, '_embedded.documents');
-  const livenessStep = verification.steps.find(s => s.id === 'liveness');
+  const livenessStep = verification.steps.find((steps) => steps.id === 'liveness');
   const userInfo = {
     fullName: titleize(identity.fullName || ''),
     dateCreated: moment(identity.dateCreated).local().format('DD MMM, YYYY HH:mm'),
@@ -142,7 +147,8 @@ const VerificationDetail = ({
       <Items flow="row" gap={2.6}>
         <h1>
           <span className="text-light">
-            Verification #{formatId(identity.id)}
+            Verification #
+            {formatId(identity.id)}
           </span>
         </h1>
         <PageContentLayout navigation={false}>
@@ -156,22 +162,20 @@ const VerificationDetail = ({
               { livenessStep && <LivenessStep step={livenessStep} info={userInfo} /> }
 
               {/* Documents */}
-              { verification.documents.map(doc =>
-                  <DocumentStep
-                    document={doc}
-                    source={documentsSources}
-                    countries={countries}
-                    key={doc.type}
-                    onSubmit={onSubmit.bind(
-                      null,
-                      dispatch,
-                      token,
-                      identity.id,
-                      findDocumentId(doc.type, documentsSources)
-                    )}
-                  />
-                )
-              }
+              { verification.documents.map((doc) => (
+                <DocumentStep
+                  document={doc}
+                  source={documentsSources}
+                  countries={countries}
+                  key={doc.type}
+                  onSubmit={() => onSubmit(
+                    dispatch,
+                    token,
+                    identity.id,
+                    findDocumentId(doc.type, documentsSources),
+                  )}
+                />
+              ))}
 
               {/* Metadata */}
               {identity.metadata && (
@@ -183,7 +187,8 @@ const VerificationDetail = ({
 
           <aside>
             <Items flow="row" justifyContent="inherit" gap={1} className={CSS.aside}>
-              { !['pending', 'running'].includes(identity.status) &&
+              { !['pending', 'running'].includes(identity.status)
+                && (
                 <StatusSelect
                   status={identity.status}
                   onSelect={async (status) => {
@@ -193,10 +198,10 @@ const VerificationDetail = ({
                     }));
                   }}
                 />
-              }
+                )}
 
               {/* Send Webhook */}
-              <Click onClick={ handleSendWebhook.bind(null, dispatch, token, id) }>
+              <Click onClick={() => handleSendWebhook(dispatch, token, id)}>
                 <FiUpload />
                 <FormattedMessage id="verificationDetails.tools.sendWebhook" />
               </Click>
@@ -204,9 +209,8 @@ const VerificationDetail = ({
               {/* Show verification data */}
               <Click
                 className="button"
-                onClick={ openWebhookModal.bind(
-                  null,
-                  get(identity, 'originalIdentity._embedded.verification', {})
+                onClick={() => openWebhookModal(
+                  get(identity, 'originalIdentity._embedded.verification', {}),
                 )}
               >
                 <FiCode />
@@ -217,12 +221,11 @@ const VerificationDetail = ({
               <Click
                 className="button"
                 shadow={1}
-                onClick={ handleDeleteIdentity.bind(
-                  null,
+                onClick={() => handleDeleteIdentity(
                   dispatch,
                   history,
                   token,
-                  id
+                  id,
                 )}
               >
                 {isDeleting ? (
@@ -239,12 +242,21 @@ const VerificationDetail = ({
         </PageContentLayout>
       </Items>
     </Content>
-  )
+  );
 };
 
-export default connect((state, props) => ({
+VerificationDetail.propTypes = {
+  countries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  deletingIdentities: PropTypes.arrayOf(PropTypes.string).isRequired,
+  identities: PropTypes.shape({
+    instances: PropTypes.shape({}),
+  }).isRequired,
+  token: PropTypes.string.isRequired,
+};
+
+export default connect((state) => ({
   token: state.auth.token,
   identities: state.identities,
   countries: state.countries.countries,
-  deletingIdentities: state.identities.deletingIdentities
-}))(VerificationDetail)
+  deletingIdentities: state.identities.deletingIdentities,
+}))(VerificationDetail);

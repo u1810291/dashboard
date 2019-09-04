@@ -3,6 +3,7 @@
 exports[`When a JS error is caught in a child component renders the report feedback link 1`] = `
 <button
   onClick={[Function]}
+  type="button"
 >
   Report feedback
 </button>

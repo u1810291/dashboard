@@ -1,1 +1,1 @@
-export { default } from './SecurityCheckCollection'
+export { default } from './SecurityCheckCollection';

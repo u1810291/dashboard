@@ -1,9 +1,9 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { Elements, StripeProvider } from 'react-stripe-elements'
-import CardModal from '.'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { Elements, StripeProvider } from 'react-stripe-elements';
+import CardModal from '.';
 
-const stories = storiesOf('fragments/account/CardModal', module)
+const stories = storiesOf('fragments/account/CardModal', module);
 
 stories.add('Default', () => (
   <StripeProvider apiKey="pk_test_9vO7ESFOZjbkPhYfOCHI543m00SmivQs2f">
@@ -18,4 +18,4 @@ stories.add('Default', () => (
       />
     </Elements>
   </StripeProvider>
-))
+));

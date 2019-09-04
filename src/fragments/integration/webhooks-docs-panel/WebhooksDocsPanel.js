@@ -1,17 +1,19 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import Card from 'components/card'
-import Items from 'components/items'
-import Click from 'components/click'
-import openYoutubeOverlay from 'components/youtube-overlay'
-import Picture from './picture.svg'
-import InstallationVideo from './installation-video.svg'
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+
+import Card from 'components/card';
+import Items from 'components/items';
+import Click from 'components/click';
+import openYoutubeOverlay from 'components/youtube-overlay';
+
+import Picture from './picture.svg';
+import InstallationVideo from './installation-video.svg';
 
 function showVideo() {
-  openYoutubeOverlay({ id: 'Gmgl_lxeFlY' })
+  openYoutubeOverlay({ id: 'Gmgl_lxeFlY' });
 }
 
-export default function WebhooksDocsPanel({ message }) {
+export default function WebhooksDocsPanel() {
   return (
     <Card padding={4}>
       <Items flow="row" gap={4}>
@@ -24,10 +26,12 @@ export default function WebhooksDocsPanel({ message }) {
         <Items templateColumns="1fr 1fr" gap={4}>
           <img src={Picture} className="content-cover" alt="" />
           <img
-            src={InstallationVideo}
-            className="content-cover cursor-pointer"
             alt=""
+            className="content-cover cursor-pointer"
             onClick={showVideo}
+            onKeyUp={() => {}}
+            role="presentation"
+            src={InstallationVideo}
           />
         </Items>
         <section>
@@ -43,5 +47,5 @@ export default function WebhooksDocsPanel({ message }) {
         </section>
       </Items>
     </Card>
-  )
+  );
 }
