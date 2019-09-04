@@ -14,7 +14,7 @@ function splitCSSValues(value, transform = s => s) {
 export const shadowValue = shadow => css`
   0px 2px calc(2px + 2px * ${shadow})
     rgba(52, 73, 94, calc(0.1 * ${shadow}));
-`
+`;
 
 export const paddingValue = padding =>
   css(
@@ -22,7 +22,7 @@ export const paddingValue = padding =>
       padding,
       value => `calc(var(--mgi-spacing) * 0.5 * ${value})`
     )
-  )
+  );
 
 export default function Card({
   children,
@@ -43,8 +43,8 @@ export default function Card({
     )};
     box-shadow: ${shadowValue(shadow)};
     transition: box-shadow 0.2s ease-in-out;
-    padding: ${paddingValue(padding)};
-  `
+    padding: ${typeof padding === 'string' ? padding : paddingValue(padding)};
+  `;
 
   return (
     <Items

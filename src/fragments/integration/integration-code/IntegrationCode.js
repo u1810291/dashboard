@@ -1,17 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Items, H3 } from 'components'
 import SyntaxHighlighter from 'components/syntax-highlighter'
+import styles from './IntegrationCode.module.scss';
 import MatiDocs from 'fragments/account/mati-docs'
 
-export default function IntegrationCode({ integrationCode }) {
+export default function IntegrationCode({ integrationCode, oldIntegrationCode }) {
+    const [showOldCodeVersion, setShowOldCodeVersion] = useState(false);
   return (
     <Items flow="column" templateColumns="2fr 1fr" gap={2}>
       <Items flow="row">
         <H3 color="blue">
-          <FormattedMessage id="fragments.integration.integration-code.titleWeb" />
+          <FormattedMessage id="fragments.integration.integration-code.titleWeb"/>
+          <span
+            className={styles.link}
+            onClick={() => setShowOldCodeVersion(!showOldCodeVersion)}
+          >
+            <FormattedMessage
+              id={showOldCodeVersion ?
+                'fragments.integration.integration-code.newCode' :
+                'fragments.integration.integration-code.oldCode'}
+            />
+          </span>
         </H3>
-        <SyntaxHighlighter language="html" code={integrationCode} />
+        <SyntaxHighlighter language="html" code={showOldCodeVersion ? oldIntegrationCode : integrationCode} />
       </Items>
       <Items flow="row" gap={2}>
         <H3 color="blue">

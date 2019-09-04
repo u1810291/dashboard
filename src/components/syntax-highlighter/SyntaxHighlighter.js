@@ -19,22 +19,22 @@ export default function SyntaxHighlighter({
 }) {
   return (
     <Items flow="row" className={CSS.sections}>
+      {showCopyToClipboard && (
+        <Button
+          className={CSS.copy}
+          onClick={() => {copyToClipboard(code)}}
+        >
+          <Icon />
+        </Button>
+        )}
       <Card
-        padding={padding}
+        padding={'0px 0px 0px 20px'}
         border={border}
         className={CSS.codeBlock}
         shadow={shadow}
         {...cardProps}
       >
-        {showCopyToClipboard && (
-          <Button
-            className={CSS.copy}
-            onClick={copyToClipboard.bind(null, code)}
-          >
-            <Icon />
-          </Button>
-        )}
-        <PrismSyntaxHighlighter style={style} language={language}>
+        <PrismSyntaxHighlighter style={style} className={CSS.content} language={language}>
           {code}
         </PrismSyntaxHighlighter>
       </Card>

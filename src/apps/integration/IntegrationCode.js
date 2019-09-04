@@ -1,24 +1,37 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
-import { getIntegrationCode } from 'state/merchant'
+import React from 'react'
 import IntegrationCode from 'fragments/integration/integration-code'
+import { oldCodeTemplate, newCodeTemplate } from './codeTemplates'
+import { useSelector } from 'react-redux'
 
-function IntegrationCodePage({ integrationCode, getIntegrationCode, token }) {
-  useEffect(() => {
-    getIntegrationCode(token)
-  })
+const generateIntegrationCode = (codeTemplate, codeParameters = {}) => {
+  return codeTemplate.replace(/%\w+%/g, (placeholder) => {
+    const parameter = placeholder.slice(1, placeholder.length - 1);
+    return codeParameters[parameter] || parameter;
+  });
+};
 
+const IntegrationCodePage = () => {
+  const { clientId } = useSelector(state => state.merchant.apps[0], []);
+  const { color } = useSelector(state => state.merchant.configuration.style, []);
+  const hostname = process.env.REACT_APP_API_URL;
+  const signupHostname = process.env.REACT_APP_SIGNUP_URL;
+  const newIntegrationCode = generateIntegrationCode(newCodeTemplate, {
+    clientId,
+    hostname,
+    signupHostname,
+    color
+  });
+  const oldIntegrationCode = generateIntegrationCode(oldCodeTemplate, {
+    clientId,
+    hostname,
+    color
+  });
   return (
-    <IntegrationCode integrationCode={integrationCode} />
+    <IntegrationCode
+        integrationCode={newIntegrationCode}
+        oldIntegrationCode={oldIntegrationCode}
+    />
   )
-}
+};
 
-export default connect(
-  ({ auth: { token }, merchant: { integrationCode } }) => ({
-    token,
-    integrationCode
-  }),
-  {
-    getIntegrationCode
-  }
-)(IntegrationCodePage)
+export default IntegrationCodePage;

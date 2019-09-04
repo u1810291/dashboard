@@ -7,7 +7,7 @@ import IntegrationLayout from './IntegrationLayout'
 function MobileDemo({ getMerchantApps, token, clientId }) {
   useEffect(() => {
     getMerchantApps(token)
-  }, [token, getMerchantApps])
+  }, [token, getMerchantApps]);
   return (
     <IntegrationLayout>
       <main>
