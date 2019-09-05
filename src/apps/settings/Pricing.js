@@ -93,7 +93,7 @@ export default function Pricing() {
     }
   };
 
-  const handleCardSubmit = async (plan, token = {}) => {
+  const handleCardSubmit = async (plan, token) => {
     try {
       trackEvent('merchant_entered_cc', {
         ...(pick(plan, ['_id'])),
@@ -146,7 +146,7 @@ export default function Pricing() {
     } else {
       createOverlay(
         // eslint-disable-next-line react/jsx-props-no-spreading
-        <CardModal {...plan} onSubmit={() => handleCardSubmit(plan)} />,
+        <CardModal {...plan} onSubmit={(token) => handleCardSubmit(plan, token)} />,
       );
     }
   };
@@ -154,7 +154,7 @@ export default function Pricing() {
   const handleChangeMethod = (plan) => {
     createOverlay(
       // eslint-disable-next-line react/jsx-props-no-spreading
-      <CardModal {...plan} onSubmit={() => handleCardSubmit(plan)} />,
+      <CardModal {...plan} onSubmit={(token) => handleCardSubmit(plan, token)} />,
     );
   };
 
