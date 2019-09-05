@@ -1,17 +1,30 @@
-import React from 'react'
-import CSS from './styles.module.css'
+import PropTypes from 'prop-types';
+import React from 'react';
+import CSS from './styles.module.css';
 
-export default function({
-  color = 'blue',
-  onChange = () => {},
-  checked = false
-}) {
+export default function ColorCheckButton({ color, onChange, checked = false }) {
   return (
+    // eslint-disable-next-line jsx-a11y/control-has-associated-label
     <div
-      onClick={onChange}
-      data-color={color}
       className={CSS.checkButton}
       data-checked={checked}
+      data-color={color}
+      onClick={onChange}
+      onKeyUp={() => {}}
+      role="button"
+      tabIndex="0"
     />
-  )
+  );
 }
+
+ColorCheckButton.propTypes = {
+  checked: PropTypes.bool,
+  color: PropTypes.string,
+  onChange: PropTypes.func,
+};
+
+ColorCheckButton.defaultProps = {
+  checked: false,
+  color: 'blue',
+  onChange: () => {},
+};

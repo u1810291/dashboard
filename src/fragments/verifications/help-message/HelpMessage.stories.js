@@ -1,6 +1,6 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import HelpMessage from '.'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import HelpMessage from '.';
 
 const id = 'alteration-detection';
 const intlMessages = {
@@ -13,6 +13,6 @@ const intlMessages = {
   'fragments.verifications.help-messages.alteration-detection.table.2.2': 'This document is altered.',
 };
 
-const stories = storiesOf('fragments/verifications/HelpMessage', module)
+const stories = storiesOf('fragments/verifications/HelpMessage', module);
 
-stories.add('Default', () => (<HelpMessage data={intlMessages} id={id} />))
+stories.add('Default', () => (<HelpMessage data={intlMessages} id={id} />));

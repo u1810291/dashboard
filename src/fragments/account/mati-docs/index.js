@@ -1,1 +1,1 @@
-export { default } from './MatiDocs'
+export { default } from './MatiDocs';

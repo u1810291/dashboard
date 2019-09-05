@@ -1,1 +1,1 @@
-export { default } from './HelpMessage'
+export { default } from './HelpMessage';

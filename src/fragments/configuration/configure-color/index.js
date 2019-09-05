@@ -1,1 +1,1 @@
-export { default } from './ConfigureColor'
+export { default } from './ConfigureColor';

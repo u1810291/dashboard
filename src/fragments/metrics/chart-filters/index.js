@@ -1,1 +1,1 @@
-export { default } from './ChartFilter'
+export { default } from './ChartFilter';

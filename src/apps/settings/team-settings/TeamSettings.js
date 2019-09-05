@@ -1,72 +1,87 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { isEmpty } from 'lodash'
-import TeamTable from 'fragments/account/team-table'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
+import { isEmpty } from 'lodash';
+
+import TeamTable from 'fragments/account/team-table';
 import {
   getCollaborators,
   deleteCollaborators,
   postCollaborators,
-  patchCollaborators
-} from 'state/collaborators'
-import Button from 'components/button'
-import { closeOverlay, createOverlay } from 'components/overlay'
-import TeamInviteModal from 'fragments/account/team-invite-modal/TeamInviteModal'
-import InviteSuccessModal from 'fragments/account/team-invite-modal/InviteSuccessModal'
-import { ReactComponent as InviteIcon } from '../invite.svg'
-import SettingsLayout from '../SettingsLayout'
+  patchCollaborators,
+} from 'state/collaborators';
+import Button from 'components/button';
+import { closeOverlay, createOverlay } from 'components/overlay';
+import TeamInviteModal from 'fragments/account/team-invite-modal/TeamInviteModal';
+import InviteSuccessModal from 'fragments/account/team-invite-modal/InviteSuccessModal';
 
-const mapCollaborators = collab => collab
-  .filter(entry => !isEmpty(entry.user))
-  .map(entry => ({
+import { ReactComponent as InviteIcon } from '../invite.svg';
+import SettingsLayout from '../SettingsLayout';
+
+const mapCollaborators = (collab) => collab
+  .filter((entry) => !isEmpty(entry.user))
+  .map((entry) => ({
     role: entry.role,
     name: `${entry.user.firstName} ${entry.user.lastName}`,
     id: entry.user.id,
-    email: entry.user.email
+    email: entry.user.email,
   }));
 
 class TeamSettings extends React.Component {
+  static propTypes = {
+    deleteCollaborators: PropTypes.func.isRequired,
+    getCollaborators: PropTypes.func.isRequired,
+    isPosting: PropTypes.bool.isRequired,
+    merchantId: PropTypes.string.isRequired,
+    patchCollaborators: PropTypes.func.isRequired,
+    postCollaborators: PropTypes.func.isRequired,
+    token: PropTypes.string.isRequired,
+  }
+
   componentDidMount() {
-    if (this.props.merchantId) {
-      this.props.getCollaborators(this.props.token, this.props.merchantId)
+    // eslint-disable-next-line no-shadow
+    const { merchantId, getCollaborators, token } = this.props;
+    if (merchantId) {
+      getCollaborators(token, merchantId);
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.merchantId && this.props.merchantId) {
-      this.props.getCollaborators(this.props.token, this.props.merchantId)
+    // eslint-disable-next-line no-shadow
+    const { merchantId, getCollaborators, token, isPosting } = this.props;
+    if (!prevProps.merchantId && merchantId) {
+      getCollaborators(token, merchantId);
     }
-    if (prevProps.isPosting !== this.props.isPosting) {
-      this.openInviteModal()
+    if (prevProps.isPosting !== isPosting) {
+      this.openInviteModal();
     }
   }
 
-  onDeleteSubmit = id => {
-    return this.props.deleteCollaborators(
-      this.props.token,
-      this.props.merchantId,
-      id
-    )
-  }
+  onDeleteSubmit = (id) => this.props.deleteCollaborators(
+    this.props.token,
+    this.props.merchantId,
+    id,
+  )
 
   onRoleChange = (id, role) => {
     this.props.patchCollaborators(this.props.token, this.props.merchantId, id, {
-      role
-    })
+      role,
+    });
   }
 
-  onInviteSubmit = data => {
+  onInviteSubmit = (data) => {
     const dataToSend = {
-      role: parseInt(data.role),
+      role: parseInt(data.role, 10),
       user: {
         email: data.email,
         firstName: data.firstName,
-        lastName: data.lastName
-      }
-    }
+        lastName: data.lastName,
+      },
+    };
     return this.props
       .postCollaborators(this.props.token, this.props.merchantId, dataToSend)
-      .then(() => this.openInviteSuccessModal())
+      .then(() => this.openInviteSuccessModal());
   }
 
   openInviteModal = () => {
@@ -75,12 +90,12 @@ class TeamSettings extends React.Component {
         onClose={closeOverlay}
         onSubmit={this.onInviteSubmit}
         isPosting={this.props.isPosting}
-      />
-    )
+      />,
+    );
   }
 
   openInviteSuccessModal = () => {
-    createOverlay(<InviteSuccessModal onClose={closeOverlay} />)
+    createOverlay(<InviteSuccessModal onClose={closeOverlay} />);
   }
 
   render() {
@@ -90,7 +105,7 @@ class TeamSettings extends React.Component {
           <TeamTable
             onRoleChange={this.onRoleChange}
             onDeleteSubmit={this.onDeleteSubmit}
-            {...this.props}
+            {...this.props} // eslint-disable-line react/jsx-props-no-spreading
           />
         </main>
         <aside>
@@ -100,7 +115,7 @@ class TeamSettings extends React.Component {
           </Button>
         </aside>
       </SettingsLayout>
-    )
+    );
   }
 }
 
@@ -113,12 +128,12 @@ export default connect(
     isDeleting: collaborators.isDeleting,
     isPatchingArray: collaborators.isPatchingArray,
     merchantId: merchant.id,
-    token
+    token,
   }),
   {
     getCollaborators,
     deleteCollaborators,
     postCollaborators,
-    patchCollaborators
-  }
-)(TeamSettings)
+    patchCollaborators,
+  },
+)(TeamSettings);

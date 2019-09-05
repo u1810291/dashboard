@@ -1,5 +1,6 @@
-import React from 'react'
-import { createOverlay } from 'components/overlay'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { createOverlay } from 'components/overlay';
 
 function YoutubeOverlay({ id }) {
   return (
@@ -14,9 +15,13 @@ function YoutubeOverlay({ id }) {
         allowFullScreen
       />
     </div>
-  )
+  );
 }
 
 export default function openYoutubeOverlay({ id }) {
-  createOverlay(<YoutubeOverlay id={id} />)
+  createOverlay(<YoutubeOverlay id={id} />);
 }
+
+YoutubeOverlay.propTypes = {
+  id: PropTypes.string.isRequired,
+};

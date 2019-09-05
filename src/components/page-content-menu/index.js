@@ -1,1 +1,1 @@
-export { default } from './PageContentMenu'
+export { default } from './PageContentMenu';

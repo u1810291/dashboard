@@ -1,359 +1,425 @@
-import React from 'react'
-import fp from 'lodash/fp'
-import moment from 'moment'
-import { connect } from 'react-redux'
+import PropTypes from 'prop-types';
+import React from 'react';
+import fp from 'lodash/fp';
+import moment from 'moment';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { isEmpty, pickBy, mapValues, get, compact } from 'lodash'
+import { isEmpty, pickBy, mapValues, get, compact } from 'lodash';
+import { FormattedMessage, injectIntl } from 'react-intl';
+
 import {
   getIdentities,
   getIdentitiesCount,
-  deleteIdentity
-} from 'state/identities'
-import { FormattedMessage, injectIntl } from 'react-intl'
-import { Content } from 'components/application-box'
-import DataTable from 'components/data-table'
-import Status from 'fragments/verifications/status-label'
-import FiltersForm from './filters-form'
-import Pagination from 'components/pagination'
-import Items from 'components/items'
-import { DebounceInput } from 'components/inputs'
-import Spinner from 'components/spinner'
-import confirm from 'components/confirm'
-import PageContentLayout from 'components/page-content-layout'
-import { isFeatureEnabled } from 'lib/isFeatureEnabled'
-import { ReactComponent as DeleteIcon } from '../verification-detail/delete-icon.svg'
-import CSS from './VerificationHistory.module.scss'
-import { default as Text, H2, HR } from 'components/text'
-import Card from 'components/card'
-import { ReactComponent as NationalId } from './national-id.svg'
-import { ReactComponent as Passport } from './passport.svg'
-import { ReactComponent as DrivingLicense } from './driving-license.svg'
-import classNames from 'classnames'
-import { titleCase } from 'lib/string'
+  deleteIdentity,
+} from 'state/identities';
+import { Content } from 'components/application-box';
+import DataTable from 'components/data-table';
+import Status from 'fragments/verifications/status-label';
+import Pagination from 'components/pagination';
+import Items from 'components/items';
+import { DebounceInput } from 'components/inputs';
+import Spinner from 'components/spinner';
+import confirm from 'components/confirm';
+import PageContentLayout from 'components/page-content-layout';
+import isFeatureEnabled from 'lib/isFeatureEnabled';
+import Text, { H2, HR } from 'components/text';
+import Card from 'components/card';
+import classNames from 'classnames';
+import { titleCase } from 'lib/string';
+
+import CSS from './VerificationHistory.module.scss';
+import { ReactComponent as NationalId } from './national-id.svg';
+import { ReactComponent as Passport } from './passport.svg';
+import { ReactComponent as DrivingLicense } from './driving-license.svg';
+import FiltersForm from './filters-form';
+import { ReactComponent as DeleteIcon } from '../verification-detail/delete-icon.svg';
 
 const FILTERS = [
   'search',
   'status',
   'offset',
   'dateCreated[start]',
-  'dateCreated[end]'
-]
+  'dateCreated[end]',
+];
 
 const FILTER_TRANSFORMERS = {
-  status: string => string.split(','),
-  'dateCreated[start]': string => (string ? moment(string) : undefined),
-  'dateCreated[end]': string => (string ? moment(string) : undefined),
-  offset: offset => offset
-}
+  status: (string) => string.split(','),
+  'dateCreated[start]': (string) => (string ? moment(string) : undefined),
+  'dateCreated[end]': (string) => (string ? moment(string) : undefined),
+  offset: (offset) => offset,
+};
 
 function transformValue(key, value) {
-  return get(FILTER_TRANSFORMERS, key, v => v)(value)
+  return get(FILTER_TRANSFORMERS, key, (v) => v)(value);
 }
 
 const FILTER_FORMATTERS = {
-  status: array => array.join(','),
-  'dateCreated[start]': date => date.toJSON(),
-  'dateCreated[end]': date => date.toJSON(),
-  offset: offset => offset
-}
+  status: (array) => array.join(','),
+  'dateCreated[start]': (date) => date.toJSON(),
+  'dateCreated[end]': (date) => date.toJSON(),
+  offset: (offset) => offset,
+};
 
-const ITEMS_PER_PAGE = 20
+const ITEMS_PER_PAGE = 20;
 
 function formatValue(key, value) {
-  return get(FILTER_FORMATTERS, key, v => v)(value)
+  return get(FILTER_FORMATTERS, key, (v) => v)(value);
 }
 
 // takes an URLSearchParams instance as input, returns object with params
 export function prepareParams(searchString, allowedKeys) {
   return fp.flow(
-    string => new URLSearchParams(searchString),
-    params => Array.from(params),
+    () => new URLSearchParams(searchString),
+    (params) => Array.from(params),
     fp.fromPairs,
     allowedKeys ? fp.pick(allowedKeys) : fp.identity,
-    fp.pickBy(v => !isEmpty(v))
-  )(searchString)
+    fp.pickBy((v) => !isEmpty(v)),
+  )(searchString);
 }
 
-const ExampleCard = ({icon, labelId, link}) => {
-  return (
-    <Link to={{ pathname: link }}>
-      <Card border="lightergray" className={CSS.demoCard}>
-        <Text align="center">{icon}</Text>
-        <Text size={3} color="blue">
-          <FormattedMessage id={`verificationDemo.${labelId}.label`} />
-        </Text>
-      </Card>
-    </Link>
-  )
-}
+const ExampleCard = ({ icon, labelId, link }) => (
+  <Link to={{ pathname: link }}>
+    <Card border="lightergray" className={CSS.demoCard}>
+      <Text align="center">{icon}</Text>
+      <Text size={3} color="blue">
+        <FormattedMessage id={`verificationDemo.${labelId}.label`} />
+      </Text>
+    </Card>
+  </Link>
+);
+
+ExampleCard.propTypes = {
+  icon: PropTypes.arrayOf([
+    PropTypes.element,
+    PropTypes.node,
+    PropTypes.string,
+  ]).isRequired,
+  labelId: PropTypes.string.isRequired,
+  link: PropTypes.string.isRequired,
+};
 
 class VerificationHistory extends React.Component {
+  static defaultProps = {
+    count: 0,
+  }
+
+  static propTypes = {
+    count: PropTypes.number,
+    countIsLoading: PropTypes.bool.isRequired,
+    deleteIdentity: PropTypes.func.isRequired,
+    deletingIdentities: PropTypes.arrayOf(PropTypes.string).isRequired,
+    getIdentities: PropTypes.func.isRequired,
+    getIdentitiesCount: PropTypes.func.isRequired,
+    identities: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    token: PropTypes.string.isRequired,
+  }
+
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      params: {}
-    }
+      params: {},
+    };
   }
 
   componentDidMount() {
-    const params = prepareParams(this.props.location.search, FILTERS)
+    const { location } = this.props;
+    const params = prepareParams(location.search, FILTERS);
     this.setState({ params }, () => {
-      this.fetchIdentities()
-      this.fetchIdentitiesCount()
-    })
+      this.fetchIdentities();
+      this.fetchIdentitiesCount();
+    });
   }
 
-  fetchIdentities() {
-    const params = pickBy(this.state.params, v => !isEmpty(v))
-    this.props.getIdentities(this.props.token, {
-      ...params,
-      limit: ITEMS_PER_PAGE
-    })
-  }
-
-  fetchIdentitiesCount() {
-    const params = pickBy(
-      this.state.params,
-      (v, k) => !isEmpty(v) && !['offset'].includes(k)
-    )
-    this.props.getIdentitiesCount(this.props.token, params)
-  }
-
-  replaceLocation() {
-    const search = new URLSearchParams(this.props.location.search)
-    FILTERS.forEach(key =>
-      isEmpty(this.state.params[key])
-        ? search.delete(key)
-        : search.set(key, this.state.params[key])
-    )
-    window.history.replaceState(
-      null,
-      null,
-      Array.from(search.keys()).length
-        ? `?${search.toString()}`
-        : this.props.location.pathname
-    )
-  }
-
-  onFilterChange = params => {
-    params.status = compact(params.status)
-    const formattedParams = mapValues(params, (value, key) =>
-      formatValue(key, value)
-    )
-    formattedParams.offset = 0
-    this.setState(
-      { params: { ...this.state.params, ...formattedParams } },
-      () => {
-        this.fetchIdentities()
-        this.fetchIdentitiesCount()
-        this.replaceLocation()
-      }
-    )
-  }
-
-  onPageChange = ({ selected: pageNum }) => {
-    if (pageNum === undefined) return
-    this.setState(
-      {
-        params: {
-          ...this.state.params,
-          offset: (pageNum * ITEMS_PER_PAGE).toString()
-        }
-      },
-      () => {
-        this.fetchIdentities()
-        this.replaceLocation()
-      }
-    )
-  }
-
-  deleteIdentity = (e, identity) => {
-    e.stopPropagation()
-    confirm(<FormattedMessage id="verificationModal.delete.confirm" />).then(
-      () => this.props.deleteIdentity(this.props.token, identity.identity.id),
-      () => {}
-    )
-  }
-
-  openVerification = ({ identity }) => {
-    this.props.history.push(`/verifications/${identity.id}`)
+  clearSelectedFilters = () => {
+    const params = {};
+    if (this.state.params.search) {
+      params.search = this.state.params.search;
+    }
+    this.setState({ params }, () => {
+      this.fetchIdentities();
+      this.fetchIdentitiesCount();
+      this.replaceLocation();
+    });
   }
 
   getTableColumns = () => {
-    let columns = [
+    const columns = [
       {
         size: 2,
         align: 'left',
         label: <FormattedMessage id="identities.fields.id" />,
-        content: ({ identity }) => <div>#{identity.id.slice(-6)}</div>
+        content: ({ identity }) => (
+          <div>
+            #
+            {identity.id.slice(-6)}
+          </div>
+        ),
       },
       {
         size: 4,
         label: <FormattedMessage id="identities.fields.fullName" />,
-        content: ({ identity }) =>
-          !isEmpty(identity.fullName) ? 
-            titleCase(identity.fullName) : 
-            <Text color='gray'>
+        content: ({ identity }) => (!isEmpty(identity.fullName)
+          ? titleCase(identity.fullName)
+          : (
+            <Text color="gray">
               <FormattedMessage id="identities.nameNotFound" />
             </Text>
+          )),
       },
       {
         size: 3,
         label: <FormattedMessage id="identities.fields.date" />,
-        content: identity =>
-          moment.utc(identity.identity.dateCreated).format('MMM D, YYYY')
+        content: (identity) => moment.utc(identity.identity.dateCreated).format('MMM D, YYYY'),
       },
       {
         size: 1,
         label: '',
         align: 'right',
-        content: identity => {
-          let isDeleting = this.props.deletingIdentities.includes(
-            identity.identity.id
-          )
+        content: (identity) => {
+          const isDeleting = this.props.deletingIdentities.includes(
+            identity.identity.id,
+          );
           return (
             <div
               className={CSS.deleteIdentity}
-              onClick={e => !isDeleting && this.deleteIdentity(e, identity)}
+              onClick={(e) => !isDeleting && this.deleteIdentity(e, identity)}
+              onKeyUp={() => {}}
+              role="button"
+              tabIndex="0"
             >
               {isDeleting ? <Spinner /> : <DeleteIcon />}
             </div>
-          )
-        }
-      }
-    ]
+          );
+        },
+      },
+    ];
     if (isFeatureEnabled('STATUSES')) {
       columns.splice(1, 0, {
         size: 3,
         label: <FormattedMessage id="identities.fields.status" />,
         content: ({ identity }) => (
-          <Status 
-            status={identity.status} 
-            coloredText={true} 
-            className={classNames({threedots: identity.status === 'pending'})} 
+          <Status
+            status={identity.status}
+            coloredText
+            className={classNames({ threedots: identity.status === 'pending' })}
           />
-        )
-      })
+        ),
+      });
     }
-    return columns
+    return columns;
   }
 
-  clearSelectedFilters = () => {
-    const params = {}
-    if (this.state.params.search) {
-      params.search = this.state.params.search
-    }
-    this.setState({ params }, () => {
-      this.fetchIdentities()
-      this.fetchIdentitiesCount()
-      this.replaceLocation()
-    })
+  openVerification = ({ identity }) => {
+    this.props.history.push(`/verifications/${identity.id}`);
+  }
+
+  deleteIdentity = (e, identity) => {
+    e.stopPropagation();
+    confirm(<FormattedMessage id="verificationModal.delete.confirm" />).then(
+      () => this.props.deleteIdentity(this.props.token, identity.identity.id),
+      () => {},
+    );
+  }
+
+  onFilterChange = (params) => {
+    params.status = compact(params.status);
+    const formattedParams = mapValues(params, (value, key) => formatValue(key, value),
+    );
+    formattedParams.offset = 0;
+    this.setState(
+      (state) => ({ params: { ...state.params, ...formattedParams } }),
+      () => {
+        this.fetchIdentities();
+        this.fetchIdentitiesCount();
+        this.replaceLocation();
+      },
+    );
+  }
+
+  onPageChange = ({ selected: pageNum }) => {
+    if (pageNum === undefined) return;
+    this.setState(
+      (state) => ({
+        params: {
+          ...state.params,
+          offset: (pageNum * ITEMS_PER_PAGE).toString(),
+        },
+      }),
+      () => {
+        this.fetchIdentities();
+        this.replaceLocation();
+      },
+    );
+  }
+
+  fetchIdentitiesCount() {
+    // eslint-disable-next-line no-shadow
+    const { state, props: { getIdentitiesCount, token } } = this;
+    const params = pickBy(
+      state.params,
+      (v, k) => !isEmpty(v) && !['offset'].includes(k),
+    );
+    getIdentitiesCount(token, params);
+  }
+
+  fetchIdentities() {
+    // eslint-disable-next-line no-shadow
+    const { state, props: { getIdentities, token } } = this;
+    const params = pickBy(state.params, (v) => !isEmpty(v));
+    getIdentities(token, {
+      ...params,
+      limit: ITEMS_PER_PAGE,
+    });
+  }
+
+  replaceLocation() {
+    const { props: { location }, state: { params } } = this;
+    const search = new URLSearchParams(location.search);
+    FILTERS.forEach((key) => (isEmpty(params[key])
+      ? search.delete(key)
+      : search.set(key, params[key])),
+    );
+    window.history.replaceState(
+      null,
+      null,
+      Array.from(search.keys()).length
+        ? `?${search.toString()}`
+        : location.pathname,
+    );
   }
 
   render() {
-    const transformedParams = mapValues(this.state.params, (value, key) =>
-      transformValue(key, value)
-    )
+    const {
+      props: {
+        count,
+        countIsLoading,
+        deletingIdentities,
+        identities,
+        intl,
+        isLoading,
+      },
+      state: { params },
+    } = this;
+    const transformedParams = mapValues(
+      params,
+      (value, key) => transformValue(key, value),
+    );
 
-    const disabledRows = this.props.identities.filter(identity => {
-      return this.props.deletingIdentities.includes(identity.identity.id)
-    })
+    const disabledRows = identities
+      .filter((identity) => deletingIdentities.includes(identity.identity.id));
 
-    const pageCount = Math.ceil(this.props.count / ITEMS_PER_PAGE)
-    const forcePage = Math.floor(this.state.params.offset / ITEMS_PER_PAGE) || 0
+    const pageCount = Math.ceil(count / ITEMS_PER_PAGE);
+    const forcePage = Math.floor(params.offset / ITEMS_PER_PAGE) || 0;
 
-    return (isEmpty(this.state.params) && 
-      !this.props.countIsLoading && 
-      this.props.count === 0) ? 
-    ( 
-      <Content>
-        <H2 lineHeight={4}>
-          <FormattedMessage id="verificationDemo.nullCounter" values={{counter: 0}} />
-        </H2>
-        <PageContentLayout navigation={false}>
-          <main>
-            <Card padding={4} className={CSS.containerBox}>
-              <Text size={4.5} weight={2} align="center">
-                <FormattedMessage id="verificationDemo.title" />
-              </Text>
-              <Text size={3} weight={4} align="center">
-                <FormattedMessage id="verificationDemo.subtitle" />
-              </Text>
-              
-              <HR width={0} margin={15} />
+    return (isEmpty(params) && !countIsLoading && count === 0)
+      ? (
+        <Content>
+          <H2 lineHeight={4}>
+            <FormattedMessage id="verificationDemo.nullCounter" values={{ counter: 0 }} />
+          </H2>
+          <PageContentLayout navigation={false}>
+            <main>
+              <Card padding={4} className={CSS.containerBox}>
+                <Text size={4.5} weight={2} align="center">
+                  <FormattedMessage id="verificationDemo.title" />
+                </Text>
+                <Text size={3} weight={4} align="center">
+                  <FormattedMessage id="verificationDemo.subtitle" />
+                </Text>
 
-              <Items flow="column" gap={4} justifyContent="center">
-                <ExampleCard icon={<NationalId />} labelId="nationalId" link="/verifications/demo/1" key="2344" />
-                <ExampleCard icon={<Passport />} labelId="passport" link="/verifications/demo/2" key="2345" />
-                <ExampleCard icon={<DrivingLicense />} labelId="drivingLicense" link="/verifications/demo/3" key="2346" />
-              </Items>
-            </Card>
-          </main>
-        </PageContentLayout>
-      </Content> 
-    ) :
-    (
-      <Content>
-        <DebounceInput
-          name="search"
-          placeholder={this.props.intl.formatMessage({
-            id: 'identities.filters.placeholder.search'
-          })}
-          maxLength={30}
-          value={transformedParams.search}
-          className={CSS.searchField}
-          hideLabel={true}
-          onChange={e => {
-            this.onFilterChange({ search: e.target.value })
-          }}
-        />
-        <PageContentLayout navigation={false}>
-          <main>
-            <Items flow="row">
-              <DataTable
-                rows={this.props.identities}
-                columns={this.getTableColumns()}
-                disabledRows={disabledRows}
-                emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
-                onRowClick={this.openVerification}
-                isLoading={this.props.isLoading}
-              />
-              {this.props.count > ITEMS_PER_PAGE &&
-                !this.props.countIsLoading && (
-                  <Pagination
-                    pageCount={pageCount}
-                    pageRangeDisplayed={3}
-                    marginPagesDisplayed={2}
-                    forcePage={forcePage}
-                    onPageChange={this.onPageChange}
+                <HR width={0} margin={15} />
+
+                <Items flow="column" gap={4} justifyContent="center">
+                  <ExampleCard
+                    icon={<NationalId />}
+                    key="2344"
+                    labelId="nationalId"
+                    link="/verifications/demo/1"
                   />
-                )}
-            </Items>
-          </main>
-          <aside>
-            <FiltersForm
-              onChange={this.onFilterChange}
-              onClear={this.clearSelectedFilters}
-              {...transformedParams}
-            />
-          </aside>
-        </PageContentLayout>
-      </Content>
-    )
+                  <ExampleCard
+                    icon={<Passport />}
+                    key="2345"
+                    labelId="passport"
+                    link="/verifications/demo/2"
+                  />
+                  <ExampleCard
+                    icon={<DrivingLicense />}
+                    key="2346"
+                    labelId="drivingLicense"
+                    link="/verifications/demo/3"
+                  />
+                </Items>
+              </Card>
+            </main>
+          </PageContentLayout>
+        </Content>
+      )
+      : (
+        <Content>
+          <DebounceInput
+            name="search"
+            placeholder={intl.formatMessage({
+              id: 'identities.filters.placeholder.search',
+            })}
+            maxLength={30}
+            value={transformedParams.search}
+            className={CSS.searchField}
+            hideLabel
+            onChange={(e) => {
+              this.onFilterChange({ search: e.target.value });
+            }}
+          />
+          <PageContentLayout navigation={false}>
+            <main>
+              <Items flow="row">
+                <DataTable
+                  rows={identities}
+                  columns={this.getTableColumns()}
+                  disabledRows={disabledRows}
+                  emptyBodyLabel={<FormattedMessage id="identities.no-data" />}
+                  onRowClick={this.openVerification}
+                  isLoading={isLoading}
+                />
+                {
+                  count > ITEMS_PER_PAGE
+                    && !countIsLoading
+                    && (
+                      <Pagination
+                        pageCount={pageCount}
+                        pageRangeDisplayed={3}
+                        marginPagesDisplayed={2}
+                        forcePage={forcePage}
+                        onPageChange={this.onPageChange}
+                      />
+                    )
+                }
+              </Items>
+            </main>
+            <aside>
+              <FiltersForm
+                onChange={this.onFilterChange}
+                onClear={this.clearSelectedFilters}
+                {...transformedParams} // eslint-disable-line react/jsx-props-no-spreading
+              />
+            </aside>
+          </PageContentLayout>
+        </Content>
+      );
   }
 }
 
 export default fp.flowRight(
   connect(
-    state => ({
+    (state) => ({
       isLoading: state.identities.isLoading,
       countIsLoading: state.identities.countIsLoading,
       deletingIdentities: state.identities.deletingIdentities,
       identities: state.identities.identities,
       count: state.identities.count,
-      token: state.auth.token
+      token: state.auth.token,
     }),
-    { getIdentities, getIdentitiesCount, deleteIdentity }
+    { getIdentities, getIdentitiesCount, deleteIdentity },
   ),
-  injectIntl
-)(VerificationHistory)
+  injectIntl,
+)(VerificationHistory);

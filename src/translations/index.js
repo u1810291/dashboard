@@ -1,4 +1,4 @@
-export default {
-  en: require('./en.json'),
-  es: require('./es.json')
-}
+import en from './en';
+import es from './es';
+
+export default { en, es };

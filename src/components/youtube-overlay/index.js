@@ -1,1 +1,1 @@
-export { default } from './YoutubeOverlay'
+export { default } from './YoutubeOverlay';

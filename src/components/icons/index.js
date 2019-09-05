@@ -1,12 +1,12 @@
-import { ReactComponent as FaceMatch } from './face-match.svg'
-import { ReactComponent as Spy } from './spy.svg'
-import { ReactComponent as TickFilled } from './tick-filled.svg'
-import { ReactComponent as WarningTriangle } from './warning-triangle.svg'
-import { ReactComponent as Info } from './info.v2.svg'
-import { ReactComponent as TrashBin } from './trashbin.svg'
-import { ReactComponent as Pencil } from './pencil.svg'
-import { ReactComponent as Clipboard } from './Clipboard.svg'
-import { ReactComponent as Play } from './play.svg'
+import { ReactComponent as FaceMatch } from './face-match.svg';
+import { ReactComponent as Spy } from './spy.svg';
+import { ReactComponent as TickFilled } from './tick-filled.svg';
+import { ReactComponent as WarningTriangle } from './warning-triangle.svg';
+import { ReactComponent as Info } from './info.v2.svg';
+import { ReactComponent as TrashBin } from './trashbin.svg';
+import { ReactComponent as Pencil } from './pencil.svg';
+import { ReactComponent as Clipboard } from './Clipboard.svg';
+import { ReactComponent as Play } from './play.svg';
 
 export default {
   FaceMatch,
@@ -17,5 +17,5 @@ export default {
   Pencil,
   TrashBin,
   Clipboard,
-  Play
-}
+  Play,
+};

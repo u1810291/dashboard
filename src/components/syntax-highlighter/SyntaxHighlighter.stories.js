@@ -1,7 +1,7 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { withKnobs, boolean } from '@storybook/addon-knobs'
-import SyntaxHighlighter from '.'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { withKnobs, boolean } from '@storybook/addon-knobs';
+import SyntaxHighlighter from '.';
 
 const code = `<!-- Mati button-->
 <div
@@ -22,9 +22,9 @@ Mati.init({
   metadata: {},
 });
 </script>
-`
-const stories = storiesOf('components/SyntaxHighlighter', module)
-stories.addDecorator(withKnobs)
+`;
+const stories = storiesOf('components/SyntaxHighlighter', module);
+stories.addDecorator(withKnobs);
 
 stories.add('Default', () => (
   <SyntaxHighlighter
@@ -32,4 +32,4 @@ stories.add('Default', () => (
     language="html"
     code={code}
   />
-))
+));

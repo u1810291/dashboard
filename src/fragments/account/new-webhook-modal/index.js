@@ -1,1 +1,1 @@
-export { default } from './NewWebhookModal'
+export { default } from './NewWebhookModal';

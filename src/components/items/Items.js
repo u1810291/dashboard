@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import styled from '@emotion/styled'
-import { css } from '@emotion/core'
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 
 export const aligns = [
   'auto',
@@ -11,8 +11,8 @@ export const aligns = [
   'stretch',
   'baseline',
   'first baseline',
-  'last baseline'
-]
+  'last baseline',
+];
 
 export const justifies = [
   'start',
@@ -22,12 +22,12 @@ export const justifies = [
   'normal',
   'space-around',
   'space-between',
-  'space-evenly'
-]
+  'space-evenly',
+];
 
-export const flows = ['column', 'row']
+export const flows = ['column', 'row'];
 
-export const gaps = [0, 1, 2, 3, 4]
+export const gaps = [0, 1, 2, 3, 4];
 
 const Items = styled.div(
   ({
@@ -39,7 +39,7 @@ const Items = styled.div(
     templateRows = 'none',
     alignContent = 'normal',
     justifyItems = 'normal',
-    gap = 2
+    gap = 2,
   }) => css`
     display: ${inline ? 'inline-grid' : 'grid'};
     grid-auto-flow: ${flow};
@@ -50,7 +50,7 @@ const Items = styled.div(
     align-content: ${alignContent};
     justify-content: ${justifyContent};
     justify-items: ${justifyItems};
-  `
-)
+  `,
+);
 
-export default Items
+export default Items;

@@ -1,43 +1,58 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { Route, Switch, Redirect } from 'react-router-dom'
-import { Auth } from './auth'
-import { Dashboard } from './dashboard'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
-export default class Root extends React.Component {
-  render() {
-    return (
-      <Switch>
-        <Route path="/auth" component={Auth} />
-        <PrivateRoute path="/" component={Dashboard} />
-      </Switch>
-    )
-  }
+import Auth from './auth';
+import Dashboard from './dashboard';
+
+export default function Root() {
+  return (
+    <Switch>
+      <Route path="/auth" component={Auth} />
+      <PrivateRoute path="/" component={Dashboard} />
+    </Switch>
+  );
 }
 
-class PrivateRouteComponent extends React.Component {
-  render() {
-    const { component: Component, loggedIn, ...rest } = this.props
-    return (
-      <Route
-        {...rest}
-        render={props =>
-          loggedIn ? (
+function PrivateRouteComponent({ component: Component, loggedIn, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={(props) => (
+        loggedIn
+          ? (
             <Component {...props} />
-          ) : (
+          )
+          : (
             <Redirect
               to={{
                 pathname: '/auth/signin',
-                state: { from: props.location }
+                state: { from: props.location },
               }}
             />
           )
-        }
-      />
-    )
-  }
+      )}
+    />
+  );
 }
 
-const PrivateRoute = connect(state => ({ loggedIn: state.auth.token }))(
-  PrivateRouteComponent
-)
+PrivateRouteComponent.propTypes = {
+  component: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.elementType,
+    PropTypes.node,
+  ]).isRequired,
+  loggedIn: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+  ]),
+};
+
+const PrivateRoute = connect((state) => ({ loggedIn: state.auth.token }))(
+  PrivateRouteComponent,
+);
+
+PrivateRouteComponent.defaultProps = {
+  loggedIn: undefined,
+};

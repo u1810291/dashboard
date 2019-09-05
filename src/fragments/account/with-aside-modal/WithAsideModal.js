@@ -1,13 +1,13 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { Card, Items, Text } from 'components'
+import { jsx } from '@emotion/core';
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
+import { Card, Items, Text } from 'components';
 
-import MatiLogoURL from './icons/Mati.svg'
-import { ReactComponent as VerificatioTopIcon } from './icons/verificatio-top.svg'
-import { ReactComponent as VerificatioBottomIcon } from './icons/verificatio-bottom.svg'
+import MatiLogoURL from './icons/Mati.svg';
+import { ReactComponent as VerificatioTopIcon } from './icons/verificatio-top.svg';
+import { ReactComponent as VerificatioBottomIcon } from './icons/verificatio-bottom.svg';
 
-import CSS from './WithAsideModal.module.scss'
+import CSS from './WithAsideModal.module.scss';
 
 function WithAsideModal({ children }) {
   return (
@@ -63,7 +63,7 @@ function WithAsideModal({ children }) {
         {children}
       </Card>
     </Items>
-  )
+  );
 }
 
-export default WithAsideModal
+export default WithAsideModal;

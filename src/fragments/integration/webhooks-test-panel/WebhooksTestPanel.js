@@ -1,10 +1,10 @@
-import React from 'react'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import Card from 'components/card'
-import Items from 'components/items'
-import Picture from './picture.svg'
+import React from 'react';
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
+import Card from 'components/card';
+import Items from 'components/items';
+import Picture from './picture.svg';
 
-export default function WebhookTestPanel({ message }) {
+export default function WebhookTestPanel() {
   return (
     <Card background="softpink" padding={4}>
       <Items flow="row">
@@ -14,6 +14,7 @@ export default function WebhookTestPanel({ message }) {
         <Items templateColumns="1fr 1fr" align="center">
           <ol className="mgi-list">
             {Array.from(Array(4)).map((a, index) => (
+              // eslint-disable-next-line react/no-array-index-key
               <li key={index}>
                 <FormattedHTMLMessage
                   id={`fragments.integration.webhooks-test-panel.list.${index}`}
@@ -44,5 +45,5 @@ export default function WebhookTestPanel({ message }) {
         </Items>
       </Items>
     </Card>
-  )
+  );
 }

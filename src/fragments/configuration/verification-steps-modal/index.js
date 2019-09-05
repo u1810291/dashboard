@@ -1,1 +1,1 @@
-export { default } from './VerificationStepsModal'
+export { default } from './VerificationStepsModal';

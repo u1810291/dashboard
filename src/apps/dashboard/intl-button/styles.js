@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const arrowGenerator = color => ({
+const arrowGenerator = (color) => ({
   '&[x-placement*="bottom"] $arrow': {
     top: 0,
     left: 0,
@@ -45,11 +45,11 @@ const arrowGenerator = color => ({
   },
 });
 
-export default makeStyles(theme => ({
+export default makeStyles((theme) => ({
   intlButton: {
     '&:hover': {
-      backgroundColor: 'transparent'
-    }
+      backgroundColor: 'transparent',
+    },
   },
   avatar: {
     height: 'auto',
@@ -59,7 +59,7 @@ export default makeStyles(theme => ({
     paddingLeft: theme.spacing(1),
   },
   itemAvatar: {
-    minWidth: 'auto'
+    minWidth: 'auto',
   },
   arrow: {
     position: 'absolute',
@@ -75,6 +75,6 @@ export default makeStyles(theme => ({
   },
   popper: {
     ...arrowGenerator('white'),
-    'z-index': 10000
-  }
+    'z-index': 10000,
+  },
 }));

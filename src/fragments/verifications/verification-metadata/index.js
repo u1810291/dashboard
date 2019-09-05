@@ -1,1 +1,1 @@
-export { default } from './VerificationMetadata'
+export { default } from './VerificationMetadata';

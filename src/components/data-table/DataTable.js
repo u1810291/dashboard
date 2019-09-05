@@ -1,15 +1,16 @@
-import React from 'react'
-import classNames from 'classnames'
-import Card from 'components/card'
-import { ReactComponent as EmptyTableIcon } from './empty-table.svg'
-import Spinner from 'components/spinner'
-import CSS from './DataTable.module.scss'
+import PropTypes from 'prop-types';
+import React from 'react';
+import classNames from 'classnames';
+import Card from 'components/card';
+import Spinner from 'components/spinner';
+import { ReactComponent as EmptyTableIcon } from './empty-table.svg';
+import CSS from './DataTable.module.scss';
 
 function TableWrapper({ inline, children }) {
   if (inline) {
-    return <React.Fragment>{children}</React.Fragment>
+    return <>{children}</>;
   } else {
-    return <Card padding={0}>{children}</Card>
+    return <Card padding={0}>{children}</Card>;
   }
 }
 
@@ -21,27 +22,28 @@ export default function DataTable({
   emptyBodyLabel,
   onRowClick,
   isLoading,
-  inline = false
+  inline = false,
 }) {
-  const sizeFraction =
-    100 / columns.map(({ size = 1 }) => size).reduce((sum, val) => sum + val)
+  const sizeFraction = 100 / columns.map(({ size = 1 }) => size).reduce((sum, val) => sum + val);
 
   return (
     <TableWrapper inline={inline}>
       <div className={CSS.wrapper}>
         <table
           className={classNames(CSS.table, className, {
-            [CSS.borderAround]: inline
+            [CSS.borderAround]: inline,
           })}
         >
           <colgroup>
             {columns.map(({ size = 1 }, index) => (
+              // eslint-disable-next-line react/no-array-index-key
               <col key={index} style={{ width: `${sizeFraction * size}%` }} />
             ))}
           </colgroup>
           <thead>
             <tr>
               {columns.map(({ label }, index) => (
+                // eslint-disable-next-line react/no-array-index-key
                 <th scope="col" key={index}>
                   <strong>{label}</strong>
                 </th>
@@ -49,10 +51,10 @@ export default function DataTable({
             </tr>
           </thead>
           <tbody>
-            {!isLoading &&
-              rows.map((element, index) => (
+            {!isLoading
+              && rows.map((element, index) => (
                 <tr
-                  key={index}
+                  key={index} // eslint-disable-line react/no-array-index-key
                   onClick={
                     !disabledRows.includes(element) && onRowClick
                       ? () => onRowClick(element)
@@ -65,17 +67,17 @@ export default function DataTable({
                   }
                 >
                   {columns.map(
-                    ({ content, className, align = 'left' }, index) => (
+                    (column, columnIndex) => (
                       <td
                         className={classNames(
-                          className,
-                          `mgi-data-table_align-${align}`
+                          column.className,
+                          `mgi-data-table_align-${column.align || 'left'}`,
                         )}
-                        key={index}
+                        key={columnIndex} // eslint-disable-line react/no-array-index-key
                       >
-                        {content(element)}
+                        {column.content(element)}
                       </td>
-                    )
+                    ),
                   )}
                 </tr>
               ))}
@@ -98,5 +100,25 @@ export default function DataTable({
         )}
       </div>
     </TableWrapper>
-  )
+  );
 }
+
+DataTable.propTypes = {
+  columns: PropTypes.arrayOf(PropTypes.shape({})),
+  disabledRows: PropTypes.arrayOf(PropTypes.shape({})),
+  emptyBodyLabel: PropTypes.shape({}),
+  inline: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  onRowClick: PropTypes.func,
+  rows: PropTypes.arrayOf(PropTypes.shape({})),
+};
+
+DataTable.defaultProps = {
+  columns: [],
+  disabledRows: [],
+  emptyBodyLabel: {},
+  inline: false,
+  isLoading: false,
+  onRowClick: () => {},
+  rows: [],
+};

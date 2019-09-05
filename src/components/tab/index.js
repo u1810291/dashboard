@@ -1,1 +1,1 @@
-export { default, TabWrapper } from './Tab'
+export { default, TabWrapper } from './Tab';

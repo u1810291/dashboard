@@ -1,17 +1,17 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
 import {
   withKnobs,
   text,
   boolean,
   number,
   select,
-  radios
-} from '@storybook/addon-knobs'
-import Items, { aligns, gaps, justifies, flows } from './Items'
+  radios,
+} from '@storybook/addon-knobs';
+import Items, { aligns, gaps, justifies, flows } from './Items';
 
-const stories = storiesOf('components/Items', module)
-stories.addDecorator(withKnobs)
+const stories = storiesOf('components/Items', module);
+stories.addDecorator(withKnobs);
 
 stories.add('Default', () => (
   <Items
@@ -20,7 +20,7 @@ stories.add('Default', () => (
       range: true,
       min: gaps[0],
       max: gaps[gaps.length - 1],
-      step: 1
+      step: 1,
     })}
     align={select('align', aligns, 'start')}
     justifyContent={select('justifyContent', justifies, 'normal')}
@@ -37,4 +37,4 @@ stories.add('Default', () => (
     />
     <div style={{ minWidth: '40px', minHeight: '160px', background: 'blue' }} />
   </Items>
-))
+));

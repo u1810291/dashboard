@@ -1,11 +1,12 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import Items from 'components/items'
-import Click from 'components/click'
-import PopupWindow from 'components/popup-window'
-import { createOverlay, closeOverlay } from 'components/overlay'
-import images from './images'
-import gifs from './popup-images'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import Items from 'components/items';
+import Click from 'components/click';
+import PopupWindow from 'components/popup-window';
+import { createOverlay, closeOverlay } from 'components/overlay';
+import images from './images';
+import gifs from './popup-images';
 
 export const FEATURES = [
   'liveness',
@@ -14,11 +15,11 @@ export const FEATURES = [
   'facematch',
   'document-reading',
   'curp-validation',
-  'alteration-detection'
-]
+  'alteration-detection',
+];
 
 function showOverlay(feature) {
-  createOverlay(<FeatureModal feature={feature} />)
+  createOverlay(<FeatureModal feature={feature} />);
 }
 
 function FeatureModal({ feature }) {
@@ -41,7 +42,7 @@ function FeatureModal({ feature }) {
         </Click>
       </Items>
     </PopupWindow>
-  )
+  );
 }
 
 export default function Features() {
@@ -56,7 +57,7 @@ export default function Features() {
         templateColumns="repeat(3, 1fr)"
         align="stretch"
       >
-        {FEATURES.map(name => (
+        {FEATURES.map((name) => (
           <Click
             shadow={1}
             padding={2}
@@ -64,7 +65,7 @@ export default function Features() {
             align="end"
             flow="row"
             alignContent="end"
-            onClick={showOverlay.bind(null, name)}
+            onClick={showOverlay(name)}
             key={name}
           >
             <img src={images[name]} alt={name} />
@@ -75,5 +76,9 @@ export default function Features() {
         ))}
       </Items>
     </Items>
-  )
+  );
 }
+
+FeatureModal.propTypes = {
+  feature: PropTypes.string.isRequired,
+};

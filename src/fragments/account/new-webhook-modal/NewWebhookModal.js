@@ -1,14 +1,16 @@
-import React from 'react'
-import { flowRight } from 'lodash/fp'
-import { FormattedMessage } from 'react-intl'
-import { withFormik, Field, Form } from 'formik'
-import { Input } from 'components/inputs'
-import { setI18nContext } from 'components/i18n-context'
-import { Modal } from 'components/modal'
-import Button from 'components/button'
-import Items from 'components/items'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { flowRight } from 'lodash/fp';
+import { FormattedMessage } from 'react-intl';
+import { withFormik, Field, Form } from 'formik';
 
-function NewWebhookModal({ onSave, onClose }) {
+import { Input } from 'components/inputs';
+import { setI18nContext } from 'components/i18n-context';
+import Modal from 'components/modal';
+import Button from 'components/button';
+import Items from 'components/items';
+
+function NewWebhookModal({ onClose }) {
   return (
     <Form>
       <Modal>
@@ -35,22 +37,26 @@ function NewWebhookModal({ onSave, onClose }) {
         </footer>
       </Modal>
     </Form>
-  )
+  );
 }
 
 const formikSettings = {
   enableReinitialize: true,
   handleSubmit(values, { props, setStatus }) {
-    setStatus({})
-    const { url, secret } = values
+    setStatus({});
+    const { url, secret } = values;
     props
       .onSave(url, secret)
       .then(props.onClose)
-      .catch(setStatus)
-  }
-}
+      .catch(setStatus);
+  },
+};
 
 export default flowRight(
   setI18nContext('onboarding.webhooks'),
-  withFormik(formikSettings)
-)(NewWebhookModal)
+  withFormik(formikSettings),
+)(NewWebhookModal);
+
+NewWebhookModal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+};

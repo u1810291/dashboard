@@ -1,1 +1,1 @@
-export { default, Content } from './ApplicationBox'
+export { default, Content } from './ApplicationBox';

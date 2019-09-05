@@ -1,1 +1,1 @@
-export * from './InstallationGuidePanels'
+export * from './InstallationGuidePanels';

@@ -1,16 +1,16 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import VerificationMetadata from '.'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import VerificationMetadata from '.';
 
 const stories = storiesOf(
   'fragments/verifications/VerificationMetadata',
-  module
-)
+  module,
+);
 
 const metadata = {
   userId: 1415,
   userName: 'Vadim Rastyagaev',
-  email: 'rastyagaev@gmail.com'
-}
+  email: 'rastyagaev@gmail.com',
+};
 
-stories.add('Default', () => <VerificationMetadata metadata={metadata} />)
+stories.add('Default', () => <VerificationMetadata metadata={metadata} />);

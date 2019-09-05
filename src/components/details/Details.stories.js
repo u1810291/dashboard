@@ -1,8 +1,8 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import Details from '.'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import Details from '.';
 
-const stories = storiesOf('components/Details', module)
+const stories = storiesOf('components/Details', module);
 
 stories.add('Default', () => (
   <Details summary="Is Mati secure?">
@@ -32,7 +32,7 @@ stories.add('Default', () => (
       locally.
     </p>
   </Details>
-))
+));
 
 stories.add('Pre-opened', () => (
   <Details summary="Is Mati secure?" defaultOpened>
@@ -62,4 +62,4 @@ stories.add('Pre-opened', () => (
       locally.
     </p>
   </Details>
-))
+));

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -5,7 +6,7 @@ import { flowRight } from 'lodash/fp';
 import { Field, Formik, withFormik } from 'formik';
 import { pickBy } from 'lodash';
 
-import { Modal } from 'components/modal';
+import Modal from 'components/modal';
 import Button from 'components/button';
 import { Input } from 'components/inputs';
 import { setI18nContext } from 'components/i18n-context';
@@ -21,7 +22,7 @@ const formikSettings = {
     repeatPassword: '',
   },
 
-  validate: values => {
+  validate: (values) => {
     let errors = {};
 
     errors.oldPassword = required(values.oldPassword)
@@ -31,9 +32,68 @@ const formikSettings = {
     errors.repeatPassword = required(values.repeatPassword)
       || (values.repeatPassword !== values.password && 'personalSettings.errors.repeatPassword');
 
-    errors = pickBy(errors, v => v);
+    errors = pickBy(errors, (v) => v);
     return errors;
   },
+};
+
+// TODO: Divide these components
+
+function ModalContent({ handleSubmit, errors, touched, isSubmitting }) {
+  return (
+    <form onSubmit={handleSubmit}>
+      <>
+        {touched.oldPassword && errors.oldPassword && (
+          <span className={CSS.error}>
+            <FormattedMessage id="personalSettings.errors.oldPassword" />
+          </span>
+        )}
+        <Field
+          type="password"
+          name="oldPassword"
+          className={CSS.current}
+          component={Input}
+          error={touched.oldPassword && errors.oldPassword}
+        />
+      </>
+      <>
+        {touched.password && errors.password && (
+          <span className={CSS.error}>
+            <FormattedMessage id="personalSettings.errors.password" />
+          </span>
+        )}
+        <Field
+          type="password"
+          name="password"
+          component={Input}
+          error={touched.password && errors.password}
+        />
+      </>
+      <Field
+        type="password"
+        name="repeatPassword"
+        component={Input}
+        error={touched.repeatPassword && errors.repeatPassword}
+      />
+      <p>
+        <Button
+          type="submit"
+          className={CSS.submit}
+          buttonStyle="primary"
+          disabled={isSubmitting}
+        >
+          <FormattedMessage id="apps.settings.personalSettings.change" />
+        </Button>
+      </p>
+    </form>
+  );
+}
+
+ModalContent.propTypes = {
+  errors: PropTypes.shape().isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
+  touched: PropTypes.shape().isRequired,
 };
 
 function ChangePasswordModal({ onSubmit }) {
@@ -41,64 +101,16 @@ function ChangePasswordModal({ onSubmit }) {
     <Modal small>
       <main className={CSS.content}>
         <div className={CSS.title}>
-          <FormattedMessage id="apps.settings.personalSettings.change"/>
+          <FormattedMessage id="apps.settings.personalSettings.change" />
         </div>
         <div className={CSS.subtitle}>
-          <FormattedMessage id="apps.settings.personalSettings.youCanChange"/>
+          <FormattedMessage id="apps.settings.personalSettings.youCanChange" />
         </div>
         <Formik
           initialValues={formikSettings.initialValues}
           onSubmit={onSubmit}
           validate={formikSettings.validate}
-          render={props => {
-            return (
-              <form onSubmit={props.handleSubmit}>
-                <>
-                  {props.touched.oldPassword && props.errors.oldPassword && (
-                    <span className={CSS.error}>
-                      <FormattedMessage id="personalSettings.errors.oldPassword"/>
-                    </span>
-                  )}
-                  <Field
-                    type="password"
-                    name="oldPassword"
-                    className={CSS.current}
-                    component={Input}
-                    error={props.touched.oldPassword && props.errors.oldPassword}
-                  />
-                </>
-                <>
-                  {props.touched.password && props.errors.password && (
-                    <span className={CSS.error}>
-                      <FormattedMessage id="personalSettings.errors.password"/>
-                    </span>
-                  )}
-                  <Field
-                    type="password"
-                    name="password"
-                    component={Input}
-                    error={props.touched.password && props.errors.password}
-                  />
-                </>
-                <Field
-                  type="password"
-                  name="repeatPassword"
-                  component={Input}
-                  error={props.touched.repeatPassword && props.errors.repeatPassword}
-                />
-                <p>
-                  <Button
-                    type="submit"
-                    className={CSS.submit}
-                    buttonStyle="primary"
-                    disabled={props.isSubmitting}
-                  >
-                    <FormattedMessage id="apps.settings.personalSettings.change"/>
-                  </Button>
-                </p>
-              </form>
-            );
-          }}
+          render={ModalContent}
         />
       </main>
     </Modal>
@@ -110,6 +122,9 @@ export default flowRight(
   connect(
     null,
   ),
-  withFormik(formikSettings)
-)(ChangePasswordModal)
+  withFormik(formikSettings),
+)(ChangePasswordModal);
 
+ChangePasswordModal.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

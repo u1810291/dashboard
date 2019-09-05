@@ -1,1 +1,1 @@
-export { default } from './VerificationStatistic'
+export { default } from './VerificationStatistic';

@@ -1,1 +1,1 @@
-export { default } from './StatesExplanation'
+export { default } from './StatesExplanation';

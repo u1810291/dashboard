@@ -1,27 +1,29 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { useState } from 'react'
+import PropTypes from 'prop-types';
+import { jsx } from '@emotion/core';
+import { useState } from 'react';
 import {
-  injectStripe
-} from 'react-stripe-elements'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { Card, Items, Click, Text } from 'components'
+  injectStripe,
+} from 'react-stripe-elements';
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 
-import CSS from './ChangePlanModal.module.scss'
-import MatiLogoURL from './Mati.svg'
+import { Card, Items, Click, Text } from 'components';
+
+import CSS from './ChangePlanModal.module.scss';
+import MatiLogoURL from './Mati.svg';
 
 function ChangePlanModal({
   name,
   subscriptionPrice,
   extraPrice,
   includedVerifications,
-  onSubmit = () => {}
+  onSubmit = () => {},
 }) {
-  const [disabled, setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState(false);
   async function handleSubmit() {
-    setDisabled(true)
+    setDisabled(true);
     await onSubmit();
-    setDisabled(false)
+    setDisabled(false);
   }
 
   return (
@@ -46,7 +48,7 @@ function ChangePlanModal({
             />
           </Text>
         </Items>
-        <Items flow="row" gap={0} >
+        <Items flow="row" gap={0}>
           <Text padding={2}>
             <FormattedHTMLMessage
               id="CardModal.limitation"
@@ -61,7 +63,19 @@ function ChangePlanModal({
         </Items>
       </Items>
     </Card>
-  )
+  );
 }
 
-export default injectStripe(ChangePlanModal)
+export default injectStripe(ChangePlanModal);
+
+ChangePlanModal.propTypes = {
+  extraPrice: PropTypes.number.isRequired,
+  includedVerifications: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func,
+  subscriptionPrice: PropTypes.number.isRequired,
+};
+
+ChangePlanModal.defaultProps = {
+  onSubmit: () => {},
+};

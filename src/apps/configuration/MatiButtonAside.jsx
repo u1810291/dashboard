@@ -7,17 +7,17 @@ import {
   Click,
   Icons,
   Items,
-  createOverlay
+  createOverlay,
 } from 'components';
 
 import CSS from './Configuration.module.scss';
 
 function showUsecaseModal() {
-  createOverlay(<UsecaseModal />)
+  createOverlay(<UsecaseModal />);
 }
 
 export default function MatiButtonAside() {
-  const { apps, configuration } = useSelector(s => s.merchant);
+  const { apps, configuration } = useSelector(({ merchant }) => merchant);
   const intl = useIntl();
 
   return (
@@ -28,7 +28,9 @@ export default function MatiButtonAside() {
         justifyContent="center"
         className={CSS.matiButtonWrapper}
       >
-        {(apps[0] && apps[0].clientId) &&
+        {
+          (apps[0] && apps[0].clientId)
+          && (
           <mati-button
             color={configuration.style.color}
             clientId={apps[0] && apps[0].clientId}
@@ -36,6 +38,7 @@ export default function MatiButtonAside() {
             apiHost={process.env.REACT_APP_API_URL}
             signupHost={process.env.REACT_APP_SIGNUP_URL}
           />
+          )
         }
       </Items>
       <Click onClick={showUsecaseModal} background="active" shadow="2">

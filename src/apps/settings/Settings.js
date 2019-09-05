@@ -1,12 +1,13 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { Route, Switch } from 'react-router-dom'
-import { Content } from 'components/application-box'
-import Items from 'components/items'
-import TeamSettings from './team-settings'
-import Billing from './billing-settings'
-import Pricing from './Pricing'
-import PersonalSetting from './personal-settings'
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Route, Switch } from 'react-router-dom';
+
+import { Content } from 'components/application-box';
+import Items from 'components/items';
+import TeamSettings from './team-settings';
+import Billing from './billing-settings';
+import Pricing from './Pricing';
+import PersonalSetting from './personal-settings';
 
 export default function Settings() {
   return (
@@ -23,5 +24,5 @@ export default function Settings() {
         </Switch>
       </Items>
     </Content>
-  )
+  );
 }

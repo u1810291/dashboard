@@ -1,6 +1,8 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { FiRotateCw, FiRotateCcw, FiZoomIn } from 'react-icons/fi';
+
 import { Content, OverlayWithBlur } from 'components';
-import { FiRotateCw, FiRotateCcw, FiZoomIn } from 'react-icons/fi'
 
 import CSS from './ZoomableImage.module.scss';
 
@@ -12,17 +14,19 @@ export default function ZoomableImage({ src, alt }) {
     const root = document.getElementById('overlayRootWithBlur');
     rotate(0);
     handleModal(false);
-    root && root.remove();
+    if (root) {
+      root.remove();
+    }
     document.body.style.position = 'relative';
     document.body.className = '';
   };
 
   const rotateEvent = (event) => {
     if (event.keyCode === 37) {
-      rotate(angle - 90)
+      rotate(angle - 90);
     }
     if (event.keyCode === 39) {
-      rotate(angle + 90)
+      rotate(angle + 90);
     }
     if (event.keyCode === 27) {
       document.body.style.position = 'fixed';
@@ -30,12 +34,24 @@ export default function ZoomableImage({ src, alt }) {
     }
   };
 
-  return <div className={CSS.initImage} onKeyDown={rotateEvent} tabIndex="0">
-    <div className={CSS.hoverWrapper} onClick={() => handleModal(true)}>
-      <FiZoomIn color="white" size="2em" className={CSS.zoomIcon} />
-    </div>
-    <img src={src} alt={alt} className={CSS.initImage} />
-    {isModalShown && (
+  return (
+    <div
+      className={CSS.initImage}
+      onKeyDown={rotateEvent}
+      role="button"
+      tabIndex="0"
+    >
+      <div
+        className={CSS.hoverWrapper}
+        onClick={() => handleModal(true)}
+        onKeyUp={() => {}}
+        role="button"
+        tabIndex="0"
+      >
+        <FiZoomIn color="white" size="2em" className={CSS.zoomIcon} />
+      </div>
+      <img src={src} alt={alt} className={CSS.initImage} />
+      {isModalShown && (
       <OverlayWithBlur onClose={handleClose}>
         <Content
           fullwidth={false}
@@ -46,9 +62,9 @@ export default function ZoomableImage({ src, alt }) {
             className={CSS.zoomedImage}
             src={src}
             alt={alt}
-            style={{transform: `rotate(${angle}deg)`}}
+            style={{ transform: `rotate(${angle}deg)` }}
             onKeyDown={rotateEvent}
-            tabIndex="0"
+            role="presentation"
           />
 
           <div className={CSS.actions}>
@@ -57,7 +73,8 @@ export default function ZoomableImage({ src, alt }) {
               color="white"
               size="2em"
               onClick={() => rotate(angle - 90)}
-              onKeyDown={rotateEvent} tabIndex="0"
+              onKeyDown={rotateEvent}
+              tabIndex="0"
             />
             <FiRotateCw
               className={CSS.right}
@@ -70,6 +87,17 @@ export default function ZoomableImage({ src, alt }) {
           </div>
         </Content>
       </OverlayWithBlur>
-    )}
-  </div>
+      )}
+    </div>
+  );
 }
+
+ZoomableImage.propTypes = {
+  alt: PropTypes.string,
+  src: PropTypes.string,
+};
+
+ZoomableImage.defaultProps = {
+  alt: '',
+  src: '',
+};

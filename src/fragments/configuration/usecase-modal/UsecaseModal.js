@@ -1,17 +1,17 @@
 /** @jsx jsx */
-import { useState } from 'react'
-import { FormattedMessage } from 'react-intl'
-import { css, jsx } from '@emotion/core'
-import { Card, Click, Items, H2, VideoPlayer } from 'components'
-import DrivingLicenceIcon from './DrivingLicenceIcon.svg'
-import PassportIcon from './PassportIcon.svg'
-import NationalIdIcon from './NationalIdIcon.svg'
+import { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { css, jsx } from '@emotion/core';
+import { Card, Click, Items, H2, VideoPlayer } from 'components';
+import DrivingLicenceIcon from './DrivingLicenceIcon.svg';
+import PassportIcon from './PassportIcon.svg';
+import NationalIdIcon from './NationalIdIcon.svg';
 
 const URLS = {
   drivingLicense: 'https://vimeo.com/337507628',
   passport: 'https://vimeo.com/337507683',
-  nationalId: 'https://vimeo.com/337507662'
-}
+  nationalId: 'https://vimeo.com/337507662',
+};
 
 export default function UsecaseModal() {
   const buttonProps = {
@@ -20,9 +20,9 @@ export default function UsecaseModal() {
     padding: '2/1',
     gap: 1,
     shadow: 2,
-    flow: 'row'
-  }
-  const [url, setURL] = useState(URLS.drivingLicense)
+    flow: 'row',
+  };
+  const [url, setURL] = useState(URLS.drivingLicense);
   return (
     <Card
       padding="4"
@@ -44,19 +44,22 @@ export default function UsecaseModal() {
       </Items>
       <Items templateColumns="1fr 1fr" flow="row" align="stretch">
         <Click
-          {...buttonProps}
-          onClick={setURL.bind(null, URLS.drivingLicense)}
+          {...buttonProps} // eslint-disable-line react/jsx-props-no-spreading
+          onClick={() => setURL(URLS.drivingLicense)}
         >
           <img src={DrivingLicenceIcon} alt="" />
           <FormattedMessage id="verification.type.driving-license" />
         </Click>
-        <Click {...buttonProps} onClick={setURL.bind(null, URLS.passport)}>
+        <Click
+          {...buttonProps} // eslint-disable-line react/jsx-props-no-spreading
+          onClick={() => setURL(URLS.passport)}
+        >
           <img src={PassportIcon} alt="" />
           <FormattedMessage id="verification.type.passport" />
         </Click>
         <Click
-          {...buttonProps}
-          onClick={setURL.bind(null, URLS.nationalId)}
+          {...buttonProps} // eslint-disable-line react/jsx-props-no-spreading
+          onClick={() => setURL(URLS.nationalId)}
           css={css`
             grid-column: 1/3;
           `}
@@ -66,11 +69,14 @@ export default function UsecaseModal() {
             <img src={NationalIdIcon} alt="" />
           </Items>
           <span>
-            <FormattedMessage id="verification.type.passport" /> +{' '}
+            <FormattedMessage id="verification.type.passport" />
+            {' '}
++
+            {' '}
             <FormattedMessage id="verification.type.national" />
           </span>
         </Click>
       </Items>
     </Card>
-  )
+  );
 }

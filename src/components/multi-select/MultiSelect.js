@@ -1,31 +1,41 @@
-import React from 'react'
-import classNames from 'classnames'
-import CSS from './MultiSelect.module.scss'
-import Select from 'react-select'
+import PropTypes from 'prop-types';
+import React from 'react';
+import classNames from 'classnames';
+import Select from 'react-select';
+
+import CSS from './MultiSelect.module.scss';
 
 export default class MultiSelect extends React.Component {
+  static defaultProps = {
+    onChange: () => {},
+    value: [],
+  }
+
+  static propTypes = {
+    onChange: PropTypes.func,
+    selectClassName: PropTypes.func.isRequired,
+    value: PropTypes.arrayOf(),
+    valuesClassName: PropTypes.string.isRequired,
+  }
+
   constructor(props) {
-    super(props)
-
-    this.state = {
-      value: this.props.value || []
-    }
+    super(props);
+    const { value } = this.props;
+    this.state = { value };
   }
 
-  onChange = value => {
-    this.setState({
-      value
-    })
-    this.props.onChange && this.props.onChange(value)
+  onChange = (value) => {
+    this.setState({ value });
+    this.props.onChange(value);
   }
 
-  deleteOption = optionIndex => {
+  deleteOption = (optionIndex) => {
     this.setState(
-      {
-        value: this.state.value.filter((option, index) => index !== optionIndex)
-      },
-      () => this.props.onChange && this.props.onChange(this.state.value)
-    )
+      (state) => ({
+        value: state.value.filter((option, index) => index !== optionIndex),
+      }),
+      () => this.props.onChange && this.props.onChange(this.state.value),
+    );
   }
 
   render() {
@@ -34,14 +44,14 @@ export default class MultiSelect extends React.Component {
       selectClassName,
       valuesClassName,
       ...inputOptions
-    } = this.props
-    const { value } = this.state
+    } = this.props;
+    const { value } = this.state;
 
     return (
       <div className={classNames(CSS.multiSelect, className)}>
         <Select
           isMulti
-          {...inputOptions}
+          {...inputOptions} // eslint-disable-line react/jsx-props-no-spreading
           className={classNames(CSS.select, selectClassName)}
           value={value}
           isSearchable
@@ -51,15 +61,16 @@ export default class MultiSelect extends React.Component {
         <div className={valuesClassName}>
           {value.map((option, index) => (
             <button
-              key={index}
               className={CSS.valueItem}
+              key={index} // eslint-disable-line react/no-array-index-key
               onClick={() => this.deleteOption(index)}
+              type="button"
             >
               {option.label}
             </button>
           ))}
         </div>
       </div>
-    )
+    );
   }
 }

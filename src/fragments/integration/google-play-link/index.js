@@ -1,1 +1,1 @@
-export { default } from './GooglePlayLink'
+export { default } from './GooglePlayLink';
