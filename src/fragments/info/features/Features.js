@@ -65,7 +65,7 @@ export default function Features() {
             align="end"
             flow="row"
             alignContent="end"
-            onClick={showOverlay(name)}
+            onClick={() => showOverlay(name)}
             key={name}
           >
             <img src={images[name]} alt={name} />
