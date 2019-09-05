@@ -86,7 +86,7 @@ class SignUpForm extends React.Component {
         || 'Something went wrong. Please retry later',
       );
     }
-  }
+  };
 
   render() {
     return (
