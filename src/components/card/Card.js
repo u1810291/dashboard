@@ -18,10 +18,10 @@ export const shadowValue = (shadow) => css`
     rgba(52, 73, 94, calc(0.1 * ${shadow}));
 `;
 
-export const paddingValue = padding => css(
+export const paddingValue = (padding) => css(
   splitCSSValues(
     padding,
-    value => `calc(var(--mgi-spacing) * 0.5 * ${value})`
+    (value) => `calc(var(--mgi-spacing) * 0.5 * ${value})`,
   ),
 );
 
@@ -40,7 +40,7 @@ export default function Card({
     overflow: hidden;
     border-radius: ${splitCSSValues(
     borderRadius,
-    value => `calc(var(--mgi-card-border-radius) * ${value})`,
+    (value) => `calc(var(--mgi-card-border-radius) * ${value})`,
   )};
     box-shadow: ${shadowValue(shadow)};
     transition: box-shadow 0.2s ease-in-out;
