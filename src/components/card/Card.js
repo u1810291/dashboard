@@ -44,7 +44,7 @@ export default function Card({
   )};
     box-shadow: ${shadowValue(shadow)};
     transition: box-shadow 0.2s ease-in-out;
-    padding: ${typeof padding === 'string' ? padding : paddingValue(padding)};
+    padding: ${typeof padding === 'string' && padding.includes('px') ? padding : paddingValue(padding)};
   `;
 
   return (
