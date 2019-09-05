@@ -1,68 +1,68 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import Countries from '.'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import Countries from '.';
 
-const stories = storiesOf('fragments/configuration/Countries', module)
+const stories = storiesOf('fragments/configuration/Countries', module);
 const countries = [
   {
     code: 'US',
-    name: 'United States'
+    name: 'United States',
   },
   {
     code: 'UY',
-    name: 'Uruguay'
+    name: 'Uruguay',
   },
   {
     code: 'UZ',
-    name: 'Uzbekistan'
+    name: 'Uzbekistan',
   },
   {
     code: 'VU',
-    name: 'Vanuatu'
+    name: 'Vanuatu',
   },
   {
     code: 'VA',
-    name: 'Vatican City'
+    name: 'Vatican City',
   },
   {
     code: 'VE',
-    name: 'Venezuela'
+    name: 'Venezuela',
   },
   {
     code: 'VN',
-    name: 'Vietnam'
+    name: 'Vietnam',
   },
   {
     code: 'WF',
-    name: 'Wallis & Futuna'
+    name: 'Wallis & Futuna',
   },
   {
     code: 'EH',
-    name: 'Western Sahara'
+    name: 'Western Sahara',
   },
   {
     code: 'YE',
-    name: 'Yemen'
+    name: 'Yemen',
   },
   {
     code: 'ZM',
-    name: 'Zambia'
+    name: 'Zambia',
   },
   {
     code: 'ZW',
-    name: 'Zimbabwe'
+    name: 'Zimbabwe',
   },
   {
     code: 'AX',
-    name: 'Åland Islands'
-  }
-]
+    name: 'Åland Islands',
+  },
+];
 
-const supportedCountries = ['US', 'UY', 'UZ', 'VU', 'VA', 'VE', 'VN']
+const supportedCountries = ['US', 'UY', 'UZ', 'VU', 'VA', 'VE', 'VN'];
 stories.add('Default', () => (
   <Countries
     countries={countries}
     supportedCountries={supportedCountries}
     onSubmit={() => {}}
   />
-))
+));

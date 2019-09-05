@@ -6,7 +6,7 @@ const INPUT_DATE_FORMATS = [moment.ISO_8601, 'YYYY', 'MMM, YYYY', 'MMM D, YYYY',
 const RE_NON_DIGIT = /\D/g;
 
 export function titleCase(string = '') {
-  return typeof string === 'string' ? startCase(string.toLowerCase()) : string
+  return typeof string === 'string' ? startCase(string.toLowerCase()) : string;
 }
 
 export function formatDate(value) {
@@ -28,20 +28,20 @@ export function formatDate(value) {
 
 export function formatValue(label, string) {
   function checkLabel(name, keys) {
-    return keys.some(s => name.toLowerCase().includes(s))
+    return keys.some((key) => name.toLowerCase().includes(key));
   }
 
   if (checkLabel(label, ['name', 'address', 'gender', 'nationality'])) {
-    return titleize(string)
+    return titleize(string);
   }
 
   if (checkLabel(label, ['date'])) {
-    return formatDate(string)
+    return formatDate(string);
   }
 
-  return string
+  return string;
 }
-const parseDashboardFormat = value => moment.utc(value, 'MMM D, YYYY', true);
+const parseDashboardFormat = (value) => moment.utc(value, 'MMM D, YYYY', true);
 
 export function ifDateFormat(value) {
   const dateAsMoment = parseDashboardFormat(value);

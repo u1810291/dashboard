@@ -1,1 +1,1 @@
-export { default } from './DocumentReadingStep'
+export { default } from './DocumentReadingStep';

@@ -1,13 +1,13 @@
-import React from 'react'
-import { Items } from 'components'
+import React from 'react';
+import { Items } from 'components';
 import {
   LetsStartPanel,
   VerificationPanel,
   ApplicationsPanel,
   InstallFrontendCodePanel,
-  SetWebhooksPanel
-} from 'fragments/integration/installation-guide-panels'
-import IntegrationLayout from './IntegrationLayout'
+  SetWebhooksPanel,
+} from 'fragments/integration/installation-guide-panels';
+import IntegrationLayout from './IntegrationLayout';
 
 export default function Info() {
   return (
@@ -22,5 +22,5 @@ export default function Info() {
         </Items>
       </main>
     </IntegrationLayout>
-  )
+  );
 }

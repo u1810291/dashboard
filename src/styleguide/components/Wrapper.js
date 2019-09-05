@@ -1,13 +1,11 @@
-import React, { Component } from 'react'
-import IntlProvider from 'components/intl-provider'
-import { BrowserRouter } from 'react-router-dom'
+import React from 'react';
+import IntlProvider from 'components/intl-provider';
+import { BrowserRouter } from 'react-router-dom';
 
-export default class Wrapper extends Component {
-  render() {
-    return (
-      <IntlProvider>
-        <BrowserRouter>{this.props.children}</BrowserRouter>
-      </IntlProvider>
-    )
-  }
+export default function Wrapper({ children }) {
+  return (
+    <IntlProvider>
+      <BrowserRouter>{children}</BrowserRouter>
+    </IntlProvider>
+  );
 }

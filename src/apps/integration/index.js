@@ -1,10 +1,10 @@
-import React from 'react'
-import { Items } from 'components'
-import MobileDemo from './MobileDemo'
-import ClientApplications from './ClientApplications'
-import IntegrationCode from './IntegrationCode'
+import React from 'react';
+import { Items } from 'components';
+import MobileDemo from './MobileDemo';
+import ClientApplications from './ClientApplications';
+import IntegrationCode from './IntegrationCode';
 
-import CSS from './IntegrationContent.module.scss'
+import CSS from './IntegrationContent.module.scss';
 
 export default function InfoPage() {
   return (
@@ -19,5 +19,5 @@ export default function InfoPage() {
       <hr className={CSS.divider} />
       <MobileDemo />
     </Items>
-  )
+  );
 }

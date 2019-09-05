@@ -1,51 +1,53 @@
-import React, { useState, useEffect } from 'react'
-import { debounce } from 'lodash'
-import { FormattedMessage } from 'react-intl'
-import { ChromePicker } from 'react-color'
-import ColorCheckButton from 'components/color-check-button'
-import { Text, Items } from 'components'
-import { ReactComponent as ColorPicker } from './color-picker.svg'
-import CSS from './ConfigureColor.module.css'
+import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import { debounce } from 'lodash';
+import { FormattedMessage } from 'react-intl';
+import { ChromePicker } from 'react-color';
+
+import ColorCheckButton from 'components/color-check-button';
+import { Text, Items } from 'components';
+import { ReactComponent as ColorPicker } from './color-picker.svg';
+import CSS from './ConfigureColor.module.css';
 
 function getColorValue(value, presets) {
-  const preset = presets.find(([, preset]) => preset === value)
-  return preset ? preset[0] : value
+  const preset = presets.find(([, color]) => color === value);
+  return preset ? preset[0] : value;
 }
 
 export default function ConfigureColor({
   presets = [],
   style = {},
-  onClick = () => {}
+  onClick = () => {},
 }) {
-  const [showPicker, setShowPicker] = useState(false)
-  const [color, setColor] = useState(null)
+  const [showPicker, setShowPicker] = useState(false);
+  const [color, setColor] = useState(null);
 
-  const onClickDebounced = debounce(onClick, 600)
+  const onClickDebounced = debounce(onClick, 600);
 
   const onBackgroundClick = () => {
-    setShowPicker(false)
-  }
+    setShowPicker(false);
+  };
 
-  const handleChange = value => {
-    setColor(getColorValue(value, presets))
-    onClick({ style: { ...style, color: value } })
-  }
+  const handleChange = (value) => {
+    setColor(getColorValue(value, presets));
+    onClick({ style: { ...style, color: value } });
+  };
 
-  const handlePickerChange = value => {
-    setColor(value.hex)
-    onClickDebounced({ style: { ...style, color: value.hex } })
-  }
+  const handlePickerChange = (value) => {
+    setColor(value.hex);
+    onClickDebounced({ style: { ...style, color: value.hex } });
+  };
 
   useEffect(() => {
-    window.addEventListener('click', onBackgroundClick, false)
+    window.addEventListener('click', onBackgroundClick, false);
     return function cleanup() {
-      window.removeEventListener('click', onBackgroundClick)
-    }
-  }, [])
+      window.removeEventListener('click', onBackgroundClick);
+    };
+  }, []);
 
   useEffect(() => {
-    if (!color) setColor(getColorValue(style.color, presets))
-  }, [style.color, color, presets])
+    if (!color) setColor(getColorValue(style.color, presets));
+  }, [style.color, color, presets]);
 
   return (
     <fieldset className="mgi-fieldset">
@@ -63,7 +65,10 @@ export default function ConfigureColor({
         ))}
         <div
           className={CSS.colorPickerWrapper}
-          onClick={e => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
+          onKeyUp={() => {}}
+          role="button"
+          tabIndex="0"
         >
           <ColorPicker
             className={CSS.colorPickerButton}
@@ -82,5 +87,17 @@ export default function ConfigureColor({
         </div>
       </Items>
     </fieldset>
-  )
+  );
 }
+
+ConfigureColor.propTypes = {
+  onClick: PropTypes.func,
+  presets: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
+  style: PropTypes.shape(),
+};
+
+ConfigureColor.defaultProps = {
+  onClick: () => {},
+  presets: [],
+  style: {},
+};

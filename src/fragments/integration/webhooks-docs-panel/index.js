@@ -1,1 +1,1 @@
-export { default } from './WebhooksDocsPanel'
+export { default } from './WebhooksDocsPanel';

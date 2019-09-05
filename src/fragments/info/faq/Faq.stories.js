@@ -1,6 +1,6 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import Faq from '.'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import Faq from '.';
 
 const questions = [
   {
@@ -14,7 +14,7 @@ Here is the extensive list of features we offer :
 * Face match. Confirm that the documents belong to that user going through the verification flow
 * Document authenticity. Verify that the documents have not been modified. Most fraudsters change the  picture or the text on the document.
 * Document OCR. We annotate the document for you.
-`
+`,
   },
   {
     summary: 'Is Mati secure?',
@@ -26,7 +26,7 @@ We strongly believe the only path forward in securing our digital lives is to li
 That is why we tried to minimize the difficulty and make Mati easy to use, but keep security as the highest priority.We use highly secure cryptographic methods to secure your data at Mati. All of your sensitive data is encrypted using standards-based crypto-algorithms.
 
 Unlike proprietary algorithms, standards-based algorithms have gone through public scrutiny by industry and security experts that reduces the chance of any inherent weaknesses or vulnerabilities.We also continuously make the best effort to secure our servers online and client applications locally.
-`
+`,
   },
   {
     summary: 'Which countries do you support?',
@@ -34,10 +34,10 @@ Unlike proprietary algorithms, standards-based algorithms have gone through publ
 Our product is built so that we support documents from any country around the world, as long as the document has latin alphabet on it.
 Which means most countries in Europe, United States, Latin America, Australia, etc…
 We do not support Mandarin, Hindu, etc… yet.
-  `
-  }
-]
+  `,
+  },
+];
 
-const stories = storiesOf('fragments/info/Faq', module)
+const stories = storiesOf('fragments/info/Faq', module);
 
-stories.add('Default', () => (<Faq questions={questions} />))
+stories.add('Default', () => (<Faq questions={questions} />));

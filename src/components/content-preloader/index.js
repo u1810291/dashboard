@@ -1,1 +1,1 @@
-export { default } from './ContentPreloader'
+export { default } from './ContentPreloader';

@@ -2,13 +2,13 @@ import React from 'react';
 import { ReactComponent as EnIcon } from './icons/en.svg';
 import { ReactComponent as EsIcon } from './icons/es.svg';
 
-export const languages = {
+export default {
   en: {
     label: 'English',
-    icon: <EnIcon />
+    icon: <EnIcon />,
   },
   es: {
     label: 'Español',
-    icon: <EsIcon />
+    icon: <EsIcon />,
   },
 };

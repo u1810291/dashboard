@@ -1,1 +1,1 @@
-export { default } from './BooleanField'
+export BooleanField from './BooleanField';

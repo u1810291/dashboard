@@ -1,1 +1,1 @@
-export { default } from './MatiNumbers'
+export { default } from './MatiNumbers';

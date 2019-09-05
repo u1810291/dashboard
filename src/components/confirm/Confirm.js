@@ -1,9 +1,10 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { createOverlay, closeOverlay } from '../overlay'
-import { Modal } from '../modal'
-import Items from '../items'
-import Button from '../button'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { createOverlay, closeOverlay } from '../overlay';
+import Modal from '../modal';
+import Items from '../items';
+import Button from '../button';
 
 export function ConfirmModal({ message, onClose, onConfirm }) {
   return (
@@ -20,23 +21,39 @@ export function ConfirmModal({ message, onClose, onConfirm }) {
         </Items>
       </footer>
     </Modal>
-  )
+  );
 }
 
 export default function confirm(message) {
   return new Promise((resolve, reject) => {
     function onClose() {
-      closeOverlay()
-      reject()
+      closeOverlay();
+      reject();
     }
 
     function onConfirm() {
-      closeOverlay()
-      resolve()
+      closeOverlay();
+      resolve();
     }
 
     createOverlay(<ConfirmModal message={message} onClose={onClose} onConfirm={onConfirm} />, {
-      onClose
-    })
-  })
+      onClose,
+    });
+  });
 }
+
+ConfirmModal.propTypes = {
+  message: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.element,
+    PropTypes.string,
+  ]),
+  onClose: PropTypes.func,
+  onConfirm: PropTypes.func,
+};
+
+ConfirmModal.defaultProps = {
+  message: '',
+  onClose: () => {},
+  onConfirm: () => {},
+};

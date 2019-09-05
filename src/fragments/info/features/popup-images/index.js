@@ -1,4 +1,5 @@
-import { fromPairs } from 'lodash'
+import { fromPairs } from 'lodash';
+
 export const FEATURES = [
   ['liveness', 'gif'],
   ['template-matching', 'gif'],
@@ -6,11 +7,12 @@ export const FEATURES = [
   ['facematch', 'png'],
   ['document-reading', 'gif'],
   ['curp-validation', 'jpg'],
-  ['alteration-detection', 'png']
-]
+  ['alteration-detection', 'png'],
+];
 
 const items = fromPairs(
-  FEATURES.map(([name, ext]) => [name, require(`./${name}.${ext}`)])
-)
+  // eslint-disable-next-line global-require,import/no-dynamic-require
+  FEATURES.map(([name, ext]) => [name, require(`./${name}.${ext}`)]),
+);
 
-export default items
+export default items;

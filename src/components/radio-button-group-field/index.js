@@ -1,1 +1,1 @@
-export { default } from './RadioButtonGroupField'
+export { default } from './RadioButtonGroupField';

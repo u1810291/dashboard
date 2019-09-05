@@ -8,8 +8,8 @@ cache:
 before_script:
   - yarn install
 
-lint:
-  script: yarn lint
+eslint:
+  script: yarn eslint
 
 build:
   script: yarn build

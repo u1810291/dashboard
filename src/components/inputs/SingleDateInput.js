@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
-import BaseInput from './BaseInput'
-import classNames from 'classnames'
-import CSS from './Input.module.css'
-import 'react-dates/initialize'
-import { SingleDatePicker } from 'react-dates'
+import 'react-dates/initialize';
+import React, { useState } from 'react';
+import classNames from 'classnames';
 
-export default function(props) {
-  const [focused, setFocused] = useState(false)
-  const [date, setDate] = useState(null)
+import { SingleDatePicker } from 'react-dates';
+
+import BaseInput from './BaseInput';
+
+import CSS from './Input.module.css';
+
+export default function (props) {
+  const [focused, setFocused] = useState(false);
+  const [date, setDate] = useState(null);
 
   return (
     <BaseInput
@@ -22,33 +25,33 @@ export default function(props) {
         error,
         ...fieldProps
       }) => {
-        function onDateChange(value) {
-          setDate(value)
+        function onDateChange(nextDate) {
+          setDate(nextDate);
           onChange({
             target: {
               name,
-              value
-            }
-          })
+              value: nextDate,
+            },
+          });
         }
 
         return (
           <div
             className={classNames(
               className,
-              error && CSS.singleDatePickerError
+              error && CSS.singleDatePickerError,
             )}
           >
             <SingleDatePicker
               date={date}
               onDateChange={onDateChange}
               focused={focused}
-              onFocusChange={({ focused }) => setFocused(focused)}
-              {...fieldProps}
+              onFocusChange={({ focused: isFocused }) => setFocused(isFocused)}
+              {...fieldProps} // eslint-disable-line react/jsx-props-no-spreading
             />
           </div>
-        )
+        );
       }}
     />
-  )
+  );
 }

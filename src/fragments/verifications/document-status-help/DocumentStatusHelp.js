@@ -1,14 +1,14 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import Card from 'components/card'
-import StatusLabel from 'fragments/verifications/status-label'
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import Card from 'components/card';
+import StatusLabel from 'fragments/verifications/status-label';
 
 export default function DocumentStatusHelp() {
   return (
     <Card>
       <fieldset className="mgi-fieldset">
         <legend>
-          <StatusLabel status="inProgress" coloredText={true} />
+          <StatusLabel status="inProgress" coloredText />
         </legend>
         <div>
           <FormattedMessage id="statuses.inProgress.info" />
@@ -16,7 +16,7 @@ export default function DocumentStatusHelp() {
       </fieldset>
       <fieldset className="mgi-fieldset">
         <legend>
-          <StatusLabel status="verified" coloredText={true} />
+          <StatusLabel status="verified" coloredText />
         </legend>
         <div>
           <FormattedMessage id="statuses.verified.info" />
@@ -24,7 +24,7 @@ export default function DocumentStatusHelp() {
       </fieldset>
       <fieldset className="mgi-fieldset">
         <legend>
-          <StatusLabel status="manual" coloredText={true} />
+          <StatusLabel status="manual" coloredText />
         </legend>
         <div>
           <FormattedMessage id="statuses.manual.info" />
@@ -32,12 +32,12 @@ export default function DocumentStatusHelp() {
       </fieldset>
       <fieldset className="mgi-fieldset">
         <legend>
-          <StatusLabel status="unverified" coloredText={true} />
+          <StatusLabel status="unverified" coloredText />
         </legend>
         <div>
           <FormattedMessage id="statuses.unverified.info" />
         </div>
       </fieldset>
     </Card>
-  )
+  );
 }

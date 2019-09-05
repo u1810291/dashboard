@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
 import Overlay from './Overlay';
@@ -5,6 +6,14 @@ import Overlay from './Overlay';
 import CSS from './Overlay.module.scss';
 
 export default class OverlayWithBlur extends Component {
+  static defaultProps = {
+    onClose: () => {},
+  }
+
+  static propTypes = {
+    onClose: PropTypes.func,
+  }
+
   constructor(props) {
     super(props);
 
@@ -19,6 +28,6 @@ export default class OverlayWithBlur extends Component {
 
   render() {
     const { children, onClose } = this.props;
-    return createPortal(<Overlay onClose={onClose}>{children}</Overlay>, this.root)
+    return createPortal(<Overlay onClose={onClose}>{children}</Overlay>, this.root);
   }
 }

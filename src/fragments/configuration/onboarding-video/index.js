@@ -1,1 +1,1 @@
-export { default, showVideo } from './OnboardingVideo'
+export { default, showVideo } from './OnboardingVideo';

@@ -1,7 +1,7 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import FeaturesPoster from '.'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import FeaturesPoster from '.';
 
-const stories = storiesOf('fragments/info/FeaturesPoster', module)
+const stories = storiesOf('fragments/info/FeaturesPoster', module);
 
-stories.add('Default', () => (<FeaturesPoster message="hello" />))
+stories.add('Default', () => (<FeaturesPoster message="hello" />));

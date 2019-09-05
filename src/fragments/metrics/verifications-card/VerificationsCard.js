@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Card, Items, Text } from 'components';
 import { Link } from 'react-router-dom';
@@ -21,7 +22,7 @@ export default function VerificationsCard({ count }) {
         <p className={CSS.link}>
           <Link to="/verifications?status=reviewNeeded">
             <Text color="darkgray">
-              <FormattedMessage id="fragments.home.verification.card.link"/>
+              <FormattedMessage id="fragments.home.verification.card.link" />
             </Text>
           </Link>
         </p>
@@ -29,3 +30,7 @@ export default function VerificationsCard({ count }) {
     </Card>
   );
 }
+
+VerificationsCard.propTypes = {
+  count: PropTypes.number.isRequired,
+};

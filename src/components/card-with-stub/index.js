@@ -1,1 +1,1 @@
-export { default, Stub } from './CardWithStub'
+export { default, Stub } from './CardWithStub';

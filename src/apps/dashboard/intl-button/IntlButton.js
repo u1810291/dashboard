@@ -1,7 +1,6 @@
-import React, { useRef, useEffect} from 'react';
+import React, { useRef, useEffect } from 'react';
 import { omit, get } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
-
 import {
   IconButton,
   Popper,
@@ -13,7 +12,6 @@ import {
   ListItemAvatar,
   Avatar,
 } from '@material-ui/core';
-
 import {
   usePopupState,
   bindToggle,
@@ -21,8 +19,8 @@ import {
 } from 'material-ui-popup-state/hooks';
 
 import { saveConfiguration } from 'state/merchant';
-import { default as useStyles } from './styles';
-import { languages } from './langs';
+import useStyles from './styles';
+import languages from './langs';
 
 function useOutsideAlerter(ref, popupState) {
   function handleClickOutside(event) {
@@ -43,17 +41,17 @@ const IntlButton = () => {
   const classes = useStyles();
   const [arrowRef, setArrowRef] = React.useState(null);
   const popupState = usePopupState({ variant: 'popper', popupId: 'langMenu' });
-  const currentLang = useSelector(state => get(state, 'merchant.configuration.dashboard.language'));
-  const dashboard = useSelector(state => get(state, 'merchant.configuration.dashboard'));
-  const token = useSelector(state => get(state, 'auth.token'));
+  const currentLang = useSelector((state) => get(state, 'merchant.configuration.dashboard.language'));
+  const dashboard = useSelector((state) => get(state, 'merchant.configuration.dashboard'));
+  const token = useSelector((state) => get(state, 'auth.token'));
   const dispatch = useDispatch();
   const wrapperRef = useRef(null);
 
   useOutsideAlerter(wrapperRef, popupState);
 
   const updateLanguage = async (language) => {
-    await dispatch(saveConfiguration(token, 
-      { dashboard: { ...dashboard, language }} 
+    await dispatch(saveConfiguration(token,
+      { dashboard: { ...dashboard, language } },
     ));
     popupState.close();
   };
@@ -71,28 +69,29 @@ const IntlButton = () => {
   return (
     <>
       <IconButton
-      disableRipple={true} 
-      disableFocusRipple={true}
-      className={classes.intlButton}
-      variant="contained"
-      {...bindToggle(popupState)}
-    >
-      { get(languages, `[${currentLang}].icon`) }
+        disableRipple
+        disableFocusRipple
+        className={classes.intlButton}
+        variant="contained"
+        {...bindToggle(popupState)} // eslint-disable-line react/jsx-props-no-spreading
+      >
+        { get(languages, `[${currentLang}].icon`) }
       </IconButton>
-      <Popper 
-        {...bindPopper(popupState)}
-        className={classes.popper} 
+      <Popper
+        {...bindPopper(popupState)} // eslint-disable-line react/jsx-props-no-spreading
+        className={classes.popper}
         placement="bottom"
         transition
         modifiers={popperModifiers}
       >
         {({ TransitionProps }) => (
+          // eslint-disable-next-line react/jsx-props-no-spreading
           <Fade {...TransitionProps} timeout={200}>
             <Paper ref={wrapperRef}>
               <List>
                 { Object.entries(omit(languages, currentLang))
-                  .map(([key, {label, icon}]) => (
-                    <ListItem button dense onClick={updateLanguage.bind(this, key)} key={key}>
+                  .map(([key, { label, icon }]) => (
+                    <ListItem button dense onClick={updateLanguage(key)} key={key}>
                       <ListItemAvatar className={classes.itemAvatar}>
                         <Avatar className={classes.avatar}>
                           {icon}
@@ -100,8 +99,7 @@ const IntlButton = () => {
                       </ListItemAvatar>
                       <ListItemText primary={label} />
                     </ListItem>
-                  ))
-                }
+                  ))}
               </List>
               <span className={classes.arrow} ref={setArrowRef} />
             </Paper>
@@ -109,7 +107,7 @@ const IntlButton = () => {
         )}
       </Popper>
     </>
-  )
-}
+  );
+};
 
 export default IntlButton;

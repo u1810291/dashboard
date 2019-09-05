@@ -1,1 +1,1 @@
-export { default } from './TeamInviteModal'
+export { default } from './TeamInviteModal';

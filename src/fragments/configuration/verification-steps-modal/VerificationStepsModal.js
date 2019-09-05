@@ -1,32 +1,39 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import Button from 'components/button'
-import Items from 'components/items'
-import { Modal } from 'components/modal'
-import CheckboxGroup from 'components/checkbox-group'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import Button from 'components/button';
+import Items from 'components/items';
+import Modal from 'components/modal';
+import CheckboxGroup from 'components/checkbox-group';
 
 export default class VerificationStepModal extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      values: props.values
-    }
+  static propTypes = {
+    items: PropTypes.arrayOf(PropTypes.string),
+    onSave: PropTypes.func,
+    values: PropTypes.arrayOf(PropTypes.string),
   }
 
   static defaultProps = {
-    values: [],
     items: [],
-    onSave: () => {}
+    onSave: () => {},
+    values: [],
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      values: props.values,
+    };
   }
 
   render() {
-    const { values } = this.state
-    const items = this.props.items.map(item => ({
+    const { state: { values }, props } = this;
+    const items = props.items.map((item) => ({
       label: <FormattedMessage id={`verification_items.${item}`} key={item} />,
-      value: item
-    }))
-    const { onSave } = this.props
+      value: item,
+    }));
+    const { onSave } = this.props;
     return (
       <Modal>
         <main>
@@ -40,20 +47,20 @@ export default class VerificationStepModal extends React.Component {
             <CheckboxGroup
               items={items}
               values={values}
-              onChange={values => this.setState({ values })}
+              onChange={(nextValues) => this.setState({ values: nextValues })}
             />
           </Items>
         </main>
         <footer>
           <Button
             buttonStyle="primary"
-            disabled={!this.state.values.length}
+            disabled={!values.length}
             onClick={() => onSave(values)}
           >
             <FormattedMessage id="done" />
           </Button>
         </footer>
       </Modal>
-    )
+    );
   }
 }

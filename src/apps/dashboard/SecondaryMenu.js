@@ -1,44 +1,66 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { useIntl } from 'react-intl';
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
 import MenuItem from '@material-ui/core/MenuItem';
-import { default as useStyles } from './styles'
 
-export default function SecondaryMenu({ isOwner }) {
+import useStyles from './styles';
+
+export default function SecondaryMenu() {
   const intl = useIntl();
   const classes = useStyles();
 
   const secondaryMenuEntries = [
     {
       to: '/info',
-      label: intl.formatMessage({ id: 'dashboard.menu.info' })
+      label: intl.formatMessage({ id: 'dashboard.menu.info' }),
     },
     {
       to: '/settings',
-      label: intl.formatMessage({ id: 'dashboard.menu.account' })
+      label: intl.formatMessage({ id: 'dashboard.menu.account' }),
     },
   ];
-  
-  const Menu = ({ entries }) => 
+
+  const Menu = ({ entries }) => (
     <>
-      { entries.map(({
+      {
+        entries.map(({
+          children,
+          className,
+          label,
+          logo,
           show = true,
-          ...props
-        }, idx) => !!show &&
+          to,
+        }) => !!show
+          && (
           <NavLink
             exact
-            key={idx}
-            to={props.to}
-            activeClassName={ clsx('active', { [classes.activeItem]: !props.logo }) }
+            key={to}
+            to={to}
+            activeClassName={clsx('active', { [classes.activeItem]: !logo })}
           >
-            <MenuItem divider={false} className={clsx(classes.menuItem, props.className)}>
-              {props.label}
-              {props.children}
+            <MenuItem divider={false} className={clsx(classes.menuItem, className)}>
+              {label}
+              {children}
             </MenuItem>
           </NavLink>
-        )}
+          ),
+        )
+}
     </>
-  
-  return <Menu entries={secondaryMenuEntries} />
+  );
+
+  Menu.propTypes = {
+    entries: PropTypes.arrayOf(
+      PropTypes.shape({
+        to: PropTypes.string,
+        label: PropTypes.string,
+        className: PropTypes.string,
+        show: PropTypes.bool,
+      }),
+    ).isRequired,
+  };
+
+  return <Menu entries={secondaryMenuEntries} />;
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Waypoint } from 'react-waypoint';
 import { pick, sortBy } from 'lodash';
+
 import { closeOverlay, createOverlay, Items } from 'components';
 import { notification } from 'components/notification';
 import Feedback from 'fragments/info/feedback';
@@ -20,13 +21,17 @@ import { trackEvent } from 'lib/mixpanel';
 import { setMerchantPlan, setMerchantToken } from 'state/merchant';
 import { getMerchantPlan, getPlans } from 'state/plans';
 
-import SettingsLayout from './SettingsLayout';
 import { FormattedMessage } from 'react-intl';
+import SettingsLayout from './SettingsLayout';
 
 export default function Pricing() {
-  const matiToken = useSelector(s => s.auth.token);
-  const merchantBilling = useSelector(s => s.merchant.billing.providers);
-  const merchantPlan = useSelector(s => s.merchant.billing.planDetails);
+  const matiToken = useSelector(({ auth = {} }) => auth.token);
+  const merchantBilling = useSelector(
+    ({ merchant = {} }) => merchant.billing && merchant.billing.providers,
+  );
+  const merchantPlan = useSelector(
+    ({ merchant = {} }) => merchant.billing && merchant.billing.planDetails,
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [isPlanExist, setCurrentPlan] = useState(merchantPlan && merchantPlan.activatedAt);
   const [planList, setPlanList] = useState({});
@@ -41,21 +46,52 @@ export default function Pricing() {
       if (data && data.rows.length) {
         setPlanList(data);
         setCurrentPage(data.page);
-        setBasicPlans(sortBy(data.rows.filter(plan => (!plan.isCustom)), ['order']));
-        setCustomPlans(sortBy(data.rows.filter(plan => (plan.isCustom)), ['order']));
+        setBasicPlans(sortBy(data.rows.filter((plan) => (!plan.isCustom)), ['order']));
+        setCustomPlans(sortBy(data.rows.filter((plan) => (plan.isCustom)), ['order']));
       }
-    })
+    });
   }, [matiToken, currentPage, dispatch]);
 
   useEffect(() => {
     dispatch(
       getMerchantPlan(matiToken),
     ).then(({ data: { planDetails } }) => {
-      if (!!planDetails.activatedAt) {
+      if (planDetails.activatedAt) {
         setCurrentPlan(planDetails.plan);
       }
-    })
+    });
   }, [matiToken, dispatch]);
+
+  const handlePlanChange = async (plan) => {
+    try {
+      await dispatch(
+        setMerchantPlan(matiToken, plan._id),
+      );
+
+      trackEvent('merchant_plan_changed', {
+        ...(pick(plan, ['_id'])),
+        subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
+      });
+
+      setCurrentPlan(plan._id);
+
+      closeOverlay();
+    } catch (e) {
+      notification.error(
+        <>
+          <FormattedMessage id="Billing.notification.changeFailure" />
+        </>,
+      );
+    }
+  };
+
+  const handleLoad = () => {
+    const hasMoreItems = planList.totalPages > currentPage;
+
+    if (hasMoreItems) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   const handleCardSubmit = async (plan, token = {}) => {
     try {
@@ -83,49 +119,20 @@ export default function Pricing() {
     } catch (e) {
       notification.error(
         <>
-          <FormattedMessage id="Billing.notification.setFailure"/>
+          <FormattedMessage id="Billing.notification.setFailure" />
         </>,
       );
       createOverlay(
         <CardDeclinedModal
-          onChangeMethod={handleChangeMethod.bind(this, plan)}
+          onChangeMethod={
+            () => handleChangeMethod(plan) // eslint-disable-line no-use-before-define
+          }
         />,
       );
     }
   };
 
-  const handlePlanChange = async (plan) => {
-    try {
-      await dispatch(
-        setMerchantPlan(matiToken, plan._id),
-      );
-
-      trackEvent('merchant_plan_changed', {
-        ...(pick(plan, ['_id'])),
-        subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
-      });
-
-      setCurrentPlan(plan._id);
-
-      closeOverlay();
-    } catch (e) {
-      notification.error(
-        <>
-          <FormattedMessage id="Billing.notification.changeFailure"/>
-        </>,
-      );
-    }
-  };
-
-  const handleLoad = () => {
-    const hasMoreItems = planList.totalPages > currentPage;
-
-    if (hasMoreItems) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePlanClick = plan => {
+  const handlePlanClick = (plan) => {
     trackEvent('merchant_clicked_select_plan', {
       ...(pick(plan, ['_id'])),
       subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
@@ -133,18 +140,21 @@ export default function Pricing() {
 
     if (isPlanExist || merchantBilling.length) {
       createOverlay(
-        <ChangePlanModal {...plan} onSubmit={handlePlanChange.bind(this, plan)}/>,
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        <ChangePlanModal {...plan} onSubmit={() => handlePlanChange(plan)} />,
       );
     } else {
       createOverlay(
-        <CardModal {...plan} onSubmit={handleCardSubmit.bind(this, plan)}/>,
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        <CardModal {...plan} onSubmit={() => handleCardSubmit(plan)} />,
       );
     }
   };
 
   const handleChangeMethod = (plan) => {
     createOverlay(
-      <CardModal {...plan} onSubmit={handleCardSubmit.bind(this, plan)}/>,
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      <CardModal {...plan} onSubmit={() => handleCardSubmit(plan)} />,
     );
   };
 
@@ -155,21 +165,22 @@ export default function Pricing() {
           {planList.rows && (
             <Items flow="row">
               <Items flow="none" templateColumns="repeat(3, 1fr)" gap={2}>
-                {basicPlans.map(plan => (
+                {basicPlans.map((plan) => (
                   <PricingPlans
                     key={plan._id}
-                    onChoosePlan={handlePlanClick.bind(this, plan)}
+                    onChoosePlan={() => handlePlanClick(plan)}
                     current={isPlanExist && plan._id === isPlanExist}
-                    {...plan}
+                    {...plan} // eslint-disable-line react/jsx-props-no-spreading
                   />
                 ))}
               </Items>
-              <Items flow="none" templateColumns="1fr" justifyItems={customPlans.length > 1 ? 'left': 'center'} gap={2}>
-                {customPlans.map(plan => (
+              <Items flow="none" templateColumns="1fr" justifyItems={customPlans.length > 1 ? 'left' : 'center'} gap={2}>
+                {customPlans.map((plan) => (
                   <PricingLargePlans
                     isOnePlan={!(customPlans.length > 1)}
                     key={plan._id}
                     onClick={showIntercom}
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...plan}
                   />
                 ))}
@@ -177,10 +188,10 @@ export default function Pricing() {
               <Waypoint onEnter={handleLoad} />
             </Items>
           )}
-          <PricingRefundNotice/>
-          <CompaniesUsingMati/>
-          <MatiNumbers/>
-          <Feedback/>
+          <PricingRefundNotice />
+          <CompaniesUsingMati />
+          <MatiNumbers />
+          <Feedback />
         </Items>
       </main>
     </SettingsLayout>

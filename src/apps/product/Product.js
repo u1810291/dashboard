@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Content, Tab } from 'components';
-import Integration from 'apps/integration'
+import Integration from 'apps/integration';
 import {
   Configuration,
-  MatiButtonAside
-} from 'apps/configuration'
+  MatiButtonAside,
+} from 'apps/configuration';
 import IntegrationAside from 'apps/integration/IntegrationAside';
 
 export default function Product() {

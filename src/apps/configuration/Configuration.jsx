@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage } from 'react-icons/fi';
 import classNames from 'classnames';
+
 import { Content } from 'components/application-box';
 import { Items } from 'components';
 import {
@@ -21,27 +22,27 @@ import Logo from 'fragments/configuration/logo';
 import CSS from './Configuration.module.scss';
 
 export default function Configuration() {
-  const { token } = useSelector(s => s.auth);
-  const { apps, configuration } = useSelector(s => s.merchant);
-  const { countries, isLoading } = useSelector(s => s.countries);
+  const { token } = useSelector(({ auth }) => auth);
+  const { apps, configuration } = useSelector(({ merchant }) => merchant);
+  const { countries, isLoading } = useSelector((state) => state.countries);
   const [active, setActive] = useState(0);
   const dispatch = useDispatch();
 
   const updateConfiguration = (settings) => {
     dispatch(
-      saveConfiguration(token, settings)
+      saveConfiguration(token, settings),
     );
   };
 
   useEffect(() => {
     dispatch(
-      getMerchantApps(token)
+      getMerchantApps(token),
     );
   }, [token, apps.length, dispatch]);
 
   useEffect(() => {
     dispatch(
-      getCountries(token)
+      getCountries(token),
     );
   }, [token, countries.length, dispatch]);
 
@@ -49,13 +50,15 @@ export default function Configuration() {
     {
       title: 'Product.configuration.buttonsColor',
       icon: <FiDroplet />,
-      body: <div id="buttonColor">
-        <ConfigureColor
-          presets={COLOR_PRESETS}
-          style={configuration.style}
-          onClick={updateConfiguration}
-        />
-      </div>,
+      body: (
+        <div id="buttonColor">
+          <ConfigureColor
+            presets={COLOR_PRESETS}
+            style={configuration.style}
+            onClick={updateConfiguration}
+          />
+        </div>
+      ),
     },
     {
       title: 'Product.configuration.verification',
@@ -105,11 +108,15 @@ export default function Configuration() {
             <li
               key={step.title}
               className={classNames({
-                [CSS.active]: index === active
+                [CSS.active]: index === active,
               })}
-              onClick={() => setActive(index)}
             >
-              <Items gap={0} justifyContent="left" align="center">
+              <Items
+                gap={0}
+                align="center"
+                justifyContent="left"
+                onClick={() => setActive(index)}
+              >
                 {step.icon}
                 <FormattedMessage id={step.title} />
               </Items>

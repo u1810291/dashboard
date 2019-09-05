@@ -1,1 +1,1 @@
-export { default } from './VerificationWebhookModal'
+export { default } from './VerificationWebhookModal';

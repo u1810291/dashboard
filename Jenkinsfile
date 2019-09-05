@@ -15,7 +15,7 @@ pipeline {
     }
     stage('Build') {
       steps {
-        sh "yarn lint"
+        sh "yarn eslint"
       }
     }
     stage('Test') {

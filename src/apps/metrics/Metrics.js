@@ -1,39 +1,39 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { Content, Items, PageContentLayout } from 'components'
-import { Chart, ChartFilters, VerificationsCard, VerificationStatistic } from 'fragments'
-import { getIdentitiesCount } from 'state/identities'
-import { getMerchantStatistic, getMerchantStatisticFilter } from 'state/merchant'
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Content, Items, PageContentLayout } from 'components';
+import { Chart, ChartFilters, VerificationsCard, VerificationStatistic } from 'fragments';
+import { getIdentitiesCount } from 'state/identities';
+import { getMerchantStatistic, getMerchantStatisticFilter } from 'state/merchant';
 
 export default function Metrics() {
   const [filter, handleClick] = useState('currentWeek');
   const [reviewNeededCount, setReviewNeededCount] = useState(0);
   const [statistic, setStatistic] = useState({});
   const [chartData, setChartData] = useState([]);
-  const token = useSelector(s => s.auth.token)
-  const displayName = useSelector(s => s.merchant.displayName)
-  const dispatch = useDispatch()
+  const token = useSelector(({ auth = {} }) => auth.token);
+  const displayName = useSelector(({ merchant = {} }) => merchant.displayName);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(
-      getIdentitiesCount(token, { status: 'reviewNeeded' })
-    ).then(response => {
+      getIdentitiesCount(token, { status: 'reviewNeeded' }),
+    ).then((response) => {
       setReviewNeededCount(response.data.count);
-    })
+    });
 
     dispatch(
-      getMerchantStatistic(token)
-    ).then(response => {
+      getMerchantStatistic(token),
+    ).then((response) => {
       setStatistic(response.data);
-    })
+    });
   }, [token, dispatch]);
 
   useEffect(() => {
     dispatch(
-      getMerchantStatisticFilter(token, filter)
-    ).then(response => {
+      getMerchantStatisticFilter(token, filter),
+    ).then((response) => {
       setChartData(response.data);
-    })
+    });
   }, [token, filter, dispatch]);
 
   return (

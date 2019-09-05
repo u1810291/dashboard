@@ -1,1 +1,1 @@
-export { default } from './UsecaseModal'
+export { default } from './UsecaseModal';

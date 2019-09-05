@@ -1,5 +1,6 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 export default function SecurityCheckStep({ error, id }) {
   return (
@@ -13,9 +14,14 @@ export default function SecurityCheckStep({ error, id }) {
                 id={`SecurityCheckStep.${id}.${error ? 'failure' : 'success'}`}
               />
             </span>
-          )
+          ),
         }}
       />
     </span>
-  )
+  );
 }
+
+SecurityCheckStep.propTypes = {
+  error: PropTypes.shape({}).isRequired,
+  id: PropTypes.string.isRequired,
+};

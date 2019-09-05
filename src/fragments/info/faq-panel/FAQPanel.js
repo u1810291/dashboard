@@ -1,10 +1,10 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import Card from 'components/card'
-import Button from 'components/button'
-import Items from 'components/items'
-import CSS from './FAQPanel.module.scss'
-import { ReactComponent as Background } from './background.svg'
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import Card from 'components/card';
+import Button from 'components/button';
+import Items from 'components/items';
+import CSS from './FAQPanel.module.scss';
+import { ReactComponent as Background } from './background.svg';
 
 export default function FAQPanel() {
   return (
@@ -28,5 +28,5 @@ export default function FAQPanel() {
         </Button>
       </Items>
     </Card>
-  )
+  );
 }
