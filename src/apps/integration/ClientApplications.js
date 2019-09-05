@@ -50,8 +50,10 @@ function ClientApplications({
                 key={app.clientId}
                 application={app}
                 webhooks={webhooks[app.clientId]}
-                subscribeToWebhook={() => handleSubscribeToWebhook(app.clientId)}
-                deleteWebhook={() => handleDeleteWebhook(app.clientId)}
+                subscribeToWebhook={
+                    (url, secret) => handleSubscribeToWebhook(app.clientId, url, secret)
+                }
+                deleteWebhook={(id) => handleDeleteWebhook(app.clientId, id)}
               />
             ))
           }

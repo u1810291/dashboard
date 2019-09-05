@@ -9,7 +9,9 @@ const defaultLang = 'en';
 
 // eslint-disable-next-line no-unused-vars
 const Intl = ({ language = defaultLang, children }) => {
-  const currentLang = useSelector((state) => get(state, 'merchant.configuration.dashboard.language'));
+  const currentLang = useSelector(
+    (state) => get(state, 'merchant.configuration.dashboard.language'),
+  ) || language;
   return (
     <IntlProvider locale={currentLang} messages={translations[currentLang]}>
       {children}
