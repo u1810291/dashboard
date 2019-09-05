@@ -64,7 +64,7 @@ class SignUpForm extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
   }
 
-  onSubmit = (values, { setSubmitting, setStatus }) => {
+  onSubmit = async (values, { setSubmitting, setStatus }) => {
     setStatus({});
     const data = pick(
       values,
@@ -75,18 +75,17 @@ class SignUpForm extends React.Component {
       'verificationNum',
       'websiteUrl',
     );
-    this.props
-      .handleSubmit(data)
-      .then(() => {
-        setSubmitting(false);
-      })
-      .catch((error) => {
-        setSubmitting(false);
-        notification.error(
-          (error && error.response && error.response.data.message)
-            || 'Something went wrong. Please retry later',
-        );
-      });
+
+    try {
+      await this.props.handleSubmit(data);
+      setSubmitting(false);
+    } catch (error) {
+      setSubmitting(false);
+      notification.error(
+        (error && error.response && error.response.data.message)
+        || 'Something went wrong. Please retry later',
+      );
+    }
   }
 
   render() {
@@ -96,7 +95,13 @@ class SignUpForm extends React.Component {
         onSubmit={this.onSubmit}
         validate={formikSettings.validate}
         render={(props) => (
-          <form onSubmit={props.handleSubmit} id="signup_form">
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              return props.handleSubmit(event);
+            }}
+            id="signup_form"
+          >
             <div className={CSS.name}>
               <Field
                 name="firstName"
