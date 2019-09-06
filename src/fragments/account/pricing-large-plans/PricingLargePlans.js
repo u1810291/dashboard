@@ -22,7 +22,7 @@ function Plan({ title, price, verificationPrice, isOnePlan, onClick }) {
       <Text size="2" weight={1}>
         <FormattedMessage
           id={`PricingPlans.${camelCase(title)}.notation`}
-          values={{ verificationCost: Math.floor(verificationPrice / 100) }}
+          values={{ verificationCost: (verificationPrice / 100).toFixed(2) }}
         />
       </Text>
       )}
@@ -47,7 +47,7 @@ export default function PricingLargePlans({
       <Plan
         title={name}
         price={+subscriptionPrice
-          ? <FormattedMessage id="CardModal.planPrice" values={{ planPrice: Math.floor(subscriptionPrice / 100) }} />
+          ? <FormattedMessage id="CardModal.planPrice" values={{ planPrice: (subscriptionPrice / 100).toFixed(2) }} />
           : subscriptionPrice}
         verificationPrice={verificationPrice}
         isOnePlan={isOnePlan}

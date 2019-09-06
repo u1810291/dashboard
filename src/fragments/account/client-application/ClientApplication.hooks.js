@@ -41,21 +41,26 @@ export default ({ application, deleteWebhook, subscribeToWebhook }) => {
     try {
       await dispatch(addMerchantProvider(matiToken, token.id));
       closeOverlay();
-      trackEvent('merchant_entered_cc_unlock_keys');
+      trackEvent('merchant_entered_cc_unlock_keys', { success: true });
     } catch (error) {
       notification.error(<FormattedMessage
         id="fragments.integration.integration-code.unlock-application.error"
       />);
+      trackEvent('merchant_entered_cc_unlock_keys', { success: false });
       createOverlay(
         <CardDeclinedModal onChangeMethod={() => showCardModal(handleCardSubmit)} />,
       );
     }
   }
+  function handleUnlockApplication() {
+    trackEvent('merchant_clicked_unlock_keys_button');
+    showCardModal(handleCardSubmit);
+  }
 
   return {
     handleAddNewWebhook,
     handleDeleteWebhook,
-    handleUnlockApplication: () => showCardModal(handleCardSubmit),
+    handleUnlockApplication,
     hasProvider,
     permalink,
   };
