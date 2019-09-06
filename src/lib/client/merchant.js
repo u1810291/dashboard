@@ -46,7 +46,7 @@ export function getMerchantApps(token) {
   });
 }
 
-export function setMerchantToken(token, source) {
+export function addMerchantProvider(token, source) {
   return http.put('/api/v1/merchants/me/billing/providers/stripe', { source }, {
     headers: { ...getAuthHeader(token) },
   });

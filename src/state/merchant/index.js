@@ -14,7 +14,7 @@ export const types = {
   ...createTypesSequence('INTEGRATION_CODE'),
   ...createTypesSequence('GET_MERCHANT_APPS'),
   ...createTypesSequence('SET_MERCHANT_PLAN'),
-  ...createTypesSequence('SET_MERCHANT_TOKEN'),
+  ...createTypesSequence('ADD_MERCHANT_PROVIDER'),
   ...createTypesSequence('UPDATE_MERCHANT_PLAN'),
   ...createTypesSequence('CREATE_APPLICATION'),
   ...createTypesSequence('SET_MERCHANT_LANG'),
@@ -181,18 +181,18 @@ export function setMerchantPlan(token, planId) {
   };
 }
 
-export function setMerchantToken(token, source) {
+export function addMerchantProvider(token, source) {
   return function handle(dispatch) {
-    dispatch({ type: types.SET_MERCHANT_TOKEN_REQUEST });
+    dispatch({ type: types.ADD_MERCHANT_PROVIDER_REQUEST });
 
     return client.merchant
-      .setMerchantToken(token, source)
+      .addMerchantProvider(token, source)
       .then((payload) => {
-        dispatch({ type: types.SET_MERCHANT_TOKEN_SUCCESS, payload });
+        dispatch({ type: types.ADD_MERCHANT_PROVIDER_SUCCESS, payload });
         return payload;
       })
       .catch((error) => {
-        dispatch({ type: types.SET_MERCHANT_TOKEN_FAILURE });
+        dispatch({ type: types.ADD_MERCHANT_PROVIDER_FAILURE });
         throw error;
       });
   };
@@ -203,7 +203,7 @@ export function setMerchantLanguage(token) {
     dispatch({ type: types.SET_MERCHANT_LANG_REQUEST });
 
     return client.merchant
-      .setMerchantToken(token)
+      .addMerchantProvider(token)
       .then((payload) => {
         dispatch({ type: types.SET_MERCHANT_LANG_SUCCESS, payload });
         return payload;
@@ -233,9 +233,10 @@ export function uploadMerchantMedia(token, form) {
 }
 
 const initialState = {
-  integrationCode: undefined,
   apps: [],
-  lastApplication: {},
+  billing: {
+    providers: [],
+  },
   configuration: {
     flow: {
       required: [],
@@ -255,6 +256,8 @@ const initialState = {
       language: 'en',
     },
   },
+  integrationCode: undefined,
+  lastApplication: {},
   logoUrl: null,
 };
 
@@ -284,6 +287,17 @@ export default createReducer(initialState, {
       ...state,
       apps: payload.data.apps,
       lastApplication: payload.data.apps[0] || {},
+    };
+  },
+
+  [types.ADD_MERCHANT_PROVIDER_SUCCESS](state, { payload }) {
+    const providers = get(payload.data, 'data.merchant.billing.providers');
+    return {
+      ...state,
+      billing: {
+        ...state.billing,
+        providers,
+      },
     };
   },
 

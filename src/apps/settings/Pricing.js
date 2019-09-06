@@ -18,7 +18,7 @@ import {
 } from 'fragments';
 import { showIntercom } from 'lib/intercom';
 import { trackEvent } from 'lib/mixpanel';
-import { setMerchantPlan, setMerchantToken } from 'state/merchant';
+import { setMerchantPlan, addMerchantProvider } from 'state/merchant';
 import { getMerchantPlan, getPlans } from 'state/plans';
 
 import { FormattedMessage } from 'react-intl';
@@ -109,7 +109,7 @@ export default function Pricing() {
       });
 
       await dispatch(
-        setMerchantToken(matiToken, token.id),
+        addMerchantProvider(matiToken, token.id),
       );
 
       await dispatch(
