@@ -189,6 +189,7 @@ export default function Pricing() {
                     isOnePlan={!(largeCardsContent.length > 1)}
                     verificationPrice={plan.extraPrice}
                     subscriptionPrice={plan.subscriptionPrice}
+                    current={isPlanExist && plan._id === isPlanExist}
                     key={plan._id}
                     onClick={plan.isCustom ? showIntercom : () => handlePlanClick(plan)}
                   />

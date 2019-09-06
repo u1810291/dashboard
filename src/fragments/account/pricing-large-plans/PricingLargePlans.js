@@ -9,6 +9,7 @@ import CSS from './PricingLargePlans.module.scss';
 
 function Plan({ title, price, verificationPrice, isOnePlan, current, onClick }) {
   const buttonText = price || verificationPrice ? 'PricingPlans.start' : 'PricingPlans.contactUs';
+  const isButtonDisabled = current || (!current && !(price || verificationPrice));
   return (
     <Card
       justifyItems="center"
@@ -33,11 +34,11 @@ function Plan({ title, price, verificationPrice, isOnePlan, current, onClick }) 
       </Text>
       )}
       <Click
-        background={price || verificationPrice ? 'active' : ''}
+        background={!isButtonDisabled ? 'active' : ''}
         hoverShadow={false}
         onClick={!current ? onClick : () => {}}
       >
-        <Text color={price || verificationPrice || current ? '' : 'active'} uppercase>
+        <Text color={!isButtonDisabled ? '' : 'active'} uppercase>
           <FormattedMessage id={
             current ? 'PricingPlans.currentPlan' : buttonText
           }
