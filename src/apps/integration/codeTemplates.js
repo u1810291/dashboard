@@ -11,7 +11,7 @@ export const oldCodeTemplate = `<!-- Mati button-->
 <!-- Mati script-->
 <script 
    id="matiscript" 
-   src="%hostname%/mati-sdk.min.js">
+   src="%buttonLink%">
 </script>
 
 <!-- Mati button initialization -->
