@@ -9,19 +9,26 @@ import CSS from './PricingLargePlans.module.scss';
 
 function Plan({ title, price, verificationPrice, isOnePlan, onClick }) {
   return (
-    <Card justifyItems="center" padding={2} className={classNames({ [CSS.singlePlan]: isOnePlan })}>
+    <Card justifyItems="center" padding={2} className={classNames({ [CSS.singlePlan]: isOnePlan, [CSS.plan]: true })}>
       <Text size="7" weight="1">
         {title}
       </Text>
-      <Text size="4" weight={4} padding="20px 0 30px 0">{price}</Text>
+      <Text size="4" weight={4} padding="20px 0 30px 0" align="center">
+        {
+        price || <FormattedMessage id={`PricingPlans.${camelCase(title)}.description`} />
+      }
+      </Text>
       { verificationPrice && (
       <Text size="2" weight={1}>
-        <FormattedMessage id={`PricingPlans.${camelCase(title)}.notation`} values={{ verificationCost: verificationPrice }} />
+        <FormattedMessage
+          id={`PricingPlans.${camelCase(title)}.notation`}
+          values={{ verificationCost: Math.floor(verificationPrice / 100) }}
+        />
       </Text>
       )}
-      <Click background={price ? 'active' : ''} hoverShadow={false} onClick={onClick}>
-        <Text color={price ? '' : 'active'} uppercase>
-          <FormattedMessage id={price ? 'PricingPlans.start' : 'PricingPlans.contactUs'} />
+      <Click background={price || verificationPrice ? 'active' : ''} hoverShadow={false} onClick={onClick}>
+        <Text color={price || verificationPrice ? '' : 'active'} uppercase>
+          <FormattedMessage id={price || verificationPrice ? 'PricingPlans.start' : 'PricingPlans.contactUs'} />
         </Text>
       </Click>
     </Card>
