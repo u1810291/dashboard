@@ -11,7 +11,7 @@ const generateIntegrationCode = (codeTemplate, codeParameters = {}) => codeTempl
 const IntegrationCodePage = () => {
   const { clientId } = useSelector((state) => state.merchant.apps[0], []);
   const { color } = useSelector((state) => state.merchant.configuration.style, []);
-  const hostname = process.env.REACT_APP_API_URL;
+  const hostname = process.env.REACT_APP_SDK_URL;
   const signupHostname = process.env.REACT_APP_SIGNUP_URL;
   const newIntegrationCode = generateIntegrationCode(newCodeTemplate, {
     clientId,
