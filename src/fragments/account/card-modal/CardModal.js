@@ -93,7 +93,7 @@ function CardModal({
 export default injectStripe(CardModal);
 
 CardModal.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   onSubmit: PropTypes.func,
   stripe: PropTypes.shape({
     createToken: PropTypes.func.isRequired,
@@ -101,5 +101,6 @@ CardModal.propTypes = {
 };
 
 CardModal.defaultProps = {
+  name: '',
   onSubmit: () => {},
 };

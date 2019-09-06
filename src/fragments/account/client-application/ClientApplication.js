@@ -1,20 +1,26 @@
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import Button from 'components/button';
+import Click from 'components/click/Click';
+import copyToClipboard from 'components/clipboard';
 import Icons from 'components/icons';
 import Items from 'components/items';
-import { createOverlay, closeOverlay } from 'components/overlay';
-import confirm from 'components/confirm';
-import copyToClipboard from 'components/clipboard';
+import Text from 'components/text';
 import { ReactComponent as Icon } from 'assets/copy-icon.v1.svg';
-import NewWebhookModal from '../new-webhook-modal';
+
+import hooks from './ClientApplication.hooks';
 import CSS from './ClientApplication.module.css';
 
-function CopyToClipboardCell({ text }) {
+function CopyToClipboardCell({ text, disabled }) {
   return (
-    <Button className={CSS.copy} onClick={() => copyToClipboard(text)}>
+    <Button
+      className={CSS.copy}
+      disabled={disabled}
+      onClick={() => copyToClipboard(text)}
+    >
       <Icon />
     </Button>
   );
@@ -26,26 +32,17 @@ export default function ClientApplication({
   subscribeToWebhook = () => {},
   deleteWebhook = () => {},
 }) {
-  const metadata = '{"email":"user@example.com"}';
-  const permalink = `${process.env.REACT_APP_SIGNUP_URL}?merchantToken=${
-    application.clientId
-  }&metadata=${metadata}`;
-
-  const handleAddNewWebhook = () => {
-    createOverlay(
-      <NewWebhookModal onSave={subscribeToWebhook} onClose={closeOverlay} />,
-    );
-  };
-
-  const handleDeleteWebhook = (id) => {
-    confirm(
-      <FormattedMessage id="fragments.client_application.confirm_delete_webhook" />,
-    ).then(() => deleteWebhook(id));
-  };
+  const {
+    handleAddNewWebhook,
+    handleDeleteWebhook,
+    handleUnlockApplication,
+    hasProvider,
+    permalink,
+  } = hooks({ application, deleteWebhook, subscribeToWebhook });
 
   return (
-    <Items flow="row">
-      <table className="mgi-table">
+    <Items flow="row" className={CSS.container}>
+      <table className={clsx('mgi-table', { [CSS.overlay]: !hasProvider })}>
         <colgroup>
           <col className={CSS.headerColumn} />
           <col />
@@ -58,7 +55,10 @@ export default function ClientApplication({
             </th>
             <td className="text-secondary">{application.clientId}</td>
             <td>
-              <CopyToClipboardCell text={application.clientId} />
+              <CopyToClipboardCell
+                disabled={!hasProvider}
+                text={application.clientId}
+              />
             </td>
           </tr>
           <tr>
@@ -67,7 +67,10 @@ export default function ClientApplication({
             </th>
             <td className="text-secondary">{application.clientSecret}</td>
             <td>
-              <CopyToClipboardCell text={application.clientSecret} />
+              <CopyToClipboardCell
+                disabled={!hasProvider}
+                text={application.clientSecret}
+              />
             </td>
           </tr>
           <tr>
@@ -76,7 +79,10 @@ export default function ClientApplication({
             </th>
             <td className="text-secondary">{permalink}</td>
             <td>
-              <CopyToClipboardCell text={permalink} />
+              <CopyToClipboardCell
+                disabled={!hasProvider}
+                text={permalink}
+              />
             </td>
           </tr>
           {webhooks.map((webhook, index) => (
@@ -97,6 +103,7 @@ export default function ClientApplication({
                   <Button
                     buttonStyle="invisible"
                     onClick={() => handleDeleteWebhook(webhook.id)}
+                    disabled={!hasProvider}
                   >
                     <Icons.TrashBin className="svg-error" />
                   </Button>
@@ -111,7 +118,11 @@ export default function ClientApplication({
                 <FormattedMessage id="onboarding.webhookUrl.title" />
               </th>
               <td>
-                <Button buttonStyle="primary" onClick={handleAddNewWebhook}>
+                <Button
+                  buttonStyle="primary"
+                  onClick={handleAddNewWebhook}
+                  disabled={!hasProvider}
+                >
                   <FormattedMessage id="fragments.client_application.add_webhook" />
                 </Button>
               </td>
@@ -119,12 +130,33 @@ export default function ClientApplication({
           )}
         </tbody>
       </table>
+      {
+        !hasProvider
+          && (
+            <Click
+              background="active"
+              className={CSS.unlockButton}
+              onClick={handleUnlockApplication}
+            >
+              <Text>
+                <FormattedMessage
+                  id="fragments.integration.integration-code.unlock-application.button"
+                />
+              </Text>
+            </Click>
+          )
+      }
     </Items>
   );
 }
 
 CopyToClipboardCell.propTypes = {
+  disabled: PropTypes.bool,
   text: PropTypes.string.isRequired,
+};
+
+CopyToClipboardCell.defaultProps = {
+  disabled: false,
 };
 
 ClientApplication.propTypes = {

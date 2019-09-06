@@ -12,3 +12,20 @@
   height: 15px;
   padding: 0;
 }
+
+.overlay {
+  filter: blur(3px);
+}
+
+.container {
+  position: relative;
+}
+
+.unlockButton {
+  width: 45%;
+  height: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
