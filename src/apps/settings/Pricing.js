@@ -35,8 +35,9 @@ export default function Pricing() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isPlanExist, setCurrentPlan] = useState(merchantPlan && merchantPlan.activatedAt);
   const [planList, setPlanList] = useState({});
-  const [customPlans, setCustomPlans] = useState([]);
-  const [basicPlans, setBasicPlans] = useState([]);
+  const [largeCardsContent, setLargeCardsContent] = useState([]);
+  const [smallCardsContent, setSmallCardsContent] = useState([]);
+  const smallCardsInRowCount = 3;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,8 +47,15 @@ export default function Pricing() {
       if (data && data.rows.length) {
         setPlanList(data);
         setCurrentPage(data.page);
-        setBasicPlans(sortBy(data.rows.filter((plan) => (!plan.isCustom)), ['order']));
-        setCustomPlans(sortBy(data.rows.filter((plan) => (plan.isCustom)), ['order']));
+        const largeCardsPlans = [];
+        const smallCardsPlans = [];
+        smallCardsPlans.push(...sortBy(data.rows.filter((plan) => (!plan.isCustom)), ['order']));
+        if (smallCardsPlans.length % smallCardsInRowCount === 1) {
+          largeCardsPlans.push(smallCardsPlans.pop());
+        }
+        setSmallCardsContent(smallCardsPlans);
+        largeCardsPlans.push(...sortBy(data.rows.filter((plan) => (plan.isCustom)), ['order']));
+        setLargeCardsContent(largeCardsPlans);
       }
     });
   }, [matiToken, currentPage, dispatch]);
@@ -164,8 +172,8 @@ export default function Pricing() {
         <Items flow="row" gap={12}>
           {planList.rows && (
             <Items flow="row">
-              <Items flow="none" templateColumns="repeat(3, 1fr)" gap={2}>
-                {basicPlans.map((plan) => (
+              <Items flow="none" templateColumns={`repeat(${smallCardsInRowCount}, 1fr)`} gap={2}>
+                {smallCardsContent.map((plan) => (
                   <PricingPlans
                     key={plan._id}
                     onChoosePlan={() => handlePlanClick(plan)}
@@ -174,14 +182,15 @@ export default function Pricing() {
                   />
                 ))}
               </Items>
-              <Items flow="none" templateColumns="1fr" justifyItems={customPlans.length > 1 ? 'left' : 'center'} gap={2}>
-                {customPlans.map((plan) => (
+              <Items flow="none" templateColumns={`repeat(${largeCardsContent.length}, 1fr)`} justifyItems={largeCardsContent.length > 1 ? 'normal' : 'center'}>
+                {largeCardsContent.map((plan) => (
                   <PricingLargePlans
-                    isOnePlan={!(customPlans.length > 1)}
+                    name={plan.name}
+                    isOnePlan={!(largeCardsContent.length > 1)}
+                    verificationPrice={plan.extraPrice}
+                    subscriptionPrice={plan.subscriptionPrice}
                     key={plan._id}
-                    onClick={showIntercom}
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...plan}
+                    onClick={plan.isCustom ? showIntercom : () => handlePlanClick(plan)}
                   />
                 ))}
               </Items>
