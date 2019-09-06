@@ -680,6 +680,7 @@
   "PricingPlans.regular.title": "Regular",
   "PricingPlans.growth.title": "Expansión",
   "PricingPlans.limitationsNotice": "Se aplican costos adicionales por más de {amount} verificaciones \/ mes",
+  "PricingPlans.enterprise.description": "Si necesita más de 5,000 verif. /mes",
   "PricingRefundNotice.title": "Si no está satisfecho le regresamos su dinero dentro los primeros 30 días",
   "PricingRefundNotice.subtitle": "¡Sin preguntas!",
   "PricingPlans.contactUs": "Contáctenos",
