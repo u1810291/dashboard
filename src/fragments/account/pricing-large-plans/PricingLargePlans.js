@@ -7,9 +7,15 @@ import { Items, Card, Text, Click } from 'components';
 
 import CSS from './PricingLargePlans.module.scss';
 
-function Plan({ title, price, verificationPrice, isOnePlan, onClick }) {
+function Plan({ title, price, verificationPrice, isOnePlan, current, onClick }) {
+  const buttonText = price || verificationPrice ? 'PricingPlans.start' : 'PricingPlans.contactUs';
   return (
-    <Card justifyItems="center" padding={2} className={classNames({ [CSS.singlePlan]: isOnePlan, [CSS.plan]: true })}>
+    <Card
+      justifyItems="center"
+      padding={2}
+      className={classNames({ [CSS.singlePlan]: isOnePlan, [CSS.plan]: true })}
+      border={current ? 'blue' : 'transparent'}
+    >
       <Text size="7" weight="1">
         {title}
       </Text>
@@ -26,9 +32,16 @@ function Plan({ title, price, verificationPrice, isOnePlan, onClick }) {
         />
       </Text>
       )}
-      <Click background={price || verificationPrice ? 'active' : ''} hoverShadow={false} onClick={onClick}>
-        <Text color={price || verificationPrice ? '' : 'active'} uppercase>
-          <FormattedMessage id={price || verificationPrice ? 'PricingPlans.start' : 'PricingPlans.contactUs'} />
+      <Click
+        background={price || verificationPrice ? 'active' : ''}
+        hoverShadow={false}
+        onClick={!current ? onClick : () => {}}
+      >
+        <Text color={price || verificationPrice || current ? '' : 'active'} uppercase>
+          <FormattedMessage id={
+            current ? 'PricingPlans.currentPlan' : buttonText
+          }
+          />
         </Text>
       </Click>
     </Card>
@@ -40,6 +53,7 @@ export default function PricingLargePlans({
   subscriptionPrice,
   verificationPrice,
   isOnePlan,
+  current = false,
   onClick = () => {},
 }) {
   return (
@@ -51,6 +65,7 @@ export default function PricingLargePlans({
           : subscriptionPrice}
         verificationPrice={verificationPrice}
         isOnePlan={isOnePlan}
+        current={current}
         onClick={onClick}
       />
     </Items>
@@ -60,26 +75,30 @@ export default function PricingLargePlans({
 Plan.propTypes = {
   isOnePlan: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
-  verificationPrice: PropTypes.number || undefined,
+  verificationPrice: PropTypes.number,
+  current: PropTypes.bool,
   price: PropTypes.number,
   title: PropTypes.string.isRequired,
 };
 
 PricingLargePlans.propTypes = {
   isOnePlan: PropTypes.bool.isRequired,
-  verificationPrice: PropTypes.number || undefined,
+  verificationPrice: PropTypes.number,
   name: PropTypes.string.isRequired,
   onClick: PropTypes.func,
-  subscriptionPrice: PropTypes.number || undefined,
+  current: PropTypes.bool,
+  subscriptionPrice: PropTypes.number,
 };
 
 PricingLargePlans.defaultProps = {
   onClick: () => {},
+  current: false,
   verificationPrice: undefined,
   subscriptionPrice: undefined,
 };
 
 Plan.defaultProps = {
   price: undefined,
+  current: false,
   verificationPrice: undefined,
 };
