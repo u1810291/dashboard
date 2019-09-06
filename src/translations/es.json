@@ -552,6 +552,8 @@
   "fragments.integration.integration-code.javascript": "JavaScript",
   "fragments.integration.integration-code.react": "React.js (próximamente)",
   "fragments.integration.integration-code.angular": "Angular (próximamente)",
+  "fragments.integration.integration-code.unlock-application.button": "Desbloquee sus llaves",
+  "fragments.integration.integration-code.unlock-application.error": "Un error ocurrió mientras desbloqueábamos sus llaves",
   "fragments.integration.webhooks-test-panel.title": "Pon a prueba tus webhooks en 5 minutos",
   "fragments.integration.webhooks-test-panel.list.0": "Ir a <a href=\"https:\/\/webhook.site\" target=\"_blank\" rel=\"noopener noreferrer\"> webhook.site <\/a>",
   "fragments.integration.webhooks-test-panel.list.1": "Copie su <strong> URL de webhook de prueba <strong> <\/strong> del sitio webhook.site",
