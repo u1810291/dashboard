@@ -15,7 +15,7 @@ pipeline {
     }
     stage('Build') {
       steps {
-        sh "yarn lint"
+        sh "yarn eslint"
       }
     }
     stage('Test') {
@@ -30,9 +30,9 @@ pipeline {
       }
       steps {
         build job: '../mgi-dashboard-staging'
-        catchError {
-            build job: '../../../QA/Dashboard-release-test'
-        }
+//        catchError {
+//            build job: '../../../QA/Dashboard-release-test'
+//        }
       }
     }
     stage('Deploy to production') {

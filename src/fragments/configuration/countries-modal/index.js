@@ -1,1 +1,1 @@
-export { default } from './CountriesModal'
+export { default } from './CountriesModal';

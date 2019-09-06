@@ -1,7 +1,9 @@
 /** @jsx jsx */
 
-import { css, jsx } from '@emotion/core'
-import Card from 'components/card'
+import PropTypes from 'prop-types';
+import { css, jsx } from '@emotion/core';
+
+import Card from 'components/card';
 
 export default function TextField({
   padding = 1,
@@ -19,7 +21,19 @@ export default function TextField({
         font: inherit;
         width: 100%;
       `}
-      {...props}
+      {...props} // eslint-disable-line react/jsx-props-no-spreading
     />
-  )
+  );
 }
+
+TextField.propTypes = {
+  border: PropTypes.string,
+  padding: PropTypes.number,
+  shadow: PropTypes.number,
+};
+
+TextField.defaultProps = {
+  border: 'darkgray',
+  padding: 1,
+  shadow: 0,
+};

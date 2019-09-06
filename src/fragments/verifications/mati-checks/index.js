@@ -1,1 +1,1 @@
-export { default } from './MatiChecks'
+export { default } from './MatiChecks';

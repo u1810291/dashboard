@@ -1,1 +1,1 @@
-export { default } from './VerificationDeleteModal'
+export { default } from './VerificationDeleteModal';

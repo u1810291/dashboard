@@ -1,9 +1,10 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { Card, Items, Text } from 'components'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Card, Items, Text } from 'components';
 
-import CSS from './GooglePlayLink.module.scss'
-import GooglePlayImage from './google-play.png'
+import CSS from './GooglePlayLink.module.scss';
+import GooglePlayImage from './google-play.png';
 
 export default function GooglePlayLink({ clientId }) {
   return (
@@ -50,5 +51,9 @@ export default function GooglePlayLink({ clientId }) {
         </Items>
       </Items>
     </Items>
-  )
+  );
 }
+
+GooglePlayLink.propTypes = {
+  clientId: PropTypes.string.isRequired,
+};

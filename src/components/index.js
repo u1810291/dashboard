@@ -3,7 +3,7 @@ export { default as Items } from './items';
 export { default as Card } from './card';
 export { default as CardWithStub, Stub } from './card-with-stub';
 export { default as Click } from './click';
-export { MatiButton } from './mati-button';
+export { default as Button } from './button';
 export { default as Text, H1, H2, H3, Small } from './text';
 export { Content } from 'components/application-box';
 export { default as PageContentLayout } from './page-content-layout';

@@ -1,7 +1,7 @@
-import React from 'react'
-import Items from 'components/items'
-import WebhooksTestPanel from 'fragments/integration/webhooks-test-panel'
-import IntegrationLayout from './IntegrationLayout'
+import React from 'react';
+import Items from 'components/items';
+import WebhooksTestPanel from 'fragments/integration/webhooks-test-panel';
+import IntegrationLayout from './IntegrationLayout';
 
 export default function Info() {
   return (
@@ -12,5 +12,5 @@ export default function Info() {
         </Items>
       </main>
     </IntegrationLayout>
-  )
+  );
 }

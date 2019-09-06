@@ -1,13 +1,16 @@
-import React from 'react'
-import CSS from './SignUpForm.module.css'
-import { Select, Input } from 'components/inputs'
-import Button from 'components/button'
-import { Field, Formik } from 'formik'
-import { setI18nContext } from 'components/i18n-context'
-import { FormattedMessage } from 'react-intl'
-import { cleanText, email, required } from 'lib/validations'
-import { pickBy, pick } from 'lodash'
-import { notification } from 'components/notification'
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import { Select, Input } from 'components/inputs';
+import Button from 'components/button';
+import { Field, Formik } from 'formik';
+import { setI18nContext } from 'components/i18n-context';
+import { FormattedMessage } from 'react-intl';
+import { cleanText, email, required } from 'lib/validations';
+import { pickBy, pick } from 'lodash';
+import { notification } from 'components/notification';
+
+import CSS from './SignUpForm.module.css';
 
 const formikSettings = {
   initialValues: {
@@ -16,79 +19,89 @@ const formikSettings = {
     email: '',
     password: '',
     verificationNum: '',
-    websiteUrl: ''
+    websiteUrl: '',
   },
 
   verificationsNumOptions: [
     {
       label: 'I don\'t know',
-      value: 'I don\'t know'
+      value: 'I don\'t know',
     },
     {
       label: '0–100',
-      value: '0–100'
+      value: '0–100',
     },
     {
       label: '100–1000',
-      value: '100–1000'
+      value: '100–1000',
     },
     {
       label: '1000–5000',
-      value: '1000–5000'
+      value: '1000–5000',
     },
     {
       label: '> 5000',
-      value: '> 5000'
-    }
+      value: '> 5000',
+    },
   ],
 
-  validate: values => {
-    let errors = {}
+  validate: (values) => {
+    let errors = {};
 
-    errors.firstName = required(values.firstName) || cleanText(values.firstName)
-    errors.lastName = required(values.lastName) || cleanText(values.lastName)
-    errors.email = required(values.email) || email(values.email)
-    errors.verificationNum = required(values.verificationNum)
-    errors.password = required(values.password)
-    errors.websiteUrl = required(values.websiteUrl)
-    errors = pickBy(errors, v => v)
-    return errors
-  }
-}
+    errors.firstName = required(values.firstName) || cleanText(values.firstName);
+    errors.lastName = required(values.lastName) || cleanText(values.lastName);
+    errors.email = required(values.email) || email(values.email);
+    errors.verificationNum = required(values.verificationNum);
+    errors.password = required(values.password);
+    errors.websiteUrl = required(values.websiteUrl);
+    errors = pickBy(errors, (v) => v);
+    return errors;
+  },
+};
 
 class SignUpForm extends React.Component {
-  onSubmit = (values, { setSubmitting, setStatus }) => {
-    setStatus({})
-    let data = pick(
+  static propTypes = {
+    handleSubmit: PropTypes.func.isRequired,
+  }
+
+  onSubmit = async (values, { setSubmitting, setStatus }) => {
+    setStatus({});
+    const data = pick(
       values,
       'firstName',
       'lastName',
       'email',
       'password',
       'verificationNum',
-      'websiteUrl'
-    )
-    this.props
-      .handleSubmit(data)
-      .then(() => {
-        setSubmitting(false)
-      })
-      .catch(error => {
-        setSubmitting(false)
-        notification.error(
-          (error && error.response && error.response.data.message) ||
-            'Something went wrong. Please retry later'
-        )
-      })
-  }
+      'websiteUrl',
+    );
+
+    try {
+      await this.props.handleSubmit(data);
+      setSubmitting(false);
+    } catch (error) {
+      setSubmitting(false);
+      notification.error(
+        (error && error.response && error.response.data.message)
+        || 'Something went wrong. Please retry later',
+      );
+    }
+  };
+
   render() {
     return (
       <Formik
         initialValues={formikSettings.initialValues}
         onSubmit={this.onSubmit}
         validate={formikSettings.validate}
-        render={props => (
-          <form onSubmit={props.handleSubmit} id="signup_form">
+        render={(props) => (
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              return props.handleSubmit(event);
+            }}
+            id="signup_form"
+          >
             <div className={CSS.name}>
               <Field
                 name="firstName"
@@ -144,8 +157,8 @@ class SignUpForm extends React.Component {
           </form>
         )}
       />
-    )
+    );
   }
 }
 
-export default setI18nContext('signup.form')(SignUpForm)
+export default setI18nContext('signup.form')(SignUpForm);

@@ -3,19 +3,20 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { useDropzone } from 'react-dropzone';
+
 import { Items, Text } from 'components';
 import Icons from 'components/icons';
 import Button from 'components/button';
 import { notification } from 'components/notification';
 import { putMerchants, uploadMerchantMedia } from 'state/merchant';
-import { compressImage } from 'lib/compressImage.js';
+import compressImage from 'lib/compressImage';
 
 import CSS from './Logo.module.scss';
 
 export default function Logo() {
-  const { token } = useSelector(s => s.auth);
-  const { logoUrl } = useSelector(s => s.merchant);
-  const [ shouldLogoUpdate, setShouldLogoUpdate ] = useState(false);
+  const { token } = useSelector(({ auth }) => auth);
+  const { logoUrl } = useSelector(({ merchant }) => merchant);
+  const [shouldLogoUpdate, setShouldLogoUpdate] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,16 +30,16 @@ export default function Logo() {
 
   const showError = () => {
     notification.error(
-      <FormattedMessage id="flow.logoStep.button.error" />
+      <FormattedMessage id="flow.logoStep.button.error" />,
     );
   };
 
-  const onDropAccepted = useCallback(async files => {
+  const onDropAccepted = useCallback(async (files) => {
     try {
       const file = files[0];
       const compressionOptions = {
         maxSideSize: 159,
-        type: file.type === 'image/png' ? file.type : 'image/jpeg'
+        type: file.type === 'image/png' ? file.type : 'image/jpeg',
       };
       const form = new FormData();
       const compressedFile = await compressImage(file, compressionOptions);
@@ -82,7 +83,7 @@ export default function Logo() {
       >
         <div className={CSS.logoWrapper}>
           <div
-            {...getRootProps()}
+            {...getRootProps()} // eslint-disable-line react/jsx-props-no-spreading
             className={
               classNames(
                 [CSS.addLogo],
@@ -92,11 +93,12 @@ export default function Logo() {
               )
             }
           >
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             <input {...getInputProps()} />
             <Text size={2.5}>
-              {logoUrl ?
-                <img src={logoUrl} alt="logo-preview" className={CSS.logoPreview} /> :
-                <FormattedMessage id="flow.logoStep.button.title" />}
+              {logoUrl
+                ? <img src={logoUrl} alt="logo-preview" className={CSS.logoPreview} />
+                : <FormattedMessage id="flow.logoStep.button.title" />}
             </Text>
           </div>
         </div>

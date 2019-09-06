@@ -1,26 +1,26 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { Container } from 'components/overlay'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { Container } from 'components/overlay';
 import {
   LetsStartPanel,
   VerificationPanel,
   ApplicationsPanel,
   InstallFrontendCodePanel,
-  SetWebhooksPanel
-} from '.'
+  SetWebhooksPanel,
+} from '.';
 
 const stories = storiesOf(
   'fragments/integration/InstallationGuidePanels',
-  module
-).addDecorator(story => (
-  <React.Fragment>
+  module,
+).addDecorator((story) => (
+  <>
     <Container />
     {story()}
-  </React.Fragment>
-))
+  </>
+));
 
-stories.add('LetsStartPanel', () => <LetsStartPanel />)
-stories.add('VerificationPanel', () => <VerificationPanel />)
-stories.add('ApplicationsPanel', () => <ApplicationsPanel />)
-stories.add('InstallFrontendCodePanel', () => <InstallFrontendCodePanel />)
-stories.add('SetWebhooksPanel', () => <SetWebhooksPanel />)
+stories.add('LetsStartPanel', () => <LetsStartPanel />);
+stories.add('VerificationPanel', () => <VerificationPanel />);
+stories.add('ApplicationsPanel', () => <ApplicationsPanel />);
+stories.add('InstallFrontendCodePanel', () => <InstallFrontendCodePanel />);
+stories.add('SetWebhooksPanel', () => <SetWebhooksPanel />);

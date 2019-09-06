@@ -1,13 +1,18 @@
-import React from 'react'
-import { flowRight } from 'lodash/fp'
-import { FormattedMessage } from 'react-intl'
-import { withFormik, Field, Form } from 'formik'
-import { Input } from 'components/inputs'
-import { setI18nContext } from 'components/i18n-context'
-import { Modal } from 'components/modal'
-import Button from 'components/button'
-import Items from 'components/items'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { flowRight } from 'lodash/fp';
+import { FormattedMessage } from 'react-intl';
+import { withFormik, Field, Form } from 'formik';
 
+import Modal from 'components/modal';
+import Button from 'components/button';
+import Items from 'components/items';
+import { Input } from 'components/inputs';
+import { setI18nContext } from 'components/i18n-context';
+
+// todo: fix 'unused' onSave
+
+// eslint-disable-next-line no-unused-vars
 function NewWebhookModal({ onSave, onClose }) {
   return (
     <Form>
@@ -35,22 +40,27 @@ function NewWebhookModal({ onSave, onClose }) {
         </footer>
       </Modal>
     </Form>
-  )
+  );
 }
 
 const formikSettings = {
   enableReinitialize: true,
   handleSubmit(values, { props, setStatus }) {
-    setStatus({})
-    const { url, secret } = values
+    setStatus({});
+    const { url, secret } = values;
     props
       .onSave(url, secret)
       .then(props.onClose)
-      .catch(setStatus)
-  }
-}
+      .catch(setStatus);
+  },
+};
 
 export default flowRight(
   setI18nContext('onboarding.webhooks'),
-  withFormik(formikSettings)
-)(NewWebhookModal)
+  withFormik(formikSettings),
+)(NewWebhookModal);
+
+NewWebhookModal.propTypes = {
+  onSave: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};

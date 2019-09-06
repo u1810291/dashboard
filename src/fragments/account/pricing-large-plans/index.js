@@ -1,1 +1,1 @@
-export { default } from './PricingLargePlans'
+export { default } from './PricingLargePlans';

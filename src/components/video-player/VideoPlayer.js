@@ -1,10 +1,11 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import ReactPlayer from 'react-player'
+import PropTypes from 'prop-types';
+import { css, jsx } from '@emotion/core';
+import ReactPlayer from 'react-player';
 
-export default function VideoPlayer({ aspectRatio = '16:9', ...props }) {
-  const [width, height] = aspectRatio.split(':')
-  const iframeHeight = (100 * parseInt(height)) / parseInt(width)
+export default function VideoPlayer({ aspectRatio, ...props }) {
+  const [width, height] = aspectRatio.split(':');
+  const iframeHeight = (100 * parseInt(height, 10)) / parseInt(width, 10);
 
   return (
     <div
@@ -21,8 +22,16 @@ export default function VideoPlayer({ aspectRatio = '16:9', ...props }) {
           top: 0;
           left: 0;
         `}
-        {...props}
+        {...props} // eslint-disable-line react/jsx-props-no-spreading
       />
     </div>
-  )
+  );
 }
+
+VideoPlayer.propTypes = {
+  aspectRatio: PropTypes.string,
+};
+
+VideoPlayer.defaultProps = {
+  aspectRatio: '16:9',
+};

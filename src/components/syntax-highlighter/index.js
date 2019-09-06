@@ -1,1 +1,1 @@
-export { default } from './SyntaxHighlighter'
+export { default } from './SyntaxHighlighter';

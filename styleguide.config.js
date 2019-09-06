@@ -1,18 +1,19 @@
-const path = require('path')
-const webpackConfig = require('react-scripts/config/webpack.config.dev.js')
+const path = require('path');
+// eslint-disable-next-line import/no-unresolved
+const webpackConfig = require('react-scripts/config/webpack.config.dev.js');
 
-webpackConfig.resolve.alias.src = path.resolve(__dirname, 'src')
+webpackConfig.resolve.alias.src = path.resolve(__dirname, 'src');
 webpackConfig.module.rules[2].oneOf[1].options.plugins.push([
-  'inline-react-svg'
-])
+  'inline-react-svg',
+]);
 module.exports = {
   webpackConfig,
   require: [
     path.join(__dirname, 'src/components/theme/styles.scss'),
-    path.join(__dirname, 'node_modules/react-dates/lib/css/_datepicker.css')
+    path.join(__dirname, 'node_modules/react-dates/lib/css/_datepicker.css'),
   ],
   styleguideComponents: {
-    Wrapper: path.join(__dirname, 'src/styleguide/components/Wrapper')
+    Wrapper: path.join(__dirname, 'src/styleguide/components/Wrapper'),
   },
   components: 'src/components/**/index.js',
   skipComponentsWithoutExample: true,
@@ -21,7 +22,7 @@ module.exports = {
     {
       name: 'UI Components Library',
       description: 'Global ID UI library',
-      components: 'src/components/**/index.js'
+      components: 'src/components/**/index.js',
     },
     {
       name: 'Fragments',
@@ -31,29 +32,29 @@ module.exports = {
         {
           name: 'Configuration',
           description: 'Configuration page fragments',
-          components: 'src/fragments/configuration/**/index.js'
+          components: 'src/fragments/configuration/**/index.js',
         },
         {
           name: 'Verifications',
-          components: 'src/fragments/verifications/**/index.js'
+          components: 'src/fragments/verifications/**/index.js',
         },
         {
           name: 'Account settings',
-          components: 'src/fragments/account/**/index.js'
+          components: 'src/fragments/account/**/index.js',
         },
         {
           name: 'Info',
-          components: 'src/fragments/info/**/index.js'
+          components: 'src/fragments/info/**/index.js',
         },
         {
           name: 'Integration',
-          components: 'src/fragments/integration/**/index.js'
+          components: 'src/fragments/integration/**/index.js',
         },
         {
           name: 'Signup and signin',
-          components: 'src/fragments/signup/**/index.js'
-        }
-      ]
-    }
-  ]
-}
+          components: 'src/fragments/signup/**/index.js',
+        },
+      ],
+    },
+  ],
+};

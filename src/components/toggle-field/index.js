@@ -1,1 +1,1 @@
-export { default } from './ToggleField'
+export { default } from './ToggleField';

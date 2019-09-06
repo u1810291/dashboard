@@ -1,12 +1,14 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { FormattedMessage } from 'react-intl'
-import { Items, Text } from 'components'
-import Button from 'components/button'
+import PropTypes from 'prop-types';
+import { jsx } from '@emotion/core';
+import { FormattedMessage } from 'react-intl';
 
-import WithAsideModal from '../with-aside-modal'
+import { Items, Text } from 'components';
+import Button from 'components/button';
 
-import CSS from './PlanCancelModal.module.scss'
+import WithAsideModal from '../with-aside-modal';
+
+import CSS from './PlanCancelModal.module.scss';
 
 function PlanCancelModal({ onSubmit }) {
   return (
@@ -29,6 +31,10 @@ function PlanCancelModal({ onSubmit }) {
         </Items>
       </Items>
     </WithAsideModal>
-  )
+  );
 }
-export default PlanCancelModal
+export default PlanCancelModal;
+
+PlanCancelModal.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

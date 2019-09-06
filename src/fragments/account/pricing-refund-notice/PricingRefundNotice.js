@@ -1,8 +1,8 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { FormattedMessage } from 'react-intl'
-import { Card, Items, Text } from 'components'
-import Icon from './icon.svg'
+import { css, jsx } from '@emotion/core';
+import { FormattedMessage } from 'react-intl';
+import { Card, Items, Text } from 'components';
+import Icon from './icon.svg';
 
 export default function PricingRefundNotice() {
   return (
@@ -26,5 +26,5 @@ export default function PricingRefundNotice() {
         </Text>
       </Items>
     </Card>
-  )
+  );
 }

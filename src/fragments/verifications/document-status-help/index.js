@@ -1,1 +1,1 @@
-export { default } from './DocumentStatusHelp'
+export { default } from './DocumentStatusHelp';

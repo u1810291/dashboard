@@ -1,84 +1,115 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
-import { FormattedMessage } from 'react-intl'
-import Button from 'components/button'
-import TextField from 'components/text-field'
-import CSS from './TextEditable.module.css'
-import TextFieldCSS from 'components/text-field/TextField.module.css'
-import { ReactComponent as EditIcon } from './icon-edit.svg'
-import Spinner from 'components/spinner'
+import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
-const DataWasntExtracted = () => <FormattedMessage id='DocumentReadingStep.notParsed' />
+import Button from 'components/button';
+import TextField from 'components/text-field';
+import TextFieldCSS from 'components/text-field/TextField.module.css';
+import Spinner from 'components/spinner';
+import CSS from './TextEditable.module.css';
+import { ReactComponent as EditIcon } from './icon-edit.svg';
+
+const DataWasntExtracted = () => <FormattedMessage id="DocumentReadingStep.notParsed" />;
 
 export default class TextEditable extends React.Component {
-  constructor(props) {
-    super(props)
+  static defaultProps = {
+    error: false,
+    inputClassName: '',
+    isEditing: false,
+    isLoading: false,
+    onSubmit: () => {},
+    text: '',
+    textClassName: '',
+  }
 
+  static propTypes = {
+    error: PropTypes.bool,
+    inputClassName: PropTypes.string,
+    isEditing: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    onSubmit: PropTypes.func,
+    text: PropTypes.string,
+    textClassName: PropTypes.string,
+  }
+
+  constructor(props) {
+    super(props);
+    const { text, isEditing } = this.props;
     this.state = {
-      isEditing: this.props.isEditing || false,
-      savedText: this.props.text || '',
-      editingText: this.props.text || '',
-      doNotBlur: false
-    }
+      isEditing,
+      savedText: text,
+      editingText: text,
+      doNotBlur: false,
+    };
   }
 
   onMouseEnter = () => {
-    this.setState({ doNotBlur: true })
+    this.setState({ doNotBlur: true });
   }
 
   onMouseLeave = () => {
-    this.setState({ doNotBlur: false })
+    this.setState({ doNotBlur: false });
   }
 
   onBlur = () => {
-    if (this.state.doNotBlur) return
+    if (this.state.doNotBlur) return;
     setTimeout(() => {
-      this.setState({
-        editingText: this.state.savedText,
-        isEditing: false
-      })
-    }, 0)
+      this.setState((state) => ({
+        editingText: state.savedText,
+        isEditing: false,
+      }));
+    }, 0);
   }
 
   onFocus = () => {
-    this.setState({ isEditing: true })
+    this.setState({ isEditing: true });
   }
 
-  onChange = e => {
-    this.setState({ editingText: e.target.value })
+  onChange = (e) => {
+    this.setState({ editingText: e.target.value });
   }
 
-  onKeyDown = e => {
+  onKeyDown = (e) => {
     if (e.key === 'Tab') {
-      e.preventDefault()
-      return
+      e.preventDefault();
+      return;
     }
     if (e.key === 'Enter') {
-      this.onSubmit()
-      e.stopPropagation()
+      this.onSubmit();
+      e.stopPropagation();
     }
   }
 
   onSubmit = () => {
-    this.setState({ savedText: this.state.editingText })
-    this.setState({ isEditing: false })
+    this.setState((state) => ({
+      savedText: state.editingText,
+      isEditing: false,
+    }));
     if (this.props.onSubmit) {
-      this.props.onSubmit(this.state.editingText)
+      this.props.onSubmit(this.state.editingText);
     }
   }
 
   render() {
     const {
-      className,
-      inputClassName,
-      textClassName,
-      isLoading,
-      isEditing,
-      ...inputOptions
-    } = this.props
-    
-    if (this.state.isEditing) {
+      props: {
+        className,
+        error,
+        inputClassName,
+        textClassName,
+        isLoading,
+        text,
+        ...inputOptions
+      },
+      state: {
+        isEditing,
+        editingText,
+        savedText,
+      },
+    } = this;
+
+    if (isEditing) {
       return (
         <div className={className}>
           <div
@@ -89,25 +120,25 @@ export default class TextEditable extends React.Component {
             <TextField
               className={classNames(CSS.textEditable, inputClassName)}
               type="text"
-              value={this.state.editingText}
+              value={editingText}
               onBlur={this.onBlur}
               onChange={this.onChange}
               onKeyDown={this.onKeyDown}
               autoFocus
-              {...inputOptions}
+              {...inputOptions} // eslint-disable-line react/jsx-props-no-spreading
             />
             <div>
               <Button
                 buttonStyle="primary"
                 className={CSS.okButton}
-                onClick={this.onSubmit.bind(this)}
+                onClick={this.onSubmit}
               >
                 <FormattedMessage id="ok" />
               </Button>
             </div>
           </div>
         </div>
-      )
+      );
     }
     return (
       <div className={className}>
@@ -115,12 +146,15 @@ export default class TextEditable extends React.Component {
           className={classNames(
             TextFieldCSS.textField,
             CSS.textWrapper,
-            textClassName
+            textClassName,
           )}
           onClick={this.onFocus}
+          onKeyUp={() => {}}
+          role="button"
+          tabIndex="0"
         >
           <span>
-            {(this.props.error ? this.props.text : this.state.savedText) || <DataWasntExtracted /> }
+            {(error ? text : savedText) || <DataWasntExtracted /> }
           </span>
           {isLoading ? (
             <Spinner className={CSS.spinner} />
@@ -129,15 +163,6 @@ export default class TextEditable extends React.Component {
           )}
         </div>
       </div>
-    )
+    );
   }
-}
-
-TextEditable.propTypes = {
-  className: PropTypes.string,
-  isEditing: PropTypes.bool,
-  textClassName: PropTypes.string,
-  inputClassName: PropTypes.string,
-  text: PropTypes.string,
-  // onSubmit: PropTypes.func
 }

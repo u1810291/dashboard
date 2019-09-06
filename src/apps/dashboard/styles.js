@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles(theme => ({
+export default makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
@@ -43,8 +43,8 @@ export default makeStyles(theme => ({
   logoItem: {
     marginLeft: 30,
     '&:hover': {
-      backgroundColor: 'transparent'
-    }
+      backgroundColor: 'transparent',
+    },
   },
   menuItem: {
     color: 'white',
@@ -56,15 +56,15 @@ export default makeStyles(theme => ({
       '--mgi-application-menu-color': 'white',
       '--mgi-application-menu-icon': 'white',
       borderBottom: '2px solid #ffffff',
-    }
+    },
   },
   logo: {
     width: 60,
     height: 20,
     minWidth: 60,
-    'background-repeat': 'no-repeat'
+    'background-repeat': 'no-repeat',
   },
   countryIcon: {
-    position: 'relative'
+    position: 'relative',
   },
 }));

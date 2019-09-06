@@ -1,7 +1,16 @@
-import React from 'react'
-import SelectField from 'components/select-field'
-import BaseInput from './BaseInput'
+import React from 'react';
+import SelectField from 'components/select-field';
+import BaseInput from './BaseInput';
 
-export const Select = props => (
-  <BaseInput {...props} renderer={fieldProps => (<SelectField {...fieldProps} />)} />
-)
+export default (props) => (
+  <BaseInput
+    {...props}
+    renderer={
+      (fieldProps) => (
+        <SelectField
+          {...fieldProps} // eslint-disable-line react/jsx-props-no-spreading
+        />
+      )
+    }
+  />
+);

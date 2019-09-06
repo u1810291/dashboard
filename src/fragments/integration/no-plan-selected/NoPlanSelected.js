@@ -1,7 +1,7 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { Items, H1, Click } from 'components'
-import Picture from './Picture.svg'
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Items, H1, Click } from 'components';
+import Picture from './Picture.svg';
 
 export default function NoPlanSelected() {
   return (
@@ -14,5 +14,5 @@ export default function NoPlanSelected() {
         <FormattedMessage id="NoPlanSelected.link" />
       </Click>
     </Items>
-  )
+  );
 }

@@ -1,11 +1,12 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { createOverlay, closeOverlay } from '../overlay';
-import { Modal } from '../modal';
+import Modal from '../modal';
 import Items from '../items';
 import Button from '../button';
 import CSS from './ConfirmStyled.module.scss';
 
-const ConfirmModal = ({ 
+const ConfirmModal = ({
   header,
   message,
   onClose,
@@ -38,25 +39,55 @@ export default function confirmStyled({
 }) {
   return new Promise((resolve, reject) => {
     function onClose() {
-      closeOverlay()
-      reject()
+      closeOverlay();
+      reject();
     }
 
     function onConfirm() {
-      
-      closeOverlay()
-      resolve()
+      closeOverlay();
+      resolve();
     }
 
     createOverlay(<ConfirmModal
       header={header}
       message={message}
       confirmText={confirmText}
-      cancelText={cancelText} 
+      cancelText={cancelText}
       onClose={onClose}
-      onConfirm={onConfirm} />,
+      onConfirm={onConfirm}
+    />,
     {
-      onClose
-    })
-  })
+      onClose,
+    });
+  });
 }
+
+ConfirmModal.propTypes = {
+  cancelText: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.element,
+    PropTypes.string,
+  ]),
+  confirmText: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.element,
+    PropTypes.string,
+  ]),
+  header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+  message: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.element,
+    PropTypes.string,
+  ]),
+  onClose: PropTypes.func,
+  onConfirm: PropTypes.func,
+};
+
+ConfirmModal.defaultProps = {
+  cancelText: '',
+  confirmText: '',
+  header: '',
+  message: '',
+  onClose: () => {},
+  onConfirm: () => {},
+};

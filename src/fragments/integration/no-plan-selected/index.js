@@ -1,1 +1,1 @@
-export { default } from './NoPlanSelected'
+export { default } from './NoPlanSelected';

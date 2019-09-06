@@ -1,7 +1,8 @@
-import React from 'react'
-import classNames from 'classnames'
-import { NavLink } from 'react-router-dom'
-import CSS from './ApplicationMenu.module.scss'
+import PropTypes from 'prop-types';
+import React from 'react';
+import classNames from 'classnames';
+import { NavLink } from 'react-router-dom';
+import CSS from './ApplicationMenu.module.scss';
 
 export default function MenuItemLink({
   children,
@@ -9,28 +10,35 @@ export default function MenuItemLink({
   label,
   icon,
   external = false,
-  noActive = false
+  noActive = false,
 }) {
+  // eslint-disable-next-line no-shadow
   const Wrapper = ({ external, noActive, ...props }) => {
     if (props.to) {
       if (external) {
         return (
           <a
-            {...props}
+            {...props} // eslint-disable-line react/jsx-props-no-spreading
             href={props.to}
             target="_blank"
             rel="noopener noreferrer"
           >
             {props.children}
           </a>
-        )
+        );
       } else {
-        return <NavLink {...props} exact activeClassName="active" />
+        return (
+          <NavLink
+            activeClassName="active"
+            exact
+            {...props} // eslint-disable-line react/jsx-props-no-spreading
+          />
+        );
       }
     } else {
-      return <span {...props} />
+      return <span {...props} />; // eslint-disable-line react/jsx-props-no-spreading
     }
-  }
+  };
 
   return (
     <Wrapper
@@ -42,5 +50,20 @@ export default function MenuItemLink({
       {label && <span className={CSS.menuItemLabel}>{label}</span>}
       {children}
     </Wrapper>
-  )
+  );
 }
+
+MenuItemLink.propTypes = {
+  external: PropTypes.bool,
+  icon: PropTypes.string,
+  label: PropTypes.string,
+  noActive: PropTypes.bool,
+  to: PropTypes.string.isRequired,
+};
+
+MenuItemLink.defaultProps = {
+  external: false,
+  icon: '',
+  label: '',
+  noActive: false,
+};

@@ -1,35 +1,37 @@
 /** @jsx jsx */
 
-import { css, jsx } from '@emotion/core'
-import { withRouter } from 'react-router-dom'
-import Card, { shadowValue } from '../card'
+import PropTypes from 'prop-types';
+import { css, jsx } from '@emotion/core';
+import { withRouter } from 'react-router-dom';
+
+import Card, { shadowValue } from '../card';
 
 function handleClick(onClick, history, event) {
-  const href = event.currentTarget.getAttribute('href')
+  const href = event.currentTarget.getAttribute('href');
   if (!onClick && href.match(/^\//)) {
-    event.preventDefault()
-    history.push(href)
+    event.preventDefault();
+    history.push(href);
   } else {
-    onClick(event)
+    onClick(event);
   }
 }
 
 function Click({
-  children,
-  gap = 1,
-  inline = true,
-  disabled,
-  shadow = 0,
-  tabIndex = 0,
-  hoverShadow = true,
-  padding = '1/2',
+  align,
   background,
-  onClick,
-  justifyContent = 'center',
-  justifyItems = 'center',
-  flow = 'column',
-  align = 'center',
+  children,
+  disabled,
+  flow,
+  gap,
   history,
+  hoverShadow,
+  inline,
+  justifyContent,
+  justifyItems,
+  onClick,
+  padding,
+  shadow,
+  tabIndex,
   ...props
 }) {
   return (
@@ -40,16 +42,14 @@ function Click({
       justifyContent={justifyContent}
       justifyItems={justifyItems}
       tabIndex={tabIndex}
-      onClick={disabled ? () => {} : handleClick.bind(null, onClick, history)}
+      onClick={disabled ? () => {} : (event) => handleClick(onClick, history, event)}
       padding={padding}
       background={disabled ? 'disabled' : background}
       flow={flow}
       gap={gap}
       align={align}
-      onKeyPress={event =>
-        ['Enter', ' '].includes(event.key) &&
-        (event.preventDefault(), onClick(event))
-      }
+      onKeyPress={(event) => ['Enter', ' '].includes(event.key)
+        && (event.preventDefault(), onClick(event))}
       role="button"
       css={css`
         font: inherit;
@@ -58,10 +58,10 @@ function Click({
         text-decoration: none;
         &:hover,
         &:active {
-          ${hoverShadow &&
-            !disabled &&
-            css`
-              box-shadow: ${shadowValue(parseInt(shadow) + 1)};
+          ${hoverShadow
+            && !disabled
+            && css`
+              box-shadow: ${shadowValue(parseInt(shadow, 10) + 1)};
             `}
         }
         &[disabled] {
@@ -69,11 +69,49 @@ function Click({
           outline: 0;
         }
       `}
-      {...props}
+      {...props} // eslint-disable-line react/jsx-props-no-spreading
     >
       {children}
     </Card>
-  )
+  );
 }
 
-export default withRouter(Click)
+export default withRouter(Click);
+
+Click.propTypes = {
+  align: PropTypes.string,
+  background: PropTypes.string,
+  disabled: PropTypes.bool,
+  flow: PropTypes.string,
+  gap: PropTypes.number,
+  hoverShadow: PropTypes.bool,
+  inline: PropTypes.bool,
+  justifyContent: PropTypes.string,
+  justifyItems: PropTypes.string,
+  onClick: PropTypes.func,
+  padding: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
+  shadow: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
+  tabIndex: PropTypes.number,
+};
+
+Click.defaultProps = {
+  align: 'center',
+  background: undefined,
+  disabled: false,
+  flow: 'column',
+  gap: 1,
+  hoverShadow: true,
+  inline: true,
+  justifyContent: 'center',
+  justifyItems: 'center',
+  onClick: () => {},
+  padding: '1/2',
+  shadow: 0,
+  tabIndex: 0,
+};

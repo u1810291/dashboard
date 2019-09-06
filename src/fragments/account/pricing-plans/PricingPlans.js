@@ -1,5 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+
 import { Items, Card, Click, Text, H2 } from 'components';
 
 export default function PricingPlans({
@@ -13,7 +15,7 @@ export default function PricingPlans({
   const hasBorder = highlight || current;
 
   return (
-    <Card gap={4} background="white" border={hasBorder ? 'blue' : 'transparent' } style={{'min-width':'225px'}}>
+    <Card gap={4} background="white" border={hasBorder ? 'blue' : 'transparent'} style={{ minWidth: '225px' }}>
       <Items flow="row" gap={2}>
         <H2>
           {name}
@@ -33,7 +35,8 @@ export default function PricingPlans({
       <Items justifyItems="center" flow="row" gap={1}>
         <section>
           <Text size={4} weight={4}>
-            ${Math.floor(subscriptionPrice / 100)}
+            $
+            {Math.floor(subscriptionPrice / 100)}
           </Text>
           <Text size={4}>
             <FormattedMessage id="PricingPlans.pricePerMonth" />
@@ -41,7 +44,7 @@ export default function PricingPlans({
         </section>
         <Text weight={1} color="secondary" align="center">
           <FormattedMessage
-            id={'PricingPlans.limitationsNotice'}
+            id="PricingPlans.limitationsNotice"
             values={{ amount: includedVerifications }}
           />
         </Text>
@@ -50,7 +53,7 @@ export default function PricingPlans({
         <Items gap={0} flow="row" justifyContent="center">
           <Text uppercase color="active" lineHeight={2.5}>
             <FormattedMessage
-              id={'PricingPlans.currentPlan'}
+              id="PricingPlans.currentPlan"
             />
           </Text>
         </Items>
@@ -59,11 +62,25 @@ export default function PricingPlans({
         <Click background="active" onClick={onChoosePlan}>
           <Text uppercase>
             <FormattedMessage
-              id={'PricingPlans.start'}
+              id="PricingPlans.start"
             />
           </Text>
         </Click>
       )}
     </Card>
-  )
+  );
 }
+
+PricingPlans.propTypes = {
+  current: PropTypes.bool,
+  highlight: PropTypes.bool,
+  includedVerifications: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  onChoosePlan: PropTypes.func.isRequired,
+  subscriptionPrice: PropTypes.number.isRequired,
+};
+
+PricingPlans.defaultProps = {
+  current: false,
+  highlight: false,
+};

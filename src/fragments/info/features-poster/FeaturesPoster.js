@@ -1,9 +1,9 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import Card from 'components/card'
-import Items from 'components/items'
-import Click from 'components/click'
-import { ReactComponent as Picture } from './picture.svg'
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import Card from 'components/card';
+import Items from 'components/items';
+import Click from 'components/click';
+import { ReactComponent as Picture } from './picture.svg';
 
 export default function FeaturesPoster() {
   return (
@@ -26,5 +26,5 @@ export default function FeaturesPoster() {
         </Click>
       </section>
     </Card>
-  )
+  );
 }

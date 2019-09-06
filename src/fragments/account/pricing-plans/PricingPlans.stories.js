@@ -1,9 +1,9 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
-import PricingPlans from '.'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+import PricingPlans from '.';
 
-const stories = storiesOf('fragments/account/PricingPlans', module)
+const stories = storiesOf('fragments/account/PricingPlans', module);
 
 stories.add('Default', () => (
   <PricingPlans
@@ -12,7 +12,7 @@ stories.add('Default', () => (
     amount="200"
     onChoosePlan={action('Start plan')}
   />
-))
+));
 
 stories.add('Highlight', () => (
   <PricingPlans
@@ -22,7 +22,7 @@ stories.add('Highlight', () => (
     highlight
     onChoosePlan={action('Start plan')}
   />
-))
+));
 
 stories.add('Current', () => (
   <PricingPlans
@@ -32,4 +32,4 @@ stories.add('Current', () => (
     current
     onChoosePlan={action('Start plan')}
   />
-))
+));

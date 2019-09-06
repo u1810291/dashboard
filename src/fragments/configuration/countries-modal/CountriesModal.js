@@ -1,21 +1,24 @@
-import React, { useState, useEffect } from 'react'
-import { FormattedMessage } from 'react-intl'
-import Button from 'components/button'
-import Items from 'components/items'
-import CSS from './CountriesModal.module.scss'
-import { Modal } from 'components/modal'
-import MultiSelect from 'components/multi-select'
+import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import { FormattedMessage } from 'react-intl';
+
+import Button from 'components/button';
+import Items from 'components/items';
+import Modal from 'components/modal';
+import MultiSelect from 'components/multi-select';
+
+import CSS from './CountriesModal.module.scss';
 
 export default function CountriesModal({
   supportedCountries,
   countries,
-  onSubmit
+  onSubmit,
 }) {
-  const [value, setValue] = useState(supportedCountries)
+  const [value, setValue] = useState(supportedCountries);
 
   useEffect(() => {
-    setValue(supportedCountries)
-  }, [supportedCountries])
+    setValue(supportedCountries);
+  }, [supportedCountries]);
 
   return (
     <Modal className={CSS.countriesModal}>
@@ -30,7 +33,9 @@ export default function CountriesModal({
           <MultiSelect
             value={value}
             options={countries}
-            onChange={val => setValue(val)}
+            onChange={(val) => setValue(val)}
+            selectClassName={() => {}}
+            valuesClassName=""
           />
         </Items>
       </main>
@@ -44,5 +49,11 @@ export default function CountriesModal({
         </Button>
       </footer>
     </Modal>
-  )
+  );
 }
+
+CountriesModal.propTypes = {
+  countries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  supportedCountries: PropTypes.arrayOf(PropTypes.string).isRequired,
+};

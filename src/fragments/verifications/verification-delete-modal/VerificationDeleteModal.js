@@ -1,9 +1,11 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { Modal } from 'components/modal'
-import Button from 'components/button'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
-export default function({ onDelete, onCancel }) {
+import Modal from 'components/modal';
+import Button from 'components/button';
+
+export default function VerificationDeleteModal({ onDelete }) {
   return (
     <Modal wide>
       <header>
@@ -18,5 +20,9 @@ export default function({ onDelete, onCancel }) {
         </Button>
       </footer>
     </Modal>
-  )
+  );
 }
+
+VerificationDeleteModal.propTypes = {
+  onDelete: PropTypes.func.isRequired,
+};

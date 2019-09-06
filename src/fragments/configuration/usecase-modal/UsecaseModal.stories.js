@@ -1,7 +1,7 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import UsecaseModal from '.'
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import UsecaseModal from '.';
 
-const stories = storiesOf('fragments/configuration/UsecaseModal', module)
+const stories = storiesOf('fragments/configuration/UsecaseModal', module);
 
-stories.add('Default', () => (<UsecaseModal message="hello" />))
+stories.add('Default', () => (<UsecaseModal message="hello" />));

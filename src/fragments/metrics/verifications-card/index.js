@@ -1,1 +1,1 @@
-export { default } from './VerificationsCard'
+export { default } from './VerificationsCard';
