@@ -49,24 +49,25 @@ export default function PricingPlans({
           />
         </Text>
       </Items>
-      {current && (
-        <Items gap={0} flow="row" justifyContent="center">
-          <Text uppercase color="active" lineHeight={2.5}>
-            <FormattedMessage
-              id="PricingPlans.currentPlan"
-            />
-          </Text>
-        </Items>
-      )}
-      {!current && (
-        <Click background="active" onClick={onChoosePlan}>
-          <Text uppercase>
-            <FormattedMessage
-              id="PricingPlans.start"
-            />
-          </Text>
-        </Click>
-      )}
+      {current
+        ? (
+          <Items gap={0} flow="row" justifyContent="center">
+            <Text uppercase color="active" lineHeight={2.5}>
+              <FormattedMessage
+                id="PricingPlans.currentPlan"
+              />
+            </Text>
+          </Items>
+        )
+        : (
+          <Click background="active" onClick={onChoosePlan}>
+            <Text uppercase>
+              <FormattedMessage
+                id="PricingPlans.start"
+              />
+            </Text>
+          </Click>
+        )}
     </Card>
   );
 }

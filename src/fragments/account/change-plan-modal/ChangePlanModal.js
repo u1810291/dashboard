@@ -52,7 +52,7 @@ function ChangePlanModal({
           <Text padding={2}>
             <FormattedHTMLMessage
               id="CardModal.limitation"
-              values={{ extraPrice, amount: includedVerifications }}
+              values={{ extraPrice: (extraPrice / 100).toFixed(2), amount: includedVerifications }}
             />
           </Text>
         </Items>
