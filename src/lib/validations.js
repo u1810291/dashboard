@@ -1,26 +1,23 @@
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+
 export function required(value) {
   if (!value) {
-    return 'validations.required';
-  } else {
-    return undefined;
+    return <FormattedMessage id="validations.required" />;
   }
 }
 
 export function cleanText(value) {
   const CLEAN_TEXT = /^[^`~!@#$%^&*()+=[{\]}|\\'<,.>?";:]+$/;
   if (!CLEAN_TEXT.test(value)) {
-    return 'validations.cleanText';
-  } else {
-    return undefined;
+    return <FormattedMessage id="validations.cleanText" />;
   }
 }
 
 export function email(value) {
   const EMAIL = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   if (!EMAIL.test(value)) {
-    return 'validations.email';
-  } else {
-    return undefined;
+    return <FormattedMessage id="validations.email" />;
   }
 }
 

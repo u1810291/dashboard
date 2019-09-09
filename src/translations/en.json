@@ -54,9 +54,11 @@
   "passwordReset.form.labels.confirm": "Confirm password",
   "passwordReset.form.placeholders.confirm": "Confirm password",
   "passwordReset.action": "Reset password",
-  "signin.title": "Welcome back!",
-  "signin.subtitle": "No account yet?",
-  "signin.subtitle.link": "Sign up for free",
+  
+  "signin.title": "Sign In",
+  "signin.subtitle": "Need Mati account?",
+  "signin.subtitle.link": "Sign Up now.",
+  
   "signin.action": "Login",
   "signin.form.labels.email": "Email",
   "signin.form.labels.password": "Password",
