@@ -5,6 +5,7 @@ export function required(value) {
   if (!value) {
     return <FormattedMessage id="validations.required" />;
   }
+  return null;
 }
 
 export function cleanText(value) {
@@ -12,6 +13,7 @@ export function cleanText(value) {
   if (!CLEAN_TEXT.test(value)) {
     return <FormattedMessage id="validations.cleanText" />;
   }
+  return null;
 }
 
 export function email(value) {
@@ -19,6 +21,7 @@ export function email(value) {
   if (!EMAIL.test(value)) {
     return <FormattedMessage id="validations.email" />;
   }
+  return null;
 }
 
 export function password(value, message, field) {

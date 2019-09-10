@@ -13,6 +13,16 @@ export const hubspotEvents = {
   unlockIntegration: 'entered_cc_to_unlock_integration',
 };
 
+function submitFormApiRequest(formId, formData = {}) {
+  const fields = [];
+  // eslint-disable-next-line
+  for (let key in formData) {
+    fields.push({ name: key, value: formData[key] });
+  }
+  const apiUrl = `https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`;
+  httpClient.post(apiUrl, formData);
+}
+
 export function createContact(rawData) {
   const { email, firstName, lastName } = rawData;
   submitFormApiRequest(signUpFormId, {
@@ -26,19 +36,11 @@ export function submitAdditionalQuestions(rawData) {
 }
 
 export function trackEvent(eventName, value) {
+  // eslint-disable-next-line no-underscore-dangle
   if (!window._hsq) {
     console.warn('Hubspot was not initialized');
     return;
   }
+  // eslint-disable-next-line no-underscore-dangle
   window._hsq.push('trackEvent', { id: eventName, value });
-}
-
-function submitFormApiRequest(formId, formData = {}) {
-  const fields = [];
-  // eslint-disable-next-line
-  for (let key in formData) {
-    fields.push({ name: key, value: formData[key] });
-  }
-  const apiUrl = `https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`;
-  httpClient.post(apiUrl, formData);
 }

@@ -1,84 +1,84 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
-import { AppBar, Toolbar, Container } from '@material-ui/core'
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { AppBar, Toolbar, Container } from '@material-ui/core';
 
-import { ReactComponent as MatiLogo } from 'assets/mati-logo-v2.svg'
-import { ThemeProvider } from '@material-ui/styles'
-import { createMuiTheme, makeStyles } from '@material-ui/core/styles'
+import { ReactComponent as MatiLogo } from 'assets/mati-logo-v2.svg';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
     backgroundColor: '#fff',
-    height: '100%'
+    height: '100%',
   },
   matilogo: {
     width: 70,
-    height: 24
-  }
-}))
+    height: 24,
+  },
+}));
 
 const theme = createMuiTheme({
   typography: {
     fontSize: 16,
-    htmlFontSize: 16
+    htmlFontSize: 16,
   },
   palette: {
     primary: {
-      main: '#294aff'
+      main: '#294aff',
     },
-    tonalOffset: 0.05
+    tonalOffset: 0.05,
   },
   props: {
     MuiTextField: {
       variant: 'outlined',
-      fullWidth: true
-    }
+      fullWidth: true,
+    },
   },
   overrides: {
     MuiInputBase: {
       root: {
-        fontSize: '1.2rem'
-      }
+        fontSize: '1.2rem',
+      },
     },
     MuiAppBar: {
       root: {
         backgroundColor: '#fff',
         borderBottom: '1px solid #f0f0f0',
-        marginBottom: 50
-      }
+        marginBottom: 50,
+      },
     },
     MuiToolbar: {
       root: {
         height: 50,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center'
-      }
+        justifyContent: 'center',
+      },
     },
     MuiButton: {
       root: {
         fontSize: 'inherit',
-        textTransform: 'none'
+        textTransform: 'none',
       },
       sizeLarge: {
-        padding: '16px 24px'
+        padding: '16px 24px',
       },
       contained: {
         boxShadow: 0,
         '&$focusVisible': {
-          boxShadow: 0
+          boxShadow: 0,
         },
         '&:active': {
-          boxShadow: 0
-        }
-      }
-    }
-  }
-})
+          boxShadow: 0,
+        },
+      },
+    },
+  },
+});
 
 const AuthLayout = ({ children }) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <div className={classes.root}>
@@ -94,7 +94,7 @@ const AuthLayout = ({ children }) => {
         <Container maxWidth="xs">{children}</Container>
       </ThemeProvider>
     </div>
-  )
-}
+  );
+};
 
-export default AuthLayout
+export default AuthLayout;

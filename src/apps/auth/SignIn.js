@@ -1,40 +1,38 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import pickBy from 'lodash/pickBy'
-import { Grid, Button, Typography } from '@material-ui/core'
-import { useIntl } from 'react-intl'
-import { Formik, Field, Form } from 'formik'
-import { TextField } from 'formik-material-ui'
-import { signIn } from 'state/auth'
-import { useDispatch } from 'react-redux'
-import { email, required } from 'lib/validations'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import pickBy from 'lodash/pickBy';
+import { Grid, Button, Typography } from '@material-ui/core';
+import { useIntl } from 'react-intl';
+import { Formik, Field, Form } from 'formik';
+import { TextField } from 'formik-material-ui';
+import { signIn } from 'state/auth';
+import { useDispatch } from 'react-redux';
+import { email, required } from 'lib/validations';
 
-const validateForm = values => {
-  return pickBy(
-    {
-      email: required(values.email) || email(values.email),
-      password: required(values.password)
-    },
-    v => v
-  )
-}
+const validateForm = (values) => pickBy(
+  {
+    email: required(values.email) || email(values.email),
+    password: required(values.password),
+  },
+  (v) => v,
+);
 
 const initialValues = {
   email: '',
-  passwords: ''
-}
+  passwords: '',
+};
 
 export default function SignIn() {
-  const intl = useIntl()
-  const dispatch = useDispatch()
+  const intl = useIntl();
+  const dispatch = useDispatch();
 
   async function handleSubmit(data, { setSubmitting, setStatus }) {
-    setStatus({})
+    setStatus({});
     try {
-      await dispatch(signIn(data))
-      window.location = '/'
+      await dispatch(signIn(data));
+      window.location = '/';
     } catch (error) {
-      setSubmitting(false)
+      setSubmitting(false);
     }
   }
 
@@ -49,7 +47,8 @@ export default function SignIn() {
 
         <Grid item>
           <Typography color="textSecondary" display="inline">
-            {intl.formatMessage({ id: 'signin.subtitle' })}{' '}
+            {intl.formatMessage({ id: 'signin.subtitle' })}
+            {' '}
           </Typography>
           <Typography display="inline">
             <Link to="/auth/signup">
@@ -74,7 +73,7 @@ export default function SignIn() {
                       name="email"
                       type="email"
                       label={intl.formatMessage({
-                        id: 'signin.form.labels.email'
+                        id: 'signin.form.labels.email',
                       })}
                       component={TextField}
                     />
@@ -85,7 +84,7 @@ export default function SignIn() {
                       name="password"
                       type="password"
                       label={intl.formatMessage({
-                        id: 'signin.form.labels.password'
+                        id: 'signin.form.labels.password',
                       })}
                       component={TextField}
                     />
@@ -94,7 +93,7 @@ export default function SignIn() {
 
                 <Grid item>
                   <Button
-                    fullWidth={true}
+                    fullWidth
                     variant="contained"
                     size="large"
                     color="primary"
@@ -117,5 +116,5 @@ export default function SignIn() {
         </Typography>
       </Grid>
     </Grid>
-  )
+  );
 }

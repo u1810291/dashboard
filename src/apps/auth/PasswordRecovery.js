@@ -1,46 +1,46 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Grid, Button, Typography } from '@material-ui/core'
-import { useIntl } from 'react-intl'
-import { Formik, Field, Form } from 'formik'
-import { TextField } from 'formik-material-ui'
-import { passwordRecovery } from 'state/auth'
-import { useDispatch } from 'react-redux'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Grid, Button, Typography } from '@material-ui/core';
+import { useIntl } from 'react-intl';
+import { Formik, Field, Form } from 'formik';
+import { TextField } from 'formik-material-ui';
+import { passwordRecovery } from 'state/auth';
+import { useDispatch } from 'react-redux';
 
-const validateForm = values => {
-  const errors = {}
+const validateForm = (values) => {
+  const errors = {};
   if (!values.email) {
-    errors.email = 'Required'
+    errors.email = 'Required';
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address'
+    errors.email = 'Invalid email address';
   }
-  return errors
-}
+  return errors;
+};
 
 async function handleSubmit(
   history,
   dispatch,
   { email },
-  { setSubmitting, setStatus }
+  { setSubmitting, setStatus },
 ) {
-  setStatus({})
+  setStatus({});
   try {
-    await dispatch(passwordRecovery({ email }))
-    setSubmitting(false)
-    setStatus(true)
+    await dispatch(passwordRecovery({ email }));
+    setSubmitting(false);
+    setStatus(true);
   } catch (error) {
-    setSubmitting(false)
-    setStatus({ email: error.response.data.message })
+    setSubmitting(false);
+    setStatus({ email: error.response.data.message });
   }
 }
 
 const initialValues = {
-  email: ''
-}
+  email: '',
+};
 
 export default function SignInNew({ history }) {
-  const intl = useIntl()
-  const dispatch = useDispatch()
+  const intl = useIntl();
+  const dispatch = useDispatch();
 
   return (
     <Grid container direction="column" spacing={6}>
@@ -61,9 +61,7 @@ export default function SignInNew({ history }) {
         <Formik
           initialValues={initialValues}
           validate={validateForm}
-          onSubmit={async (values, props) =>
-            await handleSubmit(history, dispatch, values, props)
-          }
+          onSubmit={(values, props) => handleSubmit(history, dispatch, values, props)}
         >
           {({ isSubmitting, submitForm }) => (
             <Form>
@@ -80,7 +78,7 @@ export default function SignInNew({ history }) {
 
                 <Grid item>
                   <Button
-                    fullWidth={true}
+                    fullWidth
                     variant="contained"
                     size="large"
                     color="primary"
@@ -103,5 +101,5 @@ export default function SignInNew({ history }) {
         </Typography>
       </Grid>
     </Grid>
-  )
+  );
 }

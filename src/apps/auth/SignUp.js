@@ -1,64 +1,62 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import pickBy from 'lodash/pickBy'
-import pick from 'lodash/pick'
-import get from 'lodash/get'
-import { Grid, Button, Typography } from '@material-ui/core'
-import { useIntl } from 'react-intl'
-import { Formik, Field, Form } from 'formik'
-import { TextField } from 'formik-material-ui'
-import { signUp } from 'state/auth'
-import { getIntegrationCode, saveConfiguration } from 'state/merchant'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import pickBy from 'lodash/pickBy';
+import pick from 'lodash/pick';
+import get from 'lodash/get';
+import { Grid, Button, Typography } from '@material-ui/core';
+import { useIntl } from 'react-intl';
+import { Formik, Field, Form } from 'formik';
+import { TextField } from 'formik-material-ui';
+import { signUp } from 'state/auth';
+import { getIntegrationCode, saveConfiguration } from 'state/merchant';
 
-import { cleanText, email, required } from 'lib/validations'
-import { useDispatch } from 'react-redux'
+import { cleanText, email, required } from 'lib/validations';
+import { useDispatch } from 'react-redux';
 
-const validateForm = values => {
-  return pickBy(
-    {
-      firstName: required(values.firstName) || cleanText(values.firstName),
-      lastName: required(values.lastName) || cleanText(values.lastName),
-      email: required(values.email) || email(values.email),
-      password: required(values.password)
-    },
-    v => v
-  )
-}
+const validateForm = (values) => pickBy(
+  {
+    firstName: required(values.firstName) || cleanText(values.firstName),
+    lastName: required(values.lastName) || cleanText(values.lastName),
+    email: required(values.email) || email(values.email),
+    password: required(values.password),
+  },
+  (v) => v,
+);
 
 const initialValues = {
   firstName: '',
   lastName: '',
   email: '',
   password: '',
-  error: null
-}
+  error: null,
+};
 
 export default function SignUp() {
-  const intl = useIntl()
-  const dispatch = useDispatch()
+  const intl = useIntl();
+  const dispatch = useDispatch();
 
   async function submitData(data, { setStatus, setSubmitting }) {
-    setStatus()
+    setStatus();
     try {
       const {
-        data: { merchant, token }
+        data: { merchant, token },
       } = await dispatch(
-        signUp(pick(data, 'firstName', 'lastName', 'email', 'password'))
-      )
-      await dispatch(getIntegrationCode(token))
+        signUp(pick(data, 'firstName', 'lastName', 'email', 'password')),
+      );
+      await dispatch(getIntegrationCode(token));
       await dispatch(
         saveConfiguration(token, {
           dashboard: {
             ...merchant.dashboard,
-            usePlans: true
-          }
-        })
-      )
-      window.ga('send', 'event', 'form_submission')
-      window.location = '/'
+            usePlans: true,
+          },
+        }),
+      );
+      window.ga('send', 'event', 'form_submission');
+      window.location = '/';
     } catch (err) {
-      setSubmitting(false)
-      setStatus(get(err, 'response.data.message', err.message))
+      setSubmitting(false);
+      setStatus(get(err, 'response.data.message', err.message));
     }
   }
 
@@ -104,7 +102,7 @@ export default function SignUp() {
                         required
                         name="firstName"
                         label={intl.formatMessage({
-                          id: 'signup.form.labels.firstName'
+                          id: 'signup.form.labels.firstName',
                         })}
                         component={TextField}
                       />
@@ -114,7 +112,7 @@ export default function SignUp() {
                         required
                         name="lastName"
                         label={intl.formatMessage({
-                          id: 'signup.form.labels.lastName'
+                          id: 'signup.form.labels.lastName',
                         })}
                         component={TextField}
                       />
@@ -127,7 +125,7 @@ export default function SignUp() {
                       name="email"
                       type="email"
                       label={intl.formatMessage({
-                        id: 'signup.form.labels.email'
+                        id: 'signup.form.labels.email',
                       })}
                       component={TextField}
                     />
@@ -137,7 +135,7 @@ export default function SignUp() {
                       name="password"
                       type="password"
                       label={intl.formatMessage({
-                        id: 'signup.form.labels.password'
+                        id: 'signup.form.labels.password',
                       })}
                       component={TextField}
                     />
@@ -154,7 +152,7 @@ export default function SignUp() {
                   )}
                   <Grid item>
                     <Button
-                      fullWidth={true}
+                      fullWidth
                       variant="contained"
                       size="large"
                       color="primary"
@@ -173,12 +171,13 @@ export default function SignUp() {
       </Grid>
       <Grid item>
         <Typography align="center">
-          {intl.formatMessage({ id: 'signup.haveAccount' })}{' '}
+          {intl.formatMessage({ id: 'signup.haveAccount' })}
+          {' '}
           <Link to="/auth/signin">
             {intl.formatMessage({ id: 'signup.haveAccount.link' })}
           </Link>
         </Typography>
       </Grid>
     </Grid>
-  )
+  );
 }

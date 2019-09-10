@@ -18,11 +18,11 @@ pipeline {
         sh "yarn eslint"
       }
     }
-    stage('Test') {
-      steps {
-        sh "yarn test:ci"
-      }
-    }
+//    stage('Test') {
+//      steps {
+//        sh "yarn test:ci"
+//      }
+//    }
     stage('Deploy to staging') {
       when {
         branch 'staging'
