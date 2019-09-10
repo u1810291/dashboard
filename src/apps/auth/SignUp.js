@@ -49,6 +49,7 @@ export default function SignUp() {
           dashboard: {
             ...merchant.dashboard,
             usePlans: true,
+            shouldPassOnboarding: true,
           },
         }),
       );
