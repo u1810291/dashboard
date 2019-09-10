@@ -2,7 +2,12 @@ import { createReducer, createTypesSequence } from 'state/utils';
 import client from 'lib/client';
 import { updateIntercom } from 'lib/intercom';
 import * as Mixpanel from 'lib/mixpanel';
-import GTM from 'lib/gtm';
+import { pushEvent } from 'lib/gtm';
+import {
+  createContact,
+  trackEvent as hubspotTrackEvent,
+  hubspotEvents,
+} from 'lib/hubspot';
 
 export const types = {
   ...createTypesSequence('AUTH_SIGNIN'),
@@ -21,6 +26,8 @@ export function signIn(credentials) {
       .then((payload) => {
         dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload });
         Mixpanel.addUser({ ...payload.data.merchant, email: credentials.email });
+        createContact({ email: credentials.email });
+        hubspotTrackEvent(hubspotEvents.signIn);
         return payload;
       })
       .catch((error) => {
@@ -30,18 +37,25 @@ export function signIn(credentials) {
   };
 }
 
-export function signUp(credentials) {
-  return function handle(dispatch) {
+export function signUp(userData) {
+  const { email, password } = userData;
+  return (dispatch) => {
     dispatch({ type: types.AUTH_SIGNUP_REQUEST });
     return client.auth
-      .signup(credentials)
+      .signup({ email, password })
       .then((payload) => {
         dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload });
         updateIntercom(payload.data.user);
-        Mixpanel.addUser({ ...payload.data.merchant, email: credentials.email });
+        Mixpanel.addUser({ ...payload.data.merchant, email });
         Mixpanel.trackEvent('dash_signup');
-        GTM.pushEvent({ event: 'Sign Up Success' });
+        createContact(userData);
+        pushEvent({ event: 'Sign Up Success' });
+        hubspotTrackEvent(hubspotEvents.signUp);
         return payload;
+      })
+      .catch((error) => {
+        dispatch({ type: types.AUTH_SIGNUP_FAILURE });
+        throw error;
       })
       .catch((error) => {
         dispatch({ type: types.AUTH_SIGNUP_FAILURE });
