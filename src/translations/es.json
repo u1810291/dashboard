@@ -766,7 +766,7 @@
   "flow.logoStep.button.title": "Añadir logotipo",
   "flow.logoStep.button.error": "No se puede cargar el archivo",
   "Product.configuration.logo": "Añadir logotipo de la empresa",
-  "AlertBanner.text": "Para desbloquear todas las funciones de Mati y aumentar el volumen de su verificación, actualice su plan",
+  "AlertBanner.text": "Para desbloquear todas las funciones de Mati y aumentar su volumen de verificación, actualice su plan",
   "AlertBanner.buttonText": "Actualizar a un mejor plan",
   "fragments.integration.integration-code.oldCode": "(Mostrar código antiguo)",
   "fragments.integration.integration-code.newCode": "(Mostrar nuevo código)",
