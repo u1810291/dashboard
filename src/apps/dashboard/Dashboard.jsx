@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect, useSelector } from 'react-redux';
 import { flowRight } from 'lodash/fp';
+import { get } from 'lodash';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { injectIntl } from 'react-intl';
@@ -20,6 +21,7 @@ import {
   getIntegrationCode,
 } from 'state/merchant';
 import MenuBar from './MenuBar';
+import Questions from './questions';
 
 class Dashboard extends React.Component {
   static propTypes = {
@@ -29,6 +31,7 @@ class Dashboard extends React.Component {
     isOwnerIsLoading: PropTypes.bool.isRequired,
     signOut: PropTypes.func.isRequired,
     token: PropTypes.string.isRequired,
+    shouldPassOnboarding: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -65,8 +68,13 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { isOwnerIsLoading } = this.props;
+    const { isOwnerIsLoading, shouldPassOnboarding } = this.props;
+
     if (isOwnerIsLoading) return null;
+    if (shouldPassOnboarding) {
+      return <Questions />;
+    }
+
     return (
       <>
         <Helmet>
@@ -106,6 +114,7 @@ export default flowRight(
           (col) => col.user === state.auth.user.id && col.role === 2,
         ),
       isOwnerIsLoading: !state.merchant.collaborators,
+      shouldPassOnboarding: get(state.merchant.configurations, 'dashboard.shouldPassOnboarding', false),
     }),
     { signOut, getMerchant, saveConfiguration, getIntegrationCode },
   ),

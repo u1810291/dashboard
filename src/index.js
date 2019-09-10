@@ -17,8 +17,7 @@ import 'clipboard-polyfill';
 import 'core-js';
 import * as Sentry from '@sentry/browser';
 
-import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
@@ -28,10 +27,23 @@ if (process.env.REACT_APP_SENTRY_DSN) {
 }
 
 const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#3757ff',
+    },
+  },
   overrides: {
     MuiToolbar: {
       root: {
         backgroundColor: '#3757FF',
+      },
+    },
+    MuiInputBase: {
+      text: {
+        color: 'red',
+      },
+      root: {
+        color: 'blue',
       },
     },
     MuiMenuItem: {
@@ -41,42 +53,33 @@ const theme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: [
-      'Lato',
-      'Helvetica Neue',
-      'sans-serif',
-    ],
-  },
-  palette: {
-    type: 'light',
+    fontFamily: ['Lato', 'Helvetica Neue', 'sans-serif'],
   },
 });
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <>
-      <StripeProvider apiKey={process.env.REACT_APP_STRIPE_PUBLIC_KEY}>
-        <StripeElements>
-          <StoreProvider>
-            <IntlProvider>
-              <BrowserRouter>
-                <ScrollToTop>
-                  <Root />
-                  <NotificationsContainer
-                    closeButton={false}
-                    hideProgressBar
-                    pauseOnHover={false}
-                    draggable={false}
-                    autoClose={5000}
-                  />
-                  <OverlayContainer />
-                </ScrollToTop>
-              </BrowserRouter>
-            </IntlProvider>
-          </StoreProvider>
-        </StripeElements>
-      </StripeProvider>
-    </>
-  </ThemeProvider>,
+  <MuiThemeProvider theme={theme}>
+    <StripeProvider apiKey={process.env.REACT_APP_STRIPE_PUBLIC_KEY}>
+      <StripeElements>
+        <StoreProvider>
+          <IntlProvider>
+            <BrowserRouter>
+              <ScrollToTop>
+                <Root />
+                <NotificationsContainer
+                  closeButton={false}
+                  hideProgressBar
+                  pauseOnHover={false}
+                  draggable={false}
+                  autoClose={5000}
+                />
+                <OverlayContainer />
+              </ScrollToTop>
+            </BrowserRouter>
+          </IntlProvider>
+        </StoreProvider>
+      </StripeElements>
+    </StripeProvider>
+  </MuiThemeProvider>,
   document.getElementById('root'),
 );
