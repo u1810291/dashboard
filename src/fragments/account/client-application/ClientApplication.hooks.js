@@ -8,6 +8,7 @@ import { CardDeclinedModal } from 'fragments';
 import { closeOverlay, createOverlay } from 'components/overlay';
 import { notification } from 'components/notification';
 import { trackEvent } from 'lib/mixpanel';
+import { trackEvent as hubspotTrackEvent } from 'lib/hubspot';
 
 import NewWebhookModal from '../new-webhook-modal/NewWebhookModal';
 import CardModal from '../card-modal/CardModal';
@@ -42,6 +43,7 @@ export default ({ application, deleteWebhook, subscribeToWebhook }) => {
       await dispatch(addMerchantProvider(matiToken, token.id));
       closeOverlay();
       trackEvent('merchant_entered_cc_unlock_keys', { success: true });
+      hubspotTrackEvent('entered_cc_to_unlock_integration');
     } catch (error) {
       notification.error(<FormattedMessage
         id="fragments.integration.integration-code.unlock-application.error"

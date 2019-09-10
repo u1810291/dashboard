@@ -39,8 +39,7 @@ export function signIn(credentials) {
 
 export function signUp(userData) {
   const { email, password } = userData;
-  // eslint-disable-next-line func-names
-  return function (dispatch) {
+  return (dispatch) => {
     dispatch({ type: types.AUTH_SIGNUP_REQUEST });
     return client.auth
       .signup({ email, password })

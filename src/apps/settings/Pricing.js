@@ -18,6 +18,11 @@ import {
 } from 'fragments';
 import { showIntercom } from 'lib/intercom';
 import { trackEvent } from 'lib/mixpanel';
+import {
+  trackEvent as hubspotTrackEvent,
+  hubspotEvents,
+} from 'lib/hubspot';
+
 import { setMerchantPlan, addMerchantProvider } from 'state/merchant';
 import { getMerchantPlan, getPlans } from 'state/plans';
 
@@ -141,9 +146,16 @@ export default function Pricing() {
   };
 
   const handlePlanClick = (plan) => {
+    const subscriptionPrice = Math.floor(plan.subscriptionPrice / 100);
+
     trackEvent('merchant_clicked_select_plan', {
       ...(pick(plan, ['_id'])),
-      subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
+      subscriptionPrice,
+    });
+
+    hubspotTrackEvent(hubspotEvents.startPlan, {
+      plan_name: plan.name,
+      plan_price: subscriptionPrice,
     });
 
     if (isPlanExist || merchantBilling.length) {
@@ -175,10 +187,13 @@ export default function Pricing() {
               <Items flow="none" templateColumns={`repeat(${smallCardsInRowCount}, 1fr)`} gap={2}>
                 {smallCardsContent.map((plan) => (
                   <PricingPlans
+                    name={plan.name}
                     key={plan._id}
+                    subscriptionPrice={plan.subscriptionPrice}
+                    highlight={plan.highlight}
+                    includedVerifications={plan.includedVerifications}
                     onChoosePlan={() => handlePlanClick(plan)}
                     current={isPlanExist && plan._id === isPlanExist}
-                    {...plan} // eslint-disable-line react/jsx-props-no-spreading
                   />
                 ))}
               </Items>

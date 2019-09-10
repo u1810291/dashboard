@@ -13,7 +13,7 @@ module.exports = {
     'no-else-return': 0,
     'no-param-reassign': 0,
     'no-shadow': 'warn',
-    'no-underscore-dangle': ['error', { allow: ['_embedded', '_id'] }],
+    'no-underscore-dangle': ['error', { allow: ['_embedded', '_id', '_hsq'] }],
     'object-curly-newline': ['error', { multiline: true, consistent: true }],
     'react/destructuring-assignment': [2, 'always', { 'ignoreClassFields': true }],
     // TODO: Disable this option and fix errors after

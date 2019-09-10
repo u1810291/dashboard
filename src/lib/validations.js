@@ -29,7 +29,6 @@ export function password(value, message, field) {
 
   if (!PASSWORD.test(value[field])) {
     return message;
-  } else {
-    return undefined;
   }
+  return null;
 }
