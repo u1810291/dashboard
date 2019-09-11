@@ -38,11 +38,11 @@ export function signIn(credentials) {
 }
 
 export function signUp(userData) {
-  const { email, password } = userData;
+  const { email, password, firstName, lastName } = userData;
   return (dispatch) => {
     dispatch({ type: types.AUTH_SIGNUP_REQUEST });
     return client.auth
-      .signup({ email, password })
+      .signup({ email, password, firstName, lastName })
       .then((payload) => {
         dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload });
         updateIntercom(payload.data.user);
