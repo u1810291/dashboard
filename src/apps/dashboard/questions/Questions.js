@@ -48,19 +48,21 @@ const QuestionsContent = () => {
       event.preventDefault();
     }
     try {
-      await dispatch(saveConfiguration(token, {
-        dashboard: {
-          ...omit(dashboard, 'shouldPassOnboarding'),
-          info: inputs,
-        },
-      }));
+      await dispatch(
+        saveConfiguration(token, {
+          dashboard: {
+            ...omit(dashboard, 'shouldPassOnboarding'),
+            info: inputs,
+          },
+        }),
+      );
     } catch (err) {
       notification.info('Error saving configuration');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id="signup_form">
       <Grid container direction="column" spacing={3} className={classes.grid}>
         <Grid item>
           <MatiLogo />
@@ -99,7 +101,11 @@ const QuestionsContent = () => {
 
         <Grid item container direction="row" spacing={2}>
           {intl.formatMessage({ id: 'questions.when-start.title' })}
-          <RadioGroup aria-label="when" name="when" className={classes.radioGroup}>
+          <RadioGroup
+            aria-label="when"
+            name="when"
+            className={classes.radioGroup}
+          >
             <FormControlLabel
               value="now"
               control={<Radio />}
@@ -129,7 +135,11 @@ const QuestionsContent = () => {
 
         <Grid item container direction="row" spacing={2}>
           {intl.formatMessage({ id: 'questions.how-many.title' })}
-          <RadioGroup aria-label="howmany" name="howmany" className={classes.radioGroup}>
+          <RadioGroup
+            aria-label="howmany"
+            name="howmany"
+            className={classes.radioGroup}
+          >
             <FormControlLabel
               value="less100"
               control={<Radio />}
@@ -158,11 +168,7 @@ const QuestionsContent = () => {
         </Grid>
 
         <Grid item>
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-          >
+          <Button type="submit" color="primary" variant="contained">
             {intl.formatMessage({ id: 'questions.how-many.submit' })}
           </Button>
         </Grid>
@@ -184,6 +190,5 @@ const Questions = () => {
     </ThemeProvider>
   );
 };
-
 
 export default Questions;

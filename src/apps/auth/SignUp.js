@@ -54,7 +54,7 @@ export default function SignUp() {
         }),
       );
       window.ga('send', 'event', 'form_submission');
-      window.location = '/';
+      window.location = '/?gclid=sign_up';
     } catch (err) {
       setSubmitting(false);
       setStatus(get(err, 'response.data.message', err.message));
