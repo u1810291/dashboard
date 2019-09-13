@@ -42,7 +42,9 @@ function Click({
       justifyContent={justifyContent}
       justifyItems={justifyItems}
       tabIndex={tabIndex}
-      onClick={disabled ? () => {} : (event) => handleClick(onClick, history, event)}
+      onClick={
+        disabled ? () => {} : (event) => handleClick(onClick, history, event)
+      }
       padding={padding}
       background={disabled ? 'disabled' : background}
       flow={flow}
@@ -53,7 +55,6 @@ function Click({
       role="button"
       css={css`
         font: inherit;
-        border: 0;
         cursor: pointer;
         text-decoration: none;
         &:hover,
@@ -89,14 +90,8 @@ Click.propTypes = {
   justifyContent: PropTypes.string,
   justifyItems: PropTypes.string,
   onClick: PropTypes.func,
-  padding: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
-  shadow: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
+  padding: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  shadow: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   tabIndex: PropTypes.number,
 };
 

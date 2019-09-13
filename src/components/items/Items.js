@@ -39,6 +39,8 @@ const Items = styled.div(
     templateRows = 'none',
     alignContent = 'normal',
     justifyItems = 'normal',
+    autoRows = 'auto',
+    autoColumns = 'auto',
     gap = 2,
   }) => css`
     display: ${inline ? 'inline-grid' : 'grid'};
@@ -50,6 +52,8 @@ const Items = styled.div(
     align-content: ${alignContent};
     justify-content: ${justifyContent};
     justify-items: ${justifyItems};
+    grid-auto-rows: ${autoRows};
+    grid-auto-columns: ${autoColumns};
   `,
 );
 

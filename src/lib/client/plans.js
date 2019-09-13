@@ -6,8 +6,8 @@ export function getPlan(token, id) {
   });
 }
 
-export function getPlans(token, page) {
-  return http.get(`api/v1/plans?sort="order"&page=${page}`, {
+export function getPlans(token) {
+  return http.get('api/v1/plans?sort=order', {
     headers: { ...getAuthHeader(token) },
   });
 }
