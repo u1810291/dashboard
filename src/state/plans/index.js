@@ -8,11 +8,12 @@ export const types = {
   ...createTypesSequence('PLANS_DELETE'),
 };
 
-export function getPlans(token, page) {
+export function getPlans(token) {
   return function handle(dispatch) {
     dispatch({ type: types.PLANS_GET_REQUEST });
 
-    return client.plans.getPlans(token, page)
+    return client.plans
+      .getPlans(token)
       .then((payload) => {
         dispatch({ type: types.PLANS_GET_SUCCESS, payload });
         return payload;
@@ -28,7 +29,8 @@ export function getMerchantPlan(id) {
   return function handle(dispatch) {
     dispatch({ type: types.CARD_GET_REQUEST });
 
-    return client.plans.getMerchantPlan(id)
+    return client.plans
+      .getMerchantPlan(id)
       .then((payload) => {
         dispatch({ type: types.CARD_GET_SUCCESS, payload });
         return payload;
@@ -44,7 +46,8 @@ export function getPlan(token, id) {
   return function handle(dispatch) {
     dispatch({ type: types.PLAN_GET_REQUEST });
 
-    return client.plans.getPlan(token, id)
+    return client.plans
+      .getPlan(token, id)
       .then((payload) => {
         dispatch({ type: types.PLAN_GET_SUCCESS, payload });
         return payload;
@@ -59,7 +62,8 @@ export function getPlan(token, id) {
 export function cancelPlan(token) {
   return function handle(dispatch) {
     dispatch({ type: types.PLANS_DELETE_REQUEST });
-    return client.plans.cancelPlans(token)
+    return client.plans
+      .cancelPlans(token)
       .then((payload) => {
         dispatch({ type: types.PLANS_DELETE_SUCCESS, payload });
         dispatch({
@@ -79,6 +83,7 @@ const initialState = {
   merchant: {
     billing: null,
   },
+  rows: [],
 };
 
 const reducer = createReducer(initialState, {

@@ -53,7 +53,6 @@ const IntlButton = () => {
     await dispatch(saveConfiguration(token,
       { dashboard: { ...dashboard, language } },
     ));
-    popupState.close();
   };
 
   const popperModifiers = {
@@ -91,7 +90,7 @@ const IntlButton = () => {
               <List>
                 { Object.entries(omit(languages, currentLang))
                   .map(([key, { label, icon }]) => (
-                    <ListItem button dense onClick={updateLanguage(key)} key={key}>
+                    <ListItem button dense onClick={() => updateLanguage(key)} key={key}>
                       <ListItemAvatar className={classes.itemAvatar}>
                         <Avatar className={classes.avatar}>
                           {icon}

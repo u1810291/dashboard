@@ -1,10 +1,21 @@
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import classNames from 'classnames';
 import CSS from './ApplicationBox.module.css';
 
-export default function ApplicationBox({ children, menu }) {
+const ApplicationBox = ({
+  children,
+  menu,
+  ...props
+}) => {
+  const { location: { pathname } } = props;
+
+  useEffect(() => {
+    window.Appcues.page();
+  }, [pathname]);
+
   return (
     <div className={CSS.box}>
       {menu}
@@ -13,7 +24,9 @@ export default function ApplicationBox({ children, menu }) {
       </div>
     </div>
   );
-}
+};
+
+export default withRouter(ApplicationBox);
 
 ApplicationBox.propTypes = {
   menu: PropTypes.node.isRequired,

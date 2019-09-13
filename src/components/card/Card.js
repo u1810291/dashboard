@@ -44,7 +44,9 @@ export default function Card({
   )};
     box-shadow: ${shadowValue(shadow)};
     transition: box-shadow 0.2s ease-in-out;
-    padding: ${typeof padding === 'string' && padding.includes('px') ? padding : paddingValue(padding)};
+    padding: ${typeof padding === 'string' && padding.includes('px')
+    ? padding
+    : paddingValue(padding)};
   `;
 
   return (
@@ -62,18 +64,9 @@ export default function Card({
 Card.propTypes = {
   background: PropTypes.string,
   border: PropTypes.string,
-  borderRadius: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
-  padding: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
-  shadow: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
+  borderRadius: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  padding: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  shadow: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 Card.defaultProps = {

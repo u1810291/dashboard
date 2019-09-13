@@ -23,8 +23,8 @@ const useSignUpForm = () => {
 
   const handleInputChange = (event) => {
     event.persist();
-    setInputs((inputs) => ({
-      ...inputs,
+    setInputs((formInputs) => ({
+      ...formInputs,
       [event.target.name]: event.target.value,
     }));
   };
