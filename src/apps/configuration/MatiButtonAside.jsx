@@ -10,9 +10,12 @@ import {
   createOverlay,
 } from 'components';
 
+import { trackEvent } from 'lib/mixpanel';
+
 import CSS from './Configuration.module.scss';
 
 function showUsecaseModal() {
+  trackEvent('merchant_clicked_videos_usecases');
   createOverlay(<UsecaseModal />);
 }
 
