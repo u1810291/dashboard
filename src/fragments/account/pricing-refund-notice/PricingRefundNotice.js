@@ -1,30 +1,15 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Card, Items, Text } from 'components';
-import Icon from './icon.svg';
+import { Card, Text } from 'components';
 
 export default function PricingRefundNotice() {
   return (
-    <Card
-      flow="column"
-      gap={4}
-      justifyContent="start"
-      padding="2/4"
-      align="center"
-      css={css`
-        margin: 0 calc(var(--mgi-spacing) * 8);
-      `}
-    >
-      <img src={Icon} alt="refund notice" />
-      <Items flow="row" gap="1">
-        <Text color="active" size={3}>
-          <FormattedMessage id="PricingRefundNotice.title" />
-        </Text>
-        <Text color="active" size={3}>
-          <FormattedMessage id="PricingRefundNotice.subtitle" />
-        </Text>
-      </Items>
+    <Card justifyContent="center" background="active-alternate">
+      <Text weight={4}>
+        <FormattedMessage id="PricingRefundNotice.title" />
+        {' '}
+        <FormattedMessage id="PricingRefundNotice.subtitle" />
+      </Text>
     </Card>
   );
 }

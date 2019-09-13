@@ -31,39 +31,36 @@ const Text = styled.span(
 export default Text;
 
 export function H1({ size = 4, weight = 4, ...props }) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
   return <Text size={size} weight={weight} as="h1" {...props} />;
 }
 
-export function H2({ size = 3, weight = 4, ...props }) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <Text size={size} weight={weight} as="h2" {...props} />;
+export function H2({ size = 4, weight = 2, ...props }) {
+  return <Text size={size} as="h2" weight={weight} {...props} />;
 }
 
 export function H3({ size = 2, weight = 4, ...props }) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
   return <Text size={size} weight={weight} as="h3" {...props} />;
 }
 
 export function Small({ size = 1.5, ...props }) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
   return <Text size={size} as="small" {...props} />;
 }
 
 export function HR({ margin = 10, width = 1, ...props }) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <hr css={css`margin: ${margin}px 0; border-width: ${width}px;`} {...props} />;
+  return (
+    <hr
+      css={css`
+        margin: ${margin}px 0;
+        border-width: ${width}px;
+      `}
+      {...props}
+    />
+  );
 }
 
 H1.propTypes = {
-  size: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
-  weight: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
+  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  weight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 H1.defaultProps = {
@@ -72,14 +69,8 @@ H1.defaultProps = {
 };
 
 H2.propTypes = {
-  size: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
-  weight: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
+  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  weight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 H2.defaultProps = {
@@ -88,14 +79,8 @@ H2.defaultProps = {
 };
 
 H3.propTypes = {
-  size: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
-  weight: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
+  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  weight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 H3.defaultProps = {
@@ -104,10 +89,7 @@ H3.defaultProps = {
 };
 
 Small.propTypes = {
-  size: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
+  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 Small.defaultProps = {
@@ -115,14 +97,8 @@ Small.defaultProps = {
 };
 
 HR.propTypes = {
-  margin: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
-  width: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
+  margin: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 HR.defaultProps = {

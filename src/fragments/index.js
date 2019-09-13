@@ -1,6 +1,7 @@
 export { default as PricingPlans } from './account/pricing-plans';
 export { default as PricingRefundNotice } from './account/pricing-refund-notice';
-export { default as PricingLargePlans } from './account/pricing-large-plans';
+export { default as CustomPlan } from './account/custom-plan';
+export { default as PlansFeatures } from './account/plans-features';
 export { default as CompaniesUsingMati } from './info/companies-using-mati';
 export { default as MatiNumbers } from './info/mati-numbers';
 export { default as Support } from './account/support';
@@ -13,4 +14,6 @@ export { default as UsecaseModal } from './configuration/usecase-modal';
 export { default as VerificationsCard } from './metrics/verifications-card';
 export { default as Chart } from './metrics/chart';
 export { default as ChartFilters } from './metrics/chart-filters';
-export { default as VerificationStatistic } from './metrics/verification-statistic';
+export {
+  default as VerificationStatistic,
+} from './metrics/verification-statistic';

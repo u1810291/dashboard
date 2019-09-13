@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Waypoint } from 'react-waypoint';
-import { pick, sortBy } from 'lodash';
+import { pick } from 'lodash';
 
 import { closeOverlay, createOverlay, Items } from 'components';
 import { notification } from 'components/notification';
@@ -12,16 +11,14 @@ import {
   ChangePlanModal,
   CompaniesUsingMati,
   MatiNumbers,
-  PricingLargePlans,
+  CustomPlan,
   PricingPlans,
   PricingRefundNotice,
+  PlansFeatures,
 } from 'fragments';
 import { showIntercom } from 'lib/intercom';
 import { trackEvent } from 'lib/mixpanel';
-import {
-  trackEvent as hubspotTrackEvent,
-  hubspotEvents,
-} from 'lib/hubspot';
+import { trackEvent as hubspotTrackEvent, hubspotEvents } from 'lib/hubspot';
 
 import { setMerchantPlan, addMerchantProvider } from 'state/merchant';
 import { getMerchantPlan, getPlans } from 'state/plans';
@@ -37,52 +34,40 @@ export default function Pricing() {
   const merchantPlan = useSelector(
     ({ merchant = {} }) => merchant.billing && merchant.billing.planDetails,
   );
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isPlanExist, setCurrentPlan] = useState(merchantPlan && merchantPlan.activatedAt);
-  const [planList, setPlanList] = useState({});
-  const [largeCardsContent, setLargeCardsContent] = useState([]);
-  const [smallCardsContent, setSmallCardsContent] = useState([]);
-  const smallCardsInRowCount = 3;
+
+  const planList = useSelector((state) => state.plans.rows.sort((a, b) => a.order - b.order),
+  );
+  const [currentPlan, setCurrentPlan] = useState(
+    merchantPlan && merchantPlan.activatedAt,
+  );
+  const regularPlans = planList.filter((plan) => !plan.isCustom);
+  const customPlans = planList.filter((plan) => plan.isCustom);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(
-      getPlans(matiToken, currentPage),
-    ).then(({ data }) => {
-      if (data && data.rows.length) {
-        setPlanList(data);
-        setCurrentPage(data.page);
-        const largeCardsPlans = [];
-        const smallCardsPlans = [];
-        smallCardsPlans.push(...sortBy(data.rows.filter((plan) => (!plan.isCustom)), ['order']));
-        if (smallCardsPlans.length % smallCardsInRowCount === 1) {
-          largeCardsPlans.push(smallCardsPlans.pop());
-        }
-        setSmallCardsContent(smallCardsPlans);
-        largeCardsPlans.push(...sortBy(data.rows.filter((plan) => (plan.isCustom)), ['order']));
-        setLargeCardsContent(largeCardsPlans);
-      }
-    });
-  }, [matiToken, currentPage, dispatch]);
+  useEffect(
+    () => {
+      dispatch(getPlans(matiToken));
+    },
+    [matiToken, dispatch],
+  );
 
-  useEffect(() => {
-    dispatch(
-      getMerchantPlan(matiToken),
-    ).then(({ data: { planDetails } }) => {
-      if (planDetails.activatedAt) {
-        setCurrentPlan(planDetails.plan);
-      }
-    });
-  }, [matiToken, dispatch]);
+  useEffect(
+    () => {
+      dispatch(getMerchantPlan(matiToken)).then(({ data: { planDetails } }) => {
+        if (planDetails.activatedAt) {
+          setCurrentPlan(planDetails.plan);
+        }
+      });
+    },
+    [matiToken, dispatch],
+  );
 
   const handlePlanChange = async (plan) => {
     try {
-      await dispatch(
-        setMerchantPlan(matiToken, plan._id),
-      );
+      await dispatch(setMerchantPlan(matiToken, plan._id));
 
       trackEvent('merchant_plan_changed', {
-        ...(pick(plan, ['_id'])),
+        ...pick(plan, ['_id']),
         subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
       });
 
@@ -91,49 +76,33 @@ export default function Pricing() {
       closeOverlay();
     } catch (e) {
       notification.error(
-        <>
-          <FormattedMessage id="Billing.notification.changeFailure" />
-        </>,
+        <FormattedMessage id="Billing.notification.changeFailure" />,
       );
-    }
-  };
-
-  const handleLoad = () => {
-    const hasMoreItems = planList.totalPages > currentPage;
-
-    if (hasMoreItems) {
-      setCurrentPage(currentPage + 1);
     }
   };
 
   const handleCardSubmit = async (plan, token) => {
     try {
       trackEvent('merchant_entered_cc', {
-        ...(pick(plan, ['_id'])),
+        ...pick(plan, ['_id']),
         subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
       });
 
-      await dispatch(
-        addMerchantProvider(matiToken, token.id),
-      );
+      await dispatch(addMerchantProvider(matiToken, token.id));
 
-      await dispatch(
-        setMerchantPlan(matiToken, plan._id),
-      );
+      await dispatch(setMerchantPlan(matiToken, plan._id));
 
       setCurrentPlan(plan._id);
 
       trackEvent('merchant_cc_stored', {
-        ...(pick(plan, ['_id'])),
+        ...pick(plan, ['_id']),
         subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
       });
 
       closeOverlay();
     } catch (e) {
       notification.error(
-        <>
-          <FormattedMessage id="Billing.notification.setFailure" />
-        </>,
+        <FormattedMessage id="Billing.notification.setFailure" />,
       );
       createOverlay(
         <CardDeclinedModal
@@ -149,7 +118,7 @@ export default function Pricing() {
     const subscriptionPrice = Math.floor(plan.subscriptionPrice / 100);
 
     trackEvent('merchant_clicked_select_plan', {
-      ...(pick(plan, ['_id'])),
+      ...pick(plan, ['_id']),
       subscriptionPrice,
     });
 
@@ -158,62 +127,65 @@ export default function Pricing() {
       plan_price: subscriptionPrice,
     });
 
-    if (isPlanExist || merchantBilling.length) {
+    if (currentPlan || merchantBilling.length) {
       createOverlay(
-        // eslint-disable-next-line react/jsx-props-no-spreading
         <ChangePlanModal {...plan} onSubmit={() => handlePlanChange(plan)} />,
       );
     } else {
       createOverlay(
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        <CardModal {...plan} onSubmit={(token) => handleCardSubmit(plan, token)} />,
+        <CardModal
+          {...plan}
+          onSubmit={(token) => handleCardSubmit(plan, token)}
+        />,
       );
     }
   };
 
   const handleChangeMethod = (plan) => {
     createOverlay(
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      <CardModal {...plan} onSubmit={(token) => handleCardSubmit(plan, token)} />,
+      <CardModal
+        {...plan}
+        onSubmit={(token) => handleCardSubmit(plan, token)}
+      />,
     );
   };
 
   return (
-    <SettingsLayout aside={false} hasMerchantPlan={isPlanExist}>
+    <SettingsLayout aside={false} hasMerchantPlan={currentPlan}>
       <main>
         <Items flow="row" gap={12}>
-          {planList.rows && (
-            <Items flow="row">
-              <Items flow="none" templateColumns={`repeat(${smallCardsInRowCount}, 1fr)`} gap={2}>
-                {smallCardsContent.map((plan) => (
+          {planList.length && (
+            <Items flow="row" gap={2}>
+              <PricingRefundNotice />
+              <Items flow="column" gap={1} align="stretch">
+                {regularPlans.map((plan) => (
                   <PricingPlans
                     name={plan.name}
                     key={plan._id}
                     subscriptionPrice={plan.subscriptionPrice}
                     highlight={plan.highlight}
                     includedVerifications={plan.includedVerifications}
+                    extraPrice={plan.extraPrice}
                     onChoosePlan={() => handlePlanClick(plan)}
-                    current={isPlanExist && plan._id === isPlanExist}
+                    current={currentPlan && plan._id === currentPlan}
                   />
                 ))}
               </Items>
-              <Items flow="none" templateColumns={`repeat(${largeCardsContent.length}, 1fr)`} justifyItems={largeCardsContent.length > 1 ? 'normal' : 'center'}>
-                {largeCardsContent.map((plan) => (
-                  <PricingLargePlans
+              <Items flow="row" gap={1}>
+                {customPlans.map((plan) => (
+                  <CustomPlan
                     name={plan.name}
-                    isOnePlan={!(largeCardsContent.length > 1)}
-                    verificationPrice={plan.extraPrice}
-                    subscriptionPrice={plan.subscriptionPrice}
-                    current={isPlanExist && plan._id === isPlanExist}
+                    current={currentPlan && plan._id === currentPlan}
                     key={plan._id}
-                    onClick={plan.isCustom ? showIntercom : () => handlePlanClick(plan)}
+                    onClick={
+                      plan.isCustom ? showIntercom : () => handlePlanClick(plan)
+                    }
                   />
                 ))}
               </Items>
-              <Waypoint onEnter={handleLoad} />
+              <PlansFeatures />
             </Items>
           )}
-          <PricingRefundNotice />
           <CompaniesUsingMati />
           <MatiNumbers />
           <Feedback />
