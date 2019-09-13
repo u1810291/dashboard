@@ -18,7 +18,7 @@ module.exports = {
     'react/destructuring-assignment': [2, 'always', { 'ignoreClassFields': true }],
     // TODO: Disable this option and fix errors after
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-    'react/jsx-props-no-spreading': [2, { exceptions: ['Component', 'Route', 'BaseInput'] }],
+    'react/jsx-props-no-spreading': 0,
     'react/prop-types': ['error', {
       ignore: [
         'children',
