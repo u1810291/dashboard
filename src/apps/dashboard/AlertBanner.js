@@ -6,6 +6,8 @@ import {
   Button,
   Paper,
 } from '@material-ui/core';
+import { trackEvent } from 'lib/mixpanel';
+
 import { withStyles } from '@material-ui/styles';
 
 const AlertPaper = withStyles(() => ({
@@ -36,6 +38,9 @@ const AlertButton = withStyles(() => ({
 
 const AlertBanner = () => {
   const intl = useIntl();
+  const alertButtonClickHandler = () => {
+    trackEvent('merchant_clicked_top_banner_upgrade');
+  };
 
   return (
     <AlertPaper square>
@@ -43,7 +48,7 @@ const AlertBanner = () => {
         { intl.formatMessage({ id: 'AlertBanner.text' }) }
       </Box>
       <Link to="/settings/pricing">
-        <AlertButton variant="outlined">
+        <AlertButton variant="outlined" onClick={alertButtonClickHandler}>
           {intl.formatMessage({ id: 'AlertBanner.buttonText' })}
         </AlertButton>
       </Link>
