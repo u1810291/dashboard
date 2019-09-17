@@ -62,7 +62,7 @@ const QuestionsContent = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id="signup_form">
       <Grid container direction="column" spacing={3} className={classes.grid}>
         <Grid item>
           <MatiLogo />
@@ -144,25 +144,25 @@ const QuestionsContent = () => {
               value="less100"
               control={<Radio />}
               onChange={handleInputChange}
-              label={intl.formatMessage({ id: 'questions.when-start.b1' })}
+              label={intl.formatMessage({ id: 'questions.how-many.b1' })}
             />
             <FormControlLabel
               value="from100to1k"
               control={<Radio />}
               onChange={handleInputChange}
-              label={intl.formatMessage({ id: 'questions.when-start.b2' })}
+              label={intl.formatMessage({ id: 'questions.how-many.b2' })}
             />
             <FormControlLabel
               value="morethan1k"
               control={<Radio />}
               onChange={handleInputChange}
-              label={intl.formatMessage({ id: 'questions.when-start.b3' })}
+              label={intl.formatMessage({ id: 'questions.how-many.b3' })}
             />
             <FormControlLabel
               value="idontknow"
               control={<Radio />}
               onChange={handleInputChange}
-              label={intl.formatMessage({ id: 'questions.when-start.b4' })}
+              label={intl.formatMessage({ id: 'questions.how-many.b4' })}
             />
           </RadioGroup>
         </Grid>
