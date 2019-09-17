@@ -5,12 +5,9 @@
 
 .matiButtonWrapper {
   width: 100%;
-  height: 340px;
-  border-image-source: url('./button-border-image.svg');
-  border-image-slice: 0 0 0 0 fill;
-  border-image-width: 0 0 0 0;
-  border-image-outset: 0 0 0 0;
-  border-image-repeat: stretch stretch;
+  height: 122px;
+  border-radius: 4px;
+  background-color: rgba(7, 17, 66, 0.8);
 }
 
 .sidebar {
@@ -47,5 +44,39 @@
     svg {
       margin-right: 12px;
     }
+  }
+}
+.iconButtonContainer {
+  height: 60px;
+  cursor: pointer;
+}
+.iconButton {
+  display: flex;
+  align-items: center;
+  color: black;
+  font-weight: bold;
+  & svg {
+    margin-right: 15px !important;
+    opacity: 0.5;
+  }
+}
+.videoFrame {
+  min-width: 200px;
+}
+
+@media (min-width: 600px) {
+  .videoFrame {
+    min-width: 600px;
+  }
+}
+
+@media (min-width: 800px) {
+  .videoFrame {
+    min-width: 600px;
+  }
+}
+@media (min-width: 1024px) {
+  .videoFrame {
+    min-width: 1024px;
   }
 }
