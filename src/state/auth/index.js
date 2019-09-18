@@ -4,7 +4,7 @@ import { updateIntercom } from 'lib/intercom';
 import * as Mixpanel from 'lib/mixpanel';
 import { pushEvent } from 'lib/gtm';
 import {
-  createContact,
+  requestApi,
   trackEvent as hubspotTrackEvent,
   hubspotEvents,
 } from 'lib/hubspot';
@@ -24,9 +24,12 @@ export function signIn(credentials) {
     return client.auth
       .signin(credentials)
       .then((payload) => {
+        const { email } = credentials;
         dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload });
-        Mixpanel.addUser({ ...payload.data.merchant, email: credentials.email });
-        createContact({ email: credentials.email });
+        Mixpanel.addUser({ ...payload.data.merchant, email });
+        requestApi(payload.data.token, {
+          email, contactData: {},
+        });
         hubspotTrackEvent(hubspotEvents.signIn);
         return payload;
       })
@@ -48,7 +51,12 @@ export function signUp(userData) {
         updateIntercom(payload.data.user);
         Mixpanel.addUser({ ...payload.data.merchant, email });
         Mixpanel.trackEvent('dash_signup');
-        createContact(userData);
+        requestApi(payload.data.token, {
+          email,
+          contactData: {
+            full_name: `${userData.firstName} ${userData.lastName}`,
+          },
+        });
         pushEvent({ event: 'Sign Up Success' });
         hubspotTrackEvent(hubspotEvents.signUp);
         return payload;
