@@ -31,7 +31,12 @@ class Dashboard extends React.Component {
     isOwnerIsLoading: PropTypes.bool.isRequired,
     signOut: PropTypes.func.isRequired,
     token: PropTypes.string.isRequired,
+    email: PropTypes.string,
     shouldPassOnboarding: PropTypes.bool.isRequired,
+  };
+
+  static defaultProps = {
+    email: undefined,
   };
 
   componentDidMount() {
@@ -48,7 +53,7 @@ class Dashboard extends React.Component {
   handleSignOut = () => {
     this.props.signOut();
     window.location = '/';
-  }
+  };
 
   async loadData() {
     // eslint-disable-next-line no-shadow
@@ -68,11 +73,10 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { isOwnerIsLoading, shouldPassOnboarding } = this.props;
-
+    const { isOwnerIsLoading, shouldPassOnboarding, email } = this.props;
     if (isOwnerIsLoading) return null;
     if (shouldPassOnboarding) {
-      return <Questions />;
+      return <Questions email={email} />;
     }
 
     return (
@@ -107,6 +111,7 @@ export default flowRight(
   connect(
     (state) => ({
       token: state.auth.token,
+      email: state.auth.user.email,
       configuration: state.merchant.configuration,
       isOwner:
         !state.merchant.collaborators

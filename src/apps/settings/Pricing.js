@@ -18,7 +18,10 @@ import {
 } from 'fragments';
 import { showIntercom } from 'lib/intercom';
 import { trackEvent } from 'lib/mixpanel';
-import { trackEvent as hubspotTrackEvent, hubspotEvents } from 'lib/hubspot';
+import {
+  trackEvent as hubspotTrackEvent,
+  hubspotEvents,
+} from 'lib/hubspot';
 
 import { setMerchantPlan, addMerchantProvider } from 'state/merchant';
 import { getMerchantPlan, getPlans } from 'state/plans';

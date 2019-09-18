@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage } from 'react-icons/fi';
+import { FiDroplet, FiEye, FiFileText, FiFlag } from 'react-icons/fi';
 import classNames from 'classnames';
 
 import { Content } from 'components/application-box';
@@ -17,7 +17,6 @@ import { getCountries } from 'state/countries';
 import ConfigureColor from 'fragments/configuration/configure-color';
 import VerificationSteps from 'fragments/configuration/verification-steps';
 import Countries from 'fragments/configuration/countries';
-import Logo from 'fragments/configuration/logo';
 
 import CSS from './Configuration.module.scss';
 
@@ -82,11 +81,6 @@ export default function Configuration() {
         patterns={configuration.verificationPatterns}
         onChange={updateConfiguration}
       />,
-    },
-    {
-      title: 'Product.configuration.logo',
-      icon: <FiImage />,
-      body: <Logo />,
     },
     {
       title: 'Product.configuration.country',
