@@ -2,6 +2,7 @@ import * as auth from './auth';
 import * as merchant from './merchant';
 import * as webhooks from './webhooks';
 import * as identities from './identities';
+import hubspot from './hubspot';
 import countries from './countries';
 import * as collaborators from './collaborators';
 import * as stripe from './stripe';
@@ -12,6 +13,7 @@ export default {
   merchant,
   webhooks,
   identities,
+  hubspot,
   collaborators,
   countries,
   stripe,

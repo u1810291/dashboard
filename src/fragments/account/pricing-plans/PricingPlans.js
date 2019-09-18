@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import snakeCase from 'lodash/snakeCase';
 import { FormattedMessage } from 'react-intl';
 
 import { Items, Card, Click, Text } from 'components';
@@ -78,13 +79,22 @@ $
       </Items>
 
       {current ? (
-        <Items gap={0} flow="row" justifyContent="center">
+        <Items
+          gap={0}
+          flow="row"
+          justifyContent="center"
+          data-qa="pricing-planControl-current"
+        >
           <Text uppercase color="active" lineHeight={2.5}>
             <FormattedMessage id="PricingPlans.currentPlan" />
           </Text>
         </Items>
       ) : (
-        <Click background="active" onClick={onChoosePlan}>
+        <Click
+          background="active"
+          onClick={onChoosePlan}
+          data-qa={`pricing-planControl-${snakeCase(name)}`}
+        >
           <Text uppercase>
             <FormattedMessage id="PricingPlans.start" />
           </Text>

@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { saveConfiguration } from 'state/merchant';
 import { ThemeProvider } from '@material-ui/styles';
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-icon.svg';
+import { requestApi } from 'lib/hubspot';
+import PropTypes from 'prop-types';
 import { useStyles, theme } from './styles';
 
 const useSignUpForm = () => {
@@ -35,7 +37,7 @@ const useSignUpForm = () => {
   };
 };
 
-const QuestionsContent = () => {
+const QuestionsContent = ({ email }) => {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -56,6 +58,13 @@ const QuestionsContent = () => {
           },
         }),
       );
+      requestApi(token, {
+        email,
+        contactData: {
+          company: inputs.organization,
+          website: inputs.websiteUrl,
+        },
+      });
     } catch (err) {
       notification.info('Error saving configuration');
     }
@@ -177,18 +186,34 @@ const QuestionsContent = () => {
   );
 };
 
-const Questions = () => {
+QuestionsContent.propTypes = {
+  email: PropTypes.string,
+};
+
+QuestionsContent.defaultProps = {
+  email: undefined,
+};
+
+const Questions = ({ email }) => {
   const classes = useStyles();
 
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <Drawer anchor="left" variant="persistent" open>
-          <QuestionsContent />
+          <QuestionsContent email={email} />
         </Drawer>
       </div>
     </ThemeProvider>
   );
+};
+
+Questions.propTypes = {
+  email: PropTypes.string,
+};
+
+Questions.defaultProps = {
+  email: undefined,
 };
 
 export default Questions;
