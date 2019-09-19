@@ -8,7 +8,12 @@ export const hubspotEvents = {
 };
 
 export function requestApi(token, data = {}) {
-  client.hubspot(token, data);
+  client.hubspot.hubspotApiRequest(token, data);
+}
+
+export function submitSignUpForm(email) {
+  const signUpFormId = process.env.REACT_APP_HUBSPOT_SIGN_UP_FORM_ID;
+  client.hubspot.hubspotSubmitForm(signUpFormId, { email });
 }
 
 export function trackEvent(eventName, value) {

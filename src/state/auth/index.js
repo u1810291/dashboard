@@ -7,6 +7,7 @@ import {
   requestApi,
   trackEvent as hubspotTrackEvent,
   hubspotEvents,
+  submitSignUpForm,
 } from 'lib/hubspot';
 
 export const types = {
@@ -51,12 +52,7 @@ export function signUp(userData) {
         updateIntercom(payload.data.user);
         Mixpanel.addUser({ ...payload.data.merchant, email });
         Mixpanel.trackEvent('dash_signup');
-        requestApi(payload.data.token, {
-          email,
-          contactData: {
-            full_name: `${userData.firstName} ${userData.lastName}`,
-          },
-        });
+        submitSignUpForm(email);
         pushEvent({ event: 'Sign Up Success' });
         hubspotTrackEvent(hubspotEvents.signUp);
         return payload;
