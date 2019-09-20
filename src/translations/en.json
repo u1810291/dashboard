@@ -688,7 +688,7 @@
   "PricingPlans.upTo": "up to",
   "PricingPlans.verificationsPerMonth": "{count} verifications included",
   "PricingPlans.pricePerverification": "${amount} / verification",
-  "PricingPlans.extraPrice": "Above ${count} verifications",
+  "PricingPlans.extraPrice": "Above {count} verifications",
   "PricingPlans.pricePerMonth": "month",
   "PricingPlans.start": "start plan",
   "PricingPlans.currentPlan": "Your Current Plan",
