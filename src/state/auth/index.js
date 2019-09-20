@@ -1,6 +1,5 @@
 import { createReducer, createTypesSequence } from 'state/utils';
 import client from 'lib/client';
-import { updateIntercom } from 'lib/intercom';
 import * as Mixpanel from 'lib/mixpanel';
 import { pushEvent } from 'lib/gtm';
 import {
@@ -49,7 +48,6 @@ export function signUp(userData) {
       .signup({ email, password, firstName, lastName })
       .then((payload) => {
         dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload });
-        updateIntercom(payload.data.user);
         Mixpanel.addUser({ ...payload.data.merchant, email });
         Mixpanel.trackEvent('dash_signup');
         submitSignUpForm(email);

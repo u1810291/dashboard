@@ -1,3 +1,0 @@
-```js
-<AdditionalInfoForm handleSubmit={() => {}} />
-```
