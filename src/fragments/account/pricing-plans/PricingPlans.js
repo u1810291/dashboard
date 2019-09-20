@@ -57,7 +57,7 @@ $
         </Items>
 
         <Items flow="row" gap={0.5}>
-          <Text>
+          <Text color="secondary">
             <FormattedMessage
               id="PricingPlans.pricePerverification"
               values={{
@@ -66,7 +66,7 @@ $
             />
           </Text>
           {includedVerifications > 0 && (
-            <Text>
+            <Text color="secondary">
               <FormattedMessage
                 id="PricingPlans.extraPrice"
                 values={{

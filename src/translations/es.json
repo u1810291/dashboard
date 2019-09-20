@@ -688,7 +688,7 @@
   "PricingPlans.upTo": "hasta",
   "PricingPlans.verificationsPerMonth": "{count} verifications included",
   "PricingPlans.pricePerverification": "${amount} / verification",
-  "PricingPlans.extraPrice": "Above ${count} verifications",
+  "PricingPlans.extraPrice": "Above {count} verifications",
   "PricingPlans.pricePerMonth": "mes",
   "PricingPlans.start": "iniciar plan",
   "PricingPlans.currentPlan": "Su plan actual",
