@@ -16,7 +16,6 @@ import {
   PricingRefundNotice,
   PlansFeatures,
 } from 'fragments';
-import { showIntercom } from 'lib/intercom';
 import { trackEvent } from 'lib/mixpanel';
 import {
   trackEvent as hubspotTrackEvent,
@@ -181,7 +180,9 @@ export default function Pricing() {
                     current={currentPlan && plan._id === currentPlan}
                     key={plan._id}
                     onClick={
-                      plan.isCustom ? showIntercom : () => handlePlanClick(plan)
+                      plan.isCustom
+                        ? () => window.HubSpotConversations.widget.open()
+                        : () => handlePlanClick(plan)
                     }
                   />
                 ))}
