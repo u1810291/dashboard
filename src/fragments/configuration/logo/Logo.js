@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { useDropzone } from 'react-dropzone';
-
 import { Items, Text } from 'components';
 import Icons from 'components/icons';
 import Button from 'components/button';
@@ -17,16 +16,17 @@ export default function Logo() {
   const { token } = useSelector(({ auth }) => auth);
   const { logoUrl } = useSelector(({ merchant }) => merchant);
   const [shouldLogoUpdate, setShouldLogoUpdate] = useState(false);
+  const [innerLogoUrl, setInnerLogoUrl] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (shouldLogoUpdate) {
       dispatch(
-        putMerchants(token, { logoUrl }),
+        putMerchants(token, { logoUrl: innerLogoUrl }),
       );
       setShouldLogoUpdate(false);
     }
-  }, [shouldLogoUpdate, logoUrl, token, dispatch]);
+  }, [shouldLogoUpdate, innerLogoUrl, token, dispatch]);
 
   const showError = () => {
     notification.error(
@@ -44,9 +44,12 @@ export default function Logo() {
       const form = new FormData();
       const compressedFile = await compressImage(file, compressionOptions);
       form.append('media', compressedFile);
-      await dispatch(
+
+      const mediaPayload = await dispatch(
         uploadMerchantMedia(token, form),
       );
+      setInnerLogoUrl(mediaPayload.data.url);
+
       setShouldLogoUpdate(true);
     } catch (error) {
       showError();
@@ -83,7 +86,7 @@ export default function Logo() {
       >
         <div className={CSS.logoWrapper}>
           <div
-            {...getRootProps()} // eslint-disable-line react/jsx-props-no-spreading
+            {...getRootProps()}
             className={
               classNames(
                 [CSS.addLogo],
@@ -93,7 +96,6 @@ export default function Logo() {
               )
             }
           >
-            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             <input {...getInputProps()} />
             <Text size={2.5}>
               {logoUrl

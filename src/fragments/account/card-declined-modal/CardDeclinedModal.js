@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl';
 
 import { closeOverlay, Items, Text } from 'components';
 import Button from 'components/button';
-import { showIntercom } from 'lib/intercom';
 
 import WithAsideModal from '../with-aside-modal';
 
@@ -14,7 +13,6 @@ import CSS from './CardDeclinedModal.module.scss';
 function CardDeclinedModal({ onChangeMethod }) {
   const handleContactUs = () => {
     closeOverlay();
-    showIntercom();
   };
 
   return (

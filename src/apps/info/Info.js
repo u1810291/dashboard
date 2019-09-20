@@ -2,7 +2,6 @@ import React from 'react';
 import { injectIntl } from 'react-intl';
 
 import Items from 'components/items';
-import Support from 'fragments/account/support';
 import FAQ from 'fragments/info/faq';
 import FAQPanel from 'fragments/info/faq-panel';
 import Feedback from 'fragments/info/feedback';
@@ -19,9 +18,6 @@ function Info({ intl }) {
           <Feedback />
         </Items>
       </main>
-      <aside>
-        <Support />
-      </aside>
     </InfoLayout>
   );
 }
