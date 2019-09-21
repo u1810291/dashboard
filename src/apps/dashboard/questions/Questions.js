@@ -112,7 +112,7 @@ const QuestionsContent = ({ email }) => {
           {intl.formatMessage({ id: 'questions.when-start.title' })}
           <RadioGroup
             aria-label="when"
-            name="when"
+            name="when_do_you_want_to_start_verifying_users_"
             className={classes.radioGroup}
           >
             <FormControlLabel
@@ -122,19 +122,19 @@ const QuestionsContent = ({ email }) => {
               label={intl.formatMessage({ id: 'questions.when-start.b1' })}
             />
             <FormControlLabel
-              value="weeks"
+              value="next_few_weeks"
               control={<Radio />}
               onChange={handleInputChange}
               label={intl.formatMessage({ id: 'questions.when-start.b2' })}
             />
             <FormControlLabel
-              value="month"
+              value="next_few_months"
               control={<Radio />}
               onChange={handleInputChange}
               label={intl.formatMessage({ id: 'questions.when-start.b3' })}
             />
             <FormControlLabel
-              value="dontknow"
+              value="dont_know"
               control={<Radio />}
               onChange={handleInputChange}
               label={intl.formatMessage({ id: 'questions.when-start.b4' })}
@@ -146,29 +146,29 @@ const QuestionsContent = ({ email }) => {
           {intl.formatMessage({ id: 'questions.how-many.title' })}
           <RadioGroup
             aria-label="howmany"
-            name="howmany"
+            name="required_verification_volume_per_month_"
             className={classes.radioGroup}
           >
             <FormControlLabel
-              value="less100"
+              value="0_100"
               control={<Radio />}
               onChange={handleInputChange}
               label={intl.formatMessage({ id: 'questions.how-many.b1' })}
             />
             <FormControlLabel
-              value="from100to1k"
+              value="100_1000"
               control={<Radio />}
               onChange={handleInputChange}
               label={intl.formatMessage({ id: 'questions.how-many.b2' })}
             />
             <FormControlLabel
-              value="morethan1k"
+              value="more_1000"
               control={<Radio />}
               onChange={handleInputChange}
               label={intl.formatMessage({ id: 'questions.how-many.b3' })}
             />
             <FormControlLabel
-              value="idontknow"
+              value="dont_know"
               control={<Radio />}
               onChange={handleInputChange}
               label={intl.formatMessage({ id: 'questions.how-many.b4' })}
