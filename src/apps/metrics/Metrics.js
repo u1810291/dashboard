@@ -32,7 +32,7 @@ export default function Metrics() {
     dispatch(
       getMerchantStatisticFilter(token, filter),
     ).then((response) => {
-      setChartData(response.data);
+      setChartData(response.data.byDate);
     });
   }, [token, filter, dispatch]);
 
