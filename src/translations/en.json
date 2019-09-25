@@ -829,5 +829,7 @@
   "Product.LegalService.side.q4": "Provide you with the exact regulators reporting templates",
   "Product.LegalService.side.q5": "Make sure you stay compliant over time (legal updates)",
   "Product.LegalService.side.button": "Book Your Free Demo",
-  "Product.LegalService.side.button.subtitle": "Starting from $299"
+  "Product.LegalService.side.button.subtitle": "Starting from $299",
+  "Product.LegalService.form.title": "Let's talk about you",
+  "Product.LegalService.form.subtitle": "Our team is happy to answer your questions. Fill out the form and we'll be in touch as soon as possible."
 }
