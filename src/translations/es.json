@@ -827,5 +827,9 @@
   "Product.LegalService.side.q4": "Proporcionarle las plantillas exactas de informes para prósitos regulatorios",
   "Product.LegalService.side.q5": "Asegúrese de cumplir con las regulaciones a tiempo(actualizaciones legales)",
   "Product.LegalService.side.button": "Reserve su demostración gratuita",
-  "Product.LegalService.side.button.subtitle": "A partir de $299"
+  "Product.LegalService.side.button.subtitle": "A partir de $299",
+  "flow.colorStep.description": "Aquí puedes elegir el color de tu botón Mati. El color que elijas también afectará elementos dentro de la verificación misma.",
+  "flow.colorStep.picker": "Escoger color.",
+  "Product.LegalService.form.title": "Hablemos de ti.",
+  "Product.LegalService.form.subtitle": "Nuestro equipo dispuesto a contestar tus preguntas. Llena el formato y nos pondremos en contacto lo más pronto posible."
 }
