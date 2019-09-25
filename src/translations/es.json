@@ -686,7 +686,7 @@
   "PricingLargePlans.enterprise.priceline": "Implementaciones a gran escala",
   "PricingPlans.upTo": "hasta",
   "PricingPlans.verificationsPerMonth": "verificaciones\/mes",
-  "PricingPlans.pricePerMonth": "\/mes",
+  "PricingPlans.pricePerMonth": "mes",
   "PricingPlans.start": "iniciar plan",
   "PricingPlans.currentPlan": "Su plan actual",
   "Billing.form.plan": "Plan",
