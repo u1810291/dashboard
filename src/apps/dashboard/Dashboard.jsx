@@ -88,11 +88,11 @@ class Dashboard extends React.Component {
           <Switch>
             <Route
               exact
-              path="/verifications"
+              path="/identities"
               component={VerificationHistory}
             />
             <Route
-              path="/verifications/:demo?/:id"
+              path="/identities/:demo?/:id"
               component={VerificationDetail}
             />
             <OwnersRoute path="/settings" component={Settings} />
@@ -142,7 +142,7 @@ const OwnersRoute = ({ component: Component, ...rest }) => {
       ) : (
         <Redirect
           to={{
-            pathname: '/verifications',
+            pathname: '/identities',
             state: { from: props.location },
           }}
         />

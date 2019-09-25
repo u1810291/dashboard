@@ -47,7 +47,7 @@ function formatId(id = '') {
 async function handleDeleteIdentity(dispatch, history, token, id) {
   await confirm(<FormattedMessage id="verificationModal.delete.confirm" />);
   await dispatch(deleteIdentity(token, id));
-  history.push('/verifications');
+  history.push('/identities');
 }
 
 function openWebhookModal(identity) {
