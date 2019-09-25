@@ -23,3 +23,7 @@ export function trackEvent(eventName, value) {
   }
   window._hsq.push('trackEvent', { id: eventName, value });
 }
+
+export function showWidget() {
+  window.HubSpotConversations.widget.open();
+}

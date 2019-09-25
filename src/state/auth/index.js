@@ -58,10 +58,6 @@ export function signUp(userData) {
       .catch((error) => {
         dispatch({ type: types.AUTH_SIGNUP_FAILURE });
         throw error;
-      })
-      .catch((error) => {
-        dispatch({ type: types.AUTH_SIGNUP_FAILURE });
-        throw error;
       });
   };
 }

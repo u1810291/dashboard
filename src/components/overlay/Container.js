@@ -10,7 +10,6 @@ const store = createStore(reducer);
 
 const ContainerOverlay = connect((state) => state)(({ overlay }) => {
   const root = document.getElementById('overlayRoot');
-  // eslint-disable-next-line react/jsx-props-no-spreading
   return overlay ? createPortal(<Overlay {...overlay} />, root) : null;
 });
 

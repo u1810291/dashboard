@@ -1,0 +1,64 @@
+.content {
+  margin-top: 20px;
+}
+
+.baloon {
+  position: relative;
+  width: fit-content;
+  border-radius: 44px;
+  background-color: #F4F4F4;
+}
+
+.tail {
+  position: absolute;
+  bottom: -6px;
+  left: 6px;
+}
+
+.questions {
+  padding: 0 14px;
+}
+
+.subtitle {
+  margin-bottom: 20px;
+}
+
+.buttonContainer {
+  width: 216px;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  width: 100%;
+  font-weight: 400 !important;
+}
+.subtitle {
+  align-self: center;
+}
+
+.counterList {
+  list-style: none;
+  counter-reset: list-counter;
+  margin-left: 16px;
+}
+
+.listOfAnswers {
+  counter-increment: list-counter;
+  padding: 10px 0;
+  position: relative;
+  &:before {
+    position: absolute;
+    left: -16px;
+    content: counter(list-counter) ". ";
+  }
+}
+
+.logoLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+}

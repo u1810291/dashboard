@@ -21,7 +21,7 @@ export default function Tab({
   return (
     <Items flow="row" gap={0}>
       <Items gap={0} flow="column" justifyContent="flex-start" className={CSS.tabAction}>
-        {tabs.map((tab, index) => (
+        {tabs.map(({ tab, badge }, index) => (
           <Items
             gap={0}
             key={tab}
@@ -38,6 +38,7 @@ export default function Tab({
               onClick={onClick.bind(this, index)}
             >
               <FormattedMessage id={tab} />
+              { badge && badge }
             </button>
           </Items>
         ))}
@@ -62,7 +63,7 @@ export function TabWrapper({
   withAside,
   aside,
 }) {
-  return withAside ? (
+  return withAside && aside ? (
     <Items gap={2} flow="column" templateColumns="2.5fr 1fr">
       <Items
         className={classNames(CSS.tabWrapper, [`background-${background} ${className || ''}`])}
@@ -85,7 +86,7 @@ export function TabWrapper({
 Tab.propTypes = {
   active: PropTypes.number.isRequired,
   align: PropTypes.string,
-  aside: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  aside: PropTypes.arrayOf(PropTypes.shape({})),
   background: PropTypes.string,
   contents: PropTypes.arrayOf(PropTypes.shape({})),
   justify: PropTypes.string,
@@ -101,10 +102,11 @@ Tab.defaultProps = {
   justify: 'center',
   onClick: () => {},
   tabs: [],
+  aside: null,
 };
 
 TabWrapper.propTypes = {
-  aside: PropTypes.shape({}).isRequired,
+  aside: PropTypes.shape({}),
   background: PropTypes.string,
   content: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   withAside: PropTypes.bool.isRequired,
@@ -113,4 +115,5 @@ TabWrapper.propTypes = {
 TabWrapper.defaultProps = {
   background: 'white',
   content: null,
+  aside: null,
 };
