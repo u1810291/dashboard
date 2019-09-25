@@ -9,6 +9,9 @@ import { signIn } from 'state/auth';
 import { useDispatch } from 'react-redux';
 import { email, required } from 'lib/validations';
 
+
+import { notification } from 'components/notification';
+
 const validateForm = (values) => pickBy(
   {
     email: required(values.email) || email(values.email),
@@ -32,6 +35,11 @@ export default function SignIn() {
       await dispatch(signIn(data));
       window.location = '/';
     } catch (error) {
+      notification.error(
+        <>
+          {intl.formatMessage({ id: 'personalSettings.errors.password' })}
+        </>,
+      );
       setSubmitting(false);
     }
   }

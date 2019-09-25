@@ -20,6 +20,7 @@ import { trackEvent } from 'lib/mixpanel';
 import {
   trackEvent as hubspotTrackEvent,
   hubspotEvents,
+  showWidget,
 } from 'lib/hubspot';
 
 import { setMerchantPlan, addMerchantProvider } from 'state/merchant';
@@ -181,7 +182,7 @@ export default function Pricing() {
                     key={plan._id}
                     onClick={
                       plan.isCustom
-                        ? () => window.HubSpotConversations.widget.open()
+                        ? () => showWidget()
                         : () => handlePlanClick(plan)
                     }
                   />
