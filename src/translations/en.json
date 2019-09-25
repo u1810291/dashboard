@@ -792,7 +792,7 @@
   "questions.how-many.b4": "I don't know",
   "questions.how-many.submit": "Access dashboard now",
   "PricingPlans.pricePerverification": "${amount} \/ verification",
-  "PricingPlans.extraPrice": "Above ${count} verifications",
+  "PricingPlans.extraPrice": "Above {count} verifications",
   "fragments.account.plans-features.title": "All plans include",
   "fragments.account.plans-features.identity-features.title": "Identity Checks:",
   "fragments.account.plans-features.identity-features.0": "Facematch",
