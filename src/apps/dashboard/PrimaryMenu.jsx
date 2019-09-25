@@ -15,7 +15,7 @@ export default function PrimaryMenu({ isOwner }) {
 
   const primaryMenuEntries = [
     {
-      to: isOwner ? '/' : '/verifications',
+      to: isOwner ? '/' : '/identities',
       logo: true,
       noActive: true,
       className: classes.logoItem,
@@ -34,7 +34,7 @@ export default function PrimaryMenu({ isOwner }) {
       handler: () => trackEvent('merchant_click_product_tab'),
     },
     {
-      to: '/verifications',
+      to: '/identities',
       label: intl.formatMessage({ id: 'dashboard.menu.identities' }),
       handler: () => trackEvent('merchant_click_verif_list_tab'),
     },
