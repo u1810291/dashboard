@@ -2,9 +2,19 @@
   position: absolute;
 }
 
+.textBlock {
+  margin-bottom: 10px;
+}
+
+.colorPickerContainer {
+  display: flex;
+  align-items: center;
+  height: 45px;
+}
+
 :local(.colorPickerWrapper) {
   position: relative;
-  margin-top: 20px;
+  margin: 0 10px 0 25px ;
 }
 
 :local(.colorPickerButton) {

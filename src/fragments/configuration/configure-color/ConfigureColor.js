@@ -51,40 +51,50 @@ export default function ConfigureColor({
 
   return (
     <fieldset className="mgi-fieldset">
-      <Text size={3} weight={4}>
-        <FormattedMessage id="flow.colorStep.title" />
-      </Text>
-      <Items gap={1} justifyContent="start">
-        {presets.map(([presetName, presetColor]) => (
-          <ColorCheckButton
-            key={presetName}
-            color={presetColor}
-            checked={presetName === color}
-            onChange={() => handleChange(presetColor, presetName)}
-          />
-        ))}
-        <div
-          className={CSS.colorPickerWrapper}
-          onClick={(e) => e.stopPropagation()}
-          onKeyUp={() => {}}
-          role="button"
-          tabIndex="0"
-        >
-          <ColorPicker
-            className={CSS.colorPickerButton}
-            stroke={color}
-            onClick={() => setShowPicker(true)}
-          />
-          {showPicker && (
-            <div className={CSS.colorPicker}>
-              <ChromePicker
-                color={color}
-                disableAlpha
-                onChangeComplete={handlePickerChange}
+      <Items gap={1} flow="row" justifyContent="start">
+        <Text size={2.5} weight={4}>
+          <FormattedMessage id="flow.colorStep.title" />
+        </Text>
+        <Text lineHeight={1.3} className={CSS.textBlock}>
+          <FormattedMessage id="flow.colorStep.description" />
+        </Text>
+        <Items gap={0} flow="row" justifyContent="start" templateColumns="100%">
+          {presets.map(([presetName, presetColor]) => (
+            <ColorCheckButton
+              key={presetName}
+              color={presetColor}
+              checked={presetName === color}
+              onChange={() => handleChange(presetColor, presetName)}
+            />
+          ))}
+          <div className={CSS.colorPickerContainer}>
+            <span
+              className={CSS.colorPickerWrapper}
+              onClick={(e) => e.stopPropagation()}
+              onKeyUp={() => {}}
+              role="button"
+              tabIndex="0"
+            >
+              <ColorPicker
+                className={CSS.colorPickerButton}
+                stroke={color}
+                onClick={() => setShowPicker(true)}
               />
-            </div>
-          )}
-        </div>
+              {showPicker && (
+                <div className={CSS.colorPicker}>
+                  <ChromePicker
+                    color={color}
+                    disableAlpha
+                    onChangeComplete={handlePickerChange}
+                  />
+                </div>
+              )}
+            </span>
+            <Text>
+              <FormattedMessage id="flow.colorStep.picker" />
+            </Text>
+          </div>
+        </Items>
       </Items>
     </fieldset>
   );

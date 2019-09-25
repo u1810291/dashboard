@@ -3,6 +3,18 @@
   --mgi-color-check-check-margin: 2px;
 }
 
+.pair {
+  display: flex;
+  align-items: center;
+  height: 45px;
+  outline: none;
+  cursor: pointer;
+}
+.pair:hover {
+  background-color: #FAFAFA;
+}
+
+
 :local(.checkButton) {
   width: var(--mgi-color-check-button-size);
   height: var(--mgi-color-check-button-size);
@@ -13,7 +25,8 @@
   border-radius: 100%;
   cursor: pointer;
   position: relative;
-  margin-top: 20px;
+  margin: 0 10px 0 25px;
+  outline: none;
 }
 
 :local(.checkButton)[data-checked='true']::before {
@@ -25,12 +38,12 @@
   );
   box-sizing: border-box;
   display: block;
-  content: ' ';
   position: absolute;
   top: var(--mgi-color-check-check-margin);
   left: var(--mgi-color-check-check-margin);
   border: 1px solid white;
   border-radius: 100%;
+  content: ' ';
 }
 
 :local(.checkButton) svg {
