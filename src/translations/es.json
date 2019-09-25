@@ -792,7 +792,7 @@
   "questions.how-many.b4": "No sé",
   "questions.how-many.submit": "Acceda al panel ahora",
   "PricingPlans.pricePerverification": "${amount} \/ verification",
-  "PricingPlans.extraPrice": "Above ${count} verifications",
+  "PricingPlans.extraPrice": "Above {count} verifications",
   "fragments.account.plans-features.title": "All plans include",
   "fragments.account.plans-features.identity-features.title": "Verificaciones de Identidad:",
   "fragments.account.plans-features.identity-features.0": "Facematch",
