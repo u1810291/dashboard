@@ -153,9 +153,7 @@
   "flow.biometricStep.selfie": "Selfie",
   "flow.biometricStep.none": "None",
   "flow.documentTypeStep.button.title": "Add verification requirement",
-  "flow.colorStep.title": "Set the color of your buttons",
-  "flow.colorStep.description": "Here you can set color of your mati button. It will affect on color of elements inside verification also.",
-  "flow.colorStep.picker": "Color picker",
+  "flow.colorStep.title": "Mati SDK button color",
   "flow.languageStep.title": "Default language",
   "flow.languageStep.en": "English",
   "flow.languageStep.es": "Spanish",
@@ -830,6 +828,8 @@
   "Product.LegalService.side.q5": "Make sure you stay compliant over time (legal updates)",
   "Product.LegalService.side.button": "Book Your Free Demo",
   "Product.LegalService.side.button.subtitle": "Starting from $299",
+  "flow.colorStep.description": "Here you can set color of your mati button. It will affect on color of elements inside verification also.",
+  "flow.colorStep.picker": "Color picker",
   "Product.LegalService.form.title": "Let's talk about you",
   "Product.LegalService.form.subtitle": "Our team is happy to answer your questions. Fill out the form and we'll be in touch as soon as possible."
 }
