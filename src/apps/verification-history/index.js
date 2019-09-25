@@ -211,7 +211,7 @@ class VerificationHistory extends React.Component {
   }
 
   openVerification = ({ identity }) => {
-    this.props.history.push(`/verifications/${identity.id}`);
+    this.props.history.push(`/identities/${identity.id}`);
   }
 
   deleteIdentity = (e, identity) => {
@@ -335,19 +335,19 @@ class VerificationHistory extends React.Component {
                     icon={<NationalId />}
                     key="2344"
                     labelId="nationalId"
-                    link="/verifications/demo/1"
+                    link="/identities/demo/1"
                   />
                   <ExampleCard
                     icon={<Passport />}
                     key="2345"
                     labelId="passport"
-                    link="/verifications/demo/2"
+                    link="/identities/demo/2"
                   />
                   <ExampleCard
                     icon={<DrivingLicense />}
                     key="2346"
                     labelId="drivingLicense"
-                    link="/verifications/demo/3"
+                    link="/identities/demo/3"
                   />
                 </Items>
               </Card>

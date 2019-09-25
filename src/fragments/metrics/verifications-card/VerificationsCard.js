@@ -20,7 +20,7 @@ export default function VerificationsCard({ count }) {
           />
         </p>
         <p className={CSS.link}>
-          <Link to="/verifications?status=reviewNeeded">
+          <Link to="/identities?status=reviewNeeded">
             <Text color="darkgray">
               <FormattedMessage id="fragments.home.verification.card.link" />
             </Text>
