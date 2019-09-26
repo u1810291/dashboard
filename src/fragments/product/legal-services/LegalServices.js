@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import {
   H2,
@@ -8,8 +8,9 @@ import {
   Content,
 } from 'components';
 import { trackEvent } from 'lib/mixpanel';
-
-import { showWidget } from 'lib/hubspot';
+import { createOverlay, closeOverlay } from 'components/overlay';
+import Card from 'components/card';
+import { hubspotForms } from 'lib/hubspot';
 import CSS from './LegalServices.module.scss';
 
 import LogoImages from './logo-images';
@@ -20,14 +21,34 @@ const makeArray = (size) => Array.from(Array(size), (_, i) => i + 1);
 
 export default function LegalServices() {
   const intl = useIntl();
+  const [isFormShowed, setIsFormShowed] = useState(false);
+
+  window.hbspt.forms.create({
+    portalId: '6251453',
+    formId: hubspotForms.legalServices,
+    target: '#hubspotForm',
+  });
 
   const showHubSpotForm = () => {
     trackEvent('merchant_clicked_legal_services_contact');
-    showWidget();
+    setIsFormShowed(true);
   };
 
   return (
     <Content fullwidth={false} className={CSS.content}>
+      {isFormShowed
+        && createOverlay(
+          <Card>
+            <H2>
+              { intl.formatMessage({ id: 'Product.LegalService.form.title' })}
+            </H2>
+            <Text className={CSS.subtitle}>
+              { intl.formatMessage({ id: 'Product.LegalService.form.subtitle' })}
+            </Text>
+            <div id="hubspotForm" />
+          </Card>,
+          { onClose: () => { closeOverlay(); setIsFormShowed(false); } },
+        ) }
       <Items gap={2} flow="column" templateColumns="minmax(393px, 1fr) 1fr">
         <Items flow="rows" gap={1}>
           { makeArray(7).map((idx) => (

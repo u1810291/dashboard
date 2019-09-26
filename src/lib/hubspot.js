@@ -7,12 +7,17 @@ export const hubspotEvents = {
   unlockIntegration: 'entered_cc_to_unlock_integration',
 };
 
+export const hubspotForms = {
+  signUp: '7d3325f0-89d1-4422-b8b2-5267ad287be2',
+  legalServices: '54c30de9-4021-4d72-95a0-b2a904d5b296',
+};
+
 export function requestApi(token, data = {}) {
   client.hubspot.hubspotApiRequest(token, data);
 }
 
 export function submitSignUpForm(email) {
-  const signUpFormId = process.env.REACT_APP_HUBSPOT_SIGN_UP_FORM_ID;
+  const signUpFormId = hubspotForms.signUp;
   client.hubspot.hubspotSubmitForm(signUpFormId, { email });
 }
 
