@@ -168,7 +168,9 @@ const VerificationDetail = ({
                   source={documentsSources}
                   countries={countries}
                   key={doc.type}
-                  onSubmit={() => onSubmit(
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onSubmit={onSubmit.bind(
+                    null,
                     dispatch,
                     token,
                     identity.id,
