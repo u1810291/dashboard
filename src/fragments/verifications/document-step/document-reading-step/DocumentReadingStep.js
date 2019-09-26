@@ -14,7 +14,8 @@ const EditableField = ({ label, value, onSubmit }) => (value
     <Text weight={4}>
       <TextEditable
         text={formatValue(label, value)}
-        onSubmit={() => onSubmit(label)}
+        // eslint-disable-next-line react/jsx-no-bind
+        onSubmit={onSubmit.bind(null, label)}
         error={false}
         isEditing={false}
       />
@@ -37,6 +38,7 @@ function Success({ step, source, onSubmit, isEditable }) {
         { Object.entries(step.data || {})
           .map(([label, { value }]) => {
             const sourceValue = get(source[label], 'value');
+
             return (
               <tr key={label}>
                 <td className="text-nowrap">
