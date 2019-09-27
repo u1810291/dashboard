@@ -831,5 +831,7 @@
   "flow.colorStep.description": "Aquí puedes elegir el color de tu botón Mati. El color que elijas también afectará elementos dentro de la verificación misma.",
   "flow.colorStep.picker": "Escoger color.",
   "Product.LegalService.form.title": "Hablemos de ti.",
-  "Product.LegalService.form.subtitle": "Nuestro equipo dispuesto a contestar tus preguntas. Llena el formato y nos pondremos en contacto lo más pronto posible."
+  "Product.LegalService.form.subtitle": "Nuestro equipo dispuesto a contestar tus preguntas. Llena el formato y nos pondremos en contacto lo más pronto posible.",
+  "Product.customization.buttonTitle": "Prueba tu SDK web ahora",
+  "Product.customization.demoButtons": "Video demo de los SDKs"
 }
