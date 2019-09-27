@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import confirm from 'components/confirm/Confirm';
+import useMerchantBilling from 'hooks/useMerchantBilling';
 import { addMerchantProvider } from 'state/merchant';
 import { CardDeclinedModal } from 'fragments';
 import { closeOverlay, createOverlay } from 'components/overlay';
@@ -32,7 +33,7 @@ export default ({ application, deleteWebhook, subscribeToWebhook }) => {
     return deleteWebhook(id);
   }
 
-  const hasProvider = useSelector(({ merchant }) => merchant.billing.providers.length);
+  const { hasProvider, isPlanActivated } = useMerchantBilling();
 
   const matiToken = useSelector(({ auth = {} }) => auth.token);
   function showCardModal(onSubmit) {
@@ -63,7 +64,7 @@ export default ({ application, deleteWebhook, subscribeToWebhook }) => {
     handleAddNewWebhook,
     handleDeleteWebhook,
     handleUnlockApplication,
-    hasProvider,
+    isIntegrationLocked: hasProvider || isPlanActivated,
     permalink,
   };
 };
