@@ -762,6 +762,8 @@
   "Product.configuration.biometric": "Biometric requirements",
   "Product.configuration.language": "Language",
   "Product.configuration.country": "Country restriction",
+  "Product.customization.buttonTitle": "Test your Web SDK now",
+  "Product.customization.demoButtons": "SDKs demo video",
   "flow.logoStep.title": "Set your logo",
   "flow.logoStep.button.title": "+ Add Logo",
   "flow.logoStep.button.error": "Unable to load a file",

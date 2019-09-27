@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-// import { useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import {
   Card,
   Button,
@@ -31,11 +31,11 @@ function showUsecaseModal(url) {
 
 export default function MatiButtonAside() {
   const { apps, configuration } = useSelector(({ merchant }) => merchant);
-  // const intl = useIntl();
+  const intl = useIntl();
 
   return (
     <Items flow="row" gap={0} templateRows="1fr 7fr 1fr 5fr" className={CSS.sidebar}>
-      <p>Button preview</p>
+      <p>{intl.formatMessage({ id: 'Product.customization.buttonTitle' })}</p>
 
       <Items
         gap={0}
@@ -57,7 +57,7 @@ export default function MatiButtonAside() {
         }
       </Items>
 
-      <p>Demo videos</p>
+      <p>{intl.formatMessage({ id: 'Product.customization.demoButtons' })}</p>
 
       <Items gap={1.7}>
         {

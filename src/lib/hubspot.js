@@ -12,7 +12,16 @@ export const hubspotForms = {
   legalServices: '54c30de9-4021-4d72-95a0-b2a904d5b296',
 };
 
-export function requestApi(token, data = {}) {
+export function requestApi(token, email, inputs = {}) {
+  const data = {
+    email,
+    contactData: {
+      company: inputs.organization,
+      website: inputs.websiteUrl,
+      when_do_you_want_to_start_verifying_users_: inputs.whenToStart,
+      required_verification_volume_per_month_: inputs.verificationsVolume,
+    },
+  };
   client.hubspot.hubspotApiRequest(token, data);
 }
 

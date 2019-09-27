@@ -1,4 +1,4 @@
-import { omit } from 'lodash';
+import { omit, difference, omitBy, isEmpty } from 'lodash';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import {
@@ -20,30 +20,36 @@ import { requestApi } from 'lib/hubspot';
 import PropTypes from 'prop-types';
 import { useStyles, theme } from './styles';
 
-const useSignUpForm = () => {
-  const [inputs, setInputs] = useState({});
-
-  const handleInputChange = (event) => {
-    event.persist();
-    setInputs((formInputs) => ({
-      ...formInputs,
-      [event.target.name]: event.target.value,
-    }));
-  };
-
-  return {
-    handleInputChange,
-    inputs,
-  };
-};
+const mandatoryFields = [
+  'organization', 'websiteUrl',
+  'whenToStart', 'verificationsVolume',
+];
 
 const QuestionsContent = ({ email }) => {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { inputs, handleInputChange } = useSignUpForm();
+  const [inputs, setInputs] = useState({});
+  const [disabled, handleDisabled] = useState(true);
   const token = useSelector((s) => s.auth.token);
   const dashboard = useSelector((s) => s.merchant.configuration.dashboard);
+
+  const handleInputChange = (event) => {
+    event.persist();
+    setInputs((formInputs) => {
+      const updated = {
+        ...formInputs,
+        [event.target.name]: event.target.value,
+      };
+      const currentFields = Object.keys(omitBy(updated, isEmpty));
+      if (difference(mandatoryFields, currentFields).length === 0) {
+        handleDisabled(false);
+      } else {
+        handleDisabled(true);
+      }
+      return updated;
+    });
+  };
 
   const handleSubmit = async (event) => {
     if (event) {
@@ -58,13 +64,7 @@ const QuestionsContent = ({ email }) => {
           },
         }),
       );
-      requestApi(token, {
-        email,
-        contactData: {
-          company: inputs.organization,
-          website: inputs.websiteUrl,
-        },
-      });
+      requestApi(token, email, inputs);
     } catch (err) {
       notification.info('Error saving configuration');
     }
@@ -100,6 +100,7 @@ const QuestionsContent = ({ email }) => {
           </Grid>
           <Grid item>
             <TextField
+              required
               name="websiteUrl"
               value={inputs.websiteUrl}
               onChange={handleInputChange}
@@ -112,7 +113,7 @@ const QuestionsContent = ({ email }) => {
           {intl.formatMessage({ id: 'questions.when-start.title' })}
           <RadioGroup
             aria-label="when"
-            name="when_do_you_want_to_start_verifying_users_"
+            name="whenToStart"
             className={classes.radioGroup}
           >
             <FormControlLabel
@@ -146,7 +147,7 @@ const QuestionsContent = ({ email }) => {
           {intl.formatMessage({ id: 'questions.how-many.title' })}
           <RadioGroup
             aria-label="howmany"
-            name="required_verification_volume_per_month_"
+            name="verificationsVolume"
             className={classes.radioGroup}
           >
             <FormControlLabel
@@ -177,7 +178,7 @@ const QuestionsContent = ({ email }) => {
         </Grid>
 
         <Grid item>
-          <Button type="submit" color="primary" variant="contained">
+          <Button type="submit" color="primary" disabled={disabled} variant="contained">
             {intl.formatMessage({ id: 'questions.how-many.submit' })}
           </Button>
         </Grid>
