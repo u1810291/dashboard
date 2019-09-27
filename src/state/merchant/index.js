@@ -235,6 +235,7 @@ const initialState = {
   apps: [],
   billing: {
     providers: [],
+    planDetails: {},
   },
   configuration: {
     flow: {

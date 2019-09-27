@@ -36,13 +36,13 @@ export default function ClientApplication({
     handleAddNewWebhook,
     handleDeleteWebhook,
     handleUnlockApplication,
-    hasProvider,
+    isIntegrationLocked,
     permalink,
   } = hooks({ application, deleteWebhook, subscribeToWebhook });
 
   return (
     <Items flow="row" className={CSS.container}>
-      <table className={clsx('mgi-table', { [CSS.overlay]: !hasProvider })}>
+      <table className={clsx('mgi-table', { [CSS.overlay]: !isIntegrationLocked })}>
         <colgroup>
           <col className={CSS.headerColumn} />
           <col />
@@ -56,7 +56,7 @@ export default function ClientApplication({
             <td className="text-secondary">{application.clientId}</td>
             <td>
               <CopyToClipboardCell
-                disabled={!hasProvider}
+                disabled={!isIntegrationLocked}
                 text={application.clientId}
               />
             </td>
@@ -68,7 +68,7 @@ export default function ClientApplication({
             <td className="text-secondary">{application.clientSecret}</td>
             <td>
               <CopyToClipboardCell
-                disabled={!hasProvider}
+                disabled={!isIntegrationLocked}
                 text={application.clientSecret}
               />
             </td>
@@ -80,7 +80,7 @@ export default function ClientApplication({
             <td className="text-secondary">{permalink}</td>
             <td>
               <CopyToClipboardCell
-                disabled={!hasProvider}
+                disabled={!isIntegrationLocked}
                 text={permalink}
               />
             </td>
@@ -103,7 +103,7 @@ export default function ClientApplication({
                   <Button
                     buttonStyle="invisible"
                     onClick={() => handleDeleteWebhook(webhook.id)}
-                    disabled={!hasProvider}
+                    disabled={!isIntegrationLocked}
                   >
                     <Icons.TrashBin className="svg-error" />
                   </Button>
@@ -121,7 +121,7 @@ export default function ClientApplication({
                 <Button
                   buttonStyle="primary"
                   onClick={handleAddNewWebhook}
-                  disabled={!hasProvider}
+                  disabled={!isIntegrationLocked}
                 >
                   <FormattedMessage id="fragments.client_application.add_webhook" />
                 </Button>
@@ -131,7 +131,7 @@ export default function ClientApplication({
         </tbody>
       </table>
       {
-        !hasProvider
+        !isIntegrationLocked
           && (
             <Click
               background="active"
