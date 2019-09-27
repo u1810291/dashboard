@@ -13,7 +13,7 @@ const ApplicationBox = ({
   const { location: { pathname } } = props;
 
   useEffect(() => {
-    window.Appcues.page();
+    if (window.Appcues) window.Appcues.page();
   }, [pathname]);
 
   return (
