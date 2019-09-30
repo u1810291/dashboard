@@ -97,8 +97,8 @@ class Dashboard extends React.Component {
             />
             <OwnersRoute path="/settings" component={Settings} />
             <Route path="/info" component={Info} />
-            <OwnersRoute path="/product" component={Product} />
-            <OwnersRoute path="/" component={Metrics} />
+            <OwnersRoute path="/metrics" component={Metrics} />
+            <OwnersRoute path="/" component={Product} />
           </Switch>
         </ApplicationBox>
       </>
