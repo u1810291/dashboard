@@ -24,14 +24,14 @@ export default function PrimaryMenu({ isOwner }) {
     {
       show: isOwner,
       to: '/',
-      label: intl.formatMessage({ id: 'dashboard.menu.metrics' }),
-      handler: () => trackEvent('merchant_click_metrics_tab'),
+      label: intl.formatMessage({ id: 'dashboard.menu.product' }),
+      handler: () => trackEvent('merchant_click_product_tab'),
     },
     {
       show: isOwner,
-      to: '/product',
-      label: intl.formatMessage({ id: 'dashboard.menu.product' }),
-      handler: () => trackEvent('merchant_click_product_tab'),
+      to: '/metrics',
+      label: intl.formatMessage({ id: 'dashboard.menu.metrics' }),
+      handler: () => trackEvent('merchant_click_metrics_tab'),
     },
     {
       to: '/identities',
