@@ -16,7 +16,7 @@ class TeamTable extends React.Component {
     collaborators: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     isDeleting: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    isPatchingArray: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    isPatchingArray: PropTypes.arrayOf(PropTypes.string).isRequired,
     onDeleteSubmit: PropTypes.func.isRequired,
     onRoleChange: PropTypes.func.isRequired,
   }

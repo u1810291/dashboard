@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 const Badge = ({
@@ -23,16 +22,6 @@ const Badge = ({
   return (
     <Button>{label}</Button>
   );
-};
-
-Badge.propTypes = {
-  label: PropTypes.string.isRequired,
-  color: PropTypes.string,
-  background: PropTypes.string,
-};
-Badge.defaultProps = {
-  color: '#FFFFFF',
-  background: '#FF862E',
 };
 
 export default Badge;
