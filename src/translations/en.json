@@ -839,9 +839,10 @@
   "feedbacks.feedback.3.content": "Finally! An Identity platform I love. Mati is a super important part of our UX",
   "feedbacks.feedback.3.author": "Artak Hamazaspyan, CEO\/Founder at Beaxy Exchange",
   "dashboard.footer.whoUseIt": "200+ companies use Mati",
-  "PricingPlans.support": "Instant support via Discord or Slack",
+  "PricingPlans.support": "Support via Discord & Slack",
   "EndToEndCompliance.title": "End to End Compliance",
   "EndToEndCompliance.t1": "Generate a custom flow tailored to your specific risk levels, we will manage all of the documents you need to display, as well as any user requests.",
   "EndToEndCompliance.t2": "Get in touch with our staff to go through a quick evaluation process and start the process of forgetting about compliance once and for all!",
-  "EndToEndCompliance.cta": "Go to Legal Services"
+  "EndToEndCompliance.cta": "Go to Legal Services",
+  "Product.customization.newFeatures": "New Features"
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 const Badge = ({
-  label ,
+  label,
   color = '#FFFFFF',
   background = '#FF862E',
 }) => {
