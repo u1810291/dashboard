@@ -694,6 +694,7 @@
   "PricingPlans.pricePerMonth": "mes",
   "PricingPlans.start": "iniciar plan",
   "PricingPlans.currentPlan": "Su plan actual",
+  "PricingPlans.support": "Soporte instantáneo a través de Discord o Slack",
   "Billing.form.plan": "Plan",
   "Billing.form.payment": "Método de pago",
   "Billing.form.verification": "Verificaciones incluidas",
