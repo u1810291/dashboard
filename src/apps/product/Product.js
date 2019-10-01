@@ -47,7 +47,13 @@ export default function Product() {
           onClick={changeActiveTabHandler}
           tabs={tabs}
           contents={[<Configuration />, <Integration />, <LegalServices />]}
-          aside={[<MatiButtonAside />, <IntegrationAside />, null]}
+          aside={[
+            <MatiButtonAside
+              goToComplianceSection={() => changeActiveTabHandler(2)}
+            />,
+            <IntegrationAside />,
+            null,
+          ]}
         />
       </Content>
 

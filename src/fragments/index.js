@@ -16,3 +16,6 @@ export { default as ChartFilters } from './metrics/chart-filters';
 export {
   default as VerificationStatistic,
 } from './metrics/verification-statistic';
+export {
+  default as EndToEndCompliance,
+} from './product/end-to-end-compliance';
