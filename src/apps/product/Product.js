@@ -9,9 +9,11 @@ import IntegrationAside from 'apps/integration/IntegrationAside';
 import { trackEvent } from 'lib/mixpanel';
 import LegalServices from 'fragments/product/legal-services';
 import Badge from './Badge';
+import Footer from './Footer';
 
 export default function Product() {
   const [activeTabIndex, changeActiveTab] = useState(0);
+
   const tabs = [
     {
       tab: 'Product.tab.customization',
@@ -36,16 +38,20 @@ export default function Product() {
   };
 
   return (
-    <Content>
-      <Tab
-        withAside
-        padding={2}
-        active={activeTabIndex}
-        onClick={changeActiveTabHandler}
-        tabs={tabs}
-        contents={[<Configuration />, <Integration />, <LegalServices />]}
-        aside={[<MatiButtonAside />, <IntegrationAside />, null]}
-      />
-    </Content>
+    <>
+      <Content>
+        <Tab
+          withAside
+          padding={2}
+          active={activeTabIndex}
+          onClick={changeActiveTabHandler}
+          tabs={tabs}
+          contents={[<Configuration />, <Integration />, <LegalServices />]}
+          aside={[<MatiButtonAside />, <IntegrationAside />, null]}
+        />
+      </Content>
+
+      <Footer />
+    </>
   );
 }

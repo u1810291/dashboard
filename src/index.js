@@ -27,17 +27,16 @@ if (process.env.REACT_APP_SENTRY_DSN) {
 }
 
 const theme = createMuiTheme({
+  spacing: 10,
   palette: {
     primary: {
       main: '#3757ff',
     },
+    secondary: {
+      main: '#ffffff',
+    },
   },
   overrides: {
-    MuiToolbar: {
-      root: {
-        backgroundColor: '#3757FF',
-      },
-    },
     MuiInputBase: {
       text: {
         color: 'red',

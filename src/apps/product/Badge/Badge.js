@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 
 const Badge = ({
   label,
-  color = '#FFFFFF',
-  background = '#FF862E',
+  color,
+  background,
 }) => {
   const Button = styled.button`
     color: ${color};
@@ -27,8 +27,12 @@ const Badge = ({
 
 Badge.propTypes = {
   label: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
-  background: PropTypes.string.isRequired,
+  color: PropTypes.string,
+  background: PropTypes.string,
+};
+Badge.defaultProps = {
+  color: '#FFFFFF',
+  background: '#FF862E',
 };
 
 export default Badge;

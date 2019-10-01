@@ -169,6 +169,7 @@ export default function Pricing() {
                     highlight={plan.highlight}
                     includedVerifications={plan.includedVerifications}
                     extraPrice={plan.extraPrice}
+                    supportLevel={plan.supportLevel}
                     onChoosePlan={() => handlePlanClick(plan)}
                     current={currentPlan && plan._id === currentPlan}
                   />

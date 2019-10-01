@@ -18,7 +18,7 @@ const MenuBar = ({
   const { isPlanActivated } = useMerchantBilling();
 
   const ApplicationMenu = ({ children }) => (
-    <AppBar position="sticky" elevation={0}>
+    <AppBar position="sticky" color="primary" elevation={0}>
       <Toolbar className={classes.toolBar}>
         {children}
       </Toolbar>

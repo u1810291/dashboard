@@ -15,6 +15,12 @@ export function getPlans(token) {
     return client.plans
       .getPlans(token)
       .then((payload) => {
+        // TODO: temporary solution before BE implement "supportLevel" property
+        // https://matibiometrics.atlassian.net/browse/BAC-4423
+        (payload.data.rows || []).map((plan) => {
+          plan.supportLevel = (['Regular', 'Growth'].includes(plan.name)) ? 1 : 0;
+          return plan;
+        });
         dispatch({ type: types.PLANS_GET_SUCCESS, payload });
         return payload;
       })
