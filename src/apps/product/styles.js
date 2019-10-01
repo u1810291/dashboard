@@ -57,7 +57,7 @@ export const useStyles = makeStyles(() => ({
     bottom: 0,
   },
   toolBar: {
-    background: `url("./${SocialStripe}") no-repeat center center`,
+    background: `url("${SocialStripe}") no-repeat center center`,
     'background-position-x': 70,
     'background-size': 'auto 50px',
     'justify-content': 'flex-end',
