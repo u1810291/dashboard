@@ -10,7 +10,6 @@ module.exports = {
     'no-console': ['error', { allow: ['warn', 'error'] }],
     'no-else-return': 0,
     'no-param-reassign': 0,
-
     'no-shadow': 'warn',
     'no-underscore-dangle': ['error', { allow: ['_embedded', '_id', '_hsq'] }],
     'object-curly-newline': ['error', { multiline: true, consistent: true }],
@@ -22,21 +21,7 @@ module.exports = {
     // TODO: Disable this option and fix errors after
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/jsx-props-no-spreading': 0,
-    'react/prop-types': [
-      'error',
-      {
-        ignore: [
-          'children',
-          'className',
-          'dispatch',
-          'history',
-          'intl',
-          'location',
-          'match',
-        ],
-        customValidators: [],
-      },
-    ],
+    'react/prop-types': 0,
     'react/static-property-placement': [2, 'static public field'],
     'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',

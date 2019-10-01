@@ -37,7 +37,6 @@ export default function Card({
 }) {
   const cardStyles = css`
     --mgi-card-border-radius: 4px;
-    overflow: hidden;
     border-radius: ${splitCSSValues(
     borderRadius,
     (value) => `calc(var(--mgi-card-border-radius) * ${value})`,

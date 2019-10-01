@@ -8,7 +8,6 @@ import { ReactComponent as DownArrow } from './downArrow.svg';
 
 const DropdownIndicator = (props) => (
   components.DropdownIndicator && (
-  // eslint-disable-next-line react/jsx-props-no-spreading
   <components.DropdownIndicator {...props}>
     <DownArrow />
   </components.DropdownIndicator>
@@ -23,23 +22,15 @@ export default function SelectField({
   options,
   ...inputProps
 }) {
-  function onSelectChange({ value: nextValue }) {
-    onChange({
-      target: {
-        name: inputProps.name,
-        value: nextValue,
-      },
-    });
-  }
   return (
     <Select
       className={classNames(CSS.selectField, error && CSS.error, className)}
       classNamePrefix="select-field"
       components={{ DropdownIndicator }}
-      onChange={onSelectChange}
+      onChange={onChange}
       options={options}
-      value={options.find((o) => o.value === value)}
-      {...inputProps} // eslint-disable-line react/jsx-props-no-spreading
+      value={value}
+      {...inputProps}
     />
   );
 }
@@ -49,13 +40,13 @@ SelectField.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   options: PropTypes.arrayOf(PropTypes.shape({})),
-  value: PropTypes.string,
+  value: PropTypes.shape({}),
 };
 
 SelectField.defaultProps = {
   error: undefined,
   name: '',
   onChange: () => {},
+  value: {},
   options: [],
-  value: '',
 };
