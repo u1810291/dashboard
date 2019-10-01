@@ -126,13 +126,11 @@ export default flowRight(
 )(Dashboard);
 
 const OwnersRoute = ({ component: Component, ...rest }) => {
-  const isOwner = useSelector((state) => ({
-    isOwner:
-      !state.merchant.collaborators
-      || !state.merchant.collaborators.find(
-        (col) => col.user === state.auth.user.id && col.role === 2,
-      ),
-  }));
+  const isOwner = useSelector((state) => (
+    !state.merchant.collaborators || !state.merchant.collaborators.find(
+      (col) => col.user === state.auth.user.id && col.role === 2,
+    )
+  ));
 
   return (
     <Route
