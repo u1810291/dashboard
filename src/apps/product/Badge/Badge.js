@@ -2,9 +2,9 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 const Badge = ({
-  label,
-  color,
-  background,
+  label ,
+  color = '#FFFFFF',
+  background = '#FF862E',
 }) => {
   const Button = styled.button`
     color: ${color};
