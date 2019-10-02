@@ -44,7 +44,7 @@ export default function PricingPlans({
             />
           </Text>
 
-          <Text size={1} color="secondary">
+          <Text size={1.5} color="secondary" weight={4}>
             {includedVerifications > 0 ? (
               <FormattedMessage
                 id="PricingPlans.pricePerverification"
@@ -61,7 +61,7 @@ export default function PricingPlans({
         </Items>
 
         <Items flow="row" gap={0.5}>
-          <Text color="secondary">
+          <Text color="secondary" size={0.75}>
             <FormattedMessage
               id="PricingPlans.pricePerverification"
               values={{
@@ -70,7 +70,7 @@ export default function PricingPlans({
             />
           </Text>
           {includedVerifications > 0 && (
-            <Text color="secondary">
+            <Text color="secondary" size={0.75}>
               <FormattedMessage
                 id="PricingPlans.extraPrice"
                 values={{
@@ -87,7 +87,7 @@ export default function PricingPlans({
               <img src={DiscordLogo} alt="Discord" width="30" />
               <img src={SlackLogo} alt="Slack" width="30" />
             </div>
-            <Text color="secondary">
+            <Text color="secondary" size={0.75}>
               {intl.formatMessage({ id: 'PricingPlans.support' })}
             </Text>
           </Items>

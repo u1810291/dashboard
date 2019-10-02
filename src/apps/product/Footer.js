@@ -15,6 +15,7 @@ const Footer = () => {
   const intl = useIntl();
   const classes = useStyles();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getFeedbackById = (id) => {
     const prefix = 'feedbacks.feedback';
     const getEntry = (txtId, field) => intl.formatMessage(
