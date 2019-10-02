@@ -678,7 +678,7 @@
   "PricingPlans.regular.title": "Regular",
   "PricingPlans.growth.title": "Expansión",
   "PricingPlans.limitationsNotice": "Por encima de  {amount} de verificaciones se aplica el precio estándar de $1.9 \/verif",
-  "PricingRefundNotice.title": "Garantía de 30 días, si no está satisfecho le regresamos su dinero  ¡Sin preguntas!",
+  "PricingRefundNotice.title": "Garantía de 30 días, si no está satisfecho le regresamos su dinero.",
   "PricingRefundNotice.subtitle": "¡Sin preguntas!",
   "PricingLargePlans.highgrowth.title": "Crecimiento alto",
   "PricingLargePlans.highgrowth.priceline": "<strong> $ 9000 <\/strong> \/ mes",
