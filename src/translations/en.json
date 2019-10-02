@@ -678,7 +678,7 @@
   "PricingPlans.regular.title": "Regular",
   "PricingPlans.growth.title": "Growth",
   "PricingPlans.limitationsNotice": "Over {amount} verifications standard pricing of $1.9\/verif",
-  "PricingRefundNotice.title": "30-day money back guarantee. No questions asked!",
+  "PricingRefundNotice.title": "30-day money back guarantee.",
   "PricingRefundNotice.subtitle": "No questions asked!",
   "PricingLargePlans.highgrowth.title": "High Growth",
   "PricingLargePlans.highgrowth.priceline": "<strong>$9000<\/strong>\/month",
