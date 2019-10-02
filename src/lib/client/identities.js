@@ -107,12 +107,13 @@ export function getIdentityWithNestedData(token, id) {
       const stepIndex = data._embedded.verification.steps.findIndex(
         (step) => step.id === 'liveness',
       );
-
+      const file = get(video, 'data._links.file.href');
+      const videoUrl = file ? authorizedUrl(file, token) : undefined;
       const step = identity._embedded.verification.steps[stepIndex];
       identity._embedded.verification.steps[stepIndex].data = {
         ...step.data,
         // eslint-disable-next-line no-underscore-dangle
-        videoUrl: authorizedUrl(video.data._links.file.href, token),
+        videoUrl,
       };
     }
     return identity;
