@@ -102,19 +102,17 @@ export function getIdentityWithNestedData(token, id) {
       && get(data, '_links.video.href')
       && data._embedded.verification.steps.find((step) => step.id === 'liveness')
     ) {
-      // eslint-disable-next-line no-underscore-dangle
+      
       const video = await http.get(authorizedUrl(data._links.video.href, token));
       const stepIndex = data._embedded.verification.steps.findIndex(
         (step) => step.id === 'liveness',
       );
 
       const step = identity._embedded.verification.steps[stepIndex];
-      const file = get(video, 'data._links.file.href');
-      const videoUrl = file ? authorizedUrl(file, token) : '';
-
       identity._embedded.verification.steps[stepIndex].data = {
         ...step.data,
-        videoUrl,
+        // eslint-disable-next-line no-underscore-dangle
+        videoUrl: authorizedUrl(get(video, 'data._links.file.href'), token),
       };
     }
     return identity;
