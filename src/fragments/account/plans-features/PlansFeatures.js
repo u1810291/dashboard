@@ -12,7 +12,7 @@ export default function PlansFeatures() {
       </H2>
       <Items autoRows="1fr">
         {['identity-features', 'other-features'].map((key) => (
-          <Items flow="row">
+          <Items flow="row" key={key}>
             <H3 color="secondary">
               {intl.formatMessage({
                 id: `fragments.account.plans-features.${key}.title`,
