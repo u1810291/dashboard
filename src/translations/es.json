@@ -685,7 +685,7 @@
   "PricingLargePlans.enterprise.title": "Empresarial ",
   "PricingLargePlans.enterprise.priceline": "Implementaciones a gran escala",
   "PricingPlans.upTo": "hasta",
-  "PricingPlans.verificationsPerMonth": "0 verificaciones incluidas",
+  "PricingPlans.verificationsPerMonth": "{count} verificaciones incluidas",
   "PricingPlans.pricePerMonth": "mes",
   "PricingPlans.start": "iniciar plan",
   "PricingPlans.currentPlan": "Su plan actual",
