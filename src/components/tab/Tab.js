@@ -91,7 +91,7 @@ Tab.propTypes = {
   contents: PropTypes.arrayOf(PropTypes.shape({})),
   justify: PropTypes.string,
   onClick: PropTypes.func,
-  tabs: PropTypes.arrayOf(PropTypes.string),
+  tabs: PropTypes.arrayOf(PropTypes.object),
   withAside: PropTypes.bool.isRequired,
 };
 
