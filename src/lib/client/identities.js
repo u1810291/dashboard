@@ -102,7 +102,6 @@ export function getIdentityWithNestedData(token, id) {
       && get(data, '_links.video.href')
       && data._embedded.verification.steps.find((step) => step.id === 'liveness')
     ) {
-      
       const video = await http.get(authorizedUrl(data._links.video.href, token));
       const stepIndex = data._embedded.verification.steps.findIndex(
         (step) => step.id === 'liveness',
