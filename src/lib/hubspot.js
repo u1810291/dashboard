@@ -18,8 +18,8 @@ export function requestApi(token, email, inputs = {}) {
     contactData: {
       company: inputs.organization,
       website: inputs.websiteUrl,
-      when_do_you_want_to_start_verifying_users_: inputs.whenToStart,
-      required_verification_volume_per_month_: inputs.verificationsVolume,
+      start_verifying_users: inputs.whenToStart,
+      how_many_verifications: inputs.verificationsVolume,
     },
   };
   client.hubspot.hubspotApiRequest(token, data);
