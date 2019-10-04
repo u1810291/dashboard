@@ -102,7 +102,6 @@ export function getIdentityWithNestedData(token, id) {
       && get(data, '_links.video.href')
       && data._embedded.verification.steps.find((step) => step.id === 'liveness')
     ) {
-      // eslint-disable-next-line no-underscore-dangle
       const video = await http.get(authorizedUrl(data._links.video.href, token));
       const stepIndex = data._embedded.verification.steps.findIndex(
         (step) => step.id === 'liveness',
@@ -112,7 +111,6 @@ export function getIdentityWithNestedData(token, id) {
       const step = identity._embedded.verification.steps[stepIndex];
       identity._embedded.verification.steps[stepIndex].data = {
         ...step.data,
-        // eslint-disable-next-line no-underscore-dangle
         videoUrl,
       };
     }
