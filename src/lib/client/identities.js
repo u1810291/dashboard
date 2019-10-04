@@ -112,7 +112,6 @@ export function getIdentityWithNestedData(token, id) {
       const step = identity._embedded.verification.steps[stepIndex];
       identity._embedded.verification.steps[stepIndex].data = {
         ...step.data,
-        // eslint-disable-next-line no-underscore-dangle
         videoUrl,
       };
     }
