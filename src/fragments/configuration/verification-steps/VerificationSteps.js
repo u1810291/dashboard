@@ -1,16 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { difference, without } from 'lodash';
 import classNames from 'classnames';
 
-import Icons from 'components/icons';
-import Button from 'components/button';
-import Text from 'components/text';
-import Items from 'components/items';
-import Select from 'react-select';
+import {
+  Icons,
+  Button,
+  Text,
+  Items,
+} from 'components';
 import { createOverlay, closeOverlay } from 'components/overlay';
 import confirm from 'components/confirm';
+import BiometricStep from './biometric-steps';
 import VerificationStepModal from '../verification-steps-modal';
 import CSS from './VerificationSteps.module.scss';
 
@@ -37,7 +39,6 @@ export function accessibleItems(available, mandatory, steps, index) {
 }
 
 function VerificationSteps({
-  intl,
   bio,
   steps = [],
   availableDocumentTypes = [],
@@ -49,27 +50,6 @@ function VerificationSteps({
     confirm(<FormattedMessage id="confirm_string" />).then(() => onChange({ verificationSteps: removeItem(steps, index) }),
     );
   };
-
-  const biometricOptions = [
-    {
-      label: intl.formatMessage({
-        id: 'flow.biometricStep.none',
-      }),
-      value: 'none',
-    },
-    {
-      label: intl.formatMessage({
-        id: 'flow.biometricStep.selfie',
-      }),
-      value: 'selfie',
-    },
-    {
-      label: intl.formatMessage({
-        id: 'flow.biometricStep.liveness',
-      }),
-      value: 'liveness',
-    },
-  ];
 
   const onEditItem = (index) => {
     createOverlay(
@@ -187,27 +167,14 @@ function VerificationSteps({
       )}
     </fieldset>
   ) : (
-    <fieldset className="mgi-fieldset">
-      <div>
-        <Text size={3} weight={4}>
-          <FormattedMessage id="flow.documentTypeStep.biometric" />
-        </Text>
-        <Select
-          className={CSS.marginBlock}
-          options={biometricOptions}
-          value={biometricOptions.find((option) => option.value === patterns.biometrics)}
-          onChange={({ value }) => {
-            onChange({
-              verificationPatterns: { ...patterns, biometrics: value },
-            });
-          }}
-        />
-      </div>
-    </fieldset>
+    <BiometricStep
+      patterns={patterns}
+      onChange={onChange}
+    />
   );
 }
 
-export default injectIntl(VerificationSteps);
+export default VerificationSteps;
 
 VerificationSteps.propTypes = {
   availableDocumentTypes: PropTypes.arrayOf(PropTypes.string),
