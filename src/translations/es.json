@@ -150,6 +150,8 @@
   "flow.documentTypeStep.stepNo": "Requisito",
   "flow.documentTypeStep.biometric": "Requisito biométrico",
   "flow.biometricStep.liveness": "Liveness",
+  "flow.documentTypeStep.biometric.title": "Selecciona tus requisitos biométricos",
+  "flow.documentTypeStep.biometric.subtitle": "Puedes decidir si usar biometría o no. Si decides usar liveness, tus usuarios necesitarán grabar un video tipo selfie. En éste caso se realizará tanto la prueba de vida como la comparación facial. Si eliges solamente utilizar selfie, entonces únicamente se realizará la compraración facial.",
   "flow.biometricStep.selfie": "Selfie",
   "flow.biometricStep.none": "Ninguno",
   "flow.documentTypeStep.button.title": "Añadir requisito de verificación",
