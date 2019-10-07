@@ -6,17 +6,19 @@ const Badge = ({
   color = '#FFFFFF',
   background = '#FF862E',
 }) => {
-  const Button = styled.button`
+  const Button = styled.div`
+    position: absolute;
+    top -5px;
+    right: -13px;
+    width: 43px;
+    height: 15px;
+    font-size: 12px;
+    font-weight: bold;
     color: ${color};
     background-color: ${background};
     border: none;
     border-radius: 10px;
-    line-height: 1.1;
-    font-weight: bold;
-    position: absolute;
     outline: none;
-    top -5px;
-    right: -13px;
   `;
 
   return (
