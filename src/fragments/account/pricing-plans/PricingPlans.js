@@ -4,6 +4,7 @@ import snakeCase from 'lodash/snakeCase';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { Items, Card, Click, Text } from 'components';
+import CSS from './PricingPlans.module.scss';
 
 import DiscordLogo from './icons/discord-logo.png';
 import SlackLogo from './icons/slack-logo.png';
@@ -61,7 +62,7 @@ export default function PricingPlans({
         </Items>
 
         <Items flow="row" gap={0.5}>
-          <Text color="secondary" size={0.75}>
+          <Text color="secondary" size={1}>
             <FormattedMessage
               id="PricingPlans.pricePerverification"
               values={{
@@ -70,7 +71,7 @@ export default function PricingPlans({
             />
           </Text>
           {includedVerifications > 0 && (
-            <Text color="secondary" size={0.75}>
+            <Text color="secondary" size={1}>
               <FormattedMessage
                 id="PricingPlans.extraPrice"
                 values={{
@@ -87,7 +88,7 @@ export default function PricingPlans({
               <img src={DiscordLogo} alt="Discord" width="30" />
               <img src={SlackLogo} alt="Slack" width="30" />
             </div>
-            <Text color="secondary" size={0.75}>
+            <Text color="secondary" size={1}>
               {intl.formatMessage({ id: 'PricingPlans.support' })}
             </Text>
           </Items>
@@ -101,7 +102,7 @@ export default function PricingPlans({
           justifyContent="center"
           data-qa="pricing-planControl-current"
         >
-          <Text uppercase color="active" lineHeight={2.5}>
+          <Text uppercase color="active" lineHeight={2.5} className={CSS.blockNowrap}>
             <FormattedMessage id="PricingPlans.currentPlan" />
           </Text>
         </Items>

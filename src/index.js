@@ -37,6 +37,13 @@ const theme = createMuiTheme({
     },
   },
   overrides: {
+    MuiIconButton: {
+      root: {
+        '&:hover': {
+          backgroundColor: 'inherit !important',
+        },
+      },
+    },
     MuiInputBase: {
       text: {
         color: 'red',
@@ -52,6 +59,16 @@ const theme = createMuiTheme({
     },
   },
   typography: {
+    h1: {
+      fontSize: '28px',
+    },
+    h2: {
+      fontSize: '18px',
+    },
+    h3: {
+      fontSize: '16px',
+      fontWeight: 'bold',
+    },
     fontFamily: ['Lato', 'Helvetica Neue', 'sans-serif'],
   },
 });
