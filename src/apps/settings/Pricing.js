@@ -157,7 +157,7 @@ export default function Pricing() {
     <SettingsLayout aside={false} hasMerchantPlan={currentPlan}>
       <main>
         <Items flow="row" gap={12}>
-          {planList.length && (
+          {!!planList.length && (
             <Items flow="row" gap={2}>
               <PricingRefundNotice />
               <Items flow="column" gap={1} align="stretch">
