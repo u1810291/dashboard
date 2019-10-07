@@ -758,7 +758,7 @@
   "StatesExplanation.rejected.text": "Only you as a merchant can edit a verification status and change it to “rejected”. Mati does not reject users.",
   "Product.tab.customization": "SDKs Customization",
   "Product.tab.integration": "SDKs Integration",
-  "Product.configuration.buttonsColor": "Buttons colour",
+  "Product.configuration.buttonsColor": "Buttons color",
   "Product.configuration.verification": "Verification requirements",
   "Product.configuration.biometric": "Biometric requirements",
   "Product.configuration.language": "Language",
