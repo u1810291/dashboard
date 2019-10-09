@@ -1,6 +1,7 @@
 .content {
   padding: 20px 20px 20px 0;
   min-height: 435px;
+  min-width: 640px;
 }
 
 .matiButtonWrapper {
@@ -27,6 +28,7 @@
     cursor: pointer;
     border-radius: 0 4px 4px 0;
     margin-bottom: 3px;
+    user-select: none;
 
     &.active {
       background-color: var(--mgi-theme-palette-lightergray);

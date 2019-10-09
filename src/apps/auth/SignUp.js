@@ -43,6 +43,7 @@ export default function SignUp() {
       } = await dispatch(
         signUp(pick(data, 'firstName', 'lastName', 'email', 'password')),
       );
+      if (window.Appcues) window.Appcues.identify(data.email);
       await dispatch(getIntegrationCode(token));
       await dispatch(
         saveConfiguration(token, {

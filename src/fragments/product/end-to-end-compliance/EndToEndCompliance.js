@@ -2,11 +2,13 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Items, Card, Click, H3, Text } from 'components';
 import Icons from './icons.png';
+import Badge from './Badge';
 
 export default function EndToEndCompliance({ goToComplianceSection }) {
   const intl = useIntl();
   return (
-    <Card border="lightgray" shadow="0">
+    <Card border="lightgray" shadow="0" style={{ position: 'relative' }}>
+      <Badge label="Beta" />
       <Items align="center">
         <H3>{intl.formatMessage({ id: 'EndToEndCompliance.title' })}</H3>
         <img src={Icons} alt="End to End Compliance" />

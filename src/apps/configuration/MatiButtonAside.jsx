@@ -97,7 +97,6 @@ export default function MatiButtonAside({ goToComplianceSection }) {
       </Items>
 
       <Items flow="row" gap="1">
-        <p>{intl.formatMessage({ id: 'Product.customization.newFeatures' })}</p>
         <EndToEndCompliance goToComplianceSection={goToComplianceSection} />
       </Items>
     </Items>

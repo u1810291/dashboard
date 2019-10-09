@@ -8,12 +8,14 @@ const Badge = ({
 }) => {
   const Button = styled.div`
     position: absolute;
-    top -5px;
-    right: -13px;
+    top -8px;
+    left: -8px;
     width: 43px;
-    height: 15px;
+    height: 16px;
     font-size: 12px;
     font-weight: bold;
+    line-height: 1.3;
+    text-align: center;
     color: ${color};
     background-color: ${background};
     border: none;
