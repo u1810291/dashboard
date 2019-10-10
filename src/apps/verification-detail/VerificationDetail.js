@@ -136,7 +136,7 @@ const VerificationDetail = ({
 
   const isDeleting = deletingIdentities.includes(identity.id);
   const documentsSources = get(identity, '_embedded.documents');
-  const livenessStep = verification.steps.find((steps) => steps.id === 'liveness');
+  const livenessStep = verification.steps.find((steps) => ['liveness', 'selfie'].includes(steps.id));
   const userInfo = {
     fullName: titleize(identity.fullName || ''),
     dateCreated: moment(identity.dateCreated).local().format('DD MMM, YYYY HH:mm'),

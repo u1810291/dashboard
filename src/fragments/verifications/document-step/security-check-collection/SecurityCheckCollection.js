@@ -1,13 +1,16 @@
-/** @jsx jsx */
-
 import PropTypes from 'prop-types';
-import { css, jsx } from '@emotion/core';
-import { Click } from 'components';
-import { FormattedMessage } from 'react-intl';
-import { FaRegQuestionCircle as QuestionMark } from 'react-icons/fa';
+import React from 'react';
+import { useIntl } from 'react-intl';
+
+import {
+  Items,
+  HelpMessage,
+  QuestionMark,
+} from 'components';
+import {
+  Box,
+} from '@material-ui/core';
 import { createOverlay } from 'components/overlay';
-import CSS from './SecurityCheckCollection.module.scss';
-import HelpMessage from '../../help-message';
 
 function showHelpMessage(id) {
   createOverlay(<HelpMessage id={id} />);
@@ -17,37 +20,32 @@ function getStepStatus(id, error, status) {
   if (status === 200) {
     return error ? 'failure' : 'success';
   }
-
   return 'checking';
 }
 
-export default function SecurityCheckCollection({ steps = [] }) {
+const SecurityCheckCollection = ({ steps = [] }) => {
+  const intl = useIntl();
+
   return (
-    <table className="mgi-table">
-      <colgroup>
-        <col width="40%" />
-        <col width="60%" />
-      </colgroup>
-      <tbody>
-        {steps.map(({ id, error, status }) => (
-          <tr key={id}>
-            <td css={css`white-space: nowrap;`}>
-              <FormattedMessage id={`SecurityCheckStep.${id}.title`} />
-              <Click padding="0" onClick={() => showHelpMessage(id)} className={CSS.iconBox}>
-                <QuestionMark />
-              </Click>
-            </td>
-            <td>
-              <span className={error ? 'text-error' : 'text-normal'}>
-                <FormattedMessage id={`SecurityCheckStep.${id}.${getStepStatus(id, error, status)}`} />
-              </span>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Items flow="row" gap={1}>
+      { steps.map(({ id, error, status }) => (
+        <Box display="flex">
+          <Box whiteSpace="nowrap" flex="0 0 190px">
+            { intl.formatMessage({ id: `SecurityCheckStep.${id}.title` }) }
+            <QuestionMark onClick={() => showHelpMessage(id)} />
+          </Box>
+          <Box flex="1 1 auto">
+            <Box className={error ? 'text-error' : 'text-normal'}>
+              { intl.formatMessage({ id: `SecurityCheckStep.${id}.${getStepStatus(id, error, status)}` }) }
+            </Box>
+          </Box>
+        </Box>
+      ))}
+    </Items>
   );
-}
+};
+
+export default SecurityCheckCollection;
 
 SecurityCheckCollection.propTypes = {
   steps: PropTypes.arrayOf(PropTypes.shape({})),
