@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
+import { isEmpty } from 'lodash';
 
 import { Card } from 'components';
 import Text, { H2 } from 'components/text';
@@ -14,26 +15,28 @@ const defaultNameSpace = 'fragments.verifications.help-messages';
 
 const HelpMessage = ({
   id,
-  intl,
   className,
   namespace = defaultNameSpace,
   data,
 }) => {
-  const im = new IntlMessage(namespace, id, (data || intl.messages));
+  const intl = useIntl();
+  const langData = isEmpty(data) ? intl.messages : data;
+  const im = new IntlMessage(namespace, id, langData);
+
   return (
     <Card className={classNames(id, cardBox, className)}>
       <H2>
-        <FormattedMessage id={im.getNode('title')} />
+        { intl.formatMessage({ id: im.getNode('title') }) }
       </H2>
       <Text>
-        <FormattedMessage id={im.getNode('subtitle')} />
+        { intl.formatMessage({ id: im.getNode('subtitle') }) }
       </Text>
       <MessageTable data={im.getTable()} />
     </Card>
   );
 };
 
-export default injectIntl(HelpMessage);
+export default HelpMessage;
 
 HelpMessage.propTypes = {
   data: PropTypes.shape(),

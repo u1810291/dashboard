@@ -45,6 +45,7 @@ class IntlMessage {
     if (typeof pattern === 'string') {
       pattern = new RegExp(pattern);
     }
+
     return Object.keys(this.messages)
       .filter((name) => pattern.test(name))
       .map((key) => ({ [key]: this.messages[key] }));

@@ -19,7 +19,7 @@
   },
   "success": {
     "checks": {
-      "color": "black",
+      "color": "green",
       "message": "LivenessStep.Checks.success"
     }
   }
