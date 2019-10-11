@@ -35,6 +35,9 @@ import Spinner from 'components/spinner';
 import { FiUpload, FiCode } from 'react-icons/fi';
 import StatesExplanation from 'fragments/verifications/states-explanation';
 import { ifDateFormat, formatISODate } from 'lib/string';
+import {
+  Box,
+} from '@material-ui/core';
 
 import { ReactComponent as DeleteIcon } from './delete-icon.svg';
 import StatusSelect from '../../fragments/verifications/status-select/StatusSelect';
@@ -82,20 +85,19 @@ const Header = ({
     dateCreated,
   },
 }) => (
-  /* TODO: investigate this (css prop on div) */
-  <div css={css`padding-left:15px;`}>
-    <p css={css`padding-bottom:15px;`}>
+  <Box pl={1.5}>
+    <Box pb={1.5}>
       <Text size={4.5} weight={4} color={classNames({ gray: isEmpty(fullName) })}>
         { fullName || <FormattedMessage id="identities.nameNotFound" />}
       </Text>
-    </p>
+    </Box>
     { dateCreated
       && (
       <p>
         <Text color="gray">{dateCreated}</Text>
       </p>
       )}
-  </div>
+  </Box>
 );
 
 Header.propTypes = {
