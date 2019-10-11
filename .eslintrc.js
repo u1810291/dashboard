@@ -25,6 +25,7 @@ module.exports = {
     'react/static-property-placement': [2, 'static public field'],
     'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
+    'import/prefer-default-export': 0
   },
   env: {
     browser: true,

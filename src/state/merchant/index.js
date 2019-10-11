@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get, last } from 'lodash';
 import { createReducer, createTypesSequence } from 'state/utils';
 import client from 'lib/client';
 
@@ -286,7 +286,7 @@ export default createReducer(initialState, {
     return {
       ...state,
       apps: payload.data.apps,
-      lastApplication: payload.data.apps[0] || {},
+      lastApplication: last(payload.data.apps) || {},
     };
   },
 
