@@ -1,33 +1,25 @@
-/** @jsx jsx */
-
 import PropTypes from 'prop-types';
-import { css, jsx } from '@emotion/core';
+import React from 'react';
 import { get } from 'lodash';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 
-import Card from 'components/card';
-import Text from 'components/text';
-import { Click } from 'components';
-import { FaRegQuestionCircle as QuestionMark } from 'react-icons/fa';
+import {
+  Card,
+  HelpMessage,
+  QuestionMark,
+} from 'components';
+import {
+  Box,
+} from '@material-ui/core';
+import Text, { HR } from 'components/text';
 import { createOverlay } from 'components/overlay';
-import { ReactComponent as Placeholder } from './placeholder.svg';
-import CSS from './LivenessStep.module.scss';
-import HelpMessage from '../help-message';
-import config from './config';
 
-const videoStyle = css`
-  width: 230px;
-  max-height: 306px;
-  object-fit: cover;
-  object-position: center;
-`;
-function showHelpMessage(id) {
-  createOverlay(<HelpMessage id={id} />);
-}
+import config from './config';
+import CSS from './LivenessStep.module.scss';
+import { ReactComponent as Placeholder } from './placeholder.svg';
 
 const LivenessVideo = ({ url }) => (url ? (
   <video
-    css={videoStyle}
     autoPlay
     muted
     onMouseOver={({ target }) => {
@@ -40,53 +32,89 @@ const LivenessVideo = ({ url }) => (url ? (
     }}
     onFocus={() => {}}
     src={url}
+    className={CSS.video}
   />
 ) : <Placeholder />);
 
+const showHelpMessage = (id) => createOverlay(<HelpMessage id={id} />);
+
 const Checks = ({
+  intl,
   color = 'gray',
   children,
 }) => (
-  <div className={CSS.checkSection}>
-    <h2><FormattedMessage id="LivenessStep.Checks.title" /></h2>
-    <div>
-      <table>
-        <tbody>
-          <tr>
-            <td className={CSS.biometricTitle}>
-              <Text>
-                <FormattedMessage id="LivenessStep.Checks.statusTitle" />
-                <Click padding="0" onClick={() => showHelpMessage('liveness')} className={CSS.iconBox}>
-                  <QuestionMark />
-                </Click>
-              </Text>
-            </td>
-            <td className={CSS.messageBox}>
-              <Text color={color} className={CSS.statusMessage}>{children}</Text>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <Box display="flex">
+    <Box whiteSpace="nowrap" flex="0 1 190px">
+      { intl.formatMessage({ id: 'LivenessStep.Checks.status.title' }) }
+      <QuestionMark onClick={() => showHelpMessage('liveness')} />
+    </Box>
+    <Box flex="1 1 auto">
+      <Text color={color}>
+        {children}
+      </Text>
+    </Box>
+  </Box>
 );
 
-/**
- * Liveness step component generator
- * @param {object}
- */
-const LivenessStep = ({ status, step }) => (
-  <Card flow="column" padding={4} templateColumns="5fr auto">
-    <div>
-      <Checks color={config[status].checks.color}>
-        <FormattedMessage id={config[status].checks.message} />
-      </Checks>
-    </div>
-    <Card padding={0} shadow={get(step, 'data.videoUrl', 0)} className={CSS.videoFrame}>
-      <LivenessVideo url={step.data && step.data.videoUrl} />
-    </Card>
-  </Card>
+const BiometricSection = ({
+  title,
+  picture,
+  content,
+}) => (
+  <Box width="100%" display="flex">
+    <Box flex="1 1 auto">
+      <Box
+        fontSize={16}
+        lineHeight={2}
+      >
+        {title}
+      </Box>
+      {content && (
+        <Box pr={1} ml={1}>{content}</Box>
+      )}
+    </Box>
+    <Box flex="0 0 230px">
+      {picture}
+    </Box>
+  </Box>
 );
+
+const LivenessStep = ({ status, step }) => {
+  const intl = useIntl();
+  const videoUrl = get(step, 'data.videoUrl');
+  const selfieUrl = get(step, 'data.selfiePhotoUrl') || get(step, 'data.selfieUrl');
+
+  return (
+    <Card padding={4} gap={1}>
+      <Text size={4.5} weight={4}>
+        {intl.formatMessage({ id: 'LivenessStep.Checks.status.title' })}
+      </Text>
+      <HR />
+      { videoUrl && (
+        <BiometricSection
+          title={intl.formatMessage({ id: 'LivenessStep.Checks.video.title' })}
+          picture={<LivenessVideo url={videoUrl} />}
+          content={(
+            <Checks color={config[status].checks.color} intl={intl}>
+              {intl.formatMessage({ id: config[status].checks.message })}
+            </Checks>
+          )}
+        />
+      )}
+      { selfieUrl && (
+        <>
+          { videoUrl && <HR /> }
+          <BiometricSection
+            title={!videoUrl
+              ? intl.formatMessage({ id: 'LivenessStep.Checks.selfie.title' })
+              : intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
+            picture={<img src={selfieUrl} alt="" className={CSS.borderRadius} />}
+          />
+        </>
+      )}
+    </Card>
+  );
+};
 
 /**
  * Obtain a named status by code from step
@@ -107,14 +135,6 @@ export default ({
 
 LivenessVideo.propTypes = {
   url: PropTypes.string.isRequired,
-};
-
-Checks.propTypes = {
-  color: PropTypes.string,
-};
-
-Checks.defaultProps = {
-  color: 'gray',
 };
 
 LivenessStep.propTypes = {
