@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { css } from '@emotion/core';
 import { FormattedMessage } from 'react-intl';
 import { titleize } from 'inflection';
 import { connect } from 'react-redux';
