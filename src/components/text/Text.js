@@ -16,6 +16,7 @@ const Text = styled.span(
     uppercase,
     capitalize,
     weight = 2,
+    wordBreak,
   }) => ({
     fontSize: size === 2 ? null : `${1 + 0.28 * (size - 2)}rem`,
     color: color ? `var(--mgi-theme-palette-${color})` : null,
@@ -27,6 +28,7 @@ const Text = styled.span(
       return 'null';
     })(),
     textAlign: align,
+    wordBreak,
     padding,
     opacity,
     textDecoration,

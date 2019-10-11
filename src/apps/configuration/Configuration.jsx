@@ -9,7 +9,6 @@ import { Items } from 'components';
 import {
   AVAILABLE_DOCUMENT_TYPES,
   COLOR_PRESETS,
-  getMerchantApps,
   MANDATORY_DOCUMENT_TYPES,
   saveConfiguration,
 } from 'state/merchant';
@@ -23,7 +22,7 @@ import CSS from './Configuration.module.scss';
 
 export default function Configuration() {
   const { token } = useSelector(({ auth }) => auth);
-  const { apps, configuration } = useSelector(({ merchant }) => merchant);
+  const { configuration } = useSelector(({ merchant }) => merchant);
   const { countries, isLoading } = useSelector((state) => state.countries);
   const [active, setActive] = useState(0);
   const dispatch = useDispatch();
@@ -33,12 +32,6 @@ export default function Configuration() {
       saveConfiguration(token, settings),
     );
   };
-
-  useEffect(() => {
-    dispatch(
-      getMerchantApps(token),
-    );
-  }, [token, apps.length, dispatch]);
 
   useEffect(() => {
     dispatch(
