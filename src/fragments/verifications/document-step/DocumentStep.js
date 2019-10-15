@@ -22,7 +22,7 @@ export default function DocumentStep({
   onSubmit,
 }) {
   const documentReadingStep = steps.find((step) => step.id === 'document-reading');
-  const documentReadingSource = source.find((item) => item.type === type);
+  const documentReadingSource = source.find((item) => item.type === type) || {};
   const curpValidationStep = steps.find((step) => step.id === 'mexican-curp-validation');
   const securityCheckSteps = steps.filter((step) => [
     'template-matching',
