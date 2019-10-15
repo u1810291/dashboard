@@ -13,6 +13,7 @@ import { permalinkUrl } from 'lib/client/urls';
 import { trimMiddle } from 'lib/string';
 import LegalServices from 'fragments/product/legal-services';
 import Badge from './Badge';
+import Footer from './Footer';
 
 export default function Product() {
   const dispatch = useDispatch();
@@ -76,44 +77,47 @@ export default function Product() {
   };
 
   return (
-    <Content>
-      <Items flow="row">
-        <Card flow="column" align="center" autoColumns="1fr max-content">
-          <H2>{companyName}</H2>
-          <CopyToClipboard text={clientId}>
-            <Link
-              href={permalinkUrl({ clientId })}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {trimMiddle(permalinkUrl({ clientId }))}
-            </Link>
-          </CopyToClipboard>
-        </Card>
-        <Tab
-          withAside
-          padding={2}
-          active={activeTabIndex}
-          onClick={changeActiveTabHandler}
-          tabs={tabs}
-          contents={[
-            <Configuration />,
-            <Integration
-              hasProvider={hasProvider}
-              application={{ clientId, clientSecret }}
-              webhook={webhook}
-              setWebhook={setWebhook}
-              removeWebhook={removeWebhook}
-            />,
-            <LegalServices />,
-          ]}
-          aside={[
-            <MatiButtonAside
-              goToComplianceSection={() => changeActiveTabHandler(2)}
-            />,
-          ]}
-        />
-      </Items>
-    </Content>
+    <>
+      <Content>
+        <Items flow="row">
+          <Card flow="column" align="center" autoColumns="1fr max-content">
+            <H2>{companyName}</H2>
+            <CopyToClipboard text={clientId}>
+              <Link
+                href={permalinkUrl({ clientId })}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {trimMiddle(permalinkUrl({ clientId }))}
+              </Link>
+            </CopyToClipboard>
+          </Card>
+          <Tab
+            withAside
+            padding={2}
+            active={activeTabIndex}
+            onClick={changeActiveTabHandler}
+            tabs={tabs}
+            contents={[
+              <Configuration />,
+              <Integration
+                hasProvider={hasProvider}
+                application={{ clientId, clientSecret }}
+                webhook={webhook}
+                setWebhook={setWebhook}
+                removeWebhook={removeWebhook}
+              />,
+              <LegalServices />,
+            ]}
+            aside={[
+              <MatiButtonAside
+                goToComplianceSection={() => changeActiveTabHandler(2)}
+              />,
+            ]}
+          />
+        </Items>
+      </Content>
+      <Footer />
+    </>
   );
 }
