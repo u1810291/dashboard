@@ -6,7 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import useMerchantBilling from 'hooks/useMerchantBilling';
 import PrimaryMenu from './PrimaryMenu';
 import SecondaryMenu from './SecondaryMenu';
-import AlertBanner from './AlertBanner';
+import AlertBanner from './alert-banner';
 import IntlButton from './intl-button/IntlButton';
 import useStyles from './styles';
 
