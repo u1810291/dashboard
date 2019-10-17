@@ -85,7 +85,7 @@ export default function Product() {
         <Items flow="row">
           <Card flow="column" align="center" autoColumns="1fr max-content">
             <H2>{companyName}</H2>
-            <CopyToClipboard text={clientId}>
+            <CopyToClipboard text={permalinkUrl({ clientId })}>
               <Link
                 href={permalinkUrl({ clientId })}
                 target="_blank"
