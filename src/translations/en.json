@@ -878,5 +878,7 @@
   "apps.integration.webhookform.cta": "Set Webhook URL",
   "apps.integration.webhookform.url": "Your webhook URL",
   "apps.integration.webhookform.secret": "Your webhook secret",
-  "apps.integration.webhookform.delete": "Delete webhook"
+  "apps.integration.webhookform.delete": "Delete webhook",
+  "apps.product.companybar.permalink": "Direct Verification Link",
+  "apps.product.companybar.companynameplaceholder": "Your Mati dashboard"
 }
