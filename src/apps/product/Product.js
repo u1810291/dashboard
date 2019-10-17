@@ -25,10 +25,13 @@ export default function Product() {
   const webhook = useSelector((s) => last(s.webhooks.webhooks[clientId]) || {});
   const setWebhook = useCallback(
     async (url, secret) => {
+      if (webhook.id) {
+        await dispatch(deleteWebhook(token, clientId, webhook.id));
+      }
       await dispatch(subscribeToWebhook(token, clientId, { url, secret }));
       return dispatch(getWebhooks(token, clientId));
     },
-    [dispatch, token, clientId],
+    [dispatch, token, clientId, webhook.id],
   );
   const removeWebhook = useCallback(
     async () => {
