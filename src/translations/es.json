@@ -879,5 +879,7 @@
   "apps.integration.webhookform.cta": "Establecer la URL de webhook",
   "apps.integration.webhookform.url": "La URL de su webhook",
   "apps.integration.webhookform.secret": "Webhook secret",
-  "apps.integration.webhookform.delete": "¿Eliminar el webhook?"
+  "apps.integration.webhookform.delete": "¿Eliminar el webhook?",
+  "apps.product.companybar.permalink": "Enlace de verificación",
+  "apps.product.companybar.companynameplaceholder": "Tu dashboard de Mati"
 }

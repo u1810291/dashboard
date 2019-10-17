@@ -4,16 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getMerchantApps } from 'state/merchant';
 import { subscribeToWebhook, getWebhooks, deleteWebhook } from 'state/webhooks';
 import useMerchantBilling from 'hooks/useMerchantBilling';
-import { Content, Tab, Items, Card, H2, Link } from 'components';
-import { CopyToClipboard } from 'components/clipboard';
+import { Content, Tab, Items } from 'components';
 import Integration from 'apps/integration';
 import { Configuration, MatiButtonAside } from 'apps/configuration';
 import { trackEvent } from 'lib/mixpanel';
-import { permalinkUrl } from 'lib/client/urls';
-import { trimMiddle } from 'lib/string';
 import LegalServices from 'fragments/product/legal-services';
 import Badge from './Badge';
 import Footer from './Footer';
+import CompanyBar from './CompanyBar';
 
 export default function Product() {
   const dispatch = useDispatch();
@@ -83,18 +81,7 @@ export default function Product() {
     <>
       <Content>
         <Items flow="row">
-          <Card flow="column" align="center" autoColumns="1fr max-content">
-            <H2>{companyName}</H2>
-            <CopyToClipboard text={permalinkUrl({ clientId })}>
-              <Link
-                href={permalinkUrl({ clientId })}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {trimMiddle(permalinkUrl({ clientId }))}
-              </Link>
-            </CopyToClipboard>
-          </Card>
+          <CompanyBar companyName={companyName} clientId={clientId} />
           <Tab
             withAside
             padding={2}
