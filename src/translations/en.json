@@ -768,6 +768,7 @@
   "Product.configuration.logo": "Add company logo",
   "AlertBanner.text": "To unlock all Mati features and increase your verification volume, upgrade your plan",
   "AlertBanner.buttonText": "Upgrade plan",
+  "AlertBanner.requestButton": "Request 15 min demo",
   "fragments.integration.integration-code.oldCode": "(Show old code)",
   "fragments.integration.integration-code.newCode": "(Show new code)",
   "PricingPlans.contactUs": "Contact Us",
