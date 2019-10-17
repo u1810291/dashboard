@@ -1,4 +1,4 @@
-image: "node:latest"
+image: 'node:latest'
 
 stages:
   - ci
@@ -6,18 +6,18 @@ stages:
 
 cache:
   paths:
-  - node_modules/
-  - .yarn/
+    - node_modules/
+    - .yarn/
 
 ci:
   stage: ci
   only:
-  - branches
-  - pushes
+    - branches
+    - pushes
   script:
-  - yarn config set cache-folder .yarn
-  - yarn install
-  - yarn eslint
+    - yarn config set cache-folder .yarn
+    - yarn install
+    - yarn eslint
 
 deploy:
   stage: deploy
@@ -26,6 +26,4 @@ deploy:
     - staging
     - master
   script:
-    - curl -k -X POST "https://mqa%40mati.io:119bfbad75b47f27fa9fc58317b454a7e6@jenkins.mati.io/job/WebApps-deployment/job/deploy-all/buildWithParameters?PROJECT=${CI_PROJECT_NAME}&BRANCH=${CI_COMMIT_REF_NAME}"
-
-
+    - curl -k -X POST "http://mqa%40mati.io:119bfbad75b47f27fa9fc58317b454a7e6@jenkins-bb.mati.io/job/WebApps-deployment/job/deploy-all/buildWithParameters?PROJECT=${CI_PROJECT_NAME}&BRANCH=${CI_COMMIT_REF_NAME}"

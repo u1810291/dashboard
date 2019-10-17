@@ -1,39 +1,30 @@
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { AppBar, Toolbar, Box } from '@material-ui/core';
 
-import {
-  useStyles,
-  EmptyBox,
-  FirstBox,
-  Sentence,
-  Author,
-} from './styles';
+import { useStyles, EmptyBox, FirstBox, Sentence, Author } from './styles';
 
 const Footer = () => {
   const intl = useIntl();
   const classes = useStyles();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const getFeedbackById = (id) => {
+  const getFeedbackById = useCallback((id) => {
     const prefix = 'feedbacks.feedback';
-    const getEntry = (txtId, field) => intl.formatMessage(
-      {
-        id: `${prefix}.${txtId}.${field}`,
-        defaultMessage: 'null',
-      },
-    );
+    const getEntry = (txtId, field) => intl.formatMessage({
+      id: `${prefix}.${txtId}.${field}`,
+      defaultMessage: 'null',
+    });
     const message = {
       id,
       author: getEntry(id, 'author'),
       sentence: getEntry(id, 'content'),
     };
 
-    return (message.author === 'null' || message.sentence === 'null')
+    return message.author === 'null' || message.sentence === 'null'
       ? null
       : message;
-  };
+  });
 
   const [feedback, setFeedback] = useState(getFeedbackById(0));
 
@@ -44,7 +35,7 @@ const Footer = () => {
         if (!fb) {
           fb = getFeedbackById(0);
         }
-        return (fb);
+        return fb;
       });
     }, 7000);
     return () => clearInterval(interval);
@@ -58,7 +49,13 @@ const Footer = () => {
           {intl.formatMessage({ id: 'dashboard.footer.whoUseIt' })}
         </FirstBox>
         <Sentence>
-          <Box px={1} fontSize={12} width={416} textAlign="right" fontStyle="italic">
+          <Box
+            px={1}
+            fontSize={12}
+            width={416}
+            textAlign="right"
+            fontStyle="italic"
+          >
             {`"${feedback.sentence}"`}
           </Box>
         </Sentence>

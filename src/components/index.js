@@ -3,6 +3,7 @@ export { default as Items } from './items';
 export { default as Card } from './card';
 export { default as CardWithStub, Stub } from './card-with-stub';
 export { default as Click } from './click';
+export { default as Link } from './link';
 export { default as Button } from './button';
 export { default as QuestionMark } from './question-mark';
 export { default as HelpMessage } from './help-message';

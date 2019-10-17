@@ -51,3 +51,10 @@ export function ifDateFormat(value) {
 export function formatISODate(value) {
   return parseDashboardFormat(value).format('YYYY-MM-DD');
 }
+
+export function trimMiddle(string = '', begin = 30, end = 5, delimiter = '…') {
+  if (string.length < begin + end + delimiter.length) return string;
+  const start = string.substring(0, begin);
+  const finish = string.substring(string.length - end);
+  return `${start}${delimiter}${finish}`;
+}

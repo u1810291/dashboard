@@ -12,7 +12,7 @@ import CSS from './SyntaxHighlighter.module.scss';
 
 export default function SyntaxHighlighter({
   code = '',
-  border = 'blue',
+  border = 'lightgray',
   shadow = 0,
   language,
   showCopyToClipboard = true,
@@ -29,7 +29,7 @@ export default function SyntaxHighlighter({
         </Button>
       )}
       <Card
-        padding="0px 0px 0px 20px"
+        padding="0px 0px 0px 10px"
         border={border}
         className={CSS.codeBlock}
         shadow={shadow}
