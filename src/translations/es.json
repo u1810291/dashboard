@@ -769,6 +769,7 @@
   "Product.configuration.logo": "Añadir logotipo de la empresa",
   "AlertBanner.text": "Para desbloquear todas las funciones de Mati y aumentar su volumen de verificación, actualice su plan",
   "AlertBanner.buttonText": "Actualizar a un mejor plan",
+  "AlertBanner.requestButton": "Solicita una demo de 15 min",
   "fragments.integration.integration-code.oldCode": "(Mostrar código antiguo)",
   "fragments.integration.integration-code.newCode": "(Mostrar nuevo código)",
   "PricingPlans.contactUs": "Contáctenos",

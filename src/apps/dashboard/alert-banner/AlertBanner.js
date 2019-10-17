@@ -1,43 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import {
-  Box,
-  Button,
-  Paper,
-} from '@material-ui/core';
 import { trackEvent } from 'lib/mixpanel';
+import { Box } from '@material-ui/core';
 
-import { withStyles } from '@material-ui/styles';
-
-const AlertPaper = withStyles(() => ({
-  root: {
-    height: 50,
-    color: 'white',
-    background: '#ff6b00',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minWidth: 500,
-  },
-}))(Paper);
-
-const AlertButton = withStyles(() => ({
-  root: {
-    color: '#ff6b00',
-    backgroundColor: '#fff',
-    fontWeight: 600,
-    whiteSpace: 'nowrap',
-    marginRight: 10,
-    border: 'none',
-    '&:hover': {
-      backgroundColor: '#fff',
-    },
-  },
-}))(Button);
+import { FiMessageCircle as MeetingIcon } from 'react-icons/fi';
+import { useHubSpotForm } from 'lib/hubspot';
+import {
+  AlertPaper,
+  AlertButton,
+  AlertDemoButton,
+} from './styles';
 
 const AlertBanner = () => {
   const intl = useIntl();
+  const showHubSpotForm = useHubSpotForm();
+
   const alertButtonClickHandler = () => {
     trackEvent('merchant_clicked_top_banner_upgrade');
   };
@@ -45,8 +23,18 @@ const AlertBanner = () => {
   return (
     <AlertPaper square>
       <Box fontWeight={600} fontSize={16} m={1}>
-        { intl.formatMessage({ id: 'AlertBanner.text' }) }
+        {intl.formatMessage({ id: 'AlertBanner.text' })}
       </Box>
+
+      <AlertDemoButton
+        variant="contained"
+        color="black"
+        onClick={showHubSpotForm}
+        startIcon={<MeetingIcon />}
+      >
+        {intl.formatMessage({ id: 'AlertBanner.requestButton' })}
+      </AlertDemoButton>
+
       <Link to="/settings/pricing">
         <AlertButton variant="outlined" onClick={alertButtonClickHandler}>
           {intl.formatMessage({ id: 'AlertBanner.buttonText' })}
