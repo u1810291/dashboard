@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Link, Text, Card } from 'components';
+import { Link, Card } from 'components';
 import { H2 } from 'components/text';
 import { CopyToClipboard } from 'components/clipboard';
 import { trimMiddle } from 'lib/string';
