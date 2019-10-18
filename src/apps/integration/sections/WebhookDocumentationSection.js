@@ -16,6 +16,8 @@ export default function WebhookDocumentationSection() {
         as="a"
         href="https://docs.getmati.com/#iv-webhooks-receive-user-verification-data"
         border="secondary"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <FormattedMessage id="apps.integration.webhook.cta" />
       </Click>

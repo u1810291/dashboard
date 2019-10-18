@@ -60,6 +60,7 @@ export default function DocumentationSection({
           href="https://docs.getmati.com"
           border="secondary"
           target="_blank"
+          rel="noopener noreferrer"
         >
           <FormattedMessage id="apps.integration.documentation.cta" />
         </Click>
