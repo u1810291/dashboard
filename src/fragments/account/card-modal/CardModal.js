@@ -72,14 +72,6 @@ function CardModal({
             </Items>
           </Items>
         </Items>
-        <Items flow="row" justifyItems="center">
-          <Text className={CSS.refundTitle} size={1.8}>
-            <FormattedMessage id="CardModal.refund.1" />
-          </Text>
-          <Text size={1.8} weight={4} padding="0 0 44px 0">
-            <FormattedMessage id="CardModal.refund.2" />
-          </Text>
-        </Items>
         <Items flow="row" gap={0}>
           <Click background="active" onClick={handleSubmit} disabled={disabled}>
             <FormattedMessage id="CardModal.done" />
