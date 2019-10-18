@@ -15,6 +15,7 @@ import {
   PricingPlans,
   PricingRefundNotice,
   PlansFeatures,
+  RequestDemo,
 } from 'fragments';
 import { trackEvent } from 'lib/mixpanel';
 import {
@@ -160,7 +161,7 @@ export default function Pricing() {
           {!!planList.length && (
             <Items flow="row" gap={2}>
               <PricingRefundNotice />
-              <Items flow="column" gap={1} align="stretch">
+              <Items flow="column" gap={1} align="stretch" templateColumns="1fr 1fr 1fr 1fr">
                 {regularPlans.map((plan) => (
                   <PricingPlans
                     name={plan.name}
@@ -175,7 +176,7 @@ export default function Pricing() {
                   />
                 ))}
               </Items>
-              <Items flow="row" gap={1}>
+              <Items flow="column" gap={1} templateColumns="1fr 1fr">
                 {customPlans.map((plan) => (
                   <CustomPlan
                     name={plan.name}
@@ -188,6 +189,7 @@ export default function Pricing() {
                     }
                   />
                 ))}
+                <RequestDemo />
               </Items>
               <PlansFeatures />
             </Items>

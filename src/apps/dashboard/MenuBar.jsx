@@ -34,10 +34,10 @@ const MenuBar = ({
         <PrimaryMenu classes={classes} isOwner={isOwner} />
         <div className={classes.grow} />
         { isOwner && (
-        <>
-          <SecondaryMenu />
-          <IntlButton />
-        </>
+          <>
+            <SecondaryMenu />
+            <IntlButton />
+          </>
         )}
       </ApplicationMenu>
     </>

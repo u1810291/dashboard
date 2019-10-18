@@ -28,7 +28,6 @@ const AlertBanner = () => {
 
       <AlertDemoButton
         variant="contained"
-        color="black"
         onClick={showHubSpotForm}
         startIcon={<MeetingIcon />}
       >
