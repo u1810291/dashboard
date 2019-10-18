@@ -2,6 +2,8 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link, Text, Card } from 'components';
 import { H2 } from 'components/text';
+import { CopyToClipboard } from 'components/clipboard';
+import { trimMiddle } from 'lib/string';
 import { permalinkUrl } from 'lib/client/urls';
 
 export default function PermalinkSection({ clientId }) {
@@ -14,15 +16,15 @@ export default function PermalinkSection({ clientId }) {
         </p>
       </H2>
       <Card shadow="0">
-        <Link
-          href={permalinkUrl({ clientId })}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Text wordBreak="break-all">
-            {permalinkUrl({ clientId })}
-          </Text>
-        </Link>
+        <CopyToClipboard text={permalinkUrl({ clientId })}>
+          <Link
+            href={permalinkUrl({ clientId })}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {trimMiddle(permalinkUrl({ clientId }))}
+          </Link>
+        </CopyToClipboard>
       </Card>
     </Card>
   );

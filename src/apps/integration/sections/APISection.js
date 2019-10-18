@@ -12,7 +12,13 @@ export default function APISection() {
           <FormattedMessage id="apps.integration.api.subtitle" />
         </p>
       </H2>
-      <Click as="a" href="https://docs.getmati.com/" border="secondary">
+      <Click
+        as="a"
+        href="https://docs.getmati.com/"
+        border="secondary"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <FormattedMessage id="apps.integration.api.cta" />
       </Click>
     </Card>
