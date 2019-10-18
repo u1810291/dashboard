@@ -24,7 +24,7 @@ const Footer = () => {
     return message.author === 'null' || message.sentence === 'null'
       ? null
       : message;
-  });
+  }, [intl]);
 
   const [feedback, setFeedback] = useState(getFeedbackById(0));
 

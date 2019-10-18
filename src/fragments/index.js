@@ -1,6 +1,7 @@
 export { default as PricingPlans } from './account/pricing-plans';
 export { default as PricingRefundNotice } from './account/pricing-refund-notice';
 export { default as CustomPlan } from './account/custom-plan';
+export { default as RequestDemo } from './account/custom-plan/RequestDemo';
 export { default as PlansFeatures } from './account/plans-features';
 export { default as CompaniesUsingMati } from './info/companies-using-mati';
 export { default as MatiNumbers } from './info/mati-numbers';
