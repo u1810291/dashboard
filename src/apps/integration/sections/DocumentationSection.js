@@ -50,7 +50,7 @@ export default function DocumentationSection({
     <Card flow="column" templateColumns="1fr 1fr 1fr" shadow="2">
       <Items flow="row">
         <H2 weight="2">
-          <FormattedMessage id="apps.integration.documentation.title" />
+          <FormattedMessage id="apps.integration.documentation.cta" />
           <p>
             <FormattedMessage id="apps.integration.documentation.subtitle" />
           </p>

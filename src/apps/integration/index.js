@@ -23,8 +23,6 @@ const integrationCode = `
 />
 `;
 
-const WEBHOOK_TESTER_URL = 'http://webhook.site/';
-
 function SectionWrapper({ children }) {
   return (
     <Items templateColumns="5fr 1fr">
@@ -55,10 +53,7 @@ export default function InfoPage({
     <Card>
       <SectionWrapper>
         <HeaderWrapper>
-          <FormattedMessage id="apps.integration.start.title" />
-          <p>
-            <FormattedMessage id="apps.integration.start.subtitle" />
-          </p>
+          <FormattedMessage id="apps.integration.documentation.title" />
         </HeaderWrapper>
         <DocumentationSection
           hasProvider={hasProvider}
@@ -71,9 +66,6 @@ export default function InfoPage({
       <SectionWrapper>
         <HeaderWrapper>
           <FormattedMessage id="apps.integration.verify.title" />
-          <p>
-            <FormattedMessage id="apps.integration.verify.subtitle" />
-          </p>
         </HeaderWrapper>
         <APISection />
         <WebSDKSection integrationCode={integrationCode} />
@@ -84,17 +76,6 @@ export default function InfoPage({
       <SectionWrapper>
         <HeaderWrapper>
           <FormattedMessage id="apps.integration.sync.title" />
-          <p>
-            <FormattedMessage id="apps.integration.sync.subtitle" />
-            {' '}
-            <a
-              href={WEBHOOK_TESTER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {WEBHOOK_TESTER_URL}
-            </a>
-          </p>
         </HeaderWrapper>
         <WebhookDocumentationSection />
         <WebhookSection
