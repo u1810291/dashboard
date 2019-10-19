@@ -8,7 +8,7 @@ const Text = styled.span(
   ({
     align,
     color,
-    lineHeight = 1,
+    lineHeight = 'normal',
     opacity = 1,
     padding = '',
     size = 2,

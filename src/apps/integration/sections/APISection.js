@@ -1,26 +1,30 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Click, Card } from 'components';
+import { Click, Items } from 'components';
+import Icons from 'components/icons';
 import { H2 } from 'components/text';
 
 export default function APISection() {
   return (
-    <Card flow="column" align="center" templateColumns="2fr 1fr" shadow="2">
+    <Items flow="column" align="center" templateColumns="1fr 1fr" gap="24">
       <H2 weight="2">
         <FormattedMessage id="apps.integration.api.title" />
         <p>
           <FormattedMessage id="apps.integration.api.subtitle" />
         </p>
       </H2>
-      <Click
-        as="a"
-        href="https://docs.getmati.com/"
-        border="secondary"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <FormattedMessage id="apps.integration.api.cta" />
-      </Click>
-    </Card>
+      <Items templateColumns="4fr 1fr">
+        <Click
+          as="a"
+          href="https://docs.getmati.com/"
+          border="secondary"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icons.Code />
+          <FormattedMessage id="apps.integration.api.cta" />
+        </Click>
+      </Items>
+    </Items>
   );
 }

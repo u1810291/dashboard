@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Items, Click, Card, Text } from 'components';
+import { Items, Click, Text } from 'components';
 import { H2 } from 'components/text';
 import NewWebhookModal from 'fragments/account/new-webhook-modal/NewWebhookModal';
 import { closeOverlay, createOverlay } from 'components/overlay';
@@ -24,7 +24,7 @@ export default function WebhookSection({ webhook, setWebhook, removeWebhook }) {
   }, [removeWebhook]);
 
   return (
-    <Card flow="column" align="center" autoColumns="1fr 1fr 1fr" shadow="2">
+    <Items align="center" autoColumns="1fr 1fr" gap="24">
       <Items flow="row">
         <H2 weight="2">
           <FormattedMessage id="apps.integration.webhookform.title" />
@@ -32,11 +32,12 @@ export default function WebhookSection({ webhook, setWebhook, removeWebhook }) {
             <FormattedMessage id="apps.integration.webhookform.subtitle" />
           </p>
         </H2>
-        <Click background="active" onClick={openWebhookModal}>
-          <FormattedMessage id="apps.integration.webhookform.cta" />
-        </Click>
+        <Items templateColumns="4fr 1fr">
+          <Click background="active" onClick={openWebhookModal}>
+            <FormattedMessage id="apps.integration.webhookform.cta" />
+          </Click>
+        </Items>
       </Items>
-      <div />
       <Items flow="row">
         <H2 weight="2">
           <FormattedMessage id="apps.integration.webhookform.url" />
@@ -61,6 +62,6 @@ export default function WebhookSection({ webhook, setWebhook, removeWebhook }) {
           </Click>
         )}
       </Items>
-    </Card>
+    </Items>
   );
 }

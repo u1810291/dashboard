@@ -7,6 +7,8 @@ import { ReactComponent as TrashBin } from './trashbin.svg';
 import { ReactComponent as Pencil } from './pencil.svg';
 import { ReactComponent as Clipboard } from './Clipboard.svg';
 import { ReactComponent as Play } from './play.svg';
+import { ReactComponent as Paper } from './paper.svg';
+import { ReactComponent as Code } from './code.svg';
 
 export default {
   FaceMatch,
@@ -18,4 +20,6 @@ export default {
   TrashBin,
   Clipboard,
   Play,
+  Paper,
+  Code,
 };
