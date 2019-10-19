@@ -857,7 +857,7 @@
   "apps.integration.verify.subtitle": "delete this text",
   "apps.integration.sync.title": "3. Recibir datos de verificación de usuarios",
   "apps.integration.sync.subtitle": "delete this text",
-  "apps.integration.documentation.title": "Mati Documentación",
+  "apps.integration.documentation.title": "1. Mati Documentación",
   "apps.integration.documentation.subtitle": "Trabajamos duro para que la integración sea rápida. Por lo general, lleva unos minutos integrar nuestros SDKs y un par de horas para integrar nuestro webhook.",
   "apps.integration.documentation.cta": "Mati Documentación",
   "apps.integration.api.title": "API",
