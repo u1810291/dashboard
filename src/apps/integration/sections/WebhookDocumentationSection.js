@@ -1,26 +1,30 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Click, Card } from 'components';
+import { Click, Items } from 'components';
+import Icons from 'components/icons';
 import { H2 } from 'components/text';
 
 export default function WebhookDocumentationSection() {
   return (
-    <Card flow="column" align="center" templateColumns="2fr 1fr" shadow="2">
+    <Items align="center" templateColumns="1fr 1fr" gap="24">
       <H2 weight="2">
         <FormattedMessage id="apps.integration.webhook.title" />
         <p>
           <FormattedMessage id="apps.integration.webhook.subtitle" />
         </p>
       </H2>
-      <Click
-        as="a"
-        href="https://docs.getmati.com/#iv-webhooks-receive-user-verification-data"
-        border="secondary"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <FormattedMessage id="apps.integration.webhook.cta" />
-      </Click>
-    </Card>
+      <Items templateColumns="4fr 1fr">
+        <Click
+          as="a"
+          href="https://docs.getmati.com/#iv-webhooks-receive-user-verification-data"
+          border="secondary"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icons.Paper />
+          <FormattedMessage id="apps.integration.webhook.cta" />
+        </Click>
+      </Items>
+    </Items>
   );
 }

@@ -1,14 +1,18 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Card } from 'components';
+import { Items } from 'components';
 import { H2 } from 'components/text';
 import SyntaxHighlighter from 'components/syntax-highlighter';
+import Frameworks from './web-frameworks.png';
 
 export default function WebSDKSection({ integrationCode }) {
   return (
-    <Card flow="column" align="center" templateColumns="5fr 4fr" shadow="2">
+    <Items align="center" templateColumns="1fr 1fr" gap="24">
       <H2 weight="2">
-        <FormattedMessage id="apps.integration.websdk.title" />
+        <Items templateColumns="3fr 2fr 3fr" align="center">
+          <FormattedMessage id="apps.integration.websdk.title" />
+          <img src={Frameworks} alt="supported frameworks" />
+        </Items>
         <p>
           <FormattedMessage id="apps.integration.websdk.subtitle" />
         </p>
@@ -18,6 +22,6 @@ export default function WebSDKSection({ integrationCode }) {
         code={integrationCode}
         border="secondary"
       />
-    </Card>
+    </Items>
   );
 }
