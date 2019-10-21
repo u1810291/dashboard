@@ -19,7 +19,7 @@ export const types = {
   ...createTypesSequence('IDENTITY_DOCUMENTS_LIST'),
   ...createTypesSequence('DOCUMENT_PATCH'),
   ...createTypesSequence('IDENTITY_LIST_COUNT'),
-  ...createTypesSequence('IDENTITY_DOWNLOAD'),
+  ...createTypesSequence('IDENTITY_LIST_DOWNLOAD'),
 };
 
 // TODO @dkchv: toastr should be wrapped with prop.id and this string extracted to i18n
@@ -59,15 +59,15 @@ export function getIdentities(token, params) {
 
 export function getIdentitiesFile(token, params) {
   return function handle(dispatch) {
-    dispatch({ type: types.IDENTITY_DOWNLOAD_REQUEST });
+    dispatch({ type: types.IDENTITY_LIST_DOWNLOAD_REQUEST });
     return client.identities
       .getIdentitiesFile(token, params)
       .then((payload) => {
-        dispatch({ type: types.IDENTITY_DOWNLOAD_SUCCESS });
+        dispatch({ type: types.IDENTITY_LIST_DOWNLOAD_SUCCESS });
         return payload;
       })
       .catch((error) => {
-        dispatch({ type: types.IDENTITY_DOWNLOAD_FAILURE });
+        dispatch({ type: types.IDENTITY_LIST_DOWNLOAD_FAILURE });
         notification.error(ERROR_COMMON);
         throw error;
       });
@@ -416,19 +416,19 @@ const reducer = createReducer(initialState, {
       count: payload.data,
     };
   },
-  [types.IDENTITY_DOWNLOAD_REQUEST](state) {
+  [types.IDENTITY_LIST_DOWNLOAD_REQUEST](state) {
     return {
       ...state,
       isLoadingFile: true,
     };
   },
-  [types.IDENTITY_DOWNLOAD_SUCCESS](state) {
+  [types.IDENTITY_LIST_DOWNLOAD_SUCCESS](state) {
     return {
       ...state,
       isLoadingFile: false,
     };
   },
-  [types.IDENTITY_DOWNLOAD_FAILURE](state) {
+  [types.IDENTITY_LIST_DOWNLOAD_FAILURE](state) {
     return {
       ...state,
       isLoadingFile: false,
