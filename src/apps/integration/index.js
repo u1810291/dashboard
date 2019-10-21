@@ -15,7 +15,7 @@ import {
 } from './sections';
 
 const integrationCode = `
-<script src="https://web-button.mati.io/button.js">
+<script src="https://web-button.getmati.com/button.js">
 </script>
 <mati-button
   clientid="YOUR_CLIENT_ID"
