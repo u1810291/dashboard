@@ -36,9 +36,25 @@
 .demoCard {
   width: 174px;
   height: 163px;
-  justify-content: 'center';
+  justify-content: center;
 }
 
 .containerBox {
   min-width: 730px;
+}
+
+.title {
+
+}
+
+.titleCounter {
+  font-weight: normal;
+}
+
+.button {
+  color: var(--mgi-theme-palette-blue);
+}
+
+.buttonIcon {
+  width: 14px;
 }
