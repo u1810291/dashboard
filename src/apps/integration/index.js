@@ -15,7 +15,7 @@ import {
 } from './sections';
 
 const integrationCode = `
-<script src="https://web-button.mati.io/button.js">
+<script src="https://web-button.getmati.com/button.js">
 </script>
 <mati-button
   clientid="YOUR_CLIENT_ID"
@@ -23,23 +23,16 @@ const integrationCode = `
 />
 `;
 
-const WEBHOOK_TESTER_URL = 'http://webhook.site/';
-
-function SectionWrapper({ children }) {
+function SectionWrapper({ children, title }) {
   return (
-    <Items templateColumns="5fr 1fr">
-      <Items flow="row">
-        {children}
+    <Card shadow="0" padding="2/4">
+      <H2>{title}</H2>
+      <Items templateColumns="5fr 1fr">
+        <Card shadow="0">
+          {children}
+        </Card>
       </Items>
-    </Items>
-  );
-}
-
-export function HeaderWrapper({ children }) {
-  return (
-    <Items templateColumns="2fr 3fr">
-      <H2>{children}</H2>
-    </Items>
+    </Card>
   );
 }
 
@@ -52,14 +45,10 @@ export default function InfoPage({
 }) {
   const token = useSelector((state) => state.auth.token);
   return (
-    <Card>
-      <SectionWrapper>
-        <HeaderWrapper>
-          <FormattedMessage id="apps.integration.start.title" />
-          <p>
-            <FormattedMessage id="apps.integration.start.subtitle" />
-          </p>
-        </HeaderWrapper>
+    <Card padding="2/0" gap="0">
+      <SectionWrapper
+        title={<FormattedMessage id="apps.integration.documentation.title" />}
+      >
         <DocumentationSection
           hasProvider={hasProvider}
           clientId={application.clientId}
@@ -68,35 +57,23 @@ export default function InfoPage({
         />
       </SectionWrapper>
       <HR />
-      <SectionWrapper>
-        <HeaderWrapper>
-          <FormattedMessage id="apps.integration.verify.title" />
-          <p>
-            <FormattedMessage id="apps.integration.verify.subtitle" />
-          </p>
-        </HeaderWrapper>
+      <SectionWrapper
+        title={<FormattedMessage id="apps.integration.verify.title" />}
+      >
         <APISection />
+        <HR />
         <WebSDKSection integrationCode={integrationCode} />
+        <HR />
         <MobileSDKSection />
+        <HR />
         <PermalinkSection clientId={application.clientId} />
       </SectionWrapper>
       <HR />
-      <SectionWrapper>
-        <HeaderWrapper>
-          <FormattedMessage id="apps.integration.sync.title" />
-          <p>
-            <FormattedMessage id="apps.integration.sync.subtitle" />
-            {' '}
-            <a
-              href={WEBHOOK_TESTER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {WEBHOOK_TESTER_URL}
-            </a>
-          </p>
-        </HeaderWrapper>
+      <SectionWrapper
+        title={<FormattedMessage id="apps.integration.sync.title" />}
+      >
         <WebhookDocumentationSection />
+        <HR />
         <WebhookSection
           webhook={webhook}
           setWebhook={setWebhook}

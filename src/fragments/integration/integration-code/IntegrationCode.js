@@ -6,7 +6,7 @@ import SyntaxHighlighter from 'components/syntax-highlighter';
 import MatiDocs from 'fragments/account/mati-docs';
 
 const integrationCode = `
-<script src="https://web-button.mati.io/button.js">
+<script src="https://web-button.getmati.com/button.js">
 </script>
 <mati-button
   clientid="YOUR_CLIENT_ID"

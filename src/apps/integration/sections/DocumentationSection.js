@@ -2,8 +2,9 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { trackEvent } from 'lib/mixpanel';
-import { Items, Click, Card } from 'components';
+import { Items, Click } from 'components';
 import { H2 } from 'components/text';
+import Icons from 'components/icons';
 import { CopyToClipboard } from 'components/clipboard';
 import { notification } from 'components/notification';
 import { addMerchantProvider } from 'state/merchant';
@@ -47,24 +48,27 @@ export default function DocumentationSection({
   }
 
   return (
-    <Card flow="column" templateColumns="1fr 1fr 1fr" shadow="2">
+    <Items flow="column" templateColumns="1fr 1fr" gap="24">
       <Items flow="row">
         <H2 weight="2">
-          <FormattedMessage id="apps.integration.documentation.title" />
+          <FormattedMessage id="apps.integration.documentation.cta" />
           <p>
             <FormattedMessage id="apps.integration.documentation.subtitle" />
           </p>
         </H2>
-        <Click
-          as="a"
-          href="https://docs.getmati.com"
-          border="secondary"
-          target="_blank"
-        >
-          <FormattedMessage id="apps.integration.documentation.cta" />
-        </Click>
+        <Items templateColumns="4fr 1fr">
+          <Click
+            as="a"
+            href="https://docs.getmati.com"
+            border="secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icons.Paper />
+            <FormattedMessage id="apps.integration.documentation.cta" />
+          </Click>
+        </Items>
       </Items>
-      <div />
       <Items flow="row" className={CSS.fullAreaRoot}>
         <Items
           flow="row"
@@ -100,6 +104,6 @@ export default function DocumentationSection({
           )
         }
       </Items>
-    </Card>
+    </Items>
   );
 }

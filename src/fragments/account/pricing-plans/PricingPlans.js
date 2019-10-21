@@ -19,10 +19,18 @@ export default function PricingPlans({
   supportLevel,
 }) {
   const intl = useIntl();
-  return (
-    <Card gap="4" autoRows="max-content 1fr">
+  const planNamesMapper = {
+    'Pay as you go': intl.formatMessage({ id: 'PricingPlans.asYouGo' }),
+    Starter: intl.formatMessage({ id: 'PricingPlans.starter' }),
+    Regular: intl.formatMessage({ id: 'PricingPlans.regular' }),
+    Growth: intl.formatMessage({ id: 'PricingPlans.growth' }),
+  };
+  const Block = ({ ...props }) => (
+    <Card gap="4" autoRows="max-content 1fr" {...props}>
       <Items flow="row" gap="2">
-        <Text color="secondary">{name}</Text>
+        <Text color="secondary" padding="30px 0 0 0">
+          {planNamesMapper[name] || name}
+        </Text>
         <Items align="baseline" justifyContent="start" gap={0.25}>
           <Text size={8}>
             {`$${Math.floor(subscriptionPrice / 100)}`}
@@ -50,25 +58,29 @@ export default function PricingPlans({
               <FormattedMessage
                 id="PricingPlans.pricePerverification"
                 values={{
-                  amount: (
-                    Math.floor(subscriptionPrice / includedVerifications) / 100
-                  ).toFixed(2),
+                  amount: (name === 'Growth') ? 0.99
+                    : (subscriptionPrice / includedVerifications / 100).toFixed(2),
                 }}
               />
             ) : (
-              <span>&nbsp;</span>
+              <FormattedMessage
+                id="PricingPlans.pricePerverification"
+                values={{ amount: '2.50' }}
+              />
             )}
           </Text>
         </Items>
 
         <Items flow="row" gap={0.5}>
           <Text color="secondary" size={1}>
-            <FormattedMessage
-              id="PricingPlans.pricePerverification"
-              values={{
-                amount: (extraPrice / 100).toFixed(2),
-              }}
-            />
+            {name !== 'Pay as you go' ? (
+              <FormattedMessage
+                id="PricingPlans.pricePerverification"
+                values={{
+                  amount: (extraPrice / 100).toFixed(2),
+                }}
+              />
+            ) : (<span>&nbsp;</span>)}
           </Text>
           {includedVerifications > 0 && (
             <Text color="secondary" size={1}>
@@ -81,18 +93,18 @@ export default function PricingPlans({
             </Text>
           )}
         </Items>
-        { (supportLevel === 1)
-        && (
-          <Items flow="row" gap={0.5} justifyItems="center">
-            <div>
-              <img src={DiscordLogo} alt="Discord" width="30" />
-              <img src={SlackLogo} alt="Slack" width="30" />
-            </div>
-            <Text color="secondary" size={1}>
-              {intl.formatMessage({ id: 'PricingPlans.support' })}
-            </Text>
-          </Items>
-        )}
+        {(supportLevel === 1)
+          && (
+            <Items flow="row" gap={0.5} justifyItems="center">
+              <div>
+                <img src={DiscordLogo} alt="Discord" width="30" />
+                <img src={SlackLogo} alt="Slack" width="30" />
+              </div>
+              <Text color="secondary" size={1}>
+                {intl.formatMessage({ id: 'PricingPlans.support' })}
+              </Text>
+            </Items>
+          )}
       </Items>
 
       {current ? (
@@ -112,13 +124,23 @@ export default function PricingPlans({
           onClick={onChoosePlan}
           data-qa={`pricing-planControl-${snakeCase(name)}`}
         >
-          <Text uppercase>
+          <Text>
             <FormattedMessage id="PricingPlans.start" />
           </Text>
         </Click>
       )}
     </Card>
   );
+
+  return name === 'Regular'
+    ? (
+      <Card className={CSS.wrapperClass} padding={0} gap={0}>
+        <Text color="white" lineHeight={2.2} weight={4} padding="0 0 0 10px">
+          {intl.formatMessage({ id: 'PricingPlans.mostPopular' })}
+        </Text>
+        <Block className={CSS.selectedPlan} />
+      </Card>
+    ) : (<Block className={CSS.otherPlans} />);
 }
 
 PricingPlans.propTypes = {
