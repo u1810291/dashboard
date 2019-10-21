@@ -22,6 +22,9 @@ export const types = {
   ...createTypesSequence('IDENTITY_DOWNLOAD'),
 };
 
+// TODO @dkchv: toastr should be wrapped with prop.id and this string extracted to i18n
+const ERROR_COMMON = 'Something went wrong. Please retry';
+
 export function getIdentityListCount(token) {
   return function handle(dispatch) {
     return client.identities
@@ -48,7 +51,7 @@ export function getIdentities(token, params) {
       })
       .catch((error) => {
         dispatch({ type: types.IDENTITY_LIST_FAILURE });
-        notification.error('Something went wrong. Please retry');
+        notification.error(ERROR_COMMON);
         throw error;
       });
   };
@@ -65,7 +68,7 @@ export function getIdentitiesFile(token, params) {
       })
       .catch((error) => {
         dispatch({ type: types.IDENTITY_DOWNLOAD_FAILURE });
-        notification.error('Something went wrong. Please retry');
+        notification.error(ERROR_COMMON);
         throw error;
       });
   };
@@ -82,7 +85,7 @@ export function getIdentitiesCount(token, params) {
       })
       .catch((error) => {
         dispatch({ type: types.IDENTITY_COUNT_FAILURE });
-        notification.error('Something went wrong. Please retry');
+        notification.error(ERROR_COMMON);
         throw error;
       });
   };
@@ -131,7 +134,7 @@ export function patchIdentity(token, id, data) {
       })
       .catch((error) => {
         dispatch({ type: types.IDENTITY_PATCH_FAILURE });
-        notification.error('Something went wrong. Please retry');
+        notification.error(ERROR_COMMON);
         throw error;
       });
   };
@@ -148,7 +151,7 @@ export function deleteIdentity(token, id) {
       })
       .catch((error) => {
         dispatch({ type: types.IDENTITY_DELETE_FAILURE, payload: { id } });
-        notification.error('Something went wrong. Please retry');
+        notification.error(ERROR_COMMON);
         throw error;
       });
   };
@@ -174,7 +177,7 @@ export function patchDocument(token, identityId, id, fields) {
           type: types.DOCUMENT_PATCH_FAILURE,
           payload: { identityId, id, fields },
         });
-        notification.error('Something went wrong. Please retry');
+        notification.error(ERROR_COMMON);
         throw error;
       });
   };

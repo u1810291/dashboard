@@ -221,7 +221,7 @@ class VerificationHistory extends React.Component {
   };
 
   handleDownloadCSV = () => {
-    const params = pickBy(this.state.params, (v) => !isEmpty(v));
+    const params = pickBy(this.state.params, (item) => !isEmpty(item));
 
     this.props.getIdentitiesFile(this.props.token, {
       ...params,
@@ -378,8 +378,7 @@ class VerificationHistory extends React.Component {
               <Items flow="column" align="center" justifyContent="space-between">
                 <H2>
                   <span>{intl.formatMessage({ id: 'identities.title' })}</span>
-                  {' '}
-                  <span className={CSS.titleCounter}>{`(${count || 0})`}</span>
+                  <span className={CSS.titleCounter}>{` (${count || 0})`}</span>
                 </H2>
                 <Button onClick={this.handleDownloadCSV} className={CSS.button}>
                   {isLoadingFile
