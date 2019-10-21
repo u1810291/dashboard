@@ -8,8 +8,6 @@ export default function PricingRefundNotice() {
     <Card justifyContent="center" className={CSS.border}>
       <Text weight={4}>
         <FormattedMessage id="PricingRefundNotice.title" />
-        {' '}
-        <FormattedMessage id="PricingRefundNotice.subtitle" />
       </Text>
     </Card>
   );
