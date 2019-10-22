@@ -2,21 +2,22 @@ ul.mgi-list {
   list-style-type: none;
 
   li {
-    line-height: 1.9;
+    line-height: 2;
   }
 
   &--check,
   &--check-inverted {
     li {
-      line-height: 1.9;
-      padding-left: 22px;
+      line-height: 2;
+      padding-left: 30px;
+      margin-bottom: 8px;
       background-repeat: no-repeat;
       background-position: left 0.5rem;
     }
   }
 
   &--check li {
-    background-image: url('./list-style-check.svg');
+    background-image: url('./list-style-check-green.svg');
   }
 
   &--check-inverted li {

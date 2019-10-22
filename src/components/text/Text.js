@@ -25,7 +25,7 @@ const Text = styled.span(
     textTransform: (() => {
       if (uppercase) return 'uppercase';
       if (capitalize) return 'capitalize';
-      return 'null';
+      return 'inherit';
     })(),
     textAlign: align,
     wordBreak,
