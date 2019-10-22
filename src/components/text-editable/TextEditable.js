@@ -1,3 +1,4 @@
+import { omit } from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -100,7 +101,7 @@ export default class TextEditable extends React.Component {
         textClassName,
         isLoading,
         text,
-        ...inputOptions
+        ...options
       },
       state: {
         isEditing,
@@ -108,6 +109,8 @@ export default class TextEditable extends React.Component {
         savedText,
       },
     } = this;
+
+    const inputOptions = omit(options, ['isEditing']);
 
     if (isEditing) {
       return (
