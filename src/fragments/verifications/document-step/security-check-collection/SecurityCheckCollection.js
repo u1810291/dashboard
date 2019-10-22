@@ -29,7 +29,7 @@ const SecurityCheckCollection = ({ steps = [] }) => {
   return (
     <Items flow="row" gap={1}>
       { steps.map(({ id, error, status }) => (
-        <Box display="flex">
+        <Box display="flex" key={id}>
           <Box whiteSpace="nowrap" flex="0 0 190px">
             { intl.formatMessage({ id: `SecurityCheckStep.${id}.title` }) }
             <QuestionMark onClick={() => showHelpMessage(id)} />
