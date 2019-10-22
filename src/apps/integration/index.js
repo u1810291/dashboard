@@ -39,7 +39,6 @@ function SectionWrapper({ children, title }) {
 export default function InfoPage({
   application,
   webhook,
-  hasProvider,
   setWebhook,
   removeWebhook,
 }) {
@@ -50,7 +49,7 @@ export default function InfoPage({
         title={<FormattedMessage id="apps.integration.documentation.title" />}
       >
         <DocumentationSection
-          hasProvider={hasProvider}
+          hasProvider
           clientId={application.clientId}
           clientSecret={application.clientSecret}
           matiToken={token}
