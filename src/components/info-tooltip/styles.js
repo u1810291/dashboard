@@ -48,6 +48,7 @@ function arrowGenerator(color) {
     },
   };
 }
+
 const useStylesArrow = makeStyles((theme) => ({
   tooltip: {
     position: 'relative',

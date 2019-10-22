@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import confirm from 'components/confirm/Confirm';
-import useMerchantBilling from 'hooks/useMerchantBilling';
+// import useMerchantBilling from 'hooks/useMerchantBilling';
 import { addMerchantProvider } from 'state/merchant';
 import { CardDeclinedModal } from 'fragments';
 import { closeOverlay, createOverlay } from 'components/overlay';
@@ -26,6 +26,7 @@ export default ({ application, deleteWebhook, subscribeToWebhook }) => {
       <NewWebhookModal onSave={subscribeToWebhook} onClose={closeOverlay} />,
     );
   }
+
   async function handleDeleteWebhook(id) {
     await confirm(
       <FormattedMessage id="fragments.client_application.confirm_delete_webhook" />,
@@ -33,12 +34,15 @@ export default ({ application, deleteWebhook, subscribeToWebhook }) => {
     return deleteWebhook(id);
   }
 
-  const { hasProvider, isPlanActivated } = useMerchantBilling();
+  // const { hasProvider, isPlanActivated } = useMerchantBilling();
+  const isIntegrationLocked = false;
 
   const matiToken = useSelector(({ auth = {} }) => auth.token);
+
   function showCardModal(onSubmit) {
     createOverlay(<CardModal onSubmit={onSubmit} />);
   }
+
   async function handleCardSubmit(token) {
     try {
       await dispatch(addMerchantProvider(matiToken, token.id));
@@ -55,6 +59,7 @@ export default ({ application, deleteWebhook, subscribeToWebhook }) => {
       );
     }
   }
+
   function handleUnlockApplication() {
     trackEvent('merchant_clicked_unlock_keys_button');
     showCardModal(handleCardSubmit);
@@ -64,7 +69,7 @@ export default ({ application, deleteWebhook, subscribeToWebhook }) => {
     handleAddNewWebhook,
     handleDeleteWebhook,
     handleUnlockApplication,
-    isIntegrationLocked: hasProvider || isPlanActivated,
+    isIntegrationLocked,
     permalink,
   };
 };
