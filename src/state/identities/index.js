@@ -19,7 +19,11 @@ export const types = {
   ...createTypesSequence('IDENTITY_DOCUMENTS_LIST'),
   ...createTypesSequence('DOCUMENT_PATCH'),
   ...createTypesSequence('IDENTITY_LIST_COUNT'),
+  ...createTypesSequence('IDENTITY_LIST_DOWNLOAD'),
 };
+
+// TODO @dkchv: toastr should be wrapped with prop.id and this string extracted to i18n
+const ERROR_COMMON = 'Something went wrong. Please retry';
 
 export function getIdentityListCount(token) {
   return function handle(dispatch) {
@@ -47,7 +51,24 @@ export function getIdentities(token, params) {
       })
       .catch((error) => {
         dispatch({ type: types.IDENTITY_LIST_FAILURE });
-        notification.error('Something went wrong. Please retry');
+        notification.error(ERROR_COMMON);
+        throw error;
+      });
+  };
+}
+
+export function getIdentitiesFile(token, params) {
+  return function handle(dispatch) {
+    dispatch({ type: types.IDENTITY_LIST_DOWNLOAD_REQUEST });
+    return client.identities
+      .getIdentitiesFile(token, params)
+      .then((payload) => {
+        dispatch({ type: types.IDENTITY_LIST_DOWNLOAD_SUCCESS });
+        return payload;
+      })
+      .catch((error) => {
+        dispatch({ type: types.IDENTITY_LIST_DOWNLOAD_FAILURE });
+        notification.error(ERROR_COMMON);
         throw error;
       });
   };
@@ -64,7 +85,7 @@ export function getIdentitiesCount(token, params) {
       })
       .catch((error) => {
         dispatch({ type: types.IDENTITY_COUNT_FAILURE });
-        notification.error('Something went wrong. Please retry');
+        notification.error(ERROR_COMMON);
         throw error;
       });
   };
@@ -113,7 +134,7 @@ export function patchIdentity(token, id, data) {
       })
       .catch((error) => {
         dispatch({ type: types.IDENTITY_PATCH_FAILURE });
-        notification.error('Something went wrong. Please retry');
+        notification.error(ERROR_COMMON);
         throw error;
       });
   };
@@ -130,7 +151,7 @@ export function deleteIdentity(token, id) {
       })
       .catch((error) => {
         dispatch({ type: types.IDENTITY_DELETE_FAILURE, payload: { id } });
-        notification.error('Something went wrong. Please retry');
+        notification.error(ERROR_COMMON);
         throw error;
       });
   };
@@ -156,7 +177,7 @@ export function patchDocument(token, identityId, id, fields) {
           type: types.DOCUMENT_PATCH_FAILURE,
           payload: { identityId, id, fields },
         });
-        notification.error('Something went wrong. Please retry');
+        notification.error(ERROR_COMMON);
         throw error;
       });
   };
@@ -164,6 +185,7 @@ export function patchDocument(token, identityId, id, fields) {
 
 const initialState = {
   isLoading: true,
+  isLoadingFile: false,
   countIsLoading: true,
   patchIsLoading: false,
   patchError: false,
@@ -392,6 +414,24 @@ const reducer = createReducer(initialState, {
     return {
       ...state,
       count: payload.data,
+    };
+  },
+  [types.IDENTITY_LIST_DOWNLOAD_REQUEST](state) {
+    return {
+      ...state,
+      isLoadingFile: true,
+    };
+  },
+  [types.IDENTITY_LIST_DOWNLOAD_SUCCESS](state) {
+    return {
+      ...state,
+      isLoadingFile: false,
+    };
+  },
+  [types.IDENTITY_LIST_DOWNLOAD_FAILURE](state) {
+    return {
+      ...state,
+      isLoadingFile: false,
     };
   },
 });

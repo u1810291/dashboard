@@ -34,6 +34,7 @@ const theme = createMuiTheme({
     },
     secondary: {
       main: '#ffffff',
+      contrastText: '#3757ff',
     },
   },
   overrides: {
