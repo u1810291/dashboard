@@ -1,13 +1,15 @@
 import React from 'react';
+import { get } from 'lodash';
 import { useIntl } from 'react-intl';
 import times from 'lodash/times';
-import { Card, Items, H2, H3 } from 'components';
+import { Card, Items, H2, H3, InfoTooltip } from 'components';
 
 export default function PlansFeatures() {
   const intl = useIntl();
+
   return (
-    <Card padding="4">
-      <H2>
+    <Card padding="4" gap="3">
+      <H2 weight={2}>
         {intl.formatMessage({ id: 'fragments.account.plans-features.title' })}
       </H2>
       <Items autoRows="1fr">
@@ -24,6 +26,12 @@ export default function PlansFeatures() {
                   {intl.formatMessage({
                     id: `fragments.account.plans-features.${key}.${i}`,
                   })}
+                  {get(intl.messages, `fragments.account.plans-features.${key}.${i}.tip`)
+                    && (
+                      <InfoTooltip
+                        title={intl.formatMessage({ id: `fragments.account.plans-features.${key}.${i}.tip` })}
+                      />
+                    )}
                 </li>
               ))}
             </ul>
