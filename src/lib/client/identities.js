@@ -49,6 +49,15 @@ export function getIdentities(token, params) {
   });
 }
 
+export function getIdentitiesFile(token, params) {
+  return http.get('/v1/identities', {
+    params,
+    paramsSerializer,
+    headers: { ...getAuthHeader(token) },
+    responseType: 'blob',
+  });
+}
+
 export function getIdentitiesCount(token, params) {
   return http.get('/v1/identities/count', {
     params,

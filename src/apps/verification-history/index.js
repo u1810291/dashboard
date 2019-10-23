@@ -1,38 +1,32 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import classNames from 'classnames';
+import { Content } from 'components/application-box';
+import Card from 'components/card';
+import confirm from 'components/confirm';
+import DataTable from 'components/data-table';
+import { DebounceInput } from 'components/inputs';
+import Items from 'components/items';
+import PageContentLayout from 'components/page-content-layout';
+import Pagination from 'components/pagination';
+import Spinner from 'components/spinner';
+import Text, { H2, HR } from 'components/text';
+import Status from 'fragments/verifications/status-label';
+import isFeatureEnabled from 'lib/isFeatureEnabled';
+import { titleCase } from 'lib/string';
+import { compact, get, isEmpty, mapValues, pickBy } from 'lodash';
 import fp from 'lodash/fp';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { isEmpty, pickBy, mapValues, get, compact } from 'lodash';
-import { FormattedMessage, injectIntl } from 'react-intl';
-
-import {
-  getIdentities,
-  getIdentitiesCount,
-  deleteIdentity,
-} from 'state/identities';
-import { Content } from 'components/application-box';
-import DataTable from 'components/data-table';
-import Status from 'fragments/verifications/status-label';
-import Pagination from 'components/pagination';
-import Items from 'components/items';
-import { DebounceInput } from 'components/inputs';
-import Spinner from 'components/spinner';
-import confirm from 'components/confirm';
-import PageContentLayout from 'components/page-content-layout';
-import isFeatureEnabled from 'lib/isFeatureEnabled';
-import Text, { H2, HR } from 'components/text';
-import Card from 'components/card';
-import classNames from 'classnames';
-import { titleCase } from 'lib/string';
-
-import CSS from './VerificationHistory.module.scss';
-import { ReactComponent as NationalId } from './national-id.svg';
-import { ReactComponent as Passport } from './passport.svg';
+import { deleteIdentity, getIdentities, getIdentitiesCount, getIdentitiesFile } from 'state/identities';
+import { ReactComponent as DeleteIcon } from '../verification-detail/delete-icon.svg';
 import { ReactComponent as DrivingLicense } from './driving-license.svg';
 import FiltersForm from './filters-form';
-import { ReactComponent as DeleteIcon } from '../verification-detail/delete-icon.svg';
+import { ReactComponent as NationalId } from './national-id.svg';
+import { ReactComponent as Passport } from './passport.svg';
+import CSS from './VerificationHistory.module.scss';
 
 const FILTERS = [
   'search',
@@ -101,7 +95,7 @@ ExampleCard.propTypes = {
 class VerificationHistory extends React.Component {
   static defaultProps = {
     count: 0,
-  }
+  };
 
   static propTypes = {
     count: PropTypes.number,
@@ -113,7 +107,7 @@ class VerificationHistory extends React.Component {
     identities: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     isLoading: PropTypes.bool.isRequired,
     token: PropTypes.string.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -141,7 +135,7 @@ class VerificationHistory extends React.Component {
       this.fetchIdentitiesCount();
       this.replaceLocation();
     });
-  }
+  };
 
   getTableColumns = () => {
     const columns = [
@@ -208,19 +202,37 @@ class VerificationHistory extends React.Component {
       });
     }
     return columns;
-  }
+  };
 
   openVerification = ({ identity }) => {
     this.props.history.push(`/identities/${identity.id}`);
-  }
+  };
 
   deleteIdentity = (e, identity) => {
     e.stopPropagation();
     confirm(<FormattedMessage id="verificationModal.delete.confirm" />).then(
       () => this.props.deleteIdentity(this.props.token, identity.identity.id),
-      () => {},
+      () => {
+      },
     );
-  }
+  };
+
+  handleDownloadCSV = () => {
+    const params = pickBy(this.state.params, (item) => !isEmpty(item));
+
+    this.props.getIdentitiesFile(this.props.token, {
+      ...params,
+      format: 'csv',
+    }).then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'mati-verifications.zip');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    });
+  };
 
   onFilterChange = (params) => {
     params.status = compact(params.status);
@@ -235,7 +247,7 @@ class VerificationHistory extends React.Component {
         this.replaceLocation();
       },
     );
-  }
+  };
 
   onPageChange = ({ selected: pageNum }) => {
     if (pageNum === undefined) return;
@@ -251,7 +263,7 @@ class VerificationHistory extends React.Component {
         this.replaceLocation();
       },
     );
-  }
+  };
 
   fetchIdentitiesCount() {
     // eslint-disable-next-line no-shadow
@@ -312,6 +324,14 @@ class VerificationHistory extends React.Component {
     const pageCount = Math.ceil(count / ITEMS_PER_PAGE);
     const forcePage = Math.floor(params.offset / ITEMS_PER_PAGE) || 0;
 
+    // disabled feature, see BAC-4012
+    // const downloadCSV = <Button onClick={this.handleDownloadCSV} className={CSS.button}>
+    //   {isLoadingFile
+    //     ? <LoaderIcon className={CSS.buttonIcon} />
+    //     : <DownloadIcon className={CSS.buttonIcon} />}
+    //   {intl.formatMessage({ id: 'identities.download-all-csv' })}
+    // </Button>
+
     return ((isEmpty(params) || !params.status) && !countIsLoading && count === 0)
       ? (
         <Content>
@@ -357,21 +377,27 @@ class VerificationHistory extends React.Component {
       )
       : (
         <Content>
-          <DebounceInput
-            name="search"
-            placeholder={intl.formatMessage({
-              id: 'identities.filters.placeholder.search',
-            })}
-            maxLength={30}
-            value={transformedParams.search}
-            className={CSS.searchField}
-            hideLabel
-            onChange={(e) => {
-              this.onFilterChange({ search: e.target.value });
-            }}
-          />
           <PageContentLayout navigation={false}>
             <main>
+              <Items flow="column" align="center" justifyContent="space-between">
+                <H2>
+                  <span>{intl.formatMessage({ id: 'identities.title' })}</span>
+                  <span className={CSS.titleCounter}>{` (${count || 0})`}</span>
+                </H2>
+              </Items>
+              <DebounceInput
+                name="search"
+                placeholder={intl.formatMessage({
+                  id: 'identities.filters.placeholder.search',
+                })}
+                maxLength={30}
+                value={transformedParams.search}
+                className={CSS.searchField}
+                hideLabel
+                onChange={(e) => {
+                  this.onFilterChange({ search: e.target.value });
+                }}
+              />
               <Items flow="row">
                 <DataTable
                   rows={identities}
@@ -383,16 +409,16 @@ class VerificationHistory extends React.Component {
                 />
                 {
                   count > ITEMS_PER_PAGE
-                    && !countIsLoading
-                    && (
-                      <Pagination
-                        pageCount={pageCount}
-                        pageRangeDisplayed={3}
-                        marginPagesDisplayed={2}
-                        forcePage={forcePage}
-                        onPageChange={this.onPageChange}
-                      />
-                    )
+                  && !countIsLoading
+                  && (
+                    <Pagination
+                      pageCount={pageCount}
+                      pageRangeDisplayed={3}
+                      marginPagesDisplayed={2}
+                      forcePage={forcePage}
+                      onPageChange={this.onPageChange}
+                    />
+                  )
                 }
               </Items>
             </main>
@@ -413,13 +439,14 @@ export default fp.flowRight(
   connect(
     (state) => ({
       isLoading: state.identities.isLoading,
+      isLoadingFile: state.identities.isLoadingFile,
       countIsLoading: state.identities.countIsLoading,
       deletingIdentities: state.identities.deletingIdentities,
       identities: state.identities.identities,
       count: state.identities.count,
       token: state.auth.token,
     }),
-    { getIdentities, getIdentitiesCount, deleteIdentity },
+    { getIdentities, getIdentitiesCount, deleteIdentity, getIdentitiesFile },
   ),
   injectIntl,
 )(VerificationHistory);

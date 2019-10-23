@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { get } from 'lodash';
-import { underscore, humanize } from 'inflection';
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
-
+import Items from 'components/items';
 import Text from 'components/text';
 import TextEditable from 'components/text-editable';
+import { humanize, underscore } from 'inflection';
 import { formatValue } from 'lib/string';
+import { get } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
 
 
 const EditableField = ({ label, value, onSubmit }) => (value
@@ -29,35 +29,26 @@ const EditableField = ({ label, value, onSubmit }) => (value
 
 function Success({ step, source, onSubmit, isEditable }) {
   return (
-    <table className="mgi-table">
-      <colgroup>
-        <col width="40%" />
-        <col width="60%" />
-      </colgroup>
-      <tbody>
-        { Object.entries(step.data || {})
-          .map(([label, { value }]) => {
-            const sourceValue = get(source[label], 'value');
+    <Items flow="row" templateColumns="2fr 3fr" gap={1} align="center">
+      {Object.entries(step.data || {})
+        .map(([label, { value }]) => {
+          const sourceValue = get(source[label], 'value');
 
-            return (
-              <tr key={label}>
-                <td className="text-nowrap">
-                  <FormattedMessage
-                    id={`DocumentReadingStep.fields.${label}`}
-                    defaultMessage={humanize(underscore(label))}
-                  />
-                </td>
-                <td>
-                  { isEditable
-                    ? <EditableField label={label} value={sourceValue} onSubmit={onSubmit} />
-                    : formatValue(label, value)}
-                </td>
-              </tr>
-            );
-          },
-          )}
-      </tbody>
-    </table>
+          return [
+            <div className="text-nowrap" key={`${label}-label`}>
+              <FormattedMessage
+                id={`DocumentReadingStep.fields.${label}`}
+                defaultMessage={humanize(underscore(label))}
+              />
+            </div>,
+            <div key={`${label}-value`}>
+              {isEditable
+                ? <EditableField label={label} value={sourceValue} onSubmit={onSubmit} />
+                : formatValue(label, value)}
+            </div>,
+          ];
+        })}
+    </Items>
   );
 }
 

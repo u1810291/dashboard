@@ -6,6 +6,7 @@ export { default as Click } from './click';
 export { default as Link } from './link';
 export { default as Button } from './button';
 export { default as QuestionMark } from './question-mark';
+export { default as InfoTooltip } from './info-tooltip';
 export { default as HelpMessage } from './help-message';
 export { default as Text, H1, H2, H3, Small } from './text';
 export { Content } from 'components/application-box';
