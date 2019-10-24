@@ -41,6 +41,7 @@ export function formatValue(label, string) {
 
   return string;
 }
+
 const parseDashboardFormat = (value) => moment.utc(value, 'MMM D, YYYY', true);
 
 export function ifDateFormat(value) {
