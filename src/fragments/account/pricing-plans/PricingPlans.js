@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import snakeCase from 'lodash/snakeCase';
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import { Box } from '@material-ui/core';
 import { Items, Card, Click, Text } from 'components';
 import CSS from './PricingPlans.module.scss';
 
@@ -25,12 +26,18 @@ export default function PricingPlans({
     Regular: intl.formatMessage({ id: 'PricingPlans.regular' }),
     Growth: intl.formatMessage({ id: 'PricingPlans.growth' }),
   };
+
   const Block = ({ ...props }) => (
     <Card gap="4" autoRows="max-content 1fr" {...props}>
       <Items flow="row" gap="2">
-        <Text color="secondary" padding="30px 0 0 0">
-          {planNamesMapper[name] || name}
-        </Text>
+        <div>
+          <Box fontSize={18} fontWeight={600}>
+            {name}
+          </Box>
+          <Box fontSize={12} color="text.secondary">
+            {planNamesMapper[name] || name}
+          </Box>
+        </div>
         <Items align="baseline" justifyContent="start" gap={0.25}>
           <Text size={8}>
             {`$${Math.floor(subscriptionPrice / 100)}`}

@@ -1,0 +1,11 @@
+
+.value {
+  font-weight: bold;
+}
+
+.bar {
+  width: 0;
+  height: 1.75rem;
+  background-color: var(--mgi-theme-palette-violet);
+  border-radius: 0 var(--mgi-theme-border-radius) var(--mgi-theme-border-radius) 0;
+}

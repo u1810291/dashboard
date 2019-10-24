@@ -1,6 +1,6 @@
 {
   "name": "mati-dashboard",
-  "version": "1.10.14",
+  "version": "1.10.15",
   "private": true,
   "dependencies": {
     "@emotion/core": "^10.0.10",
@@ -46,14 +46,14 @@
     "react-tabs": "^2.3.0",
     "react-toastify": "^4.4.3",
     "react-waypoint": "^9.0.2",
-    "recharts": "^1.6.2",
+    "recharts": "^1.8.5",
     "redux": "^4.0.4",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "dev": "env-cmd .env.develop react-scripts start",
-    "start": "env-cmd .env.staging react-scripts start",
+    "start": "env-cmd .env react-scripts start",
     "start:production": "env-cmd .env.production react-scripts start",
     "build": "react-scripts build",
     "build:dev01": "env-cmd .env.dev01 npm run build",
@@ -76,6 +76,7 @@
     "@storybook/addon-storyshots-puppeteer": "^5.1.0-alpha.39",
     "@storybook/addons": "^5.1.0-alpha.39",
     "@storybook/react": "^5.1.0-alpha.39",
+    "@types/recharts": "^1.7.0",
     "babel-plugin-module-resolver": "^3.2.0",
     "cross-env": "^5.2.0",
     "eslint-config-airbnb": "^18.0.1",

@@ -609,6 +609,9 @@
   "fragments.home.verification.statistic.month": "Verifications this month",
   "fragments.home.verification.statistic.today": "Verifications today",
   "fragments.home.verification.statistic.week": "Verifications this week",
+  "fragments.home.verification.statistic.title.byCountry": "Countries",
+  "fragments.home.verification.statistic.title.byTime": "Verifications by time",
+  "fragments.home.verification.statistic.title.byDay": "Verifications by day",
   "DocumentReadingStep.error": "Unable to read document data: <span class=\"text-error\">{message}<\/span>",
   "MexicanCurpValidationStep.title": "Mexican CURP Validation",
   "Pricing.notification.success": "Card was saved to your account",
@@ -898,5 +901,7 @@
   "PricingPlans.asYouGo": "If you just want to try",
   "PricingPlans.starter": "If you just started",
   "PricingPlans.regular": "Perfect for small business",
-  "PricingPlans.growth": "Medium business level"
+  "PricingPlans.growth": "Medium business level",
+  "Countries.otherCountries": "Other countries",
+  "Countries.unknownCountry": "<Unknown>"
 }
