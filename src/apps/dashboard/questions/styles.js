@@ -32,7 +32,7 @@ export const theme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: ['Lato', 'Helvetica Neue', 'sans-serif'],
+    fontFamily: ['Lato', 'Helvetica Neue', 'sans-serif'].join(','),
     h4: {
       fontSize: 24,
       fontWeight: 600,
