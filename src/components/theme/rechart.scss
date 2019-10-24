@@ -1,0 +1,24 @@
+// bar chart
+
+.recharts-bar-rectangle {
+  .recharts-rectangle {
+    fill: var(--mgi-theme-palette-violet);
+  }
+}
+
+.recharts-tooltip-cursor {
+  fill: none;
+}
+
+.recharts-wrapper.custom-tooltip {
+  // overrides for proper tooltip positioning
+  .recharts-tooltip-wrapper {
+    transform: none !important;
+    left: 0 !important;
+    top: 0 !important;
+    // fewer sizes broke internal Chart's calculations
+    width: 2px;
+    height: 2px;
+  }
+}
+

@@ -16,8 +16,8 @@ import { Container as OverlayContainer } from 'components/overlay';
 import 'clipboard-polyfill';
 import 'core-js';
 import * as Sentry from '@sentry/browser';
-
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import { AppTheme } from 'app.theme';
 
 if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
@@ -26,56 +26,8 @@ if (process.env.REACT_APP_SENTRY_DSN) {
   });
 }
 
-const theme = createMuiTheme({
-  spacing: 10,
-  palette: {
-    primary: {
-      main: '#3757ff',
-    },
-    secondary: {
-      main: '#ffffff',
-      contrastText: '#3757ff',
-    },
-  },
-  overrides: {
-    MuiIconButton: {
-      root: {
-        '&:hover': {
-          backgroundColor: 'inherit !important',
-        },
-      },
-    },
-    MuiInputBase: {
-      text: {
-        color: 'red',
-      },
-      root: {
-        color: 'blue',
-      },
-    },
-    MuiMenuItem: {
-      root: {
-        color: 'white',
-      },
-    },
-  },
-  typography: {
-    h1: {
-      fontSize: '28px',
-    },
-    h2: {
-      fontSize: '18px',
-    },
-    h3: {
-      fontSize: '16px',
-      fontWeight: 'bold',
-    },
-    fontFamily: ['Lato', 'Helvetica Neue', 'sans-serif'],
-  },
-});
-
 ReactDOM.render(
-  <MuiThemeProvider theme={theme}>
+  <MuiThemeProvider theme={AppTheme}>
     <StripeProvider apiKey={process.env.REACT_APP_STRIPE_PUBLIC_KEY}>
       <StripeElements>
         <StoreProvider>
