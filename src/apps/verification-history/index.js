@@ -1,8 +1,11 @@
 import classNames from 'classnames';
 import { Content } from 'components/application-box';
+import Button from 'components/button';
 import Card from 'components/card';
 import confirm from 'components/confirm';
 import DataTable from 'components/data-table';
+import { ReactComponent as DownloadIcon } from 'components/icons/download.svg';
+import { ReactComponent as LoaderIcon } from 'components/icons/loader.svg';
 import { DebounceInput } from 'components/inputs';
 import Items from 'components/items';
 import PageContentLayout from 'components/page-content-layout';
@@ -310,6 +313,7 @@ class VerificationHistory extends React.Component {
         identities,
         intl,
         isLoading,
+        isLoadingFile,
       },
       state: { params },
     } = this;
@@ -323,14 +327,6 @@ class VerificationHistory extends React.Component {
 
     const pageCount = Math.ceil(count / ITEMS_PER_PAGE);
     const forcePage = Math.floor(params.offset / ITEMS_PER_PAGE) || 0;
-
-    // disabled feature, see BAC-4012
-    // const downloadCSV = <Button onClick={this.handleDownloadCSV} className={CSS.button}>
-    //   {isLoadingFile
-    //     ? <LoaderIcon className={CSS.buttonIcon} />
-    //     : <DownloadIcon className={CSS.buttonIcon} />}
-    //   {intl.formatMessage({ id: 'identities.download-all-csv' })}
-    // </Button>
 
     return ((isEmpty(params) || !params.status) && !countIsLoading && count === 0)
       ? (
@@ -384,6 +380,12 @@ class VerificationHistory extends React.Component {
                   <span>{intl.formatMessage({ id: 'identities.title' })}</span>
                   <span className={CSS.titleCounter}>{` (${count || 0})`}</span>
                 </H2>
+                <Button onClick={this.handleDownloadCSV} className={CSS.button}>
+                  {isLoadingFile
+                    ? <LoaderIcon className={CSS.buttonIcon} />
+                    : <DownloadIcon className={CSS.buttonIcon} />}
+                  {intl.formatMessage({ id: 'identities.download-all-csv' })}
+                </Button>
               </Items>
               <DebounceInput
                 name="search"
