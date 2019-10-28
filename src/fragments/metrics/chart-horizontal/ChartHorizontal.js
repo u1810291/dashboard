@@ -11,9 +11,10 @@ export function ChartHorizontal({ data }) {
       {data.map((item) => {
         const percent = 100 * (item.value / total);
         return [
-          <div>{item.label}</div>,
-          <div className={CSS.value}>{`${percent.toPrecision(2)}% (${localeNumber(item.value)})`}</div>,
+          <div key={`${item.label}-label`}>{item.label}</div>,
+          <div key={`${item.label}-percent`} className={CSS.value}>{`${percent.toPrecision(2)}% (${localeNumber(item.value)})`}</div>,
           <div
+            key={`${item.label}-bar`}
             style={{ width: `${percent}%` }}
             className={CSS.bar}
           />,

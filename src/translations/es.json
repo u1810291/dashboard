@@ -608,6 +608,9 @@
   "fragments.home.verification.statistic.month": "Verificaciones de este mes",
   "fragments.home.verification.statistic.today": "Verificaciones de hoy",
   "fragments.home.verification.statistic.week": "Verificaciones de esta semana",
+  "fragments.home.verification.statistic.title.byCountry": "Países",
+  "fragments.home.verification.statistic.title.byTime": "Verificaciones por tiempo",
+  "fragments.home.verification.statistic.title.byDay": "Verificaciones por dia",
   "DocumentReadingStep.error": "No se pueden leer los datos del documento: <span class=\"text-error\"> {message} <\/span>",
   "MexicanCurpValidationStep.title": "Validación de CURP mexicana",
   "Pricing.notification.success": "La tarjeta se guardó en su cuenta",
@@ -897,5 +900,7 @@
   "PricingPlans.asYouGo": "Si sólo quieres probar",
   "PricingPlans.starter": "Si acabas de empezar",
   "PricingPlans.regular": "Perfecto para pequeños negocios",
-  "PricingPlans.growth": "Nivel de empresa mediana"
+  "PricingPlans.growth": "Nivel de empresa mediana",
+  "Countries.otherCountries": "Otros paises",
+  "Countries.unknownCountry": "<Desconocido>"
 }
