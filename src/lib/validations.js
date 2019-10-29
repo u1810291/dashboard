@@ -27,7 +27,7 @@ export function email(value) {
 
 export function businessEmail(value) {
   const EMAIL = /^[A-Z0-9._%+-]+@([A-Z0-9.-]+\.[A-Z]{2,4})$/i;
-  const match = EMAIL.exec(value);
+  const match = EMAIL.exec(value.toLowerCase());
 
   if (match && restrictedDomains.includes(match[1])) {
     return <FormattedMessage id="validations.personalEmail" />;

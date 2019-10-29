@@ -908,5 +908,6 @@
   "BlockedSplash.contractSubtitle": "Or talk to our sales team if you have some questions or doubts",
   "BlockedSplash.title": "Your trial period has ended",
   "BlockedSplash.description": "To continue to use mati － please select a plan",
-  "BlockedSplash.subtitle": "We’re sorry,\nyour Mati access\nwas removed."
+  "BlockedSplash.subtitle": "We’re sorry,\nyour Mati access\nwas removed.",
+  "validations.personalEmail": "No debe ser personal (gmail, hotmail, etc.)"
 }
