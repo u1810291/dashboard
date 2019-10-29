@@ -1,3 +1,5 @@
+import { AppRouter } from 'app.router';
+import { ScrollToTop } from 'apps/routing';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -9,8 +11,6 @@ import {
 import 'components/theme/styles.scss';
 import IntlProvider from 'components/intl-provider';
 import StoreProvider from 'components/store-provider';
-import ScrollToTop from 'components/scroll-to-top';
-import Root from 'apps';
 import { Container as NotificationsContainer } from 'components/notification';
 import { Container as OverlayContainer } from 'components/overlay';
 import 'clipboard-polyfill';
@@ -34,7 +34,7 @@ ReactDOM.render(
           <IntlProvider>
             <BrowserRouter>
               <ScrollToTop>
-                <Root />
+                <AppRouter />
                 <NotificationsContainer
                   closeButton={false}
                   hideProgressBar

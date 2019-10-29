@@ -199,7 +199,6 @@
   "plan.price.safety-pro.per-user": "por usuario",
   "plan.price.safety-pro.default": "plan predeterminado para los próximos meses, de forma gratuita",
   "plan.price.safety-pro.free-verifications": "Prueba GRATUITA de 14 días",
-  "plan.price.enterprise.contact-sales": "Contactar con Ventas",
   "plan.starter.features.0": "Integración web y móvil de 10 minutos",
   "plan.starter.features.1": "Configure su propio estilo de botón, idioma y características",
   "plan.starter.features.2": "Reconocimiento facial y Facematch",
@@ -903,5 +902,11 @@
   "fragments.home.verification.statistic.title.byTime": "Verificaciones por tiempo",
   "fragments.home.verification.statistic.title.byDay": "Verificaciones por dia",
   "Countries.otherCountries": "Otros paises",
-  "Countries.unknownCountry": "<Desconocido>"
+  "Countries.unknownCountry": "<Desconocido>",
+  "actions.contactSales": "Contactar con Ventas",
+  "actions.selectPlan": "Select plan",
+  "BlockedSplash.contractSubtitle": "Or talk to our sales team if you have some questions or doubts",
+  "BlockedSplash.title": "Your trial period has ended",
+  "BlockedSplash.description": "To continue to use mati － please select a plan",
+  "BlockedSplash.subtitle": "We’re sorry,\nyour Mati access\nwas removed."
 }

@@ -259,6 +259,7 @@ const initialState = {
   integrationCode: undefined,
   lastApplication: {},
   logoUrl: null,
+  blockedAt: undefined,
 };
 
 export default createReducer(initialState, {
