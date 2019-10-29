@@ -1,4 +1,5 @@
 import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
+import { appPalette } from 'app.theme';
 import QuestionImage from 'assets/questions-bkg.jpg';
 
 export const useStyles = makeStyles((theme) => ({
@@ -28,7 +29,7 @@ export const theme = createMuiTheme({
   spacing: 10,
   palette: {
     primary: {
-      main: '#3757FF',
+      main: appPalette.blue,
     },
   },
   typography: {

@@ -56,7 +56,7 @@ const useStylesArrow = makeStyles((theme) => ({
     backgroundColor: theme.palette.common.white,
     padding: 10,
     fontSize: 12,
-    color: theme.palette.grey[700],
+    color: theme.palette.grey['700'],
   },
   arrow: {
     position: 'absolute',

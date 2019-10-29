@@ -17,10 +17,10 @@ export default function Settings() {
           <FormattedMessage id="dashboard.menu.account" />
         </h1>
         <Switch>
-          <Route path="/settings/personal" component={PersonalSetting} />
           <Route path="/settings/pricing" component={Pricing} />
           <Route path="/settings/billing" component={Billing} />
-          <Route path="/settings" component={TeamSettings} />
+          <Route path="/settings/team" component={TeamSettings} />
+          <Route path="/settings" component={PersonalSetting} />
         </Switch>
       </Items>
     </Content>
