@@ -61,7 +61,7 @@ export default function ConfigureColor({
         <Items gap={0} flow="row" justifyContent="start" templateColumns="100%">
           {presets.map(([presetName, presetColor]) => (
             <ColorCheckButton
-              key={presetName}
+              key={`${presetName}-${presetColor}`}
               color={presetColor}
               checked={presetName === color}
               onChange={() => handleChange(presetColor, presetName)}

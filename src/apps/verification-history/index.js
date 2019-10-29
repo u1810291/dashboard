@@ -22,10 +22,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { deleteIdentity, getIdentities, getIdentitiesCount, getIdentitiesFile } from 'state/identities';
 import { ReactComponent as DeleteIcon } from '../verification-detail/delete-icon.svg';
 import { ReactComponent as DrivingLicense } from './driving-license.svg';
+import { ExampleCard } from './ExampleCard';
 import FiltersForm from './filters-form';
 import { ReactComponent as NationalId } from './national-id.svg';
 import { ReactComponent as Passport } from './passport.svg';
@@ -73,27 +73,6 @@ export function prepareParams(searchString, allowedKeys) {
     fp.pickBy((v) => !isEmpty(v)),
   )(searchString);
 }
-
-const ExampleCard = ({ icon, labelId, link }) => (
-  <Link to={{ pathname: link }}>
-    <Card border="lightergray" className={CSS.demoCard}>
-      <Text align="center">{icon}</Text>
-      <Text size={3} color="blue">
-        <FormattedMessage id={`verificationDemo.${labelId}.label`} />
-      </Text>
-    </Card>
-  </Link>
-);
-
-ExampleCard.propTypes = {
-  icon: PropTypes.arrayOf([
-    PropTypes.element,
-    PropTypes.node,
-    PropTypes.string,
-  ]).isRequired,
-  labelId: PropTypes.string.isRequired,
-  link: PropTypes.string.isRequired,
-};
 
 class VerificationHistory extends React.Component {
   static defaultProps = {
