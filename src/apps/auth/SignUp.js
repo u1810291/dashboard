@@ -10,22 +10,18 @@ import { TextField } from 'formik-material-ui';
 import { signUp } from 'state/auth';
 import { getIntegrationCode, saveConfiguration } from 'state/merchant';
 
-import { cleanText, email, required } from 'lib/validations';
+import { businessEmail, email, required } from 'lib/validations';
 import { useDispatch } from 'react-redux';
 
 const validateForm = (values) => pickBy(
   {
-    firstName: required(values.firstName) || cleanText(values.firstName),
-    lastName: required(values.lastName) || cleanText(values.lastName),
-    email: required(values.email) || email(values.email),
+    email: required(values.email) || email(values.email) || businessEmail(values.email),
     password: required(values.password),
   },
   (v) => v,
 );
 
 const initialValues = {
-  firstName: '',
-  lastName: '',
   email: '',
   password: '',
   error: null,
@@ -41,7 +37,7 @@ export default function SignUp() {
       const {
         data: { merchant, token },
       } = await dispatch(
-        signUp(pick(data, 'firstName', 'lastName', 'email', 'password')),
+        signUp(pick(data, 'email', 'password')),
       );
       if (window.Appcues) window.Appcues.identify(data.email);
       await dispatch(getIntegrationCode(token));
@@ -98,29 +94,6 @@ export default function SignUp() {
                   direction="column"
                   alignItems="stretch"
                 >
-                  <Grid item container wrap="nowrap" spacing={2}>
-                    <Grid item>
-                      <Field
-                        required
-                        name="firstName"
-                        label={intl.formatMessage({
-                          id: 'signup.form.labels.firstName',
-                        })}
-                        component={TextField}
-                      />
-                    </Grid>
-                    <Grid item>
-                      <Field
-                        required
-                        name="lastName"
-                        label={intl.formatMessage({
-                          id: 'signup.form.labels.lastName',
-                        })}
-                        component={TextField}
-                      />
-                    </Grid>
-                  </Grid>
-
                   <Grid item>
                     <Field
                       required

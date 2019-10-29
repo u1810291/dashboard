@@ -118,6 +118,7 @@
   "validations.required": "Field is required",
   "validations.cleanText": "No special characters allowed",
   "validations.email": "Invalid email address",
+  "validations.personalEmail": "It can't be personal email (gmail, hotmail, etc.)",
   "onboarding.flow.title": "Customize your User Verification Flow",
   "onboarding.flow.subtitle": "Test and tailor what your users see when they verify their identity",
   "onboarding.webhook.title": "Sample Webhook",
