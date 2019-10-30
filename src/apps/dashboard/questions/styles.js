@@ -23,6 +23,17 @@ export const useStyles = makeStyles((theme) => ({
   radioGroup: {
     marginLeft: 20,
   },
+  phone: {
+    '& > .iti': {
+      display: 'grid',
+      height: 53,
+    },
+    '& input': {
+      outline: 'none',
+      borderRadius: 4,
+      border: '1px solid #bbb',
+    },
+  },
 }));
 
 export const theme = createMuiTheme({

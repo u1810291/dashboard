@@ -59,6 +59,9 @@ const formikSettings = {
   },
 };
 
+/**
+ * @deprecated
+ */
 class SignUpForm extends React.Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,

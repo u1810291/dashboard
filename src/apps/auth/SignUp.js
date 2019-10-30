@@ -1,17 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import pickBy from 'lodash/pickBy';
-import pick from 'lodash/pick';
-import get from 'lodash/get';
-import { Grid, Button, Typography } from '@material-ui/core';
-import { useIntl } from 'react-intl';
-import { Formik, Field, Form } from 'formik';
+import { Button, Grid, Typography } from '@material-ui/core';
+import { ROOT_PATH } from 'apps/routing/routing.model';
+import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
+import { businessEmail, email, required } from 'lib/validations';
+import { get, pick, pickBy } from 'lodash';
+import React from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import { signUp } from 'state/auth';
 import { getIntegrationCode, saveConfiguration } from 'state/merchant';
-
-import { businessEmail, email, required } from 'lib/validations';
-import { useDispatch } from 'react-redux';
 
 const validateForm = (values) => pickBy(
   {
@@ -30,28 +28,27 @@ const initialValues = {
 export default function SignUp() {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   async function submitData(data, { setStatus, setSubmitting }) {
     setStatus();
     try {
       const {
         data: { merchant, token },
-      } = await dispatch(
-        signUp(pick(data, 'email', 'password')),
-      );
-      if (window.Appcues) window.Appcues.identify(data.email);
+      } = await dispatch(signUp(pick(data, 'email', 'password')));
+      if (window.Appcues) {
+        window.Appcues.identify(data.email);
+      }
       await dispatch(getIntegrationCode(token));
-      await dispatch(
-        saveConfiguration(token, {
-          dashboard: {
-            ...merchant.dashboard,
-            usePlans: true,
-            shouldPassOnboarding: true,
-          },
-        }),
-      );
+      await dispatch(saveConfiguration(token, {
+        dashboard: {
+          ...merchant.dashboard,
+          usePlans: true,
+          shouldPassOnboarding: true,
+        },
+      }));
       window.ga('send', 'event', 'form_submission');
-      window.location = '/';
+      history.push(ROOT_PATH);
     } catch (err) {
       setSubmitting(false);
       setStatus(get(err, 'response.data.message', err.message));
@@ -78,8 +75,7 @@ export default function SignUp() {
           initialValues={initialValues}
           validate={validateForm}
           onSubmit={submitData}
-        >
-          {({ isSubmitting, submitForm, handleSubmit, status }) => (
+          render={({ isSubmitting, submitForm, handleSubmit, status }) => (
             <Form onSubmit={handleSubmit}>
               <Grid
                 container
@@ -142,7 +138,7 @@ export default function SignUp() {
               </Grid>
             </Form>
           )}
-        </Formik>
+        />
       </Grid>
       <Grid item>
         <Typography align="center">
