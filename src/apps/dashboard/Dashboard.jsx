@@ -1,4 +1,4 @@
-import Info from 'apps/info';
+import { InfoPage } from 'apps/info';
 import Metrics from 'apps/metrics';
 import Product from 'apps/product';
 import { OwnerRoute } from 'apps/routing';
@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { signOut } from 'state/auth';
 import { getIntegrationCode, getMerchant } from 'state/merchant';
-import MenuBar from './MenuBar';
+import { MenuBar } from './MenuBar';
 import Questions from './questions';
 
 export function Dashboard() {
@@ -62,7 +62,7 @@ export function Dashboard() {
     <ApplicationBox key="app" menu={<MenuBar isOwner={isOwner} isOwnerIsLoading={isOwnerIsLoading} />}>
       <Switch>
         <OwnerRoute path="/settings" component={Settings} />
-        <Route path="/info" component={Info} />
+        <Route path="/info" component={InfoPage} />
         <BlockedRoute>
           <Route exact path="/identities" component={VerificationHistory} />
           <Route path="/identities/:demo?/:id" component={VerificationDetail} />

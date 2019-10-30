@@ -4,7 +4,7 @@ import { pick } from 'lodash';
 
 import { closeOverlay, createOverlay, Items } from 'components';
 import { notification } from 'components/notification';
-import Feedback from 'fragments/info/feedback';
+import { Feedback } from 'fragments/info/feedback';
 import {
   CardDeclinedModal,
   CardModal,

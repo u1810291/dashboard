@@ -1,66 +1,23 @@
+import { Menu } from 'apps/navigation';
 import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import { useIntl } from 'react-intl';
-import { NavLink } from 'react-router-dom';
-import MenuItem from '@material-ui/core/MenuItem';
-
-import useStyles from './styles';
+import { FiUser, FiInfo } from 'react-icons/fi';
 
 export default function SecondaryMenu() {
   const intl = useIntl();
-  const classes = useStyles();
 
-  const secondaryMenuEntries = [
+  const entries = [
     {
       to: '/info',
-      label: intl.formatMessage({ id: 'dashboard.menu.info' }),
+      label: intl.formatMessage({ id: 'dashboard.menu.faq' }),
+      icon: <FiInfo />,
     },
     {
       to: '/settings',
       label: intl.formatMessage({ id: 'dashboard.menu.account' }),
+      icon: <FiUser />,
     },
   ];
 
-  const Menu = ({ entries }) => (
-    <>
-      {
-        entries.map(({
-          children,
-          className,
-          label,
-          logo,
-          show = true,
-          to,
-        }) => !!show
-          && (
-          <NavLink
-            exact
-            key={to}
-            to={to}
-            activeClassName={clsx('active', { [classes.activeItem]: !logo })}
-          >
-            <MenuItem divider={false} className={clsx(classes.menuItem, className)}>
-              {label}
-              {children}
-            </MenuItem>
-          </NavLink>
-          ),
-        )
-}
-    </>
-  );
-
-  Menu.propTypes = {
-    entries: PropTypes.arrayOf(
-      PropTypes.shape({
-        to: PropTypes.string,
-        label: PropTypes.string,
-        className: PropTypes.string,
-        show: PropTypes.bool,
-      }),
-    ).isRequired,
-  };
-
-  return <Menu entries={secondaryMenuEntries} />;
+  return <Menu entries={entries} />;
 }

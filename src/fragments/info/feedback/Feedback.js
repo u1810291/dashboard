@@ -1,32 +1,51 @@
+import { Box, Paper, Typography, Grid } from '@material-ui/core';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import Items from 'components/items';
-import CSS from './feedback.module.scss';
+import { useIntl } from 'react-intl';
+import { FeedbackData } from './Feedback.model';
 
-const logos = {
-  // eslint-disable-next-line global-require
-  profuturo: require('./profuturo.png'),
-  // eslint-disable-next-line global-require
-  doopla: require('./doopla.png'),
-};
+export function Feedback() {
+  const intl = useIntl();
 
-export default function Feedback() {
   return (
-    <Items templateColumns="1fr 1fr" gap="4">
-      {['profuturo', 'doopla'].map((name, index) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <Items flow="row" gap={1} key={index}>
-          <p className={CSS.logo}>
-            <img src={logos[name]} alt={name} />
-          </p>
-          <p className={`${CSS.feedback} text-center`}>
-            <FormattedMessage id={`feedbacks.feedback.${index}.content`} />
-          </p>
-          <div className="text-secondary text-center">
-            <FormattedMessage id={`feedbacks.feedback.${index}.author`} />
-          </div>
-        </Items>
-      ))}
-    </Items>
+    <Paper>
+      <Box p={2}>
+        <Box mb={4}>
+          <Typography variant="h2">
+            {intl.formatMessage({ id: 'Feedback.title' })}
+          </Typography>
+        </Box>
+
+        <Grid container spacing={2}>
+          {FeedbackData.map(({ id, logo }) => (
+            <Grid item key={id}>
+              <Box display="flex">
+                <Box
+                  flex="0 0 auto"
+                  mr={2}
+                  width={60}
+                  height={60}
+                  borderRadius="6rem"
+                  overflow="hidden"
+                >
+                  <img src={logo} alt={id} />
+                </Box>
+                <Box>
+                  <Box fontStyle="italic" color="grey.700">
+                    <Typography variant="body1" paragraph>
+                      &quot;
+                      {intl.formatMessage({ id: `Feedback.${id}.content` })}
+                      &quot;
+                    </Typography>
+                  </Box>
+                  <Typography variant="subtitle2" gutterBottom>
+                    {intl.formatMessage({ id: `Feedback.${id}.author` })}
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </Paper>
   );
 }
