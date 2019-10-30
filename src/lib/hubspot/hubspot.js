@@ -9,6 +9,8 @@ export function requestApi(token, email, inputs = {}) {
       website: inputs.websiteUrl,
       start_verifying_users: inputs.whenToStart,
       how_many_verifications: inputs.verificationsVolume,
+      why_do_you_need_mati: inputs.whyDoYouNeedMati,
+      phone_number: inputs.phone,
     },
   };
   client.hubspot.hubspotApiRequest(token, data);

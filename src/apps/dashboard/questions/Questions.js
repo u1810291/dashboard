@@ -1,28 +1,22 @@
-import { omit, difference, omitBy, isEmpty } from 'lodash';
-import React, { useState } from 'react';
-import { useIntl } from 'react-intl';
-import {
-  Drawer,
-  Grid,
-  Typography,
-  TextField,
-  Button,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-} from '@material-ui/core';
-import { notification } from 'components/notification';
-import { useDispatch, useSelector } from 'react-redux';
-import { saveConfiguration } from 'state/merchant';
+import { Box, Button, Drawer, FormControlLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-icon.svg';
+import { notification } from 'components/notification';
+import 'intl-tel-input/build/css/intlTelInput.min.css';
 import { requestApi } from 'lib/hubspot';
+import { difference, isEmpty, omitBy } from 'lodash';
 import PropTypes from 'prop-types';
-import { useStyles, theme } from './styles';
+import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
+import ReactIntlTelInput from 'react-intl-tel-input-v2';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveConfiguration } from 'state/merchant';
+import { theme, useStyles } from './styles';
 
 const mandatoryFields = [
   'organization', 'websiteUrl',
   'whenToStart', 'verificationsVolume',
+  'whyDoYouNeedMati',
 ];
 
 const QuestionsContent = ({ email }) => {
@@ -31,8 +25,13 @@ const QuestionsContent = ({ email }) => {
   const dispatch = useDispatch();
   const [inputs, setInputs] = useState({});
   const [disabled, handleDisabled] = useState(true);
+  const [phone, setPhone] = useState({ iso2: 'us', dialCode: '1', phone: '' });
   const token = useSelector((s) => s.auth.token);
   const dashboard = useSelector((s) => s.merchant.configuration.dashboard);
+
+  const inputProps = {
+    placeholder: 'Phone number',
+  };
 
   const handleInputChange = (event) => {
     event.persist();
@@ -55,12 +54,14 @@ const QuestionsContent = ({ email }) => {
     if (event) {
       event.preventDefault();
     }
+    inputs.phone = `+${phone.dialCode} ${phone.phone}`;
     try {
       await dispatch(
         saveConfiguration(token, {
           dashboard: {
-            ...omit(dashboard, 'shouldPassOnboarding'),
+            ...dashboard,
             info: inputs,
+            shouldPassOnboarding: false,
           },
         }),
       );
@@ -70,47 +71,49 @@ const QuestionsContent = ({ email }) => {
     }
   };
 
+
   return (
     <form onSubmit={handleSubmit} id="signup_form">
       <Grid container direction="column" spacing={3} className={classes.grid}>
-        <Grid item>
-          <MatiLogo />
-        </Grid>
+        <MatiLogo />
 
         <Grid item container spacing={3}>
-          <Grid item>
-            <Typography variant="h4">
-              {intl.formatMessage({ id: 'questions.title' })}
-            </Typography>
-            <Typography variant="subtitle1">
-              {intl.formatMessage({ id: 'questions.subtitle' })}
-            </Typography>
-          </Grid>
+          <Typography variant="h4">
+            {intl.formatMessage({ id: 'questions.title' })}
+          </Typography>
         </Grid>
-
-        <Grid item container spacing={3} direction="column">
-          <Grid item>
-            <TextField
-              required
-              name="organization"
-              value={inputs.organization}
-              onChange={handleInputChange}
-              label={intl.formatMessage({ id: 'questions.organization' })}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              required
-              name="websiteUrl"
-              value={inputs.websiteUrl}
-              onChange={handleInputChange}
-              label={intl.formatMessage({ id: 'questions.website-url' })}
-            />
-          </Grid>
-        </Grid>
+        <Box my={1} width={1}>
+          <TextField
+            required
+            name="organization"
+            value={inputs.organization}
+            onChange={handleInputChange}
+            label={intl.formatMessage({ id: 'questions.organization' })}
+          />
+        </Box>
+        <Box my={1} width={1}>
+          <TextField
+            required
+            name="websiteUrl"
+            value={inputs.websiteUrl}
+            onChange={handleInputChange}
+            label={intl.formatMessage({ id: 'questions.website-url' })}
+          />
+        </Box>
+        <Box my={1} width={1}>
+          <ReactIntlTelInput
+            inputProps={inputProps}
+            intlTelOpts={() => ({})}
+            value={phone}
+            onChange={(value) => setPhone(value)}
+            className={classes.phone}
+          />
+        </Box>
 
         <Grid item container direction="row" spacing={2}>
-          {intl.formatMessage({ id: 'questions.when-start.title' })}
+          <Box fontWeight={600}>
+            {intl.formatMessage({ id: 'questions.when-start.title' })}
+          </Box>
           <RadioGroup
             aria-label="when"
             name="whenToStart"
@@ -123,56 +126,76 @@ const QuestionsContent = ({ email }) => {
               label={intl.formatMessage({ id: 'questions.when-start.b1' })}
             />
             <FormControlLabel
-              value="next_few_weeks"
+              value="next_few_months"
               control={<Radio />}
               onChange={handleInputChange}
               label={intl.formatMessage({ id: 'questions.when-start.b2' })}
             />
             <FormControlLabel
-              value="next_few_months"
+              value="dont_know"
               control={<Radio />}
               onChange={handleInputChange}
               label={intl.formatMessage({ id: 'questions.when-start.b3' })}
             />
-            <FormControlLabel
-              value="dont_know"
-              control={<Radio />}
-              onChange={handleInputChange}
-              label={intl.formatMessage({ id: 'questions.when-start.b4' })}
-            />
           </RadioGroup>
         </Grid>
 
-        <Grid item container direction="row" spacing={2}>
-          {intl.formatMessage({ id: 'questions.how-many.title' })}
+        <Grid item container direction="column" spacing={2}>
+          <Box fontWeight={600}>
+            {intl.formatMessage({ id: 'questions.how-many.title' })}
+          </Box>
           <RadioGroup
             aria-label="howmany"
             name="verificationsVolume"
             className={classes.radioGroup}
           >
             <FormControlLabel
-              value="0_100"
+              value="0_1000"
               control={<Radio />}
               onChange={handleInputChange}
               label={intl.formatMessage({ id: 'questions.how-many.b1' })}
             />
             <FormControlLabel
-              value="100_1000"
+              value="more_1000"
               control={<Radio />}
               onChange={handleInputChange}
               label={intl.formatMessage({ id: 'questions.how-many.b2' })}
             />
             <FormControlLabel
-              value="more_1000"
+              value="dont_know"
               control={<Radio />}
               onChange={handleInputChange}
               label={intl.formatMessage({ id: 'questions.how-many.b3' })}
             />
+          </RadioGroup>
+        </Grid>
+
+        <Grid item container direction="column" spacing={2}>
+          <Box component="div" fontWeight={600}>
+            {intl.formatMessage({ id: 'questions.why-do-you-need-mati.title' })}
+          </Box>
+          <RadioGroup
+            aria-label="whydoyouneedmati"
+            name="whyDoYouNeedMati"
+            className={classes.radioGroup}
+          >
             <FormControlLabel
-              value="dont_know"
+              value="fraud"
               control={<Radio />}
               onChange={handleInputChange}
-              label={intl.formatMessage({ id: 'questions.how-many.b4' })}
+              label={intl.formatMessage({ id: 'questions.why-do-you-need-mati.b1' })}
+            />
+            <FormControlLabel
+              value="compliance"
+              control={<Radio />}
+              onChange={handleInputChange}
+              label={intl.formatMessage({ id: 'questions.why-do-you-need-mati.b2' })}
+            />
+            <FormControlLabel
+              value="other"
+              control={<Radio />}
+              onChange={handleInputChange}
+              label={intl.formatMessage({ id: 'questions.why-do-you-need-mati.b3' })}
             />
           </RadioGroup>
         </Grid>
@@ -182,6 +205,7 @@ const QuestionsContent = ({ email }) => {
             {intl.formatMessage({ id: 'questions.how-many.submit' })}
           </Button>
         </Grid>
+
       </Grid>
     </form>
   );

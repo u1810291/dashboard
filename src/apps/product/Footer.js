@@ -10,7 +10,7 @@ const Footer = () => {
   const classes = useStyles();
 
   const getFeedbackById = useCallback((id) => {
-    const prefix = 'feedbacks.feedback';
+    const prefix = 'Feedback';
     const getEntry = (txtId, field) => intl.formatMessage({
       id: `${prefix}.${txtId}.${field}`,
       defaultMessage: 'null',

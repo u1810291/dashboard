@@ -1,36 +1,30 @@
-import PropTypes from 'prop-types';
+import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { countToArray } from 'lib/number';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import marked from 'marked';
-import Card from 'components/card';
-import Details from 'components/details';
-import Items from 'components/items';
+import { useIntl } from 'react-intl';
+import { FAQ_COUNTER } from './FAQ.model';
 
-export default function FAQ({ questions = [] }) {
+export function FAQ() {
+  const intl = useIntl();
+
   return (
-    <Card flow="row">
-      <h2>
-        <FormattedMessage id="fragments.info.faq.title" />
-      </h2>
-      <Items flow="row">
-        {questions.map(({ summary, details = '' }, index) => (
-          <React.Fragment key={summary}>
-            <Details summary={summary}>
-              {/* eslint-disable-next-line react/no-danger */}
-              <div dangerouslySetInnerHTML={{ __html: marked(details) }} />
-            </Details>
-            {index < questions.length - 1 && <hr />}
-          </React.Fragment>
-        ))}
-      </Items>
-    </Card>
+    <Paper>
+      <Box p={2}>
+        <Grid container direction="column" spacing={2}>
+          {countToArray(FAQ_COUNTER).map((item) => (
+            <Grid item key={item}>
+              <Typography variant="h3" component="h3" gutterBottom>
+                {intl.formatMessage({ id: `FAQ.${item}.question` })}
+              </Typography>
+              <Box color="grey.700">
+                <Typography variant="body1" gutterBottom>
+                  {intl.formatMessage({ id: `FAQ.${item}.answer` })}
+                </Typography>
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </Paper>
   );
 }
-
-FAQ.propTypes = {
-  questions: PropTypes.arrayOf(PropTypes.shape({})),
-};
-
-FAQ.defaultProps = {
-  questions: [],
-};
