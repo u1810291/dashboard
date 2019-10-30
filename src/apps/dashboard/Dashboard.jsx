@@ -7,7 +7,7 @@ import Settings from 'apps/settings';
 import VerificationDetail from 'apps/verification-detail';
 import VerificationHistory from 'apps/verification-history';
 import ApplicationBox from 'components/application-box';
-import { get } from 'lodash';
+import { ContainerLoader } from 'components/contrainer-loader';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +28,7 @@ export function Dashboard() {
     return collaborators.findIndex((item) => item.user === userId && item.role === 2) < 0;
   });
   const isOwnerIsLoading = useSelector(({ merchant }) => !merchant.collaborators);
-  const shouldPassOnboarding = useSelector(({ merchant }) => get(merchant.configurations, 'dashboard.shouldPassOnboarding', false));
+  const shouldPassOnboarding = useSelector(({ merchant }) => merchant.configuration.dashboard.shouldPassOnboarding);
   const email = useSelector(({ auth }) => auth.user.email);
   const token = useSelector(({ auth }) => auth.token);
 
@@ -50,6 +50,10 @@ export function Dashboard() {
     loadData();
   }, [token, dispatch]);
 
+
+  if (shouldPassOnboarding === undefined) {
+    return <ContainerLoader />;
+  }
 
   if (shouldPassOnboarding) {
     return <Questions key="questions" email={email} />;

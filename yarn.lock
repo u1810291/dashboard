@@ -7489,6 +7489,11 @@ intl-messageformat@^7.3.1:
     intl-format-cache "^4.2.2"
     intl-messageformat-parser "^3.2.1"
 
+intl-tel-input@^16.0.7:
+  version "16.0.7"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-16.0.7.tgz#e9d69b608978fec846f93369b4bf4c6880641e5f"
+  integrity sha512-Ufus9DzgxUGt5NNSO5CNATusIvUkvMvjE6s4z9g+oeOQolw8zOul5ktMc8xjqPfZsNaWC2YmfcSFjHFjFTcyhg==
+
 invariant@^2.1.1, invariant@^2.2.2, invariant@^2.2.3, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
@@ -8965,7 +8970,7 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
-lodash-es@^4.17.14:
+lodash-es@^4.17.14, lodash-es@latest:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
   integrity sha512-rlrc3yU3+JNOpZ9zj5pQtxnx2THmvRykwL4Xlxoa8I9lHBlVbbyPhgyPMioxVZ4NqyxaVVtaJnzsyOidQIhyyQ==
@@ -11963,6 +11968,13 @@ react-inspector@^3.0.2:
     babel-runtime "^6.26.0"
     is-dom "^1.0.9"
     prop-types "^15.6.1"
+
+react-intl-tel-input-v2@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-intl-tel-input-v2/-/react-intl-tel-input-v2-1.0.8.tgz#b85f1050c22fe95e3e28ad69a32b7266309a9713"
+  integrity sha512-f7Hf/XGud3/h1NZzprMexboJghTTcgAQ7nZXl/OO/Q98QGu3vxYnqfTOZneUgUzj7zdMG/B5YM+TezpB8rk0xw==
+  dependencies:
+    lodash-es latest
 
 react-intl-translations-manager@^5.0.3:
   version "5.0.3"

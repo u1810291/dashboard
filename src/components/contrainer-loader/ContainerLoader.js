@@ -7,7 +7,7 @@ export function ContainerLoader() {
   const classes = useStyles();
 
   return (
-    <Grid container alignItems="center" justify="center">
+    <Grid container alignItems="center" justify="center" className={classes.root}>
       <FiLoader className={classes.icon} />
     </Grid>
   );
