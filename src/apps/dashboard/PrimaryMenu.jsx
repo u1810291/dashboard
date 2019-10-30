@@ -1,22 +1,20 @@
-import clsx from 'clsx';
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useIntl } from 'react-intl';
-import { NavLink } from 'react-router-dom';
-
+import { Menu } from 'apps/navigation';
 import MatiLogo from 'assets/header-mati-logo.png';
-import MenuItem from '@material-ui/core/MenuItem';
 import { trackEvent } from 'lib/mixpanel';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useIntl } from 'react-intl';
 import useStyles from './styles';
 
 export default function PrimaryMenu({ isOwner }) {
   const intl = useIntl();
   const classes = useStyles();
 
-  const primaryMenuEntries = [
+  const entries = [
     {
+      id: 'logo',
       to: isOwner ? '/' : '/identities',
-      logo: true,
+      isNoLink: true,
       noActive: true,
       className: classes.logoItem,
       children: <img src={MatiLogo} alt="Mati" className={classes.logo} />,
@@ -40,52 +38,7 @@ export default function PrimaryMenu({ isOwner }) {
     },
   ];
 
-  const Menu = ({ entries }) => (
-    <>
-      {
-        entries.map(({
-          children,
-          className,
-          label,
-          logo,
-          show = true,
-          to,
-          handler,
-        }, index) => !!show
-          && (
-          <NavLink
-            exact
-            key={index} // eslint-disable-line react/no-array-index-key
-            to={to}
-            activeClassName={clsx('active', { [classes.activeItem]: !logo })}
-          >
-            <MenuItem
-              divider={false}
-              className={clsx(classes.menuItem, className)}
-              onClick={handler}
-            >
-              {label}
-              {children}
-            </MenuItem>
-          </NavLink>
-          ),
-        )
-      }
-    </>
-  );
-
-  Menu.propTypes = {
-    entries: PropTypes.arrayOf(
-      PropTypes.shape({
-        to: PropTypes.string,
-        label: PropTypes.string,
-        className: PropTypes.string,
-        show: PropTypes.bool,
-      }),
-    ).isRequired,
-  };
-
-  return <Menu entries={primaryMenuEntries} />;
+  return <Menu entries={entries} />;
 }
 
 PrimaryMenu.propTypes = {

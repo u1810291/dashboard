@@ -46,18 +46,6 @@ export default makeStyles((theme) => ({
       backgroundColor: 'transparent',
     },
   },
-  menuItem: {
-    color: 'white',
-    minHeight: 50,
-  },
-  activeItem: {
-    '& [role="menuitem"]': {
-      background: 'rgba(255, 255, 255, 0.3)',
-      '--mgi-application-menu-color': 'white',
-      '--mgi-application-menu-icon': 'white',
-      borderBottom: '2px solid #ffffff',
-    },
-  },
   logo: {
     width: 60,
     height: 20,

@@ -1,19 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import { AppBar, Toolbar } from '@material-ui/core';
+import { IntlButton } from 'apps/intl';
 import useMerchantBilling from 'hooks/useMerchantBilling';
+import PropTypes from 'prop-types';
+import React from 'react';
+import AlertBanner from './alert-banner';
 import PrimaryMenu from './PrimaryMenu';
 import SecondaryMenu from './SecondaryMenu';
-import AlertBanner from './alert-banner';
-import IntlButton from './intl-button/IntlButton';
 import useStyles from './styles';
 
-const MenuBar = ({
-  isOwner,
-  isOwnerIsLoading,
-}) => {
+export function MenuBar({ isOwner, isOwnerIsLoading }) {
   const classes = useStyles();
   const { isPlanActivated } = useMerchantBilling();
 
@@ -22,31 +17,27 @@ const MenuBar = ({
       <Toolbar className={classes.toolBar}>
         {children}
       </Toolbar>
-      { !isPlanActivated && <AlertBanner />}
+      {!isPlanActivated && <AlertBanner />}
     </AppBar>
   );
 
-  if (isOwnerIsLoading) return <ApplicationMenu />;
+  if (isOwnerIsLoading) {
+    return <ApplicationMenu />;
+  }
 
   return (
-    <>
-      <ApplicationMenu>
-        <PrimaryMenu classes={classes} isOwner={isOwner} />
-        <div className={classes.grow} />
-        { isOwner && (
-          <>
-            <SecondaryMenu />
-            <IntlButton />
-          </>
-        )}
-      </ApplicationMenu>
-    </>
+    <ApplicationMenu>
+      <PrimaryMenu isOwner={isOwner} />
+      <div className={classes.grow} />
+      {isOwner && [
+        <SecondaryMenu key="secondary" />,
+        <IntlButton key="lang" />,
+      ]}
+    </ApplicationMenu>
   );
-};
+}
 
 MenuBar.propTypes = {
   isOwner: PropTypes.bool.isRequired,
   isOwnerIsLoading: PropTypes.bool.isRequired,
 };
-
-export default MenuBar;

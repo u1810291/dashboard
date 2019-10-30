@@ -31,7 +31,7 @@ export const AppTheme = createMuiTheme({
   },
   typography: {
     h1: {
-      fontSize: '28px',
+      fontSize: '2rem',
     },
     h2: {
       fontSize: '18px',
@@ -39,6 +39,9 @@ export const AppTheme = createMuiTheme({
     },
     h3: {
       fontSize: '16px',
+      fontWeight: 'bold',
+    },
+    subtitle2: {
       fontWeight: 'bold',
     },
     button: {
