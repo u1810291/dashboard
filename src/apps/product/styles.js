@@ -20,6 +20,7 @@ export const FirstBox = ({ children }) => (
     flexGrow={5}
     flexShrink={0}
     flexBasis={170}
+    color="black"
   >
     { children }
   </Box>
@@ -46,6 +47,7 @@ export const Author = ({ children }) => (
     alignItems="center"
     borderLeft={1}
     borderColor="grey.300"
+    color="black"
   >
     { children }
   </Box>

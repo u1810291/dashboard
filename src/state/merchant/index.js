@@ -1,4 +1,4 @@
-import { get, last } from 'lodash';
+import { get, last, merge, cloneDeep } from 'lodash';
 import { createReducer, createTypesSequence } from 'state/utils';
 import client from 'lib/client';
 
@@ -136,10 +136,7 @@ export function getIntegrationCode(token) {
 export function saveConfiguration(token, configuration) {
   return function handle(dispatch, getState) {
     const oldConfiguration = getState().merchant.configuration;
-    const newConfiguration = {
-      ...oldConfiguration,
-      ...configuration,
-    };
+    const newConfiguration = merge(cloneDeep(oldConfiguration), configuration);
 
     dispatch({
       type: types.CONFIGURATION_SAVE_REQUEST,
@@ -254,11 +251,13 @@ const initialState = {
     supportedCountries: [],
     dashboard: {
       language: 'en',
+      shouldPassOnboarding: false,
     },
   },
   integrationCode: undefined,
   lastApplication: {},
   logoUrl: null,
+  blockedAt: undefined,
 };
 
 export default createReducer(initialState, {
@@ -269,6 +268,7 @@ export default createReducer(initialState, {
     return {
       ...state,
       ...payload.data,
+      blockedAt: !!payload.data.blockedAt,
 
       configuration: {
         ...state.configuration,

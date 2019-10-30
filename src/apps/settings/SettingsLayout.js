@@ -28,10 +28,10 @@ function SettingsLayout({ children, signOut, hasMerchantPlan, ...props }) {
     // eslint-disable-next-line react/jsx-props-no-spreading
     <PageContentLayout {...props}>
       <PageContentMenu>
-        <NavLink exact to="/settings/personal">
+        <NavLink exact to="/settings">
           <FormattedMessage id="apps.settings.personalSettings" />
         </NavLink>
-        <NavLink exact to="/settings">
+        <NavLink to="/settings/team">
           <FormattedMessage id="apps.settings.teamSettings" />
         </NavLink>
         <NavLink to="/settings/pricing">

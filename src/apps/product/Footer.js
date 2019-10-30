@@ -1,45 +1,24 @@
+import { AppBar, Box, Toolbar } from '@material-ui/core';
+import { FeedbackData } from 'fragments/info/feedback/Feedback.model';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { get } from 'lodash';
-import React, { useState, useEffect, useCallback } from 'react';
-import { AppBar, Toolbar, Box } from '@material-ui/core';
+import { Author, EmptyBox, FirstBox, Sentence, useStyles } from './styles';
 
-import { useStyles, EmptyBox, FirstBox, Sentence, Author } from './styles';
+const UPDATE_TIMEOUT = 7000;
 
 const Footer = () => {
   const intl = useIntl();
   const classes = useStyles();
-
-  const getFeedbackById = useCallback((id) => {
-    const prefix = 'feedbacks.feedback';
-    const getEntry = (txtId, field) => intl.formatMessage({
-      id: `${prefix}.${txtId}.${field}`,
-      defaultMessage: 'null',
-    });
-    const message = {
-      id,
-      author: getEntry(id, 'author'),
-      sentence: getEntry(id, 'content'),
-    };
-
-    return message.author === 'null' || message.sentence === 'null'
-      ? null
-      : message;
-  }, [intl]);
-
-  const [feedback, setFeedback] = useState(getFeedbackById(0));
+  const [feedbackIndex, setFeedbackIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setFeedback((fc) => {
-        let fb = getFeedbackById(get(fc, 'id', -1) + 1);
-        if (!fb) {
-          fb = getFeedbackById(0);
-        }
-        return fb;
-      });
-    }, 7000);
+      setFeedbackIndex((currentIndex) => (currentIndex + 1) % FeedbackData.length);
+    }, UPDATE_TIMEOUT);
     return () => clearInterval(interval);
-  }, [feedback, getFeedbackById]);
+  }, []);
+
+  const feedback = FeedbackData[feedbackIndex];
 
   return (
     <AppBar position="fixed" color="secondary" className={classes.appBar}>
@@ -56,12 +35,12 @@ const Footer = () => {
             textAlign="right"
             fontStyle="italic"
           >
-            {`"${feedback.sentence}"`}
+            {intl.formatMessage({ id: `Feedback.${feedback.id}.content` })}
           </Box>
         </Sentence>
         <Author>
           <Box px={1} fontSize={10} fontWeight="bold">
-            {feedback.author}
+            {intl.formatMessage({ id: `Feedback.${feedback.id}.author` })}
           </Box>
         </Author>
       </Toolbar>

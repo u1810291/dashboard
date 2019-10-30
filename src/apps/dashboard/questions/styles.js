@@ -1,4 +1,5 @@
 import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
+import { appPalette } from 'app.theme';
 import QuestionImage from 'assets/questions-bkg.jpg';
 
 export const useStyles = makeStyles((theme) => ({
@@ -22,13 +23,24 @@ export const useStyles = makeStyles((theme) => ({
   radioGroup: {
     marginLeft: 20,
   },
+  phone: {
+    '& > .iti': {
+      display: 'grid',
+      height: 53,
+    },
+    '& input': {
+      outline: 'none',
+      borderRadius: 4,
+      border: '1px solid #bbb',
+    },
+  },
 }));
 
 export const theme = createMuiTheme({
   spacing: 10,
   palette: {
     primary: {
-      main: '#3757FF',
+      main: appPalette.blue,
     },
   },
   typography: {

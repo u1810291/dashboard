@@ -1,158 +1,79 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { connect, useSelector } from 'react-redux';
-import { flowRight } from 'lodash/fp';
-import { get } from 'lodash';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
-import { injectIntl } from 'react-intl';
-
-import ApplicationBox from 'components/application-box';
-import Product from 'apps/product';
-import VerificationHistory from 'apps/verification-history';
-import VerificationDetail from 'apps/verification-detail';
-import Settings from 'apps/settings';
+import { InfoPage } from 'apps/info';
 import Metrics from 'apps/metrics';
-import Info from 'apps/info';
+import Product from 'apps/product';
+import { OwnerRoute } from 'apps/routing';
+import { BlockedRoute } from 'apps/routing/BlockedRoute';
+import Settings from 'apps/settings';
+import VerificationDetail from 'apps/verification-detail';
+import VerificationHistory from 'apps/verification-history';
+import ApplicationBox from 'components/application-box';
+import { ContainerLoader } from 'components/contrainer-loader';
+import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 import { signOut } from 'state/auth';
-import {
-  getMerchant,
-  saveConfiguration,
-  getIntegrationCode,
-} from 'state/merchant';
-import MenuBar from './MenuBar';
+import { getIntegrationCode, getMerchant } from 'state/merchant';
+import { MenuBar } from './MenuBar';
 import Questions from './questions';
 
-class Dashboard extends React.Component {
-  static propTypes = {
-    getIntegrationCode: PropTypes.func.isRequired,
-    getMerchant: PropTypes.func.isRequired,
-    isOwner: PropTypes.bool.isRequired,
-    isOwnerIsLoading: PropTypes.bool.isRequired,
-    signOut: PropTypes.func.isRequired,
-    token: PropTypes.string.isRequired,
-    email: PropTypes.string,
-    shouldPassOnboarding: PropTypes.bool.isRequired,
-  };
-
-  static defaultProps = {
-    email: undefined,
-  };
-
-  componentDidMount() {
-    this.loadData();
-  }
-
-  componentDidUpdate(prevProps) {
-    const { token } = this.props;
-    if (prevProps.token !== token) {
-      this.loadData();
+export function Dashboard() {
+  const dispatch = useDispatch();
+  const isOwner = useSelector((state) => {
+    if (!state.merchant.collaborators) {
+      return true;
     }
+    const userId = state.auth.user.id;
+    const collaborators = state.merchant.collaborators || [];
+    return collaborators.findIndex((item) => item.user === userId && item.role === 2) < 0;
+  });
+  const isOwnerIsLoading = useSelector(({ merchant }) => !merchant.collaborators);
+  const shouldPassOnboarding = useSelector(({ merchant }) => merchant.configuration.dashboard.shouldPassOnboarding);
+  const email = useSelector(({ auth }) => auth.user.email);
+  const token = useSelector(({ auth }) => auth.token);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        await dispatch(getIntegrationCode(token));
+        await dispatch(getMerchant(token));
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          dispatch(signOut());
+          window.location = '/';
+        } else {
+          throw error;
+        }
+      }
+    };
+
+    loadData();
+  }, [token, dispatch]);
+
+
+  if (shouldPassOnboarding === undefined) {
+    return <ContainerLoader />;
   }
 
-  handleSignOut = () => {
-    this.props.signOut();
-    window.location = '/';
-  };
-
-  async loadData() {
-    // eslint-disable-next-line no-shadow
-    const { getIntegrationCode, getMerchant, token } = this.props;
-    try {
-      await getIntegrationCode(token);
-      await getMerchant(token);
-    } catch (error) {
-      if (error.response && error.response.status === 401) this.handleSignOut();
-      else throw error;
-    }
+  if (shouldPassOnboarding) {
+    return <Questions key="questions" email={email} />;
   }
 
-  renderMenu() {
-    const { isOwner, isOwnerIsLoading } = this.props;
-    return <MenuBar isOwner={isOwner} isOwnerIsLoading={isOwnerIsLoading} />;
-  }
-
-  render() {
-    const { isOwnerIsLoading, shouldPassOnboarding, email } = this.props;
-    if (isOwnerIsLoading) return null;
-    if (shouldPassOnboarding) {
-      return <Questions email={email} />;
-    }
-
-    return (
-      <>
-        <Helmet>
-          <title>Mati Dashboard</title>
-        </Helmet>
-        <ApplicationBox menu={this.renderMenu()}>
-          <Switch>
-            <Route
-              exact
-              path="/identities"
-              component={VerificationHistory}
-            />
-            <Route
-              path="/identities/:demo?/:id"
-              component={VerificationDetail}
-            />
-            <OwnersRoute path="/settings" component={Settings} />
-            <Route path="/info" component={Info} />
-            <OwnersRoute path="/metrics" component={Metrics} />
-            <OwnersRoute path="/" component={Product} />
-          </Switch>
-        </ApplicationBox>
-      </>
-    );
-  }
+  return [
+    <Helmet key="head">
+      <title>Mati Dashboard</title>
+    </Helmet>,
+    <ApplicationBox key="app" menu={<MenuBar isOwner={isOwner} isOwnerIsLoading={isOwnerIsLoading} />}>
+      <Switch>
+        <OwnerRoute path="/settings" component={Settings} />
+        <Route path="/info" component={InfoPage} />
+        <BlockedRoute>
+          <Route exact path="/identities" component={VerificationHistory} />
+          <Route path="/identities/:demo?/:id" component={VerificationDetail} />
+          <OwnerRoute path="/metrics" component={Metrics} />
+          <OwnerRoute exact path="/" component={Product} />
+        </BlockedRoute>
+      </Switch>
+    </ApplicationBox>,
+  ];
 }
-
-export default flowRight(
-  injectIntl,
-  connect(
-    (state) => ({
-      token: state.auth.token,
-      email: state.auth.user.email,
-      configuration: state.merchant.configuration,
-      isOwner:
-        !state.merchant.collaborators
-        || !state.merchant.collaborators.find(
-          (col) => col.user === state.auth.user.id && col.role === 2,
-        ),
-      isOwnerIsLoading: !state.merchant.collaborators,
-      shouldPassOnboarding: get(state.merchant.configurations, 'dashboard.shouldPassOnboarding', false),
-    }),
-    { signOut, getMerchant, saveConfiguration, getIntegrationCode },
-  ),
-)(Dashboard);
-
-const OwnersRoute = ({ component: Component, ...rest }) => {
-  const isOwner = useSelector((state) => (
-    !state.merchant.collaborators || !state.merchant.collaborators.find(
-      (col) => col.user === state.auth.user.id && col.role === 2,
-    )
-  ));
-
-  return (
-    <Route
-      {...rest}
-      render={(props) => (isOwner ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: '/identities',
-            state: { from: props.location },
-          }}
-        />
-      ))}
-    />
-  );
-};
-
-OwnersRoute.propTypes = {
-  component: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.elementType,
-    PropTypes.node,
-  ]).isRequired,
-};
