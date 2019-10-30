@@ -30,6 +30,7 @@ export function IntlButton() {
   return (
     <TopMenuItem>
       <SelectLight
+        disableUnderline
         className={classes.select}
         value={currentLocale}
         renderValue={getLocale}

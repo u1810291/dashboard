@@ -5,12 +5,18 @@ export const useStyles = makeStyles({
     '&::before': {
       display: 'none',
     },
+    '&:focus': {
+      backgroundColor: 'transparent',
+    },
   },
 });
 
 export const SelectLight = withStyles((theme) => ({
   root: {
     color: theme.palette.secondary.main,
+    '&:focus': {
+      backgroundColor: 'transparent',
+    },
   },
   icon: {
     color: theme.palette.secondary.main,
