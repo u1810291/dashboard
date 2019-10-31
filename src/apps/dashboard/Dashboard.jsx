@@ -3,6 +3,7 @@ import Metrics from 'apps/metrics';
 import Product from 'apps/product';
 import { OwnerRoute } from 'apps/routing';
 import { BlockedRoute } from 'apps/routing/BlockedRoute';
+import { ROOT_PATH } from 'apps/routing/routing.model';
 import Settings from 'apps/settings';
 import VerificationDetail from 'apps/verification-detail';
 import VerificationHistory from 'apps/verification-history';
@@ -11,26 +12,17 @@ import { ContainerLoader } from 'components/contrainer-loader';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import { signOut } from 'state/auth';
-import { getIntegrationCode, getMerchant } from 'state/merchant';
+import { getIntegrationCode, getMerchant } from 'state/merchant/merchant.actions';
 import { MenuBar } from './MenuBar';
 import Questions from './questions';
 
 export function Dashboard() {
   const dispatch = useDispatch();
-  const isOwner = useSelector((state) => {
-    if (!state.merchant.collaborators) {
-      return true;
-    }
-    const userId = state.auth.user.id;
-    const collaborators = state.merchant.collaborators || [];
-    return collaborators.findIndex((item) => item.user === userId && item.role === 2) < 0;
-  });
-  const isOwnerIsLoading = useSelector(({ merchant }) => !merchant.collaborators);
-  const shouldPassOnboarding = useSelector(({ merchant }) => merchant.configuration.dashboard.shouldPassOnboarding);
-  const email = useSelector(({ auth }) => auth.user.email);
-  const token = useSelector(({ auth }) => auth.token);
+  const history = useHistory();
+  const shouldPassOnboarding = useSelector(({ merchant }) => merchant.configurations.dashboard.shouldPassOnboarding);
+  const [email, token] = useSelector(({ auth }) => [auth.user.email, auth.token]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -40,7 +32,7 @@ export function Dashboard() {
       } catch (error) {
         if (error.response && error.response.status === 401) {
           dispatch(signOut());
-          window.location = '/';
+          history.push(ROOT_PATH);
         } else {
           throw error;
         }
@@ -48,7 +40,7 @@ export function Dashboard() {
     };
 
     loadData();
-  }, [token, dispatch]);
+  }, [token, dispatch, history]);
 
 
   if (shouldPassOnboarding === undefined) {
@@ -63,13 +55,13 @@ export function Dashboard() {
     <Helmet key="head">
       <title>Mati Dashboard</title>
     </Helmet>,
-    <ApplicationBox key="app" menu={<MenuBar isOwner={isOwner} isOwnerIsLoading={isOwnerIsLoading} />}>
+    <ApplicationBox key="app" menu={<MenuBar />}>
       <Switch>
         <OwnerRoute path="/settings" component={Settings} />
         <Route path="/info" component={InfoPage} />
         <BlockedRoute>
+          <Route path="/identities/:id" component={VerificationDetail} />
           <Route exact path="/identities" component={VerificationHistory} />
-          <Route path="/identities/:demo?/:id" component={VerificationDetail} />
           <OwnerRoute path="/metrics" component={Metrics} />
           <OwnerRoute exact path="/" component={Product} />
         </BlockedRoute>

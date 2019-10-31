@@ -9,7 +9,7 @@ const defaultLang = 'en';
 
 const Intl = ({ language = defaultLang, children }) => {
   const currentLang = useSelector(
-    (state) => get(state, 'merchant.configuration.dashboard.language'),
+    (state) => get(state, 'merchant.configurations.dashboard.language'),
     language,
   );
 

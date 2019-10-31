@@ -7,7 +7,7 @@ import { H2 } from 'components/text';
 import Icons from 'components/icons';
 import { CopyToClipboard } from 'components/clipboard';
 import { notification } from 'components/notification';
-import { addMerchantProvider } from 'state/merchant';
+import { addMerchantProvider } from 'state/merchant/merchant.actions';
 import { trackEvent as hubspotTrackEvent, hubspotEvents } from 'lib/hubspot';
 import { closeOverlay, createOverlay } from 'components/overlay';
 import CardModal from 'fragments/account/card-modal/CardModal';

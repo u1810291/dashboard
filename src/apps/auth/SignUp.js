@@ -9,7 +9,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { signUp } from 'state/auth';
-import { getIntegrationCode, saveConfiguration } from 'state/merchant';
+import { getIntegrationCode, saveConfiguration } from 'state/merchant/merchant.actions';
 
 const validateForm = (values) => pickBy(
   {

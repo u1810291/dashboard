@@ -1,18 +1,15 @@
+import confirm from 'components/confirm/Confirm';
+import { notification } from 'components/notification';
+import { closeOverlay, createOverlay } from 'components/overlay';
+import { CardDeclinedModal } from 'fragments';
+import { hubspotEvents, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
+import { trackEvent } from 'lib/mixpanel';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-
-import confirm from 'components/confirm/Confirm';
-// import useMerchantBilling from 'hooks/useMerchantBilling';
-import { addMerchantProvider } from 'state/merchant';
-import { CardDeclinedModal } from 'fragments';
-import { closeOverlay, createOverlay } from 'components/overlay';
-import { notification } from 'components/notification';
-import { trackEvent } from 'lib/mixpanel';
-import { trackEvent as hubspotTrackEvent, hubspotEvents } from 'lib/hubspot';
-
-import NewWebhookModal from '../new-webhook-modal/NewWebhookModal';
+import { addMerchantProvider } from 'state/merchant/merchant.actions';
 import CardModal from '../card-modal/CardModal';
+import NewWebhookModal from '../new-webhook-modal/NewWebhookModal';
 
 export default ({ application, deleteWebhook, subscribeToWebhook }) => {
   const dispatch = useDispatch();
