@@ -1,8 +1,5 @@
-import { get, last, merge, cloneDeep } from 'lodash';
-import { createReducer, createTypesSequence } from 'state/utils';
 import client from 'lib/client';
-
-export * from './consts';
+import { createTypesSequence } from 'state/utils';
 
 export const types = {
   ...createTypesSequence('MERCHANT_GET'),
@@ -15,7 +12,6 @@ export const types = {
   ...createTypesSequence('SET_MERCHANT_PLAN'),
   ...createTypesSequence('ADD_MERCHANT_PROVIDER'),
   ...createTypesSequence('UPDATE_MERCHANT_PLAN'),
-  ...createTypesSequence('CREATE_APPLICATION'),
   ...createTypesSequence('SET_MERCHANT_LANG'),
   ...createTypesSequence('UPLOAD_MERCHANT_MEDIA'),
 };
@@ -26,7 +22,6 @@ export function getMerchant(token) {
     return client.merchant
       .getMerchant(token)
       .then((payload) => {
-        // payload.data.configurations.dashboard.language='es';
         dispatch({ type: types.MERCHANT_GET_SUCCESS, payload });
         return payload;
       })
@@ -101,22 +96,6 @@ export function getMerchantApps(token) {
   };
 }
 
-export function createApplication(token) {
-  return function handle(dispatch) {
-    dispatch({ type: types.CREATE_APPLICATION_REQUEST });
-    return client.merchant
-      .createApplication(token)
-      .then((payload) => {
-        dispatch({ type: types.CREATE_APPLICATION_SUCCESS, payload });
-        return payload;
-      })
-      .catch((error) => {
-        dispatch({ type: types.CREATE_APPLICATION_FAILURE });
-        throw error;
-      });
-  };
-}
-
 export function getIntegrationCode(token) {
   return function handle(dispatch) {
     dispatch({ type: types.INTEGRATION_CODE_REQUEST });
@@ -133,14 +112,16 @@ export function getIntegrationCode(token) {
   };
 }
 
-export function saveConfiguration(token, configuration) {
+export function saveConfiguration(token, configurations) {
   return function handle(dispatch, getState) {
-    const oldConfiguration = getState().merchant.configuration;
-    const newConfiguration = merge(cloneDeep(oldConfiguration), configuration);
+    const newConfiguration = {
+      ...getState().merchant.configurations,
+      ...configurations,
+    };
 
     dispatch({
       type: types.CONFIGURATION_SAVE_REQUEST,
-      configuration: newConfiguration,
+      configurations: newConfiguration,
     });
 
     return client.merchant
@@ -194,23 +175,6 @@ export function addMerchantProvider(token, source) {
   };
 }
 
-export function setMerchantLanguage(token) {
-  return function handle(dispatch) {
-    dispatch({ type: types.SET_MERCHANT_LANG_REQUEST });
-
-    return client.merchant
-      .addMerchantProvider(token)
-      .then((payload) => {
-        dispatch({ type: types.SET_MERCHANT_LANG_SUCCESS, payload });
-        return payload;
-      })
-      .catch((error) => {
-        dispatch({ type: types.SET_MERCHANT_LANG_FAILURE });
-        throw error;
-      });
-  };
-}
-
 export function uploadMerchantMedia(token, form) {
   return function handle(dispatch) {
     dispatch({ type: types.UPLOAD_MERCHANT_MEDIA_REQUEST });
@@ -227,147 +191,3 @@ export function uploadMerchantMedia(token, form) {
       });
   };
 }
-
-const initialState = {
-  apps: [],
-  billing: {
-    providers: [],
-    planDetails: {},
-  },
-  configuration: {
-    flow: {
-      required: [],
-      optional: [],
-    },
-    style: {
-      color: undefined,
-      language: 'en',
-    },
-    system: {
-      watchlists: true,
-      liveness: true,
-    },
-    verificationSteps: [],
-    supportedCountries: [],
-    dashboard: {
-      language: 'en',
-      shouldPassOnboarding: false,
-    },
-  },
-  integrationCode: undefined,
-  lastApplication: {},
-  logoUrl: null,
-  blockedAt: undefined,
-};
-
-export default createReducer(initialState, {
-  [types.MERCHANT_GET_SUCCESS](state, { payload }) {
-    const configuration = payload.data.configurations;
-    Reflect.deleteProperty(configuration, 'version');
-
-    return {
-      ...state,
-      ...payload.data,
-      blockedAt: !!payload.data.blockedAt,
-
-      configuration: {
-        ...state.configuration,
-        ...configuration,
-        dashboard: {
-          ...state.configuration.dashboard,
-          ...get(configuration, 'dashboard'),
-          language: get(configuration, 'dashboard.language') || get(state.configuration, 'dashboard.language'),
-        },
-      },
-    };
-  },
-
-  [types.GET_MERCHANT_APPS_SUCCESS](state, { payload }) {
-    return {
-      ...state,
-      apps: payload.data.apps,
-      lastApplication: last(payload.data.apps) || {},
-    };
-  },
-
-  [types.ADD_MERCHANT_PROVIDER_SUCCESS](state, { payload }) {
-    const providers = get(payload.data, 'data.merchant.billing.providers');
-    return {
-      ...state,
-      billing: {
-        ...state.billing,
-        providers,
-      },
-    };
-  },
-
-  [types.SET_MERCHANT_PLAN_SUCCESS](state, { payload }) {
-    return {
-      ...state,
-      ...payload.data,
-    };
-  },
-
-  [types.MERCHANTS_PUT_SUCCESS](state, { payload }) {
-    return { ...state, ...payload.data };
-  },
-
-  [types.UPLOAD_MERCHANT_MEDIA_SUCCESS](state, { payload }) {
-    return {
-      ...state,
-      logoUrl: payload.data.publicUrl,
-    };
-  },
-
-  [types.INTEGRATION_CODE_SUCCESS](state, { payload }) {
-    return {
-      ...state,
-      integrationCode: payload.data,
-    };
-  },
-
-  [types.CONFIGURATION_SAVE_REQUEST](state, { configuration }) {
-    return {
-      ...state,
-      configuration,
-    };
-  },
-
-  [types.CONFIGURATION_SAVE_SUCCESS](state, { payload }) {
-    const configuration = payload.data.configurations;
-    Reflect.deleteProperty(configuration, 'version');
-    return {
-      ...state,
-      ...payload.data,
-
-      configuration: {
-        ...state.configuration,
-        ...configuration,
-      },
-    };
-  },
-
-  [types.CONFIGURATION_SAVE_SUCCESS](state, { payload }) {
-    const configuration = payload.data.configurations;
-    Reflect.deleteProperty(configuration, 'version');
-    return {
-      ...state,
-      ...payload.data,
-
-      configuration: {
-        ...state.configuration,
-        ...configuration,
-      },
-    };
-  },
-
-  [types.CREATE_APPLICATION_SUCCESS](state, { payload }) {
-    return {
-      ...state,
-      apps: [
-        ...state.apps,
-        { clientId: payload.data.id, clientSecret: payload.data.secret },
-      ],
-    };
-  },
-});

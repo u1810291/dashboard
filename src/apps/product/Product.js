@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { get, last } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
-import { getMerchantApps } from 'state/merchant';
+import { getMerchantApps } from 'state/merchant/merchant.actions';
 import { subscribeToWebhook, getWebhooks, deleteWebhook } from 'state/webhooks';
 import useMerchantBilling from 'hooks/useMerchantBilling';
 import { Content, Tab, Items } from 'components';
@@ -50,7 +50,7 @@ export default function Product() {
     [dispatch, token, clientId],
   );
 
-  const companyName = useSelector((state) => get(state, 'merchant.configuration.dashboard.info.organization'),
+  const companyName = useSelector((state) => get(state, 'merchant.configurations.dashboard.info.organization'),
   );
   const [activeTabIndex, changeActiveTab] = useState(0);
 

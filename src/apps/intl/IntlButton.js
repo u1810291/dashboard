@@ -3,13 +3,13 @@ import { TopMenuItem } from 'apps/navigation';
 import { get } from 'lodash';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveConfiguration } from 'state/merchant';
+import { saveConfiguration } from 'state/merchant/merchant.actions';
 import { LanguageList } from './Intl.model';
 import { SelectLight, useStyles } from './IntlButton.styles';
 
 export function IntlButton() {
-  const currentLocale = useSelector((state) => get(state, 'merchant.configuration.dashboard.language'));
-  const dashboard = useSelector((state) => get(state, 'merchant.configuration.dashboard'));
+  const currentLocale = useSelector((state) => get(state, 'merchant.configurations.dashboard.language'));
+  const dashboard = useSelector((state) => get(state, 'merchant.configurations.dashboard'));
   const token = useSelector((state) => get(state, 'auth.token'));
   const dispatch = useDispatch();
   const classes = useStyles();

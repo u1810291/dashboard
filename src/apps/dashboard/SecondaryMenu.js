@@ -19,5 +19,6 @@ export default function SecondaryMenu() {
     },
   ];
 
+
   return <Menu entries={entries} />;
 }

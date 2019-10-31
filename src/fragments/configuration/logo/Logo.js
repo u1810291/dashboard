@@ -7,7 +7,7 @@ import { Items, Text } from 'components';
 import Icons from 'components/icons';
 import Button from 'components/button';
 import { notification } from 'components/notification';
-import { putMerchants, uploadMerchantMedia } from 'state/merchant';
+import { putMerchants, uploadMerchantMedia } from 'state/merchant/merchant.actions';
 import compressImage from 'lib/compressImage';
 
 import CSS from './Logo.module.scss';

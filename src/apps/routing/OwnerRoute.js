@@ -1,20 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Route, useLocation } from 'react-router-dom';
+import { selectIsOwner } from 'state/merchant/merchant.selectors';
 import { RedirectWithLocation } from './RedirectWithLocation';
 
-export function OwnerRoute({ ...props }) {
-  const isOwner = useSelector((state) => (
-    !state.merchant.collaborators || !state.merchant.collaborators.find(
-      (col) => col.user === state.auth.user.id && col.role === 2,
-    )
-  ));
+export function OwnerRoute({ path, ...props }) {
+  const isOwner = useSelector(selectIsOwner);
+  const location = useLocation();
 
-  if (!isOwner) {
+  const isRequestedPath = location.pathname === path;
+
+  if (isRequestedPath && !isOwner) {
     return <RedirectWithLocation pathname="/identities" />;
   }
 
   return (
-    <Route {...props} />
+    <Route path={path} {...props} />
   );
 }

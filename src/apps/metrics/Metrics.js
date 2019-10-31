@@ -5,7 +5,7 @@ import { formatHour, formatWeekDay } from 'lib/date';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMerchantStatistic, getMerchantStatisticFilter } from 'state/merchant';
+import { getMerchantStatistic, getMerchantStatisticFilter } from 'state/merchant/merchant.actions';
 import CSS from './Metrics.module.scss';
 
 const OTHER_COUNTRIES = 'otherCountries';
