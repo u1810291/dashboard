@@ -1,16 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import pickBy from 'lodash/pickBy';
-import { Grid, Button, Typography } from '@material-ui/core';
-import { useIntl } from 'react-intl';
-import { Formik, Field, Form } from 'formik';
-import { TextField } from 'formik-material-ui';
-import { signIn } from 'state/auth';
-import { useDispatch } from 'react-redux';
-import { email, required } from 'lib/validations';
-
-
+import { Button, Grid, Typography } from '@material-ui/core';
 import { notification } from 'components/notification';
+import { Field, Form, Formik } from 'formik';
+import { TextField } from 'formik-material-ui';
+import { email, required } from 'lib/validations';
+import { pickBy } from 'lodash';
+import React from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { signIn } from 'state/auth';
 
 const validateForm = (values) => pickBy(
   {

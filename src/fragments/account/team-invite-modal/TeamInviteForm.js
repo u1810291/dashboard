@@ -1,12 +1,10 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Field, Formik } from 'formik';
-import { flow } from 'lodash/fp';
-
 import { setI18nContext } from 'components/i18n-context';
 import { Input, RadioButtonGroup } from 'components/inputs';
-import { pickBy, pick } from 'lodash';
+import { Field, Formik } from 'formik';
 import { cleanText, email, required } from 'lib/validations';
+import { flow, pick, pickBy } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { injectIntl } from 'react-intl';
 
 const formikSettings = {
