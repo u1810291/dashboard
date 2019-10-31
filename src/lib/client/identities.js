@@ -106,23 +106,29 @@ export function getIdentityWithNestedData(token, id) {
     if (!data._embedded || !data._embedded.verification) {
       identity.documents = await getDocumentsFullData(token, id);
     }
+    const livenessStep = data._embedded.verification.steps.find((step) => step.id === 'liveness');
+    let videoUrl = get(livenessStep, 'data.videoUrl');
+
     if (
-      get(data, '_embedded.verification.steps')
+      !videoUrl
+      && get(data, '_embedded.verification.steps')
       && get(data, '_links.video.href')
       && data._embedded.verification.steps.find((step) => step.id === 'liveness')
     ) {
       const video = await http.get(authorizedUrl(data._links.video.href, token));
-      const stepIndex = data._embedded.verification.steps.findIndex(
-        (step) => step.id === 'liveness',
-      );
       const file = get(video, 'data._links.file.href');
-      const videoUrl = file ? authorizedUrl(file, token) : undefined;
-      const step = identity._embedded.verification.steps[stepIndex];
-      identity._embedded.verification.steps[stepIndex].data = {
-        ...step.data,
-        videoUrl,
-      };
+      videoUrl = file ? authorizedUrl(file, token) : undefined;
     }
+
+    const stepIndex = data._embedded.verification.steps.findIndex(
+      (step) => step.id === 'liveness',
+    );
+    const step = identity._embedded.verification.steps[stepIndex];
+    identity._embedded.verification.steps[stepIndex].data = {
+      ...step.data,
+      videoUrl,
+    };
+
     return identity;
   });
 }
