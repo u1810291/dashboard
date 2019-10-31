@@ -1,19 +1,15 @@
+import Button from 'components/button';
+import { setI18nContext } from 'components/i18n-context';
+import { Input } from 'components/inputs';
+import Modal from 'components/modal';
+import { Field, Formik, withFormik } from 'formik';
+import { password, required } from 'lib/validations';
+import { flowRight, pickBy } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { flowRight } from 'lodash/fp';
-import { Field, Formik, withFormik } from 'formik';
-import { pickBy } from 'lodash';
-
-import Modal from 'components/modal';
-import Button from 'components/button';
-import { Input } from 'components/inputs';
-import { setI18nContext } from 'components/i18n-context';
-import { required, password } from 'lib/validations';
-
 import CSS from './ChangePasswordModal.module.scss';
-
 
 const formikSettings = {
   initialValues: {

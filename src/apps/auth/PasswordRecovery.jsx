@@ -1,14 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { flowRight } from 'lodash/fp';
-import { Link, Redirect } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
-import { withFormik, Field, Form } from 'formik';
-
 import Button from 'components/button';
 import { setI18nContext } from 'components/i18n-context';
 import { Input } from 'components/inputs';
+import { Field, Form, withFormik } from 'formik';
+import { flowRight } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 import { passwordRecovery } from 'state/auth';
 
 const formikSettings = {
