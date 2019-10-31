@@ -23,8 +23,8 @@ import {
   hubspotEvents,
   showWidget,
 } from 'lib/hubspot';
+import { addMerchantProvider, setMerchantPlan } from 'state/merchant/merchant.actions';
 
-import { setMerchantPlan, addMerchantProvider } from 'state/merchant';
 import { getMerchantPlan, getPlans } from 'state/plans';
 
 import { FormattedMessage } from 'react-intl';

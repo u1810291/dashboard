@@ -63,15 +63,3 @@ export function uploadMerchantMedia(token, form) {
     headers: { ...getAuthHeader(token) },
   });
 }
-
-export function createApplication(token) {
-  return http.post(
-    '/api/v1/merchants/apps',
-    {
-      redirect_uris: ['https://demo.mati.io'],
-    },
-    {
-      headers: { ...getAuthHeader(token) },
-    },
-  );
-}

@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import ReactIntlTelInput from 'react-intl-tel-input-v2';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveConfiguration } from 'state/merchant';
+import { saveConfiguration } from 'state/merchant/merchant.actions';
 import { theme, useStyles } from './styles';
 
 const mandatoryFields = [
@@ -27,7 +27,7 @@ const QuestionsContent = ({ email }) => {
   const [disabled, handleDisabled] = useState(true);
   const [phone, setPhone] = useState({ iso2: 'us', dialCode: '1', phone: '' });
   const token = useSelector((s) => s.auth.token);
-  const dashboard = useSelector((s) => s.merchant.configuration.dashboard);
+  const dashboard = useSelector((s) => s.merchant.configurations.dashboard);
 
   const inputProps = {
     placeholder: 'Phone number',

@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { set, get } from 'lodash';
 import http, { getAuthHeader, authorizedUrl } from './http';
 
 export function getIdentityListCount(token) {
@@ -109,25 +109,23 @@ export function getIdentityWithNestedData(token, id) {
     const livenessStep = data._embedded.verification.steps.find((step) => step.id === 'liveness');
     let videoUrl = get(livenessStep, 'data.videoUrl');
 
-    if (
-      !videoUrl
-      && get(data, '_embedded.verification.steps')
-      && get(data, '_links.video.href')
-      && data._embedded.verification.steps.find((step) => step.id === 'liveness')
-    ) {
-      const video = await http.get(authorizedUrl(data._links.video.href, token));
-      const file = get(video, 'data._links.file.href');
-      videoUrl = file ? authorizedUrl(file, token) : undefined;
+    if (livenessStep) {
+      if (!videoUrl) {
+        const videoLink = get(data, '_links.video.href');
+        if (videoLink) {
+          const video = await http.get(authorizedUrl(videoLink, token));
+          const file = get(video, 'data._links.file.href');
+          if (file) {
+            videoUrl = authorizedUrl(file, token);
+          }
+        }
+      }
+      (identity._embedded.verification.steps || []).forEach((step, index) => {
+        if (step.id === 'liveness') {
+          set(identity, `_embedded.verification.steps[${index}].data.videoUrl`, videoUrl);
+        }
+      });
     }
-
-    const stepIndex = data._embedded.verification.steps.findIndex(
-      (step) => step.id === 'liveness',
-    );
-    const step = identity._embedded.verification.steps[stepIndex];
-    identity._embedded.verification.steps[stepIndex].data = {
-      ...step.data,
-      videoUrl,
-    };
 
     return identity;
   });

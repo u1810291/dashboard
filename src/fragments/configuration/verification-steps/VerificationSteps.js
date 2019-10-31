@@ -1,18 +1,10 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { difference, without } from 'lodash';
 import classNames from 'classnames';
-
-import {
-  Icons,
-  Button,
-  Text,
-  Items,
-} from 'components';
-import { createOverlay, closeOverlay } from 'components/overlay';
+import { Button, Icons, Items, Text } from 'components';
 import confirm from 'components/confirm';
-import BiometricStep from './biometric-steps';
+import { closeOverlay, createOverlay } from 'components/overlay';
+import { difference, without } from 'lodash';
+import React from 'react';
+import { useIntl } from 'react-intl';
 import VerificationStepModal from '../verification-steps-modal';
 import CSS from './VerificationSteps.module.scss';
 
@@ -38,17 +30,21 @@ export function accessibleItems(available, mandatory, steps, index) {
   return difference(available, mandatory, ...without(steps, steps[index]));
 }
 
-function VerificationSteps({
-  bio,
+export function VerificationSteps({
   steps = [],
   availableDocumentTypes = [],
   mandatoryDocumentTypes = [],
-  patterns = {},
   onChange = () => {},
 }) {
-  const onRemoveItem = (index) => {
-    confirm(<FormattedMessage id="confirm_string" />).then(() => onChange({ verificationSteps: removeItem(steps, index) }),
-    );
+  const intl = useIntl();
+
+  const onRemoveItem = async (index) => {
+    try {
+      await confirm(intl.formatMessage({ id: 'confirm_string' }));
+      onChange({ verificationSteps: removeItem(steps, index) });
+    } catch (e) {
+      // none, canceled
+    }
   };
 
   const onEditItem = (index) => {
@@ -74,24 +70,24 @@ function VerificationSteps({
     );
   };
 
-  return !bio ? (
+  return (
     <fieldset className="mgi-fieldset">
       <div className={CSS.verificationSteps}>
         <Text size={3} weight={4}>
-          <FormattedMessage id="flow.documentTypeStep.title" />
+          {intl.formatMessage({ id: 'flow.documentTypeStep.title' })}
         </Text>
         {mandatoryDocumentTypes.map((doc, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <fieldset className="mgi-fieldset" key={index}>
             <legend className="text-active">
-              <FormattedMessage id="flow.documentTypeStep.stepNo" />
+              {intl.formatMessage({ id: 'flow.documentTypeStep.stepNo' })}
               {' '}
               {index + 1}
             </legend>
             <Items templateColumns="minmax(auto, 100%) auto" justifyContent="start">
-              <FormattedMessage id={`flow.documentTypeStep.${doc}`} />
+              {intl.formatMessage({ id: `flow.documentTypeStep.${doc}` })}
               <span className="text-secondary">
-                <FormattedMessage id="required" />
+                {intl.formatMessage({ id: 'required' })}
               </span>
             </Items>
           </fieldset>
@@ -104,7 +100,7 @@ function VerificationSteps({
             <div className={classNames('text-active', [CSS.docTitle])}>
               <Items templateColumns="minmax(auto, 100%) auto">
                 <Text size={2} weight={4}>
-                  <FormattedMessage id="flow.documentTypeStep.stepNo" />
+                  {intl.formatMessage({ id: 'flow.documentTypeStep.stepNo' })}
                   {' - '}
                   {index + mandatoryDocumentTypes.length + 1}
                 </Text>
@@ -123,7 +119,7 @@ function VerificationSteps({
                   <Items flow="row" key={doc} className={[CSS.children]}>
                     <div className={[CSS.child]}>
                       <Text>
-                        <FormattedMessage id={`flow.documentTypeStep.${doc}`} />
+                        {intl.formatMessage({ id: `flow.documentTypeStep.${doc}` })}
                       </Text>
                     </div>
                   </Items>
@@ -132,19 +128,10 @@ function VerificationSteps({
               <Items flow="row" gap={1}>
                 <Items flow="column">
                   <Button buttonStyle="invisible">
-                    <Icons.Pencil
-                      className="svg-primary"
-                      onClick={() => onEditItem(index)}
-                    />
+                    <Icons.Pencil className="svg-primary" onClick={() => onEditItem(index)} />
                   </Button>
-                  <Button
-                    buttonStyle="invisible"
-                    data-role="deleteVerificationStep"
-                  >
-                    <Icons.TrashBin
-                      className="svg-error"
-                      onClick={() => onRemoveItem(index)}
-                    />
+                  <Button buttonStyle="invisible" data-role="deleteVerificationStep">
+                    <Icons.TrashBin className="svg-error" onClick={() => onRemoveItem(index)} />
                   </Button>
                 </Items>
               </Items>
@@ -156,40 +143,12 @@ function VerificationSteps({
         <Button
           className={CSS.newStep}
           onClick={() => onEditItem()}
-          disabled={
-            difference(availableDocumentTypes, mandatoryDocumentTypes, ...steps)
-              .length === 0
-          }
+          disabled={difference(availableDocumentTypes, mandatoryDocumentTypes, ...steps).length === 0}
           data-role="newVerificationStep"
         >
-          <FormattedMessage id="flow.documentTypeStep.button.title" />
+          {intl.formatMessage({ id: 'flow.documentTypeStep.button.title' })}
         </Button>
       )}
     </fieldset>
-  ) : (
-    <BiometricStep
-      patterns={patterns}
-      onChange={onChange}
-    />
   );
 }
-
-export default VerificationSteps;
-
-VerificationSteps.propTypes = {
-  availableDocumentTypes: PropTypes.arrayOf(PropTypes.string),
-  bio: PropTypes.bool,
-  mandatoryDocumentTypes: PropTypes.arrayOf(PropTypes.string),
-  onChange: PropTypes.func,
-  patterns: PropTypes.shape(),
-  steps: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
-};
-
-VerificationSteps.defaultProps = {
-  availableDocumentTypes: [],
-  bio: undefined,
-  mandatoryDocumentTypes: [],
-  onChange: () => {},
-  patterns: {},
-  steps: [],
-};

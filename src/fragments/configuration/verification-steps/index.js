@@ -1,1 +1,1 @@
-export { default } from './VerificationSteps';
+export * from './VerificationSteps';

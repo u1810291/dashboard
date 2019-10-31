@@ -15,7 +15,3 @@ export const AVAILABLE_DOCUMENT_TYPES = [
   'driving-license',
   'proof-of-residency',
 ];
-
-export const MANDATORY_DOCUMENT_TYPES = [];
-
-export const AVAILABLE_LANGUAGES = ['en', 'es', 'fr', 'pt'];
