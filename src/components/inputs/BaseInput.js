@@ -1,12 +1,9 @@
+import classNames from 'classnames';
+import { withI18nContext } from 'components/i18n-context';
+import { flowRight, get } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { injectIntl } from 'react-intl';
-import fp from 'lodash/fp';
-import classNames from 'classnames';
-import { get } from 'lodash';
-
-import { withI18nContext } from 'components/i18n-context';
-
 import CSS from './Input.module.css';
 
 function BaseInput(props) {
@@ -23,7 +20,8 @@ function BaseInput(props) {
     error,
     ...inputOptions
   } = props;
-  let i18nLabel; let
+  let i18nLabel;
+  let
     i18nPlaceholder;
   let validationError;
 
@@ -60,7 +58,7 @@ function BaseInput(props) {
   );
 }
 
-export default fp.flowRight(
+export default flowRight(
   injectIntl,
   withI18nContext,
 )(BaseInput);

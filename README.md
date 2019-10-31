@@ -1,5 +1,18 @@
-## Generators
+# Mati Dashboard Frontend Project
 
-To use generator run `yarn hygen <generator>`. List of generators
+## Start:
 
-**new component/fragment folder**: `component new --name PREFIX/NAME` where PREFIX is `components` of `fragments` and NAME is the parameterized component name like 'my-component'.
+```bash
+yarn start
+```
+
+##Lint:
+```bash
+yarn eslint
+```
+
+## Build:
+
+```bash
+yarn build
+```

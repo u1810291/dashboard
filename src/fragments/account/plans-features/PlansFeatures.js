@@ -1,8 +1,7 @@
+import { Card, H2, H3, InfoTooltip, Items } from 'components';
+import { get, times } from 'lodash';
 import React from 'react';
-import { get } from 'lodash';
 import { useIntl } from 'react-intl';
-import times from 'lodash/times';
-import { Card, Items, H2, H3, InfoTooltip } from 'components';
 
 export default function PlansFeatures() {
   const intl = useIntl();

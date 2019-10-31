@@ -1,14 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import snakeCase from 'lodash/snakeCase';
-import { FormattedMessage, useIntl } from 'react-intl';
-
 import { Box } from '@material-ui/core';
-import { Items, Card, Click, Text } from 'components';
-import CSS from './PricingPlans.module.scss';
-
+import { Card, Click, Items, Text } from 'components';
+import { snakeCase } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import DiscordLogo from './icons/discord-logo.png';
 import SlackLogo from './icons/slack-logo.png';
+import CSS from './PricingPlans.module.scss';
 
 export default function PricingPlans({
   subscriptionPrice,

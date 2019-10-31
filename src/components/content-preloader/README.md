@@ -1,5 +1,0 @@
-Content Preloader
-
-```js
-<ContentPreloader />
-```
