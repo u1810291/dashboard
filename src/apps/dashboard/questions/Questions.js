@@ -3,7 +3,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-icon.svg';
 import { notification } from 'components/notification';
 import 'intl-tel-input/build/css/intlTelInput.min.css';
-import { requestApi } from 'lib/hubspot';
+import { requestApi, contactProperties } from 'lib/hubspot';
 import { difference, isEmpty, omitBy } from 'lodash';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
@@ -65,7 +65,15 @@ const QuestionsContent = ({ email }) => {
           },
         }),
       );
-      requestApi(token, email, inputs);
+      const hubspotContactData = {
+        [contactProperties.companyName]: inputs.organization,
+        [contactProperties.website]: inputs.websiteUrl,
+        [contactProperties.startVerifyingUsers]: inputs.whenToStart,
+        [contactProperties.verificationsVolume]: inputs.verificationsVolume,
+        [contactProperties.whyDoYouNeedMati]: inputs.whyDoYouNeedMati,
+        [contactProperties.phoneNumber]: inputs.phone,
+      };
+      requestApi(token, email, hubspotContactData);
     } catch (err) {
       notification.info('Error saving configuration');
     }

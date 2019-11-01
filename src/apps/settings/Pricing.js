@@ -22,6 +22,8 @@ import {
   trackEvent as hubspotTrackEvent,
   hubspotEvents,
   showWidget,
+  requestApi,
+  contactProperties,
 } from 'lib/hubspot';
 import { addMerchantProvider, setMerchantPlan } from 'state/merchant/merchant.actions';
 
@@ -32,6 +34,8 @@ import SettingsLayout from './SettingsLayout';
 
 export default function Pricing() {
   const matiToken = useSelector(({ auth = {} }) => auth.token);
+  const email = useSelector(({ auth = {} }) => auth.user && auth.user.email);
+
   const merchantBilling = useSelector(
     ({ merchant = {} }) => merchant.billing && merchant.billing.providers,
   );
@@ -69,10 +73,13 @@ export default function Pricing() {
   const handlePlanChange = async (plan) => {
     try {
       await dispatch(setMerchantPlan(matiToken, plan._id));
+      const planPrice = Math.floor(plan.subscriptionPrice / 100);
+
+      requestApi(matiToken, email, { [contactProperties.planName]: plan.name, [contactProperties.planPrice]: planPrice });
 
       trackEvent('merchant_plan_changed', {
         ...pick(plan, ['_id']),
-        subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
+        subscriptionPrice: planPrice,
       });
 
       setCurrentPlan(plan._id);

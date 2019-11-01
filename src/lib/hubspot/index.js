@@ -4,6 +4,7 @@ export {
   submitSignUpForm,
   trackEvent,
   showWidget,
+  contactProperties,
 } from './hubspot';
 export {
   hubspotEvents,

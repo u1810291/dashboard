@@ -1,16 +1,27 @@
 import client from 'lib/client';
 import { hubspotForms } from './constants';
 
+export const contactProperties = {
+  planName: 'plan_name',
+  planPrice: 'subscription_price',
+  companyName: 'company',
+  website: 'website',
+  startVerifyingUsers: 'start_verifying_users',
+  verificationsVolume: 'how_many_verifications',
+  whyDoYouNeedMati: 'why_do_you_need_mati',
+  phoneNumber: 'phone_number',
+};
+
 export function requestApi(token, email, inputs = {}) {
   const data = {
     email,
     contactData: {
-      company: inputs.organization,
-      website: inputs.websiteUrl,
-      start_verifying_users: inputs.whenToStart,
-      how_many_verifications: inputs.verificationsVolume,
-      why_do_you_need_mati: inputs.whyDoYouNeedMati,
-      phone_number: inputs.phone,
+      [contactProperties.companyName]: inputs.organization,
+      [contactProperties.website]: inputs.websiteUrl,
+      [contactProperties.startVerifyingUsers]: inputs.whenToStart,
+      [contactProperties.verificationsVolume]: inputs.verificationsVolume,
+      [contactProperties.whyDoYouNeedMati]: inputs.whyDoYouNeedMati,
+      [contactProperties.phoneNumber]: inputs.phone,
     },
   };
   client.hubspot.hubspotApiRequest(token, data);
