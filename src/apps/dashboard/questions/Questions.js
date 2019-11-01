@@ -3,14 +3,14 @@ import { ThemeProvider } from '@material-ui/styles';
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-icon.svg';
 import { notification } from 'components/notification';
 import 'intl-tel-input/build/css/intlTelInput.min.css';
-import { requestApi } from 'lib/hubspot';
+import { requestApi, contactProperties } from 'lib/hubspot';
 import { difference, isEmpty, omitBy } from 'lodash';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import ReactIntlTelInput from 'react-intl-tel-input-v2';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveConfiguration } from 'state/merchant';
+import { saveConfiguration } from 'state/merchant/merchant.actions';
 import { theme, useStyles } from './styles';
 
 const mandatoryFields = [
@@ -27,7 +27,7 @@ const QuestionsContent = ({ email }) => {
   const [disabled, handleDisabled] = useState(true);
   const [phone, setPhone] = useState({ iso2: 'us', dialCode: '1', phone: '' });
   const token = useSelector((s) => s.auth.token);
-  const dashboard = useSelector((s) => s.merchant.configuration.dashboard);
+  const dashboard = useSelector((s) => s.merchant.configurations.dashboard);
 
   const inputProps = {
     placeholder: 'Phone number',
@@ -65,7 +65,15 @@ const QuestionsContent = ({ email }) => {
           },
         }),
       );
-      requestApi(token, email, inputs);
+      const hubspotContactData = {
+        [contactProperties.companyName]: inputs.organization,
+        [contactProperties.website]: inputs.websiteUrl,
+        [contactProperties.startVerifyingUsers]: inputs.whenToStart,
+        [contactProperties.verificationsVolume]: inputs.verificationsVolume,
+        [contactProperties.whyDoYouNeedMati]: inputs.whyDoYouNeedMati,
+        [contactProperties.phoneNumber]: inputs.phone,
+      };
+      requestApi(token, email, hubspotContactData);
     } catch (err) {
       notification.info('Error saving configuration');
     }

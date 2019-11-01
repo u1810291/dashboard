@@ -1,14 +1,13 @@
+import Button from 'components/button';
+import { setI18nContext } from 'components/i18n-context';
+import { Input } from 'components/inputs';
+import Items from 'components/items';
+import Modal from 'components/modal';
+import { Field, Form, withFormik } from 'formik';
+import { flowRight } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { flowRight } from 'lodash/fp';
 import { FormattedMessage } from 'react-intl';
-import { withFormik, Field, Form } from 'formik';
-
-import Modal from 'components/modal';
-import Button from 'components/button';
-import Items from 'components/items';
-import { Input } from 'components/inputs';
-import { setI18nContext } from 'components/i18n-context';
 
 // todo: fix 'unused' onSave
 

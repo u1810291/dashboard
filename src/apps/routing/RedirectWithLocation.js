@@ -8,7 +8,5 @@ export function RedirectWithLocation({ pathname = '/' }) {
     state: { from },
   };
 
-  return (
-    <Redirect to={to} />
-  );
+  return from.pathname !== pathname && <Redirect to={to} />;
 }

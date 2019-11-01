@@ -7,7 +7,6 @@ stages:
 cache:
   paths:
     - node_modules/
-    - .yarn/
 
 ci:
   stage: ci
@@ -15,9 +14,8 @@ ci:
     - branches
     - pushes
   script:
-    - yarn config set cache-folder .yarn
-    - yarn install
-    - yarn eslint
+    - npm install
+    - npm run eslint
 
 deploy:
   stage: deploy

@@ -1,5 +1,6 @@
 import { Button, Grid, Typography } from '@material-ui/core';
 import { ROOT_PATH } from 'apps/routing/routing.model';
+import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { businessEmail, email, required } from 'lib/validations';
@@ -9,7 +10,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { signUp } from 'state/auth';
-import { getIntegrationCode, saveConfiguration } from 'state/merchant';
+import { getIntegrationCode, saveConfiguration } from 'state/merchant/merchant.actions';
 
 const validateForm = (values) => pickBy(
   {
@@ -34,7 +35,7 @@ export default function SignUp() {
     setStatus();
     try {
       const {
-        data: { merchant, token },
+        data: { token },
       } = await dispatch(signUp(pick(data, 'email', 'password')));
       if (window.Appcues) {
         window.Appcues.identify(data.email);
@@ -42,7 +43,7 @@ export default function SignUp() {
       await dispatch(getIntegrationCode(token));
       await dispatch(saveConfiguration(token, {
         dashboard: {
-          ...merchant.dashboard,
+          language: DEFAULT_LANG,
           usePlans: true,
           shouldPassOnboarding: true,
         },

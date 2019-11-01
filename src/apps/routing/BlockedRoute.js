@@ -1,14 +1,14 @@
 import { BlockedSplash } from 'apps/blocked';
-import { ContainerLoader } from 'components/contrainer-loader/ContainerLoader';
+import { ContainerLoader } from 'components/contrainer-loader';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route } from 'react-router-dom';
+import { selectIsBlocked } from 'state/merchant/merchant.selectors';
 
 export function BlockedRoute({ ...props }) {
-  const isBlocked = useSelector(({ merchant }) => !!merchant.blockedAt);
-  const isBlockedLoading = useSelector(({ merchant }) => merchant.blockedAt === undefined);
+  const [isBlocked, isLoading] = useSelector(selectIsBlocked);
 
-  if (isBlockedLoading) {
+  if (isLoading) {
     return <ContainerLoader />;
   }
 

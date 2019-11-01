@@ -9,7 +9,7 @@ import {
 } from 'react-stripe-elements';
 // Next line must stay on the top because of css variables
 import 'components/theme/styles.scss';
-import IntlProvider from 'components/intl-provider';
+import { AppIntlProvider } from 'components/intl-provider';
 import StoreProvider from 'components/store-provider';
 import { Container as NotificationsContainer } from 'components/notification';
 import { Container as OverlayContainer } from 'components/overlay';
@@ -31,7 +31,7 @@ ReactDOM.render(
     <StripeProvider apiKey={process.env.REACT_APP_STRIPE_PUBLIC_KEY}>
       <StripeElements>
         <StoreProvider>
-          <IntlProvider>
+          <AppIntlProvider>
             <BrowserRouter>
               <ScrollToTop>
                 <AppRouter />
@@ -45,7 +45,7 @@ ReactDOM.render(
                 <OverlayContainer />
               </ScrollToTop>
             </BrowserRouter>
-          </IntlProvider>
+          </AppIntlProvider>
         </StoreProvider>
       </StripeElements>
     </StripeProvider>

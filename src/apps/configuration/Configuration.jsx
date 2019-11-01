@@ -1,36 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage } from 'react-icons/fi';
 import classNames from 'classnames';
-
-import { Content } from 'components/application-box';
 import { Items } from 'components';
-import {
-  AVAILABLE_DOCUMENT_TYPES,
-  COLOR_PRESETS,
-  MANDATORY_DOCUMENT_TYPES,
-  saveConfiguration,
-} from 'state/merchant';
-import { getCountries } from 'state/countries';
+import { Content } from 'components/application-box';
 import ConfigureColor from 'fragments/configuration/configure-color';
-import VerificationSteps from 'fragments/configuration/verification-steps';
 import Countries from 'fragments/configuration/countries';
 import Logo from 'fragments/configuration/logo';
-
+import { VerificationSteps } from 'fragments/configuration/verification-steps';
+import BiometricStep from 'fragments/configuration/verification-steps/biometric-steps';
+import React, { useEffect, useState } from 'react';
+import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage } from 'react-icons/fi';
+import { FormattedMessage } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCountries } from 'state/countries';
+import { saveConfiguration } from 'state/merchant/merchant.actions';
+import { AVAILABLE_DOCUMENT_TYPES, COLOR_PRESETS } from 'state/merchant/merchant.model';
 import CSS from './Configuration.module.scss';
 
 export default function Configuration() {
   const { token } = useSelector(({ auth }) => auth);
-  const { configuration } = useSelector(({ merchant }) => merchant);
+  const configurations = useSelector(({ merchant }) => merchant.configurations);
   const { countries, isLoading } = useSelector((state) => state.countries);
   const [active, setActive] = useState(0);
   const dispatch = useDispatch();
 
   const updateConfiguration = (settings) => {
-    dispatch(
-      saveConfiguration(token, settings),
-    );
+    dispatch(saveConfiguration(token, settings));
   };
 
   useEffect(() => {
@@ -47,7 +40,7 @@ export default function Configuration() {
         <div id="buttonColor">
           <ConfigureColor
             presets={COLOR_PRESETS}
-            style={configuration.style}
+            style={configurations.style}
             onClick={updateConfiguration}
           />
         </div>
@@ -58,21 +51,15 @@ export default function Configuration() {
       icon: <FiFileText />,
       body: <VerificationSteps
         availableDocumentTypes={AVAILABLE_DOCUMENT_TYPES}
-        mandatoryDocumentTypes={MANDATORY_DOCUMENT_TYPES}
-        steps={configuration.verificationSteps}
-        patterns={configuration.verificationPatterns}
+        steps={configurations.verificationSteps}
         onChange={updateConfiguration}
       />,
     },
     {
       title: 'Product.configuration.biometric',
       icon: <FiEye />,
-      body: <VerificationSteps
-        bio
-        availableDocumentTypes={AVAILABLE_DOCUMENT_TYPES}
-        mandatoryDocumentTypes={MANDATORY_DOCUMENT_TYPES}
-        steps={configuration.verificationSteps}
-        patterns={configuration.verificationPatterns}
+      body: <BiometricStep
+        patterns={configurations.verificationPatterns}
         onChange={updateConfiguration}
       />,
     },
@@ -87,7 +74,7 @@ export default function Configuration() {
       body: <Countries
         countries={countries}
         onSubmit={updateConfiguration}
-        supportedCountries={configuration.supportedCountries}
+        supportedCountries={configurations.supportedCountries}
         isLoading={isLoading}
       />,
     },
