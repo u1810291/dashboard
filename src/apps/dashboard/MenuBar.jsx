@@ -11,7 +11,7 @@ import useStyles from './styles';
 
 export function MenuBar() {
   const classes = useStyles();
-  const isOwner = useSelector(selectIsOwner);
+  const [isOwner] = useSelector(selectIsOwner);
   const { isPlanActivated } = useMerchantBilling();
 
   const ApplicationMenu = ({ children }) => (

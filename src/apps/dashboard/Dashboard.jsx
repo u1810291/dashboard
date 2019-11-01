@@ -15,13 +15,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { signOut } from 'state/auth';
 import { getIntegrationCode, getMerchant } from 'state/merchant/merchant.actions';
+import { selectShouldPassOnboarding } from 'state/merchant/merchant.selectors';
 import { MenuBar } from './MenuBar';
 import Questions from './questions';
 
 export function Dashboard() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const shouldPassOnboarding = useSelector(({ merchant }) => merchant.configurations.dashboard.shouldPassOnboarding);
+  const [shouldPassOnboarding, isLoadingShouldPassOnboarding] = useSelector(selectShouldPassOnboarding);
   const [email, token] = useSelector(({ auth }) => [auth.user.email, auth.token]);
 
   useEffect(() => {
@@ -43,7 +44,7 @@ export function Dashboard() {
   }, [token, dispatch, history]);
 
 
-  if (shouldPassOnboarding === undefined) {
+  if (isLoadingShouldPassOnboarding) {
     return <ContainerLoader />;
   }
 

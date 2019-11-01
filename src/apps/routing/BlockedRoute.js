@@ -1,5 +1,5 @@
 import { BlockedSplash } from 'apps/blocked';
-import { ContainerLoader } from 'components/contrainer-loader/ContainerLoader';
+import { ContainerLoader } from 'components/contrainer-loader';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route } from 'react-router-dom';

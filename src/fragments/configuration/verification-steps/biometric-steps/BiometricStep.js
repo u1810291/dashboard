@@ -13,7 +13,7 @@ import { Items } from 'components';
 import useStyles from './styles';
 
 const BiometricStep = ({
-  patterns,
+  patterns = {},
   onChange,
 }) => {
   const intl = useIntl();

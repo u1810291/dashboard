@@ -1,4 +1,4 @@
-import { deepMerge } from 'lib/object';
+import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
 import { get, last } from 'lodash';
 import { createReducer } from '../utils';
 import { types } from './merchant.actions';
@@ -25,7 +25,7 @@ const initialState = {
     verificationSteps: [],
     supportedCountries: [],
     dashboard: {
-      language: 'en',
+      language: DEFAULT_LANG,
       shouldPassOnboarding: false,
     },
   },
@@ -37,7 +37,10 @@ const initialState = {
 
 export default createReducer(initialState, {
   [types.MERCHANT_GET_SUCCESS](state, { payload }) {
-    return deepMerge(state, payload.data);
+    return {
+      ...state,
+      ...payload.data,
+    };
   },
 
   [types.GET_MERCHANT_APPS_SUCCESS](state, { payload }) {
@@ -62,7 +65,10 @@ export default createReducer(initialState, {
   [types.SET_MERCHANT_PLAN_SUCCESS](state, { payload }) {
     return {
       ...state,
-      ...payload.data,
+      billing: {
+        ...state.billing,
+        ...payload.data.billing,
+      },
     };
   },
 
@@ -92,7 +98,10 @@ export default createReducer(initialState, {
   },
 
   [types.CONFIGURATION_SAVE_SUCCESS](state, { payload }) {
-    return deepMerge(state, payload.data);
+    return {
+      ...state,
+      ...payload.data,
+    };
   },
 
 });
