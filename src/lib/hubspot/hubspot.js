@@ -12,17 +12,10 @@ export const contactProperties = {
   phoneNumber: 'phone_number',
 };
 
-export function requestApi(token, email, inputs = {}) {
+export function requestApi(token, email, contactData) {
   const data = {
     email,
-    contactData: {
-      [contactProperties.companyName]: inputs.organization,
-      [contactProperties.website]: inputs.websiteUrl,
-      [contactProperties.startVerifyingUsers]: inputs.whenToStart,
-      [contactProperties.verificationsVolume]: inputs.verificationsVolume,
-      [contactProperties.whyDoYouNeedMati]: inputs.whyDoYouNeedMati,
-      [contactProperties.phoneNumber]: inputs.phone,
-    },
+    contactData,
   };
   client.hubspot.hubspotApiRequest(token, data);
 }
