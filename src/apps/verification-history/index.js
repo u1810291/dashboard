@@ -13,7 +13,6 @@ import Pagination from 'components/pagination';
 import Spinner from 'components/spinner';
 import Text, { H2, HR } from 'components/text';
 import Status from 'fragments/verifications/status-label';
-import isFeatureEnabled from 'lib/isFeatureEnabled';
 import { titleCase } from 'lib/string';
 import { compact, get, isEmpty, mapValues, pickBy } from 'lodash';
 import fp from 'lodash/fp';
@@ -170,19 +169,17 @@ class VerificationHistory extends React.Component {
         },
       },
     ];
-    if (isFeatureEnabled('STATUSES')) {
-      columns.splice(1, 0, {
-        size: 3,
-        label: <FormattedMessage id="identities.fields.status" />,
-        content: ({ identity }) => (
-          <Status
-            status={identity.status}
-            coloredText
-            className={classNames({ threedots: identity.status === 'pending' })}
-          />
-        ),
-      });
-    }
+    columns.splice(1, 0, {
+      size: 3,
+      label: <FormattedMessage id="identities.fields.status" />,
+      content: ({ identity }) => (
+        <Status
+          status={identity.status}
+          coloredText
+          className={classNames({ threedots: identity.status === 'pending' })}
+        />
+      ),
+    });
     return columns;
   };
 

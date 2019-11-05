@@ -81,6 +81,7 @@ export default function SignIn() {
                       label={intl.formatMessage({
                         id: 'signin.form.labels.email',
                       })}
+                      placeholder="Work Email (no gmail, hotmail, etc)"
                       component={TextField}
                     />
                   </Grid>

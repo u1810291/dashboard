@@ -11,7 +11,6 @@ import Button from 'components/button';
 import Items from 'components/items';
 import Card from 'components/card';
 import CheckboxGroup from 'components/checkbox-group';
-import isFeatureEnabled from 'lib/isFeatureEnabled';
 import { ReactComponent as IconClose } from 'assets/icon-close.svg';
 
 import { ReactComponent as FilterIcon } from './filter.svg';
@@ -125,19 +124,17 @@ class VerificationsFiltersForm extends Component {
               </label>
             </Items>
           </div>
-          {isFeatureEnabled('STATUSES') && (
-            <CheckboxGroup
-              label={intl.formatMessage({
-                id: 'identities.filters.labels.status-filter',
-              })}
-              name="status"
-              values={status}
-              items={this.VERIFICATION_STATUS_OPTIONS}
-              onChange={(value) => {
-                onChange({ status: value });
-              }}
-            />
-          )}
+          <CheckboxGroup
+            label={intl.formatMessage({
+              id: 'identities.filters.labels.status-filter',
+            })}
+            name="status"
+            values={status}
+            items={this.VERIFICATION_STATUS_OPTIONS}
+            onChange={(value) => {
+              onChange({ status: value });
+            }}
+          />
 
           <section>
             <Button
