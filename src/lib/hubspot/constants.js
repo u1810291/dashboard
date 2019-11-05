@@ -12,5 +12,7 @@ export const hubspotForms = {
 
 export const hubspotMeeting = {
   embedScriptUrl: 'https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js',
-  userUrl: 'https://meetings.hubspot.com/thibault25?embed=true',
+  userUrl: 'https://meetings.hubspot.com/hello797/bookademo?embed=true',
 };
+
+export const MEETINGS_CONTAINER_NAME = 'meetings-iframe-container';
