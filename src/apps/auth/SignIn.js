@@ -81,6 +81,9 @@ export default function SignIn() {
                       label={intl.formatMessage({
                         id: 'signin.form.labels.email',
                       })}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       placeholder="Work Email (no gmail, hotmail, etc)"
                       component={TextField}
                     />
