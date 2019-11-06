@@ -100,6 +100,10 @@ export default function SignUp() {
                         id: 'signup.form.labels.email',
                       })}
                       component={TextField}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      placeholder="Work Email (no gmail, hotmail, etc)"
                     />
                   </Grid>
                   <Grid item>
