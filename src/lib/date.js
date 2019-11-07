@@ -24,3 +24,13 @@ export function formatHour(value) {
 export function formatDate(value, format) {
   return moment(value).format(format);
 }
+
+export const YearMonthFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+});
+
+export const YearMonthShortFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+});

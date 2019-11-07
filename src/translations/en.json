@@ -903,6 +903,7 @@
   "fragments.home.verification.statistic.title.byCountry": "Countries",
   "fragments.home.verification.statistic.title.byTime": "Verifications by time",
   "fragments.home.verification.statistic.title.byDay": "Verifications by day",
+  "fragments.home.verification.statistic.noData": "No data to display",
   "Countries.otherCountries": "Other countries",
   "Countries.unknownCountry": "<Unknown>",
   "actions.contactSales": "Contact Sales",

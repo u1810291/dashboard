@@ -1,3 +1,4 @@
+import { ERROR_COMMON } from 'lib/error.model';
 import { isEmpty, toPairs, fromPairs } from 'lodash';
 import { createReducer, createTypesSequence } from 'state/utils';
 
@@ -21,9 +22,6 @@ export const types = {
   ...createTypesSequence('IDENTITY_LIST_COUNT'),
   ...createTypesSequence('IDENTITY_LIST_DOWNLOAD'),
 };
-
-// TODO @dkchv: toastr should be wrapped with prop.id and this string extracted to i18n
-const ERROR_COMMON = 'Something went wrong. Please retry';
 
 export function getIdentityListCount(token) {
   return function handle(dispatch) {

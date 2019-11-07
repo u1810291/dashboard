@@ -8,7 +8,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { signIn } from 'state/auth';
+import { signIn } from 'state/auth/auth.actions';
 
 const validateForm = (values) => pickBy(
   {

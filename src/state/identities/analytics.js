@@ -1,7 +1,4 @@
-import {
-  YEAR_MONTH_FORMATTER,
-  YEAR_MONTH_SHORT_FORMATTER,
-} from 'state/utils';
+import { YearMonthFormatter, YearMonthShortFormatter } from 'lib/date';
 import { toPairs } from 'lodash';
 
 const mapIdentityByMonth = (identity) => [
@@ -31,10 +28,10 @@ export function computeMonthlyStatisticsForIdentities(identities) {
     .map(([yearMonth, value]) => ({
       ...value,
       value: value.all,
-      label: YEAR_MONTH_SHORT_FORMATTER.format(
+      label: YearMonthShortFormatter.format(
         new Date(yearMonth.split('-')[0], Number(yearMonth.split('-')[1]) - 1),
       ),
-      tooltipHeader: YEAR_MONTH_FORMATTER.format(
+      tooltipHeader: YearMonthFormatter.format(
         new Date(yearMonth.split('-')[0], Number(yearMonth.split('-')[1]) - 1),
       ),
     }));
@@ -48,7 +45,7 @@ export const buildInitialMonthlyIdentities = (numberOfMonths) => [...Array(numbe
     d.setMonth(d.getMonth() - monthIdx);
     return {
       value: 0,
-      label: YEAR_MONTH_SHORT_FORMATTER.format(d),
-      tooltipHeader: YEAR_MONTH_FORMATTER.format(d),
+      label: YearMonthShortFormatter.format(d),
+      tooltipHeader: YearMonthFormatter.format(d),
     };
   });
