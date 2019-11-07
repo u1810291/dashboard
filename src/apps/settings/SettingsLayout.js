@@ -4,7 +4,7 @@ import { connect, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { signOut } from 'state/auth';
+import { signOut } from 'state/auth/auth.actions';
 import Button from 'components/button';
 import { PageContentLayout, PageContentMenu } from 'components';
 import confirm from 'components/confirm';

@@ -5,6 +5,7 @@ import { types } from './merchant.actions';
 
 const initialState = {
   apps: [],
+  lastApplication: {},
   billing: {
     providers: [],
     planDetails: {},
@@ -16,7 +17,7 @@ const initialState = {
     },
     style: {
       color: undefined,
-      language: 'en',
+      language: DEFAULT_LANG,
     },
     system: {
       watchlists: true,
@@ -30,12 +31,17 @@ const initialState = {
     },
   },
   integrationCode: undefined,
-  lastApplication: {},
   logoUrl: null,
   blockedAt: undefined,
+  displayName: null,
+
+  isLoading: false,
+  isLoaded: false,
+  isFailed: false,
+  error: null,
 };
 
-export default createReducer(initialState, {
+export const reducer = createReducer(initialState, {
   [types.MERCHANT_GET_SUCCESS](state, { payload }) {
     return {
       ...state,
@@ -73,7 +79,10 @@ export default createReducer(initialState, {
   },
 
   [types.MERCHANTS_PUT_SUCCESS](state, { payload }) {
-    return { ...state, ...payload.data };
+    return {
+      ...state,
+      ...payload.data,
+    };
   },
 
   [types.UPLOAD_MERCHANT_MEDIA_SUCCESS](state, { payload }) {
@@ -103,5 +112,4 @@ export default createReducer(initialState, {
       ...payload.data,
     };
   },
-
 });

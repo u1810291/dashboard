@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
 import { Card, closeOverlay, createOverlay } from 'components';
-import { passwordChange } from 'state/auth';
+import { passwordChange } from 'state/auth/auth.actions';
 
 import ChangePasswordModal from './modal/ChangePasswordModal';
 import SettingsLayout from '../SettingsLayout';

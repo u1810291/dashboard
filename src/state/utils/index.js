@@ -1,3 +1,9 @@
+export const ActionSubTypes = {
+  Request: 'REQUEST',
+  Success: 'SUCCESS',
+  Failure: 'FAILURE',
+};
+
 export function createReducer(initialState, handlers) {
   return function reducer(state = initialState, action) {
     if (Object.hasOwnProperty.call(handlers, action.type)) {
@@ -9,19 +15,13 @@ export function createReducer(initialState, handlers) {
 }
 
 export function createTypesSequence(baseName) {
-  return ['REQUEST', 'SUCCESS', 'FAILURE'].reduce((object, item) => {
+  return [
+    ActionSubTypes.Request,
+    ActionSubTypes.Success,
+    ActionSubTypes.Failure,
+  ].reduce((object, item) => {
     const type = `${baseName}_${item}`;
     object[type] = type;
     return object;
   }, {});
 }
-
-export const YEAR_MONTH_FORMATTER = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'long',
-});
-
-export const YEAR_MONTH_SHORT_FORMATTER = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'short',
-});

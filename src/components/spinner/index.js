@@ -1,18 +1,9 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 import CSS from './style.module.scss';
 
-export default function Spinner({ className, size }) {
+export default function Spinner({ className, size = 'small' }) {
   return (
     <div className={classNames(CSS.spinner, `spinner-${size}`, className)} />
   );
 }
-
-Spinner.propTypes = {
-  size: PropTypes.string,
-};
-
-Spinner.defaultProps = {
-  size: 'small',
-};

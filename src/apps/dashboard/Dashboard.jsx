@@ -13,7 +13,7 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory } from 'react-router-dom';
-import { signOut } from 'state/auth';
+import { signOut } from 'state/auth/auth.actions';
 import { getIntegrationCode, getMerchant } from 'state/merchant/merchant.actions';
 import { selectShouldPassOnboarding } from 'state/merchant/merchant.selectors';
 import { MenuBar } from './MenuBar';

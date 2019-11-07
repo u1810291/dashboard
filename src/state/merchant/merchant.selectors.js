@@ -30,3 +30,7 @@ export function selectShouldPassOnboarding({ merchant }) {
     false,
   ];
 }
+
+export function selectMerchantName({ merchant }) {
+  return merchant.displayName;
+}

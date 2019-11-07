@@ -1,13 +1,8 @@
-import { createReducer, createTypesSequence } from 'state/utils';
 import client from 'lib/client';
-import * as Mixpanel from 'lib/mixpanel';
 import { pushEvent } from 'lib/gtm';
-import {
-  requestApi,
-  trackEvent as hubspotTrackEvent,
-  hubspotEvents,
-  submitSignUpForm,
-} from 'lib/hubspot';
+import { hubspotEvents, requestApi, submitSignUpForm, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
+import * as Mixpanel from 'lib/mixpanel';
+import { createTypesSequence } from 'state/utils';
 
 export const types = {
   ...createTypesSequence('AUTH_SIGNIN'),
@@ -100,6 +95,7 @@ export function passwordReset(credentials) {
       });
   };
 }
+
 export function passwordChange(credentials, token) {
   return function handle(dispatch) {
     dispatch({ type: types.PASSWORD_CHANGE_REQUEST });
@@ -115,51 +111,3 @@ export function passwordChange(credentials, token) {
       });
   };
 }
-
-const initialState = {};
-
-const reducer = createReducer(initialState, {
-  [types.AUTH_SIGNIN_SUCCESS](
-    state,
-    {
-      payload: {
-        data: { token, user },
-      },
-    },
-  ) {
-    return {
-      ...state,
-      token,
-      user,
-    };
-  },
-
-  [types.AUTH_SIGNUP_SUCCESS](
-    state,
-    {
-      payload: {
-        data: { token, user },
-      },
-    },
-  ) {
-    return {
-      ...state,
-      token,
-      user,
-    };
-  },
-
-  [types.AUTH_SIGNOUT_REQUEST]() {
-    return initialState;
-  },
-
-  [types.PASSWORD_RESET_SUCCESS]() {
-    return initialState;
-  },
-
-  [types.PASSWORD_CHANGE_SUCCESS]() {
-    return initialState;
-  },
-});
-
-export default reducer;

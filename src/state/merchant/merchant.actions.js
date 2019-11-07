@@ -3,8 +3,6 @@ import { createTypesSequence } from 'state/utils';
 
 export const types = {
   ...createTypesSequence('MERCHANT_GET'),
-  ...createTypesSequence('MERCHANT_STATISTIC_GET'),
-  ...createTypesSequence('MERCHANT_STATISTIC_FILTER_GET'),
   ...createTypesSequence('MERCHANTS_PUT'),
   ...createTypesSequence('CONFIGURATION_SAVE'),
   ...createTypesSequence('INTEGRATION_CODE'),
@@ -27,38 +25,6 @@ export function getMerchant(token) {
       })
       .catch((error) => {
         dispatch({ type: types.MERCHANT_GET_FAILURE });
-        throw error;
-      });
-  };
-}
-
-export function getMerchantStatistic(token) {
-  return function handle(dispatch) {
-    dispatch({ type: types.MERCHANT_STATISTIC_GET_REQUEST });
-    return client.merchant
-      .getMerchantStatistic(token)
-      .then((payload) => {
-        dispatch({ type: types.MERCHANT_STATISTIC_GET_SUCCESS, payload });
-        return payload;
-      })
-      .catch((error) => {
-        dispatch({ type: types.MERCHANT_STATISTIC_GET_FAILURE });
-        throw error;
-      });
-  };
-}
-
-export function getMerchantStatisticFilter(token, filter) {
-  return function handle(dispatch) {
-    dispatch({ type: types.MERCHANT_STATISTIC_FILTER_GET_REQUEST });
-    return client.merchant
-      .getMerchantStatisticFilter(token, filter)
-      .then((payload) => {
-        dispatch({ type: types.MERCHANT_STATISTIC_FILTER_GET_SUCCESS, payload });
-        return payload;
-      })
-      .catch((error) => {
-        dispatch({ type: types.MERCHANT_STATISTIC_FILTER_GET_FAILURE });
         throw error;
       });
   };
