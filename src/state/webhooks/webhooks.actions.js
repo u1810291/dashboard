@@ -1,6 +1,6 @@
-import { createReducer, createTypesSequence } from 'state/utils';
-import { get, fromPairs } from 'lodash';
 import client from 'lib/client';
+import { fromPairs, get } from 'lodash';
+import { createTypesSequence } from 'state/utils';
 
 export const types = {
   ...createTypesSequence('WEBHOOKS_SUBSCRIBE'),
@@ -77,21 +77,3 @@ export function sendWebhook(token, id) {
       });
   };
 }
-
-const initialState = {
-  webhooks: {},
-};
-
-const reducer = createReducer(initialState, {
-  [types.WEBHOOKS_LIST_SUCCESS](state, { payload, clientId }) {
-    return {
-      ...state,
-      webhooks: {
-        ...state.webhooks,
-        [clientId]: payload.data || [],
-      },
-    };
-  },
-});
-
-export default reducer;

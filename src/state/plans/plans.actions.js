@@ -1,5 +1,5 @@
-import { createReducer, createTypesSequence } from 'state/utils';
 import client from 'lib/client';
+import { createTypesSequence } from 'state/utils';
 
 export const types = {
   ...createTypesSequence('CARD_GET'),
@@ -84,27 +84,3 @@ export function cancelPlan(token) {
       });
   };
 }
-
-const initialState = {
-  merchant: {
-    billing: null,
-  },
-  rows: [],
-};
-
-const reducer = createReducer(initialState, {
-  [types.PLANS_GET_SUCCESS](state, { payload }) {
-    return {
-      ...state,
-      ...payload.data,
-    };
-  },
-  [types.PLANS_DELETE_SUCCESS](state, { payload }) {
-    return {
-      ...state,
-      ...payload.data,
-    };
-  },
-});
-
-export default reducer;

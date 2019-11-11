@@ -1,6 +1,5 @@
-import { createReducer, createTypesSequence } from 'state/utils';
 import client from 'lib/client';
-
+import { createTypesSequence } from 'state/utils';
 
 export const types = {
   ...createTypesSequence('COUNTRIES_GET'),
@@ -20,26 +19,3 @@ export function getCountries(token) {
       });
   };
 }
-
-const initialState = {
-  countries: [],
-  isLoading: true,
-};
-
-const reducer = createReducer(initialState, {
-  [types.COUNTRIES_GET_REQUEST](state) {
-    return {
-      ...state,
-      isLoading: true,
-    };
-  },
-  [types.COUNTRIES_GET_SUCCESS](state, { payload }) {
-    return {
-      ...state,
-      countries: payload.data,
-      isLoading: false,
-    };
-  },
-});
-
-export default reducer;

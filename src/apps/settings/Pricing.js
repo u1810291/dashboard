@@ -27,7 +27,7 @@ import {
 } from 'lib/hubspot';
 import { addMerchantProvider, setMerchantPlan } from 'state/merchant/merchant.actions';
 
-import { getMerchantPlan, getPlans } from 'state/plans';
+import { getMerchantPlan, getPlans } from 'state/plans/plans.actions';
 
 import { FormattedMessage } from 'react-intl';
 import SettingsLayout from './SettingsLayout';

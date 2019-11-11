@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { get, last } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMerchantApps } from 'state/merchant/merchant.actions';
-import { subscribeToWebhook, getWebhooks, deleteWebhook } from 'state/webhooks';
+import { subscribeToWebhook, getWebhooks, deleteWebhook } from 'state/webhooks/webhooks.actions';
 import useMerchantBilling from 'hooks/useMerchantBilling';
 import { Content, Tab, Items } from 'components';
 import Integration from 'apps/integration';

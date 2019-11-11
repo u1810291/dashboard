@@ -1,5 +1,5 @@
 import { YearMonthFormatter, YearMonthShortFormatter } from 'lib/date';
-import { toPairs } from 'lodash';
+import { fromPairs, toPairs } from 'lodash';
 
 const mapIdentityByMonth = (identity) => [
   identity.dateCreated.substring(0, 7),
@@ -49,3 +49,29 @@ export const buildInitialMonthlyIdentities = (numberOfMonths) => [...Array(numbe
       tooltipHeader: YearMonthFormatter.format(d),
     };
   });
+
+// FOR GOVCHECK DATA:
+// turns `data: {key: value, ...}` to `data: {key: {value: value}, ...}`
+// as we already have for document reading step
+export function normalizeCURPData(identity) {
+  if (!identity._embedded || !identity._embedded.verification) return identity;
+  return {
+    ...identity,
+    _embedded: {
+      ...identity._embedded,
+      verification: {
+        ...identity._embedded.verification,
+        documents: identity._embedded.verification.documents.map((doc) => ({
+          ...doc,
+          steps: doc.steps.map((step) => ({
+            ...step,
+            data:
+              step.data && step.id === 'mexican-curp-validation'
+                ? fromPairs(toPairs(step.data).map(([key, value]) => [key, { value }]))
+                : step.data,
+          })),
+        })),
+      },
+    },
+  };
+}

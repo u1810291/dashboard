@@ -44,7 +44,7 @@ const initialState = {
   }),
 };
 
-export const metrics = createReducer(initialState, {
+export default createReducer(initialState, {
   ...LoadableAdapter.createHandlers(metricsActionGroups.Metrics, SliceNames.Metrics),
   ...LoadableAdapter.createHandlers(metricsActionGroups.Statistics, SliceNames.Statistics),
 });

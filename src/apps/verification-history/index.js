@@ -21,7 +21,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { deleteIdentity, getIdentities, getIdentitiesCount, getIdentitiesFile } from 'state/identities';
+import { deleteIdentity, getIdentities, getIdentitiesCount, getIdentitiesFile } from 'state/identities/identities.actions';
 import { ReactComponent as DeleteIcon } from '../verification-detail/delete-icon.svg';
 import { ReactComponent as DrivingLicense } from './driving-license.svg';
 import { ExampleCard } from './ExampleCard';
