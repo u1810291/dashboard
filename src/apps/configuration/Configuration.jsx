@@ -16,21 +16,16 @@ import { AVAILABLE_DOCUMENT_TYPES, COLOR_PRESETS } from 'state/merchant/merchant
 import CSS from './Configuration.module.scss';
 
 export default function Configuration() {
-  const { token } = useSelector(({ auth }) => auth);
   const configurations = useSelector(({ merchant }) => merchant.configurations);
   const { countries, isLoading } = useSelector((state) => state.countries);
   const [active, setActive] = useState(0);
   const dispatch = useDispatch();
 
-  const updateConfiguration = (settings) => {
-    dispatch(saveConfiguration(token, settings));
-  };
+  const updateConfiguration = (settings) => dispatch(saveConfiguration(settings));
 
   useEffect(() => {
-    dispatch(
-      getCountries(token),
-    );
-  }, [token, countries.length, dispatch]);
+    dispatch(getCountries());
+  }, [countries.length, dispatch]);
 
   const flowSteps = [
     {

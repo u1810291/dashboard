@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
 import { Card, closeOverlay, createOverlay } from 'components';
 import { passwordChange } from 'state/auth/auth.actions';
+import { selectAuthUser } from 'state/auth/auth.selectors';
 
 import ChangePasswordModal from './modal/ChangePasswordModal';
 import SettingsLayout from '../SettingsLayout';
@@ -12,12 +12,14 @@ import SettingsLayout from '../SettingsLayout';
 import CSS from './PersonalSettings.module.scss';
 
 // eslint-disable-next-line no-shadow
-function PersonalSettings({ user, passwordChange, token }) {
+function PersonalSettings({ passwordChange }) {
+  const user = useSelector(selectAuthUser);
+
   function handleSubmit(values, { setSubmitting, setStatus }) {
     const { password, oldPassword } = values;
 
     setStatus({});
-    passwordChange({ password, oldPassword }, token)
+    passwordChange({ password, oldPassword })
       .then(() => {
         setSubmitting(false);
         setStatus(true);
@@ -71,16 +73,4 @@ function PersonalSettings({ user, passwordChange, token }) {
   );
 }
 
-PersonalSettings.propTypes = {
-  passwordChange: PropTypes.func.isRequired,
-  token: PropTypes.string.isRequired,
-  user: PropTypes.shape().isRequired,
-};
-
-export default connect(
-  (state) => ({
-    token: state.auth.token,
-    user: state.auth.user,
-  }),
-  { passwordChange },
-)(PersonalSettings);
+export default connect(null, { passwordChange })(PersonalSettings);

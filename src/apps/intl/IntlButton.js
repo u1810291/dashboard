@@ -11,12 +11,11 @@ import { SelectLight, useStyles } from './IntlButton.styles';
 export function IntlButton() {
   const currentLocale = useSelector(selectLanguage);
   const dashboard = useSelector((state) => get(state, 'merchant.configurations.dashboard'));
-  const token = useSelector((state) => get(state, 'auth.token'));
   const dispatch = useDispatch();
   const classes = useStyles();
 
   function handleLangChange(e) {
-    dispatch(saveConfiguration(token, {
+    dispatch(saveConfiguration({
       dashboard: {
         ...dashboard,
         language: e.target.value,

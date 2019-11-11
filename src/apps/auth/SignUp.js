@@ -34,14 +34,12 @@ export default function SignUp() {
   async function submitData(data, { setStatus, setSubmitting }) {
     setStatus();
     try {
-      const {
-        data: { token },
-      } = await dispatch(signUp(pick(data, 'email', 'password')));
+      await dispatch(signUp(pick(data, 'email', 'password')));
       if (window.Appcues) {
         window.Appcues.identify(data.email);
       }
-      await dispatch(getIntegrationCode(token));
-      await dispatch(saveConfiguration(token, {
+      await dispatch(getIntegrationCode());
+      await dispatch(saveConfiguration({
         dashboard: {
           language: DEFAULT_LANG,
           usePlans: true,

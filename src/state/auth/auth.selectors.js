@@ -6,3 +6,7 @@ export function selectAuthToken({ auth }) {
 export function selectAuthUser({ auth }) {
   return auth.user;
 }
+
+export function selectUserEmail({ auth }) {
+  return auth.user.email;
+}

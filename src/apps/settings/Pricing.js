@@ -25,6 +25,7 @@ import {
   requestApi,
   contactProperties,
 } from 'lib/hubspot';
+import { selectAuthToken } from 'state/auth/auth.selectors';
 import { addMerchantProvider, setMerchantPlan } from 'state/merchant/merchant.actions';
 
 import { getMerchantPlan, getPlans } from 'state/plans/plans.actions';
@@ -33,7 +34,7 @@ import { FormattedMessage } from 'react-intl';
 import SettingsLayout from './SettingsLayout';
 
 export default function Pricing() {
-  const matiToken = useSelector(({ auth = {} }) => auth.token);
+  const matiToken = useSelector(selectAuthToken);
   const email = useSelector(({ auth = {} }) => auth.user && auth.user.email);
 
   const merchantBilling = useSelector(
@@ -52,30 +53,30 @@ export default function Pricing() {
   const customPlans = planList.filter((plan) => plan.isCustom);
   const dispatch = useDispatch();
 
-  useEffect(
-    () => {
-      dispatch(getPlans(matiToken));
-    },
-    [matiToken, dispatch],
-  );
+  useEffect(() => {
+    dispatch(getPlans());
+  }, [dispatch]);
 
   useEffect(
     () => {
-      dispatch(getMerchantPlan(matiToken)).then(({ data: { planDetails } }) => {
+      dispatch(getMerchantPlan()).then(({ data: { planDetails } }) => {
         if (planDetails.activatedAt) {
           setCurrentPlan(planDetails.plan);
         }
       });
     },
-    [matiToken, dispatch],
+    [dispatch],
   );
 
   const handlePlanChange = async (plan) => {
     try {
-      await dispatch(setMerchantPlan(matiToken, plan._id));
+      await dispatch(setMerchantPlan(plan._id));
       const planPrice = Math.floor(plan.subscriptionPrice / 100);
 
-      requestApi(matiToken, email, { [contactProperties.planName]: plan.name, [contactProperties.planPrice]: planPrice });
+      requestApi(matiToken, email, {
+        [contactProperties.planName]: plan.name,
+        [contactProperties.planPrice]: planPrice,
+      });
 
       trackEvent('merchant_plan_changed', {
         ...pick(plan, ['_id']),
@@ -92,17 +93,15 @@ export default function Pricing() {
     }
   };
 
-  const handleCardSubmit = async (plan, token) => {
+  const handleCardSubmit = async (plan, provider) => {
     try {
       trackEvent('merchant_entered_cc', {
         ...pick(plan, ['_id']),
         subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
       });
 
-      await dispatch(addMerchantProvider(matiToken, token.id));
-
-      await dispatch(setMerchantPlan(matiToken, plan._id));
-
+      await dispatch(addMerchantProvider(provider.id));
+      await dispatch(setMerchantPlan(plan._id));
       setCurrentPlan(plan._id);
 
       trackEvent('merchant_cc_stored', {
@@ -146,7 +145,7 @@ export default function Pricing() {
       createOverlay(
         <CardModal
           {...plan}
-          onSubmit={(token) => handleCardSubmit(plan, token)}
+          onSubmit={(provider) => handleCardSubmit(plan, provider)}
         />,
       );
     }
@@ -156,7 +155,7 @@ export default function Pricing() {
     createOverlay(
       <CardModal
         {...plan}
-        onSubmit={(token) => handleCardSubmit(plan, token)}
+        onSubmit={(provider) => handleCardSubmit(plan, provider)}
       />,
     );
   };

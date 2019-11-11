@@ -87,7 +87,6 @@ class VerificationHistory extends React.Component {
     getIdentitiesCount: PropTypes.func.isRequired,
     identities: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     isLoading: PropTypes.bool.isRequired,
-    token: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -190,8 +189,9 @@ class VerificationHistory extends React.Component {
   deleteIdentity = (e, identity) => {
     e.stopPropagation();
     confirm(<FormattedMessage id="verificationModal.delete.confirm" />).then(
-      () => this.props.deleteIdentity(this.props.token, identity.identity.id),
-      () => {
+      () => this.props.deleteIdentity(identity.identity.id),
+      (error) => {
+        console.error(error);
       },
     );
   };
@@ -199,7 +199,7 @@ class VerificationHistory extends React.Component {
   handleDownloadCSV = () => {
     const params = pickBy(this.state.params, (item) => !isEmpty(item));
 
-    this.props.getIdentitiesFile(this.props.token, {
+    this.props.getIdentitiesFile({
       ...params,
       format: 'csv',
     }).then((response) => {
@@ -246,19 +246,19 @@ class VerificationHistory extends React.Component {
 
   fetchIdentitiesCount() {
     // eslint-disable-next-line no-shadow
-    const { state, props: { getIdentitiesCount, token } } = this;
+    const { state, props: { getIdentitiesCount } } = this;
     const params = pickBy(
       state.params,
       (v, k) => !isEmpty(v) && !['offset'].includes(k),
     );
-    getIdentitiesCount(token, params);
+    getIdentitiesCount(params);
   }
 
   fetchIdentities() {
     // eslint-disable-next-line no-shadow
-    const { state, props: { getIdentities, token } } = this;
+    const { state, props: { getIdentities } } = this;
     const params = pickBy(state.params, (v) => !isEmpty(v));
-    getIdentities(token, {
+    getIdentities({
       ...params,
       limit: ITEMS_PER_PAGE,
     });
@@ -422,7 +422,6 @@ export default fp.flowRight(
       deletingIdentities: state.identities.deletingIdentities,
       identities: state.identities.identities,
       count: state.identities.count,
-      token: state.auth.token,
     }),
     { getIdentities, getIdentitiesCount, deleteIdentity, getIdentitiesFile },
   ),
