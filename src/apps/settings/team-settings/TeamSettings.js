@@ -10,7 +10,7 @@ import {
   deleteCollaborators,
   postCollaborators,
   patchCollaborators,
-} from 'state/collaborators';
+} from 'state/collaborators/collaborator.actions';
 import Button from 'components/button';
 import { closeOverlay, createOverlay } from 'components/overlay';
 import TeamInviteModal from 'fragments/account/team-invite-modal/TeamInviteModal';

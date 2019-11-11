@@ -9,7 +9,7 @@ const initialState = {
   token: null,
 };
 
-export const reducer = createReducer(initialState, {
+export default createReducer(initialState, {
   [types.AUTH_SIGNIN_SUCCESS](state, {
     payload: {
       data: { token, user },

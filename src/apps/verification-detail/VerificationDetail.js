@@ -13,9 +13,9 @@ import {
   getIdentityWithNestedData,
   patchDocument,
   patchIdentity,
-} from 'state/identities';
-import { getCountries } from 'state/countries';
-import { sendWebhook } from 'state/webhooks';
+} from 'state/identities/identities.actions';
+import { getCountries } from 'state/countries/countries.actions';
+import { sendWebhook } from 'state/webhooks/webhooks.actions';
 import { Content } from 'components/application-box';
 import Items from 'components/items';
 import Click from 'components/click';

@@ -41,7 +41,7 @@ const initialState = {
   error: null,
 };
 
-export const reducer = createReducer(initialState, {
+export default createReducer(initialState, {
   [types.MERCHANT_GET_SUCCESS](state, { payload }) {
     return {
       ...state,

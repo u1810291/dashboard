@@ -9,7 +9,7 @@ import { PlanCancelModal } from 'fragments';
 import Button from 'components/button';
 import { notification } from 'components/notification';
 import { trackEvent } from 'lib/mixpanel';
-import { cancelPlan, getPlan, getMerchantPlan } from 'state/plans';
+import { cancelPlan, getPlan, getMerchantPlan } from 'state/plans/plans.actions';
 
 import SettingsLayout from '../SettingsLayout';
 import CSS from './Billing.module.scss';

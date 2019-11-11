@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCountries } from 'state/countries';
+import { getCountries } from 'state/countries/countries.actions';
 import { saveConfiguration } from 'state/merchant/merchant.actions';
 import { AVAILABLE_DOCUMENT_TYPES, COLOR_PRESETS } from 'state/merchant/merchant.model';
 import CSS from './Configuration.module.scss';
