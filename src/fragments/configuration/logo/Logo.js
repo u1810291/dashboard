@@ -13,7 +13,6 @@ import compressImage from 'lib/compressImage';
 import CSS from './Logo.module.scss';
 
 export default function Logo() {
-  const { token } = useSelector(({ auth }) => auth);
   const { logoUrl } = useSelector(({ merchant }) => merchant);
   const [shouldLogoUpdate, setShouldLogoUpdate] = useState(false);
   const [innerLogoUrl, setInnerLogoUrl] = useState(null);
@@ -22,11 +21,11 @@ export default function Logo() {
   useEffect(() => {
     if (shouldLogoUpdate) {
       dispatch(
-        putMerchants(token, { logoUrl: innerLogoUrl }),
+        putMerchants({ logoUrl: innerLogoUrl }),
       );
       setShouldLogoUpdate(false);
     }
-  }, [shouldLogoUpdate, innerLogoUrl, token, dispatch]);
+  }, [shouldLogoUpdate, innerLogoUrl, dispatch]);
 
   const showError = () => {
     notification.error(
@@ -45,26 +44,20 @@ export default function Logo() {
       const compressedFile = await compressImage(file, compressionOptions);
       form.append('media', compressedFile);
 
-      const mediaPayload = await dispatch(
-        uploadMerchantMedia(token, form),
-      );
+      const mediaPayload = await dispatch(uploadMerchantMedia(form));
       setInnerLogoUrl(mediaPayload.data.url);
 
       setShouldLogoUpdate(true);
     } catch (error) {
       showError();
     }
-  }, [token, dispatch]);
+  }, [dispatch]);
 
   const onDropRejected = useCallback(() => {
     showError();
   }, []);
 
-  const clearLogo = async () => {
-    await dispatch(
-      putMerchants(token, { logoUrl: null }),
-    );
-  };
+  const clearLogo = () => dispatch(putMerchants({ logoUrl: null }));
 
   const { getRootProps, getInputProps } = useDropzone({
     onDropAccepted,

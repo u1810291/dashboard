@@ -1,4 +1,5 @@
-import client from 'lib/client';
+import * as api from 'lib/client/plans';
+import { selectAuthToken } from 'state/auth/auth.selectors';
 import { createTypesSequence } from 'state/utils';
 
 export const types = {
@@ -8,79 +9,59 @@ export const types = {
   ...createTypesSequence('PLANS_DELETE'),
 };
 
-export function getPlans(token) {
-  return function handle(dispatch) {
-    dispatch({ type: types.PLANS_GET_REQUEST });
+export const getPlans = () => async (dispatch, getState) => {
+  dispatch({ type: types.PLANS_GET_REQUEST });
+  try {
+    const token = selectAuthToken(getState());
+    const payload = await api.getPlans(token);
+    (payload.data.rows || []).map((plan) => {
+      plan.supportLevel = (['Regular', 'Growth'].includes(plan.name)) ? 1 : 0;
+      return plan;
+    });
+    dispatch({ type: types.PLANS_GET_SUCCESS, payload });
+    return payload;
+  } catch (error) {
+    dispatch({ type: types.PLANS_GET_FAILURE });
+    throw error;
+  }
+};
 
-    return client.plans
-      .getPlans(token)
-      .then((payload) => {
-        // TODO: temporary solution before BE implement "supportLevel" property
-        // https://matibiometrics.atlassian.net/browse/BAC-4423
-        (payload.data.rows || []).map((plan) => {
-          plan.supportLevel = (['Regular', 'Growth'].includes(plan.name)) ? 1 : 0;
-          return plan;
-        });
-        dispatch({ type: types.PLANS_GET_SUCCESS, payload });
-        return payload;
-      })
-      .catch((error) => {
-        dispatch({ type: types.PLANS_GET_FAILURE });
-        throw error;
-      });
-  };
-}
+export const getMerchantPlan = () => async (dispatch, getState) => {
+  dispatch({ type: types.CARD_GET_REQUEST });
+  try {
+    const token = selectAuthToken(getState());
+    const payload = await api.getMerchantPlan(token);
+    dispatch({ type: types.CARD_GET_SUCCESS, payload });
+    return payload;
+  } catch (error) {
+    dispatch({ type: types.CARD_GET_FAILURE });
+    throw error;
+  }
+};
 
-export function getMerchantPlan(id) {
-  return function handle(dispatch) {
-    dispatch({ type: types.CARD_GET_REQUEST });
+export const getPlan = (id) => async (dispatch, getState) => {
+  dispatch({ type: types.PLAN_GET_REQUEST });
+  try {
+    const token = selectAuthToken(getState());
+    const payload = await api.getPlan(token, id);
+    dispatch({ type: types.PLAN_GET_SUCCESS, payload });
+    return payload;
+  } catch (error) {
+    dispatch({ type: types.PLAN_GET_FAILURE });
+    throw error;
+  }
+};
 
-    return client.plans
-      .getMerchantPlan(id)
-      .then((payload) => {
-        dispatch({ type: types.CARD_GET_SUCCESS, payload });
-        return payload;
-      })
-      .catch((error) => {
-        dispatch({ type: types.CARD_GET_FAILURE });
-        throw error;
-      });
-  };
-}
-
-export function getPlan(token, id) {
-  return function handle(dispatch) {
-    dispatch({ type: types.PLAN_GET_REQUEST });
-
-    return client.plans
-      .getPlan(token, id)
-      .then((payload) => {
-        dispatch({ type: types.PLAN_GET_SUCCESS, payload });
-        return payload;
-      })
-      .catch((error) => {
-        dispatch({ type: types.PLAN_GET_FAILURE });
-        throw error;
-      });
-  };
-}
-
-export function cancelPlan(token) {
-  return function handle(dispatch) {
-    dispatch({ type: types.PLANS_DELETE_REQUEST });
-    return client.plans
-      .cancelPlans(token)
-      .then((payload) => {
-        dispatch({ type: types.PLANS_DELETE_SUCCESS, payload });
-        dispatch({
-          type: 'SET_MERCHANT_PLAN_SUCCESS',
-          payload,
-        });
-        return payload;
-      })
-      .catch((error) => {
-        dispatch({ type: types.PLANS_DELETE_FAILURE });
-        throw error;
-      });
-  };
-}
+export const cancelPlan = () => async (dispatch, getState) => {
+  dispatch({ type: types.PLANS_DELETE_REQUEST });
+  try {
+    const token = selectAuthToken(getState());
+    const payload = await api.cancelPlans(token);
+    dispatch({ type: types.PLANS_DELETE_SUCCESS, payload });
+    dispatch({ type: 'SET_MERCHANT_PLAN_SUCCESS', payload });
+    return payload;
+  } catch (error) {
+    dispatch({ type: types.PLANS_DELETE_FAILURE });
+    throw error;
+  }
+};

@@ -1,7 +1,8 @@
-import client from 'lib/client';
+import * as api from 'lib/client/auth';
 import { pushEvent } from 'lib/gtm';
 import { hubspotEvents, requestApi, submitSignUpForm, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
 import * as Mixpanel from 'lib/mixpanel';
+import { selectAuthToken } from 'state/auth/auth.selectors';
 import { createTypesSequence } from 'state/utils';
 
 export const types = {
@@ -13,101 +14,81 @@ export const types = {
   ...createTypesSequence('PASSWORD_CHANGE'),
 };
 
-export function signIn(credentials) {
-  return function handle(dispatch) {
-    dispatch({ type: types.AUTH_SIGNIN_REQUEST });
-    return client.auth
-      .signin(credentials)
-      .then((payload) => {
-        const { email } = credentials;
-        dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload });
-        Mixpanel.addUser({ ...payload.data.merchant, email });
-        requestApi(payload.data.token, {
-          email, contactData: {},
-        });
-        hubspotTrackEvent(hubspotEvents.signIn);
-        return payload;
-      })
-      .catch((error) => {
-        dispatch({ type: types.AUTH_SIGNIN_FAILURE });
-        throw error;
-      });
-  };
-}
+export const signIn = (credentials) => async (dispatch) => {
+  dispatch({ type: types.AUTH_SIGNIN_REQUEST });
+  try {
+    const payload = await api.signin(credentials);
+    const { email } = credentials;
+    dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload });
+    Mixpanel.addUser({ ...payload.data.merchant, email });
+    requestApi(payload.data.token, {
+      email,
+      // TODO @dkchv: bug?
+      contactData: {},
+    });
+    hubspotTrackEvent(hubspotEvents.signIn);
+    return payload;
+  } catch (error) {
+    dispatch({ type: types.AUTH_SIGNIN_FAILURE });
+    throw error;
+  }
+};
 
-export function signUp(userData) {
+export const signUp = (userData) => async (dispatch) => {
   const { email, password, firstName, lastName } = userData;
-  return (dispatch) => {
-    dispatch({ type: types.AUTH_SIGNUP_REQUEST });
-    return client.auth
-      .signup({ email, password, firstName, lastName })
-      .then((payload) => {
-        dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload });
-        Mixpanel.addUser({ ...payload.data.merchant, email });
-        Mixpanel.trackEvent('dash_signup');
-        submitSignUpForm(email);
-        pushEvent({ event: 'Sign Up Success' });
-        hubspotTrackEvent(hubspotEvents.signUp);
-        return payload;
-      })
-      .catch((error) => {
-        dispatch({ type: types.AUTH_SIGNUP_FAILURE });
-        throw error;
-      });
-  };
-}
+  dispatch({ type: types.AUTH_SIGNUP_REQUEST });
 
-export function signOut() {
-  return function handle(dispatch) {
-    dispatch({ type: types.AUTH_SIGNOUT_REQUEST });
-    window.localStorage.clear();
-  };
-}
+  try {
+    const payload = await api.signup({ email, password, firstName, lastName });
+    dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload });
+    Mixpanel.addUser({ ...payload.data.merchant, email });
+    Mixpanel.trackEvent('dash_signup');
+    submitSignUpForm(email);
+    pushEvent({ event: 'Sign Up Success' });
+    hubspotTrackEvent(hubspotEvents.signUp);
+    return payload;
+  } catch (error) {
+    dispatch({ type: types.AUTH_SIGNUP_FAILURE });
+    throw error;
+  }
+};
 
-export function passwordRecovery(credentials) {
-  return function handle(dispatch) {
-    dispatch({ type: types.AUTH_RECOVERY_REQUEST });
-    return client.auth
-      .recovery(credentials)
-      .then((payload) => {
-        dispatch({ type: types.AUTH_RECOVERY_SUCCESS, payload });
-        return payload;
-      })
-      .catch((error) => {
-        dispatch({ type: types.AUTH_RECOVERY_FAILURE });
-        throw error;
-      });
-  };
-}
+export const signOut = () => (dispatch) => {
+  dispatch({ type: types.AUTH_SIGNOUT_REQUEST });
+  window.localStorage.clear();
+};
 
-export function passwordReset(credentials) {
-  return function handle(dispatch) {
-    dispatch({ type: types.PASSWORD_RESET_REQUEST });
-    return client.auth
-      .reset(credentials)
-      .then((payload) => {
-        dispatch({ type: types.PASSWORD_RESET_SUCCESS, payload });
-        return payload;
-      })
-      .catch((error) => {
-        dispatch({ type: types.PASSWORD_RESET_FAILURE });
-        throw error;
-      });
-  };
-}
+export const passwordRecovery = (credentials) => async (dispatch) => {
+  dispatch({ type: types.AUTH_RECOVERY_REQUEST });
+  try {
+    const payload = await api.recovery(credentials);
+    dispatch({ type: types.AUTH_RECOVERY_SUCCESS, payload });
+  } catch (error) {
+    dispatch({ type: types.AUTH_RECOVERY_FAILURE });
+    throw error;
+  }
+};
 
-export function passwordChange(credentials, token) {
-  return function handle(dispatch) {
-    dispatch({ type: types.PASSWORD_CHANGE_REQUEST });
-    return client.auth
-      .changePassword(credentials, token)
-      .then((payload) => {
-        dispatch({ type: types.PASSWORD_CHANGE_SUCCESS, payload });
-        return payload;
-      })
-      .catch((error) => {
-        dispatch({ type: types.PASSWORD_CHANGE_FAILURE });
-        throw error;
-      });
-  };
-}
+export const passwordReset = (credentials) => async (dispatch) => {
+  dispatch({ type: types.PASSWORD_RESET_REQUEST });
+  try {
+    const payload = await api.reset(credentials);
+    dispatch({ type: types.PASSWORD_RESET_SUCCESS, payload });
+  } catch (error) {
+    dispatch({ type: types.PASSWORD_RESET_FAILURE });
+    throw error;
+  }
+};
+
+export const passwordChange = (credentials) => async (dispatch, getState) => {
+  dispatch({ type: types.PASSWORD_CHANGE_REQUEST });
+  try {
+    const token = selectAuthToken(getState());
+    const payload = await api.changePassword(credentials, token);
+    dispatch({ type: types.PASSWORD_CHANGE_SUCCESS, payload });
+    return payload;
+  } catch (error) {
+    dispatch({ type: types.PASSWORD_CHANGE_FAILURE });
+    throw error;
+  }
+};

@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import ReactIntlTelInput from 'react-intl-tel-input-v2';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectAuthToken } from 'state/auth/auth.selectors';
 import { saveConfiguration } from 'state/merchant/merchant.actions';
 import { theme, useStyles } from './styles';
 
@@ -26,7 +27,7 @@ const QuestionsContent = ({ email }) => {
   const [inputs, setInputs] = useState({});
   const [disabled, handleDisabled] = useState(true);
   const [phone, setPhone] = useState({ iso2: 'us', dialCode: '1', phone: '' });
-  const token = useSelector((s) => s.auth.token);
+  const token = useSelector(selectAuthToken);
   const dashboard = useSelector((s) => s.merchant.configurations.dashboard);
 
   const inputProps = {
@@ -57,7 +58,7 @@ const QuestionsContent = ({ email }) => {
     inputs.phone = `+${phone.dialCode} ${phone.phone}`;
     try {
       await dispatch(
-        saveConfiguration(token, {
+        saveConfiguration({
           dashboard: {
             ...dashboard,
             info: inputs,

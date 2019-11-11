@@ -15,7 +15,6 @@ import SettingsLayout from '../SettingsLayout';
 import CSS from './Billing.module.scss';
 
 export default function Billing() {
-  const token = useSelector(({ auth = {} }) => auth.token);
   const merchantPlanDetails = useSelector(
     ({ merchant = {} }) => merchant.billing && merchant.billing.planDetails,
   );
@@ -31,17 +30,17 @@ export default function Billing() {
   useEffect(() => {
     if (merchantPlan) {
       dispatch(
-        getPlan(token, merchantPlan),
+        getPlan(merchantPlan),
       ).then(({ data }) => {
         setPlan(data);
       });
     }
-  }, [token, merchantPlan, dispatch]);
+  }, [merchantPlan, dispatch]);
 
   useEffect(() => {
     if (merchantPlan) {
       dispatch(
-        getMerchantPlan(token),
+        getMerchantPlan(),
       ).then(({ data: { cardDetails, planDetails } }) => {
         setCard(cardDetails.last4);
         setMerchantPlan(planDetails.plan);
@@ -49,16 +48,12 @@ export default function Billing() {
         setLoading(false);
       });
     }
-  }, [token, card, merchantPlan, dispatch]);
+  }, [card, merchantPlan, dispatch]);
 
   const handleCancelPlan = async () => {
     try {
-      await dispatch(
-        cancelPlan(token),
-      );
-
+      await dispatch(cancelPlan());
       setCard(false);
-
       trackEvent('merchant_plan_declined', {
         ...(pick(plan)),
       });

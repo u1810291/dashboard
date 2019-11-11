@@ -18,12 +18,11 @@ export default function DocumentationSection({
   clientId = '',
   clientSecret = '',
   hasProvider,
-  matiToken,
 }) {
   const dispatch = useDispatch();
-  async function handleCardSubmit(token) {
+  async function handleCardSubmit(provider) {
     try {
-      await dispatch(addMerchantProvider(matiToken, token.id));
+      await dispatch(addMerchantProvider(provider.id));
       closeOverlay();
       trackEvent('merchant_entered_cc_unlock_keys', { success: true });
       hubspotTrackEvent(hubspotEvents.unlockIntegration);

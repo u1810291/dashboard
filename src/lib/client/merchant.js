@@ -28,8 +28,8 @@ export function getMerchantStatisticFilter(token, filter) {
   });
 }
 
-export function putMerchants(token, credentials) {
-  return http.patch('/api/v1/merchants/me', credentials, {
+export function putMerchants(token, data) {
+  return http.patch('/api/v1/merchants/me', data, {
     headers: { ...getAuthHeader(token) },
   });
 }
