@@ -25,3 +25,25 @@ export function createTypesSequence(baseName) {
     return object;
   }, {});
 }
+
+export function collectionUpsert(collection, value, id = '_id') {
+  if (!value[id]) {
+    console.error('object has no id', value);
+    return collection;
+  }
+
+  const index = collection.findIndex((item) => item[id] === value[id]);
+  if (index > -1) {
+    // update
+    const newCollection = [
+      ...collection,
+    ];
+    return newCollection.splice(index, 1, value);
+  } else {
+    // insert
+    return [
+      ...collection,
+      value,
+    ];
+  }
+}

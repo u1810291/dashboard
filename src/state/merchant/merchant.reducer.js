@@ -1,15 +1,11 @@
 import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
-import { get, last } from 'lodash';
+import { last } from 'lodash';
 import { createReducer } from '../utils';
 import { types } from './merchant.actions';
 
 const initialState = {
   apps: [],
   lastApplication: {},
-  billing: {
-    providers: [],
-    planDetails: {},
-  },
   configurations: {
     flow: {
       required: [],
@@ -34,11 +30,6 @@ const initialState = {
   logoUrl: null,
   blockedAt: undefined,
   displayName: null,
-
-  isLoading: false,
-  isLoaded: false,
-  isFailed: false,
-  error: null,
 };
 
 export default createReducer(initialState, {
@@ -54,27 +45,6 @@ export default createReducer(initialState, {
       ...state,
       apps: payload.data.apps,
       lastApplication: last(payload.data.apps) || {},
-    };
-  },
-
-  [types.ADD_MERCHANT_PROVIDER_SUCCESS](state, { payload }) {
-    const providers = get(payload.data, 'data.merchant.billing.providers');
-    return {
-      ...state,
-      billing: {
-        ...state.billing,
-        providers,
-      },
-    };
-  },
-
-  [types.SET_MERCHANT_PLAN_SUCCESS](state, { payload }) {
-    return {
-      ...state,
-      billing: {
-        ...state.billing,
-        ...payload.data.billing,
-      },
     };
   },
 
@@ -112,4 +82,5 @@ export default createReducer(initialState, {
       ...payload.data,
     };
   },
+
 });

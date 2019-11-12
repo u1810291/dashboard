@@ -1,76 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { pick } from 'lodash';
-
+import { Box } from '@material-ui/core';
 import { closeOverlay, createOverlay, Items } from 'components';
 import { notification } from 'components/notification';
+import Spinner from 'components/spinner';
+import { CardDeclinedModal, CardModal, ChangePlanModal, CompaniesUsingMati, CustomPlan, MatiNumbers, PlansFeatures, PricingPlans, PricingRefundNotice, RequestDemo } from 'fragments';
 import { Feedback } from 'fragments/info/feedback';
-import {
-  CardDeclinedModal,
-  CardModal,
-  ChangePlanModal,
-  CompaniesUsingMati,
-  MatiNumbers,
-  CustomPlan,
-  PricingPlans,
-  PricingRefundNotice,
-  PlansFeatures,
-  RequestDemo,
-} from 'fragments';
+import { contactProperties, hubspotEvents, requestApi, showWidget, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
 import { trackEvent } from 'lib/mixpanel';
-import {
-  trackEvent as hubspotTrackEvent,
-  hubspotEvents,
-  showWidget,
-  requestApi,
-  contactProperties,
-} from 'lib/hubspot';
-import { selectAuthToken } from 'state/auth/auth.selectors';
-import { addMerchantProvider, setMerchantPlan } from 'state/merchant/merchant.actions';
-
-import { getMerchantPlan, getPlans } from 'state/plans/plans.actions';
-
+import { pick } from 'lodash';
+import { PayAsYouGoId } from 'models/Plan.model';
+import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAuthToken, selectUserEmail } from 'state/auth/auth.selectors';
+import { getCurrentPlan, getPlans, providerAdd, setPlan } from 'state/plans/plans.actions';
+import { selectCurrentPlanId, selectPlanList, selectProviders } from 'state/plans/plans.selectors';
 import SettingsLayout from './SettingsLayout';
 
 export default function Pricing() {
-  const matiToken = useSelector(selectAuthToken);
-  const email = useSelector(({ auth = {} }) => auth.user && auth.user.email);
-
-  const merchantBilling = useSelector(
-    ({ merchant = {} }) => merchant.billing && merchant.billing.providers,
-  );
-  const merchantPlan = useSelector(
-    ({ merchant = {} }) => merchant.billing && merchant.billing.planDetails,
-  );
-
-  const planList = useSelector((state) => state.plans.rows.sort((a, b) => a.order - b.order),
-  );
-  const [currentPlan, setCurrentPlan] = useState(
-    merchantPlan && merchantPlan.activatedAt,
-  );
-  const regularPlans = planList.filter((plan) => !plan.isCustom);
-  const customPlans = planList.filter((plan) => plan.isCustom);
   const dispatch = useDispatch();
+  const planList = useSelector(selectPlanList);
+  const matiToken = useSelector(selectAuthToken);
+  const email = useSelector(selectUserEmail);
+  const providers = useSelector(selectProviders);
+  const currentPlanId = useSelector(selectCurrentPlanId);
+
+  const regularPlans = planList.filter((plan) => plan._id !== PayAsYouGoId && !plan.isCustom);
+  const customPlans = planList.filter((plan) => plan.isCustom);
 
   useEffect(() => {
     dispatch(getPlans());
   }, [dispatch]);
 
-  useEffect(
-    () => {
-      dispatch(getMerchantPlan()).then(({ data: { planDetails } }) => {
-        if (planDetails.activatedAt) {
-          setCurrentPlan(planDetails.plan);
-        }
-      });
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    if (currentPlanId) {
+      dispatch(getCurrentPlan());
+    }
+  }, [currentPlanId, dispatch]);
 
   const handlePlanChange = async (plan) => {
     try {
-      await dispatch(setMerchantPlan(plan._id));
+      await dispatch(setPlan(plan._id));
       const planPrice = Math.floor(plan.subscriptionPrice / 100);
 
       requestApi(matiToken, email, {
@@ -82,8 +51,6 @@ export default function Pricing() {
         ...pick(plan, ['_id']),
         subscriptionPrice: planPrice,
       });
-
-      setCurrentPlan(plan._id);
 
       closeOverlay();
     } catch (e) {
@@ -100,9 +67,8 @@ export default function Pricing() {
         subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
       });
 
-      await dispatch(addMerchantProvider(provider.id));
-      await dispatch(setMerchantPlan(plan._id));
-      setCurrentPlan(plan._id);
+      await dispatch(providerAdd(provider.id));
+      await dispatch(setPlan(plan._id));
 
       trackEvent('merchant_cc_stored', {
         ...pick(plan, ['_id']),
@@ -111,6 +77,7 @@ export default function Pricing() {
 
       closeOverlay();
     } catch (e) {
+      console.error(e);
       notification.error(
         <FormattedMessage id="Billing.notification.setFailure" />,
       );
@@ -137,9 +104,12 @@ export default function Pricing() {
       plan_price: subscriptionPrice,
     });
 
-    if (currentPlan || merchantBilling.length) {
+    if (currentPlanId || providers.length) {
       createOverlay(
-        <ChangePlanModal {...plan} onSubmit={() => handlePlanChange(plan)} />,
+        <ChangePlanModal
+          {...plan}
+          onSubmit={() => handlePlanChange(plan)}
+        />,
       );
     } else {
       createOverlay(
@@ -161,45 +131,51 @@ export default function Pricing() {
   };
 
   return (
-    <SettingsLayout aside={false} hasMerchantPlan={currentPlan}>
+    <SettingsLayout aside={false} hasMerchantPlan={!!currentPlanId}>
       <main>
         <Items flow="row" gap={12}>
-          {!!planList.length && (
-            <Items flow="row" gap={2}>
-              <PricingRefundNotice />
-              <Items flow="column" gap={1} align="stretch" templateColumns="1fr 1fr 1fr 1fr">
-                {regularPlans.map((plan) => (
-                  <PricingPlans
-                    name={plan.name}
-                    key={plan._id}
-                    subscriptionPrice={plan.subscriptionPrice}
-                    highlight={plan.highlight}
-                    includedVerifications={plan.includedVerifications}
-                    extraPrice={plan.extraPrice}
-                    supportLevel={plan.supportLevel}
-                    onChoosePlan={() => handlePlanClick(plan)}
-                    current={currentPlan && plan._id === currentPlan}
-                  />
-                ))}
+          {planList.length === 0
+            ? (
+              <Box display="flex" alignItems="center">
+                <Spinner size="large" />
+              </Box>
+            )
+            : (
+              <Items flow="row" gap={2}>
+                <PricingRefundNotice />
+                <Items flow="column" gap={1} align="stretch" templateColumns={`repeat(${regularPlans.length}, 1fr)`}>
+                  {regularPlans.map((plan) => (
+                    <PricingPlans
+                      name={plan.name}
+                      key={plan._id}
+                      subscriptionPrice={plan.subscriptionPrice}
+                      highlight={plan.highlight}
+                      includedVerifications={plan.includedVerifications}
+                      extraPrice={plan.extraPrice}
+                      supportLevel={plan.supportLevel}
+                      onChoosePlan={() => handlePlanClick(plan)}
+                      current={plan._id === currentPlanId}
+                    />
+                  ))}
+                </Items>
+                <Items flow="column" gap={1} templateColumns="1fr 1fr">
+                  {customPlans.map((plan) => (
+                    <CustomPlan
+                      name={plan.name}
+                      current={plan._id === currentPlanId}
+                      key={plan._id}
+                      onClick={
+                        plan.isCustom
+                          ? () => showWidget()
+                          : () => handlePlanClick(plan)
+                      }
+                    />
+                  ))}
+                  <RequestDemo />
+                </Items>
+                <PlansFeatures />
               </Items>
-              <Items flow="column" gap={1} templateColumns="1fr 1fr">
-                {customPlans.map((plan) => (
-                  <CustomPlan
-                    name={plan.name}
-                    current={currentPlan && plan._id === currentPlan}
-                    key={plan._id}
-                    onClick={
-                      plan.isCustom
-                        ? () => showWidget()
-                        : () => handlePlanClick(plan)
-                    }
-                  />
-                ))}
-                <RequestDemo />
-              </Items>
-              <PlansFeatures />
-            </Items>
-          )}
+            )}
           <CompaniesUsingMati />
           <MatiNumbers />
           <Feedback />
