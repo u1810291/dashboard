@@ -3,7 +3,6 @@ import { get, last } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMerchantApps } from 'state/merchant/merchant.actions';
 import { subscribeToWebhook, getWebhooks, deleteWebhook } from 'state/webhooks/webhooks.actions';
-import useMerchantBilling from 'hooks/useMerchantBilling';
 import { Content, Tab, Items } from 'components';
 import Integration from 'apps/integration';
 import { Configuration, MatiButtonAside } from 'apps/configuration';
@@ -18,7 +17,6 @@ export default function Product() {
   const { clientId, clientSecret } = useSelector(
     (s) => last(s.merchant.apps) || {},
   );
-  const { hasProvider } = useMerchantBilling();
   const webhook = useSelector((s) => last(s.webhooks.webhooks[clientId]) || {});
   const setWebhook = useCallback(
     async (url, secret) => {
@@ -89,7 +87,6 @@ export default function Product() {
             contents={[
               <Configuration />,
               <Integration
-                hasProvider={hasProvider}
                 application={{ clientId, clientSecret }}
                 webhook={webhook}
                 setWebhook={setWebhook}

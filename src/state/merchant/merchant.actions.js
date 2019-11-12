@@ -1,5 +1,6 @@
 import * as api from 'lib/client/merchant';
 import { selectAuthToken } from 'state/auth/auth.selectors';
+import { initPlans } from 'state/plans/plans.actions';
 import { createTypesSequence } from 'state/utils';
 
 export const types = {
@@ -8,8 +9,6 @@ export const types = {
   ...createTypesSequence('CONFIGURATION_SAVE'),
   ...createTypesSequence('INTEGRATION_CODE'),
   ...createTypesSequence('GET_MERCHANT_APPS'),
-  ...createTypesSequence('SET_MERCHANT_PLAN'),
-  ...createTypesSequence('ADD_MERCHANT_PROVIDER'),
   ...createTypesSequence('UPDATE_MERCHANT_PLAN'),
   ...createTypesSequence('SET_MERCHANT_LANG'),
   ...createTypesSequence('UPLOAD_MERCHANT_MEDIA'),
@@ -21,6 +20,7 @@ export const getMerchant = () => async (dispatch, getState) => {
     const token = selectAuthToken(getState());
     const payload = await api.getMerchant(token);
     dispatch({ type: types.MERCHANT_GET_SUCCESS, payload });
+    dispatch(initPlans(payload.data.billing));
     return payload;
   } catch (error) {
     dispatch({ type: types.MERCHANT_GET_FAILURE });
@@ -84,32 +84,6 @@ export const saveConfiguration = (configurations) => async (dispatch, getState) 
     return payload;
   } catch (error) {
     dispatch({ type: types.CONFIGURATION_SAVE_FAILURE });
-    throw error;
-  }
-};
-
-export const setMerchantPlan = (planId) => async (dispatch, getState) => {
-  dispatch({ type: types.SET_MERCHANT_PLAN_REQUEST, planId });
-  try {
-    const token = selectAuthToken(getState());
-    const payload = await api.setMerchantPlan(token, planId);
-    dispatch({ type: types.SET_MERCHANT_PLAN_SUCCESS, payload });
-    return payload;
-  } catch (error) {
-    dispatch({ type: types.SET_MERCHANT_PLAN_FAILURE });
-    throw error;
-  }
-};
-
-export const addMerchantProvider = (providerId) => async (dispatch, getState) => {
-  dispatch({ type: types.ADD_MERCHANT_PROVIDER_REQUEST });
-  try {
-    const token = selectAuthToken(getState());
-    const payload = await api.addMerchantProvider(token, providerId);
-    dispatch({ type: types.ADD_MERCHANT_PROVIDER_SUCCESS, payload });
-    return payload;
-  } catch (error) {
-    dispatch({ type: types.ADD_MERCHANT_PROVIDER_FAILURE });
     throw error;
   }
 };

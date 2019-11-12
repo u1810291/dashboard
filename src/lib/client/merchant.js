@@ -16,18 +16,6 @@ export function getMerchant(token) {
   });
 }
 
-export function getMerchantStatistic(token) {
-  return http.get('api/v1/merchants/me/identities/analytics/counts', {
-    headers: { ...getAuthHeader(token) },
-  });
-}
-
-export function getMerchantStatisticFilter(token, filter) {
-  return http.get(`api/v1/merchants/me/identities/analytics/stats/${filter}`, {
-    headers: { ...getAuthHeader(token) },
-  });
-}
-
 export function putMerchants(token, data) {
   return http.patch('/api/v1/merchants/me', data, {
     headers: { ...getAuthHeader(token) },
@@ -42,18 +30,6 @@ export function getIntegrationCode(token) {
 
 export function getMerchantApps(token) {
   return http.get('/api/v1/merchants/apps', {
-    headers: { ...getAuthHeader(token) },
-  });
-}
-
-export function addMerchantProvider(token, source) {
-  return http.put('/api/v1/merchants/me/billing/providers/stripe', { source }, {
-    headers: { ...getAuthHeader(token) },
-  });
-}
-
-export function setMerchantPlan(token, planId) {
-  return http.put(`/api/v1/merchants/me/billing/providers/stripe/plans/${planId}`, {}, {
     headers: { ...getAuthHeader(token) },
   });
 }

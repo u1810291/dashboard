@@ -4,7 +4,7 @@ import { types } from './auth.actions';
 const initialState = {
   user: {
     // id
-    // email
+    email: null,
   },
   token: null,
 };

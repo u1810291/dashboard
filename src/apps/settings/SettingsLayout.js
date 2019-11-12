@@ -9,14 +9,13 @@ import Button from 'components/button';
 import { PageContentLayout, PageContentMenu } from 'components';
 import confirm from 'components/confirm';
 import Items from 'components/items';
+import { selectProviders } from 'state/plans/plans.selectors';
 import { ReactComponent as LogoutIcon } from './logout.svg';
 
 // eslint-disable-next-line no-shadow
 function SettingsLayout({ children, signOut, hasMerchantPlan, ...props }) {
-  const billing = useSelector(
-    ({ merchant = {} }) => merchant.billing && merchant.billing.providers,
-  );
-  const hasBillingPage = hasMerchantPlan || billing.length;
+  const providers = useSelector(selectProviders);
+  const hasBillingPage = hasMerchantPlan || providers.length > 0;
 
   const handleLogout = async () => {
     await confirm(<FormattedMessage id="confirm_string" />);
@@ -37,7 +36,7 @@ function SettingsLayout({ children, signOut, hasMerchantPlan, ...props }) {
         <NavLink to="/settings/pricing">
           <FormattedMessage id="apps.settings.pricing" />
         </NavLink>
-        {!!hasBillingPage && (
+        {hasBillingPage && (
           <NavLink to="/settings/billing">
             <FormattedMessage id="apps.settings.billing" />
           </NavLink>

@@ -38,7 +38,6 @@ export default function InfoPage({
         title={<FormattedMessage id="apps.integration.documentation.title" />}
       >
         <DocumentationSection
-          hasProvider
           clientId={application.clientId}
           clientSecret={application.clientSecret}
         />

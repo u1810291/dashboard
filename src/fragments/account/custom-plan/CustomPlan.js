@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { Card, Click, H2, Items, Text } from 'components';
 import { camelCase } from 'lodash';
-import { Card, Items, Text, H2, Click } from 'components';
+import React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import CSS from './CustomPlan.module.scss';
 
 export default function CustomPlan({ name, current, onClick }) {
+  const intl = useIntl();
   return (
     <Card
       padding="2/4"
@@ -26,9 +27,7 @@ export default function CustomPlan({ name, current, onClick }) {
 
       <Click border="active" onClick={onClick}>
         <Text color="active">
-          <FormattedMessage
-            id={current ? 'PricingPlans.currentPlan' : 'PricingPlans.contactUs'}
-          />
+          {intl.formatMessage({ id: current ? 'PricingPlans.currentPlan' : 'PricingPlans.contactUs' })}
         </Text>
       </Click>
     </Card>
