@@ -6,8 +6,9 @@ import Countries from 'fragments/configuration/countries';
 import Logo from 'fragments/configuration/logo';
 import { VerificationSteps } from 'fragments/configuration/verification-steps';
 import BiometricStep from 'fragments/configuration/verification-steps/biometric-steps';
+import { GdprSettings } from 'fragments/configuration/gdpr-settings';
 import React, { useEffect, useState } from 'react';
-import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage } from 'react-icons/fi';
+import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCountries } from 'state/countries/countries.actions';
@@ -72,6 +73,11 @@ export default function Configuration() {
         supportedCountries={configurations.supportedCountries}
         isLoading={isLoading}
       />,
+    },
+    {
+      title: 'Product.configuration.gdpr',
+      icon: <FiTrash />,
+      body: <GdprSettings />,
     },
   ];
 

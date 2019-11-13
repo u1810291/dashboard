@@ -1,3 +1,4 @@
+import { inRange } from 'lodash';
 import moment from 'moment';
 
 /**
@@ -34,3 +35,19 @@ export const YearMonthShortFormatter = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
   month: 'short',
 });
+
+export function toIsoPeriod(period) {
+  return `P${period}D`;
+}
+
+export function fromIsoPeriod(period) {
+  const match = /^P(\d+)D$/.exec(period);
+  if (match) {
+    return match[1];
+  }
+  return match;
+}
+
+export function checkInterval(value, from, to) {
+  return inRange(value, from, to + 1);
+}
