@@ -20,7 +20,7 @@ export const getMerchant = () => async (dispatch, getState) => {
     const token = selectAuthToken(getState());
     const payload = await api.getMerchant(token);
     dispatch({ type: types.MERCHANT_GET_SUCCESS, payload });
-    dispatch(initPlans(payload.data.billing));
+    dispatch(initPlans(payload.data.billing || {}));
     return payload;
   } catch (error) {
     dispatch({ type: types.MERCHANT_GET_FAILURE });
