@@ -22,6 +22,7 @@ export const getPlans = () => async (dispatch, getState) => {
     const token = selectAuthToken(getState());
     const payload = await api.getPlans(token);
     const rows = (payload.data.rows || [])
+      .filter((item) => !item.isArchived)
       .map((plan) => ({
         ...plan,
         supportLevel: (['Regular', 'Growth'].includes(plan.name)) ? 1 : 0,
