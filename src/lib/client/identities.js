@@ -1,18 +1,6 @@
 import { set, get } from 'lodash';
 import http, { getAuthHeader, authorizedUrl } from './http';
 
-export function getIdentityListCount(token) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (token) {
-        resolve({ data: 4 });
-      } else {
-        reject(new Error('Token is required!'));
-      }
-    }, 1000);
-  });
-}
-
 export function getIdentity(token, id) {
   return http.get(`/v1/identities/${id}?embed=verification,documents`, {
     headers: { ...getAuthHeader(token) },

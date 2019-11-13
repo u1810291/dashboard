@@ -10,7 +10,7 @@ import {
   deleteCollaborators,
   postCollaborators,
   patchCollaborators,
-} from 'state/collaborators';
+} from 'state/collaborators/collaborator.actions';
 import Button from 'components/button';
 import { closeOverlay, createOverlay } from 'components/overlay';
 import TeamInviteModal from 'fragments/account/team-invite-modal/TeamInviteModal';
@@ -36,36 +36,31 @@ class TeamSettings extends React.Component {
     merchantId: PropTypes.string.isRequired,
     patchCollaborators: PropTypes.func.isRequired,
     postCollaborators: PropTypes.func.isRequired,
-    token: PropTypes.string.isRequired,
   }
 
   componentDidMount() {
     // eslint-disable-next-line no-shadow
-    const { merchantId, getCollaborators, token } = this.props;
+    const { merchantId, getCollaborators } = this.props;
     if (merchantId) {
-      getCollaborators(token, merchantId);
+      getCollaborators(merchantId);
     }
   }
 
   componentDidUpdate(prevProps) {
     // eslint-disable-next-line no-shadow
-    const { merchantId, getCollaborators, token, isPosting } = this.props;
+    const { merchantId, getCollaborators, isPosting } = this.props;
     if (!prevProps.merchantId && merchantId) {
-      getCollaborators(token, merchantId);
+      getCollaborators(merchantId);
     }
     if (prevProps.isPosting !== isPosting) {
       this.openInviteModal();
     }
   }
 
-  onDeleteSubmit = (id) => this.props.deleteCollaborators(
-    this.props.token,
-    this.props.merchantId,
-    id,
-  )
+  onDeleteSubmit = (id) => this.props.deleteCollaborators(this.props.merchantId, id)
 
   onRoleChange = (id, role) => {
-    this.props.patchCollaborators(this.props.token, this.props.merchantId, id, {
+    this.props.patchCollaborators(this.props.merchantId, id, {
       role,
     });
   }
@@ -80,7 +75,7 @@ class TeamSettings extends React.Component {
       },
     };
     return this.props
-      .postCollaborators(this.props.token, this.props.merchantId, dataToSend)
+      .postCollaborators(this.props.merchantId, dataToSend)
       .then(() => this.openInviteSuccessModal());
   }
 
@@ -120,7 +115,7 @@ class TeamSettings extends React.Component {
 }
 
 export default connect(
-  ({ auth: { token }, collaborators, merchant }) => ({
+  ({ collaborators, merchant }) => ({
     rows: [],
     collaborators: mapCollaborators(collaborators.collaborators),
     isLoading: collaborators.isLoading,
@@ -128,7 +123,6 @@ export default connect(
     isDeleting: collaborators.isDeleting,
     isPatchingArray: collaborators.isPatchingArray,
     merchantId: merchant.id,
-    token,
   }),
   {
     getCollaborators,

@@ -13,7 +13,8 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory } from 'react-router-dom';
-import { signOut } from 'state/auth';
+import { signOut } from 'state/auth/auth.actions';
+import { selectUserEmail } from 'state/auth/auth.selectors';
 import { getIntegrationCode, getMerchant } from 'state/merchant/merchant.actions';
 import { selectShouldPassOnboarding } from 'state/merchant/merchant.selectors';
 import { MenuBar } from './MenuBar';
@@ -23,13 +24,13 @@ export function Dashboard() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [shouldPassOnboarding, isLoadingShouldPassOnboarding] = useSelector(selectShouldPassOnboarding);
-  const [email, token] = useSelector(({ auth }) => [auth.user.email, auth.token]);
+  const email = useSelector(selectUserEmail);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        await dispatch(getIntegrationCode(token));
-        await dispatch(getMerchant(token));
+        await dispatch(getIntegrationCode());
+        await dispatch(getMerchant());
       } catch (error) {
         if (error.response && error.response.status === 401) {
           dispatch(signOut());
@@ -41,7 +42,7 @@ export function Dashboard() {
     };
 
     loadData();
-  }, [token, dispatch, history]);
+  }, [dispatch, history]);
 
 
   if (isLoadingShouldPassOnboarding) {

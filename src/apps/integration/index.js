@@ -1,18 +1,8 @@
+import { Card, Items } from 'components';
+import { H2, HR } from 'components/text';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { Items, Card } from 'components';
-import { HR, H2 } from 'components/text';
-
-import {
-  DocumentationSection,
-  APISection,
-  PermalinkSection,
-  MobileSDKSection,
-  WebSDKSection,
-  WebhookDocumentationSection,
-  WebhookSection,
-} from './sections';
+import { APISection, DocumentationSection, MobileSDKSection, PermalinkSection, WebhookDocumentationSection, WebhookSection, WebSDKSection } from './sections';
 
 const integrationCode = `
 <script src="https://web-button.getmati.com/button.js">
@@ -42,17 +32,14 @@ export default function InfoPage({
   setWebhook,
   removeWebhook,
 }) {
-  const token = useSelector((state) => state.auth.token);
   return (
     <Card padding="2/0" gap="0">
       <SectionWrapper
         title={<FormattedMessage id="apps.integration.documentation.title" />}
       >
         <DocumentationSection
-          hasProvider
           clientId={application.clientId}
           clientSecret={application.clientSecret}
-          matiToken={token}
         />
       </SectionWrapper>
       <HR />

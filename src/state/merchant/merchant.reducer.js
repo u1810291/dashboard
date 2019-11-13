@@ -1,14 +1,11 @@
 import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
-import { get, last } from 'lodash';
+import { last } from 'lodash';
 import { createReducer } from '../utils';
 import { types } from './merchant.actions';
 
 const initialState = {
   apps: [],
-  billing: {
-    providers: [],
-    planDetails: {},
-  },
+  lastApplication: {},
   configurations: {
     flow: {
       required: [],
@@ -16,7 +13,7 @@ const initialState = {
     },
     style: {
       color: undefined,
-      language: 'en',
+      language: DEFAULT_LANG,
     },
     system: {
       watchlists: true,
@@ -30,9 +27,9 @@ const initialState = {
     },
   },
   integrationCode: undefined,
-  lastApplication: {},
   logoUrl: null,
   blockedAt: undefined,
+  displayName: null,
 };
 
 export default createReducer(initialState, {
@@ -51,29 +48,11 @@ export default createReducer(initialState, {
     };
   },
 
-  [types.ADD_MERCHANT_PROVIDER_SUCCESS](state, { payload }) {
-    const providers = get(payload.data, 'data.merchant.billing.providers');
-    return {
-      ...state,
-      billing: {
-        ...state.billing,
-        providers,
-      },
-    };
-  },
-
-  [types.SET_MERCHANT_PLAN_SUCCESS](state, { payload }) {
-    return {
-      ...state,
-      billing: {
-        ...state.billing,
-        ...payload.data.billing,
-      },
-    };
-  },
-
   [types.MERCHANTS_PUT_SUCCESS](state, { payload }) {
-    return { ...state, ...payload.data };
+    return {
+      ...state,
+      ...payload.data,
+    };
   },
 
   [types.UPLOAD_MERCHANT_MEDIA_SUCCESS](state, { payload }) {

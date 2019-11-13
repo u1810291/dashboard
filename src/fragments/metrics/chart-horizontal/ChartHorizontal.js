@@ -1,25 +1,62 @@
-import Items from 'components/items';
-import { localeNumber } from 'lib/number';
-import React from 'react';
+import { StubBarColor, StubTickColor } from 'apps/metrics/Metrics.model';
+import { ChartBar } from 'components/chart-bar/chart-bar';
+import { ChartTooltip } from 'components/chart-tooltip/ChartTooltip';
+import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 import CSS from './ChartHorizontal.module.scss';
 
-export function ChartHorizontal({ data }) {
-  const total = data.reduce((memo, item) => memo + item.value, 0) || 1;
+export function ChartHorizontal({ data, stub }) {
+  const intl = useIntl();
+  const [activeBar, setActiveBar] = useState(null);
 
-  return (
-    <Items flow="row" templateColumns="2fr 1fr 2fr" gap={2} align="center">
-      {data.map((item) => {
-        const percent = 100 * (item.value / total);
-        return [
-          <div key={`${item.label}-label`}>{item.label}</div>,
-          <div key={`${item.label}-value`} className={CSS.value}>{`${percent.toPrecision(2)}% (${localeNumber(item.value)})`}</div>,
-          <div
-            key={`${item.label}-bar`}
-            style={{ width: `${percent}%` }}
-            className={CSS.bar}
-          />,
-        ];
-      })}
-    </Items>
+  function handleEnter(payload) {
+    setActiveBar(payload);
+  }
+
+  function handleOut() {
+    setActiveBar(null);
+  }
+
+  const isNoData = data.every((item) => item.value === 0);
+
+  const stubChart = [
+    <div className={CSS.noDataLabel} key="stubLabel">{intl.formatMessage({ id: 'fragments.home.verification.statistic.noData' })}</div>,
+    <ResponsiveContainer key="stubChart" width="100%" height={200}>
+      <BarChart key="stub" data={stub} className="custom-tooltip">
+        <Bar
+          isAnimationActive={false}
+          dataKey="value"
+          fill={StubBarColor}
+          shape={<ChartBar />}
+        />
+        <XAxis
+          dataKey="label"
+          axisLine={false}
+          tickLine={false}
+          tick={{ fill: StubTickColor }}
+        />
+      </BarChart>
+    </ResponsiveContainer>,
+  ];
+
+  const workChart = (
+    <ResponsiveContainer width="100%" height={200}>
+      <BarChart data={data} className="custom-tooltip">
+        <Bar
+          dataKey="value"
+          fill="#5c75ff"
+          onMouseEnter={handleEnter}
+          onMouseLeave={handleOut}
+          shape={<ChartBar />}
+        />
+        <XAxis dataKey="label" axisLine={false} tickLine={false} />
+        <Tooltip content={<ChartTooltip external={activeBar} />} isAnimationActive={false} />
+      </BarChart>
+    </ResponsiveContainer>
   );
+
+  return isNoData
+    ? stubChart
+    : workChart;
 }

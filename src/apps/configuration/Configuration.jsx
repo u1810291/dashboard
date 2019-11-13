@@ -6,31 +6,27 @@ import Countries from 'fragments/configuration/countries';
 import Logo from 'fragments/configuration/logo';
 import { VerificationSteps } from 'fragments/configuration/verification-steps';
 import BiometricStep from 'fragments/configuration/verification-steps/biometric-steps';
+import { GdprSettings } from 'fragments/configuration/gdpr-settings';
 import React, { useEffect, useState } from 'react';
-import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage } from 'react-icons/fi';
+import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCountries } from 'state/countries';
+import { getCountries } from 'state/countries/countries.actions';
 import { saveConfiguration } from 'state/merchant/merchant.actions';
 import { AVAILABLE_DOCUMENT_TYPES, COLOR_PRESETS } from 'state/merchant/merchant.model';
 import CSS from './Configuration.module.scss';
 
 export default function Configuration() {
-  const { token } = useSelector(({ auth }) => auth);
   const configurations = useSelector(({ merchant }) => merchant.configurations);
   const { countries, isLoading } = useSelector((state) => state.countries);
   const [active, setActive] = useState(0);
   const dispatch = useDispatch();
 
-  const updateConfiguration = (settings) => {
-    dispatch(saveConfiguration(token, settings));
-  };
+  const updateConfiguration = (settings) => dispatch(saveConfiguration(settings));
 
   useEffect(() => {
-    dispatch(
-      getCountries(token),
-    );
-  }, [token, countries.length, dispatch]);
+    dispatch(getCountries());
+  }, [countries.length, dispatch]);
 
   const flowSteps = [
     {
@@ -77,6 +73,11 @@ export default function Configuration() {
         supportedCountries={configurations.supportedCountries}
         isLoading={isLoading}
       />,
+    },
+    {
+      title: 'Product.configuration.gdpr',
+      icon: <FiTrash />,
+      body: <GdprSettings />,
     },
   ];
 

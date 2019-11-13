@@ -1,8 +1,5 @@
-import {
-  YEAR_MONTH_FORMATTER,
-  YEAR_MONTH_SHORT_FORMATTER,
-} from 'state/utils';
-import { toPairs } from 'lodash';
+import { YearMonthFormatter, YearMonthShortFormatter } from 'lib/date';
+import { fromPairs, toPairs } from 'lodash';
 
 const mapIdentityByMonth = (identity) => [
   identity.dateCreated.substring(0, 7),
@@ -31,10 +28,10 @@ export function computeMonthlyStatisticsForIdentities(identities) {
     .map(([yearMonth, value]) => ({
       ...value,
       value: value.all,
-      label: YEAR_MONTH_SHORT_FORMATTER.format(
+      label: YearMonthShortFormatter.format(
         new Date(yearMonth.split('-')[0], Number(yearMonth.split('-')[1]) - 1),
       ),
-      tooltipHeader: YEAR_MONTH_FORMATTER.format(
+      tooltipHeader: YearMonthFormatter.format(
         new Date(yearMonth.split('-')[0], Number(yearMonth.split('-')[1]) - 1),
       ),
     }));
@@ -48,7 +45,33 @@ export const buildInitialMonthlyIdentities = (numberOfMonths) => [...Array(numbe
     d.setMonth(d.getMonth() - monthIdx);
     return {
       value: 0,
-      label: YEAR_MONTH_SHORT_FORMATTER.format(d),
-      tooltipHeader: YEAR_MONTH_FORMATTER.format(d),
+      label: YearMonthShortFormatter.format(d),
+      tooltipHeader: YearMonthFormatter.format(d),
     };
   });
+
+// FOR GOVCHECK DATA:
+// turns `data: {key: value, ...}` to `data: {key: {value: value}, ...}`
+// as we already have for document reading step
+export function normalizeCURPData(identity) {
+  if (!identity._embedded || !identity._embedded.verification) return identity;
+  return {
+    ...identity,
+    _embedded: {
+      ...identity._embedded,
+      verification: {
+        ...identity._embedded.verification,
+        documents: identity._embedded.verification.documents.map((doc) => ({
+          ...doc,
+          steps: doc.steps.map((step) => ({
+            ...step,
+            data:
+              step.data && step.id === 'mexican-curp-validation'
+                ? fromPairs(toPairs(step.data).map(([key, value]) => [key, { value }]))
+                : step.data,
+          })),
+        })),
+      },
+    },
+  };
+}

@@ -5,6 +5,7 @@
   animation: sk-scaleout 1s infinite ease-in-out;
   animation-delay: -0.5s;
   display: inline-block;
+  margin: 0 auto;
 
   &:global(.spinner-small) {
     width: 15px;
