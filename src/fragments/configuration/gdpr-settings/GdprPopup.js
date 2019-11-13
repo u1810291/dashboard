@@ -29,13 +29,13 @@ export function SetupDialog({ openDialog, handleCloseDialog }) {
 
   function handleIntervalChange(e) {
     const value = parseInt(e.target.value, 10) || '';
-    if (checkInterval(value) || value === '') {
+    if (checkInterval(value, DAYS_RANGE.from, DAYS_RANGE.to) || value === '') {
       setPeriod(value);
     }
   }
 
   async function submitCloseDialog() {
-    if (checkInterval(period)) {
+    if (checkInterval(period, DAYS_RANGE.from, DAYS_RANGE.to)) {
       await dispatch(
         saveConfiguration({ policyInterval: toIsoPeriod(period) }),
       );
