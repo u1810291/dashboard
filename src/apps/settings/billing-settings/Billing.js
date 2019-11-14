@@ -155,7 +155,7 @@ export default function Billing() {
                       <FormattedMessage
                         id="Billing.form.cancelPlan"
                         values={{
-                          planName: planDetails.name,
+                          planName: currentPlan.name,
                           date: moment(planDetails.invoiceAt).format('DD MMMM YYYY'),
                         }}
                       />
