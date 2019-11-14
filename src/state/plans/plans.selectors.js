@@ -18,9 +18,13 @@ export function selectCurrentPlanId({ plans }) {
 }
 
 export function selectCurrentPlan(state) {
-  const id = selectCurrentPlanId(state);
+  const plan = state.plans.planDetails;
+  if (!plan) {
+    return null;
+  }
+
   const rows = selectPlanList(state);
-  return rows.find((item) => item._id === id);
+  return rows.find((item) => item._id === plan.plan);
 }
 
 export function selectProviders({ plans }) {
