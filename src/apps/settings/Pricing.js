@@ -7,7 +7,7 @@ import { Feedback } from 'fragments/info/feedback';
 import { contactProperties, hubspotEvents, requestApi, showWidget, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
 import { trackEvent } from 'lib/mixpanel';
 import { pick } from 'lodash';
-import { PayAsYouGoId } from 'models/Plan.model';
+import { BlockedPlans } from 'models/Plan.model';
 import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,8 +24,9 @@ export default function Pricing() {
   const providers = useSelector(selectProviders);
   const currentPlanId = useSelector(selectCurrentPlanId);
 
-  const regularPlans = planList.filter((plan) => plan._id !== PayAsYouGoId && !plan.isCustom);
-  const customPlans = planList.filter((plan) => plan.isCustom);
+  const nonblockedList = planList.filter((item) => !BlockedPlans.includes(item._id));
+  const regularPlans = nonblockedList.filter((plan) => !plan.isCustom);
+  const customPlans = nonblockedList.filter((plan) => plan.isCustom);
 
   useEffect(() => {
     dispatch(getPlans());
