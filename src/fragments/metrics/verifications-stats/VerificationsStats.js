@@ -1,9 +1,9 @@
+import { Box } from '@material-ui/core';
 import Card from 'components/card';
-import { ChartBar } from 'components/chart-bar/chart-bar';
-import { ChartTooltip } from 'components/chart-tooltip/ChartTooltip';
+import Spinner from 'components/spinner';
+import React from 'react';
 import { ChartHorizontal } from 'fragments/metrics/chart-horizontal/ChartHorizontal';
-import React, { useState } from 'react';
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
+import { ChartVertical } from '../chart-vertical/ChartVertical';
 import CSS from './VerificationsStats.module.scss';
 
 /**
@@ -13,38 +13,22 @@ import CSS from './VerificationsStats.module.scss';
  *   tooltip?: string
  * }
  */
-export default function VerificationsStats({ data, title, layout = 'horizontal' }) {
-  const [activeBar, setActiveBar] = useState(null);
-
-  function handleEnter(payload) {
-    setActiveBar(payload);
-  }
-
-  function handleOut() {
-    setActiveBar(null);
-  }
+export default function VerificationsStats({ data, title, isLoading, isLoaded, stub, layout = 'horizontal' }) {
+  const chart = layout === 'horizontal'
+    ? <ChartHorizontal data={data} stub={stub} />
+    : <ChartVertical data={data} stub={stub} />;
 
   return (
     <div>
       <div className={CSS.title}>{title}</div>
-      <Card>
-        {layout === 'horizontal' ? (
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={data} className="custom-tooltip">
-              <Bar
-                dataKey="value"
-                fill="#5c75ff"
-                onMouseEnter={handleEnter}
-                onMouseLeave={handleOut}
-                shape={<ChartBar />}
-              />
-              <XAxis dataKey="label" axisLine={false} tickLine={false} />
-              <Tooltip content={<ChartTooltip external={activeBar} />} isAnimationActive={false} />
-            </BarChart>
-          </ResponsiveContainer>
-        ) : (
-          <ChartHorizontal data={data} />
-        )}
+      <Card className={CSS.card}>
+        {!isLoaded || isLoading
+          ? (
+            <Box minHeight={200} display="flex" alignItems="center">
+              <Spinner size="large" />
+            </Box>
+          )
+          : chart}
       </Card>
     </div>
   );

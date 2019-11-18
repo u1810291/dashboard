@@ -1,0 +1,23 @@
+
+.root {
+  min-height: 200px;
+  position: relative;
+}
+
+.value {
+  font-weight: bold;
+}
+
+.bar {
+  width: 0;
+  height: 1.75rem;
+  background-color: var(--mgi-theme-palette-violet);
+  border-radius: 0 var(--mgi-theme-border-radius) var(--mgi-theme-border-radius) 0;
+}
+
+.noDataLabel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

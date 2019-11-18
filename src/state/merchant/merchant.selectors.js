@@ -1,4 +1,5 @@
 import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
+import { fromIsoPeriod } from 'lib/date';
 
 export function selectIsOwner({ merchant, auth }) {
   if (!merchant.collaborators) {
@@ -29,4 +30,12 @@ export function selectShouldPassOnboarding({ merchant }) {
     // TODO @dkchv: don't work, add loading field to store
     false,
   ];
+}
+
+export function selectMerchantName({ merchant }) {
+  return merchant.displayName;
+}
+
+export function selectPolicyInterval({ merchant }) {
+  return fromIsoPeriod(merchant.configurations.policyInterval);
 }

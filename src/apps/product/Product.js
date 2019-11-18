@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { get, last } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMerchantApps } from 'state/merchant/merchant.actions';
-import { subscribeToWebhook, getWebhooks, deleteWebhook } from 'state/webhooks';
-import useMerchantBilling from 'hooks/useMerchantBilling';
+import { subscribeToWebhook, getWebhooks, deleteWebhook } from 'state/webhooks/webhooks.actions';
 import { Content, Tab, Items } from 'components';
 import Integration from 'apps/integration';
 import { Configuration, MatiButtonAside } from 'apps/configuration';
@@ -15,40 +14,37 @@ import CompanyBar from './CompanyBar';
 
 export default function Product() {
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.auth.token);
   const { clientId, clientSecret } = useSelector(
     (s) => last(s.merchant.apps) || {},
   );
-  const { hasProvider } = useMerchantBilling();
   const webhook = useSelector((s) => last(s.webhooks.webhooks[clientId]) || {});
   const setWebhook = useCallback(
     async (url, secret) => {
       if (webhook.id) {
-        await dispatch(deleteWebhook(token, clientId, webhook.id));
+        await dispatch(deleteWebhook(clientId, webhook.id));
       }
-      await dispatch(subscribeToWebhook(token, clientId, { url, secret }));
-      return dispatch(getWebhooks(token, clientId));
+      await dispatch(subscribeToWebhook(clientId, { url, secret }));
+      return dispatch(getWebhooks(clientId));
     },
-    [dispatch, token, clientId, webhook.id],
+    [dispatch, clientId, webhook.id],
   );
   const removeWebhook = useCallback(
     async () => {
-      await dispatch(deleteWebhook(token, clientId, webhook.id));
-      return dispatch(getWebhooks(token, clientId));
+      await dispatch(deleteWebhook(clientId, webhook.id));
+      return dispatch(getWebhooks(clientId));
     },
-    [dispatch, token, clientId, webhook.id],
+    [dispatch, clientId, webhook.id],
   );
+
   useEffect(() => {
-    dispatch(getMerchantApps(token));
-  }, [dispatch, token]);
-  useEffect(
-    () => {
-      if (clientId) {
-        dispatch(getWebhooks(token, clientId));
-      }
-    },
-    [dispatch, token, clientId],
-  );
+    dispatch(getMerchantApps());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (clientId) {
+      dispatch(getWebhooks(clientId));
+    }
+  }, [dispatch, clientId]);
 
   const companyName = useSelector((state) => get(state, 'merchant.configurations.dashboard.info.organization'),
   );
@@ -91,7 +87,6 @@ export default function Product() {
             contents={[
               <Configuration />,
               <Integration
-                hasProvider={hasProvider}
                 application={{ clientId, clientSecret }}
                 webhook={webhook}
                 setWebhook={setWebhook}

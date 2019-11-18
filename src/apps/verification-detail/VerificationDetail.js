@@ -13,9 +13,9 @@ import {
   getIdentityWithNestedData,
   patchDocument,
   patchIdentity,
-} from 'state/identities';
-import { getCountries } from 'state/countries';
-import { sendWebhook } from 'state/webhooks';
+} from 'state/identities/identities.actions';
+import { getCountries } from 'state/countries/countries.actions';
+import { sendWebhook } from 'state/webhooks/webhooks.actions';
 import { Content } from 'components/application-box';
 import Items from 'components/items';
 import Click from 'components/click';
@@ -46,9 +46,9 @@ function formatId(id = '') {
   return id.slice(-6);
 }
 
-async function handleDeleteIdentity(dispatch, history, token, id) {
+async function handleDeleteIdentity(dispatch, history, id) {
   await confirm(<FormattedMessage id="verificationModal.delete.confirm" />);
-  await dispatch(deleteIdentity(token, id));
+  await dispatch(deleteIdentity(id));
   history.push('/identities');
 }
 
@@ -56,14 +56,14 @@ function openWebhookModal(identity) {
   createOverlay(<VerificationWebhookModal webhook={identity} onClose={closeOverlay} />);
 }
 
-async function handleSendWebhook(dispatch, token, id) {
+async function handleSendWebhook(dispatch, id) {
   await confirmStyled({
     header: <FormattedMessage id="verificationWebhookModal.header" />,
     message: <FormattedMessage id="verificationWebhookModal.body" />,
     confirmText: <FormattedMessage id="verificationWebhookModal.confirm" />,
     cancelText: <FormattedMessage id="verificationWebhookModal.cancel" />,
   });
-  await dispatch(sendWebhook(token, id));
+  await dispatch(sendWebhook(id));
 }
 
 function formatDateBeforeSend(text) {
@@ -71,11 +71,11 @@ function formatDateBeforeSend(text) {
 }
 
 function onSubmit(...args) {
-  const [dispatch, token, identityId, documentId, key, value] = args;
+  const [dispatch, identityId, documentId, key, value] = args;
   const valueToSend = {
     [key]: { value: formatDateBeforeSend(value) },
   };
-  dispatch(patchDocument(token, identityId, documentId, valueToSend));
+  dispatch(patchDocument(identityId, documentId, valueToSend));
 }
 
 const Header = ({
@@ -109,7 +109,6 @@ Header.propTypes = {
 const findDocumentId = (type, sources) => get(sources.find((doc) => doc.type === type), 'id');
 
 const VerificationDetail = ({
-  token,
   countries,
   identities: {
     instances,
@@ -122,13 +121,13 @@ const VerificationDetail = ({
   },
 }) => {
   useEffect(() => {
-    dispatch(getCountries(token));
+    dispatch(getCountries());
     if (demo) {
-      dispatch(getDemoVerification(token, id));
+      dispatch(getDemoVerification(id));
     } else {
-      dispatch(getIdentityWithNestedData(token, id));
+      dispatch(getIdentityWithNestedData(id));
     }
-  }, [dispatch, token, id, demo]);
+  }, [dispatch, id, demo]);
   const identity = instances[id];
   const verification = get(identity, '_embedded.verification');
   if (!identity || !(verification)) {
@@ -173,7 +172,6 @@ const VerificationDetail = ({
                   onSubmit={onSubmit.bind(
                     null,
                     dispatch,
-                    token,
                     identity.id,
                     findDocumentId(doc.type, documentsSources),
                   )}
@@ -196,7 +194,7 @@ const VerificationDetail = ({
                   status={identity.status}
                   onSelect={async (status) => {
                     identity.status = status;
-                    await dispatch(patchIdentity(token, identity.id, {
+                    await dispatch(patchIdentity(identity.id, {
                       status: identity.status,
                     }));
                   }}
@@ -204,7 +202,7 @@ const VerificationDetail = ({
                 )}
 
               {/* Send Webhook */}
-              <Click onClick={() => handleSendWebhook(dispatch, token, id)}>
+              <Click onClick={() => handleSendWebhook(dispatch, id)}>
                 <FiUpload />
                 <FormattedMessage id="verificationDetails.tools.sendWebhook" />
               </Click>
@@ -224,12 +222,7 @@ const VerificationDetail = ({
               <Click
                 className="button"
                 shadow={1}
-                onClick={() => handleDeleteIdentity(
-                  dispatch,
-                  history,
-                  token,
-                  id,
-                )}
+                onClick={() => handleDeleteIdentity(dispatch, history, id)}
               >
                 {isDeleting ? (
                   <Spinner />
@@ -254,11 +247,9 @@ VerificationDetail.propTypes = {
   identities: PropTypes.shape({
     instances: PropTypes.shape({}),
   }).isRequired,
-  token: PropTypes.string.isRequired,
 };
 
 export default connect((state) => ({
-  token: state.auth.token,
   identities: state.identities,
   countries: state.countries.countries,
   deletingIdentities: state.identities.deletingIdentities,

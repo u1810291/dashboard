@@ -4,7 +4,7 @@ import { Grid, Button, Typography } from '@material-ui/core';
 import { useIntl } from 'react-intl';
 import { Formik, Field, Form } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { passwordRecovery } from 'state/auth';
+import { passwordRecovery } from 'state/auth/auth.actions';
 import { useDispatch } from 'react-redux';
 
 const validateForm = (values) => {
