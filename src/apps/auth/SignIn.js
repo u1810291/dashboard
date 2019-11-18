@@ -50,18 +50,6 @@ export default function SignIn() {
             {intl.formatMessage({ id: 'signin.title' })}
           </Typography>
         </Grid>
-
-        <Grid item>
-          <Typography color="textSecondary" display="inline">
-            {intl.formatMessage({ id: 'signin.subtitle' })}
-            {' '}
-          </Typography>
-          <Typography display="inline">
-            <Link to="/auth/signup">
-              {intl.formatMessage({ id: 'signin.subtitle.link' })}
-            </Link>
-          </Typography>
-        </Grid>
       </Grid>
       <Grid item>
         <Formik
