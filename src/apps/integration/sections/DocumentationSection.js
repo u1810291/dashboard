@@ -36,7 +36,6 @@ export default function DocumentationSection({ clientId = '', clientSecret = '' 
             <code>{clientId}</code>
           </CopyToClipboard>
         </Items>
-        3
         <Items flow="row">
           <H2 weight="2">Client Secret</H2>
           <CopyToClipboard text={clientSecret}>
