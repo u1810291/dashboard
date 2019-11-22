@@ -37,6 +37,10 @@ export default createReducer(initialState, {
     return {
       ...state,
       ...payload.data,
+      configurations: {
+        ...state.configurations,
+        ...payload.data.configurations,
+      },
     };
   },
 
