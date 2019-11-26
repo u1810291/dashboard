@@ -62,7 +62,7 @@ export function Dashboard() {
         <OwnerRoute path="/settings" component={Settings} />
         <Route path="/info" component={InfoPage} />
         <BlockedRoute>
-          <Route path="/identities/:id" component={VerificationDetail} />
+          <Route path="/identities/:id/:demoId?" component={VerificationDetail} />
           <Route exact path="/identities" component={VerificationHistory} />
           <OwnerRoute path="/metrics" component={Metrics} />
           <OwnerRoute exact path="/" component={Product} />
