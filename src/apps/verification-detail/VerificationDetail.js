@@ -1,45 +1,37 @@
-import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { titleize } from 'inflection';
-import { connect } from 'react-redux';
-import { get, isEmpty } from 'lodash';
-import Card from 'components/card';
-import React, { useEffect } from 'react';
-import moment from 'moment';
-
-import {
-  deleteIdentity,
-  getDemoVerification,
-  getIdentityWithNestedData,
-  patchDocument,
-  patchIdentity,
-} from 'state/identities/identities.actions';
-import { getCountries } from 'state/countries/countries.actions';
-import { sendWebhook } from 'state/webhooks/webhooks.actions';
+import { Box } from '@material-ui/core';
+import classNames from 'classnames';
 import { Content } from 'components/application-box';
-import Items from 'components/items';
+import Card from 'components/card';
 import Click from 'components/click';
 import confirm from 'components/confirm';
 import confirmStyled from 'components/confirm/ConfirmStyled';
-import Text, { HR } from 'components/text';
-import classNames from 'classnames';
-import { createOverlay, closeOverlay } from 'components/overlay';
+import Items from 'components/items';
+import { closeOverlay, createOverlay } from 'components/overlay';
 import PageContentLayout from 'components/page-content-layout';
+import Spinner from 'components/spinner';
+import Text, { HR } from 'components/text';
 import DocumentStep from 'fragments/verifications/document-step';
 import LivenessStep from 'fragments/verifications/liveness-step';
+import MatiChecks from 'fragments/verifications/mati-checks';
+import StatesExplanation from 'fragments/verifications/states-explanation';
 import VerificationMetadata from 'fragments/verifications/verification-metadata';
 import VerificationWebhookModal from 'fragments/verifications/verification-webhook-modal';
-import MatiChecks from 'fragments/verifications/mati-checks';
-import Spinner from 'components/spinner';
-import { FiUpload, FiCode } from 'react-icons/fi';
-import StatesExplanation from 'fragments/verifications/states-explanation';
-import { ifDateFormat, formatISODate } from 'lib/string';
-import {
-  Box,
-} from '@material-ui/core';
+import { titleize } from 'inflection';
+import { formatISODate, ifDateFormat } from 'lib/string';
+import { get, isEmpty } from 'lodash';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { FiCode, FiUpload } from 'react-icons/fi';
+import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getCountries } from 'state/countries/countries.actions';
+import { deleteIdentity, getDemoVerification, getIdentityWithNestedData, patchDocument, patchIdentity } from 'state/identities/identities.actions';
+import { sendWebhook } from 'state/webhooks/webhooks.actions';
+import StatusSelect from '../../fragments/verifications/status-select/StatusSelect';
 
 import { ReactComponent as DeleteIcon } from './delete-icon.svg';
-import StatusSelect from '../../fragments/verifications/status-select/StatusSelect';
 import CSS from './VerificationDetail.module.scss';
 
 function formatId(id = '') {
@@ -116,19 +108,20 @@ const VerificationDetail = ({
   dispatch,
   history,
   deletingIdentities,
-  match: {
-    params: { id, demo },
-  },
 }) => {
+  const { id, demoId } = useParams();
+  const identityId = id === 'demo' ? demoId : id;
+
   useEffect(() => {
     dispatch(getCountries());
-    if (demo) {
-      dispatch(getDemoVerification(id));
+    if (demoId) {
+      dispatch(getDemoVerification(demoId));
     } else {
       dispatch(getIdentityWithNestedData(id));
     }
-  }, [dispatch, id, demo]);
-  const identity = instances[id];
+  }, [dispatch, id, demoId]);
+
+  const identity = instances[identityId];
   const verification = get(identity, '_embedded.verification');
   if (!identity || !(verification)) {
     return null;
@@ -219,18 +212,20 @@ const VerificationDetail = ({
               </Click>
 
               {/* Delete Verification */}
-              <Click
-                className="button"
-                shadow={1}
-                onClick={() => handleDeleteIdentity(dispatch, history, id)}
-              >
-                {isDeleting ? (
-                  <Spinner />
-                ) : (
-                  <DeleteIcon className="svg-black" />
-                )}
-                <FormattedMessage id="verificationModal.delete" />
-              </Click>
+              {!demoId && (
+                <Click
+                  className="button"
+                  shadow={1}
+                  onClick={() => handleDeleteIdentity(dispatch, history, id)}
+                >
+                  {isDeleting ? (
+                    <Spinner />
+                  ) : (
+                    <DeleteIcon className="svg-black" />
+                  )}
+                  <FormattedMessage id="verificationModal.delete" />
+                </Click>
+              )}
               <HR width="0" />
               <StatesExplanation />
             </Items>
