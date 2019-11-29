@@ -1,1 +1,1 @@
-export { default } from './LivenessStep';
+export * from './LivenessStep';

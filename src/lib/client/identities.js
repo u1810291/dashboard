@@ -7,12 +7,6 @@ export function getIdentity(token, id) {
   });
 }
 
-export function getDemoVerification(token, id) {
-  return http.get(`/v1/identities/demo/${id}`, {
-    headers: { ...getAuthHeader(token) },
-  });
-}
-
 function paramsSerializer(params) {
   // return qs.stringify(params, {arrayFormat: 'comma'})
   const searchParams = new URLSearchParams();
@@ -76,12 +70,13 @@ async function getDocumentPictures(token, id) {
 
 async function getDocumentsFullData(token, id) {
   return getDocuments(token, id).then(({ data }) => Promise.all(
-    data.map(async (document) => ({
-      ...document,
-      pictures: await getDocumentPictures(token, document.id)
-        .then((result) => result.data),
+    data.map(async (document) => {
+      const payload = await getDocumentPictures(token, document.id);
+      return {
+        ...document,
+        pictures: payload.data,
+      };
     })),
-  ),
   );
 }
 
@@ -120,12 +115,13 @@ export function getIdentityWithNestedData(token, id) {
 }
 
 export function getVerificationData(token, id) {
-  return getDemoVerification(token, id)
-    .then(async ({ data }) => ({
-      id,
-      ...data,
-      originalIdentity: data,
-    }));
+  return http.get(`/v1/identities/demo/${id}`, {
+    headers: { ...getAuthHeader(token) },
+  }).then(async ({ data }) => ({
+    id,
+    ...data,
+    originalIdentity: data,
+  }));
 }
 
 export function patchDocument(token, id, fields) {

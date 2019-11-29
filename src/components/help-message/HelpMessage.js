@@ -1,30 +1,20 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import classNames from 'classnames';
-import { useIntl } from 'react-intl';
-import { isEmpty } from 'lodash';
-
 import { Card } from 'components';
 import Text, { H2 } from 'components/text';
-
-import MessageTable from './MessageTable';
-import IntlMessage from './IntlMessage';
+import React from 'react';
+import { useIntl } from 'react-intl';
 import { cardBox } from './HelpMessage.module.scss';
+import IntlMessage from './IntlMessage';
+import { MessageTable } from './MessageTable';
 
 const defaultNameSpace = 'fragments.verifications.help-messages';
 
-const HelpMessage = ({
-  id,
-  className,
-  namespace = defaultNameSpace,
-  data,
-}) => {
+const HelpMessage = ({ id }) => {
   const intl = useIntl();
-  const langData = isEmpty(data) ? intl.messages : data;
-  const im = new IntlMessage(namespace, id, langData);
+  const im = new IntlMessage(defaultNameSpace, id, intl.messages);
 
   return (
-    <Card className={classNames(id, cardBox, className)}>
+    <Card className={classNames(id, cardBox)}>
       <H2>
         { intl.formatMessage({ id: im.getNode('title') }) }
       </H2>
@@ -37,14 +27,3 @@ const HelpMessage = ({
 };
 
 export default HelpMessage;
-
-HelpMessage.propTypes = {
-  data: PropTypes.shape(),
-  id: PropTypes.string.isRequired,
-  namespace: PropTypes.string,
-};
-
-HelpMessage.defaultProps = {
-  data: {},
-  namespace: defaultNameSpace,
-};

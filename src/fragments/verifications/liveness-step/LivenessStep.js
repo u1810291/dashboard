@@ -1,51 +1,20 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { get } from 'lodash';
-import { useIntl } from 'react-intl';
-
-import {
-  Card,
-  HelpMessage,
-  QuestionMark,
-} from 'components';
-import {
-  Box,
-} from '@material-ui/core';
-import Text, { HR } from 'components/text';
+import { Box } from '@material-ui/core';
+import { Card, HelpMessage, QuestionMark } from 'components';
 import { createOverlay } from 'components/overlay';
-
+import Text, { HR } from 'components/text';
+import React from 'react';
+import { useIntl } from 'react-intl';
+import { BiometricSection } from './BiometricSection';
 import config from './config';
 import CSS from './LivenessStep.module.scss';
-import { ReactComponent as Placeholder } from './placeholder.svg';
-
-const LivenessVideo = ({ url }) => (url ? (
-  <video
-    autoPlay
-    muted
-    onMouseOver={({ target }) => {
-      target.loop = true;
-      target.play();
-    }}
-    onMouseLeave={({ target }) => {
-      target.loop = false;
-      target.pause();
-    }}
-    onFocus={() => {}}
-    src={url}
-    className={CSS.video}
-  />
-) : <Placeholder />);
+import { LivenessVideo } from './LivenessVideo';
 
 const showHelpMessage = (id) => createOverlay(<HelpMessage id={id} />);
 
-const Checks = ({
-  intl,
-  color = 'gray',
-  children,
-}) => (
+const Checks = ({ intl, color = 'gray', children }) => (
   <Box display="flex">
     <Box whiteSpace="nowrap" flex="0 1 190px">
-      { intl.formatMessage({ id: 'LivenessStep.Checks.status.title' }) }
+      {intl.formatMessage({ id: 'LivenessStep.Checks.status.title' })}
       <QuestionMark onClick={() => showHelpMessage('liveness')} />
     </Box>
     <Box flex="1 1 auto">
@@ -56,33 +25,9 @@ const Checks = ({
   </Box>
 );
 
-const BiometricSection = ({
-  title,
-  picture,
-  content,
-}) => (
-  <Box width="100%" display="flex">
-    <Box flex="1 1 auto">
-      <Box
-        fontSize={16}
-        lineHeight={2}
-      >
-        {title}
-      </Box>
-      {content && (
-        <Box pr={1} ml={1}>{content}</Box>
-      )}
-    </Box>
-    <Box flex="0 0 230px">
-      {picture}
-    </Box>
-  </Box>
-);
-
-const LivenessStep = ({ status, step }) => {
+export function LivenessStep({ liveness }) {
   const intl = useIntl();
-  const videoUrl = get(step, 'data.videoUrl');
-  const selfieUrl = get(step, 'data.selfiePhotoUrl') || get(step, 'data.selfieUrl');
+  const { videoUrl, selfieUrl, status } = liveness;
 
   return (
     <Card padding={4} gap={1}>
@@ -90,7 +35,7 @@ const LivenessStep = ({ status, step }) => {
         {intl.formatMessage({ id: 'LivenessStep.Checks.status.title' })}
       </Text>
       <HR />
-      { videoUrl && (
+      {videoUrl && (
         <BiometricSection
           title={intl.formatMessage({ id: 'LivenessStep.Checks.video.title' })}
           picture={<LivenessVideo url={videoUrl} />}
@@ -101,9 +46,9 @@ const LivenessStep = ({ status, step }) => {
           )}
         />
       )}
-      { selfieUrl && (
+      {selfieUrl && (
         <>
-          { videoUrl && <HR /> }
+          {videoUrl && <HR />}
           <BiometricSection
             title={!videoUrl
               ? intl.formatMessage({ id: 'LivenessStep.Checks.selfie.title' })
@@ -114,34 +59,4 @@ const LivenessStep = ({ status, step }) => {
       )}
     </Card>
   );
-};
-
-/**
- * Obtain a named status by code from step
- * @param {object} step
- */
-const getStatusByCode = (step) => Object.entries({
-  skipped: ({ status }) => status === 0,
-  inProgress: ({ status }) => status === 100,
-  error: ({ status, error }) => status === 200 && error,
-  success: ({ status, error }) => status === 200 && !error,
-}).filter(([, func]) => func(step))[0][0];
-
-export default ({
-  step = {},
-  status = getStatusByCode(step),
-  info = {},
-}) => LivenessStep({ status, step, info });
-
-LivenessVideo.propTypes = {
-  url: PropTypes.string.isRequired,
-};
-
-LivenessStep.propTypes = {
-  status: PropTypes.string.isRequired,
-  step: PropTypes.shape({
-    data: PropTypes.shape({
-      videoUrl: PropTypes.string,
-    }),
-  }).isRequired,
-};
+}
