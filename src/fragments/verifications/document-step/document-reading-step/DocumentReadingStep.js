@@ -37,7 +37,7 @@ function Success({ step, source, onSubmit, isEditable }) {
           return [
             <div className="text-nowrap" key={`${label}-label`}>
               <FormattedMessage
-                id={`DocumentReadingStep.fields.${label}`}
+                id={`identity.field.${label}`}
                 defaultMessage={humanize(underscore(label))}
               />
             </div>,

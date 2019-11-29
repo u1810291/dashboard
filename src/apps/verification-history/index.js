@@ -1,28 +1,26 @@
+import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
 import { Content } from 'components/application-box';
-import Button from 'components/button';
 import Card from 'components/card';
 import confirm from 'components/confirm';
 import DataTable from 'components/data-table';
-import { ReactComponent as DownloadIcon } from 'components/icons/download.svg';
-import { ReactComponent as LoaderIcon } from 'components/icons/loader.svg';
 import { DebounceInput } from 'components/inputs';
 import Items from 'components/items';
 import PageContentLayout from 'components/page-content-layout';
 import Pagination from 'components/pagination';
-import Spinner from 'components/spinner';
 import Text, { H2, HR } from 'components/text';
-import Status from 'fragments/verifications/status-label';
+import { StatusLabel } from 'fragments/verifications/status-label/StatusLabel';
+import { downloadBlob } from 'lib/file';
 import { titleCase } from 'lib/string';
 import { compact, get, isEmpty, mapValues, pickBy } from 'lodash';
 import fp from 'lodash/fp';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FiDownload, FiLoader, FiTrash2 } from 'react-icons/fi';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { deleteIdentity, getIdentities, getIdentitiesCount, getIdentitiesFile } from 'state/identities/identities.actions';
-import { ReactComponent as DeleteIcon } from '../verification-detail/delete-icon.svg';
 import { ReactComponent as DrivingLicense } from './driving-license.svg';
 import { ExampleCard } from './ExampleCard';
 import FiltersForm from './filters-form';
@@ -122,7 +120,7 @@ class VerificationHistory extends React.Component {
       {
         size: 2,
         align: 'left',
-        label: <FormattedMessage id="identities.fields.id" />,
+        label: <FormattedMessage id="identity.field.id" />,
         content: ({ identity }) => (
           <div>
             #
@@ -132,18 +130,18 @@ class VerificationHistory extends React.Component {
       },
       {
         size: 4,
-        label: <FormattedMessage id="identities.fields.fullName" />,
+        label: <FormattedMessage id="identity.field.fullName" />,
         content: ({ identity }) => (!isEmpty(identity.fullName)
           ? titleCase(identity.fullName)
           : (
             <Text color="gray">
-              <FormattedMessage id="identities.nameNotFound" />
+              <FormattedMessage id="identity.nameNotFound" />
             </Text>
           )),
       },
       {
         size: 3,
-        label: <FormattedMessage id="identities.fields.date" />,
+        label: <FormattedMessage id="identity.field.date" />,
         content: (identity) => moment.utc(identity.identity.dateCreated).format('MMM D, YYYY'),
       },
       {
@@ -162,7 +160,7 @@ class VerificationHistory extends React.Component {
               role="button"
               tabIndex="0"
             >
-              {isDeleting ? <Spinner /> : <DeleteIcon />}
+              {isDeleting ? <FiLoader /> : <FiTrash2 className={CSS.remove} />}
             </div>
           );
         },
@@ -170,11 +168,10 @@ class VerificationHistory extends React.Component {
     ];
     columns.splice(1, 0, {
       size: 3,
-      label: <FormattedMessage id="identities.fields.status" />,
+      label: <FormattedMessage id="identity.field.status" />,
       content: ({ identity }) => (
-        <Status
+        <StatusLabel
           status={identity.status}
-          coloredText
           className={classNames({ threedots: identity.status === 'pending' })}
         />
       ),
@@ -196,21 +193,15 @@ class VerificationHistory extends React.Component {
     );
   };
 
-  handleDownloadCSV = () => {
+  handleDownloadCSV = async () => {
     const params = pickBy(this.state.params, (item) => !isEmpty(item));
 
-    this.props.getIdentitiesFile({
+    const response = await this.props.getIdentitiesFile({
       ...params,
       format: 'csv',
-    }).then((response) => {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'mati-verifications.zip');
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
     });
+    const blob = new Blob([response.data]);
+    downloadBlob(blob, 'mati-verifications.zip');
   };
 
   onFilterChange = (params) => {
@@ -356,10 +347,12 @@ class VerificationHistory extends React.Component {
                   <span>{intl.formatMessage({ id: 'identities.title' })}</span>
                   <span className={CSS.titleCounter}>{` (${count || 0})`}</span>
                 </H2>
-                <Button onClick={this.handleDownloadCSV} className={CSS.button}>
-                  {isLoadingFile
-                    ? <LoaderIcon className={CSS.buttonIcon} />
-                    : <DownloadIcon className={CSS.buttonIcon} />}
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={this.handleDownloadCSV}
+                  startIcon={isLoadingFile ? <FiLoader /> : <FiDownload />}
+                >
                   {intl.formatMessage({ id: 'identities.download-all-csv' })}
                 </Button>
               </Items>

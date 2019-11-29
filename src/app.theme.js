@@ -28,6 +28,11 @@ export const AppTheme = createMuiTheme({
         },
       },
     },
+    MuiButton: {
+      startIcon: {
+        width: '1rem',
+      },
+    },
   },
   typography: {
     h1: {

@@ -1,6 +1,17 @@
-import moment from 'moment';
 import { titleize } from 'inflection';
 import { startCase } from 'lodash';
+import moment from 'moment';
+
+export const FieldTitlizedPatterns = [
+  'name',
+  'address',
+  'gender',
+  'nationality',
+];
+
+export const FieldDatePatterns = [
+  'date',
+];
 
 const INPUT_DATE_FORMATS = [moment.ISO_8601, 'YYYY', 'MMM, YYYY', 'MMM D, YYYY', 'DD/MM/YYYY'];
 const RE_NON_DIGIT = /\D/g;
@@ -26,20 +37,20 @@ export function formatDate(value) {
   }
 }
 
-export function formatValue(label, string) {
-  function checkLabel(name, keys) {
-    return keys.some((key) => name.toLowerCase().includes(key));
+function includesPattern(name, keys) {
+  return keys.some((key) => name.toLowerCase().includes(key));
+}
+
+export function formatValue(label, value) {
+  if (includesPattern(label, FieldTitlizedPatterns)) {
+    return titleize(value || '');
   }
 
-  if (checkLabel(label, ['name', 'address', 'gender', 'nationality'])) {
-    return titleize(string);
+  if (includesPattern(label, FieldDatePatterns)) {
+    return formatDate(value);
   }
 
-  if (checkLabel(label, ['date'])) {
-    return formatDate(string);
-  }
-
-  return string;
+  return value;
 }
 
 const parseDashboardFormat = (value) => moment.utc(value, 'MMM D, YYYY', true);

@@ -10,7 +10,7 @@ import Items from 'components/items';
 import classNames from 'classnames';
 import Text, { HR } from 'components/text';
 
-import SecurityCheckCollection from './security-check-collection';
+import { SecurityCheckCollection } from './security-check-collection';
 import DocumentReadingStep from './document-reading-step';
 import ZoomableImage from './zoomable-image';
 import MexicanCurpValidationStep from './mexican-curp-validation-step';
