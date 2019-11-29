@@ -1,20 +1,18 @@
-import PropTypes from 'prop-types';
-import 'react-dates/initialize';
-import 'react-dates/lib/css/_datepicker.css';
-import moment from 'moment';
-import React, { Component } from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
-import { isEmpty } from 'lodash';
-import { DateRangePicker } from 'react-dates';
-
+import { ReactComponent as IconClose } from 'assets/icon-close.svg';
 import Button from 'components/button';
-import Items from 'components/items';
 import Card from 'components/card';
 import CheckboxGroup from 'components/checkbox-group';
-import { ReactComponent as IconClose } from 'assets/icon-close.svg';
-
+import Items from 'components/items';
+import { isEmpty } from 'lodash';
+import { getIdentityStatusLabel, IdentityStatuses } from 'models/Identity.model';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { DateRangePicker } from 'react-dates';
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { ReactComponent as FilterIcon } from './filter.svg';
-
 import CSS from './filters-form.module.scss';
 
 class VerificationsFiltersForm extends Component {
@@ -49,16 +47,16 @@ class VerificationsFiltersForm extends Component {
     const { intl } = this.props;
     return [
       {
-        label: intl.formatMessage({ id: 'statuses.verified' }),
-        value: 'verified',
+        label: intl.formatMessage({ id: getIdentityStatusLabel(IdentityStatuses.verified) }),
+        value: IdentityStatuses.verified,
       },
       {
-        label: intl.formatMessage({ id: 'statuses.reviewNeeded' }),
-        value: 'reviewNeeded',
+        label: intl.formatMessage({ id: getIdentityStatusLabel(IdentityStatuses.reviewNeeded) }),
+        value: IdentityStatuses.reviewNeeded,
       },
       {
-        label: intl.formatMessage({ id: 'statuses.rejected' }),
-        value: 'rejected',
+        label: intl.formatMessage({ id: getIdentityStatusLabel(IdentityStatuses.rejected) }),
+        value: IdentityStatuses.rejected,
       },
     ];
   }
