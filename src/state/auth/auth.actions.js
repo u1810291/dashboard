@@ -1,7 +1,8 @@
 import * as api from 'lib/client/auth';
 import { pushEvent } from 'lib/gtm';
 import { hubspotEvents, requestApi, submitSignUpForm, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
-import * as Mixpanel from 'lib/mixpanel';
+import * as Mixpanel from 'lib/mixpanel/mixpanel';
+import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import { selectAuthToken } from 'state/auth/auth.selectors';
 import { createTypesSequence } from 'state/utils';
 
@@ -42,7 +43,7 @@ export const signUp = (userData) => async (dispatch) => {
     const payload = await api.signup({ email, password, firstName, lastName });
     dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload });
     Mixpanel.addUser({ ...payload.data.merchant, email });
-    Mixpanel.trackEvent('dash_signup');
+    Mixpanel.trackEvent(MixPanelEvents.AuthSingUp);
     submitSignUpForm(email);
     pushEvent({ event: 'Sign Up Success' });
     hubspotTrackEvent(hubspotEvents.signUp);

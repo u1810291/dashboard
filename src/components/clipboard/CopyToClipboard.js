@@ -1,32 +1,28 @@
+import { Box, IconButton } from '@material-ui/core';
 import React from 'react';
-import { Items, Click } from 'components';
-import { ReactComponent as Icon } from 'assets/copy-icon.v1.svg';
-import copyToClipboard from './copy-to-clipboard';
+import { FiCopy } from 'react-icons/fi';
+import { copyToClipboard } from './copy-to-clipboard';
+import { useStyles } from './CopyToClipboard.styles';
 
-export default function CopyToClipbboard({
-  children,
-  text,
-  disabled,
-  ...itemsProps
-}) {
+export function CopyToClipboard({ children, text, isOverlay = false }) {
+  const classes = useStyles();
+
   return (
-    <Items
-      autoColumns="max-content max-content"
-      align="center"
-      gap="1"
-      {...itemsProps}
-    >
-      {children}
-      {!disabled && (
-        <Click
-          shadow="0"
-          hoverShadow={false}
-          padding="0"
-          onClick={() => copyToClipboard(text)}
-        >
-          <Icon />
-        </Click>
+    <Box className={classes.root}>
+      <Box flexGrow="0" maxWidth="100%" width={isOverlay ? '100%' : 'auto'}>
+        {children}
+      </Box>
+      {text && (
+        <Box ml="0.5rem" flexGrow="0" className={isOverlay ? classes.overlayed : null}>
+          <IconButton
+            size="small"
+            color="primary"
+            onClick={() => copyToClipboard(text)}
+          >
+            <FiCopy />
+          </IconButton>
+        </Box>
       )}
-    </Items>
+    </Box>
   );
 }

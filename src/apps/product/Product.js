@@ -1,108 +1,61 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { get, last } from 'lodash';
-import { useSelector, useDispatch } from 'react-redux';
-import { getMerchantApps } from 'state/merchant/merchant.actions';
-import { subscribeToWebhook, getWebhooks, deleteWebhook } from 'state/webhooks/webhooks.actions';
-import { Content, Tab, Items } from 'components';
-import Integration from 'apps/integration';
+import { Box, Container, Grid } from '@material-ui/core';
 import { Configuration, MatiButtonAside } from 'apps/configuration';
-import { trackEvent } from 'lib/mixpanel';
+import { Integration } from 'apps/integration/Integration';
+import { ProductTabs } from 'apps/product/Product.model';
+import { Tab } from 'components';
 import LegalServices from 'fragments/product/legal-services';
-import Badge from './Badge';
+import { trackEvent } from 'lib/mixpanel/mixpanel';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMerchantApps } from 'state/merchant/merchant.actions';
+import { selectMerchantApps } from 'state/merchant/merchant.selectors';
+import { CompanyBar } from './CompanyBar';
 import Footer from './Footer';
-import CompanyBar from './CompanyBar';
 
-export default function Product() {
+export function Product() {
   const dispatch = useDispatch();
-  const { clientId, clientSecret } = useSelector(
-    (s) => last(s.merchant.apps) || {},
-  );
-  const webhook = useSelector((s) => last(s.webhooks.webhooks[clientId]) || {});
-  const setWebhook = useCallback(
-    async (url, secret) => {
-      if (webhook.id) {
-        await dispatch(deleteWebhook(clientId, webhook.id));
-      }
-      await dispatch(subscribeToWebhook(clientId, { url, secret }));
-      return dispatch(getWebhooks(clientId));
-    },
-    [dispatch, clientId, webhook.id],
-  );
-  const removeWebhook = useCallback(
-    async () => {
-      await dispatch(deleteWebhook(clientId, webhook.id));
-      return dispatch(getWebhooks(clientId));
-    },
-    [dispatch, clientId, webhook.id],
-  );
+  const [activeTabIndex, setActiveTab] = useState(0);
+  const { clientId, clientSecret } = useSelector(selectMerchantApps);
 
   useEffect(() => {
     dispatch(getMerchantApps());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (clientId) {
-      dispatch(getWebhooks(clientId));
+  const changeActiveTabHandler = (tabIndex) => {
+    const newTab = ProductTabs[tabIndex];
+    if (newTab.mixPanelEvent) {
+      trackEvent(newTab.mixPanelEvent);
     }
-  }, [dispatch, clientId]);
-
-  const companyName = useSelector((state) => get(state, 'merchant.configurations.dashboard.info.organization'),
-  );
-  const [activeTabIndex, changeActiveTab] = useState(0);
-
-  const tabs = [
-    {
-      tab: 'Product.tab.customization',
-    },
-    {
-      tab: 'Product.tab.integration',
-    },
-    {
-      tab: 'Product.LegalService.tab',
-      badge: <Badge label="Beta" />,
-    },
-  ];
-
-  const changeActiveTabHandler = (props) => {
-    if (tabs[props].tab.includes('integration')) {
-      trackEvent('merchant_clicked_integration_tab');
-    }
-    if (tabs[props].tab.includes('LegalService')) {
-      trackEvent('merchant_clicked_legal_services_tab');
-    }
-    changeActiveTab(props);
+    setActiveTab(tabIndex);
   };
 
-  return (
-    <>
-      <Content>
-        <Items flow="row">
-          <CompanyBar companyName={companyName} clientId={clientId} />
-          <Tab
-            withAside
-            padding={2}
-            active={activeTabIndex}
-            onClick={changeActiveTabHandler}
-            tabs={tabs}
-            contents={[
-              <Configuration />,
-              <Integration
-                application={{ clientId, clientSecret }}
-                webhook={webhook}
-                setWebhook={setWebhook}
-                removeWebhook={removeWebhook}
-              />,
-              <LegalServices />,
-            ]}
-            aside={[
-              <MatiButtonAside
-                goToComplianceSection={() => changeActiveTabHandler(2)}
-              />,
-            ]}
-          />
-        </Items>
-      </Content>
-      <Footer />
-    </>
-  );
+  return [
+    <Container key="content">
+      <Box p={2} mb={6}>
+        <Grid container spacing={2} direction="column">
+          <Grid item>
+            <CompanyBar clientId={clientId} />
+          </Grid>
+          <Grid item>
+            <Tab
+              withAside
+              padding={2}
+              active={activeTabIndex}
+              onClick={changeActiveTabHandler}
+              tabs={ProductTabs}
+              contents={[
+                <Configuration />,
+                <Integration clientId={clientId} clientSecret={clientSecret} />,
+                <LegalServices />,
+              ]}
+              aside={[
+                <MatiButtonAside goToComplianceSection={() => changeActiveTabHandler(2)} />,
+              ]}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+    </Container>,
+    <Footer key="footer" />,
+  ];
 }

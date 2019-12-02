@@ -1,9 +1,10 @@
 import classNames from 'classnames';
-import { Button, Icons, Items, Text } from 'components';
+import { Button, Items, Text } from 'components';
 import confirm from 'components/confirm';
 import { closeOverlay, createOverlay } from 'components/overlay';
 import { difference, without } from 'lodash';
 import React from 'react';
+import { FiTrash2, FiEdit2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import VerificationStepModal from '../verification-steps-modal';
 import CSS from './VerificationSteps.module.scss';
@@ -128,10 +129,10 @@ export function VerificationSteps({
               <Items flow="row" gap={1}>
                 <Items flow="column">
                   <Button buttonStyle="invisible">
-                    <Icons.Pencil className="svg-primary" onClick={() => onEditItem(index)} />
+                    <FiEdit2 color="color-primary" onClick={() => onEditItem(index)} />
                   </Button>
                   <Button buttonStyle="invisible" data-role="deleteVerificationStep">
-                    <Icons.TrashBin className="svg-error" onClick={() => onRemoveItem(index)} />
+                    <FiTrash2 size="1rem" className="color-red" onClick={() => onRemoveItem(index)} />
                   </Button>
                 </Items>
               </Items>
