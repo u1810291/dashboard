@@ -14,21 +14,15 @@ export function MenuBar() {
   const [isOwner] = useSelector(selectIsOwner);
   const currentPlanId = useSelector(selectCurrentPlanId);
 
-  const ApplicationMenu = ({ children }) => (
+  return (
     <AppBar position="sticky" color="primary" elevation={0}>
       <Toolbar className={classes.toolBar}>
-        {children}
+        <PrimaryMenu isOwner={isOwner} />
+        <div className={classes.grow} />
+        {isOwner && <SecondaryMenu key="secondary" />}
+        <IntlButton key="lang" />
       </Toolbar>
       {!currentPlanId && <AlertBanner />}
     </AppBar>
-  );
-
-  return (
-    <ApplicationMenu>
-      <PrimaryMenu isOwner={isOwner} />
-      <div className={classes.grow} />
-      {isOwner && <SecondaryMenu key="secondary" />}
-      <IntlButton key="lang" />
-    </ApplicationMenu>
   );
 }

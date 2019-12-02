@@ -3,6 +3,8 @@ import { createMuiTheme } from '@material-ui/core';
 export const appPalette = {
   blue: '#3757ff',
   white: '#ffffff',
+  red: '#ff3535',
+  lightgray: '#dcdcdc',
 };
 
 export const AppTheme = createMuiTheme({
@@ -26,6 +28,9 @@ export const AppTheme = createMuiTheme({
         '&:hover': {
           backgroundColor: 'inherit !important',
         },
+      },
+      sizeSmall: {
+        fontSize: '1rem',
       },
     },
     MuiButton: {

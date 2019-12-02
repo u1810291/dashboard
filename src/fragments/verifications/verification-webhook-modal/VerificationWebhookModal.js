@@ -1,11 +1,10 @@
-import PropTypes from 'prop-types';
+import Button from 'components/button';
+import Modal from 'components/modal';
+import { SyntaxHighlighter } from 'components/syntax-highlighter';
+import { SyntaxHighlighterLanguages } from 'components/syntax-highlighter/SyntaxHighlighter.model';
+import stringify from 'lib/stringify';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-
-import SyntaxHighlighter from 'components/syntax-highlighter';
-import Modal from 'components/modal';
-import Button from 'components/button';
-import stringify from 'lib/stringify';
 
 export default function VerificationWebhookModal({ webhook, onClose }) {
   return (
@@ -14,7 +13,7 @@ export default function VerificationWebhookModal({ webhook, onClose }) {
         <FormattedMessage id="verificationWebhookModal.title" />
       </header>
       <main>
-        <SyntaxHighlighter code={stringify(webhook)} language="javascript" />
+        <SyntaxHighlighter code={stringify(webhook)} language={SyntaxHighlighterLanguages.JavaScript} />
       </main>
       <footer>
         <Button onClick={onClose} buttonStyle="primary">
@@ -24,8 +23,3 @@ export default function VerificationWebhookModal({ webhook, onClose }) {
     </Modal>
   );
 }
-
-VerificationWebhookModal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  webhook: PropTypes.shape({}).isRequired,
-};

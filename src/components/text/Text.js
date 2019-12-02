@@ -49,10 +49,6 @@ export function H3({ size = 2, weight = 4, ...props }) {
   return <Text size={size} weight={weight} as="h3" {...props} />;
 }
 
-export function Small({ size = 1.5, ...props }) {
-  return <Text size={size} as="small" {...props} />;
-}
-
 export function HR({ margin = 10, width = 1, ...props }) {
   return (
     <hr
@@ -93,14 +89,6 @@ H3.propTypes = {
 H3.defaultProps = {
   size: 2,
   weight: 4,
-};
-
-Small.propTypes = {
-  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-};
-
-Small.defaultProps = {
-  size: 1.5,
 };
 
 HR.propTypes = {

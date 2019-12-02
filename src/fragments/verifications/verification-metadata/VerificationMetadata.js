@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
+import Card from 'components/card';
+import { SyntaxHighlighter } from 'components/syntax-highlighter';
+import { SyntaxHighlighterLanguages } from 'components/syntax-highlighter/SyntaxHighlighter.model';
+import stringify from 'lib/stringify';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Card from 'components/card';
-import SyntaxHighlighter from 'components/syntax-highlighter';
-import stringify from 'lib/stringify';
 
 export default function VerificationMetadata({ metadata = {} }) {
   return (
@@ -13,19 +13,10 @@ export default function VerificationMetadata({ metadata = {} }) {
       </h2>
       <SyntaxHighlighter
         code={stringify(metadata)}
-        language="javascript"
-        padding={0}
-        border="transparent"
-        showCopyToClipboard={false}
+        language={SyntaxHighlighterLanguages.JavaScript}
+        isBorder={false}
+        isCopyToClipboard={false}
       />
     </Card>
   );
 }
-
-VerificationMetadata.propTypes = {
-  metadata: PropTypes.shape(),
-};
-
-VerificationMetadata.defaultProps = {
-  metadata: {},
-};
