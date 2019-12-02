@@ -1,3 +1,4 @@
+import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import {
@@ -7,7 +8,7 @@ import {
   Button,
   Content,
 } from 'components';
-import { trackEvent } from 'lib/mixpanel';
+import { trackEvent } from 'lib/mixpanel/mixpanel';
 import { createOverlay, closeOverlay } from 'components/overlay';
 import Card from 'components/card';
 import { hubspotForms } from 'lib/hubspot';
@@ -30,7 +31,7 @@ export default function LegalServices() {
   });
 
   const showHubSpotForm = () => {
-    trackEvent('merchant_clicked_legal_services_contact');
+    trackEvent(MixPanelEvents.LegalServicesContact);
     setIsFormShowed(true);
   };
 

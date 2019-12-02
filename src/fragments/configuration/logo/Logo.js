@@ -4,12 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { useDropzone } from 'react-dropzone';
 import { Items, Text } from 'components';
-import Icons from 'components/icons';
 import Button from 'components/button';
 import { notification } from 'components/notification';
 import { putMerchants, uploadMerchantMedia } from 'state/merchant/merchant.actions';
 import compressImage from 'lib/compressImage';
-
+import { FiTrash2 } from 'react-icons/fi';
 import CSS from './Logo.module.scss';
 
 export default function Logo() {
@@ -103,9 +102,7 @@ export default function Logo() {
             data-role="deleteVerificationStep"
             onClick={clearLogo}
           >
-            <Icons.TrashBin
-              className="svg-error"
-            />
+            <FiTrash2 size="1rem" className="color-red" />
           </Button>
         )}
       </Items>

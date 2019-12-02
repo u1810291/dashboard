@@ -4,7 +4,8 @@ import Button from 'components/button';
 import { notification } from 'components/notification';
 import Spinner from 'components/spinner';
 import { PlanCancelModal } from 'fragments';
-import { trackEvent } from 'lib/mixpanel';
+import { trackEvent } from 'lib/mixpanel/mixpanel';
+import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -43,7 +44,7 @@ export default function Billing() {
   const handleCancelPlan = async () => {
     try {
       await dispatch(cancelPlan());
-      trackEvent('merchant_plan_declined', {
+      trackEvent(MixPanelEvents.PlanDeclined, {
         ...currentPlan,
       });
       closeOverlay();

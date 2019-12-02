@@ -5,7 +5,8 @@ import Spinner from 'components/spinner';
 import { CardDeclinedModal, CardModal, ChangePlanModal, CompaniesUsingMati, CustomPlan, MatiNumbers, PlansFeatures, PricingPlans, PricingRefundNotice, RequestDemo } from 'fragments';
 import { Feedback } from 'fragments/info/feedback';
 import { contactProperties, hubspotEvents, requestApi, showWidget, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
-import { trackEvent } from 'lib/mixpanel';
+import { trackEvent } from 'lib/mixpanel/mixpanel';
+import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import { pick } from 'lodash';
 import { BlockedPlans } from 'models/Plan.model';
 import React, { useEffect } from 'react';
@@ -48,7 +49,7 @@ export default function Pricing() {
         [contactProperties.planPrice]: planPrice,
       });
 
-      trackEvent('merchant_plan_changed', {
+      trackEvent(MixPanelEvents.PlanChanged, {
         ...pick(plan, ['_id']),
         subscriptionPrice: planPrice,
       });
@@ -63,7 +64,7 @@ export default function Pricing() {
 
   const handleCardSubmit = async (plan, provider) => {
     try {
-      trackEvent('merchant_entered_cc', {
+      trackEvent(MixPanelEvents.CCEntered, {
         ...pick(plan, ['_id']),
         subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
       });
@@ -71,7 +72,7 @@ export default function Pricing() {
       await dispatch(providerAdd(provider.id));
       await dispatch(setPlan(plan._id));
 
-      trackEvent('merchant_cc_stored', {
+      trackEvent(MixPanelEvents.CCStored, {
         ...pick(plan, ['_id']),
         subscriptionPrice: Math.floor(plan.subscriptionPrice / 100),
       });
@@ -95,7 +96,7 @@ export default function Pricing() {
   const handlePlanClick = (plan) => {
     const subscriptionPrice = Math.floor(plan.subscriptionPrice / 100);
 
-    trackEvent('merchant_clicked_select_plan', {
+    trackEvent(MixPanelEvents.PlanSelect, {
       ...pick(plan, ['_id']),
       subscriptionPrice,
     });

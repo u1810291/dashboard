@@ -1,3 +1,4 @@
+import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
@@ -11,7 +12,7 @@ import {
   createOverlay,
 } from 'components';
 import { EndToEndCompliance } from 'fragments';
-import { trackEvent } from 'lib/mixpanel';
+import { trackEvent } from 'lib/mixpanel/mixpanel';
 
 import { ReactComponent as Globus } from './icons/globus.svg';
 import { ReactComponent as Apple } from './icons/apple.svg';
@@ -26,7 +27,7 @@ const VideoFrame = ({ url }) => (
 );
 
 function showUsecaseModal(url) {
-  trackEvent('merchant_clicked_videos_usecases');
+  trackEvent(MixPanelEvents.VideoShowCase);
   createOverlay(<VideoFrame url={url} />);
 }
 
