@@ -66,7 +66,7 @@ export function normalizeCURPData(identity) {
           steps: doc.steps.map((step) => ({
             ...step,
             data:
-              step.data && step.id === 'mexican-curp-validation'
+              step.data && ['mexican-curp-validation', 'mexican-ine-validation'].includes(step.id)
                 ? fromPairs(toPairs(step.data).map(([key, value]) => [key, { value }]))
                 : step.data,
           })),

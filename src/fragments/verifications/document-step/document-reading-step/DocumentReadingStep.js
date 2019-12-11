@@ -39,8 +39,8 @@ export default function DocumentReadingStep({ identityId, documentId, step, fiel
   }, [dispatch, identityId, documentId]);
 
   if (step.error) {
-    const message = intl.formatHTMLMessage({ id: 'DocumentReadingStep.error' }, {
-      message: step.error.message,
+    const message = intl.formatMessage({ id: 'DocumentReadingStep.error' }, {
+      message: <span className="text-error">{step.error.message}</span>,
     });
     return (
       <Typography>{message}</Typography>
