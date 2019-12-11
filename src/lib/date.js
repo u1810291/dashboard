@@ -51,3 +51,10 @@ export function fromIsoPeriod(period) {
 export function checkInterval(value, from, to) {
   return inRange(value, from, to + 1);
 }
+
+export function normalizeDate(value) {
+  const date = moment.utc(value, 'MMM D, YYYY', true);
+  return date.isValid()
+    ? date.format('YYYY-MM-DD')
+    : value;
+}

@@ -1,10 +1,10 @@
+import { AppBar, Container, Toolbar } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import { ReactComponent as MatiLogo } from 'assets/mati-logo-v2.svg';
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { AppBar, Toolbar, Container } from '@material-ui/core';
-
-import { ReactComponent as MatiLogo } from 'assets/mati-logo-v2.svg';
-import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { AuthTheme } from './Auth.theme';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -18,65 +18,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const theme = createMuiTheme({
-  typography: {
-    fontSize: 16,
-    htmlFontSize: 16,
-  },
-  palette: {
-    primary: {
-      main: '#294aff',
-    },
-    tonalOffset: 0.05,
-  },
-  props: {
-    MuiTextField: {
-      variant: 'outlined',
-      fullWidth: true,
-    },
-  },
-  overrides: {
-    MuiInputBase: {
-      root: {
-        fontSize: '1.2rem',
-      },
-    },
-    MuiAppBar: {
-      root: {
-        backgroundColor: '#fff',
-        borderBottom: '1px solid #f0f0f0',
-        marginBottom: 50,
-      },
-    },
-    MuiToolbar: {
-      root: {
-        height: 50,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-    },
-    MuiButton: {
-      root: {
-        fontSize: 'inherit',
-        textTransform: 'none',
-      },
-      sizeLarge: {
-        padding: '16px 24px',
-      },
-      contained: {
-        boxShadow: 0,
-        '&$focusVisible': {
-          boxShadow: 0,
-        },
-        '&:active': {
-          boxShadow: 0,
-        },
-      },
-    },
-  },
-});
-
 const AuthLayout = ({ children }) => {
   const classes = useStyles();
 
@@ -85,7 +26,7 @@ const AuthLayout = ({ children }) => {
       <Helmet>
         <title>Mati Dashboard</title>
       </Helmet>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={AuthTheme}>
         <AppBar position="static" elevation={0}>
           <Toolbar variant="dense">
             <MatiLogo className={classes.matilogo} />

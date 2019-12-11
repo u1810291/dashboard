@@ -58,7 +58,7 @@ export default function SignUp() {
     <Grid container direction="column" spacing={6} alignItems="stretch">
       <Grid item container spacing={1} direction="column" alignItems="center">
         <Grid item>
-          <Typography variant="h4">
+          <Typography variant="h1">
             {intl.formatMessage({ id: 'signup.title' })}
           </Typography>
         </Grid>

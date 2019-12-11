@@ -10,7 +10,7 @@ function Success({ step }) {
   const summary = <FormattedMessage id="MexicanCurpValidationStep.title" />;
   return (
     <Details summary={summary} inline justifyItems="start">
-      <DocumentReadingStep step={step} isEditable={false} />
+      <DocumentReadingStep fields={step.data} step={step} isEditable={false} />
     </Details>
   );
 }

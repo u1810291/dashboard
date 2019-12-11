@@ -46,7 +46,7 @@ export default function SignInNew({ history }) {
     <Grid container direction="column" spacing={6}>
       <Grid item container spacing={1} direction="column" alignItems="center">
         <Grid item>
-          <Typography variant="h4">
+          <Typography variant="h1">
             {intl.formatMessage({ id: 'passwordReset.title' })}
           </Typography>
         </Grid>

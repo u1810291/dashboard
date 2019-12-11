@@ -53,17 +53,6 @@ export function formatValue(label, value) {
   return value;
 }
 
-const parseDashboardFormat = (value) => moment.utc(value, 'MMM D, YYYY', true);
-
-export function ifDateFormat(value) {
-  const dateAsMoment = parseDashboardFormat(value);
-  return dateAsMoment.isValid();
-}
-
-export function formatISODate(value) {
-  return parseDashboardFormat(value).format('YYYY-MM-DD');
-}
-
 export function trimMiddle(string = '', begin = 30, end = 5, delimiter = '…') {
   if (string.length < begin + end + delimiter.length) return string;
   const start = string.substring(0, begin);

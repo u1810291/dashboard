@@ -17,7 +17,7 @@ export function CompanyBar({ clientId }) {
       <Box p={2}>
         <Grid container alignItems="center" justify="space-between">
           <Grid item>
-            <Typography variant="h2">
+            <Typography variant="h4">
               {companyName || intl.formatMessage({ id: 'CompanyBar.namePlaceholder' })}
             </Typography>
           </Grid>
