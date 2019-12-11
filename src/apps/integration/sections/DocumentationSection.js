@@ -10,7 +10,7 @@ export function DocumentationSection({ clientId = '', clientSecret = '' }) {
   return (
     <Grid container justify="space-between" alignItems="center">
       <Grid item xs={5}>
-        <Typography variant="h6" gutterBottom>{intl.formatMessage({ id: 'DocumentationSection.title' })}</Typography>
+        <Typography variant="h5" gutterBottom>{intl.formatMessage({ id: 'DocumentationSection.title' })}</Typography>
         <Typography paragraph>{intl.formatMessage({ id: 'DocumentationSection.description' })}</Typography>
         <Button
           variant="outlined"

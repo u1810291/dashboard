@@ -30,6 +30,7 @@
 :local(.editIcon),
 :local(.spinner) {
   position: absolute;
+  cursor: pointer;
   height: 12px;
   width: 30px;
 }

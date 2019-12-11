@@ -38,7 +38,8 @@ export function collectionUpsert(collection, value, id = '_id') {
     const newCollection = [
       ...collection,
     ];
-    return newCollection.splice(index, 1, value);
+    newCollection.splice(index, 1, value);
+    return newCollection;
   } else {
     // insert
     return [

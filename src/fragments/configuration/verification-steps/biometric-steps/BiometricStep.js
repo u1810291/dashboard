@@ -45,7 +45,7 @@ const BiometricStep = ({
   return (
     <FormControl component="fieldset">
       <Items flow="row">
-        <Typography variant="h3">
+        <Typography variant="h5">
           {intl.formatMessage({ id: 'flow.documentTypeStep.biometric.title' })}
         </Typography>
         <Box>

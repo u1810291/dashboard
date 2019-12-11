@@ -13,11 +13,12 @@ export const FieldTypes = {
   EmissionDate: 'emissionDate',
 };
 
-export function getFieldsExtra(step) {
-  if (!(step && step.data)) {
+export function getFieldsExtra(data) {
+  if (!data) {
     return [];
   }
-  return Object.entries(step.data).map(([label, { value }]) => ({
+
+  return Object.entries(data).map(([label, { value }]) => ({
     id: label,
     label: humanize(underscore(label)),
     value: formatValue(label, value),

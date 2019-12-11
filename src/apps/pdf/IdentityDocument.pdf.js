@@ -124,6 +124,6 @@ export function IdentityDocumentPDF(intl, identity) {
   );
 }
 
-export function getIdentityDocumentBlob(intl, identity, countriesList) {
-  return pdf(IdentityDocumentPDF(intl, identity, countriesList)).toBlob();
+export function getIdentityDocumentBlob(intl, identity) {
+  return pdf(IdentityDocumentPDF(intl, identity)).toBlob();
 }

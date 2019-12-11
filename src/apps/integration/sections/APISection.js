@@ -9,7 +9,7 @@ export function APISection() {
   return (
     <Grid container justify="space-between" alignItems="center">
       <Grid item xs={5}>
-        <Typography variant="h6" gutterBottom>{intl.formatMessage({ id: 'ApiSection.title' })}</Typography>
+        <Typography variant="h5" gutterBottom>{intl.formatMessage({ id: 'ApiSection.title' })}</Typography>
         <Typography paragraph>{intl.formatMessage({ id: 'ApiSection.description' })}</Typography>
       </Grid>
       <Grid item xs={5}>

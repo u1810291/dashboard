@@ -121,7 +121,7 @@ class VerificationHistory extends React.Component {
         size: 2,
         align: 'left',
         label: <FormattedMessage id="identity.field.id" />,
-        content: ({ identity }) => (
+        content: (identity) => (
           <div>
             #
             {identity.id.slice(-6)}
@@ -131,7 +131,7 @@ class VerificationHistory extends React.Component {
       {
         size: 4,
         label: <FormattedMessage id="identity.field.fullName" />,
-        content: ({ identity }) => (!isEmpty(identity.fullName)
+        content: (identity) => (!isEmpty(identity.fullName)
           ? titleCase(identity.fullName)
           : (
             <Text color="gray">
@@ -142,16 +142,14 @@ class VerificationHistory extends React.Component {
       {
         size: 3,
         label: <FormattedMessage id="identity.field.date" />,
-        content: (identity) => moment.utc(identity.identity.dateCreated).format('MMM D, YYYY'),
+        content: (identity) => moment.utc(identity.dateCreated).format('MMM D, YYYY'),
       },
       {
         size: 1,
         label: '',
         align: 'right',
         content: (identity) => {
-          const isDeleting = this.props.deletingIdentities.includes(
-            identity.identity.id,
-          );
+          const isDeleting = this.props.deletingIdentities.includes(identity.id);
           return (
             <div
               className={CSS.deleteIdentity}
@@ -169,7 +167,7 @@ class VerificationHistory extends React.Component {
     columns.splice(1, 0, {
       size: 3,
       label: <FormattedMessage id="identity.field.status" />,
-      content: ({ identity }) => (
+      content: (identity) => (
         <StatusLabel
           status={identity.status}
           className={classNames({ threedots: identity.status === 'pending' })}
@@ -179,14 +177,14 @@ class VerificationHistory extends React.Component {
     return columns;
   };
 
-  openVerification = ({ identity }) => {
+  openVerification = (identity) => {
     this.props.history.push(`/identities/${identity.id}`);
   };
 
   deleteIdentity = (e, identity) => {
     e.stopPropagation();
     confirm(<FormattedMessage id="verificationModal.delete.confirm" />).then(
-      () => this.props.deleteIdentity(identity.identity.id),
+      () => this.props.deleteIdentity(identity.id),
       (error) => {
         console.error(error);
       },
@@ -289,8 +287,7 @@ class VerificationHistory extends React.Component {
       (value, key) => transformValue(key, value),
     );
 
-    const disabledRows = identities
-      .filter((identity) => deletingIdentities.includes(identity.identity.id));
+    const disabledRows = identities.filter((item) => deletingIdentities.includes(item.id));
 
     const pageCount = Math.ceil(count / ITEMS_PER_PAGE);
     const forcePage = Math.floor(params.offset / ITEMS_PER_PAGE) || 0;

@@ -14,7 +14,7 @@ export function WebSDKSection() {
   return (
     <Grid container justify="space-between" alignItems="center">
       <Grid item xs={5}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           {intl.formatMessage({ id: 'WebSDKSection.title' })}
           <img className={classes.img} src={Frameworks} alt={intl.formatMessage({ id: 'WebSDKSection.imgAlt' })} />
         </Typography>

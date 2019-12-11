@@ -11,7 +11,7 @@ export function InfoPage() {
   return (
     <Container maxWidth="xl">
       <Box mt={4}>
-        <Typography variant="h1">
+        <Typography variant="h2">
           {intl.formatMessage({ id: 'dashboard.menu.faq' })}
         </Typography>
       </Box>

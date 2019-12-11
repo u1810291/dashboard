@@ -2,7 +2,9 @@ import { notification } from 'components/notification';
 import * as api from 'lib/client/identities';
 import { ERROR_COMMON } from 'lib/error.model';
 import { selectAuthToken } from 'state/auth/auth.selectors';
+import { selectIdentity } from 'state/identities/identities.selectors';
 import { createTypesSequence } from 'state/utils';
+import { get } from 'lodash';
 
 export const types = {
   ...createTypesSequence('IDENTITY_LIST'),
@@ -20,7 +22,8 @@ export const getIdentities = (params) => async (dispatch, getState) => {
   dispatch({ type: types.IDENTITY_LIST_REQUEST });
   try {
     const token = selectAuthToken(getState());
-    const payload = await api.getIdentities(token, params);
+    const { data } = await api.getIdentities(token, params);
+    const payload = (data || []).map((item) => item.identity);
     dispatch({ type: types.IDENTITY_LIST_SUCCESS, payload });
     return payload;
   } catch (error) {
@@ -62,9 +65,9 @@ export const getIdentityWithNestedData = (id) => async (dispatch, getState) => {
   dispatch({ type: types.IDENTITY_FETCH_REQUEST });
   try {
     const token = selectAuthToken(getState());
-    const identity = await api.getIdentityWithNestedData(token, id);
-    dispatch({ type: types.IDENTITY_FETCH_SUCCESS, identity });
-    return identity;
+    const payload = await api.getIdentityWithNestedData(token, id);
+    dispatch({ type: types.IDENTITY_FETCH_SUCCESS, payload });
+    return payload;
   } catch (error) {
     dispatch({ type: types.IDENTITY_FETCH_FAILURE });
     throw error;
@@ -75,9 +78,9 @@ export const getDemoVerification = (id) => async (dispatch, getState) => {
   dispatch({ type: types.IDENTITY_FETCH_REQUEST });
   try {
     const token = selectAuthToken(getState());
-    const identity = await api.getVerificationData(token, id);
-    dispatch({ type: types.IDENTITY_FETCH_SUCCESS, identity });
-    return identity;
+    const payload = await api.getVerificationData(token, id);
+    dispatch({ type: types.IDENTITY_FETCH_SUCCESS, payload });
+    return payload;
   } catch (error) {
     dispatch({ type: types.IDENTITY_FETCH_FAILURE });
     throw error;
@@ -85,7 +88,7 @@ export const getDemoVerification = (id) => async (dispatch, getState) => {
 };
 
 export const patchIdentity = (id, data) => async (dispatch, getState) => {
-  dispatch({ type: types.IDENTITY_PATCH_REQUEST, payload: { id, data } });
+  dispatch({ type: types.IDENTITY_PATCH_REQUEST });
   try {
     const token = selectAuthToken(getState());
     const payload = await api.patchIdentity(token, id, data);
@@ -118,10 +121,22 @@ export const patchDocument = (identityId, id, fields) => async (dispatch, getSta
   try {
     const token = selectAuthToken(getState());
     const response = await api.patchDocument(token, id, fields);
-    dispatch({ type: types.DOCUMENT_PATCH_SUCCESS, payload });
-    return response;
+
+    const identity = selectIdentity(identityId)(getState());
+    const documents = get(identity, '_embedded.documents', []);
+    const documentIndex = documents.findIndex((item) => item.id === id);
+    const newDocuments = [...documents];
+    newDocuments.splice(documentIndex, 1, response.data);
+    const newIdentity = {
+      ...identity,
+      _embedded: {
+        ...identity._embedded,
+        documents: newDocuments,
+      },
+    };
+    dispatch({ type: types.DOCUMENT_PATCH_SUCCESS, identityId, payload: newIdentity });
   } catch (error) {
-    dispatch({ type: types.DOCUMENT_PATCH_FAILURE, payload });
+    dispatch({ type: types.DOCUMENT_PATCH_FAILURE });
     notification.error(ERROR_COMMON);
     throw error;
   }
