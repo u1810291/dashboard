@@ -5,8 +5,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import DocumentReadingStep from './document-reading-step';
 import { useStyles } from './DocumentStep.styles';
-import MexicanCurpValidationStep from './mexican-curp-validation-step';
-import { SecurityCheckCollection } from './security-check-collection';
+import { CheckListExpandable, CheckListFlat } from './security-check-collection';
 import ZoomableImage from './zoomable-image';
 
 export function DocumentStep({ identityId, document, source, countries }) {
@@ -16,13 +15,17 @@ export function DocumentStep({ identityId, document, source, countries }) {
   const { steps = [], country, type, region, photos = [], isEditable = true } = document;
   const documentReadingStep = steps.find((step) => step.id === 'document-reading');
   const documentReadingSource = source.find((item) => item.type === type) || {};
-  const curpValidationStep = steps.find((step) => step.id === 'mexican-curp-validation');
   const securityCheckSteps = steps.filter((step) => [
     'template-matching',
     'alteration-detection',
     'watchlists',
     'facematch',
   ].includes(step.id));
+  const mxSteps = steps.filter((step) => [
+    'mexican-curp-validation',
+    'mexican-ine-validation',
+  ].includes(step.id));
+
   const onReading = documentReadingStep.status < 200;
   const countryName = (countries.find(({ code }) => code === country) || {}).name || country;
 
@@ -59,10 +62,6 @@ export function DocumentStep({ identityId, document, source, countries }) {
                       isEditable={isFormEditable}
                     />
                   )}
-                  <br />
-                  {curpValidationStep && (
-                    <MexicanCurpValidationStep step={curpValidationStep} />
-                  )}
                 </Box>
               )}
             </Grid>
@@ -84,7 +83,12 @@ export function DocumentStep({ identityId, document, source, countries }) {
             <Divider variant="fullWidth" />
             <Box my={3}>
               <Typography variant="h4" paragraph>{intl.formatMessage({ id: 'DocumentStep.Checks.title' })}</Typography>
-              <SecurityCheckCollection steps={securityCheckSteps} />
+              {securityCheckSteps.map((step) => (
+                <CheckListFlat step={step} key={step.id} />
+              ))}
+              {mxSteps.map((step) => (
+                <CheckListExpandable step={step} key={step.id} />
+              ))}
             </Box>
           </>
         )}

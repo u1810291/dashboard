@@ -5,6 +5,7 @@ export const appPalette = {
   white: '#ffffff',
   red: '#ff3535',
   lightgray: '#dcdcdc',
+  green: '#00ab62',
 };
 
 export const appTypography = {
@@ -54,6 +55,10 @@ export const AppTheme = createMuiTheme({
     background: {
       default: appPalette.white,
     },
+    text: {
+      secondary: appPalette.green,
+    },
+    common: appPalette,
   },
   overrides: {
     MuiIconButton: {
