@@ -6,8 +6,15 @@ import {
   Typography,
 } from '@material-ui/core';
 
+const colors = {
+  failure: 'error',
+  success: 'textSecondary',
+  checking: 'textPrimary',
+};
+
 export function CheckListFlat({ step: { id, error, status } }) {
   const intl = useIntl();
+  const checkStatus = getStepStatus(status, error);
 
   return (
     <Grid
@@ -20,9 +27,9 @@ export function CheckListFlat({ step: { id, error, status } }) {
         {intl.formatMessage({ id: `SecurityCheckStep.${id}.title` })}
       </Grid>
       <Grid item xs={9}>
-        <Typography color={error ? 'error' : 'textSecondary'}>
+        <Typography color={colors[checkStatus]}>
           {intl.formatMessage({
-            id: `SecurityCheckStep.${id}.${getStepStatus(status, error)}`,
+            id: `SecurityCheckStep.${id}.${checkStatus}`,
           })}
         </Typography>
       </Grid>
