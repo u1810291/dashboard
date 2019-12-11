@@ -24,16 +24,17 @@ export function getDocumentExtras(identity) {
 
   return documents.map((document) => {
     const steps = document.steps || [];
+    const curp = steps.find((step) => step.id === DocumentStepTypes.CURP) || {};
+    const sourceDocument = source.find((item) => item.type === document.type);
 
     return {
-      source: source.find((item) => item.type === document.type),
-      reading: getFieldsExtra(steps.find((step) => step.id === DocumentStepTypes.DocumentReading)),
-      curp: getFieldsExtra(steps.find((step) => step.id === DocumentStepTypes.CURP)),
+      reading: getFieldsExtra(sourceDocument.fields),
+      curp: getFieldsExtra(curp.data),
       checks: getSecurityChecksExtra(steps.filter((step) => DocumentSecuritySteps.includes(step.id))),
       type: document.type,
       country: document.country,
       region: document.region,
-      photos: document.photos,
+      photos: document.photos || [],
     };
   });
 }

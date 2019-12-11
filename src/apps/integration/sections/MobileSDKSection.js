@@ -12,7 +12,7 @@ export function MobileSDKSection() {
   return (
     <Grid container justify="space-between" alignItems="center">
       <Grid item xs={5}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           {intl.formatMessage({ id: 'MobileSDKSection.title' })}
           <Box className={classes.icon}>
             <IconIos />

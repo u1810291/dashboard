@@ -5,6 +5,40 @@ export const appPalette = {
   white: '#ffffff',
   red: '#ff3535',
   lightgray: '#dcdcdc',
+  green: '#00ab62',
+};
+
+export const appTypography = {
+  h1: {
+    fontSize: 34,
+    fontWeight: 400,
+  },
+  h2: {
+    fontSize: 28,
+  },
+  h3: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  h4: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  h5: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  h6: {
+    fontSize: 16,
+  },
+  subtitle2: {
+    fontWeight: 'bold',
+  },
+  button: {
+    // remove default capitalize from buttons
+    textTransform: 'none',
+  },
+  fontFamily: ['Lato', 'Helvetica Neue', 'sans-serif'].join(','),
 };
 
 export const AppTheme = createMuiTheme({
@@ -21,6 +55,10 @@ export const AppTheme = createMuiTheme({
     background: {
       default: appPalette.white,
     },
+    text: {
+      secondary: appPalette.green,
+    },
+    common: appPalette,
   },
   overrides: {
     MuiIconButton: {
@@ -39,25 +77,5 @@ export const AppTheme = createMuiTheme({
       },
     },
   },
-  typography: {
-    h1: {
-      fontSize: '2rem',
-    },
-    h2: {
-      fontSize: '18px',
-      fontWeight: 'bold',
-    },
-    h3: {
-      fontSize: '16px',
-      fontWeight: 'bold',
-    },
-    subtitle2: {
-      fontWeight: 'bold',
-    },
-    button: {
-      // remove default capitalize from buttons
-      textTransform: 'none',
-    },
-    fontFamily: ['Lato', 'Helvetica Neue', 'sans-serif'].join(','),
-  },
+  typography: appTypography,
 });

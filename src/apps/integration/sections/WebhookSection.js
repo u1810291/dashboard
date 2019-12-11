@@ -49,7 +49,7 @@ export function WebhookSection({ clientId }) {
   return (
     <Grid container justify="space-between" alignItems="center">
       <Grid item xs={5}>
-        <Typography variant="h6" gutterBottom>{intl.formatMessage({ id: 'WebhookSection.title' })}</Typography>
+        <Typography variant="h5" gutterBottom>{intl.formatMessage({ id: 'WebhookSection.title' })}</Typography>
         <Typography paragraph>{intl.formatMessage({ id: 'WebhookSection.description' })}</Typography>
         <Button
           variant="contained"

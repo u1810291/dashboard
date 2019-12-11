@@ -1,21 +1,20 @@
-import Items from 'components/items';
+import { Grid, Typography } from '@material-ui/core';
 import Text from 'components/text';
 import TextEditable from 'components/text-editable';
 import { humanize, underscore } from 'inflection';
+import { normalizeDate } from 'lib/date';
 import { formatValue } from 'lib/string';
-import { get } from 'lodash';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
-
+import React, { useCallback } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { patchDocument } from 'state/identities/identities.actions';
 
 const EditableField = ({ label, value, onSubmit }) => (value
   ? (
     <Text weight={4}>
       <TextEditable
         text={formatValue(label, value)}
-        // eslint-disable-next-line react/jsx-no-bind
-        onSubmit={onSubmit.bind(null, label)}
+        onSubmit={onSubmit}
         error={false}
         isEditing={false}
       />
@@ -27,85 +26,58 @@ const EditableField = ({ label, value, onSubmit }) => (value
     </Text>
   ));
 
-function Success({ step, source, onSubmit, isEditable }) {
-  return (
-    <Items flow="row" templateColumns="2fr 3fr" gap={1} align="center">
-      {Object.entries(step.data || {})
-        .map(([label, { value }]) => {
-          const sourceValue = get(source[label], 'value');
+export default function DocumentReadingStep({ identityId, documentId, step, fields = {}, isEditable = true }) {
+  const intl = useIntl();
+  const dispatch = useDispatch();
 
-          return [
-            <div className="text-nowrap" key={`${label}-label`}>
-              <FormattedMessage
-                id={`identity.field.${label}`}
-                defaultMessage={humanize(underscore(label))}
-              />
-            </div>,
-            <div key={`${label}-value`}>
-              {isEditable
-                ? <EditableField label={label} value={sourceValue} onSubmit={onSubmit} />
-                : formatValue(label, value)}
-            </div>,
-          ];
-        })}
-    </Items>
-  );
-}
-
-function Error({ error: { message } }) {
-  return (
-    <span>
-      <FormattedHTMLMessage
-        id="DocumentReadingStep.error"
-        values={{ message }}
-      />
-    </span>
-  );
-}
-
-export default function DocumentReadingStep({ step, source, onSubmit, isEditable = true }) {
-  source = get(source, 'fields', {});
+  const handleSubmit = useCallback((key, value) => {
+    dispatch(patchDocument(identityId, documentId, {
+      [key]: {
+        value: normalizeDate(value),
+      },
+    }));
+  }, [dispatch, identityId, documentId]);
 
   if (step.error) {
-    return <Error error={step.error} />;
+    const message = intl.formatMessage({ id: 'DocumentReadingStep.error' }, {
+      message: <span className="text-error">{step.error.message}</span>,
+    });
+    return (
+      <Typography>{message}</Typography>
+    );
   }
-  if (step.status === 200 && !step.error) {
-    return <Success step={step} source={source} onSubmit={onSubmit} isEditable={isEditable} />;
+
+  if (step.status !== 200) {
+    return null;
   }
+
+  return (
+    <Grid container spacing={1} direction="column">
+      {Object.entries(fields).map(([label, { value }]) => {
+        const valueLabel = intl.formatMessage({
+          id: `identity.field.${label}`,
+          defaultMessage: humanize(underscore(label)),
+        });
+
+        return (
+          <Grid container item spacing={2} alignItems="center" key={label}>
+            <Grid xs={5} item>
+              <Typography>{valueLabel}</Typography>
+            </Grid>
+            <Grid xs={7} item>
+              {isEditable
+                ? (
+                  <EditableField
+                    label={label}
+                    value={value}
+                    onSubmit={(newValue) => handleSubmit(label, newValue)}
+                  />
+                )
+                : formatValue(label, value)}
+            </Grid>
+          </Grid>
+        );
+      })}
+    </Grid>
+  );
 }
-
-EditableField.propTypes = {
-  label: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  value: PropTypes.string,
-};
-
-EditableField.defaultProps = {
-  value: '',
-};
-
-Success.propTypes = {
-  isEditable: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  source: PropTypes.shape().isRequired,
-  step: PropTypes.shape().isRequired,
-};
-
-Error.propTypes = {
-  error: PropTypes.shape({
-    message: PropTypes.string,
-  }).isRequired,
-};
-
-DocumentReadingStep.propTypes = {
-  isEditable: PropTypes.bool,
-  onSubmit: PropTypes.func,
-  source: PropTypes.shape({}),
-  step: PropTypes.shape().isRequired,
-};
-
-DocumentReadingStep.defaultProps = {
-  isEditable: true,
-  onSubmit: () => {},
-  source: {},
-};

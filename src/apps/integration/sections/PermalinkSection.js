@@ -12,7 +12,7 @@ export function PermalinkSection({ clientId }) {
   return (
     <Grid container justify="space-between" alignItems="center">
       <Grid item xs={5}>
-        <Typography variant="h6" gutterBottom>{intl.formatMessage({ id: 'PermalinkSection.title' })}</Typography>
+        <Typography variant="h5" gutterBottom>{intl.formatMessage({ id: 'PermalinkSection.title' })}</Typography>
         <Typography paragraph>{intl.formatMessage({ id: 'PermalinkSection.description' })}</Typography>
       </Grid>
       <Grid item xs={5}>

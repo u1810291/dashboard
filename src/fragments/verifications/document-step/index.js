@@ -1,1 +1,1 @@
-export { default } from './DocumentStep';
+export * from './DocumentStep';
