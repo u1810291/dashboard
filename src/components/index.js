@@ -1,17 +1,14 @@
 export { closeOverlay, createOverlay, OverlayWithBlur } from './overlay';
 export { default as Items } from './items';
 export { default as Card } from './card';
-export { default as CardWithStub, Stub } from './card-with-stub';
 export { default as Click } from './click';
-export { default as Link } from './link';
 export { default as Button } from './button';
 export { default as QuestionMark } from './question-mark';
 export { default as InfoTooltip } from './info-tooltip';
 export { default as HelpMessage } from './help-message';
-export { default as Text, H1, H2, H3, Small } from './text';
+export { default as Text, H1, H2, H3 } from './text';
 export { Content } from 'components/application-box';
 export { default as PageContentLayout } from './page-content-layout';
 export { default as PageContentMenu } from './page-content-menu';
 export { default as VideoPlayer } from './video-player';
-export { default as Icons } from './icons';
 export { default as Tab, TabWrapper } from './tab';

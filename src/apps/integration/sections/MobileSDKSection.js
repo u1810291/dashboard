@@ -1,49 +1,58 @@
+import { Box, Button, Grid, Typography } from '@material-ui/core';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Items, Click } from 'components';
-import { H2 } from 'components/text';
-import { ReactComponent as IconIos } from './icon-ios.svg';
+import { useIntl } from 'react-intl';
 import { ReactComponent as IconAndroid } from './icon-android.svg';
+import { ReactComponent as IconIos } from './icon-ios.svg';
+import { useStyles } from './MobileSDKSection.styles';
 
-export default function MobileSDKSection() {
+export function MobileSDKSection() {
+  const intl = useIntl();
+  const classes = useStyles();
+
   return (
-    <Items align="center" templateColumns="1fr 1fr" gap="24">
-      <H2 weight="2">
-        <Items gap="4" align="center" inline>
-          <FormattedMessage id="apps.integration.mobilesdk.title" />
-          <Items gap="1" inline>
+    <Grid container justify="space-between" alignItems="center">
+      <Grid item xs={5}>
+        <Typography variant="h5" gutterBottom>
+          {intl.formatMessage({ id: 'MobileSDKSection.title' })}
+          <Box className={classes.icon}>
             <IconIos />
+          </Box>
+          <Box className={classes.icon}>
             <IconAndroid />
-          </Items>
-        </Items>
-        <p>
-          <FormattedMessage id="apps.integration.mobilesdk.subtitle" />
-        </p>
-      </H2>
-      <Items templateColumns="4fr 1fr">
-        <Items flow="row">
-          <Click
-            as="a"
-            href="https://github.com/MatiFace/mati-global-id-sdk/blob/master/Integration_iOS.md"
-            target="_blank"
-            rel="noopener noreferrer"
-            border="secondary"
-          >
-            <IconIos />
-            <FormattedMessage id="apps.integration.mobilesdk.ctaios" />
-          </Click>
-          <Click
-            as="a"
-            href="https://github.com/MatiFace/mati-global-id-sdk-integration-android"
-            target="_blank"
-            rel="noopener noreferrer"
-            border="secondary"
-          >
-            <IconAndroid />
-            <FormattedMessage id="apps.integration.mobilesdk.ctaandroid" />
-          </Click>
-        </Items>
-      </Items>
-    </Items>
+          </Box>
+        </Typography>
+        <Typography paragraph>{intl.formatMessage({ id: 'MobileSDKSection.description' })}</Typography>
+      </Grid>
+      <Grid item xs={5}>
+        <Grid container spacing={2} direction="column">
+          <Grid item xs={6}>
+            <Button
+              fullWidth
+              variant="outlined"
+              href="https://github.com/MatiFace/mati-global-id-sdk/blob/master/Integration_iOS.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              color="primary"
+              startIcon={<IconIos />}
+            >
+              {intl.formatMessage({ id: 'MobileSDKSection.ctaIOS' })}
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              fullWidth
+              variant="outlined"
+              href="https://github.com/MatiFace/mati-global-id-sdk-integration-android"
+              target="_blank"
+              rel="noopener noreferrer"
+              color="primary"
+              startIcon={<IconAndroid />}
+            >
+              {intl.formatMessage({ id: 'MobileSDKSection.ctaAndroid' })}
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }

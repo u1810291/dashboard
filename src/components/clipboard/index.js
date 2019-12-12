@@ -1,2 +1,2 @@
-export { default } from './copy-to-clipboard';
-export { default as CopyToClipboard } from './CopyToClipboard';
+export * from './copy-to-clipboard';
+export * from './CopyToClipboard';

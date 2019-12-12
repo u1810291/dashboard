@@ -1,33 +1,31 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Link, Items, Card } from 'components';
-import { H2 } from 'components/text';
+import { Grid, Link, Typography } from '@material-ui/core';
 import { CopyToClipboard } from 'components/clipboard';
-import { trimMiddle } from 'lib/string';
 import { permalinkUrl } from 'lib/client/urls';
+import { trimMiddle } from 'lib/string';
+import React from 'react';
+import { useIntl } from 'react-intl';
 
-export default function PermalinkSection({ clientId }) {
+export function PermalinkSection({ clientId }) {
+  const intl = useIntl();
+  const url = permalinkUrl({ clientId });
+
   return (
-    <Items align="center" templateColumns="1fr 1fr" gap="24">
-      <H2 weight="2">
-        <FormattedMessage id="apps.integration.permalink.title" />
-        <p>
-          <FormattedMessage id="apps.integration.permalink.subtitle" />
-        </p>
-      </H2>
-      <Items templateColumns="4fr 1fr">
-        <Card shadow="0">
-          <CopyToClipboard text={permalinkUrl({ clientId })}>
-            <Link
-              href={permalinkUrl({ clientId })}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {trimMiddle(permalinkUrl({ clientId }), 20)}
-            </Link>
-          </CopyToClipboard>
-        </Card>
-      </Items>
-    </Items>
+    <Grid container justify="space-between" alignItems="center">
+      <Grid item xs={5}>
+        <Typography variant="h5" gutterBottom>{intl.formatMessage({ id: 'PermalinkSection.title' })}</Typography>
+        <Typography paragraph>{intl.formatMessage({ id: 'PermalinkSection.description' })}</Typography>
+      </Grid>
+      <Grid item xs={5}>
+        <CopyToClipboard text={url}>
+          <Link
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {trimMiddle(url, 20)}
+          </Link>
+        </CopyToClipboard>
+      </Grid>
+    </Grid>
   );
 }

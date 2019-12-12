@@ -1,7 +1,8 @@
+import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { trackEvent } from 'lib/mixpanel';
+import { trackEvent } from 'lib/mixpanel/mixpanel';
 import { Box } from '@material-ui/core';
 
 import { FiMessageCircle as MeetingIcon } from 'react-icons/fi';
@@ -17,7 +18,7 @@ const AlertBanner = () => {
   const showHubSpotForm = useHubSpotForm();
 
   const alertButtonClickHandler = () => {
-    trackEvent('merchant_clicked_top_banner_upgrade');
+    trackEvent(MixPanelEvents.BannerUpgrade);
   };
 
   return (

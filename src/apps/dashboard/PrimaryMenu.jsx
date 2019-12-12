@@ -1,6 +1,7 @@
 import { Menu } from 'apps/navigation';
 import MatiLogo from 'assets/header-mati-logo.png';
-import { trackEvent } from 'lib/mixpanel';
+import { trackEvent } from 'lib/mixpanel/mixpanel';
+import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -23,18 +24,18 @@ export default function PrimaryMenu({ isOwner }) {
       show: isOwner,
       to: '/',
       label: intl.formatMessage({ id: 'dashboard.menu.product' }),
-      handler: () => trackEvent('merchant_click_product_tab'),
+      handler: () => trackEvent(MixPanelEvents.NavProduct),
     },
     {
       show: isOwner,
       to: '/metrics',
       label: intl.formatMessage({ id: 'dashboard.menu.metrics' }),
-      handler: () => trackEvent('merchant_click_metrics_tab'),
+      handler: () => trackEvent(MixPanelEvents.NavMetrics),
     },
     {
       to: '/identities',
       label: intl.formatMessage({ id: 'dashboard.menu.identities' }),
-      handler: () => trackEvent('merchant_click_verif_list_tab'),
+      handler: () => trackEvent(MixPanelEvents.NavVerificationList),
     },
   ];
 

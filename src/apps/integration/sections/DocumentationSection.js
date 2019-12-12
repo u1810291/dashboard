@@ -1,48 +1,42 @@
-import { Click, Items } from 'components';
+import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { CopyToClipboard } from 'components/clipboard';
-import Icons from 'components/icons';
-import { H2 } from 'components/text';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import CSS from './DocumentationSection.module.scss';
+import { FiFileText } from 'react-icons/fi';
+import { useIntl } from 'react-intl';
 
-export default function DocumentationSection({ clientId = '', clientSecret = '' }) {
+export function DocumentationSection({ clientId = '', clientSecret = '' }) {
+  const intl = useIntl();
+
   return (
-    <Items flow="column" templateColumns="1fr 1fr" gap="24">
-      <Items flow="row">
-        <H2 weight="2">
-          <FormattedMessage id="apps.integration.documentation.cta" />
-          <p>
-            <FormattedMessage id="apps.integration.documentation.subtitle" />
-          </p>
-        </H2>
-        <Items templateColumns="4fr 1fr">
-          <Click
-            as="a"
-            href="https://docs.getmati.com"
-            border="secondary"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icons.Paper />
-            <FormattedMessage id="apps.integration.documentation.cta" />
-          </Click>
-        </Items>
-      </Items>
-      <Items flow="row" className={CSS.fullAreaRoot}>
-        <Items flow="row">
-          <H2 weight="2">Client ID</H2>
+    <Grid container justify="space-between" alignItems="center">
+      <Grid item xs={5}>
+        <Typography variant="h5" gutterBottom>{intl.formatMessage({ id: 'DocumentationSection.title' })}</Typography>
+        <Typography paragraph>{intl.formatMessage({ id: 'DocumentationSection.description' })}</Typography>
+        <Button
+          variant="outlined"
+          href="https://docs.getmati.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          color="primary"
+          startIcon={<FiFileText size="1rem" />}
+        >
+          {intl.formatMessage({ id: 'DocumentationSection.cta' })}
+        </Button>
+      </Grid>
+      <Grid item xs={5}>
+        <Box>
+          <Typography variant="h6">{intl.formatMessage({ id: 'DocumentationSection.clientId' })}</Typography>
           <CopyToClipboard text={clientId}>
             <code>{clientId}</code>
           </CopyToClipboard>
-        </Items>
-        <Items flow="row">
-          <H2 weight="2">Client Secret</H2>
+        </Box>
+        <Box marginTop={1}>
+          <Typography variant="h6">{intl.formatMessage({ id: 'DocumentationSection.clientSecret' })}</Typography>
           <CopyToClipboard text={clientSecret}>
             <code>{(clientSecret).replace(/./g, '*')}</code>
           </CopyToClipboard>
-        </Items>
-      </Items>
-    </Items>
+        </Box>
+      </Grid>
+    </Grid>
   );
 }

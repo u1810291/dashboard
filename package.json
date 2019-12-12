@@ -1,6 +1,6 @@
 {
   "name": "mati-dashboard",
-  "version": "1.10.27",
+  "version": "1.11.1",
   "private": true,
   "dependencies": {
     "@emotion/core": "^10.0.10",
@@ -8,12 +8,13 @@
     "@material-ui/core": "4.5.1",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/styles": "^4.5.0",
+    "@react-pdf/renderer": "^1.6.7",
     "@sentry/browser": "^4.4.2",
     "axios": "^0.19.0",
     "classnames": "^2.2.6",
     "clipboard-polyfill": "^2.5.4",
     "clsx": "^1.0.4",
-    "core-js": "^3.0.1",
+    "core-js": "^3.4.7",
     "env-cmd": "^8.0.2",
     "formik": "^1.5.8",
     "formik-material-ui": "^0.0.22",
@@ -36,7 +37,7 @@
     "react-player": "^1.11.0",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.1.1",
+    "react-scripts": "^3.1.1",
     "react-select": "^3.0.8",
     "react-simple-dropdown": "^3.2.3",
     "react-stripe-elements": "^5.1.0",
@@ -51,7 +52,7 @@
     "dev": "env-cmd .env.develop react-scripts start",
     "start": "env-cmd .env react-scripts start",
     "start:production": "env-cmd .env.production react-scripts start",
-    "build": "react-scripts build",
+    "build": "REACT_APP_VERSION=$npm_package_version react-scripts build",
     "build:dev01": "env-cmd .env.dev01 npm run build",
     "build:dev02": "env-cmd .env.dev02 npm run build",
     "build:staging": "env-cmd .env.staging npm run build",
@@ -59,7 +60,10 @@
     "test": "NODE_PATH=src react-scripts test --env=jsdom",
     "test:ci": "CI=true npm run test",
     "eject": "react-scripts eject",
-    "eslint": "eslint --ext .js --ext .jsx ."
+    "eslint": "eslint --ext .js --ext .jsx .",
+    "analyze:install": "npm i -g source-map-explorer",
+    "analyze:start": "npm run build && source-map-explorer 'build/static/js/*.js'",
+    "analyze": "if ! npm list source-map-explorer -g; then npm run analyze:install; fi; npm run analyze:start;"
   },
   "devDependencies": {
     "@types/recharts": "^1.7.0",
@@ -72,6 +76,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "7.14.3",
     "eslint-plugin-react-hooks": "^2.0.1",
+    "http-proxy-middleware": "^0.20.0",
     "node-sass": "^4.12.0",
     "redux-devtools-extension": "^2.13.7",
     "redux-mock-store": "^1.5.3"

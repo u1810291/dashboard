@@ -13,7 +13,7 @@ export function FAQ() {
         <Grid container direction="column" spacing={2}>
           {countToArray(FAQ_COUNTER).map((item) => (
             <Grid item key={item}>
-              <Typography variant="h3" component="h3" gutterBottom>
+              <Typography variant="h5" component="h3" gutterBottom>
                 {intl.formatMessage({ id: `FAQ.${item}.question` })}
               </Typography>
               <Box color="grey.700">

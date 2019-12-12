@@ -9,13 +9,7 @@ export { default as CardModal } from './account/card-modal';
 export { default as ChangePlanModal } from './account/change-plan-modal';
 export { default as CardDeclinedModal } from './account/card-declined-modal';
 export { default as PlanCancelModal } from './account/plan-cancel-modal';
-export { default as NoPlanSelected } from './integration/no-plan-selected';
-export { default as UsecaseModal } from './configuration/usecase-modal';
-export { default as VerificationsCard } from './metrics/verifications-card';
 export { default as Chart } from './metrics/chart';
-export { default as ChartFilters } from './metrics/chart-filters';
 export { default as VerificationsTotal } from './metrics/verifications-total';
 export { default as VerificationsStats } from './metrics/verifications-stats';
-export {
-  default as EndToEndCompliance,
-} from './product/end-to-end-compliance';
+export { default as EndToEndCompliance } from './product/end-to-end-compliance';

@@ -1,11 +1,11 @@
 import { InfoPage } from 'apps/info';
 import Metrics from 'apps/metrics';
-import Product from 'apps/product';
+import { Product } from 'apps/product';
 import { OwnerRoute } from 'apps/routing';
 import { BlockedRoute } from 'apps/routing/BlockedRoute';
 import { ROOT_PATH } from 'apps/routing/routing.model';
 import Settings from 'apps/settings';
-import VerificationDetail from 'apps/verification-detail';
+import { VerificationDetail } from 'apps/verification-detail';
 import VerificationHistory from 'apps/verification-history';
 import ApplicationBox from 'components/application-box';
 import { ContainerLoader } from 'components/contrainer-loader';

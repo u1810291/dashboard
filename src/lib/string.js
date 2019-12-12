@@ -1,6 +1,17 @@
-import moment from 'moment';
 import { titleize } from 'inflection';
 import { startCase } from 'lodash';
+import moment from 'moment';
+
+export const FieldTitlizedPatterns = [
+  'name',
+  'address',
+  'gender',
+  'nationality',
+];
+
+export const FieldDatePatterns = [
+  'date',
+];
 
 const INPUT_DATE_FORMATS = [moment.ISO_8601, 'YYYY', 'MMM, YYYY', 'MMM D, YYYY', 'DD/MM/YYYY'];
 const RE_NON_DIGIT = /\D/g;
@@ -26,31 +37,20 @@ export function formatDate(value) {
   }
 }
 
-export function formatValue(label, string) {
-  function checkLabel(name, keys) {
-    return keys.some((key) => name.toLowerCase().includes(key));
-  }
-
-  if (checkLabel(label, ['name', 'address', 'gender', 'nationality'])) {
-    return titleize(string);
-  }
-
-  if (checkLabel(label, ['date'])) {
-    return formatDate(string);
-  }
-
-  return string;
+function includesPattern(name, keys) {
+  return keys.some((key) => name.toLowerCase().includes(key));
 }
 
-const parseDashboardFormat = (value) => moment.utc(value, 'MMM D, YYYY', true);
+export function formatValue(label, value) {
+  if (includesPattern(label, FieldTitlizedPatterns)) {
+    return titleize(value || '');
+  }
 
-export function ifDateFormat(value) {
-  const dateAsMoment = parseDashboardFormat(value);
-  return dateAsMoment.isValid();
-}
+  if (includesPattern(label, FieldDatePatterns)) {
+    return formatDate(value);
+  }
 
-export function formatISODate(value) {
-  return parseDashboardFormat(value).format('YYYY-MM-DD');
+  return value;
 }
 
 export function trimMiddle(string = '', begin = 30, end = 5, delimiter = '…') {

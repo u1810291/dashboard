@@ -10,7 +10,7 @@ export function Feedback() {
     <Paper>
       <Box p={2}>
         <Box mb={4}>
-          <Typography variant="h2">
+          <Typography variant="h4">
             {intl.formatMessage({ id: 'Feedback.title' })}
           </Typography>
         </Box>

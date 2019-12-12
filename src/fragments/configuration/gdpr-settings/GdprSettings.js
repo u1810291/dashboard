@@ -50,7 +50,7 @@ export function GdprSettings() {
         handleCloseDialog={handleCloseDialog}
       />
       <Items flow="row">
-        <Typography variant="h3">
+        <Typography variant="h5">
           {intl.formatMessage({ id: 'Product.configuration.gdpr.title' })}
         </Typography>
         <Box>

@@ -1,12 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
-
 import Dropdown from 'components/dropdown';
-import Spinner from 'components/spinner';
 import { ReactComponent as DownArrow } from 'components/select-field/downArrow.svg';
-
+import Spinner from 'components/spinner';
+import { getIdentityStatusLabel, IdentityStatuses } from 'models/Identity.model';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import CSS from './StatusSelect.module.scss';
 
 export default class StatusSelect extends React.Component {
@@ -28,8 +27,11 @@ export default class StatusSelect extends React.Component {
     }
   };
 
-  filterStatuses = (status) => ['rejected', 'verified', 'reviewNeeded']
-    .filter((item) => item !== status);
+  filterStatuses = (status) => [
+    IdentityStatuses.verified,
+    IdentityStatuses.reviewNeeded,
+    IdentityStatuses.rejected,
+  ].filter((item) => item !== status);
 
   render() {
     const { status, isLoading } = this.props;
@@ -41,9 +43,10 @@ export default class StatusSelect extends React.Component {
           <Dropdown.Trigger className={CSS.triggerBlock}>
             <div className={CSS.activeStatusLabel}>
               <span className={CSS.statusText}>
-                <FormattedMessage id="statusSelect.status" />
+                <FormattedMessage id="identity.status" />
+                :
               </span>
-              <FormattedMessage id={`statuses.${status}`} />
+              <FormattedMessage id={getIdentityStatusLabel(status)} />
             </div>
             <DownArrow className={CSS.downArrow} />
           </Dropdown.Trigger>
@@ -57,7 +60,7 @@ export default class StatusSelect extends React.Component {
                   onClick={this.selectStatus(item)}
                   onKeyUp={() => {}}
                 >
-                  <FormattedMessage id={`statuses.${item}`} />
+                  <FormattedMessage id={getIdentityStatusLabel(item)} />
                 </li>
               ))}
             </ul>

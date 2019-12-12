@@ -1,5 +1,6 @@
 import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
 import { fromIsoPeriod } from 'lib/date';
+import { get, last } from 'lodash';
 
 export function selectIsOwner({ merchant, auth }) {
   if (!merchant.collaborators) {
@@ -38,4 +39,15 @@ export function selectMerchantName({ merchant }) {
 
 export function selectPolicyInterval({ merchant }) {
   return fromIsoPeriod(merchant.configurations.policyInterval);
+}
+
+export function selectMerchantOrganizationName({ merchant }) {
+  return get(merchant, 'configurations.dashboard.info.organization');
+}
+
+/**
+ * @return { clientId, clientSecret }
+ */
+export function selectMerchantApps({ merchant }) {
+  return last(merchant.apps) || {};
 }

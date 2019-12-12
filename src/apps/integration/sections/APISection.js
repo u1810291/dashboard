@@ -1,30 +1,34 @@
+import { Button, Grid, Typography } from '@material-ui/core';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Click, Items } from 'components';
-import Icons from 'components/icons';
-import { H2 } from 'components/text';
+import { FiCode } from 'react-icons/fi';
+import { useIntl } from 'react-intl';
 
-export default function APISection() {
+export function APISection() {
+  const intl = useIntl();
+
   return (
-    <Items flow="column" align="center" templateColumns="1fr 1fr" gap="24">
-      <H2 weight="2">
-        <FormattedMessage id="apps.integration.api.title" />
-        <p>
-          <FormattedMessage id="apps.integration.api.subtitle" />
-        </p>
-      </H2>
-      <Items templateColumns="4fr 1fr">
-        <Click
-          as="a"
-          href="https://docs.getmati.com/"
-          border="secondary"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Icons.Code />
-          <FormattedMessage id="apps.integration.api.cta" />
-        </Click>
-      </Items>
-    </Items>
+    <Grid container justify="space-between" alignItems="center">
+      <Grid item xs={5}>
+        <Typography variant="h5" gutterBottom>{intl.formatMessage({ id: 'ApiSection.title' })}</Typography>
+        <Typography paragraph>{intl.formatMessage({ id: 'ApiSection.description' })}</Typography>
+      </Grid>
+      <Grid item xs={5}>
+        <Grid container spacing={2} direction="column">
+          <Grid item xs={6}>
+            <Button
+              fullWidth
+              variant="outlined"
+              href="https://docs.getmati.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              color="primary"
+              startIcon={<FiCode size="1rem" />}
+            >
+              {intl.formatMessage({ id: 'ApiSection.cta' })}
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }

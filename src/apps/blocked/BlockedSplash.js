@@ -23,7 +23,7 @@ export function BlockedSplash() {
             display="flex"
             alignItems="center"
           >
-            <Typography variant="h1" color="secondary">{intl.formatMessage({ id: 'BlockedSplash.subtitle' })}</Typography>
+            <Typography variant="h2" color="secondary">{intl.formatMessage({ id: 'BlockedSplash.subtitle' })}</Typography>
           </Box>
           <Box
             display="flex"

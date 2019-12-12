@@ -34,7 +34,7 @@ export default {
     MozHyphens: 'none',
     msHyphens: 'none',
     hyphens: 'none',
-    padding: '0',
+    padding: '1rem',
     margin: '0',
     overflow: 'auto',
   },

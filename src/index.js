@@ -26,6 +26,9 @@ if (process.env.REACT_APP_SENTRY_DSN) {
   });
 }
 
+// eslint-disable-next-line no-console
+console.log('Mati version', process.env.REACT_APP_VERSION);
+
 ReactDOM.render(
   <MuiThemeProvider theme={AppTheme}>
     <StripeProvider apiKey={process.env.REACT_APP_STRIPE_PUBLIC_KEY}>

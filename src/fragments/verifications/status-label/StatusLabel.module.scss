@@ -1,29 +1,6 @@
 :local(.status) {
   display: flex;
   align-items: center;
-
-  i {
-    margin-right: 0.27rem;
-    width: 10px;
-    height: 10px;
-    border-radius: 10px;
-  }
-
-  &:global(.reviewNeeded) i {
-    background-color: var(--mgi-theme-palette-orange);
-  }
-
-  &:global(.rejected) i {
-    background-color: var(--mgi-theme-palette-red);
-  }
-
-  &:global(.pending) i {
-    background-color: var(--mgi-theme-palette-red);
-  }
-
-  &:global(.verified) i {
-    background-color: var(--mgi-theme-palette-green);
-  }
 }
 
 :local(.coloredText) {
