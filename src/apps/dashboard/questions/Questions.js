@@ -3,24 +3,25 @@ import { ThemeProvider } from '@material-ui/styles';
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-icon.svg';
 import { notification } from 'components/notification';
 import 'intl-tel-input/build/css/intlTelInput.min.css';
-import { requestApi, contactProperties } from 'lib/hubspot';
+import { contactProperties, requestApi } from 'lib/hubspot';
 import { difference, isEmpty, omitBy } from 'lodash';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import ReactIntlTelInput from 'react-intl-tel-input-v2';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAuthToken } from 'state/auth/auth.selectors';
-import { saveConfiguration } from 'state/merchant/merchant.actions';
+import { selectAuthToken, selectUserEmail } from 'state/auth/auth.selectors';
+import { dashboardUpdate } from 'state/merchant/merchant.actions';
 import { theme, useStyles } from './styles';
 
 const mandatoryFields = [
-  'organization', 'websiteUrl',
-  'whenToStart', 'verificationsVolume',
+  'organization',
+  'websiteUrl',
+  'whenToStart',
+  'verificationsVolume',
   'whyDoYouNeedMati',
 ];
 
-const QuestionsContent = ({ email }) => {
+function QuestionsContent() {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const QuestionsContent = ({ email }) => {
   const [disabled, handleDisabled] = useState(true);
   const [phone, setPhone] = useState({ iso2: 'us', dialCode: '1', phone: '' });
   const token = useSelector(selectAuthToken);
-  const dashboard = useSelector((s) => s.merchant.configurations.dashboard);
+  const email = useSelector(selectUserEmail);
 
   const inputProps = {
     placeholder: 'Phone number',
@@ -51,21 +52,16 @@ const QuestionsContent = ({ email }) => {
     });
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = useCallback(async (event) => {
     if (event) {
       event.preventDefault();
     }
     inputs.phone = `+${phone.dialCode} ${phone.phone}`;
     try {
-      await dispatch(
-        saveConfiguration({
-          dashboard: {
-            ...dashboard,
-            info: inputs,
-            shouldPassOnboarding: false,
-          },
-        }),
-      );
+      await dispatch(dashboardUpdate({
+        info: inputs,
+        shouldPassOnboarding: false,
+      }));
       const hubspotContactData = {
         [contactProperties.companyName]: inputs.organization,
         [contactProperties.website]: inputs.websiteUrl,
@@ -78,7 +74,7 @@ const QuestionsContent = ({ email }) => {
     } catch (err) {
       notification.info('Error saving configuration');
     }
-  };
+  }, [dispatch, token, phone, email, inputs]);
 
 
   return (
@@ -218,36 +214,18 @@ const QuestionsContent = ({ email }) => {
       </Grid>
     </form>
   );
-};
+}
 
-QuestionsContent.propTypes = {
-  email: PropTypes.string,
-};
-
-QuestionsContent.defaultProps = {
-  email: undefined,
-};
-
-const Questions = ({ email }) => {
+export function Questions() {
   const classes = useStyles();
 
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <Drawer anchor="left" variant="persistent" open>
-          <QuestionsContent email={email} />
+          <QuestionsContent />
         </Drawer>
       </div>
     </ThemeProvider>
   );
-};
-
-Questions.propTypes = {
-  email: PropTypes.string,
-};
-
-Questions.defaultProps = {
-  email: undefined,
-};
-
-export default Questions;
+}

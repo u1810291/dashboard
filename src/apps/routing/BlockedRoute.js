@@ -3,16 +3,16 @@ import { ContainerLoader } from 'components/contrainer-loader';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route } from 'react-router-dom';
-import { selectIsBlocked } from 'state/merchant/merchant.selectors';
+import { selectIsBlockedModel } from 'state/merchant/merchant.selectors';
 
 export function BlockedRoute({ ...props }) {
-  const [isBlocked, isLoading] = useSelector(selectIsBlocked);
+  const blockedModel = useSelector(selectIsBlockedModel);
 
-  if (isLoading) {
+  if (!blockedModel.isLoaded) {
     return <ContainerLoader />;
   }
 
-  if (isBlocked) {
+  if (blockedModel.value) {
     return <BlockedSplash />;
   }
 

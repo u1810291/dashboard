@@ -1,4 +1,4 @@
-import { LoadableAdapter } from 'lib/loadable.adapter';
+import { LoadableAdapter } from 'lib/Loadable.adapter';
 
 export function selectMetrics({ metrics }) {
   return LoadableAdapter.get(metrics.metrics);

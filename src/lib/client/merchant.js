@@ -22,12 +22,6 @@ export function putMerchants(token, data) {
   });
 }
 
-export function getIntegrationCode(token) {
-  return http.get('/api/v1/merchants/integration-code', {
-    headers: { ...getAuthHeader(token) },
-  });
-}
-
 export function getMerchantApps(token) {
   return http.get('/api/v1/merchants/apps', {
     headers: { ...getAuthHeader(token) },

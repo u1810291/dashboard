@@ -1,12 +1,24 @@
+import { createSelector } from 'reselect';
 
-export function selectAuthToken({ auth }) {
-  return auth.token;
-}
 
-export function selectAuthUser({ auth }) {
-  return auth.user;
-}
+const selectAuthStore = (state) => state.auth;
 
-export function selectUserEmail({ auth }) {
-  return auth.user.email;
-}
+export const selectAuthToken = createSelector(
+  selectAuthStore,
+  (auth) => auth.token,
+);
+
+export const selectAuthUser = createSelector(
+  selectAuthStore,
+  (auth) => auth.user,
+);
+
+export const selectUserEmail = createSelector(
+  selectAuthUser,
+  (user) => user.email,
+);
+
+export const selectUserId = createSelector(
+  selectAuthUser,
+  (user) => user.id,
+);

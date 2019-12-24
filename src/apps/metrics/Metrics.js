@@ -67,6 +67,7 @@ export default function Metrics() {
   useEffect(() => {
     dispatch(getMetrics());
   }, [dispatch]);
+
   useEffect(() => {
     dispatch(getStatistics(filter));
   }, [filter, dispatch]);

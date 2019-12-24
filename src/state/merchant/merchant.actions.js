@@ -1,102 +1,126 @@
 import * as api from 'lib/client/merchant';
 import { selectAuthToken } from 'state/auth/auth.selectors';
+import { MerchantActionGroups } from 'state/merchant/merchant.model';
+import { selectConfigurationModel, selectDashboardModel, selectStyleModel } from 'state/merchant/merchant.selectors';
 import { initPlans } from 'state/plans/plans.actions';
 import { createTypesSequence } from 'state/utils';
+import { getWebhooks } from 'state/webhooks/webhooks.actions';
 
 export const types = {
-  ...createTypesSequence('MERCHANT_GET'),
-  ...createTypesSequence('MERCHANTS_PUT'),
-  ...createTypesSequence('CONFIGURATION_SAVE'),
-  ...createTypesSequence('INTEGRATION_CODE'),
-  ...createTypesSequence('GET_MERCHANT_APPS'),
-  ...createTypesSequence('UPDATE_MERCHANT_PLAN'),
-  ...createTypesSequence('SET_MERCHANT_LANG'),
-  ...createTypesSequence('UPLOAD_MERCHANT_MEDIA'),
+  ...createTypesSequence(MerchantActionGroups.Merchant),
+  ...createTypesSequence(MerchantActionGroups.Configuration),
+  ...createTypesSequence(MerchantActionGroups.App),
 };
 
-export const getMerchant = () => async (dispatch, getState) => {
-  dispatch({ type: types.MERCHANT_GET_REQUEST });
+// -- merchant
+
+export const merchantLoad = () => async (dispatch, getState) => {
+  dispatch({ type: types.MERCHANT2_REQUEST });
+  dispatch({ type: types.CONFIGURATION2_REQUEST });
   try {
     const token = selectAuthToken(getState());
     const payload = await api.getMerchant(token);
-    dispatch({ type: types.MERCHANT_GET_SUCCESS, payload });
-    dispatch(initPlans(payload.data.billing || {}));
+
+    const { configurations: { dashboard, ...cfg }, billing, ...merchant } = payload.data;
+    dispatch({ type: types.MERCHANT2_SUCCESS, payload: merchant });
+    dispatch({ type: types.CONFIGURATION2_SUCCESS, payload: cfg });
+    dispatch(initPlans(billing || {}));
     return payload;
   } catch (error) {
-    dispatch({ type: types.MERCHANT_GET_FAILURE });
+    dispatch({ type: types.MERCHANT2_FAILURE, error });
+    dispatch({ type: types.CONFIGURATION2_FAILURE, error });
     throw error;
   }
 };
 
-export const putMerchants = (data) => async (dispatch, getState) => {
-  dispatch({ type: types.MERCHANTS_PUT_REQUEST });
+export const merchantUpdate = (data) => async (dispatch, getState) => {
+  dispatch({ type: types.MERCHANT2_UPDATING });
   try {
     const token = selectAuthToken(getState());
     const payload = await api.putMerchants(token, data);
-    dispatch({ type: types.MERCHANTS_PUT_SUCCESS, payload });
-    return payload;
+    const { configurations, billing, ...merchant } = payload.data;
+    dispatch({ type: types.MERCHANT2_SUCCESS, payload: merchant });
   } catch (error) {
-    dispatch({ type: types.MERCHANTS_PUT_FAILURE });
+    dispatch({ type: types.MERCHANT2_FAILURE, error });
     throw error;
   }
 };
 
-export const getMerchantApps = () => async (dispatch, getState) => {
-  dispatch({ type: types.GET_MERCHANT_APPS_REQUEST });
+export const merchantUpdateMedia = (form) => async (dispatch, getState) => {
+  dispatch({ type: types.MERCHANT2_UPDATING });
   try {
     const token = selectAuthToken(getState());
-    const payload = await api.getMerchantApps(token);
-    dispatch({ type: types.GET_MERCHANT_APPS_SUCCESS, payload });
-    return payload;
+    const { data } = await api.uploadMerchantMedia(token, form);
+    const payload = {
+      logoUrl: data.publicUrl,
+    };
+    dispatch({ type: types.MERCHANT2_SUCCESS, payload });
   } catch (error) {
-    dispatch({ type: types.GET_MERCHANT_APPS_FAILURE });
+    dispatch({ type: types.MERCHANT2_FAILURE, error });
     throw error;
   }
 };
 
-export const getIntegrationCode = () => async (dispatch, getState) => {
-  dispatch({ type: types.INTEGRATION_CODE_REQUEST });
+// -- app
+
+export const appLoad = () => async (dispatch, getState) => {
+  dispatch({ type: types.APP2_REQUEST });
   try {
     const token = selectAuthToken(getState());
-    const payload = await api.getIntegrationCode(token);
-    dispatch({ type: types.INTEGRATION_CODE_SUCCESS, payload });
-    return payload;
+    const { data } = await api.getMerchantApps(token);
+    dispatch({ type: types.APP2_SUCCESS, payload: data.apps });
+    dispatch(getWebhooks());
   } catch (error) {
-    dispatch({ type: types.INTEGRATION_CODE_FAILURE });
+    dispatch({ type: types.APP2_FAILURE, error });
     throw error;
   }
 };
 
-export const saveConfiguration = (configurations) => async (dispatch, getState) => {
+// -- configuration
+
+export const configurationUpdate = (cfg) => async (dispatch, getState) => {
+  const state = getState();
+  const cfgModel = selectConfigurationModel(state);
+
+  if (!cfgModel.isLoaded) {
+    return;
+  }
+
   const newConfiguration = {
-    ...getState().merchant.configurations,
-    ...configurations,
+    ...cfgModel.value,
+    ...cfg,
   };
 
-  dispatch({ type: types.CONFIGURATION_SAVE_REQUEST, configurations: newConfiguration });
+  dispatch({ type: types.CONFIGURATION2_UPDATING, payload: newConfiguration });
 
   try {
     const token = selectAuthToken(getState());
-    const payload = await api.saveConfiguration(token, newConfiguration);
-    dispatch({ type: types.CONFIGURATION_SAVE_SUCCESS, payload });
+    const { data } = await api.saveConfiguration(token, newConfiguration);
+    dispatch({ type: types.CONFIGURATION2_SUCCESS, payload: data.configurations });
     // TODO @dkchv: review again!!!
-    dispatch(getIntegrationCode(token));
-    return payload;
+    // dispatch(getIntegrationCode(token));
   } catch (error) {
-    dispatch({ type: types.CONFIGURATION_SAVE_FAILURE });
+    dispatch({ type: types.CONFIGURATION2_FAILURE, error });
     throw error;
   }
 };
 
-export const uploadMerchantMedia = (form) => async (dispatch, getState) => {
-  dispatch({ type: types.UPLOAD_MERCHANT_MEDIA_REQUEST });
-  try {
-    const token = selectAuthToken(getState());
-    const payload = await api.uploadMerchantMedia(token, form);
-    dispatch({ type: types.UPLOAD_MERCHANT_MEDIA_SUCCESS, payload });
-    return payload;
-  } catch (error) {
-    dispatch({ type: types.UPLOAD_MERCHANT_MEDIA_FAILURE });
-    throw error;
-  }
+export const dashboardUpdate = (data) => async (dispatch, getState) => {
+  const dashboard = selectDashboardModel(getState());
+  dispatch(configurationUpdate({
+    dashboard: {
+      ...dashboard.value,
+      ...data,
+    },
+  }));
+};
+
+export const styleUpdate = (data) => async (dispatch, getState) => {
+  const cfg = selectStyleModel(getState());
+  dispatch(configurationUpdate({
+    style: {
+      ...cfg.value,
+      ...data,
+    },
+  }));
 };

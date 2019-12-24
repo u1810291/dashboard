@@ -7,7 +7,7 @@ import { Route, Switch } from 'react-router-dom';
 import Billing from './billing-settings';
 import PersonalSetting from './personal-settings';
 import Pricing from './Pricing';
-import TeamSettings from './team-settings';
+import { TeamSettings } from './team-settings/TeamSettings';
 
 export default function Settings() {
   const intl = useIntl();

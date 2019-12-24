@@ -1,133 +1,76 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-import { isEmpty } from 'lodash';
-
-import TeamTable from 'fragments/account/team-table';
-import {
-  getCollaborators,
-  deleteCollaborators,
-  postCollaborators,
-  patchCollaborators,
-} from 'state/collaborators/collaborator.actions';
 import Button from 'components/button';
 import { closeOverlay, createOverlay } from 'components/overlay';
-import TeamInviteModal from 'fragments/account/team-invite-modal/TeamInviteModal';
 import InviteSuccessModal from 'fragments/account/team-invite-modal/InviteSuccessModal';
-
+import { TeamInviteModal } from 'fragments/account/team-invite-modal/TeamInviteModal';
+import TeamTable from 'fragments/account/team-table';
+import React, { useCallback, useEffect } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteCollaborators, getCollaborators, patchCollaborators, postCollaborators } from 'state/collaborators/collaborator.actions';
+import { selectCollaborators, selectCollaboratorState } from 'state/collaborators/collaborator.selectors';
 import { ReactComponent as InviteIcon } from '../invite.svg';
 import SettingsLayout from '../SettingsLayout';
 
-const mapCollaborators = (collab) => collab
-  .filter((entry) => !isEmpty(entry.user))
-  .map((entry) => ({
-    role: entry.role,
-    name: `${entry.user.firstName} ${entry.user.lastName}`,
-    id: entry.user.id,
-    email: entry.user.email,
-  }));
+export function TeamSettings() {
+  const dispatch = useDispatch();
+  const intl = useIntl();
+  const collaborators = useSelector(selectCollaborators);
+  const state = useSelector(selectCollaboratorState);
 
-class TeamSettings extends React.Component {
-  static propTypes = {
-    deleteCollaborators: PropTypes.func.isRequired,
-    getCollaborators: PropTypes.func.isRequired,
-    isPosting: PropTypes.bool.isRequired,
-    merchantId: PropTypes.string.isRequired,
-    patchCollaborators: PropTypes.func.isRequired,
-    postCollaborators: PropTypes.func.isRequired,
-  }
+  const handleDeleteSubmit = useCallback((id) => dispatch(deleteCollaborators(id)), [dispatch]);
 
-  componentDidMount() {
-    // eslint-disable-next-line no-shadow
-    const { merchantId, getCollaborators } = this.props;
-    if (merchantId) {
-      getCollaborators(merchantId);
-    }
-  }
+  const handleRoleChange = useCallback((id, role) => {
+    dispatch(patchCollaborators(id, { role }));
+  }, [dispatch]);
 
-  componentDidUpdate(prevProps) {
-    // eslint-disable-next-line no-shadow
-    const { merchantId, getCollaborators, isPosting } = this.props;
-    if (!prevProps.merchantId && merchantId) {
-      getCollaborators(merchantId);
-    }
-    if (prevProps.isPosting !== isPosting) {
-      this.openInviteModal();
-    }
-  }
+  const openInviteSuccessModal = useCallback(() => {
+    createOverlay(<InviteSuccessModal onClose={closeOverlay} />);
+  }, []);
 
-  onDeleteSubmit = (id) => this.props.deleteCollaborators(this.props.merchantId, id)
-
-  onRoleChange = (id, role) => {
-    this.props.patchCollaborators(this.props.merchantId, id, {
-      role,
-    });
-  }
-
-  onInviteSubmit = (data) => {
-    const dataToSend = {
+  const handleInviteSubmit = useCallback(async (data) => {
+    await dispatch(postCollaborators({
       role: parseInt(data.role, 10),
       user: {
         email: data.email,
         firstName: data.firstName,
         lastName: data.lastName,
       },
-    };
-    return this.props
-      .postCollaborators(this.props.merchantId, dataToSend)
-      .then(() => this.openInviteSuccessModal());
-  }
+    }));
+    openInviteSuccessModal();
+  }, [openInviteSuccessModal, dispatch]);
 
-  openInviteModal = () => {
+  const openInviteModal = useCallback(() => {
     createOverlay(
       <TeamInviteModal
         onClose={closeOverlay}
-        onSubmit={this.onInviteSubmit}
-        isPosting={this.props.isPosting}
+        onSubmit={handleInviteSubmit}
+        isPosting={state.isPosting}
       />,
     );
-  }
+  }, [handleInviteSubmit, state]);
 
-  openInviteSuccessModal = () => {
-    createOverlay(<InviteSuccessModal onClose={closeOverlay} />);
-  }
+  useEffect(() => {
+    dispatch(getCollaborators());
+  }, [dispatch]);
 
-  render() {
-    return (
-      <SettingsLayout>
-        <main>
-          <TeamTable
-            onRoleChange={this.onRoleChange}
-            onDeleteSubmit={this.onDeleteSubmit}
-            {...this.props} // eslint-disable-line react/jsx-props-no-spreading
-          />
-        </main>
-        <aside>
-          <Button buttonStyle="primary" onClick={this.openInviteModal}>
-            <InviteIcon />
-            <FormattedMessage id="settings.teamSettings.inviteTeammate" />
-          </Button>
-        </aside>
-      </SettingsLayout>
-    );
-  }
+  return (
+    <SettingsLayout>
+      <main>
+        <TeamTable
+          onRoleChange={handleRoleChange}
+          onDeleteSubmit={handleDeleteSubmit}
+          collaborators={collaborators}
+          isLoading={state.isLoading}
+          isDeleting={state.isDeleting}
+          isPatchingArray={state.isPatchingArray}
+        />
+      </main>
+      <aside>
+        <Button buttonStyle="primary" onClick={openInviteModal}>
+          <InviteIcon />
+          {intl.formatMessage({ id: 'settings.teamSettings.inviteTeammate' })}
+        </Button>
+      </aside>
+    </SettingsLayout>
+  );
 }
-
-export default connect(
-  ({ collaborators, merchant }) => ({
-    rows: [],
-    collaborators: mapCollaborators(collaborators.collaborators),
-    isLoading: collaborators.isLoading,
-    isPosting: collaborators.isPosting,
-    isDeleting: collaborators.isDeleting,
-    isPatchingArray: collaborators.isPatchingArray,
-    merchantId: merchant.id,
-  }),
-  {
-    getCollaborators,
-    deleteCollaborators,
-    postCollaborators,
-    patchCollaborators,
-  },
-)(TeamSettings);

@@ -1,85 +1,85 @@
 import classNames from 'classnames';
 import { Items } from 'components';
 import { Content } from 'components/application-box';
-import ConfigureColor from 'fragments/configuration/configure-color';
+import { ConfigureColor } from 'fragments/configuration/configure-color/ConfigureColor';
 import Countries from 'fragments/configuration/countries';
-import Logo from 'fragments/configuration/logo';
+import { GdprSettings } from 'fragments/configuration/gdpr-settings';
+import { Logo } from 'fragments/configuration/logo/Logo';
 import { VerificationSteps } from 'fragments/configuration/verification-steps';
 import BiometricStep from 'fragments/configuration/verification-steps/biometric-steps';
-import { GdprSettings } from 'fragments/configuration/gdpr-settings';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCountries } from 'state/countries/countries.actions';
-import { saveConfiguration } from 'state/merchant/merchant.actions';
-import { AVAILABLE_DOCUMENT_TYPES, COLOR_PRESETS } from 'state/merchant/merchant.model';
+import { configurationUpdate } from 'state/merchant/merchant.actions';
+import { selectConfigurationModel } from 'state/merchant/merchant.selectors';
 import CSS from './Configuration.module.scss';
 
 export default function Configuration() {
-  const configurations = useSelector(({ merchant }) => merchant.configurations);
   const { countries, isLoading } = useSelector((state) => state.countries);
   const [active, setActive] = useState(0);
   const dispatch = useDispatch();
+  const cfgModel = useSelector(selectConfigurationModel);
+  const [flowSteps, setFlowSteps] = useState([]);
 
-  const updateConfiguration = (settings) => dispatch(saveConfiguration(settings));
+  const updateConfiguration = useCallback((settings) => dispatch(configurationUpdate(settings)), [dispatch]);
 
   useEffect(() => {
     dispatch(getCountries());
   }, [countries.length, dispatch]);
 
-  const flowSteps = [
-    {
-      title: 'Product.configuration.buttonsColor',
-      icon: <FiDroplet />,
-      body: (
-        <div id="buttonColor">
-          <ConfigureColor
-            presets={COLOR_PRESETS}
-            style={configurations.style}
-            onClick={updateConfiguration}
-          />
-        </div>
-      ),
-    },
-    {
-      title: 'Product.configuration.verification',
-      icon: <FiFileText />,
-      body: <VerificationSteps
-        availableDocumentTypes={AVAILABLE_DOCUMENT_TYPES}
-        steps={configurations.verificationSteps}
-        onChange={updateConfiguration}
-      />,
-    },
-    {
-      title: 'Product.configuration.biometric',
-      icon: <FiEye />,
-      body: <BiometricStep
-        patterns={configurations.verificationPatterns}
-        onChange={updateConfiguration}
-      />,
-    },
-    {
-      title: 'Product.configuration.logo',
-      icon: <FiImage />,
-      body: <Logo />,
-    },
-    {
-      title: 'Product.configuration.country',
-      icon: <FiFlag />,
-      body: <Countries
-        countries={countries}
-        onSubmit={updateConfiguration}
-        supportedCountries={configurations.supportedCountries}
-        isLoading={isLoading}
-      />,
-    },
-    {
-      title: 'Product.configuration.gdpr',
-      icon: <FiTrash />,
-      body: <GdprSettings />,
-    },
-  ];
+  useEffect(() => {
+    if (cfgModel.isLoaded) {
+      setFlowSteps([
+        {
+          title: 'Product.configuration.buttonsColor',
+          icon: <FiDroplet />,
+          body: (
+            <div id="buttonColor">
+              <ConfigureColor />
+            </div>
+          ),
+        },
+        {
+          title: 'Product.configuration.verification',
+          icon: <FiFileText />,
+          body: <VerificationSteps
+            steps={cfgModel.value.verificationSteps}
+            onChange={updateConfiguration}
+          />,
+        },
+        {
+          title: 'Product.configuration.biometric',
+          icon: <FiEye />,
+          body: <BiometricStep
+            patterns={cfgModel.value.verificationPatterns}
+            onChange={updateConfiguration}
+          />,
+        },
+        {
+          title: 'Product.configuration.logo',
+          icon: <FiImage />,
+          body: <Logo />,
+        },
+        {
+          title: 'Product.configuration.country',
+          icon: <FiFlag />,
+          body: <Countries
+            countries={countries}
+            onSubmit={updateConfiguration}
+            supportedCountries={cfgModel.value.supportedCountries}
+            isLoading={isLoading}
+          />,
+        },
+        {
+          title: 'Product.configuration.gdpr',
+          icon: <FiTrash />,
+          body: <GdprSettings />,
+        },
+      ]);
+    }
+  }, [countries, isLoading, cfgModel, updateConfiguration]);
 
   return (
     <Content fullwidth={false} className={CSS.content}>
@@ -105,7 +105,7 @@ export default function Configuration() {
           ))}
         </ul>
         <Items>
-          {flowSteps[active].body}
+          {flowSteps[active] && flowSteps[active].body}
         </Items>
       </Items>
     </Content>

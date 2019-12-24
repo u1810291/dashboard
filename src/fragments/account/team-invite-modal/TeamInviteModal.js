@@ -1,55 +1,43 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import Modal from 'components/modal';
 import Button from 'components/button';
-import { setI18nContext } from 'components/i18n-context';
+import Modal from 'components/modal';
 import Spinner from 'components/spinner';
+import React, { useCallback } from 'react';
+import { useIntl } from 'react-intl';
 import TeamInviteForm from './TeamInviteForm';
 
-class TeamInviteModal extends React.Component {
-  static propTypes = {
-    isPosting: PropTypes.bool.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-  }
+export function TeamInviteModal({ onSubmit, isPosting }) {
+  const intl = useIntl();
+  const formRef = React.createRef();
 
-  onInviteClick = () => {
-    const { refs: { teamInviteForm } } = this;
-    teamInviteForm.submitForm();
-  }
+  const handleSubmit = useCallback((data) => onSubmit(data), [onSubmit]);
 
-  handleSubmit = (data) => this.props.onSubmit(data)
+  const handleInviteClick = useCallback(() => {
+    if (formRef.current) {
+      formRef.current.submitForm();
+    }
+  }, [formRef]);
 
-  render() {
-    const { className, isPosting, ...modalProps } = this.props;
-
-    return (
-      <Modal
-        className={className}
-        {...modalProps} // eslint-disable-line react/jsx-props-no-spreading
-      >
-        <header>
-          <FormattedMessage id="teamTable.inviteModal.title" />
-        </header>
-        <main>
-          <TeamInviteForm
-            ref="teamInviteForm" // eslint-disable-line react/no-string-refs
-            handleSubmit={this.handleSubmit}
-          />
-        </main>
-        <footer className="modal--footer-center">
-          <Button
-            type="submit"
-            buttonStyle="primary"
-            onClick={this.onInviteClick}
-          >
-            <FormattedMessage id="teamTable.invite" />
-          </Button>
-          {isPosting && <Spinner size="large" />}
-        </footer>
-      </Modal>
-    );
-  }
+  return (
+    <Modal>
+      <header>
+        {intl.formatMessage({ id: 'teamTable.inviteModal.title' })}
+      </header>
+      <main>
+        <TeamInviteForm
+          ref={formRef}
+          handleSubmit={handleSubmit}
+        />
+      </main>
+      <footer className="modal--footer-center">
+        <Button
+          type="submit"
+          buttonStyle="primary"
+          onClick={handleInviteClick}
+        >
+          {intl.formatMessage({ id: 'teamTable.invite' })}
+        </Button>
+        {isPosting && <Spinner size="large" />}
+      </footer>
+    </Modal>
+  );
 }
-
-export default setI18nContext('teamTable.form')(TeamInviteModal);

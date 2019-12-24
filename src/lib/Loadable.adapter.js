@@ -26,7 +26,12 @@ export class LoadableAdapter {
           [sliceName]: LoadableAdapter.success(payload, state[sliceName]),
         };
       },
-
+      [`${actionGroupName}_${ActionSubTypes.Updating}`](state, { payload }) {
+        return {
+          ...state,
+          [sliceName]: LoadableAdapter.request(state[sliceName], payload, true),
+        };
+      },
       [`${actionGroupName}_${ActionSubTypes.Failure}`](state, { error }) {
         return {
           ...state,
@@ -36,21 +41,24 @@ export class LoadableAdapter {
     };
   }
 
-  static request(state) {
+  static request(model, payload, isUpdating = false) {
     return {
-      ...state,
-      isLoaded: false,
+      isLoaded: isUpdating ? model.isLoaded : false,
       isLoading: true,
       isFailed: false,
       error: null,
+      value: !payload ? model.value : {
+        ...model.value,
+        ...payload,
+      },
     };
   }
 
-  static success(data, state) {
+  static success(data, model) {
     return {
-      ...state,
+      ...model,
       value: {
-        ...state.value,
+        ...model.value,
         ...data,
       },
       isLoaded: true,
@@ -58,9 +66,9 @@ export class LoadableAdapter {
     };
   }
 
-  static failure(error, state) {
+  static failure(error, model) {
     return {
-      ...state,
+      ...model,
       isLoading: false,
       isFailed: true,
       error: error || ERROR_COMMON,
