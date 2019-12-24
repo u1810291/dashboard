@@ -6,19 +6,17 @@ import { Tab } from 'components';
 import LegalServices from 'fragments/product/legal-services';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getMerchantApps } from 'state/merchant/merchant.actions';
-import { selectMerchantApps } from 'state/merchant/merchant.selectors';
+import { useDispatch } from 'react-redux';
+import { appLoad } from 'state/merchant/merchant.actions';
 import { CompanyBar } from './CompanyBar';
 import Footer from './Footer';
 
 export function Product() {
   const dispatch = useDispatch();
   const [activeTabIndex, setActiveTab] = useState(0);
-  const { clientId, clientSecret } = useSelector(selectMerchantApps);
 
   useEffect(() => {
-    dispatch(getMerchantApps());
+    dispatch(appLoad());
   }, [dispatch]);
 
   const changeActiveTabHandler = (tabIndex) => {
@@ -34,7 +32,7 @@ export function Product() {
       <Box p={2} mb={6}>
         <Grid container spacing={2} direction="column">
           <Grid item>
-            <CompanyBar clientId={clientId} />
+            <CompanyBar />
           </Grid>
           <Grid item>
             <Tab
@@ -45,7 +43,7 @@ export function Product() {
               tabs={ProductTabs}
               contents={[
                 <Configuration />,
-                <Integration clientId={clientId} clientSecret={clientSecret} />,
+                <Integration />,
                 <LegalServices />,
               ]}
               aside={[

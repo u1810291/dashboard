@@ -26,7 +26,8 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
     'import/prefer-default-export': 0,
-    'max-len': 'off'
+    'max-len': 'off',
+    'no-nested-ternary': 0
   },
   env: {
     browser: true,

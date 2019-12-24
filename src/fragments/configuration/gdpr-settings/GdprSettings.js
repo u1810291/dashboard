@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { Items } from 'components';
 import { selectPolicyInterval } from 'state/merchant/merchant.selectors';
-import { saveConfiguration } from 'state/merchant/merchant.actions';
+import { configurationUpdate } from 'state/merchant/merchant.actions';
 import { SetupDialog } from './GdprPopup';
 import { DropdownSettings } from './GdprDropdown';
 
@@ -35,7 +35,7 @@ export function GdprSettings() {
       handleClickOpenDialog();
     }
     if (!isChecked) {
-      await dispatch(saveConfiguration({ policyInterval: null }));
+      await dispatch(configurationUpdate({ policyInterval: null }));
     }
   }
 

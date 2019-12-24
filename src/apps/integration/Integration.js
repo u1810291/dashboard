@@ -5,16 +5,13 @@ import { SubDivider } from './Integration.styles';
 import { IntegrationSection } from './IntegrationSection';
 import { APISection, DocumentationSection, MobileSDKSection, PermalinkSection, WebhookDocumentationSection, WebhookSection, WebSDKSection } from './sections';
 
-export function Integration({ clientId, clientSecret }) {
+export function Integration({ clientId }) {
   const intl = useIntl();
 
   return (
     <Paper>
       <IntegrationSection title={intl.formatMessage({ id: 'apps.integration.documentation.title' })}>
-        <DocumentationSection
-          clientId={clientId}
-          clientSecret={clientSecret}
-        />
+        <DocumentationSection />
       </IntegrationSection>
       <Divider variant="fullWidth" />
       <IntegrationSection title={intl.formatMessage({ id: 'apps.integration.verify.title' })}>
@@ -24,7 +21,7 @@ export function Integration({ clientId, clientSecret }) {
         <SubDivider />
         <MobileSDKSection />
         <SubDivider />
-        <PermalinkSection clientId={clientId} />
+        <PermalinkSection />
       </IntegrationSection>
       <Divider variant="fullWidth" />
       <IntegrationSection title={intl.formatMessage({ id: 'apps.integration.sync.title' })}>

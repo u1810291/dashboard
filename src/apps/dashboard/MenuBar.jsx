@@ -2,16 +2,18 @@ import { AppBar, Toolbar } from '@material-ui/core';
 import { IntlButton } from 'apps/intl';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectIsOwner } from 'state/merchant/merchant.selectors';
+import { selectIsOwnerModel } from 'state/merchant/merchant.selectors';
 import { selectCurrentPlanId } from 'state/plans/plans.selectors';
 import AlertBanner from './alert-banner';
-import PrimaryMenu from './PrimaryMenu';
-import SecondaryMenu from './SecondaryMenu';
+import { PrimaryMenu } from './PrimaryMenu';
+import { SecondaryMenu } from './SecondaryMenu';
 import useStyles from './styles';
 
 export function MenuBar() {
   const classes = useStyles();
-  const [isOwner] = useSelector(selectIsOwner);
+  const ownerModel = useSelector(selectIsOwnerModel);
+  const isOwner = ownerModel.isLoaded && ownerModel.value === true;
+
   const currentPlanId = useSelector(selectCurrentPlanId);
 
   return (

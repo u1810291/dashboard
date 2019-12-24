@@ -3,7 +3,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { FiUser, FiInfo } from 'react-icons/fi';
 
-export default function SecondaryMenu() {
+export function SecondaryMenu() {
   const intl = useIntl();
 
   const entries = [

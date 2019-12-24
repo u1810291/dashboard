@@ -5,12 +5,12 @@ import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { businessEmail, email, required } from 'lib/validations';
 import { get, pick, pickBy } from 'lodash';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { signUp } from 'state/auth/auth.actions';
-import { getIntegrationCode, saveConfiguration } from 'state/merchant/merchant.actions';
+import { dashboardUpdate } from 'state/merchant/merchant.actions';
 
 const validateForm = (values) => pickBy(
   {
@@ -31,20 +31,17 @@ export default function SignUp() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  async function submitData(data, { setStatus, setSubmitting }) {
+  const submitData = useCallback(async (data, { setStatus, setSubmitting }) => {
     setStatus();
     try {
       await dispatch(signUp(pick(data, 'email', 'password')));
       if (window.Appcues) {
         window.Appcues.identify(data.email);
       }
-      await dispatch(getIntegrationCode());
-      await dispatch(saveConfiguration({
-        dashboard: {
-          language: DEFAULT_LANG,
-          usePlans: true,
-          shouldPassOnboarding: true,
-        },
+      await dispatch(dashboardUpdate({
+        language: DEFAULT_LANG,
+        usePlans: true,
+        shouldPassOnboarding: true,
       }));
       window.ga('send', 'event', 'form_submission');
       history.push(ROOT_PATH);
@@ -52,7 +49,7 @@ export default function SignUp() {
       setSubmitting(false);
       setStatus(get(err, 'response.data.message', err.message));
     }
-  }
+  }, [dispatch, history]);
 
   return (
     <Grid container direction="column" spacing={6} alignItems="stretch">

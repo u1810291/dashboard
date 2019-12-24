@@ -1,11 +1,15 @@
 import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { CopyToClipboard } from 'components/clipboard';
+import { Loadable } from 'components/Loadable/Loadable';
 import React from 'react';
 import { FiFileText } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
+import { selectAppLastModel } from 'state/merchant/merchant.selectors';
 
-export function DocumentationSection({ clientId = '', clientSecret = '' }) {
+export function DocumentationSection() {
   const intl = useIntl();
+  const appModel = useSelector(selectAppLastModel);
 
   return (
     <Grid container justify="space-between" alignItems="center">
@@ -26,15 +30,25 @@ export function DocumentationSection({ clientId = '', clientSecret = '' }) {
       <Grid item xs={5}>
         <Box>
           <Typography variant="h6">{intl.formatMessage({ id: 'DocumentationSection.clientId' })}</Typography>
-          <CopyToClipboard text={clientId}>
-            <code>{clientId}</code>
-          </CopyToClipboard>
+          <Loadable
+            model={appModel}
+            render={(value) => (
+              <CopyToClipboard text={value.clientId}>
+                <code>{appModel.value.clientId}</code>
+              </CopyToClipboard>
+            )}
+          />
         </Box>
         <Box marginTop={1}>
           <Typography variant="h6">{intl.formatMessage({ id: 'DocumentationSection.clientSecret' })}</Typography>
-          <CopyToClipboard text={clientSecret}>
-            <code>{(clientSecret).replace(/./g, '*')}</code>
-          </CopyToClipboard>
+          <Loadable
+            model={appModel}
+            render={(value) => (
+              <CopyToClipboard text={value.clientSecret}>
+                <code>{(value.clientSecret).replace(/./g, '*')}</code>
+              </CopyToClipboard>
+            )}
+          />
         </Box>
       </Grid>
     </Grid>
