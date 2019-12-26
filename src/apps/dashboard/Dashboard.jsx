@@ -11,26 +11,25 @@ import ApplicationBox from 'components/application-box';
 import { ContainerLoader } from 'components/contrainer-loader';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { signOut } from 'state/auth/auth.actions';
-import { selectUserEmail } from 'state/auth/auth.selectors';
-import { getIntegrationCode, getMerchant } from 'state/merchant/merchant.actions';
+import { merchantLoad } from 'state/merchant/merchant.actions';
 import { selectShouldPassOnboarding } from 'state/merchant/merchant.selectors';
 import { MenuBar } from './MenuBar';
-import Questions from './questions';
+import { Questions } from './questions/Questions';
 
 export function Dashboard() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [shouldPassOnboarding, isLoadingShouldPassOnboarding] = useSelector(selectShouldPassOnboarding);
-  const email = useSelector(selectUserEmail);
+  const intl = useIntl();
+  const boardingModel = useSelector(selectShouldPassOnboarding);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        await dispatch(getIntegrationCode());
-        await dispatch(getMerchant());
+        dispatch(merchantLoad());
       } catch (error) {
         if (error.response && error.response.status === 401) {
           dispatch(signOut());
@@ -45,17 +44,17 @@ export function Dashboard() {
   }, [dispatch, history]);
 
 
-  if (isLoadingShouldPassOnboarding) {
+  if (!boardingModel.isLoaded) {
     return <ContainerLoader />;
   }
 
-  if (shouldPassOnboarding) {
-    return <Questions key="questions" email={email} />;
+  if (boardingModel.value) {
+    return <Questions key="questions" />;
   }
 
   return [
     <Helmet key="head">
-      <title>Mati Dashboard</title>
+      <title>{intl.formatMessage({ id: 'page.title' })}</title>
     </Helmet>,
     <ApplicationBox key="app" menu={<MenuBar />}>
       <Switch>

@@ -2,42 +2,36 @@ import { Button, Grid, Typography } from '@material-ui/core';
 import confirm from 'components/confirm';
 import { closeOverlay, createOverlay } from 'components/overlay';
 import NewWebhookModal from 'fragments/account/new-webhook-modal/NewWebhookModal';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteWebhook, getWebhooks, subscribeToWebhook } from 'state/webhooks/webhooks.actions';
 import { selectWebhook } from 'state/webhooks/webhooks.selectors';
 import { RemoveButton, useStyles } from './WebhookSection.styles';
 
-export function WebhookSection({ clientId }) {
+export function WebhookSection() {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
   const webhook = useSelector(selectWebhook);
 
-  useEffect(() => {
-    if (clientId) {
-      dispatch(getWebhooks(clientId));
-    }
-  }, [dispatch, clientId]);
-
   const handleOnSave = useCallback(async (url, secret) => {
     if (webhook.id) {
-      await dispatch(deleteWebhook(clientId, webhook.id));
+      await dispatch(deleteWebhook(webhook.id));
     }
-    await dispatch(subscribeToWebhook(clientId, { url, secret }));
-    return dispatch(getWebhooks(clientId));
-  }, [dispatch, clientId, webhook.id]);
+    await dispatch(subscribeToWebhook({ url, secret }));
+    return dispatch(getWebhooks());
+  }, [dispatch, webhook.id]);
 
   const handleRemoveWebhook = useCallback(async () => {
     try {
       await confirm();
-      await dispatch(deleteWebhook(clientId, webhook.id));
-      dispatch(getWebhooks(clientId));
+      await dispatch(deleteWebhook(webhook.id));
+      dispatch(getWebhooks());
     } catch (e) {
       console.error(e);
     }
-  }, [dispatch, clientId, webhook.id]);
+  }, [dispatch, webhook.id]);
 
   const handleOpenModal = useCallback(() => {
     createOverlay(<NewWebhookModal onSave={handleOnSave} onClose={closeOverlay} />);
@@ -65,9 +59,7 @@ export function WebhookSection({ clientId }) {
         <Typography variant="h6">{intl.formatMessage({ id: 'WebhookSection.secret' })}</Typography>
         <Typography paragraph>{secret}</Typography>
         {webhook.url && (
-          <RemoveButton
-            onClick={handleRemoveWebhook}
-          >
+          <RemoveButton onClick={handleRemoveWebhook}>
             {intl.formatMessage({ id: 'WebhookSection.delete' })}
           </RemoveButton>
         )}

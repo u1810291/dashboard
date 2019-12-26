@@ -1,4 +1,4 @@
-import { LoadableAdapter } from 'lib/loadable.adapter';
+import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { metricsActionGroups } from 'state/metrics/metrics.actions';
 import { createReducer } from 'state/utils';
 

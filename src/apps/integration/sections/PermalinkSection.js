@@ -1,13 +1,16 @@
 import { Grid, Link, Typography } from '@material-ui/core';
 import { CopyToClipboard } from 'components/clipboard';
+import { Loadable } from 'components/Loadable/Loadable';
 import { permalinkUrl } from 'lib/client/urls';
 import { trimMiddle } from 'lib/string';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
+import { selectClientIdModel } from 'state/merchant/merchant.selectors';
 
-export function PermalinkSection({ clientId }) {
+export function PermalinkSection() {
   const intl = useIntl();
-  const url = permalinkUrl({ clientId });
+  const clientIdModel = useSelector(selectClientIdModel);
 
   return (
     <Grid container justify="space-between" alignItems="center">
@@ -16,15 +19,23 @@ export function PermalinkSection({ clientId }) {
         <Typography paragraph>{intl.formatMessage({ id: 'PermalinkSection.description' })}</Typography>
       </Grid>
       <Grid item xs={5}>
-        <CopyToClipboard text={url}>
-          <Link
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {trimMiddle(url, 20)}
-          </Link>
-        </CopyToClipboard>
+        <Loadable
+          model={clientIdModel}
+          render={(clientId) => {
+            const url = permalinkUrl({ clientId });
+            return (
+              <CopyToClipboard text={url}>
+                <Link
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {trimMiddle(url, 20)}
+                </Link>
+              </CopyToClipboard>
+            );
+          }}
+        />
       </Grid>
     </Grid>
   );

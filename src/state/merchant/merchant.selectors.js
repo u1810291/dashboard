@@ -1,53 +1,112 @@
 import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
 import { fromIsoPeriod } from 'lib/date';
-import { get, last } from 'lodash';
+import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
+import { get } from 'lodash';
+import { createSelector } from 'reselect';
+import { selectUserId } from 'state/auth/auth.selectors';
+import { SliceNames } from 'state/merchant/merchant.model';
 
-export function selectIsOwner({ merchant, auth }) {
-  if (!merchant.collaborators) {
-    // means loading
-    return [false, true];
-  }
-  const userId = auth.user.id;
-  const collaborators = merchant.collaborators || [];
-  const isOwner = collaborators.findIndex((item) => item.user === userId && item.role === 2) < 0;
-  return [isOwner, false];
-}
+const selectMerchantStore = (state) => state.merchant;
 
-export function selectIsBlocked({ merchant }) {
-  return [
-    !!merchant.blockedAt,
-    // TODO @dkchv: don't work, add loading field to store
-    false,
-  ];
-}
+// -- merchant
 
-export function selectLanguage({ merchant }) {
-  return merchant.configurations.dashboard.language || DEFAULT_LANG;
-}
+const selectMerchantModel = createSelector(
+  selectMerchantStore,
+  (merchant) => merchant[SliceNames.Merchant],
+);
 
-export function selectShouldPassOnboarding({ merchant }) {
-  return [
-    merchant.configurations.dashboard.shouldPassOnboarding || false,
-    // TODO @dkchv: don't work, add loading field to store
-    false,
-  ];
-}
+export const selectMerchantId = createSelector(
+  selectMerchantModel,
+  selectModelValue((merchant) => merchant.id),
+);
 
-export function selectMerchantName({ merchant }) {
-  return merchant.displayName;
-}
+export const selectIsOwnerModel = createSelector(
+  selectMerchantModel,
+  selectUserId,
+  selectLoadableValue((merchant, userId) => {
+    const collaborators = merchant.collaborators || [];
+    return collaborators.findIndex((item) => item.user === userId && item.role === 2) < 0;
+  }),
+);
 
-export function selectPolicyInterval({ merchant }) {
-  return fromIsoPeriod(merchant.configurations.policyInterval);
-}
+export const selectLogoModel = createSelector(
+  selectMerchantModel,
+  selectLoadableValue((merchant) => merchant.logoUrl),
+);
 
-export function selectMerchantOrganizationName({ merchant }) {
-  return get(merchant, 'configurations.dashboard.info.organization');
-}
+export const selectMerchantName = createSelector(
+  selectMerchantModel,
+  selectModelValue((merchant) => merchant.displayName),
+);
 
-/**
- * @return { clientId, clientSecret }
- */
-export function selectMerchantApps({ merchant }) {
-  return last(merchant.apps) || {};
-}
+export const selectIsBlockedModel = createSelector(
+  selectMerchantModel,
+  selectLoadableValue((merchant) => !!merchant.blockedAt),
+);
+
+
+// -- app
+
+const selectAppModel = createSelector(
+  selectMerchantStore,
+  (merchant) => merchant[SliceNames.App],
+);
+
+export const selectAppLastModel = createSelector(
+  selectAppModel,
+  selectLoadableValue((app) => app.slice(-1).pop() || {}),
+);
+
+export const selectClientIdModel = createSelector(
+  selectAppLastModel,
+  selectLoadableValue((app) => app.clientId),
+);
+
+export const selectClientId = createSelector(
+  selectClientIdModel,
+  selectModelValue(),
+);
+
+// -- configuration
+
+export const selectConfigurationModel = createSelector(
+  selectMerchantStore,
+  (merchant) => merchant[SliceNames.Configuration],
+);
+
+export const selectOrganizationNameModel = createSelector(
+  selectConfigurationModel,
+  selectLoadableValue((cfg) => get(cfg, 'dashboard.info.organization')),
+);
+
+export const selectStyleModel = createSelector(
+  selectConfigurationModel,
+  selectLoadableValue((cfg) => cfg.style),
+);
+
+export const selectColor = createSelector(
+  selectStyleModel,
+  selectModelValue((style) => style.color),
+);
+
+export const selectDashboardModel = createSelector(
+  selectConfigurationModel,
+  selectLoadableValue((cfg) => cfg.dashboard),
+);
+
+export const selectPolicyInterval = createSelector(
+  selectConfigurationModel,
+  selectModelValue((cfg) => fromIsoPeriod(cfg.policyInterval)),
+);
+
+// -- dashboard
+
+export const selectLanguage = createSelector(
+  selectDashboardModel,
+  selectModelValue((dashboard) => dashboard.language || DEFAULT_LANG),
+);
+
+export const selectShouldPassOnboarding = createSelector(
+  selectConfigurationModel,
+  selectLoadableValue((dashboard) => dashboard.shouldPassOnboarding),
+);

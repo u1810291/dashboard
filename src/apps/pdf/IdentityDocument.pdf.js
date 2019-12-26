@@ -2,6 +2,8 @@ import { Document, Image, Page, pdf, Text, View } from '@react-pdf/renderer';
 import MatiLogo from 'assets/mati-logo-black.png';
 import { getMediaURL } from 'lib/client/media';
 import { compact } from 'lodash';
+import CURP from 'assets/curp-logo.png';
+import INE from 'assets/ine-logo.png';
 import { getIdentityExtras } from 'models/Identity.model';
 import React from 'react';
 import { getLivenessStatusColor, getStatusColor } from './IdentityDocument.model';
@@ -82,12 +84,6 @@ export function IdentityDocumentPDF(intl, identity) {
                 </View>
               )}
 
-              {document.curp.length > 0 && (
-                <View style={styles.indent}>
-                  <PDFDocumentFields intl={intl} fields={document.curp} />
-                </View>
-              )}
-
               {document.checks.length > 0 && (
                 <View key="checks">
                   <Text style={styles.subtitle}>
@@ -107,8 +103,29 @@ export function IdentityDocumentPDF(intl, identity) {
                   })}
                 </View>
               )}
-            </View>
 
+              {document.curp.length > 0 && (
+                <>
+                  <View key="curp-label">
+                    <Image key="CURP logo" style={styles.checkLogo} src={CURP} />
+                  </View>
+                  <View key="curp-fields" style={styles.indent}>
+                    <PDFDocumentFields intl={intl} fields={document.curp} />
+                  </View>
+                </>
+              )}
+
+              {document.ine.length > 0 && (
+                <>
+                  <View key="ine-label">
+                    <Image key="INE logo" style={styles.checkLogo} src={INE} />
+                  </View>
+                  <View style={styles.indent}>
+                    <PDFDocumentFields intl={intl} fields={document.ine} />
+                  </View>
+                </>
+              )}
+            </View>
           ))}
         </View>
 

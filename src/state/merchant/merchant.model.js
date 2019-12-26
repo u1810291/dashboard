@@ -1,13 +1,16 @@
-import cssVariable from 'lib/dom';
+// TODO @dkchv: !!!rename!!!
 
-export const COLOR_PRESETS = [
-  [cssVariable('--mgi-theme-palette-lightblue'), 'blue'],
-  [cssVariable('--mgi-theme-palette-green'), 'green'],
-  [cssVariable('--mgi-theme-palette-red'), 'red'],
-  [cssVariable('--mgi-theme-palette-pink'), 'pink'],
-  [cssVariable('--mgi-theme-palette-orange'), 'orange'],
-  [cssVariable('--mgi-theme-palette-yellow'), 'yellow'],
-];
+export const MerchantActionGroups = {
+  Merchant: 'MERCHANT2',
+  Configuration: 'CONFIGURATION2',
+  App: 'APP2',
+};
+
+export const SliceNames = {
+  Merchant: 'merchant2',
+  Configuration: 'configurations2',
+  App: 'app2',
+};
 
 export const AVAILABLE_DOCUMENT_TYPES = [
   'passport',

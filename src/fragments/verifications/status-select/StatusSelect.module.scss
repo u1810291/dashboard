@@ -66,6 +66,9 @@
           &.verified {
             color: var(--mgi-theme-palette-green);
           }
+          &.deleted {
+            color: var(--mgi-theme-palette-gray);
+          }
 
           &:last-child {
             border-bottom: none;

@@ -3,9 +3,10 @@ import { Button, Items, Text } from 'components';
 import confirm from 'components/confirm';
 import { closeOverlay, createOverlay } from 'components/overlay';
 import { difference, without } from 'lodash';
-import React from 'react';
+import React, { useState } from 'react';
 import { FiTrash2, FiEdit2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
+import { AVAILABLE_DOCUMENT_TYPES } from 'state/merchant/merchant.model';
 import VerificationStepModal from '../verification-steps-modal';
 import CSS from './VerificationSteps.module.scss';
 
@@ -33,10 +34,10 @@ export function accessibleItems(available, mandatory, steps, index) {
 
 export function VerificationSteps({
   steps = [],
-  availableDocumentTypes = [],
   mandatoryDocumentTypes = [],
   onChange = () => {},
 }) {
+  const [availableDocumentTypes] = useState(AVAILABLE_DOCUMENT_TYPES);
   const intl = useIntl();
 
   const onRemoveItem = async (index) => {
