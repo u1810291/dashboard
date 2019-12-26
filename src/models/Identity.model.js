@@ -7,6 +7,7 @@ export const IdentityStatuses = {
   verified: 'verified',
   reviewNeeded: 'reviewNeeded',
   rejected: 'rejected',
+  deleted: 'deleted',
 };
 
 export const IdentitySteps = {
