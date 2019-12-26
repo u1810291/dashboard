@@ -25,6 +25,7 @@
   "required": "required",
   "or": "or",
   "currency": "${value}",
+  "statuses.deleted": "Deleted",
   "statuses.unverified": "Pending...",
   "statuses.manual-review": "Manual review",
   "statuses.manual": "Action needed",

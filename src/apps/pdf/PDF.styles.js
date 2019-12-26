@@ -92,6 +92,11 @@ export const styles = StyleSheet.create({
   indent: {
     paddingLeft: 4 * rem,
   },
+  checkLogo: {
+    width: 5 * rem,
+    float: 'right',
+    marginTop: 0.5 * rem,
+  },
 
   // colors
   grey: {
