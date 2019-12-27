@@ -22,7 +22,7 @@ export function WebhookDocumentationSection() {
               target="_blank"
               rel="noopener noreferrer"
               color="primary"
-              startIcon={<FiCode size="1rem" />}
+              startIcon={<FiCode size={14} />}
             >
               {intl.formatMessage({ id: 'WebhookDocumentationSection.cta' })}
             </Button>

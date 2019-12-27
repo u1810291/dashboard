@@ -65,7 +65,7 @@ export function BlockedSplash() {
                 <Button
                   color="primary"
                   variant="outlined"
-                  startIcon={<FiMessageCircle size="1rem" />}
+                  startIcon={<FiMessageCircle size={14} />}
                   onClick={showWidget}
                 >
                   {intl.formatMessage({ id: 'actions.contactSales' })}

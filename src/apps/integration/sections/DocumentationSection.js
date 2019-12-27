@@ -22,7 +22,7 @@ export function DocumentationSection() {
           target="_blank"
           rel="noopener noreferrer"
           color="primary"
-          startIcon={<FiFileText size="1rem" />}
+          startIcon={<FiFileText size={14} />}
         >
           {intl.formatMessage({ id: 'DocumentationSection.cta' })}
         </Button>
