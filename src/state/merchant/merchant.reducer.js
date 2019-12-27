@@ -5,30 +5,6 @@ import { MerchantActionGroups, SliceNames } from 'state/merchant/merchant.model'
 import { createReducer } from '../utils';
 
 const initialState = {
-  configurations: {
-    flow: {
-      required: [],
-      optional: [],
-    },
-    style: {
-      color: undefined,
-      language: DEFAULT_LANG,
-    },
-    system: {
-      watchlists: true,
-      liveness: true,
-    },
-    verificationSteps: [],
-    supportedCountries: [],
-    dashboard: {
-      language: DEFAULT_LANG,
-    },
-  },
-  logoUrl: null,
-  blockedAt: undefined,
-  displayName: null,
-
-
   [SliceNames.Merchant]: LoadableAdapter.createState({
     // logoUrl: string;
     // id: string;

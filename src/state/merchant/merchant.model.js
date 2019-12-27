@@ -1,15 +1,13 @@
-// TODO @dkchv: !!!rename!!!
-
 export const MerchantActionGroups = {
-  Merchant: 'MERCHANT2',
-  Configuration: 'CONFIGURATION2',
-  App: 'APP2',
+  Merchant: 'MERCHANT',
+  Configuration: 'CONFIGURATION',
+  App: 'APP',
 };
 
 export const SliceNames = {
-  Merchant: 'merchant2',
-  Configuration: 'configurations2',
-  App: 'app2',
+  Merchant: 'merchant',
+  Configuration: 'configurations',
+  App: 'app',
 };
 
 export const AVAILABLE_DOCUMENT_TYPES = [
