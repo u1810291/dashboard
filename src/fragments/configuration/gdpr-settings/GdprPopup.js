@@ -13,7 +13,7 @@ import {
   DialogContentText,
 } from '@material-ui/core';
 import { selectPolicyInterval } from 'state/merchant/merchant.selectors';
-import { saveConfiguration } from 'state/merchant/merchant.actions';
+import { configurationUpdate } from 'state/merchant/merchant.actions';
 import { toIsoPeriod, checkInterval } from 'lib/date';
 
 const DAYS_RANGE = {
@@ -24,7 +24,7 @@ const DAYS_RANGE = {
 export function SetupDialog({ openDialog, handleCloseDialog }) {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const policyInterval = useSelector(selectPolicyInterval) || '';
+  const policyInterval = useSelector(selectPolicyInterval);
   const [period, setPeriod] = useState(null);
 
   function handleIntervalChange(e) {
@@ -37,7 +37,7 @@ export function SetupDialog({ openDialog, handleCloseDialog }) {
   async function submitCloseDialog() {
     if (checkInterval(period, DAYS_RANGE.from, DAYS_RANGE.to)) {
       await dispatch(
-        saveConfiguration({ policyInterval: toIsoPeriod(period) }),
+        configurationUpdate({ policyInterval: toIsoPeriod(period) }),
       );
       handleCloseDialog();
     }

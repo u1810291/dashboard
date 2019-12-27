@@ -1,62 +1,48 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { IconButton, Typography } from '@material-ui/core';
 import classNames from 'classnames';
-import { useDropzone } from 'react-dropzone';
 import { Items, Text } from 'components';
-import Button from 'components/button';
 import { notification } from 'components/notification';
-import { putMerchants, uploadMerchantMedia } from 'state/merchant/merchant.actions';
 import compressImage from 'lib/compressImage';
-import { FiTrash2 } from 'react-icons/fi';
+import React, { useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { FiLoader, FiTrash2 } from 'react-icons/fi';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { merchantUpdate, merchantUpdateMedia } from 'state/merchant/merchant.actions';
+import { selectLogoModel } from 'state/merchant/merchant.selectors';
 import CSS from './Logo.module.scss';
 
-export default function Logo() {
-  const { logoUrl } = useSelector(({ merchant }) => merchant);
-  const [shouldLogoUpdate, setShouldLogoUpdate] = useState(false);
-  const [innerLogoUrl, setInnerLogoUrl] = useState(null);
+export function Logo() {
+  const intl = useIntl();
   const dispatch = useDispatch();
+  const logoModel = useSelector(selectLogoModel);
 
-  useEffect(() => {
-    if (shouldLogoUpdate) {
-      dispatch(
-        putMerchants({ logoUrl: innerLogoUrl }),
-      );
-      setShouldLogoUpdate(false);
-    }
-  }, [shouldLogoUpdate, innerLogoUrl, dispatch]);
-
-  const showError = () => {
-    notification.error(
-      <FormattedMessage id="flow.logoStep.button.error" />,
-    );
-  };
+  const showError = useCallback(() => {
+    notification.error(intl.formatMessage({ id: 'flow.logoStep.button.error' }));
+  }, [intl]);
 
   const onDropAccepted = useCallback(async (files) => {
     try {
       const file = files[0];
-      const compressionOptions = {
+      const form = new FormData();
+      const compressedFile = await compressImage(file, {
         maxSideSize: 159,
         type: file.type === 'image/png' ? file.type : 'image/jpeg',
-      };
-      const form = new FormData();
-      const compressedFile = await compressImage(file, compressionOptions);
+      });
       form.append('media', compressedFile);
-
-      const mediaPayload = await dispatch(uploadMerchantMedia(form));
-      setInnerLogoUrl(mediaPayload.data.url);
-
-      setShouldLogoUpdate(true);
+      dispatch(merchantUpdateMedia(form));
     } catch (error) {
       showError();
     }
-  }, [dispatch]);
+  }, [dispatch, showError]);
 
   const onDropRejected = useCallback(() => {
     showError();
-  }, []);
+  }, [showError]);
 
-  const clearLogo = () => dispatch(putMerchants({ logoUrl: null }));
+  const handleRemove = useCallback(() => {
+    dispatch(merchantUpdate({ logoUrl: null }));
+  }, [dispatch]);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDropAccepted,
@@ -68,7 +54,7 @@ export default function Logo() {
   return (
     <fieldset className="mgi-fieldset">
       <Text size={3} weight={4}>
-        <FormattedMessage id="flow.logoStep.title" />
+        {intl.formatMessage({ id: 'flow.logoStep.title' })}
       </Text>
       <Items
         gap={1}
@@ -83,27 +69,33 @@ export default function Logo() {
               classNames(
                 [CSS.addLogo],
                 {
-                  [CSS.hasntLogo]: !logoUrl,
+                  [CSS.hasntLogo]: !logoModel.value,
                 },
               )
             }
           >
             <input {...getInputProps()} />
-            <Text size={2.5}>
-              {logoUrl
-                ? <img src={logoUrl} alt="logo-preview" className={CSS.logoPreview} />
-                : <FormattedMessage id="flow.logoStep.button.title" />}
-            </Text>
+            {logoModel.isLoading && !logoModel.value
+              ? <FiLoader size={20} color="gray" />
+              : logoModel.value
+                ? <img src={logoModel.value} alt="logo-preview" className={CSS.logoPreview} />
+                : (
+                  <Typography variant="h6" color="primary">
+                    {intl.formatMessage({ id: 'flow.logoStep.button.title' })}
+                  </Typography>
+                )}
           </div>
         </div>
-        {logoUrl && (
-          <Button
-            buttonStyle="invisible"
-            data-role="deleteVerificationStep"
-            onClick={clearLogo}
+        {logoModel.value && (
+          <IconButton
+            size="small"
+            onClick={handleRemove}
+            disabled={logoModel.isLoading || logoModel.isFailed}
           >
-            <FiTrash2 size="1rem" className="color-red" />
-          </Button>
+            {!logoModel.isLoading
+              ? <FiTrash2 className="color-red" />
+              : <FiLoader />}
+          </IconButton>
         )}
       </Items>
     </fieldset>

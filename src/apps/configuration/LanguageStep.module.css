@@ -1,8 +1,0 @@
-:local(.languageLine) {
-  display: flex;
-  align-items: center;
-}
-
-:local(.languageLine) > *:first-child {
-  margin-right: calc(.25 * var(--mgi-spacing));
-}

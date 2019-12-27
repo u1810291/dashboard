@@ -9,6 +9,7 @@ export const DocumentStepTypes = {
   FaceMatch: 'facematch',
   TemplateMatching: 'template-matching',
   CURP: 'mexican-curp-validation',
+  INE: 'mexican-ine-validation',
 };
 
 export const DocumentSecuritySteps = [
@@ -25,11 +26,13 @@ export function getDocumentExtras(identity) {
   return documents.map((document) => {
     const steps = document.steps || [];
     const curp = steps.find((step) => step.id === DocumentStepTypes.CURP) || {};
+    const ine = steps.find((step) => step.id === DocumentStepTypes.INE) || {};
     const sourceDocument = source.find((item) => item.type === document.type);
 
     return {
       reading: getFieldsExtra(sourceDocument.fields),
       curp: getFieldsExtra(curp.data),
+      ine: getFieldsExtra(ine.data),
       checks: getSecurityChecksExtra(steps.filter((step) => DocumentSecuritySteps.includes(step.id))),
       type: document.type,
       country: document.country,

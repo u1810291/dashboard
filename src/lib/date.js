@@ -45,7 +45,7 @@ export function fromIsoPeriod(period) {
   if (match) {
     return match[1];
   }
-  return match;
+  return match || '';
 }
 
 export function checkInterval(value, from, to) {
