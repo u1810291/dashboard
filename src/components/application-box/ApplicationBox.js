@@ -1,3 +1,4 @@
+import { MenuBar } from 'apps/dashboard/MenuBar';
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -7,7 +8,6 @@ import CSS from './ApplicationBox.module.css';
 
 const ApplicationBox = ({
   children,
-  menu,
   ...props
 }) => {
   const { location: { pathname } } = props;
@@ -18,7 +18,7 @@ const ApplicationBox = ({
 
   return (
     <div className={CSS.box}>
-      {menu}
+      <MenuBar />
       <div className={classNames(CSS.contentWrapper, 'router--scroll-to-top')}>
         {children}
       </div>
@@ -27,11 +27,6 @@ const ApplicationBox = ({
 };
 
 export default withRouter(ApplicationBox);
-
-ApplicationBox.propTypes = {
-  menu: PropTypes.node.isRequired,
-};
-
 
 export function Content({ className, children, fullwidth }) {
   return (

@@ -10,10 +10,10 @@ export class LoadableCollectionAdapter extends LoadableAdapter {
           [sliceName]: LoadableCollectionAdapter.request(state[sliceName]),
         };
       },
-      [`${actionGroupName}_${ActionSubTypes.Success}`](state, { payload }) {
+      [`${actionGroupName}_${ActionSubTypes.Success}`](state, { payload, isReset }) {
         return {
           ...state,
-          [sliceName]: LoadableCollectionAdapter.success(payload, state[sliceName]),
+          [sliceName]: LoadableCollectionAdapter.success(payload, state[sliceName], isReset),
         };
       },
       [`${actionGroupName}_${ActionSubTypes.Updating}`](state, { payload }) {
@@ -31,10 +31,10 @@ export class LoadableCollectionAdapter extends LoadableAdapter {
     };
   }
 
-  static success(data, state) {
+  static success(data, state, isReset = false) {
     return {
       ...state,
-      value: [
+      value: isReset ? data : [
         ...state.value,
         ...data,
       ],

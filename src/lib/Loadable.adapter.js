@@ -84,4 +84,8 @@ export class LoadableAdapter {
       state.error,
     ];
   }
+
+  static isPristine(model) {
+    return !model.isLoaded && !model.isLoading && !model.isFailed;
+  }
 }
