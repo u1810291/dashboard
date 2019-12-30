@@ -1,8 +1,8 @@
+import { billingInit } from 'apps/billing/state/billing.actions';
 import * as api from 'lib/client/merchant';
 import { selectAuthToken } from 'state/auth/auth.selectors';
 import { MerchantActionGroups } from 'state/merchant/merchant.model';
 import { selectConfigurationModel, selectDashboardModel, selectStyleModel } from 'state/merchant/merchant.selectors';
-import { initPlans } from 'state/plans/plans.actions';
 import { createTypesSequence } from 'state/utils';
 import { getWebhooks } from 'state/webhooks/webhooks.actions';
 
@@ -24,7 +24,7 @@ export const merchantLoad = () => async (dispatch, getState) => {
     const { configurations: { dashboard, ...cfg }, billing, ...merchant } = payload.data;
     dispatch({ type: types.MERCHANT_SUCCESS, payload: merchant });
     dispatch({ type: types.CONFIGURATION_SUCCESS, payload: cfg });
-    dispatch(initPlans(billing || {}));
+    dispatch(billingInit(billing));
     return payload;
   } catch (error) {
     dispatch({ type: types.MERCHANT_FAILURE, error });

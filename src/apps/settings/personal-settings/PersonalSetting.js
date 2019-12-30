@@ -1,76 +1,72 @@
-import React from 'react';
-import { connect, useSelector } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-
+import { Button, Typography, Grid } from '@material-ui/core';
 import { Card, closeOverlay, createOverlay } from 'components';
+import React, { useCallback } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 import { passwordChange } from 'state/auth/auth.actions';
 import { selectAuthUser } from 'state/auth/auth.selectors';
-
 import ChangePasswordModal from './modal/ChangePasswordModal';
-import SettingsLayout from '../SettingsLayout';
-
 import CSS from './PersonalSettings.module.scss';
 
-// eslint-disable-next-line no-shadow
-function PersonalSettings({ passwordChange }) {
+export function PersonalSetting() {
+  const intl = useIntl();
+  const dispatch = useDispatch();
   const user = useSelector(selectAuthUser);
 
-  function handleSubmit(values, { setSubmitting, setStatus }) {
+  const handleSubmit = useCallback((values, { setSubmitting, setStatus }) => {
     const { password, oldPassword } = values;
 
     setStatus({});
-    passwordChange({ password, oldPassword })
-      .then(() => {
-        setSubmitting(false);
-        setStatus(true);
-        closeOverlay();
-      })
-      .catch((error) => {
-        setSubmitting(false);
-        setStatus({ oldPassword: error.response.data.message });
-      });
+    dispatch(passwordChange({ password, oldPassword })).then(() => {
+      setSubmitting(false);
+      setStatus(true);
+      closeOverlay();
+    }).catch((error) => {
+      setSubmitting(false);
+      setStatus({ oldPassword: error.response.data.message });
+    });
 
     return false;
-  }
+  }, [dispatch]);
 
-  function openChangePasswordModal() {
-    createOverlay(<ChangePasswordModal onSubmit={handleSubmit} />);
-  }
+  const openChangePasswordModal = useCallback(() => {
+    createOverlay(
+      <ChangePasswordModal onSubmit={handleSubmit} />);
+  }, [handleSubmit]);
 
   return (
-    <SettingsLayout aside={false}>
-      <Card flow="row" padding={2} className={CSS.personalSettings}>
-        <div className={CSS.title}>
-          <h3>
-            <FormattedMessage id="apps.settings.personalSettings.title" />
-          </h3>
-        </div>
-        <div className={CSS.dataContent}>
-          <div className={CSS.data}>
-            <h3>
-              <FormattedMessage id="apps.settings.personalSettings.email" />
-            </h3>
+    <Card flow="row" padding={2} className={CSS.personalSettings}>
+      <div className={CSS.title}>
+        <h3>
+          <FormattedMessage id="apps.settings.personalSettings.title" />
+        </h3>
+      </div>
+
+      <Grid container spacing={2} direction="row">
+        <Grid item xs={6}>
+          <Typography variant="h5" gutterBottom>
+            {intl.formatMessage({ id: 'apps.settings.personalSettings.email' })}
+          </Typography>
+          <Typography paragraph>
             {user.email}
-          </div>
-          <div className={CSS.data}>
-            <h3>
-              <FormattedMessage id="apps.settings.personalSettings.password" />
-            </h3>
-            <FormattedMessage id="apps.settings.personalSettings.defaultPassword" />
-            <div
-              className={CSS.change}
-              onClick={() => openChangePasswordModal()}
-              onKeyUp={() => {}}
-              role="button"
-              tabIndex="0"
-            >
-              <FormattedMessage id="apps.settings.personalSettings.change" />
-            </div>
-          </div>
-        </div>
-      </Card>
-    </SettingsLayout>
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="h5" gutterBottom>
+            {intl.formatMessage({ id: 'apps.settings.personalSettings.password' })}
+          </Typography>
+          <Typography paragraph>
+            {intl.formatMessage({ id: 'apps.settings.personalSettings.defaultPassword' })}
+          </Typography>
+          <Button
+            variant="outlined"
+            onClick={openChangePasswordModal}
+            tabIndex={0}
+          >
+            {intl.formatMessage({ id: 'apps.settings.personalSettings.change' })}
+          </Button>
+        </Grid>
+      </Grid>
+    </Card>
   );
 }
-
-export default connect(null, { passwordChange })(PersonalSettings);

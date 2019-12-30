@@ -1,9 +1,10 @@
 import * as api from 'lib/client/auth';
 import { pushEvent } from 'lib/gtm';
-import { hubspotEvents, requestApi, submitSignUpForm, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
+import { hubspotEvents, submitSignUpForm, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
 import * as Mixpanel from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import { selectAuthToken } from 'state/auth/auth.selectors';
+import { hubspotTrack } from 'state/hubspot/hubspot.actions';
 import { createTypesSequence } from 'state/utils';
 
 export const types = {
@@ -22,11 +23,7 @@ export const signIn = (credentials) => async (dispatch) => {
     const { email } = credentials;
     dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload });
     Mixpanel.addUser({ ...payload.data.merchant, email });
-    requestApi(payload.data.token, {
-      email,
-      // TODO @dkchv: bug?
-      contactData: {},
-    });
+    dispatch(hubspotTrack({}));
     hubspotTrackEvent(hubspotEvents.signIn);
     return payload;
   } catch (error) {
