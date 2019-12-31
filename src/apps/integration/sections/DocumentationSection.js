@@ -45,7 +45,7 @@ export function DocumentationSection() {
             model={appModel}
             render={(value) => (
               <CopyToClipboard text={value.clientSecret}>
-                <code>{(value.clientSecret).replace(/./g, '*')}</code>
+                <code>{(value.clientSecret || '').replace(/./g, '*')}</code>
               </CopyToClipboard>
             )}
           />
