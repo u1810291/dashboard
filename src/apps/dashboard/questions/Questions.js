@@ -3,13 +3,13 @@ import { ThemeProvider } from '@material-ui/styles';
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-icon.svg';
 import { notification } from 'components/notification';
 import 'intl-tel-input/build/css/intlTelInput.min.css';
-import { contactProperties, requestApi } from 'lib/hubspot';
+import { contactProperties } from 'lib/hubspot';
 import { difference, isEmpty, omitBy } from 'lodash';
 import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import ReactIntlTelInput from 'react-intl-tel-input-v2';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectAuthToken, selectUserEmail } from 'state/auth/auth.selectors';
+import { useDispatch } from 'react-redux';
+import { hubspotTrack } from 'state/hubspot/hubspot.actions';
 import { dashboardUpdate } from 'state/merchant/merchant.actions';
 import { theme, useStyles } from './styles';
 
@@ -28,8 +28,6 @@ function QuestionsContent() {
   const [inputs, setInputs] = useState({});
   const [disabled, handleDisabled] = useState(true);
   const [phone, setPhone] = useState({ iso2: 'us', dialCode: '1', phone: '' });
-  const token = useSelector(selectAuthToken);
-  const email = useSelector(selectUserEmail);
 
   const inputProps = {
     placeholder: 'Phone number',
@@ -62,19 +60,18 @@ function QuestionsContent() {
         info: inputs,
         shouldPassOnboarding: false,
       }));
-      const hubspotContactData = {
+      dispatch(hubspotTrack({
         [contactProperties.companyName]: inputs.organization,
         [contactProperties.website]: inputs.websiteUrl,
         [contactProperties.startVerifyingUsers]: inputs.whenToStart,
         [contactProperties.verificationsVolume]: inputs.verificationsVolume,
         [contactProperties.whyDoYouNeedMati]: inputs.whyDoYouNeedMati,
         [contactProperties.phoneNumber]: inputs.phone,
-      };
-      requestApi(token, email, hubspotContactData);
+      }));
     } catch (err) {
       notification.info('Error saving configuration');
     }
-  }, [dispatch, token, phone, email, inputs]);
+  }, [dispatch, phone, inputs]);
 
 
   return (

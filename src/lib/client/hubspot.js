@@ -28,5 +28,9 @@ export function hubspotSubmitForm(formId, data) {
   const hubspotCookie = getHubspotCookie();
   const context = { hutk: hubspotCookie };
   const fields = Object.entries(data).map(([key, value]) => ({ name: key, value }));
-  hubspotApiClient.post(`/submissions/v3/integration/submit/${portalId}/${formId}`, { context, fields });
+  try {
+    hubspotApiClient.post(`/submissions/v3/integration/submit/${portalId}/${formId}`, { context, fields });
+  } catch (error) {
+    console.error(error);
+  }
 }

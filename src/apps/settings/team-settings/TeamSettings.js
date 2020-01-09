@@ -1,4 +1,4 @@
-import Button from 'components/button';
+import { Grid, Button } from '@material-ui/core';
 import { closeOverlay, createOverlay } from 'components/overlay';
 import InviteSuccessModal from 'fragments/account/team-invite-modal/InviteSuccessModal';
 import { TeamInviteModal } from 'fragments/account/team-invite-modal/TeamInviteModal';
@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteCollaborators, getCollaborators, patchCollaborators, postCollaborators } from 'state/collaborators/collaborator.actions';
 import { selectCollaborators, selectCollaboratorState } from 'state/collaborators/collaborator.selectors';
 import { ReactComponent as InviteIcon } from '../invite.svg';
-import SettingsLayout from '../SettingsLayout';
 
 export function TeamSettings() {
   const dispatch = useDispatch();
@@ -24,7 +23,8 @@ export function TeamSettings() {
   }, [dispatch]);
 
   const openInviteSuccessModal = useCallback(() => {
-    createOverlay(<InviteSuccessModal onClose={closeOverlay} />);
+    createOverlay(
+      <InviteSuccessModal onClose={closeOverlay} />);
   }, []);
 
   const handleInviteSubmit = useCallback(async (data) => {
@@ -54,8 +54,8 @@ export function TeamSettings() {
   }, [dispatch]);
 
   return (
-    <SettingsLayout>
-      <main>
+    <Grid container spacing={2} direction="row">
+      <Grid item xs={9}>
         <TeamTable
           onRoleChange={handleRoleChange}
           onDeleteSubmit={handleDeleteSubmit}
@@ -64,13 +64,17 @@ export function TeamSettings() {
           isDeleting={state.isDeleting}
           isPatchingArray={state.isPatchingArray}
         />
-      </main>
-      <aside>
-        <Button buttonStyle="primary" onClick={openInviteModal}>
-          <InviteIcon />
+      </Grid>
+      <Grid item xs={3}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={openInviteModal}
+          startIcon={<InviteIcon />}
+        >
           {intl.formatMessage({ id: 'settings.teamSettings.inviteTeammate' })}
         </Button>
-      </aside>
-    </SettingsLayout>
+      </Grid>
+    </Grid>
   );
 }

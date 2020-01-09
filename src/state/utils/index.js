@@ -30,7 +30,7 @@ export function createTypesSequence(baseName) {
   }, {});
 }
 
-export function collectionUpsert(collection, value, id = '_id') {
+export function collectionUpsert(collection = [], value, id = '_id') {
   if (!value[id]) {
     console.error('object has no id', value);
     return collection;

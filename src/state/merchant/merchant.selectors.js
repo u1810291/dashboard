@@ -79,6 +79,11 @@ export const selectOrganizationNameModel = createSelector(
   selectLoadableValue((cfg) => get(cfg, 'dashboard.info.organization')),
 );
 
+export const selectPolicyInterval = createSelector(
+  selectConfigurationModel,
+  selectModelValue((cfg) => fromIsoPeriod(cfg.policyInterval)),
+);
+
 export const selectStyleModel = createSelector(
   selectConfigurationModel,
   selectLoadableValue((cfg) => cfg.style),
@@ -89,17 +94,12 @@ export const selectColor = createSelector(
   selectModelValue((style) => style.color),
 );
 
+// -- dashboard
+
 export const selectDashboardModel = createSelector(
   selectConfigurationModel,
   selectLoadableValue((cfg) => cfg.dashboard),
 );
-
-export const selectPolicyInterval = createSelector(
-  selectConfigurationModel,
-  selectModelValue((cfg) => fromIsoPeriod(cfg.policyInterval)),
-);
-
-// -- dashboard
 
 export const selectLanguage = createSelector(
   selectDashboardModel,
@@ -107,6 +107,6 @@ export const selectLanguage = createSelector(
 );
 
 export const selectShouldPassOnboarding = createSelector(
-  selectConfigurationModel,
+  selectDashboardModel,
   selectLoadableValue((dashboard) => dashboard.shouldPassOnboarding),
 );

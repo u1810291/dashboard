@@ -48,7 +48,7 @@ export default function ZoomableImage({ src, alt }) {
         role="button"
         tabIndex="0"
       >
-        <FiZoomIn color="white" size="2em" className={CSS.zoomIcon} />
+        <FiZoomIn color="white" size={28} className={CSS.zoomIcon} />
       </div>
       <img src={src} alt={alt} className={CSS.initImage} />
       {isModalShown && (

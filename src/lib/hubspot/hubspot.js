@@ -13,16 +13,14 @@ export const contactProperties = {
 };
 
 export function requestApi(token, email, contactData) {
-  const data = {
+  client.hubspot.hubspotApiRequest(token, {
     email,
     contactData,
-  };
-  client.hubspot.hubspotApiRequest(token, data);
+  });
 }
 
 export function submitSignUpForm(email) {
-  const signUpFormId = hubspotForms.signUp;
-  client.hubspot.hubspotSubmitForm(signUpFormId, { email });
+  client.hubspot.hubspotSubmitForm(hubspotForms.signUp, { email });
 }
 
 export function trackEvent(eventName, value) {

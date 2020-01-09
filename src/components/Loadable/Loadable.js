@@ -1,8 +1,9 @@
 import { Placeholder } from 'components/Placeholder/Placeholder';
+import { LoadableAdapter } from 'lib/Loadable.adapter';
 import React from 'react';
 
 export function Loadable({ model, render, children, width }) {
-  if (!model.isLoaded && !model.isLoading && !model.isFailed) {
+  if (LoadableAdapter.isPristine(model)) {
     return (
       <Placeholder width={width} />
     );

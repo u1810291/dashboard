@@ -22,7 +22,7 @@ export function APISection() {
               target="_blank"
               rel="noopener noreferrer"
               color="primary"
-              startIcon={<FiCode size="1rem" />}
+              startIcon={<FiCode size={14} />}
             >
               {intl.formatMessage({ id: 'ApiSection.cta' })}
             </Button>
