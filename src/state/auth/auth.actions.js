@@ -5,6 +5,7 @@ import * as Mixpanel from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import { selectAuthToken } from 'state/auth/auth.selectors';
 import { hubspotTrack } from 'state/hubspot/hubspot.actions';
+import { merchantLoadSuccess } from 'state/merchant/merchant.actions';
 import { createTypesSequence } from 'state/utils';
 
 export const types = {
@@ -32,19 +33,27 @@ export const signIn = (credentials) => async (dispatch) => {
   }
 };
 
+export const signUpTrack = (merchant, email) => () => {
+  Mixpanel.addUser({ ...merchant, email });
+  Mixpanel.trackEvent(MixPanelEvents.AuthSingUp);
+  submitSignUpForm(email);
+  pushEvent({ event: 'Sign Up Success' });
+  hubspotTrackEvent(hubspotEvents.signUp);
+  if (window.Appcues) {
+    window.Appcues.identify(email);
+  }
+};
+
 export const signUp = (userData) => async (dispatch) => {
   const { email, password, firstName, lastName } = userData;
   dispatch({ type: types.AUTH_SIGNUP_REQUEST });
 
   try {
-    const payload = await api.signup({ email, password, firstName, lastName });
-    dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload });
-    Mixpanel.addUser({ ...payload.data.merchant, email });
-    Mixpanel.trackEvent(MixPanelEvents.AuthSingUp);
-    submitSignUpForm(email);
-    pushEvent({ event: 'Sign Up Success' });
-    hubspotTrackEvent(hubspotEvents.signUp);
-    return payload;
+    const response = await api.signup({ email, password, firstName, lastName });
+    const { token, user, merchant } = response.data;
+    dispatch({ type: types.AUTH_SIGNUP_SUCCESS, token, user });
+    dispatch(signUpTrack(merchant, email));
+    dispatch(merchantLoadSuccess(merchant, false));
   } catch (error) {
     dispatch({ type: types.AUTH_SIGNUP_FAILURE });
     throw error;

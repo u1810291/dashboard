@@ -35,9 +35,6 @@ export default function SignUp() {
     setStatus();
     try {
       await dispatch(signUp(pick(data, 'email', 'password')));
-      if (window.Appcues) {
-        window.Appcues.identify(data.email);
-      }
       await dispatch(dashboardUpdate({
         language: DEFAULT_LANG,
         usePlans: true,

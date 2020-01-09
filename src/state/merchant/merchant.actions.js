@@ -14,18 +14,23 @@ export const types = {
 
 // -- merchant
 
+export const merchantLoadSuccess = (data, withDashboard = true) => (dispatch) => {
+  const { configurations, billing, ...merchant } = data;
+  if (!withDashboard) {
+    delete configurations.dashboard;
+  }
+  dispatch({ type: types.MERCHANT_SUCCESS, payload: merchant });
+  dispatch({ type: types.CONFIGURATION_SUCCESS, payload: configurations });
+  dispatch(billingInit(billing));
+};
+
 export const merchantLoad = () => async (dispatch, getState) => {
   dispatch({ type: types.MERCHANT_REQUEST });
   dispatch({ type: types.CONFIGURATION_REQUEST });
   try {
     const token = selectAuthToken(getState());
-    const payload = await api.getMerchant(token);
-
-    const { configurations: { dashboard, ...cfg }, billing, ...merchant } = payload.data;
-    dispatch({ type: types.MERCHANT_SUCCESS, payload: merchant });
-    dispatch({ type: types.CONFIGURATION_SUCCESS, payload: cfg });
-    dispatch(billingInit(billing));
-    return payload;
+    const { data } = await api.getMerchant(token);
+    dispatch(merchantLoadSuccess(data));
   } catch (error) {
     dispatch({ type: types.MERCHANT_FAILURE, error });
     dispatch({ type: types.CONFIGURATION_FAILURE, error });
@@ -103,9 +108,9 @@ export const configurationUpdate = (cfg) => async (dispatch, getState) => {
   }
 };
 
-export const dashboardUpdate = (data) => async (dispatch, getState) => {
+export const dashboardUpdate = (data) => (dispatch, getState) => {
   const dashboard = selectDashboardModel(getState());
-  dispatch(configurationUpdate({
+  return dispatch(configurationUpdate({
     dashboard: {
       ...dashboard.value,
       ...data,
@@ -113,9 +118,9 @@ export const dashboardUpdate = (data) => async (dispatch, getState) => {
   }));
 };
 
-export const styleUpdate = (data) => async (dispatch, getState) => {
+export const styleUpdate = (data) => (dispatch, getState) => {
   const cfg = selectStyleModel(getState());
-  dispatch(configurationUpdate({
+  return dispatch(configurationUpdate({
     style: {
       ...cfg.value,
       ...data,
