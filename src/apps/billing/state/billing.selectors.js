@@ -39,6 +39,11 @@ export const selectProviderCollection = createSelector(
   (store) => store[SliceNames.ProviderList],
 );
 
+export const selectHasBilling = createSelector(
+  selectProviderCollection,
+  selectLoadableValue((list) => list.length > 0),
+);
+
 // -- current
 
 export const selectCurrentPlanFullModel = createSelector(

@@ -10,7 +10,7 @@ const selectMerchantStore = (state) => state.merchant;
 
 // -- merchant
 
-const selectMerchantModel = createSelector(
+export const selectMerchantModel = createSelector(
   selectMerchantStore,
   (merchant) => merchant[SliceNames.Merchant],
 );
