@@ -56,10 +56,9 @@ export const merchantUpdateMedia = (form) => async (dispatch, getState) => {
   try {
     const token = selectAuthToken(getState());
     const { data } = await api.uploadMerchantMedia(token, form);
-    const payload = {
+    dispatch(merchantUpdate({
       logoUrl: data.publicUrl,
-    };
-    dispatch({ type: types.MERCHANT_SUCCESS, payload });
+    }));
   } catch (error) {
     dispatch({ type: types.MERCHANT_FAILURE, error });
     throw error;
