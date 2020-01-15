@@ -1,11 +1,12 @@
 import { Card, Click, Items, Text } from 'components';
 import React, { useState } from 'react';
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
+import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
 import { injectStripe } from 'react-stripe-elements';
 import CSS from './ChangePlanModal.module.scss';
 import MatiLogoURL from './Mati.svg';
 
 function ChangePlanModal({ plan, onSubmit }) {
+  const intl = useIntl();
   const [disabled, setDisabled] = useState(false);
   async function handleSubmit() {
     setDisabled(true);
@@ -31,7 +32,12 @@ function ChangePlanModal({ plan, onSubmit }) {
           <Text color="active" size="4" weight="4" lineHeight={2}>
             <FormattedMessage
               id="CardModal.planPrice"
-              values={{ planPrice: Math.floor(plan.subscriptionPrice / 100) }}
+              values={{
+                planPrice: Math.floor(plan.subscriptionPrice / 100),
+                period: plan.name === 'Yearly'
+                  ? intl.formatMessage({ id: 'PricingPlans.pricePerYear' })
+                  : intl.formatMessage({ id: 'PricingPlans.pricePerMonth' }),
+              }}
             />
           </Text>
         </Items>
