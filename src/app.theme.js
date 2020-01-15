@@ -5,6 +5,7 @@ export const appPalette = {
   white: '#ffffff',
   red: '#ff3535',
   lightgray: '#dcdcdc',
+  orange: '#f2994a',
   green: '#00ab62',
 };
 
@@ -55,8 +56,11 @@ export const AppTheme = createMuiTheme({
     background: {
       default: appPalette.white,
     },
-    text: {
-      secondary: appPalette.green,
+    success: {
+      main: appPalette.green,
+    },
+    warning: {
+      main: appPalette.orange,
     },
     common: appPalette,
   },
