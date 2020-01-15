@@ -90,10 +90,18 @@ export const getDemoVerification = (id) => async (dispatch, getState) => {
 export const patchIdentity = (id, data) => async (dispatch, getState) => {
   dispatch({ type: types.IDENTITY_PATCH_REQUEST });
   try {
-    const token = selectAuthToken(getState());
-    const payload = await api.patchIdentity(token, id, data);
-    dispatch({ type: types.IDENTITY_PATCH_SUCCESS, payload });
-    return payload;
+    const state = getState();
+    const token = selectAuthToken(state);
+    // we ignore response here cause returned identity without embed data
+    await api.patchIdentity(token, id, data);
+    const identity = selectIdentity(id)(state);
+
+    const updatedIdentity = {
+      ...identity,
+      ...data,
+    };
+
+    dispatch({ type: types.IDENTITY_PATCH_SUCCESS, payload: updatedIdentity });
   } catch (error) {
     dispatch({ type: types.IDENTITY_PATCH_FAILURE });
     notification.error(ERROR_COMMON);

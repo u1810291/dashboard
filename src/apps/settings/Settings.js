@@ -1,6 +1,5 @@
 import { Grid } from '@material-ui/core';
-import { currentPlanLoad } from 'apps/billing/state/billing.actions';
-import { selectPlanDetailsModel, selectProviderCollection } from 'apps/billing/state/billing.selectors';
+import { selectHasBilling } from 'apps/billing/state/billing.selectors';
 import { PageContent } from 'apps/layout';
 import { ReactComponent as LogoutIcon } from 'apps/settings/logout.svg';
 import { SettingsRouter } from 'apps/settings/Settings.router';
@@ -8,8 +7,7 @@ import { PageContentMenu } from 'components';
 import Button from 'components/button/Button';
 import confirm from 'components/confirm/Confirm';
 import Items from 'components/items';
-import { LoadableAdapter } from 'lib/Loadable.adapter';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -18,15 +16,7 @@ import { signOut } from 'state/auth/auth.actions';
 export function Settings() {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const providerCollection = useSelector(selectProviderCollection);
-  const planDetailsModel = useSelector(selectPlanDetailsModel);
-  const hasBillingPage = !!planDetailsModel.value || (providerCollection.value.length > 0);
-
-  useEffect(() => {
-    if (LoadableAdapter.isPristine(planDetailsModel)) {
-      dispatch(currentPlanLoad());
-    }
-  }, [dispatch, planDetailsModel]);
+  const hasBillingModel = useSelector(selectHasBilling);
 
   const handleLogout = useCallback(async () => {
     await confirm(
@@ -49,7 +39,7 @@ export function Settings() {
             <NavLink to="/settings/pricing">
               {intl.formatMessage({ id: 'apps.settings.pricing' })}
             </NavLink>
-            {hasBillingPage && (
+            {hasBillingModel.value && (
               <NavLink to="/settings/billing">
                 {intl.formatMessage({ id: 'apps.settings.billing' })}
               </NavLink>
