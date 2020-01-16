@@ -22,11 +22,7 @@ export default createReducer(initialState, {
     };
   },
 
-  [types.AUTH_SIGNUP_SUCCESS](state, {
-    payload: {
-      data: { token, user },
-    },
-  }) {
+  [types.AUTH_SIGNUP_SUCCESS](state, { token, user }) {
     return {
       ...state,
       token,

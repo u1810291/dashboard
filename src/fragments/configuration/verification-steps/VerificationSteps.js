@@ -1,10 +1,11 @@
+import { IconButton } from '@material-ui/core';
 import classNames from 'classnames';
 import { Button, Items, Text } from 'components';
 import confirm from 'components/confirm';
 import { closeOverlay, createOverlay } from 'components/overlay';
 import { difference, without } from 'lodash';
 import React, { useState } from 'react';
-import { FiTrash2, FiEdit2 } from 'react-icons/fi';
+import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { AVAILABLE_DOCUMENT_TYPES } from 'state/merchant/merchant.model';
 import VerificationStepModal from '../verification-steps-modal';
@@ -129,12 +130,12 @@ export function VerificationSteps({
               </Items>
               <Items flow="row" gap={1}>
                 <Items flow="column">
-                  <Button buttonStyle="invisible">
-                    <FiEdit2 color="color-primary" onClick={() => onEditItem(index)} />
-                  </Button>
-                  <Button buttonStyle="invisible" data-role="deleteVerificationStep">
-                    <FiTrash2 size="1rem" className="color-red" onClick={() => onRemoveItem(index)} />
-                  </Button>
+                  <IconButton size="small" color="primary" onClick={() => onEditItem(index)}>
+                    <FiEdit2 />
+                  </IconButton>
+                  <IconButton size="small" onClick={() => onRemoveItem(index)}>
+                    <FiTrash2 className="color-red" />
+                  </IconButton>
                 </Items>
               </Items>
             </Items>

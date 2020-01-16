@@ -1,14 +1,3 @@
-export { default as PricingPlans } from './account/pricing-plans';
-export { default as PricingRefundNotice } from './account/pricing-refund-notice';
-export { default as CustomPlan } from './account/custom-plan';
-export { default as RequestDemo } from './account/custom-plan/RequestDemo';
-export { default as PlansFeatures } from './account/plans-features';
-export { default as CompaniesUsingMati } from './info/companies-using-mati';
-export { default as MatiNumbers } from './info/mati-numbers';
-export { default as CardModal } from './account/card-modal';
-export { default as ChangePlanModal } from './account/change-plan-modal';
-export { default as CardDeclinedModal } from './account/card-declined-modal';
-export { default as PlanCancelModal } from './account/plan-cancel-modal';
 export { default as Chart } from './metrics/chart';
 export { default as VerificationsTotal } from './metrics/verifications-total';
 export { default as VerificationsStats } from './metrics/verifications-stats';

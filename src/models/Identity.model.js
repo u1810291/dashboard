@@ -8,7 +8,42 @@ export const IdentityStatuses = {
   reviewNeeded: 'reviewNeeded',
   rejected: 'rejected',
   deleted: 'deleted',
+  pending: 'pending',
+  running: 'running',
 };
+
+export const IdentityStatusesMap = [
+  {
+    id: IdentityStatuses.verified,
+    color: 'success.main',
+    isChangeable: true,
+  },
+  {
+    id: IdentityStatuses.reviewNeeded,
+    color: 'warning.main',
+    isChangeable: true,
+  },
+  {
+    id: IdentityStatuses.running,
+    color: 'text.secondary',
+    isChangeable: false,
+  },
+  {
+    id: IdentityStatuses.rejected,
+    color: 'error.main',
+    isChangeable: true,
+  },
+];
+
+export function getStatusById(status) {
+  return IdentityStatusesMap.find((item) => item.id === status);
+}
+
+
+export function isChangeableStatus(status) {
+  const founded = getStatusById(status);
+  return !!founded && founded.isChangeable;
+}
 
 export const IdentitySteps = {
   liveness: 'liveness',
@@ -22,6 +57,10 @@ export const IdentityLivenessSteps = [
 
 export function getIdentityStatusLabel(status) {
   return `statuses.${status}`;
+}
+
+export function getIdentityStatusDescription(status) {
+  return `statuses.${status}.description`;
 }
 
 export const IdentityLivenessStatus = {

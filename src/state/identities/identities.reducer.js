@@ -68,15 +68,7 @@ const reducer = createReducer(initialState, {
   [types.IDENTITY_PATCH_SUCCESS](state, { payload }) {
     return {
       ...state,
-      identities: (state.identities || []).map((item) => {
-        if (item.id !== payload.id) {
-          return item;
-        }
-        return {
-          ...item,
-          status: payload.data.status,
-        };
-      }),
+      identities: collectionUpsert(state.identities, payload, 'id'),
     };
   },
   [types.DOCUMENT_PATCH_SUCCESS](state, { payload }) {

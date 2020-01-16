@@ -6,5 +6,7 @@ export function selectLoadableValue(selector) {
 }
 
 export function selectModelValue(selector) {
-  return (model) => (selector ? selector(model.value) : model.value);
+  return (model, ...args) => (selector
+    ? selector(model.value, ...args)
+    : model.value);
 }

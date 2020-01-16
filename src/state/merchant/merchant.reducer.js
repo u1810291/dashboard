@@ -36,7 +36,7 @@ const initialState = {
       // info: ?
     },
     verificationSteps: [],
-    // policyInterval: null,
+    policyInterval: null,
     // verificationPatterns: {
     //   biometrics: string;
     // };

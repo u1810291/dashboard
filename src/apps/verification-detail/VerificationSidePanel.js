@@ -1,14 +1,13 @@
-import Button from '@material-ui/core/Button';
+import { Box, Button, Grid } from '@material-ui/core';
 import confirm from 'components/confirm/Confirm';
 import confirmStyled from 'components/confirm/ConfirmStyled';
-import Items from 'components/items';
 import { closeOverlay, createOverlay } from 'components/overlay';
-import { HR } from 'components/text';
-import StatesExplanation from 'fragments/verifications/states-explanation/StatesExplanation';
-import StatusSelect from 'fragments/verifications/status-select';
+import { StatusesExplanation } from 'fragments/verifications/StatusesExplanation/StatusesExplanation';
+import { StatusSelect } from 'fragments/verifications/StatusSelect/StatusSelect';
 import VerificationWebhookModal from 'fragments/verifications/verification-webhook-modal/VerificationWebhookModal';
 import { downloadBlob } from 'lib/file';
 import { get } from 'lodash';
+import { isChangeableStatus } from 'models/Identity.model';
 import React, { useCallback, useState } from 'react';
 import { FiCode, FiDownload, FiLoader, FiTrash2, FiUpload } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -17,7 +16,6 @@ import { useHistory } from 'react-router-dom';
 import { deleteIdentity, patchIdentity } from 'state/identities/identities.actions';
 import { selectIdentityDeleting } from 'state/identities/identities.selectors';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
-import CSS from './VerificationSidePanel.module.scss';
 
 export function VerificationSidePanel({ identity, isDemo = false }) {
   const dispatch = useDispatch();
@@ -54,70 +52,81 @@ export function VerificationSidePanel({ identity, isDemo = false }) {
     history.push('/identities');
   }, [dispatch, intl, history]);
 
+  const handleStatusChange = useCallback((status) => dispatch(patchIdentity(identity.id, { status })), [dispatch, identity]);
+
   const openWebhookModal = useCallback((webhook) => {
     createOverlay(<VerificationWebhookModal webhook={webhook} onClose={closeOverlay} />);
   }, []);
 
   return (
-    <Items flow="row" justifyContent="inherit" gap={1} className={CSS.aside}>
-      {!['pending', 'running'].includes(identity.status) && (
-        <StatusSelect
-          status={identity.status}
-          onSelect={async (status) => {
-            identity.status = status;
-            await dispatch(patchIdentity(identity.id, {
-              status: identity.status,
-            }));
-          }}
-        />
+    <Grid container direction="column" spacing={1}>
+      {isChangeableStatus(identity.status) && (
+        <Grid item>
+          <StatusSelect status={identity.status} onSelect={handleStatusChange} />
+        </Grid>
       )}
 
       {/* Send Webhook */}
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={() => handleSendWebhook(identity.id)}
-        startIcon={<FiUpload />}
-      >
-        {intl.formatMessage({ id: 'verificationDetails.tools.sendWebhook' })}
-      </Button>
+      <Grid item>
+        <Button
+          fullWidth
+          variant="contained"
+          color="secondary"
+          onClick={() => handleSendWebhook(identity.id)}
+          startIcon={<FiUpload />}
+        >
+          {intl.formatMessage({ id: 'verificationDetails.tools.sendWebhook' })}
+        </Button>
+      </Grid>
 
       {/* Show verification data */}
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={() => openWebhookModal(get(identity, 'originalIdentity._embedded.verification', {}))}
-        startIcon={<FiCode />}
-      >
-        {intl.formatMessage({ id: 'verificationModal.webhookData' })}
-      </Button>
+      <Grid item>
+        <Button
+          fullWidth
+          variant="contained"
+          color="secondary"
+          onClick={() => openWebhookModal(get(identity, 'originalIdentity._embedded.verification', {}))}
+          startIcon={<FiCode />}
+        >
+          {intl.formatMessage({ id: 'verificationModal.webhookData' })}
+        </Button>
+      </Grid>
 
       {/* Download pdf */}
       {!isDemo && (
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => handlePDFDownload(dispatch, intl, identity)}
-          startIcon={isPDFGenerating ? <FiLoader /> : <FiDownload />}
-        >
-          {intl.formatMessage({ id: 'verificationModal.downloadPDF' })}
-        </Button>
+        <Grid item>
+          <Button
+            fullWidth
+            variant="contained"
+            color="secondary"
+            onClick={() => handlePDFDownload(dispatch, intl, identity)}
+            startIcon={isPDFGenerating ? <FiLoader /> : <FiDownload />}
+          >
+            {intl.formatMessage({ id: 'verificationModal.downloadPDF' })}
+          </Button>
+        </Grid>
       )}
 
       {/* Delete Verification */}
       {!isDemo && (
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => handleDeleteIdentity(identity.id)}
-          startIcon={isDeleting ? <FiLoader /> : <FiTrash2 />}
-        >
-          {intl.formatMessage({ id: 'verificationModal.delete' })}
-        </Button>
+        <Grid item>
+          <Button
+            fullWidth
+            variant="contained"
+            color="secondary"
+            onClick={() => handleDeleteIdentity(identity.id)}
+            startIcon={isDeleting ? <FiLoader /> : <FiTrash2 />}
+          >
+            {intl.formatMessage({ id: 'verificationModal.delete' })}
+          </Button>
+        </Grid>
       )}
 
-      <HR width="0" />
-      <StatesExplanation />
-    </Items>
+      <Grid item>
+        <Box mt={2}>
+          <StatusesExplanation />
+        </Box>
+      </Grid>
+    </Grid>
   );
 }

@@ -4,7 +4,7 @@ import { Product } from 'apps/product';
 import { OwnerRoute } from 'apps/routing';
 import { BlockedRoute } from 'apps/routing/BlockedRoute';
 import { ROOT_PATH } from 'apps/routing/routing.model';
-import Settings from 'apps/settings';
+import { Settings } from 'apps/settings/Settings';
 import { VerificationDetail } from 'apps/verification-detail';
 import VerificationHistory from 'apps/verification-history';
 import ApplicationBox from 'components/application-box';
@@ -17,7 +17,6 @@ import { Route, Switch, useHistory } from 'react-router-dom';
 import { signOut } from 'state/auth/auth.actions';
 import { merchantLoad } from 'state/merchant/merchant.actions';
 import { selectShouldPassOnboarding } from 'state/merchant/merchant.selectors';
-import { MenuBar } from './MenuBar';
 import { Questions } from './questions/Questions';
 
 export function Dashboard() {
@@ -56,7 +55,7 @@ export function Dashboard() {
     <Helmet key="head">
       <title>{intl.formatMessage({ id: 'page.title' })}</title>
     </Helmet>,
-    <ApplicationBox key="app" menu={<MenuBar />}>
+    <ApplicationBox key="app">
       <Switch>
         <OwnerRoute path="/settings" component={Settings} />
         <Route path="/info" component={InfoPage} />
