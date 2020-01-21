@@ -1,28 +1,23 @@
-import http, { getAuthHeader } from './http';
+import { http } from './http';
 
-export function subscribeToWebhook(token, clientId, webhook) {
+export function subscribeToWebhook(clientId, webhook) {
   return http.post('/v1/webhooks', webhook, {
-    headers: { ...getAuthHeader(token) },
     params: { clientId },
   });
 }
 
-export function getWebhooks(token, clientId) {
+export function getWebhooks(clientId) {
   return http.get('/v1/webhooks', {
-    headers: { ...getAuthHeader(token) },
     params: { clientId },
   });
 }
 
-export function deleteWebhook(token, clientId, id) {
+export function deleteWebhook(clientId, id) {
   return http.delete(`/v1/webhooks/${id}`, {
-    headers: { ...getAuthHeader(token) },
     params: { clientId },
   });
 }
 
-export function sendWebhook(token, id) {
-  return http.post(`/v1/identities/${id}/send-webhook`, null, {
-    headers: { ...getAuthHeader(token) },
-  });
+export function sendWebhook(id) {
+  return http.post(`/v1/identities/${id}/send-webhook`);
 }

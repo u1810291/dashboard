@@ -1,35 +1,21 @@
-import http, { getAuthHeader } from './http';
+import { http } from './http';
 
-export function saveConfiguration(token, configurations) {
-  return http.patch(
-    '/api/v1/merchants/me',
-    { configurations },
-    {
-      headers: { ...getAuthHeader(token) },
-    },
-  );
+export function saveConfiguration(configurations) {
+  return http.patch('/api/v1/merchants/me', { configurations });
 }
 
-export function getMerchant(token) {
-  return http.get('/api/v1/merchants/me', {
-    headers: { ...getAuthHeader(token) },
-  });
+export function getMerchant() {
+  return http.get('/api/v1/merchants/me');
 }
 
-export function putMerchants(token, data) {
-  return http.patch('/api/v1/merchants/me', data, {
-    headers: { ...getAuthHeader(token) },
-  });
+export function putMerchants(data) {
+  return http.patch('/api/v1/merchants/me', data);
 }
 
-export function getMerchantApps(token) {
-  return http.get('/api/v1/merchants/apps', {
-    headers: { ...getAuthHeader(token) },
-  });
+export function getMerchantApps() {
+  return http.get('/api/v1/merchants/apps');
 }
 
-export function uploadMerchantMedia(token, form) {
-  return http.post('/v1/media', form, {
-    headers: { ...getAuthHeader(token) },
-  });
+export function uploadMerchantMedia(form) {
+  return http.post('/v1/media', form);
 }

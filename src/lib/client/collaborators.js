@@ -1,25 +1,17 @@
-import http, { getAuthHeader } from './http';
+import { http } from './http';
 
-export function getCollaborators(token, merchantId) {
-  return http.get(`api/v1/merchants/${merchantId}/collaborators`, {
-    headers: { ...getAuthHeader(token) },
-  });
+export function getCollaborators(merchantId) {
+  return http.get(`api/v1/merchants/${merchantId}/collaborators`);
 }
 
-export function postCollaborators(token, merchantId, data) {
-  return http.post(`api/v1/merchants/${merchantId}/collaborators`, data, {
-    headers: { ...getAuthHeader(token) },
-  });
+export function postCollaborators(merchantId, data) {
+  return http.post(`api/v1/merchants/${merchantId}/collaborators`, data);
 }
 
-export function deleteCollaborators(token, merchantId, id) {
-  return http.delete(`api/v1/merchants/${merchantId}/collaborators/${id}`, {
-    headers: { ...getAuthHeader(token) },
-  });
+export function deleteCollaborators(merchantId, id) {
+  return http.delete(`api/v1/merchants/${merchantId}/collaborators/${id}`);
 }
 
-export function patchCollaborators(token, merchantId, id, data) {
-  return http.patch(`api/v1/merchants/${merchantId}/collaborators/${id}`, data, {
-    headers: { ...getAuthHeader(token) },
-  });
+export function patchCollaborators(merchantId, id, data) {
+  return http.patch(`api/v1/merchants/${merchantId}/collaborators/${id}`, data);
 }

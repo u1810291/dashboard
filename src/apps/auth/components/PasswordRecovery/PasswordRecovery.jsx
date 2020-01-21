@@ -8,7 +8,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { passwordRecovery } from 'state/auth/auth.actions';
+import { passwordRecovery } from '../../state/auth.actions';
 
 const formikSettings = {
   handleSubmit(values, { props, setSubmitting, setStatus }) {

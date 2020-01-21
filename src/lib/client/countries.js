@@ -1,7 +1,5 @@
-import http, { getAuthHeader } from './http';
+import { http } from './http';
 
-export function getCountries(token) {
-  return http.get('/v1/countries', {
-    headers: { ...getAuthHeader(token) },
-  });
+export function getCountries() {
+  return http.get('/v1/countries');
 }

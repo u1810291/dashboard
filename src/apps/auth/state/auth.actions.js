@@ -1,32 +1,40 @@
-import * as api from 'lib/client/auth';
+import { userLoadSuccess } from 'apps/user/state/user.actions';
+import { http } from 'lib/client/http';
 import { pushEvent } from 'lib/gtm';
 import { hubspotEvents, submitSignUpForm, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
 import * as Mixpanel from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
-import { selectAuthToken } from 'state/auth/auth.selectors';
 import { hubspotTrack } from 'state/hubspot/hubspot.actions';
 import { merchantLoadSuccess } from 'state/merchant/merchant.actions';
 import { createTypesSequence } from 'state/utils';
+import * as api from '../api/auth.client';
+import { AuthActionGroups } from './auth.model';
 
 export const types = {
-  ...createTypesSequence('AUTH_SIGNIN'),
-  ...createTypesSequence('AUTH_SIGNOUT'),
-  ...createTypesSequence('AUTH_SIGNUP'),
-  ...createTypesSequence('AUTH_RECOVERY'),
-  ...createTypesSequence('PASSWORD_RESET'),
-  ...createTypesSequence('PASSWORD_CHANGE'),
+  ...createTypesSequence(AuthActionGroups.SignIn),
+  ...createTypesSequence(AuthActionGroups.SignUp),
+  ...createTypesSequence(AuthActionGroups.SignOut),
+  ...createTypesSequence(AuthActionGroups.Recovery),
+  ...createTypesSequence(AuthActionGroups.PasswordReset),
+  ...createTypesSequence(AuthActionGroups.PasswordChange),
 };
 
 export const signIn = (credentials) => async (dispatch) => {
   dispatch({ type: types.AUTH_SIGNIN_REQUEST });
   try {
-    const payload = await api.signin(credentials);
-    const { email } = credentials;
-    dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload });
-    Mixpanel.addUser({ ...payload.data.merchant, email });
+    const { data } = await api.signin(credentials);
+    const { token, merchant, user } = data;
+
+    http.setToken(token);
+    dispatch(merchantLoadSuccess(merchant));
+    dispatch(userLoadSuccess(user));
+    dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload: token });
+    Mixpanel.addUser({
+      ...merchant,
+      email: credentials.email,
+    });
     dispatch(hubspotTrack({}));
     hubspotTrackEvent(hubspotEvents.signIn);
-    return payload;
   } catch (error) {
     dispatch({ type: types.AUTH_SIGNIN_FAILURE });
     throw error;
@@ -51,9 +59,10 @@ export const signUp = (userData) => async (dispatch) => {
   try {
     const response = await api.signup({ email, password, firstName, lastName });
     const { token, user, merchant } = response.data;
-    dispatch({ type: types.AUTH_SIGNUP_SUCCESS, token, user });
-    dispatch(signUpTrack(merchant, email));
     dispatch(merchantLoadSuccess(merchant, false));
+    dispatch(userLoadSuccess(user));
+    dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload: token });
+    dispatch(signUpTrack(merchant, email));
   } catch (error) {
     dispatch({ type: types.AUTH_SIGNUP_FAILURE });
     throw error;
@@ -87,11 +96,10 @@ export const passwordReset = (credentials) => async (dispatch) => {
   }
 };
 
-export const passwordChange = (credentials) => async (dispatch, getState) => {
+export const passwordChange = (credentials) => async (dispatch) => {
   dispatch({ type: types.PASSWORD_CHANGE_REQUEST });
   try {
-    const token = selectAuthToken(getState());
-    const payload = await api.changePassword(credentials, token);
+    const payload = await api.changePassword(credentials);
     dispatch({ type: types.PASSWORD_CHANGE_SUCCESS, payload });
     return payload;
   } catch (error) {

@@ -1,22 +1,16 @@
-import { selectAuthToken } from 'state/auth/auth.selectors';
-import { createTypesSequence } from 'state/utils';
 import * as api from 'lib/client/metrics';
-
-export const metricsActionGroups = {
-  Metrics: 'METRICS',
-  Statistics: 'STATISTICS',
-};
+import { createTypesSequence } from 'state/utils';
+import { metricsActionGroups } from './metrics.model';
 
 export const metricsActionTypes = {
   ...createTypesSequence(metricsActionGroups.Metrics),
   ...createTypesSequence(metricsActionGroups.Statistics),
 };
 
-export const getMetrics = () => async (dispatch, getState) => {
+export const getMetrics = () => async (dispatch) => {
   dispatch({ type: metricsActionTypes.METRICS_REQUEST });
   try {
-    const token = selectAuthToken(getState());
-    const { data } = await api.getMetrics(token);
+    const { data } = await api.getMetrics();
     dispatch({ type: metricsActionTypes.METRICS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: metricsActionTypes.METRICS_FAILURE, error });
@@ -24,11 +18,10 @@ export const getMetrics = () => async (dispatch, getState) => {
   }
 };
 
-export const getStatistics = (filter) => async (dispatch, getState) => {
+export const getStatistics = (filter) => async (dispatch) => {
   dispatch({ type: metricsActionTypes.STATISTICS_REQUEST });
   try {
-    const token = selectAuthToken(getState());
-    const { data } = await api.getStatistics(token, filter);
+    const { data } = await api.getStatistics(filter);
     dispatch({ type: metricsActionTypes.STATISTICS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: metricsActionTypes.STATISTICS_FAILURE, error });

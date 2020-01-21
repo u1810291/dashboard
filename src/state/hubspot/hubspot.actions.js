@@ -1,12 +1,10 @@
 import { requestApi } from 'lib/hubspot';
-import { selectAuthToken, selectUserEmail } from 'state/auth/auth.selectors';
+import { selectUserEmail } from 'apps/user/state/user.selectors';
 
 export const hubspotTrack = (data) => (dispatch, getState) => {
   try {
-    const state = getState();
-    const email = selectUserEmail(state);
-    const token = selectAuthToken(state);
-    requestApi(token, email, data);
+    const email = selectUserEmail(getState());
+    requestApi(email, data);
   } catch (error) {
     console.error('hubspot error', error.message);
   }
