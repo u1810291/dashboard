@@ -1,7 +1,6 @@
 import { BillingActionGroups } from 'apps/billing/state/billing.model';
 import { selectCurrentPlanId } from 'apps/billing/state/billing.selectors';
 import * as api from 'lib/client/plans';
-import { selectAuthToken } from 'state/auth/auth.selectors';
 import { collectionUpsert, createTypesSequence } from 'state/utils';
 
 export const billingActionTypes = {
@@ -19,17 +18,15 @@ export const billingInit = (data = {}) => (dispatch) => {
 export const planListLoad = (isReset = false) => async (dispatch, getState) => {
   dispatch({ type: billingActionTypes.PLAN_LIST_REQUEST });
   try {
-    const state = getState();
-    const token = selectAuthToken(state);
-    const { data } = await api.getPlans(token);
+    const { data } = await api.getPlans();
     let plans = (data.rows || [])
       .filter((item) => !item.isArchived)
       .sort((a, b) => a.order - b.order);
 
-    const currentPlanId = selectCurrentPlanId(state);
+    const currentPlanId = selectCurrentPlanId(getState());
     const isCurrentLoaded = plans.find((item) => item._id === currentPlanId);
     if (currentPlanId && !isCurrentLoaded) {
-      const response = await api.getPlan(token, currentPlanId);
+      const response = await api.getPlan(currentPlanId);
       plans = collectionUpsert(plans, response.data);
     }
 
@@ -40,11 +37,10 @@ export const planListLoad = (isReset = false) => async (dispatch, getState) => {
   }
 };
 
-export const planUpdate = (id) => async (dispatch, getState) => {
+export const planUpdate = (id) => async (dispatch) => {
   dispatch({ type: billingActionTypes.PLAN_DETAILS_UPDATING });
   try {
-    const token = selectAuthToken(getState());
-    const { data } = await api.setPlan(token, id);
+    const { data } = await api.setPlan(id);
     dispatch(billingInit(data.billing));
     dispatch(planListLoad(true));
   } catch (error) {
@@ -53,11 +49,10 @@ export const planUpdate = (id) => async (dispatch, getState) => {
   }
 };
 
-export const planCancel = () => async (dispatch, getState) => {
+export const planCancel = () => async (dispatch) => {
   dispatch({ type: billingActionTypes.PLAN_DETAILS_UPDATING });
   try {
-    const token = selectAuthToken(getState());
-    const { data } = await api.cancelPlan(token);
+    const { data } = await api.cancelPlan();
     dispatch(billingInit(data.billing));
     dispatch(planListLoad(true));
   } catch (error) {
@@ -66,11 +61,10 @@ export const planCancel = () => async (dispatch, getState) => {
   }
 };
 
-export const currentPlanLoad = () => async (dispatch, getState) => {
+export const currentPlanLoad = () => async (dispatch) => {
   dispatch({ type: billingActionTypes.PLAN_DETAILS_REQUEST });
   try {
-    const token = selectAuthToken(getState());
-    const { data } = await api.getCurrentPlan(token);
+    const { data } = await api.getCurrentPlan();
     dispatch({ type: billingActionTypes.PLAN_DETAILS_SUCCESS, payload: data.planDetails });
     dispatch({ type: billingActionTypes.CARD_SUCCESS, payload: data.cardDetails });
   } catch (error) {
@@ -79,12 +73,10 @@ export const currentPlanLoad = () => async (dispatch, getState) => {
   }
 };
 
-export const providerListUpdate = (id) => async (dispatch, getState) => {
+export const providerListUpdate = (id) => async (dispatch) => {
   dispatch({ type: billingActionTypes.PROVIDER_LIST_UPDATING });
   try {
-    const state = getState();
-    const token = selectAuthToken(state);
-    const payload = await api.addProvider(token, id);
+    const payload = await api.addProvider(id);
     // TODO @dkchv: wtf???
     dispatch(billingInit(payload.data.data.merchant.billing));
     dispatch(planListLoad(true));

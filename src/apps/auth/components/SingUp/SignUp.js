@@ -9,8 +9,8 @@ import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { signUp } from 'state/auth/auth.actions';
 import { dashboardUpdate } from 'state/merchant/merchant.actions';
+import { signUp } from '../../state/auth.actions';
 
 const validateForm = (values) => pickBy(
   {

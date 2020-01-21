@@ -2,31 +2,19 @@ import { createReducer } from 'state/utils';
 import { types } from './auth.actions';
 
 const initialState = {
-  user: {
-    // id
-    email: null,
-  },
   token: null,
 };
 
 export default createReducer(initialState, {
-  [types.AUTH_SIGNIN_SUCCESS](state, {
-    payload: {
-      data: { token, user },
-    },
-  }) {
+  [types.AUTH_SIGNIN_SUCCESS](state, { payload }) {
     return {
-      ...state,
-      token,
-      user,
+      token: payload,
     };
   },
 
-  [types.AUTH_SIGNUP_SUCCESS](state, { token, user }) {
+  [types.AUTH_SIGNUP_SUCCESS](state, { payload }) {
     return {
-      ...state,
-      token,
-      user,
+      token: payload,
     };
   },
 

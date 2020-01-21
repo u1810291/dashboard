@@ -1,6 +1,8 @@
 import { Grid } from '@material-ui/core';
+import { signOut } from 'apps/auth/state/auth.actions';
 import { selectHasBilling } from 'apps/billing/state/billing.selectors';
 import { PageContent } from 'apps/layout';
+import { ROOT_PATH } from 'apps/routing/routing.model';
 import { ReactComponent as LogoutIcon } from 'apps/settings/logout.svg';
 import { SettingsRouter } from 'apps/settings/Settings.router';
 import { PageContentMenu } from 'components';
@@ -8,22 +10,21 @@ import Button from 'components/button/Button';
 import confirm from 'components/confirm/Confirm';
 import Items from 'components/items';
 import React, { useCallback } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { signOut } from 'state/auth/auth.actions';
+import { NavLink, useHistory } from 'react-router-dom';
 
 export function Settings() {
   const intl = useIntl();
+  const history = useHistory();
   const dispatch = useDispatch();
   const hasBillingModel = useSelector(selectHasBilling);
 
   const handleLogout = useCallback(async () => {
-    await confirm(
-      <FormattedMessage id="confirm_string" />);
+    await confirm(intl.formatMessage({ id: 'confirm_string' }));
     dispatch(signOut());
-    window.location = '/';
-  }, [dispatch]);
+    history.push(ROOT_PATH);
+  }, [dispatch, history, intl]);
 
   return (
     <PageContent title={intl.formatMessage({ id: 'dashboard.menu.account' })}>
@@ -47,7 +48,7 @@ export function Settings() {
 
             <Button onClick={handleLogout}>
               <Items inline align="center">
-                <FormattedMessage id="apps.settings.signout" />
+                {intl.formatMessage({ id: 'apps.settings.signout' })}
                 <LogoutIcon className="svg-active" />
               </Items>
             </Button>
