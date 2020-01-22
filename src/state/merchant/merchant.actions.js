@@ -53,7 +53,7 @@ export const merchantUpdateMedia = (form) => async (dispatch) => {
   try {
     const { data } = await api.uploadMerchantMedia(form);
     dispatch(merchantUpdate({
-      logoUrl: data.publicUrl,
+      logoUrl: data.url,
     }));
   } catch (error) {
     dispatch({ type: types.MERCHANT_FAILURE, error });
