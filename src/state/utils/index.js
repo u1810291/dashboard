@@ -22,7 +22,6 @@ export function createTypesSequence(baseName) {
     ActionSubTypes.Success,
     ActionSubTypes.Failure,
     ActionSubTypes.Updating,
-    ActionSubTypes.Updated,
   ].reduce((object, item) => {
     const type = `${baseName}_${item}`;
     object[type] = type;

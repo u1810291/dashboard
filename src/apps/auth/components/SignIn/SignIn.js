@@ -1,4 +1,5 @@
 import { Button, Grid, Typography } from '@material-ui/core';
+import { ROOT_PATH } from 'apps/routing/routing.model';
 import { notification } from 'components/notification';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
@@ -7,8 +8,8 @@ import { pickBy } from 'lodash';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { signIn } from 'state/auth/auth.actions';
+import { Link, useHistory } from 'react-router-dom';
+import { signIn } from '../../state/auth.actions';
 
 const validateForm = (values) => pickBy(
   {
@@ -26,18 +27,15 @@ const initialValues = {
 export default function SignIn() {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   async function handleSubmit(data, { setSubmitting, setStatus }) {
     setStatus({});
     try {
       await dispatch(signIn(data));
-      window.location = '/';
+      history.push(ROOT_PATH);
     } catch (error) {
-      notification.error(
-        <>
-          {intl.formatMessage({ id: 'personalSettings.errors.password' })}
-        </>,
-      );
+      notification.error(intl.formatMessage({ id: 'personalSettings.errors.password' }));
       setSubmitting(false);
     }
   }

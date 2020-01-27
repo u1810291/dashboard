@@ -1,9 +1,9 @@
+import { selectUserId } from 'apps/user/state/user.selectors';
 import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
 import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { get } from 'lodash';
 import { createSelector } from 'reselect';
-import { selectUserId } from 'state/auth/auth.selectors';
 import { SliceNames } from 'state/merchant/merchant.model';
 
 const selectMerchantStore = (state) => state.merchant;

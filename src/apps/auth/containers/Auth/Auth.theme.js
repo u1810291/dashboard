@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core';
-import { appTypography } from 'app.theme';
+import { appPalette, appTypography } from 'app.theme';
 
 export const AuthTheme = createMuiTheme({
   typography: {
@@ -10,6 +10,10 @@ export const AuthTheme = createMuiTheme({
   palette: {
     primary: {
       main: '#294aff',
+      contrastText: appPalette.white,
+    },
+    background: {
+      default: appPalette.white,
     },
     tonalOffset: 0.05,
   },

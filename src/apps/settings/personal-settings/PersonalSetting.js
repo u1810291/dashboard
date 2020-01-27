@@ -1,17 +1,17 @@
-import { Button, Typography, Grid } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
+import { passwordChange } from 'apps/auth/state/auth.actions';
+import { selectUserEmail } from 'apps/user/state/user.selectors';
 import { Card, closeOverlay, createOverlay } from 'components';
 import React, { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { passwordChange } from 'state/auth/auth.actions';
-import { selectAuthUser } from 'state/auth/auth.selectors';
 import ChangePasswordModal from './modal/ChangePasswordModal';
 import CSS from './PersonalSettings.module.scss';
 
 export function PersonalSetting() {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const user = useSelector(selectAuthUser);
+  const email = useSelector(selectUserEmail);
 
   const handleSubmit = useCallback((values, { setSubmitting, setStatus }) => {
     const { password, oldPassword } = values;
@@ -30,8 +30,7 @@ export function PersonalSetting() {
   }, [dispatch]);
 
   const openChangePasswordModal = useCallback(() => {
-    createOverlay(
-      <ChangePasswordModal onSubmit={handleSubmit} />);
+    createOverlay(<ChangePasswordModal onSubmit={handleSubmit} />);
   }, [handleSubmit]);
 
   return (
@@ -48,7 +47,7 @@ export function PersonalSetting() {
             {intl.formatMessage({ id: 'apps.settings.personalSettings.email' })}
           </Typography>
           <Typography paragraph>
-            {user.email}
+            {email}
           </Typography>
         </Grid>
         <Grid item xs={6}>

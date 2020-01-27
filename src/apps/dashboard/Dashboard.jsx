@@ -9,14 +9,15 @@ import { VerificationDetail } from 'apps/verification-detail';
 import VerificationHistory from 'apps/verification-history';
 import ApplicationBox from 'components/application-box';
 import { ContainerLoader } from 'components/contrainer-loader';
+import { LoadableAdapter } from 'lib/Loadable.adapter';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory } from 'react-router-dom';
-import { signOut } from 'state/auth/auth.actions';
+import { signOut } from 'apps/auth/state/auth.actions';
 import { merchantLoad } from 'state/merchant/merchant.actions';
-import { selectShouldPassOnboarding } from 'state/merchant/merchant.selectors';
+import { selectMerchantModel, selectShouldPassOnboarding } from 'state/merchant/merchant.selectors';
 import { Questions } from './questions/Questions';
 
 export function Dashboard() {
@@ -24,11 +25,14 @@ export function Dashboard() {
   const history = useHistory();
   const intl = useIntl();
   const boardingModel = useSelector(selectShouldPassOnboarding);
+  const merchantModel = useSelector(selectMerchantModel);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        dispatch(merchantLoad());
+        if (LoadableAdapter.isPristine(merchantModel)) {
+          dispatch(merchantLoad());
+        }
       } catch (error) {
         if (error.response && error.response.status === 401) {
           dispatch(signOut());
@@ -40,7 +44,7 @@ export function Dashboard() {
     };
 
     loadData();
-  }, [dispatch, history]);
+  }, [dispatch, history, merchantModel]);
 
 
   if (!boardingModel.isLoaded) {

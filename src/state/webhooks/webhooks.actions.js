@@ -1,6 +1,5 @@
 import * as api from 'lib/client/webhooks';
 import { fromPairs, get } from 'lodash';
-import { selectAuthToken } from 'state/auth/auth.selectors';
 import { selectClientId } from 'state/merchant/merchant.selectors';
 import { createTypesSequence } from 'state/utils';
 
@@ -14,10 +13,8 @@ export const types = {
 export const subscribeToWebhook = (data) => async (dispatch, getState) => {
   dispatch({ type: types.WEBHOOKS_SUBSCRIBE_REQUEST });
   try {
-    const state = getState();
-    const token = selectAuthToken(state);
-    const clientId = selectClientId(state);
-    const payload = await api.subscribeToWebhook(token, clientId, data);
+    const clientId = selectClientId(getState());
+    const payload = await api.subscribeToWebhook(clientId, data);
     dispatch({ type: types.WEBHOOKS_SUBSCRIBE_SUCCESS, payload });
     return payload;
   } catch (error) {
@@ -34,10 +31,8 @@ export const subscribeToWebhook = (data) => async (dispatch, getState) => {
 export const deleteWebhook = (id) => async (dispatch, getState) => {
   dispatch({ type: types.WEBHOOKS_DELETE_REQUEST });
   try {
-    const state = getState();
-    const token = selectAuthToken(state);
-    const clientId = selectClientId(state);
-    const payload = await api.deleteWebhook(token, clientId, id);
+    const clientId = selectClientId(getState());
+    const payload = await api.deleteWebhook(clientId, id);
     dispatch({ type: types.WEBHOOKS_DELETE_SUCCESS, payload });
   } catch (error) {
     dispatch({ type: types.WEBHOOKS_DELETE_FAILURE });
@@ -48,10 +43,8 @@ export const deleteWebhook = (id) => async (dispatch, getState) => {
 export const getWebhooks = () => async (dispatch, getState) => {
   dispatch({ type: types.WEBHOOKS_LIST_REQUEST });
   try {
-    const state = getState();
-    const token = selectAuthToken(state);
-    const clientId = selectClientId(state);
-    const payload = await api.getWebhooks(token, clientId);
+    const clientId = selectClientId(getState());
+    const payload = await api.getWebhooks(clientId);
     dispatch({ type: types.WEBHOOKS_LIST_SUCCESS, payload, clientId });
   } catch (error) {
     dispatch({ type: types.WEBHOOKS_LIST_FAILURE });
@@ -59,11 +52,10 @@ export const getWebhooks = () => async (dispatch, getState) => {
   }
 };
 
-export const sendWebhook = (id) => async (dispatch, getState) => {
+export const sendWebhook = (id) => async (dispatch) => {
   dispatch({ type: types.WEBHOOK_SEND_REQUEST });
   try {
-    const token = selectAuthToken(getState());
-    const payload = await api.sendWebhook(token, id);
+    const payload = await api.sendWebhook(id);
     dispatch({ type: types.WEBHOOK_SEND_SUCCESS, payload, id });
     return payload;
   } catch (error) {

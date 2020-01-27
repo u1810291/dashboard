@@ -12,31 +12,29 @@ export class LoadableAdapter {
     };
   }
 
+  // provide support to work with state directly without any slices
+  static applyAction(state, sliceName, action, ...args) {
+    return !sliceName
+      ? action(state, ...args)
+      : {
+        ...state,
+        [sliceName]: action(state[sliceName], ...args),
+      };
+  }
+
   static createHandlers(actionGroupName, sliceName) {
     return {
       [`${actionGroupName}_${ActionSubTypes.Request}`](state) {
-        return {
-          ...state,
-          [sliceName]: LoadableAdapter.request(state[sliceName]),
-        };
+        return LoadableAdapter.applyAction(state, sliceName, LoadableAdapter.request);
       },
       [`${actionGroupName}_${ActionSubTypes.Success}`](state, { payload }) {
-        return {
-          ...state,
-          [sliceName]: LoadableAdapter.success(payload, state[sliceName]),
-        };
+        return LoadableAdapter.applyAction(state, sliceName, LoadableAdapter.success, payload);
       },
       [`${actionGroupName}_${ActionSubTypes.Updating}`](state, { payload }) {
-        return {
-          ...state,
-          [sliceName]: LoadableAdapter.request(state[sliceName], payload, true),
-        };
+        return LoadableAdapter.applyAction(state, sliceName, LoadableAdapter.request, payload, true);
       },
       [`${actionGroupName}_${ActionSubTypes.Failure}`](state, { error }) {
-        return {
-          ...state,
-          [sliceName]: LoadableAdapter.failure(error, state[sliceName]),
-        };
+        return LoadableAdapter.applyAction(state, sliceName, LoadableAdapter.failure, error);
       },
     };
   }
@@ -54,7 +52,7 @@ export class LoadableAdapter {
     };
   }
 
-  static success(data, model) {
+  static success(model, data) {
     return {
       ...model,
       value: {
@@ -66,7 +64,7 @@ export class LoadableAdapter {
     };
   }
 
-  static failure(error, model) {
+  static failure(model, error) {
     return {
       ...model,
       isLoading: false,
