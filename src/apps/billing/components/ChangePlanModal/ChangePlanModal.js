@@ -13,6 +13,9 @@ function ChangePlanModal({ plan, onSubmit }) {
     await onSubmit(plan);
     setDisabled(false);
   }
+  const period = plan.name === 'Yearly'
+    ? intl.formatMessage({ id: 'PricingPlans.pricePerYear' })
+    : intl.formatMessage({ id: 'PricingPlans.pricePerMonth' });
 
   return (
     <Card
@@ -34,9 +37,7 @@ function ChangePlanModal({ plan, onSubmit }) {
               id="CardModal.planPrice"
               values={{
                 planPrice: Math.floor(plan.subscriptionPrice / 100),
-                period: plan.name === 'Yearly'
-                  ? intl.formatMessage({ id: 'PricingPlans.pricePerYear' })
-                  : intl.formatMessage({ id: 'PricingPlans.pricePerMonth' }),
+                period,
               }}
             />
           </Text>

@@ -63,6 +63,10 @@ export function Billing() {
     );
   }
 
+  const period = get(currentPlanFullModel, 'value.name') === 'Yearly'
+    ? intl.formatMessage({ id: 'PricingPlans.pricePerYear' })
+    : intl.formatMessage({ id: 'PricingPlans.pricePerMonth' });
+
   return (
     <Items flow="row" gap={12}>
       {currentPlanId && cardModel.value && (
@@ -126,9 +130,7 @@ export function Billing() {
               <Text size={3} lineHeight={0}>
                 {intl.formatMessage({ id: 'CardModal.planPrice' }, {
                   planPrice: Math.floor(currentPlanFullModel.value.subscriptionPrice / 100),
-                  period: get(currentPlanFullModel, 'value.name') === 'Yearly'
-                    ? intl.formatMessage({ id: 'PricingPlans.pricePerYear' })
-                    : intl.formatMessage({ id: 'PricingPlans.pricePerMonth' }),
+                  period,
                 })}
               </Text>
             </Items>
@@ -139,9 +141,7 @@ export function Billing() {
               <Text size={3} lineHeight={0}>
                 {intl.formatMessage({ id: 'Billing.form.verification.data' }, {
                   amount: currentPlanFullModel.value.includedVerifications,
-                  period: get(currentPlanFullModel, 'value.name') === 'Yearly'
-                    ? intl.formatMessage({ id: 'PricingPlans.pricePerYear' })
-                    : intl.formatMessage({ id: 'PricingPlans.pricePerMonth' }),
+                  period,
                 })}
               </Text>
             </Items>
