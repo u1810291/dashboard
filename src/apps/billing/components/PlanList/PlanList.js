@@ -1,10 +1,10 @@
 import { Box, Grid } from '@material-ui/core';
 import { planListLoad, planUpdate, providerListUpdate } from 'apps/billing/state/billing.actions';
 import { selectCurrentPlanId, selectPlanDetailsModel, selectCustomPlanCollection, selectPlanCollection, selectProviderCollection, selectRegularPlanCollection } from 'apps/billing/state/billing.selectors';
-import { closeOverlay, createOverlay, Items } from 'components';
+import { closeOverlay, createOverlay } from 'components';
 import { notification } from 'components/notification';
 import Spinner from 'components/spinner';
-import { contactProperties, hubspotEvents, showWidget, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
+import { contactProperties, hubspotEvents, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
@@ -16,8 +16,6 @@ import { hubspotTrack } from 'state/hubspot/hubspot.actions';
 import { CardDeclinedModal } from '../CardDeclinedModal/CardDeclinedModal';
 import CardModal from '../CardModal/CardModal';
 import ChangePlanModal from '../ChangePlanModal/ChangePlanModal';
-import { CustomPlan } from '../CustomPlan/CustomPlan';
-import { RequestDemo } from '../CustomPlan/RequestDemo';
 import { PricingPlans } from '../PricingPlans/PricingPlans';
 
 export function PlanList() {
@@ -114,38 +112,28 @@ export function PlanList() {
     );
   }
 
+  // Make the list for Pricing page, might be refactored later
+  const planListOutput = [
+    ...regularPlanList.value,
+    ...customPlanList.value,
+  ].filter((item) => !item.isArchived);
+
   return (
-    <Grid container spacing={2} direction="column">
-      <Grid item>
-        <Items flow="column" gap={1} align="stretch" templateColumns={`repeat(${regularPlanList.value.length}, 1fr)`}>
-          {regularPlanList.value.map((plan) => (
-            <PricingPlans
-              name={plan.name}
-              key={plan._id}
-              subscriptionPrice={plan.subscriptionPrice}
-              highlight={plan.highlight}
-              includedVerifications={plan.includedVerifications}
-              extraPrice={plan.extraPrice}
-              supportLevel={plan.supportLevel}
-              onChoosePlan={() => handlePlanClick(plan)}
-              current={plan._id === currentPlanId}
-            />
-          ))}
-        </Items>
-      </Grid>
-      <Grid item>
-        <Items flow="column" gap={1} templateColumns="1fr 1fr">
-          {customPlanList.value.map((plan) => (
-            <CustomPlan
-              name={plan.name}
-              current={plan._id === currentPlanId}
-              key={plan._id}
-              onClick={showWidget}
-            />
-          ))}
-          <RequestDemo />
-        </Items>
-      </Grid>
+    <Grid container spacing={2}>
+      {planListOutput.map((plan) => (
+        <PricingPlans
+          name={plan.name}
+          current={plan._id === currentPlanId}
+          extraPrice={plan.extraPrice}
+          isCustom={plan.isCustom}
+          subscriptionPrice={plan.subscriptionPrice}
+          onChoosePlan={() => handlePlanClick(plan)}
+          key={plan._id}
+          highlight={plan.highlight}
+          includedVerifications={plan.includedVerifications}
+          supportLevel={plan.supportLevel}
+        />
+      ))}
     </Grid>
   );
 }
