@@ -12,8 +12,8 @@ export const contactProperties = {
   phoneNumber: 'phone_number',
 };
 
-export function requestApi(token, email, contactData) {
-  client.hubspot.hubspotApiRequest(token, {
+export function requestApi(email, contactData) {
+  client.hubspot.hubspotApiRequest({
     email,
     contactData,
   });

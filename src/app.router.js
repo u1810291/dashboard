@@ -1,6 +1,5 @@
-import Auth from 'apps/auth/Auth';
+import { Auth, PrivateRoute } from 'apps/auth';
 import { Dashboard } from 'apps/dashboard';
-import { PrivateRoute } from 'apps/routing';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 

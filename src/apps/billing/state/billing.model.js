@@ -1,4 +1,6 @@
 
+export const BILLING_STORE_KEY = 'billing';
+
 export const BillingActionGroups = {
   PlanList: 'PLAN_LIST',
   PlanDetails: 'PLAN_DETAILS',

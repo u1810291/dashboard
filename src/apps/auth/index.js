@@ -1,1 +1,2 @@
-export { default } from './Auth';
+export * from './containers/Auth/Auth';
+export * from './guards/PrivateRoute';

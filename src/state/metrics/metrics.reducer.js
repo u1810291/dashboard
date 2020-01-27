@@ -1,11 +1,6 @@
 import { LoadableAdapter } from 'lib/Loadable.adapter';
-import { metricsActionGroups } from 'state/metrics/metrics.actions';
 import { createReducer } from 'state/utils';
-
-const SliceNames = {
-  Metrics: 'metrics',
-  Statistics: 'statistics',
-};
+import { metricsActionGroups, SliceNames } from './metrics.model';
 
 const initialState = {
   [SliceNames.Metrics]: LoadableAdapter.createState({
