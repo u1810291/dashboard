@@ -14,3 +14,19 @@ export const SliceNames = {
   ProviderList: 'providerList',
   Card: 'card',
 };
+
+export const BillingPlanMeta = [
+  {
+    name: 'Yearly',
+    badge: {
+      textId: 'PricingPlans.yearly.save',
+    },
+    bottomText: {
+      textId: 'PricingPlans.yearly.note',
+    },
+  },
+];
+
+export function getBillingPlanMeta(planName) {
+  return BillingPlanMeta.find((plan) => plan.name === planName);
+}

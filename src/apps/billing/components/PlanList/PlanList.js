@@ -8,7 +8,7 @@ import { contactProperties, hubspotEvents, trackEvent as hubspotTrackEvent } fro
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
-import { pick } from 'lodash';
+import { pick, get } from 'lodash';
 import React, { useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +17,9 @@ import { CardDeclinedModal } from '../CardDeclinedModal/CardDeclinedModal';
 import CardModal from '../CardModal/CardModal';
 import ChangePlanModal from '../ChangePlanModal/ChangePlanModal';
 import { PricingPlans } from '../PricingPlans/PricingPlans';
+import { getBillingPlanMeta } from '../../state/billing.model';
+import { PricingBottomText } from '../PricingMeta/PricingBottomText';
+import { PricingBadge } from '../PricingMeta/PricingBadge';
 
 export function PlanList() {
   const intl = useIntl();
@@ -28,6 +31,8 @@ export function PlanList() {
   const customPlanList = useSelector(selectCustomPlanCollection);
   const planDetailsModel = useSelector(selectPlanDetailsModel);
   const providerList = useSelector(selectProviderCollection);
+
+  const priceCalc = (price) => (price ? Math.floor(price / 100) : null);
 
   useEffect(() => {
     if (planDetailsModel.isLoaded && LoadableAdapter.isPristine(planList)) {
@@ -120,20 +125,27 @@ export function PlanList() {
 
   return (
     <Grid container spacing={2}>
-      {planListOutput.map((plan) => (
-        <PricingPlans
-          name={plan.name}
-          current={plan._id === currentPlanId}
-          extraPrice={plan.extraPrice}
-          isCustom={plan.isCustom}
-          subscriptionPrice={plan.subscriptionPrice}
-          onChoosePlan={() => handlePlanClick(plan)}
-          key={plan._id}
-          highlight={plan.highlight}
-          includedVerifications={plan.includedVerifications}
-          supportLevel={plan.supportLevel}
-        />
-      ))}
+      {planListOutput.map((plan) => {
+        const planMeta = getBillingPlanMeta(plan.name);
+        const bottomTextId = get(planMeta, 'bottomText.textId');
+        const planBadgeId = get(planMeta, 'badge.textId');
+
+        return (
+          <Grid item md={4} xs={12} key={plan._id}>
+            <PricingPlans
+              name={plan.name}
+              current={plan._id === currentPlanId}
+              extraPrice={plan.extraPrice}
+              isCustom={plan.isCustom}
+              subscriptionPrice={priceCalc(plan.subscriptionPrice)}
+              onChoosePlan={() => handlePlanClick(plan)}
+              planBadge={planBadgeId && <PricingBadge text={planBadgeId} />}
+              bottomText={bottomTextId}
+            />
+            {bottomTextId && <PricingBottomText text={bottomTextId} />}
+          </Grid>
+        );
+      })}
     </Grid>
   );
 }
