@@ -1,5 +1,6 @@
 import { AUTH_STORE_KEY } from 'apps/auth/state/auth.model';
 import { selectAuthToken } from 'apps/auth/state/auth.selectors';
+import { USER_STORE_KEY } from 'apps/user/state/user.model';
 import { http } from 'lib/client/http';
 import { applyMiddleware, createStore } from 'redux';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -15,6 +16,7 @@ const persistedReducer = persistReducer({
   key: 'mgi-dashboard-4',
   whitelist: [
     AUTH_STORE_KEY,
+    USER_STORE_KEY,
     WEBHOOKS_STORE_KEY,
     COUNTRIES_STORE_KEY,
   ],
