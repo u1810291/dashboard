@@ -59,6 +59,7 @@ export const signUp = (userData) => async (dispatch) => {
   try {
     const response = await api.signup({ email, password, firstName, lastName });
     const { token, user, merchant } = response.data;
+    http.setToken(token);
     dispatch(merchantLoadSuccess(merchant, false));
     dispatch(userLoadSuccess(user));
     dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload: token });
