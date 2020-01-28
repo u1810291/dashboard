@@ -7,8 +7,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   card: {
     color: '#212830',
-    padding: '14px 17px',
-    marginBottom: 35,
+    padding: [[14, 17]],
     minWidth: 240,
   },
   blockHeight: {
@@ -26,26 +25,6 @@ export const useStyles = makeStyles((theme) => ({
   },
   system: {
     [theme.breakpoints]: '',
-  },
-  yearlyBadge: {
-    position: 'absolute',
-    top: 35,
-    right: 30,
-    padding: '6px 30px',
-    color: '#fff',
-    backgroundColor: '#3757ff',
-    borderRadius: 40,
-    whiteSpace: 'nowrap',
-  },
-  yearlyBottomNote: {
-    position: 'absolute',
-    bottom: 21,
-    color: 'rgba(33, 40, 48, 0.6)',
-    width: 140,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    right: 0,
-    left: 0,
   },
 }));
 
