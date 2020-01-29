@@ -2,25 +2,25 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import restrictedDomains from './emailDomains';
 
-export function required(value) {
+export function required(value, asToken = false) {
   if (!value) {
-    return <FormattedMessage id="validations.required" />;
+    return asToken ? 'validations.required' : <FormattedMessage id="validations.required" />;
   }
   return null;
 }
 
-export function cleanText(value) {
+export function cleanText(value, asToken = false) {
   const CLEAN_TEXT = /^[^`~!@#$%^&*()+=[{\]}|\\'<,.>?";:]+$/;
   if (!CLEAN_TEXT.test(value)) {
-    return <FormattedMessage id="validations.cleanText" />;
+    return asToken ? 'validations.cleanText' : <FormattedMessage id="validations.cleanText" />;
   }
   return null;
 }
 
-export function email(value) {
+export function email(value, asToken = false) {
   const EMAIL = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   if (!EMAIL.test(value)) {
-    return <FormattedMessage id="validations.email" />;
+    return asToken ? 'validations.email' : <FormattedMessage id="validations.email" />;
   }
   return null;
 }

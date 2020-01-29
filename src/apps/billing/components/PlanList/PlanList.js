@@ -1,14 +1,14 @@
 import { Box, Grid } from '@material-ui/core';
 import { planListLoad, planUpdate, providerListUpdate } from 'apps/billing/state/billing.actions';
 import { selectCurrentPlanId, selectPlanDetailsModel, selectCustomPlanCollection, selectPlanCollection, selectProviderCollection, selectRegularPlanCollection } from 'apps/billing/state/billing.selectors';
-import { closeOverlay, createOverlay, Items } from 'components';
+import { closeOverlay, createOverlay } from 'components';
 import { notification } from 'components/notification';
 import Spinner from 'components/spinner';
-import { contactProperties, hubspotEvents, showWidget, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
+import { contactProperties, hubspotEvents, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
-import { pick } from 'lodash';
+import { pick, get } from 'lodash';
 import React, { useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,9 +16,10 @@ import { hubspotTrack } from 'state/hubspot/hubspot.actions';
 import { CardDeclinedModal } from '../CardDeclinedModal/CardDeclinedModal';
 import CardModal from '../CardModal/CardModal';
 import ChangePlanModal from '../ChangePlanModal/ChangePlanModal';
-import { CustomPlan } from '../CustomPlan/CustomPlan';
-import { RequestDemo } from '../CustomPlan/RequestDemo';
 import { PricingPlans } from '../PricingPlans/PricingPlans';
+import { getBillingPlanMeta } from '../../state/billing.model';
+import { PricingBottomText } from '../PricingMeta/PricingBottomText';
+import { PricingBadge } from '../PricingMeta/PricingBadge';
 
 export function PlanList() {
   const intl = useIntl();
@@ -30,6 +31,8 @@ export function PlanList() {
   const customPlanList = useSelector(selectCustomPlanCollection);
   const planDetailsModel = useSelector(selectPlanDetailsModel);
   const providerList = useSelector(selectProviderCollection);
+
+  const priceCalc = (price) => (price ? Math.floor(price / 100) : null);
 
   useEffect(() => {
     if (planDetailsModel.isLoaded && LoadableAdapter.isPristine(planList)) {
@@ -114,38 +117,35 @@ export function PlanList() {
     );
   }
 
+  // Make the list for Pricing page, might be refactored later
+  const planListOutput = [
+    ...regularPlanList.value,
+    ...customPlanList.value,
+  ].filter((item) => !item.isArchived);
+
   return (
-    <Grid container spacing={2} direction="column">
-      <Grid item>
-        <Items flow="column" gap={1} align="stretch" templateColumns={`repeat(${regularPlanList.value.length}, 1fr)`}>
-          {regularPlanList.value.map((plan) => (
+    <Grid container spacing={2}>
+      {planListOutput.map((plan) => {
+        const planMeta = getBillingPlanMeta(plan.name);
+        const bottomTextId = get(planMeta, 'bottomText.textId');
+        const planBadgeId = get(planMeta, 'badge.textId');
+
+        return (
+          <Grid item md={4} xs={12} key={plan._id}>
             <PricingPlans
               name={plan.name}
-              key={plan._id}
-              subscriptionPrice={plan.subscriptionPrice}
-              highlight={plan.highlight}
-              includedVerifications={plan.includedVerifications}
+              current={plan._id === currentPlanId}
               extraPrice={plan.extraPrice}
-              supportLevel={plan.supportLevel}
+              isCustom={plan.isCustom}
+              subscriptionPrice={priceCalc(plan.subscriptionPrice)}
               onChoosePlan={() => handlePlanClick(plan)}
-              current={plan._id === currentPlanId}
+              planBadge={planBadgeId && <PricingBadge text={planBadgeId} />}
+              bottomText={bottomTextId}
             />
-          ))}
-        </Items>
-      </Grid>
-      <Grid item>
-        <Items flow="column" gap={1} templateColumns="1fr 1fr">
-          {customPlanList.value.map((plan) => (
-            <CustomPlan
-              name={plan.name}
-              current={plan._id === currentPlanId}
-              key={plan._id}
-              onClick={showWidget}
-            />
-          ))}
-          <RequestDemo />
-        </Items>
-      </Grid>
+            {bottomTextId && <PricingBottomText text={bottomTextId} />}
+          </Grid>
+        );
+      })}
     </Grid>
   );
 }

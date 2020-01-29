@@ -13,7 +13,7 @@ const initialState = {
   monthlyIdentities: buildInitialMonthlyIdentities(12),
 };
 
-const reducer = createReducer(initialState, {
+export default createReducer(initialState, {
   [types.IDENTITY_FETCH_SUCCESS](state, { payload }) {
     return {
       ...state,
@@ -124,5 +124,3 @@ const reducer = createReducer(initialState, {
     };
   },
 });
-
-export default reducer;

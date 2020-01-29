@@ -3,7 +3,6 @@ import { Input, RadioButtonGroup } from 'components/inputs';
 import { Field, Formik } from 'formik';
 import { cleanText, email, required } from 'lib/validations';
 import { flow, pick, pickBy } from 'lodash';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { injectIntl } from 'react-intl';
 
@@ -17,20 +16,15 @@ const formikSettings = {
 
   validate: (values) => {
     let errors = {};
-    errors.firstName = required(values.firstName) || cleanText(values.firstName);
-    errors.lastName = required(values.lastName) || cleanText(values.lastName);
-    errors.email = required(values.email) || email(values.email);
+    errors.firstName = required(values.firstName, true) || cleanText(values.firstName, true);
+    errors.lastName = required(values.lastName, true) || cleanText(values.lastName, true);
+    errors.email = required(values.email, true) || email(values.email, true);
     errors = pickBy(errors, (v) => v);
     return errors;
   },
 };
 
 class TeamInviteForm extends React.Component {
-  static propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
-    innerRef: PropTypes.elementType.isRequired,
-  }
-
   roleOptions = [
     {
       label: this.props.intl.formatMessage({
@@ -65,7 +59,7 @@ class TeamInviteForm extends React.Component {
     const { innerRef } = this.props;
     return (
       <Formik
-        ref={innerRef}
+        innerRef={innerRef}
         initialValues={formikSettings.initialValues}
         onSubmit={this.onSubmit}
         validate={formikSettings.validate}

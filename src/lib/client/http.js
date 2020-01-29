@@ -1,15 +1,5 @@
-import axios from 'axios';
+import { HttpClient } from './HttpCilent';
 
-const http = axios.create({
+export const http = new HttpClient({
   baseURL: process.env.REACT_APP_API_URL,
 });
-
-export default http;
-
-export function getAuthHeader(token) {
-  return { Authorization: `Bearer ${token}` };
-}
-
-export function authorizedUrl(url, token) {
-  return `${url}?access_token=${token}`;
-}

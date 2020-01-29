@@ -1,14 +1,12 @@
 import axios from 'axios';
-import http, { getAuthHeader } from './http';
+import { http } from './http';
 
 const hubspotApiClient = axios.create({
   baseURL: process.env.REACT_APP_HUBSPOT_API_URL,
 });
 
-export function hubspotApiRequest(token, data) {
-  http.post('/api/v1/track/contactUpdated', data, {
-    headers: { ...getAuthHeader(token) },
-  });
+export function hubspotApiRequest(data) {
+  return http.post('/api/v1/track/contactUpdated', data);
 }
 
 function getHubspotCookie() {
