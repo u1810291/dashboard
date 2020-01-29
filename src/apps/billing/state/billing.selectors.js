@@ -1,8 +1,8 @@
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { createSelector } from 'reselect';
-import { SliceNames } from './billing.model';
+import { SliceNames, BILLING_STORE_KEY } from './billing.model';
 
-const selectBillingStore = (state) => state.billing;
+const selectBillingStore = (state) => state[BILLING_STORE_KEY];
 
 // -- plan list
 

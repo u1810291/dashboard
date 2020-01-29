@@ -1,10 +1,9 @@
 import { LoadableAdapter } from 'lib/Loadable.adapter';
-import { LoadableCollectionAdapter } from 'lib/LoadableCollection.adapter';
 import { createReducer } from 'state/utils';
 import { BillingActionGroups, SliceNames } from './billing.model';
 
 const initialState = {
-  [SliceNames.PlanList]: LoadableCollectionAdapter.createState([
+  [SliceNames.PlanList]: LoadableAdapter.createState([
     // {
     //   billingCycle: 'P30D',
     //   createdAt: '2019-09-06T13:14:31.497Z',
@@ -25,7 +24,7 @@ const initialState = {
     //   plan: "5d6690507e8061defccffde2"
     //   provider: "stripe"
   }),
-  [SliceNames.ProviderList]: LoadableCollectionAdapter.createState([
+  [SliceNames.ProviderList]: LoadableAdapter.createState([
     // {
     //   data: {
     //     defaultSource: 'card_1FddE9FXfqrqQrjER2DaMWJx',
@@ -62,8 +61,8 @@ const initialState = {
 };
 
 export default createReducer(initialState, {
-  ...LoadableCollectionAdapter.createHandlers(BillingActionGroups.PlanList, SliceNames.PlanList),
+  ...LoadableAdapter.createHandlers(BillingActionGroups.PlanList, SliceNames.PlanList),
   ...LoadableAdapter.createHandlers(BillingActionGroups.PlanDetails, SliceNames.PlanDetails),
   ...LoadableAdapter.createHandlers(BillingActionGroups.Card, SliceNames.Card),
-  ...LoadableCollectionAdapter.createHandlers(BillingActionGroups.ProviderList, SliceNames.ProviderList),
+  ...LoadableAdapter.createHandlers(BillingActionGroups.ProviderList, SliceNames.ProviderList),
 });

@@ -27,8 +27,8 @@ export class LoadableAdapter {
       [`${actionGroupName}_${ActionSubTypes.Request}`](state) {
         return LoadableAdapter.applyAction(state, sliceName, LoadableAdapter.request);
       },
-      [`${actionGroupName}_${ActionSubTypes.Success}`](state, { payload }) {
-        return LoadableAdapter.applyAction(state, sliceName, LoadableAdapter.success, payload);
+      [`${actionGroupName}_${ActionSubTypes.Success}`](state, { payload, isReset = false }) {
+        return LoadableAdapter.applyAction(state, sliceName, LoadableAdapter.success, payload, isReset);
       },
       [`${actionGroupName}_${ActionSubTypes.Updating}`](state, { payload }) {
         return LoadableAdapter.applyAction(state, sliceName, LoadableAdapter.request, payload, true);
@@ -39,26 +39,42 @@ export class LoadableAdapter {
     };
   }
 
+  static applyValue(value, newValue, isReset) {
+    if (isReset) {
+      return newValue;
+    }
+
+    if (Array.isArray(value) || Array.isArray(newValue)) {
+      return [
+        ...value,
+        ...newValue,
+      ];
+    }
+
+    if (typeof value === 'object' || typeof newValue === 'object') {
+      return {
+        ...value,
+        ...newValue,
+      };
+    }
+
+    return newValue;
+  }
+
   static request(model, payload, isUpdating = false) {
     return {
       isLoaded: isUpdating ? model.isLoaded : false,
       isLoading: true,
       isFailed: false,
       error: null,
-      value: !payload ? model.value : {
-        ...model.value,
-        ...payload,
-      },
+      value: !payload ? model.value : LoadableAdapter.applyValue(model.value, payload),
     };
   }
 
-  static success(model, data) {
+  static success(model, payload, isReset) {
     return {
       ...model,
-      value: {
-        ...model.value,
-        ...data,
-      },
+      value: LoadableAdapter.applyValue(model.value, payload, isReset),
       isLoaded: true,
       isLoading: false,
     };
@@ -73,6 +89,9 @@ export class LoadableAdapter {
     };
   }
 
+  /**
+   * @deprecated
+   */
   static get(state) {
     return [
       state.value,

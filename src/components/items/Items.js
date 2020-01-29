@@ -54,7 +54,7 @@ const Items = styled.div(
     justify-items: ${justifyItems};
     grid-auto-rows: ${autoRows};
     grid-auto-columns: ${autoColumns};
-    //border: 1px solid rgba(255, 0, 0, 0.2);
+    // border: 1px solid rgba(255, 0, 0, 0.2);
   `,
 );
 

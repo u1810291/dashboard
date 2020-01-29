@@ -5,7 +5,7 @@ export function getIdentities(params) {
   return http.get('/v1/identities', { params });
 }
 
-export function getIdentitiesFile(params) {
+export function downloadCSV(params) {
   return http.get('/v1/identities', {
     params,
     responseType: 'blob',
