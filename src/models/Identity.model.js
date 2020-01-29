@@ -10,35 +10,65 @@ export const IdentityStatuses = {
   deleted: 'deleted',
   pending: 'pending',
   running: 'running',
+  unknown: 'unknown',
 };
+
+export const DEFAULT_STATUS_COLOR = 'text.secondary';
 
 export const IdentityStatusesMap = [
   {
     id: IdentityStatuses.verified,
     color: 'success.main',
     isChangeable: true,
+    isExplanation: true,
+    isFilterable: true,
   },
   {
     id: IdentityStatuses.reviewNeeded,
     color: 'warning.main',
     isChangeable: true,
+    isExplanation: true,
+    isFilterable: true,
   },
   {
     id: IdentityStatuses.running,
-    color: 'text.secondary',
+    color: DEFAULT_STATUS_COLOR,
     isChangeable: false,
+    isExplanation: true,
   },
   {
     id: IdentityStatuses.rejected,
     color: 'error.main',
     isChangeable: true,
+    isExplanation: true,
+    isFilterable: true,
+  },
+  {
+    id: IdentityStatuses.pending,
+    color: 'text.secondary',
+    style: 'threedots',
+    isChangeable: false,
+    isExplanation: false,
+  },
+  {
+    id: IdentityStatuses.deleted,
+    color: DEFAULT_STATUS_COLOR,
+    isChangeable: false,
+    isExplanation: false,
   },
 ];
+
+export function getExplanationStatuses() {
+  return IdentityStatusesMap.filter((item) => item.isExplanation);
+}
+
+export function getFilterStatuses() {
+  return IdentityStatusesMap.filter((item) => item.isFilterable);
+}
 
 export function getStatusById(status) {
   return IdentityStatusesMap.find((item) => item.id === status);
 }
-
 
 export function isChangeableStatus(status) {
   const founded = getStatusById(status);
@@ -102,12 +132,17 @@ export function getLivenessExtras(identity) {
   };
 }
 
+export function getIdentityShortId(id) {
+  return (id || '').slice(-6);
+}
+
 export function getIdentityExtras(identity) {
   return {
     liveness: getLivenessExtras(identity),
-    shortId: (identity.id || '').slice(-6),
+    shortId: getIdentityShortId(identity.id),
     fullName: titleize(identity.fullName || ''),
     dateCreated: moment(identity.dateCreated).local().format('DD MMM, YYYY HH:mm'),
     documents: getDocumentExtras(identity),
+    isEditable: isChangeableStatus(identity.status),
   };
 }

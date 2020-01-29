@@ -3,14 +3,14 @@ import { StubBarColor, StubTickColor } from 'apps/metrics/Metrics.model';
 import classNames from 'classnames';
 import { Card, Text } from 'components';
 import Spinner from 'components/spinner';
-import { formatDate } from 'lib/date';
+import { formatDate, DateFormat } from 'lib/date';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import CSS from './Chart.module.scss';
 
 function tickFormat(value) {
-  return formatDate(value, 'MM/DD');
+  return formatDate(value, DateFormat.MonthDate);
 }
 
 export default function Chart({ data, stub, isLoaded, isLoading, ...props }) {

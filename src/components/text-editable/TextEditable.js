@@ -1,15 +1,14 @@
-import { omit } from 'lodash';
-import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { FormattedMessage } from 'react-intl';
-
 import Button from 'components/button';
+import Spinner from 'components/spinner';
 import TextField from 'components/text-field';
 import TextFieldCSS from 'components/text-field/TextField.module.css';
-import Spinner from 'components/spinner';
-import CSS from './TextEditable.module.css';
+import { omit } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { ReactComponent as EditIcon } from './icon-edit.svg';
+import CSS from './TextEditable.module.css';
 
 const DataWasntExtracted = () => <FormattedMessage id="DocumentReadingStep.notParsed" />;
 
@@ -54,13 +53,10 @@ export default class TextEditable extends React.Component {
   }
 
   onBlur = () => {
-    if (this.state.doNotBlur) return;
-    setTimeout(() => {
-      this.setState((state) => ({
-        editingText: state.savedText,
-        isEditing: false,
-      }));
-    }, 0);
+    if (this.state.doNotBlur) {
+      return;
+    }
+    this.onSubmit();
   }
 
   onFocus = () => {
@@ -87,7 +83,7 @@ export default class TextEditable extends React.Component {
       savedText: state.editingText,
       isEditing: false,
     }));
-    if (this.props.onSubmit) {
+    if (this.state.savedText !== this.state.editingText && this.props.onSubmit) {
       this.props.onSubmit(this.state.editingText);
     }
   }

@@ -1,16 +1,17 @@
 import { Box, Card, CardContent, Grid, Typography } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { getIdentityStatusDescription, getIdentityStatusLabel, IdentityStatusesMap } from 'models/Identity.model';
+import { getExplanationStatuses, getIdentityStatusDescription, getIdentityStatusLabel } from 'models/Identity.model';
 
 export function StatusesExplanation() {
   const intl = useIntl();
+  const [statuses] = useState(getExplanationStatuses());
 
   return (
     <Card>
       <CardContent>
         <Grid container spacing={2}>
-          {IdentityStatusesMap.map((item) => (
+          {statuses.map((item) => (
             <Grid item key={item.id}>
               <Box color={item.color}>
                 <Typography variant="h4" gutterBottom>

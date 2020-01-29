@@ -1,137 +1,163 @@
 import { notification } from 'components/notification';
 import * as api from 'lib/client/identities';
 import { ERROR_COMMON } from 'lib/error.model';
-import { selectIdentity } from 'state/identities/identities.selectors';
+import { LoadableAdapter } from 'lib/Loadable.adapter';
+import { normalizeCURPData } from 'state/identities/identities.helpers';
+import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from 'state/identities/identities.selectors';
 import { createTypesSequence } from 'state/utils';
 import { get } from 'lodash';
+import { IdentityActionGroups } from './identities.model';
 
 export const types = {
-  ...createTypesSequence('IDENTITY_LIST'),
-  ...createTypesSequence('IDENTITY_COUNT'),
-  ...createTypesSequence('IDENTITY_FETCH'),
   ...createTypesSequence('IDENTITY_PATCH'),
-  ...createTypesSequence('IDENTITY_DELETE'),
   ...createTypesSequence('IDENTITY_DOCUMENTS_LIST'),
   ...createTypesSequence('DOCUMENT_PATCH'),
-  ...createTypesSequence('IDENTITY_LIST_COUNT'),
-  ...createTypesSequence('IDENTITY_LIST_DOWNLOAD'),
+
+  ...createTypesSequence(IdentityActionGroups.IdentityList),
+  ...createTypesSequence(IdentityActionGroups.IdentityCount),
+  ...createTypesSequence(IdentityActionGroups.IdentityRemove),
+  ...createTypesSequence(IdentityActionGroups.FilteredCount),
+  ...createTypesSequence(IdentityActionGroups.Identity),
+  FILTER_UPDATE: 'FILTER_UPDATE',
+  IDENTITY_REMOVE: 'IDENTITY_REMOVE',
 };
 
-export const getIdentities = (params) => async (dispatch) => {
+export const identitiesListLoad = () => async (dispatch, getState) => {
   dispatch({ type: types.IDENTITY_LIST_REQUEST });
   try {
-    const { data } = await api.getIdentities(params);
+    const filter = selectIdentityFilterSerialized(getState());
+    const { data } = await api.getIdentities(filter);
     const payload = (data || []).map((item) => item.identity);
-    dispatch({ type: types.IDENTITY_LIST_SUCCESS, payload });
-    return payload;
+    dispatch({ type: types.IDENTITY_LIST_SUCCESS, payload, isReset: true });
   } catch (error) {
-    dispatch({ type: types.IDENTITY_LIST_FAILURE });
+    dispatch({ type: types.IDENTITY_LIST_FAILURE, error });
     notification.error(ERROR_COMMON);
     throw error;
   }
 };
 
-export const getIdentitiesFile = (params) => async (dispatch) => {
-  dispatch({ type: types.IDENTITY_LIST_DOWNLOAD_REQUEST });
+export const identitiesCountLoad = () => async (dispatch, getState) => {
+  // always updating here, cause pushing new collection
+  dispatch({ type: types.IDENTITY_COUNT_UPDATING });
   try {
-    const payload = await api.getIdentitiesFile(params);
-    dispatch({ type: types.IDENTITY_LIST_DOWNLOAD_SUCCESS });
-    return payload;
+    const { data } = await api.getIdentitiesCount();
+    dispatch({ type: types.IDENTITY_COUNT_SUCCESS, payload: data.count || 0 });
+    // update filter count
+    const filteredCount = selectFilteredCountModel(getState());
+    if (LoadableAdapter.isPristine(filteredCount)) {
+      dispatch({ type: types.FILTERED_COUNT_SUCCESS, payload: data.count || 0 });
+    }
   } catch (error) {
-    dispatch({ type: types.IDENTITY_LIST_DOWNLOAD_FAILURE });
+    dispatch({ type: types.IDENTITY_COUNT_FAILURE, error });
     notification.error(ERROR_COMMON);
     throw error;
   }
 };
 
-export const getIdentitiesCount = (params) => async (dispatch) => {
-  dispatch({ type: types.IDENTITY_COUNT_REQUEST });
+export const identitiesFilteredCountLoad = () => async (dispatch, getState) => {
+  dispatch({ type: types.FILTERED_COUNT_UPDATING });
   try {
-    const payload = await api.getIdentitiesCount(params);
-    dispatch({ type: types.IDENTITY_COUNT_SUCCESS, payload });
-    return payload;
+    const filter = selectIdentityFilterSerialized(getState());
+    const { data } = await api.getIdentitiesCount(filter);
+    dispatch({ type: types.FILTERED_COUNT_SUCCESS, payload: data.count || 0 });
   } catch (error) {
-    dispatch({ type: types.IDENTITY_COUNT_FAILURE });
+    dispatch({ type: types.FILTERED_COUNT_FAILURE, error });
     notification.error(ERROR_COMMON);
     throw error;
   }
 };
 
-export const getIdentityWithNestedData = (id) => async (dispatch) => {
-  dispatch({ type: types.IDENTITY_FETCH_REQUEST });
+export const downloadCSV = () => async (dispatch, getState) => {
+  try {
+    const filter = selectIdentityFilterSerialized(getState());
+    return await api.downloadCSV({
+      // TODO @dkchv: review again, do we need filter here?
+      ...filter,
+      format: 'csv',
+    });
+  } catch (error) {
+    notification.error(ERROR_COMMON);
+    return null;
+  }
+};
+
+export const filterUpdate = (data) => (dispatch) => {
+  dispatch({ type: types.FILTER_UPDATE, payload: data });
+};
+
+export const identityRemove = (id) => async (dispatch) => {
+  try {
+    await api.deleteIdentity(id);
+    dispatch({ type: types.IDENTITY_REMOVE, payload: id });
+  } catch (error) {
+    notification.error(ERROR_COMMON);
+    throw error;
+  }
+};
+
+// identity
+
+export const identityLoad = (id) => async (dispatch) => {
+  dispatch({ type: types.IDENTITY_REQUEST });
   try {
     const payload = await api.getIdentityWithNestedData(id);
-    dispatch({ type: types.IDENTITY_FETCH_SUCCESS, payload });
+    dispatch({ type: types.IDENTITY_SUCCESS, payload: normalizeCURPData(payload) });
   } catch (error) {
-    dispatch({ type: types.IDENTITY_FETCH_FAILURE });
+    dispatch({ type: types.IDENTITY_FAILURE, error });
     throw error;
   }
 };
 
-export const getDemoVerification = (id) => async (dispatch) => {
-  dispatch({ type: types.IDENTITY_FETCH_REQUEST });
+export const identityDemoLoad = (id) => async (dispatch) => {
+  dispatch({ type: types.IDENTITY_REQUEST });
   try {
     const payload = await api.getVerificationData(id);
-    dispatch({ type: types.IDENTITY_FETCH_SUCCESS, payload });
+    dispatch({ type: types.IDENTITY_SUCCESS, payload });
   } catch (error) {
-    dispatch({ type: types.IDENTITY_FETCH_FAILURE });
+    dispatch({ type: types.IDENTITY_FAILURE, error });
     throw error;
   }
 };
 
-export const patchIdentity = (id, data) => async (dispatch, getState) => {
-  dispatch({ type: types.IDENTITY_PATCH_REQUEST });
+export const identityUpdate = (id, data) => async (dispatch, getState) => {
+  dispatch({ type: types.IDENTITY_UPDATING });
   try {
     // we ignore response here cause returned identity without embed data
     await api.patchIdentity(id, data);
-    const identity = selectIdentity(id)(getState());
+    const identityModel = selectIdentityModel(getState());
 
     const updatedIdentity = {
-      ...identity,
+      ...identityModel.value,
       ...data,
     };
 
-    dispatch({ type: types.IDENTITY_PATCH_SUCCESS, payload: updatedIdentity });
+    dispatch({ type: types.IDENTITY_SUCCESS, payload: updatedIdentity });
   } catch (error) {
-    dispatch({ type: types.IDENTITY_PATCH_FAILURE });
+    dispatch({ type: types.IDENTITY_FAILURE, error });
     notification.error(ERROR_COMMON);
     throw error;
   }
 };
 
-export const deleteIdentity = (id) => async (dispatch) => {
-  dispatch({ type: types.IDENTITY_DELETE_REQUEST, payload: { id } });
+export const documentUpdate = (id, fields) => async (dispatch, getState) => {
+  dispatch({ type: types.IDENTITY_UPDATING });
   try {
-    await api.deleteIdentity(id);
-    dispatch({ type: types.IDENTITY_DELETE_SUCCESS, payload: { id } });
-    return { payload: { id } };
-  } catch (error) {
-    dispatch({ type: types.IDENTITY_DELETE_FAILURE, payload: { id } });
-    notification.error(ERROR_COMMON);
-    throw error;
-  }
-};
-
-export const patchDocument = (identityId, id, fields) => async (dispatch, getState) => {
-  const payload = { identityId, id, fields };
-  dispatch({ type: types.DOCUMENT_PATCH_REQUEST, payload });
-  try {
-    const response = await api.patchDocument(id, fields);
-    const identity = selectIdentity(identityId)(getState());
-    const documents = get(identity, '_embedded.documents', []);
+    const { data } = await api.patchDocument(id, fields);
+    const identityModel = selectIdentityModel(getState());
+    const documents = get(identityModel.value, '_embedded.documents', []);
     const documentIndex = documents.findIndex((item) => item.id === id);
     const newDocuments = [...documents];
-    newDocuments.splice(documentIndex, 1, response.data);
+    newDocuments.splice(documentIndex, 1, data);
     const newIdentity = {
-      ...identity,
+      ...identityModel.value,
       _embedded: {
-        ...identity._embedded,
+        ...identityModel.value._embedded,
         documents: newDocuments,
       },
     };
-    dispatch({ type: types.DOCUMENT_PATCH_SUCCESS, identityId, payload: newIdentity });
+    dispatch({ type: types.IDENTITY_SUCCESS, payload: newIdentity });
   } catch (error) {
-    dispatch({ type: types.DOCUMENT_PATCH_FAILURE });
+    dispatch({ type: types.IDENTITY_FAILURE, error });
     notification.error(ERROR_COMMON);
     throw error;
   }
