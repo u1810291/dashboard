@@ -4,7 +4,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { ErrorOutline, ExpandMore } from '@material-ui/icons';
-import { getStepStatus } from 'models/Step.model';
+import { getStepStatus, SYSTEM_ERROR, LEGACY_ERROR } from 'models/Step.model';
 import { StatusMessage } from './StatusMessage';
 import {
   ExpansionPanel,
@@ -27,7 +27,7 @@ export function CheckListExpandable({ step: { id, error, status, data } }) {
       setDisabledExpansion(true);
       setExpandIcon(null);
     } else {
-      const isDisabled = ['SystemError', 'LegacyError'].includes((error || {}).type);
+      const isDisabled = [SYSTEM_ERROR, LEGACY_ERROR].includes((error || {}).type);
       const icon = disabledExpansion ? <ErrorOutline /> : <ExpandMore />;
       setDisabledExpansion(isDisabled);
       setExpandIcon(icon);
