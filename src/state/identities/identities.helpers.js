@@ -17,7 +17,7 @@ export function normalizeCURPData(identity) {
           steps: doc.steps.map((step) => ({
             ...step,
             data:
-              step.data && [DocumentStepTypes.CURP, DocumentStepTypes.INE].includes(step.id)
+              step.data && [DocumentStepTypes.CURP, DocumentStepTypes.INE, DocumentStepTypes.RFC].includes(step.id)
                 ? fromPairs(toPairs(step.data).map(([key, value]) => [key, { value }]))
                 : step.data,
           })),

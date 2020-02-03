@@ -1,15 +1,11 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
 import { useIntl } from 'react-intl';
-
-const mapColor = {
-  success: 'textSecondary',
-  failure: 'error',
-  checking: 'textPrimary',
-};
+import { Typography } from '@material-ui/core';
+import { useStyles } from './StatusMessage.styles';
 
 export function StatusMessage({ status, error }) {
   const intl = useIntl();
+  const classes = useStyles();
 
   let message = '';
 
@@ -19,9 +15,12 @@ export function StatusMessage({ status, error }) {
   if (status === 'failure') {
     message = intl.formatMessage({ id: `SecurityCheckStep.${error.code}` });
   }
+  if (status === 'checking') {
+    message = intl.formatMessage({ id: 'SecurityCheckStep.checking' });
+  }
 
   return (
-    <Typography component="span" color={mapColor[status]}>
+    <Typography component="span" className={classes[status]}>
       {message}
     </Typography>
   );
