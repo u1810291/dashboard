@@ -1,6 +1,5 @@
 import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
-import { LoadableCollectionAdapter } from 'lib/LoadableCollection.adapter';
 import { MerchantActionGroups, SliceNames } from 'state/merchant/merchant.model';
 import { createReducer } from '../utils';
 
@@ -43,7 +42,7 @@ const initialState = {
     // version: number;
     // computations: any[];
   }),
-  [SliceNames.App]: LoadableCollectionAdapter.createState([
+  [SliceNames.App]: LoadableAdapter.createState([
     // {
     //   clientId: string;
     //   clientSecret: string;
@@ -54,5 +53,5 @@ const initialState = {
 export default createReducer(initialState, {
   ...LoadableAdapter.createHandlers(MerchantActionGroups.Merchant, SliceNames.Merchant),
   ...LoadableAdapter.createHandlers(MerchantActionGroups.Configuration, SliceNames.Configuration),
-  ...LoadableCollectionAdapter.createHandlers(MerchantActionGroups.App, SliceNames.App),
+  ...LoadableAdapter.createHandlers(MerchantActionGroups.App, SliceNames.App),
 });

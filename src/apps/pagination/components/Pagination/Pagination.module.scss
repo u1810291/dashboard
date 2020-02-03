@@ -1,0 +1,45 @@
+.page {
+  height: 42px;
+  line-height: 42px;
+  width: 42px;
+  border: 1px solid var(--mgi-theme-palette-lightgray);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  cursor: pointer;
+
+  a {
+    color: var(--mgi-theme-palette-black);
+    padding: 10px 12px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &:first-child {
+    border-radius: 4px 0 0 4px;
+  }
+
+  &:last-child {
+    border-radius: 0 4px 4px 0;
+  }
+
+  &+& {
+    border-left: none;
+  }
+
+}
+
+.activePage {
+  background: rgba(233, 233, 233, 0.5);
+}
+
+.prevNextPage {
+  width: auto;
+
+  &:global(.disabled) a {
+    color: var(--mgi-theme-palette-lightgray);
+  }
+}

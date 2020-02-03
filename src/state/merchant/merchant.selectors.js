@@ -4,9 +4,9 @@ import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { get } from 'lodash';
 import { createSelector } from 'reselect';
-import { SliceNames } from 'state/merchant/merchant.model';
+import { MERCHANT_STORE_KEY, SliceNames } from 'state/merchant/merchant.model';
 
-const selectMerchantStore = (state) => state.merchant;
+const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
 
 // -- merchant
 

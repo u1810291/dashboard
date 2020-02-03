@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import {
   Typography,
 } from '@material-ui/core';
 import { ErrorOutline, ExpandMore } from '@material-ui/icons';
-import { getStepStatus } from 'models/Step.model';
+import { getStepStatus, SYSTEM_ERROR, LEGACY_ERROR } from 'models/Step.model';
 import { StatusMessage } from './StatusMessage';
 import {
   ExpansionPanel,
@@ -18,8 +18,28 @@ export function CheckListExpandable({ step: { id, error, status, data } }) {
   const intl = useIntl();
   const classes = useStyles();
   const [expanded, setExpanded] = useState(null);
+  const [disabledExpansion, setDisabledExpansion] = useState(false);
+  const [expandIcon, setExpandIcon] = useState(null);
   const statusCode = getStepStatus(status, error);
-  const disabledExpansion = ['SystemError', 'LegacyError'].includes((error || {}).type);
+
+  useEffect(() => {
+    if (statusCode === 'checking') {
+      setDisabledExpansion(true);
+      setExpandIcon(null);
+    } else {
+      const isDisabled = [SYSTEM_ERROR, LEGACY_ERROR].includes((error || {}).type);
+      const icon = disabledExpansion ? <ErrorOutline /> : <ExpandMore />;
+      setDisabledExpansion(isDisabled);
+      setExpandIcon(icon);
+    }
+  }, [
+    statusCode,
+    setDisabledExpansion,
+    setExpandIcon,
+    error,
+    disabledExpansion,
+  ]);
+
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -33,7 +53,7 @@ export function CheckListExpandable({ step: { id, error, status, data } }) {
       disabled={disabledExpansion}
     >
       <ExpansionPanelSummary
-        expandIcon={disabledExpansion ? <ErrorOutline /> : <ExpandMore />}
+        expandIcon={expandIcon}
         aria-controls={`panel-${id}-content`}
         id={`panel-${id}-header`}
       >

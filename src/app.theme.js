@@ -62,6 +62,9 @@ export const AppTheme = createMuiTheme({
     warning: {
       main: appPalette.orange,
     },
+    error: {
+      main: appPalette.red,
+    },
     common: appPalette,
   },
   overrides: {
@@ -78,6 +81,14 @@ export const AppTheme = createMuiTheme({
     MuiButton: {
       startIcon: {
         width: '1rem',
+      },
+    },
+    MuiTableCell: {
+      root: {
+        fontSize: 14,
+      },
+      head: {
+        fontWeight: 'bold',
       },
     },
   },
