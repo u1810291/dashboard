@@ -24,6 +24,7 @@ export function DocumentStep({ document, source, countries, isIdentityEditable }
   const mxSteps = steps.filter((step) => [
     'mexican-curp-validation',
     'mexican-ine-validation',
+    'mexican-rfc-validation',
   ].includes(step.id));
 
   const onReading = documentReadingStep.status < 200;

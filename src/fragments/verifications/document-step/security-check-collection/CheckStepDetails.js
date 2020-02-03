@@ -6,6 +6,7 @@ import { formatValue } from 'lib/string';
 import { Card, Grid, CardContent, Typography } from '@material-ui/core';
 import CURP from 'assets/curp-logo.png';
 import INE from 'assets/ine-logo.png';
+import RFC from 'assets/rfc-logo.png';
 import { useStyles } from './CheckStepDetails.styles';
 
 const expandableSteps = {
@@ -14,6 +15,9 @@ const expandableSteps = {
   },
   'mexican-ine-validation': {
     logo: <img src={INE} alt="INE logo" />,
+  },
+  'mexican-rfc-validation': {
+    logo: <img src={RFC} alt="RFC logo" />,
   },
 };
 
