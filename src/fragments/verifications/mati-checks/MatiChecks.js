@@ -1,12 +1,11 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core';
-import { FormattedMessage } from 'react-intl';
-import './MatiChecks.scss';
+import { Paper } from '@material-ui/core';
+import DataTable from 'components/data-table';
 import Details from 'components/details';
 import Text from 'components/text';
-import Card from 'components/card';
-import DataTable from 'components/data-table';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { ReactComponent as CheckBox } from './icon-check.svg';
+import './MatiChecks.scss';
 
 const prefix = 'fragments.verification_detail.mati_checks';
 
@@ -53,7 +52,7 @@ export default function MatiChecks() {
   };
 
   return (
-    <Card padding="0">
+    <Paper>
       <Details
         summary={title}
         defaultOpened
@@ -68,6 +67,6 @@ export default function MatiChecks() {
           inline
         />
       </Details>
-    </Card>
+    </Paper>
   );
 }
