@@ -1,15 +1,13 @@
-import { Box, Divider, Grid, Typography, Card, CardContent } from '@material-ui/core';
+import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { compact } from 'lodash';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import DocumentReadingStep from './document-reading-step';
-import { useStyles } from './DocumentStep.styles';
 import { CheckListExpandable, CheckListFlat } from './security-check-collection';
 import ZoomableImage from './zoomable-image';
 
 export function DocumentStep({ document, source, countries, isIdentityEditable }) {
-  const classes = useStyles();
   const intl = useIntl();
 
   const { steps = [], country, type, region, photos = [], isEditable = true } = document;
@@ -38,60 +36,65 @@ export function DocumentStep({ document, source, countries, isIdentityEditable }
   const dataTitle = intl.formatMessage({ id: onReading ? 'DocumentStep.Data.titleReading' : 'DocumentStep.Data.title' });
 
   return (
-    <Card>
-      <CardContent>
-        <Box p={2}>
-          <Box pb={3}>
-            <Typography variant="h3" gutterBottom>{title}</Typography>
-          </Box>
-          <Divider variant="fullWidth" />
-          <Box py={3}>
-            <Grid container spacing={2}>
-              {/* data */}
-              <Grid item xs={7}>
-                <Typography variant="h4" className={classNames({ loading: onReading })} paragraph>{dataTitle}</Typography>
-                {!onReading && (
-                  <Box>
-                    {documentReadingStep && (
-                      <DocumentReadingStep
-                        documentId={documentReadingSource.id}
-                        step={documentReadingStep}
-                        fields={documentReadingSource.fields}
-                        isEditable={isFormEditable}
-                      />
-                    )}
-                  </Box>
-                )}
-              </Grid>
-              {/* images */}
-              <Grid item xs={5}>
-                <Grid container direction="column" spacing={2} alignItems="flex-end">
-                  {photos.map((photo) => photo && (
-                    <Grid item key={photo} className={classes.image}>
-                      <ZoomableImage src={photo} alt={type} />
-                    </Grid>
-                  ))}
-                </Grid>
+    <Paper>
+      <Box p={4}>
+        <Box pb={3}>
+          <Typography variant="h3" gutterBottom>{title}</Typography>
+        </Box>
+        <Divider variant="fullWidth" />
+        <Box py={3}>
+          <Grid container spacing={2}>
+            {/* data */}
+            <Grid item xs={7}>
+              <Typography variant="h4" className={classNames({ loading: onReading })} paragraph>{dataTitle}</Typography>
+              {!onReading && (
+                <Box>
+                  {documentReadingStep && (
+                    <DocumentReadingStep
+                      documentId={documentReadingSource.id}
+                      step={documentReadingStep}
+                      fields={documentReadingSource.fields}
+                      isEditable={isFormEditable}
+                    />
+                  )}
+                </Box>
+              )}
+            </Grid>
+            {/* images */}
+            <Grid item xs={5}>
+              <Grid container direction="column" spacing={2}>
+                {photos.map((photo) => (photo) && (
+                  <Grid item key={photo}>
+                    <ZoomableImage src={photo} alt={type} />
+                  </Grid>
+                ))}
               </Grid>
             </Grid>
-          </Box>
+          </Grid>
+        </Box>
 
-          {securityCheckSteps && (
-            <>
-              <Divider variant="fullWidth" />
-              <Box py={3}>
-                <Typography variant="h4" paragraph>{intl.formatMessage({ id: 'DocumentStep.Checks.title' })}</Typography>
+        {securityCheckSteps && (
+          <>
+            <Divider variant="fullWidth" />
+            <Box pt={3}>
+              <Typography variant="h4" paragraph>{intl.formatMessage({ id: 'DocumentStep.Checks.title' })}</Typography>
+              <Grid container spacing={0} direction="column">
                 {securityCheckSteps.map((step) => (
-                  <CheckListFlat step={step} key={step.id} />
+                  <Grid item key={step.id}>
+                    <CheckListFlat step={step} />
+                  </Grid>
                 ))}
+              </Grid>
+
+              <Box mt={1}>
                 {mxSteps.map((step) => (
                   <CheckListExpandable step={step} key={step.id} />
                 ))}
               </Box>
-            </>
-          )}
-        </Box>
-      </CardContent>
-    </Card>
+            </Box>
+          </>
+        )}
+      </Box>
+    </Paper>
   );
 }

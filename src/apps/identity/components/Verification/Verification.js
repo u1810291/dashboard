@@ -23,7 +23,7 @@ export function Verification({ identity }) {
   const extras = getIdentityExtras(identity);
 
   return (
-    <Grid container spacing={2} direction="column">
+    <Grid container spacing={2} direction="column" wrap="nowrap">
       {/* header */}
       <Grid item>
         <Card>
