@@ -14,9 +14,7 @@ export const ExpansionPanel = withStyles({
   root: {
     border: 'none',
     boxShadow: 'none',
-    '&:first-child': {
-      marginTop: 10,
-    },
+    margin: 0,
     '&:not(:last-child)': {
       borderBottom: 0,
     },
@@ -24,7 +22,7 @@ export const ExpansionPanel = withStyles({
       display: 'none',
     },
     '&$expanded': {
-      margin: 'auto',
+      margin: 0,
     },
     '&$disabled': {
       backgroundColor: '#fff !important',
@@ -37,24 +35,31 @@ export const ExpansionPanel = withStyles({
 export const ExpansionPanelSummary = withStyles({
   root: {
     border: 'none',
-    marginLeft: 0,
     padding: 0,
+    minHeight: 48,
     '&$expanded': {
       minHeight: 48,
+      margin: 0,
     },
     '&$focused': {
       backgroundColor: '#FFF',
     },
   },
   content: {
+    margin: 0,
     '&$expanded': {
-      margin: '12px 0',
+      margin: 0,
     },
   },
-  expanded: {},
+  expanded: {
+    margin: 0,
+  },
   focused: {},
   disabled: {
     opacity: '1 !important',
+  },
+  expandIcon: {
+    marginRight: -12,
   },
 })(MuiExpansionPanelSummary);
 
