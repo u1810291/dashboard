@@ -1,7 +1,2 @@
-import React from 'react';
-
-export default function NotFound() {
-  return (
-    <div>Not Found</div>
-  );
-}
+export * from './NotFound';
+export * from 'apps/not-found/ContainerFailed';

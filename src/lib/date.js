@@ -1,6 +1,47 @@
 import { inRange } from 'lodash';
 import moment from 'moment';
 
+export const DateFormat = {
+  YearOnly: 'YYYY',
+  MonthYear: 'MMM, YYYY',
+  MonthDate: 'MM/DD',
+  DateFull: 'MMM D, YYYY',
+  DateShort: 'DD/MM/YYYY',
+  DateShortStroke: 'YYYY-MM-DD',
+  HoursFull: 'HH A',
+};
+
+const INPUT_DATE_FORMATS = [
+  moment.ISO_8601,
+  DateFormat.YearOnly,
+  DateFormat.MonthYear,
+  DateFormat.DateFull,
+  DateFormat.DateShort,
+];
+
+const RE_NON_DIGIT = /\D/g;
+
+export function formatDate(value, customFormat) {
+  const dateAsMoment = moment.utc(value, INPUT_DATE_FORMATS);
+  if (!dateAsMoment.isValid()) {
+    return value;
+  }
+
+  if (customFormat) {
+    return dateAsMoment.format(customFormat);
+  }
+
+  const { length: dateLength } = value.replace(RE_NON_DIGIT, '');
+
+  if (dateLength > 7) {
+    return dateAsMoment.format(DateFormat.DateFull);
+  }
+  if (dateLength > 5) {
+    return dateAsMoment.format(DateFormat.MonthYear);
+  }
+  return dateAsMoment.format(DateFormat.YearOnly);
+}
+
 /**
  * @param value number | string
  * @return string
@@ -14,27 +55,8 @@ export function formatWeekDay(value) {
  * @return string
  */
 export function formatHour(value) {
-  return moment().hours(+value).format('HH A');
+  return moment().hours(+value).format(DateFormat.HoursFull);
 }
-
-/**
- * @param value string
- * @param format string
- * @return string
- */
-export function formatDate(value, format) {
-  return moment(value).format(format);
-}
-
-export const YearMonthFormatter = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'long',
-});
-
-export const YearMonthShortFormatter = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'short',
-});
 
 export function toIsoPeriod(period) {
   return `P${period}D`;
@@ -53,8 +75,8 @@ export function checkInterval(value, from, to) {
 }
 
 export function normalizeDate(value) {
-  const date = moment.utc(value, 'MMM D, YYYY', true);
+  const date = moment.utc(value, DateFormat.DateFull, true);
   return date.isValid()
-    ? date.format('YYYY-MM-DD')
+    ? date.format(DateFormat.DateShortStroke)
     : value;
 }

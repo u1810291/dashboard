@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
-import { useStyles } from 'components/contrainer-loader/ContainerLoader.styles';
 import React from 'react';
 import { FiLoader } from 'react-icons/fi';
+import { useStyles } from './ContainerLoader.styles';
 
 export function ContainerLoader() {
   const classes = useStyles();

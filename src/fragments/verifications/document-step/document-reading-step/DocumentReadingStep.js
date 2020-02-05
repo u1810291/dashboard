@@ -7,7 +7,7 @@ import { formatValue } from 'lib/string';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { patchDocument } from 'state/identities/identities.actions';
+import { documentUpdate } from 'state/identities/identities.actions';
 
 const EditableField = ({ label, value, onSubmit }) => (value
   ? (
@@ -22,21 +22,21 @@ const EditableField = ({ label, value, onSubmit }) => (value
   )
   : (
     <Text weight={2} color="gray">
-      <TextEditable />
+      <TextEditable onSubmit={onSubmit} />
     </Text>
   ));
 
-export default function DocumentReadingStep({ identityId, documentId, step, fields = {}, isEditable = true }) {
+export default function DocumentReadingStep({ documentId, step, fields = {}, isEditable = true }) {
   const intl = useIntl();
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback((key, value) => {
-    dispatch(patchDocument(identityId, documentId, {
+    dispatch(documentUpdate(documentId, {
       [key]: {
         value: normalizeDate(value),
       },
     }));
-  }, [dispatch, identityId, documentId]);
+  }, [dispatch, documentId]);
 
   if (step.error) {
     const message = intl.formatMessage({ id: 'DocumentReadingStep.error' }, {

@@ -4,12 +4,10 @@ import { compact } from 'lodash';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import DocumentReadingStep from './document-reading-step';
-import { useStyles } from './DocumentStep.styles';
 import { CheckListExpandable, CheckListFlat } from './security-check-collection';
 import ZoomableImage from './zoomable-image';
 
-export function DocumentStep({ identityId, document, source, countries }) {
-  const classes = useStyles();
+export function DocumentStep({ document, source, countries, isIdentityEditable }) {
   const intl = useIntl();
 
   const { steps = [], country, type, region, photos = [], isEditable = true } = document;
@@ -24,14 +22,12 @@ export function DocumentStep({ identityId, document, source, countries }) {
   const mxSteps = steps.filter((step) => [
     'mexican-curp-validation',
     'mexican-ine-validation',
+    'mexican-rfc-validation',
   ].includes(step.id));
 
   const onReading = documentReadingStep.status < 200;
   const countryName = (countries.find(({ code }) => code === country) || {}).name || country;
-
-  const isFormEditable = documentReadingSource.demo === true
-    ? false
-    : isEditable;
+  const isFormEditable = isIdentityEditable && documentReadingSource.demo !== true && isEditable;
 
   const title = intl.formatMessage({ id: 'DocumentStep.title' }, {
     document: intl.formatMessage({ id: `flow.documentTypeStep.${type}` }),
@@ -41,12 +37,12 @@ export function DocumentStep({ identityId, document, source, countries }) {
 
   return (
     <Paper>
-      <Box m={4}>
-        <Box my={3}>
-          <Typography variant="h3">{title}</Typography>
+      <Box p={4}>
+        <Box pb={3}>
+          <Typography variant="h3" gutterBottom>{title}</Typography>
         </Box>
         <Divider variant="fullWidth" />
-        <Box my={3}>
+        <Box py={3}>
           <Grid container spacing={2}>
             {/* data */}
             <Grid item xs={7}>
@@ -55,7 +51,6 @@ export function DocumentStep({ identityId, document, source, countries }) {
                 <Box>
                   {documentReadingStep && (
                     <DocumentReadingStep
-                      identityId={identityId}
                       documentId={documentReadingSource.id}
                       step={documentReadingStep}
                       fields={documentReadingSource.fields}
@@ -67,9 +62,9 @@ export function DocumentStep({ identityId, document, source, countries }) {
             </Grid>
             {/* images */}
             <Grid item xs={5}>
-              <Grid container direction="column" spacing={2} alignItems="flex-end">
-                {photos.map((photo) => photo && (
-                  <Grid item key={photo} className={classes.image}>
+              <Grid container direction="column" spacing={2}>
+                {photos.map((photo) => (photo) && (
+                  <Grid item key={photo}>
                     <ZoomableImage src={photo} alt={type} />
                   </Grid>
                 ))}
@@ -81,14 +76,21 @@ export function DocumentStep({ identityId, document, source, countries }) {
         {securityCheckSteps && (
           <>
             <Divider variant="fullWidth" />
-            <Box my={3}>
+            <Box pt={3}>
               <Typography variant="h4" paragraph>{intl.formatMessage({ id: 'DocumentStep.Checks.title' })}</Typography>
-              {securityCheckSteps.map((step) => (
-                <CheckListFlat step={step} key={step.id} />
-              ))}
-              {mxSteps.map((step) => (
-                <CheckListExpandable step={step} key={step.id} />
-              ))}
+              <Grid container spacing={0} direction="column">
+                {securityCheckSteps.map((step) => (
+                  <Grid item key={step.id}>
+                    <CheckListFlat step={step} />
+                  </Grid>
+                ))}
+              </Grid>
+
+              <Box mt={1}>
+                {mxSteps.map((step) => (
+                  <CheckListExpandable step={step} key={step.id} />
+                ))}
+              </Box>
             </Box>
           </>
         )}

@@ -1,19 +1,16 @@
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { FiRotateCw, FiRotateCcw, FiZoomIn } from 'react-icons/fi';
-
 import { Content, OverlayWithBlur } from 'components';
-
+import React, { useState } from 'react';
+import { FiRotateCcw, FiRotateCw, FiZoomIn } from 'react-icons/fi';
 import CSS from './ZoomableImage.module.scss';
 
-export default function ZoomableImage({ src, alt }) {
-  const [isModalShown, handleModal] = useState(false);
+export default function ZoomableImage({ src = '', alt = '' }) {
+  const [isModalShown, setIsModalShown] = useState(false);
   const [angle, rotate] = useState(0);
 
   const handleClose = () => {
     const root = document.getElementById('overlayRootWithBlur');
     rotate(0);
-    handleModal(false);
+    setIsModalShown(false);
     if (root) {
       root.remove();
     }
@@ -43,7 +40,7 @@ export default function ZoomableImage({ src, alt }) {
     >
       <div
         className={CSS.hoverWrapper}
-        onClick={() => handleModal(true)}
+        onClick={() => setIsModalShown(true)}
         onKeyUp={() => {}}
         role="button"
         tabIndex="0"
@@ -56,7 +53,7 @@ export default function ZoomableImage({ src, alt }) {
         <Content
           fullwidth={false}
           className={CSS.zoomContent}
-          onClick={() => handleModal(false)}
+          onClick={() => setIsModalShown(false)}
         >
           <img
             className={CSS.zoomedImage}
@@ -91,13 +88,3 @@ export default function ZoomableImage({ src, alt }) {
     </div>
   );
 }
-
-ZoomableImage.propTypes = {
-  alt: PropTypes.string,
-  src: PropTypes.string,
-};
-
-ZoomableImage.defaultProps = {
-  alt: '',
-  src: '',
-};
