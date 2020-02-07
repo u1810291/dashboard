@@ -81,7 +81,7 @@ export const configurationUpdate = (cfg) => async (dispatch, getState) => {
   const cfgModel = selectConfigurationModel(getState());
 
   if (!cfgModel.isLoaded) {
-    return;
+    throw Error('configuration didn\'t loaded');
   }
 
   const newConfiguration = {
@@ -108,6 +108,31 @@ export const dashboardUpdate = (data) => (dispatch, getState) => {
       ...data,
     },
   }));
+};
+
+export const onboardingUpdate = (data) => async (dispatch, getState) => {
+  const state = getState();
+  const cfgModel = selectConfigurationModel(state);
+
+  if (!cfgModel.isLoaded) {
+    throw Error('configuration didn\'t loaded');
+  }
+
+  const newCfg = {
+    ...cfgModel.value,
+    dashboard: {
+      ...cfgModel.value.dashboard,
+      info: data,
+      shouldPassOnboarding: false,
+    },
+  };
+
+  await dispatch(merchantUpdate({
+    businessName: data.organization,
+    configurations: newCfg,
+  }));
+
+  dispatch({ type: types.CONFIGURATION_SUCCESS, payload: newCfg });
 };
 
 export const styleUpdate = (data) => (dispatch, getState) => {
