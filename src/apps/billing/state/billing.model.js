@@ -27,6 +27,12 @@ export const BillingPlanMeta = [
   },
 ];
 
+export const PlanState = {
+  Draft: 'draft',
+  Published: 'published',
+  Archived: 'archived',
+};
+
 export function getBillingPlanMeta(planName) {
   return BillingPlanMeta.find((plan) => plan.name === planName);
 }
