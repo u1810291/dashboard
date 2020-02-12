@@ -10,7 +10,7 @@ import { useIntl } from 'react-intl';
 import ReactIntlTelInput from 'react-intl-tel-input-v2';
 import { useDispatch } from 'react-redux';
 import { hubspotTrack } from 'state/hubspot/hubspot.actions';
-import { dashboardUpdate } from 'state/merchant/merchant.actions';
+import { onboardingUpdate } from 'state/merchant/merchant.actions';
 import { theme, useStyles } from './styles';
 
 const mandatoryFields = [
@@ -56,10 +56,7 @@ function QuestionsContent() {
     }
     inputs.phone = `+${phone.dialCode} ${phone.phone}`;
     try {
-      await dispatch(dashboardUpdate({
-        info: inputs,
-        shouldPassOnboarding: false,
-      }));
+      await dispatch(onboardingUpdate(inputs));
       dispatch(hubspotTrack({
         [contactProperties.companyName]: inputs.organization,
         [contactProperties.website]: inputs.websiteUrl,

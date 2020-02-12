@@ -17,7 +17,7 @@ import { CardDeclinedModal } from '../CardDeclinedModal/CardDeclinedModal';
 import CardModal from '../CardModal/CardModal';
 import ChangePlanModal from '../ChangePlanModal/ChangePlanModal';
 import { PricingPlans } from '../PricingPlans/PricingPlans';
-import { getBillingPlanMeta } from '../../state/billing.model';
+import { getBillingPlanMeta, PlanState } from '../../state/billing.model';
 import { PricingBottomText } from '../PricingMeta/PricingBottomText';
 import { PricingBadge } from '../PricingMeta/PricingBadge';
 
@@ -121,7 +121,7 @@ export function PlanList() {
   const planListOutput = [
     ...regularPlanList.value,
     ...customPlanList.value,
-  ].filter((item) => !item.isArchived);
+  ].filter((item) => item.state === PlanState.Published);
 
   return (
     <Grid container spacing={2}>
