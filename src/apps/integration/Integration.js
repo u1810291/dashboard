@@ -5,7 +5,7 @@ import { SubDivider } from './Integration.styles';
 import { IntegrationSection } from './IntegrationSection';
 import { APISection, DocumentationSection, MobileSDKSection, PermalinkSection, WebhookDocumentationSection, WebhookSection, WebSDKSection } from './sections';
 
-export function Integration({ clientId }) {
+export function Integration() {
   const intl = useIntl();
 
   return (
@@ -27,7 +27,7 @@ export function Integration({ clientId }) {
       <IntegrationSection title={intl.formatMessage({ id: 'apps.integration.sync.title' })}>
         <WebhookDocumentationSection />
         <SubDivider />
-        <WebhookSection clientId={clientId} />
+        <WebhookSection />
       </IntegrationSection>
     </Paper>
   );
