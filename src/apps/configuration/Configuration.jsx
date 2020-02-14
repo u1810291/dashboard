@@ -4,11 +4,12 @@ import { Content } from 'components/application-box';
 import { ConfigureColor } from 'fragments/configuration/configure-color/ConfigureColor';
 import Countries from 'fragments/configuration/countries';
 import { GdprSettings } from 'fragments/configuration/gdpr-settings';
+import { GovChecks } from 'fragments/configuration/gov-checks';
 import { Logo } from 'fragments/configuration/logo/Logo';
 import { VerificationSteps } from 'fragments/configuration/verification-steps';
 import BiometricStep from 'fragments/configuration/verification-steps/biometric-steps';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash } from 'react-icons/fi';
+import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash, FiCheckCircle } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCountries } from 'state/countries/countries.actions';
@@ -76,6 +77,11 @@ export default function Configuration() {
           title: 'Product.configuration.gdpr',
           icon: <FiTrash />,
           body: <GdprSettings />,
+        },
+        {
+          title: 'Product.configuration.govChecks',
+          icon: <FiCheckCircle />,
+          body: <GovChecks />,
         },
       ]);
     }
