@@ -94,6 +94,11 @@ export const selectColor = createSelector(
   selectModelValue((style) => style.color),
 );
 
+export const selectGovChecks = createSelector(
+  selectConfigurationModel,
+  selectModelValue((cfg) => cfg.verificationPatterns),
+);
+
 // -- dashboard
 
 export const selectDashboardModel = createSelector(
