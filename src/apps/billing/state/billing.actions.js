@@ -1,4 +1,4 @@
-import { BillingActionGroups } from 'apps/billing/state/billing.model';
+import { BillingActionGroups, PlanState } from 'apps/billing/state/billing.model';
 import { selectCurrentPlanId } from 'apps/billing/state/billing.selectors';
 import * as api from 'lib/client/plans';
 import { collectionUpsert, createTypesSequence } from 'state/utils';
@@ -20,7 +20,7 @@ export const planListLoad = (isReset = false) => async (dispatch, getState) => {
   try {
     const { data } = await api.getPlans();
     let plans = (data.rows || [])
-      .filter((item) => !item.isArchived)
+      .filter((item) => item.state === PlanState.Published)
       .sort((a, b) => a.order - b.order);
 
     const currentPlanId = selectCurrentPlanId(getState());

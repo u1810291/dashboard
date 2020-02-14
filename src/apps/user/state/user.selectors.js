@@ -6,10 +6,10 @@ export const selectUserModel = (state) => state[USER_STORE_KEY];
 
 export const selectUserEmail = createSelector(
   selectUserModel,
-  selectModelValue((user) => user.email),
+  selectModelValue((user) => user && user.email),
 );
 
 export const selectUserId = createSelector(
   selectUserModel,
-  selectModelValue((user) => user.id),
+  selectModelValue((user) => user && user.id),
 );

@@ -19,3 +19,41 @@ export const AVAILABLE_DOCUMENT_TYPES = [
   'driving-license',
   'proof-of-residency',
 ];
+
+export const GovChecksModel = [
+  {
+    country: 'mexico',
+    validations: {
+      'mexican-curp-validation': {
+        default: true,
+        label: 'CURP',
+      },
+      'mexican-ine-validation': {
+        default: true,
+        label: 'INE',
+      },
+      'mexican-rfc-validation': {
+        default: true,
+        label: 'RFC',
+      },
+    },
+  },
+];
+
+export function getGovChecksByCountry(country) {
+  return (GovChecksModel.find((item) => item.country === country) || {})
+    .validations || {};
+}
+
+export function getDefaultGovChecks() {
+  return GovChecksModel.reduce((acc, region) => {
+    const result = acc;
+    const validations = region.validations || {};
+    Object
+      .keys(validations)
+      .forEach((name) => {
+        result[name] = (validations[name] || {}).default;
+      });
+    return result;
+  }, {});
+}
