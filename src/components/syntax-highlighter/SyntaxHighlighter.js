@@ -10,15 +10,17 @@ export function SyntaxHighlighter({
   language,
   isCopyToClipboard = true,
   isBorder = true,
+  qa = {}, // should have `Value` and `Copy` fields
 }) {
   const classes = useStyles();
   return (
-    <CopyToClipboard text={isCopyToClipboard ? code : null} isOverlay>
+    <CopyToClipboard text={isCopyToClipboard ? code : null} isOverlay qa={qa.Copy}>
       <Box className={isBorder ? classes.bordered : null}>
         <PrismSyntaxHighlighter
           style={style}
           className={classes.content}
           language={language}
+          data-qa={qa.Value}
         >
           {code}
         </PrismSyntaxHighlighter>
