@@ -3,6 +3,7 @@ import { CopyToClipboard } from 'components/clipboard';
 import { Loadable } from 'components/Loadable/Loadable';
 import { permalinkUrl } from 'lib/client/urls';
 import { trimMiddle } from 'lib/string';
+import { QATags } from 'models/QA.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -24,11 +25,12 @@ export function PermalinkSection() {
           render={(clientId) => {
             const url = permalinkUrl({ clientId });
             return (
-              <CopyToClipboard text={url}>
+              <CopyToClipboard text={url} qa={QATags.Integration.Perma.Copy}>
                 <Link
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-qa={QATags.Integration.Perma.Value}
                 >
                   {trimMiddle(url, 20)}
                 </Link>

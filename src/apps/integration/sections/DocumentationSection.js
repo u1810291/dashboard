@@ -1,6 +1,7 @@
 import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { CopyToClipboard } from 'components/clipboard';
 import { Loadable } from 'components/Loadable/Loadable';
+import { QATags } from 'models/QA.model';
 import React from 'react';
 import { FiFileText } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -23,6 +24,7 @@ export function DocumentationSection() {
           rel="noopener noreferrer"
           color="primary"
           startIcon={<FiFileText size={14} />}
+          data-qa={QATags.Integration.Button.MatiDoc}
         >
           {intl.formatMessage({ id: 'DocumentationSection.cta' })}
         </Button>
@@ -33,8 +35,8 @@ export function DocumentationSection() {
           <Loadable
             model={appModel}
             render={(value) => (
-              <CopyToClipboard text={value.clientId}>
-                <code>{appModel.value.clientId}</code>
+              <CopyToClipboard text={value.clientId} qa={QATags.Integration.ClientId.Copy}>
+                <code data-qa={QATags.Integration.ClientId.Value}>{appModel.value.clientId}</code>
               </CopyToClipboard>
             )}
           />
@@ -44,8 +46,8 @@ export function DocumentationSection() {
           <Loadable
             model={appModel}
             render={(value) => (
-              <CopyToClipboard text={value.clientSecret}>
-                <code>{(value.clientSecret || '').replace(/./g, '*')}</code>
+              <CopyToClipboard text={value.clientSecret} qa={QATags.Integration.ClientSecret.Copy}>
+                <code data-qa={QATags.Integration.ClientSecret.Value}>{(value.clientSecret || '').replace(/./g, '*')}</code>
               </CopyToClipboard>
             )}
           />

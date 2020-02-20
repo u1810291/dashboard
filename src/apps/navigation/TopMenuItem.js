@@ -13,6 +13,7 @@ export function TopMenuItem({
   to,
   handler,
   icon,
+  qa,
 }) {
   const classes = useStyles();
 
@@ -21,6 +22,7 @@ export function TopMenuItem({
       divider={false}
       className={clsx(classes.menuItem, className)}
       onClick={handler}
+      data-qa={qa}
     >
       {icon && <Box mr={1} display="flex">{icon}</Box>}
       {label}
@@ -37,6 +39,7 @@ export function TopMenuItem({
       exact
       to={to}
       activeClassName="active"
+      data-qa={qa}
     >
       {menuItem}
     </NavLink>

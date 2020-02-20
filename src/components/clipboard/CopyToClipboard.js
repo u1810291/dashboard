@@ -4,7 +4,7 @@ import { FiCopy } from 'react-icons/fi';
 import { copyToClipboard } from './copy-to-clipboard';
 import { useStyles } from './CopyToClipboard.styles';
 
-export function CopyToClipboard({ children, text, isOverlay = false }) {
+export function CopyToClipboard({ children, text, isOverlay = false, qa }) {
   const classes = useStyles();
 
   return (
@@ -18,6 +18,7 @@ export function CopyToClipboard({ children, text, isOverlay = false }) {
             size="small"
             color="primary"
             onClick={() => copyToClipboard(text)}
+            data-qa={qa}
           >
             <FiCopy />
           </IconButton>
