@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import Card from 'components/card';
-import Spinner from 'components/spinner';
+import { Spinner } from 'apps/layout';
 import { ReactComponent as EmptyTableIcon } from './empty-table.svg';
 import CSS from './DataTable.module.scss';
 

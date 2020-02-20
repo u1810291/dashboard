@@ -1,6 +1,6 @@
 import { Button, Grid, Typography } from '@material-ui/core';
-import { isValidCheckSum } from 'apps/auth/models/auth.model';
-import { ROOT_PATH } from 'apps/routing/routing.model';
+import { Page404 } from 'apps/layout';
+import { ROOT_PATH } from 'apps/routing';
 import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
@@ -10,8 +10,9 @@ import { get, pick, pickBy } from 'lodash';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { dashboardUpdate } from 'state/merchant/merchant.actions';
+import { isValidCheckSum } from '../../models/auth.model';
 import { signUp } from '../../state/auth.actions';
 
 const validateForm = (values) => pickBy(
@@ -53,7 +54,7 @@ export default function SignUp() {
 
   if (!isValidCheckSum(query.token)) {
     // TODO @dkchv: should be Page404, after merge 5394
-    return <Redirect to={ROOT_PATH} />;
+    return <Page404 />;
   }
 
   return (

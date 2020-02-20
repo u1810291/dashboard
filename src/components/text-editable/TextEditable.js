@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import Button from 'components/button';
-import Spinner from 'components/spinner';
+import { Spinner } from 'apps/layout';
 import TextField from 'components/text-field';
 import TextFieldCSS from 'components/text-field/TextField.module.css';
 import { omit } from 'lodash';

@@ -1,6 +1,5 @@
 import classNames from 'classnames';
-import { Items } from 'components';
-import { Content } from 'components/application-box';
+import { Content, Items } from 'components';
 import { ConfigureColor } from 'fragments/configuration/configure-color/ConfigureColor';
 import Countries from 'fragments/configuration/countries';
 import { GdprSettings } from 'fragments/configuration/gdpr-settings';
@@ -9,7 +8,7 @@ import { Logo } from 'fragments/configuration/logo/Logo';
 import { VerificationSteps } from 'fragments/configuration/verification-steps';
 import BiometricStep from 'fragments/configuration/verification-steps/biometric-steps';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash, FiCheckCircle } from 'react-icons/fi';
+import { FiCheckCircle, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCountries } from 'state/countries/countries.actions';

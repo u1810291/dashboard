@@ -6,7 +6,7 @@ import { selectCardModel, selectCurrentPlanFullModel, selectCurrentPlanId, selec
 import { Card, closeOverlay, createOverlay, Items, Text } from 'components';
 import Button from 'components/button';
 import { notification } from 'components/notification';
-import Spinner from 'components/spinner';
+import { Spinner } from 'apps/layout';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';

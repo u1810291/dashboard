@@ -1,1 +1,1 @@
-export * from './identity.router';
+export * from 'apps/identity/identity.routes';

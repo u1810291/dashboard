@@ -1,6 +1,6 @@
 import { MenuItem } from '@material-ui/core';
-import { TopMenuItem } from 'apps/navigation';
 import { QATags } from 'models/QA.model';
+import { TopMenuItem } from 'apps/layout';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { dashboardUpdate } from 'state/merchant/merchant.actions';

@@ -1,12 +1,9 @@
-import { selectHasBilling } from 'apps/billing/state/billing.selectors';
-import { RedirectWithLocation } from 'apps/routing/RedirectWithLocation';
+import { RedirectWithLocation } from 'apps/routing';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route, useLocation } from 'react-router-dom';
+import { selectHasBilling } from '../state/billing.selectors';
 
-/**
- * @return {null}
- */
 export function BillingRoute({ path, ...props }) {
   const location = useLocation();
   const hasBillingModel = useSelector(selectHasBilling);

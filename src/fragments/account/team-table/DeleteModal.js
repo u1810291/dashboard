@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import Modal from 'components/modal';
 import Button from 'components/button';
-import Spinner from 'components/spinner';
+import { Spinner } from 'apps/layout';
 
 export default function DeleteModal({
   className,
