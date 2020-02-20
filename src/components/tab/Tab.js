@@ -21,8 +21,9 @@ export default function Tab({
   return (
     <Items flow="row" gap={0}>
       <Items gap={0} flow="column" justifyContent="flex-start" className={CSS.tabAction}>
-        {tabs.map(({ tab, badge }, index) => (
+        {tabs.map(({ tab, badge, qa }, index) => (
           <Items
+            data-qa={qa}
             gap={0}
             key={tab}
             alignContent={align}

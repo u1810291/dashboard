@@ -2,6 +2,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { SyntaxHighlighter } from 'components/syntax-highlighter';
 import { SyntaxHighlighterLanguages } from 'components/syntax-highlighter/SyntaxHighlighter.model';
 import { integrationCode } from 'models/Integration.model';
+import { QATags } from 'models/QA.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import Frameworks from './web-frameworks.png';
@@ -22,7 +23,7 @@ export function WebSDKSection() {
         <Typography paragraph>{intl.formatMessage({ id: 'WebSDKSection.description' })}</Typography>
       </Grid>
       <Grid item xs={5}>
-        <SyntaxHighlighter language={SyntaxHighlighterLanguages.HTML} code={integrationCode} />
+        <SyntaxHighlighter language={SyntaxHighlighterLanguages.HTML} code={integrationCode} qa={QATags.Integration.WebSDK} />
       </Grid>
     </Grid>
   );

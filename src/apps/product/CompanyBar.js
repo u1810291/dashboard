@@ -4,6 +4,7 @@ import { LoadableValue } from 'components/LoabableValue';
 import { Loadable } from 'components/Loadable/Loadable';
 import { permalinkUrl } from 'lib/client/urls';
 import { trimMiddle } from 'lib/string';
+import { QATags } from 'models/QA.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -19,7 +20,7 @@ export function CompanyBar() {
       <Box p={2}>
         <Grid container alignItems="center">
           <Grid item xs={9}>
-            <Typography variant="h4">
+            <Typography variant="h4" data-qa={QATags.Product.Bar.Name}>
               <LoadableValue
                 model={companyNameModel}
                 width={25}
@@ -35,8 +36,8 @@ export function CompanyBar() {
               render={(clientId) => {
                 const url = permalinkUrl({ clientId });
                 return (
-                  <CopyToClipboard text={url}>
-                    <Link href={url} target="_blank" rel="noopener noreferrer">
+                  <CopyToClipboard text={url} qa={QATags.Product.Bar.Perma.Copy}>
+                    <Link href={url} target="_blank" rel="noopener noreferrer" data-qa={QATags.Product.Bar.Perma.Link}>
                       {trimMiddle(url)}
                     </Link>
                   </CopyToClipboard>
