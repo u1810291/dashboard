@@ -1,6 +1,6 @@
 import { Card, CardContent, Grid } from '@material-ui/core';
 import { Header } from 'apps/identity/containers/VerificationDetail/Header';
-import { NotFound } from 'apps/not-found';
+import { Page404 } from 'apps/layout';
 import { DocumentStep } from 'fragments/verifications/document-step';
 import { LivenessStep } from 'fragments/verifications/liveness-step';
 import MatiChecks from 'fragments/verifications/mati-checks/MatiChecks';
@@ -16,7 +16,7 @@ export function Verification({ identity }) {
   const verification = get(identity, '_embedded.verification');
 
   if (!(verification)) {
-    return <NotFound />;
+    return <Page404 />;
   }
 
   const documentsSources = get(identity, '_embedded.documents');

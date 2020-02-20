@@ -1,8 +1,6 @@
 import { Box, Container, Grid, Typography } from '@material-ui/core';
-import { Verification } from 'apps/identity/components/Verification/Verification';
-import { VerificationSidePanel } from 'apps/identity/components/VerificationSidePanel/VerificationSidePanel';
-import { ContainerFailed, NotFound } from 'apps/not-found';
-import Spinner from 'components/spinner';
+import { Page404, PageError, PageLoader } from 'apps/layout';
+import { isNotFound } from 'models/Error.model';
 import { getIdentityShortId } from 'models/Identity.model';
 import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
@@ -11,6 +9,8 @@ import { useParams } from 'react-router-dom';
 import { getCountries } from 'state/countries/countries.actions';
 import { identityDemoLoad, identityLoad } from 'state/identities/identities.actions';
 import { selectIdentityModel } from 'state/identities/identities.selectors';
+import { Verification } from '../../components/Verification/Verification';
+import { VerificationSidePanel } from '../../components/VerificationSidePanel/VerificationSidePanel';
 
 export function VerificationDetail() {
   const dispatch = useDispatch();
@@ -35,21 +35,17 @@ export function VerificationDetail() {
   }, [dispatch, id, demoId]);
 
   if (!identityModel.isLoaded && identityModel.isLoading) {
-    return (
-      <Container>
-        <Box py={3} height="100%" display="flex" alignItems="center" justifyContent="center">
-          <Spinner />
-        </Box>
-      </Container>
-    );
+    return <PageLoader />;
   }
 
   if (identityModel.isFailed) {
-    return <ContainerFailed />;
+    return isNotFound(identityModel.error)
+      ? <Page404 />
+      : <PageError />;
   }
 
   if (!identityModel.value) {
-    return <NotFound />;
+    return <Page404 />;
   }
 
   return (

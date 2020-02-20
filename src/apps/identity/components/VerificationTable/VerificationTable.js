@@ -1,7 +1,7 @@
 import { Box, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import confirm from 'components/confirm/Confirm';
 import { ReactComponent as EmptyTableIcon } from 'components/data-table/empty-table.svg';
-import Spinner from 'components/spinner';
+import { Spinner } from 'apps/layout';
 import { StatusLabel } from 'fragments/verifications/status-label/StatusLabel';
 import { formatDate } from 'lib/date';
 import { titleCase } from 'lib/string';

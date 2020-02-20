@@ -2,7 +2,7 @@ import { Box } from '@material-ui/core';
 import { StubBarColor, StubTickColor } from 'apps/metrics/Metrics.model';
 import classNames from 'classnames';
 import { Card, Text } from 'components';
-import Spinner from 'components/spinner';
+import { Spinner } from 'apps/layout';
 import { formatDate, DateFormat } from 'lib/date';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';

@@ -921,6 +921,5 @@
   "VerificationFilter.clear-all": "Limpiar todo",
   "VerificationFilter.status.title": "Estado",
   "VerificationSearch.placeholder": "Búsqueda...",
-  "VerificationHistory.title": "Historial de verificaciones",
-  "error.common": "Something went wrong. Please retry."
+  "VerificationHistory.title": "Historial de verificaciones"
 }

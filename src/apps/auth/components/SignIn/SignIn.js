@@ -1,5 +1,5 @@
 import { Button, Grid, Typography } from '@material-ui/core';
-import { ROOT_PATH } from 'apps/routing/routing.model';
+import { ROOT_PATH } from 'apps/routing';
 import { notification } from 'components/notification';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
