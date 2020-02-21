@@ -1,2 +1,2 @@
-export { default as ScrollToTop } from './ScrollToTop';
-export * from './OwnerRoute';
+export * from './components/RedirectWithLocation/RedirectWithLocation';
+export * from './models/routing.model';

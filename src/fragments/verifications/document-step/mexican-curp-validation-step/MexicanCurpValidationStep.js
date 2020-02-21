@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Details from 'components/details';
-import Spinner from 'components/spinner';
+import { Spinner } from 'apps/layout';
 import Items from 'components/items';
 import DocumentReadingStep from '../document-reading-step';
 

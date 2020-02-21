@@ -5,7 +5,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import DataTable from 'components/data-table';
 import SelectField from 'components/select-field';
 import { createOverlay, closeOverlay } from 'components/overlay';
-import Spinner from 'components/spinner';
+import { Spinner } from 'apps/layout';
 import DeleteModal from './DeleteModal';
 import DeleteSuccessModal from './DeleteSuccessModal';
 import { ReactComponent as TrashBox } from './trashbox.svg';

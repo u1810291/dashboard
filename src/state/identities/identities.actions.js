@@ -1,6 +1,6 @@
 import { notification } from 'components/notification';
 import * as api from 'lib/client/identities';
-import { ERROR_COMMON } from 'lib/error.model';
+import { ERROR_COMMON } from 'models/Error.model';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { normalizeCURPData } from 'state/identities/identities.helpers';
 import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from 'state/identities/identities.selectors';

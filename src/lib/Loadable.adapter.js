@@ -1,4 +1,4 @@
-import { ERROR_COMMON } from 'lib/error.model';
+import { ERROR_COMMON } from 'models/Error.model';
 import { ActionSubTypes } from 'state/utils';
 
 export class LoadableAdapter {

@@ -7,7 +7,7 @@ export { default as QuestionMark } from './question-mark';
 export { default as InfoTooltip } from './info-tooltip';
 export { default as HelpMessage } from './help-message';
 export { default as Text, H1, H2, H3 } from './text';
-export { Content } from 'components/application-box';
+export { Content } from 'components/Content/Content';
 export { default as PageContentMenu } from './page-content-menu';
 export { default as VideoPlayer } from './video-player';
 export { default as Tab, TabWrapper } from './tab';

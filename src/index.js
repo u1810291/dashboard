@@ -1,17 +1,13 @@
 import { AppRouter } from 'app.router';
-import { ScrollToTop } from 'apps/routing';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import {
-  Elements as StripeElements,
-  StripeProvider,
-} from 'react-stripe-elements';
+import { Elements as StripeElements, StripeProvider } from 'react-stripe-elements';
 // Next line must stay on the top because of css variables
 import 'components/theme/styles.scss';
 import { AppIntlProvider } from 'components/intl-provider';
 import StoreProvider from 'components/store-provider';
-import { Container as NotificationsContainer } from 'components/notification';
+import { NotificationsContainer } from 'components/notification';
 import { Container as OverlayContainer } from 'components/overlay';
 import 'clipboard-polyfill';
 import 'core-js';
@@ -36,17 +32,9 @@ ReactDOM.render(
         <StoreProvider>
           <AppIntlProvider>
             <BrowserRouter>
-              <ScrollToTop>
-                <AppRouter />
-                <NotificationsContainer
-                  closeButton={false}
-                  hideProgressBar
-                  pauseOnHover={false}
-                  draggable={false}
-                  autoClose={5000}
-                />
-                <OverlayContainer />
-              </ScrollToTop>
+              <AppRouter />
+              <NotificationsContainer />
+              <OverlayContainer />
             </BrowserRouter>
           </AppIntlProvider>
         </StoreProvider>

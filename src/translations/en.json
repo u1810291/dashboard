@@ -923,5 +923,9 @@
   "VerificationFilter.status.title": "Status",
   "VerificationSearch.placeholder": "Search...",
   "VerificationHistory.title": "Verification history",
-  "error.common": "Something went wrong. Please retry."
+  "Page404.title": "Sorry, 404",
+  "Page404.subtitle": "We couldn’t find this page ¯\\_(ツ)_/¯",
+  "PageError.title": "Oops, 500",
+  "PageError.subtitle": "Unexpected error",
+  "PageError.cta": "Back to home"
 }
