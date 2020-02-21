@@ -10,7 +10,7 @@ export function CheckListFlat({ step: { id, error, status } }) {
   const checkStatus = getStepStatus(status, error);
 
   return (
-    <Grid container item xs={12} spacing={3} key={id}>
+    <Grid container item xs={12} spacing={3}>
       <Grid item xs={3}>
         {intl.formatMessage({ id: `SecurityCheckStep.${id}.title` })}
       </Grid>
