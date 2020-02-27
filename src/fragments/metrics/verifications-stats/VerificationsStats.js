@@ -1,6 +1,6 @@
 import { Box } from '@material-ui/core';
 import Card from 'components/card';
-import Spinner from 'components/spinner';
+import { Spinner } from 'apps/layout';
 import React from 'react';
 import { ChartHorizontal } from 'fragments/metrics/chart-horizontal/ChartHorizontal';
 import { ChartVertical } from '../chart-vertical/ChartVertical';

@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import Button from 'components/button';
 import Items from 'components/items';
 import { createOverlay, closeOverlay } from 'components/overlay';
-import Spinner from 'components/spinner';
+import { Spinner } from 'apps/layout';
 import CountriesModal from '../countries-modal';
 import CSS from './Countries.module.scss';
 import Text from '../../../components/text';

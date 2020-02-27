@@ -2,14 +2,19 @@ import { Grid, Typography } from '@material-ui/core';
 import { SyntaxHighlighter } from 'components/syntax-highlighter';
 import { SyntaxHighlighterLanguages } from 'components/syntax-highlighter/SyntaxHighlighter.model';
 import { integrationCode } from 'models/Integration.model';
+import { QATags } from 'models/QA.model';
 import React from 'react';
+import { get } from 'lodash';
+import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
+import { selectAppLastModel } from 'state/merchant/merchant.selectors';
 import Frameworks from './web-frameworks.png';
 import { useStyles } from './WebSDKSection.styles';
 
 export function WebSDKSection() {
   const intl = useIntl();
   const classes = useStyles();
+  const clientId = get(useSelector(selectAppLastModel), 'value.clientId');
 
   return (
     <Grid container justify="space-between" alignItems="center">
@@ -22,7 +27,11 @@ export function WebSDKSection() {
         <Typography paragraph>{intl.formatMessage({ id: 'WebSDKSection.description' })}</Typography>
       </Grid>
       <Grid item xs={5}>
-        <SyntaxHighlighter language={SyntaxHighlighterLanguages.HTML} code={integrationCode} />
+        <SyntaxHighlighter
+          language={SyntaxHighlighterLanguages.HTML}
+          code={integrationCode(clientId)}
+          qa={QATags.Integration.WebSDK}
+        />
       </Grid>
     </Grid>
   );

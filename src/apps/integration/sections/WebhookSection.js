@@ -2,6 +2,7 @@ import { Button, Grid, Typography } from '@material-ui/core';
 import confirm from 'components/confirm';
 import { closeOverlay, createOverlay } from 'components/overlay';
 import NewWebhookModal from 'fragments/account/new-webhook-modal/NewWebhookModal';
+import { QATags } from 'models/QA.model';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -49,17 +50,18 @@ export function WebhookSection() {
           variant="contained"
           color="primary"
           onClick={handleOpenModal}
+          data-qa={QATags.Integration.WebHook.Create}
         >
           {intl.formatMessage({ id: 'WebhookSection.cta' })}
         </Button>
       </Grid>
       <Grid item xs={5}>
         <Typography variant="h6">{intl.formatMessage({ id: 'WebhookSection.url' })}</Typography>
-        <Typography paragraph className={classes.breakAll}>{url}</Typography>
+        <Typography paragraph className={classes.breakAll} data-qa={QATags.Integration.WebHook.URL}>{url}</Typography>
         <Typography variant="h6">{intl.formatMessage({ id: 'WebhookSection.secret' })}</Typography>
-        <Typography paragraph>{secret}</Typography>
+        <Typography paragraph data-qa={QATags.Integration.WebHook.Secret}>{secret}</Typography>
         {webhook.url && (
-          <RemoveButton onClick={handleRemoveWebhook}>
+          <RemoveButton onClick={handleRemoveWebhook} data-qa={QATags.Integration.WebHook.Delete}>
             {intl.formatMessage({ id: 'WebhookSection.delete' })}
           </RemoveButton>
         )}

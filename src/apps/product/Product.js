@@ -30,7 +30,7 @@ export function Product() {
   return [
     <Container key="content">
       <Box p={2} mb={6}>
-        <Grid container spacing={2} direction="column">
+        <Grid container spacing={2} direction="column" wrap="nowrap">
           <Grid item>
             <CompanyBar />
           </Grid>

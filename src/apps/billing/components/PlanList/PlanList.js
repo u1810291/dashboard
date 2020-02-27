@@ -3,7 +3,7 @@ import { planListLoad, planUpdate, providerListUpdate } from 'apps/billing/state
 import { selectCurrentPlanId, selectPlanDetailsModel, selectCustomPlanCollection, selectPlanCollection, selectProviderCollection, selectRegularPlanCollection } from 'apps/billing/state/billing.selectors';
 import { closeOverlay, createOverlay } from 'components';
 import { notification } from 'components/notification';
-import Spinner from 'components/spinner';
+import { Spinner } from 'apps/layout';
 import { contactProperties, hubspotEvents, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { trackEvent } from 'lib/mixpanel/mixpanel';

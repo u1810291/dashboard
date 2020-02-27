@@ -1,4 +1,5 @@
 import { Button, Grid, Typography } from '@material-ui/core';
+import { QATags } from 'models/QA.model';
 import React from 'react';
 import { FiCode } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -23,6 +24,7 @@ export function WebhookDocumentationSection() {
               rel="noopener noreferrer"
               color="primary"
               startIcon={<FiCode size={14} />}
+              data-qa={QATags.Integration.Button.WebHookDoc}
             >
               {intl.formatMessage({ id: 'WebhookDocumentationSection.cta' })}
             </Button>

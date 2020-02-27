@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import {
-  Typography,
+  Grid,
 } from '@material-ui/core';
 import { ErrorOutline, ExpandMore } from '@material-ui/icons';
 import { getStepStatus, SYSTEM_ERROR, LEGACY_ERROR } from 'models/Step.model';
@@ -10,13 +10,11 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
-  useStyles,
 } from './CheckListExpandable.styles';
 import { CheckStepDetails } from './CheckStepDetails';
 
 export function CheckListExpandable({ step: { id, error, status, data } }) {
   const intl = useIntl();
-  const classes = useStyles();
   const [expanded, setExpanded] = useState(null);
   const [disabledExpansion, setDisabledExpansion] = useState(false);
   const [expandIcon, setExpandIcon] = useState(null);
@@ -57,12 +55,14 @@ export function CheckListExpandable({ step: { id, error, status, data } }) {
         aria-controls={`panel-${id}-content`}
         id={`panel-${id}-header`}
       >
-        <Typography className={classes.heading}>
-          {intl.formatMessage({ id: `SecurityCheckStep.${id}.title` })}
-        </Typography>
-        <Typography>
-          <StatusMessage status={statusCode} error={error} />
-        </Typography>
+        <Grid container spacing={3} direction="row">
+          <Grid item xs={3}>
+            {intl.formatMessage({ id: `SecurityCheckStep.${id}.title` })}
+          </Grid>
+          <Grid item xs={9}>
+            <StatusMessage status={statusCode} error={error} />
+          </Grid>
+        </Grid>
       </ExpansionPanelSummary>
 
       <ExpansionPanelDetails>

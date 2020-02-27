@@ -78,11 +78,9 @@ export function DocumentStep({ document, source, countries, isIdentityEditable }
             <Divider variant="fullWidth" />
             <Box pt={3}>
               <Typography variant="h4" paragraph>{intl.formatMessage({ id: 'DocumentStep.Checks.title' })}</Typography>
-              <Grid container spacing={0} direction="column">
+              <Grid container spacing={2} direction="column">
                 {securityCheckSteps.map((step) => (
-                  <Grid item key={step.id}>
-                    <CheckListFlat step={step} />
-                  </Grid>
+                  <CheckListFlat step={step} key={step.id} />
                 ))}
               </Grid>
 

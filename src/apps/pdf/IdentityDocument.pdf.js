@@ -4,6 +4,7 @@ import { getMediaURL } from 'lib/client/media';
 import { compact } from 'lodash';
 import CURP from 'assets/curp-logo.png';
 import INE from 'assets/ine-logo.png';
+import RFC from 'assets/rfc-logo.png';
 import { getIdentityExtras } from 'models/Identity.model';
 import React from 'react';
 import { getLivenessStatusColor, getStatusColor } from './IdentityDocument.model';
@@ -125,6 +126,18 @@ export function IdentityDocumentPDF(intl, identity) {
                   </View>
                 </>
               )}
+
+              {document.rfc.length > 0 && (
+                <>
+                  <View key="rfc-label">
+                    <Image key="RFC logo" style={styles.checkLogo} src={RFC} />
+                  </View>
+                  <View style={styles.indent}>
+                    <PDFDocumentFields intl={intl} fields={document.rfc} />
+                  </View>
+                </>
+              )}
+
             </View>
           ))}
         </View>

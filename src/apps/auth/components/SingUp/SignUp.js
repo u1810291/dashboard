@@ -1,8 +1,10 @@
 import { Button, Grid, Typography } from '@material-ui/core';
-import { ROOT_PATH } from 'apps/routing/routing.model';
+import { Page404 } from 'apps/layout';
+import { ROOT_PATH } from 'apps/routing';
 import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
+import { useQuery } from 'lib/url';
 import { businessEmail, email, required } from 'lib/validations';
 import { get, pick, pickBy } from 'lodash';
 import React, { useCallback } from 'react';
@@ -10,6 +12,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { dashboardUpdate } from 'state/merchant/merchant.actions';
+import { isValidCheckSum } from '../../models/auth.model';
 import { signUp } from '../../state/auth.actions';
 
 const validateForm = (values) => pickBy(
@@ -30,6 +33,7 @@ export default function SignUp() {
   const intl = useIntl();
   const dispatch = useDispatch();
   const history = useHistory();
+  const query = useQuery();
 
   const submitData = useCallback(async (data, { setStatus, setSubmitting }) => {
     setStatus();
@@ -47,6 +51,11 @@ export default function SignUp() {
       setStatus(get(err, 'response.data.message', err.message));
     }
   }, [dispatch, history]);
+
+  if (!isValidCheckSum(query.token)) {
+    // TODO @dkchv: should be Page404, after merge 5394
+    return <Page404 />;
+  }
 
   return (
     <Grid container direction="column" spacing={6} alignItems="stretch">

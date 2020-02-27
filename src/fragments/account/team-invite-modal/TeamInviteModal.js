@@ -1,6 +1,6 @@
 import Button from 'components/button';
 import Modal from 'components/modal';
-import Spinner from 'components/spinner';
+import { Spinner } from 'apps/layout';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import TeamInviteForm from './TeamInviteForm';
