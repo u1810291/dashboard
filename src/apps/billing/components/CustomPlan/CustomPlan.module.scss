@@ -21,3 +21,7 @@
 .button {
   z-index: 123;
 }
+
+.button:focus {
+  outline: none;
+}

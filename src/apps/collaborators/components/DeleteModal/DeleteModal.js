@@ -1,21 +1,12 @@
-import PropTypes from 'prop-types';
+import Button from 'components/button';
+import Modal from 'components/modal';
+import { closeOverlay } from 'components/overlay';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import Modal from 'components/modal';
-import Button from 'components/button';
-import { Spinner } from 'apps/layout';
-
-export default function DeleteModal({
-  className,
-  user,
-  onSubmit,
-  isDeleting,
-  ...modalProps
-}) {
+export function DeleteModal({ className, user, onSubmit, ...modalProps }) {
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    <Modal {...modalProps} className={className}>
+    <Modal {...modalProps} onClose={closeOverlay} className={className}>
       <header>
         <FormattedMessage id="teamTable.deleteModal.title" />
       </header>
@@ -31,14 +22,7 @@ export default function DeleteModal({
         <Button type="submit" buttonStyle="danger" onClick={() => onSubmit(user.id)}>
           <FormattedMessage id="teamTable.deleteModal.delete" />
         </Button>
-        {isDeleting && <Spinner size="large" />}
       </footer>
     </Modal>
   );
 }
-
-DeleteModal.propTypes = {
-  isDeleting: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  user: PropTypes.shape().isRequired,
-};

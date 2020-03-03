@@ -1,17 +1,14 @@
-import PropTypes from 'prop-types';
+import Button from 'components/button';
+import Modal from 'components/modal';
+import { closeOverlay } from 'components/overlay';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-
-import Modal from 'components/modal';
-import Button from 'components/button';
 import { ReactComponent as DeleteSuccessIcon } from './deleteSuccess.svg';
+import CSS from './DeleteSuccessModal.module.scss';
 
-export default function DeleteSuccessModal({ className, onClose, ...modalProps }) {
+export function DeleteSuccessModal({ className, ...modalProps }) {
   return (
-    <Modal
-      {...modalProps} // eslint-disable-line react/jsx-props-no-spreading
-      className={className}
-    >
+    <Modal {...modalProps} className={CSS.root}>
       <main className="">
         <DeleteSuccessIcon />
         <FormattedMessage id="teamTable.deleteSuccessModal.description" />
@@ -20,7 +17,7 @@ export default function DeleteSuccessModal({ className, onClose, ...modalProps }
         <Button
           type="submit"
           buttonStyle="primary"
-          onClick={onClose}
+          onClick={closeOverlay}
         >
           <FormattedMessage id="teamTable.deleteSuccessModal.done" />
         </Button>
@@ -28,7 +25,3 @@ export default function DeleteSuccessModal({ className, onClose, ...modalProps }
     </Modal>
   );
 }
-
-DeleteSuccessModal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-};
