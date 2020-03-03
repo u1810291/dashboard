@@ -1,8 +1,8 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import clsx from 'clsx';
-import { useHubSpotForm } from 'lib/hubspot';
 import { Box, Card, CardContent, CardHeader, CardActions } from '@material-ui/core';
+import { useContactUsLink } from 'lib/contactUs';
 import { useStyles, PriceButton } from './PricingPlan.styles';
 
 export function PricingPlans({
@@ -17,7 +17,7 @@ export function PricingPlans({
 }) {
   const intl = useIntl();
   const classes = useStyles();
-  const showHubSpotForm = useHubSpotForm();
+  const externalLinkHandler = useContactUsLink(intl.locale);
 
   return (
     <Card className={clsx(classes.card, isCustom && classes.enterprise)}>
@@ -63,7 +63,7 @@ export function PricingPlans({
             fullWidth
             variant="outlined"
             className={classes.selectButton}
-            onClick={isCustom ? showHubSpotForm : onChoosePlan}
+            onClick={isCustom ? externalLinkHandler : onChoosePlan}
           >
             {isCustom
               ? intl.formatMessage({ id: 'PricingPlans.custom' })

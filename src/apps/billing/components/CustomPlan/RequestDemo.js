@@ -2,12 +2,12 @@ import clsx from 'clsx';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Card, Items, Text, H2, Click } from 'components';
-import { useHubSpotForm } from 'lib/hubspot';
+import { useContactUsLink } from 'lib/contactUs';
 import CSS from './CustomPlan.module.scss';
 
 export function RequestDemo() {
   const intl = useIntl();
-  const showHubSpotForm = useHubSpotForm();
+  const externalLinkHandler = useContactUsLink(intl.locale);
 
   return (
     <Card
@@ -27,7 +27,7 @@ export function RequestDemo() {
         </Text>
       </Items>
 
-      <Click border="active" onClick={showHubSpotForm} className={CSS.button}>
+      <Click border="active" onClick={externalLinkHandler} className={CSS.button}>
         <Text color="active">
           {intl.formatMessage({ id: 'Pricing.RequestCall.button' })}
         </Text>
