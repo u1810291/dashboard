@@ -1,6 +1,6 @@
 import { Box, Container, Grid, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import { showWidget } from 'lib/hubspot';
+import { useContactUsLink } from 'lib/contactUs';
 import React from 'react';
 import { FiMessageCircle } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -11,6 +11,7 @@ import { useStyles } from './BlockedSplash.styles';
 export function BlockedSplash() {
   const classes = useStyles();
   const intl = useIntl();
+  const externalLinkHandler = useContactUsLink(intl.locale);
 
   return (
     <Grid container alignItems="center" justify="center" className={classes.blurredBG}>
@@ -66,7 +67,7 @@ export function BlockedSplash() {
                   color="primary"
                   variant="outlined"
                   startIcon={<FiMessageCircle size={14} />}
-                  onClick={showWidget}
+                  onClick={externalLinkHandler}
                 >
                   {intl.formatMessage({ id: 'actions.contactSales' })}
                 </Button>

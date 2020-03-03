@@ -1,5 +1,5 @@
 import { Box } from '@material-ui/core';
-import { useHubSpotForm } from 'lib/hubspot';
+import { useContactUsLink } from 'lib/contactUs';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import React from 'react';
@@ -10,7 +10,7 @@ import { AlertButton, AlertDemoButton, AlertPaper } from './AllerBanner.styles';
 
 export function AlertBanner() {
   const intl = useIntl();
-  const showHubSpotForm = useHubSpotForm();
+  const externalLinkHandler = useContactUsLink(intl.locale);
 
   const alertButtonClickHandler = () => {
     trackEvent(MixPanelEvents.BannerUpgrade);
@@ -24,7 +24,7 @@ export function AlertBanner() {
 
       <AlertDemoButton
         variant="contained"
-        onClick={showHubSpotForm}
+        onClick={externalLinkHandler}
         startIcon={<MeetingIcon />}
       >
         {intl.formatMessage({ id: 'AlertBanner.requestButton' })}
