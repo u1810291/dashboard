@@ -18,7 +18,7 @@ export function cleanText(value, asToken = false) {
 }
 
 export function email(value, asToken = false) {
-  const EMAIL = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  const EMAIL = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i;
   if (!EMAIL.test(value)) {
     return asToken ? 'validations.email' : <FormattedMessage id="validations.email" />;
   }
@@ -26,7 +26,7 @@ export function email(value, asToken = false) {
 }
 
 export function businessEmail(value) {
-  const EMAIL = /^[A-Z0-9._%+-]+@([A-Z0-9.-]+\.[A-Z]{2,4})$/i;
+  const EMAIL = /^[A-Z0-9._%+-]+@([A-Z0-9.-]+\.[A-Z]{2,63})$/i;
   const match = EMAIL.exec(value.toLowerCase());
 
   if (match && restrictedDomains.includes(match[1])) {
