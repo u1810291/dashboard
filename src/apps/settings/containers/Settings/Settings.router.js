@@ -1,9 +1,9 @@
 import { Billing, BillingRoute, Pricing } from 'apps/billing';
+import { TeamSettings } from 'apps/collaborators';
 import { Page404 } from 'apps/layout';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { PersonalSetting } from '../PersonalSettings/PersonalSetting';
-import { TeamSettings } from '../TeamSettings/TeamSettings';
 
 export function SettingsRouter() {
   return (

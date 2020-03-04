@@ -1,9 +1,10 @@
 import Button from 'components/button';
 import Modal from 'components/modal';
 import { Spinner } from 'apps/layout';
+import { closeOverlay } from 'components/overlay';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import TeamInviteForm from './TeamInviteForm';
+import TeamInviteForm from '../TeamInviteForm/TeamInviteForm';
 
 export function TeamInviteModal({ onSubmit, isPosting }) {
   const intl = useIntl();
@@ -18,7 +19,7 @@ export function TeamInviteModal({ onSubmit, isPosting }) {
   }, [formRef]);
 
   return (
-    <Modal>
+    <Modal onClose={closeOverlay}>
       <header>
         {intl.formatMessage({ id: 'teamTable.inviteModal.title' })}
       </header>
