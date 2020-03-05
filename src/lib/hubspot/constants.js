@@ -7,7 +7,6 @@ export const hubspotEvents = {
 
 export const hubspotForms = {
   signUp: '7d3325f0-89d1-4422-b8b2-5267ad287be2',
-  legalServices: '54c30de9-4021-4d72-95a0-b2a904d5b296',
 };
 
 export const hubspotMeeting = {
