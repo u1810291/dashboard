@@ -1,12 +1,12 @@
 import React from 'react';
-import { FiInfo } from 'react-icons/fi';
+import { FiInfo, FiHelpCircle } from 'react-icons/fi';
 import { ArrowTooltip } from './styles';
 
-const IntoTooltip = ({ title }) => (
+const IntoTooltip = ({ title, variant = 'info' }) => (
   <ArrowTooltip title={title}>
     <span>
-      {' '}
-      <FiInfo />
+      {(variant === 'info') && <FiInfo />}
+      {(variant === 'help') && <FiHelpCircle />}
     </span>
   </ArrowTooltip>
 );
