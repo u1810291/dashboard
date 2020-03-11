@@ -3,7 +3,6 @@ import { Configuration, MatiButtonAside } from 'apps/configuration';
 import { Integration } from 'apps/integration/Integration';
 import { ProductTabs } from 'apps/product/Product.model';
 import { Tab } from 'components';
-import LegalServices from 'fragments/product/legal-services';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -44,7 +43,6 @@ export function Product() {
               contents={[
                 <Configuration />,
                 <Integration />,
-                <LegalServices />,
               ]}
               aside={[
                 <MatiButtonAside goToComplianceSection={() => changeActiveTabHandler(2)} />,

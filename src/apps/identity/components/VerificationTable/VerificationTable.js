@@ -1,7 +1,6 @@
 import { Box, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { Spinner } from 'apps/layout';
 import confirm from 'components/confirm/Confirm';
-import { StatusLabel } from 'fragments/verifications/status-label/StatusLabel';
 import { formatDate } from 'lib/date';
 import { titleCase } from 'lib/string';
 import { getIdentityShortId } from 'models/Identity.model';
@@ -12,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { identityRemove } from 'state/identities/identities.actions';
 import { selectIdentityCollection } from 'state/identities/identities.selectors';
+import { StatusLabel } from '../StatusLabel';
 import { ReactComponent as EmptyTableIcon } from './empty-table.svg';
 import { TableRowHovered } from './VerificationTable.styles';
 

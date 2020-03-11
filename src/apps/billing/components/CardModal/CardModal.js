@@ -1,8 +1,8 @@
 import { Card, Click, Items, Text } from 'components';
-import WithAsideModal from 'fragments/account/with-aside-modal';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { CardCVCElement, CardExpiryElement, CardNumberElement, injectStripe } from 'react-stripe-elements';
+import { WithAsideModal } from '../../containers/WithAsideModal';
 
 function CardModal({
   plan,

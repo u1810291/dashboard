@@ -1,9 +1,9 @@
-import { Grid } from '@material-ui/core';
-import { PageContent } from 'apps/layout';
-import { FAQ } from 'fragments/info/faq';
-import { Feedback } from 'fragments/info/feedback';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { Grid } from '@material-ui/core';
+import { PageContent } from 'apps/layout';
+import { FAQ } from './components/faq';
+import { Feedback } from './components/Feedback';
 
 export function InfoPage() {
   const intl = useIntl();

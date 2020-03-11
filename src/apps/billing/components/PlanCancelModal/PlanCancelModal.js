@@ -1,8 +1,8 @@
 import { Items, Text } from 'components';
 import Button from 'components/button';
-import WithAsideModal from 'fragments/account/with-aside-modal';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { WithAsideModal } from '../../containers/WithAsideModal';
 import CSS from './PlanCancelModal.module.scss';
 
 export function PlanCancelModal({ onSubmit }) {
