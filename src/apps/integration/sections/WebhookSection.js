@@ -1,13 +1,13 @@
 import { Button, Grid, Typography } from '@material-ui/core';
 import confirm from 'components/confirm';
 import { closeOverlay, createOverlay } from 'components/overlay';
-import NewWebhookModal from 'fragments/account/new-webhook-modal/NewWebhookModal';
 import { QATags } from 'models/QA.model';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteWebhook, getWebhooks, subscribeToWebhook } from 'state/webhooks/webhooks.actions';
 import { selectWebhook } from 'state/webhooks/webhooks.selectors';
+import NewWebhookModal from '../components/NewWebhookModal';
 import { RemoveButton, useStyles } from './WebhookSection.styles';
 
 export function WebhookSection() {

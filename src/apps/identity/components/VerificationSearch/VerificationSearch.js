@@ -1,8 +1,8 @@
-import { IconButton, InputAdornment } from '@material-ui/core';
-import { debounce } from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiX } from 'react-icons/fi';
+import { debounce } from 'lodash';
 import { useIntl } from 'react-intl';
+import { IconButton, InputAdornment } from '@material-ui/core';
+import { FiX } from 'react-icons/fi';
 import { TextFieldSearch } from './VerificationSearch.styles';
 
 export function VerificationSearch({ value, onChange }) {
