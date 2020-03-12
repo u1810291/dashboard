@@ -8,7 +8,6 @@ import { selectCountriesList } from 'state/countries/countries.selectors';
 import { Header } from './Header';
 import { LivenessStep } from '../../components/LivenessStep';
 import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
-import { MatiChecks } from '../../components/MatiChecks/MatiChecks';
 import { DocumentStep } from '../../components/DocumentStep';
 
 export function Verification({ identity }) {
@@ -59,9 +58,6 @@ export function Verification({ identity }) {
         </Grid>
       )}
 
-      <Grid item>
-        <MatiChecks />
-      </Grid>
     </Grid>
   );
 }

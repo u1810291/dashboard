@@ -6,14 +6,13 @@ export const useStyles = makeStyles(() => ({
     height: 50,
     padding: [[0, 4]],
     borderRadius: 14,
-    // border: [[2, 'solid', '#606060']],
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     flexShrink: 0,
   },
   successBorder: {
-    border: [[2, 'solid', '#03a700']],
+    border: [[2, 'solid', '#46CB9B']],
   },
   failureBorder: {
     border: [[2, 'solid', '#ff6666']],

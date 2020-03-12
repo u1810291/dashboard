@@ -7,7 +7,7 @@ export const useStyles = makeStyles(() => ({
   labelContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: [[0, 12]],
+    padding: [[0, 20]],
   },
   label: {
     height: 43,
@@ -36,7 +36,7 @@ export const ExpansionPanel = withStyles({
       marginBottom: 20,
     },
     '&$disabled': {
-      backgroundColor: '#fff !important',
+      backgroundColor: '#f7f7fa',
     },
   },
   rounded: {
