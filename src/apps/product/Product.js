@@ -45,7 +45,7 @@ export function Product() {
                 <Integration />,
               ]}
               aside={[
-                <MatiButtonAside goToComplianceSection={() => changeActiveTabHandler(2)} />,
+                <MatiButtonAside />,
               ]}
             />
           </Grid>

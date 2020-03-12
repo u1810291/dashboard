@@ -33,7 +33,7 @@ export function StatusSelect({ status, onSelect }) {
   }
 
   return (
-    <Box bgcolor={current.color} color="secondary.main" borderRadius={4}>
+    <Box bgcolor={current.color} boxShadow={1} color="secondary.main" borderRadius={4} height={40}>
       <FormControl fullWidth disabled={isLoading}>
         <SelectSimple
           disableUnderline
