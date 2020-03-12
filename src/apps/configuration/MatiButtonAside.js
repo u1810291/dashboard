@@ -7,7 +7,6 @@ import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectClientIdModel, selectStyleModel } from 'state/merchant/merchant.selectors';
-import { EndToEndCompliance } from './components/EndToEndCompliance';
 import CSS from './Configuration.module.scss';
 import { ReactComponent as Android } from './icons/android.svg';
 import { ReactComponent as Apple } from './icons/apple.svg';
@@ -40,7 +39,7 @@ const VideoFrame = ({ url }) => (
   </Card>
 );
 
-export default function MatiButtonAside({ goToComplianceSection }) {
+export default function MatiButtonAside() {
   const styleModel = useSelector(selectStyleModel);
   const intl = useIntl();
   const classes = useStyles();
@@ -93,9 +92,6 @@ export default function MatiButtonAside({ goToComplianceSection }) {
         </Grid>
       </Grid>
 
-      <Grid item>
-        <EndToEndCompliance goToComplianceSection={goToComplianceSection} />
-      </Grid>
     </Grid>
   );
 }
