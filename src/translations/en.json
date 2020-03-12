@@ -564,7 +564,6 @@
   "SecurityCheckStep.alteration-detection.failure": "Altered",
   "SecurityCheckStep.alteration-detection.tip.body": "It is a validation that the document is authentic, free of either digital or manual tampering. Additionally, this check ensures that the user had possession of the document, ruling out the use of photocopies and pictures of a screen.",
   "SecurityCheckStep.alteration-detection.tip.message.failure": "Document shows signs of tampering or attempted fraud. Mati cannot validate the document's authenticity. ",
-  "SecurityCheckStep.alteration-detection.tip.message.success": "",
 
   "SecurityCheckStep.facematch.title": "Facematch",
   "SecurityCheckStep.facematch.checking": "Loading...",
@@ -572,7 +571,6 @@
   "SecurityCheckStep.facematch.failure": "Failed",
   "SecurityCheckStep.facematch.tip.body": "It is a comparative analysis of the facial features and structure of an image containing the user's face, (extracted from the liveness video) and the photo on the user's Identity document. Validating that it is in fact the same person in both.",
   "SecurityCheckStep.facematch.tip.message.failure": "The faces in the document and the user’s video/selfie are different. This may also be the result of poor lightning, blurriness, or flash on the ID card.",
-  "SecurityCheckStep.facematch.tip.message.success": "",
 
   "SecurityCheckStep.template-matching.title": "Template Matching",
   "SecurityCheckStep.template-matching.checking": "Loading...",
@@ -580,7 +578,6 @@
   "SecurityCheckStep.template-matching.failure": "No Match Found",
   "SecurityCheckStep.template-matching.tip.body": "It is a comparison between the photo of the document that the user uploads and valid revisions of the same kind of document to ensure that they match in both type and style.",
   "SecurityCheckStep.template-matching.tip.message.failure": "There was no match with any valid templates of the document.",
-  "SecurityCheckStep.template-matching.tip.message.success": "",
 
   "SecurityCheckStep.watchlists.title": "Watchlist",
   "SecurityCheckStep.watchlists.checking": "Loading...",
@@ -588,7 +585,6 @@
   "SecurityCheckStep.watchlists.failure": "Failed",
   "SecurityCheckStep.watchlists.tip.body": "It is a series of searches, performed to identify any possible matches between individuals in international and local criminal lists and the user's data extracted by our document reading.",
   "SecurityCheckStep.watchlists.tip.message.failure": "A match for user's name was found in watchlists.",
-  "SecurityCheckStep.watchlists.tip.message.success": "",
 
   "SecurityCheckStep.success": "Passed",
   "SecurityCheckStep.checking": "Checking...",
@@ -827,10 +823,6 @@
   "Feedback.stayMinty.author": "Steven Talbott, Head of Operations at Stay Minty",
   "dashboard.footer.whoUseIt": "200+ companies use Mati",
   "PricingPlans.support": "Instant support via Discord or Slack",
-  "EndToEndCompliance.title": "Complete compliance package",
-  "EndToEndCompliance.t1": "Get Step-by-Step help from our legal team in filing reports, protecting user data & privacy, and more.",
-  "EndToEndCompliance.t2": "Get in touch with our staff to go through a quick evaluation process and start the process of forgetting about compliance once and for all!",
-  "EndToEndCompliance.cta": "Go to Legal Services",
   "Product.customization.newFeatures": "New Features",
   "flow.documentTypeStep.biometric.title": "Set biometric requirements",
   "flow.documentTypeStep.biometric.subtitle": "With Mati, you have the freedom to choose between different types of biometric checks. If you select “liveness”, your users will need to record a 5 seconds selfie video. It will make two checks: liveness and face match. If you select only the “selfie” option, your users will only need to take a selfie picture, and Mati will return a face match score.",

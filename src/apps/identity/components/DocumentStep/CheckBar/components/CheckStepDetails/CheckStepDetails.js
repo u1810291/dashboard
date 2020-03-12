@@ -3,22 +3,7 @@ import { useIntl } from 'react-intl';
 import { humanize, underscore } from 'inflection';
 import { formatValue } from 'lib/string';
 import { Card, Grid, CardContent, Typography } from '@material-ui/core';
-import INE from 'assets/ine-logo.png';
-import CURP from 'assets/curp-logo.png';
-import RFC from 'assets/rfc-logo.png';
 import { useStyles } from './CheckStepDetails.styles';
-
-export const expandableSteps = {
-  'mexican-curp-validation': {
-    logo: <img src={CURP} alt="CURP logo" />,
-  },
-  'mexican-ine-validation': {
-    logo: <img src={INE} alt="INE logo" />,
-  },
-  'mexican-rfc-validation': {
-    logo: <img src={RFC} alt="RFC logo" />,
-  },
-};
 
 export function CheckStepDetails({ id, data = {}, error }) {
   const classes = useStyles();

@@ -42,6 +42,7 @@ export const CheckBarChip = withStyles({
   label: {
     height: 43,
     fontSize: 14,
+    paddingLeft: 20,
     display: 'flex',
     flexGrow: 1,
     flexDirection: 'column',

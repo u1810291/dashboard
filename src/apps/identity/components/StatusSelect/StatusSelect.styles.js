@@ -3,7 +3,7 @@ import { Box, MenuItem, Select, withStyles } from '@material-ui/core';
 export const SelectSimple = withStyles((theme) => ({
   root: {
     width: '100%',
-    padding: 10,
+    padding: 13,
     '&:focus': {
       backgroundColor: 'transparent',
     },

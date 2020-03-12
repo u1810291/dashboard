@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { get } from 'lodash';
 import { useIntl } from 'react-intl';
 import { Box } from '@material-ui/core';
-import { ErrorOutline, ExpandMore } from '@material-ui/icons';
+import { ExpandMore } from '@material-ui/icons';
 import { getStepStatus, SYSTEM_ERROR, LEGACY_ERROR } from 'models/Step.model';
 import { expandableSteps } from '../../models/CheckBar.model';
 import { StatusMessage } from './StatusMessage';
@@ -30,7 +30,7 @@ export function CheckBarExpandable({ step: { id, error, status, data } }) {
       setExpandIcon(null);
     } else {
       const isDisabled = [SYSTEM_ERROR, LEGACY_ERROR].includes((error || {}).type);
-      const icon = disabledExpansion ? <ErrorOutline /> : <ExpandMore />;
+      const icon = disabledExpansion ? null : <ExpandMore />;
       setDisabledExpansion(isDisabled);
       setExpandIcon(icon);
     }
