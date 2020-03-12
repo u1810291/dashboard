@@ -84,7 +84,6 @@ export const ArrowTooltip = ({ title, ...props }) => {
         popperOptions: {
           modifiers: {
             arrow: {
-              enabled: Boolean(arrowRef),
               element: arrowRef,
             },
           },

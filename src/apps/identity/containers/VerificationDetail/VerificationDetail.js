@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import { getCountries } from 'state/countries/countries.actions';
 import { identityDemoLoad, identityLoad } from 'state/identities/identities.actions';
 import { selectIdentityModel } from 'state/identities/identities.selectors';
-import { Verification } from '../../components/Verification/Verification';
+import { Verification } from './Verification';
 import { VerificationSidePanel } from '../../components/VerificationSidePanel/VerificationSidePanel';
 
 export function VerificationDetail() {

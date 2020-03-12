@@ -2,7 +2,6 @@ import { MenuItem, Select } from '@material-ui/core';
 import { DEFAULT_FILTER, filterMap } from 'apps/metrics/filter.model';
 import { byCountryStub, byDateOfWeekStub, byDateStub, byHourStub } from 'apps/metrics/Metrics.model';
 import { Card, Content, Items } from 'components';
-import { Chart, VerificationsStats, VerificationsTotal } from 'fragments';
 import { formatHour, formatWeekDay } from 'lib/date';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -10,6 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectMerchantName } from 'state/merchant/merchant.selectors';
 import { getMetrics, getStatistics } from 'state/metrics/metrics.actions';
 import { selectMetrics, selectStatistics } from 'state/metrics/metrics.selectors';
+import { VerificationsTotal } from './components/VerificationsTotal';
+import { VerificationsStats } from './components/VerificationsStats';
+import { Chart } from './components/Chart';
 import CSS from './Metrics.module.scss';
 
 const OTHER_COUNTRIES = 'otherCountries';

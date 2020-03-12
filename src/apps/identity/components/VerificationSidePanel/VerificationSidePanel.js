@@ -1,20 +1,20 @@
+import { get } from 'lodash';
+import React, { useCallback, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Box, Button, Grid } from '@material-ui/core';
 import confirm from 'components/confirm/Confirm';
 import confirmStyled from 'components/confirm/ConfirmStyled';
 import { closeOverlay, createOverlay } from 'components/overlay';
-import { StatusesExplanation } from 'fragments/verifications/StatusesExplanation/StatusesExplanation';
-import { StatusSelect } from 'fragments/verifications/StatusSelect/StatusSelect';
-import VerificationWebhookModal from 'fragments/verifications/verification-webhook-modal/VerificationWebhookModal';
 import { downloadBlob } from 'lib/file';
-import { get } from 'lodash';
 import { isChangeableStatus } from 'models/Identity.model';
-import React, { useCallback, useState } from 'react';
 import { FiCode, FiDownload, FiLoader, FiTrash2, FiUpload } from 'react-icons/fi';
-import { useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { identityRemove, identityUpdate } from 'state/identities/identities.actions';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
+import { VerificationWebhookModal } from '../VerificationWebhookModal';
+import { StatusSelect } from '../StatusSelect';
+import { StatusesExplanation } from '../StatusesExplanation';
 
 export function VerificationSidePanel({ identity, isDemo = false }) {
   const dispatch = useDispatch();

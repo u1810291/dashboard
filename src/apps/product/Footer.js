@@ -1,6 +1,6 @@
 import { AppBar, Box, Toolbar } from '@material-ui/core';
-import { FeedbackData } from 'fragments/info/feedback/Feedback.model';
 import React, { useEffect, useState } from 'react';
+import { FeedbackData } from 'apps/info/components/Feedback/Feedback.model';
 import { useIntl } from 'react-intl';
 import { Author, EmptyBox, FirstBox, Sentence, useStyles } from './styles';
 
