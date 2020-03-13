@@ -3,8 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles(() => ({
   card: {
     width: '100%',
-    background: '#F7F7F7',
-    borderRadius: [[0, 0, 14, 14]],
+    backgroundColor: 'rgba(0,0,0,0)',
     boxShadow: 'none',
     marginBottom: 20,
   },

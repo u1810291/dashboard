@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Box, Button, Grid } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import confirm from 'components/confirm/Confirm';
 import confirmStyled from 'components/confirm/ConfirmStyled';
 import { closeOverlay, createOverlay } from 'components/overlay';
@@ -15,6 +15,7 @@ import { sendWebhook } from 'state/webhooks/webhooks.actions';
 import { VerificationWebhookModal } from '../VerificationWebhookModal';
 import { StatusSelect } from '../StatusSelect';
 import { StatusesExplanation } from '../StatusesExplanation';
+import { SideButton } from './VerificationSidePanel.styles';
 
 export function VerificationSidePanel({ identity, isDemo = false }) {
   const dispatch = useDispatch();
@@ -73,65 +74,61 @@ export function VerificationSidePanel({ identity, isDemo = false }) {
   return (
     <Grid container direction="column" spacing={1}>
       {isChangeableStatus(identity.status) && (
-        <Grid item>
+        <Grid item style={{ marginBottom: 10 }}>
           <StatusSelect status={identity.status} onSelect={handleStatusChange} />
         </Grid>
       )}
 
       {/* Send Webhook */}
       <Grid item>
-        <Button
+        <SideButton
           fullWidth
           variant="contained"
-          color="secondary"
           onClick={() => handleSendWebhook(identity.id)}
           startIcon={<FiUpload />}
         >
           {intl.formatMessage({ id: 'verificationDetails.tools.sendWebhook' })}
-        </Button>
+        </SideButton>
       </Grid>
 
       {/* Show verification data */}
       <Grid item>
-        <Button
+        <SideButton
           fullWidth
           variant="contained"
-          color="secondary"
           onClick={() => openWebhookModal(get(identity, 'originalIdentity._embedded.verification', {}))}
           startIcon={<FiCode />}
         >
           {intl.formatMessage({ id: 'verificationModal.webhookData' })}
-        </Button>
+        </SideButton>
       </Grid>
 
       {/* Download pdf */}
       {!isDemo && (
         <Grid item>
-          <Button
+          <SideButton
             fullWidth
             variant="contained"
-            color="secondary"
             onClick={() => handlePDFDownload(dispatch, intl, identity)}
             startIcon={isPDFGenerating ? <FiLoader /> : <FiDownload />}
           >
             {intl.formatMessage({ id: 'verificationModal.downloadPDF' })}
-          </Button>
+          </SideButton>
         </Grid>
       )}
 
       {/* Delete Verification */}
       {!isDemo && (
         <Grid item>
-          <Button
+          <SideButton
             fullWidth
             variant="contained"
-            color="secondary"
             onClick={handleDeleteIdentity}
             startIcon={isDeleting ? <FiLoader /> : <FiTrash2 />}
             disabled={isDeleting}
           >
             {intl.formatMessage({ id: 'verificationModal.delete' })}
-          </Button>
+          </SideButton>
         </Grid>
       )}
 

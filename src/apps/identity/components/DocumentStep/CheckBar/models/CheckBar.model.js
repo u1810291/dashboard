@@ -1,7 +1,7 @@
 import React from 'react';
-import CURP from 'assets/curp-logo.png';
-import INE from 'assets/ine-logo.png';
-import RFC from 'assets/rfc-logo.png';
+import { ReactComponent as CURP } from 'assets/icon-curp.svg';
+import { ReactComponent as RFC } from 'assets/icon-rfc.svg';
+import { ReactComponent as INE } from 'assets/icon-ine.svg';
 import {
   Watchlist,
   Facematch,
@@ -51,12 +51,12 @@ export function getCheckBarModel(id, checkStatus) {
 
 export const expandableSteps = {
   'mexican-curp-validation': {
-    logo: <img src={CURP} alt="CURP logo" />,
+    logo: <CURP />,
   },
   'mexican-ine-validation': {
-    logo: <img src={INE} alt="INE logo" />,
+    logo: <INE />,
   },
   'mexican-rfc-validation': {
-    logo: <img src={RFC} alt="RFC logo" />,
+    logo: <RFC />,
   },
 };
