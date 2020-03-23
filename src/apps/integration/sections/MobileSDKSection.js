@@ -11,8 +11,8 @@ export function MobileSDKSection() {
   const classes = useStyles();
 
   return (
-    <Grid container justify="space-between" alignItems="center">
-      <Grid item xs={5}>
+    <Grid container spacing={2} justify="space-between" alignItems="center">
+      <Grid item xs={12} md={6}>
         <Typography variant="h5" gutterBottom>
           {intl.formatMessage({ id: 'MobileSDKSection.title' })}
           <Box className={classes.icon}>
@@ -24,7 +24,7 @@ export function MobileSDKSection() {
         </Typography>
         <Typography paragraph>{intl.formatMessage({ id: 'MobileSDKSection.description' })}</Typography>
       </Grid>
-      <Grid item xs={5}>
+      <Grid item xs={12} md={6}>
         <Grid container spacing={2} direction="column">
           <Grid item xs={6}>
             <Button

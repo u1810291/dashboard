@@ -7,20 +7,20 @@ import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectClientIdModel, selectStyleModel } from 'state/merchant/merchant.selectors';
-import CSS from './Configuration.module.scss';
+// import CSS from './Configuration.module.scss';
 import { ReactComponent as Android } from './icons/android.svg';
 import { ReactComponent as Apple } from './icons/apple.svg';
-import { ReactComponent as Globus } from './icons/globus.svg';
+// import { ReactComponent as Globus } from './icons/globus.svg';
 import { useStyles } from './MatiButtonAside.styles';
 
 const CDN_URL = 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/demos';
 
 const buttons = [
-  {
-    icon: <Globus />,
-    label: 'Web SDK',
-    link: `${CDN_URL}/web-sdk.mp4`,
-  },
+  // {
+  //   icon: <Globus />,
+  //   label: 'Web SDK',
+  //   link: `${CDN_URL}/web-sdk.mp4`,
+  // },
   {
     icon: <Apple className="apple" />,
     label: 'iOS SDK',

@@ -14,12 +14,12 @@ export function PermalinkSection() {
   const clientIdModel = useSelector(selectClientIdModel);
 
   return (
-    <Grid container justify="space-between" alignItems="center">
-      <Grid item xs={5}>
+    <Grid container spacing={2} justify="space-between" alignItems="center">
+      <Grid item xs={12} md={6}>
         <Typography variant="h5" gutterBottom>{intl.formatMessage({ id: 'PermalinkSection.title' })}</Typography>
         <Typography paragraph>{intl.formatMessage({ id: 'PermalinkSection.description' })}</Typography>
       </Grid>
-      <Grid item xs={5}>
+      <Grid item xs={12} md={6}>
         <Loadable
           model={clientIdModel}
           render={(clientId) => {

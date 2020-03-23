@@ -61,9 +61,7 @@ export function ConfigureColor() {
   }, [onBackgroundClick]);
 
   useEffect(() => {
-    if (!color) {
-      setColor(getColorValue(colorValue, presets));
-    }
+    setColor(getColorValue(colorValue, presets));
   }, [color, colorValue, presets]);
 
   return (

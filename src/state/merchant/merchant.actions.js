@@ -1,7 +1,13 @@
 import { billingInit } from 'apps/billing/state/billing.actions';
 import * as api from 'lib/client/merchant';
 import { MerchantActionGroups } from 'state/merchant/merchant.model';
-import { selectConfigurationModel, selectDashboardModel, selectStyleModel } from 'state/merchant/merchant.selectors';
+import {
+  selectConfigurationModel,
+  selectDashboardModel,
+  selectStyleModel,
+  selectMerchantId,
+  selectMerchantFlowsModel,
+} from 'state/merchant/merchant.selectors';
 import { createTypesSequence } from 'state/utils';
 import { getWebhooks } from 'state/webhooks/webhooks.actions';
 
@@ -9,6 +15,8 @@ export const types = {
   ...createTypesSequence(MerchantActionGroups.Merchant),
   ...createTypesSequence(MerchantActionGroups.Configuration),
   ...createTypesSequence(MerchantActionGroups.App),
+  ...createTypesSequence(MerchantActionGroups.Flows),
+  CURRENT_FLOW_UPDATE: 'CURRENT_FLOW_UPDATE',
 };
 
 // -- merchant
@@ -143,4 +151,58 @@ export const styleUpdate = (data) => (dispatch, getState) => {
       ...data,
     },
   }));
+};
+
+// flows
+
+export const updateCurrentFlowId = (data) => (dispatch) => {
+  dispatch({ type: types.CURRENT_FLOW_UPDATE, payload: data });
+};
+
+export const merchantFlowsLoad = () => async (dispatch, getState) => {
+  dispatch({ type: types.FLOWS_REQUEST });
+  const merchantId = selectMerchantId(getState());
+  try {
+    const { data } = await api.getMerchantFlows(merchantId);
+    if (Array.isArray(data) && data.length > 0 && data[0].id) {
+      dispatch(updateCurrentFlowId(data[0].id));
+      dispatch({ type: types.FLOWS_SUCCESS, payload: data });
+    } else {
+      const error = new Error('Wrong data received from server');
+      dispatch({ type: types.FLOWS_FAILURE, error });
+      throw error;
+    }
+    // dispatch(getWebhooks());
+  } catch (error) {
+    dispatch({ type: types.FLOWS_FAILURE, error });
+    throw error;
+  }
+};
+
+export const merchantUpdateFlow = (flowId, payload) => async (dispatch, getState) => {
+  dispatch({ type: types.FLOWS_UPDATING });
+  const merchantId = selectMerchantId(getState());
+  try {
+    const { data } = await api.updateMerchantFlow(merchantId, flowId, payload);
+    const { value } = selectMerchantFlowsModel(getState());
+    const index = value.findIndex((flow) => flow.id === flowId);
+    value.splice(index, 1, data);
+    dispatch({ type: types.FLOWS_SUCCESS, payload: value, isReset: true });
+  } catch (error) {
+    dispatch({ type: types.FLOWS_FAILURE, error });
+    throw error;
+  }
+};
+
+export const merchantCreateFlow = (payload) => async (dispatch, getState) => {
+  dispatch({ type: types.FLOWS_REQUEST });
+  const merchantId = selectMerchantId(getState());
+  try {
+    const { data } = await api.createMerchantFlow(merchantId, payload);
+    const { value } = selectMerchantFlowsModel(getState());
+    dispatch({ type: types.FLOWS_SUCCESS, payload: [...value, data] });
+  } catch (error) {
+    dispatch({ type: types.FLOWS_FAILURE, error });
+    throw error;
+  }
 };

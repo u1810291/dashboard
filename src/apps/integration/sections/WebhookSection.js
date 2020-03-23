@@ -42,8 +42,8 @@ export function WebhookSection() {
   const url = webhook.url || '—';
 
   return (
-    <Grid container justify="space-between" alignItems="center">
-      <Grid item xs={5}>
+    <Grid container spacing={2} justify="space-between" alignItems="center">
+      <Grid item xs={12} md={6}>
         <Typography variant="h5" gutterBottom>{intl.formatMessage({ id: 'WebhookSection.title' })}</Typography>
         <Typography paragraph>{intl.formatMessage({ id: 'WebhookSection.description' })}</Typography>
         <Button
@@ -55,13 +55,13 @@ export function WebhookSection() {
           {intl.formatMessage({ id: 'WebhookSection.cta' })}
         </Button>
       </Grid>
-      <Grid item xs={5}>
+      <Grid item xs={12} md={6}>
         <Typography variant="h6">{intl.formatMessage({ id: 'WebhookSection.url' })}</Typography>
         <Typography paragraph className={classes.breakAll} data-qa={QATags.Integration.WebHook.URL}>{url}</Typography>
         <Typography variant="h6">{intl.formatMessage({ id: 'WebhookSection.secret' })}</Typography>
         <Typography paragraph data-qa={QATags.Integration.WebHook.Secret}>{secret}</Typography>
         {webhook.url && (
-          <RemoveButton onClick={handleRemoveWebhook} data-qa={QATags.Integration.WebHook.Delete}>
+          <RemoveButton variant="outlined" onClick={handleRemoveWebhook} data-qa={QATags.Integration.WebHook.Delete}>
             {intl.formatMessage({ id: 'WebhookSection.delete' })}
           </RemoveButton>
         )}

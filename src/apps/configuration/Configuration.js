@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCountries } from 'state/countries/countries.actions';
 import { configurationUpdate } from 'state/merchant/merchant.actions';
-import { selectConfigurationModel } from 'state/merchant/merchant.selectors';
+import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
 import { Logo } from './components/Logo/Logo';
 import { GovChecks } from './components/GovChecks';
 import { GdprSettings } from './components/GdprSettings';
@@ -20,7 +20,7 @@ export default function Configuration() {
   const { countries, isLoading } = useSelector((state) => state.countries);
   const [active, setActive] = useState(0);
   const dispatch = useDispatch();
-  const cfgModel = useSelector(selectConfigurationModel);
+  const currentFlowModel = useSelector(selectCurrentFlow);
   const [flowSteps, setFlowSteps] = useState([]);
 
   const updateConfiguration = useCallback((settings) => dispatch(configurationUpdate(settings)), [dispatch]);
@@ -30,61 +30,59 @@ export default function Configuration() {
   }, [countries.length, dispatch]);
 
   useEffect(() => {
-    if (cfgModel.isLoaded) {
-      setFlowSteps([
-        {
-          title: 'Product.configuration.buttonsColor',
-          icon: <FiDroplet />,
-          body: (
-            <div id="buttonColor">
-              <ConfigureColor />
-            </div>
-          ),
-        },
-        {
-          title: 'Product.configuration.verification',
-          icon: <FiFileText />,
-          body: <VerificationSteps
-            steps={cfgModel.value.verificationSteps}
-            onChange={updateConfiguration}
-          />,
-        },
-        {
-          title: 'Product.configuration.biometric',
-          icon: <FiEye />,
-          body: <BiometricStep
-            patterns={cfgModel.value.verificationPatterns}
-            onChange={updateConfiguration}
-          />,
-        },
-        {
-          title: 'Product.configuration.logo',
-          icon: <FiImage />,
-          body: <Logo />,
-        },
-        {
-          title: 'Product.configuration.country',
-          icon: <FiFlag />,
-          body: <Countries
-            countries={countries}
-            onSubmit={updateConfiguration}
-            supportedCountries={cfgModel.value.supportedCountries}
-            isLoading={isLoading}
-          />,
-        },
-        {
-          title: 'Product.configuration.gdpr',
-          icon: <FiTrash />,
-          body: <GdprSettings />,
-        },
-        {
-          title: 'Product.configuration.govChecks',
-          icon: <FiCheckCircle />,
-          body: <GovChecks />,
-        },
-      ]);
-    }
-  }, [countries, isLoading, cfgModel, updateConfiguration]);
+    setFlowSteps([
+      {
+        title: 'Product.configuration.buttonsColor',
+        icon: <FiDroplet />,
+        body: (
+          <div id="buttonColor">
+            <ConfigureColor />
+          </div>
+        ),
+      },
+      {
+        title: 'Product.configuration.verification',
+        icon: <FiFileText />,
+        body: <VerificationSteps
+          steps={currentFlowModel.verificationSteps}
+          onChange={updateConfiguration}
+        />,
+      },
+      {
+        title: 'Product.configuration.biometric',
+        icon: <FiEye />,
+        body: <BiometricStep
+          patterns={currentFlowModel.verificationPatterns}
+          onChange={updateConfiguration}
+        />,
+      },
+      {
+        title: 'Product.configuration.logo',
+        icon: <FiImage />,
+        body: <Logo />,
+      },
+      {
+        title: 'Product.configuration.country',
+        icon: <FiFlag />,
+        body: <Countries
+          countries={countries}
+          onSubmit={updateConfiguration}
+          supportedCountries={currentFlowModel.supportedCountries}
+          isLoading={isLoading}
+        />,
+      },
+      {
+        title: 'Product.configuration.gdpr',
+        icon: <FiTrash />,
+        body: <GdprSettings />,
+      },
+      {
+        title: 'Product.configuration.govChecks',
+        icon: <FiCheckCircle />,
+        body: <GovChecks />,
+      },
+    ]);
+  }, [countries, isLoading, currentFlowModel, updateConfiguration]);
 
   return (
     <Content fullwidth={false} className={CSS.content}>

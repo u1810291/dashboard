@@ -84,15 +84,15 @@ export const selectPolicyInterval = createSelector(
   selectModelValue((cfg) => fromIsoPeriod(cfg.policyInterval)),
 );
 
-export const selectStyleModel = createSelector(
-  selectConfigurationModel,
-  selectLoadableValue((cfg) => cfg.style),
-);
+// export const selectStyleModel = createSelector(
+//   selectConfigurationModel,
+//   selectLoadableValue((cfg) => cfg.style),
+// );
 
-export const selectColor = createSelector(
-  selectStyleModel,
-  selectModelValue((style) => style.color),
-);
+// export const selectColor = createSelector(
+//   selectStyleModel,
+//   selectModelValue((style) => style.color),
+// );
 
 export const selectGovChecks = createSelector(
   selectConfigurationModel,
@@ -114,4 +114,32 @@ export const selectLanguage = createSelector(
 export const selectShouldPassOnboarding = createSelector(
   selectDashboardModel,
   selectLoadableValue((dashboard) => dashboard.shouldPassOnboarding),
+);
+
+// -- flows
+
+export const selectMerchantFlowsModel = createSelector(
+  selectMerchantStore,
+  (merchant) => merchant[SliceNames.Flows],
+);
+
+export const selectCurrentFlowId = createSelector(
+  selectMerchantStore,
+  (store) => store.currentFlow,
+);
+
+export const selectCurrentFlow = createSelector(
+  selectMerchantFlowsModel,
+  selectCurrentFlowId,
+  selectModelValue((model, id) => model.find((item) => item.id === id)),
+);
+
+export const selectStyleModel = createSelector(
+  selectCurrentFlow,
+  (cfg) => cfg.style,
+);
+
+export const selectColor = createSelector(
+  selectStyleModel,
+  (style) => style.color,
 );

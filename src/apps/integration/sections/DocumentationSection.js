@@ -13,8 +13,8 @@ export function DocumentationSection() {
   const appModel = useSelector(selectAppLastModel);
 
   return (
-    <Grid container justify="space-between" alignItems="center">
-      <Grid item xs={5}>
+    <Grid container justify="space-between" spacing={2} alignItems="center">
+      <Grid item xs={12} md={6}>
         <Typography variant="h5" gutterBottom>{intl.formatMessage({ id: 'DocumentationSection.title' })}</Typography>
         <Typography paragraph>{intl.formatMessage({ id: 'DocumentationSection.description' })}</Typography>
         <Button
@@ -29,7 +29,8 @@ export function DocumentationSection() {
           {intl.formatMessage({ id: 'DocumentationSection.cta' })}
         </Button>
       </Grid>
-      <Grid item xs={5}>
+
+      <Grid item xs={12} md={6}>
         <Box>
           <Typography variant="h6">{intl.formatMessage({ id: 'DocumentationSection.clientId' })}</Typography>
           <Loadable

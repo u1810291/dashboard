@@ -2,6 +2,7 @@ import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { MerchantActionGroups, SliceNames } from 'state/merchant/merchant.model';
 import { createReducer } from '../utils';
+import { types } from './merchant.actions';
 
 const initialState = {
   [SliceNames.Merchant]: LoadableAdapter.createState({
@@ -42,16 +43,26 @@ const initialState = {
     // version: number;
     // computations: any[];
   }),
+  [SliceNames.Flows]: LoadableAdapter.createState([]),
   [SliceNames.App]: LoadableAdapter.createState([
     // {
     //   clientId: string;
     //   clientSecret: string;
     // }
   ]),
+  currentFlow: null,
 };
 
 export default createReducer(initialState, {
   ...LoadableAdapter.createHandlers(MerchantActionGroups.Merchant, SliceNames.Merchant),
   ...LoadableAdapter.createHandlers(MerchantActionGroups.Configuration, SliceNames.Configuration),
   ...LoadableAdapter.createHandlers(MerchantActionGroups.App, SliceNames.App),
+  ...LoadableAdapter.createHandlers(MerchantActionGroups.Flows, SliceNames.Flows),
+
+  [types.CURRENT_FLOW_UPDATE](state, { payload }) {
+    return {
+      ...state,
+      currentFlow: payload,
+    };
+  },
 });

@@ -17,8 +17,8 @@ export function WebSDKSection() {
   const clientId = get(useSelector(selectAppLastModel), 'value.clientId');
 
   return (
-    <Grid container justify="space-between" alignItems="center">
-      <Grid item xs={5}>
+    <Grid container spacing={2} justify="space-between" alignItems="center">
+      <Grid item xs={12} md={6}>
         <Typography variant="h5" gutterBottom>
           {intl.formatMessage({ id: 'WebSDKSection.title' })}
           <img className={classes.img} src={Frameworks} alt={intl.formatMessage({ id: 'WebSDKSection.imgAlt' })} />
@@ -26,7 +26,7 @@ export function WebSDKSection() {
 
         <Typography paragraph>{intl.formatMessage({ id: 'WebSDKSection.description' })}</Typography>
       </Grid>
-      <Grid item xs={5}>
+      <Grid item xs={12} md={6}>
         <SyntaxHighlighter
           language={SyntaxHighlighterLanguages.HTML}
           code={integrationCode(clientId)}
