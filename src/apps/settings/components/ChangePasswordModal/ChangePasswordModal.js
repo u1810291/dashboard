@@ -1,126 +1,121 @@
-import Button from 'components/button';
-import { setI18nContext } from 'components/i18n-context';
-import { Input } from 'components/inputs';
-import Modal from 'components/modal';
-import { Field, Formik, withFormik } from 'formik';
-import { password, required } from 'lib/validations';
-import { flowRight, pickBy } from 'lodash';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
-import CSS from './ChangePasswordModal.module.scss';
+import { get } from 'lodash';
+import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
+import { Paper, Box, TextField, Button } from '@material-ui/core';
+import { useStyles } from './ChangePasswordModal.styles';
 
-const formikSettings = {
-  initialValues: {
+export function ChangePasswordModal({ onSubmit }) {
+  const intl = useIntl();
+  const classes = useStyles();
+  const [formData, setFormData] = useState({
     oldPassword: '',
     password: '',
     repeatPassword: '',
-  },
+  });
 
-  validate: (values) => {
-    let errors = {};
+  const [formState, setFormState] = useState({});
 
-    errors.oldPassword = required(values.oldPassword)
-      || password(values, 'personalSettings.errors.notAllowed', 'oldPassword');
-    errors.password = required(values.password)
-      || password(values, 'personalSettings.errors.notAllowed', 'password');
-    errors.repeatPassword = required(values.repeatPassword)
-      || (values.repeatPassword !== values.password && 'personalSettings.errors.repeatPassword');
+  function handleState(evt) {
+    formData[evt.target.name] = evt.target.value;
+    setFormData(formData);
+  }
 
-    errors = pickBy(errors, (v) => v);
-    return errors;
-  },
-};
+  function handleSubmit(evt) {
+    evt.preventDefault();
 
-// TODO: Divide these components
+    if (formData.oldPassword.length === 0) {
+      setFormState({
+        oldPassword: {
+          isError: true,
+          message: 'Password required',
+        },
+      });
+    } else
+    if (formData.password.length < 8) {
+      setFormState({
+        password: {
+          isError: true,
+          message: 'Password needs to be 8 characters long and at least one number',
+        },
+      });
+    } else
+    if (formData.password !== formData.repeatPassword) {
+      setFormState({
+        repeatPassword: {
+          isError: true,
+          message: 'Password doesn\'t match',
+        },
+      });
+    } else
+    if (!/[0-9]+/.test(formData.password)) {
+      setFormState({
+        password: {
+          isError: true,
+          message: 'Password needs to be 8 characters long and at least one number',
+        },
+      });
+    } else {
+      onSubmit(formData, { setFormState });
+    }
+  }
 
-function ModalContent({ handleSubmit, errors, touched, isSubmitting }) {
   return (
-    <form onSubmit={handleSubmit}>
-      <>
-        {touched.oldPassword && errors.oldPassword && (
-          <span className={CSS.error}>
-            <FormattedMessage id="personalSettings.errors.oldPassword" />
-          </span>
-        )}
-        <Field
-          type="password"
+    <Paper elevation={0} className={classes.container}>
+      <Box fontSize={22} fontWeight={700} mb={1}>
+        { intl.formatMessage({ id: 'apps.settings.personalSettings.change' }) }
+      </Box>
+      <Box fontSize={16} mb={3}>
+        { intl.formatMessage({ id: 'apps.settings.personalSettings.youCanChange' }) }
+      </Box>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          id="old-password"
           name="oldPassword"
-          className={CSS.current}
-          component={Input}
-          error={touched.oldPassword && errors.oldPassword}
-        />
-      </>
-      <>
-        {touched.password && errors.password && (
-          <span className={CSS.error}>
-            <FormattedMessage id="personalSettings.errors.password" />
-          </span>
-        )}
-        <Field
           type="password"
-          name="password"
-          component={Input}
-          error={touched.password && errors.password}
+          variant="outlined"
+          label={intl.formatMessage({ id: 'personalSettings.labels.oldPassword' })}
+          margin="dense"
+          error={get(formState, 'oldPassword.isError')}
+          helperText={get(formState, 'oldPassword.message')}
+          fullWidth
+          onChange={handleState}
+          className={classes.oldPassword}
         />
-      </>
-      <Field
-        type="password"
-        name="repeatPassword"
-        component={Input}
-        error={touched.repeatPassword && errors.repeatPassword}
-      />
-      <p>
+        <TextField
+          id="password"
+          name="password"
+          type="password"
+          variant="outlined"
+          label={intl.formatMessage({ id: 'personalSettings.labels.password' })}
+          margin="dense"
+          error={get(formState, 'password.isError')}
+          helperText={get(formState, 'password.message')}
+          fullWidth
+          onChange={handleState}
+        />
+        <TextField
+          id="password-repeat"
+          name="repeatPassword"
+          type="password"
+          variant="outlined"
+          label={intl.formatMessage({ id: 'personalSettings.labels.repeatPassword' })}
+          margin="dense"
+          error={get(formState, 'repeatPassword.isError')}
+          helperText={get(formState, 'repeatPassword.message')}
+          fullWidth
+          onChange={handleState}
+          className={classes.repeatPassword}
+        />
         <Button
           type="submit"
-          className={CSS.submit}
-          buttonStyle="primary"
-          disabled={isSubmitting}
+          color="primary"
+          variant="contained"
+          disableElevation
+          fullWidth
         >
-          <FormattedMessage id="apps.settings.personalSettings.change" />
+          {intl.formatMessage({ id: 'apps.settings.personalSettings.change' })}
         </Button>
-      </p>
-    </form>
+      </form>
+    </Paper>
   );
 }
-
-ModalContent.propTypes = {
-  errors: PropTypes.shape().isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  isSubmitting: PropTypes.bool.isRequired,
-  touched: PropTypes.shape().isRequired,
-};
-
-function ChangePasswordModal({ onSubmit }) {
-  return (
-    <Modal small>
-      <main className={CSS.content}>
-        <div className={CSS.title}>
-          <FormattedMessage id="apps.settings.personalSettings.change" />
-        </div>
-        <div className={CSS.subtitle}>
-          <FormattedMessage id="apps.settings.personalSettings.youCanChange" />
-        </div>
-        <Formik
-          initialValues={formikSettings.initialValues}
-          onSubmit={onSubmit}
-          validate={formikSettings.validate}
-          render={ModalContent}
-        />
-      </main>
-    </Modal>
-  );
-}
-
-export default flowRight(
-  setI18nContext('personalSettings'),
-  connect(
-    null,
-  ),
-  withFormik(formikSettings),
-)(ChangePasswordModal);
-
-ChangePasswordModal.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
