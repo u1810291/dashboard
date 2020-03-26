@@ -23,6 +23,14 @@ export function ChangePasswordModal({ onSubmit }) {
   function handleSubmit(evt) {
     evt.preventDefault();
 
+    if (formData.oldPassword.length === 0) {
+      setFormState({
+        oldPassword: {
+          isError: true,
+          message: 'Password required',
+        },
+      });
+    } else
     if (formData.password.length < 8) {
       setFormState({
         password: {
@@ -35,7 +43,7 @@ export function ChangePasswordModal({ onSubmit }) {
       setFormState({
         repeatPassword: {
           isError: true,
-          message: 'Password don\'t match',
+          message: 'Password doesn\'t match',
         },
       });
     } else
@@ -69,7 +77,6 @@ export function ChangePasswordModal({ onSubmit }) {
           margin="dense"
           error={get(formState, 'oldPassword.isError')}
           helperText={get(formState, 'oldPassword.message')}
-          required
           fullWidth
           onChange={handleState}
           className={classes.oldPassword}
@@ -84,7 +91,6 @@ export function ChangePasswordModal({ onSubmit }) {
           error={get(formState, 'password.isError')}
           helperText={get(formState, 'password.message')}
           fullWidth
-          required
           onChange={handleState}
         />
         <TextField
@@ -97,7 +103,6 @@ export function ChangePasswordModal({ onSubmit }) {
           error={get(formState, 'repeatPassword.isError')}
           helperText={get(formState, 'repeatPassword.message')}
           fullWidth
-          required
           onChange={handleState}
           className={classes.repeatPassword}
         />
