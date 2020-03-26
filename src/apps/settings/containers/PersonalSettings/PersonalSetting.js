@@ -5,7 +5,7 @@ import { Card, closeOverlay, createOverlay } from 'components';
 import React, { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import ChangePasswordModal from '../../components/ChangePasswordModal/ChangePasswordModal';
+import { ChangePasswordModal } from '../../components/ChangePasswordModal/ChangePasswordModal';
 import CSS from './PersonalSettings.module.scss';
 
 export function PersonalSetting() {
@@ -13,17 +13,19 @@ export function PersonalSetting() {
   const dispatch = useDispatch();
   const email = useSelector(selectUserEmail);
 
-  const handleSubmit = useCallback((values, { setSubmitting, setStatus }) => {
+  const handleSubmit = useCallback((values, { setFormState }) => {
     const { password, oldPassword } = values;
 
-    setStatus({});
     dispatch(passwordChange({ password, oldPassword })).then(() => {
-      setSubmitting(false);
-      setStatus(true);
+      setFormState({});
       closeOverlay();
     }).catch((error) => {
-      setSubmitting(false);
-      setStatus({ oldPassword: error.response.data.message });
+      setFormState({
+        oldPassword: {
+          isError: true,
+          message: error.response.data.message,
+        },
+      });
     });
 
     return false;
