@@ -55,9 +55,7 @@ export function Product() {
       <Box mt={2} mb={7}>
         <Grid container spacing={2} justify="space-between" className={classes.gridContainer}>
           <Grid item className={classes.leftBlock}>
-            <VerificationFlowMenu
-              flowList={merchantFlowList.value}
-            />
+            <VerificationFlowMenu />
           </Grid>
           <Grid item className={classes.middleBlock}>
             <VerificationFlowHeader />

@@ -9,7 +9,7 @@ import { useIntl } from 'react-intl';
 import { ExpandMore } from '@material-ui/icons';
 import { getDefaultGovChecks, getGovChecksByCountry } from 'state/merchant/merchant.model';
 import { selectGovChecks } from 'state/merchant/merchant.selectors';
-import { configurationUpdate } from 'state/merchant/merchant.actions';
+import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -43,7 +43,7 @@ export function GovChecksEntry({
       ...{ [e.target.id]: checked },
     };
     setGovChecks(value);
-    dispatch(configurationUpdate({ verificationPatterns: value }));
+    dispatch(configurationFlowUpdate({ verificationPatterns: value }));
   }, [govChecks, dispatch]);
 
   const handleChange = useCallback((event, isExpanded) => {

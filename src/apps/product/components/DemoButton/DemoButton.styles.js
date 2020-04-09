@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Box } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     color: 'white',
     padding: [[20, 35]],
@@ -21,6 +21,18 @@ export const useStyles = makeStyles(() => ({
     flex: [[0, 1, '289px']],
     flexDirection: 'column',
     justifyContent: 'space-between',
+  },
+  videoFrame: {
+    minWidth: 200,
+    [theme.breakpoints.up(600)]: {
+      minWidth: 600,
+    },
+    [theme.breakpoints.up(800)]: {
+      minWidth: 600,
+    },
+    [theme.breakpoints.up(1024)]: {
+      minWidth: 1024,
+    },
   },
 }));
 

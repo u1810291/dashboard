@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
-import { selectCurrentFlow, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { copyToClipboard } from 'components/clipboard';
+import { permalinkUrl } from 'lib/client/urls';
+import { merchantUpdateFlow, merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
+import { selectCurrentFlow, selectMerchantFlowsModel, selectAppLastModel } from 'state/merchant/merchant.selectors';
 import { Paper, IconButton, Box, Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { FiCopy, FiEdit3, FiTrash2 } from 'react-icons/fi';
 import { useStyles, CopyLinkButton } from './VerificationFlowHeader.styles';
 import { EditableField } from '../EditableField/EditableField';
+import { DeleteFlowDialog } from '../DeleteFlowDialog/DeleteFormDialog';
 
 const copyLink = 'Copy verification link';
 const rename = 'Rename';
@@ -17,6 +20,9 @@ export function VerificationFlowHeader() {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [editable, setEditable] = useState(false);
+  const [error, setError] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const appModel = useSelector(selectAppLastModel);
   const currentFlow = useSelector(selectCurrentFlow);
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
 
@@ -37,14 +43,43 @@ export function VerificationFlowHeader() {
     handleClose();
   }
 
+  function handleDelete() {
+    setOpenDeleteDialog(true);
+  }
+
+  function closeDialogHandler() {
+    setOpenDeleteDialog(false);
+  }
+
+  const submitDialogForm = useCallback(async () => {
+    let index = merchantFlowsModel.value.findIndex((flow) => flow.id === currentFlow.id);
+    if (index !== 0) {
+      index -= 1;
+    }
+    try {
+      if (merchantFlowsModel.value.length > 1) {
+        dispatch(updateCurrentFlowId(merchantFlowsModel.value[index].id));
+        await dispatch(merchantDeleteFlow(currentFlow.id));
+      } else {
+        throw new Error();
+      }
+    } catch (err) {
+      setError('alarm!');
+    }
+  }, [dispatch, currentFlow, merchantFlowsModel]);
+
   const submitEditable = useCallback(async (text) => {
     await dispatch(merchantUpdateFlow(currentFlow.id, { name: text }));
     setEditable(false);
-  }, [dispatch, currentFlow.id]);
+  }, [dispatch, currentFlow]);
 
   function cancelEditable() {
     setEditable(false);
   }
+  const handleCopyLink = useCallback(() => {
+    const url = permalinkUrl({ clientId: appModel.value.clientId });
+    copyToClipboard(url);
+  }, [appModel]);
 
   return (
     <Paper className={classes.headerContainer}>
@@ -57,7 +92,7 @@ export function VerificationFlowHeader() {
         value={currentFlow.name}
       />
       <Box className={classes.copyLinkContainer}>
-        <CopyLinkButton variant="contained" disableElevation startIcon={<FiCopy />}>
+        <CopyLinkButton variant="contained" disableElevation startIcon={<FiCopy />} onClick={handleCopyLink}>
           {copyLink}
         </CopyLinkButton>
       </Box>
@@ -78,14 +113,22 @@ export function VerificationFlowHeader() {
           </ListItemIcon>
           <ListItemText>{rename}</ListItemText>
         </MenuItem>
-
-        <MenuItem onClick={handleClose} className={classes.redColor}>
+        { (merchantFlowsModel.value.length > 1) && (
+        <MenuItem onClick={handleDelete} className={classes.redColor}>
           <ListItemIcon className={classes.listItemIcon}>
             <FiTrash2 className={classes.redColor} />
           </ListItemIcon>
           <ListItemText>{del}</ListItemText>
         </MenuItem>
+        )}
       </Menu>
+      <DeleteFlowDialog
+        openDialog={openDeleteDialog}
+        closeDialogHandler={closeDialogHandler}
+        submitDialogForm={submitDialogForm}
+        error={!!error}
+        helperText={error}
+      />
     </Paper>
   );
 }

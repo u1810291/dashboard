@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ChromePicker } from 'react-color';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { styleUpdate } from 'state/merchant/merchant.actions';
+import { flowStyleUpdate } from 'state/merchant/merchant.actions';
 import { selectColor } from 'state/merchant/merchant.selectors';
 import { ReactComponent as ColorPicker } from './color-picker.svg';
 import CSS from './ConfigureColor.module.css';
@@ -40,7 +40,7 @@ export function ConfigureColor() {
   }, [setShowPicker]);
 
   const updateColor = useCallback((value) => {
-    dispatch(styleUpdate({ color: value }));
+    dispatch(flowStyleUpdate({ color: value }));
   }, [dispatch]);
 
   const onClickDebounced = useCallback(debounce(updateColor, 600), []);

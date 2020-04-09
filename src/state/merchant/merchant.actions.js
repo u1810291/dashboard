@@ -7,6 +7,7 @@ import {
   selectStyleModel,
   selectMerchantId,
   selectMerchantFlowsModel,
+  selectCurrentFlowId,
 } from 'state/merchant/merchant.selectors';
 import { createTypesSequence } from 'state/utils';
 import { getWebhooks } from 'state/webhooks/webhooks.actions';
@@ -143,16 +144,6 @@ export const onboardingUpdate = (data) => async (dispatch, getState) => {
   dispatch({ type: types.CONFIGURATION_SUCCESS, payload: newCfg });
 };
 
-export const styleUpdate = (data) => (dispatch, getState) => {
-  const cfg = selectStyleModel(getState());
-  return dispatch(configurationUpdate({
-    style: {
-      ...cfg.value,
-      ...data,
-    },
-  }));
-};
-
 // flows
 
 export const updateCurrentFlowId = (data) => (dispatch) => {
@@ -186,8 +177,9 @@ export const merchantUpdateFlow = (flowId, payload) => async (dispatch, getState
     const { data } = await api.updateMerchantFlow(merchantId, flowId, payload);
     const { value } = selectMerchantFlowsModel(getState());
     const index = value.findIndex((flow) => flow.id === flowId);
-    value.splice(index, 1, data);
-    dispatch({ type: types.FLOWS_SUCCESS, payload: value, isReset: true });
+    const newFlow = [...value];
+    newFlow.splice(index, 1, data);
+    dispatch({ type: types.FLOWS_SUCCESS, payload: newFlow, isReset: true });
   } catch (error) {
     dispatch({ type: types.FLOWS_FAILURE, error });
     throw error;
@@ -199,10 +191,39 @@ export const merchantCreateFlow = (payload) => async (dispatch, getState) => {
   const merchantId = selectMerchantId(getState());
   try {
     const { data } = await api.createMerchantFlow(merchantId, payload);
-    const { value } = selectMerchantFlowsModel(getState());
-    dispatch({ type: types.FLOWS_SUCCESS, payload: [...value, data] });
+    dispatch({ type: types.FLOWS_SUCCESS, payload: data, isReset: true });
   } catch (error) {
     dispatch({ type: types.FLOWS_FAILURE, error });
     throw error;
   }
+};
+
+export const merchantDeleteFlow = (id) => async (dispatch, getState) => {
+  dispatch({ type: types.FLOWS_REQUEST });
+  const merchantId = selectMerchantId(getState());
+  try {
+    const { data } = await api.deleteMerchantFlow(merchantId, id);
+    dispatch({ type: types.FLOWS_SUCCESS, payload: data, isReset: true });
+  } catch (error) {
+    dispatch({ type: types.FLOWS_FAILURE, error });
+    throw error;
+  }
+};
+
+// flow update
+
+export const configurationFlowUpdate = (payload) => async (dispatch, getState) => {
+  const flowId = selectCurrentFlowId(getState());
+  return dispatch(merchantUpdateFlow(flowId, payload));
+};
+
+export const flowStyleUpdate = (data) => (dispatch, getState) => {
+  const cfg = selectStyleModel(getState());
+  const flowId = selectCurrentFlowId(getState());
+  return dispatch(merchantUpdateFlow(flowId, {
+    style: {
+      ...cfg,
+      ...data,
+    },
+  }));
 };

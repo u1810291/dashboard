@@ -79,25 +79,10 @@ export const selectOrganizationNameModel = createSelector(
   selectLoadableValue((cfg) => get(cfg, 'dashboard.info.organization')),
 );
 
-export const selectPolicyInterval = createSelector(
-  selectConfigurationModel,
-  selectModelValue((cfg) => fromIsoPeriod(cfg.policyInterval)),
-);
-
-// export const selectStyleModel = createSelector(
+// export const selectGovChecks = createSelector(
 //   selectConfigurationModel,
-//   selectLoadableValue((cfg) => cfg.style),
+//   selectModelValue((cfg) => cfg.verificationPatterns),
 // );
-
-// export const selectColor = createSelector(
-//   selectStyleModel,
-//   selectModelValue((style) => style.color),
-// );
-
-export const selectGovChecks = createSelector(
-  selectConfigurationModel,
-  selectModelValue((cfg) => cfg.verificationPatterns),
-);
 
 // -- dashboard
 
@@ -142,4 +127,14 @@ export const selectStyleModel = createSelector(
 export const selectColor = createSelector(
   selectStyleModel,
   (style) => style.color,
+);
+
+export const selectPolicyInterval = createSelector(
+  selectCurrentFlow,
+  (cfg) => fromIsoPeriod(cfg.policyInterval),
+);
+
+export const selectGovChecks = createSelector(
+  selectCurrentFlow,
+  (cfg) => cfg.verificationPatterns,
 );

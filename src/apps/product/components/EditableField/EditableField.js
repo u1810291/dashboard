@@ -21,11 +21,11 @@ export function EditableField({
     setCurrentText(e.target.value);
   }
 
-  function cancelEditableHandler() {
+  const cancelEditableHandler = useCallback(() => {
     setCurrentText(value);
     setAllowEdit(false);
     cancelEditable();
-  }
+  }, [value, cancelEditable]);
 
   function validate(text) {
     if (!text || text.length > 30) {
@@ -68,7 +68,7 @@ export function EditableField({
     }
     const timeout = setTimeout(() => {
       setFocus();
-    }, 0);
+    }, 100);
     return () => {
       clearTimeout(timeout);
     };
@@ -77,19 +77,20 @@ export function EditableField({
   const handleKeyUp = useCallback((e) => {
     switch (e.key) {
       case 'Escape':
-        cancelEditable();
+        cancelEditableHandler();
         break;
       default:
         break;
     }
-  }, [cancelEditable]);
+  }, [cancelEditableHandler]);
 
   useEffect(() => {
-    if (enabled) {
+    if (enabled || allowEdit) {
       window.addEventListener('keyup', handleKeyUp);
+    } else {
+      window.removeEventListener('keyup', handleKeyUp);
     }
-    return () => window.removeEventListener('keyup', handleKeyUp);
-  }, [enabled, handleKeyUp]);
+  }, [enabled, allowEdit, handleKeyUp]);
 
   if (!enabled && !allowEdit) {
     return <Box className={classes.flowName} onDoubleClick={allowEditHandler}>{value}</Box>;

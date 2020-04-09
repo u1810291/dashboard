@@ -6,7 +6,7 @@ import { FiCheckCircle, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash }
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCountries } from 'state/countries/countries.actions';
-import { configurationUpdate } from 'state/merchant/merchant.actions';
+import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
 import { Logo } from './components/Logo/Logo';
 import { GovChecks } from './components/GovChecks';
@@ -23,7 +23,7 @@ export default function Configuration() {
   const currentFlowModel = useSelector(selectCurrentFlow);
   const [flowSteps, setFlowSteps] = useState([]);
 
-  const updateConfiguration = useCallback((settings) => dispatch(configurationUpdate(settings)), [dispatch]);
+  const updateConfiguration = useCallback((settings) => dispatch(configurationFlowUpdate(settings)), [dispatch]);
 
   useEffect(() => {
     dispatch(getCountries());
