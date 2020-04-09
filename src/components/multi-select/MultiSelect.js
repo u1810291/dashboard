@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import Select from 'react-select';
@@ -9,13 +8,6 @@ export default class MultiSelect extends React.Component {
   static defaultProps = {
     onChange: () => {},
     value: [],
-  }
-
-  static propTypes = {
-    onChange: PropTypes.func,
-    selectClassName: PropTypes.func.isRequired,
-    value: PropTypes.arrayOf(),
-    valuesClassName: PropTypes.string.isRequired,
   }
 
   constructor(props) {
