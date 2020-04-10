@@ -8,16 +8,15 @@ export function APISection() {
   const intl = useIntl();
 
   return (
-    <Grid container justify="space-between" alignItems="center">
-      <Grid item xs={5}>
+    <Grid container spacing={2} justify="space-between" alignItems="center">
+      <Grid item xs={12} md={6}>
         <Typography variant="h5" gutterBottom>{intl.formatMessage({ id: 'ApiSection.title' })}</Typography>
         <Typography paragraph>{intl.formatMessage({ id: 'ApiSection.description' })}</Typography>
       </Grid>
-      <Grid item xs={5}>
+      <Grid item xs={12} md={6}>
         <Grid container spacing={2} direction="column">
           <Grid item xs={6}>
             <Button
-              fullWidth
               variant="outlined"
               href="https://docs.getmati.com/"
               target="_blank"
