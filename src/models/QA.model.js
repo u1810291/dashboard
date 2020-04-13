@@ -32,6 +32,10 @@ export const QATags = {
       Value: 'integration-client-id-value',
       Copy: 'integration-client-id-copy',
     },
+    flowId: {
+      Value: 'integration-flow-id-value',
+      Copy: 'integration-flow-id-copy',
+    },
     ClientSecret: {
       Value: 'integration-client-secret-value',
       Copy: 'integration-client-secret-copy',

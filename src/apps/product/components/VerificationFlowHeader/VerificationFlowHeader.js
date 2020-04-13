@@ -77,9 +77,9 @@ export function VerificationFlowHeader() {
     setEditable(false);
   }
   const handleCopyLink = useCallback(() => {
-    const url = permalinkUrl({ clientId: appModel.value.clientId });
+    const url = permalinkUrl({ clientId: appModel.value.clientId, flowId: currentFlow.id });
     copyToClipboard(url);
-  }, [appModel]);
+  }, [appModel.value.clientId, currentFlow.id]);
 
   return (
     <Paper className={classes.headerContainer}>

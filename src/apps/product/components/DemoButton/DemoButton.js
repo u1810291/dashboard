@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import { Card, createOverlay, VideoPlayer } from 'components';
-import { selectClientIdModel, selectStyleModel } from 'state/merchant/merchant.selectors';
+import { selectClientIdModel, selectStyleModel, selectCurrentFlowId } from 'state/merchant/merchant.selectors';
 import { Paper, Box, Divider } from '@material-ui/core';
 import { useStyles, DemoVideoButton } from './DemoButton.styles';
 import { Apple, Android, Monitor, PlayCircle } from '../../icons';
@@ -19,6 +19,7 @@ const CDN_URL = 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/demos
 export function DemoButton() {
   const styleModel = useSelector(selectStyleModel);
   const clientIdModel = useSelector(selectClientIdModel);
+  const flowId = useSelector(selectCurrentFlowId);
   const classes = useStyles();
 
   const VideoFrame = ({ url }) => (
@@ -43,6 +44,7 @@ export function DemoButton() {
             language={styleModel.language}
             apiHost={process.env.REACT_APP_API_URL}
             signupHost={process.env.REACT_APP_SIGNUP_URL}
+            flowId={flowId}
           />
         )}
       </Box>
