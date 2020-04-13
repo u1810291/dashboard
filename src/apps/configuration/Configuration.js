@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { Content, Items } from 'components';
-import BiometricStep from 'apps/configuration/components/VerificationSteps/biometric-steps';
+import { BiometricStep } from 'apps/configuration/components/VerificationSteps/biometric-steps/BiometricStep';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiCheckCircle, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
@@ -51,10 +51,7 @@ export default function Configuration() {
       {
         title: 'Product.configuration.biometric',
         icon: <FiEye />,
-        body: <BiometricStep
-          patterns={currentFlowModel.verificationPatterns}
-          onChange={updateConfiguration}
-        />,
+        body: <BiometricStep />,
       },
       {
         title: 'Product.configuration.logo',

@@ -48,7 +48,7 @@ export function VerificationFlowMenu() {
   }
 
   const validate = useCallback((text) => {
-    const duplicate = merchantFlowList.find((item) => item.name === text);
+    const duplicate = merchantFlowList.find((item) => item.name === text.trim());
     if (duplicate) {
       throw new UniqueFlowNameError();
     }

@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import {
   Box,
@@ -10,14 +10,13 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Items } from 'components';
+import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
+import { selectCurrentFlowId, selectGovChecks } from 'state/merchant/merchant.selectors';
+import { useDispatch, useSelector } from 'react-redux';
 import useStyles from './styles';
 
-const BiometricStep = ({
-  patterns = {},
-  onChange,
-}) => {
+export function BiometricStep() {
   const intl = useIntl();
-  const classes = useStyles();
   const options = [
     {
       label: intl.formatMessage({ id: 'flow.biometricStep.none' }),
@@ -32,15 +31,23 @@ const BiometricStep = ({
       value: 'liveness',
     },
   ];
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const patterns = useSelector(selectGovChecks);
+  const flowId = useSelector(selectCurrentFlowId);
   const defaultState = get(options.find((option) => option.value === patterns.biometrics), 'value', 'none');
   const [value, setValue] = useState(defaultState);
-  const handleChange = (event) => {
+
+  const handleChange = useCallback((event) => {
     const targetValue = event.target.value;
     setValue(targetValue);
-    onChange({
-      verificationPatterns: { ...patterns, biometrics: targetValue },
-    });
-  };
+    dispatch(merchantUpdateFlow(flowId, { verificationPatterns: { biometrics: targetValue } }));
+  }, [dispatch, flowId]);
+
+  useEffect(() => {
+    const biometrics = patterns.biometrics || 'none';
+    setValue(biometrics);
+  }, [patterns.biometrics]);
 
   return (
     <FormControl component="fieldset">
@@ -52,7 +59,6 @@ const BiometricStep = ({
           {intl.formatMessage({ id: 'flow.documentTypeStep.biometric.subtitle' })}
         </Box>
         <RadioGroup
-          defaultValue={value}
           aria-label="biometric-step"
           name="biometric-steps"
           value={value}
@@ -71,6 +77,4 @@ const BiometricStep = ({
       </Items>
     </FormControl>
   );
-};
-
-export default BiometricStep;
+}
