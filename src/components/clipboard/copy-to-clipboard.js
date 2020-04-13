@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import clipboard from 'clipboard-polyfill';
+import * as clipboard from 'clipboard-polyfill';
 import { notification } from 'components/notification';
 
 export function copyToClipboard(text) {

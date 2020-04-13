@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import { get, isEmpty } from 'lodash';
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +11,9 @@ import { FlowButtonAdd, FlowMenuItem, FlowMenuHeader, useStyles } from './Verifi
 
 const addButton = '+ Add new flow';
 const header = 'Verification Flow';
+
+class UniqueFlowNameError extends Error {}
+class LengthFlowNameError extends Error {}
 
 export function VerificationFlowMenu() {
   // const intl = useIntl();
@@ -43,21 +47,32 @@ export function VerificationFlowMenu() {
     setOpenDialog(false);
   }
 
-  function validate(text) {
-    if (!text || text.length > 30) {
-      throw new Error();
+  const validate = useCallback((text) => {
+    const duplicate = merchantFlowList.find((item) => item.name === text);
+    if (duplicate) {
+      throw new UniqueFlowNameError();
     }
-  }
+    if (!text || text.length > 30) {
+      throw new LengthFlowNameError();
+    }
+  }, [merchantFlowList]);
 
   const submitDialogForm = useCallback(async (text) => {
-    validate(text);
     try {
       validate(text);
       await dispatch(merchantCreateFlow({ name: text }));
     } catch (e) {
-      setError(`Name cannot be empty or longer than 30 chars (length=${text}). `);
+      if (e instanceof UniqueFlowNameError) {
+        setError('Flow name should be unique');
+      } else
+      if (e instanceof LengthFlowNameError) {
+        setError(`Name can't be empty or longer than 30 chars (length=${text}). `);
+      } else {
+        console.error(e);
+        setError('Error occured');
+      }
     }
-  }, [dispatch]);
+  }, [dispatch, validate]);
 
 
   return (

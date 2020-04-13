@@ -890,6 +890,7 @@
   "identity.nameNotFound": "Name Not Found",
   "DocumentationSection.clientSecret": "Client Secret",
   "DocumentationSection.clientId": "Client ID",
+  "DocumentationSection.flowId": "Flow ID",
   "DocumentationSection.title": "Mati Documentation",
   "DocumentationSection.cta": "Mati Documentation",
   "DocumentationSection.description": "We work hard to make the integration fast. It usually takes a few minutes to integrate our SDKs, and couple hours to integrate our webhook.",
