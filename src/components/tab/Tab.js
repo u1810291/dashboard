@@ -17,9 +17,10 @@ export default function Tab({
   onClick,
   tabs,
   withAside,
+  ...props
 }) {
   return (
-    <Items flow="row" gap={0}>
+    <Items flow="row" gap={0} {...props}>
       <Items gap={0} flow="column" justifyContent="flex-start" className={CSS.tabAction}>
         {tabs.map(({ tab, badge, qa }, index) => (
           <Items

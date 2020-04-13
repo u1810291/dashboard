@@ -1,4 +1,4 @@
-import { Box, Container, Grid } from '@material-ui/core';
+import { Box, Container, Grid, Fade } from '@material-ui/core';
 import { Configuration } from 'apps/configuration';
 import { Integration } from 'apps/integration/Integration';
 import { ProductTabs } from 'apps/product/Product.model';
@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { appLoad, merchantFlowsLoad } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
-// import { CompanyBar } from '../CompanyBar';
 import { Spinner } from 'apps/layout';
 import { VerificationFlowMenu } from '../components/VerificationFlowMenu/VerificationFlowMenu';
 import { VerificationFlowHeader } from '../components/VerificationFlowHeader/VerificationFlowHeader';
@@ -22,6 +21,7 @@ export function Product() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [activeTabIndex, setActiveTab] = useState(0);
+  const [fade, setFade] = useState(true);
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
 
   useEffect((() => {
@@ -55,24 +55,28 @@ export function Product() {
       <Box mt={2} mb={7}>
         <Grid container spacing={2} justify="space-between" className={classes.gridContainer}>
           <Grid item className={classes.leftBlock}>
-            <VerificationFlowMenu />
+            <VerificationFlowMenu setFade={setFade} />
           </Grid>
           <Grid item className={classes.middleBlock}>
-            <VerificationFlowHeader />
+            <Fade in={fade} timeout={200}>
+              <VerificationFlowHeader />
+            </Fade>
             {/* <VerificationFlowSettings /> */}
             <Box mt={2}>
-              <Tab
-                withAside
-                padding={2}
-                active={activeTabIndex}
-                onClick={changeActiveTabHandler}
-                tabs={ProductTabs}
-                contents={[
-                  <Configuration />,
-                  <Integration />,
-                ]}
-                aside={[]}
-              />
+              <Fade in={fade} timeout={200}>
+                <Tab
+                  withAside
+                  padding={2}
+                  active={activeTabIndex}
+                  onClick={changeActiveTabHandler}
+                  tabs={ProductTabs}
+                  contents={[
+                    <Configuration />,
+                    <Integration />,
+                  ]}
+                  aside={[]}
+                />
+              </Fade>
             </Box>
           </Grid>
           <Grid item className={classes.rightBlock}>
