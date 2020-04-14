@@ -6,15 +6,16 @@ import React from 'react';
 import { FiFileText } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { selectAppLastModel } from 'state/merchant/merchant.selectors';
+import { selectAppLastModel, selectCurrentFlowId } from 'state/merchant/merchant.selectors';
 
 export function DocumentationSection() {
   const intl = useIntl();
   const appModel = useSelector(selectAppLastModel);
+  const currentFlowId = useSelector(selectCurrentFlowId);
 
   return (
-    <Grid container justify="space-between" alignItems="center">
-      <Grid item xs={5}>
+    <Grid container justify="space-between" spacing={2} alignItems="center">
+      <Grid item xs={12} md={6}>
         <Typography variant="h5" gutterBottom>{intl.formatMessage({ id: 'DocumentationSection.title' })}</Typography>
         <Typography paragraph>{intl.formatMessage({ id: 'DocumentationSection.description' })}</Typography>
         <Button
@@ -29,8 +30,15 @@ export function DocumentationSection() {
           {intl.formatMessage({ id: 'DocumentationSection.cta' })}
         </Button>
       </Grid>
-      <Grid item xs={5}>
+
+      <Grid item xs={12} md={6}>
         <Box>
+          <Typography variant="h6">{intl.formatMessage({ id: 'DocumentationSection.flowId' })}</Typography>
+          <CopyToClipboard text={currentFlowId} qa={QATags.Integration.flowId.Copy}>
+            <code data-qa={QATags.Integration.flowId.Value}>{currentFlowId}</code>
+          </CopyToClipboard>
+        </Box>
+        <Box marginTop={1}>
           <Typography variant="h6">{intl.formatMessage({ id: 'DocumentationSection.clientId' })}</Typography>
           <Loadable
             model={appModel}

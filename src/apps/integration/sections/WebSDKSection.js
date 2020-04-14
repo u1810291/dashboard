@@ -7,7 +7,7 @@ import React from 'react';
 import { get } from 'lodash';
 import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { selectAppLastModel } from 'state/merchant/merchant.selectors';
+import { selectAppLastModel, selectCurrentFlowId } from 'state/merchant/merchant.selectors';
 import Frameworks from './web-frameworks.png';
 import { useStyles } from './WebSDKSection.styles';
 
@@ -15,10 +15,11 @@ export function WebSDKSection() {
   const intl = useIntl();
   const classes = useStyles();
   const clientId = get(useSelector(selectAppLastModel), 'value.clientId');
+  const flowId = useSelector(selectCurrentFlowId);
 
   return (
-    <Grid container justify="space-between" alignItems="center">
-      <Grid item xs={5}>
+    <Grid container spacing={2} justify="space-between" alignItems="center">
+      <Grid item xs={12} md={6}>
         <Typography variant="h5" gutterBottom>
           {intl.formatMessage({ id: 'WebSDKSection.title' })}
           <img className={classes.img} src={Frameworks} alt={intl.formatMessage({ id: 'WebSDKSection.imgAlt' })} />
@@ -26,10 +27,10 @@ export function WebSDKSection() {
 
         <Typography paragraph>{intl.formatMessage({ id: 'WebSDKSection.description' })}</Typography>
       </Grid>
-      <Grid item xs={5}>
+      <Grid item xs={12} md={6}>
         <SyntaxHighlighter
           language={SyntaxHighlighterLanguages.HTML}
-          code={integrationCode(clientId)}
+          code={integrationCode({ clientId, flowId })}
           qa={QATags.Integration.WebSDK}
         />
       </Grid>

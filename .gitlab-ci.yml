@@ -20,6 +20,7 @@ ci:
 deploy:
   stage: deploy
   only:
+    - /^release\/.*$/
     - develop
     - staging
     - master

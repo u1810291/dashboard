@@ -1,1 +1,1 @@
-export * from './Product';
+export * from './containers/Product';
