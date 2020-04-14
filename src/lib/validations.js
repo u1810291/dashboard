@@ -2,7 +2,7 @@ import React from 'react';
 import { capitalize } from 'lodash';
 import { ValidationError } from 'yup';
 import { FormattedMessage } from 'react-intl';
-import restrictedDomains from './emailDomains';
+import restrictedDomains from './emailDomains.json';
 
 export function required(value, asToken = false) {
   if (!value) {

@@ -66,6 +66,8 @@
     "analyze": "if ! npm list source-map-explorer -g; then npm run analyze:install; fi; npm run analyze:start;"
   },
   "devDependencies": {
+    "@babel/traverse": "^7.9.5",
+    "@babel/types": "^7.9.5",
     "@types/recharts": "^1.8.9",
     "babel-plugin-module-resolver": "^3.2.0",
     "cross-env": "^5.2.0",
