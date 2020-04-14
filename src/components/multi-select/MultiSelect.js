@@ -51,7 +51,7 @@ export default class MultiSelect extends React.Component {
           onChange={this.onChange}
         />
         <div className={valuesClassName}>
-          {value.map((option, index) => (
+          {(value || []).map((option, index) => (
             <button
               className={CSS.valueItem}
               key={index} // eslint-disable-line react/no-array-index-key

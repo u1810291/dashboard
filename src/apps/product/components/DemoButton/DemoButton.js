@@ -1,3 +1,4 @@
+import { useIntl } from 'react-intl';
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
@@ -8,15 +9,10 @@ import { Paper, Box, Divider } from '@material-ui/core';
 import { useStyles, DemoVideoButton } from './DemoButton.styles';
 import { Apple, Android, Monitor, PlayCircle } from '../../icons';
 
-const header = 'Test your verification flow now';
-const demoVideos = 'Demo videos';
-const webSDK = 'Web SDK';
-const iosSDK = 'iOS SDK';
-const androidSDK = 'Android SDK';
-
 const CDN_URL = 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/demos';
 
 export function DemoButton() {
+  const intl = useIntl();
   const styleModel = useSelector(selectStyleModel);
   const clientIdModel = useSelector(selectClientIdModel);
   const flowId = useSelector(selectCurrentFlowId);
@@ -35,7 +31,7 @@ export function DemoButton() {
 
   return (
     <Paper className={classes.root}>
-      <Box fontWeight="bold">{header}</Box>
+      <Box fontWeight="bold">{intl.formatMessage({ id: 'VerificationFlow.demo.header' })}</Box>
       <Box mt={4} display="flex" justifyContent="center">
         {clientIdModel.isLoaded && styleModel && clientIdModel.value && (
           <mati-button
@@ -49,14 +45,14 @@ export function DemoButton() {
         )}
       </Box>
       <Box mt={3}><Divider className={classes.divider} /></Box>
-      <Box mt={2}>{demoVideos}</Box>
+      <Box mt={2}>{intl.formatMessage({ id: 'VerificationFlow.demo.videosHeader' })}</Box>
       <Box mt={2} className={classes.playButtonsContainer}>
         <DemoVideoButton
           startIcon={<Monitor />}
           endIcon={<PlayCircle />}
           onClick={() => showUseCaseModal(`${CDN_URL}/web-sdk.mp4`)}
         >
-          {webSDK}
+          {intl.formatMessage({ id: 'VerificationFlow.demo.webSdk' })}
         </DemoVideoButton>
 
         <DemoVideoButton
@@ -64,7 +60,7 @@ export function DemoButton() {
           endIcon={<PlayCircle />}
           onClick={() => showUseCaseModal(`${CDN_URL}/ios-sdk.mp4`)}
         >
-          {iosSDK}
+          {intl.formatMessage({ id: 'VerificationFlow.demo.iosSdk' })}
         </DemoVideoButton>
 
         <DemoVideoButton
@@ -72,7 +68,7 @@ export function DemoButton() {
           endIcon={<PlayCircle />}
           onClick={() => showUseCaseModal(`${CDN_URL}/android-sdk.mp4`)}
         >
-          {androidSDK}
+          {intl.formatMessage({ id: 'VerificationFlow.demo.androidSdk' })}
         </DemoVideoButton>
       </Box>
     </Paper>

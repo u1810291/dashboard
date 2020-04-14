@@ -1,23 +1,23 @@
+import { get } from 'lodash';
+import { useIntl } from 'react-intl';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Paper, IconButton, Box, Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { copyToClipboard } from 'components/clipboard';
 import { permalinkUrl } from 'lib/client/urls';
 import { merchantUpdateFlow, merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow, selectMerchantFlowsModel, selectAppLastModel } from 'state/merchant/merchant.selectors';
-import { Paper, IconButton, Box, Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { FiCopy, FiEdit3, FiTrash2 } from 'react-icons/fi';
 import { useStyles, CopyLinkButton } from './VerificationFlowHeader.styles';
 import { EditableField } from '../EditableField/EditableField';
+import { flowNameValidator } from '../../validators/FlowName.validator';
 import { DeleteFlowDialog } from '../DeleteFlowDialog/DeleteFormDialog';
 
-const copyLink = 'Copy verification link';
-const rename = 'Rename';
-const del = 'Delete';
-
-export function VerificationFlowHeader() {
+export function VerificationFlowHeader(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const intl = useIntl();
   const [anchorEl, setAnchorEl] = useState(null);
   const [editable, setEditable] = useState(false);
   const [error, setError] = useState(false);
@@ -45,6 +45,7 @@ export function VerificationFlowHeader() {
 
   function handleDelete() {
     setOpenDeleteDialog(true);
+    handleClose();
   }
 
   function closeDialogHandler() {
@@ -52,19 +53,17 @@ export function VerificationFlowHeader() {
   }
 
   const submitDialogForm = useCallback(async () => {
-    let index = merchantFlowsModel.value.findIndex((flow) => flow.id === currentFlow.id);
-    if (index !== 0) {
-      index -= 1;
-    }
+    let currentIndex = merchantFlowsModel.value.findIndex((flow) => flow.id === currentFlow.id);
+    const getNewFlowId = (index) => get(merchantFlowsModel, `value[${index}].id`, currentFlow.id);
+    const newFlowId = getNewFlowId((currentIndex ? currentIndex -= 1 : currentIndex += 1));
+
     try {
       if (merchantFlowsModel.value.length > 1) {
-        dispatch(updateCurrentFlowId(merchantFlowsModel.value[index].id));
-        await dispatch(merchantDeleteFlow(currentFlow.id));
-      } else {
-        throw new Error();
+        dispatch(updateCurrentFlowId(newFlowId));
+        dispatch(merchantDeleteFlow(currentFlow.id));
       }
     } catch (err) {
-      setError('alarm!');
+      setError(err);
     }
   }, [dispatch, currentFlow, merchantFlowsModel]);
 
@@ -81,19 +80,25 @@ export function VerificationFlowHeader() {
     copyToClipboard(url);
   }, [appModel.value.clientId, currentFlow.id]);
 
+  const validator = useCallback((text) => {
+    const duplicate = merchantFlowsModel.value.find((item) => item.name === text.trim());
+    return flowNameValidator({ hasDuplicate: !!duplicate, name: text });
+  }, [merchantFlowsModel.value]);
+
   return (
-    <Paper className={classes.headerContainer}>
+    <Paper className={classes.headerContainer} {...props}>
       <EditableField
         enabled={editable}
         className={classes.flowName}
         submitEditable={submitEditable}
         cancelEditable={cancelEditable}
+        validator={validator}
         inProgress={merchantFlowsModel.isLoading}
         value={currentFlow.name}
       />
       <Box className={classes.copyLinkContainer}>
         <CopyLinkButton variant="contained" disableElevation startIcon={<FiCopy />} onClick={handleCopyLink}>
-          {copyLink}
+          {intl.formatMessage({ id: 'VerificationFlow.header.copyLink' })}
         </CopyLinkButton>
       </Box>
       <IconButton aria-label="display more actions" edge="end" color="inherit" onClick={handleClick}>
@@ -111,14 +116,14 @@ export function VerificationFlowHeader() {
           <ListItemIcon className={classes.listItemIcon}>
             <FiEdit3 />
           </ListItemIcon>
-          <ListItemText>{rename}</ListItemText>
+          <ListItemText>{intl.formatMessage({ id: 'rename' })}</ListItemText>
         </MenuItem>
         { (merchantFlowsModel.value.length > 1) && (
         <MenuItem onClick={handleDelete} className={classes.redColor}>
           <ListItemIcon className={classes.listItemIcon}>
             <FiTrash2 className={classes.redColor} />
           </ListItemIcon>
-          <ListItemText>{del}</ListItemText>
+          <ListItemText>{intl.formatMessage({ id: 'delete' })}</ListItemText>
         </MenuItem>
         )}
       </Menu>

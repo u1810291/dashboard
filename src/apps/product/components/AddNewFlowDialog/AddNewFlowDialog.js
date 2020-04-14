@@ -1,3 +1,4 @@
+import { useIntl } from 'react-intl';
 import React, { useState } from 'react';
 import {
   Dialog,
@@ -11,11 +12,6 @@ import {
 } from '@material-ui/core';
 import { useStyles } from './AddNewFlowDialog.styles';
 
-const title = 'Create new flow';
-const cancel = 'Cancel';
-const submit = 'Submit';
-const content = 'Enter the name of your verification flow';
-
 export function AddNewFlowDialog({
   openDialog,
   closeDialogHandler,
@@ -26,6 +22,7 @@ export function AddNewFlowDialog({
 }) {
   const classes = useStyles();
   const [text, setText] = useState('');
+  const intl = useIntl();
 
   function onChangeHandler(e) {
     setText(e.target.value);
@@ -44,10 +41,12 @@ export function AddNewFlowDialog({
   return (
     <Dialog open={openDialog} onClose={closeDialogHandler} {...props}>
       <DialogTitle id="form-dialog-title" disableTypography className={classes.dialogTitle}>
-        <Typography variant="h3">{title}</Typography>
+        <Typography variant="h3">{intl.formatMessage({ id: 'VerificationFlow.menu.addDialog.title' })}</Typography>
       </DialogTitle>
       <DialogContent>
-        <DialogContentText>{content}</DialogContentText>
+        <DialogContentText>
+          {intl.formatMessage({ id: 'VerificationFlow.menu.addDialog.content' })}
+        </DialogContentText>
         <TextField
           autoFocus
           fullWidth
@@ -58,8 +57,8 @@ export function AddNewFlowDialog({
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeDialogHandler}>{cancel}</Button>
-        <Button onClick={submitDialogHandler}>{submit}</Button>
+        <Button onClick={closeDialogHandler}>{intl.formatMessage({ id: 'cancel' })}</Button>
+        <Button onClick={submitDialogHandler}>{intl.formatMessage({ id: 'submit' })}</Button>
       </DialogActions>
     </Dialog>
   );

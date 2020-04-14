@@ -5,7 +5,7 @@ import Text, { HR } from 'components/text';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { BiometricSection } from './BiometricSection';
-import config from './config';
+import config from './config.json';
 import CSS from './LivenessStep.module.scss';
 import { LivenessVideo } from './LivenessVideo';
 
