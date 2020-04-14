@@ -1,5 +1,7 @@
+import { useIntl } from 'react-intl';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { TextField, InputAdornment, Box } from '@material-ui/core';
+import { validationHandler } from 'lib/validations';
 import { SubmitButton, CancelButton, Spinner, useStyles } from './EditableField.styles';
 
 export function EditableField({
@@ -7,7 +9,9 @@ export function EditableField({
   enabled,
   submitEditable,
   cancelEditable,
+  validator,
   inProgress = false,
+  display,
   ...props
 }) {
   const classes = useStyles();
@@ -15,6 +19,7 @@ export function EditableField({
   const [allowEdit, setAllowEdit] = useState(false);
   const [currentText, setCurrentText] = useState('');
   const inputRef = useRef();
+  const intl = useIntl();
 
   function onChangeHandler(e) {
     setError(null);
@@ -27,23 +32,21 @@ export function EditableField({
     cancelEditable();
   }, [value, cancelEditable]);
 
-  function validate(text) {
-    if (!text || text.length > 30) {
-      throw new Error();
-    }
-  }
-
   const submitEditableHandler = useCallback(async () => {
     const text = currentText.trim();
     try {
-      validate(text);
-      await submitEditable(text);
+      if (validator) {
+        await validator(text);
+      }
+      if (submitEditable) {
+        await submitEditable(text);
+      }
       setCurrentText(text);
       setAllowEdit(false);
-    } catch (err) {
-      setError(`Name cannot be empty or longer than 30 chars (length=${currentText.length}). `);
+    } catch (e) {
+      validationHandler(e, intl, setError);
     }
-  }, [currentText, submitEditable]);
+  }, [currentText, submitEditable, validator, intl]);
 
   function onKeyDownHandler(e) {
     if (e.key === 'Enter') {

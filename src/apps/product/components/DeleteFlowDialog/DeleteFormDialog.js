@@ -1,4 +1,5 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import {
   Dialog,
   DialogTitle,
@@ -11,12 +12,6 @@ import {
 } from '@material-ui/core';
 import { useStyles } from './DeleteFormDialog.styles';
 
-const title = 'Delete flow';
-const cancel = 'Cancel';
-const del = 'Delete';
-const content1 = 'Are you sure you want to delete this flow?';
-const content2 = 'After removal, make sure you\'re not directing your users to this flow anymore. Any attempts to access this flow will automatically redirect users to your default flow';
-
 export function DeleteFlowDialog({
   openDialog,
   closeDialogHandler,
@@ -25,6 +20,7 @@ export function DeleteFlowDialog({
   helperText,
   ...props
 }) {
+  const intl = useIntl();
   const classes = useStyles();
 
   function deleteDialogHandler() {
@@ -34,17 +30,19 @@ export function DeleteFlowDialog({
   return (
     <Dialog open={openDialog} onClose={closeDialogHandler} {...props}>
       <DialogTitle id="form-dialog-title" disableTypography className={classes.dialogTitle}>
-        <Typography variant="h3">{title}</Typography>
+        <Typography variant="h3">
+          {intl.formatMessage({ id: 'VerificationFlow.menu.deleteDialog.header' })}
+        </Typography>
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {content1}
+          {intl.formatMessage({ id: 'VerificationFlow.menu.deleteDialog.text' })}
         </DialogContentText>
-        <Box>{content2}</Box>
+        <Box>{intl.formatMessage({ id: 'VerificationFlow.menu.deleteDialog.subText' })}</Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeDialogHandler}>{cancel}</Button>
-        <Button onClick={deleteDialogHandler}>{del}</Button>
+        <Button onClick={closeDialogHandler}>{intl.formatMessage({ id: 'cancel' })}</Button>
+        <Button onClick={deleteDialogHandler}>{intl.formatMessage({ id: 'delete' })}</Button>
       </DialogActions>
     </Dialog>
   );

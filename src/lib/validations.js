@@ -1,6 +1,8 @@
 import React from 'react';
+import { capitalize } from 'lodash';
+import { ValidationError } from 'yup';
 import { FormattedMessage } from 'react-intl';
-import restrictedDomains from './emailDomains';
+import restrictedDomains from './emailDomains.json';
 
 export function required(value, asToken = false) {
   if (!value) {
@@ -42,4 +44,16 @@ export function password(value, message, field) {
     return message;
   }
   return null;
+}
+
+export function validationHandler(error, intl, setError) {
+  if (error instanceof ValidationError) {
+    const message = capitalize(
+      intl.formatMessage({ id: error.message }, error.params),
+    );
+    setError(message);
+  } else {
+    console.error(error);
+    setError(capitalize(intl.formatMessage({ id: 'unknownError' })));
+  }
 }
