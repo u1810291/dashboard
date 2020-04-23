@@ -172,8 +172,8 @@ export const merchantFlowsLoad = () => async (dispatch, getState) => {
 
 export const merchantUpdateFlow = (flowId, payload) => async (dispatch, getState) => {
   dispatch({ type: types.FLOWS_UPDATING });
-  const merchantId = selectMerchantId(getState());
   try {
+    const merchantId = selectMerchantId(getState());
     const { data } = await api.updateMerchantFlow(merchantId, flowId, payload);
     const { value } = selectMerchantFlowsModel(getState());
     const index = value.findIndex((flow) => flow.id === flowId);
@@ -188,8 +188,8 @@ export const merchantUpdateFlow = (flowId, payload) => async (dispatch, getState
 
 export const merchantCreateFlow = (payload) => async (dispatch, getState) => {
   dispatch({ type: types.FLOWS_REQUEST });
-  const merchantId = selectMerchantId(getState());
   try {
+    const merchantId = selectMerchantId(getState());
     const { data } = await api.createMerchantFlow(merchantId, payload);
     dispatch({ type: types.FLOWS_SUCCESS, payload: data, isReset: true });
   } catch (error) {
@@ -200,10 +200,13 @@ export const merchantCreateFlow = (payload) => async (dispatch, getState) => {
 
 export const merchantDeleteFlow = (id) => async (dispatch, getState) => {
   dispatch({ type: types.FLOWS_REQUEST });
-  const merchantId = selectMerchantId(getState());
   try {
-    const { data } = await api.deleteMerchantFlow(merchantId, id);
-    dispatch({ type: types.FLOWS_SUCCESS, payload: data, isReset: true });
+    const merchantId = selectMerchantId(getState());
+    const { value } = selectMerchantFlowsModel(getState());
+    const index = value.findIndex((flow) => flow.id === id);
+    await api.deleteMerchantFlow(merchantId, id);
+    const payload = value.filter((_, i) => i !== index);
+    dispatch({ type: types.FLOWS_SUCCESS, payload, isReset: true });
   } catch (error) {
     dispatch({ type: types.FLOWS_FAILURE, error });
     throw error;

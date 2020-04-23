@@ -46,13 +46,18 @@ export const FlowMenuHeader = withStyles(() => ({
   },
 }))(Typography);
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
+    [theme.breakpoints.down('md')]: {
+      maxHeight: 348,
+    },
   },
   menuItem: {
     padding: 0,
+    maxHeight: 480,
+    overflowY: 'scroll',
   },
 }));
