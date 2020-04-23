@@ -1,12 +1,13 @@
-import { MenuItem, Select } from '@material-ui/core';
-import { DEFAULT_FILTER, filterMap } from 'apps/metrics/filter.model';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useIntl } from 'react-intl';
+import { MenuItem, Select, Box } from '@material-ui/core';
+import { DEFAULT_FLOW, DEFAULT_PERIOD, periodMap } from 'apps/metrics/filter.model';
 import { byCountryStub, byDateOfWeekStub, byDateStub, byHourStub } from 'apps/metrics/Metrics.model';
 import { Card, Content, Items } from 'components';
 import { formatHour, formatWeekDay } from 'lib/date';
-import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectMerchantName } from 'state/merchant/merchant.selectors';
+import { selectMerchantName, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { selectCountriesList } from 'state/countries/countries.selectors';
 import { getMetrics, getStatistics } from 'state/metrics/metrics.actions';
 import { selectMetrics, selectStatistics } from 'state/metrics/metrics.selectors';
 import { VerificationsTotal } from './components/VerificationsTotal';
@@ -32,10 +33,11 @@ export default function Metrics() {
   const dispatch = useDispatch();
   const [metrics] = useSelector(selectMetrics);
   const name = useSelector(selectMerchantName);
-  const countriesList = useSelector(({ countries }) => countries.countries);
+  const countriesList = useSelector(selectCountriesList);
   const [statistics, isLoading, isLoaded] = useSelector(selectStatistics);
-
-  const [filter, setFilter] = useState(DEFAULT_FILTER);
+  const merchantFlowList = useSelector(selectMerchantFlowsModel);
+  const [period, setPeriod] = useState(DEFAULT_PERIOD);
+  const [flow, setFlow] = useState(DEFAULT_FLOW);
 
   const byCountry = statistics.byCountry.map((item) => ({
     label: getCountry(countriesList, item.documentCountry, intl),
@@ -71,11 +73,16 @@ export default function Metrics() {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getStatistics(filter));
-  }, [filter, dispatch]);
+    const flowId = (flow === DEFAULT_FLOW ? undefined : flow);
+    dispatch(getStatistics({ period, flowId }));
+  }, [period, flow, dispatch]);
 
   function handleSelectChange(e) {
-    setFilter(e.target.value);
+    setPeriod(e.target.value);
+  }
+
+  function handleSelectFlowChange(e) {
+    setFlow(e.target.value);
   }
 
   return (
@@ -84,13 +91,27 @@ export default function Metrics() {
         <Card className={CSS.header}>
           <Items flow="column" gap="2" justifyContent="space-between" align="center">
             <h2>{name}</h2>
-            <Select onChange={handleSelectChange} value={filter}>
-              {filterMap.map((item) => (
-                <MenuItem key={item.id} color="primary" value={item.id}>
-                  {intl.formatMessage({ id: item.label })}
-                </MenuItem>
-              ))}
-            </Select>
+            <Box display="flex">
+              <Box mr={2}>
+                <Select onChange={handleSelectFlowChange} value={flow}>
+                  <MenuItem value={DEFAULT_FLOW}>
+                    <em>{intl.formatMessage({ id: 'VerificationFilter.flows.allFlows' })}</em>
+                  </MenuItem>
+                  {merchantFlowList.value.map((item) => (
+                    <MenuItem key={item.id} color="primary" value={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Box>
+              <Select onChange={handleSelectChange} value={period}>
+                {periodMap.map((item) => (
+                  <MenuItem key={item.id} color="primary" value={item.id}>
+                    {intl.formatMessage({ id: item.label })}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Box>
           </Items>
         </Card>
         <VerificationsTotal statistic={metrics} />

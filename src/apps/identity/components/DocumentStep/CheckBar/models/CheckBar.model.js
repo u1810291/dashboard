@@ -30,19 +30,19 @@ export function getCheckBarModel(id, checkStatus) {
   const list = {
     'template-matching': {
       ...defaultModel,
-      icon: <TemplateMatching height="auto" />,
+      icon: <TemplateMatching />,
     },
     facematch: {
       ...defaultModel,
-      icon: <Facematch height="auto" />,
+      icon: <Facematch />,
     },
     'alteration-detection': {
       ...defaultModel,
-      icon: <AlterationDetection height="auto" />,
+      icon: <AlterationDetection />,
     },
     watchlists: {
       ...defaultModel,
-      icon: <Watchlist height="auto" />,
+      icon: <Watchlist />,
     },
   };
 
@@ -51,12 +51,12 @@ export function getCheckBarModel(id, checkStatus) {
 
 export const expandableSteps = {
   'mexican-curp-validation': {
-    logo: <CURP height="auto" />,
+    logo: <CURP />,
   },
   'mexican-ine-validation': {
-    logo: <INE height="auto" />,
+    logo: <INE />,
   },
   'mexican-rfc-validation': {
-    logo: <RFC height="auto" />,
+    logo: <RFC />,
   },
 };

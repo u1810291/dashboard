@@ -89,6 +89,7 @@ export function VerificationFlowHeader(props) {
     <Paper className={classes.headerContainer} {...props}>
       <EditableField
         enabled={editable}
+        setEditable={setEditable}
         className={classes.flowName}
         submitEditable={submitEditable}
         cancelEditable={cancelEditable}

@@ -1,23 +1,9 @@
 import { createReducer } from 'state/utils';
-import { types } from './countries.actions';
+import { LoadableAdapter } from 'lib/Loadable.adapter';
+import { CountriesActionGroups } from './countries.model';
 
-const initialState = {
-  countries: [],
-  isLoading: true,
-};
+const initialState = LoadableAdapter.createState([]);
 
 export default createReducer(initialState, {
-  [types.COUNTRIES_GET_REQUEST](state) {
-    return {
-      ...state,
-      isLoading: true,
-    };
-  },
-  [types.COUNTRIES_GET_SUCCESS](state, { payload }) {
-    return {
-      ...state,
-      countries: payload.data,
-      isLoading: false,
-    };
-  },
+  ...LoadableAdapter.createHandlers(CountriesActionGroups.Countries),
 });

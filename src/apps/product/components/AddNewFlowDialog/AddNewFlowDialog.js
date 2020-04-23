@@ -39,11 +39,11 @@ export function AddNewFlowDialog({
   }
 
   return (
-    <Dialog open={openDialog} onClose={closeDialogHandler} {...props}>
-      <DialogTitle id="form-dialog-title" disableTypography className={classes.dialogTitle}>
+    <Dialog open={openDialog} onClose={closeDialogHandler} className={classes.container} {...props}>
+      <DialogTitle id="form-dialog-title" disableTypography className={classes.title}>
         <Typography variant="h3">{intl.formatMessage({ id: 'VerificationFlow.menu.addDialog.title' })}</Typography>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent className={classes.content}>
         <DialogContentText>
           {intl.formatMessage({ id: 'VerificationFlow.menu.addDialog.content' })}
         </DialogContentText>

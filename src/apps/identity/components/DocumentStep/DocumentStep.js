@@ -3,12 +3,16 @@ import classNames from 'classnames';
 import { compact } from 'lodash';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
+import { selectCountriesList } from 'state/countries/countries.selectors';
 import { DocumentReadingStep } from './DocumentReadingStep';
 import { CheckBarFlat, CheckBarExpandable } from './CheckBar';
 import { ZoomableImage } from './ZoomableImage';
 
-export function DocumentStep({ document, source, countries, isIdentityEditable }) {
+
+export function DocumentStep({ document, source, isIdentityEditable }) {
   const intl = useIntl();
+  const countries = useSelector(selectCountriesList);
 
   const { steps = [], country, type, region, photos = [], isEditable = true } = document;
   const documentReadingStep = steps.find((step) => step.id === 'document-reading');

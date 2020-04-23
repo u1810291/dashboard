@@ -4,6 +4,8 @@ export function getMetrics() {
   return http.get('api/v1/merchants/me/identities/analytics/counts');
 }
 
-export function getStatistics(filter) {
-  return http.get('api/v1/merchants/me/identities/analytics/stats', { params: { interval: filter } });
+export function getStatistics({ period, flowId }) {
+  return http.get('api/v1/merchants/me/identities/analytics/stats', {
+    params: { period, flowId },
+  });
 }
