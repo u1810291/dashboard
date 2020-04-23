@@ -1,17 +1,18 @@
+import React, { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useIntl } from 'react-intl';
+import { useHistory } from 'react-router-dom';
 import { Box, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { Spinner } from 'apps/layout';
-import confirm from 'components/confirm/Confirm';
 import { formatDate } from 'lib/date';
 import { titleCase } from 'lib/string';
-import { getIdentityShortId } from 'models/Identity.model';
-import React, { useCallback, useState } from 'react';
+import confirm from 'components/confirm/Confirm';
 import { FiLoader, FiTrash2 } from 'react-icons/fi';
-import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { getIdentityShortId } from 'models/Identity.model';
 import { identityRemove } from 'state/identities/identities.actions';
 import { selectIdentityCollection } from 'state/identities/identities.selectors';
 import { StatusLabel } from '../StatusLabel';
+import { VerificationFlowName } from '../VerificationFlowName/VerificationFlowName';
 import { ReactComponent as EmptyTableIcon } from './empty-table.svg';
 import { TableRowHovered } from './VerificationTable.styles';
 
@@ -54,6 +55,7 @@ export function VerificationTable() {
             <TableCell>{intl.formatMessage({ id: 'identity.field.id' })}</TableCell>
             <TableCell>{intl.formatMessage({ id: 'identity.field.status' })}</TableCell>
             <TableCell>{intl.formatMessage({ id: 'identity.field.fullName' })}</TableCell>
+            <TableCell>{intl.formatMessage({ id: 'identity.field.verificationFlow' })}</TableCell>
             <TableCell>{intl.formatMessage({ id: 'identity.field.date' })}</TableCell>
             <TableCell />
           </TableRow>
@@ -90,6 +92,9 @@ export function VerificationTable() {
                       </Box>
                     )
                     : titleCase(item.fullName)}
+                </TableCell>
+                <TableCell>
+                  <VerificationFlowName flowId={item.flowId} />
                 </TableCell>
                 <TableCell>
                   {formatDate(item.dateCreated)}

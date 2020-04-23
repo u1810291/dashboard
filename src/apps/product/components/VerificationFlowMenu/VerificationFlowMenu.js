@@ -75,6 +75,7 @@ export function VerificationFlowMenu({ setFade }) {
         )}
       </MenuList>
       <FlowButtonAdd
+        disabled={(merchantFlowList || []).length >= 30}
         variant="contained"
         color="primary"
         disableElevation

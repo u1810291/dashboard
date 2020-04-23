@@ -1,17 +1,14 @@
 import { get } from 'lodash';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Card, CardContent, Grid } from '@material-ui/core';
 import { Page404 } from 'apps/layout';
 import { getIdentityExtras } from 'models/Identity.model';
-import { selectCountriesList } from 'state/countries/countries.selectors';
 import { Header } from './Header';
 import { LivenessStep } from '../../components/LivenessStep';
 import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
 import { DocumentStep } from '../../components/DocumentStep';
 
 export function Verification({ identity }) {
-  const countriesList = useSelector(selectCountriesList);
   const verification = get(identity, '_embedded.verification');
 
   if (!(verification)) {
@@ -46,7 +43,6 @@ export function Verification({ identity }) {
             isIdentityEditable={extras.isEditable}
             document={doc}
             source={documentsSources}
-            countries={countriesList}
           />
         </Grid>
       ))}

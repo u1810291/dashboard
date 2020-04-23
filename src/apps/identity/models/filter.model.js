@@ -2,9 +2,12 @@ import { ITEMS_PER_PAGE } from 'apps/pagination';
 import { identity, pickBy } from 'lodash';
 import moment from 'moment';
 
+export const DEFAULT_FLOW = 'ALL_FLOWS';
+
 export const initialFilter = {
   search: '',
   status: [],
+  flowId: '',
   'dateCreated[start]': null,
   'dateCreated[end]': null,
   offset: 0,
@@ -22,6 +25,7 @@ export function filterParse(values) {
     'dateCreated[end]': values['dateCreated[end]']
       ? moment(values['dateCreated[end]'])
       : null,
+    flowId: values.flowId,
     offset: +values.offset || 0,
     limit: ITEMS_PER_PAGE,
   };

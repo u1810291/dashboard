@@ -5,9 +5,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FiCheckCircle, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCountries } from 'state/countries/countries.actions';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
+import { selectCountriesModel } from 'state/countries/countries.selectors';
 import { Logo } from './components/Logo/Logo';
 import { GovChecks } from './components/GovChecks';
 import { GdprSettings } from './components/GdprSettings';
@@ -17,17 +17,13 @@ import { ConfigureColor } from './components/ConfigureColor/ConfigureColor';
 import CSS from './Configuration.module.scss';
 
 export default function Configuration() {
-  const { countries, isLoading } = useSelector((state) => state.countries);
   const [active, setActive] = useState(0);
   const dispatch = useDispatch();
   const currentFlowModel = useSelector(selectCurrentFlow);
   const [flowSteps, setFlowSteps] = useState([]);
+  const countriesModel = useSelector(selectCountriesModel);
 
   const updateConfiguration = useCallback((settings) => dispatch(configurationFlowUpdate(settings)), [dispatch]);
-
-  useEffect(() => {
-    dispatch(getCountries());
-  }, [countries.length, dispatch]);
 
   useEffect(() => {
     setFlowSteps([
@@ -62,10 +58,10 @@ export default function Configuration() {
         title: 'Product.configuration.country',
         icon: <FiFlag />,
         body: <Countries
-          countries={countries}
+          countries={countriesModel.value}
           onSubmit={updateConfiguration}
           supportedCountries={currentFlowModel.supportedCountries}
-          isLoading={isLoading}
+          isLoading={countriesModel.isLoading}
         />,
       },
       {
@@ -79,7 +75,7 @@ export default function Configuration() {
         body: <GovChecks />,
       },
     ]);
-  }, [countries, isLoading, currentFlowModel, updateConfiguration]);
+  }, [countriesModel, currentFlowModel, updateConfiguration]);
 
   return (
     <Content fullwidth={false} className={CSS.content}>

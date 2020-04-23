@@ -1,5 +1,5 @@
 
-export const filterMap = [
+export const periodMap = [
   {
     id: 'days30',
     label: 'fragments.home.verification.filters.days30',
@@ -14,4 +14,5 @@ export const filterMap = [
   },
 ];
 
-export const DEFAULT_FILTER = 'currentWeek';
+export const DEFAULT_PERIOD = 'currentWeek';
+export const DEFAULT_FLOW = 'ALL_FLOWS';

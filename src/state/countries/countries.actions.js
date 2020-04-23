@@ -1,18 +1,18 @@
 import * as api from 'lib/client/countries';
 import { createTypesSequence } from 'state/utils';
+import { CountriesActionGroups } from './countries.model';
 
 export const types = {
-  ...createTypesSequence('COUNTRIES_GET'),
+  ...createTypesSequence(CountriesActionGroups.Countries),
 };
 
 export const getCountries = () => async (dispatch) => {
-  dispatch({ type: types.COUNTRIES_GET_REQUEST });
+  dispatch({ type: types.COUNTRIES_REQUEST });
   try {
-    const payload = await api.getCountries();
-    dispatch({ type: types.COUNTRIES_GET_SUCCESS, payload });
-    return payload;
+    const { data } = await api.getCountries();
+    dispatch({ type: types.COUNTRIES_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: types.COUNTRIES_GET_FAILURE });
+    dispatch({ type: types.COUNTRIES_FAILURE });
     throw error;
   }
 };
