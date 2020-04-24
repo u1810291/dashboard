@@ -6,9 +6,8 @@ import { Tab } from 'components';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { appLoad, merchantFlowsLoad } from 'state/merchant/merchant.actions';
+import { appLoad } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
-import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { Spinner } from 'apps/layout';
 import { VerificationFlowMenu } from '../components/VerificationFlowMenu/VerificationFlowMenu';
 import { VerificationFlowHeader } from '../components/VerificationFlowHeader/VerificationFlowHeader';
@@ -28,11 +27,6 @@ export function Product() {
     dispatch(appLoad());
   }), [dispatch]);
 
-  useEffect(() => {
-    if (LoadableAdapter.isPristine(merchantFlowList)) {
-      dispatch(merchantFlowsLoad());
-    }
-  }, [dispatch, merchantFlowList]);
 
   const changeActiveTabHandler = (tabIndex) => {
     const newTab = ProductTabs[tabIndex];

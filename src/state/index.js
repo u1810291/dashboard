@@ -8,7 +8,6 @@ import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import ReduxThunk from 'redux-thunk';
-import { COUNTRIES_STORE_KEY } from 'state/countries/countries.model';
 import { rootReducers } from 'state/reducers';
 import { WEBHOOKS_STORE_KEY } from 'state/webhooks/webhooks.model';
 
@@ -18,7 +17,6 @@ const persistedReducer = persistReducer({
     AUTH_STORE_KEY,
     USER_STORE_KEY,
     WEBHOOKS_STORE_KEY,
-    COUNTRIES_STORE_KEY,
   ],
   storage,
 }, rootReducers);

@@ -7,6 +7,7 @@ import { SubmitButton, CancelButton, Spinner, useStyles } from './EditableField.
 export function EditableField({
   value,
   enabled,
+  setEditable,
   submitEditable,
   cancelEditable,
   validator,
@@ -16,7 +17,6 @@ export function EditableField({
 }) {
   const classes = useStyles();
   const [error, setError] = useState(null);
-  const [allowEdit, setAllowEdit] = useState(false);
   const [currentText, setCurrentText] = useState('');
   const inputRef = useRef();
   const intl = useIntl();
@@ -28,25 +28,28 @@ export function EditableField({
 
   const cancelEditableHandler = useCallback(() => {
     setCurrentText(value);
-    setAllowEdit(false);
+    setError(null);
+    setEditable(false);
     cancelEditable();
-  }, [value, cancelEditable]);
+  }, [value, cancelEditable, setEditable]);
 
   const submitEditableHandler = useCallback(async () => {
     const text = currentText.trim();
     try {
-      if (validator) {
-        await validator(text);
-      }
-      if (submitEditable) {
-        await submitEditable(text);
+      if (text !== value) {
+        if (validator) {
+          await validator(text);
+        }
+        if (submitEditable) {
+          await submitEditable(text);
+        }
       }
       setCurrentText(text);
-      setAllowEdit(false);
+      setEditable(false);
     } catch (e) {
       validationHandler(e, intl, setError);
     }
-  }, [currentText, submitEditable, validator, intl]);
+  }, [currentText, submitEditable, setEditable, validator, value, intl]);
 
   function onKeyDownHandler(e) {
     if (e.key === 'Enter') {
@@ -57,8 +60,18 @@ export function EditableField({
     }
   }
 
-  function allowEditHandler() {
-    setAllowEdit(true);
+  const setFocus = useCallback(() => setTimeout(
+    () => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, 50),
+  [inputRef]);
+
+  function allowEditHandler(e) {
+    e.preventDefault();
+    setEditable(true);
+    setFocus();
   }
 
   useEffect(() => {
@@ -66,16 +79,11 @@ export function EditableField({
   }, [value]);
 
   useEffect(() => {
-    function setFocus() {
-      return inputRef.current && inputRef.current.focus();
-    }
-    const timeout = setTimeout(() => {
-      setFocus();
-    }, 100);
+    const timeout = setFocus();
     return () => {
       clearTimeout(timeout);
     };
-  }, [inputRef, enabled]);
+  }, [setFocus, enabled]);
 
   const handleKeyUp = useCallback((e) => {
     switch (e.key) {
@@ -88,14 +96,14 @@ export function EditableField({
   }, [cancelEditableHandler]);
 
   useEffect(() => {
-    if (enabled || allowEdit) {
+    if (enabled) {
       window.addEventListener('keyup', handleKeyUp);
     } else {
       window.removeEventListener('keyup', handleKeyUp);
     }
-  }, [enabled, allowEdit, handleKeyUp]);
+  }, [enabled, handleKeyUp]);
 
-  if (!enabled && !allowEdit) {
+  if (!enabled) {
     return <Box className={classes.flowName} onDoubleClick={allowEditHandler}>{value}</Box>;
   }
 

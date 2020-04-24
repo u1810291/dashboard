@@ -1,13 +1,30 @@
-import { Box, Button, Card, CardContent, Checkbox, FormControlLabel, Grid, Icon, Typography } from '@material-ui/core';
-import { getFilterStatuses, getIdentityStatusLabel } from 'models/Identity.model';
 import React, { useCallback, useState } from 'react';
-import { FiFilter, FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
+import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Icon,
+  Typography,
+  Select,
+  MenuItem,
+  FormControl,
+} from '@material-ui/core';
+import { FiFilter, FiX } from 'react-icons/fi';
+import { getFilterStatuses, getIdentityStatusLabel } from 'models/Identity.model';
+import { DEFAULT_FLOW } from '../../models/filter.model';
 import { DateRange } from '../DateRange/DateRange';
 
 export function VerificationFilter({ values, onChange }) {
   const intl = useIntl();
   const [statuses] = useState(getFilterStatuses());
+  const merchantFlowList = useSelector(selectMerchantFlowsModel);
 
   const handleStatusClick = useCallback((id) => {
     let newStatuses = [...values.status];
@@ -26,9 +43,15 @@ export function VerificationFilter({ values, onChange }) {
     });
   }, [onChange]);
 
+  function handleSelectFlow({ target: { value } }) {
+    const flowId = value === DEFAULT_FLOW ? '' : value;
+    onChange({ flowId });
+  }
+
   const handleClearAll = useCallback(() => {
     onChange({
       status: [],
+      flowId: '',
       'dateCreated[start]': null,
       'dateCreated[end]': null,
     });
@@ -58,6 +81,23 @@ export function VerificationFilter({ values, onChange }) {
               end={values['dateCreated[end]']}
               onChange={handleDateChange}
             />
+          </Grid>
+
+          {/* flow */}
+          <Grid item>
+            <Typography variant="h6" gutterBottom>{intl.formatMessage({ id: 'VerificationFilter.flows.title' })}</Typography>
+            <FormControl variant="outlined" fullWidth>
+              <Select onChange={handleSelectFlow} value={(values.flowId || DEFAULT_FLOW)}>
+                <MenuItem value={DEFAULT_FLOW}>
+                  <em>{intl.formatMessage({ id: 'VerificationFilter.flows.allFlows' })}</em>
+                </MenuItem>
+                {merchantFlowList.value.map((item) => (
+                  <MenuItem key={item.id} color="primary" value={item.id}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
 
           {/* status */}

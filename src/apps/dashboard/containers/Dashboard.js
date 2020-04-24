@@ -8,8 +8,10 @@ import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { merchantLoad } from 'state/merchant/merchant.actions';
-import { selectMerchantModel, selectShouldPassOnboarding } from 'state/merchant/merchant.selectors';
+import { getCountries } from 'state/countries/countries.actions';
+import { merchantLoad, merchantFlowsLoad } from 'state/merchant/merchant.actions';
+import { selectCountriesModel } from 'state/countries/countries.selectors';
+import { selectMerchantModel, selectShouldPassOnboarding, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { AlertBanner } from '../components/AlertBanner/AlertBanner';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
 import { Questions } from '../components/Questions/Questions';
@@ -22,28 +24,49 @@ export function Dashboard() {
   const boardingModel = useSelector(selectShouldPassOnboarding);
   const merchantModel = useSelector(selectMerchantModel);
   const currentPlanId = useSelector(selectCurrentPlanId);
+  const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
+  const countriesModel = useSelector(selectCountriesModel);
 
   useEffect(() => {
     const loadData = async () => {
-      try {
-        if (LoadableAdapter.isPristine(merchantModel)) {
-          dispatch(merchantLoad());
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          dispatch(signOut());
-          history.push(ROOT_PATH);
-        } else {
-          throw error;
-        }
+      if (LoadableAdapter.isPristine(merchantModel)) {
+        await dispatch(merchantLoad())
+          .catch((error) => {
+            if (error.response && error.response.status === 401) {
+              dispatch(signOut());
+              history.push(ROOT_PATH);
+            } else {
+              throw error;
+            }
+          });
       }
     };
 
     loadData();
   }, [dispatch, history, merchantModel]);
 
+  useEffect(() => {
+    const loadData = async () => {
+      if (LoadableAdapter.isPristine(countriesModel)) {
+        await dispatch(getCountries())
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    };
+    loadData();
+  }, [dispatch, countriesModel]);
 
-  if (!boardingModel.isLoaded) {
+  useEffect(() => {
+    if (merchantModel.isLoaded && LoadableAdapter.isPristine(merchantFlowsModel)) {
+      dispatch(merchantFlowsLoad())
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [dispatch, merchantFlowsModel, merchantModel]);
+
+  if (!boardingModel.isLoaded && !countriesModel.isLoaded && !merchantFlowsModel.isLoaded) {
     return <PageLoader />;
   }
 
