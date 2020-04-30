@@ -1,6 +1,8 @@
 {
   "yes": "Sí",
   "no": "No",
+  "on": "Encendido",
+  "off": "Apagado",
   "passed": "Aprobado",
   "flagged": "Marcado",
   "signout": "Cerrar sesión",
@@ -722,8 +724,19 @@
   "PlanCancelModal.submit": "Cancelar plan",
   "Product.switcher.customization": "Personalización",
   "Product.switcher.integration": "Integración",
-  "Product.tab.customization": "Personalización de los SDKs",
-  "Product.tab.integration": "Integración de los SDKs",
+  "Product.tab.customization": "Personalización",
+  "Product.tab.integration": "Integración",
+  "Product.tab.checks": "Checks adicionales",
+  "Product.tab.header": "Checks adicionales",
+  "Product.checks.annotation": "Esta sección te permite configurar checks adicionales. Unos son añadidos al proceso de verificación, otros son ofrecidos como APIs independientes.",
+  "Product.checks.ipCheck.title": "Check de IP",
+  "Product.checks.ipCheck.badgeText": "Check integrado",
+  "Product.checks.ipCheck.text": "El check de IP te permite aprender más sobre tus usuarios usando API. Si este check se encuentra activo, tus webhooks y respuestas API contendrán información sobre su ubicación a partir de su IP. Además podrás saber si están usando un IP o proxy.",
+  "Product.checks.ipCheck.switchLabel": "Check de IP: {state}",
+  "Product.checks.emailCheck.title": "Check de email",
+  "Product.checks.emailCheck.badgeText": "API Independiente",
+  "Product.checks.emailCheck.text": "Mati ofrece checks de email como un servicio independiente a través de API. Si deseas aprender más sobre tus usuarios a través de sus emails, haz clic en el botón para accesar instrucciones de integración.",
+  "Product.checks.emailCheck.buttonText": "Integrar",
   "Product.configuration.buttonsColor": "Color de los botones",
   "Product.configuration.verification": "Requisitos de verificación",
   "Product.configuration.biometric": "Requisito biométrico",
@@ -934,5 +947,6 @@
   "validators.nameOccupied": "este nombre está ya en uso",
   "unknownError": "error desconocido",
   "rename": "Renombrar",
-  "delete": "Eliminar"
+  "delete": "Eliminar",
+  "update.field.error": "Error updating field {name}"
 }

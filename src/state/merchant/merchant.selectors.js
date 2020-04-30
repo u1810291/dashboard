@@ -29,11 +29,6 @@ export const selectIsOwnerModel = createSelector(
   }),
 );
 
-export const selectLogoModel = createSelector(
-  selectMerchantModel,
-  selectLoadableValue((merchant) => merchant.logoUrl),
-);
-
 export const selectMerchantName = createSelector(
   selectMerchantModel,
   selectModelValue((merchant) => merchant.displayName),
@@ -131,10 +126,20 @@ export const selectColor = createSelector(
 
 export const selectPolicyInterval = createSelector(
   selectCurrentFlow,
-  (cfg) => fromIsoPeriod(cfg.policyInterval),
+  (flow) => fromIsoPeriod(flow.policyInterval),
 );
 
 export const selectGovChecks = createSelector(
   selectCurrentFlow,
-  (cfg) => cfg.verificationPatterns,
+  (flow) => flow.verificationPatterns,
+);
+
+export const selectIpCheck = createSelector(
+  selectGovChecks,
+  (flow) => flow['ip-validation'],
+);
+
+export const selectLogoModel = createSelector(
+  selectCurrentFlow,
+  (flow) => flow.logoUrl,
 );

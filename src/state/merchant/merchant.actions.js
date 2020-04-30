@@ -57,19 +57,6 @@ export const merchantUpdate = (data) => async (dispatch) => {
   }
 };
 
-export const merchantUpdateMedia = (form) => async (dispatch) => {
-  dispatch({ type: types.MERCHANT_UPDATING });
-  try {
-    const { data } = await api.uploadMerchantMedia(form);
-    dispatch(merchantUpdate({
-      logoUrl: data.url,
-    }));
-  } catch (error) {
-    dispatch({ type: types.MERCHANT_FAILURE, error });
-    throw error;
-  }
-};
-
 // -- app
 
 export const appLoad = () => async (dispatch) => {
@@ -229,4 +216,15 @@ export const flowStyleUpdate = (data) => (dispatch, getState) => {
       ...data,
     },
   }));
+};
+
+export const merchantUpdateMedia = (form) => async (dispatch) => {
+  dispatch({ type: types.MERCHANT_UPDATING });
+  try {
+    const { data } = await api.uploadMerchantMedia(form);
+    dispatch(configurationFlowUpdate({ logoUrl: data.url }));
+  } catch (error) {
+    dispatch({ type: types.MERCHANT_FAILURE, error });
+    throw error;
+  }
 };
