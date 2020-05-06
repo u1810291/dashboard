@@ -2,10 +2,6 @@ import React from 'react';
 import { Button, MenuItem, Typography, Container } from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
-const flowButtonStyle = {
-
-};
-
 export const FlowButtonAdd = withStyles(() => ({
   root: {
     flexGrow: 1,
@@ -16,7 +12,7 @@ export const FlowButtonAdd = withStyles(() => ({
   },
 }))(({ classes, children, ...props }) => (
   <Container classes={classes}>
-    <Button {...props} style={flowButtonStyle}>
+    <Button {...props}>
       {children}
     </Button>
   </Container>
@@ -58,6 +54,6 @@ export const useStyles = makeStyles((theme) => ({
   menuItem: {
     padding: 0,
     maxHeight: 480,
-    overflowY: 'scroll',
+    overflowY: 'auto',
   },
 }));

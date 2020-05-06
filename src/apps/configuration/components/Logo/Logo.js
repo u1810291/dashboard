@@ -8,14 +8,15 @@ import { useDropzone } from 'react-dropzone';
 import { FiLoader, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { merchantUpdate, merchantUpdateMedia } from 'state/merchant/merchant.actions';
-import { selectLogoModel } from 'state/merchant/merchant.selectors';
+import { configurationFlowUpdate, merchantUpdateMedia } from 'state/merchant/merchant.actions';
+import { selectLogoModel, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import CSS from './Logo.module.scss';
 
 export function Logo() {
   const intl = useIntl();
   const dispatch = useDispatch();
   const logoModel = useSelector(selectLogoModel);
+  const merchantFlowModel = useSelector(selectMerchantFlowsModel);
 
   const showError = useCallback(() => {
     notification.error(intl.formatMessage({ id: 'flow.logoStep.button.error' }));
@@ -41,7 +42,7 @@ export function Logo() {
   }, [showError]);
 
   const handleRemove = useCallback(() => {
-    dispatch(merchantUpdate({ logoUrl: null }));
+    dispatch(configurationFlowUpdate({ logoUrl: null }));
   }, [dispatch]);
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -69,16 +70,16 @@ export function Logo() {
               classNames(
                 [CSS.addLogo],
                 {
-                  [CSS.hasntLogo]: !logoModel.value,
+                  [CSS.hasntLogo]: !logoModel,
                 },
               )
             }
           >
             <input {...getInputProps()} />
-            {logoModel.isLoading && !logoModel.value
+            {merchantFlowModel.isLoading && !logoModel
               ? <FiLoader size={20} color="gray" />
-              : logoModel.value
-                ? <img src={logoModel.value} alt="logo-preview" className={CSS.logoPreview} />
+              : logoModel
+                ? <img src={logoModel} alt="logo-preview" className={CSS.logoPreview} />
                 : (
                   <Typography variant="h6" color="primary">
                     {intl.formatMessage({ id: 'flow.logoStep.button.title' })}
@@ -86,13 +87,13 @@ export function Logo() {
                 )}
           </div>
         </div>
-        {logoModel.value && (
+        {logoModel && (
           <IconButton
             size="small"
             onClick={handleRemove}
-            disabled={logoModel.isLoading || logoModel.isFailed}
+            disabled={merchantFlowModel.isLoading || merchantFlowModel.isFailed}
           >
-            {!logoModel.isLoading
+            {!merchantFlowModel.isLoading
               ? <FiTrash2 className="color-red" />
               : <FiLoader />}
           </IconButton>

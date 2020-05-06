@@ -1,5 +1,6 @@
 import { Box, Container, Grid, Fade } from '@material-ui/core';
 import { Configuration } from 'apps/configuration';
+import { AdditionalChecks } from 'apps/checks';
 import { Integration } from 'apps/integration/Integration';
 import { ProductTabs } from 'apps/product/Product.model';
 import { Tab } from 'components';
@@ -67,6 +68,7 @@ export function Product() {
                   contents={[
                     <Configuration />,
                     <Integration />,
+                    <AdditionalChecks />,
                   ]}
                   aside={[]}
                 />
