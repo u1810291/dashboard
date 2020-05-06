@@ -3,7 +3,6 @@ import * as api from 'lib/client/merchant';
 import { MerchantActionGroups } from 'state/merchant/merchant.model';
 import {
   selectConfigurationModel,
-  selectDashboardModel,
   selectStyleModel,
   selectMerchantId,
   selectMerchantFlowsModel,
@@ -57,19 +56,6 @@ export const merchantUpdate = (data) => async (dispatch) => {
   }
 };
 
-export const merchantUpdateMedia = (form) => async (dispatch) => {
-  dispatch({ type: types.MERCHANT_UPDATING });
-  try {
-    const { data } = await api.uploadMerchantMedia(form);
-    dispatch(merchantUpdate({
-      logoUrl: data.url,
-    }));
-  } catch (error) {
-    dispatch({ type: types.MERCHANT_FAILURE, error });
-    throw error;
-  }
-};
-
 // -- app
 
 export const appLoad = () => async (dispatch) => {
@@ -101,7 +87,7 @@ export const configurationUpdate = (cfg) => async (dispatch, getState) => {
   dispatch({ type: types.CONFIGURATION_UPDATING, payload: newConfiguration });
 
   try {
-    const { data } = await api.saveConfiguration(newConfiguration);
+    const { data } = await api.saveConfiguration(cfg);
     dispatch({ type: types.CONFIGURATION_SUCCESS, payload: data.configurations });
   } catch (error) {
     dispatch({ type: types.CONFIGURATION_FAILURE, error });
@@ -109,15 +95,7 @@ export const configurationUpdate = (cfg) => async (dispatch, getState) => {
   }
 };
 
-export const dashboardUpdate = (data) => (dispatch, getState) => {
-  const dashboard = selectDashboardModel(getState());
-  return dispatch(configurationUpdate({
-    dashboard: {
-      ...dashboard.value,
-      ...data,
-    },
-  }));
-};
+export const dashboardUpdate = (data) => (dispatch) => dispatch(configurationUpdate({ dashboard: { ...data } }));
 
 export const onboardingUpdate = (data) => async (dispatch, getState) => {
   const state = getState();
@@ -138,7 +116,12 @@ export const onboardingUpdate = (data) => async (dispatch, getState) => {
 
   await dispatch(merchantUpdate({
     businessName: data.organization,
-    configurations: newCfg,
+    configurations: {
+      dashboard: {
+        info: data,
+        shouldPassOnboarding: false,
+      },
+    },
   }));
 
   dispatch({ type: types.CONFIGURATION_SUCCESS, payload: newCfg });
@@ -229,4 +212,15 @@ export const flowStyleUpdate = (data) => (dispatch, getState) => {
       ...data,
     },
   }));
+};
+
+export const merchantUpdateMedia = (form) => async (dispatch) => {
+  dispatch({ type: types.MERCHANT_UPDATING });
+  try {
+    const { data } = await api.uploadMerchantMedia(form);
+    dispatch(configurationFlowUpdate({ logoUrl: data.url }));
+  } catch (error) {
+    dispatch({ type: types.MERCHANT_FAILURE, error });
+    throw error;
+  }
 };

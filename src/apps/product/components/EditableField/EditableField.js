@@ -55,9 +55,6 @@ export function EditableField({
     if (e.key === 'Enter') {
       submitEditableHandler();
     }
-    if (e.key === 'Escape') {
-      cancelEditableHandler();
-    }
   }
 
   const setFocus = useCallback(() => setTimeout(

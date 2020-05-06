@@ -16,32 +16,10 @@ const initialState = {
     // updatedAt: Date;
   }),
   [SliceNames.Configuration]: LoadableAdapter.createState({
-    flow: {
-      required: [],
-      optional: [],
-    },
-    style: {
-      color: '',
-      language: DEFAULT_LANG,
-    },
-    system: {
-      watchlists: true,
-      liveness: true,
-    },
-    supportedCountries: [],
     dashboard: {
       language: DEFAULT_LANG,
       shouldPassOnboarding: false,
-      // usePlans: boolean;
-      // info: ?
     },
-    verificationSteps: [],
-    policyInterval: null,
-    // verificationPatterns: {
-    //   biometrics: string;
-    // };
-    // version: number;
-    // computations: any[];
   }),
   [SliceNames.Flows]: LoadableAdapter.createState([]),
   [SliceNames.App]: LoadableAdapter.createState([
