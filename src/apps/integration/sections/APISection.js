@@ -18,7 +18,7 @@ export function APISection() {
           <Grid item xs={6}>
             <Button
               variant="outlined"
-              href="https://docs.getmati.com/"
+              href="https://docs.getmati.com"
               target="_blank"
               rel="noopener noreferrer"
               color="primary"

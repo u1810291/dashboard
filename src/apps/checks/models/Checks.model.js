@@ -1,6 +1,8 @@
 // FiCheckSquare - icon for comply advantage watchlist
 import { FiMapPin, FiMail } from 'react-icons/fi';
 
+export const EmailCheckLink = 'https://docs.getmati.com/#post-optional-email-validation';
+
 export const ChecksModel = [
   {
     id: 'ipCheck',

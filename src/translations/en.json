@@ -602,6 +602,12 @@
   "SecurityCheckStep.system.internalError.message": "Internal error occured.",
   "SecurityCheckStep.system.serviceUnavailable.message": "Service seems to be unavailable right now.",
   
+  "IpCheckStep.title": "IP Check",
+  "IpCheckStep.country": "Country",
+  "IpCheckStep.province": "Province",
+  "IpCheckStep.city": "City",
+  "IpCheckStep.zipCode": "Zip Code",
+  "IpCheckStep.vpnDetected": "VPN/Proxy was detected",
   "SecurityCheckStep.mexican-curp-validation.title": "CURP Check",
   "SecurityCheckStep.curp.invalid": "Not Found",
   "SecurityCheckStep.curp.notFound": "Not Found",

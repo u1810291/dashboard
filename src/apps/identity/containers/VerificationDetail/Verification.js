@@ -2,11 +2,12 @@ import { get } from 'lodash';
 import React from 'react';
 import { Card, CardContent, Grid } from '@material-ui/core';
 import { Page404 } from 'apps/layout';
-import { getIdentityExtras } from 'models/Identity.model';
+import { getIdentityExtras, getIpCheckStep } from 'models/Identity.model';
 import { Header } from './Header';
 import { LivenessStep } from '../../components/LivenessStep';
 import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
 import { DocumentStep } from '../../components/DocumentStep';
+import { IpCheck } from '../../components/IpCheck/IpCheck';
 
 export function Verification({ identity }) {
   const verification = get(identity, '_embedded.verification');
@@ -17,6 +18,7 @@ export function Verification({ identity }) {
 
   const documentsSources = get(identity, '_embedded.documents');
   const extras = getIdentityExtras(identity);
+  const ipCheck = getIpCheckStep(identity);
 
   return (
     <Grid container spacing={2} direction="column" wrap="nowrap">
@@ -28,6 +30,13 @@ export function Verification({ identity }) {
           </CardContent>
         </Card>
       </Grid>
+
+      {/* IP check */}
+      {(ipCheck && !ipCheck.error) && (
+        <Grid item>
+          <IpCheck data={ipCheck} />
+        </Grid>
+      )}
 
       {/* Liveness */}
       {extras.liveness && (
