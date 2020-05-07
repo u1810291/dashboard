@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 import { useIntl } from 'react-intl';
+import { EmailCheckLink } from '../../models/Checks.model';
 import { useStyles } from './EmailCheckControl.styles';
 
 export function EmailCheckControl() {
@@ -8,7 +9,7 @@ export function EmailCheckControl() {
   const classes = useStyles();
 
   function clickHandler() {
-
+    window.open(EmailCheckLink, '_blank');
   }
 
   return (
