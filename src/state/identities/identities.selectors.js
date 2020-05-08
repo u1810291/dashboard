@@ -29,6 +29,11 @@ export const selectIdentityFilterSerialized = createSelector(
   (store) => filterSerialize(store.filter),
 );
 
+export const selectReviewCounterModel = createSelector(
+  selectIdentityStore,
+  (store) => store[SliceNames.ReviewCount],
+);
+
 // identity
 
 export const selectIdentityModel = createSelector(

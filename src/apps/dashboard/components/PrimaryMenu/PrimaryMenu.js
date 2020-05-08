@@ -7,7 +7,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './PrimaryMenu.styles';
 
-export function PrimaryMenu({ isOwner = false }) {
+export function PrimaryMenu({ isOwner = false, reviewCount }) {
   const intl = useIntl();
   const classes = useStyles();
 
@@ -38,6 +38,7 @@ export function PrimaryMenu({ isOwner = false }) {
     {
       to: '/identities',
       label: intl.formatMessage({ id: 'dashboard.menu.identities' }),
+      badge: reviewCount.value.count,
       handler: () => trackEvent(MixPanelEvents.NavVerificationList),
       qa: QATags.Navigation.Top.VerificationList,
     },
