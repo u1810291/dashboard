@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getCountries } from 'state/countries/countries.actions';
 import { merchantLoad, merchantFlowsLoad } from 'state/merchant/merchant.actions';
+import { getReviewCount } from 'state/identities/identities.actions';
 import { selectCountriesModel } from 'state/countries/countries.selectors';
 import { selectMerchantModel, selectShouldPassOnboarding, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { AlertBanner } from '../components/AlertBanner/AlertBanner';
@@ -65,6 +66,13 @@ export function Dashboard() {
         });
     }
   }, [dispatch, merchantFlowsModel, merchantModel]);
+
+  useEffect(() => {
+    dispatch(getReviewCount())
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [dispatch]);
 
   if (!boardingModel.isLoaded && !countriesModel.isLoaded && !merchantFlowsModel.isLoaded) {
     return <PageLoader />;

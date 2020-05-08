@@ -4,7 +4,7 @@ import { LoadableAdapter } from 'lib/Loadable.adapter';
 import React, { useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { identitiesCountLoad, identitiesFilteredCountLoad, identitiesListLoad } from 'state/identities/identities.actions';
+import { identitiesCountLoad, identitiesFilteredCountLoad, identitiesListLoad, getReviewCount } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityCollection, selectIdentityCountModel } from 'state/identities/identities.selectors';
 import { DownloadCSV } from '../../components/DownloadCSV/DownloadCSV';
 import { NoVerifications } from '../../components/NoVerifications/NoVerifications';
@@ -40,6 +40,10 @@ export function VerificationHistory() {
       tableFilter();
     }
   }, [identityCollection, tableFilter]);
+
+  useEffect(() => {
+    dispatch(getReviewCount());
+  }, [dispatch]);
 
   const handlePageChange = useCallback((offset) => {
     tableFilter({ offset });
