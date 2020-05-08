@@ -49,7 +49,7 @@ export function IpCheck({ data }) {
           {/* Google Map */}
           <Box flex="0 0 340px" mt={2} className={classes.mapContainer}>
             <Grid className={classes.map}>
-              <StaticGoogleMap size="307x202" scale={2} zoom={10} apiKey={process.env.REACT_APP_STAT_GMAP_API_KEY}>
+              <StaticGoogleMap size="307x202" scale={2} zoom={10} apiKey={process.env.REACT_APP_STATIC_GOOGLE_MAP_API_KEY}>
                 <Marker location={{ lat: data.latitude, lng: data.longitude }} />
               </StaticGoogleMap>
             </Grid>
