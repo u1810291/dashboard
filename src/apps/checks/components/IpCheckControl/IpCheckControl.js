@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { notification } from 'components/notification';
@@ -13,7 +13,7 @@ export function IpCheckControl() {
   const dispatch = useDispatch();
   const ipCheck = useSelector(selectIpCheck);
   const flowModel = useSelector(selectMerchantFlowsModel);
-  const [state, setState] = useState(!!ipCheck);
+  const [state, setState] = useState(false);
 
   const switchLabel = useCallback(() => {
     const st = flowModel.isLoading
@@ -36,6 +36,10 @@ export function IpCheckControl() {
       });
     setState(target);
   }, [dispatch, intl, state]);
+
+  useEffect(() => {
+    setState(ipCheck);
+  }, [ipCheck]);
 
   return (
     <FormControlLabel
