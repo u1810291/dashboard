@@ -1,6 +1,7 @@
 import { notification } from 'components/notification';
 import * as api from 'lib/client/identities';
 import { ERROR_COMMON } from 'models/Error.model';
+import { IdentityStatuses } from 'models/Identity.model';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { normalizeCURPData } from 'state/identities/identities.helpers';
 import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from 'state/identities/identities.selectors';
@@ -13,11 +14,12 @@ export const types = {
   ...createTypesSequence('IDENTITY_DOCUMENTS_LIST'),
   ...createTypesSequence('DOCUMENT_PATCH'),
 
-  ...createTypesSequence(IdentityActionGroups.IdentityList),
-  ...createTypesSequence(IdentityActionGroups.IdentityCount),
-  ...createTypesSequence(IdentityActionGroups.IdentityRemove),
-  ...createTypesSequence(IdentityActionGroups.FilteredCount),
   ...createTypesSequence(IdentityActionGroups.Identity),
+  ...createTypesSequence(IdentityActionGroups.IdentityList),
+  ...createTypesSequence(IdentityActionGroups.IdentityRemove),
+  ...createTypesSequence(IdentityActionGroups.IdentityCount),
+  ...createTypesSequence(IdentityActionGroups.FilteredCount),
+  ...createTypesSequence(IdentityActionGroups.ReviewCount),
   FILTER_UPDATE: 'FILTER_UPDATE',
   IDENTITY_REMOVE: 'IDENTITY_REMOVE',
 };
@@ -119,6 +121,18 @@ export const identityDemoLoad = (id) => async (dispatch) => {
   }
 };
 
+export const getReviewCount = () => async (dispatch) => {
+  const filter = { status: IdentityStatuses.reviewNeeded };
+  dispatch({ type: types.REVIEW_COUNT_REQUEST });
+  try {
+    const { data } = await api.getIdentitiesCount(filter);
+    dispatch({ type: types.REVIEW_COUNT_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: types.REVIEW_COUNT_FAILURE, error });
+    throw error;
+  }
+};
+
 export const identityUpdate = (id, data) => async (dispatch, getState) => {
   dispatch({ type: types.IDENTITY_UPDATING });
   try {
@@ -130,7 +144,7 @@ export const identityUpdate = (id, data) => async (dispatch, getState) => {
       ...identityModel.value,
       ...data,
     };
-
+    dispatch(getReviewCount());
     dispatch({ type: types.IDENTITY_SUCCESS, payload: updatedIdentity });
   } catch (error) {
     dispatch({ type: types.IDENTITY_FAILURE, error });

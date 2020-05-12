@@ -12,4 +12,8 @@ export const ProductTabs = [
     tab: 'Product.tab.integration',
     qa: QATags.Product.Tab.Integration,
   },
+  {
+    mixPanelEvent: null,
+    tab: 'Product.tab.checks',
+  },
 ];

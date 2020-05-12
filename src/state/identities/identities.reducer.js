@@ -8,17 +8,19 @@ const initialState = {
   isLoadingFile: false,
   filter: initialFilter,
 
+  [SliceNames.Identity]: LoadableAdapter.createState(null),
   [SliceNames.IdentityList]: LoadableAdapter.createState([]),
   [SliceNames.IdentityCount]: LoadableAdapter.createState(0),
   [SliceNames.FilteredCount]: LoadableAdapter.createState(0),
-  [SliceNames.Identity]: LoadableAdapter.createState(null),
+  [SliceNames.ReviewCount]: LoadableAdapter.createState(0),
 };
 
 export default createReducer(initialState, {
+  ...LoadableAdapter.createHandlers(IdentityActionGroups.Identity, SliceNames.Identity),
   ...LoadableAdapter.createHandlers(IdentityActionGroups.IdentityList, SliceNames.IdentityList),
   ...LoadableAdapter.createHandlers(IdentityActionGroups.IdentityCount, SliceNames.IdentityCount),
   ...LoadableAdapter.createHandlers(IdentityActionGroups.FilteredCount, SliceNames.FilteredCount),
-  ...LoadableAdapter.createHandlers(IdentityActionGroups.Identity, SliceNames.Identity),
+  ...LoadableAdapter.createHandlers(IdentityActionGroups.ReviewCount, SliceNames.ReviewCount),
 
   [types.FILTER_UPDATE](state, { payload }) {
     return {

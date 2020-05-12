@@ -95,6 +95,11 @@ export const AppTheme = createMuiTheme({
     '0px 20px 18px -7px rgba(0, 0, 0, 0.3),0px 16px 40px 3px rgba(0, 0, 0, 0.06),0px 9px 46px 8px rgba(0, 0, 0, 0.04)',
   ],
   overrides: {
+    MuiPaper: {
+      elevation1: {
+        boxShadow: '0px 1px 5px rgba(52, 73, 94, 0.2)',
+      },
+    },
     MuiIconButton: {
       root: {
         '&:hover': {

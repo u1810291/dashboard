@@ -1,4 +1,5 @@
-import { makeStyles } from '@material-ui/styles';
+import { Badge } from '@material-ui/core';
+import { makeStyles, withStyles } from '@material-ui/styles';
 
 export const useStyles = makeStyles(() => ({
   activeItem: {
@@ -17,3 +18,14 @@ export const useStyles = makeStyles(() => ({
     borderBottom: '2px solid transparent',
   },
 }));
+
+export const MenuBadge = withStyles({
+  badge: {
+    color: '#232939',
+    backgroundColor: '#FFD814',
+    borderRadius: 3,
+    minWidth: 'auto',
+    fontWeight: 'bold',
+    padding: [[0, 6]],
+  },
+})(Badge);

@@ -1,6 +1,6 @@
 {
   "name": "mati-dashboard",
-  "version": "1.12.5",
+  "version": "1.12.6",
   "private": true,
   "dependencies": {
     "@emotion/core": "^10.0.10",
@@ -38,6 +38,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
     "react-select": "^3.1.0",
+    "react-static-google-map": "^0.6.2",
     "react-stripe-elements": "^5.1.0",
     "react-syntax-highlighter": "^8.0.1",
     "react-toastify": "^4.4.3",
@@ -78,7 +79,7 @@
     "eslint-plugin-react": "7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
     "http-proxy-middleware": "^0.20.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-mock-store": "^1.5.3"
   },
