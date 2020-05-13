@@ -20,14 +20,22 @@ export const useStyles = makeStyles((theme) => ({
   values: {
     color: '#8392B8',
   },
+  vpnDetected: {
+    color: '#FE7581',
+    border: [[1, 'solid', '#FE7581']],
+  },
+  noVpnDetected: {
+    color: '#5AC794',
+    border: [[1, 'solid', '#5AC794']],
+  },
 }));
 
 export const ProxyChip = withStyles((theme) => ({
   root: {
     fontSize: 14,
-    color: '#FE7581',
     height: 37,
-    border: [[1, 'solid', '#FE7581']],
+    // color: '#404040',
+    // border: [[1, 'solid', '#404040']],
     borderRadius: 5,
     [theme.breakpoints.down('xs')]: {
       fontSize: 10,
