@@ -591,6 +591,7 @@
   "IpCheckStep.city": "Ciudad",
   "IpCheckStep.zipCode": "Código Postal",
   "IpCheckStep.vpnDetected": "Detectamos un proxy o VPN",
+  "IpCheckStep.noVpnDetected": "No detectamos ningún proxy o VPN",
   "SecurityCheckStep.mexican-curp-validation.title": "Validación CURP",
   "SecurityCheckStep.curp.invalid": "No encontrado",
   "SecurityCheckStep.curp.notFound": "No encontrado",

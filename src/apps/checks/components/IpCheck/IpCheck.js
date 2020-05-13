@@ -21,12 +21,16 @@ export function IpCheck({ data }) {
               </Grid>
 
               {/* proxy usage banner */}
-              {data.isBehindProxy
-                && (
-                <Grid item>
-                  <Box mb={1}><ProxyChip label={intl.formatMessage({ id: 'IpCheckStep.vpnDetected' })} /></Box>
-                </Grid>
-                )}
+              <Grid item>
+                <Box mb={1}>
+                  <ProxyChip
+                    label={intl.formatMessage(
+                      { id: data.isBehindProxy ? 'IpCheckStep.vpnDetected' : 'IpCheckStep.noVpnDetected' },
+                    )}
+                    className={data.isBehindProxy ? classes.vpnDetected : classes.noVpnDetected}
+                  />
+                </Box>
+              </Grid>
 
               {/* Detected location fields */}
               <Grid container item spacing={2}>

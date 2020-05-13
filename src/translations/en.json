@@ -608,6 +608,7 @@
   "IpCheckStep.city": "City",
   "IpCheckStep.zipCode": "Zip Code",
   "IpCheckStep.vpnDetected": "VPN/Proxy was detected",
+  "IpCheckStep.noVpnDetected": "No VPN or Proxy was detected",
   "SecurityCheckStep.mexican-curp-validation.title": "CURP Check",
   "SecurityCheckStep.curp.invalid": "Not Found",
   "SecurityCheckStep.curp.notFound": "Not Found",
