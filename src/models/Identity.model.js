@@ -151,7 +151,7 @@ export function getIpCheckStep(identity) {
     result.latitude = ipStep.data.latitude;
     result.longitude = ipStep.data.longitude;
     result.zip = ipStep.data.zip;
-    result.isBehindProxy = ipStep.data.safe;
+    result.isBehindProxy = !ipStep.data.safe;
   }
 
   return result;

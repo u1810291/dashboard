@@ -3,11 +3,11 @@ import React from 'react';
 import { Card, CardContent, Grid } from '@material-ui/core';
 import { Page404 } from 'apps/layout';
 import { getIdentityExtras, getIpCheckStep } from 'models/Identity.model';
+import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
 import { Header } from './Header';
 import { LivenessStep } from '../../components/LivenessStep';
 import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
 import { DocumentStep } from '../../components/DocumentStep';
-import { IpCheck } from '../../components/IpCheck/IpCheck';
 
 export function Verification({ identity }) {
   const verification = get(identity, '_embedded.verification');
