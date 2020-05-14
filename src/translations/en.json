@@ -761,12 +761,12 @@
   "Product.checks.ipCheck.switchLabel": "IP Check: {state}",
   
   "Product.checks.emailCheck.title": "Email check",
-  "Product.checks.emailCheck.badgeText": "Stanalone API",
+  "Product.checks.emailCheck.badgeText": "Standalone API",
   "Product.checks.emailCheck.text": "Mati offers email check as a standalone service via API. If you want to learn more about your users through their email addresses, click the button below to access integration instructions.",
   "Product.checks.emailCheck.buttonText": "Integrate",
   
   "Product.checks.complyAdvantage.title": "Comply Advantage Watchlists",
-  "Product.checks.complyAdvantage.badgeText": "Stanalone API",
+  "Product.checks.complyAdvantage.badgeText": "Standalone API",
   "Product.checks.complyAdvantage.text": "Mati offers advanced watchlist checks as a standalone API through our partner, Comply Advantage. Search your user's data in hundreds of international and regional criminal and PEP watchlists, ensure that your users are people you actually want to do business with. For detailed integration, instructions click on the button.",
   "Product.checks.complyAdvantage.buttonText": "Integrate",
 
