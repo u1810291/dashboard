@@ -1,15 +1,14 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
 import { useIntl } from 'react-intl';
-import { EmailCheckLink } from '../../models/Checks.model';
-import { useStyles } from './EmailCheckControl.styles';
+import { Button } from '@material-ui/core';
+import { useStyles } from './CheckControlButton.styles';
 
-export function EmailCheckControl() {
+export function CheckControlButton({ link, buttonText }) {
   const intl = useIntl();
   const classes = useStyles();
 
   function clickHandler() {
-    window.open(EmailCheckLink, '_blank');
+    window.open(link, '_blank');
   }
 
   return (
@@ -22,7 +21,7 @@ export function EmailCheckControl() {
       onClick={clickHandler}
       className={classes.root}
     >
-      {intl.formatMessage({ id: 'Product.checks.emailCheck.buttonText' })}
+      {intl.formatMessage({ id: buttonText })}
     </Button>
   );
 }

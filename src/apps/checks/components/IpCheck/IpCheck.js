@@ -2,7 +2,8 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { StaticGoogleMap, Marker } from 'react-static-google-map';
 import { Box, Paper, Typography, Grid } from '@material-ui/core';
-import { useStyles, ProxyChip } from './IpCheck.styles';
+import { ProxyChip } from '../ProxyChip/ProxyChip';
+import { useStyles } from './IpCheck.styles';
 
 export function IpCheck({ data }) {
   const intl = useIntl();
@@ -23,12 +24,7 @@ export function IpCheck({ data }) {
               {/* proxy usage banner */}
               <Grid item>
                 <Box mb={1}>
-                  <ProxyChip
-                    label={intl.formatMessage(
-                      { id: data.isBehindProxy ? 'IpCheckStep.vpnDetected' : 'IpCheckStep.noVpnDetected' },
-                    )}
-                    className={data.isBehindProxy ? classes.vpnDetected : classes.noVpnDetected}
-                  />
+                  <ProxyChip proxy={data.isBehindProxy} />
                 </Box>
               </Grid>
 
