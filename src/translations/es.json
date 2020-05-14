@@ -744,6 +744,12 @@
   "Product.checks.emailCheck.badgeText": "API Independiente",
   "Product.checks.emailCheck.text": "Mati ofrece checks de email como un servicio independiente a través de API. Si deseas aprender más sobre tus usuarios a través de sus emails, haz clic en el botón para accesar instrucciones de integración.",
   "Product.checks.emailCheck.buttonText": "Integrar",
+
+  "Product.checks.complyAdvantage.title": "Listas negras de Comply Advantage",
+  "Product.checks.complyAdvantage.badgeText": "API Independiente",
+  "Product.checks.complyAdvantage.text": "Mati ofrece búsquedas avanzadas en listas negras a través de nuestro socio, Comply Advantage. Busca la información de tus usuarios dentro de cientos de listas PEP y Criminales tanto regionales como internacionales, asegúrate que tus usuarios son personas con las que en verdad quieres hacer negocio. Para información más detallada, haz clic en el botón.",
+  "Product.checks.complyAdvantage.buttonText": "Integrar",
+
   "Product.configuration.buttonsColor": "Color de los botones",
   "Product.configuration.verification": "Requisitos de verificación",
   "Product.configuration.biometric": "Requisito biométrico",
