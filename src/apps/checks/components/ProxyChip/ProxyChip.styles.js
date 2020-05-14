@@ -1,6 +1,4 @@
-import React from 'react';
 import { makeStyles, withStyles, Chip } from '@material-ui/core';
-import { FiAlertCircle } from 'react-icons/fi';
 
 export const useStyles = makeStyles(() => ({
   proxy: {
@@ -34,10 +32,4 @@ export const ProxyChipElement = withStyles((theme) => ({
     overflow: 'visible',
     paddingRight: 34,
   },
-}))(({ ...props }) => (
-  <Chip
-    variant="outlined"
-    icon={<FiAlertCircle />}
-    {...props}
-  />
-));
+}))(Chip);
