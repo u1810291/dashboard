@@ -39,7 +39,9 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
-      node: {},
+      node: {
+        "extensions": [".js", ".jsx"]
+      },
       'babel-module': {
         root: ['.', './src'],
       },
