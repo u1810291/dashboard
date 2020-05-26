@@ -87,17 +87,6 @@ export function Billing() {
                     </Text>
                     <Button
                       buttonStyle="primary-revert"
-                      href="/settings/pricing"
-                    >
-                      <Text
-                        color="active"
-                        textDecoration="underline"
-                      >
-                        {intl.formatMessage({ id: 'Billing.form.change' })}
-                      </Text>
-                    </Button>
-                    <Button
-                      buttonStyle="primary-revert"
                       onClick={handleCancel}
                     >
                       <Text
