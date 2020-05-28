@@ -3,11 +3,8 @@ import React from 'react';
 import { TopMenuItem } from '../TopMenuItem/TopMenuItem';
 
 export function Menu({ entries }) {
-  return entries.map((props) => (
-    <TopMenuItem
-      key={props.id || `${props.to}-${props.label}`}
-      {...props}
-    />
+  return entries.map((item) => (
+    <TopMenuItem key={item.id} {...item} />
   ));
 }
 
