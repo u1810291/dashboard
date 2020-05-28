@@ -28,7 +28,7 @@ export function GovChecks() {
           { GovChecksModel.map((entry, idx) => {
             const country = entry.country || idx;
             return (
-              <GovChecksEntry country={country} key={country} />
+              <GovChecksEntry country={country} key={country} isExpanded />
             );
           }) }
         </Box>

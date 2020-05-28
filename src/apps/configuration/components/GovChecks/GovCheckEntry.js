@@ -18,14 +18,12 @@ import {
 } from './GovChecksEntry.styles';
 import { flags } from './icons';
 
-export function GovChecksEntry({
-  country,
-}) {
+export function GovChecksEntry({ country, isExpanded = false }) {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const [expanded, setExpanded] = useState(null);
+  const [expanded, setExpanded] = useState(isExpanded);
   const cfgModel = useSelector(selectGovChecks);
   const [govChecks, setGovChecks] = useState({ ...getDefaultGovChecks(), ...cfgModel });
 
@@ -46,14 +44,14 @@ export function GovChecksEntry({
     dispatch(configurationFlowUpdate({ verificationPatterns: value }));
   }, [govChecks, dispatch]);
 
-  const handleChange = useCallback((event, isExpanded) => {
-    setExpanded(isExpanded ? `panel-${country}` : false);
-  }, [country]);
+  const handleChange = useCallback((event, value) => {
+    setExpanded(value);
+  }, []);
 
   return (
     <ExpansionPanel
       key={country}
-      expanded={expanded === `panel-${country}`}
+      expanded={expanded}
       onChange={handleChange}
       className={classes.entry}
     >
