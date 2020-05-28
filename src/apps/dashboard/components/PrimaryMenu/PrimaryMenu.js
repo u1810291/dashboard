@@ -15,13 +15,12 @@ export function PrimaryMenu({ isOwner = false, reviewCount }) {
     {
       id: 'logo',
       to: isOwner ? '/' : '/identities',
-      isNoLink: true,
-      noActive: true,
       className: classes.logoItem,
       children: <img src={MatiLogo} alt="Mati" className={classes.logo} />,
       qa: QATags.Navigation.Top.Logo,
     },
     {
+      id: 'product',
       show: isOwner,
       to: '/',
       label: intl.formatMessage({ id: 'dashboard.menu.product' }),
@@ -29,6 +28,7 @@ export function PrimaryMenu({ isOwner = false, reviewCount }) {
       qa: QATags.Navigation.Top.Product,
     },
     {
+      id: 'metrics',
       show: isOwner,
       to: '/metrics',
       label: intl.formatMessage({ id: 'dashboard.menu.metrics' }),
@@ -36,6 +36,7 @@ export function PrimaryMenu({ isOwner = false, reviewCount }) {
       qa: QATags.Navigation.Top.Metrics,
     },
     {
+      id: 'identities',
       to: '/identities',
       label: intl.formatMessage({ id: 'dashboard.menu.identities' }),
       badge: reviewCount.value.count,
