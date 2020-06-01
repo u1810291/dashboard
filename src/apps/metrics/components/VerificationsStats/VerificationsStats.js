@@ -1,10 +1,10 @@
 import { Box } from '@material-ui/core';
 import Card from 'components/card';
-import { Spinner } from 'apps/layout';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import React from 'react';
 import { ChartHorizontal } from '../ChartHorizontal';
 import { ChartVertical } from '../ChartVertical';
-import CSS from './VerificationsStats.module.scss';
+import { useStyles } from './VerificationsStats.styles';
 
 /**
  * data = {
@@ -13,19 +13,27 @@ import CSS from './VerificationsStats.module.scss';
  *   tooltip?: string
  * }
  */
-export function VerificationsStats({ data, title, isLoading, isLoaded, stub, layout = 'horizontal' }) {
+export function VerificationsStats({
+  data,
+  title,
+  isLoading,
+  isLoaded,
+  stub,
+  layout = 'horizontal',
+}) {
+  const classes = useStyles();
   const chart = layout === 'horizontal'
     ? <ChartHorizontal data={data} stub={stub} />
     : <ChartVertical data={data} stub={stub} />;
 
   return (
     <div>
-      <div className={CSS.title}>{title}</div>
-      <Card className={CSS.card}>
+      <div className={classes.title}>{title}</div>
+      <Card className={classes.card}>
         {!isLoaded || isLoading
           ? (
             <Box minHeight={200} display="flex" alignItems="center">
-              <Spinner size="large" />
+              <CircularProgress color="secondary" />
             </Box>
           )
           : chart}

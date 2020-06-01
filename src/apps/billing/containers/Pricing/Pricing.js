@@ -12,10 +12,8 @@ export function Pricing() {
         <Grid item>
           <PricingTitle />
         </Grid>
-        <Grid item>
-          {/* Temporary removed FNX-148 */}
-          {/* <PlanList /> */}
-        </Grid>
+        {/* Temporary removed FNX-148 */}
+        {/* <PlanList /> */}
         <Grid item>
           <RequestDemo />
         </Grid>

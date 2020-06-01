@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { Content, Items } from 'components';
 import { BiometricStep } from 'apps/configuration/components/VerificationSteps/biometric-steps/BiometricStep';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -14,10 +14,11 @@ import { GdprSettings } from './components/GdprSettings';
 import { Countries } from './components/Countries';
 import { VerificationSteps } from './components/VerificationSteps';
 import { ConfigureColor } from './components/ConfigureColor/ConfigureColor';
-import CSS from './Configuration.module.scss';
+import { useStyles } from './Configuration.styles';
 
 export default function Configuration() {
   const [active, setActive] = useState(0);
+  const classes = useStyles();
   const dispatch = useDispatch();
   const currentFlowModel = useSelector(selectCurrentFlow);
   const [flowSteps, setFlowSteps] = useState([]);
@@ -78,15 +79,13 @@ export default function Configuration() {
   }, [countriesModel, currentFlowModel, updateConfiguration]);
 
   return (
-    <Content fullwidth={false} className={CSS.content}>
+    <Content fullwidth={false} className={classes.content}>
       <Items gap={0} justifyContent="left">
-        <ul className={CSS.list}>
+        <ul className={classes.list}>
           {flowSteps.map((step, index) => (
             <li
               key={step.title}
-              className={classNames({
-                [CSS.active]: index === active,
-              })}
+              className={clsx({ active: index === active })}
             >
               <Items
                 gap={0}

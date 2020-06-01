@@ -1,16 +1,15 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import classNames from 'classnames';
-
+import clsx from 'clsx';
 import { ReactComponent as IconCheckmark } from '../../assets/icon-checkmark.svg';
-
-import CSS from './checkbox.module.scss';
+import { useStyles } from './CheckBox.styles';
 
 export default function CheckBox({ className, name, label, value, checked, onChange }) {
+  const classes = useStyles();
+
   return (
-    <div className={classNames(CSS.checkbox, className)}>
+    <div className={clsx(classes.checkbox, className)}>
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label className={CSS.checkboxLabel}>
+      <label className={classes.checkboxLabel}>
         <input
           type="checkbox"
           name={name}
@@ -18,30 +17,11 @@ export default function CheckBox({ className, name, label, value, checked, onCha
           value={value}
           onChange={onChange}
         />
-        <div className={CSS.checkboxIcon}>
+        <div className={classes.checkboxIcon}>
           <IconCheckmark />
         </div>
-        <span className={CSS.checkboxTitle}>{label}</span>
+        <span className={classes.checkboxTitle}>{label}</span>
       </label>
     </div>
   );
 }
-
-CheckBox.propTypes = {
-  checked: PropTypes.bool,
-  label: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.string,
-  ]),
-  name: PropTypes.string,
-  onChange: PropTypes.func,
-  value: PropTypes.string,
-};
-
-CheckBox.defaultProps = {
-  checked: false,
-  label: '',
-  name: '',
-  onChange: () => {},
-  value: '',
-};

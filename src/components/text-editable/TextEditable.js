@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import Button from 'components/button';
-import { Spinner } from 'apps/layout';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from 'components/text-field';
 import TextFieldCSS from 'components/text-field/TextField.module.css';
 import { omit } from 'lodash';
@@ -156,7 +156,7 @@ export default class TextEditable extends React.Component {
             {(error ? text : savedText) || <DataWasntExtracted /> }
           </span>
           {isLoading ? (
-            <Spinner className={CSS.spinner} />
+            <CircularProgress color="secondary" />
           ) : (
             <EditIcon className={CSS.editIcon} />
           )}

@@ -6,8 +6,8 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { BiometricSection } from './BiometricSection';
 import config from './config.json';
-import CSS from './LivenessStep.module.scss';
 import { LivenessVideo } from './LivenessVideo';
+import { useStyles } from './LivenessStep.styles';
 
 const showHelpMessage = (id) => createOverlay(<HelpMessage id={id} />);
 
@@ -27,6 +27,7 @@ const Checks = ({ intl, color = 'gray', children }) => (
 
 export function LivenessStep({ liveness }) {
   const intl = useIntl();
+  const classes = useStyles();
   const { videoUrl, selfieUrl, status } = liveness;
 
   return (
@@ -53,7 +54,7 @@ export function LivenessStep({ liveness }) {
             title={!videoUrl
               ? intl.formatMessage({ id: 'LivenessStep.Checks.selfie.title' })
               : intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
-            picture={<img src={selfieUrl} alt="" className={CSS.borderRadius} />}
+            picture={<img src={selfieUrl} alt="" className={classes.borderRadius} />}
           />
         </>
       )}

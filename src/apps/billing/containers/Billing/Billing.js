@@ -1,12 +1,11 @@
 import { get } from 'lodash';
 import { Box } from '@material-ui/core';
-import CSS from 'apps/billing/containers/Billing/Billing.module.scss';
 import { currentPlanLoad, planCancel, planListLoad } from 'apps/billing/state/billing.actions';
 import { selectCardModel, selectCurrentPlanFullModel, selectCurrentPlanId, selectPlanDetailsModel } from 'apps/billing/state/billing.selectors';
 import { Card, closeOverlay, createOverlay, Items, Text } from 'components';
 import Button from 'components/button';
 import { notification } from 'components/notification';
-import { Spinner } from 'apps/layout';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
@@ -15,10 +14,12 @@ import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { PlanCancelModal } from '../../components/PlanCancelModal/PlanCancelModal';
+import { useStyles } from './Billing.styles';
 
 export function Billing() {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const classes = useStyles();
   const currentPlanId = useSelector(selectCurrentPlanId);
   const planDetailsModel = useSelector(selectPlanDetailsModel);
   const currentPlanFullModel = useSelector(selectCurrentPlanFullModel);
@@ -58,7 +59,7 @@ export function Billing() {
   if (!currentPlanFullModel.isLoaded || !cardModel.isLoaded) {
     return (
       <Box display="flex" alignItems="center">
-        <Spinner size="large" />
+        <CircularProgress color="secondary" />
       </Box>
     );
   }
@@ -77,7 +78,7 @@ export function Billing() {
                 {intl.formatMessage({ id: 'Billing.form.plan' })}
               </Text>
               <Text size={3}>
-                <div className={CSS.planActions}>
+                <div className={classes.planActions}>
                   <Items
                     gap={1}
                     templateColumns="3fr 2fr 3fr"

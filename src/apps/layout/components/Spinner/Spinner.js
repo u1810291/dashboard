@@ -1,9 +1,11 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import React from 'react';
-import CSS from './Spinner.module.scss';
+import { useStyles } from './Spinner.styles';
 
 export function Spinner({ className, size = 'small' }) {
+  const classes = useStyles();
+
   return (
-    <div className={classNames(CSS.spinner, `spinner-${size}`, className)} />
+    <div className={clsx(classes.spinner, `spinner-${size}`, className)} />
   );
 }

@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { Text, Items } from 'components';
-import CSS from './Details.module.scss';
+import { useStyles } from './Details.styles';
 
 export default function Details({
   summary,
@@ -13,13 +12,14 @@ export default function Details({
   summaryProps = {},
   ...itemsProps
 }) {
+  const classes = useStyles();
   const [state, setState] = useState({ opened: defaultOpened });
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <Items flow="row" gap={1} {...itemsProps}>
       <Text
-        className={classNames(cls, CSS.summary, { opened: state.opened })}
+        className={clsx(cls, classes.summary, { opened: state.opened })}
         onClick={() => setState({ opened: !state.opened })}
         {...summaryProps} // eslint-disable-line react/jsx-props-no-spreading
       >
@@ -29,17 +29,3 @@ export default function Details({
     </Items>
   );
 }
-
-Details.propTypes = {
-  cls: PropTypes.string,
-  defaultOpened: PropTypes.bool,
-  summary: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-  summaryProps: PropTypes.shape({}),
-};
-
-Details.defaultProps = {
-  cls: '',
-  defaultOpened: false,
-  summary: null,
-  summaryProps: {},
-};

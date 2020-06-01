@@ -1,9 +1,10 @@
 import { Content, OverlayWithBlur } from 'components';
 import React, { useState } from 'react';
 import { FiRotateCcw, FiRotateCw, FiZoomIn } from 'react-icons/fi';
-import CSS from './ZoomableImage.module.scss';
+import { useStyles } from './ZoomableImage.styles';
 
 export function ZoomableImage({ src = '', alt = '' }) {
+  const classes = useStyles();
   const [isModalShown, setIsModalShown] = useState(false);
   const [angle, rotate] = useState(0);
 
@@ -33,30 +34,30 @@ export function ZoomableImage({ src = '', alt = '' }) {
 
   return (
     <div
-      className={CSS.initImage}
+      className={classes.initImage}
       onKeyDown={rotateEvent}
       role="button"
       tabIndex="0"
     >
       <div
-        className={CSS.hoverWrapper}
+        className="hoverWrapper"
         onClick={() => setIsModalShown(true)}
         onKeyUp={() => {}}
         role="button"
         tabIndex="0"
       >
-        <FiZoomIn color="white" size={28} className={CSS.zoomIcon} />
+        <FiZoomIn color="white" size={28} className="zoomIcon" />
       </div>
-      <img src={src} alt={alt} className={CSS.initImage} />
+      <img src={src} alt={alt} className={classes.initImage} />
       {isModalShown && (
       <OverlayWithBlur onClose={handleClose}>
         <Content
           fullwidth={false}
-          className={CSS.zoomContent}
+          className={classes.zoomContent}
           onClick={() => setIsModalShown(false)}
         >
           <img
-            className={CSS.zoomedImage}
+            className="zoomedImage"
             src={src}
             alt={alt}
             style={{ transform: `rotate(${angle}deg)` }}
@@ -64,9 +65,9 @@ export function ZoomableImage({ src = '', alt = '' }) {
             role="presentation"
           />
 
-          <div className={CSS.actions}>
+          <div className="actions">
             <FiRotateCcw
-              className={CSS.left}
+              className="left"
               color="white"
               size="2em"
               onClick={() => rotate(angle - 90)}
@@ -74,7 +75,7 @@ export function ZoomableImage({ src = '', alt = '' }) {
               tabIndex="0"
             />
             <FiRotateCw
-              className={CSS.right}
+              className="right"
               color="white"
               size="2em"
               onClick={() => rotate(angle + 90)}
