@@ -1,7 +1,7 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import Card from 'components/card';
 import React from 'react';
-import CSS from './DataTable.module.scss';
+import { useStyles } from './DataTable.styles';
 
 function TableWrapper({ inline, children }) {
   if (inline) {
@@ -18,14 +18,15 @@ export default function DataTable({
   onRowClick,
   inline = false,
 }) {
+  const classes = useStyles();
   const sizeFraction = 100 / columns.map(({ size = 1 }) => size).reduce((sum, val) => sum + val);
 
   return (
     <TableWrapper inline={inline}>
-      <div className={CSS.wrapper}>
+      <div className={classes.wrapper}>
         <table
-          className={classNames(CSS.table, {
-            [CSS.borderAround]: inline,
+          className={clsx(classes.table, {
+            [classes.borderAround]: inline,
           })}
         >
           <colgroup>
@@ -55,14 +56,14 @@ export default function DataTable({
                 }
                 className={
                   !disabledRows.includes(element) && onRowClick
-                    ? CSS.clickable
+                    ? classes.clickable
                     : ''
                 }
               >
                 {columns.map(
                   (column, columnIndex) => (
                     <td
-                      className={classNames(
+                      className={clsx(
                         column.className,
                         `mgi-data-table_align-${column.align || 'left'}`,
                       )}

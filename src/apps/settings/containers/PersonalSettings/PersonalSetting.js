@@ -6,10 +6,11 @@ import React, { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { ChangePasswordModal } from '../../components/ChangePasswordModal/ChangePasswordModal';
-import CSS from './PersonalSettings.module.scss';
+import { useStyles } from './PersonalSetting.styles';
 
 export function PersonalSetting() {
   const intl = useIntl();
+  const classes = useStyles();
   const dispatch = useDispatch();
   const email = useSelector(selectUserEmail);
 
@@ -36,8 +37,8 @@ export function PersonalSetting() {
   }, [handleSubmit]);
 
   return (
-    <Card flow="row" padding={2} className={CSS.personalSettings}>
-      <div className={CSS.title}>
+    <Card flow="row" padding={2}>
+      <div className={classes.personalSettings}>
         <h3>
           <FormattedMessage id="apps.settings.personalSettings.title" />
         </h3>

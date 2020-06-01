@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { appLoad } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
-import { Spinner } from 'apps/layout';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { VerificationFlowMenu } from '../components/VerificationFlowMenu/VerificationFlowMenu';
 import { VerificationFlowHeader } from '../components/VerificationFlowHeader/VerificationFlowHeader';
 // import { VerificationFlowSettings } from '../components/VerificationFlowSettings/VerificationFlowSettings';
@@ -40,7 +40,7 @@ export function Product() {
   if (!merchantFlowList.isLoaded) {
     return (
       <Box display="flex" alignItems="center" mt={3}>
-        <Spinner size="large" />
+        <CircularProgress color="secondary" />
       </Box>
     );
   }

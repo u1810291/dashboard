@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
-
+import { useIntl } from 'react-intl';
 import Button from 'components/button';
 import Items from 'components/items';
 import Modal from 'components/modal';
-import MultiSelect from 'components/multi-select';
-
-import CSS from './CountriesModal.module.scss';
+import { MultiSelect } from 'components/multi-select/MultiSelect';
+import { useStyles } from './CountriesModal.styles';
 
 export function CountriesModal({
   supportedCountries,
   countries,
   onSubmit,
 }) {
+  const intl = useIntl();
+  const classes = useStyles();
   const [value, setValue] = useState(supportedCountries);
 
   useEffect(() => {
@@ -20,17 +20,17 @@ export function CountriesModal({
   }, [supportedCountries]);
 
   return (
-    <Modal className={CSS.countriesModal}>
+    <Modal className={classes.countriesModal}>
       <main>
         <Items flow="row">
           <h1>
-            <FormattedMessage id="flow.countries.modal.title" />
+            {intl.formatMessage({ id: 'flow.countries.modal.title' })}
             <p>
-              <FormattedMessage id="flow.countries.modal.description" />
+              {intl.formatMessage({ id: 'flow.countries.modal.description' })}
             </p>
           </h1>
           <MultiSelect
-            value={value}
+            range={value}
             options={countries}
             onChange={(val) => setValue(val)}
             selectClassName={() => {}}
@@ -44,7 +44,7 @@ export function CountriesModal({
           buttonStyle="primary"
           onClick={() => onSubmit(value)}
         >
-          <FormattedMessage id="teamTable.inviteSuccessModal.done" />
+          {intl.formatMessage({ id: 'teamTable.inviteSuccessModal.done' })}
         </Button>
       </footer>
     </Modal>

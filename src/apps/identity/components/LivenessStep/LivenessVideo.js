@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import CSS from './LivenessStep.module.scss';
+import { useStyles } from './LivenessStep.styles';
 import { ReactComponent as Placeholder } from './placeholder.svg';
 
 export function LivenessVideo({ url }) {
+  const classes = useStyles();
+
   if (!url) {
     return <Placeholder />;
   }
@@ -22,11 +23,7 @@ export function LivenessVideo({ url }) {
       }}
       onFocus={() => {}}
       src={url}
-      className={CSS.video}
+      className={classes.video}
     />
   );
 }
-
-LivenessVideo.propTypes = {
-  url: PropTypes.string.isRequired,
-};

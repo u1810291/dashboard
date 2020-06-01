@@ -1,6 +1,6 @@
 import Button from 'components/button';
 import Modal from 'components/modal';
-import { Spinner } from 'apps/layout';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { closeOverlay } from 'components/overlay';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
@@ -37,7 +37,7 @@ export function TeamInviteModal({ onSubmit, isPosting }) {
         >
           {intl.formatMessage({ id: 'teamTable.invite' })}
         </Button>
-        {isPosting && <Spinner size="large" />}
+        {isPosting && <CircularProgress color="secondary" />}
       </footer>
     </Modal>
   );

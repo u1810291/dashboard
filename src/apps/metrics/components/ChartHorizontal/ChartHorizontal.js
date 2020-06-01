@@ -4,10 +4,11 @@ import { ChartTooltip } from 'components/chart-tooltip/ChartTooltip';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
-import CSS from './ChartHorizontal.module.scss';
+import { useStyles } from './ChartHorizontal.styles';
 
 export function ChartHorizontal({ data, stub }) {
   const intl = useIntl();
+  const classes = useStyles();
   const [activeBar, setActiveBar] = useState(null);
 
   function handleEnter(payload) {
@@ -21,7 +22,9 @@ export function ChartHorizontal({ data, stub }) {
   const isNoData = data.every((item) => item.value === 0);
 
   const stubChart = [
-    <div className={CSS.noDataLabel} key="stubLabel">{intl.formatMessage({ id: 'fragments.home.verification.statistic.noData' })}</div>,
+    <div className={classes.noDataLabel} key="stubLabel">
+      {intl.formatMessage({ id: 'fragments.home.verification.statistic.noData' })}
+    </div>,
     <ResponsiveContainer key="stubChart" width="100%" height={200}>
       <BarChart key="stub" data={stub} className="custom-tooltip">
         <Bar

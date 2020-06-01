@@ -1,10 +1,12 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import React from 'react';
-import { mtTable } from './HelpMessage.module.scss';
+import { useStyles } from './HelpMessage.styles';
 
 export function MessageTable({ data = [], className }) {
+  const classes = useStyles();
+
   return (
-    <table className={classNames(mtTable, className)}>
+    <table className={clsx(classes.mtTable, className)}>
       <tbody>
         {data.map((row, rIdx) => {
           const trName = `row-${rIdx}`;

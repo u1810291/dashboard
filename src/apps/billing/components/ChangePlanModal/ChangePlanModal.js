@@ -2,11 +2,12 @@ import { Card, Click, Items, Text } from 'components';
 import React, { useState } from 'react';
 import { useIntl, FormattedHTMLMessage } from 'react-intl';
 import { injectStripe } from 'react-stripe-elements';
-import CSS from './ChangePlanModal.module.scss';
+import { useStyles } from './ChangePlanModal.styles';
 import MatiLogoURL from './Mati.svg';
 
 function ChangePlanModal({ plan, onSubmit }) {
   const intl = useIntl();
+  const classes = useStyles();
   const [disabled, setDisabled] = useState(false);
   async function handleSubmit() {
     setDisabled(true);
@@ -16,7 +17,7 @@ function ChangePlanModal({ plan, onSubmit }) {
   const [period] = useState(plan.name === 'Yearly' ? 'PricingPlans.pricePerYear' : 'PricingPlans.pricePerMonth');
 
   return (
-    <Card flow="row" gap={0} className={CSS.changePlanWrapper}>
+    <Card flow="row" gap={0} className={classes.changePlanWrapper}>
       <Items justifyContent="center">
         <img src={MatiLogoURL} alt="mati" />
       </Items>

@@ -1,13 +1,13 @@
-import { Box } from '@material-ui/core';
-import classNames from 'classnames';
-import { Card, Text } from 'components';
-import { Spinner } from 'apps/layout';
-import { formatDate, DateFormat } from 'lib/date';
+import clsx from 'clsx';
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
+import { Box } from '@material-ui/core';
+import { Card, Text } from 'components';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { formatDate, DateFormat } from 'lib/date';
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { StubBarColor, StubTickColor } from '../../Metrics.model';
-import CSS from './Chart.module.scss';
+import { useStyles } from './Chart.styles';
 
 function tickFormat(value) {
   return formatDate(value, DateFormat.MonthDate);
@@ -15,6 +15,7 @@ function tickFormat(value) {
 
 export function Chart({ data, stub, isLoaded, isLoading, ...props }) {
   const intl = useIntl();
+  const classes = useStyles();
   const isNoData = data.every((item) => item.value === 0);
 
   const workChart = (
@@ -39,7 +40,9 @@ export function Chart({ data, stub, isLoaded, isLoading, ...props }) {
   );
 
   const stubChart = [
-    <div key="stubLabel" className={CSS.noDataLabel}>{intl.formatMessage({ id: 'fragments.home.verification.statistic.noData' })}</div>,
+    <div key="stubLabel" className={classes.noDataLabel}>
+      {intl.formatMessage({ id: 'fragments.home.verification.statistic.noData' })}
+    </div>,
     <ResponsiveContainer key="stubChart" width="100%" height={300}>
       <LineChart data={stub}>
         <XAxis
@@ -65,13 +68,13 @@ export function Chart({ data, stub, isLoaded, isLoading, ...props }) {
 
   return (
     <Card {...props}>
-      <Text className={classNames([CSS.text, CSS.amountText])}>
-        <FormattedMessage id="fragments.home.verification.card.amount" />
+      <Text className={clsx([classes.text, classes.amountText])}>
+        {intl.formatMessage({ id: 'fragments.home.verification.card.amount' })}
       </Text>
       {!isLoaded || isLoading
         ? (
           <Box minHeight={300} display="flex" alignItems="center">
-            <Spinner size="large" />
+            <CircularProgress color="secondary" />
           </Box>
         )
         : (

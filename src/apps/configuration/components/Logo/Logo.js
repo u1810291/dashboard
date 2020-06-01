@@ -1,5 +1,5 @@
 import { IconButton, Typography } from '@material-ui/core';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { Items, Text } from 'components';
 import { notification } from 'components/notification';
 import compressImage from 'lib/compressImage';
@@ -10,10 +10,11 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { configurationFlowUpdate, merchantUpdateMedia } from 'state/merchant/merchant.actions';
 import { selectLogoModel, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
-import CSS from './Logo.module.scss';
+import { useStyles } from './Logo.styles';
 
 export function Logo() {
   const intl = useIntl();
+  const classes = useStyles();
   const dispatch = useDispatch();
   const logoModel = useSelector(selectLogoModel);
   const merchantFlowModel = useSelector(selectMerchantFlowsModel);
@@ -61,25 +62,18 @@ export function Logo() {
         gap={1}
         flow="column"
         align="center"
-        className={CSS.logoTitle}
+        className={classes.logoTitle}
       >
-        <div className={CSS.logoWrapper}>
+        <div className={classes.logoWrapper}>
           <div
             {...getRootProps()}
-            className={
-              classNames(
-                [CSS.addLogo],
-                {
-                  [CSS.hasntLogo]: !logoModel,
-                },
-              )
-            }
+            className={clsx('addLogo', { hasntLogo: !logoModel })}
           >
             <input {...getInputProps()} />
             {merchantFlowModel.isLoading && !logoModel
               ? <FiLoader size={20} color="gray" />
               : logoModel
-                ? <img src={logoModel} alt="logo-preview" className={CSS.logoPreview} />
+                ? <img src={logoModel} alt="logo-preview" className={classes.logoPreview} />
                 : (
                   <Typography variant="h6" color="primary">
                     {intl.formatMessage({ id: 'flow.logoStep.button.title' })}

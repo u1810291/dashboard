@@ -1,15 +1,15 @@
+import clsx from 'clsx';
+import { useIntl } from 'react-intl';
+import React, { useState } from 'react';
+import { difference, without } from 'lodash';
 import { IconButton } from '@material-ui/core';
-import classNames from 'classnames';
 import { Button, Items, Text } from 'components';
 import confirm from 'components/confirm';
 import { closeOverlay, createOverlay } from 'components/overlay';
-import { difference, without } from 'lodash';
-import React, { useState } from 'react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
-import { useIntl } from 'react-intl';
 import { AVAILABLE_DOCUMENT_TYPES } from 'state/merchant/merchant.model';
 import VerificationStepModal from '../VerificationStepsModal';
-import CSS from './VerificationSteps.module.scss';
+import { useStyles } from './VerificationSteps.styles';
 
 export function removeItem(steps, index) {
   const updatedSteps = [...steps];
@@ -38,8 +38,9 @@ export function VerificationSteps({
   mandatoryDocumentTypes = [],
   onChange = () => {},
 }) {
-  const [availableDocumentTypes] = useState(AVAILABLE_DOCUMENT_TYPES);
   const intl = useIntl();
+  const classes = useStyles();
+  const [availableDocumentTypes] = useState(AVAILABLE_DOCUMENT_TYPES);
 
   const onRemoveItem = async (index) => {
     try {
@@ -75,7 +76,7 @@ export function VerificationSteps({
 
   return (
     <fieldset className="mgi-fieldset">
-      <div className={CSS.verificationSteps}>
+      <div className={classes.verificationSteps}>
         <Text size={3} weight={4}>
           {intl.formatMessage({ id: 'flow.documentTypeStep.title' })}
         </Text>
@@ -98,9 +99,9 @@ export function VerificationSteps({
         {steps.map((step, index) => (
           <div
             key={index} // eslint-disable-line react/no-array-index-key
-            className={CSS.verificationInfo}
+            className={classes.verificationInfo}
           >
-            <div className={classNames('text-active', [CSS.docTitle])}>
+            <div className={clsx('text-active', [classes.docTitle])}>
               <Items templateColumns="minmax(auto, 100%) auto">
                 <Text size={2} weight={4}>
                   {intl.formatMessage({ id: 'flow.documentTypeStep.stepNo' })}
@@ -113,14 +114,14 @@ export function VerificationSteps({
               <Items
                 flow="row"
                 gap={step.length > 1 ? 0 : 1}
-                className={classNames({
-                  [CSS.docWrapper]: step.length === 1,
-                  [CSS.docWrapperMany]: step.length > 1,
+                className={clsx({
+                  docWrapper: step.length === 1,
+                  docWrapperMany: step.length > 1,
                 })}
               >
                 {step.sort().map((doc) => (
-                  <Items flow="row" key={doc} className={[CSS.children]}>
-                    <div className={[CSS.child]}>
+                  <Items flow="row" key={doc} className="children">
+                    <div className="child">
                       <Text>
                         {intl.formatMessage({ id: `flow.documentTypeStep.${doc}` })}
                       </Text>
@@ -144,7 +145,7 @@ export function VerificationSteps({
       </div>
       {difference(availableDocumentTypes, mandatoryDocumentTypes, ...steps).length > 0 && (
         <Button
-          className={CSS.newStep}
+          className={classes.newStep}
           onClick={() => onEditItem()}
           disabled={difference(availableDocumentTypes, mandatoryDocumentTypes, ...steps).length === 0}
           data-role="newVerificationStep"

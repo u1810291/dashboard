@@ -3,11 +3,11 @@ import Items from 'components/items';
 import { localeNumber } from 'lib/number';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import CSS from './ChartVertical.module.scss';
+import { useStyles } from './ChartVertical.styles';
 
 export function ChartVertical({ data, stub }) {
   const intl = useIntl();
-
+  const classes = useStyles();
   const isNoData = data.every((item) => item.value === 0);
   const dataToRender = isNoData ? stub : data;
   const total = dataToRender.reduce((memo, item) => memo + item.value, 0) || 1;
@@ -19,9 +19,9 @@ export function ChartVertical({ data, stub }) {
     : null;
 
   return (
-    <Items className={CSS.root} flow="row" templateColumns="2fr 1fr 2fr" gap={1} align="center">
+    <Items className={classes.root} flow="row" templateColumns="2fr 1fr 2fr" gap={1} align="center">
       {isNoData && (
-        <div className={CSS.noDataLabel}>
+        <div className={classes.noDataLabel}>
           {intl.formatMessage({ id: 'fragments.home.verification.statistic.noData' })}
         </div>
       )}
@@ -30,14 +30,14 @@ export function ChartVertical({ data, stub }) {
         const value = isNoData ? 0 : item.value;
         return [
           <div key={`${item.label}-label`} style={textStyle}>{item.label}</div>,
-          <div key={`${item.label}-value`} style={textStyle} className={CSS.value}>{`${value.toPrecision(2)}% (${localeNumber(value)})`}</div>,
+          <div key={`${item.label}-value`} style={textStyle} className={classes.value}>{`${value.toPrecision(2)}% (${localeNumber(value)})`}</div>,
           <div
             key={`${item.label}-bar`}
             style={{
               width: `${percent}%`,
               ...barStyle,
             }}
-            className={CSS.bar}
+            className={classes.bar}
           />,
         ];
       })}

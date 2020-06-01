@@ -1,8 +1,9 @@
 import React from 'react';
-import CSS from './ChartTooltip.module.scss';
+import { useStyles } from './ChartTooltip.styles';
 
 // use this tooltip with className='custom-tooltip' on Chart comp
 export function ChartTooltip({ external }) {
+  const classes = useStyles();
   const { x, width, y } = external || {};
   const isHidden = !external;
 
@@ -17,7 +18,7 @@ export function ChartTooltip({ external }) {
   };
 
   return (
-    <div style={style} className={CSS.tooltip}>
+    <div style={style} className={classes.tooltip}>
       {tooltip}
     </div>
   );
