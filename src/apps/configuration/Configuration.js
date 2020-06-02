@@ -1,20 +1,20 @@
-import clsx from 'clsx';
-import { Content, Items } from 'components';
+import { Box, Grid } from '@material-ui/core';
 import { BiometricStep } from 'apps/configuration/components/VerificationSteps/biometric-steps/BiometricStep';
+import clsx from 'clsx';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiCheckCircle, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectCountriesModel } from 'state/countries/countries.selectors';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
-import { selectCountriesModel } from 'state/countries/countries.selectors';
-import { Logo } from './components/Logo/Logo';
-import { GovChecks } from './components/GovChecks';
-import { GdprSettings } from './components/GdprSettings';
-import { Countries } from './components/Countries';
-import { VerificationSteps } from './components/VerificationSteps';
 import { ConfigureColor } from './components/ConfigureColor/ConfigureColor';
-import { useStyles } from './Configuration.styles';
+import { Countries } from './components/Countries';
+import { GdprSettings } from './components/GdprSettings';
+import { GovChecks } from './components/GovChecks';
+import { Logo } from './components/Logo/Logo';
+import { VerificationSteps } from './components/VerificationSteps';
+import { ButtonMenu, useStyles } from './Configuration.styles';
 
 export default function Configuration() {
   const [active, setActive] = useState(0);
@@ -29,15 +29,13 @@ export default function Configuration() {
   useEffect(() => {
     setFlowSteps([
       {
+        id: 'color',
         title: 'Product.configuration.buttonsColor',
         icon: <FiDroplet />,
-        body: (
-          <div id="buttonColor">
-            <ConfigureColor />
-          </div>
-        ),
+        body: <ConfigureColor />,
       },
       {
+        id: 'steps',
         title: 'Product.configuration.verification',
         icon: <FiFileText />,
         body: <VerificationSteps
@@ -46,16 +44,19 @@ export default function Configuration() {
         />,
       },
       {
+        id: 'biometric',
         title: 'Product.configuration.biometric',
         icon: <FiEye />,
         body: <BiometricStep />,
       },
       {
+        id: 'logo',
         title: 'Product.configuration.logo',
         icon: <FiImage />,
         body: <Logo />,
       },
       {
+        id: 'country',
         title: 'Product.configuration.country',
         icon: <FiFlag />,
         body: <Countries
@@ -66,11 +67,13 @@ export default function Configuration() {
         />,
       },
       {
+        id: 'gdpr',
         title: 'Product.configuration.gdpr',
         icon: <FiTrash />,
         body: <GdprSettings />,
       },
       {
+        id: 'govChecks',
         title: 'Product.configuration.govChecks',
         icon: <FiCheckCircle />,
         body: <GovChecks />,
@@ -79,30 +82,33 @@ export default function Configuration() {
   }, [countriesModel, currentFlowModel, updateConfiguration]);
 
   return (
-    <Content fullwidth={false} className={classes.content}>
-      <Items gap={0} justifyContent="left">
-        <ul className={classes.list}>
-          {flowSteps.map((step, index) => (
-            <li
-              key={step.title}
-              className={clsx({ active: index === active })}
-            >
-              <Items
-                gap={0}
-                align="center"
-                justifyContent="left"
-                onClick={() => setActive(index)}
-              >
-                {step.icon}
-                <FormattedMessage id={step.title} />
-              </Items>
-            </li>
-          ))}
-        </ul>
-        <Items>
+    <Box className={classes.root}>
+      <Grid container spacing={1} direction="row">
+        {/* menu */}
+        <Grid item xs={12} md={5}>
+          <Grid container spacing={1} direction="column">
+            {flowSteps.map((item, index) => (
+              <Grid item key={item.id}>
+                <ButtonMenu
+                  className={clsx({ active: index === active })}
+                  fullWidth
+                  variant="contained"
+                  disableElevation
+                  size="large"
+                  startIcon={item.icon}
+                  onClick={() => setActive(index)}
+                >
+                  <FormattedMessage id={item.title} />
+                </ButtonMenu>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+        {/* content */}
+        <Grid item xs={12} md={7}>
           {flowSteps[active] && flowSteps[active].body}
-        </Items>
-      </Items>
-    </Content>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }

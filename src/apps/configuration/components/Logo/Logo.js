@@ -1,6 +1,5 @@
-import { IconButton, Typography } from '@material-ui/core';
+import { IconButton, Typography, Box } from '@material-ui/core';
 import clsx from 'clsx';
-import { Items, Text } from 'components';
 import { notification } from 'components/notification';
 import compressImage from 'lib/compressImage';
 import React, { useCallback } from 'react';
@@ -54,20 +53,17 @@ export function Logo() {
   });
 
   return (
-    <fieldset className="mgi-fieldset">
-      <Text size={3} weight={4}>
+    <Box>
+      <Typography variant="h4" gutterBottom>
         {intl.formatMessage({ id: 'flow.logoStep.title' })}
-      </Text>
-      <Items
-        gap={1}
-        flow="column"
-        align="center"
-        className={classes.logoTitle}
-      >
-        <div className={classes.logoWrapper}>
+      </Typography>
+
+      <Box display="flex" alignItems="center" mt={2}>
+        {/* logo */}
+        <Box flexGrow={1}>
           <div
             {...getRootProps()}
-            className={clsx('addLogo', { hasntLogo: !logoModel })}
+            className={clsx(classes.addLogo, { [classes.hasntLogo]: !logoModel })}
           >
             <input {...getInputProps()} />
             {merchantFlowModel.isLoading && !logoModel
@@ -80,19 +76,23 @@ export function Logo() {
                   </Typography>
                 )}
           </div>
-        </div>
+        </Box>
+
+        {/* actions */}
         {logoModel && (
-          <IconButton
-            size="small"
-            onClick={handleRemove}
-            disabled={merchantFlowModel.isLoading || merchantFlowModel.isFailed}
-          >
-            {!merchantFlowModel.isLoading
-              ? <FiTrash2 className="color-red" />
-              : <FiLoader />}
-          </IconButton>
+          <Box flexGrow={0} ml={1}>
+            <IconButton
+              size="small"
+              onClick={handleRemove}
+              disabled={merchantFlowModel.isLoading || merchantFlowModel.isFailed}
+            >
+              {!merchantFlowModel.isLoading
+                ? <FiTrash2 className="color-red" />
+                : <FiLoader />}
+            </IconButton>
+          </Box>
         )}
-      </Items>
-    </fieldset>
+      </Box>
+    </Box>
   );
 }

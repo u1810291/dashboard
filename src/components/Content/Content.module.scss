@@ -4,16 +4,17 @@
   --mgi-application-footer-height: calc(64px + var(--mgi-spacing));
 }
 
-:local(.content) {
+.content {
   padding: var(--mgi-spacing) calc(var(--mgi-spacing) * 2);
   padding-bottom: var(--mgi-application-footer-height);
   z-index: 1;
   position: relative;
-}
+  border: 1px solid green;
 
-:local(.content):global(.fullwidth) {
-  flex-grow: 1;
-  max-width: var(--mgi-application-box-max-content-width);
-  min-width: var(--mgi-application-box-min-content-width);
-  margin: 0 auto;
+  &.fullwidth {
+    flex-grow: 1;
+    max-width: var(--mgi-application-box-max-content-width);
+    min-width: var(--mgi-application-box-min-content-width);
+    margin: 0 auto;
+  }
 }
