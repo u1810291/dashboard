@@ -1,12 +1,10 @@
-import clsx from 'clsx';
-import { useIntl } from 'react-intl';
-import React, { useState } from 'react';
-import { difference, without } from 'lodash';
-import { IconButton } from '@material-ui/core';
-import { Button, Items, Text } from 'components';
+import { Box, Button, IconButton, Typography } from '@material-ui/core';
 import confirm from 'components/confirm';
 import { closeOverlay, createOverlay } from 'components/overlay';
+import { difference, without } from 'lodash';
+import React, { useState } from 'react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { useIntl } from 'react-intl';
 import { AVAILABLE_DOCUMENT_TYPES } from 'state/merchant/merchant.model';
 import VerificationStepModal from '../VerificationStepsModal';
 import { useStyles } from './VerificationSteps.styles';
@@ -33,11 +31,7 @@ export function accessibleItems(available, mandatory, steps, index) {
   return difference(available, mandatory, ...without(steps, steps[index]));
 }
 
-export function VerificationSteps({
-  steps = [],
-  mandatoryDocumentTypes = [],
-  onChange = () => {},
-}) {
+export function VerificationSteps({ steps = [], onChange }) {
   const intl = useIntl();
   const classes = useStyles();
   const [availableDocumentTypes] = useState(AVAILABLE_DOCUMENT_TYPES);
@@ -57,7 +51,6 @@ export function VerificationSteps({
         values={index !== undefined ? steps[index] : []}
         items={accessibleItems(
           availableDocumentTypes,
-          mandatoryDocumentTypes,
           steps,
           index,
         )}
@@ -75,84 +68,57 @@ export function VerificationSteps({
   };
 
   return (
-    <fieldset className="mgi-fieldset">
-      <div className={classes.verificationSteps}>
-        <Text size={3} weight={4}>
-          {intl.formatMessage({ id: 'flow.documentTypeStep.title' })}
-        </Text>
-        {mandatoryDocumentTypes.map((doc, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <fieldset className="mgi-fieldset" key={index}>
-            <legend className="text-active">
-              {intl.formatMessage({ id: 'flow.documentTypeStep.stepNo' })}
-              {' '}
-              {index + 1}
-            </legend>
-            <Items templateColumns="minmax(auto, 100%) auto" justifyContent="start">
-              {intl.formatMessage({ id: `flow.documentTypeStep.${doc}` })}
-              <span className="text-secondary">
-                {intl.formatMessage({ id: 'required' })}
-              </span>
-            </Items>
-          </fieldset>
-        ))}
-        {steps.map((step, index) => (
-          <div
-            key={index} // eslint-disable-line react/no-array-index-key
-            className={classes.verificationInfo}
+    <Box>
+      <Typography variant="h4" gutterBottom>
+        {intl.formatMessage({ id: 'flow.documentTypeStep.title' })}
+      </Typography>
+
+      {steps.map((step, index) => (
+        <Box key={index} mt={2}>
+          <Typography variant="h6" color="primary" gutterBottom>
+            {intl.formatMessage({ id: 'flow.documentTypeStep.stepNo' })}
+            {' - '}
+            {index + 1}
+          </Typography>
+
+          <Box display="flex" mt={1}>
+            {/* step list */}
+            <Box flexGrow={1}>
+              {step.sort().map((item) => (
+                <Box key={item} className={classes.value}>
+                  <Typography variant="body1" gutterBottom>
+                    {intl.formatMessage({ id: `flow.documentTypeStep.${item}` })}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+            {/* actions */}
+            <Box flexGrow={0} display="flex" ml={1} alignItems="center">
+              <IconButton size="small" color="primary" onClick={() => onEditItem(index)}>
+                <FiEdit2 />
+              </IconButton>
+              <Box ml={1}>
+                <IconButton size="small" onClick={() => onRemoveItem(index)}>
+                  <FiTrash2 className="color-red" />
+                </IconButton>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      ))}
+
+      {difference(availableDocumentTypes, ...steps).length > 0 && (
+        <Box mt={2}>
+          <Button
+            variant="text"
+            color="primary"
+            onClick={() => onEditItem()}
+            disabled={difference(availableDocumentTypes, ...steps).length === 0}
           >
-            <div className={clsx('text-active', [classes.docTitle])}>
-              <Items templateColumns="minmax(auto, 100%) auto">
-                <Text size={2} weight={4}>
-                  {intl.formatMessage({ id: 'flow.documentTypeStep.stepNo' })}
-                  {' - '}
-                  {index + mandatoryDocumentTypes.length + 1}
-                </Text>
-              </Items>
-            </div>
-            <Items gap={1} align="center">
-              <Items
-                flow="row"
-                gap={step.length > 1 ? 0 : 1}
-                className={clsx({
-                  docWrapper: step.length === 1,
-                  docWrapperMany: step.length > 1,
-                })}
-              >
-                {step.sort().map((doc) => (
-                  <Items flow="row" key={doc} className="children">
-                    <div className="child">
-                      <Text>
-                        {intl.formatMessage({ id: `flow.documentTypeStep.${doc}` })}
-                      </Text>
-                    </div>
-                  </Items>
-                ))}
-              </Items>
-              <Items flow="row" gap={1}>
-                <Items flow="column">
-                  <IconButton size="small" color="primary" onClick={() => onEditItem(index)}>
-                    <FiEdit2 />
-                  </IconButton>
-                  <IconButton size="small" onClick={() => onRemoveItem(index)}>
-                    <FiTrash2 className="color-red" />
-                  </IconButton>
-                </Items>
-              </Items>
-            </Items>
-          </div>
-        ))}
-      </div>
-      {difference(availableDocumentTypes, mandatoryDocumentTypes, ...steps).length > 0 && (
-        <Button
-          className={classes.newStep}
-          onClick={() => onEditItem()}
-          disabled={difference(availableDocumentTypes, mandatoryDocumentTypes, ...steps).length === 0}
-          data-role="newVerificationStep"
-        >
-          {intl.formatMessage({ id: 'flow.documentTypeStep.button.title' })}
-        </Button>
+            {intl.formatMessage({ id: 'flow.documentTypeStep.button.title' })}
+          </Button>
+        </Box>
       )}
-    </fieldset>
+    </Box>
   );
 }

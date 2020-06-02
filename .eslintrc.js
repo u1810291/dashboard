@@ -18,13 +18,13 @@ module.exports = {
       'always',
       { ignoreClassFields: true },
     ],
-    // TODO: Disable this option and fix errors after
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/jsx-props-no-spreading': 0,
     'react/prop-types': 0,
     'react/static-property-placement': [2, 'static public field'],
     'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
+    'react/no-array-index-key': 0,
     'import/prefer-default-export': 0,
     'max-len': 'off',
     'no-nested-ternary': 0
