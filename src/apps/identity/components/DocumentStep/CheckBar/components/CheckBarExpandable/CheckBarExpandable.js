@@ -69,7 +69,7 @@ export function CheckBarExpandable({ step: { id, error, status, data } }) {
         ]}
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <CheckStepDetails id={id} data={data} error={error} />
+        <CheckStepDetails data={data} error={error} />
       </ExpansionPanelDetails>
     </ExpansionPanel>
   );

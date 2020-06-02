@@ -320,6 +320,8 @@
   "identity.field.template-matching": "Revisión de tipo de documento",
   "identity.field.alteration-detection": "Detección de alteraciones",
   "identity.field.document-reading": "Lectura de documentos",
+  "identity.field.registrationYear": "Año de registro",
+  "identity.field.emissionYear": "Año de emisión",
   "identity.field.value.passed": "Aprobado",
   "identity.field.value.loading": "Cargando",
   "identity.field.value.failed": "Fallado",
