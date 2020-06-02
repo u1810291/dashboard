@@ -321,6 +321,8 @@
   "identity.field.template-matching": "Template Matching",
   "identity.field.alteration-detection": "Alteration Detection",
   "identity.field.document-reading": "Document Reading",
+  "identity.field.registrationYear": "Año de registro",
+  "identity.field.emissionYear": "Año de emisión",
   "identity.field.value.passed": "Passed",
   "identity.field.value.loading": "Loading",
   "identity.field.value.failed": "Failed",
