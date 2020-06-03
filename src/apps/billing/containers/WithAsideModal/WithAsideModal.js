@@ -1,15 +1,15 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core';
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
+import React from 'react';
+import { useIntl } from 'react-intl';
 import { Card, Items, Text } from 'components';
-
 import MatiLogoURL from './icons/Mati.svg';
 import { ReactComponent as VerificatioTopIcon } from './icons/verificatio-top.svg';
 import { ReactComponent as VerificatioBottomIcon } from './icons/verificatio-bottom.svg';
-
-import CSS from './WithAsideModal.module.scss';
+import { useStyles } from './WithAsideModal.styles';
 
 export function WithAsideModal({ children }) {
+  const intl = useIntl();
+  const classes = useStyles();
+
   return (
     <Items flow="column" gap={0}>
       <Card
@@ -17,40 +17,33 @@ export function WithAsideModal({ children }) {
         gap={0}
         background="active"
         padding={3}
-        className={CSS.withAsideModal}
+        className={classes.withAsideModal}
       >
         <img
           src={MatiLogoURL}
           alt="mati"
+          className={classes.image}
         />
-        <Text size="6" weight="1" className={CSS.title}>
-          <FormattedHTMLMessage
-            id="CardModal.continueUse"
-          />
+        <Text size="6" weight="1" className={classes.title}>
+          {intl.formatHTMLMessage({ id: 'CardModal.continueUse' })}
         </Text>
-        <Items flow="row" className={CSS.phrase}>
-          <span className={CSS.veridicatioTop}>
+        <Items flow="row" className={classes.phrase}>
+          <span className={classes.verificationTop}>
             <VerificatioTopIcon />
           </span>
-          <Text size={1.5} weight={1} className={CSS.dooplaText}>
-            <FormattedMessage
-              id="CardModal.dooplaText"
-            />
+          <Text size={1.5} weight={1} className={classes.dooplaText}>
+            {intl.formatMessage({ id: 'CardModal.dooplaText' })}
           </Text>
-          <span className={CSS.veridicatioBottom}>
+          <span className={classes.verificationBottom}>
             <VerificatioBottomIcon />
           </span>
         </Items>
-        <Items flow="row" className={CSS.doopla}>
+        <Items flow="row" className={classes.doopla}>
           <Text size={1.5} weight={1}>
-            <FormattedMessage
-              id="CardModal.dooplaCEO.name"
-            />
+            {intl.formatMessage({ id: 'CardModal.dooplaCEO.name' })}
           </Text>
           <Text size={1.5} weight={2}>
-            <FormattedMessage
-              id="CardModal.dooplaCEO.title"
-            />
+            {intl.formatMessage({ id: 'CardModal.dooplaCEO.title' })}
           </Text>
         </Items>
       </Card>
@@ -58,7 +51,7 @@ export function WithAsideModal({ children }) {
         flow="row"
         gap={0}
         padding={3}
-        className={CSS.withAsideModalContent}
+        className={classes.withAsideModalContent}
       >
         {children}
       </Card>

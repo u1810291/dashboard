@@ -2,16 +2,19 @@ import Button from 'components/button';
 import Modal from 'components/modal';
 import { closeOverlay } from 'components/overlay';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { ReactComponent as DeleteSuccessIcon } from './deleteSuccess.svg';
-import CSS from './DeleteSuccessModal.module.scss';
+import { useStyles } from './DeleteSuccessModal.styles';
 
 export function DeleteSuccessModal({ className, ...modalProps }) {
+  const intl = useIntl();
+  const classes = useStyles();
+
   return (
-    <Modal {...modalProps} className={CSS.root}>
-      <main className="">
+    <Modal {...modalProps}>
+      <main className={classes.deleteSuccessModal}>
         <DeleteSuccessIcon />
-        <FormattedMessage id="teamTable.deleteSuccessModal.description" />
+        {intl.formatMessage({ id: 'teamTable.deleteSuccessModal.description' })}
       </main>
       <footer className="modal--footer-center">
         <Button
@@ -19,7 +22,7 @@ export function DeleteSuccessModal({ className, ...modalProps }) {
           buttonStyle="primary"
           onClick={closeOverlay}
         >
-          <FormattedMessage id="teamTable.deleteSuccessModal.done" />
+          {intl.formatMessage({ id: 'teamTable.deleteSuccessModal.done' })}
         </Button>
       </footer>
     </Modal>

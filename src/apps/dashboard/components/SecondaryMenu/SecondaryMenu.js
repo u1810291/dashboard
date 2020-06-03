@@ -9,12 +9,14 @@ export function SecondaryMenu() {
 
   const entries = [
     {
+      id: 'faq',
       to: '/info',
       label: intl.formatMessage({ id: 'dashboard.menu.faq' }),
       icon: <FiInfo />,
       qa: QATags.Navigation.Top.FAQ,
     },
     {
+      id: 'account',
       to: '/settings',
       label: intl.formatMessage({ id: 'dashboard.menu.account' }),
       icon: <FiUser />,

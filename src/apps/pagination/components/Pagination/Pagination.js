@@ -1,10 +1,11 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import React, { useCallback } from 'react';
 import ReactPaginate from 'react-paginate';
 import { ITEMS_PER_PAGE } from '../../models/Pagination.model';
-import CSS from './Pagination.module.scss';
+import { useStyles } from './Pagination.styles';
 
 export function Pagination({ total = 0, offset = 0, onChange }) {
+  const classes = useStyles();
   const pageCount = Math.ceil(total / ITEMS_PER_PAGE);
   const current = Math.floor(offset / ITEMS_PER_PAGE) || 0;
 
@@ -16,11 +17,11 @@ export function Pagination({ total = 0, offset = 0, onChange }) {
 
   return (
     <ReactPaginate
-      pageClassName={CSS.page}
-      breakClassName={CSS.page}
-      previousClassName={classNames(CSS.page, CSS.prevNextPage)}
-      nextClassName={classNames(CSS.page, CSS.prevNextPage)}
-      activeClassName={classNames(CSS.activePage)}
+      pageClassName={classes.page}
+      breakClassName={classes.page}
+      previousClassName={clsx(classes.page, classes.prevNextPage)}
+      nextClassName={clsx(classes.page, classes.prevNextPage)}
+      activeClassName={clsx(classes.activePage)}
       pageCount={pageCount}
       pageRangeDisplayed={3}
       marginPagesDisplayed={2}

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import { Box, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import { Spinner } from 'apps/layout';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { formatDate } from 'lib/date';
 import { titleCase } from 'lib/string';
 import confirm from 'components/confirm/Confirm';
@@ -66,7 +66,7 @@ export function VerificationTable() {
               <TableRow>
                 <TableCell colSpan={5} align="center">
                   {identityCollection.isLoading
-                    ? <Spinner />
+                    ? <CircularProgress color="secondary" />
                     : <EmptyTableIcon />}
                 </TableCell>
               </TableRow>

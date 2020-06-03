@@ -1,0 +1,19 @@
+:root {
+  --mgi-application-box-max-content-width: 1300px;
+  --mgi-application-box-min-content-width: 900px;
+  --mgi-application-footer-height: calc(64px + var(--mgi-spacing));
+}
+
+.content {
+  padding: var(--mgi-spacing) calc(var(--mgi-spacing) * 2);
+  padding-bottom: var(--mgi-application-footer-height);
+  z-index: 1;
+  position: relative;
+
+  &.fullwidth {
+    flex-grow: 1;
+    max-width: var(--mgi-application-box-max-content-width);
+    min-width: var(--mgi-application-box-min-content-width);
+    margin: 0 auto;
+  }
+}

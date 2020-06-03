@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 import { DateRangePicker } from 'react-dates';
 import { Box } from '@material-ui/core';
-import CSS from './DateRange.module.scss';
+import { useStyles } from './DateRange.styles';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
@@ -11,6 +11,7 @@ function isOutSideRangeFn(day) {
 }
 
 export function DateRange({ start, end, onChange }) {
+  const classes = useStyles();
   const [focusedInput, setFocusedInput] = useState(null);
 
   const handleInputFocus = useCallback((input) => {
@@ -28,7 +29,7 @@ export function DateRange({ start, end, onChange }) {
   }, [onChange]);
 
   return (
-    <Box className={CSS.datePicker}>
+    <Box className={classes.datePicker}>
       <DateRangePicker
         hideKeyboardShortcutsPanel
         appendToBody

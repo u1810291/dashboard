@@ -1,68 +1,57 @@
-import React from 'react';
-import classNames from 'classnames';
+import React, { useState, useEffect } from 'react';
+import clsx from 'clsx';
 import Select from 'react-select';
+import { useStyles } from './MultiSelect.styles';
 
-import CSS from './MultiSelect.module.scss';
+export function MultiSelect({
+  onChange = () => {},
+  range = [],
+  className,
+  valuesClassName,
+  selectClassName,
+  ...props
+}) {
+  const [value, setValue] = useState();
+  const classes = useStyles();
 
-export default class MultiSelect extends React.Component {
-  static defaultProps = {
-    onChange: () => {},
-    value: [],
+  useEffect(() => {
+    setValue(range);
+  }, [range]);
+
+  function onChangeHandler(changes) {
+    setValue(changes);
+    onChange(changes);
   }
 
-  constructor(props) {
-    super(props);
-    const { value } = this.props;
-    this.state = { value };
+  function deleteOption(optionIndex) {
+    const rest = value.filter((option, index) => index !== optionIndex);
+    setValue(rest);
+    onChange(rest);
   }
 
-  onChange = (value) => {
-    this.setState({ value });
-    this.props.onChange(value);
-  }
-
-  deleteOption = (optionIndex) => {
-    this.setState(
-      (state) => ({
-        value: state.value.filter((option, index) => index !== optionIndex),
-      }),
-      () => this.props.onChange && this.props.onChange(this.state.value),
-    );
-  }
-
-  render() {
-    const {
-      className,
-      selectClassName,
-      valuesClassName,
-      ...inputOptions
-    } = this.props;
-    const { value } = this.state;
-
-    return (
-      <div className={classNames(CSS.multiSelect, className)}>
-        <Select
-          isMulti
-          {...inputOptions} // eslint-disable-line react/jsx-props-no-spreading
-          className={classNames(CSS.select, selectClassName)}
-          value={value}
-          isSearchable
-          controlShouldRenderValue={false}
-          onChange={this.onChange}
-        />
-        <div className={valuesClassName}>
-          {(value || []).map((option, index) => (
-            <button
-              className={CSS.valueItem}
-              key={index} // eslint-disable-line react/no-array-index-key
-              onClick={() => this.deleteOption(index)}
-              type="button"
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
+  return (
+    <div className={clsx(classes.multiSelect, className)}>
+      <Select
+        isMulti
+        {...props}
+        className={clsx(classes.select, selectClassName)}
+        value={value}
+        isSearchable
+        controlShouldRenderValue={false}
+        onChange={onChangeHandler}
+      />
+      <div className={valuesClassName}>
+        {(value || []).map((option, index) => (
+          <button
+            className={classes.valueItem}
+            key={index} // eslint-disable-line react/no-array-index-key
+            onClick={() => deleteOption(index)}
+            type="button"
+          >
+            {option.label}
+          </button>
+        ))}
       </div>
-    );
-  }
+    </div>
+  );
 }

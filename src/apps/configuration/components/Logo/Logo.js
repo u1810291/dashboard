@@ -1,6 +1,5 @@
-import { IconButton, Typography } from '@material-ui/core';
-import classNames from 'classnames';
-import { Items, Text } from 'components';
+import { IconButton, Typography, Box } from '@material-ui/core';
+import clsx from 'clsx';
 import { notification } from 'components/notification';
 import compressImage from 'lib/compressImage';
 import React, { useCallback } from 'react';
@@ -10,10 +9,11 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { configurationFlowUpdate, merchantUpdateMedia } from 'state/merchant/merchant.actions';
 import { selectLogoModel, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
-import CSS from './Logo.module.scss';
+import { useStyles } from './Logo.styles';
 
 export function Logo() {
   const intl = useIntl();
+  const classes = useStyles();
   const dispatch = useDispatch();
   const logoModel = useSelector(selectLogoModel);
   const merchantFlowModel = useSelector(selectMerchantFlowsModel);
@@ -53,52 +53,46 @@ export function Logo() {
   });
 
   return (
-    <fieldset className="mgi-fieldset">
-      <Text size={3} weight={4}>
+    <Box>
+      <Typography variant="h4" gutterBottom>
         {intl.formatMessage({ id: 'flow.logoStep.title' })}
-      </Text>
-      <Items
-        gap={1}
-        flow="column"
-        align="center"
-        className={CSS.logoTitle}
-      >
-        <div className={CSS.logoWrapper}>
+      </Typography>
+
+      <Box display="flex" alignItems="center" mt={2}>
+        {/* logo */}
+        <Box flexGrow={1}>
           <div
             {...getRootProps()}
-            className={
-              classNames(
-                [CSS.addLogo],
-                {
-                  [CSS.hasntLogo]: !logoModel,
-                },
-              )
-            }
+            className={clsx(classes.addLogo, { [classes.hasntLogo]: !logoModel })}
           >
             <input {...getInputProps()} />
             {merchantFlowModel.isLoading && !logoModel
               ? <FiLoader size={20} color="gray" />
               : logoModel
-                ? <img src={logoModel} alt="logo-preview" className={CSS.logoPreview} />
+                ? <img src={logoModel} alt="logo-preview" className={classes.logoPreview} />
                 : (
                   <Typography variant="h6" color="primary">
                     {intl.formatMessage({ id: 'flow.logoStep.button.title' })}
                   </Typography>
                 )}
           </div>
-        </div>
+        </Box>
+
+        {/* actions */}
         {logoModel && (
-          <IconButton
-            size="small"
-            onClick={handleRemove}
-            disabled={merchantFlowModel.isLoading || merchantFlowModel.isFailed}
-          >
-            {!merchantFlowModel.isLoading
-              ? <FiTrash2 className="color-red" />
-              : <FiLoader />}
-          </IconButton>
+          <Box flexGrow={0} ml={1}>
+            <IconButton
+              size="small"
+              onClick={handleRemove}
+              disabled={merchantFlowModel.isLoading || merchantFlowModel.isFailed}
+            >
+              {!merchantFlowModel.isLoading
+                ? <FiTrash2 className="color-red" />
+                : <FiLoader />}
+            </IconButton>
+          </Box>
         )}
-      </Items>
-    </fieldset>
+      </Box>
+    </Box>
   );
 }

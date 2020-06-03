@@ -13,7 +13,7 @@ import { selectMetrics, selectStatistics } from 'state/metrics/metrics.selectors
 import { VerificationsTotal } from './components/VerificationsTotal';
 import { VerificationsStats } from './components/VerificationsStats';
 import { Chart } from './components/Chart';
-import CSS from './Metrics.module.scss';
+import { useStyles } from './Metrics.styles';
 
 const OTHER_COUNTRIES = 'otherCountries';
 
@@ -30,6 +30,7 @@ function getCountry(list, id, intl) {
 
 export default function Metrics() {
   const intl = useIntl();
+  const classes = useStyles();
   const dispatch = useDispatch();
   const [metrics] = useSelector(selectMetrics);
   const name = useSelector(selectMerchantName);
@@ -88,7 +89,7 @@ export default function Metrics() {
   return (
     <Content>
       <Items gap="2" templateColumns="repeat(3, 1fr)" flow="row" align="stretch">
-        <Card className={CSS.header}>
+        <Card className={classes.header}>
           <Items flow="column" gap="2" justifyContent="space-between" align="center">
             <h2>{name}</h2>
             <Box display="flex">
@@ -116,7 +117,7 @@ export default function Metrics() {
         </Card>
         <VerificationsTotal statistic={metrics} />
         <Chart
-          className={CSS.graph}
+          className={classes.graph}
           data={byDate}
           isLoading={isLoading}
           isLoaded={isLoaded}

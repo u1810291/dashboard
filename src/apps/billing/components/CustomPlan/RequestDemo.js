@@ -3,10 +3,11 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Card, Items, Text, H2, Click } from 'components';
 import { useContactUsLink } from 'lib/contactUs';
-import CSS from './CustomPlan.module.scss';
+import { useStyles } from './CustomPlan.styles';
 
 export function RequestDemo() {
   const intl = useIntl();
+  const classes = useStyles();
   const externalLinkHandler = useContactUsLink(intl.locale);
 
   return (
@@ -16,7 +17,7 @@ export function RequestDemo() {
       flow="column"
       autoColumns="1fr max-content"
       align="center"
-      className={clsx(CSS.block, CSS.request)}
+      className={clsx(classes.block, classes.request)}
     >
       <Items flow="row">
         <H2>
@@ -27,7 +28,7 @@ export function RequestDemo() {
         </Text>
       </Items>
 
-      <Click border="active" onClick={externalLinkHandler} className={CSS.button}>
+      <Click border="active" onClick={externalLinkHandler} className={classes.button}>
         <Text color="active">
           {intl.formatMessage({ id: 'Pricing.RequestCall.button' })}
         </Text>

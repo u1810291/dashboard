@@ -4,12 +4,14 @@ import { closeOverlay } from 'components/overlay';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ReactComponent as InviteSuccessIcon } from './inviteSuccess.svg';
-import CSS from './TeamInviteSuccessModal.module.scss';
+import { useStyles } from './TeamInviteSuccessModal.styles';
 
 export function TeamInviteSuccessModal() {
+  const classes = useStyles();
+
   return (
-    <Modal onClose={closeOverlay} className={CSS.inviteSuccessModal}>
-      <main>
+    <Modal onClose={closeOverlay}>
+      <main className={classes.inviteSuccessModal}>
         <InviteSuccessIcon />
         <FormattedMessage id="teamTable.inviteSuccessModal.description" />
       </main>

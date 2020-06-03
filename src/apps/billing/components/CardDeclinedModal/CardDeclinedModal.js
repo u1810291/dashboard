@@ -3,9 +3,11 @@ import Button from 'components/button';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { WithAsideModal } from '../../containers/WithAsideModal';
-import CSS from './CardDeclinedModal.module.scss';
+import { useStyles } from './CardDeclinedModal.styles';
 
 export function CardDeclinedModal({ onChangeMethod }) {
+  const classes = useStyles();
+
   const handleContactUs = () => {
     closeOverlay();
   };
@@ -15,10 +17,10 @@ export function CardDeclinedModal({ onChangeMethod }) {
       <Items flow="row">
         <Items flow="row" gap={0}>
           <Items flow="row">
-            <Text weight={4} size={4.5} className={CSS.title}>
+            <Text weight={4} size={4.5} className={classes.title}>
               <FormattedMessage id="CardDeclinedModal.title" />
             </Text>
-            <Text size={1.5} className={CSS.text}>
+            <Text size={1.5} className={classes.text}>
               <FormattedMessage id="CardDeclinedModal.text" />
             </Text>
           </Items>

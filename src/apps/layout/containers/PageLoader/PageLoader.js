@@ -1,11 +1,11 @@
 import React from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { CenterContent } from '../../components/CenterContent/CenterContent';
-import { Spinner } from '../../components/Spinner/Spinner';
 
 export function PageLoader() {
   return (
     <CenterContent>
-      <Spinner />
+      <CircularProgress color="secondary" />
     </CenterContent>
   );
 }

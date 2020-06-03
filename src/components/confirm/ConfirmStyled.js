@@ -1,10 +1,9 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { createOverlay, closeOverlay } from '../overlay';
 import Modal from '../modal';
 import Items from '../items';
 import Button from '../button';
-import CSS from './ConfirmStyled.module.scss';
+import { useStyles } from './ConfirmStyled.styled';
 
 const ConfirmModal = ({
   header,
@@ -13,23 +12,25 @@ const ConfirmModal = ({
   onConfirm,
   confirmText,
   cancelText,
-}) => (
-  <Modal data-role="confirmationModal" className={CSS.modal}>
-    { header && <header>{header}</header> }
-    <main>{message}</main>
-    <footer className="modal--footer-transparent">
-      <Items inline>
-        <Button buttonStyle="primary" onClick={onConfirm} data-role="confirm">
-          {confirmText}
-        </Button>
-        <Button onClick={onClose} data-role="cancel" buttonStyle="outline">
-          {cancelText}
-        </Button>
-      </Items>
-    </footer>
-  </Modal>
-);
-
+}) => {
+  const classes = useStyles();
+  return (
+    <Modal data-role="confirmationModal" className={classes.modal}>
+      { header && <header>{header}</header> }
+      <main>{message}</main>
+      <footer className="modal--footer-transparent">
+        <Items inline>
+          <Button buttonStyle="primary" onClick={onConfirm} data-role="confirm">
+            {confirmText}
+          </Button>
+          <Button onClick={onClose} data-role="cancel" buttonStyle="outline">
+            {cancelText}
+          </Button>
+        </Items>
+      </footer>
+    </Modal>
+  );
+};
 
 export default function confirmStyled({
   message,
@@ -61,33 +62,3 @@ export default function confirmStyled({
     });
   });
 }
-
-ConfirmModal.propTypes = {
-  cancelText: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.element,
-    PropTypes.string,
-  ]),
-  confirmText: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.element,
-    PropTypes.string,
-  ]),
-  header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-  message: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.element,
-    PropTypes.string,
-  ]),
-  onClose: PropTypes.func,
-  onConfirm: PropTypes.func,
-};
-
-ConfirmModal.defaultProps = {
-  cancelText: '',
-  confirmText: '',
-  header: '',
-  message: '',
-  onClose: () => {},
-  onConfirm: () => {},
-};
