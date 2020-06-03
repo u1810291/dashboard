@@ -27,8 +27,8 @@ export function addItem(steps, values) {
   return updatedSteps;
 }
 
-export function accessibleItems(available, mandatory, steps, index) {
-  return difference(available, mandatory, ...without(steps, steps[index]));
+export function accessibleItems(available, steps, index) {
+  return difference(available, ...without(steps, steps[index]));
 }
 
 export function VerificationSteps({ steps = [], onChange }) {
