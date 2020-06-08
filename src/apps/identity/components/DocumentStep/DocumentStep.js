@@ -1,7 +1,9 @@
 import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
+import { SanctionChip } from 'apps/checks';
 import classNames from 'classnames';
 import { compact } from 'lodash';
-import React from 'react';
+import { DocumentCountrySanctionList } from 'models/Document.model';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectCountriesList } from 'state/countries/countries.selectors';
@@ -9,12 +11,12 @@ import { DocumentReadingStep } from './DocumentReadingStep';
 import { CheckBarFlat, CheckBarExpandable } from './CheckBar';
 import { ZoomableImage } from './ZoomableImage';
 
-
 export function DocumentStep({ document, source, isIdentityEditable }) {
   const intl = useIntl();
   const countries = useSelector(selectCountriesList);
 
   const { steps = [], country, type, region, photos = [], isEditable = true } = document;
+  const [isSanctioned] = useState(DocumentCountrySanctionList.includes(country));
   const documentReadingStep = steps.find((step) => step.id === 'document-reading');
   const documentReadingSource = source.find((item) => item.type === type) || {};
   const isFormEditable = isIdentityEditable && documentReadingSource.demo !== true && isEditable;
@@ -42,10 +44,18 @@ export function DocumentStep({ document, source, isIdentityEditable }) {
   return (
     <Paper>
       <Box p={4}>
-        <Box pb={3}>
-          <Typography variant="h3" gutterBottom>{title}</Typography>
+        <Typography variant="h3" gutterBottom>{title}</Typography>
+
+        {isSanctioned && (
+          <Box mt={3}>
+            <SanctionChip />
+          </Box>
+        )}
+
+        <Box mt={3}>
+          <Divider variant="fullWidth" />
         </Box>
-        <Divider variant="fullWidth" />
+
         <Box py={3}>
           <Grid container spacing={2}>
             {/* data */}
