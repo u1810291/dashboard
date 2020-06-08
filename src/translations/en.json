@@ -982,5 +982,6 @@
   "unknownError": "unknown error",
   "rename": "Rename",
   "delete": "Delete",
-  "update.field.error": "Error updating field: {name}"
+  "update.field.error": "Error updating field: {name}",
+  "SanctionCheck.title": "This user is from a sanctioned region. Please take additional screening measures."
 }
