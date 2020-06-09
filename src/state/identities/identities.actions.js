@@ -103,7 +103,7 @@ export const identityLoad = (id) => async (dispatch) => {
   dispatch({ type: types.IDENTITY_REQUEST });
   try {
     const payload = await api.getIdentityWithNestedData(id);
-    dispatch({ type: types.IDENTITY_SUCCESS, payload: normalizeCURPData(payload) });
+    dispatch({ type: types.IDENTITY_SUCCESS, payload: normalizeCURPData(payload), isReset: true });
   } catch (error) {
     dispatch({ type: types.IDENTITY_FAILURE, error });
     throw error;
