@@ -136,7 +136,26 @@ export const styles = StyleSheet.create({
     display: 'inline',
   },
 
+  chip: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 0.5 * rem,
+    padding: 0.5 * rem,
+    marginBottom: rem,
+  },
+  chipError: {
+    border: `1pt solid ${colors.red}`,
+  },
+  icon: {
+    width: rem,
+    height: rem,
+  },
+
   mt1: {
     marginTop: rem,
+  },
+  ml05: {
+    marginLeft: 0.5 * rem,
   },
 });

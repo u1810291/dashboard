@@ -79,6 +79,7 @@ export function getDocumentExtras(identity) {
       country: document.country,
       region: document.region,
       photos: document.photos || [],
+      isSanctioned: DocumentCountrySanctionList.includes(document.country),
     };
   });
 }
