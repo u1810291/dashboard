@@ -10,6 +10,7 @@ import React from 'react';
 import { getLivenessStatusColor, getStatusColor } from './IdentityDocument.model';
 import { styles } from './PDF.styles';
 import { PDFDocumentFields } from './PDFDocumentFields';
+import AlertPNG from './assets/alert-circle.png';
 
 export function IdentityDocumentPDF(intl, identity) {
   if (!identity) {
@@ -68,6 +69,18 @@ export function IdentityDocumentPDF(intl, identity) {
                   country: compact([document.country, document.region]).join(', '),
                 })}
               </Text>
+
+              {/* sanction list */}
+              {document.isSanctioned && (
+                <View style={[styles.chip, styles.chipError]}>
+                  <View style={styles.icon}>
+                    <Image style={styles.icon} src={AlertPNG} />
+                  </View>
+                  <Text style={[styles.normal, styles.error, styles.ml05]}>
+                    {intl.formatMessage({ id: 'SanctionCheck.title' })}
+                  </Text>
+                </View>
+              )}
 
               {/* images */}
               <View style={styles.row}>
