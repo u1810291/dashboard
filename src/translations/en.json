@@ -772,7 +772,7 @@
   "Product.checks.complyAdvantage.text": "Mati offers advanced watchlist checks as a standalone API through our partner, Comply Advantage. Search your user's data in hundreds of international and regional criminal and PEP watchlists, ensure that your users are people you actually want to do business with. For detailed integration, instructions click on the button.",
   "Product.checks.complyAdvantage.buttonText": "Integrate",
 
-  "Product.configuration.buttonsColor": "Buttons colour",
+  "Product.configuration.buttonsColor": "Buttons color",
   "Product.configuration.verification": "Verification requirements",
   "Product.configuration.biometric": "Biometric requirements",
   "Product.configuration.language": "Language",
