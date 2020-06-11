@@ -24,3 +24,15 @@ export function getFieldsExtra(data) {
     value: formatValue(label, value),
   }));
 }
+
+export function getCheckFieldsExtra(data) {
+  if (!data) {
+    return [];
+  }
+
+  return Object.entries(data).map(([key, value]) => ({
+    id: key,
+    label: value,
+    value: formatValue(key, value),
+  }));
+}
