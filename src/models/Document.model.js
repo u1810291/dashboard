@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import { getFieldsExtra } from 'models/Field.model';
+import { getCheckFieldsExtra, getFieldsExtra } from 'models/Field.model';
 import { getSecurityChecksExtra } from 'models/SecurityCheck.model';
 
 export const DocumentStepTypes = {
@@ -71,9 +71,9 @@ export function getDocumentExtras(identity) {
 
     return {
       reading: getFieldsExtra(sourceDocument.fields),
-      curp: getFieldsExtra(curp.data),
-      ine: getFieldsExtra(ine.data),
-      rfc: getFieldsExtra(rfc.data),
+      curp: getCheckFieldsExtra(curp.data),
+      ine: getCheckFieldsExtra(ine.data),
+      rfc: getCheckFieldsExtra(rfc.data),
       checks: getSecurityChecksExtra(steps.filter((step) => DocumentSecuritySteps.includes(step.id))),
       type: document.type,
       country: document.country,
