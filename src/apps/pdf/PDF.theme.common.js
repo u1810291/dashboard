@@ -8,6 +8,6 @@ export const colors = {
   greyText: '#999999',
   red: '#FE7581',
   white: '#ffffff',
-  green: '#00ab62',
+  green: '#5AC794',
   orange: '#f2994a',
 };

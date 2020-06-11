@@ -24,7 +24,7 @@ export function IpCheck({ data }) {
               {/* proxy usage banner */}
               <Grid item>
                 <Box mb={1}>
-                  <ProxyChip proxy={data.isBehindProxy} />
+                  <ProxyChip proxy={!data.safe} />
                 </Box>
               </Grid>
 

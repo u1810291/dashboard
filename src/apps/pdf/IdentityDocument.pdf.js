@@ -1,16 +1,16 @@
 import { Document, Image, Page, pdf, Text, View } from '@react-pdf/renderer';
-import MatiLogo from 'assets/mati-logo-black.png';
-import { getMediaURL } from 'lib/client/media';
-import { compact } from 'lodash';
 import CURP from 'assets/curp-logo.png';
 import INE from 'assets/ine-logo.png';
+import MatiLogo from 'assets/mati-logo-black.png';
 import RFC from 'assets/rfc-logo.png';
+import { getMediaURL } from 'lib/client/media';
+import { compact } from 'lodash';
 import { getIdentityExtras } from 'models/Identity.model';
 import React from 'react';
 import { getLivenessStatusColor, getStatusColor } from './IdentityDocument.model';
 import { styles } from './PDF.styles';
+import { PDFChip } from './PDFChip';
 import { PDFDocumentFields } from './PDFDocumentFields';
-import AlertPNG from './assets/alert-circle.png';
 
 export function IdentityDocumentPDF(intl, identity) {
   if (!identity) {
@@ -45,6 +45,45 @@ export function IdentityDocumentPDF(intl, identity) {
             )}
           </View>
 
+          {extras.ipCheck && !extras.ipCheck.error && (
+            <View>
+              <Text style={styles.title}>{intl.formatMessage({ id: 'IpCheckStep.title' })}</Text>
+
+              {/* map */}
+              <View style={styles.mapBox}>
+                <Image style={styles.mapBox} src={extras.ipCheck.data.mapUrl} />
+              </View>
+
+              {/* chip */}
+              <View style={[styles.mt1, styles.vpnChipBox]}>
+                <PDFChip
+                  isSuccess={extras.ipCheck.data.safe}
+                  label={intl.formatMessage({ id: extras.ipCheck.data.safe ? 'IpCheckStep.vpnDetected' : 'IpCheckStep.noVpnDetected' })}
+                />
+              </View>
+
+              {/* data table */}
+              <View style={styles.mt1}>
+                <View style={styles.row}>
+                  <Text style={[styles.label, styles.w20]}>{intl.formatMessage({ id: 'IpCheckStep.country' })}</Text>
+                  <Text style={[styles.value, styles.w80]}>{extras.ipCheck.data.country}</Text>
+                </View>
+                <View style={styles.row}>
+                  <Text style={[styles.label, styles.w20]}>{intl.formatMessage({ id: 'IpCheckStep.province' })}</Text>
+                  <Text style={[styles.value, styles.w80]}>{extras.ipCheck.data.region}</Text>
+                </View>
+                <View style={styles.row}>
+                  <Text style={[styles.label, styles.w20]}>{intl.formatMessage({ id: 'IpCheckStep.city' })}</Text>
+                  <Text style={[styles.value, styles.w80]}>{extras.ipCheck.data.city}</Text>
+                </View>
+                <View style={styles.row}>
+                  <Text style={[styles.label, styles.w20]}>{intl.formatMessage({ id: 'IpCheckStep.zipCode' })}</Text>
+                  <Text style={[styles.value, styles.w80]}>{extras.ipCheck.data.zip}</Text>
+                </View>
+              </View>
+            </View>
+          )}
+
           {extras.liveness && (
             <View>
               <Text style={styles.title}>{intl.formatMessage({ id: 'LivenessStep.Checks.status.title' })}</Text>
@@ -72,14 +111,10 @@ export function IdentityDocumentPDF(intl, identity) {
 
               {/* sanction list */}
               {document.isSanctioned && (
-                <View style={[styles.chip, styles.chipError]}>
-                  <View style={styles.icon}>
-                    <Image style={styles.icon} src={AlertPNG} />
-                  </View>
-                  <Text style={[styles.normal, styles.error, styles.ml05]}>
-                    {intl.formatMessage({ id: 'SanctionCheck.title' })}
-                  </Text>
-                </View>
+                <PDFChip
+                  isSuccess={false}
+                  label={intl.formatMessage({ id: 'SanctionCheck.title' })}
+                />
               )}
 
               {/* images */}

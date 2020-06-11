@@ -3,11 +3,9 @@ export function getMediaURL(uri = '') {
     uri = uri.replace(process.env.REACT_APP_MEDIA_URL, process.env.REACT_APP_MEDIA_PROXY);
   }
 
-  const link = {
+  return {
     method: 'GET',
     headers: new Headers({ origin: window.location.origin }),
     uri,
   };
-
-  return link;
 }

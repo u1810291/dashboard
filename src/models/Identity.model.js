@@ -1,6 +1,7 @@
 import { titleize } from 'inflection';
 import { get } from 'lodash';
 import { getDocumentExtras } from 'models/Document.model';
+import { getIpCheckStep } from 'models/IpCheck.model';
 import moment from 'moment';
 
 export const IdentityStatuses = {
@@ -131,31 +132,6 @@ export function getLivenessExtras(identity) {
     selfieUrl: get(liveness, 'data.selfiePhotoUrl') || get(liveness, 'data.selfieUrl'),
   };
 }
-export function getIpCheckStep(identity) {
-  const result = {};
-  const steps = get(identity, '_embedded.verification.steps') || [];
-  const ipStep = steps.find((step) => step.id === 'ip-validation');
-
-  if (!ipStep) {
-    return null;
-  }
-
-  if (ipStep.error) {
-    result.error = ipStep.error;
-  }
-
-  if (ipStep.data) {
-    result.country = ipStep.data.country;
-    result.region = ipStep.data.region;
-    result.city = ipStep.data.city;
-    result.latitude = ipStep.data.latitude;
-    result.longitude = ipStep.data.longitude;
-    result.zip = ipStep.data.zip;
-    result.isBehindProxy = !ipStep.data.safe;
-  }
-
-  return result;
-}
 
 export function getIdentityShortId(id) {
   return (id || '').slice(-6);
@@ -169,5 +145,6 @@ export function getIdentityExtras(identity) {
     dateCreated: moment(identity.dateCreated).local().format('DD MMM, YYYY HH:mm'),
     documents: getDocumentExtras(identity),
     isEditable: isChangeableStatus(identity.status),
+    ipCheck: getIpCheckStep(identity),
   };
 }
