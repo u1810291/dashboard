@@ -1,13 +1,14 @@
-import { get } from 'lodash';
-import React from 'react';
 import { Card, CardContent, Grid } from '@material-ui/core';
-import { Page404 } from 'apps/layout';
-import { getIdentityExtras, getIpCheckStep } from 'models/Identity.model';
 import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
-import { Header } from './Header';
+import { Page404 } from 'apps/layout';
+import { get } from 'lodash';
+import { getIdentityExtras } from 'models/Identity.model';
+import { getIpCheckStep } from 'models/IpCheck.model';
+import React from 'react';
+import { DocumentStep } from '../../components/DocumentStep';
 import { LivenessStep } from '../../components/LivenessStep';
 import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
-import { DocumentStep } from '../../components/DocumentStep';
+import { Header } from './Header';
 
 export function Verification({ identity }) {
   const verification = get(identity, '_embedded.verification');
@@ -32,9 +33,9 @@ export function Verification({ identity }) {
       </Grid>
 
       {/* IP check */}
-      {(ipCheck && !ipCheck.error) && (
+      {ipCheck && !ipCheck.error && (
         <Grid item>
-          <IpCheck data={ipCheck} />
+          <IpCheck data={ipCheck.data} />
         </Grid>
       )}
 

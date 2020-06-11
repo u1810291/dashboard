@@ -10,4 +10,10 @@ module.exports = function(app) {
     secure: true,
     logLevel: 'debug',
   }));
+  app.use('/maps', proxy({
+    target: process.env.REACT_APP_MAP_URL,
+    changeOrigin: true,
+    secure: true,
+    logLevel: 'debug',
+  }))
 };

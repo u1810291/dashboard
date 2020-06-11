@@ -80,14 +80,13 @@ export const styles = StyleSheet.create({
   },
 
   label: {
+    color: colors.greyText,
     paddingTop: 0.5 * rem,
     paddingRight: 0.5 * rem,
     paddingBottom: 0.5 * rem,
-    width: '30%',
   },
   value: {
     padding: 0.5 * rem,
-    width: '70%',
   },
   indent: {
     paddingLeft: 4 * rem,
@@ -104,6 +103,9 @@ export const styles = StyleSheet.create({
   },
   error: {
     color: colors.red,
+  },
+  success: {
+    color: colors.green,
   },
 
   // text
@@ -132,9 +134,6 @@ export const styles = StyleSheet.create({
   fg0: {
     flexGrow: 0,
   },
-  inline: {
-    display: 'inline',
-  },
 
   chip: {
     display: 'flex',
@@ -147,6 +146,9 @@ export const styles = StyleSheet.create({
   chipError: {
     border: `1pt solid ${colors.red}`,
   },
+  chipSuccess: {
+    border: `1pt solid ${colors.green}`,
+  },
   icon: {
     width: rem,
     height: rem,
@@ -157,5 +159,33 @@ export const styles = StyleSheet.create({
   },
   ml05: {
     marginLeft: 0.5 * rem,
+  },
+  w20: {
+    width: '20%',
+  },
+  w35: {
+    width: '35%',
+  },
+  w40: {
+    width: '40%',
+  },
+  w70: {
+    width: '70%',
+  },
+  w80: {
+    width: '80%',
+  },
+
+  vpnChipBox: {
+    width: 20 * rem,
+  },
+  mapBox: {
+    width: 20 * rem,
+    height: 12.5 * rem,
+  },
+
+  debug: {
+    borderRadius: 0.5 * rem,
+    backgroundColor: colors.greyBG,
   },
 });
