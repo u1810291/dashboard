@@ -1,13 +1,12 @@
 import { notification } from 'components/notification';
 import * as api from 'lib/client/identities';
+import { LoadableAdapter } from 'lib/Loadable.adapter';
+import { get } from 'lodash';
 import { ERROR_COMMON } from 'models/Error.model';
 import { IdentityStatuses } from 'models/Identity.model';
-import { LoadableAdapter } from 'lib/Loadable.adapter';
-import { normalizeCURPData } from 'state/identities/identities.helpers';
-import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from 'state/identities/identities.selectors';
 import { createTypesSequence } from 'state/utils';
-import { get } from 'lodash';
 import { IdentityActionGroups } from './identities.model';
+import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from './identities.selectors';
 
 export const types = {
   ...createTypesSequence('IDENTITY_PATCH'),
@@ -103,7 +102,7 @@ export const identityLoad = (id) => async (dispatch) => {
   dispatch({ type: types.IDENTITY_REQUEST });
   try {
     const payload = await api.getIdentityWithNestedData(id);
-    dispatch({ type: types.IDENTITY_SUCCESS, payload: normalizeCURPData(payload), isReset: true });
+    dispatch({ type: types.IDENTITY_SUCCESS, payload, isReset: true });
   } catch (error) {
     dispatch({ type: types.IDENTITY_FAILURE, error });
     throw error;
