@@ -7,6 +7,11 @@ export function getIpCheckUrl(data) {
 export function getIpCheckStep(identity) {
   const steps = get(identity, '_embedded.verification.steps') || [];
   const step = steps.find((item) => item.id === 'ip-validation');
+
+  if (!step) {
+    return null;
+  }
+
   if (!step.error && step.data) {
     step.data.mapUrl = getIpCheckUrl(step.data);
   }
