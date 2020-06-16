@@ -24,4 +24,7 @@ deploy:
     - /^release/fnx-.*$/
     - master
   script:
-    - curl -k -X POST "http://mqa%40mati.io:119bfbad75b47f27fa9fc58317b454a7e6@jenkins-bb.mati.io/job/WebApps-deployment/job/deploy-all/buildWithParameters?PROJECT=${CI_PROJECT_NAME}&BRANCH=${CI_COMMIT_REF_NAME}"
+    - SBRANCH=`echo $CI_COMMIT_TITLE | awk -F "'" '{print $2}'`
+    - echo $SBRANCH
+    - curl -k -X POST "http://mqa%40mati.io:119bfbad75b47f27fa9fc58317b454a7e6@jenkins-bb.mati.io/job/WebApps-deployment/job/deploy-all/buildWithParameters?PROJECT=${CI_PROJECT_NAME}&BRANCH=${CI_COMMIT_REF_NAME}&USER_EMAIL=${GITLAB_USER_EMAIL}&USER_NAME=${GITLAB_USER_NAME}&SRC_BRANCH=${SBRANCH}"
+
