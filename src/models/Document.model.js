@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import { getFieldsExtra } from 'models/Field.model';
+import { getCheckFieldsExtra, getFieldsExtra } from 'models/Field.model';
 import { getSecurityChecksExtra } from 'models/SecurityCheck.model';
 
 export const DocumentStepTypes = {
@@ -12,6 +12,44 @@ export const DocumentStepTypes = {
   INE: 'mexican-ine-validation',
   RFC: 'mexican-rfc-validation',
 };
+
+export const DocumentCountrySanctionList = [
+  'AF',
+  'BY',
+  'BI',
+  'CF',
+  'CI',
+  'CU',
+  'CD',
+  'CY',
+  'ER',
+  'FJ',
+  'GQ',
+  'HT',
+  'KG',
+  'IR',
+  'IQ',
+  'LA',
+  'LB',
+  'LK',
+  'LY',
+  'ML',
+  'MR',
+  'NI',
+  'KP',
+  'PG',
+  'PS',
+  'RW',
+  'SO',
+  'SD',
+  'SY',
+  'UA',
+  'RU',
+  'TM',
+  'YE',
+  'VE',
+  'ZW',
+];
 
 export const DocumentSecuritySteps = [
   DocumentStepTypes.TemplateMatching,
@@ -33,14 +71,15 @@ export function getDocumentExtras(identity) {
 
     return {
       reading: getFieldsExtra(sourceDocument.fields),
-      curp: getFieldsExtra(curp.data),
-      ine: getFieldsExtra(ine.data),
-      rfc: getFieldsExtra(rfc.data),
+      curp: getCheckFieldsExtra(curp.data),
+      ine: getCheckFieldsExtra(ine.data),
+      rfc: getCheckFieldsExtra(rfc.data),
       checks: getSecurityChecksExtra(steps.filter((step) => DocumentSecuritySteps.includes(step.id))),
       type: document.type,
       country: document.country,
       region: document.region,
       photos: document.photos || [],
+      isSanctioned: DocumentCountrySanctionList.includes(document.country),
     };
   });
 }

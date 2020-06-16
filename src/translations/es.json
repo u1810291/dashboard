@@ -320,6 +320,8 @@
   "identity.field.template-matching": "Revisión de tipo de documento",
   "identity.field.alteration-detection": "Detección de alteraciones",
   "identity.field.document-reading": "Lectura de documentos",
+  "identity.field.registrationYear": "Año de registro",
+  "identity.field.emissionYear": "Año de emisión",
   "identity.field.value.passed": "Aprobado",
   "identity.field.value.loading": "Cargando",
   "identity.field.value.failed": "Fallado",
@@ -961,5 +963,6 @@
   "unknownError": "error desconocido",
   "rename": "Renombrar",
   "delete": "Eliminar",
-  "update.field.error": "Error actualizando el campo: {name}"
+  "update.field.error": "Error actualizando el campo: {name}",
+  "SanctionCheck.title": "El usuario proviene de una región bajo sanciones. Por favor toma medidas de seguridad adicionales."
 }
