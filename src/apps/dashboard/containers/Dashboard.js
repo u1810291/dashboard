@@ -12,7 +12,12 @@ import { getCountries } from 'state/countries/countries.actions';
 import { merchantLoad, merchantFlowsLoad } from 'state/merchant/merchant.actions';
 import { getReviewCount } from 'state/identities/identities.actions';
 import { selectCountriesModel } from 'state/countries/countries.selectors';
-import { selectMerchantModel, selectShouldPassOnboarding, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import {
+  selectIsBlockedModel,
+  selectMerchantModel,
+  selectShouldPassOnboarding,
+  selectMerchantFlowsModel,
+} from 'state/merchant/merchant.selectors';
 import { AlertBanner } from '../components/AlertBanner/AlertBanner';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
 import { Questions } from '../components/Questions/Questions';
@@ -25,6 +30,7 @@ export function Dashboard() {
   const boardingModel = useSelector(selectShouldPassOnboarding);
   const merchantModel = useSelector(selectMerchantModel);
   const currentPlanId = useSelector(selectCurrentPlanId);
+  const merchantBlocked = useSelector(selectIsBlockedModel);
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
   const countriesModel = useSelector(selectCountriesModel);
 
@@ -89,7 +95,7 @@ export function Dashboard() {
     <Layout
       key="app"
       menu={<DashboardMenu />}
-      banner={!currentPlanId && <AlertBanner />}
+      banner={!currentPlanId && <AlertBanner isBlocked={merchantBlocked.value} />}
     >
       <DashboardRouter />
     </Layout>,
