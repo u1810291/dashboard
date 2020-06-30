@@ -2,12 +2,13 @@ import { Box, Grid } from '@material-ui/core';
 import { BiometricStep } from 'apps/configuration/components/VerificationSteps/biometric-steps/BiometricStep';
 import clsx from 'clsx';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiCheckCircle, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash } from 'react-icons/fi';
+import { FiCheckCircle, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash, FiUser } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCountriesModel } from 'state/countries/countries.selectors';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
+import { FacematchConfiguration } from 'apps/facematch';
 import { ConfigureColor } from './components/ConfigureColor/ConfigureColor';
 import { Countries } from './components/Countries';
 import { GdprSettings } from './components/GdprSettings';
@@ -77,6 +78,12 @@ export default function Configuration() {
         title: 'Product.configuration.govChecks',
         icon: <FiCheckCircle />,
         body: <GovChecks />,
+      },
+      {
+        id: 'facematch',
+        title: 'Product.configuration.facematch',
+        icon: <FiUser />,
+        body: <FacematchConfiguration />,
       },
     ]);
   }, [countriesModel, currentFlowModel, updateConfiguration]);
