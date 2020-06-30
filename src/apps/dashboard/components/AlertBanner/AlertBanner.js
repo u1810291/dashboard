@@ -8,7 +8,7 @@ import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { AlertButton, AlertDemoButton, AlertPaper } from './AllerBanner.styles';
 
-export function AlertBanner() {
+export function AlertBanner({ isBlocked }) {
   const intl = useIntl();
   const externalLinkHandler = useContactUsLink(intl.locale);
 
@@ -30,11 +30,13 @@ export function AlertBanner() {
         {intl.formatMessage({ id: 'AlertBanner.requestButton' })}
       </AlertDemoButton>
 
+      {isBlocked && (
       <Link to="/settings/pricing">
         <AlertButton variant="outlined" onClick={alertButtonClickHandler}>
           {intl.formatMessage({ id: 'AlertBanner.buttonText' })}
         </AlertButton>
       </Link>
+      )}
     </AlertPaper>
   );
 }
