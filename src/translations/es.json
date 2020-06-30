@@ -555,7 +555,7 @@
   "SecurityCheckStep.alteration-detection.failure": "Alterado",
   "SecurityCheckStep.alteration-detection.tip.body":"Es una validación que verifica que el documento es auténtico, libre de modificación manual o digital. Adicionalmente, esta validación asegura que el usuario haya tenido posesión del documento, descartando el uso de fotocopias y fotos a pantallas.",
   "SecurityCheckStep.alteration-detection.tip.message.failure": "El documento muestra signos de modificación o intento de fraude. Mati no puede validar la autenticidad de este documento.",
-  
+
   "SecurityCheckStep.facematch.title": "Facematch",
   "SecurityCheckStep.facematch.checking": "Cargando...",
   "SecurityCheckStep.facematch.success": "Coincide ",
@@ -569,7 +569,7 @@
   "SecurityCheckStep.template-matching.failure": "Sin coincidencia de tipo",
   "SecurityCheckStep.template-matching.tip.body": "Es una comparación entre la foto que el usuario sube y revisiones válidas del mismo tipo de documento. Para asegurarse que coinciden en términos de tipo y estilo.",
   "SecurityCheckStep.template-matching.tip.message.failure": "There was no match with any valid templates of the document.",
-  
+
   "SecurityCheckStep.watchlists.title": "Listas Negras",
   "SecurityCheckStep.watchlists.checking": "Cargando...",
   "SecurityCheckStep.watchlists.success": "No encontrado",
@@ -580,7 +580,7 @@
   "SecurityCheckStep.success": "Pasado",
   "SecurityCheckStep.checking": "Checking...",
   "SecurityCheckStep.lodaing": "Loading...",
-  
+
   "SecurityCheckStep.legacy.error": "Error interno",
   "SecurityCheckStep.system.serviceUnavailable": "Servicio no disponible",
   "SecurityCheckStep.system.internalError": "Error interno",
@@ -773,6 +773,18 @@
   "Product.configuration.govChecks.subtitle.1": "Checar documentos contra bases de datos gubernamentales es parte de la verificación default de Mati. Si no necesitas que Mati realice estos chequeos puedes decidir apagarlos. Esto reduciría el tiempo que toma una verificación.",
   "Product.configuration.govChecks.subtitle.2": "Actualmente estos chequeos solamente están disponibles para documentos mexicanos.",
   "Product.configuration.govChecks.mexico": "México",
+  "Product.configuration.facematch": "Configuraciòn del facematch",
+  "Product.configuration.facematch.subtitle": "Puedes configurar tu propio límite de puntaje de facematch al elegir una de las siguientes opciones:",
+  "Product.configuration.facematch.mode.recommended.title": "Límite recomendado",
+  "Product.configuration.facematch.mode.recommended.subtitle": "El límite por defaut es 70% de similaridad el cual te asegurará un alto nivel de seguridad. Usuarios con una cámara de baja calidad serán rechazados.",
+  "Product.configuration.facematch.mode.custom.title": "Límite personalizado",
+  "Product.configuration.facematch.mode.custom.subtitle.lower": "Si tu aplicacón requiere un nivel de seguridad menor, y si no te preocupa mucho algunas falsas aceptaciones.",
+  "Product.configuration.facematch.mode.custom.subtitle.higher": "Si tu aplicación requiere un nivel aún mas elevado de seguridad. Incrementar el puntaje tambén incrementará los falsos rechazos.",
+  "Product.configuration.facematch.mode.custom.errors.outOfRange": "Ingresa un valor entre 40 y 100",
+  "Product.configuration.facematch.mode.custom.errors.empty": "Este campo no puede estar vacío",
+  "Product.configuration.facematch.mode.custom.showLess": "Mostrar más",
+  "Product.configuration.facematch.mode.custom.showMore": "Mostrar menos",
+  "Product.configuration.facematch.save": "Guardar cambios",
   "VerificationFlow.menu.title": "Flujo de verificación",
   "VerificationFlow.menu.addNewFlow": "+ Agregar nuevo flujo",
   "VerificationFlow.menu.addDialog.title": "Crear flujo nuevo",
