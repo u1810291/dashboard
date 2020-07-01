@@ -562,6 +562,7 @@
   "SecurityCheckStep.facematch.failure": "Fallido",
   "SecurityCheckStep.facematch.tip.body": "Es un análisis comparativo entre razgos y la estrutura facial de una imagen que contiene la cara del usuario, (extraída del video de liveness) y la foto presente en su documento de identidad. Validando que en efecto sea la misma persona en los dos.",
   "SecurityCheckStep.facematch.tip.message.failure": "Las caras en el selfie/video y el documento son distintas. Ésto también puede ser causado como resultado de mala iluminación, borrosidad o flash en la tarjeta de identidad.",
+  "SecurityCheckStep.facematch.extras": "Puntaje: {facematchScore}%",
 
   "SecurityCheckStep.template-matching.title": "Revisión de tipo de documento",
   "SecurityCheckStep.template-matching.checking": "Cargando...",

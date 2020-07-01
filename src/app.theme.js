@@ -3,10 +3,10 @@ import { createMuiTheme } from '@material-ui/core';
 export const appPalette = {
   blue: '#3757ff',
   white: '#ffffff',
-  red: '#ff3535',
+  red: '#fe7581',
   lightgray: '#dcdcdc',
   orange: '#f2994a',
-  green: '#00ab62',
+  green: '#5ac794',
 };
 
 export const appTypography = {

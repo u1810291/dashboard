@@ -1,6 +1,8 @@
 import { filterSerialize } from 'apps/identity/models/filter.model';
 import { createSelector } from 'reselect';
 import { IDENTITIES_STORE_KEY, SliceNames } from './identities.model';
+import { getIdentityExtras } from '../../models/Identity.model';
+import { selectLoadableValue } from '../../lib/loadable.selectors';
 
 export const selectIdentityStore = (state) => state[IDENTITIES_STORE_KEY];
 
@@ -39,4 +41,12 @@ export const selectReviewCounterModel = createSelector(
 export const selectIdentityModel = createSelector(
   selectIdentityStore,
   (store) => store[SliceNames.Identity],
+);
+
+export const selectIdentityModelWithExtras = createSelector(
+  selectIdentityModel,
+  selectLoadableValue((value) => ({
+    ...value,
+    extras: value && getIdentityExtras(value),
+  })),
 );

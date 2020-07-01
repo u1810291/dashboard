@@ -11,7 +11,7 @@ import { DocumentReadingStep } from './DocumentReadingStep';
 import { CheckBarFlat, CheckBarExpandable } from './CheckBar';
 import { ZoomableImage } from './ZoomableImage';
 
-export function DocumentStep({ document, source, isIdentityEditable }) {
+export function DocumentStep({ document, source, isIdentityEditable, extras }) {
   const intl = useIntl();
   const countries = useSelector(selectCountriesList);
 
@@ -99,7 +99,7 @@ export function DocumentStep({ document, source, isIdentityEditable }) {
                 </Grid>
                 <Grid item container spacing={2}>
                   {securityCheckSteps.map((step) => (
-                    <CheckBarFlat step={step} key={step.id} />
+                    <CheckBarFlat step={step} key={step.id} extras={extras} />
                   ))}
                 </Grid>
                 <Grid item container>

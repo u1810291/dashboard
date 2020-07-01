@@ -1,10 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStatusColors = makeStyles(() => ({
+export const useStatusColors = makeStyles((theme) => ({
   success: {
-    color: '#46CB9B',
+    color: theme.palette.common.green,
   },
   failure: {
-    color: '#ff6666',
+    color: theme.palette.common.red,
   },
 }));

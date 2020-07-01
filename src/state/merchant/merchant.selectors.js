@@ -39,7 +39,6 @@ export const selectIsBlockedModel = createSelector(
   selectLoadableValue((merchant) => !!merchant.blockedAt),
 );
 
-
 // -- app
 
 const selectAppModel = createSelector(

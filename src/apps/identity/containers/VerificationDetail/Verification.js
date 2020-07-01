@@ -2,7 +2,6 @@ import { Card, CardContent, Grid } from '@material-ui/core';
 import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
 import { Page404 } from 'apps/layout';
 import { get } from 'lodash';
-import { getIdentityExtras } from 'models/Identity.model';
 import { getIpCheckStep } from 'models/IpCheck.model';
 import React from 'react';
 import { DocumentStep } from '../../components/DocumentStep';
@@ -13,12 +12,13 @@ import { Header } from './Header';
 export function Verification({ identity }) {
   const verification = get(identity, '_embedded.verification');
 
+
   if (!(verification)) {
     return <Page404 />;
   }
 
   const documentsSources = get(identity, '_embedded.documents');
-  const extras = getIdentityExtras(identity);
+  const { extras } = identity;
   const ipCheck = getIpCheckStep(identity);
 
   return (
@@ -52,6 +52,7 @@ export function Verification({ identity }) {
           <DocumentStep
             isIdentityEditable={extras.isEditable}
             document={doc}
+            extras={extras}
             source={documentsSources}
           />
         </Grid>

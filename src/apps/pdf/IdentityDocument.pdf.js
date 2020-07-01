@@ -5,7 +5,6 @@ import MatiLogo from 'assets/mati-logo-black.png';
 import RFC from 'assets/rfc-logo.png';
 import { getMediaURL } from 'lib/client/media';
 import { compact } from 'lodash';
-import { getIdentityExtras } from 'models/Identity.model';
 import React from 'react';
 import { getLivenessStatusColor, getStatusColor } from './IdentityDocument.model';
 import { styles } from './PDF.styles';
@@ -17,7 +16,7 @@ export function IdentityDocumentPDF(intl, identity) {
     return null;
   }
 
-  const extras = getIdentityExtras(identity);
+  const { extras } = identity;
 
   return (
     <Document title={`Identity ${identity.id}`} author="Matilock, Inc. www.mati.io">

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
   headerContainer: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -26,7 +26,7 @@ export const useStyles = makeStyles(() => ({
     minWidth: 20,
   },
   redColor: {
-    color: '#FF3535',
+    color: theme.palette.common.red,
   },
 }));
 

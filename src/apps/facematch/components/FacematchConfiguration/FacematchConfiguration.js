@@ -10,20 +10,20 @@ import {
   RadioGroup,
   Typography,
 } from '@material-ui/core';
-import { merchantUpdateFlow } from '../../state/merchant/merchant.actions';
-import { selectCurrentFlowId } from '../../state/merchant/merchant.selectors';
+import { notification } from 'components/notification';
+import { ERROR_COMMON } from 'models/Error.model';
+import { merchantUpdateFlow } from '../../../../state/merchant/merchant.actions';
+import { selectCurrentFlowId } from '../../../../state/merchant/merchant.selectors';
 import { BoxRoundBordered, InputScore } from './FacematchConfiguration.styles';
-import { selectFacematchThreshold } from './state/facematch.selectors';
-import RadioFacematchMode from './components/RadioFacematchMode';
+import { selectFacematchThreshold } from '../../state/facematch.selectors';
+import RadioFacematchMode from '../RadioFacematchMode/RadioFacematchMode';
 import {
   FacematchThresholdModes,
   FACEMATCH_MIN_THRESHOLD,
   FACEMATCH_DEFAULT_THRESHOLD,
   FACEMATCH_MAX_THRESHOLD,
   validateScore,
-} from './models/facematch.model';
-import { notification } from '../../components/notification';
-import { ERROR_COMMON } from '../../models/Error.model';
+} from '../../models/facematch.model';
 
 export const FacematchConfiguration = () => {
   const intl = useIntl();
@@ -137,7 +137,7 @@ export const FacematchConfiguration = () => {
                     <InputScore
                       type="number"
                       disabled={mode !== FacematchThresholdModes.Custom || isLoading}
-                      value={score}
+                      value={score || ''}
                       onChange={handleScoreChange}
                       placeholder={mode === FacematchThresholdModes.Custom ? ' ' : FACEMATCH_DEFAULT_THRESHOLD.toString()}
                       error={!!error}

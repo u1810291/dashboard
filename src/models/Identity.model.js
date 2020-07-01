@@ -140,6 +140,7 @@ export function getIdentityShortId(id) {
 export function getIdentityExtras(identity) {
   return {
     liveness: getLivenessExtras(identity),
+    facematchScore: get(identity, '_embedded.verification.flow.facematchThreshold'),
     shortId: getIdentityShortId(identity.id),
     fullName: titleize(identity.fullName || ''),
     dateCreated: moment(identity.dateCreated).local().format('DD MMM, YYYY HH:mm'),
