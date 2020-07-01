@@ -7,7 +7,9 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { identityDemoLoad, identityLoad } from 'state/identities/identities.actions';
-import { selectIdentityModel } from 'state/identities/identities.selectors';
+import {
+  selectIdentityModelWithExtras,
+} from 'state/identities/identities.selectors';
 import { Verification } from './Verification';
 import { VerificationSidePanel } from '../../components/VerificationSidePanel/VerificationSidePanel';
 import { VerificationFlowName } from '../../components/VerificationFlowName/VerificationFlowName';
@@ -16,7 +18,7 @@ export function VerificationDetail() {
   const dispatch = useDispatch();
   const intl = useIntl();
   const { id, demoId } = useParams();
-  const identityModel = useSelector(selectIdentityModel);
+  const identityModel = useSelector(selectIdentityModelWithExtras);
 
   useEffect(() => {
     if (id) {

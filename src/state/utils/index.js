@@ -3,7 +3,6 @@ export const ActionSubTypes = {
   Success: 'SUCCESS',
   Failure: 'FAILURE',
   Updating: 'UPDATING',
-  Updated: 'UPDATED',
 };
 
 export function createReducer(initialState, handlers) {

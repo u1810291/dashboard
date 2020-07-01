@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Box, Collapse, FormControlLabel, Grid, Radio, Typography } from '@material-ui/core';
-import { ButtonExpand, useStyles } from './FacematchModeRadio.styles';
+import { ButtonExpand, useStyles } from './RadioFacematchMode.styles';
 
 const RadioFacematchMode = ({
   mode,

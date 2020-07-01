@@ -1,4 +1,6 @@
-import { makeStyles, withStyles, Chip, Tooltip } from '@material-ui/core';
+import React from 'react';
+import clsx from 'clsx';
+import { makeStyles, withStyles, Box, Tooltip } from '@material-ui/core';
 
 export const useStyles = makeStyles(() => ({
   tooltip: {
@@ -7,6 +9,9 @@ export const useStyles = makeStyles(() => ({
     '&:hover': {
       color: '#4a4a4a',
     },
+  },
+  fluid: {
+    flexGrow: 1,
   },
   tipMessage: {
     padding: [[6, 10]],
@@ -26,39 +31,32 @@ export const useStyles = makeStyles(() => ({
   },
 }));
 
-export const CheckBarChip = withStyles({
+export const BoxCheckBarRounded = withStyles((theme) => ({
   root: {
     height: 'auto',
     width: '100%',
     minWidth: 260,
     borderRadius: 14,
-    padding: [[15, 20]],
-    backgroundColor: '#f7f7fa',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    padding: 15,
+    backgroundColor: theme.palette.common.white,
     justifyContent: 'space-between',
     '&:focus': {
       backgroundColor: '#f7f7fa',
     },
   },
-  label: {
-    height: 43,
-    fontSize: 14,
-    paddingLeft: 20,
-    display: 'flex',
-    flexGrow: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+  success: {
+    borderColor: theme.palette.common.green,
   },
-  icon: {
-    margin: 0,
+  failure: {
+    borderColor: theme.palette.common.red,
   },
-  deleteIcon: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    marginRight: 0,
-    marginLeft: 10,
-  },
-})(Chip);
+}))(({ classes, status, children }) => (
+  <Box className={clsx(classes.root, classes[status])}>
+    {children}
+  </Box>
+));
 
 export const MyTooltip = withStyles({
   tooltip: {

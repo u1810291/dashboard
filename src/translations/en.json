@@ -577,6 +577,7 @@
   "SecurityCheckStep.facematch.failure": "Failed",
   "SecurityCheckStep.facematch.tip.body": "It is a comparative analysis of the facial features and structure of an image containing the user's face, (extracted from the liveness video) and the photo on the user's Identity document. Validating that it is in fact the same person in both.",
   "SecurityCheckStep.facematch.tip.message.failure": "The faces in the document and the user’s video/selfie are different. This may also be the result of poor lightning, blurriness, or flash on the ID card.",
+  "SecurityCheckStep.facematch.extras": "Score: {facematchScore}%",
 
   "SecurityCheckStep.template-matching.title": "Template Matching",
   "SecurityCheckStep.template-matching.checking": "Loading...",
