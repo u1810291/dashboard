@@ -604,11 +604,11 @@
   "SecurityCheckStep.loading": "Loading...",
 
   "SecurityCheckStep.legacy.error": "Internal error",
-  "SecurityCheckStep.legacy.error.message": "Internal error occured.",
+  "SecurityCheckStep.legacy.error.message": "Internal error occurred.",
 
   "SecurityCheckStep.system.serviceUnavailable": "Service Unavailable",
   "SecurityCheckStep.system.internalError": "Internal error",
-  "SecurityCheckStep.system.internalError.message": "Internal error occured.",
+  "SecurityCheckStep.system.internalError.message": "Internal error occurred.",
   "SecurityCheckStep.system.serviceUnavailable.message": "Service seems to be unavailable right now.",
 
   "IpCheckStep.title": "IP Check",

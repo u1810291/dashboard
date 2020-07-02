@@ -82,8 +82,8 @@ export function getStepExtra(step, identity) {
   return {
     ...altered,
     checkStatus: getStepStatus(step.status, step.error),
-    // extras (DocumentStepFailedTypes) has no tip
-    isTip: Object.values(DocumentStepTypes).includes(step.id),
+    // extras (DocumentStepFailedTypes) and Gov-checks has no tip
+    isTip: Object.values(DocumentStepTypes).includes(step.id) && !DocumentMxSteps.includes(step.id),
   };
 }
 

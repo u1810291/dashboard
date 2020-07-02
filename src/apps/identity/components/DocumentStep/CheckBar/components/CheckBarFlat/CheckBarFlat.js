@@ -1,5 +1,6 @@
 import { Box } from '@material-ui/core';
 import { CheckBarTip } from 'apps/identity/components/DocumentStep/CheckBar/components/CheckBarTip/CheckBarTip';
+import { DocumentMxSteps } from 'models/Step.model';
 import React from 'react';
 import { FiHelpCircle } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -20,7 +21,7 @@ export function CheckBarFlat({ step, isShowExtra = true, tipPosition = 'top' }) 
         <CheckBarIcon icon={CheckBarIconsMap[step.id]} status={step.checkStatus} />
       </Box>
       {/* content */}
-      <Box flexGrow={1} ml={1}>
+      <Box flexGrow={1} ml={1} overflow="hidden">
         <Box display="flex">
           <Box fontWeight={600} flexGrow="1">
             {intl.formatMessage({ id: `SecurityCheckStep.${step.id}.title`, defaultMessage: ' ' })}
@@ -32,7 +33,7 @@ export function CheckBarFlat({ step, isShowExtra = true, tipPosition = 'top' }) 
           )}
         </Box>
         <Box mt={1}>
-          {step.error && typeof step.error === 'object'
+          {DocumentMxSteps.includes(step.id)
             ? intl.formatMessage({ id: `SecurityCheckStep.${step.error.code}` })
             : intl.formatMessage({ id: `SecurityCheckStep.${step.id}.${step.checkStatus}`, defaultMessage: ' ' }, step.labelStatusData)}
         </Box>
