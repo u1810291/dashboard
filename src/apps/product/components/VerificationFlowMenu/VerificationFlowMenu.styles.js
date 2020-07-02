@@ -18,7 +18,6 @@ export const FlowButtonAdd = withStyles(() => ({
   </Container>
 ));
 
-
 export const FlowMenuItem = withStyles(() => ({
   root: {
     padding: [[16, 20]],

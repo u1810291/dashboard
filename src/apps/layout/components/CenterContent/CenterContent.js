@@ -1,7 +1,6 @@
 import { Box } from '@material-ui/core';
 import React from 'react';
 
-
 export function CenterContent({ children }) {
   return (
     <Box

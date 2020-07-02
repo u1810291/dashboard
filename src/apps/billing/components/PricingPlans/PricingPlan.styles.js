@@ -1,6 +1,5 @@
 import { makeStyles, withStyles, Button } from '@material-ui/core';
 
-
 export const useStyles = makeStyles((theme) => ({
   priceText: {
     fontSize: 18,

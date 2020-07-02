@@ -1,4 +1,3 @@
-
 export const periodMap = [
   {
     id: 'days30',

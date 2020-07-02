@@ -1,19 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { get } from 'lodash';
-import { useIntl } from 'react-intl';
 import { Box } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
-import { getStepStatus, SYSTEM_ERROR, LEGACY_ERROR } from 'models/Step.model';
-import { expandableSteps } from '../../models/CheckBar.model';
-import { StatusMessage } from './StatusMessage';
-import {
-  useStyles,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-} from './CheckBarExpandable.styles';
-import { CheckStepDetails } from '../CheckStepDetails/CheckStepDetails';
+import { CheckBarIconsMap } from 'apps/identity/components/DocumentStep/CheckBar/components/CheckBarFlat/CheckBar.icons';
+import { getStepStatus, LEGACY_ERROR, SYSTEM_ERROR } from 'models/Step.model';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { CheckBarIcon } from '../CheckBarIcon/CheckBarIcon';
+import { CheckStepDetails } from '../CheckStepDetails/CheckStepDetails';
+import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, useStyles } from './CheckBarExpandable.styles';
+import { StatusMessage } from './StatusMessage';
 
 export function CheckBarExpandable({ step: { id, error, status, data } }) {
   const intl = useIntl();
@@ -22,7 +16,7 @@ export function CheckBarExpandable({ step: { id, error, status, data } }) {
   const [disabledExpansion, setDisabledExpansion] = useState(false);
   const [expandIcon, setExpandIcon] = useState(null);
   const statusCode = getStepStatus(status, error);
-  const logo = get(expandableSteps, `${id}.logo`);
+  const logo = CheckBarIconsMap[id];
 
   useEffect(() => {
     if (statusCode === 'checking') {

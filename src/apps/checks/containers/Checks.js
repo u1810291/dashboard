@@ -21,7 +21,7 @@ export function AdditionalChecks() {
             startIcon={check.startIcon}
             endControl={React.createElement(check.endControlComponent, check.endControlProps)}
           />
-        )) }
+        ))}
     </Box>
   );
 }

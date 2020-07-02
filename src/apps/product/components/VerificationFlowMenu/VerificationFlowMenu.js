@@ -58,7 +58,6 @@ export function VerificationFlowMenu({ setFade }) {
     }
   }, [merchantFlowList, dispatch, intl]);
 
-
   return (
     <Paper className={classes.root}>
       <FlowMenuHeader variant="h5" key="header">{intl.formatMessage({ id: 'VerificationFlow.menu.title' })}</FlowMenuHeader>

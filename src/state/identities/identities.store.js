@@ -1,4 +1,3 @@
-
 export const IDENTITIES_STORE_KEY = 'identities';
 
 export const IdentityActionGroups = {

@@ -138,11 +138,16 @@ export function getIdentityShortId(id) {
 }
 
 export function getIdentityExtras(identity) {
+  if (!identity) {
+    return null;
+  }
+
   return {
+    ...identity,
     liveness: getLivenessExtras(identity),
-    facematchScore: get(identity, '_embedded.verification.flow.facematchThreshold'),
     shortId: getIdentityShortId(identity.id),
     fullName: titleize(identity.fullName || ''),
+    // TODO @dkchv: overrided
     dateCreated: moment(identity.dateCreated).local().format('DD MMM, YYYY HH:mm'),
     documents: getDocumentExtras(identity),
     isEditable: isChangeableStatus(identity.status),

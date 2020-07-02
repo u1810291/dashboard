@@ -1,3 +1,5 @@
+import { get } from 'lodash';
+
 export const FacematchThresholdModes = {
   Recommended: 'recommended',
   Custom: 'custom',
@@ -25,3 +27,13 @@ export const validateScore = (score, mode) => {
   }
   return null;
 };
+
+export function getFacematchStepExtra(step, identity) {
+  return {
+    ...step,
+    labelExtra: `SecurityCheckStep.${step.id}.extras`,
+    labelExtraData: {
+      score: get(identity, '_embedded.verification.flow.facematchThreshold'),
+    },
+  };
+}

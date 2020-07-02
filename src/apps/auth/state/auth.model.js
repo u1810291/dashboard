@@ -1,4 +1,3 @@
-
 export const AUTH_STORE_KEY = 'auth';
 
 export const AuthActionGroups = {

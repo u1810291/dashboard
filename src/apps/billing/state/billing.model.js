@@ -1,4 +1,3 @@
-
 export const BILLING_STORE_KEY = 'billing';
 
 export const BillingActionGroups = {

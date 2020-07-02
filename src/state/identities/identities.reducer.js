@@ -2,7 +2,7 @@ import { initialFilter } from 'apps/identity/models/filter.model';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { createReducer } from 'state/utils';
 import { types } from './identities.actions';
-import { IdentityActionGroups, SliceNames } from './identities.model';
+import { IdentityActionGroups, SliceNames } from './identities.store';
 
 const initialState = {
   isLoadingFile: false,

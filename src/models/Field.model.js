@@ -13,6 +13,10 @@ export const FieldTypes = {
   EmissionDate: 'emissionDate',
 };
 
+export const FieldsExpiredCheck = [
+  FieldTypes.ExpirationDate,
+];
+
 export function getFieldsExtra(data) {
   if (!data) {
     return [];
