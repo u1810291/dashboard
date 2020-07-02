@@ -1,4 +1,3 @@
-
 export const MERCHANT_STORE_KEY = 'merchant';
 
 export const MerchantActionGroups = {

@@ -9,8 +9,17 @@ import { formatValue } from 'lib/string';
 import TextEditable from 'components/text-editable';
 import Text from 'components/text';
 
-const EditableField = ({ label, value, onSubmit }) => (value
-  ? (
+// TODO @dkchv: refactor this
+function EditableField({ label, value, onSubmit }) {
+  if (!value) {
+    return (
+      <Text weight={2} color="gray">
+        <TextEditable onSubmit={onSubmit} />
+      </Text>
+    );
+  }
+
+  return (
     <Text weight={4}>
       <TextEditable
         text={formatValue(label, value)}
@@ -19,12 +28,8 @@ const EditableField = ({ label, value, onSubmit }) => (value
         isEditing={false}
       />
     </Text>
-  )
-  : (
-    <Text weight={2} color="gray">
-      <TextEditable onSubmit={onSubmit} />
-    </Text>
-  ));
+  );
+}
 
 export function DocumentReadingStep({ documentId, step, fields = {}, isEditable = true }) {
   const intl = useIntl();

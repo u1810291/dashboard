@@ -80,3 +80,11 @@ export function normalizeDate(value) {
     ? date.format(DateFormat.DateShortStroke)
     : value;
 }
+
+export function isDateExpired(value, reference) {
+  if (!value) {
+    // can't parse, but don't block
+    return false;
+  }
+  return moment(reference).diff(moment(value)) > 0;
+}

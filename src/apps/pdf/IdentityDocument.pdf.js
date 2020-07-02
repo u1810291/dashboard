@@ -16,8 +16,6 @@ export function IdentityDocumentPDF(intl, identity) {
     return null;
   }
 
-  const { extras } = identity;
-
   return (
     <Document title={`Identity ${identity.id}`} author="Matilock, Inc. www.mati.io">
       <Page size="A4" style={styles.page}>
@@ -26,7 +24,7 @@ export function IdentityDocumentPDF(intl, identity) {
           {/* header */}
           <View style={styles.row}>
             <View style={styles.fg1}>
-              <Text style={styles.normal}>{intl.formatMessage({ id: 'identity.title' }, { id: extras.shortId })}</Text>
+              <Text style={styles.normal}>{intl.formatMessage({ id: 'identity.title' }, { id: identity.shortId })}</Text>
               <View style={{ color: getStatusColor(identity.status) }}>
                 <Text style={styles.h2}>
                   {intl.formatMessage({ id: 'identity.status' })}
@@ -34,30 +32,30 @@ export function IdentityDocumentPDF(intl, identity) {
                   {intl.formatMessage({ id: `statuses.${identity.status}` })}
                 </Text>
               </View>
-              <Text style={[styles.h1, styles.mt1]}>{extras.fullName || intl.formatMessage({ id: 'identity.nameNotFound' })}</Text>
-              <Text style={[styles.normal, styles.grey]}>{extras.dateCreated}</Text>
+              <Text style={[styles.h1, styles.mt1]}>{identity.fullName || intl.formatMessage({ id: 'identity.nameNotFound' })}</Text>
+              <Text style={[styles.normal, styles.grey]}>{identity.dateCreated}</Text>
             </View>
-            {extras.liveness && extras.liveness.selfieUrl && (
+            {identity.liveness && identity.liveness.selfieUrl && (
               <View style={styles.selfieBox}>
-                <Image style={styles.selfieImg} src={getMediaURL(extras.liveness.selfieUrl)} />
+                <Image style={styles.selfieImg} src={getMediaURL(identity.liveness.selfieUrl)} />
               </View>
             )}
           </View>
 
-          {extras.ipCheck && !extras.ipCheck.error && (
+          {identity.ipCheck && !identity.ipCheck.error && (
             <View>
               <Text style={styles.title}>{intl.formatMessage({ id: 'IpCheckStep.title' })}</Text>
 
               {/* map */}
               <View style={styles.mapBox}>
-                <Image style={styles.mapBox} src={extras.ipCheck.data.mapUrl} />
+                <Image style={styles.mapBox} src={identity.ipCheck.data.mapUrl} />
               </View>
 
               {/* chip */}
               <View style={[styles.mt1, styles.vpnChipBox]}>
                 <PDFChip
-                  isSuccess={extras.ipCheck.data.safe}
-                  label={intl.formatMessage({ id: extras.ipCheck.data.safe ? 'IpCheckStep.vpnDetected' : 'IpCheckStep.noVpnDetected' })}
+                  isSuccess={identity.ipCheck.data.safe}
+                  label={intl.formatMessage({ id: identity.ipCheck.data.safe ? 'IpCheckStep.vpnDetected' : 'IpCheckStep.noVpnDetected' })}
                 />
               </View>
 
@@ -65,25 +63,25 @@ export function IdentityDocumentPDF(intl, identity) {
               <View style={styles.mt1}>
                 <View style={styles.row}>
                   <Text style={[styles.label, styles.w20]}>{intl.formatMessage({ id: 'IpCheckStep.country' })}</Text>
-                  <Text style={[styles.value, styles.w80]}>{extras.ipCheck.data.country}</Text>
+                  <Text style={[styles.value, styles.w80]}>{identity.ipCheck.data.country}</Text>
                 </View>
                 <View style={styles.row}>
                   <Text style={[styles.label, styles.w20]}>{intl.formatMessage({ id: 'IpCheckStep.province' })}</Text>
-                  <Text style={[styles.value, styles.w80]}>{extras.ipCheck.data.region}</Text>
+                  <Text style={[styles.value, styles.w80]}>{identity.ipCheck.data.region}</Text>
                 </View>
                 <View style={styles.row}>
                   <Text style={[styles.label, styles.w20]}>{intl.formatMessage({ id: 'IpCheckStep.city' })}</Text>
-                  <Text style={[styles.value, styles.w80]}>{extras.ipCheck.data.city}</Text>
+                  <Text style={[styles.value, styles.w80]}>{identity.ipCheck.data.city}</Text>
                 </View>
                 <View style={styles.row}>
                   <Text style={[styles.label, styles.w20]}>{intl.formatMessage({ id: 'IpCheckStep.zipCode' })}</Text>
-                  <Text style={[styles.value, styles.w80]}>{extras.ipCheck.data.zip}</Text>
+                  <Text style={[styles.value, styles.w80]}>{identity.ipCheck.data.zip}</Text>
                 </View>
               </View>
             </View>
           )}
 
-          {extras.liveness && (
+          {identity.liveness && (
             <View>
               <Text style={styles.title}>{intl.formatMessage({ id: 'LivenessStep.Checks.status.title' })}</Text>
               <View style={styles.row}>
@@ -91,14 +89,14 @@ export function IdentityDocumentPDF(intl, identity) {
                   {intl.formatMessage({ id: 'flow.biometricStep.selfie' })}
                   :
                 </Text>
-                <Text style={[styles.value, { color: getLivenessStatusColor(extras.liveness.status) }]}>
-                  {intl.formatMessage({ id: `LivenessStep.Checks.${extras.liveness.status}` })}
+                <Text style={[styles.value, { color: getLivenessStatusColor(identity.liveness.status) }]}>
+                  {intl.formatMessage({ id: `LivenessStep.Checks.${identity.liveness.status}` })}
                 </Text>
               </View>
             </View>
           )}
 
-          {extras.documents.map((document) => (
+          {identity.documents.map((document) => (
             <View key={document.type}>
               {/* title */}
               <Text style={styles.title}>
@@ -194,7 +192,7 @@ export function IdentityDocumentPDF(intl, identity) {
           <View style={styles.fg1}>
             <Image style={styles.footerLogo} src={MatiLogo} />
           </View>
-          <Text>{intl.formatMessage({ id: 'identity.title' }, { id: extras.shortId })}</Text>
+          <Text>{intl.formatMessage({ id: 'identity.title' }, { id: identity.shortId })}</Text>
         </View>
       </Page>
     </Document>

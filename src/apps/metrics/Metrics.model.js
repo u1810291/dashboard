@@ -1,4 +1,3 @@
-
 export const StubBarColor = '#f1f1f1';
 export const StubTickColor = '#e9eaeb';
 

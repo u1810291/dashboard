@@ -25,7 +25,6 @@ export default class OverlayWithBlur extends Component {
     document.body.appendChild(this.root);
   }
 
-
   render() {
     const { children, onClose } = this.props;
     return createPortal(<Overlay onClose={onClose}>{children}</Overlay>, this.root);

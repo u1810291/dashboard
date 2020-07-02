@@ -1,10 +1,6 @@
-
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles(() => ({
-  // :root {
-  //   --mgi-table-row-height: 50px;
-  // }
   wrapper: {
     width: '100%',
   },

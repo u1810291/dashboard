@@ -577,7 +577,7 @@
   "SecurityCheckStep.facematch.failure": "Failed",
   "SecurityCheckStep.facematch.tip.body": "It is a comparative analysis of the facial features and structure of an image containing the user's face, (extracted from the liveness video) and the photo on the user's Identity document. Validating that it is in fact the same person in both.",
   "SecurityCheckStep.facematch.tip.message.failure": "The faces in the document and the user’s video/selfie are different. This may also be the result of poor lightning, blurriness, or flash on the ID card.",
-  "SecurityCheckStep.facematch.extras": "Score: {facematchScore}%",
+  "SecurityCheckStep.facematch.extras": "Score: {score}%",
 
   "SecurityCheckStep.template-matching.title": "Template Matching",
   "SecurityCheckStep.template-matching.checking": "Loading...",
@@ -593,9 +593,15 @@
   "SecurityCheckStep.watchlists.tip.body": "It is a series of searches, performed to identify any possible matches between individuals in international and local criminal lists and the user's data extracted by our document reading.",
   "SecurityCheckStep.watchlists.tip.message.failure": "A match for user's name was found in watchlists.",
 
+  "SecurityCheckStep.empty-fields.title": "Incomplete Document Data",
+  "SecurityCheckStep.empty-fields.failure": "Missing fields: {fields}",
+
+  "SecurityCheckStep.expired-date.title": "Document has expired",
+  "SecurityCheckStep.expired-date.failure": "Expired on: {date}",
+
   "SecurityCheckStep.success": "Passed",
   "SecurityCheckStep.checking": "Checking...",
-  "SecurityCheckStep.lodaing": "Loading...",
+  "SecurityCheckStep.loading": "Loading...",
 
   "SecurityCheckStep.legacy.error": "Internal error",
   "SecurityCheckStep.legacy.error.message": "Internal error occured.",
@@ -996,5 +1002,6 @@
   "rename": "Rename",
   "delete": "Delete",
   "update.field.error": "Error updating field: {name}",
-  "SanctionCheck.title": "This user is from a sanctioned region. Please take additional screening measures."
+  "SanctionCheck.title": "This user is from a sanctioned region. Please take additional screening measures.",
+  "CheckSummary.title": "Issues detected ({count})"
 }

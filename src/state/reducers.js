@@ -9,7 +9,7 @@ import { COLLABORATOR_STORE_KEY } from 'apps/collaborators/state/collaborator.mo
 import collaborators from 'apps/collaborators/state/collaborator.reducer';
 import { COUNTRIES_STORE_KEY } from 'state/countries/countries.model';
 import countries from 'state/countries/countries.reducer';
-import { IDENTITIES_STORE_KEY } from 'state/identities/identities.model';
+import { IDENTITIES_STORE_KEY } from 'state/identities/identities.store';
 import identities from 'state/identities/identities.reducer';
 import { MERCHANT_STORE_KEY } from 'state/merchant/merchant.model';
 import merchant from 'state/merchant/merchant.reducer';

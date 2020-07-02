@@ -70,7 +70,6 @@ function QuestionsContent() {
     }
   }, [dispatch, phone, inputs]);
 
-
   return (
     <form onSubmit={handleSubmit} id="signup_form">
       <Grid container direction="column" spacing={3} className={classes.grid}>

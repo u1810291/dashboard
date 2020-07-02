@@ -11,15 +11,11 @@ import { Header } from './Header';
 
 export function Verification({ identity }) {
   const verification = get(identity, '_embedded.verification');
-
+  const ipCheck = getIpCheckStep(identity);
 
   if (!(verification)) {
     return <Page404 />;
   }
-
-  const documentsSources = get(identity, '_embedded.documents');
-  const { extras } = identity;
-  const ipCheck = getIpCheckStep(identity);
 
   return (
     <Grid container spacing={2} direction="column" wrap="nowrap">
@@ -27,7 +23,7 @@ export function Verification({ identity }) {
       <Grid item>
         <Card>
           <CardContent>
-            <Header fullName={extras.fullName} dateCreated={extras.dateCreated} />
+            <Header fullName={identity.fullName} dateCreated={identity.dateCreated} />
           </CardContent>
         </Card>
       </Grid>
@@ -40,20 +36,18 @@ export function Verification({ identity }) {
       )}
 
       {/* Liveness */}
-      {extras.liveness && (
+      {identity.liveness && (
         <Grid item>
-          <LivenessStep liveness={extras.liveness} />
+          <LivenessStep liveness={identity.liveness} />
         </Grid>
       )}
 
       {/* Documents */}
-      {verification.documents.map((doc) => (
+      {identity.documents.map((doc) => (
         <Grid item key={doc.type}>
           <DocumentStep
-            isIdentityEditable={extras.isEditable}
+            isIdentityEditable={identity.isEditable}
             document={doc}
-            extras={extras}
-            source={documentsSources}
           />
         </Grid>
       ))}

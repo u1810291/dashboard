@@ -1,20 +1,21 @@
-import { get } from 'lodash';
-import React, { useCallback, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { Box, Grid } from '@material-ui/core';
 import confirm from 'components/confirm/Confirm';
 import confirmStyled from 'components/confirm/ConfirmStyled';
 import { closeOverlay, createOverlay } from 'components/overlay';
 import { downloadBlob } from 'lib/file';
+import { get } from 'lodash';
 import { isChangeableStatus } from 'models/Identity.model';
+import React, { useCallback, useState } from 'react';
 import { FiCode, FiDownload, FiLoader, FiTrash2, FiUpload } from 'react-icons/fi';
+import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { identityRemove, identityUpdate } from 'state/identities/identities.actions';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
-import { VerificationWebhookModal } from '../VerificationWebhookModal';
-import { StatusSelect } from '../StatusSelect';
+import { CheckSummary } from '../CheckSummary/CheckSummary';
 import { StatusesExplanation } from '../StatusesExplanation';
+import { StatusSelect } from '../StatusSelect';
+import { VerificationWebhookModal } from '../VerificationWebhookModal';
 import { SideButton } from './VerificationSidePanel.styles';
 
 export function VerificationSidePanel({ identity, isDemo = false }) {
@@ -136,6 +137,10 @@ export function VerificationSidePanel({ identity, isDemo = false }) {
         <Box mt={2}>
           <StatusesExplanation />
         </Box>
+      </Grid>
+
+      <Grid item>
+        <CheckSummary identity={identity} />
       </Grid>
     </Grid>
   );

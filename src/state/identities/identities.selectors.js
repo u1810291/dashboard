@@ -1,6 +1,6 @@
 import { filterSerialize } from 'apps/identity/models/filter.model';
 import { createSelector } from 'reselect';
-import { IDENTITIES_STORE_KEY, SliceNames } from './identities.model';
+import { IDENTITIES_STORE_KEY, SliceNames } from './identities.store';
 import { getIdentityExtras } from '../../models/Identity.model';
 import { selectLoadableValue } from '../../lib/loadable.selectors';
 
@@ -45,8 +45,5 @@ export const selectIdentityModel = createSelector(
 
 export const selectIdentityModelWithExtras = createSelector(
   selectIdentityModel,
-  selectLoadableValue((value) => ({
-    ...value,
-    extras: value && getIdentityExtras(value),
-  })),
+  selectLoadableValue((value) => getIdentityExtras(value)),
 );

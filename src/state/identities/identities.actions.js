@@ -5,7 +5,7 @@ import { get } from 'lodash';
 import { ERROR_COMMON } from 'models/Error.model';
 import { IdentityStatuses } from 'models/Identity.model';
 import { createTypesSequence } from 'state/utils';
-import { IdentityActionGroups } from './identities.model';
+import { IdentityActionGroups } from './identities.store';
 import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from './identities.selectors';
 
 export const types = {

@@ -139,6 +139,7 @@ export default class TextEditable extends React.Component {
         </div>
       );
     }
+
     return (
       <div className={className}>
         <div
@@ -153,7 +154,11 @@ export default class TextEditable extends React.Component {
           tabIndex="0"
         >
           <span>
-            {(error ? text : savedText) || <DataWasntExtracted /> }
+            {(error ? text : savedText) || (
+              <span className="color-red">
+                <DataWasntExtracted />
+              </span>
+            ) }
           </span>
           {isLoading ? (
             <CircularProgress color="secondary" />

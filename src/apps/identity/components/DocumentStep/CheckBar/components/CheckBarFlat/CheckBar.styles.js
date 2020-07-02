@@ -13,29 +13,11 @@ export const useStyles = makeStyles(() => ({
   fluid: {
     flexGrow: 1,
   },
-  tipMessage: {
-    padding: [[6, 10]],
-    borderRadius: 5,
-    marginTop: 15,
-  },
-  tipMessageSuccess: {
-    color: '#2ADA9A',
-    backgroundColor: 'rgba(42, 218, 154, 0.1)',
-  },
-  tipMessageFailure: {
-    color: '#ff0000',
-    backgroundColor: 'rgba(255, 0, 0, 0.1)',
-  },
-  tipMessageChecking: {
-    border: '1px solid #0a0a0a',
-  },
 }));
 
 export const BoxCheckBarRounded = withStyles((theme) => ({
   root: {
-    height: 'auto',
-    width: '100%',
-    minWidth: 260,
+    display: 'flex',
     borderRadius: 14,
     borderWidth: 1,
     borderStyle: 'solid',

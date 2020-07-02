@@ -1,45 +1,27 @@
 import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import { SanctionChip } from 'apps/checks';
+import { useDocumentTitle } from 'apps/identity/hooks/document.hook';
 import classNames from 'classnames';
-import { compact } from 'lodash';
 import { DocumentCountrySanctionList } from 'models/Document.model';
+import { DocumentMxSteps, DocumentSecuritySteps, DocumentStepTypes } from 'models/Step.model';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
-import { selectCountriesList } from 'state/countries/countries.selectors';
+import { CheckBarExpandable, CheckBarFlat } from './CheckBar';
 import { DocumentReadingStep } from './DocumentReadingStep';
-import { CheckBarFlat, CheckBarExpandable } from './CheckBar';
 import { ZoomableImage } from './ZoomableImage';
 
-export function DocumentStep({ document, source, isIdentityEditable, extras }) {
+export function DocumentStep({ document, isIdentityEditable }) {
   const intl = useIntl();
-  const countries = useSelector(selectCountriesList);
+  const title = useDocumentTitle(document);
 
-  const { steps = [], country, type, region, photos = [], isEditable = true } = document;
+  const { steps = [], country, source, type, isEditable = true } = document;
   const [isSanctioned] = useState(DocumentCountrySanctionList.includes(country));
-  const documentReadingStep = steps.find((step) => step.id === 'document-reading');
-  const documentReadingSource = source.find((item) => item.type === type) || {};
-  const isFormEditable = isIdentityEditable && documentReadingSource.demo !== true && isEditable;
-  const countryName = (countries.find(({ code }) => code === country) || {}).name || country;
+  const documentReadingStep = steps.find((step) => step.id === DocumentStepTypes.DocumentReading);
+  const isFormEditable = isIdentityEditable && source.demo !== true && isEditable;
   const onReading = documentReadingStep.status < 200;
   const dataTitle = intl.formatMessage({ id: onReading ? 'DocumentStep.Data.titleReading' : 'DocumentStep.Data.title' });
-  const title = intl.formatMessage({ id: 'DocumentStep.title' }, {
-    document: intl.formatMessage({ id: `flow.documentTypeStep.${type}` }),
-    country: compact([countryName, region]).join(', '),
-  });
-
-  const securityCheckSteps = steps.filter((step) => [
-    'template-matching',
-    'alteration-detection',
-    'watchlists',
-    'facematch',
-  ].includes(step.id));
-
-  const mxSteps = steps.filter((step) => [
-    'mexican-curp-validation',
-    'mexican-ine-validation',
-    'mexican-rfc-validation',
-  ].includes(step.id));
+  const securityCheckSteps = steps.filter((step) => DocumentSecuritySteps.includes(step.id));
+  const mxSteps = steps.filter((step) => DocumentMxSteps.includes(step.id));
 
   return (
     <Paper>
@@ -65,9 +47,9 @@ export function DocumentStep({ document, source, isIdentityEditable, extras }) {
                 <Box>
                   {documentReadingStep && (
                     <DocumentReadingStep
-                      documentId={documentReadingSource.id}
+                      documentId={source.id}
                       step={documentReadingStep}
-                      fields={documentReadingSource.fields}
+                      fields={source.fields}
                       isEditable={isFormEditable}
                     />
                   )}
@@ -77,7 +59,7 @@ export function DocumentStep({ document, source, isIdentityEditable, extras }) {
             {/* images */}
             <Grid item xs={5}>
               <Grid container direction="column" spacing={2}>
-                {photos.map((photo) => (photo) && (
+                {document.photos.map((photo) => (photo) && (
                   <Grid item key={photo}>
                     <ZoomableImage src={photo} alt={type} />
                   </Grid>
@@ -99,7 +81,9 @@ export function DocumentStep({ document, source, isIdentityEditable, extras }) {
                 </Grid>
                 <Grid item container spacing={2}>
                   {securityCheckSteps.map((step) => (
-                    <CheckBarFlat step={step} key={step.id} extras={extras} />
+                    <Grid item xs={12} md={6} key={step.id}>
+                      <CheckBarFlat step={step} />
+                    </Grid>
                   ))}
                 </Grid>
                 <Grid item container>

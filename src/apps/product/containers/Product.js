@@ -28,7 +28,6 @@ export function Product() {
     dispatch(appLoad());
   }), [dispatch]);
 
-
   const changeActiveTabHandler = (tabIndex) => {
     const newTab = ProductTabs[tabIndex];
     if (newTab.mixPanelEvent) {

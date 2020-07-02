@@ -1,4 +1,3 @@
-
 export const METRICS_STORE_KEY = 'metrics';
 
 export const metricsActionGroups = {
