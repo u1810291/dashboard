@@ -119,7 +119,11 @@ export const FacematchConfiguration = () => {
                               </Box>
                               {' - '}
                             </Typography>
-                            {intl.formatMessage({ id: 'Product.configuration.facematch.mode.custom.subtitle.lower' })}
+                            {intl.formatMessage({
+                              id: 'Product.configuration.facematch.mode.custom.subtitle.lower',
+                            }, {
+                              bold: (msg) => (<Box display="inline" fontWeight="bold">{msg}</Box>),
+                            })}
                           </Grid>
                           <Grid item>
                             <Typography component="div" display="inline">
@@ -128,7 +132,11 @@ export const FacematchConfiguration = () => {
                               </Box>
                               {' - '}
                             </Typography>
-                            {intl.formatMessage({ id: 'Product.configuration.facematch.mode.custom.subtitle.higher' })}
+                            {intl.formatMessage({
+                              id: 'Product.configuration.facematch.mode.custom.subtitle.higher',
+                            }, {
+                              bold: (msg) => (<Box display="inline" fontWeight="bold">{msg}</Box>),
+                            })}
                           </Grid>
                         </Grid>
                       </Box>
