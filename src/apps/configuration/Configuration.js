@@ -1,4 +1,4 @@
-import { Box, Grid } from '@material-ui/core';
+import { Box, Grid, Hidden, Divider } from '@material-ui/core';
 import { BiometricStep } from 'apps/configuration/components/VerificationSteps/biometric-steps/BiometricStep';
 import clsx from 'clsx';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -90,9 +90,9 @@ export default function Configuration() {
 
   return (
     <Box className={classes.root}>
-      <Grid container spacing={1} direction="row">
+      <Grid container spacing={2} direction="row" wrap="nowrap" alignItems="stretch">
         {/* menu */}
-        <Grid item xs={12} md={5}>
+        <Grid item xs={false} md={5}>
           <Grid container spacing={1} direction="column">
             {flowSteps.map((item, index) => (
               <Grid item key={item.id}>
@@ -105,14 +105,22 @@ export default function Configuration() {
                   startIcon={item.icon}
                   onClick={() => setActive(index)}
                 >
-                  <FormattedMessage id={item.title} />
+                  <Hidden xsDown>
+                    <FormattedMessage id={item.title} />
+                  </Hidden>
                 </ButtonMenu>
               </Grid>
             ))}
           </Grid>
         </Grid>
+        {/* divider */}
+        <Hidden smUp>
+          <Grid item xs={false}>
+            <Divider orientation="vertical" />
+          </Grid>
+        </Hidden>
         {/* content */}
-        <Grid item xs={12} md={7}>
+        <Grid item xs md={7}>
           {flowSteps[active] && flowSteps[active].body}
         </Grid>
       </Grid>

@@ -4,7 +4,7 @@ import React from 'react';
 import { FiInfo, FiUser } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 
-export function SecondaryMenu() {
+export function SecondaryMenu(props) {
   const intl = useIntl();
 
   const entries = [
@@ -24,5 +24,5 @@ export function SecondaryMenu() {
     },
   ];
 
-  return <Menu entries={entries} />;
+  return <Menu entries={entries} {...props} />;
 }

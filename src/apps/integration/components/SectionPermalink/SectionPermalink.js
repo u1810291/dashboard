@@ -9,7 +9,7 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectClientIdModel, selectCurrentFlowId } from 'state/merchant/merchant.selectors';
 
-export function PermalinkSection() {
+export function SectionPermalink() {
   const intl = useIntl();
   const clientIdModel = useSelector(selectClientIdModel);
   const flowId = useSelector(selectCurrentFlowId);

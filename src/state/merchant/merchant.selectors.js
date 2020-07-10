@@ -2,7 +2,6 @@ import { selectUserId } from 'apps/user/state/user.selectors';
 import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
 import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
-import { get } from 'lodash';
 import { createSelector } from 'reselect';
 import { MERCHANT_STORE_KEY, SliceNames } from 'state/merchant/merchant.model';
 
@@ -67,16 +66,6 @@ export const selectConfigurationModel = createSelector(
   selectMerchantStore,
   (merchant) => merchant[SliceNames.Configuration],
 );
-
-export const selectOrganizationNameModel = createSelector(
-  selectConfigurationModel,
-  selectLoadableValue((cfg) => get(cfg, 'dashboard.info.organization')),
-);
-
-// export const selectGovChecks = createSelector(
-//   selectConfigurationModel,
-//   selectModelValue((cfg) => cfg.verificationPatterns),
-// );
 
 // -- dashboard
 

@@ -1,6 +1,4 @@
-import React from 'react';
-import { Button, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { Button, makeStyles, withStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => ({
   headerContainer: {
@@ -39,16 +37,3 @@ export const CopyLinkButton = withStyles(() => ({
     },
   },
 }))(Button);
-
-export const MyMenuItem = withStyles(() => ({
-  listItemIcon: {
-    minWidth: 20,
-  },
-}))(({ classes, startIcon, label, ...props }) => (
-  <MenuItem {...props}>
-    <ListItemIcon className={classes.listItemIcon}>
-      {startIcon}
-    </ListItemIcon>
-    <ListItemText>{label}</ListItemText>
-  </MenuItem>
-));

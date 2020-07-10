@@ -1,6 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
+  content: {
+    marginTop: 20,
+    marginBottom: 70,
+    [theme.breakpoints.down('md')]: {
+      marginBottom: 20,
+    },
+  },
   gridContainer: {
     flexWrap: 'nowrap',
     [theme.breakpoints.down('md')]: {
@@ -10,7 +17,6 @@ export const useStyles = makeStyles((theme) => ({
   leftBlock: {
     flex: [[1, 2, '250px']],
     [theme.breakpoints.down('md')]: {
-      order: 5,
       display: 'flex',
       alignItems: 'stretch',
       justifyContent: 'space-between',
@@ -20,7 +26,6 @@ export const useStyles = makeStyles((theme) => ({
     flex: [[1, 1, '700px']],
     [theme.breakpoints.down('md')]: {
       width: '100%',
-      order: 15,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-around',
@@ -28,8 +33,5 @@ export const useStyles = makeStyles((theme) => ({
   },
   rightBlock: {
     flex: [[1, 2, '290px']],
-    [theme.breakpoints.down('md')]: {
-      order: 10,
-    },
   },
 }));

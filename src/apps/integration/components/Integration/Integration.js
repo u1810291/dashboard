@@ -1,9 +1,15 @@
 import { Divider, Paper } from '@material-ui/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { IntegrationSection } from '../IntegrationSection/IntegrationSection';
+import { SectionAPI } from '../SectionAPI/APISection';
+import { SectionDocumentation } from '../SectionDocumentation/DocumentationSection';
+import { SectionMobileSDK } from '../SectionMobileSDK/SectionMobileSDK';
+import { SectionPermalink } from '../SectionPermalink/SectionPermalink';
+import { SectionWebhook } from '../SectionWebhook/SectionWebhook';
+import { SectionWebhookDocumentation } from '../SectionWebhookDocumentation/SectionWebhookDocumentation';
+import { SectionWebSDK } from '../SectionWebSDK/SectionWebSDK';
 import { SubDivider } from './Integration.styles';
-import { IntegrationSection } from './IntegrationSection';
-import { APISection, DocumentationSection, MobileSDKSection, PermalinkSection, WebhookDocumentationSection, WebhookSection, WebSDKSection } from './sections';
 
 export function Integration() {
   const intl = useIntl();
@@ -11,23 +17,23 @@ export function Integration() {
   return (
     <Paper>
       <IntegrationSection title={intl.formatMessage({ id: 'apps.integration.documentation.title' })}>
-        <DocumentationSection />
+        <SectionDocumentation />
       </IntegrationSection>
       <Divider variant="fullWidth" />
       <IntegrationSection title={intl.formatMessage({ id: 'apps.integration.verify.title' })}>
-        <APISection />
+        <SectionAPI />
         <SubDivider />
-        <WebSDKSection />
+        <SectionWebSDK />
         <SubDivider />
-        <MobileSDKSection />
+        <SectionMobileSDK />
         <SubDivider />
-        <PermalinkSection />
+        <SectionPermalink />
       </IntegrationSection>
       <Divider variant="fullWidth" />
       <IntegrationSection title={intl.formatMessage({ id: 'apps.integration.sync.title' })}>
-        <WebhookDocumentationSection />
+        <SectionWebhookDocumentation />
         <SubDivider />
-        <WebhookSection />
+        <SectionWebhook />
       </IntegrationSection>
     </Paper>
   );
