@@ -1,18 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useIntl } from 'react-intl';
-import {
-  Box,
-  Switch,
-  FormControl,
-  FormControlLabel,
-  Typography,
-} from '@material-ui/core';
+import { Box, FormControl, FormControlLabel, Switch, Typography } from '@material-ui/core';
 import { Items } from 'components';
-import { selectPolicyInterval } from 'state/merchant/merchant.selectors';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
-import { SetupDialog } from './GdprPopup';
-import { DropdownSettings } from './GdprDropdown';
+import { selectPolicyInterval } from 'state/merchant/merchant.selectors';
+import { GdprDropdown } from '../GdprDropdown/GdprDropdown';
+import { GdprPopup } from '../GdprPopup/GdprPopup';
 
 export function GdprSettings() {
   const intl = useIntl();
@@ -45,7 +39,7 @@ export function GdprSettings() {
 
   return (
     <FormControl component="fieldset">
-      <SetupDialog
+      <GdprPopup
         openDialog={openDialog}
         handleCloseDialog={handleCloseDialog}
       />
@@ -68,7 +62,7 @@ export function GdprSettings() {
             label={intl.formatMessage({ id: 'Product.configuration.gdpr.switchLabel' })}
           />
           {enabled && policyInterval && (
-            <DropdownSettings
+            <GdprDropdown
               policyInterval={policyInterval}
               handleClickOpenDialog={handleClickOpenDialog}
             />

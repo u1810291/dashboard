@@ -1,12 +1,8 @@
+import { Box, Button, Grid } from '@material-ui/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import {
-  Box,
-  Grid,
-  Button,
-} from '@material-ui/core';
 
-export function DropdownSettings({ policyInterval, handleClickOpenDialog }) {
+export function GdprDropdown({ policyInterval, handleClickOpenDialog }) {
   const intl = useIntl();
 
   return (

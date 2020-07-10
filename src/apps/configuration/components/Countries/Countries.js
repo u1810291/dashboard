@@ -1,24 +1,12 @@
+import { Box, CircularProgress, Typography, Button, Chip, Grid } from '@material-ui/core';
+import { closeOverlay, createOverlay } from 'components/overlay';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import classNames from 'classnames';
+import { Warning } from 'apps/ui';
+import { CountriesModal } from '../CountriesModal/CountriesModal';
 
-import Button from 'components/button';
-import Items from 'components/items';
-import Text from 'components/text';
-import { createOverlay, closeOverlay } from 'components/overlay';
-
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { CountriesModal } from '../CountriesModal';
-import { useStyles } from './Countries.styles';
-
-export function Countries({
-  countries,
-  supportedCountries,
-  onSubmit,
-  isLoading,
-}) {
+export function Countries({ countries, supportedCountries = [], onSubmit, isLoading }) {
   const intl = useIntl();
-  const classes = useStyles();
 
   const onSubmitHandler = (value) => {
     closeOverlay();
@@ -47,51 +35,57 @@ export function Countries({
   );
 
   return (
-    <fieldset className="mgi-fieldset">
-      <Text size={3} weight={4}>
+    <Box>
+      <Typography variant="h4" gutterBottom>
         {intl.formatMessage({ id: 'flow.countries.title' })}
-      </Text>
-      <Items flow="row" gap={1} justifyContent="start">
-        <p className={classNames('text-secondary', [classes.description])}>
-          {intl.formatMessage({ id: 'flow.countries.description' })}
-        </p>
-        {!!supportedCountries.length && (
-          <p>
-            {intl.formatMessage({ id: 'flow.countries.verifying' })}
-          </p>
-        )}
-        {isLoading ? (
-          <CircularProgress color="secondary" />
-        ) : (
-          <Items flow="row" justifyContent="start">
-            {supportedCountries.length > 0 && (
-              <Items
-                flow="row"
-                templateColumns="repeat(3, 1fr)"
-                align="stretch"
-                gap={1}
-              >
-                {supportedCountries
-                  .map(mapValues)
-                  .map((country, index) => (
-                    <button
-                      type="button"
-                      key={index} // eslint-disable-line react/no-array-index-key
-                      className={classes.countryItem}
-                    >
-                      {country.label}
-                    </button>
-                  ))}
-              </Items>
-            )}
-            <section>
-              <Button className={classes.action} onClick={openCountriesModal}>
-                { intl.formatMessage({ id: `flow.countries.${supportedCountries.length ? 'edit' : 'add'}` }) }
-              </Button>
-            </section>
-          </Items>
-        )}
-      </Items>
-    </fieldset>
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        {intl.formatMessage({ id: 'flow.countries.description' })}
+      </Typography>
+
+      <Box my={1}>
+        <Warning label={intl.formatMessage({ id: 'flow.countries.warning' })} />
+      </Box>
+
+      {!!supportedCountries.length && (
+        <Typography variant="body1" gutterBottom>
+          {intl.formatMessage({ id: 'flow.countries.verifying' })}
+        </Typography>
+      )}
+
+      {/* content */}
+      {isLoading ? (
+        <CircularProgress color="secondary" />
+      ) : (
+        <Box>
+          {supportedCountries.length > 0 && (
+            <Grid container spacing={1} direction="row">
+              {supportedCountries
+                .map(mapValues)
+                .map((country) => (
+                  <Grid item key={country.value}>
+                    <Chip label={country.label} color="default" />
+                  </Grid>
+                ))}
+            </Grid>
+          )}
+
+          <Box mt={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={openCountriesModal}
+            >
+              {intl.formatMessage({
+                id: supportedCountries.length > 0
+                  ? 'flow.countries.edit'
+                  : 'flow.countries.add',
+              })}
+            </Button>
+          </Box>
+        </Box>
+      )}
+    </Box>
   );
 }

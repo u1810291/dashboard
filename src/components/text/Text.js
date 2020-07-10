@@ -37,10 +37,6 @@ const Text = styled.span(
 
 export default Text;
 
-export function H1({ size = 4, weight = 4, ...props }) {
-  return <Text size={size} weight={weight} as="h1" {...props} />;
-}
-
 export function H2({ size = 4, weight = 2, ...props }) {
   return <Text size={size} as="h2" weight={weight} {...props} />;
 }
@@ -60,16 +56,6 @@ export function HR({ margin = 10, width = 1, ...props }) {
     />
   );
 }
-
-H1.propTypes = {
-  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  weight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-};
-
-H1.defaultProps = {
-  size: 4,
-  weight: 4,
-};
 
 H2.propTypes = {
   size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

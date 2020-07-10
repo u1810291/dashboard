@@ -5,7 +5,7 @@ import { CenterContent } from '../../components/CenterContent/CenterContent';
 export function PageLoader() {
   return (
     <CenterContent>
-      <CircularProgress color="secondary" />
+      <CircularProgress color="primary" />
     </CenterContent>
   );
 }

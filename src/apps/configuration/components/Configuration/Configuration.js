@@ -1,5 +1,5 @@
-import { Box, Grid, Hidden, Divider } from '@material-ui/core';
-import { BiometricStep } from 'apps/configuration/components/VerificationSteps/biometric-steps/BiometricStep';
+import { Box, Divider, Grid, Hidden } from '@material-ui/core';
+import { FacematchConfiguration } from 'apps/facematch';
 import clsx from 'clsx';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiCheckCircle, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash, FiUser } from 'react-icons/fi';
@@ -8,16 +8,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCountriesModel } from 'state/countries/countries.selectors';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
-import { FacematchConfiguration } from 'apps/facematch';
-import { ConfigureColor } from './components/ConfigureColor/ConfigureColor';
-import { Countries } from './components/Countries';
-import { GdprSettings } from './components/GdprSettings';
-import { GovChecks } from './components/GovChecks';
-import { Logo } from './components/Logo/Logo';
-import { VerificationSteps } from './components/VerificationSteps';
+import { BiometricStep } from '../BiometricStep/BiometricStep';
+import { ConfigureColor } from '../ConfigureColor/ConfigureColor';
+import { Countries } from '../Countries/Countries';
+import { GdprSettings } from '../GdprSettings/GdprSettings';
+import { GovChecks } from '../GovChecks/GovChecks';
+import { Logo } from '../Logo/Logo';
+import { VerificationSteps } from '../VerificationSteps/VerificationSteps';
 import { ButtonMenu, useStyles } from './Configuration.styles';
 
-export default function Configuration() {
+export function Configuration() {
   const [active, setActive] = useState(0);
   const classes = useStyles();
   const dispatch = useDispatch();

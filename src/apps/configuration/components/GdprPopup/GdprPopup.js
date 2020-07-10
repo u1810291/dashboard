@@ -1,27 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from '@material-ui/core';
+import { checkInterval, toIsoPeriod } from 'lib/date';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import {
-  Box,
-  Grid,
-  Button,
-  TextField,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  DialogContentText,
-} from '@material-ui/core';
-import { selectPolicyInterval } from 'state/merchant/merchant.selectors';
+import { useDispatch, useSelector } from 'react-redux';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
-import { toIsoPeriod, checkInterval } from 'lib/date';
+import { selectPolicyInterval } from 'state/merchant/merchant.selectors';
 
 const DAYS_RANGE = {
   from: 1,
   to: 300,
 };
 
-export function SetupDialog({ openDialog, handleCloseDialog }) {
+export function GdprPopup({ openDialog, handleCloseDialog }) {
   const intl = useIntl();
   const dispatch = useDispatch();
   const policyInterval = useSelector(selectPolicyInterval);

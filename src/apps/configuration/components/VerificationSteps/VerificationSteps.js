@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { AVAILABLE_DOCUMENT_TYPES } from 'state/merchant/merchant.model';
-import VerificationStepModal from '../VerificationStepsModal';
+import VerificationStepModal from '../VerificationStepsModal/VerificationStepsModal';
 import { useStyles } from './VerificationSteps.styles';
 
 export function removeItem(steps, index) {

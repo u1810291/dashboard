@@ -135,6 +135,7 @@
   "flow.prev": "Back",
   "flow.countries.title": "Country restriction",
   "flow.countries.description": "Force users to upload documents from certain countries. Just select the countries you want to support. If you have no country selected, it means that there is no restriction.",
+  "flow.countries.warning": "This setting only applies to WebSDK and native mobile SDKs. Direct API calls are not affected by this setting.",
   "flow.countries.verifying": "Verifying only in:",
   "flow.countries.add": "Add country restriction",
   "flow.countries.edit": "Edit filter",

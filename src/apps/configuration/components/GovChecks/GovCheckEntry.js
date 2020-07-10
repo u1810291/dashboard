@@ -1,21 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  Box,
-  Switch,
-  FormControlLabel,
-} from '@material-ui/core';
-import { useIntl } from 'react-intl';
+import { Box, FormControlLabel, Switch } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { getDefaultGovChecks, getGovChecksByCountry } from 'state/merchant/merchant.model';
 import { selectGovChecks } from 'state/merchant/merchant.selectors';
-import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
-import {
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-  useStyles,
-} from './GovChecksEntry.styles';
+import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, useStyles } from './GovChecksEntry.styles';
 import { flags } from './icons';
 
 export function GovChecksEntry({ country, isExpanded = false }) {
