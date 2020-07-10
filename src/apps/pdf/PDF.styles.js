@@ -185,7 +185,6 @@ export const styles = StyleSheet.create({
   },
 
   debug: {
-    borderRadius: 0.5 * rem,
     backgroundColor: colors.greyBG,
   },
 });
