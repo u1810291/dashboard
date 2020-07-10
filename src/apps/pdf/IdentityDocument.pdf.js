@@ -142,8 +142,12 @@ export function IdentityDocumentPDF(intl, identity) {
                     }
                     return (
                       <View key={item.id} style={styles.row}>
-                        <Text style={styles.label}>{intl.formatMessage({ id: item.titleLabel })}</Text>
-                        <Text style={valueStyles}>{intl.formatMessage({ id: item.statusLabel })}</Text>
+                        <View style={styles.label}>
+                          <Text>{intl.formatMessage({ id: item.titleLabel })}</Text>
+                        </View>
+                        <View style={valueStyles}>
+                          <Text>{intl.formatMessage({ id: item.statusLabel })}</Text>
+                        </View>
                       </View>
                     );
                   })}
