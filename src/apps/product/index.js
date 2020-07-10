@@ -1,1 +1,1 @@
-export * from './containers/Product';
+export * from 'apps/product/containers/Product/Product';

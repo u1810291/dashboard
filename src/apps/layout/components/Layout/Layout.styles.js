@@ -7,7 +7,6 @@ export const useStyles = makeStyles(() => ({
     minHeight: '100vh',
   },
   toolBar: {
-    flexGrow: 1,
     minHeight: 50,
   },
   content: {

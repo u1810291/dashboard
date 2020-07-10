@@ -1,17 +1,17 @@
 import { Grid, Typography } from '@material-ui/core';
 import { SyntaxHighlighter } from 'components/syntax-highlighter';
 import { SyntaxHighlighterLanguages } from 'components/syntax-highlighter/SyntaxHighlighter.model';
+import { get } from 'lodash';
 import { integrationCode } from 'models/Integration.model';
 import { QATags } from 'models/QA.model';
 import React from 'react';
-import { get } from 'lodash';
-import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 import { selectAppLastModel, selectCurrentFlowId } from 'state/merchant/merchant.selectors';
 import Frameworks from './web-frameworks.png';
-import { useStyles } from './WebSDKSection.styles';
+import { useStyles } from './SectionWebSDK.styles';
 
-export function WebSDKSection() {
+export function SectionWebSDK() {
   const intl = useIntl();
   const classes = useStyles();
   const clientId = get(useSelector(selectAppLastModel), 'value.clientId');

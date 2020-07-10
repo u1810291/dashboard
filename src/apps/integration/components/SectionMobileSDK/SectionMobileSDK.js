@@ -4,9 +4,9 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { ReactComponent as IconAndroid } from './icon-android.svg';
 import { ReactComponent as IconIos } from './icon-ios.svg';
-import { useStyles } from './MobileSDKSection.styles';
+import { useStyles } from './SectionMobileSDK.styles';
 
-export function MobileSDKSection() {
+export function SectionMobileSDK() {
   const intl = useIntl();
   const classes = useStyles();
 

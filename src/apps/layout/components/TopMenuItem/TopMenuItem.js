@@ -12,13 +12,16 @@ export function TopMenuItem({
   children,
   className,
   label,
-  badge = 0,
+  badge,
   isNoLink = false,
   show = true,
   to,
   handler,
   icon,
   qa,
+  color,
+  isActive = true,
+  isMobile = false,
 }) {
   const classes = useStyles();
 
@@ -28,13 +31,16 @@ export function TopMenuItem({
       className={clsx(classes.menuItem, className)}
       onClick={handler}
       data-qa={qa}
-      style={{ paddingRight: calcWidth(badge, 15) }}
     >
-      {icon && <Box mr={1} display="flex">{icon}</Box>}
+      {icon && <Box mr={1} display="flex" color={color}>{icon}</Box>}
       {children}
-      <MenuBadge badgeContent={badge} max={999}>
-        <Box style={{ marginRight: calcWidth(badge, 12) }}>{label}</Box>
-      </MenuBadge>
+      {badge
+        ? (
+          <MenuBadge badgeContent={badge} max={999}>
+            <Box color={color} style={{ marginRight: calcWidth(badge, 12) }}>{label}</Box>
+          </MenuBadge>
+        )
+        : <Box color={color}>{label}</Box>}
     </MenuItem>
   );
 
@@ -46,7 +52,9 @@ export function TopMenuItem({
     <NavLink
       exact
       to={to}
-      activeClassName="active"
+      activeClassName={isActive
+        ? (isMobile ? classes.mobileActive : classes.desktopActive)
+        : null}
       data-qa={qa}
     >
       {menuItem}

@@ -7,10 +7,10 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteWebhook, getWebhooks, subscribeToWebhook } from 'state/webhooks/webhooks.actions';
 import { selectWebhook } from 'state/webhooks/webhooks.selectors';
-import NewWebhookModal from '../components/NewWebhookModal';
-import { RemoveButton, useStyles } from './WebhookSection.styles';
+import NewWebhookModal from 'apps/integration/components/NewWebhookModal';
+import { RemoveButton, useStyles } from './SectionWebhook.styles';
 
-export function WebhookSection() {
+export function SectionWebhook() {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();

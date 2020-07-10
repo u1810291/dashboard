@@ -3,6 +3,7 @@ import { createMuiTheme } from '@material-ui/core';
 export const appPalette = {
   blue: '#3757ff',
   white: '#ffffff',
+  black: '#000000',
   red: '#fe7581',
   lightgray: '#dcdcdc',
   orange: '#f2994a',
@@ -52,6 +53,9 @@ export const AppTheme = createMuiTheme({
     secondary: {
       main: appPalette.white,
       contrastText: appPalette.blue,
+    },
+    foreground: {
+      main: appPalette.black,
     },
     background: {
       default: appPalette.white,

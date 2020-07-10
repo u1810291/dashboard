@@ -1,21 +1,19 @@
-import { Box, Container, Grid, Fade } from '@material-ui/core';
-import { Configuration } from 'apps/configuration';
+import { Box, CircularProgress, Container, Fade, Grid } from '@material-ui/core';
 import { AdditionalChecks } from 'apps/checks';
-import { Integration } from 'apps/integration/Integration';
-import { ProductTabs } from 'apps/product/Product.model';
+import { Configuration } from 'apps/configuration';
+import { Integration } from 'apps/integration';
+import { ProductTabs } from 'apps/product/models/Product.model';
 import { Tab } from 'components';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { appLoad } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { VerificationFlowMenu } from '../components/VerificationFlowMenu/VerificationFlowMenu';
-import { VerificationFlowHeader } from '../components/VerificationFlowHeader/VerificationFlowHeader';
-// import { VerificationFlowSettings } from '../components/VerificationFlowSettings/VerificationFlowSettings';
-import { DemoButton } from '../components/DemoButton/DemoButton';
+import { DemoButton } from '../../components/DemoButton/DemoButton';
+import { Footer } from '../../components/Footer/Footer';
+import { VerificationFlowHeader } from '../../components/VerificationFlowHeader/VerificationFlowHeader';
+import { VerificationFlowMenu } from '../../components/VerificationFlowMenu/VerificationFlowMenu';
 import { useStyles } from './Product.styles';
-import Footer from '../Footer';
 
 export function Product() {
   const classes = useStyles();
@@ -46,18 +44,15 @@ export function Product() {
 
   return [
     <Container key="content">
-      <Box mt={2} mb={7}>
+      <Box className={classes.content}>
         <Grid container spacing={2} justify="space-between" className={classes.gridContainer}>
           <Grid item className={classes.leftBlock}>
             <VerificationFlowMenu setFade={setFade} />
           </Grid>
-          <Grid item className={classes.middleBlock}>
-            <Fade in={fade} timeout={200}>
+          <Fade in={fade} timeout={200}>
+            <Grid item className={classes.middleBlock}>
               <VerificationFlowHeader />
-            </Fade>
-            {/* <VerificationFlowSettings /> */}
-            <Box mt={2}>
-              <Fade in={fade} timeout={200}>
+              <Box mt={2}>
                 <Tab
                   withAside
                   padding={2}
@@ -71,9 +66,9 @@ export function Product() {
                   ]}
                   aside={[]}
                 />
-              </Fade>
-            </Box>
-          </Grid>
+              </Box>
+            </Grid>
+          </Fade>
           <Grid item className={classes.rightBlock}>
             <DemoButton />
           </Grid>

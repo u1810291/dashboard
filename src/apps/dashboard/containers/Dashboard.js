@@ -1,5 +1,5 @@
 import { signOut } from 'apps/auth/state/auth.actions';
-import { selectCurrentPlanId } from 'apps/billing/state/billing.selectors';
+import { selectCurrentPlanId } from 'apps/billing';
 import { Layout, PageLoader } from 'apps/layout';
 import { ROOT_PATH } from 'apps/routing';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
@@ -9,15 +9,10 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getCountries } from 'state/countries/countries.actions';
-import { merchantLoad, merchantFlowsLoad } from 'state/merchant/merchant.actions';
-import { getReviewCount } from 'state/identities/identities.actions';
 import { selectCountriesModel } from 'state/countries/countries.selectors';
-import {
-  selectIsBlockedModel,
-  selectMerchantModel,
-  selectShouldPassOnboarding,
-  selectMerchantFlowsModel,
-} from 'state/merchant/merchant.selectors';
+import { getReviewCount } from 'state/identities/identities.actions';
+import { merchantFlowsLoad, merchantLoad } from 'state/merchant/merchant.actions';
+import { selectIsBlockedModel, selectMerchantFlowsModel, selectMerchantModel, selectShouldPassOnboarding } from 'state/merchant/merchant.selectors';
 import { AlertBanner } from '../components/AlertBanner/AlertBanner';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
 import { Questions } from '../components/Questions/Questions';
@@ -95,7 +90,7 @@ export function Dashboard() {
     <Layout
       key="app"
       menu={<DashboardMenu />}
-      banner={!currentPlanId && <AlertBanner isBlocked={merchantBlocked.value} />}
+      banner={merchantBlocked.isLoaded && !currentPlanId && <AlertBanner isBlocked={merchantBlocked.value} />}
     >
       <DashboardRouter />
     </Layout>,

@@ -8,7 +8,7 @@ export const useStyles = makeStyles(() => ({
   },
 }));
 
-export const ButtonMenu = withStyles(() => ({
+export const ButtonMenu = withStyles((theme) => ({
   root: {
     justifyContent: 'flex-start',
     backgroundColor: 'transparent',
@@ -19,6 +19,17 @@ export const ButtonMenu = withStyles(() => ({
     '&.active': {
       color: '#3757FF',
       backgroundColor: '#EBEEFF',
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: [[8, 12]],
+      minWidth: 'auto',
+      width: 'auto',
+    },
+  },
+  startIcon: {
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: 0,
+      marginRight: 0,
     },
   },
 }))(Button);

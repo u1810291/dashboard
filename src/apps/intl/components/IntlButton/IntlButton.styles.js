@@ -17,8 +17,14 @@ export const SelectLight = withStyles((theme) => ({
     '&:focus': {
       backgroundColor: 'transparent',
     },
+    [theme.breakpoints.down('sm')]: {
+      color: theme.palette.common.black,
+    },
   },
   icon: {
     color: theme.palette.secondary.main,
+    [theme.breakpoints.down('sm')]: {
+      color: theme.palette.common.black,
+    },
   },
 }))(Select);

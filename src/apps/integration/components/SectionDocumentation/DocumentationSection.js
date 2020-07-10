@@ -8,7 +8,7 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectAppLastModel, selectCurrentFlowId } from 'state/merchant/merchant.selectors';
 
-export function DocumentationSection() {
+export function SectionDocumentation() {
   const intl = useIntl();
   const appModel = useSelector(selectAppLastModel);
   const currentFlowId = useSelector(selectCurrentFlowId);
