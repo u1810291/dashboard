@@ -135,7 +135,7 @@
   "flow.prev": "Atrás",
   "flow.countries.title": "Restricción de país",
   "flow.countries.description": "Obligue a los usuarios a cargar documentos de ciertos países. Simplemente seleccione los países que desea incluir. Si no tiene ningún país seleccionado, significa que no hay ninguna restricción.",
-  "flow.countries.warning": "This setting only applies to WebSDK and native mobile SDKs. Direct API calls are not affected by this setting.",
+  "flow.countries.warning": "Esta configuración sólamente aplica para los Web SDK y los SDKs nativos. Llamadas directas al API no serán afectadas por ésta configuración.",
   "flow.countries.verifying": "Verificando solo en:",
   "flow.countries.add": "Añadir restricción por país",
   "flow.countries.edit": "Editar filtro",
