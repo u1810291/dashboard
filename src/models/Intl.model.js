@@ -8,3 +8,5 @@ export const LanguageList = [
     label: 'Español',
   },
 ];
+
+export const DEFAULT_LOCALE = 'en';

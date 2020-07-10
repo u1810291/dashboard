@@ -1,5 +1,5 @@
-import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
+import { DEFAULT_LOCALE } from 'models/Intl.model';
 import { MerchantActionGroups, SliceNames } from 'state/merchant/merchant.model';
 import { createReducer } from '../utils';
 import { types } from './merchant.actions';
@@ -17,7 +17,7 @@ const initialState = {
   }),
   [SliceNames.Configuration]: LoadableAdapter.createState({
     dashboard: {
-      language: DEFAULT_LANG,
+      language: DEFAULT_LOCALE,
       shouldPassOnboarding: false,
     },
   }),
