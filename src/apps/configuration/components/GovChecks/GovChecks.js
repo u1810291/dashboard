@@ -1,11 +1,7 @@
+import { Box, FormControl, Typography } from '@material-ui/core';
+import { Items } from 'components';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import {
-  Box,
-  FormControl,
-  Typography,
-} from '@material-ui/core';
-import { Items } from 'components';
 import { GovChecksModel } from 'state/merchant/merchant.model';
 import { GovChecksEntry } from './GovCheckEntry';
 

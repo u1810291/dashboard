@@ -1,1 +1,1 @@
-export { default as Configuration } from './Configuration';
+export * from './components/Configuration/Configuration';

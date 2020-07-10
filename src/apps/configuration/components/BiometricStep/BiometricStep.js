@@ -1,19 +1,12 @@
-import { get } from 'lodash';
-import React, { useState, useEffect, useCallback } from 'react';
-import { useIntl } from 'react-intl';
-import {
-  Box,
-  Radio,
-  RadioGroup,
-  FormControl,
-  FormControlLabel,
-  Typography,
-} from '@material-ui/core';
+import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@material-ui/core';
 import { Items } from 'components';
+import { get } from 'lodash';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { selectCurrentFlowId, selectGovChecks } from 'state/merchant/merchant.selectors';
-import { useDispatch, useSelector } from 'react-redux';
-import useStyles from './styles';
+import useStyles from './BiometricStep.styles';
 
 export function BiometricStep() {
   const intl = useIntl();
