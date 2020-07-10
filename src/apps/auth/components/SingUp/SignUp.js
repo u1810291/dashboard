@@ -1,12 +1,12 @@
 import { Button, Grid, Typography } from '@material-ui/core';
 import { Page404 } from 'apps/layout';
 import { ROOT_PATH } from 'apps/routing';
-import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { useQuery } from 'lib/url';
 import { businessEmail, email, required } from 'lib/validations';
 import { get, pick, pickBy } from 'lodash';
+import { DEFAULT_LOCALE } from 'models/Intl.model';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
@@ -40,7 +40,7 @@ export default function SignUp() {
     try {
       await dispatch(signUp(pick(data, 'email', 'password')));
       await dispatch(dashboardUpdate({
-        language: DEFAULT_LANG,
+        language: DEFAULT_LOCALE,
         usePlans: true,
         shouldPassOnboarding: true,
       }));

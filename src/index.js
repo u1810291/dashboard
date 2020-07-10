@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Elements as StripeElements, StripeProvider } from 'react-stripe-elements';
 // Next line must stay on the top because of css variables
 import 'components/theme/styles.scss';
-import { AppIntlProvider } from 'components/intl-provider';
+import { AppIntlProvider } from 'apps/intl';
 import StoreProvider from 'components/store-provider';
 import { NotificationsContainer } from 'components/notification';
 import { Container as OverlayContainer } from 'components/overlay';

@@ -1,10 +1,10 @@
 import { selectUserId } from 'apps/user/state/user.selectors';
-import { DEFAULT_LANG } from 'components/intl-provider/IntlProvider.model';
 import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { get } from 'lodash';
 import { createSelector } from 'reselect';
 import { MERCHANT_STORE_KEY, SliceNames } from 'state/merchant/merchant.model';
+import { DEFAULT_LOCALE } from 'models/Intl.model';
 
 const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
 
@@ -85,9 +85,10 @@ export const selectDashboardModel = createSelector(
   selectLoadableValue((cfg) => cfg.dashboard),
 );
 
+// TODO @dkchv: move to intl feature
 export const selectLanguage = createSelector(
   selectDashboardModel,
-  selectModelValue((dashboard) => dashboard.language || DEFAULT_LANG),
+  selectModelValue((dashboard) => dashboard.language || DEFAULT_LOCALE),
 );
 
 export const selectShouldPassOnboarding = createSelector(
