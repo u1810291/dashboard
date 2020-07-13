@@ -10,7 +10,7 @@ export const useStyles = makeStyles((theme) => ({
     minHeight: 64,
     display: 'flex',
     padding: [[9, 0]],
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       position: 'static',
     },
   },
