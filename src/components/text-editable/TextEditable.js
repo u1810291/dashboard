@@ -18,6 +18,7 @@ export default class TextEditable extends React.Component {
     inputClassName: '',
     isEditing: false,
     isLoading: false,
+    isValid: true,
     onSubmit: () => {},
     text: '',
     textClassName: '',
@@ -28,6 +29,7 @@ export default class TextEditable extends React.Component {
     inputClassName: PropTypes.string,
     isEditing: PropTypes.bool,
     isLoading: PropTypes.bool,
+    isValid: PropTypes.bool,
     onSubmit: PropTypes.func,
     text: PropTypes.string,
     textClassName: PropTypes.string,
@@ -97,6 +99,7 @@ export default class TextEditable extends React.Component {
         textClassName,
         isLoading,
         text,
+        isValid,
         ...options
       },
       state: {
@@ -153,7 +156,7 @@ export default class TextEditable extends React.Component {
           role="button"
           tabIndex="0"
         >
-          <span>
+          <span className={classNames({ 'color-red': !isValid })}>
             {(error ? text : savedText) || (
               <span className="color-red">
                 <DataWasntExtracted />

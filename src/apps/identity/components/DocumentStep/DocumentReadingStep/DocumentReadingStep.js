@@ -10,7 +10,7 @@ import TextEditable from 'components/text-editable';
 import Text from 'components/text';
 
 // TODO @dkchv: refactor this
-function EditableField({ label, value, onSubmit }) {
+function EditableField({ label, value, isValid, onSubmit }) {
   if (!value) {
     return (
       <Text weight={2} color="gray">
@@ -24,6 +24,7 @@ function EditableField({ label, value, onSubmit }) {
       <TextEditable
         text={formatValue(label, value)}
         onSubmit={onSubmit}
+        isValid={isValid}
         error={false}
         isEditing={false}
       />
@@ -31,7 +32,7 @@ function EditableField({ label, value, onSubmit }) {
   );
 }
 
-export function DocumentReadingStep({ documentId, step, fields = {}, isEditable = true }) {
+export function DocumentReadingStep({ documentId, step, fields = [], isEditable = true }) {
   const intl = useIntl();
   const dispatch = useDispatch();
 
@@ -58,14 +59,14 @@ export function DocumentReadingStep({ documentId, step, fields = {}, isEditable 
 
   return (
     <Grid container spacing={1} direction="column">
-      {Object.entries(fields).map(([label, { value }]) => {
+      {fields.map(({ id, value, isValid }) => {
         const valueLabel = intl.formatMessage({
-          id: `identity.field.${label}`,
-          defaultMessage: humanize(underscore(label)),
+          id: `identity.field.${id}`,
+          defaultMessage: humanize(underscore(id)),
         });
 
         return (
-          <Grid container item spacing={2} alignItems="center" key={label}>
+          <Grid container item spacing={2} alignItems="center" key={id}>
             <Grid xs={5} item>
               <Typography>{valueLabel}</Typography>
             </Grid>
@@ -73,12 +74,13 @@ export function DocumentReadingStep({ documentId, step, fields = {}, isEditable 
               {isEditable
                 ? (
                   <EditableField
-                    label={label}
+                    isValid={isValid}
+                    label={id}
                     value={value}
-                    onSubmit={(newValue) => handleSubmit(label, newValue)}
+                    onSubmit={(newValue) => handleSubmit(id, newValue)}
                   />
                 )
-                : formatValue(label, value)}
+                : formatValue(id, value)}
             </Grid>
           </Grid>
         );

@@ -2,7 +2,9 @@ import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import { SanctionChip } from 'apps/checks';
 import { useDocumentTitle } from 'apps/identity/hooks/document.hook';
 import classNames from 'classnames';
+import { isDateExpired } from 'lib/date';
 import { DocumentCountrySanctionList } from 'models/Document.model';
+import { FieldsExpiredCheck } from 'models/Field.model';
 import { DocumentMxSteps, DocumentSecuritySteps, DocumentStepTypes } from 'models/Step.model';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -10,18 +12,24 @@ import { CheckBarExpandable, CheckBarFlat } from './CheckBar';
 import { DocumentReadingStep } from './DocumentReadingStep';
 import { ZoomableImage } from './ZoomableImage';
 
-export function DocumentStep({ document, isIdentityEditable }) {
+export function DocumentStep({ document, identity }) {
   const intl = useIntl();
   const title = useDocumentTitle(document);
 
   const { steps = [], country, source, type, isEditable = true } = document;
   const [isSanctioned] = useState(DocumentCountrySanctionList.includes(country));
   const documentReadingStep = steps.find((step) => step.id === DocumentStepTypes.DocumentReading);
-  const isFormEditable = isIdentityEditable && source.demo !== true && isEditable;
+  const isFormEditable = identity.isEditable && source.demo !== true && isEditable;
   const onReading = documentReadingStep.status < 200;
   const dataTitle = intl.formatMessage({ id: onReading ? 'DocumentStep.Data.titleReading' : 'DocumentStep.Data.title' });
   const securityCheckSteps = steps.filter((step) => DocumentSecuritySteps.includes(step.id));
   const mxSteps = steps.filter((step) => DocumentMxSteps.includes(step.id));
+
+  const fields = Object.entries(source.fields || {}).map(([id, { value }]) => ({
+    id,
+    value,
+    isValid: FieldsExpiredCheck.includes(id) ? !isDateExpired(value, identity.dateCreated) : true,
+  }));
 
   return (
     <Paper>
@@ -49,7 +57,7 @@ export function DocumentStep({ document, isIdentityEditable }) {
                     <DocumentReadingStep
                       documentId={source.id}
                       step={documentReadingStep}
-                      fields={source.fields}
+                      fields={fields}
                       isEditable={isFormEditable}
                     />
                   )}

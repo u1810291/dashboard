@@ -936,7 +936,7 @@
   "FAQ.7.answer": "Yes, from your Mati dashboard, you are able to customize and brand your verification flow so that it fits your branding.",
   "FAQ.8.question": "How complex is Mati's integration?",
   "FAQ.8.answer": "SDK: just copy and paste a few lines of code. \nBackend: it usually takes a couple of hours to be configured.",
-  "identity.title": "Check # {id}",
+  "identity.title": "Verification #{id}",
   "identity.status": "Status",
   "identity.nameNotFound": "Name not found",
   "DocumentationSection.clientSecret": "Client's secret key",
@@ -990,7 +990,7 @@
   "delete": "Delete",
   "update.field.error": "Failed to update the field:",
   "SanctionCheck.title": "The user comes from a region under sanctions. Please take additional security measures.",
-  "CheckSummary.title": "Detected Issues ('count')",
+  "CheckSummary.title": "Detected Issues ({count})",
   "Product.tab.header": "Additional Checks",
   "PricingPlans.payAsYouGo.notation": "${verificationCost} per verification"
 }
