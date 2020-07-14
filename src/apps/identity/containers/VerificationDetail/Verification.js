@@ -46,7 +46,7 @@ export function Verification({ identity }) {
       {identity.documents.map((doc) => (
         <Grid item key={doc.type}>
           <DocumentStep
-            isIdentityEditable={identity.isEditable}
+            identity={identity}
             document={doc}
           />
         </Grid>

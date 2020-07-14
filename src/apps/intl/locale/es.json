@@ -936,7 +936,7 @@
   "FAQ.7.answer": "Sí, desde su Mati Dashboard, puede personalizar y marcar su flujo de verificación para que se adapte a su marca.",
   "FAQ.8.question": "¿Qué tan compleja es la integración de Mati?",
   "FAQ.8.answer": "SDK: solo tiene que copiar y pegar algunas líneas de código. \nBackend: generalmente toma un par de horas para ser configurado.",
-  "identity.title": "Verificación # {id}",
+  "identity.title": "Verificación #{id}",
   "identity.status": "Estatus",
   "identity.nameNotFound": "Nombre no encontrado",
   "DocumentationSection.clientSecret": "Llave secreta del cliente",
