@@ -170,33 +170,4 @@ export const byHourStub = [
   },
 ];
 
-export const byDateOfWeekStub = [
-  {
-    label: 'Mon',
-    value: 48,
-  },
-  {
-    label: 'Tue',
-    value: 78,
-  },
-  {
-    label: 'Wed',
-    value: 103,
-  },
-  {
-    label: 'Thu',
-    value: 42,
-  },
-  {
-    label: 'Fri',
-    value: 105,
-  },
-  {
-    label: 'Sat',
-    value: 83,
-  },
-  {
-    label: 'Sun',
-    value: 58,
-  },
-];
+export const byDateOfWeekStubValues = [48, 78, 103, 42, 105, 83, 58];

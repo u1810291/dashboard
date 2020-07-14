@@ -34,6 +34,7 @@ export function Chart({ data, stub, isLoaded, isLoading, ...props }) {
           connectNulls
           type="monotone"
           dataKey="value"
+          name={intl.formatMessage({ id: 'Chart.value' })}
         />
       </LineChart>
     </ResponsiveContainer>

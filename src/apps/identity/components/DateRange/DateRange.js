@@ -2,6 +2,7 @@ import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 import { DateRangePicker } from 'react-dates';
 import { Box } from '@material-ui/core';
+import { useIntl } from 'react-intl';
 import { useStyles } from './DateRange.styles';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
@@ -11,6 +12,7 @@ function isOutSideRangeFn(day) {
 }
 
 export function DateRange({ start, end, onChange }) {
+  const intl = useIntl();
   const classes = useStyles();
   const [focusedInput, setFocusedInput] = useState(null);
 
@@ -31,6 +33,8 @@ export function DateRange({ start, end, onChange }) {
   return (
     <Box className={classes.datePicker}>
       <DateRangePicker
+        startDatePlaceholderText={intl.formatMessage({ id: 'DateRange.startDate' })}
+        endDatePlaceholderText={intl.formatMessage({ id: 'DateRange.endDate' })}
         hideKeyboardShortcutsPanel
         appendToBody
         numberOfMonths={1}

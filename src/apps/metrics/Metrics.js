@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useIntl } from 'react-intl';
-import { MenuItem, Select, Box } from '@material-ui/core';
+import { Box, MenuItem, Select } from '@material-ui/core';
 import { DEFAULT_FLOW, DEFAULT_PERIOD, periodMap } from 'apps/metrics/filter.model';
-import { byCountryStub, byDateOfWeekStub, byDateStub, byHourStub } from 'apps/metrics/Metrics.model';
+import { byCountryStub, byDateOfWeekStubValues, byDateStub, byHourStub } from 'apps/metrics/Metrics.model';
 import { Card, Content, Items } from 'components';
-import { formatHour, formatWeekDay } from 'lib/date';
-import { selectMerchantName, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { formatHour } from 'lib/date';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCountriesList } from 'state/countries/countries.selectors';
+import { selectMerchantFlowsModel, selectMerchantName } from 'state/merchant/merchant.selectors';
 import { getMetrics, getStatistics } from 'state/metrics/metrics.actions';
 import { selectMetrics, selectStatistics } from 'state/metrics/metrics.selectors';
-import { VerificationsTotal } from './components/VerificationsTotal';
-import { VerificationsStats } from './components/VerificationsStats';
 import { Chart } from './components/Chart';
+import { VerificationsStats } from './components/VerificationsStats';
+import { VerificationsTotal } from './components/VerificationsTotal';
 import { useStyles } from './Metrics.styles';
 
 const OTHER_COUNTRIES = 'otherCountries';
@@ -58,11 +58,16 @@ export default function Metrics() {
 
   const byDateOfWeek = statistics.byDayOfWeek
     .map((item) => ({
-      label: formatWeekDay(item.dayOfWeek),
+      label: intl.formatMessage({ id: `week.${item.dayOfWeek}` }),
       value: item.count,
       tooltip: `${item.count} verif.`,
     }))
     .sort((a, b) => a.label - b.label);
+
+  const byDateOfWeekStub = byDateOfWeekStubValues.map((value, index) => ({
+    label: intl.formatMessage({ id: `week.${index + 1}` }),
+    value,
+  }));
 
   const byDate = statistics.byDate.map((item) => ({
     label: item.date,
