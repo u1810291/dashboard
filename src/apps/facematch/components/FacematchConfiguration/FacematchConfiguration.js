@@ -1,29 +1,15 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useIntl } from 'react-intl';
-import {
-  Box,
-  Button,
-  CircularProgress,
-  FormControl,
-  Grid,
-  RadioGroup,
-  Typography,
-} from '@material-ui/core';
+import { Box, Button, CircularProgress, FormControl, Grid, RadioGroup, Typography } from '@material-ui/core';
 import { notification } from 'components/notification';
 import { ERROR_COMMON } from 'models/Error.model';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from '../../../../state/merchant/merchant.actions';
 import { selectCurrentFlowId } from '../../../../state/merchant/merchant.selectors';
-import { BoxRoundBordered, InputScore } from './FacematchConfiguration.styles';
+import { FACEMATCH_DEFAULT_THRESHOLD, FACEMATCH_MAX_THRESHOLD, FACEMATCH_MIN_THRESHOLD, FacematchThresholdModes, validateScore } from '../../models/facematch.model';
 import { selectFacematchThreshold } from '../../state/facematch.selectors';
-import RadioFacematchMode from '../RadioFacematchMode/RadioFacematchMode';
-import {
-  FacematchThresholdModes,
-  FACEMATCH_MIN_THRESHOLD,
-  FACEMATCH_DEFAULT_THRESHOLD,
-  FACEMATCH_MAX_THRESHOLD,
-  validateScore,
-} from '../../models/facematch.model';
+import { RadioFacematchMode } from '../RadioFacematchMode/RadioFacematchMode';
+import { BoxRoundBordered, InputScore } from './FacematchConfiguration.styles';
 
 export const FacematchConfiguration = () => {
   const intl = useIntl();

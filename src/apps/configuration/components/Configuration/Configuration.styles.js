@@ -12,6 +12,7 @@ export const ButtonMenu = withStyles((theme) => ({
   root: {
     justifyContent: 'flex-start',
     backgroundColor: 'transparent',
+    textAlign: 'left',
 
     '&:hover': {
       backgroundColor: '#E3E6F7',
