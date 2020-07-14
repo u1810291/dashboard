@@ -3,16 +3,10 @@ import { useIntl } from 'react-intl';
 import { Box, Collapse, FormControlLabel, Grid, Radio, Typography } from '@material-ui/core';
 import { ButtonExpand, useStyles } from './RadioFacematchMode.styles';
 
-const RadioFacematchMode = ({
-  mode,
-  children,
-  subtitle,
-  expandable,
-  disabled,
-}) => {
+export function RadioFacematchMode({ mode, subtitle, expandable, disabled, children }) {
   const intl = useIntl();
   const classes = useStyles();
-  const [expanded, setExpanded] = useState(!expandable);
+  const [expanded, setExpanded] = useState(true);
 
   const toggleExpanded = useCallback(() => {
     if (expandable) {
@@ -62,6 +56,4 @@ const RadioFacematchMode = ({
       </Grid>
     </Grid>
   );
-};
-
-export default RadioFacematchMode;
+}
