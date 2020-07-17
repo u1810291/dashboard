@@ -38,7 +38,6 @@ export const StepStatus = {
 };
 
 export const LEGACY_ERROR = 'LegacyError';
-export const STEP_ERROR = 'StepError';
 export const SYSTEM_ERROR = 'SystemError';
 
 export function getDocumentStep(id, steps = []) {
@@ -74,9 +73,9 @@ export function getStepStatus(status, error) {
   return StepStatus.Checking;
 }
 
-export function getStepExtra(step, identity) {
+export function getStepExtra(step) {
   const altered = step.id === DocumentStepTypes.FaceMatch
-    ? getFacematchStepExtra(step, identity)
+    ? getFacematchStepExtra(step)
     : step;
 
   return {
@@ -98,9 +97,8 @@ export function getReaderFailedSteps(readerStep, identity) {
       ...readerStep,
       id: DocumentStepFailedTypes.EmptyFields,
       error: true,
-      labelStatusData: {
-        // TODO @dkchv: add i18n
-        fields: emptyFields.map((item) => item.label).join(', '),
+      labelStatusDataIntl: {
+        fields: emptyFields.map((item) => `identity.field.${item.id}`),
       },
     });
   }
@@ -124,5 +122,5 @@ export function getStepsExtra(steps = [], identity) {
   return [
     ...getReaderFailedSteps(readerStep, identity),
     ...steps,
-  ].map((item) => getStepExtra(item, identity));
+  ].map((item) => getStepExtra(item));
 }

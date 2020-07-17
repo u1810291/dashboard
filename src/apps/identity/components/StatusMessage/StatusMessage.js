@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Typography } from '@material-ui/core';
-import { useStatusColors } from '../../../StatusColors.styles';
+import { useStatusColors } from '../StatusColors.styles';
 
 export function StatusMessage({ status, error }) {
   const intl = useIntl();

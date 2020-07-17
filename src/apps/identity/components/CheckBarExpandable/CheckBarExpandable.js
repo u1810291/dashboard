@@ -1,13 +1,13 @@
 import { Box } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
-import { CheckBarIconsMap } from 'apps/identity/components/DocumentStep/CheckBar/components/CheckBarFlat/CheckBar.icons';
+import { CheckBarIconsMap } from 'apps/identity/components/CheckBarFlat/CheckBar.icons';
 import { getStepStatus, LEGACY_ERROR, SYSTEM_ERROR } from 'models/Step.model';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { CheckBarIcon } from '../CheckBarIcon/CheckBarIcon';
 import { CheckStepDetails } from '../CheckStepDetails/CheckStepDetails';
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, useStyles } from './CheckBarExpandable.styles';
-import { StatusMessage } from './StatusMessage';
+import { StatusMessage } from '../StatusMessage/StatusMessage';
 
 export function CheckBarExpandable({ step: { id, error, status, data } }) {
   const intl = useIntl();
