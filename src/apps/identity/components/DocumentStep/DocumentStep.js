@@ -1,6 +1,6 @@
 import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
-import { SanctionChip } from 'apps/checks';
 import { useDocumentTitle } from 'apps/identity/hooks/document.hook';
+import { WarningTypes, Warning } from 'apps/ui';
 import classNames from 'classnames';
 import { isDateExpired } from 'lib/date';
 import { DocumentCountrySanctionList } from 'models/Document.model';
@@ -39,7 +39,10 @@ export function DocumentStep({ document, identity }) {
 
         {isSanctioned && (
           <Box mt={3}>
-            <SanctionChip />
+            <Warning
+              type={WarningTypes.Warning}
+              label={intl.formatMessage({ id: 'SanctionCheck.title' })}
+            />
           </Box>
         )}
 

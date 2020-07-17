@@ -1,8 +1,8 @@
-import { Box, CircularProgress, Typography, Button, Chip, Grid } from '@material-ui/core';
+import { Box, Button, Chip, CircularProgress, Grid, Typography } from '@material-ui/core';
+import { WarningSize, WarningTypes, Warning } from 'apps/ui';
 import { closeOverlay, createOverlay } from 'components/overlay';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Warning } from 'apps/ui';
 import { CountriesModal } from '../CountriesModal/CountriesModal';
 
 export function Countries({ countries, supportedCountries = [], onSubmit, isLoading }) {
@@ -44,7 +44,11 @@ export function Countries({ countries, supportedCountries = [], onSubmit, isLoad
       </Typography>
 
       <Box my={1}>
-        <Warning label={intl.formatMessage({ id: 'flow.countries.warning' })} />
+        <Warning
+          type={WarningTypes.Warning}
+          size={WarningSize.Large}
+          label={intl.formatMessage({ id: 'flow.countries.warning' })}
+        />
       </Box>
 
       {!!supportedCountries.length && (
