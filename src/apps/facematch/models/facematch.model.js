@@ -28,12 +28,18 @@ export const validateScore = (score, mode) => {
   return null;
 };
 
-export function getFacematchStepExtra(step, identity) {
+export function getFacematchStepExtra(step) {
+  const score = get(step, 'data.score');
+
+  if (!score) {
+    return step;
+  }
+
   return {
     ...step,
     labelExtra: `SecurityCheckStep.${step.id}.extras`,
     labelExtraData: {
-      score: get(identity, '_embedded.verification.flow.facematchThreshold'),
+      score: Math.floor(+score),
     },
   };
 }

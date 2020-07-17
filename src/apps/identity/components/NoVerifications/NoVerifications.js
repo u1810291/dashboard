@@ -2,7 +2,7 @@ import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { ExampleCard } from '../ExampleCard/ExampleCard';
-import { ExampleCardList } from '../ExampleCard/ExampleCard.model';
+import { ExampleCardList } from '../../models/ExampleCard.model';
 
 export function NoVerifications() {
   const intl = useIntl();

@@ -4,7 +4,7 @@ import { createOverlay } from 'components/overlay';
 import Text, { HR } from 'components/text';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { BiometricSection } from './BiometricSection';
+import { BiometricSection } from '../BiometricSection/BiometricSection';
 import config from './config.json';
 import { LivenessVideo } from './LivenessVideo';
 import { useStyles } from './LivenessStep.styles';

@@ -8,9 +8,10 @@ import { FieldsExpiredCheck } from 'models/Field.model';
 import { DocumentMxSteps, DocumentSecuritySteps, DocumentStepTypes } from 'models/Step.model';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { CheckBarExpandable, CheckBarFlat } from './CheckBar';
-import { DocumentReadingStep } from './DocumentReadingStep';
-import { ZoomableImage } from './ZoomableImage';
+import { CheckBarExpandable } from '../CheckBarExpandable/CheckBarExpandable';
+import { CheckBarFlat } from '../CheckBarFlat/CheckBarFlat';
+import { DocumentReadingStep } from '../DocumentReadingStep/DocumentReadingStep';
+import { ZoomableImage } from '../ZoomableImage/ZoomableImage';
 
 export function DocumentStep({ document, identity }) {
   const intl = useIntl();

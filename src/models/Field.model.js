@@ -1,4 +1,3 @@
-import { humanize, underscore } from 'inflection';
 import { formatValue } from 'lib/string';
 
 export const FieldTypes = {
@@ -22,9 +21,9 @@ export function getFieldsExtra(data) {
     return [];
   }
 
-  return Object.entries(data).map(([label, { value }]) => ({
-    id: label,
-    label: humanize(underscore(label)),
+  return Object.entries(data).map(([id, { value, label }]) => ({
+    id,
+    label,
     value: formatValue(label, value),
   }));
 }

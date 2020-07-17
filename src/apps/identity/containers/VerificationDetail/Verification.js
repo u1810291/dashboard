@@ -4,7 +4,7 @@ import { Page404 } from 'apps/layout';
 import { get } from 'lodash';
 import { getIpCheckStep } from 'models/IpCheck.model';
 import React from 'react';
-import { DocumentStep } from '../../components/DocumentStep';
+import { DocumentStep } from '../../components/DocumentStep/DocumentStep';
 import { LivenessStep } from '../../components/LivenessStep';
 import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
 import { Header } from './Header';

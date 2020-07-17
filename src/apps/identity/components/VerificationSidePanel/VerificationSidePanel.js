@@ -15,7 +15,7 @@ import { sendWebhook } from 'state/webhooks/webhooks.actions';
 import { CheckSummary } from '../CheckSummary/CheckSummary';
 import { StatusesExplanation } from '../StatusesExplanation';
 import { StatusSelect } from '../StatusSelect';
-import { VerificationWebhookModal } from '../VerificationWebhookModal';
+import { VerificationWebhookModal } from '../VerificationWebhookModal/VerificationWebhookModal';
 import { SideButton } from './VerificationSidePanel.styles';
 
 export function VerificationSidePanel({ identity, isDemo = false }) {

@@ -1,7 +1,7 @@
-import { Typography, Box } from '@material-ui/core';
-import { CheckBarFlat } from 'apps/identity/components/DocumentStep/CheckBar';
+import { Box, Typography } from '@material-ui/core';
 import React from 'react';
 import { useDocumentTitle } from '../../hooks/document.hook';
+import { CheckBarFlat } from '../CheckBarFlat/CheckBarFlat';
 
 export function DocumentCheckSummary({ document }) {
   const title = useDocumentTitle(document);

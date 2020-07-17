@@ -1,10 +1,10 @@
 import { Box } from '@material-ui/core';
-import { CheckBarTip } from 'apps/identity/components/DocumentStep/CheckBar/components/CheckBarTip/CheckBarTip';
-import { DocumentMxSteps } from 'models/Step.model';
+import { CheckBarTip } from 'apps/identity/components/CheckBarTip/CheckBarTip';
 import React from 'react';
 import { FiHelpCircle } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { useStatusColors } from '../../../StatusColors.styles';
+import { useStatusLabel } from '../../hooks/step.hook';
+import { useStatusColors } from '../StatusColors.styles';
 import { CheckBarIcon } from '../CheckBarIcon/CheckBarIcon';
 import { CheckBarIconsMap } from './CheckBar.icons';
 import { BoxCheckBarRounded, MyTooltip, useStyles } from './CheckBar.styles';
@@ -13,6 +13,7 @@ export function CheckBarFlat({ step, isShowExtra = true, tipPosition = 'top' }) 
   const intl = useIntl();
   const colors = useStatusColors();
   const classes = useStyles();
+  const statusLabel = useStatusLabel(step);
 
   return (
     <BoxCheckBarRounded status={step.checkStatus}>
@@ -33,9 +34,7 @@ export function CheckBarFlat({ step, isShowExtra = true, tipPosition = 'top' }) 
           )}
         </Box>
         <Box mt={1}>
-          {DocumentMxSteps.includes(step.id)
-            ? intl.formatMessage({ id: `SecurityCheckStep.${step.error.code}` })
-            : intl.formatMessage({ id: `SecurityCheckStep.${step.id}.${step.checkStatus}`, defaultMessage: ' ' }, step.labelStatusData)}
+          {statusLabel}
         </Box>
       </Box>
 
