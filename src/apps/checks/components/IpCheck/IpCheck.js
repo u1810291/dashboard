@@ -1,13 +1,15 @@
+import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { StaticGoogleMap, Marker } from 'react-static-google-map';
-import { Box, Paper, Typography, Grid } from '@material-ui/core';
-import { ProxyChip } from '../ProxyChip/ProxyChip';
+import { Marker, StaticGoogleMap } from 'react-static-google-map';
+import { WarningTypes, Warning } from 'apps/ui';
 import { useStyles } from './IpCheck.styles';
 
 export function IpCheck({ data }) {
   const intl = useIntl();
   const classes = useStyles();
+
+  const isProxy = !data.safe;
 
   return (
     <Paper>
@@ -24,7 +26,10 @@ export function IpCheck({ data }) {
               {/* proxy usage banner */}
               <Grid item>
                 <Box mb={1}>
-                  <ProxyChip proxy={!data.safe} />
+                  <Warning
+                    type={isProxy ? WarningTypes.Error : WarningTypes.Success}
+                    label={intl.formatMessage({ id: isProxy ? 'IpCheckStep.vpnDetected' : 'IpCheckStep.noVpnDetected' })}
+                  />
                 </Box>
               </Grid>
 

@@ -1,18 +1,21 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles(() => ({
   root: {
-    padding: 10,
-    display: 'flex',
+    padding: [[8, 12]],
+    display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    border: [[1, 'solid', theme.palette.warning.main]],
+    borderStyle: 'solid',
+    borderWidth: 1,
     borderRadius: 5,
+    lineHeight: 1.25,
   },
   icon: {
-    color: theme.palette.warning.main,
+    display: 'flex',
     flexGrow: 0,
-    margin: [[5, 20, 5, 5]],
+    flexShrink: 0,
+    marginRight: 10,
   },
   content: {
     flexGrow: 1,
