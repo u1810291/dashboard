@@ -735,8 +735,6 @@
   "CardModal.dooplaCEO.title": "CEO Doopla",
   "CardModal.enterCard.1": "Please enter your credit card number",
   "CardModal.enterCard.2": "30 day guarantee, if you are not satisfied we will refund your money.",
-  "CardModal.refund.1": "",
-  "CardModal.refund.2": "",
   "CardModal.done": "Ready!",
   "CardDeclinedModal.title": "We couldn't charge your credit card.",
   "CardDeclinedModal.text": "Mati is unable to use the credit card you provided, please choose another credit card or contact us.",
