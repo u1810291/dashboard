@@ -1,6 +1,5 @@
 import { get } from 'lodash';
 import { getCheckFieldsExtra, getFieldsExtra } from 'models/Field.model';
-import { getSecurityChecksExtra } from 'models/SecurityCheck.model';
 import { DocumentSecuritySteps, DocumentStepTypes, getDocumentStep, getStepsExtra } from 'models/Step.model';
 
 export const DocumentCountrySanctionList = [
@@ -61,7 +60,7 @@ export function getDocumentExtras(identity) {
       curp: getCheckFieldsExtra(curp.data),
       ine: getCheckFieldsExtra(ine.data),
       rfc: getCheckFieldsExtra(rfc.data),
-      checks: getSecurityChecksExtra(steps.filter((step) => DocumentSecuritySteps.includes(step.id))),
+      checks: steps.filter((step) => DocumentSecuritySteps.includes(step.id)),
       isSanctioned: DocumentCountrySanctionList.includes(document.country),
     };
   });
