@@ -1,47 +1,6 @@
 import { createMuiTheme } from '@material-ui/core';
-
-export const appPalette = {
-  blue: '#3757ff',
-  white: '#ffffff',
-  black: '#000000',
-  red: '#fe7581',
-  lightgray: '#dcdcdc',
-  orange: '#f2994a',
-  green: '#5ac794',
-};
-
-export const appTypography = {
-  h1: {
-    fontSize: 34,
-    fontWeight: 400,
-  },
-  h2: {
-    fontSize: 28,
-  },
-  h3: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  h4: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  h5: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  h6: {
-    fontSize: 16,
-  },
-  subtitle2: {
-    fontWeight: 'bold',
-  },
-  button: {
-    // remove default capitalize from buttons
-    textTransform: 'none',
-  },
-  fontFamily: ['Lato', 'Helvetica Neue', 'sans-serif'].join(','),
-};
+import { appTypography } from './app.typography';
+import { appPalette } from './app.palette';
 
 export const AppTheme = createMuiTheme({
   spacing: 10,

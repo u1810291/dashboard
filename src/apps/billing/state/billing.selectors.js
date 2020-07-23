@@ -11,15 +11,6 @@ export const selectPlanCollection = createSelector(
   (store) => store[SliceNames.PlanList],
 );
 
-export const selectRegularPlanCollection = createSelector(
-  selectPlanCollection,
-  selectLoadableValue((list) => list.filter((item) => !item.isCustom)),
-);
-export const selectCustomPlanCollection = createSelector(
-  selectPlanCollection,
-  selectLoadableValue((list) => list.filter((item) => item.isCustom)),
-);
-
 // -- current plan
 
 export const selectPlanDetailsModel = createSelector(

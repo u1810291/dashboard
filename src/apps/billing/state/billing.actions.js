@@ -37,18 +37,6 @@ export const planListLoad = (isReset = false) => async (dispatch, getState) => {
   }
 };
 
-export const planUpdate = (id) => async (dispatch) => {
-  dispatch({ type: billingActionTypes.PLAN_DETAILS_UPDATING });
-  try {
-    const { data } = await api.setPlan(id);
-    dispatch(billingInit(data.billing));
-    dispatch(planListLoad(true));
-  } catch (error) {
-    dispatch({ type: billingActionTypes.PLAN_DETAILS_FAILURE });
-    throw error;
-  }
-};
-
 export const planCancel = () => async (dispatch) => {
   dispatch({ type: billingActionTypes.PLAN_DETAILS_UPDATING });
   try {
@@ -69,19 +57,6 @@ export const currentPlanLoad = () => async (dispatch) => {
     dispatch({ type: billingActionTypes.CARD_SUCCESS, payload: data.cardDetails });
   } catch (error) {
     dispatch({ type: billingActionTypes.PLAN_DETAILS_FAILURE, error });
-    throw error;
-  }
-};
-
-export const providerListUpdate = (id) => async (dispatch) => {
-  dispatch({ type: billingActionTypes.PROVIDER_LIST_UPDATING });
-  try {
-    const payload = await api.addProvider(id);
-    // TODO @dkchv: wtf???
-    dispatch(billingInit(payload.data.data.merchant.billing));
-    dispatch(planListLoad(true));
-  } catch (error) {
-    dispatch({ type: billingActionTypes.PROVIDER_LIST_FAILURE, error });
     throw error;
   }
 };

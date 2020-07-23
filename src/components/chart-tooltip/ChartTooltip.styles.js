@@ -2,14 +2,14 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const tooltipBG = '#3b4453';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
   tooltip: {
     position: 'absolute',
     transform: 'translate(-50%, calc(-100% - 1rem))',
     padding: [['0.5rem', '0.75rem']],
     borderRadius: 4,
     backgroundColor: tooltipBG,
-    color: 'var(--mgi-theme-palette-white)',
+    color: theme.palette.primary.contrastText,
     boxShadow: [[0, 1, 4, 'rgba(0, 0, 0, 0.5)']],
     whiteSpace: 'pre',
     '&:after': {

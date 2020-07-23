@@ -1,1 +1,1 @@
-export { default } from './Metrics';
+export * from './components/Metrics/Metrics';

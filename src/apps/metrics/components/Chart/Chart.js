@@ -6,7 +6,7 @@ import { Card, Text } from 'components';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { formatDate, DateFormat } from 'lib/date';
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { StubBarColor, StubTickColor } from '../../Metrics.model';
+import { StubBarColor, StubTickColor } from 'apps/metrics/models/Metrics.model';
 import { useStyles } from './Chart.styles';
 
 function tickFormat(value) {

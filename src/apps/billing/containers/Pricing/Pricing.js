@@ -1,9 +1,8 @@
+import { Container, Grid } from '@material-ui/core';
 import React from 'react';
-import { Grid, Container } from '@material-ui/core';
+import { RequestDemo } from '../../components/RequestDemo/RequestDemo';
 import { PlanFeatures } from '../../components/PlanFeatures/PlansFeatures';
-// import { PlanList } from '../../components/PlanList/PlanList';
 import { PricingTitle } from '../../components/PricingTitle/PricingTitle';
-import { RequestDemo } from '../../components/CustomPlan/RequestDemo';
 
 export function Pricing() {
   return (
@@ -12,8 +11,6 @@ export function Pricing() {
         <Grid item>
           <PricingTitle />
         </Grid>
-        {/* Temporary removed FNX-148 */}
-        {/* <PlanList /> */}
         <Grid item>
           <RequestDemo />
         </Grid>

@@ -49,9 +49,9 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const TitleBadge = withStyles(() => ({
+export const TitleBadge = withStyles((theme) => ({
   root: {
-    color: '#3757FF',
+    color: theme.palette.primary.main,
     backgroundColor: 'rgba(55, 87, 255, 0.1)',
     height: 17,
     lineHeight: '18px',

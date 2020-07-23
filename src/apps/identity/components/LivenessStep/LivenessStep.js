@@ -1,7 +1,7 @@
-import { Box } from '@material-ui/core';
-import { Card, HelpMessage, QuestionMark } from 'components';
+import { Box, Paper, Typography, Divider } from '@material-ui/core';
+import { HelpMessage, QuestionMark } from 'components';
 import { createOverlay } from 'components/overlay';
-import Text, { HR } from 'components/text';
+import Text from 'components/text';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { BiometricSection } from '../BiometricSection/BiometricSection';
@@ -31,33 +31,41 @@ export function LivenessStep({ liveness }) {
   const { videoUrl, selfieUrl, status } = liveness;
 
   return (
-    <Card padding={4} gap={1}>
-      <Text size={4.5} weight={4}>
-        {intl.formatMessage({ id: 'LivenessStep.Checks.status.title' })}
-      </Text>
-      <HR />
-      {videoUrl && (
-        <BiometricSection
-          title={intl.formatMessage({ id: 'LivenessStep.Checks.video.title' })}
-          picture={<LivenessVideo url={videoUrl} />}
-          content={(
-            <Checks color={config[status].checks.color} intl={intl}>
-              {intl.formatMessage({ id: config[status].checks.message })}
-            </Checks>
-          )}
-        />
-      )}
-      {selfieUrl && (
-        <>
-          {videoUrl && <HR />}
-          <BiometricSection
-            title={!videoUrl
-              ? intl.formatMessage({ id: 'LivenessStep.Checks.selfie.title' })
-              : intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
-            picture={<img src={selfieUrl} alt="" className={classes.borderRadius} />}
-          />
-        </>
-      )}
-    </Card>
+    <Paper>
+      <Box p={4}>
+        <Typography variant="h3">
+          {intl.formatMessage({ id: 'LivenessStep.Checks.status.title' })}
+        </Typography>
+        {videoUrl && (
+          <>
+            <Box my={2}>
+              <Divider variant="fullWidth" />
+            </Box>
+            <BiometricSection
+              title={intl.formatMessage({ id: 'LivenessStep.Checks.video.title' })}
+              picture={<LivenessVideo url={videoUrl} />}
+              content={(
+                <Checks color={config[status].checks.color} intl={intl}>
+                  {intl.formatMessage({ id: config[status].checks.message })}
+                </Checks>
+              )}
+            />
+          </>
+        )}
+        {selfieUrl && (
+          <>
+            <Box my={2}>
+              <Divider variant="fullWidth" />
+            </Box>
+            <BiometricSection
+              title={!videoUrl
+                ? intl.formatMessage({ id: 'LivenessStep.Checks.selfie.title' })
+                : intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
+              picture={<img src={selfieUrl} alt="" className={classes.borderRadius} />}
+            />
+          </>
+        )}
+      </Box>
+    </Paper>
   );
 }

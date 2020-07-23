@@ -18,12 +18,12 @@ export const FlowButtonAdd = withStyles(() => ({
   </Container>
 ));
 
-export const FlowMenuItem = withStyles(() => ({
+export const FlowMenuItem = withStyles((theme) => ({
   root: {
     padding: [[16, 20]],
   },
   selected: {
-    color: '#3757FF',
+    color: theme.palette.primary.main,
     backgroundColor: [['#EBEEFF'], '!important'],
   },
 }))(({ children, ...props }) => (

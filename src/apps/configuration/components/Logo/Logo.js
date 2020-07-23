@@ -1,5 +1,4 @@
 import { IconButton, Typography, Box } from '@material-ui/core';
-import clsx from 'clsx';
 import { notification } from 'components/notification';
 import compressImage from 'lib/compressImage';
 import React, { useCallback } from 'react';
@@ -63,7 +62,7 @@ export function Logo() {
         <Box flexGrow={1}>
           <div
             {...getRootProps()}
-            className={clsx(classes.addLogo, { [classes.hasntLogo]: !logoModel })}
+            className={classes.addLogo}
           >
             <input {...getInputProps()} />
             {merchantFlowModel.isLoading && !logoModel

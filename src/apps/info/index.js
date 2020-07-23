@@ -1,1 +1,1 @@
-export * from './InfoPage';
+export * from './components/InfoPage/InfoPage';
