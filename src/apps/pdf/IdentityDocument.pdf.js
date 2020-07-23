@@ -143,10 +143,11 @@ export function IdentityDocumentPDF(intl, identity) {
                     return (
                       <View key={item.id} style={styles.row}>
                         <View style={styles.label}>
-                          <Text>{intl.formatMessage({ id: item.titleLabel })}</Text>
+                          <Text>{intl.formatMessage({ id: `SecurityCheckStep.${item.id}.title` })}</Text>
                         </View>
                         <View style={valueStyles}>
-                          <Text>{intl.formatMessage({ id: item.statusLabel })}</Text>
+                          <Text>{intl.formatMessage({ id: `SecurityCheckStep.${item.id}.${item.checkStatus}` })}</Text>
+                          {item.labelExtra && <Text>{intl.formatMessage({ id: item.labelExtra, defaultMessage: ' ' }, item.labelExtraData)}</Text>}
                         </View>
                       </View>
                     );
