@@ -47,6 +47,14 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <script src="%REACT_APP_MATI_BUTTON_URL%"></script>
+
+    <script>
+      window.fwSettings={
+        'widget_id':'%REACT_APP_FRESHDESK_WIDGET_ID%'
+      };
+      !function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}()
+    </script>
+    <script type='text/javascript' src='https://widget.freshworks.com/widgets/%REACT_APP_FRESHDESK_WIDGET_ID%.js' async defer></script>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
