@@ -28,9 +28,9 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const CopyLinkButton = withStyles(() => ({
+export const CopyLinkButton = withStyles((theme) => ({
   root: {
-    color: '#3757FF',
+    color: theme.palette.primary.main,
     backgroundColor: '#EBEEFF',
     '&:hover': {
       backgroundColor: '#E3E6F7',

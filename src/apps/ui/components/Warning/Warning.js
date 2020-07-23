@@ -1,7 +1,7 @@
 import { Box } from '@material-ui/core';
+import { appPalette } from 'apps/theme/app.palette';
 import React from 'react';
 import { FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
-import { appPalette } from '../../../../app.theme';
 import { WarningSize, WarningTypes } from '../../models/Warning.model';
 import { useStyles } from './Warning.styles';
 

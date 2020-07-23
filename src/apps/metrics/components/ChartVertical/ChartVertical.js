@@ -1,4 +1,4 @@
-import { StubBarColor } from 'apps/metrics/Metrics.model';
+import { StubBarColor } from 'apps/metrics/models/Metrics.model';
 import Items from 'components/items';
 import { localeNumber } from 'lib/number';
 import React from 'react';

@@ -6,7 +6,7 @@ export { default as Button } from './button';
 export { default as QuestionMark } from './question-mark';
 export { default as InfoTooltip } from './info-tooltip';
 export { default as HelpMessage } from './help-message';
-export { default as Text, H2, H3 } from './text';
+export { default as Text } from './text';
 export { Content } from 'components/Content/Content';
 export { default as PageContentMenu } from './page-content-menu';
 export { default as VideoPlayer } from './video-player';

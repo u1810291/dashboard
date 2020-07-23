@@ -1,9 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles(() => ({
-  cardBox: {
-    width: 466,
-  },
   mtTable: {
     borderCollapse: 'collapse',
     borderSpacing: 0,

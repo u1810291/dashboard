@@ -2,7 +2,7 @@ import { identityRoutes } from 'apps/identity';
 import { InfoPage } from 'apps/info';
 import { Page404 } from 'apps/layout';
 import { MerchantGuard, OwnerRoute } from 'apps/merchant';
-import Metrics from 'apps/metrics/Metrics';
+import { Metrics } from 'apps/metrics';
 import { Product } from 'apps/product';
 import { Settings } from 'apps/settings';
 import React from 'react';

@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core';
-import { appPalette } from 'app.theme';
+import { appPalette } from 'apps/theme/app.palette';
 
 export const useStyles = makeStyles({
   card: {

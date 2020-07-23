@@ -13,7 +13,7 @@ import 'clipboard-polyfill';
 import 'core-js';
 import * as Sentry from '@sentry/browser';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import { AppTheme } from 'app.theme';
+import { AppTheme } from 'apps/theme/app.theme';
 
 if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({

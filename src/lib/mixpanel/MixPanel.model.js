@@ -7,10 +7,6 @@ export const MixPanelEvents = {
   NavProduct: 'merchant_click_product_tab',
   NavIntegration: 'merchant_clicked_integration_tab',
   // pricing
-  CCEntered: 'merchant_entered_cc',
-  CCStored: 'merchant_cc_stored',
-  PlanSelect: 'merchant_clicked_select_plan',
-  PlanChanged: 'merchant_plan_changed',
   PlanDeclined: 'merchant_plan_declined',
   // misc
   VideoShowCase: 'merchant_clicked_videos_usecases',

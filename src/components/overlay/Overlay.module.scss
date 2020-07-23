@@ -44,6 +44,8 @@
   opacity: 0;
   transform: translateY(-50px);
   transition: all 0.2s ease-in-out;
+  background-color: #fff;
+  border-radius: var(--mgi-theme-border-radius);
 }
 
 .overlayContentVisible {

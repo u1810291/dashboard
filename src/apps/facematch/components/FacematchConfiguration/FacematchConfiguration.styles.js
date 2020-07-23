@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, TextField } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { AppTheme } from 'app.theme';
+import { AppTheme } from 'apps/theme/app.theme';
 
 export const InputScore = withStyles({
   input: {

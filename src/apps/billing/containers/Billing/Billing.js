@@ -1,19 +1,19 @@
-import { get } from 'lodash';
 import { Box } from '@material-ui/core';
-import { currentPlanLoad, planCancel, planListLoad } from 'apps/billing/state/billing.actions';
-import { selectCardModel, selectCurrentPlanFullModel, selectCurrentPlanId, selectPlanDetailsModel } from 'apps/billing/state/billing.selectors';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { Card, closeOverlay, createOverlay, Items, Text } from 'components';
 import Button from 'components/button';
 import { notification } from 'components/notification';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
+import { get } from 'lodash';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { PlanCancelModal } from '../../components/PlanCancelModal/PlanCancelModal';
+import { currentPlanLoad, planCancel, planListLoad } from '../../state/billing.actions';
+import { selectCardModel, selectCurrentPlanFullModel, selectCurrentPlanId, selectPlanDetailsModel } from '../../state/billing.selectors';
 import { useStyles } from './Billing.styles';
 
 export function Billing() {

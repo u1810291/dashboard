@@ -2,8 +2,6 @@ import client from 'lib/client';
 import { hubspotForms } from './constants';
 
 export const contactProperties = {
-  planName: 'plan_name',
-  planPrice: 'subscription_price',
   companyName: 'company',
   website: 'website',
   startVerifyingUsers: 'start_verifying_users',

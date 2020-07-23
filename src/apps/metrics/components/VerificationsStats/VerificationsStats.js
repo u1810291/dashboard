@@ -1,9 +1,8 @@
-import { Box } from '@material-ui/core';
+import { Box, CircularProgress } from '@material-ui/core';
 import Card from 'components/card';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import React from 'react';
-import { ChartHorizontal } from '../ChartHorizontal';
-import { ChartVertical } from '../ChartVertical';
+import { ChartHorizontal } from '../ChartHorizontal/ChartHorizontal';
+import { ChartVertical } from '../ChartVertical/ChartVertical';
 import { useStyles } from './VerificationsStats.styles';
 
 /**

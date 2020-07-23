@@ -18,7 +18,7 @@ export const ButtonMenu = withStyles((theme) => ({
       backgroundColor: '#E3E6F7',
     },
     '&.active': {
-      color: '#3757FF',
+      color: theme.palette.primary.main,
       backgroundColor: '#EBEEFF',
     },
     [theme.breakpoints.down('xs')]: {

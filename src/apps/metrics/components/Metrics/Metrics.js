@@ -1,6 +1,4 @@
 import { Box, MenuItem, Select } from '@material-ui/core';
-import { DEFAULT_FLOW, DEFAULT_PERIOD, periodMap } from 'apps/metrics/filter.model';
-import { byCountryStub, byDateOfWeekStubValues, byDateStub, byHourStub } from 'apps/metrics/Metrics.model';
 import { Card, Content, Items } from 'components';
 import { formatHour } from 'lib/date';
 import React, { useEffect, useState } from 'react';
@@ -10,9 +8,11 @@ import { selectCountriesList } from 'state/countries/countries.selectors';
 import { selectMerchantFlowsModel, selectMerchantName } from 'state/merchant/merchant.selectors';
 import { getMetrics, getStatistics } from 'state/metrics/metrics.actions';
 import { selectMetrics, selectStatistics } from 'state/metrics/metrics.selectors';
-import { Chart } from './components/Chart';
-import { VerificationsStats } from './components/VerificationsStats';
-import { VerificationsTotal } from './components/VerificationsTotal';
+import { DEFAULT_FLOW, DEFAULT_PERIOD, periodMap } from '../../models/MetricFilter.model';
+import { byCountryStub, byDateOfWeekStubValues, byDateStub, byHourStub } from '../../models/Metrics.model';
+import { Chart } from '../Chart/Chart';
+import { VerificationsStats } from '../VerificationsStats/VerificationsStats';
+import { VerificationsTotal } from '../VerificationsTotal/VerificationsTotal';
 import { useStyles } from './Metrics.styles';
 
 const OTHER_COUNTRIES = 'otherCountries';
@@ -28,7 +28,7 @@ function getCountry(list, id, intl) {
   return country ? country.name : id;
 }
 
-export default function Metrics() {
+export function Metrics() {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();

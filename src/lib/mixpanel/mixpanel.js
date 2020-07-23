@@ -13,14 +13,6 @@ export function addUser(user) {
   });
 }
 
-export function setUserProperties(data) {
-  if (!window.mixpanel) {
-    console.warn('Mixpanel was not initialized');
-    return;
-  }
-  window.mixpanel.people.set(data);
-}
-
 export function trackEvent(event, props) {
   if (!window.mixpanel) {
     console.warn('Mixpanel was not initialized');

@@ -2,8 +2,8 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Grid } from '@material-ui/core';
 import { PageContent } from 'apps/layout';
-import { FAQ } from './components/faq';
-import { Feedback } from './components/Feedback';
+import { FAQ } from '../FAQ/FAQ';
+import { Feedback } from '../Feedback/Feedback';
 
 export function InfoPage() {
   const intl = useIntl();

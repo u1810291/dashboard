@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import React from 'react';
-import { useStyles } from './HelpMessage.styles';
+import { useStyles } from './MessageTable.styles';
 
 export function MessageTable({ data = [], className }) {
   const classes = useStyles();

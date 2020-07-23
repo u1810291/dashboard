@@ -1,4 +1,4 @@
-import { StubBarColor, StubTickColor } from 'apps/metrics/Metrics.model';
+import { StubBarColor, StubTickColor } from 'apps/metrics/models/Metrics.model';
 import { ChartBar } from 'components/chart-bar/chart-bar';
 import { ChartTooltip } from 'components/chart-tooltip/ChartTooltip';
 import React, { useState } from 'react';

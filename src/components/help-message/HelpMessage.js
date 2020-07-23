@@ -1,30 +1,27 @@
-import clsx from 'clsx';
-import { Card } from 'components';
-import Text, { H2 } from 'components/text';
+import { Box, Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import IntlMessage from './IntlMessage';
 import { MessageTable } from './MessageTable';
-import { useStyles } from './HelpMessage.styles';
-
-const defaultNameSpace = 'fragments.verifications.help-messages';
 
 const HelpMessage = ({ id }) => {
   const intl = useIntl();
-  const classes = useStyles();
-
-  const im = new IntlMessage(defaultNameSpace, id, intl.messages);
+  const im = new IntlMessage('fragments.verifications.help-messages', id, intl.messages);
 
   return (
-    <Card className={clsx(id, classes.cardBox)}>
-      <H2>
-        { intl.formatMessage({ id: im.getNode('title') }) }
-      </H2>
-      <Text>
-        { intl.formatMessage({ id: im.getNode('subtitle') }) }
-      </Text>
-      <MessageTable data={im.getTable()} />
-    </Card>
+    <Paper>
+      <Box p={2} width={460}>
+        <Typography variant="h4" gutterBottom>
+          {intl.formatMessage({ id: im.getNode('title') })}
+        </Typography>
+        <Typography variant="body1">
+          {intl.formatMessage({ id: im.getNode('subtitle') })}
+        </Typography>
+        <Box mt={1}>
+          <MessageTable data={im.getTable()} />
+        </Box>
+      </Box>
+    </Paper>
   );
 };
 

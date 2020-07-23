@@ -1,8 +1,6 @@
 export const hubspotEvents = {
   signIn: 'signed_in',
   signUp: 'signed_up',
-  startPlan: 'started_plan',
-  unlockIntegration: 'entered_cc_to_unlock_integration',
 };
 
 export const hubspotForms = {

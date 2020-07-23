@@ -1,5 +1,5 @@
 import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
-import { appPalette } from 'app.theme';
+import { appPalette } from 'apps/theme/app.palette';
 import QuestionImage from 'assets/questions-bkg.jpg';
 
 export const useStyles = makeStyles((theme) => ({

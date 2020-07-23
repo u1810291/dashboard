@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
   addLogo: {
     height: 250,
     width: 305,
@@ -12,20 +12,10 @@ export const useStyles = makeStyles(() => ({
     wordBreak: 'break-all',
     whiteSpace: 'normal',
     borderRadius: 4,
-    border: [[1, 'solid', 'var(--mgi-theme-palette-blue)']],
-    color: 'var(--mgi-theme-palette-blue)',
+    border: [[1, 'solid', theme.palette.primary.main]],
+    color: theme.palette.primary.main,
     cursor: 'pointer',
     outline: 'none',
-
-    '&.hasntLogo': {
-      height: 60,
-      borderImageSource: 'url("./button-border-image.svg")',
-      borderImageSlice: [[0, 0, 0, 0, 'fill']],
-      borderImageWidth: [[0, 0, 0, 0]],
-      borderImageOutset: [[0, 0, 0, 0]],
-      borderImageRepeat: [['stretch', 'stretch']],
-      background: 'transparent',
-    },
   },
   logoPreview: {
     maxWidth: 230,
