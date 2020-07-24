@@ -1,5 +1,5 @@
 import { useIntl } from 'react-intl';
-import { DocumentMxSteps } from '../../../models/Step.model';
+import { DocumentMxSteps, LEGACY_ERROR } from '../../../models/Step.model';
 
 export function useStatusLabel(step) {
   const intl = useIntl();
@@ -22,5 +22,12 @@ export function useStatusLabel(step) {
     });
   }
 
-  return intl.formatMessage({ id: `SecurityCheckStep.${step.id}.${step.checkStatus}`, defaultMessage: ' ' }, labelStatusData);
+  const error = step.error || {};
+
+  return intl.formatMessage({
+    id: error.type !== LEGACY_ERROR
+      ? `SecurityCheckStep.${error.code}`
+      : `SecurityCheckStep.${step.id}.${step.checkStatus}`,
+    defaultMessage: ' ',
+  }, labelStatusData);
 }

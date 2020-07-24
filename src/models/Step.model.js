@@ -1,6 +1,7 @@
 import { getFacematchStepExtra } from 'apps/facematch/models/facematch.model';
 import { isDateExpired } from 'lib/date';
 import { FieldsExpiredCheck, getFieldsExtra } from 'models/Field.model';
+import { get } from 'lodash';
 
 export const DocumentStepTypes = {
   DocumentReading: 'document-reading',
@@ -34,10 +35,16 @@ export const DocumentMxSteps = [
 export const StepStatus = {
   Success: 'success',
   Failure: 'failure',
+  Incomplete: 'incomplete',
   Checking: 'checking',
 };
 
+const StepIncompletionErrors = {
+  [DocumentStepTypes.Watchlists]: ['watchlists.notEnoughParams'],
+};
+
 export const LEGACY_ERROR = 'LegacyError';
+export const FRONTEND_ERROR = 'FrontendError';
 export const SYSTEM_ERROR = 'SystemError';
 
 export function getDocumentStep(id, steps = []) {
@@ -64,13 +71,20 @@ export function getDocumentStep(id, steps = []) {
 //   checkStatus: StepStatus.Failure,
 // };
 
-export function getStepStatus(status, error) {
-  if (status === 200) {
-    return error
-      ? StepStatus.Failure
-      : StepStatus.Success;
+export function getStepStatus({ id, status, error }) {
+  if (status !== 200) {
+    return StepStatus.Checking;
   }
-  return StepStatus.Checking;
+
+  if (!error) {
+    return StepStatus.Success;
+  }
+
+  const code = get(error, 'code');
+
+  return code && StepIncompletionErrors[id] && StepIncompletionErrors[id].includes(code)
+    ? StepStatus.Incomplete
+    : StepStatus.Failure;
 }
 
 export function getStepExtra(step) {
@@ -80,7 +94,7 @@ export function getStepExtra(step) {
 
   return {
     ...altered,
-    checkStatus: getStepStatus(step.status, step.error),
+    checkStatus: getStepStatus(step),
     // extras (DocumentStepFailedTypes) and Gov-checks has no tip
     isTip: Object.values(DocumentStepTypes).includes(step.id) && !DocumentMxSteps.includes(step.id),
   };
@@ -96,7 +110,10 @@ export function getReaderFailedSteps(readerStep, identity) {
     steps.push({
       ...readerStep,
       id: DocumentStepFailedTypes.EmptyFields,
-      error: true,
+      error: {
+        type: FRONTEND_ERROR,
+        code: DocumentStepFailedTypes.EmptyFields,
+      },
       labelStatusDataIntl: {
         fields: emptyFields.map((item) => `identity.field.${item.id}`),
       },
@@ -107,7 +124,10 @@ export function getReaderFailedSteps(readerStep, identity) {
     steps.push({
       ...readerStep,
       id: DocumentStepFailedTypes.ExpiredDate,
-      error: true,
+      error: {
+        type: FRONTEND_ERROR,
+        code: DocumentStepFailedTypes.ExpiredDate,
+      },
       labelStatusData: {
         date: expiredFields.map((item) => item.value).join(', '),
       },

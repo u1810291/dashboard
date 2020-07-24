@@ -9,13 +9,14 @@ import { CheckStepDetails } from '../CheckStepDetails/CheckStepDetails';
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, useStyles } from './CheckBarExpandable.styles';
 import { StatusMessage } from '../StatusMessage/StatusMessage';
 
-export function CheckBarExpandable({ step: { id, error, status, data } }) {
+export function CheckBarExpandable({ step }) {
   const intl = useIntl();
   const classes = useStyles();
   const [expanded, setExpanded] = useState(null);
   const [disabledExpansion, setDisabledExpansion] = useState(false);
   const [expandIcon, setExpandIcon] = useState(null);
-  const statusCode = getStepStatus(status, error);
+  const { id, error, data } = step;
+  const statusCode = getStepStatus(step);
   const logo = CheckBarIconsMap[id];
 
   useEffect(() => {
