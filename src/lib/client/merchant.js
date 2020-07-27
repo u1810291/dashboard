@@ -25,10 +25,6 @@ export function getMerchantFlows(merchantId) {
   return http.get(`api/v1/merchants/${merchantId}/flows`);
 }
 
-export function getMerchantFlowById(merchantId, id) {
-  return http.get(`api/v1/merchants/${merchantId}/flows/${id}`);
-}
-
 export function createMerchantFlow(merchantId, data) {
   return http.post(`api/v1/merchants/${merchantId}/flows`, data);
 }

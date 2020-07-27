@@ -1,11 +1,10 @@
-import Button from 'components/button';
+import { Box, Button, TextField, Typography } from '@material-ui/core';
 import { setI18nContext } from 'components/i18n-context';
-import { Input } from 'components/inputs';
 import { Field, Form, withFormik } from 'formik';
 import { flowRight } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { passwordRecovery } from '../../state/auth.actions';
@@ -14,47 +13,62 @@ const formikSettings = {
   handleSubmit(values, { props, setSubmitting, setStatus }) {
     const { email } = values;
     setStatus({});
-    props
-      .passwordRecovery({ email })
-      .then(() => {
-        setSubmitting(false);
-        setStatus(true);
-      })
-      .catch((error) => {
-        setSubmitting(false);
-        setStatus({ email: error.response.data.message });
-      });
+    props.passwordRecovery({ email }).then(() => {
+      setSubmitting(false);
+      setStatus(true);
+    }).catch((error) => {
+      setSubmitting(false);
+      setStatus({ email: error.response.data.message });
+    });
   },
 };
 
 function PasswordRecovery({ status, isSubmitting }) {
-  return status === true
-    ? <Redirect to="/" />
-    : (
-      <Form>
-        <h1 className="text-light">
-          <FormattedMessage id="recovery.title" />
-          <p>
-            <FormattedMessage id="recovery.subtitle" />
-          </p>
-        </h1>
-        <Field type="email" name="email" component={Input} />
-        <p>
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            buttonStyle="primary"
-          >
-            <FormattedMessage id="recovery.action" />
-          </Button>
-        </p>
-        <p>
-          <Link to="/auth/signin">
-            <FormattedMessage id="recovery.signin" />
-          </Link>
-        </p>
-      </Form>
-    );
+  const intl = useIntl();
+
+  if (status === true) {
+    return <Redirect to="/" />;
+  }
+
+  return (
+    <Form>
+      <Typography variant="h1" gutterBottom>
+        {intl.formatMessage({ id: 'recovery.title' })}
+      </Typography>
+      <Typography variant="body1">
+        {intl.formatMessage({ id: 'recovery.subtitle' })}
+      </Typography>
+
+      <Box mt={1}>
+        <Field
+          type="email"
+          name="email"
+          label={intl.formatMessage({ id: 'signin.form.labels.email' })}
+          variant="outlined"
+          fullWidth
+          component={TextField}
+        />
+      </Box>
+
+      <Box mt={2}>
+        <Button
+          variant="contained"
+          type="submit"
+          disabled={isSubmitting}
+          color="primary"
+          size="large"
+        >
+          {intl.formatMessage({ id: 'recovery.action' })}
+        </Button>
+      </Box>
+
+      <Box mt={3}>
+        <Link to="/auth/signin">
+          {intl.formatMessage({ id: 'recovery.signin' })}
+        </Link>
+      </Box>
+    </Form>
+  );
 }
 
 PasswordRecovery.propTypes = {

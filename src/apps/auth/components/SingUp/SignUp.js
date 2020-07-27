@@ -29,7 +29,7 @@ const initialValues = {
   error: null,
 };
 
-export default function SignUp() {
+export function SignUp() {
   const intl = useIntl();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -104,6 +104,8 @@ export default function SignUp() {
                       InputLabelProps={{
                         shrink: true,
                       }}
+                      variant="outlined"
+                      fullWidth
                       placeholder="Work Email (no gmail, hotmail, etc)"
                     />
                   </Grid>
@@ -114,6 +116,8 @@ export default function SignUp() {
                       label={intl.formatMessage({
                         id: 'signup.form.labels.password',
                       })}
+                      variant="outlined"
+                      fullWidth
                       component={TextField}
                     />
                   </Grid>
