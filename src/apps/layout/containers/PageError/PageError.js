@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { CenterContent } from '../../components/CenterContent/CenterContent';
 import { ReactComponent as Image500 } from './500.svg';
 
-export function PageError() {
+export function PageError({ onRetry }) {
   const intl = useIntl();
 
   return (
@@ -25,6 +25,7 @@ export function PageError() {
                 color="primary"
                 variant="contained"
                 startIcon={<FiHome />}
+                onClick={onRetry}
               >
                 {intl.formatMessage({ id: 'PageError.cta' })}
               </Button>

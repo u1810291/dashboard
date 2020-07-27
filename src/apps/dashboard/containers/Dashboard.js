@@ -1,9 +1,9 @@
 import { signOut } from 'apps/auth/state/auth.actions';
 import { selectCurrentPlanId } from 'apps/billing';
-import { Layout, PageLoader } from 'apps/layout';
+import { Layout, PageError, PageLoader } from 'apps/layout';
 import { ROOT_PATH } from 'apps/routing';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +28,7 @@ export function Dashboard() {
   const merchantBlocked = useSelector(selectIsBlockedModel);
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
   const countriesModel = useSelector(selectCountriesModel);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -38,6 +39,7 @@ export function Dashboard() {
               dispatch(signOut());
               history.push(ROOT_PATH);
             } else {
+              setIsError(true);
               throw error;
             }
           });
@@ -52,6 +54,7 @@ export function Dashboard() {
       if (LoadableAdapter.isPristine(countriesModel)) {
         await dispatch(getCountries())
           .catch((error) => {
+            setIsError(true);
             console.error(error);
           });
       }
@@ -63,6 +66,7 @@ export function Dashboard() {
     if (merchantModel.isLoaded && LoadableAdapter.isPristine(merchantFlowsModel)) {
       dispatch(merchantFlowsLoad())
         .catch((error) => {
+          setIsError(true);
           console.error(error);
         });
     }
@@ -74,6 +78,19 @@ export function Dashboard() {
         console.error(error);
       });
   }, [dispatch]);
+
+  const handleRetry = useCallback(() => {
+    // hard reload only will help here
+    window.location.reload();
+  }, []);
+
+  if (isError) {
+    return (
+      <Layout menu={<DashboardMenu />}>
+        <PageError onRetry={handleRetry} />
+      </Layout>
+    );
+  }
 
   if (!boardingModel.isLoaded && !countriesModel.isLoaded && !merchantFlowsModel.isLoaded) {
     return <PageLoader />;
