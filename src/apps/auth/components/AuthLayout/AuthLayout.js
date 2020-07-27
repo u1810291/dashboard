@@ -8,8 +8,8 @@ export function AuthLayout({ children }) {
 
   return (
     <Box className={classes.root}>
-      <AppBar position="static" elevation={0}>
-        <Toolbar variant="dense">
+      <AppBar color="transparent" position="static" elevation={0} className={classes.appBar}>
+        <Toolbar variant="dense" className={classes.toolBar}>
           <MatiLogo width={70} height={24} />
         </Toolbar>
       </AppBar>

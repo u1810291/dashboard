@@ -24,7 +24,7 @@ const initialValues = {
   passwords: '',
 };
 
-export default function SignIn() {
+export function SignIn() {
   const intl = useIntl();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -64,13 +64,13 @@ export default function SignIn() {
                       autoComplete="email"
                       name="email"
                       type="email"
-                      label={intl.formatMessage({
-                        id: 'signin.form.labels.email',
-                      })}
+                      label={intl.formatMessage({ id: 'signin.form.labels.email' })}
                       InputLabelProps={{
                         shrink: true,
                       }}
                       placeholder="Work Email (no gmail, hotmail, etc)"
+                      variant="outlined"
+                      fullWidth
                       component={TextField}
                     />
                   </Grid>
@@ -82,6 +82,8 @@ export default function SignIn() {
                       label={intl.formatMessage({
                         id: 'signin.form.labels.password',
                       })}
+                      variant="outlined"
+                      fullWidth
                       component={TextField}
                     />
                   </Grid>

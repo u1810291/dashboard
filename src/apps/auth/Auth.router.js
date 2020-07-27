@@ -1,9 +1,9 @@
-import PasswordRecovery from 'apps/auth/components/PasswordRecovery/PasswordRecovery';
-import PasswordReset from 'apps/auth/components/PasswordReset/PasswordReset';
-import SignIn from 'apps/auth/components/SignIn/SignIn';
-import SignUp from 'apps/auth/components/SingUp/SignUp';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import PasswordRecovery from './components/PasswordRecovery/PasswordRecovery';
+import PasswordReset from './components/PasswordReset/PasswordReset';
+import { SignIn } from './components/SignIn/SignIn';
+import { SignUp } from './components/SingUp/SignUp';
 
 export function AuthRouter() {
   return (
