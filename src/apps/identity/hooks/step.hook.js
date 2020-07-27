@@ -25,7 +25,7 @@ export function useStatusLabel(step) {
   const error = step.error || {};
 
   return intl.formatMessage({
-    id: error.type !== LEGACY_ERROR
+    id: error.code && error.type !== LEGACY_ERROR
       ? `SecurityCheckStep.${error.code}`
       : `SecurityCheckStep.${step.id}.${step.checkStatus}`,
     defaultMessage: ' ',
