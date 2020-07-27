@@ -30,7 +30,7 @@ export function formatValue(label, value) {
     return formatDate(value);
   }
 
-  return value;
+  return `${value}`;
 }
 
 export function trimMiddle(string = '', begin = 30, end = 5, delimiter = '…') {
