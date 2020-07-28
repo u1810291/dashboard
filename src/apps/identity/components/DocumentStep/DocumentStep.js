@@ -18,7 +18,7 @@ export function DocumentStep({ document, identity }) {
   const title = useDocumentTitle(document);
 
   const { steps = [], country, source, type, isEditable = true } = document;
-  const [isSanctioned] = useState(true || DocumentCountrySanctionList.includes(country));
+  const [isSanctioned] = useState(DocumentCountrySanctionList.includes(country));
   const documentReadingStep = steps.find((step) => step.id === DocumentStepTypes.DocumentReading);
   const isFormEditable = identity.isEditable && source.demo !== true && isEditable;
   const onReading = documentReadingStep.status < 200;
