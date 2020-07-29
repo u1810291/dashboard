@@ -66,7 +66,7 @@ export function VerificationTable() {
               <TableRow>
                 <TableCell colSpan={5} align="center">
                   {identityCollection.isLoading
-                    ? <CircularProgress color="secondary" />
+                    ? <CircularProgress color="primary" />
                     : <EmptyTableIcon />}
                 </TableCell>
               </TableRow>

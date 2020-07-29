@@ -75,7 +75,7 @@ export function Chart({ data, stub, isLoaded, isLoading, ...props }) {
       {!isLoaded || isLoading
         ? (
           <Box minHeight={300} display="flex" alignItems="center">
-            <CircularProgress color="secondary" />
+            <CircularProgress color="primary" />
           </Box>
         )
         : (

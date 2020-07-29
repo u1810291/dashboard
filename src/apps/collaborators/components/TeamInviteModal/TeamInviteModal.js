@@ -37,7 +37,7 @@ export function TeamInviteModal({ onSubmit, isPosting }) {
         >
           {intl.formatMessage({ id: 'teamTable.invite' })}
         </Button>
-        {isPosting && <CircularProgress color="secondary" />}
+        {isPosting && <CircularProgress color="primary" />}
       </footer>
     </Modal>
   );

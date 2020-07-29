@@ -59,7 +59,7 @@ export function Countries({ countries, supportedCountries = [], onSubmit, isLoad
 
       {/* content */}
       {isLoading ? (
-        <CircularProgress color="secondary" />
+        <CircularProgress color="primary" />
       ) : (
         <Box>
           {supportedCountries.length > 0 && (

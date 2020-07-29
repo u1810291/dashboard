@@ -37,7 +37,7 @@ export function Product() {
   if (!merchantFlowList.isLoaded) {
     return (
       <Box display="flex" alignItems="center" mt={3}>
-        <CircularProgress color="secondary" />
+        <CircularProgress color="primary" />
       </Box>
     );
   }

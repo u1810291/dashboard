@@ -164,7 +164,7 @@ export default class TextEditable extends React.Component {
             ) }
           </span>
           {isLoading ? (
-            <CircularProgress color="secondary" />
+            <CircularProgress color="primary" />
           ) : (
             <EditIcon className={CSS.editIcon} />
           )}
