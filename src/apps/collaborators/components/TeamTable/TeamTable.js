@@ -50,7 +50,7 @@ export function TeamTable({ list, onInvite, onUpdate, onRemove }) {
               <TableRow>
                 <TableCell colSpan={4} align="center">
                   {list.isLoading
-                    ? <CircularProgress color="secondary" />
+                    ? <CircularProgress color="primary" />
                     : <TeamTablePlaceholder onInvite={onInvite} />}
                 </TableCell>
               </TableRow>

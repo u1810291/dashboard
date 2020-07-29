@@ -32,7 +32,7 @@ export function VerificationsStats({
         {!isLoaded || isLoading
           ? (
             <Box minHeight={200} display="flex" alignItems="center">
-              <CircularProgress color="secondary" />
+              <CircularProgress color="primary" />
             </Box>
           )
           : chart}

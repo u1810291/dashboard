@@ -1,14 +1,15 @@
 import { Button, Grid } from '@material-ui/core';
+import { PageError } from 'apps/layout';
 import { createOverlay } from 'components/overlay';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import React, { useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { collaboratorAdd, collaboratorListLoad, collaboratorRemove, collaboratorUpdate } from '../../state/collaborator.actions';
-import { selectCollaboratorCollection, selectCollaboratorState } from '../../state/collaborator.selectors';
 import { TeamInviteModal } from '../../components/TeamInviteModal/TeamInviteModal';
 import { TeamInviteSuccessModal } from '../../components/TeamInviteSuccessModal/TeamInviteSuccessModal';
 import { TeamTable } from '../../components/TeamTable/TeamTable';
+import { collaboratorAdd, collaboratorListLoad, collaboratorRemove, collaboratorUpdate } from '../../state/collaborator.actions';
+import { selectCollaboratorCollection, selectCollaboratorState } from '../../state/collaborator.selectors';
 import { ReactComponent as InviteIcon } from './invite.svg';
 
 export function TeamSettings() {
@@ -56,6 +57,10 @@ export function TeamSettings() {
       />,
     );
   }, [handleInviteSubmit, state]);
+
+  if (collaboratorList.isFailed) {
+    return <PageError />;
+  }
 
   return (
     <Grid container spacing={2} direction="row">

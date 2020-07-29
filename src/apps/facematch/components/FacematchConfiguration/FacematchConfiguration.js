@@ -147,7 +147,7 @@ export const FacematchConfiguration = () => {
           <Button
             variant="contained"
             color="primary"
-            startIcon={isLoading && <CircularProgress color="secondary" size={14} />}
+            startIcon={isLoading && <CircularProgress color="primary" size={14} />}
             onClick={handleSave}
             disabled={isLoading}
           >

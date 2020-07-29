@@ -1,5 +1,6 @@
 import { Box } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { PageError } from 'apps/layout';
 import { Card, closeOverlay, createOverlay, Items, Text } from 'components';
 import Button from 'components/button';
 import { notification } from 'components/notification';
@@ -56,10 +57,14 @@ export function Billing() {
     );
   };
 
+  if (planDetailsModel.isFailed || currentPlanFullModel.isFailed || cardModel.isFailed) {
+    return <PageError />;
+  }
+
   if (!currentPlanFullModel.isLoaded || !cardModel.isLoaded) {
     return (
       <Box display="flex" alignItems="center">
-        <CircularProgress color="secondary" />
+        <CircularProgress color="primary" />
       </Box>
     );
   }

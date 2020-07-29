@@ -25,14 +25,9 @@ export const selectCurrentPlanId = createSelector(
 
 // -- providers
 
-export const selectProviderCollection = createSelector(
-  selectBillingStore,
-  (store) => store[SliceNames.ProviderList],
-);
-
 export const selectHasBilling = createSelector(
-  selectProviderCollection,
-  selectLoadableValue((list) => list.length > 0),
+  selectPlanDetailsModel,
+  selectLoadableValue((value) => value.activatedAt && value.plan && value.provider),
 );
 
 // -- current
