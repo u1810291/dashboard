@@ -1,6 +1,5 @@
 import { getFacematchStepExtra } from 'apps/facematch/models/facematch.model';
-import { isDateExpired } from 'lib/date';
-import { FieldsExpiredCheck, getFieldsExtra } from 'models/Field.model';
+import { getFieldsExpired, getFieldsExtra } from 'models/Field.model';
 import { get } from 'lodash';
 
 export const DocumentStepTypes = {
@@ -104,7 +103,7 @@ export function getReaderFailedSteps(readerStep, identity) {
   const steps = [];
   const fields = getFieldsExtra(readerStep.data);
   const emptyFields = fields.filter((item) => !item.value);
-  const expiredFields = fields.filter((item) => FieldsExpiredCheck.includes(item.id) && isDateExpired(item.value, identity.dateCreated));
+  const expiredFields = getFieldsExpired(fields, identity);
 
   if (emptyFields.length > 0) {
     steps.push({

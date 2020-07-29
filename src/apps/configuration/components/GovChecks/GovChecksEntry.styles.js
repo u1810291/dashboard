@@ -1,6 +1,4 @@
-import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
-import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import { Accordion, AccordionDetails, AccordionSummary } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles(() => ({
@@ -38,7 +36,7 @@ export const ExpansionPanel = withStyles({
   },
   expanded: {},
   disabled: {},
-})(MuiExpansionPanel);
+})(Accordion);
 
 export const ExpansionPanelSummary = withStyles({
   root: {
@@ -69,11 +67,11 @@ export const ExpansionPanelSummary = withStyles({
   expandIcon: {
     marginRight: -12,
   },
-})(MuiExpansionPanelSummary);
+})(AccordionSummary);
 
 export const ExpansionPanelDetails = withStyles(() => ({
   root: {
     padding: 0,
     paddingBottom: 20,
   },
-}))(MuiExpansionPanelDetails);
+}))(AccordionDetails);

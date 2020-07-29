@@ -1,4 +1,5 @@
 import { formatValue } from 'lib/string';
+import { isDateExpired } from '../lib/date';
 
 export const FieldTypes = {
   Address: 'address',
@@ -12,8 +13,17 @@ export const FieldTypes = {
   EmissionDate: 'emissionDate',
 };
 
-export const FieldsExpiredCheck = [
-  FieldTypes.ExpirationDate,
+export const FieldsBeforeCheck = [
+  {
+    id: FieldTypes.ExpirationDate,
+    lag: null,
+  },
+  {
+    id: FieldTypes.EmissionDate,
+    lag: {
+      days: -90,
+    },
+  },
 ];
 
 export function getFieldsExtra(data) {
@@ -26,6 +36,18 @@ export function getFieldsExtra(data) {
     label,
     value: formatValue(label, value),
   }));
+}
+
+export function getFieldIsExpired(field, refDate) {
+  const check = FieldsBeforeCheck.find((item) => item.id === field.id);
+  if (!check) {
+    return false;
+  }
+  return isDateExpired(field.value, refDate, check.lag);
+}
+
+export function getFieldsExpired(fields = [], refDate) {
+  return fields.filter((item) => getFieldIsExpired(item, refDate));
 }
 
 export function getCheckFieldsExtra(data) {

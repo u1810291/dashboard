@@ -1,10 +1,9 @@
 import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import { useDocumentTitle } from 'apps/identity/hooks/document.hook';
-import { WarningTypes, Warning } from 'apps/ui';
+import { Warning, WarningTypes } from 'apps/ui';
 import classNames from 'classnames';
-import { isDateExpired } from 'lib/date';
 import { DocumentCountrySanctionList } from 'models/Document.model';
-import { FieldsExpiredCheck } from 'models/Field.model';
+import { getFieldIsExpired } from 'models/Field.model';
 import { DocumentMxSteps, DocumentSecuritySteps, DocumentStepTypes } from 'models/Step.model';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -29,7 +28,7 @@ export function DocumentStep({ document, identity }) {
   const fields = Object.entries(source.fields || {}).map(([id, { value }]) => ({
     id,
     value,
-    isValid: FieldsExpiredCheck.includes(id) ? !isDateExpired(value, identity.dateCreated) : true,
+    isValid: !getFieldIsExpired({ id, value }, identity.dateCreated),
   }));
 
   return (
