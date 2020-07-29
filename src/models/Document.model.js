@@ -1,6 +1,28 @@
 import { get } from 'lodash';
-import { getCheckFieldsExtra, getFieldsExtra } from 'models/Field.model';
-import { DocumentSecuritySteps, DocumentStepTypes, getDocumentStep, getStepsExtra } from 'models/Step.model';
+import { FieldsEmissionCheck, FieldsExpirationCheck, getCheckFieldsExtra, getFieldsExtra } from './Field.model';
+import { DocumentSecuritySteps, DocumentStepFailedTypes, DocumentStepTypes, getDocumentStep, getStepsExtra } from './Step.model';
+
+export const DocumentTypes = {
+  Passport: 'passport',
+  NationalId: 'national-id',
+  DrivingLicense: 'driving-license',
+  ProofOfResidency: 'proof-of-residency',
+};
+
+export const DocumentConfig = {
+  [DocumentTypes.Passport]: {
+    [DocumentStepFailedTypes.ExpiredDate]: [FieldsExpirationCheck],
+  },
+  [DocumentTypes.NationalId]: {
+    [DocumentStepFailedTypes.ExpiredDate]: [FieldsExpirationCheck],
+  },
+  [DocumentTypes.DrivingLicense]: {
+    [DocumentStepFailedTypes.ExpiredDate]: [FieldsExpirationCheck],
+  },
+  [DocumentTypes.ProofOfResidency]: {
+    [DocumentStepFailedTypes.ExpiredDate]: [FieldsEmissionCheck],
+  },
+};
 
 export const DocumentCountrySanctionList = [
   'AF',
@@ -45,7 +67,7 @@ export function getDocumentExtras(identity) {
   const source = get(identity, '_embedded.documents');
 
   return documents.map((document) => {
-    const steps = getStepsExtra(document.steps, identity);
+    const steps = getStepsExtra(document.steps, DocumentConfig[document.type], identity);
     const curp = getDocumentStep(DocumentStepTypes.CURP, steps);
     const ine = getDocumentStep(DocumentStepTypes.INE, steps);
     const rfc = getDocumentStep(DocumentStepTypes.RFC, steps);
