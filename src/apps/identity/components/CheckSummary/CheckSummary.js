@@ -1,4 +1,4 @@
-import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Grid, Typography } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import { StepStatus } from 'models/Step.model';
 import React from 'react';
@@ -22,11 +22,11 @@ export function CheckSummary({ identity }) {
   }
 
   return (
-    <ExpansionPanel>
-      <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+    <Accordion>
+      <AccordionSummary expandIcon={<ExpandMore />}>
         <Typography variant="h4">{intl.formatMessage({ id: 'CheckSummary.title' }, { count })}</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+      </AccordionSummary>
+      <AccordionDetails>
         <Grid container spacing={3}>
           {failedDocs.map((doc) => (
             <Grid item key={doc.type} xs={12}>
@@ -34,7 +34,7 @@ export function CheckSummary({ identity }) {
             </Grid>
           ))}
         </Grid>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+      </AccordionDetails>
+    </Accordion>
   );
 }

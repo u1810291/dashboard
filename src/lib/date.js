@@ -46,14 +46,6 @@ export function formatDate(value, customFormat) {
  * @param value number | string
  * @return string
  */
-export function formatWeekDay(value) {
-  return moment.weekdaysShort(+value);
-}
-
-/**
- * @param value number | string
- * @return string
- */
 export function formatHour(value) {
   return moment().hours(+value).format(DateFormat.HoursFull);
 }
@@ -81,10 +73,21 @@ export function normalizeDate(value) {
     : value;
 }
 
-export function isDateExpired(value, reference) {
+export function isDateExpired(value, reference, lag) {
   if (!value) {
     // can't parse, but don't block
     return false;
   }
-  return moment(reference).diff(moment(value)) > 0;
+  let fixedRef = moment(reference);
+
+  if (lag) {
+    // shift reference date with lag value
+    const lagDuration = moment.duration(lag);
+    fixedRef = lagDuration.as('seconds') > 0
+      ? fixedRef.subtract(lagDuration)
+      : fixedRef.add(lagDuration);
+  }
+
+  const beforeRef = fixedRef.diff(moment(value));
+  return beforeRef > 0;
 }
