@@ -1,3 +1,5 @@
+import { DocumentTypes } from 'models/Document.model';
+
 export const MERCHANT_STORE_KEY = 'merchant';
 
 export const MerchantActionGroups = {
@@ -15,10 +17,10 @@ export const SliceNames = {
 };
 
 export const AVAILABLE_DOCUMENT_TYPES = [
-  'passport',
-  'national-id',
-  'driving-license',
-  'proof-of-residency',
+  DocumentTypes.Passport,
+  DocumentTypes.NationalId,
+  DocumentTypes.DrivingLicense,
+  DocumentTypes.ProofOfResidency,
 ];
 
 export const GovChecksModel = [

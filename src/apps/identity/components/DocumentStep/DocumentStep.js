@@ -2,9 +2,9 @@ import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import { useDocumentTitle } from 'apps/identity/hooks/document.hook';
 import { Warning, WarningTypes } from 'apps/ui';
 import classNames from 'classnames';
-import { DocumentCountrySanctionList } from 'models/Document.model';
+import { DocumentConfig, DocumentCountrySanctionList } from 'models/Document.model';
 import { getFieldIsExpired } from 'models/Field.model';
-import { DocumentMxSteps, DocumentSecuritySteps, DocumentStepTypes } from 'models/Step.model';
+import { DocumentMxSteps, DocumentSecuritySteps, DocumentStepFailedTypes, DocumentStepTypes } from 'models/Step.model';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { CheckBarExpandable } from '../CheckBarExpandable/CheckBarExpandable';
@@ -28,7 +28,8 @@ export function DocumentStep({ document, identity }) {
   const fields = Object.entries(source.fields || {}).map(([id, { value }]) => ({
     id,
     value,
-    isValid: !getFieldIsExpired({ id, value }, identity.dateCreated),
+    // TODO @dkchv: review this and extract to model
+    isValid: !getFieldIsExpired({ id, value }, DocumentConfig[document.type][DocumentStepFailedTypes.ExpiredDate], identity.dateCreated),
   }));
 
   return (

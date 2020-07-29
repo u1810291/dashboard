@@ -13,18 +13,17 @@ export const FieldTypes = {
   EmissionDate: 'emissionDate',
 };
 
-export const FieldsBeforeCheck = [
-  {
-    id: FieldTypes.ExpirationDate,
-    lag: null,
+export const FieldsExpirationCheck = {
+  id: FieldTypes.ExpirationDate,
+  lag: null,
+};
+
+export const FieldsEmissionCheck = {
+  id: FieldTypes.EmissionDate,
+  lag: {
+    days: -90,
   },
-  {
-    id: FieldTypes.EmissionDate,
-    lag: {
-      days: -90,
-    },
-  },
-];
+};
 
 export function getFieldsExtra(data) {
   if (!data) {
@@ -38,16 +37,16 @@ export function getFieldsExtra(data) {
   }));
 }
 
-export function getFieldIsExpired(field, refDate) {
-  const check = FieldsBeforeCheck.find((item) => item.id === field.id);
+export function getFieldIsExpired(field, config = [], refDate) {
+  const check = config.find((item) => item.id === field.id);
   if (!check) {
     return false;
   }
   return isDateExpired(field.value, refDate, check.lag);
 }
 
-export function getFieldsExpired(fields = [], refDate) {
-  return fields.filter((item) => getFieldIsExpired(item, refDate));
+export function getFieldsExpired(fields = [], config, refDate) {
+  return fields.filter((item) => getFieldIsExpired(item, config, refDate));
 }
 
 export function getCheckFieldsExtra(data) {

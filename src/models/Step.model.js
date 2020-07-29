@@ -99,11 +99,11 @@ export function getStepExtra(step) {
   };
 }
 
-export function getReaderFailedSteps(readerStep, identity) {
+export function getReaderFailedSteps(readerStep, config = {}, identity) {
   const steps = [];
   const fields = getFieldsExtra(readerStep.data);
   const emptyFields = fields.filter((item) => !item.value);
-  const expiredFields = getFieldsExpired(fields, identity);
+  const expiredFields = getFieldsExpired(fields, config[DocumentStepFailedTypes.ExpiredDate], identity);
 
   if (emptyFields.length > 0) {
     steps.push({
@@ -136,10 +136,10 @@ export function getReaderFailedSteps(readerStep, identity) {
   return steps;
 }
 
-export function getStepsExtra(steps = [], identity) {
+export function getStepsExtra(steps = [], config, identity) {
   const readerStep = getDocumentStep(DocumentStepTypes.DocumentReading, steps);
   return [
-    ...getReaderFailedSteps(readerStep, identity),
+    ...getReaderFailedSteps(readerStep, config, identity),
     ...steps,
   ].map((item) => getStepExtra(item));
 }
