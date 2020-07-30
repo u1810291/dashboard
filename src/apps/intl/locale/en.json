@@ -314,6 +314,7 @@
   "identity.field.region": "Region",
   "identity.field.docError": "Document Error",
   "identity.field.rfc": "RFC",
+  "identity.field.registeredTaxPayer": "Registered tax payer",
   "identity.field.facematch": "Face Match",
   "identity.field.watchlists": "Watch Lists",
   "identity.field.mexican-curp-validation": "CURP Validation",
