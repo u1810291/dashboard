@@ -1,6 +1,7 @@
-import { Box, Button, TextField, Typography } from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 import { setI18nContext } from 'components/i18n-context';
 import { Field, Form, withFormik } from 'formik';
+import { TextField } from 'formik-material-ui';
 import { flowRight } from 'lodash';
 import React from 'react';
 import { useIntl } from 'react-intl';
