@@ -1,6 +1,6 @@
-import { AUTH_STORE_KEY } from 'apps/auth/state/auth.model';
 import { selectAuthToken } from 'apps/auth/state/auth.selectors';
-import { USER_STORE_KEY } from 'apps/user/state/user.model';
+import { AUTH_STORE_KEY } from 'apps/auth/state/auth.store';
+import { USER_STORE_KEY } from 'apps/user/state/user.store';
 import { http } from 'lib/client/http';
 import { applyMiddleware, createStore } from 'redux';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -9,7 +9,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import ReduxThunk from 'redux-thunk';
 import { rootReducers } from 'state/reducers';
-import { WEBHOOKS_STORE_KEY } from 'state/webhooks/webhooks.model';
+import { WEBHOOKS_STORE_KEY } from 'state/webhooks/webhooks.store';
 
 const persistedReducer = persistReducer({
   key: 'mgi-dashboard-4',

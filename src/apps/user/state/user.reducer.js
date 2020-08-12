@@ -1,6 +1,6 @@
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { createReducer } from 'state/utils';
-import { UserActionGroups } from 'apps/user/state/user.model';
+import { UserActionGroups } from './user.store';
 
 const initialState = LoadableAdapter.createState({
   // id: string

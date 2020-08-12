@@ -87,3 +87,7 @@ export function getDocumentExtras(identity) {
     };
   });
 }
+
+export function getDocumentList() {
+  return Object.values(DocumentTypes);
+}

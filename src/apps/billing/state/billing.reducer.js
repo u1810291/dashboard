@@ -1,6 +1,6 @@
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { createReducer } from 'state/utils';
-import { BillingActionGroups, SliceNames } from './billing.model';
+import { BillingActionGroups, SliceNames } from './billing.store';
 
 const initialState = {
   [SliceNames.PlanList]: LoadableAdapter.createState([

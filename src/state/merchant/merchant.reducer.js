@@ -1,8 +1,8 @@
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { DEFAULT_LOCALE } from 'models/Intl.model';
-import { MerchantActionGroups, SliceNames } from 'state/merchant/merchant.model';
 import { createReducer } from '../utils';
 import { types } from './merchant.actions';
+import { MerchantActionGroups, SliceNames } from './merchant.store';
 
 const initialState = {
   [SliceNames.Merchant]: LoadableAdapter.createState({

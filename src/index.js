@@ -2,7 +2,6 @@ import { AppRouter } from 'app.router';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { Elements as StripeElements, StripeProvider } from 'react-stripe-elements';
 // Next line must stay on the top because of css variables
 import 'components/theme/styles.scss';
 import { AppIntlProvider } from 'apps/intl';
@@ -27,19 +26,15 @@ console.log('Mati version', process.env.REACT_APP_VERSION);
 
 ReactDOM.render(
   <MuiThemeProvider theme={AppTheme}>
-    <StripeProvider apiKey={process.env.REACT_APP_STRIPE_PUBLIC_KEY}>
-      <StripeElements>
-        <StoreProvider>
-          <AppIntlProvider>
-            <BrowserRouter>
-              <AppRouter />
-              <NotificationsContainer />
-              <OverlayContainer />
-            </BrowserRouter>
-          </AppIntlProvider>
-        </StoreProvider>
-      </StripeElements>
-    </StripeProvider>
+    <StoreProvider>
+      <AppIntlProvider>
+        <BrowserRouter>
+          <AppRouter />
+          <NotificationsContainer />
+          <OverlayContainer />
+        </BrowserRouter>
+      </AppIntlProvider>
+    </StoreProvider>
   </MuiThemeProvider>,
   document.getElementById('root'),
 );

@@ -1,6 +1,6 @@
 import * as api from 'lib/client/metrics';
 import { createTypesSequence } from 'state/utils';
-import { metricsActionGroups } from './metrics.model';
+import { metricsActionGroups } from './metrics.store';
 
 export const metricsActionTypes = {
   ...createTypesSequence(metricsActionGroups.Metrics),

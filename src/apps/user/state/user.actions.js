@@ -1,5 +1,5 @@
 import { createTypesSequence } from 'state/utils';
-import { UserActionGroups } from 'apps/user/state/user.model';
+import { UserActionGroups } from 'apps/user/state/user.store';
 
 export const types = {
   ...createTypesSequence(UserActionGroups.User),

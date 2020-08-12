@@ -1,14 +1,7 @@
-import { Button } from '@material-ui/core';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-
-export const useStyles = makeStyles(() => ({
-  root: {
-    padding: 16,
-    display: 'flex',
-  },
-}));
-
-export const ButtonMenu = withStyles((theme) => ({
+import { Button, withStyles } from '@material-ui/core';
+//
+export const ButtonCollapsible = withStyles((theme) => ({
+  // TODO @dkchv: refactor with ButtonBase
   root: {
     justifyContent: 'flex-start',
     backgroundColor: 'transparent',
@@ -21,6 +14,7 @@ export const ButtonMenu = withStyles((theme) => ({
       color: theme.palette.primary.main,
       backgroundColor: '#EBEEFF',
     },
+
     [theme.breakpoints.down('xs')]: {
       padding: [[8, 12]],
       minWidth: 'auto',

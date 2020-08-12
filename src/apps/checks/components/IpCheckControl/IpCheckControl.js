@@ -1,8 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { Box, CircularProgress, FormControlLabel, Switch } from '@material-ui/core';
+import { notification } from 'components/notification';
+import { VerificationStepTypes } from 'models/Identity.model';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { notification } from 'components/notification';
-import { FormControlLabel, Switch, Box, CircularProgress } from '@material-ui/core';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectIpCheck, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { useStyles } from './IpCheckControl.styles';
@@ -29,7 +30,11 @@ export function IpCheckControl() {
   const handleChange = useCallback((event) => {
     const target = event.target.checked;
     const oldState = state;
-    dispatch(configurationFlowUpdate({ verificationPatterns: { 'ip-validation': target } }))
+    dispatch(configurationFlowUpdate({
+      verificationPatterns: {
+        [VerificationStepTypes.IpValidation]: target,
+      },
+    }))
       .catch(() => {
         setState(oldState);
         notification.error(intl.formatMessage({ id: 'update.field.error' }, { name: 'IP CHECK' }));

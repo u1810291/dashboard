@@ -1,4 +1,4 @@
-import { Divider, Paper } from '@material-ui/core';
+import { Box, Divider } from '@material-ui/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { IntegrationSection } from '../IntegrationSection/IntegrationSection';
@@ -15,7 +15,7 @@ export function Integration() {
   const intl = useIntl();
 
   return (
-    <Paper>
+    <Box>
       <IntegrationSection title={intl.formatMessage({ id: 'apps.integration.documentation.title' })}>
         <SectionDocumentation />
       </IntegrationSection>
@@ -35,6 +35,6 @@ export function Integration() {
         <SubDivider />
         <SectionWebhook />
       </IntegrationSection>
-    </Paper>
+    </Box>
   );
 }

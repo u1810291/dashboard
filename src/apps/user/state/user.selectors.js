@@ -1,6 +1,6 @@
-import { USER_STORE_KEY } from 'apps/user/state/user.model';
 import { selectModelValue } from 'lib/loadable.selectors';
 import { createSelector } from 'reselect';
+import { USER_STORE_KEY } from './user.store';
 
 export const selectUserModel = (state) => state[USER_STORE_KEY];
 

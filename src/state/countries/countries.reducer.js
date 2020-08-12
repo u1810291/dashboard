@@ -1,6 +1,6 @@
 import { createReducer } from 'state/utils';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
-import { CountriesActionGroups } from './countries.model';
+import { CountriesActionGroups } from './countries.store';
 
 const initialState = LoadableAdapter.createState([]);
 

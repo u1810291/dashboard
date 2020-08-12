@@ -1,14 +1,15 @@
 import { Box, CircularProgress, Container, Fade, Grid } from '@material-ui/core';
 import { AdditionalChecks } from 'apps/checks';
 import { Configuration } from 'apps/configuration';
+import { GovCheckSetup } from 'apps/GovCheck';
 import { Integration } from 'apps/integration';
-import { ProductTabs } from 'apps/product/models/Product.model';
-import { Tab } from 'components';
-import { trackEvent } from 'lib/mixpanel/mixpanel';
+import { Tab } from 'apps/ui';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { appLoad } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { MixPanelEvents } from '../../../../lib/mixpanel/MixPanel.model';
+import { QATags } from '../../../../models/QA.model';
 import { DemoButton } from '../../components/DemoButton/DemoButton';
 import { Footer } from '../../components/Footer/Footer';
 import { VerificationFlowHeader } from '../../components/VerificationFlowHeader/VerificationFlowHeader';
@@ -18,21 +19,37 @@ import { useStyles } from './Product.styles';
 export function Product() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [activeTabIndex, setActiveTab] = useState(0);
   const [fade, setFade] = useState(true);
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
+  const [tabs] = useState([
+    {
+      mixPanelEvent: null,
+      label: 'Product.tab.customization',
+      qa: QATags.Product.Tab.Configuration,
+      body: <Configuration />,
+    },
+    {
+      mixPanelEvent: MixPanelEvents.NavIntegration,
+      label: 'Product.tab.integration',
+      qa: QATags.Product.Tab.Integration,
+      body: <Integration />,
+    },
+    {
+      mixPanelEvent: MixPanelEvents.NavGovChecks,
+      label: 'Product.tab.govChecks',
+      qa: QATags.Product.Tab.GovChecks,
+      body: <GovCheckSetup />,
+    },
+    {
+      mixPanelEvent: null,
+      label: 'Product.tab.checks',
+      body: <AdditionalChecks />,
+    },
+  ]);
 
   useEffect((() => {
     dispatch(appLoad());
   }), [dispatch]);
-
-  const changeActiveTabHandler = (tabIndex) => {
-    const newTab = ProductTabs[tabIndex];
-    if (newTab.mixPanelEvent) {
-      trackEvent(newTab.mixPanelEvent);
-    }
-    setActiveTab(tabIndex);
-  };
 
   if (!merchantFlowList.isLoaded) {
     return (
@@ -53,19 +70,7 @@ export function Product() {
             <Grid item className={classes.middleBlock}>
               <VerificationFlowHeader />
               <Box mt={2}>
-                <Tab
-                  withAside
-                  padding={2}
-                  active={activeTabIndex}
-                  onClick={changeActiveTabHandler}
-                  tabs={ProductTabs}
-                  contents={[
-                    <Configuration />,
-                    <Integration />,
-                    <AdditionalChecks />,
-                  ]}
-                  aside={[]}
-                />
+                <Tab tabs={tabs} />
               </Box>
             </Grid>
           </Fade>

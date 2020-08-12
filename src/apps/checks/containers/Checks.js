@@ -8,7 +8,7 @@ export function AdditionalChecks() {
   const intl = useIntl();
 
   return (
-    <Box m={2}>
+    <Box p={2}>
       <Typography gutterBottom variant="h5">{intl.formatMessage({ id: 'Product.tab.checks' })}</Typography>
       <Box mb={2}>{intl.formatMessage({ id: 'Product.checks.annotation' })}</Box>
       {ChecksModel

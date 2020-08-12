@@ -1,7 +1,7 @@
-import { BillingActionGroups, PlanState } from 'apps/billing/state/billing.model';
-import { selectCurrentPlanId } from 'apps/billing/state/billing.selectors';
 import * as api from 'lib/client/plans';
 import { collectionUpsert, createTypesSequence } from 'state/utils';
+import { selectCurrentPlanId } from './billing.selectors';
+import { BillingActionGroups, PlanState } from './billing.store';
 
 export const billingActionTypes = {
   ...createTypesSequence(BillingActionGroups.PlanList),

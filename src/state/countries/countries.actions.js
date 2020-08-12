@@ -1,6 +1,6 @@
 import * as api from 'lib/client/countries';
 import { createTypesSequence } from 'state/utils';
-import { CountriesActionGroups } from './countries.model';
+import { CountriesActionGroups } from './countries.store';
 
 export const types = {
   ...createTypesSequence(CountriesActionGroups.Countries),

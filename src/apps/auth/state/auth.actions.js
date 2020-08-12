@@ -8,7 +8,7 @@ import { hubspotTrack } from 'state/hubspot/hubspot.actions';
 import { merchantLoadSuccess } from 'state/merchant/merchant.actions';
 import { createTypesSequence } from 'state/utils';
 import * as api from '../api/auth.client';
-import { AuthActionGroups } from './auth.model';
+import { AuthActionGroups } from './auth.store';
 
 export const types = {
   ...createTypesSequence(AuthActionGroups.SignIn),
