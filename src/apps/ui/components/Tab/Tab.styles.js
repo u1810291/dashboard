@@ -14,7 +14,7 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     borderRadius: [[4, 4, 0, 0]],
-    background: '#CBD2E2',
+    backgroundColor: '#e8eaf0',
     marginBottom: -1, // for hide shadow
   },
   tab: {
