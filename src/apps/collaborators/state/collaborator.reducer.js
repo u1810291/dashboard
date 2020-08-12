@@ -1,6 +1,6 @@
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { createReducer } from 'state/utils';
-import { CollaboratorSliceName, CollaboratorActionGroups } from './collaborator.model';
+import { CollaboratorSliceName, CollaboratorActionGroups } from './collaborator.store';
 
 const initialState = {
   [CollaboratorSliceName.CollaboratorList]: LoadableAdapter.createState([]),

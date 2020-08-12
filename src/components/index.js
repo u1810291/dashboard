@@ -10,4 +10,3 @@ export { default as Text } from './text';
 export { Content } from 'components/Content/Content';
 export { default as PageContentMenu } from './page-content-menu';
 export { default as VideoPlayer } from './video-player';
-export { default as Tab, TabWrapper } from './tab';

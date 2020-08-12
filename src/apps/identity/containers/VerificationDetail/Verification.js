@@ -2,7 +2,7 @@ import { Card, CardContent, Grid } from '@material-ui/core';
 import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
 import { Page404 } from 'apps/layout';
 import { get } from 'lodash';
-import { getIpCheckStep } from 'models/IpCheck.model';
+import { getIpCheckStep } from 'models/Identity.model';
 import React from 'react';
 import { DocumentStep } from '../../components/DocumentStep/DocumentStep';
 import { LivenessStep } from '../../components/LivenessStep';

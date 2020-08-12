@@ -1,9 +1,10 @@
 import { selectUserId } from 'apps/user/state/user.selectors';
 import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
-import { createSelector } from 'reselect';
-import { MERCHANT_STORE_KEY, SliceNames } from 'state/merchant/merchant.model';
+import { VerificationStepTypes } from 'models/Identity.model';
 import { DEFAULT_LOCALE } from 'models/Intl.model';
+import { createSelector } from 'reselect';
+import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
 
 const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
 
@@ -118,14 +119,14 @@ export const selectPolicyInterval = createSelector(
   (flow) => fromIsoPeriod(flow.policyInterval),
 );
 
-export const selectGovChecks = createSelector(
+export const selectVerificationPattern = createSelector(
   selectCurrentFlow,
   (flow) => flow.verificationPatterns,
 );
 
 export const selectIpCheck = createSelector(
-  selectGovChecks,
-  (flow) => flow['ip-validation'],
+  selectVerificationPattern,
+  (flow) => flow[VerificationStepTypes.IpValidation],
 );
 
 export const selectLogoModel = createSelector(

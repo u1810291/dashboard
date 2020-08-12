@@ -1,15 +1,9 @@
 import { billingInit } from 'apps/billing/state/billing.actions';
 import * as api from 'lib/client/merchant';
-import { MerchantActionGroups } from 'state/merchant/merchant.model';
-import {
-  selectConfigurationModel,
-  selectStyleModel,
-  selectMerchantId,
-  selectMerchantFlowsModel,
-  selectCurrentFlowId,
-} from 'state/merchant/merchant.selectors';
 import { createTypesSequence } from 'state/utils';
 import { getWebhooks } from 'state/webhooks/webhooks.actions';
+import { selectConfigurationModel, selectCurrentFlowId, selectMerchantFlowsModel, selectMerchantId, selectStyleModel } from './merchant.selectors';
+import { MerchantActionGroups } from './merchant.store';
 
 export const types = {
   ...createTypesSequence(MerchantActionGroups.Merchant),

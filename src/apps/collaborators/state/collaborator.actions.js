@@ -3,7 +3,7 @@ import * as api from 'lib/client/collaborators';
 import { ERROR_COMMON } from 'models/Error.model';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { createTypesSequence } from 'state/utils';
-import { CollaboratorActionGroups } from './collaborator.model';
+import { CollaboratorActionGroups } from './collaborator.store';
 
 export const types = {
   ...createTypesSequence(CollaboratorActionGroups.CollaboratorList),

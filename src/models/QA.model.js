@@ -17,6 +17,7 @@ export const QATags = {
     Tab: {
       Configuration: 'product-tab-configuration',
       Integration: 'product-tab-integration',
+      GovChecks: 'product-tab-gov-checks',
     },
     Bar: {
       Name: 'product-bar-name',

@@ -1,8 +1,13 @@
 import { titleize } from 'inflection';
 import { get } from 'lodash';
 import { getDocumentExtras } from 'models/Document.model';
-import { getIpCheckStep } from 'models/IpCheck.model';
 import moment from 'moment';
+import { getLivenessExtras } from './Biometric.model';
+import { getIpCheckUrl } from './IpCheck.model';
+
+export const VerificationStepTypes = {
+  IpValidation: 'ip-validation',
+};
 
 export const IdentityStatuses = {
   verified: 'verified',
@@ -76,16 +81,6 @@ export function isChangeableStatus(status) {
   return !!founded && founded.isChangeable;
 }
 
-export const IdentitySteps = {
-  liveness: 'liveness',
-  selfie: 'selfie',
-};
-
-export const IdentityLivenessSteps = [
-  IdentitySteps.liveness,
-  IdentitySteps.selfie,
-];
-
 export function getIdentityStatusLabel(status) {
   return `statuses.${status}`;
 }
@@ -94,47 +89,23 @@ export function getIdentityStatusDescription(status) {
   return `statuses.${status}.description`;
 }
 
-export const IdentityLivenessStatus = {
-  Skipped: 'skipped',
-  InProgress: 'inProgress',
-  Success: 'success',
-  Error: 'error',
-};
-
-export function getStatusByCode({ status, error }) {
-  switch (status) {
-    case 0:
-      return IdentityLivenessStatus.Skipped;
-    case 100:
-      return IdentityLivenessStatus.InProgress;
-    case 200:
-      return error
-        ? IdentityLivenessStatus.Error
-        : IdentityLivenessStatus.Success;
-    default: {
-      console.warn('liveness code: status not found, status: ', status, 'error: ', error);
-      return null;
-    }
-  }
+export function getIdentityShortId(id) {
+  return (id || '').slice(-6);
 }
 
-export function getLivenessExtras(identity) {
+export function getIpCheckStep(identity) {
   const steps = get(identity, '_embedded.verification.steps') || [];
-  const liveness = steps.find((item) => IdentityLivenessSteps.includes(item.id));
+  const step = steps.find((item) => item.id === VerificationStepTypes.IpValidation);
 
-  if (!liveness) {
+  if (!step) {
     return null;
   }
 
-  return {
-    status: getStatusByCode(liveness),
-    videoUrl: get(liveness, 'data.videoUrl'),
-    selfieUrl: get(liveness, 'data.selfiePhotoUrl') || get(liveness, 'data.selfieUrl'),
-  };
-}
+  if (!step.error && step.data) {
+    step.data.mapUrl = getIpCheckUrl(step.data);
+  }
 
-export function getIdentityShortId(id) {
-  return (id || '').slice(-6);
+  return step;
 }
 
 export function getIdentityExtras(identity) {

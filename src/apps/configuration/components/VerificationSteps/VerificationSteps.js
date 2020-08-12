@@ -5,7 +5,7 @@ import { difference, without } from 'lodash';
 import React, { useState } from 'react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { AVAILABLE_DOCUMENT_TYPES } from 'state/merchant/merchant.model';
+import { getDocumentList } from 'models/Document.model';
 import VerificationStepModal from '../VerificationStepsModal/VerificationStepsModal';
 import { useStyles } from './VerificationSteps.styles';
 
@@ -34,7 +34,7 @@ export function accessibleItems(available, steps, index) {
 export function VerificationSteps({ steps = [], onChange }) {
   const intl = useIntl();
   const classes = useStyles();
-  const [availableDocumentTypes] = useState(AVAILABLE_DOCUMENT_TYPES);
+  const [availableDocumentTypes] = useState(getDocumentList());
 
   const onRemoveItem = async (index) => {
     try {

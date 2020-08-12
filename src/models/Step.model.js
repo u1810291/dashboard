@@ -1,6 +1,6 @@
 import { getFacematchStepExtra } from 'apps/facematch/models/facematch.model';
-import { getFieldsExpired, getFieldsExtra } from 'models/Field.model';
 import { get } from 'lodash';
+import { getFieldsExpired, getFieldsExtra } from 'models/Field.model';
 
 export const DocumentStepTypes = {
   DocumentReading: 'document-reading',

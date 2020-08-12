@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
-import { selectCurrentFlowId, selectGovChecks } from 'state/merchant/merchant.selectors';
+import { selectCurrentFlowId, selectVerificationPattern } from 'state/merchant/merchant.selectors';
 import useStyles from './BiometricStep.styles';
 
 export function BiometricStep() {
@@ -26,7 +26,7 @@ export function BiometricStep() {
   ];
   const classes = useStyles();
   const dispatch = useDispatch();
-  const patterns = useSelector(selectGovChecks);
+  const patterns = useSelector(selectVerificationPattern);
   const flowId = useSelector(selectCurrentFlowId);
   const defaultState = get(options.find((option) => option.value === patterns.biometrics), 'value', 'none');
   const [value, setValue] = useState(defaultState);
