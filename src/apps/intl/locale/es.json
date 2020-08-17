@@ -78,6 +78,7 @@
     "1000,5000": "1000-5000",
     "5000,": "+5000"
   },
+  "signin.dontHaveAccount": "¿Aún no tienes una cuenta? Comunícate con nuestro equipo",
   "signin.recovery": "Olvidé mi contraseña",
   "signup.title": "¡Comience!",
   "signup.subtitle": "Use su correo electrónico de trabajo para crear una nueva cuenta",

@@ -78,6 +78,7 @@
     "1000,5000": "1000–5000",
     "5000,": "+5000"
   },
+  "signin.dontHaveAccount": "You don't have an account yet? Contact our team",
   "signin.recovery": "I forgot my password",
   "signup.title": "Get started!",
   "signup.subtitle": "Use your work email to create new account",
