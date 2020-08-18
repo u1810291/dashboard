@@ -11,6 +11,7 @@ export const DocumentStepTypes = {
   CURP: 'mexican-curp-validation',
   INE: 'mexican-ine-validation',
   RFC: 'mexican-rfc-validation',
+  ColombianRegistraduria: 'colombian-registraduria-validation',
 };
 
 // used as 'id' of failed steps in check summary
@@ -30,6 +31,8 @@ export const DocumentMxSteps = [
   DocumentStepTypes.INE,
   DocumentStepTypes.RFC,
 ];
+
+export const CountrySpecificChecks = [...DocumentMxSteps, DocumentStepTypes.ColombianRegistraduria];
 
 export const StepStatus = {
   Success: 'success',
@@ -95,7 +98,7 @@ export function getStepExtra(step) {
     ...altered,
     checkStatus: getStepStatus(step),
     // extras (DocumentStepFailedTypes) and Gov-checks has no tip
-    isTip: Object.values(DocumentStepTypes).includes(step.id) && !DocumentMxSteps.includes(step.id),
+    isTip: Object.values(DocumentStepTypes).includes(step.id) && !CountrySpecificChecks.includes(step.id),
   };
 }
 

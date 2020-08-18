@@ -107,11 +107,22 @@ export function SignIn() {
         </Formik>
       </Grid>
       <Grid item>
-        <Typography align="center">
-          <Link to="/auth/password-recovery">
-            {intl.formatMessage({ id: 'signin.recovery' })}
-          </Link>
-        </Typography>
+        <Grid container justify="space-between" direction="row">
+          <Grid item xs>
+            <Typography align="left">
+              <Link to="/auth/password-recovery">
+                {intl.formatMessage({ id: 'signin.recovery' })}
+              </Link>
+            </Typography>
+          </Grid>
+          <Grid item xs={5}>
+            <Typography align="right">
+              <a href="https://www.getmati.com/contactus?utm_campaign=Product CTAs&utm_source=product&utm_medium=cta&utm_term=owned&utm_content=cta_signinpage">
+                {intl.formatMessage({ id: 'signin.dontHaveAccount' })}
+              </a>
+            </Typography>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

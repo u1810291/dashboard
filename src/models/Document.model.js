@@ -68,6 +68,7 @@ export function getDocumentExtras(identity) {
 
   return documents.map((document) => {
     const steps = getStepsExtra(document.steps, DocumentConfig[document.type], identity);
+    const colombianRegistraduria = getDocumentStep(DocumentStepTypes.ColombianRegistraduria, steps);
     const curp = getDocumentStep(DocumentStepTypes.CURP, steps);
     const ine = getDocumentStep(DocumentStepTypes.INE, steps);
     const rfc = getDocumentStep(DocumentStepTypes.RFC, steps);
@@ -79,6 +80,7 @@ export function getDocumentExtras(identity) {
       source: sourceDocument,
       photos: document.photos || [],
       reading: getFieldsExtra(sourceDocument.fields),
+      colombianRegistraduria: getCheckFieldsExtra(colombianRegistraduria.data),
       curp: getCheckFieldsExtra(curp.data),
       ine: getCheckFieldsExtra(ine.data),
       rfc: getCheckFieldsExtra(rfc.data),

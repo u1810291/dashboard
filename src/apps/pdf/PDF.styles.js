@@ -127,6 +127,9 @@ export const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    // allows to avoid text intersection at the bottom of the page
+    // TODO: find more elegant way
+    marginBottom: -4,
   },
   fg1: {
     flexGrow: 1,
