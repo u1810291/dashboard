@@ -4,7 +4,7 @@ import { Warning, WarningTypes } from 'apps/ui';
 import classNames from 'classnames';
 import { DocumentConfig, DocumentCountrySanctionList } from 'models/Document.model';
 import { getFieldIsExpired } from 'models/Field.model';
-import { DocumentMxSteps, DocumentSecuritySteps, DocumentStepFailedTypes, DocumentStepTypes } from 'models/Step.model';
+import { CountrySpecificChecks, DocumentSecuritySteps, DocumentStepFailedTypes, DocumentStepTypes } from 'models/Step.model';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { CheckBarExpandable } from '../CheckBarExpandable/CheckBarExpandable';
@@ -23,7 +23,7 @@ export function DocumentStep({ document, identity }) {
   const onReading = documentReadingStep.status < 200;
   const dataTitle = intl.formatMessage({ id: onReading ? 'DocumentStep.Data.titleReading' : 'DocumentStep.Data.title' });
   const securityCheckSteps = steps.filter((step) => DocumentSecuritySteps.includes(step.id));
-  const mxSteps = steps.filter((step) => DocumentMxSteps.includes(step.id));
+  const govChecksSteps = steps.filter((step) => CountrySpecificChecks.includes(step.id));
 
   const fields = Object.entries(source.fields || {}).map(([id, { value }]) => ({
     id,
@@ -99,7 +99,7 @@ export function DocumentStep({ document, identity }) {
                   ))}
                 </Grid>
                 <Grid item container>
-                  {mxSteps.map((step) => (
+                  {govChecksSteps.map((step) => (
                     <CheckBarExpandable step={step} key={step.id} />
                   ))}
                 </Grid>

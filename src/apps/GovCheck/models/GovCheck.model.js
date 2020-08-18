@@ -2,6 +2,7 @@ import { DocumentStepTypes } from 'models/Step.model';
 
 export const GovCheckCountryList = {
   Mexico: 'mexico',
+  Colombia: 'colombia',
 };
 
 export const GovCheckConfiguration = [
@@ -18,6 +19,14 @@ export const GovCheckConfiguration = [
       },
       {
         id: DocumentStepTypes.RFC,
+        default: true,
+      },
+    ],
+  }, {
+    country: GovCheckCountryList.Colombia,
+    checks: [
+      {
+        id: DocumentStepTypes.ColombianRegistraduria,
         default: true,
       },
     ],
