@@ -33,6 +33,11 @@ export function CheckBarFlat({ step, isShowExtra = true, tipPosition = 'top' }) 
             </Box>
           )}
         </Box>
+        {step.subtitle && (
+          <Box mt={1} fontStyle="italic">
+            {intl.formatMessage({ id: step.subtitle, defaultMessage: ' ' })}
+          </Box>
+        )}
         <Box mt={1}>
           {statusLabel}
         </Box>

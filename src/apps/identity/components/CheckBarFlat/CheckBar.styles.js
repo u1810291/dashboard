@@ -24,6 +24,7 @@ export const BoxCheckBarRounded = withStyles((theme) => ({
     padding: 15,
     backgroundColor: theme.palette.common.white,
     justifyContent: 'space-between',
+    height: '100%',
     '&:focus': {
       backgroundColor: '#f7f7fa',
     },

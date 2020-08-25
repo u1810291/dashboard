@@ -1,4 +1,5 @@
 import { getFacematchStepExtra } from 'apps/facematch/models/facematch.model';
+import { getAlterationReason } from 'apps/alterationDetection/models/alterationDetection.model';
 import { get } from 'lodash';
 import { getFieldsExpired, getFieldsExtra } from 'models/Field.model';
 
@@ -49,6 +50,17 @@ export const LEGACY_ERROR = 'LegacyError';
 export const FRONTEND_ERROR = 'FrontendError';
 export const SYSTEM_ERROR = 'SystemError';
 
+function getAltered(step) {
+  switch (step.id) {
+    case DocumentStepTypes.AlternationDetection:
+      return getAlterationReason(step);
+    case DocumentStepTypes.FaceMatch:
+      return getFacematchStepExtra(step);
+    default:
+      return step;
+  }
+}
+
 export function getDocumentStep(id, steps = []) {
   return steps.find((step) => step.id === id) || {};
 }
@@ -90,9 +102,7 @@ export function getStepStatus({ id, status, error }) {
 }
 
 export function getStepExtra(step) {
-  const altered = step.id === DocumentStepTypes.FaceMatch
-    ? getFacematchStepExtra(step)
-    : step;
+  const altered = getAltered(step);
 
   return {
     ...altered,
