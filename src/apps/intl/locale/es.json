@@ -999,5 +999,11 @@
   "GovCheck.check.mexican-curp-validation": "CURP",
   "GovCheck.check.mexican-ine-validation": "INE",
   "GovCheck.check.mexican-rfc-validation": "RFC",
-  "GovCheck.check.colombian-registraduria-validation": "Registraduría"
+  "GovCheck.check.colombian-registraduria-validation": "Registraduría",
+  "color.blue": "Azul",
+  "color.green": "Verde",
+  "color.red": "Rojo",
+  "color.pink": "Rosado",
+  "color.orange": "Naranja",
+  "color.yellow": "Amarillo"
 }
