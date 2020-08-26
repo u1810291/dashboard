@@ -33,7 +33,8 @@ export function getFieldsExtra(data) {
   return Object.entries(data).map(([id, { value, label }]) => ({
     id,
     label,
-    value: formatValue(label, value),
+    // `id` here to support old verification format
+    value: formatValue(label || id, value),
   }));
 }
 

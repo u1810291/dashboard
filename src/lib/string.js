@@ -17,7 +17,7 @@ export function titleCase(string = '') {
   return typeof string === 'string' ? startCase(string.toLowerCase()) : string;
 }
 
-function includesPattern(name, keys) {
+function includesPattern(name = '', keys) {
   return keys.some((key) => name.toLowerCase().includes(key));
 }
 
