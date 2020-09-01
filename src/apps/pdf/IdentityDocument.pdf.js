@@ -4,6 +4,7 @@ import INE from 'assets/ine-logo.png';
 import MatiLogo from 'assets/mati-logo-black.png';
 import RFC from 'assets/rfc-logo.png';
 import Registraduria from 'assets/registraduria-logo.png';
+import Renaper from 'assets/renaper-logo.png';
 import { getMediaURL } from 'lib/client/media';
 import { compact } from 'lodash';
 import React from 'react';
@@ -196,6 +197,17 @@ export function IdentityDocumentPDF(intl, identity) {
                   </View>
                   <View style={styles.indent}>
                     <PDFDocumentFields intl={intl} fields={document.colombianRegistraduria} />
+                  </View>
+                </>
+              )}
+
+              {document.argentinianRenaper.length > 0 && (
+                <>
+                  <View key="renaper-label">
+                    <Image key="Renaper logo" style={styles.checkLogo} src={Renaper} />
+                  </View>
+                  <View style={styles.indent}>
+                    <PDFDocumentFields intl={intl} fields={document.argentinianRenaper} />
                   </View>
                 </>
               )}

@@ -68,6 +68,7 @@ export function getDocumentExtras(identity) {
 
   return documents.map((document) => {
     const steps = getStepsExtra(document.steps, DocumentConfig[document.type], identity);
+    const argentinianRenaper = getDocumentStep(DocumentStepTypes.ArgentinianRenaper, steps);
     const colombianRegistraduria = getDocumentStep(DocumentStepTypes.ColombianRegistraduria, steps);
     const curp = getDocumentStep(DocumentStepTypes.CURP, steps);
     const ine = getDocumentStep(DocumentStepTypes.INE, steps);
@@ -80,6 +81,7 @@ export function getDocumentExtras(identity) {
       source: sourceDocument,
       photos: document.photos || [],
       reading: getFieldsExtra(sourceDocument.fields),
+      argentinianRenaper: getCheckFieldsExtra(argentinianRenaper.data),
       colombianRegistraduria: getCheckFieldsExtra(colombianRegistraduria.data),
       curp: getCheckFieldsExtra(curp.data),
       ine: getCheckFieldsExtra(ine.data),

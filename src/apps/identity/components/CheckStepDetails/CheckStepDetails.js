@@ -19,7 +19,7 @@ export function CheckStepDetails({ data = {}, error }) {
               </Typography>
             </Grid>
           )}
-          {Object.entries(data).map(([key, value]) => (
+          {Object.entries(data).map(([key, value]) => [key, formatValue(key, value)]).map(([key, formattedValue]) => (
             <Grid container item spacing={1} key={key}>
               <Grid item xs={3} className={classes.label}>
                 {intl.formatMessage({
@@ -28,7 +28,7 @@ export function CheckStepDetails({ data = {}, error }) {
                 })}
               </Grid>
               <Grid item xs={3} className={classes.value}>
-                {formatValue(key, value)}
+                {intl.formatMessage({ id: formattedValue, defaultMessage: formattedValue })}
               </Grid>
             </Grid>
           ))}

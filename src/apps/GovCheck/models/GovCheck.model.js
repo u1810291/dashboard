@@ -1,12 +1,29 @@
 import { DocumentStepTypes } from 'models/Step.model';
 
 export const GovCheckCountryList = {
-  Mexico: 'mexico',
+  Argentina: 'argentina',
   Colombia: 'colombia',
+  Mexico: 'mexico',
 };
 
 export const GovCheckConfiguration = [
   {
+    country: GovCheckCountryList.Argentina,
+    checks: [
+      {
+        id: DocumentStepTypes.ArgentinianRenaper,
+        default: false,
+      },
+    ],
+  }, {
+    country: GovCheckCountryList.Colombia,
+    checks: [
+      {
+        id: DocumentStepTypes.ColombianRegistraduria,
+        default: true,
+      },
+    ],
+  }, {
     country: GovCheckCountryList.Mexico,
     checks: [
       {
@@ -19,14 +36,6 @@ export const GovCheckConfiguration = [
       },
       {
         id: DocumentStepTypes.RFC,
-        default: true,
-      },
-    ],
-  }, {
-    country: GovCheckCountryList.Colombia,
-    checks: [
-      {
-        id: DocumentStepTypes.ColombianRegistraduria,
         default: true,
       },
     ],
