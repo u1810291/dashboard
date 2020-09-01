@@ -13,6 +13,10 @@ export const FieldDatePatterns = [
   'date',
 ];
 
+export const FieldBooleanPatterns = [
+  'deceased',
+];
+
 export function titleCase(string = '') {
   return typeof string === 'string' ? startCase(string.toLowerCase()) : string;
 }
@@ -28,6 +32,10 @@ export function formatValue(label, value) {
 
   if (includesPattern(label, FieldDatePatterns)) {
     return formatDate(value);
+  }
+
+  if (includesPattern(label, FieldBooleanPatterns)) {
+    return value ? 'yes' : 'no';
   }
 
   return `${value}`;

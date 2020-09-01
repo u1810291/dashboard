@@ -13,6 +13,7 @@ export const DocumentStepTypes = {
   INE: 'mexican-ine-validation',
   RFC: 'mexican-rfc-validation',
   ColombianRegistraduria: 'colombian-registraduria-validation',
+  ArgentinianRenaper: 'argentinian-renaper-validation',
 };
 
 // used as 'id' of failed steps in check summary
@@ -33,7 +34,11 @@ export const DocumentMxSteps = [
   DocumentStepTypes.RFC,
 ];
 
-export const CountrySpecificChecks = [...DocumentMxSteps, DocumentStepTypes.ColombianRegistraduria];
+export const CountrySpecificChecks = [
+  ...DocumentMxSteps,
+  DocumentStepTypes.ColombianRegistraduria,
+  DocumentStepTypes.ArgentinianRenaper,
+];
 
 export const StepStatus = {
   Success: 'success',
