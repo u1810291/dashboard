@@ -132,15 +132,15 @@ export function VerificationSidePanel({ identity, isDemo = false }) {
           </SideButton>
         </Grid>
       )}
+      {/* block with error details */}
+      <Grid item>
+        <CheckSummary identity={identity} />
+      </Grid>
 
       <Grid item>
         <Box mt={2}>
           <StatusesExplanation />
         </Box>
-      </Grid>
-
-      <Grid item>
-        <CheckSummary identity={identity} />
       </Grid>
     </Grid>
   );
