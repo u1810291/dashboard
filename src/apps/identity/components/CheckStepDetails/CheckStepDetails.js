@@ -1,8 +1,8 @@
 import { Card, CardContent, Grid, Typography } from '@material-ui/core';
-import { formatValue } from 'lib/string';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './CheckStepDetails.styles';
+import { CheckStepDetailsEntry } from './CheckStepDetailsEntry';
 
 export function CheckStepDetails({ data = {}, error }) {
   const classes = useStyles();
@@ -19,19 +19,8 @@ export function CheckStepDetails({ data = {}, error }) {
               </Typography>
             </Grid>
           )}
-          {Object.entries(data).map(([key, value]) => [key, formatValue(key, value)]).map(([key, formattedValue]) => (
-            <Grid container item spacing={1} key={key}>
-              <Grid item xs={3} className={classes.label}>
-                {intl.formatMessage({
-                  id: `identity.field.${key}`,
-                  defaultMessage: key,
-                })}
-              </Grid>
-              <Grid item xs={3} className={classes.value}>
-                {intl.formatMessage({ id: formattedValue, defaultMessage: formattedValue })}
-              </Grid>
-            </Grid>
-          ))}
+          {Object.entries(data)
+            .map(([key, value]) => (<CheckStepDetailsEntry label={key} value={value} />))}
         </Grid>
       </CardContent>
     </Card>

@@ -1,6 +1,7 @@
 import { titleize } from 'inflection';
 import { formatDate } from 'lib/date';
 import { startCase } from 'lodash';
+import { useIntl } from 'react-intl';
 
 export const FieldTitlizedPatterns = [
   'name',
@@ -34,11 +35,17 @@ export function formatValue(label, value) {
     return formatDate(value);
   }
 
+  return `${value}`;
+}
+
+export function useFormattedValue(label, value) {
+  const intl = useIntl();
+
   if (includesPattern(label, FieldBooleanPatterns)) {
-    return value ? 'yes' : 'no';
+    return intl.formatMessage({ id: value ? 'yes' : 'no' });
   }
 
-  return `${value}`;
+  return formatValue(label, value);
 }
 
 export function trimMiddle(string = '', begin = 30, end = 5, delimiter = '…') {
