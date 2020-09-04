@@ -12,10 +12,10 @@ import { StatusMessage } from '../StatusMessage/StatusMessage';
 export function CheckBarExpandable({ step }) {
   const intl = useIntl();
   const classes = useStyles();
-  const [expanded, setExpanded] = useState(null);
   const [disabledExpansion, setDisabledExpansion] = useState(false);
   const [expandIcon, setExpandIcon] = useState(null);
   const { id, error, data } = step;
+  const [expanded, setExpanded] = useState(`panel-${id}`);
   const statusCode = getStepStatus(step);
   const logo = CheckBarIconsMap[id];
 
