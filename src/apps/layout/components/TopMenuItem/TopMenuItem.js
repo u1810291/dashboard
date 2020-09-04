@@ -2,11 +2,8 @@ import { Box, MenuItem } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useStyles, MenuBadge } from './TopMenuItem.styles';
-
-function calcWidth(str, base, step = 3, maxChars = 4) {
-  return (base + step * String(str).substr(0, maxChars).length);
-}
+import { Badge } from 'apps/ui';
+import { useStyles } from './TopMenuItem.styles';
 
 export function TopMenuItem({
   children,
@@ -24,7 +21,6 @@ export function TopMenuItem({
   isMobile = false,
 }) {
   const classes = useStyles();
-
   const menuItem = (
     <MenuItem
       divider={false}
@@ -34,13 +30,18 @@ export function TopMenuItem({
     >
       {icon && <Box mr={1} display="flex" color={color}>{icon}</Box>}
       {children}
-      {badge
-        ? (
-          <MenuBadge badgeContent={badge} max={999}>
-            <Box color={color} style={{ marginRight: calcWidth(badge, 12) }}>{label}</Box>
-          </MenuBadge>
-        )
-        : <Box color={color}>{label}</Box>}
+      <Box color={color} display="flex">
+        <Box>
+          {label}
+        </Box>
+        {badge && (
+          <Box ml={1}>
+            <Badge>
+              {+badge > 999 ? 999 : badge}
+            </Badge>
+          </Box>
+        )}
+      </Box>
     </MenuItem>
   );
 
