@@ -22,7 +22,7 @@ export function CheckSummary({ identity }) {
   }
 
   return (
-    <Accordion>
+    <Accordion defaultExpanded>
       <AccordionSummary expandIcon={<ExpandMore />}>
         <Typography variant="h4">{intl.formatMessage({ id: 'CheckSummary.title' }, { count })}</Typography>
       </AccordionSummary>
