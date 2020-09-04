@@ -1,5 +1,5 @@
 import { identityRoutes } from 'apps/identity';
-import { InfoPage } from 'apps/info';
+import { InfoPage } from 'apps/FAQ';
 import { Page404 } from 'apps/layout';
 import { MerchantGuard, OwnerRoute } from 'apps/merchant';
 import { Metrics } from 'apps/metrics';

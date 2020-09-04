@@ -1,5 +1,5 @@
 import { Box, Container, Paper } from '@material-ui/core';
-import { FeedbackData } from 'apps/info/components/Feedback/Feedback.model';
+import { FooterModel } from 'apps/product/models/Footer.model';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { PRODUCT_FOOTER_UPDATE_TIMEOUT } from '../../models/Product.model';
@@ -13,12 +13,12 @@ export function Footer() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setFeedbackIndex((currentIndex) => (currentIndex + 1) % FeedbackData.length);
+      setFeedbackIndex((currentIndex) => (currentIndex + 1) % FooterModel.length);
     }, PRODUCT_FOOTER_UPDATE_TIMEOUT);
     return () => clearInterval(interval);
   }, []);
 
-  const feedback = FeedbackData[feedbackIndex];
+  const feedback = FooterModel[feedbackIndex];
 
   return (
     <Paper color="secondary" square elevation={0} className={classes.root}>
