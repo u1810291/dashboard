@@ -766,7 +766,7 @@
   "Product.checks.ipCheck.title": "IP check",
   "Product.checks.ipCheck.badgeText": "Integrated Check",
   "Product.checks.ipCheck.text": "IP checking allows you to get more information about users through the API. If this check is enabled, webhooks and API responses will contain information about the user's location based on IP and whether they are using VPN or proxy.",
-  "Product.checks.ipCheck.switchLabel": "IP Check: {state}",
+  "Product.checks.ipCheck.switchLabel": "IP Check:",
   "Product.checks.emailCheck.title": "Email check",
   "Product.checks.emailCheck.badgeText": "Standalone API",
   "Product.checks.emailCheck.text": "Mati offers email check as a standalone service via API. If you want to learn more about your users through their email addresses, click the button below to access integration instructions.",

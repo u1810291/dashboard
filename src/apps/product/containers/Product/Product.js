@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container, Fade, Grid } from '@material-ui/core';
+import { Box, Container, Fade, Grid } from '@material-ui/core';
 import { AdditionalChecks } from 'apps/checks';
 import { Configuration } from 'apps/configuration';
 import { GovCheckSetup } from 'apps/GovCheck';
@@ -6,6 +6,7 @@ import { Integration } from 'apps/integration';
 import { Tab } from 'apps/ui';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { PageLoader } from 'apps/layout';
 import { appLoad } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { MixPanelEvents } from '../../../../lib/mixpanel/MixPanel.model';
@@ -52,11 +53,7 @@ export function Product() {
   }), [dispatch]);
 
   if (!merchantFlowList.isLoaded) {
-    return (
-      <Box display="flex" alignItems="center" mt={3}>
-        <CircularProgress color="primary" />
-      </Box>
-    );
+    return <PageLoader />;
   }
 
   return [

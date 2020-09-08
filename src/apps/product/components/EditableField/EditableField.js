@@ -1,8 +1,9 @@
 import { useIntl } from 'react-intl';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { TextField, InputAdornment, Box } from '@material-ui/core';
+import { PageLoader } from 'apps/layout';
 import { validationHandler } from 'lib/validations';
-import { SubmitButton, CancelButton, Spinner, useStyles } from './EditableField.styles';
+import { SubmitButton, CancelButton, useStyles } from './EditableField.styles';
 
 export function EditableField({
   value,
@@ -118,7 +119,7 @@ export function EditableField({
         endAdornment: (
           <InputAdornment position="end">
             { inProgress
-              ? <Spinner size={25} />
+              ? <PageLoader size={25} />
               : <SubmitButton onClick={submitEditableHandler} />}
             <CancelButton onClick={cancelEditableHandler} />
           </InputAdornment>

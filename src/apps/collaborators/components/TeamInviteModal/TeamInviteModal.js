@@ -1,9 +1,9 @@
+import React, { useCallback } from 'react';
 import Button from 'components/button';
 import Modal from 'components/modal';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { closeOverlay } from 'components/overlay';
-import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
+import { PageLoader } from 'apps/layout';
 import TeamInviteForm from '../TeamInviteForm/TeamInviteForm';
 
 export function TeamInviteModal({ onSubmit, isPosting }) {
@@ -37,7 +37,7 @@ export function TeamInviteModal({ onSubmit, isPosting }) {
         >
           {intl.formatMessage({ id: 'teamTable.invite' })}
         </Button>
-        {isPosting && <CircularProgress color="primary" />}
+        {isPosting && <PageLoader />}
       </footer>
     </Modal>
   );

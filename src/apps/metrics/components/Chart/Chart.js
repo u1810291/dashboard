@@ -3,10 +3,10 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Box } from '@material-ui/core';
 import { Card, Text } from 'components';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { formatDate, DateFormat } from 'lib/date';
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { StubBarColor, StubTickColor } from 'apps/metrics/models/Metrics.model';
+import { PageLoader } from 'apps/layout';
 import { useStyles } from './Chart.styles';
 
 function tickFormat(value) {
@@ -73,11 +73,7 @@ export function Chart({ data, stub, isLoaded, isLoading, ...props }) {
         {intl.formatMessage({ id: 'fragments.home.verification.card.amount' })}
       </Text>
       {!isLoaded || isLoading
-        ? (
-          <Box minHeight={300} display="flex" alignItems="center">
-            <CircularProgress color="primary" />
-          </Box>
-        )
+        ? <PageLoader />
         : (
           <Box position="relative">
             {chart}

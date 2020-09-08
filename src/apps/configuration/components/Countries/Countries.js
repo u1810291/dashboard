@@ -1,8 +1,9 @@
-import { Box, Button, Chip, CircularProgress, Grid, Typography } from '@material-ui/core';
+import { Box, Button, Chip, Grid, Typography } from '@material-ui/core';
 import { WarningSize, WarningTypes, Warning } from 'apps/ui';
 import { closeOverlay, createOverlay } from 'components/overlay';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { PageLoader } from 'apps/layout';
 import { CountriesModal } from '../CountriesModal/CountriesModal';
 
 export function Countries({ countries, supportedCountries = [], onSubmit, isLoading }) {
@@ -58,11 +59,11 @@ export function Countries({ countries, supportedCountries = [], onSubmit, isLoad
       )}
 
       {/* content */}
-      {isLoading ? (
-        <CircularProgress color="primary" />
-      ) : (
-        <Box>
-          {supportedCountries.length > 0 && (
+      {isLoading
+        ? <PageLoader />
+        : (
+          <Box>
+            {supportedCountries.length > 0 && (
             <Grid container spacing={1} direction="row">
               {supportedCountries
                 .map(mapValues)
@@ -72,24 +73,24 @@ export function Countries({ countries, supportedCountries = [], onSubmit, isLoad
                   </Grid>
                 ))}
             </Grid>
-          )}
+            )}
 
-          <Box mt={2}>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={openCountriesModal}
-            >
-              {intl.formatMessage({
-                id: supportedCountries.length > 0
-                  ? 'flow.countries.edit'
-                  : 'flow.countries.add',
-              })}
-            </Button>
+            <Box mt={2}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={openCountriesModal}
+              >
+                {intl.formatMessage({
+                  id: supportedCountries.length > 0
+                    ? 'flow.countries.edit'
+                    : 'flow.countries.add',
+                })}
+              </Button>
+            </Box>
           </Box>
-        </Box>
-      )}
+        )}
     </Box>
   );
 }

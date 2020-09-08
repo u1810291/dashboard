@@ -767,7 +767,7 @@
   "Product.checks.ipCheck.title": "Comprobación de IP",
   "Product.checks.ipCheck.badgeText": "Comprobación integrada",
   "Product.checks.ipCheck.text": "La comprobación de IP le permite obtener más información sobre los usuarios mediante la API. Si esta comprobación está habilitada, los webhooks y las respuestas de la API contendrán información sobre la ubicación del usuario según IP y si están utilizando VPN o proxy.",
-  "Product.checks.ipCheck.switchLabel": "Comprobación de IP: {state}",
+  "Product.checks.ipCheck.switchLabel": "Comprobación de IP:",
   "Product.checks.emailCheck.title": "Verificación de correo electrónico",
   "Product.checks.emailCheck.badgeText": "API Independiente",
   "Product.checks.emailCheck.text": "Mati ofrece la verificación por correo electrónico como un servicio independiente a través de la API. Si desea obtener más información sobre sus usuarios a través de sus direcciones de correo electrónico, haga clic en el botón siguiente para acceder a las instrucciones de integración.",
