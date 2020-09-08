@@ -1,12 +1,12 @@
 import classNames from 'classnames';
 import Button from 'components/button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from 'components/text-field';
 import TextFieldCSS from 'components/text-field/TextField.module.css';
 import { omit } from 'lodash';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { PageLoader } from 'apps/layout';
 import { ReactComponent as EditIcon } from './icon-edit.svg';
 import CSS from './TextEditable.module.css';
 
@@ -163,11 +163,7 @@ export default class TextEditable extends React.Component {
               </span>
             ) }
           </span>
-          {isLoading ? (
-            <CircularProgress color="primary" />
-          ) : (
-            <EditIcon className={CSS.editIcon} />
-          )}
+          {isLoading ? <PageLoader /> : <EditIcon className={CSS.editIcon} />}
         </div>
       </div>
     );

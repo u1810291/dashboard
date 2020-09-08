@@ -1,6 +1,6 @@
-import { Box, CircularProgress } from '@material-ui/core';
-import Card from 'components/card';
 import React from 'react';
+import Card from 'components/card';
+import { PageLoader } from 'apps/layout';
 import { ChartHorizontal } from '../ChartHorizontal/ChartHorizontal';
 import { ChartVertical } from '../ChartVertical/ChartVertical';
 import { useStyles } from './VerificationsStats.styles';
@@ -29,13 +29,7 @@ export function VerificationsStats({
     <div>
       <div className={classes.title}>{title}</div>
       <Card className={classes.card}>
-        {!isLoaded || isLoading
-          ? (
-            <Box minHeight={200} display="flex" alignItems="center">
-              <CircularProgress color="primary" />
-            </Box>
-          )
-          : chart}
+        {!isLoaded || isLoading ? <PageLoader /> : chart}
       </Card>
     </div>
   );

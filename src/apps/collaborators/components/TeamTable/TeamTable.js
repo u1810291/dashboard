@@ -1,10 +1,10 @@
 import { IconButton, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { createOverlay } from 'components/overlay';
 import { CollaboratorOptions } from 'models/Collaborator.model';
 import React, { useCallback, useState } from 'react';
 import { FiLoader, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
+import { PageLoader } from 'apps/layout';
 import { DeleteModal } from '../DeleteModal/DeleteModal';
 import { DeleteSuccessModal } from '../DeleteSuccessModal/DeleteSuccessModal';
 import { TeamTablePlaceholder } from '../TeamTablePlaceholder/TeamTablePlaceholder';
@@ -50,7 +50,7 @@ export function TeamTable({ list, onInvite, onUpdate, onRemove }) {
               <TableRow>
                 <TableCell colSpan={4} align="center">
                   {list.isLoading
-                    ? <CircularProgress color="primary" />
+                    ? <PageLoader />
                     : <TeamTablePlaceholder onInvite={onInvite} />}
                 </TableCell>
               </TableRow>

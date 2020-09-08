@@ -1,6 +1,6 @@
 import React from 'react';
 import { FiCheck, FiX } from 'react-icons/fi';
-import { IconButton, CircularProgress } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 const defaultFontSize = 18;
@@ -58,12 +58,6 @@ const buttonMaker = ({ icon }) => withStyles(() => (
     {icon}
   </IconButton>
 ));
-
-export const Spinner = withStyles({
-  root: {
-    color: '#CBD2E2',
-  },
-})(CircularProgress);
 
 export const SubmitButton = buttonMaker({ icon: <FiCheck /> });
 export const CancelButton = buttonMaker({ icon: <FiX /> });

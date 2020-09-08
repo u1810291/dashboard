@@ -1,7 +1,5 @@
-import { Box } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { PageError } from 'apps/layout';
 import { Card, closeOverlay, createOverlay, Items, Text } from 'components';
+import { PageError, PageLoader } from 'apps/layout';
 import Button from 'components/button';
 import { notification } from 'components/notification';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
@@ -62,11 +60,7 @@ export function Billing() {
   }
 
   if (!currentPlanFullModel.isLoaded || !cardModel.isLoaded) {
-    return (
-      <Box display="flex" alignItems="center">
-        <CircularProgress color="primary" />
-      </Box>
-    );
+    return <PageLoader />;
   }
 
   const period = get(currentPlanFullModel, 'value.name') === 'Yearly'

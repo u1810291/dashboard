@@ -1,9 +1,10 @@
-import { Box, Button, CircularProgress, FormControl, Grid, RadioGroup, Typography } from '@material-ui/core';
+import { Box, Button, FormControl, Grid, RadioGroup, Typography } from '@material-ui/core';
 import { notification } from 'components/notification';
 import { ERROR_COMMON } from 'models/Error.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { PageLoader } from 'apps/layout';
 import { merchantUpdateFlow } from '../../../../state/merchant/merchant.actions';
 import { selectCurrentFlowId } from '../../../../state/merchant/merchant.selectors';
 import { FACEMATCH_DEFAULT_THRESHOLD, FACEMATCH_MAX_THRESHOLD, FACEMATCH_MIN_THRESHOLD, FacematchThresholdModes, validateScore } from '../../models/facematch.model';
@@ -147,7 +148,7 @@ export const FacematchConfiguration = () => {
           <Button
             variant="contained"
             color="primary"
-            startIcon={isLoading && <CircularProgress color="primary" size={14} />}
+            startIcon={isLoading && <PageLoader size={14} />}
             onClick={handleSave}
             disabled={isLoading}
           >

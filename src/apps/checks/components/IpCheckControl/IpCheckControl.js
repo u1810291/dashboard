@@ -1,4 +1,4 @@
-import { Box, CircularProgress, FormControlLabel, Switch } from '@material-ui/core';
+import { Box, FormControlLabel, Switch } from '@material-ui/core';
 import { notification } from 'components/notification';
 import { VerificationStepTypes } from 'models/Identity.model';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -6,6 +6,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectIpCheck, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { PageLoader } from 'apps/layout';
 import { useStyles } from './IpCheckControl.styles';
 
 export function IpCheckControl() {
@@ -16,16 +17,19 @@ export function IpCheckControl() {
   const flowModel = useSelector(selectMerchantFlowsModel);
   const [state, setState] = useState(false);
 
-  const switchLabel = useCallback(() => {
-    const st = flowModel.isLoading
-      ? (<CircularProgress size={12} />)
-      : intl.formatMessage({ id: state ? 'on' : 'off' });
-
-    return intl.formatMessage(
-      { id: 'Product.checks.ipCheck.switchLabel' },
-      { state: st },
-    );
-  }, [flowModel.isLoading, intl, state]);
+  const switchLabel = useCallback(() => (
+    <Box display="flex">
+      <Box>
+        {intl.formatMessage({ id: 'Product.checks.ipCheck.switchLabel' })}
+      </Box>
+      <Box ml={1}>
+        {' '}
+        {flowModel.isLoading
+          ? <PageLoader size={12} />
+          : intl.formatMessage({ id: state ? 'on' : 'off' })}
+      </Box>
+    </Box>
+  ), [flowModel.isLoading, intl, state]);
 
   const handleChange = useCallback((event) => {
     const target = event.target.checked;
