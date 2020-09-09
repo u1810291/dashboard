@@ -19,7 +19,7 @@ export const IdentityStatuses = {
   unknown: 'unknown',
 };
 
-export const DEFAULT_STATUS_COLOR = 'text.secondary';
+export const DEFAULT_STATUS_COLOR = '#C4C4C4';
 
 export const IdentityStatusesMap = [
   {
