@@ -1,11 +1,12 @@
 import { Box, FormControl } from '@material-ui/core';
-import { getIdentityStatusLabel, getStatusById, IdentityStatusesMap } from 'models/Identity.model';
+import { getIdentityStatusLabel, getStatusById, IdentityStatusesMap, isChangeableStatus } from 'models/Identity.model';
 import React, { useCallback, useState } from 'react';
 import { FiLoader } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { MenuItemSimple, OptionSimple, SelectSimple } from './StatusSelect.styles';
+import { MenuItemSimple, OptionSimple, SelectSimple, useStyles } from './StatusSelect.styles';
 
 export function StatusSelect({ status, onSelect }) {
+  const classes = useStyles();
   const intl = useIntl();
   const [statuses] = useState(IdentityStatusesMap.filter((item) => item.isChangeable));
   const [current, setCurrent] = useState(() => getStatusById(status));
@@ -32,28 +33,34 @@ export function StatusSelect({ status, onSelect }) {
     return null;
   }
 
-  return (
-    <Box bgcolor={current.color} boxShadow={1} color="secondary.main" borderRadius={4} height={40}>
-      <FormControl fullWidth disabled={isLoading}>
-        <SelectSimple
-          disableUnderline
-          onChange={handleSelect}
-          value={current.id}
-          renderValue={getLabel}
-          IconComponent={isLoading ? FiLoader : undefined}
-        >
-          {statuses.map((item) => (
-            <MenuItemSimple value={item.id} key={item.id}>
-              <OptionSimple
-                bgcolor={item.id === current.id ? item.color : 'secondary.main'}
-                color={item.id === current.id ? 'secondary.main' : item.color}
-              >
-                {intl.formatMessage({ id: getIdentityStatusLabel(item.id) })}
-              </OptionSimple>
-            </MenuItemSimple>
-          ))}
-        </SelectSimple>
-      </FormControl>
-    </Box>
-  );
+  return isChangeableStatus(status)
+    ? (
+      <Box bgcolor={current.color} className={classes.label}>
+        <FormControl fullWidth disabled={isLoading}>
+          <SelectSimple
+            disableUnderline
+            onChange={handleSelect}
+            value={current.id}
+            renderValue={getLabel}
+            IconComponent={isLoading ? FiLoader : undefined}
+          >
+            {statuses.map((item) => (
+              <MenuItemSimple value={item.id} key={item.id}>
+                <OptionSimple
+                  bgcolor={item.id === current.id ? item.color : 'secondary.main'}
+                  color={item.id === current.id ? 'secondary.main' : item.color}
+                >
+                  {intl.formatMessage({ id: getIdentityStatusLabel(item.id) })}
+                </OptionSimple>
+              </MenuItemSimple>
+            ))}
+          </SelectSimple>
+        </FormControl>
+      </Box>
+    )
+    : (
+      <Box bgcolor={current.color} className={classes.label} padding="13px">
+        {getLabel(current.id)}
+      </Box>
+    );
 }

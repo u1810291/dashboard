@@ -1,4 +1,16 @@
 import { Box, MenuItem, Select, withStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+
+export const useStyles = makeStyles((theme) => ({
+  label: {
+    display: 'flex',
+    alignItems: 'center',
+    color: theme.palette.secondary.main,
+    boxShadow: 1,
+    borderRadius: 4,
+    height: 40,
+  },
+}));
 
 export const SelectSimple = withStyles((theme) => ({
   root: {
