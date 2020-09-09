@@ -4,7 +4,6 @@ import confirmStyled from 'components/confirm/ConfirmStyled';
 import { closeOverlay, createOverlay } from 'components/overlay';
 import { downloadBlob } from 'lib/file';
 import { get } from 'lodash';
-import { isChangeableStatus } from 'models/Identity.model';
 import React, { useCallback, useState } from 'react';
 import { FiCode, FiDownload, FiLoader, FiTrash2, FiUpload } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -74,11 +73,9 @@ export function VerificationSidePanel({ identity, isDemo = false }) {
 
   return (
     <Grid container direction="column" spacing={1}>
-      {isChangeableStatus(identity.status) && (
-        <Grid item style={{ marginBottom: 10 }}>
-          <StatusSelect status={identity.status} onSelect={handleStatusChange} />
-        </Grid>
-      )}
+      <Grid item style={{ marginBottom: 10 }}>
+        <StatusSelect status={identity.status} onSelect={handleStatusChange} />
+      </Grid>
 
       {/* Send Webhook */}
       <Grid item>
