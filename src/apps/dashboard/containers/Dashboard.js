@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getCountries } from 'state/countries/countries.actions';
 import { selectCountriesModel } from 'state/countries/countries.selectors';
-import { getReviewCount } from 'state/identities/identities.actions';
 import { merchantFlowsLoad, merchantLoad } from 'state/merchant/merchant.actions';
 import { selectIsBlockedModel, selectMerchantFlowsModel, selectMerchantModel, selectShouldPassOnboarding } from 'state/merchant/merchant.selectors';
 import { AlertBanner } from '../components/AlertBanner/AlertBanner';
@@ -71,13 +70,6 @@ export function Dashboard() {
         });
     }
   }, [dispatch, merchantFlowsModel, merchantModel]);
-
-  useEffect(() => {
-    dispatch(getReviewCount())
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [dispatch]);
 
   const handleRetry = useCallback(() => {
     // hard reload only will help here

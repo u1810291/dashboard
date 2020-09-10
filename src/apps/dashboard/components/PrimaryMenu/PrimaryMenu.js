@@ -5,7 +5,7 @@ import { QATags } from 'models/QA.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-export function PrimaryMenu({ isOwner = false, reviewCount, ...props }) {
+export function PrimaryMenu({ isOwner = false, ...props }) {
   const intl = useIntl();
 
   const entries = [
@@ -29,7 +29,6 @@ export function PrimaryMenu({ isOwner = false, reviewCount, ...props }) {
       id: 'identities',
       to: '/identities',
       label: intl.formatMessage({ id: 'dashboard.menu.identities' }),
-      badge: reviewCount.value.count,
       handler: () => trackEvent(MixPanelEvents.NavVerificationList),
       qa: QATags.Navigation.Top.VerificationList,
     },

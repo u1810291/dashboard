@@ -14,5 +14,4 @@ export const SliceNames = {
   IdentityList: 'identityList',
   IdentityCount: 'identityCount',
   FilteredCount: 'filteredCount',
-  ReviewCount: 'reviewCount',
 };
