@@ -4,8 +4,12 @@ import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import { QATags } from 'models/QA.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { filterUpdate, identitiesFilteredCountLoad, identitiesListLoad } from 'state/identities/identities.actions';
+import { initialFilter } from 'apps/identity';
 
 export function PrimaryMenu({ isOwner = false, ...props }) {
+  const dispatch = useDispatch();
   const intl = useIntl();
 
   const entries = [
@@ -29,7 +33,12 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
       id: 'identities',
       to: '/identities',
       label: intl.formatMessage({ id: 'dashboard.menu.identities' }),
-      handler: () => trackEvent(MixPanelEvents.NavVerificationList),
+      handler: () => {
+        trackEvent(MixPanelEvents.NavVerificationList);
+        dispatch(filterUpdate(initialFilter));
+        dispatch(identitiesListLoad());
+        dispatch(identitiesFilteredCountLoad());
+      },
       qa: QATags.Navigation.Top.VerificationList,
     },
   ];
