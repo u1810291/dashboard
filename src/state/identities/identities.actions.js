@@ -18,7 +18,6 @@ export const types = {
   ...createTypesSequence(IdentityActionGroups.IdentityRemove),
   ...createTypesSequence(IdentityActionGroups.IdentityCount),
   ...createTypesSequence(IdentityActionGroups.FilteredCount),
-  ...createTypesSequence(IdentityActionGroups.ReviewCount),
   FILTER_UPDATE: 'FILTER_UPDATE',
   IDENTITY_REMOVE: 'IDENTITY_REMOVE',
 };
@@ -143,7 +142,6 @@ export const identityUpdate = (id, data) => async (dispatch, getState) => {
       ...identityModel.value,
       ...data,
     };
-    dispatch(getReviewCount());
     dispatch({ type: types.IDENTITY_SUCCESS, payload: updatedIdentity });
   } catch (error) {
     dispatch({ type: types.IDENTITY_FAILURE, error });

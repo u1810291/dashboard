@@ -1,4 +1,4 @@
-import { Box, IconButton, Hidden, Drawer } from '@material-ui/core';
+import { Box, Drawer, Hidden, IconButton } from '@material-ui/core';
 import { IntlButton } from 'apps/intl';
 import { TopMenuItem } from 'apps/layout';
 import MatiLogo from 'assets/header-mati-logo.png';
@@ -6,7 +6,6 @@ import { QATags } from 'models/QA.model';
 import React, { useCallback, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
-import { selectReviewCounterModel } from 'state/identities/identities.selectors';
 import { selectIsOwnerModel } from 'state/merchant/merchant.selectors';
 import { PrimaryMenu } from '../PrimaryMenu/PrimaryMenu';
 import { SecondaryMenu } from '../SecondaryMenu/SecondaryMenu';
@@ -14,7 +13,6 @@ import { useStyles } from './DashboardMenu.styles';
 
 export function DashboardMenu() {
   const ownerModel = useSelector(selectIsOwnerModel);
-  const reviewCount = useSelector(selectReviewCounterModel);
   const isOwner = ownerModel.isLoaded && ownerModel.value === true;
   const classes = useStyles();
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
@@ -39,7 +37,7 @@ export function DashboardMenu() {
       {/* desktop left menu */}
       <Hidden xsDown>
         <Box flexGrow={1} className={classes.desktopLeft}>
-          <PrimaryMenu isOwner={isOwner} reviewCount={reviewCount} color="common.white" />
+          <PrimaryMenu isOwner={isOwner} color="common.white" />
         </Box>
       </Hidden>
 
@@ -69,7 +67,6 @@ export function DashboardMenu() {
               <Box flexGrow={1} className={classes.mobileLeft}>
                 <PrimaryMenu
                   isOwner={isOwner}
-                  reviewCount={reviewCount}
                   color="common.black"
                   isMobile
                 />
