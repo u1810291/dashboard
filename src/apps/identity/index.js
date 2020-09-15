@@ -1,1 +1,2 @@
-export * from 'apps/identity/identity.routes';
+export * from './identity.routes';
+export * from './models/filter.model';
