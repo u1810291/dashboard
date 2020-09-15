@@ -18,7 +18,6 @@ const initialState = {
   [SliceNames.Configuration]: LoadableAdapter.createState({
     dashboard: {
       language: DEFAULT_LOCALE,
-      shouldPassOnboarding: false,
     },
   }),
   [SliceNames.Flows]: LoadableAdapter.createState([]),

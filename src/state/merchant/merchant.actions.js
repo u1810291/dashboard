@@ -38,18 +38,6 @@ export const merchantLoad = () => async (dispatch) => {
   }
 };
 
-export const merchantUpdate = (data) => async (dispatch) => {
-  dispatch({ type: types.MERCHANT_UPDATING });
-  try {
-    const payload = await api.putMerchants(data);
-    const { configurations, billing, ...merchant } = payload.data;
-    dispatch({ type: types.MERCHANT_SUCCESS, payload: merchant });
-  } catch (error) {
-    dispatch({ type: types.MERCHANT_FAILURE, error });
-    throw error;
-  }
-};
-
 // -- app
 
 export const appLoad = () => async (dispatch) => {
@@ -90,36 +78,6 @@ export const configurationUpdate = (cfg) => async (dispatch, getState) => {
 };
 
 export const dashboardUpdate = (data) => (dispatch) => dispatch(configurationUpdate({ dashboard: { ...data } }));
-
-export const onboardingUpdate = (data) => async (dispatch, getState) => {
-  const state = getState();
-  const cfgModel = selectConfigurationModel(state);
-
-  if (!cfgModel.isLoaded) {
-    throw Error('configuration didn\'t loaded');
-  }
-
-  const newCfg = {
-    ...cfgModel.value,
-    dashboard: {
-      ...cfgModel.value.dashboard,
-      info: data,
-      shouldPassOnboarding: false,
-    },
-  };
-
-  await dispatch(merchantUpdate({
-    businessName: data.organization,
-    configurations: {
-      dashboard: {
-        info: data,
-        shouldPassOnboarding: false,
-      },
-    },
-  }));
-
-  dispatch({ type: types.CONFIGURATION_SUCCESS, payload: newCfg });
-};
 
 // flows
 

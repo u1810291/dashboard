@@ -6,7 +6,6 @@ export const IdentityActionGroups = {
   IdentityRemove: 'IDENTITY_REMOVE',
   IdentityCount: 'IDENTITY_COUNT',
   FilteredCount: 'FILTERED_COUNT',
-  ReviewCount: 'REVIEW_COUNT',
 };
 
 export const SliceNames = {

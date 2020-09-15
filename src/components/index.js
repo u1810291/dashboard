@@ -1,9 +1,7 @@
 export { closeOverlay, createOverlay, OverlayWithBlur } from './overlay';
 export { default as Items } from './items';
 export { default as Card } from './card';
-export { default as Click } from './click';
 export { default as Button } from './button';
-export { default as QuestionMark } from './question-mark';
 export { default as InfoTooltip } from './info-tooltip';
 export { default as HelpMessage } from './help-message';
 export { default as Text } from './text';

@@ -1,29 +1,38 @@
-import { Box, Paper, Typography, Divider } from '@material-ui/core';
-import { HelpMessage, QuestionMark } from 'components';
+import { Box, Divider, IconButton, Paper, Typography } from '@material-ui/core';
+import { HelpMessage } from 'components';
 import { createOverlay } from 'components/overlay';
-import Text from 'components/text';
-import React from 'react';
+import React, { useCallback } from 'react';
+import { FaRegQuestionCircle } from 'react-icons/fa';
 import { useIntl } from 'react-intl';
 import { BiometricSection } from '../BiometricSection/BiometricSection';
 import config from './config.json';
-import { LivenessVideo } from './LivenessVideo';
 import { useStyles } from './LivenessStep.styles';
+import { LivenessVideo } from './LivenessVideo';
 
-const showHelpMessage = (id) => createOverlay(<HelpMessage id={id} />);
+export function Checks({ title, color = 'gray', body }) {
+  const showHelpMessage = useCallback((id) => {
+    createOverlay(<HelpMessage id={id} />);
+  }, []);
 
-const Checks = ({ intl, color = 'gray', children }) => (
-  <Box display="flex">
-    <Box whiteSpace="nowrap" flex="0 1 190px">
-      {intl.formatMessage({ id: 'LivenessStep.Checks.status.title' })}
-      <QuestionMark onClick={() => showHelpMessage('liveness')} />
+  return (
+    <Box display="flex" alignItems="center">
+      <Typography variant="body1">
+        {title}
+      </Typography>
+      <Box ml={0.5}>
+        <IconButton
+          size="small"
+          onClick={() => showHelpMessage('liveness')}
+        >
+          <FaRegQuestionCircle color="text.secondary" />
+        </IconButton>
+      </Box>
+      <Box ml={2} color={`var(--mgi-theme-palette-${color})`}>
+        {body}
+      </Box>
     </Box>
-    <Box flex="1 1 auto">
-      <Text color={color}>
-        {children}
-      </Text>
-    </Box>
-  </Box>
-);
+  );
+}
 
 export function LivenessStep({ liveness }) {
   const intl = useIntl();
@@ -45,9 +54,11 @@ export function LivenessStep({ liveness }) {
               title={intl.formatMessage({ id: 'LivenessStep.Checks.video.title' })}
               picture={<LivenessVideo url={videoUrl} />}
               content={(
-                <Checks color={config[status].checks.color} intl={intl}>
-                  {intl.formatMessage({ id: config[status].checks.message })}
-                </Checks>
+                <Checks
+                  color={config[status].checks.color}
+                  title={intl.formatMessage({ id: 'LivenessStep.Checks.status.title' })}
+                  body={intl.formatMessage({ id: config[status].checks.message })}
+                />
               )}
             />
           </>
