@@ -8,10 +8,6 @@ export function getMerchant() {
   return http.get('/api/v1/merchants/me');
 }
 
-export function putMerchants(data) {
-  return http.patch('/api/v1/merchants/me', data);
-}
-
 export function getMerchantApps() {
   return http.get('/api/v1/merchants/apps');
 }

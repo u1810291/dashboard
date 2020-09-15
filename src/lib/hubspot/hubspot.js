@@ -1,15 +1,6 @@
 import client from 'lib/client';
 import { hubspotForms } from './constants';
 
-export const contactProperties = {
-  companyName: 'company',
-  website: 'website',
-  startVerifyingUsers: 'start_verifying_users',
-  verificationsVolume: 'how_many_verifications',
-  whyDoYouNeedMati: 'why_do_you_need_mati',
-  phoneNumber: 'phone_number',
-};
-
 export function requestApi(email, contactData) {
   client.hubspot.hubspotApiRequest({
     email,

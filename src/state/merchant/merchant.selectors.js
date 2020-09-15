@@ -81,11 +81,6 @@ export const selectLanguage = createSelector(
   selectModelValue((dashboard) => dashboard.language || DEFAULT_LOCALE),
 );
 
-export const selectShouldPassOnboarding = createSelector(
-  selectDashboardModel,
-  selectLoadableValue((dashboard) => dashboard.shouldPassOnboarding),
-);
-
 // -- flows
 
 export const selectMerchantFlowsModel = createSelector(

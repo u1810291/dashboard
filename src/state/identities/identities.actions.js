@@ -3,7 +3,6 @@ import * as api from 'lib/client/identities';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { get } from 'lodash';
 import { ERROR_COMMON } from 'models/Error.model';
-import { IdentityStatuses } from 'models/Identity.model';
 import { createTypesSequence } from 'state/utils';
 import { IdentityActionGroups } from './identities.store';
 import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from './identities.selectors';
@@ -115,18 +114,6 @@ export const identityDemoLoad = (id) => async (dispatch) => {
     dispatch({ type: types.IDENTITY_SUCCESS, payload });
   } catch (error) {
     dispatch({ type: types.IDENTITY_FAILURE, error });
-    throw error;
-  }
-};
-
-export const getReviewCount = () => async (dispatch) => {
-  const filter = { status: IdentityStatuses.reviewNeeded };
-  dispatch({ type: types.REVIEW_COUNT_REQUEST });
-  try {
-    const { data } = await api.getIdentitiesCount(filter);
-    dispatch({ type: types.REVIEW_COUNT_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({ type: types.REVIEW_COUNT_FAILURE, error });
     throw error;
   }
 };

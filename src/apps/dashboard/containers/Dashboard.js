@@ -11,17 +11,15 @@ import { useHistory } from 'react-router-dom';
 import { getCountries } from 'state/countries/countries.actions';
 import { selectCountriesModel } from 'state/countries/countries.selectors';
 import { merchantFlowsLoad, merchantLoad } from 'state/merchant/merchant.actions';
-import { selectIsBlockedModel, selectMerchantFlowsModel, selectMerchantModel, selectShouldPassOnboarding } from 'state/merchant/merchant.selectors';
+import { selectIsBlockedModel, selectMerchantFlowsModel, selectMerchantModel } from 'state/merchant/merchant.selectors';
 import { AlertBanner } from '../components/AlertBanner/AlertBanner';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
-import { Questions } from '../components/Questions/Questions';
 import { DashboardRouter } from './Dashboard.router';
 
 export function Dashboard() {
   const dispatch = useDispatch();
   const history = useHistory();
   const intl = useIntl();
-  const boardingModel = useSelector(selectShouldPassOnboarding);
   const merchantModel = useSelector(selectMerchantModel);
   const currentPlanId = useSelector(selectCurrentPlanId);
   const merchantBlocked = useSelector(selectIsBlockedModel);
@@ -84,12 +82,8 @@ export function Dashboard() {
     );
   }
 
-  if (!boardingModel.isLoaded && !countriesModel.isLoaded && !merchantFlowsModel.isLoaded) {
+  if (!countriesModel.isLoaded && !merchantFlowsModel.isLoaded) {
     return <PageLoader />;
-  }
-
-  if (boardingModel.value) {
-    return <Questions key="questions" />;
   }
 
   return [

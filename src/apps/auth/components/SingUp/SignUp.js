@@ -42,9 +42,10 @@ export function SignUp() {
       await dispatch(dashboardUpdate({
         language: DEFAULT_LOCALE,
         usePlans: true,
-        shouldPassOnboarding: true,
       }));
-      window.ga('send', 'event', 'form_submission');
+      if (window.ga) {
+        window.ga('send', 'event', 'form_submission');
+      }
       history.push(ROOT_PATH);
     } catch (err) {
       setSubmitting(false);
