@@ -1,16 +1,17 @@
 import { Box, Button, FormControl, Grid, RadioGroup, Typography } from '@material-ui/core';
+import { PageLoader } from 'apps/layout';
+import { BoxBordered } from 'apps/ui';
 import { notification } from 'components/notification';
 import { ERROR_COMMON } from 'models/Error.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { PageLoader } from 'apps/layout';
 import { merchantUpdateFlow } from '../../../../state/merchant/merchant.actions';
 import { selectCurrentFlowId } from '../../../../state/merchant/merchant.selectors';
 import { FACEMATCH_DEFAULT_THRESHOLD, FACEMATCH_MAX_THRESHOLD, FACEMATCH_MIN_THRESHOLD, FacematchThresholdModes, validateScore } from '../../models/facematch.model';
 import { selectFacematchThreshold } from '../../state/facematch.selectors';
 import { RadioFacematchMode } from '../RadioFacematchMode/RadioFacematchMode';
-import { BoxRoundBordered, InputScore } from './FacematchConfiguration.styles';
+import { InputScore } from './FacematchConfiguration.styles';
 
 export const FacematchConfiguration = () => {
   const intl = useIntl();
@@ -82,16 +83,16 @@ export const FacematchConfiguration = () => {
           >
             <Grid container spacing={2}>
               <Grid item>
-                <BoxRoundBordered>
+                <BoxBordered>
                   <RadioFacematchMode
                     mode={FacematchThresholdModes.Recommended}
                     disabled={isLoading}
                     subtitle={intl.formatMessage({ id: 'Product.configuration.facematch.mode.recommended.subtitle' })}
                   />
-                </BoxRoundBordered>
+                </BoxBordered>
               </Grid>
               <Grid item>
-                <BoxRoundBordered>
+                <BoxBordered>
                   <RadioFacematchMode
                     mode={FacematchThresholdModes.Custom}
                     disabled={isLoading}
@@ -139,7 +140,7 @@ export const FacematchConfiguration = () => {
                       helperText={error && intl.formatMessage({ id: `Product.configuration.facematch.mode.custom.errors.${error}` })}
                     />
                   </RadioFacematchMode>
-                </BoxRoundBordered>
+                </BoxBordered>
               </Grid>
             </Grid>
           </RadioGroup>

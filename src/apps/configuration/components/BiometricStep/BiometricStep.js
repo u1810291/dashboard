@@ -1,73 +1,167 @@
-import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@material-ui/core';
-import { Items } from 'components';
-import { get } from 'lodash';
+import { Box, Grid, RadioGroup, Switch, Typography } from '@material-ui/core';
+import { BoxBordered } from 'apps/ui';
+import { BiometricSettings, BiometricTypes, getBiometricParentSetting } from 'models/Biometric.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
-import { selectCurrentFlowId, selectVerificationPattern } from 'state/merchant/merchant.selectors';
-import useStyles from './BiometricStep.styles';
+import { selectBiometricPattern, selectCurrentFlowId } from 'state/merchant/merchant.selectors';
+import { FormControlLabelFixed, RadioFixed, useStyles } from './BiometricStep.styles';
+import LivenessVoiceSVG from './liveness-voice-video.svg';
+
+const OptionsImageMap = {
+  [BiometricTypes.voiceLiveness]: LivenessVoiceSVG,
+};
 
 export function BiometricStep() {
-  const intl = useIntl();
-  const options = [
-    {
-      label: intl.formatMessage({ id: 'flow.biometricStep.none' }),
-      value: 'none',
-    },
-    {
-      label: intl.formatMessage({ id: 'flow.biometricStep.selfie' }),
-      value: 'selfie',
-    },
-    {
-      label: intl.formatMessage({ id: 'flow.biometricStep.liveness' }),
-      value: 'liveness',
-    },
-  ];
-  const classes = useStyles();
   const dispatch = useDispatch();
-  const patterns = useSelector(selectVerificationPattern);
+  const intl = useIntl();
+  const classes = useStyles();
+  const pattern = useSelector(selectBiometricPattern);
   const flowId = useSelector(selectCurrentFlowId);
-  const defaultState = get(options.find((option) => option.value === patterns.biometrics), 'value', 'none');
-  const [value, setValue] = useState(defaultState);
+  const [setting, setSetting] = useState(pattern);
+  // enabled options
+  const [options, setOptions] = useState([]);
 
-  const handleChange = useCallback((event) => {
-    const targetValue = event.target.value;
-    setValue(targetValue);
-    dispatch(merchantUpdateFlow(flowId, { verificationPatterns: { biometrics: targetValue } }));
-  }, [dispatch, flowId]);
+  const handleSettingChange = useCallback((value) => {
+    setSetting(value);
+    setOptions([]);
+  }, []);
 
   useEffect(() => {
-    const biometrics = patterns.biometrics || 'none';
-    setValue(biometrics);
-  }, [patterns.biometrics]);
+    if (!pattern) {
+      return;
+    }
+    const foundParent = BiometricSettings.find((item) => item.id === pattern);
+    if (foundParent) {
+      handleSettingChange(foundParent.id);
+    } else {
+      // enable both parent and option
+      const parent = getBiometricParentSetting(pattern);
+      handleSettingChange(parent.id);
+      setOptions((prev) => [
+        ...prev,
+        pattern,
+      ]);
+    }
+  }, [pattern, handleSettingChange]);
+
+  const handleSave = useCallback((value) => {
+    dispatch(merchantUpdateFlow(flowId, {
+      verificationPatterns: {
+        biometrics: value,
+      },
+    }));
+  }, [dispatch, flowId]);
+
+  const handleChange = useCallback((event) => {
+    const { value } = event.target;
+    handleSettingChange(value);
+    handleSave(value);
+  }, [handleSave, handleSettingChange]);
+
+  const handleOptionChange = useCallback((parentId, optionId, e) => {
+    if (e.target.checked) {
+      setOptions((prev) => [
+        ...prev,
+        optionId,
+      ]);
+      handleSave(optionId);
+    } else {
+      setOptions((prev) => prev.filter((item) => item !== optionId));
+      handleSave(parentId);
+    }
+  }, [handleSave]);
 
   return (
-    <FormControl component="fieldset">
-      <Items flow="row">
-        <Typography variant="h5">
-          {intl.formatMessage({ id: 'flow.documentTypeStep.biometric.title' })}
+    <Box>
+      <Typography variant="h4" gutterBottom>
+        {intl.formatMessage({ id: 'BiometricStep.title' })}
+      </Typography>
+
+      <Box mb={3}>
+        <Typography variant="body1" gutterBottom>
+          {intl.formatMessage({ id: 'BiometricStep.description' })}
         </Typography>
-        <Box>
-          {intl.formatMessage({ id: 'flow.documentTypeStep.biometric.subtitle' })}
-        </Box>
-        <RadioGroup
-          aria-label="biometric-step"
-          name="biometric-steps"
-          value={value}
-          onChange={handleChange}
-        >
-          { options.map((item) => (
-            <FormControlLabel
-              key={item.label}
-              value={item.value}
-              control={<Radio color="default" />}
-              className={classes.formLabel}
-              label={item.label}
-            />
-          ))}
-        </RadioGroup>
-      </Items>
-    </FormControl>
+      </Box>
+
+      <RadioGroup
+        aria-label="biometric-step"
+        name="biometric-steps"
+        value={setting}
+        onChange={handleChange}
+      >
+        <Grid container direction="column" spacing={1}>
+          <Grid item>
+            <Typography variant="h5" gutterBottom>
+              {intl.formatMessage({ id: 'BiometricStep.subtitle' })}
+            </Typography>
+          </Grid>
+
+          {BiometricSettings.map((item) => {
+            const description = intl.formatMessage({ id: `BiometricStep.${item.id}.description`, defaultMessage: ' ' });
+            return (
+              <Grid item key={item.id}>
+                <BoxBordered>
+                  <FormControlLabelFixed
+                    value={item.id}
+                    control={<RadioFixed color="default" />}
+                    label={(
+                      <Box>
+                        <Typography variant="h5">
+                          {intl.formatMessage({ id: `BiometricStep.${item.id}.title` })}
+                        </Typography>
+                        {description !== ' ' && (
+                          <Box mt={0.5} color="textSecondary">
+                            <Typography variant="body1" color="textSecondary">
+                              {intl.formatMessage({ id: `BiometricStep.${item.id}.description`, defaultMessage: '' })}
+                            </Typography>
+                          </Box>
+                        )}
+                      </Box>
+                    )}
+                  />
+                  {setting === item.id && item.options && (
+                    <Box mt={2} ml={3}>
+                      <Typography variant="h5">
+                        {intl.formatMessage({ id: 'BiometricStep.additionalSettings' })}
+                      </Typography>
+                      {item.options.map((option) => (
+                        <BoxBordered key={option.id} mt={1}>
+                          <Box>
+                            <FormControlLabelFixed
+                              control={(
+                                <Switch
+                                  color="primary"
+                                  checked={options.includes(option.id)}
+                                  onClick={(e) => handleOptionChange(item.id, option.id, e)}
+                                />
+                              )}
+                              label={(
+                                <Box display="flex">
+                                  <Box mr={2}>
+                                    <Typography variant="h5" gutterBottom>
+                                      {intl.formatMessage({ id: `BiometricStep.${item.id}.${option.id}.title` })}
+                                    </Typography>
+                                    <Typography variant="body1" color="textSecondary">
+                                      {intl.formatMessage({ id: `BiometricStep.${item.id}.${option.id}.description` })}
+                                    </Typography>
+                                  </Box>
+                                  <img className={classes.optionImage} src={OptionsImageMap[option.id]} alt="" />
+                                </Box>
+                              )}
+                            />
+                          </Box>
+                        </BoxBordered>
+                      ))}
+                    </Box>
+                  )}
+                </BoxBordered>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </RadioGroup>
+    </Box>
   );
 }

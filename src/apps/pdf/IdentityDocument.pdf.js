@@ -88,7 +88,7 @@ export function IdentityDocumentPDF(intl, identity) {
               <Text style={styles.title}>{intl.formatMessage({ id: 'LivenessStep.Checks.status.title' })}</Text>
               <View style={styles.row}>
                 <Text style={styles.label}>
-                  {intl.formatMessage({ id: 'flow.biometricStep.selfie' })}
+                  {intl.formatMessage({ id: 'BiometricStep.selfie.title' })}
                   :
                 </Text>
                 <Text style={[styles.value, { color: getLivenessStatusColor(identity.liveness.status) }]}>

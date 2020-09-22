@@ -1,11 +1,20 @@
-import { makeStyles } from '@material-ui/core/styles';
-import grey from '@material-ui/core/colors/grey';
+import { FormControlLabel, makeStyles, Radio, withStyles } from '@material-ui/core';
 
-export default makeStyles(() => ({
-  formLabel: {
-    '&:hover': {
-      backgroundColor: grey['50'],
-    },
-    paddingLeft: 15,
+export const useStyles = makeStyles(() => ({
+  optionImage: {
+    flexGrow: 1,
   },
 }));
+
+export const FormControlLabelFixed = withStyles({
+  root: {
+    alignItems: 'flex-start',
+  },
+})(FormControlLabel);
+
+export const RadioFixed = withStyles({
+  root: {
+    marginTop: -9,
+    marginBottom: -9,
+  },
+})(Radio);

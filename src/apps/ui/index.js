@@ -3,5 +3,6 @@ export * from './components/Badge/Badge';
 export * from './components/ButtonBase/ButtonBase.styles';
 export * from './components/ButtonCollapsible/ButtonCollasible.styles';
 export * from './components/Tab/Tab';
+export * from './components/BoxBordered/BoxBordered';
 
 export * from './models/Warning.model';

@@ -3,7 +3,30 @@ import { get } from 'lodash';
 export const BiometricTypes = {
   liveness: 'liveness',
   selfie: 'selfie',
+  none: 'none',
+  voiceLiveness: 'voice+liveness',
 };
+
+export const BiometricSettings = [
+  {
+    id: BiometricTypes.none,
+  },
+  {
+    id: BiometricTypes.selfie,
+  },
+  {
+    id: BiometricTypes.liveness,
+    options: [
+      {
+        id: BiometricTypes.voiceLiveness,
+      },
+    ],
+  },
+];
+
+export function getBiometricParentSetting(value) {
+  return BiometricSettings.find((item) => item.options && item.options.find((option) => option.id === value));
+}
 
 export const BiometricLivenessSteps = [
   BiometricTypes.liveness,

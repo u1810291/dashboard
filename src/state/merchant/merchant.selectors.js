@@ -1,6 +1,7 @@
 import { selectUserId } from 'apps/user/state/user.selectors';
 import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
+import { BiometricTypes } from 'models/Biometric.model';
 import { VerificationStepTypes } from 'models/Identity.model';
 import { DEFAULT_LOCALE } from 'models/Intl.model';
 import { createSelector } from 'reselect';
@@ -117,6 +118,11 @@ export const selectPolicyInterval = createSelector(
 export const selectVerificationPattern = createSelector(
   selectCurrentFlow,
   (flow) => flow.verificationPatterns,
+);
+
+export const selectBiometricPattern = createSelector(
+  selectVerificationPattern,
+  (pattern) => pattern.biometrics || BiometricTypes.none,
 );
 
 export const selectIpCheck = createSelector(
