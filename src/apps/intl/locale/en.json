@@ -150,9 +150,6 @@
   "flow.documentTypeStep.optionalHint": "Multiple documents in 1 step. The user will choose only one of the documents to be verified.",
   "flow.documentTypeStep.stepNo": "Requirement",
   "flow.documentTypeStep.biometric": "Biometric requirement",
-  "flow.biometricStep.liveness": "Liveness",
-  "flow.biometricStep.selfie": "Selfie",
-  "flow.biometricStep.none": "None",
   "flow.documentTypeStep.button.title": "Add verification requirement",
   "flow.colorStep.title": "Mati SDK button color",
   "flow.languageStep.title": "Default language",
@@ -865,8 +862,6 @@
   "dashboard.footer.whoUseIt": "200+ companies use Mati",
   "PricingPlans.support": "Instant support via Discord or Slack",
   "Product.customization.newFeatures": "New features",
-  "flow.documentTypeStep.biometric.title": "Set your biometric requirements",
-  "flow.documentTypeStep.biometric.subtitle": "With Mati, you have the freedom to choose between different types of biometric checks. If you select “liveness”, your users will need to record a 5 seconds selfie video. It will make two checks: liveness and face match. If you select only the “selfie” option, your users will only need to take a selfie picture, and Mati will return a face match score.",
   "LivenessStep.Checks.status.title": "Biometric check",
   "LivenessStep.Checks.video.title": "Video:",
   "LivenessStep.Checks.selfie.title": "Selfie:",
@@ -1129,5 +1124,17 @@
   "color.red": "Red",
   "color.pink": "Pink",
   "color.orange": "Orange",
-  "color.yellow": "Yellow"
+  "color.yellow": "Yellow",
+  "BiometricStep.title": "Biometrics",
+  "BiometricStep.description": "With Mati, you have the freedom to choose between different types of biometric checks.",
+  "BiometricStep.subtitle": "Choose the type of biometric",
+  "BiometricStep.additionalSettings": "Additional settings",
+  "BiometricStep.none.title": "None",
+  "BiometricStep.selfie.title": "Selfie Photo",
+  "BiometricStep.selfie.description": "Your users will be asked to take a selfie picture.",
+  "BiometricStep.liveness.title": "Liveness Video",
+  "BiometricStep.liveness.description": "Your users will be asked to record a short video.",
+  "BiometricStep.liveness.voice+liveness.title": "Voice",
+  "BiometricStep.liveness.voice+liveness.description": "We will show a random order of numbers and  ask a user to utter them."
+
 }

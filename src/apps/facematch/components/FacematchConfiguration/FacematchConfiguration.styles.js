@@ -1,7 +1,6 @@
-import React from 'react';
-import { Box, TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { AppTheme } from 'apps/theme/app.theme';
+import React from 'react';
 
 export const InputScore = withStyles({
   input: {
@@ -23,16 +22,6 @@ export const InputScore = withStyles({
         root: classes.helperText,
       },
     }}
-    {...props}
-  />
-));
-
-export const BoxRoundBordered = ((props) => (
-  <Box
-    p={1}
-    border={1}
-    borderRadius={AppTheme.shape.borderRadius}
-    borderColor={AppTheme.palette.common.lightgray}
     {...props}
   />
 ));
