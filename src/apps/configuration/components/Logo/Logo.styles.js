@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles((theme) => ({
   addLogo: {
     height: 250,
-    width: 305,
+    maxWidth: 305,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

@@ -1,10 +1,13 @@
 import { setI18nContext } from 'components/i18n-context';
-import { Input, RadioButtonGroup } from 'components/inputs';
+import { TextField, InputLabel, Box } from '@material-ui/core';
+import { RadioButtonGroup } from 'components/inputs';
 import { Field, Formik } from 'formik';
-import { cleanText, email, required } from 'lib/validations';
 import { flow, pick, pickBy } from 'lodash';
 import React from 'react';
 import { injectIntl } from 'react-intl';
+import ImgAdmin from 'assets/modal-role-admin.svg';
+import ImgAgent from 'assets/modal-role-agent.svg';
+import { cleanText, email, required } from 'lib/validations';
 
 const formikSettings = {
   initialValues: {
@@ -28,17 +31,25 @@ class TeamInviteForm extends React.Component {
   roleOptions = [
     {
       label: this.props.intl.formatMessage({
-        id: 'teamTable.invite.form.roles.agent',
-      }),
-      value: 2,
-    },
-    {
-      label: this.props.intl.formatMessage({
         id: 'teamTable.invite.form.roles.admin',
       }),
       value: 1,
+      description: this.props.intl.formatMessage({
+        id: 'teamTable.invite.form.roles.description.admin',
+      }),
+      imgSrc: ImgAdmin,
     },
-  ]
+    {
+      label: this.props.intl.formatMessage({
+        id: 'teamTable.invite.form.roles.agent',
+      }),
+      value: 2,
+      description: this.props.intl.formatMessage({
+        id: 'teamTable.invite.form.roles.description.agent',
+      }),
+      imgSrc: ImgAgent,
+    },
+  ];
 
   onSubmit = (values, { setSubmitting, setStatus }) => {
     setStatus({});
@@ -53,10 +64,10 @@ class TeamInviteForm extends React.Component {
         if (!error || !error.response || !error.response.data) return;
         setStatus({ password: error.response.data.message });
       });
-  }
+  };
 
   render() {
-    const { innerRef } = this.props;
+    const { innerRef, intl } = this.props;
     return (
       <Formik
         innerRef={innerRef}
@@ -65,28 +76,58 @@ class TeamInviteForm extends React.Component {
         validate={formikSettings.validate}
         render={(props) => (
           <form onSubmit={props.handleSubmit}>
-            <Field
-              name="firstName"
-              component={Input}
-              error={props.touched.firstName && props.errors.firstName}
-            />
-            <Field
-              name="lastName"
-              component={Input}
-              error={props.touched.lastName && props.errors.lastName}
-            />
-            <Field
-              name="role"
-              component={RadioButtonGroup}
-              options={this.roleOptions}
-              error={props.touched.password && props.errors.password}
-            />
-            <Field
-              type="email"
-              name="email"
-              component={Input}
-              error={props.touched.email && props.errors.email}
-            />
+            <Box mb={4}>
+              <InputLabel>
+                {intl.formatMessage({ id: 'teamTable.invite.form.labels.firstName' })}
+              </InputLabel>
+              <Field
+                as={TextField}
+                name="firstName"
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                helperText={props.touched.firstName && !!props.errors.firstName && intl.formatMessage({ id: props.errors.firstName })}
+                error={props.touched.firstName && !!props.errors.firstName}
+              />
+            </Box>
+            <Box mb={4}>
+              <InputLabel>
+                {intl.formatMessage({ id: 'teamTable.invite.form.labels.lastName' })}
+              </InputLabel>
+              <Field
+                as={TextField}
+                name="lastName"
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                helperText={props.touched.lastName && props.errors.lastName && intl.formatMessage({ id: props.errors.lastName })}
+                error={props.touched.lastName && !!props.errors.lastName}
+              />
+            </Box>
+
+            <Box mb={4}>
+              <InputLabel>
+                {intl.formatMessage({ id: 'teamTable.invite.form.labels.email' })}
+              </InputLabel>
+              <Field
+                as={TextField}
+                type="input"
+                name="email"
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                helperText={props.touched.email && props.errors.email && intl.formatMessage({ id: props.errors.email })}
+                error={props.touched.email && !!props.errors.email}
+              />
+            </Box>
+            <Box mb={4}>
+              <Field
+                name="role"
+                component={RadioButtonGroup}
+                options={this.roleOptions}
+                error={props.touched.password && props.errors.password}
+              />
+            </Box>
           </form>
         )}
       />

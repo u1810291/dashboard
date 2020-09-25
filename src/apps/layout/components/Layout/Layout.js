@@ -1,9 +1,8 @@
-import { AppBar, Toolbar } from '@material-ui/core';
 import React, { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useStyles } from './Layout.styles';
 
-export function Layout({ children, menu, banner }) {
+export function Layout({ children, menu }) {
   const location = useLocation();
   const wrapper = useRef();
   const classes = useStyles();
@@ -19,13 +18,8 @@ export function Layout({ children, menu, banner }) {
   }, [location.pathname]);
 
   return (
-    <div className={classes.root}>
-      <AppBar position="sticky" color="primary" elevation={0}>
-        <Toolbar className={classes.toolBar}>
-          {menu}
-        </Toolbar>
-        {banner}
-      </AppBar>
+    <div className={classes.container}>
+      {menu}
       <div ref={wrapper} className={classes.content}>
         {children}
       </div>

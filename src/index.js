@@ -22,7 +22,7 @@ if (process.env.REACT_APP_SENTRY_DSN) {
 }
 
 // eslint-disable-next-line no-console
-console.log('Mati version', process.env.REACT_APP_VERSION);
+console.log('Mati version test CI', process.env.REACT_APP_VERSION);
 
 ReactDOM.render(
   <MuiThemeProvider theme={AppTheme}>

@@ -34,6 +34,16 @@ export const selectMerchantName = createSelector(
   selectModelValue((merchant) => merchant.displayName),
 );
 
+export const selectMerchantCreatedAt = createSelector(
+  selectMerchantModel,
+  selectModelValue((merchant) => merchant.createdAt),
+);
+
+export const selectMerchantBusinessName = createSelector(
+  selectMerchantModel,
+  selectModelValue((merchant) => merchant.businessName),
+);
+
 export const selectIsBlockedModel = createSelector(
   selectMerchantModel,
   selectLoadableValue((merchant) => !!merchant.blockedAt),

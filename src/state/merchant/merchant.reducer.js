@@ -12,6 +12,7 @@ const initialState = {
     // collaborators: any[];
     // createdAt: Date;
     // displayName: string;
+    // businessName: string;
     // owner: string;
     // updatedAt: Date;
   }),
@@ -40,6 +41,18 @@ export default createReducer(initialState, {
     return {
       ...state,
       currentFlow: payload,
+    };
+  },
+  [types.BUSINESS_NAME_UPDATE](state, { payload }) {
+    return {
+      ...state,
+      merchant: {
+        ...state.merchant,
+        value: {
+          ...state.merchant.value,
+          ...payload,
+        },
+      },
     };
   },
 });

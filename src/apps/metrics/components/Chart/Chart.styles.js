@@ -6,7 +6,8 @@ export const useStyles = makeStyles(() => ({
     lineHeight: '19px',
   },
   amountText: {
-    marginTop: 10,
+    display: 'inline-block',
+    padding: [[10, 0, 20]],
   },
   noDataLabel: {
     fontSize: '1.25rem',

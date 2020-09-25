@@ -16,6 +16,10 @@ export function uploadMerchantMedia(form) {
   return http.post('/v1/media', form);
 }
 
+export function saveBusinessName(businessName) {
+  return http.patch('/api/v1/merchants/me', { businessName });
+}
+
 // flows api
 export function getMerchantFlows(merchantId) {
   return http.get(`api/v1/merchants/${merchantId}/flows`);

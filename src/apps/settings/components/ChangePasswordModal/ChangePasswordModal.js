@@ -1,12 +1,13 @@
 import { get } from 'lodash';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Paper, Box, TextField, Button } from '@material-ui/core';
-import { useStyles } from './ChangePasswordModal.styles';
+import { TextField, Button, InputLabel, Box } from '@material-ui/core';
+import Modal from 'components/modal';
+import Img from 'assets/modal-change-pass.svg';
+import { closeOverlay } from '../../../../components/overlay';
 
 export function ChangePasswordModal({ onSubmit }) {
   const intl = useIntl();
-  const classes = useStyles();
   const [formData, setFormData] = useState({
     oldPassword: '',
     password: '',
@@ -22,20 +23,11 @@ export function ChangePasswordModal({ onSubmit }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-
     if (formData.oldPassword.length === 0) {
       setFormState({
         oldPassword: {
           isError: true,
-          message: 'Password required',
-        },
-      });
-    } else
-    if (formData.password.length < 8) {
-      setFormState({
-        password: {
-          isError: true,
-          message: 'Password needs to be 8 characters long and at least one number',
+          message: intl.formatMessage({ id: 'Settings.changePasswordModal.noEmpty' }),
         },
       });
     } else
@@ -43,15 +35,15 @@ export function ChangePasswordModal({ onSubmit }) {
       setFormState({
         repeatPassword: {
           isError: true,
-          message: 'Password doesn\'t match',
+          message: intl.formatMessage({ id: 'Settings.changePasswordModal.passwordsDontMatch' }),
         },
       });
     } else
-    if (!/[0-9]+/.test(formData.password)) {
+    if ((!/[0-9]+/.test(formData.password)) || (formData.password.length < 8)) {
       setFormState({
         password: {
           isError: true,
-          message: 'Password needs to be 8 characters long and at least one number',
+          message: intl.formatMessage({ id: 'Settings.changePasswordModal.passwordRequirements' }),
         },
       });
     } else {
@@ -60,52 +52,60 @@ export function ChangePasswordModal({ onSubmit }) {
   }
 
   return (
-    <Paper elevation={0} className={classes.container}>
-      <Box fontSize={22} fontWeight={700} mb={1}>
-        { intl.formatMessage({ id: 'apps.settings.personalSettings.change' }) }
-      </Box>
-      <Box fontSize={16} mb={3}>
-        { intl.formatMessage({ id: 'apps.settings.personalSettings.youCanChange' }) }
-      </Box>
+    <Modal
+      imgSrc={Img}
+      title={intl.formatMessage({ id: 'Settings.companySettings.changePassword' })}
+      subtitle={intl.formatMessage({ id: 'Settings.companySettings.subtitle' })}
+    >
       <form onSubmit={handleSubmit}>
-        <TextField
-          id="old-password"
-          name="oldPassword"
-          type="password"
-          variant="outlined"
-          label={intl.formatMessage({ id: 'personalSettings.labels.oldPassword' })}
-          margin="dense"
-          error={get(formState, 'oldPassword.isError')}
-          helperText={get(formState, 'oldPassword.message')}
-          fullWidth
-          onChange={handleState}
-          className={classes.oldPassword}
-        />
-        <TextField
-          id="password"
-          name="password"
-          type="password"
-          variant="outlined"
-          label={intl.formatMessage({ id: 'personalSettings.labels.password' })}
-          margin="dense"
-          error={get(formState, 'password.isError')}
-          helperText={get(formState, 'password.message')}
-          fullWidth
-          onChange={handleState}
-        />
-        <TextField
-          id="password-repeat"
-          name="repeatPassword"
-          type="password"
-          variant="outlined"
-          label={intl.formatMessage({ id: 'personalSettings.labels.repeatPassword' })}
-          margin="dense"
-          error={get(formState, 'repeatPassword.isError')}
-          helperText={get(formState, 'repeatPassword.message')}
-          fullWidth
-          onChange={handleState}
-          className={classes.repeatPassword}
-        />
+        <Box mb={4}>
+          <InputLabel>
+            {intl.formatMessage({ id: 'personalSettings.labels.oldPassword' })}
+          </InputLabel>
+          <TextField
+            id="old-password"
+            name="oldPassword"
+            type="password"
+            variant="outlined"
+            margin="dense"
+            error={get(formState, 'oldPassword.isError')}
+            helperText={get(formState, 'oldPassword.message')}
+            fullWidth
+            onChange={handleState}
+          />
+        </Box>
+        <Box mb={2}>
+          <InputLabel>
+            {intl.formatMessage({ id: 'personalSettings.labels.password' })}
+          </InputLabel>
+          <TextField
+            id="password"
+            name="password"
+            type="password"
+            variant="outlined"
+            margin="dense"
+            error={get(formState, 'password.isError')}
+            helperText={get(formState, 'password.message')}
+            fullWidth
+            onChange={handleState}
+          />
+        </Box>
+        <Box mb={4}>
+          <InputLabel>
+            {intl.formatMessage({ id: 'personalSettings.labels.repeatPassword' })}
+          </InputLabel>
+          <TextField
+            id="password-repeat"
+            name="repeatPassword"
+            type="password"
+            variant="outlined"
+            margin="dense"
+            error={get(formState, 'repeatPassword.isError')}
+            helperText={get(formState, 'repeatPassword.message')}
+            fullWidth
+            onChange={handleState}
+          />
+        </Box>
         <Button
           type="submit"
           color="primary"
@@ -113,9 +113,17 @@ export function ChangePasswordModal({ onSubmit }) {
           disableElevation
           fullWidth
         >
-          {intl.formatMessage({ id: 'apps.settings.personalSettings.change' })}
+          {intl.formatMessage({ id: 'Settings.changePasswordModal.send' })}
+        </Button>
+        <Button
+          variant="contained"
+          disableElevation
+          fullWidth
+          onClick={closeOverlay}
+        >
+          {intl.formatMessage({ id: 'cancel' })}
         </Button>
       </form>
-    </Paper>
+    </Modal>
   );
 }

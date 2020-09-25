@@ -43,7 +43,7 @@ function PasswordReset({ status, isSubmitting }) {
         <Field
           type="password"
           name="password"
-          label={intl.formatMessage({ id: 'signin.form.labels.password' })}
+          label={intl.formatMessage({ id: 'SignIn.form.labels.password' })}
           variant="outlined"
           fullWidth
           component={TextField}
@@ -64,7 +64,7 @@ function PasswordReset({ status, isSubmitting }) {
 
       <Box mt={3}>
         <Link to="/auth/signin">
-          {intl.formatMessage({ id: 'recovery.signin' })}
+          {intl.formatMessage({ id: 'PasswordRecovery.signin' })}
         </Link>
       </Box>
     </Form>

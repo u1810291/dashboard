@@ -1,32 +1,24 @@
-import { Box, Button, Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import React from 'react';
-import { FiUserPlus } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { ReactComponent as TablePlaceholder } from './team.svg';
+import { ReactComponent as TablePlaceholder } from '../../../../assets/team.svg';
+import { useStyles } from './TeamTablePlaceholder.styles';
 
-export function TeamTablePlaceholder({ onInvite }) {
+export function TeamTablePlaceholder() {
   const intl = useIntl();
+  const classes = useStyles();
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-      minHeight={240}
-    >
-      <TablePlaceholder />
-      <Typography variant="body1">{intl.formatMessage({ id: 'teamTable.no-data' })}</Typography>
-      <Box mt={2}>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<FiUserPlus />}
-          onClick={onInvite}
-        >
-          {intl.formatMessage({ id: 'settings.teamSettings.inviteTeammate' })}
-        </Button>
+    <Box className={classes.tablePlaceholder}>
+      <Box mb={1.8}>
+        <TablePlaceholder />
       </Box>
+      <Typography variant="h4" gutterBottom>
+        {intl.formatMessage({ id: 'teamTable.no-data-header' })}
+      </Typography>
+      <Typography variant="body1" className={classes.tablePlaceholderText}>
+        {intl.formatMessage({ id: 'teamTable.no-data' })}
+      </Typography>
     </Box>
   );
 }

@@ -23,6 +23,7 @@ deploy:
     - /^release/zws-.*$/
     - /^release/fnx-.*$/
     - master
+    - release/dashboard_2_0
   script:
     - SBRANCH=`echo $CI_COMMIT_TITLE | awk -F "'" '{print $2}'`
     - echo $SBRANCH

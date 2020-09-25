@@ -4,33 +4,36 @@ import { LanguageList } from 'models/Intl.model';
 import { QATags } from 'models/QA.model';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { dashboardUpdate } from 'state/merchant/merchant.actions';
+import { changeLanguage } from 'state/merchant/merchant.actions';
 import { selectLanguage } from 'state/merchant/merchant.selectors';
 import { SelectLight, useStyles } from './IntlButton.styles';
 
-export function IntlButton() {
+export function IntlButton({ isSync = true, fullLabel = false }) {
   const currentLocale = useSelector(selectLanguage);
   const dispatch = useDispatch();
   const classes = useStyles();
 
   const handleLangChange = useCallback((e) => {
-    dispatch(dashboardUpdate({
-      language: e.target.value,
-    }));
-  }, [dispatch]);
+    dispatch(changeLanguage(e.target.value, isSync));
+  }, [dispatch, isSync]);
+
+  const renderLocale = useCallback(() => (
+    fullLabel ? LanguageList.find((obj) => obj.locale === currentLocale).label : currentLocale
+  ), [currentLocale, fullLabel]);
 
   return (
-    <TopMenuItem>
+    <TopMenuItem className={classes.topMenuItem}>
       <SelectLight
         disableUnderline
         className={classes.select}
         value={currentLocale}
-        renderValue={() => currentLocale.toUpperCase()}
+        renderValue={renderLocale}
         onChange={handleLangChange}
+        data-value={currentLocale}
         data-qa={QATags.Navigation.Top.LanguageSelect}
       >
         {LanguageList.map((item) => (
-          <MenuItem key={item.locale} value={item.locale}>
+          <MenuItem key={item.locale} value={item.locale} className={classes.selectItem}>
             {item.label}
           </MenuItem>
         ))}

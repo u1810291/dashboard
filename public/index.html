@@ -51,7 +51,16 @@
       window.fwSettings={
         'widget_id':'%REACT_APP_FRESHDESK_WIDGET_ID%'
       };
-      !function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}()
+      !function () {
+        if ('function' != typeof window.FreshworksWidget) {
+          var n = function () {
+            n.q.push(arguments);
+          };
+          n.q = [];
+          window.FreshworksWidget = n;
+          FreshworksWidget('hide', 'launcher');
+        }
+      }();
     </script>
     <script type='text/javascript' src='https://widget.freshworks.com/widgets/%REACT_APP_FRESHDESK_WIDGET_ID%.js' async defer></script>
   </head>
