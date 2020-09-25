@@ -1,12 +1,11 @@
 import clsx from 'clsx';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Box } from '@material-ui/core';
-import { Card, Text } from 'components';
+import { Box, Paper } from '@material-ui/core';
+import { Text } from 'components';
 import { formatDate, DateFormat } from 'lib/date';
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { StubBarColor, StubTickColor } from 'apps/metrics/models/Metrics.model';
-import { PageLoader } from 'apps/layout';
 import { useStyles } from './Chart.styles';
 
 function tickFormat(value) {
@@ -68,17 +67,15 @@ export function Chart({ data, stub, isLoaded, isLoading, ...props }) {
   const chart = isNoData ? stubChart : workChart;
 
   return (
-    <Card {...props}>
-      <Text className={clsx([classes.text, classes.amountText])}>
-        {intl.formatMessage({ id: 'fragments.home.verification.card.amount' })}
-      </Text>
-      {!isLoaded || isLoading
-        ? <PageLoader />
-        : (
-          <Box position="relative">
-            {chart}
-          </Box>
-        )}
-    </Card>
+    <Paper {...props}>
+      <Box p={2}>
+        <Text className={clsx([classes.text, classes.amountText])}>
+          {intl.formatMessage({ id: 'fragments.home.verification.card.amount' })}
+        </Text>
+        <Box position="relative">
+          {chart}
+        </Box>
+      </Box>
+    </Paper>
   );
 }

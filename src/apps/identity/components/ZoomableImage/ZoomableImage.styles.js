@@ -38,8 +38,9 @@ export const useStyles = makeStyles(() => ({
     maxWidth: '100%',
     maxHeight: '100%',
     '& .zoomedImage': {
-      maxWidth: '100%',
-      maxHeight: 680,
+      objectFit: 'cover',
+      width: '100%',
+      height: '100%',
       transition: [['all', '0.2s', 'ease-out']],
       userSelect: 'none',
       margin: [[0, 'auto']],

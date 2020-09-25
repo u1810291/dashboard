@@ -4,18 +4,18 @@ export const useStyles = makeStyles((theme) => ({
   content: {
     marginTop: 20,
     marginBottom: 70,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       marginBottom: 20,
     },
   },
   gridContainer: {
     flexWrap: 'nowrap',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       flexWrap: 'wrap',
     },
   },
   leftBlock: {
-    flex: [[1, 2, '250px']],
+    flex: [[1, 2, '100px']],
     [theme.breakpoints.down('md')]: {
       display: 'flex',
       alignItems: 'stretch',
@@ -23,8 +23,8 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   middleBlock: {
-    flex: [[1, 1, '700px']],
-    [theme.breakpoints.down('md')]: {
+    flex: [[1, 1, '500px']],
+    [theme.breakpoints.down('lg')]: {
       width: '100%',
       display: 'flex',
       flexDirection: 'column',
@@ -32,6 +32,6 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   rightBlock: {
-    flex: [[1, 2, '290px']],
+    flex: [[1, 2, '200px']],
   },
 }));

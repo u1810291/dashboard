@@ -5,7 +5,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(49, 53, 65, 0.9);
+  background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,18 +22,6 @@
   position: absolute;
 }
 
-.closeButton {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 18px;
-  height: 18px;
-  background: url('../../assets/icon-close.svg');
-  cursor: pointer;
-  padding: 0;
-  border: 0;
-}
-
 .noScroll {
   overflow: hidden !important;
 }
@@ -44,7 +32,7 @@
   opacity: 0;
   transform: translateY(-50px);
   transition: all 0.2s ease-in-out;
-  background-color: #fff;
+  background-color: transparent;
   border-radius: var(--mgi-theme-border-radius);
 }
 

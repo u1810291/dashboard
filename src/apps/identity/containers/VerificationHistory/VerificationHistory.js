@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from '@material-ui/core';
+import { Box, Container, Grid, Hidden, Typography } from '@material-ui/core';
 import { isPaginable, Pagination } from 'apps/pagination';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import React, { useCallback, useEffect } from 'react';
@@ -12,9 +12,11 @@ import { VerificationFilter } from '../../components/VerificationFilter/Verifica
 import { VerificationSearch } from '../../components/VerificationSearch/VerificationSearch';
 import { VerificationTable } from '../../components/VerificationTable/VerificationTable';
 import { useFilter } from '../../hooks/filter.hook';
+import { useStyles } from './VerificationHistory.styles';
 
 export function VerificationHistory() {
   const dispatch = useDispatch();
+  const classes = useStyles();
   const intl = useIntl();
   const countModel = useSelector(selectIdentityCountModel);
   const filteredCountModel = useSelector(selectFilteredCountModel);
@@ -54,18 +56,20 @@ export function VerificationHistory() {
   }
 
   return (
-    <Container>
+    <Container maxWidth="initial">
       <Box py={3}>
         <Grid container spacing={2} direction="row">
-          <Grid item xs={9}>
+          <Grid item xs={12} lg={9}>
             {/* header */}
             <Box pb={2}>
-              <Grid container justify="space-between" alignItems="center">
+              <Grid container justify="space-between">
                 <Grid item>
-                  <Typography variant="h4">
-                    <Box component="span">{intl.formatMessage({ id: 'VerificationHistory.title' })}</Box>
-                    <Box component="span" fontWeight="normal">{` (${filteredCountModel.isLoaded ? filteredCountModel.value : 0})`}</Box>
-                  </Typography>
+                  <Box pb={1} pr={2}>
+                    <Typography variant="h4">
+                      <Box component="span">{intl.formatMessage({ id: 'VerificationHistory.title' })}</Box>
+                      <Box component="span" fontWeight="normal">{` (${filteredCountModel.isLoaded ? filteredCountModel.value : 0})`}</Box>
+                    </Typography>
+                  </Box>
                 </Grid>
                 <Grid item>
                   <DownloadCSV />
@@ -76,15 +80,24 @@ export function VerificationHistory() {
             <Grid container spacing={2} direction="column">
               {/* search */}
               <Grid item>
-                <Box width="50%">
+                <Box width="50%" className={classes.search}>
                   <VerificationSearch
                     value={filter.search}
                     onChange={handleFilterChange}
                   />
                 </Box>
               </Grid>
+              {/* filter */}
+              <Hidden lgUp>
+                <Grid item>
+                  <VerificationFilter
+                    values={filter}
+                    onChange={handleFilterChange}
+                  />
+                </Grid>
+              </Hidden>
               {/* content */}
-              <Grid item>
+              <Grid item className={classes.table}>
                 <VerificationTable />
               </Grid>
               {/* pagination */}
@@ -99,12 +112,14 @@ export function VerificationHistory() {
               )}
             </Grid>
           </Grid>
-          <Grid item xs={3}>
-            <VerificationFilter
-              values={filter}
-              onChange={handleFilterChange}
-            />
-          </Grid>
+          <Hidden mdDown>
+            <Grid item lg={3}>
+              <VerificationFilter
+                values={filter}
+                onChange={handleFilterChange}
+              />
+            </Grid>
+          </Hidden>
         </Grid>
       </Box>
     </Container>

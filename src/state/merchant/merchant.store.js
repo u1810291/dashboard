@@ -5,6 +5,7 @@ export const MerchantActionGroups = {
   Configuration: 'CONFIGURATION',
   App: 'APP',
   Flows: 'FLOWS',
+  BusinessName: 'BUSINESS_NAME',
 };
 
 export const SliceNames = {

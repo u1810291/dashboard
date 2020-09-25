@@ -1,5 +1,4 @@
-import { Box, MenuItem, Select } from '@material-ui/core';
-import { Card, Content, Items } from 'components';
+import { Container, Box, MenuItem, Select, Grid, Typography, Paper } from '@material-ui/core';
 import { formatHour } from 'lib/date';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -92,65 +91,86 @@ export function Metrics() {
   }
 
   return (
-    <Content>
-      <Items gap="2" templateColumns="repeat(3, 1fr)" flow="row" align="stretch">
-        <Card className={classes.header}>
-          <Items flow="column" gap="2" justifyContent="space-between" align="center">
-            <h2>{name}</h2>
-            <Box display="flex">
-              <Box mr={2}>
-                <Select onChange={handleSelectFlowChange} value={flow}>
-                  <MenuItem value={DEFAULT_FLOW}>
-                    <em>{intl.formatMessage({ id: 'VerificationFilter.flows.allFlows' })}</em>
-                  </MenuItem>
-                  {merchantFlowList.value.map((item) => (
-                    <MenuItem key={item.id} color="primary" value={item.id}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </Select>
+    <Container maxWidth="initial">
+      <Box py={3}>
+        <Grid container spacing={2} direction="column">
+          <Grid item>
+            <Paper>
+              <Box p={2} className={classes.header}>
+                <Typography variant="h4" className={classes.title}>{name}</Typography>
+                <Box display="flex" alignItems="center">
+                  <Box mr={2}>
+                    <Select onChange={handleSelectFlowChange} value={flow}>
+                      <MenuItem value={DEFAULT_FLOW}>
+                        <em>{intl.formatMessage({ id: 'VerificationFilter.flows.allFlows' })}</em>
+                      </MenuItem>
+                      {merchantFlowList.value.map((item) => (
+                        <MenuItem key={item.id} color="primary" value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Box>
+                  <Select onChange={handleSelectChange} value={period}>
+                    {periodMap.map((item) => (
+                      <MenuItem key={item.id} color="primary" value={item.id}>
+                        {intl.formatMessage({ id: item.label })}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Box>
               </Box>
-              <Select onChange={handleSelectChange} value={period}>
-                {periodMap.map((item) => (
-                  <MenuItem key={item.id} color="primary" value={item.id}>
-                    {intl.formatMessage({ id: item.label })}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Box>
-          </Items>
-        </Card>
-        <VerificationsTotal statistic={metrics} />
-        <Chart
-          className={classes.graph}
-          data={byDate}
-          isLoading={isLoading}
-          isLoaded={isLoaded}
-          stub={byDateStub}
-        />
-        <VerificationsStats
-          data={byCountry}
-          title={intl.formatMessage({ id: 'fragments.home.verification.statistic.title.byCountry' })}
-          layout="vertical"
-          isLoading={isLoading}
-          isLoaded={isLoaded}
-          stub={byCountryStub}
-        />
-        <VerificationsStats
-          data={byHour}
-          title={intl.formatMessage({ id: 'fragments.home.verification.statistic.title.byTime' })}
-          isLoading={isLoading}
-          isLoaded={isLoaded}
-          stub={byHourStub}
-        />
-        <VerificationsStats
-          data={byDateOfWeek}
-          title={intl.formatMessage({ id: 'fragments.home.verification.statistic.title.byDay' })}
-          isLoading={isLoading}
-          isLoaded={isLoaded}
-          stub={byDateOfWeekStub}
-        />
-      </Items>
-    </Content>
+            </Paper>
+          </Grid>
+          <Grid item>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={4}>
+                <VerificationsTotal statistic={metrics} />
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <Chart
+                  data={byDate}
+                  isLoading={isLoading}
+                  isLoaded={isLoaded}
+                  stub={byDateStub}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={4}>
+                <VerificationsStats
+                  data={byCountry}
+                  title={intl.formatMessage({ id: 'fragments.home.verification.statistic.title.byCountry' })}
+                  layout="vertical"
+                  isLoading={isLoading}
+                  isLoaded={isLoaded}
+                  stub={byCountryStub}
+                />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <VerificationsStats
+                  data={byHour}
+                  title={intl.formatMessage({ id: 'fragments.home.verification.statistic.title.byTime' })}
+                  isLoading={isLoading}
+                  isLoaded={isLoaded}
+                  stub={byHourStub}
+                />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <VerificationsStats
+                  data={byDateOfWeek}
+                  title={intl.formatMessage({ id: 'fragments.home.verification.statistic.title.byDay' })}
+                  isLoading={isLoading}
+                  isLoaded={isLoaded}
+                  stub={byDateOfWeekStub}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
+    </Container>
   );
 }

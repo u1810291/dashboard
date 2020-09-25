@@ -26,7 +26,7 @@ export function TopMenuItem({
       onClick={handler}
       data-qa={qa}
     >
-      {icon && <Box mr={1} display="flex" color={color}>{icon}</Box>}
+      {icon && <Box mr={2} display="flex" color={color} fontSize={17}>{icon}</Box>}
       {children}
       <Box color={color} display="flex">
         {label}

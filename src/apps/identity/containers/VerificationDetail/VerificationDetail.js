@@ -1,5 +1,5 @@
 import { Box, Container, Grid, Typography } from '@material-ui/core';
-import { Page404, PageError, PageLoader } from 'apps/layout';
+import { Page404, PageError } from 'apps/layout';
 import { isNotFound } from 'models/Error.model';
 import { getIdentityShortId } from 'models/Identity.model';
 import React, { useEffect } from 'react';
@@ -28,10 +28,6 @@ export function VerificationDetail() {
       dispatch(identityDemoLoad(demoId));
     }
   }, [dispatch, id, demoId]);
-
-  if (!identityModel.isLoaded && identityModel.isLoading) {
-    return <PageLoader />;
-  }
 
   if (identityModel.isFailed) {
     return isNotFound(identityModel.error)

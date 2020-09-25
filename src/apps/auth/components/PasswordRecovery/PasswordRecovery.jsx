@@ -1,91 +1,127 @@
-import { Box, Button, Typography } from '@material-ui/core';
-import { setI18nContext } from 'components/i18n-context';
-import { Field, Form, withFormik } from 'formik';
+import { AppBar, Box, Button, Grid, InputLabel, Typography } from '@material-ui/core';
+import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { flowRight } from 'lodash';
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3.svg';
+import SigninSession from 'assets/signin-session.png';
+import SigninService from 'assets/signin-service.png';
 import { passwordRecovery } from '../../state/auth.actions';
+import { useStyles } from '../SignIn/SignIn.styles';
+import { IntlButton } from '../../../intl';
 
-const formikSettings = {
-  handleSubmit(values, { props, setSubmitting, setStatus }) {
-    const { email } = values;
-    setStatus({});
-    props.passwordRecovery({ email }).then(() => {
+export function PasswordRecovery() {
+  const intl = useIntl();
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const [status, setStatus] = useState(false);
+
+  const handleSubmit = useCallback(async (data, { setSubmitting, setFieldError }) => {
+    const { email } = data;
+    setStatus(false);
+    try {
+      await dispatch(passwordRecovery({ email }));
       setSubmitting(false);
       setStatus(true);
-    }).catch((error) => {
+    } catch (e) {
       setSubmitting(false);
-      setStatus({ email: error.response.data.message });
-    });
-  },
-};
+      setFieldError('email', intl.formatMessage({ id: 'validations.email' }));
+    }
+  }, [dispatch, intl]);
 
-function PasswordRecovery({ status, isSubmitting }) {
-  const intl = useIntl();
+  const initialValues = {
+    email: '',
+  };
 
   if (status === true) {
     return <Redirect to="/" />;
   }
 
   return (
-    <Form>
-      <Typography variant="h1" gutterBottom>
-        {intl.formatMessage({ id: 'recovery.title' })}
-      </Typography>
-      <Typography variant="body1">
-        {intl.formatMessage({ id: 'recovery.subtitle' })}
-      </Typography>
+    <Grid container className={classes.container}>
+      <Grid className={classes.signin} direction="column" container>
+        <Grid className={classes.formWrapper} direction="column" container>
+          <AppBar color="transparent" position="static" elevation={0} className={classes.appBar}>
+            <IntlButton isSync={false} />
+            <MatiLogo width={121} height={40} />
+          </AppBar>
+          <Box className={classes.form}>
+            <Box mb={5}>
+              <Typography mb={1} variant="h1" gutterBottom>
+                {intl.formatMessage({ id: 'PasswordRecovery.title' })}
+              </Typography>
+              <Typography variant="h4" className={classes.subtitle}>
+                {intl.formatMessage({ id: 'PasswordRecovery.subtitle' })}
+              </Typography>
+            </Box>
+            <Formik
+              initialValues={initialValues}
+              onSubmit={handleSubmit}
+            >
+              {({ isSubmitting }) => (
+                <Form>
+                  <Box mt={1} mb={6}>
+                    <InputLabel className={classes.label}>
+                      {intl.formatMessage({ id: 'SignIn.form.labels.email' })}
+                    </InputLabel>
+                    <Field
+                      type="input"
+                      name="email"
+                      variant="outlined"
+                      fullWidth
+                      component={TextField}
+                    />
+                  </Box>
 
-      <Box mt={1}>
-        <Field
-          type="email"
-          name="email"
-          label={intl.formatMessage({ id: 'signin.form.labels.email' })}
-          variant="outlined"
-          fullWidth
-          component={TextField}
-        />
-      </Box>
+                  <Box mb={5}>
+                    <Button
+                      variant="contained"
+                      type="submit"
+                      disabled={isSubmitting}
+                      color="primary"
+                      size="large"
+                      className={classes.button}
+                    >
+                      {intl.formatMessage({ id: 'PasswordRecovery.action' })}
+                    </Button>
+                  </Box>
 
-      <Box mt={2}>
-        <Button
-          variant="contained"
-          type="submit"
-          disabled={isSubmitting}
-          color="primary"
-          size="large"
-        >
-          {intl.formatMessage({ id: 'recovery.action' })}
-        </Button>
-      </Box>
-
-      <Box mt={3}>
-        <Link to="/auth/signin">
-          {intl.formatMessage({ id: 'recovery.signin' })}
-        </Link>
-      </Box>
-    </Form>
+                  <Box>
+                    <Link to="/auth/signin" className={classes.link}>
+                      {intl.formatMessage({ id: 'PasswordRecovery.signin' })}
+                    </Link>
+                  </Box>
+                </Form>
+              )}
+            </Formik>
+          </Box>
+        </Grid>
+      </Grid>
+      <Grid className={classes.description} direction="column" justify="center" alignItems="flex-start" container>
+        <Box className={classes.descriptionWrapper}>
+          <Typography variant="h2" className={classes.descriptionTitle}>
+            {intl.formatMessage({ id: 'SignIn.description.title' })}
+          </Typography>
+          <Box className={classes.descriptionList}>
+            <Typography variant="body1" className={classes.text}>
+              {intl.formatMessage({ id: 'SignIn.description.text' })}
+            </Typography>
+            <img src={SigninSession} alt="" className={classes.descriptionImage} />
+          </Box>
+          <Box className={classes.service}>
+            <img src={SigninService} alt="" />
+            <Typography variant="body1">
+              {intl.formatMessage({
+                id: 'SignIn.description.service',
+              }, {
+                breakingLine: <br />,
+              })}
+            </Typography>
+          </Box>
+        </Box>
+      </Grid>
+    </Grid>
   );
 }
-
-PasswordRecovery.propTypes = {
-  isSubmitting: PropTypes.bool.isRequired,
-  status: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({})]),
-};
-
-PasswordRecovery.defaultProps = {
-  status: undefined,
-};
-
-export default flowRight(
-  setI18nContext('recovery.form'),
-  connect(
-    null,
-    { passwordRecovery },
-  ),
-  withFormik(formikSettings),
-)(PasswordRecovery);

@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
-import Button from 'components/button';
 import Modal from 'components/modal';
 import { closeOverlay } from 'components/overlay';
 import { useIntl } from 'react-intl';
+import { Button } from '@material-ui/core';
 import { PageLoader } from 'apps/layout';
+import Img from 'assets/modal-team-invite.svg';
 import TeamInviteForm from '../TeamInviteForm/TeamInviteForm';
 
 export function TeamInviteModal({ onSubmit, isPosting }) {
@@ -19,26 +20,35 @@ export function TeamInviteModal({ onSubmit, isPosting }) {
   }, [formRef]);
 
   return (
-    <Modal onClose={closeOverlay}>
-      <header>
-        {intl.formatMessage({ id: 'teamTable.inviteModal.title' })}
-      </header>
-      <main>
-        <TeamInviteForm
-          ref={formRef}
-          handleSubmit={handleSubmit}
-        />
-      </main>
-      <footer className="modal--footer-center">
-        <Button
-          type="submit"
-          buttonStyle="primary"
-          onClick={handleInviteClick}
-        >
-          {intl.formatMessage({ id: 'teamTable.invite' })}
-        </Button>
-        {isPosting && <PageLoader />}
-      </footer>
+    <Modal
+      onClose={closeOverlay}
+      imgSrc={Img}
+      title={intl.formatMessage({ id: 'teamTable.inviteModal.title' })}
+      subtitle={intl.formatMessage({ id: 'teamTable.inviteModal.subtitle' })}
+    >
+      <TeamInviteForm
+        ref={formRef}
+        handleSubmit={handleSubmit}
+      />
+      <Button
+        type="submit"
+        color="primary"
+        variant="contained"
+        disableElevation
+        fullWidth
+        onClick={handleInviteClick}
+      >
+        {intl.formatMessage({ id: 'teamTable.invite.form.btn.send' })}
+      </Button>
+      <Button
+        variant="contained"
+        disableElevation
+        fullWidth
+        onClick={closeOverlay}
+      >
+        {intl.formatMessage({ id: 'cancel' })}
+      </Button>
+      {isPosting && <PageLoader />}
     </Modal>
   );
 }

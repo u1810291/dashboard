@@ -1,20 +1,20 @@
-import { Button, Grid } from '@material-ui/core';
-import { PageError } from 'apps/layout';
-import { createOverlay } from 'components/overlay';
+import { Box, Button, Typography, Paper } from '@material-ui/core';
+import { createOverlay, closeOverlay } from 'components/overlay';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import React, { useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { notification } from 'components/notification';
 import { TeamInviteModal } from '../../components/TeamInviteModal/TeamInviteModal';
-import { TeamInviteSuccessModal } from '../../components/TeamInviteSuccessModal/TeamInviteSuccessModal';
 import { TeamTable } from '../../components/TeamTable/TeamTable';
 import { collaboratorAdd, collaboratorListLoad, collaboratorRemove, collaboratorUpdate } from '../../state/collaborator.actions';
 import { selectCollaboratorCollection, selectCollaboratorState } from '../../state/collaborator.selectors';
-import { ReactComponent as InviteIcon } from './invite.svg';
+import { useStyles } from './TeamSettings.styles';
 
 export function TeamSettings() {
   const dispatch = useDispatch();
   const intl = useIntl();
+  const classes = useStyles();
   const state = useSelector(selectCollaboratorState);
   const collaboratorList = useSelector(selectCollaboratorCollection);
 
@@ -32,12 +32,8 @@ export function TeamSettings() {
     dispatch(collaboratorRemove(id));
   }, [dispatch]);
 
-  const openInviteSuccessModal = useCallback(() => {
-    createOverlay(
-      <TeamInviteSuccessModal />);
-  }, []);
-
   const handleInviteSubmit = useCallback(async (data) => {
+    closeOverlay();
     await dispatch(collaboratorAdd({
       role: parseInt(data.role, 10),
       user: {
@@ -46,8 +42,8 @@ export function TeamSettings() {
         lastName: data.lastName,
       },
     }));
-    openInviteSuccessModal();
-  }, [openInviteSuccessModal, dispatch]);
+    notification.info(intl.formatMessage({ id: 'teamTable.inviteSuccess.description' }));
+  }, [dispatch, intl]);
 
   const openInviteModal = useCallback(() => {
     createOverlay(
@@ -58,32 +54,34 @@ export function TeamSettings() {
     );
   }, [handleInviteSubmit, state]);
 
-  if (collaboratorList.isFailed) {
-    return <PageError />;
-  }
-
   return (
-    <Grid container spacing={2} direction="row">
-      <Grid item xs={9}>
-        <TeamTable
-          list={collaboratorList}
-          onInvite={openInviteModal}
-          onUpdate={handleUpdate}
-          onRemove={handleRemove}
-        />
-      </Grid>
-      <Grid item xs={3}>
-        {collaboratorList.isLoaded && collaboratorList.value.length > 0 && (
+    <Paper>
+      <Box p={2}>
+        <Box mb={2}>
+          <Typography variant="h3" className={classes.title}>
+            {intl.formatMessage({ id: 'Settings.teamSettings.team' })}
+          </Typography>
+        </Box>
+        <Box mb={2}>
+          <TeamTable
+            list={collaboratorList}
+            onInvite={openInviteModal}
+            onUpdate={handleUpdate}
+            onRemove={handleRemove}
+          />
+        </Box>
+        <Box align="center">
+          {collaboratorList.isLoaded && collaboratorList.value.length > 0 && (
           <Button
-            variant="contained"
-            color="primary"
+            variant="outlined"
             onClick={openInviteModal}
-            startIcon={<InviteIcon />}
+            className={classes.button}
           >
-            {intl.formatMessage({ id: 'settings.teamSettings.inviteTeammate' })}
+            {intl.formatMessage({ id: 'Settings.teamSettings.inviteTeammate' })}
           </Button>
-        )}
-      </Grid>
-    </Grid>
+          )}
+        </Box>
+      </Box>
+    </Paper>
   );
 }

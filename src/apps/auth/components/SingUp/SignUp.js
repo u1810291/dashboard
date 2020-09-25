@@ -97,7 +97,7 @@ export function SignUp() {
                     <Field
                       required
                       name="email"
-                      type="email"
+                      type="input"
                       label={intl.formatMessage({
                         id: 'signup.form.labels.email',
                       })}
