@@ -74,12 +74,6 @@ export default class Overlay extends React.Component {
         onClick={(e) => e.target === e.currentTarget && this.onClose()}
         ref="overlay" // eslint-disable-line react/no-string-refs
       >
-        {/* eslint-disable-next-line  */}
-        <button
-          type="button"
-          className={CSS.closeButton}
-          onClick={this.onClose}
-        />
         <span
           className={classNames(
             CSS.overlayContent,

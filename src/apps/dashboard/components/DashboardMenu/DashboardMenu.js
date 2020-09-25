@@ -1,85 +1,191 @@
-import { Box, Drawer, Hidden, IconButton } from '@material-ui/core';
-import { IntlButton } from 'apps/intl';
-import { TopMenuItem } from 'apps/layout';
-import MatiLogo from 'assets/header-mati-logo.png';
+import React, { useCallback, useState, useEffect } from 'react';
+import clsx from 'clsx';
+import { Box, Grid, Typography } from '@material-ui/core';
+import Drawer from '@material-ui/core/Drawer';
+import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { QATags } from 'models/QA.model';
-import React, { useCallback, useState } from 'react';
-import { FiMenu } from 'react-icons/fi';
-import { useSelector } from 'react-redux';
-import { selectIsOwnerModel } from 'state/merchant/merchant.selectors';
-import { PrimaryMenu } from '../PrimaryMenu/PrimaryMenu';
-import { SecondaryMenu } from '../SecondaryMenu/SecondaryMenu';
+import { FiChevronsLeft, FiChevronsRight, FiPlusCircle, FiLogOut, FiSettings } from 'react-icons/fi';
+import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3-white.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { useIntl, FormattedMessage } from 'react-intl';
+import { useHistory } from 'react-router-dom';
+import { notification } from 'components/notification';
 import { useStyles } from './DashboardMenu.styles';
+import { PrimaryMenu } from '../PrimaryMenu/PrimaryMenu';
+import { selectIsOwnerModel, selectMerchantBusinessName } from '../../../../state/merchant/merchant.selectors';
+import { SecondaryMenu } from '../SecondaryMenu/SecondaryMenu';
+import { TopMenuItem } from '../../../layout';
+import { IntlButton } from '../../../intl';
+import logout from '../LogoutModal';
+import { signOut } from '../../../auth/state/auth.actions';
+import { ROOT_PATH } from '../../../routing';
+import { createOverlay, closeOverlay } from '../../../../components/overlay';
+import { TeamInviteModal } from '../../../collaborators/components/TeamInviteModal/TeamInviteModal';
+import { selectCollaboratorState } from '../../../collaborators/state/collaborator.selectors';
+import { collaboratorAdd } from '../../../collaborators/state/collaborator.actions';
 
 export function DashboardMenu() {
   const ownerModel = useSelector(selectIsOwnerModel);
   const isOwner = ownerModel.isLoaded && ownerModel.value === true;
   const classes = useStyles();
-  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+  const state = useSelector(selectCollaboratorState);
+  const intl = useIntl();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const isDesktop = useMediaQuery('(min-width:768px)', { noSsr: true });
+  const [open, setOpen] = useState(isDesktop);
 
-  const handleToggleMenu = useCallback(() => {
-    setIsSideMenuOpen((prev) => !prev);
-  }, []);
+  const name = useSelector(selectMerchantBusinessName);
+
+  const handleLogout = useCallback(async () => {
+    await logout(intl.formatMessage({ id: 'confirm_string' }));
+    dispatch(signOut());
+    history.push(ROOT_PATH);
+  }, [dispatch, history, intl]);
+
+  const handleInviteSubmit = useCallback(async (data) => {
+    closeOverlay();
+    await dispatch(collaboratorAdd({
+      role: parseInt(data.role, 10),
+      user: {
+        email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+      },
+    }));
+    notification.info(<FormattedMessage id="teamTable.inviteSuccess.description" />);
+  }, [dispatch]);
+
+  const openInviteModal = useCallback(() => {
+    if (!isDesktop) {
+      setOpen(false);
+    }
+    createOverlay(
+      <TeamInviteModal
+        onSubmit={handleInviteSubmit}
+        isPosting={state.isPosting}
+      />,
+    );
+  }, [handleInviteSubmit, state, isDesktop, setOpen]);
+
+  const toggleDrawerOpen = useCallback(() => {
+    setOpen((prev) => !prev);
+  }, [setOpen]);
+
+  useEffect(() => history.listen(() => {
+    if (!isDesktop) {
+      setOpen(false);
+    }
+  }), [history, isDesktop]);
+
+  const isTemporary = !isDesktop && open;
+  const fixedNameString = name?.replace(/^(.{12})(.{2,})$/, '$1...');
 
   return (
-    <Box display="flex" flexGrow={1}>
-      {/* logo */}
-      <TopMenuItem
-        isActive={false}
-        color="secondary"
-        className={classes.logoItem}
-        to={isOwner ? '/' : '/identities'}
-        qa={QATags.Navigation.Top.Logo}
-      >
-        <img src={MatiLogo} alt="Mati" className={classes.logoImg} />
-      </TopMenuItem>
-
-      {/* desktop left menu */}
-      <Hidden xsDown>
-        <Box flexGrow={1} className={classes.desktopLeft}>
-          <PrimaryMenu isOwner={isOwner} color="common.white" />
-        </Box>
-      </Hidden>
-
-      {/* desktop right menu */}
-      <Hidden smDown>
-        <Box flexGrow={1} className={classes.desktopRight}>
-          {isOwner && <SecondaryMenu color="common.white" />}
-          <IntlButton />
-        </Box>
-      </Hidden>
-
-      {/* mobile menu */}
-      <Hidden mdUp>
-        <Box display="flex" flexGrow={1} justifyContent="flex-end">
-          <IconButton onClick={handleToggleMenu} color="secondary">
-            <FiMenu />
-          </IconButton>
-        </Box>
-        <Drawer
-          anchor="right"
-          open={isSideMenuOpen}
-          onClose={handleToggleMenu}
-        >
-          <Box className={classes.mobileMenu}>
-            {/* left */}
-            <Hidden only="sm">
-              <Box flexGrow={1} className={classes.mobileLeft}>
-                <PrimaryMenu
-                  isOwner={isOwner}
-                  color="common.black"
-                  isMobile
-                />
-              </Box>
-            </Hidden>
-            {/* right */}
-            <Box flexGrow={1} className={classes.mobileRight}>
-              {isOwner && <SecondaryMenu color="common.black" isMobile />}
-              <IntlButton />
+    <Drawer
+      variant={isTemporary ? 'temporary' : 'permanent'}
+      open={open}
+      onClose={toggleDrawerOpen}
+      className={clsx(classes.drawer, {
+        [classes.drawerOpen]: open,
+        [classes.drawerClose]: !open,
+      })}
+      classes={{
+        paper: clsx({
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
+        }),
+      }}
+    >
+      <Grid container direction="column" className={classes.grid}>
+        <Grid item className={classes.contentTop}>
+          <Box px={2} pt={2} pb={1}>
+            <Box>
+              <MatiLogo width={100} height={30} />
             </Box>
           </Box>
-        </Drawer>
-      </Hidden>
-    </Box>
+          <Box>
+            <Button
+              className={classes.menuButton}
+              variant="contained"
+              color="primary"
+              onClick={toggleDrawerOpen}
+              startIcon={open ? <FiChevronsLeft /> : <FiChevronsRight />}
+            >
+              {intl.formatMessage({ id: 'dashboard.menu.rollUp' })}
+            </Button>
+          </Box>
+          <Box p={2}>
+            <Divider className={classes.menuDivider} />
+          </Box>
+          <Box>
+            <PrimaryMenu isOwner={isOwner} color="common.black7" />
+          </Box>
+          <Box p={2}>
+            <Divider className={classes.menuDivider} />
+          </Box>
+          <Box>
+            <SecondaryMenu color="common.black7" />
+          </Box>
+        </Grid>
+        <Grid item className={classes.contentBottom}>
+          <Box px={1.6} pb={2.5} pt={2}>
+            {open ? <Typography variant="h4" className={classes.company}>{fixedNameString}</Typography>
+              : (
+                <Box className={classes.companyShort}>
+                  <Typography
+                    variant="h4"
+                    className={classes.company}
+                  >
+                    {fixedNameString && fixedNameString[0]}
+                  </Typography>
+                </Box>
+              )}
+          </Box>
+          {isOwner && (
+            <Box pr={2} pl={1.5}>
+              <Button
+                className={clsx(classes.inviteButton, {
+                  [classes.inviteButtonSm]: !open,
+                })}
+                variant="contained"
+                color="primary"
+                onClick={openInviteModal}
+                startIcon={<FiPlusCircle />}
+              >
+                {open && intl.formatMessage({ id: 'settings.teamSettings.inviteTeammate' })}
+              </Button>
+            </Box>
+          )}
+          <Box pt={1}>
+            <TopMenuItem
+              id="account"
+              to="/settings"
+              label={intl.formatMessage({ id: 'dashboard.menu.settings' })}
+              icon={<FiSettings />}
+              color="common.black7"
+              qa={QATags.Navigation.Top.Account}
+              show={isOwner}
+            />
+          </Box>
+          <Box className={classes.menuSelect}>
+            <IntlButton fullLabel />
+          </Box>
+          <Box pb={1}>
+            <Button
+              className={classes.menuButton}
+              variant="contained"
+              color="primary"
+              onClick={handleLogout}
+              startIcon={<FiLogOut />}
+            >
+              {intl.formatMessage({ id: 'apps.settings.signout' })}
+            </Button>
+          </Box>
+        </Grid>
+      </Grid>
+    </Drawer>
   );
 }

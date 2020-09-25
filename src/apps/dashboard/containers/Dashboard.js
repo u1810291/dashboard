@@ -1,6 +1,5 @@
 import { signOut } from 'apps/auth/state/auth.actions';
-import { selectCurrentPlanId } from 'apps/billing';
-import { Layout, PageError, PageLoader } from 'apps/layout';
+import { Layout, PageError } from 'apps/layout';
 import { ROOT_PATH } from 'apps/routing';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -11,18 +10,18 @@ import { useHistory } from 'react-router-dom';
 import { getCountries } from 'state/countries/countries.actions';
 import { selectCountriesModel } from 'state/countries/countries.selectors';
 import { merchantFlowsLoad, merchantLoad } from 'state/merchant/merchant.actions';
-import { selectIsBlockedModel, selectMerchantFlowsModel, selectMerchantModel } from 'state/merchant/merchant.selectors';
-import { AlertBanner } from '../components/AlertBanner/AlertBanner';
+import { selectMerchantFlowsModel, selectMerchantModel } from 'state/merchant/merchant.selectors';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
 import { DashboardRouter } from './Dashboard.router';
+import { Footer } from '../components/Footer/Footer';
+import { Loader } from '../components/Loader/Loader';
+import { DashboardLoader } from '../components/DashboardLoader/DashboardLoader';
 
 export function Dashboard() {
   const dispatch = useDispatch();
   const history = useHistory();
   const intl = useIntl();
   const merchantModel = useSelector(selectMerchantModel);
-  const currentPlanId = useSelector(selectCurrentPlanId);
-  const merchantBlocked = useSelector(selectIsBlockedModel);
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
   const countriesModel = useSelector(selectCountriesModel);
   const [isError, setIsError] = useState(false);
@@ -83,7 +82,7 @@ export function Dashboard() {
   }
 
   if (!countriesModel.isLoaded && !merchantFlowsModel.isLoaded) {
-    return <PageLoader />;
+    return <Loader />;
   }
 
   return [
@@ -93,9 +92,10 @@ export function Dashboard() {
     <Layout
       key="app"
       menu={<DashboardMenu />}
-      banner={merchantBlocked.isLoaded && !currentPlanId && <AlertBanner isBlocked={merchantBlocked.value} />}
     >
+      <DashboardLoader />
       <DashboardRouter />
+      <Footer />
     </Layout>,
   ];
 }

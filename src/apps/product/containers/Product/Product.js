@@ -12,7 +12,6 @@ import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { MixPanelEvents } from '../../../../lib/mixpanel/MixPanel.model';
 import { QATags } from '../../../../models/QA.model';
 import { DemoButton } from '../../components/DemoButton/DemoButton';
-import { Footer } from '../../components/Footer/Footer';
 import { VerificationFlowHeader } from '../../components/VerificationFlowHeader/VerificationFlowHeader';
 import { VerificationFlowMenu } from '../../components/VerificationFlowMenu/VerificationFlowMenu';
 import { useStyles } from './Product.styles';
@@ -56,10 +55,10 @@ export function Product() {
     return <PageLoader />;
   }
 
-  return [
-    <Container key="content">
+  return (
+    <Container key="content" maxWidth="initial">
       <Box className={classes.content}>
-        <Grid container spacing={2} justify="space-between" className={classes.gridContainer}>
+        <Grid container spacing={2} justify="space-between" alignItems="flex-start" className={classes.gridContainer}>
           <Grid item className={classes.leftBlock}>
             <VerificationFlowMenu setFade={setFade} />
           </Grid>
@@ -76,7 +75,6 @@ export function Product() {
           </Grid>
         </Grid>
       </Box>
-    </Container>,
-    <Footer key="footer" />,
-  ];
+    </Container>
+  );
 }

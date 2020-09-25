@@ -5,8 +5,9 @@ import { hubspotEvents, submitSignUpForm, trackEvent as hubspotTrackEvent } from
 import * as Mixpanel from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import { hubspotTrack } from 'state/hubspot/hubspot.actions';
-import { merchantLoadSuccess } from 'state/merchant/merchant.actions';
+import { merchantLoadSuccess, dashboardUpdate } from 'state/merchant/merchant.actions';
 import { createTypesSequence } from 'state/utils';
+import { selectLanguage } from 'state/merchant/merchant.selectors';
 import * as api from '../api/auth.client';
 import { AuthActionGroups } from './auth.store';
 
@@ -19,11 +20,12 @@ export const types = {
   ...createTypesSequence(AuthActionGroups.PasswordChange),
 };
 
-export const signIn = (credentials) => async (dispatch) => {
+export const signIn = (credentials) => async (dispatch, getState) => {
   dispatch({ type: types.AUTH_SIGNIN_REQUEST });
   try {
     const { data } = await api.signin(credentials);
     const { token, merchant, user } = data;
+    const currentLang = selectLanguage(getState());
 
     http.setToken(token);
     dispatch(merchantLoadSuccess(merchant));
@@ -33,6 +35,11 @@ export const signIn = (credentials) => async (dispatch) => {
       ...merchant,
       email: credentials.email,
     });
+    if (currentLang !== selectLanguage(getState())) {
+      dispatch(dashboardUpdate({
+        language: currentLang,
+      }));
+    }
     dispatch(hubspotTrack({}));
     hubspotTrackEvent(hubspotEvents.signIn);
   } catch (error) {

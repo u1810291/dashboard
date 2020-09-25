@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from 'components/card';
+import { Box, Paper } from '@material-ui/core';
 import { PageLoader } from 'apps/layout';
 import { ChartHorizontal } from '../ChartHorizontal/ChartHorizontal';
 import { ChartVertical } from '../ChartVertical/ChartVertical';
@@ -26,11 +26,13 @@ export function VerificationsStats({
     : <ChartVertical data={data} stub={stub} />;
 
   return (
-    <div>
+    <div className={classes.root}>
       <div className={classes.title}>{title}</div>
-      <Card className={classes.card}>
-        {!isLoaded || isLoading ? <PageLoader /> : chart}
-      </Card>
+      <Paper className={classes.paper}>
+        <Box p={2}>
+          {!isLoaded || isLoading ? <PageLoader /> : chart}
+        </Box>
+      </Paper>
     </div>
   );
 }

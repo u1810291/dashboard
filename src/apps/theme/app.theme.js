@@ -86,6 +86,48 @@ export const AppTheme = createMuiTheme({
         fontWeight: 'bold',
       },
     },
+    MuiOutlinedInput: {
+      root: {
+        '& input': {
+          padding: '17px 14px',
+          backgroundColor: appPalette.white,
+        },
+        '& $notchedOutline': {
+          borderColor: appPalette.black75,
+        },
+        '&:hover $notchedOutline': {
+          borderColor: appPalette.lightblue,
+          borderWidth: 1,
+        },
+        '&$focused $notchedOutline': {
+          borderColor: appPalette.lightblue,
+          borderWidth: 1,
+        },
+      },
+    },
+    MuiFormHelperText: {
+      root: {
+        color: appPalette.black75,
+      },
+      contained: {
+        marginLeft: 0,
+        fontSize: 14,
+        lineHeight: 1.2,
+      },
+    },
+    MuiFormControl: {
+      marginDense: {
+        marginBottom: 0,
+      },
+    },
+    MuiContainer: {
+      root: {
+        '@media (min-width: 600px)': {
+          paddingLeft: 40,
+          paddingRight: 40,
+        },
+      },
+    },
   },
   typography: appTypography,
 });

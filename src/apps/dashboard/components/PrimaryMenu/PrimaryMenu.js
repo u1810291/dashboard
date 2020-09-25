@@ -7,6 +7,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { filterUpdate, identitiesFilteredCountLoad, identitiesListLoad } from 'state/identities/identities.actions';
 import { initialFilter } from 'apps/identity';
+import { FiList, FiBarChart2, FiUserCheck } from 'react-icons/fi';
 
 export function PrimaryMenu({ isOwner = false, ...props }) {
   const dispatch = useDispatch();
@@ -14,19 +15,12 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
 
   const entries = [
     {
-      id: 'product',
-      show: isOwner,
-      to: '/',
-      label: intl.formatMessage({ id: 'dashboard.menu.product' }),
-      handler: () => trackEvent(MixPanelEvents.NavProduct),
-      qa: QATags.Navigation.Top.Product,
-    },
-    {
       id: 'metrics',
       show: isOwner,
       to: '/metrics',
       label: intl.formatMessage({ id: 'dashboard.menu.metrics' }),
       handler: () => trackEvent(MixPanelEvents.NavMetrics),
+      icon: <FiBarChart2 />,
       qa: QATags.Navigation.Top.Metrics,
     },
     {
@@ -39,7 +33,17 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
         dispatch(identitiesListLoad());
         dispatch(identitiesFilteredCountLoad());
       },
+      icon: <FiList />,
       qa: QATags.Navigation.Top.VerificationList,
+    },
+    {
+      id: 'product',
+      show: isOwner,
+      to: '/',
+      label: intl.formatMessage({ id: 'dashboard.menu.product' }),
+      handler: () => trackEvent(MixPanelEvents.NavProduct),
+      icon: <FiUserCheck />,
+      qa: QATags.Navigation.Top.Product,
     },
   ];
 

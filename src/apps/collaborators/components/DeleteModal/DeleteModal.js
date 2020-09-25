@@ -1,28 +1,37 @@
-import Button from 'components/button';
 import Modal from 'components/modal';
 import { closeOverlay } from 'components/overlay';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { Button } from '@material-ui/core';
+import { useIntl } from 'react-intl';
+import Img from 'assets/modal-team-delete.svg';
 
 export function DeleteModal({ className, user, onSubmit, ...modalProps }) {
+  const intl = useIntl();
+
   return (
-    <Modal {...modalProps} onClose={closeOverlay} className={className}>
-      <header>
-        <FormattedMessage id="teamTable.deleteModal.title" />
-      </header>
-      <main>
-        <FormattedMessage
-          id="teamTable.deleteModal.description"
-          values={{
-            userName: <strong>{user.name || ''}</strong>,
-          }}
-        />
-      </main>
-      <footer className="modal--footer-center">
-        <Button type="submit" buttonStyle="danger" onClick={() => onSubmit(user.id)}>
-          <FormattedMessage id="teamTable.deleteModal.delete" />
-        </Button>
-      </footer>
+    <Modal
+      {...modalProps}
+      onClose={closeOverlay}
+      className={className}
+      imgSrc={Img}
+      title={intl.formatMessage({ id: 'teamTable.deleteModal.title' })}
+      subtitle={intl.formatMessage({ id: 'teamTable.deleteModal.subtitle' })}
+    >
+      <Button
+        className="btn-delete"
+        type="submit"
+        onClick={() => onSubmit(user.id)}
+      >
+        {intl.formatMessage({ id: 'teamTable.deleteModal.delete' })}
+      </Button>
+      <Button
+        variant="contained"
+        disableElevation
+        fullWidth
+        onClick={closeOverlay}
+      >
+        {intl.formatMessage({ id: 'cancel' })}
+      </Button>
     </Modal>
   );
 }

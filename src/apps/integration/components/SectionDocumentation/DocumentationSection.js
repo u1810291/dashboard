@@ -55,7 +55,7 @@ export function SectionDocumentation() {
             model={appModel}
             render={(value) => (
               <CopyToClipboard text={value.clientSecret} qa={QATags.Integration.ClientSecret.Copy}>
-                <code data-qa={QATags.Integration.ClientSecret.Value}>{(value.clientSecret || '').replace(/./g, '*')}</code>
+                <code data-qa={QATags.Integration.ClientSecret.Value}>************************</code>
               </CopyToClipboard>
             )}
           />

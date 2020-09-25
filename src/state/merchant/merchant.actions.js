@@ -11,6 +11,7 @@ export const types = {
   ...createTypesSequence(MerchantActionGroups.App),
   ...createTypesSequence(MerchantActionGroups.Flows),
   CURRENT_FLOW_UPDATE: 'CURRENT_FLOW_UPDATE',
+  BUSINESS_NAME_UPDATE: 'BUSINESS_NAME_UPDATE',
 };
 
 // -- merchant
@@ -54,17 +55,21 @@ export const appLoad = () => async (dispatch) => {
 
 // -- configuration
 
-export const configurationUpdate = (cfg) => async (dispatch, getState) => {
+export const configurationUpdate = (cfg, isSync) => async (dispatch, getState) => {
   const cfgModel = selectConfigurationModel(getState());
-
-  if (!cfgModel.isLoaded) {
-    throw Error('configuration didn\'t loaded');
-  }
-
   const newConfiguration = {
     ...cfgModel.value,
     ...cfg,
   };
+
+  if (!isSync) {
+    dispatch({ type: types.CONFIGURATION_UPDATING, payload: newConfiguration });
+    return;
+  }
+
+  if (!cfgModel.isLoaded) {
+    throw Error('configuration didn\'t loaded');
+  }
 
   dispatch({ type: types.CONFIGURATION_UPDATING, payload: newConfiguration });
 
@@ -77,8 +82,13 @@ export const configurationUpdate = (cfg) => async (dispatch, getState) => {
   }
 };
 
-export const dashboardUpdate = (data) => (dispatch) => dispatch(configurationUpdate({ dashboard: { ...data } }));
+export const dashboardUpdate = (data, isSync) => (dispatch) => {
+  dispatch(configurationUpdate({ dashboard: { ...data } }, isSync));
+};
 
+export const changeLanguage = (language, isSync) => (dispatch) => {
+  dispatch(dashboardUpdate({ language }, isSync));
+};
 // flows
 
 export const updateCurrentFlowId = (data) => (dispatch) => {
@@ -176,4 +186,9 @@ export const merchantUpdateMedia = (form) => async (dispatch) => {
     dispatch({ type: types.MERCHANT_FAILURE, error });
     throw error;
   }
+};
+
+export const merchantUpdateBusinessName = (businessName) => async (dispatch) => {
+  const { data } = await api.saveBusinessName(businessName);
+  dispatch({ type: types.BUSINESS_NAME_UPDATE, payload: { businessName: data.businessName } });
 };
