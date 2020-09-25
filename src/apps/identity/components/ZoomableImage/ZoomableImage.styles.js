@@ -40,7 +40,9 @@ export const useStyles = makeStyles(() => ({
     '& .zoomedImage': {
       objectFit: 'cover',
       width: '100%',
-      height: '100%',
+      height: 'auto',
+      maxWidth: '100%',
+      maxHeight: '100%',
       transition: [['all', '0.2s', 'ease-out']],
       userSelect: 'none',
       margin: [[0, 'auto']],
