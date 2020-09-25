@@ -40,6 +40,11 @@ export const selectIsBlockedModel = createSelector(
   selectLoadableValue((merchant) => !!merchant.blockedAt),
 );
 
+export const selectMerchantTags = createSelector(
+  selectMerchantModel,
+  selectModelValue((merchant) => merchant.tags || []),
+);
+
 // -- app
 
 const selectAppModel = createSelector(
