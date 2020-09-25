@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
-import { selectBiometricPattern, selectCurrentFlowId } from 'state/merchant/merchant.selectors';
+import { selectBiometricPattern, selectCurrentFlowId, selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { FormControlLabelFixed, RadioFixed, useStyles } from './BiometricStep.styles';
 import LivenessVoiceSVG from './liveness-voice-video.svg';
 
@@ -22,6 +22,7 @@ export function BiometricStep() {
   const [setting, setSetting] = useState(pattern);
   // enabled options
   const [options, setOptions] = useState([]);
+  const tags = useSelector(selectMerchantTags);
 
   const handleSettingChange = useCallback((value) => {
     setSetting(value);
@@ -100,6 +101,13 @@ export function BiometricStep() {
 
           {BiometricSettings.map((item) => {
             const description = intl.formatMessage({ id: `BiometricStep.${item.id}.description`, defaultMessage: ' ' });
+            const settingOptions = (item.options || []).filter((option) => {
+              if (!option.tag) {
+                return true;
+              }
+              return tags.includes(option.tag);
+            });
+
             return (
               <Grid item key={item.id}>
                 <BoxBordered>
@@ -121,12 +129,12 @@ export function BiometricStep() {
                       </Box>
                     )}
                   />
-                  {setting === item.id && item.options && (
+                  {setting === item.id && settingOptions.length > 0 && (
                     <Box mt={2} ml={3}>
                       <Typography variant="h5">
                         {intl.formatMessage({ id: 'BiometricStep.additionalSettings' })}
                       </Typography>
-                      {item.options.map((option) => (
+                      {settingOptions.map((option) => (
                         <BoxBordered key={option.id} mt={1}>
                           <Box>
                             <FormControlLabelFixed
