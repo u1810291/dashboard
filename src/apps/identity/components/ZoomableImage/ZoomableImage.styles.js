@@ -38,7 +38,7 @@ export const useStyles = makeStyles(() => ({
     maxWidth: '100%',
     maxHeight: '100%',
     '& .zoomedImage': {
-      objectFit: 'cover',
+      objectFit: 'contain',
       width: '100%',
       height: 'auto',
       maxWidth: '100%',
