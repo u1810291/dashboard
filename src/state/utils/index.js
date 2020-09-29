@@ -3,6 +3,7 @@ export const ActionSubTypes = {
   Success: 'SUCCESS',
   Failure: 'FAILURE',
   Updating: 'UPDATING',
+  Clear: 'CLEAR',
 };
 
 export function createReducer(initialState, handlers) {
@@ -21,6 +22,7 @@ export function createTypesSequence(baseName) {
     ActionSubTypes.Success,
     ActionSubTypes.Failure,
     ActionSubTypes.Updating,
+    ActionSubTypes.Clear,
   ].reduce((object, item) => {
     const type = `${baseName}_${item}`;
     object[type] = type;

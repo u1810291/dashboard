@@ -6,11 +6,12 @@ import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { identityDemoLoad, identityLoad } from 'state/identities/identities.actions';
+import { identityClear, identityDemoLoad, identityLoad } from 'state/identities/identities.actions';
 import { selectIdentityModelWithExtras } from 'state/identities/identities.selectors';
-import { Verification } from './Verification';
-import { VerificationSidePanel } from '../../components/VerificationSidePanel/VerificationSidePanel';
+import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
 import { VerificationFlowName } from '../../components/VerificationFlowName/VerificationFlowName';
+import { VerificationSidePanel } from '../../components/VerificationSidePanel/VerificationSidePanel';
+import { Verification } from './Verification';
 
 export function VerificationDetail() {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ export function VerificationDetail() {
       // data for demo
       dispatch(identityDemoLoad(demoId));
     }
+    return () => dispatch(identityClear());
   }, [dispatch, id, demoId]);
 
   if (identityModel.isFailed) {
@@ -35,8 +37,12 @@ export function VerificationDetail() {
       : <PageError />;
   }
 
-  if (!identityModel.value) {
+  if (identityModel.isLoaded && !identityModel.value) {
     return <Page404 />;
+  }
+
+  if (LoadableAdapter.isPristine(identityModel) || (!identityModel.isLoaded && identityModel.isLoading)) {
+    return null;
   }
 
   return (

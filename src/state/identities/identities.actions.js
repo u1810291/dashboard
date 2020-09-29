@@ -107,6 +107,10 @@ export const identityLoad = (id) => async (dispatch) => {
   }
 };
 
+export const identityClear = () => (dispatch) => {
+  dispatch({ type: types.IDENTITY_CLEAR });
+};
+
 export const identityDemoLoad = (id) => async (dispatch) => {
   dispatch({ type: types.IDENTITY_REQUEST });
   try {
