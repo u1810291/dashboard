@@ -36,6 +36,9 @@ export class LoadableAdapter {
       [`${actionGroupName}_${ActionSubTypes.Failure}`](state, { error }) {
         return LoadableAdapter.applyAction(state, sliceName, LoadableAdapter.failure, error);
       },
+      [`${actionGroupName}_${ActionSubTypes.Clear}`](state, { payload }) {
+        return LoadableAdapter.applyAction(state, sliceName, LoadableAdapter.clear, payload);
+      },
     };
   }
 
@@ -87,6 +90,10 @@ export class LoadableAdapter {
       isFailed: true,
       error: error || ERROR_COMMON,
     };
+  }
+
+  static clear(model, payload) {
+    return LoadableAdapter.createState(payload);
   }
 
   /**
