@@ -1,5 +1,5 @@
-import { BiometricLivenessStatus } from 'models/Biometric.model';
 import { IdentityStatuses } from 'models/Identity.model';
+import { StepStatus } from 'models/Step.model';
 import { colors } from './PDF.theme.common';
 
 export const StatusColorMap = {
@@ -13,10 +13,10 @@ export function getStatusColor(status) {
 }
 
 export const SelfieColorMap = {
-  [BiometricLivenessStatus.Skipped]: colors.greyText,
-  [BiometricLivenessStatus.InProgress]: colors.greyText,
-  [BiometricLivenessStatus.Success]: colors.green,
-  [BiometricLivenessStatus.Error]: colors.red,
+  [StepStatus.Incomplete]: colors.greyText,
+  [StepStatus.Checking]: colors.greyText,
+  [StepStatus.Success]: colors.green,
+  [StepStatus.Failure]: colors.red,
 };
 
 export function getLivenessStatusColor(status) {

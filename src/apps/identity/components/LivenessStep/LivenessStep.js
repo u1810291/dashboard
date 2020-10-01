@@ -1,81 +1,52 @@
-import { Box, Divider, IconButton, Paper, Typography } from '@material-ui/core';
-import { HelpMessage } from 'components';
-import { createOverlay } from 'components/overlay';
-import React, { useCallback } from 'react';
-import { FaRegQuestionCircle } from 'react-icons/fa';
+import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { getBiometricStatus } from 'models/Biometric.model';
+import React from 'react';
 import { useIntl } from 'react-intl';
-import { BiometricSection } from '../BiometricSection/BiometricSection';
-import config from './config.json';
-import { useStyles } from './LivenessStep.styles';
-import { LivenessVideo } from './LivenessVideo';
+import { CheckBarFlat } from '../CheckBarFlat/CheckBarFlat';
+import { LivenessMedia } from '../LivenessMedia/LivenessMedia';
 
-export function Checks({ title, color = 'gray', body }) {
-  const showHelpMessage = useCallback((id) => {
-    createOverlay(<HelpMessage id={id} />);
-  }, []);
-
-  return (
-    <Box display="flex" alignItems="center">
-      <Typography variant="body1">
-        {title}
-      </Typography>
-      <Box ml={0.5}>
-        <IconButton
-          size="small"
-          onClick={() => showHelpMessage('liveness')}
-        >
-          <FaRegQuestionCircle color="text.secondary" />
-        </IconButton>
-      </Box>
-      <Box ml={2} color={`var(--mgi-theme-palette-${color})`}>
-        {body}
-      </Box>
-    </Box>
-  );
-}
-
-export function LivenessStep({ liveness }) {
+export function LivenessStep({ steps }) {
   const intl = useIntl();
-  const classes = useStyles();
-  const { videoUrl, selfieUrl, status } = liveness;
+  const status = getBiometricStatus(steps);
 
   return (
     <Paper>
-      <Box p={4}>
-        <Typography variant="h3">
-          {intl.formatMessage({ id: 'LivenessStep.Checks.status.title' })}
-        </Typography>
-        {videoUrl && (
-          <>
-            <Box my={2}>
-              <Divider variant="fullWidth" />
+      <Box px={3} py={2}>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Typography variant="h4">
+              {intl.formatMessage({ id: 'LivenessStep.Checks.status.title' })}
+            </Typography>
+            <Box mt={2}>
+              <CheckBarFlat step={status} isShowExtra />
             </Box>
-            <BiometricSection
-              title={intl.formatMessage({ id: 'LivenessStep.Checks.video.title' })}
-              picture={<LivenessVideo url={videoUrl} />}
-              content={(
-                <Checks
-                  color={config[status].checks.color}
-                  title={intl.formatMessage({ id: 'LivenessStep.Checks.status.title' })}
-                  body={intl.formatMessage({ id: config[status].checks.message })}
-                />
-              )}
-            />
-          </>
-        )}
-        {selfieUrl && (
-          <>
-            <Box my={2}>
-              <Divider variant="fullWidth" />
-            </Box>
-            <BiometricSection
-              title={!videoUrl
-                ? intl.formatMessage({ id: 'LivenessStep.Checks.selfie.title' })
-                : intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
-              picture={<img src={selfieUrl} alt="" className={classes.borderRadius} />}
-            />
-          </>
-        )}
+          </Grid>
+          <Grid item xs={6}>
+            {steps.map((item, index) => (
+              <Grid container spacing={2} key={index}>
+                {/* video */}
+                <Grid item xs={6}>
+                  {item.videoUrl && (
+                    <LivenessMedia
+                      video={item.videoUrl}
+                      title={intl.formatMessage({ id: `LivenessStep.Checks.${item.id}.title` })}
+                    />
+                  )}
+                </Grid>
+                <Grid item xs={6}>
+                  {/* image */}
+                  {item.selfieUrl && (
+                    <LivenessMedia
+                      image={item.selfieUrl}
+                      title={intl.formatMessage({ id: 'LivenessStep.Checks.selfie.title' })}
+                      subtitle={item.videoUrl && intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
+                    />
+                  )}
+                </Grid>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
       </Box>
     </Paper>
   );

@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import IntlMessage from './IntlMessage';
 import { MessageTable } from './MessageTable';
 
+// TODO @dkchv: !!! useless
 const HelpMessage = ({ id }) => {
   const intl = useIntl();
   const im = new IntlMessage('fragments.verifications.help-messages', id, intl.messages);

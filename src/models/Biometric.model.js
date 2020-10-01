@@ -1,10 +1,12 @@
 import { get } from 'lodash';
+import { getStepStatus, StepStatus } from './Step.model';
 import { MerchantTags } from './Merchant.model';
 
 export const BiometricTypes = {
   liveness: 'liveness',
   selfie: 'selfie',
   none: 'none',
+  voice: 'voice',
   voiceLiveness: 'voice+liveness',
 };
 
@@ -30,46 +32,54 @@ export function getBiometricParentSetting(value) {
   return BiometricSettings.find((item) => item.options && item.options.find((option) => option.id === value));
 }
 
-export const BiometricLivenessSteps = [
+export const BiometricSteps = [
   BiometricTypes.liveness,
   BiometricTypes.selfie,
+  BiometricTypes.voice,
 ];
 
-export const BiometricLivenessStatus = {
-  Skipped: 'skipped',
-  InProgress: 'inProgress',
-  Success: 'success',
-  Error: 'error',
-};
-
-export function getStatusByCode({ status, error }) {
-  switch (status) {
-    case 0:
-      return BiometricLivenessStatus.Skipped;
-    case 100:
-      return BiometricLivenessStatus.InProgress;
-    case 200:
-      return error
-        ? BiometricLivenessStatus.Error
-        : BiometricLivenessStatus.Success;
-    default: {
-      console.warn('liveness code: status not found, status: ', status, 'error: ', error);
-      return null;
-    }
-  }
+export function getBiometricExtras(steps) {
+  return steps
+    .filter((item) => BiometricSteps.includes(item.id))
+    .map((item) => ({
+      ...item,
+      checkStatus: getStepStatus(item),
+      videoUrl: get(item, 'data.videoUrl'),
+      selfieUrl: get(item, 'data.selfiePhotoUrl') || get(item, 'data.selfieUrl'),
+    }));
 }
 
-export function getLivenessExtras(identity) {
-  const steps = get(identity, '_embedded.verification.steps') || [];
-  const liveness = steps.find((item) => BiometricLivenessSteps.includes(item.id));
+export function getBiometricStatus(steps) {
+  let status;
 
-  if (!liveness) {
-    return null;
+  const voice = steps.find((item) => item.id === BiometricTypes.voice);
+
+  if (voice) {
+    const liveness = steps.find((item) => item.id === BiometricTypes.liveness);
+    const movement = steps.find((item) => item.id === BiometricTypes.liveness);
+    const livenessError = steps.find((item) => item.checkStatus !== StepStatus.Success);
+
+    status = {
+      ...liveness,
+      checkStatus: livenessError ? livenessError.checkStatus : liveness.checkStatus,
+      sub: [
+        {
+          ...voice,
+          labelExtra: 'SecurityCheckStep.voice.numbers',
+          labelExtraData: {
+            numbers: get(voice, 'data.numbers'),
+          },
+        },
+        {
+          ...movement,
+          id: 'movement',
+        },
+      ],
+    };
+  } else {
+    // eslint-disable-next-line prefer-destructuring
+    status = steps[0];
   }
 
-  return {
-    status: getStatusByCode(liveness),
-    videoUrl: get(liveness, 'data.videoUrl'),
-    selfieUrl: get(liveness, 'data.selfiePhotoUrl') || get(liveness, 'data.selfieUrl'),
-  };
+  return status;
 }

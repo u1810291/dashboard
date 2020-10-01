@@ -2,7 +2,7 @@ import { titleize } from 'inflection';
 import { get } from 'lodash';
 import { getDocumentExtras } from 'models/Document.model';
 import moment from 'moment';
-import { getLivenessExtras } from './Biometric.model';
+import { getBiometricExtras } from './Biometric.model';
 import { getIpCheckUrl } from './IpCheck.model';
 
 export const VerificationStepTypes = {
@@ -93,8 +93,7 @@ export function getIdentityShortId(id) {
   return (id || '').slice(-6);
 }
 
-export function getIpCheckStep(identity) {
-  const steps = get(identity, '_embedded.verification.steps') || [];
+export function getIpCheckStep(steps) {
   const step = steps.find((item) => item.id === VerificationStepTypes.IpValidation);
 
   if (!step) {
@@ -113,15 +112,17 @@ export function getIdentityExtras(identity) {
     return null;
   }
 
+  const steps = get(identity, '_embedded.verification.steps') || [];
+
   return {
     ...identity,
-    liveness: getLivenessExtras(identity),
+    biometric: getBiometricExtras(steps),
     shortId: getIdentityShortId(identity.id),
     fullName: titleize(identity.fullName || ''),
     // TODO @dkchv: overrided
     dateCreated: moment(identity.dateCreated).local().format('DD MMM, YYYY HH:mm'),
     documents: getDocumentExtras(identity),
     isEditable: isChangeableStatus(identity.status),
-    ipCheck: getIpCheckStep(identity),
+    ipCheck: getIpCheckStep(steps),
   };
 }

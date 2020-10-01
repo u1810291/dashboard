@@ -13,7 +13,10 @@ export function StatusMessage({ status, error }) {
     message = intl.formatMessage({ id: 'SecurityCheckStep.success' });
   }
   if (status === 'failure') {
-    message = intl.formatMessage({ id: `SecurityCheckStep.${error.code}` });
+    message = intl.formatMessage({
+      id: `SecurityCheckStep.${error.code}`,
+      defaultMessage: intl.formatMessage({ id: 'SecurityCheckStep.failure' }),
+    });
   }
   if (status === 'checking') {
     message = intl.formatMessage({ id: 'SecurityCheckStep.checking' });

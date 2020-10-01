@@ -2,12 +2,13 @@ import { Document, Image, Page, pdf, Text, View } from '@react-pdf/renderer';
 import CURP from 'assets/curp-logo.png';
 import INE from 'assets/ine-logo.png';
 import MatiLogo from 'assets/mati-logo-black.png';
-import RFC from 'assets/rfc-logo.png';
 import Registraduria from 'assets/registraduria-logo.png';
 import Renaper from 'assets/renaper-logo.png';
+import RFC from 'assets/rfc-logo.png';
 import { getMediaURL } from 'lib/client/media';
 import { compact } from 'lodash';
 import React from 'react';
+import { getBiometricStatus } from '../../models/Biometric.model';
 import { getLivenessStatusColor, getStatusColor } from './IdentityDocument.model';
 import { styles } from './PDF.styles';
 import { PDFChip } from './PDFChip';
@@ -17,6 +18,8 @@ export function IdentityDocumentPDF(intl, identity) {
   if (!identity) {
     return null;
   }
+
+  const biometricStatus = getBiometricStatus(identity.biometric);
 
   return (
     <Document title={`Identity ${identity.id}`} author="Matilock, Inc. www.mati.io">
@@ -37,9 +40,9 @@ export function IdentityDocumentPDF(intl, identity) {
               <Text style={[styles.h1, styles.mt1]}>{identity.fullName || intl.formatMessage({ id: 'identity.nameNotFound' })}</Text>
               <Text style={[styles.normal, styles.grey]}>{identity.dateCreated}</Text>
             </View>
-            {identity.liveness && identity.liveness.selfieUrl && (
+            {identity.biometric.length > 0 && biometricStatus.selfieUrl && (
               <View style={styles.selfieBox}>
-                <Image style={styles.selfieImg} src={getMediaURL(identity.liveness.selfieUrl)} />
+                <Image style={styles.selfieImg} src={getMediaURL(biometricStatus.selfieUrl)} />
               </View>
             )}
           </View>
@@ -83,18 +86,37 @@ export function IdentityDocumentPDF(intl, identity) {
             </View>
           )}
 
-          {identity.liveness && (
+          {identity.biometric.length > 0 && (
             <View>
               <Text style={styles.title}>{intl.formatMessage({ id: 'LivenessStep.Checks.status.title' })}</Text>
               <View style={styles.row}>
                 <Text style={styles.label}>
-                  {intl.formatMessage({ id: 'BiometricStep.selfie.title' })}
-                  :
+                  {intl.formatMessage({ id: `SecurityCheckStep.${biometricStatus.id}.title` })}
                 </Text>
-                <Text style={[styles.value, { color: getLivenessStatusColor(identity.liveness.status) }]}>
-                  {intl.formatMessage({ id: `LivenessStep.Checks.${identity.liveness.status}` })}
+                <Text style={[styles.value, { color: getLivenessStatusColor(biometricStatus.checkStatus) }]}>
+                  {intl.formatMessage({
+                    id: biometricStatus.error && biometricStatus.error.code
+                      ? `SecurityCheckStep.${biometricStatus.error.code}`
+                      : `SecurityCheckStep.${biometricStatus.id}.${biometricStatus.checkStatus}`,
+                    defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${biometricStatus.checkStatus}` }),
+                  })}
                 </Text>
               </View>
+              {biometricStatus.sub && biometricStatus.sub.map((item) => (
+                <View style={styles.row} key={item.id}>
+                  <Text style={styles.label}>
+                    {intl.formatMessage({ id: `SecurityCheckStep.${item.id}.title` })}
+                  </Text>
+                  <Text style={[styles.value, { color: getLivenessStatusColor(item.checkStatus) }]}>
+                    {intl.formatMessage({
+                      id: item.error && item.error.code
+                        ? `SecurityCheckStep.${item.error.code}`
+                        : `SecurityCheckStep.${item.id}.${item.checkStatus}`,
+                      defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${item.checkStatus}` }),
+                    })}
+                  </Text>
+                </View>
+              ))}
             </View>
           )}
 
@@ -148,7 +170,12 @@ export function IdentityDocumentPDF(intl, identity) {
                           <Text>{intl.formatMessage({ id: `SecurityCheckStep.${item.id}.title` })}</Text>
                         </View>
                         <View style={valueStyles}>
-                          <Text>{intl.formatMessage({ id: `SecurityCheckStep.${item.id}.${item.checkStatus}` })}</Text>
+                          <Text>
+                            {intl.formatMessage({
+                              id: `SecurityCheckStep.${item.id}.${item.checkStatus}`,
+                              defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${item.checkStatus}` }),
+                            })}
+                          </Text>
                           {item.labelExtra && <Text>{intl.formatMessage({ id: item.labelExtra, defaultMessage: ' ' }, item.labelExtraData)}</Text>}
                         </View>
                       </View>
