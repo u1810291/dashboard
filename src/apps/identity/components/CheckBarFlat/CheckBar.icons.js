@@ -1,14 +1,18 @@
 import { ReactComponent as AlterationDetection } from 'assets/icon-alteration-detection.svg';
 import { ReactComponent as CURP } from 'assets/icon-curp.svg';
-import { ReactComponent as Facematch } from 'assets/icon-facematch.svg';
-import { ReactComponent as INE } from 'assets/icon-ine.svg';
-import { ReactComponent as RFC } from 'assets/icon-rfc.svg';
-import { ReactComponent as ColombianRegistraduria } from 'assets/icon-registraduria.svg';
-import { ReactComponent as ArgentinianRenaper } from 'assets/icon-renaper.svg';
-import { ReactComponent as TemplateMatching } from 'assets/icon-template-matching.svg';
-import { ReactComponent as Watchlist } from 'assets/icon-watchlist.svg';
 import { ReactComponent as EmptyFields } from 'assets/icon-empty-fields.svg';
 import { ReactComponent as ExpiredDate } from 'assets/icon-expired-date.svg';
+import { ReactComponent as Facematch } from 'assets/icon-facematch.svg';
+import { ReactComponent as INE } from 'assets/icon-ine.svg';
+import { ReactComponent as ColombianRegistraduria } from 'assets/icon-registraduria.svg';
+import { ReactComponent as ArgentinianRenaper } from 'assets/icon-renaper.svg';
+import { ReactComponent as RFC } from 'assets/icon-rfc.svg';
+import { ReactComponent as TemplateMatching } from 'assets/icon-template-matching.svg';
+import { ReactComponent as Watchlist } from 'assets/icon-watchlist.svg';
+import { ReactComponent as Liveness } from 'assets/icon-liveness.svg';
+import { ReactComponent as Voice } from 'assets/icon-voice.svg';
+import { ReactComponent as Movement } from 'assets/icon-movement.svg';
+import { BiometricTypes } from 'models/Biometric.model';
 import { DocumentStepFailedTypes, DocumentStepTypes } from 'models/Step.model';
 import React from 'react';
 
@@ -25,4 +29,9 @@ export const CheckBarIconsMap = {
   // extras
   [DocumentStepFailedTypes.EmptyFields]: <EmptyFields />,
   [DocumentStepFailedTypes.ExpiredDate]: <ExpiredDate />,
+
+  [BiometricTypes.liveness]: <Liveness />,
+  [BiometricTypes.voice]: <Voice />,
+  // no specific type
+  movement: <Movement />,
 };

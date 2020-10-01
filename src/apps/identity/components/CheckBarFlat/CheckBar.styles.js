@@ -1,30 +1,12 @@
-import React from 'react';
-import clsx from 'clsx';
-import { makeStyles, withStyles, Box, Tooltip } from '@material-ui/core';
+import { makeStyles, Tooltip, withStyles } from '@material-ui/core';
 
-export const useStyles = makeStyles(() => ({
-  tooltip: {
-    fontSize: 18,
-    color: '#bbbbbe',
-    '&:hover': {
-      color: '#4a4a4a',
-    },
-  },
-  fluid: {
-    flexGrow: 1,
-  },
-}));
-
-export const BoxCheckBarRounded = withStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
     borderRadius: 14,
     borderWidth: 1,
     borderStyle: 'solid',
     padding: 15,
     backgroundColor: theme.palette.common.white,
-    justifyContent: 'space-between',
-    height: '100%',
     '&:focus': {
       backgroundColor: '#f7f7fa',
     },
@@ -35,11 +17,41 @@ export const BoxCheckBarRounded = withStyles((theme) => ({
   failure: {
     borderColor: theme.palette.common.red,
   },
-}))(({ classes, status, children }) => (
-  <Box className={clsx(classes.root, classes[status])}>
-    {children}
-  </Box>
-));
+  icon: {
+    maxWidth: 50,
+    maxHeight: 50,
+    flexGrow: 0,
+    flexShrink: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+  },
+  subIcon: {
+    maxWidth: 25,
+    maxHeight: 25,
+    flexGrow: 0,
+    flexShrink: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+  },
+  tooltip: {
+    fontSize: 18,
+    color: '#bbbbbe',
+    '&:hover': {
+      color: '#4a4a4a',
+    },
+  },
+  subStatus: {
+    display: 'flex',
+    marginTop: 10,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
+  },
+}));
 
 export const MyTooltip = withStyles({
   tooltip: {

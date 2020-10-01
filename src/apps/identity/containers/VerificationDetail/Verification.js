@@ -2,16 +2,14 @@ import { Card, CardContent, Grid } from '@material-ui/core';
 import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
 import { Page404 } from 'apps/layout';
 import { get } from 'lodash';
-import { getIpCheckStep } from 'models/Identity.model';
 import React from 'react';
 import { DocumentStep } from '../../components/DocumentStep/DocumentStep';
-import { LivenessStep } from '../../components/LivenessStep';
+import { LivenessStep } from '../../components/LivenessStep/LivenessStep';
 import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
 import { Header } from './Header';
 
 export function Verification({ identity }) {
   const verification = get(identity, '_embedded.verification');
-  const ipCheck = getIpCheckStep(identity);
 
   if (!(verification)) {
     return <Page404 />;
@@ -29,16 +27,16 @@ export function Verification({ identity }) {
       </Grid>
 
       {/* IP check */}
-      {ipCheck && !ipCheck.error && (
+      {identity.ipCheck && !identity.ipCheck.error && (
         <Grid item>
-          <IpCheck data={ipCheck.data} />
+          <IpCheck data={identity.ipCheck.data} />
         </Grid>
       )}
 
-      {/* Liveness */}
-      {identity.liveness && (
+      {/* biometric */}
+      {identity.biometric.length > 0 && (
         <Grid item>
-          <LivenessStep liveness={identity.liveness} />
+          <LivenessStep steps={identity.biometric} />
         </Grid>
       )}
 

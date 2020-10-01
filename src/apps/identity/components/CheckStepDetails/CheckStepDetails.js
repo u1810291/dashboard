@@ -19,8 +19,9 @@ export function CheckStepDetails({ data = {}, error }) {
               </Typography>
             </Grid>
           )}
-          {Object.entries(data)
-            .map(([key, value]) => (<CheckStepDetailsEntry label={key} value={value} />))}
+          {Object
+            .entries(data)
+            .map(([key, value]) => (<CheckStepDetailsEntry key={key} label={key} value={value} />))}
         </Grid>
       </CardContent>
     </Card>

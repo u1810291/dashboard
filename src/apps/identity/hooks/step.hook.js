@@ -1,10 +1,11 @@
+import { BiometricSteps } from 'models/Biometric.model';
+import { DocumentMxSteps, LEGACY_ERROR } from 'models/Step.model';
 import { useIntl } from 'react-intl';
-import { DocumentMxSteps, LEGACY_ERROR } from '../../../models/Step.model';
 
 export function useStatusLabel(step) {
   const intl = useIntl();
 
-  if (DocumentMxSteps.includes(step.id)) {
+  if (step.error && (DocumentMxSteps.includes(step.id) || BiometricSteps.includes(step.id))) {
     return intl.formatMessage({ id: `SecurityCheckStep.${step.error.code}` });
   }
 
@@ -28,6 +29,6 @@ export function useStatusLabel(step) {
     id: error.code && error.type !== LEGACY_ERROR
       ? `SecurityCheckStep.${error.code}`
       : `SecurityCheckStep.${step.id}.${step.checkStatus}`,
-    defaultMessage: ' ',
+    defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${step.checkStatus}` }),
   }, labelStatusData);
 }
