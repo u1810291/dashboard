@@ -1,20 +1,20 @@
-import React, { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useIntl } from 'react-intl';
-import { useHistory } from 'react-router-dom';
 import { Box, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { PageLoader } from 'apps/layout';
+import confirm from 'components/confirm/Confirm';
 import { formatDate } from 'lib/date';
 import { titleCase } from 'lib/string';
-import confirm from 'components/confirm/Confirm';
-import { FiLoader, FiTrash2 } from 'react-icons/fi';
 import { getIdentityShortId } from 'models/Identity.model';
+import React, { useCallback, useState } from 'react';
+import { FiLoader, FiTrash2 } from 'react-icons/fi';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { identityRemove } from 'state/identities/identities.actions';
 import { selectIdentityCollection } from 'state/identities/identities.selectors';
 import { StatusLabel } from '../StatusLabel';
 import { VerificationFlowName } from '../VerificationFlowName/VerificationFlowName';
 import { ReactComponent as EmptyTableIcon } from './empty-table.svg';
 import { TableRowHovered } from './VerificationTable.styles';
-import { PageLoader } from '../../../layout';
 
 export function VerificationTable() {
   const intl = useIntl();
@@ -61,7 +61,7 @@ export function VerificationTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {identityCollection.isLoading || (identityCollection.isLoaded && identityCollection.value.length === 0)
+          {(identityCollection.isLoading && !identityCollection.isLoaded) || (identityCollection.isLoaded && identityCollection.value.length === 0)
             ? (
               <TableRow>
                 <TableCell colSpan={5} align="center">

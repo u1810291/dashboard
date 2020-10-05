@@ -21,8 +21,8 @@ export const types = {
   IDENTITY_REMOVE: 'IDENTITY_REMOVE',
 };
 
-export const identitiesListLoad = () => async (dispatch, getState) => {
-  dispatch({ type: types.IDENTITY_LIST_REQUEST });
+export const identitiesListLoad = (isReload) => async (dispatch, getState) => {
+  dispatch({ type: isReload ? types.IDENTITY_LIST_UPDATING : types.IDENTITY_LIST_REQUEST });
   try {
     const filter = selectIdentityFilterSerialized(getState());
     const { data } = await api.getIdentities(filter);
@@ -96,8 +96,8 @@ export const identityRemove = (id) => async (dispatch) => {
 
 // identity
 
-export const identityLoad = (id) => async (dispatch) => {
-  dispatch({ type: types.IDENTITY_REQUEST });
+export const identityLoad = (id, isReload) => async (dispatch) => {
+  dispatch({ type: isReload ? types.IDENTITY_UPDATING : types.IDENTITY_REQUEST });
   try {
     const payload = await api.getIdentityWithNestedData(id);
     dispatch({ type: types.IDENTITY_SUCCESS, payload, isReset: true });

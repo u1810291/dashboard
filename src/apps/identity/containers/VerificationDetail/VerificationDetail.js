@@ -1,14 +1,15 @@
 import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { Page404, PageError } from 'apps/layout';
+import { LoadableAdapter } from 'lib/Loadable.adapter';
+import { useLongPolling } from 'lib/longPolling.hook';
 import { isNotFound } from 'models/Error.model';
 import { getIdentityShortId } from 'models/Identity.model';
-import React, { useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { identityClear, identityDemoLoad, identityLoad } from 'state/identities/identities.actions';
 import { selectIdentityModelWithExtras } from 'state/identities/identities.selectors';
-import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
 import { VerificationFlowName } from '../../components/VerificationFlowName/VerificationFlowName';
 import { VerificationSidePanel } from '../../components/VerificationSidePanel/VerificationSidePanel';
 import { Verification } from './Verification';
@@ -19,10 +20,10 @@ export function VerificationDetail() {
   const { id, demoId } = useParams();
   const identityModel = useSelector(selectIdentityModelWithExtras);
 
-  useEffect(() => {
+  const handleLoad = useCallback((isReload) => {
     if (id) {
       // data for identity
-      dispatch(identityLoad(id));
+      dispatch(identityLoad(id, isReload));
     }
     if (demoId) {
       // data for demo
@@ -30,6 +31,8 @@ export function VerificationDetail() {
     }
     return () => dispatch(identityClear());
   }, [dispatch, id, demoId]);
+
+  useLongPolling(handleLoad);
 
   if (identityModel.isFailed) {
     return isNotFound(identityModel.error)

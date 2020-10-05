@@ -1,4 +1,5 @@
-import { set, get } from 'lodash';
+import { get, set } from 'lodash';
+import { BiometricTypes } from 'models/Biometric.model';
 import { http } from './http';
 
 export function getIdentities(params) {
@@ -58,7 +59,7 @@ export async function getIdentityWithNestedData(id) {
   if (!data._embedded || !data._embedded.verification) {
     identity.documents = await getDocumentsFullData(id);
   }
-  const livenessStep = data._embedded.verification.steps.find((step) => step.id === 'liveness');
+  const livenessStep = data._embedded.verification.steps.find((step) => step.id === BiometricTypes.liveness);
   let videoUrl = get(livenessStep, 'data.videoUrl');
 
   if (livenessStep) {
