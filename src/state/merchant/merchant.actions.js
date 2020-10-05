@@ -93,6 +93,7 @@ export const changeLanguage = (language, isSync) => (dispatch) => {
 
 export const updateCurrentFlowId = (data) => (dispatch) => {
   dispatch({ type: types.CURRENT_FLOW_UPDATE, payload: data });
+  dispatch(getWebhooks());
 };
 
 export const merchantFlowsLoad = () => async (dispatch, getState) => {

@@ -1,12 +1,9 @@
-import { last } from 'lodash';
-import { selectClientIdModel } from 'state/merchant/merchant.selectors';
+import { createSelector } from 'reselect';
+import { WEBHOOKS_STORE_KEY } from './webhooks.store';
 
-export function selectWebhook(state) {
-  const clientIdModel = selectClientIdModel(state);
+const selectWebhookStore = (state) => state[WEBHOOKS_STORE_KEY];
 
-  if (!clientIdModel.isLoaded) {
-    return {};
-  }
-
-  return last(state.webhooks.webhooks[clientIdModel.value]) || {};
-}
+export const selectWebhook = createSelector(
+  selectWebhookStore,
+  ({ webhook }) => webhook,
+);

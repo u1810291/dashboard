@@ -1,6 +1,6 @@
 import * as api from 'lib/client/webhooks';
 import { fromPairs, get } from 'lodash';
-import { selectClientId } from 'state/merchant/merchant.selectors';
+import { selectClientId, selectCurrentFlowId } from 'state/merchant/merchant.selectors';
 import { createTypesSequence } from 'state/utils';
 
 export const types = {
@@ -14,7 +14,8 @@ export const subscribeToWebhook = (data) => async (dispatch, getState) => {
   dispatch({ type: types.WEBHOOKS_SUBSCRIBE_REQUEST });
   try {
     const clientId = selectClientId(getState());
-    const payload = await api.subscribeToWebhook(clientId, data);
+    const flowId = selectCurrentFlowId(getState());
+    const payload = await api.subscribeToWebhook(clientId, flowId, data);
     dispatch({ type: types.WEBHOOKS_SUBSCRIBE_SUCCESS, payload });
     return payload;
   } catch (error) {
@@ -44,8 +45,12 @@ export const getWebhooks = () => async (dispatch, getState) => {
   dispatch({ type: types.WEBHOOKS_LIST_REQUEST });
   try {
     const clientId = selectClientId(getState());
-    const payload = await api.getWebhooks(clientId);
-    dispatch({ type: types.WEBHOOKS_LIST_SUCCESS, payload, clientId });
+    const flowId = selectCurrentFlowId(getState());
+    if (!clientId || !flowId) {
+      return;
+    }
+    const payload = await api.getWebhooks(clientId, flowId);
+    dispatch({ type: types.WEBHOOKS_LIST_SUCCESS, payload });
   } catch (error) {
     dispatch({ type: types.WEBHOOKS_LIST_FAILURE });
     throw error;
