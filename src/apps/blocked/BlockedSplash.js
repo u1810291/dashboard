@@ -45,7 +45,7 @@ export function BlockedSplash() {
                   <Typography variant="caption">{intl.formatMessage({ id: 'BlockedSplash.description' })}</Typography>
                 </Box>
                 <Box mt={3}>
-                  <Link to="/settings/pricing">
+                  <Link to="/settings">
                     <Button variant="contained" color="primary">
                       {intl.formatMessage({ id: 'actions.selectPlan' })}
                     </Button>

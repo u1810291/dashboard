@@ -1,7 +1,5 @@
 import auth from 'apps/auth/state/auth.reducer';
 import { AUTH_STORE_KEY, AuthActionGroups } from 'apps/auth/state/auth.store';
-import billing from 'apps/billing/state/billing.reducer';
-import { BILLING_STORE_KEY } from 'apps/billing/state/billing.store';
 import collaborators from 'apps/collaborators/state/collaborator.reducer';
 import { COLLABORATOR_STORE_KEY } from 'apps/collaborators/state/collaborator.store';
 import user from 'apps/user/state/user.reducer';
@@ -27,7 +25,6 @@ export const appReducers = combineReducers({
   [MERCHANT_STORE_KEY]: merchant,
   [WEBHOOKS_STORE_KEY]: webhooks,
   [METRICS_STORE_KEY]: metrics,
-  [BILLING_STORE_KEY]: billing,
 });
 
 export const rootReducers = (state, action) => {

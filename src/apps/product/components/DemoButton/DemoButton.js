@@ -1,5 +1,5 @@
 import { Box, Divider, Paper } from '@material-ui/core';
-import { Card, createOverlay, VideoPlayer } from 'components';
+import { createOverlay, VideoPlayer } from 'components';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import React, { useCallback } from 'react';
@@ -18,9 +18,11 @@ export function DemoButton() {
   const classes = useStyles();
 
   const VideoFrame = ({ url }) => (
-    <Card className={classes.videoFrame}>
-      <VideoPlayer url={url} playing controls />
-    </Card>
+    <Paper className={classes.videoFrame}>
+      <Box p={2}>
+        <VideoPlayer url={url} playing controls />
+      </Box>
+    </Paper>
   );
 
   const showUseCaseModal = useCallback((url) => {
