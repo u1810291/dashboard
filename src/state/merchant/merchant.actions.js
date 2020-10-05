@@ -1,4 +1,3 @@
-import { billingInit } from 'apps/billing/state/billing.actions';
 import * as api from 'lib/client/merchant';
 import { createTypesSequence } from 'state/utils';
 import { getWebhooks } from 'state/webhooks/webhooks.actions';
@@ -17,13 +16,12 @@ export const types = {
 // -- merchant
 
 export const merchantLoadSuccess = (data, withDashboard = true) => (dispatch) => {
-  const { configurations, billing, ...merchant } = data;
+  const { configurations, ...merchant } = data;
   if (!withDashboard) {
     delete configurations.dashboard;
   }
   dispatch({ type: types.MERCHANT_SUCCESS, payload: merchant });
   dispatch({ type: types.CONFIGURATION_SUCCESS, payload: configurations });
-  dispatch(billingInit(billing));
 };
 
 export const merchantLoad = () => async (dispatch) => {

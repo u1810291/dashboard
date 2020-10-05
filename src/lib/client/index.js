@@ -4,7 +4,6 @@ import * as identities from './identities';
 import * as hubspot from './hubspot';
 import * as countries from './countries';
 import * as collaborators from './collaborators';
-import * as plans from './plans';
 
 export default {
   merchant,
@@ -13,5 +12,4 @@ export default {
   hubspot,
   collaborators,
   countries,
-  plans,
 };
