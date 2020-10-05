@@ -1,18 +1,16 @@
+import { last } from 'lodash';
 import { createReducer } from 'state/utils';
 import { types } from './webhooks.actions';
 
 const initialState = {
-  webhooks: {},
+  webhook: {},
 };
 
 export default createReducer(initialState, {
-  [types.WEBHOOKS_LIST_SUCCESS](state, { payload, clientId }) {
+  [types.WEBHOOKS_LIST_SUCCESS](state, { payload }) {
     return {
       ...state,
-      webhooks: {
-        ...state.webhooks,
-        [clientId]: payload.data || [],
-      },
+      webhook: last(payload.data || []),
     };
   },
 });

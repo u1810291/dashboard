@@ -1,14 +1,14 @@
 import { http } from './http';
 
-export function subscribeToWebhook(clientId, webhook) {
+export function subscribeToWebhook(clientId, flowId, webhook) {
   return http.post('/v1/webhooks', webhook, {
-    params: { clientId },
+    params: { clientId, flowId },
   });
 }
 
-export function getWebhooks(clientId) {
+export function getWebhooks(clientId, flowId) {
   return http.get('/v1/webhooks', {
-    params: { clientId },
+    params: { clientId, flowId },
   });
 }
 

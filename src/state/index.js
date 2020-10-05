@@ -9,14 +9,12 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import ReduxThunk from 'redux-thunk';
 import { rootReducers } from 'state/reducers';
-import { WEBHOOKS_STORE_KEY } from 'state/webhooks/webhooks.store';
 
 const persistedReducer = persistReducer({
   key: 'mgi-dashboard-4',
   whitelist: [
     AUTH_STORE_KEY,
     USER_STORE_KEY,
-    WEBHOOKS_STORE_KEY,
   ],
   storage,
 }, rootReducers);
