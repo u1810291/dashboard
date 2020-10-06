@@ -1,6 +1,7 @@
 import { Box, Container, Grid, Hidden, Typography } from '@material-ui/core';
 import { isPaginable, Pagination } from 'apps/pagination';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
+import { useLongPolling } from 'lib/longPolling.hook';
 import React, { useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,13 +24,17 @@ export function VerificationHistory() {
   const identityCollection = useSelector(selectIdentityCollection);
   const [filter, setFilter] = useFilter();
 
+  const handleLoad = useCallback((isReload) => {
+    dispatch(identitiesListLoad(isReload));
+  }, [dispatch]);
+
   const tableFilter = useCallback((params) => {
     if (params) {
       setFilter(params);
     }
-    dispatch(identitiesListLoad());
+    handleLoad(false);
     dispatch(identitiesFilteredCountLoad());
-  }, [dispatch, setFilter]);
+  }, [dispatch, setFilter, handleLoad]);
 
   useEffect(() => {
     if (LoadableAdapter.isPristine(countModel)) {
@@ -37,11 +42,7 @@ export function VerificationHistory() {
     }
   }, [dispatch, countModel]);
 
-  useEffect(() => {
-    if (LoadableAdapter.isPristine(identityCollection)) {
-      tableFilter();
-    }
-  }, [identityCollection, tableFilter]);
+  useLongPolling(handleLoad);
 
   const handlePageChange = useCallback((offset) => {
     tableFilter({ offset });
