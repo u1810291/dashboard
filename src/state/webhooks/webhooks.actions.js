@@ -49,8 +49,8 @@ export const getWebhooks = () => async (dispatch, getState) => {
     if (!clientId || !flowId) {
       return;
     }
-    const payload = await api.getWebhooks(clientId, flowId);
-    dispatch({ type: types.WEBHOOKS_LIST_SUCCESS, payload });
+    const { data } = await api.getWebhooks(clientId, flowId);
+    dispatch({ type: types.WEBHOOKS_LIST_SUCCESS, payload: data || [] });
   } catch (error) {
     dispatch({ type: types.WEBHOOKS_LIST_FAILURE });
     throw error;
