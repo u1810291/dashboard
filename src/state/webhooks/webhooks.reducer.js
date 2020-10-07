@@ -10,7 +10,7 @@ export default createReducer(initialState, {
   [types.WEBHOOKS_LIST_SUCCESS](state, { payload }) {
     return {
       ...state,
-      webhook: last(payload.data || []),
+      webhook: last(payload) || {},
     };
   },
 });

@@ -17,12 +17,12 @@ export function SectionWebhook() {
   const webhook = useSelector(selectWebhook);
 
   const handleOnSave = useCallback(async (url, secret) => {
-    if (webhook.id) {
+    if (webhook?.id) {
       await dispatch(deleteWebhook(webhook.id));
     }
     await dispatch(subscribeToWebhook({ url, secret }));
     return dispatch(getWebhooks());
-  }, [dispatch, webhook.id]);
+  }, [dispatch, webhook]);
 
   const handleRemoveWebhook = useCallback(async () => {
     try {
