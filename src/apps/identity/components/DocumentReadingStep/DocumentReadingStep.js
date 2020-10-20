@@ -1,15 +1,22 @@
-import React, { useCallback } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { humanize, underscore } from 'inflection';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Box, Typography, Button, InputLabel } from '@material-ui/core';
 import { documentUpdate } from 'state/identities/identities.actions';
 import { normalizeDate } from 'lib/date';
 import { formatValue } from 'lib/string';
-import TextEditable from 'components/text-editable';
-import Text from 'components/text';
+import { Field, Form, Formik } from 'formik';
+import { TextField } from 'formik-material-ui';
+import { difference } from 'lib/object';
+import { sendWebhook } from 'state/webhooks/webhooks.actions';
+import Icon from 'assets/icon-document-edit.svg';
+import { useStyles } from './DocumentReadingStep.styles';
+import { SkeletonLoader } from '../../../ui/components/SkeletonLoader/SkeletonLoader';
+import { notification } from '../../../../components/notification';
 
 // TODO @dkchv: refactor this
+/*
 function EditableField({ label, value, isValid, onSubmit }) {
   if (!value) {
     return (
@@ -32,17 +39,13 @@ function EditableField({ label, value, isValid, onSubmit }) {
   );
 }
 
-export function DocumentReadingStep({ documentId, step, fields = [], isEditable = true }) {
-  const intl = useIntl();
-  const dispatch = useDispatch();
+ */
 
-  const handleSubmit = useCallback((key, value) => {
-    dispatch(documentUpdate(documentId, {
-      [key]: {
-        value: normalizeDate(value),
-      },
-    }));
-  }, [dispatch, documentId]);
+export function DocumentReadingStep({ documentId, step, fields = [], identityId, isEditable, onReading }) {
+  const intl = useIntl();
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const [isEditingMode, setIsEditingMode] = useState(false);
 
   if (step.error) {
     const message = intl.formatMessage({ id: 'DocumentReadingStep.error' }, {
@@ -53,38 +56,114 @@ export function DocumentReadingStep({ documentId, step, fields = [], isEditable 
     );
   }
 
-  if (step.status !== 200) {
-    return null;
+  if (onReading) {
+    const fieldsCount = Object.keys(step.data || {});
+
+    return (
+      <Grid container className={classes.inputsWrapper} justify="space-between">
+        {fieldsCount.map((key) => (
+          <Box className={classes.inputWrapper} key={key}>
+            <Typography className={classes.editableInput}>
+              <SkeletonLoader animation="wave" variant="text" />
+            </Typography>
+          </Box>
+        ))}
+      </Grid>
+    );
+  }
+
+  if (isEditingMode) {
+    const initialValues = {};
+    fields.forEach((field) => {
+      initialValues[field.id] = field.value;
+    });
+    return (
+      <Formik
+        initialValues={initialValues}
+        onSubmit={async (values) => {
+          try {
+            const diff = difference(values, initialValues);
+            // update only changed fields
+            const normalizedData = {};
+            Object.keys(diff).forEach((key) => {
+              normalizedData[key] = { value: normalizeDate(values[key]) };
+            });
+            await dispatch(documentUpdate(documentId, normalizedData));
+            await dispatch(sendWebhook(identityId));
+            notification.success(intl.formatMessage({ id: 'identities.details.webhook.success' }));
+            setIsEditingMode(false);
+          } catch (e) {
+            console.error('webhook sending error', e);
+          }
+        }}
+      >
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit} className={classes.wrapper}>
+            {fields.map(({ id }) => {
+              const valueLabel = intl.formatMessage({
+                id: `identity.field.${id}`,
+                defaultMessage: humanize(underscore(id)),
+              });
+              return (
+                <Box mb={1.6} className={classes.editInputWrapper}>
+                  <Field
+                    name={id}
+                    type="input"
+                    variant="outlined"
+                    fullWidth
+                    component={TextField}
+                    disabled={false}
+                  />
+                  <InputLabel className={classes.editLabel}>
+                    {valueLabel}
+                  </InputLabel>
+                </Box>
+              );
+            })}
+            <Grid container justify="space-between" className={classes.buttonWrapper}>
+              <Button className={`${classes.button} ${classes.buttonHalf}`} type="submit">
+                {intl.formatMessage({ id: 'DocumentReadingStep.btn.save' })}
+              </Button>
+              <Button className={`${classes.button} ${classes.buttonHalf}`} onClick={() => setIsEditingMode(false)}>
+                {intl.formatMessage({ id: 'cancel' })}
+              </Button>
+            </Grid>
+          </Form>
+        )}
+      </Formik>
+    );
   }
 
   return (
-    <Grid container spacing={1} direction="column">
-      {fields.map(({ id, value, isValid }) => {
-        const valueLabel = intl.formatMessage({
-          id: `identity.field.${id}`,
-          defaultMessage: humanize(underscore(id)),
-        });
+    <Grid container direction="column" className={classes.wrapper}>
+      <Grid container className={classes.inputsWrapper} justify="space-between">
+        {fields.map(({ id, value }) => {
+          const valueLabel = intl.formatMessage({
+            id: `identity.field.${id}`,
+            defaultMessage: humanize(underscore(id)),
+          });
 
-        return (
-          <Grid container item spacing={2} alignItems="center" key={id}>
-            <Grid xs={5} item>
-              <Typography>{valueLabel}</Typography>
-            </Grid>
-            <Grid xs={7} item>
-              {isEditable
-                ? (
-                  <EditableField
-                    isValid={isValid}
-                    label={id}
-                    value={value}
-                    onSubmit={(newValue) => handleSubmit(id, newValue)}
-                  />
-                )
-                : formatValue(id, value)}
-            </Grid>
-          </Grid>
-        );
-      })}
+          return (
+            <Box className={classes.inputWrapper} key={id}>
+              <Typography className={classes.editableInput}>
+                {/* <SkeletonLoader animation="wave" variant="text" /> */}
+                {formatValue(id, value) || <Box component="span" color="common.red">{intl.formatMessage({ id: 'DocumentReadingStep.notParsed' })}</Box>}
+              </Typography>
+              <InputLabel className={classes.label}>
+                {valueLabel}
+              </InputLabel>
+            </Box>
+          );
+        })}
+      </Grid>
+      {isEditable && (
+        <Box className={classes.buttonWrapper}>
+          <Button className={classes.button} fullWidth onClick={() => setIsEditingMode(true)}>
+            <img src={Icon} alt="" />
+            {intl.formatMessage({ id: 'DocumentReadingStep.btn.edit' })}
+          </Button>
+        </Box>
+      )}
     </Grid>
   );
 }

@@ -34,7 +34,6 @@ export const useStyles = makeStyles((theme) => ({
     lineHeight: '17px',
     color: theme.palette.common.black75,
     [theme.breakpoints.down('sm')]: {
-      wordBreak: 'break-all',
       paddingRight: 15,
     },
   },

@@ -19,6 +19,7 @@ export const types = {
   ...createTypesSequence(IdentityActionGroups.FilteredCount),
   FILTER_UPDATE: 'FILTER_UPDATE',
   IDENTITY_REMOVE: 'IDENTITY_REMOVE',
+  SET_PDF_GENERATING: 'SET_PDF_GENERATING',
 };
 
 export const identitiesListLoad = (isReload) => async (dispatch, getState) => {
@@ -164,3 +165,5 @@ export const documentUpdate = (id, fields) => async (dispatch, getState) => {
     throw error;
   }
 };
+
+export const setPDFGenerating = (flag) => ({ type: types.SET_PDF_GENERATING, payload: flag });

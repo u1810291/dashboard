@@ -1,6 +1,5 @@
 import { Box, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { PageLoader } from 'apps/layout';
-import confirm from 'components/confirm/Confirm';
 import { formatDate } from 'lib/date';
 import { titleCase } from 'lib/string';
 import { getIdentityShortId } from 'models/Identity.model';
@@ -11,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { identityRemove } from 'state/identities/identities.actions';
 import { selectIdentityCollection } from 'state/identities/identities.selectors';
+import { confirmDelete } from '../DeleteModal/DeleteModal';
 import { StatusLabel } from '../StatusLabel';
 import { VerificationFlowName } from '../VerificationFlowName/VerificationFlowName';
 import { ReactComponent as EmptyTableIcon } from './empty-table.svg';
@@ -19,13 +19,9 @@ import { TableRowHovered } from './VerificationTable.styles';
 export function VerificationTable() {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const history = useHistory();
   const identityCollection = useSelector(selectIdentityCollection);
   const [deleting, setDeleting] = useState(null);
-
-  const handleRowClick = useCallback((id) => {
-    history.push(`/identities/${id}`);
-  }, [history]);
+  const history = useHistory();
 
   const handleRemove = useCallback(async (e, id) => {
     e.stopPropagation();
@@ -34,7 +30,7 @@ export function VerificationTable() {
     }
     try {
       setDeleting(id);
-      await confirm(intl.formatMessage({ id: 'verificationModal.delete.confirm' }));
+      await confirmDelete();
       await dispatch(identityRemove(id));
     } catch (error) {
       if (!error) {
@@ -45,7 +41,14 @@ export function VerificationTable() {
     } finally {
       setDeleting(null);
     }
-  }, [dispatch, intl, deleting]);
+  }, [dispatch, deleting]);
+
+  const handleRedirect = useCallback((id) => {
+    history.push({
+      pathname: `/identities/${id}`,
+      state: { from: history.location.pathname + history.location.search },
+    });
+  }, [history]);
 
   return (
     <TableContainer component={Paper}>
@@ -75,7 +78,7 @@ export function VerificationTable() {
               <TableRowHovered
                 hover
                 key={item.id}
-                onClick={() => handleRowClick(item.id)}
+                onClick={() => handleRedirect(item.id)}
               >
                 <TableCell>
                   #

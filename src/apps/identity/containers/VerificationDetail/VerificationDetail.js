@@ -1,22 +1,18 @@
-import { Box, Container, Grid, Typography } from '@material-ui/core';
+import { Box, Container } from '@material-ui/core';
 import { Page404, PageError } from 'apps/layout';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useLongPolling } from 'lib/longPolling.hook';
 import { isNotFound } from 'models/Error.model';
-import { getIdentityShortId } from 'models/Identity.model';
 import React, { useCallback } from 'react';
-import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { identityClear, identityDemoLoad, identityLoad } from 'state/identities/identities.actions';
 import { selectIdentityModelWithExtras } from 'state/identities/identities.selectors';
-import { VerificationFlowName } from '../../components/VerificationFlowName/VerificationFlowName';
-import { VerificationSidePanel } from '../../components/VerificationSidePanel/VerificationSidePanel';
+import { VerificationHeader } from '../../components/VerificationHeader/VerificationHeader';
 import { Verification } from './Verification';
 
 export function VerificationDetail() {
   const dispatch = useDispatch();
-  const intl = useIntl();
   const { id, demoId } = useParams();
   const identityModel = useSelector(selectIdentityModelWithExtras);
 
@@ -40,8 +36,8 @@ export function VerificationDetail() {
       : <PageError />;
   }
 
-  if (identityModel.isLoaded && !identityModel.value) {
-    return <Page404 />;
+  if (!identityModel.value) {
+    return <></>; // skeleton loader will appear here
   }
 
   if (LoadableAdapter.isPristine(identityModel) || (!identityModel.isLoaded && identityModel.isLoading)) {
@@ -49,25 +45,12 @@ export function VerificationDetail() {
   }
 
   return (
-    <Container>
-      <Box py={3}>
-        <Box mb={3}>
-          <Typography variant="h2">
-            {intl.formatMessage({ id: 'identity.title' }, { id: getIdentityShortId(identityModel.value.id) })}
-          </Typography>
-          <Box mt={0.5}>
-            <VerificationFlowName flowId={identityModel.value.flowId} />
-          </Box>
+    <Container maxWidth="initial">
+      <Box pt={{ xs: 2, lg: 4 }}>
+        <Box mb={1}>
+          <VerificationHeader identity={identityModel.value} isDemo={!!demoId} />
         </Box>
-
-        <Grid container spacing={2} direction="row">
-          <Grid item xs={9}>
-            <Verification identity={identityModel.value} />
-          </Grid>
-          <Grid item xs={3}>
-            <VerificationSidePanel identity={identityModel.value} isDemo={!!demoId} />
-          </Grid>
-        </Grid>
+        <Verification identity={identityModel.value} />
       </Box>
     </Container>
   );

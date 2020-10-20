@@ -1,16 +1,20 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
+  wrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  item: {
+    width: '100%',
+    marginBottom: 16,
+  },
   card: {
     width: '100%',
-    backgroundColor: 'rgba(0,0,0,0)',
     boxShadow: 'none',
-    marginBottom: 20,
-  },
-  label: {
-    color: '#929292',
   },
   value: {
-    color: '#242424',
+    fontWeight: 'bold',
+    color: theme.palette.common.black90,
   },
 }));

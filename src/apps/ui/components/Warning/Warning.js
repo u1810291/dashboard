@@ -1,44 +1,51 @@
-import { Box } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import { appPalette } from 'apps/theme/app.palette';
 import React from 'react';
-import { FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
+import { FiAlertCircle, FiActivity } from 'react-icons/fi';
 import { WarningSize, WarningTypes } from '../../models/Warning.model';
 import { useStyles } from './Warning.styles';
 
 const IconMap = {
   [WarningTypes.Warning]: FiAlertCircle,
-  [WarningTypes.Success]: FiCheckCircle,
-  [WarningTypes.Error]: FiAlertCircle,
+  [WarningTypes.Success]: FiActivity,
+  [WarningTypes.Error]: FiActivity,
 };
 
 const ColorMap = {
   [WarningTypes.Warning]: {
     color: appPalette.orange,
-    text: appPalette.black,
+    titleColor: appPalette.orange,
   },
   [WarningTypes.Error]: {
     color: appPalette.red,
-    text: appPalette.red,
+    titleColor: appPalette.red,
   },
   [WarningTypes.Success]: {
     color: appPalette.green,
-    text: appPalette.green,
+    titleColor: appPalette.black75,
   },
 };
 
-export function Warning({ label, type = WarningTypes.Warning, size = WarningSize.Normal }) {
+export function Warning({ title, label, type = WarningTypes.Warning, size = WarningSize.Normal }) {
   const classes = useStyles();
 
   const Icon = IconMap[type];
   const style = ColorMap[type];
 
   return (
-    <Box className={classes.root} borderColor={style.color}>
+    <Box className={classes.root}>
       <Box className={classes.icon}>
         <Icon size={size} color={style.color} />
       </Box>
-      <Box className={classes.content} color={style.text}>
-        {label}
+      <Box className={classes.content}>
+        {title && (
+          <Typography variant="h4" gutterBottom style={{ color: style.titleColor }}>
+            {title}
+          </Typography>
+        )}
+        <Box>
+          {label}
+        </Box>
       </Box>
     </Box>
   );

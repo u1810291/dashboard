@@ -38,7 +38,7 @@ export function LogoutModal({ onClose, onConfirm }) {
   );
 }
 
-export default function logout() {
+export function logout() {
   return new Promise((resolve, reject) => {
     function onClose() {
       closeOverlay();

@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import { appPalette } from 'apps/theme/app.palette';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -15,5 +15,8 @@ export const useStyles = makeStyles(() => ({
     background: appPalette.white,
     borderRadius: '50%',
     padding: '0.2rem',
+  },
+  button: {
+    color: theme.palette.common.lightblue,
   },
 }));

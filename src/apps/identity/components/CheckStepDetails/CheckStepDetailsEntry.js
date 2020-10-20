@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { useFormattedValue } from 'lib/string';
 import { useIntl } from 'react-intl';
 import { useStyles } from './CheckStepDetails.styles';
@@ -10,16 +10,14 @@ export function CheckStepDetailsEntry({ label, value }) {
   const formatted = useFormattedValue(label, value);
 
   return (
-    <Grid container item spacing={1} key={label}>
-      <Grid item xs={3} className={classes.label}>
+    <Box key={label} className={classes.item}>
+      <Box mb={0.4} className={classes.value}>{formatted}</Box>
+      <Box className={classes.label}>
         {intl.formatMessage({
           id: `identity.field.${label}`,
           defaultMessage: label,
         })}
-      </Grid>
-      <Grid item xs={3} className={classes.value}>
-        {formatted}
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   );
 }

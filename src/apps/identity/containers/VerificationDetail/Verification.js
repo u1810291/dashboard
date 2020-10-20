@@ -1,4 +1,4 @@
-import { Card, CardContent, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
 import { Page404 } from 'apps/layout';
 import { get } from 'lodash';
@@ -6,7 +6,7 @@ import React from 'react';
 import { DocumentStep } from '../../components/DocumentStep/DocumentStep';
 import { LivenessStep } from '../../components/LivenessStep/LivenessStep';
 import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
-import { Header } from './Header';
+import { VerificationSummary } from '../../components/VerificationSummary/VerificationSummary';
 
 export function Verification({ identity }) {
   const verification = get(identity, '_embedded.verification');
@@ -19,36 +19,31 @@ export function Verification({ identity }) {
     <Grid container spacing={2} direction="column" wrap="nowrap">
       {/* header */}
       <Grid item>
-        <Card>
-          <CardContent>
-            <Header fullName={identity.fullName} dateCreated={identity.dateCreated} />
-          </CardContent>
-        </Card>
+        <VerificationSummary identity={identity} />
       </Grid>
 
-      {/* IP check */}
-      {identity.ipCheck && !identity.ipCheck.error && (
-        <Grid item>
-          <IpCheck data={identity.ipCheck.data} />
-        </Grid>
-      )}
-
       {/* biometric */}
-      {identity.biometric.length > 0 && (
-        <Grid item>
-          <LivenessStep steps={identity.biometric} />
-        </Grid>
-      )}
+      <Grid item>
+        <LivenessStep steps={identity.biometric} />
+      </Grid>
 
       {/* Documents */}
-      {identity.documents.map((doc) => (
+      {identity.documents.map((doc, index) => (
         <Grid item key={doc.type}>
           <DocumentStep
             identity={identity}
             document={doc}
+            documentIndex={index}
           />
         </Grid>
       ))}
+
+      {/* IP check */}
+      {identity.ipCheck && !identity.ipCheck.error && identity.ipCheck.data && (
+        <Grid item>
+          <IpCheck data={identity.ipCheck.data} isChecking={identity.ipCheck.status < 200} />
+        </Grid>
+      )}
 
       {/* Metadata */}
       {identity.metadata && (

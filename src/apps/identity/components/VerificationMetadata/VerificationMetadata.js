@@ -1,24 +1,30 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Card, CardContent } from '@material-ui/core';
+import { useIntl } from 'react-intl';
+import { Paper, Typography, Box } from '@material-ui/core';
 import { SyntaxHighlighter } from 'components/syntax-highlighter';
 import { SyntaxHighlighterLanguages } from 'components/syntax-highlighter/SyntaxHighlighter.model';
 import stringify from 'lib/stringify';
+import { useStyles } from './VerificationMetadata.styles';
 
 export function VerificationMetadata({ metadata = {} }) {
+  const intl = useIntl();
+  const classes = useStyles();
+
   return (
-    <Card>
-      <CardContent>
-        <h2>
-          <FormattedMessage id="VerificationMetadata.title" />
-        </h2>
+    <Paper>
+      <Box p={2}>
+        <Box mb={2}>
+          <Typography variant="subtitle2" className={classes.title}>
+            {intl.formatMessage({ id: 'VerificationMetadata.title' })}
+          </Typography>
+        </Box>
         <SyntaxHighlighter
           code={stringify(metadata)}
           language={SyntaxHighlighterLanguages.JavaScript}
-          isBorder={false}
-          isCopyToClipboard={false}
+          isLightYellowTheme
+          withCopyText
         />
-      </CardContent>
-    </Card>
+      </Box>
+    </Paper>
   );
 }
