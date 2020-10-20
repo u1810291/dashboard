@@ -842,7 +842,7 @@
   "SecurityCheckStep.system.internalError": "Error interno",
   "SecurityCheckStep.system.internalError.message": "Error interno ocurrido.",
   "SecurityCheckStep.system.serviceUnavailable": "Servicio no disponible",
-  "SecurityCheckStep.system.serviceUnavailable.message": "Parece que el servicio no está disponible en este momento",
+  "SecurityCheckStep.system.serviceUnavailable.message": "Parece que el servicio no está disponible en este momento.",
   "SecurityCheckStep.template-matching.failure": "El usuario eligió cargar un documento de {country} pero la imagen cargada no coincide con ninguna plantilla / revisión válida.",
   "SecurityCheckStep.template-matching.incomplete": "No conservamos suficientes datos para terminar esta comprobación.",
   "SecurityCheckStep.template-matching.success": "El documento cargado corresponde a una revisión válida de {country}.",
