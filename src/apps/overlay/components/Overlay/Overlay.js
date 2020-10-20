@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import classNames from 'classnames';
 import CSS from './Overlay.module.scss';
 
 export function findRelativeParent(element) {
@@ -61,7 +61,7 @@ export default class Overlay extends React.Component {
   }
 
   render() {
-    const { props: { children, inline }, state: { visible } } = this;
+    const { props: { children, inline, options }, state: { visible } } = this;
     return (
       // eslint-disable-next-line max-len
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
@@ -70,8 +70,9 @@ export default class Overlay extends React.Component {
           CSS.overlay,
           visible && CSS.overlayVisible,
           { [CSS.overlayInline]: inline },
+          options?.additionalClasses?.map((item) => CSS[item]),
         )}
-        onClick={(e) => e.target === e.currentTarget && this.onClose()}
+        onClick={(e) => e.target === e.currentTarget && options.onClose()}
         ref="overlay" // eslint-disable-line react/no-string-refs
       >
         <span

@@ -4,8 +4,10 @@ import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { get } from 'lodash';
 import { ERROR_COMMON } from 'models/Error.model';
 import { createTypesSequence } from 'state/utils';
-import { IdentityActionGroups } from './identities.store';
+import { filterSerialize } from '../../apps/identity/models/filter.model';
+import { IdentityStatuses } from '../../models/Identity.model';
 import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from './identities.selectors';
+import { IdentityActionGroups } from './identities.store';
 
 export const types = {
   ...createTypesSequence('IDENTITY_PATCH'),
@@ -17,20 +19,41 @@ export const types = {
   ...createTypesSequence(IdentityActionGroups.IdentityRemove),
   ...createTypesSequence(IdentityActionGroups.IdentityCount),
   ...createTypesSequence(IdentityActionGroups.FilteredCount),
+  ...createTypesSequence(IdentityActionGroups.PreliminaryFilteredCount),
+  ...createTypesSequence(IdentityActionGroups.ManualReviewCount),
   FILTER_UPDATE: 'FILTER_UPDATE',
   IDENTITY_REMOVE: 'IDENTITY_REMOVE',
   SET_PDF_GENERATING: 'SET_PDF_GENERATING',
 };
 
-export const identitiesListLoad = (isReload) => async (dispatch, getState) => {
-  dispatch({ type: isReload ? types.IDENTITY_LIST_UPDATING : types.IDENTITY_LIST_REQUEST });
+export const identitiesListLoad = (isReload, offset) => async (dispatch, getState) => {
+  dispatch({ type: isReload ? types.IDENTITY_LIST_REQUEST : types.IDENTITY_LIST_UPDATING });
   try {
     const filter = selectIdentityFilterSerialized(getState());
-    const { data } = await api.getIdentities(filter);
+    const { data } = await api.getIdentities({ ...filter, ...offset });
     const payload = (data || []).map((item) => item.identity);
-    dispatch({ type: types.IDENTITY_LIST_SUCCESS, payload, isReset: true });
+    dispatch({ type: types.IDENTITY_LIST_SUCCESS, payload, isReset: isReload });
   } catch (error) {
     dispatch({ type: types.IDENTITY_LIST_FAILURE, error });
+    notification.error(ERROR_COMMON);
+    throw error;
+  }
+};
+
+export const identitiesManualReviewCountLoad = () => async (dispatch) => {
+  dispatch({ type: types.MANUAL_REVIEW_COUNT_UPDATING });
+  try {
+    const filter = { status: IdentityStatuses.reviewNeeded };
+    const { data } = await api.getIdentitiesCount(filter);
+    dispatch({
+      type: types.MANUAL_REVIEW_COUNT_SUCCESS,
+      payload: data.count || 0,
+    });
+  } catch (error) {
+    dispatch({
+      type: types.MANUAL_REVIEW_COUNT_FAILURE,
+      error,
+    });
     notification.error(ERROR_COMMON);
     throw error;
   }
@@ -59,9 +82,34 @@ export const identitiesFilteredCountLoad = () => async (dispatch, getState) => {
   try {
     const filter = selectIdentityFilterSerialized(getState());
     const { data } = await api.getIdentitiesCount(filter);
-    dispatch({ type: types.FILTERED_COUNT_SUCCESS, payload: data.count || 0 });
+    dispatch({
+      type: types.FILTERED_COUNT_SUCCESS,
+      payload: data.count || 0,
+    });
   } catch (error) {
-    dispatch({ type: types.FILTERED_COUNT_FAILURE, error });
+    dispatch({
+      type: types.FILTERED_COUNT_FAILURE,
+      error,
+    });
+    notification.error(ERROR_COMMON);
+    throw error;
+  }
+};
+
+export const identitiesPreliminaryCountLoad = (localFilter) => async (dispatch, getState) => {
+  dispatch({ type: types.PRELIMINARY_FILTERED_COUNT_UPDATING });
+  try {
+    const filter = localFilter ? filterSerialize(localFilter) : selectIdentityFilterSerialized(getState());
+    const { data } = await api.getIdentitiesCount(filter);
+    dispatch({
+      type: types.PRELIMINARY_FILTERED_COUNT_SUCCESS,
+      payload: data.count || 0,
+    });
+  } catch (error) {
+    dispatch({
+      type: types.PRELIMINARY_FILTERED_COUNT_FAILURE,
+      error,
+    });
     notification.error(ERROR_COMMON);
     throw error;
   }

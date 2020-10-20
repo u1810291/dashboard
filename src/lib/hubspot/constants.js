@@ -6,10 +6,3 @@ export const hubspotEvents = {
 export const hubspotForms = {
   signUp: '7d3325f0-89d1-4422-b8b2-5267ad287be2',
 };
-
-export const hubspotMeeting = {
-  embedScriptUrl: 'https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js',
-  userUrl: 'https://meetings.hubspot.com/hello797/bookademo?embed=true',
-};
-
-export const MEETINGS_CONTAINER_NAME = 'meetings-iframe-container';

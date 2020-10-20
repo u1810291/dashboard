@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
-import Overlay from './Overlay';
+import Overlay from '../Overlay/Overlay';
+import CSS from './OverlayWithBlur.module.scss';
 
-import CSS from './Overlay.module.scss';
-
-export default class OverlayWithBlur extends Component {
+export class OverlayWithBlur extends Component {
   static defaultProps = {
     onClose: () => {},
   }

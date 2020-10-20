@@ -1,13 +1,14 @@
+import { Box, Button, InputLabel, TextField } from '@material-ui/core';
+import { useOverlay } from 'apps/overlay';
+import Img from 'assets/modal-change-pass.svg';
+import Modal from 'components/modal';
 import { get } from 'lodash';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { TextField, Button, InputLabel, Box } from '@material-ui/core';
-import Modal from 'components/modal';
-import Img from 'assets/modal-change-pass.svg';
-import { closeOverlay } from '../../../../components/overlay';
 
 export function ChangePasswordModal({ onSubmit }) {
   const intl = useIntl();
+  const [, closeOverlay] = useOverlay();
   const [formData, setFormData] = useState({
     oldPassword: '',
     password: '',

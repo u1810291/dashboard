@@ -136,3 +136,14 @@ export function getIdentityExtras(identity, countries) {
     ipCheck: getIpCheckStep(steps),
   };
 }
+
+export const OrderDirections = {
+  asc: 'asc',
+  desc: 'desc',
+};
+
+export const OrderKeys = {
+  dateCreated: 'dateCreated',
+  fullName: 'fullName',
+  flowId: 'flowId',
+};

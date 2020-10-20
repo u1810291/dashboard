@@ -1,17 +1,17 @@
 import { Grid } from '@material-ui/core';
-import { closeOverlay, createOverlay } from 'components/overlay';
+import { useOverlay } from 'apps/overlay';
 import { downloadBlob } from 'lib/file';
 import { get } from 'lodash';
 import React, { useCallback, useState } from 'react';
-import { FiCode, FiDownload, FiLoader, FiTrash2, FiChevronLeft } from 'react-icons/fi';
+import { FiChevronLeft, FiCode, FiDownload, FiLoader, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { identityRemove, setPDFGenerating } from 'state/identities/identities.actions';
-import { confirmDelete } from '../DeleteModal/DeleteModal';
+import { selectIdentityIsPDFGenerating } from '../../../../state/identities/identities.selectors';
+import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { VerificationWebhookModal } from '../VerificationWebhookModal/VerificationWebhookModal';
 import { SideButton, useStyles } from './VerificationHeader.styles';
-import { selectIdentityIsPDFGenerating } from '../../../../state/identities/identities.selectors';
 
 export function VerificationHeader({ identity, isDemo = false }) {
   const dispatch = useDispatch();
@@ -19,8 +19,10 @@ export function VerificationHeader({ identity, isDemo = false }) {
   const history = useHistory();
   const classes = useStyles();
   const location = useLocation();
+  const [createOverlay, closeOverlay] = useOverlay();
   const [isDeleting, setIsDeleting] = useState(false);
   const isPDFGenerating = useSelector(selectIdentityIsPDFGenerating);
+  const confirmDelete = useConfirmDelete();
 
   const handlePDFGenerating = useCallback((flag) => {
     dispatch(setPDFGenerating(flag));
@@ -63,12 +65,12 @@ export function VerificationHeader({ identity, isDemo = false }) {
     } finally {
       setIsDeleting(false);
     }
-  }, [dispatch, history, isDeleting, identity]);
+  }, [dispatch, history, isDeleting, identity, confirmDelete]);
 
   const openWebhookModal = useCallback(() => {
     const webhook = get(identity, 'originalIdentity._embedded.verification', {});
     createOverlay(<VerificationWebhookModal webhook={webhook} onClose={closeOverlay} identityId={identity.id} />);
-  }, [identity]);
+  }, [identity, createOverlay, closeOverlay]);
 
   return (
     <Grid container direction="column" spacing={2}>

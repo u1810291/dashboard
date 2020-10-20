@@ -1,20 +1,21 @@
 /* eslint-disable max-classes-per-file */
+import { MenuList, Paper } from '@material-ui/core';
+import { useOverlay } from 'apps/overlay';
 import { get } from 'lodash';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCurrentFlowId, merchantCreateFlow } from 'state/merchant/merchant.actions';
-import { selectMerchantFlowsModel, selectCurrentFlowId } from 'state/merchant/merchant.selectors';
-import { Paper, MenuList } from '@material-ui/core';
+import { merchantCreateFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
+import { selectCurrentFlowId, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { flowNameValidator } from '../../validators/FlowName.validator';
-import { FlowButtonAdd, FlowMenuItem, FlowMenuHeader, useStyles } from './VerificationFlowMenu.styles';
-import { createOverlay } from '../../../../components/overlay';
 import { AddNewFlowModal } from '../AddNewFlowDialog/AddNewFlowModal';
+import { FlowButtonAdd, FlowMenuHeader, FlowMenuItem, useStyles } from './VerificationFlowMenu.styles';
 
 export function VerificationFlowMenu({ setFade }) {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [createOverlay] = useOverlay();
   const merchantFlowModel = useSelector(selectMerchantFlowsModel);
   const currentFlowId = useSelector(selectCurrentFlowId);
   const merchantFlowList = get(merchantFlowModel, 'value', [{}]);
@@ -46,7 +47,7 @@ export function VerificationFlowMenu({ setFade }) {
 
   const handleAddNewFlow = useCallback(() => {
     createOverlay(<AddNewFlowModal submitNewFlow={submitNewFlow} />);
-  }, [submitNewFlow]);
+  }, [submitNewFlow, createOverlay]);
 
   return (
     <Paper className={classes.root}>

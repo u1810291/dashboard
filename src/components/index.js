@@ -1,4 +1,3 @@
-export { closeOverlay, createOverlay, OverlayWithBlur } from './overlay';
 export { default as Items } from './items';
 export { default as Button } from './button';
 export { default as Text } from './text';

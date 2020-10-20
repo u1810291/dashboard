@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { createOverlay, closeOverlay } from 'components/overlay';
 import { Button } from '@material-ui/core';
 import Modal from 'components/modal';
 import Img from 'assets/modal-delete.svg';
+import { useOverlay } from 'apps/overlay';
 
 export function DeleteModal({ onClose, onConfirm }) {
   const intl = useIntl();
@@ -39,8 +39,10 @@ export function DeleteModal({ onClose, onConfirm }) {
   );
 }
 
-export function confirmDelete() {
-  return new Promise((resolve, reject) => {
+export function useConfirmDelete() {
+  const [createOverlay, closeOverlay] = useOverlay();
+
+  return useCallback(() => new Promise((resolve, reject) => {
     function onClose() {
       closeOverlay();
       reject();
@@ -54,7 +56,7 @@ export function confirmDelete() {
     createOverlay(<DeleteModal onClose={onClose} onConfirm={onConfirm} />, {
       onClose,
     });
-  });
+  }), [closeOverlay, createOverlay]);
 }
 
 DeleteModal.propTypes = {

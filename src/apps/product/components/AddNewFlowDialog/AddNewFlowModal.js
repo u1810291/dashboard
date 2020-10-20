@@ -1,17 +1,18 @@
-import { useIntl } from 'react-intl';
+import { Box, Button, InputLabel, TextField } from '@material-ui/core';
+import { useOverlay } from 'apps/overlay';
+import { validationHandler } from 'lib/validations';
 import React, { useCallback, useState } from 'react';
-import { TextField, Button, InputLabel, Box } from '@material-ui/core';
+import { useIntl } from 'react-intl';
 import Img from '../../../../assets/modal-add-flow.png';
 import Modal from '../../../../components/modal/Modal';
 import { useStyles } from './AddNewFlowModal.styles';
-import { closeOverlay } from '../../../../components/overlay';
-import { validationHandler } from '../../../../lib/validations';
 
 export function AddNewFlowModal({ submitNewFlow }) {
   const intl = useIntl();
   const classes = useStyles();
   const [input, setInput] = useState('');
   const [error, setError] = useState(false);
+  const [, closeOverlay] = useOverlay();
 
   const handleSubmit = useCallback(async (text) => {
     try {
@@ -20,7 +21,7 @@ export function AddNewFlowModal({ submitNewFlow }) {
     } catch (e) {
       validationHandler(e, intl, setError);
     }
-  }, [intl, submitNewFlow]);
+  }, [intl, submitNewFlow, closeOverlay]);
 
   const handleOnChange = useCallback((e) => {
     setInput(e.target.value);

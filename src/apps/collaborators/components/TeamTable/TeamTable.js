@@ -1,11 +1,11 @@
-import { IconButton, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableRow, Box, Grid } from '@material-ui/core';
-import { createOverlay, closeOverlay } from 'components/overlay';
+import { Box, Grid, IconButton, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core';
+import { PageLoader } from 'apps/layout';
+import { useOverlay } from 'apps/overlay';
+import { notification } from 'components/notification';
 import { CollaboratorOptions } from 'models/Collaborator.model';
 import React, { useCallback, useState } from 'react';
-import { FiLoader, FiTrash2, FiChevronDown } from 'react-icons/fi';
+import { FiChevronDown, FiLoader, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { PageLoader } from 'apps/layout';
-import { notification } from 'components/notification';
 import { DeleteModal } from '../DeleteModal/DeleteModal';
 import { TeamTablePlaceholder } from '../TeamTablePlaceholder/TeamTablePlaceholder';
 import { useStyles } from './TeamTable.styles';
@@ -14,6 +14,7 @@ export function TeamTable({ list, onInvite, onUpdate, onRemove }) {
   const intl = useIntl();
   const classes = useStyles();
   const [deleting, setDeleting] = useState(null);
+  const [createOverlay, closeOverlay] = useOverlay();
 
   const handleRemoveSubmit = useCallback(async (id) => {
     try {
@@ -27,11 +28,11 @@ export function TeamTable({ list, onInvite, onUpdate, onRemove }) {
     } finally {
       setDeleting(null);
     }
-  }, [onRemove, intl]);
+  }, [onRemove, intl, closeOverlay]);
 
   const handleRemove = useCallback(async (user) => {
     createOverlay(<DeleteModal onSubmit={handleRemoveSubmit} user={user} />);
-  }, [handleRemoveSubmit]);
+  }, [handleRemoveSubmit, createOverlay]);
 
   const handleRoleChange = useCallback((id, role) => {
     onUpdate(id, { role });
