@@ -9,7 +9,7 @@ export function IpCheck({ data }) {
   const intl = useIntl();
   const classes = useStyles();
 
-  const isProxy = !data.safe;
+  const isProxy = !data?.safe;
 
   return (
     <Paper>
