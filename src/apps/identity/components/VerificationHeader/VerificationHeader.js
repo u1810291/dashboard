@@ -6,20 +6,21 @@ import React, { useCallback, useState } from 'react';
 import { FiChevronLeft, FiCode, FiDownload, FiLoader, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { identityRemove, setPDFGenerating } from 'state/identities/identities.actions';
 import { selectIdentityIsPDFGenerating } from '../../../../state/identities/identities.selectors';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { VerificationWebhookModal } from '../VerificationWebhookModal/VerificationWebhookModal';
 import { SideButton, useStyles } from './VerificationHeader.styles';
+import { getGoBackToListLink } from '../../../../models/Identity.model';
 
 export function VerificationHeader({ identity, isDemo = false }) {
   const dispatch = useDispatch();
   const intl = useIntl();
   const history = useHistory();
   const classes = useStyles();
-  const location = useLocation();
   const [createOverlay, closeOverlay] = useOverlay();
+  const goBackToListLink = getGoBackToListLink(useLocation());
   const [isDeleting, setIsDeleting] = useState(false);
   const isPDFGenerating = useSelector(selectIdentityIsPDFGenerating);
   const confirmDelete = useConfirmDelete();
@@ -27,14 +28,6 @@ export function VerificationHeader({ identity, isDemo = false }) {
   const handlePDFGenerating = useCallback((flag) => {
     dispatch(setPDFGenerating(flag));
   }, [dispatch]);
-
-  const handleGoBack = useCallback(() => {
-    if (location.state?.from?.startsWith('/identities')) {
-      history.push(location.state.from);
-    } else {
-      history.push('/identities');
-    }
-  }, [history, location]);
 
   const handlePDFDownload = useCallback(async () => {
     if (isPDFGenerating) {
@@ -77,14 +70,15 @@ export function VerificationHeader({ identity, isDemo = false }) {
       <Grid item container>
         {/* Back to list */}
         <Grid item>
-          <SideButton
-            variant="contained"
-            onClick={handleGoBack}
-            startIcon={<FiChevronLeft />}
-            className={classes.buttonBack}
-          >
-            {intl.formatMessage({ id: 'identities.details.backToList' })}
-          </SideButton>
+          <Link to={goBackToListLink}>
+            <SideButton
+              variant="contained"
+              startIcon={<FiChevronLeft />}
+              className={classes.buttonBack}
+            >
+              {intl.formatMessage({ id: 'identities.details.backToList' })}
+            </SideButton>
+          </Link>
         </Grid>
         {/* Download pdf */}
         {!isDemo && (
