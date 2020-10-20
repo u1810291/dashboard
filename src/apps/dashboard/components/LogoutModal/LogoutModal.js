@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { useIntl } from 'react-intl';
-import { createOverlay, closeOverlay } from 'components/overlay';
 import { Button } from '@material-ui/core';
+import { useOverlay } from 'apps/overlay';
+import Img from 'assets/modal-logout.svg';
 import Modal from 'components/modal';
-import Img from '../../../../assets/modal-logout.svg';
+import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
+import { useIntl } from 'react-intl';
 
 export function LogoutModal({ onClose, onConfirm }) {
   const intl = useIntl();
@@ -38,8 +38,10 @@ export function LogoutModal({ onClose, onConfirm }) {
   );
 }
 
-export function logout() {
-  return new Promise((resolve, reject) => {
+export function useLogout() {
+  const [createOverlay, closeOverlay] = useOverlay();
+
+  return useCallback(() => new Promise((resolve, reject) => {
     function onClose() {
       closeOverlay();
       reject();
@@ -53,7 +55,7 @@ export function logout() {
     createOverlay(<LogoutModal onClose={onClose} onConfirm={onConfirm} />, {
       onClose,
     });
-  });
+  }), [createOverlay, closeOverlay]);
 }
 
 LogoutModal.propTypes = {

@@ -47,12 +47,12 @@ export const useStyles = makeStyles((theme) => ({
     transform: 'translate(-50%, -50%)',
   },
   title: {
+    whiteSpace: 'nowrap',
     fontWeight: 'bold',
     fontSize: 12,
-    textAlign: 'center',
   },
   subtitle: {
+    whiteSpace: 'nowrap',
     fontSize: 12,
-    textAlign: 'center',
   },
 }));

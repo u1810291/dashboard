@@ -1,13 +1,14 @@
+import { Box, Button, Paper, TextField } from '@material-ui/core';
 import { get } from 'lodash';
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Paper, Box, TextField, Button } from '@material-ui/core';
-import { closeOverlay } from 'components';
+import { useOverlay } from '../../../overlay';
 import { useStyles } from './ChangePasswordModal.styles';
 
 export function ChangeEmailModal({ onSubmit }) {
   const intl = useIntl();
   const classes = useStyles();
+  const [, closeOverlay] = useOverlay();
   const [formData, setFormData] = useState({
     newEmail: '',
   });

@@ -1,15 +1,14 @@
 import { Button, Grid, Typography, Paper, Box } from '@material-ui/core';
 import { passwordChange } from 'apps/auth/state/auth.actions';
 import { selectUserEmail } from 'apps/user/state/user.selectors';
-import { closeOverlay, createOverlay } from 'components';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMerchantBusinessName, selectMerchantCreatedAt } from 'state/merchant/merchant.selectors';
 import { merchantUpdateBusinessName } from 'state/merchant/merchant.actions';
 import { formatDate } from 'lib/date';
+import { useOverlay } from '../../../overlay/hooks/Overlay.hook';
 import { ChangePasswordModal } from '../../components/ChangePasswordModal/ChangePasswordModal';
-// import { ChangeEmailModal } from '../../components/ChangeEmailModal/ChangeEmailModal';
 import { EditableInput } from '../../components/EditableInput/EditableInput';
 import { useStyles } from './CompanySettings.styles';
 
@@ -20,6 +19,7 @@ export function CompanySettings() {
   const email = useSelector(selectUserEmail);
   const companyName = useSelector(selectMerchantBusinessName);
   const createdAt = useSelector(selectMerchantCreatedAt);
+  const [createOverlay, closeOverlay] = useOverlay();
 
   const handleSubmitPassword = useCallback(async (values, { setFormState }) => {
     const { password, oldPassword } = values;
@@ -36,7 +36,7 @@ export function CompanySettings() {
       });
     }
     return false;
-  }, [dispatch]);
+  }, [dispatch, closeOverlay]);
 
   const handleSubmitBusinessName = useCallback(async (name) => {
     await dispatch(merchantUpdateBusinessName(name));
@@ -44,7 +44,7 @@ export function CompanySettings() {
 
   const openChangePasswordModal = useCallback(() => {
     createOverlay(<ChangePasswordModal onSubmit={handleSubmitPassword} />);
-  }, [handleSubmitPassword]);
+  }, [createOverlay, handleSubmitPassword]);
 
   return (
     <Paper>

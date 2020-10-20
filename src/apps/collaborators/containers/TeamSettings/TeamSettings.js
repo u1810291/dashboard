@@ -1,10 +1,10 @@
 import { Box, Button, Typography, Paper } from '@material-ui/core';
-import { createOverlay, closeOverlay } from 'components/overlay';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import React, { useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { notification } from 'components/notification';
+import { useOverlay } from 'apps/overlay';
 import { TeamInviteModal } from '../../components/TeamInviteModal/TeamInviteModal';
 import { TeamTable } from '../../components/TeamTable/TeamTable';
 import { collaboratorAdd, collaboratorListLoad, collaboratorRemove, collaboratorUpdate } from '../../state/collaborator.actions';
@@ -15,6 +15,7 @@ export function TeamSettings() {
   const dispatch = useDispatch();
   const intl = useIntl();
   const classes = useStyles();
+  const [createOverlay, closeOverlay] = useOverlay();
   const state = useSelector(selectCollaboratorState);
   const collaboratorList = useSelector(selectCollaboratorCollection);
 
@@ -43,7 +44,7 @@ export function TeamSettings() {
       },
     }));
     notification.info(intl.formatMessage({ id: 'teamTable.inviteSuccess.description' }));
-  }, [dispatch, intl]);
+  }, [dispatch, intl, closeOverlay]);
 
   const openInviteModal = useCallback(() => {
     createOverlay(
@@ -52,7 +53,7 @@ export function TeamSettings() {
         isPosting={state.isPosting}
       />,
     );
-  }, [handleInviteSubmit, state]);
+  }, [handleInviteSubmit, state, createOverlay]);
 
   return (
     <Paper>

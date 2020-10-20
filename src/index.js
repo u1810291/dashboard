@@ -7,7 +7,7 @@ import 'components/theme/styles.scss';
 import { AppIntlProvider } from 'apps/intl';
 import StoreProvider from 'components/store-provider';
 import { NotificationsContainer } from 'components/notification';
-import { Container as OverlayContainer } from 'components/overlay';
+import { OverlayContainer } from 'apps/overlay';
 import 'clipboard-polyfill';
 import 'core-js';
 import * as Sentry from '@sentry/browser';

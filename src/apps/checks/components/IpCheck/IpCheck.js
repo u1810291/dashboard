@@ -11,7 +11,7 @@ export function IpCheck({ data = {}, isChecking }) {
   const intl = useIntl();
   const classes = useStyles();
 
-  let status = data?.safe ? StepStatus.Success : StepStatus.Failure;
+  let status = data.safe ? StepStatus.Success : StepStatus.Failure;
   if (isChecking) {
     status = StepStatus.Checking;
   }

@@ -1,13 +1,12 @@
 import { Button, Grid, Typography } from '@material-ui/core';
-import confirm from 'components/confirm';
-import { closeOverlay, createOverlay } from 'components/overlay';
+import NewWebhookModal from 'apps/integration/components/NewWebhookModal';
+import { useConfirm, useOverlay } from 'apps/overlay';
 import { QATags } from 'models/QA.model';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteWebhook, getWebhooks, subscribeToWebhook } from 'state/webhooks/webhooks.actions';
 import { selectWebhook } from 'state/webhooks/webhooks.selectors';
-import NewWebhookModal from 'apps/integration/components/NewWebhookModal';
 import { RemoveButton, useStyles } from './SectionWebhook.styles';
 
 export function SectionWebhook() {
@@ -15,6 +14,9 @@ export function SectionWebhook() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const webhook = useSelector(selectWebhook);
+  // eslint-disable-next-line no-undef
+  const confirm = useConfirm();
+  const [createOverlay, closeOverlay] = useOverlay();
 
   const handleOnSave = useCallback(async (url, secret) => {
     if (webhook?.id) {
@@ -32,11 +34,11 @@ export function SectionWebhook() {
     } catch (e) {
       console.error(e);
     }
-  }, [dispatch, webhook.id]);
+  }, [dispatch, confirm, webhook.id]);
 
   const handleOpenModal = useCallback(() => {
     createOverlay(<NewWebhookModal onSave={handleOnSave} onClose={closeOverlay} />);
-  }, [handleOnSave]);
+  }, [handleOnSave, createOverlay, closeOverlay]);
 
   const secret = webhook.url ? '*'.repeat(16) : '—';
   const url = webhook.url || '—';

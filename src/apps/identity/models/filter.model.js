@@ -43,3 +43,8 @@ export function filterSerialize(filter) {
   }
   return pickBy(serialized, identity);
 }
+
+export function parseFromURL(url) {
+  const fromURL = Object.fromEntries(new URLSearchParams(url));
+  return filterParse(fromURL);
+}

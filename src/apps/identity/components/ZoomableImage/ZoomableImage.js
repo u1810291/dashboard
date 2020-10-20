@@ -1,4 +1,5 @@
-import { Content, OverlayWithBlur } from 'components';
+import { OverlayWithBlur } from 'apps/overlay';
+import { Content } from 'components';
 import React, { useState } from 'react';
 import { FiRotateCcw, FiRotateCw, FiZoomIn } from 'react-icons/fi';
 import { useStyles } from './ZoomableImage.styles';

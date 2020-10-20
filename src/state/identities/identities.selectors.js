@@ -1,9 +1,9 @@
 import { filterSerialize } from 'apps/identity/models/filter.model';
 import { createSelector } from 'reselect';
-import { IDENTITIES_STORE_KEY, SliceNames } from './identities.store';
-import { getIdentityExtras } from '../../models/Identity.model';
 import { selectLoadableValue } from '../../lib/loadable.selectors';
 import { selectCountriesList } from '../countries/countries.selectors';
+import { getIdentityExtras } from '../../models/Identity.model';
+import { IDENTITIES_STORE_KEY, SliceNames } from './identities.store';
 
 export const selectIdentityStore = (state) => state[IDENTITIES_STORE_KEY];
 
@@ -20,6 +20,16 @@ export const selectIdentityCountModel = createSelector(
 export const selectFilteredCountModel = createSelector(
   selectIdentityStore,
   (store) => store[SliceNames.FilteredCount],
+);
+
+export const selectPreliminaryFilteredCountModel = createSelector(
+  selectIdentityStore,
+  (store) => store[SliceNames.PreliminaryFilteredCount],
+);
+
+export const selectManualReviewCountModel = createSelector(
+  selectIdentityStore,
+  (store) => store[SliceNames.ManualReviewCount],
 );
 
 export const selectIdentityFilter = createSelector(

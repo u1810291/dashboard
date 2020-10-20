@@ -1,39 +1,42 @@
 import { Box, Button, Chip, Grid, Typography } from '@material-ui/core';
 import { WarningSize, WarningTypes, Warning } from 'apps/ui';
-import { closeOverlay, createOverlay } from 'components/overlay';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { PageLoader } from 'apps/layout';
+import { useOverlay } from 'apps/overlay';
 import { CountriesModal } from '../CountriesModal/CountriesModal';
 
 export function Countries({ countries, supportedCountries = [], onSubmit, isLoading }) {
   const intl = useIntl();
+  const [createOverlay, closeOverlay] = useOverlay();
 
-  const onSubmitHandler = (value) => {
+  const handleSubmit = useCallback((value) => {
     closeOverlay();
     onSubmit({ supportedCountries: value.map((item) => item.value) });
-  };
+  }, [closeOverlay, onSubmit]);
 
-  const mapCountries = (item) => ({
+  const mapCountries = useCallback((item) => ({
     value: item.code,
     label: item.name,
-  });
+  }), []);
 
-  const mapValues = (item) => {
+  const mapValues = useCallback((item) => {
     const country = countries.find(({ code }) => code === item);
     return {
       value: item,
       label: country && country.name,
     };
-  };
+  }, [countries]);
 
-  const openCountriesModal = () => createOverlay(
-    <CountriesModal
-      onSubmit={onSubmitHandler}
-      supportedCountries={supportedCountries.map(mapValues)}
-      countries={countries.map(mapCountries)}
-    />,
-  );
+  const openCountriesModal = useCallback(() => {
+    createOverlay(
+      <CountriesModal
+        onSubmit={handleSubmit}
+        supportedCountries={supportedCountries.map(mapValues)}
+        countries={countries.map(mapCountries)}
+      />,
+    );
+  }, [createOverlay, handleSubmit, countries, supportedCountries, mapValues, mapCountries]);
 
   return (
     <Box>

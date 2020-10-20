@@ -1,41 +1,68 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { Box, IconButton } from '@material-ui/core';
 import { debounce } from 'lodash';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FiSearch, FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { IconButton, InputAdornment } from '@material-ui/core';
-import { FiX } from 'react-icons/fi';
-import { TextFieldSearch } from './VerificationSearch.styles';
+import { useSelector } from 'react-redux';
+import { selectIdentityFilter } from '../../../../state/identities/identities.selectors';
+import { useOverlay } from '../../../overlay';
+import { useFilterUpdate } from '../../hooks/filterUpdate.hook';
+import { IconButtonSearch, InputAdornmentSearch, TextFieldSearch, useStyles } from './VerificationSearch.styles';
 
-export function VerificationSearch({ value, onChange }) {
+export function VerificationSearch({ isInOverlay }) {
   const intl = useIntl();
+  const classes = useStyles();
   const [search, setSearch] = useState('');
+  const [setFilter] = useFilterUpdate();
   const [adornment, setAdornment] = useState(null);
+  const identityFilter = useSelector(selectIdentityFilter);
+  const [createOverlay, closeOverlay] = useOverlay();
 
   useEffect(() => {
-    setSearch(value || '');
-  }, [value, onChange]);
+    setSearch(identityFilter?.search || '');
+  }, [identityFilter.search]);
+
+  const onChangeDebounced = useCallback(debounce((newValue) => {
+    setFilter({ search: newValue });
+  }, 300), [setFilter]);
+
+  const handleSubmitMobileSearch = useCallback((event) => {
+    event.preventDefault();
+    closeOverlay();
+  }, [closeOverlay]);
 
   const handleClear = useCallback(() => {
     setSearch('');
-    onChange({ search: '' });
-  }, [onChange]);
+    onChangeDebounced('');
+  }, [onChangeDebounced]);
+
+  const handleCreateSearchOverlay = useCallback(() => {
+    createOverlay(
+      <VerificationSearch setFilter={setFilter} isInOverlay />,
+      { additionalClasses: ['overlaySearch'] });
+  }, [createOverlay, setFilter]);
 
   useEffect(() => {
     setAdornment(search.length === 0
-      ? null
+      ? {
+        endAdornment: (
+          <InputAdornmentSearch position="end">
+            <IconButtonSearch size="small">
+              <FiSearch />
+            </IconButtonSearch>
+          </InputAdornmentSearch>
+        ),
+      }
       : {
         endAdornment: (
-          <InputAdornment position="end">
-            <IconButton size="small" onClick={handleClear}>
+          <InputAdornmentSearch position="end">
+            <IconButtonSearch size="small" onClick={handleClear}>
               <FiX />
-            </IconButton>
-          </InputAdornment>
+            </IconButtonSearch>
+          </InputAdornmentSearch>
         ),
       });
   }, [search, handleClear]);
-
-  const onChangeDebounced = useCallback(debounce((newValue) => {
-    onChange({ search: newValue });
-  }, 300), [onChange]);
 
   const handleSearchChange = useCallback((e) => {
     setSearch(e.target.value);
@@ -43,15 +70,25 @@ export function VerificationSearch({ value, onChange }) {
   }, [onChangeDebounced]);
 
   return (
-    <TextFieldSearch
-      value={search}
-      fullWidth
-      margin="dense"
-      color="primary"
-      variant="outlined"
-      placeholder={intl.formatMessage({ id: 'VerificationSearch.placeholder' })}
-      onChange={handleSearchChange}
-      InputProps={adornment}
-    />
+    <>
+      <form onSubmit={isInOverlay ? handleSubmitMobileSearch : (e) => e.preventDefault()}>
+        <Box maxWidth={{ lg: 300 }} height={50} className={!isInOverlay && classes.search}>
+          <TextFieldSearch
+            value={search}
+            fullWidth
+            color="primary"
+            variant="outlined"
+            placeholder={intl.formatMessage({ id: 'VerificationSearch.placeholder' })}
+            onChange={handleSearchChange}
+            InputProps={adornment}
+          />
+        </Box>
+      </form>
+      {!isInOverlay && (
+      <IconButton onClick={handleCreateSearchOverlay} className={classes.searchButton}>
+        <FiSearch />
+      </IconButton>
+      )}
+    </>
   );
 }

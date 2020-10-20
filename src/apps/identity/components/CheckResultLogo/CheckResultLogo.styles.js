@@ -32,21 +32,21 @@ export const useStyles = makeStyles((theme) => {
       },
       biometric: {
         icon: OtherChecksWarning,
-        color: '#FEC649',
+        color: theme.palette.common.yellow,
       },
       ipCheck: {
         icon: OtherChecksWarning,
-        color: '#FEC649',
+        color: theme.palette.common.yellow,
       },
     },
     [StepStatus.Incomplete]: {
       document: {
         icon: DocumentWarning,
-        color: '#FEC649',
+        color: theme.palette.common.yellow,
       },
       biometric: {
         icon: OtherChecksWarning,
-        color: '#FEC649',
+        color: theme.palette.common.yellow,
       },
     },
     [StepStatus.Checking]: {

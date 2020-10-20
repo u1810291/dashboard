@@ -1,11 +1,10 @@
 import { Box, Button, IconButton, Typography } from '@material-ui/core';
-import confirm from 'components/confirm';
-import { closeOverlay, createOverlay } from 'components/overlay';
+import { useConfirm, useOverlay } from 'apps/overlay';
 import { difference, without } from 'lodash';
-import React, { useState } from 'react';
+import { getDocumentList } from 'models/Document.model';
+import React, { useCallback, useState } from 'react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { getDocumentList } from 'models/Document.model';
 import VerificationStepModal from '../VerificationStepsModal/VerificationStepsModal';
 import { useStyles } from './VerificationSteps.styles';
 
@@ -34,18 +33,20 @@ export function accessibleItems(available, steps, index) {
 export function VerificationSteps({ steps = [], onChange }) {
   const intl = useIntl();
   const classes = useStyles();
+  const [createOverlay, closeOverlay] = useOverlay();
+  const confirm = useConfirm();
   const [availableDocumentTypes] = useState(getDocumentList());
 
-  const onRemoveItem = async (index) => {
+  const handleRemoveItem = useCallback(async (index) => {
     try {
       await confirm(intl.formatMessage({ id: 'confirm_string' }));
       onChange({ verificationSteps: removeItem(steps, index) });
     } catch (e) {
       // none, canceled
     }
-  };
+  }, [confirm, intl, onChange, steps]);
 
-  const onEditItem = (index) => {
+  const onEditItem = useCallback((index) => {
     createOverlay(
       <VerificationStepModal
         values={index !== undefined ? steps[index] : []}
@@ -65,7 +66,7 @@ export function VerificationSteps({ steps = [], onChange }) {
         }}
       />,
     );
-  };
+  }, [createOverlay, onChange, availableDocumentTypes, closeOverlay, steps]);
 
   return (
     <Box>
@@ -98,7 +99,7 @@ export function VerificationSteps({ steps = [], onChange }) {
                 <FiEdit2 />
               </IconButton>
               <Box ml={1}>
-                <IconButton size="small" onClick={() => onRemoveItem(index)}>
+                <IconButton size="small" onClick={() => handleRemoveItem(index)}>
                   <FiTrash2 className="color-red" />
                 </IconButton>
               </Box>

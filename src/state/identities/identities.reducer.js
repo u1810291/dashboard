@@ -12,6 +12,8 @@ const initialState = {
   [SliceNames.IdentityList]: LoadableAdapter.createState([]),
   [SliceNames.IdentityCount]: LoadableAdapter.createState(0),
   [SliceNames.FilteredCount]: LoadableAdapter.createState(0),
+  [SliceNames.PreliminaryFilteredCount]: LoadableAdapter.createState(0),
+  [SliceNames.ManualReviewCount]: LoadableAdapter.createState(0),
 };
 
 export default createReducer(initialState, {
@@ -19,7 +21,8 @@ export default createReducer(initialState, {
   ...LoadableAdapter.createHandlers(IdentityActionGroups.IdentityList, SliceNames.IdentityList),
   ...LoadableAdapter.createHandlers(IdentityActionGroups.IdentityCount, SliceNames.IdentityCount),
   ...LoadableAdapter.createHandlers(IdentityActionGroups.FilteredCount, SliceNames.FilteredCount),
-
+  ...LoadableAdapter.createHandlers(IdentityActionGroups.PreliminaryFilteredCount, SliceNames.PreliminaryFilteredCount),
+  ...LoadableAdapter.createHandlers(IdentityActionGroups.ManualReviewCount, SliceNames.ManualReviewCount),
   [types.FILTER_UPDATE](state, { payload }) {
     return {
       ...state,

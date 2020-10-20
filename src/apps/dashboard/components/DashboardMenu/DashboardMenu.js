@@ -1,30 +1,30 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import clsx from 'clsx';
 import { Box, Grid, Typography } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { QATags } from 'models/QA.model';
-import { FiChevronsLeft, FiChevronsRight, FiPlusCircle, FiLogOut, FiSettings } from 'react-icons/fi';
+import { useOverlay } from 'apps/overlay';
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3-white.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import { useIntl, FormattedMessage } from 'react-intl';
-import { NavLink, useHistory } from 'react-router-dom';
+import clsx from 'clsx';
 import { notification } from 'components/notification';
-import { useStyles } from './DashboardMenu.styles';
-import { PrimaryMenu } from '../PrimaryMenu/PrimaryMenu';
+import { QATags } from 'models/QA.model';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FiChevronsLeft, FiChevronsRight, FiLogOut, FiPlusCircle, FiSettings } from 'react-icons/fi';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useHistory } from 'react-router-dom';
 import { selectIsOwnerModel, selectMerchantBusinessName } from '../../../../state/merchant/merchant.selectors';
-import { SecondaryMenu } from '../SecondaryMenu/SecondaryMenu';
-import { TopMenuItem } from '../../../layout';
-import { IntlButton } from '../../../intl';
-import { logout } from '../LogoutModal/LogoutModal';
 import { signOut } from '../../../auth/state/auth.actions';
-import { ROOT_PATH } from '../../../routing';
-import { createOverlay, closeOverlay } from '../../../../components/overlay';
 import { TeamInviteModal } from '../../../collaborators/components/TeamInviteModal/TeamInviteModal';
-import { selectCollaboratorState } from '../../../collaborators/state/collaborator.selectors';
 import { collaboratorAdd } from '../../../collaborators/state/collaborator.actions';
+import { selectCollaboratorState } from '../../../collaborators/state/collaborator.selectors';
+import { IntlButton } from '../../../intl';
+import { TopMenuItem } from '../../../layout';
+import { ROOT_PATH } from '../../../routing';
+import { useLogout } from '../LogoutModal/LogoutModal';
+import { PrimaryMenu } from '../PrimaryMenu/PrimaryMenu';
+import { SecondaryMenu } from '../SecondaryMenu/SecondaryMenu';
+import { useStyles } from './DashboardMenu.styles';
 
 export function DashboardMenu() {
   const ownerModel = useSelector(selectIsOwnerModel);
@@ -37,12 +37,14 @@ export function DashboardMenu() {
   const isDesktop = useMediaQuery('(min-width:768px)', { noSsr: true });
   const [open, setOpen] = useState(isDesktop);
   const name = useSelector(selectMerchantBusinessName);
+  const [createOverlay, closeOverlay] = useOverlay();
+  const logout = useLogout();
 
   const handleLogout = useCallback(async () => {
     await logout(intl.formatMessage({ id: 'confirm_string' }));
     dispatch(signOut());
     history.push(ROOT_PATH);
-  }, [dispatch, history, intl]);
+  }, [dispatch, history, intl, logout]);
 
   const handleInviteSubmit = useCallback(async (data) => {
     closeOverlay();
@@ -55,7 +57,7 @@ export function DashboardMenu() {
       },
     }));
     notification.info(<FormattedMessage id="teamTable.inviteSuccess.description" />);
-  }, [dispatch]);
+  }, [dispatch, closeOverlay]);
 
   const openInviteModal = useCallback(() => {
     if (!isDesktop) {
@@ -65,9 +67,8 @@ export function DashboardMenu() {
       <TeamInviteModal
         onSubmit={handleInviteSubmit}
         isPosting={state.isPosting}
-      />,
-    );
-  }, [handleInviteSubmit, state, isDesktop, setOpen]);
+      />);
+  }, [handleInviteSubmit, state, isDesktop, setOpen, createOverlay]);
 
   const toggleDrawerOpen = useCallback(() => {
     setOpen((prev) => !prev);

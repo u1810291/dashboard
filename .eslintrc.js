@@ -27,7 +27,7 @@ module.exports = {
     'react/no-array-index-key': 0,
     'import/prefer-default-export': 0,
     'max-len': 'off',
-    'no-nested-ternary': 0
+    'no-nested-ternary': 0,
   },
   env: {
     browser: true,

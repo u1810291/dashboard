@@ -1,15 +1,16 @@
-import React, { useCallback } from 'react';
-import Modal from 'components/modal';
-import { closeOverlay } from 'components/overlay';
-import { useIntl } from 'react-intl';
 import { Button } from '@material-ui/core';
 import { PageLoader } from 'apps/layout';
+import { useOverlay } from 'apps/overlay';
 import Img from 'assets/modal-team-invite.svg';
+import Modal from 'components/modal';
+import React, { useCallback } from 'react';
+import { useIntl } from 'react-intl';
 import TeamInviteForm from '../TeamInviteForm/TeamInviteForm';
 
 export function TeamInviteModal({ onSubmit, isPosting }) {
   const intl = useIntl();
   const formRef = React.createRef();
+  const [, closeOverlay] = useOverlay();
 
   const handleSubmit = useCallback((data) => onSubmit(data), [onSubmit]);
 

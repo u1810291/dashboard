@@ -69,7 +69,7 @@ export const AppTheme = createMuiTheme({
     MuiIconButton: {
       root: {
         '&:hover': {
-          backgroundColor: 'inherit !important',
+          backgroundColor: 'inherit',
         },
       },
       sizeSmall: {

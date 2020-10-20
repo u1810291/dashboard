@@ -13,3 +13,8 @@ export const selectUserId = createSelector(
   selectUserModel,
   selectModelValue((user) => user && user.id),
 );
+
+export const selectUserRegistrationDate = createSelector(
+  selectUserModel,
+  selectModelValue((user) => user && user.dateCreated),
+);
