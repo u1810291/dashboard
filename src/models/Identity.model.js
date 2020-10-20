@@ -137,6 +137,14 @@ export function getIdentityExtras(identity, countries) {
   };
 }
 
+export function getGoBackToListLink(location) {
+  if (location.state?.from?.startsWith('/identities')) {
+    return location.state.from;
+  } else {
+    return '/identities';
+  }
+}
+
 export const OrderDirections = {
   asc: 'asc',
   desc: 'desc',
