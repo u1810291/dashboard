@@ -5,7 +5,7 @@ import { Marker, StaticGoogleMap } from 'react-static-google-map';
 import { WarningTypes, Warning } from 'apps/ui';
 import { useStyles } from './IpCheck.styles';
 
-export function IpCheck({ data }) {
+export function IpCheck({ data = {} }) {
   const intl = useIntl();
   const classes = useStyles();
 
