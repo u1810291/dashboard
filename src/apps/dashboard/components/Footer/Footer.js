@@ -1,5 +1,5 @@
-import { Box, Button, Container, Hidden, Paper } from '@material-ui/core';
-import React, { useCallback } from 'react';
+import { Box, Container, Hidden, Paper } from '@material-ui/core';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import Link from '@material-ui/core/Link';
 import matiLogo from 'assets/mati-logo-v3.svg';
@@ -7,16 +7,11 @@ import { useStyles } from './Footer.styles';
 import facebookLogo from './images/facebookLogo.svg';
 import twitterLogo from './images/twitterLogo.svg';
 import linkedInLogo from './images/linkedInLogo.svg';
+import { FreshworksWidgetButton } from '../../../layout/components/FreshworksWidgetButton/FreshworksWidgetButton';
 
 export function Footer() {
   const intl = useIntl();
   const classes = useStyles();
-
-  const openWidget = useCallback(() => {
-    if (window.FreshworksWidget !== undefined) {
-      window.FreshworksWidget('open');
-    }
-  }, []);
 
   return (
     <Paper color="secondary" square elevation={0} className={classes.root}>
@@ -26,7 +21,14 @@ export function Footer() {
           <Box className={classes.company}>
             <img src={matiLogo} className={classes.img} alt="" />
             <Box className={classes.message}>
-              {intl.formatMessage({ id: 'Footer.withLove' })}
+              {intl.formatMessage({ id: 'Footer.withLove.text' },
+                {
+                  heart: (
+                    <Box component="span" px={0.25}>
+                      { intl.formatMessage({ id: 'Footer.withLove.heart' }) }
+                    </Box>
+                  ),
+                })}
             </Box>
           </Box>
         </Hidden>
@@ -45,13 +47,9 @@ export function Footer() {
               </Link>
             </Box>
           </Hidden>
-          <Button
-            className={classes.supportButton}
-            onClick={openWidget}
-            variant="outlined"
-          >
-            {intl.formatMessage({ id: 'Footer.support' })}
-          </Button>
+          <Box className={classes.widget}>
+            <FreshworksWidgetButton text={intl.formatMessage({ id: 'Footer.support' })} />
+          </Box>
           <Link
             className={classes.socialLink}
             href="https://www.facebook.com/mativerifications"

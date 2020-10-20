@@ -35,7 +35,7 @@ export function formatValue(label, value) {
     return formatDate(value);
   }
 
-  return `${value}`;
+  return value ? `${value}` : '';
 }
 
 export function useFormattedValue(label, value) {

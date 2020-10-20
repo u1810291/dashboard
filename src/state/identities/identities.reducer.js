@@ -5,7 +5,7 @@ import { types } from './identities.actions';
 import { IdentityActionGroups, SliceNames } from './identities.store';
 
 const initialState = {
-  isLoadingFile: false,
+  isPDFGenerating: false,
   filter: initialFilter,
 
   [SliceNames.Identity]: LoadableAdapter.createState(null),
@@ -43,6 +43,12 @@ export default createReducer(initialState, {
         ...state[SliceNames.FilteredCount],
         value: state[SliceNames.FilteredCount].value - 1,
       },
+    };
+  },
+  [types.SET_PDF_GENERATING](state, { payload }) {
+    return {
+      ...state,
+      isPDFGenerating: payload,
     };
   },
 });

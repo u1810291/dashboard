@@ -10,7 +10,7 @@ import { FiChevronsLeft, FiChevronsRight, FiPlusCircle, FiLogOut, FiSettings } f
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3-white.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { notification } from 'components/notification';
 import { useStyles } from './DashboardMenu.styles';
 import { PrimaryMenu } from '../PrimaryMenu/PrimaryMenu';
@@ -18,7 +18,7 @@ import { selectIsOwnerModel, selectMerchantBusinessName } from '../../../../stat
 import { SecondaryMenu } from '../SecondaryMenu/SecondaryMenu';
 import { TopMenuItem } from '../../../layout';
 import { IntlButton } from '../../../intl';
-import logout from '../LogoutModal';
+import { logout } from '../LogoutModal/LogoutModal';
 import { signOut } from '../../../auth/state/auth.actions';
 import { ROOT_PATH } from '../../../routing';
 import { createOverlay, closeOverlay } from '../../../../components/overlay';
@@ -36,7 +36,6 @@ export function DashboardMenu() {
   const dispatch = useDispatch();
   const isDesktop = useMediaQuery('(min-width:768px)', { noSsr: true });
   const [open, setOpen] = useState(isDesktop);
-
   const name = useSelector(selectMerchantBusinessName);
 
   const handleLogout = useCallback(async () => {
@@ -81,7 +80,6 @@ export function DashboardMenu() {
   }), [history, isDesktop]);
 
   const isTemporary = !isDesktop && open;
-  const fixedNameString = name?.replace(/^(.{12})(.{2,})$/, '$1...');
 
   return (
     <Drawer
@@ -101,11 +99,16 @@ export function DashboardMenu() {
     >
       <Grid container direction="column" className={classes.grid}>
         <Grid item className={classes.contentTop}>
-          <Box px={2} pt={2} pb={1}>
-            <Box>
+          <NavLink
+            exact
+            to={isOwner ? '/' : '/identities'}
+            data-qa={QATags.Navigation.Top.Logo}
+          >
+            <Box px={2} pt={2} pb={1} className={classes.logo}>
               <MatiLogo width={100} height={30} />
             </Box>
-          </Box>
+          </NavLink>
+
           <Box>
             <Button
               className={classes.menuButton}
@@ -132,14 +135,14 @@ export function DashboardMenu() {
         </Grid>
         <Grid item className={classes.contentBottom}>
           <Box px={1.6} pb={2.5} pt={2}>
-            {open ? <Typography variant="h4" className={classes.company}>{fixedNameString}</Typography>
+            {open ? <Typography variant="h4" className={classes.company}>{name}</Typography>
               : (
                 <Box className={classes.companyShort}>
                   <Typography
                     variant="h4"
                     className={classes.company}
                   >
-                    {fixedNameString && fixedNameString[0]}
+                    {name && name[0]}
                   </Typography>
                 </Box>
               )}

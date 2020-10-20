@@ -2,64 +2,99 @@ import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Marker, StaticGoogleMap } from 'react-static-google-map';
-import { WarningTypes, Warning } from 'apps/ui';
 import { useStyles } from './IpCheck.styles';
+import { SkeletonLoader } from '../../../ui/components/SkeletonLoader/SkeletonLoader';
+import { CheckResultLogo } from '../../../identity/components/CheckResultLogo/CheckResultLogo';
+import { StepStatus } from '../../../../models/Step.model';
 
-export function IpCheck({ data = {} }) {
+export function IpCheck({ data = {}, isChecking }) {
   const intl = useIntl();
   const classes = useStyles();
 
-  const isProxy = !data?.safe;
+  let status = data?.safe ? StepStatus.Success : StepStatus.Failure;
+  if (isChecking) {
+    status = StepStatus.Checking;
+  }
 
   return (
     <Paper>
-      <Box p={3}>
-        <Box display="flex" flexWrap="wrap">
-          <Box flex="1 0 auto">
-            <Grid container direction="column" spacing={1}>
-              <Grid item>
-                <Typography variant="h4" color="initial">
-                  {intl.formatMessage({ id: 'IpCheckStep.title' })}
-                </Typography>
-              </Grid>
-
-              {/* proxy usage banner */}
-              <Grid item>
-                <Box mb={1}>
-                  <Warning
-                    type={isProxy ? WarningTypes.Error : WarningTypes.Success}
-                    label={intl.formatMessage({ id: isProxy ? 'IpCheckStep.vpnDetected' : 'IpCheckStep.noVpnDetected' })}
-                  />
-                </Box>
-              </Grid>
-
-              {/* Detected location fields */}
-              <Grid container item spacing={2}>
-                <Grid item xs={6} container direction="column" spacing={2}>
-                  <Grid item>{intl.formatMessage({ id: 'IpCheckStep.country' })}</Grid>
-                  <Grid item>{intl.formatMessage({ id: 'IpCheckStep.province' })}</Grid>
-                  <Grid item>{intl.formatMessage({ id: 'IpCheckStep.city' })}</Grid>
-                  <Grid item>{intl.formatMessage({ id: 'IpCheckStep.zipCode' })}</Grid>
-                </Grid>
-                <Grid item xs={6} container direction="column" spacing={2} className={classes.values}>
-                  <Grid item>{data.country}</Grid>
-                  <Grid item>{data.region}</Grid>
-                  <Grid item>{data.city}</Grid>
-                  <Grid item>{data.zip}</Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Box>
-
+      <Box p={2}>
+        <Box mb={2}>
+          <Typography className={classes.title} variant="subtitle2">{intl.formatMessage({ id: 'IpCheckStep.title' })}</Typography>
+        </Box>
+        <Grid container className={classes.wrapper}>
           {/* Google Map */}
-          <Box flex="0 0 340px" mt={2} className={classes.mapContainer}>
-            <Grid className={classes.map}>
-              <StaticGoogleMap size="307x202" scale={2} zoom={10} apiKey={process.env.REACT_APP_STATIC_GOOGLE_MAP_API_KEY}>
+          <Grid container justify="center" alignItems="center" item xs={12} md={4} className={classes.map}>
+            {isChecking ? (
+              <SkeletonLoader animation="wave" variant="rect" height={202} />
+            ) : (
+              <StaticGoogleMap size="400x200" scale={2} zoom={10} apiKey={process.env.REACT_APP_STATIC_GOOGLE_MAP_API_KEY}>
                 <Marker location={{ lat: data.latitude, lng: data.longitude }} />
               </StaticGoogleMap>
+            )}
+          </Grid>
+
+          {/* Detected location fields */}
+          <Grid container item xs={12} md={4} alignContent="flex-start" className={classes.itemWrapper}>
+            <Grid item xs={6} md={12} container direction="column">
+              <Box mb={2}>
+                <Typography variant="subtitle2" className={classes.data}>
+                  {isChecking ? (
+                    <SkeletonLoader animation="wave" variant="text" />
+                  ) : (
+                    <>{data.country}</>
+                  )}
+                </Typography>
+                <Typography variant="body1" className={classes.title}>
+                  {intl.formatMessage({ id: 'IpCheckStep.country' })}
+                </Typography>
+              </Box>
+              <Box mb={2}>
+                <Typography variant="subtitle2" className={classes.data}>
+                  {isChecking ? (
+                    <SkeletonLoader animation="wave" variant="text" />
+                  ) : (
+                    <>{data.city}</>
+                  )}
+                </Typography>
+                <Typography variant="body1" className={classes.title}>
+                  {intl.formatMessage({ id: 'IpCheckStep.city' })}
+                </Typography>
+              </Box>
             </Grid>
-          </Box>
-        </Box>
+            <Grid item xs={6} md={12} container direction="column">
+              <Box mb={2}>
+                <Typography variant="subtitle2" className={classes.data}>
+                  {isChecking ? (
+                    <SkeletonLoader animation="wave" variant="text" />
+                  ) : (
+                    <>{data.region}</>
+                  )}
+                </Typography>
+                <Typography variant="body1" className={classes.title}>
+                  {intl.formatMessage({ id: 'IpCheckStep.province' })}
+                </Typography>
+              </Box>
+              <Box mb={2}>
+                <Typography variant="subtitle2" className={classes.data}>
+                  {isChecking ? (
+                    <SkeletonLoader animation="wave" variant="text" />
+                  ) : (
+                    <>{data.zip}</>
+                  )}
+                </Typography>
+                <Typography variant="body1" className={classes.title}>
+                  {intl.formatMessage({ id: 'IpCheckStep.zipCode' })}
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+
+          {/* proxy usage banner */}
+          <Grid item xs={12} md={4} className={classes.itemWrapper}>
+            <CheckResultLogo type="ipCheck" status={status} />
+          </Grid>
+        </Grid>
       </Box>
     </Paper>
   );

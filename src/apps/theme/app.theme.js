@@ -23,7 +23,7 @@ export const AppTheme = createMuiTheme({
       main: appPalette.green,
     },
     warning: {
-      main: appPalette.orange,
+      main: appPalette.yellow,
     },
     error: {
       main: appPalette.red,
@@ -61,6 +61,9 @@ export const AppTheme = createMuiTheme({
     MuiPaper: {
       elevation1: {
         boxShadow: '0px 1px 5px rgba(52, 73, 94, 0.2)',
+      },
+      rounded: {
+        borderRadius: 5,
       },
     },
     MuiIconButton: {

@@ -1,36 +1,30 @@
 import { Accordion, AccordionDetails, AccordionSummary, makeStyles, withStyles } from '@material-ui/core';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
   labelContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: [[0, 20]],
+    padding: [[0, 18]],
   },
   label: {
-    height: 43,
     fontSize: 14,
-    display: 'flex',
-    flexGrow: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    color: theme.palette.common.black75,
+    fontWeight: 'bold',
   },
 }));
 
 export const ExpansionPanel = withStyles({
   root: {
     width: '100%',
+    marginBottom: 10,
     border: 'none',
-    borderRadius: 14,
+    borderRadius: 5,
     boxShadow: 'none',
-    backgroundColor: '#f7f7fa',
-    '&:not(:last-child)': {
-      marginBottom: 20,
-    },
     '&:before': {
       display: 'none',
     },
     '&$expanded': {
-      marginBottom: 20,
+      margin: [[0, 0, 10]],
     },
     '&$disabled': {
       backgroundColor: '#f7f7fa',
@@ -38,35 +32,51 @@ export const ExpansionPanel = withStyles({
   },
   rounded: {
     '&:first-child': {
-      borderRadius: 14,
+      borderRadius: 5,
     },
     '&:last-child': {
-      borderRadius: 14,
+      borderRadius: 5,
     },
   },
   expanded: {},
   disabled: {},
 })(Accordion);
 
-export const ExpansionPanelSummary = withStyles({
+export const ExpansionPanelSummary = withStyles((theme) => ({
   root: {
     border: 'none',
-    padding: [[15, 20]],
-    borderRadius: 14,
-    minHeight: 48,
+    padding: [[4, 8, 4, 2]],
+    borderRadius: 5,
+    minHeight: 30,
+    '&:hover, &:focus': {
+      backgroundColor: theme.palette.common.black7opacity,
+    },
     '&$expanded': {
-      minHeight: 48,
+      minHeight: 30,
       margin: 0,
-      borderBottomRightRadius: 0,
-      borderBottomLeftRadius: 0,
+      backgroundColor: theme.palette.common.black7opacity,
+    },
+    '&.error': {
+      '&:hover, &:focus': {
+        backgroundColor: theme.palette.common.redopacity,
+      },
+      '& .MuiBox-root, & svg': {
+        color: theme.palette.common.red,
+      },
+      '&$expanded': {
+        backgroundColor: theme.palette.common.redopacity,
+      },
     },
     '&$focused': {
       backgroundColor: '#FFF',
     },
+    '& svg': {
+      maxWidth: 17,
+    },
   },
   content: {
     margin: 0,
-    borderRadius: 15,
+    borderRadius: 5,
     '&$expanded': {
       margin: 0,
     },
@@ -79,12 +89,21 @@ export const ExpansionPanelSummary = withStyles({
     opacity: '1 !important',
   },
   expandIcon: {
-    marginRight: -12,
+    marginRight: -7,
+    padding: [[0, 2]],
+    color: theme.palette.common.black75,
   },
-})(AccordionSummary);
+}))(AccordionSummary);
 
-export const ExpansionPanelDetails = withStyles(() => ({
+export const ExpansionPanelDetails = withStyles((theme) => ({
   root: {
     padding: 0,
+    '& .MuiCardContent-root': {
+      padding: [[10, 30, 0, 38]],
+      color: theme.palette.common.black75,
+      '&:last-child': {
+        paddingBottom: 0,
+      },
+    },
   },
 }))(AccordionDetails);

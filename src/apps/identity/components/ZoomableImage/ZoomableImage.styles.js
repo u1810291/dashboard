@@ -15,6 +15,7 @@ export const useStyles = makeStyles(() => ({
       justifyContent: 'center',
       alignItems: 'center',
       cursor: 'pointer',
+      outline: 'none',
       '& .zoomIcon': {
         display: 'none',
       },

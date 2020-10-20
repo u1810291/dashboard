@@ -3,7 +3,7 @@ import { closeOverlay } from 'components/overlay';
 import React from 'react';
 import { Button } from '@material-ui/core';
 import { useIntl } from 'react-intl';
-import Img from 'assets/modal-team-delete.svg';
+import Img from 'assets/modal-delete.svg';
 
 export function DeleteModal({ className, user, onSubmit, ...modalProps }) {
   const intl = useIntl();
@@ -22,7 +22,7 @@ export function DeleteModal({ className, user, onSubmit, ...modalProps }) {
         type="submit"
         onClick={() => onSubmit(user.id)}
       >
-        {intl.formatMessage({ id: 'teamTable.deleteModal.delete' })}
+        {intl.formatMessage({ id: 'delete' })}
       </Button>
       <Button
         variant="contained"

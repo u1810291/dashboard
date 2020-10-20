@@ -33,59 +33,61 @@ export function ZoomableImage({ src = '', alt = '' }) {
   };
 
   return (
-    <div
-      className={classes.initImage}
-      onKeyDown={rotateEvent}
-      role="button"
-      tabIndex="0"
-    >
+    <>
       <div
-        className="hoverWrapper"
-        onClick={() => setIsModalShown(true)}
-        onKeyUp={() => {}}
+        className={classes.initImage}
+        onKeyDown={rotateEvent}
         role="button"
         tabIndex="0"
       >
-        <FiZoomIn color="white" size={28} className="zoomIcon" />
-      </div>
-      <img src={src} alt={alt} className={classes.initImage} />
-      {isModalShown && (
-      <OverlayWithBlur onClose={handleClose}>
-        <Content
-          fullwidth={false}
-          className={classes.zoomContent}
-          onClick={() => setIsModalShown(false)}
+        <div
+          className="hoverWrapper"
+          onClick={() => setIsModalShown(true)}
+          onKeyUp={() => {}}
+          role="button"
+          tabIndex="0"
         >
-          <img
-            className="zoomedImage"
-            src={src}
-            alt={alt}
-            style={{ transform: `rotate(${angle}deg)` }}
-            onKeyDown={rotateEvent}
-            role="presentation"
-          />
+          <FiZoomIn color="white" size={28} className="zoomIcon" />
+        </div>
+        <img src={src} alt={alt} className={classes.initImage} />
+        {isModalShown && (
+        <OverlayWithBlur onClose={handleClose}>
+          <Content
+            fullwidth={false}
+            className={classes.zoomContent}
+            onClick={() => setIsModalShown(false)}
+          >
+            <img
+              className="zoomedImage"
+              src={src}
+              alt={alt}
+              style={{ transform: `rotate(${angle}deg)` }}
+              onKeyDown={rotateEvent}
+              role="presentation"
+            />
 
-          <div className="actions">
-            <FiRotateCcw
-              className="left"
-              color="white"
-              size="2em"
-              onClick={() => rotate(angle - 90)}
-              onKeyDown={rotateEvent}
-              tabIndex="0"
-            />
-            <FiRotateCw
-              className="right"
-              color="white"
-              size="2em"
-              onClick={() => rotate(angle + 90)}
-              onKeyDown={rotateEvent}
-              tabIndex="0"
-            />
-          </div>
-        </Content>
-      </OverlayWithBlur>
-      )}
-    </div>
+            <div className="actions">
+              <FiRotateCcw
+                className="left"
+                color="white"
+                size="2em"
+                onClick={() => rotate(angle - 90)}
+                onKeyDown={rotateEvent}
+                tabIndex="0"
+              />
+              <FiRotateCw
+                className="right"
+                color="white"
+                size="2em"
+                onClick={() => rotate(angle + 90)}
+                onKeyDown={rotateEvent}
+                tabIndex="0"
+              />
+            </div>
+          </Content>
+        </OverlayWithBlur>
+        )}
+      </div>
+    </>
   );
 }

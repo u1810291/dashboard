@@ -1,6 +1,9 @@
+import React from 'react';
 import { BiometricSteps } from 'models/Biometric.model';
-import { DocumentMxSteps, LEGACY_ERROR } from 'models/Step.model';
+import { DocumentMxSteps, DocumentStepTypes, LEGACY_ERROR, StepStatus } from 'models/Step.model';
 import { useIntl } from 'react-intl';
+import { get } from 'lodash';
+import { CheckStepDetailsEntry } from '../components/CheckStepDetails/CheckStepDetailsEntry';
 
 export function useStatusLabel(step) {
   const intl = useIntl();
@@ -31,4 +34,41 @@ export function useStatusLabel(step) {
       : `SecurityCheckStep.${step.id}.${step.checkStatus}`,
     defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${step.checkStatus}` }),
   }, labelStatusData);
+}
+
+export function useCheckText(step) {
+  const intl = useIntl();
+  const extraData = step.labelExtraData || {};
+
+  if (step.id === DocumentStepTypes.AlternationDetection && step.checkStatus === StepStatus.Failure) {
+    const errorCode = get(step, 'error.code');
+
+    return intl.formatMessage({
+      id: errorCode ? `SecurityCheckStep.${errorCode}` : `SecurityCheckStep.${step.id}.${step.checkStatus}`,
+      defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${step.checkStatus}` }),
+    });
+  }
+
+  return intl.formatMessage({
+    id: `SecurityCheckStep.${step.id}.${step.checkStatus}`,
+    defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${step.checkStatus}` }),
+  }, extraData);
+}
+
+export function useGovCheckText(step) {
+  const intl = useIntl();
+  const { error, checkStatus: status } = step;
+
+  if (status === StepStatus.Success) {
+    return Object.entries(step.data || {}).map(([key, value]) => <CheckStepDetailsEntry label={key} value={value} key={key} />);
+  }
+
+  if (error) {
+    return intl.formatMessage({
+      id: `SecurityCheckStep.${error.code}.message`,
+      defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.govCheck.${status}` }),
+    });
+  }
+
+  return intl.formatMessage({ id: `SecurityCheckStep.govCheck.${status}` });
 }

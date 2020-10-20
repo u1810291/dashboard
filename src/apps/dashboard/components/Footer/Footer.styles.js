@@ -57,15 +57,8 @@ export const useStyles = makeStyles((theme) => ({
     textDecoration: 'underline',
     marginRight: 20,
   },
-  supportButton: {
-    color: theme.palette.common.lightblue,
-    fontWeight: 700,
-    borderColor: theme.palette.common.lightblue,
-    padding: [[5, 11]],
+  widget: {
     marginRight: 10,
-    '&:hover, &:focus': {
-      backgroundColor: theme.palette.common.whiteblue,
-    },
   },
   socialLink: {
     flexShrink: 0,

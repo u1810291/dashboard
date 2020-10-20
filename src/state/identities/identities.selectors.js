@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import { IDENTITIES_STORE_KEY, SliceNames } from './identities.store';
 import { getIdentityExtras } from '../../models/Identity.model';
 import { selectLoadableValue } from '../../lib/loadable.selectors';
+import { selectCountriesList } from '../countries/countries.selectors';
 
 export const selectIdentityStore = (state) => state[IDENTITIES_STORE_KEY];
 
@@ -40,5 +41,11 @@ export const selectIdentityModel = createSelector(
 
 export const selectIdentityModelWithExtras = createSelector(
   selectIdentityModel,
-  selectLoadableValue((value) => getIdentityExtras(value)),
+  selectCountriesList,
+  selectLoadableValue((value, countries) => getIdentityExtras(value, countries)),
+);
+
+export const selectIdentityIsPDFGenerating = createSelector(
+  selectIdentityStore,
+  (store) => store.isPDFGenerating,
 );

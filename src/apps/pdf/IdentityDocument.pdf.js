@@ -47,7 +47,7 @@ export function IdentityDocumentPDF(intl, identity) {
             )}
           </View>
 
-          {identity.ipCheck && !identity.ipCheck.error && (
+          {identity.ipCheck && !identity.ipCheck.error && identity.ipCheck.data && (
             <View>
               <Text style={styles.title}>{intl.formatMessage({ id: 'IpCheckStep.title' })}</Text>
 

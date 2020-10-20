@@ -38,6 +38,11 @@ export const BiometricSteps = [
   BiometricTypes.voice,
 ];
 
+export const LivenessStepStatus = {
+  FewData: 'fewData',
+  Disabled: 'disabled',
+};
+
 export function getBiometricExtras(steps) {
   return steps
     .filter((item) => BiometricSteps.includes(item.id))

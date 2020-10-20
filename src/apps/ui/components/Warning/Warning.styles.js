@@ -1,23 +1,32 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
-    padding: [[8, 12]],
     display: 'inline-flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderRadius: 5,
+    width: '100%',
+    textAlign: 'center',
     lineHeight: 1.25,
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      width: 'auto',
+      textAlign: 'left',
+    },
   },
   icon: {
     display: 'flex',
     flexGrow: 0,
     flexShrink: 0,
-    marginRight: 10,
+    margin: [[0, 0, 10]],
+    [theme.breakpoints.up('md')]: {
+      margin: [[0, 10, 0, 0]],
+    },
   },
   content: {
     flexGrow: 1,
+    color: theme.palette.common.black75,
   },
 }));

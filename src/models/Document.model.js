@@ -1,6 +1,12 @@
-import { get } from 'lodash';
+import { cloneDeep, get } from 'lodash';
 import { FieldsEmissionCheck, FieldsExpirationCheck, getCheckFieldsExtra, getFieldsExtra } from './Field.model';
-import { DocumentSecuritySteps, DocumentStepFailedTypes, DocumentStepTypes, getDocumentStep, getStepsExtra } from './Step.model';
+import {
+  DocumentSecuritySteps,
+  DocumentStepFrontendChecksTypes,
+  DocumentStepTypes,
+  getDocumentStep,
+  getStepsExtra,
+} from './Step.model';
 
 export const DocumentTypes = {
   Passport: 'passport',
@@ -9,18 +15,30 @@ export const DocumentTypes = {
   ProofOfResidency: 'proof-of-residency',
 };
 
+export const DocumentSides = {
+  Front: 'front',
+  Back: 'back',
+};
+
+export const PhotosOrientations = {
+  Horizontal: 'horizontal',
+  Vertical: 'vertical',
+};
+
+export const DocumentSidesOrder = [DocumentSides.Front, DocumentSides.Back];
+
 export const DocumentConfig = {
   [DocumentTypes.Passport]: {
-    [DocumentStepFailedTypes.ExpiredDate]: [FieldsExpirationCheck],
+    [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
   },
   [DocumentTypes.NationalId]: {
-    [DocumentStepFailedTypes.ExpiredDate]: [FieldsExpirationCheck],
+    [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
   },
   [DocumentTypes.DrivingLicense]: {
-    [DocumentStepFailedTypes.ExpiredDate]: [FieldsExpirationCheck],
+    [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
   },
   [DocumentTypes.ProofOfResidency]: {
-    [DocumentStepFailedTypes.ExpiredDate]: [FieldsEmissionCheck],
+    [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsEmissionCheck],
   },
 };
 
@@ -62,12 +80,54 @@ export const DocumentCountrySanctionList = [
   'ZW',
 ];
 
-export function getDocumentExtras(identity) {
+export function getDocumentSides(identity, documentIndex) {
+  return get(identity, `_embedded.documents[${documentIndex}].metadata.sides`, null);
+}
+
+export function getPhotosOrientation(photo) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = photo;
+    img.onload = function successCallback() {
+      resolve(this.width > this.height ? PhotosOrientations.Horizontal : PhotosOrientations.Vertical);
+    };
+    img.onerror = function errorCallback(e) {
+      reject(e);
+    };
+  });
+}
+
+// TODO: make it with intl
+export function getDocumentSideLabel(side, intl) {
+  return intl.formatMessage({ id: `identity.document.photo.${side}.title` });
+}
+
+function makeEqualOrdersByKey(firstArray = [], secondArray = [], key) {
+  const firstArrayCopy = cloneDeep(firstArray);
+
+  if (!secondArray.length) {
+    return firstArrayCopy;
+  }
+
+  firstArrayCopy.sort((a, b) => {
+    const indexOfAInSource = secondArray.findIndex((el) => el[key] === a[key]);
+    const indexOfBInSource = secondArray.findIndex((el) => el[key] === b[key]);
+
+    return indexOfAInSource > indexOfBInSource ? 1 : indexOfAInSource < indexOfBInSource ? -1 : 0;
+  });
+
+  return firstArrayCopy;
+}
+
+export function getDocumentExtras(identity, countries) {
   const documents = get(identity, '_embedded.verification.documents') || [];
   const source = get(identity, '_embedded.documents');
 
-  return documents.map((document) => {
-    const steps = getStepsExtra(document.steps, DocumentConfig[document.type], identity);
+  // make documents order equal to source order to get right metadata about document
+  const orderedDocuments = makeEqualOrdersByKey(documents, source, 'type');
+
+  return orderedDocuments.map((document) => {
+    const steps = getStepsExtra(document.steps, DocumentConfig[document.type], identity, countries, document);
     const argentinianRenaper = getDocumentStep(DocumentStepTypes.ArgentinianRenaper, steps);
     const colombianRegistraduria = getDocumentStep(DocumentStepTypes.ColombianRegistraduria, steps);
     const curp = getDocumentStep(DocumentStepTypes.CURP, steps);
@@ -90,6 +150,10 @@ export function getDocumentExtras(identity) {
       isSanctioned: DocumentCountrySanctionList.includes(document.country),
     };
   });
+}
+
+export function isDocumentWithTwoSides(documentType) {
+  return [DocumentTypes.DrivingLicense, DocumentTypes.NationalId].includes(documentType);
 }
 
 export function getDocumentList() {

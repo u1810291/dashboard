@@ -51,6 +51,14 @@ export const useStyles = makeStyles((theme) => ({
   contentTop: {
     flex: '1 0 auto',
   },
+  logo: {
+    '&:hover': {
+      background: 'rgba(255, 255, 255, 0.1)',
+    },
+    '&:focus': {
+      background: 'rgba(255, 255, 255, 0.15)',
+    },
+  },
   contentBottom: {
     flex: '0 0 auto',
   },
@@ -60,6 +68,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   company: {
     color: theme.palette.common.black7,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   companyShort: {
     width: 30,

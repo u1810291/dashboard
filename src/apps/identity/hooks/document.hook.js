@@ -2,6 +2,8 @@ import { compact } from 'lodash';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectCountriesList } from 'state/countries/countries.selectors';
+import { useEffect, useState } from 'react';
+import { getPhotosOrientation, PhotosOrientations } from '../../../models/Document.model';
 
 export function useDocumentTitle(document) {
   const intl = useIntl();
@@ -13,4 +15,24 @@ export function useDocumentTitle(document) {
     document: intl.formatMessage({ id: `flow.documentTypeStep.${document.type}` }),
     country: compact([countryName, document.region]).join(', '),
   });
+}
+
+export function usePhotosOrientation(document) {
+  const [photosOrientation, setPhotosOrientation] = useState(PhotosOrientations.Horizontal);
+
+  useEffect(() => {
+    const loadPhoto = async () => {
+      if (document?.photos?.length) {
+        try {
+          const orientation = await getPhotosOrientation(document.photos[0]);
+          setPhotosOrientation(orientation);
+        } catch (e) {
+          console.error('error loading photo', e);
+        }
+      }
+    };
+    loadPhoto();
+  }, [document]);
+
+  return photosOrientation;
 }

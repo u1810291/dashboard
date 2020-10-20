@@ -22,6 +22,7 @@ export const appTypography = {
     fontSize: 16,
   },
   subtitle2: {
+    fontSize: 14,
     fontWeight: 'bold',
   },
   button: {
