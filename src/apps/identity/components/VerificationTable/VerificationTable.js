@@ -31,6 +31,7 @@ export function VerificationTable() {
   const [deleting, setDeleting] = useState(null);
   const [orderBy] = useState('');
   const [order] = useState(OrderDirections.asc);
+  const [mouseUpExpired, setMouseUpExpired] = useState(false);
   const identityCollection = useSelector(selectIdentityCollection);
   const filteredCount = useSelector(selectFilteredCountModel);
   const identityFilter = useSelector(selectIdentityFilter);
@@ -82,6 +83,16 @@ export function VerificationTable() {
       state: { from: history.location.pathname + history.location.search },
     });
   }, [history]);
+
+  const onMouseDownHandler = useCallback((event) => {
+    if (event.button === 0) {
+      setMouseUpExpired(false);
+      setTimeout(() => setMouseUpExpired(true), 200);
+    }
+  }, []);
+
+  const onMouseUpHandler = useCallback((event, id) => event.button === 0 && !mouseUpExpired && handleRedirect(id),
+    [handleRedirect, mouseUpExpired]);
 
   return (
     <TableContainer className={classes.container}>
@@ -145,7 +156,8 @@ export function VerificationTable() {
                 <TableRowHovered
                   hover
                   key={item.id}
-                  onClick={() => handleRedirect(item.id)}
+                  onMouseDown={onMouseDownHandler}
+                  onMouseUp={(event) => onMouseUpHandler(event, item.id)}
                 >
                   <TableCell>
                     <Box
@@ -170,14 +182,6 @@ export function VerificationTable() {
                             <Typography variant="subtitle2" className={classes.itemName}>{titleCase(item.fullName)}</Typography>
                           )}
                       <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.fullName' })}</Box>
-                    </Box>
-                    <Box mb={{
-                      xs: 2,
-                      lg: 0,
-                    }}
-                    >
-                      <Box className={classes.itemId}>{item.id}</Box>
-                      <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.id' })}</Box>
                     </Box>
                   </TableCell>
                   <TableCell className={classes.itemData}>
