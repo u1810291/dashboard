@@ -76,7 +76,9 @@ export function LivenessStep({ steps }) {
             </Grid>
           )}
           <Grid item xs={12} md={4} className={classes.itemWrapper}>
-            <CheckResultLogo status={checkStatus} type="biometric" />
+            <Box mx={0.7}>
+              <CheckResultLogo status={checkStatus} type="biometric" />
+            </Box>
             <Grid item container>
               {steps.map((step) => {
                 if (step.checkStatus === StepStatus.Success && !step.videoUrl) return null;

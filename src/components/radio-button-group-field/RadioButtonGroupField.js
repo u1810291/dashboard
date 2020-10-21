@@ -17,7 +17,7 @@ export default function RadioButtonGroupField({ options, name, value, ...radioPr
           <span className={CSS.checkmark} />
           <div className={CSS.itemDescriptionWrapper}>
             {item.imgSrc && (
-              <img src={item.imgSrc} alt="" />
+              <img className={CSS.img} src={item.imgSrc} alt="" />
             )}
             {item.description && (
               <div className={CSS.itemDescription}>{item.description}</div>

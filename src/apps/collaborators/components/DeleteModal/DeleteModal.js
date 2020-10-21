@@ -23,7 +23,7 @@ export function DeleteModal({ className, user, onSubmit, ...modalProps }) {
         type="submit"
         onClick={() => onSubmit(user.id)}
       >
-        {intl.formatMessage({ id: 'teamTable.deleteModal.delete' })}
+        {intl.formatMessage({ id: 'delete' })}
       </Button>
       <Button
         variant="contained"

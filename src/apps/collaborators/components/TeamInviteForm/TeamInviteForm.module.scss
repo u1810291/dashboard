@@ -1,0 +1,13 @@
+.form {
+  @media (min-width: 1280px) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+}
+
+.wrapper {
+  @media (min-width: 1280px) {
+    width: calc(50% - 20px);
+  }
+}
