@@ -2,14 +2,18 @@ import { Box, Button, Grid, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { overlayClose } from '../../apps/overlay/state/overlay.actions';
 import styles from './Modal.module.scss';
 
 export default function Modal({ children, onClose, className, imgSrc, title, subtitle, small = false, wideHeader = false, ...props }) {
+  const dispatch = useDispatch();
   const closeModal = useCallback(() => {
     if (onClose) {
       onClose();
     }
-  }, [onClose]);
+    dispatch(overlayClose());
+  }, [dispatch, onClose]);
 
   return (
     <div

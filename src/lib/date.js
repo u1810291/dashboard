@@ -9,6 +9,7 @@ export const DateFormat = {
   DateShort: 'DD/MM/YYYY',
   DateShortStroke: 'YYYY-MM-DD',
   HoursFull: 'HH A',
+  MonthShort: 'DD MMM,YYYY',
 };
 
 const INPUT_DATE_FORMATS = [
@@ -20,6 +21,18 @@ const INPUT_DATE_FORMATS = [
 ];
 
 const RE_NON_DIGIT = /\D/g;
+
+export function utcToLocalFormat(value, customFormat) {
+  const dateAsMoment = moment.utc(value);
+  if (dateAsMoment.isValid()) {
+    return dateAsMoment.format(customFormat ?? DateFormat.MonthShort);
+  }
+  return null;
+}
+
+export function toLocalDate(date) {
+  return date?.local()?.toDate();
+}
 
 export function formatDate(value, customFormat) {
   const dateAsMoment = moment.utc(value, INPUT_DATE_FORMATS);
