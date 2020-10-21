@@ -26,7 +26,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   table: {
     '& .MuiTableCell-root': {
-      padding: [[6, 20]],
+      padding: [[14, 20]],
       border: 'none',
       color: theme.palette.common.black90,
       [theme.breakpoints.down('md')]: {
@@ -71,6 +71,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   itemNameEmpty: {
     color: theme.palette.common.black50,
+    lineHeight: 1.4,
   },
   itemId: {
     fontSize: 12,
