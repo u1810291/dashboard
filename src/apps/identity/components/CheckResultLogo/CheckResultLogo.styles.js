@@ -99,7 +99,7 @@ export const useStyles = makeStyles((theme) => {
       },
       [theme.breakpoints.up('md')]: {
         margin: [[0, 0, 20]],
-        padding: [[0, 36]],
+        padding: [[0, 34]],
         textAlign: 'left',
       },
     }),

@@ -4,7 +4,7 @@ export const useStyles = makeStyles((theme) => ({
   labelContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: [[0, 18]],
+    padding: [[0, 14]],
   },
   label: {
     fontSize: 14,
@@ -45,7 +45,7 @@ export const ExpansionPanel = withStyles({
 export const ExpansionPanelSummary = withStyles((theme) => ({
   root: {
     border: 'none',
-    padding: [[4, 8, 4, 2]],
+    padding: [[4, 10]],
     borderRadius: 5,
     minHeight: 30,
     '&:hover, &:focus': {
@@ -70,9 +70,6 @@ export const ExpansionPanelSummary = withStyles((theme) => ({
     '&$focused': {
       backgroundColor: '#FFF',
     },
-    '& svg': {
-      maxWidth: 17,
-    },
   },
   content: {
     margin: 0,
@@ -89,9 +86,12 @@ export const ExpansionPanelSummary = withStyles((theme) => ({
     opacity: '1 !important',
   },
   expandIcon: {
-    marginRight: -7,
+    marginRight: -4,
     padding: [[0, 2]],
     color: theme.palette.common.black75,
+    '& svg': {
+      fontSize: 17,
+    },
   },
 }))(AccordionSummary);
 
@@ -99,7 +99,7 @@ export const ExpansionPanelDetails = withStyles((theme) => ({
   root: {
     padding: 0,
     '& .MuiCardContent-root': {
-      padding: [[10, 30, 0, 38]],
+      padding: [[10, 30, 0, 42]],
       color: theme.palette.common.black75,
       '&:last-child': {
         paddingBottom: 0,

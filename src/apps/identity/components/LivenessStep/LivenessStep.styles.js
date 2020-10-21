@@ -18,10 +18,9 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   itemWrapper: {
-    padding: [[20, 10]],
     [theme.breakpoints.up('md')]: {
       marginBottom: 0,
-      padding: 20,
+      padding: [[20, 15]],
       borderRadius: 5,
       border: `1px solid ${theme.palette.common.black7opacity}`,
     },

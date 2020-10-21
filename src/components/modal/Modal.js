@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import styles from './Modal.module.scss';
 
-export default function Modal({ children, onClose, className, imgSrc, title, subtitle, small = false, ...props }) {
+export default function Modal({ children, onClose, className, imgSrc, title, subtitle, small = false, wideHeader = false, ...props }) {
   const closeModal = useCallback(() => {
     if (onClose) {
       onClose();
@@ -18,23 +18,27 @@ export default function Modal({ children, onClose, className, imgSrc, title, sub
       {...props} // eslint-disable-line react/jsx-props-no-spreading
     >
       <Button className={styles.btnClose} onClick={closeModal} />
-      {imgSrc && (
-        <Box mb={2} align="center">
-          <Grid container alignItems="center" justify="center" className={styles.img}>
-            <img src={imgSrc} alt="" />
-          </Grid>
+      <Box className={wideHeader && styles.wideHeader}>
+        {imgSrc && (
+          <Box mb={2} align="center">
+            <Grid container alignItems="center" justify="center" className={styles.img}>
+              <img src={imgSrc} alt="" />
+            </Grid>
+          </Box>
+        )}
+        <Box align="center" className={styles.titleWrapper}>
+          {title && (
+            <Typography variant="h4" gutterBottom>
+              {title}
+            </Typography>
+          )}
+          {subtitle && (
+            <Box className={styles.subtitle}>
+              {subtitle}
+            </Box>
+          )}
         </Box>
-      )}
-      {title && (
-        <Typography variant="h4" gutterBottom align="center">
-          {title}
-        </Typography>
-      )}
-      {subtitle && (
-        <Box align="center" className={styles.subtitle}>
-          {subtitle}
-        </Box>
-      )}
+      </Box>
       {children}
     </div>
   );
@@ -45,6 +49,7 @@ Modal.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
   small: PropTypes.bool,
+  wideHeader: PropTypes.bool,
 };
 
 Modal.defaultProps = {
@@ -52,4 +57,5 @@ Modal.defaultProps = {
   title: '',
   subtitle: '',
   small: false,
+  wideHeader: false,
 };

@@ -25,7 +25,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.up('lg')]: {
       marginBottom: 0,
-      padding: [[20, 20, 0]],
+      padding: [[20, 15]],
       borderRadius: 5,
       border: '1px solid rgba(237, 240, 245, .6)',
     },

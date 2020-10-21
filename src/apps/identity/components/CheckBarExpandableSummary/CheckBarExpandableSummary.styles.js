@@ -23,6 +23,9 @@ export const ExpansionPanel = withStyles({
     '&$expanded': {
       margin: [[0, 0, 10]],
     },
+    '& svg': {
+      fontSize: 17,
+    },
   },
   rounded: {
     '&:first-child': {
@@ -37,7 +40,7 @@ export const ExpansionPanel = withStyles({
 export const ExpansionPanelSummary = withStyles((theme) => ({
   root: {
     border: 'none',
-    padding: [[5, 10]],
+    padding: [[4, 10]],
     borderRadius: 5,
     minHeight: 30,
     '&:hover, &:focus': {
@@ -63,9 +66,8 @@ export const ExpansionPanelSummary = withStyles((theme) => ({
     margin: 0,
   },
   expandIcon: {
-    margin: 0,
-    padding: [[0, 0, 0, 5]],
-    fontSize: 17,
+    marginRight: -4,
+    padding: 0,
     color: theme.palette.common.black75,
   },
 }))(AccordionSummary);

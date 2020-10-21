@@ -8,6 +8,7 @@ import { injectIntl } from 'react-intl';
 import ImgAdmin from 'assets/modal-role-admin.svg';
 import ImgAgent from 'assets/modal-role-agent.svg';
 import { cleanText, email, required } from 'lib/validations';
+import CSS from './TeamInviteForm.module.scss';
 
 const formikSettings = {
   initialValues: {
@@ -75,52 +76,53 @@ class TeamInviteForm extends React.Component {
         onSubmit={this.onSubmit}
         validate={formikSettings.validate}
         render={(props) => (
-          <form onSubmit={props.handleSubmit}>
-            <Box mb={4}>
-              <InputLabel>
-                {intl.formatMessage({ id: 'teamTable.invite.form.labels.firstName' })}
-              </InputLabel>
-              <Field
-                as={TextField}
-                name="firstName"
-                variant="outlined"
-                margin="dense"
-                fullWidth
-                helperText={props.touched.firstName && !!props.errors.firstName && intl.formatMessage({ id: props.errors.firstName })}
-                error={props.touched.firstName && !!props.errors.firstName}
-              />
+          <form onSubmit={props.handleSubmit} className={CSS.form}>
+            <Box className={CSS.wrapper}>
+              <Box mb={{ xs: 4, lg: 2 }}>
+                <InputLabel>
+                  {intl.formatMessage({ id: 'teamTable.invite.form.labels.firstName' })}
+                </InputLabel>
+                <Field
+                  as={TextField}
+                  name="firstName"
+                  variant="outlined"
+                  margin="dense"
+                  fullWidth
+                  helperText={props.touched.firstName && !!props.errors.firstName && intl.formatMessage({ id: props.errors.firstName })}
+                  error={props.touched.firstName && !!props.errors.firstName}
+                />
+              </Box>
+              <Box mb={{ xs: 4, lg: 2 }}>
+                <InputLabel>
+                  {intl.formatMessage({ id: 'teamTable.invite.form.labels.lastName' })}
+                </InputLabel>
+                <Field
+                  as={TextField}
+                  name="lastName"
+                  variant="outlined"
+                  margin="dense"
+                  fullWidth
+                  helperText={props.touched.lastName && props.errors.lastName && intl.formatMessage({ id: props.errors.lastName })}
+                  error={props.touched.lastName && !!props.errors.lastName}
+                />
+              </Box>
+              <Box mb={4}>
+                <InputLabel>
+                  {intl.formatMessage({ id: 'teamTable.invite.form.labels.email' })}
+                </InputLabel>
+                <Field
+                  as={TextField}
+                  type="input"
+                  name="email"
+                  variant="outlined"
+                  margin="dense"
+                  fullWidth
+                  helperText={props.touched.email && props.errors.email && intl.formatMessage({ id: props.errors.email })}
+                  error={props.touched.email && !!props.errors.email}
+                />
+              </Box>
             </Box>
-            <Box mb={4}>
-              <InputLabel>
-                {intl.formatMessage({ id: 'teamTable.invite.form.labels.lastName' })}
-              </InputLabel>
-              <Field
-                as={TextField}
-                name="lastName"
-                variant="outlined"
-                margin="dense"
-                fullWidth
-                helperText={props.touched.lastName && props.errors.lastName && intl.formatMessage({ id: props.errors.lastName })}
-                error={props.touched.lastName && !!props.errors.lastName}
-              />
-            </Box>
-
-            <Box mb={4}>
-              <InputLabel>
-                {intl.formatMessage({ id: 'teamTable.invite.form.labels.email' })}
-              </InputLabel>
-              <Field
-                as={TextField}
-                type="input"
-                name="email"
-                variant="outlined"
-                margin="dense"
-                fullWidth
-                helperText={props.touched.email && props.errors.email && intl.formatMessage({ id: props.errors.email })}
-                error={props.touched.email && !!props.errors.email}
-              />
-            </Box>
-            <Box mb={4}>
+            <Box mb={4} className={CSS.wrapper}>
               <Field
                 name="role"
                 component={RadioButtonGroup}
