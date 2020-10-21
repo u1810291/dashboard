@@ -123,7 +123,6 @@ export function getIdentityExtras(identity, countries) {
   }
 
   const steps = get(identity, '_embedded.verification.steps') || [];
-
   return {
     ...identity,
     biometric: getBiometricExtras(steps),

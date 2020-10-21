@@ -47,11 +47,8 @@ export function VerificationFilter({ onClose }) {
     handleFilterChange({ status: newStatuses });
   }, [bufferedFilter.status, handleFilterChange]);
 
-  const handleDateChange = useCallback(({ startDate, endDate }) => {
-    handleFilterChange({
-      'dateCreated[start]': startDate,
-      'dateCreated[end]': endDate,
-    });
+  const handleDateChange = useCallback((dateRange) => {
+    handleFilterChange(dateRange);
   }, [handleFilterChange]);
 
   const handleSelectFlow = useCallback(({ target: { value } }) => {

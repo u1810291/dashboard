@@ -7,7 +7,7 @@ import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { formatDate } from '../../../../lib/date';
+import { DateFormat, toLocalDate } from '../../../../lib/date';
 import { selectUserRegistrationDate } from '../../../user/state/user.selectors';
 import { useStyles } from './DateRange.styles';
 
@@ -18,8 +18,8 @@ export const DateRange = ({ onChange, start, end }) => {
   const [to, setTo] = useState(null);
   const [formStart, setFormStart] = useState('');
   const [formEnd, setFormEnd] = useState('');
-  const [startFormValid, setStartFormValid] = useState(false);
-  const [endFormValid, setEndFormValid] = useState(false);
+  const [startFormInvalid, setStartFormInvalid] = useState(false);
+  const [endFormInvalid, setEndFormInvalid] = useState(false);
   const [selectedRange, setSelectedRange] = useState('');
   const [today] = useState(moment().toDate());
   const [modifiers, setModifiers] = useState({
@@ -28,42 +28,53 @@ export const DateRange = ({ onChange, start, end }) => {
   });
   const selectRegisterDate = useSelector(selectUserRegistrationDate);
 
-  const setInputs = useCallback((startDate, endDate) => {
-    const dateFormat = 'DD MMM,YYYY';
-    if (startDate) {
-      setFormStart(formatDate(startDate, dateFormat));
-      setStartFormValid(false);
+  const setStartInput = useCallback((startDate) => {
+    setStartFormInvalid(false);
+    if (!startDate) {
+      setFormStart('');
+      return;
     }
-    if (endDate) {
-      setFormEnd(formatDate(endDate, dateFormat));
-      setEndFormValid(false);
+    let date = moment(startDate);
+    date = !date.isValid() ? '' : date.format(DateFormat.MonthShort);
+    setFormStart(date);
+  }, [setFormStart]);
+
+  const setEndInput = useCallback((endDate) => {
+    setEndFormInvalid(false);
+    if (!endDate) {
+      setFormEnd('');
+      return;
     }
-  }, [setFormStart, setFormEnd]);
+    let date = moment(endDate);
+    date = !date.isValid() ? '' : date.format(DateFormat.MonthShort);
+    setFormEnd(date);
+  }, [setFormEnd]);
 
-  useEffect(() => {
-    setInputs(start, end);
-  }, [start, end, setInputs]);
-
-  useEffect(() => {
-    setFrom(start?.toDate());
-    setTo(end?.toDate());
-  }, [start, end]);
-
-  const handleRangeChanged = useCallback((startDate, endDate) => {
+  const changeRange = useCallback((startDate, endDate) => {
+    setStartInput(startDate);
+    setEndInput(endDate);
     setFrom(startDate);
     setTo(endDate);
-    setInputs(startDate, endDate);
-    const resultChanges = {};
-    if (startDate) {
-      resultChanges.startDate = moment(startDate);
-      setModifiers((prevState) => ({ ...prevState, start: startDate }));
-    }
-    if (endDate) {
-      resultChanges.endDate = moment(endDate);
-      setModifiers((prevState) => ({ ...prevState, end: endDate }));
-    }
-    onChange(resultChanges);
-  }, [onChange, setInputs]);
+    setModifiers({ start: startDate, end: endDate });
+  }, [setEndInput, setStartInput]);
+
+  useEffect(() => {
+    changeRange(toLocalDate(start), toLocalDate(end));
+  }, [start, end, changeRange]);
+
+  const handleStartRangeChanged = useCallback((startDate) => {
+    setFrom(startDate);
+    setStartInput(startDate);
+    setModifiers((prevState) => ({ ...prevState, start: startDate }));
+    onChange({ 'dateCreated[start]': !startDate ? null : moment(startDate) });
+  }, [onChange, setStartInput]);
+
+  const handleEndRangeChanged = useCallback((endDate) => {
+    setTo(endDate);
+    setEndInput(endDate);
+    setModifiers((prevState) => ({ ...prevState, end: endDate }));
+    onChange({ 'dateCreated[end]': !endDate ? null : moment(endDate) });
+  }, [onChange, setEndInput]);
 
   const ranges = [
     {
@@ -71,14 +82,16 @@ export const DateRange = ({ onChange, start, end }) => {
       name: intl.formatMessage({ id: 'DateRange.all' }),
       setRange: () => {
         const startDate = new Date(selectRegisterDate);
-        handleRangeChanged(startDate, today);
+        handleStartRangeChanged(startDate);
+        handleEndRangeChanged(today);
       },
     },
     {
       id: 'today',
       name: intl.formatMessage({ id: 'DateRange.today' }),
       setRange: () => {
-        handleRangeChanged(today, today);
+        handleStartRangeChanged(today);
+        handleEndRangeChanged(today);
       },
     },
     {
@@ -88,7 +101,8 @@ export const DateRange = ({ onChange, start, end }) => {
         const date = moment()
           .subtract(1, 'days')
           .toDate();
-        handleRangeChanged(date, date);
+        handleStartRangeChanged(date);
+        handleEndRangeChanged(date);
       },
     },
     {
@@ -98,7 +112,8 @@ export const DateRange = ({ onChange, start, end }) => {
         const startDate = moment()
           .subtract(7, 'days')
           .toDate();
-        handleRangeChanged(startDate, today);
+        handleStartRangeChanged(startDate);
+        handleEndRangeChanged(today);
       },
     },
     {
@@ -108,7 +123,8 @@ export const DateRange = ({ onChange, start, end }) => {
         const startDate = moment()
           .subtract(30, 'days')
           .toDate();
-        handleRangeChanged(startDate, today);
+        handleStartRangeChanged(startDate);
+        handleEndRangeChanged(today);
       },
     },
     {
@@ -122,7 +138,8 @@ export const DateRange = ({ onChange, start, end }) => {
         const endDate = moment(startDate)
           .endOf('week')
           .toDate();
-        handleRangeChanged(startDate, endDate);
+        handleStartRangeChanged(startDate);
+        handleEndRangeChanged(endDate);
       },
     },
     {
@@ -136,7 +153,8 @@ export const DateRange = ({ onChange, start, end }) => {
         const endDate = moment(startDate)
           .endOf('month')
           .toDate();
-        handleRangeChanged(startDate, endDate);
+        handleStartRangeChanged(startDate);
+        handleEndRangeChanged(endDate);
       },
     },
     {
@@ -150,7 +168,8 @@ export const DateRange = ({ onChange, start, end }) => {
         const endDate = moment(startDate)
           .endOf('year')
           .toDate();
-        handleRangeChanged(startDate, endDate);
+        handleStartRangeChanged(startDate);
+        handleEndRangeChanged(endDate);
       },
     },
     {
@@ -160,7 +179,8 @@ export const DateRange = ({ onChange, start, end }) => {
         const startDate = moment()
           .startOf('month')
           .toDate();
-        handleRangeChanged(startDate, today);
+        handleStartRangeChanged(startDate);
+        handleEndRangeChanged(today);
       },
     },
     {
@@ -170,7 +190,8 @@ export const DateRange = ({ onChange, start, end }) => {
         const startDate = moment()
           .startOf('week')
           .toDate();
-        handleRangeChanged(startDate, today);
+        handleStartRangeChanged(startDate);
+        handleEndRangeChanged(today);
       },
     },
     {
@@ -180,7 +201,8 @@ export const DateRange = ({ onChange, start, end }) => {
         const startDate = moment()
           .startOf('year')
           .toDate();
-        handleRangeChanged(startDate, today);
+        handleStartRangeChanged(startDate);
+        handleEndRangeChanged(today);
       },
     },
   ];
@@ -190,39 +212,44 @@ export const DateRange = ({ onChange, start, end }) => {
       from,
       to,
     });
-    handleRangeChanged(range.from, range.to);
-  }, [from, handleRangeChanged, to]);
+    handleStartRangeChanged(range.from);
+    handleEndRangeChanged(range.to);
+  }, [from, handleEndRangeChanged, handleStartRangeChanged, to]);
 
   const handleInputChange = useCallback(({ target: { value, name } }) => {
-    const parsedDate = moment(value, 'DD-MMM-YYYY');
+    const parsedDate = moment(value, 'DD MMM,YYYY', true);
     if (name === 'start') {
       setFormStart(value);
       if (parsedDate.isValid()) {
-        setStartFormValid(false);
+        setStartFormInvalid(false);
         setFrom(parsedDate.toDate());
+        setModifiers(((prevState) => ({ ...prevState, start: parsedDate.toDate() })));
+        handleStartRangeChanged(parsedDate.toDate());
       } else {
-        setStartFormValid(true);
+        setStartFormInvalid(value !== '');
         setFrom(null);
       }
     }
     if (name === 'end') {
       setFormEnd(value);
       if (parsedDate.isValid()) {
-        setEndFormValid(false);
+        setEndFormInvalid(false);
         setTo(parsedDate.toDate());
+        setModifiers(((prevState) => ({ ...prevState, end: parsedDate.toDate() })));
+        handleEndRangeChanged(parsedDate.toDate());
       } else {
-        setEndFormValid(true);
+        setEndFormInvalid(value !== '');
         setTo(null);
       }
     }
-  }, []);
+  }, [handleEndRangeChanged, handleStartRangeChanged]);
   return (
     <Box className={classes.calendarWrap}>
       <Box className={classes.calendar}>
         <Box className={classes.range}>
           <TextField
             name="start"
-            error={startFormValid}
+            error={startFormInvalid}
             onChange={handleInputChange}
             value={formStart}
             variant="outlined"
@@ -231,7 +258,7 @@ export const DateRange = ({ onChange, start, end }) => {
           <Box className={classes.rangeDivider} />
           <TextField
             name="end"
-            error={endFormValid}
+            error={endFormInvalid}
             onChange={handleInputChange}
             value={formEnd}
             variant="outlined"

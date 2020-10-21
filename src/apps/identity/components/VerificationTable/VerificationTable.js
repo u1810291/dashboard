@@ -3,7 +3,7 @@ import { PriorityHigh } from '@material-ui/icons';
 import { PageLoader } from 'apps/layout';
 import { ReactComponent as EmptyTableIcon } from 'assets/empty-table.svg';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
-import { formatDate } from 'lib/date';
+import { utcToLocalFormat } from 'lib/date';
 import { titleCase } from 'lib/string';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
@@ -196,7 +196,7 @@ export function VerificationTable() {
                       lg: 0,
                     }}
                     >
-                      {formatDate(item.dateCreated)}
+                      {utcToLocalFormat(item.dateCreated)}
                       <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.date' })}</Box>
                     </Box>
                   </TableCell>
