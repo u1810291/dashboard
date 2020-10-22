@@ -170,7 +170,7 @@ export function VerificationTable() {
                         lg: 0,
                       }}
                     >
-                      {item.status === IdentityStatuses.running ? (
+                      {!item.fullName && item.status === IdentityStatuses.running ? (
                         <SkeletonLoader animation="wave" variant="text" width={140} />)
                         : !item.fullName
                           ? (
@@ -211,7 +211,7 @@ export function VerificationTable() {
                   <TableCell className={classes.iconDeleteWrapper}>
                     <IconButton
                       size="small"
-                      onClick={(e) => handleRemove(e, item.id)}
+                      onMouseUp={(e) => handleRemove(e, item.id)}
                       tabIndex="-1"
                       className={classes.iconButtonDelete}
                     >
