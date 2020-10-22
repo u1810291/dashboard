@@ -62,7 +62,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
 
   const openWebhookModal = useCallback(() => {
     const webhook = get(identity, 'originalIdentity._embedded.verification', {});
-    createOverlay(<VerificationWebhookModal webhook={webhook} onClose={closeOverlay} identityId={identity.id} />);
+    createOverlay(<VerificationWebhookModal webhook={webhook} onClose={closeOverlay} />);
   }, [identity, createOverlay, closeOverlay]);
 
   return (

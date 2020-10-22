@@ -8,10 +8,10 @@ import { useIntl } from 'react-intl';
 import { useStyles } from './VerificationWebhookModal.styles';
 import { CopyToClipboard } from '../../../../components/clipboard';
 
-export function VerificationWebhookModal({ webhook, onClose, identityId }) {
+export function VerificationWebhookModal({ webhook, onClose }) {
   const intl = useIntl();
   const classes = useStyles();
-  const resourceUrl = `https://api.getmati.com/api/v2/verifications/${identityId}`;
+  const resourceUrl = `https://api.getmati.com/api/v2/verifications/${webhook?.id ?? ''}`;
 
   return (
     <Modal className={classes.modal}>
