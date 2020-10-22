@@ -52,6 +52,7 @@ export const IdentityStatusesMap = [
     textColor: 'common.black90',
     isChangeable: false,
     isExplanation: true,
+    isFilterable: true,
   },
   {
     id: IdentityStatuses.pending,
