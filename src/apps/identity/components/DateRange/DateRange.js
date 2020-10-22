@@ -56,7 +56,10 @@ export const DateRange = ({ onChange, start, end }) => {
     setFrom(startDate);
     setTo(endDate);
     setModifiers({ start: startDate, end: endDate });
-  }, [setEndInput, setStartInput]);
+    if (!start && !end) {
+      setSelectedRange('');
+    }
+  }, [end, setEndInput, setStartInput, start]);
 
   useEffect(() => {
     changeRange(toLocalDate(start), toLocalDate(end));
@@ -67,6 +70,7 @@ export const DateRange = ({ onChange, start, end }) => {
     setStartInput(startDate);
     setModifiers((prevState) => ({ ...prevState, start: startDate }));
     onChange({ 'dateCreated[start]': !startDate ? null : moment(startDate) });
+    setSelectedRange('');
   }, [onChange, setStartInput]);
 
   const handleEndRangeChanged = useCallback((endDate) => {
@@ -74,6 +78,7 @@ export const DateRange = ({ onChange, start, end }) => {
     setEndInput(endDate);
     setModifiers((prevState) => ({ ...prevState, end: endDate }));
     onChange({ 'dateCreated[end]': !endDate ? null : moment(endDate) });
+    setSelectedRange('');
   }, [onChange, setEndInput]);
 
   const ranges = [
