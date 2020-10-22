@@ -11,6 +11,9 @@ import { VerificationDateAndNumber } from '../VerificationDateAndNumber/Verifica
 import { VerificationFlow } from '../VerificationFlow/VerificationFlow';
 import { VerificationIpCheck } from '../VerificationIpCheck/VerificationIpCheck';
 import { VerificationBioCheckSummary } from '../VerificationBioCheckSummary/VerificationBioCheckSummary';
+import { VerificationDeviceCheck } from '../VerificationDeviceCheck/VerificationDeviceCheck';
+import { getDevicePlatformType, PlatformTypes } from '../../../../models/DeviceCheck.model';
+import { VerificationSource } from '../VerificationSource/VerificationSource';
 
 export function VerificationSummary({ identity }) {
   const dispatch = useDispatch();
@@ -24,6 +27,7 @@ export function VerificationSummary({ identity }) {
   const { ipCheck, biometric } = identity;
 
   const verificationFlowName = get(identity, '_embedded.verification.flow.name', null);
+  const platformType = getDevicePlatformType(identity);
 
   return (
     <Paper>
@@ -43,8 +47,7 @@ export function VerificationSummary({ identity }) {
             </Grid>
             <Grid item xs={12} lg={2}>
               {!!verificationFlowName && <VerificationFlow flowId={verificationFlowName} />}
-              {/* Next feature */}
-              {/* {!!sdk && <VerificationSource source={sdk} />} */}
+              <VerificationSource platformType={platformType} />
             </Grid>
             {/* Next feature */}
             {/* <Grid item container xs={12} lg={2} alignItems="center" className={classes.button}> */}
@@ -69,6 +72,12 @@ export function VerificationSummary({ identity }) {
           {ipCheck && !ipCheck.error && ipCheck.data && (
             <Grid item xs={12} lg={4}>
               <VerificationIpCheck ipCheck={ipCheck} />
+            </Grid>
+          )}
+
+          {platformType !== PlatformTypes.Api && (
+            <Grid item xs={12} lg={4}>
+              <VerificationDeviceCheck identity={identity} />
             </Grid>
           )}
         </Grid>

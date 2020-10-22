@@ -1,12 +1,13 @@
 import { Grid, Typography } from '@material-ui/core';
 import React from 'react';
-import { FiActivity, FiFileText, FiCheckCircle } from 'react-icons/fi';
+import { FiActivity, FiFileText, FiCheckCircle, FiSmartphone } from 'react-icons/fi';
 import { useStyles } from './VerificationSummaryTitle.styles';
 
 const icons = {
   biometric: FiActivity,
   document: FiFileText,
   additional: FiCheckCircle,
+  device: FiSmartphone,
 };
 
 export function VerificationSummaryTitle({ status, children, type = 'document', withIcon = true }) {
