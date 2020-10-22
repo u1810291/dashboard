@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import { getStepStatus, StepStatus } from './Step.model';
+import { BiometricStepTypes, getStepStatus, StepStatus } from './Step.model';
 import { MerchantTags } from './Merchant.model';
 
 export const BiometricTypes = {
@@ -87,4 +87,16 @@ export function getBiometricStatus(steps) {
   }
 
   return status;
+}
+
+export function getBiometricCheckStatus(steps) {
+  const status = getBiometricStatus(steps);
+  let checkStatus = LivenessStepStatus.Disabled;
+  if (status) {
+    checkStatus = status.checkStatus;
+    if (checkStatus === StepStatus.Success && status.id === BiometricStepTypes.Selfie) {
+      checkStatus = LivenessStepStatus.FewData;
+    }
+  }
+  return checkStatus;
 }

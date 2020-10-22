@@ -36,7 +36,6 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   image: {
-    borderRadius: 5,
     lineHeight: 0,
     '& img': {
       width: '100%',
@@ -45,10 +44,8 @@ export const useStyles = makeStyles((theme) => ({
       borderRadius: 5,
     },
   },
-  imageEmpty: {
-    borderRadius: 5,
-  },
   imageBiometric: {
+    borderRadius: 5,
     width: 104,
     height: 140,
     margin: [[0, 'auto', 14]],

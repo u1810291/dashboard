@@ -6,14 +6,14 @@ import IconEmpty from '../../../../assets/icon-empty-photo.svg';
 import { StepStatus } from '../../../../models/Step.model';
 import { VerificationCheckCard } from '../VerificationCheckCard/VerificationCheckCard';
 import { useStyles } from './VerificationBioCheckSummary.styles';
-import { getBiometricStatus } from '../../../../models/Biometric.model';
+import { getBiometricCheckStatus, LivenessStepStatus } from '../../../../models/Biometric.model';
 import { VerificationSummaryChecksContainer } from '../VerificationSummaryChecksContainer/VerificationSummaryChecksContainer';
 import { VerificationSummaryTitle } from '../VerificationSummaryTitle/VerificationSummaryTitle';
 
 export function VerificationBioCheckSummary({ biometric, identity }) {
   const intl = useIntl();
   const classes = useStyles();
-  const { checkStatus: status } = getBiometricStatus(biometric);
+  const status = getBiometricCheckStatus(biometric);
 
   return (
     <VerificationCheckCard
@@ -22,30 +22,18 @@ export function VerificationBioCheckSummary({ biometric, identity }) {
           {intl.formatMessage({ id: 'identity.summary.title.biometric' })}
         </VerificationSummaryTitle>
       )}
-      bottomComponent={(
-        <VerificationSummaryChecksContainer steps={biometric} />
-      )}
+      bottomComponent={
+        status !== LivenessStepStatus.FewData && status !== LivenessStepStatus.Disabled ? (
+          <VerificationSummaryChecksContainer steps={biometric} />
+        ) : (
+          <VerificationSummaryTitle status={status} type="biometric" withIcon={false}>
+            {intl.formatMessage({ id: `identity.summary.biometric.${status}` })}
+          </VerificationSummaryTitle>
+        )
+      }
     >
       <Box className={classes.wrapper}>
         <Grid container className={classes.container}>
-          {/* Empty Biometrics Check */}
-          {biometric.length === 0 && (
-            <Grid
-              item
-              container
-              justify="center"
-              alignContent="center"
-              className={`${classes.imageEmpty} ${classes.imageBiometric}`}
-            >
-              <Box py={2} px={1} align="center">
-                <img src={IconEmpty} alt="" />
-                <Box align="center" className={classes.emptyCaption}>
-                  {intl.formatMessage({ id: 'identity.summary.empty.img' })}
-                </Box>
-              </Box>
-            </Grid>
-          )}
-
           {/* Regular flow */}
           {status !== StepStatus.Checking && (
             <>
@@ -54,24 +42,36 @@ export function VerificationBioCheckSummary({ biometric, identity }) {
                 container
                 justify="center"
                 alignContent="center"
-                className={`${classes.image} ${classes.imageBiometric}`}
+                className={`${classes.imageBiometric} ${status !== LivenessStepStatus.Disabled && classes.image}`}
               >
-                <Box align="center" height="100%">
-                  <img alt="" src={biometric[0].selfieUrl} />
-                </Box>
+                {/* Empty Photo */}
+                {status === LivenessStepStatus.Disabled && (
+                  <Box py={2} px={1} align="center">
+                    <img src={IconEmpty} alt="" />
+                    <Box align="center" className={classes.emptyCaption}>
+                      {intl.formatMessage({ id: 'identity.summary.empty.img' })}
+                    </Box>
+                  </Box>
+                )}
+                {/* Not Empty Photo */}
+                {status !== LivenessStepStatus.Disabled && biometric[0]?.selfieUrl && (
+                  <Box align="center" height="100%">
+                    <img alt="" src={biometric[0].selfieUrl} />
+                  </Box>
+                )}
               </Grid>
               <Grid item container alignContent="center" className={classes.biometricText}>
-                {/* Empty Biometrics Check */}
+                {/* Empty Name */}
                 {!identity.fullName && (
-                  <Typography className={classes.emptyText} variant="body1" gutterBottom>
-                    {intl.formatMessage({ id: 'identity.summary.empty.name' })}
-                  </Typography>
+                <Typography className={classes.emptyText} variant="body1" gutterBottom>
+                  {intl.formatMessage({ id: 'identity.summary.empty.name' })}
+                </Typography>
                 )}
-                {/* Not empty Biometrics Check */}
+                {/* Not empty Name */}
                 {identity.fullName && (
-                  <Typography className={classes.data} variant="subtitle2" gutterBottom>
-                    {identity.fullName}
-                  </Typography>
+                <Typography className={classes.data} variant="subtitle2" gutterBottom>
+                  {identity.fullName}
+                </Typography>
                 )}
                 <Typography className={classes.title} variant="body1">
                   {intl.formatMessage({ id: 'identity.field.name' })}
