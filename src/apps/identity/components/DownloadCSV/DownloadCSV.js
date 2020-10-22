@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { downloadCSV } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityCountModel } from '../../../../state/identities/identities.selectors';
+import { Loader } from '../../../dashboard/components/Loader/Loader';
 import { SideButton } from './DownloadCSV.styles';
 
 export function DownloadCSV() {
@@ -26,13 +27,16 @@ export function DownloadCSV() {
   }, [dispatch]);
 
   return (
-    <SideButton
-      variant="contained"
-      onClick={handleDownloadCSV}
-      startIcon={isLoading ? <FiLoader /> : <FiDownload />}
-      disabled={isLoading || countModel.value === 0 || filteredCountModel.value === 0}
-    >
-      {intl.formatMessage({ id: 'identities.download-all-csv' })}
-    </SideButton>
+    <>
+      <SideButton
+        variant="contained"
+        onClick={handleDownloadCSV}
+        startIcon={isLoading ? <FiLoader /> : <FiDownload />}
+        disabled={isLoading || countModel.value === 0 || filteredCountModel.value === 0}
+      >
+        {intl.formatMessage({ id: 'identities.download-all-csv' })}
+      </SideButton>
+      {isLoading && <Loader />}
+    </>
   );
 }

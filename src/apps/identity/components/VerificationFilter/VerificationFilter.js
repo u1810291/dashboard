@@ -31,7 +31,7 @@ export function VerificationFilter({ onClose }) {
   }, [setBufferedFilter]);
 
   useEffect(() => {
-    dispatch(identitiesPreliminaryCountLoad({ ...bufferedFilter, search: '' }, true));
+    dispatch(identitiesPreliminaryCountLoad({ ...bufferedFilter }, true));
   },
   [bufferedFilter, dispatch]);
 
@@ -66,7 +66,7 @@ export function VerificationFilter({ onClose }) {
   }, [handleFilterChange]);
 
   const handleApplyFilterChanges = useCallback(() => {
-    setFilter({ ...bufferedFilter, search: '' });
+    setFilter({ ...bufferedFilter });
     onClose();
   }, [bufferedFilter, onClose, setFilter]);
 
