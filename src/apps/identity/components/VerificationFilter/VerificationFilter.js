@@ -6,6 +6,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FiBox, FiCalendar, FiCheckCircle, FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
+import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
+import { ReactComponent as RadioOn } from 'assets/icon-radio-on.svg';
+import { ReactComponent as RadioOff } from 'assets/icon-radio-off.svg';
 import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
 import { identitiesPreliminaryCountLoad } from '../../../../state/identities/identities.actions';
 import { selectIdentityFilter, selectPreliminaryFilteredCountModel } from '../../../../state/identities/identities.selectors';
@@ -107,14 +111,14 @@ export function VerificationFilter({ onClose }) {
                   <RadioGroup aria-label="flow" value={bufferedFilter.flowId} onChange={handleSelectFlow}>
                     <FormControlLabel
                       value=""
-                      control={<Radio color="default" />}
+                      control={<Radio color="default" checkedIcon={<RadioOn />} icon={<RadioOff />} />}
                       label={intl.formatMessage({ id: 'VerificationFilter.flows.allFlows' })}
                     />
                     {!LoadableAdapter.isPristine(merchantFlowList) && merchantFlowList.value.map((item) => (
                       <FormControlLabel
                         key={item.id}
                         value={item.id}
-                        control={<Radio color="default" />}
+                        control={<Radio color="default" checkedIcon={<RadioOn />} icon={<RadioOff />} />}
                         label={item.name}
                       />
                     ))}
@@ -139,6 +143,8 @@ export function VerificationFilter({ onClose }) {
                         checked={bufferedFilter.status.includes(item.id)}
                         onChange={(event) => handleStatusClick(item.id, event.target.checked)}
                         value={item.id}
+                        checkedIcon={<CheckboxOn />}
+                        icon={<CheckboxOff />}
                         color="primary"
                       />
                     )}

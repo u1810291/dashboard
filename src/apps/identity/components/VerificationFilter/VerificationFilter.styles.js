@@ -86,16 +86,16 @@ export const useStyles = makeStyles((theme) => ({
     border: '1px solid #EDF0F5',
   },
   [IdentityStatuses.verified]: {
-    // color: 'green',
+    color: theme.palette.common.green,
   },
   [IdentityStatuses.reviewNeeded]: {
-    // color: 'green',
+    color: theme.palette.common.yellow,
   },
   [IdentityStatuses.rejected]: {
-    // color: 'green',
+    color: theme.palette.common.red,
   },
   [IdentityStatuses.running]: {
-    // color: 'green',
+    color: theme.palette.common.black50,
   },
   footerLeft: {
     display: 'flex',
