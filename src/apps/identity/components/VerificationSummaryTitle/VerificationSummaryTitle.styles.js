@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import { StepStatus } from '../../../../models/Step.model';
+import { LivenessStepStatus } from '../../../../models/Biometric.model';
 
 export const useStyles = makeStyles((theme) => {
   const statuses = {
@@ -19,6 +20,14 @@ export const useStyles = makeStyles((theme) => {
       colorText: theme.palette.common.black75,
       colorIcon: theme.palette.common.black75,
     },
+    [LivenessStepStatus.Disabled]: {
+      colorText: theme.palette.common.black75,
+      colorIcon: theme.palette.common.black75,
+    },
+    [LivenessStepStatus.FewData]: {
+      colorText: theme.palette.common.black75,
+      colorIcon: theme.palette.common.black75,
+    },
   };
 
   return ({
@@ -31,7 +40,7 @@ export const useStyles = makeStyles((theme) => {
     }),
     title: ({ status }) => ({
       color: statuses[status].colorText,
-      lineHeight: '1.1',
+      lineHeight: '1.2',
     }),
     titleIcon: ({ status }) => ({
       flexShrink: 0,

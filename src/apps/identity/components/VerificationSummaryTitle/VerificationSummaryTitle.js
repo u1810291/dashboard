@@ -9,13 +9,13 @@ const icons = {
   additional: FiCheckCircle,
 };
 
-export function VerificationSummaryTitle({ status, children, type = 'document' }) {
+export function VerificationSummaryTitle({ status, children, type = 'document', withIcon = true }) {
   const classes = useStyles({ status });
   const Icon = icons[type];
 
   return (
     <Grid container alignItems="center" justify="center" wrap="nowrap" className={classes.titleWrapper}>
-      <Icon className={classes.titleIcon} />
+      {withIcon && <Icon className={classes.titleIcon} />}
       <Typography className={classes.title} variant="subtitle2">
         {children}
       </Typography>

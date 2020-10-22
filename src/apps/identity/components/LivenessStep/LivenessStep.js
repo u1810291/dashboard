@@ -1,5 +1,5 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
-import { getBiometricStatus, LivenessStepStatus } from 'models/Biometric.model';
+import { getBiometricCheckStatus, LivenessStepStatus } from 'models/Biometric.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
@@ -13,14 +13,7 @@ import { CheckStepDetails } from '../CheckStepDetails/CheckStepDetails';
 export function LivenessStep({ steps }) {
   const intl = useIntl();
   const classes = useStyles();
-  const status = getBiometricStatus(steps);
-  let checkStatus = LivenessStepStatus.Disabled;
-  if (status) {
-    checkStatus = status.checkStatus;
-    if (checkStatus === StepStatus.Success && status.id === BiometricStepTypes.Selfie) {
-      checkStatus = LivenessStepStatus.FewData;
-    }
-  }
+  const checkStatus = getBiometricCheckStatus(steps);
 
   return (
     <Paper>

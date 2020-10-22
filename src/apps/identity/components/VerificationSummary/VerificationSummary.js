@@ -54,11 +54,9 @@ export function VerificationSummary({ identity }) {
         </Box>
         <Grid container spacing={2}>
           {/* Biometrics Check */}
-          {biometric?.length > 0 && (
-            <Grid item container xs={12} lg={4}>
-              <VerificationBioCheckSummary identity={identity} biometric={biometric} />
-            </Grid>
-          )}
+          <Grid item container xs={12} lg={4}>
+            <VerificationBioCheckSummary identity={identity} biometric={biometric} />
+          </Grid>
 
           {/* Documents Checks */}
           {identity.documents.map((doc, index) => (

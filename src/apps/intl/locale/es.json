@@ -547,6 +547,8 @@
   "identity.field.zipCode": "Código postal",
   "identity.nameNotFound": "Nombre no encontrado",
   "identity.status": "Estatus",
+  "identity.summary.biometric.disabled": "No se activaron controles biométricos para este flujo",
+  "identity.summary.biometric.fewData": "Solo se activó la opción \"Selfie\" para este flujo.",
   "identity.summary.date": "Fecha de verificación",
   "identity.summary.empty.img": "Sin foto",
   "identity.summary.empty.name": "No se encontró el nombre",
