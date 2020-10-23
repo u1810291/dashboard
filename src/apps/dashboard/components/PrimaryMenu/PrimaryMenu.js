@@ -1,13 +1,13 @@
+import { initialFilter } from 'apps/identity';
 import { Menu } from 'apps/layout';
 import { trackEvent } from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import { QATags } from 'models/QA.model';
 import React from 'react';
+import { FiBarChart2, FiList, FiUserCheck } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { filterUpdate, identitiesFilteredCountLoad, identitiesListLoad } from 'state/identities/identities.actions';
-import { initialFilter } from 'apps/identity';
-import { FiList, FiBarChart2, FiUserCheck } from 'react-icons/fi';
 
 export function PrimaryMenu({ isOwner = false, ...props }) {
   const dispatch = useDispatch();
@@ -40,6 +40,15 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
       id: 'product',
       show: isOwner,
       to: '/',
+      label: intl.formatMessage({ id: 'dashboard.menu.product' }),
+      handler: () => trackEvent(MixPanelEvents.NavProduct),
+      icon: <FiUserCheck />,
+      qa: QATags.Navigation.Top.Product,
+    },
+    {
+      id: 'for_developers',
+      show: isOwner,
+      to: '/dev',
       label: intl.formatMessage({ id: 'dashboard.menu.product' }),
       handler: () => trackEvent(MixPanelEvents.NavProduct),
       icon: <FiUserCheck />,
