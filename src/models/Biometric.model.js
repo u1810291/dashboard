@@ -97,6 +97,9 @@ export function getBiometricStatus(steps) {
 }
 
 export function getBiometricCheckStatus(steps) {
+  if (!steps || steps.length === 0) {
+    return LivenessStepStatus.Disabled;
+  }
   const { id, checkStatus } = getBiometricStatus(steps);
   if (checkStatus === StepStatus.Success && id === BiometricStepTypes.Selfie) {
     return LivenessStepStatus.FewData;
