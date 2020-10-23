@@ -2,7 +2,7 @@ import { titleize } from 'inflection';
 import { get } from 'lodash';
 import { getDocumentExtras } from 'models/Document.model';
 import moment from 'moment';
-import { getBiometricExtras } from './Biometric.model';
+import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getIpCheckUrl } from './IpCheck.model';
 
 export const VerificationStepTypes = {
@@ -126,7 +126,7 @@ export function getIdentityExtras(identity, countries) {
   const steps = get(identity, '_embedded.verification.steps') || [];
   return {
     ...identity,
-    biometric: getBiometricExtras(steps),
+    biometric: getBiometricExtras(steps.filter((item) => BiometricSteps.includes(item.id))),
     shortId: getIdentityShortId(identity.id),
     fullName: titleize(identity.fullName || ''),
     // TODO @dkchv: overrided
