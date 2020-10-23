@@ -1,5 +1,5 @@
 import { Button, Grid, Paper, Typography } from '@material-ui/core';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -13,8 +13,12 @@ export const ManualReviewBanner = () => {
   const intl = useIntl();
   const classes = useStyles();
   const manualReviewCount = useSelector(selectManualReviewCountModel);
+  const [setFilter, identityFilter] = useFilterUpdate();
   const [isFilterActive, setIsFilterActive] = useState(false);
-  const [setFilter] = useFilterUpdate();
+
+  useEffect(() => {
+    setIsFilterActive(identityFilter.status.some((status) => status === IdentityStatuses.reviewNeeded));
+  }, [identityFilter.status]);
 
   const handleFilterByManualReview = useCallback(() => {
     setFilter({ ...initialFilter, status: [IdentityStatuses.reviewNeeded] });

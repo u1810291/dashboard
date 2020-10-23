@@ -108,9 +108,10 @@ export function VerificationFilter({ onClose }) {
               </Typography>
               <Paper className={classes.flowsList}>
                 <FormControl variant="outlined" fullWidth>
-                  <RadioGroup aria-label="flow" value={bufferedFilter.flowId} onChange={handleSelectFlow}>
+                  <RadioGroup aria-label="flow" onChange={handleSelectFlow}>
                     <FormControlLabel
                       value=""
+                      checked={!bufferedFilter.flowId}
                       control={<Radio color="default" checkedIcon={<RadioOn />} icon={<RadioOff />} />}
                       label={intl.formatMessage({ id: 'VerificationFilter.flows.allFlows' })}
                     />
@@ -118,6 +119,7 @@ export function VerificationFilter({ onClose }) {
                       <FormControlLabel
                         key={item.id}
                         value={item.id}
+                        checked={bufferedFilter.flowId === item.id}
                         control={<Radio color="default" checkedIcon={<RadioOn />} icon={<RadioOff />} />}
                         label={item.name}
                       />
