@@ -62,7 +62,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('sm')]: {
       width: 300,
-      height: 'calc(100vh - 40px)',
+      height: 'calc(100vh - 80px)',
     },
   },
 }));

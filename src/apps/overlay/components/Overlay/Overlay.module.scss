@@ -52,3 +52,9 @@
 .modalFixedContent > span {
   max-height: unset;
 }
+
+@media screen and (max-width: 959.95px) {
+  .modalFixedContent {
+    align-items: flex-start;
+  }
+}

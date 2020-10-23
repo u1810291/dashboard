@@ -120,5 +120,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   clearButton: {
     color: theme.palette.common.red,
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
   },
 }));
