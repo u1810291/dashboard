@@ -1,11 +1,12 @@
-import { Box, Button, Container, Grid, Paper, Typography } from '@material-ui/core';
-import React, { useCallback, useEffect } from 'react';
+import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
+import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { filterUpdate, identitiesCountLoad, identitiesFilteredCountLoad, identitiesListLoad, identitiesManualReviewCountLoad } from 'state/identities/identities.actions';
-import { selectFilteredCountModel, selectManualReviewCountModel } from 'state/identities/identities.selectors';
+import { selectFilteredCountModel } from 'state/identities/identities.selectors';
 import { DownloadCSV } from '../../components/DownloadCSV/DownloadCSV';
+import { ManualReviewBanner } from '../../components/ManualReviewBanner/ManualReviewBanner';
 import { OpenFilter } from '../../components/OpenFilter/OpenFilter';
 import { VerificationSearch } from '../../components/VerificationSearch/VerificationSearch';
 import { VerificationTable } from '../../components/VerificationTable/VerificationTable';
@@ -19,7 +20,6 @@ export function VerificationHistory() {
   const classes = useStyles();
   const intl = useIntl();
   const filteredCountModel = useSelector(selectFilteredCountModel);
-  const manualReviewCount = useSelector(selectManualReviewCountModel);
   const [setFilter] = useFilterUpdate();
 
   useEffect(() => {
@@ -37,10 +37,6 @@ export function VerificationHistory() {
       }
     };
   }, [dispatch, location]);
-
-  const handleFilterByManualReview = useCallback(() => {
-    setFilter({ ...initialFilter, status: ['reviewNeeded'] });
-  }, [setFilter]);
 
   return (
     <Container maxWidth="initial">
@@ -64,35 +60,7 @@ export function VerificationHistory() {
             </Grid>
           </Grid>
           {/* manual review banner */}
-          {manualReviewCount.value > 0
-          && (
-          <Grid item>
-            <Paper className={classes.banner}>
-              <Box py={{ xs: 1.4, lg: 1 }} px={2}>
-                <Grid container justify="space-between" alignItems="center" className={classes.bannerWrapper}>
-                  <Grid item>
-                    <Typography variant="body1" className={classes.bannerText}>
-                      {intl.formatMessage({
-                        id: 'VerificationHistory.manualReviewBanner',
-                      }, {
-                        count: <b>{manualReviewCount.value}</b>,
-                      })}
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Button
-                      variant="outlined"
-                      className={classes.bannerButton}
-                      onClick={handleFilterByManualReview}
-                    >
-                      {intl.formatMessage({ id: 'VerificationHistory.reviewVerifications' }) }
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Paper>
-          </Grid>
-          )}
+          <ManualReviewBanner />
           {/* content */}
           <Grid item>
             <Paper className={classes.paper}>

@@ -21,26 +21,4 @@ export const useStyles = makeStyles((theme) => ({
       marginRight: 10,
     },
   },
-  banner: {
-    backgroundColor: theme.palette.common.yellow,
-  },
-  bannerWrapper: {
-    [theme.breakpoints.down('md')]: {
-      flexDirection: 'column',
-    },
-  },
-  bannerText: {
-    color: theme.palette.common.black90,
-    lineHeight: 1.2,
-    [theme.breakpoints.down('md')]: {
-      marginBottom: 10,
-      textAlign: 'center',
-    },
-  },
-  bannerButton: {
-    minWidth: 160,
-    fontSize: 12,
-    lineHeight: 1.5,
-    borderColor: theme.palette.common.black90,
-  },
 }));
