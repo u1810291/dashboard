@@ -66,8 +66,8 @@ export const useStyles = makeStyles((theme) => ({
       color: theme.palette.common.black75,
     },
     '& .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover': {
-      backgroundColor: theme.palette.common.black75,
-      color: theme.palette.common.black7,
+      backgroundColor: theme.palette.common.black7,
+      color: theme.palette.common.black75,
     },
     '& .DayPicker-Day--selected.DayPicker-Day--start:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)': {
       borderTopLeftRadius: 4,

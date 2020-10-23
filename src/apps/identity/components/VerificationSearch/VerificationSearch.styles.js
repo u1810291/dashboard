@@ -9,6 +9,9 @@ export const TextFieldSearch = withStyles((theme) => ({
     '& .MuiOutlinedInput-root': {
       '& input': {
         borderRadius: 5,
+        '&::placeholder': {
+          color: theme.palette.common.black50,
+        },
       },
       '&.Mui-focused fieldset': {
         borderWidth: 1,
