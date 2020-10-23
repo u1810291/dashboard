@@ -44,59 +44,62 @@ export const LivenessStepStatus = {
 };
 
 export function getBiometricExtras(steps) {
-  return steps
-    .filter((item) => BiometricSteps.includes(item.id))
-    .map((item) => ({
-      ...item,
-      checkStatus: getStepStatus(item),
-      videoUrl: get(item, 'data.videoUrl'),
-      selfieUrl: get(item, 'data.selfiePhotoUrl') || get(item, 'data.selfieUrl'),
-    }));
+  const prepared = steps.map((item) => ({
+    ...item,
+    checkStatus: getStepStatus(item),
+    videoUrl: get(item, 'data.videoUrl'),
+    selfieUrl: get(item, 'data.selfiePhotoUrl') || get(item, 'data.selfieUrl'),
+  }));
+
+  const voice = prepared.find((item) => item.id === BiometricTypes.voice);
+
+  if (!voice) {
+    return prepared;
+  }
+
+  const liveness = prepared.find((item) => item.id === BiometricTypes.liveness);
+
+  const numbers = get(voice, 'data.text') || '1-2-3';
+  const label = numbers
+    ? {
+      labelExtra: `SecurityCheckStep.voice.${voice.checkStatus}.withNumbers`,
+      labelExtraData: {
+        numbers,
+      },
+    }
+    : {
+      labelExtra: `SecurityCheckStep.voice.${voice.checkStatus}.withoutNumbers`,
+    };
+
+  return [
+    liveness,
+    {
+      ...voice,
+      ...label,
+    },
+  ];
 }
 
 export function getBiometricStatus(steps) {
-  let status;
-
   const voice = steps.find((item) => item.id === BiometricTypes.voice);
 
-  if (voice) {
-    const liveness = steps.find((item) => item.id === BiometricTypes.liveness);
-    const movement = steps.find((item) => item.id === BiometricTypes.liveness);
-    const livenessError = steps.find((item) => item.checkStatus !== StepStatus.Success);
-
-    status = {
-      ...liveness,
-      checkStatus: livenessError ? livenessError.checkStatus : liveness.checkStatus,
-      sub: [
-        {
-          ...voice,
-          labelExtra: 'SecurityCheckStep.voice.numbers',
-          labelExtraData: {
-            numbers: get(voice, 'data.numbers'),
-          },
-        },
-        {
-          ...movement,
-          id: 'movement',
-        },
-      ],
-    };
-  } else {
-    // eslint-disable-next-line prefer-destructuring
-    status = steps[0];
+  if (!voice) {
+    return steps[0];
   }
 
-  return status;
+  const liveness = steps.find((item) => item.id === BiometricTypes.liveness);
+  const livenessError = steps.find((item) => item.checkStatus !== StepStatus.Success);
+
+  return {
+    ...liveness,
+    checkStatus: livenessError ? livenessError.checkStatus : liveness.checkStatus,
+  };
 }
 
 export function getBiometricCheckStatus(steps) {
-  const status = getBiometricStatus(steps);
-  let checkStatus = LivenessStepStatus.Disabled;
-  if (status) {
-    checkStatus = status.checkStatus;
-    if (checkStatus === StepStatus.Success && status.id === BiometricStepTypes.Selfie) {
-      checkStatus = LivenessStepStatus.FewData;
-    }
+  const { id, checkStatus } = getBiometricStatus(steps);
+  if (checkStatus === StepStatus.Success && id === BiometricStepTypes.Selfie) {
+    return LivenessStepStatus.FewData;
   }
   return checkStatus;
 }

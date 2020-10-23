@@ -1,14 +1,14 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import classNames from 'classnames';
 import { getBiometricCheckStatus, LivenessStepStatus } from 'models/Biometric.model';
+import { BiometricStepTypes } from 'models/Step.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import classNames from 'classnames';
-import { LivenessMedia } from '../LivenessMedia/LivenessMedia';
-import { CheckResultLogo } from '../CheckResultLogo/CheckResultLogo';
 import { CheckBarExpandable } from '../CheckBarExpandable/CheckBarExpandable';
-import { BiometricStepTypes, StepStatus } from '../../../../models/Step.model';
-import { useStyles } from './LivenessStep.styles';
+import { CheckResultLogo } from '../CheckResultLogo/CheckResultLogo';
 import { CheckStepDetails } from '../CheckStepDetails/CheckStepDetails';
+import { LivenessMedia } from '../LivenessMedia/LivenessMedia';
+import { useStyles } from './LivenessStep.styles';
 
 export function LivenessStep({ steps }) {
   const intl = useIntl();
@@ -73,14 +73,11 @@ export function LivenessStep({ steps }) {
               <CheckResultLogo status={checkStatus} type="biometric" />
             </Box>
             <Grid item container>
-              {steps.map((step) => {
-                if (step.checkStatus === StepStatus.Success && !step.videoUrl) return null;
-                return (
-                  <CheckBarExpandable step={step} key={step.id}>
-                    <CheckStepDetails step={step} />
-                  </CheckBarExpandable>
-                );
-              })}
+              {steps.map((step) => (
+                <CheckBarExpandable step={step} key={step.id}>
+                  <CheckStepDetails step={step} />
+                </CheckBarExpandable>
+              ))}
             </Grid>
           </Grid>
         </Grid>

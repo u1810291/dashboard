@@ -49,6 +49,13 @@ export function useCheckText(step) {
     });
   }
 
+  if (step.labelExtra) {
+    return intl.formatMessage({
+      id: step.labelExtra,
+      defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${step.checkStatus}` }),
+    }, step.labelExtraData);
+  }
+
   return intl.formatMessage({
     id: `SecurityCheckStep.${step.id}.${step.checkStatus}`,
     defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${step.checkStatus}` }),
