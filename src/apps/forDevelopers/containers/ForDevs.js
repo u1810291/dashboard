@@ -100,16 +100,16 @@ export const ForDevs = () => {
               value={selectedTab}
               onChange={handleTabChange}
               orientation="vertical"
+              variant="scrollable"
             >
               <Tab value={TabID.API} label="API" />
               <Tab value={TabID.SDK} label="SDK" />
               <Tab value={TabID.DIRECT_LINK} label="Direct Link" />
             </Tabs>
-            {selectedTab === TabID.API && (<Grid>API</Grid>)}
-            {selectedTab === TabID.SDK && (<Grid>SDK</Grid>)}
-            {selectedTab === TabID.DIRECT_LINK && (<Grid>Direct Link</Grid>)}
           </Grid>
-          <Grid item>{selectedTab}</Grid>
+          {selectedTab === TabID.API && (<Grid>API</Grid>)}
+          {selectedTab === TabID.SDK && (<Grid>SDK</Grid>)}
+          {selectedTab === TabID.DIRECT_LINK && (<Grid>Direct Link</Grid>)}
         </Grid>
 
       </Paper>
