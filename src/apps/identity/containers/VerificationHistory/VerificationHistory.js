@@ -40,7 +40,11 @@ export function VerificationHistory() {
 
   return (
     <Container maxWidth="initial">
-      <Box pt={{ xs: 2, lg: 4 }}>
+      <Box pt={{
+        xs: 2,
+        lg: 4,
+      }}
+      >
         <Grid container spacing={2} direction="column">
           <Grid item container justify="space-between">
             {/* search */}
@@ -64,7 +68,17 @@ export function VerificationHistory() {
           {/* content */}
           <Grid item>
             <Paper className={classes.paper}>
-              <Box px={2} pt={{ xs: 0, lg: 2 }} pb={{ xs: 2, lg: 1.4 }}>
+              <Box
+                px={2}
+                pt={{
+                  xs: 0,
+                  lg: 2,
+                }}
+                pb={{
+                  xs: 2,
+                  lg: 1.4,
+                }}
+              >
                 <Typography variant="subtitle2" className={classes.title}>
                   <Box component="span">
                     {intl.formatMessage({ id: 'VerificationHistory.title' },
