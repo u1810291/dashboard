@@ -224,6 +224,7 @@ export function VerificationTable() {
                   >
                     {item.status === IdentityStatuses.reviewNeeded && (
                       <Tooltip
+                        onMouseUp={(e) => e.stopPropagation()}
                         enterTouchDelay={0}
                         placement="top"
                         arrow
