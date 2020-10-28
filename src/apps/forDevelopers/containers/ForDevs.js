@@ -5,8 +5,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
 import Select from '@material-ui/core/Select';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
 import { VisibilityOff } from '@material-ui/icons';
 import SettingsIcon from '@material-ui/icons/Settings';
 import React, { useCallback, useState } from 'react';
@@ -17,7 +15,7 @@ import { LoadableAdapter } from '../../../lib/Loadable.adapter';
 import { TabID } from '../../../models/ForDevelopers.model';
 import { selectMerchantFlowsModel } from '../../../state/merchant/merchant.selectors';
 import { selectUserId } from '../../user/state/user.selectors';
-import { CascadeMenuButton } from '../components/CascadeMenuButton/CascadeMenuButton';
+import { TabsMenu } from '../components/TabsMenu/TabsMenu';
 
 export const ForDevs = () => {
   const [selectedFlow] = useState('');
@@ -25,8 +23,8 @@ export const ForDevs = () => {
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
   const clientId = useSelector(selectUserId);
 
-  const handleTabChange = useCallback((event, newValue) => {
-    setSelectedTab(newValue);
+  const handleTabChange = useCallback((event) => {
+    setSelectedTab(event.target.value);
   }, []);
 
   return (
@@ -97,25 +95,12 @@ export const ForDevs = () => {
         </Grid>
         <Grid container>
           <Grid container direction="column" xs={3}>
-            <Tabs
-              value={selectedTab}
-              onChange={handleTabChange}
-              orientation="vertical"
-              variant="scrollable"
-            >
-              <Tab value={TabID.API} label="API" />
-              <Tab value={TabID.SDK} label="SDK" />
-              <Tab value={TabID.DIRECT_LINK} label="Direct Link" />
-              <CascadeMenuButton name="sds">
-                <Tab onClick={handleTabChange} value={TabID.DIRECT_LINK} label="Direct Link" />
-              </CascadeMenuButton>
-            </Tabs>
+            <TabsMenu onChange={handleTabChange} />
           </Grid>
           {selectedTab === TabID.API && (<Grid>API</Grid>)}
           {selectedTab === TabID.SDK && (<Grid>SDK</Grid>)}
           {selectedTab === TabID.DIRECT_LINK && (<Grid>Direct Link</Grid>)}
         </Grid>
-
       </Paper>
     </Container>
   );
