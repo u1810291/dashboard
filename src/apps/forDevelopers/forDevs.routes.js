@@ -3,5 +3,5 @@ import { Route } from 'react-router-dom';
 import { ForDevs } from './containers/ForDevs';
 
 export const forDevsRoutes = [
-  <Route key="demo" path="/dev" component={ForDevs} />,
+  <Route key="dev" path="/dev" component={ForDevs} />,
 ];

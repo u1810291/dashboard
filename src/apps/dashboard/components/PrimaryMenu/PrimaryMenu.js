@@ -49,7 +49,7 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
       id: 'for_developers',
       show: isOwner,
       to: '/dev',
-      label: intl.formatMessage({ id: 'dashboard.menu.product' }),
+      label: intl.formatMessage({ id: 'dashboard.menu.developers' }),
       handler: () => trackEvent(MixPanelEvents.NavProduct),
       icon: <FiUserCheck />,
       qa: QATags.Navigation.Top.Product,

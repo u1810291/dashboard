@@ -18,13 +18,17 @@ import { selectUserId } from '../../user/state/user.selectors';
 import { TabsMenu } from '../components/TabsMenu/TabsMenu';
 
 export const ForDevs = () => {
-  const [selectedFlow] = useState('');
+  const [selectedFlow, setSelectedFlow] = useState('');
   const [selectedTab, setSelectedTab] = useState(null);
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
   const clientId = useSelector(selectUserId);
 
   const handleTabChange = useCallback((event) => {
     setSelectedTab(event.target.value);
+  }, []);
+
+  const handleSelectedFlow = useCallback((event) => {
+    setSelectedFlow(event.target.value);
   }, []);
 
   return (
@@ -41,15 +45,24 @@ export const ForDevs = () => {
               <Typography>
                 {clientId}
               </Typography>
+              <IconButton>
+                <VisibilityOff />
+              </IconButton>
               client id
             </Grid>
             <Grid item>
-              5e9576d8ac2c70001ca9ee3d
+              <Typography>5e9576d8ac2c70001ca9ee3d</Typography>
+              <IconButton>
+                <VisibilityOff />
+              </IconButton>
               <IconButton>
                 <VisibilityOff />
               </IconButton>
               <Grid item>
-                Client secret
+                <Typography>Client secret</Typography>
+                <IconButton>
+                  <VisibilityOff />
+                </IconButton>
               </Grid>
             </Grid>
           </Grid>
@@ -68,6 +81,7 @@ export const ForDevs = () => {
                 <Select
                   labelId="demo-customized-select-label"
                   id="demo-customized-select"
+                  onChange={handleSelectedFlow}
                 >
                   {!LoadableAdapter.isPristine(merchantFlowList) && merchantFlowList.value.map((item) => (
                     <MenuItem
