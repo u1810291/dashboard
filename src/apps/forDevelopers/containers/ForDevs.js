@@ -17,6 +17,7 @@ import { LoadableAdapter } from '../../../lib/Loadable.adapter';
 import { TabID } from '../../../models/ForDevelopers.model';
 import { selectMerchantFlowsModel } from '../../../state/merchant/merchant.selectors';
 import { selectUserId } from '../../user/state/user.selectors';
+import { CascadeMenuButton } from '../components/CascadeMenuButton/CascadeMenuButton';
 
 export const ForDevs = () => {
   const [selectedFlow] = useState('');
@@ -105,6 +106,9 @@ export const ForDevs = () => {
               <Tab value={TabID.API} label="API" />
               <Tab value={TabID.SDK} label="SDK" />
               <Tab value={TabID.DIRECT_LINK} label="Direct Link" />
+              <CascadeMenuButton name="sds">
+                <Tab onClick={handleTabChange} value={TabID.DIRECT_LINK} label="Direct Link" />
+              </CascadeMenuButton>
             </Tabs>
           </Grid>
           {selectedTab === TabID.API && (<Grid>API</Grid>)}
