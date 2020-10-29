@@ -9,15 +9,17 @@ import { VisibilityOff } from '@material-ui/icons';
 import SettingsIcon from '@material-ui/icons/Settings';
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { ReactComponent as RadioOff } from '../../../assets/icon-radio-off.svg';
-import { ReactComponent as RadioOn } from '../../../assets/icon-radio-on.svg';
-import { LoadableAdapter } from '../../../lib/Loadable.adapter';
-import { TabID } from '../../../models/ForDevelopers.model';
-import { selectMerchantFlowsModel } from '../../../state/merchant/merchant.selectors';
-import { selectUserId } from '../../user/state/user.selectors';
-import { TabsMenu } from '../components/TabsMenu/TabsMenu';
+import { ReactComponent as RadioOff } from '../../../../assets/icon-radio-off.svg';
+import { ReactComponent as RadioOn } from '../../../../assets/icon-radio-on.svg';
+import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
+import { TabID } from '../../../../models/ForDevelopers.model';
+import { selectMerchantFlowsModel } from '../../../../state/merchant/merchant.selectors';
+import { selectUserId } from '../../../user/state/user.selectors';
+import { TabsMenu } from '../../components/TabsMenu/TabsMenu';
+import { useStyles } from './ForDev.styles';
 
 export const ForDevs = () => {
+  const classes = useStyles();
   const [selectedFlow, setSelectedFlow] = useState('');
   const [selectedTab, setSelectedTab] = useState(null);
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
