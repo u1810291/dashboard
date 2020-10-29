@@ -1,4 +1,4 @@
-import { Container, FormControl, Typography } from '@material-ui/core';
+import { Box, Container, FormControl, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -34,55 +34,59 @@ export const ForDevs = () => {
 
   return (
     <Container>
-      <ClientDetails />
-      <Paper>
-        <Grid container direction="column">
-          <Grid item>
-            Integrations
-          </Grid>
-          <Grid container direction="row">
-            <Grid item xs={3}>
-              <FormControl variant="outlined">
-                <Select
-                  labelId="demo-customized-select-label"
-                  id="demo-customized-select"
-                  onChange={handleSelectedFlow}
-                >
-                  {!LoadableAdapter.isPristine(merchantFlowList) && merchantFlowList.value.map((item) => (
-                    <MenuItem
-                      key={item.id}
-                      value={item.id}
-                      checked={selectedFlow === item.id}
-                      control={<Radio color="default" checkedIcon={<RadioOn />} icon={<RadioOff />} />}
+      <Box pt={{ xs: 2, lg: 4 }}>
+        <ClientDetails />
+        <Paper>
+          <Box p={2}>
+            <Grid container direction="column">
+              <Grid item>
+                Integrations
+              </Grid>
+              <Grid container direction="row">
+                <Grid item xs={3}>
+                  <FormControl variant="outlined">
+                    <Select
+                      labelId="demo-customized-select-label"
+                      id="demo-customized-select"
+                      onChange={handleSelectedFlow}
                     >
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                      {!LoadableAdapter.isPristine(merchantFlowList) && merchantFlowList.value.map((item) => (
+                        <MenuItem
+                          key={item.id}
+                          value={item.id}
+                          checked={selectedFlow === item.id}
+                          control={<Radio color="default" checkedIcon={<RadioOn />} icon={<RadioOff />} />}
+                        >
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography>Active</Typography>
+                  <Typography> Webhook status</Typography>
+                </Grid>
+                <Button>
+                  <SettingsIcon />
+                  Webhooks
+                </Button>
+                <Button>Mati Documentation</Button>
+              </Grid>
             </Grid>
-            <Grid item xs={3}>
-              <Typography>Active</Typography>
-              <Typography> Webhook status</Typography>
+            <Grid container>
+              <Grid container direction="column" xs={3}>
+                <TabsMenu onClick={handleTabChange} />
+              </Grid>
+              <Grid container xs={9}>
+                {selectedTab === TabID.IOS && <IOSPage />}
+                {selectedTab === TabID.API && (<Grid>API</Grid>)}
+                {selectedTab === TabID.DIRECT_LINK && (<Grid>Direct Link</Grid>)}
+              </Grid>
             </Grid>
-            <Button>
-              <SettingsIcon />
-              Webhooks
-            </Button>
-            <Button>Mati Documentation</Button>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid container direction="column" xs={3}>
-            <TabsMenu onClick={handleTabChange} />
-          </Grid>
-          <Grid container xs={9}>
-            {selectedTab === TabID.IOS && <IOSPage />}
-            {selectedTab === TabID.API && (<Grid>API</Grid>)}
-            {selectedTab === TabID.DIRECT_LINK && (<Grid>Direct Link</Grid>)}
-          </Grid>
-        </Grid>
-      </Paper>
+          </Box>
+        </Paper>
+      </Box>
     </Container>
   );
 };

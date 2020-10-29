@@ -4,7 +4,7 @@ import { trackEvent } from 'lib/mixpanel/mixpanel';
 import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import { QATags } from 'models/QA.model';
 import React from 'react';
-import { FiBarChart2, FiList, FiUserCheck } from 'react-icons/fi';
+import { FiBarChart2, FiList, FiUserCheck, FiCode } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { filterUpdate, identitiesFilteredCountLoad, identitiesListLoad } from 'state/identities/identities.actions';
@@ -51,7 +51,7 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
       to: '/dev',
       label: intl.formatMessage({ id: 'dashboard.menu.developers' }),
       handler: () => trackEvent(MixPanelEvents.NavProduct),
-      icon: <FiUserCheck />,
+      icon: <FiCode />,
       qa: QATags.Navigation.Top.Product,
     },
   ];
