@@ -77,6 +77,16 @@ export const selectClientId = createSelector(
   selectModelValue(),
 );
 
+export const selectClientSecretModel = createSelector(
+  selectAppLastModel,
+  selectLoadableValue((app) => app.clientSecret),
+);
+
+export const selectClientSecret = createSelector(
+  selectClientSecretModel,
+  selectModelValue(),
+);
+
 // -- configuration
 
 export const selectConfigurationModel = createSelector(

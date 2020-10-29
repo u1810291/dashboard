@@ -43,7 +43,6 @@ export const ForDevs = () => {
               </Grid>
               <Grid container direction="row">
                 <Grid item xs={3}>
-                  <Typography>Flow</Typography>
                   <FormControl variant="outlined">
                     <Select
                       labelId="demo-customized-select-label"
