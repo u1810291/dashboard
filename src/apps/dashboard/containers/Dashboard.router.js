@@ -3,10 +3,11 @@ import { InfoPage } from 'apps/FAQ';
 import { Page404 } from 'apps/layout';
 import { MerchantGuard, OwnerRoute } from 'apps/merchant';
 import { Metrics } from 'apps/metrics';
-import { Product } from 'apps/product';
 import { Settings } from 'apps/settings';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { VerificationFlows } from '../../product/containers/Product/VerificationFlows';
+import { Product } from '../../product';
 
 export function DashboardRouter() {
   return (
@@ -16,7 +17,8 @@ export function DashboardRouter() {
       <MerchantGuard>
         {identityRoutes}
         <OwnerRoute path="/metrics" component={Metrics} />
-        <OwnerRoute exact path="/" component={Product} />
+        <OwnerRoute exact path="/" component={VerificationFlows} />
+        <OwnerRoute path="/flows/:id" component={Product} />
         <Route path="*" component={Page404} />
       </MerchantGuard>
     </Switch>

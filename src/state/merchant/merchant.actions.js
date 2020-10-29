@@ -137,6 +137,7 @@ export const merchantCreateFlow = (payload) => async (dispatch, getState) => {
     const { value } = selectMerchantFlowsModel(getState());
     const { data } = await api.createMerchantFlow(merchantId, payload);
     dispatch({ type: types.FLOWS_SUCCESS, payload: [...value, data], isReset: true });
+    return data;
   } catch (error) {
     dispatch({ type: types.FLOWS_FAILURE, error });
     throw error;
