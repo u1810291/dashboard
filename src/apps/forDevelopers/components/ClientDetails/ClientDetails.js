@@ -2,7 +2,7 @@ import { IconButton, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { VisibilityOff } from '@material-ui/icons';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CopyToClipboard } from '../../../../components/clipboard';
 import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
@@ -14,6 +14,11 @@ export const ClientDetails = () => {
   const dispatch = useDispatch();
   const clientIdModel = useSelector(selectClientIdModel);
   const clientSecret = useSelector(selectClientSecret);
+  const [isSecretShow, setIsSecretShow] = useState(false);
+
+  const handleChangeShow = useCallback(() => {
+    setIsSecretShow(((prevState) => !prevState));
+  }, []);
 
   useEffect(() => {
     if (LoadableAdapter.isPristine(clientIdModel)) {
@@ -49,10 +54,10 @@ export const ClientDetails = () => {
             <Grid container>
               <Typography>
                 <CopyToClipboard text={clientSecret} qa={QATags.Integration.flowId.Copy}>
-                  <code data-qa={QATags.Integration.flowId.Value}>{clientSecret}</code>
+                  <code data-qa={QATags.Integration.flowId.Value}>{isSecretShow ? clientSecret : '************************'}</code>
                 </CopyToClipboard>
               </Typography>
-              <IconButton>
+              <IconButton onClick={handleChangeShow}>
                 <VisibilityOff />
               </IconButton>
             </Grid>
