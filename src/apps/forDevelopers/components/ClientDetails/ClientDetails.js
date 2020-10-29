@@ -4,7 +4,9 @@ import Paper from '@material-ui/core/Paper';
 import { VisibilityOff } from '@material-ui/icons';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { CopyToClipboard } from '../../../../components/clipboard';
 import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
+import { QATags } from '../../../../models/QA.model';
 import { appLoad } from '../../../../state/merchant/merchant.actions';
 import { selectClientIdModel, selectClientSecret } from '../../../../state/merchant/merchant.selectors';
 
@@ -31,7 +33,9 @@ export const ClientDetails = () => {
           <Grid container direction="column">
             <Grid container>
               <Typography>
-                {clientIdModel?.value}
+                <CopyToClipboard text={clientIdModel?.value} qa={QATags.Integration.flowId.Copy}>
+                  <code data-qa={QATags.Integration.flowId.Value}>{clientIdModel?.value}</code>
+                </CopyToClipboard>
               </Typography>
               <IconButton>
                 <VisibilityOff />
@@ -43,10 +47,11 @@ export const ClientDetails = () => {
           </Grid>
           <Grid container direction="column">
             <Grid container>
-              <Typography>{clientSecret}</Typography>
-              <IconButton>
-                <VisibilityOff />
-              </IconButton>
+              <Typography>
+                <CopyToClipboard text={clientSecret} qa={QATags.Integration.flowId.Copy}>
+                  <code data-qa={QATags.Integration.flowId.Value}>{clientSecret}</code>
+                </CopyToClipboard>
+              </Typography>
               <IconButton>
                 <VisibilityOff />
               </IconButton>
