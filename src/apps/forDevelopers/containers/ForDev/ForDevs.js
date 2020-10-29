@@ -14,6 +14,7 @@ import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
 import { TabID } from '../../../../models/ForDevelopers.model';
 import { selectMerchantFlowsModel } from '../../../../state/merchant/merchant.selectors';
 import { ClientDetails } from '../../components/ClientDetails/ClientDetails';
+import { IOSPage } from '../../components/IOSPage/IOSPage';
 import { TabsMenu } from '../../components/TabsMenu/TabsMenu';
 import { useStyles } from './ForDev.styles';
 
@@ -75,8 +76,11 @@ export const ForDevs = () => {
           <Grid container direction="column" xs={3}>
             <TabsMenu onClick={handleTabChange} />
           </Grid>
-          {selectedTab === TabID.API && (<Grid>API</Grid>)}
-          {selectedTab === TabID.DIRECT_LINK && (<Grid>Direct Link</Grid>)}
+          <Grid container xs={9}>
+            {selectedTab === TabID.IOS && <IOSPage />}
+            {selectedTab === TabID.API && (<Grid>API</Grid>)}
+            {selectedTab === TabID.DIRECT_LINK && (<Grid>Direct Link</Grid>)}
+          </Grid>
         </Grid>
       </Paper>
     </Container>
