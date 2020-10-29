@@ -1,7 +1,7 @@
-import { get } from 'lodash';
 import { useIntl } from 'react-intl';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Paper, IconButton, Box, Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { copyToClipboard } from 'components/clipboard';
 import { permalinkUrl } from 'lib/client/urls';
@@ -13,10 +13,12 @@ import { useStyles, CopyLinkButton } from './VerificationFlowHeader.styles';
 import { EditableField } from '../EditableField/EditableField';
 import { flowNameValidator } from '../../validators/FlowName.validator';
 import { DeleteFlowDialog } from '../DeleteFlowDialog/DeleteFormDialog';
+import { getNewFlowId } from '../../models/Product.model';
 
 export function VerificationFlowHeader(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const intl = useIntl();
   const [anchorEl, setAnchorEl] = useState(null);
   const [editable, setEditable] = useState(false);
@@ -53,19 +55,20 @@ export function VerificationFlowHeader(props) {
   }
 
   const submitDialogForm = useCallback(async () => {
-    let currentIndex = merchantFlowsModel.value.findIndex((flow) => flow.id === currentFlow.id);
-    const getNewFlowId = (index) => get(merchantFlowsModel, `value[${index}].id`, currentFlow.id);
-    const newFlowId = getNewFlowId((currentIndex ? currentIndex -= 1 : currentIndex += 1));
+    const newFlowId = getNewFlowId(merchantFlowsModel, currentFlow.id);
 
     try {
       if (merchantFlowsModel.value.length > 1) {
         dispatch(updateCurrentFlowId(newFlowId));
         dispatch(merchantDeleteFlow(currentFlow.id));
+        history.push({
+          pathname: '/',
+        });
       }
     } catch (err) {
       setError(err);
     }
-  }, [dispatch, currentFlow, merchantFlowsModel]);
+  }, [history, dispatch, currentFlow, merchantFlowsModel]);
 
   const submitEditable = useCallback(async (text) => {
     await dispatch(merchantUpdateFlow(currentFlow.id, { name: text }));
