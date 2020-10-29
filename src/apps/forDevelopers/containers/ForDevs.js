@@ -41,24 +41,30 @@ export const ForDevs = () => {
             </Typography>
           </Grid>
           <Grid container xs={6}>
-            <Grid item>
-              <Typography>
-                {clientId}
-              </Typography>
-              <IconButton>
-                <VisibilityOff />
-              </IconButton>
-              client id
-            </Grid>
-            <Grid item>
-              <Typography>5e9576d8ac2c70001ca9ee3d</Typography>
-              <IconButton>
-                <VisibilityOff />
-              </IconButton>
-              <IconButton>
-                <VisibilityOff />
-              </IconButton>
+            <Grid container direction="column">
+              <Grid container>
+                <Typography>
+                  {clientId}
+                </Typography>
+                <IconButton>
+                  <VisibilityOff />
+                </IconButton>
+              </Grid>
               <Grid item>
+                <Typography>Client id</Typography>
+              </Grid>
+            </Grid>
+            <Grid container direction="column">
+              <Grid container>
+                <Typography>5e9576d8ac2c70001ca9ee3d</Typography>
+                <IconButton>
+                  <VisibilityOff />
+                </IconButton>
+                <IconButton>
+                  <VisibilityOff />
+                </IconButton>
+              </Grid>
+              <Grid container>
                 <Typography>Client secret</Typography>
                 <IconButton>
                   <VisibilityOff />
