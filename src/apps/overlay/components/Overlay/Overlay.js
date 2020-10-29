@@ -23,12 +23,12 @@ export default class Overlay extends React.Component {
   static defaultProps = {
     inline: false,
     onClose: () => {},
-  }
+  };
 
   static propTypes = {
     inline: PropTypes.bool,
     onClose: PropTypes.func,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -58,7 +58,7 @@ export default class Overlay extends React.Component {
     setTimeout(() => {
       this.props.onClose();
     }, 200);
-  }
+  };
 
   render() {
     const { props: { children, inline, options }, state: { visible } } = this;
@@ -72,7 +72,7 @@ export default class Overlay extends React.Component {
           { [CSS.overlayInline]: inline },
           options?.additionalClasses?.map((item) => CSS[item]),
         )}
-        onClick={(e) => e.target === e.currentTarget && options.onClose()}
+        onClick={(e) => e.target === e.currentTarget && (options?.onClose() || this.onClose())}
         ref="overlay" // eslint-disable-line react/no-string-refs
       >
         <span
