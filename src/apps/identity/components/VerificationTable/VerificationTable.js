@@ -89,10 +89,19 @@ export function VerificationTable() {
       setMouseUpExpired(false);
       setTimeout(() => setMouseUpExpired(true), 200);
     }
+    if (event.button === 1) {
+      event.preventDefault();
+    }
   }, []);
 
-  const onMouseUpHandler = useCallback((event, id) => event.button === 0 && !mouseUpExpired && handleRedirect(id),
-    [handleRedirect, mouseUpExpired]);
+  const onMouseUpHandler = useCallback((event, id) => {
+    if (event.button === 0 && !mouseUpExpired) {
+      handleRedirect(id);
+    }
+    if (event.button === 1) {
+      window.open(`/identities/${id}`, '_blank');
+    }
+  }, [handleRedirect, mouseUpExpired]);
 
   return (
     <TableContainer className={classes.container}>
