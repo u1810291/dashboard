@@ -2,12 +2,22 @@ import { IconButton, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { VisibilityOff } from '@material-ui/icons';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { selectUserId } from '../../../user/state/user.selectors';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
+import { appLoad } from '../../../../state/merchant/merchant.actions';
+import { selectClientIdModel, selectClientSecret } from '../../../../state/merchant/merchant.selectors';
 
 export const ClientDetails = () => {
-  const clientId = useSelector(selectUserId);
+  const dispatch = useDispatch();
+  const clientIdModel = useSelector(selectClientIdModel);
+  const clientSecret = useSelector(selectClientSecret);
+
+  useEffect(() => {
+    if (LoadableAdapter.isPristine(clientIdModel)) {
+      dispatch((appLoad()));
+    }
+  }, [clientIdModel, dispatch]);
 
   return (
     <Paper>
@@ -21,7 +31,7 @@ export const ClientDetails = () => {
           <Grid container direction="column">
             <Grid container>
               <Typography>
-                {clientId}
+                {clientIdModel?.value}
               </Typography>
               <IconButton>
                 <VisibilityOff />
@@ -33,7 +43,7 @@ export const ClientDetails = () => {
           </Grid>
           <Grid container direction="column">
             <Grid container>
-              <Typography>5e9576d8ac2c70001ca9ee3d</Typography>
+              <Typography>{clientSecret}</Typography>
               <IconButton>
                 <VisibilityOff />
               </IconButton>
