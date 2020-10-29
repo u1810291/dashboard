@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import Icon from 'assets/icon-editable-input.svg';
+import { FiEdit3 } from 'react-icons/fi';
 import { Box } from '@material-ui/core';
 import { useStyles } from './EditableInput.styles';
 
-export function EditableInput({ text, onSubmit }) {
+export function EditableInput({ text, className, onSubmit }) {
   const [isEditing, setEditing] = useState(false);
 
   const [inputText, setinputText] = useState(text);
@@ -49,7 +49,7 @@ export function EditableInput({ text, onSubmit }) {
   }, [setEditing]);
 
   return (
-    <Box>
+    <Box className={className}>
       {isEditing ? (
         <Box
           onBlur={handleBlur}
@@ -71,7 +71,7 @@ export function EditableInput({ text, onSubmit }) {
           <span className={classes.name}>
             {inputText}
           </span>
-          <img src={Icon} alt="" />
+          <FiEdit3 className={classes.icon} />
         </Box>
       )}
     </Box>

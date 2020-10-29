@@ -35,7 +35,9 @@ export const ForDevs = () => {
   return (
     <Container>
       <Box pt={{ xs: 2, lg: 4 }}>
-        <ClientDetails />
+        <Box mb={2}>
+          <ClientDetails />
+        </Box>
         <Paper>
           <Box p={2}>
             <Grid container direction="column">

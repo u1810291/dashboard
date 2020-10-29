@@ -3,15 +3,15 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles((theme) => ({
   input: {
     maxWidth: 'calc(100% + 20px)',
-    margin: '-5px 0 -5px -10px',
-    padding: 4,
+    margin: [[-5, 0, -5, -8]],
+    padding: [[4, 6]],
     color: theme.palette.common.black90,
     fontFamily: 'inherit',
     fontWeight: 'bold',
     fontSize: 24,
     outline: 'none',
     borderRadius: 5,
-    border: '1px solid #507DED',
+    border: `1px solid ${theme.palette.common.lightblue}`,
     [theme.breakpoints.down('sm')]: {
       width: 'calc(100% + 20px)',
     },
@@ -19,13 +19,14 @@ export const useStyles = makeStyles((theme) => ({
   nameWrapper: {
     display: 'flex',
     alignItems: 'flex-start',
-    '& img': {
-      margin: '6px 0 0 10px',
-    },
+    color: theme.palette.common.black90,
   },
   name: {
     fontWeight: 'bold',
     fontSize: 24,
-    color: theme.palette.common.black90,
+  },
+  icon: {
+    margin: '6px 0 0 10px',
+    fontSize: 17,
   },
 }));

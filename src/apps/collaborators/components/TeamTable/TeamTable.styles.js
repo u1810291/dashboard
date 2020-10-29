@@ -65,7 +65,7 @@ export const useStyles = makeStyles((theme) => ({
     height: 30,
     fontWeight: 'bold',
     borderRadius: '50%',
-    border: '1px solid #507DED',
+    border: `1px solid ${theme.palette.common.lightblue}`,
     overflow: 'hidden',
     [theme.breakpoints.down('sm')]: {
       marginTop: 5,
