@@ -1,11 +1,10 @@
-import { Container, FormControl, IconButton, Typography } from '@material-ui/core';
+import { Container, FormControl, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
 import Select from '@material-ui/core/Select';
-import { VisibilityOff } from '@material-ui/icons';
 import SettingsIcon from '@material-ui/icons/Settings';
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -14,7 +13,7 @@ import { ReactComponent as RadioOn } from '../../../../assets/icon-radio-on.svg'
 import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
 import { TabID } from '../../../../models/ForDevelopers.model';
 import { selectMerchantFlowsModel } from '../../../../state/merchant/merchant.selectors';
-import { selectUserId } from '../../../user/state/user.selectors';
+import { ClientDetails } from '../../components/ClientDetails/ClientDetails';
 import { TabsMenu } from '../../components/TabsMenu/TabsMenu';
 import { useStyles } from './ForDev.styles';
 
@@ -23,10 +22,9 @@ export const ForDevs = () => {
   const [selectedFlow, setSelectedFlow] = useState('');
   const [selectedTab, setSelectedTab] = useState(null);
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
-  const clientId = useSelector(selectUserId);
 
-  const handleTabChange = useCallback((event) => {
-    setSelectedTab(event.target.value);
+  const handleTabChange = useCallback((newValue) => {
+    setSelectedTab(newValue);
   }, []);
 
   const handleSelectedFlow = useCallback((event) => {
@@ -35,48 +33,7 @@ export const ForDevs = () => {
 
   return (
     <Container>
-      <Paper>
-        <Grid container justify="space-between">
-          <Grid container xs={6}>
-            <Typography>
-              Client Details
-            </Typography>
-          </Grid>
-          <Grid container xs={6}>
-            <Grid container direction="column">
-              <Grid container>
-                <Typography>
-                  {clientId}
-                </Typography>
-                <IconButton>
-                  <VisibilityOff />
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <Typography>Client id</Typography>
-              </Grid>
-            </Grid>
-            <Grid container direction="column">
-              <Grid container>
-                <Typography>5e9576d8ac2c70001ca9ee3d</Typography>
-                <IconButton>
-                  <VisibilityOff />
-                </IconButton>
-                <IconButton>
-                  <VisibilityOff />
-                </IconButton>
-              </Grid>
-              <Grid container>
-                <Typography>Client secret</Typography>
-                <IconButton>
-                  <VisibilityOff />
-                </IconButton>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Paper>
-
+      <ClientDetails />
       <Paper>
         <Grid container direction="column">
           <Grid item>
@@ -117,10 +74,9 @@ export const ForDevs = () => {
         </Grid>
         <Grid container>
           <Grid container direction="column" xs={3}>
-            <TabsMenu onChange={handleTabChange} />
+            <TabsMenu onClick={handleTabChange} />
           </Grid>
           {selectedTab === TabID.API && (<Grid>API</Grid>)}
-          {selectedTab === TabID.SDK && (<Grid>SDK</Grid>)}
           {selectedTab === TabID.DIRECT_LINK && (<Grid>Direct Link</Grid>)}
         </Grid>
       </Paper>
