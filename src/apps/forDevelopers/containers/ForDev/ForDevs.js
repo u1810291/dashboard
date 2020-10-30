@@ -16,10 +16,8 @@ import { selectMerchantFlowsModel } from '../../../../state/merchant/merchant.se
 import { ClientDetails } from '../../components/ClientDetails/ClientDetails';
 import { IOSPage } from '../../components/IOSPage/IOSPage';
 import { TabsMenu } from '../../components/TabsMenu/TabsMenu';
-import { useStyles } from './ForDev.styles';
 
 export const ForDevs = () => {
-  const classes = useStyles();
   const [selectedFlow, setSelectedFlow] = useState('');
   const [selectedTab, setSelectedTab] = useState(null);
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
@@ -78,7 +76,7 @@ export const ForDevs = () => {
             </Grid>
             <Grid container>
               <Grid container direction="column" xs={3}>
-                <TabsMenu onClick={handleTabChange} />
+                <TabsMenu selected={selectedTab} onClick={handleTabChange} />
               </Grid>
               <Grid container xs={9}>
                 {selectedTab === TabID.IOS && <IOSPage />}
