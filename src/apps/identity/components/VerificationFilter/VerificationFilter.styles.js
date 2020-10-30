@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme) => ({
     left: 0,
     height: 45,
     width: '100%',
-    borderBottom: '1px solid #EDF0F5',
+    borderBottom: `1px solid ${theme.palette.common.black7}`,
     zIndex: 2,
     background: theme.palette.common.white,
   },
@@ -31,7 +31,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: [[10, 20]],
     zIndex: 2,
     background: theme.palette.common.white,
-    borderTop: '1px solid #EDF0F5',
+    borderTop: `1px solid ${theme.palette.common.black7}`,
     [theme.breakpoints.down('sm')]: {
       height: 125,
       flexDirection: 'column',
@@ -59,7 +59,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: [[20, 20, 5]],
     boxShadow: 'none',
     borderRadius: 3,
-    border: '1px solid #EDF0F5',
+    border: `1px solid ${theme.palette.common.black7}`,
     scrollbarWidth: 'thin',
     '&::-webkit-scrollbar': {
       height: 5,
@@ -83,7 +83,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: [[20, 20, 5]],
     boxShadow: 'none',
     borderRadius: 3,
-    border: '1px solid #EDF0F5',
+    border: `1px solid ${theme.palette.common.black7}`,
   },
   [IdentityStatuses.verified]: {
     color: theme.palette.common.green,

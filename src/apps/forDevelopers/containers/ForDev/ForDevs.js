@@ -92,14 +92,16 @@ export const ForDevs = () => {
               </Grid>
             </Grid>
           </Box>
-          <Grid container>
-            <Grid container direction="column" xs={3}>
+          <Grid container className={classes.tabsWrapper}>
+            <Grid item container direction="column" xs={3}>
               <TabsMenu selected={selectedTab} onClick={handleTabChange} />
             </Grid>
-            <Grid container xs={9}>
-              {selectedTab === TabID.IOS && <IOSPage />}
-              {selectedTab === TabID.API && (<Grid>API</Grid>)}
-              {selectedTab === TabID.DIRECT_LINK && (<Grid>Direct Link</Grid>)}
+            <Grid item xs={9}>
+              <Box p={4} height="100%">
+                {selectedTab === TabID.IOS && <IOSPage />}
+                {selectedTab === TabID.API && (<Grid>API</Grid>)}
+                {selectedTab === TabID.DIRECT_LINK && (<Grid>Direct Link</Grid>)}
+              </Box>
             </Grid>
           </Grid>
         </Paper>

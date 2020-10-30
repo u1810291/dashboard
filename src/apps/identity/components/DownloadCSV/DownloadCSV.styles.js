@@ -16,7 +16,7 @@ export const SideButton = withStyles((theme) => ({
       overflow: 'hidden',
     },
     '&:hover': {
-      backgroundColor: '#EDF0F5',
+      backgroundColor: theme.palette.common.black7,
     },
     '&.Mui-disabled': {
       opacity: 0.5,

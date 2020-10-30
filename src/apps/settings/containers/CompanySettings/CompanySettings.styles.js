@@ -4,7 +4,7 @@ export const useStyles = makeStyles((theme) => ({
   wrapper: {
     [theme.breakpoints.up('md')]: {
       paddingBottom: 10,
-      borderBottom: '1px solid #EDF0F5',
+      borderBottom: `1px solid ${theme.palette.common.black7}`,
     },
   },
   inputWrapper: {
@@ -12,7 +12,7 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       marginBottom: 20,
       paddingBottom: 20,
-      borderBottom: '1px solid #EDF0F5',
+      borderBottom: `1px solid ${theme.palette.common.black7}`,
     },
   },
   dateWrapper: {

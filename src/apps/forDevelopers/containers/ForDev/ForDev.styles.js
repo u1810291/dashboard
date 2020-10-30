@@ -54,9 +54,17 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     backgroundColor: theme.palette.common.black90,
     color: theme.palette.common.black7,
+    transition: '.25s opacity ease-in-out',
     '& svg': {
       marginLeft: 5,
       fontSize: 17,
     },
+    '&:hover, &:focus': {
+      backgroundColor: theme.palette.common.black90,
+      opacity: 0.8,
+    },
+  },
+  tabsWrapper: {
+    borderTop: `1px solid ${theme.palette.common.black7}`,
   },
 }));
