@@ -44,16 +44,17 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.black75,
   },
   buttonWrapper: {
-    backgroundColor: theme.palette.common.whiteblue,
     [theme.breakpoints.up('lg')]: {
-      width: 'calc(100% + 40px)',
-      margin: [['auto', 0, 0, -20]],
+      width: 'calc(100% + 30px)',
+      margin: [['auto', 0, -20, -15]],
     },
   },
   button: {
     fontSize: 14,
     color: theme.palette.common.lightblue,
     backgroundColor: theme.palette.common.whiteblue,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
     '& img': {
       marginRight: 10,
     },
