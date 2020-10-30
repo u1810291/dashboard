@@ -11,7 +11,6 @@ import { QATags } from '../../../../models/QA.model';
 import { appLoad } from '../../../../state/merchant/merchant.actions';
 import { selectClientIdModel, selectClientSecret } from '../../../../state/merchant/merchant.selectors';
 import { useStyles } from './ClientDetails.styles';
-import { EditableInput } from '../../../settings/components/EditableInput/EditableInput';
 
 export const ClientDetails = () => {
   const classes = useStyles();
@@ -63,10 +62,7 @@ export const ClientDetails = () => {
                 </IconButton>
               </Grid>
               <Grid container>
-                <EditableInput
-                  text="Client Secret"
-                  className={classes.name}
-                />
+                <Typography className={classes.name}>Client Secret</Typography>
               </Grid>
             </Grid>
           </Grid>
