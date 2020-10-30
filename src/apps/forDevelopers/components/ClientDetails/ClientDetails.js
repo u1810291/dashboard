@@ -11,6 +11,7 @@ import { QATags } from '../../../../models/QA.model';
 import { appLoad } from '../../../../state/merchant/merchant.actions';
 import { selectClientIdModel, selectClientSecret } from '../../../../state/merchant/merchant.selectors';
 import { useStyles } from './ClientDetails.styles';
+import { EditableInput } from '../../../settings/components/EditableInput/EditableInput';
 
 export const ClientDetails = () => {
   const classes = useStyles();
@@ -54,7 +55,12 @@ export const ClientDetails = () => {
               <Grid item container>
                 <Typography variant="subtitle2" className={classes.code}>
                   <CopyToClipboard text={clientSecret} qa={QATags.Integration.ClientSecret.Copy}>
-                    <code data-qa={QATags.Integration.ClientSecret.Value}>{isSecretShow ? clientSecret : '************************'}</code>
+                    <code data-qa={QATags.Integration.ClientSecret.Value}>
+                      {/* {isSecretShow ? clientSecret : '************************'} */}
+                      {isSecretShow
+                        ? <EditableInput text={clientSecret} mode="secondary" onSubmit={() => {}} />
+                        : '************************'}
+                    </code>
                   </CopyToClipboard>
                 </Typography>
                 <IconButton className={classes.button} onClick={handleChangeShow}>

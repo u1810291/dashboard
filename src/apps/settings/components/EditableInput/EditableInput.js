@@ -3,7 +3,7 @@ import { FiEdit3 } from 'react-icons/fi';
 import { Box } from '@material-ui/core';
 import { useStyles } from './EditableInput.styles';
 
-export function EditableInput({ text, onSubmit }) {
+export function EditableInput({ text, onSubmit, mode = 'primary' }) {
   const [isEditing, setEditing] = useState(false);
 
   const [inputText, setinputText] = useState(text);
@@ -18,7 +18,7 @@ export function EditableInput({ text, onSubmit }) {
   }, [isEditing, inputRef]);
 
   const handleBlur = useCallback(() => {
-    if (inputText.length === 0) {
+    if (inputText?.length === 0) {
       setinputText(text);
     }
     if (inputText !== text) {
