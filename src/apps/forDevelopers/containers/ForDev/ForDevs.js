@@ -7,6 +7,7 @@ import Radio from '@material-ui/core/Radio';
 import Select from '@material-ui/core/Select';
 import SettingsIcon from '@material-ui/icons/Settings';
 import React, { useCallback, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { ReactComponent as RadioOff } from '../../../../assets/icon-radio-off.svg';
 import { ReactComponent as RadioOn } from '../../../../assets/icon-radio-on.svg';
@@ -18,6 +19,7 @@ import { IOSPage } from '../../components/IOSPage/IOSPage';
 import { TabsMenu } from '../../components/TabsMenu/TabsMenu';
 
 export const ForDevs = () => {
+  const intl = useIntl();
   const [selectedFlow, setSelectedFlow] = useState('');
   const [selectedTab, setSelectedTab] = useState(null);
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
@@ -40,7 +42,7 @@ export const ForDevs = () => {
           <Box p={2}>
             <Grid container direction="column">
               <Grid item>
-                Integrations
+                {intl.formatMessage({ id: 'forDevs.integrations' })}
               </Grid>
               <Grid container direction="row">
                 <Grid item xs={3}>
@@ -65,13 +67,13 @@ export const ForDevs = () => {
                 </Grid>
                 <Grid item xs={3}>
                   <Typography>Active</Typography>
-                  <Typography> Webhook status</Typography>
+                  <Typography>{intl.formatMessage({ id: 'forDevs.webhook.status' })}</Typography>
                 </Grid>
                 <Button>
                   <SettingsIcon />
-                  Webhooks
+                  {intl.formatMessage({ id: 'forDevs.webhook.button' })}
                 </Button>
-                <Button>Mati Documentation</Button>
+                <Button>{intl.formatMessage({ id: 'forDevs.documentation.button' })}</Button>
               </Grid>
             </Grid>
             <Grid container>

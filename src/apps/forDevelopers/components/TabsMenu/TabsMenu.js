@@ -1,65 +1,68 @@
 import Button from '@material-ui/core/Button';
 import React, { useCallback } from 'react';
+import { useIntl } from 'react-intl';
 import { TabID, TabType } from '../../../../models/ForDevelopers.model';
 import { CascadeMenuButton } from '../CascadeMenuButton/CascadeMenuButton';
 import { useStyles } from './TabsMenu.styles';
 
-const menuStructure = [
-  {
-    id: TabID.API,
-    name: 'API',
-    type: TabType.TAB,
-  },
-  {
-    id: TabID.SDK,
-    name: 'SDK',
-    type: TabType.CASCADE_TAB,
-    children: [
-      {
-        id: TabID.WEB,
-        name: 'WEB',
-        type: TabType.TAB,
-      },
-      {
-        id: TabID.MOBILE,
-        name: 'Mobile',
-        type: TabType.CASCADE_TAB,
-        children: [
-          {
-            id: TabID.NATIVE,
-            name: 'Native',
-            type: TabType.CASCADE_TAB,
-            children: [
-              {
-                id: TabID.IOS,
-                name: 'IOS',
-                type: TabType.TAB,
-              },
-              {
-                id: TabID.ANDROID,
-                name: 'Android',
-                type: TabType.TAB,
-              },
-            ],
-          },
-          {
-            id: TabID.HYBRID,
-            name: 'Hybrid',
-            type: TabType.TAB,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: TabID.DIRECT_LINK,
-    name: 'Direct Link',
-    type: TabType.TAB,
-  },
-];
-
 export const TabsMenu = ({ onClick, selected }) => {
   const classes = useStyles();
+  const intl = useIntl();
+
+  const getMenuStructure = useCallback(() => ([
+    {
+      id: TabID.API,
+      name: intl.formatMessage({ id: 'forDevs.sideMenu.api' }),
+      type: TabType.TAB,
+    },
+    {
+      id: TabID.SDK,
+      name: intl.formatMessage({ id: 'forDevs.sideMenu.sdk' }),
+      type: TabType.CASCADE_TAB,
+      children: [
+        {
+          id: TabID.WEB,
+          name: intl.formatMessage({ id: 'forDevs.sideMenu.web' }),
+          type: TabType.TAB,
+        },
+        {
+          id: TabID.MOBILE,
+          name: intl.formatMessage({ id: 'forDevs.sideMenu.mobile' }),
+          type: TabType.CASCADE_TAB,
+          children: [
+            {
+              id: TabID.NATIVE,
+              name: intl.formatMessage({ id: 'forDevs.sideMenu.native' }),
+              type: TabType.CASCADE_TAB,
+              children: [
+                {
+                  id: TabID.IOS,
+                  name: intl.formatMessage({ id: 'forDevs.sideMenu.ios' }),
+                  type: TabType.TAB,
+                },
+                {
+                  id: TabID.ANDROID,
+                  name: intl.formatMessage({ id: 'forDevs.sideMenu.android' }),
+                  type: TabType.TAB,
+                },
+              ],
+            },
+            {
+              id: TabID.HYBRID,
+              name: intl.formatMessage({ id: 'forDevs.sideMenu.hybrid' }),
+              type: TabType.TAB,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: TabID.DIRECT_LINK,
+      name: 'Direct Link',
+      type: TabType.TAB,
+    },
+  ]), [intl]);
+
   const createTab = useCallback((tab) => {
     switch (tab.type) {
       case TabType.CASCADE_TAB:
@@ -69,7 +72,15 @@ export const TabsMenu = ({ onClick, selected }) => {
           </CascadeMenuButton>
         );
       case TabType.TAB:
-        return (<Button className={tab.id === selected && classes.selected} onClick={() => onClick(tab.id)} id={tab.id}>{tab.name}</Button>);
+        return (
+          <Button
+            className={tab.id === selected && classes.selected}
+            onClick={() => onClick(tab.id)}
+            id={tab.id}
+          >
+            {tab.name}
+          </Button>
+        );
       default:
         return null;
     }
@@ -77,7 +88,7 @@ export const TabsMenu = ({ onClick, selected }) => {
 
   return (
     <>
-      {menuStructure.map((item) => createTab(item))}
+      {getMenuStructure().map((item) => createTab(item))}
     </>
   );
 };
