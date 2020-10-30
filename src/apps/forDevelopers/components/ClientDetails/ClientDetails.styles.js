@@ -4,15 +4,6 @@ export const useStyles = makeStyles((theme) => ({
   name: {
     color: theme.palette.common.black75,
     fontSize: 14,
-    '& span, & input': {
-      color: theme.palette.common.black75,
-      fontSize: 14,
-      fontWeight: 'normal',
-    },
-    '& svg': {
-      marginTop: 0,
-      color: theme.palette.common.lightblue,
-    },
   },
   code: {
     maxWidth: 'calc(100% - 22px)',

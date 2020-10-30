@@ -10,7 +10,6 @@ import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
 import { QATags } from '../../../../models/QA.model';
 import { appLoad } from '../../../../state/merchant/merchant.actions';
 import { selectClientIdModel, selectClientSecret } from '../../../../state/merchant/merchant.selectors';
-import { EditableInput } from '../../../settings/components/EditableInput/EditableInput';
 import { useStyles } from './ClientDetails.styles';
 
 export const ClientDetails = () => {
@@ -63,10 +62,7 @@ export const ClientDetails = () => {
                 </IconButton>
               </Grid>
               <Grid container>
-                <EditableInput
-                  text={intl.formatMessage({ id: 'forDevs.clientDetails.secret' })}
-                  className={classes.name}
-                />
+                <Typography className={classes.name}>{intl.formatMessage({ id: 'forDevs.clientDetails.secret' })}</Typography>
               </Grid>
             </Grid>
           </Grid>
