@@ -1,22 +1,8 @@
 import Button from '@material-ui/core/Button';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { TabID, TabType } from '../../../../models/ForDevelopers.model';
 import { CascadeMenuButton } from '../CascadeMenuButton/CascadeMenuButton';
-
-const createTab = (tab, onClick) => {
-  switch (tab.type) {
-    case TabType.CASCADE_TAB:
-      return (
-        <CascadeMenuButton name={tab.name} id={tab.id}>
-          {tab.children.map((item) => createTab(item, onClick))}
-        </CascadeMenuButton>
-      );
-    case TabType.TAB:
-      return (<Button onClick={() => onClick(tab.id)} id={tab.id}>{tab.name}</Button>);
-    default:
-      return null;
-  }
-};
+import { useStyles } from './TabsMenu.styles';
 
 const menuStructure = [
   {
@@ -72,8 +58,26 @@ const menuStructure = [
   },
 ];
 
-export const TabsMenu = ({ onClick }) => (
-  <>
-    {menuStructure.map((item) => createTab(item, onClick))}
-  </>
-);
+export const TabsMenu = ({ onClick, selected }) => {
+  const classes = useStyles();
+  const createTab = useCallback((tab) => {
+    switch (tab.type) {
+      case TabType.CASCADE_TAB:
+        return (
+          <CascadeMenuButton name={tab.name} id={tab.id}>
+            {tab.children.map((item) => createTab(item, onClick))}
+          </CascadeMenuButton>
+        );
+      case TabType.TAB:
+        return (<Button className={tab.id === selected && classes.selected} onClick={() => onClick(tab.id)} id={tab.id}>{tab.name}</Button>);
+      default:
+        return null;
+    }
+  }, [classes.selected, onClick, selected]);
+
+  return (
+    <>
+      {menuStructure.map((item) => createTab(item))}
+    </>
+  );
+};
