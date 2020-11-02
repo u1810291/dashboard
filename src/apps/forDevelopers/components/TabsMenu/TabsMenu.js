@@ -99,6 +99,7 @@ export const TabsMenu = ({ onClick, selected }) => {
             className={`${classes.button} ${tab.id === selected && classes.selected}`}
             onClick={() => onClick(tab.id)}
             id={tab.id}
+            fullWidth
           >
             {tab.name}
           </Button>

@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles((theme) => ({
   button: {
     justifyContent: 'flex-start',
-    width: '100%',
     marginBottom: 10,
     padding: [[8, 10]],
     fontSize: 14,

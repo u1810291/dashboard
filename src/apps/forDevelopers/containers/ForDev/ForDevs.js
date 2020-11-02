@@ -100,12 +100,12 @@ export const ForDevs = () => {
           </Box>
           <Grid container className={classes.tabsItemsWrapper}>
             <Grid item container direction="column" xs={12} lg={3} className={classes.tabsWrapper}>
-              <Box px={1} pt={{ lg: 1 }} pb={{ xs: 3, lg: 0 }}>
+              <Box px={{ xs: 2, lg: 1 }} pt={{ xs: 0, lg: 1 }} pb={{ xs: 3, lg: 0 }}>
                 <TabsMenu selected={selectedTab} onClick={handleTabChange} />
               </Box>
             </Grid>
             <Grid item xs={12} lg={9}>
-              <Box p={4} height="100%">
+              <Box p={{ xs: 2, lg: 4 }} height="100%">
                 {selectedTab === TabID.API && (<Grid>API</Grid>)}
                 {checkIsMobileTab(selectedTab) && <MobileSDKs selectedTab={selectedTab} />}
                 {selectedTab === TabID.DIRECT_LINK && (<Grid>Direct Link</Grid>)}

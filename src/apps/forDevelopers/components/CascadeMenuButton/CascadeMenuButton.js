@@ -16,6 +16,7 @@ export const CascadeMenuButton = ({ name, children }) => {
       <Button
         className={classes.button}
         onClick={handleOnClick}
+        fullWidth
       >
         {name}
         <FiChevronDown />

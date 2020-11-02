@@ -66,8 +66,10 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   tabsWrapper: {
+    borderRight: `1px solid ${theme.palette.common.black7}`,
     [theme.breakpoints.down('md')]: {
       borderBottom: `1px solid ${theme.palette.common.black7}`,
+      borderRight: 'none',
     },
   },
 }));
