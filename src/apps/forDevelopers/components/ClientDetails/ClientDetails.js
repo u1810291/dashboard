@@ -36,9 +36,11 @@ export const ClientDetails = () => {
       <Box px={2} py={3}>
         <Grid container spacing={2} justify="space-between" alignItems="center">
           <Grid item xs={12} lg={5}>
-            <Typography variant="h5">
-              {intl.formatMessage({ id: 'forDevs.clientDetails.title' })}
-            </Typography>
+            <Box mb={{ xs: 2, lg: 0 }}>
+              <Typography variant="h5">
+                {intl.formatMessage({ id: 'forDevs.clientDetails.title' })}
+              </Typography>
+            </Box>
           </Grid>
           <Grid item container xs={12} lg={7} alignItems="center">
             <Grid item container xs={12} lg={6} direction="column">
