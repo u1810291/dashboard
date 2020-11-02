@@ -10,14 +10,12 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     borderRadius: 5,
     color: theme.palette.common.black75,
-    '&:hover, &:focus': {
-      backgroundColor: theme.palette.common.lightblueopacity,
+    '& svg': {
+      marginLeft: 'auto',
+      paddingLeft: 4,
+      fontSize: 17,
     },
-  },
-  selected: {
-    color: theme.palette.common.lightblue,
-    backgroundColor: theme.palette.common.lightblueopacity,
-    '&.MuiButton-root:hover': {
+    '&:hover, &:focus': {
       backgroundColor: theme.palette.common.lightblueopacity,
     },
   },

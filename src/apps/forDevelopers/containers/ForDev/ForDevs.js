@@ -100,7 +100,9 @@ export const ForDevs = () => {
           </Box>
           <Grid container className={classes.tabsWrapper}>
             <Grid item container direction="column" xs={3}>
-              <TabsMenu selected={selectedTab} onClick={handleTabChange} />
+              <Box px={1} pt={1}>
+                <TabsMenu selected={selectedTab} onClick={handleTabChange} />
+              </Box>
             </Grid>
             <Grid item xs={9}>
               <Box p={4} height="100%">
