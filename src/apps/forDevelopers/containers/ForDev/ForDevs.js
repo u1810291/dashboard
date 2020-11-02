@@ -1,15 +1,15 @@
-import { Paper, Box, Button, Container, Grid, FormControl, Radio, Select, MenuItem, Typography } from '@material-ui/core';
-import { FiSettings, FiExternalLink, FiChevronDown } from 'react-icons/fi';
+import { Box, Button, Container, FormControl, Grid, MenuItem, Paper, Radio, Select, Typography } from '@material-ui/core';
 import React, { useCallback, useState } from 'react';
+import { FiChevronDown, FiExternalLink, FiSettings } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { ReactComponent as RadioOff } from '../../../../assets/icon-radio-off.svg';
 import { ReactComponent as RadioOn } from '../../../../assets/icon-radio-on.svg';
 import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
-import { TabID } from '../../../../models/ForDevelopers.model';
+import { MobileSDKTabs, TabID } from '../../../../models/ForDevelopers.model';
 import { selectMerchantFlowsModel } from '../../../../state/merchant/merchant.selectors';
 import { ClientDetails } from '../../components/ClientDetails/ClientDetails';
-import { IOSPage } from '../../components/IOSPage/IOSPage';
+import { MobileSDKs } from '../../components/MobileSDKs/MobileSDKs';
 import { TabsMenu } from '../../components/TabsMenu/TabsMenu';
 import { useStyles } from './ForDev.styles';
 
@@ -28,9 +28,15 @@ export const ForDevs = () => {
     setSelectedFlow(event.target.value);
   }, []);
 
+  const checkIsMobileTab = useCallback((id) => MobileSDKTabs.includes(id), []);
+
   return (
     <Container>
-      <Box pt={{ xs: 2, lg: 4 }}>
+      <Box pt={{
+        xs: 2,
+        lg: 4,
+      }}
+      >
         <Box mb={2}>
           <ClientDetails />
         </Box>
@@ -98,8 +104,8 @@ export const ForDevs = () => {
             </Grid>
             <Grid item xs={9}>
               <Box p={4} height="100%">
-                {selectedTab === TabID.IOS && <IOSPage />}
                 {selectedTab === TabID.API && (<Grid>API</Grid>)}
+                {checkIsMobileTab(selectedTab) && <MobileSDKs selectedTab={selectedTab} />}
                 {selectedTab === TabID.DIRECT_LINK && (<Grid>Direct Link</Grid>)}
               </Box>
             </Grid>

@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import PropTypes from 'prop-types';
 import { css, jsx } from '@emotion/core';
+import PropTypes from 'prop-types';
 import ReactPlayer from 'react-player';
 
 export default function VideoPlayer({ aspectRatio, ...props }) {

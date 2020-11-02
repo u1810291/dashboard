@@ -50,7 +50,29 @@ export const TabsMenu = ({ onClick, selected }) => {
             {
               id: TabID.HYBRID,
               name: intl.formatMessage({ id: 'forDevs.sideMenu.hybrid' }),
-              type: TabType.TAB,
+              type: TabType.CASCADE_TAB,
+              children: [
+                {
+                  id: TabID.REACT_NATIVE,
+                  name: intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' }),
+                  type: TabType.TAB,
+                },
+                {
+                  id: TabID.XAMARIN,
+                  name: intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' }),
+                  type: TabType.TAB,
+                },
+                {
+                  id: TabID.CORDOVA,
+                  name: intl.formatMessage({ id: 'forDevs.sideMenu.cordova' }),
+                  type: TabType.TAB,
+                },
+                {
+                  id: TabID.CORDOVA_IONIC,
+                  name: intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' }),
+                  type: TabType.TAB,
+                },
+              ],
             },
           ],
         },

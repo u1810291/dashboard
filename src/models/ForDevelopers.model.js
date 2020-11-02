@@ -7,6 +7,10 @@ export const TabID = {
   IOS: 'IOS',
   ANDROID: 'ANDROID',
   HYBRID: 'HYBRID',
+  REACT_NATIVE: 'REACT_NATIVE',
+  XAMARIN: 'XAMARIN',
+  CORDOVA: 'CORDOVA',
+  CORDOVA_IONIC: 'CORDOVA_IONIC',
   DIRECT_LINK: 'DIRECT_LINK',
 };
 
@@ -14,3 +18,11 @@ export const TabType = {
   TAB: 'TAB',
   CASCADE_TAB: 'CASCADE_TAB',
 };
+
+export const MobileSDKTabs = [
+  TabID.IOS,
+  TabID.ANDROID,
+  TabID.REACT_NATIVE,
+  TabID.XAMARIN,
+  TabID.CORDOVA,
+  TabID.CORDOVA_IONIC];

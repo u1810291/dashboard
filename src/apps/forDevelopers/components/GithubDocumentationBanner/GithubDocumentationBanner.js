@@ -2,13 +2,21 @@ import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import Button from '../../../../components/button';
 
-export const GithubDocumentationBanner = () => (
+export const GithubDocumentationBanner = ({ platform }) => (
   <Grid container>
     <Grid item>
-      Visit our iOS GitHub documentation
+      Visit our
+      {' '}
+      {platform}
+      {' '}
+      GitHub documentation
     </Grid>
     <Grid item>
-      <Button>Documentation</Button>
+      <Button>
+        {platform}
+        {' '}
+        Documentation
+      </Button>
     </Grid>
   </Grid>
 );
