@@ -25,7 +25,7 @@ export const WebCodeSnippet = () => {
       <Box mb={2} color="common.black75">
         {intl.formatMessage({ id: 'forDevs.informationPage.webCopy.subheader' })}
       </Box>
-      <Box mb={2}>
+      <Box maxWidth="100%">
         <SyntaxHighlighter
           code={snippet}
           language={SyntaxHighlighterLanguages.HTML}

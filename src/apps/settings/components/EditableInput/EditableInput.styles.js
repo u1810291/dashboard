@@ -18,14 +18,18 @@ export const useStyles = makeStyles((theme) => ({
   },
   nameWrapper: {
     display: 'flex',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     color: theme.palette.common.black90,
   },
   name: {
+    maxWidth: '100%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
     fontWeight: 'bold',
   },
   icon: {
-    margin: '6px 0 0 10px',
+    flexShrink: 0,
+    marginLeft: 8,
     fontSize: 17,
   },
 }));

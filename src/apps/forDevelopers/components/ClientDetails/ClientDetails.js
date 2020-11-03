@@ -45,7 +45,7 @@ export const ClientDetails = () => {
           <Grid item container xs={12} lg={7} alignItems="center">
             <Grid item container xs={12} lg={6} direction="column">
               <Box mb={{ xs: 2, lg: 0 }}>
-                <Typography variant="subtitle2">
+                <Typography variant="subtitle2" className={classes.title}>
                   <CopyToClipboard text={clientIdModel?.value} qa={QATags.Integration.flowId.Copy}>
                     <code data-qa={QATags.Integration.flowId.Value}>{clientIdModel?.value}</code>
                   </CopyToClipboard>
@@ -60,8 +60,8 @@ export const ClientDetails = () => {
                     <code data-qa={QATags.Integration.ClientSecret.Value}>
                       {/* {isSecretShow ? clientSecret : '************************'} */}
                       {isSecretShow
-                        ? <EditableInput text={clientSecret} mode="secondary" onSubmit={() => {}} />
-                        : '************************'}
+                        ? <EditableInput text={clientSecret} onSubmit={() => {}} />
+                        : <Box className={classes.codeSecret}>************************</Box>}
                     </code>
                   </CopyToClipboard>
                 </Typography>
