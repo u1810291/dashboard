@@ -20,25 +20,20 @@ export const useStyles = makeStyles((theme) => ({
   },
   wrapper: {
     '& > *': {
-      paddingRight: 20,
-      '&:first-of-type, &:last-of-type': {
-        paddingRight: 0,
-      },
+      padding: [[0, 0, 20]],
     },
     [theme.breakpoints.up('lg')]: {
       '& > *': {
-        paddingRight: 20,
-        '&:first-of-type': {
-          paddingRight: 20,
-        },
+        padding: [[0, 20, 0, 0]],
         '&:last-of-type': {
-          paddingRight: 0,
+          padding: 0,
         },
       },
     },
   },
   buttonWebhook: {
     height: '100%',
+    minHeight: 50,
     fontWeight: 'bold',
     fontSize: 14,
     color: theme.palette.common.black75,
@@ -50,6 +45,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   buttonDocument: {
     height: '100%',
+    minHeight: 50,
     fontWeight: 'bold',
     fontSize: 14,
     backgroundColor: theme.palette.common.black90,
@@ -64,7 +60,16 @@ export const useStyles = makeStyles((theme) => ({
       opacity: 0.8,
     },
   },
+  tabsItemsWrapper: {
+    [theme.breakpoints.up('lg')]: {
+      borderTop: `1px solid ${theme.palette.common.black7}`,
+    },
+  },
   tabsWrapper: {
-    borderTop: `1px solid ${theme.palette.common.black7}`,
+    borderRight: `1px solid ${theme.palette.common.black7}`,
+    [theme.breakpoints.down('md')]: {
+      borderBottom: `1px solid ${theme.palette.common.black7}`,
+      borderRight: 'none',
+    },
   },
 }));
