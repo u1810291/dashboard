@@ -6,10 +6,9 @@ import { useSelector } from 'react-redux';
 import { ReactComponent as RadioOff } from '../../../../assets/icon-radio-off.svg';
 import { ReactComponent as RadioOn } from '../../../../assets/icon-radio-on.svg';
 import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
-import { MobileSDKTabs, TabID } from '../../../../models/ForDevelopers.model';
 import { selectMerchantFlowsModel } from '../../../../state/merchant/merchant.selectors';
 import { ClientDetails } from '../../components/ClientDetails/ClientDetails';
-import { MobileSDKs } from '../../components/MobileSDKs/MobileSDKs';
+import { InformationPage } from '../../components/InformationPage/InformationPage';
 import { TabsMenu } from '../../components/TabsMenu/TabsMenu';
 import { useStyles } from './ForDev.styles';
 
@@ -28,8 +27,6 @@ export const ForDevs = () => {
     setSelectedFlow(event.target.value);
   }, []);
 
-  const checkIsMobileTab = useCallback((id) => MobileSDKTabs.includes(id), []);
-
   return (
     <Container>
       <Box pt={{
@@ -42,7 +39,11 @@ export const ForDevs = () => {
         </Box>
         <Paper>
           <Box p={2}>
-            <Box mb={{ xs: 4, lg: 2 }}>
+            <Box mb={{
+              xs: 4,
+              lg: 2,
+            }}
+            >
               <Typography variant="h5">
                 {intl.formatMessage({ id: 'forDevs.integrations' })}
               </Typography>
@@ -100,15 +101,32 @@ export const ForDevs = () => {
           </Box>
           <Grid container className={classes.tabsItemsWrapper}>
             <Grid item container direction="column" xs={12} lg={3} className={classes.tabsWrapper}>
-              <Box px={{ xs: 2, lg: 1 }} pt={{ xs: 0, lg: 1 }} pb={{ xs: 3, lg: 0 }}>
+              <Box
+                px={{
+                  xs: 2,
+                  lg: 1,
+                }}
+                pt={{
+                  xs: 0,
+                  lg: 1,
+                }}
+                pb={{
+                  xs: 3,
+                  lg: 0,
+                }}
+              >
                 <TabsMenu selected={selectedTab} onClick={handleTabChange} />
               </Box>
             </Grid>
             <Grid item xs={12} lg={9}>
-              <Box p={{ xs: 2, lg: 4 }} height="100%">
-                {selectedTab === TabID.API && (<Grid>API</Grid>)}
-                {checkIsMobileTab(selectedTab) && <MobileSDKs selectedTab={selectedTab} />}
-                {selectedTab === TabID.DIRECT_LINK && (<Grid>Direct Link</Grid>)}
+              <Box
+                p={{
+                  xs: 2,
+                  lg: 4,
+                }}
+                height="100%"
+              >
+                <InformationPage selectedPage={selectedTab} />
               </Box>
             </Grid>
           </Grid>
