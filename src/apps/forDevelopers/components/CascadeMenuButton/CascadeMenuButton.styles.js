@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
   button: {
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     marginBottom: 10,
     padding: [[8, 10]],
     fontSize: 14,
@@ -10,15 +10,18 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: 5,
     color: theme.palette.common.black75,
     '& svg': {
-      marginLeft: 'auto',
-      paddingLeft: 4,
       fontSize: 17,
+      transition: '.25s all ease-in-out',
     },
     '&:hover, &:focus': {
       backgroundColor: theme.palette.common.lightblueopacity,
     },
   },
   selected: {
-    color: theme.palette.common.black75,
+    color: theme.palette.common.lightblue,
+    '& svg': {
+      color: theme.palette.common.black75,
+      transform: 'rotate(180deg)',
+    },
   },
 }));
