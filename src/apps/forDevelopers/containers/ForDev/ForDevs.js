@@ -8,7 +8,7 @@ import { ReactComponent as RadioOn } from '../../../../assets/icon-radio-on.svg'
 import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
 import { selectCurrentFlowId, selectMerchantFlowsModel } from '../../../../state/merchant/merchant.selectors';
 import { ClientDetails } from '../../components/ClientDetails/ClientDetails';
-import { InformationPage } from '../../components/InformationPage/InformationPage';
+import { Information } from '../../components/Information/Information';
 import { TabsMenu } from '../../components/TabsMenu/TabsMenu';
 import { useStyles } from './ForDev.styles';
 import { updateCurrentFlowId } from '../../../../state/merchant/merchant.actions';
@@ -143,7 +143,7 @@ export const ForDevs = () => {
                 }}
                 height="100%"
               >
-                <InformationPage selectedPage={selectedTab} />
+                <Information selectedPage={selectedTab} />
               </Box>
             </Grid>
           </Grid>

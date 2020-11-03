@@ -4,10 +4,10 @@ import { useIntl } from 'react-intl';
 import { TabID } from '../../../../models/ForDevelopers.model';
 import { GithubDocumentationBanner } from '../GithubDocumentationBanner/GithubDocumentationBanner';
 import { VideoExplainer } from '../VideoExplainer/VideoExplainer';
-import { DirectLinkCopy } from './DirectLinkCopy';
+import { DirectLinkCopy } from './DirectLinkCopy/DirectLinkCopy';
 import { WebCopy } from './WebCopy';
 
-export const InformationPage = ({ selectedPage }) => {
+export const Information = ({ selectedPage }) => {
   const intl = useIntl();
   const pagesData = useCallback(() => {
     const integration = intl.formatMessage({ id: 'forDevs.integration' });
