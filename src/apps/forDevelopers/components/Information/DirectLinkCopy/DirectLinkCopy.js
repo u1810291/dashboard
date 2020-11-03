@@ -3,9 +3,9 @@ import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { CopyToClipboard } from '../../../../components/clipboard';
+import { CopyToClipboard } from '../../../../../components/clipboard';
 import { useStyles } from './DirectLinkCopy.styles';
-import { selectClientId, selectCurrentFlowId } from '../../../../state/merchant/merchant.selectors';
+import { selectClientId, selectCurrentFlowId } from '../../../../../state/merchant/merchant.selectors';
 
 export const DirectLinkCopy = () => {
   const intl = useIntl();
