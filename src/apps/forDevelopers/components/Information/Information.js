@@ -5,7 +5,7 @@ import { TabID } from '../../../../models/ForDevelopers.model';
 import { GithubDocumentationBanner } from '../GithubDocumentationBanner/GithubDocumentationBanner';
 import { VideoExplainer } from '../VideoExplainer/VideoExplainer';
 import { DirectLinkCopy } from './DirectLinkCopy/DirectLinkCopy';
-import { WebCopy } from './WebCopy';
+import { WebCodeSnippet } from './WebCodeSnippet/WebCodeSnippet';
 
 export const Information = ({ selectedPage }) => {
   const intl = useIntl();
@@ -33,7 +33,7 @@ export const Information = ({ selectedPage }) => {
         image: '',
         videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
         documentationURL: 'https://github.com',
-        childComponent: (<WebCopy />),
+        childComponent: (<WebCodeSnippet />),
       },
       {
         id: TabID.DIRECT_LINK,
