@@ -1,10 +1,14 @@
-import React from 'react';
 import { Box, Button, Grid } from '@material-ui/core';
-import { FiSmartphone, FiExternalLink } from 'react-icons/fi';
+import React, { useCallback } from 'react';
+import { FiExternalLink, FiSmartphone } from 'react-icons/fi';
 import { useStyles } from './GithubDocumentationBanner.styles';
 
-export const GithubDocumentationBanner = ({ platform }) => {
+export const GithubDocumentationBanner = ({ platform, documentationURL }) => {
   const classes = useStyles();
+
+  const handleRedirect = useCallback(() => {
+    window.open(documentationURL, '_blank');
+  }, [documentationURL]);
 
   return (
     <Grid container justify="space-between" className={classes.wrapper}>
@@ -22,6 +26,7 @@ export const GithubDocumentationBanner = ({ platform }) => {
       </Grid>
       <Grid item className={classes.buttonWrapper}>
         <Button
+          onClick={handleRedirect}
           className={classes.button}
           variant="outlined"
           fullWidth

@@ -12,55 +12,64 @@ export const MobileSDKs = ({ selectedTab }) => {
     {
       id: TabID.ANDROID,
       name: intl.formatMessage({ id: 'forDevs.sideMenu.android' }),
-      header: 'f',
+      header: 'Native MobileSDK Android',
       videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+      documentationURL: 'https://github.com',
     },
     {
       id: TabID.IOS,
       name: intl.formatMessage({ id: 'forDevs.sideMenu.ios' }),
-      header: 'f',
+      header: 'Native MobileSDK iOS',
       videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+      documentationURL: 'https://github.com',
     },
     {
       id: TabID.REACT_NATIVE,
       name: intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' }),
-      header: 'f',
+      header: 'Hybrid React Native',
       videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+      documentationURL: 'https://github.com',
     },
     {
       id: TabID.XAMARIN,
       name: intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' }),
-      header: 'f',
+      header: 'Hybrid Xamarin',
       videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+      documentationURL: 'https://github.com',
     },
     {
       id: TabID.CORDOVA,
       name: intl.formatMessage({ id: 'forDevs.sideMenu.cordova' }),
-      header: 'f',
+      header: 'Hybrid Cordova',
       videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+      documentationURL: 'https://github.com',
     },
     {
       id: TabID.CORDOVA_IONIC,
       name: intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' }),
-      header: 'f',
+      header: 'Hybrid Cordova ionic',
       videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+      documentationURL: 'https://github.com',
     },
   ]), [intl]);
 
   return (
     <>
-      {mobileSDKsPages().map(({ id, name, header, videoURL }) => (
+      {mobileSDKsPages().map(({ id, name, header, videoURL, documentationURL }) => (
         <>
           { id === selectedTab && (
           <Grid container>
-            <GithubDocumentationBanner platform={name} />
+            <GithubDocumentationBanner documentationURL={documentationURL} platform={name} />
             <Grid item>
               <Typography>
                 {header}
+                {' '}
+                Integration
               </Typography>
               <Typography>
                 If you have native apps, our
                 {name}
+                {' '}
                 are here for you. The integration takes some lines of code.
               </Typography>
               <VideoExplainer videoURL={videoURL} name={name} />
