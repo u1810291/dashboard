@@ -10,7 +10,7 @@ import { notification } from 'components/notification';
 import { QATags } from 'models/QA.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiChevronsLeft, FiChevronsRight, FiLogOut, FiPlusCircle, FiSettings } from 'react-icons/fi';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import { selectIsOwnerModel, selectMerchantBusinessName } from '../../../../state/merchant/merchant.selectors';
@@ -48,16 +48,24 @@ export function DashboardMenu() {
 
   const handleInviteSubmit = useCallback(async (data) => {
     closeOverlay();
-    await dispatch(collaboratorAdd({
-      role: parseInt(data.role, 10),
-      user: {
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-      },
-    }));
-    notification.info(<FormattedMessage id="teamTable.inviteSuccess.description" />);
-  }, [dispatch, closeOverlay]);
+    try {
+      await dispatch(collaboratorAdd({
+        role: parseInt(data.role, 10),
+        user: {
+          email: data.email,
+          firstName: data.firstName,
+          lastName: data.lastName,
+        },
+      }));
+      notification.info(intl.formatMessage({ id: 'teamTable.inviteSuccess.description' }));
+    } catch (error) {
+      notification.error(intl.formatMessage({
+        id: `Settings.teamSettings.submit.${error.response?.data?.name}`,
+        defaultMessage: intl.formatMessage({ id: 'Error.common' }),
+      }));
+      console.error(error);
+    }
+  }, [dispatch, closeOverlay, intl]);
 
   const openInviteModal = useCallback(() => {
     if (!isDesktop) {
