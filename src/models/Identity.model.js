@@ -5,6 +5,8 @@ import moment from 'moment';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getIpCheckUrl } from './IpCheck.model';
 
+export const DEFAULT_STATUS_COLOR = '#ADADAD';
+
 export const VerificationStepTypes = {
   IpValidation: 'ip-validation',
 };
@@ -18,8 +20,6 @@ export const IdentityStatuses = {
   running: 'running',
   unknown: 'unknown',
 };
-
-export const DEFAULT_STATUS_COLOR = '#ADADAD';
 
 export const IdentityStatusesMap = [
   {
@@ -70,6 +70,17 @@ export const IdentityStatusesMap = [
     isExplanation: false,
   },
 ];
+
+export const OrderDirections = {
+  asc: 'asc',
+  desc: 'desc',
+};
+
+export const OrderKeys = {
+  dateCreated: 'dateCreated',
+  fullName: 'fullName',
+  flowId: 'flowId',
+};
 
 export function getExplanationStatuses() {
   return IdentityStatusesMap.filter((item) => item.isExplanation);
@@ -145,13 +156,8 @@ export function getGoBackToListLink(location) {
   }
 }
 
-export const OrderDirections = {
-  asc: 'asc',
-  desc: 'desc',
-};
-
-export const OrderKeys = {
-  dateCreated: 'dateCreated',
-  fullName: 'fullName',
-  flowId: 'flowId',
-};
+export function getDownloadableFileName(identity) {
+  const flowName = get(identity, '_embedded.verification.flow.name', null);
+  const { id, fullName: name } = identity;
+  return `${flowName.replaceAll(' ', '_')}_${name ? name.replaceAll(' ', '_') : id}`;
+}
