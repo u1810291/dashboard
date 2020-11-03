@@ -1,19 +1,18 @@
-import { IconButton, Typography } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
+import { IconButton, Typography, Box } from '@material-ui/core';
 import React from 'react';
 import { ReactComponent as PlayIcon } from '../../../../assets/video-player-play.svg';
 import { VideoPlayer } from '../../../../components';
 
 export const VideoExplainer = ({ name, videoURL }) => (
-  <Grid container direction="column">
-    <Typography>Video explainer</Typography>
-    <Typography>
+  <Box>
+    <Typography variant="subtitle2" gutterBottom>Video explainer</Typography>
+    <Box mb={2} color="common.black75">
       You can watch a video explanation of our
       {' '}
       {name}
       {' '}
       here
-    </Typography>
+    </Box>
     <VideoPlayer controls light playing muted url={videoURL} playIcon={<IconButton><PlayIcon /></IconButton>} />
-  </Grid>
+  </Box>
 );
