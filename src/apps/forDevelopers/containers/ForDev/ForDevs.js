@@ -1,31 +1,42 @@
 import { Box, Button, Container, FormControl, Grid, MenuItem, Paper, Radio, Select, Typography } from '@material-ui/core';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FiChevronDown, FiExternalLink, FiSettings } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as RadioOff } from '../../../../assets/icon-radio-off.svg';
 import { ReactComponent as RadioOn } from '../../../../assets/icon-radio-on.svg';
 import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
-import { selectMerchantFlowsModel } from '../../../../state/merchant/merchant.selectors';
+import { selectCurrentFlowId, selectMerchantFlowsModel } from '../../../../state/merchant/merchant.selectors';
 import { ClientDetails } from '../../components/ClientDetails/ClientDetails';
 import { InformationPage } from '../../components/InformationPage/InformationPage';
 import { TabsMenu } from '../../components/TabsMenu/TabsMenu';
 import { useStyles } from './ForDev.styles';
+import { updateCurrentFlowId } from '../../../../state/merchant/merchant.actions';
 
 export const ForDevs = () => {
   const intl = useIntl();
   const classes = useStyles();
-  const [selectedFlow, setSelectedFlow] = useState('');
+  const dispatch = useDispatch();
   const [selectedTab, setSelectedTab] = useState(null);
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
+  const currentFlowId = useSelector(selectCurrentFlowId);
+  const [selectedFlow, setSelectedFlow] = useState(currentFlowId);
+
+  useEffect((() => {
+    setSelectedFlow(currentFlowId);
+  }), [currentFlowId, selectedFlow]);
 
   const handleTabChange = useCallback((newValue) => {
     setSelectedTab(newValue);
   }, []);
 
-  const handleSelectedFlow = useCallback((event) => {
-    setSelectedFlow(event.target.value);
-  }, []);
+  const handleSelect = useCallback((event) => {
+    const id = event.target.value;
+    if (currentFlowId !== id) {
+      setSelectedFlow(id);
+      dispatch(updateCurrentFlowId(id));
+    }
+  }, [dispatch, currentFlowId]);
 
   return (
     <Container>
@@ -54,9 +65,10 @@ export const ForDevs = () => {
                   <Select
                     labelId="demo-customized-select-label"
                     id="demo-customized-select"
-                    onChange={handleSelectedFlow}
+                    onChange={handleSelect}
                     IconComponent={FiChevronDown}
                     className={classes.select}
+                    value={selectedFlow}
                   >
                     {!LoadableAdapter.isPristine(merchantFlowList) && merchantFlowList.value.map((item) => (
                       <MenuItem
