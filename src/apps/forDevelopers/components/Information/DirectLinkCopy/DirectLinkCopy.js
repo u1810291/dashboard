@@ -20,7 +20,7 @@ export const DirectLinkCopy = () => {
       <Box mb={2} color="common.black75">
         {intl.formatMessage({ id: 'forDevs.directLinkCopy.subheader' })}
       </Box>
-      <Box mb={2} className={classes.resourceUrl}>
+      <Box className={classes.resourceUrl}>
         <CopyToClipboard withText withCopyText text={link}>
           {link}
         </CopyToClipboard>
