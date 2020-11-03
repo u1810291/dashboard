@@ -19,6 +19,6 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   selected: {
-  color: theme.palette.common.black75,
-},
+    color: theme.palette.common.black75,
+  },
 }));

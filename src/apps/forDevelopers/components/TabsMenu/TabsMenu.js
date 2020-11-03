@@ -107,7 +107,7 @@ export const TabsMenu = ({ onClick, selected }) => {
       default:
         return null;
     }
-  }, [classes.selected, onClick, selected]);
+  }, [classes.button, classes.selected, onClick, selected]);
 
   return (
     <>

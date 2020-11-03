@@ -14,7 +14,7 @@ export const CascadeMenuButton = ({ name, children }) => {
   return (
     <Box>
       <Button
-        className={classes.button}
+        className={`${classes.button} ${isOpen && classes.selected}`}
         onClick={handleOnClick}
         fullWidth
       >
