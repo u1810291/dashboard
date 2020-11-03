@@ -38,6 +38,10 @@ export const ForDevs = () => {
     }
   }, [dispatch, currentFlowId]);
 
+  const handleRedirect = useCallback(() => {
+    window.open('https://docs.getmati.com', '_blank');
+  }, []);
+
   return (
     <Container>
       <Box pt={{
@@ -100,6 +104,7 @@ export const ForDevs = () => {
                 </Grid>
                 <Grid item xs={12} lg={4}>
                   <Button
+                    onClick={handleRedirect}
                     variant="contained"
                     fullWidth
                     className={classes.buttonDocument}
