@@ -9,6 +9,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   inputWrapper: {
     paddingBottom: 10,
+    fontSize: 24,
     [theme.breakpoints.down('sm')]: {
       marginBottom: 20,
       paddingBottom: 20,

@@ -8,7 +8,7 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.black90,
     fontFamily: 'inherit',
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: 'inherit',
     outline: 'none',
     borderRadius: 5,
     border: `1px solid ${theme.palette.common.lightblue}`,
@@ -23,7 +23,6 @@ export const useStyles = makeStyles((theme) => ({
   },
   name: {
     fontWeight: 'bold',
-    fontSize: 24,
   },
   icon: {
     margin: '6px 0 0 10px',
