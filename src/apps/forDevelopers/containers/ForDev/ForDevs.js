@@ -12,6 +12,8 @@ import { Information } from '../../components/Information/Information';
 import { TabsMenu } from '../../components/TabsMenu/TabsMenu';
 import { useStyles } from './ForDev.styles';
 import { updateCurrentFlowId } from '../../../../state/merchant/merchant.actions';
+import { useOverlay } from '../../../overlay';
+import { ForDevsWebhookModal } from '../../components/ForDevsWebhookModal/ForDevsWebhookModal';
 
 export const ForDevs = () => {
   const intl = useIntl();
@@ -21,6 +23,7 @@ export const ForDevs = () => {
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
   const currentFlowId = useSelector(selectCurrentFlowId);
   const [selectedFlow, setSelectedFlow] = useState(currentFlowId);
+  const [createOverlay, closeOverlay] = useOverlay();
 
   useEffect((() => {
     setSelectedFlow(currentFlowId);
@@ -37,6 +40,10 @@ export const ForDevs = () => {
       dispatch(updateCurrentFlowId(id));
     }
   }, [dispatch, currentFlowId]);
+
+  const handleOpenWebhookModal = useCallback(() => {
+    createOverlay(<ForDevsWebhookModal onClose={closeOverlay} />);
+  }, [createOverlay, closeOverlay]);
 
   const handleRedirect = useCallback(() => {
     window.open('https://docs.getmati.com', '_blank');
@@ -97,6 +104,7 @@ export const ForDevs = () => {
                     variant="outlined"
                     fullWidth
                     className={classes.buttonWebhook}
+                    onClick={handleOpenWebhookModal}
                   >
                     <FiSettings />
                     {intl.formatMessage({ id: 'forDevs.webhook.button' })}
