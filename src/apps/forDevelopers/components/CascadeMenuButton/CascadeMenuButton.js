@@ -18,7 +18,7 @@ export const CascadeMenuButton = ({ name, children }) => {
         onClick={handleOnClick}
         fullWidth
       >
-        {name}
+        <Box pr={0.4}>{name}</Box>
         <FiChevronDown />
       </Button>
       <Collapse in={isOpen}>
