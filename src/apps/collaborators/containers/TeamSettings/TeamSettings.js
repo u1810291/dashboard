@@ -21,29 +21,58 @@ export function TeamSettings() {
 
   useEffect(() => {
     if (LoadableAdapter.isPristine(collaboratorList)) {
-      dispatch(collaboratorListLoad());
+      try {
+        dispatch(collaboratorListLoad());
+      } catch (error) {
+        notification.error(intl.formatMessage({ id: 'Error.common' }));
+        console.error(error);
+      }
     }
-  }, [collaboratorList, dispatch]);
+  }, [collaboratorList, dispatch, intl]);
 
   const handleUpdate = useCallback((id, data) => {
-    dispatch(collaboratorUpdate(id, data));
-  }, [dispatch]);
+    try {
+      dispatch(collaboratorUpdate(id, data));
+    } catch (error) {
+      notification.error(intl.formatMessage({
+        id: `Settings.teamSettings.update.${error.response?.data?.name}`,
+        defaultMessage: intl.formatMessage({ id: 'Error.common' }),
+      }));
+      console.error(error);
+    }
+  }, [dispatch, intl]);
 
   const handleRemove = useCallback((id) => {
-    dispatch(collaboratorRemove(id));
-  }, [dispatch]);
+    try {
+      dispatch(collaboratorRemove(id));
+    } catch (error) {
+      notification.error(intl.formatMessage({
+        id: `Settings.teamSettings.remove.${error.response?.data?.name}`,
+        defaultMessage: intl.formatMessage({ id: 'Error.common' }),
+      }));
+      console.error(error);
+    }
+  }, [dispatch, intl]);
 
   const handleInviteSubmit = useCallback(async (data) => {
     closeOverlay();
-    await dispatch(collaboratorAdd({
-      role: parseInt(data.role, 10),
-      user: {
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-      },
-    }));
-    notification.info(intl.formatMessage({ id: 'teamTable.inviteSuccess.description' }));
+    try {
+      await dispatch(collaboratorAdd({
+        role: parseInt(data.role, 10),
+        user: {
+          email: data.email,
+          firstName: data.firstName,
+          lastName: data.lastName,
+        },
+      }));
+      notification.info(intl.formatMessage({ id: 'teamTable.inviteSuccess.description' }));
+    } catch (error) {
+      notification.error(intl.formatMessage({
+        id: `Settings.teamSettings.submit.${error.response?.data?.name}`,
+        defaultMessage: intl.formatMessage({ id: 'Error.common' }),
+      }));
+      console.error(error);
+    }
   }, [dispatch, intl, closeOverlay]);
 
   const openInviteModal = useCallback(() => {
