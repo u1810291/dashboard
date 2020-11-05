@@ -6,13 +6,14 @@ import { useSelector } from 'react-redux';
 import { CopyToClipboard } from '../../../../../components/clipboard';
 import { useStyles } from './DirectLinkCopy.styles';
 import { selectClientId, selectCurrentFlowId } from '../../../../../state/merchant/merchant.selectors';
+import { permalinkUrl } from '../../../../../lib/client/urls';
 
 export const DirectLinkCopy = () => {
   const intl = useIntl();
   const classes = useStyles();
   const clientId = useSelector(selectClientId);
-  const currentFlowId = useSelector(selectCurrentFlowId);
-  const link = `https://signup.getmati.com/?merchantToken=${clientId}&flowId=${currentFlowId}`;
+  const flowId = useSelector(selectCurrentFlowId);
+  const link = permalinkUrl({ clientId, flowId });
 
   return (
     <Grid container direction="column">
