@@ -19,6 +19,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   selected: {
     color: theme.palette.common.lightblue,
+  },
+  open: {
     '& svg': {
       color: theme.palette.common.black75,
       transform: 'rotate(180deg)',

@@ -17,7 +17,7 @@ export const TabID = {
 export const TabType = {
   TAB: 'TAB',
   CASCADE_TAB: 'CASCADE_TAB',
-  ALWAYS_OPEN: 'ALWAYS_OPEN',
+  DEFAULT_OPEN_CASCADE_TAB: 'DEFAULT_OPEN_CASCADE_TAB',
 };
 
 export const MobileSDKTabs = [
@@ -27,3 +27,9 @@ export const MobileSDKTabs = [
   TabID.XAMARIN,
   TabID.CORDOVA,
   TabID.CORDOVA_IONIC];
+
+export function getIsSelected(tab, selectedId) {
+  if (tab.id === selectedId) return true;
+  if (tab.type === TabType.TAB) return false;
+  return tab.children.some((child) => getIsSelected(child, selectedId));
+}
