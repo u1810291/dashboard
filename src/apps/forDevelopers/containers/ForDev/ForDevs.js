@@ -14,12 +14,13 @@ import { useStyles } from './ForDev.styles';
 import { updateCurrentFlowId } from '../../../../state/merchant/merchant.actions';
 import { useOverlay } from '../../../overlay';
 import { ForDevsWebhookModal } from '../../components/ForDevsWebhookModal/ForDevsWebhookModal';
+import { TabID } from '../../../../models/ForDevelopers.model';
 
 export const ForDevs = () => {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [selectedTab, setSelectedTab] = useState(null);
+  const [selectedTab, setSelectedTab] = useState(TabID.API);
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
   const currentFlowId = useSelector(selectCurrentFlowId);
   const [selectedFlow, setSelectedFlow] = useState(currentFlowId);
