@@ -1,5 +1,4 @@
-import { Box, Typography } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
+import { Box, Typography, Grid } from '@material-ui/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';

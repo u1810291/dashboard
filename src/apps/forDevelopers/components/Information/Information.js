@@ -6,6 +6,7 @@ import { GithubDocumentationBanner } from '../GithubDocumentationBanner/GithubDo
 import { VideoExplainer } from '../VideoExplainer/VideoExplainer';
 import { DirectLinkCopy } from './DirectLinkCopy/DirectLinkCopy';
 import { WebCodeSnippet } from './WebCodeSnippet/WebCodeSnippet';
+import { InformationImageMobile } from './InformationImage/InformationImageMobile';
 
 export const Information = ({ selectedPage }) => {
   const intl = useIntl();
@@ -57,7 +58,7 @@ export const Information = ({ selectedPage }) => {
         subHeader: intl.formatMessage(
           { id: 'forDevs.informationPage.mobile.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.android' })} ${integration}` }),
-        imageComponent: '',
+        imageComponent: (<InformationImageMobile />),
         videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
         documentationURL: 'https://github.com',
       },
@@ -69,7 +70,7 @@ export const Information = ({ selectedPage }) => {
         subHeader: intl.formatMessage(
           { id: 'forDevs.informationPage.mobile.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })} ${integration}` }),
-        imageComponent: '',
+        imageComponent: (<InformationImageMobile />),
         videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
         documentationURL: 'https://github.com',
       },
@@ -81,7 +82,7 @@ export const Information = ({ selectedPage }) => {
         subHeader: intl.formatMessage(
           { id: 'forDevs.informationPage.mobile.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' })} ${integration}` }),
-        imageComponent: '',
+        imageComponent: (<InformationImageMobile />),
         videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
         documentationURL: 'https://github.com',
       },
@@ -93,6 +94,7 @@ export const Information = ({ selectedPage }) => {
         subHeader: intl.formatMessage(
           { id: 'forDevs.informationPage.mobile.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' })} ${integration}` }),
+        imageComponent: (<InformationImageMobile />),
         videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
         documentationURL: 'https://github.com',
       },
@@ -104,6 +106,7 @@ export const Information = ({ selectedPage }) => {
         subHeader: intl.formatMessage(
           { id: 'forDevs.informationPage.mobile.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordova' })} ${integration}` }),
+        imageComponent: (<InformationImageMobile />),
         videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
         documentationURL: 'https://github.com',
       },
@@ -115,6 +118,7 @@ export const Information = ({ selectedPage }) => {
         subHeader: intl.formatMessage(
           { id: 'forDevs.informationPage.mobile.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' })} ${integration}` }),
+        imageComponent: (<InformationImageMobile />),
         videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
         documentationURL: 'https://github.com',
       },
