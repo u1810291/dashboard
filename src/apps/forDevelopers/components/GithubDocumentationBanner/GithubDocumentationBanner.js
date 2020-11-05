@@ -19,7 +19,7 @@ export const GithubDocumentationBanner = ({ platform, documentationURL }) => {
           <FiSmartphone />
         </Grid>
         <Box color="common.black90" fontSize={18}>
-          {intl.formatMessage({ id: 'forDevs.documentationBanner' },
+          {intl.formatMessage({ id: 'forDevs.documentationBanner.label' },
             {
               platform: documentationURL.includes('github.com')
                 ? `${platform} Github`
@@ -34,9 +34,7 @@ export const GithubDocumentationBanner = ({ platform, documentationURL }) => {
           variant="outlined"
           fullWidth
         >
-          {platform}
-          {' '}
-          Documentation
+          {intl.formatMessage({ id: 'forDevs.documentationBanner.button' }, { platform })}
           <FiExternalLink />
         </Button>
       </Grid>
