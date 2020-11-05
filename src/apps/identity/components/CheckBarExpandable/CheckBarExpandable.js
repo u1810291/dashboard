@@ -77,7 +77,7 @@ export function CheckBarExpandable({ step, children }) {
         </ExpansionPanel>
       )}
       {isChecking && (
-        <Box display="flex" alignItems="center" width="100%" mb={1} py={0.4} pr={0.8} pl={0.2}>
+        <Box display="flex" alignItems="center" width="100%" mb={1} py={0.4} px={1}>
           <Box width={17}>
             <CheckBarIcon key="check-bar-icon" icon={<IconLoad />} />
           </Box>
