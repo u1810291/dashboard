@@ -6,18 +6,12 @@ import { useSelector } from 'react-redux';
 import { SyntaxHighlighter } from '../../../../../components/syntax-highlighter';
 import { SyntaxHighlighterLanguages } from '../../../../../components/syntax-highlighter/SyntaxHighlighter.model';
 import { selectClientId, selectCurrentFlowId } from '../../../../../state/merchant/merchant.selectors';
+import { integrationCode } from '../../../../../models/Integration.model';
 
 export const WebCodeSnippet = () => {
   const intl = useIntl();
   const clientId = useSelector(selectClientId);
-  const currentFlowId = useSelector(selectCurrentFlowId);
-  const snippet = '<script src="https://web-button.getmati.com/button.js">\n'
-    + '</script>\n'
-    + '<mati-button\n'
-    + `  clientid="${clientId}"\n`
-    + `  flowId="${currentFlowId}"\n`
-    + '  metadata=""\n'
-    + '/>';
+  const flowId = useSelector(selectCurrentFlowId);
 
   return (
     <Grid container direction="column">
@@ -27,7 +21,7 @@ export const WebCodeSnippet = () => {
       </Box>
       <Box maxWidth="100%">
         <SyntaxHighlighter
-          code={snippet}
+          code={integrationCode({ clientId, flowId })}
           language={SyntaxHighlighterLanguages.HTML}
           withCopyText
         />
