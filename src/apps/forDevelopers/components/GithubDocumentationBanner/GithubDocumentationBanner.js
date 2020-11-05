@@ -1,10 +1,12 @@
 import { Box, Button, Grid } from '@material-ui/core';
 import React, { useCallback } from 'react';
 import { FiExternalLink, FiSmartphone } from 'react-icons/fi';
+import { useIntl } from 'react-intl';
 import { useStyles } from './GithubDocumentationBanner.styles';
 
 export const GithubDocumentationBanner = ({ platform, documentationURL }) => {
   const classes = useStyles();
+  const intl = useIntl();
 
   const handleRedirect = useCallback(() => {
     window.open(documentationURL, '_blank');
@@ -17,11 +19,12 @@ export const GithubDocumentationBanner = ({ platform, documentationURL }) => {
           <FiSmartphone />
         </Grid>
         <Box color="common.black90" fontSize={18}>
-          Visit our
-          {' '}
-          {platform}
-          {' '}
-          GitHub documentation
+          {intl.formatMessage({ id: 'forDevs.documentationBanner' },
+            {
+              platform: documentationURL.includes('github.com')
+                ? `${platform} Github`
+                : platform,
+            })}
         </Box>
       </Grid>
       <Grid item className={classes.buttonWrapper}>
