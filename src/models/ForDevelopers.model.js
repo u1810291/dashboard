@@ -17,6 +17,7 @@ export const TabID = {
 export const TabType = {
   TAB: 'TAB',
   CASCADE_TAB: 'CASCADE_TAB',
+  ALWAYS_OPEN: 'ALWAYS_OPEN',
 };
 
 export const MobileSDKTabs = [

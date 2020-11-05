@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import { TabID, TabType } from '../../../../models/ForDevelopers.model';
 import { CascadeMenuButton } from '../CascadeMenuButton/CascadeMenuButton';
 import { useStyles } from './TabsMenu.styles';
+import { AlwaysOpenTab } from './AlwaysOpenTab/AlwaysOpenTab';
 
 export const TabsMenu = ({ onClick, selected }) => {
   const classes = useStyles();
@@ -18,7 +19,7 @@ export const TabsMenu = ({ onClick, selected }) => {
     {
       id: TabID.SDK,
       name: intl.formatMessage({ id: 'forDevs.sideMenu.sdk' }),
-      type: TabType.CASCADE_TAB,
+      type: TabType.ALWAYS_OPEN,
       children: [
         {
           id: TabID.WEB,
@@ -87,10 +88,16 @@ export const TabsMenu = ({ onClick, selected }) => {
 
   const createTab = useCallback((tab) => {
     switch (tab.type) {
+      case TabType.ALWAYS_OPEN:
+        return (
+          <AlwaysOpenTab name={tab.name}>
+            {tab.children.map((item) => createTab(item))}
+          </AlwaysOpenTab>
+        );
       case TabType.CASCADE_TAB:
         return (
-          <CascadeMenuButton name={tab.name} id={tab.id}>
-            {tab.children.map((item) => createTab(item, onClick))}
+          <CascadeMenuButton name={tab.name}>
+            {tab.children.map((item) => createTab(item))}
           </CascadeMenuButton>
         );
       case TabType.TAB:
