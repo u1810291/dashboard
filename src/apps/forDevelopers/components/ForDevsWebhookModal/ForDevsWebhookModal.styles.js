@@ -4,46 +4,39 @@ export const useStyles = makeStyles((theme) => ({
   modal: {
     width: 1140,
     padding: [[20, 40]],
-    background: theme.palette.common.black90,
     '& .MuiBox-root': {
       background: 'transparent',
-      borderColor: theme.palette.common.black75,
     },
     '& .MuiIconButton-root': {
       minHeight: 'initial',
       padding: 0,
-      color: theme.palette.common.black7,
     },
-  },
-  title: {
-    color: theme.palette.common.black7,
-  },
-  subtitle: {
-    marginBottom: 20,
-    color: theme.palette.common.black75,
-    lineHeight: '1.2',
-    fontSize: 18,
-  },
-  webhookSyntax: {
-    height: 490,
-    maxHeight: 'calc(100vh - 340px)',
   },
   button: {
     minWidth: 230,
   },
-  resourceUrl: {
-    padding: [[15, 20]],
+  documentation: {
+    height: '100%',
+    minHeight: 50,
+    padding: [[5, 10]],
+    fontWeight: 'bold',
     fontSize: 14,
-    color: theme.palette.common.green,
-    border: `1px solid ${theme.palette.common.black75}`,
-    borderRadius: 5,
-    '& > .MuiBox-root': {
-      justifyContent: 'space-between',
-      '& > .MuiBox-root': {
-        maxWidth: 'calc(100% - 70px)',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-      },
+    color: theme.palette.common.black75,
+    borderColor: theme.palette.common.black7,
+    '& svg': {
+      marginLeft: 10,
+      fontSize: 17,
     },
+  },
+  inputWrapper: {
+    marginBottom: 50,
+    '&:last-of-type': {
+      marginBottom: 60,
+    },
+  },
+  label: {
+    marginBottom: 8,
+    fontWeight: 'bold',
+    color: theme.palette.common.black90,
   },
 }));
