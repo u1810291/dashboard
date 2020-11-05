@@ -3,17 +3,18 @@ import { makeStyles } from '@material-ui/core';
 export const useStyles = makeStyles((theme) => ({
   modal: {
     width: 670,
-    padding: [[35, 20, 40]],
-    '& .MuiBox-root': {
-      background: 'transparent',
-    },
+    padding: [[35, 20, 20]],
     '& .MuiIconButton-root': {
       minHeight: 'initial',
       padding: 0,
     },
   },
   button: {
-    minWidth: 230,
+    minWidth: 200,
+    '& svg': {
+      marginRight: 5,
+      fontSize: 16,
+    },
   },
   documentation: {
     height: '100%',
@@ -28,15 +29,20 @@ export const useStyles = makeStyles((theme) => ({
       fontSize: 17,
     },
   },
-  inputWrapper: {
-    marginBottom: 50,
-    '&:last-of-type': {
-      marginBottom: 60,
-    },
+  video: {
+    borderRadius: 5,
+    overflow: 'hidden',
   },
   label: {
-    marginBottom: 8,
-    fontWeight: 'bold',
-    color: theme.palette.common.black90,
+    '&.MuiInputLabel-root': {
+      marginBottom: 8,
+      fontWeight: 'bold',
+      color: theme.palette.common.black75,
+    },
+  },
+  input: {
+    '& .MuiInputBase-root': {
+      color: theme.palette.common.black75,
+    },
   },
 }));
