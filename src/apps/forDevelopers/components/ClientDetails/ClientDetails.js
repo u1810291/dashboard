@@ -11,7 +11,6 @@ import { QATags } from '../../../../models/QA.model';
 import { appLoad } from '../../../../state/merchant/merchant.actions';
 import { selectClientIdModel, selectClientSecret } from '../../../../state/merchant/merchant.selectors';
 import { useStyles } from './ClientDetails.styles';
-import { EditableInput } from '../../../settings/components/EditableInput/EditableInput';
 
 export const ClientDetails = () => {
   const classes = useStyles();
@@ -60,7 +59,7 @@ export const ClientDetails = () => {
                     <code data-qa={QATags.Integration.ClientSecret.Value}>
                       {/* {isSecretShow ? clientSecret : '************************'} */}
                       {isSecretShow
-                        ? <EditableInput text={clientSecret} onSubmit={() => {}} />
+                        ? (clientSecret)
                         : <Box className={classes.codeSecret}>************************</Box>}
                     </code>
                   </CopyToClipboard>
