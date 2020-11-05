@@ -51,7 +51,7 @@ export const ForDevs = () => {
   }, []);
 
   return (
-    <Container>
+    <Container maxWidth="initial">
       <Box pt={{
         xs: 2,
         lg: 4,
