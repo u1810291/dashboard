@@ -13,6 +13,8 @@ export const useStyles = makeStyles((theme) => ({
     lineHeight: 1.1,
     '& > div > div': {
       maxWidth: 'calc(100% - 27px)',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     },
     '& svg': {
       color: theme.palette.common.lightblue,

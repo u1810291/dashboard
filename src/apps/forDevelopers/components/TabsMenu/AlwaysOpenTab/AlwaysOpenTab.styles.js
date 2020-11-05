@@ -1,6 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
+  tabWrapper: {
+    '& > *': {
+      marginLeft: 10,
+    },
+  },
   tab: {
     justifyContent: 'flex-start',
     marginBottom: 10,
@@ -8,6 +13,6 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     fontWeight: 700,
     borderRadius: 5,
-    backgroundColor: theme.palette.common.lightblueopacity,
+    color: theme.palette.common.black75,
   },
 }));

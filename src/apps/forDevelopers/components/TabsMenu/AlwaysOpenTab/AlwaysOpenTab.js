@@ -8,7 +8,9 @@ export const AlwaysOpenTab = ({ name, children }) => {
   return (
     <Box>
       <Typography className={classes.tab}>{name}</Typography>
-      {children}
+      <Box className={classes.tabWrapper}>
+        {children}
+      </Box>
     </Box>
   );
 };
