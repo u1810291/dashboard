@@ -3,7 +3,7 @@ import React from 'react';
 import { ReactComponent as PlayIcon } from '../../../../assets/video-player-play.svg';
 import { VideoPlayer } from '../../../../components';
 
-export const VideoExplainer = ({ name, videoURL }) => (
+export const VideoExplainer = ({ name, videoURL, videoCover }) => (
   <Box>
     <Typography variant="subtitle2" gutterBottom>Video explainer</Typography>
     <Box mb={2} color="common.black75">
@@ -13,6 +13,6 @@ export const VideoExplainer = ({ name, videoURL }) => (
       {' '}
       here
     </Box>
-    <VideoPlayer controls light playing muted url={videoURL} playIcon={<IconButton><PlayIcon /></IconButton>} />
+    <VideoPlayer controls light={videoCover} playing muted url={videoURL} playIcon={<IconButton><PlayIcon /></IconButton>} />
   </Box>
 );

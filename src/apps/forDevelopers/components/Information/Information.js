@@ -44,7 +44,6 @@ export const Information = ({ selectedPage }) => {
           { name: intl.formatMessage({ id: 'forDevs.sideMenu.directLink' }) }),
         image: '',
         videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
-        documentationURL: 'https://github.com',
         childComponent: (<DirectLinkCopy />),
       },
       {
@@ -118,9 +117,11 @@ export const Information = ({ selectedPage }) => {
         <>
           { id === selectedPage && (
             <Box>
-              <Box mb={4}>
-                <GithubDocumentationBanner documentationURL={documentationURL} platform={name} />
-              </Box>
+                {documentationURL && (
+                  <Box mb={4}>
+                    <GithubDocumentationBanner documentationURL={documentationURL} platform={name} />
+                  </Box>
+                )}
               <Typography variant="subtitle2" gutterBottom>{header}</Typography>
               <Box mb={2} color="common.black75">{subHeader}</Box>
               <Box mb={4}>
@@ -132,7 +133,7 @@ export const Information = ({ selectedPage }) => {
                 </Box>
               )}
               <Box pt={4} borderTop={1} borderColor="common.black7">
-                <VideoExplainer videoURL={videoURL} name={name} />
+                <VideoExplainer videoCover="https://img.youtube.com/vi/tdEgwZaP5Zo/maxresdefault.jpg" videoURL={videoURL} name={name} />
               </Box>
             </Box>
           )}
