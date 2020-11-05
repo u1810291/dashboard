@@ -133,7 +133,7 @@ export const Information = ({ selectedPage }) => {
                 </Box>
               )}
               <Box pt={4} borderTop={1} borderColor="common.black7">
-                <VideoExplainer videoCover="https://img.youtube.com/vi/tdEgwZaP5Zo/maxresdefault.jpg" videoURL={videoURL} name={name} />
+                <VideoExplainer videoCover="https://img.youtube.com/vi/7yzZcAj24AI/maxresdefault.jpg" videoURL={videoURL} name={name} />
               </Box>
             </Box>
           )}
