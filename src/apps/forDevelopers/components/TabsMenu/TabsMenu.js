@@ -1,118 +1,39 @@
 import Button from '@material-ui/core/Button';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
-import { TabID, TabType } from '../../../../models/ForDevelopers.model';
+import cn from 'classnames';
+import { menuStructure } from '../../../../models/ForDevelopers.model';
 import { CascadeMenuButton } from '../CascadeMenuButton/CascadeMenuButton';
 import { useStyles } from './TabsMenu.styles';
 
-export const TabsMenu = ({ onClick, selected }) => {
+const CreateTab = ({ tab, onClick, selectedId }) => {
   const classes = useStyles();
   const intl = useIntl();
-
-  const getMenuStructure = useCallback(() => ([
-    {
-      id: TabID.API,
-      name: intl.formatMessage({ id: 'forDevs.sideMenu.api' }),
-      type: TabType.TAB,
-    },
-    {
-      id: TabID.SDK,
-      name: intl.formatMessage({ id: 'forDevs.sideMenu.sdk' }),
-      type: TabType.CASCADE_TAB,
-      defaultOpen: true,
-      children: [
-        {
-          id: TabID.WEB,
-          name: intl.formatMessage({ id: 'forDevs.sideMenu.web' }),
-          type: TabType.TAB,
-        },
-        {
-          id: TabID.MOBILE,
-          name: intl.formatMessage({ id: 'forDevs.sideMenu.mobile' }),
-          type: TabType.CASCADE_TAB,
-          children: [
-            {
-              id: TabID.NATIVE,
-              name: intl.formatMessage({ id: 'forDevs.sideMenu.native' }),
-              type: TabType.CASCADE_TAB,
-              children: [
-                {
-                  id: TabID.IOS,
-                  name: intl.formatMessage({ id: 'forDevs.sideMenu.ios' }),
-                  type: TabType.TAB,
-                },
-                {
-                  id: TabID.ANDROID,
-                  name: intl.formatMessage({ id: 'forDevs.sideMenu.android' }),
-                  type: TabType.TAB,
-                },
-              ],
-            },
-            {
-              id: TabID.HYBRID,
-              name: intl.formatMessage({ id: 'forDevs.sideMenu.hybrid' }),
-              type: TabType.CASCADE_TAB,
-              children: [
-                {
-                  id: TabID.REACT_NATIVE,
-                  name: intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' }),
-                  type: TabType.TAB,
-                },
-                {
-                  id: TabID.XAMARIN,
-                  name: intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' }),
-                  type: TabType.TAB,
-                },
-                {
-                  id: TabID.CORDOVA,
-                  name: intl.formatMessage({ id: 'forDevs.sideMenu.cordova' }),
-                  type: TabType.TAB,
-                },
-                {
-                  id: TabID.CORDOVA_IONIC,
-                  name: intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' }),
-                  type: TabType.TAB,
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: TabID.DIRECT_LINK,
-      name: 'Direct Link',
-      type: TabType.TAB,
-    },
-  ]), [intl]);
-
-  const createTab = useCallback((tab) => {
-    switch (tab.type) {
-      case TabType.CASCADE_TAB:
-        return (
-          <CascadeMenuButton tab={tab} selected={selected} defaultOpen={tab.defaultOpen}>
-            {tab.children.map((item) => createTab(item))}
-          </CascadeMenuButton>
-        );
-      case TabType.TAB:
-        return (
-          <Button
-            className={`${classes.button} ${tab.id === selected && classes.selected}`}
-            onClick={() => onClick(tab.id)}
-            id={tab.id}
-            fullWidth
-          >
-            {tab.name}
-          </Button>
-        );
-      default:
-        return null;
-    }
-  }, [classes.button, classes.selected, onClick, selected]);
-
+  if (tab.children) {
+    return (
+      <CascadeMenuButton tab={tab} selectedId={selectedId} defaultOpen={tab.defaultOpen}>
+        {tab.children.map((item) => (
+          <CreateTab tab={item} onClick={onClick} selectedId={selectedId} key={item.id} />
+        ))}
+      </CascadeMenuButton>
+    );
+  }
   return (
-    <>
-      {getMenuStructure().map((item) => createTab(item))}
-    </>
+    <Button
+      className={cn(classes.button, { [classes.selected]: tab.id === selectedId })}
+      onClick={() => onClick(tab.id)}
+      id={tab.id}
+      fullWidth
+    >
+      {intl.formatMessage({ id: `forDevs.sideMenu.${tab.id}` })}
+    </Button>
   );
 };
+
+export const TabsMenu = ({ onClick, selectedId }) => (
+  <>
+    {menuStructure.map((item) => (
+      <CreateTab tab={item} onClick={onClick} selectedId={selectedId} key={item.id} />
+    ))}
+  </>
+);

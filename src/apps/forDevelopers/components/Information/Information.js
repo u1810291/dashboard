@@ -19,7 +19,7 @@ export const Information = ({ selectedPage }) => {
     const SDK = intl.formatMessage({ id: 'forDevs.informationPage.SDK.title' });
     return [
       {
-        id: TabID.API,
+        id: TabID.api,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.api' }),
         explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.api' })} ${integration}`,
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.api' })} ${integration}`,
@@ -28,10 +28,11 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.api' })} ${integration}` }),
         imageComponent: (<InformationImageApi />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+API.mp4',
+        videoCover: '',
         documentationURL: 'https://github.com',
       },
       {
-        id: TabID.WEB,
+        id: TabID.web,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.web' }),
         explainerName: intl.formatMessage({ id: 'forDevs.informationPage.webSDK.title' }),
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.web' })} ${integration}`,
@@ -40,11 +41,12 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.web' })} ${SDK}` }),
         imageComponent: (<InformationImageWeb />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Web+SDK.mp4',
+        videoCover: '',
         documentationURL: 'https://github.com',
         childComponent: (<WebCodeSnippet />),
       },
       {
-        id: TabID.DIRECT_LINK,
+        id: TabID.directLink,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.directLink' }),
         explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.directLink' })}`,
         header: intl.formatMessage({ id: 'forDevs.sideMenu.directLink' }),
@@ -53,10 +55,11 @@ export const Information = ({ selectedPage }) => {
           { name: intl.formatMessage({ id: 'forDevs.sideMenu.directLink' }) }),
         imageComponent: (<InformationImageDirect />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Direct+Link.mp4',
+        videoCover: '',
         childComponent: (<DirectLinkCopy />),
       },
       {
-        id: TabID.ANDROID,
+        id: TabID.android,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.android' }),
         explainerName: `${mobileSDK} ${intl.formatMessage({ id: 'forDevs.sideMenu.android' })}`,
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.android' })} ${integration}`,
@@ -65,10 +68,11 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.android' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
+        videoCover: '',
         documentationURL: 'https://github.com',
       },
       {
-        id: TabID.IOS,
+        id: TabID.ios,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.ios' }),
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })} ${integration}`,
         explainerName: `${mobileSDK} ${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })}`,
@@ -77,22 +81,24 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
+        videoCover: '',
         documentationURL: 'https://github.com',
       },
       {
-        id: TabID.REACT_NATIVE,
+        id: TabID.reactNative,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' }),
-        explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.reactNative  ' })} ${integration}`,
+        explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' })} ${integration}`,
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' })} ${integration}`,
         subHeader: intl.formatMessage(
           { id: 'forDevs.informationPage.mobile.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
+        videoCover: '',
         documentationURL: 'https://github.com',
       },
       {
-        id: TabID.XAMARIN,
+        id: TabID.xamarin,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' }),
         explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' })} ${integration}`,
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' })} ${integration}`,
@@ -101,10 +107,11 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
+        videoCover: '',
         documentationURL: 'https://github.com',
       },
       {
-        id: TabID.CORDOVA,
+        id: TabID.cordova,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.cordova' }),
         explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordova' })} ${integration}`,
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordova' })} ${integration}`,
@@ -113,10 +120,11 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordova' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
+        videoCover: '',
         documentationURL: 'https://github.com',
       },
       {
-        id: TabID.CORDOVA_IONIC,
+        id: TabID.cordovaIonic,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' }),
         explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' })} ${integration}`,
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' })} ${integration}`,
@@ -125,6 +133,7 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
+        videoCover: '',
         documentationURL: 'https://github.com',
       },
     ];
@@ -137,15 +146,16 @@ export const Information = ({ selectedPage }) => {
         name,
         header,
         videoURL,
+        videoCover,
         documentationURL,
         imageComponent,
         subHeader,
         childComponent,
         explainerName,
       }) => (
-        <>
+        <Box key={id}>
           { id === selectedPage && (
-          <Box>
+          <>
             {documentationURL && (
             <Box mb={4}>
               <GithubDocumentationBanner documentationURL={documentationURL} platform={name} />
@@ -162,11 +172,11 @@ export const Information = ({ selectedPage }) => {
             </Box>
             )}
             <Box pt={4} borderTop={1} borderColor="common.black7">
-              <VideoExplainer videoCover="https://img.youtube.com/vi/7yzZcAj24AI/maxresdefault.jpg" videoURL={videoURL} name={explainerName} />
+              <VideoExplainer videoCover={videoCover} videoURL={videoURL} name={explainerName} />
             </Box>
-          </Box>
+          </>
           )}
-        </>
+        </Box>
       ))}
     </>
   );

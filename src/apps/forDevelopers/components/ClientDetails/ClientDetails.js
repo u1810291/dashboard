@@ -9,15 +9,15 @@ import { CopyToClipboard } from '../../../../components/clipboard';
 import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
 import { QATags } from '../../../../models/QA.model';
 import { appLoad } from '../../../../state/merchant/merchant.actions';
-import { selectClientIdModel, selectClientSecret } from '../../../../state/merchant/merchant.selectors';
+import { selectAppLastModel, selectClientIdModel } from '../../../../state/merchant/merchant.selectors';
 import { useStyles } from './ClientDetails.styles';
 
 export const ClientDetails = () => {
   const classes = useStyles();
   const intl = useIntl();
   const dispatch = useDispatch();
+  const appModel = useSelector(selectAppLastModel);
   const clientIdModel = useSelector(selectClientIdModel);
-  const clientSecret = useSelector(selectClientSecret);
   const [isSecretShow, setIsSecretShow] = useState(false);
 
   const handleChangeShow = useCallback(() => {
@@ -35,7 +35,11 @@ export const ClientDetails = () => {
       <Box px={2} py={3}>
         <Grid container spacing={2} justify="space-between" alignItems="center">
           <Grid item xs={12} lg={5}>
-            <Box mb={{ xs: 2, lg: 0 }}>
+            <Box mb={{
+              xs: 2,
+              lg: 0,
+            }}
+            >
               <Typography variant="h5">
                 {intl.formatMessage({ id: 'forDevs.clientDetails.title' })}
               </Typography>
@@ -43,22 +47,30 @@ export const ClientDetails = () => {
           </Grid>
           <Grid item container xs={12} lg={7} alignItems="center">
             <Grid item container xs={12} lg={6} direction="column">
-              <Box mb={{ xs: 2, lg: 0 }}>
+              <Box mb={{
+                xs: 2,
+                lg: 0,
+              }}
+              >
                 <Typography variant="subtitle2" className={classes.title}>
                   <CopyToClipboard text={clientIdModel?.value} qa={QATags.Integration.flowId.Copy}>
                     <code data-qa={QATags.Integration.flowId.Value}>{clientIdModel?.value}</code>
                   </CopyToClipboard>
                 </Typography>
-                <Typography className={classes.name}>{intl.formatMessage({ id: 'forDevs.clientDetails.id' })}</Typography>
+                <Typography
+                  className={classes.name}
+                >
+                  {intl.formatMessage({ id: 'forDevs.clientDetails.id' })}
+                </Typography>
               </Box>
             </Grid>
             <Grid item container xs={12} lg={6} direction="column">
               <Grid item container>
                 <Typography variant="subtitle2" className={classes.code}>
-                  <CopyToClipboard text={clientSecret} qa={QATags.Integration.ClientSecret.Copy}>
+                  <CopyToClipboard text={appModel && appModel?.value?.clientSecret} qa={QATags.Integration.ClientSecret.Copy}>
                     <code data-qa={QATags.Integration.ClientSecret.Value}>
                       {isSecretShow
-                        ? (clientSecret)
+                        ? (appModel && appModel?.value?.clientSecret)
                         : <Box className={classes.codeSecret}>************************</Box>}
                     </code>
                   </CopyToClipboard>
@@ -68,7 +80,11 @@ export const ClientDetails = () => {
                 </IconButton>
               </Grid>
               <Grid container>
-                <Typography className={classes.name}>{intl.formatMessage({ id: 'forDevs.clientDetails.secret' })}</Typography>
+                <Typography
+                  className={classes.name}
+                >
+                  {intl.formatMessage({ id: 'forDevs.clientDetails.secret' })}
+                </Typography>
               </Grid>
             </Grid>
           </Grid>
