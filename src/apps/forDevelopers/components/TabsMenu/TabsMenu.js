@@ -20,7 +20,7 @@ const CreateTab = ({ tab, onClick, selectedId }) => {
   }
   return (
     <Button
-      className={cn(classes.button, { [classes.selected]: tab.id === selected })}
+      className={cn(classes.button, { [classes.selected]: tab.id === selectedId })}
       onClick={() => onClick(tab.id)}
       id={tab.id}
       fullWidth
@@ -30,10 +30,10 @@ const CreateTab = ({ tab, onClick, selectedId }) => {
   );
 };
 
-export const TabsMenu = ({ onClick, selected }) => (
+export const TabsMenu = ({ onClick, selectedId }) => (
   <>
     {menuStructure.map((item) => (
-      <CreateTab tab={item} onClick={onClick} selected={selected} key={item.id} />
+      <CreateTab tab={item} onClick={onClick} selectedId={selectedId} key={item.id} />
     ))}
   </>
 );
