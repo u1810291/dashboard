@@ -23,11 +23,13 @@ export default class Overlay extends React.Component {
   static defaultProps = {
     inline: false,
     onClose: () => {},
+    withBlur: false,
   };
 
   static propTypes = {
     inline: PropTypes.bool,
     onClose: PropTypes.func,
+    withBlur: PropTypes.bool,
   };
 
   constructor(props) {
@@ -61,13 +63,13 @@ export default class Overlay extends React.Component {
   };
 
   render() {
-    const { props: { children, inline, options }, state: { visible } } = this;
+    const { props: { children, inline, options, withBlur }, state: { visible } } = this;
     return (
       // eslint-disable-next-line max-len
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
       <div
         className={classNames(
-          CSS.overlay,
+          withBlur ? CSS.blurOverlay : CSS.overlay,
           visible && CSS.overlayVisible,
           { [CSS.overlayInline]: inline },
           options?.additionalClasses?.map((item) => CSS[item]),
@@ -77,7 +79,7 @@ export default class Overlay extends React.Component {
       >
         <span
           className={classNames(
-            CSS.overlayContent,
+            withBlur ? CSS.blurOverlayContent : CSS.overlayContent,
             visible && CSS.overlayContentVisible,
           )}
         >
