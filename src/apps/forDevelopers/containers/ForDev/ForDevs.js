@@ -97,8 +97,9 @@ export const ForDevs = () => {
               </Grid>
               <Grid item container xs={12} lg={8} className={classes.wrapper}>
                 <Grid item xs={12} lg={4}>
-                  <Typography>Active</Typography>
-                  <Box color="common.black75">{intl.formatMessage({ id: 'forDevs.webhook.status' })}</Box>
+                  {/* Future Feature */}
+                  {/* <Typography>Active</Typography>
+                  <Box color="common.black75">{intl.formatMessage({ id: 'forDevs.webhook.status' })}</Box> */}
                 </Grid>
                 <Grid item xs={12} lg={4}>
                   <Button
