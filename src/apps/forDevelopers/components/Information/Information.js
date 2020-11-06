@@ -140,9 +140,9 @@ export const Information = ({ selectedPage }) => {
         childComponent,
         explainerName,
       }) => (
-        <>
+        <Box key={id}>
           { id === selectedPage && (
-          <Box>
+          <>
             {documentationURL && (
             <Box mb={4}>
               <GithubDocumentationBanner documentationURL={documentationURL} platform={name} />
@@ -161,9 +161,9 @@ export const Information = ({ selectedPage }) => {
             <Box pt={4} borderTop={1} borderColor="common.black7">
               <VideoExplainer videoCover="https://img.youtube.com/vi/7yzZcAj24AI/maxresdefault.jpg" videoURL={videoURL} name={explainerName} />
             </Box>
-          </Box>
+          </>
           )}
-        </>
+        </Box>
       ))}
     </>
   );
