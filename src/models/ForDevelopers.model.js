@@ -17,7 +17,6 @@ export const TabID = {
 export const TabType = {
   TAB: 'TAB',
   CASCADE_TAB: 'CASCADE_TAB',
-  DEFAULT_OPEN_CASCADE_TAB: 'DEFAULT_OPEN_CASCADE_TAB',
 };
 
 export function getIsSelected(tab, selectedId) {

@@ -18,7 +18,8 @@ export const TabsMenu = ({ onClick, selected }) => {
     {
       id: TabID.SDK,
       name: intl.formatMessage({ id: 'forDevs.sideMenu.sdk' }),
-      type: TabType.DEFAULT_OPEN_CASCADE_TAB,
+      type: TabType.CASCADE_TAB,
+      defaultOpen: true,
       children: [
         {
           id: TabID.WEB,
@@ -87,15 +88,9 @@ export const TabsMenu = ({ onClick, selected }) => {
 
   const createTab = useCallback((tab) => {
     switch (tab.type) {
-      case TabType.DEFAULT_OPEN_CASCADE_TAB:
-        return (
-          <CascadeMenuButton tab={tab} selected={selected} defaultOpen>
-            {tab.children.map((item) => createTab(item))}
-          </CascadeMenuButton>
-        );
       case TabType.CASCADE_TAB:
         return (
-          <CascadeMenuButton tab={tab} selected={selected}>
+          <CascadeMenuButton tab={tab} selected={selected} defaultOpen={tab.defaultOpen}>
             {tab.children.map((item) => createTab(item))}
           </CascadeMenuButton>
         );
