@@ -10,6 +10,7 @@ import { InformationImageApi } from './InformationImage/InformationImageApi';
 import { InformationImageWeb } from './InformationImage/InformationImageWeb';
 import { InformationImageMobile } from './InformationImage/InformationImageMobile';
 import { InformationImageDirect } from './InformationImage/InformationImageDirect';
+import forDevsVideoCover from '../../../../assets/forDevsVideoCover.png';
 
 export const Information = ({ selectedPage }) => {
   const intl = useIntl();
@@ -28,7 +29,7 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.api' })} ${integration}` }),
         imageComponent: (<InformationImageApi />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+API.mp4',
-        videoCover: '',
+        videoCover: forDevsVideoCover,
         documentationURL: 'https://github.com',
       },
       {
@@ -41,7 +42,7 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.web' })} ${SDK}` }),
         imageComponent: (<InformationImageWeb />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Web+SDK.mp4',
-        videoCover: '',
+        videoCover: forDevsVideoCover,
         documentationURL: 'https://github.com',
         childComponent: (<WebCodeSnippet />),
       },
@@ -55,7 +56,7 @@ export const Information = ({ selectedPage }) => {
           { name: intl.formatMessage({ id: 'forDevs.sideMenu.directLink' }) }),
         imageComponent: (<InformationImageDirect />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Direct+Link.mp4',
-        videoCover: '',
+        videoCover: forDevsVideoCover,
         childComponent: (<DirectLinkCopy />),
       },
       {
@@ -68,7 +69,7 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.android' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
-        videoCover: '',
+        videoCover: forDevsVideoCover,
         documentationURL: 'https://github.com',
       },
       {
@@ -81,7 +82,7 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
-        videoCover: '',
+        videoCover: forDevsVideoCover,
         documentationURL: 'https://github.com',
       },
       {
@@ -94,7 +95,7 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
-        videoCover: '',
+        videoCover: forDevsVideoCover,
         documentationURL: 'https://github.com',
       },
       {
@@ -107,7 +108,7 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
-        videoCover: '',
+        videoCover: forDevsVideoCover,
         documentationURL: 'https://github.com',
       },
       {
@@ -120,7 +121,7 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordova' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
-        videoCover: '',
+        videoCover: forDevsVideoCover,
         documentationURL: 'https://github.com',
       },
       {
@@ -133,7 +134,7 @@ export const Information = ({ selectedPage }) => {
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
-        videoCover: '',
+        videoCover: forDevsVideoCover,
         documentationURL: 'https://github.com',
       },
     ];

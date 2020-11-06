@@ -14,7 +14,7 @@ export const VideoExplainer = ({ name, videoURL, videoCover }) => {
       <Box mb={2} color="common.black75">
         {intl.formatMessage({ id: 'forDevs.videoExplainer.description' }, { platform: name })}
       </Box>
-      <VideoPlayer controls light={videoCover} playing muted url={videoURL} playIcon={<IconButton><PlayIcon /></IconButton>} />
+      <VideoPlayer controls light={videoCover} playing url={videoURL} playIcon={<IconButton><PlayIcon /></IconButton>} />
     </Box>
   );
 };
