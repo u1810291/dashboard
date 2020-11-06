@@ -2,23 +2,23 @@ import { Box, Grid } from '@material-ui/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { ReactComponent as Arrow } from 'assets/line-arrow.svg';
-import ImageButton from 'assets/information-button.svg';
-import ImageUser from 'assets/information-user-mobile.png';
+import ImageApi from 'assets/information-api.png';
+import ImageUser from 'assets/information-user-web.svg';
 import ImageResult from 'assets/information-result.png';
 import { useStyles } from './InformationImage.styles';
 
-export const InformationImageMobile = () => {
+export const InformationImageApi = () => {
   const intl = useIntl();
   const classes = useStyles();
 
   return (
     <Grid container spacing={1} className={classes.wrapper}>
-      <Grid item container direction="column" alignItems="center" justify="center" xs={12} lg={3}>
+      <Grid item container direction="column" alignItems="center" justify="center" xs={12} className={classes.wrapperApi}>
         <Box mt="auto">
-          <img className={classes.imageButton} src={ImageButton} alt="" />
+          <img className={classes.imageResult} src={ImageApi} alt="" />
         </Box>
         <Box pt={1} minHeight={{ xs: 'auto', lg: 40 }} mt="auto" color="common.black75" align="center" fontSize={12} fontWeight="bold">
-          {intl.formatMessage({ id: 'forDevs.informationPage.image.button' })}
+          {intl.formatMessage({ id: 'forDevs.informationPage.image.api' })}
         </Box>
       </Grid>
       <Grid item container xs={12} lg={1} alignItems="center" justify="center">
@@ -36,9 +36,9 @@ export const InformationImageMobile = () => {
           <Arrow />
         </Box>
       </Grid>
-      <Grid item container direction="column" alignItems="center" justify="center" xs={12} lg={3}>
+      <Grid item container direction="column" alignItems="center" justify="center" xs={12} lg={2} className={classes.wrapperApiUser}>
         <Box mt="auto">
-          <img className={classes.imageUserMobile} src={ImageUser} alt="" />
+          <img className={classes.imageUserWeb} src={ImageUser} alt="" />
         </Box>
         <Box pt={1} minHeight={{ xs: 'auto', lg: 40 }} mt="auto" color="common.black75" align="center" fontSize={12} fontWeight="bold">
           {intl.formatMessage({ id: 'forDevs.informationPage.image.user' })}
@@ -59,12 +59,12 @@ export const InformationImageMobile = () => {
           <Arrow />
         </Box>
       </Grid>
-      <Grid item container direction="column" alignItems="center" justify="center" xs={12} lg={4}>
+      <Grid item container direction="column" alignItems="center" justify="center" xs={12} className={classes.wrapperApi}>
         <Box mt="auto">
           <img className={classes.imageResult} src={ImageResult} alt="" />
         </Box>
         <Box pt={1} minHeight={{ xs: 'auto', lg: 40 }} mt="auto" color="common.black75" align="center" fontSize={12} fontWeight="bold">
-          {intl.formatMessage({ id: 'forDevs.informationPage.image.result.callback' })}
+          {intl.formatMessage({ id: 'forDevs.informationPage.image.result.webhook' })}
         </Box>
       </Grid>
     </Grid>

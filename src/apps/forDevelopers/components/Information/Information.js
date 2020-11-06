@@ -6,7 +6,10 @@ import { GithubDocumentationBanner } from '../GithubDocumentationBanner/GithubDo
 import { VideoExplainer } from '../VideoExplainer/VideoExplainer';
 import { DirectLinkCopy } from './DirectLinkCopy/DirectLinkCopy';
 import { WebCodeSnippet } from './WebCodeSnippet/WebCodeSnippet';
+import { InformationImageApi } from './InformationImage/InformationImageApi';
+import { InformationImageWeb } from './InformationImage/InformationImageWeb';
 import { InformationImageMobile } from './InformationImage/InformationImageMobile';
+import { InformationImageDirect } from './InformationImage/InformationImageDirect';
 
 export const Information = ({ selectedPage }) => {
   const intl = useIntl();
@@ -23,7 +26,7 @@ export const Information = ({ selectedPage }) => {
         subHeader: intl.formatMessage(
           { id: 'forDevs.informationPage.api.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.api' })} ${integration}` }),
-        imageComponent: (<div>image component</div>),
+        imageComponent: (<InformationImageApi />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+API.mp4',
         documentationURL: 'https://github.com',
       },
@@ -35,7 +38,7 @@ export const Information = ({ selectedPage }) => {
         subHeader: intl.formatMessage(
           { id: 'forDevs.informationPage.web.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.web' })} ${SDK}` }),
-        imageComponent: '',
+        imageComponent: (<InformationImageWeb />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Web+SDK.mp4',
         documentationURL: 'https://github.com',
         childComponent: (<WebCodeSnippet />),
@@ -48,7 +51,7 @@ export const Information = ({ selectedPage }) => {
         subHeader: intl.formatMessage(
           { id: 'forDevs.informationPage.directLink.subheader' },
           { name: intl.formatMessage({ id: 'forDevs.sideMenu.directLink' }) }),
-        imageComponent: '',
+        imageComponent: (<InformationImageDirect />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Direct+Link.mp4',
         childComponent: (<DirectLinkCopy />),
       },
