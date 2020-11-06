@@ -1,7 +1,7 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import { ForDevs } from './containers/ForDev/ForDevs';
+import { OwnerRoute } from '../merchant';
 
 export const forDevsRoutes = [
-  <Route key="dev" path="/dev" component={ForDevs} />,
+  <OwnerRoute key="dev" path="/dev" component={ForDevs} />,
 ];
