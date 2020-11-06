@@ -12,6 +12,8 @@ export const Information = ({ selectedPage }) => {
   const intl = useIntl();
   const pagesData = useCallback(() => {
     const integration = intl.formatMessage({ id: 'forDevs.integration' });
+    const mobileSDK = intl.formatMessage({ id: 'forDevs.informationPage.mobileSDK.title' });
+    const SDK = intl.formatMessage({ id: 'forDevs.informationPage.SDK.title' });
     return [
       {
         id: TabID.API,
@@ -28,11 +30,11 @@ export const Information = ({ selectedPage }) => {
       {
         id: TabID.WEB,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.web' }),
-        explainerName: 'WebSDK',
+        explainerName: intl.formatMessage({ id: 'forDevs.informationPage.webSDK.title' }),
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.web' })} ${integration}`,
         subHeader: intl.formatMessage(
           { id: 'forDevs.informationPage.web.subheader' },
-          { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.web' })} ${integration}` }),
+          { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.web' })} ${SDK}` }),
         imageComponent: '',
         videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
         documentationURL: 'https://github.com',
@@ -53,7 +55,7 @@ export const Information = ({ selectedPage }) => {
       {
         id: TabID.ANDROID,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.android' }),
-        explainerName: `MobileSDK ${intl.formatMessage({ id: 'forDevs.sideMenu.android' })}`,
+        explainerName: `${mobileSDK} ${intl.formatMessage({ id: 'forDevs.sideMenu.android' })}`,
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.android' })} ${integration}`,
         subHeader: intl.formatMessage(
           { id: 'forDevs.informationPage.mobile.subheader' },
@@ -66,7 +68,7 @@ export const Information = ({ selectedPage }) => {
         id: TabID.IOS,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.ios' }),
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })} ${integration}`,
-        explainerName: `MobileSDK ${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })}`,
+        explainerName: `${mobileSDK} ${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })}`,
         subHeader: intl.formatMessage(
           { id: 'forDevs.informationPage.mobile.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })} ${integration}` }),

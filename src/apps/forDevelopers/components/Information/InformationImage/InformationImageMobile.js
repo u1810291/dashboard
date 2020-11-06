@@ -15,33 +15,53 @@ export const InformationImageMobile = () => {
     <Grid container spacing={1} className={classes.wrapper}>
       <Grid item container direction="column" alignItems="center" justify="center" xs={12} lg={3}>
         <Box mt="auto">
-          <img src={ImageButton} alt=""/>
+          <img src={ImageButton} alt="" />
         </Box>
         <Box pt={1} mt="auto" color="common.black75" align="center" fontSize={12} fontWeight="bold">
           {intl.formatMessage({ id: 'forDevs.informationPage.mobile.image.button' })}
         </Box>
       </Grid>
       <Grid item container xs={12} lg={1} alignItems="center" justify="center">
-        <Box mt={{ xs: 2, lg: 0 }} mb={{ xs: 2, lg: 5 }} className={classes.arrow}>
+        <Box
+          mt={{
+            xs: 2,
+            lg: 0,
+          }}
+          mb={{
+            xs: 2,
+            lg: 5,
+          }}
+          className={classes.arrow}
+        >
           <Arrow />
         </Box>
       </Grid>
       <Grid item container direction="column" alignItems="center" justify="center" xs={12} lg={3}>
         <Box mt="auto">
-          <img src={ImageUser} alt=""/>
+          <img src={ImageUser} alt="" />
         </Box>
         <Box pt={1} mt="auto" color="common.black75" align="center" fontSize={12} fontWeight="bold">
           {intl.formatMessage({ id: 'forDevs.informationPage.mobile.image.user' })}
         </Box>
       </Grid>
       <Grid item container xs={12} lg={1} alignItems="center" justify="center">
-        <Box mt={{ xs: 2, lg: 0 }} mb={{ xs: 2, lg: 5 }} className={classes.arrow}>
+        <Box
+          mt={{
+            xs: 2,
+            lg: 0,
+          }}
+          mb={{
+            xs: 2,
+            lg: 5,
+          }}
+          className={classes.arrow}
+        >
           <Arrow />
         </Box>
       </Grid>
       <Grid item container direction="column" alignItems="center" justify="center" xs={12} lg={4}>
         <Box mt="auto">
-          <img src={ImageResult} alt=""/>
+          <img src={ImageResult} alt="" />
         </Box>
         <Box pt={1} mt="auto" color="common.black75" align="center" fontSize={12} fontWeight="bold">
           {intl.formatMessage({ id: 'forDevs.informationPage.mobile.image.result' })}

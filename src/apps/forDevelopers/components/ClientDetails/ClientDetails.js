@@ -57,7 +57,6 @@ export const ClientDetails = () => {
                 <Typography variant="subtitle2" className={classes.code}>
                   <CopyToClipboard text={clientSecret} qa={QATags.Integration.ClientSecret.Copy}>
                     <code data-qa={QATags.Integration.ClientSecret.Value}>
-                      {/* {isSecretShow ? clientSecret : '************************'} */}
                       {isSecretShow
                         ? (clientSecret)
                         : <Box className={classes.codeSecret}>************************</Box>}
