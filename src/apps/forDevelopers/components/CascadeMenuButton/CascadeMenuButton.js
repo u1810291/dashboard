@@ -6,11 +6,11 @@ import cn from 'classnames';
 import { useStyles } from './CascadeMenuButton.styles';
 import { getIsSelected } from '../../../../models/ForDevelopers.model';
 
-export const CascadeMenuButton = ({ tab, selected, defaultOpen = false, children }) => {
+export const CascadeMenuButton = ({ tab, selectedId, defaultOpen = false, children }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const intl = useIntl();
   const classes = useStyles();
-  const isSelected = getIsSelected(tab, selected);
+  const isSelected = getIsSelected(tab, selectedId);
 
   const handleOnClick = useCallback(() => {
     setIsOpen(((prevState) => !prevState));

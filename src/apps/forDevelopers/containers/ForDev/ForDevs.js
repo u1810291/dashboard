@@ -142,7 +142,7 @@ export const ForDevs = () => {
                   lg: 0,
                 }}
               >
-                <TabsMenu selected={selectedTab} onClick={handleTabChange} />
+                <TabsMenu selectedId={selectedTab} onClick={handleTabChange} />
               </Box>
             </Grid>
             <Grid item xs={12} lg={9}>

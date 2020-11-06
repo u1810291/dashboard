@@ -6,22 +6,23 @@ import { menuStructure } from '../../../../models/ForDevelopers.model';
 import { CascadeMenuButton } from '../CascadeMenuButton/CascadeMenuButton';
 import { useStyles } from './TabsMenu.styles';
 
-export const TabsMenu = ({ onClick, selected }) => {
+export const TabsMenu = ({ onClick, selectedId }) => {
   const classes = useStyles();
   const intl = useIntl();
 
   const CreateTab = ({ tab }) => {
     if (tab.children) {
       return (
-        <CascadeMenuButton tab={tab} selected={selected} defaultOpen={tab.defaultOpen}>
-          {tab.children.map((item) => (<CreateTab tab={item} />))}
+        <CascadeMenuButton key={tab.id} tab={tab} selectedId={selectedId} defaultOpen={tab.defaultOpen}>
+          {tab.children.map((item) => (<CreateTab key={item.id} tab={item} />))}
         </CascadeMenuButton>
       );
     }
     return (
       <Button
-        className={cn(classes.button, { [classes.selected]: tab.id === selected })}
+        className={cn(classes.button, { [classes.selected]: tab.id === selectedId })}
         onClick={() => onClick(tab.id)}
+        key={tab.id}
         id={tab.id}
         fullWidth
       >
@@ -32,7 +33,7 @@ export const TabsMenu = ({ onClick, selected }) => {
 
   return (
     <>
-      {menuStructure.map((item) => (<CreateTab tab={item} />))}
+      {menuStructure.map((item) => (<CreateTab key={item.id} tab={item} />))}
     </>
   );
 };
