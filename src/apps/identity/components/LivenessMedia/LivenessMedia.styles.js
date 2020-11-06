@@ -46,6 +46,15 @@ export const useStyles = makeStyles((theme) => ({
     bottom: '0',
     transform: 'translate(-50%, -50%)',
   },
+  load: {
+    position: 'absolute',
+    left: '0',
+    bottom: '0',
+    width: 25,
+    height: 25,
+    transform: 'translate(50%, -50%)',
+    cursor: 'pointer',
+  },
   title: {
     whiteSpace: 'nowrap',
     fontWeight: 'bold',

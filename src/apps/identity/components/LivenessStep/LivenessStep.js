@@ -10,7 +10,7 @@ import { CheckStepDetails } from '../CheckStepDetails/CheckStepDetails';
 import { LivenessMedia } from '../LivenessMedia/LivenessMedia';
 import { useStyles } from './LivenessStep.styles';
 
-export function LivenessStep({ steps }) {
+export function LivenessStep({ steps, downloadableFileName }) {
   const intl = useIntl();
   const classes = useStyles();
   const checkStatus = getBiometricCheckStatus(steps);
@@ -63,6 +63,7 @@ export function LivenessStep({ steps }) {
                     image={steps[0].selfieUrl}
                     title={intl.formatMessage({ id: 'LivenessStep.Checks.selfie.title' })}
                     subtitle={steps[0].videoUrl && intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
+                    downloadableFileName={downloadableFileName}
                   />
                 )}
               </Grid>

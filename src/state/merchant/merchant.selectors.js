@@ -114,6 +114,11 @@ export const selectMerchantFlowsModel = createSelector(
   (merchant) => merchant[SliceNames.Flows],
 );
 
+export const selectMerchantFlowList = createSelector(
+  selectMerchantFlowsModel,
+  (model) => model.value,
+);
+
 export const selectCurrentFlowId = createSelector(
   selectMerchantStore,
   (store) => store.currentFlow,

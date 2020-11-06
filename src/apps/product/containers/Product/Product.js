@@ -1,4 +1,4 @@
-import { Box, Container, Fade, Grid } from '@material-ui/core';
+import { Box, Container, Grid } from '@material-ui/core';
 import { AdditionalChecks } from 'apps/checks';
 import { Configuration } from 'apps/configuration';
 import { GovCheckSetup } from 'apps/GovCheck';
@@ -6,21 +6,22 @@ import { Integration } from 'apps/integration';
 import { Tab } from 'apps/ui';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PageLoader } from 'apps/layout';
-import { appLoad } from 'state/merchant/merchant.actions';
-import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { useParams } from 'react-router-dom';
+import { Page404 } from 'apps/layout';
+import { appLoad, updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { MixPanelEvents } from '../../../../lib/mixpanel/MixPanel.model';
 import { QATags } from '../../../../models/QA.model';
 import { DemoButton } from '../../components/DemoButton/DemoButton';
 import { VerificationFlowHeader } from '../../components/VerificationFlowHeader/VerificationFlowHeader';
-import { VerificationFlowMenu } from '../../components/VerificationFlowMenu/VerificationFlowMenu';
 import { useStyles } from './Product.styles';
+import { selectCurrentFlow } from '../../../../state/merchant/merchant.selectors';
 
 export function Product() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [fade, setFade] = useState(true);
-  const merchantFlowList = useSelector(selectMerchantFlowsModel);
+  const { id } = useParams();
+  const currentFlow = useSelector(selectCurrentFlow);
+
   const [tabs] = useState([
     {
       mixPanelEvent: null,
@@ -47,29 +48,30 @@ export function Product() {
     },
   ]);
 
+  useEffect(() => {
+    if (currentFlow?.id !== id) {
+      dispatch(updateCurrentFlowId(id));
+    }
+  }, [currentFlow, dispatch, id]);
+
   useEffect((() => {
     dispatch(appLoad());
   }), [dispatch]);
 
-  if (!merchantFlowList.isLoaded) {
-    return <PageLoader />;
+  if (!currentFlow) {
+    return <Page404 />;
   }
 
   return (
     <Container key="content" maxWidth="initial">
       <Box className={classes.content}>
         <Grid container spacing={2} justify="space-between" alignItems="flex-start" className={classes.gridContainer}>
-          <Grid item className={classes.leftBlock}>
-            <VerificationFlowMenu setFade={setFade} />
+          <Grid item className={classes.middleBlock}>
+            <VerificationFlowHeader />
+            <Box mt={2}>
+              <Tab tabs={tabs} />
+            </Box>
           </Grid>
-          <Fade in={fade} timeout={200}>
-            <Grid item className={classes.middleBlock}>
-              <VerificationFlowHeader />
-              <Box mt={2}>
-                <Tab tabs={tabs} />
-              </Box>
-            </Grid>
-          </Fade>
           <Grid item className={classes.rightBlock}>
             <DemoButton />
           </Grid>

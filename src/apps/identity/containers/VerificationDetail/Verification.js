@@ -7,9 +7,11 @@ import { DocumentStep } from '../../components/DocumentStep/DocumentStep';
 import { LivenessStep } from '../../components/LivenessStep/LivenessStep';
 import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
 import { VerificationSummary } from '../../components/VerificationSummary/VerificationSummary';
+import { getDownloadableFileName } from '../../../../models/Identity.model';
 
 export function Verification({ identity }) {
   const verification = get(identity, '_embedded.verification');
+  const downloadableFileName = getDownloadableFileName(identity);
 
   if (!(verification)) {
     return <Page404 />;
@@ -24,7 +26,7 @@ export function Verification({ identity }) {
 
       {/* biometric */}
       <Grid item>
-        <LivenessStep steps={identity.biometric} />
+        <LivenessStep steps={identity.biometric} downloadableFileName={downloadableFileName} />
       </Grid>
 
       {/* Documents */}

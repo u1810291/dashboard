@@ -2,15 +2,19 @@ import { Box, Typography } from '@material-ui/core';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ReactComponent as IconSoundOff } from 'assets/icon-sound-off.svg';
 import { ReactComponent as IconSoundOn } from 'assets/icon-sound-on.svg';
-
+import { ReactComponent as IconDownload } from 'assets/icon-download.svg';
+import { ReactComponent as Spinner } from 'assets/icon-load.svg';
+import * as axios from 'axios';
 import { useStyles } from './LivenessMedia.styles';
 import { ReactComponent as Placeholder } from './placeholder.svg';
 import { ReactComponent as IconPlay } from './icon-play.svg';
+import { downloadBlob } from '../../../../lib/file';
 
-export function LivenessMedia({ title, subtitle, image, video, withSoundButton = false }) {
+export function LivenessMedia({ title, subtitle, image, video, withSoundButton = false, downloadableFileName = 'selfie' }) {
   const classes = useStyles();
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [muted, setMuted] = useState(!withSoundButton);
 
   const handlePlayEnded = useCallback(() => {
@@ -49,6 +53,20 @@ export function LivenessMedia({ title, subtitle, image, video, withSoundButton =
     }
   }, []);
 
+  const handleDownload = useCallback(async () => {
+    if (!isDownloading) {
+      setIsDownloading(true);
+      try {
+        const { data: blob } = await axios.get(image, { responseType: 'blob' });
+        downloadBlob(blob, `${downloadableFileName}.jpeg`);
+        setIsDownloading(false);
+      } catch (error) {
+        console.error(error);
+        setIsDownloading(false);
+      }
+    }
+  }, [image, downloadableFileName, isDownloading]);
+
   if (!(video || image)) {
     return <Placeholder />;
   }
@@ -58,6 +76,11 @@ export function LivenessMedia({ title, subtitle, image, video, withSoundButton =
       {image && (
         <Box className={classes.mediaBox}>
           <img className={classes.media} src={image} alt={title} />
+          {isDownloading ? (
+            <Spinner onClick={handleDownload} className={classes.load} />
+          ) : (
+            <IconDownload onClick={handleDownload} className={classes.load} />
+          )}
         </Box>
       )}
       {video && (
