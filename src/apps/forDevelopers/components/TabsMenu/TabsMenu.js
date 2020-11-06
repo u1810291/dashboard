@@ -6,33 +6,34 @@ import { menuStructure } from '../../../../models/ForDevelopers.model';
 import { CascadeMenuButton } from '../CascadeMenuButton/CascadeMenuButton';
 import { useStyles } from './TabsMenu.styles';
 
-export const TabsMenu = ({ onClick, selected }) => {
+const CreateTab = ({ tab, onClick, selected }) => {
   const classes = useStyles();
   const intl = useIntl();
-
-  const CreateTab = ({ tab }) => {
-    if (tab.children) {
-      return (
-        <CascadeMenuButton tab={tab} selected={selected} defaultOpen={tab.defaultOpen}>
-          {tab.children.map((item) => (<CreateTab tab={item} />))}
-        </CascadeMenuButton>
-      );
-    }
+  if (tab.children) {
     return (
-      <Button
-        className={cn(classes.button, { [classes.selected]: tab.id === selected })}
-        onClick={() => onClick(tab.id)}
-        id={tab.id}
-        fullWidth
-      >
-        {intl.formatMessage({ id: `forDevs.sideMenu.${tab.id}` })}
-      </Button>
+      <CascadeMenuButton tab={tab} selected={selected} defaultOpen={tab.defaultOpen}>
+        {tab.children.map((item) => (
+          <CreateTab tab={item} onClick={onClick} selected={selected} key={item.id} />
+        ))}
+      </CascadeMenuButton>
     );
-  };
-
+  }
   return (
-    <>
-      {menuStructure.map((item) => (<CreateTab tab={item} />))}
-    </>
+    <Button
+      className={cn(classes.button, { [classes.selected]: tab.id === selected })}
+      onClick={() => onClick(tab.id)}
+      id={tab.id}
+      fullWidth
+    >
+      {intl.formatMessage({ id: `forDevs.sideMenu.${tab.id}` })}
+    </Button>
   );
 };
+
+export const TabsMenu = ({ onClick, selected }) => (
+  <>
+    {menuStructure.map((item) => (
+      <CreateTab tab={item} onClick={onClick} selected={selected} key={item.id} />
+    ))}
+  </>
+);
