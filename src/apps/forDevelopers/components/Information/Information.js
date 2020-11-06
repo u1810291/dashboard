@@ -24,7 +24,7 @@ export const Information = ({ selectedPage }) => {
           { id: 'forDevs.informationPage.api.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.api' })} ${integration}` }),
         imageComponent: (<div>image component</div>),
-        videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+        videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+API.mp4',
         documentationURL: 'https://github.com',
       },
       {
@@ -36,7 +36,7 @@ export const Information = ({ selectedPage }) => {
           { id: 'forDevs.informationPage.web.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.web' })} ${SDK}` }),
         imageComponent: '',
-        videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+        videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Web+SDK.mp4',
         documentationURL: 'https://github.com',
         childComponent: (<WebCodeSnippet />),
       },
@@ -49,7 +49,7 @@ export const Information = ({ selectedPage }) => {
           { id: 'forDevs.informationPage.directLink.subheader' },
           { name: intl.formatMessage({ id: 'forDevs.sideMenu.directLink' }) }),
         imageComponent: '',
-        videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+        videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Direct+Link.mp4',
         childComponent: (<DirectLinkCopy />),
       },
       {
@@ -61,7 +61,7 @@ export const Information = ({ selectedPage }) => {
           { id: 'forDevs.informationPage.mobile.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.android' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
-        videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+        videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         documentationURL: 'https://github.com',
       },
       {
@@ -73,7 +73,7 @@ export const Information = ({ selectedPage }) => {
           { id: 'forDevs.informationPage.mobile.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
-        videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+        videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         documentationURL: 'https://github.com',
       },
       {
@@ -85,7 +85,7 @@ export const Information = ({ selectedPage }) => {
           { id: 'forDevs.informationPage.mobile.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
-        videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+        videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         documentationURL: 'https://github.com',
       },
       {
@@ -97,7 +97,7 @@ export const Information = ({ selectedPage }) => {
           { id: 'forDevs.informationPage.mobile.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
-        videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+        videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         documentationURL: 'https://github.com',
       },
       {
@@ -109,7 +109,7 @@ export const Information = ({ selectedPage }) => {
           { id: 'forDevs.informationPage.mobile.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordova' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
-        videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+        videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         documentationURL: 'https://github.com',
       },
       {
@@ -121,7 +121,7 @@ export const Information = ({ selectedPage }) => {
           { id: 'forDevs.informationPage.mobile.subheader' },
           { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' })} ${integration}` }),
         imageComponent: (<InformationImageMobile />),
-        videoURL: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+        videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         documentationURL: 'https://github.com',
       },
     ];

@@ -86,7 +86,7 @@ export function ForDevsWebhookModal({ onClose }) {
             light="https://img.youtube.com/vi/7yzZcAj24AI/maxresdefault.jpg"
             playing
             muted
-            url="https://media.w3.org/2010/05/sintel/trailer.mp4"
+            url="https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Webhooks.mp4"
             playIcon={<IconButton><PlayIcon /></IconButton>}
           />
         </Box>
