@@ -16,7 +16,7 @@ export const Information = ({ selectedPage }) => {
     const SDK = intl.formatMessage({ id: 'forDevs.informationPage.SDK.title' });
     return [
       {
-        id: TabID.API,
+        id: TabID.api,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.api' }),
         explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.api' })} ${integration}`,
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.api' })} ${integration}`,
@@ -28,7 +28,7 @@ export const Information = ({ selectedPage }) => {
         documentationURL: 'https://github.com',
       },
       {
-        id: TabID.WEB,
+        id: TabID.web,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.web' }),
         explainerName: intl.formatMessage({ id: 'forDevs.informationPage.webSDK.title' }),
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.web' })} ${integration}`,
@@ -41,7 +41,7 @@ export const Information = ({ selectedPage }) => {
         childComponent: (<WebCodeSnippet />),
       },
       {
-        id: TabID.DIRECT_LINK,
+        id: TabID.directLink,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.directLink' }),
         explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.directLink' })}`,
         header: intl.formatMessage({ id: 'forDevs.sideMenu.directLink' }),
@@ -53,7 +53,7 @@ export const Information = ({ selectedPage }) => {
         childComponent: (<DirectLinkCopy />),
       },
       {
-        id: TabID.ANDROID,
+        id: TabID.android,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.android' }),
         explainerName: `${mobileSDK} ${intl.formatMessage({ id: 'forDevs.sideMenu.android' })}`,
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.android' })} ${integration}`,
@@ -65,7 +65,7 @@ export const Information = ({ selectedPage }) => {
         documentationURL: 'https://github.com',
       },
       {
-        id: TabID.IOS,
+        id: TabID.ios,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.ios' }),
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })} ${integration}`,
         explainerName: `${mobileSDK} ${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })}`,
@@ -77,9 +77,9 @@ export const Information = ({ selectedPage }) => {
         documentationURL: 'https://github.com',
       },
       {
-        id: TabID.REACT_NATIVE,
+        id: TabID.reactNative,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' }),
-        explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.reactNative  ' })} ${integration}`,
+        explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' })} ${integration}`,
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' })} ${integration}`,
         subHeader: intl.formatMessage(
           { id: 'forDevs.informationPage.mobile.subheader' },
@@ -89,7 +89,7 @@ export const Information = ({ selectedPage }) => {
         documentationURL: 'https://github.com',
       },
       {
-        id: TabID.XAMARIN,
+        id: TabID.xamarin,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' }),
         explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' })} ${integration}`,
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' })} ${integration}`,
@@ -101,7 +101,7 @@ export const Information = ({ selectedPage }) => {
         documentationURL: 'https://github.com',
       },
       {
-        id: TabID.CORDOVA,
+        id: TabID.cordova,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.cordova' }),
         explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordova' })} ${integration}`,
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordova' })} ${integration}`,
@@ -113,7 +113,7 @@ export const Information = ({ selectedPage }) => {
         documentationURL: 'https://github.com',
       },
       {
-        id: TabID.CORDOVA_IONIC,
+        id: TabID.cordovaIonic,
         name: intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' }),
         explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' })} ${integration}`,
         header: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' })} ${integration}`,

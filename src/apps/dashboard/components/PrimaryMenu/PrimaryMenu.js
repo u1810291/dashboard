@@ -46,13 +46,13 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
       qa: QATags.Navigation.Top.Product,
     },
     {
-      id: 'for_developers',
+      id: 'forDevelopers',
       show: isOwner,
       to: '/dev',
       label: intl.formatMessage({ id: 'dashboard.menu.developers' }),
-      handler: () => trackEvent(MixPanelEvents.NavProduct),
+      handler: () => trackEvent(MixPanelEvents.NavForDevelopers),
       icon: <FiCode />,
-      qa: QATags.Navigation.Top.Product,
+      qa: QATags.Navigation.Top.ForDevelopers,
     },
   ];
 

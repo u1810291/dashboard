@@ -20,7 +20,7 @@ export const ForDevs = () => {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [selectedTab, setSelectedTab] = useState(TabID.API);
+  const [selectedTab, setSelectedTab] = useState(TabID.api);
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
   const currentFlowId = useSelector(selectCurrentFlowId);
   const [selectedFlow, setSelectedFlow] = useState(currentFlowId);

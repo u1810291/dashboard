@@ -5,6 +5,7 @@ export const QATags = {
       Product: 'nav-top-product',
       Metrics: 'nav-top-metrics',
       VerificationList: 'nav-top-verification-list',
+      ForDevelopers: 'nav-top-for-developers',
       FAQ: 'nav-top-faq',
       Account: 'nav-top-account',
       LanguageSelect: 'nav-top-language-select',

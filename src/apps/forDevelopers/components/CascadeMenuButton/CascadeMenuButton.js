@@ -1,11 +1,14 @@
 import { Box, Button, Collapse } from '@material-ui/core';
 import React, { useCallback, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
+import { useIntl } from 'react-intl';
+import cn from 'classnames';
 import { useStyles } from './CascadeMenuButton.styles';
 import { getIsSelected } from '../../../../models/ForDevelopers.model';
 
 export const CascadeMenuButton = ({ tab, selected, defaultOpen = false, children }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const intl = useIntl();
   const classes = useStyles();
   const isSelected = getIsSelected(tab, selected);
 
@@ -16,11 +19,11 @@ export const CascadeMenuButton = ({ tab, selected, defaultOpen = false, children
   return (
     <Box>
       <Button
-        className={`${classes.button} ${isSelected && classes.selected} ${isOpen && classes.open}`}
+        className={cn(classes.button, { [classes.selected]: isSelected, [classes.open]: isOpen })}
         onClick={handleOnClick}
         fullWidth
       >
-        <Box pr={0.4}>{tab.name}</Box>
+        <Box pr={0.4}>{intl.formatMessage({ id: `forDevs.sideMenu.${tab.id}` })}</Box>
         <FiChevronDown />
       </Button>
       <Collapse in={isOpen}>
