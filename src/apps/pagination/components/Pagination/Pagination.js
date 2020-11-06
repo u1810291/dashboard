@@ -13,7 +13,7 @@ export function Pagination({ total = 0, offset = 0, onChange }) {
 
   const handlePageChange = useCallback((page) => {
     if (onChange) {
-      onChange(page.selectedId * ITEMS_PER_PAGE);
+      onChange(page.selected * ITEMS_PER_PAGE);
     }
   }, [onChange]);
 
