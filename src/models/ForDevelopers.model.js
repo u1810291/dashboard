@@ -20,14 +20,6 @@ export const TabType = {
   DEFAULT_OPEN_CASCADE_TAB: 'DEFAULT_OPEN_CASCADE_TAB',
 };
 
-export const MobileSDKTabs = [
-  TabID.IOS,
-  TabID.ANDROID,
-  TabID.REACT_NATIVE,
-  TabID.XAMARIN,
-  TabID.CORDOVA,
-  TabID.CORDOVA_IONIC];
-
 export function getIsSelected(tab, selectedId) {
   if (tab.id === selectedId) return true;
   if (tab.type === TabType.TAB) return false;
