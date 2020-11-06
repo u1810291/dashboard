@@ -26,6 +26,6 @@ export class OverlayWithBlur extends Component {
 
   render() {
     const { children, onClose } = this.props;
-    return createPortal(<Overlay onClose={onClose}>{children}</Overlay>, this.root);
+    return createPortal(<Overlay withBlur onClose={onClose}>{children}</Overlay>, this.root);
   }
 }

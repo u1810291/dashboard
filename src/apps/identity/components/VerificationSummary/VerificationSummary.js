@@ -43,7 +43,7 @@ export function VerificationSummary({ identity }) {
               <StatusSelector statusId={identity.status} identityId={identity.id} onSelect={handleStatusChange} />
             </Grid>
             <Grid item xs={12} lg={4}>
-              <VerificationDateAndNumber date={identity.dateCreated} number={identity._embedded.verification.id} />
+              <VerificationDateAndNumber date={identity.dateCreated} number={identity.id} />
             </Grid>
             <Grid item xs={12} lg={2}>
               {!!verificationFlowName && <VerificationFlow flowId={verificationFlowName} />}

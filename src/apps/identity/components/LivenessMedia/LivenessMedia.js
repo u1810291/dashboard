@@ -100,9 +100,9 @@ export function LivenessMedia({ title, subtitle, image, video, withSoundButton =
           </Box>
           {withSoundButton && (
             muted ? (
-              <IconSoundOn onClick={toggleSound} className={classes.sound} />
-            ) : (
               <IconSoundOff onClick={toggleSound} className={classes.sound} />
+            ) : (
+              <IconSoundOn onClick={toggleSound} className={classes.sound} />
             )
           )}
         </Box>
