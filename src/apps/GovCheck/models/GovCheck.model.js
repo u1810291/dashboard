@@ -4,6 +4,7 @@ export const GovCheckCountryList = {
   Argentina: 'argentina',
   Colombia: 'colombia',
   Mexico: 'mexico',
+  Peru: 'peru',
 };
 
 export const GovCheckConfiguration = [
@@ -37,6 +38,15 @@ export const GovCheckConfiguration = [
       {
         id: DocumentStepTypes.RFC,
         default: true,
+      },
+    ],
+  },
+  {
+    country: GovCheckCountryList.Peru,
+    checks: [
+      {
+        id: DocumentStepTypes.PeruvianReniec,
+        default: false,
       },
     ],
   },

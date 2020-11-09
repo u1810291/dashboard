@@ -3,6 +3,7 @@ import CURP from 'assets/curp-logo.png';
 import INE from 'assets/ine-logo.png';
 import MatiLogo from 'assets/mati-logo-black.png';
 import Registraduria from 'assets/registraduria-logo.png';
+import PeruvianReniec from 'assets/reniec-logo.png';
 import Renaper from 'assets/renaper-logo.png';
 import RFC from 'assets/rfc-logo.png';
 import { getMediaURL } from 'lib/client/media';
@@ -224,6 +225,17 @@ export function IdentityDocumentPDF(intl, identity) {
                   </View>
                   <View style={styles.indent}>
                     <PDFDocumentFields intl={intl} fields={document.colombianRegistraduria} />
+                  </View>
+                </>
+              )}
+
+              {document.peruvianReniec.length > 0 && (
+                <>
+                  <View key="registraduria-label">
+                    <Image key="Registraduria logo" style={styles.checkLogo} src={PeruvianReniec} />
+                  </View>
+                  <View style={styles.indent}>
+                    <PDFDocumentFields intl={intl} fields={document.peruvianReniec} />
                   </View>
                 </>
               )}
