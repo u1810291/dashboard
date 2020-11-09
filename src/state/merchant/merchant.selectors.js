@@ -5,6 +5,7 @@ import { BiometricTypes } from 'models/Biometric.model';
 import { VerificationStepTypes } from 'models/Identity.model';
 import { DEFAULT_LOCALE } from 'models/Intl.model';
 import { createSelector } from 'reselect';
+import { ChecksList } from 'apps/checks/models/Checks.model';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
 
 const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
@@ -53,6 +54,11 @@ export const selectIsBlockedModel = createSelector(
 export const selectMerchantTags = createSelector(
   selectMerchantModel,
   selectModelValue((merchant) => merchant.tags || []),
+);
+
+export const selectAvailableChecks = createSelector(
+  selectMerchantTags,
+  (tags) => ChecksList.filter((check) => !check.availableOnlyForMerchantTag || tags.includes(check.availableOnlyForMerchantTag)),
 );
 
 // -- app
@@ -143,6 +149,11 @@ export const selectBiometricPattern = createSelector(
 export const selectIpCheck = createSelector(
   selectVerificationPattern,
   (flow) => flow[VerificationStepTypes.IpValidation],
+);
+
+export const selectDuplicateUserDetectionCheck = createSelector(
+  selectVerificationPattern,
+  (flow) => flow[VerificationStepTypes.DuplicateIdentityValidation],
 );
 
 export const selectLogoModel = createSelector(
