@@ -130,6 +130,7 @@ export function getDocumentExtras(identity, countries) {
     const steps = getStepsExtra(document.steps, DocumentConfig[document.type], identity, countries, document);
     const argentinianRenaper = getDocumentStep(DocumentStepTypes.ArgentinianRenaper, steps);
     const colombianRegistraduria = getDocumentStep(DocumentStepTypes.ColombianRegistraduria, steps);
+    const peruvianReniec = getDocumentStep(DocumentStepTypes.PeruvianReniec, steps);
     const curp = getDocumentStep(DocumentStepTypes.CURP, steps);
     const ine = getDocumentStep(DocumentStepTypes.INE, steps);
     const rfc = getDocumentStep(DocumentStepTypes.RFC, steps);
@@ -143,6 +144,7 @@ export function getDocumentExtras(identity, countries) {
       reading: getFieldsExtra(sourceDocument.fields),
       argentinianRenaper: getCheckFieldsExtra(argentinianRenaper.data),
       colombianRegistraduria: getCheckFieldsExtra(colombianRegistraduria.data),
+      peruvianReniec: getCheckFieldsExtra(peruvianReniec.data),
       curp: getCheckFieldsExtra(curp.data),
       ine: getCheckFieldsExtra(ine.data),
       rfc: getCheckFieldsExtra(rfc.data),
