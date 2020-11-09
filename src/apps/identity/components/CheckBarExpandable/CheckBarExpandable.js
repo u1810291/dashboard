@@ -17,7 +17,7 @@ const IconStatuses = {
   [StepStatus.Checking]: <CheckBarIcon key="check-bar-icon" icon={<IconLoad />} />,
 };
 
-export function CheckBarExpandable({ step, children }) {
+export function CheckBarExpandable({ step, children, title }) {
   const intl = useIntl();
   const classes = useStyles();
   const [disabledExpansion, setDisabledExpansion] = useState(false);
@@ -67,7 +67,12 @@ export function CheckBarExpandable({ step, children }) {
             {IconStatuses[statusCode]}
             <Box key="check-bar-title" className={classes.labelContainer}>
               <Box className={classes.label}>
-                <Box fontWeight={600}>{intl.formatMessage({ id: `SecurityCheckStep.${id}.title` })}</Box>
+                <Box fontWeight={600}>
+                  {intl.formatMessage({
+                    id: title || `SecurityCheckStep.${id}.title`,
+                    defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${statusCode}` }),
+                  })}
+                </Box>
               </Box>
             </Box>
           </ExpansionPanelSummary>
@@ -83,7 +88,13 @@ export function CheckBarExpandable({ step, children }) {
           </Box>
           <Box key="check-bar-title" className={classes.labelContainer}>
             <Box className={classes.label}>
-              <Box fontWeight={600}>{intl.formatMessage({ id: `SecurityCheckStep.${id}.title` })}</Box>
+              <Box fontWeight={600}>
+                {' '}
+                {intl.formatMessage({
+                  id: title || `SecurityCheckStep.${id}.title`,
+                  defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${statusCode}` }),
+                })}
+              </Box>
             </Box>
           </Box>
         </Box>

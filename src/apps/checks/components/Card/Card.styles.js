@@ -27,25 +27,12 @@ export const useStyles = makeStyles((theme) => ({
   },
   body: {
     display: 'flex',
-    justifyContent: 'flex-start',
-    [theme.breakpoints.down('xs')]: {
-      flexWrap: 'wrap',
-      marginLeft: 0,
-    },
   },
   text: {
     paddingRight: 40,
-    [theme.breakpoints.down('xs')]: {
-      paddingRight: 0,
-      marginBottom: 15,
-    },
   },
   control: {
-    flex: [[0, 0, '130px']],
-    [theme.breakpoints.down('xs')]: {
-      flex: [[0, 0, '100%']],
-      textAlign: 'center',
-    },
+    flex: [[0, 0, 0]],
   },
 }));
 

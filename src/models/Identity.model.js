@@ -7,6 +7,7 @@ import { getIpCheckUrl } from './IpCheck.model';
 
 export const VerificationStepTypes = {
   IpValidation: 'ip-validation',
+  DuplicateIdentityValidation: 'duplicate-identity-detection',
 };
 
 export const IdentityStatuses = {
@@ -124,6 +125,17 @@ export function getIdentityExtras(identity, countries) {
   }
 
   const steps = get(identity, '_embedded.verification.steps') || [];
+  const documents = getDocumentExtras(identity, countries);
+  let duplicateUserCheck;
+  documents.forEach((doc) => {
+    doc.steps = doc.steps.filter((item) => {
+      if (item.id === VerificationStepTypes.DuplicateIdentityValidation) {
+        duplicateUserCheck = item;
+        return false;
+      }
+      return true;
+    });
+  });
   return {
     ...identity,
     biometric: getBiometricExtras(steps.filter((item) => BiometricSteps.includes(item.id))),
@@ -131,9 +143,10 @@ export function getIdentityExtras(identity, countries) {
     fullName: titleize(identity.fullName || ''),
     // TODO @dkchv: overrided
     dateCreated: moment(identity.dateCreated).local().format('DD MMM, YYYY HH:mm'),
-    documents: getDocumentExtras(identity, countries),
+    documents,
     isEditable: isChangeableStatus(identity.status),
     ipCheck: getIpCheckStep(steps),
+    duplicateUserCheck,
   };
 }
 

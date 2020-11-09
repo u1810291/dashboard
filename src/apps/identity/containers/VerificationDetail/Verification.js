@@ -7,6 +7,7 @@ import { DocumentStep } from '../../components/DocumentStep/DocumentStep';
 import { LivenessStep } from '../../components/LivenessStep/LivenessStep';
 import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
 import { VerificationSummary } from '../../components/VerificationSummary/VerificationSummary';
+import { VerificationAdditionalChecks } from '../../components/VerificationAdditionalChecks/VerificationAdditionalChecks';
 
 export function Verification({ identity }) {
   const verification = get(identity, '_embedded.verification');
@@ -42,6 +43,13 @@ export function Verification({ identity }) {
       {identity.ipCheck && !identity.ipCheck.error && identity.ipCheck.data && (
         <Grid item>
           <IpCheck data={identity.ipCheck.data} isChecking={identity.ipCheck.status < 200} />
+        </Grid>
+      )}
+
+      {/* Additional checks */}
+      {identity.duplicateUserCheck && (
+        <Grid item>
+          <VerificationAdditionalChecks duplicateUserDetectionStep={identity.duplicateUserCheck} />
         </Grid>
       )}
 
