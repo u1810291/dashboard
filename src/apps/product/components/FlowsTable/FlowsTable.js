@@ -99,6 +99,11 @@ export function FlowsTable({ onAddNewFlow }) {
                 {intl.formatMessage({ id: 'flow.table.field.type' })}
               </Typography>
             </TableCell>
+            <TableCell>
+              <Typography variant="subtitle2" className={classes.title}>
+                {intl.formatMessage({ id: 'flow.table.field.creationDate' })}
+              </Typography>
+            </TableCell>
             <TableCell />
           </TableRow>
         </TableHead>
@@ -152,6 +157,9 @@ export function FlowsTable({ onAddNewFlow }) {
                   {intl.formatMessage({ id: 'flow.table.type.verification' })}
                   <Box className={classes.label}>{intl.formatMessage({ id: 'flow.table.field.type' })}</Box>
                 </Box>
+              </TableCell>
+              <TableCell className={classes.itemData}>
+                <Box className={classes.label}>{intl.formatMessage({ id: 'flow.table.field.creationDate' })}</Box>
               </TableCell>
               {merchantFlowList.length > 1 && (
                 <TableCell className={classes.iconDeleteWrapper}>
