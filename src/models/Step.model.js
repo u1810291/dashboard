@@ -15,6 +15,7 @@ export const DocumentStepTypes = {
   RFC: 'mexican-rfc-validation',
   ColombianRegistraduria: 'colombian-registraduria-validation',
   ArgentinianRenaper: 'argentinian-renaper-validation',
+  PeruvianReniec: 'peruvian-reniec-validation',
 };
 
 export const BiometricStepTypes = {
@@ -51,6 +52,7 @@ export const CountrySpecificChecks = [
   ...DocumentMxSteps,
   DocumentStepTypes.ColombianRegistraduria,
   DocumentStepTypes.ArgentinianRenaper,
+  DocumentStepTypes.PeruvianReniec,
 ];
 
 export const StepStatus = {

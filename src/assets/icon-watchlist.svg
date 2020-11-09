@@ -1,8 +1,0 @@
-<svg width="50" height="50" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="0.5" y="0.5" width="35" height="35" rx="9.5" fill="white" stroke="currentColor"/>
-<path class="paintable" d="M20 8H12C11.4696 8 10.9609 8.21071 10.5858 8.58579C10.2107 8.96086 10 9.46957 10 10V26C10 26.5304 10.2107 27.0391 10.5858 27.4142C10.9609 27.7893 11.4696 28 12 28H24C24.5304 28 25.0391 27.7893 25.4142 27.4142C25.7893 27.0391 26 26.5304 26 26V14L20 8Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M20 8V14H26" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M22 19H14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M22 23H14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M16 15H15H14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
