@@ -13,7 +13,7 @@ export function NoFlows({ onAddNewFlow }) {
     <Box mb="8vh">
       <Box py={1.5}><EmptyFlowsIcon /></Box>
       <Box mb={1}>
-        <Typography variant="h4">{intl.formatMessage({ id: 'VerificationFlow.emptyPage.title' })}</Typography>
+        <Typography variant="h4">{intl.formatMessage({ id: 'VerificationFlow.page.title' })}</Typography>
       </Box>
       <Box mb={2} mx="auto" maxWidth={470} color="common.black75">
         <Typography variant="body1" align="center">

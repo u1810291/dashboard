@@ -67,45 +67,45 @@ export function VerificationFlows() {
     <Container key="content" maxWidth="initial">
       <Box pt={{ xs: 2, lg: 4 }}>
         <Box mb={isButtonDisabled && isMobile ? 7.6 : 2}>
-          <Grid container justify="flex-end" className={classes.buttonWrapper}>
-            <Tooltip
-              enterTouchDelay={0}
-              placement={isMobile ? 'bottom' : 'left'}
-              arrow
-              open={open}
-              onOpen={handleOpen}
-              onClose={handleClose}
-              classes={{
-                tooltip: classes.tooltip,
-                popper: classes.tooltipPopper,
-                arrow: classes.tooltipArrow,
-              }}
-              title={intl.formatMessage({ id: 'VerificationFlow.page.tooltip' })}
-            >
-              <span>
-                <Button
-                  disabled={isButtonDisabled}
-                  variant="contained"
-                  disableElevation
-                  onClick={handleAddNewFlow}
-                  className={classes.button}
-                >
-                  <FiPlusCircle />
-                  {intl.formatMessage({ id: 'VerificationFlow.page.button' })}
-                </Button>
-              </span>
-            </Tooltip>
+          <Grid container alignItems="center">
+            <Grid item xs={12} md={6}>
+              <Box mb={{ xs: 1.4, md: 0 }}>
+                <Typography variant="h3">{intl.formatMessage({ id: 'VerificationFlow.page.title' })}</Typography>
+              </Box>
+            </Grid>
+            <Grid item container xs={12} md={6} justify="flex-end" className={classes.buttonWrapper}>
+              <Tooltip
+                enterTouchDelay={0}
+                placement={isMobile ? 'bottom' : 'left'}
+                arrow
+                open={open}
+                onOpen={handleOpen}
+                onClose={handleClose}
+                classes={{
+                  tooltip: classes.tooltip,
+                  popper: classes.tooltipPopper,
+                  arrow: classes.tooltipArrow,
+                }}
+                title={intl.formatMessage({ id: 'VerificationFlow.page.tooltip' })}
+              >
+                <span>
+                  <Button
+                    disabled={isButtonDisabled}
+                    variant="contained"
+                    disableElevation
+                    onClick={handleAddNewFlow}
+                    className={classes.button}
+                  >
+                    <FiPlusCircle />
+                    {intl.formatMessage({ id: 'VerificationFlow.page.button' })}
+                  </Button>
+                </span>
+              </Tooltip>
+            </Grid>
           </Grid>
         </Box>
         <Paper className={`${classes.paper}`}>
-          <Box px={2} pt={{ xs: 0, lg: 2 }} pb={{ xs: 2, lg: 1.4 }}>
-            <Typography variant="subtitle2" className={classes.title}>
-              <Box component="span">
-                {intl.formatMessage({ id: 'flow.table.title' })}
-              </Box>
-            </Typography>
-          </Box>
-          <Box mb={2} className={classes.table}>
+          <Box py={1} mb={2} className={classes.table}>
             <FlowsTable onAddNewFlow={handleAddNewFlow} />
           </Box>
         </Paper>
