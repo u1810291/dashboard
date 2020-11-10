@@ -5,41 +5,41 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
-import { selectIpCheck } from 'state/merchant/merchant.selectors';
-import { useStyles } from './IpCheckControl.styles';
+import { selectDuplicateUserDetectionCheck } from 'state/merchant/merchant.selectors';
+import { useStyles } from './DuplicateUserDetectionCheckControl.styles';
 
-export function IpCheckControl() {
+export function DuplicateUserDetectionCheckControl() {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const ipCheck = useSelector(selectIpCheck);
-  const [value, setValue] = useState(false);
+  const duplicateUserDetectionCheck = useSelector(selectDuplicateUserDetectionCheck);
+  const [state, setState] = useState(false);
 
   const handleChange = useCallback(async (event) => {
-    const newValue = event.target.checked;
+    const isChecked = event.target.checked;
     try {
       await dispatch(configurationFlowUpdate({
         verificationPatterns: {
-          [VerificationStepTypes.IpValidation]: newValue,
+          [VerificationStepTypes.DuplicateIdentityValidation]: isChecked,
         },
       }));
-      setValue(newValue);
+      setState(isChecked);
     } catch (e) {
       console.error('error', e.message);
-      notification.error(intl.formatMessage({ id: 'update.field.error' }, { name: 'IP CHECK' }));
+      notification.error(intl.formatMessage({ id: 'update.field.error' }, { name: intl.formatMessage({ id: 'Product.checks.duplicateUserDetection.title' }) }));
     }
   }, [dispatch, intl]);
 
   useEffect(() => {
-    setValue(ipCheck);
-  }, [ipCheck]);
+    setState(duplicateUserDetectionCheck);
+  }, [duplicateUserDetectionCheck]);
 
   return (
     <Switch
-      name="ipCheck"
+      name="duplicateUserDetectionCheck"
       color="primary"
       size="small"
-      checked={value}
+      checked={state}
       onChange={handleChange}
       className={classes.switcher}
     />
