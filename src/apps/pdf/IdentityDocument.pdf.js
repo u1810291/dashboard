@@ -14,6 +14,7 @@ import { getLivenessStatusColor, getStatusColor } from './IdentityDocument.model
 import { styles } from './PDF.styles';
 import { PDFChip } from './PDFChip';
 import { PDFDocumentFields } from './PDFDocumentFields';
+import { DateFormat, utcToLocalFormat } from '../../lib/date';
 
 export function IdentityDocumentPDF(intl, identity) {
   if (!identity) {
@@ -39,7 +40,7 @@ export function IdentityDocumentPDF(intl, identity) {
                 </Text>
               </View>
               <Text style={[styles.h1, styles.mt1]}>{identity.fullName || intl.formatMessage({ id: 'identity.nameNotFound' })}</Text>
-              <Text style={[styles.normal, styles.grey]}>{identity.dateCreated}</Text>
+              <Text style={[styles.normal, styles.grey]}>{utcToLocalFormat(identity.dateCreated, DateFormat.DateTime)}</Text>
             </View>
             {identity.biometric.length > 0 && biometricStatus.selfieUrl && (
               <View style={styles.selfieBox}>
