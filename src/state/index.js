@@ -9,12 +9,14 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import ReduxThunk from 'redux-thunk';
 import { rootReducers } from 'state/reducers';
+import { DASHBOARD_STORE_KEY } from '../apps/dashboard/state/dashboard.store';
 
 const persistedReducer = persistReducer({
   key: 'mgi-dashboard-4',
   whitelist: [
     AUTH_STORE_KEY,
     USER_STORE_KEY,
+    DASHBOARD_STORE_KEY,
   ],
   storage,
 }, rootReducers);

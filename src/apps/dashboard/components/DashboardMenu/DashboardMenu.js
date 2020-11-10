@@ -25,6 +25,8 @@ import { useLogout } from '../LogoutModal/LogoutModal';
 import { PrimaryMenu } from '../PrimaryMenu/PrimaryMenu';
 import { SecondaryMenu } from '../SecondaryMenu/SecondaryMenu';
 import { useStyles } from './DashboardMenu.styles';
+import { selectIsDesktopMenuOpen } from '../../state/dashboard.selectors';
+import { setIsDesktopMenuOpen } from '../../state/dashboard.actions';
 
 export function DashboardMenu() {
   const ownerModel = useSelector(selectIsOwnerModel);
@@ -35,7 +37,8 @@ export function DashboardMenu() {
   const history = useHistory();
   const dispatch = useDispatch();
   const isDesktop = useMediaQuery('(min-width:768px)', { noSsr: true });
-  const [open, setOpen] = useState(isDesktop);
+  const isDesktopMenuOpen = useSelector(selectIsDesktopMenuOpen);
+  const [open, setOpen] = useState(isDesktop && isDesktopMenuOpen);
   const name = useSelector(selectMerchantBusinessName);
   const [createOverlay, closeOverlay] = useOverlay();
   const logout = useLogout();
@@ -87,6 +90,12 @@ export function DashboardMenu() {
       setOpen(false);
     }
   }), [history, isDesktop]);
+
+  useEffect(() => {
+    if (isDesktop) {
+      dispatch(setIsDesktopMenuOpen(open));
+    }
+  }, [open, dispatch, isDesktop]);
 
   const isTemporary = !isDesktop && open;
 
