@@ -16,11 +16,14 @@ import metrics from 'state/metrics/metrics.reducer';
 import { METRICS_STORE_KEY } from 'state/metrics/metrics.store';
 import webhooks from 'state/webhooks/webhooks.reducer';
 import { WEBHOOKS_STORE_KEY } from 'state/webhooks/webhooks.store';
+import dashboard from 'apps/dashboard/state/dashboard.reducer';
 import { OVERLAY_STORE_KEY } from '../apps/overlay/state/overlay.store';
+import { DASHBOARD_STORE_KEY } from '../apps/dashboard/state/dashboard.store';
 
 export const appReducers = combineReducers({
   [USER_STORE_KEY]: user,
   [AUTH_STORE_KEY]: auth,
+  [DASHBOARD_STORE_KEY]: dashboard,
   [COLLABORATOR_STORE_KEY]: collaborators,
   [COUNTRIES_STORE_KEY]: countries,
   [IDENTITIES_STORE_KEY]: identities,
