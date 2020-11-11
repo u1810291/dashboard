@@ -3,7 +3,7 @@ import React from 'react';
 
 export function PageContent({ title, children }) {
   return (
-    <Container maxWidth="initial">
+    <Container maxWidth={false}>
       <Box mt={2}>
         <Typography variant="h2">{title}</Typography>
       </Box>

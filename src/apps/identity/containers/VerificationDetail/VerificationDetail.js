@@ -45,7 +45,7 @@ export function VerificationDetail() {
   }
 
   return (
-    <Container maxWidth="initial">
+    <Container maxWidth={false}>
       <Box pt={{ xs: 2, lg: 4 }}>
         <Box mb={1}>
           <VerificationHeader identity={identityModel.value} isDemo={!!demoId} />

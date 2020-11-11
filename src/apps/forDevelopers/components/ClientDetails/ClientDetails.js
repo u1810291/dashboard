@@ -35,11 +35,7 @@ export const ClientDetails = () => {
       <Box px={2} py={3}>
         <Grid container spacing={2} justify="space-between" alignItems="center">
           <Grid item xs={12} lg={5}>
-            <Box mb={{
-              xs: 2,
-              lg: 0,
-            }}
-            >
+            <Box mb={{ xs: 2, lg: 0 }}>
               <Typography variant="h5">
                 {intl.formatMessage({ id: 'forDevs.clientDetails.title' })}
               </Typography>
@@ -47,19 +43,13 @@ export const ClientDetails = () => {
           </Grid>
           <Grid item container xs={12} lg={7} alignItems="center">
             <Grid item container xs={12} lg={6} direction="column">
-              <Box mb={{
-                xs: 2,
-                lg: 0,
-              }}
-              >
+              <Box mb={{ xs: 2, lg: 0 }}>
                 <Typography variant="subtitle2" className={classes.title}>
                   <CopyToClipboard text={clientIdModel?.value} qa={QATags.Integration.flowId.Copy}>
                     <code data-qa={QATags.Integration.flowId.Value}>{clientIdModel?.value}</code>
                   </CopyToClipboard>
                 </Typography>
-                <Typography
-                  className={classes.name}
-                >
+                <Typography className={classes.name}>
                   {intl.formatMessage({ id: 'forDevs.clientDetails.id' })}
                 </Typography>
               </Box>
@@ -67,10 +57,10 @@ export const ClientDetails = () => {
             <Grid item container xs={12} lg={6} direction="column">
               <Grid item container>
                 <Typography variant="subtitle2" className={classes.code}>
-                  <CopyToClipboard text={appModel && appModel?.value?.clientSecret} qa={QATags.Integration.ClientSecret.Copy}>
+                  <CopyToClipboard text={appModel?.value?.clientSecret} qa={QATags.Integration.ClientSecret.Copy}>
                     <code data-qa={QATags.Integration.ClientSecret.Value}>
                       {isSecretShow
-                        ? (appModel && appModel?.value?.clientSecret)
+                        ? (appModel?.value?.clientSecret)
                         : <Box className={classes.codeSecret}>************************</Box>}
                     </code>
                   </CopyToClipboard>
@@ -80,9 +70,7 @@ export const ClientDetails = () => {
                 </IconButton>
               </Grid>
               <Grid container>
-                <Typography
-                  className={classes.name}
-                >
+                <Typography className={classes.name}>
                   {intl.formatMessage({ id: 'forDevs.clientDetails.secret' })}
                 </Typography>
               </Grid>

@@ -15,7 +15,7 @@ export function Footer() {
 
   return (
     <Paper color="secondary" square elevation={0} className={classes.root}>
-      <Container maxWidth="initial" className={classes.container}>
+      <Container maxWidth={false} className={classes.container}>
         {/* left */}
         <Hidden smDown>
           <Box className={classes.company}>

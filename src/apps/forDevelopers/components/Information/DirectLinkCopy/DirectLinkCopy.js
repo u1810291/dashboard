@@ -7,7 +7,7 @@ import { useStyles } from './DirectLinkCopy.styles';
 import { selectClientId, selectCurrentFlowId } from '../../../../../state/merchant/merchant.selectors';
 import { permalinkUrl } from '../../../../../lib/client/urls';
 
-export const DirectLinkCopy = () => {
+export function DirectLinkCopy() {
   const intl = useIntl();
   const classes = useStyles();
   const clientId = useSelector(selectClientId);
@@ -27,4 +27,4 @@ export const DirectLinkCopy = () => {
       </Box>
     </Grid>
   );
-};
+}

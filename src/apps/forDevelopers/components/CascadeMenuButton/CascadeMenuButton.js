@@ -6,7 +6,7 @@ import cn from 'classnames';
 import { useStyles } from './CascadeMenuButton.styles';
 import { getIsSelected } from '../../../../models/ForDevelopers.model';
 
-export const CascadeMenuButton = ({ tab, selectedId, defaultOpen = false, children }) => {
+export function CascadeMenuButton({ tab, selectedId, defaultOpen = false, children }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const intl = useIntl();
   const classes = useStyles();
@@ -19,7 +19,10 @@ export const CascadeMenuButton = ({ tab, selectedId, defaultOpen = false, childr
   return (
     <Box>
       <Button
-        className={cn(classes.button, { [classes.selected]: isSelected, [classes.open]: isOpen })}
+        className={cn(classes.button, {
+          [classes.selected]: isSelected,
+          [classes.open]: isOpen,
+        })}
         onClick={handleOnClick}
         fullWidth
       >
@@ -33,4 +36,4 @@ export const CascadeMenuButton = ({ tab, selectedId, defaultOpen = false, childr
       </Collapse>
     </Box>
   );
-};
+}

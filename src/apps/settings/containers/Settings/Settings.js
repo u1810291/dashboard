@@ -5,7 +5,7 @@ import { CompanySettings } from '../CompanySettings/CompanySettings';
 
 export function Settings() {
   return (
-    <Container maxWidth="initial">
+    <Container maxWidth={false}>
       <Box py={3}>
         <Grid container alignItems="flex-start" spacing={2}>
           <Grid item xs={12} lg={6}>

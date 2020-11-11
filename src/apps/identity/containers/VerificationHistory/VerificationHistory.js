@@ -39,7 +39,7 @@ export function VerificationHistory() {
   }, [dispatch, location]);
 
   return (
-    <Container maxWidth="initial">
+    <Container maxWidth={false}>
       <Box pt={{
         xs: 2,
         lg: 4,

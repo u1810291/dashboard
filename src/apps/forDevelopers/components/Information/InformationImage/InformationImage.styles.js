@@ -15,7 +15,7 @@ export const useStyles = makeStyles((theme) => ({
       flexBasis: '30%',
     },
   },
-  wrapperApiUser: {
+  wrapperApiFlow: {
     [theme.breakpoints.up('lg')]: {
       maxWidth: '23%',
       flexBasis: '23%',
@@ -26,18 +26,18 @@ export const useStyles = makeStyles((theme) => ({
       transform: 'rotate(90deg)',
     },
   },
-  imageButton: {
+  imageEntryPoint: {
     [theme.breakpoints.up('xl')]: {
       width: 258,
     },
   },
-  imageUserMobile: {
+  mobileFlow: {
     width: 83,
     [theme.breakpoints.up('xl')]: {
       width: 125,
     },
   },
-  imageUserWeb: {
+  webFlow: {
     width: 114,
     [theme.breakpoints.up('xl')]: {
       width: 170,
