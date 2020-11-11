@@ -22,6 +22,8 @@ export const DateRange = ({ onChange, start, end }) => {
   const [endFormInvalid, setEndFormInvalid] = useState(false);
   const [selectedRange, setSelectedRange] = useState('');
   const [today] = useState(moment().toDate());
+  const [zeroTime] = useState({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+  const [dayEndTime] = useState({ hour: 23, minute: 59, second: 59, millisecond: 999 });
   const [modifiers, setModifiers] = useState({
     start: from,
     end: to,
@@ -55,7 +57,10 @@ export const DateRange = ({ onChange, start, end }) => {
     setEndInput(endDate);
     setFrom(startDate);
     setTo(endDate);
-    setModifiers({ start: startDate, end: endDate });
+    setModifiers({
+      start: startDate,
+      end: endDate,
+    });
     if (!start && !end) {
       setSelectedRange('');
     }
@@ -68,7 +73,10 @@ export const DateRange = ({ onChange, start, end }) => {
   const handleStartRangeChanged = useCallback((startDate) => {
     setFrom(startDate);
     setStartInput(startDate);
-    setModifiers((prevState) => ({ ...prevState, start: startDate }));
+    setModifiers((prevState) => ({
+      ...prevState,
+      start: startDate,
+    }));
     onChange({ 'dateCreated[start]': !startDate ? null : moment(startDate) });
     setSelectedRange('');
   }, [onChange, setStartInput]);
@@ -76,7 +84,10 @@ export const DateRange = ({ onChange, start, end }) => {
   const handleEndRangeChanged = useCallback((endDate) => {
     setTo(endDate);
     setEndInput(endDate);
-    setModifiers((prevState) => ({ ...prevState, end: endDate }));
+    setModifiers((prevState) => ({
+      ...prevState,
+      end: endDate,
+    }));
     onChange({ 'dateCreated[end]': !endDate ? null : moment(endDate) });
     setSelectedRange('');
   }, [onChange, setEndInput]);
@@ -95,7 +106,8 @@ export const DateRange = ({ onChange, start, end }) => {
       id: 'today',
       name: intl.formatMessage({ id: 'DateRange.today' }),
       setRange: () => {
-        handleStartRangeChanged(today);
+        const startDate = moment(today).set(zeroTime).toDate();
+        handleStartRangeChanged(startDate);
         handleEndRangeChanged(today);
       },
     },
@@ -103,11 +115,16 @@ export const DateRange = ({ onChange, start, end }) => {
       id: 'yesterday',
       name: intl.formatMessage({ id: 'DateRange.yesterday' }),
       setRange: () => {
-        const date = moment()
+        const startDate = moment()
           .subtract(1, 'days')
+          .set(zeroTime)
           .toDate();
-        handleStartRangeChanged(date);
-        handleEndRangeChanged(date);
+        const endDate = moment()
+          .subtract(1, 'days')
+          .set(dayEndTime)
+          .toDate();
+        handleStartRangeChanged(startDate);
+        handleEndRangeChanged(endDate);
       },
     },
     {
@@ -116,6 +133,7 @@ export const DateRange = ({ onChange, start, end }) => {
       setRange: () => {
         const startDate = moment()
           .subtract(7, 'days')
+          .set(zeroTime)
           .toDate();
         handleStartRangeChanged(startDate);
         handleEndRangeChanged(today);
@@ -127,6 +145,7 @@ export const DateRange = ({ onChange, start, end }) => {
       setRange: () => {
         const startDate = moment()
           .subtract(30, 'days')
+          .set(zeroTime)
           .toDate();
         handleStartRangeChanged(startDate);
         handleEndRangeChanged(today);
@@ -217,9 +236,11 @@ export const DateRange = ({ onChange, start, end }) => {
       from,
       to,
     });
-    handleStartRangeChanged(range.from);
-    handleEndRangeChanged(range.to);
-  }, [from, handleEndRangeChanged, handleStartRangeChanged, to]);
+    const fromDate = moment(range.from).set(zeroTime).toDate();
+    const toDate = moment(range.to).set(dayEndTime).toDate();
+    handleStartRangeChanged(fromDate);
+    handleEndRangeChanged(toDate);
+  }, [dayEndTime, from, handleEndRangeChanged, handleStartRangeChanged, to, zeroTime]);
 
   const handleInputChange = useCallback(({ target: { value, name } }) => {
     const parsedDate = moment(value, 'DD MMM,YYYY', true);
@@ -228,7 +249,10 @@ export const DateRange = ({ onChange, start, end }) => {
       if (parsedDate.isValid()) {
         setStartFormInvalid(false);
         setFrom(parsedDate.toDate());
-        setModifiers(((prevState) => ({ ...prevState, start: parsedDate.toDate() })));
+        setModifiers(((prevState) => ({
+          ...prevState,
+          start: parsedDate.toDate(),
+        })));
         handleStartRangeChanged(parsedDate.toDate());
       } else {
         setStartFormInvalid(value !== '');
@@ -240,7 +264,10 @@ export const DateRange = ({ onChange, start, end }) => {
       if (parsedDate.isValid()) {
         setEndFormInvalid(false);
         setTo(parsedDate.toDate());
-        setModifiers(((prevState) => ({ ...prevState, end: parsedDate.toDate() })));
+        setModifiers(((prevState) => ({
+          ...prevState,
+          end: parsedDate.toDate(),
+        })));
         handleEndRangeChanged(parsedDate.toDate());
       } else {
         setEndFormInvalid(value !== '');

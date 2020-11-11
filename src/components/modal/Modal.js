@@ -22,7 +22,7 @@ export default function Modal({ children, onClose, className, imgSrc, title, sub
       {...props} // eslint-disable-line react/jsx-props-no-spreading
     >
       <Button className={styles.btnClose} onClick={closeModal} />
-      <Box className={wideHeader && styles.wideHeader}>
+      <Box className={classNames({ [styles.wideHeader]: wideHeader })}>
         {imgSrc && (
           <Box mb={2} align="center">
             <Grid container alignItems="center" justify="center" className={styles.img}>
