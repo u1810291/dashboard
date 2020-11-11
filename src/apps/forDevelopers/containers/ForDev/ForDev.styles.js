@@ -23,6 +23,7 @@ export const useStyles = makeStyles((theme) => ({
       padding: [[0, 0, 20]],
     },
     [theme.breakpoints.up('lg')]: {
+      justifyContent: 'flex-end',
       '& > *': {
         padding: [[0, 20, 0, 0]],
         '&:last-of-type': {
