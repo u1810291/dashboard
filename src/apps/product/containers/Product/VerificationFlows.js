@@ -13,7 +13,6 @@ import { flowNameValidator } from '../../validators/FlowName.validator';
 import { AddNewFlowModal } from '../../components/AddNewFlowDialog/AddNewFlowModal';
 import { useOverlay } from '../../../overlay';
 import { MAX_NUMBER_OF_PRODUCTS } from '../../models/Product.model';
-import { notification } from '../../../../components/notification';
 
 export function VerificationFlows() {
   const classes = useStyles();
@@ -35,17 +34,14 @@ export function VerificationFlows() {
   }, [isMobile, isButtonDisabled]);
 
   const submitNewFlow = useCallback(async (text) => {
-    const duplicate = merchantFlowList.find((item) => item.name === text.trim());
-    try {
-      await flowNameValidator({ hasDuplicate: !!duplicate, name: text });
-      const newFlow = await dispatch(merchantCreateFlow({ name: text.trim() }));
-      history.push({
-        pathname: `/flows/${newFlow.id}`,
-      });
-    } catch (e) {
-      notification.error(intl.formatMessage({ id: 'VerificationFlow.page.notification.error' }));
-    }
-  }, [merchantFlowList, dispatch, intl, history]);
+    const value = (text || '').trim();
+    const duplicate = merchantFlowList.find((item) => item.name === value);
+    await flowNameValidator({ hasDuplicate: !!duplicate, name: value });
+    const newFlow = await dispatch(merchantCreateFlow({ name: value }));
+    history.push({
+      pathname: `/flows/${newFlow.id}`,
+    });
+  }, [merchantFlowList, dispatch, history]);
 
   const handleAddNewFlow = useCallback(() => {
     createOverlay(<AddNewFlowModal submitNewFlow={submitNewFlow} />);

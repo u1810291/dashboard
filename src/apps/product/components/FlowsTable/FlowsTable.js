@@ -36,12 +36,14 @@ export function FlowsTable({ onAddNewFlow }) {
     if (deleting || merchantFlowList.length <= 1) {
       return;
     }
-    const newFlowId = getNewFlowId(merchantFlowModel, currentFlowId);
 
     try {
       setDeleting(id);
       await confirmDelete();
-      dispatch(updateCurrentFlowId(newFlowId));
+      if (id === currentFlowId) {
+        const newFlowId = getNewFlowId(merchantFlowModel, currentFlowId);
+        dispatch(updateCurrentFlowId(newFlowId));
+      }
       dispatch(merchantDeleteFlow(id));
     } catch (error) {
       if (!error) {
@@ -119,36 +121,19 @@ export function FlowsTable({ onAddNewFlow }) {
               onMouseUp={(event) => onMouseUpHandler(event, item.id)}
             >
               <TableCell>
-                <Box
-                  mb={{
-                    xs: 2,
-                    lg: 0,
-                  }}
-                  pr={{
-                    xs: 3,
-                    lg: 0,
-                  }}
-                >
+                <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }}>
                   <Typography variant="subtitle2" className={classes.itemName}>{item.name}</Typography>
                   <Box className={classes.label}>{intl.formatMessage({ id: 'flow.table.field.name' })}</Box>
                 </Box>
               </TableCell>
               <TableCell className={classes.itemData}>
-                <Box mb={{
-                  xs: 2,
-                  lg: 0,
-                }}
-                >
+                <Box mb={{ xs: 2, lg: 0 }}>
                   {item.id}
                   <Box className={classes.label}>{intl.formatMessage({ id: 'flow.table.field.flowId' })}</Box>
                 </Box>
               </TableCell>
               <TableCell className={classes.itemData}>
-                <Box mb={{
-                  xs: 2,
-                  lg: 0,
-                }}
-                >
+                <Box mb={{ xs: 2, lg: 0 }}>
                   {intl.formatMessage({ id: 'flow.table.type.verification' })}
                   <Box className={classes.label}>{intl.formatMessage({ id: 'flow.table.field.type' })}</Box>
                 </Box>
