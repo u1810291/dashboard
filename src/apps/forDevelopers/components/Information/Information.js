@@ -15,64 +15,60 @@ export function Information({ selectedPage }) {
     return [
       {
         id: TabID.api,
-        imageComponent: (<InformationImage type={InformationImageTypes.api} />),
+        imageType: InformationImageTypes.api,
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+API.mp4',
         videoCover: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BAPI.png',
         documentationURL: 'https://docs.getmati.com/#api-overview',
       },
       {
         id: TabID.web,
-        imageComponent: (<InformationImage type={InformationImageTypes.web} />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Web+SDK.mp4',
+        imageType: InformationImageTypes.web,
         videoCover: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BWeb%2BSDK.png',
         documentationURL: 'https://docs.getmati.com/#web-sdk-overview',
         childComponent: (<WebCodeSnippet />),
       },
       {
         id: TabID.directLink,
-        imageComponent: (<InformationImage type={InformationImageTypes.directLink} />),
+        imageType: InformationImageTypes.directLink,
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Direct+Link.mp4',
         videoCover: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BDirect%2BLink.png',
         childComponent: (<DirectLinkCopy />),
       },
       {
         id: TabID.android,
-        imageComponent: (<InformationImage type={InformationImageTypes.android} />),
+        imageType: InformationImageTypes.android,
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         videoCover: mobileSDKVideo,
         documentationURL: 'https://github.com/MatiFace/mati-global-id-sdk-integration-android',
       },
       {
         id: TabID.ios,
-        imageComponent: (<InformationImage type={InformationImageTypes.ios} />),
+        imageType: InformationImageTypes.ios,
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         videoCover: mobileSDKVideo,
         documentationURL: 'https://github.com/MatiFace/mati-global-id-sdk/blob/master/Integration_iOS.md',
       },
       {
         id: TabID.reactNative,
-        imageComponent: (<InformationImage />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         videoCover: mobileSDKVideo,
         documentationURL: 'https://github.com/MatiFace/react-native-mati-global-id-sdk',
       },
       {
         id: TabID.xamarin,
-        imageComponent: (<InformationImage />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         videoCover: mobileSDKVideo,
         documentationURL: 'https://github.com/MatiFace/MatiXamarinIntegration',
       },
       {
         id: TabID.cordova,
-        imageComponent: (<InformationImage />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         videoCover: mobileSDKVideo,
         documentationURL: 'https://github.com/MatiFace/MatiGlobalIDSDKCordovaPlugin',
       },
       {
         id: TabID.cordovaIonic,
-        imageComponent: (<InformationImage />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         videoCover: mobileSDKVideo,
         documentationURL: 'https://github.com/MatiFace/MatiGlobalIDSDKCordovaPlugin',
@@ -88,7 +84,7 @@ export function Information({ selectedPage }) {
           videoURL,
           videoCover,
           documentationURL,
-          imageComponent,
+          imageType,
           childComponent,
         }) => (
           <Box key={id}>
@@ -102,7 +98,7 @@ export function Information({ selectedPage }) {
                 <Typography variant="subtitle2" gutterBottom>{intl.formatMessage({ id: `forDevs.informationPage.${id}.header` })}</Typography>
                 <Box mb={2} color="common.black75">{intl.formatMessage({ id: `forDevs.informationPage.${id}.subheader` })}</Box>
                 <Box mb={4}>
-                  {imageComponent}
+                  <InformationImage type={imageType} />
                 </Box>
                 {childComponent && (
                   <Box pt={4} mb={4} borderTop={1} borderColor="common.black7">
