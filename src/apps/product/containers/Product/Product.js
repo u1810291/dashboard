@@ -63,7 +63,7 @@ export function Product() {
   }
 
   return (
-    <Container key="content" maxWidth="initial">
+    <Container key="content" maxWidth={false}>
       <Box className={classes.content}>
         <Grid container spacing={2} justify="space-between" alignItems="flex-start" className={classes.gridContainer}>
           <Grid item className={classes.middleBlock}>

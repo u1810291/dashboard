@@ -34,6 +34,7 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: '50%',
     backgroundColor: '#E5F7EE',
     '& svg': {
+      fontSize: 16,
       color: theme.palette.common.green,
     },
   },

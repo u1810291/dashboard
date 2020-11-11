@@ -13,25 +13,22 @@ import { notification } from '../../../../components/notification';
 import { VideoPlayer } from '../../../../components';
 import { ReactComponent as PlayIcon } from '../../../../assets/video-player-play.svg';
 
-export function ForDevsWebhookModal({ onClose }) {
+export function ForDevsWebhookModal() {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
   const webhook = useSelector(selectWebhook);
-  const currentSecret = webhook.url ? '*'.repeat(16) : '—';
-  const currentUrl = webhook.url || '—';
 
   const handleRedirect = useCallback(() => {
-    window.open('https://github.com', '_blank');
+    window.open('https://docs.getmati.com/#webhooks-verification-callbacks', '_blank');
   }, []);
 
   const initialValues = {
-    url: currentUrl,
-    secret: currentSecret,
+    url: webhook.url,
+    secret: '',
   };
 
   const handleSubmit = useCallback(async ({ url, secret }) => {
-    onClose();
     try {
       if (webhook?.id) {
         await dispatch(deleteWebhook(webhook.id));
@@ -43,7 +40,7 @@ export function ForDevsWebhookModal({ onClose }) {
       console.error(error);
       notification.error(intl.formatMessage({ id: 'Error.common' }));
     }
-  }, [dispatch, webhook, intl, onClose]);
+  }, [dispatch, webhook, intl]);
 
   return (
     <Modal className={classes.modal}>
@@ -83,9 +80,8 @@ export function ForDevsWebhookModal({ onClose }) {
         <Box className={classes.video}>
           <VideoPlayer
             controls
-            light="https://img.youtube.com/vi/7yzZcAj24AI/maxresdefault.jpg"
+            light="https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BWebhooks.png"
             playing
-            muted
             url="https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Webhooks.mp4"
             playIcon={<IconButton><PlayIcon /></IconButton>}
           />
@@ -108,6 +104,7 @@ export function ForDevsWebhookModal({ onClose }) {
                   variant="outlined"
                   fullWidth
                   component={TextField}
+                  placeholder={intl.formatMessage({ id: 'onboarding.webhooks.placeholders.url' })}
                   className={classes.input}
                 />
               </Grid>
@@ -121,6 +118,7 @@ export function ForDevsWebhookModal({ onClose }) {
                   variant="outlined"
                   fullWidth
                   component={TextField}
+                  placeholder={intl.formatMessage({ id: 'onboarding.webhooks.placeholders.secret' })}
                   className={classes.input}
                 />
               </Grid>

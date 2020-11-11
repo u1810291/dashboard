@@ -14,77 +14,50 @@ export const TabID = {
   directLink: 'directLink',
 };
 
-export const TabTypes = {
-  tab: 'tab',
-  cascadeTab: 'cascadeTab',
+export const InformationImageTypes = {
+  directLink: 'directLink',
+  mobile: 'mobile',
+  web: 'web',
+  api: 'api',
+  ios: 'ios',
+  android: 'android',
 };
 
 export const menuStructure = [
-  {
-    id: TabID.api,
-    type: TabTypes.tab,
-  },
+  { id: TabID.api },
   {
     id: TabID.sdk,
-    type: TabTypes.cascadeTab,
     defaultOpen: true,
     children: [
-      {
-        id: TabID.web,
-        type: TabTypes.tab,
-      },
+      { id: TabID.web },
       {
         id: TabID.mobile,
-        type: TabTypes.cascadeTab,
         children: [
           {
             id: TabID.native,
-            type: TabTypes.cascadeTab,
             children: [
-              {
-                id: TabID.ios,
-                type: TabTypes.tab,
-              },
-              {
-                id: TabID.android,
-                type: TabTypes.tab,
-              },
+              { id: TabID.ios },
+              { id: TabID.android },
             ],
           },
           {
             id: TabID.hybrid,
-            type: TabTypes.cascadeTab,
             children: [
-              {
-                id: TabID.reactNative,
-                type: TabTypes.tab,
-              },
-              {
-                id: TabID.xamarin,
-                type: TabTypes.tab,
-              },
-              {
-                id: TabID.cordova,
-                type: TabTypes.tab,
-              },
-              {
-                id: TabID.cordovaIonic,
-                type: TabTypes.tab,
-              },
+              { id: TabID.reactNative },
+              { id: TabID.xamarin },
+              { id: TabID.cordova },
+              { id: TabID.cordovaIonic },
             ],
           },
         ],
       },
     ],
   },
-  {
-    id: TabID.directLink,
-    type: TabTypes.tab,
-  },
+  { id: TabID.directLink },
 ];
 
 export function getIsSelected(tab, selectedId) {
   if (tab.id === selectedId) return true;
-  if (tab.type === TabTypes.tab) return false;
+  if (!tab.children) return false;
   return tab.children.some((child) => getIsSelected(child, selectedId));
 }

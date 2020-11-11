@@ -91,7 +91,7 @@ export function Metrics() {
   }
 
   return (
-    <Container maxWidth="initial">
+    <Container maxWidth={false}>
       <Box py={3}>
         <Grid container spacing={2} direction="column">
           <Grid item>

@@ -64,7 +64,7 @@ export function VerificationFlows() {
   }, [isMobile]);
 
   return (
-    <Container key="content" maxWidth="initial">
+    <Container key="content" maxWidth={false}>
       <Box pt={{ xs: 2, lg: 4 }}>
         <Box mb={isButtonDisabled && isMobile ? 7.6 : 2}>
           <Grid container alignItems="center">

@@ -14,7 +14,6 @@ export const useStyles = makeStyles((theme) => ({
     '& > div > div': {
       maxWidth: 'calc(100% - 27px)',
       overflow: 'hidden',
-      textOverflow: 'ellipsis',
     },
     '& svg': {
       color: theme.palette.common.lightblue,
@@ -23,7 +22,6 @@ export const useStyles = makeStyles((theme) => ({
   codeSecret: {
     display: 'block',
     overflow: 'hidden',
-    textOverflow: 'ellipsis',
   },
   button: {
     marginLeft: 4,

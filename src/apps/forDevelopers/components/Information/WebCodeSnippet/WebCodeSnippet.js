@@ -8,7 +8,7 @@ import { SyntaxHighlighterLanguages } from '../../../../../components/syntax-hig
 import { selectClientId, selectCurrentFlowId } from '../../../../../state/merchant/merchant.selectors';
 import { integrationCode } from '../../../../../models/Integration.model';
 
-export const WebCodeSnippet = () => {
+export function WebCodeSnippet() {
   const intl = useIntl();
   const clientId = useSelector(selectClientId);
   const flowId = useSelector(selectCurrentFlowId);
@@ -28,4 +28,4 @@ export const WebCodeSnippet = () => {
       </Box>
     </Grid>
   );
-};
+}

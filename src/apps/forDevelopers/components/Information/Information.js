@@ -1,184 +1,121 @@
 import { Box, Typography } from '@material-ui/core';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { TabID } from '../../../../models/ForDevelopers.model';
+import { InformationImageTypes, TabID } from '../../../../models/ForDevelopers.model';
 import { GithubDocumentationBanner } from '../GithubDocumentationBanner/GithubDocumentationBanner';
 import { VideoExplainer } from '../VideoExplainer/VideoExplainer';
 import { DirectLinkCopy } from './DirectLinkCopy/DirectLinkCopy';
 import { WebCodeSnippet } from './WebCodeSnippet/WebCodeSnippet';
-import { InformationImageApi } from './InformationImage/InformationImageApi';
-import { InformationImageWeb } from './InformationImage/InformationImageWeb';
-import { InformationImageMobile } from './InformationImage/InformationImageMobile';
-import { InformationImageDirect } from './InformationImage/InformationImageDirect';
-import forDevsVideoCover from '../../../../assets/forDevsVideoCover.png';
+import { InformationImage } from './InformationImage/InformationImage';
 
-export const Information = ({ selectedPage }) => {
+export function Information({ selectedPage }) {
   const intl = useIntl();
   const pagesData = useCallback(() => {
-    const integration = intl.formatMessage({ id: 'forDevs.integration' });
-    const mobileSDK = intl.formatMessage({ id: 'forDevs.informationPage.mobileSDK.title' });
-    const SDK = intl.formatMessage({ id: 'forDevs.informationPage.SDK.title' });
+    const mobileSDKVideo = 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BMobile%2BSDKs.png';
     return [
       {
         id: TabID.api,
-        name: intl.formatMessage({ id: 'forDevs.sideMenu.api' }),
-        explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.api' })} ${integration}`,
-        header: `${intl.formatMessage({ id: 'forDevs.sideMenu.api' })} ${integration}`,
-        subHeader: intl.formatMessage(
-          { id: 'forDevs.informationPage.api.subheader' },
-          { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.api' })} ${integration}` }),
-        imageComponent: (<InformationImageApi />),
+        imageComponent: (<InformationImage type={InformationImageTypes.api} />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+API.mp4',
-        videoCover: forDevsVideoCover,
-        documentationURL: 'https://github.com',
+        videoCover: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BAPI.png',
+        documentationURL: 'https://docs.getmati.com/#api-overview',
       },
       {
         id: TabID.web,
-        name: intl.formatMessage({ id: 'forDevs.sideMenu.web' }),
-        explainerName: intl.formatMessage({ id: 'forDevs.informationPage.webSDK.title' }),
-        header: `${intl.formatMessage({ id: 'forDevs.sideMenu.web' })} ${integration}`,
-        subHeader: intl.formatMessage(
-          { id: 'forDevs.informationPage.web.subheader' },
-          { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.web' })} ${SDK}` }),
-        imageComponent: (<InformationImageWeb />),
+        imageComponent: (<InformationImage type={InformationImageTypes.web} />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Web+SDK.mp4',
-        videoCover: forDevsVideoCover,
-        documentationURL: 'https://github.com',
+        videoCover: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BWeb%2BSDK.png',
+        documentationURL: 'https://docs.getmati.com/#web-sdk-overview',
         childComponent: (<WebCodeSnippet />),
       },
       {
         id: TabID.directLink,
-        name: intl.formatMessage({ id: 'forDevs.sideMenu.directLink' }),
-        explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.directLink' })}`,
-        header: intl.formatMessage({ id: 'forDevs.sideMenu.directLink' }),
-        subHeader: intl.formatMessage(
-          { id: 'forDevs.informationPage.directLink.subheader' },
-          { name: intl.formatMessage({ id: 'forDevs.sideMenu.directLink' }) }),
-        imageComponent: (<InformationImageDirect />),
+        imageComponent: (<InformationImage type={InformationImageTypes.directLink} />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Direct+Link.mp4',
-        videoCover: forDevsVideoCover,
+        videoCover: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BDirect%2BLink.png',
         childComponent: (<DirectLinkCopy />),
       },
       {
         id: TabID.android,
-        name: intl.formatMessage({ id: 'forDevs.sideMenu.android' }),
-        explainerName: `${mobileSDK} ${intl.formatMessage({ id: 'forDevs.sideMenu.android' })}`,
-        header: `${intl.formatMessage({ id: 'forDevs.sideMenu.android' })} ${integration}`,
-        subHeader: intl.formatMessage(
-          { id: 'forDevs.informationPage.mobile.subheader' },
-          { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.android' })} ${integration}` }),
-        imageComponent: (<InformationImageMobile />),
+        imageComponent: (<InformationImage type={InformationImageTypes.android} />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
-        videoCover: forDevsVideoCover,
-        documentationURL: 'https://github.com',
+        videoCover: mobileSDKVideo,
+        documentationURL: 'https://github.com/MatiFace/mati-global-id-sdk-integration-android',
       },
       {
         id: TabID.ios,
-        name: intl.formatMessage({ id: 'forDevs.sideMenu.ios' }),
-        header: `${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })} ${integration}`,
-        explainerName: `${mobileSDK} ${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })}`,
-        subHeader: intl.formatMessage(
-          { id: 'forDevs.informationPage.mobile.subheader' },
-          { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.ios' })} ${integration}` }),
-        imageComponent: (<InformationImageMobile />),
+        imageComponent: (<InformationImage type={InformationImageTypes.ios} />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
-        videoCover: forDevsVideoCover,
-        documentationURL: 'https://github.com',
+        videoCover: mobileSDKVideo,
+        documentationURL: 'https://github.com/MatiFace/mati-global-id-sdk/blob/master/Integration_iOS.md',
       },
       {
         id: TabID.reactNative,
-        name: intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' }),
-        explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' })} ${integration}`,
-        header: `${intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' })} ${integration}`,
-        subHeader: intl.formatMessage(
-          { id: 'forDevs.informationPage.mobile.subheader' },
-          { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.reactNative' })} ${integration}` }),
-        imageComponent: (<InformationImageMobile />),
+        imageComponent: (<InformationImage />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
-        videoCover: forDevsVideoCover,
-        documentationURL: 'https://github.com',
+        videoCover: mobileSDKVideo,
+        documentationURL: 'https://github.com/MatiFace/react-native-mati-global-id-sdk',
       },
       {
         id: TabID.xamarin,
-        name: intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' }),
-        explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' })} ${integration}`,
-        header: `${intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' })} ${integration}`,
-        subHeader: intl.formatMessage(
-          { id: 'forDevs.informationPage.mobile.subheader' },
-          { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.xamarin' })} ${integration}` }),
-        imageComponent: (<InformationImageMobile />),
+        imageComponent: (<InformationImage />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
-        videoCover: forDevsVideoCover,
-        documentationURL: 'https://github.com',
+        videoCover: mobileSDKVideo,
+        documentationURL: 'https://github.com/MatiFace/MatiXamarinIntegration',
       },
       {
         id: TabID.cordova,
-        name: intl.formatMessage({ id: 'forDevs.sideMenu.cordova' }),
-        explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordova' })} ${integration}`,
-        header: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordova' })} ${integration}`,
-        subHeader: intl.formatMessage(
-          { id: 'forDevs.informationPage.mobile.subheader' },
-          { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordova' })} ${integration}` }),
-        imageComponent: (<InformationImageMobile />),
+        imageComponent: (<InformationImage />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
-        videoCover: forDevsVideoCover,
-        documentationURL: 'https://github.com',
+        videoCover: mobileSDKVideo,
+        documentationURL: 'https://github.com/MatiFace/MatiGlobalIDSDKCordovaPlugin',
       },
       {
         id: TabID.cordovaIonic,
-        name: intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' }),
-        explainerName: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' })} ${integration}`,
-        header: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' })} ${integration}`,
-        subHeader: intl.formatMessage(
-          { id: 'forDevs.informationPage.mobile.subheader' },
-          { name: `${intl.formatMessage({ id: 'forDevs.sideMenu.cordovaIonic' })} ${integration}` }),
-        imageComponent: (<InformationImageMobile />),
+        imageComponent: (<InformationImage />),
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
-        videoCover: forDevsVideoCover,
-        documentationURL: 'https://github.com',
+        videoCover: mobileSDKVideo,
+        documentationURL: 'https://github.com/MatiFace/MatiGlobalIDSDKCordovaPlugin',
       },
     ];
-  }, [intl]);
+  }, []);
 
   return (
     <>
-      {pagesData().map(({
-        id,
-        name,
-        header,
-        videoURL,
-        videoCover,
-        documentationURL,
-        imageComponent,
-        subHeader,
-        childComponent,
-        explainerName,
-      }) => (
-        <Box key={id}>
-          { id === selectedPage && (
-          <>
-            {documentationURL && (
-            <Box mb={4}>
-              <GithubDocumentationBanner documentationURL={documentationURL} platform={name} />
-            </Box>
+      {pagesData()
+        .map(({
+          id,
+          videoURL,
+          videoCover,
+          documentationURL,
+          imageComponent,
+          childComponent,
+        }) => (
+          <Box key={id}>
+            {id === selectedPage && (
+              <>
+                {documentationURL && (
+                  <Box mb={4}>
+                    <GithubDocumentationBanner tabId={id} documentationURL={documentationURL} platform={intl.formatMessage({ id: `forDevs.sideMenu.${id}` })} />
+                  </Box>
+                )}
+                <Typography variant="subtitle2" gutterBottom>{intl.formatMessage({ id: `forDevs.informationPage.${id}.header` })}</Typography>
+                <Box mb={2} color="common.black75">{intl.formatMessage({ id: `forDevs.informationPage.${id}.subheader` })}</Box>
+                <Box mb={4}>
+                  {imageComponent}
+                </Box>
+                {childComponent && (
+                  <Box pt={4} mb={4} borderTop={1} borderColor="common.black7">
+                    {childComponent}
+                  </Box>
+                )}
+                <Box pt={4} borderTop={1} borderColor="common.black7">
+                  <VideoExplainer videoCover={videoCover} videoURL={videoURL} tabId={id} />
+                </Box>
+              </>
             )}
-            <Typography variant="subtitle2" gutterBottom>{header}</Typography>
-            <Box mb={2} color="common.black75">{subHeader}</Box>
-            <Box mb={4}>
-              {imageComponent}
-            </Box>
-            {childComponent && (
-            <Box pt={4} mb={4} borderTop={1} borderColor="common.black7">
-              {childComponent}
-            </Box>
-            )}
-            <Box pt={4} borderTop={1} borderColor="common.black7">
-              <VideoExplainer videoCover={videoCover} videoURL={videoURL} name={explainerName} />
-            </Box>
-          </>
-          )}
-        </Box>
-      ))}
+          </Box>
+        ))}
     </>
   );
-};
+}
