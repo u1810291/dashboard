@@ -1,7 +1,6 @@
 import { titleize } from 'inflection';
 import { get } from 'lodash';
 import { getDocumentExtras } from 'models/Document.model';
-import moment from 'moment';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getIpCheckUrl } from './IpCheck.model';
 
@@ -153,7 +152,6 @@ export function getIdentityExtras(identity, countries) {
     shortId: getIdentityShortId(identity.id),
     fullName: titleize(identity.fullName || ''),
     // TODO @dkchv: overrided
-    dateCreated: moment(identity.dateCreated).local().format('DD MMM, YYYY HH:mm'),
     documents,
     isEditable: isChangeableStatus(identity.status),
     ipCheck: getIpCheckStep(steps),

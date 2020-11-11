@@ -3,6 +3,7 @@ import { Box, Typography } from '@material-ui/core';
 import React from 'react';
 import { useStyles } from './VerificationDateAndNumber.styles';
 import { CopyToClipboard } from '../../../../components/clipboard';
+import { DateFormat, utcToLocalFormat } from '../../../../lib/date';
 
 export function VerificationDateAndNumber({ date, number }) {
   const classes = useStyles();
@@ -12,7 +13,7 @@ export function VerificationDateAndNumber({ date, number }) {
     <>
       <Box mb={2}>
         <Typography className={classes.data} variant="subtitle2" gutterBottom>
-          {date}
+          {utcToLocalFormat(date, DateFormat.DateTime)}
         </Typography>
         <Typography className={classes.title} variant="body1">
           {intl.formatMessage({ id: 'identity.summary.date' })}
