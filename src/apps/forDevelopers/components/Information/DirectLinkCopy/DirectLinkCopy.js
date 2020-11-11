@@ -21,8 +21,10 @@ export function DirectLinkCopy() {
         {intl.formatMessage({ id: 'forDevs.directLinkCopy.subheader' })}
       </Box>
       <Box className={classes.resourceUrl}>
-        <CopyToClipboard withText withCopyText text={link}>
-          {link}
+        <CopyToClipboard withText withCopyText isOverlay text={link}>
+          <Box px={2} py={1.5}>
+            {link}
+          </Box>
         </CopyToClipboard>
       </Box>
     </Grid>
