@@ -6,12 +6,14 @@ import { Field, Form, Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextField } from 'formik-material-ui';
 import { FiExternalLink, FiSave } from 'react-icons/fi';
+import { pickBy } from 'lodash';
 import { selectWebhook } from '../../../../state/webhooks/webhooks.selectors';
 import { useStyles } from './ForDevsWebhookModal.styles';
 import { deleteWebhook, getWebhooks, subscribeToWebhook } from '../../../../state/webhooks/webhooks.actions';
 import { notification } from '../../../../components/notification';
 import { VideoPlayer } from '../../../../components';
 import { ReactComponent as PlayIcon } from '../../../../assets/video-player-play.svg';
+import { required } from '../../../../lib/validations';
 
 export function ForDevsWebhookModal() {
   const intl = useIntl();
@@ -27,6 +29,11 @@ export function ForDevsWebhookModal() {
     url: webhook.url,
     secret: '',
   };
+
+  const validate = useCallback((values) => pickBy({
+    url: required(values.url),
+    secret: required(values.secret),
+  }, (v) => v), []);
 
   const handleSubmit = useCallback(async ({ url, secret }) => {
     try {
@@ -89,6 +96,7 @@ export function ForDevsWebhookModal() {
       </Box>
       <Formik
         initialValues={initialValues}
+        validate={validate}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
