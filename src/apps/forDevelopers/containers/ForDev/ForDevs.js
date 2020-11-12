@@ -4,6 +4,7 @@ import { FiChevronDown, FiExternalLink, FiSettings } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { PageLoader } from 'apps/layout';
+import Fade from '@material-ui/core/Fade';
 import { selectCurrentFlowId, selectMerchantFlowsModel } from '../../../../state/merchant/merchant.selectors';
 import { ClientDetails } from '../../components/ClientDetails/ClientDetails';
 import { Information } from '../../components/Information/Information';
@@ -23,6 +24,7 @@ export function ForDevs() {
   const currentFlowId = useSelector(selectCurrentFlowId);
   const [selectedFlow, setSelectedFlow] = useState(currentFlowId);
   const [createOverlay] = useOverlay();
+  const [fade, setFade] = useState(true);
 
   useEffect((() => {
     setSelectedFlow(currentFlowId);
@@ -32,11 +34,18 @@ export function ForDevs() {
     setSelectedTab(newValue);
   }, []);
 
-  const handleSelect = useCallback((event) => {
+  const handleSelect = useCallback(async (event) => {
     const id = event.target.value;
     if (currentFlowId !== id) {
-      setSelectedFlow(id);
-      dispatch(updateCurrentFlowId(id));
+      try {
+        setFade(false);
+        setSelectedFlow(id);
+        await dispatch(updateCurrentFlowId(id));
+        setFade(true);
+      } catch (error) {
+        setFade(true);
+        console.error(error);
+      }
     }
   }, [dispatch, currentFlowId]);
 
@@ -50,21 +59,13 @@ export function ForDevs() {
 
   return (
     <Container maxWidth={false}>
-      <Box pt={{
-        xs: 2,
-        lg: 4,
-      }}
-      >
+      <Box pt={{ xs: 2, lg: 4 }}>
         <Box mb={2}>
           <ClientDetails />
         </Box>
         <Paper>
           <Box p={2}>
-            <Box mb={{
-              xs: 4,
-              lg: 2,
-            }}
-            >
+            <Box mb={{ xs: 4, lg: 2 }}>
               <Typography variant="h5">
                 {intl.formatMessage({ id: 'forDevs.integrations' })}
               </Typography>
@@ -122,34 +123,17 @@ export function ForDevs() {
           </Box>
           <Grid container className={classes.tabsItemsWrapper}>
             <Grid item container direction="column" xs={12} lg={3} className={classes.tabsWrapper}>
-              <Box
-                px={{
-                  xs: 2,
-                  lg: 1,
-                }}
-                pt={{
-                  xs: 0,
-                  lg: 1,
-                }}
-                pb={{
-                  xs: 3,
-                  lg: 0,
-                }}
-              >
+              <Box px={{ xs: 2, lg: 1 }} pt={{ xs: 0, lg: 1 }} pb={{ xs: 3, lg: 0 }}>
                 <TabsMenu selectedId={selectedTab} onClick={handleTabChange} />
               </Box>
             </Grid>
-            <Grid item xs={12} lg={9}>
-              <Box
-                p={{
-                  xs: 2,
-                  lg: 4,
-                }}
-                height="100%"
-              >
-                <Information selectedPage={selectedTab} />
-              </Box>
-            </Grid>
+            <Fade in={fade} timeout={fade && 1000}>
+              <Grid item xs={12} lg={9}>
+                <Box p={{ xs: 2, lg: 4 }} height="100%">
+                  <Information selectedPage={selectedTab} />
+                </Box>
+              </Grid>
+            </Fade>
           </Grid>
         </Paper>
       </Box>
