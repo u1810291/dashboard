@@ -13,6 +13,7 @@ import { flowNameValidator } from '../../validators/FlowName.validator';
 import { AddNewFlowModal } from '../../components/AddNewFlowDialog/AddNewFlowModal';
 import { useOverlay } from '../../../overlay';
 import { MAX_NUMBER_OF_PRODUCTS } from '../../models/Product.model';
+import { Routes } from '../../../../models/Router.model';
 
 export function VerificationFlows() {
   const classes = useStyles();
@@ -39,7 +40,7 @@ export function VerificationFlows() {
     await flowNameValidator({ hasDuplicate: !!duplicate, name: value });
     const newFlow = await dispatch(merchantCreateFlow({ name: value }));
     history.push({
-      pathname: `/flows/${newFlow.id}`,
+      pathname: `${Routes.flows.root}/${newFlow.id}`,
     });
   }, [merchantFlowList, dispatch, history]);
 

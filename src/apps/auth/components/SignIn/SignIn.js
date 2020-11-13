@@ -1,5 +1,4 @@
 import { Button, Grid, Typography, InputLabel, AppBar, Box } from '@material-ui/core';
-import { ROOT_PATH } from 'apps/routing';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { email, required } from 'lib/validations';
@@ -14,6 +13,7 @@ import SigninService from 'assets/signin-service.png';
 import { signIn } from '../../state/auth.actions';
 import { useStyles } from './SignIn.styles';
 import { IntlButton } from '../../../intl';
+import { Routes } from '../../../../models/Router.model';
 
 const validateForm = (values) => pickBy(
   {
@@ -38,7 +38,7 @@ export function SignIn() {
     setStatus({});
     try {
       await dispatch(signIn(data));
-      history.push(ROOT_PATH);
+      history.push(Routes.root);
     } catch (error) {
       setFieldError('password', intl.formatMessage({ id: 'SignIn.form.authError' }));
     }
@@ -94,7 +94,7 @@ export function SignIn() {
                         <InputLabel className={classes.label}>
                           {intl.formatMessage({ id: 'SignIn.form.labels.password' })}
                         </InputLabel>
-                        <Link to="/auth/password-recovery">
+                        <Link to={Routes.auth.passwordRecovery}>
                           {intl.formatMessage({ id: 'SignIn.recovery' })}
                         </Link>
                       </Grid>

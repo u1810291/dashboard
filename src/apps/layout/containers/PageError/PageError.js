@@ -1,11 +1,11 @@
 import { Box, Button, Typography } from '@material-ui/core';
-import { ROOT_PATH } from 'apps/routing';
 import React from 'react';
 import { FiHome } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 import { CenterContent } from '../../components/CenterContent/CenterContent';
 import { ReactComponent as Image500 } from './500.svg';
+import { Routes } from '../../../../models/Router.model';
 
 export function PageError({ onRetry }) {
   const intl = useIntl();
@@ -20,7 +20,7 @@ export function PageError({ onRetry }) {
           <Typography variant="h2" gutterBottom>{intl.formatMessage({ id: 'PageError.title' })}</Typography>
           <Typography variant="subtitle1" gutterBottom>{intl.formatMessage({ id: 'PageError.subtitle' })}</Typography>
           <Box mt={2}>
-            <NavLink to={ROOT_PATH}>
+            <NavLink to={Routes.root}>
               <Button
                 color="primary"
                 variant="contained"

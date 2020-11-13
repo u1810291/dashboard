@@ -6,6 +6,7 @@ import DrivingLicenseSVG from './images/driving-license.svg';
 import NationalIdSVG from './images/national-id.svg';
 import PassportSVG from './images/passport.svg';
 import { useStyles } from './Example.styles';
+import { Routes } from '../../../../models/Router.model';
 
 export const ExampleIconMap = {
   nationalId: NationalIdSVG,
@@ -18,7 +19,7 @@ export function ExampleCard({ card }) {
   const classes = useStyles();
 
   return (
-    <Link to={{ pathname: `/identities/demo/${card.demoId}` }}>
+    <Link to={{ pathname: `${Routes.list.demo}/${card.demoId}` }}>
       <Card className={classes.card}>
         <CardMedia
           component="img"

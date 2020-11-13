@@ -13,6 +13,7 @@ import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { VerificationWebhookModal } from '../VerificationWebhookModal/VerificationWebhookModal';
 import { SideButton, useStyles } from './VerificationHeader.styles';
 import { getGoBackToListLink } from '../../../../models/Identity.model';
+import { Routes } from '../../../../models/Router.model';
 
 export function VerificationHeader({ identity, isDemo = false }) {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
       setIsDeleting(true);
       await confirmDelete();
       await dispatch(identityRemove(identity.id));
-      history.push('/identities');
+      history.push(Routes.list.root);
     } catch (error) {
       if (!error) {
         // cancelled

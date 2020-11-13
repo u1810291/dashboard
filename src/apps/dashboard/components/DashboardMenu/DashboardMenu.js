@@ -20,13 +20,13 @@ import { collaboratorAdd } from '../../../collaborators/state/collaborator.actio
 import { selectCollaboratorState } from '../../../collaborators/state/collaborator.selectors';
 import { IntlButton } from '../../../intl';
 import { TopMenuItem } from '../../../layout';
-import { ROOT_PATH } from '../../../routing';
 import { useLogout } from '../LogoutModal/LogoutModal';
 import { PrimaryMenu } from '../PrimaryMenu/PrimaryMenu';
 import { SecondaryMenu } from '../SecondaryMenu/SecondaryMenu';
 import { useStyles } from './DashboardMenu.styles';
 import { selectIsDesktopMenuOpen } from '../../state/dashboard.selectors';
 import { setIsDesktopMenuOpen } from '../../state/dashboard.actions';
+import { Routes } from '../../../../models/Router.model';
 
 export function DashboardMenu() {
   const ownerModel = useSelector(selectIsOwnerModel);
@@ -46,7 +46,7 @@ export function DashboardMenu() {
   const handleLogout = useCallback(async () => {
     await logout(intl.formatMessage({ id: 'confirm_string' }));
     dispatch(signOut());
-    history.push(ROOT_PATH);
+    history.push(Routes.root);
   }, [dispatch, history, intl, logout]);
 
   const handleInviteSubmit = useCallback(async (data) => {
@@ -119,7 +119,7 @@ export function DashboardMenu() {
         <Grid item className={classes.contentTop}>
           <NavLink
             exact
-            to={isOwner ? '/' : '/identities'}
+            to={isOwner ? Routes.root : Routes.list.root}
             data-qa={QATags.Navigation.Top.Logo}
           >
             <Box px={2} pt={2} pb={1} className={classes.logo}>
@@ -183,7 +183,7 @@ export function DashboardMenu() {
           <Box pt={1}>
             <TopMenuItem
               id="account"
-              to="/settings"
+              to={Routes.settings.root}
               label={intl.formatMessage({ id: 'dashboard.menu.settings' })}
               icon={<FiSettings />}
               color="common.black7"

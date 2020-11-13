@@ -1,11 +1,11 @@
 import { Box, Button, Typography } from '@material-ui/core';
-import { ROOT_PATH } from 'apps/routing';
 import React from 'react';
 import { FiHome } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 import { CenterContent } from '../../components/CenterContent/CenterContent';
 import { ReactComponent as Image404 } from './404.svg';
+import { Routes } from '../../../../models/Router.model';
 
 export function Page404() {
   const intl = useIntl();
@@ -20,7 +20,7 @@ export function Page404() {
           <Typography variant="h2" gutterBottom>{intl.formatMessage({ id: 'Page404.title' })}</Typography>
           <Typography variant="subtitle1" gutterBottom>{intl.formatMessage({ id: 'Page404.subtitle' })}</Typography>
           <Box mt={2}>
-            <NavLink to={ROOT_PATH}>
+            <NavLink to={Routes.root}>
               <Button
                 color="primary"
                 variant="contained"

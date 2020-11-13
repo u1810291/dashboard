@@ -8,6 +8,7 @@ import { FiBarChart2, FiList, FiUserCheck, FiCode } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { filterUpdate, identitiesFilteredCountLoad, identitiesListLoad } from 'state/identities/identities.actions';
+import { Routes } from '../../../../models/Router.model';
 
 export function PrimaryMenu({ isOwner = false, ...props }) {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
     {
       id: 'metrics',
       show: isOwner,
-      to: '/metrics',
+      to: Routes.analytics.root,
       label: intl.formatMessage({ id: 'dashboard.menu.metrics' }),
       handler: () => trackEvent(MixPanelEvents.NavMetrics),
       icon: <FiBarChart2 />,
@@ -25,7 +26,7 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
     },
     {
       id: 'identities',
-      to: '/identities',
+      to: Routes.list.root,
       label: intl.formatMessage({ id: 'dashboard.menu.identities' }),
       handler: () => {
         trackEvent(MixPanelEvents.NavVerificationList);
@@ -39,7 +40,7 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
     {
       id: 'product',
       show: isOwner,
-      to: '/',
+      to: Routes.flows.root,
       label: intl.formatMessage({ id: 'dashboard.menu.product' }),
       handler: () => trackEvent(MixPanelEvents.NavProduct),
       icon: <FiUserCheck />,
@@ -48,7 +49,7 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
     {
       id: 'forDevelopers',
       show: isOwner,
-      to: '/dev',
+      to: Routes.dev.root,
       label: intl.formatMessage({ id: 'dashboard.menu.developers' }),
       handler: () => trackEvent(MixPanelEvents.NavForDevelopers),
       icon: <FiCode />,
