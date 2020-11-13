@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { CheckBarExpandable } from 'apps/identity/components/CheckBarExpandable/CheckBarExpandable';
 import { useStyles } from './DuplicateUserDetectionCheck.styles';
+import { Routes } from '../../../../models/Router.model';
 
 export function DuplicateUserDetectionCheck({ stepData = {} }) {
   const classes = useStyles();
@@ -16,7 +17,7 @@ export function DuplicateUserDetectionCheck({ stepData = {} }) {
             <CardContent className={classes.wrapper}>
               {intl.formatMessage({ id: `Checks.result.DuplicateUserDetectionCheck.${stepData.checkStatus}.description` })}
               {stepData.error && stepData.error.details && stepData.error.details.length === 1 && (
-                <Link to={`/identities/${stepData.error.details[0].identity}`}>
+                <Link to={`${Routes.list.root}/${stepData.error.details[0].identity}`}>
                   {intl.formatMessage({ id: 'Checks.result.DuplicateUserDetectionCheck.duplicatationLink' })}
                 </Link>
               )}
@@ -25,7 +26,7 @@ export function DuplicateUserDetectionCheck({ stepData = {} }) {
               <Box px={6} m={1}>
                 {stepData.error.details.map((entry, index) => (
                   <Box>
-                    <Link to={`/identities/${entry.identity}`}>
+                    <Link to={`${Routes.list.root}/${entry.identity}`}>
                       {`${intl.formatMessage({ id: 'Checks.result.DuplicateUserDetectionCheck.duplicatationLinks' })} ${stepData.data.length > 1 ? index + 1 : ''}`}
                     </Link>
                   </Box>

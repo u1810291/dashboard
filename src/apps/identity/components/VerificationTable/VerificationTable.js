@@ -21,6 +21,7 @@ import { NoVerifications } from '../NoVerifications/NoVerifications';
 import { StatusLabel } from '../StatusLabel';
 import { VerificationFlowName } from '../VerificationFlowName/VerificationFlowName';
 import { TableRowHovered, useStyles } from './VerificationTable.styles';
+import { Routes } from '../../../../models/Router.model';
 
 export function VerificationTable() {
   const intl = useIntl();
@@ -79,7 +80,7 @@ export function VerificationTable() {
 
   const handleRedirect = useCallback((id) => {
     history.push({
-      pathname: `/identities/${id}`,
+      pathname: `${Routes.list.root}/${id}`,
       state: { from: history.location.pathname + history.location.search },
     });
   }, [history]);
@@ -99,7 +100,7 @@ export function VerificationTable() {
       handleRedirect(id);
     }
     if (event.button === 1) {
-      window.open(`/identities/${id}`, '_blank');
+      window.open(`${Routes.list.root}/${id}`, '_blank');
     }
   }, [handleRedirect, mouseUpExpired]);
 

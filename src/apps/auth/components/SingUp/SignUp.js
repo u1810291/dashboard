@@ -1,6 +1,5 @@
 import { Button, Grid, Typography } from '@material-ui/core';
 import { Page404 } from 'apps/layout';
-import { ROOT_PATH } from 'apps/routing';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { useQuery } from 'lib/url';
@@ -14,6 +13,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { dashboardUpdate } from 'state/merchant/merchant.actions';
 import { isValidCheckSum } from '../../models/auth.model';
 import { signUp } from '../../state/auth.actions';
+import { Routes } from '../../../../models/Router.model';
 
 const validateForm = (values) => pickBy(
   {
@@ -46,7 +46,7 @@ export function SignUp() {
       if (window.ga) {
         window.ga('send', 'event', 'form_submission');
       }
-      history.push(ROOT_PATH);
+      history.push(Routes.root);
     } catch (err) {
       setSubmitting(false);
       setStatus(get(err, 'response.data.message', err.message));
@@ -155,7 +155,7 @@ export function SignUp() {
         <Typography align="center">
           {intl.formatMessage({ id: 'signup.haveAccount' })}
           {' '}
-          <Link to="/auth/signin">
+          <Link to={Routes.auth.signIn}>
             {intl.formatMessage({ id: 'signup.haveAccount.link' })}
           </Link>
         </Typography>

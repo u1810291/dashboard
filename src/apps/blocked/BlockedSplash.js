@@ -7,6 +7,7 @@ import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { ReactComponent as BlockedBGImage } from './BlockedBg.svg';
 import { useStyles } from './BlockedSplash.styles';
+import { Routes } from '../../models/Router.model';
 
 export function BlockedSplash() {
   const classes = useStyles();
@@ -45,7 +46,7 @@ export function BlockedSplash() {
                   <Typography variant="caption">{intl.formatMessage({ id: 'BlockedSplash.description' })}</Typography>
                 </Box>
                 <Box mt={3}>
-                  <Link to="/settings">
+                  <Link to={Routes.settings.root}>
                     <Button variant="contained" color="primary">
                       {intl.formatMessage({ id: 'actions.selectPlan' })}
                     </Button>

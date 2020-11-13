@@ -11,6 +11,7 @@ import SigninService from 'assets/signin-service.png';
 import { passwordRecovery } from '../../state/auth.actions';
 import { useStyles } from '../SignIn/SignIn.styles';
 import { IntlButton } from '../../../intl';
+import { Routes } from '../../../../models/Router.model';
 
 export function PasswordRecovery() {
   const intl = useIntl();
@@ -36,7 +37,7 @@ export function PasswordRecovery() {
   };
 
   if (status === true) {
-    return <Redirect to="/" />;
+    return <Redirect to={Routes.root} />;
   }
 
   return (
@@ -89,7 +90,7 @@ export function PasswordRecovery() {
                   </Box>
 
                   <Box>
-                    <Link to="/auth/signin" className={classes.link}>
+                    <Link to={Routes.auth.signIn} className={classes.link}>
                       {intl.formatMessage({ id: 'PasswordRecovery.signin' })}
                     </Link>
                   </Box>

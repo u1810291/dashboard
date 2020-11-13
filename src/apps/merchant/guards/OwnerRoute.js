@@ -3,6 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route, useLocation } from 'react-router-dom';
 import { selectIsOwnerModel } from 'state/merchant/merchant.selectors';
+import { Routes } from '../../../models/Router.model';
 
 export function OwnerRoute({ path, ...props }) {
   const ownerModel = useSelector(selectIsOwnerModel);
@@ -15,7 +16,7 @@ export function OwnerRoute({ path, ...props }) {
   }
 
   if (isRequestedPath && !ownerModel.value) {
-    return <RedirectWithLocation pathname="/identities" />;
+    return <RedirectWithLocation pathname={Routes.list.root} />;
   }
 
   return (

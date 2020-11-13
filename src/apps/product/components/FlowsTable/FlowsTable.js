@@ -16,6 +16,7 @@ import { useConfirmDelete } from '../../../identity/components/DeleteModal/Delet
 import { merchantDeleteFlow, updateCurrentFlowId } from '../../../../state/merchant/merchant.actions';
 import { NoFlows } from '../NoFlows/NoFlows';
 import { getNewFlowId } from '../../models/Product.model';
+import { Routes } from '../../../../models/Router.model';
 
 export function FlowsTable({ onAddNewFlow }) {
   const intl = useIntl();
@@ -58,7 +59,7 @@ export function FlowsTable({ onAddNewFlow }) {
 
   const handleRedirect = useCallback((id) => {
     history.push({
-      pathname: `/flows/${id}`,
+      pathname: `${Routes.flows.root}/${id}`,
     });
   }, [history]);
 
@@ -77,7 +78,7 @@ export function FlowsTable({ onAddNewFlow }) {
       handleRedirect(id);
     }
     if (event.button === 1) {
-      window.open(`/flows/${id}`, '_blank');
+      window.open(`${Routes.flows.root}/${id}`, '_blank');
     }
   }, [handleRedirect, mouseUpExpired]);
 
