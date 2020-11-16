@@ -1,10 +1,9 @@
-import { makeStyles } from '@material-ui/core';
+import { Button, makeStyles, withStyles } from '@material-ui/core';
 import IconLoad from 'assets/icon-load.svg';
 
 export const useStyles = makeStyles((theme) => ({
   wrapper: {
     display: 'flex',
-    flexWrap: 'wrap',
   },
   item: {
     width: '100%',
@@ -22,19 +21,6 @@ export const useStyles = makeStyles((theme) => ({
     lineHeight: '1.1',
     color: theme.palette.common.black75,
   },
-  map: {
-    marginBottom: 36,
-    borderRadius: 5,
-    backgroundColor: theme.palette.common.black7opacity,
-    [theme.breakpoints.up('md')]: {
-      marginBottom: 0,
-      padding: 20,
-    },
-    '&>img': {
-      borderRadius: 5,
-      maxHeight: '100%',
-    },
-  },
   data: {
     fontSize: 14,
     lineHeight: 1.2,
@@ -44,7 +30,7 @@ export const useStyles = makeStyles((theme) => ({
   checking: {
     position: 'relative',
     margin: [[0, 'auto', 20]],
-    padding: [[30, 20, 0]],
+    padding: [[30, 30, 0]],
     textAlign: 'center',
     '&:after': {
       content: '""',
@@ -78,3 +64,33 @@ export const useStyles = makeStyles((theme) => ({
     lineHeight: 1.1,
   },
 }));
+
+export const LinkButton = withStyles((theme) => ({
+  root: {
+    height: 30,
+    color: '#3757ffc7',
+    backgroundColor: '#f3f7ff',
+    '&:hover': {
+      backgroundColor: '#E3E6F7',
+    },
+    minWidth: 100,
+    fontSize: 14,
+    width: '100%',
+    maxWidth: 350,
+  },
+  label: {
+    paddingLeft: 5,
+    whiteSpace: 'nowrap',
+    justifyContent: 'space-between;',
+    [theme.breakpoints.down(1080)]: {
+      paddingLeft: 10,
+    },
+  },
+  endIcon: {
+    width: 17,
+    marginRight: 10,
+    [theme.breakpoints.down(1080)]: {
+      marginRight: 20,
+    },
+  },
+}))(Button);
