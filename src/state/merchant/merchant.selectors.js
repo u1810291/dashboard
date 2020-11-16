@@ -158,7 +158,7 @@ export const selectIpCheck = createSelector(
 
 export const selectDuplicateUserDetectionCheck = createSelector(
   selectVerificationPattern,
-  (flow) => flow[VerificationStepTypes.DuplicateUserValidation],
+  (flow) => flow[VerificationStepTypes.DuplicateIdentityValidation],
 );
 
 export const selectLogoModel = createSelector(

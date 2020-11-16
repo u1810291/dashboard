@@ -8,7 +8,7 @@ export const DEFAULT_STATUS_COLOR = '#ADADAD';
 
 export const VerificationStepTypes = {
   IpValidation: 'ip-validation',
-  DuplicateUserValidation: 'duplicate-user-detection',
+  DuplicateIdentityValidation: 'duplicate-identity-detection',
 };
 
 export const IdentityStatuses = {
@@ -139,7 +139,7 @@ export function getIdentityExtras(identity, countries) {
   let duplicateUserCheck;
   documents.forEach((doc) => {
     doc.steps = doc.steps.filter((item) => {
-      if (item.id === VerificationStepTypes.DuplicateUserValidation) {
+      if (item.id === VerificationStepTypes.DuplicateIdentityValidation) {
         duplicateUserCheck = item;
         return false;
       }

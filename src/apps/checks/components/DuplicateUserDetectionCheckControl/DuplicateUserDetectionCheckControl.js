@@ -20,7 +20,7 @@ export function DuplicateUserDetectionCheckControl() {
     try {
       await dispatch(configurationFlowUpdate({
         verificationPatterns: {
-          [VerificationStepTypes.DuplicateUserValidation]: isChecked,
+          [VerificationStepTypes.DuplicateIdentityValidation]: isChecked,
         },
       }));
       setState(isChecked);
