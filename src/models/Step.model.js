@@ -16,6 +16,7 @@ export const DocumentStepTypes = {
   ColombianRegistraduria: 'colombian-registraduria-validation',
   ArgentinianRenaper: 'argentinian-renaper-validation',
   PeruvianReniec: 'peruvian-reniec-validation',
+  DuplicateUserDetectionCheck: 'duplicate-user-detection',
 };
 
 export const BiometricStepTypes = {
@@ -90,6 +91,7 @@ export function getDocumentStatus(steps) {
 
 const StepIncompletionErrors = {
   [DocumentStepTypes.Watchlists]: ['watchlists.notEnoughParams'],
+  [DocumentStepTypes.DuplicateUserDetectionCheck]: ['duplacateIdentityDetection.notValidParams'],
 };
 
 export const LEGACY_ERROR = 'LegacyError';
