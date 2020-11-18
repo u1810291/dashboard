@@ -779,7 +779,7 @@
   "passwordReset.form.placeholders.password": "Password",
   "passwordReset.subtitle": "Please, submit a new password for your account",
   "passwordReset.title": "Reset your password",
-  "PermalinkSection.description": "Send that link to verify users via SMS, e-mail, intercom or in any other way. It's always the simplest way to get started!",
+  "PermalinkSection.description": "Send that link to verify users via SMS, e-mail, Intercom or in any other way. It's always the simplest way to get started!",
   "PermalinkSection.title": "Direct Verification Link",
   "personalSettings.errors.notAllowed": "Password needs to be 8 characters long and at least one number",
   "personalSettings.errors.oldPassword": "Current Password is wrong",
