@@ -1,6 +1,7 @@
 import { makeStyles, Select, withStyles } from '@material-ui/core';
 import ukImage from 'assets/intl-uk.svg';
 import esImage from 'assets/intl-es.svg';
+import ptImage from 'assets/intl-pt.svg';
 
 export const useStyles = makeStyles((theme) => ({
   topMenuItem: {
@@ -32,6 +33,11 @@ export const useStyles = makeStyles((theme) => ({
         background: `url(${esImage}) no-repeat center center`,
       },
     },
+    '&[data-value="pt"]': {
+      '&::before': {
+        background: `url(${ptImage}) no-repeat center center`,
+      },
+    },
     '&:focus': {
       backgroundColor: 'transparent',
     },
@@ -56,6 +62,11 @@ export const useStyles = makeStyles((theme) => ({
     '&[data-value="es"]': {
       '&::before': {
         background: `url(${esImage}) no-repeat center center`,
+      },
+    },
+    '&[data-value="pt"]': {
+      '&::before': {
+        background: `url(${ptImage}) no-repeat center center`,
       },
     },
     '&:hover': {
