@@ -3,7 +3,7 @@ import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { BiometricTypes } from 'models/Biometric.model';
 import { VerificationStepTypes } from 'models/Identity.model';
-import { DEFAULT_LOCALE } from 'models/Intl.model';
+import { DEFAULT_LOCALE, LanguageList } from 'models/Intl.model';
 import { createSelector } from 'reselect';
 import { ChecksList } from 'apps/checks/models/Checks.model';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
@@ -100,7 +100,15 @@ export const selectDashboardModel = createSelector(
 // TODO @dkchv: move to intl feature
 export const selectLanguage = createSelector(
   selectDashboardModel,
-  selectModelValue((dashboard) => dashboard.language || DEFAULT_LOCALE),
+  selectModelValue((dashboard) => {
+    const locale = dashboard.language;
+    const isSupported = !!LanguageList.find((item) => item.locale === locale);
+    if (!isSupported) {
+      console.warn(`warn: Locale ${locale} not found`);
+      return DEFAULT_LOCALE;
+    }
+    return locale;
+  }),
 );
 
 // -- flows
@@ -158,7 +166,7 @@ export const selectIpCheck = createSelector(
 
 export const selectDuplicateUserDetectionCheck = createSelector(
   selectVerificationPattern,
-  (flow) => flow[VerificationStepTypes.DuplicateIdentityValidation],
+  (flow) => flow[VerificationStepTypes.DuplicateUserValidation],
 );
 
 export const selectLogoModel = createSelector(
