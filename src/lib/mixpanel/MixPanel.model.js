@@ -5,7 +5,6 @@ export const MixPanelEvents = {
   NavMetrics: 'merchant_click_metrics_tab',
   NavVerificationList: 'merchant_click_verif_list_tab',
   NavProduct: 'merchant_click_product_tab',
-  NavIntegration: 'merchant_clicked_integration_tab',
   NavForDevelopers: 'merchant_clicked_for_developers_tab',
   NavGovChecks: 'merchant_clicked_gov_checks_tab',
   // pricing

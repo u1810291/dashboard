@@ -2,7 +2,6 @@ import { Box, Container, Grid } from '@material-ui/core';
 import { AdditionalChecks } from 'apps/checks';
 import { Configuration } from 'apps/configuration';
 import { GovCheckSetup } from 'apps/GovCheck';
-import { Integration } from 'apps/integration';
 import { Tab } from 'apps/ui';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,12 +27,6 @@ export function Product() {
       label: 'Product.tab.customization',
       qa: QATags.Product.Tab.Configuration,
       body: <Configuration />,
-    },
-    {
-      mixPanelEvent: MixPanelEvents.NavIntegration,
-      label: 'Product.tab.integration',
-      qa: QATags.Product.Tab.Integration,
-      body: <Integration />,
     },
     {
       mixPanelEvent: MixPanelEvents.NavGovChecks,
