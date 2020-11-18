@@ -4,6 +4,7 @@ import React from 'react';
 import PrismSyntaxHighlighter from 'react-syntax-highlighter/prism';
 import lightTheme from './light';
 import lightYellowTheme from './light-yellow';
+import lightBlueTheme from './light-blue';
 import darkTheme from './dark';
 import { useStyles } from './SyntaxHighligther.styles';
 
@@ -14,6 +15,7 @@ export function SyntaxHighlighter({
   isBorder = true,
   isDarkTheme = false,
   isLightYellowTheme = false,
+  isLightBlueTheme = false,
   qa = {}, // should have `Value` and `Copy` fields
   className = '',
   withCopyText = false,
@@ -26,6 +28,9 @@ export function SyntaxHighlighter({
   }
   if (isLightYellowTheme) {
     style = lightYellowTheme;
+  }
+  if (isLightBlueTheme) {
+    style = lightBlueTheme;
   }
   return (
     <CopyToClipboard text={isCopyToClipboard ? code : null} isOverlay withCopyText={withCopyText} qa={qa.Copy}>
