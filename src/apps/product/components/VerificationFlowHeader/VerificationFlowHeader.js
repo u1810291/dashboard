@@ -6,15 +6,20 @@ import { Paper, IconButton, Box, Menu, MenuItem, ListItemIcon, ListItemText } fr
 import { copyToClipboard } from 'components/clipboard';
 import { permalinkUrl } from 'lib/client/urls';
 import { merchantUpdateFlow, merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
-import { selectCurrentFlow, selectMerchantFlowsModel, selectAppLastModel } from 'state/merchant/merchant.selectors';
+import {
+  selectCurrentFlow,
+  selectMerchantFlowsModel,
+  selectAppLastModel,
+  selectMerchantFlowList,
+} from 'state/merchant/merchant.selectors';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { FiCopy, FiEdit3, FiTrash2 } from 'react-icons/fi';
 import { useStyles, CopyLinkButton } from './VerificationFlowHeader.styles';
 import { EditableField } from '../EditableField/EditableField';
 import { flowNameValidator } from '../../validators/FlowName.validator';
-import { DeleteFlowDialog } from '../DeleteFlowDialog/DeleteFormDialog';
 import { getNewFlowId } from '../../models/Product.model';
 import { Routes } from '../../../../models/Router.model';
+import { useConfirmDelete } from '../../../identity/components/DeleteModal/DeleteModal';
 
 export function VerificationFlowHeader(props) {
   const classes = useStyles();
@@ -23,11 +28,11 @@ export function VerificationFlowHeader(props) {
   const intl = useIntl();
   const [anchorEl, setAnchorEl] = useState(null);
   const [editable, setEditable] = useState(false);
-  const [error, setError] = useState(false);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const appModel = useSelector(selectAppLastModel);
   const currentFlow = useSelector(selectCurrentFlow);
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
+  const merchantFlowList = useSelector(selectMerchantFlowList);
+  const confirmDelete = useConfirmDelete();
 
   useEffect(() => {
     setEditable(false);
@@ -46,30 +51,27 @@ export function VerificationFlowHeader(props) {
     handleClose();
   }
 
-  function handleDelete() {
-    setOpenDeleteDialog(true);
-    handleClose();
-  }
-
-  function closeDialogHandler() {
-    setOpenDeleteDialog(false);
-  }
-
-  const submitDialogForm = useCallback(async () => {
-    const newFlowId = getNewFlowId(merchantFlowsModel, currentFlow.id);
+  const handleDelete = useCallback(async () => {
+    if (merchantFlowList.length <= 1) {
+      return;
+    }
 
     try {
-      if (merchantFlowsModel.value.length > 1) {
-        dispatch(updateCurrentFlowId(newFlowId));
-        dispatch(merchantDeleteFlow(currentFlow.id));
-        history.push({
-          pathname: Routes.root,
-        });
-      }
+      await confirmDelete();
+      const { id } = currentFlow;
+      const newFlowId = getNewFlowId(merchantFlowsModel, id);
+
+      history.push(Routes.flows.root);
+      dispatch(updateCurrentFlowId(newFlowId));
+      await dispatch(merchantDeleteFlow(id));
     } catch (err) {
-      setError(err);
+      if (!err) {
+        // cancelled
+        return;
+      }
+      console.error('identity remove error', err);
     }
-  }, [history, dispatch, currentFlow, merchantFlowsModel]);
+  }, [history, dispatch, confirmDelete, merchantFlowsModel, currentFlow, merchantFlowList.length]);
 
   const submitEditable = useCallback(async (text) => {
     await dispatch(merchantUpdateFlow(currentFlow.id, { name: text }));
@@ -133,13 +135,6 @@ export function VerificationFlowHeader(props) {
         </MenuItem>
         )}
       </Menu>
-      <DeleteFlowDialog
-        openDialog={openDeleteDialog}
-        closeDialogHandler={closeDialogHandler}
-        submitDialogForm={submitDialogForm}
-        error={!!error}
-        helperText={error}
-      />
     </Paper>
   );
 }

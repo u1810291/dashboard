@@ -32,7 +32,7 @@ export function FlowsTable({ onAddNewFlow }) {
   const dispatch = useDispatch();
   const [mouseUpExpired, setMouseUpExpired] = useState(false);
 
-  const handleRemove = useCallback(async (e, id) => {
+  const handleDelete = useCallback(async (e, id) => {
     e.stopPropagation();
     if (deleting || merchantFlowList.length <= 1) {
       return;
@@ -143,7 +143,7 @@ export function FlowsTable({ onAddNewFlow }) {
                 <TableCell className={classes.iconDeleteWrapper}>
                   <IconButton
                     size="small"
-                    onMouseUp={(e) => handleRemove(e, item.id)}
+                    onMouseUp={(e) => handleDelete(e, item.id)}
                     tabIndex="-1"
                     className={classes.iconButtonDelete}
                   >
