@@ -1,3 +1,4 @@
+import { DEFAULT_LOCALE } from 'models/Intl.model';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -8,7 +9,11 @@ export function AppIntlProvider({ children }) {
   const currentLang = useSelector(selectLanguage);
 
   return (
-    <IntlProvider locale={currentLang} messages={translations[currentLang]}>
+    <IntlProvider
+      locale={currentLang}
+      defaultLocale={DEFAULT_LOCALE}
+      messages={translations[currentLang]}
+    >
       {children}
     </IntlProvider>
   );
