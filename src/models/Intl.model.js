@@ -1,16 +1,22 @@
+export const SupportedLocales = {
+  EN: 'en',
+  ES: 'es',
+  ptBR: 'pt-BR',
+};
+
 export const LanguageList = [
   {
-    locale: 'en',
+    locale: SupportedLocales.EN,
     label: 'English',
   },
   {
-    locale: 'es',
+    locale: SupportedLocales.ES,
     label: 'Español',
   },
   {
-    locale: 'pt-BR',
+    locale: SupportedLocales.ptBR,
     label: 'Português (Brazil)',
   },
 ];
 
-export const DEFAULT_LOCALE = 'en';
+export const DEFAULT_LOCALE = SupportedLocales.EN;

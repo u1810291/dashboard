@@ -1,9 +1,10 @@
+import { SupportedLocales } from 'models/Intl.model';
 import en from './en.json';
 import es from './es.json';
 import pt from './pt_BR.json';
 
 export const translations = {
-  en,
-  es,
-  'pt-BR': pt,
+  [SupportedLocales.EN]: en,
+  [SupportedLocales.ES]: es,
+  [SupportedLocales.ptBR]: pt,
 };
