@@ -8,8 +8,8 @@ export const LanguageList = [
     label: 'Español',
   },
   {
-    locale: 'pt',
-    label: 'Português',
+    locale: 'pt-BR',
+    label: 'Português (Brazil)',
   },
 ];
 
