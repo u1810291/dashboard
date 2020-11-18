@@ -3,6 +3,7 @@ import { QATags } from 'models/QA.model';
 import React from 'react';
 import { FiHelpCircle } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
+import { Routes } from '../../../../models/Router.model';
 
 export function SecondaryMenu(props) {
   const intl = useIntl();
@@ -10,7 +11,7 @@ export function SecondaryMenu(props) {
   const entries = [
     {
       id: 'faq',
-      to: '/info',
+      to: Routes.info.root,
       label: intl.formatMessage({ id: 'dashboard.menu.faq' }),
       icon: <FiHelpCircle />,
       qa: QATags.Navigation.Top.FAQ,

@@ -8,6 +8,7 @@ import { useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { passwordReset } from '../../state/auth.actions';
+import { Routes } from '../../../../models/Router.model';
 
 const formikSettings = {
   handleSubmit(values, { props, setSubmitting, setStatus }) {
@@ -27,7 +28,7 @@ function PasswordReset({ status, isSubmitting }) {
   const intl = useIntl();
 
   if (status === true) {
-    return <Redirect to="/" />;
+    return <Redirect to={Routes.root} />;
   }
 
   return (
@@ -63,7 +64,7 @@ function PasswordReset({ status, isSubmitting }) {
       </Box>
 
       <Box mt={3}>
-        <Link to="/auth/signin">
+        <Link to={Routes.auth.signIn}>
           {intl.formatMessage({ id: 'PasswordRecovery.signin' })}
         </Link>
       </Box>

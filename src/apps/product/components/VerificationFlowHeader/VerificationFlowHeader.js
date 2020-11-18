@@ -14,6 +14,7 @@ import { EditableField } from '../EditableField/EditableField';
 import { flowNameValidator } from '../../validators/FlowName.validator';
 import { DeleteFlowDialog } from '../DeleteFlowDialog/DeleteFormDialog';
 import { getNewFlowId } from '../../models/Product.model';
+import { Routes } from '../../../../models/Router.model';
 
 export function VerificationFlowHeader(props) {
   const classes = useStyles();
@@ -62,7 +63,7 @@ export function VerificationFlowHeader(props) {
         dispatch(updateCurrentFlowId(newFlowId));
         dispatch(merchantDeleteFlow(currentFlow.id));
         history.push({
-          pathname: '/',
+          pathname: Routes.root,
         });
       }
     } catch (err) {

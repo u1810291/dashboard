@@ -3,6 +3,7 @@ import { get } from 'lodash';
 import { getDocumentExtras } from 'models/Document.model';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getIpCheckUrl } from './IpCheck.model';
+import { Routes } from './Router.model';
 
 export const DEFAULT_STATUS_COLOR = '#ADADAD';
 
@@ -160,10 +161,10 @@ export function getIdentityExtras(identity, countries) {
 }
 
 export function getGoBackToListLink(location) {
-  if (location.state?.from?.startsWith('/identities')) {
+  if (location.state?.from?.startsWith(Routes.list.root)) {
     return location.state.from;
   } else {
-    return '/identities';
+    return Routes.list.root;
   }
 }
 

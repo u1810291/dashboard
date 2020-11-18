@@ -1,6 +1,5 @@
 import { signOut } from 'apps/auth/state/auth.actions';
 import { Layout, PageError } from 'apps/layout';
-import { ROOT_PATH } from 'apps/routing';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
@@ -16,6 +15,7 @@ import { DashboardRouter } from './Dashboard.router';
 import { Footer } from '../components/Footer/Footer';
 import { Loader } from '../components/Loader/Loader';
 import { DashboardLoader } from '../components/DashboardLoader/DashboardLoader';
+import { Routes } from '../../../models/Router.model';
 
 export function Dashboard() {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ export function Dashboard() {
           .catch((error) => {
             if (error.response && error.response.status === 401) {
               dispatch(signOut());
-              history.push(ROOT_PATH);
+              history.push(Routes.root);
             } else {
               setIsError(true);
               throw error;

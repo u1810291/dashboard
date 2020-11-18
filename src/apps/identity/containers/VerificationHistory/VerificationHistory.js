@@ -13,6 +13,7 @@ import { VerificationTable } from '../../components/VerificationTable/Verificati
 import { useFilterUpdate } from '../../hooks/filterUpdate.hook';
 import { initialFilter, parseFromURL } from '../../models/filter.model';
 import { useStyles } from './VerificationHistory.styles';
+import { Routes } from '../../../../models/Router.model';
 
 export function VerificationHistory() {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ export function VerificationHistory() {
     dispatch(identitiesListLoad(true));
     dispatch(identitiesFilteredCountLoad());
     return () => {
-      if (!location.pathname.startsWith('/identity')) {
+      if (!location.pathname.startsWith(Routes.list.root)) {
         dispatch(filterUpdate(initialFilter));
       }
     };
@@ -40,11 +41,7 @@ export function VerificationHistory() {
 
   return (
     <Container maxWidth={false}>
-      <Box pt={{
-        xs: 2,
-        lg: 4,
-      }}
-      >
+      <Box pt={{ xs: 2, lg: 4 }}>
         <Grid container spacing={2} direction="column">
           <Grid item container justify="space-between">
             {/* search */}
@@ -68,17 +65,7 @@ export function VerificationHistory() {
           {/* content */}
           <Grid item>
             <Paper className={classes.paper}>
-              <Box
-                px={2}
-                pt={{
-                  xs: 0,
-                  lg: 2,
-                }}
-                pb={{
-                  xs: 2,
-                  lg: 1.4,
-                }}
-              >
+              <Box px={2} pt={{ xs: 0, lg: 2 }} pb={{ xs: 2, lg: 1.4 }}>
                 <Typography variant="subtitle2" className={classes.title}>
                   <Box component="span">
                     {intl.formatMessage({ id: 'VerificationHistory.title' },
