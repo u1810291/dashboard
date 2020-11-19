@@ -16,6 +16,16 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: '50%',
     padding: '0.2rem',
   },
+  overlayedText: {
+    maxWidth: '100%',
+    width: '100%',
+  },
+  text: {
+    maxWidth: 'calc(100% - 20px)',
+    width: 'auto',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
   button: {
     color: theme.palette.common.lightblue,
   },

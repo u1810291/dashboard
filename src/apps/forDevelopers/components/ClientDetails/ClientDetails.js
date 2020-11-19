@@ -43,10 +43,10 @@ export const ClientDetails = () => {
           </Grid>
           <Grid item container xs={12} lg={7} alignItems="center">
             <Grid item container xs={12} lg={6} direction="column">
-              <Box mb={{ xs: 2, lg: 0 }}>
+              <Box mb={{ xs: 2, lg: 0 }} maxWidth="100%">
                 <Typography variant="subtitle2" className={classes.title}>
-                  <CopyToClipboard text={clientIdModel?.value} qa={QATags.Integration.flowId.Copy}>
-                    <code data-qa={QATags.Integration.flowId.Value}>{clientIdModel?.value}</code>
+                  <CopyToClipboard text={clientIdModel?.value} qa={QATags.Integration.ClientId.Copy}>
+                    <code data-qa={QATags.Integration.ClientId.Value}>{clientIdModel?.value}</code>
                   </CopyToClipboard>
                 </Typography>
                 <Typography className={classes.name}>

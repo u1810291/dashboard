@@ -11,7 +11,7 @@ export function CopyToClipboard({ children, text, isOverlay = false, withCopyTex
 
   return (
     <Box className={classes.root}>
-      <Box flexGrow="0" maxWidth="100%" width={isOverlay ? '100%' : 'auto'}>
+      <Box flexGrow="0" className={isOverlay ? classes.overlayedText : classes.text}>
         {children}
       </Box>
       {text && (
