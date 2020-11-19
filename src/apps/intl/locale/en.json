@@ -380,6 +380,7 @@
   "forDevs.documentation.button": "Mati Documentation",
   "forDevs.documentationBanner.button": "{platform} Documentation",
   "forDevs.documentationBanner.label": "Visit our {platform} documentation",
+  "forDevs.flowId": "Flow ID",
   "forDevs.informationPage.android.header": "Native MobileSDK Android Integration",
   "forDevs.informationPage.android.subheader": "If you have native apps, our Android mobile SDK is here for you.",
   "forDevs.informationPage.android.videoExplainer": "You can watch a video explanation of our MobileSDK Android integration here.",

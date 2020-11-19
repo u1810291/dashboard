@@ -96,6 +96,16 @@ export function ForDevs() {
                 </FormControl>
               </Grid>
               <Grid item container xs={12} lg={8} className={classes.wrapper}>
+                <Grid item container xs={12} lg={4} direction="column" justify="center">
+                  <Box maxWidth="100%" overflow="hidden">
+                    <Typography variant="subtitle2">
+                      {currentFlowId}
+                    </Typography>
+                  </Box>
+                  <Box color="common.black75">
+                    {intl.formatMessage({ id: 'forDevs.flowId' })}
+                  </Box>
+                </Grid>
                 <Grid item xs={12} lg={4}>
                   <Button
                     variant="outlined"
