@@ -14,6 +14,8 @@ import { updateCurrentFlowId } from '../../../../state/merchant/merchant.actions
 import { useOverlay } from '../../../overlay';
 import { ForDevsWebhookModal } from '../../components/ForDevsWebhookModal/ForDevsWebhookModal';
 import { TabID } from '../../../../models/ForDevelopers.model';
+import { CopyToClipboard } from '../../../../components/clipboard';
+import { QATags } from '../../../../models/QA.model';
 
 export function ForDevs() {
   const intl = useIntl();
@@ -97,9 +99,11 @@ export function ForDevs() {
               </Grid>
               <Grid item container xs={12} lg={8} className={classes.wrapper}>
                 <Grid item container xs={12} lg={4} direction="column" justify="center">
-                  <Box maxWidth="100%" overflow="hidden">
+                  <Box maxWidth="100%">
                     <Typography variant="subtitle2">
-                      {currentFlowId}
+                      <CopyToClipboard text={currentFlowId} qa={QATags.Integration.flowId.Copy}>
+                        <code data-qa={QATags.Integration.flowId.Value}>{currentFlowId}</code>
+                      </CopyToClipboard>
                     </Typography>
                   </Box>
                   <Box color="common.black75">
