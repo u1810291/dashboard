@@ -6,12 +6,7 @@ import { Paper, IconButton, Box, Menu, MenuItem, ListItemIcon, ListItemText } fr
 import { copyToClipboard } from 'components/clipboard';
 import { permalinkUrl } from 'lib/client/urls';
 import { merchantUpdateFlow, merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
-import {
-  selectCurrentFlow,
-  selectMerchantFlowsModel,
-  selectAppLastModel,
-  selectMerchantFlowList,
-} from 'state/merchant/merchant.selectors';
+import { selectCurrentFlow, selectMerchantFlowsModel, selectAppLastModel, selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { FiCopy, FiEdit3, FiTrash2 } from 'react-icons/fi';
 import { useStyles, CopyLinkButton } from './VerificationFlowHeader.styles';
