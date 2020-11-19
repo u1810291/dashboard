@@ -169,6 +169,11 @@ export const selectDuplicateUserDetectionCheck = createSelector(
   (flow) => flow[VerificationStepTypes.DuplicateUserValidation],
 );
 
+export const selectNom151Check = createSelector(
+  selectCurrentFlow,
+  (flow) => flow.digitalSignature,
+);
+
 export const selectLogoModel = createSelector(
   selectCurrentFlow,
   (flow) => flow.logoUrl,

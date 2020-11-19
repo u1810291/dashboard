@@ -1,5 +1,6 @@
 import { Grid } from '@material-ui/core';
 import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
+import { Nom151Check } from 'apps/checks/components/Nom151Check/Nom151Check';
 import { Page404 } from 'apps/layout';
 import { get } from 'lodash';
 import React from 'react';
@@ -60,6 +61,13 @@ export function Verification({ identity }) {
         <Grid item>
           <VerificationMetadata metadata={identity.metadata} />
         </Grid>
+      )}
+
+      {/* digitalSignature */}
+      {identity.digitalSignature && (
+      <Grid item>
+        <Nom151Check data={identity.digitalSignature} />
+      </Grid>
       )}
 
     </Grid>

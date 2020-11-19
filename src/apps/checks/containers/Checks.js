@@ -7,6 +7,7 @@ import { CheckTypes, DOCS_BASE_URL } from '../models/Checks.model';
 import { Card } from '../components/Card/Card';
 import { IpCheckControl } from '../components/IpCheckControl/IpCheckControl';
 import { DuplicateUserDetectionCheckControl } from '../components/DuplicateUserDetectionCheckControl/DuplicateUserDetectionCheckControl';
+import { Nom151CheckControl } from '../components/nom151CheckControl/Nom151CheckControl';
 import { CheckControlButton } from '../components/CheckControlButton/CheckControlButton';
 
 export function AdditionalChecks() {
@@ -15,6 +16,7 @@ export function AdditionalChecks() {
 
   const CheckComponentsMap = {
     [CheckTypes.IpCheck]: { component: IpCheckControl },
+    [CheckTypes.Nom151Check]: { component: Nom151CheckControl },
     [CheckTypes.DuplicateUserDetection]: { component: DuplicateUserDetectionCheckControl },
     [CheckTypes.EmailCheck]: {
       component: CheckControlButton,

@@ -136,6 +136,7 @@ export function getIdentityExtras(identity, countries) {
   }
 
   const steps = get(identity, '_embedded.verification.steps') || [];
+  const digitalSignature = get(identity, '_embedded.digitalSignature');
   const documents = getDocumentExtras(identity, countries);
   let duplicateUserCheck;
   documents.forEach((doc) => {
@@ -157,6 +158,7 @@ export function getIdentityExtras(identity, countries) {
     isEditable: isChangeableStatus(identity.status),
     ipCheck: getIpCheckStep(steps),
     duplicateUserCheck,
+    digitalSignature,
   };
 }
 
