@@ -160,6 +160,10 @@ export const identityClear = () => (dispatch) => {
   dispatch({ type: types.IDENTITY_CLEAR });
 };
 
+export const identityListClear = () => (dispatch) => {
+  dispatch({ type: types.IDENTITY_LIST_CLEAR });
+};
+
 export const identityDemoLoad = (id) => async (dispatch) => {
   dispatch({ type: types.IDENTITY_REQUEST });
   try {

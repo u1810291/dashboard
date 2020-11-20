@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { filterUpdate, identitiesCountLoad, identitiesFilteredCountLoad, identitiesListLoad, identitiesManualReviewCountLoad } from 'state/identities/identities.actions';
+import { filterUpdate, identitiesCountLoad, identitiesFilteredCountLoad, identitiesListLoad, identityListClear } from 'state/identities/identities.actions';
 import { selectFilteredCountModel } from 'state/identities/identities.selectors';
 import { DownloadCSV } from '../../components/DownloadCSV/DownloadCSV';
 import { ManualReviewBanner } from '../../components/ManualReviewBanner/ManualReviewBanner';
@@ -25,7 +25,6 @@ export function VerificationHistory() {
 
   useEffect(() => {
     dispatch(identitiesCountLoad());
-    dispatch(identitiesManualReviewCountLoad());
   }, [dispatch]);
 
   useEffect(() => {
@@ -35,6 +34,7 @@ export function VerificationHistory() {
     return () => {
       if (!location.pathname.startsWith(Routes.list.root)) {
         dispatch(filterUpdate(initialFilter));
+        dispatch(identityListClear());
       }
     };
   }, [dispatch, location]);
