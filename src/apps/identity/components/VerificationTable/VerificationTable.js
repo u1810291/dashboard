@@ -28,7 +28,7 @@ export function VerificationTable() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [offset, setOffset] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
   const [deleting, setDeleting] = useState(null);
   const [orderBy] = useState('');
   const [order] = useState(OrderDirections.asc);
@@ -46,8 +46,8 @@ export function VerificationTable() {
 
   useEffect(() => {
     const difference = filteredCount.value - offset;
-    setHasMore(difference >= ITEMS_PER_PAGE);
-  }, [filteredCount.value, offset]);
+    setHasMore(identityCollection.isLoaded && filteredCount.isLoaded && difference >= ITEMS_PER_PAGE);
+  }, [filteredCount.isLoaded, filteredCount.value, identityCollection.isLoaded, offset]);
 
   const handleRemove = useCallback(async (e, id) => {
     e.stopPropagation();
@@ -115,7 +115,7 @@ export function VerificationTable() {
           </Box>
         )}
         scrollThreshold={0.7}
-        dataLength={identityCollection.value.length}
+        dataLength={identityCollection?.value?.length || 0}
       >
         <Table className={classes.table}>
           <TableHead className={classes.tableHead}>
@@ -162,7 +162,7 @@ export function VerificationTable() {
                   </TableCell>
                 </TableRow>
               )
-              : identityCollection.value.map((item) => (
+              : identityCollection?.value?.map((item) => (
                 <TableRowHovered
                   hover
                   key={item.id}
