@@ -15,7 +15,7 @@ export const LanguageList = [
   },
   {
     locale: SupportedLocales.ptBR,
-    label: 'Português (Brazil)',
+    label: 'Português',
   },
 ];
 
