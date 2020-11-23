@@ -70,7 +70,7 @@ export function LivenessStep({ steps, downloadableFileName }) {
             </Grid>
           )}
           <Grid item xs={12} md={4} className={classes.itemWrapper}>
-            <Box mx={0.7}>
+            <Box mx={{ xs: 'auto', md: 0.7 }}>
               <CheckResultLogo status={checkStatus} type="biometric" />
             </Box>
             <Grid item container>
