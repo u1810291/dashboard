@@ -134,7 +134,7 @@ export function DocumentStep({ document, identity, documentIndex }) {
           <Grid item xs={12} lg={4} className={classes.itemWrapper}>
             {securityCheckSteps && (
               <Grid container>
-                <Box mx={0.7}>
+                <Box mx={{ xs: 'auto', md: 0.7 }}>
                   <CheckResultLogo status={documentStatus} />
                 </Box>
                 <Grid item container>
