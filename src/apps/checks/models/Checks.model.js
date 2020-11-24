@@ -33,7 +33,6 @@ export const ChecksList = [
     text: 'Product.checks.nom151Check.text',
     badgeText: 'Product.checks.nom151Check.badgeText',
     startIcon: FiCheckCircle,
-    availableOnlyForMerchantTag: MerchantTags.CanUseNom151,
   },
   {
     id: CheckTypes.EmailCheck,
