@@ -173,5 +173,5 @@ export function getGoBackToListLink(location) {
 export function getDownloadableFileName(identity) {
   const flowName = get(identity, '_embedded.verification.flow.name', null);
   const { id, fullName: name } = identity;
-  return `${flowName.replaceAll(' ', '_')}_${name ? name.replaceAll(' ', '_') : id}`;
+  return `${flowName?.replaceAll(' ', '_').concat('_')}${name ? name.replaceAll(' ', '_') : id}`;
 }
