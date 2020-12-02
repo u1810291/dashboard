@@ -1,12 +1,13 @@
 import { Box, Typography } from '@material-ui/core';
 import { appPalette } from 'apps/theme/app.palette';
 import React from 'react';
-import { FiAlertCircle, FiActivity } from 'react-icons/fi';
+import { FiActivity, FiAlertCircle } from 'react-icons/fi';
 import { WarningSize, WarningTypes } from '../../models/Warning.model';
 import { useStyles } from './Warning.styles';
 
 const IconMap = {
   [WarningTypes.Warning]: FiAlertCircle,
+  [WarningTypes.ImportantWarning]: FiAlertCircle,
   [WarningTypes.Success]: FiActivity,
   [WarningTypes.Error]: FiActivity,
 };
@@ -15,6 +16,10 @@ const ColorMap = {
   [WarningTypes.Warning]: {
     color: appPalette.orange,
     titleColor: appPalette.orange,
+  },
+  [WarningTypes.ImportantWarning]: {
+    color: appPalette.red,
+    titleColor: appPalette.red,
   },
   [WarningTypes.Error]: {
     color: appPalette.red,
@@ -26,7 +31,7 @@ const ColorMap = {
   },
 };
 
-export function Warning({ title, label, type = WarningTypes.Warning, size = WarningSize.Normal }) {
+export function Warning({ title, label, type = WarningTypes.Warning, size = WarningSize.Normal, isLabelColored }) {
   const classes = useStyles();
 
   const Icon = IconMap[type];
@@ -43,7 +48,7 @@ export function Warning({ title, label, type = WarningTypes.Warning, size = Warn
             {title}
           </Typography>
         )}
-        <Box>
+        <Box style={{ color: isLabelColored && style.titleColor }}>
           {label}
         </Box>
       </Box>

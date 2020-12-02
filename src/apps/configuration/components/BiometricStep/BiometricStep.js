@@ -1,11 +1,12 @@
 import { Box, Grid, RadioGroup, Switch, Typography } from '@material-ui/core';
-import { BoxBordered } from 'apps/ui';
+import { BoxBordered, Warning, WarningSize, WarningTypes } from 'apps/ui';
 import { BiometricSettings, BiometricTypes, getBiometricParentSetting } from 'models/Biometric.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { selectBiometricPattern, selectCurrentFlowId, selectMerchantTags } from 'state/merchant/merchant.selectors';
+import { appPalette } from '../../../theme/app.palette';
 import { FormControlLabelFixed, RadioFixed, useStyles } from './BiometricStep.styles';
 import LivenessVoiceSVG from './liveness-voice-video.svg';
 
@@ -160,6 +161,16 @@ export function BiometricStep() {
                               )}
                             />
                           </Box>
+                          {option.id === BiometricTypes.voiceLiveness && (
+                            <BoxBordered borderColor={appPalette.red} mt={1}>
+                              <Warning
+                                type={WarningTypes.ImportantWarning}
+                                size={WarningSize.Large}
+                                label={intl.formatMessage({ id: `BiometricStep.${item.id}.${option.id}.warning` })}
+                                isLabelColored
+                              />
+                            </BoxBordered>
+                          )}
                         </BoxBordered>
                       ))}
                     </Box>

@@ -49,6 +49,7 @@
   "BiometricStep.liveness.title": "Liveness Video",
   "BiometricStep.liveness.voice+liveness.description": "We will show a random set of numbers and ask a user to read them out loud.",
   "BiometricStep.liveness.voice+liveness.title": "Voice",
+  "BiometricStep.liveness.voice+liveness.warning": "If you use mobile integrations please upgrade to 2.9.0 (iOS) and 2.9.3 (Android) or higher to prevent breaking the flow.",
   "BiometricStep.none.title": "None",
   "BiometricStep.selfie.description": "Your users will be asked to take a selfie.",
   "BiometricStep.selfie.title": "Selfie Photo",
