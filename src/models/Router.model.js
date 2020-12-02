@@ -5,13 +5,13 @@ export const Routes = {
     signUp: '/auth/signup',
     signIn: '/auth/signin',
     passwordRecovery: '/auth/password-recovery',
-    passwordReset: '/auth/password-recovery/:token',
+    passwordReset: '/auth/password-reset/:token',
   },
   analytics: { root: '/analytics' },
   list: {
-    root: '/list',
-    details: '/list/:id',
-    demo: '/list/demo/:demoId',
+    root: '/identities',
+    details: '/identities/:id',
+    demo: '/identities/demo/:demoId',
   },
   flows: {
     root: '/flows',

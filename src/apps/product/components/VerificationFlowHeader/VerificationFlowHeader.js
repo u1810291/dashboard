@@ -52,6 +52,7 @@ export function VerificationFlowHeader(props) {
     }
 
     try {
+      setAnchorEl(null);
       await confirmDelete();
       const { id } = currentFlow;
       const newFlowId = getNewFlowId(merchantFlowsModel, id);
