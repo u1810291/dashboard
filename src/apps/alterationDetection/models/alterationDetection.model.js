@@ -1,12 +1,9 @@
-const AlterationReasons = {
-  'alterationDetection.digitalAlteration': 'SecurityCheckStep.alterationDetection.digitalAlteration.title',
-  'alterationDetection.physicalAlteration': 'SecurityCheckStep.alterationDetection.physicalAlteration.title',
-  'alterationDetection.invalidDocument': 'SecurityCheckStep.alterationDetection.invalidDocument.title',
-};
-
 export function getAlterationReason(step) {
+  if (!(step.error && step.error.code)) {
+    return step;
+  }
   return {
     ...step,
-    subtitle: step.error && step.error.code && AlterationReasons[step.error.code],
+    subtitle: `SecurityCheckStep.${step.error.code}.title`,
   };
 }

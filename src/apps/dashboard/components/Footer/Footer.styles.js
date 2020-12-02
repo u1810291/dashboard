@@ -11,6 +11,9 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: 'auto',
     padding: [[20, 0]],
     backgroundColor: 'transparent',
+    '@media print': {
+      display: 'none',
+    },
   },
   container: {
     display: 'flex',

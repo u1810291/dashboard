@@ -67,7 +67,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
   }, [identity, createOverlay, closeOverlay]);
 
   return (
-    <Grid container direction="column" spacing={2}>
+    <Grid container direction="column" spacing={2} className={classes.wrapper}>
       <Grid item container>
         {/* Back to list */}
         <Grid item>

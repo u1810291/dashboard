@@ -18,6 +18,9 @@ export const useStyles = makeStyles((theme) => ({
     '& a': {
       color: theme.palette.common.black7,
     },
+    '@media print': {
+      display: 'none',
+    },
   },
   drawerOpen: {
     width: drawerWidth,

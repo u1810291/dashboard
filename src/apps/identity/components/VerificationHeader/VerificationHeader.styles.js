@@ -37,6 +37,11 @@ export const SideButton = withStyles((theme) => ({
 }))(Button);
 
 export const useStyles = makeStyles((theme) => ({
+  wrapper: {
+    '@media print': {
+      display: 'none',
+    },
+  },
   buttonBack: {
     minWidth: 200,
     [theme.breakpoints.down(1120)]: {
