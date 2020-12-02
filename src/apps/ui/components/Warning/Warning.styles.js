@@ -11,7 +11,7 @@ export const useStyles = makeStyles((theme) => ({
     lineHeight: 1.25,
     [theme.breakpoints.up('md')]: {
       flexDirection: 'row',
-      alignItems: 'flex-start',
+      alignItems: 'center',
       width: 'auto',
       textAlign: 'left',
     },
