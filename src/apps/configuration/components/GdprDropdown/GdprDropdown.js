@@ -20,7 +20,7 @@ export function GdprDropdown({ policyInterval, handleClickOpenDialog }) {
             </Grid>
             <Grid item>
               <Button variant="outlined" onClick={handleClickOpenDialog}>
-                Change
+                {intl.formatMessage({ id: 'Product.configuration.gdpr.submit' })}
               </Button>
             </Grid>
           </Grid>

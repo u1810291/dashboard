@@ -875,6 +875,7 @@
   "Product.configuration.facematch.mode.recommended.title": "Recommended limit",
   "Product.configuration.facematch.save": "Save changes",
   "Product.configuration.facematch.subtitle": "You can set your own face matching score limit by choosing one of the following options:",
+  "Product.configuration.gdpr.submit": "Change",
   "Product.configuration.gdpr": "GDPR Settings",
   "Product.configuration.gdpr.popup.dialog.no": "Cancel",
   "Product.configuration.gdpr.popup.dialog.title": "For how many days should we keep the verification data?",
