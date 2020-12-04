@@ -882,6 +882,7 @@
   "Product.configuration.gdpr.popup.helpMessage": "Establecer cantidad en rango",
   "Product.configuration.gdpr.popup.subtitle": "Este cuadro de diálogo le permite configurar el período de tiempo después del cual las verificaciones se eliminarán de forma automática y permanente. Podrás cambiar esta configuración más adelante, pero no podrás restaurar las verificaciones eliminadas.",
   "Product.configuration.gdpr.popup.title": "Configuración de política RGPD",
+  "Product.configuration.gdpr.submit": "Change",
   "Product.configuration.gdpr.subtitle": "Para seguir cumpliendo con el RGPD, puedes configurar un periodo de expiración después del cual todos los datos personales de verificación serán automáticamente eliminados por Mati",
   "Product.configuration.gdpr.switchLabel": "Habilitar la eliminación automática de la verificación",
   "Product.configuration.gdpr.title": "Configuración de eliminación automática de verificaciones",
