@@ -12,7 +12,7 @@ import { selectIdentityIsPDFGenerating } from '../../../../state/identities/iden
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { VerificationWebhookModal } from '../VerificationWebhookModal/VerificationWebhookModal';
 import { SideButton, useStyles } from './VerificationHeader.styles';
-import { getGoBackToListLink } from '../../../../models/Identity.model';
+import { getGoBackToListLink, IdentityStatuses } from '../../../../models/Identity.model';
 import { Routes } from '../../../../models/Router.model';
 
 export function VerificationHeader({ identity, isDemo = false }) {
@@ -36,10 +36,10 @@ export function VerificationHeader({ identity, isDemo = false }) {
     }
     handlePDFGenerating(true);
     const { getIdentityDocumentBlob } = await import('apps/pdf');
-    const blob = await getIdentityDocumentBlob(intl, identity);
+    const blob = await getIdentityDocumentBlob(identity);
     downloadBlob(blob, `mati-identity-${identity.id}.pdf`);
     handlePDFGenerating(false);
-  }, [isPDFGenerating, handlePDFGenerating, intl, identity]);
+  }, [isPDFGenerating, handlePDFGenerating, identity]);
 
   const handleDeleteIdentity = useCallback(async () => {
     if (isDeleting) {
@@ -88,6 +88,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
               variant="contained"
               onClick={handlePDFDownload}
               startIcon={isPDFGenerating ? <FiLoader /> : <FiDownload />}
+              disabled={identity.status === IdentityStatuses.running}
             >
               {intl.formatMessage({ id: 'verificationModal.downloadPDF' })}
             </SideButton>

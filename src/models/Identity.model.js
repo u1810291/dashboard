@@ -22,6 +22,13 @@ export const IdentityStatuses = {
   unknown: 'unknown',
 };
 
+export const VerificationSummaryTitleTypes = {
+  document: 'document',
+  additional: 'additional',
+  biometric: 'biometric',
+  device: 'device',
+};
+
 export const IdentityStatusesMap = [
   {
     id: IdentityStatuses.verified,
@@ -136,29 +143,17 @@ export function getIdentityExtras(identity, countries) {
   }
 
   const steps = get(identity, '_embedded.verification.steps') || [];
-  const digitalSignature = get(identity, '_embedded.digitalSignature');
-  const documents = getDocumentExtras(identity, countries);
-  let duplicateUserCheck;
-  documents.forEach((doc) => {
-    doc.steps = doc.steps.filter((item) => {
-      if (item.id === VerificationStepTypes.DuplicateUserValidation) {
-        duplicateUserCheck = item;
-        return false;
-      }
-      return true;
-    });
-  });
   return {
     ...identity,
     biometric: getBiometricExtras(steps.filter((item) => BiometricSteps.includes(item.id))),
     shortId: getIdentityShortId(identity.id),
     fullName: titleize(identity.fullName || ''),
     // TODO @dkchv: overrided
-    documents,
+    documents: getDocumentExtras(identity, countries),
     isEditable: isChangeableStatus(identity.status),
     ipCheck: getIpCheckStep(steps),
-    duplicateUserCheck,
-    digitalSignature,
+    duplicateUserStep: steps.find((item) => item.id === VerificationStepTypes.DuplicateUserValidation),
+    digitalSignature: get(identity, '_embedded.digitalSignature'),
   };
 }
 

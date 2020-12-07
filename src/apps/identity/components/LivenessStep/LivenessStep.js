@@ -34,7 +34,7 @@ export function LivenessStep({ steps, downloadableFileName }) {
               })}
             >
               {checkStatus !== LivenessStepStatus.FewData && steps.map((item, index) => (
-                <>
+                <React.Fragment key={item.id}>
                   {/* video */}
                   {item.videoUrl && (
                     <Grid
@@ -54,7 +54,7 @@ export function LivenessStep({ steps, downloadableFileName }) {
                       </Grid>
                     </Grid>
                   )}
-                </>
+                </React.Fragment>
               ))}
               <Grid item xs={6} md={steps.length === 2 ? 4 : 6} className={classes.mediaItem}>
                 {/* image */}

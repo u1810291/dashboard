@@ -2,6 +2,7 @@ import { Grid, Typography } from '@material-ui/core';
 import React from 'react';
 import { FiActivity, FiFileText, FiCheckCircle, FiSmartphone } from 'react-icons/fi';
 import { useStyles } from './VerificationSummaryTitle.styles';
+import { VerificationSummaryTitleTypes } from '../../../../models/Identity.model';
 
 const icons = {
   biometric: FiActivity,
@@ -10,13 +11,13 @@ const icons = {
   device: FiSmartphone,
 };
 
-export function VerificationSummaryTitle({ status, children, type = 'document', withIcon = true }) {
+export function VerificationSummaryTitle({ status, children, type = VerificationSummaryTitleTypes.document, isNoIcon = false }) {
   const classes = useStyles({ status });
   const Icon = icons[type];
 
   return (
     <Grid container alignItems="center" justify="center" wrap="nowrap" className={classes.titleWrapper}>
-      {withIcon && <Icon className={classes.titleIcon} />}
+      {!isNoIcon && <Icon className={classes.titleIcon} />}
       <Typography className={classes.title} variant="subtitle2">
         {children}
       </Typography>

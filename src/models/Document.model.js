@@ -1,12 +1,6 @@
 import { cloneDeep, get } from 'lodash';
-import { FieldsEmissionCheck, FieldsExpirationCheck, getCheckFieldsExtra, getFieldsExtra } from './Field.model';
-import {
-  DocumentSecuritySteps,
-  DocumentStepFrontendChecksTypes,
-  DocumentStepTypes,
-  getDocumentStep,
-  getStepsExtra,
-} from './Step.model';
+import { FieldsEmissionCheck, FieldsExpirationCheck, getFieldIsExpired } from './Field.model';
+import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepFrontendChecksTypes, DocumentStepTypes, getDocumentStatus, getStepsExtra } from './Step.model';
 
 export const DocumentTypes = {
   Passport: 'passport',
@@ -97,9 +91,8 @@ export function getPhotosOrientation(photo) {
   });
 }
 
-// TODO: make it with intl
-export function getDocumentSideLabel(side, intl) {
-  return intl.formatMessage({ id: `identity.document.photo.${side}.title` });
+export function getDocumentSideLabel(side) {
+  return `identity.document.photo.${side}.title`;
 }
 
 function makeEqualOrdersByKey(firstArray = [], secondArray = [], key) {
@@ -119,6 +112,10 @@ function makeEqualOrdersByKey(firstArray = [], secondArray = [], key) {
   return firstArrayCopy;
 }
 
+export function isDocumentWithTwoSides(documentType) {
+  return [DocumentTypes.DrivingLicense, DocumentTypes.NationalId].includes(documentType);
+}
+
 export function getDocumentExtras(identity, countries) {
   const documents = get(identity, '_embedded.verification.documents') || [];
   const source = get(identity, '_embedded.documents');
@@ -126,36 +123,40 @@ export function getDocumentExtras(identity, countries) {
   // make documents order equal to source order to get right metadata about document
   const orderedDocuments = makeEqualOrdersByKey(documents, source, 'type');
 
-  return orderedDocuments.map((document) => {
+  return orderedDocuments.map((document, index) => {
     const steps = getStepsExtra(document.steps, DocumentConfig[document.type], identity, countries, document);
-    const argentinianRenaper = getDocumentStep(DocumentStepTypes.ArgentinianRenaper, steps);
-    const colombianRegistraduria = getDocumentStep(DocumentStepTypes.ColombianRegistraduria, steps);
-    const peruvianReniec = getDocumentStep(DocumentStepTypes.PeruvianReniec, steps);
-    const curp = getDocumentStep(DocumentStepTypes.CURP, steps);
-    const ine = getDocumentStep(DocumentStepTypes.INE, steps);
-    const rfc = getDocumentStep(DocumentStepTypes.RFC, steps);
+    const documentReadingStep = steps.find((step) => step.id === DocumentStepTypes.DocumentReading);
     const sourceDocument = source.find((item) => item.type === document.type) || {};
+
+    const fields = Object.entries(sourceDocument.fields || {}).map(([id, { value, required }]) => ({
+      id,
+      value,
+      isValid: !getFieldIsExpired({ id, value }, DocumentConfig[document.type][DocumentStepFrontendChecksTypes.ExpiredDate], identity.dateCreated),
+      required,
+    }));
+
+    const govChecksSteps = steps.filter((step) => CountrySpecificChecks.includes(step.id));
+    const securityCheckSteps = steps.filter((step) => DocumentSecuritySteps.includes(step.id));
+    const documentFailedCheckSteps = steps.filter((step) => DocumentFrontendSteps.includes(step.id)); // it is FRONTEND logic,
 
     return {
       ...document,
       steps,
+      fields,
+      documentReadingStep,
       source: sourceDocument,
+      securityCheckSteps,
+      govChecksSteps,
+      documentFailedCheckSteps,
+      documentStatus: getDocumentStatus([...govChecksSteps, ...securityCheckSteps, ...documentFailedCheckSteps]),
+      areTwoSides: isDocumentWithTwoSides(document.type),
+      documentSides: getDocumentSides(identity, index),
+      onReading: documentReadingStep.status < 200,
       photos: document.photos || [],
-      reading: getFieldsExtra(sourceDocument.fields),
-      argentinianRenaper: getCheckFieldsExtra(argentinianRenaper.data),
-      colombianRegistraduria: getCheckFieldsExtra(colombianRegistraduria.data),
-      peruvianReniec: getCheckFieldsExtra(peruvianReniec.data),
-      curp: getCheckFieldsExtra(curp.data),
-      ine: getCheckFieldsExtra(ine.data),
-      rfc: getCheckFieldsExtra(rfc.data),
       checks: steps.filter((step) => DocumentSecuritySteps.includes(step.id)),
       isSanctioned: DocumentCountrySanctionList.includes(document.country),
     };
   });
-}
-
-export function isDocumentWithTwoSides(documentType) {
-  return [DocumentTypes.DrivingLicense, DocumentTypes.NationalId].includes(documentType);
 }
 
 export function getDocumentList() {

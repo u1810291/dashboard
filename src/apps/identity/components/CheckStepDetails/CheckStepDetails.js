@@ -1,29 +1,20 @@
 import { Card, CardContent } from '@material-ui/core';
 import React from 'react';
 import { useStyles } from './CheckStepDetails.styles';
-import { useCheckText, useGovCheckText } from '../../hooks/step.hook';
+import { CheckText } from '../CheckText/CheckText';
+import { GovCheckText } from '../GovCheckText/GovCheckText';
 
-export function CheckStepDetails({ step }) {
+export function CheckStepDetails({ step, isGovCheck = false }) {
   const classes = useStyles();
-  const checkText = useCheckText(step);
 
   return (
     <Card raised={false} className={classes.card}>
       <CardContent className={classes.wrapper}>
-        {checkText}
-      </CardContent>
-    </Card>
-  );
-}
-
-export function GovCheckStepDetails({ step }) {
-  const classes = useStyles();
-  const checkText = useGovCheckText(step);
-
-  return (
-    <Card raised={false} className={classes.card}>
-      <CardContent className={classes.wrapper}>
-        {checkText}
+        {isGovCheck ? (
+          <GovCheckText step={step} />
+        ) : (
+          <CheckText step={step} />
+        )}
       </CardContent>
     </Card>
   );

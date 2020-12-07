@@ -9,6 +9,7 @@ import { useStyles } from './VerificationBioCheckSummary.styles';
 import { getBiometricCheckStatus, LivenessStepStatus } from '../../../../models/Biometric.model';
 import { VerificationSummaryChecksContainer } from '../VerificationSummaryChecksContainer/VerificationSummaryChecksContainer';
 import { VerificationSummaryTitle } from '../VerificationSummaryTitle/VerificationSummaryTitle';
+import { VerificationSummaryTitleTypes } from '../../../../models/Identity.model';
 
 export function VerificationBioCheckSummary({ biometric, identity }) {
   const intl = useIntl();
@@ -18,7 +19,7 @@ export function VerificationBioCheckSummary({ biometric, identity }) {
   return (
     <VerificationCheckCard
       titleComponent={(
-        <VerificationSummaryTitle status={status} type="biometric">
+        <VerificationSummaryTitle status={status} type={VerificationSummaryTitleTypes.biometric}>
           {intl.formatMessage({ id: 'identity.summary.title.biometric' })}
         </VerificationSummaryTitle>
       )}
@@ -26,7 +27,7 @@ export function VerificationBioCheckSummary({ biometric, identity }) {
         status !== LivenessStepStatus.FewData && status !== LivenessStepStatus.Disabled ? (
           <VerificationSummaryChecksContainer steps={biometric} />
         ) : (
-          <VerificationSummaryTitle status={status} type="biometric" withIcon={false}>
+          <VerificationSummaryTitle status={status} type={VerificationSummaryTitleTypes.biometric} isNoIcon>
             {intl.formatMessage({ id: `identity.summary.biometric.${status}` })}
           </VerificationSummaryTitle>
         )

@@ -34,6 +34,7 @@ import { ReactComponent as UbuntuIcon } from '../../icons/ubuntu.svg';
 import { ReactComponent as FreeBSDIcon } from '../../icons/freeBSD.svg';
 import { ReactComponent as ModelIcon } from '../../icons/model-icon.svg';
 import { ReactComponent as DesktopIcon } from '../../icons/desktop.svg';
+import { VerificationSummaryTitleTypes } from '../../../../models/Identity.model';
 
 const DeviceIcons = {
   [DeviceTypes.Mobile]: FiSmartphone,
@@ -74,17 +75,17 @@ export function VerificationDeviceCheck({ identity }) {
 
   const model = getDeviceModel(identity);
   const deviceType = getDeviceType(identity);
-  const os = getDeviceOSLabel(identity);
-  const browser = getDeviceBrowserLabel(identity);
+  const osLabel = getDeviceOSLabel(identity);
+  const browserLabel = getDeviceBrowserLabel(identity);
 
-  const DeviceIcon = DeviceIcons[getDeviceType(identity)];
+  const DeviceIcon = DeviceIcons[deviceType];
   const OSIcon = OSIcons[getDeviceOSType(identity)];
   const BrowserIcon = BrowserIcons[getDeviceBrowserType(identity)];
 
   return (
     <VerificationCheckCard
       titleComponent={(
-        <VerificationSummaryTitle status={StepStatus.Success} type="device">
+        <VerificationSummaryTitle status={StepStatus.Success} type={VerificationSummaryTitleTypes.device}>
           {intl.formatMessage({ id: 'identity.summary.title.device' })}
         </VerificationSummaryTitle>
       )}
@@ -136,7 +137,7 @@ export function VerificationDeviceCheck({ identity }) {
             </Box>
           </Grid>
           <Grid item xs={6}>
-            <Typography className={classes.value} variant="subtitle2">{os}</Typography>
+            <Typography className={classes.value} variant="subtitle2">{osLabel}</Typography>
           </Grid>
         </Grid>
         {/* browser */}
@@ -151,7 +152,7 @@ export function VerificationDeviceCheck({ identity }) {
               </Box>
             </Grid>
             <Grid item xs={6}>
-              <Typography className={classes.value} variant="subtitle2">{browser}</Typography>
+              <Typography className={classes.value} variant="subtitle2">{browserLabel}</Typography>
             </Grid>
           </Grid>
         )}

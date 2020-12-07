@@ -2,7 +2,7 @@ import { StyleSheet } from '@react-pdf/renderer';
 import { rem, colors, pageGutter } from 'apps/pdf/PDF.theme.common';
 import { fontFamilyLato, fontSize, fontWeight } from 'apps/pdf/PDF.theme.fonts';
 
-export const styles = StyleSheet.create({
+export const commonStyles = StyleSheet.create({
   // common blocks
   page: {
     paddingTop: pageGutter,
@@ -11,183 +11,92 @@ export const styles = StyleSheet.create({
     paddingBottom: 2 * pageGutter,
     fontFamily: fontFamilyLato,
   },
-  footer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    fontSize: fontSize.small,
-    height: 3 * rem,
-    color: colors.blue,
-    paddingTop: 0.5 * rem,
-    paddingLeft: pageGutter,
-    paddingRight: pageGutter,
-    paddingBottom: 0.5 * rem,
-    borderTop: `1pt solid ${colors.blue}`,
-  },
-  footerLogo: {
-    width: 3.2 * rem,
-    height: rem,
-  },
-
-  // elements
-
-  selfieBox: {
-    width: 10 * rem,
-    height: 10 * rem,
-  },
-  selfieImg: {
-    width: 10 * rem,
-    height: 10 * rem,
-    objectFit: 'cover',
-    borderRadius: 5 * rem,
-  },
-
-  title: {
-    marginTop: rem,
-    paddingTop: 0.5 * rem,
-    marginBottom: rem,
-    paddingBottom: 0.5 * rem,
-    marginLeft: -pageGutter,
-    paddingLeft: pageGutter,
-    marginRight: -pageGutter,
-    paddingRight: pageGutter,
-    backgroundColor: colors.greyBG,
-    fontSize: fontSize.h2,
-  },
-  subtitle: {
-    marginTop: 0.5 * rem,
-    marginRight: -0.5 * rem,
-    marginBottom: 0.5 * rem,
-    marginLeft: -0.5 * rem,
-
-    paddingTop: 0.3 * rem,
-    paddingRight: 0.5 * rem,
-    paddingBottom: 0.3 * rem,
-    paddingLeft: 0.5 * rem,
-
-    backgroundColor: colors.greyBG,
-    fontSize: fontSize.h3,
-  },
-  photo: {
-    width: 'auto',
-    height: 15 * rem,
-    objectFit: 'contain',
-    marginRight: rem,
-  },
-
-  label: {
-    color: colors.greyText,
-    paddingTop: 0.5 * rem,
-    paddingRight: 0.5 * rem,
-    paddingBottom: 0.5 * rem,
-  },
-  value: {
-    padding: 0.5 * rem,
-  },
-  indent: {
-    paddingLeft: 4 * rem,
-  },
-  checkLogo: {
-    width: 5 * rem,
-    float: 'right',
-    marginTop: 0.5 * rem,
-  },
-
-  // colors
-  grey: {
-    color: colors.greyText,
-  },
-  error: {
-    color: colors.red,
-  },
-  success: {
-    color: colors.green,
-  },
-
-  // text
-  h1: {
-    fontSize: fontSize.h1,
-    fontWeight: fontWeight.bold,
-  },
-  h2: {
-    fontSize: fontSize.h2,
-    fontWeight: fontWeight.normal,
-  },
-  normal: {
-    fontSize: fontSize.normal,
-    fontWeight: fontWeight.normal,
-  },
 
   // box
-  row: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    // allows to avoid text intersection at the bottom of the page
-    // TODO: find more elegant way
-    marginBottom: -4,
-  },
-  fg1: {
-    flexGrow: 1,
-  },
-  fg0: {
-    flexGrow: 0,
-  },
-
-  chip: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+  paper: {
+    width: '100%',
+    maxWidth: '100%',
+    marginBottom: 1.5 * rem,
+    padding: 1.5 * rem,
+    backgroundColor: colors.white,
+    border: `1pt solid ${colors.black7}`,
     borderRadius: 0.5 * rem,
-    padding: 0.5 * rem,
-    marginBottom: rem,
   },
-  chipError: {
-    border: `1pt solid ${colors.red}`,
-  },
-  chipSuccess: {
-    border: `1pt solid ${colors.green}`,
-  },
-  icon: {
-    width: rem,
-    height: rem,
-  },
-
   mt1: {
     marginTop: rem,
   },
-  ml05: {
-    marginLeft: 0.5 * rem,
+  mr05: {
+    marginRight: 0.5 * rem,
   },
-  w20: {
-    width: '20%',
+  mb0: {
+    marginBottom: 0,
   },
-  w35: {
-    width: '35%',
+  mb05: {
+    marginBottom: 0.5 * rem,
   },
-  w40: {
-    width: '40%',
+  mb1: {
+    marginBottom: rem,
   },
-  w70: {
-    width: '70%',
+  mb15: {
+    marginBottom: 1.5 * rem,
   },
-  w80: {
-    width: '80%',
+  pb0: {
+    paddingBottom: 0,
   },
 
-  vpnChipBox: {
-    width: 20 * rem,
+  // elements
+  title: {
+    fontSize: fontSize.normal,
+    color: colors.black75,
+  },
+  titleBold: {
+    fontSize: fontSize.normal,
+    fontWeight: fontWeight.bold,
+    color: colors.black75,
+  },
+  titleBoldMain: {
+    fontSize: fontSize.h1,
+    fontWeight: fontWeight.bold,
+    color: colors.black75,
+  },
+  code: {
+    fontSize: fontSize.normal,
+    color: colors.green,
+  },
+  data: {
+    marginBottom: 0.5 * rem,
+    fontSize: fontSize.normal,
+    fontWeight: fontWeight.bold,
+    color: colors.black90,
+  },
+  labelContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: 4,
+    padding: [[6, 10]],
+    borderRadius: 5,
+    backgroundColor: colors.black7,
+  },
+  label: {
+    fontWeight: fontWeight.bold,
+    fontSize: fontSize.normal,
+    color: colors.black75,
+  },
+  labelIcon: {
+    flexShrink: 0,
+    width: 17,
+    marginRight: 10,
   },
   mapBox: {
-    width: 20 * rem,
+    width: '100%',
     height: 12.5 * rem,
+    borderRadius: 5,
+    backgroundColor: colors.black7,
   },
-
-  debug: {
-    backgroundColor: colors.greyBG,
+  map: {
+    width: '100%',
+    height: 12.5 * rem,
+    borderRadius: 5,
+    objectFit: 'cover',
   },
 });
