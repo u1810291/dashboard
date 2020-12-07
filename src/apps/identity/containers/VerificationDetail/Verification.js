@@ -50,9 +50,9 @@ export function Verification({ identity }) {
       )}
 
       {/* Additional checks */}
-      {identity.duplicateUserCheck && (
+      {identity.duplicateUserStep && (
         <Grid item>
-          <VerificationAdditionalChecks duplicateUserDetectionStep={identity.duplicateUserCheck} />
+          <VerificationAdditionalChecks duplicateUserDetectionStep={identity.duplicateUserStep} />
         </Grid>
       )}
 

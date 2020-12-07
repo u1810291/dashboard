@@ -1,25 +1,15 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { useDocumentTitle, usePhotosOrientation } from 'apps/identity/hooks/document.hook';
 import { Warning, WarningTypes } from 'apps/ui';
-import {
-  DocumentConfig,
-  DocumentCountrySanctionList,
-  isDocumentWithTwoSides,
-  DocumentSidesOrder,
-  getDocumentSides, getDocumentSideLabel,
-  DocumentSides,
-  PhotosOrientations,
-} from 'models/Document.model';
-import { getFieldIsExpired } from 'models/Field.model';
-import { CountrySpecificChecks, DocumentSecuritySteps, DocumentStepFrontendChecksTypes, DocumentStepTypes, getDocumentStatus, DocumentFrontendSteps } from 'models/Step.model';
-import React, { useState } from 'react';
+import { DocumentSidesOrder, getDocumentSideLabel, DocumentSides, PhotosOrientations } from 'models/Document.model';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './DocumentStep.styles';
 import { CheckBarExpandable } from '../CheckBarExpandable/CheckBarExpandable';
 import { DocumentReadingStep } from '../DocumentReadingStep/DocumentReadingStep';
 import { ZoomableImage } from '../ZoomableImage/ZoomableImage';
 import { SkeletonLoader } from '../../../ui/components/SkeletonLoader/SkeletonLoader';
-import { GovCheckStepDetails, CheckStepDetails } from '../CheckStepDetails/CheckStepDetails';
+import { CheckStepDetails } from '../CheckStepDetails/CheckStepDetails';
 import { CheckResultLogo } from '../CheckResultLogo/CheckResultLogo';
 
 export function DocumentStep({ document, identity, documentIndex }) {
@@ -28,26 +18,8 @@ export function DocumentStep({ document, identity, documentIndex }) {
   const title = useDocumentTitle(document);
   const photosOrientation = usePhotosOrientation(document);
 
-  const { steps = [], country, source, type, isEditable = true } = document;
-  const [isSanctioned] = useState(DocumentCountrySanctionList.includes(country));
-  const documentReadingStep = steps.find((step) => step.id === DocumentStepTypes.DocumentReading);
+  const { source, type, isEditable = true, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, fields, documentReadingStep, onReading, documentStatus, areTwoSides, documentSides } = document;
   const isFormEditable = identity.isEditable && source.demo !== true && isEditable;
-  const onReading = documentReadingStep.status < 200;
-  const securityCheckSteps = steps.filter((step) => DocumentSecuritySteps.includes(step.id));
-  const govChecksSteps = steps.filter((step) => CountrySpecificChecks.includes(step.id));
-  const documentFailedCheckSteps = steps.filter((step) => DocumentFrontendSteps.includes(step.id)); // it is FRONTEND logic
-
-  const fields = Object.entries(source.fields || {}).map(([id, { value, required }]) => ({
-    id,
-    value,
-    // TODO @dkchv: review this and extract to model
-    isValid: !getFieldIsExpired({ id, value }, DocumentConfig[document.type][DocumentStepFrontendChecksTypes.ExpiredDate], identity.dateCreated),
-    required,
-  }));
-
-  const documentStatus = getDocumentStatus([...govChecksSteps, ...securityCheckSteps, ...documentFailedCheckSteps]);
-  const areTwoSides = isDocumentWithTwoSides(document.type);
-  const documentSides = getDocumentSides(identity, documentIndex);
 
   return (
     <Paper>
@@ -77,12 +49,12 @@ export function DocumentStep({ document, identity, documentIndex }) {
               {!areTwoSides ? (
                 <>
                   {document.photos && document.photos.length > 0 ? document.photos.map((photo) => (photo) && (
-                    <Grid item spacing={2} key={photo} className={classes.image}>
+                    <Grid item key={photo} className={classes.image}>
                       <ZoomableImage src={photo} alt={type} />
                     </Grid>
                   )) : (
                     <>
-                      <Grid item spacing={2} className={classes.image}>
+                      <Grid item className={classes.image}>
                         <SkeletonLoader animation="wave" variant="rect" height={320} />
                       </Grid>
                     </>
@@ -94,21 +66,25 @@ export function DocumentStep({ document, identity, documentIndex }) {
                     const documentSideIndex = documentSides.indexOf(side);
                     if (documentSideIndex > -1) {
                       return (
-                        <Grid item spacing={2} key={document.photos[documentSideIndex]} className={classes.image}>
+                        <Grid item key={document.photos[documentSideIndex]} className={classes.image}>
                           <ZoomableImage src={document.photos[documentSideIndex]} alt={type} />
-                          <Typography className={classes.subtitle} align="center" variant="subtitle2">{getDocumentSideLabel(side, intl)}</Typography>
+                          <Typography className={classes.subtitle} align="center" variant="subtitle2">
+                            {intl.formatMessage({ id: getDocumentSideLabel(side) })}
+                          </Typography>
                         </Grid>
                       );
                     }
                     const unfoundSide = documentSides[0] === DocumentSides.Front ? DocumentSides.Back : DocumentSides.Front;
                     return (
-                      <Grid item spacing={2} className={photosOrientation === PhotosOrientations.Horizontal ? `${classes.skeletonHorizontal}` : `${classes.skeletonVertical}`}>
+                      <Grid item className={photosOrientation === PhotosOrientations.Horizontal ? `${classes.skeletonHorizontal}` : `${classes.skeletonVertical}`}>
                         {photosOrientation === PhotosOrientations.Horizontal ? (
                           <SkeletonLoader animation="wave" variant="rect" width="100%" height={220} />
                         ) : (
                           <SkeletonLoader animation="wave" variant="rect" width="100%" height="100%" />
                         )}
-                        <Typography className={classes.subtitle} align="center" variant="subtitle2">{getDocumentSideLabel(unfoundSide, intl)}</Typography>
+                        <Typography className={classes.subtitle} align="center" variant="subtitle2">
+                          {intl.formatMessage({ id: getDocumentSideLabel(unfoundSide) })}
+                        </Typography>
                       </Grid>
                     );
                   })}
@@ -150,7 +126,7 @@ export function DocumentStep({ document, identity, documentIndex }) {
                   ))}
                   {govChecksSteps.map((step) => (
                     <CheckBarExpandable step={step} key={step.id}>
-                      <GovCheckStepDetails step={step} />
+                      <CheckStepDetails step={step} isGovCheck />
                     </CheckBarExpandable>
                   ))}
                 </Grid>

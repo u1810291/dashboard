@@ -14,8 +14,8 @@ const IconMap = {
 
 const ColorMap = {
   [WarningTypes.Warning]: {
-    color: appPalette.orange,
-    titleColor: appPalette.orange,
+    color: appPalette.yellow,
+    titleColor: appPalette.yellow,
   },
   [WarningTypes.ImportantWarning]: {
     color: appPalette.red,

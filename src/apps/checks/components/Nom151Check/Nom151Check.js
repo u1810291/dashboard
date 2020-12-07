@@ -11,6 +11,7 @@ export function Nom151Check({ data = {} }) {
   const intl = useIntl();
   const [fileContent, setFileContent] = useState('...');
   useEffect(() => {
+    // TODO: do this with identity load
     async function fetchData() {
       try {
         const file = await getFileContents(data.publicUrl);

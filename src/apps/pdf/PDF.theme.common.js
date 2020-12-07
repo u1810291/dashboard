@@ -4,12 +4,15 @@ export const rem = 10; // in pt (!)
 export const pageGutter = 2 * rem;
 
 export const colors = {
-  black: '#000000',
-  blue: '#0e1a44',
-  greyBG: '#dddddd',
-  greyText: '#999999',
+  black: appPalette.black,
+  black7: appPalette.black7,
+  black50: appPalette.black50,
+  black75: appPalette.black75,
+  black90: appPalette.black90,
+  lightblue: appPalette.lightblue,
   red: appPalette.red,
+  redopacity: '#f1cfd5',
   white: appPalette.white,
   green: appPalette.green,
-  orange: appPalette.orange,
+  yellow: appPalette.yellow,
 };

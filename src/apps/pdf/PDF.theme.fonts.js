@@ -5,11 +5,8 @@ import LatoRegular from 'apps/pdf/fonts/Lato-Regular.ttf';
 import { rem } from 'apps/pdf/PDF.theme.common';
 
 export const fontSize = {
-  small: 0.7 * rem,
-  normal: rem,
-  h3: 1.25 * rem,
-  h2: 1.5 * rem,
-  h1: 2 * rem,
+  normal: 1.35 * rem,
+  h1: 1.5 * rem,
 };
 
 export const fontWeight = {

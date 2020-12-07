@@ -4,12 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { PhotosOrientations } from 'models/Document.model';
 import { useStyles } from './VerificationDocument.styles';
 import { useDocumentTitle, usePhotosOrientation } from '../../hooks/document.hook';
-import {
-  CountrySpecificChecks,
-  DocumentFrontendSteps,
-  DocumentSecuritySteps,
-  getDocumentStatus, StepStatus,
-} from '../../../../models/Step.model';
+import { getDocumentStatus, StepStatus } from '../../../../models/Step.model';
 import { SkeletonLoader } from '../../../ui/components/SkeletonLoader/SkeletonLoader';
 import IconEmpty from '../../../../assets/icon-empty-photo.svg';
 import { VerificationCheckCard } from '../VerificationCheckCard/VerificationCheckCard';
@@ -21,7 +16,7 @@ export function VerificationDocument({ document, documentIndex }) {
   const classes = useStyles();
   const title = useDocumentTitle(document);
   const [shownPhoto, setShownPhoto] = useState(null);
-  const { steps = [], photos = [] } = document; // use these checks for children component
+  const { photos = [], securityCheckSteps, documentFailedCheckSteps, govChecksSteps } = document; // use these checks for children component
   const photosOrientation = usePhotosOrientation(document);
 
   useEffect(() => {
@@ -30,11 +25,7 @@ export function VerificationDocument({ document, documentIndex }) {
     }
   }, [shownPhoto, photos]);
 
-  const securityCheckSteps = steps.filter((step) => DocumentSecuritySteps.includes(step.id));
-  const govChecksSteps = steps.filter((step) => CountrySpecificChecks.includes(step.id));
-  const documentFailedCheckSteps = steps.filter((step) => DocumentFrontendSteps.includes(step.id));
   const allSteps = [...documentFailedCheckSteps, ...securityCheckSteps, ...govChecksSteps];
-
   const documentStatus = getDocumentStatus(allSteps);
 
   return (

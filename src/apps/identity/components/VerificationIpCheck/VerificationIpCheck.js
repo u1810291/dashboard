@@ -11,6 +11,7 @@ import { VerificationSummaryTitle } from '../VerificationSummaryTitle/Verificati
 import { useStyles } from './VerificationIpCheck.styles';
 import { StepStatus } from '../../../../models/Step.model';
 import { getIpCheckStatus } from '../../../../models/IpCheck.model';
+import { VerificationSummaryTitleTypes } from '../../../../models/Identity.model';
 
 function Icon({ status }) {
   const classes = useStyles();
@@ -32,7 +33,7 @@ export function VerificationIpCheck({ ipCheck }) {
   return (
     <VerificationCheckCard
       titleComponent={(
-        <VerificationSummaryTitle status={status} type="additional">
+        <VerificationSummaryTitle status={status} type={VerificationSummaryTitleTypes.additional}>
           {intl.formatMessage({ id: 'identity.summary.title.additional' })}
         </VerificationSummaryTitle>
       )}
