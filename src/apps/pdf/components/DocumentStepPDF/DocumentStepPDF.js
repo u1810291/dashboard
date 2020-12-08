@@ -48,7 +48,7 @@ export function DocumentStepPDF({ document, documentIndex }) {
             <>
               {document.photos && document.photos.length > 0 && document.photos.map((photo) => (
                 <View key={photo} style={styles.imageWrapper}>
-                  <Image style={styles.image} src={getMediaURL(photo)} />
+                  <Image style={[styles.image, styles.imageSingle]} src={getMediaURL(photo)} />
                 </View>
               ))}
             </>

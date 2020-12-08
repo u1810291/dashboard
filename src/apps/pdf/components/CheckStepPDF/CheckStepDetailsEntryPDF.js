@@ -10,7 +10,7 @@ export function CheckStepDetailsEntryPDF({ label, value }) {
   const formatted = useFormattedValue(label, value);
 
   return (
-    <View key={label} style={[styles.card, commonStyles.mb1]}>
+    <View key={label} style={[styles.card, commonStyles.mb05]}>
       <Text style={styles.valueEntrySuccess}>{formatted}</Text>
       <Text style={commonStyles.title}>
         {intl.formatMessage({

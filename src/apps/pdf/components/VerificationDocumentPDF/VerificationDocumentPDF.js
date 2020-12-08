@@ -43,18 +43,13 @@ export function VerificationDocumentPDF({ document, documentIndex }) {
 
         {photos.length === 1 && (
           <View style={styles.imageWrapper}>
-            <Image style={styles.image} src={getMediaURL(photos[0])} />
+            <Image style={styles.imageSingle} src={getMediaURL(photos[0])} />
           </View>
         )}
 
         {photos.length === 2 && (
           <View style={styles.imageWrapper}>
-            <View style={styles.imageBigWrapper}>
-              <Image style={styles.imageBig} src={getMediaURL(photos[0])} />
-            </View>
-            <View style={styles.imageSmallWrapper}>
-              {photos.map((photo) => <Image style={styles.imageSmall} src={getMediaURL(photo)} key={photo} />)}
-            </View>
+            {photos.map((photo) => <Image style={styles.imageDouble} src={getMediaURL(photo)} key={photo} />)}
           </View>
         )}
       </View>

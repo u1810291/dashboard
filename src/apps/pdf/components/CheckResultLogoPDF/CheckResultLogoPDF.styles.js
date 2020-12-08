@@ -82,7 +82,7 @@ export const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    margin: [[0, 'auto', 20]],
+    margin: [[0, 'auto', 16]],
     padding: [[30, 20, 0]],
   },
   resultTitle: {

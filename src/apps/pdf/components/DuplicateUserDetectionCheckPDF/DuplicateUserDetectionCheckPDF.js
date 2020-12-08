@@ -12,7 +12,7 @@ export function DuplicateUserDetectionCheckPDF({ stepData = {} }) {
 
   return (
     <View style={styles.wrapper}>
-      <View style={commonStyles.labelContainer}>
+      <View style={commonStyles.labelContainer} wrap={false}>
         <Image style={commonStyles.labelIcon} src={IconStatuses[statusCode]} />
         <Text style={commonStyles.label}>
           {intl.formatMessage({ id: `Checks.result.DuplicateUserDetectionCheck.${stepData.checkStatus}.title` })}

@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     flexWrap: 'no-wrap',
     minHeight: 30,
+    marginTop: 4,
     marginBottom: 20,
     padding: [[5, 20]],
     backgroundColor: colors.black7,

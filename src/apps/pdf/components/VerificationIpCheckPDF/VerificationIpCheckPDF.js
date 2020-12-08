@@ -31,6 +31,7 @@ export function VerificationIpCheckPDF({ ipCheck }) {
           </Text>
         </View>
       )}
+      noWrap
     >
       <View style={commonStyles.mapBox} wrap={false}>
         <Image style={commonStyles.map} src={getMediaURL(ipCheck?.data?.mapUrl)} />
