@@ -16,7 +16,7 @@ export function VerificationSummaryChecksContainerPDF({ steps }) {
     <>
       {passedStepsCount > 0 && (
         <View style={commonStyles.mt1}>
-          <View style={commonStyles.labelContainer}>
+          <View style={commonStyles.labelContainer} wrap={false}>
             <Image src={IconDone} style={commonStyles.labelIcon} />
             <Text style={commonStyles.label}>
               {intl.formatMessage({ id: 'verificationDetails.summary.checksPassed.title' }, { count: passedStepsCount })}

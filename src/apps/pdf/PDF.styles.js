@@ -72,6 +72,7 @@ export const commonStyles = StyleSheet.create({
   labelContainer: {
     display: 'flex',
     flexDirection: 'row',
+    marginTop: 4,
     marginBottom: 4,
     padding: [[6, 10]],
     borderRadius: 5,
@@ -85,18 +86,18 @@ export const commonStyles = StyleSheet.create({
   labelIcon: {
     flexShrink: 0,
     width: 17,
+    height: 17,
     marginRight: 10,
   },
   mapBox: {
     width: '100%',
-    height: 12.5 * rem,
+    height: 26 * rem,
     borderRadius: 5,
     backgroundColor: colors.black7,
   },
   map: {
     width: '100%',
-    height: 12.5 * rem,
+    height: 26 * rem,
     borderRadius: 5,
-    objectFit: 'cover',
   },
 });

@@ -39,6 +39,9 @@ export const styles = StyleSheet.create({
     objectFit: 'cover',
     borderRadius: 5,
   },
+  imageSingle: {
+    maxWidth: '50%',
+  },
   imagesHorizontal: {
     display: 'flex',
     flexDirection: 'row',

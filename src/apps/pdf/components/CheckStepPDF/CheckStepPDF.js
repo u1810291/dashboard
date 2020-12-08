@@ -13,8 +13,8 @@ export function CheckStepPDF({ step, isGovCheck = false }) {
   const statusCode = getStepStatus(step);
 
   return (
-    <View style={[styles.card, commonStyles.mb1]}>
-      <View style={commonStyles.labelContainer}>
+    <View style={[styles.card, commonStyles.mb05]}>
+      <View style={commonStyles.labelContainer} wrap={false}>
         <Image style={commonStyles.labelIcon} src={IconStatuses[statusCode]} />
         <Text style={commonStyles.label}>
           {intl.formatMessage({

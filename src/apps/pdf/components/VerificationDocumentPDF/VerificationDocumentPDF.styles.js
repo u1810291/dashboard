@@ -17,12 +17,7 @@ export const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     width: '100%',
-    maxHeight: 160,
-  },
-  image: {
-    maxHeight: '100%',
-    objectFit: 'cover',
-    borderRadius: 5,
+    maxHeight: 200,
   },
   imageEmptyWrapper: {
     display: 'flex',
@@ -38,33 +33,17 @@ export const styles = StyleSheet.create({
   imageEmpty: {
     width: 40,
   },
-  imageBigWrapper: {
-    width: 120,
-    height: 160,
-    marginRight: 20,
-    lineHeight: 0,
-    textAlign: 'center',
-  },
-  imageBig: {
-    height: '100%',
-    width: '100%',
+  imageSingle: {
+    maxHeight: '100%',
+    maxWidth: '50%',
     objectFit: 'cover',
     borderRadius: 5,
   },
-  imageSmallWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-    width: 40,
-    maxHeight: 160,
-    lineHeight: 0,
-  },
-  imageSmall: {
-    maxHeight: 70,
-    marginBottom: 10,
-    marginTop: 10,
+  imageDouble: {
+    maxHeight: '100%',
+    maxWidth: '46%',
+    marginRight: 10,
+    marginLeft: 10,
     objectFit: 'cover',
     borderRadius: 5,
   },

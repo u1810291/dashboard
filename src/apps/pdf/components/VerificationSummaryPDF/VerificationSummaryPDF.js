@@ -41,26 +41,26 @@ export function VerificationSummaryPDF({ identity }) {
       </View>
       <View style={styles.wrapper}>
         {/* Biometrics Check */}
-        <View style={commonStyles.paper}>
+        <View>
           <VerificationBioCheckSummaryPDF identity={identity} biometric={biometric} />
         </View>
 
         {/* Documents Checks */}
         {identity.documents.map((doc, index) => (
-          <View style={commonStyles.paper} key={doc.country + doc.type}>
+          <View key={doc.country + doc.type}>
             <VerificationDocumentPDF document={doc} documentIndex={index} />
           </View>
         ))}
 
         {/* Additional Checks */}
         {ipCheck && !ipCheck.error && ipCheck.data && (
-        <View style={commonStyles.paper}>
+        <View>
           <VerificationIpCheckPDF ipCheck={ipCheck} />
         </View>
         )}
 
         {platformType !== PlatformTypes.Api && (
-        <View style={[commonStyles.paper, commonStyles.mb0, commonStyles.pb0]}>
+        <View style={[commonStyles.mb0, commonStyles.pb0]}>
           <VerificationDeviceCheckPDF identity={identity} />
         </View>
         )}
