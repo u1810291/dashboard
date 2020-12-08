@@ -11,7 +11,7 @@ import { CopyToClipboard } from '../../../../components/clipboard';
 export function VerificationWebhookModal({ webhook, onClose }) {
   const intl = useIntl();
   const classes = useStyles();
-  const resourceUrl = `https://api.getmati.com/api/v2/verifications/${webhook?.id ?? ''}`;
+  const resourceUrl = `${process.env.REACT_APP_API_URL}/v2/verifications/${webhook?.id ?? ''}`;
 
   return (
     <Modal className={classes.modal}>
