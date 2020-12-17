@@ -114,6 +114,12 @@ export const merchantFlowsLoad = () => async (dispatch, getState) => {
   }
 };
 
+// TODO: complete after backend will be finished
+// eslint-disable-next-line no-unused-vars
+export const merchantDenyUploadFlow = (checked) => async (dispatch, getState) => {
+
+};
+
 export const merchantUpdateFlow = (flowId, payload) => async (dispatch, getState) => {
   dispatch({ type: types.FLOWS_UPDATING });
   try {

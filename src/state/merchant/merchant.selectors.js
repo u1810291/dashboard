@@ -7,6 +7,7 @@ import { DEFAULT_LOCALE, LanguageList } from 'models/Intl.model';
 import { createSelector } from 'reselect';
 import { ChecksList } from 'apps/checks/models/Checks.model';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
+import { MerchantTags } from '../../models/Merchant.model';
 
 const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
 
@@ -54,6 +55,11 @@ export const selectIsBlockedModel = createSelector(
 export const selectMerchantTags = createSelector(
   selectMerchantModel,
   selectModelValue((merchant) => merchant.tags || []),
+);
+
+export const selectDenialUploadAvailability = createSelector(
+  selectMerchantTags,
+  (tags) => tags.includes(MerchantTags.CanUseDenyUploadFromGallery),
 );
 
 export const selectAvailableChecks = createSelector(
@@ -132,6 +138,11 @@ export const selectCurrentFlow = createSelector(
   selectMerchantFlowsModel,
   selectCurrentFlowId,
   selectModelValue((model, id) => model.find((item) => item.id === id)),
+);
+
+export const selectUploadDenial = createSelector(
+  selectCurrentFlow,
+  (flow) => flow.denyUploadsFromMobileGallery,
 );
 
 export const selectStyleModel = createSelector(
