@@ -180,6 +180,11 @@ export const selectDuplicateUserDetectionCheck = createSelector(
   (flow) => flow[VerificationStepTypes.DuplicateUserValidation],
 );
 
+export const selectComplyAdvantageIntegratedCheck = createSelector(
+  selectVerificationPattern,
+  (flow) => flow[VerificationStepTypes.ComplyAdvantageValidation],
+);
+
 export const selectNom151Check = createSelector(
   selectCurrentFlow,
   (flow) => flow.digitalSignature,

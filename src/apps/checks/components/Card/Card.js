@@ -9,6 +9,7 @@ export function Card({
   badgeText,
   startIcon,
   endControl,
+  endControlBlock,
 }) {
   const intl = useIntl();
   const classes = useStyles();
@@ -18,13 +19,13 @@ export function Card({
       <Box className={classes.container}>
         {/* Header */}
         <Box className={classes.header}>
-          { startIcon
-            && <Box className={classes.icon}><TitleIcon icon={startIcon} /></Box> }
+          {startIcon
+            && <Box className={classes.icon}><TitleIcon icon={startIcon} /></Box>}
           <Box className={classes.titleText}>
             {intl.formatMessage({ id: title })}
           </Box>
-          { badgeText
-            && <Box><TitleBadge label={intl.formatMessage({ id: badgeText })} /></Box> }
+          {badgeText
+            && <Box><TitleBadge label={intl.formatMessage({ id: badgeText })} /></Box>}
         </Box>
 
         {/* Body */}
@@ -32,9 +33,11 @@ export function Card({
           <Box className={classes.text}>
             {intl.formatMessage({ id: text })}
           </Box>
-          { endControl
-            && <Box className={classes.control}>{endControl}</Box> }
+          {endControl && !endControlBlock
+            && <Box className={classes.control}>{endControl}</Box>}
         </Box>
+        {endControl && endControlBlock
+          && <Box className={classes.control}>{endControl}</Box>}
       </Box>
     </Paper>
   );

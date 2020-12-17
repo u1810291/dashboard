@@ -65,9 +65,9 @@ export function Verification({ identity }) {
 
       {/* digitalSignature */}
       {identity.digitalSignature && (
-      <Grid item>
-        <Nom151Check data={identity.digitalSignature} />
-      </Grid>
+        <Grid item>
+          <Nom151Check data={identity.digitalSignature} />
+        </Grid>
       )}
 
     </Grid>
