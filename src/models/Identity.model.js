@@ -143,16 +143,24 @@ export function getIdentityExtras(identity, countries) {
   }
 
   const steps = get(identity, '_embedded.verification.steps') || [];
+  const documents = getDocumentExtras(identity, countries);
+
+  let duplicateUserStep;
+  documents.some((doc) => {
+    duplicateUserStep = doc.steps.find((item) => item.id === VerificationStepTypes.DuplicateUserValidation);
+    return duplicateUserStep;
+  });
+
   return {
     ...identity,
     biometric: getBiometricExtras(steps.filter((item) => BiometricSteps.includes(item.id))),
     shortId: getIdentityShortId(identity.id),
     fullName: titleize(identity.fullName || ''),
     // TODO @dkchv: overrided
-    documents: getDocumentExtras(identity, countries),
+    documents,
     isEditable: isChangeableStatus(identity.status),
     ipCheck: getIpCheckStep(steps),
-    duplicateUserStep: steps.find((item) => item.id === VerificationStepTypes.DuplicateUserValidation),
+    duplicateUserStep,
     digitalSignature: get(identity, '_embedded.digitalSignature'),
   };
 }

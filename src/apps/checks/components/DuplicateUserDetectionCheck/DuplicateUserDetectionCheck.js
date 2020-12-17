@@ -22,7 +22,7 @@ export function DuplicateUserDetectionCheck({ stepData = {} }) {
             {stepData?.data?.duplicateIdentities && (
               <Box my={1}>
                 {stepData.data.duplicateIdentities.map((entry, index) => (
-                  <Box my={1}>
+                  <Box my={1} key={index}>
                     <Link to={`${Routes.list.root}/${entry}`}>
                       <LinkButton variant="contained" disableElevation endIcon={<FiExternalLink />}>
                         {`${intl.formatMessage({ id: 'Checks.result.DuplicateUserDetectionCheck.duplicatationLinks' })} ${index + 1}`}
