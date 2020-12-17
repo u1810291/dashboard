@@ -1,6 +1,7 @@
 import { getFacematchStepExtra } from 'apps/facematch/models/facematch.model';
 import { getAlterationReason } from 'apps/alterationDetection/models/alterationDetection.model';
 import { getTemplateMatchingStepExtraData } from 'apps/templateMatching/models/templateMatching.model';
+import { getComplyAdvantageIntegratedCheckExtraData } from 'apps/complyAdvantageIntegratedCheck/models/complyAdvantageIntegratedCheck.model';
 import { get } from 'lodash';
 import { getFieldsExpired, getFieldsExtra } from 'models/Field.model';
 
@@ -17,6 +18,7 @@ export const DocumentStepTypes = {
   ArgentinianRenaper: 'argentinian-renaper-validation',
   PeruvianReniec: 'peruvian-reniec-validation',
   DuplicateUserDetectionCheck: 'duplicate-user-detection',
+  ComplyAdvantageIntegratedCheck: 'comply-advantage-validation',
 };
 
 export const BiometricStepTypes = {
@@ -92,6 +94,7 @@ export function getDocumentStatus(steps) {
 const StepIncompletionErrors = {
   [DocumentStepTypes.Watchlists]: ['watchlists.notEnoughParams'],
   [DocumentStepTypes.DuplicateUserDetectionCheck]: ['duplacateIdentityDetection.notValidParams'],
+  [DocumentStepTypes.ComplyAdvantageIntegratedCheck]: ['complyAdvantage.notValidParams'],
 };
 
 export const LEGACY_ERROR = 'LegacyError';
@@ -106,6 +109,8 @@ function getAltered(step, identity, countries, document) {
       return getFacematchStepExtra(step, identity);
     case DocumentStepTypes.TemplateMatching:
       return getTemplateMatchingStepExtraData(step, identity, countries, document);
+    case DocumentStepTypes.ComplyAdvantageIntegratedCheck:
+      return getComplyAdvantageIntegratedCheckExtraData(step, document);
     default:
       return step;
   }

@@ -12,9 +12,9 @@ import { getMediaURL } from '../../../../lib/client/media';
 export function VerificationDocumentPDF({ document, documentIndex }) {
   const intl = useIntl();
   const title = useDocumentTitle(document);
-  const { photos = [], securityCheckSteps, documentFailedCheckSteps, govChecksSteps, documentStatus } = document; // use these checks for children component
+  const { photos = [], securityCheckSteps, documentFailedCheckSteps, complyAdvantageStep, govChecksSteps, documentStatus } = document; // use these checks for children component
 
-  const allSteps = [...documentFailedCheckSteps, ...securityCheckSteps, ...govChecksSteps];
+  const allSteps = [...documentFailedCheckSteps, ...securityCheckSteps, ...govChecksSteps, ...complyAdvantageStep];
 
   return (
     <VerificationCheckCardPDF

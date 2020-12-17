@@ -10,6 +10,7 @@ export const DEFAULT_STATUS_COLOR = '#ADADAD';
 export const VerificationStepTypes = {
   IpValidation: 'ip-validation',
   DuplicateUserValidation: 'duplicate-user-detection',
+  ComplyAdvantageValidation: 'comply-advantage-validation',
 };
 
 export const IdentityStatuses = {

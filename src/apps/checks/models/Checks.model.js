@@ -4,11 +4,12 @@ import { MerchantTags } from '../../../models/Merchant.model';
 export const DOCS_BASE_URL = 'https://docs.getmati.com/';
 
 export const CheckTypes = {
+  ComplyAdvantageIntegratedCheck: 'complyAdvantageIntegratedCheck',
   IpCheck: 'ipCheck',
   DuplicateUserDetection: 'duplicateUserDetection',
   Nom151Check: 'nom151Check',
   EmailCheck: 'emailCheck',
-  ComplyAdvantage: 'complyAdvantage',
+  ComplyAdvantageStandalone: 'complyAdvantageStandalone',
 };
 
 export const ChecksList = [
@@ -35,6 +36,14 @@ export const ChecksList = [
     startIcon: FiCheckCircle,
   },
   {
+    id: CheckTypes.ComplyAdvantageIntegratedCheck,
+    title: 'Product.checks.complyAdvantageIntegratedCheck.title',
+    text: 'Product.checks.complyAdvantageIntegratedCheck.text',
+    badgeText: 'Product.checks.complyAdvantageIntegratedCheck.badgeText',
+    startIcon: FiCheckSquare,
+    availableOnlyForMerchantTag: MerchantTags.CanUseComplyAdvantageIntegratedCheck,
+  },
+  {
     id: CheckTypes.EmailCheck,
     title: 'Product.checks.emailCheck.title',
     text: 'Product.checks.emailCheck.text',
@@ -42,7 +51,7 @@ export const ChecksList = [
     startIcon: FiMail,
   },
   {
-    id: CheckTypes.ComplyAdvantage,
+    id: CheckTypes.ComplyAdvantageStandalone,
     title: 'Product.checks.complyAdvantage.title',
     text: 'Product.checks.complyAdvantage.text',
     badgeText: 'Product.checks.complyAdvantage.badgeText',
