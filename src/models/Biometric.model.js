@@ -1,6 +1,5 @@
 import { get } from 'lodash';
 import { BiometricStepTypes, getStepStatus, StepStatus } from './Step.model';
-import { MerchantTags } from './Merchant.model';
 
 export const BiometricTypes = {
   liveness: 'liveness',
@@ -22,7 +21,6 @@ export const BiometricSettings = [
     options: [
       {
         id: BiometricTypes.voiceLiveness,
-        tag: MerchantTags.CanUseVoiceLiveness,
       },
     ],
   },
