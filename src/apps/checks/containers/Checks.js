@@ -9,6 +9,7 @@ import { IpCheckControl } from '../components/IpCheckControl/IpCheckControl';
 import { DuplicateUserDetectionCheckControl } from '../components/DuplicateUserDetectionCheckControl/DuplicateUserDetectionCheckControl';
 import { Nom151CheckControl } from '../components/nom151CheckControl/Nom151CheckControl';
 import { CheckControlButton } from '../components/CheckControlButton/CheckControlButton';
+import { ComplyAdvantageIntegratedCheckControl } from '../components/ComplyAdvantageIntegratedCheckControl/ComplyAdvantageIntegratedCheckControl';
 
 export function AdditionalChecks() {
   const intl = useIntl();
@@ -18,6 +19,7 @@ export function AdditionalChecks() {
     [CheckTypes.IpCheck]: { component: IpCheckControl },
     [CheckTypes.Nom151Check]: { component: Nom151CheckControl },
     [CheckTypes.DuplicateUserDetection]: { component: DuplicateUserDetectionCheckControl },
+    [CheckTypes.ComplyAdvantageIntegratedCheck]: { component: ComplyAdvantageIntegratedCheckControl, endControlBlock: true },
     [CheckTypes.EmailCheck]: {
       component: CheckControlButton,
       props: {
@@ -25,7 +27,7 @@ export function AdditionalChecks() {
         buttonText: 'Product.checks.emailCheck.buttonText',
       },
     },
-    [CheckTypes.ComplyAdvantage]: {
+    [CheckTypes.ComplyAdvantageStandalone]: {
       component: CheckControlButton,
       props: {
         link: `${DOCS_BASE_URL}#post-optional-comply-advantage-validation`,
@@ -47,6 +49,7 @@ export function AdditionalChecks() {
             badgeText={check.badgeText}
             startIcon={check.startIcon}
             endControl={React.createElement(CheckComponentsMap[check.id].component, CheckComponentsMap[check.id].props)}
+            endControlBlock={CheckComponentsMap[check.id].endControlBlock}
           />
         ))}
     </Box>

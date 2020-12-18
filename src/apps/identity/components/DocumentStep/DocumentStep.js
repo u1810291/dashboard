@@ -11,6 +11,7 @@ import { ZoomableImage } from '../ZoomableImage/ZoomableImage';
 import { SkeletonLoader } from '../../../ui/components/SkeletonLoader/SkeletonLoader';
 import { CheckStepDetails } from '../CheckStepDetails/CheckStepDetails';
 import { CheckResultLogo } from '../CheckResultLogo/CheckResultLogo';
+import { ComplyAdvantageStepDetails } from '../ComplyAdvantageStepDetails/ComplyAdvantageStepDetails';
 
 export function DocumentStep({ document, identity, documentIndex }) {
   const intl = useIntl();
@@ -18,9 +19,9 @@ export function DocumentStep({ document, identity, documentIndex }) {
   const title = useDocumentTitle(document);
   const photosOrientation = usePhotosOrientation(document);
 
-  const { source, type, isEditable = true, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, fields, documentReadingStep, onReading, documentStatus, areTwoSides, documentSides } = document;
+  const { source, type, isEditable = true, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, complyAdvantageStep, fields, documentReadingStep, onReading, documentStatus, areTwoSides, documentSides } = document;
   const isFormEditable = identity.isEditable && source.demo !== true && isEditable;
-
+  const complyAdvantageStepData = complyAdvantageStep[0];
   return (
     <Paper>
       <Box p={2}>
@@ -129,6 +130,12 @@ export function DocumentStep({ document, identity, documentIndex }) {
                       <CheckStepDetails step={step} isGovCheck />
                     </CheckBarExpandable>
                   ))}
+                  {complyAdvantageStepData
+                    && (
+                      <CheckBarExpandable step={complyAdvantageStepData} key={complyAdvantageStepData.id}>
+                        <ComplyAdvantageStepDetails step={complyAdvantageStepData} />
+                      </CheckBarExpandable>
+                    )}
                 </Grid>
               </Grid>
             )}
