@@ -1020,7 +1020,7 @@
   "SecurityCheckStep.watchlists.tip.body": "It consists of a series of searches carried out to identify possible matches between individuals in lists, criminal, international and local, and the name of the user extracted by our reading of documents.",
   "SecurityCheckStep.watchlists.tip.message.failure": "Username found in blacklisting",
   "SecurityCheckStep.watchlists.title": "Watchlists detection",
-  "SecurityCheckStep.comply-advantage-validation.title": "Premium AML Watchlists",
+  "SecurityCheckStep.premium-aml-watchlists-search.title": "Premium AML Watchlists",
   "SecurityCheckStep.complyAdvantage.match.noMatch": "No Match",
   "SecurityCheckStep.complyAdvantage.match.exact": "Exact Match",
   "SecurityCheckStep.complyAdvantage.match.partial": "Partial Match",

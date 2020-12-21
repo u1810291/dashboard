@@ -18,7 +18,7 @@ export const DocumentStepTypes = {
   ArgentinianRenaper: 'argentinian-renaper-validation',
   PeruvianReniec: 'peruvian-reniec-validation',
   DuplicateUserDetectionCheck: 'duplicate-user-detection',
-  ComplyAdvantageIntegratedCheck: 'comply-advantage-validation',
+  ComplyAdvantageIntegratedCheck: 'premium-aml-watchlists-search',
 };
 
 export const BiometricStepTypes = {
