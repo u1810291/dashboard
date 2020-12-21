@@ -1020,7 +1020,7 @@
   "SecurityCheckStep.watchlists.tip.body": "Consiste en una serie de búsquedas, realizadas para identificar posibles coincidencias entre individuos en listas criminales internacionales y locales y el nombre del usuario extraído por nuestra lectura de documentos.",
   "SecurityCheckStep.watchlists.tip.message.failure": "El nombre del usuario fue encontrado en listas negras",
   "SecurityCheckStep.watchlists.title": "Detección de listas de observación",
-  "SecurityCheckStep.comply-advantage-validation.title": "Premium AML Watchlists",
+  "SecurityCheckStep.premium-aml-watchlists-search.title": "Premium AML Watchlists",
   "SecurityCheckStep.complyAdvantage.match.noMatch": "No Match",
   "SecurityCheckStep.complyAdvantage.match.exact": "Exact Match",
   "SecurityCheckStep.complyAdvantage.match.partial": "Partial Match",
