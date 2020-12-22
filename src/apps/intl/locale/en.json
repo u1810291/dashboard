@@ -1027,6 +1027,7 @@
   "SecurityCheckStep.watchlists.tip.body": "It consists of a series of searches carried out to identify possible matches between individuals in lists, criminal, international and local, and the name of the user extracted by our reading of documents.",
   "SecurityCheckStep.watchlists.tip.message.failure": "Username found in blacklisting",
   "SecurityCheckStep.watchlists.title": "Watchlists detection",
+  "SecurityCheckStep.premium-aml-watchlists-search.title": "Premium AML Watchlists",
   "settings.accountInfo": "Account Info",
   "Settings.changeEmailModal.cancel": "Cancel",
   "Settings.changeEmailModal.changeEmail": "Change email",
