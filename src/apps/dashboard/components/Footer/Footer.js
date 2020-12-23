@@ -1,13 +1,12 @@
 import { Box, Container, Hidden, Paper } from '@material-ui/core';
-import React from 'react';
-import { useIntl } from 'react-intl';
 import Link from '@material-ui/core/Link';
 import matiLogo from 'assets/mati-logo-v3.svg';
+import React from 'react';
+import { useIntl } from 'react-intl';
 import { useStyles } from './Footer.styles';
 import facebookLogo from './images/facebookLogo.svg';
-import twitterLogo from './images/twitterLogo.svg';
 import linkedInLogo from './images/linkedInLogo.svg';
-import { FreshworksWidgetButton } from '../../../layout/components/FreshworksWidgetButton/FreshworksWidgetButton';
+import twitterLogo from './images/twitterLogo.svg';
 
 export function Footer() {
   const intl = useIntl();
@@ -34,22 +33,6 @@ export function Footer() {
         </Hidden>
         {/* right */}
         <Box className={classes.links}>
-          <Hidden smDown>
-            <Box className={classes.link}>
-              <Link
-                className={classes.emailLink}
-                color="primary"
-                href="mailto:hello@mati.io"
-                rel="noopener"
-                target="_blank"
-              >
-                hello@mati.io
-              </Link>
-            </Box>
-          </Hidden>
-          <Box className={classes.widget}>
-            <FreshworksWidgetButton text={intl.formatMessage({ id: 'Footer.support' })} />
-          </Box>
           <Link
             className={classes.socialLink}
             href="https://www.facebook.com/mativerifications"
