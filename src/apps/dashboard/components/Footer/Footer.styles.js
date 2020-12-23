@@ -53,6 +53,10 @@ export const useStyles = makeStyles((theme) => ({
     height: '100%',
     justifyContent: 'flex-end',
     alignItems: 'center',
+    marginRight: 80,
+    [theme.breakpoints.down('sm')]: {
+      marginRight: 90,
+    },
   },
   emailLink: {
     color: '#232939',
@@ -61,7 +65,7 @@ export const useStyles = makeStyles((theme) => ({
     marginRight: 20,
   },
   widget: {
-    marginRight: 10,
+    marginLeft: 10,
   },
   socialLink: {
     flexShrink: 0,
