@@ -7,9 +7,7 @@ export function ChartTooltip({ external }) {
   const { x, width, y } = external || {};
   const isHidden = !external;
 
-  const tooltip = external
-    ? external.tooltip || external.label
-    : null;
+  const tooltip = external ? external.value : null;
 
   const style = {
     display: isHidden ? 'none' : 'block',

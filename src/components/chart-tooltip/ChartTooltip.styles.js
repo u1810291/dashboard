@@ -1,16 +1,18 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const tooltipBG = '#3b4453';
-
 export const useStyles = makeStyles((theme) => ({
   tooltip: {
     position: 'absolute',
+    minWidth: 45,
+    minHeight: 30,
+    padding: [[7, 6]],
+    borderRadius: 5,
+    backgroundColor: theme.palette.common.black90,
+    textAlign: 'center',
+    color: theme.palette.common.black7,
     transform: 'translate(-50%, calc(-100% - 1rem))',
-    padding: [['0.5rem', '0.75rem']],
-    borderRadius: 4,
-    backgroundColor: tooltipBG,
-    color: theme.palette.primary.contrastText,
-    boxShadow: [[0, 1, 4, 'rgba(0, 0, 0, 0.5)']],
+    boxShadow: '0px 8px 12px rgba(0, 0, 0, 0.2)',
+    fontSize: 14,
     whiteSpace: 'pre',
     '&:after': {
       content: '""',
@@ -20,9 +22,9 @@ export const useStyles = makeStyles((theme) => ({
       height: 0,
       margin: 'auto',
       borderStyle: 'solid',
-      borderColor: [[tooltipBG, 'transparent', 'transparent', 'transparent']],
-      borderWidth: [['0.5rem', '0.5rem', 0, '0.5rem']],
-      bottom: 0,
+      borderColor: [[theme.palette.common.black90, 'transparent', 'transparent', 'transparent']],
+      borderWidth: [[6, 5, 0, 5]],
+      bottom: 1,
       left: '50%',
       transform: 'translate(-50%, 100%)',
     },

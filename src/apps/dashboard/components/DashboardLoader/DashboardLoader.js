@@ -1,12 +1,9 @@
+import { selectStatistics } from 'apps/analytics/state/metrics.selectors';
+import { selectCollaboratorCollection } from 'apps/collaborators/state/collaborator.selectors';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectStatistics } from '../../../../state/metrics/metrics.selectors';
-import {
-  selectIdentityIsPDFGenerating,
-  selectIdentityModelWithExtras,
-} from '../../../../state/identities/identities.selectors';
-import { selectMerchantFlowsModel } from '../../../../state/merchant/merchant.selectors';
-import { selectCollaboratorCollection } from '../../../collaborators/state/collaborator.selectors';
+import { selectIdentityIsPDFGenerating, selectIdentityModelWithExtras } from 'state/identities/identities.selectors';
+import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { Loader } from '../Loader/Loader';
 
 /**

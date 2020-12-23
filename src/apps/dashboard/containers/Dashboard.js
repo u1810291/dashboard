@@ -1,21 +1,21 @@
 import { signOut } from 'apps/auth/state/auth.actions';
 import { Layout, PageError } from 'apps/layout';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
+import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getCountries } from 'state/countries/countries.actions';
-import { selectCountriesModel } from 'state/countries/countries.selectors';
+import { loadCountries, loadCountriesOnlyExisting } from 'state/countries/countries.actions';
+import { selectAllCountriesModel, selectCountriesOnlyExisting } from 'state/countries/countries.selectors';
 import { merchantFlowsLoad, merchantLoad } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowsModel, selectMerchantModel } from 'state/merchant/merchant.selectors';
+import { DashboardLoader } from '../components/DashboardLoader/DashboardLoader';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
-import { DashboardRouter } from './Dashboard.router';
 import { Footer } from '../components/Footer/Footer';
 import { Loader } from '../components/Loader/Loader';
-import { DashboardLoader } from '../components/DashboardLoader/DashboardLoader';
-import { Routes } from '../../../models/Router.model';
+import { DashboardRouter } from './Dashboard.router';
 
 export function Dashboard() {
   const dispatch = useDispatch();
@@ -23,7 +23,8 @@ export function Dashboard() {
   const intl = useIntl();
   const merchantModel = useSelector(selectMerchantModel);
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
-  const countriesModel = useSelector(selectCountriesModel);
+  const countriesModel = useSelector(selectAllCountriesModel);
+  const countriesOnlyExistingModel = useSelector(selectCountriesOnlyExisting);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
@@ -48,7 +49,7 @@ export function Dashboard() {
   useEffect(() => {
     const loadData = async () => {
       if (LoadableAdapter.isPristine(countriesModel)) {
-        await dispatch(getCountries())
+        await dispatch(loadCountries())
           .catch((error) => {
             setIsError(true);
             console.error(error);
@@ -57,6 +58,20 @@ export function Dashboard() {
     };
     loadData();
   }, [dispatch, countriesModel]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      if (LoadableAdapter.isPristine(countriesOnlyExistingModel)) {
+        try {
+          await dispatch(loadCountriesOnlyExisting());
+        } catch (error) {
+          setIsError(true);
+          console.error(error);
+        }
+      }
+    };
+    loadData();
+  }, [dispatch, countriesOnlyExistingModel]);
 
   useEffect(() => {
     if (merchantModel.isLoaded && LoadableAdapter.isPristine(merchantFlowsModel)) {

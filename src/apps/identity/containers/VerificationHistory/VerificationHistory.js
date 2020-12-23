@@ -1,43 +1,45 @@
 import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
+import { ByFlows, ByStatuses, OpenFilter, verificationsClearFilter, verificationsFilterInitialState, verificationsFilterStructure } from 'apps/filter';
+import { useFilterUpdate } from 'apps/filter/hooks/filterUpdate.hook';
+import { parseFromURL } from 'models/Filter.model';
+import { Routes } from 'models/Router.model';
 import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { filterUpdate, identitiesCountLoad, identitiesFilteredCountLoad, identitiesListLoad, identityListClear } from 'state/identities/identities.actions';
-import { selectFilteredCountModel } from 'state/identities/identities.selectors';
+import { useHistory, useLocation } from 'react-router-dom';
+import { filterUpdate, identitiesCountLoad, identitiesFilteredCountLoad, identitiesListLoad, identitiesPreliminaryCountLoad, identityListClear } from 'state/identities/identities.actions';
+import { selectFilteredCountModel, selectIdentityFilter, selectPreliminaryFilteredCountModel } from 'state/identities/identities.selectors';
 import { DownloadCSV } from '../../components/DownloadCSV/DownloadCSV';
 import { ManualReviewBanner } from '../../components/ManualReviewBanner/ManualReviewBanner';
-import { OpenFilter } from '../../components/OpenFilter/OpenFilter';
 import { VerificationSearch } from '../../components/VerificationSearch/VerificationSearch';
 import { VerificationTable } from '../../components/VerificationTable/VerificationTable';
-import { useFilterUpdate } from '../../hooks/filterUpdate.hook';
-import { initialFilter, parseFromURL } from '../../models/filter.model';
 import { useStyles } from './VerificationHistory.styles';
-import { Routes } from '../../../../models/Router.model';
 
 export function VerificationHistory() {
   const dispatch = useDispatch();
   const location = useLocation();
+  const history = useHistory();
   const classes = useStyles();
   const intl = useIntl();
   const filteredCountModel = useSelector(selectFilteredCountModel);
-  const [setFilter] = useFilterUpdate();
+  const identityFilter = useSelector(selectIdentityFilter);
+  const [setFilter] = useFilterUpdate(identityFilter, filterUpdate);
 
   useEffect(() => {
     dispatch(identitiesCountLoad());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(filterUpdate(parseFromURL(location.search)));
+    dispatch(filterUpdate(parseFromURL(location.search, verificationsFilterStructure)));
     dispatch(identitiesListLoad(true));
     dispatch(identitiesFilteredCountLoad());
     return () => {
-      if (!location.pathname.startsWith(Routes.list.root)) {
-        dispatch(filterUpdate(initialFilter));
+      if (!history.location.pathname.startsWith(Routes.list.root)) {
+        dispatch(filterUpdate(verificationsFilterInitialState));
         dispatch(identityListClear());
       }
     };
-  }, [dispatch, location]);
+  }, [dispatch, history, location]);
 
   return (
     <Container maxWidth={false}>
@@ -56,7 +58,16 @@ export function VerificationHistory() {
               </Grid>
               {/* identityFilter */}
               <Grid item>
-                <OpenFilter setFilter={setFilter} />
+                <OpenFilter
+                  onSetFilter={setFilter}
+                  selectFilter={identityFilter}
+                  loadPreliminaryCountAction={identitiesPreliminaryCountLoad}
+                  preliminaryCountSelector={selectPreliminaryFilteredCountModel}
+                  onClearFilter={verificationsClearFilter}
+                >
+                  <ByFlows />
+                  <ByStatuses />
+                </OpenFilter>
               </Grid>
             </Grid>
           </Grid>

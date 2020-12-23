@@ -4,12 +4,12 @@ import { Nom151Check } from 'apps/checks/components/Nom151Check/Nom151Check';
 import { Page404 } from 'apps/layout';
 import { get } from 'lodash';
 import React from 'react';
+import { getDownloadableFileName } from '../../../../models/Identity.model';
 import { DocumentStep } from '../../components/DocumentStep/DocumentStep';
 import { LivenessStep } from '../../components/LivenessStep/LivenessStep';
+import { VerificationAdditionalChecks } from '../../components/VerificationAdditionalChecks/VerificationAdditionalChecks';
 import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
 import { VerificationSummary } from '../../components/VerificationSummary/VerificationSummary';
-import { getDownloadableFileName } from '../../../../models/Identity.model';
-import { VerificationAdditionalChecks } from '../../components/VerificationAdditionalChecks/VerificationAdditionalChecks';
 
 export function Verification({ identity }) {
   const verification = get(identity, '_embedded.verification');

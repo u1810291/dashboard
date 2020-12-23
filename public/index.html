@@ -46,7 +46,6 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <script src="%REACT_APP_MATI_BUTTON_URL%"></script>
-
     <script>
       window.fwSettings={
         'widget_id':'%REACT_APP_FRESHDESK_WIDGET_ID%'
@@ -63,6 +62,13 @@
       }();
     </script>
     <script type='text/javascript' src='https://widget.freshworks.com/widgets/%REACT_APP_FRESHDESK_WIDGET_ID%.js' async defer></script>
+    <!-- Google map -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_STATIC_GOOGLE_MAP_API_KEY%&libraries=&v=weekly"
+        defer
+    ></script>
+    <!-- End Google map -->
+
     <!-- Beamer -->
     <script>
       var beamer_config = {

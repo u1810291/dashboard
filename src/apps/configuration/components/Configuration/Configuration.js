@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash, FiUser } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCountriesModel } from 'state/countries/countries.selectors';
+import { selectAllCountriesModel } from 'state/countries/countries.selectors';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
 import { BiometricStep } from '../BiometricStep/BiometricStep';
@@ -21,7 +21,7 @@ export function Configuration() {
   const dispatch = useDispatch();
   const currentFlowModel = useSelector(selectCurrentFlow);
   const [flowSteps, setFlowSteps] = useState([]);
-  const countriesModel = useSelector(selectCountriesModel);
+  const countriesModel = useSelector(selectAllCountriesModel);
 
   const updateConfiguration = useCallback((settings) => dispatch(configurationFlowUpdate(settings)), [dispatch]);
 
