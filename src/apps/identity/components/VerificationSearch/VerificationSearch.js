@@ -4,18 +4,19 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FiSearch, FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
+import { filterUpdate } from '../../../../state/identities/identities.actions';
 import { selectIdentityFilter } from '../../../../state/identities/identities.selectors';
+import { useFilterUpdate } from '../../../filter/hooks/filterUpdate.hook';
 import { useOverlay } from '../../../overlay';
-import { useFilterUpdate } from '../../hooks/filterUpdate.hook';
 import { IconButtonSearch, InputAdornmentSearch, TextFieldSearch, useStyles } from './VerificationSearch.styles';
 
 export function VerificationSearch({ isInOverlay }) {
   const intl = useIntl();
   const classes = useStyles();
-  const [search, setSearch] = useState('');
-  const [setFilter] = useFilterUpdate();
-  const [adornment, setAdornment] = useState(null);
   const identityFilter = useSelector(selectIdentityFilter);
+  const [search, setSearch] = useState('');
+  const [setFilter] = useFilterUpdate(identityFilter, filterUpdate);
+  const [adornment, setAdornment] = useState(null);
   const [createOverlay, closeOverlay] = useOverlay();
 
   useEffect(() => {

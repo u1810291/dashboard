@@ -1,19 +1,19 @@
+import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { get } from 'lodash';
 import React, { useCallback } from 'react';
-import { Grid, Paper, Box, Typography } from '@material-ui/core';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { get } from 'lodash';
-import { StatusSelector } from '../StatusSelector/StatusSelector';
+import { getDevicePlatformType, PlatformTypes } from '../../../../models/DeviceCheck.model';
 import { identityUpdate } from '../../../../state/identities/identities.actions';
-import { useStyles } from './VerificationSummary.styles';
-import { VerificationDocument } from '../VerificationDocument/VerificationDocument';
+import { VerificationDeviceCheck } from '../../../fingerPrint/components/VerificationDeviceCheck/VerificationDeviceCheck';
+import { StatusSelector } from '../StatusSelector/StatusSelector';
+import { VerificationBioCheckSummary } from '../VerificationBioCheckSummary/VerificationBioCheckSummary';
 import { VerificationDateAndNumber } from '../VerificationDateAndNumber/VerificationDateAndNumber';
+import { VerificationDocument } from '../VerificationDocument/VerificationDocument';
 import { VerificationFlow } from '../VerificationFlow/VerificationFlow';
 import { VerificationIpCheck } from '../VerificationIpCheck/VerificationIpCheck';
-import { VerificationBioCheckSummary } from '../VerificationBioCheckSummary/VerificationBioCheckSummary';
-import { VerificationDeviceCheck } from '../VerificationDeviceCheck/VerificationDeviceCheck';
-import { getDevicePlatformType, PlatformTypes } from '../../../../models/DeviceCheck.model';
 import { VerificationSource } from '../VerificationSource/VerificationSource';
+import { useStyles } from './VerificationSummary.styles';
 
 export function VerificationSummary({ identity }) {
   const dispatch = useDispatch();

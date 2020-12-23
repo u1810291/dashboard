@@ -1,8 +1,8 @@
-import { filterSerialize } from 'apps/identity/models/filter.model';
+import { filterSerialize } from 'models/Filter.model';
 import { createSelector } from 'reselect';
 import { selectLoadableValue } from '../../lib/loadable.selectors';
-import { selectCountriesList } from '../countries/countries.selectors';
 import { getIdentityExtras } from '../../models/Identity.model';
+import { selectCountriesList } from '../countries/countries.selectors';
 import { IDENTITIES_STORE_KEY, SliceNames } from './identities.store';
 
 export const selectIdentityStore = (state) => state[IDENTITIES_STORE_KEY];

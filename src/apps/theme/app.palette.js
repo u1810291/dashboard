@@ -12,6 +12,7 @@ export const appPalette = {
   black75: '#8392B8',
   black90: '#232939',
   red: '#fe7581',
+  redorange: '#ff3636',
   redopacity: 'rgba(255, 231, 232, .6)',
   lightgray: '#dcdcdc',
   orange: '#f2994a',

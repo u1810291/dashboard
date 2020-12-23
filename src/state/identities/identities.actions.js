@@ -3,8 +3,8 @@ import * as api from 'lib/client/identities';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { get } from 'lodash';
 import { ERROR_COMMON } from 'models/Error.model';
+import { filterSerialize } from 'models/Filter.model';
 import { createTypesSequence } from 'state/utils';
-import { filterSerialize } from '../../apps/identity/models/filter.model';
 import { IdentityStatuses } from '../../models/Identity.model';
 import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from './identities.selectors';
 import { IdentityActionGroups } from './identities.store';
@@ -21,7 +21,7 @@ export const types = {
   ...createTypesSequence(IdentityActionGroups.FilteredCount),
   ...createTypesSequence(IdentityActionGroups.PreliminaryFilteredCount),
   ...createTypesSequence(IdentityActionGroups.ManualReviewCount),
-  FILTER_UPDATE: 'FILTER_UPDATE',
+  FILTER_UPDATE: 'identities/FILTER_UPDATE',
   IDENTITY_REMOVE: 'IDENTITY_REMOVE',
   SET_PDF_GENERATING: 'SET_PDF_GENERATING',
 };

@@ -1,4 +1,4 @@
-import { initialFilter } from 'apps/identity/models/filter.model';
+import { verificationsFilterInitialState } from 'apps/filter';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { createReducer } from 'state/utils';
 import { types } from './identities.actions';
@@ -6,7 +6,7 @@ import { IdentityActionGroups, SliceNames } from './identities.store';
 
 const initialState = {
   isPDFGenerating: false,
-  filter: initialFilter,
+  filter: verificationsFilterInitialState,
 
   [SliceNames.Identity]: LoadableAdapter.createState(null),
   [SliceNames.IdentityList]: LoadableAdapter.createState([]),
@@ -23,6 +23,7 @@ export default createReducer(initialState, {
   ...LoadableAdapter.createHandlers(IdentityActionGroups.FilteredCount, SliceNames.FilteredCount),
   ...LoadableAdapter.createHandlers(IdentityActionGroups.PreliminaryFilteredCount, SliceNames.PreliminaryFilteredCount),
   ...LoadableAdapter.createHandlers(IdentityActionGroups.ManualReviewCount, SliceNames.ManualReviewCount),
+
   [types.FILTER_UPDATE](state, { payload }) {
     return {
       ...state,

@@ -14,14 +14,14 @@ import { useHistory } from 'react-router-dom';
 import { identitiesListLoad, identityRemove } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityCollection, selectIdentityCountModel, selectIdentityFilter } from 'state/identities/identities.selectors';
 import { IdentityStatuses, OrderDirections, OrderKeys } from '../../../../models/Identity.model';
-import { ITEMS_PER_PAGE } from '../../../pagination';
+import { Routes } from '../../../../models/Router.model';
 import { SkeletonLoader } from '../../../ui/components/SkeletonLoader/SkeletonLoader';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { NoVerifications } from '../NoVerifications/NoVerifications';
 import { StatusLabel } from '../StatusLabel';
 import { VerificationFlowName } from '../VerificationFlowName/VerificationFlowName';
 import { TableRowHovered, useStyles } from './VerificationTable.styles';
-import { Routes } from '../../../../models/Router.model';
+import { ITEMS_PER_PAGE } from '../../../../models/Pagination.model';
 
 export function VerificationTable() {
   const intl = useIntl();

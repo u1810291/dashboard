@@ -4,10 +4,10 @@ import { FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { IdentityStatuses } from '../../../../models/Identity.model';
-import { identitiesManualReviewCountLoad } from '../../../../state/identities/identities.actions';
-import { selectIdentityCountModel, selectManualReviewCountModel } from '../../../../state/identities/identities.selectors';
-import { useFilterUpdate } from '../../hooks/filterUpdate.hook';
-import { initialFilter } from '../../models/filter.model';
+import { filterUpdate, identitiesManualReviewCountLoad } from '../../../../state/identities/identities.actions';
+import { selectIdentityCountModel, selectIdentityFilter, selectManualReviewCountModel } from '../../../../state/identities/identities.selectors';
+import { verificationsFilterInitialState } from '../../../filter';
+import { useFilterUpdate } from '../../../filter/hooks/filterUpdate.hook';
 import { useStyles } from './ManualReviewBanner.styles';
 
 export const ManualReviewBanner = () => {
@@ -16,7 +16,8 @@ export const ManualReviewBanner = () => {
   const dispatch = useDispatch();
   const manualReviewCount = useSelector(selectManualReviewCountModel);
   const identityCount = useSelector(selectIdentityCountModel);
-  const [setFilter, identityFilter] = useFilterUpdate();
+  const identityFilter = useSelector(selectIdentityFilter);
+  const [setFilter] = useFilterUpdate(identityFilter, filterUpdate);
   const [isFilterActive, setIsFilterActive] = useState(false);
 
   useEffect(() => {
@@ -24,19 +25,19 @@ export const ManualReviewBanner = () => {
   }, [dispatch, identityCount]);
 
   useEffect(() => {
-    setIsFilterActive(identityFilter.status.some((status) => status === IdentityStatuses.reviewNeeded));
+    setIsFilterActive(identityFilter?.status?.some((status) => status === IdentityStatuses.reviewNeeded));
   }, [identityFilter.status]);
 
   const handleFilterByManualReview = useCallback(() => {
     setFilter({
-      ...initialFilter,
+      ...verificationsFilterInitialState,
       status: [IdentityStatuses.reviewNeeded],
     });
     setIsFilterActive(true);
   }, [setFilter]);
 
   const handleClearManualReview = useCallback(() => {
-    const statuses = [...initialFilter.status];
+    const statuses = [...verificationsFilterInitialState.status];
     const newStatuses = statuses.filter((status) => status !== IdentityStatuses.reviewNeeded);
     setFilter({ status: newStatuses });
     setIsFilterActive(false);
