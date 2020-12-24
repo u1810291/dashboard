@@ -15,7 +15,7 @@ ci:
     - pushes
   except:
     - lokalize
-    - lokalise-*
+    - /^lokalise-.*$/
   script:
     - npm install
     - npm run eslint
