@@ -29,7 +29,7 @@ export function ByCountries({ bufferedFilter: { countries }, onHandleFilterChang
   const checkIsSelected = useCallback((id) => countries?.includes(id), [countries]);
 
   return (
-    <Grid item md={6}>
+    <Grid item xs={12} md={6}>
       <Typography variant="subtitle2">
         <Box display="flex" alignItems="center" pb={1}>
           <FiCheckCircle />

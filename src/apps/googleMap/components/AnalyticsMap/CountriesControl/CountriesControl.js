@@ -1,14 +1,12 @@
 import { Box, Button, Grid } from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { getIpCheckStatistics } from 'apps/analytics/state/metrics.actions';
-import { selectFilter, selectIpCheckStatistics, selectStatistics } from 'apps/analytics/state/metrics.selectors';
+import { selectIpCheckStatistics, selectStatistics } from 'apps/analytics/state/metrics.selectors';
 import { appPalette } from 'apps/theme/app.palette';
 import cn from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FiChevronDown, FiMenu, FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { loadCountryGeojsons } from 'state/countries/countries.actions';
+import { useSelector } from 'react-redux';
 import { selectCountriesList } from 'state/countries/countries.selectors';
 import markerIcon from '../../../assets/marker.svg';
 import { changeCountriesStructureForCountriesControl, getGeoStatisticsLabel, InformationSourceTypes } from '../../../models/googleMap.model';
@@ -17,7 +15,6 @@ import { useStyles } from './CountriesControl.styles';
 export function CountriesControl({ geocoder, map, setIsCountriesControlOpen, isCountriesControlOpen, informationSource }, ref) {
   const intl = useIntl();
   const classes = useStyles();
-  const dispatch = useDispatch();
   const markersRef = useRef();
   const countriesList = useSelector(selectCountriesList);
   const { value: statistics } = useSelector(selectStatistics);
@@ -25,7 +22,6 @@ export function CountriesControl({ geocoder, map, setIsCountriesControlOpen, isC
   const [activeCountryId, setActiveCountryId] = useState(null);
   const [areCitiesVisible, setAreCitiesVisible] = useState(true);
   const isDesktop = useMediaQuery('(min-width:960px)', { noSsr: true });
-  const metricsFilter = useSelector(selectFilter);
   const { value: ipCheckStatistics } = useSelector(selectIpCheckStatistics);
   const geoJsonRef = useRef();
 
@@ -55,13 +51,10 @@ export function CountriesControl({ geocoder, map, setIsCountriesControlOpen, isC
     markersRef.current = markers;
   }, [map]);
 
-  useEffect(() => {
-    dispatch(loadCountryGeojsons());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getIpCheckStatistics(metricsFilter));
-  }, [dispatch, metricsFilter]);
+  // TODO @grigorev add IpCheck
+  // useEffect(() => {
+  //   dispatch(getIpCheckStatistics(metricsFilter));
+  // }, [dispatch, metricsFilter]);
 
   useEffect(() => {
     if (informationSource === InformationSourceTypes.Documents) {
@@ -99,6 +92,10 @@ export function CountriesControl({ geocoder, map, setIsCountriesControlOpen, isC
     setIsCountriesControlOpen((prev) => !prev);
   }, [setIsCountriesControlOpen]);
 
+  if (!countries?.length) {
+    return <Box ref={ref} />;
+  }
+
   return (
     <Box ref={ref} className={classes.wrapper}>
       {!isDesktop && (
@@ -115,11 +112,10 @@ export function CountriesControl({ geocoder, map, setIsCountriesControlOpen, isC
       {(isDesktop || isCountriesControlOpen) && (
         <Box className={classes.countriesControlWrapper}>
           {countries.map((country, index) => (
-            <Box>
+            <Box key={country.code}>
               <Grid
                 container
                 wrap="nowrap"
-                key={country.code}
                 className={cn(classes.countriesControl, {
                   [classes.countriesControlActive]: country.code === activeCountryId,
                 })}
