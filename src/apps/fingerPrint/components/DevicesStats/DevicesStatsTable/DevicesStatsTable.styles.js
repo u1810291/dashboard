@@ -6,11 +6,8 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.black75,
     borderBottom: 'none',
     verticalAlign: 'baseline',
-    '@media (min-width: 375px)': {
-      paddingLeft: 20,
-      '&:nth-child(2n)': {
-        padding: [[10, 20, 10, 10]],
-      },
+    '&:nth-child(2n + 1)': {
+      paddingLeft: 0,
     },
   },
   tableCellHead: {
