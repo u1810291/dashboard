@@ -9,7 +9,7 @@ export const DevicesStatsTable = ({ rows, headerName }) => {
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell className={[classes.tableCell, classes.tableCellHead]}>
+          <TableCell className={`${classes.tableCell} ${classes.tableCellHead}`}>
             {headerName}
           </TableCell>
         </TableRow>
