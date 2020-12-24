@@ -194,3 +194,8 @@ export const selectLogoModel = createSelector(
   selectCurrentFlow,
   (flow) => flow.logoUrl,
 );
+
+export const selectValidationChecks = createSelector(
+  selectCurrentFlow,
+  (flow) => flow.inputValidationChecks || [],
+);
