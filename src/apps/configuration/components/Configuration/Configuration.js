@@ -3,12 +3,13 @@ import { FacematchConfiguration } from 'apps/facematch';
 import { ButtonCollapsible } from 'apps/ui';
 import clsx from 'clsx';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash, FiUser } from 'react-icons/fi';
+import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash, FiUser, FiAlertOctagon } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllCountriesModel } from 'state/countries/countries.selectors';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
+import { ImageValidationConfiguration } from 'apps/imageValidation';
 import { BiometricStep } from '../BiometricStep/BiometricStep';
 import { ConfigureColor } from '../ConfigureColor/ConfigureColor';
 import { Countries } from '../Countries/Countries';
@@ -76,6 +77,12 @@ export function Configuration() {
         title: 'Product.configuration.facematch',
         icon: <FiUser />,
         body: <FacematchConfiguration />,
+      },
+      {
+        id: 'imageValidation',
+        title: 'Product.configuration.imageValidation',
+        icon: <FiAlertOctagon />,
+        body: <ImageValidationConfiguration onChange={updateConfiguration} />,
       },
     ]);
   }, [countriesModel, currentFlowModel, updateConfiguration]);
