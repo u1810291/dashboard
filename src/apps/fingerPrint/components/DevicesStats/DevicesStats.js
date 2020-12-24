@@ -10,7 +10,7 @@ import { DevicesStatsTable } from './DevicesStatsTable/DevicesStatsTable';
 export function DevicesStats() {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { value: devicesStatistics } = useSelector(selectDevicesStatistics);
+  const { value: { devices, browsers } } = useSelector(selectDevicesStatistics);
   const metricsFilter = useSelector(selectFilter);
 
   useEffect(() => {
@@ -18,21 +18,27 @@ export function DevicesStats() {
   }, [dispatch, metricsFilter]);
 
   return (
-    <TableContainer component={Paper}>
-      <Box px={{ xs: 2, md: 4 }} py={2}>
-        <Grid container>
-          <Grid item xs={12} md={5}>
-            <Box mr={{ xs: 0, md: 3 }} mb={{ xs: 3, md: 0 }}>
-              <DevicesStatsTable rows={devicesStatistics.devices} headerName={intl.formatMessage({ id: 'Analytics.devices.topDevices' })} />
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={5}>
-            <Box ml={{ xs: 0, md: 3 }}>
-              <DevicesStatsTable rows={devicesStatistics.browsers} headerName={intl.formatMessage({ id: 'Analytics.devices.topBrowsers' })} />
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
-    </TableContainer>
+    <>
+      {(devices?.length > 0 || browsers?.length > 0) && (
+        <TableContainer component={Paper}>
+          <Box px={{ xs: 2, md: 4 }} py={2}>
+            <Grid container>
+              {devices?.length > 0 && (
+              <Grid item xs={12} md={5}>
+                <Box mr={{ xs: 0, md: 6 }} mb={{ xs: 3, md: 0 }}>
+                  <DevicesStatsTable rows={devices} headerName={intl.formatMessage({ id: 'Analytics.devices.topDevices' })} />
+                </Box>
+              </Grid>
+            )}
+              {browsers?.length > 0 && (
+              <Grid item xs={12} md={5}>
+                <DevicesStatsTable rows={browsers} headerName={intl.formatMessage({ id: 'Analytics.devices.topBrowsers' })} />
+              </Grid>
+            )}
+            </Grid>
+          </Box>
+        </TableContainer>
+      )}
+    </>
   );
 }

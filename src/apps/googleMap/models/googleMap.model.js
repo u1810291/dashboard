@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiFileText, FiMapPin } from 'react-icons/fi';
+import { FiFileText } from 'react-icons/fi';
 import { localeNumber } from '../../../lib/number';
 
 export const GOOGLE_MAP_REQUIRED_CONTAINER_ID = 'map';
@@ -14,10 +14,11 @@ export const InformationSources = [
     id: InformationSourceTypes.Documents,
     icon: <FiFileText />,
   },
-  {
-    id: InformationSourceTypes.IpCheck,
-    icon: <FiMapPin />,
-  },
+  // TODO @grigorev add IpCheck
+  // {
+  //   id: InformationSourceTypes.IpCheck,
+  //   icon: <FiMapPin />,
+  // },
 ];
 
 export function getGeoStatisticsLabel(percentage, count) {

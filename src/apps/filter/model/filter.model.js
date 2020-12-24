@@ -1,4 +1,4 @@
-import { ITEMS_PER_PAGE } from '../../../models/Pagination.model';
+import { ITEMS_PER_PAGE } from 'models/Pagination.model';
 
 export const verificationsFilterInitialState = {
   search: '',

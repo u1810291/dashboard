@@ -39,6 +39,7 @@ export const SideButton = withStyles((theme) => ({
 export const useStyles = makeStyles((theme) => ({
   modal: {
     width: 700,
+    maxHeight: 800,
     height: 'calc(100vh - 100px)',
     padding: [[20, 0]],
     scrollbarWidth: 'thin',

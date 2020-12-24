@@ -1,7 +1,7 @@
 // url search object -> json
+import { dayEndTime, todayMomentZeroTime, todayUTCMomentZeroTime, zeroTime } from 'lib/date';
 import { identity, pickBy } from 'lodash';
 import moment from 'moment';
-import { dayEndTime, todayMomentZeroTime, todayUTCMomentZeroTime, zeroTime } from '../lib/date';
 import { ITEMS_PER_PAGE } from './Pagination.model';
 
 export const FilterRangeTypes = {
@@ -144,10 +144,8 @@ export const allUTCRanges = [
   FilterRangesByUTC[FilterRangeTypes.Last30Days],
   FilterRangesByUTC[FilterRangeTypes.LastWeek],
   FilterRangesByUTC[FilterRangeTypes.LastMonth],
-  FilterRangesByUTC[FilterRangeTypes.LastYear],
   FilterRangesByUTC[FilterRangeTypes.ThisMonth],
   FilterRangesByUTC[FilterRangeTypes.ThisWeek],
-  FilterRangesByUTC[FilterRangeTypes.ThisYear],
 ];
 
 export const FilterRangesByLocal = {

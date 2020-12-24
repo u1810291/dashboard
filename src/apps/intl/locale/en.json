@@ -121,6 +121,7 @@
   "copy": "Copy",
   "copy-to-clipboard": "Copy to clipboard",
   "Countries.otherCountries": "Other countries",
+  "Countries.null": "Null",
   "Countries.unknownCountry": "<Unknown>",
   "Countries.N/A": "Unknown",
   "Countries.AD": "Andorra",

@@ -28,6 +28,11 @@ export function AnalyticsContainer() {
   const { isLoading, isLoaded } = useSelector(selectStatistics);
   const byDate = useSelector(selectStatisticsByDate);
   const [flows, setFlows] = useState([DEFAULT_FLOW]);
+  const [isFilterDatesValid, setIsFilterDatesValid] = useState(false);
+
+  useEffect(() => {
+    setIsFilterDatesValid(getFilterDatesIsValid(metricsFilter));
+  }, [metricsFilter]);
 
   useEffect(() => {
     const parsedFilter = parseFromURL(location.search, analyticsFilterStructure);
@@ -44,9 +49,8 @@ export function AnalyticsContainer() {
 
   return (
     <Container maxWidth={false}>
-      {/* TODO @snimshchikov create a variable (see getFilterDatesIsValid(parsedFilter) above) */}
-      {getFilterDatesIsValid(metricsFilter) ? (
-        <Box pt={{ xs: 2, lg: 4 }} pb={2}>
+      {isFilterDatesValid ? (
+        <Box pb={2} className={classes.wrapper}>
           <Box mb={2}>
             <Grid container alignItems="center">
               <Grid item xs={9}>
