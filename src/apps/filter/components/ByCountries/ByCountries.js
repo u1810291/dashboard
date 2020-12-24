@@ -43,7 +43,7 @@ export function ByCountries({ bufferedFilter: { countries }, onHandleFilterChang
             value={item.id}
             checked={checkIsSelected(item.id)}
             control={<Checkbox onChange={handleSelectCountry} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />}
-            label={item.name}
+            label={intl.formatMessage({ id: `Countries.${item.id}` })}
           />
         ))}
       </Paper>

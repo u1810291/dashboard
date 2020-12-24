@@ -20,7 +20,7 @@ export function Chart({ data, stub, isLoaded, isLoading, ...props }) {
   const [tooltipValue, setTooltipValue] = useState(0);
 
   const workChart = (
-    <ResponsiveContainer width="100%" height={300} className={[classes.chart, classes.chartWork]}>
+    <ResponsiveContainer width="100%" height={300} className={`${classes.chart} ${classes.chartWork}`}>
       <LineChart data={data} margin={{ top: 50, right: 30, left: -10 }}>
         <CartesianGrid
           vertical={false}
