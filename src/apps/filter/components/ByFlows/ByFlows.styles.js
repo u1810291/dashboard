@@ -8,6 +8,7 @@ export const useStyles = makeStyles((theme) => ({
     boxShadow: 'none',
     borderRadius: 3,
     border: `1px solid ${theme.palette.common.black7}`,
+    wordBreak: 'break-word',
     scrollbarWidth: 'thin',
     '&::-webkit-scrollbar': {
       height: 5,

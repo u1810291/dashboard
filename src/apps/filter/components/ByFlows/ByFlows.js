@@ -30,7 +30,7 @@ export const ByFlows = ({ bufferedFilter: { flowIds }, onHandleFilterChange }) =
   const checkIsSelected = useCallback((id) => flowIds?.includes(id), [flowIds]);
 
   return (
-    <Grid item md={6}>
+    <Grid item xs={12} md={6}>
       <Typography variant="subtitle2">
         <Box display="flex" alignItems="center" pb={1}>
           <FiBox />

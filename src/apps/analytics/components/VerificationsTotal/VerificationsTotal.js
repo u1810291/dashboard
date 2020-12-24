@@ -32,10 +32,10 @@ export function VerificationsTotal() {
   ];
 
   return (
-    <Paper>
-      <Box px={{ xs: 2, md: 3 }} py={3.5}>
-        <Grid container justify="space-between" alignItems="center">
-          <Grid item xs={12} md={6} mb={4}>
+    <Paper className={classes.paper}>
+      <Grid container direction="column" justify="center" className={classes.wrapper}>
+        <Grid container justify="space-between" alignItems="center" spacing={2}>
+          <Grid item xs={12} md={4}>
             <Box mb={0.4} fontSize={36} fontWeight="bold" color="common.black90" className={classes.title}>
               { isLoaded && localeNumber(all)}
             </Box>
@@ -43,25 +43,27 @@ export function VerificationsTotal() {
               {intl.formatMessage({ id: 'Analytics.verificationTotal.total' })}
             </Box>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Box mb={2} color="common.black75">
-              {intl.formatMessage({ id: 'Analytics.verificationTotal.label' })}
-            </Box>
-            <Box className={classes.itemWrapper}>
-              {verificationByStatus.map(({ key, color, count }) => (
-                <Box key={key} className={classes.item}>
-                  <Box mb={0.4} fontSize={24} fontWeight="bold" color={color}>
-                    {isLoaded && localeNumber(count)}
+          <Grid container item xs={12} md={8} className={classes.itemsWrapper}>
+            <Box>
+              <Box mb={2} color="common.black75">
+                {intl.formatMessage({ id: 'Analytics.verificationTotal.label' })}
+              </Box>
+              <Box className={classes.itemWrapper}>
+                {verificationByStatus.map(({ key, color, count }) => (
+                  <Box key={key} className={classes.item}>
+                    <Box mb={0.4} fontSize={24} fontWeight="bold" color={color}>
+                      {isLoaded && localeNumber(count)}
+                    </Box>
+                    <Box color="common.black75">
+                      {intl.formatMessage({ id: `Analytics.verificationTotal.${key}` })}
+                    </Box>
                   </Box>
-                  <Box color="common.black75">
-                    {intl.formatMessage({ id: `Analytics.verificationTotal.${key}` })}
-                  </Box>
-                </Box>
-              ))}
+                ))}
+              </Box>
             </Box>
           </Grid>
         </Grid>
-      </Box>
+      </Grid>
     </Paper>
   );
 }

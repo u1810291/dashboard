@@ -199,15 +199,3 @@ export const byPeriodTabs = [
   { id: TabTypes.byMonths },
   { id: TabTypes.byCountry },
 ];
-
-// TODO @snimshchikov make a hook
-export function getCountry(list, id, intl) {
-  if (!id) {
-    return intl.formatMessage({ id: 'Countries.unknownCountry' });
-  }
-  if (id === OTHER_COUNTRIES) {
-    return intl.formatMessage({ id: 'Countries.otherCountries' });
-  }
-  const country = list.find((item) => item.id === id);
-  return country ? country.name : id;
-}
