@@ -3,8 +3,9 @@ import { FiSmartphone, FiTablet } from 'react-icons/fi';
 import { ReactComponent as AndroidIcon } from '../apps/identity/icons/android.svg';
 import { ReactComponent as AppleIcon } from '../apps/identity/icons/apple.svg';
 import { ReactComponent as BlueBoxIcon } from '../apps/identity/icons/blue-box.svg';
-import { ReactComponent as ChromeIcon } from '../apps/identity/icons/chome.svg';
+import { ReactComponent as ChromeIcon } from '../apps/identity/icons/chrome.svg';
 import { ReactComponent as DesktopIcon } from '../apps/identity/icons/desktop.svg';
+import { ReactComponent as EdgeIcon } from '../apps/identity/icons/edge.svg';
 import { ReactComponent as FirefoxIcon } from '../apps/identity/icons/firefox.svg';
 import { ReactComponent as FreeBSDIcon } from '../apps/identity/icons/freeBSD.svg';
 import { ReactComponent as GreenBoxIcon } from '../apps/identity/icons/green-box.svg';
@@ -14,6 +15,7 @@ import { ReactComponent as SafariIcon } from '../apps/identity/icons/safari.svg'
 import { ReactComponent as SamsungIcon } from '../apps/identity/icons/samsung.svg';
 import { ReactComponent as UbuntuIcon } from '../apps/identity/icons/ubuntu.svg';
 import { ReactComponent as WindowsIcon } from '../apps/identity/icons/windows.svg';
+import { ReactComponent as YandexIcon } from '../apps/identity/icons/yandex.svg';
 
 export function getDevicePlatform(identity) {
   return get(identity, '_embedded.verification.deviceFingerprint.app.platform', null);
@@ -81,6 +83,8 @@ export const BrowserTypes = {
   OKhttp: 'OKhttp',
   Java: 'Java',
   Other: 'Other',
+  Edge: 'Edge',
+  Yandex: 'Yandex',
 };
 
 export const DeviceIcons = {
@@ -113,6 +117,8 @@ export const BrowserIcons = {
   [BrowserTypes.OKhttp]: GreenBoxIcon,
   [BrowserTypes.Java]: GreenBoxIcon,
   [BrowserTypes.Other]: BlueBoxIcon,
+  [BrowserTypes.Edge]: EdgeIcon,
+  [BrowserTypes.Yandex]: YandexIcon,
 };
 
 export function getDevicePlatformType(identity) {
@@ -133,11 +139,15 @@ export function getDeviceOSLabel(identity) {
   return name ? `${name} ${version}` : OSTypes.Unknown;
 }
 
+export function getDeviceBrowserTypeByString(name) {
+  if (!name) return BrowserTypes.Unknown;
+  const value = Object.values(BrowserTypes).find((type) => new RegExp(type, 'i').test(name));
+  return value || BrowserTypes.Other;
+}
+
 export function getDeviceBrowserType(identity) {
   const str = getDeviceBrowserName(identity);
-  if (!str) return BrowserTypes.Unknown;
-  const value = Object.values(BrowserTypes).find((type) => new RegExp(type, 'i').test(str));
-  return value || BrowserTypes.Other;
+  return getDeviceBrowserTypeByString(str);
 }
 
 export function getDeviceBrowserLabel(identity) {
