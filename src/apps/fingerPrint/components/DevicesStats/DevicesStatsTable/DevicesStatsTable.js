@@ -1,5 +1,5 @@
 import { Box, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
-import { BrowserIcons } from 'models/DeviceCheck.model';
+import { BrowserIcons, getDeviceBrowserTypeByString } from 'models/DeviceCheck.model';
 import React from 'react';
 import { useStyles } from './DevicesStatsTable.styles';
 
@@ -16,7 +16,7 @@ export const DevicesStatsTable = ({ rows, headerName }) => {
       </TableHead>
       <TableBody>
         {rows.map((row) => {
-          const Icon = BrowserIcons[row.name];
+          const Icon = BrowserIcons[getDeviceBrowserTypeByString(row.name)];
           return (
             <TableRow key={row.name}>
               <TableCell className={classes.tableCell}>
