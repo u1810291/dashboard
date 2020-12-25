@@ -11,7 +11,4 @@ export const useStyles = makeStyles(() => ({
     fontWeight: 700,
     flex: 1,
   },
-  restrictionHint: {
-    color: '#8392B8',
-  },
 }));
