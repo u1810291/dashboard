@@ -617,6 +617,7 @@
   "flow.verificationRequirement.description": "If enabled, your users will be required to take photos of their documents. Otherwise, users will be able to either take a photo or upload an image from gallery.",
   "flow.verificationRequirement.label": "Restrict image upload from gallery",
   "flow.verificationRequirement.title": "Add verification requirement",
+  "flow.verificationRequirement.warning": "Currently supported only for Web SDK (mobile, desktop with redirection to mobile device). Other integration types ignore this toggle",
   "flow.watchlistStep.no": "No",
   "flow.watchlistStep.title": "Safety pro features:",
   "flow.watchlistStep.yes": "Yes",

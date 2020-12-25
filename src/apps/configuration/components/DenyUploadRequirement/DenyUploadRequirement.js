@@ -37,9 +37,12 @@ export function DenyUploadRequirement() {
             />
           </Box>
         </Box>
-        <Box mr={5}>
-          <Typography variant="body1" className={classes.restrictionHint}>
-            {intl.formatMessage({ id: 'flow.verificationRequirement.description' })}
+        <Typography variant="body1" color="textSecondary">
+          {intl.formatMessage({ id: 'flow.verificationRequirement.description' })}
+        </Typography>
+        <Box mt={2}>
+          <Typography variant="body1" color="error">
+            {intl.formatMessage({ id: 'flow.verificationRequirement.warning' })}
           </Typography>
         </Box>
       </Box>
