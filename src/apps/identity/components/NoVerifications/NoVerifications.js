@@ -1,7 +1,7 @@
 import { Box, Typography } from '@material-ui/core';
+import { ReactComponent as EmptyTableIcon } from 'assets/empty-list.svg';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { ReactComponent as EmptyTableIcon } from 'assets/empty-list.svg';
 
 export function NoVerifications() {
   const intl = useIntl();

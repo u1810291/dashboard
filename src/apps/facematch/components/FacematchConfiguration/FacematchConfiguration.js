@@ -1,7 +1,6 @@
 import { Box, Button, FormControl, Grid, RadioGroup, Typography } from '@material-ui/core';
 import { PageLoader } from 'apps/layout';
-import { BoxBordered } from 'apps/ui';
-import { notification } from 'components/notification';
+import { BoxBordered, notification } from 'apps/ui';
 import { ERROR_COMMON } from 'models/Error.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';

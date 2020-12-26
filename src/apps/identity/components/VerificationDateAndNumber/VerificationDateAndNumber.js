@@ -1,8 +1,8 @@
 import { useIntl } from 'react-intl';
 import { Box, Typography } from '@material-ui/core';
 import React from 'react';
+import { CopyToClipboard } from 'apps/ui';
 import { useStyles } from './VerificationDateAndNumber.styles';
-import { CopyToClipboard } from '../../../../components/clipboard';
 import { DateFormat, utcToLocalFormat } from '../../../../lib/date';
 
 export function VerificationDateAndNumber({ date, number }) {

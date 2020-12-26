@@ -1,8 +1,7 @@
 import { FilterList } from '@material-ui/icons';
-import { useOverlay } from 'apps/overlay';
+import { useOverlay, Modal } from 'apps/overlay';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import Modal from '../../../../components/modal';
 import { Filter } from '../../containers/Filter/Filter';
 import { SideButton, useStyles } from './OpenFilter.styles';
 

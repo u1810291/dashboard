@@ -2,7 +2,7 @@ import { Box, Typography, Grid } from '@material-ui/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { CopyToClipboard } from '../../../../../components/clipboard';
+import { CopyToClipboard } from 'apps/ui';
 import { useStyles } from './DirectLinkCopy.styles';
 import { selectClientId, selectCurrentFlowId } from '../../../../../state/merchant/merchant.selectors';
 import { permalinkUrl } from '../../../../../lib/client/urls';

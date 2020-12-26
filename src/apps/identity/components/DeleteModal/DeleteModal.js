@@ -2,9 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { Button } from '@material-ui/core';
-import Modal from 'components/modal';
 import Img from 'assets/modal-delete.svg';
-import { useOverlay } from 'apps/overlay';
+import { useOverlay, Modal } from 'apps/overlay';
 
 export function DeleteModal({ onClose, onConfirm }) {
   const intl = useIntl();

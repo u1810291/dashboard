@@ -1,10 +1,9 @@
 import { Switch, Box } from '@material-ui/core';
-import { notification } from 'components/notification';
 import { FiSearch } from 'react-icons/fi';
 import { VerificationStepTypes } from 'models/Identity.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { BoxBordered } from 'apps/ui';
+import { BoxBordered, notification } from 'apps/ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectComplyAdvantageIntegratedCheck } from 'state/merchant/merchant.selectors';

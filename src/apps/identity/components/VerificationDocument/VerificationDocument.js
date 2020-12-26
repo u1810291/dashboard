@@ -1,15 +1,15 @@
-import { useIntl } from 'react-intl';
 import { Box, Grid } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import { VerificationSummaryChecksContainer } from 'apps/checks/components/VerificationSummaryChecksContainer/VerificationSummaryChecksContainer';
+import { SkeletonLoader } from 'apps/ui/components/SkeletonLoader/SkeletonLoader';
 import { PhotosOrientations } from 'models/Document.model';
-import { useStyles } from './VerificationDocument.styles';
-import { useDocumentTitle, usePhotosOrientation } from '../../hooks/document.hook';
-import { getDocumentStatus, StepStatus } from '../../../../models/Step.model';
-import { SkeletonLoader } from '../../../ui/components/SkeletonLoader/SkeletonLoader';
+import { getDocumentStatus, StepStatus } from 'models/Step.model';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 import IconEmpty from '../../../../assets/icon-empty-photo.svg';
+import { useDocumentTitle, usePhotosOrientation } from '../../hooks/document.hook';
 import { VerificationCheckCard } from '../VerificationCheckCard/VerificationCheckCard';
-import { VerificationSummaryChecksContainer } from '../VerificationSummaryChecksContainer/VerificationSummaryChecksContainer';
 import { VerificationSummaryTitle } from '../VerificationSummaryTitle/VerificationSummaryTitle';
+import { useStyles } from './VerificationDocument.styles';
 
 export function VerificationDocument({ document, documentIndex }) {
   const intl = useIntl();

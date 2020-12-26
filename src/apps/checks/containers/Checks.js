@@ -1,14 +1,14 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { useIntl } from 'react-intl';
 import { Box, Typography } from '@material-ui/core';
+import { Card } from 'apps/ui/components/Card/Card';
+import { CheckControlButton } from 'apps/ui/components/CheckControlButton/CheckControlButton';
+import React from 'react';
+import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 import { selectAvailableChecks } from 'state/merchant/merchant.selectors';
-import { CheckTypes, DOCS_BASE_URL } from '../models/Checks.model';
-import { Card } from '../components/Card/Card';
-import { IpCheckControl } from '../components/IpCheckControl/IpCheckControl';
 import { DuplicateUserDetectionCheckControl } from '../components/DuplicateUserDetectionCheckControl/DuplicateUserDetectionCheckControl';
+import { IpCheckControl } from '../components/IpCheckControl/IpCheckControl';
 import { Nom151CheckControl } from '../components/nom151CheckControl/Nom151CheckControl';
-import { CheckControlButton } from '../components/CheckControlButton/CheckControlButton';
+import { CheckTypes, DOCS_BASE_URL } from '../models/Checks.model';
 import { ComplyAdvantageIntegratedCheckControl } from '../components/ComplyAdvantageIntegratedCheckControl/ComplyAdvantageIntegratedCheckControl';
 
 export function AdditionalChecks() {

@@ -1,19 +1,19 @@
 import { Box, Container, Grid } from '@material-ui/core';
 import { AdditionalChecks } from 'apps/checks';
 import { Configuration } from 'apps/configuration';
+import { VerificationFlowHeader } from 'apps/flows/components/VerificationFlowHeader/VerificationFlowHeader';
 import { GovCheckSetup } from 'apps/GovCheck';
+import { Page404 } from 'apps/layout';
 import { Tab } from 'apps/ui';
+import { DemoButton } from 'apps/WebSDKPreview';
+import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
+import { QATags } from 'models/QA.model';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Page404 } from 'apps/layout';
 import { appLoad, updateCurrentFlowId } from 'state/merchant/merchant.actions';
-import { MixPanelEvents } from '../../../../lib/mixpanel/MixPanel.model';
-import { QATags } from '../../../../models/QA.model';
-import { DemoButton } from '../../components/DemoButton/DemoButton';
-import { VerificationFlowHeader } from '../../components/VerificationFlowHeader/VerificationFlowHeader';
+import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
 import { useStyles } from './Product.styles';
-import { selectCurrentFlow } from '../../../../state/merchant/merchant.selectors';
 
 export function Product() {
   const classes = useStyles();

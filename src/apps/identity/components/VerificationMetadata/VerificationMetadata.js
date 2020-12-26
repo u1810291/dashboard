@@ -1,8 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Paper, Typography, Box } from '@material-ui/core';
-import { SyntaxHighlighter } from 'components/syntax-highlighter';
-import { SyntaxHighlighterLanguages } from 'components/syntax-highlighter/SyntaxHighlighter.model';
+import { SyntaxHighlighter, SyntaxHighlighterLanguages } from 'apps/ui';
 import stringify from 'lib/stringify';
 import { useStyles } from './VerificationMetadata.styles';
 

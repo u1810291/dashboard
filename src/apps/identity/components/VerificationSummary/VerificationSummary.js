@@ -1,19 +1,19 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { VerificationBioCheckSummary } from 'apps/biometrics';
 import { get } from 'lodash';
+import { getDevicePlatformType, PlatformTypes } from 'models/DeviceCheck.model';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { getDevicePlatformType, PlatformTypes } from '../../../../models/DeviceCheck.model';
-import { identityUpdate } from '../../../../state/identities/identities.actions';
-import { VerificationDeviceCheck } from '../../../fingerPrint/components/VerificationDeviceCheck/VerificationDeviceCheck';
+import { identityUpdate } from 'state/identities/identities.actions';
 import { StatusSelector } from '../StatusSelector/StatusSelector';
-import { VerificationBioCheckSummary } from '../VerificationBioCheckSummary/VerificationBioCheckSummary';
 import { VerificationDateAndNumber } from '../VerificationDateAndNumber/VerificationDateAndNumber';
 import { VerificationDocument } from '../VerificationDocument/VerificationDocument';
 import { VerificationFlow } from '../VerificationFlow/VerificationFlow';
 import { VerificationIpCheck } from '../VerificationIpCheck/VerificationIpCheck';
 import { VerificationSource } from '../VerificationSource/VerificationSource';
 import { useStyles } from './VerificationSummary.styles';
+import { VerificationDeviceCheck } from '../../../fingerPrint/components/VerificationDeviceCheck/VerificationDeviceCheck';
 
 export function VerificationSummary({ identity }) {
   const dispatch = useDispatch();

@@ -1,7 +1,6 @@
 import { Box, Button, InputLabel, TextField } from '@material-ui/core';
-import { useOverlay } from 'apps/overlay';
+import { useOverlay, Modal } from 'apps/overlay';
 import Img from 'assets/modal-change-pass.svg';
-import Modal from 'components/modal';
 import { get } from 'lodash';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';

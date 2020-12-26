@@ -1,12 +1,10 @@
-import Modal from 'components/modal';
+import { Modal } from 'apps/overlay';
 import { Button, Typography, Box } from '@material-ui/core';
-import { SyntaxHighlighter } from 'components/syntax-highlighter';
-import { SyntaxHighlighterLanguages } from 'components/syntax-highlighter/SyntaxHighlighter.model';
+import { SyntaxHighlighter, SyntaxHighlighterLanguages, CopyToClipboard } from 'apps/ui';
 import stringify from 'lib/stringify';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './VerificationWebhookModal.styles';
-import { CopyToClipboard } from '../../../../components/clipboard';
 
 export function VerificationWebhookModal({ webhook, onClose }) {
   const intl = useIntl();

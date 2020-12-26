@@ -1,5 +1,5 @@
 import { Switch } from '@material-ui/core';
-import { notification } from 'components/notification';
+import { notification } from 'apps/ui';
 import { VerificationStepTypes } from 'models/Identity.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';

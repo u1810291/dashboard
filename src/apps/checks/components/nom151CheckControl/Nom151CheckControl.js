@@ -1,5 +1,5 @@
 import { Box, FormControlLabel, Switch } from '@material-ui/core';
-import { notification } from 'components/notification';
+import { notification } from 'apps/ui';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';

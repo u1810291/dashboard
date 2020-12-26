@@ -1,10 +1,15 @@
 import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@material-ui/core';
 import { PriorityHigh } from '@material-ui/icons';
+import { NoVerifications } from 'apps/identity/components/NoVerifications/NoVerifications';
 import { PageLoader } from 'apps/layout';
+import { ITEMS_PER_PAGE } from 'apps/pagination';
+import { SkeletonLoader } from 'apps/ui/components/SkeletonLoader/SkeletonLoader';
 import { ReactComponent as EmptyTableIcon } from 'assets/empty-table.svg';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { utcToLocalFormat } from 'lib/date';
 import { titleCase } from 'lib/string';
+import { IdentityStatuses, OrderDirections, OrderKeys } from 'models/Identity.model';
+import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -13,15 +18,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { identitiesListLoad, identityRemove } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityCollection, selectIdentityCountModel, selectIdentityFilter } from 'state/identities/identities.selectors';
-import { IdentityStatuses, OrderDirections, OrderKeys } from '../../../../models/Identity.model';
-import { Routes } from '../../../../models/Router.model';
-import { SkeletonLoader } from '../../../ui/components/SkeletonLoader/SkeletonLoader';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
-import { NoVerifications } from '../NoVerifications/NoVerifications';
 import { StatusLabel } from '../StatusLabel';
 import { VerificationFlowName } from '../VerificationFlowName/VerificationFlowName';
 import { TableRowHovered, useStyles } from './VerificationTable.styles';
-import { ITEMS_PER_PAGE } from '../../../../models/Pagination.model';
 
 export function VerificationTable() {
   const intl = useIntl();

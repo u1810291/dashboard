@@ -6,7 +6,7 @@ import { Box } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import { useSelector } from 'react-redux';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
-import { CopyToClipboard } from 'components/clipboard';
+import { CopyToClipboard } from 'apps/ui';
 import { useStyles } from './FaqBanner.styles';
 
 export const FaqBanner = () => {

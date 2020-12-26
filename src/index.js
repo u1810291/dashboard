@@ -3,10 +3,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 // Next line must stay on the top because of css variables
-import 'components/theme/styles.scss';
+import 'styles/global.scss';
 import { AppIntlProvider } from 'apps/intl';
-import StoreProvider from 'components/store-provider';
-import { NotificationsContainer } from 'components/notification';
+import { StoreProvider } from 'apps/store';
+import { NotificationsContainer } from 'apps/ui';
 import { OverlayContainer } from 'apps/overlay';
 import 'clipboard-polyfill';
 import 'core-js';

@@ -5,7 +5,7 @@ import { VisibilityOff } from '@material-ui/icons';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { CopyToClipboard } from '../../../../components/clipboard';
+import { CopyToClipboard } from 'apps/ui';
 import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
 import { QATags } from '../../../../models/QA.model';
 import { appLoad } from '../../../../state/merchant/merchant.actions';

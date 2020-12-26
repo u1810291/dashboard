@@ -5,11 +5,11 @@ import { Page404 } from 'apps/layout';
 import { get } from 'lodash';
 import React from 'react';
 import { getDownloadableFileName } from '../../../../models/Identity.model';
-import { DocumentStep } from '../../components/DocumentStep/DocumentStep';
-import { LivenessStep } from '../../components/LivenessStep/LivenessStep';
-import { VerificationAdditionalChecks } from '../../components/VerificationAdditionalChecks/VerificationAdditionalChecks';
 import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
 import { VerificationSummary } from '../../components/VerificationSummary/VerificationSummary';
+import { LivenessStep } from '../../../biometrics';
+import { DocumentStep } from '../../../documents';
+import { VerificationAdditionalChecks } from '../../../checks/components/VerificationAdditionalChecks/VerificationAdditionalChecks';
 
 export function Verification({ identity }) {
   const verification = get(identity, '_embedded.verification');

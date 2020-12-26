@@ -1,14 +1,14 @@
 import { InfoPage } from 'apps/FAQ';
+import { VerificationFlows } from 'apps/flows';
+import { forDevsRoutes } from 'apps/forDevelopers';
 import { identityRoutes } from 'apps/identity';
 import { Page404 } from 'apps/layout';
 import { MerchantGuard, OwnerRoute } from 'apps/merchant';
+import { Product } from 'apps/product';
 import { Settings } from 'apps/settings';
+import { Routes } from 'models/Router.model';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { forDevsRoutes } from '../../forDevelopers';
-import { VerificationFlows } from '../../product/containers/Product/VerificationFlows';
-import { Product } from '../../product';
-import { Routes } from '../../../models/Router.model';
 import { AnalyticsContainer } from '../../analytics';
 
 export function DashboardRouter() {

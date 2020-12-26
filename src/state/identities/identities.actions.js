@@ -1,4 +1,4 @@
-import { notification } from 'components/notification';
+import { notification } from 'apps/ui';
 import * as api from 'lib/client/identities';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { get } from 'lodash';

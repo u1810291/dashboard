@@ -5,8 +5,8 @@ import Drawer from '@material-ui/core/Drawer';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useOverlay } from 'apps/overlay';
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3-white.svg';
-import clsx from 'clsx';
-import { notification } from 'components/notification';
+import classnames from 'classnames';
+import { notification } from 'apps/ui';
 import { QATags } from 'models/QA.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiChevronsLeft, FiChevronsRight, FiLogOut, FiPlusCircle, FiSettings } from 'react-icons/fi';
@@ -104,12 +104,12 @@ export function DashboardMenu() {
       variant={isTemporary ? 'temporary' : 'permanent'}
       open={open}
       onClose={toggleDrawerOpen}
-      className={clsx(classes.drawer, {
+      className={classnames(classes.drawer, {
         [classes.drawerOpen]: open,
         [classes.drawerClose]: !open,
       })}
       classes={{
-        paper: clsx({
+        paper: classnames({
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open,
         }),
@@ -168,7 +168,7 @@ export function DashboardMenu() {
           {isOwner && (
             <Box pr={2} pl={1.5}>
               <Button
-                className={clsx(classes.inviteButton, {
+                className={classnames(classes.inviteButton, {
                   [classes.inviteButtonSm]: !open,
                 })}
                 variant="contained"

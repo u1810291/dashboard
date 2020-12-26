@@ -1,8 +1,7 @@
 import { Box, Button } from '@material-ui/core';
 import { PageLoader } from 'apps/layout';
-import { useOverlay } from 'apps/overlay';
+import { useOverlay, Modal } from 'apps/overlay';
 import Img from 'assets/modal-team-invite.svg';
-import Modal from 'components/modal';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import TeamInviteForm from '../TeamInviteForm/TeamInviteForm';
