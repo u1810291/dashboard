@@ -1,5 +1,5 @@
 import { Box, MenuItem } from '@material-ui/core';
-import clsx from 'clsx';
+import classnames from 'classnames';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useStyles } from './TopMenuItem.styles';
@@ -22,7 +22,7 @@ export function TopMenuItem({
   const menuItem = (
     <MenuItem
       divider={false}
-      className={clsx(classes.menuItem, className)}
+      className={classnames(classes.menuItem, className)}
       onClick={handler}
       data-qa={qa}
     >

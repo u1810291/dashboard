@@ -3,8 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { SyntaxHighlighter } from '../../../../../components/syntax-highlighter';
-import { SyntaxHighlighterLanguages } from '../../../../../components/syntax-highlighter/SyntaxHighlighter.model';
+import { SyntaxHighlighter, SyntaxHighlighterLanguages } from 'apps/ui';
 import { selectClientId, selectCurrentFlowId } from '../../../../../state/merchant/merchant.selectors';
 import { integrationCode } from '../../../../../models/Integration.model';
 

@@ -1,9 +1,8 @@
-import Modal from 'components/modal';
+import { Modal, useOverlay } from 'apps/overlay';
 import React from 'react';
 import { Button } from '@material-ui/core';
 import { useIntl } from 'react-intl';
 import Img from 'assets/modal-delete.svg';
-import { useOverlay } from 'apps/overlay';
 
 export function DeleteModal({ className, user, onSubmit, ...modalProps }) {
   const intl = useIntl();

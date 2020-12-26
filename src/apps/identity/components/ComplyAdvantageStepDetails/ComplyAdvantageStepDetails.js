@@ -4,8 +4,8 @@ import { useIntl } from 'react-intl';
 import { FiExternalLink } from 'react-icons/fi';
 import { StepStatus } from 'models/Step.model';
 import Link from '@material-ui/core/Link';
-import { CheckStepDetailsEntry } from '../CheckStepDetails/CheckStepDetailsEntry';
 import { useStyles, LinkButton } from './ComplyAdvantageStepDetails.styles';
+import { CheckStepDetailsEntry } from '../../../checks/components/CheckStepDetails/CheckStepDetailsEntry';
 
 export function ComplyAdvantageStepDetails({ step }) {
   const intl = useIntl();

@@ -3,7 +3,7 @@ import { LoadableAdapter } from 'lib/Loadable.adapter';
 import React, { useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { notification } from 'components/notification';
+import { notification } from 'apps/ui';
 import { useOverlay } from 'apps/overlay';
 import { TeamInviteModal } from '../../components/TeamInviteModal/TeamInviteModal';
 import { TeamTable } from '../../components/TeamTable/TeamTable';

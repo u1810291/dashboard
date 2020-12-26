@@ -1,7 +1,7 @@
 import { Box, Grid, IconButton, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core';
 import { PageLoader } from 'apps/layout';
 import { useOverlay } from 'apps/overlay';
-import { notification } from 'components/notification';
+import { notification } from 'apps/ui';
 import { CollaboratorOptions } from 'models/Collaborator.model';
 import React, { useCallback, useState } from 'react';
 import { FiChevronDown, FiLoader, FiTrash2 } from 'react-icons/fi';

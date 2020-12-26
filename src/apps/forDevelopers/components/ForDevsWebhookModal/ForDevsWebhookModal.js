@@ -1,4 +1,4 @@
-import Modal from 'components/modal';
+import { Modal } from 'apps/overlay';
 import { Button, Typography, Box, Grid, InputLabel, IconButton } from '@material-ui/core';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
@@ -7,11 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TextField } from 'formik-material-ui';
 import { FiExternalLink, FiSave } from 'react-icons/fi';
 import { pickBy } from 'lodash';
+import { VideoPlayer, notification } from 'apps/ui';
 import { selectWebhook } from '../../../../state/webhooks/webhooks.selectors';
 import { useStyles } from './ForDevsWebhookModal.styles';
 import { deleteWebhook, getWebhooks, subscribeToWebhook } from '../../../../state/webhooks/webhooks.actions';
-import { notification } from '../../../../components/notification';
-import { VideoPlayer } from '../../../../components';
 import { ReactComponent as PlayIcon } from '../../../../assets/video-player-play.svg';
 import { required } from '../../../../lib/validations';
 

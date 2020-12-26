@@ -1,8 +1,8 @@
 import { IconButton, Typography, Box } from '@material-ui/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { VideoPlayer } from 'apps/ui';
 import { ReactComponent as PlayIcon } from '../../../../assets/video-player-play.svg';
-import { VideoPlayer } from '../../../../components';
 
 export function VideoExplainer({ tabId, videoURL, videoCover }) {
   const intl = useIntl();

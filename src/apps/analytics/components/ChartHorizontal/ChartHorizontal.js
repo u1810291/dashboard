@@ -1,10 +1,10 @@
-import { StubBarColor, StubTickColor } from 'apps/analytics/models/Metrics.model';
-import { ChartTooltip } from 'components/chart-tooltip/ChartTooltip';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
-import { ChartBar } from '../../../ui/components/ChartBar/ChartBar';
+import { ChartTooltip } from '../ChartTooltip/ChartTooltip';
+import { ChartBar } from '../ChartBar/ChartBar';
 import { useStyles } from './ChartHorizontal.styles';
+import { StubBarColor, StubTickColor } from '../../models/Metrics.model';
 
 export function ChartHorizontal({ data, stub }) {
   const intl = useIntl();

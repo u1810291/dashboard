@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from '@material-ui/core';
 import { ButtonBase } from 'apps/ui';
-import clsx from 'clsx';
+import classnames from 'classnames';
 import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { flags } from '../../assets/flags';
@@ -25,7 +25,8 @@ export function GovCheckCountries({ value, onChange }) {
             <Grid item key={item}>
               <ButtonBase
                 startIcon={flags[item]}
-                className={clsx({ active: item === value })}
+                // TODO: remove using active class
+                className={classnames({ active: item === value })}
                 onClick={() => handleSelect(item)}
                 fullWidth
               >

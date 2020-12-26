@@ -1,7 +1,6 @@
 import { Button } from '@material-ui/core';
-import { useOverlay } from 'apps/overlay';
+import { useOverlay, Modal } from 'apps/overlay';
 import Img from 'assets/modal-logout.svg';
-import Modal from 'components/modal';
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';

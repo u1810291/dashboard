@@ -1,3 +1,4 @@
+export * from './components/Modal/Modal';
 export * from './components/Overlay/Overlay';
 export * from './components/Confirm/Confirm';
 export * from './components/OverlayWithBlur/OverlayWithBlur';

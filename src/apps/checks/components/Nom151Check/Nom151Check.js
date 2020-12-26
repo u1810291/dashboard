@@ -1,9 +1,8 @@
 import { Box, Paper, Typography } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { SyntaxHighlighter } from 'components/syntax-highlighter';
+import { SyntaxHighlighter, CopyToClipboard } from 'apps/ui';
 import { getFileContents } from 'lib/client/checks';
-import { CopyToClipboard } from '../../../../components/clipboard';
 import { useStyles } from './Nom151Check.styles';
 
 export function Nom151Check({ data = {} }) {

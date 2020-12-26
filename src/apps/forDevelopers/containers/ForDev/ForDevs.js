@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { PageLoader } from 'apps/layout';
 import Fade from '@material-ui/core/Fade';
+import { CopyToClipboard } from 'apps/ui';
 import { selectCurrentFlowId, selectMerchantFlowsModel } from '../../../../state/merchant/merchant.selectors';
 import { ClientDetails } from '../../components/ClientDetails/ClientDetails';
 import { Information } from '../../components/Information/Information';
@@ -14,7 +15,6 @@ import { updateCurrentFlowId } from '../../../../state/merchant/merchant.actions
 import { useOverlay } from '../../../overlay';
 import { ForDevsWebhookModal } from '../../components/ForDevsWebhookModal/ForDevsWebhookModal';
 import { TabID } from '../../../../models/ForDevelopers.model';
-import { CopyToClipboard } from '../../../../components/clipboard';
 import { QATags } from '../../../../models/QA.model';
 
 export function ForDevs() {

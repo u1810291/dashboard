@@ -1,7 +1,7 @@
 import { OverlayWithBlur } from 'apps/overlay';
-import { Content } from 'components';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FiRotateCcw, FiRotateCw, FiZoomIn } from 'react-icons/fi';
+import { Box } from '@material-ui/core';
 import { useStyles } from './ZoomableImage.styles';
 
 export function ZoomableImage({ src = '', alt = '' }) {
@@ -32,6 +32,7 @@ export function ZoomableImage({ src = '', alt = '' }) {
       handleClose();
     }
   };
+  const handleContentClick = useCallback(() => setIsModalShown(false), [setIsModalShown]);
 
   return (
     <>
@@ -53,10 +54,9 @@ export function ZoomableImage({ src = '', alt = '' }) {
         <img src={src} alt={alt} className={classes.initImage} />
         {isModalShown && (
         <OverlayWithBlur onClose={handleClose}>
-          <Content
-            fullwidth={false}
+          <Box
             className={classes.zoomContent}
-            onClick={() => setIsModalShown(false)}
+            onClick={handleContentClick}
           >
             <img
               className="zoomedImage"
@@ -85,7 +85,7 @@ export function ZoomableImage({ src = '', alt = '' }) {
                 tabIndex="0"
               />
             </div>
-          </Content>
+          </Box>
         </OverlayWithBlur>
         )}
       </div>

@@ -1,14 +1,14 @@
 import { setI18nContext } from 'components/i18n-context';
 import { TextField, InputLabel, Box } from '@material-ui/core';
-import { RadioButtonGroup } from 'components/inputs';
 import { Field, Formik } from 'formik';
 import { flow, pick, pickBy } from 'lodash';
 import React from 'react';
 import { injectIntl } from 'react-intl';
-import ImgAdmin from 'assets/modal-role-admin.svg';
-import ImgAgent from 'assets/modal-role-agent.svg';
+import { ReactComponent as ImgAdmin } from 'assets/modal-role-admin.svg';
+import { ReactComponent as ImgAgent } from 'assets/modal-role-agent.svg';
 import { cleanText, email, required } from 'lib/validations';
 import CSS from './TeamInviteForm.module.scss';
+import { RoleField } from '../../RoleField/RoleField';
 
 const formikSettings = {
   initialValues: {
@@ -38,7 +38,7 @@ class TeamInviteForm extends React.Component {
       description: this.props.intl.formatMessage({
         id: 'teamTable.invite.form.roles.description.admin',
       }),
-      imgSrc: ImgAdmin,
+      image: <ImgAdmin />,
     },
     {
       label: this.props.intl.formatMessage({
@@ -48,7 +48,7 @@ class TeamInviteForm extends React.Component {
       description: this.props.intl.formatMessage({
         id: 'teamTable.invite.form.roles.description.agent',
       }),
-      imgSrc: ImgAgent,
+      image: <ImgAgent />,
     },
   ];
 
@@ -125,7 +125,7 @@ class TeamInviteForm extends React.Component {
             <Box mb={4} className={CSS.wrapper}>
               <Field
                 name="role"
-                component={RadioButtonGroup}
+                component={RoleField}
                 options={this.roleOptions}
                 error={props.touched.password && props.errors.password}
               />

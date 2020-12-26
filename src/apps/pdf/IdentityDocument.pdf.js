@@ -1,7 +1,7 @@
 import { Document, Page, pdf, View } from '@react-pdf/renderer';
 import React from 'react';
+import { StoreProvider } from 'apps/store';
 import { commonStyles } from './PDF.styles';
-import StoreProvider from '../../components/store-provider';
 import { AppIntlProvider } from '../intl';
 import { IpCheckPDF } from './components/IpCheckPDF/IpCheckPDF';
 import { LivenessStepPDF } from './components/LivenessStepPDF/LivenessStepPDF';

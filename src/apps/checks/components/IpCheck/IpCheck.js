@@ -1,11 +1,11 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { CheckResultLogo } from 'apps/ui/components/CheckResultLogo/CheckResultLogo';
+import { SkeletonLoader } from 'apps/ui/components/SkeletonLoader/SkeletonLoader';
+import { StepStatus } from 'models/Step.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Marker, StaticGoogleMap } from 'react-static-google-map';
 import { useStyles } from './IpCheck.styles';
-import { SkeletonLoader } from '../../../ui/components/SkeletonLoader/SkeletonLoader';
-import { CheckResultLogo } from '../../../identity/components/CheckResultLogo/CheckResultLogo';
-import { StepStatus } from '../../../../models/Step.model';
 
 export function IpCheck({ data = {}, isChecking }) {
   const intl = useIntl();

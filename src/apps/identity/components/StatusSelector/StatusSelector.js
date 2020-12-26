@@ -10,8 +10,8 @@ import {
   getStatusById,
 } from 'models/Identity.model';
 import { useDispatch } from 'react-redux';
+import { notification } from 'apps/ui';
 import { useStyles } from './StatusSelector.styles';
-import { notification } from '../../../../components/notification';
 import { sendWebhook } from '../../../../state/webhooks/webhooks.actions';
 
 export function StatusSelector({ statusId, identityId, onSelect }) {
