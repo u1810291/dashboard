@@ -32,7 +32,9 @@ export function ZoomableImage({ src = '', alt = '' }) {
       handleClose();
     }
   };
-  const handleContentClick = useCallback(() => setIsModalShown(false), [setIsModalShown]);
+  const handleWrapperClick = useCallback(() => setIsModalShown(true), [setIsModalShown]);
+  const handleRotateLeftClick = useCallback(() => rotate(angle - 90), [rotate, angle]);
+  const handleRotateRightClick = useCallback(() => rotate(angle + 90), [rotate, angle]);
 
   return (
     <>
@@ -44,7 +46,7 @@ export function ZoomableImage({ src = '', alt = '' }) {
       >
         <div
           className="hoverWrapper"
-          onClick={() => setIsModalShown(true)}
+          onClick={handleWrapperClick}
           onKeyUp={() => {}}
           role="button"
           tabIndex="0"
@@ -54,10 +56,7 @@ export function ZoomableImage({ src = '', alt = '' }) {
         <img src={src} alt={alt} className={classes.initImage} />
         {isModalShown && (
         <OverlayWithBlur onClose={handleClose}>
-          <Box
-            className={classes.zoomContent}
-            onClick={handleContentClick}
-          >
+          <Box className={classes.zoomContent}>
             <img
               className="zoomedImage"
               src={src}
@@ -72,7 +71,7 @@ export function ZoomableImage({ src = '', alt = '' }) {
                 className="left"
                 color="white"
                 size="2em"
-                onClick={() => rotate(angle - 90)}
+                onClick={handleRotateLeftClick}
                 onKeyDown={rotateEvent}
                 tabIndex="0"
               />
@@ -80,7 +79,7 @@ export function ZoomableImage({ src = '', alt = '' }) {
                 className="right"
                 color="white"
                 size="2em"
-                onClick={() => rotate(angle + 90)}
+                onClick={handleRotateRightClick}
                 onKeyDown={rotateEvent}
                 tabIndex="0"
               />
