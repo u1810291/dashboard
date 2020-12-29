@@ -2,7 +2,6 @@ import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead
 import { PriorityHigh } from '@material-ui/icons';
 import { NoVerifications } from 'apps/identity/components/NoVerifications/NoVerifications';
 import { PageLoader } from 'apps/layout';
-import { ITEMS_PER_PAGE } from 'apps/pagination';
 import { SkeletonLoader } from 'apps/ui/components/SkeletonLoader/SkeletonLoader';
 import { ReactComponent as EmptyTableIcon } from 'assets/empty-table.svg';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
@@ -18,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { identitiesListLoad, identityRemove } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityCollection, selectIdentityCountModel, selectIdentityFilter } from 'state/identities/identities.selectors';
+import { ITEMS_PER_PAGE } from '../../../../models/Pagination.model';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { StatusLabel } from '../StatusLabel';
 import { VerificationFlowName } from '../VerificationFlowName/VerificationFlowName';
