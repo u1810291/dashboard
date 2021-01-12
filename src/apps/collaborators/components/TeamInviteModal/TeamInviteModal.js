@@ -4,7 +4,7 @@ import { useOverlay, Modal } from 'apps/overlay';
 import Img from 'assets/modal-team-invite.svg';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import TeamInviteForm from '../TeamInviteForm/TeamInviteForm';
+import { TeamInviteForm } from '../TeamInviteForm/TeamInviteForm';
 import { useStyles } from './TeamInviteModal.styles';
 
 export function TeamInviteModal({ onSubmit, isPosting }) {
@@ -31,8 +31,8 @@ export function TeamInviteModal({ onSubmit, isPosting }) {
       wideHeader
     >
       <TeamInviteForm
-        ref={formRef}
-        handleSubmit={handleSubmit}
+        innerRef={formRef}
+        onSubmit={handleSubmit}
       />
       <Box className={classes.buttonWrapper}>
         <Button

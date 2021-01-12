@@ -1,5 +1,4 @@
 import { Box, Button, Typography } from '@material-ui/core';
-import { setI18nContext } from 'components/i18n-context';
 import { Field, Form, withFormik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { flowRight } from 'lodash';
@@ -73,7 +72,6 @@ function PasswordReset({ status, isSubmitting }) {
 }
 
 export default flowRight(
-  setI18nContext('passwordReset.form'),
   connect(
     null,
     { passwordReset },
