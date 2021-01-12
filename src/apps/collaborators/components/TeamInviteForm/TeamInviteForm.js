@@ -1,9 +1,8 @@
-import { setI18nContext } from 'components/i18n-context';
 import { TextField, InputLabel, Box } from '@material-ui/core';
 import { Field, Formik } from 'formik';
-import { flow, pick, pickBy } from 'lodash';
-import React from 'react';
-import { injectIntl } from 'react-intl';
+import { pick, pickBy } from 'lodash';
+import React, { useCallback } from 'react';
+import { useIntl } from 'react-intl';
 import { ReactComponent as ImgAdmin } from 'assets/modal-role-admin.svg';
 import { ReactComponent as ImgAgent } from 'assets/modal-role-agent.svg';
 import { cleanText, email, required } from 'lib/validations';
@@ -28,35 +27,36 @@ const formikSettings = {
   },
 };
 
-class TeamInviteForm extends React.Component {
-  roleOptions = [
+export function TeamInviteForm({ onSubmit, innerRef }) {
+  const intl = useIntl();
+
+  const roleOptions = [
     {
-      label: this.props.intl.formatMessage({
+      label: intl.formatMessage({
         id: 'teamTable.invite.form.roles.admin',
       }),
       value: 1,
-      description: this.props.intl.formatMessage({
+      description: intl.formatMessage({
         id: 'teamTable.invite.form.roles.description.admin',
       }),
       image: <ImgAdmin />,
     },
     {
-      label: this.props.intl.formatMessage({
+      label: intl.formatMessage({
         id: 'teamTable.invite.form.roles.agent',
       }),
       value: 2,
-      description: this.props.intl.formatMessage({
+      description: intl.formatMessage({
         id: 'teamTable.invite.form.roles.description.agent',
       }),
       image: <ImgAgent />,
     },
   ];
-
-  onSubmit = (values, { setSubmitting, setStatus }) => {
+  const handleSubmit = useCallback((values, { setSubmitting, setStatus }) => {
     setStatus({});
     const data = pick(values, 'firstName', 'lastName', 'role', 'email');
-    this.props
-      .handleSubmit(data)
+
+    onSubmit(data)
       .then(() => {
         setSubmitting(false);
       })
@@ -65,80 +65,71 @@ class TeamInviteForm extends React.Component {
         if (!error || !error.response || !error.response.data) return;
         setStatus({ password: error.response.data.message });
       });
-  };
+  }, [onSubmit]);
 
-  render() {
-    const { innerRef, intl } = this.props;
-    return (
-      <Formik
-        innerRef={innerRef}
-        initialValues={formikSettings.initialValues}
-        onSubmit={this.onSubmit}
-        validate={formikSettings.validate}
-        render={(props) => (
-          <form onSubmit={props.handleSubmit} className={CSS.form}>
-            <Box className={CSS.wrapper}>
-              <Box mb={{ xs: 4, lg: 2 }}>
-                <InputLabel>
-                  {intl.formatMessage({ id: 'teamTable.invite.form.labels.firstName' })}
-                </InputLabel>
-                <Field
-                  as={TextField}
-                  name="firstName"
-                  variant="outlined"
-                  margin="dense"
-                  fullWidth
-                  helperText={props.touched.firstName && !!props.errors.firstName && intl.formatMessage({ id: props.errors.firstName })}
-                  error={props.touched.firstName && !!props.errors.firstName}
-                />
-              </Box>
-              <Box mb={{ xs: 4, lg: 2 }}>
-                <InputLabel>
-                  {intl.formatMessage({ id: 'teamTable.invite.form.labels.lastName' })}
-                </InputLabel>
-                <Field
-                  as={TextField}
-                  name="lastName"
-                  variant="outlined"
-                  margin="dense"
-                  fullWidth
-                  helperText={props.touched.lastName && props.errors.lastName && intl.formatMessage({ id: props.errors.lastName })}
-                  error={props.touched.lastName && !!props.errors.lastName}
-                />
-              </Box>
-              <Box mb={4}>
-                <InputLabel>
-                  {intl.formatMessage({ id: 'teamTable.invite.form.labels.email' })}
-                </InputLabel>
-                <Field
-                  as={TextField}
-                  type="input"
-                  name="email"
-                  variant="outlined"
-                  margin="dense"
-                  fullWidth
-                  helperText={props.touched.email && props.errors.email && intl.formatMessage({ id: props.errors.email })}
-                  error={props.touched.email && !!props.errors.email}
-                />
-              </Box>
-            </Box>
-            <Box mb={4} className={CSS.wrapper}>
+  return (
+    <Formik
+      innerRef={innerRef}
+      initialValues={formikSettings.initialValues}
+      onSubmit={handleSubmit}
+      validate={formikSettings.validate}
+      render={(props) => (
+        <form onSubmit={props.handleSubmit} className={CSS.form}>
+          <Box className={CSS.wrapper}>
+            <Box mb={{ xs: 4, lg: 2 }}>
+              <InputLabel>
+                {intl.formatMessage({ id: 'teamTable.invite.form.labels.firstName' })}
+              </InputLabel>
               <Field
-                name="role"
-                component={RoleField}
-                options={this.roleOptions}
-                error={props.touched.password && props.errors.password}
+                as={TextField}
+                name="firstName"
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                helperText={props.touched.firstName && !!props.errors.firstName && intl.formatMessage({ id: props.errors.firstName })}
+                error={props.touched.firstName && !!props.errors.firstName}
               />
             </Box>
-          </form>
-        )}
-      />
-    );
-  }
+            <Box mb={{ xs: 4, lg: 2 }}>
+              <InputLabel>
+                {intl.formatMessage({ id: 'teamTable.invite.form.labels.lastName' })}
+              </InputLabel>
+              <Field
+                as={TextField}
+                name="lastName"
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                helperText={props.touched.lastName && props.errors.lastName && intl.formatMessage({ id: props.errors.lastName })}
+                error={props.touched.lastName && !!props.errors.lastName}
+              />
+            </Box>
+            <Box mb={4}>
+              <InputLabel>
+                {intl.formatMessage({ id: 'teamTable.invite.form.labels.email' })}
+              </InputLabel>
+              <Field
+                as={TextField}
+                type="input"
+                name="email"
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                helperText={props.touched.email && props.errors.email && intl.formatMessage({ id: props.errors.email })}
+                error={props.touched.email && !!props.errors.email}
+              />
+            </Box>
+          </Box>
+          <Box mb={4} className={CSS.wrapper}>
+            <Field
+              name="role"
+              component={RoleField}
+              options={roleOptions}
+              error={props.touched.password && props.errors.password}
+            />
+          </Box>
+        </form>
+      )}
+    />
+  );
 }
-
-export default flow(
-  setI18nContext('teamTable.invite.form'),
-  injectIntl,
-  (Component) => React.forwardRef((props, ref) => <Component innerRef={ref} {...props} />),
-)(TeamInviteForm);

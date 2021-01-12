@@ -10,14 +10,8 @@ export function ZoomableImage({ src = '', alt = '' }) {
   const [angle, rotate] = useState(0);
 
   const handleClose = () => {
-    const root = document.getElementById('overlayRootWithBlur');
     rotate(0);
     setIsModalShown(false);
-    if (root) {
-      root.remove();
-    }
-    document.body.style.position = 'relative';
-    document.body.className = '';
   };
 
   const rotateEvent = (event) => {
