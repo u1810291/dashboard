@@ -13,7 +13,7 @@ export function Nom151CheckPDF({ data = {} }) {
       // TODO: do this with identity load
       try {
         const file = await getFileContents(data.publicUrl);
-        setFileContent(file.data);
+        setFileContent(file?.data || data.publicUrl);
       } catch {
         setFileContent(data.publicUrl);
       }
