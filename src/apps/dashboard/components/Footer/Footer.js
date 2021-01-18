@@ -16,8 +16,8 @@ export function Footer() {
     <Paper color="secondary" square elevation={0} className={classes.root}>
       <Container maxWidth={false} className={classes.container}>
         {/* left */}
-        <Hidden smDown>
-          <Box className={classes.company}>
+        <Box className={classes.company}>
+          <Hidden smDown>
             <img src={matiLogo} className={classes.img} alt="" />
             <Box className={classes.message}>
               {intl.formatMessage({ id: 'Footer.withLove.text' },
@@ -29,8 +29,10 @@ export function Footer() {
                   ),
                 })}
             </Box>
-          </Box>
-        </Hidden>
+          </Hidden>
+          <Link className={classes.statusPage} href="https://mati.statuspage.io/">{intl.formatMessage({ id: 'Footer.statusPage' })}</Link>
+        </Box>
+
         {/* right */}
         <Box className={classes.links}>
           <Link
