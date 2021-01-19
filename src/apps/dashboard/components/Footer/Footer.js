@@ -30,7 +30,7 @@ export function Footer() {
                 })}
             </Box>
           </Hidden>
-          <Link className={classes.statusPage} href="https://mati.statuspage.io/">{intl.formatMessage({ id: 'Footer.statusPage' })}</Link>
+          <Link target="_blank" className={classes.statusPage} href="https://mati.statuspage.io/">{intl.formatMessage({ id: 'Footer.statusPage' })}</Link>
         </Box>
 
         {/* right */}
