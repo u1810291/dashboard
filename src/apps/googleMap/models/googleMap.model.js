@@ -3,6 +3,7 @@ import { FiFileText } from 'react-icons/fi';
 import { localeNumber } from '../../../lib/number';
 
 export const GOOGLE_MAP_REQUIRED_CONTAINER_ID = 'map';
+export const UNKNOWN_COUNTRY_CODE = 'N/A';
 
 export const InformationSourceTypes = {
   Documents: 'byDocuments',
@@ -26,11 +27,11 @@ export function getGeoStatisticsLabel(percentage, count) {
 }
 
 export function changeCountriesStructureForCountriesControl(countries) {
-  const totalCount = countries.reduce((sum, country) => sum + country.count, 0);
-  return countries
-    .map((item) => ({
-      code: item.documentCountry,
-      percentage: Math.floor((item.count / totalCount) * 100),
-      count: item.count,
-    }));
+  const filtered = countries.filter((item) => item.documentCountry !== null && item.documentCountry !== UNKNOWN_COUNTRY_CODE);
+  const totalCount = filtered.reduce((sum, country) => sum + country.count, 0) || 1;
+  return filtered.map((item) => ({
+    code: item.documentCountry,
+    percentage: Math.floor((item.count / totalCount) * 100),
+    count: item.count,
+  }));
 }

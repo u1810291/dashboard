@@ -1,14 +1,12 @@
 import { Box, Button, IconButton, Typography } from '@material-ui/core';
 import { useConfirm, useOverlay } from 'apps/overlay';
-import { useSelector } from 'react-redux';
 import { difference, without } from 'lodash';
 import { getDocumentList } from 'models/Document.model';
 import React, { useCallback, useState } from 'react';
-import { selectDenialUploadAvailability } from 'state/merchant/merchant.selectors';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import VerificationStepModal from '../VerificationStepsModal/VerificationStepsModal';
 import { DenyUploadRequirement } from '../DenyUploadRequirement/DenyUploadRequirement';
+import VerificationStepModal from '../VerificationStepsModal/VerificationStepsModal';
 import { useStyles } from './VerificationSteps.styles';
 
 export function removeItem(steps, index) {
@@ -39,7 +37,6 @@ export function VerificationSteps({ steps = [], onChange }) {
   const [createOverlay, closeOverlay] = useOverlay();
   const confirm = useConfirm();
   const [availableDocumentTypes] = useState(getDocumentList());
-  const isUploadDenyAvailable = useSelector(selectDenialUploadAvailability);
 
   const handleRemoveItem = useCallback(async (index) => {
     try {
@@ -124,11 +121,9 @@ export function VerificationSteps({ steps = [], onChange }) {
           </Button>
         </Box>
       )}
-      {isUploadDenyAvailable && (
-        <Box mt={2} mr={6}>
-          <DenyUploadRequirement />
-        </Box>
-      )}
+      <Box mt={2} mr={6}>
+        <DenyUploadRequirement />
+      </Box>
     </Box>
   );
 }

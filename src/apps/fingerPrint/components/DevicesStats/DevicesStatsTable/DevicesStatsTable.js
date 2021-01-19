@@ -1,9 +1,10 @@
 import { Box, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
-import { BrowserIcons } from 'models/DeviceCheck.model';
+import { DevicesTableTypes } from 'apps/fingerPrint/fingerPrint.model';
+import { BrowserIcons, DeviceIcons, DeviceTypes, getDeviceBrowserTypeByString } from 'models/DeviceCheck.model';
 import React from 'react';
 import { useStyles } from './DevicesStatsTable.styles';
 
-export const DevicesStatsTable = ({ rows, headerName }) => {
+export const DevicesStatsTable = ({ rows, headerName, type }) => {
   const classes = useStyles();
   return (
     <Table>
@@ -16,7 +17,7 @@ export const DevicesStatsTable = ({ rows, headerName }) => {
       </TableHead>
       <TableBody>
         {rows.map((row) => {
-          const Icon = BrowserIcons[row.name];
+          const Icon = type === DevicesTableTypes.browsers ? BrowserIcons[getDeviceBrowserTypeByString(row.name)] : DeviceIcons[DeviceTypes.Mobile];
           return (
             <TableRow key={row.name}>
               <TableCell className={classes.tableCell}>

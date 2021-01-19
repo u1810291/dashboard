@@ -36,7 +36,6 @@ export const useStyles = makeStyles((theme) => ({
     flexGrow: 0,
   },
   message: {
-    flexGrow: 1,
     fontWeight: 'normal',
     paddingLeft: 20,
     fontSize: 12,
@@ -46,6 +45,9 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       marginTop: 10,
     },
+  },
+  statusPage: {
+    marginLeft: 20,
   },
   links: {
     flexGrow: 1,
