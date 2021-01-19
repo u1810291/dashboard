@@ -10,7 +10,8 @@ import { useHistory } from 'react-router-dom';
 import { loadCountries, loadCountriesOnlyExisting } from 'state/countries/countries.actions';
 import { selectAllCountriesModel, selectCountriesOnlyExisting } from 'state/countries/countries.selectors';
 import { appLoad, merchantFlowsLoad, merchantLoad } from 'state/merchant/merchant.actions';
-import { selectClientIdModel, selectMerchantBusinessName, selectMerchantFlowsModel, selectMerchantModel } from 'state/merchant/merchant.selectors';
+import { selectClientIdModel, selectMerchantFlowsModel, selectMerchantModel } from 'state/merchant/merchant.selectors';
+import { useBeamerScript } from 'apps/beamer';
 import { DashboardLoader } from '../components/DashboardLoader/DashboardLoader';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
 import { Footer } from '../components/Footer/Footer';
@@ -26,7 +27,6 @@ export function Dashboard() {
   const countriesModel = useSelector(selectAllCountriesModel);
   const countriesOnlyExistingModel = useSelector(selectCountriesOnlyExisting);
   const clientIdModel = useSelector(selectClientIdModel);
-  const name = useSelector(selectMerchantBusinessName);
 
   const [isError, setIsError] = useState(false);
 
@@ -77,16 +77,6 @@ export function Dashboard() {
   }, [dispatch, countriesOnlyExistingModel]);
 
   useEffect(() => {
-    if (merchantModel.isLoaded && LoadableAdapter.isPristine(merchantFlowsModel)) {
-      dispatch(merchantFlowsLoad())
-        .catch((error) => {
-          setIsError(true);
-          console.error(error);
-        });
-    }
-  }, [dispatch, merchantFlowsModel, merchantModel]);
-
-  useEffect(() => {
     const loadData = async () => {
       if (LoadableAdapter.isPristine(clientIdModel)) {
         try {
@@ -100,21 +90,17 @@ export function Dashboard() {
     loadData();
   }, [clientIdModel, dispatch]);
 
-  // Beamer add user id
   useEffect(() => {
-    /* eslint-disable camelcase */
-    if (window?.beamer_config) {
-      const user_id = clientIdModel?.value;
-      const [user_firstname, user_lastname] = name?.split(' ') || [];
-      window.beamer_config = {
-        ...window.beamer_config,
-        ...(user_id && { user_id }),
-        ...(user_firstname && { user_firstname }),
-        ...(user_lastname && { user_lastname }),
-      };
+    if (merchantModel.isLoaded && LoadableAdapter.isPristine(merchantFlowsModel)) {
+      dispatch(merchantFlowsLoad())
+        .catch((error) => {
+          setIsError(true);
+          console.error(error);
+        });
     }
-    /* eslint-enable camelcase */
-  }, [clientIdModel, name]);
+  }, [dispatch, merchantFlowsModel, merchantModel]);
+
+  useBeamerScript();
 
   const handleRetry = useCallback(() => {
     // hard reload only will help here
