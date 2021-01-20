@@ -50,11 +50,4 @@ export const ChecksList = [
     badgeText: 'Product.checks.emailCheck.badgeText',
     startIcon: FiMail,
   },
-  {
-    id: CheckTypes.ComplyAdvantageStandalone,
-    title: 'Product.checks.complyAdvantage.title',
-    text: 'Product.checks.complyAdvantage.text',
-    badgeText: 'Product.checks.complyAdvantage.badgeText',
-    startIcon: FiCheckSquare,
-  },
 ];
