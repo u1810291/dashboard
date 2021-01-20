@@ -6,6 +6,7 @@ import { get } from 'lodash';
 import { getFieldsExpired, getFieldsExtra } from 'models/Field.model';
 
 export const DocumentStepTypes = {
+  AgeValidation: 'age-check',
   DocumentReading: 'document-reading',
   AlternationDetection: 'alteration-detection',
   Watchlists: 'watchlists',
@@ -95,6 +96,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.Watchlists]: ['watchlists.notEnoughParams'],
   [DocumentStepTypes.DuplicateUserDetectionCheck]: ['duplacateIdentityDetection.notValidParams'],
   [DocumentStepTypes.ComplyAdvantageIntegratedCheck]: ['complyAdvantage.notValidParams'],
+  [DocumentStepTypes.AgeValidation]: ['underage.noDOB'],
 };
 
 export const LEGACY_ERROR = 'LegacyError';

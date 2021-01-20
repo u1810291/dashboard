@@ -43,11 +43,12 @@ export function IdentityDocumentPDF({ identity }) {
           </View>
         )}
         {/* Additional checks */}
-        {identity.duplicateUserStep && (
-          <View>
-            <VerificationAdditionalChecksPDF duplicateUserDetectionStep={identity.duplicateUserStep} />
-          </View>
-        )}
+        <View>
+          <VerificationAdditionalChecksPDF
+            duplicateUserDetectionStep={identity.duplicateUserDetectionStep}
+            ageCheck={identity.ageCheck}
+          />
+        </View>
         {/* Metadata */}
         {identity.metadata && (
           <View>

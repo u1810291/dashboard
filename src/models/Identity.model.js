@@ -8,6 +8,7 @@ import { Routes } from './Router.model';
 export const DEFAULT_STATUS_COLOR = '#ADADAD';
 
 export const VerificationStepTypes = {
+  AgeValidation: 'age-check',
   IpValidation: 'ip-validation',
   DuplicateUserValidation: 'duplicate-user-detection',
   ComplyAdvantageValidation: 'comply-advantage-validation',
@@ -162,10 +163,12 @@ export function getIdentityExtras(identity, countries) {
   const steps = get(identity, '_embedded.verification.steps') || [];
   const documents = getDocumentExtras(identity, countries);
 
-  let duplicateUserStep;
-  documents.some((doc) => {
-    duplicateUserStep = doc.steps.find((item) => item.id === VerificationStepTypes.DuplicateUserValidation);
-    return duplicateUserStep;
+  let duplicateUserDetectionStep;
+  let ageCheck;
+  documents.forEach((doc) => {
+    duplicateUserDetectionStep = duplicateUserDetectionStep || doc.steps.find((item) => item.id === VerificationStepTypes.DuplicateUserValidation);
+    const documentsAgeCheck = doc.steps.find((item) => item.id === VerificationStepTypes.AgeValidation);
+    ageCheck = ageCheck?.error || !documentsAgeCheck ? ageCheck : documentsAgeCheck;
   });
 
   return {
@@ -177,7 +180,8 @@ export function getIdentityExtras(identity, countries) {
     documents,
     isEditable: isChangeableStatus(identity.status),
     ipCheck: getIpCheckStep(steps),
-    duplicateUserStep,
+    duplicateUserDetectionStep,
+    ageCheck,
     digitalSignature: get(identity, '_embedded.digitalSignature'),
   };
 }
