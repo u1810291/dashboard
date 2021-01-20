@@ -27,13 +27,6 @@ export function AdditionalChecks() {
         buttonText: 'Product.checks.emailCheck.buttonText',
       },
     },
-    [CheckTypes.ComplyAdvantageStandalone]: {
-      component: CheckControlButton,
-      props: {
-        link: `${DOCS_BASE_URL}#post-optional-comply-advantage-validation`,
-        buttonText: 'Product.checks.complyAdvantage.buttonText',
-      },
-    },
   };
 
   return (
