@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectPreliminaryFilteredCountModel } from 'state/identities/identities.selectors';
 import { DateRange } from '../../components/DateRange/DateRange';
 import { useStyles } from './Filter.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function Filter({ children, onClose, onSetFilter, selectFilter, onClearFilter, isUTCDates, loadPreliminaryCountAction, preliminaryCountSelector }) {
   const intl = useIntl();
@@ -72,6 +73,7 @@ export function Filter({ children, onClose, onSetFilter, selectFilter, onClearFi
         <Box className={classes.footerLeft}>
           {/* clear all */}
           <Button
+            data-qa={QATags.Filter.ClearAllButton}
             className={classes.clearButton}
             onClick={handleClearAll}
             startIcon={<FiX />}
@@ -90,6 +92,7 @@ export function Filter({ children, onClose, onSetFilter, selectFilter, onClearFi
         {/* view results */}
         <Box className={classes.footerRight}>
           <Button
+            data-qa={QATags.Filter.ApplyFilterButton}
             className={classes.submitButton}
             variant="contained"
             color="primary"

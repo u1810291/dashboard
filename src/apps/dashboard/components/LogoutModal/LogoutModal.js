@@ -4,6 +4,7 @@ import Img from 'assets/modal-logout.svg';
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
+import { QATags } from '../../../../models/QA.model';
 
 export function LogoutModal({ onClose, onConfirm }) {
   const intl = useIntl();
@@ -21,6 +22,7 @@ export function LogoutModal({ onClose, onConfirm }) {
         type="submit"
         data-role="confirm"
         onClick={onConfirm}
+        data-qa={QATags.Auth.Logout.ConfirmButton}
       >
         {intl.formatMessage({ id: 'dashboard.logout.quit' })}
       </Button>
@@ -30,6 +32,7 @@ export function LogoutModal({ onClose, onConfirm }) {
         fullWidth
         data-role="cancel"
         onClick={onClose}
+        data-qa={QATags.Auth.Logout.CancelButton}
       >
         {intl.formatMessage({ id: 'cancel' })}
       </Button>

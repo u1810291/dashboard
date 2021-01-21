@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 import { Filter } from '../../containers/Filter/Filter';
 import { SideButton, useStyles } from './OpenFilter.styles';
 
-export function OpenFilter({ children, ...props }) {
+export function OpenFilter({ children, qa, ...props }) {
   const intl = useIntl();
   const classes = useStyles();
   const [createOverlay, closeOverlay] = useOverlay();
@@ -28,6 +28,7 @@ export function OpenFilter({ children, ...props }) {
       variant="contained"
       onClick={openFilterModal}
       startIcon={<FilterList />}
+      data-qa={qa}
     >
       {intl.formatMessage({ id: 'VerificationFilter.title' })}
     </SideButton>

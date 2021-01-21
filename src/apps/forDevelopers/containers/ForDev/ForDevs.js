@@ -83,6 +83,7 @@ export function ForDevs() {
                       IconComponent={FiChevronDown}
                       className={classes.select}
                       value={selectedFlow}
+                      data-qa={QATags.Integration.FlowSelector}
                     >
                       {merchantFlowList.value.map((item) => (
                         <MenuItem
@@ -101,8 +102,8 @@ export function ForDevs() {
                 <Grid item container xs={12} lg={4} direction="column" justify="center">
                   <Box maxWidth="100%">
                     <Typography variant="subtitle2">
-                      <CopyToClipboard text={currentFlowId} qa={QATags.Integration.flowId.Copy}>
-                        <code data-qa={QATags.Integration.flowId.Value}>{currentFlowId}</code>
+                      <CopyToClipboard text={currentFlowId} qa={QATags.Integration.FlowId.Copy}>
+                        <code data-qa={QATags.Integration.FlowId.Value}>{currentFlowId}</code>
                       </CopyToClipboard>
                     </Typography>
                   </Box>
@@ -116,6 +117,7 @@ export function ForDevs() {
                     fullWidth
                     className={classes.buttonWebhook}
                     onClick={handleOpenWebhookModal}
+                    data-qa={QATags.Webhook.Configure}
                   >
                     <FiSettings />
                     {intl.formatMessage({ id: 'forDevs.webhook.button' })}
@@ -127,6 +129,7 @@ export function ForDevs() {
                     variant="contained"
                     fullWidth
                     className={classes.buttonDocument}
+                    data-qa={QATags.Integration.Doc.Mati}
                   >
                     {intl.formatMessage({ id: 'forDevs.documentation.button' })}
                     <FiExternalLink />

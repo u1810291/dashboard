@@ -5,6 +5,7 @@ import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import Img from '../../../../assets/modal-add-flow.png';
 import { useStyles } from './AddNewFlowModal.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function AddNewFlowModal({ submitNewFlow }) {
   const intl = useIntl();
@@ -56,6 +57,7 @@ export function AddNewFlowModal({ submitNewFlow }) {
           onKeyDown={handleOnKeyDown}
           onChange={handleOnChange}
           helperText={error}
+          inputProps={{ 'data-qa': QATags.Flows.Create.FlowNameInput }}
         />
       </Box>
       <Button
@@ -65,6 +67,7 @@ export function AddNewFlowModal({ submitNewFlow }) {
         disableElevation
         fullWidth
         onClick={handleSubmitDialog}
+        data-qa={QATags.Flows.Create.CreateButton}
       >
         {intl.formatMessage({ id: 'VerificationFlow.menu.addDialog.btn.create' })}
       </Button>
@@ -73,6 +76,7 @@ export function AddNewFlowModal({ submitNewFlow }) {
         disableElevation
         fullWidth
         onClick={closeOverlay}
+        data-qa={QATags.Flows.Create.CancelButton}
       >
         {intl.formatMessage({ id: 'cancel' })}
       </Button>

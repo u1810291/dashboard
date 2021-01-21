@@ -14,7 +14,7 @@ export function SecondaryMenu(props) {
       to: Routes.info.root,
       label: intl.formatMessage({ id: 'dashboard.menu.faq' }),
       icon: <FiHelpCircle />,
-      qa: QATags.Navigation.Top.FAQ,
+      qa: QATags.Menu.FAQ,
     },
   ];
 

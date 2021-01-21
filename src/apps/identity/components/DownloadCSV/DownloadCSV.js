@@ -7,6 +7,7 @@ import { downloadCSV } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityCountModel } from '../../../../state/identities/identities.selectors';
 import { Loader } from '../../../dashboard/components/Loader/Loader';
 import { SideButton } from './DownloadCSV.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function DownloadCSV() {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ export function DownloadCSV() {
         onClick={handleDownloadCSV}
         startIcon={isLoading ? <FiLoader /> : <FiDownload />}
         disabled={isLoading || countModel.value === 0 || filteredCountModel.value === 0}
+        data-qa={QATags.VerificationList.DownloadCsv}
       >
         {intl.formatMessage({ id: 'identities.download-all-csv' })}
       </SideButton>

@@ -14,6 +14,7 @@ import { dashboardUpdate } from 'state/merchant/merchant.actions';
 import { isValidCheckSum } from '../../models/auth.model';
 import { signUp } from '../../state/auth.actions';
 import { Routes } from '../../../../models/Router.model';
+import { QATags } from '../../../../models/QA.model';
 
 const validateForm = (values) => pickBy(
   {
@@ -108,6 +109,7 @@ export function SignUp() {
                       variant="outlined"
                       fullWidth
                       placeholder="Work Email (no gmail, hotmail, etc)"
+                      inputProps={{ 'data-qa': QATags.Auth.SignUp.EmailInput }}
                     />
                   </Grid>
                   <Grid item>
@@ -120,6 +122,7 @@ export function SignUp() {
                       variant="outlined"
                       fullWidth
                       component={TextField}
+                      inputProps={{ 'data-qa': QATags.Auth.SignUp.PasswordInput }}
                     />
                   </Grid>
                 </Grid>
@@ -141,6 +144,7 @@ export function SignUp() {
                       disabled={isSubmitting}
                       type="submit"
                       onClick={submitForm}
+                      data-qa={QATags.Auth.SignUp.SignUpSubmitButton}
                     >
                       {intl.formatMessage({ id: 'signup.action' })}
                     </Button>
@@ -155,7 +159,7 @@ export function SignUp() {
         <Typography align="center">
           {intl.formatMessage({ id: 'signup.haveAccount' })}
           {' '}
-          <Link to={Routes.auth.signIn}>
+          <Link data-qa={QATags.Auth.SignUp.LoginButton} to={Routes.auth.signIn}>
             {intl.formatMessage({ id: 'signup.haveAccount.link' })}
           </Link>
         </Typography>

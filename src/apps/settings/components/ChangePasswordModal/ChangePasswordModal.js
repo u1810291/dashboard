@@ -4,6 +4,7 @@ import Img from 'assets/modal-change-pass.svg';
 import { get } from 'lodash';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
+import { QATags } from '../../../../models/QA.model';
 
 export function ChangePasswordModal({ onSubmit }) {
   const intl = useIntl();
@@ -63,6 +64,7 @@ export function ChangePasswordModal({ onSubmit }) {
             {intl.formatMessage({ id: 'personalSettings.labels.oldPassword' })}
           </InputLabel>
           <TextField
+            inputProps={{ 'data-qa': QATags.Auth.ChangePassword.CurrentPasswordInput }}
             id="old-password"
             name="oldPassword"
             type="password"
@@ -79,6 +81,7 @@ export function ChangePasswordModal({ onSubmit }) {
             {intl.formatMessage({ id: 'personalSettings.labels.password' })}
           </InputLabel>
           <TextField
+            inputProps={{ 'data-qa': QATags.Auth.ChangePassword.NewPasswordInput }}
             id="password"
             name="password"
             type="password"
@@ -95,6 +98,7 @@ export function ChangePasswordModal({ onSubmit }) {
             {intl.formatMessage({ id: 'personalSettings.labels.repeatPassword' })}
           </InputLabel>
           <TextField
+            inputProps={{ 'data-qa': QATags.Auth.ChangePassword.RepeatPasswordInput }}
             id="password-repeat"
             name="repeatPassword"
             type="password"
@@ -107,6 +111,8 @@ export function ChangePasswordModal({ onSubmit }) {
           />
         </Box>
         <Button
+          data-qa={QATags.Auth.ChangePassword.SubmitButton}
+          inputProps={{ 'data-qa': QATags.Auth.ChangePassword.RepeatPasswordInput }}
           type="submit"
           color="primary"
           variant="contained"
@@ -116,6 +122,7 @@ export function ChangePasswordModal({ onSubmit }) {
           {intl.formatMessage({ id: 'Settings.changePasswordModal.send' })}
         </Button>
         <Button
+          data-qa={QATags.Auth.ChangePassword.CancelButton}
           variant="contained"
           disableElevation
           fullWidth

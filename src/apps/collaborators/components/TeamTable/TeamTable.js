@@ -9,6 +9,7 @@ import { useIntl } from 'react-intl';
 import { DeleteModal } from '../DeleteModal/DeleteModal';
 import { TeamTablePlaceholder } from '../TeamTablePlaceholder/TeamTablePlaceholder';
 import { useStyles } from './TeamTable.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function TeamTable({ list, onInvite, onUpdate, onRemove }) {
   const intl = useIntl();
@@ -81,6 +82,7 @@ export function TeamTable({ list, onInvite, onUpdate, onRemove }) {
                     ))}
                   </Select>
                   <IconButton
+                    data-qa={QATags.Collaborators.DeleteMemberButton}
                     size="small"
                     onClick={() => handleRemove(item.user)}
                     tabIndex="-1"

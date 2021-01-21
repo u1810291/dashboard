@@ -5,6 +5,7 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from './Modal.module.scss';
 import { overlayClose } from '../../state/overlay.actions';
+import { QATags } from '../../../../models/QA.model';
 
 export function Modal({ children, onClose, className, imgSrc, title, subtitle, small = false, wideHeader = false, ...props }) {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ export function Modal({ children, onClose, className, imgSrc, title, subtitle, s
       data-role="modal"
       {...props} // eslint-disable-line react/jsx-props-no-spreading
     >
-      <Button className={styles.btnClose} onClick={closeModal} />
+      <Button data-qa={QATags.Modal.CloseButton} className={styles.btnClose} onClick={closeModal} />
       <Box className={classNames({ [styles.wideHeader]: wideHeader })}>
         {imgSrc && (
           <Box mb={2} align="center">

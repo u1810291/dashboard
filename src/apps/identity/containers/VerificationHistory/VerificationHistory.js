@@ -14,6 +14,7 @@ import { ManualReviewBanner } from '../../components/ManualReviewBanner/ManualRe
 import { VerificationSearch } from '../../components/VerificationSearch/VerificationSearch';
 import { VerificationTable } from '../../components/VerificationTable/VerificationTable';
 import { useStyles } from './VerificationHistory.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function VerificationHistory() {
   const dispatch = useDispatch();
@@ -64,6 +65,7 @@ export function VerificationHistory() {
                   loadPreliminaryCountAction={identitiesPreliminaryCountLoad}
                   preliminaryCountSelector={selectPreliminaryFilteredCountModel}
                   onClearFilter={verificationsClearFilter}
+                  qa={QATags.VerificationList.Filter}
                 >
                   <ByFlows />
                   <ByStatuses />

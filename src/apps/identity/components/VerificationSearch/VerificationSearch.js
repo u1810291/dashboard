@@ -9,6 +9,7 @@ import { selectIdentityFilter } from '../../../../state/identities/identities.se
 import { useFilterUpdate } from '../../../filter/hooks/filterUpdate.hook';
 import { useOverlay } from '../../../overlay';
 import { IconButtonSearch, InputAdornmentSearch, TextFieldSearch, useStyles } from './VerificationSearch.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function VerificationSearch({ isInOverlay }) {
   const intl = useIntl();
@@ -81,7 +82,7 @@ export function VerificationSearch({ isInOverlay }) {
             variant="outlined"
             placeholder={intl.formatMessage({ id: 'VerificationSearch.placeholder' })}
             onChange={handleSearchChange}
-            InputProps={adornment}
+            inputProps={{ ...adornment, 'data-qa': QATags.VerificationList.Search }}
           />
         </Box>
       </form>

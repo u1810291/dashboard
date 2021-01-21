@@ -12,6 +12,7 @@ import { passwordRecovery } from '../../state/auth.actions';
 import { useStyles } from '../SignIn/SignIn.styles';
 import { IntlButton } from '../../../intl';
 import { Routes } from '../../../../models/Router.model';
+import { QATags } from '../../../../models/QA.model';
 
 export function PasswordRecovery() {
   const intl = useIntl();
@@ -68,6 +69,7 @@ export function PasswordRecovery() {
                       {intl.formatMessage({ id: 'SignIn.form.labels.email' })}
                     </InputLabel>
                     <Field
+                      inputProps={{ 'data-qa': QATags.Auth.Recovery.EmailInput }}
                       type="input"
                       name="email"
                       variant="outlined"
@@ -78,6 +80,7 @@ export function PasswordRecovery() {
 
                   <Box mb={5}>
                     <Button
+                      data-qa={QATags.Auth.Recovery.ResetPasswordSubmit}
                       variant="contained"
                       type="submit"
                       disabled={isSubmitting}
@@ -90,7 +93,7 @@ export function PasswordRecovery() {
                   </Box>
 
                   <Box>
-                    <Link to={Routes.auth.signIn} className={classes.link}>
+                    <Link to={Routes.auth.signIn} data-qa={QATags.Auth.Recovery.GoBackButton} className={classes.link}>
                       {intl.formatMessage({ id: 'PasswordRecovery.signin' })}
                     </Link>
                   </Box>

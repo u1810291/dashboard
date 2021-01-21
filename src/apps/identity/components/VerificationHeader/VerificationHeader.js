@@ -14,6 +14,7 @@ import { VerificationWebhookModal } from '../VerificationWebhookModal/Verificati
 import { SideButton, useStyles } from './VerificationHeader.styles';
 import { getGoBackToListLink, IdentityStatuses } from '../../../../models/Identity.model';
 import { Routes } from '../../../../models/Router.model';
+import { QATags } from '../../../../models/QA.model';
 
 export function VerificationHeader({ identity, isDemo = false }) {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
               variant="contained"
               startIcon={<FiChevronLeft />}
               className={classes.buttonBack}
+              data-qa={QATags.Verification.Buttons.BackToList}
             >
               {intl.formatMessage({ id: 'identities.details.backToList' })}
             </SideButton>
@@ -89,6 +91,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
               onClick={handlePDFDownload}
               startIcon={isPDFGenerating ? <FiLoader /> : <FiDownload />}
               disabled={identity.status === IdentityStatuses.running}
+              data-qa={QATags.Verification.Buttons.DownloadPdf}
             >
               {intl.formatMessage({ id: 'verificationModal.downloadPDF' })}
             </SideButton>
@@ -100,6 +103,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
             variant="contained"
             onClick={openWebhookModal}
             startIcon={<FiCode />}
+            data-qa={QATags.Verification.Buttons.Data}
           >
             {intl.formatMessage({ id: 'verificationModal.webhookData' })}
           </SideButton>
@@ -113,6 +117,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
               startIcon={isDeleting ? <FiLoader /> : <FiTrash2 />}
               disabled={isDeleting}
               className={classes.deleteButton}
+              data-qa={QATags.Verification.Buttons.Delete}
             >
               {intl.formatMessage({ id: 'verificationModal.delete' })}
             </SideButton>

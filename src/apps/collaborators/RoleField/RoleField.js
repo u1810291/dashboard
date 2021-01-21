@@ -39,7 +39,7 @@ export function RoleField({
             <FormControlLabel
               className={classes.label}
               value={role.value}
-              control={<Radio color="default" className={classes.radio} />}
+              control={<Radio data-qa={role.qaTag} color="default" className={classes.radio} />}
               label={label}
               key={role.value}
             />

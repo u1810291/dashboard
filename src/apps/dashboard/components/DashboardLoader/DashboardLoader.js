@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { selectIdentityIsPDFGenerating, selectIdentityModelWithExtras } from 'state/identities/identities.selectors';
 import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { Loader } from '../Loader/Loader';
+import { QATags } from '../../../../models/QA.model';
 
 /**
  * @return {null}
@@ -24,7 +25,7 @@ export function DashboardLoader() {
     || isPDFGenerating
   ) {
     return (
-      <Loader />
+      <Loader qa={QATags.Dashboard.Loader} />
     );
   }
   return null;

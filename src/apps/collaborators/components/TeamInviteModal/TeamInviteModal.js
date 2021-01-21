@@ -6,6 +6,7 @@ import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { TeamInviteForm } from '../TeamInviteForm/TeamInviteForm';
 import { useStyles } from './TeamInviteModal.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function TeamInviteModal({ onSubmit, isPosting }) {
   const intl = useIntl();
@@ -36,6 +37,7 @@ export function TeamInviteModal({ onSubmit, isPosting }) {
       />
       <Box className={classes.buttonWrapper}>
         <Button
+          data-qa={QATags.Collaborators.SendButton}
           type="submit"
           color="primary"
           variant="contained"

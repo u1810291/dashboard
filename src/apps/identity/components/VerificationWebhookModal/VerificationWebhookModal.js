@@ -5,6 +5,7 @@ import stringify from 'lib/stringify';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './VerificationWebhookModal.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function VerificationWebhookModal({ webhook, onClose }) {
   const intl = useIntl();
@@ -27,14 +28,17 @@ export function VerificationWebhookModal({ webhook, onClose }) {
           language={SyntaxHighlighterLanguages.JavaScript}
           withCopyText
           showLineNumbers
+          qa={QATags.Verification.Data.Json}
         />
       </Box>
       <Typography variant="h4" gutterBottom className={classes.title}>
         { intl.formatMessage({ id: 'verificationWebhookModal.title.url' }) }
       </Typography>
       <Box mb={2} className={classes.resourceUrl}>
-        <CopyToClipboard withText withCopyText text={resourceUrl}>
-          {resourceUrl}
+        <CopyToClipboard withText withCopyText text={resourceUrl} qa={QATags.Verification.Data.ResourceUrl.Copy}>
+          <span data-qa={QATags.Verification.Data.ResourceUrl.Value}>
+            {resourceUrl}
+          </span>
         </CopyToClipboard>
       </Box>
       <Box align="right">
@@ -44,6 +48,7 @@ export function VerificationWebhookModal({ webhook, onClose }) {
           disableElevation
           className={classes.button}
           onClick={onClose}
+          data-qa={QATags.Verification.Data.Close}
         >
           { intl.formatMessage({ id: 'close' }) }
         </Button>

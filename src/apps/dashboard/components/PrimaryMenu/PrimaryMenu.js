@@ -18,7 +18,7 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
       label: intl.formatMessage({ id: 'dashboard.menu.metrics' }),
       handler: () => trackEvent(MixPanelEvents.NavMetrics),
       icon: <FiBarChart2 />,
-      qa: QATags.Navigation.Top.Metrics,
+      qa: QATags.Menu.Metrics,
     },
     {
       id: 'identities',
@@ -26,7 +26,7 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
       label: intl.formatMessage({ id: 'dashboard.menu.identities' }),
       handler: () => trackEvent(MixPanelEvents.NavVerificationList),
       icon: <FiList />,
-      qa: QATags.Navigation.Top.VerificationList,
+      qa: QATags.Menu.VerificationList,
     },
     {
       id: 'product',
@@ -35,7 +35,7 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
       label: intl.formatMessage({ id: 'dashboard.menu.product' }),
       handler: () => trackEvent(MixPanelEvents.NavProduct),
       icon: <FiUserCheck />,
-      qa: QATags.Navigation.Top.Product,
+      qa: QATags.Menu.Product,
     },
     {
       id: 'forDevelopers',
@@ -44,7 +44,7 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
       label: intl.formatMessage({ id: 'dashboard.menu.developers' }),
       handler: () => trackEvent(MixPanelEvents.NavForDevelopers),
       icon: <FiCode />,
-      qa: QATags.Navigation.Top.ForDevelopers,
+      qa: QATags.Menu.ForDevelopers,
     },
   ];
 

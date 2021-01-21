@@ -22,6 +22,7 @@ import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { StatusLabel } from '../StatusLabel';
 import { VerificationFlowName } from '../VerificationFlowName/VerificationFlowName';
 import { TableRowHovered, useStyles } from './VerificationTable.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function VerificationTable() {
   const intl = useIntl();
@@ -117,7 +118,7 @@ export function VerificationTable() {
         scrollThreshold={0.7}
         dataLength={identityCollection?.value?.length || 0}
       >
-        <Table className={classes.table}>
+        <Table className={classes.table} data-qa={QATags.VerificationList.Table}>
           <TableHead className={classes.tableHead}>
             <TableRow>
               <TableCell sortDirection={orderBy === OrderKeys.fullName ? order : false}>

@@ -14,6 +14,7 @@ import { signIn } from '../../state/auth.actions';
 import { useStyles } from './SignIn.styles';
 import { IntlButton } from '../../../intl';
 import { Routes } from '../../../../models/Router.model';
+import { QATags } from '../../../../models/QA.model';
 
 const validateForm = (values) => pickBy(
   {
@@ -82,6 +83,7 @@ export function SignIn() {
                         {intl.formatMessage({ id: 'SignIn.form.labels.email' })}
                       </InputLabel>
                       <Field
+                        inputProps={{ 'data-qa': QATags.Auth.SignIn.EmailInput }}
                         name="email"
                         type="input"
                         variant="outlined"
@@ -94,11 +96,12 @@ export function SignIn() {
                         <InputLabel className={classes.label}>
                           {intl.formatMessage({ id: 'SignIn.form.labels.password' })}
                         </InputLabel>
-                        <Link to={Routes.auth.passwordRecovery}>
+                        <Link data-qa={QATags.Auth.Recovery.ForgotPasswordButton} to={Routes.auth.passwordRecovery}>
                           {intl.formatMessage({ id: 'SignIn.recovery' })}
                         </Link>
                       </Grid>
                       <Field
+                        inputProps={{ 'data-qa': QATags.Auth.SignIn.PasswordInput }}
                         autoComplete="password"
                         name="password"
                         type="password"
@@ -109,6 +112,7 @@ export function SignIn() {
                       />
                     </Grid>
                     <Button
+                      data-qa={QATags.Auth.SignIn.SubmitButton}
                       fullWidth
                       variant="contained"
                       size="large"

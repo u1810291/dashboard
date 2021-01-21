@@ -11,6 +11,7 @@ import 'react-day-picker/lib/style.css';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useStyles } from './DateRange.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export const DateRange = ({ onChange, start, end, isUTCDates }) => {
   const intl = useIntl();
@@ -146,6 +147,7 @@ export const DateRange = ({ onChange, start, end, isUTCDates }) => {
       <Box className={classes.calendar}>
         <Box className={classes.range}>
           <TextField
+            inputProps={{ 'data-qa': QATags.Filter.DatePicker.StartDateInput }}
             name="start"
             error={startFormInvalid}
             onChange={handleInputChange}
@@ -155,6 +157,7 @@ export const DateRange = ({ onChange, start, end, isUTCDates }) => {
           />
           <Box className={classes.rangeDivider} />
           <TextField
+            inputProps={{ 'data-qa': QATags.Filter.DatePicker.EndDateInput }}
             name="end"
             error={endFormInvalid}
             onChange={handleInputChange}
@@ -174,7 +177,7 @@ export const DateRange = ({ onChange, start, end, isUTCDates }) => {
           }]}
         />
       </Box>
-      <Box className={classes.period}>
+      <Box data-qa={QATags.Filter.DatePicker.Periods} className={classes.period}>
         {allRanges.map((rangeItem) => (
           <Button
             key={rangeItem.id}

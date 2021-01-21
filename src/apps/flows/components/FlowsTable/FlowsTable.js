@@ -13,6 +13,7 @@ import { useHistory } from 'react-router-dom';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { TableRowHovered, useStyles } from './FlowsTable.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function FlowsTable({ onAddNewFlow }) {
   const intl = useIntl();
@@ -80,7 +81,7 @@ export function FlowsTable({ onAddNewFlow }) {
 
   return (
     <TableContainer className={classes.container}>
-      <Table className={classes.table}>
+      <Table className={classes.table} data-qa={QATags.Flows.Table}>
         <TableHead className={classes.tableHead}>
           <TableRow>
             <TableCell sortDirection={orderBy === OrderKeys.fullName ? order : false}>

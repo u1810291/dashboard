@@ -13,6 +13,7 @@ import { useStyles } from './ForDevsWebhookModal.styles';
 import { deleteWebhook, getWebhooks, subscribeToWebhook } from '../../../../state/webhooks/webhooks.actions';
 import { ReactComponent as PlayIcon } from '../../../../assets/video-player-play.svg';
 import { required } from '../../../../lib/validations';
+import { QATags } from '../../../../models/QA.model';
 
 export function ForDevsWebhookModal() {
   const intl = useIntl();
@@ -69,6 +70,7 @@ export function ForDevsWebhookModal() {
                 className={classes.documentation}
                 variant="outlined"
                 fullWidth
+                data-qa={QATags.Webhook.Doc}
               >
                 {intl.formatMessage({ id: 'forDevs.webhook.documentation' })}
                 <FiExternalLink />
@@ -113,6 +115,7 @@ export function ForDevsWebhookModal() {
                   component={TextField}
                   placeholder={intl.formatMessage({ id: 'onboarding.webhooks.placeholders.url' })}
                   className={classes.input}
+                  inputProps={{ 'data-qa': QATags.Webhook.Url }}
                 />
               </Grid>
               <Grid item xs={12} lg={6}>
@@ -127,6 +130,7 @@ export function ForDevsWebhookModal() {
                   component={TextField}
                   placeholder={intl.formatMessage({ id: 'onboarding.webhooks.placeholders.secret' })}
                   className={classes.input}
+                  inputProps={{ 'data-qa': QATags.Webhook.Secret }}
                 />
               </Grid>
             </Grid>
@@ -138,6 +142,7 @@ export function ForDevsWebhookModal() {
                 disableElevation
                 disabled={isSubmitting}
                 className={classes.button}
+                data-qa={QATags.Webhook.Save}
               >
                 <FiSave />
                 {intl.formatMessage({ id: 'forDevs.webhook.submit' })}

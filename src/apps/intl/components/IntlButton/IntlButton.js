@@ -30,7 +30,7 @@ export function IntlButton({ isSync = true, fullLabel = false }) {
         renderValue={renderLocale}
         onChange={handleLangChange}
         data-value={currentLocale}
-        data-qa={QATags.Navigation.Top.LanguageSelect}
+        data-qa={QATags.Menu.LanguageSelect}
       >
         {LanguageList.map((item) => (
           <MenuItem key={item.locale} value={item.locale} className={classes.selectItem}>

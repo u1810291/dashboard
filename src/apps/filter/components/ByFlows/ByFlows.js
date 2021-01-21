@@ -8,6 +8,7 @@ import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { ReactComponent as CheckboxOff } from '../../../../assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from '../../../../assets/icon-checkbox-on.svg';
 import { useStyles } from './ByFlows.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export const ByFlows = ({ bufferedFilter: { flowIds }, onHandleFilterChange }) => {
   const intl = useIntl();
@@ -38,7 +39,7 @@ export const ByFlows = ({ bufferedFilter: { flowIds }, onHandleFilterChange }) =
         </Box>
       </Typography>
       <Paper className={classes.flowsList}>
-        <FormControl variant="outlined" fullWidth>
+        <FormControl data-qa={QATags.Filter.byFlow} variant="outlined" fullWidth>
           <FormControlLabel
             value=""
             checked={flowIds?.length === 0}
