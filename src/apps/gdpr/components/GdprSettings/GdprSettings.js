@@ -1,10 +1,10 @@
 import { Box, FormControl, FormControlLabel, Switch, Typography } from '@material-ui/core';
-import { GdprDropdown } from 'apps/ui/components/GdprDropdown/GdprDropdown';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectPolicyInterval } from 'state/merchant/merchant.selectors';
+import { GdprDropdown } from '../GdprDropdown/GdprDropdown';
 import { GdprPopup } from '../GdprPopup/GdprPopup';
 
 export function GdprSettings() {

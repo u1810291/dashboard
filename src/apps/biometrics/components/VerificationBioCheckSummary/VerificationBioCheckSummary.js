@@ -2,7 +2,7 @@ import { Box, Grid, Typography } from '@material-ui/core';
 import { VerificationSummaryChecksContainer } from 'apps/checks/components/VerificationSummaryChecksContainer/VerificationSummaryChecksContainer';
 import { VerificationCheckCard } from 'apps/identity/components/VerificationCheckCard/VerificationCheckCard';
 import { VerificationSummaryTitle } from 'apps/identity/components/VerificationSummaryTitle/VerificationSummaryTitle';
-import { SkeletonLoader } from 'apps/ui/components/SkeletonLoader/SkeletonLoader';
+import { SkeletonLoader } from 'apps/ui';
 import { getBiometricCheckStatus, LivenessStepStatus } from 'models/Biometric.model';
 import { VerificationSummaryTitleTypes } from 'models/Identity.model';
 import { StepStatus } from 'models/Step.model';

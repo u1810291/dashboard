@@ -1,28 +1,22 @@
 import { Box, Divider, Grid, Hidden } from '@material-ui/core';
 import { BiometricStep } from 'apps/biometrics';
-import { VerificationSteps } from 'apps/checks/components/VerificationSteps/VerificationSteps';
+import { VerificationSteps } from 'apps/checks';
 import { Countries } from 'apps/countries';
 import { FacematchConfiguration } from 'apps/facematch';
 import { GdprSettings } from 'apps/gdpr';
+import { ImageValidationConfiguration } from 'apps/imageValidation';
 import { Logo } from 'apps/logo';
 import { ButtonCollapsible } from 'apps/ui';
 import { ConfigureColor } from 'apps/WebSDKPreview';
 import classnames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash, FiUser, FiAlertOctagon, FiSlash } from 'react-icons/fi';
+import { FiAlertOctagon, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiSlash, FiTrash, FiUser } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllCountriesModel } from 'state/countries/countries.selectors';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
-import { ImageValidationConfiguration } from 'apps/imageValidation';
-import { BiometricStep } from '../BiometricStep/BiometricStep';
-import { ConfigureColor } from '../ConfigureColor/ConfigureColor';
 import { AgeCheckConfiguration } from '../AgeCheck/AgeCheckConfiguration';
-import { Countries } from '../Countries/Countries';
-import { GdprSettings } from '../GdprSettings/GdprSettings';
-import { Logo } from '../Logo/Logo';
-import { VerificationSteps } from '../VerificationSteps/VerificationSteps';
 
 export function Configuration() {
   const [active, setActive] = useState(0);

@@ -1,5 +1,5 @@
 import { Box, Button, Grid, InputLabel, Typography } from '@material-ui/core';
-import { SkeletonLoader } from 'apps/ui/components/SkeletonLoader/SkeletonLoader';
+import { notification, SkeletonLoader } from 'apps/ui';
 import Icon from 'assets/icon-document-edit.svg';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
@@ -9,37 +9,10 @@ import { difference } from 'lib/object';
 import { formatValue } from 'lib/string';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { notification } from 'apps/ui';
 import { useDispatch } from 'react-redux';
 import { documentUpdate } from 'state/identities/identities.actions';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
 import { useStyles } from './DocumentReadingStep.styles';
-
-// TODO @dkchv: refactor this
-/*
-function EditableField({ label, value, isValid, onSubmit }) {
-  if (!value) {
-    return (
-      <Text weight={2} color="gray">
-        <TextEditable onSubmit={onSubmit} />
-      </Text>
-    );
-  }
-
-  return (
-    <Text weight={4}>
-      <TextEditable
-        text={formatValue(label, value)}
-        onSubmit={onSubmit}
-        isValid={isValid}
-        error={false}
-        isEditing={false}
-      />
-    </Text>
-  );
-}
-
- */
 
 export function DocumentReadingStep({ documentId, step, fields = [], identityId, isEditable, onReading }) {
   const intl = useIntl();

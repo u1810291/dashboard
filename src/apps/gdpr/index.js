@@ -1,1 +1,1 @@
-export { GdprSettings } from './components/GdprSettings/GdprSettings';
+export * from './components/GdprSettings/GdprSettings';

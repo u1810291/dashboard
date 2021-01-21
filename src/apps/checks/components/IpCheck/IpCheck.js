@@ -1,6 +1,5 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
-import { CheckResultLogo } from 'apps/ui/components/CheckResultLogo/CheckResultLogo';
-import { SkeletonLoader } from 'apps/ui/components/SkeletonLoader/SkeletonLoader';
+import { CheckResultLogo, SkeletonLoader } from 'apps/ui';
 import { StepStatus } from 'models/Step.model';
 import React from 'react';
 import { useIntl } from 'react-intl';

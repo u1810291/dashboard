@@ -1,13 +1,11 @@
 import { Switch } from '@material-ui/core';
-import { notification } from 'components/notification';
-import { Box, FormControlLabel, Switch } from '@material-ui/core';
 import { notification } from 'apps/ui';
+import { DigitalSignatureProvider } from 'models/DigitalSignature.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
-import { selectNom151Check, selectCurrentFlowId } from 'state/merchant/merchant.selectors';
-import { DigitalSignatureProvider } from 'models/DigitalSignature.model';
+import { selectCurrentFlowId, selectNom151Check } from 'state/merchant/merchant.selectors';
 import { useStyles } from './Nom151CheckControl.styles';
 
 export function Nom151CheckControl() {

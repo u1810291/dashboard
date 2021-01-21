@@ -1,6 +1,6 @@
 import { Box, Grid } from '@material-ui/core';
 import { VerificationSummaryChecksContainer } from 'apps/checks/components/VerificationSummaryChecksContainer/VerificationSummaryChecksContainer';
-import { SkeletonLoader } from 'apps/ui/components/SkeletonLoader/SkeletonLoader';
+import { SkeletonLoader } from 'apps/ui';
 import { PhotosOrientations } from 'models/Document.model';
 import { getDocumentStatus, StepStatus } from 'models/Step.model';
 import React, { useEffect, useState } from 'react';

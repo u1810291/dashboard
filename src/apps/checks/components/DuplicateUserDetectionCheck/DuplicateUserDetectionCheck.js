@@ -1,6 +1,5 @@
 import { Box, Card, CardContent } from '@material-ui/core';
-import { BoxBordered } from 'apps/ui';
-import { CheckBarExpandable } from 'apps/ui/components/CheckBarExpandable/CheckBarExpandable';
+import { BoxBordered, CheckBarExpandable } from 'apps/ui';
 import { Routes } from 'models/Router.model';
 import React from 'react';
 import { FiExternalLink } from 'react-icons/fi';

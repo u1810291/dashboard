@@ -1,7 +1,6 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
-import { CheckStepDetails } from 'apps/checks/components/CheckStepDetails/CheckStepDetails';
-import { CheckBarExpandable } from 'apps/ui/components/CheckBarExpandable/CheckBarExpandable';
-import { CheckResultLogo } from 'apps/ui/components/CheckResultLogo/CheckResultLogo';
+import { CheckStepDetails } from 'apps/checks';
+import { CheckBarExpandable, CheckResultLogo } from 'apps/ui';
 import classNames from 'classnames';
 import { getBiometricCheckStatus, LivenessStepStatus } from 'models/Biometric.model';
 import { BiometricStepTypes } from 'models/Step.model';

@@ -1,12 +1,11 @@
 import { Box, Grid, Typography } from '@material-ui/core';
-import { CheckBarExpandableSummary } from 'apps/ui/components/CheckBarExpandableSummary/CheckBarExpandableSummary';
-import { SkeletonLoader } from 'apps/ui/components/SkeletonLoader/SkeletonLoader';
+import { CheckBarExpandableSummary, SkeletonLoader } from 'apps/ui';
+import { ReactComponent as IconError } from 'assets/icon-identity-error.svg';
+import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { StepStatus } from 'models/Step.model';
 import React from 'react';
 import { FiCheckCircle } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { ReactComponent as IconError } from '../../../../assets/icon-identity-error.svg';
-import { ReactComponent as IconLoad } from '../../../../assets/icon-load.svg';
 import { useStyles } from './VerificationSummaryChecksContainer.styles';
 
 export function VerificationSummaryChecksContainer({ steps }) {

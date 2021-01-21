@@ -2,16 +2,13 @@ import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { CheckStepDetails } from 'apps/checks/components/CheckStepDetails/CheckStepDetails';
 import { ZoomableImage } from 'apps/identity/components/ZoomableImage/ZoomableImage';
 import { useDocumentTitle, usePhotosOrientation } from 'apps/identity/hooks/document.hook';
-import { Warning, WarningTypes } from 'apps/ui';
-import { CheckBarExpandable } from 'apps/ui/components/CheckBarExpandable/CheckBarExpandable';
-import { CheckResultLogo } from 'apps/ui/components/CheckResultLogo/CheckResultLogo';
-import { SkeletonLoader } from 'apps/ui/components/SkeletonLoader/SkeletonLoader';
+import { CheckBarExpandable, CheckResultLogo, SkeletonLoader, Warning, WarningTypes } from 'apps/ui';
 import { DocumentSides, DocumentSidesOrder, getDocumentSideLabel, PhotosOrientations } from 'models/Document.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { ComplyAdvantageStepDetails } from '../../../identity/components/ComplyAdvantageStepDetails/ComplyAdvantageStepDetails';
 import { DocumentReadingStep } from '../DocumentReadingStep/DocumentReadingStep';
 import { useStyles } from './DocumentStep.styles';
-import { ComplyAdvantageStepDetails } from '../../../identity/components/ComplyAdvantageStepDetails/ComplyAdvantageStepDetails';
 
 export function DocumentStep({ document, identity, documentIndex }) {
   const intl = useIntl();

@@ -1,15 +1,14 @@
 import { Box, Typography } from '@material-ui/core';
-import { Card } from 'apps/ui/components/Card/Card';
-import { CheckControlButton } from 'apps/ui/components/CheckControlButton/CheckControlButton';
+import { Card, CheckControlButton } from 'apps/ui';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectAvailableChecks } from 'state/merchant/merchant.selectors';
+import { ComplyAdvantageIntegratedCheckControl } from '../components/ComplyAdvantageIntegratedCheckControl/ComplyAdvantageIntegratedCheckControl';
 import { DuplicateUserDetectionCheckControl } from '../components/DuplicateUserDetectionCheckControl/DuplicateUserDetectionCheckControl';
 import { IpCheckControl } from '../components/IpCheckControl/IpCheckControl';
 import { Nom151CheckControl } from '../components/nom151CheckControl/Nom151CheckControl';
 import { CheckTypes, DOCS_BASE_URL } from '../models/Checks.model';
-import { ComplyAdvantageIntegratedCheckControl } from '../components/ComplyAdvantageIntegratedCheckControl/ComplyAdvantageIntegratedCheckControl';
 
 export function AdditionalChecks() {
   const intl = useIntl();

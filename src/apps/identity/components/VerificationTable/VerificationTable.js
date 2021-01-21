@@ -2,7 +2,7 @@ import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead
 import { PriorityHigh } from '@material-ui/icons';
 import { NoVerifications } from 'apps/identity/components/NoVerifications/NoVerifications';
 import { PageLoader } from 'apps/layout';
-import { SkeletonLoader } from 'apps/ui/components/SkeletonLoader/SkeletonLoader';
+import { SkeletonLoader } from 'apps/ui';
 import { ReactComponent as EmptyTableIcon } from 'assets/empty-table.svg';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { utcToLocalFormat } from 'lib/date';

@@ -1,9 +1,9 @@
 import { compact } from 'lodash';
+import { getPhotosOrientation, PhotosOrientations } from 'models/Document.model';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectCountriesList } from 'state/countries/countries.selectors';
-import { useEffect, useState } from 'react';
-import { getPhotosOrientation, PhotosOrientations } from '../../../models/Document.model';
 
 export function useDocumentTitle(document) {
   const intl = useIntl();

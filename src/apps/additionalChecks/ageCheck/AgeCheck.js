@@ -1,6 +1,5 @@
 import { Box, Card, CardContent } from '@material-ui/core';
-import { CheckBarExpandable } from 'apps/identity/components/CheckBarExpandable/CheckBarExpandable';
-import { BoxBordered } from 'apps/ui';
+import { BoxBordered, CheckBarExpandable } from 'apps/ui';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './AgeCheck.styles';
