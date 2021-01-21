@@ -8,6 +8,7 @@ import { Routes } from './Router.model';
 export const DEFAULT_STATUS_COLOR = '#ADADAD';
 
 export const VerificationStepTypes = {
+  AgeValidation: 'age-check',
   IpValidation: 'ip-validation',
   DuplicateUserValidation: 'duplicate-user-detection',
   ComplyAdvantageValidation: 'comply-advantage-validation',
@@ -20,6 +21,7 @@ export const IdentityStatuses = {
   deleted: 'deleted',
   pending: 'pending',
   running: 'running',
+  postponed: 'postponed',
   unknown: 'unknown',
 };
 
@@ -36,6 +38,7 @@ export const IdentityStatusesMap = [
     color: 'success.main',
     textColor: 'primary.contrastText',
     isChangeable: true,
+    isSelectable: true,
     isExplanation: true,
     isFilterable: true,
   },
@@ -44,6 +47,7 @@ export const IdentityStatusesMap = [
     color: 'warning.main',
     textColor: 'common.black90',
     isChangeable: true,
+    isSelectable: true,
     isExplanation: true,
     isFilterable: true,
   },
@@ -52,6 +56,16 @@ export const IdentityStatusesMap = [
     color: 'error.main',
     textColor: 'primary.contrastText',
     isChangeable: true,
+    isSelectable: true,
+    isExplanation: true,
+    isFilterable: true,
+  },
+  {
+    id: IdentityStatuses.postponed,
+    color: 'common.black75',
+    textColor: 'primary.contrastText',
+    isChangeable: true,
+    isSelectable: false,
     isExplanation: true,
     isFilterable: true,
   },
@@ -60,6 +74,7 @@ export const IdentityStatusesMap = [
     color: 'common.black50',
     textColor: 'common.black90',
     isChangeable: false,
+    isSelectable: false,
     isExplanation: true,
     isFilterable: true,
   },
@@ -69,6 +84,7 @@ export const IdentityStatusesMap = [
     textColor: 'common.black90',
     style: 'threedots',
     isChangeable: false,
+    isSelectable: false,
     isExplanation: false,
   },
   {
@@ -76,6 +92,7 @@ export const IdentityStatusesMap = [
     color: DEFAULT_STATUS_COLOR,
     textColor: DEFAULT_STATUS_COLOR,
     isChangeable: false,
+    isSelectable: false,
     isExplanation: false,
   },
 ];
@@ -146,10 +163,12 @@ export function getIdentityExtras(identity, countries) {
   const steps = get(identity, '_embedded.verification.steps') || [];
   const documents = getDocumentExtras(identity, countries);
 
-  let duplicateUserStep;
-  documents.some((doc) => {
-    duplicateUserStep = doc.steps.find((item) => item.id === VerificationStepTypes.DuplicateUserValidation);
-    return duplicateUserStep;
+  let duplicateUserDetectionStep;
+  let ageCheck;
+  documents.forEach((doc) => {
+    duplicateUserDetectionStep = duplicateUserDetectionStep || doc.steps.find((item) => item.id === VerificationStepTypes.DuplicateUserValidation);
+    const documentsAgeCheck = doc.steps.find((item) => item.id === VerificationStepTypes.AgeValidation);
+    ageCheck = ageCheck?.error || !documentsAgeCheck ? ageCheck : documentsAgeCheck;
   });
 
   return {
@@ -161,7 +180,8 @@ export function getIdentityExtras(identity, countries) {
     documents,
     isEditable: isChangeableStatus(identity.status),
     ipCheck: getIpCheckStep(steps),
-    duplicateUserStep,
+    duplicateUserDetectionStep,
+    ageCheck,
     digitalSignature: get(identity, '_embedded.digitalSignature'),
   };
 }

@@ -21,7 +21,7 @@ export function LivenessStepPDF({ steps }) {
             {checkStatus !== LivenessStepStatus.FewData && steps.map((item) => (
               <View>
                 {/* video */}
-                {item.videoUrl && (
+                {item.videoUrl && item.selfieUrl && (
                   <View
                     key={item.id}
                     style={styles.mediaItem}

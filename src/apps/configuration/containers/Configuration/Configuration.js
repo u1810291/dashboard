@@ -9,13 +9,20 @@ import { ButtonCollapsible } from 'apps/ui';
 import { ConfigureColor } from 'apps/WebSDKPreview';
 import classnames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash, FiUser, FiAlertOctagon } from 'react-icons/fi';
+import { FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiTrash, FiUser, FiAlertOctagon, FiSlash } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllCountriesModel } from 'state/countries/countries.selectors';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
 import { ImageValidationConfiguration } from 'apps/imageValidation';
+import { BiometricStep } from '../BiometricStep/BiometricStep';
+import { ConfigureColor } from '../ConfigureColor/ConfigureColor';
+import { AgeCheckConfiguration } from '../AgeCheck/AgeCheckConfiguration';
+import { Countries } from '../Countries/Countries';
+import { GdprSettings } from '../GdprSettings/GdprSettings';
+import { Logo } from '../Logo/Logo';
+import { VerificationSteps } from '../VerificationSteps/VerificationSteps';
 
 export function Configuration() {
   const [active, setActive] = useState(0);
@@ -83,6 +90,12 @@ export function Configuration() {
         title: 'Product.configuration.imageValidation',
         icon: <FiAlertOctagon />,
         body: <ImageValidationConfiguration onChange={updateConfiguration} />,
+      },
+      {
+        id: 'ageCheck',
+        title: 'Product.configuration.ageCheck',
+        icon: <FiSlash />,
+        body: <AgeCheckConfiguration />,
       },
     ]);
   }, [countriesModel, currentFlowModel, updateConfiguration]);

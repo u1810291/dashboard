@@ -44,7 +44,7 @@ export function StatusSelector({ statusId, identityId, onSelect }) {
     setIsLoading(true);
     if (onSelect) {
       const newStatus = getStatusById(id);
-      if (newStatus.isChangeable && current.isChangeable) {
+      if (newStatus.isSelectable && current.isChangeable) {
         setCurrent(newStatus);
         setOpen(false);
         await onSelect(newStatus.id);
@@ -79,14 +79,14 @@ export function StatusSelector({ statusId, identityId, onSelect }) {
             <Grid container direction="column" spacing={2}>
               {statuses.map((item) => (
                 <Grid
-                  className={item.isChangeable && current.isChangeable ? classes.item : classes.itemNotChangeable}
+                  className={item.isSelectable && current.isChangeable ? classes.item : classes.itemNotChangeable}
                   container
                   wrap="nowrap"
                   item
                   key={item.id}
                   onClick={() => handleSelect(item.id)}
                 >
-                  {item.isChangeable && current.isChangeable && (
+                  {item.isSelectable && current.isChangeable && (
                     <Box className={classes.itemIconWrapper}>
                       {current.id === item.id && (
                         <Box bgcolor={item.color} item className={classes.itemIcon} />

@@ -145,7 +145,7 @@ export function VerificationTable() {
           </TableHead>
           <TableBody>
             {(identityFilter.offset === 0 && identityCollection.isLoading && !identityCollection.isLoaded)
-            || (identityCollection.isLoaded && identityCollection.value.length === 0)
+              || (identityCollection.isLoaded && identityCollection.value.length === 0)
               ? (
                 <TableRow>
                   <TableCell className={classes.itemEmpty} colSpan={6} align="center">

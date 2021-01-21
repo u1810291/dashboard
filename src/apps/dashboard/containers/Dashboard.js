@@ -9,8 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { loadCountries, loadCountriesOnlyExisting } from 'state/countries/countries.actions';
 import { selectAllCountriesModel, selectCountriesOnlyExisting } from 'state/countries/countries.selectors';
-import { merchantFlowsLoad, merchantLoad } from 'state/merchant/merchant.actions';
-import { selectMerchantFlowsModel, selectMerchantModel } from 'state/merchant/merchant.selectors';
+import { appLoad, merchantFlowsLoad, merchantLoad } from 'state/merchant/merchant.actions';
+import { selectClientIdModel, selectMerchantFlowsModel, selectMerchantModel } from 'state/merchant/merchant.selectors';
+import { useBeamerScript } from 'apps/beamer';
 import { DashboardLoader } from '../components/DashboardLoader/DashboardLoader';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
 import { Footer } from '../components/Footer/Footer';
@@ -25,6 +26,8 @@ export function Dashboard() {
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
   const countriesModel = useSelector(selectAllCountriesModel);
   const countriesOnlyExistingModel = useSelector(selectCountriesOnlyExisting);
+  const clientIdModel = useSelector(selectClientIdModel);
+
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
@@ -74,6 +77,20 @@ export function Dashboard() {
   }, [dispatch, countriesOnlyExistingModel]);
 
   useEffect(() => {
+    const loadData = async () => {
+      if (LoadableAdapter.isPristine(clientIdModel)) {
+        try {
+          await dispatch(appLoad());
+        } catch (error) {
+          setIsError(true);
+          console.error(error);
+        }
+      }
+    };
+    loadData();
+  }, [clientIdModel, dispatch]);
+
+  useEffect(() => {
     if (merchantModel.isLoaded && LoadableAdapter.isPristine(merchantFlowsModel)) {
       dispatch(merchantFlowsLoad())
         .catch((error) => {
@@ -82,6 +99,8 @@ export function Dashboard() {
         });
     }
   }, [dispatch, merchantFlowsModel, merchantModel]);
+
+  useBeamerScript();
 
   const handleRetry = useCallback(() => {
     // hard reload only will help here

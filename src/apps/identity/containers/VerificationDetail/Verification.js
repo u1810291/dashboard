@@ -50,11 +50,12 @@ export function Verification({ identity }) {
       )}
 
       {/* Additional checks */}
-      {identity.duplicateUserStep && (
-        <Grid item>
-          <VerificationAdditionalChecks duplicateUserDetectionStep={identity.duplicateUserStep} />
-        </Grid>
-      )}
+      <Grid item>
+        <VerificationAdditionalChecks
+          duplicateUserDetectionStep={identity.duplicateUserDetectionStep}
+          ageCheck={identity.ageCheck}
+        />
+      </Grid>
 
       {/* Metadata */}
       {identity.metadata && (
