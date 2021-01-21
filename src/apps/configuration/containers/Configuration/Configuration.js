@@ -1,4 +1,5 @@
 import { Box, Divider, Grid, Hidden } from '@material-ui/core';
+import { AgeCheckConfiguration } from 'apps/AgeCheck';
 import { BiometricStep } from 'apps/biometrics';
 import { VerificationSteps } from 'apps/checks';
 import { Countries } from 'apps/countries';
@@ -16,7 +17,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAllCountriesModel } from 'state/countries/countries.selectors';
 import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
-import { AgeCheckConfiguration } from '../AgeCheck/AgeCheckConfiguration';
 
 export function Configuration() {
   const [active, setActive] = useState(0);

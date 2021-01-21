@@ -1,8 +1,8 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
-import { DuplicateUserDetectionCheck } from 'apps/checks/components/DuplicateUserDetectionCheck/DuplicateUserDetectionCheck';
+import { AgeCheck } from 'apps/AgeCheck';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { AgeCheck } from 'apps/additionalChecks/ageCheck/AgeCheck';
+import { DuplicateUserDetectionCheck } from '../DuplicateUserDetectionCheck/DuplicateUserDetectionCheck';
 import { useStyles } from './VerificationAdditionalChecks.styles';
 
 export function VerificationAdditionalChecks({ duplicateUserDetectionStep, ageCheck }) {

@@ -1,14 +1,14 @@
 import { Box, Button, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Typography } from '@material-ui/core';
-import { AGE_CHECK_DEFAULT_THRESHOLD, AGE_CHECK_MAX_THRESHOLD, AGE_CHECK_MIN_THRESHOLD, AgeCheckThresholdModes, validateAgeTheshold } from 'apps/additionalChecks/ageCheck/models/ageCheck.model';
-import { selectAgeCheckThreshold } from 'apps/additionalChecks/ageCheck/state/ageCheck.selectors';
 import { PageLoader } from 'apps/layout';
 import { BoxBordered, notification } from 'apps/ui';
 import { ERROR_COMMON } from 'models/Error.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { merchantUpdateFlow } from '../../../../state/merchant/merchant.actions';
-import { selectCurrentFlowId } from '../../../../state/merchant/merchant.selectors';
+import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
+import { selectCurrentFlowId } from 'state/merchant/merchant.selectors';
+import { AGE_CHECK_DEFAULT_THRESHOLD, AGE_CHECK_MAX_THRESHOLD, AGE_CHECK_MIN_THRESHOLD, AgeCheckThresholdModes, validateAgeTheshold } from '../../models/AgeCheck.model';
+import { selectAgeCheckThreshold } from '../../state/AgeCheck.selectors';
 import { InputScore, useStyles } from './AgeCheckConfiguration.styles';
 
 export function AgeCheckConfiguration() {
