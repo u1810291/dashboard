@@ -11,6 +11,7 @@ import { useOverlay } from '../../../overlay/hooks/Overlay.hook';
 import { ChangePasswordModal } from '../../components/ChangePasswordModal/ChangePasswordModal';
 import { EditableInput } from '../../components/EditableInput/EditableInput';
 import { useStyles } from './CompanySettings.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function CompanySettings() {
   const intl = useIntl();
@@ -106,6 +107,7 @@ export function CompanySettings() {
                 onClick={openChangePasswordModal}
                 tabIndex={0}
                 className={classes.button}
+                data-qa={QATags.Settings.ChangePassword.Change}
               >
                 {intl.formatMessage({ id: 'Settings.companySettings.changePassword' })}
               </Button>

@@ -25,6 +25,7 @@ export function CascadeMenuButton({ tab, selectedId, defaultOpen = false, childr
         })}
         onClick={handleOnClick}
         fullWidth
+        data-qa={tab.qa}
       >
         <Box pr={0.4}>{intl.formatMessage({ id: `forDevs.sideMenu.${tab.id}` })}</Box>
         <FiChevronDown />

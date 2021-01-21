@@ -120,7 +120,7 @@ export function DashboardMenu() {
           <NavLink
             exact
             to={isOwner ? Routes.root : Routes.list.root}
-            data-qa={QATags.Navigation.Top.Logo}
+            data-qa={QATags.Menu.Logo}
           >
             <Box px={2} pt={2} pb={1} className={classes.logo}>
               <MatiLogo width={100} height={30} />
@@ -134,6 +134,7 @@ export function DashboardMenu() {
               color="primary"
               onClick={toggleDrawerOpen}
               startIcon={open ? <FiChevronsLeft /> : <FiChevronsRight />}
+              data-qa={QATags.Menu.RollUpButton}
             >
               {intl.formatMessage({ id: 'dashboard.menu.rollUp' })}
             </Button>
@@ -175,6 +176,7 @@ export function DashboardMenu() {
                 color="primary"
                 onClick={openInviteModal}
                 startIcon={<FiPlusCircle />}
+                data-qa={QATags.Menu.InviteTeammate}
               >
                 {open && intl.formatMessage({ id: 'settings.teamSettings.inviteTeammate' })}
               </Button>
@@ -187,7 +189,7 @@ export function DashboardMenu() {
               label={intl.formatMessage({ id: 'dashboard.menu.settings' })}
               icon={<FiSettings />}
               color="common.black7"
-              qa={QATags.Navigation.Top.Account}
+              qa={QATags.Menu.Account}
               show={isOwner}
             />
           </Box>
@@ -201,6 +203,7 @@ export function DashboardMenu() {
               color="primary"
               onClick={handleLogout}
               startIcon={<FiLogOut />}
+              data-qa={QATags.Menu.Logout}
             >
               {intl.formatMessage({ id: 'apps.settings.signout' })}
             </Button>

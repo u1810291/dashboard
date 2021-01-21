@@ -18,6 +18,7 @@ import { DynamicHeader } from '../DynamicHeader/DynamicHeader';
 import { NeedToReview } from '../NeedToReview/NeedToReview';
 import { VerificationsTotal } from '../VerificationsTotal/VerificationsTotal';
 import { useStyles } from './AnalyticsContainer.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function AnalyticsContainer() {
   const classes = useStyles();
@@ -57,7 +58,7 @@ export function AnalyticsContainer() {
                 <DynamicHeader flows={flows} />
               </Grid>
               <Grid container item xs={3} justify="flex-end">
-                <OpenFilter onSetFilter={setFilter} selectFilter={metricsFilter} onClearFilter={analyticsClearFilter} isUTCDates>
+                <OpenFilter qa={QATags.Analytics.FilterButton} onSetFilter={setFilter} selectFilter={metricsFilter} onClearFilter={analyticsClearFilter} isUTCDates>
                   <ByFlows />
                   <ByCountries />
                 </OpenFilter>

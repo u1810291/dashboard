@@ -8,6 +8,7 @@ import { ReactComponent as ImgAgent } from 'assets/modal-role-agent.svg';
 import { cleanText, email, required } from 'lib/validations';
 import CSS from './TeamInviteForm.module.scss';
 import { RoleField } from '../../RoleField/RoleField';
+import { QATags } from '../../../../models/QA.model';
 
 const formikSettings = {
   initialValues: {
@@ -32,6 +33,7 @@ export function TeamInviteForm({ onSubmit, innerRef }) {
 
   const roleOptions = [
     {
+      qaTag: QATags.Collaborators.Role.Admin,
       label: intl.formatMessage({
         id: 'teamTable.invite.form.roles.admin',
       }),
@@ -42,6 +44,7 @@ export function TeamInviteForm({ onSubmit, innerRef }) {
       image: <ImgAdmin />,
     },
     {
+      qaTag: QATags.Collaborators.Role.Agent,
       label: intl.formatMessage({
         id: 'teamTable.invite.form.roles.agent',
       }),
@@ -81,6 +84,7 @@ export function TeamInviteForm({ onSubmit, innerRef }) {
                 {intl.formatMessage({ id: 'teamTable.invite.form.labels.firstName' })}
               </InputLabel>
               <Field
+                inputProps={{ 'data-qa': QATags.Collaborators.FirstNameInput }}
                 as={TextField}
                 name="firstName"
                 variant="outlined"
@@ -95,6 +99,7 @@ export function TeamInviteForm({ onSubmit, innerRef }) {
                 {intl.formatMessage({ id: 'teamTable.invite.form.labels.lastName' })}
               </InputLabel>
               <Field
+                inputProps={{ 'data-qa': QATags.Collaborators.LastNameInput }}
                 as={TextField}
                 name="lastName"
                 variant="outlined"
@@ -109,6 +114,7 @@ export function TeamInviteForm({ onSubmit, innerRef }) {
                 {intl.formatMessage({ id: 'teamTable.invite.form.labels.email' })}
               </InputLabel>
               <Field
+                inputProps={{ 'data-qa': QATags.Collaborators.EmailInput }}
                 as={TextField}
                 type="input"
                 name="email"

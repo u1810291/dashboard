@@ -14,6 +14,7 @@ import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import { AddNewFlowModal } from '../../components/AddNewFlowDialog/AddNewFlowModal';
 import { flowNameValidator } from '../../validators/FlowName.validator';
 import { useStyles } from './VerificationFlows.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function VerificationFlows() {
   const classes = useStyles();
@@ -92,6 +93,7 @@ export function VerificationFlows() {
                     disableElevation
                     onClick={handleAddNewFlow}
                     className={classes.button}
+                    data-qa={QATags.Flows.CreateNewFlowButton}
                   >
                     <FiPlusCircle />
                     {intl.formatMessage({ id: 'VerificationFlow.page.button' })}

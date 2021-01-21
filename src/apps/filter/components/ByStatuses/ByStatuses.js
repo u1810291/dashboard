@@ -6,6 +6,7 @@ import { useIntl } from 'react-intl';
 import { ReactComponent as CheckboxOff } from '../../../../assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from '../../../../assets/icon-checkbox-on.svg';
 import { useStyles } from './ByStatuses.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export const ByStatuses = ({ bufferedFilter: { status }, onHandleFilterChange }) => {
   const intl = useIntl();
@@ -32,7 +33,7 @@ export const ByStatuses = ({ bufferedFilter: { status }, onHandleFilterChange })
           <Box ml={0.6} component="span">{intl.formatMessage({ id: 'VerificationFilter.status.title' })}</Box>
         </Box>
       </Typography>
-      <Paper className={classes.status}>
+      <Paper className={classes.status} data-qa={QATags.Filter.byStatus}>
         {statuses.map((item) => (
           <FormControlLabel
             key={item.id}

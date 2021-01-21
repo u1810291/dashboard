@@ -22,6 +22,7 @@ export function CreateTab({ tab, onClick, selectedId }) {
       className={cn(classes.button, { [classes.selected]: tab.id === selectedId })}
       onClick={() => onClick(tab.id)}
       id={tab.id}
+      data-qa={tab.qa}
       fullWidth
     >
       {intl.formatMessage({ id: `forDevs.sideMenu.${tab.id}` })}

@@ -4,6 +4,7 @@ import { FiExternalLink, FiSmartphone, FiCode, FiGlobe } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { TabID } from '../../../../models/ForDevelopers.model';
 import { useStyles } from './GithubDocumentationBanner.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function GithubDocumentationBanner({ platform, documentationURL, tabId }) {
   const classes = useStyles();
@@ -47,6 +48,7 @@ export function GithubDocumentationBanner({ platform, documentationURL, tabId })
           className={classes.button}
           variant="outlined"
           fullWidth
+          data-qa={QATags.Integration.Doc.Banner}
         >
           {intl.formatMessage({ id: 'forDevs.documentationBanner.button' }, { platform })}
           <FiExternalLink />

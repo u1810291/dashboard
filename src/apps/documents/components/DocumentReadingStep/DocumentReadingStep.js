@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { documentUpdate } from 'state/identities/identities.actions';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
 import { useStyles } from './DocumentReadingStep.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function DocumentReadingStep({ documentId, step, fields = [], identityId, isEditable, onReading }) {
   const intl = useIntl();
@@ -71,7 +72,7 @@ export function DocumentReadingStep({ documentId, step, fields = [], identityId,
         }}
       >
         {({ handleSubmit }) => (
-          <Form onSubmit={handleSubmit} className={classes.wrapper}>
+          <Form onSubmit={handleSubmit} className={classes.wrapper} data-qa={QATags.Document.Change.Form}>
             {fields.map(({ id }) => {
               const valueLabel = intl.formatMessage({
                 id: `identity.field.${id}`,
@@ -94,10 +95,18 @@ export function DocumentReadingStep({ documentId, step, fields = [], identityId,
               );
             })}
             <Grid container justify="space-between" className={classes.buttonWrapper}>
-              <Button className={`${classes.button} ${classes.buttonHalf}`} type="submit">
+              <Button
+                className={`${classes.button} ${classes.buttonHalf}`}
+                type="submit"
+                data-qa={QATags.Document.Change.Save}
+              >
                 {intl.formatMessage({ id: 'DocumentReadingStep.btn.save' })}
               </Button>
-              <Button className={`${classes.button} ${classes.buttonHalf}`} onClick={() => setIsEditingMode(false)}>
+              <Button
+                className={`${classes.button} ${classes.buttonHalf}`}
+                onClick={() => setIsEditingMode(false)}
+                data-qa={QATags.Document.Change.Cancel}
+              >
                 {intl.formatMessage({ id: 'cancel' })}
               </Button>
             </Grid>
@@ -131,7 +140,12 @@ export function DocumentReadingStep({ documentId, step, fields = [], identityId,
       </Grid>
       {isEditable && (
         <Box className={classes.buttonWrapper}>
-          <Button className={classes.button} fullWidth onClick={() => setIsEditingMode(true)}>
+          <Button
+            className={classes.button}
+            fullWidth
+            onClick={() => setIsEditingMode(true)}
+            data-qa={QATags.Document.Change.EditData}
+          >
             <img src={Icon} alt="" />
             {intl.formatMessage({ id: 'DocumentReadingStep.btn.edit' })}
           </Button>

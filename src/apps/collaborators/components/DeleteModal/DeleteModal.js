@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import { useIntl } from 'react-intl';
 import Img from 'assets/modal-delete.svg';
+import { QATags } from '../../../../models/QA.model';
 
 export function DeleteModal({ className, user, onSubmit, ...modalProps }) {
   const intl = useIntl();
@@ -18,6 +19,7 @@ export function DeleteModal({ className, user, onSubmit, ...modalProps }) {
       subtitle={intl.formatMessage({ id: 'teamTable.deleteModal.subtitle' })}
     >
       <Button
+        data-qa={QATags.Modal.Delete.ConfirmDeleteButton}
         className="btn-delete"
         type="submit"
         onClick={() => onSubmit(user.id)}

@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { notification } from 'apps/ui';
 import { useStyles } from './StatusSelector.styles';
 import { sendWebhook } from '../../../../state/webhooks/webhooks.actions';
+import { QATags } from '../../../../models/QA.model';
 
 export function StatusSelector({ statusId, identityId, onSelect }) {
   const intl = useIntl();
@@ -56,7 +57,7 @@ export function StatusSelector({ statusId, identityId, onSelect }) {
   }, [onSelect, dispatch, identityId, current, intl]);
 
   return (
-    <Card className={classes.wrapper}>
+    <Card className={classes.wrapper} data-qa={QATags.Verification.StatusSelector.Button}>
       <Box px={2} py={1.2} bgcolor={current?.color} color={current?.textColor} onClick={toggleOpen} className={classes.wrapper}>
         <Typography variant="body1">
           {intl.formatMessage({ id: 'statusSelect.status' })}
@@ -76,7 +77,7 @@ export function StatusSelector({ statusId, identityId, onSelect }) {
       {open && (
         <Card className={classes.openItems}>
           <Box p={2} pl={1.5}>
-            <Grid container direction="column" spacing={2}>
+            <Grid container direction="column" spacing={2} data-qa={QATags.Verification.StatusSelector.Content}>
               {statuses.map((item) => (
                 <Grid
                   className={item.isSelectable && current.isChangeable ? classes.item : classes.itemNotChangeable}

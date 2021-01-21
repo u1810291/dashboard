@@ -1,3 +1,5 @@
+import { QATags } from './QA.model';
+
 export const TabID = {
   api: 'api',
   sdk: 'sdk',
@@ -24,36 +26,40 @@ export const InformationImageTypes = {
 };
 
 export const menuStructure = [
-  { id: TabID.api },
+  { id: TabID.api, qa: QATags.Integration.Tabs.Api },
   {
     id: TabID.sdk,
+    qa: QATags.Integration.Tabs.Sdk,
     defaultOpen: true,
     children: [
-      { id: TabID.web },
+      { id: TabID.web, qa: QATags.Integration.Tabs.Web },
       {
         id: TabID.mobile,
+        qa: QATags.Integration.Tabs.Mobile,
         children: [
           {
             id: TabID.native,
+            qa: QATags.Integration.Tabs.Native,
             children: [
-              { id: TabID.ios },
-              { id: TabID.android },
+              { id: TabID.ios, qa: QATags.Integration.Tabs.Ios },
+              { id: TabID.android, qa: QATags.Integration.Tabs.Android },
             ],
           },
           {
             id: TabID.hybrid,
+            qa: QATags.Integration.Tabs.Hybrid,
             children: [
-              { id: TabID.reactNative },
-              { id: TabID.xamarin },
-              { id: TabID.cordova },
-              { id: TabID.cordovaIonic },
+              { id: TabID.reactNative, qa: QATags.Integration.Tabs.ReactNative },
+              { id: TabID.xamarin, qa: QATags.Integration.Tabs.Xamarin },
+              { id: TabID.cordova, qa: QATags.Integration.Tabs.Cordova },
+              { id: TabID.cordovaIonic, qa: QATags.Integration.Tabs.CordovaIonic },
             ],
           },
         ],
       },
     ],
   },
-  { id: TabID.directLink },
+  { id: TabID.directLink, qa: QATags.Integration.Tabs.DirectLink },
 ];
 
 export function getIsSelected(tab, selectedId) {
