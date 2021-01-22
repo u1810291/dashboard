@@ -10,8 +10,9 @@ import { VerificationSummaryPDF } from './components/VerificationSummaryPDF/Veri
 import { VerificationMetadataPDF } from './components/VerificationMetadataPDF/VerificationMetadataPDF';
 import { VerificationAdditionalChecksPDF } from './components/VerificationAdditionalChecksPDF/VerificationAdditionalChecksPDF';
 import { Nom151CheckPDF } from './components/Nom151CheckPDF/Nom151CheckPDF';
+import { getNom151FileContent } from '../../models/Identity.model';
 
-export function IdentityDocumentPDF({ identity }) {
+export function IdentityDocumentPDF({ identity, nom151FileContent }) {
   if (!identity) {
     return null;
   }
@@ -58,7 +59,7 @@ export function IdentityDocumentPDF({ identity }) {
         {/* digitalSignature */}
         {identity.digitalSignature && (
           <View>
-            <Nom151CheckPDF data={identity.digitalSignature} />
+            <Nom151CheckPDF data={identity.digitalSignature} nom151FileContent={nom151FileContent} />
           </View>
         )}
       </Page>
@@ -66,11 +67,12 @@ export function IdentityDocumentPDF({ identity }) {
   );
 }
 
-export function getIdentityDocumentBlob(identity) {
+export async function getIdentityDocumentBlob(identity) {
+  const nom151FileContent = await getNom151FileContent(identity.digitalSignature);
   return pdf(
     <StoreProvider>
       <AppIntlProvider>
-        <IdentityDocumentPDF identity={identity} />
+        <IdentityDocumentPDF identity={identity} nom151FileContent={nom151FileContent} />
       </AppIntlProvider>
     </StoreProvider>,
   ).toBlob();
