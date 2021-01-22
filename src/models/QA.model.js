@@ -30,10 +30,10 @@ export const QATags = {
       SubmitButton: 'login-button-submit',
     },
     Recovery: {
-      EmailInput: 'login-input-recovery-email',
-      ResetPasswordSubmit: 'login-button-reset-password-submit',
-      GoBackButton: 'login-button-go-back',
-      ForgotPasswordButton: 'login-button-forgot-password',
+      EmailInput: 'recovery-input-email',
+      ResetPasswordSubmit: 'recovery-button-reset-password-submit',
+      GoBackButton: 'recovery-button-go-back',
+      ForgotPasswordButton: 'recovery-button-forgot-password',
     },
     SignUp: {
       EmailInput: 'sign-up-input-email',
@@ -104,6 +104,10 @@ export const QATags = {
       Configuration: 'product-tab-configuration',
       GovChecks: 'product-tab-gov-checks',
     },
+  },
+
+  MatiButton: {
+    ColorPickerButton: 'product-color-picker-button',
   },
 
   Integration: {
