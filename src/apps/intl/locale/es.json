@@ -1133,7 +1133,7 @@
   "Product.configuration.ageCheck.custom.title": "Restricción de edad personalizada",
   "Product.configuration.ageCheck.default.subtitle": "18 años",
   "Product.configuration.ageCheck.default.title": "Defecto",
-  "Product.configuration.ageCheck.subtitle": "Puedes definir tu propia restricción de edad o utilizar la edad predeterminada (18). Cualquier usuario menor de la edad que selecciones adquirirá el estado \"rechazado\".",
+  "Product.configuration.ageCheck.subtitle": "Los usuarios menores de 18 años que pasen por nuestro flujo de verificación adquirirán el estado \"rechazado\" automáticamente.\n También puedes cambiar el requisito de edad mínima para adaptarse mejor a tus necesidades de negocio.",
   "Product.configuration.biometric": "Requisitos biométricos",
   "Product.configuration.buttonsColor": "Color de los botones",
   "Product.configuration.country": "Restricción de país",
