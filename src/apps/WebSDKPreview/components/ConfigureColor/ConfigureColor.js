@@ -7,6 +7,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { flowStyleUpdate } from 'state/merchant/merchant.actions';
 import { selectColor } from 'state/merchant/merchant.selectors';
+import { QATags } from 'models/QA.model';
 import { ColorCheckButton } from '../ColorCheckButton/ColorCheckButton';
 import { ReactComponent as ColorPicker } from './color-picker.svg';
 import CSS from './ConfigureColor.module.css';
@@ -90,6 +91,7 @@ export function ConfigureColor() {
           onKeyUp={() => {}}
           role="button"
           tabIndex="0"
+          data-qa={QATags.MatiButton.ColorPickerButton}
         >
           <ColorPicker
             className={CSS.colorPickerButton}
