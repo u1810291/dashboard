@@ -11,7 +11,7 @@ import { QATags } from 'models/QA.model';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { appLoad, updateCurrentFlowId } from 'state/merchant/merchant.actions';
+import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
 import { useStyles } from './Product.styles';
 
@@ -46,10 +46,6 @@ export function Product() {
       dispatch(updateCurrentFlowId(id));
     }
   }, [currentFlow, dispatch, id]);
-
-  useEffect((() => {
-    dispatch(appLoad());
-  }), [dispatch]);
 
   if (!currentFlow) {
     return <Page404 />;
