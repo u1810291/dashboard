@@ -21,7 +21,15 @@ export function findRelativeParent(element) {
 export function Overlay({ withBlur = false, inline = false, onClose, options, children }) {
   const overlayRef = useRef();
 
-  const handleClose = useCallback((e) => e.target === e.currentTarget && (options?.onClose() || onClose()), [onClose, options]);
+  const handleClose = useCallback((e) => {
+    if (e.target === e.currentTarget) {
+      if (options?.onClose) {
+        options.onClose();
+      } else {
+        onClose();
+      }
+    }
+  }, [onClose, options]);
 
   useEffect(() => {
     const parent = findRelativeParent(overlayRef.current);
