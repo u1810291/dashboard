@@ -1,5 +1,7 @@
 import { get } from 'lodash';
 import { FiSmartphone, FiTablet } from 'react-icons/fi';
+import { DevicesTableTypes } from 'apps/fingerPrint/fingerPrint.model';
+import { ReactComponent as DesktopGrayIcon } from 'apps/identity/icons/desktop-gray.svg';
 import { ReactComponent as AndroidIcon } from '../apps/identity/icons/android.svg';
 import { ReactComponent as AppleIcon } from '../apps/identity/icons/apple.svg';
 import { ReactComponent as BlueBoxIcon } from '../apps/identity/icons/blue-box.svg';
@@ -121,6 +123,10 @@ export const BrowserIcons = {
   [BrowserTypes.Yandex]: YandexIcon,
 };
 
+export function getDeviceTypeByString(str) {
+  return Object.values(DeviceTypes).find((type) => new RegExp(type, 'i').test(str));
+}
+
 export function getDevicePlatformType(identity) {
   const str = getDevicePlatform(identity);
   const value = Object.values(PlatformTypes).find((type) => new RegExp(type, 'i').test(str));
@@ -174,5 +180,13 @@ export function getDeviceType(identity) {
       return DeviceTypes.Mobile;
     default:
       return null;
+  }
+}
+
+export function getAnalyticsDeviceIcon(name, deviceType) {
+  if (deviceType === DevicesTableTypes.browsers) {
+    return BrowserIcons[getDeviceBrowserTypeByString(name)];
+  } else {
+    return getDeviceTypeByString(name) === DeviceTypes.Desktop ? DesktopGrayIcon : DeviceIcons[DeviceTypes.Mobile];
   }
 }
