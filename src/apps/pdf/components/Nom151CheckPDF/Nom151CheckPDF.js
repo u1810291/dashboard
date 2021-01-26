@@ -1,25 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
-import { getFileContents } from 'lib/client/checks';
 import { Text, View } from '@react-pdf/renderer';
 import { styles } from './Nom151CheckPDF.styles';
 import { commonStyles } from '../../PDF.styles';
 
-export function Nom151CheckPDF({ data = {} }) {
+export function Nom151CheckPDF({ data = {}, nom151FileContent = '...' }) {
   const intl = useIntl();
-  const [fileContent, setFileContent] = useState('...');
-  useEffect(() => {
-    async function fetchData() {
-      // TODO: do this with identity load
-      try {
-        const file = await getFileContents(data.publicUrl);
-        setFileContent(file?.data || data.publicUrl);
-      } catch {
-        setFileContent(data.publicUrl);
-      }
-    }
-    fetchData();
-  }, [data]);
 
   return (
     <View style={commonStyles.paper}>
@@ -28,7 +14,7 @@ export function Nom151CheckPDF({ data = {} }) {
       </Text>
       <View style={styles.wrapper}>
         <Text style={styles.link}>
-          {fileContent}
+          {nom151FileContent}
         </Text>
       </View>
       <Text style={[commonStyles.titleBoldMain, commonStyles.mb15]}>

@@ -17,6 +17,8 @@ import ChromeIcon from './chrome.png';
 import SafariIcon from './safari.png';
 import OperaIcon from './opera.png';
 import FirefoxIcon from './firefox.png';
+import EdgeIcon from './edge.png';
+import YandexIcon from './yandex.png';
 import GreenViewIcon from './green-box.png';
 import SamsungIcon from './samsung.png';
 import OtherChecksSuccess from './icon-other-checks-success.png';
@@ -78,6 +80,8 @@ export const BrowserIcons = {
   [BrowserTypes.OKhttp]: GreenViewIcon,
   [BrowserTypes.Java]: GreenViewIcon,
   [BrowserTypes.Other]: BlueViewIcon,
+  [BrowserTypes.Edge]: EdgeIcon,
+  [BrowserTypes.Yandex]: YandexIcon,
 };
 
 export const WarningIcons = {

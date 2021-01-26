@@ -1133,7 +1133,7 @@
   "Product.configuration.ageCheck.custom.title": "Custom age restriction",
   "Product.configuration.ageCheck.default.subtitle": "18 years old",
   "Product.configuration.ageCheck.default.title": "Default",
-  "Product.configuration.ageCheck.subtitle": "You can define your own age restriction or, use the default (18). Any users who are younger than the age you select will acquire the \"rejected\" status.",
+  "Product.configuration.ageCheck.subtitle": "Any users who go through our verification flow that are younger than 18 will acquire the \"rejected\" status automatically. \nYou can also change the minimum age requirement to best fit your business needs.",
   "Product.configuration.biometric": "Biometric requirements",
   "Product.configuration.buttonsColor": "Button color",
   "Product.configuration.country": "Country restriction",

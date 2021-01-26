@@ -2,22 +2,16 @@ import { Box, Paper, Typography } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { SyntaxHighlighter, CopyToClipboard } from 'apps/ui';
-import { getFileContents } from 'lib/client/checks';
 import { useStyles } from './Nom151Check.styles';
+import { getNom151FileContent } from 'models/Identity.model';
 
 export function Nom151Check({ data = {} }) {
   const classes = useStyles();
   const intl = useIntl();
   const [fileContent, setFileContent] = useState('...');
   useEffect(() => {
-    // TODO: do this with identity load
     async function fetchData() {
-      try {
-        const file = await getFileContents(data.publicUrl);
-        setFileContent(file.data);
-      } catch {
-        setFileContent(data.publicUrl);
-      }
+      setFileContent(await getNom151FileContent(data));
     }
     fetchData();
   }, [data]);

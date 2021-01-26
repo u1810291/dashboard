@@ -6,7 +6,7 @@ import { commonStyles } from '../../PDF.styles';
 import { VerificationCheckCardPDF } from '../VerificationCheckCardPDF/VerificationCheckCardPDF';
 import { VerificationSummaryTitlePDF } from '../VerificationSummaryTitlePDF/VerificationSummaryTitlePDF';
 import { StepStatus } from '../../../../models/Step.model';
-import { getDeviceBrowserLabel, getDeviceModel, getDeviceOSLabel, getDevicePlatformType, getDeviceType, PlatformTypes, getDeviceBrowserType, getDeviceOSType } from '../../../../models/DeviceCheck.model';
+import { getDeviceBrowserLabel, getDeviceModel, getDeviceOSLabel, getDevicePlatformType, getDeviceType, PlatformTypes, getDeviceBrowserType, getDeviceOSType, BrowserTypes, DeviceTypes, OSTypes } from '../../../../models/DeviceCheck.model';
 import ModelIcon from '../../assets/model-icon.png';
 import { BrowserIcons, DeviceIcons, OSIcons } from '../../assets';
 import { VerificationSummaryTitleTypes } from '../../../../models/Identity.model';
@@ -20,9 +20,9 @@ export function VerificationDeviceCheckPDF({ identity }) {
   const osLabel = getDeviceOSLabel(identity);
   const browserLabel = getDeviceBrowserLabel(identity);
 
-  const DeviceIcon = DeviceIcons[deviceType];
-  const OSIcon = OSIcons[getDeviceOSType(identity)];
-  const BrowserIcon = BrowserIcons[getDeviceBrowserType(identity)];
+  const DeviceIcon = DeviceIcons[deviceType] || DeviceIcons[DeviceTypes.Desktop];
+  const OSIcon = OSIcons[getDeviceOSType(identity)] || OSIcons[OSTypes.Unknown];
+  const BrowserIcon = BrowserIcons[getDeviceBrowserType(identity)] || BrowserIcons[BrowserTypes.Other];
 
   return (
     <VerificationCheckCardPDF

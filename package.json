@@ -1,6 +1,6 @@
 {
   "name": "mati-dashboard",
-  "version": "1.13.8",
+  "version": "1.13.9",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.10",

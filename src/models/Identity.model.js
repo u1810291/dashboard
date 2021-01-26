@@ -4,6 +4,7 @@ import { getDocumentExtras } from 'models/Document.model';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getIpCheckUrl } from './IpCheck.model';
 import { Routes } from './Router.model';
+import { getFileContents } from '../lib/client/checks';
 
 export const DEFAULT_STATUS_COLOR = '#ADADAD';
 
@@ -198,4 +199,15 @@ export function getDownloadableFileName(identity) {
   const flowName = get(identity, '_embedded.verification.flow.name', null);
   const { id, fullName: name } = identity;
   return `${flowName?.replaceAll(' ', '_').concat('_')}${name ? name.replaceAll(' ', '_') : id}`;
+}
+
+export async function getNom151FileContent(digitalSignatureData = {}) {
+  let fileContent;
+  try {
+    const file = await getFileContents(digitalSignatureData.publicUrl);
+    fileContent = file?.data || digitalSignatureData.publicUrl;
+  } catch {
+    fileContent = digitalSignatureData.publicUrl;
+  }
+  return fileContent;
 }
