@@ -1,9 +1,9 @@
 import { Box, Paper, Typography } from '@material-ui/core';
-import React, { useState, useEffect } from 'react';
-import { useIntl } from 'react-intl';
-import { SyntaxHighlighter, CopyToClipboard } from 'apps/ui';
-import { useStyles } from './Nom151Check.styles';
+import { CopyToClipboard, SyntaxHighlighter } from 'apps/ui';
 import { getNom151FileContent } from 'models/Identity.model';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useStyles } from './Nom151Check.styles';
 
 export function Nom151Check({ data = {} }) {
   const classes = useStyles();
