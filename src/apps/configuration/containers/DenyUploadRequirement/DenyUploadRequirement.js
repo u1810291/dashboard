@@ -20,9 +20,6 @@ export function DenyUploadRequirement() {
 
   return (
     <Box>
-      <Typography variant="subtitle1" gutterBottom color="primary">
-        {intl.formatMessage({ id: 'flow.verificationRequirement.title' })}
-      </Typography>
       <Box className={classes.restriction}>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="body1" className={classes.restrictionLabel}>

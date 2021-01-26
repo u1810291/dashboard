@@ -622,7 +622,6 @@
   "flow.table.type.verification": "Verificação",
   "flow.verificationRequirement.description": "Se ativado, seus usuários serão obrigados a tirar fotos de seus documentos. Caso contrário, os usuários poderão tirar uma foto ou fazer upload de uma imagem da galeria.",
   "flow.verificationRequirement.label": "Restringir o upload de imagens da galeria",
-  "flow.verificationRequirement.title": "Adicionar requisito de verificação",
   "flow.verificationRequirement.warning": "Atualmente, é compatível apenas com Web SDK (móvel, desktop com redirecionamento para dispositivo móvel). Outros tipos de integração ignoram esta alternância",
   "flow.watchlistStep.no": "Não",
   "flow.watchlistStep.title": "Funcionalidades de Segurança pro:",

@@ -622,7 +622,6 @@
   "flow.table.type.verification": "Verificación",
   "flow.verificationRequirement.description": "Si está habilitado, sus usuarios deberán tomar fotos de sus documentos. De lo contrario, los usuarios podrán tomar una foto o cargar una imagen de la galería.",
   "flow.verificationRequirement.label": "Restringir la carga de imágenes desde la galería",
-  "flow.verificationRequirement.title": "Agregar requisito de verificación",
   "flow.verificationRequirement.warning": "Actualmente, es compatible solo con Web SDK (móvil y escritorio con redirección a dispositivo móvil). Otros tipos de integración ignoran esta opción.",
   "flow.watchlistStep.no": "No",
   "flow.watchlistStep.title": "Características de Safety pro:",
