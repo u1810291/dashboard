@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectClientIdModel, selectMerchantBusinessName } from 'state/merchant/merchant.selectors';
@@ -5,20 +6,29 @@ import { selectUserEmail } from 'apps/user/state/user.selectors';
 
 const isBeamerLoaded = React.createRef();
 
+window.beamer_config = window.beamer_config || {
+  product_id: process.env.REACT_APP_BEAMER_PRODUCT_ID,
+  button_position: 'bottom-right',
+};
+
 export function useBeamerScript() {
   const clientIdModel = useSelector(selectClientIdModel);
   const name = useSelector(selectMerchantBusinessName) || ' ';
   const email = useSelector(selectUserEmail);
 
   useEffect(() => {
-    /* eslint-disable camelcase */
+    if (!window.beamer_config.product_id) {
+      return () => {};
+    }
+
+    const prevConfig = window.beamer_config;
+
     const user_id = clientIdModel?.value;
     const [user_firstname, user_lastname] = name.split(' ');
     const user_email = email;
 
     window.beamer_config = {
-      product_id: process.env.REACT_APP_BEAMER_PRODUCT_ID,
-      button_position: 'bottom-right',
+      ...window.beamer_config,
       ...(user_id && {
         user_id,
         filter: 'registered',
@@ -27,7 +37,10 @@ export function useBeamerScript() {
       ...(user_lastname && { user_lastname }),
       ...(user_email && { user_email }),
     };
-    /* eslint-enable camelcase */
+
+    return () => {
+      window.beamer_config = prevConfig;
+    };
   }, [clientIdModel, email, name]);
 
   useEffect(() => {
