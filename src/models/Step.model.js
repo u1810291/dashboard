@@ -15,6 +15,7 @@ export const DocumentStepTypes = {
   CURP: 'mexican-curp-validation',
   INE: 'mexican-ine-validation',
   RFC: 'mexican-rfc-validation',
+  BrazilianDatavalid: 'brazilian-datavalid-validation',
   ColombianRegistraduria: 'colombian-registraduria-validation',
   ArgentinianRenaper: 'argentinian-renaper-validation',
   PeruvianReniec: 'peruvian-reniec-validation',
@@ -54,8 +55,9 @@ export const DocumentMxSteps = [
 
 export const CountrySpecificChecks = [
   ...DocumentMxSteps,
-  DocumentStepTypes.ColombianRegistraduria,
   DocumentStepTypes.ArgentinianRenaper,
+  DocumentStepTypes.BrazilianDatavalid,
+  DocumentStepTypes.ColombianRegistraduria,
   DocumentStepTypes.PeruvianReniec,
 ];
 

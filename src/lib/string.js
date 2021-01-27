@@ -8,6 +8,12 @@ export const FieldTitlizedPatterns = [
   'address',
   'gender',
   'nationality',
+  'taxstatus',
+
+];
+
+export const FieldTitlizedDashedPatterns = [
+  'documenttype',
 ];
 
 export const FieldDatePatterns = [
@@ -16,6 +22,10 @@ export const FieldDatePatterns = [
 
 export const FieldBooleanPatterns = [
   'deceased',
+];
+
+export const FieldMatchObjectPatterns = [
+  'governmentFaceMatch',
 ];
 
 export function titleCase(string = '') {
@@ -31,6 +41,10 @@ export function formatValue(label, value) {
     return titleize(value || '');
   }
 
+  if (includesPattern(label, FieldTitlizedDashedPatterns)) {
+    return titleize((value || '').replace('-', ' '));
+  }
+
   if (includesPattern(label, FieldDatePatterns)) {
     return formatDate(value);
   }
@@ -40,6 +54,10 @@ export function formatValue(label, value) {
 
 export function useFormattedValue(label, value) {
   const intl = useIntl();
+
+  if (includesPattern(label, FieldMatchObjectPatterns)) {
+    return `${Math.floor((value.score) * 100)} ${intl.formatMessage({ id: `identity.field.${label}.units` })}`;
+  }
 
   if (includesPattern(label, FieldBooleanPatterns)) {
     return intl.formatMessage({ id: value ? 'yes' : 'no' });
