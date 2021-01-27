@@ -26,18 +26,13 @@ export function GovCheckSetup() {
     setSelectedCountry(value);
   }, []);
 
-  const handleSave = useCallback((values) => {
-    const verificationPatterns = { ...pattern };
-    values.forEach((item) => {
-      verificationPatterns[item.id] = item.value;
-    });
-    dispatch(configurationFlowUpdate({ verificationPatterns }));
-  }, [dispatch, pattern]);
-
-  const handleChangeCheck = useCallback((values) => {
-    handleSave(values);
-    setCheckList(values);
-  }, [handleSave]);
+  const handleChangeCheck = useCallback(async (id, value) => {
+    await dispatch(configurationFlowUpdate({
+      verificationPatterns: {
+        [id]: value,
+      },
+    }));
+  }, [dispatch]);
 
   return (
     <Box p={2}>
