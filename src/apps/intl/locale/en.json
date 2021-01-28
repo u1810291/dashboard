@@ -1213,7 +1213,7 @@
   "SecurityCheckStep.argentinianRenaper.fullNameMismatch": "Name mismatch",
   "SecurityCheckStep.argentinianRenaper.fullNameMismatch.message": "The name found in the Renaper does not match the name on the ID card. Please visit the Renaper website, or ask the user to verify their document again",
   "SecurityCheckStep.brazilian-cpf-validation.title": "Brazilian CPF",
-  "SecurityCheckStep.brazilianCpf.dataMismatch.message": "Some on or more fields on the document do not match CPF records. Please review this profile before accepting/rejecting",
+  "SecurityCheckStep.brazilianCpf.dataMismatch.message": "One or more fields on the document do not match CPF records. Please review this profile before accepting/rejecting",
   "SecurityCheckStep.brazilianCpf.notEnoughParams.message": "We could not extract all the necessary fields from the document to access the CPF database.",
   "SecurityCheckStep.brazilianCpf.notValidParams.message": "Invalid parameters",
   "SecurityCheckStep.checking": "Checking...",
