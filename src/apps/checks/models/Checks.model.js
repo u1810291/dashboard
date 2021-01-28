@@ -26,7 +26,6 @@ export const ChecksList = [
     text: 'Product.checks.duplicateUserDetection.text',
     badgeText: 'Product.checks.duplicateUserDetection.badgeText',
     startIcon: FiUsers,
-    availableOnlyForMerchantTag: MerchantTags.CanUseDuplicateUserDetection,
   },
   {
     id: CheckTypes.Nom151Check,
