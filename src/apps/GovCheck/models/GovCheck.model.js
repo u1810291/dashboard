@@ -98,6 +98,9 @@ export const govCheckDisplayOptions = {
     documentNumber: {
       inline: true,
     },
+    expirationDate: {
+      inline: true,
+    },
   },
 };
 
