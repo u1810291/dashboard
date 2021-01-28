@@ -1,7 +1,7 @@
 import { DocumentStepTypes } from 'models/Step.model';
 
 export const GovCheckStepTypes = {
-  [DocumentStepTypes.BrazilianDatavalid]: {
+  [DocumentStepTypes.BrazilianCpf]: {
     none: 'none',
     cpf: 'cpf',
     cpfFacematch: 'cpf+facematch',
@@ -30,12 +30,12 @@ export const GovCheckConfiguration = [
     country: GovCheckCountryList.Brazil,
     checks: [
       {
-        id: DocumentStepTypes.BrazilianDatavalid,
+        id: DocumentStepTypes.BrazilianCpf,
         default: false,
-        stepTypeAlias: GovCheckStepTypes[DocumentStepTypes.BrazilianDatavalid].cpf,
+        stepTypeAlias: GovCheckStepTypes[DocumentStepTypes.BrazilianCpf].cpf,
         // option: {
         //   id: 'facematch',
-        //   stepTypeAlias: GovCheckStepTypes[DocumentStepTypes.BrazilianDatavalid].cpfFacematch,
+        //   stepTypeAlias: GovCheckStepTypes[DocumentStepTypes.BrazilianCpf].cpfFacematch,
         //   description: true,
         // },
       },
@@ -77,7 +77,7 @@ export const GovCheckConfiguration = [
 ];
 
 export const govCheckDisplayOptions = {
-  [DocumentStepTypes.BrazilianDatavalid]: {
+  [DocumentStepTypes.BrazilianCpf]: {
     fullName: {},
     dateOfBirth: {
       inline: true,
