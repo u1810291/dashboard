@@ -45,4 +45,7 @@ export const useStyles = makeStyles((theme) => ({
       color: theme.palette.common.black75,
     },
   },
+  showPasswordButton: {
+    marginRight: 5,
+  },
 }));
