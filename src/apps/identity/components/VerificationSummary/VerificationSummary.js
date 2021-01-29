@@ -1,11 +1,16 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { VerificationBioCheckSummary } from 'apps/biometrics';
+import { VerificationDeviceCheck } from 'apps/fingerPrint';
+import { PremiumAmlWatchlistsMonitoringNotification } from 'apps/premiumAmlWatchlistsIntegratedCheck';
+import { notification } from 'apps/ui';
 import { get } from 'lodash';
 import { getDevicePlatformType, PlatformTypes } from 'models/DeviceCheck.model';
-import React, { useCallback } from 'react';
+import { getStatusById, IdentityStatuses } from 'models/Status.model';
+import React, { useCallback, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { identityUpdate } from 'state/identities/identities.actions';
+import { sendWebhook } from '../../../../state/webhooks/webhooks.actions';
 import { StatusSelector } from '../StatusSelector/StatusSelector';
 import { VerificationDateAndNumber } from '../VerificationDateAndNumber/VerificationDateAndNumber';
 import { VerificationDocument } from '../VerificationDocument/VerificationDocument';
@@ -13,16 +18,61 @@ import { VerificationFlow } from '../VerificationFlow/VerificationFlow';
 import { VerificationIpCheck } from '../VerificationIpCheck/VerificationIpCheck';
 import { VerificationSource } from '../VerificationSource/VerificationSource';
 import { useStyles } from './VerificationSummary.styles';
-import { VerificationDeviceCheck } from '../../../fingerPrint/components/VerificationDeviceCheck/VerificationDeviceCheck';
 
 export function VerificationSummary({ identity }) {
   const dispatch = useDispatch();
   const intl = useIntl();
   const classes = useStyles();
+  const [isOpen, setOpen] = useState(false);
+  const isFallback = useRef(false);
+  const currentStatus = useRef(getStatusById(identity.status));
+  const previousStatus = useRef(null);
+  const [status, setStatus] = useState(currentStatus.current);
 
-  const handleStatusChange = useCallback(async (status) => {
-    await dispatch(identityUpdate(identity.id, { status }));
-  }, [dispatch, identity]);
+  const handleUpdateIdentity = useCallback(async (value) => {
+    await dispatch(identityUpdate(identity.id, { status: value }));
+    await dispatch(sendWebhook(identity.id));
+    notification.info(intl.formatMessage({ id: 'identities.details.webhook.success' }));
+  }, [dispatch, identity.id, intl]);
+
+  const handleCloseNotification = useCallback(() => {
+    if (isFallback.current) {
+      currentStatus.current = { ...previousStatus.current };
+      setStatus(currentStatus.current);
+      return;
+    }
+    handleUpdateIdentity(currentStatus.current.id);
+  }, [currentStatus, previousStatus, handleUpdateIdentity]);
+
+  const handleEnableFallback = useCallback(() => {
+    isFallback.current = true;
+  }, []);
+
+  const handleStatusChange = useCallback(async (id) => {
+    const newStatus = getStatusById(id);
+    if (!(newStatus.isSelectable && currentStatus.current.isChangeable && newStatus.id !== currentStatus.id)) {
+      return;
+    }
+
+    previousStatus.current = { ...currentStatus.current };
+    currentStatus.current = { ...newStatus };
+    setStatus(currentStatus.current);
+    setOpen(false);
+    if (identity.premiumAmlWatchlistsMonitoringStep) {
+      isFallback.current = false;
+      const isSwitchedToVerified = newStatus.id === IdentityStatuses.verified;
+      await notification.info(
+        <PremiumAmlWatchlistsMonitoringNotification
+          isSwitchedToVerified={isSwitchedToVerified}
+          onEnableFallback={handleEnableFallback}
+        />, {
+          className: classes.ongoingMonitoringNotification,
+          onClose: handleCloseNotification,
+        });
+    } else {
+      handleUpdateIdentity(currentStatus.current.id);
+    }
+  }, [classes, identity, currentStatus, handleCloseNotification, handleEnableFallback, handleUpdateIdentity]);
 
   const { ipCheck, biometric } = identity;
 
@@ -40,7 +90,11 @@ export function VerificationSummary({ identity }) {
         <Box mb={3}>
           <Grid container spacing={2}>
             <Grid item xs={12} lg={4}>
-              <StatusSelector statusId={identity.status} identityId={identity.id} onSelect={handleStatusChange} />
+              <StatusSelector
+                value={status}
+                isOpen={isOpen}
+                onSelect={handleStatusChange}
+              />
             </Grid>
             <Grid item xs={12} lg={4}>
               <VerificationDateAndNumber date={identity.dateCreated} number={identity.id} />

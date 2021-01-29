@@ -1,4 +1,4 @@
-import { IdentityStatuses } from '../../../models/Identity.model';
+import { IdentityStatuses } from '../../../models/Status.model';
 import { colors } from '../PDF.theme.common';
 
 export const IdentityStatusesColorMap = [

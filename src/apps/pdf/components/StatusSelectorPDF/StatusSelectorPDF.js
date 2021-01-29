@@ -1,5 +1,5 @@
 import { Text, View } from '@react-pdf/renderer';
-import { getIdentityStatusExplanation, getIdentityStatusLabel, getStatusById } from 'models/Identity.model';
+import { getIdentityStatusExplanation, getIdentityStatusLabel, getStatusById } from 'models/Status.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { IdentityStatusesColorMap } from '../../models/pdf.model';

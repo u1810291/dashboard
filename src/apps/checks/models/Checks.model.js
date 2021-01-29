@@ -1,15 +1,13 @@
 import { FiMapPin, FiMail, FiCheckSquare, FiCheckCircle, FiUsers } from 'react-icons/fi';
-import { MerchantTags } from '../../../models/Merchant.model';
 
 export const DOCS_BASE_URL = 'https://docs.getmati.com/';
 
 export const CheckTypes = {
-  ComplyAdvantageIntegratedCheck: 'complyAdvantageIntegratedCheck',
+  PremiumAmlWatchlistsCheck: 'premiumAmlWatchlistsCheck',
   IpCheck: 'ipCheck',
   DuplicateUserDetection: 'duplicateUserDetection',
   Nom151Check: 'nom151Check',
   EmailCheck: 'emailCheck',
-  ComplyAdvantageStandalone: 'complyAdvantageStandalone',
 };
 
 export const ChecksList = [
@@ -35,12 +33,11 @@ export const ChecksList = [
     startIcon: FiCheckCircle,
   },
   {
-    id: CheckTypes.ComplyAdvantageIntegratedCheck,
-    title: 'Product.checks.complyAdvantageIntegratedCheck.title',
-    text: 'Product.checks.complyAdvantageIntegratedCheck.text',
-    badgeText: 'Product.checks.complyAdvantageIntegratedCheck.badgeText',
+    id: CheckTypes.PremiumAmlWatchlistsCheck,
+    title: 'Product.checks.premiumAmlWatchlistsCheck.title',
+    text: 'Product.checks.premiumAmlWatchlistsCheck.text',
+    badgeText: 'Product.checks.premiumAmlWatchlistsCheck.badgeText',
     startIcon: FiCheckSquare,
-    availableOnlyForMerchantTag: MerchantTags.CanUseComplyAdvantageIntegratedCheck,
   },
   {
     id: CheckTypes.EmailCheck,

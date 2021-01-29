@@ -16,7 +16,7 @@ export function VerificationDocument({ document, documentIndex }) {
   const classes = useStyles();
   const title = useDocumentTitle(document);
   const [shownPhoto, setShownPhoto] = useState(null);
-  const { photos = [], securityCheckSteps, documentFailedCheckSteps, complyAdvantageStep, govChecksSteps } = document; // use these checks for children component
+  const { photos = [], securityCheckSteps, documentFailedCheckSteps, premiumAmlWatchlistsStep, govChecksSteps } = document; // use these checks for children component
   const photosOrientation = usePhotosOrientation(document);
 
   useEffect(() => {
@@ -25,7 +25,10 @@ export function VerificationDocument({ document, documentIndex }) {
     }
   }, [shownPhoto, photos]);
 
-  const allSteps = [...documentFailedCheckSteps, ...securityCheckSteps, ...govChecksSteps, ...complyAdvantageStep];
+  const allSteps = [...documentFailedCheckSteps, ...securityCheckSteps, ...govChecksSteps];
+  if (premiumAmlWatchlistsStep) {
+    allSteps.push(premiumAmlWatchlistsStep);
+  }
   const documentStatus = getDocumentStatus(allSteps);
 
   return (

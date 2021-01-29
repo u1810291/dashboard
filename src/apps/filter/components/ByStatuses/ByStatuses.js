@@ -1,5 +1,5 @@
 import { Box, Checkbox, FormControlLabel, Grid, Paper, Typography } from '@material-ui/core';
-import { getFilterStatuses, getIdentityStatusLabel } from 'models/Identity.model';
+import { getFilterStatuses, getIdentityStatusLabel } from 'models/Status.model';
 import React, { useCallback, useState } from 'react';
 import { FiCheckCircle } from 'react-icons/fi';
 import { useIntl } from 'react-intl';

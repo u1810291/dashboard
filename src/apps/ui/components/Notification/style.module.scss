@@ -30,7 +30,7 @@
       transform: translateY(-50%);
     }
   }
-
+  
   :global(.Toastify__toast--error) {
     &::before {
       background-color: #FE7581;

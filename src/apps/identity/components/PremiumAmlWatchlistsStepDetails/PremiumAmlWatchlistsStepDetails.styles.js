@@ -1,6 +1,6 @@
 import { Button, makeStyles, withStyles } from '@material-ui/core';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
   wrapper: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -13,7 +13,29 @@ export const useStyles = makeStyles(() => ({
     width: '50%',
   },
   redText: {
-    color: '#fe7581',
+    color: theme.palette.common.red,
+  },
+  yellowText: {
+    color: theme.palette.common.yellow,
+  },
+  greenText: {
+    color: theme.palette.common.green,
+  },
+  monitoringStatus: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    marginLeft: '-30px',
+  },
+  iconContainer: {
+    width: '25px',
+    flex: '0 0 30px',
+  },
+  icon: {
+    width: '100%',
+  },
+  greenUnderlinedText: {
+    color: theme.palette.common.green,
+    textDecoration: 'underline',
   },
 }));
 

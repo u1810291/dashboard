@@ -138,8 +138,12 @@ export function getDocumentExtras(identity, countries) {
     const govChecksSteps = steps.filter((step) => CountrySpecificChecks.includes(step.id));
     const securityCheckSteps = steps.filter((step) => DocumentSecuritySteps.includes(step.id));
     const documentFailedCheckSteps = steps.filter((step) => DocumentFrontendSteps.includes(step.id)); // it is FRONTEND logic,
-    const complyAdvantageStep = steps.filter((step) => DocumentStepTypes.ComplyAdvantageIntegratedCheck === step.id);
+    const premiumAmlWatchlistsStep = steps.find((step) => DocumentStepTypes.PremiumAmlWatchlistsCheck === step.id);
 
+    const allSteps = [...documentFailedCheckSteps, ...securityCheckSteps, ...govChecksSteps];
+    if (premiumAmlWatchlistsStep) {
+      allSteps.push(premiumAmlWatchlistsStep);
+    }
     return {
       ...document,
       steps,
@@ -149,8 +153,8 @@ export function getDocumentExtras(identity, countries) {
       securityCheckSteps,
       govChecksSteps,
       documentFailedCheckSteps,
-      complyAdvantageStep,
-      documentStatus: getDocumentStatus([...govChecksSteps, ...securityCheckSteps, ...documentFailedCheckSteps, ...complyAdvantageStep]),
+      premiumAmlWatchlistsStep,
+      documentStatus: getDocumentStatus(allSteps),
       areTwoSides: isDocumentWithTwoSides(document.type),
       documentSides: getDocumentSides(identity, index),
       onReading: documentReadingStep.status < 200,

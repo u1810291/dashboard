@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { IdentityStatuses } from '../../../../models/Identity.model';
+import { IdentityStatuses } from '../../../../models/Status.model';
 import { filterUpdate, identitiesManualReviewCountLoad } from '../../../../state/identities/identities.actions';
 import { selectIdentityCountModel, selectIdentityFilter, selectManualReviewCountModel } from '../../../../state/identities/identities.selectors';
 import { verificationsFilterInitialState } from '../../../filter';

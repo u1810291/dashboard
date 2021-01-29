@@ -12,7 +12,8 @@ import { selectIdentityIsPDFGenerating } from '../../../../state/identities/iden
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { VerificationWebhookModal } from '../VerificationWebhookModal/VerificationWebhookModal';
 import { SideButton, useStyles } from './VerificationHeader.styles';
-import { getGoBackToListLink, IdentityStatuses } from '../../../../models/Identity.model';
+import { getGoBackToListLink } from '../../../../models/Identity.model';
+import { IdentityStatuses } from '../../../../models/Status.model';
 import { Routes } from '../../../../models/Router.model';
 import { QATags } from '../../../../models/QA.model';
 

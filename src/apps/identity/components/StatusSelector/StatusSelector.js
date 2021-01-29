@@ -7,23 +7,16 @@ import {
   getExplanationStatuses,
   getIdentityStatusDescription, getIdentityStatusExplanation,
   getIdentityStatusLabel,
-  getStatusById,
-} from 'models/Identity.model';
-import { useDispatch } from 'react-redux';
-import { notification } from 'apps/ui';
+} from 'models/Status.model';
 import { useStyles } from './StatusSelector.styles';
-import { sendWebhook } from '../../../../state/webhooks/webhooks.actions';
 import { QATags } from '../../../../models/QA.model';
 
-export function StatusSelector({ statusId, identityId, onSelect }) {
+export function StatusSelector({ value, isOpen, onSelect }) {
   const intl = useIntl();
   const classes = useStyles();
-  const dispatch = useDispatch();
   const [statuses] = useState(getExplanationStatuses());
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(isOpen);
   const [isLoading, setIsLoading] = useState(false);
-  const [current, setCurrent] = useState(() => getStatusById(statusId));
-
   const toggleOpen = useCallback(() => {
     setOpen((prev) => !prev);
   }, []);
@@ -44,34 +37,27 @@ export function StatusSelector({ statusId, identityId, onSelect }) {
   const handleSelect = useCallback(async (id) => {
     setIsLoading(true);
     if (onSelect) {
-      const newStatus = getStatusById(id);
-      if (newStatus.isSelectable && current.isChangeable) {
-        setCurrent(newStatus);
-        setOpen(false);
-        await onSelect(newStatus.id);
-        await dispatch(sendWebhook(identityId));
-        notification.info(intl.formatMessage({ id: 'identities.details.webhook.success' }));
-      }
+      await onSelect(id);
     }
     setIsLoading(false);
-  }, [onSelect, dispatch, identityId, current, intl]);
+  }, [onSelect]);
 
   return (
     <Card className={classes.wrapper} data-qa={QATags.Verification.StatusSelector.Button}>
-      <Box px={2} py={1.2} bgcolor={current?.color} color={current?.textColor} onClick={toggleOpen} className={classes.wrapper}>
+      <Box px={2} py={1.2} bgcolor={value?.color} color={value?.textColor} onClick={toggleOpen} className={classes.wrapper}>
         <Typography variant="body1">
           {intl.formatMessage({ id: 'statusSelect.status' })}
         </Typography>
         <Typography variant="h3" className={classes.title}>
-          {intl.formatMessage({ id: getIdentityStatusLabel(current?.id) })}
+          {intl.formatMessage({ id: getIdentityStatusLabel(value?.id) })}
         </Typography>
         <Typography variant="body1">
-          {intl.formatMessage({ id: getIdentityStatusExplanation(current?.id) })}
+          {intl.formatMessage({ id: getIdentityStatusExplanation(value?.id) })}
         </Typography>
         {isLoading ? (
           <IconLoad className={classes.icon} />
         ) : (
-          <FiChevronDown className={`${classes.icon} ${open ? classes.iconOpen : ''}`} color={current?.textColor} />
+          <FiChevronDown className={`${classes.icon} ${open ? classes.iconOpen : ''}`} color={value?.textColor} />
         )}
       </Box>
       {open && (
@@ -80,16 +66,16 @@ export function StatusSelector({ statusId, identityId, onSelect }) {
             <Grid container direction="column" spacing={2} data-qa={QATags.Verification.StatusSelector.Content}>
               {statuses.map((item) => (
                 <Grid
-                  className={item.isSelectable && current.isChangeable ? classes.item : classes.itemNotChangeable}
+                  className={item.isSelectable && value?.isChangeable ? classes.item : classes.itemNotChangeable}
                   container
                   wrap="nowrap"
                   item
                   key={item.id}
                   onClick={() => handleSelect(item.id)}
                 >
-                  {item.isSelectable && current.isChangeable && (
+                  {item.isSelectable && value?.isChangeable && (
                     <Box className={classes.itemIconWrapper}>
-                      {current.id === item.id && (
+                      {value?.id === item.id && (
                         <Box bgcolor={item.color} item className={classes.itemIcon} />
                       )}
                     </Box>
