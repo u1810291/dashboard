@@ -1054,7 +1054,7 @@
   "PermalinkSection.title": "Direct Verification Link",
   "personalSettings.errors.notAllowed": "Password needs to be 8 characters long and at least one number",
   "personalSettings.errors.oldPassword": "Current Password is wrong",
-  "personalSettings.errors.password": "Password is not correct",
+  "personalSettings.errors.password": "Password or Email is incorrect",
   "personalSettings.errors.repeatPassword": "The passwords do not match",
   "personalSettings.labels.oldPassword": "Current Password",
   "personalSettings.labels.password": "New Password",
