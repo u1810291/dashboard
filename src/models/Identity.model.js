@@ -4,26 +4,14 @@ import { getDocumentExtras } from 'models/Document.model';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getIpCheckUrl } from './IpCheck.model';
 import { Routes } from './Router.model';
+import { isChangeableStatus } from './Status.model';
+import { DocumentStepTypes } from './Step.model';
 import { getFileContents } from '../lib/client/checks';
-
-export const DEFAULT_STATUS_COLOR = '#ADADAD';
 
 export const VerificationStepTypes = {
   AgeValidation: 'age-check',
   IpValidation: 'ip-validation',
   DuplicateUserValidation: 'duplicate-user-detection',
-  ComplyAdvantageValidation: 'comply-advantage-validation',
-};
-
-export const IdentityStatuses = {
-  verified: 'verified',
-  reviewNeeded: 'reviewNeeded',
-  rejected: 'rejected',
-  deleted: 'deleted',
-  pending: 'pending',
-  running: 'running',
-  postponed: 'postponed',
-  unknown: 'unknown',
 };
 
 export const VerificationSummaryTitleTypes = {
@@ -32,71 +20,6 @@ export const VerificationSummaryTitleTypes = {
   biometric: 'biometric',
   device: 'device',
 };
-
-export const IdentityStatusesMap = [
-  {
-    id: IdentityStatuses.verified,
-    color: 'success.main',
-    textColor: 'primary.contrastText',
-    isChangeable: true,
-    isSelectable: true,
-    isExplanation: true,
-    isFilterable: true,
-  },
-  {
-    id: IdentityStatuses.reviewNeeded,
-    color: 'warning.main',
-    textColor: 'common.black90',
-    isChangeable: true,
-    isSelectable: true,
-    isExplanation: true,
-    isFilterable: true,
-  },
-  {
-    id: IdentityStatuses.rejected,
-    color: 'error.main',
-    textColor: 'primary.contrastText',
-    isChangeable: true,
-    isSelectable: true,
-    isExplanation: true,
-    isFilterable: true,
-  },
-  {
-    id: IdentityStatuses.postponed,
-    color: 'common.black75',
-    textColor: 'primary.contrastText',
-    isChangeable: true,
-    isSelectable: false,
-    isExplanation: true,
-    isFilterable: true,
-  },
-  {
-    id: IdentityStatuses.running,
-    color: 'common.black50',
-    textColor: 'common.black90',
-    isChangeable: false,
-    isSelectable: false,
-    isExplanation: true,
-    isFilterable: true,
-  },
-  {
-    id: IdentityStatuses.pending,
-    color: 'text.secondary',
-    textColor: 'common.black90',
-    style: 'threedots',
-    isChangeable: false,
-    isSelectable: false,
-    isExplanation: false,
-  },
-  {
-    id: IdentityStatuses.deleted,
-    color: DEFAULT_STATUS_COLOR,
-    textColor: DEFAULT_STATUS_COLOR,
-    isChangeable: false,
-    isSelectable: false,
-    isExplanation: false,
-  },
-];
 
 export const OrderDirections = {
   asc: 'asc',
@@ -108,35 +31,6 @@ export const OrderKeys = {
   fullName: 'fullName',
   flowId: 'flowId',
 };
-
-export function getExplanationStatuses() {
-  return IdentityStatusesMap.filter((item) => item.isExplanation);
-}
-
-export function getFilterStatuses() {
-  return IdentityStatusesMap.filter((item) => item.isFilterable);
-}
-
-export function getStatusById(status) {
-  return IdentityStatusesMap.find((item) => item.id === status);
-}
-
-export function isChangeableStatus(status) {
-  const founded = getStatusById(status);
-  return !!founded && founded.isChangeable;
-}
-
-export function getIdentityStatusLabel(status) {
-  return `statuses.${status}`;
-}
-
-export function getIdentityStatusDescription(status) {
-  return `statuses.${status}.description`;
-}
-
-export function getIdentityStatusExplanation(status) {
-  return `statuses.${status}.explanation`;
-}
 
 export function getIdentityShortId(id) {
   return (id || '').slice(-6);
@@ -166,10 +60,15 @@ export function getIdentityExtras(identity, countries) {
 
   let duplicateUserDetectionStep;
   let ageCheck;
+  let premiumAmlWatchlistsMonitoringStep;
   documents.forEach((doc) => {
     duplicateUserDetectionStep = duplicateUserDetectionStep || doc.steps.find((item) => item.id === VerificationStepTypes.DuplicateUserValidation);
+
     const documentsAgeCheck = doc.steps.find((item) => item.id === VerificationStepTypes.AgeValidation);
     ageCheck = ageCheck?.error || !documentsAgeCheck ? ageCheck : documentsAgeCheck;
+
+    const premiumAmlWatchlistsMonitoring = doc.steps.find((item) => item.id === DocumentStepTypes.PremiumAmlWatchlistsCheck);
+    premiumAmlWatchlistsMonitoringStep = premiumAmlWatchlistsMonitoringStep || premiumAmlWatchlistsMonitoring?.data?.isMonitoringAvailable;
   });
 
   return {
@@ -183,6 +82,7 @@ export function getIdentityExtras(identity, countries) {
     ipCheck: getIpCheckStep(steps),
     duplicateUserDetectionStep,
     ageCheck,
+    premiumAmlWatchlistsMonitoringStep,
     digitalSignature: get(identity, '_embedded.digitalSignature'),
   };
 }

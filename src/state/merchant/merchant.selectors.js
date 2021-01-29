@@ -6,6 +6,7 @@ import { BiometricTypes } from 'models/Biometric.model';
 import { VerificationStepTypes } from 'models/Identity.model';
 import { DEFAULT_LOCALE, LanguageList } from 'models/Intl.model';
 import { createSelector } from 'reselect';
+import { DocumentStepTypes } from 'models/Step.model';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
 
 const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
@@ -174,9 +175,9 @@ export const selectDuplicateUserDetectionCheck = createSelector(
   (flow) => flow[VerificationStepTypes.DuplicateUserValidation],
 );
 
-export const selectComplyAdvantageIntegratedCheck = createSelector(
+export const selectPremiumAmlWatchlistsCheck = createSelector(
   selectVerificationPattern,
-  (flow) => flow[VerificationStepTypes.ComplyAdvantageValidation],
+  (flow) => flow[DocumentStepTypes.PremiumAmlWatchlistsCheck],
 );
 
 export const selectNom151Check = createSelector(

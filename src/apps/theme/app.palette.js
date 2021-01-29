@@ -1,5 +1,6 @@
 export const appPalette = {
   blue: '#3757ff',
+  gray68: '#ADADAD',
   lightblue: '#507DED',
   lightbluehover: '#608eed',
   lightblueopacity: 'rgba(237, 242, 253, .5)',

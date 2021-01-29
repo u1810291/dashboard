@@ -8,6 +8,7 @@ import { commonStyles } from '../../PDF.styles';
 import { DocumentReadingStepPDF } from '../DocumentReadingStepPDF/DocumentReadingStepPDF';
 import { CheckStepPDF } from '../CheckStepPDF/CheckStepPDF';
 import { CheckResultLogoPDF } from '../CheckResultLogoPDF/CheckResultLogoPDF';
+import { PremiumAmlWatchlistsStepDetailsPDF } from '../PremiumAmlWatchlistsStepDetailsPDF/PremiumAmlWatchlistsStepDetailsPDF';
 import { WarningTypes } from '../../../ui/models/Warning.model';
 import { WarningPDF } from '../WarningPDF/WarningPDF';
 import { getMediaURL } from '../../../../lib/client/media';
@@ -16,7 +17,7 @@ export function DocumentStepPDF({ document, documentIndex }) {
   const intl = useIntl();
   const title = useDocumentTitle(document);
 
-  const { fields, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, documentReadingStep, onReading, documentStatus, areTwoSides, documentSides } = document;
+  const { fields, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, documentReadingStep, onReading, documentStatus, areTwoSides, documentSides, premiumAmlWatchlistsStep } = document;
 
   return (
     <View style={commonStyles.paper}>
@@ -33,12 +34,12 @@ export function DocumentStepPDF({ document, documentIndex }) {
       </View>
 
       {isSanctioned && (
-      <View style={commonStyles.mb15}>
-        <WarningPDF
-          type={WarningTypes.Error}
-          label={intl.formatMessage({ id: 'SanctionCheck.title' })}
-        />
-      </View>
+        <View style={commonStyles.mb15}>
+          <WarningPDF
+            type={WarningTypes.Error}
+            label={intl.formatMessage({ id: 'SanctionCheck.title' })}
+          />
+        </View>
       )}
 
       <View>
@@ -95,6 +96,10 @@ export function DocumentStepPDF({ document, documentIndex }) {
                 {govChecksSteps.map((step) => (
                   <CheckStepPDF step={step} key={step.id} isGovCheck />
                 ))}
+                {premiumAmlWatchlistsStep
+                  && (
+                    <PremiumAmlWatchlistsStepDetailsPDF step={premiumAmlWatchlistsStep} />
+                  )}
               </View>
             </View>
           )}

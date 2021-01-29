@@ -6,7 +6,7 @@ import { CheckBarExpandable, CheckResultLogo, SkeletonLoader, Warning, WarningTy
 import { DocumentSides, DocumentSidesOrder, getDocumentSideLabel, PhotosOrientations } from 'models/Document.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { ComplyAdvantageStepDetails } from '../../../identity/components/ComplyAdvantageStepDetails/ComplyAdvantageStepDetails';
+import { PremiumAmlWatchlistsStepDetails } from '../../../identity/components/PremiumAmlWatchlistsStepDetails/PremiumAmlWatchlistsStepDetails';
 import { DocumentReadingStep } from '../DocumentReadingStep/DocumentReadingStep';
 import { useStyles } from './DocumentStep.styles';
 
@@ -16,9 +16,8 @@ export function DocumentStep({ document, identity, documentIndex }) {
   const title = useDocumentTitle(document);
   const photosOrientation = usePhotosOrientation(document);
 
-  const { source, type, isEditable = true, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, complyAdvantageStep, fields, documentReadingStep, onReading, documentStatus, areTwoSides, documentSides } = document;
+  const { source, type, isEditable = true, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, premiumAmlWatchlistsStep, fields, documentReadingStep, onReading, documentStatus, areTwoSides, documentSides } = document;
   const isFormEditable = identity.isEditable && source.demo !== true && isEditable;
-  const complyAdvantageStepData = complyAdvantageStep[0];
   return (
     <Paper>
       <Box p={2}>
@@ -127,10 +126,10 @@ export function DocumentStep({ document, identity, documentIndex }) {
                       <CheckStepDetails step={step} isGovCheck />
                     </CheckBarExpandable>
                   ))}
-                  {complyAdvantageStepData
+                  {premiumAmlWatchlistsStep
                     && (
-                      <CheckBarExpandable step={complyAdvantageStepData} key={complyAdvantageStepData.id}>
-                        <ComplyAdvantageStepDetails step={complyAdvantageStepData} />
+                      <CheckBarExpandable step={premiumAmlWatchlistsStep} key={premiumAmlWatchlistsStep.id}>
+                        <PremiumAmlWatchlistsStepDetails step={premiumAmlWatchlistsStep} />
                       </CheckBarExpandable>
                     )}
                 </Grid>

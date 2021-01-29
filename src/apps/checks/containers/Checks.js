@@ -4,10 +4,10 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectAvailableChecks } from 'state/merchant/merchant.selectors';
-import { ComplyAdvantageIntegratedCheckControl } from '../components/ComplyAdvantageIntegratedCheckControl/ComplyAdvantageIntegratedCheckControl';
 import { DuplicateUserDetectionCheckControl } from '../components/DuplicateUserDetectionCheckControl/DuplicateUserDetectionCheckControl';
 import { IpCheckControl } from '../components/IpCheckControl/IpCheckControl';
 import { Nom151CheckControl } from '../components/nom151CheckControl/Nom151CheckControl';
+import { PremiumAmlWatchlistsCheckControl } from '../components/PremiumAmlWatchlistsIntegratedCheckControl/PremiumAmlWatchlistsIntegratedCheckControl';
 import { CheckTypes, DOCS_BASE_URL } from '../models/Checks.model';
 
 export function AdditionalChecks() {
@@ -18,7 +18,7 @@ export function AdditionalChecks() {
     [CheckTypes.IpCheck]: { component: IpCheckControl },
     [CheckTypes.Nom151Check]: { component: Nom151CheckControl },
     [CheckTypes.DuplicateUserDetection]: { component: DuplicateUserDetectionCheckControl },
-    [CheckTypes.ComplyAdvantageIntegratedCheck]: { component: ComplyAdvantageIntegratedCheckControl, endControlBlock: true },
+    [CheckTypes.PremiumAmlWatchlistsCheck]: { component: PremiumAmlWatchlistsCheckControl, endControlBlock: true },
     [CheckTypes.EmailCheck]: {
       component: CheckControlButton,
       props: {

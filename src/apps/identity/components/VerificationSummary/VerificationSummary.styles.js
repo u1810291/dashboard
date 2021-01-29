@@ -14,4 +14,9 @@ export const useStyles = makeStyles((theme) => ({
       justifyContent: 'flex-end',
     },
   },
+  ongoingMonitoringNotification: {
+    '&::after': {
+      display: 'none',
+    },
+  },
 }));

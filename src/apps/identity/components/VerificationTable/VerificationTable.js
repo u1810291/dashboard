@@ -7,7 +7,6 @@ import { ReactComponent as EmptyTableIcon } from 'assets/empty-table.svg';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { utcToLocalFormat } from 'lib/date';
 import { titleCase } from 'lib/string';
-import { IdentityStatuses, OrderDirections, OrderKeys } from 'models/Identity.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
@@ -17,12 +16,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { identitiesListLoad, identityRemove } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityCollection, selectIdentityCountModel, selectIdentityFilter } from 'state/identities/identities.selectors';
-import { ITEMS_PER_PAGE } from '../../../../models/Pagination.model';
+import { IdentityStatuses } from 'models/Status.model';
+import { OrderDirections, OrderKeys } from 'models/Identity.model';
+import { ITEMS_PER_PAGE } from 'models/Pagination.model';
+import { QATags } from 'models/QA.model';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { StatusLabel } from '../StatusLabel';
 import { VerificationFlowName } from '../VerificationFlowName/VerificationFlowName';
 import { TableRowHovered, useStyles } from './VerificationTable.styles';
-import { QATags } from '../../../../models/QA.model';
 
 export function VerificationTable() {
   const intl = useIntl();

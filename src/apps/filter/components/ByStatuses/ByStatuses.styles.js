@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { IdentityStatuses } from '../../../../models/Identity.model';
+import { IdentityStatuses } from 'models/Status.model';
 
 export const useStyles = makeStyles((theme) => ({
   status: {
