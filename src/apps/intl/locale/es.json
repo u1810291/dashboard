@@ -1048,7 +1048,7 @@
   "PermalinkSection.title": "Enlace directo de verificación",
   "personalSettings.errors.notAllowed": "La contraseña debe tener 8 caracteres y al menos un número",
   "personalSettings.errors.oldPassword": "La contraseña actual es incorrecta",
-  "personalSettings.errors.password": "La contraseña no es correcta",
+  "personalSettings.errors.password": "La contraseña o el correo electrónico son incorrectos",
   "personalSettings.errors.repeatPassword": "Las contraseñas no coinciden",
   "personalSettings.labels.oldPassword": "Contraseña actual",
   "personalSettings.labels.password": "Contraseña nueva",
