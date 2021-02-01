@@ -17,8 +17,11 @@ export function TopMenuItem({
   color,
   isActive = true,
   isMobile = false,
+  isOutlined = false,
+  isWithOutlined = false,
+  isOpen = false,
 }) {
-  const classes = useStyles();
+  const classes = useStyles({ color });
   const menuItem = (
     <MenuItem
       divider={false}
@@ -26,10 +29,31 @@ export function TopMenuItem({
       onClick={handler}
       data-qa={qa}
     >
-      {icon && <Box mr={2} display="flex" color={color} fontSize={17}>{icon}</Box>}
-      {children}
-      <Box color={color} display="flex">
-        {label}
+      <Box
+        display="flex"
+        alignItems="center"
+        className={classnames({
+          [classes.outlined]: isOutlined && isOpen,
+          [classes.withOutlinedPadding]: (isWithOutlined || isOutlined) && isOpen,
+        })}
+      >
+        <Box display="flex">
+          {icon && (
+          <Box
+            mr={2}
+            display="flex"
+            className={classnames({ [classes.icon]: isOutlined && !isOpen })}
+            color={color}
+            fontSize={17}
+          >
+            {icon}
+          </Box>
+          )}
+          {children}
+          <Box className={classes.textBox} display="flex">
+            {label}
+          </Box>
+        </Box>
       </Box>
     </MenuItem>
   );
