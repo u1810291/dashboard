@@ -15,6 +15,7 @@ export const QATags = {
     Account: 'menu-account',
     LanguageSelect: 'menu-languageSelect',
     Logout: 'menu-logout',
+    WhatsNew: 'menu-whats-new',
   },
   Modal: {
     CloseButton: 'modal-button-close',

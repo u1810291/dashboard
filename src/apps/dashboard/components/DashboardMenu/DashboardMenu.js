@@ -13,20 +13,20 @@ import { FiChevronsLeft, FiChevronsRight, FiLogOut, FiPlusCircle, FiSettings } f
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
-import { selectIsOwnerModel, selectMerchantBusinessName } from '../../../../state/merchant/merchant.selectors';
-import { signOut } from '../../../auth/state/auth.actions';
-import { TeamInviteModal } from '../../../collaborators/components/TeamInviteModal/TeamInviteModal';
-import { collaboratorAdd } from '../../../collaborators/state/collaborator.actions';
-import { selectCollaboratorState } from '../../../collaborators/state/collaborator.selectors';
-import { IntlButton } from '../../../intl';
-import { TopMenuItem } from '../../../layout';
+import { selectIsOwnerModel, selectMerchantBusinessName } from 'state/merchant/merchant.selectors';
+import { signOut } from 'apps/auth/state/auth.actions';
+import { TeamInviteModal } from 'apps/collaborators/components/TeamInviteModal/TeamInviteModal';
+import { collaboratorAdd } from 'apps/collaborators/state/collaborator.actions';
+import { selectCollaboratorState } from 'apps/collaborators/state/collaborator.selectors';
+import { IntlButton } from 'apps/intl';
+import { TopMenuItem } from 'apps/layout';
+import { Routes } from 'models/Router.model';
 import { useLogout } from '../LogoutModal/LogoutModal';
 import { PrimaryMenu } from '../PrimaryMenu/PrimaryMenu';
 import { SecondaryMenu } from '../SecondaryMenu/SecondaryMenu';
 import { useStyles } from './DashboardMenu.styles';
 import { selectIsDesktopMenuOpen } from '../../state/dashboard.selectors';
 import { setIsDesktopMenuOpen } from '../../state/dashboard.actions';
-import { Routes } from '../../../../models/Router.model';
 
 export function DashboardMenu() {
   const ownerModel = useSelector(selectIsOwnerModel);
@@ -149,7 +149,7 @@ export function DashboardMenu() {
             <Divider className={classes.menuDivider} />
           </Box>
           <Box>
-            <SecondaryMenu color="common.black7" />
+            <SecondaryMenu isOpen={open} />
           </Box>
         </Grid>
         <Grid item className={classes.contentBottom}>
