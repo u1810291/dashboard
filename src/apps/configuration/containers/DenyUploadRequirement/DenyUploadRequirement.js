@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUploadDenial } from 'state/merchant/merchant.selectors';
-import { configurationFlowUpdate } from '../../../../state/merchant/merchant.actions';
+import { merchantUpdateFlow } from '../../../../state/merchant/merchant.actions';
 import { useStyles } from './DenyUploadRequirement.styles';
 
 export function DenyUploadRequirement() {
@@ -13,7 +13,7 @@ export function DenyUploadRequirement() {
   const dispatch = useDispatch();
 
   const handleUploadChange = useCallback((_, value) => {
-    dispatch(configurationFlowUpdate({
+    dispatch(merchantUpdateFlow({
       denyUploadsFromMobileGallery: value,
     }));
   }, [dispatch]);

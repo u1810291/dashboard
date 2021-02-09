@@ -1,9 +1,19 @@
-import { getFacematchStepExtra } from 'apps/facematch/models/facematch.model';
 import { getAlterationReason } from 'apps/alterationDetection/models/alterationDetection.model';
+import { getFacematchStepExtra } from 'apps/facematch/models/facematch.model';
 import { getTemplateMatchingStepExtraData } from 'apps/templateMatching/models/templateMatching.model';
 import { getPremiumAmlWatchlistsCheckExtraData } from 'apps/premiumAmlWatchlistsIntegratedCheck/models/premiumAmlWatchlistsIntegratedCheck.model';
 import { get } from 'lodash';
 import { getFieldsExpired, getFieldsExtra } from 'models/Field.model';
+import { VerificationPatternTypes } from './Verification.model';
+
+export const StepTypes = {
+  ProofOfOwnership: 'proof-of-ownership',
+  LivenessMovement: 'liveness',
+  Selfie: 'selfie',
+  // TODO @dkchv: wtf?
+  Voice: 'voice',
+  LivenessVoice: 'voice+liveness',
+};
 
 export const DocumentStepTypes = {
   AgeValidation: 'age-check',
@@ -16,17 +26,11 @@ export const DocumentStepTypes = {
   INE: 'mexican-ine-validation',
   RFC: 'mexican-rfc-validation',
   BrazilianCpf: 'brazilian-cpf-validation',
-  ColombianRegistraduria: 'colombian-registraduria-validation',
-  ArgentinianRenaper: 'argentinian-renaper-validation',
-  PeruvianReniec: 'peruvian-reniec-validation',
+  ColombianRegistraduria: VerificationPatternTypes.ColombianRegistraduria,
+  ArgentinianRenaper: VerificationPatternTypes.ArgentinianRenaper,
+  PeruvianReniec: VerificationPatternTypes.PeruvianReniec,
   DuplicateUserDetectionCheck: 'duplicate-user-detection',
   PremiumAmlWatchlistsCheck: 'premium-aml-watchlists-search-validation',
-};
-
-export const BiometricStepTypes = {
-  Liveness: 'liveness',
-  Voice: 'voice',
-  Selfie: 'selfie',
 };
 
 // used as 'id' of failed steps in check summary
@@ -109,8 +113,11 @@ function getAltered(step, identity, countries, document) {
   switch (step.id) {
     case DocumentStepTypes.AlternationDetection:
       return getAlterationReason(step);
-    case DocumentStepTypes.FaceMatch:
-      return getFacematchStepExtra(step, identity);
+    case DocumentStepTypes.FaceMatch: {
+      const steps = get(identity, '_embedded.verification.steps') || [];
+      const pooStep = steps.find((item) => item.id === StepTypes.ProofOfOwnership);
+      return getFacematchStepExtra(step, pooStep, identity, document);
+    }
     case DocumentStepTypes.TemplateMatching:
       return getTemplateMatchingStepExtraData(step, identity, countries, document);
     case DocumentStepTypes.PremiumAmlWatchlistsCheck:
@@ -161,6 +168,10 @@ export function getStepStatus({ id, status, error }) {
 }
 
 export function getStepExtra(step, identity, countries, document) {
+  if (!step) {
+    return step;
+  }
+
   const altered = getAltered(step, identity, countries, document);
 
   return {

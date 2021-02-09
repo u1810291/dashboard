@@ -107,25 +107,20 @@ export const merchantFlowsLoad = () => async (dispatch, getState) => {
       dispatch({ type: types.FLOWS_FAILURE, error });
       throw error;
     }
-    // dispatch(getWebhooks());
   } catch (error) {
     dispatch({ type: types.FLOWS_FAILURE, error });
     throw error;
   }
 };
 
-// TODO: complete after backend will be finished
-// eslint-disable-next-line no-unused-vars
-export const merchantDenyUploadFlow = (checked) => async (dispatch, getState) => {
-
-};
-
-export const merchantUpdateFlow = (flowId, payload) => async (dispatch, getState) => {
+export const merchantUpdateFlow = (payload) => async (dispatch, getState) => {
+  const state = getState();
+  const flowId = selectCurrentFlowId(state);
   dispatch({ type: types.FLOWS_UPDATING });
   try {
-    const merchantId = selectMerchantId(getState());
+    const merchantId = selectMerchantId(state);
     const { data } = await api.updateMerchantFlow(merchantId, flowId, payload);
-    const { value } = selectMerchantFlowsModel(getState());
+    const { value } = selectMerchantFlowsModel(state);
     const index = value.findIndex((flow) => flow.id === flowId);
     const newFlow = [...value];
     newFlow.splice(index, 1, data);
@@ -167,15 +162,9 @@ export const merchantDeleteFlow = (id) => async (dispatch, getState) => {
 
 // flow update
 
-export const configurationFlowUpdate = (payload) => async (dispatch, getState) => {
-  const flowId = selectCurrentFlowId(getState());
-  return dispatch(merchantUpdateFlow(flowId, payload));
-};
-
 export const flowStyleUpdate = (data) => (dispatch, getState) => {
   const cfg = selectStyleModel(getState());
-  const flowId = selectCurrentFlowId(getState());
-  return dispatch(merchantUpdateFlow(flowId, {
+  return dispatch(merchantUpdateFlow({
     style: {
       ...cfg,
       ...data,
@@ -187,7 +176,7 @@ export const merchantUpdateMedia = (form) => async (dispatch) => {
   dispatch({ type: types.MERCHANT_UPDATING });
   try {
     const { data } = await api.uploadMerchantMedia(form);
-    dispatch(configurationFlowUpdate({ logoUrl: data.url }));
+    dispatch(merchantUpdateFlow({ logoUrl: data.url }));
   } catch (error) {
     dispatch({ type: types.MERCHANT_FAILURE, error });
     throw error;

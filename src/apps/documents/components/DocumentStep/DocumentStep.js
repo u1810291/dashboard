@@ -1,8 +1,8 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { CheckStepDetails } from 'apps/checks/components/CheckStepDetails/CheckStepDetails';
-import { ZoomableImage } from 'apps/identity/components/ZoomableImage/ZoomableImage';
 import { useDocumentTitle, usePhotosOrientation } from 'apps/identity/hooks/document.hook';
-import { CheckBarExpandable, CheckResultLogo, SkeletonLoader, Warning, WarningTypes } from 'apps/ui';
+import { POOImage } from 'apps/ProofOfOwnership';
+import { CheckBarExpandable, CheckResultLogo, SkeletonLoader, Warning, WarningTypes, ZoomableImage } from 'apps/ui';
 import { DocumentSides, DocumentSidesOrder, getDocumentSideLabel, PhotosOrientations } from 'models/Document.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -16,7 +16,7 @@ export function DocumentStep({ document, identity, documentIndex }) {
   const title = useDocumentTitle(document);
   const photosOrientation = usePhotosOrientation(document);
 
-  const { source, type, isEditable = true, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, premiumAmlWatchlistsStep, fields, documentReadingStep, onReading, documentStatus, areTwoSides, documentSides } = document;
+  const { source, type, isEditable = true, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, premiumAmlWatchlistsStep, fields, documentReadingStep, onReading, documentStatus, areTwoSides, documentSides, proofOfOwnership } = document;
   const isFormEditable = identity.isEditable && source.demo !== true && isEditable;
   return (
     <Paper>
@@ -85,6 +85,11 @@ export function DocumentStep({ document, identity, documentIndex }) {
                       </Grid>
                     );
                   })}
+                </Grid>
+              )}
+              {proofOfOwnership && (
+                <Grid item className={classes.image}>
+                  <POOImage step={proofOfOwnership} />
                 </Grid>
               )}
             </Grid>

@@ -1,10 +1,10 @@
 import { Switch } from '@material-ui/core';
 import { notification } from 'apps/ui';
-import { VerificationStepTypes } from 'models/Identity.model';
+import { VerificationPatternTypes } from 'models/Verification.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
+import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { selectIpCheck } from 'state/merchant/merchant.selectors';
 import { useStyles } from './IpCheckControl.styles';
 
@@ -13,25 +13,26 @@ export function IpCheckControl() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const ipCheck = useSelector(selectIpCheck);
-  const [value, setValue] = useState(false);
+  const [state, setState] = useState(false);
 
   const handleChange = useCallback(async (event) => {
-    const newValue = event.target.checked;
+    const value = event.target.checked;
     try {
-      await dispatch(configurationFlowUpdate({
+      await dispatch(merchantUpdateFlow({
         verificationPatterns: {
-          [VerificationStepTypes.IpValidation]: newValue,
+          [VerificationPatternTypes.IpValidation]: value,
         },
       }));
-      setValue(newValue);
+      setState(value);
     } catch (e) {
-      console.error('error', e.message);
+      // eslint-disable-next-line
+      console.error('error', e.message)
       notification.error(intl.formatMessage({ id: 'update.field.error' }, { name: 'IP CHECK' }));
     }
   }, [dispatch, intl]);
 
   useEffect(() => {
-    setValue(ipCheck);
+    setState(ipCheck);
   }, [ipCheck]);
 
   return (
@@ -39,7 +40,7 @@ export function IpCheckControl() {
       name="ipCheck"
       color="primary"
       size="small"
-      checked={value}
+      checked={state}
       onChange={handleChange}
       className={classes.switcher}
     />

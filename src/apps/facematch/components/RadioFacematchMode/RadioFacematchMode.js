@@ -47,7 +47,7 @@ export function RadioFacematchMode({ mode, subtitle, expandable, disabled, child
         <Grid item>
           <Collapse in={expanded}>
             <Box pl={3}>
-              <Typography component="div" variant="body2">
+              <Typography component="div" variant="body2" color="textSecondary">
                 {subtitle}
               </Typography>
             </Box>

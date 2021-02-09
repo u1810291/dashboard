@@ -6,7 +6,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
-import { selectCurrentFlowId } from 'state/merchant/merchant.selectors';
 import { AGE_CHECK_DEFAULT_THRESHOLD, AGE_CHECK_MAX_THRESHOLD, AGE_CHECK_MIN_THRESHOLD, AgeCheckThresholdModes, validateAgeTheshold } from '../../models/AgeCheck.model';
 import { selectAgeCheckThreshold } from '../../state/AgeCheck.selectors';
 import { InputScore, useStyles } from './AgeCheckConfiguration.styles';
@@ -16,7 +15,6 @@ export function AgeCheckConfiguration() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const flowId = useSelector(selectCurrentFlowId);
   const initialScore = useSelector(selectAgeCheckThreshold);
 
   const [isLoading, setLoading] = useState(false);
@@ -48,7 +46,7 @@ export function AgeCheckConfiguration() {
     }
     try {
       setLoading(true);
-      await dispatch(merchantUpdateFlow(flowId, {
+      await dispatch(merchantUpdateFlow({
         ageThreshold: mode === AgeCheckThresholdModes.Custom ? scoreAsNumber : AGE_CHECK_DEFAULT_THRESHOLD,
       }));
     } catch (err) {
@@ -56,13 +54,13 @@ export function AgeCheckConfiguration() {
     } finally {
       setLoading(false);
     }
-  }, [dispatch, flowId, mode, score]);
+  }, [dispatch, mode, score]);
 
   useEffect(() => {
     setMode(!initialScore || initialScore === AGE_CHECK_DEFAULT_THRESHOLD ? AgeCheckThresholdModes.Default : AgeCheckThresholdModes.Custom);
     setScore(initialScore);
     setError(null);
-  }, [initialScore, flowId]);
+  }, [initialScore]);
 
   return (
     <FormControl component="fieldset" className={classes.fullHeight}>

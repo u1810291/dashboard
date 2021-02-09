@@ -1,12 +1,14 @@
 import { Box, Grid, RadioGroup, Switch, Typography } from '@material-ui/core';
-import { appPalette } from 'apps/theme/app.palette';
+import { selectIsPOO } from 'apps/facematch';
+import { appPalette } from 'apps/theme';
 import { BoxBordered, Warning, WarningSize, WarningTypes } from 'apps/ui';
 import { BiometricSettings, BiometricTypes, getBiometricParentSetting } from 'models/Biometric.model';
+import { VerificationPatternTypes } from 'models/Verification.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
-import { selectBiometricPattern, selectCurrentFlowId } from 'state/merchant/merchant.selectors';
+import { selectBiometricPattern } from 'state/merchant/merchant.selectors';
 import { FormControlLabelFixed, RadioFixed, useStyles } from './BiometricStep.styles';
 import LivenessVoiceSVG from './liveness-voice-video.svg';
 
@@ -19,7 +21,7 @@ export function BiometricStep() {
   const intl = useIntl();
   const classes = useStyles();
   const pattern = useSelector(selectBiometricPattern);
-  const flowId = useSelector(selectCurrentFlowId);
+  const isPOO = useSelector(selectIsPOO);
   const [setting, setSetting] = useState(pattern);
   // enabled options
   const [options, setOptions] = useState([]);
@@ -48,12 +50,12 @@ export function BiometricStep() {
   }, [pattern, handleSettingChange]);
 
   const handleSave = useCallback((value) => {
-    dispatch(merchantUpdateFlow(flowId, {
+    dispatch(merchantUpdateFlow({
       verificationPatterns: {
-        biometrics: value,
+        [VerificationPatternTypes.Biometrics]: value,
       },
     }));
-  }, [dispatch, flowId]);
+  }, [dispatch]);
 
   const handleChange = useCallback((event) => {
     const { value } = event.target;
@@ -114,7 +116,7 @@ export function BiometricStep() {
                           {intl.formatMessage({ id: `BiometricStep.${item.id}.title` })}
                         </Typography>
                         {description !== ' ' && (
-                          <Box mt={0.5} color="textSecondary">
+                          <Box mt={0.5}>
                             <Typography variant="body1" color="textSecondary">
                               {intl.formatMessage({ id: `BiometricStep.${item.id}.description`, defaultMessage: '' })}
                             </Typography>
@@ -136,6 +138,7 @@ export function BiometricStep() {
                                 <Switch
                                   color="primary"
                                   checked={options.includes(option.id)}
+                                  disabled={option.id === BiometricTypes.voiceLiveness && isPOO}
                                   onClick={(e) => handleOptionChange(item.id, option.id, e)}
                                 />
                               )}
@@ -154,13 +157,21 @@ export function BiometricStep() {
                               )}
                             />
                           </Box>
-                          {option.id === BiometricTypes.voiceLiveness && (
-                            <BoxBordered borderColor={appPalette.red} mt={1}>
+                          {option.id === BiometricTypes.voiceLiveness && isPOO && (
+                            <BoxBordered borderColor={appPalette.yellow} mt={1}>
                               <Warning
-                                type={WarningTypes.ImportantWarning}
+                                type={WarningTypes.Warning}
+                                size={WarningSize.Large}
+                                label={intl.formatMessage({ id: `BiometricStep.${item.id}.poo.warning` })}
+                              />
+                            </BoxBordered>
+                          )}
+                          {option.id === BiometricTypes.voiceLiveness && (
+                            <BoxBordered borderColor={appPalette.yellow} mt={1}>
+                              <Warning
+                                type={WarningTypes.Warning}
                                 size={WarningSize.Large}
                                 label={intl.formatMessage({ id: `BiometricStep.${item.id}.${option.id}.warning` })}
-                                isLabelColored
                               />
                             </BoxBordered>
                           )}

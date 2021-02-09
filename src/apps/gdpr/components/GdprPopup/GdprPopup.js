@@ -3,7 +3,7 @@ import { checkInterval, toIsoPeriod } from 'lib/date';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
+import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { selectPolicyInterval } from 'state/merchant/merchant.selectors';
 
 const DAYS_RANGE = {
@@ -26,9 +26,7 @@ export function GdprPopup({ openDialog, handleCloseDialog }) {
 
   async function submitCloseDialog() {
     if (checkInterval(period, DAYS_RANGE.from, DAYS_RANGE.to)) {
-      await dispatch(
-        configurationFlowUpdate({ policyInterval: toIsoPeriod(period) }),
-      );
+      await dispatch(merchantUpdateFlow({ policyInterval: toIsoPeriod(period) }));
       handleCloseDialog();
     }
   }

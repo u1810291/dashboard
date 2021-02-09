@@ -3,7 +3,7 @@ import { CheckStepDetails } from 'apps/checks';
 import { CheckBarExpandable, CheckResultLogo } from 'apps/ui';
 import classNames from 'classnames';
 import { getBiometricCheckStatus, LivenessStepStatus } from 'models/Biometric.model';
-import { BiometricStepTypes } from 'models/Step.model';
+import { StepTypes } from 'models/Step.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { LivenessMedia } from '../LivenessMedia/LivenessMedia';
@@ -48,7 +48,7 @@ export function LivenessStep({ steps, downloadableFileName }) {
                         <LivenessMedia
                           video={item.videoUrl}
                           title={intl.formatMessage({ id: `LivenessStep.Checks.${item.id}.title` })}
-                          withSoundButton={item.id === BiometricStepTypes.Voice}
+                          withSoundButton={item.id === StepTypes.Voice}
                         />
                       </Grid>
                     </Grid>

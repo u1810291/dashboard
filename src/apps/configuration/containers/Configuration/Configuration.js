@@ -15,7 +15,7 @@ import { FiAlertOctagon, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiSlash,
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllCountriesModel } from 'state/countries/countries.selectors';
-import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
+import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
 
 export function Configuration() {
@@ -25,7 +25,7 @@ export function Configuration() {
   const [flowSteps, setFlowSteps] = useState([]);
   const countriesModel = useSelector(selectAllCountriesModel);
 
-  const updateConfiguration = useCallback((settings) => dispatch(configurationFlowUpdate(settings)), [dispatch]);
+  const updateConfiguration = useCallback((settings) => dispatch(merchantUpdateFlow(settings)), [dispatch]);
 
   useEffect(() => {
     setFlowSteps([

@@ -1,14 +1,14 @@
-import { Switch, Box } from '@material-ui/core';
-import { notification, BoxBordered } from 'apps/ui';
-import { FiSearch, FiActivity } from 'react-icons/fi';
+import { Box, Switch } from '@material-ui/core';
+import { BoxBordered, notification } from 'apps/ui';
 import { DocumentStepTypes } from 'models/Step.model';
 import React, { useCallback, useEffect, useState } from 'react';
+import { FiActivity, FiSearch } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
+import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { selectPremiumAmlWatchlistsCheck } from 'state/merchant/merchant.selectors';
 import { PremiumAmlWatchlistsValidationTypes } from '../../../premiumAmlWatchlistsIntegratedCheck/models/premiumAmlWatchlistsIntegratedCheck.model';
-import { useStyles, TitleIcon } from './PremiumAmlWatchlistsIntegratedCheckControl.styles';
+import { TitleIcon, useStyles } from './PremiumAmlWatchlistsIntegratedCheckControl.styles';
 
 export function PremiumAmlWatchlistsCheckControl() {
   const intl = useIntl();
@@ -21,7 +21,7 @@ export function PremiumAmlWatchlistsCheckControl() {
   const handleChange = useCallback(async (event, value) => {
     const isChecked = event.target.checked;
     try {
-      await dispatch(configurationFlowUpdate({
+      await dispatch(merchantUpdateFlow({
         verificationPatterns: {
           [DocumentStepTypes.PremiumAmlWatchlistsCheck]: isChecked ? value : PremiumAmlWatchlistsValidationTypes.none,
         },
