@@ -988,6 +988,7 @@
   "LivenessStep.Checks.success": "Aprobado",
   "LivenessStep.Checks.title": "Pruebas",
   "LivenessStep.Checks.voice.title": "Reconocimiento de voz",
+  "LiveStatus.goToStatuspage": "Ir a mati statuspage",
   "logout.btn.quit": "Salir",
   "logout.subtitle": "¿Seguro que quieres salir?",
   "logout.title": "Cerrar sesión",
