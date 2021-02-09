@@ -8,7 +8,7 @@ export const useStyles = makeStyles(() => ({
     padding: [[0, 20]],
     backgroundColor: appPalette.black90,
     height: 40,
-    width: 260,
+    minWidth: 260,
     borderRadius: 5,
     color: appPalette.black7,
   },
