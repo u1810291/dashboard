@@ -19,7 +19,7 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'stretch',
     alignItems: 'center',
-    padding: [[0, 10, 0, 20]],
+    padding: [[0, 20, 0, 20]],
     [theme.breakpoints.up('sm')]: {
       padding: [[0, 30, 0, 40]],
     },
@@ -28,6 +28,10 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     flexGrow: 1,
+    justifyContent: 'start',
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: 'center',
+    },
   },
   img: {
     height: '100%',
@@ -56,8 +60,12 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
     alignItems: 'center',
     marginRight: 80,
+    [theme.breakpoints.down('md')]: {
+      marginRight: 70,
+    },
     [theme.breakpoints.down('sm')]: {
-      marginRight: 90,
+      justifyContent: 'center',
+      marginRight: 0,
     },
   },
   emailLink: {
