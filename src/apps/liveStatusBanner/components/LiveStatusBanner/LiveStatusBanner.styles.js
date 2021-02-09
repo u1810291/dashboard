@@ -8,14 +8,12 @@ export const useStyles = makeStyles(() => ({
     padding: [[0, 20]],
     backgroundColor: appPalette.black90,
     height: 40,
-    width: 280,
+    width: 260,
     borderRadius: 5,
+    color: appPalette.black7,
   },
   logo: {
-    marginRight: 15,
+    marginRight: 30,
   },
-  statusMessage: (props) => ({
-    color: props.textColor,
-  }),
 
 }));
