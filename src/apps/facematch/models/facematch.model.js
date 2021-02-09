@@ -28,19 +28,30 @@ export const validateScore = (score, mode) => {
   return null;
 };
 
-export function getFacematchStepExtra(step, identity) {
-  const score = get(step, 'data.score');
+export function getFacematchStepExtra(step, pooStep, identity, document) {
+  const score = Math.floor(+get(step, 'data.score'));
   const threshold = get(identity, '_embedded.verification.flow.facematchThreshold', FACEMATCH_DEFAULT_THRESHOLD);
+  const isPOO = pooStep?.data?.documentType === document.type;
 
   if (!score) {
     return step;
+  }
+
+  if (isPOO) {
+    return {
+      ...step,
+      labelExtra: pooStep?.error?.code
+        ? `SecurityCheckStep.${pooStep?.error?.code}`
+        : 'SecurityCheckStep.proofOfOwnership.success',
+      labelExtraData: { score },
+    };
   }
 
   return {
     ...step,
     labelExtra: `SecurityCheckStep.${step.id}.extras`,
     labelExtraData: {
-      score: Math.floor(+score),
+      score,
       threshold,
     },
   };

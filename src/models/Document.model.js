@@ -116,7 +116,7 @@ export function isDocumentWithTwoSides(documentType) {
   return [DocumentTypes.DrivingLicense, DocumentTypes.NationalId].includes(documentType);
 }
 
-export function getDocumentExtras(identity, countries) {
+export function getDocumentExtras(identity, countries, proofOfOwnership) {
   const documents = get(identity, '_embedded.verification.documents') || [];
   const source = get(identity, '_embedded.documents');
 
@@ -161,6 +161,7 @@ export function getDocumentExtras(identity, countries) {
       photos: document.photos || [],
       checks: steps.filter((step) => DocumentSecuritySteps.includes(step.id)),
       isSanctioned: DocumentCountrySanctionList.includes(document.country),
+      proofOfOwnership: proofOfOwnership?.data?.documentType === document.type ? proofOfOwnership : null,
     };
   });
 }

@@ -74,7 +74,7 @@ export async function getIdentityWithNestedData(id) {
       }
     }
     (identity._embedded.verification.steps || []).forEach((step, index) => {
-      if (step.id === 'liveness') {
+      if (step.id === BiometricTypes.liveness) {
         set(identity, `_embedded.verification.steps[${index}].data.videoUrl`, videoUrl);
       }
     });

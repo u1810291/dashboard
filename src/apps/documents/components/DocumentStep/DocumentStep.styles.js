@@ -55,6 +55,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   image: {
+    width: '100%',
     textAlign: 'center',
     [theme.breakpoints.up('lg')]: {
       '& > div': {

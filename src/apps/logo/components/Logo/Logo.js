@@ -6,7 +6,7 @@ import { useDropzone } from 'react-dropzone';
 import { FiLoader, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { configurationFlowUpdate, merchantUpdateMedia } from 'state/merchant/merchant.actions';
+import { merchantUpdateFlow, merchantUpdateMedia } from 'state/merchant/merchant.actions';
 import { selectLogoModel, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { useStyles } from './Logo.styles';
 
@@ -41,7 +41,7 @@ export function Logo() {
   }, [showError]);
 
   const handleRemove = useCallback(() => {
-    dispatch(configurationFlowUpdate({ logoUrl: null }));
+    dispatch(merchantUpdateFlow({ logoUrl: null }));
   }, [dispatch]);
 
   const { getRootProps, getInputProps } = useDropzone({

@@ -4,7 +4,8 @@ import React from 'react';
 
 export const BoxBordered = ((props) => (
   <Box
-    p={1}
+    px={2}
+    py={1.5}
     border={1}
     borderRadius={AppTheme.shape.borderRadius}
     borderColor={AppTheme.palette.common.lightgray}

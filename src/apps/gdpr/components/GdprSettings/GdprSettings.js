@@ -2,7 +2,7 @@ import { Box, FormControl, FormControlLabel, Switch, Typography } from '@materia
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
+import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { selectPolicyInterval } from 'state/merchant/merchant.selectors';
 import { GdprDropdown } from '../GdprDropdown/GdprDropdown';
 import { GdprPopup } from '../GdprPopup/GdprPopup';
@@ -28,7 +28,7 @@ export function GdprSettings() {
       handleClickOpenDialog();
     }
     if (!isChecked) {
-      await dispatch(configurationFlowUpdate({ policyInterval: null }));
+      await dispatch(merchantUpdateFlow({ policyInterval: null }));
     }
   }
 

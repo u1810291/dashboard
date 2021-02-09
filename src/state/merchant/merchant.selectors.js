@@ -3,10 +3,9 @@ import { selectUserId } from 'apps/user/state/user.selectors';
 import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { BiometricTypes } from 'models/Biometric.model';
-import { VerificationStepTypes } from 'models/Identity.model';
 import { DEFAULT_LOCALE, LanguageList } from 'models/Intl.model';
+import { VerificationPatternTypes } from 'models/Verification.model';
 import { createSelector } from 'reselect';
-import { DocumentStepTypes } from 'models/Step.model';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
 
 const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
@@ -165,19 +164,24 @@ export const selectBiometricPattern = createSelector(
   (pattern) => pattern.biometrics || BiometricTypes.none,
 );
 
+export const selectIsVoiceLiveness = createSelector(
+  selectBiometricPattern,
+  (pattern) => pattern === BiometricTypes.voiceLiveness,
+);
+
 export const selectIpCheck = createSelector(
   selectVerificationPattern,
-  (flow) => flow[VerificationStepTypes.IpValidation],
+  (flow) => flow[VerificationPatternTypes.IpValidation],
 );
 
 export const selectDuplicateUserDetectionCheck = createSelector(
   selectVerificationPattern,
-  (flow) => flow[VerificationStepTypes.DuplicateUserValidation],
+  (flow) => flow[VerificationPatternTypes.DuplicateUserValidation],
 );
 
 export const selectPremiumAmlWatchlistsCheck = createSelector(
   selectVerificationPattern,
-  (flow) => flow[DocumentStepTypes.PremiumAmlWatchlistsCheck],
+  (flow) => flow[VerificationPatternTypes.PremiumAmlWatchlistsCheck],
 );
 
 export const selectNom151Check = createSelector(

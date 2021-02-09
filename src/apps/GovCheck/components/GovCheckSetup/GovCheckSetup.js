@@ -2,7 +2,7 @@ import { Box, Divider, FormControl, Grid, Typography } from '@material-ui/core';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { configurationFlowUpdate } from '../../../../state/merchant/merchant.actions';
+import { merchantUpdateFlow } from '../../../../state/merchant/merchant.actions';
 import { selectVerificationPattern } from '../../../../state/merchant/merchant.selectors';
 import { GovCheckConfiguration, govCheckParse } from '../../models/GovCheck.model';
 import { GovCheckConfig } from '../GovCheckConfig/GovCheckConfig';
@@ -27,7 +27,7 @@ export function GovCheckSetup() {
   }, []);
 
   const handleChangeCheck = useCallback(async (id, value) => {
-    await dispatch(configurationFlowUpdate({
+    await dispatch(merchantUpdateFlow({
       verificationPatterns: {
         [id]: value,
       },

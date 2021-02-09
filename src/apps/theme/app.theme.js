@@ -131,6 +131,11 @@ export const AppTheme = createMuiTheme({
         },
       },
     },
+    MuiTypography: {
+      colorTextSecondary: {
+        color: appPalette.black75,
+      },
+    },
   },
   typography: appTypography,
 });

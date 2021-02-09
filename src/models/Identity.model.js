@@ -1,18 +1,13 @@
 import { titleize } from 'inflection';
 import { get } from 'lodash';
 import { getDocumentExtras } from 'models/Document.model';
+import { getFileContents } from '../lib/client/checks';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getIpCheckUrl } from './IpCheck.model';
 import { Routes } from './Router.model';
 import { isChangeableStatus } from './Status.model';
-import { DocumentStepTypes } from './Step.model';
-import { getFileContents } from '../lib/client/checks';
-
-export const VerificationStepTypes = {
-  AgeValidation: 'age-check',
-  IpValidation: 'ip-validation',
-  DuplicateUserValidation: 'duplicate-user-detection',
-};
+import { DocumentStepTypes, getStepExtra, StepTypes } from './Step.model';
+import { VerificationPatternTypes } from './Verification.model';
 
 export const VerificationSummaryTitleTypes = {
   document: 'document',
@@ -32,12 +27,8 @@ export const OrderKeys = {
   flowId: 'flowId',
 };
 
-export function getIdentityShortId(id) {
-  return (id || '').slice(-6);
-}
-
 export function getIpCheckStep(steps) {
-  const step = steps.find((item) => item.id === VerificationStepTypes.IpValidation);
+  const step = steps.find((item) => item.id === VerificationPatternTypes.IpValidation);
 
   if (!step) {
     return null;
@@ -56,15 +47,15 @@ export function getIdentityExtras(identity, countries) {
   }
 
   const steps = get(identity, '_embedded.verification.steps') || [];
-  const documents = getDocumentExtras(identity, countries);
+  const pooStep = getStepExtra(steps.find((item) => item.id === StepTypes.ProofOfOwnership));
+  const documents = getDocumentExtras(identity, countries, pooStep);
 
   let duplicateUserDetectionStep;
   let ageCheck;
   let premiumAmlWatchlistsMonitoringStep;
   documents.forEach((doc) => {
-    duplicateUserDetectionStep = duplicateUserDetectionStep || doc.steps.find((item) => item.id === VerificationStepTypes.DuplicateUserValidation);
-
-    const documentsAgeCheck = doc.steps.find((item) => item.id === VerificationStepTypes.AgeValidation);
+    duplicateUserDetectionStep = duplicateUserDetectionStep || doc.steps.find((item) => item.id === VerificationPatternTypes.DuplicateUserValidation);
+    const documentsAgeCheck = doc.steps.find((item) => item.id === VerificationPatternTypes.AgeValidation);
     ageCheck = ageCheck?.error || !documentsAgeCheck ? ageCheck : documentsAgeCheck;
 
     const premiumAmlWatchlistsMonitoring = doc.steps.find((item) => item.id === DocumentStepTypes.PremiumAmlWatchlistsCheck);
@@ -74,9 +65,7 @@ export function getIdentityExtras(identity, countries) {
   return {
     ...identity,
     biometric: getBiometricExtras(steps.filter((item) => BiometricSteps.includes(item.id))),
-    shortId: getIdentityShortId(identity.id),
     fullName: titleize(identity.fullName || ''),
-    // TODO @dkchv: overrided
     documents,
     isEditable: isChangeableStatus(identity.status),
     ipCheck: getIpCheckStep(steps),

@@ -1,11 +1,11 @@
 import { Switch } from '@material-ui/core';
 import { notification } from 'apps/ui';
-import { VerificationStepTypes } from 'models/Identity.model';
+import { VerificationPatternTypes } from 'models/Verification.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { configurationFlowUpdate } from 'state/merchant/merchant.actions';
 import { selectDuplicateUserDetectionCheck } from 'state/merchant/merchant.selectors';
+import { merchantUpdateFlow } from '../../../../state/merchant/merchant.actions';
 import { useStyles } from './DuplicateUserDetectionCheckControl.styles';
 
 export function DuplicateUserDetectionCheckControl() {
@@ -18,9 +18,9 @@ export function DuplicateUserDetectionCheckControl() {
   const handleChange = useCallback(async (event) => {
     const isChecked = event.target.checked;
     try {
-      await dispatch(configurationFlowUpdate({
+      await dispatch(merchantUpdateFlow({
         verificationPatterns: {
-          [VerificationStepTypes.DuplicateUserValidation]: isChecked,
+          [VerificationPatternTypes.DuplicateUserValidation]: isChecked,
         },
       }));
       setState(isChecked);

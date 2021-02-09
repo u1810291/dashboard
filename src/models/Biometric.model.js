@@ -1,12 +1,12 @@
 import { get } from 'lodash';
-import { BiometricStepTypes, getStepStatus, StepStatus } from './Step.model';
+import { getStepStatus, StepStatus, StepTypes } from './Step.model';
 
 export const BiometricTypes = {
-  liveness: 'liveness',
-  selfie: 'selfie',
+  liveness: StepTypes.LivenessMovement,
+  selfie: StepTypes.Selfie,
+  voice: StepTypes.Voice,
+  voiceLiveness: StepTypes.LivenessVoice,
   none: 'none',
-  voice: 'voice',
-  voiceLiveness: 'voice+liveness',
 };
 
 export const BiometricSettings = [
@@ -99,7 +99,7 @@ export function getBiometricCheckStatus(steps) {
     return LivenessStepStatus.Disabled;
   }
   const { id, checkStatus } = getBiometricStatus(steps);
-  if (checkStatus === StepStatus.Success && id === BiometricStepTypes.Selfie) {
+  if (checkStatus === StepStatus.Success && id === StepTypes.Selfie) {
     return LivenessStepStatus.FewData;
   }
   return checkStatus;

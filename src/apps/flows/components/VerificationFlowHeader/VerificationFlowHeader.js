@@ -70,10 +70,10 @@ export function VerificationFlowHeader(props) {
     }
   }, [history, dispatch, confirmDelete, merchantFlowsModel, currentFlow, merchantFlowList.length]);
 
-  const submitEditable = useCallback(async (text) => {
-    await dispatch(merchantUpdateFlow(currentFlow.id, { name: text }));
+  const submitEditable = useCallback(async (name) => {
+    await dispatch(merchantUpdateFlow({ name }));
     setEditable(false);
-  }, [dispatch, currentFlow]);
+  }, [dispatch]);
 
   function cancelEditable() {
     setEditable(false);

@@ -16,6 +16,7 @@ export * from './components/Card/Card';
 export * from './components/CheckControlButton/CheckControlButton';
 export * from './components/CheckBarExpandableSummary/CheckBarExpandableSummary';
 export * from './components/SkeletonLoader/SkeletonLoader';
+export * from './components/ZoomableImage/ZoomableImage';
 
 export * from './models/Warning.model';
 export * from './models/SyntaxHighlighter.model';
