@@ -1,8 +1,8 @@
 import { Typography } from '@material-ui/core';
 import { selectFilter } from 'apps/analytics/state/metrics.selectors';
 import { selectUserRegistrationDate } from 'apps/user/state/user.selectors';
-import { DateFormat, formatDate } from 'lib/date';
-import { allUTCRanges, FilterRangeTypes, identifyRange } from 'models/Filter.model';
+import { DateFormat, utcToLocalFormat } from 'lib/date';
+import { analyticsDatePickerRanges, FilterRangeTypes, identifyRange } from 'models/Filter.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -21,7 +21,7 @@ export function DynamicHeader({ flows = [] }) {
     const start = metricsFilter['dateCreated[start]'];
     const end = metricsFilter['dateCreated[end]'];
     if (start || end) {
-      setPeriod(identifyRange(start, end, selectRegisterDate, allUTCRanges));
+      setPeriod(identifyRange(start, end, selectRegisterDate, analyticsDatePickerRanges));
     }
   }, [metricsFilter, selectRegisterDate]);
 
@@ -38,8 +38,8 @@ export function DynamicHeader({ flows = [] }) {
   }, [flows, intl, merchantFlowList.value]);
 
   const getFormattedPeriodString = useCallback(() => {
-    const startDate = formatDate(metricsFilter['dateCreated[start]'], DateFormat.MonthShort) ?? '';
-    const endDate = formatDate(metricsFilter['dateCreated[end]'], DateFormat.MonthShort) ?? '';
+    const startDate = utcToLocalFormat(metricsFilter['dateCreated[start]'], DateFormat.MonthShort) ?? '';
+    const endDate = utcToLocalFormat(metricsFilter['dateCreated[end]'], DateFormat.MonthShort) ?? '';
     return `${startDate} - ${endDate}`;
   }, [metricsFilter]);
 

@@ -4,11 +4,12 @@ import { FiCalendar, FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPreliminaryFilteredCountModel } from 'state/identities/identities.selectors';
+import { allDatePickerRanges } from 'models/Filter.model';
 import { DateRange } from '../../components/DateRange/DateRange';
 import { useStyles } from './Filter.styles';
 import { QATags } from '../../../../models/QA.model';
 
-export function Filter({ children, onClose, onSetFilter, selectFilter, onClearFilter, isUTCDates, loadPreliminaryCountAction, preliminaryCountSelector }) {
+export function Filter({ children, onClose, onSetFilter, selectFilter, onClearFilter, datePickerRanges = allDatePickerRanges, loadPreliminaryCountAction, preliminaryCountSelector }) {
   const intl = useIntl();
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -58,7 +59,7 @@ export function Filter({ children, onClose, onSetFilter, selectFilter, onClearFi
               start={bufferedFilter['dateCreated[start]']}
               end={bufferedFilter['dateCreated[end]']}
               onChange={handleDateChange}
-              isUTCDates={isUTCDates}
+              datePickerRanges={datePickerRanges}
             />
           </Grid>
           <Box className={classes.hr} mb={0.5} />
