@@ -6,7 +6,7 @@ import { useFilterUpdate } from 'apps/filter/hooks/filterUpdate.hook';
 import { DevicesStats } from 'apps/fingerPrint/components/DevicesStats/DevicesStats';
 import { AnalyticsMap } from 'apps/googleMap/components/AnalyticsMap/AnalyticsMap';
 import { PageLoader } from 'apps/layout';
-import { FilterRangesByUTC, FilterRangeTypes, getFilterDatesIsValid, parseFromURL } from 'models/Filter.model';
+import { analyticsDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, getFilterDatesIsValid, parseFromURL } from 'models/Filter.model';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -37,7 +37,7 @@ export function AnalyticsContainer() {
 
   useEffect(() => {
     const parsedFilter = parseFromURL(location.search, analyticsFilterStructure);
-    const { start, end } = FilterRangesByUTC[FilterRangeTypes.Last7Days].getMomentPeriod();
+    const { start, end } = FilterRangesByLocal[FilterRangeTypes.Last7Days].getMomentPeriod();
     const resultFilter = getFilterDatesIsValid(parsedFilter) ? parsedFilter : { ...analyticsClearFilter, 'dateCreated[start]': start, 'dateCreated[end]': end };
 
     dispatch(filterUpdate(resultFilter));
@@ -58,7 +58,7 @@ export function AnalyticsContainer() {
                 <DynamicHeader flows={flows} />
               </Grid>
               <Grid container item xs={3} justify="flex-end">
-                <OpenFilter qa={QATags.Analytics.FilterButton} onSetFilter={setFilter} selectFilter={metricsFilter} onClearFilter={analyticsClearFilter} isUTCDates>
+                <OpenFilter qa={QATags.Analytics.FilterButton} onSetFilter={setFilter} selectFilter={metricsFilter} onClearFilter={analyticsClearFilter} datePickerRanges={analyticsDatePickerRanges}>
                   <ByFlows />
                   <ByCountries />
                 </OpenFilter>

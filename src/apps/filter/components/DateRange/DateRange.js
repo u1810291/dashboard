@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import { selectUserRegistrationDate } from 'apps/user/state/user.selectors';
 import classNames from 'classnames';
 import { DateFormat, dayEndTime, toLocalDate, zeroTime } from 'lib/date';
-import { allLocalRanges, allUTCRanges, FilterRangeTypes, identifyRange } from 'models/Filter.model';
+import { allDatePickerRanges, FilterRangeTypes, identifyRange } from 'models/Filter.model';
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { useStyles } from './DateRange.styles';
 import { QATags } from '../../../../models/QA.model';
 
-export const DateRange = ({ onChange, start, end, isUTCDates }) => {
+export function DateRange({ onChange, start, end, datePickerRanges = allDatePickerRanges }) {
   const intl = useIntl();
   const classes = useStyles();
   const [from, setFrom] = useState(null);
@@ -23,7 +23,6 @@ export const DateRange = ({ onChange, start, end, isUTCDates }) => {
   const [startFormInvalid, setStartFormInvalid] = useState(false);
   const [endFormInvalid, setEndFormInvalid] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
-  const [allRanges] = useState(isUTCDates ? allUTCRanges : allLocalRanges);
   const [modifiers, setModifiers] = useState({
     start: from,
     end: to,
@@ -61,9 +60,9 @@ export const DateRange = ({ onChange, start, end, isUTCDates }) => {
       start: startDate,
       end: endDate,
     });
-    const rangeId = identifyRange(startDate, endDate, registerDate, allRanges);
+    const rangeId = identifyRange(startDate, endDate, registerDate, datePickerRanges);
     setSelectedRange(rangeId);
-  }, [allRanges, registerDate, setEndInput, setStartInput]);
+  }, [datePickerRanges, registerDate, setEndInput, setStartInput]);
 
   useEffect(() => {
     changeRange(toLocalDate(start), toLocalDate(end));
@@ -178,7 +177,7 @@ export const DateRange = ({ onChange, start, end, isUTCDates }) => {
         />
       </Box>
       <Box data-qa={QATags.Filter.DatePicker.Periods} className={classes.period}>
-        {allRanges.map((rangeItem) => (
+        {datePickerRanges.map((rangeItem) => (
           <Button
             key={rangeItem.id}
             className={classNames({ selected: selectedRange === rangeItem.id })}
@@ -190,4 +189,4 @@ export const DateRange = ({ onChange, start, end, isUTCDates }) => {
       </Box>
     </Box>
   );
-};
+}
