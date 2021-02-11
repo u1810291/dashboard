@@ -19,7 +19,7 @@ export function useFullStory() {
 
       const FullStory = await import('@fullstory/browser');
       if (!isInited) {
-        FullStory.init({ orgId: fullStoryOrgId, devMode: isProduction });
+        FullStory.init({ orgId: fullStoryOrgId, devMode: !isProduction });
         setIsInited(true);
       }
       FullStory.identify(merchantId, {
