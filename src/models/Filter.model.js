@@ -1,5 +1,5 @@
 // url search object -> json
-import { dayEndTime, todayMomentZeroTime, todayUTCMomentZeroTime, zeroTime } from 'lib/date';
+import { dayEndTime, todayMomentZeroTime, zeroTime } from 'lib/date';
 import { identity, pickBy } from 'lodash';
 import moment from 'moment';
 import { ITEMS_PER_PAGE } from './Pagination.model';
@@ -17,136 +17,6 @@ export const FilterRangeTypes = {
   ThisWeek: 'ThisWeek',
   ThisYear: 'ThisYear',
 };
-
-export const FilterRangesByUTC = {
-  [FilterRangeTypes.All]:
-    {
-      id: FilterRangeTypes.All,
-      getMomentPeriod: (registerDate) => ({
-        start: moment(registerDate),
-        end: moment().utc().set(dayEndTime),
-      }),
-    },
-  [FilterRangeTypes.Today]: {
-    id: FilterRangeTypes.Today,
-    getMomentPeriod: () => ({
-      start: todayUTCMomentZeroTime,
-      end: moment().utc().set(dayEndTime),
-    }),
-  },
-  [FilterRangeTypes.Yesterday]: {
-    id: FilterRangeTypes.Yesterday,
-    getMomentPeriod: () => ({
-      start: moment().utc()
-        .subtract(1, 'days')
-        .set(zeroTime),
-      end: moment().utc()
-        .subtract(1, 'days')
-        .set(dayEndTime),
-    }),
-  },
-  [FilterRangeTypes.Last7Days]:
-    {
-      id: FilterRangeTypes.Last7Days,
-      getMomentPeriod: () => ({
-        start: moment().utc()
-          .subtract(7, 'days')
-          .set(zeroTime),
-        end: moment().utc().set(dayEndTime),
-      }),
-    },
-  [FilterRangeTypes.Last30Days]: {
-    id: FilterRangeTypes.Last30Days,
-    getMomentPeriod: () => ({
-      start: moment().utc()
-        .subtract(30, 'days')
-        .set(zeroTime),
-      end: moment().utc().set(dayEndTime),
-    }),
-  },
-  [FilterRangeTypes.LastWeek]: {
-    id: FilterRangeTypes.LastWeek,
-    getMomentPeriod: () => {
-      const start = moment().utc()
-        .startOf('week')
-        .subtract(1, 'week');
-      const end = moment(start).utc()
-        .endOf('week');
-      return {
-        start,
-        end,
-      };
-    },
-  },
-  [FilterRangeTypes.LastMonth]: {
-    id: FilterRangeTypes.LastMonth,
-    getMomentPeriod: () => {
-      const start = moment().utc()
-        .startOf('month')
-        .subtract(1, 'month');
-      const end = moment(start).utc()
-        .endOf('month');
-      return {
-        start,
-        end,
-      };
-    },
-  },
-  [FilterRangeTypes.LastYear]:
-    {
-      id: FilterRangeTypes.LastYear,
-      getMomentPeriod: () => {
-        const start = moment().utc()
-          .startOf('year')
-          .subtract(1, 'year');
-        const end = moment(start).utc()
-          .endOf('year');
-        return {
-          start,
-          end,
-        };
-      },
-    },
-  [FilterRangeTypes.ThisMonth]:
-    {
-      id: FilterRangeTypes.ThisMonth,
-      getMomentPeriod: () => ({
-        start: moment().utc()
-          .startOf('month'),
-        end: moment().utc().set(dayEndTime),
-      }),
-    },
-  [FilterRangeTypes.ThisWeek]:
-    {
-      id: FilterRangeTypes.ThisWeek,
-      getMomentPeriod: () => ({
-        start: moment().utc()
-          .startOf('week'),
-        end: moment().utc().set(dayEndTime),
-      }),
-    },
-  [FilterRangeTypes.ThisYear]:
-    {
-      id: FilterRangeTypes.ThisYear,
-      getMomentPeriod: () => ({
-        start: moment().utc()
-          .startOf('year'),
-        end: moment().utc().set(dayEndTime),
-      }),
-    },
-};
-
-export const allUTCRanges = [
-  FilterRangesByUTC[FilterRangeTypes.All],
-  FilterRangesByUTC[FilterRangeTypes.Today],
-  FilterRangesByUTC[FilterRangeTypes.Yesterday],
-  FilterRangesByUTC[FilterRangeTypes.Last7Days],
-  FilterRangesByUTC[FilterRangeTypes.Last30Days],
-  FilterRangesByUTC[FilterRangeTypes.LastWeek],
-  FilterRangesByUTC[FilterRangeTypes.LastMonth],
-  FilterRangesByUTC[FilterRangeTypes.ThisMonth],
-  FilterRangesByUTC[FilterRangeTypes.ThisWeek],
-];
 
 export const FilterRangesByLocal = {
   [FilterRangeTypes.All]:
@@ -266,7 +136,7 @@ export const FilterRangesByLocal = {
     },
 };
 
-export const allLocalRanges = [
+export const allDatePickerRanges = [
   FilterRangesByLocal[FilterRangeTypes.All],
   FilterRangesByLocal[FilterRangeTypes.Today],
   FilterRangesByLocal[FilterRangeTypes.Yesterday],
@@ -278,6 +148,18 @@ export const allLocalRanges = [
   FilterRangesByLocal[FilterRangeTypes.ThisMonth],
   FilterRangesByLocal[FilterRangeTypes.ThisWeek],
   FilterRangesByLocal[FilterRangeTypes.ThisYear],
+];
+
+export const analyticsDatePickerRanges = [
+  FilterRangesByLocal[FilterRangeTypes.All],
+  FilterRangesByLocal[FilterRangeTypes.Today],
+  FilterRangesByLocal[FilterRangeTypes.Yesterday],
+  FilterRangesByLocal[FilterRangeTypes.Last7Days],
+  FilterRangesByLocal[FilterRangeTypes.Last30Days],
+  FilterRangesByLocal[FilterRangeTypes.LastWeek],
+  FilterRangesByLocal[FilterRangeTypes.LastMonth],
+  FilterRangesByLocal[FilterRangeTypes.ThisMonth],
+  FilterRangesByLocal[FilterRangeTypes.ThisWeek],
 ];
 
 export function identifyRange(startDate, endDate, registerDate, allRanges) {

@@ -10,16 +10,9 @@ import { NotificationsContainer } from 'apps/ui';
 import { OverlayContainer } from 'apps/overlay';
 import 'clipboard-polyfill';
 import 'core-js';
-import * as Sentry from '@sentry/browser';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { AppTheme } from 'apps/theme/app.theme';
-
-if (process.env.REACT_APP_SENTRY_DSN) {
-  Sentry.init({
-    dsn: process.env.REACT_APP_SENTRY_DSN,
-    environment: process.env.REACT_APP_SENTRY_ENVIRONMENT,
-  });
-}
+import { AppBootstrap } from 'apps/AppBootstrap';
 
 // eslint-disable-next-line no-console
 console.log('Mati version test CI', process.env.REACT_APP_VERSION);
@@ -29,6 +22,7 @@ ReactDOM.render(
     <StoreProvider>
       <AppIntlProvider>
         <BrowserRouter>
+          <AppBootstrap />
           <AppRouter />
           <NotificationsContainer />
           <OverlayContainer />
