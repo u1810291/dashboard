@@ -22,10 +22,11 @@ export function useFullStory() {
         FullStory.init({ orgId: fullStoryOrgId, devMode: !isProduction });
         setIsInited(true);
       }
-      FullStory.identify(merchantId, {
+      FullStory.identify(clientId, {
         name,
         email,
-        clientId,
+        merchantId,
+        from: 'dashboard',
       });
     };
 
