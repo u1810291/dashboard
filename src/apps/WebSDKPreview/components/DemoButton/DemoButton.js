@@ -1,8 +1,6 @@
 import { Box, Divider, Paper } from '@material-ui/core';
 import { useOverlay } from 'apps/overlay';
 import { VideoPlayer } from 'apps/ui';
-import { trackEvent } from 'lib/mixpanel/mixpanel';
-import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -28,7 +26,6 @@ export function DemoButton() {
   );
 
   const showUseCaseModal = useCallback((url) => {
-    trackEvent(MixPanelEvents.VideoShowCase);
     createOverlay(<VideoFrame url={url} />);
   }, [createOverlay]);
 

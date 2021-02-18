@@ -1,10 +1,6 @@
 import { userLoadSuccess } from 'apps/user/state/user.actions';
 import { http } from 'lib/client/http';
 import { pushEvent } from 'lib/gtm';
-import { hubspotEvents, submitSignUpForm, trackEvent as hubspotTrackEvent } from 'lib/hubspot';
-import * as Mixpanel from 'lib/mixpanel/mixpanel';
-import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
-import { hubspotTrack } from 'state/hubspot/hubspot.actions';
 import { merchantLoadSuccess, dashboardUpdate } from 'state/merchant/merchant.actions';
 import { createTypesSequence } from 'state/utils';
 import { selectLanguage } from 'state/merchant/merchant.selectors';
@@ -31,17 +27,11 @@ export const signIn = (credentials) => async (dispatch, getState) => {
     dispatch(merchantLoadSuccess(merchant));
     dispatch(userLoadSuccess(user));
     dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload: token });
-    Mixpanel.addUser({
-      ...merchant,
-      email: credentials.email,
-    });
     if (currentLang !== selectLanguage(getState())) {
       dispatch(dashboardUpdate({
         language: currentLang,
       }));
     }
-    dispatch(hubspotTrack({}));
-    hubspotTrackEvent(hubspotEvents.signIn);
   } catch (error) {
     dispatch({ type: types.AUTH_SIGNIN_FAILURE });
     throw error;
@@ -49,11 +39,7 @@ export const signIn = (credentials) => async (dispatch, getState) => {
 };
 
 export const signUpTrack = (merchant, email) => () => {
-  Mixpanel.addUser({ ...merchant, email });
-  Mixpanel.trackEvent(MixPanelEvents.AuthSingUp);
-  submitSignUpForm(email);
   pushEvent({ event: 'Sign Up Success' });
-  hubspotTrackEvent(hubspotEvents.signUp);
   if (window.Appcues) {
     window.Appcues.identify(email);
   }

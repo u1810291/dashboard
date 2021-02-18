@@ -1,6 +1,4 @@
 import { Menu } from 'apps/layout';
-import { trackEvent } from 'lib/mixpanel/mixpanel';
-import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
 import React from 'react';
@@ -16,7 +14,6 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
       show: isOwner,
       to: Routes.analytics.root,
       label: intl.formatMessage({ id: 'dashboard.menu.metrics' }),
-      handler: () => trackEvent(MixPanelEvents.NavMetrics),
       icon: <FiBarChart2 />,
       qa: QATags.Menu.Metrics,
     },
@@ -24,7 +21,6 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
       id: 'identities',
       to: Routes.list.root,
       label: intl.formatMessage({ id: 'dashboard.menu.identities' }),
-      handler: () => trackEvent(MixPanelEvents.NavVerificationList),
       icon: <FiList />,
       qa: QATags.Menu.VerificationList,
     },
@@ -33,7 +29,6 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
       show: isOwner,
       to: Routes.flows.root,
       label: intl.formatMessage({ id: 'dashboard.menu.product' }),
-      handler: () => trackEvent(MixPanelEvents.NavProduct),
       icon: <FiUserCheck />,
       qa: QATags.Menu.Product,
     },
@@ -42,7 +37,6 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
       show: isOwner,
       to: Routes.dev.root,
       label: intl.formatMessage({ id: 'dashboard.menu.developers' }),
-      handler: () => trackEvent(MixPanelEvents.NavForDevelopers),
       icon: <FiCode />,
       qa: QATags.Menu.ForDevelopers,
     },

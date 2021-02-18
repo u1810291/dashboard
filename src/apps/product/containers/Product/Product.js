@@ -6,7 +6,6 @@ import { GovCheckSetup } from 'apps/GovCheck';
 import { Page404 } from 'apps/layout';
 import { Tab } from 'apps/ui';
 import { DemoButton } from 'apps/WebSDKPreview';
-import { MixPanelEvents } from 'lib/mixpanel/MixPanel.model';
 import { QATags } from 'models/QA.model';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,19 +22,16 @@ export function Product() {
 
   const [tabs] = useState([
     {
-      mixPanelEvent: null,
       label: 'Product.tab.customization',
       qa: QATags.Product.Tab.Configuration,
       body: <Configuration />,
     },
     {
-      mixPanelEvent: MixPanelEvents.NavGovChecks,
       label: 'Product.tab.govChecks',
       qa: QATags.Product.Tab.GovChecks,
       body: <GovCheckSetup />,
     },
     {
-      mixPanelEvent: null,
       label: 'Product.tab.checks',
       body: <AdditionalChecks />,
     },
