@@ -4,15 +4,22 @@ import { useOverlay } from 'apps/overlay';
 import { Warning, WarningSize, WarningTypes } from 'apps/ui';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
+import { selectAllCountriesModel } from '../../../../state/countries/countries.selectors';
+import { selectSupportedCountries } from '../../../../state/merchant/merchant.selectors';
 import { CountriesModal } from '../CountriesModal/CountriesModal';
 
-export function Countries({ countries, supportedCountries = [], onSubmit, isLoading }) {
+export function Countries({ onSubmit }) {
   const intl = useIntl();
+  const countriesModel = useSelector(selectAllCountriesModel);
+  const supportedCountries = useSelector(selectSupportedCountries);
   const [createOverlay, closeOverlay] = useOverlay();
 
   const handleSubmit = useCallback((value) => {
     closeOverlay();
-    onSubmit({ supportedCountries: value.map((item) => item.value) });
+    onSubmit({
+      supportedCountries: value.map((item) => item.value),
+    });
   }, [closeOverlay, onSubmit]);
 
   const mapCountries = useCallback((item) => ({
@@ -21,22 +28,22 @@ export function Countries({ countries, supportedCountries = [], onSubmit, isLoad
   }), []);
 
   const mapValues = useCallback((item) => {
-    const country = countries.find(({ code }) => code === item);
+    const country = countriesModel.value.find(({ code }) => code === item);
     return {
       value: item,
-      label: country && country.name,
+      label: country?.name,
     };
-  }, [countries]);
+  }, [countriesModel]);
 
   const openCountriesModal = useCallback(() => {
     createOverlay(
       <CountriesModal
         onSubmit={handleSubmit}
         supportedCountries={supportedCountries.map(mapValues)}
-        countries={countries.map(mapCountries)}
+        countries={countriesModel.value.map(mapCountries)}
       />,
     );
-  }, [createOverlay, handleSubmit, countries, supportedCountries, mapValues, mapCountries]);
+  }, [createOverlay, handleSubmit, countriesModel, supportedCountries, mapValues, mapCountries]);
 
   return (
     <Box>
@@ -62,20 +69,20 @@ export function Countries({ countries, supportedCountries = [], onSubmit, isLoad
       )}
 
       {/* content */}
-      {isLoading
+      {countriesModel.isLoading
         ? <PageLoader />
         : (
           <Box>
             {supportedCountries.length > 0 && (
-            <Grid container spacing={1} direction="row">
-              {supportedCountries
-                .map(mapValues)
-                .map((country) => (
-                  <Grid item key={country.value}>
-                    <Chip label={country.label} color="default" />
-                  </Grid>
-                ))}
-            </Grid>
+              <Grid container spacing={1} direction="row">
+                {supportedCountries
+                  .map(mapValues)
+                  .map((country) => (
+                    <Grid item key={country.value}>
+                      <Chip label={country.label} color="default" />
+                    </Grid>
+                  ))}
+              </Grid>
             )}
 
             <Box mt={2}>
