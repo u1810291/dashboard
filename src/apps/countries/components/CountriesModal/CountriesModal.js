@@ -5,14 +5,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './CountriesModal.styles';
 
-export function CountriesModal({
-  supportedCountries,
-  countries,
-  onSubmit,
-}) {
+export function CountriesModal({ supportedCountries, countries, onSubmit }) {
   const intl = useIntl();
   const classes = useStyles();
-  const [value, setValue] = useState(supportedCountries);
+  const [value, setValue] = useState([]);
 
   useEffect(() => {
     setValue(supportedCountries);
@@ -21,6 +17,7 @@ export function CountriesModal({
   const handleChange = useCallback((val) => {
     setValue(val);
   }, [setValue]);
+
   const handleSubmit = useCallback(() => {
     onSubmit(value);
   }, [onSubmit, value]);

@@ -134,6 +134,11 @@ export const selectCurrentFlow = createSelector(
   selectModelValue((model, id) => model.find((item) => item.id === id)),
 );
 
+export const selectSupportedCountries = createSelector(
+  selectCurrentFlow,
+  (flow) => flow.supportedCountries || [],
+);
+
 export const selectUploadDenial = createSelector(
   selectCurrentFlow,
   (flow) => flow.denyUploadsFromMobileGallery,

@@ -1,51 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import classnames from 'classnames';
+import React, { useCallback, useEffect, useState } from 'react';
 import Select from 'react-select';
 import { useStyles } from './MultiSelect.styles';
 
-export function MultiSelect({
-  onChange = () => {},
-  range = [],
-  className,
-  valuesClassName,
-  selectClassName,
-  ...props
-}) {
-  const [value, setValue] = useState();
+export function MultiSelect({ range = [], options, onChange }) {
+  const [value, setValue] = useState([]);
   const classes = useStyles();
 
   useEffect(() => {
     setValue(range);
   }, [range]);
 
-  function onChangeHandler(changes) {
-    setValue(changes);
-    onChange(changes);
-  }
+  const handleChange = useCallback((values) => {
+    setValue(values);
+    onChange(values);
+  }, [onChange]);
 
-  function deleteOption(optionIndex) {
+  const handleDelete = useCallback((optionIndex) => () => {
     const rest = value.filter((option, index) => index !== optionIndex);
     setValue(rest);
     onChange(rest);
-  }
+  }, [onChange, value]);
 
   return (
-    <div className={classnames(classes.multiSelect, className)}>
+    <div className={classes.multiSelect}>
       <Select
         isMulti
-        {...props}
-        className={classnames(classes.select, selectClassName)}
+        options={options}
+        className={classes.select}
         value={value}
         isSearchable
         controlShouldRenderValue={false}
-        onChange={onChangeHandler}
+        onChange={handleChange}
       />
-      <div className={valuesClassName}>
+      <div>
         {(value || []).map((option, index) => (
           <button
             className={classes.valueItem}
-            key={index} // eslint-disable-line react/no-array-index-key
-            onClick={() => deleteOption(index)}
+            key={index}
+            onClick={handleDelete(index)}
             type="button"
           >
             {option.label}
