@@ -18,7 +18,10 @@ export const useStyles = makeStyles(() => ({
     color: 'var(--mgi-theme-palette-default)',
   },
   checkbox: {
-    height: 35,
-    display: 'inline-block',
+    display: 'flex',
+    '& .MuiButtonBase-root': {
+      flexShrink: 0,
+      minHeight: 'auto',
+    },
   },
 }));
