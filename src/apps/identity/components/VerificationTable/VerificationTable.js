@@ -7,7 +7,11 @@ import { ReactComponent as EmptyTableIcon } from 'assets/empty-table.svg';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { utcToLocalFormat } from 'lib/date';
 import { titleCase } from 'lib/string';
+import { OrderDirections, OrderKeys } from 'models/Identity.model';
+import { ITEMS_PER_PAGE } from 'models/Pagination.model';
+import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
+import { IdentityStatuses } from 'models/Status.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -16,10 +20,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { identitiesListLoad, identityRemove } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityCollection, selectIdentityCountModel, selectIdentityFilter } from 'state/identities/identities.selectors';
-import { IdentityStatuses } from 'models/Status.model';
-import { OrderDirections, OrderKeys } from 'models/Identity.model';
-import { ITEMS_PER_PAGE } from 'models/Pagination.model';
-import { QATags } from 'models/QA.model';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { StatusLabel } from '../StatusLabel';
 import { VerificationFlowName } from '../VerificationFlowName/VerificationFlowName';
@@ -40,7 +40,10 @@ export function VerificationTable() {
   const identityFilter = useSelector(selectIdentityFilter);
   const countModel = useSelector(selectIdentityCountModel);
   const history = useHistory();
-  const confirmDelete = useConfirmDelete();
+  const confirmDelete = useConfirmDelete(
+    intl.formatMessage({ id: 'verificationModal.delete' }),
+    intl.formatMessage({ id: 'verificationModal.delete.confirm' },
+    ));
 
   useEffect(() => {
     setOffset(0);
