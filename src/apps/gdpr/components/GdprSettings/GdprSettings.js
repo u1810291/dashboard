@@ -56,14 +56,14 @@ export function GdprSettings() {
               onChange={handleSwitcher}
               color="primary"
             />
-            )}
+          )}
           label={intl.formatMessage({ id: 'Product.configuration.gdpr.switchLabel' })}
         />
         {enabled && policyInterval && (
-        <GdprDropdown
-          policyInterval={policyInterval}
-          handleClickOpenDialog={handleClickOpenDialog}
-        />
+          <GdprDropdown
+            policyInterval={policyInterval}
+            handleClickOpenDialog={handleClickOpenDialog}
+          />
         )}
       </Box>
     </FormControl>

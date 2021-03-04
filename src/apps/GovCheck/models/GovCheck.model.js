@@ -12,6 +12,7 @@ export const GovCheckCountryList = {
   Argentina: 'argentina',
   Brazil: 'brazil',
   Colombia: 'colombia',
+  CostaRica: 'costaRica',
   Mexico: 'mexico',
   Peru: 'peru',
 };
@@ -22,6 +23,10 @@ export const GovCheckConfiguration = [
     checks: [
       {
         id: DocumentStepTypes.ArgentinianRenaper,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.ArgentinianDni,
         default: false,
       },
     ],
@@ -46,6 +51,14 @@ export const GovCheckConfiguration = [
       {
         id: DocumentStepTypes.ColombianRegistraduria,
         default: true,
+      },
+    ],
+  }, {
+    country: GovCheckCountryList.CostaRica,
+    checks: [
+      {
+        id: DocumentStepTypes.CostaRicanTse,
+        default: false,
       },
     ],
   }, {
@@ -100,6 +113,34 @@ export const govCheckDisplayOptions = {
     },
     expirationDate: {
       inline: true,
+    },
+  },
+
+  [DocumentStepTypes.CostaRicanTse]: {
+    firstName: {
+      inline: true,
+    },
+    lastName: {
+      inline: true,
+    },
+    secondSurname: {},
+    dateOfBirth: {
+      inline: true,
+    },
+    nationality: {
+      inline: true,
+    },
+    documentNumber: {
+      inline: true,
+    },
+    deceased: {
+      inline: true,
+    },
+  },
+
+  [DocumentStepTypes.ArgentinianDni]: {
+    documentNumber: {
+      hidden: true,
     },
   },
 };

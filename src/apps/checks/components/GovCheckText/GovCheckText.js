@@ -14,6 +14,9 @@ export function GovCheckText({ step }) {
     const data = { ...step.data };
     const result = Object.keys(displayOption).map((entry) => {
       delete data[entry];
+      if (displayOption[entry].hidden) {
+        return null;
+      }
       return (
         <Grid xs={displayOption[entry].inline ? 6 : 12} item>
           <CheckStepDetailsEntry label={entry} value={step.data[entry] !== null ? step.data[entry] : 'Null'} key={entry} />
