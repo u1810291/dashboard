@@ -29,6 +29,8 @@ export const DocumentStepTypes = {
   ColombianRegistraduria: VerificationPatternTypes.ColombianRegistraduria,
   ArgentinianRenaper: VerificationPatternTypes.ArgentinianRenaper,
   PeruvianReniec: VerificationPatternTypes.PeruvianReniec,
+  CostaRicanTse: VerificationPatternTypes.CostaRicanTse,
+  ArgentinianDni: VerificationPatternTypes.ArgentinianDni,
   DuplicateUserDetectionCheck: 'duplicate-user-detection',
   PremiumAmlWatchlistsCheck: 'premium-aml-watchlists-search-validation',
 };
@@ -59,10 +61,12 @@ export const DocumentMxSteps = [
 
 export const CountrySpecificChecks = [
   ...DocumentMxSteps,
+  DocumentStepTypes.ArgentinianDni,
   DocumentStepTypes.ArgentinianRenaper,
   DocumentStepTypes.BrazilianCpf,
   DocumentStepTypes.ColombianRegistraduria,
   DocumentStepTypes.PeruvianReniec,
+  DocumentStepTypes.CostaRicanTse,
 ];
 
 export const StepStatus = {
@@ -102,6 +106,8 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.Watchlists]: ['watchlists.notEnoughParams'],
   [DocumentStepTypes.DuplicateUserDetectionCheck]: ['duplacateIdentityDetection.notValidParams'],
   [DocumentStepTypes.PremiumAmlWatchlistsCheck]: ['premiumAmlWatchlists.notValidParams'],
+  [DocumentStepTypes.ArgentinianDni]: ['argentinianDni.notEnoughParams'],
+  [DocumentStepTypes.CostaRicanTse]: ['costaRicanTse.notEnoughParams'],
   [DocumentStepTypes.AgeValidation]: ['underage.noDOB'],
 };
 
