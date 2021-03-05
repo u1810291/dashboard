@@ -18,7 +18,7 @@ export function Countries({ onSubmit }) {
   const handleSubmit = useCallback((value) => {
     closeOverlay();
     onSubmit({
-      supportedCountries: value.map((item) => item.value),
+      supportedCountries: (value || []).map((item) => item.value),
     });
   }, [closeOverlay, onSubmit]);
 
