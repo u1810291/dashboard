@@ -1549,6 +1549,8 @@
   "VerificationFlow.menu.deleteDialog.subText": "Após a exclusão, tenha certeza de não direcionar mais usuários para este fluxo. Qualquer tentativa de acessar este fluxo vai redirecionar automaticamente para seu fluxo padrão.",
   "VerificationFlow.menu.deleteDialog.text": "Tem certeza de que deseja excluir este fluxo?",
   "VerificationFlow.menu.title": "Fluxo de verificação",
+  "VerificationFlow.modal.delete.subtitle": "Tem certeza de que deseja excluir este fluxo?",
+  "VerificationFlow.modal.delete.title": "Apagar o Fluxo",
   "VerificationFlow.page.button": "Criar Novo Fluxo",
   "VerificationFlow.page.notification.error": "Algo deu errado",
   "VerificationFlow.page.title": "Fluxos de Verificação",
