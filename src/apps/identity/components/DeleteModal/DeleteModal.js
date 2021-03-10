@@ -1,19 +1,19 @@
+import { Button } from '@material-ui/core';
+import { Modal, useOverlay } from 'apps/overlay';
+import Img from 'assets/modal-delete.svg';
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { Button } from '@material-ui/core';
-import Img from 'assets/modal-delete.svg';
-import { useOverlay, Modal } from 'apps/overlay';
 
-export function DeleteModal({ onClose, onConfirm }) {
+export function DeleteModal({ onClose, onConfirm, title = '', subtitle = '' }) {
   const intl = useIntl();
 
   return (
     <Modal
       data-role="confirmationModal"
       imgSrc={Img}
-      title={intl.formatMessage({ id: 'verificationModal.delete' })}
-      subtitle={intl.formatMessage({ id: 'verificationModal.delete.confirm' })}
+      title={title}
+      subtitle={subtitle}
       onClose={onClose}
     >
       <Button
@@ -38,7 +38,7 @@ export function DeleteModal({ onClose, onConfirm }) {
   );
 }
 
-export function useConfirmDelete() {
+export function useConfirmDelete(title, subtitle) {
   const [createOverlay, closeOverlay] = useOverlay();
 
   return useCallback(() => new Promise((resolve, reject) => {
@@ -52,10 +52,10 @@ export function useConfirmDelete() {
       resolve();
     }
 
-    createOverlay(<DeleteModal onClose={onClose} onConfirm={onConfirm} />, {
+    createOverlay(<DeleteModal title={title} subtitle={subtitle} onClose={onClose} onConfirm={onConfirm} />, {
       onClose,
     });
-  }), [closeOverlay, createOverlay]);
+  }), [closeOverlay, createOverlay, subtitle, title]);
 }
 
 DeleteModal.propTypes = {

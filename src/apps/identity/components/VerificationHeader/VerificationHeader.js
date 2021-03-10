@@ -2,20 +2,20 @@ import { Grid } from '@material-ui/core';
 import { useOverlay } from 'apps/overlay';
 import { downloadBlob } from 'lib/file';
 import { get } from 'lodash';
+import { getGoBackToListLink } from 'models/Identity.model';
+import { QATags } from 'models/QA.model';
+import { Routes } from 'models/Router.model';
+import { IdentityStatuses } from 'models/Status.model';
 import React, { useCallback, useState } from 'react';
 import { FiChevronLeft, FiCode, FiDownload, FiLoader, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { identityRemove, setPDFGenerating } from 'state/identities/identities.actions';
-import { selectIdentityIsPDFGenerating } from '../../../../state/identities/identities.selectors';
+import { selectIdentityIsPDFGenerating } from 'state/identities/identities.selectors';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { VerificationWebhookModal } from '../VerificationWebhookModal/VerificationWebhookModal';
 import { SideButton, useStyles } from './VerificationHeader.styles';
-import { getGoBackToListLink } from '../../../../models/Identity.model';
-import { IdentityStatuses } from '../../../../models/Status.model';
-import { Routes } from '../../../../models/Router.model';
-import { QATags } from '../../../../models/QA.model';
 
 export function VerificationHeader({ identity, isDemo = false }) {
   const dispatch = useDispatch();
@@ -26,7 +26,10 @@ export function VerificationHeader({ identity, isDemo = false }) {
   const goBackToListLink = getGoBackToListLink(useLocation());
   const [isDeleting, setIsDeleting] = useState(false);
   const isPDFGenerating = useSelector(selectIdentityIsPDFGenerating);
-  const confirmDelete = useConfirmDelete();
+  const confirmDelete = useConfirmDelete(
+    intl.formatMessage({ id: 'verificationModal.delete' }),
+    intl.formatMessage({ id: 'verificationModal.delete.confirm' },
+    ));
 
   const handlePDFGenerating = useCallback((flag) => {
     dispatch(setPDFGenerating(flag));
