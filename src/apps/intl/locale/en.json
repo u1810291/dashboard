@@ -1549,6 +1549,8 @@
   "VerificationFlow.menu.deleteDialog.subText": "After deletion, make sure that you are no longer directing users to this flow. Any attempt to access this flow will automatically redirect users to their default flow",
   "VerificationFlow.menu.deleteDialog.text": "Are you sure you want to delete this flow?",
   "VerificationFlow.menu.title": "Verification flow",
+  "VerificationFlow.modal.delete.subtitle": "Do you really want to delete this flow?",
+  "VerificationFlow.modal.delete.title": "Delete Flow",
   "VerificationFlow.page.button": "Create New Flow",
   "VerificationFlow.page.notification.error": "Something went wrong",
   "VerificationFlow.page.title": "Verification Flows",

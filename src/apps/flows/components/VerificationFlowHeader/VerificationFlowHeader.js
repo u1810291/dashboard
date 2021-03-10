@@ -3,8 +3,9 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import { flowNameValidator } from 'apps/flows/validators/FlowName.validator';
 import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
 import { EditableField } from 'apps/product/components/EditableField/EditableField';
-import { copyToClipboard } from 'lib/copyToClipboard';
+import { notification } from 'apps/ui';
 import { permalinkUrl } from 'lib/client/urls';
+import { copyToClipboard } from 'lib/copyToClipboard';
 import { getNewFlowId } from 'models/Product.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -14,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { merchantDeleteFlow, merchantUpdateFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectAppLastModel, selectCurrentFlow, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
-import { notification } from 'apps/ui';
 import { CopyLinkButton, useStyles } from './VerificationFlowHeader.styles';
 
 export function VerificationFlowHeader(props) {
@@ -28,7 +28,10 @@ export function VerificationFlowHeader(props) {
   const currentFlow = useSelector(selectCurrentFlow);
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
   const merchantFlowList = useSelector(selectMerchantFlowList);
-  const confirmDelete = useConfirmDelete();
+  const confirmDelete = useConfirmDelete(
+    intl.formatMessage({ id: 'VerificationFlow.modal.delete.title' }),
+    intl.formatMessage({ id: 'VerificationFlow.modal.delete.subtitle' }),
+  );
 
   useEffect(() => {
     setEditable(false);

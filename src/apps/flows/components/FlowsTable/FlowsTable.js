@@ -4,6 +4,7 @@ import { NoFlows } from 'apps/product/components/NoFlows/NoFlows';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { OrderDirections, OrderKeys } from 'models/Identity.model';
 import { getNewFlowId } from 'models/Product.model';
+import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
@@ -13,7 +14,6 @@ import { useHistory } from 'react-router-dom';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { TableRowHovered, useStyles } from './FlowsTable.styles';
-import { QATags } from '../../../../models/QA.model';
 
 export function FlowsTable({ onAddNewFlow }) {
   const intl = useIntl();
@@ -25,7 +25,10 @@ export function FlowsTable({ onAddNewFlow }) {
   const merchantFlowModel = useSelector(selectMerchantFlowsModel);
   const merchantFlowList = useSelector(selectMerchantFlowList);
   const currentFlowId = useSelector(selectCurrentFlowId);
-  const confirmDelete = useConfirmDelete();
+  const confirmDelete = useConfirmDelete(
+    intl.formatMessage({ id: 'VerificationFlow.modal.delete.title' }),
+    intl.formatMessage({ id: 'VerificationFlow.modal.delete.subtitle' }),
+  );
   const dispatch = useDispatch();
   const [mouseUpExpired, setMouseUpExpired] = useState(false);
 
