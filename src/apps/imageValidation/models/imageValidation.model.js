@@ -2,6 +2,7 @@ export const InputValidationType = {
   GrayscaleImage: 'GrayscaleImage',
   IdenticalImages: 'IdenticalImages',
   SimilarImages: 'SimilarImages',
+  DocumentDetected: 'DocumentDetected',
 };
 
 export function validationChecksParse(values) {
