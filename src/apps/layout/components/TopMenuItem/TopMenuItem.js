@@ -37,7 +37,7 @@ export function TopMenuItem({
           [classes.withOutlinedPadding]: (isWithOutlined || isOutlined) && isOpen,
         })}
       >
-        <Box display="flex">
+        <Box display="flex" alignItems="center">
           {icon && (
           <Box
             mr={2}

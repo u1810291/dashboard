@@ -1,8 +1,9 @@
 import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
 import { NoFlows } from 'apps/product/components/NoFlows/NoFlows';
+import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
-import { OrderDirections, OrderKeys } from 'models/Identity.model';
+import { utcToLocalFormat } from 'lib/date';
 import { getNewFlowId } from 'models/Product.model';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
@@ -10,7 +11,6 @@ import React, { useCallback, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { TableRowHovered, useStyles } from './FlowsTable.styles';
@@ -18,10 +18,7 @@ import { TableRowHovered, useStyles } from './FlowsTable.styles';
 export function FlowsTable({ onAddNewFlow }) {
   const intl = useIntl();
   const classes = useStyles();
-  const history = useHistory();
   const [deleting, setDeleting] = useState(null);
-  const [orderBy] = useState('');
-  const [order] = useState(OrderDirections.asc);
   const merchantFlowModel = useSelector(selectMerchantFlowsModel);
   const merchantFlowList = useSelector(selectMerchantFlowList);
   const currentFlowId = useSelector(selectCurrentFlowId);
@@ -30,7 +27,7 @@ export function FlowsTable({ onAddNewFlow }) {
     intl.formatMessage({ id: 'VerificationFlow.modal.delete.subtitle' }),
   );
   const dispatch = useDispatch();
-  const [mouseUpExpired, setMouseUpExpired] = useState(false);
+  const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(Routes.flows.root);
 
   const handleDelete = useCallback(async (e, id) => {
     e.stopPropagation();
@@ -57,37 +54,12 @@ export function FlowsTable({ onAddNewFlow }) {
     }
   }, [dispatch, deleting, confirmDelete, merchantFlowModel, currentFlowId, merchantFlowList.length]);
 
-  const handleRedirect = useCallback((id) => {
-    history.push({
-      pathname: `${Routes.flows.root}/${id}`,
-    });
-  }, [history]);
-
-  const onMouseDownHandler = useCallback((event) => {
-    if (event.button === 0) {
-      setMouseUpExpired(false);
-      setTimeout(() => setMouseUpExpired(true), 200);
-    }
-    if (event.button === 1) {
-      event.preventDefault();
-    }
-  }, []);
-
-  const onMouseUpHandler = useCallback((event, id) => {
-    if (event.button === 0 && !mouseUpExpired) {
-      handleRedirect(id);
-    }
-    if (event.button === 1) {
-      window.open(`${Routes.flows.root}/${id}`, '_blank');
-    }
-  }, [handleRedirect, mouseUpExpired]);
-
   return (
     <TableContainer className={classes.container}>
       <Table className={classes.table} data-qa={QATags.Flows.Table}>
         <TableHead className={classes.tableHead}>
           <TableRow>
-            <TableCell sortDirection={orderBy === OrderKeys.fullName ? order : false}>
+            <TableCell>
               <Typography variant="subtitle2" className={classes.title}>
                 {intl.formatMessage({ id: 'flow.table.field.name' })}
               </Typography>
@@ -100,6 +72,11 @@ export function FlowsTable({ onAddNewFlow }) {
             <TableCell>
               <Typography variant="subtitle2" className={classes.title}>
                 {intl.formatMessage({ id: 'flow.table.field.type' })}
+              </Typography>
+            </TableCell>
+            <TableCell>
+              <Typography variant="subtitle2" className={classes.title}>
+                {intl.formatMessage({ id: 'flow.table.field.creationDate' })}
               </Typography>
             </TableCell>
             <TableCell />
@@ -137,6 +114,12 @@ export function FlowsTable({ onAddNewFlow }) {
                 <Box mb={{ xs: 2, lg: 0 }}>
                   {intl.formatMessage({ id: 'flow.table.type.verification' })}
                   <Box className={classes.label}>{intl.formatMessage({ id: 'flow.table.field.type' })}</Box>
+                </Box>
+              </TableCell>
+              <TableCell className={classes.itemData}>
+                <Box mb={{ xs: 2, lg: 0 }}>
+                  {utcToLocalFormat(item.createdAt)}
+                  <Box className={classes.label}>{intl.formatMessage({ id: 'flow.table.field.creationDate' })}</Box>
                 </Box>
               </TableCell>
               {merchantFlowList.length > 1 && (
