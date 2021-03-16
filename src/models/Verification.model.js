@@ -10,4 +10,5 @@ export const VerificationPatternTypes = {
   IpValidation: 'ip-validation',
   DuplicateUserValidation: 'duplicate-user-detection',
   ComplyAdvantageValidation: 'comply-advantage-validation',
+  PremiumAmlWatchlistsCheck: 'premium-aml-watchlists-search-validation',
 };
