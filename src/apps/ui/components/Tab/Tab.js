@@ -1,6 +1,5 @@
 import { Box, Paper } from '@material-ui/core';
 import classNames from 'classnames';
-import { trackEvent } from 'lib/mixpanel/mixpanel';
 import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './Tab.styles';
@@ -11,12 +10,8 @@ export function Tab({ tabs }) {
   const [selectedTab, setSelectedTab] = useState(0);
 
   const handleSelect = useCallback((index) => {
-    const newTab = tabs[index];
-    if (newTab.mixPanelEvent) {
-      trackEvent(newTab.mixPanelEvent);
-    }
     setSelectedTab(index);
-  }, [tabs]);
+  }, []);
 
   return (
     <Box>
