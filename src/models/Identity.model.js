@@ -1,7 +1,7 @@
 import { titleize } from 'inflection';
-import { getFileContents } from 'lib/client/checks';
 import { get } from 'lodash';
 import { getDocumentExtras } from 'models/Document.model';
+import { getFileContents } from '../lib/client/checks';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getIpCheckUrl } from './IpCheck.model';
 import { Routes } from './Router.model';
@@ -21,35 +21,11 @@ export const OrderDirections = {
   desc: 'desc',
 };
 
-export const OrderDirectionsNum = {
-  asc: '-1',
-  desc: '1',
-};
-
-export const OrderKeyTypes = {
+export const OrderKeys = {
   dateCreated: 'dateCreated',
   fullName: 'fullName',
-  verificationFlow: 'verificationFlow',
-  status: 'status',
+  flowId: 'flowId',
 };
-
-export const tableColumnsData = [
-  {
-    id: OrderKeyTypes.fullName,
-    isSortable: true,
-  },
-  {
-    id: OrderKeyTypes.verificationFlow,
-  },
-  {
-    id: OrderKeyTypes.dateCreated,
-    isSortable: true,
-  },
-  {
-    id: OrderKeyTypes.status,
-    isSortable: true,
-  },
-];
 
 export function getIpCheckStep(steps) {
   const step = steps.find((item) => item.id === VerificationPatternTypes.IpValidation);

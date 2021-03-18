@@ -1,6 +1,6 @@
 // url search object -> json
-import { compact, identity, isString, pickBy } from 'lodash';
 import { dayEndTime, todayMomentZeroTime, zeroTime } from 'lib/date';
+import { identity, pickBy } from 'lodash';
 import moment from 'moment';
 import { ITEMS_PER_PAGE } from './Pagination.model';
 
@@ -174,34 +174,45 @@ export function identifyRange(startDate, endDate, registerDate, allRanges) {
   return foundRange?.id || null;
 }
 
-export function filterParse({ search = '', status = '', flowIds = '', countries = '', offset, limit, sortOrder, sortBy, ...values }, filterStructure) {
-  const stringTypeGuard = (value) => (isString(value) ? compact(value.split(',')) : []);
+export function filterParse({ search, status, flowIds, offset, limit, countries, ...values }, filterStructure) {
+  const parsed = {};
 
-  return {
-    ...(filterStructure.search && { search }),
-    ...(filterStructure.status && { status: stringTypeGuard(status) }),
-    ...(filterStructure.flowIds && { flowIds: stringTypeGuard(flowIds) }),
-    ...(filterStructure.countries && { countries: stringTypeGuard(countries) }),
-    ...(filterStructure.offset && { offset: +offset || 0 }),
-    ...(filterStructure.limit && { limit: ITEMS_PER_PAGE }),
-    ...(filterStructure.sortOrder && { sortOrder: sortOrder || null }),
-    ...(filterStructure.sortBy && { sortBy: sortBy || null }),
-    ...(filterStructure['dateCreated[start]'] && {
-      'dateCreated[start]': values['dateCreated[start]']
-        ? moment(values['dateCreated[start]'])
-        : null,
-    }),
-    ...(filterStructure['dateCreated[end]'] && {
-      'dateCreated[end]': values['dateCreated[end]']
-        ? moment(values['dateCreated[end]'])
-        : null,
-    }),
-  };
+  if (filterStructure.search) {
+    parsed.search = search;
+  }
+  if (filterStructure.status) {
+    parsed.status = status ? status.split(',') : [];
+  }
+  if (filterStructure.flowIds) {
+    parsed.flowIds = flowIds ? flowIds.split(',') : [];
+  }
+  if (filterStructure.countries) {
+    parsed.countries = countries ? countries.split(',') : [];
+  }
+  if (filterStructure['dateCreated[start]']) {
+    parsed['dateCreated[start]'] = values['dateCreated[start]']
+      ? moment(values['dateCreated[start]'])
+      : null;
+  }
+  if (filterStructure['dateCreated[end]']) {
+    parsed['dateCreated[end]'] = values['dateCreated[end]']
+      ? moment(values['dateCreated[end]'])
+      : null;
+  }
+  if (filterStructure.offset) {
+    parsed.offset = +offset || 0;
+  }
+  if (filterStructure.limit) {
+    parsed.limit = ITEMS_PER_PAGE;
+  }
+
+  return parsed;
 }
 
 // json -> url search object
 export function filterSerialize(filter) {
   const { status, flowIds, countries, ...serialized } = filter;
+
   serialized.status = status?.join(',');
   serialized.flowIds = flowIds?.join(',');
   serialized.countries = countries?.join(',');

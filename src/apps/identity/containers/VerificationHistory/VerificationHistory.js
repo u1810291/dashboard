@@ -1,8 +1,7 @@
 import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import { ByFlows, ByStatuses, OpenFilter, verificationsClearFilter, verificationsFilterInitialState, verificationsFilterStructure } from 'apps/filter';
-import { useFilterParser } from 'apps/filter/hooks/filterURL.hook';
+import { useFilterUpdate } from 'apps/filter/hooks/filterUpdate.hook';
 import { parseFromURL } from 'models/Filter.model';
-import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
 import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
@@ -15,6 +14,7 @@ import { ManualReviewBanner } from '../../components/ManualReviewBanner/ManualRe
 import { VerificationSearch } from '../../components/VerificationSearch/VerificationSearch';
 import { VerificationTable } from '../../components/VerificationTable/VerificationTable';
 import { useStyles } from './VerificationHistory.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function VerificationHistory() {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ export function VerificationHistory() {
   const intl = useIntl();
   const filteredCountModel = useSelector(selectFilteredCountModel);
   const identityFilter = useSelector(selectIdentityFilter);
-  const [, addToUrl] = useFilterParser(verificationsFilterStructure);
+  const [setFilter] = useFilterUpdate(identityFilter, filterUpdate);
 
   useEffect(() => {
     dispatch(identitiesCountLoad());
@@ -49,7 +49,7 @@ export function VerificationHistory() {
           <Grid item container justify="space-between">
             {/* search */}
             <Grid item xs={6}>
-              <VerificationSearch onSetFilter={addToUrl} />
+              <VerificationSearch setFilter={setFilter} />
             </Grid>
             <Grid item xs={6} container justify="flex-end">
               <Grid item>
@@ -60,7 +60,7 @@ export function VerificationHistory() {
               {/* identityFilter */}
               <Grid item>
                 <OpenFilter
-                  onSetFilter={addToUrl}
+                  onSetFilter={setFilter}
                   selectFilter={identityFilter}
                   loadPreliminaryCountAction={identitiesPreliminaryCountLoad}
                   preliminaryCountSelector={selectPreliminaryFilteredCountModel}

@@ -1,19 +1,22 @@
 import { Box, IconButton } from '@material-ui/core';
-import { useOverlay } from 'apps/overlay';
 import { debounce } from 'lodash';
-import { QATags } from 'models/QA.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiSearch, FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { selectIdentityFilter } from 'state/identities/identities.selectors';
+import { filterUpdate } from '../../../../state/identities/identities.actions';
+import { selectIdentityFilter } from '../../../../state/identities/identities.selectors';
+import { useFilterUpdate } from '../../../filter/hooks/filterUpdate.hook';
+import { useOverlay } from '../../../overlay';
 import { IconButtonSearch, InputAdornmentSearch, TextFieldSearch, useStyles } from './VerificationSearch.styles';
+import { QATags } from '../../../../models/QA.model';
 
-export function VerificationSearch({ isInOverlay, onSetFilter }) {
+export function VerificationSearch({ isInOverlay }) {
   const intl = useIntl();
   const classes = useStyles();
   const identityFilter = useSelector(selectIdentityFilter);
   const [search, setSearch] = useState('');
+  const [setFilter] = useFilterUpdate(identityFilter, filterUpdate);
   const [adornment, setAdornment] = useState(null);
   const [createOverlay, closeOverlay] = useOverlay();
 
@@ -22,8 +25,8 @@ export function VerificationSearch({ isInOverlay, onSetFilter }) {
   }, [identityFilter.search]);
 
   const onChangeDebounced = useCallback(debounce((newValue) => {
-    onSetFilter({ search: newValue });
-  }, 300), [onSetFilter]);
+    setFilter({ search: newValue });
+  }, 300), [setFilter]);
 
   const handleSubmitMobileSearch = useCallback((event) => {
     event.preventDefault();
@@ -37,9 +40,9 @@ export function VerificationSearch({ isInOverlay, onSetFilter }) {
 
   const handleCreateSearchOverlay = useCallback(() => {
     createOverlay(
-      <VerificationSearch onSetFilter={onSetFilter} isInOverlay />,
+      <VerificationSearch setFilter={setFilter} isInOverlay />,
       { additionalClasses: ['overlaySearch'] });
-  }, [createOverlay, onSetFilter]);
+  }, [createOverlay, setFilter]);
 
   useEffect(() => {
     setAdornment(search.length === 0
