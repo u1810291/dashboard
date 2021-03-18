@@ -53,6 +53,14 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('md')]: {
       display: 'none',
     },
+    '& .MuiTableSortLabel-icon': {
+      opacity: 0.7,
+      height: 10,
+      width: 10,
+    },
+    '& .MuiTableSortLabel-root:hover .MuiTableSortLabel-icon': {
+      opacity: 1,
+    },
   },
   title: {
     color: theme.palette.common.black75,

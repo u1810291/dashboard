@@ -2,10 +2,11 @@ import { Box, Container, Grid } from '@material-ui/core';
 import { filterUpdate, loadStatistics } from 'apps/analytics/state/metrics.actions';
 import { selectFilter, selectStatistics, selectStatisticsByDate } from 'apps/analytics/state/metrics.selectors';
 import { analyticsClearFilter, analyticsFilterStructure, ByCountries, ByFlows, OpenFilter } from 'apps/filter';
-import { useFilterUpdate } from 'apps/filter/hooks/filterUpdate.hook';
+import { useFilterParser } from 'apps/filter/hooks/filterURL.hook';
 import { DevicesStats } from 'apps/fingerPrint/components/DevicesStats/DevicesStats';
 import { AnalyticsMap } from 'apps/googleMap/components/AnalyticsMap/AnalyticsMap';
 import { PageLoader } from 'apps/layout';
+import { QATags } from 'models/QA.model';
 import { analyticsDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, getFilterDatesIsValid, parseFromURL } from 'models/Filter.model';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,14 +19,13 @@ import { DynamicHeader } from '../DynamicHeader/DynamicHeader';
 import { NeedToReview } from '../NeedToReview/NeedToReview';
 import { VerificationsTotal } from '../VerificationsTotal/VerificationsTotal';
 import { useStyles } from './AnalyticsContainer.styles';
-import { QATags } from '../../../../models/QA.model';
 
 export function AnalyticsContainer() {
   const classes = useStyles();
   const location = useLocation();
   const dispatch = useDispatch();
   const metricsFilter = useSelector(selectFilter);
-  const [setFilter] = useFilterUpdate(metricsFilter, filterUpdate);
+  const [, addToUrl] = useFilterParser(analyticsFilterStructure);
   const { isLoading, isLoaded } = useSelector(selectStatistics);
   const byDate = useSelector(selectStatisticsByDate);
   const [flows, setFlows] = useState([DEFAULT_FLOW]);
@@ -58,7 +58,7 @@ export function AnalyticsContainer() {
                 <DynamicHeader flows={flows} />
               </Grid>
               <Grid container item xs={3} justify="flex-end">
-                <OpenFilter qa={QATags.Analytics.FilterButton} onSetFilter={setFilter} selectFilter={metricsFilter} onClearFilter={analyticsClearFilter} datePickerRanges={analyticsDatePickerRanges}>
+                <OpenFilter qa={QATags.Analytics.FilterButton} onSetFilter={addToUrl} selectFilter={metricsFilter} onClearFilter={analyticsClearFilter} datePickerRanges={analyticsDatePickerRanges}>
                   <ByFlows />
                   <ByCountries />
                 </OpenFilter>
