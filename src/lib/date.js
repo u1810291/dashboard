@@ -109,3 +109,7 @@ export function isDateExpired(value, reference, lag) {
   const beforeRef = fixedRef.diff(moment(value));
   return beforeRef > 0;
 }
+
+export function isDateBetween(value, start, end) {
+  return moment.utc(value).isBetween(moment.utc(start), moment.utc(end), 'day', '[]');
+}
