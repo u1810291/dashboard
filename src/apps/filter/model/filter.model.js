@@ -6,8 +6,6 @@ export const verificationsFilterInitialState = {
   flowIds: [],
   'dateCreated[start]': null,
   'dateCreated[end]': null,
-  sortOrder: null,
-  sortBy: null,
   offset: 0,
   limit: ITEMS_PER_PAGE,
 };
@@ -20,8 +18,6 @@ export const verificationsFilterStructure = {
   'dateCreated[end]': 'dateCreated[end]',
   offset: 'offset',
   limit: 'limit',
-  sortOrder: 'sortOrder',
-  sortBy: 'sortBy',
 };
 
 export const analyticsFilterStructure = {
@@ -36,8 +32,6 @@ export const verificationsClearFilter = {
   flowIds: [],
   'dateCreated[start]': null,
   'dateCreated[end]': null,
-  sortOrder: null,
-  sortBy: null,
 };
 
 export const analyticsClearFilter = {

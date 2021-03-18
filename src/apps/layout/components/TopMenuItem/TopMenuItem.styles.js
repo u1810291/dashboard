@@ -45,6 +45,6 @@ export const useStyles = makeStyles((theme) => ({
     borderColor: props.color,
     borderRadius: 50,
     padding: [[5, 5]],
-    marginLeft: -7,
+    marginLeft: -6,
   }),
 }));
