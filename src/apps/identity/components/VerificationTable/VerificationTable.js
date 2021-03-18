@@ -1,13 +1,18 @@
-import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@material-ui/core';
+import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Tooltip, Typography } from '@material-ui/core';
 import { PriorityHigh } from '@material-ui/icons';
+import { verificationsFilterStructure } from 'apps/filter';
+import { useFilterParser } from 'apps/filter/hooks/filterURL.hook';
 import { NoVerifications } from 'apps/identity/components/NoVerifications/NoVerifications';
 import { PageLoader } from 'apps/layout';
 import { SkeletonLoader } from 'apps/ui';
+import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
 import { ReactComponent as EmptyTableIcon } from 'assets/empty-table.svg';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
+import { ReactComponent as TableSortActiveIcon } from 'assets/table-sort-active-icon.svg';
+import { ReactComponent as TableSortIcon } from 'assets/table-sort-icon.svg';
 import { utcToLocalFormat } from 'lib/date';
 import { titleCase } from 'lib/string';
-import { OrderDirections, OrderKeys } from 'models/Identity.model';
+import { OrderDirections, OrderDirectionsNum, tableColumnsData } from 'models/Identity.model';
 import { ITEMS_PER_PAGE } from 'models/Pagination.model';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
@@ -17,7 +22,6 @@ import { FiTrash2 } from 'react-icons/fi';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { identitiesListLoad, identityRemove } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityCollection, selectIdentityCountModel, selectIdentityFilter } from 'state/identities/identities.selectors';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
@@ -29,17 +33,18 @@ export function VerificationTable() {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
+  const identityFilter = useSelector(selectIdentityFilter);
+  const { sortBy } = identityFilter;
+  const sortOrder = identityFilter.sortOrder === OrderDirectionsNum.asc ? OrderDirections.asc : OrderDirections.desc;
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [deleting, setDeleting] = useState(null);
-  const [orderBy] = useState('');
-  const [order] = useState(OrderDirections.asc);
-  const [mouseUpExpired, setMouseUpExpired] = useState(false);
+  const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(Routes.list.root);
+  const [, addToUrl] = useFilterParser(verificationsFilterStructure);
+
   const identityCollection = useSelector(selectIdentityCollection);
   const filteredCount = useSelector(selectFilteredCountModel);
-  const identityFilter = useSelector(selectIdentityFilter);
   const countModel = useSelector(selectIdentityCountModel);
-  const history = useHistory();
   const confirmDelete = useConfirmDelete(
     intl.formatMessage({ id: 'verificationModal.delete' }),
     intl.formatMessage({ id: 'verificationModal.delete.confirm' },
@@ -83,31 +88,13 @@ export function VerificationTable() {
     }
   }, [dispatch, filteredCount.value, hasMore, offset]);
 
-  const handleRedirect = useCallback((id) => {
-    history.push({
-      pathname: `${Routes.list.root}/${id}`,
-      state: { from: history.location.pathname + history.location.search },
+  const createSortHandler = useCallback((id) => () => {
+    const isAsc = sortBy === id && sortOrder === OrderDirections.asc;
+    addToUrl({
+      sortBy: id,
+      sortOrder: isAsc ? OrderDirectionsNum.desc : OrderDirectionsNum.asc,
     });
-  }, [history]);
-
-  const onMouseDownHandler = useCallback((event) => {
-    if (event.button === 0) {
-      setMouseUpExpired(false);
-      setTimeout(() => setMouseUpExpired(true), 200);
-    }
-    if (event.button === 1) {
-      event.preventDefault();
-    }
-  }, []);
-
-  const onMouseUpHandler = useCallback((event, id) => {
-    if (event.button === 0 && !mouseUpExpired) {
-      handleRedirect(id);
-    }
-    if (event.button === 1) {
-      window.open(`${Routes.list.root}/${id}`, '_blank');
-    }
-  }, [handleRedirect, mouseUpExpired]);
+  }, [addToUrl, sortBy, sortOrder]);
 
   return (
     <TableContainer className={classes.container}>
@@ -125,32 +112,42 @@ export function VerificationTable() {
         <Table className={classes.table} data-qa={QATags.VerificationList.Table}>
           <TableHead className={classes.tableHead}>
             <TableRow>
-              <TableCell sortDirection={orderBy === OrderKeys.fullName ? order : false}>
-                <Typography variant="subtitle2" className={classes.title}>
-                  {intl.formatMessage({ id: 'identity.field.fullName' })}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" className={classes.title}>
-                  {intl.formatMessage({ id: 'identity.field.verificationFlow' })}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" className={classes.title}>
-                  {intl.formatMessage({ id: 'identity.field.date' })}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" className={classes.title}>
-                  {intl.formatMessage({ id: 'identity.field.status' })}
-                </Typography>
-              </TableCell>
-              <TableCell />
+              {/* Header cells */}
+              {tableColumnsData.map(({
+                id,
+                isSortable,
+              }) => (
+                <React.Fragment key={id}>
+                  {id && (
+                    <>
+                      {isSortable ? (
+                        <TableCell onClick={createSortHandler(id)} sortDirection={sortBy === id ? sortOrder : false}>
+                          <Typography variant="subtitle2" className={classes.title}>
+                            <TableSortLabel
+                              IconComponent={sortBy === id ? TableSortActiveIcon : TableSortIcon}
+                              active={sortBy === id}
+                              direction={sortBy === id ? sortOrder : OrderDirections.asc}
+                            >
+                              {intl.formatMessage({ id: `identity.field.${id}` })}
+                            </TableSortLabel>
+                          </Typography>
+                        </TableCell>
+                      ) : (
+                        <TableCell>
+                          <Typography variant="subtitle2" className={classes.title}>
+                            {intl.formatMessage({ id: `identity.field.${id}` })}
+                          </Typography>
+                        </TableCell>
+                      )}
+                    </>
+                  )}
+                </React.Fragment>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {(identityFilter.offset === 0 && identityCollection.isLoading && !identityCollection.isLoaded)
-              || (identityCollection.isLoaded && identityCollection.value.length === 0)
+            || (identityCollection.isLoaded && identityCollection.value.length === 0)
               ? (
                 <TableRow>
                   <TableCell className={classes.itemEmpty} colSpan={6} align="center">
@@ -216,7 +213,7 @@ export function VerificationTable() {
                     }}
                     >
                       {utcToLocalFormat(item.dateCreated)}
-                      <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.date' })}</Box>
+                      <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.dateCreated' })}</Box>
                     </Box>
                   </TableCell>
                   <TableCell>
