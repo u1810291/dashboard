@@ -1,5 +1,6 @@
 import { cloneDeep, get } from 'lodash';
-import { FieldsEmissionCheck, FieldsExpirationCheck, getFieldIsExpired } from './Field.model';
+import { isDateBetween } from '../lib/date';
+import { FieldsEmissionCheck, FieldsExpirationCheck, FieldTypes, getFieldIsExpired } from './Field.model';
 import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepFrontendChecksTypes, DocumentStepTypes, getDocumentStatus, getStepsExtra } from './Step.model';
 
 export const DocumentTypes = {
@@ -23,16 +24,37 @@ export const DocumentSidesOrder = [DocumentSides.Front, DocumentSides.Back];
 
 export const DocumentConfig = {
   [DocumentTypes.Passport]: {
-    [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
+    checks: {
+      [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
+    },
   },
   [DocumentTypes.NationalId]: {
-    [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
+    checks: {
+      [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
+    },
+    transforms: {
+      [FieldTypes.ExpirationDate]: [(value, { country, type }) => {
+        if (country === 'MX' && type === DocumentTypes.NationalId) {
+          // TODO: IDs which expire between Dec 1 2019 and June 5 2021
+          //  must be considered valid until June 6 2021.
+          const isTolerancePeriodApplicable = isDateBetween(value, '2019-12-01', '2021-06-05');
+          if (isTolerancePeriodApplicable) {
+            return '2021-06-06';
+          }
+        }
+        return value;
+      }],
+    },
   },
   [DocumentTypes.DrivingLicense]: {
-    [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
+    checks: {
+      [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
+    },
   },
   [DocumentTypes.ProofOfResidency]: {
-    [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsEmissionCheck],
+    checks: {
+      [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsEmissionCheck],
+    },
   },
 };
 
@@ -128,12 +150,22 @@ export function getDocumentExtras(identity, countries, proofOfOwnership) {
     const documentReadingStep = steps.find((step) => step.id === DocumentStepTypes.DocumentReading);
     const sourceDocument = source.find((item) => item.type === document.type) || {};
 
-    const fields = Object.entries(sourceDocument.fields || {}).map(([id, { value, required }]) => ({
-      id,
-      value,
-      isValid: !getFieldIsExpired({ id, value }, DocumentConfig[document.type][DocumentStepFrontendChecksTypes.ExpiredDate], identity.dateCreated),
-      required,
-    }));
+    const fields = Object.entries(sourceDocument.fields || {}).map(([id, { value, required }]) => {
+      const fieldTransforms = (DocumentConfig[document.type].transforms && DocumentConfig[document.type].transforms[id]) || [];
+      return {
+        id,
+        value,
+        isValid: !getFieldIsExpired(
+          {
+            id,
+            value: fieldTransforms.reduce((currentValue, transform) => transform(currentValue, document), value),
+          },
+          DocumentConfig[document.type].checks[DocumentStepFrontendChecksTypes.ExpiredDate],
+          identity.dateCreated,
+        ),
+        required,
+      };
+    });
 
     const govChecksSteps = steps.filter((step) => CountrySpecificChecks.includes(step.id));
     const securityCheckSteps = steps.filter((step) => DocumentSecuritySteps.includes(step.id));

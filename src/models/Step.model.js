@@ -188,11 +188,21 @@ export function getStepExtra(step, identity, countries, document) {
   };
 }
 
-export function getReaderFrontendSteps(readerStep, config = {}, identity) {
+export function getReaderFrontendSteps(readerStep, config = {}, identity, document) {
   const steps = [];
-  const fields = getFieldsExtra(readerStep.data);
+  const fields = getFieldsExtra(readerStep.data).map((field) => {
+    const transforms = config.transforms && config.transforms[field.id];
+    if (!transforms) {
+      return field;
+    }
+    const transformedValue = transforms.reduce((currentValue, transform) => transform(currentValue, document), field.value);
+    return {
+      ...field,
+      value: transformedValue,
+    };
+  });
   const emptyFields = fields.filter((item) => !item.value);
-  const expiredFields = getFieldsExpired(fields, config[DocumentStepFrontendChecksTypes.ExpiredDate], identity);
+  const expiredFields = getFieldsExpired(fields, config.checks[DocumentStepFrontendChecksTypes.ExpiredDate], identity);
 
   steps.push({
     ...readerStep,
@@ -224,7 +234,7 @@ export function getReaderFrontendSteps(readerStep, config = {}, identity) {
 export function getStepsExtra(steps = [], config, identity, countries, document) {
   const readerStep = getDocumentStep(DocumentStepTypes.DocumentReading, steps);
   return [
-    ...getReaderFrontendSteps(readerStep, config, identity),
+    ...getReaderFrontendSteps(readerStep, config, identity, document),
     ...steps,
   ].map((item) => getStepExtra(item, identity, countries, document));
 }
