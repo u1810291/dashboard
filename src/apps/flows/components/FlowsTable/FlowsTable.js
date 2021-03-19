@@ -3,7 +3,6 @@ import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteMod
 import { NoFlows } from 'apps/product/components/NoFlows/NoFlows';
 import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
-import { utcToLocalFormat } from 'lib/date';
 import { getNewFlowId } from 'models/Product.model';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
@@ -74,11 +73,12 @@ export function FlowsTable({ onAddNewFlow }) {
                 {intl.formatMessage({ id: 'flow.table.field.type' })}
               </Typography>
             </TableCell>
-            <TableCell>
-              <Typography variant="subtitle2" className={classes.title}>
-                {intl.formatMessage({ id: 'flow.table.field.creationDate' })}
-              </Typography>
-            </TableCell>
+            {/* TODO: @ggrigorev return creation date field */}
+            {/* <TableCell> */}
+            {/*  <Typography variant="subtitle2" className={classes.title}> */}
+            {/*    {intl.formatMessage({ id: 'flow.table.field.creationDate' })} */}
+            {/*  </Typography> */}
+            {/* </TableCell> */}
             <TableCell />
           </TableRow>
         </TableHead>
@@ -116,12 +116,12 @@ export function FlowsTable({ onAddNewFlow }) {
                   <Box className={classes.label}>{intl.formatMessage({ id: 'flow.table.field.type' })}</Box>
                 </Box>
               </TableCell>
-              <TableCell className={classes.itemData}>
-                <Box mb={{ xs: 2, lg: 0 }}>
-                  {utcToLocalFormat(item.createdAt)}
-                  <Box className={classes.label}>{intl.formatMessage({ id: 'flow.table.field.creationDate' })}</Box>
-                </Box>
-              </TableCell>
+              {/* <TableCell className={classes.itemData}> */}
+              {/*  <Box mb={{ xs: 2, lg: 0 }}> */}
+              {/*    {utcToLocalFormat(item.createdAt)} */}
+              {/*    <Box className={classes.label}>{intl.formatMessage({ id: 'flow.table.field.creationDate' })}</Box> */}
+              {/*  </Box> */}
+              {/* </TableCell> */}
               {merchantFlowList.length > 1 && (
                 <TableCell className={classes.iconDeleteWrapper}>
                   <IconButton
