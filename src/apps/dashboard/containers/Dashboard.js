@@ -1,4 +1,6 @@
+import { useFullStory } from 'apps/AppBootstrap';
 import { signOut } from 'apps/auth/state/auth.actions';
+import { useBeamerScript } from 'apps/beamer';
 import { Layout, PageError } from 'apps/layout';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { Routes } from 'models/Router.model';
@@ -11,7 +13,6 @@ import { loadCountries, loadCountriesOnlyExisting } from 'state/countries/countr
 import { selectAllCountriesModel, selectCountriesOnlyExisting } from 'state/countries/countries.selectors';
 import { appLoad, merchantFlowsLoad, merchantLoad } from 'state/merchant/merchant.actions';
 import { selectClientIdModel, selectMerchantFlowsModel, selectMerchantModel } from 'state/merchant/merchant.selectors';
-import { useBeamerScript } from 'apps/beamer';
 import { DashboardLoader } from '../components/DashboardLoader/DashboardLoader';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
 import { Footer } from '../components/Footer/Footer';
@@ -101,6 +102,7 @@ export function Dashboard() {
   }, [dispatch, merchantFlowsModel, merchantModel]);
 
   useBeamerScript();
+  useFullStory();
 
   const handleRetry = useCallback(() => {
     // hard reload only will help here

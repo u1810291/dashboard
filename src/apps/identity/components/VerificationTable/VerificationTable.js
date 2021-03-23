@@ -12,11 +12,6 @@ import { ReactComponent as TableSortActiveIcon } from 'assets/table-sort-active-
 import { ReactComponent as TableSortIcon } from 'assets/table-sort-icon.svg';
 import { utcToLocalFormat } from 'lib/date';
 import { titleCase } from 'lib/string';
-import { OrderDirections, OrderDirectionsNum, tableColumnsData } from 'models/Identity.model';
-import { ITEMS_PER_PAGE } from 'models/Pagination.model';
-import { QATags } from 'models/QA.model';
-import { Routes } from 'models/Router.model';
-import { IdentityStatuses } from 'models/Status.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -24,6 +19,14 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { identitiesListLoad, identityRemove } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityCollection, selectIdentityCountModel, selectIdentityFilter } from 'state/identities/identities.selectors';
+import { Routes } from 'models/Router.model';
+import { IdentityStatuses } from 'models/Status.model';
+import { OrderDirections, OrderDirectionsNum, tableColumnsData } from 'models/Identity.model';
+import { ITEMS_PER_PAGE } from 'models/Pagination.model';
+import { QATags } from 'models/QA.model';
+import { CollaboratorRoles } from 'models/Collaborator.model';
+import { useRole } from 'apps/collaborators/hooks/Role/Role.hook';
+import { appPalette } from 'apps/theme';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { StatusLabel } from '../StatusLabel';
 import { VerificationFlowName } from '../VerificationFlowName/VerificationFlowName';
@@ -45,6 +48,7 @@ export function VerificationTable() {
   const identityCollection = useSelector(selectIdentityCollection);
   const filteredCount = useSelector(selectFilteredCountModel);
   const countModel = useSelector(selectIdentityCountModel);
+  const role = useRole();
   const confirmDelete = useConfirmDelete(
     intl.formatMessage({ id: 'verificationModal.delete' }),
     intl.formatMessage({ id: 'verificationModal.delete.confirm' },
@@ -154,7 +158,7 @@ export function VerificationTable() {
                     {countModel.isLoaded && countModel.value === 0 ? (
                       <NoVerifications />)
                       : identityCollection.isLoading
-                        ? <Box py={2.5}><PageLoader size={50} /></Box>
+                        ? <Box py={2.5}><PageLoader size={50} color={appPalette.black50} /></Box>
                         : (
                           <Box mb="10vh">
                             <Box py={2.5}><EmptyTableIcon /></Box>
@@ -220,16 +224,18 @@ export function VerificationTable() {
                     <StatusLabel status={item.status} />
                     <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.status' })}</Box>
                   </TableCell>
-                  <TableCell className={classes.iconDeleteWrapper}>
-                    <IconButton
-                      size="small"
-                      onMouseUp={(e) => handleRemove(e, item.id)}
-                      tabIndex="-1"
-                      className={classes.iconButtonDelete}
-                    >
-                      {item.id === deleting ? <IconLoad /> : <FiTrash2 className="color-red" />}
-                    </IconButton>
-                  </TableCell>
+                  {role === CollaboratorRoles.ADMIN && (
+                    <TableCell className={classes.iconDeleteWrapper}>
+                      <IconButton
+                        size="small"
+                        onMouseUp={(e) => handleRemove(e, item.id)}
+                        tabIndex="-1"
+                        className={classes.iconButtonDelete}
+                      >
+                        {item.id === deleting ? <IconLoad /> : <FiTrash2 className="color-red" />}
+                      </IconButton>
+                    </TableCell>
+                  )}
                   <TableCell
                     className={classes.iconReviewWrapper}
                     onClick={(e) => e.stopPropagation()}

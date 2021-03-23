@@ -1,6 +1,6 @@
 import { Box } from '@material-ui/core';
 import React from 'react';
-import PrismSyntaxHighlighter from 'react-syntax-highlighter/prism';
+import PrismLight from 'react-syntax-highlighter/prism-light';
 import { CopyToClipboard } from '../CopyToClipboard/CopyToClipboard';
 import lightTheme from './light';
 import lightYellowTheme from './light-yellow';
@@ -35,7 +35,7 @@ export function SyntaxHighlighter({
   return (
     <CopyToClipboard text={isCopyToClipboard ? code : null} isOverlay withCopyText={withCopyText} qa={qa.Copy}>
       <Box className={isBorder ? classes.bordered : null}>
-        <PrismSyntaxHighlighter
+        <PrismLight
           style={style}
           className={`${classes.content} ${className}`}
           language={language}
@@ -44,7 +44,7 @@ export function SyntaxHighlighter({
           lineNumberContainerStyle={{ display: 'inline-block', margin: '-1rem 1rem 0 -1rem', padding: '10px 5px 12px 10px', verticalAlign: 'top', backgroundColor: 'rgba(131, 146, 184, .2)', fontSize: '14px', textAlign: 'right', color: '#CBD2E2' }}
         >
           {code}
-        </PrismSyntaxHighlighter>
+        </PrismLight>
       </Box>
     </CopyToClipboard>
   );

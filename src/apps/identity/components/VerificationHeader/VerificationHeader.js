@@ -12,6 +12,8 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { identityRemove, setPDFGenerating } from 'state/identities/identities.actions';
+import { useRole } from 'apps/collaborators/hooks/Role/Role.hook';
+import { CollaboratorRoles } from 'models/Collaborator.model';
 import { selectIdentityIsPDFGenerating } from 'state/identities/identities.selectors';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { VerificationWebhookModal } from '../VerificationWebhookModal/VerificationWebhookModal';
@@ -22,6 +24,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
   const intl = useIntl();
   const history = useHistory();
   const classes = useStyles();
+  const role = useRole();
   const [createOverlay, closeOverlay] = useOverlay();
   const goBackToListLink = getGoBackToListLink(useLocation());
   const [isDeleting, setIsDeleting] = useState(false);
@@ -113,7 +116,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
           </SideButton>
         </Grid>
         {/* Delete Verification */}
-        {!isDemo && (
+        {!isDemo && role === CollaboratorRoles.ADMIN && (
           <Grid item className={classes.itemOffsetLeft}>
             <SideButton
               variant="contained"

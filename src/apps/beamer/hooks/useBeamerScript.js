@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
+import { selectUserEmail, selectUserFirstName, selectUserId, selectUserLastName, selectUserRegistrationDate, selectUserType } from 'apps/user/state/user.selectors';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { selectClientIdModel, selectMerchantBusinessName } from 'state/merchant/merchant.selectors';
-import { selectUserEmail } from 'apps/user/state/user.selectors';
+import { selectClientId, selectMerchantBusinessName, selectMerchantId } from 'state/merchant/merchant.selectors';
 
 const isBeamerLoaded = React.createRef();
 
@@ -12,9 +12,19 @@ window.beamer_config = window.beamer_config || {
 };
 
 export function useBeamerScript() {
-  const clientIdModel = useSelector(selectClientIdModel);
-  const name = useSelector(selectMerchantBusinessName) || ' ';
-  const email = useSelector(selectUserEmail);
+  const client_id = useSelector(selectClientId);
+  const user_id = useSelector(selectUserId);
+  const merchant_id = useSelector(selectMerchantId);
+  const businessName = useSelector(selectMerchantBusinessName);
+  const user_email = useSelector(selectUserEmail);
+  const user_created_at = useSelector(selectUserRegistrationDate);
+  const userType = useSelector(selectUserType);
+  const userFirstName = useSelector(selectUserFirstName) || ' ';
+  const userLastName = useSelector(selectUserLastName) || ' ';
+
+  const [user_firstname, ...otherNames] = businessName ? businessName.split(' ') : [userFirstName, userLastName];
+  // If we send an empty lastname, the beamer will generate it automatically
+  const user_lastname = otherNames.join(' ') || ' ';
 
   useEffect(() => {
     if (!window.beamer_config.product_id) {
@@ -23,16 +33,17 @@ export function useBeamerScript() {
 
     const prevConfig = window.beamer_config;
 
-    const user_id = clientIdModel?.value;
-    const [user_firstname, user_lastname] = name.split(' ');
-    const user_email = email;
+    const filter = ['registered', userType].filter(Boolean).join(';');
 
     window.beamer_config = {
       ...window.beamer_config,
       ...(user_id && {
         user_id,
-        filter: 'registered',
+        filter,
       }),
+      ...(client_id && { client_id }),
+      ...(user_created_at && { user_created_at }),
+      ...(merchant_id && { merchant_id }),
       ...(user_firstname && { user_firstname }),
       ...(user_lastname && { user_lastname }),
       ...(user_email && { user_email }),
@@ -41,7 +52,7 @@ export function useBeamerScript() {
     return () => {
       window.beamer_config = prevConfig;
     };
-  }, [clientIdModel, email, name]);
+  }, [client_id, merchant_id, businessName, userType, user_created_at, user_email, user_id, user_firstname, user_lastname]);
 
   useEffect(() => {
     if (!isBeamerLoaded.current) {

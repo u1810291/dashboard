@@ -1,12 +1,13 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
-import { CheckStepDetails } from 'apps/checks/components/CheckStepDetails/CheckStepDetails';
+import { CheckStepDetails } from 'apps/checks';
+import { PremiumAmlWatchlistsStepDetails } from 'apps/identity/components/PremiumAmlWatchlistsStepDetails/PremiumAmlWatchlistsStepDetails';
 import { useDocumentTitle, usePhotosOrientation } from 'apps/identity/hooks/document.hook';
 import { POOImage } from 'apps/ProofOfOwnership';
-import { CheckBarExpandable, CheckResultLogo, SkeletonLoader, Warning, WarningTypes, ZoomableImage } from 'apps/ui';
-import { DocumentSides, DocumentSidesOrder, getDocumentSideLabel, PhotosOrientations } from 'models/Document.model';
+import { CheckBarExpandable, CheckResultLogo, Warning, WarningTypes, ZoomableImage } from 'apps/ui';
+import cls from 'classnames';
+import { DocumentSides, getDocumentSideLabel, PhotosOrientations } from 'models/Document.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { PremiumAmlWatchlistsStepDetails } from '../../../identity/components/PremiumAmlWatchlistsStepDetails/PremiumAmlWatchlistsStepDetails';
 import { DocumentReadingStep } from '../DocumentReadingStep/DocumentReadingStep';
 import { useStyles } from './DocumentStep.styles';
 
@@ -16,7 +17,7 @@ export function DocumentStep({ document, identity, documentIndex }) {
   const title = useDocumentTitle(document);
   const photosOrientation = usePhotosOrientation(document);
 
-  const { source, type, isEditable = true, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, premiumAmlWatchlistsStep, fields, documentReadingStep, onReading, documentStatus, areTwoSides, documentSides, proofOfOwnership } = document;
+  const { source, type, isEditable = true, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, premiumAmlWatchlistsStep, fields, documentReadingStep, onReading, documentStatus, proofOfOwnership, photos, areTwoSides } = document;
   const isFormEditable = identity.isEditable && source.demo !== true && isEditable;
   return (
     <Paper>
@@ -42,51 +43,30 @@ export function DocumentStep({ document, identity, documentIndex }) {
         <Grid container className={classes.wrapper}>
           {/* images */}
           <Grid item xs={12} lg={4} className={classes.imagesWrapper}>
+
             <Grid container direction="column" alignItems="center" className={classes.images}>
-              {!areTwoSides ? (
-                <>
-                  {document.photos && document.photos.length > 0 ? document.photos.map((photo) => (photo) && (
-                    <Grid item key={photo} className={classes.image}>
-                      <ZoomableImage src={photo} alt={type} />
-                    </Grid>
-                  )) : (
-                    <>
-                      <Grid item className={classes.image}>
-                        <SkeletonLoader animation="wave" variant="rect" height={320} />
-                      </Grid>
-                    </>
-                  )}
-                </>
-              ) : (
-                <Grid container justify="center" className={photosOrientation === PhotosOrientations.Horizontal ? `${classes.imagesHorizontal}` : `${classes.imagesVertical}`}>
-                  {DocumentSidesOrder.map((side) => {
-                    const documentSideIndex = documentSides.indexOf(side);
-                    if (documentSideIndex > -1) {
-                      return (
-                        <Grid item key={document.photos[documentSideIndex]} className={classes.image}>
-                          <ZoomableImage src={document.photos[documentSideIndex]} alt={type} />
-                          <Typography className={classes.subtitle} align="center" variant="subtitle2">
-                            {intl.formatMessage({ id: getDocumentSideLabel(side) })}
-                          </Typography>
-                        </Grid>
-                      );
-                    }
-                    const unfoundSide = documentSides[0] === DocumentSides.Front ? DocumentSides.Back : DocumentSides.Front;
-                    return (
-                      <Grid item className={photosOrientation === PhotosOrientations.Horizontal ? `${classes.skeletonHorizontal}` : `${classes.skeletonVertical}`}>
-                        {photosOrientation === PhotosOrientations.Horizontal ? (
-                          <SkeletonLoader animation="wave" variant="rect" width="100%" height={220} />
-                        ) : (
-                          <SkeletonLoader animation="wave" variant="rect" width="100%" height="100%" />
-                        )}
-                        <Typography className={classes.subtitle} align="center" variant="subtitle2">
-                          {intl.formatMessage({ id: getDocumentSideLabel(unfoundSide) })}
-                        </Typography>
-                      </Grid>
-                    );
-                  })}
-                </Grid>
-              )}
+              <Grid
+                container
+                justify="center"
+                className={cls({
+                  [classes.imagesHorizontal]: areTwoSides && photosOrientation === PhotosOrientations.Horizontal,
+                  [classes.imagesVertical]: areTwoSides && photosOrientation !== PhotosOrientations.Horizontal,
+                  [classes.image]: !areTwoSides,
+                })}
+              >
+                {photos.map((photo, index) => (
+                  <Grid item key={index} className={classes.image}>
+                    <ZoomableImage src={photo} alt={type} />
+                    {photos.length > 1 && (
+                    <Typography className={classes.subtitle} align="center" variant="subtitle2">
+                      {intl.formatMessage({ id: getDocumentSideLabel(index === 0 ? DocumentSides.Front : DocumentSides.Back) })}
+                    </Typography>
+                    )}
+                  </Grid>
+                ))}
+              </Grid>
+
+              {/* proof of ownership */}
               {proofOfOwnership && (
                 <Grid item className={classes.image}>
                   <POOImage step={proofOfOwnership} />
@@ -94,6 +74,7 @@ export function DocumentStep({ document, identity, documentIndex }) {
               )}
             </Grid>
           </Grid>
+
           {/* data */}
           <Grid item xs={12} lg={4} className={classes.itemWrapper}>
             <Box className={classes.itemBox}>
@@ -109,6 +90,8 @@ export function DocumentStep({ document, identity, documentIndex }) {
               )}
             </Box>
           </Grid>
+
+          {/* checks */}
           <Grid item xs={12} lg={4} className={classes.itemWrapper}>
             {securityCheckSteps && (
               <Grid container>
