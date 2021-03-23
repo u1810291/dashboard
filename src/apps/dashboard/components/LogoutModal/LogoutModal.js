@@ -1,10 +1,11 @@
 import { Button } from '@material-ui/core';
-import { useOverlay, Modal } from 'apps/overlay';
+import { useFullStory } from 'apps/AppBootstrap';
+import { Modal, useOverlay } from 'apps/overlay';
 import Img from 'assets/modal-logout.svg';
+import { QATags } from 'models/QA.model';
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { QATags } from '../../../../models/QA.model';
 
 export function LogoutModal({ onClose, onConfirm }) {
   const intl = useIntl();
@@ -42,6 +43,7 @@ export function LogoutModal({ onClose, onConfirm }) {
 
 export function useLogout() {
   const [createOverlay, closeOverlay] = useOverlay();
+  const disableFullstory = useFullStory();
 
   return useCallback(() => new Promise((resolve, reject) => {
     function onClose() {
@@ -50,6 +52,7 @@ export function useLogout() {
     }
 
     function onConfirm() {
+      disableFullstory();
       closeOverlay();
       resolve();
     }
@@ -57,7 +60,7 @@ export function useLogout() {
     createOverlay(<LogoutModal onClose={onClose} onConfirm={onConfirm} />, {
       onClose,
     });
-  }), [createOverlay, closeOverlay]);
+  }), [createOverlay, disableFullstory, closeOverlay]);
 }
 
 LogoutModal.propTypes = {

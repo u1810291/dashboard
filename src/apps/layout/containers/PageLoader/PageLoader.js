@@ -1,8 +1,10 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useStyles } from './PageLoader.styles';
 
-export function PageLoader({ minHeight = 'auto', size }) {
+export function PageLoader({ minHeight = 'auto', size, color }) {
+  const classes = useStyles({ color });
   return (
     <Box
       alignItems="center"
@@ -15,7 +17,7 @@ export function PageLoader({ minHeight = 'auto', size }) {
       minHeight={minHeight}
       width="100%"
     >
-      <CircularProgress color="primary" size={size} />
+      <CircularProgress color="primary" size={size} classes={{ root: classes.root }} />
     </Box>
   );
 }

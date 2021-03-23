@@ -45,9 +45,6 @@ export const useStyles = makeStyles((theme) => ({
       marginLeft: 10,
       marginTop: 2,
     },
-    '& .MuiCircularProgress-root': {
-      color: theme.palette.common.black50,
-    },
   },
   tableHead: {
     [theme.breakpoints.down('md')]: {

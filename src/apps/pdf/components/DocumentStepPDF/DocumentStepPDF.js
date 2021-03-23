@@ -1,23 +1,23 @@
+import { Image, Text, View } from '@react-pdf/renderer';
 import { useDocumentTitle } from 'apps/identity/hooks/document.hook';
-import { DocumentSidesOrder, getDocumentSideLabel } from 'models/Document.model';
+import { WarningTypes } from 'apps/ui';
+import { getMediaURL } from 'lib/client/media';
+import { DocumentSides, getDocumentSideLabel } from 'models/Document.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Image, Text, View } from '@react-pdf/renderer';
-import { styles } from './DocumentStepPDF.styles';
 import { commonStyles } from '../../PDF.styles';
-import { DocumentReadingStepPDF } from '../DocumentReadingStepPDF/DocumentReadingStepPDF';
-import { CheckStepPDF } from '../CheckStepPDF/CheckStepPDF';
 import { CheckResultLogoPDF } from '../CheckResultLogoPDF/CheckResultLogoPDF';
+import { CheckStepPDF } from '../CheckStepPDF/CheckStepPDF';
+import { DocumentReadingStepPDF } from '../DocumentReadingStepPDF/DocumentReadingStepPDF';
 import { PremiumAmlWatchlistsStepDetailsPDF } from '../PremiumAmlWatchlistsStepDetailsPDF/PremiumAmlWatchlistsStepDetailsPDF';
-import { WarningTypes } from '../../../ui/models/Warning.model';
 import { WarningPDF } from '../WarningPDF/WarningPDF';
-import { getMediaURL } from '../../../../lib/client/media';
+import { styles } from './DocumentStepPDF.styles';
 
 export function DocumentStepPDF({ document, documentIndex }) {
   const intl = useIntl();
   const title = useDocumentTitle(document);
 
-  const { fields, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, documentReadingStep, onReading, documentStatus, areTwoSides, documentSides, premiumAmlWatchlistsStep } = document;
+  const { fields, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, documentReadingStep, onReading, documentStatus, premiumAmlWatchlistsStep, photos, areTwoSides } = document;
 
   return (
     <View style={commonStyles.paper}>
@@ -55,23 +55,18 @@ export function DocumentStepPDF({ document, documentIndex }) {
             </>
           ) : (
             <View style={styles.imagesHorizontal}>
-              {DocumentSidesOrder.map((side) => {
-                const documentSideIndex = documentSides.indexOf(side);
-                if (documentSideIndex > -1) {
-                  return (
-                    <View key={document.photos[documentSideIndex]} style={styles.imageHorizontal}>
-                      <Image style={styles.image} src={getMediaURL(document.photos[documentSideIndex])} />
-                      <Text style={styles.subtitle}>
-                        {intl.formatMessage({ id: getDocumentSideLabel(side) })}
-                      </Text>
-                    </View>
-                  );
-                }
-                return null;
-              })}
+              {photos.map((photo, index) => (
+                <View key={index} style={styles.imageHorizontal}>
+                  <Image style={styles.image} src={getMediaURL(photo)} />
+                  <Text style={styles.subtitle}>
+                    {intl.formatMessage({ id: getDocumentSideLabel(index === 0 ? DocumentSides.Front : DocumentSides.Back) })}
+                  </Text>
+                </View>
+              ))}
             </View>
           )}
         </View>
+
         {/* data */}
         <View style={[styles.itemWrapper, commonStyles.mb0]}>
           {documentReadingStep && (
