@@ -74,14 +74,15 @@ export const GovCheckConfiguration = [
         default: false,
       },
     ],
-  }, {
-    country: GovCheckCountryList.Honduras,
-    checks: [
-      {
-        id: DocumentStepTypes.HonduranRnp,
-        default: false,
-      },
-    ],
+  // TODO: uncomment after we get fix for Honduran scraper
+  // }, {
+  //   country: GovCheckCountryList.Honduras,
+  //   checks: [
+  //     {
+  //       id: DocumentStepTypes.HonduranRnp,
+  //       default: false,
+  //     },
+  //   ],
   }, {
     country: GovCheckCountryList.Mexico,
     checks: [
