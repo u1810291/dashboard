@@ -13,8 +13,11 @@ export const GovCheckCountryList = {
   Brazil: 'brazil',
   Colombia: 'colombia',
   CostaRica: 'costaRica',
+  Ecuador: 'ecuador',
+  Honduras: 'honduras',
   Mexico: 'mexico',
   Peru: 'peru',
+  Salvador: 'salvador',
 };
 
 export const GovCheckConfiguration = [
@@ -53,11 +56,29 @@ export const GovCheckConfiguration = [
         default: true,
       },
     ],
+  },
+  {
   }, {
     country: GovCheckCountryList.CostaRica,
     checks: [
       {
         id: DocumentStepTypes.CostaRicanTse,
+        default: false,
+      },
+    ],
+  }, {
+    country: GovCheckCountryList.Ecuador,
+    checks: [
+      {
+        id: DocumentStepTypes.EcuadorianRegistroCivil,
+        default: false,
+      },
+    ],
+  }, {
+    country: GovCheckCountryList.Honduras,
+    checks: [
+      {
+        id: DocumentStepTypes.HonduranRnp,
         default: false,
       },
     ],
@@ -87,6 +108,15 @@ export const GovCheckConfiguration = [
       },
     ],
   },
+  {
+    country: GovCheckCountryList.Salvador,
+    checks: [
+      {
+        id: DocumentStepTypes.SalvadorianTse,
+        default: false,
+      },
+    ],
+  },
 ];
 
 export const govCheckDisplayOptions = {
@@ -112,6 +142,17 @@ export const govCheckDisplayOptions = {
       inline: true,
     },
     expirationDate: {
+      inline: true,
+    },
+  },
+  [DocumentStepTypes.SalvadorianTse]: {
+    fullName: {},
+    documentNumber: {},
+    address: {},
+    city: {
+      inline: true,
+    },
+    state: {
       inline: true,
     },
   },

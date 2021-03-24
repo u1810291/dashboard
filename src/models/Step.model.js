@@ -28,10 +28,13 @@ export const DocumentStepTypes = {
   BrazilianCpf: 'brazilian-cpf-validation',
   ColombianRegistraduria: VerificationPatternTypes.ColombianRegistraduria,
   ArgentinianRenaper: VerificationPatternTypes.ArgentinianRenaper,
+  EcuadorianRegistroCivil: VerificationPatternTypes.EcuadorianRegistroCivil,
   PeruvianReniec: VerificationPatternTypes.PeruvianReniec,
   CostaRicanTse: VerificationPatternTypes.CostaRicanTse,
   ArgentinianDni: VerificationPatternTypes.ArgentinianDni,
+  SalvadorianTse: VerificationPatternTypes.SalvadorianTse,
   DuplicateUserDetectionCheck: 'duplicate-user-detection',
+  HonduranRnp: VerificationPatternTypes.HonduranRnp,
   PremiumAmlWatchlistsCheck: 'premium-aml-watchlists-search-validation',
 };
 
@@ -65,8 +68,11 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.ArgentinianRenaper,
   DocumentStepTypes.BrazilianCpf,
   DocumentStepTypes.ColombianRegistraduria,
+  DocumentStepTypes.EcuadorianRegistroCivil,
+  DocumentStepTypes.HonduranRnp,
   DocumentStepTypes.PeruvianReniec,
   DocumentStepTypes.CostaRicanTse,
+  DocumentStepTypes.SalvadorianTse,
 ];
 
 export const StepStatus = {
@@ -103,12 +109,15 @@ export function getDocumentStatus(steps) {
 }
 
 const StepIncompletionErrors = {
-  [DocumentStepTypes.Watchlists]: ['watchlists.notEnoughParams'],
+  [DocumentStepTypes.AgeValidation]: ['underage.noDOB'],
   [DocumentStepTypes.DuplicateUserDetectionCheck]: ['duplacateIdentityDetection.notValidParams'],
+  [DocumentStepTypes.HonduranRnp]: ['honduranRnp.notEnoughParams'],
   [DocumentStepTypes.PremiumAmlWatchlistsCheck]: ['premiumAmlWatchlists.notValidParams'],
+  [DocumentStepTypes.Watchlists]: ['watchlists.notEnoughParams'],
   [DocumentStepTypes.ArgentinianDni]: ['argentinianDni.notEnoughParams'],
   [DocumentStepTypes.CostaRicanTse]: ['costaRicanTse.notEnoughParams'],
-  [DocumentStepTypes.AgeValidation]: ['underage.noDOB'],
+  [DocumentStepTypes.EcuadorianRegistroCivil]: ['ecuadorianRegistroCivil.notEnoughParams'],
+  [DocumentStepTypes.SalvadorianTse]: ['salvadorianTse.notEnoughParams'],
 };
 
 export const LEGACY_ERROR = 'LegacyError';
