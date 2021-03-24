@@ -16,9 +16,9 @@ export function useBeamerScript() {
   const user_id = useSelector(selectUserId);
   const merchant_id = useSelector(selectMerchantId);
   const businessName = useSelector(selectMerchantBusinessName);
-  const user_email = useSelector(selectUserEmail);
+  const email = useSelector(selectUserEmail);
   const user_created_at = useSelector(selectUserRegistrationDate);
-  const userType = useSelector(selectUserType);
+  const user_type = useSelector(selectUserType);
   const userFirstName = useSelector(selectUserFirstName) || ' ';
   const userLastName = useSelector(selectUserLastName) || ' ';
 
@@ -33,7 +33,8 @@ export function useBeamerScript() {
 
     const prevConfig = window.beamer_config;
 
-    const filter = ['registered', userType].filter(Boolean).join(';');
+    const user_email = `${email}${user_type ? ` | ${user_type}` : ''}`;
+    const filter = ['registered', user_type].filter(Boolean).join(';');
 
     window.beamer_config = {
       ...window.beamer_config,
@@ -47,12 +48,13 @@ export function useBeamerScript() {
       ...(user_firstname && { user_firstname }),
       ...(user_lastname && { user_lastname }),
       ...(user_email && { user_email }),
+      ...(user_type && { user_type }),
     };
 
     return () => {
       window.beamer_config = prevConfig;
     };
-  }, [client_id, merchant_id, businessName, userType, user_created_at, user_email, user_id, user_firstname, user_lastname]);
+  }, [client_id, merchant_id, businessName, user_type, user_created_at, user_id, user_firstname, user_lastname, email]);
 
   useEffect(() => {
     if (!isBeamerLoaded.current) {
