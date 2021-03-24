@@ -18,7 +18,8 @@ export const GovCheckCountryList = {
   // Honduras: 'honduras',
   Mexico: 'mexico',
   Peru: 'peru',
-  Salvador: 'salvador',
+  // TODO: uncomment after we get fix for Salvadorian TSE scraper
+  // Salvador: 'salvador',
 };
 
 export const GovCheckConfiguration = [
@@ -110,15 +111,16 @@ export const GovCheckConfiguration = [
       },
     ],
   },
-  {
-    country: GovCheckCountryList.Salvador,
-    checks: [
-      {
-        id: DocumentStepTypes.SalvadorianTse,
-        default: false,
-      },
-    ],
-  },
+  // TODO: uncomment after we get fix for Salvadorian TSE scraper
+  // {
+  //   country: GovCheckCountryList.Salvador,
+  //   checks: [
+  //     {
+  //       id: DocumentStepTypes.SalvadorianTse,
+  //       default: false,
+  //     },
+  //   ],
+  // },
 ];
 
 export const govCheckDisplayOptions = {
