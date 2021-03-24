@@ -14,7 +14,8 @@ export const GovCheckCountryList = {
   Colombia: 'colombia',
   CostaRica: 'costaRica',
   Ecuador: 'ecuador',
-  Honduras: 'honduras',
+  // TODO: uncomment after we get fix for Honduran scraper
+  // Honduras: 'honduras',
   Mexico: 'mexico',
   Peru: 'peru',
   Salvador: 'salvador',
