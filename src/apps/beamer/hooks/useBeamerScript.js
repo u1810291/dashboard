@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
-import { selectUserEmail, selectUserFirstName, selectUserId, selectUserLastName, selectUserRegistrationDate, selectUserType } from 'apps/user/state/user.selectors';
-import React, { useEffect } from 'react';
+import { selectUserEmail, selectUserFirstName, selectUserId, selectUserLastName, selectUserRegistrationDate } from 'apps/user/state/user.selectors';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { selectClientId, selectMerchantBusinessName, selectMerchantId } from 'state/merchant/merchant.selectors';
+import { selectClientId, selectIsOwnerModel, selectMerchantBusinessName, selectMerchantId } from 'state/merchant/merchant.selectors';
 
 const isBeamerLoaded = React.createRef();
 
@@ -18,9 +18,16 @@ export function useBeamerScript() {
   const businessName = useSelector(selectMerchantBusinessName);
   const email = useSelector(selectUserEmail);
   const user_created_at = useSelector(selectUserRegistrationDate);
-  const user_type = useSelector(selectUserType);
   const userFirstName = useSelector(selectUserFirstName) || ' ';
   const userLastName = useSelector(selectUserLastName) || ' ';
+  const ownerModel = useSelector(selectIsOwnerModel);
+  const roleText = useMemo(() => {
+    if (!ownerModel.isLoading && ownerModel.isLoaded) {
+      return ownerModel.value ? 'admin' : 'agent';
+    }
+    return null;
+  },
+  [ownerModel.isLoaded, ownerModel.isLoading, ownerModel.value]);
 
   const [user_firstname, ...otherNames] = businessName ? businessName.split(' ') : [userFirstName, userLastName];
   // If we send an empty lastname, the beamer will generate it automatically
@@ -33,8 +40,8 @@ export function useBeamerScript() {
 
     const prevConfig = window.beamer_config;
 
-    const user_email = `${email}${user_type ? ` | ${user_type}` : ''}`;
-    const filter = ['registered', user_type].filter(Boolean).join(';');
+    const user_email = `${email}${roleText ? ` | ${roleText}` : ''}`;
+    const filter = ['registered', roleText].filter(Boolean).join(';');
 
     window.beamer_config = {
       ...window.beamer_config,
@@ -48,13 +55,13 @@ export function useBeamerScript() {
       ...(user_firstname && { user_firstname }),
       ...(user_lastname && { user_lastname }),
       ...(user_email && { user_email }),
-      ...(user_type && { user_type }),
+      ...(roleText && { user_role: roleText }),
     };
 
     return () => {
       window.beamer_config = prevConfig;
     };
-  }, [client_id, merchant_id, businessName, user_type, user_created_at, user_id, user_firstname, user_lastname, email]);
+  }, [client_id, merchant_id, businessName, user_created_at, user_id, user_firstname, user_lastname, email, roleText]);
 
   useEffect(() => {
     if (!isBeamerLoaded.current) {
