@@ -213,3 +213,21 @@ export function govCheckParse(list, pattern) {
     };
   });
 }
+
+export const GovTimeoutHours = [...Array(25).keys()];
+export const GovTimeoutMinutes = Array.from({ length: 12 }, (_, i) => i * 5);
+
+export function convertTimeToHoursAndMinutes(ptTime) {
+  const timeHMFormat = ptTime.replace('PT', '').replace('H', ':').replace('M', '');
+  const result = timeHMFormat.split(':');
+  if (result.length === 1) {
+    return {
+      hours: 0,
+      minutes: parseInt(result[0], 10) || 0,
+    };
+  }
+  return {
+    hours: parseInt(result[0], 10) || 0,
+    minutes: parseInt(result[1], 10) || 0,
+  };
+}

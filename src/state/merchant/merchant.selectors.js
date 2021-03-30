@@ -6,6 +6,7 @@ import { BiometricTypes } from 'models/Biometric.model';
 import { DEFAULT_LOCALE, LanguageList } from 'models/Intl.model';
 import { VerificationPatternTypes } from 'models/Verification.model';
 import { createSelector } from 'reselect';
+import { MerchantTags } from 'models/Merchant.model';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
 
 const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
@@ -59,6 +60,11 @@ export const selectMerchantTags = createSelector(
 export const selectAvailableChecks = createSelector(
   selectMerchantTags,
   (tags) => ChecksList.filter((check) => !check.availableOnlyForMerchantTag || tags.includes(check.availableOnlyForMerchantTag)),
+);
+
+export const selectCanUseVerificationPostponedTimeout = createSelector(
+  selectMerchantTags,
+  (tags) => tags.includes(MerchantTags.CanUseVerificationPostponedTimeout),
 );
 
 // -- app
@@ -202,4 +208,9 @@ export const selectLogoModel = createSelector(
 export const selectValidationChecks = createSelector(
   selectCurrentFlow,
   (flow) => flow.inputValidationChecks || [],
+);
+
+export const selectPostponedTimeout = createSelector(
+  selectCurrentFlow,
+  (flow) => flow.postponedTimeout,
 );
