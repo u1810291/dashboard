@@ -1,5 +1,5 @@
 import { Box, Button, Grid, InputLabel, Typography } from '@material-ui/core';
-import { DateDropdownField, notification, SkeletonLoader } from 'apps/ui';
+import { notification, SkeletonLoader } from 'apps/ui';
 import Icon from 'assets/icon-document-edit.svg';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
@@ -7,13 +7,12 @@ import { humanize, underscore } from 'inflection';
 import { normalizeDate } from 'lib/date';
 import { difference } from 'lib/object';
 import { formatValue } from 'lib/string';
-import { FieldsWithDate } from 'models/Field.model';
-import { QATags } from 'models/QA.model';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { documentUpdate } from 'state/identities/identities.actions';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
+import { QATags } from '../../../../models/QA.model';
 import { useStyles } from './DocumentReadingStep.styles';
 
 export function DocumentReadingStep({ documentId, step, fields = [], identityId, isEditable, onReading }) {
@@ -72,7 +71,7 @@ export function DocumentReadingStep({ documentId, step, fields = [], identityId,
           }
         }}
       >
-        {({ handleSubmit, values, setFieldValue }) => (
+        {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit} className={classes.wrapper} data-qa={QATags.Document.Change.Form}>
             {fields.map(({ id }) => {
               const valueLabel = intl.formatMessage({
@@ -80,27 +79,18 @@ export function DocumentReadingStep({ documentId, step, fields = [], identityId,
                 defaultMessage: humanize(underscore(id)),
               });
               return (
-                <Box key={id} mb={1.6} className={classes.editInputWrapper}>
-                  {FieldsWithDate.includes(id) ? (
-                    <>
-                      <DateDropdownField onChange={setFieldValue} dateString={values[id]} fieldId={id} />
-                      <Typography className={classes.editLabel}>{valueLabel}</Typography>
-                    </>
-                  ) : (
-                    <>
-                      <Field
-                        name={id}
-                        type="input"
-                        variant="outlined"
-                        fullWidth
-                        component={TextField}
-                        disabled={false}
-                      />
-                      <InputLabel className={classes.editLabel}>
-                        {valueLabel}
-                      </InputLabel>
-                    </>
-                  )}
+                <Box mb={1.6} className={classes.editInputWrapper}>
+                  <Field
+                    name={id}
+                    type="input"
+                    variant="outlined"
+                    fullWidth
+                    component={TextField}
+                    disabled={false}
+                  />
+                  <InputLabel className={classes.editLabel}>
+                    {valueLabel}
+                  </InputLabel>
                 </Box>
               );
             })}
