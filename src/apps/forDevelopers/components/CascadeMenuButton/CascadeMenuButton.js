@@ -1,10 +1,10 @@
-import { Box, Button, Collapse } from '@material-ui/core';
 import React, { useCallback, useState } from 'react';
+import { Box, Button, Collapse } from '@material-ui/core';
 import { FiChevronDown } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import cn from 'classnames';
+import { getIsSelected } from '../../models/ForDevelopers.model';
 import { useStyles } from './CascadeMenuButton.styles';
-import { getIsSelected } from '../../../../models/ForDevelopers.model';
 
 export function CascadeMenuButton({ tab, selectedId, defaultOpen = false, children }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);

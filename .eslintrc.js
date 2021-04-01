@@ -1,8 +1,13 @@
-'use strict'
+'use strict';
 
 module.exports = {
-  extends: 'airbnb',
-  parser: 'babel-eslint',
+  extends: [
+    'airbnb-typescript',
+    'airbnb/hooks'
+  ],
+  parserOptions: {
+    project: './tsconfig.json'
+  },
   plugins: ['react-hooks'],
   rules: {
     'function-paren-newline': 0,
@@ -18,7 +23,7 @@ module.exports = {
       'always',
       { ignoreClassFields: true },
     ],
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx','.js', '.jsx'] }],
     'react/jsx-props-no-spreading': 0,
     'react/prop-types': 0,
     'react/static-property-placement': [2, 'static public field'],
@@ -40,11 +45,11 @@ module.exports = {
   settings: {
     'import/resolver': {
       node: {
-        "extensions": [".js", ".jsx"]
+        "extensions": [".ts", ".tsx", ".js", ".jsx"]
       },
       'babel-module': {
         root: ['.', './src'],
       },
     },
   },
-}
+};

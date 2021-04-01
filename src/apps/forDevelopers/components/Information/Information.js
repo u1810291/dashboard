@@ -1,7 +1,7 @@
 import { Box, Typography } from '@material-ui/core';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { InformationImageTypes, TabID } from '../../../../models/ForDevelopers.model';
+import { InformationImageTypes, TabID } from '../../models/ForDevelopers.model';
 import { GithubDocumentationBanner } from '../GithubDocumentationBanner/GithubDocumentationBanner';
 import { VideoExplainer } from '../VideoExplainer/VideoExplainer';
 import { DirectLinkCopy } from './DirectLinkCopy/DirectLinkCopy';
@@ -14,61 +14,61 @@ export function Information({ selectedPage }) {
     const mobileSDKVideo = 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BMobile%2BSDKs.png';
     return [
       {
-        id: TabID.api,
-        imageType: InformationImageTypes.api,
+        id: TabID.Api,
+        imageType: InformationImageTypes.Api,
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+API.mp4',
         videoCover: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BAPI.png',
         documentationURL: 'https://docs.getmati.com/#api-overview',
       },
       {
-        id: TabID.web,
+        id: TabID.Web,
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Web+SDK.mp4',
-        imageType: InformationImageTypes.web,
+        imageType: InformationImageTypes.Web,
         videoCover: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BWeb%2BSDK.png',
         documentationURL: 'https://docs.getmati.com/#web-sdk-overview',
         childComponent: (<WebCodeSnippet />),
       },
       {
-        id: TabID.directLink,
-        imageType: InformationImageTypes.directLink,
+        id: TabID.DirectLink,
+        imageType: InformationImageTypes.DirectLink,
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Direct+Link.mp4',
         videoCover: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BDirect%2BLink.png',
         childComponent: (<DirectLinkCopy />),
       },
       {
-        id: TabID.android,
-        imageType: InformationImageTypes.android,
+        id: TabID.Android,
+        imageType: InformationImageTypes.Android,
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         videoCover: mobileSDKVideo,
         documentationURL: 'https://github.com/MatiFace/mati-global-id-sdk-integration-android',
       },
       {
-        id: TabID.ios,
-        imageType: InformationImageTypes.ios,
+        id: TabID.Ios,
+        imageType: InformationImageTypes.Ios,
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         videoCover: mobileSDKVideo,
         documentationURL: 'https://github.com/MatiFace/mati-global-id-sdk/blob/master/Integration_iOS.md',
       },
       {
-        id: TabID.reactNative,
+        id: TabID.ReactNative,
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         videoCover: mobileSDKVideo,
         documentationURL: 'https://github.com/MatiFace/react-native-mati-global-id-sdk',
       },
       {
-        id: TabID.xamarin,
+        id: TabID.Xamarin,
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         videoCover: mobileSDKVideo,
         documentationURL: 'https://github.com/MatiFace/MatiXamarinIntegration',
       },
       {
-        id: TabID.cordova,
+        id: TabID.Cordova,
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         videoCover: mobileSDKVideo,
         documentationURL: 'https://github.com/MatiFace/MatiGlobalIDSDKCordovaPlugin',
       },
       {
-        id: TabID.cordovaIonic,
+        id: TabID.CordovaIonic,
         videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Mobile+SDKs.mp4',
         videoCover: mobileSDKVideo,
         documentationURL: 'https://github.com/MatiFace/MatiGlobalIDSDKCordovaPlugin',

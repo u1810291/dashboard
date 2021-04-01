@@ -1,5 +1,15 @@
 import { ITEMS_PER_PAGE } from 'models/Pagination.model';
 
+export const RangeParts = {
+  Start: 'start',
+  End: 'end',
+};
+
+export const RangeSlices = {
+  From: 'from',
+  To: 'to',
+};
+
 export const verificationsFilterInitialState = {
   search: '',
   status: [],

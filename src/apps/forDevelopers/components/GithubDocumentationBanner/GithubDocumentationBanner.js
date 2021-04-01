@@ -2,7 +2,7 @@ import { Box, Button, Grid } from '@material-ui/core';
 import React, { useCallback } from 'react';
 import { FiExternalLink, FiSmartphone, FiCode, FiGlobe } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { TabID } from '../../../../models/ForDevelopers.model';
+import { TabID } from '../../models/ForDevelopers.model';
 import { useStyles } from './GithubDocumentationBanner.styles';
 import { QATags } from '../../../../models/QA.model';
 
@@ -16,9 +16,9 @@ export function GithubDocumentationBanner({ platform, documentationURL, tabId })
 
   const getIcon = useCallback(() => {
     switch (tabId) {
-      case TabID.web:
+      case TabID.Web:
         return (<FiGlobe />);
-      case TabID.api:
+      case TabID.Api:
         return (<FiCode />);
       default:
         return (<FiSmartphone />);

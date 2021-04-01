@@ -11,6 +11,13 @@ export const DateFormat = {
   HoursFull: 'HH A',
   MonthShort: 'DD MMM,YYYY',
   DateTime: 'DD MMM, YYYY HH:mm',
+  DayMonthShort: 'DD MMM',
+};
+
+export const MomentDateParts = {
+  Month: 'month',
+  Date: 'date',
+  Year: 'year',
 };
 
 export const zeroTime = { hour: 0, minute: 0, second: 0, millisecond: 0 };
@@ -112,4 +119,12 @@ export function isDateExpired(value, reference, lag) {
 
 export function isDateBetween(value, start, end) {
   return moment.utc(value).isBetween(moment.utc(start), moment.utc(end), 'day', '[]');
+}
+
+export function getYearsArray(from, to) {
+  return Array.from({ length: to - from + 1 }, (_, i) => to - i);
+}
+
+export function getDaysToArray(count) {
+  return Array.from({ length: count }, (_, i) => i + 1);
 }
