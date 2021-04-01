@@ -10,44 +10,44 @@ import ImageMobileFlow from 'assets/information-user-mobile.png';
 import ImageIosFlow from 'assets/information-user-ios.png';
 import ImageResult from 'assets/information-result.svg';
 import cn from 'classnames';
+import { InformationImageTypes } from '../../../models/ForDevelopers.model';
 import { useStyles } from './InformationImage.styles';
-import { InformationImageTypes } from '../../../../../models/ForDevelopers.model';
 
 const images = {
-  [InformationImageTypes.mobile]: {
+  [InformationImageTypes.Mobile]: {
     entryPoint: ImageButton,
     flow: ImageMobileFlow,
   },
-  [InformationImageTypes.ios]: {
+  [InformationImageTypes.Ios]: {
     entryPoint: ImageButton,
     flow: ImageIosFlow,
   },
-  [InformationImageTypes.web]: {
+  [InformationImageTypes.Web]: {
     entryPoint: ImageButton,
     flow: ImageWebFlow,
   },
-  [InformationImageTypes.directLink]: {
+  [InformationImageTypes.DirectLink]: {
     entryPoint: ImageLink,
     flow: ImageWebFlow,
   },
-  [InformationImageTypes.api]: {
+  [InformationImageTypes.Api]: {
     entryPoint: ImageApi,
     flow: ImageWebFlow,
   },
-  [InformationImageTypes.android]: {
+  [InformationImageTypes.Android]: {
     entryPoint: ImageButton,
     flow: ImageMobileFlow,
   },
 };
 
-export function InformationImage({ type = InformationImageTypes.mobile }) {
+export function InformationImage({ type = InformationImageTypes.Mobile }) {
   const intl = useIntl();
   const classes = useStyles();
   const ImageFlow = images[type].flow;
   const ImageEntryPoint = images[type].entryPoint;
 
   const getImageFlowClassName = useCallback(() => {
-    if (type === InformationImageTypes.mobile || type === InformationImageTypes.ios || type === InformationImageTypes.android) {
+    if (type === InformationImageTypes.Mobile || type === InformationImageTypes.Ios || type === InformationImageTypes.Android) {
       return classes.mobileFlow;
     }
     return classes.webFlow;
@@ -63,13 +63,13 @@ export function InformationImage({ type = InformationImageTypes.mobile }) {
         justify="center"
         xs={12}
         lg={3}
-        className={cn({ [classes.wrapperApi]: type === InformationImageTypes.api })}
+        className={cn({ [classes.wrapperApi]: type === InformationImageTypes.Api })}
       >
         <Box mt="auto">
           <img
             className={cn({
-              [classes.imageResult]: type === InformationImageTypes.api,
-              [classes.imageEntryPoint]: type !== InformationImageTypes.api,
+              [classes.imageResult]: type === InformationImageTypes.Api,
+              [classes.imageEntryPoint]: type !== InformationImageTypes.Api,
             })}
             src={ImageEntryPoint}
             alt=""
@@ -104,7 +104,7 @@ export function InformationImage({ type = InformationImageTypes.mobile }) {
         justify="center"
         xs={12}
         lg={3}
-        className={cn({ [classes.wrapperApiFlow]: type === InformationImageTypes.api })}
+        className={cn({ [classes.wrapperApiFlow]: type === InformationImageTypes.Api })}
       >
         <Box mt="auto">
           <img src={ImageFlow} alt="" className={getImageFlowClassName()} />
@@ -138,7 +138,7 @@ export function InformationImage({ type = InformationImageTypes.mobile }) {
         justify="center"
         xs={12}
         lg={4}
-        className={cn({ [classes.wrapperApi]: type === InformationImageTypes.api })}
+        className={cn({ [classes.wrapperApi]: type === InformationImageTypes.Api })}
       >
         <Box mt="auto">
           <img className={classes.imageResult} src={ImageResult} alt="" />

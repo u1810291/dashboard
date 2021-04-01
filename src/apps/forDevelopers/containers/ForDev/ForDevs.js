@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PageLoader } from 'apps/layout';
 import Fade from '@material-ui/core/Fade';
 import { CopyToClipboard } from 'apps/ui';
+import { TabID } from '../../models/ForDevelopers.model';
 import { selectCurrentFlowId, selectMerchantFlowsModel } from '../../../../state/merchant/merchant.selectors';
 import { ClientDetails } from '../../components/ClientDetails/ClientDetails';
 import { Information } from '../../components/Information/Information';
@@ -14,14 +15,13 @@ import { useStyles } from './ForDev.styles';
 import { updateCurrentFlowId } from '../../../../state/merchant/merchant.actions';
 import { useOverlay } from '../../../overlay';
 import { ForDevsWebhookModal } from '../../components/ForDevsWebhookModal/ForDevsWebhookModal';
-import { TabID } from '../../../../models/ForDevelopers.model';
 import { QATags } from '../../../../models/QA.model';
 
 export function ForDevs() {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [selectedTab, setSelectedTab] = useState(TabID.api);
+  const [selectedTab, setSelectedTab] = useState(TabID.Api);
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
   const currentFlowId = useSelector(selectCurrentFlowId);
   const [selectedFlow, setSelectedFlow] = useState(currentFlowId);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { menuStructure } from '../../../../models/ForDevelopers.model';
+import { menuStructure } from '../../models/ForDevelopers.model';
 import { CreateTab } from './CreateTab';
 
 export function TabsMenu({ onClick, selectedId }) {

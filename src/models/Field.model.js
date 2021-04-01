@@ -1,5 +1,5 @@
+import { isDateExpired } from 'lib/date';
 import { formatValue } from 'lib/string';
-import { isDateExpired } from '../lib/date';
 
 export const FieldTypes = {
   Address: 'address',
@@ -12,6 +12,8 @@ export const FieldTypes = {
   ExpirationDate: 'expirationDate',
   EmissionDate: 'emissionDate',
 };
+
+export const FieldsWithDate = [FieldTypes.DateOfBirth, FieldTypes.EmissionDate, FieldTypes.ExpirationDate];
 
 export const FieldsExpirationCheck = {
   id: FieldTypes.ExpirationDate,

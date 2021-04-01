@@ -66,6 +66,7 @@ export const useStyles = makeStyles((theme) => ({
       },
     },
     '& img': {
+      margin: [[0, 'auto']],
       objectFit: 'cover',
       borderRadius: 5,
     },

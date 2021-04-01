@@ -11,6 +11,9 @@ export const useStyles = makeStyles((theme) => ({
       padding: [[4, 10]],
     },
     '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.common.black75,
+    },
+    '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: theme.palette.common.lightblue,
     },
   },
