@@ -418,7 +418,6 @@
   "DocumentReadingStep.btn.edit": "Editar datos",
   "DocumentReadingStep.btn.save": "Save and send webhook",
   "DocumentReadingStep.Day": "Day",
-  "DocumentReadingStep.error": "No se pueden leer los datos del documento: <span class=\"text-error\"> {message} </span>",
   "DocumentReadingStep.Month": "Month",
   "DocumentReadingStep.notParsed": "Los datos no fueron extraídos",
   "DocumentReadingStep.Year": "Year",

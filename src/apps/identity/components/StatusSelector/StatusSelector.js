@@ -1,15 +1,11 @@
-import { Box, Grid, Typography, Card } from '@material-ui/core';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { FiChevronDown } from 'react-icons/fi';
+import { Box, Card, Grid, Typography } from '@material-ui/core';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
-import {
-  getExplanationStatuses,
-  getIdentityStatusDescription, getIdentityStatusExplanation,
-  getIdentityStatusLabel,
-} from 'models/Status.model';
+import { QATags } from 'models/QA.model';
+import { getExplanationStatuses, getIdentityStatusDescription, getIdentityStatusExplanation, getIdentityStatusLabel } from 'models/Status.model';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { FiChevronDown } from 'react-icons/fi';
+import { useIntl } from 'react-intl';
 import { useStyles } from './StatusSelector.styles';
-import { QATags } from '../../../../models/QA.model';
 
 export function StatusSelector({ value, isOpen, onSelect }) {
   const intl = useIntl();
@@ -17,12 +13,16 @@ export function StatusSelector({ value, isOpen, onSelect }) {
   const [statuses] = useState(getExplanationStatuses());
   const [open, setOpen] = useState(isOpen);
   const [isLoading, setIsLoading] = useState(false);
+  const statusSelectorRef = useRef(null);
+
   const toggleOpen = useCallback(() => {
     setOpen((prev) => !prev);
   }, []);
 
-  const handleOuterClick = useCallback(() => {
-    setOpen(false);
+  const handleOuterClick = useCallback((e) => {
+    if (!e?.path?.includes(statusSelectorRef.current)) {
+      setOpen(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export function StatusSelector({ value, isOpen, onSelect }) {
   }, [onSelect]);
 
   return (
-    <Card className={classes.wrapper} data-qa={QATags.Verification.StatusSelector.Button}>
+    <Card ref={statusSelectorRef} className={classes.wrapper} data-qa={QATags.Verification.StatusSelector.Button}>
       <Box px={2} py={1.2} bgcolor={value?.color} color={value?.textColor} onClick={toggleOpen} className={classes.wrapper}>
         <Typography variant="body1">
           {intl.formatMessage({ id: 'statusSelect.status' })}

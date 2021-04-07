@@ -1,6 +1,6 @@
 // url search object -> json
-import { compact, identity, isString, pickBy } from 'lodash';
 import { dayEndTime, todayMomentZeroTime, zeroTime } from 'lib/date';
+import { compact, identity, isString, pickBy } from 'lodash';
 import moment from 'moment';
 import { ITEMS_PER_PAGE } from './Pagination.model';
 
@@ -174,7 +174,7 @@ export function identifyRange(startDate, endDate, registerDate, allRanges) {
   return foundRange?.id || null;
 }
 
-export function filterParse({ search = '', status = '', flowIds = '', countries = '', offset, limit, sortOrder, sortBy, ...values }, filterStructure) {
+export function filterParse({ search = '', status = '', flowIds = '', countries = '', asMerchantId, offset, limit, sortOrder, sortBy, ...values }, filterStructure) {
   const stringTypeGuard = (value) => (isString(value) ? compact(value.split(',')) : []);
 
   return {
@@ -196,6 +196,8 @@ export function filterParse({ search = '', status = '', flowIds = '', countries 
         ? moment(values['dateCreated[end]'])
         : null,
     }),
+    // For Customer Support
+    ...(filterStructure.asMerchantId && { asMerchantId }),
   };
 }
 
