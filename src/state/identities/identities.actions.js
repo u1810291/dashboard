@@ -4,8 +4,8 @@ import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { get } from 'lodash';
 import { ERROR_COMMON } from 'models/Error.model';
 import { filterSerialize } from 'models/Filter.model';
+import { IdentityStatuses } from 'models/Status.model';
 import { createTypesSequence } from 'state/utils';
-import { IdentityStatuses } from '../../models/Status.model';
 import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from './identities.selectors';
 import { IdentityActionGroups } from './identities.store';
 
@@ -145,10 +145,10 @@ export const identityRemove = (id) => async (dispatch) => {
 
 // identity
 
-export const identityLoad = (id, isReload) => async (dispatch) => {
+export const identityLoad = (id, isReload, asMerchantId) => async (dispatch) => {
   dispatch({ type: isReload ? types.IDENTITY_UPDATING : types.IDENTITY_REQUEST });
   try {
-    const payload = await api.getIdentityWithNestedData(id);
+    const payload = await api.getIdentityWithNestedData(id, { ...(asMerchantId && { asMerchantId }) });
     dispatch({ type: types.IDENTITY_SUCCESS, payload, isReset: true });
   } catch (error) {
     dispatch({ type: types.IDENTITY_FAILURE, error });

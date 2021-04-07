@@ -216,7 +216,7 @@ export function getReaderFrontendSteps(readerStep, config = {}, identity, docume
   steps.push({
     ...readerStep,
     id: DocumentStepFrontendChecksTypes.EmptyFields,
-    error: emptyFields.length > 0 ? {
+    error: fields.length === 0 || emptyFields.length > 0 ? {
       type: FRONTEND_ERROR,
       code: DocumentStepFrontendChecksTypes.EmptyFields,
     } : null,

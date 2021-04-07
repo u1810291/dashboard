@@ -2,7 +2,8 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { humanize, underscore } from 'inflection';
 import { formatValue } from 'lib/string';
-import { Text, View } from '@react-pdf/renderer';
+import { Image, Text, View } from '@react-pdf/renderer';
+import DocumentUndefined from '../../assets/icon-document-undefined.png';
 import { styles } from './DocumentReadingStepPDF.styles';
 import { commonStyles } from '../../PDF.styles';
 
@@ -10,11 +11,13 @@ export function DocumentReadingStepPDF({ step, fields = [], onReading }) {
   const intl = useIntl();
 
   if (step.error) {
-    const message = intl.formatMessage({ id: 'DocumentReadingStep.error' }, {
-      message: <Text style={styles.textError}>{step.error.message}</Text>,
-    });
     return (
-      <Text>{message}</Text>
+      <View style={styles.result}>
+        <Image style={styles.image} src={DocumentUndefined} />
+        <Text style={styles.resultTitle}>
+          {intl.formatMessage({ id: 'DocumentReadingStep.error' })}
+        </Text>
+      </View>
     );
   }
 

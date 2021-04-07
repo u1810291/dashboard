@@ -12,7 +12,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { documentUpdate } from 'state/identities/identities.actions';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
-import { QATags } from '../../../../models/QA.model';
+import { QATags } from 'models/QA.model';
 import { useStyles } from './DocumentReadingStep.styles';
 
 export function DocumentReadingStep({ documentId, step, fields = [], identityId, isEditable, onReading }) {
@@ -22,11 +22,12 @@ export function DocumentReadingStep({ documentId, step, fields = [], identityId,
   const [isEditingMode, setIsEditingMode] = useState(false);
 
   if (step.error) {
-    const message = intl.formatMessage({ id: 'DocumentReadingStep.error' }, {
-      message: <span className="text-error">{step.error.message}</span>,
-    });
     return (
-      <Typography>{message}</Typography>
+      <Box className={classes.result} mb={2}>
+        <Typography className={classes.resultTitle} variant="h4" gutterBottom>
+          {intl.formatMessage({ id: 'DocumentReadingStep.error' })}
+        </Typography>
+      </Box>
     );
   }
 

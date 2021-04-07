@@ -2,6 +2,7 @@ import { Box, Container } from '@material-ui/core';
 import { Page404, PageError } from 'apps/layout';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useLongPolling } from 'lib/longPolling.hook';
+import { useQuery } from 'lib/url';
 import { isNotFound } from 'models/Error.model';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,18 +16,20 @@ export function VerificationDetail() {
   const dispatch = useDispatch();
   const { id, demoId } = useParams();
   const identityModel = useSelector(selectIdentityModelWithExtras);
+  // For Customer Support
+  const { asMerchantId } = useQuery();
 
   const handleLoad = useCallback((isReload) => {
     if (id) {
       // data for identity
-      dispatch(identityLoad(id, isReload));
+      dispatch(identityLoad(id, isReload, asMerchantId));
     }
     if (demoId) {
       // data for demo
       dispatch(identityDemoLoad(demoId));
     }
     return () => dispatch(identityClear());
-  }, [dispatch, id, demoId]);
+  }, [id, demoId, dispatch, asMerchantId]);
 
   useLongPolling(handleLoad);
 

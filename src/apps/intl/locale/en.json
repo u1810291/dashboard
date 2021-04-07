@@ -418,7 +418,7 @@
   "DocumentReadingStep.btn.edit": "Edit Data",
   "DocumentReadingStep.btn.save": "Save and send webhook",
   "DocumentReadingStep.Day": "Day",
-  "DocumentReadingStep.error": "Unable to read document data: {message}",
+  "DocumentReadingStep.error": "We couldn't read any data from the document",
   "DocumentReadingStep.Month": "Month",
   "DocumentReadingStep.notParsed": "The data was not extracted",
   "DocumentReadingStep.Year": "Year",

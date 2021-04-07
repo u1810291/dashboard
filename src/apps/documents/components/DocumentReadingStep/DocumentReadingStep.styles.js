@@ -1,6 +1,35 @@
 import { makeStyles } from '@material-ui/core';
+import DocumentDisabled from '../../assets/icon-document-disabled.svg';
 
 export const useStyles = makeStyles((theme) => ({
+  result: () => ({
+    position: 'relative',
+    margin: [[0, 'auto', 20]],
+    padding: [[30, 20, 0]],
+    textAlign: 'center',
+    '&:after': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: '50%',
+      width: 22,
+      height: 22,
+      background: `url(${DocumentDisabled}) no-repeat center center`,
+      transform: 'translateX(-50%)',
+      [theme.breakpoints.up('md')]: {
+        left: 0,
+        transform: 'none',
+      },
+    },
+    [theme.breakpoints.up('md')]: {
+      margin: [[0, 0, 20]],
+      padding: [[0, 34]],
+      textAlign: 'left',
+    },
+  }),
+  resultTitle: () => ({
+    color: theme.palette.common.black50,
+  }),
   wrapper: {
     display: 'flex',
     flexDirection: 'column',

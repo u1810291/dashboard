@@ -46,12 +46,12 @@ async function getDocumentsFullData(id) {
     }));
 }
 
-export function getIdentity(id) {
-  return http.get(`/v1/identities/${id}?embed=verification,documents`);
+export function getIdentity(id, params) {
+  return http.get(`/v1/identities/${id}?embed=verification,documents`, { params });
 }
 
-export async function getIdentityWithNestedData(id) {
-  const { data } = await getIdentity(id);
+export async function getIdentityWithNestedData(id, params) {
+  const { data } = await getIdentity(id, params);
   const identity = {
     ...data,
     originalIdentity: data,

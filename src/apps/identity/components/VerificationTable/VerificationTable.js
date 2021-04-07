@@ -1,9 +1,11 @@
 import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Tooltip, Typography } from '@material-ui/core';
 import { PriorityHigh } from '@material-ui/icons';
+import { useRole } from 'apps/collaborators/hooks/Role/Role.hook';
 import { verificationsFilterStructure } from 'apps/filter';
 import { useFilterParser } from 'apps/filter/hooks/filterURL.hook';
 import { NoVerifications } from 'apps/identity/components/NoVerifications/NoVerifications';
 import { PageLoader } from 'apps/layout';
+import { appPalette } from 'apps/theme';
 import { SkeletonLoader } from 'apps/ui';
 import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
 import { ReactComponent as EmptyTableIcon } from 'assets/empty-table.svg';
@@ -12,6 +14,13 @@ import { ReactComponent as TableSortActiveIcon } from 'assets/table-sort-active-
 import { ReactComponent as TableSortIcon } from 'assets/table-sort-icon.svg';
 import { utcToLocalFormat } from 'lib/date';
 import { titleCase } from 'lib/string';
+import { useQuery } from 'lib/url';
+import { CollaboratorRoles } from 'models/Collaborator.model';
+import { OrderDirections, OrderDirectionsNum, tableColumnsData } from 'models/Identity.model';
+import { ITEMS_PER_PAGE } from 'models/Pagination.model';
+import { QATags } from 'models/QA.model';
+import { Routes } from 'models/Router.model';
+import { IdentityStatuses } from 'models/Status.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -19,14 +28,6 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { identitiesListLoad, identityRemove } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityCollection, selectIdentityCountModel, selectIdentityFilter } from 'state/identities/identities.selectors';
-import { Routes } from 'models/Router.model';
-import { IdentityStatuses } from 'models/Status.model';
-import { OrderDirections, OrderDirectionsNum, tableColumnsData } from 'models/Identity.model';
-import { ITEMS_PER_PAGE } from 'models/Pagination.model';
-import { QATags } from 'models/QA.model';
-import { CollaboratorRoles } from 'models/Collaborator.model';
-import { useRole } from 'apps/collaborators/hooks/Role/Role.hook';
-import { appPalette } from 'apps/theme';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { StatusLabel } from '../StatusLabel';
 import { VerificationFlowName } from '../VerificationFlowName/VerificationFlowName';
@@ -42,8 +43,10 @@ export function VerificationTable() {
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [deleting, setDeleting] = useState(null);
-  const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(Routes.list.root);
   const [, addToUrl] = useFilterParser(verificationsFilterStructure);
+  // For Customer Support
+  const { asMerchantId } = useQuery();
+  const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(Routes.list.root, { asMerchantId });
 
   const identityCollection = useSelector(selectIdentityCollection);
   const filteredCount = useSelector(selectFilteredCountModel);
@@ -87,10 +90,10 @@ export function VerificationTable() {
     if (hasMore) {
       const difference = filteredCount.value - offset;
       const maxOffset = difference >= ITEMS_PER_PAGE ? ITEMS_PER_PAGE : difference;
-      dispatch(identitiesListLoad(false, { offset: offset + maxOffset }));
+      dispatch(identitiesListLoad(false, { offset: offset + maxOffset, asMerchantId }));
       setOffset(((prevState) => prevState + maxOffset));
     }
-  }, [dispatch, filteredCount.value, hasMore, offset]);
+  }, [asMerchantId, dispatch, filteredCount.value, hasMore, offset]);
 
   const createSortHandler = useCallback((id) => () => {
     const isAsc = sortBy === id && sortOrder === OrderDirections.asc;

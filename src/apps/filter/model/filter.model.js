@@ -32,6 +32,8 @@ export const verificationsFilterStructure = {
   limit: 'limit',
   sortOrder: 'sortOrder',
   sortBy: 'sortBy',
+  // For Customer Support
+  asMerchantId: 'asMerchantId',
 };
 
 export const analyticsFilterStructure = {
@@ -39,6 +41,8 @@ export const analyticsFilterStructure = {
   countries: 'countries',
   'dateCreated[start]': 'dateCreated[start]',
   'dateCreated[end]': 'dateCreated[end]',
+  // For Customer Support
+  asMerchantId: 'asMerchantId',
 };
 
 export const verificationsClearFilter = {
