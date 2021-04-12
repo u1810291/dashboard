@@ -175,6 +175,7 @@ export function DateRange({ onChange, start, end, datePickerRanges = allDatePick
                 disabled={!yearsRange?.from}
                 disableUnderline
                 IconComponent={FiChevronDown}
+                SelectDisplayProps={{ 'data-qa': QATags.Filter.DatePicker.YearsFromSelect }}
               >
                 {availableYears.map((year) => (
                   <MenuItem className={classes.rangeSelectItem} key={year} value={year}>
@@ -197,6 +198,7 @@ export function DateRange({ onChange, start, end, datePickerRanges = allDatePick
                 disabled={!yearsRange?.to}
                 disableUnderline
                 IconComponent={FiChevronDown}
+                SelectDisplayProps={{ 'data-qa': QATags.Filter.DatePicker.YearsToSelect }}
               >
                 {availableYears.map((year) => (
                   <MenuItem className={classes.rangeSelectItem} key={year} value={year}>

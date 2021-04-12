@@ -57,8 +57,8 @@ export const QATags = {
 
   Filter: {
     DatePicker: {
-      StartDateInput: 'filter-start-date-input',
-      EndDateInput: 'filter-end-date-input',
+      YearsFromSelect: 'years-from-select',
+      YearsToSelect: 'years-to-select',
       Periods: 'filter-buttons-periods',
     },
     byFlow: 'filter-block-by-flow',
