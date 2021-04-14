@@ -10,16 +10,20 @@ export const GovCheckStepTypes = {
 
 export const GovCheckCountryList = {
   Argentina: 'argentina',
+  Bolivia: 'bolivia',
   Brazil: 'brazil',
+  Chile: 'chile',
   Colombia: 'colombia',
   CostaRica: 'costaRica',
   Ecuador: 'ecuador',
   // TODO: uncomment after we get fix for Honduran scraper
   // Honduras: 'honduras',
   Mexico: 'mexico',
+  Paraguay: 'paraguay',
   Peru: 'peru',
   // TODO: uncomment after we get fix for Salvadorian TSE scraper
   // Salvador: 'salvador',
+  Panama: 'panama',
 };
 
 export const GovCheckConfiguration = [
@@ -35,8 +39,15 @@ export const GovCheckConfiguration = [
         default: false,
       },
     ],
-  },
-  {
+  }, {
+    country: GovCheckCountryList.Bolivia,
+    checks: [
+      {
+        id: DocumentStepTypes.BolivianOep,
+        default: false,
+      },
+    ],
+  }, {
     country: GovCheckCountryList.Brazil,
     checks: [
       {
@@ -48,6 +59,14 @@ export const GovCheckConfiguration = [
         //   stepTypeAlias: GovCheckStepTypes[DocumentStepTypes.BrazilianCpf].cpfFacematch,
         //   description: true,
         // },
+      },
+    ],
+  }, {
+    country: GovCheckCountryList.Chile,
+    checks: [
+      {
+        id: DocumentStepTypes.ChileanRegistroCivil,
+        default: false,
       },
     ],
   }, {
@@ -103,10 +122,28 @@ export const GovCheckConfiguration = [
     ],
   },
   {
+    country: GovCheckCountryList.Paraguay,
+    checks: [
+      {
+        id: DocumentStepTypes.ParaguayanRcp,
+        default: false,
+      },
+    ],
+  },
+  {
     country: GovCheckCountryList.Peru,
     checks: [
       {
         id: DocumentStepTypes.PeruvianReniec,
+        default: false,
+      },
+    ],
+  },
+  {
+    country: GovCheckCountryList.Panama,
+    checks: [
+      {
+        id: DocumentStepTypes.PanamenianTribunalElectoral,
         default: false,
       },
     ],
@@ -124,6 +161,22 @@ export const GovCheckConfiguration = [
 ];
 
 export const govCheckDisplayOptions = {
+  [DocumentStepTypes.ArgentinianDni]: {
+    documentNumber: {
+      hidden: true,
+    },
+  },
+  [DocumentStepTypes.BolivianOep]: {
+    fullName: {},
+    documentNumber: {},
+    city: {
+      inline: true,
+    },
+    state: {
+      inline: true,
+    },
+    country: {},
+  },
   [DocumentStepTypes.BrazilianCpf]: {
     fullName: {},
     dateOfBirth: {
@@ -149,18 +202,6 @@ export const govCheckDisplayOptions = {
       inline: true,
     },
   },
-  [DocumentStepTypes.SalvadorianTse]: {
-    fullName: {},
-    documentNumber: {},
-    address: {},
-    city: {
-      inline: true,
-    },
-    state: {
-      inline: true,
-    },
-  },
-
   [DocumentStepTypes.CostaRicanTse]: {
     firstName: {
       inline: true,
@@ -182,10 +223,30 @@ export const govCheckDisplayOptions = {
       inline: true,
     },
   },
-
-  [DocumentStepTypes.ArgentinianDni]: {
-    documentNumber: {
-      hidden: true,
+  [DocumentStepTypes.ParaguayanRcp]: {
+    fullName: {},
+    gender: {
+      inline: true,
+    },
+    nationality: {
+      inline: true,
+    },
+    city: {
+      inline: true,
+    },
+    state: {
+      inline: true,
+    },
+  },
+  [DocumentStepTypes.SalvadorianTse]: {
+    fullName: {},
+    documentNumber: {},
+    address: {},
+    city: {
+      inline: true,
+    },
+    state: {
+      inline: true,
     },
   },
 };
