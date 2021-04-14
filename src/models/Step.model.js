@@ -17,6 +17,7 @@ export const StepTypes = {
 
 export const DocumentStepTypes = {
   AgeValidation: 'age-check',
+  BolivianOep: VerificationPatternTypes.BolivianOep,
   DocumentReading: 'document-reading',
   AlternationDetection: 'alteration-detection',
   Watchlists: 'watchlists',
@@ -26,9 +27,11 @@ export const DocumentStepTypes = {
   INE: 'mexican-ine-validation',
   RFC: 'mexican-rfc-validation',
   BrazilianCpf: 'brazilian-cpf-validation',
+  ChileanRegistroCivil: VerificationPatternTypes.ChileanRegistroCivil,
   ColombianRegistraduria: VerificationPatternTypes.ColombianRegistraduria,
   ArgentinianRenaper: VerificationPatternTypes.ArgentinianRenaper,
   EcuadorianRegistroCivil: VerificationPatternTypes.EcuadorianRegistroCivil,
+  ParaguayanRcp: VerificationPatternTypes.ParaguayanRcp,
   PeruvianReniec: VerificationPatternTypes.PeruvianReniec,
   CostaRicanTse: VerificationPatternTypes.CostaRicanTse,
   ArgentinianDni: VerificationPatternTypes.ArgentinianDni,
@@ -36,6 +39,7 @@ export const DocumentStepTypes = {
   DuplicateUserDetectionCheck: 'duplicate-user-detection',
   HonduranRnp: VerificationPatternTypes.HonduranRnp,
   PremiumAmlWatchlistsCheck: 'premium-aml-watchlists-search-validation',
+  PanamenianTribunalElectoral: 'panamenian-tribunal-electoral-validation',
 };
 
 // used as 'id' of failed steps in check summary
@@ -66,10 +70,14 @@ export const CountrySpecificChecks = [
   ...DocumentMxSteps,
   DocumentStepTypes.ArgentinianDni,
   DocumentStepTypes.ArgentinianRenaper,
+  DocumentStepTypes.BolivianOep,
   DocumentStepTypes.BrazilianCpf,
+  DocumentStepTypes.ChileanRegistroCivil,
   DocumentStepTypes.ColombianRegistraduria,
   DocumentStepTypes.EcuadorianRegistroCivil,
   DocumentStepTypes.HonduranRnp,
+  DocumentStepTypes.ParaguayanRcp,
+  DocumentStepTypes.PanamenianTribunalElectoral,
   DocumentStepTypes.PeruvianReniec,
   DocumentStepTypes.CostaRicanTse,
   DocumentStepTypes.SalvadorianTse,
@@ -113,11 +121,16 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.DuplicateUserDetectionCheck]: ['duplacateIdentityDetection.notValidParams'],
   [DocumentStepTypes.HonduranRnp]: ['honduranRnp.notEnoughParams'],
   [DocumentStepTypes.PremiumAmlWatchlistsCheck]: ['premiumAmlWatchlists.notValidParams'],
+  [DocumentStepTypes.ParaguayanRcp]: ['paraguayanRcp.notEnoughParams'],
   [DocumentStepTypes.Watchlists]: ['watchlists.notEnoughParams'],
   [DocumentStepTypes.ArgentinianDni]: ['argentinianDni.notEnoughParams'],
+  [DocumentStepTypes.BolivianOep]: ['bolivianOep.notEnoughParams'],
+  [DocumentStepTypes.ChileanRegistroCivil]: ['chileanRegistroCivil.notEnoughParams'],
   [DocumentStepTypes.CostaRicanTse]: ['costaRicanTse.notEnoughParams'],
   [DocumentStepTypes.EcuadorianRegistroCivil]: ['ecuadorianRegistroCivil.notEnoughParams'],
   [DocumentStepTypes.SalvadorianTse]: ['salvadorianTse.notEnoughParams'],
+  [DocumentStepTypes.AgeValidation]: ['underage.noDOB'],
+  [DocumentStepTypes.PanamenianTribunalElectoral]: ['panamenianTribunalElectoral.notEnoughParams'],
 };
 
 export const LEGACY_ERROR = 'LegacyError';
