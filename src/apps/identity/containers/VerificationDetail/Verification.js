@@ -2,18 +2,27 @@ import { Grid } from '@material-ui/core';
 import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
 import { Nom151Check } from 'apps/checks/components/Nom151Check/Nom151Check';
 import { Page404 } from 'apps/layout';
-import { get } from 'lodash';
-import React from 'react';
-import { getDownloadableFileName } from '../../../../models/Identity.model';
+import { getDownloadableFileName } from 'models/Identity.model';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { documentUpdate } from 'state/identities/identities.actions';
+import { selectReviewVerificationWithExtras } from 'state/verification/verification.selectors';
+import { LivenessStep } from '../../../biometrics';
+import { VerificationAdditionalChecks } from '../../../checks/components/VerificationAdditionalChecks/VerificationAdditionalChecks';
+import { DocumentStep } from '../../../documents';
 import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
 import { VerificationSummary } from '../../components/VerificationSummary/VerificationSummary';
-import { LivenessStep } from '../../../biometrics';
-import { DocumentStep } from '../../../documents';
-import { VerificationAdditionalChecks } from '../../../checks/components/VerificationAdditionalChecks/VerificationAdditionalChecks';
 
 export function Verification({ identity }) {
-  const verification = get(identity, '_embedded.verification');
-  const downloadableFileName = getDownloadableFileName(identity);
+  const dispatch = useDispatch();
+  const verification = useSelector(selectReviewVerificationWithExtras);
+  const downloadableFileName = getDownloadableFileName(verification);
+
+  const handleDocumentUpdate = useCallback((documentId) => async (normalizedData) => {
+    if (documentId && normalizedData) {
+      await dispatch(documentUpdate(documentId, normalizedData));
+    }
+  }, [dispatch]);
 
   if (!(verification)) {
     return <Page404 />;
@@ -32,9 +41,10 @@ export function Verification({ identity }) {
       </Grid>
 
       {/* Documents */}
-      {identity.documents.map((doc, index) => (
+      {verification.documents.map((doc, index) => (
         <Grid item key={doc.type}>
           <DocumentStep
+            onDocumentUpdate={handleDocumentUpdate(identity.documents[index]?.source?.id)}
             identity={identity}
             document={doc}
             documentIndex={index}

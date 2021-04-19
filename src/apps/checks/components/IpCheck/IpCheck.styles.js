@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core';
-import IconLoad from 'assets/icon-load.svg';
 
 export const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -22,17 +21,17 @@ export const useStyles = makeStyles((theme) => ({
       marginBottom: 0,
       padding: 20,
       borderRadius: 5,
-      border: `1px solid ${theme.palette.common.black7opacity}`,
+      border: `1px solid ${theme.palette.foreground.main}`,
     },
   },
   title: {
     lineHeight: '1.1',
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   map: {
     marginBottom: 36,
     borderRadius: 5,
-    backgroundColor: theme.palette.common.black7opacity,
+    backgroundColor: theme.palette.foreground.main,
     [theme.breakpoints.up('md')]: {
       marginBottom: 0,
       padding: 20,
@@ -45,7 +44,7 @@ export const useStyles = makeStyles((theme) => ({
   data: {
     fontSize: 14,
     lineHeight: 1.2,
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
     marginBottom: 6,
   },
   checking: {
@@ -71,17 +70,5 @@ export const useStyles = makeStyles((theme) => ({
         transform: 'none',
       },
     },
-  },
-  checkingResult: {
-    '&:after': {
-      background: `url(${IconLoad}) no-repeat center center`,
-    },
-  },
-  checkingTitle: {
-    color: theme.palette.common.black75,
-  },
-  checkingText: {
-    color: theme.palette.common.black75,
-    lineHeight: 1.1,
   },
 }));

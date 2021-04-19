@@ -27,6 +27,6 @@ export const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
 }));

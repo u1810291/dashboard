@@ -89,7 +89,7 @@ export const useStyles = makeStyles((theme) => ({
       width: 8,
       height: 8,
       borderStyle: 'solid',
-      borderColor: theme.palette.common.black75,
+      borderColor: theme.palette.text.main,
       borderWidth: '0 1px 1px 0',
       padding: 3,
       background: 'none',
@@ -121,7 +121,7 @@ export const useStyles = makeStyles((theme) => ({
       padding: [[3, 22]],
       borderRadius: 40,
       justifyContent: 'flex-start',
-      color: theme.palette.common.black75,
+      color: theme.palette.text.main,
       transition: 'none',
       [theme.breakpoints.down('sm')]: {
         padding: [[3, 7]],

@@ -7,6 +7,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   card: {
     width: '100%',
+    border: 'none',
+    filter: 'none',
     boxShadow: 'none',
   },
   inline: {
@@ -24,7 +26,7 @@ export const useStyles = makeStyles((theme) => ({
   monitoringStatus: {
     display: 'flex',
     justifyContent: 'flex-start',
-    marginLeft: '-30px',
+    color: theme.palette.text.main,
   },
   iconContainer: {
     width: '25px',
@@ -42,8 +44,8 @@ export const useStyles = makeStyles((theme) => ({
 export const LinkButton = withStyles((theme) => ({
   root: {
     fontSize: 14,
-    color: theme.palette.common.lightblue,
-    backgroundColor: theme.palette.common.whiteblue,
+    color: theme.palette.button.document.contrastText,
+    backgroundColor: theme.palette.button.document.main,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
   },

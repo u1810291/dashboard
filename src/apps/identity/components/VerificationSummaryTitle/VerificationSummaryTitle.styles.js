@@ -5,7 +5,7 @@ import { LivenessStepStatus } from '../../../../models/Biometric.model';
 export const useStyles = makeStyles((theme) => {
   const statuses = {
     [StepStatus.Success]: {
-      colorText: theme.palette.common.black75,
+      colorText: theme.palette.text.main,
       colorIcon: theme.palette.common.green,
     },
     [StepStatus.Failure]: {
@@ -17,16 +17,16 @@ export const useStyles = makeStyles((theme) => {
       colorIcon: theme.palette.common.yellow,
     },
     [StepStatus.Checking]: {
-      colorText: theme.palette.common.black75,
-      colorIcon: theme.palette.common.black75,
+      colorText: theme.palette.text.main,
+      colorIcon: theme.palette.text.main,
     },
     [LivenessStepStatus.Disabled]: {
-      colorText: theme.palette.common.black75,
-      colorIcon: theme.palette.common.black75,
+      colorText: theme.palette.text.main,
+      colorIcon: theme.palette.text.main,
     },
     [LivenessStepStatus.FewData]: {
-      colorText: theme.palette.common.black75,
-      colorIcon: theme.palette.common.black75,
+      colorText: theme.palette.text.main,
+      colorIcon: theme.palette.text.main,
     },
   };
 
@@ -35,7 +35,7 @@ export const useStyles = makeStyles((theme) => {
       minHeight: 44,
       marginBottom: 20,
       padding: [[5, 20]],
-      background: theme.palette.common.black7opacity,
+      background: theme.palette.foreground.main,
       borderRadius: 5,
     }),
     title: ({ status }) => ({

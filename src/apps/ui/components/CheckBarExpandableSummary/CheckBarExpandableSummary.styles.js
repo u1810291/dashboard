@@ -2,7 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary, makeStyles, withStyles }
 
 export const useStyles = makeStyles((theme) => ({
   label: {
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     lineHeight: '1.1',
   },
   labelIcon: {
@@ -44,12 +44,12 @@ export const ExpansionPanelSummary = withStyles((theme) => ({
     borderRadius: 5,
     minHeight: 30,
     '&:hover, &:focus': {
-      backgroundColor: theme.palette.common.black7opacity,
+      backgroundColor: theme.palette.foreground.main,
     },
     '&$expanded': {
       minHeight: 30,
       margin: 0,
-      backgroundColor: theme.palette.common.black7opacity,
+      backgroundColor: theme.palette.foreground.main,
     },
     '&$focused': {
       backgroundColor: '#FFF',
@@ -68,7 +68,7 @@ export const ExpansionPanelSummary = withStyles((theme) => ({
   expandIcon: {
     marginRight: -4,
     padding: 0,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
 }))(AccordionSummary);
 

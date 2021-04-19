@@ -1,7 +1,9 @@
 import { Grid } from '@material-ui/core';
+import { useRole } from 'apps/collaborators/hooks/Role/Role.hook';
 import { useOverlay } from 'apps/overlay';
 import { downloadBlob } from 'lib/file';
 import { get } from 'lodash';
+import { CollaboratorRoles } from 'models/Collaborator.model';
 import { getGoBackToListLink } from 'models/Identity.model';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
@@ -12,8 +14,6 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { identityRemove, setPDFGenerating } from 'state/identities/identities.actions';
-import { useRole } from 'apps/collaborators/hooks/Role/Role.hook';
-import { CollaboratorRoles } from 'models/Collaborator.model';
 import { selectIdentityIsPDFGenerating } from 'state/identities/identities.selectors';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { VerificationWebhookModal } from '../VerificationWebhookModal/VerificationWebhookModal';
@@ -122,7 +122,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
               variant="contained"
               onClick={handleDeleteIdentity}
               startIcon={isDeleting ? <FiLoader /> : <FiTrash2 />}
-              disabled={isDeleting}
+              disabled={isDeleting || identity?.status === IdentityStatuses.reviewRunning}
               className={classes.deleteButton}
               data-qa={QATags.Verification.Buttons.Delete}
             >

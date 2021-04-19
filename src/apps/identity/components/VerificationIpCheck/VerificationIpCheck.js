@@ -1,17 +1,17 @@
 import { Box, Grid, Typography } from '@material-ui/core';
+import { SkeletonLoader } from 'apps/ui';
 import React from 'react';
-import { useIntl } from 'react-intl';
 import { FiCheckCircle } from 'react-icons/fi';
+import { useIntl } from 'react-intl';
 import { Marker, StaticGoogleMap } from 'react-static-google-map';
 import { ReactComponent as IconError } from '../../../../assets/icon-identity-error.svg';
 import { ReactComponent as IconLoad } from '../../../../assets/icon-load.svg';
-import { SkeletonLoader } from '../../../ui/components/SkeletonLoader/SkeletonLoader';
+import { VerificationSummaryTitleTypes } from '../../../../models/Identity.model';
+import { getIpCheckStatus } from '../../../../models/IpCheck.model';
+import { StepStatus } from '../../../../models/Step.model';
 import { VerificationCheckCard } from '../VerificationCheckCard/VerificationCheckCard';
 import { VerificationSummaryTitle } from '../VerificationSummaryTitle/VerificationSummaryTitle';
 import { useStyles } from './VerificationIpCheck.styles';
-import { StepStatus } from '../../../../models/Step.model';
-import { getIpCheckStatus } from '../../../../models/IpCheck.model';
-import { VerificationSummaryTitleTypes } from '../../../../models/Identity.model';
 
 function Icon({ status }) {
   const classes = useStyles();
@@ -32,7 +32,7 @@ export function VerificationIpCheck({ ipCheck }) {
 
   return (
     <VerificationCheckCard
-      titleComponent={(
+      title={(
         <VerificationSummaryTitle status={status} type={VerificationSummaryTitleTypes.additional}>
           {intl.formatMessage({ id: 'identity.summary.title.additional' })}
         </VerificationSummaryTitle>

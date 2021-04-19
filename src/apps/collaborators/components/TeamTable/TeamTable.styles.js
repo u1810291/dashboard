@@ -17,7 +17,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     '& .MuiSelect-root': {
       minWidth: 40,
-      color: theme.palette.common.black75,
+      color: theme.palette.text.main,
     },
     '& .MuiSelect-root.MuiSelect-select:focus': {
       backgroundColor: 'transparent',
@@ -25,7 +25,7 @@ export const useStyles = makeStyles((theme) => ({
     '& .MuiSelect-icon': {
       top: 'calc(50% - 9px)',
       fontSize: 16,
-      color: theme.palette.common.black75,
+      color: theme.palette.text.main,
     },
     [theme.breakpoints.down('sm')]: {
       '& .MuiTableRow-root': {
@@ -73,10 +73,10 @@ export const useStyles = makeStyles((theme) => ({
   },
   fullName: {
     fontWeight: 'bold',
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
   },
   email: {
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   tableButton: {
     marginLeft: 20,

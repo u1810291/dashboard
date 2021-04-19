@@ -1,10 +1,10 @@
 import { Box, Button, Grid } from '@material-ui/core';
+import { QATags } from 'models/QA.model';
 import React, { useCallback } from 'react';
-import { FiExternalLink, FiSmartphone, FiCode, FiGlobe } from 'react-icons/fi';
+import { FiCode, FiExternalLink, FiGlobe, FiSmartphone } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { TabID } from '../../models/ForDevelopers.model';
 import { useStyles } from './GithubDocumentationBanner.styles';
-import { QATags } from '../../../../models/QA.model';
 
 export function GithubDocumentationBanner({ platform, documentationURL, tabId }) {
   const classes = useStyles();

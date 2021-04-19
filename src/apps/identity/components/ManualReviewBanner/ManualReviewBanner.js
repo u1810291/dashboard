@@ -1,17 +1,22 @@
 import { Button, Grid, Paper, Typography } from '@material-ui/core';
 import { verificationsFilterInitialState, verificationsFilterStructure } from 'apps/filter';
 import { useFilterParser } from 'apps/filter/hooks/filterURL.hook';
+import classnames from 'classnames';
+import { QATags } from 'models/QA.model';
+import { Routes } from 'models/Router.model';
 import { IdentityStatuses } from 'models/Status.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { identitiesManualReviewCountLoad } from 'state/identities/identities.actions';
 import { selectIdentityFilter, selectManualReviewCountModel } from 'state/identities/identities.selectors';
 import { useStyles } from './ManualReviewBanner.styles';
 
 export const ManualReviewBanner = () => {
   const intl = useIntl();
+  const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
   const manualReviewCount = useSelector(selectManualReviewCountModel);
@@ -25,7 +30,7 @@ export const ManualReviewBanner = () => {
 
   useEffect(() => {
     setIsFilterActive(identityFilter?.status?.some((status) => status === IdentityStatuses.reviewNeeded));
-  }, [identityFilter.status]);
+  }, [identityFilter, identityFilter.status]);
 
   const handleFilterByManualReview = useCallback(() => {
     addToUrl({
@@ -42,6 +47,10 @@ export const ManualReviewBanner = () => {
     setIsFilterActive(false);
   }, [addToUrl]);
 
+  const handleGoToReviewMode = useCallback(() => {
+    history.push({ pathname: Routes.review.root, state: { from: history.location.pathname } });
+  }, [history]);
+
   return (
     <>
       {manualReviewCount.value > 0 && (
@@ -53,17 +62,28 @@ export const ManualReviewBanner = () => {
                   {intl.formatMessage({
                     id: 'VerificationHistory.manualReviewBanner',
                   }, {
-                    count: <b>{manualReviewCount.value}</b>,
+                    count: <b data-qa={QATags.Review.VerificationCount}>{manualReviewCount.value}</b>,
                   })}
                 </Typography>
               </Grid>
               <Grid item>
                 <Button
                   variant="outlined"
-                  className={classes.bannerButton}
+                  className={classnames(classes.bannerButton, classes.bannerButtonVerifications)}
                   onClick={handleFilterByManualReview}
+                  data-qa={QATags.Review.Banner.ShowVerifications}
                 >
                   {intl.formatMessage({ id: 'VerificationHistory.reviewVerifications' })}
+                </Button>
+                <Button
+                  variant="contained"
+                  className={classnames(classes.bannerButton, classes.bannerButtonMode, {
+                    [classes.bannerButtonModeFilter]: isFilterActive,
+                  })}
+                  onClick={handleGoToReviewMode}
+                  data-qa={QATags.Review.Banner.ReviewMode}
+                >
+                  {intl.formatMessage({ id: 'ReviewMode.button.title' })}
                 </Button>
                 {isFilterActive && (
                   <Button

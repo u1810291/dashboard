@@ -2,9 +2,10 @@ import { notification } from 'apps/ui';
 import * as api from 'lib/client/identities';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { get } from 'lodash';
-import { ERROR_COMMON } from 'models/Error.model';
+import { ERROR_COMMON, IN_REVIEW_MODE_ERROR, isInReviewModeError } from 'models/Error.model';
 import { filterSerialize } from 'models/Filter.model';
 import { IdentityStatuses } from 'models/Status.model';
+
 import { createTypesSequence } from 'state/utils';
 import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from './identities.selectors';
 import { IdentityActionGroups } from './identities.store';
@@ -30,6 +31,7 @@ export const identitiesListLoad = (isReload, offset) => async (dispatch, getStat
   dispatch({ type: isReload ? types.IDENTITY_LIST_REQUEST : types.IDENTITY_LIST_UPDATING });
   try {
     const filter = selectIdentityFilterSerialized(getState());
+    // embed=verification parameter is needed for backend to calculate 'reviewRunning' status
     const { data } = await api.getIdentities({ ...filter, ...offset });
     const payload = (data || []).map((item) => item.identity);
     dispatch({ type: types.IDENTITY_LIST_SUCCESS, payload, isReset: isReload });
@@ -189,7 +191,12 @@ export const identityUpdate = (id, data) => async (dispatch, getState) => {
     dispatch({ type: types.IDENTITY_SUCCESS, payload: updatedIdentity });
   } catch (error) {
     dispatch({ type: types.IDENTITY_FAILURE, error });
-    notification.error(ERROR_COMMON);
+    if (isInReviewModeError(error)) {
+      notification.error(IN_REVIEW_MODE_ERROR, { autoClose: false });
+    } else {
+      notification.error(ERROR_COMMON);
+    }
+
     throw error;
   }
 };
@@ -202,18 +209,30 @@ export const documentUpdate = (id, fields) => async (dispatch, getState) => {
     const documents = get(identityModel.value, '_embedded.documents', []);
     const documentIndex = documents.findIndex((item) => item.id === id);
     const newDocuments = [...documents];
+    const newVerificationDocuments = [...identityModel.value._embedded.verification.documents];
+    newVerificationDocuments[documentIndex].fields = data.fields;
     newDocuments.splice(documentIndex, 1, data);
+
     const newIdentity = {
       ...identityModel.value,
       _embedded: {
         ...identityModel.value._embedded,
         documents: newDocuments,
+        verification: {
+          ...identityModel.value._embedded.verification,
+          documents: newVerificationDocuments,
+        },
       },
     };
+
     dispatch({ type: types.IDENTITY_SUCCESS, payload: newIdentity });
   } catch (error) {
     dispatch({ type: types.IDENTITY_FAILURE, error });
-    notification.error(ERROR_COMMON);
+    if (isInReviewModeError(error)) {
+      notification.error(IN_REVIEW_MODE_ERROR, { autoClose: false });
+    } else {
+      notification.error(ERROR_COMMON);
+    }
     throw error;
   }
 };

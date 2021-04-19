@@ -4,6 +4,7 @@ export const useStyles = makeStyles((theme) => ({
   wrapper: {
     display: 'flex',
     flexWrap: 'wrap',
+    color: theme.palette.text.main,
   },
   item: {
     width: '100%',
@@ -11,10 +12,15 @@ export const useStyles = makeStyles((theme) => ({
   },
   card: {
     width: '100%',
+    border: 'none',
+    filter: 'none',
     boxShadow: 'none',
   },
   value: {
     fontWeight: 'bold',
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
+  },
+  label: {
+    color: theme.palette.text.main,
   },
 }));

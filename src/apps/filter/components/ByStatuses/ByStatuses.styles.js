@@ -23,4 +23,7 @@ export const useStyles = makeStyles((theme) => ({
   [IdentityStatuses.running]: {
     color: theme.palette.common.black50,
   },
+  [IdentityStatuses.reviewRunning]: {
+    color: theme.palette.common.black50,
+  },
 }));

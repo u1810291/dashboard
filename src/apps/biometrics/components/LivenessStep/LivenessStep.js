@@ -9,7 +9,7 @@ import { useIntl } from 'react-intl';
 import { LivenessMedia } from '../LivenessMedia/LivenessMedia';
 import { useStyles } from './LivenessStep.styles';
 
-export function LivenessStep({ steps, downloadableFileName }) {
+export function LivenessStep({ steps = [], downloadableFileName }) {
   const intl = useIntl();
   const classes = useStyles();
   const checkStatus = getBiometricCheckStatus(steps);
@@ -35,7 +35,7 @@ export function LivenessStep({ steps, downloadableFileName }) {
               {checkStatus !== LivenessStepStatus.FewData && steps.map((item, index) => (
                 <React.Fragment key={item.id}>
                   {/* video */}
-                  {item.videoUrl && (
+                  {item?.videoUrl && (
                     <Grid
                       container
                       item
@@ -57,11 +57,11 @@ export function LivenessStep({ steps, downloadableFileName }) {
               ))}
               <Grid item xs={6} md={steps.length === 2 ? 4 : 6} className={classes.mediaItem}>
                 {/* image */}
-                {steps[0].selfieUrl && (
+                {steps[0]?.selfieUrl && (
                   <LivenessMedia
                     image={steps[0].selfieUrl}
                     title={intl.formatMessage({ id: 'LivenessStep.Checks.selfie.title' })}
-                    subtitle={steps[0].videoUrl && intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
+                    subtitle={steps[0]?.videoUrl && intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
                     downloadableFileName={downloadableFileName}
                   />
                 )}

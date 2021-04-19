@@ -1,6 +1,6 @@
 import { Switch } from '@material-ui/core';
 import { notification } from 'apps/ui';
-import { VerificationPatternTypes } from 'models/Verification.model';
+import { VerificationPatternTypes } from 'models/Step.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';

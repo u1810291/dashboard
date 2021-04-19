@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
   title: {
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     [theme.breakpoints.down('md')]: {
       textAlign: 'center',
     },

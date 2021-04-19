@@ -131,6 +131,6 @@ export const useStyles = makeStyles((theme) => ({
     width: '100%',
     fontWeight: 'bold',
     fontSize: 12,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
 }));

@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react';
 import { Box, Button, Collapse } from '@material-ui/core';
+import cn from 'classnames';
+import React, { useCallback, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import cn from 'classnames';
 import { getIsSelected } from '../../models/ForDevelopers.model';
 import { useStyles } from './CascadeMenuButton.styles';
 

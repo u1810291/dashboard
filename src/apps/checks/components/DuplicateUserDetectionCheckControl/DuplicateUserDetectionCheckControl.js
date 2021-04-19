@@ -1,11 +1,11 @@
 import { Switch } from '@material-ui/core';
 import { notification } from 'apps/ui';
-import { VerificationPatternTypes } from 'models/Verification.model';
+import { VerificationPatternTypes } from 'models/Step.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { selectDuplicateUserDetectionCheck } from 'state/merchant/merchant.selectors';
-import { merchantUpdateFlow } from '../../../../state/merchant/merchant.actions';
 import { useStyles } from './DuplicateUserDetectionCheckControl.styles';
 
 export function DuplicateUserDetectionCheckControl() {

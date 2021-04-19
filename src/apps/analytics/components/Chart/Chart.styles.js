@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   chart: {
     maxWidth: 'calc(100% - 20px)',

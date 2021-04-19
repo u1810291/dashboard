@@ -49,7 +49,7 @@ export const useStyles = makeStyles((theme) => ({
     width: 16,
     height: 16,
     borderRadius: '50%',
-    border: `1px solid ${theme.palette.common.black75}`,
+    border: `1px solid ${theme.palette.text.main}`,
   },
   itemIcon: {
     content: '""',
@@ -63,6 +63,6 @@ export const useStyles = makeStyles((theme) => ({
   },
   text: {
     fontSize: 12,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
 }));

@@ -11,18 +11,18 @@ import ModelIcon from '../../assets/model-icon.png';
 import { BrowserIcons, DeviceIcons, OSIcons } from '../../assets';
 import { VerificationSummaryTitleTypes } from '../../../../models/Identity.model';
 
-export function VerificationDeviceCheckPDF({ identity }) {
+export function VerificationDeviceCheckPDF({ deviceFingerprint }) {
   const intl = useIntl();
-  const platform = getDevicePlatformType(identity);
+  const platform = getDevicePlatformType(deviceFingerprint);
 
-  const model = getDeviceModel(identity);
-  const deviceType = getDeviceType(identity);
-  const osLabel = getDeviceOSLabel(identity);
-  const browserLabel = getDeviceBrowserLabel(identity);
+  const model = getDeviceModel(deviceFingerprint);
+  const deviceType = getDeviceType(deviceFingerprint);
+  const osLabel = getDeviceOSLabel(deviceFingerprint);
+  const browserLabel = getDeviceBrowserLabel(deviceFingerprint);
 
   const DeviceIcon = DeviceIcons[deviceType] || DeviceIcons[DeviceTypes.Desktop];
-  const OSIcon = OSIcons[getDeviceOSType(identity)] || OSIcons[OSTypes.Unknown];
-  const BrowserIcon = BrowserIcons[getDeviceBrowserType(identity)] || BrowserIcons[BrowserTypes.Other];
+  const OSIcon = OSIcons[getDeviceOSType(deviceFingerprint)] || OSIcons[OSTypes.Unknown];
+  const BrowserIcon = BrowserIcons[getDeviceBrowserType(deviceFingerprint)] || BrowserIcons[BrowserTypes.Other];
 
   return (
     <VerificationCheckCardPDF

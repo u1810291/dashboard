@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import { Marker, StaticGoogleMap } from 'react-static-google-map';
 import { useStyles } from './IpCheck.styles';
 
-export function IpCheck({ data = {}, isChecking }) {
+function IpCheckComponent({ data = {}, isChecking }) {
   const intl = useIntl();
   const classes = useStyles();
 
@@ -98,3 +98,5 @@ export function IpCheck({ data = {}, isChecking }) {
     </Paper>
   );
 }
+
+export const IpCheck = React.memo(IpCheckComponent);

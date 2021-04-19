@@ -2,11 +2,11 @@ import { Box, Typography } from '@material-ui/core';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { InformationImageTypes, TabID } from '../../models/ForDevelopers.model';
+import { DirectLinkCopy } from '../DirectLinkCopy/DirectLinkCopy';
 import { GithubDocumentationBanner } from '../GithubDocumentationBanner/GithubDocumentationBanner';
+import { InformationImage } from '../InformationImage/InformationImage';
 import { VideoExplainer } from '../VideoExplainer/VideoExplainer';
-import { DirectLinkCopy } from './DirectLinkCopy/DirectLinkCopy';
-import { WebCodeSnippet } from './WebCodeSnippet/WebCodeSnippet';
-import { InformationImage } from './InformationImage/InformationImage';
+import { WebCodeSnippet } from '../WebCodeSnippet/WebCodeSnippet';
 
 export function Information({ selectedPage }) {
   const intl = useIntl();

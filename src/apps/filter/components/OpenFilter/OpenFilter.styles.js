@@ -9,7 +9,7 @@ export const SideButton = withStyles((theme) => ({
     borderRadius: 5,
     backgroundColor: theme.palette.background.default,
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.05)',
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     [theme.breakpoints.down(1080)]: {
       width: 50,
       minWidth: 50,

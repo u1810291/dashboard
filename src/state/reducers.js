@@ -8,6 +8,8 @@ import dashboard from 'apps/dashboard/state/dashboard.reducer';
 import { DASHBOARD_STORE_KEY } from 'apps/dashboard/state/dashboard.store';
 import overlay from 'apps/overlay/state/overlay.reducer';
 import { OVERLAY_STORE_KEY } from 'apps/overlay/state/overlay.store';
+import { reviewModeReducer } from 'apps/reviewMode/state/reviewMode.reducers';
+import { REVIEW_MODE_KEY } from 'apps/reviewMode/state/reviewMode.store';
 import user from 'apps/user/state/user.reducer';
 import { USER_STORE_KEY } from 'apps/user/state/user.store';
 import { combineReducers } from 'redux';
@@ -31,6 +33,7 @@ export const appReducers = combineReducers({
   [WEBHOOKS_STORE_KEY]: webhooks,
   [METRICS_STORE_KEY]: metrics,
   [OVERLAY_STORE_KEY]: overlay,
+  [REVIEW_MODE_KEY]: reviewModeReducer,
 });
 
 export const rootReducers = (state, action) => {

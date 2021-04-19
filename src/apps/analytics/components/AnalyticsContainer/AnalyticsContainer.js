@@ -6,11 +6,13 @@ import { useFilterParser } from 'apps/filter/hooks/filterURL.hook';
 import { DevicesStats } from 'apps/fingerPrint/components/DevicesStats/DevicesStats';
 import { AnalyticsMap } from 'apps/googleMap/components/AnalyticsMap/AnalyticsMap';
 import { PageLoader } from 'apps/layout';
-import { QATags } from 'models/QA.model';
 import { analyticsDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, getFilterDatesIsValid, parseFromURL } from 'models/Filter.model';
+import { QATags } from 'models/QA.model';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { identitiesManualReviewCountLoad } from 'state/identities/identities.actions';
+import { selectManualReviewCountModel } from 'state/identities/identities.selectors';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
 import { Chart } from '../Chart/Chart';
@@ -30,6 +32,11 @@ export function AnalyticsContainer() {
   const byDate = useSelector(selectStatisticsByDate);
   const [flows, setFlows] = useState([DEFAULT_FLOW]);
   const [isFilterDatesValid, setIsFilterDatesValid] = useState(false);
+  const manualReviewCountModel = useSelector(selectManualReviewCountModel);
+
+  useEffect(() => {
+    dispatch(identitiesManualReviewCountLoad());
+  }, [dispatch]);
 
   useEffect(() => {
     setIsFilterDatesValid(getFilterDatesIsValid(metricsFilter));
@@ -46,7 +53,7 @@ export function AnalyticsContainer() {
 
   useEffect(() => {
     setFlows(metricsFilter?.flowIds?.length > 0 ? metricsFilter.flowIds : [DEFAULT_FLOW]);
-  }, [dispatch, metricsFilter.flowIds]);
+  }, [dispatch, metricsFilter]);
 
   return (
     <Container maxWidth={false}>
@@ -67,12 +74,20 @@ export function AnalyticsContainer() {
           </Box>
           <Grid container spacing={2} direction="column">
             <Grid container spacing={2} item direction="column" className={classes.statistic}>
+              {manualReviewCountModel.isLoaded && manualReviewCountModel?.value > 0 && (
               <Grid item md={4} lg={3}>
                 <NeedToReview />
               </Grid>
-              <Grid item md={8} lg={9} className={classes.total}>
-                <VerificationsTotal />
-              </Grid>
+              )}
+              {manualReviewCountModel.isLoaded && manualReviewCountModel?.value > 0 ? (
+                <Grid item md={8} lg={9} className={classes.total}>
+                  <VerificationsTotal />
+                </Grid>
+              ) : (
+                <Grid item md={12} className={classes.total}>
+                  <VerificationsTotal />
+                </Grid>
+              )}
             </Grid>
             <Grid item className={classes.chartWrapper}>
               <Chart

@@ -4,9 +4,9 @@ import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { BiometricTypes } from 'models/Biometric.model';
 import { DEFAULT_LOCALE, LanguageList } from 'models/Intl.model';
-import { VerificationPatternTypes } from 'models/Verification.model';
-import { createSelector } from 'reselect';
 import { MerchantTags } from 'models/Merchant.model';
+import { VerificationPatternTypes } from 'models/Step.model';
+import { createSelector } from 'reselect';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
 
 const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];

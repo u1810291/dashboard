@@ -45,7 +45,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   checks: {
     '& .MuiFormControlLabel-root': {
-      color: theme.palette.common.black90,
+      color: theme.palette.text.secondary,
     },
     '& .MuiButtonBase-root': {
       minHeight: 30,
@@ -71,7 +71,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   resultsText: {
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   clearButton: {
     color: theme.palette.common.red,

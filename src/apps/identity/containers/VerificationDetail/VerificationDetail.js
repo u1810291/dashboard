@@ -3,10 +3,11 @@ import { Page404, PageError } from 'apps/layout';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useLongPolling } from 'lib/longPolling.hook';
 import { useQuery } from 'lib/url';
-import { isNotFound } from 'models/Error.model';
+import { isInReviewModeError, isNotFound } from 'models/Error.model';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+
 import { identityClear, identityDemoLoad, identityLoad } from 'state/identities/identities.actions';
 import { selectIdentityModelWithExtras } from 'state/identities/identities.selectors';
 import { VerificationHeader } from '../../components/VerificationHeader/VerificationHeader';
@@ -32,8 +33,8 @@ export function VerificationDetail() {
   }, [id, demoId, dispatch, asMerchantId]);
 
   useLongPolling(handleLoad);
-
-  if (identityModel.isFailed) {
+  // TODO @vladislav.snimshchikov: Refactoring page 404
+  if (identityModel.isFailed && !isInReviewModeError(identityModel.error)) {
     return isNotFound(identityModel.error)
       ? <Page404 />
       : <PageError />;

@@ -30,7 +30,7 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     backgroundColor: 'transparent',
     paddingTop: 12,
   },

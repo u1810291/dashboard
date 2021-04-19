@@ -17,3 +17,10 @@ export function difference(object, base) {
   }
   return changes(object, base);
 }
+
+export function isObjectEmpty(object) {
+  if (!_.isObject(object)) {
+    return true;
+  }
+  return Object.keys(object).length === 0;
+}

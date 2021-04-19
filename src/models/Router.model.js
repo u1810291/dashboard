@@ -20,4 +20,5 @@ export const Routes = {
   dev: { root: '/dev' },
   settings: { root: '/settings' },
   info: { root: '/info' },
+  review: { root: '/review' },
 };

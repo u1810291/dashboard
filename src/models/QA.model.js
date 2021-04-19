@@ -199,4 +199,26 @@ export const QATags = {
       Change: 'settings-changePassword-button-change',
     },
   },
+
+  Review: {
+    VerificationCount: 'review-verificationCount',
+    Banner: {
+      ReviewMode: 'review-banner-button-goToReviewMode',
+      ShowVerifications: 'review-banner-button-showVerifications',
+    },
+    Page: {
+      Buttons: {
+        Verified: 'review-page-button-verified',
+        Rejected: 'review-page-button-rejected',
+        Skip: 'review-page-button-skip',
+        Exit: 'review-page-button-exit',
+        Cancel: 'review-page-button-cancel',
+        Next: 'review-page-button-next',
+      },
+      ExitModal: {
+        Exit: 'review-page-exitModal-button-exit',
+        Cancel: 'review-page-exitModal-button-cancel',
+      },
+    },
+  },
 };

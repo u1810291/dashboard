@@ -8,7 +8,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   label: {
     fontSize: 14,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     fontWeight: 'bold',
   },
 }));
@@ -49,12 +49,12 @@ export const ExpansionPanelSummary = withStyles((theme) => ({
     borderRadius: 5,
     minHeight: 30,
     '&:hover, &:focus': {
-      backgroundColor: theme.palette.common.black7opacity,
+      backgroundColor: theme.palette.foreground.main,
     },
     '&$expanded': {
       minHeight: 30,
       margin: 0,
-      backgroundColor: theme.palette.common.black7opacity,
+      backgroundColor: theme.palette.foreground.main,
     },
     '&.error': {
       '&:hover, &:focus': {
@@ -88,7 +88,7 @@ export const ExpansionPanelSummary = withStyles((theme) => ({
   expandIcon: {
     marginRight: -4,
     padding: [[0, 2]],
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     '& svg': {
       fontSize: 17,
     },
@@ -98,12 +98,9 @@ export const ExpansionPanelSummary = withStyles((theme) => ({
 export const ExpansionPanelDetails = withStyles((theme) => ({
   root: {
     padding: 0,
-    '& .MuiCardContent-root': {
+    '& [class*="MuiCardContent-root"]': {
       padding: [[10, 30, 0, 42]],
-      color: theme.palette.common.black75,
-      '&:last-child': {
-        paddingBottom: 0,
-      },
+      color: theme.palette.text.main,
     },
   },
 }))(AccordionDetails);

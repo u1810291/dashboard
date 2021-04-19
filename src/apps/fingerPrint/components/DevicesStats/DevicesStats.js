@@ -2,11 +2,11 @@ import { Box, Grid, TableContainer } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { loadDevicesStatistics } from 'apps/analytics/state/metrics.actions';
 import { selectDevicesStatistics, selectFilter } from 'apps/analytics/state/metrics.selectors';
-import { DevicesTableTypes } from 'apps/fingerPrint/fingerPrint.model';
+import { DevicesTableTypes } from 'models/DeviceCheck.model';
 import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { DevicesStatsTable } from './DevicesStatsTable/DevicesStatsTable';
+import { DevicesStatsTable } from '../DevicesStatsTable/DevicesStatsTable';
 
 export function DevicesStats() {
   const intl = useIntl();

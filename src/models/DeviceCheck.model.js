@@ -1,7 +1,6 @@
+import { ReactComponent as DesktopGrayIcon } from 'apps/identity/icons/desktop-gray.svg';
 import { get } from 'lodash';
 import { FiSmartphone, FiTablet } from 'react-icons/fi';
-import { DevicesTableTypes } from 'apps/fingerPrint/fingerPrint.model';
-import { ReactComponent as DesktopGrayIcon } from 'apps/identity/icons/desktop-gray.svg';
 import { ReactComponent as AndroidIcon } from '../apps/identity/icons/android.svg';
 import { ReactComponent as AppleIcon } from '../apps/identity/icons/apple.svg';
 import { ReactComponent as BlueBoxIcon } from '../apps/identity/icons/blue-box.svg';
@@ -19,33 +18,38 @@ import { ReactComponent as UbuntuIcon } from '../apps/identity/icons/ubuntu.svg'
 import { ReactComponent as WindowsIcon } from '../apps/identity/icons/windows.svg';
 import { ReactComponent as YandexIcon } from '../apps/identity/icons/yandex.svg';
 
-export function getDevicePlatform(identity) {
-  return get(identity, '_embedded.verification.deviceFingerprint.app.platform', null);
+export function getDevicePlatform(deviceFingerprint) {
+  return get(deviceFingerprint, 'app.platform', null);
 }
 
-export function getDeviceOSName(identity) {
-  return get(identity, '_embedded.verification.deviceFingerprint.os.name', null);
+export function getDeviceOSName(deviceFingerprint) {
+  return get(deviceFingerprint, 'os.name', null);
 }
 
-export function getDeviceOSVersion(identity) {
-  return get(identity, '_embedded.verification.deviceFingerprint.os.version', null);
+export function getDeviceOSVersion(deviceFingerprint) {
+  return get(deviceFingerprint, 'os.version', null);
 }
 
-export function getDeviceBrowserName(identity) {
-  return get(identity, '_embedded.verification.deviceFingerprint.browser.name', null);
+export function getDeviceBrowserName(deviceFingerprint) {
+  return get(deviceFingerprint, 'browser.name', null);
 }
 
-export function getDeviceBrowserMajor(identity) {
-  return get(identity, '_embedded.verification.deviceFingerprint.browser.major', null);
+export function getDeviceBrowserMajor(deviceFingerprint) {
+  return get(deviceFingerprint, 'browser.major', null);
 }
 
-export function getDeviceModel(identity) {
-  return get(identity, '_embedded.verification.deviceFingerprint.device.model', null);
+export function getDeviceModel(deviceFingerprint) {
+  return get(deviceFingerprint, 'device.model', null);
 }
 
-export function getDeviceTypeValue(identity) {
-  return get(identity, '_embedded.verification.deviceFingerprint.device.type', null);
+export function getDeviceTypeValue(deviceFingerprint) {
+  return get(deviceFingerprint, 'device.type', null);
 }
+
+export const DevicesTableTypes = {
+  devices: 'devices',
+  browsers: 'browsers',
+};
 
 export const OSTypes = {
   Android: 'Android',
@@ -127,21 +131,21 @@ export function getDeviceTypeByString(str) {
   return Object.values(DeviceTypes).find((type) => new RegExp(type, 'i').test(str));
 }
 
-export function getDevicePlatformType(identity) {
-  const str = getDevicePlatform(identity);
+export function getDevicePlatformType(deviceFingerprint) {
+  const str = getDevicePlatform(deviceFingerprint);
   const value = Object.values(PlatformTypes).find((type) => new RegExp(type, 'i').test(str));
   return value || PlatformTypes.Api;
 }
 
-export function getDeviceOSType(identity) {
-  const str = getDeviceOSName(identity);
+export function getDeviceOSType(deviceFingerprint) {
+  const str = getDeviceOSName(deviceFingerprint);
   const value = Object.values(OSTypes).find((type) => new RegExp(type, 'i').test(str));
   return value || OSTypes.Unknown;
 }
 
-export function getDeviceOSLabel(identity) {
-  const name = getDeviceOSName(identity);
-  const version = getDeviceOSVersion(identity) || '';
+export function getDeviceOSLabel(deviceFingerprint) {
+  const name = getDeviceOSName(deviceFingerprint);
+  const version = getDeviceOSVersion(deviceFingerprint) || '';
   return name ? `${name} ${version}` : OSTypes.Unknown;
 }
 
@@ -151,26 +155,26 @@ export function getDeviceBrowserTypeByString(name) {
   return value || BrowserTypes.Other;
 }
 
-export function getDeviceBrowserType(identity) {
-  const str = getDeviceBrowserName(identity);
+export function getDeviceBrowserType(deviceFingerprint) {
+  const str = getDeviceBrowserName(deviceFingerprint);
   return getDeviceBrowserTypeByString(str);
 }
 
-export function getDeviceBrowserLabel(identity) {
-  const name = getDeviceBrowserName(identity);
-  const version = getDeviceBrowserMajor(identity) || '';
+export function getDeviceBrowserLabel(deviceFingerprint) {
+  const name = getDeviceBrowserName(deviceFingerprint);
+  const version = getDeviceBrowserMajor(deviceFingerprint) || '';
   return name ? `${name} ${version}` : BrowserTypes.Unknown;
 }
 
-export function getDeviceType(identity) {
-  const platformType = getDevicePlatformType(identity);
-  const os = getDeviceOSType(identity);
+export function getDeviceType(deviceFingerprint) {
+  const platformType = getDevicePlatformType(deviceFingerprint);
+  const os = getDeviceOSType(deviceFingerprint);
 
   switch (platformType) {
     case PlatformTypes.WebDesktop:
       return DeviceTypes.Desktop;
     case PlatformTypes.WebMobile:
-      return getDeviceTypeValue(identity);
+      return getDeviceTypeValue(deviceFingerprint);
     case PlatformTypes.Android:
       return DeviceTypes.Mobile;
     case PlatformTypes.IOS:

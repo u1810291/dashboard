@@ -34,7 +34,7 @@ export const InputAdornmentSearch = withStyles((theme) => ({
 export const IconButtonSearch = withStyles((theme) => ({
   root: {
     fontSize: 17,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
 }))(IconButton);
 
@@ -52,7 +52,7 @@ export const useStyles = makeStyles((theme) => ({
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.05)',
     '& svg': {
       fontSize: 17,
-      color: theme.palette.common.black75,
+      color: theme.palette.text.main,
     },
     [theme.breakpoints.up('lg')]: {
       display: 'none',
