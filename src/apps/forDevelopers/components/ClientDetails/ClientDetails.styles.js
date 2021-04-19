@@ -5,7 +5,7 @@ export const useStyles = makeStyles((theme) => ({
     lineHeight: 1.1,
   },
   name: {
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     fontSize: 14,
   },
   code: {

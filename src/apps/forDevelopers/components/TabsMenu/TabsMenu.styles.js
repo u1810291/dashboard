@@ -8,7 +8,7 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     fontWeight: 700,
     borderRadius: 5,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     '&:hover, &:focus': {
       backgroundColor: theme.palette.common.lightblueopacity,
     },

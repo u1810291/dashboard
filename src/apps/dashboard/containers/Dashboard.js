@@ -117,7 +117,7 @@ export function Dashboard() {
     );
   }
 
-  if (!countriesModel.isLoaded && !merchantFlowsModel.isLoaded) {
+  if (!countriesModel.isLoaded || !merchantFlowsModel.isLoaded || !countriesOnlyExistingModel.isLoaded) {
     return <Loader />;
   }
 

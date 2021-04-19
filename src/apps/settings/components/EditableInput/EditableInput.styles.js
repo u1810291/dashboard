@@ -5,7 +5,7 @@ export const useStyles = makeStyles((theme) => ({
     maxWidth: 'calc(100% + 20px)',
     margin: [[-5, 0, -5, -8]],
     padding: [[4, 6]],
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
     fontFamily: 'inherit',
     fontWeight: 'bold',
     fontSize: 'inherit',
@@ -19,7 +19,7 @@ export const useStyles = makeStyles((theme) => ({
   nameWrapper: {
     display: 'flex',
     alignItems: 'center',
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
   },
   name: {
     maxWidth: '100%',

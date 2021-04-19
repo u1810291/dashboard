@@ -14,15 +14,15 @@ export const useStyles = makeStyles((theme) => {
     [StepStatus.Success]: {
       document: {
         icon: DocumentSuccess,
-        color: theme.palette.common.black75,
+        color: theme.palette.text.main,
       },
       biometric: {
         icon: OtherChecksSuccess,
-        color: theme.palette.common.black75,
+        color: theme.palette.text.main,
       },
       ipCheck: {
         icon: OtherChecksSuccess,
-        color: theme.palette.common.black75,
+        color: theme.palette.text.main,
       },
     },
     [StepStatus.Failure]: {
@@ -52,27 +52,27 @@ export const useStyles = makeStyles((theme) => {
     [StepStatus.Checking]: {
       document: {
         icon: LoadIcon,
-        color: theme.palette.common.black75,
+        color: theme.palette.text.main,
       },
       biometric: {
         icon: LoadIcon,
-        color: theme.palette.common.black75,
+        color: theme.palette.text.main,
       },
       ipCheck: {
         icon: LoadIcon,
-        color: theme.palette.common.black75,
+        color: theme.palette.text.main,
       },
     },
     [LivenessStepStatus.FewData]: {
       biometric: {
         icon: OtherChecksDisabled,
-        color: theme.palette.common.black75,
+        color: theme.palette.text.main,
       },
     },
     [LivenessStepStatus.Disabled]: {
       biometric: {
         icon: OtherChecksDisabled,
-        color: theme.palette.common.black75,
+        color: theme.palette.text.main,
       },
     },
   };
@@ -107,7 +107,7 @@ export const useStyles = makeStyles((theme) => {
       color: statuses[status][type].color,
     }),
     resultText: {
-      color: theme.palette.common.black75,
+      color: theme.palette.text.main,
       lineHeight: 1.1,
     },
   });

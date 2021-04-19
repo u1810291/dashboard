@@ -21,10 +21,10 @@ export const useStyles = makeStyles((theme) => ({
     paddingTop: 20,
     paddingLeft: 15,
     listStyle: 'decimal',
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   paper: {
-    background: theme.palette.common.black90,
+    background: theme.palette.text.secondary,
     color: theme.palette.common.black7,
   },
   answer: {
@@ -32,7 +32,7 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight: 'normal',
     fontSize: '14px',
     lineHeight: '17px',
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     [theme.breakpoints.down('sm')]: {
       paddingRight: 15,
     },

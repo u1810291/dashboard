@@ -6,6 +6,7 @@ export const IdentityStatuses = {
   pending: 'pending',
   running: 'running',
   postponed: 'postponed',
+  reviewRunning: 'reviewRunning',
   unknown: 'unknown',
 };
 
@@ -71,6 +72,15 @@ export const IdentityStatusesMap = [
     isChangeable: false,
     isSelectable: false,
     isExplanation: false,
+  },
+  {
+    id: IdentityStatuses.reviewRunning,
+    color: 'common.black50',
+    textColor: 'common.black90',
+    isChangeable: false,
+    isSelectable: false,
+    isExplanation: true,
+    isFilterable: true,
   },
 ];
 

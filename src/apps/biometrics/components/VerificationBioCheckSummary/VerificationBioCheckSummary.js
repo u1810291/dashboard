@@ -18,7 +18,7 @@ export function VerificationBioCheckSummary({ biometric, identity }) {
 
   return (
     <VerificationCheckCard
-      titleComponent={(
+      title={(
         <VerificationSummaryTitle status={status} type={VerificationSummaryTitleTypes.biometric}>
           {intl.formatMessage({ id: 'identity.summary.title.biometric' })}
         </VerificationSummaryTitle>

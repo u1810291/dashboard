@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   footer: {
     marginTop: 20,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   icon: {
     marginLeft: 24,
@@ -25,7 +25,7 @@ export const useStyles = makeStyles((theme) => ({
     paddingLeft: 0,
   },
   sectionCaption: {
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
     fontSize: '18px',
     fontWeight: 'bold',
   },

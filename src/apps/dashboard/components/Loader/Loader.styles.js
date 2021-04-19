@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     position: 'fixed',
     top: 0,
@@ -11,11 +11,9 @@ export const useStyles = makeStyles(() => ({
     alignItems: 'center',
     width: '100%',
     height: '100vh',
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    backgroundColor: theme.palette.background.loader,
   },
   logo: {
-    width: 135,
-    height: 45,
     opacity: 1,
     animation: '$logoInOut 2s infinite',
   },

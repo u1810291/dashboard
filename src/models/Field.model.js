@@ -11,6 +11,7 @@ export const FieldTypes = {
   DateOfBirth: 'dateOfBirth',
   ExpirationDate: 'expirationDate',
   EmissionDate: 'emissionDate',
+  ConnectionData: 'connection-data',
 };
 
 export const FieldsWithDate = [FieldTypes.DateOfBirth, FieldTypes.EmissionDate, FieldTypes.ExpirationDate];

@@ -1,6 +1,6 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { VerificationBioCheckSummary } from 'apps/biometrics';
-import { VerificationDeviceCheck } from 'apps/fingerPrint';
+import { VerificationDeviceCheckCard } from 'apps/fingerPrint';
 import { PremiumAmlWatchlistsMonitoringNotification } from 'apps/premiumAmlWatchlistsIntegratedCheck';
 import { notification } from 'apps/ui';
 import { get } from 'lodash';
@@ -10,12 +10,13 @@ import React, { useCallback, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { identityUpdate } from 'state/identities/identities.actions';
-import { sendWebhook } from '../../../../state/webhooks/webhooks.actions';
+import { sendWebhook } from 'state/webhooks/webhooks.actions';
 import { StatusSelector } from '../StatusSelector/StatusSelector';
-import { VerificationDateAndNumber } from '../VerificationDateAndNumber/VerificationDateAndNumber';
+import { VerificationDate } from '../VerificationDate/VerificationDate';
 import { VerificationDocument } from '../VerificationDocument/VerificationDocument';
 import { VerificationFlow } from '../VerificationFlow/VerificationFlow';
 import { VerificationIpCheck } from '../VerificationIpCheck/VerificationIpCheck';
+import { VerificationNumber } from '../VerificationNumber/VerificationNumber';
 import { VerificationSource } from '../VerificationSource/VerificationSource';
 import { useStyles } from './VerificationSummary.styles';
 
@@ -74,10 +75,10 @@ export function VerificationSummary({ identity }) {
     }
   }, [classes, identity, currentStatus, handleCloseNotification, handleEnableFallback, handleUpdateIdentity]);
 
-  const { ipCheck, biometric } = identity;
+  const { ipCheck, biometric, deviceFingerprint } = identity;
 
   const verificationFlowName = get(identity, '_embedded.verification.flow.name', null);
-  const platformType = getDevicePlatformType(identity);
+  const platformType = getDevicePlatformType(deviceFingerprint);
 
   return (
     <Paper>
@@ -97,7 +98,12 @@ export function VerificationSummary({ identity }) {
               />
             </Grid>
             <Grid item xs={12} lg={4}>
-              <VerificationDateAndNumber date={identity.dateCreated} number={identity.id} />
+              <Box mb={2}>
+                <VerificationDate date={identity?.dateCreated} />
+              </Box>
+              <Box>
+                <VerificationNumber summary={intl.formatMessage({ id: 'identity.summary.number' })} number={identity?.id} />
+              </Box>
             </Grid>
             <Grid item xs={12} lg={2}>
               {!!verificationFlowName && <VerificationFlow flowId={verificationFlowName} />}
@@ -129,9 +135,9 @@ export function VerificationSummary({ identity }) {
             </Grid>
           )}
 
-          {platformType !== PlatformTypes.Api && (
+          {deviceFingerprint && platformType !== PlatformTypes.Api && (
             <Grid item xs={12} lg={4}>
-              <VerificationDeviceCheck identity={identity} />
+              <VerificationDeviceCheckCard deviceFingerprint={deviceFingerprint} />
             </Grid>
           )}
         </Grid>

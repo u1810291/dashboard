@@ -6,8 +6,13 @@ import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getIpCheckUrl } from './IpCheck.model';
 import { Routes } from './Router.model';
 import { isChangeableStatus } from './Status.model';
-import { DocumentStepTypes, getStepExtra, StepTypes } from './Step.model';
-import { VerificationPatternTypes } from './Verification.model';
+import { DocumentStepTypes, getStepExtra, StepTypes, VerificationPatternTypes } from './Step.model';
+
+export const VerificationStepTypes = {
+  AgeValidation: 'age-check',
+  IpValidation: 'ip-validation',
+  DuplicateUserValidation: 'duplicate-user-detection',
+};
 
 export const VerificationSummaryTitleTypes = {
   document: 'document',
@@ -32,6 +37,10 @@ export const OrderKeyTypes = {
   verificationFlow: 'verificationFlow',
   status: 'status',
 };
+
+export function getIdentityShortId(id) {
+  return (id || '').slice(-6);
+}
 
 export const tableColumnsData = [
   {
@@ -97,6 +106,7 @@ export function getIdentityExtras(identity, countries) {
     ageCheck,
     premiumAmlWatchlistsMonitoringStep,
     digitalSignature: get(identity, '_embedded.digitalSignature'),
+    deviceFingerprint: get(identity, '_embedded.verification.deviceFingerprint'),
   };
 }
 
@@ -108,9 +118,12 @@ export function getGoBackToListLink(location) {
   }
 }
 
-export function getDownloadableFileName(identity) {
-  const flowName = get(identity, '_embedded.verification.flow.name', null);
-  const { id, fullName: name } = identity;
+export function getDownloadableFileName(verification) {
+  if (!verification) {
+    return null;
+  }
+  const flowName = get(verification, 'flow.name', null);
+  const { id, fullName: name } = verification;
   return `${flowName?.replaceAll(' ', '_').concat('_')}${name ? name.replaceAll(' ', '_') : id}`;
 }
 

@@ -34,11 +34,11 @@ export const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 14,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   value: {
     fontWeight: 'bold',
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
   },
   button: {
     minWidth: 120,

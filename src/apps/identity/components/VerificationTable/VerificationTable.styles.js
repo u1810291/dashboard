@@ -28,7 +28,7 @@ export const useStyles = makeStyles((theme) => ({
     '& .MuiTableCell-root': {
       padding: [[14, 20]],
       border: 'none',
-      color: theme.palette.common.black90,
+      color: theme.palette.text.secondary,
       [theme.breakpoints.down('md')]: {
         padding: [[0, 20]],
       },
@@ -60,7 +60,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   title: {
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   itemEmpty: {
     height: 'calc(100vh - 370px)',
@@ -80,11 +80,11 @@ export const useStyles = makeStyles((theme) => ({
   },
   itemId: {
     fontSize: 12,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     [theme.breakpoints.down('md')]: {
       fontSize: 14,
       fontWeight: 'bold',
-      color: theme.palette.common.black90,
+      color: theme.palette.text.secondary,
     },
   },
   itemData: {
@@ -93,7 +93,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   label: {
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     fontWeight: 'normal',
     [theme.breakpoints.up('lg')]: {
       display: 'none',
@@ -144,7 +144,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: 5,
     backgroundColor: theme.palette.common.yellow,
     borderRadius: 0,
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
     '& .MuiSvgIcon-root': {
       fontSize: 15,
     },
@@ -166,10 +166,10 @@ export const useStyles = makeStyles((theme) => ({
     lineHeight: 1.2,
     color: theme.palette.common.black7,
     textAlign: 'center',
-    backgroundColor: theme.palette.common.black90,
+    backgroundColor: theme.palette.text.secondary,
   },
   tooltipArrow: {
     marginBottom: '-0.68em',
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
   },
 }));

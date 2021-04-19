@@ -28,10 +28,10 @@ export const useStyles = makeStyles((theme) => ({
       marginBottom: 60,
     },
     '& .MuiSelect-select.MuiSelect-select': {
-      color: theme.palette.common.black90,
+      color: theme.palette.text.secondary,
     },
     '& svg': {
-      color: theme.palette.common.black75,
+      color: theme.palette.text.main,
     },
     '& .MuiListItem-root': {
       marginBottom: 25,
@@ -40,7 +40,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   subtitle: {
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     fontWeight: 'normal',
   },
   link: {
@@ -65,7 +65,7 @@ export const useStyles = makeStyles((theme) => ({
   label: {
     marginBottom: 8,
     fontWeight: 'bold',
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
   },
   button: {
     width: '100%',
@@ -84,7 +84,7 @@ export const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: 'calc(100% - 510px)',
     color: theme.palette.common.black7,
-    backgroundColor: theme.palette.common.black90,
+    backgroundColor: theme.palette.text.secondary,
     background: `url(${SignInImage}) repeat space left 24px`,
     [theme.breakpoints.down('sm')]: {
       display: 'none',

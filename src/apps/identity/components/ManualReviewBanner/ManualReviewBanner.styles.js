@@ -16,7 +16,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   bannerText: {
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
     lineHeight: 1.2,
     [theme.breakpoints.down('md')]: {
       marginBottom: 10,
@@ -24,12 +24,37 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   bannerButton: {
-    minWidth: 160,
+    minWidth: 150,
     fontSize: 12,
     lineHeight: 1.5,
-    borderColor: theme.palette.common.black90,
+    borderColor: theme.palette.text.secondary,
     [theme.breakpoints.up('lg')]: {
       marginRight: 20,
+    },
+  },
+  bannerButtonVerifications: {
+    '@media (max-width: 480px)': {
+      width: '100%',
+      marginBottom: 10,
+    },
+  },
+  bannerButtonMode: {
+    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.text.secondary,
+    [theme.breakpoints.down('md')]: {
+      marginLeft: 10,
+    },
+    '@media (max-width: 480px)': {
+      width: '100%',
+      marginLeft: 0,
+    },
+    '&:hover, &:focus': {
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    },
+  },
+  bannerButtonModeFilter: {
+    '@media (max-width: 480px)': {
+      width: 'calc(100% - 40px)',
     },
   },
   bannerButtonClose: {
@@ -38,7 +63,7 @@ export const useStyles = makeStyles((theme) => ({
     marginRight: -30,
     padding: 6,
     fontSize: 16,
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
     '@media (min-width: 375px)': {
       minWidth: 40,
       marginRight: -40,

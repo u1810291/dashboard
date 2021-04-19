@@ -22,7 +22,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: [[5, 10]],
     fontWeight: 'bold',
     fontSize: 14,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     borderColor: theme.palette.common.black7,
     '& svg': {
       marginLeft: 10,
@@ -37,12 +37,12 @@ export const useStyles = makeStyles((theme) => ({
     '&.MuiInputLabel-root': {
       marginBottom: 8,
       fontWeight: 'bold',
-      color: theme.palette.common.black75,
+      color: theme.palette.text.main,
     },
   },
   input: {
     '& .MuiInputBase-root': {
-      color: theme.palette.common.black75,
+      color: theme.palette.text.main,
     },
   },
   showPasswordButton: {

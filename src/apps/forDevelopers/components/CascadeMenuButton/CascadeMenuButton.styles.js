@@ -8,7 +8,7 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     fontWeight: 700,
     borderRadius: 5,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     '& svg': {
       fontSize: 17,
       transition: '.25s all ease-in-out',
@@ -22,7 +22,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   open: {
     '& svg': {
-      color: theme.palette.common.black75,
+      color: theme.palette.text.main,
       transform: 'rotate(180deg)',
     },
   },

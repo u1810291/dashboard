@@ -15,7 +15,7 @@ export const useStyles = makeStyles((theme) => ({
     '& .MuiSelect-icon': {
       marginTop: 3,
       fontSize: 17,
-      color: theme.palette.common.black75,
+      color: theme.palette.text.main,
     },
   },
   wrapper: {
@@ -37,7 +37,7 @@ export const useStyles = makeStyles((theme) => ({
     minHeight: 50,
     fontWeight: 'bold',
     fontSize: 14,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     borderColor: theme.palette.common.black7,
     '& svg': {
       marginRight: 5,
@@ -49,7 +49,7 @@ export const useStyles = makeStyles((theme) => ({
     minHeight: 50,
     fontWeight: 'bold',
     fontSize: 14,
-    backgroundColor: theme.palette.common.black90,
+    backgroundColor: theme.palette.text.secondary,
     color: theme.palette.common.black7,
     transition: '.25s opacity ease-in-out',
     '& svg': {
@@ -57,7 +57,7 @@ export const useStyles = makeStyles((theme) => ({
       fontSize: 17,
     },
     '&:hover, &:focus': {
-      backgroundColor: theme.palette.common.black90,
+      backgroundColor: theme.palette.text.secondary,
       opacity: 0.8,
     },
   },

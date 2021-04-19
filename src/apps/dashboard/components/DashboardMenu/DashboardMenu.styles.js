@@ -28,7 +28,7 @@ export const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    backgroundColor: theme.palette.common.black90,
+    backgroundColor: theme.palette.text.secondary,
   },
   drawerClose: {
     transition: theme.transitions.create('width', {
@@ -37,7 +37,7 @@ export const useStyles = makeStyles((theme) => ({
     }),
     overflowX: 'hidden',
     width: 60,
-    backgroundColor: theme.palette.common.black90,
+    backgroundColor: theme.palette.text.secondary,
   },
   toolbar: {
     display: 'flex',

@@ -1,10 +1,9 @@
 import { getAlterationReason } from 'apps/alterationDetection/models/alterationDetection.model';
 import { getFacematchStepExtra } from 'apps/facematch/models/facematch.model';
-import { getTemplateMatchingStepExtraData } from 'apps/templateMatching/models/templateMatching.model';
 import { getPremiumAmlWatchlistsCheckExtraData } from 'apps/premiumAmlWatchlistsIntegratedCheck/models/premiumAmlWatchlistsIntegratedCheck.model';
+import { getTemplateMatchingStepExtraData } from 'apps/templateMatching/models/templateMatching.model';
 import { get } from 'lodash';
 import { getFieldsExpired, getFieldsExtra } from 'models/Field.model';
-import { VerificationPatternTypes } from './Verification.model';
 
 export const StepTypes = {
   ProofOfOwnership: 'proof-of-ownership',
@@ -13,6 +12,28 @@ export const StepTypes = {
   // TODO @dkchv: wtf?
   Voice: 'voice',
   LivenessVoice: 'voice+liveness',
+};
+
+export const VerificationPatternTypes = {
+  AgeValidation: 'age-check',
+  BolivianOep: 'bolivian-oep-validation',
+  ChileanRegistroCivil: 'chilean-registro-civil-validation',
+  ColombianRegistraduria: 'colombian-registraduria-validation',
+  CostaRicanTse: 'costa-rican-tse-validation',
+  ArgentinianDni: 'argentinian-dni-validation',
+  ArgentinianRenaper: 'argentinian-renaper-validation',
+  EcuadorianRegistroCivil: 'ecuadorian-registro-civil-validation',
+  HonduranRnp: 'honduran-rnp-validation',
+  ParaguayanRcp: 'paraguayan-rcp-validation',
+  PeruvianReniec: 'peruvian-reniec-validation',
+  SalvadorianTse: 'salvadorian-tse-validation',
+  PanamenianTribunalElectoral: 'panamenian-tribunal-electoral-validation',
+  Biometrics: 'biometrics',
+  ProofOfOwnership: 'proof-of-ownership',
+  IpValidation: 'ip-validation',
+  DuplicateUserValidation: 'duplicate-user-detection',
+  ComplyAdvantageValidation: 'comply-advantage-validation',
+  PremiumAmlWatchlistsCheck: 'premium-aml-watchlists-search-validation',
 };
 
 export const DocumentStepTypes = {
@@ -40,6 +61,12 @@ export const DocumentStepTypes = {
   HonduranRnp: VerificationPatternTypes.HonduranRnp,
   PremiumAmlWatchlistsCheck: 'premium-aml-watchlists-search-validation',
   PanamenianTribunalElectoral: 'panamenian-tribunal-electoral-validation',
+};
+
+export const BiometricStepTypes = {
+  Liveness: 'liveness',
+  Voice: 'voice',
+  Selfie: 'selfie',
 };
 
 // used as 'id' of failed steps in check summary
@@ -224,7 +251,10 @@ export function getReaderFrontendSteps(readerStep, config = {}, identity, docume
     };
   });
   const emptyFields = fields.filter((item) => !item.value);
-  const expiredFields = getFieldsExpired(fields, config.checks[DocumentStepFrontendChecksTypes.ExpiredDate], identity);
+  const expiredFields = getFieldsExpired(fields, config[DocumentStepFrontendChecksTypes.ExpiredDate], identity.dateCreated);
+  /* TODO @ggrigorev there was a bug in the function for several months. Research why nothing was broken
+  const expiredFields = getFieldsExpired(fields, config[DocumentStepFrontendChecksTypes.ExpiredDate], identity);
+   */
 
   steps.push({
     ...readerStep,

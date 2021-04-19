@@ -1,12 +1,12 @@
+import { Image, Text, View } from '@react-pdf/renderer';
+import { getMediaURL } from 'lib/client/media';
 import { getBiometricCheckStatus, LivenessStepStatus } from 'models/Biometric.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Image, Text, View } from '@react-pdf/renderer';
-import { CheckResultLogoPDF } from '../CheckResultLogoPDF/CheckResultLogoPDF';
-import { styles } from './LivenessStepPDF.styles';
 import { commonStyles } from '../../PDF.styles';
+import { CheckResultLogoPDF } from '../CheckResultLogoPDF/CheckResultLogoPDF';
 import { CheckStepPDF } from '../CheckStepPDF/CheckStepPDF';
-import { getMediaURL } from '../../../../lib/client/media';
+import { styles } from './LivenessStepPDF.styles';
 
 export function LivenessStepPDF({ steps }) {
   const intl = useIntl();
@@ -21,7 +21,7 @@ export function LivenessStepPDF({ steps }) {
             {checkStatus !== LivenessStepStatus.FewData && steps.map((item) => (
               <View>
                 {/* video */}
-                {item.videoUrl && item.selfieUrl && (
+                {item?.videoUrl && item?.selfieUrl && (
                   <View
                     key={item.id}
                     style={styles.mediaItem}
@@ -38,12 +38,12 @@ export function LivenessStepPDF({ steps }) {
             ))}
             <View style={styles.mediaItem}>
               {/* image */}
-              {steps[0].selfieUrl && (
+              {steps[0]?.selfieUrl && (
                 <View style={styles.itemWrapper}>
                   <Image style={styles.image} src={getMediaURL(steps[0].selfieUrl)} />
                   <View style={commonStyles.mt1}>
                     <Text style={styles.itemTitle}>{intl.formatMessage({ id: 'LivenessStep.Checks.selfie.title' })}</Text>
-                    {steps[0].videoUrl && (
+                    {steps[0]?.videoUrl && (
                       <Text style={styles.subtitle}>{intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}</Text>
                     )}
                   </View>

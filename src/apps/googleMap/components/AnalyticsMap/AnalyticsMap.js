@@ -1,11 +1,11 @@
 import { Box, Paper } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { GeographicalAreasControlForward } from './GeographicalAreasControl/GeographicalAreasControl';
-import { InformationSourceControlForward } from './InformationSourceControl/InformationSourceControl';
-import { CountriesControlForward } from './CountriesControl/CountriesControl';
-import { useStyles } from './AnalyticsMap.styles';
 import { GOOGLE_MAP_REQUIRED_CONTAINER_ID, InformationSourceTypes } from '../../models/googleMap.model';
+import { CountriesControlForward } from '../CountriesControl/CountriesControl';
+import { GeographicalAreasControlForward } from '../GeographicalAreasControl/GeographicalAreasControl';
+import { InformationSourceControlForward } from '../InformationSourceControl/InformationSourceControl';
+import { useStyles } from './AnalyticsMap.styles';
 
 export const AnalyticsMap = () => {
   const geocoder = window?.google?.maps && new window.google.maps.Geocoder();

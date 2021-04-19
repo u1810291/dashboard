@@ -4,10 +4,10 @@ export const useStyles = makeStyles((theme) => ({
   modal: {
     width: 1140,
     padding: [[20, 40]],
-    background: theme.palette.common.black90,
+    background: theme.palette.text.secondary,
     '& .MuiBox-root': {
       background: 'transparent',
-      borderColor: theme.palette.common.black75,
+      borderColor: theme.palette.text.main,
     },
     '& .MuiIconButton-root': {
       minHeight: 'initial',
@@ -20,7 +20,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   subtitle: {
     marginBottom: 20,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     lineHeight: '1.2',
     fontSize: 18,
   },
@@ -35,11 +35,11 @@ export const useStyles = makeStyles((theme) => ({
     padding: [[15, 20]],
     fontSize: 14,
     color: theme.palette.common.green,
-    border: `1px solid ${theme.palette.common.black75}`,
+    border: `1px solid ${theme.palette.text.main}`,
     borderRadius: 5,
-    '& > .MuiBox-root': {
+    '& > div': {
       justifyContent: 'space-between',
-      '& > .MuiBox-root': {
+      '& > div': {
         maxWidth: 'calc(100% - 70px)',
         overflow: 'hidden',
         textOverflow: 'ellipsis',

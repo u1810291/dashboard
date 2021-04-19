@@ -31,13 +31,17 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.black50,
   }),
   wrapper: {
+    position: 'relative',
     display: 'flex',
+    flexWrap: 'nowrap',
     flexDirection: 'column',
     height: '100%',
   },
   editInputWrapper: {
-    '& .MuiOutlinedInput-root input': {
+    '& input': {
       padding: [[4, 10]],
+      color: theme.palette.text.secondary,
+      backgroundColor: theme.palette.background.default,
     },
     '& .MuiOutlinedInput-notchedOutline': {
       borderColor: theme.palette.common.black75,
@@ -63,17 +67,17 @@ export const useStyles = makeStyles((theme) => ({
   },
   editableInput: {
     marginBottom: 6,
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
     fontWeight: 'bold',
     lineHeight: 1.2,
   },
   editLabel: {
     padding: [[4, 10, 0]],
     fontWeight: 'normal',
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   label: {
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   buttonWrapper: {
     [theme.breakpoints.up('lg')]: {
@@ -83,12 +87,13 @@ export const useStyles = makeStyles((theme) => ({
   },
   button: {
     fontSize: 14,
-    color: theme.palette.common.lightblue,
-    backgroundColor: theme.palette.common.whiteblue,
+    color: theme.palette.button.document.contrastText,
+    backgroundColor: theme.palette.button.document.main,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
-    '& img': {
+    '& svg': {
       marginRight: 10,
+      fontSize: 17,
     },
   },
   buttonHalf: {

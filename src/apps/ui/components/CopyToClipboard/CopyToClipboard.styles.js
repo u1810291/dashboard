@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core';
-import { appPalette } from 'apps/theme/app.palette';
 
 export const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,7 +11,7 @@ export const useStyles = makeStyles((theme) => ({
     top: '0.75rem',
     right: '1rem',
     zIndex: 1,
-    background: appPalette.white,
+    background: theme.palette.background.default,
     borderRadius: '50%',
     padding: '0.2rem',
   },

@@ -1,7 +1,7 @@
 import { MerchantTags } from 'models/Merchant.model';
+import { VerificationPatternTypes } from 'models/Step.model';
 import { createSelector } from 'reselect';
-import { VerificationPatternTypes } from '../../../models/Verification.model';
-import { selectCurrentFlow, selectMerchantTags, selectVerificationPattern } from '../../../state/merchant/merchant.selectors';
+import { selectCurrentFlow, selectMerchantTags, selectVerificationPattern } from 'state/merchant/merchant.selectors';
 
 export const selectFacematchThreshold = createSelector(
   selectCurrentFlow,

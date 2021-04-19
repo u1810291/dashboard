@@ -1,21 +1,20 @@
 import { Box, Button, Grid, InputLabel, Typography } from '@material-ui/core';
 import { notification, SkeletonLoader } from 'apps/ui';
-import Icon from 'assets/icon-document-edit.svg';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { humanize, underscore } from 'inflection';
 import { normalizeDate } from 'lib/date';
 import { difference } from 'lib/object';
 import { formatValue } from 'lib/string';
+import { QATags } from 'models/QA.model';
 import React, { useState } from 'react';
+import { FiEdit3 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { documentUpdate } from 'state/identities/identities.actions';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
-import { QATags } from 'models/QA.model';
 import { useStyles } from './DocumentReadingStep.styles';
 
-export function DocumentReadingStep({ documentId, step, fields = [], identityId, isEditable, onReading }) {
+export function DocumentReadingStep({ documentType, step, fields = [], identityId, isEditable, onReading, onDocumentUpdate }) {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -63,7 +62,9 @@ export function DocumentReadingStep({ documentId, step, fields = [], identityId,
             Object.keys(diff).forEach((key) => {
               normalizedData[key] = { value: normalizeDate(values[key]) };
             });
-            await dispatch(documentUpdate(documentId, normalizedData));
+            if (onDocumentUpdate) {
+              await onDocumentUpdate(normalizedData, documentType);
+            }
             await dispatch(sendWebhook(identityId));
             notification.success(intl.formatMessage({ id: 'identities.details.webhook.success' }));
             setIsEditingMode(false);
@@ -147,7 +148,7 @@ export function DocumentReadingStep({ documentId, step, fields = [], identityId,
             onClick={() => setIsEditingMode(true)}
             data-qa={QATags.Document.Change.EditData}
           >
-            <img src={Icon} alt="" />
+            <FiEdit3 />
             {intl.formatMessage({ id: 'DocumentReadingStep.btn.edit' })}
           </Button>
         </Box>

@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => ({
   title: {
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   container: {
     maxWidth: '100%',
@@ -20,9 +20,9 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.green,
     border: `1px solid ${theme.palette.common.black50}`,
     borderRadius: 5,
-    '& > .MuiBox-root': {
+    '& > div': {
       justifyContent: 'space-between',
-      '& > .MuiBox-root': {
+      '& > div': {
         maxWidth: 'calc(100% - 70px)',
         overflow: 'hidden',
         textOverflow: 'ellipsis',

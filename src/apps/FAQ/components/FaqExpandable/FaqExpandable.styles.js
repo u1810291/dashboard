@@ -57,7 +57,7 @@ export const AccordionDetails = withStyles((theme) => ({
     padding: [[10, 94, 10, 0]],
     display: 'flex',
     flexDirection: 'column',
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
 }))(MuiAccordionDetails);
 

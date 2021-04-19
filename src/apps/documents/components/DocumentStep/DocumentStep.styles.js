@@ -27,29 +27,23 @@ export const useStyles = makeStyles((theme) => ({
       marginBottom: 0,
       padding: [[20, 15]],
       borderRadius: 5,
-      border: '1px solid rgba(237, 240, 245, .6)',
-    },
-  },
-  itemBox: {
-    height: '100%',
-    '& > .MuiBox-root': {
-      height: '100%',
+      border: `1px solid ${theme.palette.foreground.main}`,
     },
   },
   title: {
     fontSize: 14,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   subtitle: {
     marginTop: 6,
     fontSize: 12,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   images: {
     height: '100%',
     padding: 20,
     borderRadius: 5,
-    backgroundColor: theme.palette.common.black7opacity,
+    backgroundColor: theme.palette.foreground.main,
     [theme.breakpoints.down('md')]: {
       justifyContent: 'center',
     },

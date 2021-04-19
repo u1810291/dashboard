@@ -12,15 +12,15 @@ export const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   title: {
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     lineHeight: '1.1',
   },
   data: {
     lineHeight: '1.1',
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
     textTransform: 'uppercase',
     '& .MuiIconButton-root': {
-      color: theme.palette.common.black90,
+      color: theme.palette.text.secondary,
     },
   },
   biometricText: {
@@ -57,7 +57,7 @@ export const useStyles = makeStyles((theme) => ({
     width: '100%',
     fontWeight: 'bold',
     fontSize: 12,
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   emptyText: {
     color: theme.palette.common.black50,

@@ -17,10 +17,10 @@ import { VerificationDeviceCheckPDF } from '../VerificationDeviceCheckPDF/Verifi
 export function VerificationSummaryPDF({ identity }) {
   const intl = useIntl();
 
-  const { ipCheck, biometric } = identity;
+  const { ipCheck, biometric, deviceFingerprint } = identity;
 
   const verificationFlowName = get(identity, '_embedded.verification.flow.name', null);
-  const platformType = getDevicePlatformType(identity);
+  const platformType = getDevicePlatformType(deviceFingerprint);
 
   return (
     <View style={commonStyles.paper}>
@@ -59,9 +59,9 @@ export function VerificationSummaryPDF({ identity }) {
         </View>
         )}
 
-        {platformType !== PlatformTypes.Api && (
+        {deviceFingerprint && platformType !== PlatformTypes.Api && (
         <View style={[commonStyles.mb0, commonStyles.pb0]}>
-          <VerificationDeviceCheckPDF identity={identity} />
+          <VerificationDeviceCheckPDF deviceFingerprint={deviceFingerprint} />
         </View>
         )}
       </View>

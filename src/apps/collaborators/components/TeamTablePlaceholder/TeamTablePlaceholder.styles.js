@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme) => ({
   tablePlaceholderText: {
     maxWidth: 240,
     margin: '0 auto -16px',
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     lineHeight: '1.2',
   },
 }));

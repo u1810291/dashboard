@@ -1,9 +1,8 @@
 import { createMuiTheme } from '@material-ui/core';
-import { appTypography } from './app.typography';
+import { appTypography } from 'apps/theme/app.typography';
 import { appPalette } from './app.palette';
 
 export const AppTheme = createMuiTheme({
-  spacing: 10,
   palette: {
     primary: {
       main: appPalette.blue,
@@ -14,10 +13,15 @@ export const AppTheme = createMuiTheme({
       contrastText: appPalette.blue,
     },
     foreground: {
-      main: appPalette.black,
+      main: appPalette.black7opacity,
     },
     background: {
       default: appPalette.white,
+      loader: appPalette.whiteopacity,
+    },
+    text: {
+      main: appPalette.black75,
+      secondary: appPalette.black90,
     },
     success: {
       main: appPalette.green,
@@ -28,8 +32,15 @@ export const AppTheme = createMuiTheme({
     error: {
       main: appPalette.red,
     },
+    button: {
+      document: {
+        main: appPalette.whiteblue,
+        contrastText: appPalette.lightblue,
+      },
+    },
     common: appPalette,
   },
+  spacing: 10,
   shadows: [
     'none',
     '0px 2px 4px rgba(52,73,94,0.1)',
@@ -138,4 +149,6 @@ export const AppTheme = createMuiTheme({
     },
   },
   typography: appTypography,
-});
+},
+
+);

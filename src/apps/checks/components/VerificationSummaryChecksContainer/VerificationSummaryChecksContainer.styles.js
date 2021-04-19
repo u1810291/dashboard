@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => ({
   title: {
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     lineHeight: '1.1',
   },
   titleIcon: {
@@ -33,6 +33,6 @@ export const useStyles = makeStyles((theme) => ({
   selectArrow: {
     fontSize: 17,
     transition: '.2s all ease-in-out',
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
 }));

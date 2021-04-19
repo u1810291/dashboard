@@ -4,21 +4,22 @@ import { PremiumAmlWatchlistsStepDetails } from 'apps/identity/components/Premiu
 import { useDocumentTitle, usePhotosOrientation } from 'apps/identity/hooks/document.hook';
 import { POOImage } from 'apps/ProofOfOwnership';
 import { CheckBarExpandable, CheckResultLogo, Warning, WarningTypes, ZoomableImage } from 'apps/ui';
-import cls from 'classnames';
+import classNames from 'classnames';
+
 import { DocumentSides, getDocumentSideLabel, PhotosOrientations } from 'models/Document.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { DocumentReadingStep } from '../DocumentReadingStep/DocumentReadingStep';
 import { useStyles } from './DocumentStep.styles';
 
-export function DocumentStep({ document, identity, documentIndex }) {
+export function DocumentStep({ document, identity, documentIndex, onDocumentUpdate }) {
   const intl = useIntl();
   const classes = useStyles();
   const title = useDocumentTitle(document);
   const photosOrientation = usePhotosOrientation(document);
 
-  const { source, type, isEditable = true, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, premiumAmlWatchlistsStep, fields, documentReadingStep, onReading, documentStatus, proofOfOwnership, photos, areTwoSides } = document;
-  const isFormEditable = identity.isEditable && source.demo !== true && isEditable;
+  const { type, isEditable = true, securityCheckSteps, documentFailedCheckSteps, govChecksSteps, isSanctioned, premiumAmlWatchlistsStep, fields, documentReadingStep, onReading, documentStatus, proofOfOwnership, photos, areTwoSides } = document;
+  const isFormEditable = identity.isEditable && isEditable;
   return (
     <Paper>
       <Box p={2}>
@@ -32,7 +33,7 @@ export function DocumentStep({ document, identity, documentIndex }) {
         </Box>
 
         {isSanctioned && (
-          <Box mt={3}>
+          <Box mb={2}>
             <Warning
               type={WarningTypes.Error}
               label={intl.formatMessage({ id: 'SanctionCheck.title' })}
@@ -43,12 +44,11 @@ export function DocumentStep({ document, identity, documentIndex }) {
         <Grid container className={classes.wrapper}>
           {/* images */}
           <Grid item xs={12} lg={4} className={classes.imagesWrapper}>
-
             <Grid container direction="column" alignItems="center" className={classes.images}>
               <Grid
                 container
                 justify="center"
-                className={cls({
+                className={classNames({
                   [classes.imagesHorizontal]: areTwoSides && photosOrientation === PhotosOrientations.Horizontal,
                   [classes.imagesVertical]: areTwoSides && photosOrientation !== PhotosOrientations.Horizontal,
                   [classes.image]: !areTwoSides,
@@ -77,18 +77,17 @@ export function DocumentStep({ document, identity, documentIndex }) {
 
           {/* data */}
           <Grid item xs={12} lg={4} className={classes.itemWrapper}>
-            <Box className={classes.itemBox}>
-              {documentReadingStep && (
-                <DocumentReadingStep
-                  documentId={source.id}
-                  step={documentReadingStep}
-                  fields={fields}
-                  isEditable={isFormEditable}
-                  identityId={identity.id}
-                  onReading={onReading}
-                />
-              )}
-            </Box>
+            {documentReadingStep && (
+              <DocumentReadingStep
+                documentType={type}
+                step={documentReadingStep}
+                fields={fields}
+                isEditable={isFormEditable}
+                identityId={identity.id}
+                onReading={onReading}
+                onDocumentUpdate={onDocumentUpdate}
+              />
+            )}
           </Grid>
 
           {/* checks */}

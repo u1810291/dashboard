@@ -22,14 +22,14 @@ export const useStyles = makeStyles((theme) => ({
       marginBottom: 0,
       padding: [[20, 15]],
       borderRadius: 5,
-      border: `1px solid ${theme.palette.common.black7opacity}`,
+      border: `1px solid ${theme.palette.foreground.main}`,
     },
   },
   info: {
     padding: [[10, 5]],
     marginBottom: 20,
     borderRadius: 5,
-    backgroundColor: theme.palette.common.black7opacity,
+    backgroundColor: theme.palette.foreground.main,
     [theme.breakpoints.up('md')]: {
       marginBottom: 0,
       padding: [[10, 20]],
@@ -45,7 +45,7 @@ export const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: 14,
     lineHeight: '1.1',
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
   },
   mediaItem: {
     padding: [[10, 5]],
