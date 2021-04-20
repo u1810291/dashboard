@@ -3,20 +3,18 @@ import { verificationsFilterInitialState, verificationsFilterStructure } from 'a
 import { useFilterParser } from 'apps/filter/hooks/filterURL.hook';
 import classnames from 'classnames';
 import { QATags } from 'models/QA.model';
-import { Routes } from 'models/Router.model';
 import { IdentityStatuses } from 'models/Status.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { identitiesManualReviewCountLoad } from 'state/identities/identities.actions';
 import { selectIdentityFilter, selectManualReviewCountModel } from 'state/identities/identities.selectors';
 import { useStyles } from './ManualReviewBanner.styles';
 
 export const ManualReviewBanner = () => {
   const intl = useIntl();
-  const history = useHistory();
+  /* const history = useHistory(); */
   const classes = useStyles();
   const dispatch = useDispatch();
   const manualReviewCount = useSelector(selectManualReviewCountModel);
@@ -47,9 +45,9 @@ export const ManualReviewBanner = () => {
     setIsFilterActive(false);
   }, [addToUrl]);
 
-  const handleGoToReviewMode = useCallback(() => {
+  /*  const handleGoToReviewMode = useCallback(() => {
     history.push({ pathname: Routes.review.root, state: { from: history.location.pathname } });
-  }, [history]);
+  }, [history]); */
 
   return (
     <>
@@ -75,7 +73,8 @@ export const ManualReviewBanner = () => {
                 >
                   {intl.formatMessage({ id: 'VerificationHistory.reviewVerifications' })}
                 </Button>
-                <Button
+                {/* // TODO: enable review mode button */}
+                {/* <Button
                   variant="contained"
                   className={classnames(classes.bannerButton, classes.bannerButtonMode, {
                     [classes.bannerButtonModeFilter]: isFilterActive,
@@ -84,7 +83,7 @@ export const ManualReviewBanner = () => {
                   data-qa={QATags.Review.Banner.ReviewMode}
                 >
                   {intl.formatMessage({ id: 'ReviewMode.button.title' })}
-                </Button>
+                </Button> */}
                 {isFilterActive && (
                   <Button
                     onClick={handleClearManualReview}
