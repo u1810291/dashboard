@@ -1,7 +1,6 @@
 import { Box, Button, Grid } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import classnames from 'classnames';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback } from 'react';
@@ -21,9 +20,11 @@ export const NeedToReview = () => {
     history.push(`${Routes.list.root}?status=reviewNeeded`);
   }, [history]);
 
+  /*
   const handleGoToReviewMode = useCallback(() => {
     history.push({ pathname: Routes.review.root, state: { from: history.location.pathname } });
   }, [history]);
+*/
 
   return (
     <Paper className={classes.banner}>
@@ -47,6 +48,8 @@ export const NeedToReview = () => {
               {intl.formatMessage({ id: 'Analytics.verificationTotal.manualReview.button' })}
             </Button>
           </Grid>
+          {/* // TODO: enable review mode button */}
+          {/*
           <Grid item>
             <Button
               variant="outlined"
@@ -56,7 +59,7 @@ export const NeedToReview = () => {
             >
               {intl.formatMessage({ id: 'ReviewMode.button.title' })}
             </Button>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
     </Paper>
