@@ -28,6 +28,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   buttonVerified: {
     backgroundColor: theme.palette.common.green,
+    '&:hover, &:focus': {
+      backgroundColor: '#6BE9AE',
+    },
   },
   buttonRejectedWrapper: {
     marginTop: 20,
@@ -37,6 +40,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   buttonRejected: {
     backgroundColor: theme.palette.common.red,
+    '&:hover, &:focus': {
+      backgroundColor: '#FF99A2',
+    },
   },
   buttonLogWrapper: {
     marginLeft: 20,
