@@ -39,6 +39,16 @@ export const useStyles = makeStyles((theme) => ({
     height: 17,
     marginRight: 23,
   }),
+  whiteIcon: () => ({
+    '& path': {
+      ...(theme.isDarkMode && ({ fill: theme.palette.text.main })),
+    },
+  }),
+  whitePhoneIcon: () => ({
+    '&': {
+      ...(theme.isDarkMode && ({ color: theme.palette.text.main })),
+    },
+  }),
   label: () => ({
     color: theme.palette.text.main,
     lineHeight: '1.1',

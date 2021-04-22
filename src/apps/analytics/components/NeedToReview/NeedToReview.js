@@ -8,6 +8,7 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { selectManualReviewCountModel } from 'state/identities/identities.selectors';
+import classnames from 'classnames';
 import { useStyles } from './NeedToReview.styles';
 
 export const NeedToReview = () => {
@@ -20,11 +21,9 @@ export const NeedToReview = () => {
     history.push(`${Routes.list.root}?status=reviewNeeded`);
   }, [history]);
 
-  /*
   const handleGoToReviewMode = useCallback(() => {
     history.push({ pathname: Routes.review.root, state: { from: history.location.pathname } });
   }, [history]);
-*/
 
   return (
     <Paper className={classes.banner}>
@@ -48,8 +47,6 @@ export const NeedToReview = () => {
               {intl.formatMessage({ id: 'Analytics.verificationTotal.manualReview.button' })}
             </Button>
           </Grid>
-          {/* // TODO: enable review mode button */}
-          {/*
           <Grid item>
             <Button
               variant="outlined"
@@ -59,7 +56,7 @@ export const NeedToReview = () => {
             >
               {intl.formatMessage({ id: 'ReviewMode.button.title' })}
             </Button>
-          </Grid> */}
+          </Grid>
         </Grid>
       </Grid>
     </Paper>

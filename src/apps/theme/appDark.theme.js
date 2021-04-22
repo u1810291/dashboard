@@ -1,45 +1,45 @@
 import { createMuiTheme } from '@material-ui/core';
 import { appTypography } from 'apps/theme/app.typography';
-import { appPalette } from './appDark.palette';
+import { appDarkPalette } from './appDark.palette';
 
 export const AppDarkTheme = createMuiTheme({
   isDarkMode: true,
   palette: {
     primary: {
-      main: appPalette.blue,
-      contrastText: appPalette.white,
+      main: appDarkPalette.blue,
+      contrastText: appDarkPalette.white,
     },
     secondary: {
-      main: appPalette.white,
-      contrastText: appPalette.blue,
+      main: appDarkPalette.white,
+      contrastText: appDarkPalette.blue,
     },
     foreground: {
-      main: appPalette.black7opacity,
+      main: appDarkPalette.black7opacity,
     },
     background: {
-      default: appPalette.black90,
-      loader: appPalette.black90opacity,
+      default: appDarkPalette.black90,
+      loader: appDarkPalette.black90opacity,
     },
     text: {
-      main: appPalette.black50,
-      secondary: appPalette.black7,
+      main: appDarkPalette.black50,
+      secondary: appDarkPalette.black7,
     },
     success: {
-      main: appPalette.green,
+      main: appDarkPalette.green,
     },
     warning: {
-      main: appPalette.yellow,
+      main: appDarkPalette.yellow,
     },
     error: {
-      main: appPalette.red,
+      main: appDarkPalette.red,
     },
     button: {
       document: {
-        main: appPalette.lightblue,
-        contrastText: appPalette.black50,
+        main: appDarkPalette.lightblue,
+        contrastText: appDarkPalette.black50,
       },
     },
-    common: appPalette,
+    common: appDarkPalette,
   },
   spacing: 10,
   shadows: [
@@ -74,7 +74,7 @@ export const AppDarkTheme = createMuiTheme({
       elevation1: {
         border: '1px solid rgba(237, 240, 245, .15)',
         filter: 'drop-shadow(0px 1px 4px rgba(52, 73, 94, 0.1))',
-        backgroundColor: appPalette.black90,
+        backgroundColor: appDarkPalette.black90,
       },
       rounded: {
         borderRadius: 5,
@@ -107,24 +107,24 @@ export const AppDarkTheme = createMuiTheme({
       root: {
         '& input': {
           padding: '17px 14px',
-          backgroundColor: appPalette.white,
+          backgroundColor: appDarkPalette.white,
         },
         '& $notchedOutline': {
-          borderColor: appPalette.black75,
+          borderColor: appDarkPalette.black75,
         },
         '&:hover $notchedOutline': {
-          borderColor: appPalette.lightblue,
+          borderColor: appDarkPalette.lightblue,
           borderWidth: 1,
         },
         '&$focused $notchedOutline': {
-          borderColor: appPalette.lightblue,
+          borderColor: appDarkPalette.lightblue,
           borderWidth: 1,
         },
       },
     },
     MuiFormHelperText: {
       root: {
-        color: appPalette.black75,
+        color: appDarkPalette.black75,
       },
       contained: {
         marginLeft: 0,
