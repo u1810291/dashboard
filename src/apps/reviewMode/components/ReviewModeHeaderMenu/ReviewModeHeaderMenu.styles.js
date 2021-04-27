@@ -81,4 +81,12 @@ export const useStyles = makeStyles((theme) => ({
     top: 80,
     right: 26,
   },
+  verificationDate: {
+    lineHeight: '1.1',
+    color: theme.palette.text.secondary,
+  },
+  verificationDateTitle: {
+    color: theme.palette.text.main,
+    lineHeight: '1.1',
+  },
 }));

@@ -27,6 +27,11 @@ export const selectReviewVerificationId = createSelector(
   selectModelValue((verification) => verification?._id),
 );
 
+export const selectReviewVerificationDateCreated = createSelector(
+  selectVerificationModel,
+  selectModelValue((verification) => verification?.createdAt),
+);
+
 export const selectReviewIdentityId = createSelector(
   selectVerificationModel,
   selectModelValue((verification) => verification?.identity),

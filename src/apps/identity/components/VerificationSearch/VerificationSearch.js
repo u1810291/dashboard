@@ -7,6 +7,7 @@ import { FiSearch, FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectIdentityFilter } from 'state/identities/identities.selectors';
+import classNames from 'classnames';
 import { IconButtonSearch, InputAdornmentSearch, TextFieldSearch, useStyles } from './VerificationSearch.styles';
 
 export function VerificationSearch({ isInOverlay, onSetFilter }) {
@@ -19,7 +20,7 @@ export function VerificationSearch({ isInOverlay, onSetFilter }) {
 
   useEffect(() => {
     setSearch(identityFilter?.search || '');
-  }, [identityFilter.search]);
+  }, [identityFilter]);
 
   const onChangeDebounced = useCallback(debounce((newValue) => {
     onSetFilter({ search: newValue });
@@ -44,7 +45,7 @@ export function VerificationSearch({ isInOverlay, onSetFilter }) {
   useEffect(() => {
     setAdornment(search.length === 0
       ? {
-        endAdornment: (
+        endadornment: (
           <InputAdornmentSearch position="end">
             <IconButtonSearch size="small">
               <FiSearch />
@@ -53,7 +54,7 @@ export function VerificationSearch({ isInOverlay, onSetFilter }) {
         ),
       }
       : {
-        endAdornment: (
+        endadornment: (
           <InputAdornmentSearch position="end">
             <IconButtonSearch size="small" onClick={handleClear}>
               <FiX />
@@ -71,7 +72,7 @@ export function VerificationSearch({ isInOverlay, onSetFilter }) {
   return (
     <>
       <form onSubmit={isInOverlay ? handleSubmitMobileSearch : (e) => e.preventDefault()}>
-        <Box maxWidth={{ lg: 300 }} height={50} className={!isInOverlay && classes.search}>
+        <Box maxWidth={{ lg: 300 }} height={50} className={classNames({ [classes.search]: !isInOverlay })}>
           <TextFieldSearch
             value={search}
             fullWidth
