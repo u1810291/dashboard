@@ -14,11 +14,13 @@ export const DateFormat = {
   DayMonthShort: 'DD MMM',
 };
 
-export const MomentDateParts = {
+export const DatePartTypes = {
   Month: 'month',
-  Date: 'date',
+  Day: 'day',
   Year: 'year',
 };
+
+export const AllDateParts = [DatePartTypes.Day, DatePartTypes.Month, DatePartTypes.Year];
 
 export const zeroTime = { hour: 0, minute: 0, second: 0, millisecond: 0 };
 export const dayEndTime = { hour: 23, minute: 59, second: 59, millisecond: 999 };
@@ -125,6 +127,16 @@ export function getYearsArray(from, to) {
   return Array.from({ length: to - from + 1 }, (_, i) => to - i);
 }
 
-export function getDaysToArray(count) {
-  return Array.from({ length: count }, (_, i) => i + 1);
+export function addMissingZeros(dateString = ' ') {
+  if (!dateString) {
+    return null;
+  }
+
+  const [year, month, day] = dateString.split('-');
+  const fixedMonth = (month?.length === 1 ? `0${month}` : month) || '';
+  const fixedDay = (day?.length === 1 ? `0${day}` : day) || '';
+  if (fixedDay || fixedMonth) {
+    return `${year || ''}-${fixedMonth}-${fixedDay}`;
+  }
+  return null;
 }

@@ -11,8 +11,9 @@ import React, { useCallback, useState } from 'react';
 import { FiLogOut } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { formatDate, DateFormat } from 'lib/date';
 import { reviewAwaitingCountLoad, reviewVerificationClear, verificationLoad, verificationSkip, verificationStatusChange } from '../../state/reviewMode.actions';
-import { selectIsNoVerifications, selectReviewAwaitingCount, selectReviewIdentityId, selectReviewVerificationId, selectVerificationModel } from '../../state/reviewMode.selectors';
+import { selectIsNoVerifications, selectReviewAwaitingCount, selectReviewIdentityId, selectReviewVerificationDateCreated, selectReviewVerificationId, selectVerificationModel } from '../../state/reviewMode.selectors';
 import { useStyles } from './ReviewModeHeaderMenu.styles';
 
 export function ReviewModeHeaderMenu() {
@@ -23,6 +24,7 @@ export function ReviewModeHeaderMenu() {
   const [isStatusSetting, setIsStatusSetting] = useState(false);
   const { isLoading, isLoaded } = useSelector(selectVerificationModel);
   const verificationNumber = useSelector(selectReviewVerificationId);
+  const createdAt = useSelector(selectReviewVerificationDateCreated);
   const isNoVerification = useSelector(selectIsNoVerifications);
   const identityId = useSelector(selectReviewIdentityId);
   const reviewAwaitingCount = useSelector(selectReviewAwaitingCount);
@@ -124,10 +126,11 @@ export function ReviewModeHeaderMenu() {
 
         <Grid item container justify="space-between" alignItems="center" spacing={2}>
           <Grid container item xs={12} md={6} spacing={2}>
-            {verificationNumber && (
+            {createdAt && (
               <Grid item xs={12} md={6} className={classes.number}>
-                <Box py={{ xs: 0, md: 0.5 }}>
-                  <VerificationNumber summary={intl.formatMessage({ id: 'identity.summary.number' })} number={verificationNumber} />
+                <Box className={classes.verificationDate} py={{ xs: 0, md: 0.5 }}>
+                  <Typography variant="subtitle2" gutterBottom>{formatDate(createdAt, DateFormat.DateTime)}</Typography>
+                  <Typography className={classes.verificationDateTitle} variant="body1">{intl.formatMessage({ id: 'identity.summary.date' })}</Typography>
                 </Box>
               </Grid>
             )}
