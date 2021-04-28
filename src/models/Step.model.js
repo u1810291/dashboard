@@ -251,10 +251,7 @@ export function getReaderFrontendSteps(readerStep, config = {}, identity, docume
     };
   });
   const emptyFields = fields.filter((item) => !item.value);
-  const expiredFields = getFieldsExpired(fields, config[DocumentStepFrontendChecksTypes.ExpiredDate], identity.dateCreated);
-  /* TODO @ggrigorev there was a bug in the function for several months. Research why nothing was broken
-  const expiredFields = getFieldsExpired(fields, config[DocumentStepFrontendChecksTypes.ExpiredDate], identity);
-   */
+  const expiredFields = getFieldsExpired(fields, config.checks[DocumentStepFrontendChecksTypes.ExpiredDate], identity.dateCreated);
 
   steps.push({
     ...readerStep,
