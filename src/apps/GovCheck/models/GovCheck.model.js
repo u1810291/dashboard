@@ -18,12 +18,13 @@ export const GovCheckCountryList = {
   Ecuador: 'ecuador',
   // TODO: uncomment after we get fix for Honduran scraper
   // Honduras: 'honduras',
+  Dominican: 'dominican',
   Mexico: 'mexico',
   Paraguay: 'paraguay',
   Peru: 'peru',
-  // TODO: uncomment after we get fix for Salvadorian TSE scraper
-  // Salvador: 'salvador',
+  Salvador: 'salvador',
   Panama: 'panama',
+  Venezuela: 'venezuela',
 };
 
 export const GovCheckConfiguration = [
@@ -86,6 +87,10 @@ export const GovCheckConfiguration = [
         id: DocumentStepTypes.CostaRicanTse,
         default: false,
       },
+      {
+        id: DocumentStepTypes.CostaRicanSocialSecurity,
+        default: false,
+      },
     ],
   }, {
     country: GovCheckCountryList.Ecuador,
@@ -105,6 +110,15 @@ export const GovCheckConfiguration = [
   //     },
   //   ],
   }, {
+    country: GovCheckCountryList.Dominican,
+    checks: [
+      {
+        id: DocumentStepTypes.DominicanJce,
+        default: false,
+      },
+    ],
+  },
+  {
     country: GovCheckCountryList.Mexico,
     checks: [
       {
@@ -140,6 +154,15 @@ export const GovCheckConfiguration = [
     ],
   },
   {
+    country: GovCheckCountryList.Venezuela,
+    checks: [
+      {
+        id: DocumentStepTypes.VenezuelanCne,
+        default: false,
+      },
+    ],
+  },
+  {
     country: GovCheckCountryList.Panama,
     checks: [
       {
@@ -148,16 +171,15 @@ export const GovCheckConfiguration = [
       },
     ],
   },
-  // TODO: uncomment after we get fix for Salvadorian TSE scraper
-  // {
-  //   country: GovCheckCountryList.Salvador,
-  //   checks: [
-  //     {
-  //       id: DocumentStepTypes.SalvadorianTse,
-  //       default: false,
-  //     },
-  //   ],
-  // },
+  {
+    country: GovCheckCountryList.Salvador,
+    checks: [
+      {
+        id: DocumentStepTypes.SalvadorianTse,
+        default: false,
+      },
+    ],
+  },
 ];
 
 export const govCheckDisplayOptions = {
@@ -199,6 +221,12 @@ export const govCheckDisplayOptions = {
       inline: true,
     },
     expirationDate: {
+      inline: true,
+    },
+  },
+  [DocumentStepTypes.DominicanJce]: {
+    fullName: {},
+    documentNumber: {
       inline: true,
     },
   },
@@ -248,6 +276,20 @@ export const govCheckDisplayOptions = {
     state: {
       inline: true,
     },
+  },
+  [DocumentStepTypes.VenezuelanCne]: {
+    fullName: {},
+    documentNumber: {},
+    city: {
+      inline: true,
+    },
+    state: {
+      inline: true,
+    },
+  },
+  [DocumentStepTypes.CostaRicanSocialSecurity]: {
+    fullName: {},
+    insuranceStatus: {},
   },
 };
 
