@@ -20,8 +20,9 @@ export const VerificationPatternTypes = {
   ChileanRegistroCivil: 'chilean-registro-civil-validation',
   ColombianRegistraduria: 'colombian-registraduria-validation',
   CostaRicanTse: 'costa-rican-tse-validation',
-  ArgentinianDni: 'argentinian-dni-validation',
+  CostaRicanSocialSecurity: 'costa-rican-social-security-validation',
   ArgentinianRenaper: 'argentinian-renaper-validation',
+  ArgentinianDni: 'argentinian-dni-validation',
   EcuadorianRegistroCivil: 'ecuadorian-registro-civil-validation',
   HonduranRnp: 'honduran-rnp-validation',
   ParaguayanRcp: 'paraguayan-rcp-validation',
@@ -34,6 +35,8 @@ export const VerificationPatternTypes = {
   DuplicateUserValidation: 'duplicate-user-detection',
   ComplyAdvantageValidation: 'comply-advantage-validation',
   PremiumAmlWatchlistsCheck: 'premium-aml-watchlists-search-validation',
+  DominicanJce: 'dominican-jce-validation',
+  VenezuelanCne: 'venezuelan-cne-validation',
 };
 
 export const DocumentStepTypes = {
@@ -55,12 +58,15 @@ export const DocumentStepTypes = {
   ParaguayanRcp: VerificationPatternTypes.ParaguayanRcp,
   PeruvianReniec: VerificationPatternTypes.PeruvianReniec,
   CostaRicanTse: VerificationPatternTypes.CostaRicanTse,
+  CostaRicanSocialSecurity: VerificationPatternTypes.CostaRicanSocialSecurity,
   ArgentinianDni: VerificationPatternTypes.ArgentinianDni,
   SalvadorianTse: VerificationPatternTypes.SalvadorianTse,
+  DominicanJce: VerificationPatternTypes.DominicanJce,
   DuplicateUserDetectionCheck: 'duplicate-user-detection',
   HonduranRnp: VerificationPatternTypes.HonduranRnp,
   PremiumAmlWatchlistsCheck: 'premium-aml-watchlists-search-validation',
   PanamenianTribunalElectoral: 'panamenian-tribunal-electoral-validation',
+  VenezuelanCne: VerificationPatternTypes.VenezuelanCne,
 };
 
 export const BiometricStepTypes = {
@@ -105,9 +111,12 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.HonduranRnp,
   DocumentStepTypes.ParaguayanRcp,
   DocumentStepTypes.PanamenianTribunalElectoral,
+  DocumentStepTypes.DominicanJce,
   DocumentStepTypes.PeruvianReniec,
   DocumentStepTypes.CostaRicanTse,
   DocumentStepTypes.SalvadorianTse,
+  DocumentStepTypes.VenezuelanCne,
+  DocumentStepTypes.CostaRicanSocialSecurity,
 ];
 
 export const StepStatus = {
@@ -156,8 +165,10 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.CostaRicanTse]: ['costaRicanTse.notEnoughParams'],
   [DocumentStepTypes.EcuadorianRegistroCivil]: ['ecuadorianRegistroCivil.notEnoughParams'],
   [DocumentStepTypes.SalvadorianTse]: ['salvadorianTse.notEnoughParams'],
-  [DocumentStepTypes.AgeValidation]: ['underage.noDOB'],
+  [DocumentStepTypes.CostaRicanSocialSecurity]: ['costaRicanSocialSecurity.notEnoughParams'],
   [DocumentStepTypes.PanamenianTribunalElectoral]: ['panamenianTribunalElectoral.notEnoughParams'],
+  [DocumentStepTypes.DominicanJce]: ['dominicanJce.notEnoughParams'],
+  [DocumentStepTypes.VenezuelanCne]: ['venezuelanCne.notEnoughParams'],
 };
 
 export const LEGACY_ERROR = 'LegacyError';
