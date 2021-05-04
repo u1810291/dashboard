@@ -16,6 +16,8 @@ export const FieldTypes = {
 
 export const FieldsWithDate = [FieldTypes.DateOfBirth, FieldTypes.EmissionDate, FieldTypes.ExpirationDate];
 
+export const EditedDateEmptyField = '--';
+
 export const FieldsExpirationCheck = {
   id: FieldTypes.ExpirationDate,
   lag: null,

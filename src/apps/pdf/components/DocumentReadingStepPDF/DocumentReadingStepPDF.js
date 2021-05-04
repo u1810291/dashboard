@@ -3,9 +3,11 @@ import { useIntl } from 'react-intl';
 import { humanize, underscore } from 'inflection';
 import { formatValue } from 'lib/string';
 import { Image, Text, View } from '@react-pdf/renderer';
+import { FieldsWithDate } from 'models/Field.model';
 import DocumentUndefined from '../../assets/icon-document-undefined.png';
 import { styles } from './DocumentReadingStepPDF.styles';
 import { commonStyles } from '../../PDF.styles';
+import { DateInputFieldPDF } from '../DateInputFieldPDF/DateInputFieldPDF';
 
 export function DocumentReadingStepPDF({ step, fields = [], onReading }) {
   const intl = useIntl();
@@ -37,12 +39,18 @@ export function DocumentReadingStepPDF({ step, fields = [], onReading }) {
         return (
           <View style={styles.inputWrapper} key={id}>
             <View style={commonStyles.mb05}>
-              {formattedValue ? (
-                <Text style={styles.text}>{formattedValue}</Text>
+              {FieldsWithDate.includes(id) && formattedValue ? (
+                <DateInputFieldPDF dateString={value} />
               ) : (
-                <Text style={styles.textError}>
-                  {intl.formatMessage({ id: 'DocumentReadingStep.notParsed' })}
-                </Text>
+                <>
+                  {formattedValue ? (
+                    <Text style={styles.text}>{formattedValue}</Text>
+                  ) : (
+                    <Text style={styles.textError}>
+                      {intl.formatMessage({ id: 'DocumentReadingStep.notParsed' })}
+                    </Text>
+                  )}
+                </>
               )}
             </View>
             <Text style={commonStyles.title}>

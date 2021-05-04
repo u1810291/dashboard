@@ -39,14 +39,16 @@ export const useStyles = makeStyles((theme) => ({
   },
   editInputWrapper: {
     '& input': {
-      padding: [[4, 10]],
+      padding: [[6, 10]],
       color: theme.palette.text.secondary,
+      border: [[1, 'solid', theme.palette.common.black75]],
+      borderRadius: 5,
       backgroundColor: theme.palette.background.default,
     },
     '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: theme.palette.common.black75,
+      border: 'none',
     },
-    '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+    '& .Mui-focused input, & input:hover': {
       borderColor: theme.palette.common.lightblue,
     },
   },

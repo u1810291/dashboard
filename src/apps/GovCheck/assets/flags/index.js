@@ -7,6 +7,7 @@ import { ReactComponent as ColombiaIcon } from './colombia-flag.svg';
 import { ReactComponent as CostaRicaIcon } from './costa-rica-flag.svg';
 import { ReactComponent as EcuadorIcon } from './ecuador-flag.svg';
 import { ReactComponent as HondurasIcon } from './honduras-flag.svg';
+import { ReactComponent as DominicanIcon } from './dominican-republic-flag.svg';
 import { ReactComponent as MexicoIcon } from './mexico-flag.svg';
 import { ReactComponent as ParaguayIcon } from './paraguay-flag.svg';
 import { ReactComponent as RussiaIcon } from './russia-flag.svg';
@@ -14,6 +15,7 @@ import { ReactComponent as SalvadorIcon } from './salvador-flag.svg';
 import { ReactComponent as USAIcon } from './usa-flag.svg';
 import { ReactComponent as PeruIcon } from './peru-flag.svg';
 import { ReactComponent as PanamaIcon } from './panama-flag.svg';
+import { ReactComponent as VenezuelaIcon } from './venezuela-flag.svg';
 
 const iconProps = {
   width: '25',
@@ -27,6 +29,7 @@ export const flags = {
   chile: <ChileIcon {...iconProps} />,
   colombia: <ColombiaIcon {...iconProps} />,
   costaRica: <CostaRicaIcon {...iconProps} />,
+  dominican: <DominicanIcon {...iconProps} />,
   ecuador: <EcuadorIcon {...iconProps} />,
   honduras: <HondurasIcon {...iconProps} />,
   mexico: <MexicoIcon {...iconProps} />,
@@ -36,4 +39,5 @@ export const flags = {
   usa: <USAIcon {...iconProps} />,
   peru: <PeruIcon {...iconProps} />,
   panama: <PanamaIcon {...iconProps} />,
+  venezuela: <VenezuelaIcon {...iconProps} />,
 };

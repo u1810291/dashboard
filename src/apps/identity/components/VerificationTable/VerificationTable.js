@@ -1,37 +1,25 @@
-import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Tooltip, Typography } from '@material-ui/core';
-import { PriorityHigh } from '@material-ui/icons';
-import { useRole } from 'apps/collaborators/hooks/Role/Role.hook';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Typography, useMediaQuery } from '@material-ui/core';
 import { verificationsFilterStructure } from 'apps/filter';
 import { useFilterParser } from 'apps/filter/hooks/filterURL.hook';
 import { NoVerifications } from 'apps/identity/components/NoVerifications/NoVerifications';
 import { PageLoader } from 'apps/layout';
-import { appPalette } from 'apps/theme';
-import { SkeletonLoader } from 'apps/ui';
-import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
 import { ReactComponent as EmptyTableIcon } from 'assets/empty-table.svg';
-import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { ReactComponent as TableSortActiveIcon } from 'assets/table-sort-active-icon.svg';
 import { ReactComponent as TableSortIcon } from 'assets/table-sort-icon.svg';
-import { utcToLocalFormat } from 'lib/date';
-import { titleCase } from 'lib/string';
-import { useQuery } from 'lib/url';
-import { CollaboratorRoles } from 'models/Collaborator.model';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { FixedSizeList } from 'react-window';
+import InfiniteLoader from 'react-window-infinite-loader';
+import { identitiesListLoad } from 'state/identities/identities.actions';
+import { selectFilteredCountModel, selectIdentityCollection, selectIdentityCountModel, selectIdentityFilter } from 'state/identities/identities.selectors';
 import { OrderDirections, OrderDirectionsNum, tableColumnsData } from 'models/Identity.model';
 import { ITEMS_PER_PAGE } from 'models/Pagination.model';
 import { QATags } from 'models/QA.model';
-import { Routes } from 'models/Router.model';
-import { IdentityStatuses } from 'models/Status.model';
-import React, { useCallback, useEffect, useState } from 'react';
-import { FiTrash2 } from 'react-icons/fi';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { identitiesListLoad, identityRemove } from 'state/identities/identities.actions';
-import { selectFilteredCountModel, selectIdentityCollection, selectIdentityCountModel, selectIdentityFilter } from 'state/identities/identities.selectors';
-import { useConfirmDelete } from '../DeleteModal/DeleteModal';
-import { StatusLabel } from '../StatusLabel';
-import { VerificationFlowName } from '../VerificationFlowName/VerificationFlowName';
-import { TableRowHovered, useStyles } from './VerificationTable.styles';
+import { appPalette } from 'apps/theme';
+import { useQuery } from 'lib/url';
+import { useStyles } from './VerificationTable.styles';
+import { VerificationTableRow } from '../VerificationTableRow/VerificationTableRow';
 
 export function VerificationTable() {
   const intl = useIntl();
@@ -42,20 +30,18 @@ export function VerificationTable() {
   const sortOrder = identityFilter.sortOrder === OrderDirectionsNum.asc ? OrderDirections.asc : OrderDirections.desc;
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(false);
-  const [deleting, setDeleting] = useState(null);
   const [, addToUrl] = useFilterParser(verificationsFilterStructure);
   // For Customer Support
   const { asMerchantId } = useQuery();
-  const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(Routes.list.root, { asMerchantId });
 
   const identityCollection = useSelector(selectIdentityCollection);
   const filteredCount = useSelector(selectFilteredCountModel);
   const countModel = useSelector(selectIdentityCountModel);
-  const role = useRole();
-  const confirmDelete = useConfirmDelete(
-    intl.formatMessage({ id: 'verificationModal.delete' }),
-    intl.formatMessage({ id: 'verificationModal.delete.confirm' },
-    ));
+  const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('lg'), { noSsr: true });
+  const paddingBottom = useMemo(() => (isDesktop ? 0 : 20), [isDesktop]);
+  // +1 for loading spinner item
+  const itemCount = useMemo(() => (hasMore ? identityCollection?.value?.length + 1 : identityCollection?.value?.length) || 0, [hasMore, identityCollection]);
+  const tableItemSize = useMemo(() => (isDesktop ? 50 + paddingBottom : 276 + paddingBottom), [isDesktop, paddingBottom]);
 
   useEffect(() => {
     setOffset(0);
@@ -66,34 +52,14 @@ export function VerificationTable() {
     setHasMore(identityCollection.isLoaded && filteredCount.isLoaded && difference >= ITEMS_PER_PAGE);
   }, [filteredCount.isLoaded, filteredCount.value, identityCollection.isLoaded, offset]);
 
-  const handleRemove = useCallback(async (e, id) => {
-    e.stopPropagation();
-    if (deleting) {
-      return;
-    }
-    try {
-      setDeleting(id);
-      await confirmDelete();
-      await dispatch(identityRemove(id));
-    } catch (error) {
-      if (!error) {
-        // cancelled
-        return;
-      }
-      console.error('identity remove error', error);
-    } finally {
-      setDeleting(null);
-    }
-  }, [dispatch, deleting, confirmDelete]);
-
   const handleNextData = useCallback(() => {
-    if (hasMore) {
+    if (!identityCollection.isLoading && hasMore) {
       const difference = filteredCount.value - offset;
       const maxOffset = difference >= ITEMS_PER_PAGE ? ITEMS_PER_PAGE : difference;
       dispatch(identitiesListLoad(false, { offset: offset + maxOffset, asMerchantId }));
       setOffset(((prevState) => prevState + maxOffset));
     }
-  }, [asMerchantId, dispatch, filteredCount.value, hasMore, offset]);
+  }, [asMerchantId, dispatch, filteredCount.value, hasMore, identityCollection.isLoading, offset]);
 
   const createSortHandler = useCallback((id) => () => {
     const isAsc = sortBy === id && sortOrder === OrderDirections.asc;
@@ -103,172 +69,89 @@ export function VerificationTable() {
     });
   }, [addToUrl, sortBy, sortOrder]);
 
+  const isItemLoaded = useCallback((index) => !hasMore || index < identityCollection?.value?.length, [hasMore, identityCollection]);
+
   return (
     <TableContainer className={classes.container}>
-      <InfiniteScroll
-        next={handleNextData}
-        hasMore={hasMore}
-        loader={!filteredCount.isLoading && (
-          <Box p={1.4} pt={2.4} width="100%" align="center" className={classes.loader}>
-            <IconLoad width={25} />
-          </Box>
-        )}
-        scrollThreshold={0.7}
-        dataLength={identityCollection?.value?.length || 0}
-      >
-        <Table className={classes.table} data-qa={QATags.VerificationList.Table}>
-          <TableHead className={classes.tableHead}>
-            <TableRow>
-              {/* Header cells */}
-              {tableColumnsData.map(({
-                id,
-                isSortable,
-              }) => (
-                <React.Fragment key={id}>
-                  {id && (
-                    <>
-                      {isSortable ? (
-                        <TableCell onClick={createSortHandler(id)} sortDirection={sortBy === id ? sortOrder : false}>
-                          <Typography variant="subtitle2" className={classes.title}>
-                            <TableSortLabel
-                              IconComponent={sortBy === id ? TableSortActiveIcon : TableSortIcon}
-                              active={sortBy === id}
-                              direction={sortBy === id ? sortOrder : OrderDirections.asc}
-                            >
-                              {intl.formatMessage({ id: `identity.field.${id}` })}
-                            </TableSortLabel>
-                          </Typography>
-                        </TableCell>
-                      ) : (
-                        <TableCell>
-                          <Typography variant="subtitle2" className={classes.title}>
-                            {intl.formatMessage({ id: `identity.field.${id}` })}
-                          </Typography>
-                        </TableCell>
+      <Table className={classes.table} data-qa={QATags.VerificationList.Table}>
+        <TableHead className={classes.tableHead}>
+          <TableRow>
+            {/* Header cells */}
+            {tableColumnsData.map(({ id, isSortable }) => (
+              <React.Fragment key={id}>
+                {id && isSortable ? (
+                  <TableCell className={classes.tableHeadCell} onClick={createSortHandler(id)} sortDirection={sortBy === id ? sortOrder : false}>
+                    <Typography variant="subtitle2" className={classes.title}>
+                      <TableSortLabel
+                        IconComponent={sortBy === id ? TableSortActiveIcon : TableSortIcon}
+                        active={sortBy === id}
+                        direction={sortBy === id ? sortOrder : OrderDirections.asc}
+                      >
+                        {intl.formatMessage({ id: `identity.field.${id}` })}
+                      </TableSortLabel>
+                    </Typography>
+                  </TableCell>
+                ) : (
+                  <TableCell className={classes.tableHeadCell}>
+                    <Typography variant="subtitle2" className={classes.title}>
+                      {intl.formatMessage({ id: `identity.field.${id}` })}
+                    </Typography>
+                  </TableCell>
+                )}
+              </React.Fragment>
+            ))}
+          </TableRow>
+        </TableHead>
+
+        {(identityFilter.offset === 0 && identityCollection.isLoading && !identityCollection.isLoaded)
+        || (identityCollection.isLoaded && identityCollection.value.length === 0)
+          ? (
+            <TableBody>
+              <TableRow>
+                <TableCell className={classes.itemEmpty} colSpan={6} align="center">
+                  {countModel.isLoaded && countModel.value === 0
+                    ? (<NoVerifications />)
+                    : identityCollection.isLoading
+                      ? <Box py={2.5}><PageLoader size={50} color={appPalette.black50} /></Box>
+                      : (
+                        <Box mb="10vh">
+                          <Box py={2.5}><EmptyTableIcon /></Box>
+                          <Typography variant="h4">{intl.formatMessage({ id: 'VerificationTable.emptySearch' })}</Typography>
+                        </Box>
                       )}
-                    </>
-                  )}
-                </React.Fragment>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {(identityFilter.offset === 0 && identityCollection.isLoading && !identityCollection.isLoaded)
-            || (identityCollection.isLoaded && identityCollection.value.length === 0)
-              ? (
-                <TableRow>
-                  <TableCell className={classes.itemEmpty} colSpan={6} align="center">
-                    {countModel.isLoaded && countModel.value === 0 ? (
-                      <NoVerifications />)
-                      : identityCollection.isLoading
-                        ? <Box py={2.5}><PageLoader size={50} color={appPalette.black50} /></Box>
-                        : (
-                          <Box mb="10vh">
-                            <Box py={2.5}><EmptyTableIcon /></Box>
-                            <Typography variant="h4">{intl.formatMessage({ id: 'VerificationTable.emptySearch' })}</Typography>
-                          </Box>
-                        )}
-                  </TableCell>
-                </TableRow>
-              )
-              : identityCollection?.value?.map((item) => (
-                <TableRowHovered
-                  hover
-                  key={item.id}
-                  onMouseDown={onMouseDownHandler}
-                  onMouseUp={(event) => onMouseUpHandler(event, item.id)}
-                >
-                  <TableCell>
-                    <Box
-                      mb={{
-                        xs: 2,
-                        lg: 0,
-                      }}
-                      pr={{
-                        xs: 3,
-                        lg: 0,
-                      }}
-                    >
-                      {!item.fullName && item.status === IdentityStatuses.running ? (
-                        <SkeletonLoader animation="wave" variant="text" width={140} />)
-                        : !item.fullName
-                          ? (
-                            <Typography variant="subtitle2" className={classes.itemNameEmpty}>
-                              {intl.formatMessage({ id: 'identity.nameNotFound' })}
-                            </Typography>
-                          )
-                          : (
-                            <Typography variant="subtitle2" className={classes.itemName}>{titleCase(item.fullName)}</Typography>
-                          )}
-                      <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.fullName' })}</Box>
-                    </Box>
-                  </TableCell>
-                  <TableCell className={classes.itemData}>
-                    <Box mb={{
-                      xs: 2,
-                      lg: 0,
-                    }}
-                    >
-                      <VerificationFlowName flowId={item.flowId} />
-                      <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.verificationFlow' })}</Box>
-                    </Box>
-                  </TableCell>
-                  <TableCell className={classes.itemData}>
-                    <Box mb={{
-                      xs: 2,
-                      lg: 0,
-                    }}
-                    >
-                      {utcToLocalFormat(item.dateCreated)}
-                      <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.dateCreated' })}</Box>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    <StatusLabel status={item.status} />
-                    <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.status' })}</Box>
-                  </TableCell>
-                  {role === CollaboratorRoles.ADMIN && (
-                    <TableCell className={classes.iconDeleteWrapper}>
-                      <IconButton
-                        size="small"
-                        onMouseUp={(e) => handleRemove(e, item.id)}
-                        tabIndex="-1"
-                        className={classes.iconButtonDelete}
-                      >
-                        {item.id === deleting ? <IconLoad /> : <FiTrash2 className="color-red" />}
-                      </IconButton>
-                    </TableCell>
-                  )}
-                  <TableCell
-                    className={classes.iconReviewWrapper}
-                    onClick={(e) => e.stopPropagation()}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          ) : (
+            <TableBody>
+              <TableRow>
+                <TableCell className={classes.fixedListCell}>
+                  {/* Infinity Scroll */}
+                  <InfiniteLoader
+                    loadMoreItems={handleNextData}
+                    isItemLoaded={isItemLoaded}
+                    threshold={15}
+                    itemCount={itemCount}
                   >
-                    {item.status === IdentityStatuses.reviewNeeded && (
-                      <Tooltip
-                        onMouseUp={(e) => e.stopPropagation()}
-                        enterTouchDelay={0}
-                        placement="top"
-                        arrow
-                        classes={{
-                          tooltip: classes.tooltip,
-                          arrow: classes.tooltipArrow,
-                        }}
-                        title={intl.formatMessage({ id: 'VerificationTable.reviewNeeded' })}
+                    {({ onItemsRendered, ref }) => (
+                      <FixedSizeList
+                        height={700}
+                        itemSize={tableItemSize}
+                        itemCount={itemCount}
+                        onItemsRendered={onItemsRendered}
+                        ref={ref}
+                        className={classes.fixedList}
+                        itemData={{ paddingBottom }}
                       >
-                        <IconButton
-                          size="small"
-                          className={classes.iconButtonReview}
-                        >
-                          <PriorityHigh />
-                        </IconButton>
-                      </Tooltip>
+                        {VerificationTableRow}
+                      </FixedSizeList>
                     )}
-                  </TableCell>
-                </TableRowHovered>
-              ))}
-          </TableBody>
-        </Table>
-      </InfiniteScroll>
+                  </InfiniteLoader>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          )}
+      </Table>
     </TableContainer>
   );
 }

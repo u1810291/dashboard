@@ -1,7 +1,6 @@
 import { Box, Button, Grid } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import classnames from 'classnames';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback } from 'react';
@@ -9,6 +8,7 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { selectManualReviewCountModel } from 'state/identities/identities.selectors';
+import classnames from 'classnames';
 import { useStyles } from './NeedToReview.styles';
 
 export const NeedToReview = () => {

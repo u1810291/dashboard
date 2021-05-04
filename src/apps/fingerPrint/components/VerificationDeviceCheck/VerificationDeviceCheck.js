@@ -1,7 +1,8 @@
 import { Box, Grid, Typography } from '@material-ui/core';
-import { BrowserIcons, DeviceIcons, getDeviceBrowserLabel, getDeviceBrowserType, getDeviceModel, getDeviceOSLabel, getDeviceOSType, getDevicePlatformType, getDeviceType, OSIcons, PlatformTypes } from 'models/DeviceCheck.model';
+import { BrowserIcons, DeviceIcons, getDeviceBrowserLabel, getDeviceBrowserType, getDeviceModel, getDeviceOSLabel, getDeviceOSType, getDevicePlatformType, getDeviceType, OSIcons, PlatformTypes, DeviceTypes, OSTypes } from 'models/DeviceCheck.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import classNames from 'classnames';
 import { ReactComponent as ModelIcon } from '../../../identity/icons/model-icon.svg';
 import { useStyles } from './VerificationDeviceCheck.styles';
 
@@ -12,11 +13,12 @@ export function VerificationDeviceCheck({ deviceFingerprint }) {
 
   const model = getDeviceModel(deviceFingerprint);
   const deviceType = getDeviceType(deviceFingerprint);
+  const osType = getDeviceOSType(deviceFingerprint);
   const osLabel = getDeviceOSLabel(deviceFingerprint);
   const browserLabel = getDeviceBrowserLabel(deviceFingerprint);
 
   const DeviceIcon = DeviceIcons[deviceType];
-  const OSIcon = OSIcons[getDeviceOSType(deviceFingerprint)];
+  const OSIcon = OSIcons[osType];
   const BrowserIcon = BrowserIcons[getDeviceBrowserType(deviceFingerprint)];
 
   return (
@@ -40,7 +42,11 @@ export function VerificationDeviceCheck({ deviceFingerprint }) {
       <Grid container alignItems="center" className={classes.check}>
         <Grid item xs={6}>
           <Box className={classes.labelWrap}>
-            <DeviceIcon className={classes.titleIcon} />
+            <DeviceIcon className={classNames(classes.titleIcon, {
+              [classes.whitePhoneIcon]: deviceType === DeviceTypes.Mobile,
+              [classes.whiteIcon]: deviceType !== DeviceTypes.Mobile,
+            })}
+            />
             <Typography className={classes.label} variant="body1">
               {intl.formatMessage({ id: 'DeviceCheck.deviceType.title' })}
             </Typography>
@@ -57,7 +63,7 @@ export function VerificationDeviceCheck({ deviceFingerprint }) {
       <Grid container alignItems="center" className={classes.check}>
         <Grid item xs={6}>
           <Box className={classes.labelWrap}>
-            <OSIcon className={classes.titleIcon} />
+            <OSIcon className={classNames(classes.titleIcon, { [classes.whiteIcon]: [OSTypes.Linux, OSTypes.MacOS].includes(osType) })} />
             <Typography
               className={classes.label}
               variant="body1"

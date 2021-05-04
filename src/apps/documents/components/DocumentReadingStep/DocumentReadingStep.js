@@ -1,17 +1,18 @@
 import { Box, Button, Grid, InputLabel, Typography } from '@material-ui/core';
-import { notification, SkeletonLoader } from 'apps/ui';
+import { DateInputField, notification, SkeletonLoader } from 'apps/ui';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { humanize, underscore } from 'inflection';
-import { normalizeDate } from 'lib/date';
+import { normalizeDate, addMissingZeros } from 'lib/date';
 import { difference } from 'lib/object';
 import { formatValue } from 'lib/string';
 import { QATags } from 'models/QA.model';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FiEdit3 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
+import { FieldsWithDate, EditedDateEmptyField } from 'models/Field.model';
 import { useStyles } from './DocumentReadingStep.styles';
 
 export function DocumentReadingStep({ documentType, step, fields = [], identityId, isEditable, onReading, onDocumentUpdate }) {
@@ -19,6 +20,15 @@ export function DocumentReadingStep({ documentType, step, fields = [], identityI
   const classes = useStyles();
   const dispatch = useDispatch();
   const [isEditingMode, setIsEditingMode] = useState(false);
+  const firstFieldWithNoDataExtracted = useMemo(() => {
+    const fieldIndex = fields.findIndex(({ value }) => value === null);
+    return fieldIndex < 0 ? Number.MAX_SAFE_INTEGER : fieldIndex;
+  }, [fields]);
+  const firstEmptyDataField = useMemo(() => {
+    const fieldIndex = fields.findIndex(({ id, value }) => FieldsWithDate.includes(id) && value?.replace('-', '').length < 8);
+    return fieldIndex < 0 ? Number.MAX_SAFE_INTEGER : fieldIndex;
+  }, [fields]);
+  const firstAutoFocusField = useMemo(() => Math.min(firstEmptyDataField, firstFieldWithNoDataExtracted), [firstEmptyDataField, firstFieldWithNoDataExtracted]);
 
   if (step.error) {
     return (
@@ -60,6 +70,12 @@ export function DocumentReadingStep({ documentType, step, fields = [], identityI
             // update only changed fields
             const normalizedData = {};
             Object.keys(diff).forEach((key) => {
+              if (FieldsWithDate.includes(key)) {
+                // set -- that error 'The data was not extracted' is not shown
+                const fixedDateString = addMissingZeros(values[key]) || EditedDateEmptyField;
+                normalizedData[key] = { value: normalizeDate(fixedDateString) };
+                return;
+              }
               normalizedData[key] = { value: normalizeDate(values[key]) };
             });
             if (onDocumentUpdate) {
@@ -73,26 +89,41 @@ export function DocumentReadingStep({ documentType, step, fields = [], identityI
           }
         }}
       >
-        {({ handleSubmit }) => (
+        {({ handleSubmit, values, setFieldValue }) => (
           <Form onSubmit={handleSubmit} className={classes.wrapper} data-qa={QATags.Document.Change.Form}>
-            {fields.map(({ id }) => {
+            {fields.map(({ id }, orderId) => {
               const valueLabel = intl.formatMessage({
                 id: `identity.field.${id}`,
                 defaultMessage: humanize(underscore(id)),
               });
               return (
-                <Box mb={1.6} className={classes.editInputWrapper}>
-                  <Field
-                    name={id}
-                    type="input"
-                    variant="outlined"
-                    fullWidth
-                    component={TextField}
-                    disabled={false}
-                  />
-                  <InputLabel className={classes.editLabel}>
-                    {valueLabel}
-                  </InputLabel>
+                <Box key={id} mb={1.6} className={classes.editInputWrapper}>
+                  {FieldsWithDate.includes(id) ? (
+                    <>
+                      <DateInputField
+                        onChange={setFieldValue}
+                        dateString={values[id]}
+                        fieldId={id}
+                        autoFocus={orderId === 0 || orderId === firstAutoFocusField}
+                      />
+                      <Typography className={classes.editLabel}>{valueLabel}</Typography>
+                    </>
+                  ) : (
+                    <>
+                      <Field
+                        name={id}
+                        type="input"
+                        variant="outlined"
+                        fullWidth
+                        component={TextField}
+                        disabled={false}
+                        autoFocus={orderId === 0 || orderId === firstAutoFocusField}
+                      />
+                      <InputLabel className={classes.editLabel}>
+                        {valueLabel}
+                      </InputLabel>
+                    </>
+                  )}
                 </Box>
               );
             })}
@@ -129,10 +160,22 @@ export function DocumentReadingStep({ documentType, step, fields = [], identityI
 
           return (
             <Box className={classes.inputWrapper} key={id}>
-              <Typography className={classes.editableInput}>
-                {/* <SkeletonLoader animation="wave" variant="text" /> */}
-                {formatValue(id, value) || <Box component="span" color="common.red">{intl.formatMessage({ id: 'DocumentReadingStep.notParsed' })}</Box>}
-              </Typography>
+              {FieldsWithDate.includes(id) ? (
+                <>
+                  {formatValue(id, value)
+                    ? (<DateInputField dateString={value} isEditable={false} />)
+                    : (
+                      <Typography className={classes.editableInput}>
+                        <Box component="span" color="common.red">{intl.formatMessage({ id: 'DocumentReadingStep.notParsed' })}</Box>
+                      </Typography>
+                    )}
+                </>
+              ) : (
+                <Typography className={classes.editableInput}>
+                  {/* <SkeletonLoader animation="wave" variant="text" /> */}
+                  {formatValue(id, value) || <Box component="span" color="common.red">{intl.formatMessage({ id: 'DocumentReadingStep.notParsed' })}</Box>}
+                </Typography>
+              )}
               <InputLabel className={classes.label}>
                 {valueLabel}
               </InputLabel>
@@ -140,6 +183,7 @@ export function DocumentReadingStep({ documentType, step, fields = [], identityI
           );
         })}
       </Grid>
+
       {isEditable && (
         <Box className={classes.buttonWrapper}>
           <Button
@@ -153,6 +197,7 @@ export function DocumentReadingStep({ documentType, step, fields = [], identityI
           </Button>
         </Box>
       )}
+
     </Grid>
   );
 }
