@@ -2,7 +2,7 @@ import { Box, Divider, FormControl, Grid, Typography } from '@material-ui/core';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectVerificationPattern, selectCanUseVerificationPostponedTimeout } from 'state/merchant/merchant.selectors';
+import { selectVerificationPattern } from 'state/merchant/merchant.selectors';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { GovCheckConfiguration, govCheckParse } from '../../models/GovCheck.model';
 import { GovCheckConfig } from '../GovCheckConfig/GovCheckConfig';
@@ -13,7 +13,6 @@ export function GovCheckSetup() {
   const dispatch = useDispatch();
   const intl = useIntl();
   const pattern = useSelector(selectVerificationPattern);
-  const canUseVerificationPostponedTimeout = useSelector(selectCanUseVerificationPostponedTimeout);
   const [selectedCountry, setSelectedCountry] = useState(GovCheckConfiguration[0].country);
   const [checkList, setCheckList] = useState([]);
 
@@ -53,9 +52,7 @@ export function GovCheckSetup() {
             email: <a href="mailto:support@mati.io">support@mati.io</a>,
           })}
         </Typography>
-        {canUseVerificationPostponedTimeout && (
-          <GovCheckTimeout onChange={handleChangeTimeout} />
-        )}
+        <GovCheckTimeout onChange={handleChangeTimeout} />
         <Box mt={2}>
           <Grid container spacing={2} direction="row" wrap="nowrap" alignItems="stretch">
             <Grid item xs={5}>
