@@ -4,7 +4,6 @@ import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { BiometricTypes } from 'models/Biometric.model';
 import { DEFAULT_LOCALE, LanguageList } from 'models/Intl.model';
-import { MerchantTags } from 'models/Merchant.model';
 import { VerificationPatternTypes } from 'models/Step.model';
 import { createSelector } from 'reselect';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
@@ -60,11 +59,6 @@ export const selectMerchantTags = createSelector(
 export const selectAvailableChecks = createSelector(
   selectMerchantTags,
   (tags) => ChecksList.filter((check) => !check.availableOnlyForMerchantTag || tags.includes(check.availableOnlyForMerchantTag)),
-);
-
-export const selectCanUseVerificationPostponedTimeout = createSelector(
-  selectMerchantTags,
-  (tags) => tags.includes(MerchantTags.CanUseVerificationPostponedTimeout),
 );
 
 // -- app
