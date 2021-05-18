@@ -8,8 +8,9 @@ import { getDevicePlatformType, PlatformTypes } from 'models/DeviceCheck.model';
 import { getStatusById, IdentityStatuses } from 'models/Status.model';
 import React, { useCallback, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
-import { identityUpdate } from 'state/identities/identities.actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { verificationStatusUpdate } from 'state/identities/identities.actions';
+import { selectReviewVerificationWithExtras } from 'state/verification/verification.selectors';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
 import { StatusSelector } from '../StatusSelector/StatusSelector';
 import { VerificationDate } from '../VerificationDate/VerificationDate';
@@ -29,12 +30,13 @@ export function VerificationSummary({ identity }) {
   const currentStatus = useRef(getStatusById(identity.status));
   const previousStatus = useRef(null);
   const [status, setStatus] = useState(currentStatus.current);
+  const verification = useSelector(selectReviewVerificationWithExtras);
 
   const handleUpdateIdentity = useCallback(async (value) => {
-    await dispatch(identityUpdate(identity.id, { status: value }));
-    await dispatch(sendWebhook(identity.id));
+    await dispatch(verificationStatusUpdate(verification.id, { status: value }));
+    await dispatch(sendWebhook(identity?.id));
     notification.info(intl.formatMessage({ id: 'identities.details.webhook.success' }));
-  }, [dispatch, identity.id, intl]);
+  }, [dispatch, verification.id, identity, intl]);
 
   const handleCloseNotification = useCallback(() => {
     if (isFallback.current) {

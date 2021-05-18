@@ -12,6 +12,7 @@ import { FiLogOut } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatDate, DateFormat } from 'lib/date';
+import { sendWebhook } from 'state/webhooks/webhooks.actions';
 import { reviewAwaitingCountLoad, reviewVerificationClear, verificationLoad, verificationSkip, verificationStatusChange } from '../../state/reviewMode.actions';
 import { selectIsNoVerifications, selectReviewAwaitingCount, selectReviewIdentityId, selectReviewVerificationDateCreated, selectReviewVerificationId, selectVerificationModel } from '../../state/reviewMode.selectors';
 import { useStyles } from './ReviewModeHeaderMenu.styles';
@@ -59,8 +60,9 @@ export function ReviewModeHeaderMenu() {
 
   const handleSetStatus = useCallback(async (status) => {
     await dispatch(verificationStatusChange(status));
+    await dispatch(sendWebhook(identityId));
     await handleLoadNext();
-  }, [dispatch, handleLoadNext]);
+  }, [dispatch, handleLoadNext, identityId]);
 
   const handleClickSetStatus = useCallback((value) => {
     setIsStatusSetting(true);

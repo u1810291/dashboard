@@ -18,6 +18,16 @@ export * from './components/CheckBarExpandableSummary/CheckBarExpandableSummary'
 export * from './components/SkeletonLoader/SkeletonLoader';
 export * from './components/ZoomableImage/ZoomableImage';
 export * from './components/TextFieldPassword/TextFieldPassword';
+export * from './components/HistoryDataChanged/HistoryDataChanged';
+export * from './components/HistoryFileDownloaded/HistoryFileDownloaded';
+export * from './components/HistoryGdprDeleted/HistoryGdprDeleted';
+export * from './components/HistoryStatusChanged/HistoryStatusChanged';
+export * from './components/UserRoundAvatar/UserRoundAvatar';
+export * from './components/HeaderMenuButton/HeaderMenuButton.styles';
+export * from './components/AgentHistoryChangesSwitch/AgentHistoryChangesSwitch';
+export * from './components/VerificationHistoryChangesSwitch/VerificationHistoryChangesSwitch';
+export * from './components/HistoryManualReview/HistoryManualReview';
+export * from './components/AgentActionInfo/AgentActionInfo';
 export * from './components/DateInputField/DateInputField';
 
 export * from './models/Warning.model';

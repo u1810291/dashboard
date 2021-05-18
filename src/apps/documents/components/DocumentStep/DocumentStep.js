@@ -83,9 +83,9 @@ export function DocumentStep({ document, identity, documentIndex, onDocumentUpda
                 step={documentReadingStep}
                 fields={fields}
                 isEditable={isFormEditable}
-                identityId={identity.id}
                 onReading={onReading}
                 onDocumentUpdate={onDocumentUpdate}
+                identityId={identity?.id}
               />
             )}
           </Grid>

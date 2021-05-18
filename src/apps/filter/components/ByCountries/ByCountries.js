@@ -1,6 +1,8 @@
 import { Box, Checkbox, FormControlLabel, Grid, Paper, Typography } from '@material-ui/core';
+import { useFilterCheckbox } from 'apps/filter/hooks/filterBy.hook';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
-import React, { useCallback } from 'react';
+import { analyticsFilterStructure } from 'models/Analytics.model';
+import React from 'react';
 import { FiCheckCircle } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -9,24 +11,11 @@ import { ReactComponent as CheckboxOff } from '../../../../assets/icon-checkbox-
 import { ReactComponent as CheckboxOn } from '../../../../assets/icon-checkbox-on.svg';
 import { useStyles } from './ByCountries.styles';
 
-export function ByCountries({ bufferedFilter: { countries }, onHandleFilterChange }) {
+export function ByCountries({ bufferedFilter: { countries }, onFilterChange }) {
   const classes = useStyles();
   const intl = useIntl();
+  const [handleSelectCountry, checkIsSelected] = useFilterCheckbox(analyticsFilterStructure.countries, countries, onFilterChange);
   const countriesList = useSelector(selectCountriesOnlyExisting);
-  const handleSelectCountry = useCallback(({ target: { value } }) => {
-    const newCountries = [...countries];
-
-    if (newCountries.includes(value)) {
-      const filtered = newCountries.filter((item) => item !== value);
-      onHandleFilterChange({ countries: filtered });
-      return;
-    }
-
-    newCountries.push(value);
-    onHandleFilterChange({ countries: newCountries });
-  }, [countries, onHandleFilterChange]);
-
-  const checkIsSelected = useCallback((id) => countries?.includes(id), [countries]);
 
   return (
     <Grid item xs={12} md={6}>

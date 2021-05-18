@@ -17,37 +17,20 @@ export function getIdentitiesCount(params) {
   return http.get('/v1/identities/count', { params });
 }
 
-export function patchIdentity(id, data) {
-  return http.patch(`/v1/identities/${id}`, data);
+export function putVerificationStatus(verificationId, data) {
+  return http.put(`/api/v1/dashboard/verifications/${verificationId}/status`, data);
+}
+
+export function patchVerificationDocument(verificationId, documentType, fields) {
+  return http.patch(`/api/v1/dashboard/verifications/${verificationId}/documents/${documentType}/fields`, { fields });
 }
 
 export function deleteIdentity(id) {
   return http.delete(`/v1/identities/${id}`);
 }
 
-function getDocuments(id) {
-  return http.getAuthorized(`/v1/identities/${id}/documents`);
-}
-
-async function getDocumentPictures(id) {
-  return http.getAuthorized(`/v1/documents/${id}/pictures`);
-}
-
-async function getDocumentsFullData(id) {
-  const { data } = await getDocuments(id);
-
-  return Promise.all(
-    data.map(async (document) => {
-      const payload = await getDocumentPictures(document.id);
-      return {
-        ...document,
-        pictures: payload.data,
-      };
-    }));
-}
-
 export function getIdentity(id, params) {
-  return http.get(`/v1/identities/${id}?embed=verification,documents`, { params });
+  return http.get(`/v1/identities/${id}?embed=verification`, { params });
 }
 
 export async function getIdentityWithNestedData(id, params) {
@@ -56,9 +39,6 @@ export async function getIdentityWithNestedData(id, params) {
     ...data,
     originalIdentity: data,
   };
-  if (!data._embedded || !data._embedded.verification) {
-    identity.documents = await getDocumentsFullData(id);
-  }
   const livenessStep = data._embedded.verification.steps.find((step) => step.id === BiometricTypes.liveness);
   let videoUrl = get(livenessStep, 'data.videoUrl');
 
@@ -92,6 +72,6 @@ export async function getVerificationData(id) {
   };
 }
 
-export function patchDocument(id, fields) {
-  return http.patch(`/v1/documents/${id}`, { fields });
+export function postPdfDownloaded(identityId, verificationId) {
+  return http.post(`api/v1/dashboard/audit/identities/${identityId}/verifications/${verificationId}/pdf-downloaded`);
 }

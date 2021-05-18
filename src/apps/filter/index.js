@@ -1,5 +1,7 @@
-export * from './model/filter.model';
-export { OpenFilter } from './components/OpenFilter/OpenFilter';
-export { ByCountries } from './components/ByCountries/ByCountries';
-export { ByFlows } from './components/ByFlows/ByFlows';
-export { ByStatuses } from './components/ByStatuses/ByStatuses';
+export * from './components/OpenFilter/OpenFilter';
+export * from './components/ByCountries/ByCountries';
+export * from './components/ByFlows/ByFlows';
+export * from './components/ByStatuses/ByStatuses';
+export * from './components/ByVerificationEventTypes/ByVerificationEventTypes';
+export * from './components/ByAgents/ByAgents';
+export * from './hooks/filterURL.hook';

@@ -5,7 +5,6 @@ import { get } from 'lodash';
 import { ERROR_COMMON, IN_REVIEW_MODE_ERROR, isInReviewModeError } from 'models/Error.model';
 import { filterSerialize } from 'models/Filter.model';
 import { IdentityStatuses } from 'models/Status.model';
-
 import { createTypesSequence } from 'state/utils';
 import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from './identities.selectors';
 import { IdentityActionGroups } from './identities.store';
@@ -25,13 +24,13 @@ export const types = {
   FILTER_UPDATE: 'identities/FILTER_UPDATE',
   IDENTITY_REMOVE: 'IDENTITY_REMOVE',
   SET_PDF_GENERATING: 'SET_PDF_GENERATING',
+  PDF_DOWNLOADED: 'PDF_DOWNLOADED',
 };
 
 export const identitiesListLoad = (isReload, offset) => async (dispatch, getState) => {
   dispatch({ type: isReload ? types.IDENTITY_LIST_REQUEST : types.IDENTITY_LIST_UPDATING });
   try {
     const filter = selectIdentityFilterSerialized(getState());
-    // embed=verification parameter is needed for backend to calculate 'reviewRunning' status
     const { data } = await api.getIdentities({ ...filter, ...offset });
     const payload = (data || []).map((item) => item.identity);
     dispatch({ type: types.IDENTITY_LIST_SUCCESS, payload, isReset: isReload });
@@ -177,11 +176,11 @@ export const identityDemoLoad = (id) => async (dispatch) => {
   }
 };
 
-export const identityUpdate = (id, data) => async (dispatch, getState) => {
+export const verificationStatusUpdate = (verificationId, data) => async (dispatch, getState) => {
   dispatch({ type: types.IDENTITY_UPDATING });
   try {
     // we ignore response here cause returned identity without embed data
-    await api.patchIdentity(id, data);
+    await api.putVerificationStatus(verificationId, data);
     const identityModel = selectIdentityModel(getState());
 
     const updatedIdentity = {
@@ -201,26 +200,23 @@ export const identityUpdate = (id, data) => async (dispatch, getState) => {
   }
 };
 
-export const documentUpdate = (id, fields) => async (dispatch, getState) => {
+export const verificationDocumentUpdate = (verificationId, documentType, fields) => async (dispatch, getState) => {
   dispatch({ type: types.IDENTITY_UPDATING });
   try {
-    const { data } = await api.patchDocument(id, fields);
+    await api.patchVerificationDocument(verificationId, documentType, fields);
     const identityModel = selectIdentityModel(getState());
-    const documents = get(identityModel.value, '_embedded.documents', []);
-    const documentIndex = documents.findIndex((item) => item.id === id);
+    const documents = get(identityModel.value, '_embedded.verification.documents', []);
+    const documentIndex = documents.findIndex((item) => item.type === documentType);
     const newDocuments = [...documents];
-    const newVerificationDocuments = [...identityModel.value._embedded.verification.documents];
-    newVerificationDocuments[documentIndex].fields = data.fields;
-    newDocuments.splice(documentIndex, 1, data);
+    newDocuments[documentIndex].fields = { ...newDocuments[documentIndex].fields, ...fields };
 
     const newIdentity = {
       ...identityModel.value,
       _embedded: {
         ...identityModel.value._embedded,
-        documents: newDocuments,
         verification: {
           ...identityModel.value._embedded.verification,
-          documents: newVerificationDocuments,
+          documents: newDocuments,
         },
       },
     };
@@ -238,3 +234,8 @@ export const documentUpdate = (id, fields) => async (dispatch, getState) => {
 };
 
 export const setPDFGenerating = (flag) => ({ type: types.SET_PDF_GENERATING, payload: flag });
+
+export const pdfDownloaded = (identityId, verificationId) => async (dispatch) => {
+  await api.postPdfDownloaded(identityId, verificationId);
+  dispatch({ type: types.PDF_DOWNLOADED });
+};

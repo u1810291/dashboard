@@ -1,11 +1,10 @@
 import { Box, Container, Grid } from '@material-ui/core';
-import { filterUpdate, loadStatistics } from 'apps/analytics/state/metrics.actions';
 import { selectFilter, selectStatistics, selectStatisticsByDate } from 'apps/analytics/state/metrics.selectors';
-import { analyticsClearFilter, analyticsFilterStructure, ByCountries, ByFlows, OpenFilter } from 'apps/filter';
-import { useFilterParser } from 'apps/filter/hooks/filterURL.hook';
+import { ByCountries, ByFlows, OpenFilter, useFilterParser } from 'apps/filter';
 import { DevicesStats } from 'apps/fingerPrint/components/DevicesStats/DevicesStats';
 import { AnalyticsMap } from 'apps/googleMap/components/AnalyticsMap/AnalyticsMap';
 import { PageLoader } from 'apps/layout';
+import { analyticsCleanFilter, analyticsFilterStructure } from 'models/Analytics.model';
 import { analyticsDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, getFilterDatesIsValid, parseFromURL } from 'models/Filter.model';
 import { QATags } from 'models/QA.model';
 import React, { useEffect, useState } from 'react';
@@ -13,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { identitiesManualReviewCountLoad } from 'state/identities/identities.actions';
 import { selectManualReviewCountModel } from 'state/identities/identities.selectors';
+import { filterUpdate, loadStatistics } from 'apps/analytics/state/metrics.actions';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
 import { Chart } from '../Chart/Chart';
@@ -45,7 +45,7 @@ export function AnalyticsContainer() {
   useEffect(() => {
     const parsedFilter = parseFromURL(location.search, analyticsFilterStructure);
     const { start, end } = FilterRangesByLocal[FilterRangeTypes.Last7Days].getMomentPeriod();
-    const resultFilter = getFilterDatesIsValid(parsedFilter) ? parsedFilter : { ...analyticsClearFilter, 'dateCreated[start]': start, 'dateCreated[end]': end };
+    const resultFilter = getFilterDatesIsValid(parsedFilter) ? parsedFilter : { ...analyticsCleanFilter, 'dateCreated[start]': start, 'dateCreated[end]': end };
 
     dispatch(filterUpdate(resultFilter));
     dispatch(loadStatistics(resultFilter));
@@ -65,7 +65,7 @@ export function AnalyticsContainer() {
                 <DynamicHeader flows={flows} />
               </Grid>
               <Grid container item xs={3} justify="flex-end">
-                <OpenFilter qa={QATags.Analytics.FilterButton} onSetFilter={addToUrl} selectFilter={metricsFilter} onClearFilter={analyticsClearFilter} datePickerRanges={analyticsDatePickerRanges}>
+                <OpenFilter qa={QATags.Analytics.FilterButton} onSetFilter={addToUrl} selectFilter={metricsFilter} onClearFilter={analyticsCleanFilter} datePickerRanges={analyticsDatePickerRanges}>
                   <ByFlows />
                   <ByCountries />
                 </OpenFilter>

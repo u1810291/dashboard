@@ -1,7 +1,10 @@
 import { titleize } from 'inflection';
 import { getFileContents } from 'lib/client/checks';
 import { get } from 'lodash';
+import { isObjectEmpty } from 'lib/object';
 import { getDocumentExtras } from 'models/Document.model';
+import { initDateFilter } from 'models/Filter.model';
+import { ITEMS_PER_PAGE } from 'models/Pagination.model';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getIpCheckUrl } from './IpCheck.model';
 import { Routes } from './Router.model';
@@ -79,9 +82,15 @@ export function getIdentityExtras(identity, countries) {
     return null;
   }
 
+  const verification = get(identity, '_embedded.verification') || {};
+
+  if (!verification || isObjectEmpty(verification)) {
+    return null;
+  }
+
   const steps = get(identity, '_embedded.verification.steps') || [];
   const pooStep = getStepExtra(steps.find((item) => item.id === StepTypes.ProofOfOwnership));
-  const documents = getDocumentExtras(identity, countries, pooStep);
+  const documents = getDocumentExtras(verification, countries, pooStep);
 
   let duplicateUserDetectionStep;
   let ageCheck;
@@ -137,3 +146,36 @@ export async function getNom151FileContent(digitalSignatureData = {}) {
   }
   return fileContent;
 }
+
+export const verificationsFilterInitialState = {
+  ...initDateFilter,
+  search: '',
+  status: [],
+  flowIds: [],
+  sortOrder: null,
+  sortBy: null,
+  offset: 0,
+  limit: ITEMS_PER_PAGE,
+};
+
+export const verificationsFilterStructure = {
+  search: 'search',
+  status: 'status',
+  flowIds: 'flowIds',
+  'dateCreated[start]': 'dateCreated[start]',
+  'dateCreated[end]': 'dateCreated[end]',
+  offset: 'offset',
+  limit: 'limit',
+  sortOrder: 'sortOrder',
+  sortBy: 'sortBy',
+  // For Customer Support
+  asMerchantId: 'asMerchantId',
+};
+
+export const verificationsCleanFilter = {
+  ...initDateFilter,
+  status: [],
+  flowIds: [],
+  sortOrder: null,
+  sortBy: null,
+};

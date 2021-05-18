@@ -1,4 +1,5 @@
 import { Box, Checkbox, FormControlLabel, Grid, Paper, Typography } from '@material-ui/core';
+import { QATags } from 'models/QA.model';
 import { getFilterStatuses, getIdentityStatusLabel } from 'models/Status.model';
 import React, { useCallback, useState } from 'react';
 import { FiCheckCircle } from 'react-icons/fi';
@@ -6,9 +7,8 @@ import { useIntl } from 'react-intl';
 import { ReactComponent as CheckboxOff } from '../../../../assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from '../../../../assets/icon-checkbox-on.svg';
 import { useStyles } from './ByStatuses.styles';
-import { QATags } from '../../../../models/QA.model';
 
-export const ByStatuses = ({ bufferedFilter: { status }, onHandleFilterChange }) => {
+export const ByStatuses = ({ bufferedFilter: { status }, onFilterChange }) => {
   const intl = useIntl();
   const [statuses] = useState(getFilterStatuses());
   const classes = useStyles();
@@ -22,8 +22,8 @@ export const ByStatuses = ({ bufferedFilter: { status }, onHandleFilterChange })
     } else {
       newStatuses = newStatuses.filter((item) => item !== id);
     }
-    onHandleFilterChange({ status: newStatuses });
-  }, [status, onHandleFilterChange]);
+    onFilterChange({ status: newStatuses });
+  }, [status, onFilterChange]);
 
   return (
     <Grid item xs={12} md={6}>

@@ -1,48 +1,25 @@
-import { Box, Grid, IconButton, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core';
+import { Box, Button, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core';
 import { PageLoader } from 'apps/layout';
-import { useOverlay } from 'apps/overlay';
-import { notification } from 'apps/ui';
-import { CollaboratorOptions } from 'models/Collaborator.model';
-import React, { useCallback, useState } from 'react';
-import { FiChevronDown, FiLoader, FiTrash2 } from 'react-icons/fi';
+import { UserRoundAvatar } from 'apps/ui/components/UserRoundAvatar/UserRoundAvatar';
+import { QATags } from 'models/QA.model';
+import { Routes } from 'models/Router.model';
+import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { DeleteModal } from '../DeleteModal/DeleteModal';
+import { useHistory } from 'react-router-dom';
 import { TeamTablePlaceholder } from '../TeamTablePlaceholder/TeamTablePlaceholder';
 import { useStyles } from './TeamTable.styles';
-import { QATags } from '../../../../models/QA.model';
 
-export function TeamTable({ list, onInvite, onUpdate, onRemove }) {
+export function TeamTable({ list, onInvite }) {
   const intl = useIntl();
   const classes = useStyles();
-  const [deleting, setDeleting] = useState(null);
-  const [createOverlay, closeOverlay] = useOverlay();
+  const history = useHistory();
 
-  const handleRemoveSubmit = useCallback(async (id) => {
-    try {
-      closeOverlay();
-      setDeleting(id);
-      await onRemove(id);
-
-      notification.info(intl.formatMessage({ id: 'teamTable.deleteSuccess.description' }));
-    } catch (error) {
-      console.error(`can't remove collaborator: ${id}`, error);
-    } finally {
-      setDeleting(null);
-    }
-  }, [onRemove, intl, closeOverlay]);
-
-  const handleRemove = useCallback(async (user) => {
-    createOverlay(<DeleteModal onSubmit={handleRemoveSubmit} user={user} />);
-  }, [handleRemoveSubmit, createOverlay]);
-
-  const handleRoleChange = useCallback((id, role) => {
-    onUpdate(id, { role });
-  }, [onUpdate]);
+  const handleClickProfile = useCallback((id) => () => history.push(`${Routes.collaborators.agentProfile.root}/${id}`), [history]);
 
   return (
     <TableContainer className={classes.tableContainer}>
       <Table className={classes.table}>
-        <TableBody>
+        <TableBody data-qa={QATags.Collaborators.TeamTable}>
           {(!list.isLoaded && list.isLoading) || (list.isLoaded && list.value.length === 0)
             ? (
               <TableRow className={classes.tablePlaceholder}>
@@ -56,40 +33,26 @@ export function TeamTable({ list, onInvite, onUpdate, onRemove }) {
             : list.value.map((item) => (
               <TableRow key={item.user.id}>
                 <TableCell className={classes.firstNameCell}>
-                  <Grid container alignItems="center" justify="center" className={classes.firstName}>
-                    <Grid item>{`${item.user.firstName[0].toUpperCase()}`}</Grid>
-                  </Grid>
+                  <Box height={30} mt={{ xs: 0.5, md: 0 }}>
+                    <UserRoundAvatar uniqueId={item.user.id} name={item.user.firstName} />
+                  </Box>
                 </TableCell>
                 <TableCell className={classes.fullNameCell}>
                   <Box className={classes.fullName}>
-                    {`${item.user.firstName} ${item.user.lastName}`}
+                    {`${item.user.firstName ?? ''} ${item.user.lastName ?? ''}`}
                   </Box>
                   <Box className={classes.email}>
                     {item.user.email}
                   </Box>
                 </TableCell>
                 <TableCell align="right" className={classes.roleCell}>
-                  <Select
-                    disableUnderline
-                    onChange={(e) => handleRoleChange(item.user.id, e.target.value)}
-                    value={item.role}
-                    IconComponent={FiChevronDown}
+                  <Button
+                    variant="outlined"
+                    className={classes.profileButton}
+                    onClick={handleClickProfile(item.user.id)}
                   >
-                    {CollaboratorOptions.map((role) => (
-                      <MenuItem key={role.id} value={role.id}>
-                        {intl.formatMessage({ id: role.label })}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  <IconButton
-                    data-qa={QATags.Collaborators.DeleteMemberButton}
-                    size="small"
-                    onClick={() => handleRemove(item.user)}
-                    tabIndex="-1"
-                    className={classes.tableButton}
-                  >
-                    {item.user.id === deleting ? <FiLoader /> : <FiTrash2 className="color-red" />}
-                  </IconButton>
+                    {intl.formatMessage({ id: 'Settings.teamSettings.button.profile' })}
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

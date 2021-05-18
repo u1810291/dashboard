@@ -9,7 +9,7 @@ import { selectPreliminaryFilteredCountModel } from 'state/identities/identities
 import { DateRange } from '../../components/DateRange/DateRange';
 import { useStyles } from './Filter.styles';
 
-export function Filter({ children, onClose, onSetFilter, selectFilter, onClearFilter, datePickerRanges = allDatePickerRanges, loadPreliminaryCountAction, preliminaryCountSelector, fromMonth }) {
+export function Filter({ children, onClose, onSetFilter, selectFilter, cleanFilter, datePickerRanges = allDatePickerRanges, loadPreliminaryCountAction, preliminaryCountSelector, fromMonth }) {
   const intl = useIntl();
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -32,8 +32,8 @@ export function Filter({ children, onClose, onSetFilter, selectFilter, onClearFi
   }, [handleFilterChange]);
 
   const handleClearAll = useCallback(() => {
-    handleFilterChange(onClearFilter);
-  }, [onClearFilter, handleFilterChange]);
+    handleFilterChange(cleanFilter);
+  }, [cleanFilter, handleFilterChange]);
 
   const handleApplyFilterChanges = useCallback(() => {
     onSetFilter({ ...bufferedFilter });
@@ -68,7 +68,7 @@ export function Filter({ children, onClose, onSetFilter, selectFilter, onClearFi
           <Box className={classes.hr} mb={0.5} />
           <Grid container item spacing={3} className={classes.checks}>
             {/* All filter children blocks */}
-            {React.Children.map(children, (child) => React.cloneElement(child, { onHandleFilterChange: handleFilterChange, bufferedFilter }))}
+            {React.Children.map(children, (child) => React.cloneElement(child, { onFilterChange: handleFilterChange, bufferedFilter }))}
           </Grid>
           <Grid />
         </Grid>
