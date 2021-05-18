@@ -1,6 +1,5 @@
-import { cloneDeep, get } from 'lodash';
 import { isDateBetween } from '../lib/date';
-import { FieldsEmissionCheck, FieldsExpirationCheck, FieldTypes, getFieldIsExpired } from './Field.model';
+import { FieldsEmissionCheck, FieldsExpirationCheck, FieldTypes } from './Field.model';
 import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepFrontendChecksTypes, DocumentStepTypes, getDocumentStatus, getStepsExtra } from './Step.model';
 
 export const DocumentTypes = {
@@ -96,10 +95,6 @@ export const DocumentCountrySanctionList = [
   'ZW',
 ];
 
-export function getDocumentSides(identity, documentIndex) {
-  return get(identity, `_embedded.documents[${documentIndex}].metadata.sides`, null);
-}
-
 export function getPhotosOrientation(photo) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -117,55 +112,22 @@ export function getDocumentSideLabel(side) {
   return `identity.document.photo.${side}.title`;
 }
 
-function makeEqualOrdersByKey(firstArray = [], secondArray = [], key) {
-  const firstArrayCopy = cloneDeep(firstArray);
-
-  if (!secondArray.length) {
-    return firstArrayCopy;
-  }
-
-  firstArrayCopy.sort((a, b) => {
-    const indexOfAInSource = secondArray.findIndex((el) => el[key] === a[key]);
-    const indexOfBInSource = secondArray.findIndex((el) => el[key] === b[key]);
-
-    return indexOfAInSource > indexOfBInSource ? 1 : indexOfAInSource < indexOfBInSource ? -1 : 0;
-  });
-
-  return firstArrayCopy;
-}
-
 export function isDocumentWithTwoSides(documentType) {
   return [DocumentTypes.DrivingLicense, DocumentTypes.NationalId].includes(documentType);
 }
 
-export function getDocumentExtras(identity, countries, proofOfOwnership) {
-  const documents = get(identity, '_embedded.verification.documents') || [];
-  const source = get(identity, '_embedded.documents');
+export function getDocumentExtras(verification, countries, proofOfOwnership) {
+  const documents = verification.documents || [];
 
-  // make documents order equal to source order to get right metadata about document
-  const orderedDocuments = makeEqualOrdersByKey(documents, source, 'type');
-
-  return orderedDocuments.map((document, index) => {
-    const steps = getStepsExtra(document.steps, DocumentConfig[document.type], identity, countries, document);
+  return documents.map((document) => {
+    const steps = getStepsExtra(document.steps, DocumentConfig[document.type], verification, countries, document);
     const documentReadingStep = steps.find((step) => step.id === DocumentStepTypes.DocumentReading);
-    const sourceDocument = source.find((item) => item.type === document.type) || {};
 
-    const fields = Object.entries(sourceDocument.fields || {}).map(([id, { value, required }]) => {
-      const fieldTransforms = (DocumentConfig[document.type].transforms && DocumentConfig[document.type].transforms[id]) || [];
-      return {
-        id,
-        value,
-        isValid: !getFieldIsExpired(
-          {
-            id,
-            value: fieldTransforms.reduce((currentValue, transform) => transform(currentValue, document), value),
-          },
-          DocumentConfig[document.type].checks[DocumentStepFrontendChecksTypes.ExpiredDate],
-          identity.dateCreated,
-        ),
-        required,
-      };
-    });
+    const fields = Object.entries(document.fields || {}).map(([id, { value, required }]) => ({
+      id,
+      value,
+      required,
+    }));
 
     const govChecksSteps = steps.filter((step) => CountrySpecificChecks.includes(step.id));
     const securityCheckSteps = steps.filter((step) => DocumentSecuritySteps.includes(step.id));
@@ -181,15 +143,14 @@ export function getDocumentExtras(identity, countries, proofOfOwnership) {
       steps,
       fields,
       documentReadingStep,
-      source: sourceDocument,
       securityCheckSteps,
       govChecksSteps,
       documentFailedCheckSteps,
       premiumAmlWatchlistsStep,
       documentStatus: getDocumentStatus(allSteps),
       areTwoSides: isDocumentWithTwoSides(document.type),
-      documentSides: getDocumentSides(identity, index),
-      onReading: documentReadingStep.status < 200,
+      documentSides: DocumentSidesOrder,
+      onReading: documentReadingStep?.status < 200,
       photos: document.photos || [],
       checks: steps.filter((step) => DocumentSecuritySteps.includes(step.id)),
       isSanctioned: DocumentCountrySanctionList.includes(document.country),

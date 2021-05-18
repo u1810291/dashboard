@@ -73,3 +73,12 @@ export function trimMiddle(string = '', begin = 30, end = 5, delimiter = '…') 
   const finish = string.substring(string.length - end);
   return `${start}${delimiter}${finish}`;
 }
+
+export function stringHash(s) {
+  return s.split('').reduce((prev, subStr) => {
+    // eslint-disable-next-line no-bitwise
+    const hash = ((prev << 5) - prev) + subStr.charCodeAt(0);
+    // eslint-disable-next-line no-bitwise
+    return hash & hash;
+  }, 0);
+}

@@ -1,5 +1,5 @@
-import { verificationsFilterInitialState } from 'apps/filter';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
+import { verificationsFilterInitialState } from 'models/Identity.model';
 import { createReducer } from 'state/utils';
 import { types } from './identities.actions';
 import { IdentityActionGroups, SliceNames } from './identities.store';

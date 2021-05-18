@@ -1,9 +1,9 @@
 import { Box, Button, FormControl, Grid, MenuItem, Select } from '@material-ui/core';
-import { RangeParts, RangeSlices } from 'apps/filter/model/filter.model';
+import { allDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, identifyRange, RangeParts, RangeSlices } from 'models/Filter.model';
 import { selectUserRegistrationDate } from 'apps/user/state/user.selectors';
 import classNames from 'classnames';
 import { DateFormat, dayEndTime, getYearsArray, toLocalDate, utcToLocalFormat, zeroTime } from 'lib/date';
-import { allDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, identifyRange } from 'models/Filter.model';
+
 import { QATags } from 'models/QA.model';
 import moment from 'moment';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';

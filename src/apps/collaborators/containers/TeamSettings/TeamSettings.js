@@ -1,14 +1,14 @@
-import { Box, Button, Typography, Paper } from '@material-ui/core';
+import { Box, Button, Paper, Typography } from '@material-ui/core';
+import { useOverlay } from 'apps/overlay';
+import { notification } from 'apps/ui';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import React, { useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { notification } from 'apps/ui';
-import { useOverlay } from 'apps/overlay';
 import { TeamInviteModal } from '../../components/TeamInviteModal/TeamInviteModal';
 import { TeamTable } from '../../components/TeamTable/TeamTable';
-import { collaboratorAdd, collaboratorListLoad, collaboratorRemove, collaboratorUpdate } from '../../state/collaborator.actions';
-import { selectCollaboratorCollection, selectCollaboratorState } from '../../state/collaborator.selectors';
+import { collaboratorAdd, collaboratorListLoad } from '../../state/collaborator.actions';
+import { selectCollaboratorCollectionModel, selectCollaboratorState } from '../../state/collaborator.selectors';
 import { useStyles } from './TeamSettings.styles';
 
 export function TeamSettings() {
@@ -17,42 +17,7 @@ export function TeamSettings() {
   const classes = useStyles();
   const [createOverlay, closeOverlay] = useOverlay();
   const state = useSelector(selectCollaboratorState);
-  const collaboratorList = useSelector(selectCollaboratorCollection);
-
-  useEffect(() => {
-    if (LoadableAdapter.isPristine(collaboratorList)) {
-      try {
-        dispatch(collaboratorListLoad());
-      } catch (error) {
-        notification.error(intl.formatMessage({ id: 'Error.common' }));
-        console.error(error);
-      }
-    }
-  }, [collaboratorList, dispatch, intl]);
-
-  const handleUpdate = useCallback((id, data) => {
-    try {
-      dispatch(collaboratorUpdate(id, data));
-    } catch (error) {
-      notification.error(intl.formatMessage({
-        id: `Settings.teamSettings.update.${error.response?.data?.name}`,
-        defaultMessage: intl.formatMessage({ id: 'Error.common' }),
-      }));
-      console.error(error);
-    }
-  }, [dispatch, intl]);
-
-  const handleRemove = useCallback((id) => {
-    try {
-      dispatch(collaboratorRemove(id));
-    } catch (error) {
-      notification.error(intl.formatMessage({
-        id: `Settings.teamSettings.remove.${error.response?.data?.name}`,
-        defaultMessage: intl.formatMessage({ id: 'Error.common' }),
-      }));
-      console.error(error);
-    }
-  }, [dispatch, intl]);
+  const collaboratorList = useSelector(selectCollaboratorCollectionModel);
 
   const handleInviteSubmit = useCallback(async (data) => {
     closeOverlay();
@@ -84,6 +49,17 @@ export function TeamSettings() {
     );
   }, [handleInviteSubmit, state, createOverlay]);
 
+  useEffect(() => {
+    if (LoadableAdapter.isPristine(collaboratorList)) {
+      try {
+        dispatch(collaboratorListLoad());
+      } catch (error) {
+        notification.error(intl.formatMessage({ id: 'Error.common' }));
+        console.error(error);
+      }
+    }
+  }, [collaboratorList, dispatch, intl]);
+
   return (
     <Paper>
       <Box p={2}>
@@ -96,8 +72,6 @@ export function TeamSettings() {
           <TeamTable
             list={collaboratorList}
             onInvite={openInviteModal}
-            onUpdate={handleUpdate}
-            onRemove={handleRemove}
           />
         </Box>
         <Box align="center">

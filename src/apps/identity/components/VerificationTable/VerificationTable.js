@@ -1,9 +1,9 @@
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Typography, useMediaQuery } from '@material-ui/core';
-import { verificationsFilterStructure } from 'apps/filter';
 import { useFilterParser } from 'apps/filter/hooks/filterURL.hook';
-import { NoVerifications } from 'apps/identity/components/NoVerifications/NoVerifications';
+import { Placeholder } from 'apps/ui/components/Placeholder/Placeholder';
 import { PageLoader } from 'apps/layout';
 import { ReactComponent as EmptyTableIcon } from 'assets/empty-table.svg';
+import { ReactComponent as NoVerificationsIcon } from 'assets/empty-list.svg';
 import { ReactComponent as TableSortActiveIcon } from 'assets/table-sort-active-icon.svg';
 import { ReactComponent as TableSortIcon } from 'assets/table-sort-icon.svg';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -13,7 +13,7 @@ import { FixedSizeList } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import { identitiesListLoad } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityCollection, selectIdentityCountModel, selectIdentityFilter } from 'state/identities/identities.selectors';
-import { OrderDirections, OrderDirectionsNum, tableColumnsData } from 'models/Identity.model';
+import { OrderDirections, OrderDirectionsNum, tableColumnsData, verificationsFilterStructure } from 'models/Identity.model';
 import { ITEMS_PER_PAGE } from 'models/Pagination.model';
 import { QATags } from 'models/QA.model';
 import { appPalette } from 'apps/theme';
@@ -110,7 +110,18 @@ export function VerificationTable() {
               <TableRow>
                 <TableCell className={classes.itemEmpty} colSpan={6} align="center">
                   {countModel.isLoaded && countModel.value === 0
-                    ? (<NoVerifications />)
+                    ? (
+                      <Placeholder
+                        icon={<NoVerificationsIcon />}
+                        title={intl.formatMessage({ id: 'verificationDemo.title' })}
+                        text={intl.formatMessage({
+                          id: 'verificationDemo.subtitle',
+                        }, {
+                          breakingLine: <br />,
+                        })}
+                        mb="10vh"
+                      />
+                    )
                     : identityCollection.isLoading
                       ? <Box py={2.5}><PageLoader size={50} color={appPalette.black50} /></Box>
                       : (

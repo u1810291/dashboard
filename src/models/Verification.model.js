@@ -1,53 +1,11 @@
 import { titleize } from 'inflection';
 import { isObjectEmpty } from 'lib/object';
 import { FieldTypes } from 'models/Field.model';
+import { getDocumentExtras } from 'models/Document.model';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
-import { DocumentConfig, DocumentCountrySanctionList, DocumentSidesOrder, isDocumentWithTwoSides } from './Document.model';
 import { getIdentityShortId, getIpCheckStep, VerificationStepTypes } from './Identity.model';
 import { isChangeableStatus } from './Status.model';
-import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getDocumentStatus, getStepsExtra } from './Step.model';
-
-export function getVerificationDocumentExtras(verification, countries) {
-  const documents = verification.documents || [];
-
-  return documents.map((document) => {
-    const steps = getStepsExtra(document.steps, DocumentConfig[document.type], verification, countries, document);
-    const documentReadingStep = steps.find((step) => step.id === DocumentStepTypes.DocumentReading);
-
-    const fields = Object.entries(document.fields || {}).map(([id, { value, required }]) => ({
-      id,
-      value,
-      required,
-    }));
-
-    const govChecksSteps = steps.filter((step) => CountrySpecificChecks.includes(step.id));
-    const securityCheckSteps = steps.filter((step) => DocumentSecuritySteps.includes(step.id));
-    const documentFailedCheckSteps = steps.filter((step) => DocumentFrontendSteps.includes(step.id)); // it is FRONTEND logic,
-    const premiumAmlWatchlistsStep = steps.find((step) => DocumentStepTypes.PremiumAmlWatchlistsCheck === step.id);
-
-    const allSteps = [...documentFailedCheckSteps, ...securityCheckSteps, ...govChecksSteps];
-    if (premiumAmlWatchlistsStep) {
-      allSteps.push(premiumAmlWatchlistsStep);
-    }
-    return {
-      ...document,
-      steps,
-      fields,
-      documentReadingStep,
-      securityCheckSteps,
-      govChecksSteps,
-      documentFailedCheckSteps,
-      premiumAmlWatchlistsStep,
-      documentStatus: getDocumentStatus(allSteps),
-      areTwoSides: isDocumentWithTwoSides(document.type),
-      documentSides: DocumentSidesOrder,
-      onReading: documentReadingStep?.status < 200,
-      photos: document.photos || [],
-      checks: steps.filter((step) => DocumentSecuritySteps.includes(step.id)),
-      isSanctioned: DocumentCountrySanctionList.includes(document.country),
-    };
-  });
-}
+import { DocumentStepTypes, getStepExtra, StepTypes } from './Step.model';
 
 export function getVerificationExtras(verification, countries) {
   if (!verification || isObjectEmpty(verification)) {
@@ -55,7 +13,8 @@ export function getVerificationExtras(verification, countries) {
   }
 
   const steps = verification.steps || [];
-  const documents = getVerificationDocumentExtras(verification, countries);
+  const proofOfOwnershipStep = getStepExtra(steps.find((item) => item.id === StepTypes.ProofOfOwnership));
+  const documents = getDocumentExtras(verification, countries, proofOfOwnershipStep);
   const fullName = verification?.summary?.identity?.fullName || '';
 
   let duplicateUserDetectionStep;

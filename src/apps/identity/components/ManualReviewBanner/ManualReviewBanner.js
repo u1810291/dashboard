@@ -1,17 +1,18 @@
 import { Button, Grid, Paper, Typography } from '@material-ui/core';
-import { verificationsFilterInitialState, verificationsFilterStructure } from 'apps/filter';
 import { useFilterParser } from 'apps/filter/hooks/filterURL.hook';
 import classnames from 'classnames';
 import { QATags } from 'models/QA.model';
+import { Routes } from 'models/Router.model';
 import { IdentityStatuses } from 'models/Status.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { identitiesManualReviewCountLoad } from 'state/identities/identities.actions';
 import { selectIdentityFilter, selectManualReviewCountModel } from 'state/identities/identities.selectors';
-import { Routes } from 'models/Router.model';
-import { useHistory } from 'react-router-dom';
+import { verificationsFilterInitialState, verificationsFilterStructure } from 'models/Identity.model';
+
 import { useStyles } from './ManualReviewBanner.styles';
 
 export const ManualReviewBanner = () => {

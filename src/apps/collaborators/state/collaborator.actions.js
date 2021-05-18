@@ -5,6 +5,19 @@ import { CollaboratorActionGroups } from './collaborator.store';
 
 export const types = {
   ...createTypesSequence(CollaboratorActionGroups.CollaboratorList),
+  ...createTypesSequence(CollaboratorActionGroups.Collaborator),
+};
+
+export const collaboratorLoad = (id) => async (dispatch, getState) => {
+  dispatch({ type: types.COLLABORATOR_REQUEST });
+  try {
+    const merchantId = selectMerchantId(getState());
+    const { data } = await api.getCollaborator(merchantId, id);
+    dispatch({ type: types.COLLABORATOR_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: types.COLLABORATOR_FAILURE, error });
+    throw error;
+  }
 };
 
 export const collaboratorListLoad = () => async (dispatch, getState) => {
@@ -20,13 +33,15 @@ export const collaboratorListLoad = () => async (dispatch, getState) => {
 };
 
 export const collaboratorUpdate = (id, updateData) => async (dispatch, getState) => {
-  dispatch({ type: types.COLLABORATOR_LIST_UPDATING });
+  dispatch({ type: types.COLLABORATOR_UPDATING });
   try {
     const merchantId = selectMerchantId(getState());
     const { data } = await api.patchCollaborators(merchantId, id, updateData);
-    dispatch({ type: types.COLLABORATOR_LIST_SUCCESS, isReset: true, payload: data });
+    const currentUpdatedCollaborator = data.find((collaborator) => collaborator?.user?.id === id);
+
+    dispatch({ type: types.COLLABORATOR_SUCCESS, payload: currentUpdatedCollaborator });
   } catch (error) {
-    dispatch({ type: types.COLLABORATOR_LIST_FAILURE, error });
+    dispatch({ type: types.COLLABORATOR_FAILURE, error });
     throw error;
   }
 };

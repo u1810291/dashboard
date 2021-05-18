@@ -5,7 +5,7 @@ import { Page404 } from 'apps/layout';
 import { getDownloadableFileName } from 'models/Identity.model';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { documentUpdate } from 'state/identities/identities.actions';
+import { verificationDocumentUpdate } from 'state/identities/identities.actions';
 import { selectReviewVerificationWithExtras } from 'state/verification/verification.selectors';
 import { LivenessStep } from '../../../biometrics';
 import { VerificationAdditionalChecks } from '../../../checks/components/VerificationAdditionalChecks/VerificationAdditionalChecks';
@@ -18,11 +18,11 @@ export function Verification({ identity }) {
   const verification = useSelector(selectReviewVerificationWithExtras);
   const downloadableFileName = getDownloadableFileName(verification);
 
-  const handleDocumentUpdate = useCallback((documentId) => async (normalizedData) => {
-    if (documentId && normalizedData) {
-      await dispatch(documentUpdate(documentId, normalizedData));
+  const handleDocumentUpdate = useCallback((documentType) => async (normalizedData) => {
+    if (documentType && normalizedData) {
+      await dispatch(verificationDocumentUpdate(verification.id, documentType, normalizedData));
     }
-  }, [dispatch]);
+  }, [dispatch, verification.id]);
 
   if (!(verification)) {
     return <Page404 />;
@@ -44,7 +44,7 @@ export function Verification({ identity }) {
       {verification.documents.map((doc, index) => (
         <Grid item key={doc.type}>
           <DocumentStep
-            onDocumentUpdate={handleDocumentUpdate(identity.documents[index]?.source?.id)}
+            onDocumentUpdate={handleDocumentUpdate(verification.documents[index]?.type)}
             identity={identity}
             document={doc}
             documentIndex={index}
