@@ -60,23 +60,24 @@ export const useStyles = makeStyles((theme) => ({
       overflow: 'hidden',
     },
   },
-  firstName: {
-    width: 30,
-    height: 30,
-    fontWeight: 'bold',
-    borderRadius: '50%',
-    border: `1px solid ${theme.palette.common.lightblue}`,
-    overflow: 'hidden',
-    [theme.breakpoints.down('sm')]: {
-      marginTop: 5,
-    },
-  },
   fullName: {
     fontWeight: 'bold',
     color: theme.palette.text.secondary,
   },
   email: {
     color: theme.palette.text.main,
+  },
+  profileButton: {
+    minWidth: 120,
+    padding: 4,
+    borderColor: theme.palette.common.lightblue,
+    color: theme.palette.common.lightblue,
+    '&:hover, &:focus': {
+      backgroundColor: theme.palette.common.whiteblue,
+    },
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 6,
+    },
   },
   tableButton: {
     marginLeft: 20,

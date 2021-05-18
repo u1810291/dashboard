@@ -10,15 +10,15 @@ import { QATags } from 'models/QA.model';
 import React, { useMemo, useState } from 'react';
 import { FiEdit3 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
-import { sendWebhook } from 'state/webhooks/webhooks.actions';
 import { FieldsWithDate, EditedDateEmptyField } from 'models/Field.model';
+import { sendWebhook } from 'state/webhooks/webhooks.actions';
+import { useDispatch } from 'react-redux';
 import { useStyles } from './DocumentReadingStep.styles';
 
-export function DocumentReadingStep({ documentType, step, fields = [], identityId, isEditable, onReading, onDocumentUpdate }) {
+export function DocumentReadingStep({ documentType, step, fields = [], isEditable, onReading, onDocumentUpdate, identityId }) {
   const intl = useIntl();
-  const classes = useStyles();
   const dispatch = useDispatch();
+  const classes = useStyles();
   const [isEditingMode, setIsEditingMode] = useState(false);
   const firstFieldWithNoDataExtracted = useMemo(() => {
     const fieldIndex = fields.findIndex(({ value }) => value === null);
@@ -81,7 +81,9 @@ export function DocumentReadingStep({ documentType, step, fields = [], identityI
             if (onDocumentUpdate) {
               await onDocumentUpdate(normalizedData, documentType);
             }
-            await dispatch(sendWebhook(identityId));
+            if (identityId) {
+              await dispatch(sendWebhook(identityId));
+            }
             notification.success(intl.formatMessage({ id: 'identities.details.webhook.success' }));
             setIsEditingMode(false);
           } catch (e) {

@@ -27,6 +27,11 @@ const SettingsLazy = lazy(async () => {
   return { default: Settings };
 });
 
+const AgentHistoryLazy = lazy(async () => {
+  const { AgentHistory } = await import('apps/agentHistory');
+  return { default: AgentHistory };
+});
+
 const VerificationFlowsLazy = lazy(async () => {
   const { VerificationFlows } = await import('apps/flows');
   return { default: VerificationFlows };
@@ -45,6 +50,7 @@ export function DashboardRouter() {
           <OwnerRoute path={Routes.analytics.root} component={AnalyticsContainerLazy} />
           <OwnerRoute exact path={Routes.flows.root} component={VerificationFlowsLazy} />
           <OwnerRoute path={Routes.flows.details} component={ProductLazy} />
+          <OwnerRoute path={Routes.collaborators.agentProfile.details} component={AgentHistoryLazy} />
           <Route path="*" component={Page404} />
         </MerchantGuard>
       </Switch>

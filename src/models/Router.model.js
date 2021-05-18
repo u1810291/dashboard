@@ -12,13 +12,25 @@ export const Routes = {
     root: '/identities',
     details: '/identities/:id',
     demo: '/identities/demo/:demoId',
+    history: {
+      root: '/history',
+      details: '/identities/:id/history',
+    },
   },
   flows: {
     root: '/flows',
     details: '/flows/:id',
   },
   dev: { root: '/dev' },
-  settings: { root: '/settings' },
+  settings: {
+    root: '/settings',
+  },
+  collaborators: {
+    agentProfile: {
+      root: '/agentHistory',
+      details: '/agentHistory/:id',
+    },
+  },
   info: { root: '/info' },
   review: { root: '/review' },
 };

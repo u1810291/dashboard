@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
-import { ByFlows, ByStatuses, OpenFilter, verificationsClearFilter, verificationsFilterInitialState, verificationsFilterStructure } from 'apps/filter';
-import { useFilterParser } from 'apps/filter/hooks/filterURL.hook';
+import { ByFlows, ByStatuses, OpenFilter, useFilterParser } from 'apps/filter';
 import { parseFromURL } from 'models/Filter.model';
+import { verificationsCleanFilter, verificationsFilterInitialState, verificationsFilterStructure } from 'models/Identity.model';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
 import React, { useEffect } from 'react';
@@ -14,9 +14,9 @@ import { DownloadCSV } from '../../components/DownloadCSV/DownloadCSV';
 import { ManualReviewBanner } from '../../components/ManualReviewBanner/ManualReviewBanner';
 import { VerificationSearch } from '../../components/VerificationSearch/VerificationSearch';
 import { VerificationTable } from '../../components/VerificationTable/VerificationTable';
-import { useStyles } from './VerificationHistory.styles';
+import { useStyles } from './VerificationList.styles';
 
-export function VerificationHistory() {
+export function VerificationList() {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
@@ -64,7 +64,7 @@ export function VerificationHistory() {
                   selectFilter={identityFilter}
                   loadPreliminaryCountAction={identitiesPreliminaryCountLoad}
                   preliminaryCountSelector={selectPreliminaryFilteredCountModel}
-                  onClearFilter={verificationsClearFilter}
+                  cleanFilter={verificationsCleanFilter}
                   qa={QATags.VerificationList.Filter}
                 >
                   <ByFlows />

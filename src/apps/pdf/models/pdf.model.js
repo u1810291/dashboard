@@ -1,4 +1,4 @@
-import { IdentityStatuses } from '../../../models/Status.model';
+import { IdentityStatuses } from 'models/Status.model';
 import { colors } from '../PDF.theme.common';
 
 export const IdentityStatusesColorMap = [
@@ -34,3 +34,5 @@ export const IdentityStatusesColorMap = [
     textColor: '',
   },
 ];
+
+export const DOWNLOAD_PDF_TYPE = 'downloadPdf';

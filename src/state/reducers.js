@@ -1,3 +1,5 @@
+import agentHistory from 'apps/agentHistory/state/agentHistory.reducer';
+import { AGENT_HISTORY_STORE_KEY } from 'apps/agentHistory/state/agentHistory.store';
 import metrics from 'apps/analytics/state/metrics.reducer';
 import { METRICS_STORE_KEY } from 'apps/analytics/state/metrics.store';
 import auth from 'apps/auth/state/auth.reducer';
@@ -12,6 +14,8 @@ import { reviewModeReducer } from 'apps/reviewMode/state/reviewMode.reducers';
 import { REVIEW_MODE_KEY } from 'apps/reviewMode/state/reviewMode.store';
 import user from 'apps/user/state/user.reducer';
 import { USER_STORE_KEY } from 'apps/user/state/user.store';
+import verificationHistory from 'apps/verificationHistory/state/verificationHistory.reducer';
+import { VERIFICATION_HISTORY_STORE_KEY } from 'apps/verificationHistory/state/verificationHistory.store';
 import { combineReducers } from 'redux';
 import countries from 'state/countries/countries.reducer';
 import { COUNTRIES_STORE_KEY } from 'state/countries/countries.store';
@@ -32,6 +36,8 @@ export const appReducers = combineReducers({
   [MERCHANT_STORE_KEY]: merchant,
   [WEBHOOKS_STORE_KEY]: webhooks,
   [METRICS_STORE_KEY]: metrics,
+  [VERIFICATION_HISTORY_STORE_KEY]: verificationHistory,
+  [AGENT_HISTORY_STORE_KEY]: agentHistory,
   [OVERLAY_STORE_KEY]: overlay,
   [REVIEW_MODE_KEY]: reviewModeReducer,
 });

@@ -174,7 +174,7 @@ export function identifyRange(startDate, endDate, registerDate, allRanges) {
   return foundRange?.id || null;
 }
 
-export function filterParse({ search = '', status = '', flowIds = '', countries = '', asMerchantId, offset, limit, sortOrder, sortBy, ...values }, filterStructure) {
+export function filterParse({ search = '', status = '', flowIds = '', countries = '', updatedBy = '', eventType = '', asMerchantId, offset, limit, pageSize, sortOrder, sortBy, ...values }, filterStructure) {
   const stringTypeGuard = (value) => (isString(value) ? compact(value.split(',')) : []);
 
   return {
@@ -184,8 +184,11 @@ export function filterParse({ search = '', status = '', flowIds = '', countries 
     ...(filterStructure.countries && { countries: stringTypeGuard(countries) }),
     ...(filterStructure.offset && { offset: +offset || 0 }),
     ...(filterStructure.limit && { limit: ITEMS_PER_PAGE }),
+    ...(filterStructure.pageSize && { pageSize: ITEMS_PER_PAGE }),
     ...(filterStructure.sortOrder && { sortOrder: sortOrder || null }),
     ...(filterStructure.sortBy && { sortBy: sortBy || null }),
+    ...(filterStructure.updatedBy && { updatedBy: stringTypeGuard(updatedBy) }),
+    ...(filterStructure.eventType && { eventType: stringTypeGuard(eventType) }),
     ...(filterStructure['dateCreated[start]'] && {
       'dateCreated[start]': values['dateCreated[start]']
         ? moment(values['dateCreated[start]'])
@@ -203,10 +206,12 @@ export function filterParse({ search = '', status = '', flowIds = '', countries 
 
 // json -> url search object
 export function filterSerialize(filter) {
-  const { status, flowIds, countries, ...serialized } = filter;
+  const { status, flowIds, countries, updatedBy, eventType, ...serialized } = filter;
   serialized.status = status?.join(',');
   serialized.flowIds = flowIds?.join(',');
   serialized.countries = countries?.join(',');
+  serialized.updatedBy = updatedBy?.join(',');
+  serialized.eventType = eventType?.join(',');
 
   if (serialized['dateCreated[start]']) {
     serialized['dateCreated[start]'] = serialized['dateCreated[start]'].toJSON();
@@ -226,3 +231,18 @@ export function parseFromURL(url, filterStructure) {
 export function getFilterDatesIsValid(filter) {
   return filter['dateCreated[start]'] && filter['dateCreated[end]'];
 }
+
+export const initDateFilter = {
+  'dateCreated[start]': null,
+  'dateCreated[end]': null,
+};
+
+export const RangeParts = {
+  Start: 'start',
+  End: 'end',
+};
+
+export const RangeSlices = {
+  From: 'from',
+  To: 'to',
+};

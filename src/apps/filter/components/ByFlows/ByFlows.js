@@ -1,6 +1,9 @@
 import { Box, Checkbox, FormControl, FormControlLabel, Grid, Paper, Typography } from '@material-ui/core';
+import { useFilterCheckbox } from 'apps/filter/hooks/filterBy.hook';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
-import React, { useCallback } from 'react';
+import { verificationsFilterStructure } from 'models/Identity.model';
+import { QATags } from 'models/QA.model';
+import React from 'react';
 import { FiBox } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -8,27 +11,12 @@ import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { ReactComponent as CheckboxOff } from '../../../../assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from '../../../../assets/icon-checkbox-on.svg';
 import { useStyles } from './ByFlows.styles';
-import { QATags } from '../../../../models/QA.model';
 
-export const ByFlows = ({ bufferedFilter: { flowIds }, onHandleFilterChange }) => {
+export const ByFlows = ({ bufferedFilter: { flowIds }, onFilterChange }) => {
   const intl = useIntl();
   const classes = useStyles();
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
-
-  const handleSelectFlow = useCallback(({ target: { value } }) => {
-    const newFlowIds = [...flowIds];
-
-    if (flowIds.includes(value)) {
-      const filtered = newFlowIds.filter((item) => item !== value);
-      onHandleFilterChange({ flowIds: filtered });
-      return;
-    }
-
-    newFlowIds.push(value);
-    onHandleFilterChange({ flowIds: value === '' ? [] : newFlowIds });
-  }, [flowIds, onHandleFilterChange]);
-
-  const checkIsSelected = useCallback((id) => flowIds?.includes(id), [flowIds]);
+  const [handleSelectFlow, checkIsSelected] = useFilterCheckbox(verificationsFilterStructure.flowIds, flowIds, onFilterChange);
 
   return (
     <Grid item xs={12} md={6}>

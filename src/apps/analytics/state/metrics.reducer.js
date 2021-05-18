@@ -1,7 +1,7 @@
 import { metricsActionTypes } from 'apps/analytics/state/metrics.actions';
 import { metricsActionGroups, SliceNames } from 'apps/analytics/state/metrics.store';
-import { analyticsClearFilter } from 'apps/filter';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
+import { analyticsCleanFilter } from 'models/Analytics.model';
 import { createReducer } from 'state/utils';
 
 const initialState = {
@@ -54,7 +54,7 @@ const initialState = {
     browsers: [],
   }),
   [SliceNames.IpCheckStatistics]: LoadableAdapter.createState([]),
-  filter: analyticsClearFilter,
+  filter: analyticsCleanFilter,
 };
 
 export default createReducer(initialState, {

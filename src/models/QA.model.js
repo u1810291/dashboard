@@ -63,6 +63,8 @@ export const QATags = {
     },
     byFlow: 'filter-block-by-flow',
     byStatus: 'filter-block-by-status',
+    byAgents: 'filter-block-by-agents',
+    byActionTypes: 'filter-block-by-action-types',
     ClearAllButton: 'filter-button-clear-all',
     ApplyFilterButton: 'filter-button-apply',
   },
@@ -77,6 +79,7 @@ export const QATags = {
     EmailInput: 'collaborators-input-email',
     SendButton: 'collaborators-button-send',
     DeleteMemberButton: 'collaborators-button-delete-member',
+    TeamTable: 'collaborators-team-table',
     Role: {
       Agent: 'collaborators-radiobutton-role-agent',
       Admin: 'collaborators-radiobutton-role-admin',
@@ -98,6 +101,14 @@ export const QATags = {
     DownloadCsv: 'verificationList-button-downloadCsv',
     Search: 'verificationList-input-search',
     Table: 'verificationList-table',
+  },
+
+  VerificationHistory: {
+    Buttons: {
+      Filter: 'verificationHistory-button-openFilter',
+      BackToList: 'verificationHistory-button-back',
+    },
+    Table: 'verificationHistory-table',
   },
 
   Product: {
@@ -171,6 +182,7 @@ export const QATags = {
       Data: 'verification-button-data',
       BackToList: 'verification-button-backToList',
       Delete: 'verification-button-delete',
+      History: 'verification-button-history',
     },
     Data: {
       Json: {
@@ -220,5 +232,12 @@ export const QATags = {
         Cancel: 'review-page-exitModal-button-cancel',
       },
     },
+  },
+
+  AgentHistory: {
+    FilterButton: 'agent-history-button-open-filter',
+    GoBackButton: 'agent-history-button-go-back',
+    HistoryTable: 'agent-history-table',
+    AgentRoleSelect: 'agent-history-select-role',
   },
 };
