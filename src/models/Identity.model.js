@@ -10,6 +10,7 @@ import { getIpCheckUrl } from './IpCheck.model';
 import { Routes } from './Router.model';
 import { isChangeableStatus } from './Status.model';
 import { DocumentStepTypes, getStepExtra, StepTypes, VerificationPatternTypes } from './Step.model';
+import { getPhoneValidationExtras } from '../apps/PhoneValidation/models/PhoneValidation.model';
 
 export const VerificationStepTypes = {
   AgeValidation: 'age-check',
@@ -114,6 +115,7 @@ export function getIdentityExtras(identity, countries) {
     duplicateUserDetectionStep,
     ageCheck,
     premiumAmlWatchlistsMonitoringStep,
+    phoneValidation: getPhoneValidationExtras(steps.find((item) => item.id === VerificationPatternTypes.PhoneOwnershipValidation)),
     digitalSignature: get(identity, '_embedded.digitalSignature'),
     deviceFingerprint: get(identity, '_embedded.verification.deviceFingerprint'),
   };

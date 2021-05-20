@@ -48,6 +48,7 @@ export function IdentityDocumentPDF({ identity, nom151FileContent }) {
           <VerificationAdditionalChecksPDF
             duplicateUserDetectionStep={identity.duplicateUserDetectionStep}
             ageCheck={identity.ageCheck}
+            phoneValidation={identity.phoneValidation}
           />
         </View>
         {/* Metadata */}

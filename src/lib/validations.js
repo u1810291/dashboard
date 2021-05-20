@@ -57,3 +57,10 @@ export function validationHandler(error, intl, setError) {
     setError(capitalize(intl.formatMessage({ id: 'unknownError' })));
   }
 }
+
+export function validateMaxLength(name = '', limit) {
+  if (name.length > limit) {
+    return 'validations.tooLong';
+  }
+  return null;
+}
