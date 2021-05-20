@@ -23,6 +23,7 @@ export const FieldDatePatterns = [
 
 export const FieldBooleanPatterns = [
   'deceased',
+  'isphoneverified',
 ];
 
 export const FieldMatchObjectPatterns = [
@@ -61,7 +62,10 @@ export function useFormattedValue(label, value) {
   }
 
   if (includesPattern(label, FieldBooleanPatterns)) {
-    return intl.formatMessage({ id: value ? 'yes' : 'no' });
+    return intl.formatMessage({
+      id: value ? `identity.field.${label}.positive` : `identity.field.${label}.negative`,
+      defaultMessage: intl.formatMessage({ id: value ? 'yes' : 'no' }),
+    });
   }
 
   return formatValue(label, value);

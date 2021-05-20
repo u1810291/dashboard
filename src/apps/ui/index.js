@@ -17,6 +17,7 @@ export * from './components/CheckControlButton/CheckControlButton';
 export * from './components/CheckBarExpandableSummary/CheckBarExpandableSummary';
 export * from './components/SkeletonLoader/SkeletonLoader';
 export * from './components/ZoomableImage/ZoomableImage';
+export * from './components/TextFieldName/TextFieldName';
 export * from './components/TextFieldPassword/TextFieldPassword';
 export * from './components/HistoryDataChanged/HistoryDataChanged';
 export * from './components/HistoryFileDownloaded/HistoryFileDownloaded';

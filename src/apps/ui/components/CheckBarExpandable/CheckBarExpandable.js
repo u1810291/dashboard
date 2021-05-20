@@ -24,7 +24,7 @@ export function CheckBarExpandable({ step, children, title }) {
   const [expandIcon, setExpandIcon] = useState(null);
   const { id, error } = step;
   const [expanded, setExpanded] = useState('');
-  const statusCode = getStepStatus(step);
+  const statusCode = step.statusCode || getStepStatus(step);
   const isChecking = statusCode === StepStatus.Checking;
 
   useEffect(() => {

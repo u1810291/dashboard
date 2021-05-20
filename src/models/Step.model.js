@@ -12,6 +12,7 @@ export const StepTypes = {
   // TODO @dkchv: wtf?
   Voice: 'voice',
   LivenessVoice: 'voice+liveness',
+  PhoneOwnership: 'phone-ownership-validation',
 };
 
 export const VerificationPatternTypes = {
@@ -34,6 +35,7 @@ export const VerificationPatternTypes = {
   IpValidation: 'ip-validation',
   DuplicateUserValidation: 'duplicate-user-detection',
   ComplyAdvantageValidation: 'comply-advantage-validation',
+  PhoneOwnershipValidation: 'phone-ownership-validation',
   PremiumAmlWatchlistsCheck: 'premium-aml-watchlists-search-validation',
   DominicanJce: 'dominican-jce-validation',
   VenezuelanCne: 'venezuelan-cne-validation',
@@ -169,6 +171,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.PanamenianTribunalElectoral]: ['panamenianTribunalElectoral.notEnoughParams'],
   [DocumentStepTypes.DominicanJce]: ['dominicanJce.notEnoughParams'],
   [DocumentStepTypes.VenezuelanCne]: ['venezuelanCne.notEnoughParams'],
+  [StepTypes.PhoneOwnership]: ['phoneOwnership.notEnoughParams'],
 };
 
 export const LEGACY_ERROR = 'LegacyError';

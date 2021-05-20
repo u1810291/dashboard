@@ -6,22 +6,25 @@ import { Countries } from 'apps/countries';
 import { FacematchConfiguration } from 'apps/facematch';
 import { GdprSettings } from 'apps/gdpr';
 import { ImageValidationConfiguration } from 'apps/imageValidation';
+import { PhoneValidationConfiguration } from 'apps/PhoneValidation';
 import { Logo } from 'apps/logo';
 import { ButtonCollapsible } from 'apps/ui';
 import { ConfigureColor } from 'apps/WebSDKPreview';
 import classnames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiAlertOctagon, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiSlash, FiTrash, FiUser } from 'react-icons/fi';
+import { FiAlertOctagon, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiSlash, FiTrash, FiUser, FiSmartphone } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { MerchantTags } from 'models/Merchant.model';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
-import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
+import { selectCurrentFlow, selectMerchantTags } from 'state/merchant/merchant.selectors';
 
 export function Configuration() {
   const [active, setActive] = useState(0);
   const dispatch = useDispatch();
   const currentFlowModel = useSelector(selectCurrentFlow);
   const [flowSteps, setFlowSteps] = useState([]);
+  const tags = useSelector(selectMerchantTags);
 
   const updateConfiguration = useCallback((settings) => dispatch(merchantUpdateFlow(settings)), [dispatch]);
 
@@ -84,8 +87,15 @@ export function Configuration() {
         icon: <FiSlash />,
         body: <AgeCheckConfiguration />,
       },
+      {
+        id: 'phoneValidation',
+        title: 'Product.configuration.phoneValidation',
+        icon: <FiSmartphone />,
+        body: <PhoneValidationConfiguration />,
+        hidden: !tags.includes(MerchantTags.CanUsePhoneOwnershipValidation),
+      },
     ]);
-  }, [currentFlowModel, updateConfiguration]);
+  }, [currentFlowModel, updateConfiguration, tags]);
 
   return (
     <Box p={2}>
@@ -93,7 +103,7 @@ export function Configuration() {
         {/* menu */}
         <Grid item xs={false} md={5}>
           <Grid container spacing={1} direction="column">
-            {flowSteps.map((item, index) => (
+            {flowSteps.filter(({ hidden }) => !hidden).map((item, index) => (
               <Grid item key={item.id}>
                 <ButtonCollapsible
                   className={classnames({ active: index === active })}
