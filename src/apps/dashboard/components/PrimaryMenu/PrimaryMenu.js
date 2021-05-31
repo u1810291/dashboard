@@ -2,21 +2,22 @@ import { Menu } from 'apps/layout';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
 import React from 'react';
-import { FiBarChart2, FiCode, FiList, FiUserCheck } from 'react-icons/fi';
+import { FiCode, FiList, FiUserCheck } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 
 export function PrimaryMenu({ isOwner = false, ...props }) {
   const intl = useIntl();
 
   const entries = [
-    {
+    // TODO: enable when analytics will be fixed
+    /* {
       id: 'metrics',
       show: isOwner,
       to: Routes.analytics.root,
       label: intl.formatMessage({ id: 'dashboard.menu.metrics' }),
       icon: <FiBarChart2 />,
       qa: QATags.Menu.Metrics,
-    },
+    }, */
     {
       id: 'identities',
       to: Routes.list.root,
