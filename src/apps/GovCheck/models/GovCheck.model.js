@@ -22,7 +22,7 @@ export const GovCheckCountryList = {
   Mexico: 'mexico',
   Paraguay: 'paraguay',
   Peru: 'peru',
-  // Salvador: 'salvador',
+  Salvador: 'salvador',
   Panama: 'panama',
   Venezuela: 'venezuela',
 };
@@ -89,6 +89,10 @@ export const GovCheckConfiguration = [
       },
       {
         id: DocumentStepTypes.CostaRicanSocialSecurity,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.CostaRicanAtv,
         default: false,
       },
     ],
@@ -171,16 +175,15 @@ export const GovCheckConfiguration = [
       },
     ],
   },
-  // TODO: uncomment after we get fix for Salvador scraper
-  // {
-  //   country: GovCheckCountryList.Salvador,
-  //   checks: [
-  //     {
-  //       id: DocumentStepTypes.SalvadorianTse,
-  //       default: false,
-  //     },
-  //   ],
-  // },
+  {
+    country: GovCheckCountryList.Salvador,
+    checks: [
+      {
+        id: DocumentStepTypes.SalvadorianTse,
+        default: false,
+      },
+    ],
+  },
 ];
 
 export const govCheckDisplayOptions = {
@@ -229,6 +232,18 @@ export const govCheckDisplayOptions = {
     fullName: {},
     documentNumber: {
       inline: true,
+    },
+  },
+  [DocumentStepTypes.CostaRicanAtv]: {
+    fullName: {},
+    registeredTaxPayer: {},
+    dateOfRegistration: {},
+    documentNumber: {
+      inline: true,
+    },
+    hasDebts: {},
+    documentStatus: {
+      hidden: true,
     },
   },
   [DocumentStepTypes.CostaRicanTse]: {
