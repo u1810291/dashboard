@@ -7,7 +7,7 @@ import { useIntl } from 'react-intl';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { selectCollaborator } from 'apps/collaborators/state/collaborator.selectors';
 import { Placeholder } from 'apps/ui/components/Placeholder/Placeholder';
-import { ReactComponent as EmptyListIcon } from '../../assets/empty-list.svg';
+import { ReactComponent as EmptyListIcon } from 'assets/empty-list-round.svg';
 import { selectAgentHistoryFilter, selectAgentHistoryLoadedCount, selectAgentHistoryModel, selectAgentHistoryEventsList, selectAgentHistoryTotalCount } from '../../state/agentHistory.selectors';
 import { loadAgentHistory } from '../../state/agentHistory.actions';
 import { useStyles } from './AgentEventsTable.styles';

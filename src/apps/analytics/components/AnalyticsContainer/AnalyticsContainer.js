@@ -1,5 +1,5 @@
 import { Box, Container, Grid } from '@material-ui/core';
-import { selectFilter, selectStatistics, selectStatisticsByDate } from 'apps/analytics/state/metrics.selectors';
+import { selectFilter, selectStatisticsByDate, selectChartStatisticsModel, selectCountStatisticsModel } from 'apps/analytics/state/metrics.selectors';
 import { ByCountries, ByFlows, OpenFilter, useFilterParser } from 'apps/filter';
 import { DevicesStats } from 'apps/fingerPrint/components/DevicesStats/DevicesStats';
 import { AnalyticsMap } from 'apps/googleMap/components/AnalyticsMap/AnalyticsMap';
@@ -12,7 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { identitiesManualReviewCountLoad } from 'state/identities/identities.actions';
 import { selectManualReviewCountModel } from 'state/identities/identities.selectors';
-import { filterUpdate, loadStatistics } from 'apps/analytics/state/metrics.actions';
+import { filterUpdate, loadChartStatistics } from 'apps/analytics/state/metrics.actions';
+import { countStatisticsLoad } from '../../state/metrics.actions';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
 import { Chart } from '../Chart/Chart';
@@ -26,13 +27,14 @@ export function AnalyticsContainer() {
   const classes = useStyles();
   const location = useLocation();
   const dispatch = useDispatch();
-  const metricsFilter = useSelector(selectFilter);
   const [, addToUrl] = useFilterParser(analyticsFilterStructure);
-  const { isLoading, isLoaded } = useSelector(selectStatistics);
-  const byDate = useSelector(selectStatisticsByDate);
   const [flows, setFlows] = useState([DEFAULT_FLOW]);
   const [isFilterDatesValid, setIsFilterDatesValid] = useState(false);
   const manualReviewCountModel = useSelector(selectManualReviewCountModel);
+  const metricsFilter = useSelector(selectFilter);
+  const { isLoading, isLoaded } = useSelector(selectChartStatisticsModel);
+  const countStatisticsModel = useSelector(selectCountStatisticsModel);
+  const byDate = useSelector(selectStatisticsByDate);
 
   useEffect(() => {
     dispatch(identitiesManualReviewCountLoad());
@@ -48,7 +50,8 @@ export function AnalyticsContainer() {
     const resultFilter = getFilterDatesIsValid(parsedFilter) ? parsedFilter : { ...analyticsCleanFilter, 'dateCreated[start]': start, 'dateCreated[end]': end };
 
     dispatch(filterUpdate(resultFilter));
-    dispatch(loadStatistics(resultFilter));
+    dispatch(loadChartStatistics(resultFilter));
+    dispatch(countStatisticsLoad(resultFilter));
   }, [dispatch, location.search]);
 
   useEffect(() => {
@@ -57,7 +60,7 @@ export function AnalyticsContainer() {
 
   return (
     <Container maxWidth={false}>
-      {isFilterDatesValid ? (
+      {isFilterDatesValid && !countStatisticsModel.isLoading && countStatisticsModel.isLoaded ? (
         <Box pb={2} className={classes.wrapper}>
           <Box mb={2}>
             <Grid container alignItems="center">

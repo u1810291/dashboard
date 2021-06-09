@@ -4,7 +4,7 @@ import { useBeamerScript } from 'apps/beamer';
 import { Layout, PageError } from 'apps/layout';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { Routes } from 'models/Router.model';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ import { loadCountries, loadCountriesOnlyExisting } from 'state/countries/countr
 import { selectAllCountriesModel, selectCountriesOnlyExisting } from 'state/countries/countries.selectors';
 import { appLoad, merchantFlowsLoad, merchantLoad } from 'state/merchant/merchant.actions';
 import { selectClientIdModel, selectMerchantFlowsModel, selectMerchantModel } from 'state/merchant/merchant.selectors';
+import { reloadPage } from 'lib/window';
 import { DashboardLoader } from '../components/DashboardLoader/DashboardLoader';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
 import { Footer } from '../components/Footer/Footer';
@@ -104,15 +105,10 @@ export function Dashboard() {
   useBeamerScript();
   useFullStory();
 
-  const handleRetry = useCallback(() => {
-    // hard reload only will help here
-    window.location.reload();
-  }, []);
-
   if (isError) {
     return (
       <Layout menu={<DashboardMenu />}>
-        <PageError onRetry={handleRetry} />
+        <PageError onRetry={reloadPage} />
       </Layout>
     );
   }

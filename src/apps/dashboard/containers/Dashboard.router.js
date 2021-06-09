@@ -6,6 +6,7 @@ import { Routes } from 'models/Router.model';
 import React, { lazy, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { appPalette } from 'apps/theme';
+import { identityProfileRoutes } from 'apps/IdentityProfile/identityProfile.routes';
 
 const InfoPageLazy = lazy(async () => {
   const { InfoPage } = await import('apps/FAQ');
@@ -48,6 +49,7 @@ export function DashboardRouter() {
         <MerchantGuard>
           {identityRoutes}
           {forDevsRoutes}
+          {identityProfileRoutes}
           <OwnerRoute path={Routes.analytics.root} component={AnalyticsContainerLazy} />
           <OwnerRoute exact path={Routes.flows.root} component={VerificationFlowsLazy} />
           <OwnerRoute path={Routes.flows.details} component={ProductLazy} />

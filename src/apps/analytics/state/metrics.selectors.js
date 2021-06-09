@@ -1,5 +1,6 @@
 import { METRICS_STORE_KEY, SliceNames } from 'apps/analytics/state/metrics.store';
 import { createSelector } from 'reselect';
+import { selectModelValue } from 'lib/loadable.selectors';
 
 export const selectMetricsStore = (state) => state[METRICS_STORE_KEY];
 
@@ -8,36 +9,36 @@ export const selectFilter = createSelector(
   (store) => store[SliceNames.Filter],
 );
 
-export const selectMetrics = createSelector(
+export const selectChartStatisticsModel = createSelector(
   selectMetricsStore,
-  (store) => store[SliceNames.Metrics],
+  (store) => store[SliceNames.Chart],
 );
 
-export const selectStatistics = createSelector(
+export const selectCountStatisticsModel = createSelector(
   selectMetricsStore,
   (store) => store[SliceNames.Statistics],
 );
 
 export const selectStatisticsByDate = createSelector(
-  selectStatistics,
+  selectChartStatisticsModel,
   ({ value }) => value.byDate.map((item) => ({
     label: item.date,
     value: item.count,
   })));
 
 export const selectVerificationsCount = createSelector(
-  selectMetricsStore,
-  (store) => store[SliceNames.VerificationsCount],
+  selectCountStatisticsModel,
+  selectModelValue((countStatistics) => countStatistics?.statusStat),
 );
 
 export const selectDocumentsCount = createSelector(
-  selectMetricsStore,
-  (store) => store[SliceNames.DocumentsCount],
+  selectCountStatisticsModel,
+  selectModelValue((countStatistics) => countStatistics?.documentTypeStat),
 );
 
 export const selectDevicesStatistics = createSelector(
-  selectMetricsStore,
-  (store) => store[SliceNames.DevicesStatistics],
+  selectCountStatisticsModel,
+  selectModelValue((countStatistics) => countStatistics?.deviceAndBrowserStat),
 );
 
 export const selectIpCheckStatistics = createSelector(

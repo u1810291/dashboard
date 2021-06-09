@@ -1,6 +1,6 @@
 import { Box, Button, Grid } from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { selectIpCheckStatistics, selectStatistics } from 'apps/analytics/state/metrics.selectors';
+import { selectIpCheckStatistics, selectChartStatisticsModel } from 'apps/analytics/state/metrics.selectors';
 import { appPalette } from 'apps/theme/app.palette';
 import cn from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -17,7 +17,7 @@ export function CountriesControl({ geocoder, map, setIsCountriesControlOpen, isC
   const classes = useStyles();
   const markersRef = useRef();
   const countriesList = useSelector(selectCountriesList);
-  const { value: statistics } = useSelector(selectStatistics);
+  const { value: statistics } = useSelector(selectChartStatisticsModel);
   const [countries, setCountries] = useState([]);
   const [activeCountryId, setActiveCountryId] = useState(null);
   const [areCitiesVisible, setAreCitiesVisible] = useState(true);

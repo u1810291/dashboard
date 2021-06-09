@@ -10,6 +10,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { goToStartPage } from 'lib/url';
 import { ReviewModeRouter } from '../../ReviewMode.router';
 import { reviewAwaitingCountLoad, verificationLoad } from '../../state/reviewMode.actions';
 import { ReviewModeLayout } from '../ReviewModeLayout/ReviewModeLayout';
@@ -75,7 +76,7 @@ export function ReviewMode() {
   if (isError) {
     return (
       <Layout menu={<DashboardMenu />}>
-        <PageError />
+        <PageError onRetry={goToStartPage} />
       </Layout>
     );
   }

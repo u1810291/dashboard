@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import { OwnerRoute } from 'apps/merchant';
 import { Route } from 'react-router-dom';
-import { Routes } from '../../models/Router.model';
+import { Routes } from 'models/Router.model';
 
 const VerificationListLazy = lazy(async () => {
   const { VerificationList } = await import('./containers/VerificationList/VerificationList');

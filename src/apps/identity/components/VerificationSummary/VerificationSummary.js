@@ -9,10 +9,10 @@ import { getStatusById, IdentityStatuses } from 'models/Status.model';
 import React, { useCallback, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { verificationStatusUpdate } from 'state/identities/identities.actions';
-import { selectReviewVerificationWithExtras } from 'state/verification/verification.selectors';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
-import { StatusSelector } from '../StatusSelector/StatusSelector';
+import { verificationStatusUpdate } from 'apps/verification/state/verification.actions';
+import { selectReviewVerificationWithExtras } from 'apps/verification/state/verification.selectors';
+import { StatusSelector } from 'apps/verification';
 import { VerificationDate } from '../VerificationDate/VerificationDate';
 import { VerificationDocument } from '../VerificationDocument/VerificationDocument';
 import { VerificationFlow } from '../VerificationFlow/VerificationFlow';
@@ -97,6 +97,7 @@ export function VerificationSummary({ identity }) {
                 value={status}
                 isOpen={isOpen}
                 onSelect={handleStatusChange}
+                header={intl.formatMessage({ id: 'statusSelect.status' })}
               />
             </Grid>
             <Grid item xs={12} lg={4}>

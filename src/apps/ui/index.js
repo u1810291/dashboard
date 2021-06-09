@@ -24,12 +24,17 @@ export * from './components/HistoryFileDownloaded/HistoryFileDownloaded';
 export * from './components/HistoryGdprDeleted/HistoryGdprDeleted';
 export * from './components/HistoryStatusChanged/HistoryStatusChanged';
 export * from './components/UserRoundAvatar/UserRoundAvatar';
-export * from './components/HeaderMenuButton/HeaderMenuButton.styles';
+export * from './components/ButtonHeaderMenu/ButtonHeaderMenu';
 export * from './components/AgentHistoryChangesSwitch/AgentHistoryChangesSwitch';
 export * from './components/VerificationHistoryChangesSwitch/VerificationHistoryChangesSwitch';
 export * from './components/HistoryManualReview/HistoryManualReview';
 export * from './components/AgentActionInfo/AgentActionInfo';
 export * from './components/DateInputField/DateInputField';
+export * from './components/RoundProfilePicture/RoundProfilePicture';
+export * from './components/EditableInput/EditableInput';
+export * from './components/VerificationItem/VerificationItem';
+export * from './components/Placeholder/Placeholder';
+export * from './components/StatusBadge/StatusBadge';
 
 export * from './models/Warning.model';
 export * from './models/SyntaxHighlighter.model';

@@ -5,10 +5,10 @@ import { isObjectEmpty } from 'lib/object';
 import { getDocumentExtras } from 'models/Document.model';
 import { initDateFilter } from 'models/Filter.model';
 import { ITEMS_PER_PAGE } from 'models/Pagination.model';
+import { isChangeableStatus } from 'models/Status.model';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getIpCheckUrl } from './IpCheck.model';
 import { Routes } from './Router.model';
-import { isChangeableStatus } from './Status.model';
 import { DocumentStepTypes, getStepExtra, StepTypes, VerificationPatternTypes } from './Step.model';
 import { getPhoneValidationExtras } from '../apps/PhoneValidation/models/PhoneValidation.model';
 
@@ -147,6 +147,25 @@ export async function getNom151FileContent(digitalSignatureData = {}) {
     fileContent = digitalSignatureData.publicUrl;
   }
   return fileContent;
+}
+
+export function groupVerificationsByFlow(verifications) {
+  if (!Array.isArray(verifications)) {
+    return [];
+  }
+
+  return verifications.reduce((byFlow, verification) => {
+    const flowId = verification?.flow?._id;
+    let newFlow = byFlow.find((item) => item?.id === flowId);
+
+    if (!newFlow) {
+      newFlow = { id: flowId, value: { ...verification?.flow, verifications: [] } };
+      byFlow.push(newFlow);
+    }
+
+    newFlow.value.verifications.push(verification);
+    return byFlow;
+  }, []);
 }
 
 export const verificationsFilterInitialState = {

@@ -13,6 +13,18 @@ export function downloadCSV(params) {
   });
 }
 
+export function getVerifications(identityId) {
+  return http.get(`/api/v1/dashboard/identity/${identityId}/verification`);
+}
+
+export function getOneVerification(identityId, verificationId) {
+  return http.get(`/api/v1/dashboard/identity/${identityId}/verification/${verificationId}`);
+}
+
+export function getIdentityProfile(identityId) {
+  return http.get(`/api/v1/dashboard/identity/${identityId}`);
+}
+
 export function getIdentitiesCount(params) {
   return http.get('/v1/identities/count', { params });
 }

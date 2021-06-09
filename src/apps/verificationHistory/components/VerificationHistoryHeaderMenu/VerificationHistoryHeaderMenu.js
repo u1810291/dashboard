@@ -1,6 +1,6 @@
 import { Grid } from '@material-ui/core';
 import { OpenFilter, useFilterParser, ByVerificationEventTypes, ByAgents } from 'apps/filter';
-import { HeaderMenuButton } from 'apps/ui';
+import { ButtonHeaderMenu } from 'apps/ui';
 import { selectVerificationHistoryFilter } from 'apps/verificationHistory/state/verificationHistory.selectors';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
@@ -25,14 +25,14 @@ export function VerificationHistoryHeaderMenu() {
         {/* Back to list */}
         <Grid item>
           <Link to={`${Routes.list.root}/${id}`}>
-            <HeaderMenuButton
+            <ButtonHeaderMenu
               variant="contained"
               startIcon={<FiChevronLeft />}
               className={classes.buttonBack}
               data-qa={QATags.VerificationHistory.Buttons.BackToList}
             >
               {intl.formatMessage({ id: 'VerificationHistory.button.backToVerification' })}
-            </HeaderMenuButton>
+            </ButtonHeaderMenu>
           </Link>
         </Grid>
         {/* identityFilter */}

@@ -1,6 +1,6 @@
 import { Box, IconButton, Tooltip, Typography } from '@material-ui/core';
 import { PriorityHigh } from '@material-ui/icons';
-import { useRole } from 'apps/collaborators/hooks/Role/Role.hook';
+import { useRole } from 'apps/collaborators';
 import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
 import { StatusLabel } from 'apps/identity/components/StatusLabel';
 import { VerificationFlowName } from 'apps/identity/components/VerificationFlowName/VerificationFlowName';

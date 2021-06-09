@@ -27,9 +27,11 @@ export const signIn = (credentials) => async (dispatch, getState) => {
     dispatch(merchantLoadSuccess(merchant));
     dispatch(userLoadSuccess(user));
     dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload: token });
-    if (currentLang !== selectLanguage(getState())) {
+
+    const updatedLang = selectLanguage(getState());
+    if (currentLang !== updatedLang) {
       dispatch(dashboardUpdate({
-        language: currentLang,
+        language: updatedLang,
       }));
     }
   } catch (error) {

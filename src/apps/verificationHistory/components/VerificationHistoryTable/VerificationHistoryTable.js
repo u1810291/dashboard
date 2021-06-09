@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
-import { ReactComponent as EmptyListIcon } from 'apps/agentHistory/assets/empty-list.svg';
+import { ReactComponent as EmptyListIcon } from 'assets/empty-list-round.svg';
 import { Placeholder } from 'apps/ui/components/Placeholder/Placeholder';
 import { useIntl } from 'react-intl';
 import { useStyles } from './VerificationHistoryTable.styles';

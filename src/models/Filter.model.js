@@ -151,7 +151,6 @@ export const allDatePickerRanges = [
 ];
 
 export const analyticsDatePickerRanges = [
-  FilterRangesByLocal[FilterRangeTypes.All],
   FilterRangesByLocal[FilterRangeTypes.Today],
   FilterRangesByLocal[FilterRangeTypes.Yesterday],
   FilterRangesByLocal[FilterRangeTypes.Last7Days],
