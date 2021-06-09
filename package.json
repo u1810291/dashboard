@@ -54,6 +54,7 @@
     "start:dev01": "env-cmd -f .env.dev01 react-scripts start",
     "start:dev02": "env-cmd -f .env.dev02 react-scripts start",
     "start:dev04": "env-cmd -f .env.dev04 react-scripts start",
+    "start:dev10": "env-cmd -f .env.dev10 react-scripts start",
     "start:production": "env-cmd -f .env.production react-scripts start",
     "build": "REACT_APP_VERSION=$npm_package_version react-scripts build",
     "build:dev01": "env-cmd -f .env.dev01 npm run build",

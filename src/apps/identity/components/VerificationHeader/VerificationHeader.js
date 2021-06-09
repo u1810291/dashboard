@@ -1,8 +1,8 @@
 import { Grid } from '@material-ui/core';
-import { useRole } from 'apps/collaborators/hooks/Role/Role.hook';
+import { useRole } from 'apps/collaborators';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import { useOverlay } from 'apps/overlay';
-import { HeaderMenuButton } from 'apps/ui';
+import { ButtonHeaderMenu } from 'apps/ui';
 import { downloadBlob } from 'lib/file';
 import { get } from 'lodash';
 import { QATags } from 'models/QA.model';
@@ -94,20 +94,20 @@ export function VerificationHeader({ identity, isDemo = false }) {
         {/* Back to list */}
         <Grid item>
           <Link to={goBackToListLink}>
-            <HeaderMenuButton
+            <ButtonHeaderMenu
               variant="contained"
               startIcon={<FiChevronLeft />}
               className={classes.buttonBack}
               data-qa={QATags.Verification.Buttons.BackToList}
             >
               {intl.formatMessage({ id: 'identities.details.backToList' })}
-            </HeaderMenuButton>
+            </ButtonHeaderMenu>
           </Link>
         </Grid>
         {/* Download pdf */}
         {!isDemo && (
           <Grid item className={classes.itemOffsetRight}>
-            <HeaderMenuButton
+            <ButtonHeaderMenu
               variant="contained"
               onClick={handlePDFDownload}
               startIcon={isPDFGenerating ? <FiLoader /> : <FiDownload />}
@@ -115,35 +115,35 @@ export function VerificationHeader({ identity, isDemo = false }) {
               data-qa={QATags.Verification.Buttons.DownloadPdf}
             >
               {intl.formatMessage({ id: 'verificationModal.downloadPDF' })}
-            </HeaderMenuButton>
+            </ButtonHeaderMenu>
           </Grid>
         )}
         {/* Show verification data */}
         <Grid item className={classes.itemOffsetLeft}>
-          <HeaderMenuButton
+          <ButtonHeaderMenu
             variant="contained"
             onClick={openWebhookModal}
             startIcon={<FiCode />}
             data-qa={QATags.Verification.Buttons.Data}
           >
             {intl.formatMessage({ id: 'verificationModal.webhookData' })}
-          </HeaderMenuButton>
+          </ButtonHeaderMenu>
         </Grid>
         {/* Verification history */}
         <Grid item className={classes.itemOffsetLeft}>
-          <HeaderMenuButton
+          <ButtonHeaderMenu
             variant="contained"
             onClick={openVerificationHistory}
             startIcon={<ScheduleIcon />}
             data-qa={QATags.Verification.Buttons.History}
           >
             {intl.formatMessage({ id: 'VerificationHistory.button.pageHistory' })}
-          </HeaderMenuButton>
+          </ButtonHeaderMenu>
         </Grid>
         {/* Delete Verification */}
         {!isDemo && role === CollaboratorRoles.ADMIN && (
           <Grid item className={classes.itemOffsetLeft}>
-            <HeaderMenuButton
+            <ButtonHeaderMenu
               variant="contained"
               onClick={handleDeleteIdentity}
               startIcon={isDeleting ? <FiLoader /> : <FiTrash2 />}
@@ -152,7 +152,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
               data-qa={QATags.Verification.Buttons.Delete}
             >
               {intl.formatMessage({ id: 'verificationModal.delete' })}
-            </HeaderMenuButton>
+            </ButtonHeaderMenu>
           </Grid>
         )}
       </Grid>

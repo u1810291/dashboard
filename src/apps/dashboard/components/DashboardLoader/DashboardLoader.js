@@ -1,4 +1,4 @@
-import { selectStatistics } from 'apps/analytics/state/metrics.selectors';
+import { selectChartStatisticsModel } from 'apps/analytics/state/metrics.selectors';
 import { selectCollaboratorCollection } from 'apps/collaborators/state/collaborator.selectors';
 import { QATags } from 'models/QA.model';
 import React from 'react';
@@ -11,7 +11,7 @@ import { Loader } from '../Loader/Loader';
  * @return {null}
  */
 export function DashboardLoader() {
-  const statistics = useSelector(selectStatistics); // analytic
+  const statistics = useSelector(selectChartStatisticsModel); // analytic
   const identityModel = useSelector(selectIdentityModelWithExtras); // verification detail
   const merchantFlowList = useSelector(selectMerchantFlowsModel); // verification flows
   const collaboratorList = useSelector(selectCollaboratorCollection); // team settings

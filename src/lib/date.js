@@ -10,6 +10,7 @@ export const DateFormat = {
   DateShortStroke: 'YYYY-MM-DD',
   HoursFull: 'HH A',
   MonthShort: 'DD MMM,YYYY',
+  MonthShortWithSpace: 'DD MMM, YYYY',
   DateTime: 'DD MMM, YYYY HH:mm',
   DayMonthShort: 'DD MMM',
 };

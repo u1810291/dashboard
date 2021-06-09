@@ -4,7 +4,7 @@ import { DeleteModal } from 'apps/collaborators/components/DeleteModal/DeleteMod
 import { collaboratorRemove } from 'apps/collaborators/state/collaborator.actions';
 import { OpenFilter, useFilterParser, ByVerificationEventTypes } from 'apps/filter';
 import { useOverlay } from 'apps/overlay';
-import { HeaderMenuButton, notification } from 'apps/ui';
+import { ButtonHeaderMenu, notification } from 'apps/ui';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useState } from 'react';
@@ -63,14 +63,14 @@ export function AgentHistoryMenu({ collaborator }) {
         {/* Back to settings */}
         <Grid item>
           <Link to={Routes.settings.root}>
-            <HeaderMenuButton
+            <ButtonHeaderMenu
               variant="contained"
               startIcon={<FiChevronLeft />}
               className={classes.buttonBack}
               data-qa={QATags.AgentHistory.GoBackButton}
             >
               {intl.formatMessage({ id: 'AgentHistory.button.goBackButton' })}
-            </HeaderMenuButton>
+            </ButtonHeaderMenu>
           </Link>
         </Grid>
       </Grid>
@@ -79,7 +79,7 @@ export function AgentHistoryMenu({ collaborator }) {
           {/* Delete */}
           {collaborator && (
             <Grid item className={classes.itemOffsetLeft}>
-              <HeaderMenuButton
+              <ButtonHeaderMenu
                 variant="contained"
                 onClick={() => handleRemoveOverlay(user)}
                 startIcon={user.id === deleting ? <FiLoader /> : <FiTrash2 />}
@@ -88,7 +88,7 @@ export function AgentHistoryMenu({ collaborator }) {
                 data-qa={QATags.Collaborators.DeleteMemberButton}
               >
                 {intl.formatMessage({ id: 'AgentHistory.button.deleteAgent' })}
-              </HeaderMenuButton>
+              </ButtonHeaderMenu>
             </Grid>
           )}
           {/* Filter */}

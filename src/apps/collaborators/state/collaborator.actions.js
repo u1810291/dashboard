@@ -20,6 +20,10 @@ export const collaboratorLoad = (id) => async (dispatch, getState) => {
   }
 };
 
+export const collaboratorClear = () => async (dispatch) => {
+  dispatch({ type: types.COLLABORATOR_CLEAR });
+};
+
 export const collaboratorListLoad = () => async (dispatch, getState) => {
   dispatch({ type: types.COLLABORATOR_LIST_REQUEST });
   try {

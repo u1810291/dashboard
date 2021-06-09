@@ -1,6 +1,6 @@
 import { Menu } from 'apps/layout';
 import { QATags } from 'models/QA.model';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FiGift, FiHelpCircle } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { appPalette } from 'apps/theme/app.palette';
@@ -13,7 +13,7 @@ export function SecondaryMenu({ isOpen, ...props }) {
     window.open('https://update.dashboard.getmati.com/en?role=registered', '_blank');
   }, []);
 
-  const [entries] = useState([{
+  const entries = useMemo(() => [{
     id: 'faq',
     to: Routes.info.root,
     label: intl.formatMessage({ id: 'dashboard.menu.faq' }),
@@ -29,8 +29,9 @@ export function SecondaryMenu({ isOpen, ...props }) {
     handler: handlerGoToWhatsUp,
     isOutlined: true,
     qa: QATags.Menu.WhatsNew,
-  }]);
-  const [isWithOutlined] = useState(entries.some((item) => item?.isOutlined));
+  }], [intl, handlerGoToWhatsUp]);
+
+  const isWithOutlined = useMemo(() => entries.some((item) => item?.isOutlined), [entries]);
 
   return <Menu entries={entries} {...props} isOpen={isOpen} isWithOutlined={isWithOutlined} />;
 }

@@ -1,6 +1,6 @@
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { DEFAULT_LOCALE } from 'models/Intl.model';
-import { createReducer } from '../utils';
+import { createReducer } from 'state/utils';
 import { types } from './merchant.actions';
 import { MerchantActionGroups, SliceNames } from './merchant.store';
 

@@ -9,8 +9,7 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
   const intl = useIntl();
 
   const entries = [
-    // TODO: enable when analytics will be fixed
-    /* {
+    /*    {
       id: 'metrics',
       show: isOwner,
       to: Routes.analytics.root,

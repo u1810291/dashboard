@@ -7,11 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectMerchantBusinessName, selectMerchantCreatedAt } from 'state/merchant/merchant.selectors';
 import { merchantUpdateBusinessName } from 'state/merchant/merchant.actions';
 import { formatDate } from 'lib/date';
-import { useOverlay } from '../../../overlay/hooks/Overlay.hook';
+import { EditableInput } from 'apps/ui';
+import { QATags } from 'models/QA.model';
+import { useOverlay } from 'apps/overlay';
 import { ChangePasswordModal } from '../../components/ChangePasswordModal/ChangePasswordModal';
-import { EditableInput } from '../../components/EditableInput/EditableInput';
 import { useStyles } from './CompanySettings.styles';
-import { QATags } from '../../../../models/QA.model';
 
 export function CompanySettings() {
   const intl = useIntl();

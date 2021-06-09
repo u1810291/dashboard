@@ -33,6 +33,7 @@ module.exports = {
     'import/prefer-default-export': 0,
     'max-len': 'off',
     'no-nested-ternary': 0,
+    'space-infix-ops': 1,
   },
   env: {
     browser: true,
