@@ -43,7 +43,7 @@ export function DashboardRouter() {
     <Suspense fallback={<PageLoader size={50} color={appPalette.black50} />}>
       <Switch>
         {/* TODO: change to analytics when analytics page will be fixed */}
-        <Redirect exact from={Routes.root} to={Routes.list.root} />
+        <Redirect exact from={Routes.root} to={Routes.analytics.root} />
         <OwnerRoute path={Routes.settings.root} component={SettingsLazy} />
         <Route path={Routes.info.root} component={InfoPageLazy} />
         <MerchantGuard>
