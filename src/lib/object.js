@@ -18,7 +18,7 @@ export function difference(object, base) {
 }
 
 export function isObjectEmpty(object) {
-  if (lodashIsObject(object)) {
+  if (!lodashIsObject(object)) {
     return true;
   }
   return Object.keys(object).length === 0;
