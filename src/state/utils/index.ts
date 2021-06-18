@@ -6,25 +6,24 @@ export enum ActionSubTypes {
   Clear = 'CLEAR',
 }
 
-export function createReducer(initialState, handlers) {
-  return function reducer(state = initialState, action) {
-    if (Object.hasOwnProperty.call(handlers, action.type)) {
-      return handlers[action.type](state, action);
-    } else {
-      return state;
-    }
-  };
-}
-
 export type TypesSequence = {
   [key: string]: string,
 };
 
+export function createReducer(initialState, handlers) {
+  return function reducer(state = initialState, action) {
+    if (Object.hasOwnProperty.call(handlers, action.type)) {
+      return handlers[action.type](state, action);
+    }
+    return state;
+  };
+}
+
 export function createTypesSequence<T extends string>(baseName: T): TypesSequence {
-  return Object.values(ActionSubTypes).reduce((object, item) => {
+  return Object.values(ActionSubTypes).reduce((memo, item) => {
     const type = `${baseName}_${item}`;
-    object[type] = type;
-    return object;
+    memo[type] = type;
+    return memo;
   }, {}) as TypesSequence;
 }
 
@@ -42,11 +41,10 @@ export function collectionUpsert(collection = [], value, id = '_id') {
     ];
     newCollection.splice(index, 1, value);
     return newCollection;
-  } else {
-    // insert
-    return [
-      ...collection,
-      value,
-    ];
   }
+  // insert
+  return [
+    ...collection,
+    value,
+  ];
 }
