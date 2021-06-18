@@ -33,27 +33,25 @@ export const useStyles = makeStyles(() => ({
   },
 }));
 
-const buttonMaker = ({ icon }) => withStyles(() => (
-  {
-    root: {
-      width: 25,
-      height: 25,
-      borderRadius: 4,
-      border: [[1, 'solid', '#8392B8']],
-      margin: 5,
-      '&:hover': {
-        backgroundColor: '#e6e9f3 !important',
-      },
+const buttonMaker = ({ icon }) => withStyles(() => ({
+  root: {
+    width: 25,
+    height: 25,
+    borderRadius: 4,
+    border: [[1, 'solid', '#8392B8']],
+    margin: 5,
+    '&:hover': {
+      backgroundColor: '#e6e9f3 !important',
     },
-    label: {
-      width: 'auto',
-      color: '#8392B8',
-      '& svg': {
-        strokeWidth: 1,
-      },
+  },
+  label: {
+    width: 'auto',
+    color: '#8392B8',
+    '& svg': {
+      strokeWidth: 1,
     },
-  }),
-)(({ ...props }) => (
+  },
+}))(({ ...props }) => (
   <IconButton {...props} component="span">
     {icon}
   </IconButton>

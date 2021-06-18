@@ -27,8 +27,7 @@ export function useLongPolling(callback, interval = 20000, { isCheckMerchantTag 
           result();
         }
       };
-    } else {
-      return callback(false);
     }
+    return callback(false);
   }, [tags, callback, interval, isCheckMerchantTag, isUseFirstInvoke]);
 }

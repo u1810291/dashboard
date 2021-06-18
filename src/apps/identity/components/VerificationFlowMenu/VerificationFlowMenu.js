@@ -61,8 +61,7 @@ export function VerificationFlowMenu({ setFade }) {
           >
             {name}
           </FlowMenuItem>
-        ),
-        )}
+        ))}
       </MenuList>
       <FlowButtonAdd
         disabled={(merchantFlowList || []).length >= 30}

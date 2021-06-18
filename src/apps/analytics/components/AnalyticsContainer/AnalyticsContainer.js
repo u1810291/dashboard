@@ -1,5 +1,5 @@
 import { Box, Container, Grid } from '@material-ui/core';
-import { selectFilter, selectStatisticsByDate, selectChartStatisticsModel, selectCountStatisticsModel } from 'apps/analytics/state/metrics.selectors';
+import { selectChartStatisticsModel, selectCountStatisticsModel, selectFilter, selectStatisticsByDate } from 'apps/analytics/state/metrics.selectors';
 import { ByCountries, ByFlows, OpenFilter, useFilterParser } from 'apps/filter';
 import { DevicesStats } from 'apps/fingerPrint/components/DevicesStats/DevicesStats';
 import { AnalyticsMap } from 'apps/googleMap/components/AnalyticsMap/AnalyticsMap';
@@ -12,10 +12,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { identitiesManualReviewCountLoad } from 'state/identities/identities.actions';
 import { selectManualReviewCountModel } from 'state/identities/identities.selectors';
-import { filterUpdate, loadChartStatistics } from 'apps/analytics/state/metrics.actions';
-import { countStatisticsLoad } from '../../state/metrics.actions';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
+import { countStatisticsLoad, filterUpdate, loadChartStatistics } from '../../state/metrics.actions';
 import { Chart } from '../Chart/Chart';
 import { DocumentsStats } from '../DocumentsStats/DocumentsStats';
 import { DynamicHeader } from '../DynamicHeader/DynamicHeader';

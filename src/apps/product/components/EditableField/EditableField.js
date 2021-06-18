@@ -13,7 +13,6 @@ export function EditableField({
   cancelEditable,
   validator,
   inProgress = false,
-  display,
   ...props
 }) {
   const classes = useStyles();
@@ -58,13 +57,11 @@ export function EditableField({
     }
   }
 
-  const setFocus = useCallback(() => setTimeout(
-    () => {
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
-    }, 50),
-  [inputRef]);
+  const setFocus = useCallback(() => setTimeout(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, 50), [inputRef]);
 
   function allowEditHandler(e) {
     e.preventDefault();

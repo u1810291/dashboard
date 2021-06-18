@@ -13,9 +13,8 @@ export function findRelativeParent(element) {
     return parent.style.position === 'relative' || parent.nodeName === 'HTML'
       ? parent
       : findRelativeParent(parent);
-  } else {
-    return element;
   }
+  return element;
 }
 
 export function Overlay({ withBlur = false, inline = false, onClose, options, children }) {

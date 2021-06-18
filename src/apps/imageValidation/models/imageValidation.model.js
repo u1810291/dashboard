@@ -6,16 +6,14 @@ export const InputValidationType = {
 };
 
 export function validationChecksParse(values) {
-  const map = Object.keys(InputValidationType).reduce((validationTypes, key) => {
+  return Object.keys(InputValidationType).reduce((memo, key) => {
     const type = InputValidationType[key];
     const check = values.find((item) => item.id === type);
 
-    validationTypes[type] = check ? !check.isDisabled : true;
+    memo[type] = check ? !check.isDisabled : true;
 
-    return validationTypes;
+    return memo;
   }, {});
-
-  return map;
 }
 
 export function validationChecksSerialize(values) {

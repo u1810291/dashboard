@@ -18,13 +18,15 @@ export function OpenFilter({ children, qa, ...props }) {
   }, [closeOverlay]);
 
   const openFilterModal = useCallback(() => {
-    createOverlay(
+    createOverlay((
       <Modal onClose={handleCloseModal} className={classes.modal}>
         <Filter {...props} fromMonth={registerDate} onClose={handleCloseModal}>
           {children}
         </Filter>
-      </Modal>,
-      { additionalClasses: ['modalFixedContent'] });
+      </Modal>
+    ), {
+      additionalClasses: ['modalFixedContent'],
+    });
   }, [children, classes.modal, createOverlay, handleCloseModal, props, registerDate]);
 
   return (

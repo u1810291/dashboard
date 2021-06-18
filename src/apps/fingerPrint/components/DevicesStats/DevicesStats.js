@@ -22,12 +22,12 @@ export function DevicesStats() {
                   <DevicesStatsTable type={DevicesTableTypes.devices} rows={devices} headerName={intl.formatMessage({ id: 'Analytics.devices.topDevices' })} />
                 </Box>
               </Grid>
-                  )}
+            )}
             {browsers?.length > 0 && (
               <Grid item xs={12} md={5}>
                 <DevicesStatsTable type={DevicesTableTypes.browsers} rows={browsers} headerName={intl.formatMessage({ id: 'Analytics.devices.topBrowsers' })} />
               </Grid>
-                  )}
+            )}
           </Grid>
         </Box>
       </TableContainer>

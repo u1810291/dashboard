@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isObject as lodashIsObject, transform, isEqual } from 'lodash';
 
 /**
  * Deep diff between two object, using lodash
@@ -7,11 +7,10 @@ import _ from 'lodash';
  * @return {Object}        Return a new object who represent the diff
  */
 export function difference(object, base) {
-  // eslint-disable-next-line no-shadow
-  function changes(object, base) {
-    return _.transform(object, (result, value, key) => {
-      if (!_.isEqual(value, base[key])) {
-        result[key] = (_.isObject(value) && _.isObject(base[key])) ? changes(value, base[key]) : value;
+  function changes(source, memo) {
+    return transform(source, (result, value, key) => {
+      if (!isEqual(value, base[key])) {
+        memo[key] = (lodashIsObject(value) && lodashIsObject(base[key])) ? changes(value, base[key]) : value;
       }
     });
   }
@@ -19,7 +18,7 @@ export function difference(object, base) {
 }
 
 export function isObjectEmpty(object) {
-  if (!_.isObject(object)) {
+  if (lodashIsObject(object)) {
     return true;
   }
   return Object.keys(object).length === 0;

@@ -5,7 +5,7 @@ const defaultSettings = {
 };
 
 export default function compressImage(blob, options = {}) {
-  options = {
+  const targetOptions = {
     ...defaultSettings,
     ...options,
   };
@@ -17,7 +17,7 @@ export default function compressImage(blob, options = {}) {
     URL.revokeObjectURL(image.src);
     image.onload = () => {
       const maxSize = Math.max(image.naturalWidth, image.naturalHeight);
-      const scale = maxSize / options.maxSideSize;
+      const scale = maxSize / targetOptions.maxSideSize;
       canvas.width = scale > 1 ? image.naturalWidth / scale : image.naturalWidth;
       canvas.height = scale > 1 ? image.naturalHeight / scale : image.naturalHeight;
       context.drawImage(image, 0, 0, canvas.width, canvas.height);
@@ -25,8 +25,8 @@ export default function compressImage(blob, options = {}) {
         (compressedBlob) => {
           resolve(compressedBlob);
         },
-        options.type,
-        options.quality,
+        targetOptions.type,
+        targetOptions.quality,
       );
     };
     image.src = URL.createObjectURL(blob);

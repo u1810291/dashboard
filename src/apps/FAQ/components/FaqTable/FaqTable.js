@@ -24,8 +24,7 @@ export function FaqTable({ token, rows }) {
           <Grid item xs={5} key="row2" className={classNames(classes.tableRow, classes.withTopBorder, classes.withLeftBorder)}>
             {intl.formatMessage({ id: `${token}.table.${row}.2` })}
           </Grid>,
-        ]),
-        )}
+        ]))}
       </Grid>
     </Box>
   );

@@ -43,9 +43,10 @@ export const appReducers = combineReducers({
 });
 
 export const rootReducers = (state, action) => {
+  let newState = state;
   if (action.type === `${AuthActionGroups.SignOut}_REQUEST`) {
-    state = undefined;
+    newState = undefined;
   }
 
-  return appReducers(state, action);
+  return appReducers(newState, action);
 };

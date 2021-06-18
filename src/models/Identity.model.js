@@ -122,11 +122,9 @@ export function getIdentityExtras(identity, countries) {
 }
 
 export function getGoBackToListLink(location) {
-  if (location.state?.from?.startsWith(Routes.list.root)) {
-    return location.state.from;
-  } else {
-    return Routes.list.root;
-  }
+  return location.state?.from?.startsWith(Routes.list.root)
+    ? location.state.from
+    : Routes.list.root;
 }
 
 export function getDownloadableFileName(verification) {

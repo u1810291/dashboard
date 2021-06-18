@@ -26,9 +26,13 @@ export function PhoneValidationPDF({ stepData = {} }) {
       )}
       <View style={styles.stepDetailsContainer}>
         {PhoneValidationFields.map((fieldName) => (stepData?.data[fieldName] !== undefined && stepData?.data[fieldName] !== null) && (
-          <CheckStepDetailsEntryPDF label={fieldName} value={stepData.data[fieldName]} key={fieldName} style={styles.stepDetailsItem} />
-        ),
-        )}
+          <CheckStepDetailsEntryPDF
+            label={fieldName}
+            value={stepData.data[fieldName]}
+            key={fieldName}
+            style={styles.stepDetailsItem}
+          />
+        ))}
       </View>
     </View>
   );

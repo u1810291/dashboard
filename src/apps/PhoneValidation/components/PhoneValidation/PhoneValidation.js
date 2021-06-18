@@ -26,8 +26,7 @@ export function PhoneValidation({ stepData = {} }) {
                     <Grid xs={6} item>
                       <CheckStepDetailsEntry label={fieldName} value={stepData.data[fieldName]} key={fieldName} />
                     </Grid>
-                  ),
-                )}
+                  ))}
               </Grid>
             </Box>
           </CardContent>

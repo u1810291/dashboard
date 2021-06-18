@@ -24,7 +24,8 @@ export const selectStatisticsByDate = createSelector(
   ({ value }) => value.byDate.map((item) => ({
     label: item.date,
     value: item.count,
-  })));
+  })),
+);
 
 export const selectVerificationsCount = createSelector(
   selectCountStatisticsModel,
