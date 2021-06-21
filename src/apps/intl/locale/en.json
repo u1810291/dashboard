@@ -1155,7 +1155,7 @@
   "PhoneValidation.sms": "SMS",
   "PhoneValidation.title": "Phone validation",
   "PhoneValidation.makeOptionalStep": "Make step optional",
-  "PhoneValidation.makeOptionalStep.subtitle": "If enabled, email validation will be an optional step and we will let users skip it.",
+  "PhoneValidation.makeOptionalStep.subtitle": "If enabled, phone validation will be an optional step and we will let users skip it.",
   "PhoneValidation.subtitle": "We will send your users a 4 digit code via SMS that they will have to enter during the verification on SDK. ",
   "PhoneValidation.webSdkOnlyWarning": "This feature is currently available only for Web SDK integrations. For API and Mobile SDK verifications, this step will not be executed.",
   "plan.details.liveness.description": "What their users are alive or is it only a picture? After compare the matching faces between the photo and the identification, our algorithm of computer vision patented verifies that there is a real person on the other side, not just a photo or even a video. Safety first.",
