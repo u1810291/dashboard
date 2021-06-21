@@ -15,7 +15,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FiAlertOctagon, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiSlash, FiTrash, FiUser, FiSmartphone } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { MerchantTags } from 'models/Merchant.model';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow, selectMerchantTags } from 'state/merchant/merchant.selectors';
 
@@ -92,7 +91,6 @@ export function Configuration() {
         title: 'PhoneValidation.title',
         icon: <FiSmartphone />,
         body: <PhoneValidationConfiguration />,
-        hidden: !tags.includes(MerchantTags.CanUsePhoneOwnershipValidation),
       },
     ]);
   }, [currentFlowModel, updateConfiguration, tags]);

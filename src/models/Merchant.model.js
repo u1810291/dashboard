@@ -4,6 +4,5 @@ export const MerchantTags = {
   CanUseProofOfOwnership: 'can-use-proof-of-ownership',
   CanDisableFullstory: 'can-disable-fullstory',
   CanUseVerificationPostponedTimeout: 'can-use-verification-postponed-timeout',
-  CanUsePhoneOwnershipValidation: 'can-use-phone-ownership-validation',
   canUseRiskPhoneAnalysis: 'can-use-phone-risk-analysis',
 };
