@@ -7,7 +7,11 @@ import { useSelector } from 'react-redux';
 import { Filter } from '../../containers/Filter/Filter';
 import { SideButton, useStyles } from './OpenFilter.styles';
 
-export function OpenFilter({ children, qa, ...props }) {
+export function OpenFilter({
+  children,
+  qa,
+  ...props
+}) {
   const intl = useIntl();
   const classes = useStyles();
   const [createOverlay, closeOverlay] = useOverlay();

@@ -1,9 +1,8 @@
 import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
-import { NoFlows } from 'apps/product/components/NoFlows/NoFlows';
 import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
-import { getNewFlowId } from 'models/Product.model';
+import { getNewFlowId } from 'models/Flow.model';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useState } from 'react';
@@ -12,6 +11,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { NoFlows } from 'apps/oldProduct/components/NoFlows/NoFlows';
 import { TableRowHovered, useStyles } from './FlowsTable.styles';
 
 export function FlowsTable({ onAddNewFlow }) {

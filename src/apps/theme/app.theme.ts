@@ -5,7 +5,7 @@ import { appPalette } from './app.palette';
 export const AppTheme = createMuiTheme({
   palette: {
     primary: {
-      main: appPalette.blue,
+      main: appPalette.lightblue,
       contrastText: appPalette.white,
     },
     secondary: {
@@ -22,9 +22,11 @@ export const AppTheme = createMuiTheme({
     text: {
       main: appPalette.black75,
       secondary: appPalette.black90,
+      disabled: appPalette.black50,
     },
     success: {
       main: appPalette.green,
+      disabled: appPalette.black50,
     },
     warning: {
       main: appPalette.yellow,
@@ -36,6 +38,9 @@ export const AppTheme = createMuiTheme({
       document: {
         main: appPalette.whiteblue,
         contrastText: appPalette.lightblue,
+      },
+      close: {
+        main: appPalette.black75,
       },
     },
     common: appPalette,
@@ -145,6 +150,17 @@ export const AppTheme = createMuiTheme({
     MuiTypography: {
       colorTextSecondary: {
         color: appPalette.black75,
+      },
+      subtitle1: {
+        fontWeight: 'bold',
+        lineHeight: '17px',
+        color: appPalette.black90,
+      },
+    },
+    MuiSwitch: {
+      track: {
+        backgroundColor: appPalette.black50,
+        opacity: 1,
       },
     },
   },

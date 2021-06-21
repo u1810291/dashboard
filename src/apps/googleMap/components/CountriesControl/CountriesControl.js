@@ -72,7 +72,7 @@ export function CountriesControl({ geocoder, map, setIsCountriesControlOpen, isC
     const country = countriesList.find((item) => item.id === activeCountryId);
     if (country && country.name && geocoder?.geocode) {
       geocoder.geocode({ address: country.name }, (res) => {
-        if (res && res[0]) {
+        if (map && res && res[0]) {
           centerMap(res[0].geometry.location, country?.geojson);
         }
       });

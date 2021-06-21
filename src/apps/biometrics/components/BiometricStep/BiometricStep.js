@@ -9,7 +9,8 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { selectBiometricPattern } from 'state/merchant/merchant.selectors';
-import { FormControlLabelFixed, RadioFixed, useStyles } from './BiometricStep.styles';
+import { RadioButton } from 'apps/ui/components/RadioButton/RadioButton';
+import { FormControlLabelFixed, useStyles } from './BiometricStep.styles';
 import LivenessVoiceSVG from './liveness-voice-video.svg';
 
 const OptionsImageMap = {
@@ -109,7 +110,7 @@ export function BiometricStep() {
                 <BoxBordered>
                   <FormControlLabelFixed
                     value={item.id}
-                    control={<RadioFixed color="default" />}
+                    control={<RadioButton color="primary" />}
                     label={(
                       <Box>
                         <Typography variant="h5">

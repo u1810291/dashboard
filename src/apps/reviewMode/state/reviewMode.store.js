@@ -1,4 +1,4 @@
-import { createTypesSequence } from 'state/utils';
+import { createTypesSequence } from 'state/store.utils';
 
 export const REVIEW_MODE_KEY = 'reviewMode';
 

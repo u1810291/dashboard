@@ -31,6 +31,10 @@ export const Routes = {
       details: '/verification/:verificationId',
     },
   },
+  flow: {
+    root: '/flow',
+    details: '/flow/:id',
+  },
   dev: { root: '/dev' },
   settings: {
     root: '/settings',

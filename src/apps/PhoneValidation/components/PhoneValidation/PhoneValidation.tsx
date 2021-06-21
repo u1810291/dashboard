@@ -7,11 +7,9 @@ import { isNil } from 'lib/isNil';
 import { PhoneValidationTypes, PhoneValidationStep } from '../../models/PhoneValidation.model';
 import { useStyles } from './PhoneValidation.styles';
 
-export interface PhoneValidationProps {
+export function PhoneValidation({ step = {} }: {
   step: PhoneValidationStep,
-}
-
-export function PhoneValidation({ step = {} }: PhoneValidationProps) {
+}) {
   const classes = useStyles();
   const intl = useIntl();
   return (
@@ -27,9 +25,9 @@ export function PhoneValidation({ step = {} }: PhoneValidationProps) {
             <Box mt={0.5}>
               <Grid container>
                 {Object.keys(PhoneValidationTypes).map((fieldName) => (!isNil(step?.data[PhoneValidationTypes[fieldName]])) && (
-                <Grid xs={6} item key={PhoneValidationTypes[fieldName]}>
-                  <CheckStepDetailsEntry label={PhoneValidationTypes[fieldName]} value={step.data[PhoneValidationTypes[fieldName]]} />
-                </Grid>
+                  <Grid xs={6} item key={PhoneValidationTypes[fieldName]}>
+                    <CheckStepDetailsEntry label={PhoneValidationTypes[fieldName]} value={step.data[PhoneValidationTypes[fieldName]]} />
+                  </Grid>
                 ))}
               </Grid>
             </Box>

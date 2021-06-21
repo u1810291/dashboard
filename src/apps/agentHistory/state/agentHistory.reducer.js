@@ -1,4 +1,4 @@
-import { createReducer } from 'state/utils';
+import { createReducer } from 'state/store.utils';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { agentHistoryCleanFilter } from 'models/History.model';
 import { agentHistoryActionGroups, SliceNames, types } from './agentHistory.store';
@@ -9,7 +9,7 @@ const initialState = {
   [SliceNames.Count]: 0,
 };
 
-export default createReducer(initialState, {
+export const agentHistoryReducer = createReducer(initialState, {
   ...LoadableAdapter.createHandlers(agentHistoryActionGroups.History, SliceNames.History),
   [types.FILTER_UPDATE](state, { payload }) {
     return {

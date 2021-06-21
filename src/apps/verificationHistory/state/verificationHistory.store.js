@@ -1,4 +1,4 @@
-import { createTypesSequence } from 'state/utils';
+import { createTypesSequence } from 'state/store.utils';
 
 export const VERIFICATION_HISTORY_STORE_KEY = 'verificationHistory';
 

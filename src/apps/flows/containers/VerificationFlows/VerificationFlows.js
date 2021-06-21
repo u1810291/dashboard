@@ -2,7 +2,7 @@ import { Box, Container, Grid, Paper, Tooltip, Typography, useMediaQuery } from 
 import Button from '@material-ui/core/Button';
 import { FlowsTable } from 'apps/flows/components/FlowsTable/FlowsTable';
 import { useOverlay } from 'apps/overlay';
-import { MAX_NUMBER_OF_PRODUCTS } from 'models/Product.model';
+import { MAX_NUMBER_OF_FLOWS } from 'models/Flow.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
@@ -11,10 +11,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { appLoad, merchantCreateFlow } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
+import { QATags } from 'models/QA.model';
 import { AddNewFlowModal } from '../../components/AddNewFlowDialog/AddNewFlowModal';
 import { flowNameValidator } from '../../validators/FlowName.validator';
 import { useStyles } from './VerificationFlows.styles';
-import { QATags } from '../../../../models/QA.model';
 
 export function VerificationFlows() {
   const classes = useStyles();
@@ -24,7 +24,7 @@ export function VerificationFlows() {
   const history = useHistory();
   const merchantFlowList = useSelector(selectMerchantFlowList);
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-  const isButtonDisabled = (merchantFlowList || []).length >= MAX_NUMBER_OF_PRODUCTS;
+  const isButtonDisabled = (merchantFlowList || []).length >= MAX_NUMBER_OF_FLOWS;
   const [open, setOpen] = useState(isButtonDisabled && isMobile);
 
   useEffect((() => {
@@ -50,7 +50,7 @@ export function VerificationFlows() {
   }, [submitNewFlow, createOverlay]);
 
   const handleOpen = useCallback(() => {
-    if (merchantFlowList?.length >= MAX_NUMBER_OF_PRODUCTS) {
+    if (merchantFlowList?.length >= MAX_NUMBER_OF_FLOWS) {
       setOpen(true);
     }
   }, [merchantFlowList]);

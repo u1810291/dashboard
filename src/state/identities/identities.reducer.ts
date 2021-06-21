@@ -1,7 +1,7 @@
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { verificationsFilterInitialState } from 'models/Identity.model';
-import { createReducer } from 'state/utils';
-import { types } from 'state/identities/identities.actions';
+import { createReducer } from 'state/store.utils';
+import { types } from './identities.actions';
 import { IdentityActionGroups, SliceNames } from './identities.store';
 
 const initialState = {
