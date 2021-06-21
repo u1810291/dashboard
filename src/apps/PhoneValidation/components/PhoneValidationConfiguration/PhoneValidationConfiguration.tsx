@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { validateMaxLength } from 'lib/validations';
 import { KeyboardKeyCodes } from 'models/Keyboard.model';
-import { selectCanUseRiskPhoneAnalysis, selectPhoneRiskAnalysisThreshold } from 'state/merchant/merchant.selectors';
+import { selectPhoneRiskAnalysisThreshold } from 'state/merchant/merchant.selectors';
 import { RiskAnalysisConfiguration } from 'apps/RiskAnalysis';
 import { appPalette } from 'apps/theme';
 import { selectPhoneRiskValidation } from 'apps/RiskAnalysis/state/RiskAnalysis.selectors';
@@ -24,7 +24,6 @@ export function PhoneValidationConfiguration() {
   const [senderName, setSenderName] = useState(useSelector(selectSenderName));
   const [riskScore, setRiskScore] = useState(useSelector(selectPhoneRiskAnalysisThreshold));
   const [currentMethod, setModeCurrentMethod] = useState(useSelector(selectPhoneValidationMode));
-  const canUseRiskPhoneAnalysis = useSelector(selectCanUseRiskPhoneAnalysis);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -180,14 +179,12 @@ export function PhoneValidationConfiguration() {
           />
 
         </Grid>
-        {canUseRiskPhoneAnalysis && (
-          <RiskAnalysisConfiguration
-            isLoading={isLoading}
-            riskScore={riskScore}
-            onChangeRiskScore={setRiskScore}
-            onEnableRiskAnalysis={handleEnableRiskAnalysis}
-          />
-        )}
+        <RiskAnalysisConfiguration
+          isLoading={isLoading}
+          riskScore={riskScore}
+          onChangeRiskScore={setRiskScore}
+          onEnableRiskAnalysis={handleEnableRiskAnalysis}
+        />
         <Grid item className={classes.buttonContainer}>
           <Box>
             <Button

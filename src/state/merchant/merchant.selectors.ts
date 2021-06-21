@@ -67,11 +67,6 @@ export const selectCanUseVerificationPostponedTimeout = createSelector(
   (tags) => tags.includes(MerchantTags.CanUseVerificationPostponedTimeout),
 );
 
-export const selectCanUseRiskPhoneAnalysis = createSelector(
-  selectMerchantTags,
-  (tags) => tags.includes(MerchantTags.CanUseRiskPhoneAnalysis),
-);
-
 // -- app
 
 const selectAppModel = createSelector(
