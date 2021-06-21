@@ -3,6 +3,7 @@ import { selectUserId } from 'apps/user/state/user.selectors';
 import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { BiometricTypes } from 'models/Biometric.model';
+import { MerchantTags } from 'models/Merchant.model';
 import { DEFAULT_LOCALE, LanguageList } from 'models/Intl.model';
 import { VerificationPatternTypes } from 'models/Step.model';
 import { createSelector } from 'reselect';
@@ -59,6 +60,16 @@ export const selectMerchantTags = createSelector(
 export const selectAvailableChecks = createSelector(
   selectMerchantTags,
   (tags) => ChecksList.filter((check) => !check.availableOnlyForMerchantTag || tags.includes(check.availableOnlyForMerchantTag)),
+);
+
+export const selectCanUseVerificationPostponedTimeout = createSelector(
+  selectMerchantTags,
+  (tags) => tags.includes(MerchantTags.CanUseVerificationPostponedTimeout),
+);
+
+export const selectCanUseRiskPhoneAnalysis = createSelector(
+  selectMerchantTags,
+  (tags) => tags.includes(MerchantTags.canUseRiskPhoneAnalysis),
 );
 
 // -- app
@@ -207,4 +218,9 @@ export const selectValidationChecks = createSelector(
 export const selectPostponedTimeout = createSelector(
   selectCurrentFlow,
   (flow) => flow.postponedTimeout,
+);
+
+export const selectPhoneRiskAnalysisThreshold = createSelector(
+  selectCurrentFlow,
+  (flow) => flow.phoneRiskAnalysisThreshold,
 );
