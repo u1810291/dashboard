@@ -23,7 +23,12 @@ function AgentEventRowComponent({ rowData, index }) {
       <TableCell colSpan={2} className={classes.tableCell}>
         <Grid container justify="space-between" alignItems="flex-start" wrap="nowrap">
           {rowData?.eventType !== AgentHistoryEventTypes.ManualReview ? (
-            <AgentHistoryChangesSwitch eventType={rowData?.eventType} changedFields={changedFields} changedStatus={changedStatus} isCollapsed={isCollapsed} />
+            <AgentHistoryChangesSwitch
+              eventType={rowData?.eventType}
+              changedFields={changedFields}
+              changedStatus={changedStatus}
+              isCollapsed={isCollapsed}
+            />
           ) : (
             <>
               {/* TODO @vladislav.snimshchikov: Add review mode row, when backend add reviewMode event

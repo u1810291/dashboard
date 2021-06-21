@@ -5,11 +5,11 @@ import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { ERROR_COMMON } from 'models/Error.model';
 import { filterSerialize } from 'models/Filter.model';
 import { IdentityStatuses } from 'models/Status.model';
-import { createTypesSequence, TypesSequence } from 'state/utils';
-import { IdentityActionGroups } from './identities.store';
+import { createTypesSequence } from 'state/store.utils';
 import { selectFilteredCountModel, selectIdentityFilterSerialized } from './identities.selectors';
+import { IdentityActionGroups } from './identities.store';
 
-export const types : TypesSequence = {
+export const types: any = {
   ...createTypesSequence('IDENTITY_PATCH'),
   ...createTypesSequence('IDENTITY_DOCUMENTS_LIST'),
   ...createTypesSequence('DOCUMENT_PATCH'),
@@ -132,10 +132,10 @@ export const identityProfileLoad = (identityId) => async (dispatch) => {
   }
 };
 
-export const downloadCSV = () => async (dispatch, getState) => {
+export const downloadCSV = () => (dispatch, getState) => {
   try {
     const filter = selectIdentityFilterSerialized(getState());
-    return await api.downloadCSV({
+    return api.downloadCSV({
       // TODO @dkchv: review again, do we need filter here?
       ...filter,
       format: 'csv',

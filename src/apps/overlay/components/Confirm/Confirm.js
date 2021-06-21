@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Button } from '@material-ui/core';
-import { Modal } from '../Modal/Modal';
+import { Modal } from 'apps/overlay/components/Modal/Modal';
 
 export function ConfirmModal({ message = '', onClose, onConfirm }) {
   return (

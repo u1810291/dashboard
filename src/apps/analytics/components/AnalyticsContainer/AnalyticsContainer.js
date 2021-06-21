@@ -1,7 +1,7 @@
 import { Box, Container, Grid } from '@material-ui/core';
 import { selectChartStatisticsModel, selectCountStatisticsModel, selectFilter, selectStatisticsByDate } from 'apps/analytics/state/metrics.selectors';
 import { ByCountries, ByFlows, OpenFilter, useFilterParser } from 'apps/filter';
-import { DevicesStats } from 'apps/fingerPrint/components/DevicesStats/DevicesStats';
+import { DevicesStats } from 'apps/fingerPrint';
 import { AnalyticsMap } from 'apps/googleMap/components/AnalyticsMap/AnalyticsMap';
 import { PageLoader } from 'apps/layout';
 import { analyticsCleanFilter, analyticsFilterStructure } from 'models/Analytics.model';

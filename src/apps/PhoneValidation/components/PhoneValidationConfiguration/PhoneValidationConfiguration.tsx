@@ -154,9 +154,7 @@ export function PhoneValidationConfiguration() {
         </Grid>
         <Grid item className={classes.itemMargin}>
           <BoxBordered borderColor={appPalette.yellow}>
-            <Warning
-              label={intl.formatMessage({ id: 'PhoneValidation.webSdkOnlyWarning' })}
-            />
+            <Warning label={intl.formatMessage({ id: 'Product.configuration.phoneValidation.webSdkOnlyWarning' })} />
           </BoxBordered>
         </Grid>
         <Grid item>

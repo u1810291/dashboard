@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from 'state';
+import { persistor, store } from 'state/state.store';
 
 export function StoreProvider({ children }) {
   return (

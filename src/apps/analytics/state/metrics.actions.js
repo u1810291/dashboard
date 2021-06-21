@@ -4,7 +4,7 @@ import { filterSerialize } from 'models/Filter.model';
 import { createSelector } from 'reselect';
 import { selectIdentityStore } from 'state/identities/identities.selectors';
 import { SliceNames } from 'state/identities/identities.store';
-import { createTypesSequence } from 'state/utils';
+import { createTypesSequence } from 'state/store.utils';
 
 export const metricsActionTypes = {
   ...createTypesSequence(metricsActionGroups.Metrics),

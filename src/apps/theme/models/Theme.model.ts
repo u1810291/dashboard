@@ -17,6 +17,10 @@ declare module '@material-ui/core/styles/createPalette' {
   }
   interface Button {
     document: Partial<DocumentButton>,
+    close: Partial<DocumentButton>,
+  }
+  interface SimplePaletteColorOptions{
+    disabled?: string,
   }
   interface CommonColors {
     blue: string,

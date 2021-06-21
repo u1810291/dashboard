@@ -22,6 +22,7 @@ export function VerificationHistoryMetadataCell({ item, className, roundAvatar, 
         <Grid item>
           <Box>
             <Box mr={0.6} component="span" fontWeight="bold" color="common.black75" display="inline-block">
+              {/* eslint-disable-next-line no-underscore-dangle */}
               {header || collaborator?.user?.userName || collaborator?.user?.email || item?.updatedBy?._email?.address}
             </Box>
             {/* Label for "userDeleted" and "reviewMode" */}

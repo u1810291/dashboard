@@ -1,4 +1,4 @@
-import { createReducer } from 'state/utils';
+import { createReducer } from 'state/store.utils';
 import { types } from './dashboard.actions';
 
 const initialState = {

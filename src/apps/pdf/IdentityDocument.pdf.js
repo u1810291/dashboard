@@ -1,16 +1,16 @@
 import { Document, Page, pdf, View } from '@react-pdf/renderer';
-import React from 'react';
 import { StoreProvider } from 'apps/store';
-import { commonStyles } from './PDF.styles';
+import { getNom151FileContent } from 'models/Identity.model';
+import React from 'react';
 import { AppIntlProvider } from '../intl';
+import { DocumentStepPDF } from './components/DocumentStepPDF/DocumentStepPDF';
 import { IpCheckPDF } from './components/IpCheckPDF/IpCheckPDF';
 import { LivenessStepPDF } from './components/LivenessStepPDF/LivenessStepPDF';
-import { DocumentStepPDF } from './components/DocumentStepPDF/DocumentStepPDF';
-import { VerificationSummaryPDF } from './components/VerificationSummaryPDF/VerificationSummaryPDF';
-import { VerificationMetadataPDF } from './components/VerificationMetadataPDF/VerificationMetadataPDF';
-import { VerificationAdditionalChecksPDF } from './components/VerificationAdditionalChecksPDF/VerificationAdditionalChecksPDF';
 import { Nom151CheckPDF } from './components/Nom151CheckPDF/Nom151CheckPDF';
-import { getNom151FileContent } from '../../models/Identity.model';
+import { VerificationAdditionalChecksPDF } from './components/VerificationAdditionalChecksPDF/VerificationAdditionalChecksPDF';
+import { VerificationMetadataPDF } from './components/VerificationMetadataPDF/VerificationMetadataPDF';
+import { VerificationSummaryPDF } from './components/VerificationSummaryPDF/VerificationSummaryPDF';
+import { commonStyles } from './PDF.styles';
 
 export function IdentityDocumentPDF({ identity, nom151FileContent }) {
   if (!identity) {

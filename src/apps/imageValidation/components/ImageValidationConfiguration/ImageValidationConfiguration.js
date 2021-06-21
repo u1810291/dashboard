@@ -1,10 +1,10 @@
+import { Box, FormHelperText, Typography } from '@material-ui/core';
 import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Box, Typography, FormHelperText } from '@material-ui/core';
 import { useSelector } from 'react-redux';
+import { selectValidationChecks } from 'state/merchant/merchant.selectors';
+import { InputValidationType, validationChecksParse, validationChecksSerialize } from '../../models/imageValidation.model';
 import { SwitchImageValidation } from '../SwitchImageValidation/SwitchImageValidation';
-import { selectValidationChecks } from '../../../../state/merchant/merchant.selectors';
-import { validationChecksSerialize, InputValidationType, validationChecksParse } from '../../models/imageValidation.model';
 
 export function ImageValidationConfiguration({ onChange }) {
   const intl = useIntl();

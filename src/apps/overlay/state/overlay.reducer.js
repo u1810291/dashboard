@@ -1,4 +1,4 @@
-import { createReducer } from 'state/utils';
+import { createReducer } from 'state/store.utils';
 import { OverlayActionTypes } from './overlay.store';
 
 const initialState = {

@@ -1,4 +1,4 @@
-import agentHistory from 'apps/agentHistory/state/agentHistory.reducer';
+import { agentHistoryReducer } from 'apps/agentHistory/state/agentHistory.reducer';
 import { AGENT_HISTORY_STORE_KEY } from 'apps/agentHistory/state/agentHistory.store';
 import metrics from 'apps/analytics/state/metrics.reducer';
 import { METRICS_STORE_KEY } from 'apps/analytics/state/metrics.store';
@@ -8,8 +8,12 @@ import collaborators from 'apps/collaborators/state/collaborator.reducer';
 import { COLLABORATOR_STORE_KEY } from 'apps/collaborators/state/collaborator.store';
 import dashboard from 'apps/dashboard/state/dashboard.reducer';
 import { DASHBOARD_STORE_KEY } from 'apps/dashboard/state/dashboard.store';
+import { flowBuilderReducer } from 'apps/flowBuilder/store/FlowBuilder.reducer';
+import { FLOW_BUILDER_STORE_KEY } from 'apps/flowBuilder/store/FlowBuilder.store';
 import overlay from 'apps/overlay/state/overlay.reducer';
 import { OVERLAY_STORE_KEY } from 'apps/overlay/state/overlay.store';
+import { productReducer } from 'apps/Product/store/Product.reducer';
+import { PRODUCT_STORE_KEY } from 'apps/Product/store/Product.store';
 import { reviewModeReducer } from 'apps/reviewMode/state/reviewMode.reducers';
 import { REVIEW_MODE_KEY } from 'apps/reviewMode/state/reviewMode.store';
 import user from 'apps/user/state/user.reducer';
@@ -37,9 +41,11 @@ export const appReducers = combineReducers({
   [WEBHOOKS_STORE_KEY]: webhooks,
   [METRICS_STORE_KEY]: metrics,
   [VERIFICATION_HISTORY_STORE_KEY]: verificationHistory,
-  [AGENT_HISTORY_STORE_KEY]: agentHistory,
+  [AGENT_HISTORY_STORE_KEY]: agentHistoryReducer,
   [OVERLAY_STORE_KEY]: overlay,
   [REVIEW_MODE_KEY]: reviewModeReducer,
+  [FLOW_BUILDER_STORE_KEY]: flowBuilderReducer,
+  [PRODUCT_STORE_KEY]: productReducer,
 });
 
 export const rootReducers = (state, action) => {

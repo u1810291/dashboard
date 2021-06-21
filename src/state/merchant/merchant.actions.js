@@ -1,7 +1,7 @@
 import * as api from 'lib/client/merchant';
-import { createTypesSequence } from 'state/utils';
+import { createTypesSequence } from 'state/store.utils';
 import { getWebhooks } from 'state/webhooks/webhooks.actions';
-import { selectConfigurationModel, selectCurrentFlowId, selectMerchantFlowsModel, selectMerchantId, selectStyleModel } from './merchant.selectors';
+import { selectConfigurationModel, selectCurrentFlowId, selectMerchantFlowsModel, selectMerchantId, selectStyleModel } from 'state/merchant/merchant.selectors';
 import { MerchantActionGroups } from './merchant.store';
 
 export const types = {

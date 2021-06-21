@@ -128,21 +128,18 @@ export const BrowserIcons = {
 };
 
 export function getDeviceTypeByString(str) {
-  return Object.values(DeviceTypes)
-    .find((type) => new RegExp(type, 'i').test(str));
+  return Object.values(DeviceTypes).find((type) => new RegExp(type, 'i').test(str));
 }
 
 export function getDevicePlatformType(deviceFingerprint) {
   const str = getDevicePlatform(deviceFingerprint);
-  const value = Object.values(PlatformTypes)
-    .find((type) => new RegExp(type, 'i').test(str));
+  const value = Object.values(PlatformTypes).find((type) => new RegExp(type, 'i').test(str));
   return value || PlatformTypes.Api;
 }
 
 export function getDeviceOSType(deviceFingerprint) {
   const str = getDeviceOSName(deviceFingerprint);
-  const value = Object.values(OSTypes)
-    .find((type) => new RegExp(type, 'i').test(str));
+  const value = Object.values(OSTypes).find((type) => new RegExp(type, 'i').test(str));
   return value || OSTypes.Unknown;
 }
 
@@ -153,9 +150,10 @@ export function getDeviceOSLabel(deviceFingerprint) {
 }
 
 export function getDeviceBrowserTypeByString(name) {
-  if (!name) return BrowserTypes.Unknown;
-  const value = Object.values(BrowserTypes)
-    .find((type) => new RegExp(type, 'i').test(name));
+  if (!name) {
+    return BrowserTypes.Unknown;
+  }
+  const value = Object.values(BrowserTypes).find((type) => new RegExp(type, 'i').test(name));
   return value || BrowserTypes.Other;
 }
 
@@ -195,5 +193,7 @@ export function getAnalyticsDeviceIcon(name, deviceType) {
   if (deviceType === DevicesTableTypes.browsers) {
     return BrowserIcons[getDeviceBrowserTypeByString(name)];
   }
-  return getDeviceTypeByString(name) === DeviceTypes.Desktop ? DesktopGrayIcon : DeviceIcons[DeviceTypes.Mobile];
+  return getDeviceTypeByString(name) === DeviceTypes.Desktop
+    ? DesktopGrayIcon
+    : DeviceIcons[DeviceTypes.Mobile];
 }

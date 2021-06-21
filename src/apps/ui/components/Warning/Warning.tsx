@@ -32,22 +32,22 @@ const ColorMap = {
   },
 };
 
-export interface WarningProps {
-  title?: string,
-  label: string,
-  type?: WarningTypes,
-  size?: WarningSize,
-  isLabelColored?: boolean,
-}
-
-export function Warning({ title, label, type = WarningTypes.Warning, size = WarningSize.Normal, isLabelColored }: WarningProps) {
-  const classes = useStyles() as ClassNameMap;
+export function Warning({ title = '', label, type = WarningTypes.Warning, size = WarningSize.Normal, isLabelColored = false, bordered = false, className }: {
+  title?: string;
+  label: string;
+  type?: WarningTypes;
+  size?: WarningSize;
+  className?: string;
+  isLabelColored?: boolean;
+  bordered?: boolean;
+}) {
+  const classes = useStyles({ bordered });
 
   const Icon = IconMap[type];
   const style = ColorMap[type];
 
   return (
-    <Box className={classes.root}>
+    <Box className={`${classes.root} ${className}`}>
       <Box className={classes.icon}>
         <Icon size={size} color={style.color} />
       </Box>

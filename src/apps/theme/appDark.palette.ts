@@ -1,4 +1,4 @@
-export enum appPalette {
+export enum AppDarkPalette {
   blue = '#3757ff',
   gray68 = '#ADADAD',
   lightblue = '#507DED',

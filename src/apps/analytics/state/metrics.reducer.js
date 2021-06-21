@@ -2,7 +2,7 @@ import { metricsActionTypes } from 'apps/analytics/state/metrics.actions';
 import { metricsActionGroups, SliceNames } from 'apps/analytics/state/metrics.store';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { analyticsCleanFilter } from 'models/Analytics.model';
-import { createReducer } from 'state/utils';
+import { createReducer } from 'state/store.utils';
 
 const initialState = {
   [SliceNames.Chart]: LoadableAdapter.createState({
