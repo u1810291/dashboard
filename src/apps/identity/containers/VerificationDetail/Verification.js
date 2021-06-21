@@ -64,6 +64,7 @@ export function Verification({ identity }) {
           duplicateUserDetectionStep={identity.duplicateUserDetectionStep}
           ageCheck={identity.ageCheck}
           phoneValidation={identity.phoneValidation}
+          riskAnalysis={identity.riskAnalysis}
         />
       </Grid>
 

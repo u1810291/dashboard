@@ -49,6 +49,7 @@ export function IdentityDocumentPDF({ identity, nom151FileContent }) {
             duplicateUserDetectionStep={identity.duplicateUserDetectionStep}
             ageCheck={identity.ageCheck}
             phoneValidation={identity.phoneValidation}
+            riskAnalysis={identity.riskAnalysis}
           />
         </View>
         {/* Metadata */}

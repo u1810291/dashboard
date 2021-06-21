@@ -4,6 +4,8 @@ import { ValidationError } from 'yup';
 import { FormattedMessage } from 'react-intl';
 import restrictedDomains from './emailDomains.json';
 
+export const ONLY_NUMBERS_REG_EXP = /[^0-9]/;
+
 export function required(value, asToken = false) {
   if (!value) {
     return asToken ? 'validations.required' : <FormattedMessage id="validations.required" />;

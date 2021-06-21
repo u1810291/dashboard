@@ -89,7 +89,7 @@ export function Configuration() {
       },
       {
         id: 'phoneValidation',
-        title: 'Product.configuration.phoneValidation',
+        title: 'PhoneValidation.title',
         icon: <FiSmartphone />,
         body: <PhoneValidationConfiguration />,
         hidden: !tags.includes(MerchantTags.CanUsePhoneOwnershipValidation),

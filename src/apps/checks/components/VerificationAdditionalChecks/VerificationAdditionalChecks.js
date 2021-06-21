@@ -3,13 +3,16 @@ import { AgeCheck } from 'apps/AgeCheck';
 import { PhoneValidation } from 'apps/PhoneValidation';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { RiskAnalysis } from 'apps/RiskAnalysis';
 import { DuplicateUserDetectionCheck } from '../DuplicateUserDetectionCheck/DuplicateUserDetectionCheck';
 import { useStyles } from './VerificationAdditionalChecks.styles';
 
-export function VerificationAdditionalChecks({ duplicateUserDetectionStep, ageCheck, phoneValidation }) {
+export function VerificationAdditionalChecks({ duplicateUserDetectionStep, ageCheck, phoneValidation, riskAnalysis }) {
   const intl = useIntl();
   const classes = useStyles();
-  if (!ageCheck && !duplicateUserDetectionStep && !phoneValidation) { return null; }
+  if (!(ageCheck || duplicateUserDetectionStep || phoneValidation || !riskAnalysis)) {
+    return null;
+  }
   return (
     <Paper>
       <Box p={2}>
@@ -31,7 +34,12 @@ export function VerificationAdditionalChecks({ duplicateUserDetectionStep, ageCh
           )}
           {phoneValidation && (
             <Grid item xs={12} lg={4}>
-              <PhoneValidation stepData={phoneValidation} />
+              <PhoneValidation step={phoneValidation} />
+            </Grid>
+          )}
+          {riskAnalysis && (
+            <Grid item xs={12} lg={4}>
+              <RiskAnalysis step={riskAnalysis} />
             </Grid>
           )}
         </Grid>

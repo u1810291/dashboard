@@ -6,11 +6,12 @@ import { getDocumentExtras } from 'models/Document.model';
 import { initDateFilter } from 'models/Filter.model';
 import { ITEMS_PER_PAGE } from 'models/Pagination.model';
 import { isChangeableStatus } from 'models/Status.model';
+import { getPhoneValidationExtras } from 'apps/PhoneValidation/models/PhoneValidation.model';
+import { getPhoneRiskValidationExtras } from 'apps/RiskAnalysis/models/RiskAnalysis.model';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getIpCheckUrl } from './IpCheck.model';
 import { Routes } from './Router.model';
 import { DocumentStepTypes, getStepExtra, StepTypes, VerificationPatternTypes } from './Step.model';
-import { getPhoneValidationExtras } from '../apps/PhoneValidation/models/PhoneValidation.model';
 
 export const VerificationStepTypes = {
   AgeValidation: 'age-check',
@@ -116,6 +117,7 @@ export function getIdentityExtras(identity, countries) {
     ageCheck,
     premiumAmlWatchlistsMonitoringStep,
     phoneValidation: getPhoneValidationExtras(steps.find((item) => item.id === VerificationPatternTypes.PhoneOwnershipValidation)),
+    riskAnalysis: getPhoneRiskValidationExtras(steps.find((item) => item.id === VerificationPatternTypes.PhoneRiskValidation)),
     digitalSignature: get(identity, '_embedded.digitalSignature'),
     deviceFingerprint: get(identity, '_embedded.verification.deviceFingerprint'),
   };

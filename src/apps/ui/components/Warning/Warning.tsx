@@ -2,6 +2,7 @@ import { Box, Typography } from '@material-ui/core';
 import { appPalette } from 'apps/theme/app.palette';
 import React from 'react';
 import { FiActivity, FiAlertCircle } from 'react-icons/fi';
+import { ClassNameMap } from '@material-ui/styles';
 import { WarningSize, WarningTypes } from '../../models/Warning.model';
 import { useStyles } from './Warning.styles';
 
@@ -31,8 +32,16 @@ const ColorMap = {
   },
 };
 
-export function Warning({ title, label, type = WarningTypes.Warning, size = WarningSize.Normal, isLabelColored }) {
-  const classes = useStyles();
+export interface WarningProps {
+  title?: string,
+  label: string,
+  type?: WarningTypes,
+  size?: WarningSize,
+  isLabelColored?: boolean,
+}
+
+export function Warning({ title, label, type = WarningTypes.Warning, size = WarningSize.Normal, isLabelColored }: WarningProps) {
+  const classes = useStyles() as ClassNameMap;
 
   const Icon = IconMap[type];
   const style = ColorMap[type];
