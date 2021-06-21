@@ -6,5 +6,4 @@ export enum MerchantTags {
   CanUseVerificationPostponedTimeout = 'can-use-verification-postponed-timeout',
   CanUsePhoneOwnershipValidation = 'can-use-phone-ownership-validation',
   CanUseReverificationFlow = 'can-use-reverification-flow',
-  CanUseRiskPhoneAnalysis = 'can-use-phone-risk-analysis',
 }
