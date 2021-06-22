@@ -1,10 +1,10 @@
 import { Box, Button, IconButton, Typography } from '@material-ui/core';
 import { useConfirm, useOverlay } from 'apps/overlay';
 import { difference, without } from 'lodash';
-import { getDocumentList } from 'models/Document.model';
 import React, { useCallback, useState } from 'react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
+import { DocumentsOrder } from 'models/Document.model';
 import { VerificationStepsModal } from '../VerificationStepsModal/VerificationStepsModal';
 import { useStyles } from './VerificationSteps.styles';
 import { DenyUploadRequirement } from '../../../configuration/containers/DenyUploadRequirement/DenyUploadRequirement';
@@ -36,7 +36,7 @@ export function VerificationSteps({ steps = [], onChange }) {
   const classes = useStyles();
   const [createOverlay, closeOverlay] = useOverlay();
   const confirm = useConfirm();
-  const [availableDocumentTypes] = useState(getDocumentList());
+  const [availableDocumentTypes] = useState(DocumentsOrder);
 
   const handleRemoveItem = useCallback(async (index) => {
     try {

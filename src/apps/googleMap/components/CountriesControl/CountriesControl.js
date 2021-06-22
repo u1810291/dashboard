@@ -1,6 +1,6 @@
 import { Box, Button, Grid } from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { selectIpCheckStatistics, selectStatistics } from 'apps/analytics/state/metrics.selectors';
+import { selectIpCheckStatistics, selectChartStatisticsModel } from 'apps/analytics/state/metrics.selectors';
 import { appPalette } from 'apps/theme/app.palette';
 import cn from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -17,7 +17,7 @@ export function CountriesControl({ geocoder, map, setIsCountriesControlOpen, isC
   const classes = useStyles();
   const markersRef = useRef();
   const countriesList = useSelector(selectCountriesList);
-  const { value: statistics } = useSelector(selectStatistics);
+  const { value: statistics } = useSelector(selectChartStatisticsModel);
   const [countries, setCountries] = useState([]);
   const [activeCountryId, setActiveCountryId] = useState(null);
   const [areCitiesVisible, setAreCitiesVisible] = useState(true);
@@ -72,7 +72,7 @@ export function CountriesControl({ geocoder, map, setIsCountriesControlOpen, isC
     const country = countriesList.find((item) => item.id === activeCountryId);
     if (country && country.name && geocoder?.geocode) {
       geocoder.geocode({ address: country.name }, (res) => {
-        if (res && res[0]) {
+        if (map && res && res[0]) {
           centerMap(res[0].geometry.location, country?.geojson);
         }
       });

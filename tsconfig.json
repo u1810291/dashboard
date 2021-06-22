@@ -12,17 +12,18 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "jsx": "react-jsx",
     "noImplicitAny": false,
-    "jsx": "react",
     "strictNullChecks": false,
+    "outDir": "./build",
     "baseUrl": "./src",
-    "rootDir": "./src",
-    "outDir": "./build"
+    "rootDir": ".",
   },
   "typeRoots": [
     "node_modules/@types"

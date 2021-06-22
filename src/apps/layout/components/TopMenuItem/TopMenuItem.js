@@ -62,13 +62,13 @@ export function TopMenuItem({
     return !!show && menuItem;
   }
 
+  const mobileClasses = isMobile ? classes.mobileActive : classes.desktopActive;
+
   return !!show && (
     <NavLink
       exact
       to={to}
-      activeClassName={isActive
-        ? (isMobile ? classes.mobileActive : classes.desktopActive)
-        : null}
+      activeClassName={isActive ? mobileClasses : null}
       data-qa={qa}
     >
       {menuItem}

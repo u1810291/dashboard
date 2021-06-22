@@ -1,6 +1,6 @@
 import * as api from 'lib/client/collaborators';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
-import { createTypesSequence } from 'state/utils';
+import { createTypesSequence } from 'state/store.utils';
 import { CollaboratorActionGroups } from './collaborator.store';
 
 export const types = {
@@ -18,6 +18,10 @@ export const collaboratorLoad = (id) => async (dispatch, getState) => {
     dispatch({ type: types.COLLABORATOR_FAILURE, error });
     throw error;
   }
+};
+
+export const collaboratorClear = () => async (dispatch) => {
+  dispatch({ type: types.COLLABORATOR_CLEAR });
 };
 
 export const collaboratorListLoad = () => async (dispatch, getState) => {

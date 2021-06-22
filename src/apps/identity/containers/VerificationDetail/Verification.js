@@ -5,11 +5,10 @@ import { Page404 } from 'apps/layout';
 import { getDownloadableFileName } from 'models/Identity.model';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { verificationDocumentUpdate } from 'state/identities/identities.actions';
-import { selectReviewVerificationWithExtras } from 'state/verification/verification.selectors';
-import { LivenessStep } from '../../../biometrics';
-import { VerificationAdditionalChecks } from '../../../checks/components/VerificationAdditionalChecks/VerificationAdditionalChecks';
-import { DocumentStep } from '../../../documents';
+import { VerificationAdditionalChecks } from 'apps/checks/components/VerificationAdditionalChecks/VerificationAdditionalChecks';
+import { LivenessStep } from 'apps/biometrics';
+import { DocumentStep } from 'apps/documents';
+import { selectReviewVerificationWithExtras, verificationDocumentUpdate } from 'apps/verification';
 import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
 import { VerificationSummary } from '../../components/VerificationSummary/VerificationSummary';
 
@@ -65,6 +64,7 @@ export function Verification({ identity }) {
           duplicateUserDetectionStep={identity.duplicateUserDetectionStep}
           ageCheck={identity.ageCheck}
           phoneValidation={identity.phoneValidation}
+          riskAnalysis={identity.riskAnalysis}
         />
       </Grid>
 

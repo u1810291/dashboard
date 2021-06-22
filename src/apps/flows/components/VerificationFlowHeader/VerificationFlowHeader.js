@@ -2,11 +2,10 @@ import { Box, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Paper } fr
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { flowNameValidator } from 'apps/flows/validators/FlowName.validator';
 import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
-import { EditableField } from 'apps/product/components/EditableField/EditableField';
 import { notification } from 'apps/ui';
 import { permalinkUrl } from 'lib/client/urls';
 import { copyToClipboard } from 'lib/copyToClipboard';
-import { getNewFlowId } from 'models/Product.model';
+import { getNewFlowId } from 'models/Flow.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiCopy, FiEdit3, FiTrash2 } from 'react-icons/fi';
@@ -15,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { merchantDeleteFlow, merchantUpdateFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectAppLastModel, selectCurrentFlow, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { EditableField } from 'apps/oldProduct/components/EditableField/EditableField';
 import { CopyLinkButton, useStyles } from './VerificationFlowHeader.styles';
 
 export function VerificationFlowHeader(props) {

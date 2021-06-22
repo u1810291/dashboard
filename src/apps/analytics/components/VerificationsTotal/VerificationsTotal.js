@@ -1,32 +1,25 @@
 import { Box, Grid, Paper } from '@material-ui/core';
-import { loadVerificationsCount } from 'apps/analytics/state/metrics.actions';
-import { selectFilter, selectVerificationsCount } from 'apps/analytics/state/metrics.selectors';
-import React, { useEffect } from 'react';
+import { selectVerificationsCount } from 'apps/analytics/state/metrics.selectors';
+import React from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { localeNumber } from 'lib/number';
 import { useStyles } from './VerificationsTotal.styles';
-import { localeNumber } from '../../../../lib/number';
 
 export function VerificationsTotal() {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const intl = useIntl();
-  const metricsFilter = useSelector(selectFilter);
-  const { value: { all, verified, rejected }, isLoaded } = useSelector(selectVerificationsCount);
-
-  useEffect(() => {
-    dispatch(loadVerificationsCount(metricsFilter));
-  }, [dispatch, metricsFilter]);
+  const verificationsCount = useSelector(selectVerificationsCount);
 
   const verificationByStatus = [
     {
       key: 'verified',
-      count: verified,
+      count: verificationsCount?.verified,
       color: 'common.green',
     },
     {
       key: 'rejected',
-      count: rejected,
+      count: verificationsCount?.rejected,
       color: 'common.red',
     },
   ];
@@ -37,7 +30,7 @@ export function VerificationsTotal() {
         <Grid container justify="space-between" alignItems="center" spacing={2}>
           <Grid item xs={12} md={4}>
             <Box mb={0.4} fontSize={36} fontWeight="bold" color="common.black90" className={classes.title}>
-              { isLoaded && localeNumber(all)}
+              { verificationsCount && localeNumber(verificationsCount?.all)}
             </Box>
             <Box mb={{ xs: 4, md: 0 }} color="common.black75" className={classes.text}>
               {intl.formatMessage({ id: 'Analytics.verificationTotal.total' })}
@@ -52,7 +45,7 @@ export function VerificationsTotal() {
                 {verificationByStatus.map(({ key, color, count }) => (
                   <Box key={key} className={classes.item}>
                     <Box mb={0.4} fontSize={24} fontWeight="bold" color={color}>
-                      {isLoaded && localeNumber(count)}
+                      {verificationsCount && localeNumber(count)}
                     </Box>
                     <Box color="common.black75">
                       {intl.formatMessage({ id: `Analytics.verificationTotal.${key}` })}

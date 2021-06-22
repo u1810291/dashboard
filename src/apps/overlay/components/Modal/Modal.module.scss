@@ -13,9 +13,9 @@
   padding: 40px 30px 20px;
   overflow: hidden;
   overflow-y: auto;
-  border-radius: 6px;
+  border-radius: 10px;
   background: white;
-  box-shadow: 0px 2px 4px rgba(52, 73, 94, 0.1);
+  box-shadow: 0 2px 4px rgba(52, 73, 94, 0.1);
 
   :global(.small) {
     width: 400px;
@@ -30,6 +30,10 @@
   :global(.MuiButtonBase-root) {
     min-height: 50px;
     font-size: 14px;
+  }
+
+  :global(.MuiSwitch-switchBase) {
+    min-height: auto;
   }
 
   :global(.MuiButton-contained):not(:global(.MuiButton-containedPrimary)) {
@@ -100,8 +104,13 @@
   :local(.img) {
     width: 170px;
     height: 170px;
+    margin: 0 auto;
     border-radius: 50%;
     background-color: #232939;
+  }
+
+  :local(.titleWrapper) {
+    text-align: center;
   }
 
   :local(.subtitle) {

@@ -92,7 +92,7 @@ export function AgentInformation({ collaborator }) {
           </Grid>
           <Grid item xs={12} lg={3}>
             <Box mb={0.2} color="common.black90" fontWeight="bold">
-              {formatDate(moment(), DateFormat.DateTime) }
+              {formatDate(moment(user?.dateCreated), DateFormat.DateTime) }
             </Box>
             <Box color="common.black75">
               {intl.formatMessage({ id: 'AgentHistory.agentInformation.dateOfRegistration' })}

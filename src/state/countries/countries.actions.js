@@ -1,5 +1,5 @@
 import * as api from 'lib/client/countries';
-import { createTypesSequence } from 'state/utils';
+import { createTypesSequence } from 'state/store.utils';
 import { CountriesActionGroups } from './countries.store';
 
 export const types = {

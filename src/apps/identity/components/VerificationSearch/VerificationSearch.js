@@ -37,9 +37,9 @@ export function VerificationSearch({ isInOverlay, onSetFilter }) {
   }, [onChangeDebounced]);
 
   const handleCreateSearchOverlay = useCallback(() => {
-    createOverlay(
-      <VerificationSearch onSetFilter={onSetFilter} isInOverlay />,
-      { additionalClasses: ['overlaySearch'] });
+    createOverlay(<VerificationSearch onSetFilter={onSetFilter} isInOverlay />, {
+      additionalClasses: ['overlaySearch'],
+    });
   }, [createOverlay, onSetFilter]);
 
   useEffect(() => {

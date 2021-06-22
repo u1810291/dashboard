@@ -1,15 +1,16 @@
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { DashboardMenu } from 'apps/dashboard/components/DashboardMenu/DashboardMenu';
-import { Loader } from 'apps/dashboard/components/Loader/Loader';
 import { Layout, PageError } from 'apps/layout';
 import { selectIsNoVerifications, selectReviewAwaitingCountModel, selectReviewIsLoadingNext, selectVerificationModel } from 'apps/reviewMode/state/reviewMode.selectors';
 import { AppDarkTheme } from 'apps/theme/appDark.theme';
+import { Loader } from 'apps/ui';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useLongPolling } from 'lib/longPolling.hook';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { goToStartPage } from 'lib/url';
 import { ReviewModeRouter } from '../../ReviewMode.router';
 import { reviewAwaitingCountLoad, verificationLoad } from '../../state/reviewMode.actions';
 import { ReviewModeLayout } from '../ReviewModeLayout/ReviewModeLayout';
@@ -75,7 +76,7 @@ export function ReviewMode() {
   if (isError) {
     return (
       <Layout menu={<DashboardMenu />}>
-        <PageError />
+        <PageError onRetry={goToStartPage} />
       </Layout>
     );
   }

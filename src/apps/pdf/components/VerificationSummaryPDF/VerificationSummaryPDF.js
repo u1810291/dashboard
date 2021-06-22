@@ -2,13 +2,13 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
 import { Text, View } from '@react-pdf/renderer';
+import { getDevicePlatformType, PlatformTypes } from 'models/DeviceCheck.model';
 import { StatusSelectorPDF } from '../StatusSelectorPDF/StatusSelectorPDF';
 import { styles } from './VerificationSummaryPDF.styles';
 import { commonStyles } from '../../PDF.styles';
 import { VerificationDateAndNumberPDF } from '../VerificationDateAndNumberPDF/VerificationDateAndNumberPDF';
 import { VerificationFlowPDF } from '../VerificationFlowPDF/VerificationFlowPDF';
 import { VerificationBioCheckSummaryPDF } from '../VerificationBioCheckSummaryPDF/VerificationBioCheckSummaryPDF';
-import { getDevicePlatformType, PlatformTypes } from '../../../../models/DeviceCheck.model';
 import { VerificationSourcePDF } from '../VerificationSourcePDF/VerificationSourcePDF';
 import { VerificationDocumentPDF } from '../VerificationDocumentPDF/VerificationDocumentPDF';
 import { VerificationIpCheckPDF } from '../VerificationIpCheckPDF/VerificationIpCheckPDF';
@@ -19,7 +19,8 @@ export function VerificationSummaryPDF({ identity }) {
 
   const { ipCheck, biometric, deviceFingerprint } = identity;
 
-  const verificationFlowName = get(identity, '_embedded.verification.flow.name', null);
+  // TODO @vladislav.snimshchikov: remove get(), when pdf will be adapted for Verification instead Identity
+  const verificationFlowName = identity?.flow?.name || get(identity, '_embedded.verification.flow.name', null);
   const platformType = getDevicePlatformType(deviceFingerprint);
 
   return (

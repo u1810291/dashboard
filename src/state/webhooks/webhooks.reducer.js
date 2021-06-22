@@ -1,6 +1,6 @@
 import { last } from 'lodash';
-import { createReducer } from 'state/utils';
-import { types } from './webhooks.actions';
+import { createReducer } from 'state/store.utils';
+import { types } from 'state/webhooks/webhooks.actions';
 
 const initialState = {
   webhook: {},

@@ -2,7 +2,7 @@ import { userLoadSuccess } from 'apps/user/state/user.actions';
 import { http } from 'lib/client/http';
 import { pushEvent } from 'lib/gtm';
 import { merchantLoadSuccess, dashboardUpdate } from 'state/merchant/merchant.actions';
-import { createTypesSequence } from 'state/utils';
+import { createTypesSequence } from 'state/store.utils';
 import { selectLanguage } from 'state/merchant/merchant.selectors';
 import * as api from '../api/auth.client';
 import { AuthActionGroups } from './auth.store';
@@ -27,9 +27,11 @@ export const signIn = (credentials) => async (dispatch, getState) => {
     dispatch(merchantLoadSuccess(merchant));
     dispatch(userLoadSuccess(user));
     dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload: token });
-    if (currentLang !== selectLanguage(getState())) {
+
+    const updatedLang = selectLanguage(getState());
+    if (currentLang !== updatedLang) {
       dispatch(dashboardUpdate({
-        language: currentLang,
+        language: updatedLang,
       }));
     }
   } catch (error) {

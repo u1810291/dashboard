@@ -3,9 +3,9 @@ import React from 'react';
 import { FiHome } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { NavLink } from 'react-router-dom';
+import { Routes } from 'models/Router.model';
 import { CenterContent } from '../../components/CenterContent/CenterContent';
 import { ReactComponent as Image404 } from './404.svg';
-import { Routes } from '../../../../models/Router.model';
 
 export function Page404() {
   const intl = useIntl();

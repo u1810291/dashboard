@@ -38,6 +38,7 @@ export const VerificationPatternTypes = {
   ComplyAdvantageValidation: 'comply-advantage-validation',
   PhoneOwnershipValidation: 'phone-ownership-validation',
   PremiumAmlWatchlistsCheck: 'premium-aml-watchlists-search-validation',
+  PhoneRiskValidation: 'phone-risk-analysis-validation',
   DominicanJce: 'dominican-jce-validation',
   VenezuelanCne: 'venezuelan-cne-validation',
 };
@@ -175,7 +176,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.PanamenianTribunalElectoral]: ['panamenianTribunalElectoral.notEnoughParams'],
   [DocumentStepTypes.DominicanJce]: ['dominicanJce.notEnoughParams'],
   [DocumentStepTypes.VenezuelanCne]: ['venezuelanCne.notEnoughParams'],
-  [StepTypes.PhoneOwnership]: ['phoneOwnership.notEnoughParams'],
+  [StepTypes.PhoneOwnership]: ['phoneOwnership.notEnoughParams', 'phoneOwnership.skipped'],
 };
 
 export const LEGACY_ERROR = 'LegacyError';

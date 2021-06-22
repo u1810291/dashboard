@@ -21,6 +21,20 @@ export const Routes = {
     root: '/flows',
     details: '/flows/:id',
   },
+  identity: {
+    profile: {
+      root: '/identity',
+      details: '/identity/:identityId',
+    },
+    verification: {
+      root: '/verification',
+      details: '/verification/:verificationId',
+    },
+  },
+  flow: {
+    root: '/flow',
+    details: '/flow/:id',
+  },
   dev: { root: '/dev' },
   settings: {
     root: '/settings',

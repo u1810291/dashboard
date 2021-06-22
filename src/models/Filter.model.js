@@ -151,7 +151,6 @@ export const allDatePickerRanges = [
 ];
 
 export const analyticsDatePickerRanges = [
-  FilterRangesByLocal[FilterRangeTypes.All],
   FilterRangesByLocal[FilterRangeTypes.Today],
   FilterRangesByLocal[FilterRangeTypes.Yesterday],
   FilterRangesByLocal[FilterRangeTypes.Last7Days],
@@ -174,7 +173,7 @@ export function identifyRange(startDate, endDate, registerDate, allRanges) {
   return foundRange?.id || null;
 }
 
-export function filterParse({ search = '', status = '', flowIds = '', countries = '', updatedBy = '', eventType = '', asMerchantId, offset, limit, pageSize, sortOrder, sortBy, ...values }, filterStructure) {
+export function filterParse({ search = '', status = '', flowIds = '', countries = '', updatedBy = '', eventType = '', asMerchantId, offset, sortOrder, sortBy, ...values }, filterStructure) {
   const stringTypeGuard = (value) => (isString(value) ? compact(value.split(',')) : []);
 
   return {

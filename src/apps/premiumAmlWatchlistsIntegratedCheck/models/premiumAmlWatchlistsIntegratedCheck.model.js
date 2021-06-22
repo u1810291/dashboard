@@ -19,16 +19,21 @@ export const PremiumAmlWatchlistsValidationTypes = {
 };
 
 export function getPremiumAmlWatchlistsCheckExtraData(step, document, identity) {
+  if (!step?.data) {
+    return step;
+  }
+
   const matchStatus = step?.error?.details?.matchStatus;
-  if (step.data) {
-    const monitoringDisabledByApi = step.data.isMonitoringAvailable && !step.data.monitored && IdentityStatuses.verified === identity.status;
-    step.data = {
+  const isMonitoringDisabledByApi = step.data.isMonitoringAvailable && !step.data.monitored && IdentityStatuses.verified === identity.status;
+
+  return {
+    ...step,
+    data: {
       ...step.data,
       dateOfBirth: document?.fields?.dateOfBirth?.value,
       matchType: matchStatus ? MatchTypesMap[matchStatus] || MatchTypes.partial : MatchTypes.noMatch,
       identityStatus: identity.status,
-      isMonitored: step.data.isMonitoringAvailable && !(monitoringDisabledByApi),
-    };
-  }
-  return step;
+      isMonitored: step.data.isMonitoringAvailable && !(isMonitoringDisabledByApi),
+    },
+  };
 }

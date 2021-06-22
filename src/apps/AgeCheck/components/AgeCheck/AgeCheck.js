@@ -13,9 +13,9 @@ export function AgeCheck({ stepData = {} }) {
         <Card raised={false} className={classes.card}>
           <CardContent>
             <Box>
-              {intl.formatMessage({ id: `Checks.result.ageCheck.${stepData.checkStatus}.description` },
-                { threshold: stepData?.data?.ageThreshold },
-              )}
+              {intl.formatMessage({ id: `Checks.result.ageCheck.${stepData.checkStatus}.description` }, {
+                threshold: stepData?.data?.ageThreshold,
+              })}
             </Box>
           </CardContent>
         </Card>
