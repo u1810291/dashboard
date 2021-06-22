@@ -23,6 +23,7 @@
   },
   "plugins": [
     "react",
+    "react-hooks",
     "@typescript-eslint"
   ],
   "rules": {
@@ -46,6 +47,8 @@
       "ignorePropertyModificationsFor": ["memo"]
     }],
     "no-unused-vars": 0,
+    "react-hooks/exhaustive-deps": 1,
+    "react-hooks/rules-of-hooks": 2,
     "@typescript-eslint/no-unused-vars": ["warn"],
     "@typescript-eslint/no-shadow": ["error"],
     "@typescript-eslint/no-use-before-define": ["error"],
