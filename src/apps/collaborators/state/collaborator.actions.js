@@ -1,6 +1,6 @@
 import * as api from 'lib/client/collaborators';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
-import { createTypesSequence } from 'state/utils';
+import { createTypesSequence } from 'state/store.utils';
 import { CollaboratorActionGroups } from './collaborator.store';
 
 export const types = {

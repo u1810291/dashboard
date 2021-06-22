@@ -19,7 +19,6 @@ export function OverlayContainer() {
   }, []);
 
   return overlay
-    ? createPortal(
-      <Overlay {...overlay} />, rootRef.current)
+    ? createPortal(<Overlay {...overlay} />, rootRef.current)
     : null;
 }

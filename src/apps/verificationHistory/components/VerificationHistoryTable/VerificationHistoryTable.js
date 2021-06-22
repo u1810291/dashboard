@@ -18,10 +18,10 @@ export function VerificationHistoryTable({ identityId }) {
   const classes = useStyles();
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
-  const verificationChanges = useSelector(selectVerificationChangesList) || [];
+  const verificationChanges = useSelector(selectVerificationChangesList);
   const verificationChangesModel = useSelector(selectVerificationChangesModel);
   const verificationHistoryFilter = useSelector(selectVerificationHistoryFilter);
-  const changesTotalCount = useSelector(selectVerificationChangesTotalCount) || 0;
+  const changesTotalCount = useSelector(selectVerificationChangesTotalCount);
 
   const handleNextData = useCallback(() => {
     if (!verificationChangesModel.isLoading && hasMore) {

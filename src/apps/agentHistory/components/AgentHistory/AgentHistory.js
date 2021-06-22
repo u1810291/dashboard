@@ -1,23 +1,22 @@
 import { Box, Container } from '@material-ui/core';
-import { Loader } from 'apps/dashboard/components/Loader/Loader';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { collaboratorClear, collaboratorLoad } from 'apps/collaborators/state/collaborator.actions';
+import { selectCollaborator } from 'apps/collaborators/state/collaborator.selectors';
+import { DashboardMenu } from 'apps/dashboard/components/DashboardMenu/DashboardMenu';
+import { Layout, PageError } from 'apps/layout';
+import { Loader, notification } from 'apps/ui';
+import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { parseFromURL } from 'models/Filter.model';
 import { agentHistoryCleanFilter, agentHistoryFilterStructure } from 'models/History.model';
-import { useIntl } from 'react-intl';
-import { selectCollaborator } from 'apps/collaborators/state/collaborator.selectors';
-import { notification } from 'apps/ui';
-import { collaboratorLoad, collaboratorClear } from 'apps/collaborators/state/collaborator.actions';
-import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { Routes } from 'models/Router.model';
-import { Layout, PageError } from 'apps/layout';
-import { DashboardMenu } from 'apps/dashboard/components/DashboardMenu/DashboardMenu';
-import { AgentInformation } from '../AgentInformation/AgentInformation';
-import { AgentHistoryMenu } from '../AgentHistoryMenu/AgentHistoryMenu';
-import { AgentEventsTable } from '../AgentEventsTable/AgentEventsTable';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import { clearAgentHistory, filterUpdate, loadAgentEventsCount, loadAgentHistory } from '../../state/agentHistory.actions';
 import { selectAgentHistoryModel } from '../../state/agentHistory.selectors';
-import { clearAgentHistory, filterUpdate, loadAgentHistory, loadAgentEventsCount } from '../../state/agentHistory.actions';
+import { AgentEventsTable } from '../AgentEventsTable/AgentEventsTable';
+import { AgentHistoryMenu } from '../AgentHistoryMenu/AgentHistoryMenu';
+import { AgentInformation } from '../AgentInformation/AgentInformation';
 
 export function AgentHistory() {
   const dispatch = useDispatch();

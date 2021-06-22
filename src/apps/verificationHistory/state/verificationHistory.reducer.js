@@ -1,4 +1,4 @@
-import { createReducer } from 'state/utils';
+import { createReducer } from 'state/store.utils';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { verificationHistoryCleanFilter } from 'models/History.model';
 import { SliceNames, types, VerificationHistoryActionGroups } from './verificationHistory.store';

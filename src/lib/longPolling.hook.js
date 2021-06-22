@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { MerchantTags } from '../models/Merchant.model';
-import { selectMerchantTags } from '../state/merchant/merchant.selectors';
+import { MerchantTags } from 'models/Merchant.model';
+import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 
 export function useLongPolling(callback, interval = 20000, { isCheckMerchantTag = true, isUseFirstInvoke = true } = {}) {
   const tags = useSelector(selectMerchantTags);
@@ -27,8 +27,7 @@ export function useLongPolling(callback, interval = 20000, { isCheckMerchantTag 
           result();
         }
       };
-    } else {
-      return callback(false);
     }
+    return callback(false);
   }, [tags, callback, interval, isCheckMerchantTag, isUseFirstInvoke]);
 }

@@ -24,7 +24,7 @@ export function AgentHistoryMenu({ collaborator }) {
   const [deleting, setDeleting] = useState(null);
   const { user } = collaborator || {};
   const agentHistoryFilter = useSelector(selectAgentHistoryFilter);
-  const [,addToUrl] = useFilterParser(agentHistoryFilterStructure);
+  const [, addToUrl] = useFilterParser(agentHistoryFilterStructure);
 
   const handleRemove = useCallback((id) => {
     try {

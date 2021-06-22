@@ -1,8 +1,8 @@
 import { PrivateRoute } from 'apps/auth';
-import { Loader } from 'apps/dashboard/components/Loader/Loader';
+import { Loader } from 'apps/ui';
+import { Routes } from 'models/Router.model';
 import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Routes } from './models/Router.model';
 
 const DashboardLazy = lazy(async () => {
   const { Dashboard } = await import('apps/dashboard');

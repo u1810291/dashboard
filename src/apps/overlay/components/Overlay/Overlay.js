@@ -9,13 +9,13 @@ export function findRelativeParent(element) {
 
   const parent = element.nodeName === 'HTML' ? element : element.parentElement;
 
-  if (parent) {
-    return parent.style.position === 'relative' || parent.nodeName === 'HTML'
-      ? parent
-      : findRelativeParent(parent);
-  } else {
+  if (!parent) {
     return element;
   }
+
+  return parent.style.position === 'relative' || parent.nodeName === 'HTML'
+    ? parent
+    : findRelativeParent(parent);
 }
 
 export function Overlay({ withBlur = false, inline = false, onClose, options, children }) {

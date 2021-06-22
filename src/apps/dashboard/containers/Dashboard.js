@@ -2,6 +2,7 @@ import { useFullStory } from 'apps/AppBootstrap';
 import { signOut } from 'apps/auth/state/auth.actions';
 import { useBeamerScript } from 'apps/beamer';
 import { Layout, PageError } from 'apps/layout';
+import { Loader } from 'apps/ui';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { Routes } from 'models/Router.model';
 import React, { useEffect, useState } from 'react';
@@ -17,7 +18,6 @@ import { reloadPage } from 'lib/window';
 import { DashboardLoader } from '../components/DashboardLoader/DashboardLoader';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
 import { Footer } from '../components/Footer/Footer';
-import { Loader } from '../components/Loader/Loader';
 import { DashboardRouter } from './Dashboard.router';
 
 export function Dashboard() {

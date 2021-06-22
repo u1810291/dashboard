@@ -74,11 +74,7 @@ export function DashboardMenu() {
     if (!isDesktop) {
       setOpen(false);
     }
-    createOverlay(
-      <TeamInviteModal
-        onSubmit={handleInviteSubmit}
-        isPosting={state.isPosting}
-      />);
+    createOverlay(<TeamInviteModal onSubmit={handleInviteSubmit} isPosting={state.isPosting} />);
   }, [handleInviteSubmit, state, isDesktop, setOpen, createOverlay]);
 
   const toggleDrawerOpen = useCallback(() => {

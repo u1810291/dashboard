@@ -1,19 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Box, Collapse, IconButton, Grid } from '@material-ui/core';
-import { FiChevronDown } from 'react-icons/fi';
-import classNames from 'classnames';
+import { Box, Collapse, Grid, IconButton } from '@material-ui/core';
 import { StatusBadge } from 'apps/ui';
-import { useSelector } from 'react-redux';
 import { selectVerification } from 'apps/verification/state/verification.selectors';
+import classNames from 'classnames';
+import { ProductIntegrationTypes } from 'models/Product.model';
 import { IdentityStatuses } from 'models/Status.model';
 import { VerificationResponse } from 'models/Verification.model';
-import { FlowPlatformType } from 'models/Flow.model';
-import { useStyles } from './PassedFlowSelect.styles';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FiChevronDown } from 'react-icons/fi';
+import { useSelector } from 'react-redux';
 import { VerificationLink } from '../VerificationLink/VerificationLink';
+import { useStyles } from './PassedFlowSelect.styles';
 
-export interface PassedFlowSelectProps{
+export interface PassedFlowSelectProps {
   flowName: string,
-  platformType: FlowPlatformType,
+  platformType: ProductIntegrationTypes,
   verifications?: Array<VerificationResponse>,
   badgeStatusId: IdentityStatuses,
   setIsSelected: () => void
@@ -21,7 +21,7 @@ export interface PassedFlowSelectProps{
   isOpened: boolean,
 }
 
-export function PassedFlowSelect({ flowName, platformType, setIsSelected, isSelected, isOpened, verifications, badgeStatusId } : PassedFlowSelectProps) {
+export function PassedFlowSelect({ flowName, platformType, setIsSelected, isSelected, isOpened, verifications, badgeStatusId }: PassedFlowSelectProps) {
   const classes = useStyles();
   const [selectedVerification, setSelectedVerification] = useState(null);
   const verification = useSelector(selectVerification);
@@ -35,7 +35,7 @@ export function PassedFlowSelect({ flowName, platformType, setIsSelected, isSele
 
   return (
     <Box mb={2.5} className={classes.wrapper}>
-      {badgeStatusId && (<StatusBadge statusId={badgeStatusId} />) }
+      {badgeStatusId && (<StatusBadge statusId={badgeStatusId} />)}
       <Grid container alignItems="center" wrap="nowrap" className={classNames(classes.select, { [classes.selected]: isSelected })}>
         <Grid item>
           <Box mb={0.5} color="common.black90" fontSize={18}>
