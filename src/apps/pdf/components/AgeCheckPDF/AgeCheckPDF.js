@@ -16,9 +16,9 @@ export function AgeCheckPDF({ stepData = {} }) {
         </Text>
       </View>
       <Text style={styles.value}>
-        {intl.formatMessage({ id: `Checks.result.ageCheck.${stepData.checkStatus}.description` },
-          { threshold: stepData?.data?.ageThreshold },
-        )}
+        {intl.formatMessage({ id: `Checks.result.ageCheck.${stepData.checkStatus}.description` }, {
+          threshold: stepData?.data?.ageThreshold,
+        })}
       </Text>
     </View>
   );

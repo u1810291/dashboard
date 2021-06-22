@@ -1,26 +1,54 @@
-import _ from 'lodash';
+import { transform, isEqual, isObject as lodashIsObject } from 'lodash';
 
 /**
  * Deep diff between two object, using lodash
- * @param  {Object} object Object compared
- * @param  {Object} base   Object to compare with
+ * @param  {Object} values Object compared
+ * @param  {Object} initialValues   Object to compare with
  * @return {Object}        Return a new object who represent the diff
  */
-export function difference(object, base) {
-  // eslint-disable-next-line no-shadow
+export function difference(values, initialValues) {
   function changes(object, base) {
-    return _.transform(object, (result, value, key) => {
-      if (!_.isEqual(value, base[key])) {
-        result[key] = (_.isObject(value) && _.isObject(base[key])) ? changes(value, base[key]) : value;
+    return transform(object, (memo, value, key) => {
+      if (!isEqual(value, base[key])) {
+        memo[key] = (lodashIsObject(value) && lodashIsObject(base[key])) ? changes(value, base[key]) : value;
       }
     });
   }
-  return changes(object, base);
+  return changes(values, initialValues);
 }
 
 export function isObjectEmpty(object) {
-  if (!_.isObject(object)) {
+  if (!lodashIsObject(object)) {
     return true;
   }
   return Object.keys(object).length === 0;
+}
+
+/**
+ * Simple object check.
+ * @param item
+ * @returns {boolean}
+ */
+export function isObject(item) {
+  return (item && typeof item === 'object' && !Array.isArray(item));
+}
+
+/**
+ * Deep merge two objects.
+ * @param target
+ * @param source
+ */
+export function mergeDeep(target, source) {
+  const output = { ...target };
+  if (isObject(target) && isObject(source)) {
+    Object.keys(source).forEach((key) => {
+      if (isObject(source[key])) {
+        if (!(key in target)) Object.assign(output, { [key]: source[key] });
+        else output[key] = mergeDeep(target[key], source[key]);
+      } else {
+        Object.assign(output, { [key]: source[key] });
+      }
+    });
+  }
+  return output;
 }

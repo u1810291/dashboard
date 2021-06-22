@@ -17,7 +17,7 @@ export function VerificationHistoryHeaderMenu() {
   const classes = useStyles();
   const { id } = useParams();
   const verificationHistoryFilter = useSelector(selectVerificationHistoryFilter);
-  const [,addToUrl] = useFilterParser(verificationHistoryFilterStructure);
+  const [, addToUrl] = useFilterParser(verificationHistoryFilterStructure);
 
   return (
     <Grid container spacing={2} direction="column">

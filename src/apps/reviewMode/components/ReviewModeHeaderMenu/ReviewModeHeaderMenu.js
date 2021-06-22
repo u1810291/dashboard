@@ -38,8 +38,7 @@ export function ReviewModeHeaderMenu() {
   }, [dispatch, verificationNumber]);
 
   const handleClickExit = useCallback(() => {
-    createOverlay(
-      <ReviewModeExitModal onExit={handleExit} closeOverlay={closeOverlay} />);
+    createOverlay(<ReviewModeExitModal onExit={handleExit} closeOverlay={closeOverlay} />);
   }, [closeOverlay, createOverlay, handleExit]);
 
   const handleCancel = useCallback(() => {

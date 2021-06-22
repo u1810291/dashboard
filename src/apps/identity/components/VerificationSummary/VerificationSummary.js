@@ -64,14 +64,15 @@ export function VerificationSummary({ identity }) {
     if (identity.premiumAmlWatchlistsMonitoringStep) {
       isFallback.current = false;
       const isSwitchedToVerified = newStatus.id === IdentityStatuses.verified;
-      await notification.info(
+      await notification.info((
         <PremiumAmlWatchlistsMonitoringNotification
           isSwitchedToVerified={isSwitchedToVerified}
           onEnableFallback={handleEnableFallback}
-        />, {
-          className: classes.ongoingMonitoringNotification,
-          onClose: handleCloseNotification,
-        });
+        />
+      ), {
+        className: classes.ongoingMonitoringNotification,
+        onClose: handleCloseNotification,
+      });
     } else {
       handleUpdateIdentity(currentStatus.current.id);
     }

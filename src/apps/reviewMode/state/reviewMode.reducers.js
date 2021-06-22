@@ -1,5 +1,5 @@
 import { LoadableAdapter } from 'lib/Loadable.adapter';
-import { createReducer } from 'state/utils';
+import { createReducer } from 'state/store.utils';
 import { ReviewModeActionGroups, SliceNames, types } from './reviewMode.store';
 
 const initialState = {

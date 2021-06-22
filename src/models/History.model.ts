@@ -10,10 +10,10 @@ export enum AgentHistoryEventTypes {
 }
 
 export enum VerificationHistoryEventTypes {
-  StatusUpdated= 'verificationStatusUpdated',
-  DocumentFieldsUpdated= 'documentFieldsUpdated',
-  PdfDownloaded='pdfDownloaded',
-  GdprDeleted = 'gdprDeleted'
+  StatusUpdated = 'verificationStatusUpdated',
+  DocumentFieldsUpdated = 'documentFieldsUpdated',
+  PdfDownloaded = 'pdfDownloaded',
+  GdprDeleted = 'gdprDeleted',
 }
 
 export const agentHistoryFilterStructure = {

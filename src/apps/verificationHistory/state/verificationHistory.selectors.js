@@ -17,7 +17,7 @@ export const selectVerificationHistoryFilterSerialized = createSelector(
 
 export const selectVerificationChangesTotalCount = createSelector(
   selectVerificationHistoryStore,
-  (store) => store[SliceNames.Count],
+  (store) => store[SliceNames.Count] || 0,
 );
 
 export const selectVerificationChangesModel = createSelector(
@@ -27,5 +27,5 @@ export const selectVerificationChangesModel = createSelector(
 
 export const selectVerificationChangesList = createSelector(
   selectVerificationChangesModel,
-  selectModelValue((changes) => changes),
+  selectModelValue((changes) => changes || []),
 );

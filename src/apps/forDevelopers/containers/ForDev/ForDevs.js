@@ -1,21 +1,21 @@
 import { Box, Button, Container, FormControl, Grid, MenuItem, Paper, Select, Typography } from '@material-ui/core';
+import Fade from '@material-ui/core/Fade';
+import { PageLoader } from 'apps/layout';
+import { useOverlay } from 'apps/overlay';
+import { CopyToClipboard } from 'apps/ui';
+import { QATags } from 'models/QA.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiChevronDown, FiExternalLink, FiSettings } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { PageLoader } from 'apps/layout';
-import Fade from '@material-ui/core/Fade';
-import { CopyToClipboard } from 'apps/ui';
-import { TabID } from '../../models/ForDevelopers.model';
-import { selectCurrentFlowId, selectMerchantFlowsModel } from '../../../../state/merchant/merchant.selectors';
+import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
+import { selectCurrentFlowId, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { ClientDetails } from '../../components/ClientDetails/ClientDetails';
+import { ForDevsWebhookModal } from '../../components/ForDevsWebhookModal/ForDevsWebhookModal';
 import { Information } from '../../components/Information/Information';
 import { TabsMenu } from '../../components/TabsMenu/TabsMenu';
+import { TabID } from '../../models/ForDevelopers.model';
 import { useStyles } from './ForDev.styles';
-import { updateCurrentFlowId } from '../../../../state/merchant/merchant.actions';
-import { useOverlay } from '../../../overlay';
-import { ForDevsWebhookModal } from '../../components/ForDevsWebhookModal/ForDevsWebhookModal';
-import { QATags } from '../../../../models/QA.model';
 
 export function ForDevs() {
   const intl = useIntl();

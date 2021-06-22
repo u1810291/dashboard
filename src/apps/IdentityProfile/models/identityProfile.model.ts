@@ -1,7 +1,7 @@
 export enum IdentityProfileErrorTypes {
   UserDeleted = 'userWasDeleted',
   UserDeletedByGdpr = 'userDeletedByGdpr',
-  IdentityNotFound ='identityNotFound',
+  IdentityNotFound = 'identityNotFound',
   RequestError = 'requestError',
 }
 

@@ -14,8 +14,14 @@ const InfoPageLazy = lazy(async () => {
 });
 
 const ProductLazy = lazy(async () => {
-  const { Product } = await import('apps/product');
+  const { Product } = await import('apps/oldProduct');
   return { default: Product };
+});
+
+const FlowBuilderLazy = lazy(async () => {
+  // TODO @dkchv: !!! restore render after fixes
+  const { FlowBuilder } = await import('apps/flowBuilder');
+  return { default: FlowBuilder };
 });
 
 const AnalyticsContainerLazy = lazy(async () => {
@@ -53,6 +59,7 @@ export function DashboardRouter() {
           <OwnerRoute path={Routes.analytics.root} component={AnalyticsContainerLazy} />
           <OwnerRoute exact path={Routes.flows.root} component={VerificationFlowsLazy} />
           <OwnerRoute path={Routes.flows.details} component={ProductLazy} />
+          <OwnerRoute path={Routes.flow.details} component={FlowBuilderLazy} />
           <OwnerRoute path={Routes.collaborators.agentProfile.details} component={AgentHistoryLazy} />
           <Route path="*" component={Page404} />
         </MerchantGuard>

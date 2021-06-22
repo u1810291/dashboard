@@ -1,19 +1,19 @@
 import { Box, Paper, Typography } from '@material-ui/core';
-import { StubBarColor, StubTickColor } from 'apps/analytics/models/Metrics.model';
+import { appPalette } from 'apps/theme/app.palette';
 import { DateFormat, formatDate } from 'lib/date';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { StubBarColor, StubTickColor } from '../../models/Metrics.model';
 import { useStyles } from './Chart.styles';
 import { ChartDot } from './ChartDot';
 import { TakeOutTooltipContentPropsHelper } from './TakeOutTooltipContentPropsHelper';
-import { appPalette } from '../../../theme/app.palette';
 
 function tickFormat(value) {
   return formatDate(value, DateFormat.MonthDate);
 }
 
-export function Chart({ data, stub, isLoaded, isLoading, ...props }) {
+export function Chart({ data, stub, ...props }) {
   const intl = useIntl();
   const classes = useStyles();
   const isNoData = data.every((item) => item.value === 0);

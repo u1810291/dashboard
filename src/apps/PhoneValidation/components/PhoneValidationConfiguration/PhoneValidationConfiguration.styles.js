@@ -9,4 +9,20 @@ export const useStyles = makeStyles(() => ({
   input: {
     width: '100%',
   },
+  itemMargin: {
+    marginBottom: 40,
+  },
+  itemPadding: {
+    '&.MuiGrid-item': {
+      paddingBottom: 0,
+    },
+  },
+  itemPaddingSubTitle: {
+    '&.MuiGrid-item': {
+      paddingTop: 0,
+    },
+  },
+  buttonContainer: {
+    marginTop: 20,
+  },
 }));

@@ -1,12 +1,12 @@
+import { Loader } from 'apps/ui';
 import { downloadBlob } from 'lib/file';
+import { QATags } from 'models/QA.model';
 import React, { useCallback, useState } from 'react';
 import { FiDownload, FiLoader } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { downloadCSV } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityCountModel } from 'state/identities/identities.selectors';
-import { QATags } from 'models/QA.model';
-import { Loader } from '../../../dashboard/components/Loader/Loader';
 import { SideButton } from './DownloadCSV.styles';
 
 export function DownloadCSV() {

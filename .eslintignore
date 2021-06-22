@@ -2,4 +2,8 @@ coverage
 node_modules
 public
 
+.eslintrc.js
 src/setupProxy.js
+*.css
+*.svg
+build

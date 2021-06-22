@@ -31,8 +31,8 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
   const identity = useMemo(() => identityCollection?.value[index], [identityCollection, index]);
   const confirmDelete = useConfirmDelete(
     intl.formatMessage({ id: 'verificationModal.delete' }),
-    intl.formatMessage({ id: 'verificationModal.delete.confirm' },
-    ));
+    intl.formatMessage({ id: 'verificationModal.delete.confirm' }),
+  );
 
   const handleRemove = useCallback((id) => async (e) => {
     e.stopPropagation();

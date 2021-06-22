@@ -2,14 +2,14 @@ import { Box, IconButton, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { VisibilityOff } from '@material-ui/icons';
+import { CopyToClipboard } from 'apps/ui';
+import { LoadableAdapter } from 'lib/Loadable.adapter';
+import { QATags } from 'models/QA.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { CopyToClipboard } from 'apps/ui';
-import { LoadableAdapter } from '../../../../lib/Loadable.adapter';
-import { QATags } from '../../../../models/QA.model';
-import { appLoad } from '../../../../state/merchant/merchant.actions';
-import { selectAppLastModel, selectClientIdModel } from '../../../../state/merchant/merchant.selectors';
+import { appLoad } from 'state/merchant/merchant.actions';
+import { selectAppLastModel, selectClientIdModel } from 'state/merchant/merchant.selectors';
 import { useStyles } from './ClientDetails.styles';
 
 export const ClientDetails = () => {

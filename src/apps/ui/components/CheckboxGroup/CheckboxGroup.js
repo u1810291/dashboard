@@ -24,16 +24,15 @@ export function CheckboxGroup({
   return (
     <fieldset className={classes.checkboxGroup}>
       {label && <legend className={classes.checkboxGroupLabel}>{label}</legend>}
-      {/* eslint-disable-next-line no-shadow */}
-      {items.map(({ label, value }) => (
+      {items.map((item) => (
         <Box>
           <FormControlLabel
             className={classes.checkbox}
             control={(
               <Checkbox
-                checked={values.includes(value)}
+                checked={values.includes(item.value)}
                 name={name}
-                value={value}
+                value={item.value}
                 onChange={handleCheckboxChange}
                 checkedIcon={<CheckboxOn />}
                 icon={<CheckboxOff />}
@@ -41,7 +40,7 @@ export function CheckboxGroup({
                 size="small"
               />
             )}
-            label={label}
+            label={item.label}
           />
         </Box>
       ))}

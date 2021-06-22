@@ -11,7 +11,7 @@ export interface ProfileInformationProps{
   identityId: string,
   name?: string,
   location?: string,
-  birthDate?: string
+  birthDate?: string,
   isShowFull: boolean,
 }
 

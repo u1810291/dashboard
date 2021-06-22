@@ -34,8 +34,8 @@ export function VerificationHeader({ identity, isDemo = false }) {
   const verificationId = useMemo(() => identity?._embedded?.verification?.id, [identity]);
   const confirmDelete = useConfirmDelete(
     intl.formatMessage({ id: 'verificationModal.delete' }),
-    intl.formatMessage({ id: 'verificationModal.delete.confirm' },
-    ));
+    intl.formatMessage({ id: 'verificationModal.delete.confirm' }),
+  );
 
   const handlePDFGenerating = useCallback((flag) => {
     dispatch(setPDFGenerating(flag));
