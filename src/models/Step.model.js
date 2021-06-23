@@ -2,9 +2,10 @@ import { getAlterationReason } from 'apps/alterationDetection/models/alterationD
 import { getFacematchStepExtra } from 'apps/facematch/models/facematch.model';
 import { getPremiumAmlWatchlistsCheckExtraData } from 'apps/premiumAmlWatchlistsIntegratedCheck/models/premiumAmlWatchlistsIntegratedCheck.model';
 import { getTemplateMatchingStepExtraData } from 'apps/templateMatching/models/templateMatching.model';
+import { isEmpty } from 'lib/checks';
 import { get } from 'lodash';
-import { getFieldsExpired, getFieldsExtra } from 'models/Field.model';
 import { isCovidTolerance } from 'models/Covid.model';
+import { getFieldsExtra } from 'models/Field.model';
 
 export const StepTypes = {
   ProofOfOwnership: 'proof-of-ownership',
@@ -257,22 +258,11 @@ export function getStepExtra(step, identity, countries, document) {
   };
 }
 
-export function getReaderFrontendSteps(readerStep, config = {}, identity, document) {
+export function getReaderFrontendSteps(readerStep) {
   const steps = [];
-  const fields = getFieldsExtra(readerStep.data).map((field) => {
-    const transforms = config.transforms && config.transforms[field.id];
-    if (!transforms) {
-      return field;
-    }
-    const transformedValue = transforms.reduce((currentValue, transform) => transform(currentValue, document), field.value);
-    return {
-      ...field,
-      value: transformedValue,
-    };
-  });
+  const fields = getFieldsExtra(readerStep.data);
   const emptyFields = fields.filter((item) => !item.value);
-  const expiredFields = getFieldsExpired(fields, config.checks[DocumentStepFrontendChecksTypes.ExpiredDate], identity.dateCreated);
-  const isCovid = isCovidTolerance(document.fields?.expirationDate.value, document.country);
+  const isCovid = isCovidTolerance(document.fields?.expirationDate?.value, document.country);
 
   steps.push({
     ...readerStep,
@@ -283,11 +273,23 @@ export function getReaderFrontendSteps(readerStep, config = {}, identity, docume
     } : null,
   });
 
+  return steps;
+}
+
+export function getComputedSteps(readerStep, identity, document) {
+  const steps = [];
+  const isDocumentExpired = identity?.computed?.isDocumentExpired?.data?.[document?.type];
+  const isUndetermined = isEmpty(isDocumentExpired);
+  const isCovid = isCovidTolerance(document.fields?.expirationDate?.value, document.country);
+
+  if (isUndetermined) {
+    return steps;
+  }
+
   steps.push({
     ...readerStep,
     id: DocumentStepFrontendChecksTypes.ExpiredDate,
-    error: expiredFields.length > 0 && !isCovid ? {
-      type: FRONTEND_ERROR,
+    error: isDocumentExpired && !isCovid ? {
       code: DocumentStepFrontendChecksTypes.ExpiredDate,
     } : null,
     labelExtra: isCovid ? 'SecurityCheckStep.expired-date.success-covid' : null,
@@ -296,10 +298,12 @@ export function getReaderFrontendSteps(readerStep, config = {}, identity, docume
   return steps;
 }
 
-export function getStepsExtra(steps = [], config, identity, countries, document) {
+export function getStepsExtra(steps = [], identity, countries, document) {
   const readerStep = getDocumentStep(DocumentStepTypes.DocumentReading, steps);
+
   return [
-    ...getReaderFrontendSteps(readerStep, config, identity, document),
+    ...getReaderFrontendSteps(readerStep),
+    ...getComputedSteps(readerStep, identity, document),
     ...steps,
   ].map((item) => getStepExtra(item, identity, countries, document));
 }
