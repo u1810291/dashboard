@@ -1,4 +1,3 @@
-import { isDateExpired } from 'lib/date';
 import { formatValue } from 'lib/string';
 
 export const FieldTypes = {
@@ -41,18 +40,6 @@ export function getFieldsExtra(data) {
     // `id` here to support old verification format
     value: formatValue(label || id, value),
   }));
-}
-
-export function getFieldIsExpired(field, config = [], refDate) {
-  const check = config.find((item) => item.id === field.id);
-  if (!check) {
-    return false;
-  }
-  return isDateExpired(field.value, refDate, check.lag);
-}
-
-export function getFieldsExpired(fields = [], config, refDate) {
-  return fields.filter((item) => getFieldIsExpired(item, config, refDate));
 }
 
 export function getCheckFieldsExtra(data) {

@@ -1,6 +1,13 @@
-import { isDateBetween } from 'lib/date';
-import { FieldsEmissionCheck, FieldsExpirationCheck, FieldTypes } from './Field.model';
-import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepFrontendChecksTypes, DocumentStepTypes, getDocumentStatus, getStepsExtra } from './Step.model';
+import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getDocumentStatus, getStepsExtra } from './Step.model';
+
+export interface Document {
+  country: string;
+  // fields: {fullName: {…}, emissionDate: {…}, documentNumber: {…}, dateOfBirth: {…}, expirationDate: {…}, …}
+  photos: string[];
+  region?: string;
+  steps: any[];
+  type: DocumentTypes;
+}
 
 export enum DocumentTypes {
   Passport = 'passport',
@@ -16,6 +23,13 @@ export const DocumentsOrder = [
   DocumentTypes.ProofOfResidency,
 ];
 
+export const DocumentTypeWights = {
+  [DocumentTypes.Passport]: 1,
+  [DocumentTypes.NationalId]: 2,
+  [DocumentTypes.DrivingLicense]: 3,
+  [DocumentTypes.ProofOfResidency]: 4,
+};
+
 export enum DocumentSides {
   Front = 'front',
   Back = 'back',
@@ -27,42 +41,6 @@ export enum PhotosOrientations {
 }
 
 export const DocumentSidesOrder = [DocumentSides.Front, DocumentSides.Back];
-
-export const DocumentTypesConfig = {
-  [DocumentTypes.Passport]: {
-    checks: {
-      [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
-    },
-  },
-  [DocumentTypes.NationalId]: {
-    checks: {
-      [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
-    },
-    transforms: {
-      [FieldTypes.ExpirationDate]: [(value, { country, type }) => {
-        if (country === 'MX' && type === DocumentTypes.NationalId) {
-          // TODO: IDs which expire between Dec 1 2019 and June 5 2021
-          //  must be considered valid until June 6 2021.
-          const isTolerancePeriodApplicable = isDateBetween(value, '2019-12-01', '2021-06-05');
-          if (isTolerancePeriodApplicable) {
-            return '2021-06-06';
-          }
-        }
-        return value;
-      }],
-    },
-  },
-  [DocumentTypes.DrivingLicense]: {
-    checks: {
-      [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
-    },
-  },
-  [DocumentTypes.ProofOfResidency]: {
-    checks: {
-      [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsEmissionCheck],
-    },
-  },
-};
 
 export const DocumentCountrySanctionList = [
   'AF',
@@ -107,9 +85,9 @@ export function getPhotosOrientation(photo) {
     const img = new Image();
     img.src = photo;
     img.onload = function successCallback() {
-      // TODO @ggrigorev remvove ts-ignore
-      // @ts-ignore
-      resolve(this.width > this.height ? PhotosOrientations.Horizontal : PhotosOrientations.Vertical);
+      resolve(img.width > img.height
+        ? PhotosOrientations.Horizontal
+        : PhotosOrientations.Vertical);
     };
     img.onerror = function errorCallback(e) {
       reject(e);
@@ -125,11 +103,18 @@ export function isDocumentWithTwoSides(documentType) {
   return [DocumentTypes.DrivingLicense, DocumentTypes.NationalId].includes(documentType);
 }
 
+export function getOrderedDocuments(documents) {
+  const docs = [...documents];
+  docs.sort((first, second) => DocumentTypeWights[first.type] - DocumentTypeWights[second.type]);
+
+  return docs;
+}
+
 export function getDocumentExtras(verification, countries, proofOfOwnership) {
-  const documents = verification.documents || [];
+  const documents = getOrderedDocuments(verification.documents || []);
 
   return documents.map((document) => {
-    const steps = getStepsExtra(document.steps, DocumentTypesConfig[document.type], verification, countries, document);
+    const steps = getStepsExtra(document.steps, verification, countries, document);
     const documentReadingStep = steps.find((step) => step.id === DocumentStepTypes.DocumentReading);
 
     // @ts-ignore

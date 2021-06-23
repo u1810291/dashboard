@@ -20,7 +20,7 @@ export function ProductCard({ id, isControls = false, onSelect, onRemove }: {
 
   const handleRemove = useCallback(() => {
     onRemove(id);
-  }, [id, onRemove]);
+  }, [id]);
 
   return (
     <UIProductCard
