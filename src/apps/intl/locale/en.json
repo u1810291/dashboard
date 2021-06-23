@@ -1439,7 +1439,7 @@
   "SecurityCheckStep.empty-fields.title": "Document fields extraction",
   "SecurityCheckStep.expired-date.failure": "The document seems to be expired. Please ask the user to provide another document.",
   "SecurityCheckStep.expired-date.success": "Document expiry date is valid.",
-  "SecurityCheckStep.expired-date.success-covid": "Document expiry date is valid - prolonged by local government because of covid19.",
+  "SecurityCheckStep.expired-date.success-covid": "Document expiry date is valid - prolonged by local government because of COVID19.",
   "SecurityCheckStep.expired-date.title": "Document expiry detection",
   "SecurityCheckStep.facematch.checking": "Loading...",
   "SecurityCheckStep.facematch.extras": "Score: {score}%",

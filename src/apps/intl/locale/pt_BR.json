@@ -1439,6 +1439,7 @@
   "SecurityCheckStep.empty-fields.title": "Extração de campos de documentos",
   "SecurityCheckStep.expired-date.failure": "O documento parece ter expirado. Peça ao usuário para fornecer outro documento.",
   "SecurityCheckStep.expired-date.success": "O documento está dentro do período de validade.",
+  "SecurityCheckStep.expired-date.success-covid": "A data de validade do documento é válida - prolongada pelo governo local por causa do COVID19.",
   "SecurityCheckStep.expired-date.title": "Detecção de data de validade de documento",
   "SecurityCheckStep.facematch.checking": "Carregando…",
   "SecurityCheckStep.facematch.extras": "Pontuação: {score}%",

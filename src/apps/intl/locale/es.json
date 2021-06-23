@@ -1439,6 +1439,7 @@
   "SecurityCheckStep.empty-fields.title": "Extracción de campos de documentos",
   "SecurityCheckStep.expired-date.failure": "El documento parece estar caducado. Solicite al usuario que proporcione otro documento.",
   "SecurityCheckStep.expired-date.success": "La fecha de vencimiento del documento es válida.",
+  "SecurityCheckStep.expired-date.success-covid": "La fecha de vencimiento del documento es válida, prolongada por el gobierno local debido a COVID19.",
   "SecurityCheckStep.expired-date.title": "Detección de caducidad de documentos",
   "SecurityCheckStep.facematch.checking": "Cargando...",
   "SecurityCheckStep.facematch.extras": "Puntuación: {score}%",
