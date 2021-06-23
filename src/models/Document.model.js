@@ -34,6 +34,13 @@ export const DocumentConfig = {
     },
     transforms: {
       [FieldTypes.ExpirationDate]: [(value, { country, type }) => {
+        if (country === 'CL' && type === DocumentTypes.NationalId) {
+          // The documents which expire between Jan 1, 2020, and Dec 31, 2021, must be considered valid until Dec 31, 2021.
+          const isTolerancePeriodApplicable = isDateBetween(value, '2020-01-01', '2021-12-31');
+          if (isTolerancePeriodApplicable) {
+            return '2021-12-31';
+          }
+        }
         if (country === 'MX' && type === DocumentTypes.NationalId) {
           // TODO: IDs which expire between Dec 1 2019 and June 5 2021
           //  must be considered valid until June 6 2021.
