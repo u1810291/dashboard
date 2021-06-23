@@ -4,6 +4,7 @@ import { getPremiumAmlWatchlistsCheckExtraData } from 'apps/premiumAmlWatchlists
 import { getTemplateMatchingStepExtraData } from 'apps/templateMatching/models/templateMatching.model';
 import { get } from 'lodash';
 import { getFieldsExpired, getFieldsExtra } from 'models/Field.model';
+import { isCovidTolerance } from 'models/Covid.model';
 
 export const StepTypes = {
   ProofOfOwnership: 'proof-of-ownership',
@@ -271,6 +272,7 @@ export function getReaderFrontendSteps(readerStep, config = {}, identity, docume
   });
   const emptyFields = fields.filter((item) => !item.value);
   const expiredFields = getFieldsExpired(fields, config.checks[DocumentStepFrontendChecksTypes.ExpiredDate], identity.dateCreated);
+  const isCovid = isCovidTolerance(document.fields?.expirationDate.value, document.country);
 
   steps.push({
     ...readerStep,
@@ -279,21 +281,16 @@ export function getReaderFrontendSteps(readerStep, config = {}, identity, docume
       type: FRONTEND_ERROR,
       code: DocumentStepFrontendChecksTypes.EmptyFields,
     } : null,
-    labelStatusDataIntl: {
-      fields: emptyFields.map((item) => `identity.field.${item.id}`),
-    },
   });
 
   steps.push({
     ...readerStep,
     id: DocumentStepFrontendChecksTypes.ExpiredDate,
-    error: expiredFields.length > 0 ? {
+    error: expiredFields.length > 0 && !isCovid ? {
       type: FRONTEND_ERROR,
       code: DocumentStepFrontendChecksTypes.ExpiredDate,
     } : null,
-    labelStatusData: {
-      date: expiredFields.map((item) => item.value).join(', '),
-    },
+    labelExtra: isCovid ? 'SecurityCheckStep.expired-date.success-covid' : null,
   });
 
   return steps;

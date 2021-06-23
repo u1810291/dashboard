@@ -2,6 +2,15 @@ import { isDateBetween } from 'lib/date';
 import { FieldsEmissionCheck, FieldsExpirationCheck, FieldTypes } from './Field.model';
 import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepFrontendChecksTypes, DocumentStepTypes, getDocumentStatus, getStepsExtra } from './Step.model';
 
+export interface Document {
+  country: string;
+  // fields: {fullName: {…}, emissionDate: {…}, documentNumber: {…}, dateOfBirth: {…}, expirationDate: {…}, …}
+  photos: string[];
+  region?: string;
+  steps: any[];
+  type: DocumentTypes;
+}
+
 export enum DocumentTypes {
   Passport = 'passport',
   NationalId = 'national-id',
@@ -114,9 +123,9 @@ export function getPhotosOrientation(photo) {
     const img = new Image();
     img.src = photo;
     img.onload = function successCallback() {
-      // TODO @ggrigorev remvove ts-ignore
-      // @ts-ignore
-      resolve(this.width > this.height ? PhotosOrientations.Horizontal : PhotosOrientations.Vertical);
+      resolve(img.width > img.height
+        ? PhotosOrientations.Horizontal
+        : PhotosOrientations.Vertical);
     };
     img.onerror = function errorCallback(e) {
       reject(e);
