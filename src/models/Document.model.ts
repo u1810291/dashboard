@@ -1,6 +1,4 @@
-import { isDateBetween } from 'lib/date';
-import { FieldsEmissionCheck, FieldsExpirationCheck, FieldTypes } from './Field.model';
-import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepFrontendChecksTypes, DocumentStepTypes, getDocumentStatus, getStepsExtra } from './Step.model';
+import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getDocumentStatus, getStepsExtra } from './Step.model';
 
 export interface Document {
   country: string;
@@ -36,49 +34,6 @@ export enum PhotosOrientations {
 }
 
 export const DocumentSidesOrder = [DocumentSides.Front, DocumentSides.Back];
-
-export const DocumentTypesConfig = {
-  [DocumentTypes.Passport]: {
-    checks: {
-      [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
-    },
-  },
-  [DocumentTypes.NationalId]: {
-    checks: {
-      [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
-    },
-    transforms: {
-      [FieldTypes.ExpirationDate]: [(value, { country, type }) => {
-        if (country === 'CL' && type === DocumentTypes.NationalId) {
-          // The documents which expire between Jan 1, 2020, and Dec 31, 2021, must be considered valid until Dec 31, 2021.
-          const isTolerancePeriodApplicable = isDateBetween(value, '2020-01-01', '2021-12-31');
-          if (isTolerancePeriodApplicable) {
-            return '2021-12-31';
-          }
-        }
-        if (country === 'MX' && type === DocumentTypes.NationalId) {
-          // TODO: IDs which expire between Dec 1 2019 and June 5 2021
-          //  must be considered valid until June 6 2021.
-          const isTolerancePeriodApplicable = isDateBetween(value, '2019-12-01', '2021-06-05');
-          if (isTolerancePeriodApplicable) {
-            return '2021-06-06';
-          }
-        }
-        return value;
-      }],
-    },
-  },
-  [DocumentTypes.DrivingLicense]: {
-    checks: {
-      [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsExpirationCheck],
-    },
-  },
-  [DocumentTypes.ProofOfResidency]: {
-    checks: {
-      [DocumentStepFrontendChecksTypes.ExpiredDate]: [FieldsEmissionCheck],
-    },
-  },
-};
 
 export const DocumentCountrySanctionList = [
   'AF',
@@ -145,7 +100,7 @@ export function getDocumentExtras(verification, countries, proofOfOwnership) {
   const documents = verification.documents || [];
 
   return documents.map((document) => {
-    const steps = getStepsExtra(document.steps, DocumentTypesConfig[document.type], verification, countries, document);
+    const steps = getStepsExtra(document.steps, verification, countries, document);
     const documentReadingStep = steps.find((step) => step.id === DocumentStepTypes.DocumentReading);
 
     // @ts-ignore

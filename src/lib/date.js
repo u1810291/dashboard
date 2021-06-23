@@ -102,25 +102,6 @@ export function normalizeDate(value) {
     : value;
 }
 
-export function isDateExpired(value, reference, lag) {
-  if (!value) {
-    // can't parse, but don't block
-    return false;
-  }
-  let fixedRef = moment(reference);
-
-  if (lag) {
-    // shift reference date with lag value
-    const lagDuration = moment.duration(lag);
-    fixedRef = lagDuration.as('seconds') > 0
-      ? fixedRef.subtract(lagDuration)
-      : fixedRef.add(lagDuration);
-  }
-
-  const beforeRef = fixedRef.diff(moment(value));
-  return beforeRef > 0;
-}
-
 export function isDateBetween(value, start, end) {
   return moment.utc(value).isBetween(moment.utc(start), moment.utc(end), 'day', '[]');
 }
