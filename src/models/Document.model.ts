@@ -25,6 +25,13 @@ export const DocumentsOrder = [
   DocumentTypes.ProofOfResidency,
 ];
 
+export const DocumentTypeWights = {
+  [DocumentTypes.Passport]: 1,
+  [DocumentTypes.NationalId]: 2,
+  [DocumentTypes.DrivingLicense]: 3,
+  [DocumentTypes.ProofOfResidency]: 4,
+};
+
 export enum DocumentSides {
   Front = 'front',
   Back = 'back',
@@ -141,8 +148,15 @@ export function isDocumentWithTwoSides(documentType) {
   return [DocumentTypes.DrivingLicense, DocumentTypes.NationalId].includes(documentType);
 }
 
+export function getOrderedDocuments(documents) {
+  const docs = [...documents];
+  docs.sort((first, second) => DocumentTypeWights[first.type] - DocumentTypeWights[second.type]);
+
+  return docs;
+}
+
 export function getDocumentExtras(verification, countries, proofOfOwnership) {
-  const documents = verification.documents || [];
+  const documents = getOrderedDocuments(verification.documents || []);
 
   return documents.map((document) => {
     const steps = getStepsExtra(document.steps, DocumentTypesConfig[document.type], verification, countries, document);
