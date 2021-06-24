@@ -1,7 +1,5 @@
 import { FiMapPin, FiMail, FiCheckSquare, FiCheckCircle, FiUsers } from 'react-icons/fi';
 
-export const DOCS_BASE_URL = 'https://docs.getmati.com/';
-
 export const CheckTypes = {
   PremiumAmlWatchlistsCheck: 'premiumAmlWatchlistsCheck',
   IpCheck: 'ipCheck',

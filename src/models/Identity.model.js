@@ -8,6 +8,8 @@ import { ITEMS_PER_PAGE } from 'models/Pagination.model';
 import { isChangeableStatus } from 'models/Status.model';
 import { getPhoneValidationExtras } from 'apps/PhoneValidation/models/PhoneValidation.model';
 import { getPhoneRiskValidationExtras } from 'apps/RiskAnalysis/models/RiskAnalysis.model';
+import { getEmailVerificationExtra } from 'models/EmailValidation.model';
+import { getEmailRiskExtra } from 'models/EmailRisk.model';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getIpCheckUrl } from './IpCheck.model';
 import { Routes } from './Router.model';
@@ -92,6 +94,8 @@ export function getIdentityExtras(identity, countries) {
 
   const steps = get(identity, '_embedded.verification.steps') || [];
   const pooStep = getStepExtra(steps.find((item) => item.id === StepTypes.ProofOfOwnership));
+  const emailValidationStep = getEmailVerificationExtra(steps.find((item) => item.id === VerificationPatternTypes.EmailOwnershipValidation));
+  const emailRiskStep = getEmailRiskExtra(steps.find((item) => item.id === VerificationPatternTypes.EmailRiskValidation));
   const documents = getDocumentExtras(verification, countries, pooStep);
 
   let duplicateUserDetectionStep;
@@ -115,6 +119,8 @@ export function getIdentityExtras(identity, countries) {
     ipCheck: getIpCheckStep(steps),
     duplicateUserDetectionStep,
     ageCheck,
+    emailValidationStep,
+    emailRiskStep,
     premiumAmlWatchlistsMonitoringStep,
     phoneValidation: getPhoneValidationExtras(steps.find((item) => item.id === VerificationPatternTypes.PhoneOwnershipValidation)),
     riskAnalysis: getPhoneRiskValidationExtras(steps.find((item) => item.id === VerificationPatternTypes.PhoneRiskValidation)),

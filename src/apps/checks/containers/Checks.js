@@ -4,11 +4,12 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectAvailableChecks } from 'state/merchant/merchant.selectors';
+import { DOCS_BASE_URL } from 'models/Documentation.model';
 import { DuplicateUserDetectionCheckControl } from '../components/DuplicateUserDetectionCheckControl/DuplicateUserDetectionCheckControl';
 import { IpCheckControl } from '../components/IpCheckControl/IpCheckControl';
 import { Nom151CheckControl } from '../components/nom151CheckControl/Nom151CheckControl';
 import { PremiumAmlWatchlistsCheckControl } from '../components/PremiumAmlWatchlistsIntegratedCheckControl/PremiumAmlWatchlistsIntegratedCheckControl';
-import { CheckTypes, DOCS_BASE_URL } from '../models/Checks.model';
+import { CheckTypes } from '../models/Checks.model';
 
 export function AdditionalChecks() {
   const intl = useIntl();

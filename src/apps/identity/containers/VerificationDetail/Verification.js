@@ -65,6 +65,8 @@ export function Verification({ identity }) {
           ageCheck={identity.ageCheck}
           phoneValidation={identity.phoneValidation}
           riskAnalysis={identity.riskAnalysis}
+          emailValidationStep={identity.emailValidationStep}
+          emailRiskStep={identity.emailRiskStep}
         />
       </Grid>
 

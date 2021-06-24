@@ -37,7 +37,12 @@ export function RiskAnalysisPDF({ step = {} }: RiskAnalysisPDFProps) {
       )}
       <View style={styles.stepDetailsContainer}>
         {Object.keys(RiskAnalysisFieldTypes).map((fieldName) => (!isNil(step?.data[RiskAnalysisFieldTypes[fieldName]])) && (
-          <CheckStepDetailsEntryPDF label={RiskAnalysisFieldTypes[fieldName]} value={step.data[RiskAnalysisFieldTypes[fieldName]]} key={RiskAnalysisFieldTypes[fieldName]} />
+          <CheckStepDetailsEntryPDF
+            label={RiskAnalysisFieldTypes[fieldName]}
+            value={step.data[RiskAnalysisFieldTypes[fieldName]]}
+            key={RiskAnalysisFieldTypes[fieldName]}
+            style={styles.stepDetailsItem}
+          />
         ))}
       </View>
     </View>
