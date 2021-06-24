@@ -15,6 +15,7 @@ export const StepTypes = {
   Voice: 'voice',
   LivenessVoice: 'voice+liveness',
   PhoneOwnership: 'phone-ownership-validation',
+  PhoneRiskValidation: 'phone-risk-analysis-validation',
 };
 
 export const VerificationPatternTypes = {
@@ -179,6 +180,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.DominicanJce]: ['dominicanJce.notEnoughParams'],
   [DocumentStepTypes.VenezuelanCne]: ['venezuelanCne.notEnoughParams'],
   [StepTypes.PhoneOwnership]: ['phoneOwnership.notEnoughParams', 'phoneOwnership.skipped'],
+  [StepTypes.PhoneRiskValidation]: ['phoneRisk.skipped'],
 };
 
 export const LEGACY_ERROR = 'LegacyError';
