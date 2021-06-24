@@ -1,7 +1,7 @@
 import { Image, Text, View } from '@react-pdf/renderer';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { StepStatus, getStepStatus } from 'models/Step.model';
+import { StepStatus } from 'models/Step.model';
 import { CheckStepDetailsEntryPDF } from '../CheckStepPDF/CheckStepDetailsEntryPDF';
 import { commonStyles } from '../../PDF.styles';
 import { styles } from './PremiumAmlWatchlistsStepDetailsPDF.styles';
@@ -9,15 +9,15 @@ import { IconStatuses } from '../../assets';
 
 export function PremiumAmlWatchlistsStepDetailsPDF({ step }) {
   const intl = useIntl();
-  const statusCode = getStepStatus(step);
+
   return (
     <View style={[styles.card, commonStyles.mb05]}>
       <View style={commonStyles.labelContainer} wrap={false}>
-        <Image style={commonStyles.labelIcon} src={IconStatuses[statusCode]} />
+        <Image style={commonStyles.labelIcon} src={IconStatuses[step.checkStatus]} />
         <Text style={commonStyles.label}>
           {intl.formatMessage({
             id: `SecurityCheckStep.${step.id}.title`,
-            defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${statusCode}` }),
+            defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${step.checkStatus}` }),
           })}
         </Text>
       </View>

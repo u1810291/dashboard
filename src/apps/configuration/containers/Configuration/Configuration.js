@@ -1,5 +1,6 @@
 import { Box, Divider, Grid, Hidden } from '@material-ui/core';
 import { AgeCheckConfiguration } from 'apps/AgeCheck';
+import { EmailValidationConfiguration } from 'apps/EmailValidation';
 import { BiometricStep } from 'apps/biometrics';
 import { VerificationSteps } from 'apps/checks';
 import { Countries } from 'apps/countries';
@@ -12,7 +13,7 @@ import { ButtonCollapsible } from 'apps/ui';
 import { ConfigureColor } from 'apps/WebSDKPreview';
 import classnames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiAlertOctagon, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiSlash, FiTrash, FiUser, FiSmartphone } from 'react-icons/fi';
+import { FiAlertOctagon, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiMail, FiSlash, FiTrash, FiUser, FiSmartphone } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
@@ -85,6 +86,12 @@ export function Configuration() {
         title: 'Product.configuration.ageCheck',
         icon: <FiSlash />,
         body: <AgeCheckConfiguration />,
+      },
+      {
+        id: 'emailCheck',
+        title: 'Product.EmailValidation.title',
+        icon: <FiMail />,
+        body: <EmailValidationConfiguration />,
       },
       {
         id: 'phoneValidation',

@@ -37,7 +37,12 @@ export function PhoneValidationPDF({ step = {} }: PhoneValidationPDFProps) {
       )}
       <View style={styles.stepDetailsContainer}>
         {Object.keys(PhoneValidationTypes).map((fieldName) => !isNil(step?.data[PhoneValidationTypes[fieldName]]) && (
-          <CheckStepDetailsEntryPDF label={PhoneValidationTypes[fieldName]} value={step.data[PhoneValidationTypes[fieldName]]} key={PhoneValidationTypes[fieldName]} />
+          <CheckStepDetailsEntryPDF
+            label={PhoneValidationTypes[fieldName]}
+            value={step.data[PhoneValidationTypes[fieldName]]}
+            key={PhoneValidationTypes[fieldName]}
+            style={styles.stepDetailsItem}
+          />
         ))}
       </View>
     </View>
