@@ -7,17 +7,16 @@ import { isNil } from 'lib/isNil';
 import { PhoneValidationTypes, PhoneValidationStep } from '../../models/PhoneValidation.model';
 import { useStyles } from './PhoneValidation.styles';
 
-export function PhoneValidation({ step = {} }: {
-  step: PhoneValidationStep,
-}) {
+export function PhoneValidation({ step = {} }: { step: PhoneValidationStep }) {
   const classes = useStyles();
   const intl = useIntl();
+
   return (
     <BoxBordered p={1} pt={2} className={classes.bordered}>
       <CheckBarExpandable step={step} title="SecurityCheckStep.phoneOwnership.title">
         <Card raised={false} className={classes.card}>
           <CardContent>
-            {step.error && (
+            {step?.error && (
               <Box>
                 {intl.formatMessage({ id: `SecurityCheckStep.${step.error.code}` })}
               </Box>

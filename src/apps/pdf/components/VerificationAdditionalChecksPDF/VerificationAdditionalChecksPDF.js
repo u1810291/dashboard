@@ -3,13 +3,14 @@ import { useIntl } from 'react-intl';
 import { Text, View } from '@react-pdf/renderer';
 import { commonStyles } from '../../PDF.styles';
 import { DuplicateUserDetectionCheckPDF } from '../DuplicateUserDetectionCheckPDF/DuplicateUserDetectionCheckPDF';
+import { EmailValidationPDF } from '../EmailValidationPDF/EmailValidationPDF';
 import { AgeCheckPDF } from '../AgeCheckPDF/AgeCheckPDF';
 import { PhoneValidationPDF } from '../PhoneValidationPDF/PhoneValidationPDF';
 import { RiskAnalysisPDF } from '../RiskAnalysisPDF/RiskAnalysisPDF';
 
-export function VerificationAdditionalChecksPDF({ duplicateUserDetectionStep, ageCheck, phoneValidation, riskAnalysis }) {
+export function VerificationAdditionalChecksPDF({ duplicateUserDetectionStep, ageCheck, phoneValidation, riskAnalysis, emailValidationStep }) {
   const intl = useIntl();
-  if (!ageCheck && !duplicateUserDetectionStep && !phoneValidation && !riskAnalysis) { return null; }
+  if (!ageCheck && !duplicateUserDetectionStep && !phoneValidation && !riskAnalysis && !emailValidationStep) { return null; }
   return (
     <View style={commonStyles.paper}>
       <Text style={[commonStyles.titleBoldMain, commonStyles.mb15]}>
@@ -19,6 +20,7 @@ export function VerificationAdditionalChecksPDF({ duplicateUserDetectionStep, ag
       {duplicateUserDetectionStep && <DuplicateUserDetectionCheckPDF stepData={duplicateUserDetectionStep} />}
       {phoneValidation && <PhoneValidationPDF step={phoneValidation} />}
       {riskAnalysis && <RiskAnalysisPDF step={riskAnalysis} />}
+      {emailValidationStep && <EmailValidationPDF step={emailValidationStep} />}
     </View>
   );
 }

@@ -4,7 +4,7 @@ import { ReactComponent as IconData } from 'assets/icon-identity-data.svg';
 import { ReactComponent as IconDone } from 'assets/icon-identity-done.svg';
 import { ReactComponent as IconError } from 'assets/icon-identity-error.svg';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
-import { getStepStatus, LEGACY_ERROR, StepStatus, SYSTEM_ERROR } from 'models/Step.model';
+import { LEGACY_ERROR, StepStatus, SYSTEM_ERROR } from 'models/Step.model';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { CheckBarIcon } from '../CheckBarIcon/CheckBarIcon';
@@ -24,8 +24,7 @@ export function CheckBarExpandable({ step, children, title }) {
   const [expandIcon, setExpandIcon] = useState(null);
   const { id, error } = step;
   const [expanded, setExpanded] = useState('');
-  const statusCode = step.statusCode || getStepStatus(step);
-  const isChecking = statusCode === StepStatus.Checking;
+  const isChecking = step.checkStatus === StepStatus.Checking;
 
   useEffect(() => {
     if (isChecking) {
@@ -37,7 +36,7 @@ export function CheckBarExpandable({ step, children, title }) {
     const icon = <ExpandMore />;
     setExpandIcon(icon);
   }, [
-    statusCode,
+    step.checkStatus,
     setDisabledExpansion,
     setExpandIcon,
     error,
@@ -45,7 +44,7 @@ export function CheckBarExpandable({ step, children, title }) {
     isChecking,
   ]);
 
-  const handleChange = (panel) => (event, isExpanded) => {
+  const handleChange = (panel) => (_, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
@@ -59,18 +58,18 @@ export function CheckBarExpandable({ step, children, title }) {
           disabled={false}
         >
           <ExpansionPanelSummary
-            className={statusCode === StepStatus.Failure ? 'error' : ''}
+            className={step.checkStatus === StepStatus.Failure ? 'error' : ''}
             expandIcon={expandIcon}
             aria-controls={`panel-${id}-content`}
             id={`panel-${id}-header`}
           >
-            {IconStatuses[statusCode]}
+            {IconStatuses[step.checkStatus]}
             <Box key="check-bar-title" className={classes.labelContainer}>
               <Box className={classes.label}>
                 <Box fontWeight={600}>
                   {intl.formatMessage({
                     id: title || `SecurityCheckStep.${id}.title`,
-                    defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${statusCode}` }),
+                    defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${step.checkStatus}` }),
                   })}
                 </Box>
               </Box>
@@ -92,7 +91,7 @@ export function CheckBarExpandable({ step, children, title }) {
                 {' '}
                 {intl.formatMessage({
                   id: title || `SecurityCheckStep.${id}.title`,
-                  defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${statusCode}` }),
+                  defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${step.checkStatus}` }),
                 })}
               </Box>
             </Box>

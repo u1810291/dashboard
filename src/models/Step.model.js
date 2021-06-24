@@ -16,6 +16,8 @@ export const StepTypes = {
   LivenessVoice: 'voice+liveness',
   PhoneOwnership: 'phone-ownership-validation',
   PhoneRiskValidation: 'phone-risk-analysis-validation',
+  EmailOwnership: 'email-ownership-validation',
+  EmailRisk: 'email-risk-validation',
 };
 
 export const VerificationPatternTypes = {
@@ -40,6 +42,8 @@ export const VerificationPatternTypes = {
   DuplicateUserValidation: 'duplicate-user-detection',
   ComplyAdvantageValidation: 'comply-advantage-validation',
   PhoneOwnershipValidation: 'phone-ownership-validation',
+  EmailOwnershipValidation: 'email-ownership-validation',
+  EmailRiskValidation: 'email-risk-validation',
   PremiumAmlWatchlistsCheck: 'premium-aml-watchlists-search-validation',
   PhoneRiskValidation: 'phone-risk-analysis-validation',
   DominicanJce: 'dominican-jce-validation',
@@ -181,6 +185,8 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.VenezuelanCne]: ['venezuelanCne.notEnoughParams'],
   [StepTypes.PhoneOwnership]: ['phoneOwnership.notEnoughParams', 'phoneOwnership.skipped'],
   [StepTypes.PhoneRiskValidation]: ['phoneRisk.skipped'],
+  [StepTypes.EmailOwnership]: ['emailOwnership.notEnoughParams', 'emailOwnership.skipped'],
+  [StepTypes.EmailRisk]: ['emailRisk.notEnoughParams', 'emailRisk.skipped'],
 };
 
 export const LEGACY_ERROR = 'LegacyError';

@@ -26,6 +26,7 @@ export const FieldBooleanPatterns = [
   'deceased',
   'hasdebts',
   'isphoneverified',
+  'issourceverified',
   'registeredtaxpayer',
 ];
 
@@ -38,7 +39,7 @@ export function titleCase(string = '') {
 }
 
 function includesPattern(name = '', keys) {
-  return keys.some((key) => name.toLowerCase().includes(key));
+  return keys.some((key) => name.toLowerCase() === key);
 }
 
 export function formatValue(label, value) {
