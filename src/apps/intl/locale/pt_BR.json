@@ -132,6 +132,7 @@
   "Checks.result.phoneValidation.notConfirmed": "O usuário não confirmou o número de seu celular em 10 minutos.",
   "Checks.result.riskAnalysis.phoneRisk.highRisk": "O comportamento de rede do usuário indica uma alta probabilidade de fraude, recomendamos não pegar o número deste usuário.",
   "Checks.result.riskAnalysis.phoneRisk.invalidLineType": "O tipo de linha do usuário está altamente relacionado à atividade fraudulenta. recomendamos não pegar o número deste usuário.",
+  "Checks.result.riskAnalysis.phoneRisk.skipped": "User skipped this step",
   "Checks.result.riskAnalysis.title": "Perfil de risco do telefone",
   "CheckSummary.title": "Problemas detectados ({count})",
   "close": "Fechar",
