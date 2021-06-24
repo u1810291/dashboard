@@ -2,6 +2,7 @@ import { titleize } from 'inflection';
 import { formatDate } from 'lib/date';
 import { startCase } from 'lodash';
 import { useIntl } from 'react-intl';
+import { isNil } from './isNil';
 
 export const FieldTitlizedPatterns = [
   'name',
@@ -53,7 +54,7 @@ export function formatValue(label, value) {
     return formatDate(value);
   }
 
-  return value ? `${value}` : '';
+  return !isNil(value) ? `${value}` : '';
 }
 
 export function useFormattedValue(label, value) {
