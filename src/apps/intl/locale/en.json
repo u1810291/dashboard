@@ -132,6 +132,7 @@
   "Checks.result.phoneValidation.notConfirmed": "The user did not confirm his phone number within 10 minutes.",
   "Checks.result.riskAnalysis.phoneRisk.highRisk": "The user’s network behavior indicates a high probability of fraud, we recommend not to take this user’s number.",
   "Checks.result.riskAnalysis.phoneRisk.invalidLineType": "The user’s line type is highly correlated with fraudulent activity. We recommend not to take this user’s phone number.",
+  "Checks.result.riskAnalysis.phoneRisk.skipped": "User skipped this step",
   "Checks.result.riskAnalysis.title": "Phone risk profile",
   "CheckSummary.title": "Detected Issues ({count})",
   "close": "Close",
