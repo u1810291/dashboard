@@ -16,6 +16,7 @@ export const GovCheckCountryList = {
   Colombia: 'colombia',
   CostaRica: 'costaRica',
   Ecuador: 'ecuador',
+  Guatemala: 'guatemala',
   // TODO: uncomment after we get fix for Honduran scraper
   // Honduras: 'honduras',
   Dominican: 'dominican',
@@ -77,6 +78,13 @@ export const GovCheckConfiguration = [
         id: DocumentStepTypes.ColombianRegistraduria,
         default: true,
       },
+      {
+        id: DocumentStepTypes.ColombianNationalPolice,
+      },
+      {
+        id: DocumentStepTypes.ColombianProcuraduria,
+        default: false,
+      },
     ],
   },
   {
@@ -104,15 +112,23 @@ export const GovCheckConfiguration = [
         default: false,
       },
     ],
-  // TODO: uncomment after we get fix for Honduran scraper
-  // }, {
-  //   country: GovCheckCountryList.Honduras,
-  //   checks: [
-  //     {
-  //       id: DocumentStepTypes.HonduranRnp,
-  //       default: false,
-  //     },
-  //   ],
+    // TODO: uncomment after we get fix for Honduran scraper
+    // }, {
+    //   country: GovCheckCountryList.Honduras,
+    //   checks: [
+    //     {
+    //       id: DocumentStepTypes.HonduranRnp,
+    //       default: false,
+    //     },
+    //   ],
+  }, {
+    country: GovCheckCountryList.Guatemala,
+    checks: [
+      {
+        id: DocumentStepTypes.GuatemalanTse,
+        default: false,
+      },
+    ],
   }, {
     country: GovCheckCountryList.Dominican,
     checks: [
@@ -245,6 +261,23 @@ export const govCheckDisplayOptions = {
     documentStatus: {
       hidden: true,
     },
+  },
+  [DocumentStepTypes.ColombianNationalPolice]: {
+    documentNumber: {
+      inline: true,
+    },
+    fullName: {},
+    criminalRecords: {},
+  },
+  [DocumentStepTypes.GuatemalanTse]: {
+    fullName: {},
+  },
+  [DocumentStepTypes.ColombianProcuraduria]: {
+    fullName: {},
+    documentNumber: {
+      inline: true,
+    },
+    criminalRecords: {},
   },
   [DocumentStepTypes.CostaRicanTse]: {
     firstName: {
