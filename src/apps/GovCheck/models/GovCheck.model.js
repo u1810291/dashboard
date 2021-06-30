@@ -86,11 +86,13 @@ export const GovCheckConfiguration = [
         default: false,
       },
     ],
-  },
-  {
   }, {
     country: GovCheckCountryList.CostaRica,
     checks: [
+      {
+        id: DocumentStepTypes.CostaRicanAtv,
+        default: false,
+      },
       {
         id: DocumentStepTypes.CostaRicanTse,
         default: false,
@@ -99,16 +101,16 @@ export const GovCheckConfiguration = [
         id: DocumentStepTypes.CostaRicanSocialSecurity,
         default: false,
       },
-      {
-        id: DocumentStepTypes.CostaRicanAtv,
-        default: false,
-      },
     ],
   }, {
     country: GovCheckCountryList.Ecuador,
     checks: [
       {
         id: DocumentStepTypes.EcuadorianRegistroCivil,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.EcuadorianSri,
         default: false,
       },
     ],
