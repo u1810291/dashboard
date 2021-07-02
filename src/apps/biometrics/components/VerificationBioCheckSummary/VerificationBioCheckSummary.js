@@ -8,7 +8,7 @@ import { VerificationSummaryTitleTypes } from 'models/Identity.model';
 import { StepStatus } from 'models/Step.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import IconEmpty from '../../../../assets/icon-empty-photo.svg';
+import IconEmpty from 'assets/icon-empty-photo.svg';
 import { useStyles } from './VerificationBioCheckSummary.styles';
 
 export function VerificationBioCheckSummary({ biometric, identity }) {

@@ -1,13 +1,13 @@
 import { useIntl } from 'react-intl';
 import React from 'react';
 import { Image, Text, View } from '@react-pdf/renderer';
+import { getMediaURL } from 'lib/client/media';
+import { useDocumentTitle } from 'apps/documents';
 import { styles } from './VerificationDocumentPDF.styles';
 import IconEmpty from '../../assets/icon-empty-photo.png';
 import { VerificationCheckCardPDF } from '../VerificationCheckCardPDF/VerificationCheckCardPDF';
 import { VerificationSummaryChecksContainerPDF } from '../VerificationSummaryChecksContainerPDF/VerificationSummaryChecksContainerPDF';
 import { VerificationSummaryTitlePDF } from '../VerificationSummaryTitlePDF/VerificationSummaryTitlePDF';
-import { useDocumentTitle } from '../../../identity/hooks/document.hook';
-import { getMediaURL } from '../../../../lib/client/media';
 
 export function VerificationDocumentPDF({ document, documentIndex }) {
   const intl = useIntl();

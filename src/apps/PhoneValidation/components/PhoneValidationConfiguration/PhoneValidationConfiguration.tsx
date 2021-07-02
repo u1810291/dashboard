@@ -1,7 +1,6 @@
 import { Box, FormControl, Switch, Grid, Typography, Button } from '@material-ui/core';
 import { BoxBordered, notification, TextFieldName, Warning } from 'apps/ui';
 import { PageLoader } from 'apps/layout';
-import { VerificationPatternTypes } from 'models/Step.model';
 import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +11,7 @@ import { selectPhoneRiskAnalysisThreshold } from 'state/merchant/merchant.select
 import { RiskAnalysisConfiguration } from 'apps/RiskAnalysis';
 import { appPalette } from 'apps/theme';
 import { selectPhoneRiskValidation } from 'apps/RiskAnalysis/state/RiskAnalysis.selectors';
+import { VerificationPatternTypes } from '../../../../models/VerificationPatterns.model';
 import { selectSenderName, selectPhoneValidationMode } from '../../state/PhoneValidation.selectors';
 import { SENDER_NAME_LENGTH_LIMIT, PhoneOwnershipValidationMethodTypes } from '../../models/PhoneValidation.model';
 import { useStyles } from './PhoneValidationConfiguration.styles';

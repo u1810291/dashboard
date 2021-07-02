@@ -1,42 +1,54 @@
-import { Loadable } from 'lib/Loadable.adapter';
+import { Logo } from 'apps/logo/models/Logo.model';
 import { selectModelValue } from 'lib/loadable.selectors';
-import { ProductTypes } from 'models/Product.model';
+import { IFlow, FlowStyle } from 'models/Flow.model';
+import { Loadable } from 'models/Loadable.model';
+import { ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
 import { createSelector } from 'reselect';
-import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { FLOW_BUILDER_STORE_KEY, FlowBuilderStore } from './FlowBuilder.store';
 
 export const flowBuilderStore = (state) => state[FLOW_BUILDER_STORE_KEY];
 
 export const selectFlowBuilderSelectedId = createSelector(
   flowBuilderStore,
-  // TODO @dkchv: !!! type
   (store: FlowBuilderStore): ProductTypes => store.selectedId,
 );
 
-export const selectFlowBuilderFlowId = createSelector(
+export const selectFlowBuilderHaveUnsavedChanges = createSelector(
   flowBuilderStore,
-  (store) => store.selectedFlowId,
-);
-
-export const selectFlowBuilderFlowSelected = createSelector(
-  selectMerchantFlowsModel,
-  selectFlowBuilderFlowId,
-  selectModelValue((model, id) => model.find((item) => item.id === id)),
+  (store: FlowBuilderStore): boolean => store.haveUnsavedChanges,
 );
 
 export const selectFlowBuilderProductsInGraphModel = createSelector(
   flowBuilderStore,
-  // TODO @dkchv: !!! type
   (store: FlowBuilderStore): Loadable<ProductTypes[]> => store.productsInGraph,
+);
+
+export const selectFlowBuilderProductsInGraph = createSelector(
+  selectFlowBuilderProductsInGraphModel,
+  selectModelValue(),
 );
 
 export const selectFlowBuilderChangeableFlowModel = createSelector(
   flowBuilderStore,
-  // TODO @dkchv: !!! type
-  (store: FlowBuilderStore): any => store.changeableFlow,
+  (store: FlowBuilderStore): Loadable<IFlow> => store.changeableFlow,
 );
 
 export const selectFlowBuilderChangeableFlow = createSelector(
   selectFlowBuilderChangeableFlowModel,
   selectModelValue(),
+);
+
+export const selectFlowBuilderIntegrationType = createSelector(
+  selectFlowBuilderChangeableFlow,
+  (flow: IFlow): ProductIntegrationTypes => flow.integrationType,
+);
+
+export const selectFlowBuilderChangeableFlowStyle = createSelector(
+  selectFlowBuilderChangeableFlowModel,
+  (model: Loadable<IFlow>): FlowStyle => model.value.style,
+);
+
+export const selectFlowBuilderChangeableLogoUrl = createSelector(
+  selectFlowBuilderChangeableFlow,
+  (flow: IFlow): Logo => flow.logo,
 );

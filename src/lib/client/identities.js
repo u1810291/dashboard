@@ -1,6 +1,6 @@
 import { get, set } from 'lodash';
 import { BiometricTypes } from 'models/Biometric.model';
-import { http } from './http';
+import { http } from 'lib/client/http';
 
 export function getIdentities(params) {
   return http.get('/v1/identities', { params });
@@ -13,24 +13,8 @@ export function downloadCSV(params) {
   });
 }
 
-export function getVerifications(identityId) {
-  return http.get(`/api/v1/dashboard/identity/${identityId}/verification`);
-}
-
-export function getOneVerification(identityId, verificationId) {
-  return http.get(`/api/v1/dashboard/identity/${identityId}/verification/${verificationId}`);
-}
-
-export function getIdentityProfile(identityId) {
-  return http.get(`/api/v1/dashboard/identity/${identityId}`);
-}
-
 export function getIdentitiesCount(params) {
   return http.get('/v1/identities/count', { params });
-}
-
-export function putVerificationStatus(verificationId, data) {
-  return http.put(`/api/v1/dashboard/verifications/${verificationId}/status`, data);
 }
 
 export function patchVerificationDocument(verificationId, documentType, fields) {
@@ -73,6 +57,10 @@ export async function getIdentityWithNestedData(id, params) {
   }
 
   return identity;
+}
+
+export async function putCustomerNotes(identityId, notes) {
+  return http.put(`/api/v1/dashboard/identity/${identityId}/notes`, notes);
 }
 
 export async function getVerificationData(id) {

@@ -1,4 +1,4 @@
-import { selectChartStatisticsModel } from 'apps/analytics/state/metrics.selectors';
+import { selectChartStatisticsModel } from 'apps/Analytics/state/Analytics.selectors';
 import { selectCollaboratorCollection } from 'apps/collaborators/state/collaborator.selectors';
 import { Loader } from 'apps/ui';
 import { QATags } from 'models/QA.model';

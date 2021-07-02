@@ -2,12 +2,12 @@ import { Box, Button, Grid, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { QATags } from 'models/QA.model';
 import styles from './Modal.module.scss';
 import { overlayClose } from '../../state/overlay.actions';
-import { QATags } from '../../../../models/QA.model';
 
 export interface ModalProps{
-  children?: React.ReactElement,
+  children?: React.ReactNode,
   onClose?: () => void,
   className?: string,
   imgSrc?: string,

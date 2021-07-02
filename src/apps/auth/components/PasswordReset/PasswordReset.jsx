@@ -6,8 +6,8 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import { Routes } from 'models/Router.model';
 import { passwordReset } from '../../state/auth.actions';
-import { Routes } from '../../../../models/Router.model';
 
 const formikSettings = {
   handleSubmit(values, { props, setSubmitting, setStatus }) {

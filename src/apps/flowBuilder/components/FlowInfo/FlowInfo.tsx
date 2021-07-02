@@ -1,33 +1,48 @@
-import { Grid, Box } from '@material-ui/core';
-import { selectFlowBuilderChangeableFlow } from 'apps/flowBuilder/store/FlowBuilder.selectors';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { FiUser } from 'react-icons/fi';
+import { Box, Grid, ListItemIcon } from '@material-ui/core';
+import { EditableField } from 'apps/oldProduct/components/EditableField/EditableField';
 import { DateFormat, formatDate } from 'lib/date';
+import React from 'react';
+import { FiEdit3 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { usersCountStub } from '../../models/FlowBuilder.model';
+import { useSelector } from 'react-redux';
+import { selectFlowBuilderChangeableFlow } from '../../store/FlowBuilder.selectors';
 
-export function FlowInfo() {
+export function FlowInfo({ canEdit, isEditable, newFlowName, setIsEditable, onSubmit, onCancel, validator }: {
+  canEdit?: boolean,
+  isEditable?: boolean,
+  newFlowName?: string,
+  setIsEditable?: Function,
+  onSubmit?: (text: string) => void,
+  onCancel?: () => void,
+  validator?: (text: string) => void,
+}) {
   const intl = useIntl();
-  const { name: flowName, createdAt: flowCreationDate } = useSelector(selectFlowBuilderChangeableFlow);
-  const [usersCount] = useState(usersCountStub);
+  const { name, createdAt } = useSelector(selectFlowBuilderChangeableFlow);
 
   return (
     <Box>
       <Box color="common.black90" fontSize={24} mb={0.5}>
-        {flowName}
+        {canEdit ? (
+          <Grid container>
+            <EditableField
+              enabled={isEditable}
+              setEditable={setIsEditable}
+              submitEditable={onSubmit}
+              cancelEditable={onCancel}
+              validator={validator}
+              value={newFlowName}
+            />
+            {!isEditable && (
+              <ListItemIcon onClick={() => setIsEditable((prevState) => !prevState)}>
+                <FiEdit3 />
+              </ListItemIcon>
+            )}
+          </Grid>
+        ) : name}
       </Box>
       <Grid container alignItems="center">
         <Box color="common.black75">
-          {`${intl.formatMessage({ id: 'FlowBuilder.info.createdIn' })} ${formatDate(flowCreationDate, DateFormat.MonthShortSpaced)}`}
-        </Box>
-        <Box mx={2} color="common.black75">
-          <Grid container alignItems="center">
-            <FiUser fontSize={17} />
-            <Box component="span" ml={0.5}>
-              {usersCount}
-            </Box>
-          </Grid>
+          {`${intl.formatMessage({ id: 'FlowBuilder.info.createdOn' })} ${formatDate(createdAt, DateFormat.MonthShortSpaced)}`}
         </Box>
       </Grid>
     </Box>

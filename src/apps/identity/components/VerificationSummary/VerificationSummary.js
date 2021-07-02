@@ -1,8 +1,9 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { PremiumAmlWatchlistsMonitoringNotification } from 'apps/Aml/components/PremiumAmlWatchlistsMonitoringNotification/PremiumAmlWatchlistsMonitoringNotification';
 import { VerificationBioCheckSummary } from 'apps/biometrics';
-import { VerificationDeviceCheckCard } from 'apps/fingerPrint';
-import { PremiumAmlWatchlistsMonitoringNotification } from 'apps/premiumAmlWatchlistsIntegratedCheck';
+import { VerificationDeviceCheckCard } from 'apps/DeviceFingerPrint';
 import { notification } from 'apps/ui';
+import { verificationStatusUpdate } from 'apps/Verification/state/Verification.actions';
 import { get } from 'lodash';
 import { getDevicePlatformType, PlatformTypes } from 'models/DeviceCheck.model';
 import { getStatusById, IdentityStatuses } from 'models/Status.model';
@@ -10,14 +11,13 @@ import React, { useCallback, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
-import { verificationStatusUpdate } from 'apps/verification/state/verification.actions';
-import { selectReviewVerificationWithExtras } from 'apps/verification/state/verification.selectors';
-import { StatusSelector } from 'apps/verification';
-import { VerificationDate } from '../VerificationDate/VerificationDate';
+import { selectReviewVerificationWithExtras } from 'apps/Verification/state/Verification.selectors';
+import { StatusSelector } from 'apps/Verification';
+import { VerificationNumber } from 'apps/Verification/components/VerificationNumber/VerificationNumber';
+import { VerificationDate } from 'apps/Verification/components/VerificationDate/VerificationDate';
 import { VerificationDocument } from '../VerificationDocument/VerificationDocument';
 import { VerificationFlow } from '../VerificationFlow/VerificationFlow';
 import { VerificationIpCheck } from '../VerificationIpCheck/VerificationIpCheck';
-import { VerificationNumber } from '../VerificationNumber/VerificationNumber';
 import { VerificationSource } from '../VerificationSource/VerificationSource';
 import { useStyles } from './VerificationSummary.styles';
 
@@ -33,7 +33,7 @@ export function VerificationSummary({ identity }) {
   const verification = useSelector(selectReviewVerificationWithExtras);
 
   const handleUpdateIdentity = useCallback(async (value) => {
-    await dispatch(verificationStatusUpdate(verification.id, { status: value }));
+    await dispatch(verificationStatusUpdate(verification.id, value));
     await dispatch(sendWebhook(identity?.id));
     notification.info(intl.formatMessage({ id: 'identities.details.webhook.success' }));
   }, [dispatch, verification.id, identity, intl]);
@@ -141,7 +141,7 @@ export function VerificationSummary({ identity }) {
 
           {deviceFingerprint && platformType !== PlatformTypes.Api && (
             <Grid item xs={12} lg={4}>
-              <VerificationDeviceCheckCard deviceFingerprint={deviceFingerprint} />
+              <VerificationDeviceCheckCard input={deviceFingerprint} />
             </Grid>
           )}
         </Grid>

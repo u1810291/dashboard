@@ -17,17 +17,17 @@ export function DemoButton() {
   const classes = useStyles();
   const [createOverlay] = useOverlay();
 
-  const VideoFrame = ({ url }) => (
+  const VideoFrame = useCallback(({ url }) => (
     <Paper className={classes.videoFrame}>
       <Box p={2}>
         <VideoPlayer url={url} playing controls />
       </Box>
     </Paper>
-  );
+  ), [classes.videoFrame]);
 
   const showUseCaseModal = useCallback((url) => {
     createOverlay(<VideoFrame url={url} />);
-  }, [createOverlay]);
+  }, [createOverlay, VideoFrame]);
 
   return (
     <Paper className={classes.root}>

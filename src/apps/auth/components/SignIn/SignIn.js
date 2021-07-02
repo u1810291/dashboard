@@ -10,11 +10,11 @@ import { Link, useHistory } from 'react-router-dom';
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3.svg';
 import SigninSession from 'assets/signin-session.png';
 import SigninService from 'assets/signin-service.png';
-import { signIn } from '../../state/auth.actions';
+import { IntlButton } from 'apps/intl';
+import { Routes } from 'models/Router.model';
+import { QATags } from 'models/QA.model';
 import { useStyles } from './SignIn.styles';
-import { IntlButton } from '../../../intl';
-import { Routes } from '../../../../models/Router.model';
-import { QATags } from '../../../../models/QA.model';
+import { signIn } from '../../state/auth.actions';
 
 const validateForm = (values) => pickBy(
   {

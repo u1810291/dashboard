@@ -3,7 +3,7 @@ import { selectIsPOO } from 'apps/facematch';
 import { appPalette } from 'apps/theme';
 import { BoxBordered, Warning, WarningSize, WarningTypes } from 'apps/ui';
 import { BiometricSettings, BiometricTypes, getBiometricParentSetting } from 'models/Biometric.model';
-import { VerificationPatternTypes } from 'models/Step.model';
+import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';

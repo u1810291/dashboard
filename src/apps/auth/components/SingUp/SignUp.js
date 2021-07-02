@@ -11,10 +11,10 @@ import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { dashboardUpdate } from 'state/merchant/merchant.actions';
+import { Routes } from 'models/Router.model';
+import { QATags } from 'models/QA.model';
 import { isValidCheckSum } from '../../models/auth.model';
 import { signUp } from '../../state/auth.actions';
-import { Routes } from '../../../../models/Router.model';
-import { QATags } from '../../../../models/QA.model';
 
 const validateForm = (values) => pickBy(
   {

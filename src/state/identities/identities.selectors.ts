@@ -1,9 +1,9 @@
-import { filterSerialize } from 'models/Filter.model';
-import { createSelector } from 'reselect';
-import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
+import { selectLoadableValue } from 'lib/loadable.selectors';
 import { getIdentityExtras } from 'models/Identity.model';
-import { IDENTITIES_STORE_KEY, SliceNames } from './identities.store';
+import { createSelector } from 'reselect';
+import { filterSerialize } from '../../models/Filter.model';
 import { selectCountriesList } from '../countries/countries.selectors';
+import { IDENTITIES_STORE_KEY, SliceNames } from './identities.store';
 
 export const selectIdentityStore = (state) => state[IDENTITIES_STORE_KEY];
 
@@ -40,21 +40,6 @@ export const selectIdentityFilter = createSelector(
 export const selectIdentityFilterSerialized = createSelector(
   selectIdentityStore,
   (store) => filterSerialize(store.filter),
-);
-
-export const selectIdentityProfileModel = createSelector(
-  selectIdentityStore,
-  (store) => store[SliceNames.IdentityProfile],
-);
-
-export const selectIdentityProfile = createSelector(
-  selectIdentityProfileModel,
-  selectModelValue(),
-);
-
-export const selectIdentityProfileId = createSelector(
-  selectIdentityProfile,
-  (profile) => profile?._id,
 );
 
 // identity

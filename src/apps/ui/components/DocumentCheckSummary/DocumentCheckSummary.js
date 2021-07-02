@@ -1,7 +1,7 @@
 import { Box, Typography } from '@material-ui/core';
-import { useDocumentTitle } from 'apps/identity/hooks/document.hook';
 import React from 'react';
-import { CheckBarExpandable } from '../CheckBarExpandable/CheckBarExpandable';
+import { CheckBarExpandable } from 'apps/ui';
+import { useDocumentTitle } from 'apps/documents';
 
 export function DocumentCheckSummary({ document }) {
   const title = useDocumentTitle(document);

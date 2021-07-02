@@ -1,5 +1,5 @@
 import { MerchantTags } from 'models/Merchant.model';
-import { VerificationPatternTypes } from 'models/Step.model';
+import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { createSelector } from 'reselect';
 import { selectCurrentFlow, selectMerchantTags, selectVerificationPattern } from 'state/merchant/merchant.selectors';
 

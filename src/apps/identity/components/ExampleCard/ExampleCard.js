@@ -2,11 +2,11 @@ import { Card, CardContent, CardMedia, Typography } from '@material-ui/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { Routes } from 'models/Router.model';
 import DrivingLicenseSVG from './images/driving-license.svg';
 import NationalIdSVG from './images/national-id.svg';
 import PassportSVG from './images/passport.svg';
 import { useStyles } from './Example.styles';
-import { Routes } from '../../../../models/Router.model';
 
 export const ExampleIconMap = {
   nationalId: NationalIdSVG,

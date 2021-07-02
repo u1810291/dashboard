@@ -1,4 +1,4 @@
-import { http } from './http';
+import { http } from 'lib/client/http';
 
 export function subscribeToWebhook(clientId, flowId, webhook) {
   return http.post('/v1/webhooks', webhook, {

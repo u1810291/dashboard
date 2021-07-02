@@ -1,8 +1,8 @@
 import { Grid, Typography } from '@material-ui/core';
 import React from 'react';
 import { FiActivity, FiFileText, FiCheckCircle, FiSmartphone } from 'react-icons/fi';
+import { VerificationSummaryTitleTypes } from 'models/Identity.model';
 import { useStyles } from './VerificationSummaryTitle.styles';
-import { VerificationSummaryTitleTypes } from '../../../../models/Identity.model';
 
 const icons = {
   biometric: FiActivity,

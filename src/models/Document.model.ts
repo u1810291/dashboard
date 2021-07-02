@@ -1,4 +1,4 @@
-import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getDocumentStatus, getStepsExtra } from './Step.model';
+import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getDocumentStatus, getStepsExtra, IStep, StepStatus } from './Step.model';
 
 export interface Document {
   country: string;
@@ -16,7 +16,53 @@ export enum DocumentTypes {
   ProofOfResidency = 'proof-of-residency',
 }
 
-export const DocumentsOrder = [
+export enum FieldFormat {
+  date = 'date',
+}
+
+export interface DocumentField {
+  id: string,
+  format?: FieldFormat,
+  label: string,
+  required: boolean,
+  value: string,
+}
+
+export type DocumentReadingStep = IStep<Record<string, DocumentField>>;
+
+export interface PremiumAmlWatchlistStepData {
+  isMonitoringAvailable: boolean
+  nameSearched: string,
+  profileUrl: string
+  searchId: number,
+  searchedOn: string,
+}
+
+export type PremiumAmlWatchlistStep = IStep<PremiumAmlWatchlistStepData>;
+
+export interface VerificationDocument {
+  country: string,
+  fields: DocumentField[],
+  region: any,
+  steps: IStep[],
+  type: DocumentTypes,
+  documentReadingStep: DocumentReadingStep,
+  securityCheckSteps: IStep<null>[],
+  govChecksSteps: IStep[],
+  documentFailedCheckSteps: IStep[],
+  premiumAmlWatchlistsStep: PremiumAmlWatchlistStep,
+  watchlistsStep: IStep,
+  documentStatus: StepStatus,
+  areTwoSides: boolean,
+  documentSides: typeof DocumentSidesOrder,
+  onReading: boolean,
+  photos: string[],
+  checks: IStep[],
+  isSanctioned: boolean,
+  proofOfOwnership: any,
+}
+
+export const DocumentListOrdered: DocumentTypes[] = [
   DocumentTypes.Passport,
   DocumentTypes.NationalId,
   DocumentTypes.DrivingLicense,
@@ -30,17 +76,20 @@ export const DocumentTypeWights = {
   [DocumentTypes.ProofOfResidency]: 4,
 };
 
-export enum DocumentSides {
-  Front = 'front',
-  Back = 'back',
-}
-
 export enum PhotosOrientations {
   Horizontal = 'horizontal',
   Vertical = 'vertical',
 }
 
-export const DocumentSidesOrder = [DocumentSides.Front, DocumentSides.Back];
+export enum DocumentSides {
+  Front = 'front',
+  Back = 'back',
+}
+
+export const DocumentSidesOrder: DocumentSides[] = [
+  DocumentSides.Front,
+  DocumentSides.Back,
+];
 
 export const DocumentCountrySanctionList = [
   'AF',
@@ -110,7 +159,7 @@ export function getOrderedDocuments(documents) {
   return docs;
 }
 
-export function getDocumentExtras(verification, countries, proofOfOwnership) {
+export function getDocumentExtras(verification, countries, proofOfOwnership): VerificationDocument[] {
   const documents = getOrderedDocuments(verification.documents || []);
 
   return documents.map((document) => {
@@ -128,6 +177,7 @@ export function getDocumentExtras(verification, countries, proofOfOwnership) {
     const securityCheckSteps = steps.filter((step) => DocumentSecuritySteps.includes(step.id));
     const documentFailedCheckSteps = steps.filter((step) => DocumentFrontendSteps.includes(step.id)); // it is FRONTEND logic,
     const premiumAmlWatchlistsStep = steps.find((step) => DocumentStepTypes.PremiumAmlWatchlistsCheck === step.id);
+    const watchlistsStep = steps?.find((item) => item?.id === DocumentStepTypes.Watchlists);
 
     const allSteps = [...documentFailedCheckSteps, ...securityCheckSteps, ...govChecksSteps];
     if (premiumAmlWatchlistsStep) {
@@ -142,6 +192,7 @@ export function getDocumentExtras(verification, countries, proofOfOwnership) {
       govChecksSteps,
       documentFailedCheckSteps,
       premiumAmlWatchlistsStep,
+      watchlistsStep,
       documentStatus: getDocumentStatus(allSteps),
       areTwoSides: isDocumentWithTwoSides(document.type),
       documentSides: DocumentSidesOrder,

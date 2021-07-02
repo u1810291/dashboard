@@ -1,5 +1,4 @@
 import { Box, Button, Grid, Typography } from '@material-ui/core';
-import { VerificationNumber } from 'apps/identity/components/VerificationNumber/VerificationNumber';
 import { useOverlay } from 'apps/overlay';
 import { ReviewModeExitModal } from 'apps/reviewMode/components/ReviewModeExitModal/ReviewModeExitModal';
 import { StatusNotificationContent } from 'apps/reviewMode/components/StatusNotificationContent/StatusNotificationContent';
@@ -13,6 +12,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatDate, DateFormat } from 'lib/date';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
+import { VerificationNumber } from 'apps/Verification/components/VerificationNumber/VerificationNumber';
 import { reviewAwaitingCountLoad, reviewVerificationClear, verificationLoad, verificationSkip, verificationStatusChange } from '../../state/reviewMode.actions';
 import { selectIsNoVerifications, selectReviewAwaitingCount, selectReviewIdentityId, selectReviewVerificationDateCreated, selectReviewVerificationId, selectVerificationModel } from '../../state/reviewMode.selectors';
 import { useStyles } from './ReviewModeHeaderMenu.styles';

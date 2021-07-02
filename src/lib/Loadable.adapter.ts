@@ -1,13 +1,6 @@
 import { ERROR_COMMON } from 'models/Error.model';
+import { Loadable } from 'models/Loadable.model';
 import { ActionSubTypes } from 'state/store.utils';
-
-export interface Loadable<T> {
-  isLoaded: boolean;
-  isLoading: boolean;
-  isFailed: boolean;
-  error: string;
-  value: T;
-}
 
 export class LoadableAdapter {
   static createState<T>(value: T): Loadable<T> {
@@ -72,7 +65,7 @@ export class LoadableAdapter {
     return newValue;
   }
 
-  static request(model, payload, isUpdating = false) {
+  static request<T>(model: Loadable<T>, payload: T, isUpdating = false): Loadable<T> {
     return {
       isLoaded: isUpdating ? model.isLoaded : false,
       isLoading: true,
@@ -82,7 +75,7 @@ export class LoadableAdapter {
     };
   }
 
-  static success(model, payload, isReset) {
+  static success<T>(model: Loadable<T>, payload: T, isReset: boolean): Loadable<T> {
     return {
       ...model,
       value: LoadableAdapter.applyValue(model.value, payload, isReset),
@@ -91,7 +84,7 @@ export class LoadableAdapter {
     };
   }
 
-  static failure(model, error) {
+  static failure<T>(model: Loadable<T>, error): Loadable<T> {
     return {
       ...model,
       isLoading: false,
@@ -100,24 +93,11 @@ export class LoadableAdapter {
     };
   }
 
-  static clear(model, payload) {
+  static clear<T>(model: Loadable<T>, payload: T): Loadable<T> {
     return LoadableAdapter.createState(payload);
   }
 
-  /**
-   * @deprecated
-   */
-  static get(state) {
-    return [
-      state.value,
-      state.isLoading,
-      state.isLoaded,
-      state.isFailed,
-      state.error,
-    ];
-  }
-
-  static isPristine(model) {
+  static isPristine(model: Loadable<any>): boolean {
     return !model.isLoaded && !model.isLoading && !model.isFailed;
   }
 }

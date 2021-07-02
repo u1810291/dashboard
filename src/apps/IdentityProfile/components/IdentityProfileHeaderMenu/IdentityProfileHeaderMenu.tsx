@@ -2,22 +2,18 @@ import { Grid } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FiChevronLeft } from 'react-icons/fi';
-import { CollaboratorRoles } from 'models/Collaborator.model';
 import { getGoBackToListLink } from 'models/Identity.model';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { QATags } from 'models/QA.model';
-import { selectIdentityProfile } from 'state/identities/identities.selectors';
-import { useRole } from 'apps/collaborators';
 import { ButtonGoVerificationHistory } from 'apps/verificationHistory';
 import { ButtonHeaderMenu } from 'apps/ui';
-import { IdentityDeleteButton } from '../IdentityDeleteButton/IdentityDeleteButton';
+import { selectIdentityProfile } from '../../store/IdentityProfile.selectors';
 import { useStyles } from './IdentityProfileHeaderMenu.styles';
 
 export function IdentityProfileHeaderMenu() {
   const intl = useIntl();
   const classes = useStyles();
-  const role = useRole();
   const [goBackToListLink] = useState(getGoBackToListLink(useLocation()));
   const identity = useSelector(selectIdentityProfile);
 
@@ -44,11 +40,11 @@ export function IdentityProfileHeaderMenu() {
         </Grid>
 
         {/* Delete Identity */}
-        { role === CollaboratorRoles.ADMIN && (
+        {/*        { role === CollaboratorRoles.ADMIN && (
         <Grid item className={classes.itemOffsetLeft}>
           <IdentityDeleteButton identityId={identity?._id} />
         </Grid>
-        )}
+        )} */}
       </Grid>
     </Grid>
   );

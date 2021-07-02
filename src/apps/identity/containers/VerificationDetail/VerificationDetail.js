@@ -17,6 +17,7 @@ export function VerificationDetail() {
   const dispatch = useDispatch();
   const { id, demoId } = useParams();
   const identityModel = useSelector(selectIdentityModelWithExtras);
+
   // For Customer Support
   const { asMerchantId } = useQuery();
 

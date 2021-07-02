@@ -15,7 +15,7 @@ import { BrowserRouter } from 'react-router-dom';
 import 'styles/global.scss';
 
 // eslint-disable-next-line no-console
-console.log('Mati version test CI', process.env.REACT_APP_VERSION);
+console.log('Mati version', process.env.REACT_APP_VERSION);
 
 ReactDOM.render(
   <MuiThemeProvider theme={AppTheme}>

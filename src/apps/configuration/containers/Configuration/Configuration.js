@@ -8,7 +8,7 @@ import { FacematchConfiguration } from 'apps/facematch';
 import { GdprSettings } from 'apps/gdpr';
 import { ImageValidationConfiguration } from 'apps/imageValidation';
 import { PhoneValidationConfiguration } from 'apps/PhoneValidation';
-import { Logo } from 'apps/logo';
+import { OldLogo } from 'apps/logo';
 import { ButtonCollapsible } from 'apps/ui';
 import { ConfigureColor } from 'apps/WebSDKPreview';
 import classnames from 'classnames';
@@ -55,7 +55,7 @@ export function Configuration() {
         id: 'logo',
         title: 'Product.configuration.logo',
         icon: <FiImage />,
-        body: <Logo />,
+        body: <OldLogo />,
       },
       {
         id: 'country',

@@ -21,6 +21,9 @@ import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { VerificationWebhookModal } from '../VerificationWebhookModal/VerificationWebhookModal';
 import { useStyles } from './VerificationHeader.styles';
 
+/**
+ * @deprecated
+ */
 export function VerificationHeader({ identity, isDemo = false }) {
   const dispatch = useDispatch();
   const intl = useIntl();

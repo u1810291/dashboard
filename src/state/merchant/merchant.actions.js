@@ -113,18 +113,28 @@ export const merchantFlowsLoad = () => async (dispatch, getState) => {
   }
 };
 
+export const merchantUpdateFlowList = (flowId, newFlow) => (dispatch, getState) => {
+  const state = getState();
+  dispatch({ type: types.FLOWS_UPDATING });
+  try {
+    const { value } = selectMerchantFlowsModel(state);
+    const index = value.findIndex((flow) => flow.id === flowId);
+    const newFlowList = [...value];
+    newFlowList.splice(index, 1, newFlow);
+    dispatch({ type: types.FLOWS_SUCCESS, payload: newFlowList, isReset: true });
+  } catch (error) {
+    dispatch({ type: types.FLOWS_FAILURE, error });
+    throw error;
+  }
+};
+
 export const merchantUpdateFlow = (payload) => async (dispatch, getState) => {
   const state = getState();
   const flowId = selectCurrentFlowId(state);
-  dispatch({ type: types.FLOWS_UPDATING });
   try {
     const merchantId = selectMerchantId(state);
     const { data } = await api.updateMerchantFlow(merchantId, flowId, payload);
-    const { value } = selectMerchantFlowsModel(state);
-    const index = value.findIndex((flow) => flow.id === flowId);
-    const newFlow = [...value];
-    newFlow.splice(index, 1, data);
-    dispatch({ type: types.FLOWS_SUCCESS, payload: newFlow, isReset: true });
+    dispatch(merchantUpdateFlowList(flowId, data));
   } catch (error) {
     dispatch({ type: types.FLOWS_FAILURE, error });
     throw error;
@@ -176,7 +186,7 @@ export const merchantUpdateMedia = (form) => async (dispatch) => {
   dispatch({ type: types.MERCHANT_UPDATING });
   try {
     const { data } = await api.uploadMerchantMedia(form);
-    dispatch(merchantUpdateFlow({ logoUrl: data.url }));
+    dispatch(merchantUpdateFlow({ logo: data }));
   } catch (error) {
     dispatch({ type: types.MERCHANT_FAILURE, error });
     throw error;

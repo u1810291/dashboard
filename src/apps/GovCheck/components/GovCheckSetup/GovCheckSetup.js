@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectVerificationPattern } from 'state/merchant/merchant.selectors';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
-import { GovCheckConfiguration, govCheckParse } from '../../models/GovCheck.model';
+import { GovCheckConfigurations, govCheckParse } from '../../models/GovCheck.model';
 import { GovCheckConfig } from '../GovCheckConfig/GovCheckConfig';
 import { GovCheckCountries } from '../GovCheckCountries/GovCheckCountries';
 import { GovCheckTimeout } from '../GovCheckTimeout/GovCheckTimeout';
@@ -13,11 +13,11 @@ export function GovCheckSetup() {
   const dispatch = useDispatch();
   const intl = useIntl();
   const pattern = useSelector(selectVerificationPattern);
-  const [selectedCountry, setSelectedCountry] = useState(GovCheckConfiguration[0].country);
+  const [selectedCountry, setSelectedCountry] = useState(GovCheckConfigurations[0].country);
   const [checkList, setCheckList] = useState([]);
 
   useEffect(() => {
-    const found = GovCheckConfiguration.find((item) => item.country === selectedCountry);
+    const found = GovCheckConfigurations.find((item) => item.country === selectedCountry);
     if (found) {
       setCheckList(govCheckParse(found.checks, pattern));
     }

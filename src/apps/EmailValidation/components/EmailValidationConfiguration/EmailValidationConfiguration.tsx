@@ -1,16 +1,16 @@
-import { Box, Button, FormControl, Switch, Grid, Typography, RadioGroup } from '@material-ui/core';
+import { Box, Button, FormControl, Grid, RadioGroup, Switch, Typography } from '@material-ui/core';
 import { BoxBordered, notification, TextFieldName } from 'apps/ui';
-import React, { useCallback, useState, useMemo } from 'react';
+import { ONLY_NUMBERS_REG_EXP, validateMaxLength } from 'lib/validations';
+import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
+import React, { useCallback, useMemo, useState } from 'react';
+import { FiLoader } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { ONLY_NUMBERS_REG_EXP, validateMaxLength } from 'lib/validations';
-import { VerificationPatternTypes } from 'models/Step.model';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
-import { FiLoader } from 'react-icons/fi';
-import { EmailRiskPredefinedThreshold, SENDER_NAME_LENGTH_LIMIT, validateRiskThreshold, EmailValidationStepModes, EmailRiskThresholdModes, getDefaultRiskThresholdMode, ScoreMapping, EmailValidationErrorTypes } from '../../models/EmailValidation.model';
-import { selectEmailValidationThreshold, selectSenderName, selectEmailValidationMode, selectEmailRiskValidationMode } from '../../state/EmailValidation.selectors';
-import { useStyles, TextFieldInputScore } from './EmailValidationConfiguration.styles';
+import { EmailRiskPredefinedThreshold, EmailRiskThresholdModes, EmailValidationStepModes, getDefaultRiskThresholdMode, ScoreMapping, SENDER_NAME_LENGTH_LIMIT, validateRiskThreshold } from '../../models/EmailValidation.model';
+import { selectEmailRiskValidationMode, selectEmailValidationMode, selectEmailValidationThreshold, selectSenderName } from '../../state/EmailValidation.selectors';
 import { EmailRiskLevelOption } from '../EmailRiskLevelOption/EmailRiskLevelOption';
+import { TextFieldInputScore, useStyles } from './EmailValidationConfiguration.styles';
 
 export function EmailValidationConfiguration() {
   const intl = useIntl();
@@ -49,7 +49,7 @@ export function EmailValidationConfiguration() {
     } catch (e) {
       notification.error(intl.formatMessage({ id: 'Error.common' }));
     }
-  }, [dispatch]);
+  }, [intl, riskScore, dispatch]);
 
   const handleEmailValidationChange = useCallback(async ({ target: { checked } }) => {
     try {
@@ -66,7 +66,7 @@ export function EmailValidationConfiguration() {
     } catch (e) {
       notification.error(intl.formatMessage({ id: 'Error.common' }));
     }
-  }, [dispatch]);
+  }, [intl, dispatch]);
 
   const handleEmailValidationStepOptional = useCallback(async ({ target: { checked } }) => {
     const mode = checked ? EmailValidationStepModes.Optional : EmailValidationStepModes.Forced;
@@ -80,7 +80,7 @@ export function EmailValidationConfiguration() {
     } catch (e) {
       notification.error(intl.formatMessage({ id: 'Error.common' }));
     }
-  }, [dispatch]);
+  }, [dispatch, intl]);
 
   const handleEmailRiskModeChange = useCallback(({ target: { value } }) => {
     setRiskThresholdMode(value);

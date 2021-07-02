@@ -1,55 +1,105 @@
+import { DocumentVerificationProduct } from 'apps/documents';
 import { InputValidationType } from 'apps/imageValidation/models/imageValidation.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
-import { Product, ProductInputTypes, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
-import { FiImage } from 'react-icons/fi';
-import { DocumentVerificationSettings2 } from '../components/DocumentVerificationSettings2/DocumentVerificationSettings2';
-import { DocumentVerificationCheckTypes, DocumentVerificationConfig, DocumentVerificationSettingTypes } from '../models/DocumentVerification.model';
+import { Product, ProductCheck, ProductConfig, ProductInputTypes, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
+import { VerificationResponse } from 'models/Verification.model';
+import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
+import { FiFileText } from 'react-icons/fi';
+import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStep, getReaderFrontendSteps, getStepStatus, StepStatus } from 'models/Step.model';
+import { DocumentVerificationIssues } from '../components/DocumentVerificationIssues/DocumentVerificationIssues';
+import { DocumentVerificationSettings } from '../components/DocumentVerificationSettings/DocumentVerificationSettings';
+import { DocumentVerificationCheckTypes, DocumentVerificationConfigSettings, DocumentVerificationSettingTypes } from '../models/DocumentVerification.model';
 
 export class DocumentVerification extends ProductBaseService implements Product {
   id = ProductTypes.DocumentVerification;
-  order = 1;
+  order = 100;
   integrationTypes = [
     ProductIntegrationTypes.Sdk,
     ProductIntegrationTypes.Api,
   ];
-  // TODO @dkchv: !!! set actual
-  icon = FiImage;
-  inputs = [ProductInputTypes.Documents];
-  checks = [
-    // TODO @dkchv: !!! add actual
+  icon = FiFileText;
+  inputs = [
+    ProductInputTypes.Documents,
   ];
-  component = DocumentVerificationSettings2;
+  dependentProductTypes = [
+    ProductTypes.AmlCheck,
+    ProductTypes.GovernmentCheck,
+  ];
+  checksDefault = [
+    {
+      id: DocumentVerificationCheckTypes.DocumentReading,
+      isActive: true,
+    },
+    {
+      id: DocumentVerificationCheckTypes.ExpirationDetection,
+      isActive: true,
+    },
+    {
+      id: DocumentVerificationCheckTypes.TemplateMatching,
+      isActive: true,
+    },
+    {
+      id: DocumentVerificationCheckTypes.AgeThreshold,
+      isActive: true,
+    },
+    {
+      id: DocumentVerificationCheckTypes.DuplicateUserDetection,
+      isActive: true,
+    },
+    {
+      id: DocumentVerificationCheckTypes.AlterationDetection,
+      isActive: true,
+    },
+    {
+      id: DocumentVerificationCheckTypes.Facematch,
+      isActive: true,
+    }];
 
-  parser(flow: IFlow): DocumentVerificationConfig {
-    const isDocumentStepsActive = flow?.verificationSteps?.length > 0;
-    const isBiometricStepsActive = flow?.verificationPatterns?.biometrics !== 'none';
-    const isDuplicateUserDetectionActive = !!flow?.verificationPatterns['duplicate-user-detection'];
+  component = DocumentVerificationSettings;
+  componentVerification = DocumentVerificationProduct;
 
-    return {
-      checks: {
-        [DocumentVerificationCheckTypes.DocumentReading]: {
+  getChecks(flow?: IFlow): ProductCheck[] {
+    return flow
+      ? [
+        {
+          id: DocumentVerificationCheckTypes.DocumentReading,
           isActive: true,
         },
-        [DocumentVerificationCheckTypes.ExpirationDetection]: {
+        {
+          id: DocumentVerificationCheckTypes.ExpirationDetection,
           isActive: true,
         },
-        [DocumentVerificationCheckTypes.TemplateMatching]: {
+        {
+          id: DocumentVerificationCheckTypes.TemplateMatching,
           isActive: true,
         },
-        [DocumentVerificationCheckTypes.AgeThreshold]: {
+        {
+          id: DocumentVerificationCheckTypes.AgeThreshold,
           isActive: flow?.ageThreshold !== undefined && flow?.ageThreshold !== null,
         },
-        [DocumentVerificationCheckTypes.DuplicateUserDetection]: {
-          isActive: isDuplicateUserDetectionActive,
+        {
+          id: DocumentVerificationCheckTypes.DuplicateUserDetection,
+          isActive: !!flow?.verificationPatterns[VerificationPatternTypes.DuplicateUserDetection],
         },
-        [DocumentVerificationCheckTypes.AlterationDetection]: {
+        {
+          id: DocumentVerificationCheckTypes.AlterationDetection,
           isActive: true,
         },
-        [DocumentVerificationCheckTypes.Facematch]: {
+        {
+          id: DocumentVerificationCheckTypes.Facematch,
           isActive: flow?.facematchThreshold !== null && flow?.facematchThreshold !== undefined,
-        },
-      },
+        }]
+      : this.checksDefault;
+  }
+
+  parser(flow: IFlow, productsInGraph?: ProductTypes[]): ProductConfig {
+    super.parser(flow);
+    const isDocumentStepsActive = flow?.verificationSteps?.length > 0;
+    const isBiometricStepsActive = productsInGraph.includes(ProductTypes.BiometricVerification);
+    const isDuplicateUserDetectionActive = !!flow?.verificationPatterns[VerificationPatternTypes.DuplicateUserDetection];
+
+    return {
       settings: {
         [DocumentVerificationSettingTypes.DocumentSteps]: {
           value: flow?.verificationSteps,
@@ -63,11 +113,11 @@ export class DocumentVerification extends ProductBaseService implements Product 
           isDisabled: !isDocumentStepsActive,
         },
         [DocumentVerificationSettingTypes.GrayscaleImage]: {
-          value: flow?.inputValidationChecks?.some((check) => check.id === InputValidationType.GrayscaleImage && check.isDisabled === false),
+          value: flow?.inputValidationChecks?.some((check) => check.id === InputValidationType.GrayscaleImage && !check.isDisabled),
           isDisabled: !isDocumentStepsActive,
         },
         [DocumentVerificationSettingTypes.SimilarImages]: {
-          value: flow?.inputValidationChecks?.some((check) => (check.id === InputValidationType.SimilarImages || check.id === InputValidationType.IdenticalImages) && check.isDisabled === false),
+          value: flow?.inputValidationChecks?.some((check) => (check.id === InputValidationType.SimilarImages || check.id === InputValidationType.IdenticalImages) && !check.isDisabled),
           isDisabled: !isDocumentStepsActive,
         },
         [DocumentVerificationSettingTypes.DuplicateUserDetection]: {
@@ -93,35 +143,34 @@ export class DocumentVerification extends ProductBaseService implements Product 
     };
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  serialize(setting: DocumentVerificationConfig): Partial<IFlow> {
+  serialize(setting: DocumentVerificationConfigSettings): Partial<IFlow> {
     return {
-      verificationSteps: setting.settings.documentSteps.value,
-      denyUploadsFromMobileGallery: setting.settings.denyUploadRequirement.value,
-      ageThreshold: setting.settings.ageThreshold.value,
+      verificationSteps: setting.documentSteps.value,
+      denyUploadsFromMobileGallery: setting.denyUploadRequirement.value,
+      ageThreshold: setting.ageThreshold.value,
       inputValidationChecks: [{
         id: InputValidationType.GrayscaleImage,
-        isDisabled: setting.settings.grayscaleImage.value,
+        isDisabled: !setting.grayscaleImage.value,
       }, {
         id: InputValidationType.SimilarImages,
-        isDisabled: setting.settings.similarImages.value,
+        isDisabled: !setting.similarImages.value,
       }, {
         id: InputValidationType.IdenticalImages,
-        isDisabled: setting.settings.similarImages.value,
+        isDisabled: !setting.similarImages.value,
       }, {
         id: InputValidationType.DocumentDetected,
         isDisabled: false,
       }],
-      supportedCountries: setting.settings.countryRestriction.value,
-      facematchThreshold: setting.settings.facematchThreshold.value,
+      supportedCountries: setting.countryRestriction.value,
+      facematchThreshold: setting.facematchThreshold.value,
       verificationPatterns: {
-        'duplicate-user-detection': setting.settings.duplicateUserDetection.value,
-        'proof-of-ownership': setting.settings.proofOfOwnership.value,
+        'duplicate-user-detection': setting.duplicateUserDetection.value,
+        'proof-of-ownership': setting.proofOfOwnership.value,
       },
     };
   }
 
-  getNullishValues(): Partial<IFlow> {
+  onRemove(): Partial<IFlow> {
     return {
       verificationSteps: [],
       denyUploadsFromMobileGallery: false,
@@ -142,13 +191,51 @@ export class DocumentVerification extends ProductBaseService implements Product 
       supportedCountries: [],
       facematchThreshold: undefined,
       verificationPatterns: {
+        // TODO @dkchv: use enum
         'duplicate-user-detection': false,
         'proof-of-ownership': false,
       },
     };
   }
 
-  isInGraph(flow: IFlow): boolean {
+  isInFlow(flow: IFlow): boolean {
     return flow?.verificationSteps?.length > 0;
+  }
+
+  getVerification(verification: VerificationResponse): any {
+    return verification;
+  }
+
+  getIssuesComponent(flow: IFlow, integrationType: ProductIntegrationTypes): any {
+    if (integrationType === ProductIntegrationTypes.Api && flow?.supportedCountries?.length > 0) {
+      return DocumentVerificationIssues;
+    }
+    return null;
+  }
+
+  hasFailedCheck(verification: VerificationResponse): boolean {
+    return verification?.documents?.some((document) => {
+      const steps = document?.steps || [];
+      const documentStep = getDocumentStep(DocumentStepTypes.DocumentReading, steps);
+      const readerStep = getReaderFrontendSteps(documentStep);
+      const computedStep = getComputedSteps(documentStep, verification, document);
+      const filteredSteps = steps.filter((step) => [
+        ...CountrySpecificChecks,
+        ...DocumentSecuritySteps,
+        ...DocumentFrontendSteps,
+        DocumentStepTypes.PremiumAmlWatchlistsCheck].includes(step.id));
+
+      const allSteps = [
+        ...filteredSteps,
+        ...readerStep,
+        ...computedStep,
+      ];
+
+      if (allSteps.length === 0) {
+        return false;
+      }
+
+      return allSteps.some((step) => getStepStatus(step) === StepStatus.Failure);
+    });
   }
 }

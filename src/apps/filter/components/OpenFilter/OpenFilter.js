@@ -1,7 +1,7 @@
 import { FilterList } from '@material-ui/icons';
 import { Modal, useOverlay } from 'apps/overlay';
 import { selectUserRegistrationDate } from 'apps/user/state/user.selectors';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { Filter } from '../../containers/Filter/Filter';
@@ -16,7 +16,7 @@ export function OpenFilter({
   const classes = useStyles();
   const [createOverlay, closeOverlay] = useOverlay();
   const registerDateSelector = useSelector(selectUserRegistrationDate);
-  const registerDate = new Date(registerDateSelector);
+  const registerDate = useMemo(() => new Date(registerDateSelector), [registerDateSelector]);
   const handleCloseModal = useCallback(() => {
     closeOverlay();
   }, [closeOverlay]);

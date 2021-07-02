@@ -1,15 +1,15 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Image, Text, View } from '@react-pdf/renderer';
+import { StepStatus } from 'models/Step.model';
+import { getIpCheckStatus } from 'models/IpCheck.model';
+import { getMediaURL } from 'lib/client/media';
+import { VerificationSummaryTitleTypes } from 'models/Identity.model';
 import { VerificationCheckCardPDF } from '../VerificationCheckCardPDF/VerificationCheckCardPDF';
 import { VerificationSummaryTitlePDF } from '../VerificationSummaryTitlePDF/VerificationSummaryTitlePDF';
-import { StepStatus } from '../../../../models/Step.model';
-import { getIpCheckStatus } from '../../../../models/IpCheck.model';
 import { styles } from './VerificationIpCheckPDF.styles';
 import { commonStyles } from '../../PDF.styles';
-import { getMediaURL } from '../../../../lib/client/media';
 import { IconStatuses } from '../../assets';
-import { VerificationSummaryTitleTypes } from '../../../../models/Identity.model';
 
 export function VerificationIpCheckPDF({ ipCheck }) {
   const status = getIpCheckStatus(ipCheck);
