@@ -1,12 +1,11 @@
-import { FiLoader, FiTrash2 } from 'react-icons/fi';
+import { ButtonHeaderMenu, useDeleteButtonHook } from 'apps/ui';
 import { QATags } from 'models/QA.model';
-import React, { useCallback } from 'react';
-import { identityRemove } from 'state/identities/identities.actions';
 import { Routes } from 'models/Router.model';
-import { useDispatch } from 'react-redux';
+import React, { useCallback } from 'react';
+import { FiLoader, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { ButtonHeaderMenu } from 'apps/ui';
-import { useDeleteButtonHook } from 'apps/ui/hooks/deleteButton.hook';
+import { useDispatch } from 'react-redux';
+import { identityProfileRemove } from '../../store/IdentityProfile.actions';
 import { useStyles } from './IdentityDeleteButton.styles';
 
 export interface IdentityDeleteButtonProps {
@@ -19,9 +18,14 @@ export function IdentityDeleteButton({ identityId } : IdentityDeleteButtonProps)
   const classes = useStyles();
 
   const handleDeleteIdentity = useCallback(async () => {
-    await dispatch(identityRemove(identityId));
+    if (identityId) {
+      await dispatch(identityProfileRemove(identityId));
+    }
   }, [dispatch, identityId]);
-  const { isDeleting, handleDelete } = useDeleteButtonHook(handleDeleteIdentity, Routes.list.root);
+
+  const { isDeleting, handleDelete } = useDeleteButtonHook(handleDeleteIdentity, {
+    redirectUrl: Routes.list.root,
+  });
 
   return (
     <ButtonHeaderMenu

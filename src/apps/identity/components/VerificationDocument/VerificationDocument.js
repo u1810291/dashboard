@@ -6,7 +6,7 @@ import { getDocumentStatus, StepStatus } from 'models/Step.model';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import IconEmpty from '../../../../assets/icon-empty-photo.svg';
-import { useDocumentTitle, usePhotosOrientation } from '../../hooks/document.hook';
+import { useDocumentTitle, usePhotosOrientation } from '../../../documents/hooks/document.hook';
 import { VerificationCheckCard } from '../VerificationCheckCard/VerificationCheckCard';
 import { VerificationSummaryTitle } from '../VerificationSummaryTitle/VerificationSummaryTitle';
 import { useStyles } from './VerificationDocument.styles';

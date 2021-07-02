@@ -1,4 +1,6 @@
-import { ProductConfig } from 'models/Product.model';
+import { ProductSettings } from 'models/Product.model';
+import { get } from 'lodash';
+import { DocumentTypes } from 'models/Document.model';
 
 export enum DocumentVerificationSettingTypes {
   DocumentSteps = 'documentSteps',
@@ -22,16 +24,26 @@ export enum DocumentVerificationCheckTypes {
   Facematch = 'facematch',
 }
 
-export type DocumentVerificationConfig = ProductConfig<DocumentVerificationSettingTypes, DocumentVerificationCheckTypes>;
+export type DocumentVerificationConfigSettings = ProductSettings<DocumentVerificationSettingTypes>;
 
-export const DocumentVerificationSettingOrder: DocumentVerificationSettingTypes[] = [
-  DocumentVerificationSettingTypes.DocumentSteps,
-  DocumentVerificationSettingTypes.DenyUploadRequirement,
-  DocumentVerificationSettingTypes.AgeThreshold,
-  DocumentVerificationSettingTypes.GrayscaleImage,
-  DocumentVerificationSettingTypes.SimilarImages,
-  DocumentVerificationSettingTypes.DuplicateUserDetection,
-  DocumentVerificationSettingTypes.CountryRestriction,
-  DocumentVerificationSettingTypes.FacematchThreshold,
-  DocumentVerificationSettingTypes.ProofOfOwnership,
-];
+export type SelectedDocuments = Partial<Record<DocumentTypes, boolean>>;
+
+export function getSelectedDocuments(documentStep: DocumentTypes[]) : SelectedDocuments {
+  if (!documentStep) {
+    return null;
+  }
+
+  return {
+    [DocumentTypes.DrivingLicense]: documentStep.includes(DocumentTypes.DrivingLicense),
+    [DocumentTypes.NationalId]: documentStep.includes(DocumentTypes.NationalId),
+    [DocumentTypes.Passport]: documentStep.includes(DocumentTypes.Passport),
+    [DocumentTypes.ProofOfResidency]: documentStep.includes(DocumentTypes.ProofOfResidency),
+  };
+}
+
+export function getSettingByType(settings: ProductSettings<DocumentVerificationSettingTypes>, type: DocumentVerificationSettingTypes) {
+  if (!settings || !type) {
+    return null;
+  }
+  return get(settings, `settings.${type}`);
+}

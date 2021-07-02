@@ -6,6 +6,7 @@ import { AppIntlProvider } from '../intl';
 import { DocumentStepPDF } from './components/DocumentStepPDF/DocumentStepPDF';
 import { IpCheckPDF } from './components/IpCheckPDF/IpCheckPDF';
 import { LivenessStepPDF } from './components/LivenessStepPDF/LivenessStepPDF';
+import { ReVerificationPDF } from './components/ReVerificationPDF/ReVerificationPDF';
 import { Nom151CheckPDF } from './components/Nom151CheckPDF/Nom151CheckPDF';
 import { VerificationAdditionalChecksPDF } from './components/VerificationAdditionalChecksPDF/VerificationAdditionalChecksPDF';
 import { VerificationMetadataPDF } from './components/VerificationMetadataPDF/VerificationMetadataPDF';
@@ -33,10 +34,16 @@ export function IdentityDocumentPDF({ identity, nom151FileContent }) {
             />
           </View>
         ))}
-        {/* biometric */}
-        <View>
-          <LivenessStepPDF steps={identity.biometric} />
-        </View>
+        {/* biometric and reVerification */}
+        {identity.reVerification ? (
+          <View>
+            <ReVerificationPDF data={identity.reVerification} />
+          </View>
+        ) : (
+          <View>
+            <LivenessStepPDF steps={identity.biometric} />
+          </View>
+        )}
         {/* IP check */}
         {identity.ipCheck && !identity.ipCheck.error && identity.ipCheck.data && (
           <View>

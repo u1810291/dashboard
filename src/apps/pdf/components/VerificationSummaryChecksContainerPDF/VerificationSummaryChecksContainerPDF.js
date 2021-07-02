@@ -1,9 +1,9 @@
 import { useIntl } from 'react-intl';
 import React from 'react';
 import { Text, View, Image } from '@react-pdf/renderer';
+import { StepStatus } from 'models/Step.model';
 import { styles } from './VerificationSummaryChecksContainerPDF.styles';
 import { commonStyles } from '../../PDF.styles';
-import { StepStatus } from '../../../../models/Step.model';
 import IconDone from '../../assets/icon-identity-done.png';
 import IconError from '../../assets/icon-identity-error.png';
 

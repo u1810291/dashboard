@@ -95,6 +95,13 @@ export const IdentityStatusesMap: Array<IdentityStatus> = [
   },
 ];
 
+export interface VerificationStatusDetails{
+  value: IdentityStatuses,
+  reasonCode: string,
+  updatedBy: string,
+  updatedAt: string,
+}
+
 export function getExplanationStatuses() {
   return IdentityStatusesMap.filter((item) => item.isExplanation);
 }

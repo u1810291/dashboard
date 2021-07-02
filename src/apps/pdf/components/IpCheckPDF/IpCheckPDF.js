@@ -1,11 +1,11 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Image, Text, View } from '@react-pdf/renderer';
-import { StepStatus } from '../../../../models/Step.model';
+import { StepStatus } from 'models/Step.model';
+import { getMediaURL } from 'lib/client/media';
 import { CheckResultLogoPDF } from '../CheckResultLogoPDF/CheckResultLogoPDF';
 import { styles } from './IpCheckPDF.styles';
 import { commonStyles } from '../../PDF.styles';
-import { getMediaURL } from '../../../../lib/client/media';
 
 export function IpCheckPDF({ data = {}, isChecking }) {
   const intl = useIntl();

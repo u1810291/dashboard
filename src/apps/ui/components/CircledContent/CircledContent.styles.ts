@@ -6,6 +6,7 @@ export const useStyles = makeStyles<Theme, { color?: string; width?: string; hei
     width: width || '50px',
     height: height || '50px',
     backgroundColor: color || theme.palette.button.document.main,
+    color: theme.palette.common.lightblue,
     borderRadius: '50%',
     overflow: 'hidden',
   }),

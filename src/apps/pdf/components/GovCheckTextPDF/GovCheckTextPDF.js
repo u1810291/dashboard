@@ -1,9 +1,9 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Text } from '@react-pdf/renderer';
+import { StepStatus } from 'models/Step.model';
 import { CheckStepDetailsEntryPDF } from '../CheckStepPDF/CheckStepDetailsEntryPDF';
 import { commonStyles } from '../../PDF.styles';
-import { StepStatus } from '../../../../models/Step.model';
 
 export function GovCheckTextPDF({ step }) {
   const intl = useIntl();

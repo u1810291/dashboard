@@ -3,12 +3,12 @@ import { ButtonBase } from 'apps/ui';
 import classnames from 'classnames';
 import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { GovCheckCountryTypes } from '../../models/GovCheck.model';
 import { flags } from '../../assets/flags';
-import { GovCheckCountryList } from '../../models/GovCheck.model';
 
 export function GovCheckCountries({ value, onChange }) {
   const intl = useIntl();
-  const [countries] = useState(GovCheckCountryList);
+  const [countries] = useState(GovCheckCountryTypes);
 
   const handleSelect = useCallback((id) => {
     onChange(id);

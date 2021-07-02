@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => createStyles({
   container: {
+    height: '100%',
     borderRadius: 10,
     backgroundColor: theme.palette.common.white,
   },
@@ -13,7 +14,7 @@ export const useStyles = makeStyles((theme) => createStyles({
   },
   list: {
     [theme.breakpoints.up('lg')]: {
-      maxHeight: 'calc(100vh - 180px)',
+      maxHeight: 'calc(100vh - 345px)',
       overflowY: 'auto',
       scrollbarWidth: 'thin',
       '&::-webkit-scrollbar': {

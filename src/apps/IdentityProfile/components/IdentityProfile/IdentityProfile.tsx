@@ -1,26 +1,22 @@
+import { Box, Container, Grid } from '@material-ui/core';
+import { Page404, PageError, PageLoader } from 'apps/layout';
+import { selectVerificationsCollectionModel, VerificationContainer } from 'apps/Verification';
+import { verificationListLoad } from 'apps/Verification/state/Verification.actions';
+import { LoadableAdapter } from 'lib/Loadable.adapter';
+import { goToStartPage } from 'lib/url';
+import { Routes } from 'models/Router.model';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Container, Box, Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, useParams } from 'react-router-dom';
-import { LoadableAdapter } from 'lib/Loadable.adapter';
-import { Page404, PageError, PageLoader } from 'apps/layout';
-import { goToStartPage } from 'lib/url';
-import { identityProfileLoad } from 'state/identities/identities.actions';
-import { selectIdentityProfileModel } from 'state/identities/identities.selectors';
-import { Routes } from 'models/Router.model';
-import { Placeholder } from 'apps/ui';
-import { ReactComponent as UserDeletedIcon } from 'assets/profile-pic-round.svg';
-import { useIntl } from 'react-intl';
-import { selectVerificationsCollectionModel, verificationsCollectionLoad } from 'apps/verification';
-import { IdentityProfileErrorTypes } from '../../models/identityProfile.model';
-import { useStyles } from './IdentityProfile.styles';
-import { VerificationContainer } from '../VerificationContainer/VerificationContainer';
-import { SideProfileMenu } from '../SideProfileMenu/SideProfileMenu';
+import { IdentityProfileErrorTypes } from '../../models/IdentityProfile.model';
+import { identityProfileLoad } from '../../store/IdentityProfile.actions';
+import { selectIdentityProfileModel } from '../../store/IdentityProfile.selectors';
 import { IdentityProfileHeaderMenu } from '../IdentityProfileHeaderMenu/IdentityProfileHeaderMenu';
+import { SideProfileMenu } from '../SideProfileMenu/SideProfileMenu';
+import { useStyles } from './IdentityProfile.styles';
 
 export function IdentityProfile() {
   const dispatch = useDispatch();
-  const intl = useIntl();
   const [errorType, setErrorType] = useState<IdentityProfileErrorTypes>(null);
   const identityProfileModel = useSelector(selectIdentityProfileModel);
   const verificationsModel = useSelector(selectVerificationsCollectionModel);
@@ -33,7 +29,7 @@ export function IdentityProfile() {
         try {
           await dispatch(identityProfileLoad(identityId));
         } catch (error) {
-          if (error.response.status === 404) {
+          if (error?.response?.status === 404) {
             setErrorType(IdentityProfileErrorTypes.IdentityNotFound);
           } else {
             setErrorType(IdentityProfileErrorTypes.RequestError);
@@ -50,7 +46,7 @@ export function IdentityProfile() {
     const loadData = async () => {
       if (LoadableAdapter.isPristine(verificationsModel)) {
         try {
-          await dispatch(verificationsCollectionLoad(identityId));
+          await dispatch(verificationListLoad(identityId));
         } catch (error) {
           setErrorType(IdentityProfileErrorTypes.RequestError);
           console.error(error);
@@ -62,13 +58,9 @@ export function IdentityProfile() {
   }, [dispatch, identityId, verificationsModel]);
 
   const IdentityProfileErrorScreens = useMemo(() => ({
-    [IdentityProfileErrorTypes.UserDeleted]:
-    (<Placeholder icon={<UserDeletedIcon />} subtitle={intl.formatMessage({ id: 'IdentityProfile.placeholder.deleted' })} />),
-    [IdentityProfileErrorTypes.UserDeletedByGdpr]:
-    (<Placeholder icon={<UserDeletedIcon />} subtitle={intl.formatMessage({ id: 'IdentityProfile.placeholder.gdprDeleted' })} />),
     [IdentityProfileErrorTypes.RequestError]: (<PageError onRetry={goToStartPage} />),
     [IdentityProfileErrorTypes.IdentityNotFound]: (<Page404 />),
-  }), [intl]);
+  }), []);
 
   if (identityProfileModel.isLoading || verificationsModel.isLoading) {
     return <PageLoader />;
@@ -86,12 +78,14 @@ export function IdentityProfile() {
         </Box>
         <Grid container spacing={2}>
           <Grid item xs={12} className={classes.sidebar}>
-            <SideProfileMenu />
+            <SideProfileMenu profile={identityProfileModel?.value} />
           </Grid>
           <Grid item xs={12} className={classes.container}>
-            <Route path={`${Routes.identity.profile.details}${Routes.identity.verification.details}`}>
-              <VerificationContainer />
-            </Route>
+            {!verificationsModel.isLoading && verificationsModel.isLoaded && (
+              <Route path={`${Routes.identity.profile.details}${Routes.identity.verification.details}`}>
+                <VerificationContainer />
+              </Route>
+            )}
           </Grid>
         </Grid>
       </Box>

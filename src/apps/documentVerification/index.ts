@@ -1,1 +1,1 @@
-export { DocumentVerificationSettings2 } from './components/DocumentVerificationSettings2/DocumentVerificationSettings2';
+export { DocumentVerificationSettings } from 'apps/documentVerification/components/DocumentVerificationSettings/DocumentVerificationSettings';

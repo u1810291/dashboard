@@ -1,7 +1,9 @@
 import { InputValidationCheck } from 'apps/imageValidation/models/imageValidation.model';
+import { Logo } from 'apps/logo/models/Logo.model';
 import { get } from 'lodash';
 import { DocumentTypes } from 'models/Document.model';
-import { DocumentStepTypes } from 'models/Step.model';
+import { ProductIntegrationTypes } from 'models/Product.model';
+import { DigitalSignatureProvider } from './DigitalSignature.model';
 import { VerificationPatterns } from './VerificationPatterns.model';
 
 export const MAX_NUMBER_OF_FLOWS = 100;
@@ -12,92 +14,45 @@ export function getNewFlowId(merchantFlowsModel, currentFlowId) {
   return get(merchantFlowsModel, `value[${newIndex}].id`, currentFlowId);
 }
 
+export interface FlowStyle {
+  color?: string,
+  language?: string,
+}
+
+export type IFlowPhoneOwnership = {
+  cooldownTimeout: 'PT1M' | string;
+  codeAttemptLimit: number;
+  codeSendLimit: number;
+  companyName: string;
+}
+
+export type IFlowSystemSettings = {
+  useTaskQueueProcessing: boolean;
+}
+
+export type IFlowComputationTypes = 'age' | 'isDocumentExpired' | string;
+
 export interface IFlow {
   ageThreshold?: number,
-  computations?: string[],
+  phoneOwnership?: IFlowPhoneOwnership,
+  computations?: IFlowComputationTypes[],
   createdAt?: string,
   denyUploadsFromMobileGallery?: boolean,
-  digitalSignature?: 'nom151' | 'none',
+  digitalSignature?: DigitalSignatureProvider,
   facematchThreshold?: number,
   id?: string,
   inputTypes?: { id?: string }[],
   inputValidationChecks?: InputValidationCheck[],
-  logoUrl?: string,
+  _id?: string,
+  logo?: Logo,
   name?: string,
   policyInterval?: string,
   postponedTimeout?: string,
   pinnedCountries?: string[],
-  style?: {
-    color?: string,
-    language?: string,
-  },
+  style?: FlowStyle,
   supportedCountries?: string[],
   updatedAt?: string,
   verificationSteps?: DocumentTypes[][],
-  verificationPatterns?: VerificationPatterns,
+  verificationPatterns?: Partial<VerificationPatterns>,
+  integrationType?: ProductIntegrationTypes;
 }
-
-// TODO: @ggrigorev use enum for keys and move to model
-export const GovCheckStepsVerificationPatterns = [
-  DocumentStepTypes.ArgentinianDni,
-  DocumentStepTypes.ArgentinianRenaper,
-  DocumentStepTypes.BolivianOep,
-  DocumentStepTypes.BrazilianCpf,
-  DocumentStepTypes.ColombianRegistraduria,
-  DocumentStepTypes.ChileanRegistroCivil,
-  DocumentStepTypes.CostaRicanSocialSecurity,
-  DocumentStepTypes.CostaRicanTse,
-  DocumentStepTypes.DominicanJce,
-  DocumentStepTypes.ParaguayanRcp,
-  DocumentStepTypes.EcuadorianRegistroCivil,
-  DocumentStepTypes.HonduranRnp,
-  DocumentStepTypes.CURP,
-  DocumentStepTypes.INE,
-  DocumentStepTypes.RFC,
-  DocumentStepTypes.PanamenianTribunalElectoral,
-  DocumentStepTypes.PeruvianReniec,
-  DocumentStepTypes.SalvadorianTse,
-  DocumentStepTypes.VenezuelanCne,
-];
-
-export enum FlowSettingTypes {
-  Gdpr = 'gdpr',
-  CertifiedTimestamp = 'certifiedTimestamp',
-}
-
-// TODO: @ggrigorev remove deprecated
-/**
- * @deprecated
- */
-export const FlowCommonDataParser = (flow: IFlow) => ({
-  checks: {},
-  settings: {
-    [FlowSettingTypes.Gdpr]: {
-      isActive: !!flow?.policyInterval,
-      value: flow?.policyInterval,
-    },
-    [FlowSettingTypes.CertifiedTimestamp]: {
-      isActive: flow?.digitalSignature !== 'none',
-      value: flow?.digitalSignature,
-    },
-  },
-});
-
-// TODO: @ggrigorev remove deprecated
-/**
- * @deprecated
- */
-export const flowFieldsFromFlowCommonDataSettings = (settingType: FlowSettingTypes, { isActive, value }) => {
-  switch (settingType) {
-    case FlowSettingTypes.CertifiedTimestamp:
-      return {
-        digitalSignature: isActive ? value : 'none',
-      };
-    case FlowSettingTypes.Gdpr:
-      return {
-        policyInterval: isActive ? value : null,
-      };
-    default:
-      return {};
-  }
-};

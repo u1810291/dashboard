@@ -1,5 +1,5 @@
 import { Image, Text, View } from '@react-pdf/renderer';
-import { useDocumentTitle } from 'apps/identity/hooks/document.hook';
+import { useDocumentTitle } from 'apps/documents';
 import { WarningTypes } from 'apps/ui';
 import { getMediaURL } from 'lib/client/media';
 import { DocumentSides, getDocumentSideLabel } from 'models/Document.model';

@@ -1,9 +1,9 @@
 import { Box } from '@material-ui/core';
-import { selectVerification, selectVerificationsGroupedByFlow } from 'apps/verification/state/verification.selectors';
 import { ProductIntegrationTypes } from 'models/Product.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
+import { selectVerification, selectVerificationsGroupedByFlow } from '../../../Verification';
 import { PassedFlowSelect } from '../PassedFlowSelect/PassedFlowSelect';
 
 export function PassedFlows() {
@@ -22,6 +22,7 @@ export function PassedFlows() {
 
   useEffect(() => {
     if (!verification) {
+      setActiveFlow(null);
       return;
     }
     setActiveFlow(verification?.flow?._id);
@@ -37,12 +38,12 @@ export function PassedFlows() {
         <PassedFlowSelect
           key={flow._id}
           isSelected={handleCheckIsActive(flow?._id)}
-          isOpened={handleCheckIsOpened(flow?._id)}
+          isOpened={flow?.verifications && flow?.verifications.length > 1 && handleCheckIsOpened(flow?._id)}
           setIsSelected={handleSetActive(flow?._id)}
           verifications={flow?.verifications}
           flowName={flow?.name}
           platformType={ProductIntegrationTypes.Sdk}
-          badgeStatusId={flow?.verifications[0]?.verificationStatus}
+          badgeStatusId={flow?.verifications[0]?.verificationStatusDetails?.value}
         />
       ))}
     </Box>

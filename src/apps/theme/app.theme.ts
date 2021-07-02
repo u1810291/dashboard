@@ -157,10 +157,9 @@ export const AppTheme = createMuiTheme({
         color: appPalette.black90,
       },
     },
-    MuiSwitch: {
-      track: {
-        backgroundColor: appPalette.black50,
-        opacity: 1,
+    MuiRadio: {
+      colorPrimary: {
+        color: appPalette.lightblue,
       },
     },
   },

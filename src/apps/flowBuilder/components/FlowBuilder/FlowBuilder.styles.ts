@@ -8,14 +8,61 @@ export const useStyles = makeStyles((theme) => createStyles({
     flexGrow: 1,
     background: `linear-gradient(90deg, ${theme.palette.common.black7} 18px, transparent 1%) center, linear-gradient(${theme.palette.common.black7} 18px, transparent 1%) center, ${theme.palette.common.black50}`,
     backgroundSize: '19px 19px',
+    '& .MuiSwitch-root': {
+      width: 30,
+      height: 17,
+      padding: 0,
+      '& .MuiSwitch-colorPrimary': {
+        padding: 1,
+        '&.Mui-checked': {
+          transform: 'translateX(13px)',
+          color: theme.palette.common.white,
+          '& + .MuiSwitch-track': {
+            opacity: 1,
+            backgroundColor: theme.palette.common.green,
+            border: 'none',
+          },
+        },
+        '&.Mui-focusVisible .MuiSwitch-thumb': {
+          color: theme.palette.common.green,
+          border: `6px solid ${theme.palette.common.white}`,
+        },
+        '& .MuiSwitch-thumb': {
+          width: 15,
+          height: 15,
+        },
+      },
+      '& .MuiSwitch-track': {
+        borderRadius: 13,
+        border: `1px solid ${theme.palette.common.black50}`,
+        backgroundColor: theme.palette.common.black50,
+        opacity: 1,
+      },
+    },
   },
   wrapper: {
     height: '100%',
   },
+  contentWrapper: {
+    flexGrow: 1,
+  },
+  flowInfo: {
+    position: 'relative',
+    borderRadius: 10,
+    backgroundColor: theme.palette.common.white,
+    [theme.breakpoints.up('lg')]: {
+      flexBasis: 'auto',
+      flexShrink: 0,
+      width: 325,
+    },
+    [theme.breakpoints.up('xl')]: {
+      width: 340,
+    },
+  },
   sidebar: {
     [theme.breakpoints.up('lg')]: {
       flexBasis: 'auto',
-      width: 340,
+      width: 345,
     },
     [theme.breakpoints.up('xl')]: {
       width: 360,
@@ -24,10 +71,28 @@ export const useStyles = makeStyles((theme) => createStyles({
   content: {
     [theme.breakpoints.up('lg')]: {
       flexBasis: 'auto',
-      width: 'calc(100% - 680px)',
+      width: 'calc(100% - 690px)',
     },
     [theme.breakpoints.up('xl')]: {
       width: 'calc(100% - 720px)',
+    },
+  },
+  graph: {
+    [theme.breakpoints.up('lg')]: {
+      minWidth: 330,
+      maxHeight: 'calc(100vh - 320px)',
+      overflowY: 'auto',
+      scrollbarWidth: 'thin',
+      '&::-webkit-scrollbar': {
+        height: 0,
+        width: 0,
+      },
+      '&::-webkit-scrollbar-track': {
+        backgroundColor: 'transparent',
+      },
+      '&::-webkit-scrollbar-corner': {
+        backgroundColor: 'transparent',
+      },
     },
   },
   placeholder: {
@@ -38,15 +103,6 @@ export const useStyles = makeStyles((theme) => createStyles({
     padding: 40,
     '& p': {
       maxWidth: 160,
-    },
-  },
-  buttonSave: {
-    minWidth: 220,
-    minHeight: 50,
-    fontSize: 14,
-    fontWeight: 'bold',
-    '& svg': {
-      marginRight: 5,
     },
   },
   buttonBack: {

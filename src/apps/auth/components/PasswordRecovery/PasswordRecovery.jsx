@@ -8,11 +8,11 @@ import { Link, Redirect } from 'react-router-dom';
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3.svg';
 import SigninSession from 'assets/signin-session.png';
 import SigninService from 'assets/signin-service.png';
+import { Routes } from 'models/Router.model';
+import { QATags } from 'models/QA.model';
 import { passwordRecovery } from '../../state/auth.actions';
 import { useStyles } from '../SignIn/SignIn.styles';
 import { IntlButton } from '../../../intl';
-import { Routes } from '../../../../models/Router.model';
-import { QATags } from '../../../../models/QA.model';
 
 export function PasswordRecovery() {
   const intl = useIntl();

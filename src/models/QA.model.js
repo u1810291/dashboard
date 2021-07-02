@@ -240,4 +240,11 @@ export const QATags = {
     HistoryTable: 'agent-history-table',
     AgentRoleSelect: 'agent-history-select-role',
   },
+
+  FlowBuilder: {
+    Integration: {
+      API: 'flow-builder-integration-api',
+      SDK: 'flow-builder-integration-sdk',
+    },
+  },
 };

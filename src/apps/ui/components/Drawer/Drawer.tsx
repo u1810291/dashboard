@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, ReactNode } from 'react';
 import { IconButton, DrawerProps as MaterialDrawerProps, Typography, Box } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { StyledDrawer, useStyles } from './Drawer.styles';
@@ -6,7 +6,7 @@ import { StyledDrawer, useStyles } from './Drawer.styles';
 interface DrawerProps {
   title?: string;
   drawerProps: MaterialDrawerProps;
-  children: JSX.Element;
+  children: ReactNode;
 }
 
 const ModalProps = {

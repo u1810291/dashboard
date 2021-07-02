@@ -1,9 +1,13 @@
-export const ActionSubTypes = {
-  Request: 'REQUEST',
-  Success: 'SUCCESS',
-  Failure: 'FAILURE',
-  Updating: 'UPDATING',
-  Clear: 'CLEAR',
+export enum ActionSubTypes {
+  Request = 'REQUEST',
+  Success = 'SUCCESS',
+  Failure = 'FAILURE',
+  Updating = 'UPDATING',
+  Clear = 'CLEAR',
+}
+
+export type TypesSequence = {
+  [key: string]: string,
 };
 
 export const storeAction = <T>(type: string) => (payload: T) => (dispatch) => dispatch({ type, payload });
@@ -17,14 +21,8 @@ export function createReducer(initialState, handlers) {
   };
 }
 
-export function createTypesSequence(baseName) {
-  return [
-    ActionSubTypes.Request,
-    ActionSubTypes.Success,
-    ActionSubTypes.Failure,
-    ActionSubTypes.Updating,
-    ActionSubTypes.Clear,
-  ].reduce((memo, item) => {
+export function createTypesSequence<T>(baseName: T): TypesSequence {
+  return Object.values(ActionSubTypes).reduce((memo, item) => {
     const type = `${baseName}_${item}`;
     memo[type] = type;
     return memo;

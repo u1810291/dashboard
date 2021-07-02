@@ -1,4 +1,3 @@
-import { EmailValidationExtrasType } from 'apps/EmailValidation/models/EmailValidation.model';
 import { getStepStatus } from 'models/Step.model';
 import { BaseEmailStep } from 'models/EmailBase.interface';
 

@@ -1,15 +1,14 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { CheckStepDetails } from 'apps/checks';
 import { PremiumAmlWatchlistsStepDetails } from 'apps/identity/components/PremiumAmlWatchlistsStepDetails/PremiumAmlWatchlistsStepDetails';
-import { useDocumentTitle, usePhotosOrientation } from 'apps/identity/hooks/document.hook';
 import { POOImage } from 'apps/ProofOfOwnership';
 import { CheckBarExpandable, CheckResultLogo, Warning, WarningTypes, ZoomableImage } from 'apps/ui';
 import classNames from 'classnames';
-
 import { DocumentSides, getDocumentSideLabel, PhotosOrientations } from 'models/Document.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { DocumentReadingStep } from '../DocumentReadingStep/DocumentReadingStep';
+import { useDocumentTitle, usePhotosOrientation } from '../../hooks/document.hook';
 import { useStyles } from './DocumentStep.styles';
 
 export function DocumentStep({ document, identity, documentIndex, onDocumentUpdate }) {

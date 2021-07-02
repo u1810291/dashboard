@@ -1,4 +1,4 @@
-import { http } from './http';
+import { http } from 'lib/client/http';
 
 export function getCollaborators(merchantId) {
   return http.get(`api/v1/merchants/${merchantId}/collaborators`);

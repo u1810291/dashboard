@@ -10,21 +10,23 @@ export interface InputValidationCheck {
   isDisabled?: boolean,
 }
 
+// inputValidationChecks is [] in defaultFlow (it means, that all checks are enabled)
+export const inputValidationChecksDefaultValue = [{
+  id: InputValidationType.GrayscaleImage,
+  isDisabled: false,
+}, {
+  id: InputValidationType.SimilarImages,
+  isDisabled: false,
+}, {
+  id: InputValidationType.IdenticalImages,
+  isDisabled: false,
+}, {
+  id: InputValidationType.DocumentDetected,
+  isDisabled: false,
+}];
+
 export function mergeInputValidationChecks(target, source) {
-  // @ggrigorev inputValidationChecks is [] in defaultFlow (it means, that all checks are enabled)
-  const validatedTarget = target.length > 0 ? target : [{
-    id: InputValidationType.GrayscaleImage,
-    isDisabled: false,
-  }, {
-    id: InputValidationType.SimilarImages,
-    isDisabled: false,
-  }, {
-    id: InputValidationType.IdenticalImages,
-    isDisabled: false,
-  }, {
-    id: InputValidationType.DocumentDetected,
-    isDisabled: false,
-  }];
+  const validatedTarget = target.length > 0 ? target : inputValidationChecksDefaultValue;
 
   return validatedTarget.map((check) => {
     const similarCheck = source.find((changedCheck) => changedCheck.id === check.id);

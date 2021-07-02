@@ -1,9 +1,10 @@
 import { Box } from '@material-ui/core';
-import { areNodesLoaded, getElements, getLayoutedElements, NodesMap } from 'apps/flowBuilder/models/FlowBuilder.model';
+import { CustomReactFlowMemorised } from 'apps/flowBuilder/components/ReactFlowMemorised/CustomReactFlowMemorised';
+import { areNodesLoaded, getElements, getLayoutedElements, getTotalGraphHeight } from 'apps/flowBuilder/models/FlowBuilder.model';
 import { selectFlowBuilderProductsInGraphModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { Loader } from 'apps/ui';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import ReactFlow, { Elements, ReactFlowProvider, useStoreState } from 'react-flow-renderer';
+import { Elements, ReactFlowProvider, useStoreState, Node } from 'react-flow-renderer';
 import { useSelector } from 'react-redux';
 import { useStyles } from './FlowProductGraph.styles';
 
@@ -12,26 +13,25 @@ function FlowProductsGraphWithoutContext() {
   const [elements, setElements] = useState<Elements>([]);
   const [isLayouted, setIsLayouted] = useState(false);
   const [isCentered, setIsCentered] = useState(false);
-  const nodes = useStoreState((state) => state.nodes);
-  const products = useSelector(selectFlowBuilderProductsInGraphModel);
+  const [reactFlowWrapperHeight, setReactFlowWrapperHeight] = useState(0);
+  const loadedNodes: Node[] = useStoreState((state) => state.nodes);
+  const productsInGraphModel = useSelector(selectFlowBuilderProductsInGraphModel);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const classes = useStyles();
 
-  const handleLoad = useCallback((instance) => {
-    setReactFlowInstance(instance);
-  }, []);
-
+  // we should wait ReactFlow to load nodes to get their actual width and height before layouting
   useEffect(() => {
-    setElements(getElements(products.value));
+    setElements(getElements(productsInGraphModel.value));
     setIsLayouted(false);
-  }, [products]);
+  }, [productsInGraphModel]);
 
   useEffect(() => {
-    if (!isLayouted && areNodesLoaded(nodes, elements)) {
-      setElements(getLayoutedElements(nodes, getElements(products.value)));
+    if (!isLayouted && areNodesLoaded(loadedNodes, elements)) {
+      setElements(getLayoutedElements(loadedNodes, elements));
+      setReactFlowWrapperHeight(getTotalGraphHeight(loadedNodes));
       setIsLayouted(true);
     }
-  }, [products, nodes, elements, isLayouted]);
+  }, [loadedNodes, elements, isLayouted]);
 
   useEffect(() => {
     if (isLayouted && !isCentered && reactFlowWrapper.current) {
@@ -40,30 +40,23 @@ function FlowProductsGraphWithoutContext() {
     }
   }, [isLayouted, reactFlowInstance, isCentered, reactFlowWrapper]);
 
+  const handleLoad = useCallback((instance) => {
+    setReactFlowInstance(instance);
+  }, []);
+
   const handleDragOver = useCallback((event) => {
     event.preventDefault();
     // eslint-disable-next-line no-param-reassign
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
-  if (!products.isLoaded) {
+  if (!productsInGraphModel.isLoaded) {
     return <Loader />;
   }
   return (
     <Box className={classes.root}>
-      <div className={classes.wrapper} style={{ height: 2000, width: '100%' }} ref={reactFlowWrapper}>
-        <ReactFlow
-          elements={elements}
-          nodeTypes={NodesMap}
-          onDragOver={handleDragOver}
-          onLoad={handleLoad}
-          zoomOnScroll={false}
-          paneMoveable={false}
-          zoomOnPinch={false}
-          zoomOnDoubleClick={false}
-          nodesDraggable={false}
-          nodesConnectable={false}
-        />
+      <div className={classes.wrapper} style={{ height: reactFlowWrapperHeight }} ref={reactFlowWrapper}>
+        <CustomReactFlowMemorised onDragOver={handleDragOver} onLoad={handleLoad} elements={elements} />
       </div>
     </Box>
   );

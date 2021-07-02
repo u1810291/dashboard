@@ -9,9 +9,6 @@ const initialState = {
   filter: verificationsFilterInitialState,
 
   [SliceNames.Identity]: LoadableAdapter.createState(null),
-  [SliceNames.VerificationsCollection]: LoadableAdapter.createState([]),
-  [SliceNames.Verification]: LoadableAdapter.createState(null),
-  [SliceNames.IdentityProfile]: LoadableAdapter.createState(null),
   [SliceNames.IdentityList]: LoadableAdapter.createState([]),
   [SliceNames.IdentityCount]: LoadableAdapter.createState(0),
   [SliceNames.FilteredCount]: LoadableAdapter.createState(0),
@@ -21,9 +18,6 @@ const initialState = {
 
 export default createReducer(initialState, {
   ...LoadableAdapter.createHandlers(IdentityActionGroups.Identity, SliceNames.Identity),
-  ...LoadableAdapter.createHandlers(IdentityActionGroups.IdentityProfile, SliceNames.IdentityProfile),
-  ...LoadableAdapter.createHandlers(IdentityActionGroups.VerificationsCollection, SliceNames.VerificationsCollection),
-  ...LoadableAdapter.createHandlers(IdentityActionGroups.Verification, SliceNames.Verification),
   ...LoadableAdapter.createHandlers(IdentityActionGroups.IdentityList, SliceNames.IdentityList),
   ...LoadableAdapter.createHandlers(IdentityActionGroups.IdentityCount, SliceNames.IdentityCount),
   ...LoadableAdapter.createHandlers(IdentityActionGroups.FilteredCount, SliceNames.FilteredCount),

@@ -1,10 +1,11 @@
-import { Box } from '@material-ui/core';
+import { Box, IconButton } from '@material-ui/core';
 import { IFlow } from 'models/Flow.model';
 import { ProductTypes } from 'models/Product.model';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { ProductSettings } from '../../../Product/components/ProductSettings/ProductSettings';
+import { FiX } from 'react-icons/fi';
+import { ProductSettings } from 'apps/Product/components/ProductSettings/ProductSettings';
 import { flowBuilderProductSelect } from '../../store/FlowBuilder.action';
 import { useStyles } from './FlowBuilderProductDetails.styles';
 
@@ -22,21 +23,23 @@ export function FlowBuilderProductDetails({ flow, productId, onUpdate }: {
   }, [dispatch]);
 
   return (
-    <Box className={classes.container}>
-      <Box p={2} fontWeight="bold" color="common.black90">
-        <Box>
-          {intl.formatMessage({ id: 'FlowBuilder.productSettings' })}
+    <Box p={0.4} className={classes.root}>
+      <Box p={1.6} className={classes.container}>
+        <Box mb={2} className={classes.wrapper}>
+          <IconButton className={classes.buttonClose} onClick={handleClose} type="button">
+            <FiX size={20} />
+          </IconButton>
+          <Box fontWeight="bold" color="common.black90">
+            {intl.formatMessage({ id: 'FlowBuilder.productSettings' })}
+          </Box>
         </Box>
         <Box>
-          <button onClick={handleClose} type="button">close</button>
+          <ProductSettings
+            flow={flow}
+            productId={productId}
+            onUpdate={onUpdate}
+          />
         </Box>
-      </Box>
-      <Box p={1}>
-        <ProductSettings
-          flow={flow}
-          productId={productId}
-          onUpdate={onUpdate}
-        />
       </Box>
     </Box>
   );
