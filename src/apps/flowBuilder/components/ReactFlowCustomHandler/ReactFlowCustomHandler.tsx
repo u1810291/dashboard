@@ -3,8 +3,8 @@ import { Handle, HandleType, Position } from 'react-flow-renderer';
 import { useStyles } from './ReactFlowCustomHandler.styles';
 
 export interface ReactFlowCustomHandlerProps {
-  type: HandleType,
-  position: Position,
+  type: HandleType;
+  position: Position;
 }
 
 export function ReactFlowCustomHandler({ type, position }: ReactFlowCustomHandlerProps) {

@@ -9,8 +9,8 @@ import { useStyles } from './NewLivenessStep.styles';
 import { LivenessConslusion } from '../LivenessConslusion/LivenessConslusion';
 
 export function NewLivenessStep({ steps = [], downloadableFileName }: {
-  steps: BiometricStep[],
-  downloadableFileName: string,
+  steps: BiometricStep[];
+  downloadableFileName: string;
 }) {
   const intl = useIntl();
   const classes = useStyles();

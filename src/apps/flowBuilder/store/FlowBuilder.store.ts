@@ -17,6 +17,6 @@ export enum FlowBuilderActionGroups {
 export interface FlowBuilderStore {
   [SliceNames.ProductsInGraph]: Loadable<ProductTypes[]>;
   [SliceNames.ChangeableFlow]: Loadable<IFlow>;
-  haveUnsavedChanges: boolean,
+  haveUnsavedChanges: boolean;
   selectedId: ProductTypes;
 }

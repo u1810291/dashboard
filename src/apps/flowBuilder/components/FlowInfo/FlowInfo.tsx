@@ -1,20 +1,20 @@
 import { Box, Grid, ListItemIcon } from '@material-ui/core';
 import { EditableField } from 'apps/oldProduct/components/EditableField/EditableField';
 import { DateFormat, formatDate } from 'lib/date';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { FiEdit3 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectFlowBuilderChangeableFlow } from '../../store/FlowBuilder.selectors';
 
 export function FlowInfo({ canEdit, isEditable, newFlowName, setIsEditable, onSubmit, onCancel, validator }: {
-  canEdit?: boolean,
-  isEditable?: boolean,
-  newFlowName?: string,
-  setIsEditable?: Function,
-  onSubmit?: (text: string) => void,
-  onCancel?: () => void,
-  validator?: (text: string) => void,
+  canEdit?: boolean;
+  isEditable?: boolean;
+  newFlowName?: string;
+  setIsEditable?: Dispatch<SetStateAction<boolean>>;
+  onSubmit?: (text: string) => void;
+  onCancel?: () => void;
+  validator?: (text: string) => void;
 }) {
   const intl = useIntl();
   const { name, createdAt } = useSelector(selectFlowBuilderChangeableFlow);
@@ -33,7 +33,7 @@ export function FlowInfo({ canEdit, isEditable, newFlowName, setIsEditable, onSu
               value={newFlowName}
             />
             {!isEditable && (
-              <ListItemIcon onClick={() => setIsEditable((prevState) => !prevState)}>
+              <ListItemIcon onClick={() => setIsEditable((prevState: boolean) => !prevState)}>
                 <FiEdit3 />
               </ListItemIcon>
             )}

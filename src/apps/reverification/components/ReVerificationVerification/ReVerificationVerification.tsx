@@ -9,7 +9,7 @@ export function ReVerificationVerification({
     identity,
   },
 }: {
-  data: IReverificationVerification
+  data: IReverificationVerification;
 }) {
   return (
     <Box>

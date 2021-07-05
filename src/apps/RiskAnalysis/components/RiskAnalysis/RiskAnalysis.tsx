@@ -8,7 +8,7 @@ import { RiskAnalysisFieldTypes, RiskAnalysisStep } from '../../models/RiskAnaly
 import { useStyles } from './RiskAnalysis.styles';
 
 export interface RiskAnalysisProps {
-  step: RiskAnalysisStep,
+  step: RiskAnalysisStep;
 }
 
 export function RiskAnalysis({ step = {} }: RiskAnalysisProps) {

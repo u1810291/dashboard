@@ -5,11 +5,11 @@ import { useIntl } from 'react-intl';
 import { useStyles } from './DateInputField.styles';
 
 export interface DateInputFieldProps{
-  fieldId?: string,
-  dateString: string,
-  onChange?: (fieldId: string, formattedString: string) => void,
-  autoFocus?: boolean,
-  isEditable?: boolean
+  fieldId?: string;
+  dateString: string;
+  onChange?: (fieldId: string, formattedString: string) => void;
+  autoFocus?: boolean;
+  isEditable?: boolean;
 }
 
 export function DateInputField({ fieldId, dateString, onChange, autoFocus, isEditable = true }: DateInputFieldProps) {

@@ -4,7 +4,7 @@ import { SyntaxHighlighter, SyntaxHighlighterLanguages } from 'apps/ui';
 import stringify from 'lib/stringify';
 
 export interface VerificationMetadataProps{
-  metadata?: any,
+  metadata?: any;
 }
 
 export function NewVerificationMetadata({ metadata = {} }: VerificationMetadataProps) {

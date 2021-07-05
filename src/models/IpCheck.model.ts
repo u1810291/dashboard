@@ -2,26 +2,26 @@ import { StepStatus } from 'models/Step.model';
 import { VerificationPatternTypes } from './VerificationPatterns.model';
 
 export interface IpCheckStepData {
-  country: string,
-  countryCode: string,
-  region: string,
-  regionCode: string,
-  city: string,
-  zip: string,
-  latitude: number,
-  longitude: number,
-  safe: boolean,
-  mapUrl: string,
+  country: string;
+  countryCode: string;
+  region: string;
+  regionCode: string;
+  city: string;
+  zip: string;
+  latitude: number;
+  longitude: number;
+  safe: boolean;
+  mapUrl: string;
 }
 
 export interface IpCheckStep {
-  startCount: number,
-  status: 0 | 100 | 200,
-  id: VerificationPatternTypes.IpValidation,
-  startedAt: string,
-  error: any,
-  data: IpCheckStepData,
-  completedAt: string,
+  startCount: number;
+  status: 0 | 100 | 200;
+  id: VerificationPatternTypes.IpValidation;
+  startedAt: string;
+  error: any;
+  data: IpCheckStepData;
+  completedAt: string;
 }
 
 export function getIpCheckUrl(data) {

@@ -7,10 +7,10 @@ import { getSelectedDocuments, SelectedDocuments } from '../../models/DocumentVe
 import { useStyles } from './DocumentSelect.styles';
 
 export interface DocumentSelectProps {
-  checked: DocumentTypes[],
-  unavailable: DocumentTypes[],
-  onSubmit: (checked: DocumentTypes[]) => void,
-  variant: 'change' | 'add',
+  checked: DocumentTypes[];
+  unavailable: DocumentTypes[];
+  onSubmit: (checked: DocumentTypes[]) => void;
+  variant: 'change' | 'add';
 }
 
 export function DocumentSelect({ checked, onSubmit, unavailable, variant = 'add' }: DocumentSelectProps) {

@@ -14,6 +14,8 @@ export enum DocumentVerificationSettingTypes {
   ProofOfOwnership = 'proofOfOwnership',
 }
 
+export type ProductSettingsDocumentVerification = ProductSettings<DocumentVerificationSettingTypes>;
+
 export enum DocumentVerificationCheckTypes {
   DocumentReading = 'documentReading',
   ExpirationDetection = 'expirationDetection',
@@ -28,7 +30,7 @@ export type DocumentVerificationConfigSettings = ProductSettings<DocumentVerific
 
 export type SelectedDocuments = Partial<Record<DocumentTypes, boolean>>;
 
-export function getSelectedDocuments(documentStep: DocumentTypes[]) : SelectedDocuments {
+export function getSelectedDocuments(documentStep: DocumentTypes[]): SelectedDocuments {
   if (!documentStep) {
     return null;
   }

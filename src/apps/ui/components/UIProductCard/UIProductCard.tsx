@@ -3,7 +3,7 @@ import { ExpandMore } from '@material-ui/icons';
 import { Modal, useOverlay } from 'apps/overlay';
 import classNames from 'classnames';
 import { IProductCard, ProductIntegrationTypes } from 'models/Product.model';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FiSettings, FiTrash2, FiInfo } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { ProductCheckList } from '../ProductCheckList/ProductCheckList';
@@ -23,28 +23,11 @@ export function UIProductCard({ card, issuesComponent, isExpandable = true, isCo
   const [isExpanded, setIsExpanded] = useState<boolean>(defaultExpanded);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'));
-  const [issuesPopupOpen, setIssuesPopupOpen] = useState(false);
-  const issuesPopupRef = useRef(null);
   const [createOverlay] = useOverlay();
 
   const handleOpenIssuesPopup = useCallback(() => {
     createOverlay(<Modal className={classes.modal}>{issuesComponent}</Modal>);
   }, [createOverlay, issuesComponent, classes.modal]);
-
-  const handleOuterClick = useCallback((e) => {
-    if (!e?.path?.includes(issuesPopupRef.current)) {
-      setIssuesPopupOpen(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (issuesPopupOpen) {
-      document.addEventListener('click', handleOuterClick);
-    } else {
-      document.removeEventListener('click', handleOuterClick);
-    }
-    return () => document.removeEventListener('click', handleOuterClick);
-  }, [issuesPopupOpen, handleOuterClick]);
 
   const handleChange = useCallback(() => {
     if (isExpandable) {
@@ -81,8 +64,8 @@ export function UIProductCard({ card, issuesComponent, isExpandable = true, isCo
           </Grid>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <Box mt={2}>
-            <ProductCheckList checks={card.checks} productId={card.id} />
+          <Box mt={1.2} ml={5.8}>
+            <ProductCheckList isForceFlat cards={[card]} />
           </Box>
         </ExpansionPanelDetails>
       </ExpansionPanel>
@@ -95,18 +78,9 @@ export function UIProductCard({ card, issuesComponent, isExpandable = true, isCo
             <FiTrash2 size={17} />
           </Button>
           {issuesComponent && isSmallScreen ? (
-            <>
-              <Button className={classNames(classes.control, classes.controlIssues)} onClick={handleOpenIssuesPopup}>
-                <FiInfo size={25} />
-              </Button>
-              {issuesPopupOpen && (
-                <Box>
-                  <div ref={issuesPopupRef}>
-                    {issuesComponent}
-                  </div>
-                </Box>
-              )}
-            </>
+            <Button className={classNames(classes.control, classes.controlIssues)} onClick={handleOpenIssuesPopup}>
+              <FiInfo size={25} />
+            </Button>
           ) : issuesComponent}
         </Box>
       )}

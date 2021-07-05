@@ -11,7 +11,7 @@ interface ExtendedDescriptionProps {
   badge?: ReactNode;
   className?: string;
   children?: ReactNode;
-  isDisabled?: boolean,
+  isDisabled?: boolean;
 }
 
 export function ExtendedDescription({ title, text, prefix, postfix, className, children, badge, isDisabled }: ExtendedDescriptionProps) {

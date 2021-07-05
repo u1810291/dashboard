@@ -1,4 +1,4 @@
-import { Product, ProductCheck, ProductConfig, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
+import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { IFlow } from 'models/Flow.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
@@ -9,7 +9,9 @@ import { GovCheckSettings } from '../components/GovCheckSettings/GovCheckSetting
 import { GovCheckStepTypes, GovernmentCheckSettingTypes, GovernmentChecksTypes, verificationPatternsCountries } from '../models/GovCheck.model';
 import { GovCheckVerificationProduct } from '../components/GovCheckVerificationProduct/GovCheckVerificationProduct';
 
-export class GovernmentCheck extends ProductBaseService implements Product {
+type ProductSettingsGovCheck = ProductSettings<GovernmentCheckSettingTypes>;
+
+export class GovernmentCheck extends ProductBaseService implements Product<ProductSettingsGovCheck> {
   id = ProductTypes.GovernmentCheck;
   inputs = [
     ProductInputTypes.NationalId,
@@ -20,10 +22,12 @@ export class GovernmentCheck extends ProductBaseService implements Product {
   ];
   order = 300;
   requiredProductType = ProductTypes.DocumentVerification;
-  checksDefault = [{
-    id: GovernmentChecksTypes.GovernmentDatabaseCheck,
-    isActive: true,
-  }];
+  checks = [
+    {
+      id: GovernmentChecksTypes.GovernmentDatabaseCheck,
+      isActive: true,
+    },
+  ];
 
   icon = FiFlag;
 
@@ -56,28 +60,18 @@ export class GovernmentCheck extends ProductBaseService implements Product {
     });
   }
 
-  getChecks(flow?: IFlow): ProductCheck[] {
-    return flow ? [{
-      id: GovernmentChecksTypes.GovernmentDatabaseCheck,
-      isActive: !!flow?.postponedTimeout,
-    }] : this.checksDefault;
-  }
-
-  parser(flow: IFlow): ProductConfig {
-    super.parser(flow);
+  parser(flow: IFlow): ProductSettingsGovCheck {
     return {
-      settings: {
-        [GovernmentCheckSettingTypes.PostponedTimeout]: {
-          value: flow?.postponedTimeout,
-        },
-        [GovernmentCheckSettingTypes.CountriesGovChecks]: {
-          value: flow?.verificationPatterns,
-        },
+      [GovernmentCheckSettingTypes.PostponedTimeout]: {
+        value: flow?.postponedTimeout,
+      },
+      [GovernmentCheckSettingTypes.CountriesGovChecks]: {
+        value: flow?.verificationPatterns,
       },
     };
   }
 
-  serialize(settings: ProductSettings<GovernmentCheckSettingTypes>): Partial<IFlow> {
+  serialize(settings: ProductSettingsGovCheck): Partial<IFlow> {
     return {
       postponedTimeout: settings[GovernmentCheckSettingTypes.PostponedTimeout]?.value,
       verificationPatterns: settings[GovernmentCheckSettingTypes.CountriesGovChecks]?.value,

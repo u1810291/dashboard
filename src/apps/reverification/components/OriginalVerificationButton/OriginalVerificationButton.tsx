@@ -10,8 +10,8 @@ export function OriginalVerificationButton({
   verification,
   identity,
 }: {
-  verification: string,
-  identity: string,
+  verification: string;
+  identity: string;
 }) {
   const classes = useStyles();
   const intl = useIntl();

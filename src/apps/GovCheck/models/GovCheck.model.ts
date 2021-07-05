@@ -85,19 +85,19 @@ export const govCheckCountriesOrder = [
 ];
 
 export interface GovCheck{
-  id: string,
-  default: boolean,
-  stepTypeAlias?: GovCheckStepTypes,
-  option?: any,
-  value?: boolean,
+  id: string;
+  default: boolean;
+  stepTypeAlias?: GovCheckStepTypes;
+  option?: any;
+  value?: boolean;
 }
 
 export interface GovCheckConfiguration{
-  country: GovCheckCountryTypes,
-  checks: GovCheck[],
+  country: GovCheckCountryTypes;
+  checks: GovCheck[];
 }
 
-export const GovCheckConfigurations : GovCheckConfiguration[] = [
+export const GovCheckConfigurations: GovCheckConfiguration[] = [
   {
     country: GovCheckCountryTypes.Argentina,
     checks: [

@@ -9,8 +9,8 @@ export function ReFacematch({
   reFacematch,
   identity,
 }: {
-  reFacematch: IReFacematchStep,
-  identity: string,
+  reFacematch: IReFacematchStep;
+  identity: string;
 }) {
   return (
     <Grid container spacing={2}>

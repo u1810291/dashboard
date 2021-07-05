@@ -8,16 +8,16 @@ import moment from 'moment';
 import { getReasonToken, IdentityProfileReasonCodes, IdentitySummary } from 'apps/IdentityProfile/models/IdentityProfile.model';
 import { useStyles } from './ProfileInformation.styles';
 
-interface GoogleAddress{
-  types: Array<'street_address' | 'country' | 'locality' | 'political'>,
+interface GoogleAddress {
+  types: Array<'street_address' | 'country' | 'locality' | 'political'>;
   // eslint-disable-next-line camelcase
-  formatted_address: string,
+  formatted_address: string;
 }
 
-export function ProfileInformation({ profileSummary, identityId, isShowFull = true } : {
-  identityId: string,
-  profileSummary: IdentitySummary,
-  isShowFull: boolean
+export function ProfileInformation({ profileSummary, identityId, isShowFull = true }: {
+  identityId: string;
+  profileSummary: IdentitySummary;
+  isShowFull: boolean;
 }) {
   const intl = useIntl();
   const classes = useStyles();
@@ -36,7 +36,7 @@ export function ProfileInformation({ profileSummary, identityId, isShowFull = tr
 
   useEffect(() => {
     if (geocoder && location?.value) {
-      geocoder.geocode({ location: { lat: location.value?.latitude, lng: location.value?.longitude } }, (res : GoogleAddress[]) => {
+      geocoder.geocode({ location: { lat: location.value?.latitude, lng: location.value?.longitude } }, (res: GoogleAddress[]) => {
         const foundAddress = res.find((address) => address?.types?.includes('locality') && address?.types?.includes('political')) || res.find((item) => item?.types?.includes('country') && item?.types?.includes('political'));
         setLocationName(foundAddress?.formatted_address);
       });
@@ -61,8 +61,8 @@ export function ProfileInformation({ profileSummary, identityId, isShowFull = tr
             <Box color="common.black75" mb={0.5}>
               {intl.formatMessage({ id: 'IdentityProfile.label.birth' })}
             </Box>
-            <Grid container alignItems="center">
-              <Box display="flex" color="common.black75" mr={0.5} fontSize={17}>
+            <Grid container wrap="nowrap">
+              <Box display="flex" color="common.black75" mr={0.5} fontSize={17} flexShrink={0}>
                 <FiCalendar />
               </Box>
               <Box mr={0.5} color={`common.black${dateOfBirth?.value ? 90 : 50}`} fontWeight="bold">
@@ -76,8 +76,8 @@ export function ProfileInformation({ profileSummary, identityId, isShowFull = tr
             <Box color="common.black75" mb={0.5}>
               {intl.formatMessage({ id: 'IdentityProfile.label.geolocation' })}
             </Box>
-            <Grid container alignItems="center">
-              <Box display="flex" color="common.black75" mr={0.5} fontSize={17}>
+            <Grid container wrap="nowrap">
+              <Box display="flex" color="common.black75" mr={0.5} fontSize={17} flexShrink={0}>
                 <FiMapPin />
               </Box>
               <Box color={`common.black${location?.value ? 90 : 50}`} fontWeight="bold">

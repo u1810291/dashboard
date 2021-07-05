@@ -1,4 +1,5 @@
 import { AmlValidationTypes } from '../apps/Aml/models/Aml.model';
+import { PhoneOwnershipValidationTypes } from '../apps/PhoneCheck/models/PhoneCheck.model';
 
 export enum VerificationPatternTypes {
   AgeValidation = 'age-check',
@@ -46,12 +47,12 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.Biometrics]?: string; // BiometricTypes
   [VerificationPatternTypes.BolivianOep]?: boolean;
   // TODO: @ggrigorev move GovCheck.model to ts
-  [VerificationPatternTypes.BrazilianCpf]?: string, // GovCheckStepTypes.BrazilianCpf
+  [VerificationPatternTypes.BrazilianCpf]?: string; // GovCheckStepTypes.BrazilianCpf
   [VerificationPatternTypes.EcuadorianRegistroCivil]?: boolean;
   [VerificationPatternTypes.HonduranRnp]?: boolean;
   [VerificationPatternTypes.ChileanRegistroCivil]?: boolean;
   [VerificationPatternTypes.ColombianRegistraduria]?: boolean;
-  [VerificationPatternTypes.CostaRicanAtv]?: boolean,
+  [VerificationPatternTypes.CostaRicanAtv]?: boolean;
   [VerificationPatternTypes.CostaRicanTse]?: boolean;
   [VerificationPatternTypes.CostaRicanSocialSecurity]?: boolean;
   [VerificationPatternTypes.DominicanJce]?: boolean;
@@ -62,12 +63,14 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.MexicanIne]?: boolean;
   [VerificationPatternTypes.MexicanRfc]?: boolean;
   [VerificationPatternTypes.PeruvianReniec]?: boolean;
-  [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]?: AmlValidationTypes,
+  [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]?: AmlValidationTypes;
   [VerificationPatternTypes.ProofOfOwnership]?: boolean;
   [VerificationPatternTypes.SalvadorianTse]?: boolean;
   [VerificationPatternTypes.PanamenianTribunalElectoral]?: boolean;
-  // TODO: @ggrigorev move phoneValidation.model to ts
-  [VerificationPatternTypes.PhoneOwnershipValidation]?: string, // PhoneOwnershipValidationMethods
+  [VerificationPatternTypes.PhoneOwnershipValidation]?: PhoneOwnershipValidationTypes;
+  [VerificationPatternTypes.PhoneRiskValidation]?: boolean;
   [VerificationPatternTypes.VenezuelanCne]?: boolean;
   [VerificationPatternTypes.ReFacematch]?: boolean;
+  [VerificationPatternTypes.EmailRiskValidation]?: boolean;
+  [VerificationPatternTypes.EmailOwnershipValidation]?: string;
 }

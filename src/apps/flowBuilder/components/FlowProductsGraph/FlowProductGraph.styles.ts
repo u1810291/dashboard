@@ -10,7 +10,7 @@ export const useStyles = makeStyles(() => createStyles({
     '& .react-flow': {
       overflow: 'initial',
       '& > div': {
-        marginTop: 5,
+        marginTop: 6,
       },
     },
   },

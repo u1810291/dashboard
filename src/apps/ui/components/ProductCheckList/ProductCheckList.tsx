@@ -1,28 +1,34 @@
 import { List, ListItem } from '@material-ui/core';
-import { ProductCheck, ProductTypes } from 'models/Product.model';
-import React from 'react';
+import cn from 'classnames';
+import { IProductCard } from 'models/Product.model';
+import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { ProductCheckStatus } from './ProductCheckStatus';
 import { useStyles } from './ProductCheckList.styles';
 
-export function ProductCheckList({ checks, productId, isForceFlat = false }: {
-  checks: ProductCheck[];
-  productId: ProductTypes;
+export function ProductCheckList({ cards, isForceFlat = false }: {
+  cards: IProductCard[];
   isForceFlat?: boolean;
 }) {
-  const classes = useStyles({ fullWidth: isForceFlat || checks.length <= 4 });
+  const classes = useStyles();
   const intl = useIntl();
 
+  const allChecksLength = useMemo(() => cards.reduce((sum, item) => sum + item.checks.length, 0), [cards]);
+
   return (
-    <List className={classes.stepStatusList}>
-      {checks.map((item) => (
-        <ListItem key={item.id} className={classes.stepStatusListItem}>
+    <List
+      className={cn(classes.stepStatusList, {
+        [classes.fullWidth]: isForceFlat || allChecksLength <= 4,
+      })}
+    >
+      {cards.map((card) => card.checks.map((check) => (
+        <ListItem key={`${card.id}-${check.id}`} className={classes.stepStatusListItem}>
           <ProductCheckStatus
-            text={intl.formatMessage({ id: `${productId}.card.check.${item.id}` })}
-            disabled={!item.isActive}
+            text={intl.formatMessage({ id: `${card.id}.card.check.${check.id}` })}
+            disabled={!check.isActive}
           />
         </ListItem>
-      ))}
+      )))}
     </List>
   );
 }

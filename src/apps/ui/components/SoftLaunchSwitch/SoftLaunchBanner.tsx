@@ -5,8 +5,8 @@ import { useIntl } from 'react-intl';
 import { useStyles } from './SoftLaunchSwitch.styles';
 
 export function SoftLaunchBanner({ id, onClick }: {
-  id: SoftLaunchBanners,
-  onClick: () => void,
+  id: SoftLaunchBanners;
+  onClick: () => void;
 }) {
   const classes = useStyles();
   const intl = useIntl();

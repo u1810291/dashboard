@@ -11,14 +11,14 @@ export enum IdentityStatuses {
 }
 
 export interface IdentityStatus {
-  id: IdentityStatuses,
-  color: string,
-  textColor: string,
-  style?: string,
-  isChangeable: boolean,
-  isSelectable: boolean,
-  isExplanation: boolean,
-  isFilterable?: boolean,
+  id: IdentityStatuses;
+  color: string;
+  textColor: string;
+  style?: string;
+  isChangeable: boolean;
+  isSelectable: boolean;
+  isExplanation: boolean;
+  isFilterable?: boolean;
 }
 
 export const IdentityStatusesMap: Array<IdentityStatus> = [
@@ -96,10 +96,10 @@ export const IdentityStatusesMap: Array<IdentityStatus> = [
 ];
 
 export interface VerificationStatusDetails{
-  value: IdentityStatuses,
-  reasonCode: string,
-  updatedBy: string,
-  updatedAt: string,
+  value: IdentityStatuses;
+  reasonCode: string;
+  updatedBy: string;
+  updatedAt: string;
 }
 
 export function getExplanationStatuses() {

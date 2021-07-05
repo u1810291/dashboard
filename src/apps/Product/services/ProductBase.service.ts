@@ -1,5 +1,5 @@
 import { IFlow } from 'models/Flow.model';
-import { IProductCard, Product, ProductCheck, ProductConfig, ProductInputTypes, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
+import { IProductCard, Product, ProductCheck, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { IconType } from 'react-icons';
 import { VerificationResponse } from 'models/Verification.model';
 
@@ -9,15 +9,15 @@ export abstract class ProductBaseService implements Partial<Product> {
   abstract icon: IconType;
 
   isConfigurable = true;
+  isIssuesIgnored = false;
   integrationTypes: ProductIntegrationTypes[] = [];
   inputs: ProductInputTypes[] = [];
   checks: ProductCheck[] = [];
-  checksDefault: ProductCheck[] = [];
   requiredProductType: ProductTypes = null;
   dependentProductTypes: ProductTypes[] = [];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getIssuesComponent(flow, integrationType): any {
+  getIssuesComponent(flow: IFlow): any {
     return null;
   }
 
@@ -25,12 +25,13 @@ export abstract class ProductBaseService implements Partial<Product> {
     return this.integrationTypes.every((integrationType) => integrationType !== ProductIntegrationTypes.Api);
   }
 
-  haveIssues(flow, integrationType): boolean {
-    return (integrationType === ProductIntegrationTypes.Api && this.isSdkOnly()) || this.getIssuesComponent(flow, integrationType) !== null;
+  haveIssues(flow: IFlow): boolean {
+    const integrationType = flow.integrationType;
+    return (integrationType === ProductIntegrationTypes.Api && this.isSdkOnly()) || (!this.isIssuesIgnored && this.getIssuesComponent(flow) !== null);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getRemovingAlertComponent(flow): any {
+  getRemovingAlertComponent(flow: IFlow): any {
     return null;
   }
 
@@ -38,10 +39,8 @@ export abstract class ProductBaseService implements Partial<Product> {
     return `${this.id}.card.title`;
   }
 
-  abstract getChecks(flow?: IFlow): ProductCheck[];
-
-  parser(flow: IFlow): ProductConfig {
-    this.checks = this.getChecks(flow);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  parser(flow?: IFlow): ProductSettings {
     return null;
   }
 
@@ -59,20 +58,15 @@ export abstract class ProductBaseService implements Partial<Product> {
     };
   }
 
-  onInit() {
-    this.checks = this.checksDefault;
-  }
-
   onAdd(): Partial<IFlow> {
     return null;
   }
 
   onRemove(): Partial<IFlow> {
-    this.checks = this.checksDefault;
     return null;
   }
 
-  abstract isInFlow(flow: IFlow): boolean
+  abstract isInFlow(flow: IFlow): boolean;
 
   isInVerification(verification: VerificationResponse): boolean {
     return this.isInFlow(verification?.flow);

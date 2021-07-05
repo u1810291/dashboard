@@ -13,8 +13,8 @@ export function ReVerificationPDF({
   },
 }: {
   data: {
-    reFacematch: IReFacematchStep,
-  },
+    reFacematch: IReFacematchStep;
+  };
 }) {
   const intl = useIntl();
 
@@ -24,9 +24,9 @@ export function ReVerificationPDF({
         {reFacematch?.data && (
           <View style={styles.info}>
             <View style={styles.mediaItem}>
-              {reFacematch?.data?.currentPhotoUrl && (
+              {reFacematch?.data?.currentSelfiePhotoUrl && (
                 <View style={styles.itemWrapper}>
-                  <Image style={styles.image} src={reFacematch?.data?.currentPhotoUrl} />
+                  <Image style={styles.image} src={reFacematch?.data?.currentSelfiePhotoUrl} />
                   <View style={commonStyles.mt1}>
                     <Text style={styles.itemTitle}>{intl.formatMessage({ id: 'ReVerification.result.pdf.currentBiometrics' })}</Text>
                   </View>
@@ -34,9 +34,9 @@ export function ReVerificationPDF({
               )}
             </View>
             <View style={styles.mediaItem}>
-              {reFacematch?.data?.previousPhotoUrl && (
+              {reFacematch?.data?.previousSelfiePhotoUrl && (
                 <View style={styles.itemWrapper}>
-                  <Image style={styles.image} src={reFacematch?.data?.previousPhotoUrl} />
+                  <Image style={styles.image} src={reFacematch?.data?.previousSelfiePhotoUrl} />
                   <View style={commonStyles.mt1}>
                     <Text style={styles.itemTitle}>{intl.formatMessage({ id: 'ReVerification.result.pdf.originBiometrics' })}</Text>
                   </View>

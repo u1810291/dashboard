@@ -7,8 +7,8 @@ import { flags } from '../../assets/flags';
 import { useStyles } from './GovCheckCountriesSettings.styles';
 
 export function GovCheckCountriesSettings({ verificationPattern, onChange }: {
-     verificationPattern: Partial<VerificationPatterns>,
-     onChange: (value: Partial<VerificationPatterns>) => void
+     verificationPattern: Partial<VerificationPatterns>;
+     onChange: (value: Partial<VerificationPatterns>) => void;
   }) {
   const intl = useIntl();
   const classes = useStyles();

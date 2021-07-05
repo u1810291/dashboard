@@ -12,7 +12,7 @@ import { PassedFlows } from '../PassedFlows/PassedFlows';
 import { useStyles } from './SideProfileMenu.styles';
 
 export function SideProfileMenu({ profile }: {
-   profile: IdentityProfileResponse
+   profile: IdentityProfileResponse;
 }) {
   const classes = useStyles();
   const theme = useTheme();

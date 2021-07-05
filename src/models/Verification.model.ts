@@ -10,55 +10,55 @@ import { getReVerificationStep } from './ReVerification.model';
 import { DocumentStepTypes, getStepExtra, StepTypes, VerificationStepTypes } from './Step.model';
 
 export interface PassedVerificationsResponse {
-  createdAt: string,
-  _id: string,
+  createdAt: string;
+  _id: string;
   flow: {
-    _id: string,
-    name: string
-  },
-  verificationStatusDetails: VerificationStatusDetails,
+    _id: string;
+    name: string;
+  };
+  verificationStatusDetails: VerificationStatusDetails;
 }
 
 export interface PassedVerificationByFlow {
-  id: string,
+  id: string;
   value: {
-    name: string,
-    _id: string,
-    verifications: PassedVerificationsResponse[],
-  }
+    name: string;
+    _id: string;
+    verifications: PassedVerificationsResponse[];
+  };
 }
 
 export interface VerificationResponse {
-  createdAt: string,
-  documents: any[],
-  flow: IFlow,
-  identity: string,
-  inputs: any[],
-  steps: any[],
-  summary: any,
-  verificationStatus: IdentityStatuses,
-  _id?: string,
-  id?: string,
-  metadata: any,
+  createdAt: string;
+  documents: any[];
+  flow: IFlow;
+  identity: string;
+  inputs: any[];
+  steps: any[];
+  summary: any;
+  verificationStatus: IdentityStatuses;
+  _id?: string;
+  id?: string;
+  metadata: any;
 }
 
 /**
  * @deprecated use VerificationResponse in your product
  */
 export interface Verification extends VerificationResponse {
-  id: string,
-  status: IdentityStatuses,
-  deviceFingerprint: any,
-  biometric: any[],
-  shortId: string,
-  fullName: string,
-  documents: VerificationDocument[],
-  isEditable: boolean,
-  ipCheck: any,
-  duplicateUserDetectionStep: any,
-  ageCheck: any,
-  premiumAmlWatchlistsMonitoringStep: any,
-  reVerification: any,
+  id: string;
+  status: IdentityStatuses;
+  deviceFingerprint: any;
+  biometric: any[];
+  shortId: string;
+  fullName: string;
+  documents: VerificationDocument[];
+  isEditable: boolean;
+  ipCheck: any;
+  duplicateUserDetectionStep: any;
+  ageCheck: any;
+  premiumAmlWatchlistsMonitoringStep: any;
+  reVerification: any;
 }
 
 export enum VerificationErrorTypes {

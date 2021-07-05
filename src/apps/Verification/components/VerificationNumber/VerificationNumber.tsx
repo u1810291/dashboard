@@ -5,8 +5,8 @@ import React from 'react';
 import { useStyles } from './VerificationNumber.styles';
 
 export interface VerificationNumberProps{
-  number: string,
-  summary: string,
+  number: string;
+  summary: string;
 }
 
 export function VerificationNumber({ number, summary }: VerificationNumberProps) {

@@ -44,8 +44,8 @@ export const selectFlowBuilderIntegrationType = createSelector(
 );
 
 export const selectFlowBuilderChangeableFlowStyle = createSelector(
-  selectFlowBuilderChangeableFlowModel,
-  (model: Loadable<IFlow>): FlowStyle => model.value.style,
+  selectFlowBuilderChangeableFlow,
+  (flow: IFlow): FlowStyle => flow.style,
 );
 
 export const selectFlowBuilderChangeableLogoUrl = createSelector(

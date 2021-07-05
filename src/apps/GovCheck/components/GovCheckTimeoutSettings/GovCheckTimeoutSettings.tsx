@@ -5,9 +5,9 @@ import { FiChevronDown } from 'react-icons/fi';
 import { useStyles } from './GovCheckTimeoutSettings.styles';
 import { convertTimeToHoursAndMinutes, GovTimeoutHours, GovTimeoutMinutes } from '../../models/GovCheck.model';
 
-export function GovCheckTimeoutSettings({ postponedTimeout, onChange } : {
-    postponedTimeout: string,
-    onChange: (value: string) => void
+export function GovCheckTimeoutSettings({ postponedTimeout, onChange }: {
+    postponedTimeout: string;
+    onChange: (value: string) => void;
   }) {
   const classes = useStyles();
   const intl = useIntl();

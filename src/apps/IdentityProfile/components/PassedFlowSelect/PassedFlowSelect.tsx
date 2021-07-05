@@ -13,17 +13,17 @@ import { selectVerification } from '../../../Verification';
 import { useStyles } from './PassedFlowSelect.styles';
 
 export interface PassedFlowSelectProps {
-  flowName: string,
-  platformType: ProductIntegrationTypes,
+  flowName: string;
+  platformType: ProductIntegrationTypes;
   // verifications?: Array<VerificationResponse>,
-  verifications?: PassedVerificationsResponse[],
-  badgeStatusId: IdentityStatuses,
-  setIsSelected: () => void
-  isSelected: boolean,
-  isOpened: boolean,
+  verifications?: PassedVerificationsResponse[];
+  badgeStatusId: IdentityStatuses;
+  setIsSelected: () => void;
+  isSelected: boolean;
+  isOpened: boolean;
 }
 
-export function PassedFlowSelect({ flowName, setIsSelected, isSelected, isOpened, verifications, badgeStatusId } : PassedFlowSelectProps) {
+export function PassedFlowSelect({ flowName, setIsSelected, isSelected, isOpened, verifications, badgeStatusId }: PassedFlowSelectProps) {
   const classes = useStyles();
   const { identityId } = useParams();
   const [selectedVerification, setSelectedVerification] = useState<string | null>(null);

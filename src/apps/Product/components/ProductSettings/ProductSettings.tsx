@@ -10,7 +10,7 @@ import { productManagerService } from '../../services/ProductManager.service';
 export function ProductSettings({ flow, productId, onUpdate }: {
   flow: IFlow;
   productId: ProductTypes;
-  onUpdate: Function;
+  onUpdate: (patch: Partial<IFlow>) => void;
 }) {
   const productsInGraph = useSelector(selectFlowBuilderProductsInGraph);
 
@@ -25,7 +25,7 @@ export function ProductSettings({ flow, productId, onUpdate }: {
   }, [product, onUpdate]);
 
   const settingsEl = useMemo(() => React.createElement<ProductSettingsProps>(product.component, {
-    settings: settings?.settings,
+    settings,
     onUpdate: handleUpdate,
   }), [product, settings, handleUpdate]);
 

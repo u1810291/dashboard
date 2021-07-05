@@ -4,14 +4,14 @@ import { Box, Collapse, FormControlLabel, Grid, Radio, Typography } from '@mater
 import { ButtonExpand, useStyles } from './RadioFacematchMode.styles';
 
 export interface RadioFacematchModeProps{
-  mode: any,
-  disabled?: boolean,
-  subtitle: React.ReactNode,
-  expandable?: boolean,
-  children?: React.ReactNode,
+  mode: any;
+  disabled?: boolean;
+  subtitle: React.ReactNode;
+  expandable?: boolean;
+  children?: React.ReactNode;
 }
 
-export function RadioFacematchMode({ mode, subtitle, expandable, disabled, children }:RadioFacematchModeProps) {
+export function RadioFacematchMode({ mode, subtitle, expandable, disabled, children }: RadioFacematchModeProps) {
   const intl = useIntl();
   const classes = useStyles();
   const [expanded, setExpanded] = useState(true);

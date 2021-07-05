@@ -4,7 +4,7 @@ import { PhoneValidation } from 'apps/PhoneValidation';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { RiskAnalysis } from 'apps/RiskAnalysis';
-import { EmailValidation } from 'apps/EmailValidation/components/EmailValidation';
+import { EmailValidation } from 'apps/EmailValidation/components/EmailValidation/EmailValidation';
 import { EmailRisk } from 'apps/EmailRisk/components/EmailRisk';
 import { DuplicateUserDetectionCheck } from '../DuplicateUserDetectionCheck/DuplicateUserDetectionCheck';
 import { useStyles } from './VerificationAdditionalChecks.styles';

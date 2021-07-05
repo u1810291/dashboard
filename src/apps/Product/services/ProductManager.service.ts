@@ -7,7 +7,6 @@ export class ProductManagerService {
     if (this.getProduct(product.id)) {
       return;
     }
-    product.onInit();
     this.products.push(product);
   }
 

@@ -1,5 +1,5 @@
 import { IFlow } from 'models/Flow.model';
-import { Product, ProductInputTypes, ProductTypes, ProductIntegrationTypes, ProductConfig, ProductSettings, ProductCheck } from 'models/Product.model';
+import { Product, ProductInputTypes, ProductTypes, ProductIntegrationTypes, ProductSettings } from 'models/Product.model';
 import { FiKey } from 'react-icons/fi';
 import { BiometricVerificationCheckTypes } from 'apps/biometricVerification/models/BiometricVerification.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
@@ -10,8 +10,11 @@ import { getReVerificationStep } from 'models/ReVerification.model';
 import { ReVerificationVerification } from '../components/ReVerificationVerification/ReVerificationVerification';
 import { ReVerificationSettings } from '../components/ReVerificationSettings/ReVerificationSettings';
 import { ReVerificationSettingTypes, IReverificationVerification } from '../models/ReVerification.model';
+import { ReverificationIssues } from '../components/ReverificationIssues/ReverificationIssues';
 
-export class ReVerification extends ProductBaseService implements Product {
+type ProductSettingsReVerification = ProductSettings<ReVerificationSettingTypes>;
+
+export class ReVerification extends ProductBaseService implements Product<ProductSettingsReVerification> {
   id = ProductTypes.ReVerification;
   order = 500;
   integrationTypes = [
@@ -23,7 +26,7 @@ export class ReVerification extends ProductBaseService implements Product {
     ProductInputTypes.Selfie,
     ProductInputTypes.Liveness,
   ];
-  checksDefault = [
+  checks = [
     {
       id: BiometricVerificationCheckTypes.Liveness,
       isActive: true,
@@ -33,42 +36,25 @@ export class ReVerification extends ProductBaseService implements Product {
       isActive: true,
     },
   ];
+  isIssuesIgnored = true;
   component = ReVerificationSettings;
   componentVerification = ReVerificationVerification;
 
-  getChecks(flow?: IFlow): ProductCheck[] {
-    return flow
-      ? [
-        {
-          id: BiometricVerificationCheckTypes.Liveness,
-          isActive: flow?.verificationPatterns?.biometrics === BiometricTypes.liveness || flow?.verificationPatterns?.biometrics === BiometricTypes.voiceLiveness,
-        },
-        {
-          id: BiometricVerificationCheckTypes.VoiceLiveness,
-          isActive: flow?.verificationPatterns?.biometrics === BiometricTypes.voiceLiveness,
-        },
-      ]
-      : this.checksDefault;
-  }
-
-  parser(flow: IFlow): ProductConfig {
-    super.parser(flow);
+  parser(flow: IFlow): ProductSettingsReVerification {
     return {
-      settings: {
-        [ReVerificationSettingTypes.Biometrics]: {
-          value: flow.verificationPatterns[VerificationPatternTypes.Biometrics],
-        },
-        [ReVerificationSettingTypes.FacematchThreshold]: {
-          value: flow.facematchThreshold,
-        },
-        [ReVerificationSettingTypes.ProofOfOwnership]: {
-          value: flow.verificationPatterns[VerificationPatternTypes.ProofOfOwnership],
-        },
+      [ReVerificationSettingTypes.Biometrics]: {
+        value: flow.verificationPatterns[VerificationPatternTypes.Biometrics],
+      },
+      [ReVerificationSettingTypes.FacematchThreshold]: {
+        value: flow.facematchThreshold,
+      },
+      [ReVerificationSettingTypes.ProofOfOwnership]: {
+        value: flow.verificationPatterns[VerificationPatternTypes.ProofOfOwnership],
       },
     };
   }
 
-  serialize(settings: ProductSettings<ReVerificationSettingTypes>): Partial<IFlow> {
+  serialize(settings: ProductSettingsReVerification): Partial<IFlow> {
     return {
       facematchThreshold: settings[ReVerificationSettingTypes.FacematchThreshold].value,
       verificationPatterns: {
@@ -88,7 +74,6 @@ export class ReVerification extends ProductBaseService implements Product {
   }
 
   onRemove(): Partial<IFlow> {
-    super.onRemove();
     return {
       verificationPatterns: {
         [VerificationPatternTypes.Biometrics]: BiometricTypes.none,
@@ -108,5 +93,9 @@ export class ReVerification extends ProductBaseService implements Product {
       reVerification,
       identity: verification.identity,
     };
+  }
+
+  getIssuesComponent(): any {
+    return ReverificationIssues;
   }
 }

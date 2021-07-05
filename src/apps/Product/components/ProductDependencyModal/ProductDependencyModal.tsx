@@ -6,15 +6,15 @@ import classNames from 'classnames';
 import { useStyles } from 'apps/Product/components/ProductDependencyModal/ProductDependencyModal.styles';
 
 interface ProductDependencyModalProps {
-  onClose: () => void,
-  onConfirm: () => void,
-  leftComponent?: React.ReactNode,
-  rightComponent?: React.ReactNode,
-  leftSubtitle?: React.ReactNode,
-  rightSubtitle?: React.ReactNode,
-  title?: React.ReactNode,
-  confirmText?: React.ReactNode,
-  variant?: 'Red',
+  onClose: () => void;
+  onConfirm: () => void;
+  leftComponent?: React.ReactNode;
+  rightComponent?: React.ReactNode;
+  leftSubtitle?: React.ReactNode;
+  rightSubtitle?: React.ReactNode;
+  title?: React.ReactNode;
+  confirmText?: React.ReactNode;
+  variant?: 'Red';
 }
 
 export function ProductDependencyModal({ leftComponent, rightComponent, leftSubtitle, rightSubtitle, title, confirmText, variant, onConfirm, onClose }: ProductDependencyModalProps) {

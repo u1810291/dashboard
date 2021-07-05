@@ -18,9 +18,9 @@ const IconStatuses = {
 };
 
 export interface CheckBarExpandableProps{
-  step: any,
-  children?: React.ReactElement,
-  title?: string,
+  step: any;
+  children?: React.ReactElement;
+  title?: string;
 }
 
 export function CheckBarExpandable({ step, children, title }: CheckBarExpandableProps) {

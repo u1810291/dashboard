@@ -26,10 +26,10 @@ export enum InformationImageTypes {
 }
 
 export interface Tab {
-  id: TabID,
-  qa: string,
-  defaultOpen?: boolean,
-  children?: Tab[],
+  id: TabID;
+  qa: string;
+  defaultOpen?: boolean;
+  children?: Tab[];
 }
 
 export const menuStructure: Tab[] = [

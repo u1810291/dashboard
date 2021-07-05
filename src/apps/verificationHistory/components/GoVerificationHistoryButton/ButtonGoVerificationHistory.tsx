@@ -7,8 +7,8 @@ import { ButtonHeaderMenu } from 'apps/ui';
 import { useIntl } from 'react-intl';
 
 export interface ButtonGoVerificationHistoryProps {
-  identityId: string,
-  className?: string
+  identityId: string;
+  className?: string;
 }
 
 export function ButtonGoVerificationHistory({ identityId, className }: ButtonGoVerificationHistoryProps) {

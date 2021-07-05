@@ -10,7 +10,7 @@ import { createTypesSequence, TypesSequence } from '../store.utils';
 import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from './identities.selectors';
 import { IdentityActionGroups } from './identities.store';
 
-export const types : TypesSequence = {
+export const types: TypesSequence = {
   ...createTypesSequence('IDENTITY_PATCH'),
   ...createTypesSequence('IDENTITY_DOCUMENTS_LIST'),
   ...createTypesSequence('DOCUMENT_PATCH'),

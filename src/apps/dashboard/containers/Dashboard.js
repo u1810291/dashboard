@@ -30,6 +30,7 @@ export function Dashboard() {
   const countriesOnlyExistingModel = useSelector(selectCountriesOnlyExisting);
   const clientIdModel = useSelector(selectClientIdModel);
   const flowBuilderMatch = useRouteMatch(Routes.flow.details);
+  const identityProfileMatch = useRouteMatch(Routes.identity.profile.details);
 
   const [isError, setIsError] = useState(false);
 
@@ -128,7 +129,7 @@ export function Dashboard() {
     >
       <DashboardLoader />
       <DashboardRouter />
-      {!flowBuilderMatch && (
+      {!flowBuilderMatch && !identityProfileMatch && (
         <Footer />
       )}
     </Layout>,

@@ -3,13 +3,16 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => createStyles({
   root: {
+    flexGrow: 1,
     borderRadius: 10,
     backgroundColor: theme.palette.common.white,
+    width: '100%',
   },
   container: {
     [theme.breakpoints.up('lg')]: {
-      maxHeight: 'calc(100vh - 295px)',
+      maxHeight: 'calc(100vh - 120px)',
       overflowY: 'auto',
+      overflowX: 'hidden',
       scrollbarWidth: 'thin',
       '&::-webkit-scrollbar': {
         height: 5,

@@ -12,10 +12,10 @@ import { useDocumentTitle, usePhotosOrientation } from '../../hooks/document.hoo
 import { DocumentReadingStep } from '../DocumentReadingStep/DocumentReadingStep';
 
 export interface NewDocumentStepProps{
-  document: VerificationDocument,
-  verification: Verification,
-  documentIndex: number,
-  onDocumentUpdate: (normalizedData: any, documentType: DocumentTypes) => Promise<void>,
+  document: VerificationDocument;
+  verification: Verification;
+  documentIndex: number;
+  onDocumentUpdate: (normalizedData: any, documentType: DocumentTypes) => Promise<void>;
 }
 
 export function NewDocumentStep({ document, verification, documentIndex, onDocumentUpdate }: NewDocumentStepProps) {

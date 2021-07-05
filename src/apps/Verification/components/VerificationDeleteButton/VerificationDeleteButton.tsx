@@ -9,22 +9,19 @@ import { useDispatch } from 'react-redux';
 import { verificationRemove } from '../../state/Verification.actions';
 import { useStyles } from './VerificationDeleteButton.styles';
 
-export interface VerificationDeleteButtonProps {
-  className?: string,
-  verificationId: string,
-  identityId: string,
-}
-
-export function VerificationDeleteButton({ verificationId, identityId, className }: VerificationDeleteButtonProps) {
+export function VerificationDeleteButton({ verificationId, className }: {
+  className?: string;
+  verificationId: string;
+}) {
   const intl = useIntl();
   const dispatch = useDispatch();
   const classes = useStyles();
 
   const handleDeleteVerification = useCallback(async () => {
-    if (verificationId && identityId) {
-      await dispatch(verificationRemove(identityId, verificationId));
+    if (verificationId) {
+      await dispatch(verificationRemove(verificationId));
     }
-  }, [dispatch, identityId, verificationId]);
+  }, [dispatch, verificationId]);
 
   const { isDeleting, handleDelete } = useDeleteButtonHook(handleDeleteVerification, {
     redirectUrl: Routes.list.root,

@@ -35,9 +35,9 @@ export const FRONTEND_ERROR = 'FrontendError';
 export const SYSTEM_ERROR = 'SystemError';
 
 export interface StepError {
-  type: typeof LEGACY_ERROR | typeof FRONTEND_ERROR | typeof SYSTEM_ERROR,
-  code: string,
-  message: string,
+  type: typeof LEGACY_ERROR | typeof FRONTEND_ERROR | typeof SYSTEM_ERROR;
+  code: string;
+  message: string;
 }
 
 export enum VerificationStepTypes {
@@ -47,12 +47,12 @@ export enum VerificationStepTypes {
 }
 
 export interface IStep<DataType = any>{
-  data?: DataType,
-  status: number,
-  id: VerificationPatternTypes | StepTypes | VerificationStepTypes,
-  error: StepError,
-  checkStatus: StepStatus,
-  inner?: DataType
+  data?: DataType;
+  status: number;
+  id: VerificationPatternTypes | StepTypes | VerificationStepTypes;
+  error: StepError;
+  checkStatus: StepStatus;
+  inner?: DataType;
 }
 
 export const DocumentStepTypes = {

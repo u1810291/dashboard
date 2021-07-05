@@ -1,6 +1,6 @@
 import { BiometricVerificationRemovingAlert } from 'apps/biometricVerification/components/BiometricVerificationRemovingAlert';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
-import { Product, ProductCheck, ProductConfig, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
+import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiUserCheck } from 'react-icons/fi';
 import { IFlow } from 'models/Flow.model';
@@ -11,7 +11,9 @@ import { BiometricsVerificationProduct } from 'apps/biometrics';
 import { VerificationResponse } from 'models/Verification.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 
-export class BiometricVerification extends ProductBaseService implements Product {
+type ProductSettingsBiometric = ProductSettings<BiometricVerificationSettingsTypes>;
+
+export class BiometricVerification extends ProductBaseService implements Product<ProductSettingsBiometric> {
   id = ProductTypes.BiometricVerification;
   order = 200;
   integrationTypes = [
@@ -22,6 +24,16 @@ export class BiometricVerification extends ProductBaseService implements Product
   inputs = [
     ProductInputTypes.Selfie,
     ProductInputTypes.Liveness,
+  ];
+  checks = [
+    {
+      id: BiometricVerificationCheckTypes.Liveness,
+      isActive: true,
+    },
+    {
+      id: BiometricVerificationCheckTypes.VoiceLiveness,
+      isActive: true,
+    },
   ];
   component = BiometricVerificationSettings;
   componentVerification = BiometricsVerificationProduct;
@@ -40,7 +52,6 @@ export class BiometricVerification extends ProductBaseService implements Product
   }
 
   onRemove(): Partial<IFlow> {
-    super.onRemove();
     return {
       facematchThreshold: undefined,
       verificationPatterns: {
@@ -57,31 +68,16 @@ export class BiometricVerification extends ProductBaseService implements Product
     return BiometricVerificationRemovingAlert;
   }
 
-  getChecks(flow?: IFlow): ProductCheck[] {
-    return flow
-      ? [{
-        id: BiometricVerificationCheckTypes.Liveness,
-        isActive: flow?.verificationPatterns?.biometrics === BiometricTypes.liveness || flow?.verificationPatterns?.biometrics === BiometricTypes.voiceLiveness,
-      }, {
-        id: BiometricVerificationCheckTypes.VoiceLiveness,
-        isActive: flow?.verificationPatterns?.biometrics === BiometricTypes.voiceLiveness,
-      }]
-      : this.checksDefault;
-  }
-
-  parser(flow: IFlow): ProductConfig {
-    super.parser(flow);
+  parser(flow: IFlow): ProductSettingsBiometric {
     return {
-      settings: {
-        [BiometricVerificationSettingsTypes.Biometrics]: {
-          value: flow?.verificationPatterns?.biometrics,
-          isCantBeUsedWithOtherSetting: !!flow?.verificationPatterns[VerificationPatternTypes.ProofOfOwnership],
-        },
+      [BiometricVerificationSettingsTypes.Biometrics]: {
+        value: flow?.verificationPatterns?.biometrics,
+        isCantBeUsedWithOtherSetting: !!flow?.verificationPatterns[VerificationPatternTypes.ProofOfOwnership],
       },
     };
   }
 
-  serialize(settings: ProductSettings<BiometricVerificationSettingsTypes>): Partial<IFlow> {
+  serialize(settings: ProductSettingsBiometric): Partial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.Biometrics]: settings[BiometricVerificationSettingsTypes.Biometrics].value,

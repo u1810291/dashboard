@@ -21,45 +21,45 @@ export enum FieldFormat {
 }
 
 export interface DocumentField {
-  id: string,
-  format?: FieldFormat,
-  label: string,
-  required: boolean,
-  value: string,
+  id: string;
+  format?: FieldFormat;
+  label: string;
+  required: boolean;
+  value: string;
 }
 
 export type DocumentReadingStep = IStep<Record<string, DocumentField>>;
 
 export interface PremiumAmlWatchlistStepData {
-  isMonitoringAvailable: boolean
-  nameSearched: string,
-  profileUrl: string
-  searchId: number,
-  searchedOn: string,
+  isMonitoringAvailable: boolean;
+  nameSearched: string;
+  profileUrl: string;
+  searchId: number;
+  searchedOn: string;
 }
 
 export type PremiumAmlWatchlistStep = IStep<PremiumAmlWatchlistStepData>;
 
 export interface VerificationDocument {
-  country: string,
-  fields: DocumentField[],
-  region: any,
-  steps: IStep[],
-  type: DocumentTypes,
-  documentReadingStep: DocumentReadingStep,
-  securityCheckSteps: IStep<null>[],
-  govChecksSteps: IStep[],
-  documentFailedCheckSteps: IStep[],
-  premiumAmlWatchlistsStep: PremiumAmlWatchlistStep,
-  watchlistsStep: IStep,
-  documentStatus: StepStatus,
-  areTwoSides: boolean,
-  documentSides: typeof DocumentSidesOrder,
-  onReading: boolean,
-  photos: string[],
-  checks: IStep[],
-  isSanctioned: boolean,
-  proofOfOwnership: any,
+  country: string;
+  fields: DocumentField[];
+  region: any;
+  steps: IStep[];
+  type: DocumentTypes;
+  documentReadingStep: DocumentReadingStep;
+  securityCheckSteps: IStep<null>[];
+  govChecksSteps: IStep[];
+  documentFailedCheckSteps: IStep[];
+  premiumAmlWatchlistsStep: PremiumAmlWatchlistStep;
+  watchlistsStep: IStep;
+  documentStatus: StepStatus;
+  areTwoSides: boolean;
+  documentSides: typeof DocumentSidesOrder;
+  onReading: boolean;
+  photos: string[];
+  checks: IStep[];
+  isSanctioned: boolean;
+  proofOfOwnership: any;
 }
 
 export const DocumentListOrdered: DocumentTypes[] = [

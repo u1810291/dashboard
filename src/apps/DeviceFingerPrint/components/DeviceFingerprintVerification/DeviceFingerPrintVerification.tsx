@@ -4,7 +4,7 @@ import { DeviceFingerPrintInputData } from '../../models/DeviceFingerPrint.model
 import { VerificationDeviceCheckCard } from '../VerificationDeviceCheckCard/VerificationDeviceCheckCard';
 
 export function DeviceFingerprintVerification({ data }: {
-  data: DeviceFingerPrintInputData,
+  data: DeviceFingerPrintInputData;
 }) {
   return (
     <Grid container>

@@ -6,8 +6,8 @@ import { useSelector } from 'react-redux';
 import { selectVerificationProductList } from '../../state/Verification.selectors';
 
 export function VerificationProductList({ onSelect, selectedId }: {
-  onSelect: (product: ProductTypes) => void,
-  selectedId?: ProductTypes,
+  onSelect: (product: ProductTypes) => void;
+  selectedId?: ProductTypes;
 }) {
   const productList = useSelector(selectVerificationProductList);
 

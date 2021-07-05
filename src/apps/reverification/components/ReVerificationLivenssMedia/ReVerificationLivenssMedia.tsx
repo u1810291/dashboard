@@ -11,8 +11,8 @@ export function ReVerificationLivenssMedia({
   reFacematch,
   identity,
 }: {
-  reFacematch: IReFacematchStep,
-  identity: string,
+  reFacematch: IReFacematchStep;
+  identity: string;
 }) {
   const intl = useIntl();
   const classes = useStyles();
@@ -26,10 +26,10 @@ export function ReVerificationLivenssMedia({
       </Box>
       <BoxBordered mb={2}>
         <Grid container>
-          {reFacematch?.data?.currentBiometricsData?.videoUrl && (
+          {reFacematch?.data?.currentSelfieVideoUrl && (
             <Grid item xs={12} xl={6} className={classes.mediaItem}>
               <LivenessMedia
-                video={reFacematch?.data?.currentBiometricsData?.videoUrl}
+                video={reFacematch?.data?.currentSelfieVideoUrl}
                 title={intl.formatMessage({ id: 'ReVerification.result.movementLiveness' })}
                 downloadableFileName={reFacematch?.downloadableFileName}
               />
@@ -37,8 +37,8 @@ export function ReVerificationLivenssMedia({
           )}
           <Grid item xs={12} xl={6} className={classes.mediaItem}>
             <LivenessMedia
-              image={reFacematch?.data?.currentPhotoUrl}
-              title={intl.formatMessage({ id: `ReVerification.result.${reFacematch?.data?.currentBiometricsData?.videoUrl ? 'screenshotFromVideo' : 'selfie'}` })}
+              image={reFacematch?.data?.currentSelfiePhotoUrl}
+              title={intl.formatMessage({ id: `ReVerification.result.${reFacematch?.data?.currentSelfieVideoUrl ? 'screenshotFromVideo' : 'selfie'}` })}
               downloadableFileName={reFacematch?.downloadableFileName}
             />
           </Grid>
@@ -51,10 +51,10 @@ export function ReVerificationLivenssMedia({
       </Box>
       <BoxBordered mb={2}>
         <Grid container>
-          {reFacematch?.data?.previousBiometricsData?.videoUrl && (
+          {reFacematch?.data?.previousSelfieVideoUrl && (
             <Grid item xs={12} xl={6} className={classes.mediaItem}>
               <LivenessMedia
-                video={reFacematch?.data?.previousBiometricsData?.videoUrl}
+                video={reFacematch?.data?.previousSelfieVideoUrl}
                 title={intl.formatMessage({ id: 'ReVerification.result.movementLiveness' })}
                 downloadableFileName={reFacematch?.downloadableFileName}
               />
@@ -62,8 +62,8 @@ export function ReVerificationLivenssMedia({
           )}
           <Grid item xs={12} xl={6} className={classes.mediaItem}>
             <LivenessMedia
-              image={reFacematch?.data?.previousPhotoUrl}
-              title={intl.formatMessage({ id: `ReVerification.result.${reFacematch?.data?.currentBiometricsData?.videoUrl ? 'screenshotFromVideo' : 'selfie'}` })}
+              image={reFacematch?.data?.previousSelfiePhotoUrl}
+              title={intl.formatMessage({ id: `ReVerification.result.${reFacematch?.data?.previousSelfieVideoUrl ? 'screenshotFromVideo' : 'selfie'}` })}
               downloadableFileName={reFacematch?.downloadableFileName}
             />
           </Grid>

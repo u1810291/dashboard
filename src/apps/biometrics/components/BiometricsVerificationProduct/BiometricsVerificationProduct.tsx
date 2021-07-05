@@ -4,7 +4,7 @@ import { Verification } from 'models/Verification.model';
 import { NewLivenessStep } from '../NewLivenessStep/NewLivenessStep';
 
 export function BiometricsVerificationProduct({ data }: {
-  data: Verification
+  data: Verification;
 }) {
   const downloadableFileName = getDownloadableFileName(data);
   const steps = data?.biometric || [];

@@ -6,14 +6,14 @@ import { useIntl } from 'react-intl';
 import { useStyles } from './FlowSettingsSwitches.styles';
 
 export function FlowSettingsSwitches({ policyInterval, policyIntervalError, gdprChecked, digitalSignatureChecked, onValidatePolicyInterval, onChangePolicyInterval, onGDPRSwitcher, onDigitalSignatureSwitcher }: {
-  policyInterval?: string,
-  policyIntervalError: string,
-  gdprChecked: boolean,
-  digitalSignatureChecked: boolean,
-  onValidatePolicyInterval: (e: any) => void,
-  onChangePolicyInterval: (e: any) => void,
-  onGDPRSwitcher: (e: any) => void,
-  onDigitalSignatureSwitcher: (e: any) => void,
+  policyInterval?: string;
+  policyIntervalError: string;
+  gdprChecked: boolean;
+  digitalSignatureChecked: boolean;
+  onValidatePolicyInterval: (e: any) => void;
+  onChangePolicyInterval: (e: any) => void;
+  onGDPRSwitcher: (e: any) => void;
+  onDigitalSignatureSwitcher: (e: any) => void;
 }) {
   const intl = useIntl();
   const classes = useStyles();

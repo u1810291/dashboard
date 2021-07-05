@@ -7,9 +7,13 @@ import { isNil } from 'lib/isNil';
 import { PhoneValidationTypes, PhoneValidationStep } from '../../models/PhoneValidation.model';
 import { useStyles } from './PhoneValidation.styles';
 
-export function PhoneValidation({ step = {} }: { step: PhoneValidationStep }) {
+export function PhoneValidation({ step }: { step: PhoneValidationStep }) {
   const classes = useStyles();
   const intl = useIntl();
+
+  if (!step) {
+    return null;
+  }
 
   return (
     <BoxBordered p={1} pt={2} className={classes.bordered}>
@@ -21,15 +25,17 @@ export function PhoneValidation({ step = {} }: { step: PhoneValidationStep }) {
                 {intl.formatMessage({ id: `SecurityCheckStep.${step.error.code}` })}
               </Box>
             )}
-            <Box mt={0.5}>
-              <Grid container>
-                {Object.keys(PhoneValidationTypes).map((fieldName) => (!isNil(step?.data[PhoneValidationTypes[fieldName]])) && (
-                  <Grid xs={6} item key={PhoneValidationTypes[fieldName]}>
-                    <CheckStepDetailsEntry label={PhoneValidationTypes[fieldName]} value={step.data[PhoneValidationTypes[fieldName]]} />
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
+            {step?.data && (
+              <Box mt={0.5}>
+                <Grid container>
+                  {Object.keys(PhoneValidationTypes).map((fieldName) => (!isNil(step?.data[PhoneValidationTypes[fieldName]])) && (
+                    <Grid xs={6} item key={PhoneValidationTypes[fieldName]}>
+                      <CheckStepDetailsEntry label={PhoneValidationTypes[fieldName]} value={step.data[PhoneValidationTypes[fieldName]]} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            )}
           </CardContent>
         </Card>
       </CheckBarExpandable>

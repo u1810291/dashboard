@@ -12,9 +12,9 @@ import { DropZoneNode } from '../components/DropZoneNode/DropZoneNode';
 export const X_AXIS_COORDINATE = 0;
 
 export interface FlowSettingsModel {
-  policyInterval: string,
-  digitalSignature: DigitalSignatureProvider,
-  flowName: string,
+  policyInterval: string;
+  digitalSignature: DigitalSignatureProvider;
+  flowName: string;
 }
 
 export enum DaysRangeErrorTypes {

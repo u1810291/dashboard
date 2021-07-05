@@ -21,12 +21,13 @@ export function BiometricVerificationSettings({ settings, onUpdate }: ProductSet
       <ExtendedDescription
         title={intl.formatMessage({ id: 'ReVerification.settings.biometrics.title' })}
         text={intl.formatMessage({ id: 'ReVerification.settings.biometrics.description' })}
-      />
-      <BiometricConfiguration
-        biometrics={settings[BiometricVerificationSettingsTypes.Biometrics].value}
-        proofOfOwnership={settings[BiometricVerificationSettingsTypes.Biometrics].isCantBeUsedWithOtherSetting}
-        onUpdate={handleBiometricsChanges}
-      />
+      >
+        <BiometricConfiguration
+          biometrics={settings[BiometricVerificationSettingsTypes.Biometrics].value}
+          proofOfOwnership={settings[BiometricVerificationSettingsTypes.Biometrics].isCantBeUsedWithOtherSetting}
+          onUpdate={handleBiometricsChanges}
+        />
+      </ExtendedDescription>
     </Box>
   );
 }

@@ -5,12 +5,12 @@ import { useIntl } from 'react-intl';
 import { useStyles } from './PremiumAmlWatchlistsMonitoringNotification.styles';
 
 export interface PremiumAmlWatchlistsMonitoringNotificationProps {
-  isSwitchedToVerified: boolean,
-  closeToast?: () => void,
-  onEnableFallback: () => void
+  isSwitchedToVerified: boolean;
+  closeToast?: () => void;
+  onEnableFallback: () => void;
 }
 
-export function PremiumAmlWatchlistsMonitoringNotification({ isSwitchedToVerified, closeToast, onEnableFallback } : PremiumAmlWatchlistsMonitoringNotificationProps) {
+export function PremiumAmlWatchlistsMonitoringNotification({ isSwitchedToVerified, closeToast, onEnableFallback }: PremiumAmlWatchlistsMonitoringNotificationProps) {
   const intl = useIntl();
   const classes = useStyles();
   const handleClick = useCallback(() => {
