@@ -1988,7 +1988,7 @@
   "verificationDemo.passport.label": "Passport from Germany",
   "verificationDemo.subtitle": "Here you will see verifications of your users.{breakingLine}You can filter them by date, flow, status, errors and search by name or ID",
   "verificationDemo.title": "Verifications List",
-  "verificationDetails.summary.checksPassed.title": "{count, plural,\none {1 check}\nother {{} checks}} passed",
+  "verificationDetails.summary.checksPassed.title": "{count, plural,\none {1 check}\nother {{count} checks}} passed",
   "verificationDetails.tools.sendWebhook": "Send Webhook",
   "Verification.error.notFound": "Verification Not Found",
   "VerificationFilter.button.viewResults": "View Results",
