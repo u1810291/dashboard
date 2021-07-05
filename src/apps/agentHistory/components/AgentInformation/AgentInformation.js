@@ -35,7 +35,8 @@ export function AgentInformation({ collaborator }) {
     }
   }, [dispatch, intl]);
 
-  const handleRoleChange = useCallback((id, role) => {
+  const handleRoleChange = useCallback((id) => (e) => {
+    const role = e?.target?.value;
     handleUpdate(id, { role });
   }, [handleUpdate]);
 
@@ -75,7 +76,7 @@ export function AgentInformation({ collaborator }) {
             <Select
               className={classes.select}
               disableUnderline
-              onChange={(e) => handleRoleChange(user.id, e.target.value)}
+              onChange={handleRoleChange(user.id)}
               value={selectedRole}
               IconComponent={FiChevronDown}
               data-qa={QATags.AgentHistory.AgentRoleSelect}

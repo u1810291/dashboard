@@ -10,7 +10,7 @@ import { IconStatuses } from '../../assets';
 import { CheckStepDetailsEntryPDF } from '../CheckStepPDF/CheckStepDetailsEntryPDF';
 
 export interface PhoneValidationPDFProps {
-  step: PhoneValidationStep,
+  step: PhoneValidationStep;
 }
 
 export function PhoneValidationPDF({ step = {} }: PhoneValidationPDFProps) {

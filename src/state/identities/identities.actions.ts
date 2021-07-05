@@ -1,29 +1,26 @@
 import { notification } from 'apps/ui';
 import * as api from 'lib/client/identities';
-import { getIdentityProfile } from 'lib/client/identities';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
-import { ERROR_COMMON } from 'models/Error.model';
+import { get } from 'lodash';
+import { ERROR_COMMON, IN_REVIEW_MODE_ERROR, isInReviewModeError } from 'models/Error.model';
 import { filterSerialize } from 'models/Filter.model';
 import { IdentityStatuses } from 'models/Status.model';
-import { createTypesSequence } from 'state/store.utils';
-import { selectFilteredCountModel, selectIdentityFilterSerialized } from './identities.selectors';
+import { Dispatch } from 'redux';
+import { createTypesSequence, TypesSequence } from '../store.utils';
+import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from './identities.selectors';
 import { IdentityActionGroups } from './identities.store';
 
-export const types: any = {
+export const types: TypesSequence = {
   ...createTypesSequence('IDENTITY_PATCH'),
   ...createTypesSequence('IDENTITY_DOCUMENTS_LIST'),
   ...createTypesSequence('DOCUMENT_PATCH'),
 
   ...createTypesSequence(IdentityActionGroups.Identity),
-  ...createTypesSequence(IdentityActionGroups.IdentityProfile),
   ...createTypesSequence(IdentityActionGroups.IdentityList),
-  ...createTypesSequence(IdentityActionGroups.IdentityRemove),
   ...createTypesSequence(IdentityActionGroups.IdentityCount),
   ...createTypesSequence(IdentityActionGroups.FilteredCount),
   ...createTypesSequence(IdentityActionGroups.PreliminaryFilteredCount),
   ...createTypesSequence(IdentityActionGroups.ManualReviewCount),
-  ...createTypesSequence(IdentityActionGroups.VerificationsCollection),
-  ...createTypesSequence(IdentityActionGroups.Verification),
 
   FILTER_UPDATE: 'identities/FILTER_UPDATE',
   IDENTITY_REMOVE: 'IDENTITY_REMOVE',
@@ -120,19 +117,7 @@ export const identitiesPreliminaryCountLoad = (localFilter) => async (dispatch, 
   }
 };
 
-export const identityProfileLoad = (identityId) => async (dispatch) => {
-  dispatch({ type: types.IDENTITY_PROFILE_REQUEST });
-  try {
-    const { data } = await getIdentityProfile(identityId);
-    dispatch({ type: types.IDENTITY_PROFILE_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({ type: types.IDENTITY_PROFILE_FAILURE, error });
-    notification.error(ERROR_COMMON);
-    throw error;
-  }
-};
-
-export const downloadCSV = () => (dispatch, getState) => {
+export const downloadCSV = () => async (dispatch, getState) => {
   try {
     const filter = selectIdentityFilterSerialized(getState());
     return api.downloadCSV({
@@ -197,4 +182,43 @@ export const setPDFGenerating = (flag) => ({ type: types.SET_PDF_GENERATING, pay
 export const pdfDownloaded = (identityId, verificationId) => async (dispatch) => {
   await api.postPdfDownloaded(identityId, verificationId);
   dispatch({ type: types.PDF_DOWNLOADED });
+};
+
+export const verificationDocumentUpdate = (verificationId: string, documentType, fields) => async (dispatch: Dispatch, getState) => {
+  dispatch({ type: types.IDENTITY_UPDATING });
+  try {
+    await api.patchVerificationDocument(verificationId, documentType, fields);
+    const identityModel = selectIdentityModel(getState());
+    const documents = get(identityModel.value, '_embedded.verification.documents', []);
+    const documentIndex = documents.findIndex((item) => item.type === documentType);
+    const newDocuments = [...documents];
+    newDocuments[documentIndex].fields = { ...newDocuments[documentIndex].fields, ...fields };
+
+    const newIdentity = {
+      ...identityModel.value,
+      _embedded: {
+        ...identityModel.value._embedded,
+        verification: {
+          ...identityModel.value._embedded.verification,
+          documents: newDocuments,
+        },
+      },
+    };
+
+    dispatch({
+      type: types.IDENTITY_SUCCESS,
+      payload: newIdentity,
+    });
+  } catch (error) {
+    dispatch({
+      type: types.IDENTITY_FAILURE,
+      error,
+    });
+    if (isInReviewModeError(error)) {
+      notification.error(IN_REVIEW_MODE_ERROR, { autoClose: false });
+    } else {
+      notification.error(ERROR_COMMON);
+    }
+    throw error;
+  }
 };

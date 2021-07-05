@@ -1,6 +1,9 @@
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => createStyles({
+  container: {
+    height: '100%',
+  },
   button: {
     width: 50,
     height: 50,

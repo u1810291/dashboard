@@ -45,7 +45,7 @@ export function ConfigureColor() {
     dispatch(flowStyleUpdate({ color: value }));
   }, [dispatch]);
 
-  const onClickDebounced = useCallback(debounce(updateColor, 600), []);
+  const onClickDebounced = useCallback(() => debounce(updateColor, 600), [updateColor]);
 
   const handleChange = useCallback((value) => {
     setColor(getColorValue(value, presets));

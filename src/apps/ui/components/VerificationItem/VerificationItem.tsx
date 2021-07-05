@@ -7,11 +7,11 @@ import { getIdentityStatusLabel, getStatusById, IdentityStatuses } from 'models/
 import { useStyles } from './VerificationItem.styles';
 
 export interface VerificationItemProps{
-  date:string,
-  id: string,
-  status: IdentityStatuses,
-  onClick: () => void,
-  isSelected: boolean,
+  date: string;
+  id: string;
+  status: IdentityStatuses;
+  onClick: () => void;
+  isSelected: boolean;
 }
 
 export function VerificationItem({ date, status, id, onClick, isSelected }: VerificationItemProps) {
@@ -22,7 +22,7 @@ export function VerificationItem({ date, status, id, onClick, isSelected }: Veri
 
   return (
     <Box onClick={onClick} px={2} py={1} className={classNames(classes.select, { [classes.selected]: isSelected })}>
-      <Grid container spacing={1} justify="space-between" alignItems="center">
+      <Grid container spacing={1} wrap="nowrap" justify="space-between" alignItems="center">
         <Grid item>
           <Box color="common.black90" fontWeight="bold">
             {formatDate(date, DateFormat.MonthShort)}

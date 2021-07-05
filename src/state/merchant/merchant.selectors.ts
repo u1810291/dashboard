@@ -4,9 +4,10 @@ import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { BiometricTypes } from 'models/Biometric.model';
 import { DEFAULT_LOCALE, LanguageList } from 'models/Intl.model';
-import { MerchantTags } from 'models/Merchant.model';
-import { VerificationPatternTypes } from 'models/Step.model';
+import { Loadable } from 'models/Loadable.model';
+import { Merchant, MerchantTags } from 'models/Merchant.model';
 import { createSelector } from 'reselect';
+import { VerificationPatternTypes } from '../../models/VerificationPatterns.model';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
 
 export const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
@@ -15,12 +16,12 @@ export const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
 
 export const selectMerchantModel = createSelector(
   selectMerchantStore,
-  (merchant) => merchant[SliceNames.Merchant],
+  (store): Loadable<Merchant> => store[SliceNames.Merchant],
 );
 
 export const selectMerchantId = createSelector(
   selectMerchantModel,
-  selectModelValue((merchant) => merchant.id),
+  selectModelValue((merchant: Merchant) => merchant.id),
 );
 
 export const selectIsOwnerModel = createSelector(
@@ -54,7 +55,7 @@ export const selectIsBlockedModel = createSelector(
 
 export const selectMerchantTags = createSelector(
   selectMerchantModel,
-  selectModelValue((merchant): MerchantTags[] => merchant.tags || []),
+  selectModelValue((merchant: Merchant): MerchantTags[] => merchant.tags || []),
 );
 
 export const selectAvailableChecks = createSelector(
@@ -190,11 +191,6 @@ export const selectDuplicateUserDetectionCheck = createSelector(
   (flow) => flow[VerificationPatternTypes.DuplicateUserValidation],
 );
 
-export const selectPremiumAmlWatchlistsCheck = createSelector(
-  selectVerificationPattern,
-  (flow) => flow[VerificationPatternTypes.PremiumAmlWatchlistsCheck],
-);
-
 export const selectNom151Check = createSelector(
   selectCurrentFlow,
   (flow) => flow.digitalSignature,
@@ -202,7 +198,7 @@ export const selectNom151Check = createSelector(
 
 export const selectLogoModel = createSelector(
   selectCurrentFlow,
-  (flow) => flow.logoUrl,
+  (flow) => flow.logo || {},
 );
 
 export const selectValidationChecks = createSelector(

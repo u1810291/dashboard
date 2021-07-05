@@ -8,7 +8,7 @@ export const BoxBordered = ((props) => (
     py={2}
     border={1}
     borderRadius={AppTheme.shape.borderRadius}
-    borderColor={AppTheme.palette.common.lightgray}
+    borderColor={AppTheme.palette.common.black7}
     {...props}
   />
 ));

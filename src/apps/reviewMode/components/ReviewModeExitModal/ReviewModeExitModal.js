@@ -4,7 +4,7 @@ import { QATags } from 'models/QA.model';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
-import { Routes } from '../../../../models/Router.model';
+import { Routes } from 'models/Router.model';
 import { useStyles } from './RevieweModeExitModal.styles';
 
 export function ReviewModeExitModal({ closeOverlay, onExit }) {

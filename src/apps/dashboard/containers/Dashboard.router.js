@@ -1,12 +1,12 @@
 import { forDevsRoutes } from 'apps/forDevelopers';
 import { identityRoutes } from 'apps/identity';
+import { identityProfileRoutes } from 'apps/IdentityProfile';
 import { Page404, PageLoader } from 'apps/layout';
 import { MerchantGuard, OwnerRoute } from 'apps/merchant';
+import { appPalette } from 'apps/theme';
 import { Routes } from 'models/Router.model';
 import React, { lazy, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { appPalette } from 'apps/theme';
-import { identityProfileRoutes } from 'apps/IdentityProfile/identityProfile.routes';
 
 const InfoPageLazy = lazy(async () => {
   const { InfoPage } = await import('apps/FAQ');
@@ -25,7 +25,7 @@ const FlowBuilderLazy = lazy(async () => {
 });
 
 const AnalyticsContainerLazy = lazy(async () => {
-  const { AnalyticsContainer } = await import('apps/analytics');
+  const { AnalyticsContainer } = await import('apps/Analytics');
   return { default: AnalyticsContainer };
 });
 

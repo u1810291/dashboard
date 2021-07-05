@@ -1,15 +1,15 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Image, Text, View } from '@react-pdf/renderer';
+import { StepStatus } from 'models/Step.model';
+import { VerificationSummaryTitleTypes } from 'models/Identity.model';
+import { getDeviceBrowserLabel, getDeviceModel, getDeviceOSLabel, getDevicePlatformType, getDeviceType, PlatformTypes, getDeviceBrowserType, getDeviceOSType, BrowserTypes, DeviceTypes, OSTypes } from 'models/DeviceCheck.model';
 import { styles } from './VerificationDeviceCheckPDF.styles';
 import { commonStyles } from '../../PDF.styles';
 import { VerificationCheckCardPDF } from '../VerificationCheckCardPDF/VerificationCheckCardPDF';
 import { VerificationSummaryTitlePDF } from '../VerificationSummaryTitlePDF/VerificationSummaryTitlePDF';
-import { StepStatus } from '../../../../models/Step.model';
-import { getDeviceBrowserLabel, getDeviceModel, getDeviceOSLabel, getDevicePlatformType, getDeviceType, PlatformTypes, getDeviceBrowserType, getDeviceOSType, BrowserTypes, DeviceTypes, OSTypes } from '../../../../models/DeviceCheck.model';
 import ModelIcon from '../../assets/model-icon.png';
 import { BrowserIcons, DeviceIcons, OSIcons } from '../../assets';
-import { VerificationSummaryTitleTypes } from '../../../../models/Identity.model';
 
 export function VerificationDeviceCheckPDF({ deviceFingerprint }) {
   const intl = useIntl();
@@ -23,6 +23,10 @@ export function VerificationDeviceCheckPDF({ deviceFingerprint }) {
   const DeviceIcon = DeviceIcons[deviceType] || DeviceIcons[DeviceTypes.Desktop];
   const OSIcon = OSIcons[getDeviceOSType(deviceFingerprint)] || OSIcons[OSTypes.Unknown];
   const BrowserIcon = BrowserIcons[getDeviceBrowserType(deviceFingerprint)] || BrowserIcons[BrowserTypes.Other];
+
+  if (platform === PlatformTypes.Api) {
+    return null;
+  }
 
   return (
     <VerificationCheckCardPDF

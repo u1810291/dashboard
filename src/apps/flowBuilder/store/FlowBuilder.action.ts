@@ -1,33 +1,25 @@
-import { selectFlowBuilderChangeableFlow, selectFlowBuilderProductsInGraphModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { productManagerService, selectProductRegistered } from 'apps/Product';
 import { mergeDeep } from 'lib/object';
 import { cloneDeep } from 'lodash';
+import { ApiResponse } from 'models/Client.model';
 import { IFlow } from 'models/Flow.model';
 import { ProductTypes } from 'models/Product.model';
-import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
-import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
+import { merchantDeleteFlow, merchantUpdateFlow, merchantUpdateFlowList } from 'state/merchant/merchant.actions';
+import { selectCurrentFlow, selectMerchantId } from 'state/merchant/merchant.selectors';
 import { createTypesSequence } from 'state/store.utils';
+import * as api from '../api/flowBuilder.client';
+import { selectFlowBuilderChangeableFlow, selectFlowBuilderProductsInGraphModel, selectFlowBuilderSelectedId } from './FlowBuilder.selectors';
 import { FlowBuilderActionGroups } from './FlowBuilder.store';
 
 export const types: any = {
   ...createTypesSequence(FlowBuilderActionGroups.ProductsInGraph),
   ...createTypesSequence(FlowBuilderActionGroups.ChangeableFlow),
-  SET_HAVE_UNSAVED_CHANGES: 'SET_HAVE_UNSAVED_CHANGES',
+  HAVE_UNSAVED_CHANGES_UPDATE: 'HAVE_UNSAVED_CHANGES_UPDATE',
   PRODUCT_SELECT: 'PRODUCT_SELECT',
 };
 
 export const flowBuilderProductSelect = (productId: ProductTypes) => (dispatch) => {
   dispatch({ type: types.PRODUCT_SELECT, payload: productId });
-};
-
-export const flowBuilderProductAdd = (productId: ProductTypes) => (dispatch, getState) => {
-  const { value } = selectFlowBuilderProductsInGraphModel(getState());
-  if (value.includes(productId)) {
-    return;
-  }
-  const payload = [...value];
-  payload.push(productId);
-  dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, isReset: true, payload: productManagerService.sortProductTypes(payload) });
 };
 
 export const flowBuilderProductListClear = () => (dispatch) => {
@@ -41,7 +33,7 @@ export const flowBuilderProductListInit = (flow) => (dispatch, getState) => {
     if (!product) {
       return false;
     }
-    return product.isInGraph(flow);
+    return product.isInFlow(flow);
   });
   const sorted = productManagerService.sortProductTypes(activated);
 
@@ -69,6 +61,7 @@ export const flowBuilderChangeableFlowUpdate = (changes: Partial<IFlow>) => (dis
   dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
   try {
     const updatedFlow = mergeDeep(changeableFlow, changes);
+    dispatch({ type: types.HAVE_UNSAVED_CHANGES_UPDATE, payload: true });
     // @ts-ignore
     dispatch({ type: types.CHANGEABLE_FLOW_SUCCESS, payload: updatedFlow, isReset: true });
   } catch (error) {
@@ -78,22 +71,67 @@ export const flowBuilderChangeableFlowUpdate = (changes: Partial<IFlow>) => (dis
   }
 };
 
+export const flowBuilderProductAdd = (productId: ProductTypes) => (dispatch, getState) => {
+  const { value } = selectFlowBuilderProductsInGraphModel(getState());
+  if (value.includes(productId)) {
+    return;
+  }
+  const payload = [...value, productId];
+  dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, isReset: true, payload: productManagerService.sortProductTypes(payload) });
+  dispatch(flowBuilderProductSelect(productId));
+  dispatch(flowBuilderChangeableFlowUpdate(productManagerService.getProduct(productId).onAdd()));
+};
+
 export const flowBuilderProductRemove = (productId: ProductTypes) => (dispatch, getState) => {
   const { value } = selectFlowBuilderProductsInGraphModel(getState());
+  const selectedId = selectFlowBuilderSelectedId(getState());
   const payload = value.filter((item) => item !== productId);
   dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, isReset: true, payload });
-  dispatch(flowBuilderChangeableFlowUpdate(productManagerService.getProduct(productId).getNullishValues()));
+  if (selectedId === productId) {
+    dispatch(flowBuilderProductSelect(null));
+  }
+  dispatch(flowBuilderChangeableFlowUpdate(productManagerService.getProduct(productId).onRemove()));
+};
+
+export const flowBuilderGetTemporaryFlowId = () => async (dispatch, getState): Promise<string> => {
+  const changeableFlow = selectFlowBuilderChangeableFlow(getState());
+  const { data }: ApiResponse<{ _id: string }> = await api.changeableFlowPost({
+    ...changeableFlow,
+    name: `${changeableFlow.name} (preview)`,
+  });
+  return data?._id;
 };
 
 export const flowBuilderSaveAndPublish = () => async (dispatch, getState) => {
-  const changeableFlow = await selectFlowBuilderChangeableFlow(getState());
-  const changeableFlowToPatch = {
-    ...changeableFlow,
-    createdAt: undefined,
-    id: undefined,
-    updatedAt: undefined,
-    pinnedCountries: undefined,
-    inputTypes: undefined,
-  };
-  dispatch(merchantUpdateFlow(changeableFlowToPatch));
+  const state = getState();
+  const changeableFlow = await selectFlowBuilderChangeableFlow(state);
+  dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
+  try {
+    const merchantId = selectMerchantId(state);
+    const { data }: ApiResponse<IFlow> = await api.flowUpdate(merchantId, changeableFlow.id, {
+      ...changeableFlow,
+      createdAt: undefined,
+      id: undefined,
+      updatedAt: undefined,
+      pinnedCountries: undefined,
+      inputTypes: undefined,
+    });
+
+    dispatch(merchantUpdateFlowList(changeableFlow.id, data));
+    dispatch({ type: types.CHANGEABLE_FLOW_SUCCESS, payload: data });
+    dispatch({ type: types.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
+  } catch (error) {
+    dispatch({ type: types.CHANGEABLE_FLOW_FAILURE, error });
+    throw error;
+  }
+};
+
+export const flowBuilderDelete = () => async (dispatch, getState) => {
+  const state = getState();
+  const flow = selectCurrentFlow(state);
+  await dispatch(merchantDeleteFlow(flow.id));
+};
+
+export const flowBuilderSaveAndPublishSettings = (payload) => async (dispatch) => {
+  dispatch(merchantUpdateFlow(payload));
 };

@@ -4,8 +4,8 @@ import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
 import { Nom151Check } from 'apps/checks/components/Nom151Check/Nom151Check';
 import { VerificationAdditionalChecks } from 'apps/checks/components/VerificationAdditionalChecks/VerificationAdditionalChecks';
 import { DocumentStep } from 'apps/documents';
-import { VerificationDeviceCheck } from 'apps/fingerPrint';
-import { VerificationMetadata } from 'apps/identity/components/VerificationMetadata/VerificationMetadata';
+import { VerificationDeviceCheck } from 'apps/DeviceFingerPrint';
+import { ReVerificationVerification } from 'apps/reverification/components/ReVerificationVerification/ReVerificationVerification';
 import { useAFKListener } from 'apps/layout/hooks/AFKListener';
 import { useOverlay } from 'apps/overlay';
 import { ReviewModeTimeoutModal } from 'apps/reviewMode/components/ReviewModeTimeoutModal/ReviewModeTimeoutModal';
@@ -17,6 +17,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { VerificationMetadata } from 'apps/metadata';
 import { reviewDocumentUpdate, reviewVerificationClear, verificationSkip } from '../../state/reviewMode.actions';
 import { selectReviewVerificationId, selectReviewVerificationModelWithExtras, selectReviewVerificationWithExtras } from '../../state/reviewMode.selectors';
 
@@ -57,10 +58,26 @@ export function ReviewContainer() {
       {verification && !verificationModel.isLoading && verificationModel.isLoaded ? (
         <Grid container spacing={2} direction="column" wrap="nowrap">
 
-          {/* biometric */}
-          <Grid item>
-            <LivenessStep steps={verification?.biometric} downloadableFileName={downloadableFileName} />
-          </Grid>
+          {/* WARNING: was inserted before any changes in review mode */}
+          {/* biometric and reverification */}
+          {verification?.reVerification ? (
+            <Grid item>
+              <Paper>
+                <Box p={2}>
+                  <ReVerificationVerification
+                    data={{
+                      reVerification: verification.reVerification,
+                      identity: verification.identity,
+                    }}
+                  />
+                </Box>
+              </Paper>
+            </Grid>
+          ) : (
+            <Grid item>
+              <LivenessStep steps={verification?.biometric} downloadableFileName={downloadableFileName} />
+            </Grid>
+          )}
 
           {/* Documents */}
           {verification?.documents.map((doc, index) => (
@@ -117,7 +134,7 @@ export function ReviewContainer() {
                   <Box width={{ lg: '33%' }}>
                     <Paper>
                       <Box py={2}>
-                        <VerificationDeviceCheck deviceFingerprint={deviceFingerprint} />
+                        <VerificationDeviceCheck input={deviceFingerprint} />
                       </Box>
                     </Paper>
                   </Box>

@@ -72,5 +72,9 @@
 }
 
 .color-red {
-  color: #FE7581;
+  color: var(--mgi-theme-palette-lightred);
+}
+
+.color-blue {
+  color: var(--mgi-theme-palette-azure);
 }

@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
-import { StepStatus } from '../../../../models/Step.model';
-import { LivenessStepStatus } from '../../../../models/Biometric.model';
+import { StepStatus } from 'models/Step.model';
+import { LivenessStepStatus } from 'models/Biometric.model';
 
 export const useStyles = makeStyles((theme) => {
   const statuses = {

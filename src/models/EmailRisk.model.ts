@@ -1,11 +1,10 @@
-import { EmailValidationExtrasType } from 'apps/EmailValidation/models/EmailValidation.model';
 import { getStepStatus } from 'models/Step.model';
 import { BaseEmailStep } from 'models/EmailBase.interface';
 
 interface EmailRiskData {
   emailAddress: string;
   riskScore: number;
-  riskThreshold: number,
+  riskThreshold: number;
 }
 
 export interface EmailRiskStep extends BaseEmailStep<EmailRiskData> {

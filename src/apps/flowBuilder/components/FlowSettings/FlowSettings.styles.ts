@@ -18,7 +18,7 @@ export const useStyles = makeStyles((theme) => createStyles({
       width: 250,
     },
   },
-  buttonDelete: {
+  buttonCancel: {
     borderColor: theme.palette.common.red,
     color: theme.palette.common.red,
     [theme.breakpoints.down('md')]: {

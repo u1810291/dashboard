@@ -1,13 +1,14 @@
 import { StyleSheet } from '@react-pdf/renderer';
+import { StepStatus } from 'models/Step.model';
+import { LivenessStepStatus } from 'models/Biometric.model';
 import OtherChecksSuccess from '../../assets/icon-other-checks-success.png';
 import OtherChecksDisabled from '../../assets/icon-other-checks-disabled.png';
 import OtherChecksWarning from '../../assets/icon-other-checks-warning.png';
+import OtherChecksError from '../../assets/icon-other-checks-error.png';
 import DocumentSuccess from '../../assets/icon-document-success.png';
 import DocumentWarning from '../../assets/icon-document-warning.png';
 import DocumentError from '../../assets/icon-document-error.png';
 import LoadIcon from '../../assets/icon-load.png';
-import { StepStatus } from '../../../../models/Step.model';
-import { LivenessStepStatus } from '../../../../models/Biometric.model';
 import { colors } from '../../PDF.theme.common';
 
 export const Statuses = {
@@ -17,6 +18,10 @@ export const Statuses = {
       color: colors.black75,
     },
     biometric: {
+      icon: OtherChecksSuccess,
+      color: colors.black75,
+    },
+    reFacematch: {
       icon: OtherChecksSuccess,
       color: colors.black75,
     },
@@ -33,6 +38,10 @@ export const Statuses = {
     biometric: {
       icon: OtherChecksWarning,
       color: colors.yellow,
+    },
+    reFacematch: {
+      icon: OtherChecksError,
+      color: colors.red,
     },
     ipCheck: {
       icon: OtherChecksWarning,
@@ -55,6 +64,10 @@ export const Statuses = {
       color: colors.black75,
     },
     biometric: {
+      icon: LoadIcon,
+      color: colors.black75,
+    },
+    reFacematch: {
       icon: LoadIcon,
       color: colors.black75,
     },

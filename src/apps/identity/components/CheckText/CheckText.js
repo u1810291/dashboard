@@ -1,12 +1,12 @@
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
-import { DocumentStepTypes, StepStatus } from '../../../../models/Step.model';
+import { DocumentStepTypes, StepStatus } from 'models/Step.model';
 
 export function CheckText({ step }) {
   const intl = useIntl();
   const extraData = step.labelExtraData || {};
 
-  if (step.id === DocumentStepTypes.AlternationDetection && step.checkStatus === StepStatus.Failure) {
+  if ([DocumentStepTypes.AlternationDetection, DocumentStepTypes.ReFacematch].includes(step.id) && step.checkStatus === StepStatus.Failure) {
     const errorCode = get(step, 'error.code');
 
     return intl.formatMessage({

@@ -11,10 +11,10 @@ import { getRiskScoreThresholdError, getScoreTypeByValue, RiskScoreTypes } from 
 import { TextFieldRiskThreshold, useStyles } from './RiskAnalysisConfiguration.styles';
 
 export interface RiskAnalysisConfigurationProps {
-  riskScore?: number,
-  onChangeRiskScore: (value: number) => void,
-  onEnableRiskAnalysis: (method: PhoneOwnershipValidationMethodTypes, checked: boolean) => void,
-  isLoading: boolean,
+  riskScore?: number;
+  onChangeRiskScore: (value: number) => void;
+  onEnableRiskAnalysis: (method: PhoneOwnershipValidationMethodTypes, checked: boolean) => void;
+  isLoading: boolean;
 }
 
 export function RiskAnalysisConfiguration({ riskScore, onChangeRiskScore, onEnableRiskAnalysis, isLoading }: RiskAnalysisConfigurationProps) {

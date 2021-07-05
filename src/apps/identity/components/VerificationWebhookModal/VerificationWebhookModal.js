@@ -1,16 +1,16 @@
+import { Box, Button, Typography } from '@material-ui/core';
 import { Modal } from 'apps/overlay';
-import { Button, Typography, Box } from '@material-ui/core';
-import { SyntaxHighlighter, SyntaxHighlighterLanguages, CopyToClipboard } from 'apps/ui';
+import { CopyToClipboard, SyntaxHighlighter, SyntaxHighlighterLanguages } from 'apps/ui';
 import stringify from 'lib/stringify';
+import { QATags } from 'models/QA.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './VerificationWebhookModal.styles';
-import { QATags } from '../../../../models/QA.model';
 
 export function VerificationWebhookModal({ webhook, onClose }) {
   const intl = useIntl();
   const classes = useStyles();
-  const resourceUrl = `${process.env.REACT_APP_API_URL}/v2/verifications/${webhook?.id ?? ''}`;
+  const resourceUrl = `${process.env.REACT_APP_API_URL}/v2/verifications/${webhook?.id || webhook._id || ''}`;
 
   return (
     <Modal className={classes.modal}>

@@ -13,21 +13,13 @@ export const FieldTypes = {
   ConnectionData: 'connection-data',
 };
 
-export const FieldsWithDate = [FieldTypes.DateOfBirth, FieldTypes.EmissionDate, FieldTypes.ExpirationDate];
+export const FieldsWithDate = [
+  FieldTypes.DateOfBirth,
+  FieldTypes.EmissionDate,
+  FieldTypes.ExpirationDate,
+];
 
 export const EditedDateEmptyField = '--';
-
-export const FieldsExpirationCheck = {
-  id: FieldTypes.ExpirationDate,
-  lag: null,
-};
-
-export const FieldsEmissionCheck = {
-  id: FieldTypes.EmissionDate,
-  lag: {
-    days: -90,
-  },
-};
 
 export function getFieldsExtra(data) {
   if (!data) {
@@ -39,17 +31,5 @@ export function getFieldsExtra(data) {
     label,
     // `id` here to support old verification format
     value: formatValue(label || id, value),
-  }));
-}
-
-export function getCheckFieldsExtra(data) {
-  if (!data) {
-    return [];
-  }
-
-  return Object.entries(data).map(([key, value]) => ({
-    id: key,
-    label: value,
-    value: formatValue(key, value),
   }));
 }

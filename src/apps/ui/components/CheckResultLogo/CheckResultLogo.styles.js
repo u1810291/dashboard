@@ -6,6 +6,7 @@ import LoadIcon from 'assets/icon-load.svg';
 import OtherChecksDisabled from 'assets/icon-other-checks-disabled.svg';
 import OtherChecksSuccess from 'assets/icon-other-checks-success.svg';
 import OtherChecksWarning from 'assets/icon-other-checks-warning.svg';
+import OtherChecksError from 'assets/icon-other-checks-error.svg';
 import { LivenessStepStatus } from 'models/Biometric.model';
 import { StepStatus } from 'models/Step.model';
 
@@ -17,6 +18,10 @@ export const useStyles = makeStyles((theme) => {
         color: theme.palette.text.main,
       },
       biometric: {
+        icon: OtherChecksSuccess,
+        color: theme.palette.text.main,
+      },
+      reFacematch: {
         icon: OtherChecksSuccess,
         color: theme.palette.text.main,
       },
@@ -33,6 +38,10 @@ export const useStyles = makeStyles((theme) => {
       biometric: {
         icon: OtherChecksWarning,
         color: theme.palette.common.yellow,
+      },
+      reFacematch: {
+        icon: OtherChecksError,
+        color: theme.palette.common.red,
       },
       ipCheck: {
         icon: OtherChecksWarning,
@@ -55,6 +64,10 @@ export const useStyles = makeStyles((theme) => {
         color: theme.palette.text.main,
       },
       biometric: {
+        icon: LoadIcon,
+        color: theme.palette.text.main,
+      },
+      reFacematch: {
         icon: LoadIcon,
         color: theme.palette.text.main,
       },

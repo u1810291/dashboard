@@ -7,15 +7,15 @@ export enum PhoneValidationTypes {
 }
 
 export interface PhoneValidationDataModel {
-  countryCode?: string,
-  phoneNumber?: string,
-  isPhoneVerified?: boolean,
-  dialingCode?: string,
+  countryCode?: string;
+  phoneNumber?: string;
+  isPhoneVerified?: boolean;
+  dialingCode?: string;
 }
 
 export interface PhoneValidationStep {
-  data?: PhoneValidationDataModel,
-  error?: any,
+  data?: PhoneValidationDataModel;
+  error?: any;
 }
 
 export enum PhoneOwnershipValidationMethodTypes {

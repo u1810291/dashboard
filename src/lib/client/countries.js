@@ -1,4 +1,4 @@
-import { http } from './http';
+import { http } from 'lib/client/http';
 
 export function getCountries() {
   return http.get('/v1/countries');

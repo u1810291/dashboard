@@ -11,8 +11,8 @@ import { ButtonHeaderMenu } from 'apps/ui';
 import { Verification } from 'models/Verification.model';
 
 export interface ButtonVerificationGeneratePdfProps {
-  verification: Verification,
-  className: string,
+  verification: Verification;
+  className: string;
 }
 
 export function ButtonVerificationGeneratePdf({ verification, className }: ButtonVerificationGeneratePdfProps) {

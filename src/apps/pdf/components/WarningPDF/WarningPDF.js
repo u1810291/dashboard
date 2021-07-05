@@ -1,9 +1,9 @@
 import { appPalette } from 'apps/theme/app.palette';
 import React from 'react';
-import { Text, View, Image } from '@react-pdf/renderer';
+import { Image, Text, View } from '@react-pdf/renderer';
+import { WarningTypes } from 'apps/ui';
 import { styles } from './WarningPDF.styles';
 import { commonStyles } from '../../PDF.styles';
-import { WarningTypes } from '../../../ui/models/Warning.model';
 import { WarningIcons } from '../../assets';
 
 const ColorMap = {

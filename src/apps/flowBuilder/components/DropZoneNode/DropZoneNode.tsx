@@ -1,23 +1,31 @@
 import { Box, Grid } from '@material-ui/core';
-import { ReactFlowCustomHandler } from 'apps/flowBuilder/components/ReactFlowCustomHandler/ReactFlowCustomHandler';
+import { useProductAdding } from 'apps/Product/hooks/ProductAdding.hook';
 import { FLOW_BUILDER_DRAG_PRODUCT_DATA_TRANSFER_KEY } from 'models/DragAndDrop.model';
-import { flowBuilderProductAdd } from 'apps/flowBuilder/store/FlowBuilder.action';
+import { ProductTypes } from 'models/Product.model';
 import React, { useCallback } from 'react';
 import { Position } from 'react-flow-renderer';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
+import { flowBuilderProductAdd } from '../../store/FlowBuilder.action';
+import { ReactFlowCustomHandler } from '../ReactFlowCustomHandler/ReactFlowCustomHandler';
 import { useStyles } from './DropZoneNode.styles';
 
 export function DropZoneNode() {
   const dispatch = useDispatch();
   const intl = useIntl();
   const classes = useStyles();
+  const addProduct = useProductAdding();
+
+  const handleAdd = useCallback((productType: ProductTypes) => {
+    dispatch(flowBuilderProductAdd(productType));
+  }, [dispatch]);
 
   const handleDrop = useCallback((event) => {
     event.preventDefault();
-    const productType = event.dataTransfer.getData(FLOW_BUILDER_DRAG_PRODUCT_DATA_TRANSFER_KEY);
-    dispatch(flowBuilderProductAdd(productType));
-  }, [dispatch]);
+    const productType: ProductTypes = event.dataTransfer.getData(FLOW_BUILDER_DRAG_PRODUCT_DATA_TRANSFER_KEY);
+
+    addProduct(productType, handleAdd);
+  }, [addProduct, handleAdd]);
 
   return (
     <Grid container direction="column" justify="center" alignItems="center" className={classes.root} onDrop={handleDrop}>

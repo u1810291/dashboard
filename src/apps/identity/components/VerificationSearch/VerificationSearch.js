@@ -22,7 +22,7 @@ export function VerificationSearch({ isInOverlay, onSetFilter }) {
     setSearch(identityFilter?.search || '');
   }, [identityFilter]);
 
-  const onChangeDebounced = useCallback(debounce((newValue) => {
+  const onChangeDebounced = useCallback(() => debounce((newValue) => {
     onSetFilter({ search: newValue });
   }, 300), [onSetFilter]);
 

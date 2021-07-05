@@ -3,7 +3,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { FiExternalLink, FiActivity, FiPauseCircle } from 'react-icons/fi';
 import Link from '@material-ui/core/Link';
-import { StepStatus } from '../../../../models/Step.model';
+import { StepStatus } from 'models/Step.model';
 import { CheckStepDetailsEntry } from '../../../checks/components/CheckStepDetails/CheckStepDetailsEntry';
 import { useStyles, LinkButton } from './PremiumAmlWatchlistsStepDetails.styles';
 

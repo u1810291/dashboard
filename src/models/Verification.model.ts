@@ -1,42 +1,78 @@
 import { titleize } from 'inflection';
 import { isObjectEmpty } from 'lib/object';
+import { getDocumentExtras, VerificationDocument } from 'models/Document.model';
 import { FieldTypes } from 'models/Field.model';
-import { getDocumentExtras } from 'models/Document.model';
-import { IdentityStatuses, isChangeableStatus } from 'models/Status.model';
+import { IdentityStatuses, isChangeableStatus, VerificationStatusDetails } from 'models/Status.model';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
-import { getIdentityShortId, getIpCheckStep, VerificationStepTypes } from './Identity.model';
-import { DocumentStepTypes, getStepExtra, StepTypes } from './Step.model';
+import { IFlow } from './Flow.model';
+import { getIpCheckStep } from './IpCheck.model';
+import { getReVerificationStep } from './ReVerification.model';
+import { DocumentStepTypes, getStepExtra, StepTypes, VerificationStepTypes } from './Step.model';
 
-// TODO @vladislav.snimshchikov: expand and refine types in the future
-
-export interface VerificationResponse{
-  createdAt: string,
-  documents: Array<any>,
-  flow: any,
-  identity: string,
-  inputs: Array<any>,
-  steps: Array<any>,
-  summary: any,
-  verificationStatus: IdentityStatuses,
-  _id?: string,
-  id?: string,
+export interface PassedVerificationsResponse {
+  createdAt: string;
+  _id: string;
+  flow: {
+    _id: string;
+    name: string;
+  };
+  verificationStatusDetails: VerificationStatusDetails;
 }
 
-export interface Verification extends VerificationResponse{
-  id: string,
-  status: IdentityStatuses,
-  deviceFingerprint: any,
-  biometric: Array<any>,
-  shortId: string,
-  fullName: string,
-  documents: Array<any>,
-  isEditable: boolean,
-  ipCheck: any,
-  duplicateUserDetectionStep:any,
-  ageCheck: any,
-  premiumAmlWatchlistsMonitoringStep: any,
+export interface PassedVerificationByFlow {
+  id: string;
+  value: {
+    name: string;
+    _id: string;
+    verifications: PassedVerificationsResponse[];
+  };
 }
 
+export interface VerificationResponse {
+  createdAt: string;
+  documents: any[];
+  flow: IFlow;
+  identity: string;
+  inputs: any[];
+  steps: any[];
+  summary: any;
+  verificationStatus: IdentityStatuses;
+  _id?: string;
+  id?: string;
+  metadata: any;
+}
+
+/**
+ * @deprecated use VerificationResponse in your product
+ */
+export interface Verification extends VerificationResponse {
+  id: string;
+  status: IdentityStatuses;
+  deviceFingerprint: any;
+  biometric: any[];
+  shortId: string;
+  fullName: string;
+  documents: VerificationDocument[];
+  isEditable: boolean;
+  ipCheck: any;
+  duplicateUserDetectionStep: any;
+  ageCheck: any;
+  premiumAmlWatchlistsMonitoringStep: any;
+  reVerification: any;
+}
+
+export enum VerificationErrorTypes {
+  VerificationNotFound = 'verificationNotFound',
+  RequestError = 'requestError',
+}
+
+export function getIdentityShortId(id) {
+  return (id || '').slice(-6);
+}
+
+/**
+ * @deprecated use verification data directly in your product
+ */
 export function getVerificationExtras(verification: VerificationResponse, countries): Verification {
   if (!verification || isObjectEmpty(verification)) {
     return null;
@@ -77,8 +113,28 @@ export function getVerificationExtras(verification: VerificationResponse, countr
     documents,
     isEditable: isChangeableStatus(status),
     ipCheck: getIpCheckStep(steps),
+    reVerification: getReVerificationStep(verification),
     duplicateUserDetectionStep,
     ageCheck,
     premiumAmlWatchlistsMonitoringStep,
   };
+}
+
+export function groupVerificationsByFlow(verifications: PassedVerificationsResponse[]): PassedVerificationByFlow[] {
+  if (!Array.isArray(verifications)) {
+    return [];
+  }
+
+  return verifications.reduce((byFlow, verification) => {
+    const flowId = verification?.flow?._id;
+    let newFlow = byFlow.find((item) => item?.id === flowId);
+
+    if (!newFlow) {
+      newFlow = { id: flowId, value: { ...verification?.flow, verifications: [] } };
+      byFlow.push(newFlow);
+    }
+
+    newFlow.value.verifications.push(verification);
+    return byFlow;
+  }, []);
 }

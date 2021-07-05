@@ -19,4 +19,10 @@ export const flowBuilderReducer = createReducer(initialState, {
       selectedId: payload,
     };
   },
+  [types.HAVE_UNSAVED_CHANGES_UPDATE](state: FlowBuilderStore, { payload }) {
+    return {
+      ...state,
+      haveUnsavedChanges: payload,
+    };
+  },
 });

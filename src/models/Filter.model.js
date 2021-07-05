@@ -2,7 +2,7 @@
 import { dayEndTime, todayMomentZeroTime, zeroTime } from 'lib/date';
 import { compact, identity, isString, pickBy } from 'lodash';
 import moment from 'moment';
-import { ITEMS_PER_PAGE } from './Pagination.model';
+import { ITEMS_PER_PAGE } from 'models/Pagination.model';
 
 export const FilterRangeTypes = {
   All: 'All',

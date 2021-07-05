@@ -5,7 +5,7 @@ import { getIdentityStatusLabel, getStatusById, IdentityStatuses } from 'models/
 import { useStyles } from './StatusBadge.styles';
 
 export interface StatusBadgeProps {
-  statusId: IdentityStatuses,
+  statusId: IdentityStatuses;
 }
 
 export function StatusBadge({ statusId }: StatusBadgeProps) {

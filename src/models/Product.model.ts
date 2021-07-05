@@ -1,43 +1,58 @@
 import { IFlow } from 'models/Flow.model';
 import { IconType } from 'react-icons';
+import { VerificationResponse } from './Verification.model';
 
 export enum ProductTypes {
   DocumentVerification = 'DocumentVerification',
   BiometricVerification = 'BiometricVerification',
+  AmlCheck = 'AmlCheck',
   IpCheck = 'IpCheck',
-}
-
-export interface ProductSettingsProps<T> {
-  product?: Product,
-  settings: T;
-  onUpdate: (settings: ProductSetting) => void,
+  ReVerification = 'ReVerification',
+  GovernmentCheck = 'GovernmentCheck',
+  DeviceFingerPrint = 'DeviceFingerPrint',
+  PhoneCheck = 'PhoneCheck',
+  EmailCheck = 'EmailCheck',
+  // additional
+  Metadata = 'Metadata',
 }
 
 export interface ProductSetting {
-  value: any,
-  isDisabled?: boolean,
-  isRequireOtherProduct?: boolean,
-  isCantBeUsedWithOtherSetting?: boolean,
+  value: any;
+  isDisabled?: boolean;
+  isRequireOtherProduct?: boolean;
+  isCantBeUsedWithOtherSetting?: boolean;
 }
 
-export interface ProductCheck {
-  isActive: boolean,
+export interface ProductCheck<T extends string = string> {
+  isActive: boolean;
+  id: T;
 }
 
-export interface ProductConfig<ES extends string = string, EC extends string = string> {
-  settings: Record<ES, ProductSetting>,
-  checks: Record<EC, ProductCheck>
+export type ProductSettings<K extends string = string> = Record<K, ProductSetting>;
+
+export interface ProductConfig {
+  settings: ProductSettings;
+}
+
+export interface ProductSettingsProps<ES extends string = string> {
+  settings: ProductSettings<ES>;
+  onUpdate: (settings: ProductSettings<ES>) => void;
 }
 
 export enum ProductIntegrationTypes {
-  Sdk = 'SDK',
-  Api = 'API',
+  Sdk = 'sdk',
+  Api = 'api',
 }
 
 export enum ProductInputTypes {
   Documents = 'documents',
   NoActiveInputs = 'noActiveInputs',
   PhoneNumber = 'phoneNumber',
+  Selfie = 'selfie',
+  Liveness = 'liveness',
+  NationalId = 'nationalId',
+  NameAndDobOrDocument = 'nameAndDobOrDocument',
+  EmailAddress = 'emailAddress',
 }
 
 export interface IProductCard {
@@ -46,19 +61,33 @@ export interface IProductCard {
   order: number;
   title: string;
   inputs: ProductInputTypes[];
-  checks: string[];
+  checks: ProductCheck[];
   integrationTypes: ProductIntegrationTypes[];
+  requiredProductType?: ProductTypes;
+  dependentProductTypes?: ProductTypes[];
 }
 
-export interface Product {
+export interface Product<T = ProductSettings> {
   id: ProductTypes;
   order: number;
+  checks: ProductCheck[];
   integrationTypes: ProductIntegrationTypes[];
   component: any;
-  parser(flow: IFlow, productsInGraph?: any[]): ProductConfig;
-  serialize(settings: ProductConfig): Partial<IFlow>;
-  getNullishValues(): Partial<IFlow>;
+  componentVerification: any;
+  isConfigurable: boolean;
+  isIssuesIgnored: boolean;
+  parser(flow: IFlow, productsInGraph?: ProductTypes[]): T;
+  serialize(settings: T): Partial<IFlow>;
+  onRemove(): Partial<IFlow>;
+  onAdd(): Partial<IFlow>;
+  getRemovingAlertComponent?(flow: IFlow): any;
+  haveIssues?(flow: IFlow): boolean;
+  isSdkOnly?(): boolean;
+  getIssuesComponent?(flow: IFlow): any;
   getTitle(): string;
   getCard(): IProductCard;
-  isInGraph(flow: IFlow): boolean;
+  getVerification(verification: VerificationResponse): any;
+  isInFlow(flow: IFlow): boolean;
+  hasFailedCheck(verification: VerificationResponse): boolean;
+  isInVerification(verification: VerificationResponse): boolean;
 }

@@ -1,6 +1,6 @@
 import { Box, Button, Grid } from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { selectIpCheckStatistics, selectChartStatisticsModel } from 'apps/analytics/state/metrics.selectors';
+import { selectChartStatisticsModel, selectIpCheckStatistics } from 'apps/Analytics/state/Analytics.selectors';
 import { appPalette } from 'apps/theme/app.palette';
 import cn from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';

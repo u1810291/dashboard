@@ -1,5 +1,6 @@
-import { createSelector } from 'reselect';
 import { IProductCard, ProductTypes } from 'models/Product.model';
+import { createSelector } from 'reselect';
+import { selectFlowBuilderChangeableFlow } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { productManagerService } from '../services/ProductManager.service';
 import { PRODUCT_STORE_KEY, ProductStore } from './Product.store';
 
@@ -16,6 +17,7 @@ export const selectProductRegistered = createSelector(
 );
 
 export const selectProductCards = createSelector(
+  selectFlowBuilderChangeableFlow,
   selectProductRegistered,
-  (): IProductCard[] => productManagerService.getProductsAllOrdered().map((item) => item.getCard()),
+  (): IProductCard[] => productManagerService.getProductsConfigurable().map((item) => item.getCard()),
 );

@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { loadCountries, loadCountriesOnlyExisting } from 'state/countries/countries.actions';
 import { selectAllCountriesModel, selectCountriesOnlyExisting } from 'state/countries/countries.selectors';
 import { appLoad, merchantFlowsLoad, merchantLoad } from 'state/merchant/merchant.actions';
@@ -29,6 +29,8 @@ export function Dashboard() {
   const countriesModel = useSelector(selectAllCountriesModel);
   const countriesOnlyExistingModel = useSelector(selectCountriesOnlyExisting);
   const clientIdModel = useSelector(selectClientIdModel);
+  const flowBuilderMatch = useRouteMatch(Routes.flow.details);
+  const identityProfileMatch = useRouteMatch(Routes.identity.profile.details);
 
   const [isError, setIsError] = useState(false);
 
@@ -127,7 +129,9 @@ export function Dashboard() {
     >
       <DashboardLoader />
       <DashboardRouter />
-      <Footer />
+      {!flowBuilderMatch && !identityProfileMatch && (
+        <Footer />
+      )}
     </Layout>,
   ];
 }

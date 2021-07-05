@@ -1,16 +1,16 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Image, Text, View } from '@react-pdf/renderer';
+import { StepStatus } from 'models/Step.model';
+import { getBiometricCheckStatus, LivenessStepStatus } from 'models/Biometric.model';
+import { getMediaURL } from 'lib/client/media';
+import { VerificationSummaryTitleTypes } from 'models/Identity.model';
 import IconEmpty from '../../assets/icon-empty-photo.png';
-import { StepStatus } from '../../../../models/Step.model';
 import { VerificationCheckCardPDF } from '../VerificationCheckCardPDF/VerificationCheckCardPDF';
 import { styles } from './VerificationBioCheckSummaryPDF.styles';
 import { commonStyles } from '../../PDF.styles';
-import { getBiometricCheckStatus, LivenessStepStatus } from '../../../../models/Biometric.model';
 import { VerificationSummaryChecksContainerPDF } from '../VerificationSummaryChecksContainerPDF/VerificationSummaryChecksContainerPDF';
 import { VerificationSummaryTitlePDF } from '../VerificationSummaryTitlePDF/VerificationSummaryTitlePDF';
-import { getMediaURL } from '../../../../lib/client/media';
-import { VerificationSummaryTitleTypes } from '../../../../models/Identity.model';
 
 export function VerificationBioCheckSummaryPDF({ biometric, identity }) {
   const intl = useIntl();

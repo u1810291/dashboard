@@ -2,14 +2,15 @@ import { Grid } from '@material-ui/core';
 import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
 import { Nom151Check } from 'apps/checks/components/Nom151Check/Nom151Check';
 import { Page404 } from 'apps/layout';
+import { selectReviewVerificationWithExtras } from 'apps/Verification';
 import { getDownloadableFileName } from 'models/Identity.model';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { VerificationAdditionalChecks } from 'apps/checks/components/VerificationAdditionalChecks/VerificationAdditionalChecks';
 import { LivenessStep } from 'apps/biometrics';
 import { DocumentStep } from 'apps/documents';
-import { selectReviewVerificationWithExtras, verificationDocumentUpdate } from 'apps/verification';
-import { VerificationMetadata } from '../../components/VerificationMetadata/VerificationMetadata';
+import { VerificationMetadata } from 'apps/metadata';
+import { verificationDocumentUpdate } from 'state/identities/identities.actions';
 import { VerificationSummary } from '../../components/VerificationSummary/VerificationSummary';
 
 export function Verification({ identity }) {

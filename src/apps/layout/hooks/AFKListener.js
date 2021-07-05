@@ -6,7 +6,7 @@ export function useAFKListener(delayInSeconds) {
   const [lastActivity, setLastActivity] = useState(null);
   const [isActive, setIsActive] = useState(true);
 
-  const recordActivity = useCallback(throttle(() => {
+  const recordActivity = useCallback(() => throttle(() => {
     setLastActivity(moment());
     setIsActive(true);
   }, Math.floor(delayInSeconds * 0.8 * 1000)), [delayInSeconds]);

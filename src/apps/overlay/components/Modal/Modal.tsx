@@ -2,20 +2,20 @@ import { Box, Button, Grid, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { QATags } from 'models/QA.model';
 import styles from './Modal.module.scss';
 import { overlayClose } from '../../state/overlay.actions';
-import { QATags } from '../../../../models/QA.model';
 
 export interface ModalProps{
-  children?: React.ReactElement,
-  onClose?: () => void,
-  className?: string,
-  imgSrc?: string,
-  title?: string,
-  subtitle?: string,
-  small?: boolean,
-  wideHeader?: boolean,
-  [key: string]: any,
+  children?: React.ReactNode;
+  onClose?: () => void;
+  className?: string;
+  imgSrc?: string;
+  title?: string;
+  subtitle?: string;
+  small?: boolean;
+  wideHeader?: boolean;
+  [key: string]: any;
 }
 
 export function Modal({ children, onClose, className, imgSrc, title, subtitle, small = false, wideHeader = false, ...props }: ModalProps) {

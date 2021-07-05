@@ -1,9 +1,9 @@
 import React from 'react';
 import { Image, Text, View } from '@react-pdf/renderer';
+import { VerificationSummaryTitleTypes } from 'models/Identity.model';
 import { styles } from './VerificationSummaryTitlePDF.styles';
 import { commonStyles } from '../../PDF.styles';
 import { VerificationSummaryTitleStatuses } from '../../assets';
-import { VerificationSummaryTitleTypes } from '../../../../models/Identity.model';
 
 export function VerificationSummaryTitlePDF({ status, children, type = VerificationSummaryTitleTypes.document, withIcon = true }) {
   const { icon } = VerificationSummaryTitleStatuses[status][type];

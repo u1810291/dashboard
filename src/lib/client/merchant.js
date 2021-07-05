@@ -1,4 +1,4 @@
-import { http } from './http';
+import { http } from 'lib/client/http';
 
 export function saveConfiguration(configurations) {
   return http.patch('/api/v1/merchants/me', { configurations });

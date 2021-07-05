@@ -2,15 +2,16 @@ import { useCallback, useState } from 'react';
 import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
+import { DeleteButtonHookOptions } from '../models/DeleteButton.model';
 
-export function useDeleteButtonHook(onDelete: () => Promise<void>, redirectUrl?: string) {
+export function useDeleteButtonHook(onDelete: () => Promise<void>, options: DeleteButtonHookOptions = {}) {
   const [isDeleting, setIsDeleting] = useState(false);
   const history = useHistory();
   const intl = useIntl();
 
   const confirmDelete = useConfirmDelete(
-    intl.formatMessage({ id: 'verificationModal.delete' }),
-    intl.formatMessage({ id: 'verificationModal.delete.confirm' }),
+    intl.formatMessage({ id: options.header || 'verificationModal.delete' }),
+    intl.formatMessage({ id: options.confirm || 'verificationModal.delete.confirm' }),
   );
 
   const handleDelete = useCallback(async () => {
@@ -21,8 +22,8 @@ export function useDeleteButtonHook(onDelete: () => Promise<void>, redirectUrl?:
       setIsDeleting(true);
       await confirmDelete();
       await onDelete();
-      if (redirectUrl) {
-        history.push(redirectUrl);
+      if (options.redirectUrl) {
+        history.push(options.redirectUrl);
       }
     } catch (error) {
       if (!error) {
@@ -33,7 +34,7 @@ export function useDeleteButtonHook(onDelete: () => Promise<void>, redirectUrl?:
     } finally {
       setIsDeleting(false);
     }
-  }, [isDeleting, confirmDelete, onDelete, redirectUrl, history]);
+  }, [isDeleting, confirmDelete, onDelete, options.redirectUrl, history]);
 
   return { isDeleting, handleDelete };
 }

@@ -13,6 +13,7 @@ export const useStyles = makeStyles((theme) => createStyles({
     borderRadius: 10,
     border: '2px solid transparent',
     transition: '.2s all ease-in-out',
+    cursor: 'pointer',
   },
   selected: {
     borderColor: theme.palette.common.lightblue,

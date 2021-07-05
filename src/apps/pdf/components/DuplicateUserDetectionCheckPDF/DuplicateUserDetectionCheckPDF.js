@@ -1,9 +1,9 @@
+import { Image, Text, View } from '@react-pdf/renderer';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Text, View, Image } from '@react-pdf/renderer';
-import { styles } from './DuplicateUserDetectionCheckPDF.styles';
-import { commonStyles } from '../../PDF.styles';
 import { IconStatuses } from '../../assets';
+import { commonStyles } from '../../PDF.styles';
+import { styles } from './DuplicateUserDetectionCheckPDF.styles';
 
 export function DuplicateUserDetectionCheckPDF({ stepData = {} }) {
   const intl = useIntl();

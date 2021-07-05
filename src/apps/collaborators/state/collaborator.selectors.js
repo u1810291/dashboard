@@ -1,6 +1,6 @@
+import { selectModelValue } from 'lib/loadable.selectors';
 import { createSelector } from 'reselect';
 import { COLLABORATOR_STORE_KEY, CollaboratorSliceName } from './collaborator.store';
-import { selectModelValue } from '../../../lib/loadable.selectors';
 
 export const selectCollaboratorState = (state) => state[COLLABORATOR_STORE_KEY];
 

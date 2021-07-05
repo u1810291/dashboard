@@ -1,20 +1,20 @@
 import { Box, FormControlLabel, Grid, Switch, Typography } from '@material-ui/core';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { GovCheckStepTypes } from '../../models/GovCheck.model';
+import { GovCheckTypesForStep } from '../../models/GovCheck.model';
 
 export function GovCheckConfig({ list, onChange }) {
   const intl = useIntl();
 
-  const handleSwitch = useCallback((item, event) => {
+  const handleSwitch = useCallback((item) => (event) => {
     let value;
     if (item.stepTypeAlias) {
-      value = event.target.checked ? item.stepTypeAlias : GovCheckStepTypes[item.id].none;
+      value = event.target.checked ? item.stepTypeAlias : GovCheckTypesForStep[item.id].none;
     }
     onChange(item.id, value || event.target.checked);
   }, [onChange]);
 
-  const handleSwitchOption = useCallback((item, event) => {
+  const handleSwitchOption = useCallback((item) => (event) => {
     onChange(item.id, event.target.checked ? item.option?.stepTypeAlias : item.stepTypeAlias);
   }, [onChange]);
 
@@ -32,7 +32,7 @@ export function GovCheckConfig({ list, onChange }) {
                 control={(
                   <Switch
                     checked={!!item.value}
-                    onChange={(e) => handleSwitch(item, e)}
+                    onChange={handleSwitch(item)}
                     color="primary"
                   />
                 )}
@@ -45,7 +45,7 @@ export function GovCheckConfig({ list, onChange }) {
                     control={(
                       <Switch
                         checked={!!item.option.value}
-                        onChange={(e) => handleSwitchOption(item, e)}
+                        onChange={handleSwitchOption(item)}
                         color="primary"
                       />
                     )}

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { selectCurrentFlow, selectVerificationPattern } from 'state/merchant/merchant.selectors';
-import { VerificationPatternTypes } from '../../../models/Step.model';
+import { VerificationPatternTypes } from '../../../models/VerificationPatterns.model';
 import { EmailValidationStepModes } from '../models/EmailValidation.model';
 
 export const selectEmailOwnership = createSelector(

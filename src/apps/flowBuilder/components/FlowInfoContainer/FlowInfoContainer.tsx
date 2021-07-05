@@ -12,19 +12,21 @@ export function FlowInfoContainer() {
   const classes = useStyles();
   const [createOverlay, closeOverlay] = useOverlay();
   const handleOpenFlowSettings = useCallback(() => {
-    createOverlay(<Modal className={classes.modal} onClose={closeOverlay}><FlowSettings /></Modal>);
-  }, [closeOverlay, createOverlay]);
+    createOverlay(<Modal className={classes.modal} onClose={closeOverlay}><FlowSettings onClose={closeOverlay} /></Modal>);
+  }, [classes.modal, closeOverlay, createOverlay]);
 
   return (
-    <Box className={classes.container} px={0.5} py={2.5}>
+    <Box className={classes.container}>
       <IconButton onClick={handleOpenFlowSettings} color="primary" className={classes.button}>
         <FiSettings />
       </IconButton>
-      <Grid container alignItems="flex-start">
+      <Grid container alignItems="flex-start" wrap="nowrap">
         <Link to={Routes.flows.root} className={classes.link}>
           <FiChevronLeft />
         </Link>
-        <FlowInfo />
+        <Box pr={2}>
+          <FlowInfo />
+        </Box>
       </Grid>
     </Box>
   );

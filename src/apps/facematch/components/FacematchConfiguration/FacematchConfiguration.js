@@ -3,15 +3,15 @@ import { PageLoader } from 'apps/layout';
 import { appPalette } from 'apps/theme';
 import { BoxBordered, notification, Warning, WarningSize, WarningTypes } from 'apps/ui';
 import { ERROR_COMMON } from 'models/Error.model';
-import { VerificationPatternTypes } from 'models/Step.model';
+import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { selectIsVoiceLiveness } from 'state/merchant/merchant.selectors';
+import { RadioFacematchMode } from '../RadioFacematchMode/RadioFacematchMode';
 import { FACEMATCH_DEFAULT_THRESHOLD, FACEMATCH_MAX_THRESHOLD, FACEMATCH_MIN_THRESHOLD, FacematchThresholdModes, validateScore } from '../../models/facematch.model';
 import { selectCanUseProofOfOwnership, selectFacematchThreshold, selectProofOfOwnership } from '../../state/facematch.selectors';
-import { RadioFacematchMode } from '../RadioFacematchMode/RadioFacematchMode';
 import { InputScore } from './FacematchConfiguration.styles';
 
 export function FacematchConfiguration() {
