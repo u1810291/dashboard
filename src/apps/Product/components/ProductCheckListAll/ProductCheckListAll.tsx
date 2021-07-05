@@ -14,14 +14,7 @@ export function ProductCheckListAll({ productList }: {
 
   return (
     <Box>
-      {productCardList.map((item) => (
-        <ProductCheckList
-          key={item.id}
-          checks={item.checks}
-          productId={item.id}
-          isForceFlat
-        />
-      ))}
+      <ProductCheckList cards={productCardList} />
     </Box>
   );
 }

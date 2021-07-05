@@ -1,7 +1,7 @@
 import { AmlCheckTypes, AmlDocumentSteps, AmlSettingsTypes, AmlValidationTypes } from 'apps/Aml/models/Aml.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
-import { Product, ProductCheck, ProductConfig, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
+import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiDollarSign } from 'react-icons/fi';
@@ -9,7 +9,9 @@ import { getStepStatus, StepStatus } from 'models/Step.model';
 import { AmlSettings } from '../components/AmlSettings/AmlSettings';
 import { AmlVerificationProduct } from '../components/AmlVerificationProduct/AmlVerificationProduct';
 
-export class AmlCheck extends ProductBaseService implements Product {
+type ProductSettingsAml = ProductSettings<AmlSettingsTypes>;
+
+export class AmlCheck extends ProductBaseService implements Product<ProductSettingsAml> {
   id = ProductTypes.AmlCheck;
   order = 400;
   integrationTypes = [
@@ -20,7 +22,7 @@ export class AmlCheck extends ProductBaseService implements Product {
   inputs = [
     ProductInputTypes.NameAndDobOrDocument,
   ];
-  checksDefault = [
+  checks = [
     {
       id: AmlCheckTypes.Watchlist,
       isActive: true,
@@ -38,44 +40,20 @@ export class AmlCheck extends ProductBaseService implements Product {
   component = AmlSettings;
   componentVerification = AmlVerificationProduct;
 
-  getChecks(flow: IFlow): ProductCheck[] {
-    const pattern = flow?.verificationPatterns[VerificationPatternTypes.PremiumAmlWatchListsSearchValidation];
-    return flow
-      ? [
-        {
-          id: AmlCheckTypes.Watchlist,
-          isActive: pattern !== AmlValidationTypes.None,
-        },
-        {
-          id: AmlCheckTypes.Search,
-          isActive: pattern !== AmlValidationTypes.None,
-        },
-        {
-          id: AmlCheckTypes.Monitoring,
-          isActive: pattern === AmlValidationTypes.SearchMonitoring,
-        },
-      ]
-      : this.checksDefault;
-  }
-
-  parser(flow: IFlow): ProductConfig {
-    super.parser(flow);
-
+  parser(flow: IFlow): ProductSettingsAml {
     const pattern = flow?.verificationPatterns[VerificationPatternTypes.PremiumAmlWatchListsSearchValidation];
 
     return {
-      settings: {
-        [AmlSettingsTypes.Search]: {
-          value: pattern !== AmlValidationTypes.None,
-        },
-        [AmlSettingsTypes.Monitoring]: {
-          value: pattern === AmlValidationTypes.SearchMonitoring,
-        },
+      [AmlSettingsTypes.Search]: {
+        value: pattern !== AmlValidationTypes.None,
+      },
+      [AmlSettingsTypes.Monitoring]: {
+        value: pattern === AmlValidationTypes.SearchMonitoring,
       },
     };
   }
 
-  serialize(settings: ProductSettings<AmlSettingsTypes>): Partial<IFlow> {
+  serialize(settings: ProductSettingsAml): Partial<IFlow> {
     let pattern = AmlValidationTypes.None;
     if (settings[AmlSettingsTypes.Search].value) {
       pattern = AmlValidationTypes.Search;
@@ -100,7 +78,6 @@ export class AmlCheck extends ProductBaseService implements Product {
   }
 
   onRemove(): Partial<IFlow> {
-    super.onRemove();
     return {
       verificationPatterns: {
         [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]: AmlValidationTypes.None,

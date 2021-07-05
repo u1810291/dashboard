@@ -6,8 +6,8 @@ import { useStyles } from './FaceMatchingThreshold.styles';
 import { FACEMATCH_DEFAULT_THRESHOLD, FACEMATCH_MAX_THRESHOLD, FACEMATCH_MIN_THRESHOLD, FacematchThresholdModes, validateScore } from '../../models/facematch.model';
 
 export function FaceMatchingThreshold({ facematchThreshold, onUpdate }: {
-  facematchThreshold: number | null,
-  onUpdate: (value: number | null) => void,
+  facematchThreshold: number | null;
+  onUpdate: (value: number | null) => void;
 }) {
   const intl = useIntl();
   const classes = useStyles();

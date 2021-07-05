@@ -2,9 +2,9 @@ import { get } from 'lodash';
 import { getStepStatus, IStep, StepStatus, StepTypes } from 'models/Step.model';
 
 export interface BiometricStep extends IStep {
-  checkStatus: StepStatus,
-  videoUrl?: string,
-  selfieUrl?: string,
+  checkStatus: StepStatus;
+  videoUrl?: string;
+  selfieUrl?: string;
 }
 
 export const BiometricTypes = {
@@ -48,7 +48,7 @@ export enum LivenessStepStatus {
 }
 
 export function getBiometricExtras(steps: IStep<any>[]) {
-  const prepared : BiometricStep[] = steps.map((item) => ({
+  const prepared: BiometricStep[] = steps.map((item) => ({
     ...item,
     checkStatus: getStepStatus(item),
     videoUrl: get(item, 'data.videoUrl'),

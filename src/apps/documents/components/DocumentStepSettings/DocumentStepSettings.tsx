@@ -10,8 +10,8 @@ import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 
 export interface DocumentStepSettingsProps{
-  steps: DocumentTypes[][],
-  onUpdate: (steps: DocumentTypes[][]) => void,
+  steps: DocumentTypes[][];
+  onUpdate: (steps: DocumentTypes[][]) => void;
 }
 
 export function DocumentStepSettings({ steps, onUpdate }: DocumentStepSettingsProps) {

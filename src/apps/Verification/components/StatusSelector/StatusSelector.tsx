@@ -8,10 +8,10 @@ import { useIntl } from 'react-intl';
 import { useStyles } from './StatusSelector.styles';
 
 export interface StatusSelectorProps{
-  value: any,
-  isOpen: boolean,
-  onSelect: (id: string) => Promise<void>,
-  header?: string,
+  value: any;
+  isOpen: boolean;
+  onSelect: (id: string) => Promise<void>;
+  header?: string;
 }
 
 export function StatusSelector({ value, isOpen, onSelect, header }: StatusSelectorProps) {

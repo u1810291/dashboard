@@ -7,7 +7,7 @@ export enum ActionSubTypes {
 }
 
 export type TypesSequence = {
-  [key: string]: string,
+  [key: string]: string;
 };
 
 export const storeAction = <T>(type: string) => (payload: T) => (dispatch) => dispatch({ type, payload });

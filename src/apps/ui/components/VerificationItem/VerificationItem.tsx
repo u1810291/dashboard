@@ -7,11 +7,11 @@ import { getIdentityStatusLabel, getStatusById, IdentityStatuses } from 'models/
 import { useStyles } from './VerificationItem.styles';
 
 export interface VerificationItemProps{
-  date:string,
-  id: string,
-  status: IdentityStatuses,
-  onClick: () => void,
-  isSelected: boolean,
+  date: string;
+  id: string;
+  status: IdentityStatuses;
+  onClick: () => void;
+  isSelected: boolean;
 }
 
 export function VerificationItem({ date, status, id, onClick, isSelected }: VerificationItemProps) {

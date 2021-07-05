@@ -53,9 +53,9 @@ export const verificationClear = () => async (dispatch: Dispatch) => {
   dispatch({ type: VerificationActionTypes.VERIFICATION_CLEAR });
 };
 
-export const verificationRemove = (identityId: string, verificationId: string) => async (dispatch: Dispatch) => {
+export const verificationRemove = (verificationId: string) => async (dispatch: Dispatch) => {
   try {
-    await client.deleteVerification(identityId, verificationId);
+    await client.deleteVerification(verificationId);
     dispatch({ type: VerificationActionTypes.VERIFICATION_REMOVE, payload: verificationId });
   } catch (error) {
     notification.error(ERROR_COMMON);

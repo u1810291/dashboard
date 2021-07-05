@@ -13,7 +13,7 @@ export enum IdentityProfileSliceTypes {
 }
 
 export interface IdentityProfileStore {
-  [IdentityProfileSliceTypes.IdentityProfile]: Loadable<IdentityProfileResponse>
+  [IdentityProfileSliceTypes.IdentityProfile]: Loadable<IdentityProfileResponse>;
 }
 
 export const IdentityProfileActionTypes: TypesSequence = {

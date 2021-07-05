@@ -6,7 +6,7 @@ import { newVerificationDocumentUpdate } from 'state/verification/verification.a
 import { NewDocumentStep } from '../NewDocumentStep/NewDocumentStep';
 
 export function DocumentVerificationProduct({ data }: {
-  data: Verification,
+  data: Verification;
 }) {
   const dispatch = useDispatch();
 

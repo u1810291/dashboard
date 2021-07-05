@@ -28,22 +28,22 @@ type IdentitySummaryLocationField = Omit<IdentityProfileBaseField, 'value'> & {
 };
 
 export interface IdentitySummary {
-  fullName: IdentityProfileBaseField,
-  dateOfBirth: IdentityProfileBaseField,
-  location: IdentitySummaryLocationField,
-  selfiePhotoUrl: IdentityProfileBaseField,
+  fullName: IdentityProfileBaseField;
+  dateOfBirth: IdentityProfileBaseField;
+  location: IdentitySummaryLocationField;
+  selfiePhotoUrl: IdentityProfileBaseField;
 }
 
 export interface IdentityProfileResponse {
-  alive: boolean,
-  dateCreated: string,
-  dateUpdated: string,
-  flowId: string
-  summary: IdentitySummary,
-  merchantId: string,
-  status: string,
-  user: string,
-  _id: string,
+  alive: boolean;
+  dateCreated: string;
+  dateUpdated: string;
+  flowId: string;
+  summary: IdentitySummary;
+  merchantId: string;
+  status: string;
+  user: string;
+  _id: string;
 }
 
 export function getReasonToken(reasonCode: IdentityProfileReasonCodes) {

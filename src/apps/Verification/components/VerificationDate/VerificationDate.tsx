@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import { useStyles } from './VerificationDate.styles';
 
 export interface VerificationDateProps {
-  date: string,
+  date: string;
 }
 
 export function VerificationDate({ date }: VerificationDateProps) {

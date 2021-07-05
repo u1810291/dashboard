@@ -5,7 +5,7 @@ import { VerificationDocument } from 'models/Document.model';
 import React from 'react';
 
 export function GovCheckVerificationProduct({ data }: {
-  data: VerificationDocument[],
+  data: VerificationDocument[];
 }) {
   return (
     <Grid container spacing={2}>

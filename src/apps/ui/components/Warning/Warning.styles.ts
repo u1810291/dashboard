@@ -1,6 +1,6 @@
 import { Theme, makeStyles } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme, { bordered?: boolean; }>((theme) => ({
+export const useStyles = makeStyles<Theme, { bordered?: boolean }>((theme) => ({
   root: ({ bordered }) => ({
     display: 'inline-flex',
     flexDirection: 'column',

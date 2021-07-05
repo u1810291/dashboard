@@ -1,6 +1,8 @@
 import { amlCheckInit } from 'apps/Aml/state/Aml.actions';
 import { documentVerificationInit } from 'apps/documentVerification/state/DocumentVerification.actions';
 import { ipCheckInit } from 'apps/IpCheck/state/IpCheck.actions';
+import { EmailCheckInit } from 'apps/EmailCheck/state/EmailCheck.actions';
+import { PhoneCheckInit } from 'apps/PhoneCheck/state/PhoneCheck.actions';
 import { reVerificationInit } from 'apps/reverification/state/ReVerification.actions';
 import { compact } from 'lodash';
 import { storeAction } from 'state/store.utils';
@@ -17,6 +19,8 @@ export const productRegisteredUpdate = storeAction<string[]>(ProductActionTypes.
 export const productInit = () => (dispatch) => {
   const registered: ProductTypes[] = [
     dispatch(ipCheckInit()),
+    dispatch(EmailCheckInit()),
+    dispatch(PhoneCheckInit()),
     dispatch(documentVerificationInit()),
     dispatch(reVerificationInit()),
     dispatch(amlCheckInit()),

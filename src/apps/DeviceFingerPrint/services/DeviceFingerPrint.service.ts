@@ -1,6 +1,6 @@
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { InputTypes } from 'models/Input.model';
-import { Product, ProductCheck, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
+import { Product, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { FiSmartphone } from 'react-icons/fi';
 import { DeviceFingerPrintSettings } from '../components/DeviceFingerPrintSettings/DeviceFingerPrintSettings';
@@ -14,7 +14,7 @@ export class DeviceFingerPrintService extends ProductBaseService implements Prod
   integrationTypes = [
     ProductIntegrationTypes.Sdk,
   ];
-  checksDefault = [
+  checks = [
     {
       id: DeviceFingerPrintCheckTypes.OS,
       isActive: true,
@@ -38,10 +38,6 @@ export class DeviceFingerPrintService extends ProductBaseService implements Prod
 
   isInVerification(verification: VerificationResponse): boolean {
     return !!verification?.inputs?.find((input) => input?.id === InputTypes.ConnectionData);
-  }
-
-  getChecks(): ProductCheck[] {
-    return this.checksDefault;
   }
 
   serialize() {

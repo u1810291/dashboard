@@ -10,7 +10,7 @@ import { IconStatuses } from '../../assets';
 import { CheckStepDetailsEntryPDF } from '../CheckStepPDF/CheckStepDetailsEntryPDF';
 
 interface RiskAnalysisPDFProps {
-  step: RiskAnalysisStep,
+  step: RiskAnalysisStep;
 }
 
 export function RiskAnalysisPDF({ step = {} }: RiskAnalysisPDFProps) {

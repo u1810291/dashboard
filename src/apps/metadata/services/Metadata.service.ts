@@ -1,4 +1,4 @@
-import { Product, ProductCheck, ProductConfig, ProductSettings, ProductTypes } from 'models/Product.model';
+import { Product, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { IFlow } from 'models/Flow.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
@@ -17,6 +17,7 @@ export class Metadata extends ProductBaseService implements Product {
     return verification?.metadata;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isInFlow(flow: IFlow): boolean {
     return false;
   }
@@ -25,19 +26,17 @@ export class Metadata extends ProductBaseService implements Product {
     return !!verification?.metadata;
   }
 
-  getChecks(flow?: IFlow): ProductCheck[] {
-    return this.checksDefault;
-  }
-
-  parser(flow: IFlow, productsInGraph?: ProductTypes[]): ProductConfig {
-    super.parser(flow);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  parser(flow: IFlow, productsInGraph?: ProductTypes[]): ProductSettings {
     return null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   hasFailedCheck(verification: VerificationResponse): boolean {
     return false;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   serialize(settings: ProductSettings<any>): Partial<IFlow> {
     return undefined;
   }

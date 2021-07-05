@@ -43,44 +43,38 @@ export const useStyles = makeStyles((theme) => createStyles({
   wrapper: {
     height: '100%',
   },
-  contentWrapper: {
-    flexGrow: 1,
-  },
   flowInfo: {
     position: 'relative',
     borderRadius: 10,
     backgroundColor: theme.palette.common.white,
-    [theme.breakpoints.up('lg')]: {
-      flexBasis: 'auto',
-      flexShrink: 0,
-      width: 325,
-    },
-    [theme.breakpoints.up('xl')]: {
-      width: 340,
-    },
   },
   sidebar: {
-    [theme.breakpoints.up('lg')]: {
-      flexBasis: 'auto',
-      width: 345,
-    },
+    flexShrink: 0,
+    flexBasis: 'auto',
+    width: 345,
     [theme.breakpoints.up('xl')]: {
       width: 360,
     },
   },
-  content: {
-    [theme.breakpoints.up('lg')]: {
-      flexBasis: 'auto',
-      width: 'calc(100% - 690px)',
-    },
+  details: {
+    flexShrink: 0,
+    flexBasis: 'auto',
+    width: 325,
     [theme.breakpoints.up('xl')]: {
-      width: 'calc(100% - 720px)',
+      width: 340,
+    },
+  },
+  content: {
+    flexBasis: 'auto',
+    width: 'calc(100% - 345px)',
+    [theme.breakpoints.up('xl')]: {
+      width: 'calc(100% - 360px)',
     },
   },
   graph: {
     [theme.breakpoints.up('lg')]: {
       minWidth: 330,
-      maxHeight: 'calc(100vh - 320px)',
+      maxHeight: 'calc(100vh - 145px)',
       overflowY: 'auto',
       scrollbarWidth: 'thin',
       '&::-webkit-scrollbar': {

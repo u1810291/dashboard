@@ -23,21 +23,21 @@ export enum RiskScoreTypes {
 }
 
 export interface RiskAnalysisDataModel {
-  countryCode?: string,
-  phoneNumber?: string,
-  riskLevel?: RiskScoreLevelTypes,
-  riskScore?: number,
-  timezone?: string,
-  city?: string,
-  lineType?: string,
-  carrier?: string,
-  dialingCode?: string,
-  maxPossibleRiskScore?: string,
+  countryCode?: string;
+  phoneNumber?: string;
+  riskLevel?: RiskScoreLevelTypes;
+  riskScore?: number;
+  timezone?: string;
+  city?: string;
+  lineType?: string;
+  carrier?: string;
+  dialingCode?: string;
+  maxPossibleRiskScore?: string;
 }
 
 export interface RiskAnalysisStep {
-  data?: RiskAnalysisDataModel,
-  error?: any,
+  data?: RiskAnalysisDataModel;
+  error?: any;
 }
 
 export enum RiskAnalysisFieldTypes {

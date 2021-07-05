@@ -4,20 +4,16 @@ import { VerificationResponse } from 'models/Verification.model';
 import { getDownloadableFileName } from 'models/Identity.model';
 
 export interface ReVerificationData {
-  currentPhotoUrl: string,
-  currentBiometricsData: {
-    videoUrl: string,
-  },
-  previousBiometricsData: {
-    videoUrl: string,
-  },
-  previousPhotoUrl: string,
-  previousVerificationId: string,
+  currentSelfiePhotoUrl: string;
+  currentSelfieVideoUrl: string;
+  previousSelfieVideoUrl: string;
+  previousSelfiePhotoUrl: string;
+  previousVerificationId: string;
 }
 
 export interface IReFacematchStep extends IStep<ReVerificationData> {
-  checkStatus: StepStatus,
-  downloadableFileName: string,
+  checkStatus: StepStatus;
+  downloadableFileName: string;
 }
 
 export function getReVerificationStep(verification: VerificationResponse) {

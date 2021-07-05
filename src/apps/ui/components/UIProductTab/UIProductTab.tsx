@@ -8,9 +8,9 @@ import { useStyles } from './UIProductTab.styles';
 
 export function UIProductTab({ card, isSelected, hasBadge, onSelect }: {
   card: IProductCard;
-  isSelected?: boolean,
-  hasBadge?: boolean,
-  onSelect: (id: ProductTypes) => void,
+  isSelected?: boolean;
+  hasBadge?: boolean;
+  onSelect: (id: ProductTypes) => void;
 }) {
   const intl = useIntl();
 

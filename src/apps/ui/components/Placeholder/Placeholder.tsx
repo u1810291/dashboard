@@ -2,11 +2,11 @@ import { Box, Typography, Grid } from '@material-ui/core';
 import React, { ReactElement } from 'react';
 
 export interface PlaceholderProps{
-  icon?: ReactElement,
-  title?: string,
-  subtitle?: string,
-  text?: string,
-  mb?: number
+  icon?: ReactElement;
+  title?: string;
+  subtitle?: string;
+  text?: string;
+  mb?: number;
 }
 
 export function Placeholder({ icon, title, subtitle, text, mb = 0 }: PlaceholderProps) {

@@ -54,6 +54,27 @@
     "@typescript-eslint/no-unused-vars": ["warn"],
     "@typescript-eslint/no-shadow": ["error"],
     "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/member-delimiter-style": ["warn", {
+      "multiline": {
+        "delimiter": "semi",
+        "requireLast": true
+      },
+      "singleline": {
+        "delimiter": "semi",
+        "requireLast": false
+      }
+    }],
+    "@typescript-eslint/type-annotation-spacing": ["warn", {
+      "before": false,
+      "after": true,
+      "overrides": { "arrow": { "before": true, "after": true }}
+    }],
+    "keyword-spacing": "off",
+    "@typescript-eslint/keyword-spacing": ["warn", {
+        "overrides": {
+            "function": { "after": true, "before": true }
+    } }],
+    "space-before-blocks": ["warn"],
     "react/jsx-filename-extension": [ "warn", {"extensions": [".tsx", ".jsx", ".js"]} ],
     "import/extensions": [ "error", "ignorePackages", {
       "ts": "never",

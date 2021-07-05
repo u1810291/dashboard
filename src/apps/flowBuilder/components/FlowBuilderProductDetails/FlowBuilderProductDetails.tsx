@@ -12,7 +12,7 @@ import { useStyles } from './FlowBuilderProductDetails.styles';
 export function FlowBuilderProductDetails({ flow, productId, onUpdate }: {
   flow: IFlow;
   productId: ProductTypes;
-  onUpdate: Function;
+  onUpdate: (patch: Partial<IFlow>) => void;
 }) {
   const classes = useStyles();
   const intl = useIntl();

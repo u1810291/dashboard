@@ -12,6 +12,6 @@ export function verificationStatusUpdate(verificationId, status) {
   return http.put(`/api/v1/dashboard/verifications/${verificationId}/status`, { status });
 }
 
-export function deleteVerification(identityId, verificationId) {
-  return http.delete(`/api/v1/dashboard/identity/${identityId}/verification/${verificationId}`);
+export function deleteVerification(verificationId: string) {
+  return http.delete(`/api/v1/dashboard/verification/${verificationId}`);
 }

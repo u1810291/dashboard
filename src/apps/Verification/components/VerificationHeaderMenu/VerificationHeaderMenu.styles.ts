@@ -21,16 +21,16 @@ export const useStyles = makeStyles((theme) => ({
       marginBottom: -10,
     },
   },
-  dateWrapper: {
+  statusWrapper: {
     [theme.breakpoints.up('lg')]: {
-      flexBasis: 'calc(25% - 15px)',
-      maxWidth: 'calc(25% - 15px)',
+      flexBasis: 270,
+      maxWidth: 270,
     },
   },
-  numberWrapper: {
+  dateWrapper: {
     [theme.breakpoints.up('lg')]: {
-      flexBasis: 'calc(33.33% + 15px)',
-      maxWidth: 'calc(33.33% + 15px)',
+      flexBasis: 'calc(25% + 15px)',
+      maxWidth: 'calc(25% + 15px)',
     },
   },
   buttons: {

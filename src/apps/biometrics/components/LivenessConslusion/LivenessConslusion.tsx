@@ -9,8 +9,8 @@ export function LivenessConslusion({
   steps,
   children,
 }: {
-  steps: BiometricStep[],
-  children?: ReactNode,
+  steps: BiometricStep[];
+  children?: ReactNode;
 }) {
   const classes = useStyles();
 

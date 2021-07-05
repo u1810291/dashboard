@@ -10,8 +10,8 @@ import { LivenessMedia } from '../LivenessMedia/LivenessMedia';
 import { useStyles } from './LivenessStep.styles';
 
 export interface LivenessStepProps{
-  steps: BiometricStep[],
-  downloadableFileName: string,
+  steps: BiometricStep[];
+  downloadableFileName: string;
 }
 
 export function LivenessStep({ steps = [], downloadableFileName }: LivenessStepProps) {

@@ -4,7 +4,7 @@ import { BaseEmailStep } from 'models/EmailBase.interface';
 interface EmailRiskData {
   emailAddress: string;
   riskScore: number;
-  riskThreshold: number,
+  riskThreshold: number;
 }
 
 export interface EmailRiskStep extends BaseEmailStep<EmailRiskData> {

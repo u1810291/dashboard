@@ -6,10 +6,10 @@ import { ZoomableImage } from '../ZoomableImage/ZoomableImage';
 import { useStyles } from './ChecksByDocument.styles';
 
 export interface ChecksByDocumentProps{
-  docType?: DocumentTypes,
-  country?: string,
-  children: React.ReactNode,
-  photos: string[]
+  docType?: DocumentTypes;
+  country?: string;
+  children: React.ReactNode;
+  photos: string[];
 }
 
 export function ChecksByDocument({ docType, country, children, photos }: ChecksByDocumentProps) {

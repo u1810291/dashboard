@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { selectVerification } from '../../state/Verification.selectors';
 
 export function VerificationDataButton({ className }: {
-  className: string,
+  className: string;
 }) {
   const intl = useIntl();
   const [createOverlay, closeOverlay] = useOverlay();

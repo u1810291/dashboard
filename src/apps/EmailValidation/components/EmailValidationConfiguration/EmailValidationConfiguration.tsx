@@ -27,7 +27,6 @@ export function EmailValidationConfiguration() {
   const [isEmailRiskEnabled, setIsEmailRiskEnabled] = useState(useSelector(selectEmailRiskValidationMode));
   const [isLoading, setIsLoading] = useState(false);
   const isEmailValidationEnabled = useMemo(() => (emailValidationMode !== EmailValidationStepModes.None), [emailValidationMode]);
-
   const handleSenderNameChange = useCallback(({ target: { value } }) => {
     const validationError = validateMaxLength(value, SENDER_NAME_LENGTH_LIMIT);
     setSenderNameError(validationError);

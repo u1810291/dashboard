@@ -6,7 +6,7 @@ import { VerificationDocument } from 'models/Document.model';
 import { Grid } from '@material-ui/core';
 
 export function AmlVerificationProduct({ data }: {
-  data: VerificationDocument[],
+  data: VerificationDocument[];
 }) {
   return (
     <Grid container spacing={2}>

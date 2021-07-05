@@ -31,7 +31,7 @@ export function ProductTitle({ card }: {
         </Box>
       </Grid>
       <Box mt={2}>
-        <ProductCheckList checks={card.checks} productId={card.id} />
+        <ProductCheckList cards={[card]} />
       </Box>
     </Box>
   );

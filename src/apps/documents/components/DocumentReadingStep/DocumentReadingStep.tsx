@@ -18,13 +18,13 @@ import { IStep } from 'models/Step.model';
 import { useStyles } from './DocumentReadingStep.styles';
 
 export interface DocumentReadingStepProps{
-  documentType: DocumentTypes,
-  step: IStep,
-  fields: DocumentField[],
-  isEditable: boolean,
-  onReading: boolean,
-  onDocumentUpdate: (normalizedData: any, documentType: DocumentTypes) => Promise<void>,
-  identityId: string,
+  documentType: DocumentTypes;
+  step: IStep;
+  fields: DocumentField[];
+  isEditable: boolean;
+  onReading: boolean;
+  onDocumentUpdate: (normalizedData: any, documentType: DocumentTypes) => Promise<void>;
+  identityId: string;
 }
 
 export function DocumentReadingStep({ documentType, step, fields = [], isEditable, onReading, onDocumentUpdate, identityId }: DocumentReadingStepProps) {

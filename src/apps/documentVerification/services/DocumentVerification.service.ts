@@ -2,16 +2,17 @@ import { DocumentVerificationProduct } from 'apps/documents';
 import { InputValidationType } from 'apps/imageValidation/models/imageValidation.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
-import { Product, ProductCheck, ProductConfig, ProductInputTypes, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
+import { Product, ProductInputTypes, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
+import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStep, getReaderFrontendSteps, getStepStatus, StepStatus } from 'models/Step.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiFileText } from 'react-icons/fi';
-import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStep, getReaderFrontendSteps, getStepStatus, StepStatus } from 'models/Step.model';
+import { BiometricVerificationCheckTypes } from '../../biometricVerification/models/BiometricVerification.model';
 import { DocumentVerificationIssues } from '../components/DocumentVerificationIssues/DocumentVerificationIssues';
 import { DocumentVerificationSettings } from '../components/DocumentVerificationSettings/DocumentVerificationSettings';
-import { DocumentVerificationCheckTypes, DocumentVerificationConfigSettings, DocumentVerificationSettingTypes } from '../models/DocumentVerification.model';
+import { DocumentVerificationCheckTypes, DocumentVerificationSettingTypes, ProductSettingsDocumentVerification } from '../models/DocumentVerification.model';
 
-export class DocumentVerification extends ProductBaseService implements Product {
+export class DocumentVerification extends ProductBaseService implements Product<ProductSettingsDocumentVerification> {
   id = ProductTypes.DocumentVerification;
   order = 100;
   integrationTypes = [
@@ -26,7 +27,7 @@ export class DocumentVerification extends ProductBaseService implements Product 
     ProductTypes.AmlCheck,
     ProductTypes.GovernmentCheck,
   ];
-  checksDefault = [
+  checks = [
     {
       id: DocumentVerificationCheckTypes.DocumentReading,
       isActive: true,
@@ -59,91 +60,54 @@ export class DocumentVerification extends ProductBaseService implements Product 
   component = DocumentVerificationSettings;
   componentVerification = DocumentVerificationProduct;
 
-  getChecks(flow?: IFlow): ProductCheck[] {
-    return flow
-      ? [
-        {
-          id: DocumentVerificationCheckTypes.DocumentReading,
-          isActive: true,
-        },
-        {
-          id: DocumentVerificationCheckTypes.ExpirationDetection,
-          isActive: true,
-        },
-        {
-          id: DocumentVerificationCheckTypes.TemplateMatching,
-          isActive: true,
-        },
-        {
-          id: DocumentVerificationCheckTypes.AgeThreshold,
-          isActive: flow?.ageThreshold !== undefined && flow?.ageThreshold !== null,
-        },
-        {
-          id: DocumentVerificationCheckTypes.DuplicateUserDetection,
-          isActive: !!flow?.verificationPatterns[VerificationPatternTypes.DuplicateUserDetection],
-        },
-        {
-          id: DocumentVerificationCheckTypes.AlterationDetection,
-          isActive: true,
-        },
-        {
-          id: DocumentVerificationCheckTypes.Facematch,
-          isActive: flow?.facematchThreshold !== null && flow?.facematchThreshold !== undefined,
-        }]
-      : this.checksDefault;
-  }
-
-  parser(flow: IFlow, productsInGraph?: ProductTypes[]): ProductConfig {
-    super.parser(flow);
+  parser(flow: IFlow, productsInGraph?: ProductTypes[]): ProductSettingsDocumentVerification {
     const isDocumentStepsActive = flow?.verificationSteps?.length > 0;
     const isBiometricStepsActive = productsInGraph.includes(ProductTypes.BiometricVerification);
     const isDuplicateUserDetectionActive = !!flow?.verificationPatterns[VerificationPatternTypes.DuplicateUserDetection];
 
     return {
-      settings: {
-        [DocumentVerificationSettingTypes.DocumentSteps]: {
-          value: flow?.verificationSteps,
-        },
-        [DocumentVerificationSettingTypes.DenyUploadRequirement]: {
-          value: !!flow?.denyUploadsFromMobileGallery,
-          isDisabled: !isDocumentStepsActive,
-        },
-        [DocumentVerificationSettingTypes.AgeThreshold]: {
-          value: flow?.ageThreshold,
-          isDisabled: !isDocumentStepsActive,
-        },
-        [DocumentVerificationSettingTypes.GrayscaleImage]: {
-          value: flow?.inputValidationChecks?.some((check) => check.id === InputValidationType.GrayscaleImage && !check.isDisabled),
-          isDisabled: !isDocumentStepsActive,
-        },
-        [DocumentVerificationSettingTypes.SimilarImages]: {
-          value: flow?.inputValidationChecks?.some((check) => (check.id === InputValidationType.SimilarImages || check.id === InputValidationType.IdenticalImages) && !check.isDisabled),
-          isDisabled: !isDocumentStepsActive,
-        },
-        [DocumentVerificationSettingTypes.DuplicateUserDetection]: {
-          value: isDuplicateUserDetectionActive,
-          isDisabled: !isDocumentStepsActive,
-        },
-        [DocumentVerificationSettingTypes.CountryRestriction]: {
-          value: flow?.supportedCountries,
-          isDisabled: !isDocumentStepsActive,
-        },
-        [DocumentVerificationSettingTypes.FacematchThreshold]: {
-          value: flow?.facematchThreshold,
-          isDisabled: !isDocumentStepsActive,
-          isRequireOtherProduct: !isBiometricStepsActive,
-        },
-        [DocumentVerificationSettingTypes.ProofOfOwnership]: {
-          value: !!flow?.verificationPatterns['proof-of-ownership'],
-          isDisabled: !isDocumentStepsActive,
-          isRequireOtherProduct: !isBiometricStepsActive,
-          isCantBeUsedWithOtherSetting: flow?.verificationPatterns?.biometrics === 'voice+liveness',
-        },
+      [DocumentVerificationSettingTypes.DocumentSteps]: {
+        value: flow?.verificationSteps,
+      },
+      [DocumentVerificationSettingTypes.DenyUploadRequirement]: {
+        value: !!flow?.denyUploadsFromMobileGallery,
+        isDisabled: !isDocumentStepsActive,
+      },
+      [DocumentVerificationSettingTypes.AgeThreshold]: {
+        value: flow?.ageThreshold,
+        isDisabled: !isDocumentStepsActive,
+      },
+      [DocumentVerificationSettingTypes.GrayscaleImage]: {
+        value: flow?.inputValidationChecks?.some((check) => check.id === InputValidationType.GrayscaleImage && !check.isDisabled),
+        isDisabled: !isDocumentStepsActive,
+      },
+      [DocumentVerificationSettingTypes.SimilarImages]: {
+        value: flow?.inputValidationChecks?.some((check) => (check.id === InputValidationType.SimilarImages || check.id === InputValidationType.IdenticalImages) && !check.isDisabled),
+        isDisabled: !isDocumentStepsActive,
+      },
+      [DocumentVerificationSettingTypes.DuplicateUserDetection]: {
+        value: isDuplicateUserDetectionActive,
+        isDisabled: !isDocumentStepsActive,
+      },
+      [DocumentVerificationSettingTypes.CountryRestriction]: {
+        value: flow?.supportedCountries,
+        isDisabled: !isDocumentStepsActive,
+      },
+      [DocumentVerificationSettingTypes.FacematchThreshold]: {
+        value: flow?.facematchThreshold,
+        isDisabled: !isDocumentStepsActive,
+        isRequireOtherProduct: !isBiometricStepsActive,
+      },
+      [DocumentVerificationSettingTypes.ProofOfOwnership]: {
+        value: !!flow?.verificationPatterns[VerificationPatternTypes.ProofOfOwnership],
+        isDisabled: !isDocumentStepsActive,
+        isRequireOtherProduct: !isBiometricStepsActive,
+        isCantBeUsedWithOtherSetting: flow?.verificationPatterns?.biometrics === BiometricVerificationCheckTypes.VoiceLiveness,
       },
     };
   }
 
-  serialize(setting: DocumentVerificationConfigSettings): Partial<IFlow> {
+  serialize(setting: ProductSettingsDocumentVerification): Partial<IFlow> {
     return {
       verificationSteps: setting.documentSteps.value,
       denyUploadsFromMobileGallery: setting.denyUploadRequirement.value,
@@ -164,8 +128,8 @@ export class DocumentVerification extends ProductBaseService implements Product 
       supportedCountries: setting.countryRestriction.value,
       facematchThreshold: setting.facematchThreshold.value,
       verificationPatterns: {
-        'duplicate-user-detection': setting.duplicateUserDetection.value,
-        'proof-of-ownership': setting.proofOfOwnership.value,
+        [VerificationPatternTypes.DuplicateUserDetection]: setting.duplicateUserDetection.value,
+        [VerificationPatternTypes.ProofOfOwnership]: setting.proofOfOwnership.value,
       },
     };
   }
@@ -191,9 +155,8 @@ export class DocumentVerification extends ProductBaseService implements Product 
       supportedCountries: [],
       facematchThreshold: undefined,
       verificationPatterns: {
-        // TODO @dkchv: use enum
-        'duplicate-user-detection': false,
-        'proof-of-ownership': false,
+        [VerificationPatternTypes.DuplicateUserDetection]: false,
+        [VerificationPatternTypes.ProofOfOwnership]: false,
       },
     };
   }
@@ -206,8 +169,8 @@ export class DocumentVerification extends ProductBaseService implements Product 
     return verification;
   }
 
-  getIssuesComponent(flow: IFlow, integrationType: ProductIntegrationTypes): any {
-    if (integrationType === ProductIntegrationTypes.Api && flow?.supportedCountries?.length > 0) {
+  getIssuesComponent(flow: IFlow): any {
+    if (flow?.integrationType === ProductIntegrationTypes.Api && flow?.supportedCountries?.length > 0) {
       return DocumentVerificationIssues;
     }
     return null;

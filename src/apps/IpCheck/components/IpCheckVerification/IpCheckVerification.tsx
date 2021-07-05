@@ -8,7 +8,7 @@ import { Marker, StaticGoogleMap } from 'react-static-google-map';
 import { useStyles } from './IpCheckVerification.styles';
 
 export function IpCheckVerification({ data: step }: {
-  data: IpCheckStep,
+  data: IpCheckStep;
 }) {
   const intl = useIntl();
   const classes = useStyles();

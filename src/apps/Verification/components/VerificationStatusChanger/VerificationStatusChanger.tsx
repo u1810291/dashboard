@@ -10,9 +10,9 @@ import { StatusSelector } from '../StatusSelector/StatusSelector';
 import { useStyles } from './VerificationStatusChanger.styles';
 
 export interface VerificationStatusChangerProps{
-  verificationStatus: IdentityStatuses,
-  verificationId: string,
-  identity: any
+  verificationStatus: IdentityStatuses;
+  verificationId: string;
+  identity: any;
 }
 
 export function VerificationStatusChanger({ verificationStatus, verificationId, identity }: VerificationStatusChangerProps) {

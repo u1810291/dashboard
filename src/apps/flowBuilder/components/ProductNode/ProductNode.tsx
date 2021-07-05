@@ -10,7 +10,7 @@ import { dagreGraph } from '../../services/dagreGraph.service';
 import { ReactFlowCustomHandler } from '../ReactFlowCustomHandler/ReactFlowCustomHandler';
 
 export function ProductNode({ id }: {
-  id: ProductTypes,
+  id: ProductTypes;
 }) {
   const dispatch = useDispatch();
   const removeProduct = useProductRemoving();

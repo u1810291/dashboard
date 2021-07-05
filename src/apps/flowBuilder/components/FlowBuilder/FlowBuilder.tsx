@@ -71,11 +71,11 @@ export function FlowBuilder() {
         id={SoftLaunchBanners.New}
         onClick={handleSoftLaunchSwitch}
       />
-      <Box px={{ xs: 2, xl: 4 }} py={2} pb={0} className={classes.container}>
+      <Box p={2} className={classes.container}>
         {isBigScreen ? (
-          <Grid container spacing={2} direction="column" wrap="nowrap" className={classes.wrapper}>
-            <Grid item container wrap="nowrap" alignItems="center">
-              <Box className={classes.flowInfo} px={0.5} py={2.5}>
+          <Grid container spacing={2} className={classes.wrapper}>
+            <Grid item container direction="column" wrap="nowrap" className={classes.sidebar}>
+              <Box className={classes.flowInfo} px={0.5} py={2} mb={2}>
                 <Box mb={2}>
                   <FlowInfoContainer />
                 </Box>
@@ -83,33 +83,35 @@ export function FlowBuilder() {
                   <PreviewButton />
                 </Box>
               </Box>
-              <Box ml="auto" flexShrink={0}>
-                <SaveAndPublish />
-              </Box>
+              <ProductListSidebar />
             </Grid>
-            <Grid item container spacing={2} className={classes.contentWrapper}>
-              <Grid item xs={12} className={classes.sidebar}>
-                <ProductListSidebar />
-              </Grid>
-              <Grid item xs={12} container direction="column" alignItems="center" className={classes.content}>
-                <Box mb={1.5} color="common.black90" fontWeight="bold" textAlign="center">
-                  {intl.formatMessage({ id: 'FlowBuilder.graph.usersFlow' })}
+            <Grid item container direction="column" wrap="nowrap" className={classes.content}>
+              <Grid item container justify="flex-end">
+                <Box mb={2}>
+                  <SaveAndPublish />
                 </Box>
-                <Grid container direction="column" alignItems="center" className={classes.graph}>
-                  <FlowProductsGraph />
-                </Grid>
               </Grid>
-              <Grid item xs={12} container direction="column" className={classes.sidebar}>
-                {selectedId && (
-                  <FlowBuilderProductDetails
-                    flow={changeableFlowModel.value}
-                    productId={selectedId}
-                    onUpdate={handleProductUpdate}
-                  />
-                )}
-                {!selectedId && (
-                  <FlowBuilderIntegrationDetails />
-                )}
+              <Grid container item xs={12} justify="space-between">
+                <Grid item xs={12} container direction="column" alignItems="center" className={classes.content}>
+                  <Box mb={1.5} color="common.black90" fontWeight="bold" textAlign="center">
+                    {intl.formatMessage({ id: 'FlowBuilder.graph.usersFlow' })}
+                  </Box>
+                  <Grid container direction="column" alignItems="center" className={classes.graph}>
+                    <FlowProductsGraph />
+                  </Grid>
+                </Grid>
+                <Grid item container direction="column" wrap="nowrap" className={classes.details}>
+                  {selectedId && (
+                    <FlowBuilderProductDetails
+                      flow={changeableFlowModel.value}
+                      productId={selectedId}
+                      onUpdate={handleProductUpdate}
+                    />
+                  )}
+                  {!selectedId && (
+                    <FlowBuilderIntegrationDetails />
+                  )}
+                </Grid>
               </Grid>
             </Grid>
           </Grid>

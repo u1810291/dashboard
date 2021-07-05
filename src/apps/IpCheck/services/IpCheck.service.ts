@@ -1,6 +1,6 @@
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
-import { Product, ProductCheck, ProductConfig, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
+import { Product, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiActivity } from 'react-icons/fi';
 import { getIpCheckStep, IpCheckStep } from 'models/IpCheck.model';
@@ -10,14 +10,16 @@ import { IpCheckVerification } from '../components/IpCheckVerification/IpCheckVe
 import { IpCheckSettings } from '../components/IpCheckSettings/IpCheckSettings';
 import { IpCheckCheckTypes, IpCheckSettingsTypes } from '../models/IpCheck.model';
 
-export class IpCheck extends ProductBaseService implements Product {
+type ProductSettingsIpCheck = ProductSettings<IpCheckSettingsTypes>;
+
+export class IpCheck extends ProductBaseService implements Product<ProductSettingsIpCheck> {
   id = ProductTypes.IpCheck;
   order = 1000;
   integrationTypes = [
     ProductIntegrationTypes.Sdk,
   ];
   icon = FiActivity;
-  checksDefault = [{
+  checks = [{
     id: IpCheckCheckTypes.VpnAndProxy,
     isActive: true,
   }, {
@@ -30,34 +32,15 @@ export class IpCheck extends ProductBaseService implements Product {
   component = IpCheckSettings;
   componentVerification = IpCheckVerification;
 
-  getChecks(flow?: IFlow): ProductCheck[] {
-    return flow
-      ? [{
-        id: IpCheckCheckTypes.VpnAndProxy,
-        isActive: flow?.verificationPatterns[VerificationPatternTypes.IpValidation] === true,
-      }, {
-        id: IpCheckCheckTypes.GeoIp,
-        isActive: false,
-      }, {
-        id: IpCheckCheckTypes.RiskyIP,
-        isActive: false,
-      }]
-      : this.checksDefault;
-  }
-
-  parser(flow: IFlow): ProductConfig {
-    super.parser(flow);
-
+  parser(flow: IFlow): ProductSettingsIpCheck {
     return {
-      settings: {
-        [IpCheckSettingsTypes.VpnAndProxy]: {
-          value: flow?.verificationPatterns[VerificationPatternTypes.IpValidation],
-        },
+      [IpCheckSettingsTypes.VpnAndProxy]: {
+        value: flow?.verificationPatterns[VerificationPatternTypes.IpValidation],
       },
     };
   }
 
-  serialize(settings: ProductSettings<IpCheckSettingsTypes>): Partial<IFlow> {
+  serialize(settings: ProductSettingsIpCheck): Partial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.IpValidation]: settings[IpCheckSettingsTypes.VpnAndProxy].value,
@@ -66,7 +49,6 @@ export class IpCheck extends ProductBaseService implements Product {
   }
 
   onRemove(): Partial<IFlow> {
-    super.onRemove();
     return {
       verificationPatterns: {
         [VerificationPatternTypes.IpValidation]: false,

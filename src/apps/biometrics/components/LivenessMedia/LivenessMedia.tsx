@@ -11,12 +11,12 @@ import { useStyles } from './LivenessMedia.styles';
 import { ReactComponent as Placeholder } from './placeholder.svg';
 
 export interface LivenessMediaProps {
-  title: string,
-  subtitle?: string,
-  image?: string,
-  video?: string,
-  withSoundButton?: boolean,
-  downloadableFileName?: string,
+  title: string;
+  subtitle?: string;
+  image?: string;
+  video?: string;
+  withSoundButton?: boolean;
+  downloadableFileName?: string;
 }
 
 export function LivenessMedia({ title, subtitle, image, video, withSoundButton = false, downloadableFileName = 'selfie' }: LivenessMediaProps) {

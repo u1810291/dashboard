@@ -1,4 +1,4 @@
-import { selectFlowBuilderChangeableFlow, selectFlowBuilderIntegrationType } from 'apps/flowBuilder/store/FlowBuilder.selectors';
+import { selectFlowBuilderChangeableFlow } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { UIProductCard } from 'apps/ui';
 import { IProductCard, ProductTypes } from 'models/Product.model';
 import React, { useCallback, useMemo } from 'react';
@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { productManagerService } from '../../services/ProductManager.service';
 
 export function ProductCard({ id, isIssues = false, isControls = false, isExpandable = true, defaultExpanded = false, onSelect, onRemove }: {
-  id: ProductTypes,
+  id: ProductTypes;
   isIssues?: boolean;
   isControls?: boolean;
   isExpandable?: boolean;
@@ -15,7 +15,6 @@ export function ProductCard({ id, isIssues = false, isControls = false, isExpand
   onRemove?: (id: ProductTypes) => void;
 }) {
   const flow = useSelector(selectFlowBuilderChangeableFlow);
-  const integrationType = useSelector(selectFlowBuilderIntegrationType);
 
   const card: IProductCard = useMemo(() => {
     const product = productManagerService.getProduct(id);
@@ -30,12 +29,11 @@ export function ProductCard({ id, isIssues = false, isControls = false, isExpand
     onRemove(id);
   }, [id, onRemove]);
 
-  const issuesComponent = useMemo(() => (isIssues ? productManagerService.getProduct(id).getIssuesComponent(flow, integrationType) : null), [flow, isIssues, id, integrationType]);
-
+  const issuesComponent = useMemo(() => (isIssues && productManagerService.getProduct(id).getIssuesComponent(flow)), [flow, isIssues, id]);
   return (
     <UIProductCard
       card={card}
-      issuesComponent={issuesComponent}
+      issuesComponent={issuesComponent && React.createElement(issuesComponent, {})}
       isControls={isControls}
       isExpandable={isExpandable}
       defaultExpanded={defaultExpanded}

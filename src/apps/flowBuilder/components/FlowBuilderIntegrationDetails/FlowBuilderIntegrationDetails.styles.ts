@@ -8,7 +8,7 @@ export const useStyles = makeStyles((theme) => createStyles({
     borderRadius: 10,
   },
   container: {
-    maxHeight: 'calc(100vh - 295px)',
+    maxHeight: 'calc(100vh - 120px)',
     overflowY: 'auto',
     scrollbarWidth: 'thin',
     '&::-webkit-scrollbar': {

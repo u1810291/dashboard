@@ -52,7 +52,7 @@ export enum EmailRiskPredefinedThreshold {
   Low = 40,
   Default = 80,
   High = 90,
-  Max= 100
+  Max = 100
 }
 
 export const SENDER_NAME_LENGTH_LIMIT = 30;
@@ -84,7 +84,7 @@ export const getDefaultRiskThresholdMode = (score: number): string => {
   return RiskScoreFallback[score];
 };
 
-export const validateRiskThreshold = (score: number) : string | null => {
+export const validateRiskThreshold = (score: number): string | null => {
   if (score < EmailRiskPredefinedThreshold.Min || score > EmailRiskPredefinedThreshold.Max) {
     return EmailValidationErrorTypes.OutOfRange;
   }

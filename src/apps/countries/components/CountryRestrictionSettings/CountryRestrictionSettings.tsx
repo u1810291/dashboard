@@ -6,8 +6,8 @@ import { MultiSelect } from 'apps/ui';
 import { useStyles } from './CountryRestrictionSettings.styles';
 
 export interface CountryRestrictionSettingsProps {
-  onUpdate: (countries: string[]) => void,
-  countries: string[]
+  onUpdate: (countries: string[]) => void;
+  countries: string[];
 }
 
 export function CountryRestrictionSettings({ onUpdate, countries = [] }: CountryRestrictionSettingsProps) {

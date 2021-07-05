@@ -17,21 +17,21 @@ export enum ProductTypes {
 }
 
 export interface ProductSetting {
-  value: any,
-  isDisabled?: boolean,
-  isRequireOtherProduct?: boolean,
-  isCantBeUsedWithOtherSetting?: boolean,
+  value: any;
+  isDisabled?: boolean;
+  isRequireOtherProduct?: boolean;
+  isCantBeUsedWithOtherSetting?: boolean;
 }
 
 export interface ProductCheck<T extends string = string> {
-  isActive: boolean,
-  id: T,
+  isActive: boolean;
+  id: T;
 }
 
 export type ProductSettings<K extends string = string> = Record<K, ProductSetting>;
 
 export interface ProductConfig {
-  settings: ProductSettings,
+  settings: ProductSettings;
 }
 
 export interface ProductSettingsProps<ES extends string = string> {
@@ -52,6 +52,7 @@ export enum ProductInputTypes {
   Liveness = 'liveness',
   NationalId = 'nationalId',
   NameAndDobOrDocument = 'nameAndDobOrDocument',
+  EmailAddress = 'emailAddress',
 }
 
 export interface IProductCard {
@@ -62,11 +63,11 @@ export interface IProductCard {
   inputs: ProductInputTypes[];
   checks: ProductCheck[];
   integrationTypes: ProductIntegrationTypes[];
-  requiredProductType?: ProductTypes,
-  dependentProductTypes?: ProductTypes[],
+  requiredProductType?: ProductTypes;
+  dependentProductTypes?: ProductTypes[];
 }
 
-export interface Product {
+export interface Product<T = ProductSettings> {
   id: ProductTypes;
   order: number;
   checks: ProductCheck[];
@@ -74,15 +75,15 @@ export interface Product {
   component: any;
   componentVerification: any;
   isConfigurable: boolean;
-  parser(flow: IFlow, productsInGraph?: ProductTypes[]): ProductConfig;
-  serialize(settings: ProductSettings<any>): Partial<IFlow>;
-  onInit(): void;
+  isIssuesIgnored: boolean;
+  parser(flow: IFlow, productsInGraph?: ProductTypes[]): T;
+  serialize(settings: T): Partial<IFlow>;
   onRemove(): Partial<IFlow>;
   onAdd(): Partial<IFlow>;
   getRemovingAlertComponent?(flow: IFlow): any;
-  haveIssues?(flow: IFlow, integrationType: ProductIntegrationTypes): boolean;
+  haveIssues?(flow: IFlow): boolean;
   isSdkOnly?(): boolean;
-  getIssuesComponent?(flow: IFlow, integrationType: ProductIntegrationTypes): any;
+  getIssuesComponent?(flow: IFlow): any;
   getTitle(): string;
   getCard(): IProductCard;
   getVerification(verification: VerificationResponse): any;

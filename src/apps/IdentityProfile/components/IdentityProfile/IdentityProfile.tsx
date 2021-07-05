@@ -1,4 +1,4 @@
-import { Box, Container, Grid } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import { Page404, PageError, PageLoader } from 'apps/layout';
 import { selectVerificationsCollectionModel, VerificationContainer } from 'apps/Verification';
 import { verificationListLoad } from 'apps/Verification/state/Verification.actions';
@@ -71,24 +71,22 @@ export function IdentityProfile() {
   }
 
   return (
-    <Container maxWidth={false}>
-      <Box pt={2}>
-        <Box mb={1.5}>
-          <IdentityProfileHeaderMenu />
-        </Box>
-        <Grid container spacing={2}>
-          <Grid item xs={12} className={classes.sidebar}>
-            <SideProfileMenu profile={identityProfileModel?.value} />
-          </Grid>
-          <Grid item xs={12} className={classes.container}>
-            {!verificationsModel.isLoading && verificationsModel.isLoaded && (
-              <Route path={`${Routes.identity.profile.details}${Routes.identity.verification.details}`}>
-                <VerificationContainer />
-              </Route>
-            )}
-          </Grid>
-        </Grid>
+    <Box p={2}>
+      <Box mb={1.5}>
+        <IdentityProfileHeaderMenu />
       </Box>
-    </Container>
+      <Grid container spacing={2}>
+        <Grid item xs={12} className={classes.sidebar}>
+          <SideProfileMenu profile={identityProfileModel?.value} />
+        </Grid>
+        <Grid item xs={12} className={classes.container}>
+          {!verificationsModel.isLoading && verificationsModel.isLoaded && (
+            <Route path={`${Routes.identity.profile.details}${Routes.identity.verification.details}`}>
+              <VerificationContainer />
+            </Route>
+          )}
+        </Grid>
+      </Grid>
+    </Box>
   );
 }

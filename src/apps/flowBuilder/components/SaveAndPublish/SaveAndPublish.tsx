@@ -1,6 +1,6 @@
-import { Box, Button, Grid } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { useProductsIssues } from 'apps/Product/hooks/ProductIssues.hook';
-import { notification } from 'apps/ui';
+import { notification, TextBubble } from 'apps/ui';
 import React, { useCallback, useEffect } from 'react';
 import { FiSave } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -42,13 +42,13 @@ export function SaveAndPublish() {
   return (
     <Grid container>
       {haveIssues ? (
-        <Box className={classes.badge}>
+        <TextBubble>
           {intl.formatMessage({ id: 'FlowBuilder.notification.issues' })}
-        </Box>
+        </TextBubble>
       ) : haveUnsavedChanges && (
-        <Box className={classes.badge}>
+        <TextBubble>
           {intl.formatMessage({ id: 'FlowBuilder.notification.unsavedChanges' })}
-        </Box>
+        </TextBubble>
       )}
       <Button
         disabled={!productsInGraphModel.isLoaded || productsInGraphModel.value.length === 0 || !haveUnsavedChanges || haveIssues}

@@ -5,9 +5,9 @@ import { BoxBordered } from 'apps/ui';
 import { AGE_CHECK_DEFAULT_THRESHOLD, AGE_CHECK_MAX_THRESHOLD, AGE_CHECK_MIN_THRESHOLD, AgeCheckThresholdModes, validateAgeTheshold } from 'apps/AgeCheck/models/AgeCheck.model';
 import { InputScore } from './AgeThresholdSettings.styles';
 
-export interface AgeThresholdSettingsProps{
-  ageThreshold: number
-  onUpdate: (age: number) => void,
+export interface AgeThresholdSettingsProps {
+  ageThreshold: number;
+  onUpdate: (age: number) => void;
 }
 
 export function AgeThresholdSettings({ ageThreshold, onUpdate }: AgeThresholdSettingsProps) {
@@ -67,7 +67,7 @@ export function AgeThresholdSettings({ ageThreshold, onUpdate }: AgeThresholdSet
                   <Box color="common.black90" fontWeight="bold">
                     {intl.formatMessage({ id: 'Product.configuration.ageCheck.default.title' })}
                   </Box>
-                                    )}
+                )}
                 value={AgeCheckThresholdModes.Default}
               />
               <Box pl={3} color="common.black75">
@@ -83,7 +83,7 @@ export function AgeThresholdSettings({ ageThreshold, onUpdate }: AgeThresholdSet
                   <Box color="common.black90" fontWeight="bold">
                     {intl.formatMessage({ id: 'Product.configuration.ageCheck.custom.title' })}
                   </Box>
-                                    )}
+                )}
                 value={AgeCheckThresholdModes.Custom}
               />
               <Box pb={1}>

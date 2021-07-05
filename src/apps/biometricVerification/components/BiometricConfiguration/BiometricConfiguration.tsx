@@ -9,9 +9,9 @@ import { getVerificationType, hasVoiceVerification, getBiometricType, BiometricV
 import { useStyles } from './BiometricConfiguration.styles';
 
 export function BiometricConfiguration({ biometrics, proofOfOwnership, onUpdate }: {
-  biometrics: string | null,
-  proofOfOwnership: boolean,
-  onUpdate: (biometrics: string | null) => void,
+  biometrics: string | null;
+  proofOfOwnership: boolean;
+  onUpdate: (biometrics: string | null) => void;
 }) {
   const intl = useIntl();
   const classes = useStyles();

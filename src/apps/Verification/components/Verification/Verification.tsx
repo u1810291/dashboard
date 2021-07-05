@@ -13,7 +13,7 @@ export function Verification() {
   const classes = useStyles();
 
   useEffect(() => {
-    if (!selectedProduct) {
+    if (!selectedProduct || !productList.includes(selectedProduct)) {
       setSelectedProduct(productList[0]);
     }
   }, [productList, selectedProduct]);

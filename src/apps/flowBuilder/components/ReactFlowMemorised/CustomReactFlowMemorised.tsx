@@ -4,9 +4,9 @@ import ReactFlow, { Elements } from 'react-flow-renderer';
 import { OnLoadFunc } from 'react-flow-renderer/dist/types';
 
 export interface CustomReactFlowProps {
-  elements: Elements,
-  onDragOver: DragEventHandler,
-  onLoad: OnLoadFunc,
+  elements: Elements;
+  onDragOver: DragEventHandler;
+  onLoad: OnLoadFunc;
 }
 
 export function CustomReactFlow({ elements, onDragOver, onLoad }: CustomReactFlowProps) {

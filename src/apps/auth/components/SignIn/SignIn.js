@@ -72,7 +72,7 @@ export function SignIn() {
               initialValues={initialValues}
               validate={validateForm}
               validateOnBlur={false}
-              validateOnСhange={false}
+              validateOnChange={false}
               onSubmit={handleSubmit}
             >
               {({ isSubmitting }) => (

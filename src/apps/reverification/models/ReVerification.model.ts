@@ -7,6 +7,6 @@ export enum ReVerificationSettingTypes {
 }
 
 export interface IReverificationVerification {
-  reVerification: { reFacematch: IReFacematchStep },
-  identity: string,
+  reVerification: { reFacematch: IReFacematchStep };
+  identity: string;
 }

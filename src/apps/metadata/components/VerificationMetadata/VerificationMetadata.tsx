@@ -5,11 +5,9 @@ import { SyntaxHighlighter, SyntaxHighlighterLanguages } from 'apps/ui';
 import stringify from 'lib/stringify';
 import { useStyles } from './VerificationMetadata.styles';
 
-export interface VerificationMetadataProps{
-  metadata?: any,
-}
-
-export function VerificationMetadata({ metadata = {} }: VerificationMetadataProps) {
+export function VerificationMetadata({ metadata = {} }: {
+  metadata?: any;
+}) {
   const intl = useIntl();
   const classes = useStyles();
 

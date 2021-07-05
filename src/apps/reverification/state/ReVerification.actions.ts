@@ -3,7 +3,7 @@ import { productManagerService } from 'apps/Product';
 import { selectCanUseReverificationFlow } from './ReVerification.selectors';
 import { ReVerification } from '../services/ReVerification.service';
 
-export const reVerificationInit = () => (dispatch, getState): ProductTypes => {
+export const reVerificationInit = () => (dispatch, getState): ProductTypes | null => {
   const isCanUseReverificationFlow = selectCanUseReverificationFlow(getState());
 
   if (!isCanUseReverificationFlow) {

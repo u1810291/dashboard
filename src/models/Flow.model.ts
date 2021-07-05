@@ -15,14 +15,18 @@ export function getNewFlowId(merchantFlowsModel, currentFlowId) {
 }
 
 export interface FlowStyle {
-  color?: string,
-  language?: string,
+  color?: string;
+  language?: string;
 }
 
 export type IFlowPhoneOwnership = {
   cooldownTimeout: 'PT1M' | string;
   codeAttemptLimit: number;
   codeSendLimit: number;
+  companyName: string;
+}
+
+export type IFlowEmailOwnership = {
   companyName: string;
 }
 
@@ -33,26 +37,30 @@ export type IFlowSystemSettings = {
 export type IFlowComputationTypes = 'age' | 'isDocumentExpired' | string;
 
 export interface IFlow {
-  ageThreshold?: number,
-  phoneOwnership?: IFlowPhoneOwnership,
-  computations?: IFlowComputationTypes[],
-  createdAt?: string,
-  denyUploadsFromMobileGallery?: boolean,
-  digitalSignature?: DigitalSignatureProvider,
-  facematchThreshold?: number,
-  id?: string,
-  inputTypes?: { id?: string }[],
-  inputValidationChecks?: InputValidationCheck[],
-  _id?: string,
-  logo?: Logo,
-  name?: string,
-  policyInterval?: string,
-  postponedTimeout?: string,
-  pinnedCountries?: string[],
-  style?: FlowStyle,
-  supportedCountries?: string[],
-  updatedAt?: string,
-  verificationSteps?: DocumentTypes[][],
-  verificationPatterns?: Partial<VerificationPatterns>,
+  id?: string;
+  // TODO @dkchv: !!!
+  _id?: string;
+  ageThreshold?: number;
+  phoneOwnership?: Partial<IFlowPhoneOwnership>;
+  phoneRiskAnalysisThreshold?: number;
+  emailOwnership?: IFlowEmailOwnership;
+  emailRiskThreshold?: number;
+  computations?: IFlowComputationTypes[];
+  createdAt?: string;
+  denyUploadsFromMobileGallery?: boolean;
+  digitalSignature?: DigitalSignatureProvider;
+  facematchThreshold?: number;
+  inputTypes?: { id?: string }[];
+  inputValidationChecks?: InputValidationCheck[];
+  logo?: Logo;
+  name?: string;
+  policyInterval?: string;
+  postponedTimeout?: string;
+  pinnedCountries?: string[];
+  style?: FlowStyle;
+  supportedCountries?: string[];
+  updatedAt?: string;
+  verificationSteps?: DocumentTypes[][];
+  verificationPatterns?: Partial<VerificationPatterns>;
   integrationType?: ProductIntegrationTypes;
 }

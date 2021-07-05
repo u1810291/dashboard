@@ -8,8 +8,8 @@ import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { selectPolicyInterval } from 'state/merchant/merchant.selectors';
 
 export function GdprPopup({ openDialog, handleCloseDialog }: {
-  openDialog: boolean,
-  handleCloseDialog: Function,
+  openDialog: boolean;
+  handleCloseDialog: () => void;
 }) {
   const intl = useIntl();
   const dispatch = useDispatch();

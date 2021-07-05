@@ -7,11 +7,11 @@ import { notification } from '../Notification/Notification';
 import { useStyles } from './CopyToClipboard.styles';
 
 export interface CopyToClipboardProps {
-  children: React.ReactNode,
-  text: string,
-  isOverlay?: boolean,
-  withCopyText?: boolean,
-  qa?: string
+  children: React.ReactNode;
+  text: string;
+  isOverlay?: boolean;
+  withCopyText?: boolean;
+  qa?: string;
 }
 
 export function CopyToClipboard({ children, text, isOverlay = false, withCopyText = false, qa }: CopyToClipboardProps) {

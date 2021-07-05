@@ -6,8 +6,8 @@ export enum InputValidationType {
 }
 
 export interface InputValidationCheck {
-  id?: InputValidationType,
-  isDisabled?: boolean,
+  id?: InputValidationType;
+  isDisabled?: boolean;
 }
 
 // inputValidationChecks is [] in defaultFlow (it means, that all checks are enabled)

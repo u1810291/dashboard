@@ -19,7 +19,7 @@ import { FlowSettingsSwitches } from '../FlowSettingsSwitches/FlowSettingsSwitch
 import { useStyles } from './FlowSettings.styles';
 
 export function FlowSettings({ onClose }: {
-  onClose: () => void,
+  onClose: () => void;
 }) {
   const dispatch = useDispatch();
   const intl = useIntl();
@@ -27,7 +27,7 @@ export function FlowSettings({ onClose }: {
   const { id: flowId, name: flowName } = useSelector(selectFlowBuilderChangeableFlow);
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
   const productsInGraph = useSelector(selectFlowBuilderProductsInGraph);
-  const [isEditable, setIsEditable] = useState(false);
+  const [isEditable, setIsEditable] = useState<boolean>(false);
   const [isGDPRChecked, setIsGDPRChecked] = useState(false);
   const [policyIntervalError, setPolicyIntervalError] = useState(null);
   const [newFlowName, setNewFlowName] = useState('');
@@ -44,6 +44,7 @@ export function FlowSettings({ onClose }: {
   const handleDeleteFlow = useCallback(async () => {
     await dispatch(flowBuilderDelete());
   }, [dispatch]);
+
   const { handleDelete } = useDeleteButtonHook(handleDeleteFlow, {
     redirectUrl: Routes.flows.root,
     header: 'VerificationFlow.modal.delete.title',
