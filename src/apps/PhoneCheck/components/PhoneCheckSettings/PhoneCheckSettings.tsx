@@ -1,9 +1,10 @@
 import { Box, FormControlLabel, RadioGroup, Switch } from '@material-ui/core';
 import { BoxBordered, ExtendedDescription, RadioButton, TextFieldName } from 'apps/ui';
+import { useDebounce } from 'lib/debounce.hook';
 import { ONLY_NUMBERS_REG_EXP, validateMaxLength } from 'lib/validations';
-import { cloneDeep, debounce } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { ProductSettingsProps } from 'models/Product.model';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { COMPANY_NAME_LENGTH_LIMIT, getDefaultRiskThresholdMode, PhoneCheckSettingTypes, PhoneOwnershipValidationTypes, PhoneRiskPredefinedThreshold, PhoneRiskThresholdModes, ScoreMapping, validateRiskThreshold } from '../../models/PhoneCheck.model';
 import { TextFieldInputScore, useStyles } from './PhoneCheckSettings.styles';
@@ -11,6 +12,7 @@ import { TextFieldInputScore, useStyles } from './PhoneCheckSettings.styles';
 export function PhoneCheckSettings({ settings, onUpdate }: ProductSettingsProps<PhoneCheckSettingTypes>) {
   const intl = useIntl();
   const classes = useStyles();
+  const debounced = useDebounce();
   const [isPhoneRiskEnabled, setIsPhoneRiskEnabled] = useState<boolean>(settings[PhoneCheckSettingTypes.PhoneRiskValidation].value);
   const [companyName, setCompanyName] = useState<string>(settings[PhoneCheckSettingTypes.CompanyName].value);
   const [riskScore, setRiskScore] = useState<PhoneRiskPredefinedThreshold | number>(settings[PhoneCheckSettingTypes.PhoneRiskThreshold].value);
@@ -18,8 +20,6 @@ export function PhoneCheckSettings({ settings, onUpdate }: ProductSettingsProps<
   const [riskThresholdMode, setRiskThresholdMode] = useState<PhoneRiskThresholdModes>(getDefaultRiskThresholdMode(settings[PhoneCheckSettingTypes.PhoneRiskThreshold].value));
   const [riskThresholdError, setRiskThresholdError] = useState<string>();
   const [companyNameError, setCompanyNameError] = useState<string>('');
-
-  const callbackDebounced = useMemo(() => debounce((action: Function) => action(), 300), []);
 
   const handleUpdate = useCallback((settingId: PhoneCheckSettingTypes, value: unknown) => {
     const newSettings = cloneDeep(settings);
@@ -43,8 +43,8 @@ export function PhoneCheckSettings({ settings, onUpdate }: ProductSettingsProps<
       return;
     }
     setCompanyName(value);
-    callbackDebounced(() => handleUpdate(PhoneCheckSettingTypes.CompanyName, value));
-  }, [handleUpdate, callbackDebounced]);
+    debounced(() => handleUpdate(PhoneCheckSettingTypes.CompanyName, value));
+  }, [handleUpdate, debounced]);
 
   const handlePhoneRiskModeChange = useCallback(({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
     setRiskThresholdMode(value as PhoneRiskThresholdModes);
@@ -61,8 +61,8 @@ export function PhoneCheckSettings({ settings, onUpdate }: ProductSettingsProps<
     const result: PhoneRiskPredefinedThreshold | string = value ? value.replace(ONLY_NUMBERS_REG_EXP, '') : '';
     setRiskScore(Number(result));
     setRiskThresholdError('');
-    callbackDebounced(() => handleUpdate(PhoneCheckSettingTypes.PhoneRiskThreshold, Number(result)));
-  }, [handleUpdate, callbackDebounced]);
+    debounced(() => handleUpdate(PhoneCheckSettingTypes.PhoneRiskThreshold, Number(result)));
+  }, [handleUpdate, debounced]);
 
   const handleRiskScoreBlur = useCallback(({ target: { value } }) => {
     setRiskThresholdError(validateRiskThreshold(parseInt(value, 10)));

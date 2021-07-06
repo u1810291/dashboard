@@ -1,16 +1,18 @@
-import { Box, Switch, RadioGroup, FormControlLabel } from '@material-ui/core';
-import { BoxBordered, TextFieldName, ExtendedDescription, RadioButton } from 'apps/ui';
+import { Box, FormControlLabel, RadioGroup, Switch } from '@material-ui/core';
+import { BoxBordered, ExtendedDescription, RadioButton, TextFieldName } from 'apps/ui';
+import { useDebounce } from 'lib/debounce.hook';
 import { ONLY_NUMBERS_REG_EXP, validateMaxLength } from 'lib/validations';
-import { cloneDeep, debounce } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { ProductSettingsProps } from 'models/Product.model';
-import React, { useCallback, useState, useMemo } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { EmailRiskPredefinedThreshold, EmailRiskThresholdModes, EmailCheckStepModes, EmailCheckSettingTypes, getDefaultRiskThresholdMode, ScoreMapping, SENDER_NAME_LENGTH_LIMIT, validateRiskThreshold } from '../../models/EmailCheck.model';
+import { EmailCheckSettingTypes, EmailCheckStepModes, EmailRiskPredefinedThreshold, EmailRiskThresholdModes, getDefaultRiskThresholdMode, ScoreMapping, SENDER_NAME_LENGTH_LIMIT, validateRiskThreshold } from '../../models/EmailCheck.model';
 import { TextFieldInputScore, useStyles } from './EmailCheckSettings.style';
 
 export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<EmailCheckSettingTypes>) {
   const intl = useIntl();
   const classes = useStyles();
+  const debounced = useDebounce();
   const [senderName, setSenderName] = useState<string>(settings[EmailCheckSettingTypes.CompanyName].value);
   const [senderNameError, setSenderNameError] = useState<string>('');
   const [currentMethod, setCurrentMethod] = useState<EmailCheckStepModes>(settings[EmailCheckSettingTypes.EmailOwnershipValidation].value);
@@ -18,8 +20,6 @@ export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<
   const [riskScore, setRiskScore] = useState<EmailRiskPredefinedThreshold | number>(settings[EmailCheckSettingTypes.EmailRiskThreshold].value);
   const [riskThresholdError, setRiskThresholdError] = useState<string>();
   const [isEmailRiskEnabled, setIsEmailRiskEnabled] = useState<boolean>(settings[EmailCheckSettingTypes.EmailRiskValidation].value);
-
-  const callbackDebounced = useMemo(() => debounce((action: Function) => action(), 300), []);
 
   const handleUpdate = useCallback((settingId: EmailCheckSettingTypes, value: unknown) => {
     const newSettings = cloneDeep(settings);
@@ -46,8 +46,8 @@ export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<
       return;
     }
     setSenderName(value);
-    callbackDebounced(() => handleUpdate(EmailCheckSettingTypes.CompanyName, value));
-  }, [handleUpdate, callbackDebounced]);
+    debounced(() => handleUpdate(EmailCheckSettingTypes.CompanyName, value));
+  }, [handleUpdate, debounced]);
 
   const handleEmailRiskModeChange = useCallback(({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
     setRiskThresholdMode(value as EmailRiskThresholdModes);
@@ -64,8 +64,8 @@ export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<
     const result: EmailRiskPredefinedThreshold | string = value ? value.replace(ONLY_NUMBERS_REG_EXP, '') : '';
     setRiskScore(Number(result));
     setRiskThresholdError('');
-    callbackDebounced(() => handleUpdate(EmailCheckSettingTypes.EmailRiskThreshold, Number(result)));
-  }, [handleUpdate, callbackDebounced]);
+    debounced(() => handleUpdate(EmailCheckSettingTypes.EmailRiskThreshold, Number(result)));
+  }, [handleUpdate, debounced]);
 
   const handleRiskScoreBlur = useCallback(({ target: { value } }: React.FocusEvent<HTMLInputElement>) => {
     setRiskThresholdError(validateRiskThreshold(parseInt(value, 10)));
