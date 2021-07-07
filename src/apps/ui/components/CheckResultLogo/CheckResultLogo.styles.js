@@ -7,6 +7,8 @@ import OtherChecksDisabled from 'assets/icon-other-checks-disabled.svg';
 import OtherChecksSuccess from 'assets/icon-other-checks-success.svg';
 import OtherChecksWarning from 'assets/icon-other-checks-warning.svg';
 import OtherChecksError from 'assets/icon-other-checks-error.svg';
+import ipCheckGeoSuccess from 'assets/icon-geo-checks-success.svg';
+import ipCheckGeoFailure from 'assets/icon-geo-checks-failure.svg';
 import { LivenessStepStatus } from 'models/Biometric.model';
 import { StepStatus } from 'models/Step.model';
 
@@ -25,8 +27,16 @@ export const useStyles = makeStyles((theme) => {
         icon: OtherChecksSuccess,
         color: theme.palette.text.main,
       },
-      ipCheck: {
-        icon: OtherChecksSuccess,
+      ipCheckVpn: {
+        icon: ipCheckGeoSuccess,
+        color: theme.palette.text.main,
+      },
+      ipCheckGeo: {
+        icon: ipCheckGeoSuccess,
+        color: theme.palette.text.main,
+      },
+      ipCheckGeoWithVpn: {
+        icon: ipCheckGeoSuccess,
         color: theme.palette.text.main,
       },
     },
@@ -43,9 +53,17 @@ export const useStyles = makeStyles((theme) => {
         icon: OtherChecksError,
         color: theme.palette.common.red,
       },
-      ipCheck: {
-        icon: OtherChecksWarning,
-        color: theme.palette.common.yellow,
+      ipCheckVpn: {
+        icon: OtherChecksError,
+        color: theme.palette.common.red,
+      },
+      ipCheckGeo: {
+        icon: ipCheckGeoFailure,
+        color: theme.palette.common.red,
+      },
+      ipCheckGeoWithVpn: {
+        icon: ipCheckGeoFailure,
+        color: theme.palette.common.red,
       },
     },
     [StepStatus.Incomplete]: {
@@ -71,7 +89,15 @@ export const useStyles = makeStyles((theme) => {
         icon: LoadIcon,
         color: theme.palette.text.main,
       },
-      ipCheck: {
+      ipCheckVpn: {
+        icon: LoadIcon,
+        color: theme.palette.text.main,
+      },
+      ipCheckGeo: {
+        icon: LoadIcon,
+        color: theme.palette.text.main,
+      },
+      ipCheckGeoWithVpn: {
         icon: LoadIcon,
         color: theme.palette.text.main,
       },
@@ -112,7 +138,7 @@ export const useStyles = makeStyles((theme) => {
       },
       [theme.breakpoints.up('md')]: {
         margin: [[0, 0, 20]],
-        padding: [[0, 34]],
+        padding: '0 0 0 34px',
         textAlign: 'left',
       },
     }),

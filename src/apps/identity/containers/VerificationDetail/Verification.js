@@ -53,9 +53,9 @@ export function Verification({ identity }) {
       ))}
 
       {/* IP check */}
-      {identity.ipCheck && !identity.ipCheck.error && identity.ipCheck.data && (
+      {identity.ipCheck && (
         <Grid item>
-          <IpCheck data={identity.ipCheck.data} isChecking={identity.ipCheck.status < 200} />
+          <IpCheck step={identity.ipCheck} />
         </Grid>
       )}
 

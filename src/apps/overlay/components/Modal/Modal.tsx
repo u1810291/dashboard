@@ -11,14 +11,15 @@ export interface ModalProps{
   onClose?: () => void;
   className?: string;
   imgSrc?: string;
-  title?: string;
-  subtitle?: string;
+  title?: React.ReactNode;
+  subtitle?: React.ReactNode;
+  description?: React.ReactNode;
   small?: boolean;
   wideHeader?: boolean;
   [key: string]: any;
 }
 
-export function Modal({ children, onClose, className, imgSrc, title, subtitle, small = false, wideHeader = false, ...props }: ModalProps) {
+export function Modal({ children, onClose, className, imgSrc = '', title = '', subtitle = '', description, small = false, wideHeader = false, ...props }: ModalProps) {
   const dispatch = useDispatch();
   const closeModal = useCallback(() => {
     if (onClose) {
@@ -53,17 +54,10 @@ export function Modal({ children, onClose, className, imgSrc, title, subtitle, s
               {subtitle}
             </Box>
           )}
+          {description}
         </Box>
       </Box>
       {children}
     </div>
   );
 }
-
-Modal.defaultProps = {
-  imgSrc: '',
-  title: '',
-  subtitle: '',
-  small: false,
-  wideHeader: false,
-};

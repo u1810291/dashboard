@@ -1,13 +1,13 @@
 import { Box, Typography } from '@material-ui/core';
+import { useDebounce } from 'lib/debounce.hook';
 import cssVariable from 'lib/dom';
-import { debounce } from 'lodash';
+import { QATags } from 'models/QA.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ChromePicker } from 'react-color';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { flowStyleUpdate } from 'state/merchant/merchant.actions';
 import { selectColor } from 'state/merchant/merchant.selectors';
-import { QATags } from 'models/QA.model';
 import { ColorCheckButton } from '../ColorCheckButton/ColorCheckButton';
 import { ReactComponent as ColorPicker } from './color-picker.svg';
 import CSS from './ConfigureColor.module.css';
@@ -32,10 +32,11 @@ function getPresets() {
 export function ConfigureColor() {
   const dispatch = useDispatch();
   const intl = useIntl();
+  const debounced = useDebounce(500);
   const [showPicker, setShowPicker] = useState(false);
-  const [color, setColor] = useState(null);
   const colorValue = useSelector(selectColor);
-  const [presets] = useState(() => getPresets());
+  const [presets] = useState(getPresets());
+  const [color, setColor] = useState(getColorValue(colorValue, presets));
 
   const onBackgroundClick = useCallback(() => {
     setShowPicker(false);
@@ -45,26 +46,20 @@ export function ConfigureColor() {
     dispatch(flowStyleUpdate({ color: value }));
   }, [dispatch]);
 
-  const onClickDebounced = useCallback(() => debounce(updateColor, 600), [updateColor]);
-
   const handleChange = useCallback((value) => {
     setColor(getColorValue(value, presets));
-    updateColor(value);
-  }, [updateColor, setColor, presets]);
+    debounced(() => updateColor(value));
+  }, [presets, debounced, updateColor]);
 
   const handlePickerChange = useCallback((value) => {
     setColor(value.hex);
-    onClickDebounced(value.hex);
-  }, [setColor, onClickDebounced]);
+    debounced(() => updateColor(value.hex));
+  }, [debounced, updateColor]);
 
   useEffect(() => {
     window.addEventListener('click', onBackgroundClick, false);
     return () => window.removeEventListener('click', onBackgroundClick);
   }, [onBackgroundClick]);
-
-  useEffect(() => {
-    setColor(getColorValue(colorValue, presets));
-  }, [color, colorValue, presets]);
 
   return (
     <Box>

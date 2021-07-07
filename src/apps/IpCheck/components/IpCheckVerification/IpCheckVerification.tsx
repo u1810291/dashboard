@@ -6,6 +6,7 @@ import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { Marker, StaticGoogleMap } from 'react-static-google-map';
 import { useStyles } from './IpCheckVerification.styles';
+import { IpCheckErrorCodes } from '../../models/IpCheck.model';
 
 export function IpCheckVerification({ data: step }: {
   data: IpCheckStep;
@@ -14,14 +15,20 @@ export function IpCheckVerification({ data: step }: {
   const classes = useStyles();
   const isChecking = useMemo(() => step?.status < 200, [step]);
   const data = useMemo(() => step?.data, [step]);
-  const status = useMemo(() => {
-    if (isChecking) {
+
+  const vpnStatus = useMemo(() => {
+    if (step?.status < 200) {
       return StepStatus.Checking;
     }
-    return step?.data?.safe
-      ? StepStatus.Success
-      : StepStatus.Failure;
-  }, [step, isChecking]);
+    return step?.error?.code === IpCheckErrorCodes.VpnDetected ? StepStatus.Failure : StepStatus.Success;
+  }, [step]);
+
+  const geoStatus = useMemo(() => {
+    if (step?.status < 200) {
+      return StepStatus.Checking;
+    }
+    return step?.error?.code === IpCheckErrorCodes.Restricted ? StepStatus.Failure : StepStatus.Success;
+  }, [step]);
 
   return (
     <Box>
@@ -95,7 +102,16 @@ export function IpCheckVerification({ data: step }: {
 
         {/* proxy usage banner */}
         <Grid item xs={12} xl={4} className={classes.itemWrapper}>
-          <CheckResultLogo type="ipCheck" status={status} />
+          <Box p={2} mb={1.4} height="50%">
+            <CheckResultLogo type="ipCheckVpn" status={vpnStatus} />
+          </Box>
+          <Box p={2} height="50%">
+            {vpnStatus === StepStatus.Failure ? (
+              <CheckResultLogo type="ipCheckGeoWithVpn" status={vpnStatus} />
+            ) : (
+              <CheckResultLogo type="ipCheckGeo" status={geoStatus} />
+            )}
+          </Box>
         </Grid>
       </Grid>
     </Box>
