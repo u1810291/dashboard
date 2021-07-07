@@ -24,6 +24,9 @@ export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpC
   const handleChangeMode = useCallback((modeOn: IpCheckValidationTypes, modeOff?: IpCheckValidationTypes) => async ({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
     const newSettings = cloneDeep(settings);
     newSettings[IpCheckSettingsTypes.IpValidation].value = checked ? modeOn : modeOff;
+    if (modeOn === IpCheckValidationTypes.RestrictionBlock) {
+      newSettings[IpCheckSettingsTypes.VpnDetection].value = true;
+    }
     if (modeOff === IpCheckValidationTypes.Basic) {
       newSettings[IpCheckSettingsTypes.VpnDetection].value = false;
     }

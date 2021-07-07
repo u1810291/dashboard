@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Switch, Grid, Typography, Button } from '@material-ui/core';
+import { Box, Button, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Switch, Typography } from '@material-ui/core';
 import { useOverlay } from 'apps/overlay';
 import { BoxBordered, notification } from 'apps/ui';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
@@ -24,6 +24,9 @@ export function IpChecksConfiguration() {
   const handleChangeMode = useCallback((modeOn: IpCheckValidationTypes, modeOff?: IpCheckValidationTypes) => async ({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
     const value = checked ? modeOn : modeOff;
     setCurrentMethod(value);
+    if (modeOn === IpCheckValidationTypes.RestrictionBlock) {
+      setIsVpnRestricted(true);
+    }
 
     if (modeOff === IpCheckValidationTypes.Basic) {
       setIsVpnRestricted(false);
