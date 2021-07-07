@@ -8,12 +8,13 @@ import { FacematchConfiguration } from 'apps/facematch';
 import { GdprSettings } from 'apps/gdpr';
 import { ImageValidationConfiguration } from 'apps/imageValidation';
 import { PhoneValidationConfiguration } from 'apps/PhoneValidation';
+import { IpChecksConfiguration } from 'apps/IpChecks';
 import { OldLogo } from 'apps/logo';
 import { ButtonCollapsible } from 'apps/ui';
 import { ConfigureColor } from 'apps/WebSDKPreview';
 import classnames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiAlertOctagon, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiMail, FiSlash, FiTrash, FiUser, FiSmartphone } from 'react-icons/fi';
+import { FiAlertOctagon, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiMail, FiSlash, FiTrash, FiUser, FiSmartphone, FiMapPin } from 'react-icons/fi';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
@@ -98,6 +99,12 @@ export function Configuration() {
         title: 'PhoneValidation.title',
         icon: <FiSmartphone />,
         body: <PhoneValidationConfiguration />,
+      },
+      {
+        id: 'ipChecks',
+        title: 'Product.configuration.ipCheck',
+        icon: <FiMapPin />,
+        body: <IpChecksConfiguration />,
       },
     ]);
   }, [currentFlowModel, updateConfiguration, tags]);

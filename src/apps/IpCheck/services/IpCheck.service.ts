@@ -1,14 +1,14 @@
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
-import { Product, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
+import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { FiActivity } from 'react-icons/fi';
+import { FiMapPin } from 'react-icons/fi';
 import { getIpCheckStep, IpCheckStep } from 'models/IpCheck.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { IpCheckVerification } from '../components/IpCheckVerification/IpCheckVerification';
 import { IpCheckSettings } from '../components/IpCheckSettings/IpCheckSettings';
-import { IpCheckCheckTypes, IpCheckSettingsTypes } from '../models/IpCheck.model';
+import { IpCheckCheckTypes, IpCheckSettingsTypes, IpCheckValidationTypes } from '../models/IpCheck.model';
 
 type ProductSettingsIpCheck = ProductSettings<IpCheckSettingsTypes>;
 
@@ -18,24 +18,33 @@ export class IpCheck extends ProductBaseService implements Product<ProductSettin
   integrationTypes = [
     ProductIntegrationTypes.Sdk,
   ];
-  icon = FiActivity;
+  icon = FiMapPin;
+  inputs = [
+    ProductInputTypes.NoActiveInputs,
+  ];
   checks = [{
-    id: IpCheckCheckTypes.VpnAndProxy,
+    id: IpCheckCheckTypes.Basic,
     isActive: true,
   }, {
-    id: IpCheckCheckTypes.GeoIp,
-    isActive: false,
+    id: IpCheckCheckTypes.GeoRestrictions,
+    isActive: true,
   }, {
-    id: IpCheckCheckTypes.RiskyIP,
-    isActive: false,
+    id: IpCheckCheckTypes.VpnDetection,
+    isActive: true,
   }];
   component = IpCheckSettings;
   componentVerification = IpCheckVerification;
 
   parser(flow: IFlow): ProductSettingsIpCheck {
     return {
-      [IpCheckSettingsTypes.VpnAndProxy]: {
+      [IpCheckSettingsTypes.IpValidation]: {
         value: flow?.verificationPatterns[VerificationPatternTypes.IpValidation],
+      },
+      [IpCheckSettingsTypes.AllowedRegions]: {
+        value: flow?.ipValidation?.allowedRegions,
+      },
+      [IpCheckSettingsTypes.VpnDetection]: {
+        value: flow?.verificationPatterns[VerificationPatternTypes.VpnDetection],
       },
     };
   }
@@ -43,7 +52,11 @@ export class IpCheck extends ProductBaseService implements Product<ProductSettin
   serialize(settings: ProductSettingsIpCheck): Partial<IFlow> {
     return {
       verificationPatterns: {
-        [VerificationPatternTypes.IpValidation]: settings[IpCheckSettingsTypes.VpnAndProxy].value,
+        [VerificationPatternTypes.IpValidation]: settings[IpCheckSettingsTypes.IpValidation].value,
+        [VerificationPatternTypes.VpnDetection]: settings[IpCheckSettingsTypes.VpnDetection].value,
+      },
+      ipValidation: {
+        allowedRegions: settings[IpCheckSettingsTypes.AllowedRegions].value,
       },
     };
   }
@@ -51,13 +64,14 @@ export class IpCheck extends ProductBaseService implements Product<ProductSettin
   onRemove(): Partial<IFlow> {
     return {
       verificationPatterns: {
-        [VerificationPatternTypes.IpValidation]: false,
+        [VerificationPatternTypes.IpValidation]: IpCheckValidationTypes.None,
+        [VerificationPatternTypes.VpnDetection]: false,
       },
     };
   }
 
   isInFlow(flow: IFlow): boolean {
-    return flow?.verificationPatterns[VerificationPatternTypes.IpValidation] === true;
+    return flow?.verificationPatterns[VerificationPatternTypes.IpValidation] !== IpCheckValidationTypes.None;
   }
 
   getVerification(verification: VerificationResponse): IpCheckStep {

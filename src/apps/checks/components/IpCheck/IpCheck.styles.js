@@ -12,18 +12,6 @@ export const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  itemWrapper: {
-    marginBottom: 16,
-    '&:last-of-type': {
-      marginBottom: 0,
-    },
-    [theme.breakpoints.up('md')]: {
-      marginBottom: 0,
-      padding: 20,
-      borderRadius: 5,
-      border: `1px solid ${theme.palette.foreground.main}`,
-    },
-  },
   title: {
     lineHeight: '1.1',
     color: theme.palette.text.main,
@@ -70,5 +58,8 @@ export const useStyles = makeStyles((theme) => ({
         transform: 'none',
       },
     },
+  },
+  checkResultWrapper: {
+    height: 245,
   },
 }));

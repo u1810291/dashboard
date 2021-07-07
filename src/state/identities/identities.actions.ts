@@ -117,7 +117,7 @@ export const identitiesPreliminaryCountLoad = (localFilter) => async (dispatch, 
   }
 };
 
-export const downloadCSV = () => async (dispatch, getState) => {
+export const downloadCSV = () => (dispatch, getState) => {
   try {
     const filter = selectIdentityFilterSerialized(getState());
     return api.downloadCSV({

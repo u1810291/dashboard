@@ -1,21 +1,13 @@
-import { FiMapPin, FiMail, FiCheckSquare, FiCheckCircle, FiUsers } from 'react-icons/fi';
+import { FiMail, FiCheckSquare, FiCheckCircle, FiUsers } from 'react-icons/fi';
 
 export const CheckTypes = {
   PremiumAmlWatchlistsCheck: 'premiumAmlWatchlistsCheck',
-  IpCheck: 'ipCheck',
   DuplicateUserDetection: 'duplicateUserDetection',
   Nom151Check: 'nom151Check',
   EmailCheck: 'emailCheck',
 };
 
 export const ChecksList = [
-  {
-    id: CheckTypes.IpCheck,
-    title: 'Product.checks.ipCheck.title',
-    text: 'Product.checks.ipCheck.text',
-    badgeText: 'Product.checks.ipCheck.badgeText',
-    startIcon: FiMapPin,
-  },
   {
     id: CheckTypes.DuplicateUserDetection,
     title: 'Product.checks.duplicateUserDetection.title',

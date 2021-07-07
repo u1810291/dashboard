@@ -1,5 +1,6 @@
-import { AmlValidationTypes } from '../apps/Aml/models/Aml.model';
-import { PhoneOwnershipValidationTypes } from '../apps/PhoneCheck/models/PhoneCheck.model';
+import { AmlValidationTypes } from 'apps/Aml/models/Aml.model';
+import { PhoneOwnershipValidationTypes } from 'apps/PhoneCheck/models/PhoneCheck.model';
+import { IpCheckValidationTypes } from '../apps/IpCheck/models/IpCheck.model';
 
 export enum VerificationPatternTypes {
   AgeValidation = 'age-check',
@@ -38,6 +39,7 @@ export enum VerificationPatternTypes {
   ReFacematch = 're-facematch',
   SalvadorianTse = 'salvadorian-tse-validation',
   VenezuelanCne = 'venezuelan-cne-validation',
+  VpnDetection = 'vpn-detection',
 }
 
 export interface VerificationPatterns {
@@ -58,7 +60,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.DominicanJce]?: boolean;
   [VerificationPatternTypes.ParaguayanRcp]?: boolean;
   [VerificationPatternTypes.DuplicateUserDetection]?: boolean;
-  [VerificationPatternTypes.IpValidation]?: boolean;
+  [VerificationPatternTypes.IpValidation]?: IpCheckValidationTypes;
   [VerificationPatternTypes.MexicanCurp]?: boolean;
   [VerificationPatternTypes.MexicanIne]?: boolean;
   [VerificationPatternTypes.MexicanRfc]?: boolean;
@@ -71,6 +73,8 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.PhoneRiskValidation]?: boolean;
   [VerificationPatternTypes.VenezuelanCne]?: boolean;
   [VerificationPatternTypes.ReFacematch]?: boolean;
+  [VerificationPatternTypes.VpnDetection]?: boolean;
   [VerificationPatternTypes.EmailRiskValidation]?: boolean;
   [VerificationPatternTypes.EmailOwnershipValidation]?: string;
+  [VerificationPatternTypes.VpnDetection]?: boolean;
 }

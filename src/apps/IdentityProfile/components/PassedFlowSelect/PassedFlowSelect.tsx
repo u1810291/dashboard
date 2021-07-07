@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { selectVerification } from '../../../Verification';
+import { selectVerification } from 'apps/Verification';
 import { useStyles } from './PassedFlowSelect.styles';
 
 export interface PassedFlowSelectProps {

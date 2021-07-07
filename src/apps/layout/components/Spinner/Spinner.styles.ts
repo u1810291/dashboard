@@ -4,10 +4,10 @@ export const useStyles = makeStyles(() => ({
   spinner: {
     backgroundColor: 'var(--mgi-theme-palette-default)',
     borderRadius: '100%',
-    animation: [['sk-scaleout', '1s', 'infinite', 'ease-in-out']],
+    animation: 'sk-scaleout 1s infinite ease-in-out',
     animationDelay: '-0.5s',
     display: 'inline-block',
-    margin: [[0, 'auto']],
+    margin: '0 auto',
     '& .spinner-small': {
       width: 15,
       height: 15,

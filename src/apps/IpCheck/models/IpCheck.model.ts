@@ -1,9 +1,29 @@
 export enum IpCheckSettingsTypes {
-  VpnAndProxy = 'vpnAndProxy',
+  IpValidation = 'ipValidation',
+  VpnDetection = 'vpnDetection',
+  AllowedRegions = 'allowedRegions',
 }
 
 export enum IpCheckCheckTypes {
-  VpnAndProxy = 'vpnAndProxy',
-  GeoIp = 'geoIp',
-  RiskyIP = 'riskyIp',
+  Basic = 'basic',
+  GeoRestrictions = 'geoRestrictions',
+  VpnDetection = 'vpnDetection',
+}
+
+export enum IpCheckErrorCodes {
+  VpnDetected = 'ip.vpnDetected',
+  Restricted = 'ip.restricted',
+}
+
+export interface AllowedRegions {
+  country: string;
+  regions: string[];
+}
+
+export enum IpCheckValidationTypes {
+  None = 'none',
+  Basic = 'basic',
+  RestrictionInvisible = 'restriction:invisible',
+  RestrictionVisible = 'restriction:visible',
+  RestrictionBlock = 'restriction:block',
 }
