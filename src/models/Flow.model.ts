@@ -3,6 +3,7 @@ import { Logo } from 'apps/logo/models/Logo.model';
 import { get } from 'lodash';
 import { DocumentTypes } from 'models/Document.model';
 import { ProductIntegrationTypes } from 'models/Product.model';
+import { IpValidation } from './IpCheck.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
 import { VerificationPatterns } from './VerificationPatterns.model';
 
@@ -50,6 +51,7 @@ export interface IFlow {
   denyUploadsFromMobileGallery?: boolean;
   digitalSignature?: DigitalSignatureProvider;
   facematchThreshold?: number;
+  ipValidation?: IpValidation;
   inputTypes?: { id?: string }[];
   inputValidationChecks?: InputValidationCheck[];
   logo?: Logo;

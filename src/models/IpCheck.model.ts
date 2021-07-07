@@ -1,5 +1,10 @@
 import { StepStatus } from 'models/Step.model';
+import { AllowedRegions, IpCheckErrorCodes } from 'apps/IpCheck/models/IpCheck.model';
 import { VerificationPatternTypes } from './VerificationPatterns.model';
+
+export interface IpValidation {
+  allowedRegions: AllowedRegions[];
+}
 
 export interface IpCheckStepData {
   country: string;
@@ -28,7 +33,7 @@ export function getIpCheckUrl(data) {
   return `https://maps.googleapis.com/maps/api/staticmap?size=307x202&zoom=10&scale=2&format=png&maptype=roadmap&key=${process.env.REACT_APP_STATIC_GOOGLE_MAP_API_KEY}&markers=size:normal%7C${data.latitude},${data.longitude}`;
 }
 
-export function getIpCheckStatus(ipCheck) {
+export function getIpCheckStatus(ipCheck: IpCheckStep): StepStatus {
   if (ipCheck?.status < 200) {
     return StepStatus.Checking;
   }
@@ -56,4 +61,11 @@ export function getIpCheckStep(steps = []): IpCheckStep {
       mapUrl: getIpCheckUrl(step.data),
     },
   };
+}
+
+export function getIpCheckStatusByError(step: IpCheckStep, errorCode: IpCheckErrorCodes) {
+  if (step?.status < 200) {
+    return StepStatus.Checking;
+  }
+  return step?.error?.code === errorCode ? StepStatus.Failure : StepStatus.Success;
 }

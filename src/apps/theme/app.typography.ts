@@ -13,6 +13,7 @@ export const appTypography = {
   h4: {
     fontSize: 18,
     fontWeight: 'bold',
+    lineHeight: '22px',
   },
   h5: {
     fontSize: 16,
@@ -24,6 +25,10 @@ export const appTypography = {
   subtitle2: {
     fontSize: 14,
     fontWeight: 'bold',
+  },
+  body1: {
+    fontSize: '14px',
+    lineHeight: '17px',
   },
   button: {
     // remove default capitalize from buttons

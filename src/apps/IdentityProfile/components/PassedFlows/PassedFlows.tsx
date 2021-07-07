@@ -3,7 +3,7 @@ import { ProductIntegrationTypes } from 'models/Product.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { selectVerification, selectVerificationsGroupedByFlow } from '../../../Verification';
+import { selectVerification, selectVerificationsGroupedByFlow } from 'apps/Verification';
 import { PassedFlowSelect } from '../PassedFlowSelect/PassedFlowSelect';
 
 export function PassedFlows() {

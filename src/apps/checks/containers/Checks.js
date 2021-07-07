@@ -16,7 +16,6 @@ export function AdditionalChecks() {
   const checks = useSelector(selectAvailableChecks);
 
   const CheckComponentsMap = {
-    [CheckTypes.IpCheck]: { component: IpCheckControl },
     [CheckTypes.Nom151Check]: { component: Nom151CheckControl },
     [CheckTypes.DuplicateUserDetection]: { component: DuplicateUserDetectionCheckControl },
     [CheckTypes.PremiumAmlWatchlistsCheck]: { component: PremiumAmlWatchlistsCheckControl, endControlBlock: true },
