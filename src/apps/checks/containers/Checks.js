@@ -7,7 +7,6 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectAvailableChecks } from 'state/merchant/merchant.selectors';
 import { DuplicateUserDetectionCheckControl } from '../components/DuplicateUserDetectionCheckControl/DuplicateUserDetectionCheckControl';
-import { IpCheckControl } from '../components/IpCheckControl/IpCheckControl';
 import { Nom151CheckControl } from '../components/nom151CheckControl/Nom151CheckControl';
 import { CheckTypes } from '../models/Checks.model';
 

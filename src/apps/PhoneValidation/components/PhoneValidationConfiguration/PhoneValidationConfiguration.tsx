@@ -11,8 +11,9 @@ import { selectPhoneRiskAnalysisThreshold } from 'state/merchant/merchant.select
 import { RiskAnalysisConfiguration } from 'apps/RiskAnalysis';
 import { appPalette } from 'apps/theme';
 import { selectPhoneRiskValidation } from 'apps/RiskAnalysis/state/RiskAnalysis.selectors';
+import { ProductCanUseContainer } from 'apps/merchant';
 import { VerificationPatternTypes } from '../../../../models/VerificationPatterns.model';
-import { selectSenderName, selectPhoneValidationMode } from '../../state/PhoneValidation.selectors';
+import { selectSenderName, selectPhoneValidationMode, selectCanUsePhoneValidation } from '../../state/PhoneValidation.selectors';
 import { SENDER_NAME_LENGTH_LIMIT, PhoneOwnershipValidationMethodTypes } from '../../models/PhoneValidation.model';
 import { useStyles } from './PhoneValidationConfiguration.styles';
 
@@ -24,6 +25,7 @@ export function PhoneValidationConfiguration() {
   const [senderName, setSenderName] = useState(useSelector(selectSenderName));
   const [riskScore, setRiskScore] = useState(useSelector(selectPhoneRiskAnalysisThreshold));
   const [currentMethod, setModeCurrentMethod] = useState(useSelector(selectPhoneValidationMode));
+  const [isCanUsePhoneValidation] = useState(useSelector(selectCanUsePhoneValidation));
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -98,107 +100,111 @@ export function PhoneValidationConfiguration() {
 
   return (
     <FormControl component="fieldset">
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <Box className={classes.titleContainer}>
-            <Box>
-              <Typography variant="h4">
-                {intl.formatMessage({ id: 'PhoneValidation.title' })}
-              </Typography>
-            </Box>
-            <Box>
-              <Switch
-                name="phoneSms"
-                color="primary"
-                size="small"
-                checked={(currentMethod === PhoneOwnershipValidationMethodTypes.SmsOptional) || (currentMethod === PhoneOwnershipValidationMethodTypes.Sms)}
-                onChange={handleChangeMode(PhoneOwnershipValidationMethodTypes.Sms)}
-                disabled={isLoading}
+      <ProductCanUseContainer isCanUseProduct={isCanUsePhoneValidation}>
+        <Grid container spacing={1}>
+          <BoxBordered>
+            <Grid item xs={12}>
+              <Box className={classes.titleContainer}>
+                <Box>
+                  <Typography variant="h4">
+                    {intl.formatMessage({ id: 'PhoneValidation.title' })}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Switch
+                    name="phoneSms"
+                    color="primary"
+                    size="small"
+                    checked={(currentMethod === PhoneOwnershipValidationMethodTypes.SmsOptional) || (currentMethod === PhoneOwnershipValidationMethodTypes.Sms)}
+                    onChange={handleChangeMode(PhoneOwnershipValidationMethodTypes.Sms)}
+                    disabled={isLoading || !isCanUsePhoneValidation}
+                  />
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item className={classes.itemMargin}>
+              <Box color="common.black75">
+                <Typography variant="body1">
+                  {intl.formatMessage({ id: 'PhoneValidation.subtitle' })}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} className={classes.itemPadding}>
+              <Box className={classes.titleContainer}>
+                <Box>
+                  <Typography variant="h5">
+                    {intl.formatMessage({ id: 'PhoneValidation.makeOptionalStep' })}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Switch
+                    name="optionalPhoneSms"
+                    color="primary"
+                    size="small"
+                    checked={currentMethod === PhoneOwnershipValidationMethodTypes.SmsOptional}
+                    onChange={handleChangeMode(PhoneOwnershipValidationMethodTypes.SmsOptional, true)}
+                    disabled={isLoading || currentMethod === PhoneOwnershipValidationMethodTypes.None || !isCanUsePhoneValidation}
+                  />
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item className={classes.itemPaddingSubTitle}>
+              <Box color="common.black75">
+                <Typography variant="body1">
+                  {intl.formatMessage({ id: 'PhoneValidation.makeOptionalStep.subtitle' })}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item className={classes.itemMargin}>
+              <BoxBordered borderColor={appPalette.yellow}>
+                <Warning label={intl.formatMessage({ id: 'PhoneValidation.webSdkOnlyWarning' })} />
+              </BoxBordered>
+            </Grid>
+            <Grid item>
+              <Box mb={0.5}>
+                <Typography variant="h5">
+                  {intl.formatMessage({ id: 'PhoneValidation.senderName' })}
+                </Typography>
+              </Box>
+              <Box color="common.black75" mb={1}>
+                <Typography variant="body1">
+                  {intl.formatMessage({ id: 'PhoneValidation.senderName.subtitle' })}
+                </Typography>
+              </Box>
+              <TextFieldName
+                type="text"
+                value={senderName}
+                onChange={handleNameChange}
+                onKeyDown={handleKeyDown}
+                error={!!error}
+                helperText={error && intl.formatMessage({ id: error.toString() })}
+                className={classes.input}
+                disabled={isLoading || currentMethod === PhoneOwnershipValidationMethodTypes.None || !isCanUsePhoneValidation}
               />
-            </Box>
-          </Box>
-        </Grid>
-        <Grid item className={classes.itemMargin}>
-          <Box color="common.black75">
-            <Typography variant="body1">
-              {intl.formatMessage({ id: 'PhoneValidation.subtitle' })}
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid item xs={12} className={classes.itemPadding}>
-          <Box className={classes.titleContainer}>
-            <Box>
-              <Typography variant="h5">
-                {intl.formatMessage({ id: 'PhoneValidation.makeOptionalStep' })}
-              </Typography>
-            </Box>
-            <Box>
-              <Switch
-                name="optionalPhoneSms"
-                color="primary"
-                size="small"
-                checked={currentMethod === PhoneOwnershipValidationMethodTypes.SmsOptional}
-                onChange={handleChangeMode(PhoneOwnershipValidationMethodTypes.SmsOptional, true)}
-                disabled={isLoading || currentMethod === PhoneOwnershipValidationMethodTypes.None}
-              />
-            </Box>
-          </Box>
-        </Grid>
-        <Grid item className={classes.itemPaddingSubTitle}>
-          <Box color="common.black75">
-            <Typography variant="body1">
-              {intl.formatMessage({ id: 'PhoneValidation.makeOptionalStep.subtitle' })}
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid item className={classes.itemMargin}>
-          <BoxBordered borderColor={appPalette.yellow}>
-            <Warning label={intl.formatMessage({ id: 'PhoneValidation.webSdkOnlyWarning' })} />
-          </BoxBordered>
-        </Grid>
-        <Grid item>
-          <Box mb={0.5}>
-            <Typography variant="h5">
-              {intl.formatMessage({ id: 'PhoneValidation.senderName' })}
-            </Typography>
-          </Box>
-          <Box color="common.black75" mb={1}>
-            <Typography variant="body1">
-              {intl.formatMessage({ id: 'PhoneValidation.senderName.subtitle' })}
-            </Typography>
-          </Box>
-          <TextFieldName
-            type="text"
-            value={senderName}
-            onChange={handleNameChange}
-            onKeyDown={handleKeyDown}
-            error={!!error}
-            helperText={error && intl.formatMessage({ id: error.toString() })}
-            className={classes.input}
-            disabled={isLoading || currentMethod === PhoneOwnershipValidationMethodTypes.None}
-          />
 
+            </Grid>
+          </BoxBordered>
+          <RiskAnalysisConfiguration
+            isLoading={isLoading}
+            riskScore={riskScore}
+            onChangeRiskScore={setRiskScore}
+            onEnableRiskAnalysis={handleEnableRiskAnalysis}
+          />
+          <Grid item className={classes.buttonContainer}>
+            <Box>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={isLoading && <PageLoader size={14} />}
+                onClick={handleSave}
+                disabled={isLoading || currentMethod === PhoneOwnershipValidationMethodTypes.None || !isCanUsePhoneValidation}
+              >
+                {intl.formatMessage({ id: 'PhoneValidation.save' })}
+              </Button>
+            </Box>
+          </Grid>
         </Grid>
-        <RiskAnalysisConfiguration
-          isLoading={isLoading}
-          riskScore={riskScore}
-          onChangeRiskScore={setRiskScore}
-          onEnableRiskAnalysis={handleEnableRiskAnalysis}
-        />
-        <Grid item className={classes.buttonContainer}>
-          <Box>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={isLoading && <PageLoader size={14} />}
-              onClick={handleSave}
-              disabled={isLoading || currentMethod === PhoneOwnershipValidationMethodTypes.None}
-            >
-              {intl.formatMessage({ id: 'PhoneValidation.save' })}
-            </Button>
-          </Box>
-        </Grid>
-      </Grid>
+      </ProductCanUseContainer>
     </FormControl>
   );
 }

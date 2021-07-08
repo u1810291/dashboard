@@ -18,7 +18,6 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.main,
   },
   submitButton: {
-    marginLeft: '10px',
     marginTop: '5px',
   },
 }));
