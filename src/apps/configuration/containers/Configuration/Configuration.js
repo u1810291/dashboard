@@ -90,7 +90,7 @@ export function Configuration() {
       },
       {
         id: 'emailCheck',
-        title: 'Product.EmailValidation.title',
+        title: 'EmailValidation.title',
         icon: <FiMail />,
         body: <EmailValidationConfiguration />,
       },
