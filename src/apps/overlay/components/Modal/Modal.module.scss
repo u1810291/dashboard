@@ -9,6 +9,7 @@
   width: 350px;
   max-width: 100%;
   min-height: 300px;
+  max-height: calc(100vh - 100px);
   overflow: hidden;
   overflow-y: auto;
   padding: 20px;
