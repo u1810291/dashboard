@@ -34,9 +34,9 @@ export function SaveAndPublish() {
     };
   }, [haveUnsavedChanges]);
 
-  const handleSaveFlow = useCallback(() => {
+  const handleSaveFlow = useCallback(async () => {
     try {
-      dispatch(flowBuilderSaveAndPublish());
+      await dispatch(flowBuilderSaveAndPublish());
       notification.info(intl.formatMessage({ id: 'FlowBuilder.notification.saved' }));
     } catch (e) {
       notification.error(intl.formatMessage({ id: 'Error.common' }));
