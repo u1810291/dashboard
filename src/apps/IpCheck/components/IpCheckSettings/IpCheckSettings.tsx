@@ -56,27 +56,14 @@ export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpC
     <Grid container direction="row" spacing={1}>
       <Grid item xs={12}>
         <Box>
-          <Grid container direction="row" justify="space-between" spacing={1}>
-            <Grid item xs={10}>
-              <Typography variant="h4">
-                {intl.formatMessage({ id: 'Product.configuration.ipCheck' })}
-              </Typography>
-              <Box color="common.black75" mt={1}>
-                <Typography variant="body1">
-                  {intl.formatMessage({ id: 'Product.configuration.ipCheck.subtitle' })}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={2}>
-              <Switch
-                name="ipCheck"
-                color="primary"
-                size="small"
-                checked={currentMethod !== IpCheckValidationTypes.None}
-                onChange={handleChangeMode(IpCheckValidationTypes.Basic, IpCheckValidationTypes.None)}
-              />
-            </Grid>
-          </Grid>
+          <Typography variant="h4">
+            {intl.formatMessage({ id: 'Product.configuration.ipCheck' })}
+          </Typography>
+          <Box color="common.black75" mt={1}>
+            <Typography variant="body1">
+              {intl.formatMessage({ id: 'Product.configuration.ipCheck.subtitle' })}
+            </Typography>
+          </Box>
         </Box>
       </Grid>
       <Grid item xs={12}>
@@ -121,12 +108,21 @@ export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpC
                   size="small"
                   checked={isVpnRestricted && currentMethod !== IpCheckValidationTypes.None}
                   onChange={handleVpnRestricted}
+                  disabled={[IpCheckValidationTypes.Basic, IpCheckValidationTypes.None].includes(currentMethod)}
                 />
               </Grid>
             </Grid>
           </Box>
           <Box mt={2}>
-            <Button variant="contained" color="primary" size="large" onClick={openCountryModal}>{intl.formatMessage({ id: 'Product.configuration.ipCheck.geoRestriction.editButton' })}</Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={openCountryModal}
+              disabled={[IpCheckValidationTypes.Basic, IpCheckValidationTypes.None].includes(currentMethod)}
+            >
+              {intl.formatMessage({ id: 'Product.configuration.ipCheck.geoRestriction.editButton' })}
+            </Button>
           </Box>
           <RadioGroup
             aria-label="ipCheck-configuration"

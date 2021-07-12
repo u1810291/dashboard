@@ -4,16 +4,18 @@ export const useStyles = makeStyles<Theme, { color?: string }>((theme) => ({
   root: {
     borderRadius: 4,
     border: `1px solid ${theme.palette.common.black7}`,
-    padding: '19px',
-    height: '130px',
+    height: 112,
+    padding: '10px 6px',
     display: 'flex',
+    [theme.breakpoints.up('xl')]: {
+      height: 125,
+      padding: 15,
+    },
   },
   checksWrap: {
     display: 'flex',
     flexWrap: 'wrap',
-    width: '150px',
     margin: '0 -5px',
-    marginBottom: '-10px',
   },
   colorPicker: {
     position: 'absolute',
@@ -25,6 +27,7 @@ export const useStyles = makeStyles<Theme, { color?: string }>((theme) => ({
     padding: 8,
     borderRadius: 5,
     display: 'flex',
+    flexShrink: 0,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',

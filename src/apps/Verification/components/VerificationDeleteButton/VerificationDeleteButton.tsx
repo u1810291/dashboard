@@ -6,7 +6,7 @@ import React, { useCallback } from 'react';
 import { FiLoader, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { verificationRemove } from '../../state/Verification.actions';
+import { verificationRemove } from 'state/verification/verification.actions';
 import { useStyles } from './VerificationDeleteButton.styles';
 
 export function VerificationDeleteButton({ verificationId, className }: {
@@ -24,7 +24,7 @@ export function VerificationDeleteButton({ verificationId, className }: {
   }, [dispatch, verificationId]);
 
   const { isDeleting, handleDelete } = useDeleteButtonHook(handleDeleteVerification, {
-    redirectUrl: Routes.list.root,
+    redirectUrl: Routes.identity.verification.root,
   });
 
   return (

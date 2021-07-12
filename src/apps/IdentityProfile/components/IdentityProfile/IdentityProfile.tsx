@@ -1,15 +1,15 @@
 import { Box, Grid } from '@material-ui/core';
 import { Page404, PageError, PageLoader } from 'apps/layout';
 import { selectVerificationsCollectionModel, VerificationContainer } from 'apps/Verification';
-import { verificationListLoad } from 'apps/Verification/state/Verification.actions';
+import { verificationListClear, verificationListLoad } from 'apps/Verification/state/Verification.actions';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
-import { goToStartPage } from 'lib/url';
+import { goToStartPage, useQuery } from 'lib/url';
 import { Routes } from 'models/Router.model';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, useParams } from 'react-router-dom';
 import { IdentityProfileErrorTypes } from '../../models/IdentityProfile.model';
-import { identityProfileLoad } from '../../store/IdentityProfile.actions';
+import { identityProfileClear, identityProfileLoad } from '../../store/IdentityProfile.actions';
 import { selectIdentityProfileModel } from '../../store/IdentityProfile.selectors';
 import { IdentityProfileHeaderMenu } from '../IdentityProfileHeaderMenu/IdentityProfileHeaderMenu';
 import { SideProfileMenu } from '../SideProfileMenu/SideProfileMenu';
@@ -21,41 +21,39 @@ export function IdentityProfile() {
   const identityProfileModel = useSelector(selectIdentityProfileModel);
   const verificationsModel = useSelector(selectVerificationsCollectionModel);
   const { identityId } = useParams();
+  const { asMerchantId } = useQuery();
   const classes = useStyles();
 
-  useEffect(() => {
-    const loadData = async () => {
-      if (LoadableAdapter.isPristine(identityProfileModel)) {
-        try {
-          await dispatch(identityProfileLoad(identityId));
-        } catch (error) {
-          if (error?.response?.status === 404) {
-            setErrorType(IdentityProfileErrorTypes.IdentityNotFound);
-          } else {
-            setErrorType(IdentityProfileErrorTypes.RequestError);
-          }
-          console.error(error);
-        }
-      }
-    };
-
-    loadData();
-  }, [dispatch, identityId, identityProfileModel]);
+  useEffect(() => () => {
+    dispatch(identityProfileClear());
+    dispatch(verificationListClear());
+  }, [dispatch]);
 
   useEffect(() => {
-    const loadData = async () => {
-      if (LoadableAdapter.isPristine(verificationsModel)) {
-        try {
-          await dispatch(verificationListLoad(identityId));
-        } catch (error) {
+    if (LoadableAdapter.isPristine(identityProfileModel)) {
+      try {
+        dispatch(identityProfileLoad(identityId, asMerchantId));
+      } catch (error) {
+        if (error?.response?.status === 404) {
+          setErrorType(IdentityProfileErrorTypes.IdentityNotFound);
+        } else {
           setErrorType(IdentityProfileErrorTypes.RequestError);
-          console.error(error);
         }
+        console.error(error);
       }
-    };
+    }
+  }, [dispatch, asMerchantId, identityId, identityProfileModel]);
 
-    loadData();
-  }, [dispatch, identityId, verificationsModel]);
+  useEffect(() => {
+    if (LoadableAdapter.isPristine(verificationsModel)) {
+      try {
+        dispatch(verificationListLoad(identityId, asMerchantId));
+      } catch (error) {
+        setErrorType(IdentityProfileErrorTypes.RequestError);
+        console.error(error);
+      }
+    }
+  }, [dispatch, asMerchantId, identityId, verificationsModel]);
 
   const IdentityProfileErrorScreens = useMemo(() => ({
     [IdentityProfileErrorTypes.RequestError]: (<PageError onRetry={goToStartPage} />),
@@ -71,20 +69,22 @@ export function IdentityProfile() {
   }
 
   return (
-    <Box p={2}>
-      <Box mb={1.5}>
-        <IdentityProfileHeaderMenu />
-      </Box>
-      <Grid container spacing={2}>
-        <Grid item xs={12} className={classes.sidebar}>
-          <SideProfileMenu profile={identityProfileModel?.value} />
-        </Grid>
-        <Grid item xs={12} className={classes.container}>
-          {!verificationsModel.isLoading && verificationsModel.isLoaded && (
-            <Route path={`${Routes.identity.profile.details}${Routes.identity.verification.details}`}>
-              <VerificationContainer />
-            </Route>
-          )}
+    <Box p={2} height="100%">
+      <Grid container direction="column" wrap="nowrap" className={classes.wrapper}>
+        <Box mb={1.5}>
+          <IdentityProfileHeaderMenu />
+        </Box>
+        <Grid container spacing={2} className={classes.container}>
+          <Grid item xs={12} className={classes.sidebar}>
+            <SideProfileMenu profile={identityProfileModel?.value} />
+          </Grid>
+          <Grid item xs={12} className={classes.content}>
+            {!verificationsModel.isLoading && verificationsModel.isLoaded && (
+              <Route path={`${Routes.identity.profile.details}${Routes.identity.verification.details}`}>
+                <VerificationContainer />
+              </Route>
+            )}
+          </Grid>
         </Grid>
       </Grid>
     </Box>

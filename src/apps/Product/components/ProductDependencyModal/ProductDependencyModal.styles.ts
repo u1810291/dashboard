@@ -56,8 +56,10 @@ export const useStyles = makeStyles((theme) => createStyles({
   },
   buttonSaveRed: {
     backgroundColor: theme.palette.common.red,
+    transition: '.2s opacity ease-in-out',
     '&:hover': {
-      backgroundColor: theme.palette.common.redopacity,
+      opacity: 0.8,
+      backgroundColor: theme.palette.common.red,
     },
   },
 }));

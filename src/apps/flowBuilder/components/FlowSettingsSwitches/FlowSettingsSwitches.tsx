@@ -20,7 +20,7 @@ export function FlowSettingsSwitches({ policyInterval, policyIntervalError, gdpr
 
   return (
     <Box>
-      <Box mb={4}>
+      <Box>
         <ExtendedDescription
           title={intl.formatMessage({ id: 'FlowBuilder.settings.title.gdpr' })}
           text={intl.formatMessage({ id: 'Product.configuration.gdpr.subtitle' })}
@@ -28,23 +28,25 @@ export function FlowSettingsSwitches({ policyInterval, policyIntervalError, gdpr
         />
       </Box>
       {gdprChecked && (
-        <Grid container alignItems="center" justify="space-between">
-          <InputLabel className={classes.inputLabel}>
-            {intl.formatMessage({ id: 'FlowBuilder.settings.gdpr.input.title' })}
-          </InputLabel>
-          <TextField
-            className={classes.input}
-            variant="outlined"
-            value={policyInterval || ''}
-            onChange={onChangePolicyInterval}
-            onBlur={onValidatePolicyInterval}
-            placeholder={`${GDPRRangeTypes.From}-${GDPRRangeTypes.To}`}
-            error={!!policyIntervalError}
-            helperText={!!policyIntervalError && intl.formatMessage({ id: `FlowBuilder.settings.gdpr.input.error.${policyIntervalError}` })}
-          />
-        </Grid>
+        <Box mt={1}>
+          <Grid container alignItems="center" justify="space-between">
+            <InputLabel className={classes.inputLabel}>
+              {intl.formatMessage({ id: 'FlowBuilder.settings.gdpr.input.title' })}
+            </InputLabel>
+            <TextField
+              className={classes.input}
+              variant="outlined"
+              value={policyInterval || ''}
+              onChange={onChangePolicyInterval}
+              onBlur={onValidatePolicyInterval}
+              placeholder={`${GDPRRangeTypes.From}-${GDPRRangeTypes.To}`}
+              error={!!policyIntervalError}
+              helperText={!!policyIntervalError && intl.formatMessage({ id: `FlowBuilder.settings.gdpr.input.error.${policyIntervalError}` })}
+            />
+          </Grid>
+        </Box>
       )}
-      <Box>
+      <Box mt={4}>
         <ExtendedDescription
           title={intl.formatMessage({ id: 'FlowBuilder.settings.title.timestamp' })}
           text={intl.formatMessage({ id: 'FlowBuilder.settings.description.timestamp' })}

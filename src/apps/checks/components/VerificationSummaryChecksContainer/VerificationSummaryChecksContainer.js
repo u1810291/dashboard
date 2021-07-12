@@ -21,6 +21,7 @@ export function VerificationSummaryChecksContainer({ steps }) {
         <Box mt={1}>
           <CheckBarExpandableSummary
             title={intl.formatMessage({ id: 'verificationDetails.summary.checksPassed.title' }, { count: passedStepsCount })}
+            isNoBadge
           >
             {passedSteps.map((step) => (
               <Box mt={1} key={step.id}>

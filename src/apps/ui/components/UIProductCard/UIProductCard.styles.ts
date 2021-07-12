@@ -3,6 +3,12 @@ import { Accordion, AccordionDetails, AccordionSummary, makeStyles, withStyles }
 export const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
+    '&:hover, &:focus': {
+      '& $controlTrash': {
+        opacity: 1,
+        visibility: 'visible',
+      },
+    },
   },
   iconWrapper: {
     flexShrink: 0,
@@ -16,11 +22,6 @@ export const useStyles = makeStyles((theme) => ({
   icon: {
     strokeWidth: 1.5,
   },
-  mark: {
-    flexShrink: 0,
-    fontSize: 15,
-    strokeWidth: 1.5,
-  },
   integrationType: {
     display: 'inline-block',
     padding: '3px 10px',
@@ -32,26 +33,21 @@ export const useStyles = makeStyles((theme) => ({
   },
   control: {
     position: 'absolute',
-    right: 0,
     width: 25,
     minWidth: 'auto',
     height: 25,
     padding: 0,
     borderRadius: '50%',
   },
-  controlSettings: {
-    top: 0,
-    border: `1px solid ${theme.palette.common.lightblue}`,
-    color: theme.palette.common.lightblue,
-    backgroundColor: theme.palette.common.white,
-    transform: 'translate(50%, -5px)',
-  },
   controlTrash: {
-    bottom: 0,
-    border: `1px solid ${theme.palette.common.red}`,
+    top: '50%',
+    right: 10,
     color: theme.palette.common.red,
     backgroundColor: theme.palette.common.white,
-    transform: 'translate(50%, 5px)',
+    transform: 'translateY(-50%)',
+    opacity: 0,
+    visibility: 'hidden',
+    transition: '.2s all ease-in-out',
   },
   controlIssues: {
     top: 0,
@@ -59,6 +55,9 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.yellow,
     backgroundColor: theme.palette.common.white,
     transform: 'translate(-50%, -5px)',
+    '&:hover, &:focus': {
+      backgroundColor: theme.palette.common.black7,
+    },
   },
   modal: {
     minHeight: 'auto',

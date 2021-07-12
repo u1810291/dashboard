@@ -23,19 +23,28 @@ export const useStyles = makeStyles((theme) => ({
   },
   statusWrapper: {
     [theme.breakpoints.up('lg')]: {
-      flexBasis: 270,
-      maxWidth: 270,
+      flexBasis: 'auto',
+      minWidth: 250,
+      maxWidth: 'calc(41.6% - 15px)',
     },
   },
   dateWrapper: {
     [theme.breakpoints.up('lg')]: {
-      flexBasis: 'calc(25% + 15px)',
-      maxWidth: 'calc(25% + 15px)',
+      flexBasis: 'auto',
+    },
+  },
+  numberWrapper: {
+    [theme.breakpoints.up('lg')]: {
+      flexBasis: 'calc(33.33% + 15px)',
+      maxWidth: 'calc(33.33% + 15px)',
     },
   },
   buttons: {
     flexBasis: 'auto',
     maxWidth: 'none',
+    [theme.breakpoints.up('lg')]: {
+      justifyContent: 'flex-end',
+    },
     [theme.breakpoints.up('xl')]: {
       width: 'auto',
       flexWrap: 'nowrap',
@@ -49,15 +58,6 @@ export const useStyles = makeStyles((theme) => ({
   buttonWrapper: {
     [theme.breakpoints.up('lg')]: {
       flexBasis: 170,
-    },
-  },
-  deleteButtonWrapper: {
-    [theme.breakpoints.up('lg')]: {
-      flexBasis: 170,
-      marginLeft: 'auto',
-    },
-    [theme.breakpoints.up('xl')]: {
-      marginLeft: 0,
     },
   },
   button: {

@@ -94,11 +94,11 @@ export const updateCurrentFlowId = (data) => (dispatch) => {
   dispatch(getWebhooks());
 };
 
-export const merchantFlowsLoad = () => async (dispatch, getState) => {
+export const merchantFlowsLoad = (asMerchantId) => async (dispatch, getState) => {
   dispatch({ type: types.FLOWS_REQUEST });
   const merchantId = selectMerchantId(getState());
   try {
-    const { data } = await api.getMerchantFlows(merchantId);
+    const { data } = await api.getMerchantFlows(merchantId, { ...(asMerchantId && { asMerchantId }) });
     if (Array.isArray(data) && data.length > 0 && data[0].id) {
       dispatch(updateCurrentFlowId(data[0].id));
       dispatch({ type: types.FLOWS_SUCCESS, payload: data });

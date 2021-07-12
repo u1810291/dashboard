@@ -7,6 +7,8 @@ import { ProductTypes } from 'models/Product.model';
 import { merchantDeleteFlow, merchantUpdateFlow, merchantUpdateFlowList } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow, selectMerchantId } from 'state/merchant/merchant.selectors';
 import { createTypesSequence } from 'state/store.utils';
+import { subscribeToWebhook } from 'state/webhooks/webhooks.actions';
+import { selectWebhook } from 'state/webhooks/webhooks.selectors';
 import * as api from '../api/flowBuilder.client';
 import { selectFlowBuilderChangeableFlow, selectFlowBuilderProductsInGraphModel, selectFlowBuilderSelectedId } from './FlowBuilder.selectors';
 import { FlowBuilderActionGroups } from './FlowBuilder.store';
@@ -22,8 +24,9 @@ export const flowBuilderProductSelect = (productId: ProductTypes) => (dispatch) 
   dispatch({ type: types.PRODUCT_SELECT, payload: productId });
 };
 
-export const flowBuilderProductListClear = () => (dispatch) => {
+export const flowBuilderClearStore = () => (dispatch) => {
   dispatch({ type: types.PRODUCTS_IN_GRAPH_CLEAR, payload: [] });
+  dispatch({ type: types.CHANGEABLE_FLOW_CLEAR, payload: {} });
 };
 
 export const flowBuilderProductListInit = (flow) => (dispatch, getState) => {
@@ -100,6 +103,11 @@ export const flowBuilderGetTemporaryFlowId = () => async (dispatch, getState): P
     name: `${changeableFlow.name} (preview)`,
   });
   return data?._id;
+};
+
+export const flowBuilderSubscribeToTemporaryWebhook = (temporaryFlowId: string) => async (dispatch, getState) => {
+  const webhook = selectWebhook(getState());
+  await dispatch(subscribeToWebhook({ url: webhook?.url, secret: webhook?.secret }, temporaryFlowId));
 };
 
 export const flowBuilderSaveAndPublish = () => async (dispatch, getState) => {

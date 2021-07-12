@@ -14,6 +14,7 @@ export const useStyles = makeStyles((theme) => createStyles({
       padding: 0,
       '& .MuiSwitch-colorPrimary': {
         padding: 1,
+        color: theme.palette.common.white,
         '&.Mui-checked': {
           transform: 'translateX(13px)',
           color: theme.palette.common.white,
@@ -74,7 +75,7 @@ export const useStyles = makeStyles((theme) => createStyles({
   graph: {
     [theme.breakpoints.up('lg')]: {
       minWidth: 330,
-      maxHeight: 'calc(100vh - 145px)',
+      height: 'calc(100vh - 200px)',
       overflowY: 'auto',
       scrollbarWidth: 'thin',
       '&::-webkit-scrollbar': {

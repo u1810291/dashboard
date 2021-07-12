@@ -46,7 +46,7 @@ export function FlowSettings({ onClose }: {
   }, [dispatch]);
 
   const { handleDelete } = useDeleteButtonHook(handleDeleteFlow, {
-    redirectUrl: Routes.flows.root,
+    redirectUrl: Routes.flow.root,
     header: 'VerificationFlow.modal.delete.title',
     confirm: 'VerificationFlow.modal.delete.subtitle',
   });

@@ -11,6 +11,15 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.main,
     fontWeight: 'bold',
   },
+  warning: {
+    margin: 'auto 0 auto auto',
+    '&.MuiBox-root div': {
+      position: 'static',
+      '& svg': {
+        color: theme.palette.common.black90,
+      },
+    },
+  },
 }));
 
 export const ExpansionPanel = withStyles({

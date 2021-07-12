@@ -10,7 +10,7 @@ export const useStyles = makeStyles((theme) => createStyles({
   },
   container: {
     [theme.breakpoints.up('lg')]: {
-      maxHeight: 'calc(100vh - 120px)',
+      maxHeight: 'calc(100vh - 175px)',
       overflowY: 'auto',
       overflowX: 'hidden',
       scrollbarWidth: 'thin',

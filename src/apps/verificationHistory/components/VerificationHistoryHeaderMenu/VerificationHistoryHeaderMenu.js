@@ -10,6 +10,7 @@ import { FiChevronLeft } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
+import { IS_FLOW_BUILDER_RELEASED } from 'models/Release.model';
 import { useStyles } from './VerificationHistoryHeaderMenu.styles';
 
 export function VerificationHistoryHeaderMenu() {
@@ -24,7 +25,7 @@ export function VerificationHistoryHeaderMenu() {
       <Grid item container justify="space-between">
         {/* Back to list */}
         <Grid item>
-          <Link to={`${Routes.list.root}/${id}`}>
+          <Link to={`${IS_FLOW_BUILDER_RELEASED ? Routes.identity.profile.root : Routes.list.root}/${id}`}>
             <ButtonHeaderMenu
               variant="contained"
               startIcon={<FiChevronLeft />}

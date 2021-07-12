@@ -6,8 +6,11 @@ import { cloneDeep } from 'lodash';
 import { ProductSettingsProps } from 'models/Product.model';
 import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 import { COMPANY_NAME_LENGTH_LIMIT, getDefaultRiskThresholdMode, PhoneCheckSettingTypes, PhoneOwnershipValidationTypes, PhoneRiskPredefinedThreshold, PhoneRiskThresholdModes, ScoreMapping, validateRiskThreshold } from '../../models/PhoneCheck.model';
 import { TextFieldInputScore, useStyles } from './PhoneCheckSettings.styles';
+import { selectCanUsePhoneValidation } from '../../state/PhoneCheck.selectors';
+import { ProductCanUseContainer } from '../../../merchant';
 
 export function PhoneCheckSettings({ settings, onUpdate }: ProductSettingsProps<PhoneCheckSettingTypes>) {
   const intl = useIntl();
@@ -17,6 +20,7 @@ export function PhoneCheckSettings({ settings, onUpdate }: ProductSettingsProps<
   const [companyName, setCompanyName] = useState<string>(settings[PhoneCheckSettingTypes.CompanyName].value);
   const [riskScore, setRiskScore] = useState<PhoneRiskPredefinedThreshold | number>(settings[PhoneCheckSettingTypes.PhoneRiskThreshold].value);
   const [currentMethod, setCurrentMethod] = useState<PhoneOwnershipValidationTypes>(settings[PhoneCheckSettingTypes.PhoneOwnershipValidation].value);
+  const [isCanUsePhoneValidation] = useState<boolean>(useSelector(selectCanUsePhoneValidation));
   const [riskThresholdMode, setRiskThresholdMode] = useState<PhoneRiskThresholdModes>(getDefaultRiskThresholdMode(settings[PhoneCheckSettingTypes.PhoneRiskThreshold].value));
   const [riskThresholdError, setRiskThresholdError] = useState<string>();
   const [companyNameError, setCompanyNameError] = useState<string>('');
@@ -70,111 +74,104 @@ export function PhoneCheckSettings({ settings, onUpdate }: ProductSettingsProps<
   }, [handleUpdate]);
 
   return (
-    <Box>
-      <Box mb={4}>
-        <ExtendedDescription
-          title={intl.formatMessage({ id: 'PhoneCheck.settings.phoneValidation.title' })}
-          text={intl.formatMessage({ id: 'PhoneCheck.settings.phoneValidation.description' })}
-          postfix={(
-            <Switch
-              name="phoneValidaiton"
-              color="primary"
-              size="small"
-              checked={currentMethod === PhoneOwnershipValidationTypes.Sms || currentMethod === PhoneOwnershipValidationTypes.SmsOptional}
-              onChange={handleModeChange(PhoneOwnershipValidationTypes.Sms, PhoneOwnershipValidationTypes.None)}
-            />
+    <ProductCanUseContainer isCanUseProduct={isCanUsePhoneValidation}>
+      <Box>
+        <Box mb={4}>
+          <ExtendedDescription
+            title={intl.formatMessage({ id: 'PhoneCheck.settings.phoneValidation.title' })}
+            text={intl.formatMessage({ id: 'PhoneCheck.settings.phoneValidation.description' })}
+          />
+        </Box>
+        <Box mb={4}>
+          <ExtendedDescription
+            title={intl.formatMessage({ id: 'PhoneCheck.settings.optionalStep.title' })}
+            text={intl.formatMessage({ id: 'PhoneCheck.settings.optionalStep.description' })}
+            postfix={(
+              <Switch
+                name="makeStepSmsOptional"
+                color="primary"
+                size="small"
+                checked={currentMethod === PhoneOwnershipValidationTypes.SmsOptional}
+                onChange={handleModeChange(PhoneOwnershipValidationTypes.SmsOptional, PhoneOwnershipValidationTypes.Sms)}
+                disabled={currentMethod === PhoneOwnershipValidationTypes.None || !isCanUsePhoneValidation}
+              />
           )}
-        />
-      </Box>
-      <Box mb={4}>
-        <ExtendedDescription
-          title={intl.formatMessage({ id: 'PhoneCheck.settings.optionalStep.title' })}
-          text={intl.formatMessage({ id: 'PhoneCheck.settings.optionalStep.description' })}
-          postfix={(
-            <Switch
-              name="makeStepSmsOptional"
-              color="primary"
-              size="small"
-              checked={currentMethod === PhoneOwnershipValidationTypes.SmsOptional}
-              onChange={handleModeChange(PhoneOwnershipValidationTypes.SmsOptional, PhoneOwnershipValidationTypes.Sms)}
-              disabled={currentMethod === PhoneOwnershipValidationTypes.None}
-            />
+          />
+        </Box>
+        <Box mb={4}>
+          <ExtendedDescription
+            title={intl.formatMessage({ id: 'PhoneCheck.settings.companyName.title' })}
+            text={intl.formatMessage({ id: 'PhoneCheck.settings.companyName.description' })}
+          />
+          <TextFieldName
+            type="text"
+            value={companyName}
+            onChange={handleCompanyNameChange}
+            error={!!companyNameError}
+            className={classes.companyName}
+            helperText={companyNameError && intl.formatMessage({ id: `PhoneCheck.settings.companyName.${companyNameError}` })}
+            disabled={currentMethod === PhoneOwnershipValidationTypes.None || !isCanUsePhoneValidation}
+          />
+        </Box>
+        <Box mb={4}>
+          <ExtendedDescription
+            title={intl.formatMessage({ id: 'PhoneCheck.settings.riskAnalysis.title' })}
+            text={intl.formatMessage({ id: 'PhoneCheck.settings.riskAnalysis.description' })}
+            postfix={(
+              <Switch
+                name="riskAnalysis"
+                color="primary"
+                size="small"
+                checked={isPhoneRiskEnabled}
+                onChange={handlePhoneRiskModeToggle}
+                disabled={currentMethod === PhoneOwnershipValidationTypes.None || !isCanUsePhoneValidation}
+              />
           )}
-        />
-      </Box>
-      <Box mb={4}>
-        <ExtendedDescription
-          title={intl.formatMessage({ id: 'PhoneCheck.settings.companyName.title' })}
-          text={intl.formatMessage({ id: 'PhoneCheck.settings.companyName.description' })}
-        />
-        <TextFieldName
-          type="text"
-          value={companyName}
-          onChange={handleCompanyNameChange}
-          error={!!companyNameError}
-          className={classes.companyName}
-          helperText={companyNameError && intl.formatMessage({ id: `Product.PhoneCheck.companyName.${companyNameError}` })}
-          disabled={currentMethod === PhoneOwnershipValidationTypes.None}
-        />
-      </Box>
-      <Box mb={4}>
-        <ExtendedDescription
-          title={intl.formatMessage({ id: 'PhoneCheck.settings.riskAnalysis.title' })}
-          text={intl.formatMessage({ id: 'PhoneCheck.settings.riskAnalysis.description' })}
-          postfix={(
-            <Switch
-              name="riskAnalysis"
-              color="primary"
-              size="small"
-              checked={isPhoneRiskEnabled}
-              onChange={handlePhoneRiskModeToggle}
-              disabled={currentMethod === PhoneOwnershipValidationTypes.None}
-            />
-          )}
-        />
-        <RadioGroup
-          aria-label="risk-analysis-configuration"
-          name="risk-analysis-configuration"
-          value={riskThresholdMode}
-          onChange={handlePhoneRiskModeChange}
-        >
-          {Object.keys(PhoneRiskThresholdModes).map((mode) => (
-            <BoxBordered key={mode} mt={1} width="100%">
-              <FormControlLabel
-                value={mode}
-                control={<RadioButton color="primary" />}
-                className={classes.riskAnalysis}
-                label={(
-                  <>
-                    <Box mb={0.5} color="common.black90" fontWeight="bold">
-                      {intl.formatMessage({ id: `PhoneCheck.settings.riskAnalysis.${mode.toLowerCase()}.title` }, {
-                        score: ScoreMapping[mode],
-                      })}
-                    </Box>
-                    {mode !== PhoneRiskThresholdModes.Custom && (
-                      <Box color="common.black75" lineHeight={1.2}>
-                        {intl.formatMessage({ id: `PhoneCheck.settings.riskAnalysis.${mode.toLowerCase()}.description` })}
+          />
+          <RadioGroup
+            aria-label="risk-analysis-configuration"
+            name="risk-analysis-configuration"
+            value={riskThresholdMode}
+            onChange={handlePhoneRiskModeChange}
+          >
+            {Object.values(PhoneRiskThresholdModes).map((mode) => (
+              <BoxBordered key={mode} mt={1} width="100%">
+                <FormControlLabel
+                  value={mode}
+                  control={<RadioButton color="primary" />}
+                  className={classes.riskAnalysis}
+                  label={(
+                    <>
+                      <Box mb={0.5} color="common.black90" fontWeight="bold">
+                        {intl.formatMessage({ id: `PhoneCheck.settings.riskAnalysis.${mode}.title` }, {
+                          score: ScoreMapping[mode],
+                        })}
                       </Box>
-                    )}
-                    {mode === PhoneRiskThresholdModes.Custom && (
+                      {mode !== PhoneRiskThresholdModes.Custom && (
+                      <Box color="common.black75" lineHeight={1.2}>
+                        {intl.formatMessage({ id: `PhoneCheck.settings.riskAnalysis.${mode}.description` })}
+                      </Box>
+                      )}
+                      {mode === PhoneRiskThresholdModes.Custom && (
                       <TextFieldInputScore
                         value={riskThresholdMode === mode ? riskScore : ''}
                         onBlur={handleRiskScoreBlur}
                         onChange={handleRiskScoreChange}
                         placeholder={`${PhoneRiskPredefinedThreshold.Min}-${PhoneRiskPredefinedThreshold.Max}`}
                         error={!!riskThresholdError}
-                        helperText={riskThresholdError && intl.formatMessage({ id: `Product.PhoneCheck.riskAnalisys.${mode.toLowerCase()}.validations.${riskThresholdError}` })}
-                        disabled={!isPhoneRiskEnabled}
+                        helperText={riskThresholdError && intl.formatMessage({ id: `PhoneCheck.settings.riskAnalysis.${mode}.validations.${riskThresholdError}` })}
+                        disabled={!isPhoneRiskEnabled || !isCanUsePhoneValidation}
                       />
-                    )}
-                  </>
+                      )}
+                    </>
                 )}
-                disabled={!isPhoneRiskEnabled}
-              />
-            </BoxBordered>
-          ))}
-        </RadioGroup>
+                  disabled={!isPhoneRiskEnabled || !isCanUsePhoneValidation}
+                />
+              </BoxBordered>
+            ))}
+          </RadioGroup>
+        </Box>
       </Box>
-    </Box>
+    </ProductCanUseContainer>
   );
 }

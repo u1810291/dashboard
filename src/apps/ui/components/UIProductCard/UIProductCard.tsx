@@ -4,7 +4,7 @@ import { Modal, useOverlay } from 'apps/overlay';
 import classNames from 'classnames';
 import { IProductCard, ProductIntegrationTypes } from 'models/Product.model';
 import React, { useCallback, useState } from 'react';
-import { FiSettings, FiTrash2, FiInfo } from 'react-icons/fi';
+import { FiTrash2, FiInfo } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { ProductCheckList } from '../ProductCheckList/ProductCheckList';
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, useStyles } from './UIProductCard.styles';
@@ -37,7 +37,7 @@ export function UIProductCard({ card, issuesComponent, isExpandable = true, isCo
 
   return (
     <Box className={classes.root}>
-      <ExpansionPanel expanded={isExpanded} onChange={handleChange}>
+      <ExpansionPanel expanded={isExpanded} onChange={handleChange} onClick={isControls && onOpen} TransitionProps={{ unmountOnExit: true }}>
         <ExpansionPanelSummary expandIcon={isExpandable && card.checks.length > 0 && <ExpandMore />}>
           <Grid container alignItems="center" wrap="nowrap">
             {card.icon && (
@@ -45,7 +45,7 @@ export function UIProductCard({ card, issuesComponent, isExpandable = true, isCo
                 <Box className={classes.icon}>{card.icon}</Box>
               </Grid>
             )}
-            <Box ml={1}>
+            <Box ml={1} mr={2}>
               {card.title && (
                 <Box mb={0.5} fontSize={16} color="common.black90">
                   {intl.formatMessage({ id: card.title })}
@@ -71,9 +71,6 @@ export function UIProductCard({ card, issuesComponent, isExpandable = true, isCo
       </ExpansionPanel>
       {isControls && (
         <Box>
-          <Button className={classNames(classes.control, classes.controlSettings)} onClick={onOpen}>
-            <FiSettings size={17} />
-          </Button>
           <Button className={classNames(classes.control, classes.controlTrash)} onClick={onRemove}>
             <FiTrash2 size={17} />
           </Button>

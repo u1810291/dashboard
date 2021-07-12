@@ -21,8 +21,8 @@ export function saveBusinessName(businessName) {
 }
 
 // flows api
-export function getMerchantFlows(merchantId) {
-  return http.get(`api/v1/merchants/${merchantId}/flows`);
+export function getMerchantFlows(merchantId, params) {
+  return http.get(`api/v1/merchants/${merchantId}/flows`, params);
 }
 
 export function createMerchantFlow(merchantId, data) {

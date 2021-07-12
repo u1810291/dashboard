@@ -32,8 +32,9 @@ export function CountryRestrictionSettings({ onUpdate, countries = [] }: Country
   const countriesFormatted = useMemo(() => countriesModel.value.map(mapCountries), [countriesModel, mapCountries]);
 
   const handleChange = useCallback((val) => {
-    setValue(val);
-    const result = val?.map((country) => country?.value);
+    const newValue = val || [];
+    setValue(newValue);
+    const result = newValue.map((country) => country?.value);
     onUpdate(result);
   }, [onUpdate]);
 

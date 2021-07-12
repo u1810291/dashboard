@@ -31,7 +31,11 @@ export function IpChecksConfiguration() {
     if (modeOff === IpCheckValidationTypes.Basic) {
       setIsVpnRestricted(false);
     }
-  }, []);
+
+    if (modeOn === IpCheckValidationTypes.RestrictionInvisible && (allowedRegions || []).length === 0) {
+      setAllowedRegions(null);
+    }
+  }, [allowedRegions]);
 
   const handleVpnRestricted = useCallback(({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => setIsVpnRestricted(checked), []);
 
@@ -141,7 +145,15 @@ export function IpChecksConfiguration() {
               </Grid>
             </Box>
             <Box mt={2}>
-              <Button variant="contained" color="primary" size="large" onClick={openCountryModal}>{intl.formatMessage({ id: 'Product.configuration.ipCheck.geoRestriction.editButton' })}</Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={openCountryModal}
+                disabled={currentMethod === IpCheckValidationTypes.None || currentMethod === IpCheckValidationTypes.Basic}
+              >
+                {intl.formatMessage({ id: 'Product.configuration.ipCheck.geoRestriction.editButton' })}
+              </Button>
             </Box>
             <RadioGroup
               aria-label="ipCheck-configuration"
@@ -158,7 +170,7 @@ export function IpChecksConfiguration() {
                         {intl.formatMessage({ id: 'Product.configuration.ipCheck.checks.invisible' })}
                       </Typography>
                     </Box>
-                      )}
+                  )}
                   value={IpCheckValidationTypes.RestrictionInvisible}
                   disabled={currentMethod === IpCheckValidationTypes.None || currentMethod === IpCheckValidationTypes.Basic}
                 />
@@ -177,7 +189,7 @@ export function IpChecksConfiguration() {
                         {intl.formatMessage({ id: 'Product.configuration.ipCheck.checks.visible' })}
                       </Typography>
                     </Box>
-                      )}
+                  )}
                   value={IpCheckValidationTypes.RestrictionVisible}
                   disabled={currentMethod === IpCheckValidationTypes.None || currentMethod === IpCheckValidationTypes.Basic}
                 />
@@ -196,7 +208,7 @@ export function IpChecksConfiguration() {
                         {intl.formatMessage({ id: 'Product.configuration.ipCheck.checks.verificationFlowBlock' })}
                       </Typography>
                     </Box>
-                      )}
+                  )}
                   value={IpCheckValidationTypes.RestrictionBlock}
                   disabled={currentMethod === IpCheckValidationTypes.None || currentMethod === IpCheckValidationTypes.Basic}
                 />
