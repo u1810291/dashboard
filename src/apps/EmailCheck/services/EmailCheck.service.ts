@@ -20,10 +20,10 @@ export class EmailCheck extends ProductBaseService implements Product {
   ];
   checks = [{
     id: EmailCheckCheckTypes.EmailCheck,
-    isActive: false,
+    isActive: true,
   }, {
     id: EmailCheckCheckTypes.RiskCheck,
-    isActive: false,
+    isActive: true,
   }];
   component = EmailCheckSettings;
   componentVerification = EmailCheckVerification;
