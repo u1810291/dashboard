@@ -31,7 +31,7 @@ export function PassedFlows() {
 
   return (
     <Box>
-      <Box color="common.black90" fontWeight="bold" mb={1}>
+      <Box color="common.black90" fontWeight="bold" mb={1.4}>
         {intl.formatMessage({ id: 'IdentityProfile.label.passedFlows' })}
       </Box>
       {flows.map(({ value: flow }) => (

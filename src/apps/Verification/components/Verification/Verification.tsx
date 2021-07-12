@@ -2,7 +2,7 @@ import { Box, Grid } from '@material-ui/core';
 import { ProductTypes } from 'models/Product.model';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { ProductVerification } from '../../../Product/components/ProductVerification/ProductVerification';
+import { ProductVerification } from 'apps/Product/components/ProductVerification/ProductVerification';
 import { selectVerificationProductList } from '../../state/Verification.selectors';
 import { VerificationProductList } from '../VerificationProductList/VerificationProductList';
 import { useStyles } from './Verification.styles';

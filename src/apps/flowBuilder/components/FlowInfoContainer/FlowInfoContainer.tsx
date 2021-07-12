@@ -21,7 +21,7 @@ export function FlowInfoContainer() {
         <FiSettings />
       </IconButton>
       <Grid container alignItems="flex-start" wrap="nowrap">
-        <Link to={Routes.flows.root} className={classes.link}>
+        <Link to={Routes.flow.root} className={classes.link}>
           <FiChevronLeft />
         </Link>
         <Box pr={2}>

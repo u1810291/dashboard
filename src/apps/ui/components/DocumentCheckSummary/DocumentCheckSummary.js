@@ -11,7 +11,7 @@ export function DocumentCheckSummary({ document }) {
       <Typography variant="h5" gutterBottom>{title}</Typography>
       {document.steps.map((step) => (
         <Box mt={1} key={step.id}>
-          <CheckBarExpandable step={step} isShowExtra={false} tipPosition="left" />
+          <CheckBarExpandable step={step} isShowExtra={false} tipPosition="left" isNoBadge />
         </Box>
       ))}
     </div>

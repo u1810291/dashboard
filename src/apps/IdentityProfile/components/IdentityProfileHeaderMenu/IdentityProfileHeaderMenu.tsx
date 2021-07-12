@@ -1,4 +1,5 @@
 import { Grid } from '@material-ui/core';
+import { Routes } from 'models/Router.model';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FiChevronLeft } from 'react-icons/fi';
@@ -14,7 +15,7 @@ import { useStyles } from './IdentityProfileHeaderMenu.styles';
 export function IdentityProfileHeaderMenu() {
   const intl = useIntl();
   const classes = useStyles();
-  const [goBackToListLink] = useState(getGoBackToListLink(useLocation()));
+  const [goBackToListLink] = useState(getGoBackToListLink(useLocation(), Routes.identity.verification.root));
   const identity = useSelector(selectIdentityProfile);
 
   return (

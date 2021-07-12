@@ -21,10 +21,10 @@ export enum PhoneOwnershipValidationTypes {
 }
 
 export enum PhoneRiskThresholdModes {
-  Low = 'Low',
-  Medium = 'Medium',
-  High = 'High',
-  Custom = 'Custom',
+  Low = 'low',
+  Medium = 'medium',
+  High = 'high',
+  Custom = 'custom',
 }
 
 export enum PhoneRiskPredefinedThreshold {

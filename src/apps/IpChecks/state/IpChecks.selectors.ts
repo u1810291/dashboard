@@ -11,7 +11,7 @@ export const selectIpCheckMode = createSelector(
 
 export const selectVpnRestriction = createSelector(
   selectVerificationPattern,
-  (patterns: VerificationPatterns): boolean => patterns[VerificationPatternTypes.VpnDetection],
+  (patterns: VerificationPatterns): boolean => patterns[VerificationPatternTypes.VpnDetection] || false,
 );
 
 export const selectAllowedRegions = createSelector(

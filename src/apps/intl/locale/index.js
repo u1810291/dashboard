@@ -9,11 +9,16 @@ export const translations = {
     ...en,
     ...enRegions,
   },
+  // For locales other than english: use messages in English as base so that we
+  // fallback to English in case we're missing translations for other locales
+  // to avoid displaying a bare message ID.
   [SupportedLocales.ES]: {
+    ...en,
     ...es,
     ...enRegions,
   },
   [SupportedLocales.ptBR]: {
+    ...en,
     ...pt,
     ...enRegions,
   },

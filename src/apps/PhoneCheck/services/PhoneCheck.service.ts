@@ -55,17 +55,24 @@ export class PhoneCheck extends ProductBaseService implements Product {
       phoneRiskAnalysisThreshold: settings[PhoneCheckSettingTypes.PhoneRiskThreshold].value,
       verificationPatterns: {
         [VerificationPatternTypes.PhoneOwnershipValidation]: settings[PhoneCheckSettingTypes.PhoneOwnershipValidation].value,
-        [VerificationPatternTypes.PhoneOwnershipValidation]: settings[PhoneCheckSettingTypes.PhoneRiskValidation].value,
+        [VerificationPatternTypes.PhoneRiskValidation]: settings[PhoneCheckSettingTypes.PhoneRiskValidation].value,
       },
     };
   }
 
   onRemove(): Partial<IFlow> {
-    super.onRemove();
     return {
       verificationPatterns: {
         [VerificationPatternTypes.PhoneOwnershipValidation]: PhoneOwnershipValidationTypes.None,
         [VerificationPatternTypes.PhoneRiskValidation]: false,
+      },
+    };
+  }
+
+  onAdd(): Partial<IFlow> {
+    return {
+      verificationPatterns: {
+        [VerificationPatternTypes.PhoneOwnershipValidation]: PhoneOwnershipValidationTypes.Sms,
       },
     };
   }

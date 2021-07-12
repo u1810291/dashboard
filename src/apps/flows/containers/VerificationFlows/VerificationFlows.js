@@ -16,6 +16,10 @@ import { AddNewFlowModal } from '../../components/AddNewFlowDialog/AddNewFlowMod
 import { flowNameValidator } from '../../validators/FlowName.validator';
 import { useStyles } from './VerificationFlows.styles';
 
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export function VerificationFlows() {
   const classes = useStyles();
   const intl = useIntl();

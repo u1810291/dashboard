@@ -15,6 +15,8 @@ import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
 import { Routes } from 'models/Router.model';
 import { SoftLaunchBanner } from 'apps/ui/components/SoftLaunchSwitch/SoftLaunchBanner';
 import { SoftLaunchBanners } from 'apps/ui/models/SoftLaunchBanner.model';
+import { IS_FLOW_BUILDER_RELEASED } from 'models/Release.model';
+import { dashboardShowOldDesignUntilUpdate } from 'apps/dashboard/state/dashboard.actions';
 import { useStyles } from './Product.styles';
 
 export function Product() {
@@ -51,8 +53,9 @@ export function Product() {
   }, [currentFlow, dispatch, id]);
 
   const handleSoftLaunchSwitch = useCallback(() => {
+    dispatch(dashboardShowOldDesignUntilUpdate(null));
     history.push(`${Routes.flow.root}/${id}`);
-  }, [id, history]);
+  }, [id, history, dispatch]);
 
   if (!currentFlow) {
     return <Page404 />;
@@ -61,8 +64,7 @@ export function Product() {
   // noinspection PointlessBooleanExpressionJS
   return (
     <>
-      {/* TODO: @ggrigorev !!!! restore when FlowBuilder is ready for prod */}
-      {false && (
+      {IS_FLOW_BUILDER_RELEASED && (
         <SoftLaunchBanner
           id={SoftLaunchBanners.Old}
           onClick={handleSoftLaunchSwitch}

@@ -19,13 +19,10 @@ export class EmailCheck extends ProductBaseService implements Product {
     ProductInputTypes.EmailAddress,
   ];
   checks = [{
-    id: EmailCheckCheckTypes.VpnAndProxy,
+    id: EmailCheckCheckTypes.EmailCheck,
     isActive: false,
   }, {
-    id: EmailCheckCheckTypes.GeoIp,
-    isActive: false,
-  }, {
-    id: EmailCheckCheckTypes.RiskyIP,
+    id: EmailCheckCheckTypes.RiskCheck,
     isActive: false,
   }];
   component = EmailCheckSettings;
@@ -57,6 +54,14 @@ export class EmailCheck extends ProductBaseService implements Product {
       verificationPatterns: {
         [VerificationPatternTypes.EmailOwnershipValidation]: settings[EmailCheckSettingTypes.EmailOwnershipValidation].value,
         [VerificationPatternTypes.EmailRiskValidation]: settings[EmailCheckSettingTypes.EmailRiskValidation].value,
+      },
+    };
+  }
+
+  onAdd(): Partial<IFlow> {
+    return {
+      verificationPatterns: {
+        [VerificationPatternTypes.EmailOwnershipValidation]: EmailCheckStepModes.Forced,
       },
     };
   }

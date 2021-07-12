@@ -11,7 +11,6 @@ import { getEmailVerificationExtra } from './EmailValidation.model';
 import { initDateFilter } from './Filter.model';
 import { getIpCheckStep } from './IpCheck.model';
 import { ITEMS_PER_PAGE } from './Pagination.model';
-import { Routes } from './Router.model';
 import { isChangeableStatus } from './Status.model';
 import { DocumentStepTypes, getStepExtra, StepTypes } from './Step.model';
 import { VerificationPatternTypes } from './VerificationPatterns.model';
@@ -40,7 +39,7 @@ export enum OrderKeyTypes {
   status = 'status',
 }
 
-export const tableColumnsData = [
+export const tableColumnsData: {id: OrderKeyTypes; isSortable?: boolean}[] = [
   {
     id: OrderKeyTypes.fullName,
     isSortable: true,
@@ -106,10 +105,10 @@ export function getIdentityExtras(identity, countries) {
   };
 }
 
-export function getGoBackToListLink(location) {
-  return location.state?.from?.startsWith(Routes.list.root)
+export function getGoBackToListLink(location, listRoute: string) {
+  return location.state?.from?.startsWith(listRoute)
     ? location.state.from
-    : Routes.list.root;
+    : listRoute;
 }
 
 export function getDownloadableFileName(verification) {

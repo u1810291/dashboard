@@ -2,10 +2,41 @@ import { get, set } from 'lodash';
 import { BiometricTypes } from 'models/Biometric.model';
 import { http } from 'lib/client/http';
 
+export function getVerifications(params) {
+  return http.get('/api/v1/dashboard/verification', { params });
+}
+
+export function getVerificationsCount(params) {
+  return http.get('/api/v1/dashboard/verification/count', { params });
+}
+
+export function downloadVerificationCSV(params) {
+  return http.get('/api/v1/dashboard/verification/export/csv', {
+    params,
+    responseType: 'blob',
+  });
+}
+
+export function deleteVerification(identityId, verificationId) {
+  return http.delete(`/api/v1/dashboard/identity/${identityId}/verification/${verificationId}`);
+}
+
+export function getIdentityVerifications(identityId) {
+  return http.get(`/api/v1/dashboard/identity/${identityId}/verification`);
+}
+
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export function getIdentities(params) {
   return http.get('/v1/identities', { params });
 }
 
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export function downloadCSV(params) {
   return http.get('/v1/identities', {
     params,
@@ -13,6 +44,10 @@ export function downloadCSV(params) {
   });
 }
 
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export function getIdentitiesCount(params) {
   return http.get('/v1/identities/count', { params });
 }

@@ -98,23 +98,23 @@ export function DocumentStep({ document, identity, documentIndex, onDocumentUpda
                 </Box>
                 <Grid item container>
                   {documentFailedCheckSteps.map((step) => (
-                    <CheckBarExpandable step={step} key={step.id}>
+                    <CheckBarExpandable step={step} key={step.id} isNoBadge>
                       <CheckStepDetails step={step} />
                     </CheckBarExpandable>
                   ))}
                   {securityCheckSteps.map((step) => (
-                    <CheckBarExpandable step={step} key={step.id}>
+                    <CheckBarExpandable step={step} key={step.id} isNoBadge>
                       <CheckStepDetails step={step} />
                     </CheckBarExpandable>
                   ))}
                   {govChecksSteps.map((step) => (
-                    <CheckBarExpandable step={step} key={step.id}>
+                    <CheckBarExpandable step={step} key={step.id} isNoBadge>
                       <CheckStepDetails step={step} isGovCheck />
                     </CheckBarExpandable>
                   ))}
                   {premiumAmlWatchlistsStep
                     && (
-                      <CheckBarExpandable step={premiumAmlWatchlistsStep} key={premiumAmlWatchlistsStep.id}>
+                      <CheckBarExpandable step={premiumAmlWatchlistsStep} key={premiumAmlWatchlistsStep.id} isNoBadge>
                         <PremiumAmlWatchlistsStepDetails step={premiumAmlWatchlistsStep} />
                       </CheckBarExpandable>
                     )}

@@ -1,4 +1,5 @@
 import { notification } from 'apps/ui';
+import * as client from 'apps/Verification/client/Verification.client';
 import * as api from 'lib/client/identities';
 import { ERROR_COMMON, IN_REVIEW_MODE_ERROR, isInReviewModeError } from 'models/Error.model';
 import { Dispatch } from 'redux';
@@ -34,6 +35,16 @@ export const newVerificationDocumentUpdate = (verificationId: string, documentTy
     } else {
       notification.error(ERROR_COMMON);
     }
+    throw error;
+  }
+};
+
+export const verificationRemove = (verificationId: string) => async (dispatch: Dispatch) => {
+  try {
+    await client.deleteVerification(verificationId);
+    dispatch({ type: VerificationActionTypes.VERIFICATION_REMOVE, payload: verificationId });
+  } catch (error) {
+    notification.error(ERROR_COMMON);
     throw error;
   }
 };

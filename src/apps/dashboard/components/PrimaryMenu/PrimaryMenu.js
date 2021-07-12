@@ -4,6 +4,7 @@ import { Routes } from 'models/Router.model';
 import React from 'react';
 import { FiBarChart2, FiCode, FiList, FiUserCheck } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
+import { IS_FLOW_BUILDER_RELEASED } from 'models/Release.model';
 
 export function PrimaryMenu({ isOwner = false, ...props }) {
   const intl = useIntl();
@@ -18,16 +19,16 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
       qa: QATags.Menu.Metrics,
     },
     {
-      id: 'identities',
-      to: Routes.list.root,
+      id: 'verifications',
+      to: IS_FLOW_BUILDER_RELEASED ? Routes.identity.verification.root : Routes.list.root,
       label: intl.formatMessage({ id: 'dashboard.menu.identities' }),
       icon: <FiList />,
       qa: QATags.Menu.VerificationList,
     },
     {
-      id: 'product',
+      id: 'flows',
       show: isOwner,
-      to: Routes.flows.root,
+      to: IS_FLOW_BUILDER_RELEASED ? Routes.flow.root : Routes.flows.root,
       label: intl.formatMessage({ id: 'dashboard.menu.product' }),
       icon: <FiUserCheck />,
       qa: QATags.Menu.Product,

@@ -15,6 +15,7 @@ export function Filter({ children, onClose, onSetFilter, selectFilter, cleanFilt
   const classes = useStyles();
   const preliminaryFilteredCountModel = useSelector(preliminaryCountSelector || selectPreliminaryFilteredCountModel);
   const [bufferedFilter, setBufferedFilter] = useState({ flowIds: [], ...selectFilter });
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const [currentDate] = useState(new Date());
 
   const handleFilterChange = useCallback((params) => {
@@ -22,10 +23,16 @@ export function Filter({ children, onClose, onSetFilter, selectFilter, cleanFilt
   }, [setBufferedFilter]);
 
   useEffect(() => {
+    // TODO: @ggrigorev
+    // TODO: @vladislav.snimshchikov find a better way to prevent double /count request, problem is at DateRange/useEffect/handleOnRangeClick
+    if (isFirstRender) {
+      setIsFirstRender(false);
+      return;
+    }
     if (loadPreliminaryCountAction) {
       dispatch(loadPreliminaryCountAction({ ...bufferedFilter }, true));
     }
-  }, [bufferedFilter, dispatch, loadPreliminaryCountAction]);
+  }, [isFirstRender, bufferedFilter, dispatch, loadPreliminaryCountAction]);
 
   const handleDateChange = useCallback((dateRange) => {
     handleFilterChange(dateRange);

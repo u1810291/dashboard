@@ -59,9 +59,11 @@ export function StatusSelector({ value, isOpen, onSelect, header }: StatusSelect
         <Typography variant="h3" className={classes.title}>
           {intl.formatMessage({ id: getIdentityStatusLabel(value?.id) })}
         </Typography>
-        <Typography variant="body1">
-          {intl.formatMessage({ id: getIdentityStatusExplanation(value?.id) })}
-        </Typography>
+        <Box pr={2}>
+          <Typography variant="body1">
+            {intl.formatMessage({ id: getIdentityStatusExplanation(value?.id) })}
+          </Typography>
+        </Box>
         {isLoading ? (
           <IconLoad className={classes.icon} />
         ) : (

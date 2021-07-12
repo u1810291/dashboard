@@ -124,8 +124,8 @@ export function EmailValidationConfiguration() {
 
   return (
     <FormControl component="fieldset">
-      <Grid container direction="row">
-        <ProductCanUseContainer isCanUseProduct={isCanUseEmailValidation}>
+      <ProductCanUseContainer isCanUseProduct={isCanUseEmailValidation}>
+        <Grid container direction="row">
           <Grid container item direction="row" spacing={1}>
             <BoxBordered mb={3}>
               <Grid container direction="row" spacing={1}>
@@ -282,8 +282,8 @@ export function EmailValidationConfiguration() {
               {intl.formatMessage({ id: 'EmailValidation.save' })}
             </Button>
           </Box>
-        </ProductCanUseContainer>
-      </Grid>
+        </Grid>
+      </ProductCanUseContainer>
     </FormControl>
   );
 }

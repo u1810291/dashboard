@@ -2,16 +2,15 @@ import { isNil } from 'lib/isNil';
 import { ProductSettings } from 'models/Product.model';
 
 export enum EmailCheckCheckTypes {
-  VpnAndProxy = 'vpnAndProxy',
-  GeoIp = 'geoIp',
-  RiskyIP = 'riskyIp',
+  EmailCheck = 'emailCheck',
+  RiskCheck = 'riskCheck',
 }
 
 export enum EmailRiskThresholdModes {
-  Low = 'Low',
-  Medium = 'Medium',
-  High = 'High',
-  Custom = 'Custom',
+  Low = 'low',
+  Medium = 'medium',
+  High = 'high',
+  Custom = 'custom',
 }
 
 export enum EmailCheckSettingTypes {

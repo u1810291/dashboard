@@ -33,7 +33,7 @@ const ColorMap = {
 
 export function Warning({ title = '', label, type = WarningTypes.Warning, size = WarningSize.Normal, isLabelColored = false, bordered = false, className }: {
   title?: string;
-  label: string;
+  label: string | React.ReactNode;
   type?: WarningTypes;
   size?: WarningSize;
   className?: string;

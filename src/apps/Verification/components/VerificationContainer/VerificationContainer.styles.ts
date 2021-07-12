@@ -24,6 +24,7 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     minHeight: 'calc(100vh - 190px)',
+    height: '100%',
     padding: 40,
     '& p': {
       maxWidth: 160,

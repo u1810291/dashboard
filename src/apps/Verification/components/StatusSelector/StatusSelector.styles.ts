@@ -10,7 +10,7 @@ export const useStyles = makeStyles((theme) => ({
   title: {
     paddingRight: 20,
     fontSize: 21,
-    lineHeight: 1.4,
+    lineHeight: 1.2,
   },
   icon: {
     position: 'absolute',

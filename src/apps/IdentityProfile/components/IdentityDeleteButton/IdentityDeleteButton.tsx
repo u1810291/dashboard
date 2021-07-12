@@ -8,11 +8,9 @@ import { useDispatch } from 'react-redux';
 import { identityProfileRemove } from '../../store/IdentityProfile.actions';
 import { useStyles } from './IdentityDeleteButton.styles';
 
-export interface IdentityDeleteButtonProps {
-  identityId: string,
-}
-
-export function IdentityDeleteButton({ identityId } : IdentityDeleteButtonProps) {
+export function IdentityDeleteButton({ identityId }: {
+  identityId: string;
+}) {
   const dispatch = useDispatch();
   const intl = useIntl();
   const classes = useStyles();
@@ -24,7 +22,7 @@ export function IdentityDeleteButton({ identityId } : IdentityDeleteButtonProps)
   }, [dispatch, identityId]);
 
   const { isDeleting, handleDelete } = useDeleteButtonHook(handleDeleteIdentity, {
-    redirectUrl: Routes.list.root,
+    redirectUrl: Routes.identity.verification.root,
   });
 
   return (

@@ -61,6 +61,14 @@ export class IpCheck extends ProductBaseService implements Product<ProductSettin
     };
   }
 
+  onAdd(): Partial<IFlow> {
+    return {
+      verificationPatterns: {
+        [VerificationPatternTypes.IpValidation]: IpCheckValidationTypes.Basic,
+      },
+    };
+  }
+
   onRemove(): Partial<IFlow> {
     return {
       verificationPatterns: {
