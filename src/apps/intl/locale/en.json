@@ -177,6 +177,7 @@
   "Checks.result.riskAnalysis.phoneRisk.invalidLineType": "The user’s line type is highly correlated with fraudulent activity. We recommend not to take this user’s phone number.",
   "Checks.result.riskAnalysis.phoneRisk.skipped": "User skipped this step",
   "Checks.result.riskAnalysis.title": "Phone risk profile",
+  "Checks.result.PhoneRisk.title": "Phone Risk",
   "CheckSummary.title": "Detected Issues ({count})",
   "close": "Close",
   "color.blue": "Blue",
