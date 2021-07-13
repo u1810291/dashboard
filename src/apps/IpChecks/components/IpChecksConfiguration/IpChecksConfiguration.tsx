@@ -58,7 +58,7 @@ export function IpChecksConfiguration() {
       setIsLoading(false);
     }
   },
-    [dispatch, currentMethod, isVpnRestricted, allowedRegions, intl]);
+  [dispatch, currentMethod, isVpnRestricted, allowedRegions, intl]);
 
   const openCountryModal = useCallback(() => {
     createOverlay(
