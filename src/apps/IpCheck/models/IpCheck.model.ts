@@ -27,3 +27,10 @@ export enum IpCheckValidationTypes {
   RestrictionVisible = 'restriction:visible',
   RestrictionBlock = 'restriction:block',
 }
+
+export const getAllAllowedRegions = (countries) => (
+  countries.map((country) => ({
+    country: country.id,
+    regions: country.regions,
+  }))
+);

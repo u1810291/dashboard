@@ -3,17 +3,20 @@ import { cloneDeep } from 'lodash';
 import { BoxBordered } from 'apps/ui';
 import { ProductSettingsProps } from 'models/Product.model';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { useOverlay } from 'apps/overlay';
 import { CountryModalSelect } from 'apps/CountryModalSelect';
-import { AllowedRegions, IpCheckSettingsTypes, IpCheckValidationTypes } from '../../models/IpCheck.model';
+import { selectCountriesList } from 'state/countries/countries.selectors';
+import { AllowedRegions, IpCheckSettingsTypes, IpCheckValidationTypes, getAllAllowedRegions } from '../../models/IpCheck.model';
 
 export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpCheckSettingsTypes>) {
   const intl = useIntl();
   const [createOverlay] = useOverlay();
+  const countries = useSelector(selectCountriesList);
   const [currentMethod, setCurrentMethod] = useState<IpCheckValidationTypes>(IpCheckValidationTypes.None);
   const [isVpnRestricted, setIsVpnRestricted] = useState<boolean>(false);
-  const [allowedRegions, setAllowedRegions] = useState<AllowedRegions[]>([]);
+  const [allowedRegions, setAllowedRegions] = useState<AllowedRegions[] | null>([]);
 
   useEffect(() => {
     setCurrentMethod(settings?.[IpCheckSettingsTypes.IpValidation].value);
@@ -30,8 +33,11 @@ export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpC
     if (modeOff === IpCheckValidationTypes.Basic) {
       newSettings[IpCheckSettingsTypes.VpnDetection].value = false;
     }
+    if (modeOn === IpCheckValidationTypes.RestrictionInvisible && (allowedRegions || []).length === 0) {
+      setAllowedRegions(getAllAllowedRegions(countries));
+    }
     onUpdate(newSettings);
-  }, [onUpdate, settings]);
+  }, [onUpdate, settings, allowedRegions, countries]);
 
   const handleVpnRestricted = useCallback(({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
     const newSettings = cloneDeep(settings);
