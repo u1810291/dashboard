@@ -110,7 +110,7 @@ export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<
             type="text"
             value={senderName}
             onChange={handleSenderNameChange}
-            placeholder={intl.formatMessage({ id: 'EmailCheck.settings.companyName.placeholder' })}
+            placeholder=""
             error={!!companyNameError}
             className={classes.senderName}
             helperText={companyNameError && intl.formatMessage({ id: `EmailCheck.settings.companyName.${companyNameError}` })}
