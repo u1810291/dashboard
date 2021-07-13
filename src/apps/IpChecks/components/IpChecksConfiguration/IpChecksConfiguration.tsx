@@ -140,6 +140,7 @@ export function IpChecksConfiguration() {
                     size="small"
                     checked={isVpnRestricted && currentMethod !== IpCheckValidationTypes.None}
                     onChange={handleVpnRestricted}
+                    disabled={currentMethod === IpCheckValidationTypes.None || currentMethod === IpCheckValidationTypes.Basic}
                   />
                 </Grid>
               </Grid>
