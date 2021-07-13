@@ -62,7 +62,7 @@ export class BiometricVerification extends ProductBaseService implements Product
   }
 
   getRemovingAlertComponent(flow: IFlow): any {
-    if (!flow?.verificationPatterns[VerificationPatternTypes.ProofOfOwnership] && !flow?.facematchThreshold) {
+    if (!flow?.verificationPatterns?.[VerificationPatternTypes.ProofOfOwnership] && !flow?.facematchThreshold) {
       return null;
     }
     return BiometricVerificationRemovingAlert;
@@ -72,7 +72,7 @@ export class BiometricVerification extends ProductBaseService implements Product
     return {
       [BiometricVerificationSettingsTypes.Biometrics]: {
         value: flow?.verificationPatterns?.biometrics,
-        isCantBeUsedWithOtherSetting: !!flow?.verificationPatterns[VerificationPatternTypes.ProofOfOwnership],
+        isCantBeUsedWithOtherSetting: !!flow?.verificationPatterns?.[VerificationPatternTypes.ProofOfOwnership],
       },
     };
   }

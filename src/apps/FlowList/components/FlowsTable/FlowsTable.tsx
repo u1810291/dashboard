@@ -3,10 +3,11 @@ import { selectIsNewDesign } from 'apps/dashboard/state/dashboard.selectors';
 import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
 import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
+import { dateSortCompare } from 'lib/date';
 import { getNewFlowId } from 'models/Flow.model';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,9 +31,11 @@ export function FlowsTable({ onAddNewFlow }) {
   const isNewDesign = useSelector(selectIsNewDesign);
   const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root);
 
+  const sortedFlowList = useMemo(() => [...merchantFlowList].sort((a, b) => dateSortCompare(a.createdAt, b.createdAt)), [merchantFlowList]);
+
   const handleDelete = useCallback(async (e, id) => {
     e.stopPropagation();
-    if (deleting || merchantFlowList.length <= 1) {
+    if (deleting || sortedFlowList.length <= 1) {
       return;
     }
 
@@ -53,21 +56,21 @@ export function FlowsTable({ onAddNewFlow }) {
     } finally {
       setDeleting(null);
     }
-  }, [dispatch, deleting, confirmDelete, merchantFlowModel, currentFlowId, merchantFlowList.length]);
+  }, [dispatch, deleting, confirmDelete, merchantFlowModel, currentFlowId, sortedFlowList.length]);
 
   return (
     <TableContainer className={classes.container}>
       <Table className={classes.table} data-qa={QATags.Flows.Table}>
         <TableBody>
           {/* No flows */}
-          {merchantFlowList.length === 0 && (
+          {sortedFlowList.length === 0 && (
             <TableRow>
               <TableCell className={classes.itemEmpty} colSpan={6} align="center">
                 <NoFlows onAddNewFlow={onAddNewFlow} />
               </TableCell>
             </TableRow>
           )}
-          {merchantFlowList.length > 0 && merchantFlowList.map((item) => (
+          {sortedFlowList.length > 0 && sortedFlowList.map((item) => (
             // @ts-ignore
             <TableRowHovered
               hover
@@ -93,7 +96,7 @@ export function FlowsTable({ onAddNewFlow }) {
                   <Box className={classes.label}>{intl.formatMessage({ id: 'flow.table.field.flowId' })}</Box>
                 </Box>
               </TableCell>
-              {merchantFlowList.length > 1 && (
+              {sortedFlowList.length > 1 && (
                 <TableCell className={classes.iconDeleteWrapper}>
                   <IconButton
                     size="small"

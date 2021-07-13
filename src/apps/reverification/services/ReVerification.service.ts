@@ -43,13 +43,13 @@ export class ReVerification extends ProductBaseService implements Product<Produc
   parser(flow: IFlow): ProductSettingsReVerification {
     return {
       [ReVerificationSettingTypes.Biometrics]: {
-        value: flow.verificationPatterns[VerificationPatternTypes.Biometrics],
+        value: flow.verificationPatterns?.[VerificationPatternTypes.Biometrics],
       },
       [ReVerificationSettingTypes.FacematchThreshold]: {
         value: flow.facematchThreshold,
       },
       [ReVerificationSettingTypes.ProofOfOwnership]: {
-        value: flow.verificationPatterns[VerificationPatternTypes.ProofOfOwnership],
+        value: flow.verificationPatterns?.[VerificationPatternTypes.ProofOfOwnership],
       },
     };
   }
@@ -83,7 +83,7 @@ export class ReVerification extends ProductBaseService implements Product<Produc
   }
 
   isInFlow(flow: IFlow): boolean {
-    return flow?.verificationPatterns[VerificationPatternTypes.ReFacematch];
+    return flow?.verificationPatterns?.[VerificationPatternTypes.ReFacematch];
   }
 
   getVerification(verification: VerificationResponse): IReverificationVerification {

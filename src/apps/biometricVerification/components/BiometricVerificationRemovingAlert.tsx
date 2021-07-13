@@ -13,7 +13,7 @@ export function BiometricVerificationRemovingAlert(): any {
   if (flow?.facematchThreshold) {
     settings.push(intl.formatMessage({ id: 'BiometricVerification.removingAlert.facematchCheck' }));
   }
-  if (flow?.verificationPatterns[VerificationPatternTypes.ProofOfOwnership]) {
+  if (flow?.verificationPatterns?.[VerificationPatternTypes.ProofOfOwnership]) {
     settings.push(intl.formatMessage({ id: 'BiometricVerification.removingAlert.proofOfOwnership' }));
   }
 
