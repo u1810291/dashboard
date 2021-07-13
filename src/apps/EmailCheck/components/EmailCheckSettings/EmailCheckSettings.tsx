@@ -7,10 +7,10 @@ import { cloneDeep } from 'lodash';
 import { ProductSettingsProps } from 'models/Product.model';
 import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { HOCIsAccessAllowed } from 'apps/merchant';
 import { EmailCheckSettingTypes, EmailCheckStepModes, EmailRiskPredefinedThreshold, EmailRiskThresholdModes, getDefaultRiskThresholdMode, ScoreMapping, SENDER_NAME_LENGTH_LIMIT, validateRiskThreshold } from '../../models/EmailCheck.model';
 import { TextFieldInputScore, useStyles } from './EmailCheckSettings.style';
 import { selectCanUseEmailValidation } from '../../state/EmaiCheck.selectors';
-import { ProductCanUseContainer } from '../../../merchant';
 
 export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<EmailCheckSettingTypes>) {
   const intl = useIntl();
@@ -77,7 +77,7 @@ export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<
   }, [handleUpdate]);
 
   return (
-    <ProductCanUseContainer isCanUseProduct={isCanUseEmailValidation}>
+    <HOCIsAccessAllowed isAccessAllowed={isCanUseEmailValidation}>
       <Box>
         <Box mb={4}>
           <ExtendedDescription
@@ -174,6 +174,6 @@ export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<
           </RadioGroup>
         </Box>
       </Box>
-    </ProductCanUseContainer>
+    </HOCIsAccessAllowed>
   );
 }

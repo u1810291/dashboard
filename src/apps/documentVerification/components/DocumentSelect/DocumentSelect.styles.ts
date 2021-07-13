@@ -18,6 +18,9 @@ export const useStyles = makeStyles((theme) => createStyles({
   },
   button: {
     minWidth: 170,
+    '&:not([disabled]) .MuiButton-label': {
+      color: theme.palette.common.white,
+    },
   },
   wrapper: {
     '& label': {

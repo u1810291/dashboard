@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { COMPANY_NAME_LENGTH_LIMIT, getDefaultRiskThresholdMode, PhoneCheckSettingTypes, PhoneOwnershipValidationTypes, PhoneRiskPredefinedThreshold, PhoneRiskThresholdModes, ScoreMapping, validateRiskThreshold } from '../../models/PhoneCheck.model';
 import { TextFieldInputScore, useStyles } from './PhoneCheckSettings.styles';
 import { selectCanUsePhoneValidation } from '../../state/PhoneCheck.selectors';
-import { ProductCanUseContainer } from '../../../merchant';
+import { HOCIsAccessAllowed } from '../../../merchant';
 
 export function PhoneCheckSettings({ settings, onUpdate }: ProductSettingsProps<PhoneCheckSettingTypes>) {
   const intl = useIntl();
@@ -74,7 +74,7 @@ export function PhoneCheckSettings({ settings, onUpdate }: ProductSettingsProps<
   }, [handleUpdate]);
 
   return (
-    <ProductCanUseContainer isCanUseProduct={isCanUsePhoneValidation}>
+    <HOCIsAccessAllowed isAccessAllowed={isCanUsePhoneValidation}>
       <Box>
         <Box mb={4}>
           <ExtendedDescription
@@ -172,6 +172,6 @@ export function PhoneCheckSettings({ settings, onUpdate }: ProductSettingsProps<
           </RadioGroup>
         </Box>
       </Box>
-    </ProductCanUseContainer>
+    </HOCIsAccessAllowed>
   );
 }
