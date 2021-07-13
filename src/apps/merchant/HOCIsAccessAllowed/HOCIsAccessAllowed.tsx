@@ -1,21 +1,21 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { useStyles } from './ProductCanUseContainer.styles';
+import { appPalette } from 'apps/theme';
+import { useStyles } from './HOCIsAccessAllowed.styles';
 import { BoxBordered, Warning } from '../../ui';
-import { appPalette } from '../../theme';
 
-export function ProductCanUseContainer({ children, isCanUseProduct }: {
-    children: React.ReactNode;
-    isCanUseProduct: boolean;
+export function HOCIsAccessAllowed({ children, isAccessAllowed }: {
+    children: React.ReactElement;
+    isAccessAllowed: boolean;
 }) {
   const classes = useStyles();
   const intl = useIntl();
   return (
-    isCanUseProduct
-      ? <>{children}</>
+    isAccessAllowed
+      ? children
       : (
         <>
-          <BoxBordered borderColor={appPalette.yellow} mb={2}>
+          <BoxBordered borderColor={appPalette.yellow} mb={4} p={1}>
             <Warning label={intl.formatMessage({ id: 'Product.warnings.usageInfo' }, { emailAddress: <a href="mailto:sales@mati.io">sales@mati.io</a> })} />
           </BoxBordered>
           <div className={classes.container}>

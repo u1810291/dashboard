@@ -4,6 +4,7 @@ import { Product, ProductIntegrationTypes, ProductSettings, ProductTypes, Produc
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiMail } from 'react-icons/fi';
 import { VerificationResponse } from 'models/Verification.model';
+import { MerchantTags } from 'models/Merchant.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { getEmailValidationStep, getEmailRiskStep } from 'models/EmailCheck.model';
 import { EmailCheckCheckTypes, EmailCheckStepModes, EmailCheckSettingTypes, EmailCheckProductSettings } from '../models/EmailCheck.model';
@@ -11,6 +12,11 @@ import { EmailCheckVerification, EmailCheckVerificationData } from '../component
 import { EmailCheckSettings } from '../components/EmailCheckSettings/EmailCheckSettings';
 
 export class EmailCheck extends ProductBaseService implements Product {
+  constructor(merchantTags: MerchantTags[]) {
+    super();
+    this.merchantTags = merchantTags;
+  }
+
   id = ProductTypes.EmailCheck;
   order = 700;
   integrationTypes = [
@@ -27,6 +33,7 @@ export class EmailCheck extends ProductBaseService implements Product {
     id: EmailCheckCheckTypes.RiskCheck,
     isActive: true,
   }];
+  merchantTags: MerchantTags[] = [];
   component = EmailCheckSettings;
   componentVerification = EmailCheckVerification;
 
@@ -63,7 +70,7 @@ export class EmailCheck extends ProductBaseService implements Product {
   onAdd(): Partial<IFlow> {
     return {
       verificationPatterns: {
-        [VerificationPatternTypes.EmailOwnershipValidation]: EmailCheckStepModes.Forced,
+        [VerificationPatternTypes.EmailOwnershipValidation]: this.merchantTags.includes(MerchantTags.CanUseEmailValidation) ? EmailCheckStepModes.Forced : EmailCheckStepModes.None,
       },
     };
   }
