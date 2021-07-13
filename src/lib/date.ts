@@ -38,7 +38,7 @@ const INPUT_DATE_FORMATS = [
 
 const RE_NON_DIGIT = /\D/g;
 
-export function utcToLocalFormat(value, customFormat) {
+export function utcToLocalFormat(value, customFormat?: string) {
   const dateAsMoment = moment.utc(value);
   if (dateAsMoment.isValid()) {
     return dateAsMoment.local().format(customFormat ?? DateFormat.MonthShort);
@@ -122,4 +122,8 @@ export function addMissingZeros(dateString = ' ') {
     return `${year || ''}-${fixedMonth}-${fixedDay}`;
   }
   return null;
+}
+
+export function dateSortCompare(a: string, b: string, isFromOldToNew: boolean = false): number {
+  return isFromOldToNew ? moment.utc(a).diff(moment.utc(b)) : -moment.utc(a).diff(moment.utc(b));
 }

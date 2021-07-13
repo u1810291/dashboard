@@ -7,7 +7,7 @@ import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, Do
 import { VerificationResponse } from 'models/Verification.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiFileText } from 'react-icons/fi';
-import { BiometricVerificationCheckTypes } from '../../biometricVerification/models/BiometricVerification.model';
+import { BiometricVerificationCheckTypes } from 'apps/biometricVerification/models/BiometricVerification.model';
 import { DocumentVerificationIssues } from '../components/DocumentVerificationIssues/DocumentVerificationIssues';
 import { DocumentVerificationSettings } from '../components/DocumentVerificationSettings/DocumentVerificationSettings';
 import { DocumentVerificationCheckTypes, DocumentVerificationSettingTypes, ProductSettingsDocumentVerification } from '../models/DocumentVerification.model';
@@ -63,7 +63,7 @@ export class DocumentVerification extends ProductBaseService implements Product<
   parser(flow: IFlow, productsInGraph?: ProductTypes[]): ProductSettingsDocumentVerification {
     const isDocumentStepsActive = flow?.verificationSteps?.length > 0;
     const isBiometricStepsActive = productsInGraph.includes(ProductTypes.BiometricVerification);
-    const isDuplicateUserDetectionActive = !!flow?.verificationPatterns[VerificationPatternTypes.DuplicateUserDetection];
+    const isDuplicateUserDetectionActive = !!flow?.verificationPatterns?.[VerificationPatternTypes.DuplicateUserDetection];
 
     return {
       [DocumentVerificationSettingTypes.DocumentSteps]: {
@@ -99,7 +99,7 @@ export class DocumentVerification extends ProductBaseService implements Product<
         isRequireOtherProduct: !isBiometricStepsActive,
       },
       [DocumentVerificationSettingTypes.ProofOfOwnership]: {
-        value: !!flow?.verificationPatterns[VerificationPatternTypes.ProofOfOwnership],
+        value: !!flow?.verificationPatterns?.[VerificationPatternTypes.ProofOfOwnership],
         isDisabled: !isDocumentStepsActive,
         isRequireOtherProduct: !isBiometricStepsActive,
         isCantBeUsedWithOtherSetting: flow?.verificationPatterns?.biometrics === BiometricVerificationCheckTypes.VoiceLiveness,

@@ -39,10 +39,10 @@ export class EmailCheck extends ProductBaseService implements Product {
         value: flow?.emailRiskThreshold,
       },
       [EmailCheckSettingTypes.EmailOwnershipValidation]: {
-        value: flow?.verificationPatterns[VerificationPatternTypes.EmailOwnershipValidation],
+        value: flow?.verificationPatterns?.[VerificationPatternTypes.EmailOwnershipValidation],
       },
       [EmailCheckSettingTypes.EmailRiskValidation]: {
-        value: flow?.verificationPatterns[VerificationPatternTypes.EmailRiskValidation],
+        value: flow?.verificationPatterns?.[VerificationPatternTypes.EmailRiskValidation],
       },
     };
   }

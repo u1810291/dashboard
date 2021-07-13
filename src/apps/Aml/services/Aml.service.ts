@@ -41,7 +41,7 @@ export class AmlCheck extends ProductBaseService implements Product<ProductSetti
   componentVerification = AmlVerificationProduct;
 
   parser(flow: IFlow): ProductSettingsAml {
-    const pattern = flow?.verificationPatterns[VerificationPatternTypes.PremiumAmlWatchListsSearchValidation];
+    const pattern = flow?.verificationPatterns?.[VerificationPatternTypes.PremiumAmlWatchListsSearchValidation];
 
     return {
       [AmlSettingsTypes.Search]: {
@@ -86,7 +86,7 @@ export class AmlCheck extends ProductBaseService implements Product<ProductSetti
   }
 
   isInFlow(flow: IFlow): boolean {
-    return flow?.verificationPatterns[VerificationPatternTypes.PremiumAmlWatchListsSearchValidation] !== AmlValidationTypes.None;
+    return flow?.verificationPatterns?.[VerificationPatternTypes.PremiumAmlWatchListsSearchValidation] !== undefined && flow.verificationPatterns[VerificationPatternTypes.PremiumAmlWatchListsSearchValidation] !== AmlValidationTypes.None;
   }
 
   hasFailedCheck(verification: VerificationResponse): boolean {

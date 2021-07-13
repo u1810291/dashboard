@@ -71,6 +71,33 @@ export class GovernmentCheck extends ProductBaseService implements Product<Produ
     };
   }
 
+  onRemove(): Partial<IFlow> {
+    return {
+      verificationPatterns: {
+        [VerificationPatternTypes.ArgentinianDni]: false,
+        [VerificationPatternTypes.ArgentinianRenaper]: false,
+        [VerificationPatternTypes.BolivianOep]: false,
+        [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
+        [VerificationPatternTypes.EcuadorianRegistroCivil]: false,
+        [VerificationPatternTypes.HonduranRnp]: false,
+        [VerificationPatternTypes.ChileanRegistroCivil]: false,
+        [VerificationPatternTypes.ColombianRegistraduria]: false,
+        [VerificationPatternTypes.CostaRicanAtv]: false,
+        [VerificationPatternTypes.CostaRicanTse]: false,
+        [VerificationPatternTypes.CostaRicanSocialSecurity]: false,
+        [VerificationPatternTypes.DominicanJce]: false,
+        [VerificationPatternTypes.ParaguayanRcp]: false,
+        [VerificationPatternTypes.MexicanCurp]: false,
+        [VerificationPatternTypes.MexicanIne]: false,
+        [VerificationPatternTypes.MexicanRfc]: false,
+        [VerificationPatternTypes.PeruvianReniec]: false,
+        [VerificationPatternTypes.SalvadorianTse]: false,
+        [VerificationPatternTypes.PanamenianTribunalElectoral]: false,
+        [VerificationPatternTypes.VenezuelanCne]: false,
+      },
+    };
+  }
+
   serialize(settings: ProductSettingsGovCheck): Partial<IFlow> {
     return {
       postponedTimeout: settings[GovernmentCheckSettingTypes.PostponedTimeout]?.value,

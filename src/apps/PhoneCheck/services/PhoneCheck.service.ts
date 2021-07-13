@@ -35,13 +35,13 @@ export class PhoneCheck extends ProductBaseService implements Product {
   parser(flow: IFlow): PhoneCheckProductSettings {
     return {
       [PhoneCheckSettingTypes.PhoneOwnershipValidation]: {
-        value: flow?.verificationPatterns[VerificationPatternTypes.PhoneOwnershipValidation],
+        value: flow?.verificationPatterns?.[VerificationPatternTypes.PhoneOwnershipValidation],
       },
       [PhoneCheckSettingTypes.CompanyName]: {
         value: flow?.phoneOwnership?.companyName,
       },
       [PhoneCheckSettingTypes.PhoneRiskValidation]: {
-        value: flow?.verificationPatterns[VerificationPatternTypes.PhoneRiskValidation],
+        value: flow?.verificationPatterns?.[VerificationPatternTypes.PhoneRiskValidation],
       },
       [PhoneCheckSettingTypes.PhoneRiskThreshold]: {
         value: flow?.phoneRiskAnalysisThreshold,
