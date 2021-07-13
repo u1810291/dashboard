@@ -7,7 +7,8 @@ import { BoxBordered, notification } from 'apps/ui';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { CountryModalSelect } from 'apps/CountryModalSelect';
-import { IpCheckValidationTypes } from 'apps/IpCheck/models/IpCheck.model';
+import { IpCheckValidationTypes, getAllAllowedRegions } from 'apps/IpCheck/models/IpCheck.model';
+import { selectCountriesList } from 'state/countries/countries.selectors';
 import { selectAllowedRegions, selectIpCheckMode, selectVpnRestriction } from '../../state/IpChecks.selectors';
 import { useStyles } from './IpChecksConfiguration.styles';
 
@@ -19,6 +20,7 @@ export function IpChecksConfiguration() {
   const [currentMethod, setCurrentMethod] = useState(useSelector(selectIpCheckMode));
   const [isVpnRestricted, setIsVpnRestricted] = useState(useSelector(selectVpnRestriction));
   const [allowedRegions, setAllowedRegions] = useState(useSelector(selectAllowedRegions));
+  const countries = useSelector(selectCountriesList);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChangeMode = useCallback((modeOn: IpCheckValidationTypes, modeOff?: IpCheckValidationTypes) => async ({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,9 +35,9 @@ export function IpChecksConfiguration() {
     }
 
     if (modeOn === IpCheckValidationTypes.RestrictionInvisible && (allowedRegions || []).length === 0) {
-      setAllowedRegions(null);
+      setAllowedRegions(getAllAllowedRegions(countries));
     }
-  }, [allowedRegions]);
+  }, [allowedRegions, countries]);
 
   const handleVpnRestricted = useCallback(({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => setIsVpnRestricted(checked), []);
 
@@ -56,7 +58,7 @@ export function IpChecksConfiguration() {
       setIsLoading(false);
     }
   },
-  [dispatch, currentMethod, isVpnRestricted, allowedRegions, intl]);
+    [dispatch, currentMethod, isVpnRestricted, allowedRegions, intl]);
 
   const openCountryModal = useCallback(() => {
     createOverlay(
