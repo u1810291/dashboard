@@ -5,4 +5,5 @@ import { OrderKeyTypes } from 'models/Identity.model';
 export const VerificationTableSortByMap: Partial<Record<OrderKeyTypes, string>> = {
   [OrderKeyTypes.fullName]: 'summary.fullName.value',
   [OrderKeyTypes.dateCreated]: 'createdAt',
+  [OrderKeyTypes.status]: 'status',
 };

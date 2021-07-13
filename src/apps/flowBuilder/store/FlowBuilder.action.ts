@@ -107,7 +107,9 @@ export const flowBuilderGetTemporaryFlowId = () => async (dispatch, getState): P
 
 export const flowBuilderSubscribeToTemporaryWebhook = (temporaryFlowId: string) => async (dispatch, getState) => {
   const webhook = selectWebhook(getState());
-  await dispatch(subscribeToWebhook({ url: webhook?.url, secret: webhook?.secret }, temporaryFlowId));
+  if (webhook.url) {
+    await dispatch(subscribeToWebhook({ url: webhook.url, secret: webhook?.secret }, temporaryFlowId));
+  }
 };
 
 export const flowBuilderSaveAndPublish = () => async (dispatch, getState) => {
