@@ -14,7 +14,7 @@ type ProductSettingsIpCheck = ProductSettings<IpCheckSettingsTypes>;
 
 export class IpCheck extends ProductBaseService implements Product<ProductSettingsIpCheck> {
   id = ProductTypes.IpCheck;
-  order = 1000;
+  order = 50;
   integrationTypes = [
     ProductIntegrationTypes.Sdk,
   ];
@@ -38,13 +38,13 @@ export class IpCheck extends ProductBaseService implements Product<ProductSettin
   parser(flow: IFlow): ProductSettingsIpCheck {
     return {
       [IpCheckSettingsTypes.IpValidation]: {
-        value: flow?.verificationPatterns[VerificationPatternTypes.IpValidation],
+        value: flow?.verificationPatterns?.[VerificationPatternTypes.IpValidation],
       },
       [IpCheckSettingsTypes.AllowedRegions]: {
         value: flow?.ipValidation?.allowedRegions,
       },
       [IpCheckSettingsTypes.VpnDetection]: {
-        value: flow?.verificationPatterns[VerificationPatternTypes.VpnDetection],
+        value: flow?.verificationPatterns?.[VerificationPatternTypes.VpnDetection],
       },
     };
   }
@@ -61,6 +61,14 @@ export class IpCheck extends ProductBaseService implements Product<ProductSettin
     };
   }
 
+  onAdd(): Partial<IFlow> {
+    return {
+      verificationPatterns: {
+        [VerificationPatternTypes.IpValidation]: IpCheckValidationTypes.Basic,
+      },
+    };
+  }
+
   onRemove(): Partial<IFlow> {
     return {
       verificationPatterns: {
@@ -71,7 +79,7 @@ export class IpCheck extends ProductBaseService implements Product<ProductSettin
   }
 
   isInFlow(flow: IFlow): boolean {
-    return flow?.verificationPatterns[VerificationPatternTypes.IpValidation] !== IpCheckValidationTypes.None;
+    return flow?.verificationPatterns?.[VerificationPatternTypes.IpValidation] !== undefined && flow.verificationPatterns[VerificationPatternTypes.IpValidation] !== IpCheckValidationTypes.None;
   }
 
   getVerification(verification: VerificationResponse): IpCheckStep {

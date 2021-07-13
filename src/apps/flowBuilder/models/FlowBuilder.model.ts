@@ -1,5 +1,5 @@
 import { ProductNode } from 'apps/flowBuilder/components/ProductNode/ProductNode';
-import { dagreGraph, EDGE_HEIGHT } from 'apps/flowBuilder/services/dagreGraph.service';
+import { dagreGraphService, EDGE_HEIGHT } from 'apps/flowBuilder/services/dagreGraph.service';
 import { appPalette } from 'apps/theme';
 import dagre from 'dagre';
 import { cloneDeep } from 'lodash';
@@ -68,16 +68,16 @@ export function getLayoutedElements(nodes: Node[], elements: Elements): Elements
   elements.forEach((el) => {
     if (isNode(el)) {
       const { __rf: nodePosition } = nodes.find((node) => node.id === el.id);
-      dagreGraph.setNode(el.id, { width: nodePosition?.width, height: nodePosition?.height });
+      dagreGraphService.getGraph().setNode(el.id, { width: nodePosition?.width, height: nodePosition?.height });
     } else {
-      dagreGraph.setEdge(el.source, el.target);
+      dagreGraphService.getGraph().setEdge(el.source, el.target);
     }
   });
-  dagre.layout(dagreGraph);
+  dagre.layout(dagreGraphService.getGraph());
 
   return elements.map((el) => {
     if (isNode(el)) {
-      const nodeWithPosition = dagreGraph.node(el.id);
+      const nodeWithPosition = dagreGraphService.getGraph().node(el.id);
       const { __rf: nodeWithParams } = nodes.find((node) => node.id === el.id);
       return {
         ...el,

@@ -8,8 +8,9 @@ import { QATags } from 'models/QA.model';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { identitiesManualReviewCountLoad } from 'state/identities/identities.actions';
+import { identitiesManualReviewCountLoad, verificationsManualReviewCountLoad } from 'state/identities/identities.actions';
 import { selectManualReviewCountModel } from 'state/identities/identities.selectors';
+import { IS_FLOW_BUILDER_RELEASED } from 'models/Release.model';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
 import { countStatisticsLoad, filterUpdate, loadChartStatistics } from '../../state/Analytics.actions';
@@ -35,7 +36,11 @@ export function AnalyticsContainer() {
   const byDate = useSelector(selectStatisticsByDate);
 
   useEffect(() => {
-    dispatch(identitiesManualReviewCountLoad());
+    if (IS_FLOW_BUILDER_RELEASED) {
+      dispatch(verificationsManualReviewCountLoad());
+    } else {
+      dispatch(identitiesManualReviewCountLoad());
+    }
   }, [dispatch]);
 
   useEffect(() => {

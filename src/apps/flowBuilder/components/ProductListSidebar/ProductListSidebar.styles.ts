@@ -14,7 +14,7 @@ export const useStyles = makeStyles((theme) => createStyles({
   },
   list: {
     [theme.breakpoints.up('lg')]: {
-      maxHeight: 'calc(100vh - 275px)',
+      maxHeight: 'calc(100vh - 330px)',
       overflowY: 'auto',
       scrollbarWidth: 'thin',
       '&::-webkit-scrollbar': {

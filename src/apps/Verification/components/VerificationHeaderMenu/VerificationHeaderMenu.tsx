@@ -38,11 +38,11 @@ export function VerificationHeaderMenu() {
             />
           </Grid>
           <Grid item xs={12} lg={3} className={classes.dateWrapper}>
-            <Box ml={{ xs: 0, lg: 2 }}>
+            <Box mx={{ xs: 0, lg: 2 }} mr={{ xl: 0 }}>
               <VerificationDate date={verification?.createdAt} />
             </Box>
           </Grid>
-          <Grid item xs={12} lg={4}>
+          <Grid item xs={12} lg={4} className={classes.numberWrapper}>
             <VerificationNumber
               summary={intl.formatMessage({ id: 'identity.summary.number' })}
               number={verification?._id}
@@ -60,12 +60,15 @@ export function VerificationHeaderMenu() {
 
           {/* Show verification data */}
           <Grid item xs={12} className={classes.buttonWrapper}>
-            <VerificationDataButton className={classNames(classes.button, classes.topMenuButton)} />
+            <VerificationDataButton
+              className={classNames(classes.button, classes.topMenuButton)}
+              verificationId={verification?._id}
+            />
           </Grid>
 
           {/* Delete Verification */}
           {role === CollaboratorRoles.ADMIN && (
-            <Grid item xs={12} className={classes.deleteButtonWrapper}>
+            <Grid item xs={12} className={classes.buttonWrapper}>
               <VerificationDeleteButton
                 verificationId={verification?._id}
                 className={classNames(classes.button, classes.deleteButton)}

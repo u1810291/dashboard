@@ -3,11 +3,12 @@ import { selectUserId } from 'apps/user/state/user.selectors';
 import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { BiometricTypes } from 'models/Biometric.model';
+import { IFlow } from 'models/Flow.model';
 import { DEFAULT_LOCALE, LanguageList } from 'models/Intl.model';
 import { Loadable } from 'models/Loadable.model';
 import { Merchant, MerchantTags } from 'models/Merchant.model';
 import { createSelector } from 'reselect';
-import { VerificationPatternTypes } from '../../models/VerificationPatterns.model';
+import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
 
 export const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
@@ -127,7 +128,7 @@ export const selectMerchantFlowsModel = createSelector(
 
 export const selectMerchantFlowList = createSelector(
   selectMerchantFlowsModel,
-  (model) => model.value,
+  (model): IFlow[] => model.value || [],
 );
 
 export const selectCurrentFlowId = createSelector(

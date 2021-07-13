@@ -1,12 +1,14 @@
-import { PhoneCheckCheckTypes, PhoneOwnershipValidationTypes, PhoneCheckSettingTypes } from 'apps/PhoneCheck/models/PhoneCheck.model';
+import { getPhoneValidationStep, getPhoneRiskStep } from 'models/PhoneCheck.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductIntegrationTypes, ProductSettings, ProductTypes, ProductInputTypes } from 'models/Product.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiPhone } from 'react-icons/fi';
 import { VerificationResponse } from 'models/Verification.model';
+import { getStepStatus, StepStatus } from 'models/Step.model';
+import { PhoneCheckCheckTypes, PhoneOwnershipValidationTypes, PhoneCheckSettingTypes } from '../models/PhoneCheck.model';
 import { PhoneCheckSettings } from '../components/PhoneCheckSettings/PhoneCheckSettings';
-import { PhoneCheckVerification } from '../components/PhoneCheckVerification/PhoneCheckVerification';
+import { PhoneCheckVerification, PhoneCheckVerificationData } from '../components/PhoneCheckVerification/PhoneCheckVerification';
 
 type PhoneCheckProductSettings = ProductSettings<PhoneCheckSettingTypes>;
 
@@ -33,13 +35,13 @@ export class PhoneCheck extends ProductBaseService implements Product {
   parser(flow: IFlow): PhoneCheckProductSettings {
     return {
       [PhoneCheckSettingTypes.PhoneOwnershipValidation]: {
-        value: flow?.verificationPatterns[VerificationPatternTypes.PhoneOwnershipValidation],
+        value: flow?.verificationPatterns?.[VerificationPatternTypes.PhoneOwnershipValidation],
       },
       [PhoneCheckSettingTypes.CompanyName]: {
         value: flow?.phoneOwnership?.companyName,
       },
       [PhoneCheckSettingTypes.PhoneRiskValidation]: {
-        value: flow?.verificationPatterns[VerificationPatternTypes.PhoneRiskValidation],
+        value: flow?.verificationPatterns?.[VerificationPatternTypes.PhoneRiskValidation],
       },
       [PhoneCheckSettingTypes.PhoneRiskThreshold]: {
         value: flow?.phoneRiskAnalysisThreshold,
@@ -55,13 +57,12 @@ export class PhoneCheck extends ProductBaseService implements Product {
       phoneRiskAnalysisThreshold: settings[PhoneCheckSettingTypes.PhoneRiskThreshold].value,
       verificationPatterns: {
         [VerificationPatternTypes.PhoneOwnershipValidation]: settings[PhoneCheckSettingTypes.PhoneOwnershipValidation].value,
-        [VerificationPatternTypes.PhoneOwnershipValidation]: settings[PhoneCheckSettingTypes.PhoneRiskValidation].value,
+        [VerificationPatternTypes.PhoneRiskValidation]: settings[PhoneCheckSettingTypes.PhoneRiskValidation].value,
       },
     };
   }
 
   onRemove(): Partial<IFlow> {
-    super.onRemove();
     return {
       verificationPatterns: {
         [VerificationPatternTypes.PhoneOwnershipValidation]: PhoneOwnershipValidationTypes.None,
@@ -70,11 +71,28 @@ export class PhoneCheck extends ProductBaseService implements Product {
     };
   }
 
-  isInFlow(flow: IFlow): boolean {
-    return flow?.verificationPatterns[VerificationPatternTypes.PhoneOwnershipValidation] !== PhoneOwnershipValidationTypes.None;
+  onAdd(): Partial<IFlow> {
+    return {
+      verificationPatterns: {
+        [VerificationPatternTypes.PhoneOwnershipValidation]: PhoneOwnershipValidationTypes.Sms,
+      },
+    };
   }
 
-  getVerification(verification: VerificationResponse): any {
-    return verification;
+  isInFlow(flow: IFlow): boolean {
+    return flow?.verificationPatterns?.[VerificationPatternTypes.PhoneOwnershipValidation] !== undefined
+      && flow.verificationPatterns[VerificationPatternTypes.PhoneOwnershipValidation] !== PhoneOwnershipValidationTypes.None;
+  }
+
+  hasFailedCheck(verification: VerificationResponse): boolean {
+    return (verification?.steps || []).filter((step) => [VerificationPatternTypes.PhoneOwnershipValidation, VerificationPatternTypes.PhoneRiskValidation].includes(step.id))
+      .some((step) => getStepStatus(step) === StepStatus.Failure);
+  }
+
+  getVerification(verification: VerificationResponse): PhoneCheckVerificationData {
+    return {
+      phoneRiskStep: getPhoneRiskStep(verification?.steps),
+      phoneValidationStep: getPhoneValidationStep(verification?.steps),
+    };
   }
 }

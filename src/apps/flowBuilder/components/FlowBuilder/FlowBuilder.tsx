@@ -1,5 +1,8 @@
 import { Box, Grid, Paper } from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { SHOW_OLD_DESIGN_RESET_PERIOD } from 'apps/dashboard/models/Dashboard.model';
+import { dashboardShowOldDesignUntilUpdate } from 'apps/dashboard/state/dashboard.actions';
+import { dagreGraphService } from 'apps/flowBuilder/services/dagreGraph.service';
 import { selectProductIsInited, useProduct } from 'apps/Product';
 import { Loader, Placeholder } from 'apps/ui';
 import { SoftLaunchBanner } from 'apps/ui/components/SoftLaunchSwitch/SoftLaunchBanner';
@@ -7,15 +10,17 @@ import { SoftLaunchBanners } from 'apps/ui/models/SoftLaunchBanner.model';
 import { PreviewButton } from 'apps/WebSDKPreview/components/PreviewButton/PreviewButton';
 import { ReactComponent as EmptyBuilderIcon } from 'assets/empty-flow-builder.svg';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
+import { useQuery } from 'lib/url';
 import { IFlow } from 'models/Flow.model';
 import { Routes } from 'models/Router.model';
+import moment from 'moment';
 import React, { useCallback, useEffect } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
-import { flowBuilderChangeableFlowLoad, flowBuilderChangeableFlowUpdate, flowBuilderProductListClear } from '../../store/FlowBuilder.action';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import { merchantFlowsLoad, updateCurrentFlowId } from 'state/merchant/merchant.actions';
+import { flowBuilderChangeableFlowLoad, flowBuilderChangeableFlowUpdate, flowBuilderClearStore } from '../../store/FlowBuilder.action';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from '../../store/FlowBuilder.selectors';
 import { FlowBuilderIntegrationDetails } from '../FlowBuilderIntegrationDetails/FlowBuilderIntegrationDetails';
 import { FlowBuilderProductDetails } from '../FlowBuilderProductDetails/FlowBuilderProductDetails';
@@ -34,32 +39,37 @@ export function FlowBuilder() {
   const isBigScreen = useMediaQuery('(min-width:1280px)', { noSsr: true });
   const classes = useStyles();
   const intl = useIntl();
+  const history = useHistory();
+  const { asMerchantId } = useQuery();
 
   useProduct();
 
   useEffect(() => () => {
-    // clear store on leaving page
-    dispatch(flowBuilderProductListClear());
+    dispatch(flowBuilderClearStore());
   }, [dispatch]);
 
   useEffect(() => {
     const isChangedId = changeableFlowModel?.value?.id !== id;
+    if (asMerchantId) {
+      dispatch(merchantFlowsLoad(asMerchantId));
+    }
     if (isChangedId) {
       dispatch(updateCurrentFlowId(id));
     }
     if (isChangedId || LoadableAdapter.isPristine(changeableFlowModel)) {
       dispatch(flowBuilderChangeableFlowLoad());
     }
-  }, [dispatch, id, changeableFlowModel]);
+    dagreGraphService.createGraph();
+  }, [dispatch, id, changeableFlowModel, asMerchantId]);
 
   const handleProductUpdate = useCallback((patch: Partial<IFlow>) => {
     dispatch(flowBuilderChangeableFlowUpdate(patch));
   }, [dispatch]);
 
   const handleSoftLaunchSwitch = useCallback(() => {
-    // to initiate onbeforeunload (SaveAndPublish)
-    window.location.assign(`${Routes.flows.root}/${changeableFlowModel.value.id}`);
-  }, [changeableFlowModel.value.id]);
+    dispatch(dashboardShowOldDesignUntilUpdate(moment.utc().add(SHOW_OLD_DESIGN_RESET_PERIOD, 'd').toString()));
+    history.push(`${Routes.flows.root}/${changeableFlowModel.value.id}`);
+  }, [changeableFlowModel.value.id, dispatch, history]);
 
   if (!isProductInited && !changeableFlowModel.isLoaded) {
     return <Loader />;
@@ -117,7 +127,7 @@ export function FlowBuilder() {
           </Grid>
         ) : (
           <Box>
-            <Link to={Routes.flows.root} className={classes.buttonBack}>
+            <Link to={Routes.flow.root} className={classes.buttonBack}>
               <FiChevronLeft fontSize={20} />
             </Link>
             <Paper className={classes.placeholder}>

@@ -13,7 +13,7 @@ import { useStyles, StyledButtonBase } from './CountryModalSelect.styles';
 
 export function CountryModalSelect({ onSubmit, initialValues }: {
   onSubmit: (data: AllowedRegions[]) => void;
-  initialValues: AllowedRegions[];
+  initialValues: AllowedRegions[] | null;
 }) {
   const intl = useIntl();
   const classes = useStyles();

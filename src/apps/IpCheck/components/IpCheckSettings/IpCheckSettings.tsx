@@ -3,17 +3,20 @@ import { cloneDeep } from 'lodash';
 import { BoxBordered } from 'apps/ui';
 import { ProductSettingsProps } from 'models/Product.model';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { useOverlay } from 'apps/overlay';
 import { CountryModalSelect } from 'apps/CountryModalSelect';
-import { AllowedRegions, IpCheckSettingsTypes, IpCheckValidationTypes } from '../../models/IpCheck.model';
+import { selectCountriesList } from 'state/countries/countries.selectors';
+import { AllowedRegions, IpCheckSettingsTypes, IpCheckValidationTypes, getAllAllowedRegions } from '../../models/IpCheck.model';
 
 export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpCheckSettingsTypes>) {
   const intl = useIntl();
   const [createOverlay] = useOverlay();
+  const countries = useSelector(selectCountriesList);
   const [currentMethod, setCurrentMethod] = useState<IpCheckValidationTypes>(IpCheckValidationTypes.None);
   const [isVpnRestricted, setIsVpnRestricted] = useState<boolean>(false);
-  const [allowedRegions, setAllowedRegions] = useState<AllowedRegions[]>([]);
+  const [allowedRegions, setAllowedRegions] = useState<AllowedRegions[] | null>([]);
 
   useEffect(() => {
     setCurrentMethod(settings?.[IpCheckSettingsTypes.IpValidation].value);
@@ -30,8 +33,11 @@ export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpC
     if (modeOff === IpCheckValidationTypes.Basic) {
       newSettings[IpCheckSettingsTypes.VpnDetection].value = false;
     }
+    if (modeOn === IpCheckValidationTypes.RestrictionInvisible && (allowedRegions || []).length === 0) {
+      setAllowedRegions(getAllAllowedRegions(countries));
+    }
     onUpdate(newSettings);
-  }, [onUpdate, settings]);
+  }, [onUpdate, settings, allowedRegions, countries]);
 
   const handleVpnRestricted = useCallback(({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
     const newSettings = cloneDeep(settings);
@@ -56,27 +62,14 @@ export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpC
     <Grid container direction="row" spacing={1}>
       <Grid item xs={12}>
         <Box>
-          <Grid container direction="row" justify="space-between" spacing={1}>
-            <Grid item xs={10}>
-              <Typography variant="h4">
-                {intl.formatMessage({ id: 'Product.configuration.ipCheck' })}
-              </Typography>
-              <Box color="common.black75" mt={1}>
-                <Typography variant="body1">
-                  {intl.formatMessage({ id: 'Product.configuration.ipCheck.subtitle' })}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={2}>
-              <Switch
-                name="ipCheck"
-                color="primary"
-                size="small"
-                checked={currentMethod !== IpCheckValidationTypes.None}
-                onChange={handleChangeMode(IpCheckValidationTypes.Basic, IpCheckValidationTypes.None)}
-              />
-            </Grid>
-          </Grid>
+          <Typography variant="h4">
+            {intl.formatMessage({ id: 'Product.configuration.ipCheck' })}
+          </Typography>
+          <Box color="common.black75" mt={1}>
+            <Typography variant="body1">
+              {intl.formatMessage({ id: 'Product.configuration.ipCheck.subtitle' })}
+            </Typography>
+          </Box>
         </Box>
       </Grid>
       <Grid item xs={12}>
@@ -121,12 +114,21 @@ export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpC
                   size="small"
                   checked={isVpnRestricted && currentMethod !== IpCheckValidationTypes.None}
                   onChange={handleVpnRestricted}
+                  disabled={[IpCheckValidationTypes.Basic, IpCheckValidationTypes.None].includes(currentMethod)}
                 />
               </Grid>
             </Grid>
           </Box>
           <Box mt={2}>
-            <Button variant="contained" color="primary" size="large" onClick={openCountryModal}>{intl.formatMessage({ id: 'Product.configuration.ipCheck.geoRestriction.editButton' })}</Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={openCountryModal}
+              disabled={[IpCheckValidationTypes.Basic, IpCheckValidationTypes.None].includes(currentMethod)}
+            >
+              {intl.formatMessage({ id: 'Product.configuration.ipCheck.geoRestriction.editButton' })}
+            </Button>
           </Box>
           <RadioGroup
             aria-label="ipCheck-configuration"

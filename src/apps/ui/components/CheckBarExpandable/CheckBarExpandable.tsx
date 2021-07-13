@@ -1,5 +1,6 @@
 import { Box } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
+import { WarningBadge } from 'apps/ui/components/WarningBadge/WarningBadge';
 import { ReactComponent as IconData } from 'assets/icon-identity-data.svg';
 import { ReactComponent as IconDone } from 'assets/icon-identity-done.svg';
 import { ReactComponent as IconError } from 'assets/icon-identity-error.svg';
@@ -17,13 +18,12 @@ const IconStatuses = {
   [StepStatus.Checking]: <CheckBarIcon key="check-bar-icon" icon={<IconLoad />} />,
 };
 
-export interface CheckBarExpandableProps{
+export function CheckBarExpandable({ step, children, title, isNoBadge = false }: {
   step: any;
   children?: React.ReactElement;
   title?: string;
-}
-
-export function CheckBarExpandable({ step, children, title }: CheckBarExpandableProps) {
+  isNoBadge?: boolean;
+}) {
   const intl = useIntl();
   const classes = useStyles();
   const [disabledExpansion, setDisabledExpansion] = useState(false);
@@ -80,6 +80,7 @@ export function CheckBarExpandable({ step, children, title }: CheckBarExpandable
                 </Box>
               </Box>
             </Box>
+            {!isNoBadge && step.checkStatus === StepStatus.Failure && <Box className={classes.warning}><WarningBadge /></Box>}
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             {children}

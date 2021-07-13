@@ -1,24 +1,23 @@
 import { Grid } from '@material-ui/core';
-import { useRole } from 'apps/collaborators';
 import ScheduleIcon from '@material-ui/icons/Schedule';
+import { useRole } from 'apps/collaborators';
 import { useOverlay } from 'apps/overlay';
-import { ButtonHeaderMenu } from 'apps/ui';
+import { ButtonHeaderMenu, VerificationWebhookModal } from 'apps/ui';
 import { downloadBlob } from 'lib/file';
 import { get } from 'lodash';
-import { QATags } from 'models/QA.model';
-import { Routes } from 'models/Router.model';
 import { CollaboratorRoles } from 'models/Collaborator.model';
 import { getGoBackToListLink } from 'models/Identity.model';
+import { QATags } from 'models/QA.model';
+import { Routes } from 'models/Router.model';
 import { IdentityStatuses } from 'models/Status.model';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FiChevronLeft, FiCode, FiDownload, FiLoader, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { identityRemove, setPDFGenerating, pdfDownloaded } from 'state/identities/identities.actions';
+import { identityRemove, pdfDownloaded, setPDFGenerating } from 'state/identities/identities.actions';
 import { selectIdentityIsPDFGenerating } from 'state/identities/identities.selectors';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
-import { VerificationWebhookModal } from '../VerificationWebhookModal/VerificationWebhookModal';
 import { useStyles } from './VerificationHeader.styles';
 
 /**
@@ -31,7 +30,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
   const classes = useStyles();
   const role = useRole();
   const [createOverlay, closeOverlay] = useOverlay();
-  const goBackToListLink = getGoBackToListLink(useLocation());
+  const goBackToListLink = getGoBackToListLink(useLocation(), Routes.list.root);
   const [isDeleting, setIsDeleting] = useState(false);
   const isPDFGenerating = useSelector(selectIdentityIsPDFGenerating);
   const verificationId = useMemo(() => identity?._embedded?.verification?.id, [identity]);

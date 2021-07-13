@@ -12,7 +12,7 @@ export function DuplicateUserDetectionCheck({ stepData = {} }) {
   const intl = useIntl();
   return (
     <BoxBordered p={1} pt={2} className={classes.bordered}>
-      <CheckBarExpandable step={stepData} title={`Checks.result.DuplicateUserDetectionCheck.${stepData.checkStatus}.title`}>
+      <CheckBarExpandable step={stepData} title={`Checks.result.DuplicateUserDetectionCheck.${stepData.checkStatus}.title`} isNoBadge>
         <Card raised={false} className={classes.card}>
           <CardContent>
             <Box>

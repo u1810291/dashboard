@@ -1,4 +1,4 @@
-import { Box, Grid, ListItemIcon } from '@material-ui/core';
+import { Box, Grid, IconButton } from '@material-ui/core';
 import { EditableField } from 'apps/oldProduct/components/EditableField/EditableField';
 import { DateFormat, formatDate } from 'lib/date';
 import React, { Dispatch, SetStateAction } from 'react';
@@ -6,6 +6,7 @@ import { FiEdit3 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectFlowBuilderChangeableFlow } from '../../store/FlowBuilder.selectors';
+import { useStyles } from './FlowInfo.styles';
 
 export function FlowInfo({ canEdit, isEditable, newFlowName, setIsEditable, onSubmit, onCancel, validator }: {
   canEdit?: boolean;
@@ -18,12 +19,13 @@ export function FlowInfo({ canEdit, isEditable, newFlowName, setIsEditable, onSu
 }) {
   const intl = useIntl();
   const { name, createdAt } = useSelector(selectFlowBuilderChangeableFlow);
+  const classes = useStyles();
 
   return (
     <Box>
-      <Box color="common.black90" fontSize={24} mb={0.5}>
+      <Box color="common.black90" fontSize={24} mb={0.5} className={classes.name}>
         {canEdit ? (
-          <Grid container>
+          <Grid container className={classes.field}>
             <EditableField
               enabled={isEditable}
               setEditable={setIsEditable}
@@ -33,9 +35,9 @@ export function FlowInfo({ canEdit, isEditable, newFlowName, setIsEditable, onSu
               value={newFlowName}
             />
             {!isEditable && (
-              <ListItemIcon onClick={() => setIsEditable((prevState: boolean) => !prevState)}>
+              <IconButton className={classes.button} onClick={() => setIsEditable((prevState: boolean) => !prevState)}>
                 <FiEdit3 />
-              </ListItemIcon>
+              </IconButton>
             )}
           </Grid>
         ) : name}

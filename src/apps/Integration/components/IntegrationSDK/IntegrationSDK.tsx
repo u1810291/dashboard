@@ -32,7 +32,7 @@ export function IntegrationSDK() {
         <Typography variant="subtitle2" gutterBottom>
           {intl.formatMessage({ id: 'Product.configuration.buttonsColor' })}
         </Typography>
-        <ColorPicker activeColor={changeableFlowStyle.color} onChange={handleChangeColor} />
+        <ColorPicker activeColor={changeableFlowStyle?.color} onChange={handleChangeColor} />
       </Box>
       <Box mb={2}>
         <WebCodeSnippet />

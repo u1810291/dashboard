@@ -67,7 +67,18 @@ export const regionsConverting = (value: boolean) => (regionAcc: { [key: string]
   [region]: value,
 });
 
-export const getInitialSelectedCountries = (initialValues: AllowedRegions[], countries: Country[]) => initialValues.reduce((acc, { country, regions }) => ({
-  ...acc,
-  [country]: { ...countries.find((elm) => elm.id === country).regions.reduce(regionsConverting(false), {}), ...regions.reduce(regionsConverting(true), {}) },
-}), {});
+export const getInitialSelectedCountries = (initialValues: AllowedRegions[] | null, countries: Country[]) => {
+  if (initialValues === null) {
+    return countries.reduce((memo, { id, regions }) => {
+      memo[id] = regions.reduce(regionsConverting(true), {});
+      return memo;
+    }, {});
+  }
+  return initialValues.reduce((acc, { country, regions }) => ({
+    ...acc,
+    [country]: {
+      ...countries.find((elm) => elm.id === country).regions.reduce(regionsConverting(false), {}),
+      ...regions.reduce(regionsConverting(true), {}),
+    },
+  }), {});
+};

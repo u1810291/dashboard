@@ -10,12 +10,12 @@ export const types: any = {
   ...createTypesSequence('WEBHOOK_SEND'),
 };
 
-export const subscribeToWebhook = (data) => async (dispatch, getState) => {
+export const subscribeToWebhook = (data, flowId?: string) => async (dispatch, getState) => {
   dispatch({ type: types.WEBHOOKS_SUBSCRIBE_REQUEST });
   try {
     const clientId = selectClientId(getState());
-    const flowId = selectCurrentFlowId(getState());
-    const payload = await api.subscribeToWebhook(clientId, flowId, data);
+    const id = flowId || selectCurrentFlowId(getState());
+    const payload = await api.subscribeToWebhook(clientId, id, data);
     dispatch({ type: types.WEBHOOKS_SUBSCRIBE_SUCCESS, payload });
     return payload;
   } catch (error) {

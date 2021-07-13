@@ -18,6 +18,10 @@ const VerificationHistoryLazy = lazy(async () => {
   return { default: VerificationHistory };
 });
 
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export const identityRoutes = [
   <Route key="demo" path={Routes.list.demo} component={VerificationDetailLazy} />,
   <OwnerRoute key="verification-history" path={Routes.list.history.details} component={VerificationHistoryLazy} />,

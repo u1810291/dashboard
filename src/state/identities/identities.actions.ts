@@ -28,6 +28,23 @@ export const types: TypesSequence = {
   PDF_DOWNLOADED: 'PDF_DOWNLOADED',
 };
 
+export const verificationsListLoad = (isReload: boolean, params?: { offset: number; asMerchantId: string }) => async (dispatch, getState) => {
+  dispatch({ type: isReload ? types.IDENTITY_LIST_REQUEST : types.IDENTITY_LIST_UPDATING });
+  try {
+    const filter = selectIdentityFilterSerialized(getState());
+    const { data } = await api.getVerifications({ ...filter, ...params });
+    dispatch({ type: types.IDENTITY_LIST_SUCCESS, payload: data || [], isReset: isReload });
+  } catch (error) {
+    dispatch({ type: types.IDENTITY_LIST_FAILURE, error });
+    notification.error(ERROR_COMMON);
+    throw error;
+  }
+};
+
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export const identitiesListLoad = (isReload, offset) => async (dispatch, getState) => {
   dispatch({ type: isReload ? types.IDENTITY_LIST_REQUEST : types.IDENTITY_LIST_UPDATING });
   try {
@@ -42,6 +59,29 @@ export const identitiesListLoad = (isReload, offset) => async (dispatch, getStat
   }
 };
 
+export const verificationsManualReviewCountLoad = () => async (dispatch) => {
+  dispatch({ type: types.MANUAL_REVIEW_COUNT_UPDATING });
+  try {
+    const filter = { status: IdentityStatuses.reviewNeeded };
+    const { data } = await api.getVerificationsCount(filter);
+    dispatch({
+      type: types.MANUAL_REVIEW_COUNT_SUCCESS,
+      payload: data || 0,
+    });
+  } catch (error) {
+    dispatch({
+      type: types.MANUAL_REVIEW_COUNT_FAILURE,
+      error,
+    });
+    notification.error(ERROR_COMMON);
+    throw error;
+  }
+};
+
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export const identitiesManualReviewCountLoad = () => async (dispatch) => {
   dispatch({ type: types.MANUAL_REVIEW_COUNT_UPDATING });
   try {
@@ -61,6 +101,10 @@ export const identitiesManualReviewCountLoad = () => async (dispatch) => {
   }
 };
 
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export const identitiesCountLoad = () => async (dispatch, getState) => {
   // always updating here, cause pushing new collection
   dispatch({ type: types.IDENTITY_COUNT_UPDATING });
@@ -79,6 +123,29 @@ export const identitiesCountLoad = () => async (dispatch, getState) => {
   }
 };
 
+export const verificationsFilteredCountLoad = () => async (dispatch, getState) => {
+  dispatch({ type: types.FILTERED_COUNT_UPDATING });
+  try {
+    const filter = selectIdentityFilterSerialized(getState());
+    const { data } = await api.getVerificationsCount(filter);
+    dispatch({
+      type: types.FILTERED_COUNT_SUCCESS,
+      payload: data || 0,
+    });
+  } catch (error) {
+    dispatch({
+      type: types.FILTERED_COUNT_FAILURE,
+      error,
+    });
+    notification.error(ERROR_COMMON);
+    throw error;
+  }
+};
+
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export const identitiesFilteredCountLoad = () => async (dispatch, getState) => {
   dispatch({ type: types.FILTERED_COUNT_UPDATING });
   try {
@@ -98,6 +165,29 @@ export const identitiesFilteredCountLoad = () => async (dispatch, getState) => {
   }
 };
 
+export const verificationsPreliminaryCountLoad = (localFilter) => async (dispatch, getState) => {
+  dispatch({ type: types.PRELIMINARY_FILTERED_COUNT_UPDATING });
+  try {
+    const filter = localFilter ? filterSerialize(localFilter) : selectIdentityFilterSerialized(getState());
+    const { data } = await api.getVerificationsCount(filter);
+    dispatch({
+      type: types.PRELIMINARY_FILTERED_COUNT_SUCCESS,
+      payload: data || 0,
+    });
+  } catch (error) {
+    dispatch({
+      type: types.PRELIMINARY_FILTERED_COUNT_FAILURE,
+      error,
+    });
+    notification.error(ERROR_COMMON);
+    throw error;
+  }
+};
+
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export const identitiesPreliminaryCountLoad = (localFilter) => async (dispatch, getState) => {
   dispatch({ type: types.PRELIMINARY_FILTERED_COUNT_UPDATING });
   try {
@@ -117,6 +207,24 @@ export const identitiesPreliminaryCountLoad = (localFilter) => async (dispatch, 
   }
 };
 
+export const downloadVerificationCSV = () => async (dispatch, getState) => {
+  try {
+    const filter = selectIdentityFilterSerialized(getState());
+    return api.downloadVerificationCSV({
+      // TODO @dkchv: review again, do we need filter here?
+      ...filter,
+      format: 'csv',
+    });
+  } catch (error) {
+    notification.error(ERROR_COMMON);
+    return null;
+  }
+};
+
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export const downloadCSV = () => (dispatch, getState) => {
   try {
     const filter = selectIdentityFilterSerialized(getState());
@@ -163,7 +271,7 @@ export const identityClear = () => (dispatch) => {
 };
 
 export const identityListClear = () => (dispatch) => {
-  dispatch({ type: types.IDENTITY_LIST_CLEAR });
+  dispatch({ type: types.IDENTITY_LIST_CLEAR, payload: [] });
 };
 
 export const identityDemoLoad = (id) => async (dispatch) => {

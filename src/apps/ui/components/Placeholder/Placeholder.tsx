@@ -5,8 +5,8 @@ export interface PlaceholderProps{
   icon?: ReactElement;
   title?: string;
   subtitle?: string;
-  text?: string;
-  mb?: number;
+  text?: React.ReactNode;
+  mb?: number | string;
 }
 
 export function Placeholder({ icon, title, subtitle, text, mb = 0 }: PlaceholderProps) {

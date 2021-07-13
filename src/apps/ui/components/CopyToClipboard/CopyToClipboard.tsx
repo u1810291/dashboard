@@ -6,15 +6,13 @@ import { copyToClipboard } from 'lib/copyToClipboard';
 import { notification } from '../Notification/Notification';
 import { useStyles } from './CopyToClipboard.styles';
 
-export interface CopyToClipboardProps {
+export function CopyToClipboard({ children, text, isOverlay = false, withCopyText = false, qa }: {
   children: React.ReactNode;
   text: string;
   isOverlay?: boolean;
   withCopyText?: boolean;
   qa?: string;
-}
-
-export function CopyToClipboard({ children, text, isOverlay = false, withCopyText = false, qa }: CopyToClipboardProps) {
+}) {
   const classes = useStyles();
   const intl = useIntl();
   const handleClick = useCallback(() => {

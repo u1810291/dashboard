@@ -16,9 +16,7 @@ export function ProductCanUseContainer({ children, isCanUseProduct }: {
       : (
         <>
           <BoxBordered borderColor={appPalette.yellow} mb={2}>
-            <Warning
-              label={intl.formatMessage({ id: 'Product.warnings.usageInfo' })}
-            />
+            <Warning label={intl.formatMessage({ id: 'Product.warnings.usageInfo' }, { emailAddress: <a href="mailto:sales@mati.io">sales@mati.io</a> })} />
           </BoxBordered>
           <div className={classes.container}>
             {children}

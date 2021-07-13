@@ -38,7 +38,6 @@ const buttonMaker = ({ icon }) => withStyles(() => ({
     width: 25,
     height: 25,
     borderRadius: 4,
-    border: [[1, 'solid', '#8392B8']],
     margin: 5,
     '&:hover': {
       backgroundColor: '#e6e9f3 !important',

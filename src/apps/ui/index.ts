@@ -46,6 +46,7 @@ export * from './components/RadioButton/RadioButton';
 export * from './components/ExtendedDescription/ExtendedDescription';
 export * from './components/UIProductTab/UIProductTab';
 export * from './components/TextBubble/TextBubble';
+export * from './components/VerificationWebhookModal/VerificationWebhookModal';
 
 export * from './models/Warning.model';
 export * from './models/SyntaxHighlighter.model';

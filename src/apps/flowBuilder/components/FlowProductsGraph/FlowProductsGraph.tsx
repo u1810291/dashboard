@@ -5,6 +5,7 @@ import { selectFlowBuilderProductsInGraphModel } from 'apps/flowBuilder/store/Fl
 import { Loader } from 'apps/ui';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Elements, ReactFlowProvider, useStoreState, Node } from 'react-flow-renderer';
+import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useStyles } from './FlowProductGraph.styles';
 
@@ -17,20 +18,31 @@ function FlowProductsGraphWithoutContext() {
   const loadedNodes: Node[] = useStoreState((state) => state.nodes);
   const productsInGraphModel = useSelector(selectFlowBuilderProductsInGraphModel);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+  const intl = useIntl();
+  const [isLanguageChanged, setIsLanguageChanged] = useState(false);
   const classes = useStyles();
 
   // we should wait ReactFlow to load nodes to get their actual width and height before layouting
+  // load products
   useEffect(() => {
     setElements(getElements(productsInGraphModel.value));
     setIsLayouted(false);
   }, [productsInGraphModel]);
 
+  // elements height may change after changing language
   useEffect(() => {
-    if (!isLayouted && areNodesLoaded(loadedNodes, elements)) {
+    setIsLanguageChanged(true);
+  }, [intl]);
+
+  // layout nodes
+  useEffect(() => {
+    if ((!isLayouted || isLanguageChanged) && areNodesLoaded(loadedNodes, elements)) {
       setElements(getLayoutedElements(loadedNodes, elements));
       setReactFlowWrapperHeight(getTotalGraphHeight(loadedNodes));
       setIsLayouted(true);
+      setIsLanguageChanged(false);
     }
+    // TODO: @ggrigorev won't work if add isLanguageChanged to deps
   }, [loadedNodes, elements, isLayouted]);
 
   useEffect(() => {
