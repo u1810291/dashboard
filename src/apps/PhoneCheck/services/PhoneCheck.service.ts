@@ -80,7 +80,8 @@ export class PhoneCheck extends ProductBaseService implements Product {
   }
 
   isInFlow(flow: IFlow): boolean {
-    return flow?.verificationPatterns[VerificationPatternTypes.PhoneOwnershipValidation] !== PhoneOwnershipValidationTypes.None;
+    return flow?.verificationPatterns?.[VerificationPatternTypes.PhoneOwnershipValidation] !== undefined
+      && flow.verificationPatterns[VerificationPatternTypes.PhoneOwnershipValidation] !== PhoneOwnershipValidationTypes.None;
   }
 
   hasFailedCheck(verification: VerificationResponse): boolean {

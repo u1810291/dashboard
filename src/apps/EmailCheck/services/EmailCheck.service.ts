@@ -79,7 +79,8 @@ export class EmailCheck extends ProductBaseService implements Product {
   }
 
   isInFlow(flow: IFlow): boolean {
-    return flow?.verificationPatterns[VerificationPatternTypes.EmailOwnershipValidation] !== EmailCheckStepModes.None;
+    return flow?.verificationPatterns?.[VerificationPatternTypes.EmailOwnershipValidation] !== undefined
+      && flow.verificationPatterns[VerificationPatternTypes.EmailOwnershipValidation] !== EmailCheckStepModes.None;
   }
 
   hasFailedCheck(verification: VerificationResponse): boolean {
