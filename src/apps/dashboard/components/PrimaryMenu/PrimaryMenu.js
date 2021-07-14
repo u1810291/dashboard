@@ -20,7 +20,8 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
     },
     {
       id: 'verifications',
-      to: IS_FLOW_BUILDER_RELEASED ? Routes.identity.verification.root : Routes.list.root,
+      // to: IS_FLOW_BUILDER_RELEASED ? Routes.identity.verification.root : Routes.list.root,
+      to: Routes.list.root,
       label: intl.formatMessage({ id: 'dashboard.menu.identities' }),
       icon: <FiList />,
       qa: QATags.Menu.VerificationList,
