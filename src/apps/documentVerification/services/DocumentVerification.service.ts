@@ -78,11 +78,11 @@ export class DocumentVerification extends ProductBaseService implements Product<
         isDisabled: !isDocumentStepsActive,
       },
       [DocumentVerificationSettingTypes.GrayscaleImage]: {
-        value: flow?.inputValidationChecks?.some((check) => check.id === InputValidationType.GrayscaleImage && !check.isDisabled),
+        value: flow?.inputValidationChecks?.some((check) => check.id === InputValidationType.GrayscaleImage && !check.isDisabled) || false,
         isDisabled: !isDocumentStepsActive,
       },
       [DocumentVerificationSettingTypes.SimilarImages]: {
-        value: flow?.inputValidationChecks?.some((check) => (check.id === InputValidationType.SimilarImages || check.id === InputValidationType.IdenticalImages) && !check.isDisabled),
+        value: flow?.inputValidationChecks?.some((check) => (check.id === InputValidationType.SimilarImages || check.id === InputValidationType.IdenticalImages) && !check.isDisabled) || false,
         isDisabled: !isDocumentStepsActive,
       },
       [DocumentVerificationSettingTypes.DuplicateUserDetection]: {
@@ -90,7 +90,7 @@ export class DocumentVerification extends ProductBaseService implements Product<
         isDisabled: !isDocumentStepsActive,
       },
       [DocumentVerificationSettingTypes.CountryRestriction]: {
-        value: flow?.supportedCountries,
+        value: flow?.supportedCountries || [],
         isDisabled: !isDocumentStepsActive,
       },
       [DocumentVerificationSettingTypes.FacematchThreshold]: {
