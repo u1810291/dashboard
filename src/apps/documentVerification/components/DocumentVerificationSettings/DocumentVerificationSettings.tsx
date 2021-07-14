@@ -15,7 +15,7 @@ import classNames from 'classnames';
 import { cloneDeep } from 'lodash';
 import { DocumentTypes } from 'models/Document.model';
 import { ProductSettingsProps, ProductTypes } from 'models/Product.model';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { DocumentVerificationSettingTypes } from '../../models/DocumentVerification.model';
@@ -29,6 +29,13 @@ export function DocumentVerificationSettings({ settings, onUpdate }: ProductSett
   const [bufferedSettings, updateBufferedSettings] = useSettingsBuffer<DocumentVerificationSettingTypes>(settings, checkCountryRestriction);
   const createAddOtherProductModalOverlay = useOtherProductAdding();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // TODO: @richvoronov проработать логику этой операции в useSettingsBuffer и checkCountryRestriction
+    if (settings[DocumentVerificationSettingTypes.CountryRestriction]?.value?.length > 0) {
+      setIsCountryRestrictionEnabled(true);
+    }
+  }, [settings]);
 
   const productsInGraphModel = useSelector(selectFlowBuilderProductsInGraphModel);
   const isCantUsePoo = useMemo(() => {
