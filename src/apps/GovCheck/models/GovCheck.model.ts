@@ -185,10 +185,11 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         id: DocumentStepTypes.EcuadorianRegistroCivil,
         default: false,
       },
-      {
-        id: DocumentStepTypes.EcuadorianSri,
-        default: false,
-      },
+      // TODO: uncomment here after we get scraper fix
+      // {
+      //  id: DocumentStepTypes.EcuadorianSri,
+      //  default: false,
+      // },
     ],
   }, {
     country: GovCheckCountryTypes.Honduras,
