@@ -25,6 +25,7 @@ export const FieldDatePatterns = [
 export const FieldBooleanPatterns = [
   'deceased',
   'hasdebts',
+  'ispep',
   'isphoneverified',
   'issourceverified',
   'registeredtaxpayer',

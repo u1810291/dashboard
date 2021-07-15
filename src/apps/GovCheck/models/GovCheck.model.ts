@@ -19,6 +19,7 @@ export const verificationPatternsCountries: readonly VerificationPatternTypes[] 
   VerificationPatternTypes.HonduranRnp,
   VerificationPatternTypes.ChileanRegistroCivil,
   VerificationPatternTypes.ColombianRegistraduria,
+  VerificationPatternTypes.ColombianNit,
   VerificationPatternTypes.CostaRicanAtv,
   VerificationPatternTypes.CostaRicanTse,
   VerificationPatternTypes.CostaRicanSocialSecurity,
@@ -26,6 +27,7 @@ export const verificationPatternsCountries: readonly VerificationPatternTypes[] 
   VerificationPatternTypes.ParaguayanRcp,
   VerificationPatternTypes.MexicanCurp,
   VerificationPatternTypes.MexicanIne,
+  VerificationPatternTypes.MexicanPep,
   VerificationPatternTypes.MexicanRfc,
   VerificationPatternTypes.PeruvianReniec,
   VerificationPatternTypes.SalvadorianTse,
@@ -56,8 +58,7 @@ export enum GovCheckCountryTypes {
   CostaRica = 'costaRica',
   Ecuador = 'ecuador',
   Guatemala = 'guatemala',
-  // TODO: uncomment after we get fix for Honduran scraper
-  // Honduras = 'honduras';
+  Honduras = 'honduras',
   Dominican = 'dominican',
   Mexico = 'mexico',
   Paraguay = 'paraguay',
@@ -144,6 +145,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Colombia,
     checks: [
       {
+        id: DocumentStepTypes.ColombianNit,
+        default: false,
+      },
+      {
         id: DocumentStepTypes.ColombianRegistraduria,
         default: true,
       },
@@ -161,15 +166,15 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.CostaRica,
     checks: [
       {
+        id: DocumentStepTypes.CostaRicanAtv,
+        default: false,
+      },
+      {
         id: DocumentStepTypes.CostaRicanTse,
         default: false,
       },
       {
         id: DocumentStepTypes.CostaRicanSocialSecurity,
-        default: false,
-      },
-      {
-        id: DocumentStepTypes.CostaRicanAtv,
         default: false,
       },
     ],
@@ -180,16 +185,19 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         id: DocumentStepTypes.EcuadorianRegistroCivil,
         default: false,
       },
+      {
+        id: DocumentStepTypes.EcuadorianSri,
+        default: false,
+      },
     ],
-    // TODO: uncomment after we get fix for Honduran scraper
-    // }, {
-    //   country: GovCheckCountryList.Honduras,
-    //   checks: [
-    //     {
-    //       id: DocumentStepTypes.HonduranRnp,
-    //       default: false,
-    //     },
-    //   ],
+  }, {
+    country: GovCheckCountryTypes.Honduras,
+    checks: [
+      {
+        id: DocumentStepTypes.HonduranRnp,
+        default: false,
+      },
+    ],
   }, {
     country: GovCheckCountryTypes.Guatemala,
     checks: [
@@ -216,6 +224,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       },
       {
         id: DocumentStepTypes.INE,
+        default: true,
+      },
+      {
+        id: DocumentStepTypes.MexicanPep,
         default: true,
       },
       {
@@ -247,6 +259,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     checks: [
       {
         id: DocumentStepTypes.VenezuelanCne,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.VenezuelanSeniat,
         default: false,
       },
     ],
@@ -348,6 +364,9 @@ export const govCheckDisplayOptions = {
     },
     criminalRecords: {},
   },
+  [DocumentStepTypes.ColombianNit]: {
+    taxID: {},
+  },
   [DocumentStepTypes.CostaRicanTse]: {
     firstName: {
       inline: true,
@@ -367,6 +386,22 @@ export const govCheckDisplayOptions = {
     },
     deceased: {
       inline: true,
+    },
+  },
+  [DocumentStepTypes.HonduranRnp]: {
+    documentNumber: {
+      inline: true,
+    },
+    fullName: {
+      inline: true,
+    },
+    city: {},
+  },
+  [DocumentStepTypes.MexicanPep]: {
+    fullName: {},
+    isPep: {},
+    pepData: {
+      hidden: true,
     },
   },
   [DocumentStepTypes.ParaguayanRcp]: {
@@ -404,6 +439,10 @@ export const govCheckDisplayOptions = {
     state: {
       inline: true,
     },
+  },
+  [DocumentStepTypes.VenezuelanSeniat]: {
+    documentNumber: {},
+    fullName: {},
   },
   [DocumentStepTypes.CostaRicanSocialSecurity]: {
     fullName: {},
