@@ -7,7 +7,7 @@ import { FiLoader } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
-import { ProductCanUseContainer } from 'apps/merchant';
+import { HOCIsAccessAllowed } from 'apps/merchant';
 import { EmailRiskPredefinedThreshold, EmailRiskThresholdModes, EmailValidationStepModes, getDefaultRiskThresholdMode, ScoreMapping, SENDER_NAME_LENGTH_LIMIT, validateRiskThreshold } from '../../models/EmailValidation.model';
 import { selectEmailRiskValidationMode, selectEmailValidationMode, selectEmailValidationThreshold, selectSenderName, selectCanUseEmailValidation } from '../../state/EmailValidation.selectors';
 import { EmailRiskLevelOption } from '../EmailRiskLevelOption/EmailRiskLevelOption';
@@ -124,7 +124,7 @@ export function EmailValidationConfiguration() {
 
   return (
     <FormControl component="fieldset">
-      <ProductCanUseContainer isCanUseProduct={isCanUseEmailValidation}>
+      <HOCIsAccessAllowed isAccessAllowed={isCanUseEmailValidation}>
         <Grid container direction="row">
           <Grid container item direction="row" spacing={1}>
             <BoxBordered mb={3}>
@@ -283,7 +283,7 @@ export function EmailValidationConfiguration() {
             </Button>
           </Box>
         </Grid>
-      </ProductCanUseContainer>
+      </HOCIsAccessAllowed>
     </FormControl>
   );
 }

@@ -11,7 +11,7 @@ import { selectPhoneRiskAnalysisThreshold } from 'state/merchant/merchant.select
 import { RiskAnalysisConfiguration } from 'apps/RiskAnalysis';
 import { appPalette } from 'apps/theme';
 import { selectPhoneRiskValidation } from 'apps/RiskAnalysis/state/RiskAnalysis.selectors';
-import { ProductCanUseContainer } from 'apps/merchant';
+import { HOCIsAccessAllowed } from 'apps/merchant';
 import { VerificationPatternTypes } from '../../../../models/VerificationPatterns.model';
 import { selectSenderName, selectPhoneValidationMode, selectCanUsePhoneValidation } from '../../state/PhoneValidation.selectors';
 import { SENDER_NAME_LENGTH_LIMIT, PhoneOwnershipValidationMethodTypes } from '../../models/PhoneValidation.model';
@@ -100,7 +100,7 @@ export function PhoneValidationConfiguration() {
 
   return (
     <FormControl component="fieldset">
-      <ProductCanUseContainer isCanUseProduct={isCanUsePhoneValidation}>
+      <HOCIsAccessAllowed isAccessAllowed={isCanUsePhoneValidation}>
         <Grid container spacing={1}>
           <BoxBordered>
             <Grid item xs={12}>
@@ -204,7 +204,7 @@ export function PhoneValidationConfiguration() {
             </Box>
           </Grid>
         </Grid>
-      </ProductCanUseContainer>
+      </HOCIsAccessAllowed>
     </FormControl>
   );
 }

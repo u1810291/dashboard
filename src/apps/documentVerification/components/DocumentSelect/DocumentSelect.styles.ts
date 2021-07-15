@@ -18,6 +18,12 @@ export const useStyles = makeStyles((theme) => createStyles({
   },
   button: {
     minWidth: 170,
+    transition: '.2s all ease-in-out',
+    '&:disabled': {
+      color: theme.palette.common.white,
+      backgroundColor: theme.palette.common.lightblue,
+      opacity: 0.5,
+    },
   },
   wrapper: {
     '& label': {

@@ -10,7 +10,10 @@ export const useStyles = makeStyles((theme) => createStyles({
     '& svg': {
       marginRight: 5,
     },
-    '&.Mui-disabled': {
+    '&:hover, &:focus': {
+      backgroundColor: theme.palette.common.lightbluehover,
+    },
+    '&:disabled': {
       color: theme.palette.common.white,
       backgroundColor: theme.palette.common.lightblue,
       opacity: 0.5,

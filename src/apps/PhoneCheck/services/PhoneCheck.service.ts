@@ -5,6 +5,7 @@ import { Product, ProductIntegrationTypes, ProductSettings, ProductTypes, Produc
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiPhone } from 'react-icons/fi';
 import { VerificationResponse } from 'models/Verification.model';
+import { MerchantTags } from 'models/Merchant.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { PhoneCheckCheckTypes, PhoneOwnershipValidationTypes, PhoneCheckSettingTypes } from '../models/PhoneCheck.model';
 import { PhoneCheckSettings } from '../components/PhoneCheckSettings/PhoneCheckSettings';
@@ -13,6 +14,11 @@ import { PhoneCheckVerification, PhoneCheckVerificationData } from '../component
 type PhoneCheckProductSettings = ProductSettings<PhoneCheckSettingTypes>;
 
 export class PhoneCheck extends ProductBaseService implements Product {
+  constructor(merchantTags: MerchantTags[]) {
+    super();
+    this.merchantTags = merchantTags;
+  }
+
   id = ProductTypes.PhoneCheck;
   order = 1000;
   integrationTypes = [
@@ -29,6 +35,7 @@ export class PhoneCheck extends ProductBaseService implements Product {
     id: PhoneCheckCheckTypes.RiskAnalysis,
     isActive: true,
   }];
+  merchantTags: MerchantTags[] = [];
   component = PhoneCheckSettings;
   componentVerification = PhoneCheckVerification;
 
@@ -74,7 +81,7 @@ export class PhoneCheck extends ProductBaseService implements Product {
   onAdd(): Partial<IFlow> {
     return {
       verificationPatterns: {
-        [VerificationPatternTypes.PhoneOwnershipValidation]: PhoneOwnershipValidationTypes.Sms,
+        [VerificationPatternTypes.PhoneOwnershipValidation]: this.merchantTags.includes(MerchantTags.CanUsePhoneValidation) ? PhoneOwnershipValidationTypes.Sms : PhoneOwnershipValidationTypes.None,
       },
     };
   }
