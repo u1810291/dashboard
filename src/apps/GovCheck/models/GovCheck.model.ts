@@ -229,7 +229,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       },
       {
         id: DocumentStepTypes.MexicanPep,
-        default: true,
+        default: false,
       },
       {
         id: DocumentStepTypes.RFC,
