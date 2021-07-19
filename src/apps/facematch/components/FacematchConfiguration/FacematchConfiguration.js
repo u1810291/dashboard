@@ -8,10 +8,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
+import { selectCanUseProofOfOwnership } from 'apps/ProofOfOwnership';
 import { selectIsVoiceLiveness } from 'state/merchant/merchant.selectors';
 import { RadioFacematchMode } from '../RadioFacematchMode/RadioFacematchMode';
 import { FACEMATCH_DEFAULT_THRESHOLD, FACEMATCH_MAX_THRESHOLD, FACEMATCH_MIN_THRESHOLD, FacematchThresholdModes, validateScore } from '../../models/facematch.model';
-import { selectCanUseProofOfOwnership, selectFacematchThreshold, selectProofOfOwnership } from '../../state/facematch.selectors';
+import { selectFacematchThreshold, selectProofOfOwnership } from '../../state/facematch.selectors';
 import { InputScore } from './FacematchConfiguration.styles';
 
 export function FacematchConfiguration() {

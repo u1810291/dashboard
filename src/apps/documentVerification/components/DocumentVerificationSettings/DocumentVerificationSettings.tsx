@@ -15,6 +15,7 @@ import classNames from 'classnames';
 import { cloneDeep } from 'lodash';
 import { DocumentTypes } from 'models/Document.model';
 import { ProductSettingsProps, ProductTypes } from 'models/Product.model';
+import { selectCanUseProofOfOwnership } from 'apps/ProofOfOwnership';
 import React, { useCallback, useMemo, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,6 +30,8 @@ export function DocumentVerificationSettings({ settings, onUpdate }: ProductSett
   const [bufferedSettings, updateBufferedSettings] = useSettingsBuffer<DocumentVerificationSettingTypes>(settings, checkCountryRestriction);
   const createAddOtherProductModalOverlay = useOtherProductAdding();
   const dispatch = useDispatch();
+
+  const canUseProofOfOwnership = useSelector(selectCanUseProofOfOwnership);
 
   useEffect(() => {
     // TODO: @richvoronov проработать логику этой операции в useSettingsBuffer и checkCountryRestriction
@@ -238,7 +241,7 @@ export function DocumentVerificationSettings({ settings, onUpdate }: ProductSett
           )}
 
           { /* Proof of Ownership */ }
-          {!settings[DocumentVerificationSettingTypes.ProofOfOwnership]?.isRequireOtherProduct && (
+          {canUseProofOfOwnership && !settings[DocumentVerificationSettingTypes.ProofOfOwnership]?.isRequireOtherProduct && (
             <ExtendedDescription
               title={intl.formatMessage({ id: `DocumentVerification.settings.title.${DocumentVerificationSettingTypes.ProofOfOwnership}` })}
               text={intl.formatMessage({ id: `DocumentVerification.settings.description.${DocumentVerificationSettingTypes.ProofOfOwnership}` })}
