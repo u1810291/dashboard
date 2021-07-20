@@ -217,6 +217,10 @@ const StepIncompletionErrors = {
   [StepTypes.PhoneOwnership]: ['phoneOwnership.notEnoughParams'],
 };
 
+export const OptionalGovCheckErrorCodes = {
+  [VerificationPatternTypes.PeruvianReniec]: ['peruvianReniec.fullNameMismatch'],
+};
+
 function getAltered(step, identity, countries, document) {
   switch (step.id) {
     case DocumentStepTypes.AlternationDetection:
@@ -317,4 +321,8 @@ export function getStepsExtra(steps = [], identity, countries, document) {
     ...getComputedSteps(readerStep, identity, document),
     ...steps,
   ].map((item) => getStepExtra(item, identity, countries, document));
+}
+
+export function isSecondaryGovCheckError(id: string, errorCode: string): boolean {
+  return OptionalGovCheckErrorCodes[id] && OptionalGovCheckErrorCodes[id].includes(errorCode);
 }
