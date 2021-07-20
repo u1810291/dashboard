@@ -18,10 +18,11 @@ const IconStatuses = {
   [StepStatus.Checking]: <CheckBarIcon key="check-bar-icon" icon={<IconLoad />} />,
 };
 
-export function CheckBarExpandable({ step, children, title, isNoBadge = false }: {
+export function CheckBarExpandable({ step, children, title, isOpenByDefault = false, isNoBadge = false }: {
   step: any;
   children?: React.ReactElement;
   title?: string;
+  isOpenByDefault?: boolean;
   isNoBadge?: boolean;
 }) {
   const intl = useIntl();
@@ -29,7 +30,7 @@ export function CheckBarExpandable({ step, children, title, isNoBadge = false }:
   const [disabledExpansion, setDisabledExpansion] = useState(false);
   const [expandIcon, setExpandIcon] = useState(null);
   const { id, error } = step;
-  const [expanded, setExpanded] = useState('');
+  const [expanded, setExpanded] = useState<boolean>(isOpenByDefault);
   const isChecking = step.checkStatus === StepStatus.Checking;
 
   useEffect(() => {
@@ -50,8 +51,8 @@ export function CheckBarExpandable({ step, children, title, isNoBadge = false }:
     isChecking,
   ]);
 
-  const handleChange = (panel) => (_, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+  const handleChange = (_, isExpanded: boolean) => {
+    setExpanded(isExpanded);
   };
 
   return (
@@ -59,8 +60,8 @@ export function CheckBarExpandable({ step, children, title, isNoBadge = false }:
       {!isChecking && (
         <ExpansionPanel
           key={id}
-          expanded={expanded === `panel-${id}`}
-          onChange={handleChange(`panel-${id}`)}
+          expanded={expanded}
+          onChange={handleChange}
           disabled={false}
         >
           <ExpansionPanelSummary
