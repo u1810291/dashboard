@@ -19,7 +19,7 @@ export function PhoneRisk({ step }: {
 
   return (
     <BoxBordered p={1} pt={2} className={classes.bordered}>
-      <CheckBarExpandable step={step} title="Checks.result.PhoneRisk.title">
+      <CheckBarExpandable step={step} title="Checks.result.PhoneRisk.title" isOpenByDefault>
         <Card raised={false} className={classes.card}>
           <CardContent>
             {step.error && (

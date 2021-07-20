@@ -19,7 +19,7 @@ export function PhoneValidation({ step }: {
 
   return (
     <BoxBordered p={1} pt={2} className={classes.bordered}>
-      <CheckBarExpandable step={step} title="SecurityCheckStep.phoneOwnership.title">
+      <CheckBarExpandable step={step} title="SecurityCheckStep.phoneOwnership.title" isOpenByDefault>
         <Card raised={false} className={classes.card}>
           <CardContent>
             {step.error && (

@@ -19,7 +19,7 @@ export function EmailValidation({ step }: {
 
   return (
     <BoxBordered p={1} pt={2} className={classes.bordered}>
-      <CheckBarExpandable step={step} title="SecurityCheckStep.emailOwnership.title">
+      <CheckBarExpandable step={step} title="SecurityCheckStep.emailOwnership.title" isOpenByDefault>
         <Card raised={false} className={classes.card}>
           <CardContent>
             {step.error && (
