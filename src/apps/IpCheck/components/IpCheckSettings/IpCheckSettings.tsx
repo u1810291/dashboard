@@ -34,7 +34,7 @@ export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpC
       newSettings[IpCheckSettingsTypes.VpnDetection].value = false;
     }
     if (modeOn === IpCheckValidationTypes.RestrictionInvisible && (allowedRegions || []).length === 0) {
-      setAllowedRegions(getAllAllowedRegions(countries));
+      newSettings[IpCheckSettingsTypes.AllowedRegions].value = getAllAllowedRegions(countries);
     }
     onUpdate(newSettings);
   }, [onUpdate, settings, allowedRegions, countries]);
