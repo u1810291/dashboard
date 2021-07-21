@@ -1,6 +1,5 @@
 import { useFullStory } from 'apps/AppBootstrap';
 import { signOut } from 'apps/auth/state/auth.actions';
-import { useBeamerScript } from 'apps/beamer';
 import { Layout, PageError } from 'apps/layout';
 import { Loader } from 'apps/ui';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
@@ -15,6 +14,7 @@ import { selectAllCountriesModel, selectCountriesOnlyExisting } from 'state/coun
 import { appLoad, merchantFlowsLoad, merchantLoad } from 'state/merchant/merchant.actions';
 import { selectClientIdModel, selectMerchantFlowsModel, selectMerchantModel } from 'state/merchant/merchant.selectors';
 import { reloadPage } from 'lib/window';
+import { useIntercom } from 'apps/intercom';
 import { DashboardLoader } from '../components/DashboardLoader/DashboardLoader';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
 import { Footer } from '../components/Footer/Footer';
@@ -104,7 +104,7 @@ export function Dashboard() {
     }
   }, [dispatch, merchantFlowsModel, merchantModel]);
 
-  useBeamerScript();
+  useIntercom();
   useFullStory();
 
   if (isError) {
