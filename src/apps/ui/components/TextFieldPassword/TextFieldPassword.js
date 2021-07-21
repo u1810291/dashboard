@@ -27,7 +27,7 @@ export function TextFieldPassword({ field, form, ...props }) {
   }, []);
 
   const handleOnKeyDown = useCallback((event) => {
-    setIsBackspacePressed(event?.code === 'Backspace');
+    setIsBackspacePressed([event?.key, event?.code].includes('Backspace'));
   }, []);
 
   const setFieldValue = useCallback((newValue) => {
