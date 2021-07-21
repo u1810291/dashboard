@@ -68,6 +68,9 @@ export const signUp = (userData) => async (dispatch) => {
 export const signOut = () => (dispatch) => {
   dispatch({ type: types.AUTH_SIGNOUT_REQUEST });
   window.localStorage.clear();
+  if (window.Intercom) {
+    window.Intercom('shutdown');
+  }
 };
 
 export const passwordRecovery = (credentials) => async (dispatch) => {

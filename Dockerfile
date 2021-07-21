@@ -20,6 +20,7 @@ ARG REACT_APP_API_URL=https://api.dev-xx.mati.io
 ARG REACT_APP_SIGNUP_URL=https://popup.dev-xx.mati.io
 ARG REACT_APP_MATI_BUTTON_URL=https://web-button.staging.getmati.com/button.js
 ARG REACT_APP_STATIC_GOOGLE_MAP_API_KEY="AIzaSyBFeruTRfMBq0GZto9evUVaZ8b7uWBb6-Y"
+ARG REACT_APP_INTERCOM_APP_ID=kkdmolx4
 ARG REACT_APP_DASHBOARD_CLIENT_ID=60794e1245abe40021157879
 
 RUN npm i \
