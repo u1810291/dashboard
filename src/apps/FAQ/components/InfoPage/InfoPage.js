@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import { PageContent } from 'apps/layout';
+import { ContactUs } from '../ContactUs/ContactUs';
 import { FAQ } from '../FAQ/FAQ';
 import { Support } from '../Support/Support';
 import { FaqBanner } from '../FaqBanner/FaqBanner';
@@ -18,8 +19,13 @@ export function InfoPage() {
           <Box>
             <FAQ />
           </Box>
-          <Box>
-            <Support />
+          <Box flexDirection="column">
+            <Box>
+              <Support />
+            </Box>
+            <Box mt={3}>
+              <ContactUs />
+            </Box>
           </Box>
         </Box>
       </Box>

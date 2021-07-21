@@ -14,9 +14,9 @@ export function SecondaryMenu({ isOpen, ...props }) {
   }, []);
 
   const entries = useMemo(() => [{
-    id: 'faq',
+    id: 'helpCenter',
     to: Routes.info.root,
-    label: intl.formatMessage({ id: 'dashboard.menu.faq' }),
+    label: intl.formatMessage({ id: 'dashboard.menu.helpCenter' }),
     icon: <FiHelpCircle />,
     qa: QATags.Menu.FAQ,
     color: appPalette.black7,
