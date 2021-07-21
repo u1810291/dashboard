@@ -5,12 +5,12 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectIsOwnerModel, selectLanguage, selectMerchantBusinessName, selectMerchantCreatedAt, selectMerchantId } from 'state/merchant/merchant.selectors';
 
-declare global{
-  interface Window{
+interface IntercomWindow extends Window{
     intercomSettings: any;
     Intercom: any;
   }
-}
+
+declare const window: IntercomWindow;
 
 // For the Intercom widget script initialization
 window.intercomSettings = {
