@@ -19,7 +19,7 @@ export function EmailRisk({ step }: {
 
   return (
     <BoxBordered p={1} pt={2} className={classes.bordered}>
-      <CheckBarExpandable step={step} title="SecurityCheckStep.emailRisk.title">
+      <CheckBarExpandable step={step} title="SecurityCheckStep.emailRisk.title" isOpenByDefault>
         <Card raised={false} className={classes.card}>
           <CardContent>
             {step.error && (

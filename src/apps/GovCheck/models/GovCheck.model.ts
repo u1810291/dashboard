@@ -75,8 +75,10 @@ export const govCheckCountriesOrder = [
   GovCheckCountryTypes.Chile,
   GovCheckCountryTypes.Colombia,
   GovCheckCountryTypes.CostaRica,
-  GovCheckCountryTypes.Ecuador,
   GovCheckCountryTypes.Dominican,
+  GovCheckCountryTypes.Ecuador,
+  GovCheckCountryTypes.Guatemala,
+  GovCheckCountryTypes.Honduras,
   GovCheckCountryTypes.Mexico,
   GovCheckCountryTypes.Paraguay,
   GovCheckCountryTypes.Peru,
@@ -229,7 +231,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       },
       {
         id: DocumentStepTypes.MexicanPep,
-        default: true,
+        default: false,
       },
       {
         id: DocumentStepTypes.RFC,

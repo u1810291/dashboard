@@ -1,6 +1,6 @@
 {
   "name": "mati-dashboard",
-  "version": "2.0.3",
+  "version": "2.0.5",
   "private": true,
   "dependencies": {
     "@fullstory/browser": "^1.4.6",
@@ -58,6 +58,7 @@
     "start:dev02": "env-cmd -f .env.dev02 react-scripts start",
     "start:dev04": "env-cmd -f .env.dev04 react-scripts start",
     "start:dev10": "env-cmd -f .env.dev10 react-scripts start",
+    "start:dev08": "env-cmd -f .env.dev08 react-scripts start",
     "start:production": "env-cmd -f .env.production react-scripts start",
     "build": "REACT_APP_VERSION=$npm_package_version react-scripts build",
     "build:dev01": "env-cmd -f .env.dev01 npm run build",
@@ -73,6 +74,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
+    "@types/intercom-web": "^2.8.12",
     "@types/lodash": "^4.14.170",
     "@types/react": "^16.14.0",
     "@types/react-color": "^3.0.4",

@@ -4,6 +4,11 @@ import { USER_STORE_KEY } from './user.store';
 
 export const selectUserModel = (state) => state[USER_STORE_KEY];
 
+export const selectUserFullName = createSelector(
+  selectUserModel,
+  selectModelValue((user) => user && user.fullName),
+);
+
 export const selectUserFirstName = createSelector(
   selectUserModel,
   selectModelValue((user) => user && user.firstName),

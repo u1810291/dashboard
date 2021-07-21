@@ -4,6 +4,9 @@ export const useStyles = makeStyles((theme) => ({
   bottomGutter: {
     paddingBottom: 40,
   },
+  topGutter: {
+    paddingTop: 20,
+  },
   emailLink: {
     color: '#5082ff',
     textDecoration: 'underline',
@@ -18,15 +21,9 @@ export const useStyles = makeStyles((theme) => ({
     marginRight: 10,
   },
   list: {
-    paddingTop: 20,
     paddingLeft: 15,
     listStyle: 'decimal',
     color: '#c7c7c7',
-  },
-  paper: {
-    background: theme.palette.text.secondary,
-    color: theme.palette.common.black7,
-    paddingRight: 38,
   },
   answer: {
     fontStyle: 'normal',
@@ -36,17 +33,6 @@ export const useStyles = makeStyles((theme) => ({
     color: '#c7c7c7',
     [theme.breakpoints.down('sm')]: {
       paddingRight: 15,
-    },
-  },
-  supportBox: {
-    marginLeft: 20,
-    padding: 0,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 10,
-    [theme.breakpoints.down('sm')]: {
-      marginLeft: 0,
-      marginBottom: 30,
     },
   },
   title: {
@@ -69,13 +55,6 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       wordBreak: 'keep-all',
       display: 'block',
-    },
-  },
-  verification: {
-    color: '#f4be48',
-    wordBreak: 'keep-all',
-    [theme.breakpoints.down('sm')]: {
-      wordBreak: 'break-all',
     },
   },
 }));
