@@ -1,9 +1,16 @@
 /* eslint-disable camelcase */
 import { selectUserEmail, selectUserFullName, selectUserId, selectUserRegistrationDate } from 'apps/user/state/user.selectors';
-import React, { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectIsOwnerModel, selectLanguage, selectMerchantBusinessName, selectMerchantCreatedAt, selectMerchantId } from 'state/merchant/merchant.selectors';
+
+declare global{
+  interface Window{
+    intercomSettings: any;
+    Intercom: any;
+  }
+}
 
 // For the Intercom widget script initialization
 window.intercomSettings = {
@@ -63,7 +70,7 @@ export function useIntercom() {
     if (window.Intercom) {
       window.Intercom('reattach_activator');
       isIntercomLoaded.current = true;
-    } else if (!isIntercomLoaded.current) {
+    } else if (!isIntercomLoaded.current && user_id) {
       const head = document.getElementsByTagName('head')[0];
       const script = document.createElement('script');
       script.onload = () => { isIntercomLoaded.current = true; };
@@ -71,7 +78,7 @@ export function useIntercom() {
       script.src = `https://widget.intercom.io/widget/${process.env.REACT_APP_INTERCOM_APP_ID}`;
       head.appendChild(script);
     }
-  }, []);
+  }, [user_id]);
 
   useEffect(() => {
     if (isIntercomLoaded.current && !isUserBooted.current) {
