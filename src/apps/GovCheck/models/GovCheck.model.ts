@@ -10,36 +10,41 @@ export enum GovernmentChecksTypes {
   GovernmentDatabaseCheck = 'governmentDatabaseCheck'
 }
 
-export const verificationPatternsCountries: readonly VerificationPatternTypes[] = [
-  VerificationPatternTypes.ArgentinianDni,
-  VerificationPatternTypes.ArgentinianRenaper,
-  VerificationPatternTypes.BolivianOep,
-  VerificationPatternTypes.BrazilianCpf,
-  VerificationPatternTypes.EcuadorianRegistroCivil,
-  VerificationPatternTypes.HonduranRnp,
-  VerificationPatternTypes.ChileanRegistroCivil,
-  VerificationPatternTypes.ColombianRegistraduria,
-  VerificationPatternTypes.ColombianNit,
-  VerificationPatternTypes.CostaRicanAtv,
-  VerificationPatternTypes.CostaRicanTse,
-  VerificationPatternTypes.CostaRicanSocialSecurity,
-  VerificationPatternTypes.DominicanJce,
-  VerificationPatternTypes.ParaguayanRcp,
-  VerificationPatternTypes.MexicanCurp,
-  VerificationPatternTypes.MexicanIne,
-  VerificationPatternTypes.MexicanPep,
-  VerificationPatternTypes.MexicanRfc,
-  VerificationPatternTypes.PeruvianReniec,
-  VerificationPatternTypes.SalvadorianTse,
-  VerificationPatternTypes.PanamenianTribunalElectoral,
-  VerificationPatternTypes.VenezuelanCne,
-];
-
 export enum GovCheckStepTypes {
   None = 'none',
   Cpf = 'cpf',
   CpfFacematch = 'cpf+facematch',
 }
+
+export const verificationPatternsGovchecksDefault = {
+  [VerificationPatternTypes.ArgentinianDni]: false,
+  [VerificationPatternTypes.ArgentinianRenaper]: false,
+  [VerificationPatternTypes.BolivianOep]: false,
+  [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
+  [VerificationPatternTypes.ChileanRegistroCivil]: false,
+  [VerificationPatternTypes.ColombianNationalPolice]: false,
+  [VerificationPatternTypes.ColombianNit]: false,
+  [VerificationPatternTypes.ColombianProcuraduria]: false,
+  [VerificationPatternTypes.ColombianRegistraduria]: false,
+  [VerificationPatternTypes.CostaRicanAtv]: false,
+  [VerificationPatternTypes.CostaRicanTse]: false,
+  [VerificationPatternTypes.CostaRicanSocialSecurity]: false,
+  [VerificationPatternTypes.DominicanJce]: false,
+  [VerificationPatternTypes.EcuadorianRegistroCivil]: false,
+  [VerificationPatternTypes.EcuadorianSri]: false,
+  [VerificationPatternTypes.GuatemalanTse]: false,
+  [VerificationPatternTypes.HonduranRnp]: false,
+  [VerificationPatternTypes.MexicanCurp]: false,
+  [VerificationPatternTypes.MexicanIne]: false,
+  [VerificationPatternTypes.MexicanPep]: false,
+  [VerificationPatternTypes.MexicanRfc]: false,
+  [VerificationPatternTypes.ParaguayanRcp]: false,
+  [VerificationPatternTypes.PeruvianReniec]: false,
+  [VerificationPatternTypes.SalvadorianTse]: false,
+  [VerificationPatternTypes.PanamenianTribunalElectoral]: false,
+  [VerificationPatternTypes.VenezuelanCne]: false,
+  [VerificationPatternTypes.VenezuelanSeniat]: false,
+};
 
 export const GovCheckTypesForStep = {
   [DocumentStepTypes.BrazilianCpf]: {
@@ -152,7 +157,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       },
       {
         id: DocumentStepTypes.ColombianRegistraduria,
-        default: true,
+        default: false,
       },
       {
         id: DocumentStepTypes.ColombianNationalPolice,
@@ -223,11 +228,11 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     checks: [
       {
         id: DocumentStepTypes.CURP,
-        default: true,
+        default: false,
       },
       {
         id: DocumentStepTypes.INE,
-        default: true,
+        default: false,
       },
       {
         id: DocumentStepTypes.MexicanPep,
@@ -235,7 +240,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       },
       {
         id: DocumentStepTypes.RFC,
-        default: true,
+        default: false,
       },
     ],
   },
