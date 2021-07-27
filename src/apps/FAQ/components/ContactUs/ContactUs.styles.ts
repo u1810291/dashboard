@@ -31,6 +31,7 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: '14px',
     lineHeight: '17px',
     color: '#c7c7c7',
+    // @ts-ignore
     [theme.breakpoints.down('sm')]: {
       paddingRight: 15,
     },
@@ -52,6 +53,7 @@ export const useStyles = makeStyles((theme) => ({
   wrapGrid: {
     marginRight: 15,
     alignItems: 'flex-start',
+    // @ts-ignore
     [theme.breakpoints.up('sm')]: {
       wordBreak: 'keep-all',
       display: 'block',

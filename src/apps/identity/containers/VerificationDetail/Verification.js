@@ -1,6 +1,5 @@
-import { Grid } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
-import { Nom151Check } from 'apps/checks/components/Nom151Check/Nom151Check';
 import { Page404 } from 'apps/layout';
 import { selectReviewVerificationWithExtras } from 'apps/Verification';
 import { getDownloadableFileName } from 'models/Identity.model';
@@ -11,6 +10,7 @@ import { LivenessStep } from 'apps/biometrics';
 import { DocumentStep } from 'apps/documents';
 import { VerificationMetadata } from 'apps/metadata';
 import { verificationDocumentUpdate } from 'state/identities/identities.actions';
+import { Nom151Check } from 'apps/CertifiedTimestamp';
 import { VerificationSummary } from '../../components/VerificationSummary/VerificationSummary';
 
 export function Verification({ identity }) {
@@ -81,7 +81,9 @@ export function Verification({ identity }) {
       {/* digitalSignature */}
       {identity.digitalSignature && (
         <Grid item>
-          <Nom151Check data={identity.digitalSignature} />
+          <Paper>
+            <Nom151Check data={identity.digitalSignature} />
+          </Paper>
         </Grid>
       )}
 

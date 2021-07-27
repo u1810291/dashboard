@@ -33,7 +33,10 @@ export function ContactUs() {
             </Typography>
           </Grid>
           <Grid item xs={12} className={classes.bottomGutter}>
-            <ul className={classes.list}>
+            <Typography variant="body2" className={classes.answer}>
+              {intl.formatMessage({ id: 'FAQ.contactUs.1.answer' })}
+            </Typography>
+            <ul className={classNames(classes.list, classes.topGutter)}>
               <li>
                 <Typography variant="body2" className={classes.answer}>
                   {intl.formatMessage({ id: 'FAQ.contactUs.1.list.1' })}
@@ -59,9 +62,6 @@ export function ContactUs() {
                 </Typography>
               </li>
             </ul>
-            <Typography variant="body2" className={classNames(classes.answer, classes.topGutter)}>
-              {intl.formatMessage({ id: 'FAQ.contactUs.1.answer' })}
-            </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h5" component="h3" className={classes.question}>
@@ -107,10 +107,10 @@ export function ContactUs() {
                       <Link
                         className={classes.emailLink}
                         color="primary"
-                        href="mailto:filip@getmati.com"
+                        href="mailto:fv@getmati.com"
                         rel="noopener"
                       >
-                        filip@getmati.com
+                        fv@getmati.com
                       </Link>
                     ),
                   },
@@ -126,10 +126,10 @@ export function ContactUs() {
                       <Link
                         className={classes.emailLink}
                         color="primary"
-                        href="mailto:amaury@getmati.com"
+                        href="mailto:as@getmati.com"
                         rel="noopener"
                       >
-                        amaury@getmati.com
+                        as@getmati.com
                       </Link>
                     ),
                   },
@@ -138,8 +138,32 @@ export function ContactUs() {
             </li>
           </ul>
         </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h5" component="h3" className={classes.question}>
+            {intl.formatMessage({ id: 'FAQ.contactUs.4.question' })}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} className={classes.bottomGutter}>
+          <Typography variant="body2" className={classes.answer}>
+            {intl.formatMessage(
+              { id: 'FAQ.contactUs.4.answer' },
+              {
+                link: (
+                  <Link
+                    className={classes.emailLink}
+                    color="primary"
+                    href="https://teammati.typeform.com/to/attXY1Et"
+                    rel="noopener"
+                    target="_blank"
+                  >
+                    {intl.formatMessage({ id: 'Link.here' })}
+                  </Link>
+                ),
+              },
+            )}
+          </Typography>
+        </Grid>
       </Box>
     </DarkFaqSection>
-
   );
 }

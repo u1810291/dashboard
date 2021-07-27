@@ -2,7 +2,7 @@ import { productManagerService, selectProductRegistered } from 'apps/Product';
 import { notification } from 'apps/ui';
 import { ERROR_COMMON, IN_REVIEW_MODE_ERROR, isInReviewModeError } from 'models/Error.model';
 import { IdentityStatuses } from 'models/Status.model';
-import { PassedVerificationsResponse, VerificationResponse } from 'models/Verification.model';
+import { VerificationListItem, VerificationResponse } from 'models/Verification.model';
 import { Dispatch } from 'redux';
 import { types } from 'state/identities/identities.actions';
 import { selectIdentityModel } from 'state/identities/identities.selectors';
@@ -12,7 +12,7 @@ import { VerificationActionTypes } from './Verification.store';
 export const verificationListLoad = (identityId: string, asMerchantId: string) => async (dispatch: Dispatch) => {
   dispatch({ type: VerificationActionTypes.VERIFICATIONS_PASSED_REQUEST });
   try {
-    const { data }: { data: PassedVerificationsResponse[] } = await client.getVerificationList(identityId, { ...(asMerchantId && { asMerchantId }) });
+    const { data }: { data: VerificationListItem[] } = await client.getVerificationList(identityId, { ...(asMerchantId && { asMerchantId }) });
     dispatch({ type: VerificationActionTypes.VERIFICATIONS_PASSED_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: VerificationActionTypes.VERIFICATIONS_PASSED_FAILURE, error });

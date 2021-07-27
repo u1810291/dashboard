@@ -13,20 +13,22 @@ export function PassedFlows() {
   const [activeFlow, setActiveFlow] = useState(null);
   const [openedFlow, setOpenedFlow] = useState(null);
 
-  const handleSetActive = useCallback((id) => () => {
+  const handleSetOpened = useCallback((id: string) => () => {
     setOpenedFlow((prevState) => (id === prevState ? null : id));
   }, []);
 
-  const handleCheckIsActive = useCallback((id) => id && activeFlow === id, [activeFlow]);
-  const handleCheckIsOpened = useCallback((id) => id && openedFlow === id, [openedFlow]);
+  const handleSetActive = useCallback((id: string) => () => setActiveFlow(id), []);
 
   useEffect(() => {
     if (!verification) {
       setActiveFlow(null);
       return;
     }
-    setActiveFlow(verification?.flow?._id);
-    setOpenedFlow(verification?.flow?._id);
+
+    if (verification?.flow?._id) {
+      setActiveFlow(verification?.flow?._id);
+      setOpenedFlow(verification?.flow?._id);
+    }
   }, [verification]);
 
   return (
@@ -34,16 +36,17 @@ export function PassedFlows() {
       <Box color="common.black90" fontWeight="bold" mb={1.4}>
         {intl.formatMessage({ id: 'IdentityProfile.label.passedFlows' })}
       </Box>
-      {flows.map(({ value: flow }) => (
+      {flows.map(({ verifications, flowId, flowName }) => flowId && (
         <PassedFlowSelect
-          key={flow._id}
-          isSelected={handleCheckIsActive(flow?._id)}
-          isOpened={flow?.verifications && flow?.verifications.length > 1 && handleCheckIsOpened(flow?._id)}
-          setIsSelected={handleSetActive(flow?._id)}
-          verifications={flow?.verifications}
-          flowName={flow?.name}
+          key={flowId}
+          isSelected={activeFlow === flowId}
+          isOpened={openedFlow === flowId}
+          setIsSelected={handleSetOpened(flowId)}
+          verifications={verifications}
+          flowName={flowName}
           platformType={ProductIntegrationTypes.Sdk}
-          badgeStatusId={flow?.verifications[0]?.verificationStatusDetails?.value}
+          badgeStatusId={verifications[0]?.verificationStatus}
+          onSetActive={handleSetActive(flowId)}
         />
       ))}
     </Box>

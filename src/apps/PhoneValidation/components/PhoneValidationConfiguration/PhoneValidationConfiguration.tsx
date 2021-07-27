@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { validateMaxLength } from 'lib/validations';
-import { KeyboardKeyCodes } from 'models/Keyboard.model';
+import { KeyboardKeys } from 'models/Keyboard.model';
 import { selectPhoneRiskAnalysisThreshold } from 'state/merchant/merchant.selectors';
 import { RiskAnalysisConfiguration } from 'apps/RiskAnalysis';
 import { appPalette } from 'apps/theme';
@@ -55,7 +55,7 @@ export function PhoneValidationConfiguration() {
   }, [dispatch, senderName, riskScore, intl]);
 
   const handleKeyDown = useCallback((e) => {
-    if (e.keyCode === KeyboardKeyCodes.Enter) {
+    if (e.key === KeyboardKeys.Enter) {
       handleSave();
     }
   }, [handleSave]);

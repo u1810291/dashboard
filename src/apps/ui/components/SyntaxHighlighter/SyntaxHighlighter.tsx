@@ -7,6 +7,7 @@ import lightYellowTheme from './light-yellow';
 import lightBlueTheme from './light-blue';
 import darkTheme from './dark';
 import { useStyles } from './SyntaxHighligther.styles';
+import { SyntaxHighlighterLanguages } from '../../models/SyntaxHighlighter.model';
 
 export function SyntaxHighlighter({
   code = '',
@@ -20,6 +21,18 @@ export function SyntaxHighlighter({
   className = '',
   withCopyText = false,
   showLineNumbers = false,
+}: {
+    code?: string;
+    language?: SyntaxHighlighterLanguages;
+    isCopyToClipboard?: boolean;
+    isBorder?: boolean;
+    isDarkTheme?: boolean;
+    isLightYellowTheme?: boolean;
+    isLightBlueTheme?: boolean;
+    qa?: any;
+    className?: string;
+    withCopyText?: boolean;
+    showLineNumbers?: boolean;
 }) {
   const classes = useStyles();
   let style = lightTheme;

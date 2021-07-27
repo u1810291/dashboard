@@ -1,5 +1,5 @@
 import { useIntl } from 'react-intl';
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, Dispatch, SetStateAction } from 'react';
 import { TextField, InputAdornment, Box } from '@material-ui/core';
 import { PageLoader } from 'apps/layout';
 import { validationHandler } from 'lib/validations';
@@ -14,14 +14,22 @@ export function EditableField({
   validator,
   inProgress = false,
   ...props
+}: {
+  value: string;
+  enabled: boolean;
+  setEditable: Dispatch<SetStateAction<boolean>>;
+  submitEditable?: (text: string) => void;
+  cancelEditable?: () => void;
+  validator?: (text: string) => void;
+  inProgress?: boolean;
 }) {
   const classes = useStyles();
   const [error, setError] = useState(null);
   const [currentText, setCurrentText] = useState('');
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>();
   const intl = useIntl();
 
-  function onChangeHandler(e) {
+  function onChangeHandler(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
     setError(null);
     setCurrentText(e.target.value);
   }
@@ -51,7 +59,7 @@ export function EditableField({
     }
   }, [currentText, submitEditable, setEditable, validator, value, intl]);
 
-  function onKeyDownHandler(e) {
+  function onKeyDownHandler(e: React.KeyboardEvent<HTMLDivElement>) {
     if (e.key === 'Enter') {
       submitEditableHandler();
     }
@@ -80,13 +88,9 @@ export function EditableField({
     };
   }, [setFocus, enabled]);
 
-  const handleKeyUp = useCallback((e) => {
-    switch (e.key) {
-      case 'Escape':
-        cancelEditableHandler();
-        break;
-      default:
-        break;
+  const handleKeyUp = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      cancelEditableHandler();
     }
   }, [cancelEditableHandler]);
 

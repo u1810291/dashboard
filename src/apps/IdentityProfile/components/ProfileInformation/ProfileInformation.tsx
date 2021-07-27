@@ -49,7 +49,7 @@ export function ProfileInformation({ profileSummary, identityId, isShowFull = tr
         {intl.formatMessage({ id: 'IdentityProfile.label.name' })}
       </Box>
       <Grid container alignItems="center" wrap="nowrap">
-        <Box mr={0.5} color={`common.black${fullName?.value ? 90 : 50}`} fontWeight="bold" fontSize={24}>
+        <Box mr={0.5} color={`common.black${fullName?.value ? 90 : 50}`} fontWeight="bold" fontSize={24} className={classes.name}>
           {fullName?.value || (
             fullName?.reasonCode !== IdentityProfileReasonCodes.ManualUpdate && (intl.formatMessage({ id: getReasonToken(fullName?.reasonCode) }))
           )}

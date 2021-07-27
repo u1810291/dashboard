@@ -12,6 +12,7 @@ import { govCheckInit } from 'apps/GovCheck/state/GovCheck.actions';
 import { deviceFingerprintInit } from 'apps/DeviceFingerPrint/state/deviceFingerprint.actions';
 import { ProductActionTypes } from './Product.store';
 import { metadataInit } from '../../metadata/state/Metadata.actions';
+import { certifiedTimestampInit } from '../../CertifiedTimestamp/state/CertifiedTimestamp.actions';
 
 export const productIsInitedUpdate = storeAction<boolean>(ProductActionTypes.ProductIsInitedUpdate);
 export const productRegisteredUpdate = storeAction<string[]>(ProductActionTypes.ProductRegistered);
@@ -28,6 +29,7 @@ export const productInit = () => (dispatch) => {
     dispatch(govCheckInit()),
     dispatch(deviceFingerprintInit()),
     dispatch(metadataInit()),
+    dispatch(certifiedTimestampInit()),
   ];
   dispatch(productRegisteredUpdate(compact(registered)));
   dispatch(productIsInitedUpdate(true));

@@ -1,6 +1,7 @@
 import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { allDatePickerRanges } from 'models/Filter.model';
 import { QATags } from 'models/QA.model';
+import { REDUCE_DB_COUNT_CALLS } from 'models/Release.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiCalendar, FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -29,7 +30,7 @@ export function Filter({ children, onClose, onSetFilter, selectFilter, cleanFilt
       setIsFirstRender(false);
       return;
     }
-    if (loadPreliminaryCountAction) {
+    if (!REDUCE_DB_COUNT_CALLS && loadPreliminaryCountAction) {
       dispatch(loadPreliminaryCountAction({ ...bufferedFilter }, true));
     }
   }, [isFirstRender, bufferedFilter, dispatch, loadPreliminaryCountAction]);
@@ -92,7 +93,7 @@ export function Filter({ children, onClose, onSetFilter, selectFilter, cleanFilt
             {intl.formatMessage({ id: 'VerificationFilter.clear-all' })}
           </Button>
           {/* preliminary count */}
-          {loadPreliminaryCountAction && preliminaryCountSelector && (
+          {!REDUCE_DB_COUNT_CALLS && loadPreliminaryCountAction && preliminaryCountSelector && (
             <Box>
               <Typography variant="body1" className={classes.resultsText}>
                 {intl.formatMessage({ id: 'VerificationFilter.count.identities' }, { count: preliminaryFilteredCountModel.value })}

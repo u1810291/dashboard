@@ -5,7 +5,7 @@ import { ReactComponent as EmptyFlowsIcon } from 'assets/empty-flows.svg';
 import { FiPlusCircle } from 'react-icons/fi';
 import { useStyles } from './NoFlows.styles';
 
-export function NoFlows({ onAddNewFlow }) {
+export function NoFlows({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   const intl = useIntl();
   const classes = useStyles();
 

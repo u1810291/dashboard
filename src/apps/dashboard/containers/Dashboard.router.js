@@ -5,6 +5,7 @@ import { Page404, PageLoader } from 'apps/layout';
 import { MerchantGuard, OwnerRoute } from 'apps/merchant';
 import { appPalette } from 'apps/theme';
 import { Routes } from 'models/Router.model';
+// import { IS_IDENTITY_PROFILE_RELEASED } from 'models/Release.model';
 import React, { lazy, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { verificationListRoutes } from 'apps/VerificationList';
@@ -40,11 +41,6 @@ const AgentHistoryLazy = lazy(async () => {
   return { default: AgentHistory };
 });
 
-const VerificationFlowsLazy = lazy(async () => {
-  const { VerificationFlows } = await import('apps/flows');
-  return { default: VerificationFlows };
-});
-
 const FlowListLazy = lazy(async () => {
   const { FlowList } = await import('apps/FlowList');
   return { default: FlowList };
@@ -55,6 +51,10 @@ export function DashboardRouter() {
     <Suspense fallback={<PageLoader size={50} color={appPalette.black50} />}>
       <Switch>
         <Redirect exact from={Routes.root} to={Routes.analytics.root} />
+        {/* TODO: @vladislav.snimshchikov delete redirect when /verification will be done */}
+        {/* {!IS_IDENTITY_PROFILE_RELEASED && (
+          <Redirect exact from={Routes.identity.verification.root} to={Routes.list.root} />
+        )} */}
         <OwnerRoute path={Routes.settings.root} component={SettingsLazy} />
         <Route path={Routes.info.root} component={InfoPageLazy} />
         <MerchantGuard>
@@ -63,8 +63,6 @@ export function DashboardRouter() {
           {identityProfileRoutes}
           {verificationListRoutes}
           <OwnerRoute path={Routes.analytics.root} component={AnalyticsContainerLazy} />
-          {/* TODO: @ggrigorev !!!! remove Routes/flows when FlowBuilder is ready for prod */}
-          <OwnerRoute exact path={Routes.flows.root} component={VerificationFlowsLazy} />
           <OwnerRoute path={Routes.flows.details} component={ProductLazy} />
           <OwnerRoute exact path={Routes.flow.root} component={FlowListLazy} />
           <OwnerRoute path={Routes.flow.details} component={FlowBuilderLazy} />

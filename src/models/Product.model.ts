@@ -12,6 +12,7 @@ export enum ProductTypes {
   DeviceFingerPrint = 'DeviceFingerPrint',
   PhoneCheck = 'PhoneCheck',
   EmailCheck = 'EmailCheck',
+  CertifiedTimestamp = 'CertifiedTimestamp',
   // additional
   Metadata = 'Metadata',
 }

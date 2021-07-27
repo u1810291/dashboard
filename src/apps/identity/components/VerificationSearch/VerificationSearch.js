@@ -8,6 +8,7 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectIdentityFilter } from 'state/identities/identities.selectors';
 import classNames from 'classnames';
+import { KeyboardKeys } from 'models/Keyboard.model';
 import { IconButtonSearch, InputAdornmentSearch, TextFieldSearch, useStyles } from './VerificationSearch.styles';
 
 export function VerificationSearch({ isInOverlay, onSetFilter }) {
@@ -46,13 +47,18 @@ export function VerificationSearch({ isInOverlay, onSetFilter }) {
   const handleSearchChange = useCallback((e) => {
     const value = e.target.value;
     setSearch(value);
-    debounced(() => handleChange(value));
-  }, [debounced, handleChange]);
+  }, []);
+
+  const handleSearchExecute = useCallback((e) => {
+    if (e.key === KeyboardKeys.Enter) {
+      handleChange(e.target.value);
+    }
+  }, [handleChange]);
 
   useEffect(() => {
     setAdornment(search.length === 0
       ? {
-        endadornment: (
+        endAdornment: (
           <InputAdornmentSearch position="end">
             <IconButtonSearch size="small">
               <FiSearch />
@@ -61,7 +67,7 @@ export function VerificationSearch({ isInOverlay, onSetFilter }) {
         ),
       }
       : {
-        endadornment: (
+        endAdornment: (
           <InputAdornmentSearch position="end">
             <IconButtonSearch size="small" onClick={handleClear}>
               <FiX />
@@ -82,7 +88,8 @@ export function VerificationSearch({ isInOverlay, onSetFilter }) {
             variant="outlined"
             placeholder={intl.formatMessage({ id: 'VerificationSearch.placeholder' })}
             onChange={handleSearchChange}
-            inputProps={{ ...adornment, 'data-qa': QATags.VerificationList.Search }}
+            onKeyDown={handleSearchExecute}
+            InputProps={{ ...adornment, 'data-qa': QATags.VerificationList.Search }}
           />
         </Box>
       </form>

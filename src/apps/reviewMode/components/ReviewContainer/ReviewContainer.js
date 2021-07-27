@@ -1,7 +1,6 @@
 import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { LivenessStep } from 'apps/biometrics';
 import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
-import { Nom151Check } from 'apps/checks/components/Nom151Check/Nom151Check';
 import { VerificationAdditionalChecks } from 'apps/checks/components/VerificationAdditionalChecks/VerificationAdditionalChecks';
 import { DocumentStep } from 'apps/documents';
 import { VerificationDeviceCheck } from 'apps/DeviceFingerPrint';
@@ -18,6 +17,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { VerificationMetadata } from 'apps/metadata';
+import { Nom151Check } from 'apps/CertifiedTimestamp';
 import { reviewDocumentUpdate, reviewVerificationClear, verificationSkip } from '../../state/reviewMode.actions';
 import { selectReviewVerificationId, selectReviewVerificationModelWithExtras, selectReviewVerificationWithExtras } from '../../state/reviewMode.selectors';
 
@@ -118,7 +118,9 @@ export function ReviewContainer() {
           {/* digitalSignature */}
           {verification?.digitalSignature && (
           <Grid item>
-            <Nom151Check data={verification.digitalSignature} />
+            <Paper>
+              <Nom151Check data={verification.digitalSignature} />
+            </Paper>
           </Grid>
           )}
 

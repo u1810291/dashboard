@@ -3,7 +3,6 @@ import { VerificationResponse } from 'models/Verification.model';
 import { IFlow } from 'models/Flow.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { FiFlag } from 'react-icons/fi';
-import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { CountrySpecificChecks, StepStatus } from 'models/Step.model';
 import { GovCheckSettings } from '../components/GovCheckSettings/GovCheckSettings';
 import {
