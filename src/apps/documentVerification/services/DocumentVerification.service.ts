@@ -98,6 +98,10 @@ export class DocumentVerification extends ProductBaseService implements Product<
         isDisabled: !isDocumentStepsActive,
         isRequireOtherProduct: !isBiometricStepsActive,
       },
+      [DocumentVerificationSettingTypes.DuplicateUserDetection]: {
+        value: flow?.verificationPatterns?.[VerificationPatternTypes.DuplicateUserDetection],
+        isDisabled: !isDocumentStepsActive,
+      },
       [DocumentVerificationSettingTypes.ProofOfOwnership]: {
         value: !!flow?.verificationPatterns?.[VerificationPatternTypes.ProofOfOwnership],
         isDisabled: !isDocumentStepsActive,

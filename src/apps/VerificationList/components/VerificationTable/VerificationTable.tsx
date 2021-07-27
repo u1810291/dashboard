@@ -16,6 +16,7 @@ import { ITEMS_PER_PAGE } from 'models/Pagination.model';
 import { QATags } from 'models/QA.model';
 import { appPalette } from 'apps/theme';
 import { useQuery } from 'lib/url';
+import { REDUCE_DB_COUNT_CALLS } from 'models/Release.model';
 import { VerificationTableSortByMap } from '../../models/VerificationList.modal';
 import { VerificationTableRow } from '../VerificationTableRow/VerificationTableRow';
 import { useStyles } from './VerificationTable.styles';
@@ -46,18 +47,24 @@ export function VerificationTable() {
   }, [verificationFilter]);
 
   useEffect(() => {
-    const difference = filteredCount.value - offset;
-    setHasMore(verificationCollection.isLoaded && filteredCount.isLoaded && difference >= ITEMS_PER_PAGE);
-  }, [filteredCount.isLoaded, filteredCount.value, verificationCollection.isLoaded, offset]);
+    if (REDUCE_DB_COUNT_CALLS) {
+      setHasMore(verificationCollection.isLoaded && verificationCollection.value.length % ITEMS_PER_PAGE === 0);
+    } else {
+      const difference = filteredCount.value - offset;
+      setHasMore(verificationCollection.isLoaded && filteredCount.isLoaded && difference >= ITEMS_PER_PAGE);
+    }
+  }, [filteredCount.isLoaded, filteredCount.value, verificationCollection.isLoaded, offset, verificationCollection.value]);
 
   const handleNextData = useCallback(() => {
     if (!verificationCollection.isLoading && hasMore) {
       const difference = filteredCount.value - offset;
-      const maxOffset = difference >= ITEMS_PER_PAGE ? ITEMS_PER_PAGE : difference;
+      const maxOffset = REDUCE_DB_COUNT_CALLS
+        ? ITEMS_PER_PAGE
+        : difference >= ITEMS_PER_PAGE ? ITEMS_PER_PAGE : difference;
       dispatch(verificationsListLoad(false, { offset: offset + maxOffset, asMerchantId }));
       setOffset(((prevState) => prevState + maxOffset));
     }
-  }, [asMerchantId, dispatch, filteredCount.value, hasMore, verificationCollection.isLoading, offset]);
+  }, [verificationCollection.isLoading, hasMore, dispatch, offset, asMerchantId, filteredCount.value]);
 
   const createSortHandler = useCallback((id: OrderKeyTypes) => () => {
     const isAsc = sortBy === VerificationTableSortByMap[id] && sortOrder === OrderDirections.asc;
@@ -77,7 +84,7 @@ export function VerificationTable() {
             {/* Header cells */}
             {tableColumnsData.map(({ id, isSortable }) => (
               <React.Fragment key={id}>
-                {id && isSortable ? (
+                {id && !REDUCE_DB_COUNT_CALLS && isSortable ? (
                   <TableCell className={classes.tableHeadCell} onClick={createSortHandler(id)} sortDirection={sortBy === VerificationTableSortByMap[id] ? sortOrder : false}>
                     <Typography variant="subtitle2" className={classes.title}>
                       <TableSortLabel
@@ -127,10 +134,10 @@ export function VerificationTable() {
                     loadMoreItems={handleNextData}
                     isItemLoaded={isItemLoaded}
                     threshold={15}
-                    itemCount={itemCount}
+                    // +1 so it always calls handleNextData near the threshold
+                    itemCount={REDUCE_DB_COUNT_CALLS ? itemCount + 1 : itemCount}
                   >
                     {({ onItemsRendered, ref }) => (
-                      // @ts-ignore
                       <FixedSizeList
                         height={700}
                         itemSize={tableItemSize}
@@ -140,6 +147,8 @@ export function VerificationTable() {
                         className={classes.fixedList}
                         itemData={{ paddingBottom }}
                       >
+                        {/*
+                          // @ts-ignore */}
                         {VerificationTableRow}
                       </FixedSizeList>
                     )}

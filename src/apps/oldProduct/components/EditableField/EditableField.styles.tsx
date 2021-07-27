@@ -23,7 +23,7 @@ export const useStyles = makeStyles(() => ({
       borderColor: '#8392B8',
     },
     '& input': {
-      padding: [[13, 0, 13, 13]],
+      padding: '13px 0 13px 13px',
     },
   },
   cssFocused: {},
@@ -50,7 +50,7 @@ const buttonMaker = ({ icon }) => withStyles(() => ({
       strokeWidth: 1,
     },
   },
-}))(({ ...props }) => (
+}))(({ ...props }: any) => (
   <IconButton {...props} component="span">
     {icon}
   </IconButton>

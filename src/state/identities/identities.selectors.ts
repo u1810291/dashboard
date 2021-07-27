@@ -4,10 +4,12 @@ import { createSelector } from 'reselect';
 import { filterSerialize } from '../../models/Filter.model';
 import { selectCountriesList } from '../countries/countries.selectors';
 import { IDENTITIES_STORE_KEY, SliceNames } from './identities.store';
+import { VerificationListItem } from '../../models/Verification.model';
+import { Loadable } from '../../models/Loadable.model';
 
 export const selectIdentityStore = (state) => state[IDENTITIES_STORE_KEY];
 
-export const selectIdentityCollection = createSelector(
+export const selectIdentityCollection = createSelector<any, any, Loadable<VerificationListItem[]>>(
   selectIdentityStore,
   (store) => store[SliceNames.IdentityList],
 );

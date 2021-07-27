@@ -193,6 +193,24 @@ export function DocumentVerificationSettings({ settings, onUpdate }: ProductSett
         />
       </Box>
 
+      { /* Duplicate user detection */ }
+      <Box mb={4}>
+        <ExtendedDescription
+          title={intl.formatMessage({ id: `DocumentVerification.settings.title.${DocumentVerificationSettingTypes.DuplicateUserDetection}` })}
+          text={intl.formatMessage({ id: `DocumentVerification.settings.description.${DocumentVerificationSettingTypes.DuplicateUserDetection}` })}
+          isDisabled={settings[DocumentVerificationSettingTypes.DuplicateUserDetection]?.isDisabled}
+          postfix={(
+            <Switch
+              checked={!!settings[DocumentVerificationSettingTypes.DuplicateUserDetection]?.value}
+              disabled={settings[DocumentVerificationSettingTypes.DuplicateUserDetection]?.isDisabled}
+              onClick={handleClick(DocumentVerificationSettingTypes.DuplicateUserDetection)}
+              color="primary"
+            />
+          )}
+          className={classes.setting}
+        />
+      </Box>
+
       { /* Country Restriction */ }
       <Box mb={4}>
         <BoxBordered>

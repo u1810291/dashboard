@@ -1,7 +1,7 @@
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { Loadable } from 'models/Loadable.model';
 import { ProductTypes } from 'models/Product.model';
-import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFlow, Verification, VerificationResponse } from 'models/Verification.model';
+import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFlow, VerificationListItem, Verification, VerificationResponse } from 'models/Verification.model';
 import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
 import { selectIdentityModel } from 'state/identities/identities.selectors';
@@ -51,7 +51,7 @@ export const selectVerification = createSelector<any, any, VerificationResponse>
   selectModelValue(),
 );
 
-export const selectVerificationsGroupedByFlow = createSelector(
+export const selectVerificationsGroupedByFlow = createSelector<any, Loadable<VerificationListItem[]>, PassedVerificationByFlow[]>(
   selectVerificationsCollectionModel,
-  selectModelValue((verifications): PassedVerificationByFlow[] => groupVerificationsByFlow(verifications)),
+  selectModelValue((verifications: VerificationListItem[]) => groupVerificationsByFlow(verifications)),
 );

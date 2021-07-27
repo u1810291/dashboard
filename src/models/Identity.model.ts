@@ -8,7 +8,7 @@ import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getDocumentExtras } from './Document.model';
 import { getEmailRiskExtra } from './EmailRisk.model';
 import { getEmailVerificationExtra } from './EmailValidation.model';
-import { initDateFilter } from './Filter.model';
+import { initDateFilter, lastSevenDaysFilter } from './Filter.model';
 import { getIpCheckStep } from './IpCheck.model';
 import { ITEMS_PER_PAGE } from './Pagination.model';
 import { isChangeableStatus } from './Status.model';
@@ -132,7 +132,7 @@ export async function getNom151FileContent(digitalSignatureData = {} as any) {
 }
 
 export const verificationsFilterInitialState = {
-  ...initDateFilter,
+  ...lastSevenDaysFilter,
   search: '',
   status: [],
   flowIds: [],

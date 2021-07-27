@@ -1,6 +1,9 @@
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => createStyles({
+  name: {
+    overflowWrap: 'anywhere',
+  },
   button: {
     flexShrink: 0,
     fontSize: 17,

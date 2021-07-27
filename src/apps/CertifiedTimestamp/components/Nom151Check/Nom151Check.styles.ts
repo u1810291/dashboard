@@ -15,7 +15,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   uniqueId: {
-    padding: [[15, 20]],
+    padding: '15px 20px',
     fontSize: 14,
     color: theme.palette.common.green,
     border: `1px solid ${theme.palette.common.black50}`,

@@ -43,6 +43,7 @@ function FlowProductsGraphWithoutContext() {
       setIsLanguageChanged(false);
     }
     // TODO: @ggrigorev won't work if add isLanguageChanged to deps
+    // eslint-disable-next-line
   }, [loadedNodes, elements, isLayouted]);
 
   useEffect(() => {

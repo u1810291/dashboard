@@ -28,12 +28,12 @@ export const selectFlowBuilderProductsInGraph = createSelector(
   selectModelValue(),
 );
 
-export const selectFlowBuilderChangeableFlowModel = createSelector(
+export const selectFlowBuilderChangeableFlowModel = createSelector<any, any, Loadable<IFlow>>(
   flowBuilderStore,
   (store: FlowBuilderStore): Loadable<IFlow> => store.changeableFlow,
 );
 
-export const selectFlowBuilderChangeableFlow = createSelector(
+export const selectFlowBuilderChangeableFlow = createSelector<any, any, IFlow>(
   selectFlowBuilderChangeableFlowModel,
   selectModelValue(),
 );

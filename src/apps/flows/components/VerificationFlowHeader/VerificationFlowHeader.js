@@ -1,6 +1,6 @@
 import { Box, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Paper } from '@material-ui/core';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { flowNameValidator } from 'apps/flows/validators/FlowName.validator';
+import { flowNameValidator } from 'apps/FlowList/validators/FlowName.validator';
 import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
 import { notification } from 'apps/ui';
 import { permalinkUrl } from 'lib/client/urls';

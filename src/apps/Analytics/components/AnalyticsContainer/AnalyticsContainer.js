@@ -8,9 +8,6 @@ import { QATags } from 'models/QA.model';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { identitiesManualReviewCountLoad, verificationsManualReviewCountLoad } from 'state/identities/identities.actions';
-import { selectManualReviewCountModel } from 'state/identities/identities.selectors';
-import { IS_FLOW_BUILDER_RELEASED } from 'models/Release.model';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
 import { countStatisticsLoad, filterUpdate, loadChartStatistics } from '../../state/Analytics.actions';
@@ -19,7 +16,6 @@ import { Chart } from '../Chart/Chart';
 import { DevicesStats } from '../DevicesStats/DevicesStats';
 import { DocumentsStats } from '../DocumentsStats/DocumentsStats';
 import { DynamicHeader } from '../DynamicHeader/DynamicHeader';
-import { NeedToReview } from '../NeedToReview/NeedToReview';
 import { VerificationsTotal } from '../VerificationsTotal/VerificationsTotal';
 import { useStyles } from './AnalyticsContainer.styles';
 
@@ -30,18 +26,9 @@ export function AnalyticsContainer() {
   const [, addToUrl] = useFilterParser(analyticsFilterStructure);
   const [flows, setFlows] = useState([DEFAULT_FLOW]);
   const [isFilterDatesValid, setIsFilterDatesValid] = useState(false);
-  const manualReviewCountModel = useSelector(selectManualReviewCountModel);
   const metricsFilter = useSelector(selectFilter);
   const countStatisticsModel = useSelector(selectCountStatisticsModel);
   const byDate = useSelector(selectStatisticsByDate);
-
-  useEffect(() => {
-    if (IS_FLOW_BUILDER_RELEASED) {
-      dispatch(verificationsManualReviewCountLoad());
-    } else {
-      dispatch(identitiesManualReviewCountLoad());
-    }
-  }, [dispatch]);
 
   useEffect(() => {
     setIsFilterDatesValid(getFilterDatesIsValid(metricsFilter));
@@ -71,7 +58,7 @@ export function AnalyticsContainer() {
                 <DynamicHeader flows={flows} />
               </Grid>
               <Grid container item xs={3} justify="flex-end">
-                <OpenFilter qa={QATags.Analytics.FilterButton} onSetFilter={addToUrl} selectFilter={metricsFilter} onClearFilter={analyticsCleanFilter} datePickerRanges={analyticsDatePickerRanges}>
+                <OpenFilter qa={QATags.Analytics.FilterButton} onSetFilter={addToUrl} selectFilter={metricsFilter} cleanFilter={analyticsCleanFilter} datePickerRanges={analyticsDatePickerRanges}>
                   <ByFlows />
                   <ByCountries />
                 </OpenFilter>
@@ -80,20 +67,9 @@ export function AnalyticsContainer() {
           </Box>
           <Grid container spacing={2} direction="column">
             <Grid container spacing={2} item direction="column" className={classes.statistic}>
-              {manualReviewCountModel.isLoaded && manualReviewCountModel?.value > 0 && (
-              <Grid item md={4} lg={3}>
-                <NeedToReview />
+              <Grid item md={12} className={classes.total}>
+                <VerificationsTotal />
               </Grid>
-              )}
-              {manualReviewCountModel.isLoaded && manualReviewCountModel?.value > 0 ? (
-                <Grid item md={8} lg={9} className={classes.total}>
-                  <VerificationsTotal />
-                </Grid>
-              ) : (
-                <Grid item md={12} className={classes.total}>
-                  <VerificationsTotal />
-                </Grid>
-              )}
             </Grid>
             <Grid item className={classes.chartWrapper}>
               <Chart

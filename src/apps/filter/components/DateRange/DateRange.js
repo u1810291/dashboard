@@ -153,7 +153,7 @@ export function DateRange({ onChange, start, end, datePickerRanges = allDatePick
 
   useEffect(() => {
     if (!start && !end) {
-      handleOnRangeClick(FilterRangesByLocal[FilterRangeTypes.All]);
+      handleOnRangeClick(FilterRangesByLocal[FilterRangeTypes.Last7Days]);
     } else {
       changeRange(toLocalDate(start), toLocalDate(end));
     }

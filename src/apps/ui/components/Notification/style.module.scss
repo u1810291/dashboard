@@ -75,6 +75,23 @@
     }
   }
 
+  :global(.Toastify__toast--spinner) {
+    &::before {
+      background-color: #5AC794;
+    }
+
+    &::after {
+      background-image: url('./notification-spinner.svg');
+      animation: spin 1.5s infinite linear;
+      top: 30%;
+    }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(  0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
   :global(.Toastify__close-button) {
     position: absolute;
     right: 0;

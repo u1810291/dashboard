@@ -12,7 +12,7 @@ import markerIcon from '../../assets/marker.svg';
 import { changeCountriesStructureForCountriesControl, getGeoStatisticsLabel, InformationSourceTypes } from '../../models/googleMap.model';
 import { useStyles } from './CountriesControl.styles';
 
-export function CountriesControl({ geocoder, map, setIsCountriesControlOpen, isCountriesControlOpen, informationSource }, ref) {
+export function CountriesControl({ geocoder, mapRef, setIsCountriesControlOpen, isCountriesControlOpen, informationSource }, ref) {
   const intl = useIntl();
   const classes = useStyles();
   const markersRef = useRef();
@@ -24,6 +24,7 @@ export function CountriesControl({ geocoder, map, setIsCountriesControlOpen, isC
   const isDesktop = useMediaQuery('(min-width:960px)', { noSsr: true });
   const { value: ipCheckStatistics } = useSelector(selectIpCheckStatistics);
   const geoJsonRef = useRef();
+  const map = mapRef.current;
 
   const centerMap = useCallback((location, geojson) => {
     const markers = markersRef.current || [];
@@ -70,6 +71,7 @@ export function CountriesControl({ geocoder, map, setIsCountriesControlOpen, isC
 
   useEffect(() => {
     const country = countriesList.find((item) => item.id === activeCountryId);
+
     if (country && country.name && geocoder?.geocode) {
       geocoder.geocode({ address: country.name }, (res) => {
         if (map && res && res[0]) {

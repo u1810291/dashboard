@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { ProductIntegrationTypes } from 'models/Product.model';
 import { Routes } from 'models/Router.model';
 import { IdentityStatuses } from 'models/Status.model';
-import { PassedVerificationsResponse } from 'models/Verification.model';
+import { VerificationListItem } from 'models/Verification.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
@@ -15,32 +15,27 @@ import { useStyles } from './PassedFlowSelect.styles';
 export interface PassedFlowSelectProps {
   flowName: string;
   platformType: ProductIntegrationTypes;
-  // verifications?: Array<VerificationResponse>,
-  verifications?: PassedVerificationsResponse[];
+  verifications?: VerificationListItem[];
   badgeStatusId: IdentityStatuses;
   setIsSelected: () => void;
+  onSetActive: () => void;
   isSelected: boolean;
   isOpened: boolean;
 }
 
-export function PassedFlowSelect({ flowName, setIsSelected, isSelected, isOpened, verifications, badgeStatusId }: PassedFlowSelectProps) {
+export function PassedFlowSelect({ flowName, setIsSelected, isSelected, isOpened, verifications, badgeStatusId, onSetActive }: PassedFlowSelectProps) {
   const classes = useStyles();
   const { identityId } = useParams();
   const [selectedVerification, setSelectedVerification] = useState<string | null>(null);
   const verification = useSelector(selectVerification);
   const handleCheckSelected = useCallback((id) => selectedVerification === id, [selectedVerification]);
-  const isSingleVerification = verifications?.length === 1;
   const history = useHistory();
 
   const handleVerificationClick = useCallback((id) => () => {
     history.push(`${Routes.identity.profile.root}/${identityId}${Routes.identity.verification.root}/${id}`);
-  }, [history, identityId]);
-
-  const handleSelectFirstVerification = useCallback(() => {
-    if (verifications[0]) {
-      handleVerificationClick(verifications[0]?._id)();
-    }
-  }, [handleVerificationClick, verifications]);
+    setSelectedVerification(id);
+    onSetActive();
+  }, [history, identityId, onSetActive]);
 
   useEffect(() => {
     if (verification?._id) {
@@ -51,7 +46,7 @@ export function PassedFlowSelect({ flowName, setIsSelected, isSelected, isOpened
   return (
     <Box mb={2.5} className={classes.wrapper}>
       {badgeStatusId && (<StatusBadge statusId={badgeStatusId} />) }
-      <Grid onClick={isSingleVerification ? handleSelectFirstVerification : setIsSelected} container alignItems="center" wrap="nowrap" className={classNames(classes.select, { [classes.selected]: isSelected })}>
+      <Grid onClick={setIsSelected} container alignItems="center" wrap="nowrap" className={classNames(classes.select, { [classes.selected]: isSelected })}>
         <Grid item>
           <Box color="common.black90">
             {flowName}
@@ -65,7 +60,7 @@ export function PassedFlowSelect({ flowName, setIsSelected, isSelected, isOpened
             </Box>
           </Box> */}
         </Grid>
-        {verifications && !isSingleVerification && (
+        {verifications && (
           <Box ml="auto" pl={2}>
             <IconButton className={classNames(classes.button, { [classes.rotated]: isOpened })}>
               <FiChevronDown />
@@ -76,8 +71,8 @@ export function PassedFlowSelect({ flowName, setIsSelected, isSelected, isOpened
       {verifications && (
         <Collapse in={isOpened}>
           <Box py={1} className={classes.collapse}>
-            {verifications.map(({ createdAt, _id: id, verificationStatusDetails }) => id && (
-              <VerificationItem key={id} onClick={handleVerificationClick(id)} isSelected={handleCheckSelected(id)} date={createdAt} id={id} status={verificationStatusDetails?.value} />
+            {verifications.map(({ sourceCreatedAt, _id: id, verificationStatus }) => id && (
+              <VerificationItem key={id} onClick={handleVerificationClick(id)} isSelected={handleCheckSelected(id)} date={sourceCreatedAt} id={id} status={verificationStatus} />
             ))}
           </Box>
         </Collapse>

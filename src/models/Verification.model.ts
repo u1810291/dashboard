@@ -2,30 +2,30 @@ import { titleize } from 'inflection';
 import { isObjectEmpty } from 'lib/object';
 import { getDocumentExtras, VerificationDocument } from 'models/Document.model';
 import { FieldTypes } from 'models/Field.model';
-import { IdentityStatuses, isChangeableStatus, VerificationStatusDetails } from 'models/Status.model';
+import { IdentityStatuses, isChangeableStatus } from 'models/Status.model';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { IFlow } from './Flow.model';
 import { getIpCheckStep } from './IpCheck.model';
 import { getReVerificationStep } from './ReVerification.model';
 import { DocumentStepTypes, getStepExtra, StepTypes, VerificationStepTypes } from './Step.model';
+import { DigitalSignature } from './DigitalSignature.model';
 
-export interface PassedVerificationsResponse {
-  createdAt: string;
+export interface VerificationListItem {
+  flowId: string;
+  flowName: string;
+  identityId: string;
+  fullName?: string;
+  merchantId: string;
+  sourceCreatedAt: string;
+  sourceUpdatedAt: string;
+  verificationStatus?: IdentityStatuses;
   _id: string;
-  flow: {
-    _id: string;
-    name: string;
-  };
-  verificationStatusDetails: VerificationStatusDetails;
 }
 
 export interface PassedVerificationByFlow {
-  id: string;
-  value: {
-    name: string;
-    _id: string;
-    verifications: PassedVerificationsResponse[];
-  };
+    flowName: string;
+    flowId: string;
+    verifications: VerificationListItem[];
 }
 
 export interface VerificationResponse {
@@ -40,6 +40,7 @@ export interface VerificationResponse {
   _id?: string;
   id?: string;
   metadata: any;
+  digitalSignature: DigitalSignature;
 }
 
 /**
@@ -120,21 +121,21 @@ export function getVerificationExtras(verification: VerificationResponse, countr
   };
 }
 
-export function groupVerificationsByFlow(verifications: PassedVerificationsResponse[]): PassedVerificationByFlow[] {
+export function groupVerificationsByFlow(verifications: VerificationListItem[]): PassedVerificationByFlow[] {
   if (!Array.isArray(verifications)) {
     return [];
   }
 
   return verifications.reduce((byFlow, verification) => {
-    const flowId = verification?.flow?._id;
-    let newFlow = byFlow.find((item) => item?.id === flowId);
+    const { flowId, flowName } = verification || {};
+    let newFlow = byFlow.find((item) => item?.flowId === flowId);
 
     if (!newFlow) {
-      newFlow = { id: flowId, value: { ...verification?.flow, verifications: [] } };
+      newFlow = { flowId, flowName, verifications: [] };
       byFlow.push(newFlow);
     }
 
-    newFlow.value.verifications.push(verification);
+    newFlow.verifications.push(verification);
     return byFlow;
   }, []);
 }

@@ -1,6 +1,6 @@
 import { Box, Button, Grid } from '@material-ui/core';
 import { selectFlowBuilderChangeableFlow, selectFlowBuilderProductsInGraph } from 'apps/flowBuilder/store/FlowBuilder.selectors';
-import { flowNameValidator } from 'apps/flows/validators/FlowName.validator';
+import { flowNameValidator } from 'apps/FlowList/validators/FlowName.validator';
 import { ProductCheckListAll } from 'apps/Product';
 import { useDeleteButtonHook, Warning } from 'apps/ui';
 import classNames from 'classnames';

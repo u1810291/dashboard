@@ -4,7 +4,7 @@ import { Routes } from 'models/Router.model';
 import React from 'react';
 import { FiBarChart2, FiCode, FiList, FiUserCheck } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { IS_FLOW_BUILDER_RELEASED } from 'models/Release.model';
+import { IS_FLOW_BUILDER_RELEASED, IS_IDENTITY_PROFILE_RELEASED } from 'models/Release.model';
 
 export function PrimaryMenu({ isOwner = false, ...props }) {
   const intl = useIntl();
@@ -20,8 +20,7 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
     },
     {
       id: 'verifications',
-      // to: IS_FLOW_BUILDER_RELEASED ? Routes.identity.verification.root : Routes.list.root,
-      to: Routes.list.root,
+      to: IS_IDENTITY_PROFILE_RELEASED ? Routes.identity.verification.root : Routes.list.root,
       label: intl.formatMessage({ id: 'dashboard.menu.identities' }),
       icon: <FiList />,
       qa: QATags.Menu.VerificationList,

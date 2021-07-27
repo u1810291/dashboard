@@ -55,7 +55,7 @@ export const AnalyticsMap = () => {
         <CountriesControlForward
           ref={countriesControlRef}
           geocoder={geocoder}
-          map={mapRef.current}
+          mapRef={mapRef}
           isCountriesControlOpen={isCountriesControlOpen}
           setIsCountriesControlOpen={setIsCountriesControlOpen}
           informationSource={informationSource}

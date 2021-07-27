@@ -10,10 +10,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { filterUpdate, identityListClear, verificationsFilteredCountLoad, verificationsListLoad, verificationsPreliminaryCountLoad } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityFilter, selectPreliminaryFilteredCountModel } from 'state/identities/identities.selectors';
+import { DownloadCSV } from 'apps/Csv';
 import { VerificationTable } from '../VerificationTable/VerificationTable';
 import { VerificationSearch } from '../VerificationSearch/VerificationSearch';
 import { ManualReviewBanner } from '../ManualReviewBanner/ManualReviewBanner';
-import { DownloadCSV } from '../DownloadCSV/DownloadCSV';
 import { useStyles } from './VerificationList.styles';
 
 export function VerificationList() {
@@ -24,12 +24,20 @@ export function VerificationList() {
   const intl = useIntl();
   const filteredCountModel = useSelector(selectFilteredCountModel);
   const identityFilter = useSelector(selectIdentityFilter);
-  const [, addToUrl] = useFilterParser(verificationsFilterStructure);
+  const [setURLFromFilter, addToUrl] = useFilterParser(verificationsFilterStructure);
 
   useEffect(() => {
-    dispatch(filterUpdate(parseFromURL(location.search, verificationsFilterStructure)));
-    dispatch(verificationsListLoad(true));
-    dispatch(verificationsFilteredCountLoad());
+    if (!location.search) {
+      setURLFromFilter(verificationsFilterInitialState);
+    }
+  }, [location.search, setURLFromFilter]);
+
+  useEffect(() => {
+    if (location.search) {
+      dispatch(filterUpdate(parseFromURL(location.search, verificationsFilterStructure)));
+      dispatch(verificationsListLoad(true));
+      dispatch(verificationsFilteredCountLoad());
+    }
     return () => {
       if (!history.location.pathname.startsWith(Routes.identity.verification.root)) {
         dispatch(filterUpdate(verificationsFilterInitialState));
@@ -80,7 +88,7 @@ export function VerificationList() {
                 <Typography variant="subtitle2" className={classes.title}>
                   <Box component="span">
                     {intl.formatMessage({ id: 'VerificationHistory.title' },
-                      { count: filteredCountModel.isLoaded ? filteredCountModel.value : 0 })}
+                      { count: filteredCountModel.isLoaded ? filteredCountModel.value.count ?? filteredCountModel.value : 0 })}
                   </Box>
                 </Typography>
               </Box>

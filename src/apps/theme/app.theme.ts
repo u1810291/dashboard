@@ -1,8 +1,8 @@
-import { createMuiTheme } from '@material-ui/core';
+import { createTheme } from '@material-ui/core';
 import { appTypography } from './app.typography';
 import { appPalette } from './app.palette';
 
-export const AppTheme = createMuiTheme({
+export const AppTheme = createTheme({
   palette: {
     primary: {
       main: appPalette.lightblue,

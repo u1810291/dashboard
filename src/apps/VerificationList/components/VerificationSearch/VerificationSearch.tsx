@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { selectIdentityFilter } from 'state/identities/identities.selectors';
 import classNames from 'classnames';
 import { IconButtonSearch, InputAdornmentSearch, TextFieldSearch, useStyles } from './VerificationSearch.styles';
+import { KeyboardKeys } from '../../../../models/Keyboard.model';
 
 export function VerificationSearch({ isInOverlay = false, onSetFilter }: {
   isInOverlay?: boolean;
@@ -26,7 +27,7 @@ export function VerificationSearch({ isInOverlay = false, onSetFilter }: {
     setSearch(identityFilter?.search || '');
   }, [identityFilter]);
 
-  const handleChange = useCallback((newValue) => {
+  const handleChange = useCallback((newValue: string) => {
     onSetFilter({ search: newValue });
   }, [onSetFilter]);
 
@@ -46,16 +47,21 @@ export function VerificationSearch({ isInOverlay = false, onSetFilter }: {
     });
   }, [createOverlay, onSetFilter]);
 
-  const handleSearchChange = useCallback((e) => {
-    const value = e.target.value;
+  const handleSearchChange = useCallback((e: React.ChangeEvent & { target: HTMLInputElement | HTMLTextAreaElement }) => {
+    const value = e.target?.value;
     setSearch(value);
-    debounced(() => handleChange(value));
-  }, [debounced, handleChange]);
+  }, []);
+
+  const handleSearchExecute = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === KeyboardKeys.Enter) {
+      handleChange(search);
+    }
+  }, [handleChange, search]);
 
   useEffect(() => {
     setAdornment(search.length === 0
       ? {
-        endadornment: (
+        endAdornment: (
           <InputAdornmentSearch position="end">
             <IconButtonSearch size="small">
               <FiSearch />
@@ -64,7 +70,7 @@ export function VerificationSearch({ isInOverlay = false, onSetFilter }: {
         ),
       }
       : {
-        endadornment: (
+        endAdornment: (
           <InputAdornmentSearch position="end">
             <IconButtonSearch size="small" onClick={handleClear}>
               <FiX />
@@ -85,7 +91,8 @@ export function VerificationSearch({ isInOverlay = false, onSetFilter }: {
             variant="outlined"
             placeholder={intl.formatMessage({ id: 'VerificationSearch.placeholder' })}
             onChange={handleSearchChange}
-            inputProps={{ ...adornment, 'data-qa': QATags.VerificationList.Search }}
+            onKeyDown={handleSearchExecute}
+            InputProps={{ ...adornment, 'data-qa': QATags.VerificationList.Search }}
           />
         </Box>
       </form>
