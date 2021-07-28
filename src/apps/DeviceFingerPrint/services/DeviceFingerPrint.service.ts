@@ -11,6 +11,7 @@ export class DeviceFingerPrintService extends ProductBaseService implements Prod
   id = ProductTypes.DeviceFingerPrint;
   order = 1100;
   icon = FiSmartphone;
+  isConfigurable = false;
   integrationTypes = [
     ProductIntegrationTypes.Sdk,
   ];

@@ -143,6 +143,15 @@ export const flowBuilderDelete = () => async (dispatch, getState) => {
   await dispatch(merchantDeleteFlow(flow.id));
 };
 
-export const flowBuilderSaveAndPublishSettings = (payload) => async (dispatch) => {
-  dispatch(merchantUpdateFlow(payload));
+export const flowBuilderSaveAndPublishSettings = (payload: Partial<IFlow>) => async (dispatch, getState) => {
+  try {
+    await dispatch(merchantUpdateFlow(payload));
+    dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
+    const state = getState();
+    const changeableFlow = await selectFlowBuilderChangeableFlow(state);
+    dispatch({ type: types.CHANGEABLE_FLOW_SUCCESS, payload: { ...changeableFlow, ...payload } });
+  } catch (error) {
+    dispatch({ type: types.CHANGEABLE_FLOW_FAILURE, error });
+    throw error;
+  }
 };

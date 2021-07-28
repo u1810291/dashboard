@@ -18,8 +18,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIdentityCollection } from 'state/identities/identities.selectors';
 import { useStyles } from 'apps/VerificationList/components/VerificationTableRow/VerificationTableRow.styles';
 import { verificationRemove } from 'state/verification/verification.actions';
+import { CSSProperties } from '@material-ui/styles';
 
-export function VerificationTableRow({ index, style, data: { paddingBottom = 0 } = {} }) {
+export function VerificationTableRow({ index, style, data: { paddingBottom = 0 } = {} }: {
+  index: number;
+  style: CSSProperties;
+  data: {
+    paddingBottom?: number;
+  };
+}) {
   const classes = useStyles();
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -33,7 +40,7 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
     intl.formatMessage({ id: 'verificationModal.delete.confirm' }),
   );
 
-  const handleRemove = useCallback((verificationId) => async (e) => {
+  const handleRemove = useCallback((verificationId: string) => async (e: React.MouseEvent) => {
     e.stopPropagation();
     if (deleting) {
       return;
@@ -53,10 +60,10 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
     }
   }, [dispatch, deleting, confirmDelete]);
 
-  const handleMouseUp = useCallback((identityId, verificationId) => (event) => onMouseUpHandler(event, `${identityId}${Routes.identity.verification.root}/${verificationId}`),
+  const handleMouseUp = useCallback((identityId: string, verificationId: string) => (event: React.MouseEvent) => onMouseUpHandler(event, `${identityId}${Routes.identity.verification.root}/${verificationId}`),
     [onMouseUpHandler]);
 
-  const handleStopPropagation = useCallback((event) => event?.stopPropagation(), []);
+  const handleStopPropagation = useCallback((event: React.MouseEvent) => event?.stopPropagation(), []);
 
   if (!verification) {
     return (
@@ -71,32 +78,32 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
     <Box style={{ ...style, paddingBottom }}>
       <Box
         className={classes.root}
-        style={{ height: `${parseFloat(style.height) - paddingBottom}px` }}
-        key={verification.identity}
+        style={{ height: `${parseFloat(style?.height?.toString()) - paddingBottom}px` }}
+        key={verification.identityId}
         onMouseDown={onMouseDownHandler}
-        onMouseUp={handleMouseUp(verification.identity, verification._id)}
+        onMouseUp={handleMouseUp(verification.identityId, verification._id)}
       >
         <Box className={classes.itemNameWrapper}>
           <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }}>
-            {!verification?.summary?.fullName?.value && verification.verificationStatusDetails?.value === IdentityStatuses.running ? (
+            {!verification.fullName && verification.verificationStatus === IdentityStatuses.running ? (
               <SkeletonLoader animation="wave" variant="text" width={140} />)
-              : !verification?.summary?.fullName?.value
+              : !verification.fullName
                 ? (
                   <Typography variant="subtitle2" className={classes.itemNameEmpty}>
                     {intl.formatMessage({ id: 'identity.nameNotFound' })}
                   </Typography>
                 )
                 : (
-                  <Typography variant="subtitle2" className={classes.itemName}>{titleCase(verification?.summary?.fullName?.value)}</Typography>
+                  <Typography variant="subtitle2" className={classes.itemName}>{titleCase(verification.fullName)}</Typography>
                 )}
             <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.fullName' })}</Box>
           </Box>
         </Box>
         <Box className={classes.itemData}>
           <Box mb={{ xs: 2, lg: 0 }}>
-            {verification.flow ? (
+            {verification.flowId ? (
               <Box color="text.primary">
-                {verification.flow.name}
+                {verification.flowName}
               </Box>
             ) : (
               <Box color="text.disabled">
@@ -108,25 +115,25 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
         </Box>
         <Box className={classes.itemData}>
           <Box mb={{ xs: 2, lg: 0 }}>
-            {utcToLocalFormat(verification.createdAt)}
+            {utcToLocalFormat(verification.sourceCreatedAt)}
             <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.dateCreated' })}</Box>
           </Box>
         </Box>
         <Box className={classes.itemStatusWrapper}>
           <Box className={classes.itemStatus}>
-            <StatusLabel status={verification.verificationStatusDetails?.value} />
+            <StatusLabel status={verification.verificationStatus} />
             <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.status' })}</Box>
           </Box>
           <Box className={classes.itemIcons}>
             {role === CollaboratorRoles.ADMIN && (
               <Box className={classes.iconDeleteWrapper}>
                 <IconButton size="small" onMouseUp={handleRemove(verification._id)} tabIndex="-1" className={classes.iconButtonDelete}>
-                  {verification.identity === deleting ? <IconLoad /> : <FiTrash2 className="color-red" />}
+                  {verification.identityId === deleting ? <IconLoad /> : <FiTrash2 className="color-red" />}
                 </IconButton>
               </Box>
             )}
             <Box className={classes.iconReviewWrapper} onClick={handleStopPropagation}>
-              {verification.verificationStatusDetails?.value === IdentityStatuses.reviewNeeded && (
+              {verification.verificationStatus === IdentityStatuses.reviewNeeded && (
                 <Tooltip
                   onMouseUp={handleStopPropagation}
                   enterTouchDelay={0}

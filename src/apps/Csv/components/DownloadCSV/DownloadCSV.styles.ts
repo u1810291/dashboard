@@ -1,6 +1,6 @@
 import { withStyles, Button } from '@material-ui/core';
 
-export const SideButton = withStyles((theme) => ({
+export const ButtonSide = withStyles((theme) => ({
   root: {
     minWidth: 174,
     height: 50,

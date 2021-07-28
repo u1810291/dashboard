@@ -2,10 +2,9 @@ import { Box, Grid, MenuItem, Paper, Select } from '@material-ui/core';
 import { collaboratorUpdate } from 'apps/collaborators/state/collaborator.actions';
 import { notification } from 'apps/ui';
 import { UserRoundAvatar } from 'apps/ui/components/UserRoundAvatar/UserRoundAvatar';
-import { DateFormat, formatDate } from 'lib/date';
+import { DateFormat, utcToLocalFormat } from 'lib/date';
 import { CollaboratorOptions } from 'models/Collaborator.model';
 import { QATags } from 'models/QA.model';
-import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -93,7 +92,7 @@ export function AgentInformation({ collaborator }) {
           </Grid>
           <Grid item xs={12} lg={3}>
             <Box mb={0.2} color="common.black90" fontWeight="bold">
-              {formatDate(moment(user?.dateCreated), DateFormat.DateTime) }
+              {utcToLocalFormat(user?.dateCreated, DateFormat.DateTime)}
             </Box>
             <Box color="common.black75">
               {intl.formatMessage({ id: 'AgentHistory.agentInformation.dateOfRegistration' })}

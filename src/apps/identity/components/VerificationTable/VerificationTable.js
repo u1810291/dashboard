@@ -18,6 +18,7 @@ import { ITEMS_PER_PAGE } from 'models/Pagination.model';
 import { QATags } from 'models/QA.model';
 import { appPalette } from 'apps/theme';
 import { useQuery } from 'lib/url';
+import { REDUCE_DB_COUNT_CALLS } from 'models/Release.model';
 import { useStyles } from './VerificationTable.styles';
 import { VerificationTableRow } from '../VerificationTableRow/VerificationTableRow';
 
@@ -79,7 +80,7 @@ export function VerificationTable() {
             {/* Header cells */}
             {tableColumnsData.map(({ id, isSortable }) => (
               <React.Fragment key={id}>
-                {id && isSortable ? (
+                {id && !REDUCE_DB_COUNT_CALLS && isSortable ? (
                   <TableCell className={classes.tableHeadCell} onClick={createSortHandler(id)} sortDirection={sortBy === id ? sortOrder : false}>
                     <Typography variant="subtitle2" className={classes.title}>
                       <TableSortLabel

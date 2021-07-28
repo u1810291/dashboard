@@ -3,10 +3,14 @@ import { VerificationResponse } from 'models/Verification.model';
 import { IFlow } from 'models/Flow.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { FiFlag } from 'react-icons/fi';
-import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { CountrySpecificChecks, StepStatus } from 'models/Step.model';
 import { GovCheckSettings } from '../components/GovCheckSettings/GovCheckSettings';
-import { GovCheckStepTypes, GovernmentCheckSettingTypes, GovernmentChecksTypes, verificationPatternsCountries } from '../models/GovCheck.model';
+import {
+  GovCheckStepTypes,
+  GovernmentCheckSettingTypes,
+  GovernmentChecksTypes,
+  verificationPatternsGovchecksDefault,
+} from '../models/GovCheck.model';
 import { GovCheckVerificationProduct } from '../components/GovCheckVerificationProduct/GovCheckVerificationProduct';
 
 type ProductSettingsGovCheck = ProductSettings<GovernmentCheckSettingTypes>;
@@ -40,7 +44,8 @@ export class GovernmentCheck extends ProductBaseService implements Product<Produ
 
   isInFlow(flow: IFlow): boolean {
     const isGovChecksEnabled = Object.entries(flow?.verificationPatterns).some(
-      ([key, value]) => verificationPatternsCountries.includes(key as VerificationPatternTypes) && value && value !== GovCheckStepTypes.None,
+      ([key, value]) => Object.prototype.hasOwnProperty.call(verificationPatternsGovchecksDefault, key)
+        && value && value !== GovCheckStepTypes.None,
     );
     return !!flow?.postponedTimeout || isGovChecksEnabled;
   }
@@ -73,28 +78,7 @@ export class GovernmentCheck extends ProductBaseService implements Product<Produ
 
   onRemove(): Partial<IFlow> {
     return {
-      verificationPatterns: {
-        [VerificationPatternTypes.ArgentinianDni]: false,
-        [VerificationPatternTypes.ArgentinianRenaper]: false,
-        [VerificationPatternTypes.BolivianOep]: false,
-        [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
-        [VerificationPatternTypes.EcuadorianRegistroCivil]: false,
-        [VerificationPatternTypes.HonduranRnp]: false,
-        [VerificationPatternTypes.ChileanRegistroCivil]: false,
-        [VerificationPatternTypes.ColombianRegistraduria]: false,
-        [VerificationPatternTypes.CostaRicanAtv]: false,
-        [VerificationPatternTypes.CostaRicanTse]: false,
-        [VerificationPatternTypes.CostaRicanSocialSecurity]: false,
-        [VerificationPatternTypes.DominicanJce]: false,
-        [VerificationPatternTypes.ParaguayanRcp]: false,
-        [VerificationPatternTypes.MexicanCurp]: false,
-        [VerificationPatternTypes.MexicanIne]: false,
-        [VerificationPatternTypes.MexicanRfc]: false,
-        [VerificationPatternTypes.PeruvianReniec]: false,
-        [VerificationPatternTypes.SalvadorianTse]: false,
-        [VerificationPatternTypes.PanamenianTribunalElectoral]: false,
-        [VerificationPatternTypes.VenezuelanCne]: false,
-      },
+      verificationPatterns: verificationPatternsGovchecksDefault,
     };
   }
 

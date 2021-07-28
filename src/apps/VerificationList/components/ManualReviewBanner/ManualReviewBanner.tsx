@@ -14,7 +14,7 @@ import { selectIdentityFilter, selectManualReviewCountModel } from 'state/identi
 import { verificationsFilterInitialState, verificationsFilterStructure } from 'models/Identity.model';
 import { useStyles } from './ManualReviewBanner.styles';
 
-export const ManualReviewBanner = () => {
+export function ManualReviewBanner() {
   const intl = useIntl();
   const history = useHistory();
   const classes = useStyles();
@@ -100,4 +100,4 @@ export const ManualReviewBanner = () => {
       )}
     </>
   );
-};
+}
