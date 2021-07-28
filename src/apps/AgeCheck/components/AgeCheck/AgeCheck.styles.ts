@@ -7,7 +7,4 @@ export const useStyles = makeStyles(() => ({
     filter: 'none',
     boxShadow: 'none',
   },
-  bordered: {
-    borderColor: 'rgba(237, 240, 245, .6)',
-  },
 }));

@@ -7,6 +7,8 @@ import { DocumentSides, DocumentTypes, getDocumentSideLabel, PhotosOrientations,
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Verification } from 'models/Verification.model';
+import { DuplicateUserDetectionCheck } from 'apps/checks/components/DuplicateUserDetectionCheck/DuplicateUserDetectionCheck';
+import { AgeCheck } from 'apps/AgeCheck';
 import { useStyles } from './NewDocumentStep.styles';
 import { useDocumentTitle, usePhotosOrientation } from '../../hooks/document.hook';
 import { DocumentReadingStep } from '../DocumentReadingStep/DocumentReadingStep';
@@ -24,7 +26,7 @@ export function NewDocumentStep({ document, verification, documentIndex, onDocum
   const title = useDocumentTitle(document);
   const photosOrientation = usePhotosOrientation(document);
 
-  const { type, securityCheckSteps, documentFailedCheckSteps, isSanctioned, fields, documentReadingStep, onReading, documentStatus, proofOfOwnership, photos, areTwoSides } = document;
+  const { ageCheck, duplicateUserDetectionStep, type, securityCheckSteps, documentFailedCheckSteps, isSanctioned, fields, documentReadingStep, onReading, documentStatus, proofOfOwnership, photos, areTwoSides } = document;
   const isFormEditable = verification.isEditable;
   return (
     <Box>
@@ -116,6 +118,8 @@ export function NewDocumentStep({ document, verification, documentIndex, onDocum
                       <CheckStepDetails step={step} />
                     </CheckBarExpandable>
                   ))}
+                  {ageCheck && (<AgeCheck stepData={ageCheck} />)}
+                  {duplicateUserDetectionStep && (<DuplicateUserDetectionCheck stepData={duplicateUserDetectionStep} />)}
                 </Grid>
               </Grid>
             )}
