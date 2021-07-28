@@ -60,6 +60,8 @@ export interface VerificationDocument {
   checks: IStep[];
   isSanctioned: boolean;
   proofOfOwnership: any;
+  duplicateUserDetectionStep?: IStep;
+  ageCheck?: IStep;
 }
 
 export const DocumentListOrdered: DocumentTypes[] = [

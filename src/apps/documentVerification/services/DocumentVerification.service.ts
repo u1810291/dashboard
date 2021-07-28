@@ -3,7 +3,7 @@ import { InputValidationType } from 'apps/imageValidation/models/imageValidation
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
-import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStep, getReaderFrontendSteps, getStepStatus, StepStatus } from 'models/Step.model';
+import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStep, getReaderFrontendSteps, getStepStatus, StepStatus, VerificationStepTypes } from 'models/Step.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiFileText } from 'react-icons/fi';
@@ -170,7 +170,13 @@ export class DocumentVerification extends ProductBaseService implements Product<
   }
 
   getVerification(verification: VerificationResponse): any {
-    return verification;
+    const documents = verification?.documents?.map((doc) => {
+      const duplicateUserDetectionStep = doc?.steps?.find((item) => item?.id === VerificationStepTypes.DuplicateUserValidation);
+      const ageCheck = doc?.steps?.find((item) => item?.id === VerificationStepTypes.AgeValidation);
+      return { ...doc, duplicateUserDetectionStep, ageCheck };
+    });
+
+    return { ...verification, documents };
   }
 
   getIssuesComponent(flow: IFlow): any {

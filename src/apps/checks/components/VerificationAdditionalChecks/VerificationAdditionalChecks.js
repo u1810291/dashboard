@@ -6,7 +6,8 @@ import { useIntl } from 'react-intl';
 import { RiskAnalysis } from 'apps/RiskAnalysis';
 import { EmailValidation } from 'apps/EmailValidation/components/EmailValidation/EmailValidation';
 import { EmailRisk } from 'apps/EmailRisk/components/EmailRisk';
-import { DuplicateUserDetectionCheck } from '../DuplicateUserDetectionCheck/DuplicateUserDetectionCheck';
+import { BoxBordered } from 'apps/ui';
+import { DuplicateUserDetectionCheck } from 'apps/checks/components/DuplicateUserDetectionCheck/DuplicateUserDetectionCheck';
 import { useStyles } from './VerificationAdditionalChecks.styles';
 
 export function VerificationAdditionalChecks({ duplicateUserDetectionStep, ageCheck, phoneValidation, riskAnalysis, emailValidationStep, emailRiskStep }) {
@@ -26,12 +27,16 @@ export function VerificationAdditionalChecks({ duplicateUserDetectionStep, ageCh
         <Grid container spacing={1}>
           {ageCheck && (
             <Grid item xs={12} lg={4}>
-              <AgeCheck stepData={ageCheck} />
+              <BoxBordered p={1} pt={2} className={classes.bordered}>
+                <AgeCheck stepData={ageCheck} />
+              </BoxBordered>
             </Grid>
           )}
           {duplicateUserDetectionStep && (
             <Grid item xs={12} lg={4}>
-              <DuplicateUserDetectionCheck stepData={duplicateUserDetectionStep} />
+              <BoxBordered p={1} pt={2} className={classes.bordered}>
+                <DuplicateUserDetectionCheck stepData={duplicateUserDetectionStep} />
+              </BoxBordered>
             </Grid>
           )}
           {phoneValidation && (

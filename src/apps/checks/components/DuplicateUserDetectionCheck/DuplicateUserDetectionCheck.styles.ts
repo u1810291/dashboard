@@ -8,9 +8,6 @@ export const useStyles = makeStyles((theme) => ({
     filter: 'none',
     boxShadow: 'none',
   },
-  bordered: {
-    borderColor: theme.palette.foreground.main,
-  },
 }));
 
 export const LinkButton = withStyles((theme) => ({
