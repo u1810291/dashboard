@@ -5,11 +5,11 @@ import React, { useCallback, useState } from 'react';
 import { FiDownload } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { downloadVerificationCSV } from 'state/identities/identities.actions';
+import { downloadCSV } from 'state/identities/identities.actions';
 import { selectFilteredCountModel } from 'state/identities/identities.selectors';
+import { REDUCE_DB_COUNT_CALLS } from 'models/Release.model';
 import { ButtonSide } from './DownloadCSV.styles';
 import { useWarningIfLeavingApp } from '../../hooks/warningIfLeavingApp.hook';
-import { REDUCE_DB_COUNT_CALLS } from '../../../../models/Release.model';
 
 export function DownloadCSV() {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ export function DownloadCSV() {
     if (!isDownloading) {
       setIsDownloading(true);
       const notificationId = notification.spinner(intl.formatMessage({ id: 'csv.loading' }));
-      const response = await dispatch(downloadVerificationCSV()) as any;
+      const response = await dispatch(downloadCSV()) as any;
       setIsDownloading(false);
       notification.dismiss(notificationId);
       if (!response) {
