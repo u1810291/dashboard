@@ -31,7 +31,7 @@ function IpCheckComponent({ step }) {
               <SkeletonLoader animation="wave" variant="rect" height={202} />
             ) : (
               <StaticGoogleMap size="400x200" scale={2} zoom={10} apiKey={process.env.REACT_APP_STATIC_GOOGLE_MAP_API_KEY}>
-                <Marker location={{ lat: step.data.latitude, lng: step.data.longitude }} />
+                <Marker location={{ lat: step.data?.latitude, lng: step.data?.longitude }} />
               </StaticGoogleMap>
             )}
           </Grid>
@@ -44,7 +44,7 @@ function IpCheckComponent({ step }) {
                   <Typography variant="subtitle2" className={classes.data}>
                     {step.isChecking ? (
                       <SkeletonLoader animation="wave" variant="text" />
-                    ) : step.data.country}
+                    ) : step.data?.country}
                   </Typography>
                   <Typography variant="body1" className={classes.title}>
                     {intl.formatMessage({ id: 'IpCheckStep.country' })}
@@ -54,7 +54,7 @@ function IpCheckComponent({ step }) {
                   <Typography variant="subtitle2" className={classes.data}>
                     {step.isChecking ? (
                       <SkeletonLoader animation="wave" variant="text" />
-                    ) : step.data.city}
+                    ) : step.data?.city}
                   </Typography>
                   <Typography variant="body1" className={classes.title}>
                     {intl.formatMessage({ id: 'IpCheckStep.city' })}
@@ -66,7 +66,7 @@ function IpCheckComponent({ step }) {
                   <Typography variant="subtitle2" className={classes.data}>
                     {step.isChecking ? (
                       <SkeletonLoader animation="wave" variant="text" />
-                    ) : step.data.region}
+                    ) : step.data?.region}
                   </Typography>
                   <Typography variant="body1" className={classes.title}>
                     {intl.formatMessage({ id: 'IpCheckStep.province' })}
@@ -76,7 +76,7 @@ function IpCheckComponent({ step }) {
                   <Typography variant="subtitle2" className={classes.data}>
                     {step.isChecking ? (
                       <SkeletonLoader animation="wave" variant="text" />
-                    ) : step.data.zip}
+                    ) : step.data?.zip}
                   </Typography>
                   <Typography variant="body1" className={classes.title}>
                     {intl.formatMessage({ id: 'IpCheckStep.zipCode' })}
