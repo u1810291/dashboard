@@ -13,7 +13,7 @@ export const verificationListLoad = (identityId: string, asMerchantId: string) =
   dispatch({ type: VerificationActionTypes.VERIFICATIONS_PASSED_REQUEST });
   try {
     const { data }: { data: VerificationListItem[] } = await client.getVerificationList(identityId, { ...(asMerchantId && { asMerchantId }) });
-    dispatch({ type: VerificationActionTypes.VERIFICATIONS_PASSED_SUCCESS, payload: data });
+    dispatch({ type: VerificationActionTypes.VERIFICATIONS_PASSED_SUCCESS, isReset: true, payload: data });
   } catch (error) {
     dispatch({ type: VerificationActionTypes.VERIFICATIONS_PASSED_FAILURE, error });
     notification.error(ERROR_COMMON);
@@ -44,7 +44,7 @@ export const verificationLoad = (verificationId: string, asMerchantId: string) =
   try {
     const { data }: { data: VerificationResponse } = await client.getVerification(verificationId, { ...(asMerchantId && { asMerchantId }) });
     dispatch(verificationProductListInit(data));
-    dispatch({ type: VerificationActionTypes.VERIFICATION_SUCCESS, payload: data });
+    dispatch({ type: VerificationActionTypes.VERIFICATION_SUCCESS, isReset: true, payload: data });
   } catch (error) {
     dispatch({ type: VerificationActionTypes.VERIFICATION_FAILURE, error });
     notification.error(ERROR_COMMON);
