@@ -22,7 +22,7 @@ export function DocumentVerificationProduct({ data }: {
 
   return (
     <Grid container spacing={2} direction="column" wrap="nowrap">
-      {data.documents.map((doc, index) => (
+      {data?.documents?.map((doc, index) => (
         <Grid item key={doc.type}>
           <NewDocumentStep
             onDocumentUpdate={handleDocumentUpdate(data.documents[index]?.type)}
