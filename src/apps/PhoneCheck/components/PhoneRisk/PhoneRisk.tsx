@@ -24,9 +24,8 @@ export function PhoneRisk({ step }: {
           <CardContent>
             {step.error && (
               <Box>
-                {intl.formatMessage({
-                  id: `Checks.result.PhoneRisk.${step.error.code}`,
-                  defaultMessage: intl.formatMessage({ id: 'Error.common' }),
+                {intl.formatMessage({ id: `Checks.result.riskAnalysis.${step.error.code}`, defaultMessage: intl.formatMessage({ id: 'Error.common' }) }, {
+                  phone: step.data.phoneNumber,
                 })}
               </Box>
             )}

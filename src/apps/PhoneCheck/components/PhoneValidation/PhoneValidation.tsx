@@ -24,7 +24,10 @@ export function PhoneValidation({ step }: {
           <CardContent>
             {step.error && (
               <Box>
-                {intl.formatMessage({ id: `SecurityCheckStep.${step.error.code}` })}
+                {intl.formatMessage({
+                  id: `SecurityCheckStep.${step.error.code}`,
+                  defaultMessage: intl.formatMessage({ id: 'Error.common' }),
+                })}
               </Box>
             )}
             {step.data && (
