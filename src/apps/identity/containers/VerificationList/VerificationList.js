@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import { ByFlows, ByStatuses, OpenFilter, useFilterParser } from 'apps/filter';
 import { parseFromURL } from 'models/Filter.model';
-import { verificationsCleanFilter, verificationsFilterInitialState, verificationsFilterStructure } from 'models/Identity.model';
+import { verificationsCleanFilter, verificationsFilterInitialState, verificationsFilterStructure, getVerificationsFilterInitialState } from 'models/Identity.model';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
 import React, { useEffect } from 'react';
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { filterUpdate, identitiesCountLoad, identitiesFilteredCountLoad, identitiesListLoad, identitiesPreliminaryCountLoad, identityListClear } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityFilter, selectPreliminaryFilteredCountModel } from 'state/identities/identities.selectors';
+import { selectUserRegistrationDate } from 'apps/user/state/user.selectors';
 import { DownloadCSV } from '../../components/DownloadCSV/DownloadCSV';
 import { ManualReviewBanner } from '../../components/ManualReviewBanner/ManualReviewBanner';
 import { VerificationSearch } from '../../components/VerificationSearch/VerificationSearch';
@@ -24,11 +25,18 @@ export function VerificationList() {
   const intl = useIntl();
   const filteredCountModel = useSelector(selectFilteredCountModel);
   const identityFilter = useSelector(selectIdentityFilter);
+  const registrationDate = useSelector(selectUserRegistrationDate);
   const [, addToUrl] = useFilterParser(verificationsFilterStructure);
 
   useEffect(() => {
     dispatch(identitiesCountLoad());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!location.search) {
+      addToUrl(getVerificationsFilterInitialState(registrationDate));
+    }
+  }, [addToUrl, location.search, registrationDate]);
 
   useEffect(() => {
     dispatch(filterUpdate(parseFromURL(location.search, verificationsFilterStructure)));

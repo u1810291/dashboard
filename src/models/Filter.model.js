@@ -3,7 +3,6 @@ import { dayEndTime, todayMomentZeroTime, zeroTime } from 'lib/date';
 import { compact, identity, isString, pickBy } from 'lodash';
 import moment from 'moment';
 import { ITEMS_PER_PAGE } from 'models/Pagination.model';
-import { REDUCE_DB_COUNT_CALLS } from './Release.model';
 
 export const FilterRangeTypes = {
   All: 'All',
@@ -151,13 +150,13 @@ export const allDatePickerRanges = [
   FilterRangesByLocal[FilterRangeTypes.ThisYear],
 ];
 
-if (REDUCE_DB_COUNT_CALLS) {
+/* if (REDUCE_DB_COUNT_CALLS) {
   [FilterRangeTypes.All, FilterRangeTypes.LastYear, FilterRangeTypes.ThisYear].forEach((f) => {
     allDatePickerRanges.splice(allDatePickerRanges.indexOf(FilterRangesByLocal[f]), 1);
     delete FilterRangesByLocal[f];
     delete FilterRangeTypes[f];
   });
-}
+} */
 
 export const analyticsDatePickerRanges = [
   FilterRangesByLocal[FilterRangeTypes.Today],
