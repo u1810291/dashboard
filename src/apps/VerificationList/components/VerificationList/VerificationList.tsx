@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 import { ByFlows, ByStatuses, OpenFilter, useFilterParser } from 'apps/filter';
 import { parseFromURL } from 'models/Filter.model';
-import { verificationsCleanFilter, verificationsFilterInitialState, verificationsFilterStructure } from 'models/Identity.model';
+import { getVerificationsFilterInitialState, verificationsCleanFilter, verificationsFilterInitialState, verificationsFilterStructure } from 'models/Identity.model';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
 import React, { useEffect } from 'react';
@@ -11,6 +11,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { filterUpdate, identityListClear, verificationsFilteredCountLoad, verificationsListLoad, verificationsPreliminaryCountLoad } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityFilter, selectPreliminaryFilteredCountModel } from 'state/identities/identities.selectors';
 import { DownloadCSV } from 'apps/Csv';
+import { selectUserRegistrationDate } from 'apps/user/state/user.selectors';
 import { VerificationTable } from '../VerificationTable/VerificationTable';
 import { VerificationSearch } from '../VerificationSearch/VerificationSearch';
 import { ManualReviewBanner } from '../ManualReviewBanner/ManualReviewBanner';
@@ -24,13 +25,14 @@ export function VerificationList() {
   const intl = useIntl();
   const filteredCountModel = useSelector(selectFilteredCountModel);
   const identityFilter = useSelector(selectIdentityFilter);
+  const registrationDate = useSelector(selectUserRegistrationDate);
   const [setURLFromFilter, addToUrl] = useFilterParser(verificationsFilterStructure);
 
   useEffect(() => {
     if (!location.search) {
-      setURLFromFilter(verificationsFilterInitialState);
+      setURLFromFilter(getVerificationsFilterInitialState(registrationDate));
     }
-  }, [location.search, setURLFromFilter]);
+  }, [location.search, registrationDate, setURLFromFilter]);
 
   useEffect(() => {
     if (location.search) {
