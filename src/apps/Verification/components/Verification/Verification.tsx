@@ -3,12 +3,13 @@ import { ProductTypes } from 'models/Product.model';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ProductVerification } from 'apps/Product/components/ProductVerification/ProductVerification';
-import { selectVerificationProductList } from '../../state/Verification.selectors';
+import { selectVerificationProductList, selectNewVerificationWithExtras } from '../../state/Verification.selectors';
 import { VerificationProductList } from '../VerificationProductList/VerificationProductList';
 import { useStyles } from './Verification.styles';
 
 export function Verification() {
   const productList = useSelector(selectVerificationProductList);
+  const verificationWithExtra = useSelector(selectNewVerificationWithExtras);
   const [selectedProduct, setSelectedProduct] = useState<ProductTypes>(null);
   const classes = useStyles();
 
@@ -28,7 +29,7 @@ export function Verification() {
       </Grid>
       <Grid item xs={12} lg={8} xl={10} className={classes.products}>
         <Box p={2}>
-          <ProductVerification productId={selectedProduct} />
+          <ProductVerification productId={selectedProduct} verification={verificationWithExtra} />
         </Box>
       </Grid>
     </Grid>

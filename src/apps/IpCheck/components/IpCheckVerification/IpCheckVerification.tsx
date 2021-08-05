@@ -1,5 +1,6 @@
 import { Box, Grid, Typography } from '@material-ui/core';
 import { CheckResultLogo, SkeletonLoader } from 'apps/ui';
+import classnames from 'classnames';
 import { IpCheckStep } from 'models/IpCheck.model';
 import { StepStatus } from 'models/Step.model';
 import React, { useMemo } from 'react';
@@ -45,7 +46,7 @@ export function IpCheckVerification({ data: step }: {
         </Grid>
 
         {/* Detected location fields */}
-        <Grid container item xs={12} xl={4} alignContent="flex-start" className={classes.itemWrapper}>
+        <Grid container item xs={12} xl={4} alignContent="flex-start" className={classnames(classes.itemWrapper, classes.itemLocationWrapper)}>
           <Grid item xs={6} xl={12} container direction="column">
             <Box mb={2}>
               <Typography variant="subtitle2" className={classes.data}>

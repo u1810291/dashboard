@@ -8,10 +8,16 @@ import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './StatusNotificationContent.styles';
 
-export function StatusNotificationContent({ status, onNext }) {
+export function StatusNotificationContent({
+  status,
+  onNext,
+}: {
+  status: IdentityStatuses;
+  onNext: (status: IdentityStatuses) => void;
+}) {
   const intl = useIntl();
   const classes = useStyles();
-  const [isCanceled, setIsCanceled] = useState(false);
+  const [isCanceled, setIsCanceled] = useState<boolean>(false);
 
   const handleCancel = useCallback(() => {
     setIsCanceled(true);

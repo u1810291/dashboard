@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => ({
   container: {
+    height: '100%',
     borderRadius: 5,
     border: `1px solid ${theme.palette.foreground.main}`,
   },

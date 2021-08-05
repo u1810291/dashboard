@@ -13,6 +13,7 @@ export function EditableField({
   cancelEditable,
   validator,
   inProgress = false,
+  className,
   ...props
 }: {
   value: string;
@@ -22,6 +23,7 @@ export function EditableField({
   cancelEditable?: () => void;
   validator?: (text: string) => void;
   inProgress?: boolean;
+  className?: string;
 }) {
   const classes = useStyles();
   const [error, setError] = useState(null);
@@ -135,7 +137,7 @@ export function EditableField({
       inputProps={{
         autoComplete: 'off',
       }}
-      className={classes.editableField}
+      className={className || classes.editableField}
       {...props}
     />
   );

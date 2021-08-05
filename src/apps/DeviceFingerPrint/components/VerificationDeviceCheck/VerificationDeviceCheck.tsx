@@ -66,7 +66,7 @@ export function VerificationDeviceCheck({ input }: {
       <Grid container alignItems="center" className={classes.check}>
         <Grid item xs={6}>
           <Box className={classes.labelWrap}>
-            <OSIcon className={classNames(classes.titleIcon, { [classes.whiteIcon]: [OSTypes.Linux, OSTypes.MacOS].includes(osType) })} />
+            <OSIcon className={classNames(classes.titleIcon, { [classes.whiteIcon]: [OSTypes.Linux, OSTypes.MacOS, OSTypes.IOS].includes(osType) })} />
             <Typography
               className={classes.label}
               variant="body1"

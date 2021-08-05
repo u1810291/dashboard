@@ -3,7 +3,7 @@ import { mergeDeep } from 'lib/object';
 import { cloneDeep } from 'lodash';
 import { ApiResponse } from 'models/Client.model';
 import { IFlow } from 'models/Flow.model';
-import { ProductTypes } from 'models/Product.model';
+import { ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
 import { merchantDeleteFlow, merchantUpdateFlow, merchantUpdateFlowList } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow, selectMerchantId } from 'state/merchant/merchant.selectors';
 import { createTypesSequence } from 'state/store.utils';
@@ -49,7 +49,8 @@ export const flowBuilderChangeableFlowLoad = () => (dispatch, getState) => {
   const flow = selectCurrentFlow(state);
   dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
   try {
-    const changeableFlow = cloneDeep(flow);
+    // TODO: integrationType comes from backend, remove this after backend ready DIO-311, @Alexey Ivanov
+    const changeableFlow = cloneDeep({ ...flow, integrationType: ProductIntegrationTypes.Sdk });
     dispatch(flowBuilderProductListInit(flow));
     dispatch({ type: types.CHANGEABLE_FLOW_SUCCESS, payload: changeableFlow });
   } catch (error) {

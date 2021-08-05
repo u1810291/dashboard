@@ -41,7 +41,6 @@ export * from './components/Loader/Loader';
 export * from './components/ProductTitle/ProductTitle';
 export * from './components/CircledContent/CircledContent';
 export * from './components/ProductCheckList/ProductCheckList';
-export * from './components/UIProductCard/UIProductCard';
 export * from './components/RadioButton/RadioButton';
 export * from './components/ExtendedDescription/ExtendedDescription';
 export * from './components/UIProductTab/UIProductTab';

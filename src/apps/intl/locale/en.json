@@ -1771,7 +1771,7 @@
   "ReviewMode.statusChangedNotification": "Status was updated on",
   "ReviewMode.statusChangedNotification.cancel": "Cancel",
   "ReviewMode.statusChangedNotification.next": "Next",
-  "ReviewMode.summary.identityId": "Identity ID",
+  "ReviewMode.summary.verificationId": "Verification number",
   "ReviewMode.timeoutMessage": "We don’t see any activity from you. Please continue verification.",
   "ReviewMode.titleWithCount": "Review mode ({count})",
   "RiskAnalysis.description": "Each time users provide you with their phone number, we will check how risky it is based upon its network behavior. User with risk score above specified threshlod will be send to manual review.",

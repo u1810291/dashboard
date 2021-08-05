@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => ({
   wrapper: {
-    [theme.breakpoints.up('xl')]: {
+    [theme.isDarkMode ? theme.breakpoints.up('lg') : theme.breakpoints.up('xl')]: {
       '& > *': {
         flexBasis: 'calc(33.33% - 20px)',
         marginRight: 20,
@@ -17,12 +17,22 @@ export const useStyles = makeStyles((theme) => ({
     '&:last-of-type': {
       marginBottom: 0,
     },
-    [theme.breakpoints.up('xl')]: {
+    [theme.isDarkMode ? theme.breakpoints.up('lg') : theme.breakpoints.up('xl')]: {
       marginBottom: 0,
       padding: 20,
       borderRadius: 5,
       border: `1px solid ${theme.palette.foreground.main}`,
     },
+  },
+  itemLocationWrapper: {
+    ...(theme.isDarkMode && ({
+      [theme.breakpoints.up('lg')]: {
+        '& > *': {
+          flexBasis: '100%',
+          maxWidth: '100%',
+        },
+      },
+    })),
   },
   title: {
     lineHeight: '1.1',
@@ -32,7 +42,7 @@ export const useStyles = makeStyles((theme) => ({
     marginBottom: 36,
     borderRadius: 5,
     backgroundColor: theme.palette.foreground.main,
-    [theme.breakpoints.up('xl')]: {
+    [theme.isDarkMode ? theme.breakpoints.up('lg') : theme.breakpoints.up('xl')]: {
       marginBottom: 0,
       padding: 20,
     },

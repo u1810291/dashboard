@@ -14,7 +14,7 @@ import overlay from 'apps/overlay/state/overlay.reducer';
 import { OVERLAY_STORE_KEY } from 'apps/overlay/state/overlay.store';
 import { productReducer } from 'apps/Product/store/Product.reducer';
 import { PRODUCT_STORE_KEY } from 'apps/Product/store/Product.store';
-import { reviewModeReducer } from 'apps/reviewMode/state/reviewMode.reducers';
+import { reviewModeReducer } from 'apps/reviewMode/state/reviewMode.reducer';
 import { REVIEW_MODE_KEY } from 'apps/reviewMode/state/reviewMode.store';
 import user from 'apps/user/state/user.reducer';
 import { USER_STORE_KEY } from 'apps/user/state/user.store';

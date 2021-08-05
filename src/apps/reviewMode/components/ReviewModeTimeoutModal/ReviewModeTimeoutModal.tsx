@@ -5,7 +5,15 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './RevieweModeTimeoutModal.styles';
 
-export function ReviewModeTimeoutModal({ closeOverlay, timeoutSeconds, onTimerEnd }) {
+export function ReviewModeTimeoutModal({
+  closeOverlay,
+  timeoutSeconds,
+  onTimerEnd,
+}: {
+    closeOverlay: () => void;
+    timeoutSeconds: number;
+    onTimerEnd: () => void;
+}) {
   const intl = useIntl();
   const classes = useStyles();
   const [progressLabel] = useCountdownTimer(timeoutSeconds, onTimerEnd);
@@ -17,7 +25,7 @@ export function ReviewModeTimeoutModal({ closeOverlay, timeoutSeconds, onTimerEn
           {intl.formatMessage({ id: 'ReviewMode.timeoutMessage' })}
         </Typography>
       </Box>
-      <Box mb={2} color="common.black90" fontSize={36} fontWeight="bold" align="center">
+      <Box mb={2} color="common.black90" fontSize={36} fontWeight="bold" alignSelf="center">
         {progressLabel}
       </Box>
       <Button
