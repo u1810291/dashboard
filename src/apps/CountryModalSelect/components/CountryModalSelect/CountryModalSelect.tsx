@@ -77,9 +77,15 @@ export function CountryModalSelect({ onSubmit, initialValues }: {
     // id must be unique
     id: `${country.id}-${index}`,
     name: country.code,
-    children: country.regions.map((region) => ({ id: region, name: region, countryCode: country.code })),
-  }))), [countries]);
-
+    label: intl.formatMessage({ id: `Countries.${country.code}` }),
+    children: country.regions.map((region) => ({
+      id: region,
+      name: region,
+      countryCode: country.code,
+      label: intl.formatMessage({ id: `Regions.${country.code}.${region}` }),
+    })).sort((a, b) => (a.label < b.label ? -1 : 1)),
+  })).sort((a, b) => (a.label < b.label ? -1 : 1))
+  ), [countries]);
   const handleTreeWalker = useCallback((refresh: boolean) => treeWalker(refresh, tree), [tree]);
 
   return (

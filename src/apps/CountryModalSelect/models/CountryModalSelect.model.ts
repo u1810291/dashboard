@@ -3,7 +3,7 @@ import { AllowedRegions } from 'apps/IpCheck/models/IpCheck.model';
 
 export interface SelectedCountries {
   [country: string]: {
-      [region: string]: boolean;
+    [region: string]: boolean;
   };
 }
 
@@ -17,6 +17,7 @@ export interface Tree {
   id: string;
   name: string;
   children: TreeChildren[];
+  label: string;
 }
 
 export function* treeWalker(refresh: boolean, tree: Tree[]) {
@@ -35,7 +36,7 @@ export function* treeWalker(refresh: boolean, tree: Tree[]) {
 
     while (stack.length !== 0) {
       const {
-        node: { children = [], id, name, countryCode },
+        node: { children = [], id, name, countryCode, label },
         nestingLevel,
       } = stack.pop();
 
@@ -47,6 +48,7 @@ export function* treeWalker(refresh: boolean, tree: Tree[]) {
           name,
           nestingLevel,
           countryCode: children.length === 0 ? (countryCode || children.find((region) => region.countryCode)?.countryCode) : null,
+          label,
         }
         : id;
 
