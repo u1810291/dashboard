@@ -138,7 +138,7 @@ export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpC
           >
             <BoxBordered mt={2}>
               <FormControlLabel
-                control={<Radio color="default" />}
+                control={<Radio color="primary" />}
                 label={(
                   <Box color="common.black75">
                     <Typography variant="subtitle2">
@@ -157,7 +157,7 @@ export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpC
             </BoxBordered>
             <BoxBordered mt={2}>
               <FormControlLabel
-                control={<Radio color="default" />}
+                control={<Radio color="primary" />}
                 label={(
                   <Box color="common.black75">
                     <Typography variant="subtitle2">
@@ -176,7 +176,7 @@ export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpC
             </BoxBordered>
             <BoxBordered mt={2}>
               <FormControlLabel
-                control={<Radio color="default" />}
+                control={<Radio color="primary" />}
                 label={(
                   <Box color="common.black75">
                     <Typography variant="subtitle2">
