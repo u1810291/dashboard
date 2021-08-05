@@ -47,6 +47,9 @@ export const flowBuilderProductListInit = (flow) => (dispatch, getState) => {
 export const flowBuilderChangeableFlowLoad = () => (dispatch, getState) => {
   const state = getState();
   const flow = selectCurrentFlow(state);
+  if (!flow) {
+    return;
+  }
   dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
   try {
     // TODO: integrationType comes from backend, remove this after backend ready DIO-311, @Alexey Ivanov
