@@ -1,6 +1,31 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => ({
+  headerWrapper: {
+    [theme.breakpoints.up('lg')]: {
+      borderBottom: `1px solid ${theme.palette.foreground.main}`,
+    },
+  },
+  verificationNumber: {
+    [theme.breakpoints.down('sm')]: {
+      flexBasis: 'calc(100% + 20px)',
+      maxWidth: 'calc(100% + 20px)',
+    },
+    [theme.breakpoints.up('lg')]: {
+      flexBasis: 270,
+      maxWidth: 270,
+    },
+  },
+  controlsWrapper: {
+    [theme.breakpoints.down('sm')]: {
+      flexBasis: 'calc(100% + 20px)',
+      maxWidth: 'calc(100% + 20px)',
+    },
+    [theme.breakpoints.up('lg')]: {
+      flexBasis: 'calc(100% - 270px)',
+      maxWidth: 'calc(100% - 270px)',
+    },
+  },
   buttonOutlined: {
     minHeight: 50,
     fontSize: 14,
@@ -30,12 +55,6 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.common.green,
     '&:hover, &:focus': {
       backgroundColor: '#6BE9AE',
-    },
-  },
-  buttonRejectedWrapper: {
-    marginTop: 20,
-    [theme.breakpoints.up('md')]: {
-      margin: [[0, 0, 0, 20]],
     },
   },
   buttonRejected: {

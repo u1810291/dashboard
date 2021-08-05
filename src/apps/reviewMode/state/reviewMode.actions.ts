@@ -1,0 +1,101 @@
+import { productManagerService, selectProductRegistered } from 'apps/Product';
+import { notification } from 'apps/ui';
+import { isObjectEmpty } from 'lib/object';
+import { ERROR_COMMON } from 'models/Error.model';
+import { ProductTypes } from 'models/Product.model';
+import { IdentityStatuses } from 'models/Status.model';
+import { VerificationResponse } from 'models/Verification.model';
+import { storeAction } from 'state/store.utils';
+import { getAwaitingReviewCount, getVerification, putVerificationStatus, requestSkipVerification } from '../api/reviewMode.client';
+import { selectReviewVerificationId, selectVerificationModel } from './reviewMode.selectors';
+import { ReviewModeActionTypes } from './reviewMode.store';
+
+const reviewVerificationRequest = storeAction<null>(ReviewModeActionTypes.REVIEW_VERIFICATION_REQUEST);
+const сlearReviewVerification = storeAction<null>(ReviewModeActionTypes.REVIEW_VERIFICATION_CLEAR);
+const reviewVerificationSuccess = storeAction<any>(ReviewModeActionTypes.REVIEW_VERIFICATION_SUCCESS);
+const reviewLoadingNext = storeAction<boolean>(ReviewModeActionTypes.REVIEW_LOADING_NEXT);
+const reviewVerificationFailure = storeAction<any>(ReviewModeActionTypes.REVIEW_VERIFICATION_FAILURE);
+const reviewVerificationUpdating = storeAction<null>(ReviewModeActionTypes.REVIEW_VERIFICATION_UPDATING);
+const reviewAwaitingCountRequest = storeAction<null>(ReviewModeActionTypes.REVIEW_AWAITING_COUNT_REQUEST);
+const reviewAwaitingCountSuccess = storeAction<number>(ReviewModeActionTypes.REVIEW_AWAITING_COUNT_SUCCESS);
+const reviewAwaitingCountFailure = storeAction<any>(ReviewModeActionTypes.REVIEW_AWAITING_COUNT_FAILURE);
+const verificationProductListUpdate = storeAction<ProductTypes[]>(ReviewModeActionTypes.VERIFICATION_PRODUCT_LIST_UPDATE);
+
+export const reviewVerificationClear = () => (dispatch) => {
+  dispatch(сlearReviewVerification(null));
+};
+
+export const verificationProductListInit = (verification: VerificationResponse) => (dispatch, getState) => {
+  const registered = selectProductRegistered(getState());
+  const activated = registered.filter((item) => {
+    const product = productManagerService.getProduct(item);
+    if (!product) {
+      return false;
+    }
+    return product.isInVerification(verification);
+  });
+  const sorted = productManagerService.sortProductTypes(activated);
+  dispatch(verificationProductListUpdate(sorted));
+};
+
+export const verificationLoad = () => async (dispatch, getState) => {
+  const verification = selectVerificationModel(getState());
+  dispatch(reviewVerificationRequest(null));
+  try {
+    const { data } = await getVerification();
+
+    if (isObjectEmpty(data) && !isObjectEmpty(verification?.value)) {
+      dispatch(reviewVerificationClear());
+    } else {
+      dispatch(reviewVerificationSuccess(data));
+      dispatch(verificationProductListInit(data));
+    }
+    dispatch(reviewLoadingNext(false));
+
+    if (notification.isActive(ReviewModeActionTypes.REVIEW_VERIFICATION_FAILURE)) {
+      notification.dismiss(ReviewModeActionTypes.REVIEW_VERIFICATION_FAILURE);
+    }
+  } catch (error) {
+    dispatch(reviewVerificationFailure(error));
+    notification.error(ERROR_COMMON, { toastId: ReviewModeActionTypes.REVIEW_VERIFICATION_FAILURE, autoClose: false });
+    throw error;
+  }
+};
+
+export const verificationSkip = () => async (dispatch, getState) => {
+  dispatch(reviewLoadingNext(true));
+  const id = selectReviewVerificationId(getState());
+  try {
+    await requestSkipVerification(id);
+  } catch (error) {
+    notification.error(ERROR_COMMON);
+    throw error;
+  }
+};
+
+export const verificationStatusChange = (status: IdentityStatuses) => async (dispatch, getState) => {
+  dispatch(reviewVerificationUpdating(null));
+  dispatch(reviewLoadingNext(true));
+  const id = selectReviewVerificationId(getState());
+  const verification = selectVerificationModel(getState())?.value;
+  try {
+    await putVerificationStatus(id, status);
+    dispatch(reviewVerificationSuccess({ ...verification, isStatusSet: true }));
+  } catch (error) {
+    dispatch(reviewVerificationFailure(error));
+    notification.error(ERROR_COMMON);
+    throw error;
+  }
+};
+
+export const reviewAwaitingCountLoad = () => async (dispatch) => {
+  dispatch(reviewAwaitingCountRequest(null));
+  try {
+    const { data } = await getAwaitingReviewCount();
+    dispatch(reviewAwaitingCountSuccess(data?.countAwaitingVerifications || 0));
+  } catch (error) {
+    dispatch(reviewAwaitingCountFailure(error));
+    notification.error(ERROR_COMMON);
+    throw error;
+  }
+};

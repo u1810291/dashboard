@@ -6,6 +6,8 @@ import { AppDarkTheme } from 'apps/theme/appDark.theme';
 import { Loader } from 'apps/ui';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useLongPolling } from 'lib/longPolling.hook';
+import { Loadable } from 'models/Loadable.model';
+import { VerificationResponse } from 'models/Verification.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
@@ -18,12 +20,12 @@ import { ReviewModeLayout } from '../ReviewModeLayout/ReviewModeLayout';
 export function ReviewMode() {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const verificationModel = useSelector(selectVerificationModel);
-  const reviewAwaitingCountModel = useSelector(selectReviewAwaitingCountModel);
-  const isLoadingNext = useSelector(selectReviewIsLoadingNext);
-  const isNoVerifications = useSelector(selectIsNoVerifications);
-  const [isLongPolling, setIsLongPolling] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const verificationModel: Loadable<VerificationResponse> = useSelector(selectVerificationModel);
+  const reviewAwaitingCountModel: Loadable<number> = useSelector(selectReviewAwaitingCountModel);
+  const isLoadingNext: boolean = useSelector(selectReviewIsLoadingNext);
+  const isNoVerifications: boolean = useSelector(selectIsNoVerifications);
+  const [isLongPolling, setIsLongPolling] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
 
   const handlePolling = useCallback(async () => {
     if (isNoVerifications) {
@@ -81,21 +83,13 @@ export function ReviewMode() {
     );
   }
 
-  if (!isLongPolling && (isLoadingNext || !verificationModel.isLoaded)) {
-    return (
-      <MuiThemeProvider theme={AppDarkTheme}>
-        <Loader logoWithCompanyName />
-      </MuiThemeProvider>
-    );
-  }
-
   return [
     <Helmet key="head">
       <title>{intl.formatMessage({ id: 'page.title' })}</title>
     </Helmet>,
     <MuiThemeProvider theme={AppDarkTheme} key="app">
       <ReviewModeLayout>
-        {!isLongPolling && verificationModel.isLoading && (
+        {!isLongPolling && (isLoadingNext || !verificationModel.isLoaded) && (
           <Loader logoWithCompanyName />
         )}
         <ReviewModeRouter />

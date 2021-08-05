@@ -1,13 +1,17 @@
-import { selectNewVerificationWithExtras } from 'apps/Verification';
-import { Product } from 'models/Product.model';
+import { Product, ProductTypes } from 'models/Product.model';
 import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { VerificationResponse } from 'models/Verification.model';
 import { productManagerService } from '../../services/ProductManager.service';
 
-export function ProductVerification({ productId }) {
+export function ProductVerification({
+  productId,
+  verification,
+}: {
+  productId: ProductTypes;
+  verification: VerificationResponse;
+}) {
   const product: Product = useMemo(() => productManagerService.getProduct(productId), [productId]);
-  const verificationWithExtra = useSelector(selectNewVerificationWithExtras);
-  const data = useMemo(() => product?.getVerification(verificationWithExtra), [product, verificationWithExtra]);
+  const data = useMemo(() => product?.getVerification(verification), [product, verification]);
 
   if (!product) {
     return null;

@@ -21,7 +21,7 @@ export interface IdentityStatus {
   isFilterable?: boolean;
 }
 
-export const IdentityStatusesMap: Array<IdentityStatus> = [
+export const IdentityStatusesMap: IdentityStatus[] = [
   {
     id: IdentityStatuses.verified,
     color: 'success.main',

@@ -6,11 +6,11 @@ import { ProductTypes } from 'models/Product.model';
 import React, { useCallback } from 'react';
 import { Position } from 'react-flow-renderer';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectFlowBuilderSelectedId } from '../../store/FlowBuilder.selectors';
+import { useStyles } from './ProductNode.styles';
 import { dagreGraphService } from '../../services/dagreGraph.service';
+import { selectFlowBuilderSelectedId } from '../../store/FlowBuilder.selectors';
 import { flowBuilderProductRemove, flowBuilderProductSelect } from '../../store/FlowBuilder.action';
 import { ReactFlowCustomHandler } from '../ReactFlowCustomHandler/ReactFlowCustomHandler';
-import { useStyles } from './ProductNode.styles';
 
 export function ProductNode({ id }: {
   id: ProductTypes;

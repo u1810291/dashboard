@@ -7,7 +7,13 @@ import { useHistory } from 'react-router-dom';
 import { Routes } from 'models/Router.model';
 import { useStyles } from './RevieweModeExitModal.styles';
 
-export function ReviewModeExitModal({ closeOverlay, onExit }) {
+export function ReviewModeExitModal({
+  closeOverlay,
+  onExit,
+}: {
+  closeOverlay: () => void;
+  onExit: () => void;
+}) {
   const intl = useIntl();
   const classes = useStyles();
   const history = useHistory();
