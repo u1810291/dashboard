@@ -115,6 +115,7 @@ export function CountryModalSelect({ onSubmit, initialValues }: {
                 handleSelectCountry,
                 selectedCountries,
                 allRegionsSelected,
+                firstCountryId: countries[0].id || '',
               }}
             >
               {CountryModalItemSelect}

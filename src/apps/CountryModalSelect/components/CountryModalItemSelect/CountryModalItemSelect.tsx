@@ -22,10 +22,10 @@ export interface CountryModalSelectItemProps extends FixedSizeNodeComponentProps
     allRegionsSelected: {
       [country: string]: boolean;
     };
+    firstCountryId: string;
     handleSelectCountry: (country: string, region?: string) => (e: React.ChangeEvent<HTMLInputElement>) => void;
   };
 }
-
 export const CountryModalItemSelect = ({
   style,
   isOpen,
@@ -36,7 +36,7 @@ export const CountryModalItemSelect = ({
   const intl = useIntl();
   const classes = useStyles();
   const { isLeaf, name, countryCode } = data;
-  const { selectedCountries, handleSelectCountry, allRegionsSelected } = treeData;
+  const { selectedCountries, handleSelectCountry, allRegionsSelected, firstCountryId } = treeData;
 
   const parentCheckIcon = useMemo(() => {
     if (Object.prototype.hasOwnProperty.call(allRegionsSelected, name)) {
@@ -44,9 +44,8 @@ export const CountryModalItemSelect = ({
     }
     return <CheckboxOn />;
   }, [allRegionsSelected, name]);
-
   return (
-    <ListItem style={style} className={classnames(classes.listItem, { [classes.listItemChild]: isLeaf })}>
+    <ListItem style={style} className={classnames(classes.listItem, { [classes.listItemChild]: isLeaf }, { [classes.lineConnected]: !isLeaf && (firstCountryId !== name) })}>
       {!isLeaf && (
         <Box mr={0.5} className={classes.iconButton} onClick={toggle}>
           {isOpen ? <FiMinusCircle className={classes.icon} /> : <FiPlusCircle className={classes.icon} />}

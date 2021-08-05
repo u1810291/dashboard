@@ -16,22 +16,28 @@ export const useStyles = makeStyles((theme) => ({
   },
   tree: {
     padding: 0,
-
-    '&:before': {
-      content: '""',
-      width: 1,
-      height: '100%',
-      background: theme.palette.common.black7,
-      display: 'block',
-      position: 'absolute',
-      left: 10,
+    '& > *': {
+      scrollbarWidth: 'thin',
+      '&::-webkit-scrollbar': {
+        height: 5,
+        width: 5,
+      },
+      '&::-webkit-scrollbar-track': {
+        backgroundColor: 'transparent',
+      },
+      '&::-webkit-scrollbar-corner': {
+        backgroundColor: 'transparent',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: theme.palette.common.black50,
+        borderRadius: 10,
+      },
     },
   },
   formBox: {
-    overflow: 'scroll',
     position: 'relative',
     maxHeight: '100%',
-    padding: '0 10px',
+    padding: '0 3px 0 10px',
   },
 }));
 
