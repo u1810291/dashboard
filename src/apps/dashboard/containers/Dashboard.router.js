@@ -5,7 +5,6 @@ import { Page404, PageLoader } from 'apps/layout';
 import { MerchantGuard, OwnerRoute } from 'apps/merchant';
 import { appPalette } from 'apps/theme';
 import { Routes } from 'models/Router.model';
-// import { IS_IDENTITY_PROFILE_RELEASED } from 'models/Release.model';
 import React, { lazy, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { verificationListRoutes } from 'apps/VerificationList';
@@ -51,10 +50,6 @@ export function DashboardRouter() {
     <Suspense fallback={<PageLoader size={50} color={appPalette.black50} />}>
       <Switch>
         <Redirect exact from={Routes.root} to={Routes.analytics.root} />
-        {/* TODO: @vladislav.snimshchikov delete redirect when /verification will be done */}
-        {/* {!IS_IDENTITY_PROFILE_RELEASED && (
-          <Redirect exact from={Routes.identity.verification.root} to={Routes.list.root} />
-        )} */}
         <OwnerRoute path={Routes.settings.root} component={SettingsLazy} />
         <Route path={Routes.info.root} component={InfoPageLazy} />
         <MerchantGuard>

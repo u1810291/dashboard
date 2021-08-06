@@ -16,7 +16,7 @@ export function ButtonGoVerificationHistory({ identityId, className }: ButtonGoV
   const intl = useIntl();
   const openVerificationHistory = useCallback(() => {
     if (identityId) {
-      history.push(`${Routes.list.root}/${identityId}${Routes.list.history.root}`);
+      history.push(`${Routes.list.root}/${identityId}${Routes.list.history.root}`, { from: history.location.pathname });
     }
   }, [history, identityId]);
 
