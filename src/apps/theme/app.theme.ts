@@ -162,6 +162,35 @@ export const AppTheme = createTheme({
         color: appPalette.lightblue,
       },
     },
+    MuiSlider: {
+      rail: {
+        backgroundColor: appPalette.lightblue,
+        opacity: 1,
+        height: 3,
+      },
+      mark: {
+        height: 6,
+        width: 1,
+        bottom: 4,
+        backgroundColor: appPalette.lightblue,
+      },
+      markActive: {
+        opacity: 1,
+        backgroundColor: appPalette.lightblue,
+      },
+      thumb: {
+        width: 21,
+        height: 21,
+        boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.15)',
+        border: `2px solid ${appPalette.lightblue}`,
+        marginTop: '-10px',
+        marginLeft: '-10px',
+        backgroundColor: appPalette.white,
+      },
+      valueLabel: {
+        left: '-50%',
+      },
+    },
   },
   typography: appTypography,
 });

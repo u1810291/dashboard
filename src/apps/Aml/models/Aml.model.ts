@@ -4,6 +4,7 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 export enum AmlSettingsTypes {
   Search = 'search',
   Monitoring = 'monitoring',
+  AmlThreshold = 'amlThreshold',
 }
 
 export enum AmlCheckTypes {
