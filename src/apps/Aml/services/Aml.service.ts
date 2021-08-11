@@ -50,6 +50,9 @@ export class AmlCheck extends ProductBaseService implements Product<ProductSetti
       [AmlSettingsTypes.Monitoring]: {
         value: pattern === AmlValidationTypes.SearchMonitoring,
       },
+      [AmlSettingsTypes.AmlThreshold]: {
+        value: flow?.amlWatchlistsFuzzinessThreshold || 50,
+      },
     };
   }
 
@@ -66,6 +69,7 @@ export class AmlCheck extends ProductBaseService implements Product<ProductSetti
       verificationPatterns: {
         [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]: pattern,
       },
+      amlWatchlistsFuzzinessThreshold: settings[AmlSettingsTypes.AmlThreshold].value,
     };
   }
 

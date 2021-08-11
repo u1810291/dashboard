@@ -65,4 +65,5 @@ export interface IFlow {
   verificationSteps?: DocumentTypes[][];
   verificationPatterns?: Partial<VerificationPatterns>;
   integrationType?: ProductIntegrationTypes;
+  amlWatchlistsFuzzinessThreshold?: number;
 }
