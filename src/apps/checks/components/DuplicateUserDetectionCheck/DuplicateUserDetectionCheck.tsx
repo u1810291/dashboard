@@ -2,10 +2,13 @@ import { Box, Card, CardContent } from '@material-ui/core';
 import { CheckBarExpandable } from 'apps/ui';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { useStyles } from 'apps/checks/components/DuplicateUserDetectionCheck/DuplicateUserDetectionCheck.styles';
+import { Link } from 'react-router-dom';
+import { LinkButton, useStyles } from 'apps/checks/components/DuplicateUserDetectionCheck/DuplicateUserDetectionCheck.styles';
 import { IStep } from 'models/Step.model';
+import { Routes } from 'models/Router.model';
+import { FiExternalLink } from 'react-icons/fi';
 
-export function DuplicateUserDetectionCheck({ stepData }: { stepData: IStep }) {
+export function DuplicateUserDetectionCheck({ stepData, hideLink }: { stepData: IStep; hideLink?: boolean }) {
   const classes = useStyles();
   const intl = useIntl();
 
@@ -20,14 +23,11 @@ export function DuplicateUserDetectionCheck({ stepData }: { stepData: IStep }) {
           <Box>
             {intl.formatMessage({ id: `Checks.result.DuplicateUserDetectionCheck.${stepData?.checkStatus}.description` })}
           </Box>
-          {/*          {stepData?.data?.duplicateIdentities && (
+          {stepData?.data?.duplicateIdentities && (
           <Box my={1}>
-            {stepData.data.duplicateIdentities?.map((entry, index) => (
+            {!hideLink && stepData.data.duplicateIdentities?.map((entry, index) => (
               <Box my={1} key={index}>
-                <Link to={isNewLink
-                  ? `${Routes.identity.profile.root}/${entry}${Routes.identity.verification.root}/${stepData.data?.relatedRecords[index]}`
-                  : `${Routes.list.root}/${entry}`}
-                >
+                <Link to={`${Routes.list.root}/${entry}`}>
                   <LinkButton variant="contained" disableElevation endIcon={<FiExternalLink />}>
                     {`${intl.formatMessage({ id: 'Checks.result.DuplicateUserDetectionCheck.duplicatationLinks' })} ${index + 1}`}
                   </LinkButton>
@@ -35,7 +35,7 @@ export function DuplicateUserDetectionCheck({ stepData }: { stepData: IStep }) {
               </Box>
             ))}
           </Box>
-          )} */}
+          )}
         </CardContent>
       </Card>
     </CheckBarExpandable>

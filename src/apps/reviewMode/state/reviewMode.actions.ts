@@ -1,17 +1,18 @@
 import { productManagerService, selectProductRegistered } from 'apps/Product';
 import { notification } from 'apps/ui';
 import { isObjectEmpty } from 'lib/object';
-import { ERROR_COMMON } from 'models/Error.model';
+import { ERROR_COMMON, IN_REVIEW_MODE_ERROR, isInReviewModeError } from 'models/Error.model';
 import { ProductTypes } from 'models/Product.model';
 import { IdentityStatuses } from 'models/Status.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { storeAction } from 'state/store.utils';
-import { getAwaitingReviewCount, getVerification, putVerificationStatus, requestSkipVerification } from '../api/reviewMode.client';
-import { selectReviewVerificationId, selectVerificationModel } from './reviewMode.selectors';
+import * as api from '../api/reviewMode.client';
+import { selectReviewVerificationId, selectVerification, selectVerificationModel } from './reviewMode.selectors';
 import { ReviewModeActionTypes } from './reviewMode.store';
+import { DocumentTypes } from '../../../models/Document.model';
 
 const reviewVerificationRequest = storeAction<null>(ReviewModeActionTypes.REVIEW_VERIFICATION_REQUEST);
-const сlearReviewVerification = storeAction<null>(ReviewModeActionTypes.REVIEW_VERIFICATION_CLEAR);
+const clearReviewVerification = storeAction<null>(ReviewModeActionTypes.REVIEW_VERIFICATION_CLEAR);
 const reviewVerificationSuccess = storeAction<any>(ReviewModeActionTypes.REVIEW_VERIFICATION_SUCCESS);
 const reviewLoadingNext = storeAction<boolean>(ReviewModeActionTypes.REVIEW_LOADING_NEXT);
 const reviewVerificationFailure = storeAction<any>(ReviewModeActionTypes.REVIEW_VERIFICATION_FAILURE);
@@ -22,7 +23,7 @@ const reviewAwaitingCountFailure = storeAction<any>(ReviewModeActionTypes.REVIEW
 const verificationProductListUpdate = storeAction<ProductTypes[]>(ReviewModeActionTypes.VERIFICATION_PRODUCT_LIST_UPDATE);
 
 export const reviewVerificationClear = () => (dispatch) => {
-  dispatch(сlearReviewVerification(null));
+  dispatch(clearReviewVerification(null));
 };
 
 export const verificationProductListInit = (verification: VerificationResponse) => (dispatch, getState) => {
@@ -42,7 +43,7 @@ export const verificationLoad = () => async (dispatch, getState) => {
   const verification = selectVerificationModel(getState());
   dispatch(reviewVerificationRequest(null));
   try {
-    const { data } = await getVerification();
+    const { data } = await api.getVerification();
 
     if (isObjectEmpty(data) && !isObjectEmpty(verification?.value)) {
       dispatch(reviewVerificationClear());
@@ -66,7 +67,7 @@ export const verificationSkip = () => async (dispatch, getState) => {
   dispatch(reviewLoadingNext(true));
   const id = selectReviewVerificationId(getState());
   try {
-    await requestSkipVerification(id);
+    await api.requestSkipVerification(id);
   } catch (error) {
     notification.error(ERROR_COMMON);
     throw error;
@@ -79,7 +80,7 @@ export const verificationStatusChange = (status: IdentityStatuses) => async (dis
   const id = selectReviewVerificationId(getState());
   const verification = selectVerificationModel(getState())?.value;
   try {
-    await putVerificationStatus(id, status);
+    await api.putVerificationStatus(id, status);
     dispatch(reviewVerificationSuccess({ ...verification, isStatusSet: true }));
   } catch (error) {
     dispatch(reviewVerificationFailure(error));
@@ -91,11 +92,38 @@ export const verificationStatusChange = (status: IdentityStatuses) => async (dis
 export const reviewAwaitingCountLoad = () => async (dispatch) => {
   dispatch(reviewAwaitingCountRequest(null));
   try {
-    const { data } = await getAwaitingReviewCount();
+    const { data } = await api.getAwaitingReviewCount();
     dispatch(reviewAwaitingCountSuccess(data?.countAwaitingVerifications || 0));
   } catch (error) {
     dispatch(reviewAwaitingCountFailure(error));
     notification.error(ERROR_COMMON);
+    throw error;
+  }
+};
+
+export const reviewPatchDocumentFields = (verificationId: string, documentType: DocumentTypes, fields: any) => async (dispatch, getState) => {
+  dispatch(reviewVerificationUpdating(null));
+  try {
+    await api.patchDocumentReviewMode(verificationId, documentType, fields);
+    const verification = selectVerification(getState());
+    const documents = verification?.documents || [];
+    const documentIndex = documents.findIndex((item) => item.type === documentType);
+    const newDocuments = [...documents];
+    newDocuments[documentIndex].fields = { ...newDocuments[documentIndex].fields, ...fields };
+
+    const newVerification = {
+      ...verification,
+      documents: newDocuments,
+    };
+
+    dispatch(reviewVerificationSuccess(newVerification));
+  } catch (error) {
+    dispatch(reviewVerificationFailure(error));
+    if (isInReviewModeError(error)) {
+      notification.error(IN_REVIEW_MODE_ERROR, { autoClose: false });
+    } else {
+      notification.error(ERROR_COMMON);
+    }
     throw error;
   }
 };

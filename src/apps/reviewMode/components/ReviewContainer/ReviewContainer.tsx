@@ -62,7 +62,7 @@ export function ReviewContainer() {
             </Grid>
             <Grid item xs={12} lg={8} xl={10} className={classes.products}>
               <Box p={2}>
-                <ProductVerification productId={selectedProduct} verification={verification} />
+                <ProductVerification isReviewMode productId={selectedProduct} verification={verification} />
               </Box>
             </Grid>
           </Grid>

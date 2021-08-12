@@ -14,6 +14,11 @@ export const selectVerificationModel = createSelector(
   (store: ReviewModeStore): Loadable<VerificationResponse> => store[ReviewModeSliceTypes.ReviewVerification],
 );
 
+export const selectVerification = createSelector(
+  selectVerificationModel,
+  selectModelValue(),
+);
+
 export const selectVerificationProductList = createSelector(
   selectReviewModeStore,
   (store): ProductTypes[] => store[ReviewModeSliceTypes.ProductList] || [],

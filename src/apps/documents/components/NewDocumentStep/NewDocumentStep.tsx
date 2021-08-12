@@ -13,14 +13,12 @@ import { useStyles } from './NewDocumentStep.styles';
 import { useDocumentTitle, usePhotosOrientation } from '../../hooks/document.hook';
 import { DocumentReadingStep } from '../DocumentReadingStep/DocumentReadingStep';
 
-export interface NewDocumentStepProps{
+export function NewDocumentStep({ document, verification, documentIndex, onDocumentUpdate }: {
   document: VerificationDocument;
   verification: Verification;
   documentIndex: number;
   onDocumentUpdate: (normalizedData: any, documentType: DocumentTypes) => Promise<void>;
-}
-
-export function NewDocumentStep({ document, verification, documentIndex, onDocumentUpdate }: NewDocumentStepProps) {
+}) {
   const intl = useIntl();
   const classes = useStyles();
   const title = useDocumentTitle(document);
@@ -28,6 +26,7 @@ export function NewDocumentStep({ document, verification, documentIndex, onDocum
 
   const { ageCheck, duplicateUserDetectionStep, type, securityCheckSteps, documentFailedCheckSteps, isSanctioned, fields, documentReadingStep, onReading, documentStatus, proofOfOwnership, photos, areTwoSides } = document;
   const isFormEditable = verification.isEditable;
+
   return (
     <Box>
       <Box mb={2}>
@@ -119,7 +118,7 @@ export function NewDocumentStep({ document, verification, documentIndex, onDocum
                     </CheckBarExpandable>
                   ))}
                   {ageCheck && (<AgeCheck stepData={ageCheck} />)}
-                  {duplicateUserDetectionStep && (<DuplicateUserDetectionCheck stepData={duplicateUserDetectionStep} />)}
+                  {duplicateUserDetectionStep && (<DuplicateUserDetectionCheck hideLink stepData={duplicateUserDetectionStep} />)}
                 </Grid>
               </Grid>
             )}
