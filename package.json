@@ -66,7 +66,8 @@
     "build:production": "env-cmd -f .env.production npm run build",
     "test": "NODE_PATH=src react-scripts test --env=jsdom",
     "test:ci": "CI=true npm run test",
-    "eslint": "npx eslint ./src",
+    "lint:eslint": "eslint 'src/*/**/*.{js,jsx,ts,tsx}' --quiet",
+    "lint:typecheck": "tsc --noEmit",
     "analyze:install": "npm i -g source-map-explorer",
     "analyze:start": "npm run build && source-map-explorer 'build/static/js/*.js'",
     "analyze": "if ! npm list source-map-explorer -g; then npm run analyze:install; fi; npm run analyze:start;"
