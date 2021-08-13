@@ -13,6 +13,7 @@ export enum ProductTypes {
   PhoneCheck = 'PhoneCheck',
   EmailCheck = 'EmailCheck',
   CertifiedTimestamp = 'CertifiedTimestamp',
+  CustomWatchlist = 'CustomWatchlist',
   // additional
   Metadata = 'Metadata',
 }
