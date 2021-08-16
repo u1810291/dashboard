@@ -2,7 +2,7 @@ import { IReFacematchStep } from 'models/ReVerification.model';
 
 export enum ReVerificationSettingTypes {
   Biometrics = 'biometrics',
-  FacematchThreshold = 'facematchThreshold',
+  ReFacematchThreshold = 'reFacematchThreshold',
   ProofOfOwnership = 'proofOfOwnership',
 }
 
