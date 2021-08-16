@@ -3,6 +3,7 @@ import { BiometricConfiguration } from 'apps/biometricVerification';
 import { FaceMatchingThreshold } from 'apps/facematch';
 import { appPalette } from 'apps/theme';
 import { ReVerificationSettingTypes } from 'apps/reverification/models/ReVerification.model';
+import { FACEMATCH_DEFAULT_REVERIFICATION_THRESHOLD, REVERIFICATION_FACEMATCH_THRESHOLDS } from 'apps/facematch/models/facematch.model';
 import { ExtendedDescription, BoxBordered, Warning, WarningSize, WarningTypes } from 'apps/ui';
 import cloneDeep from 'lodash/cloneDeep';
 import { ProductSettingsProps } from 'models/Product.model';
@@ -11,9 +12,9 @@ import { useIntl } from 'react-intl';
 
 export function ReVerificationSettings({ settings, onUpdate }: ProductSettingsProps<ReVerificationSettingTypes>) {
   const intl = useIntl();
-  const handleFacematchChanges = useCallback((facematchThreshold: number | null): void => {
+  const handleReFacematchChanges = useCallback((reFacematchThreshold: number | null): void => {
     const newSettings = cloneDeep(settings);
-    newSettings.facematchThreshold.value = facematchThreshold;
+    newSettings.reFacematchThreshold.value = reFacematchThreshold;
     onUpdate(newSettings);
   }, [settings, onUpdate]);
   const handleBiometricsChanges = useCallback((biometrics: string | null): void => {
@@ -51,8 +52,10 @@ export function ReVerificationSettings({ settings, onUpdate }: ProductSettingsPr
           text={intl.formatMessage({ id: 'ReVerification.settings.facematch.description' })}
         >
           <FaceMatchingThreshold
-            facematchThreshold={settings.facematchThreshold.value}
-            onUpdate={handleFacematchChanges}
+            defaultThreshold={FACEMATCH_DEFAULT_REVERIFICATION_THRESHOLD}
+            thresholds={REVERIFICATION_FACEMATCH_THRESHOLDS}
+            facematchThreshold={settings.reFacematchThreshold.value}
+            onUpdate={handleReFacematchChanges}
           />
         </ExtendedDescription>
       </Box>

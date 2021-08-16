@@ -51,6 +51,7 @@ export interface IFlow {
   denyUploadsFromMobileGallery?: boolean;
   digitalSignature?: DigitalSignatureProvider;
   facematchThreshold?: number;
+  reFacematchThreshold?: number;
   ipValidation?: IpValidation;
   inputTypes?: { id?: string }[];
   inputValidationChecks?: InputValidationCheck[];

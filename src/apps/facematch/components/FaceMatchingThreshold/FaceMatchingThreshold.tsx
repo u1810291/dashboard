@@ -3,9 +3,11 @@ import { BoxBordered, RadioButton } from 'apps/ui';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './FaceMatchingThreshold.styles';
-import { FACEMATCH_DEFAULT_THRESHOLD, FACEMATCH_MAX_THRESHOLD, FACEMATCH_MIN_THRESHOLD, FacematchThresholdModes, validateScore } from '../../models/facematch.model';
+import { FACEMATCH_DEFAULT_THRESHOLD, FACEMATCH_THRESHOLDS, FacematchThresholdModes, validateScore } from '../../models/facematch.model';
 
-export function FaceMatchingThreshold({ facematchThreshold, onUpdate }: {
+export function FaceMatchingThreshold({ defaultThreshold = FACEMATCH_DEFAULT_THRESHOLD, thresholds = FACEMATCH_THRESHOLDS, facematchThreshold, onUpdate }: {
+  defaultThreshold?: number;
+  thresholds?: any;
   facematchThreshold: number | null;
   onUpdate: (value: number | null) => void;
 }) {
@@ -19,21 +21,21 @@ export function FaceMatchingThreshold({ facematchThreshold, onUpdate }: {
   }, [onUpdate]);
   const handleModeChange = useCallback(({ target: { value } }) => {
     setError(null);
-    const updatedScore = (FacematchThresholdModes.Custom === value) ? FACEMATCH_DEFAULT_THRESHOLD : null;
+    const updatedScore = (FacematchThresholdModes.Custom === value) ? defaultThreshold : null;
     setScore(updatedScore);
     handleUpdate(updatedScore);
-  }, [handleUpdate]);
+  }, [defaultThreshold, handleUpdate]);
   const handleScoreChange = useCallback(({ target: { value } }) => {
     const parsed = parseInt(value, 10);
     setScore(parsed);
   }, [setScore]);
   const handleValidation = useCallback(() => {
-    const validationError = validateScore(score, mode);
+    const validationError = validateScore(score, mode, thresholds);
     setError(validationError);
     if (!validationError) {
       handleUpdate(score);
     }
-  }, [score, mode, handleUpdate]);
+  }, [score, mode, handleUpdate, thresholds]);
 
   return (
     <Box>
@@ -50,10 +52,20 @@ export function FaceMatchingThreshold({ facematchThreshold, onUpdate }: {
             label={(
               <>
                 <Box mb={0.5} color="common.black90" fontWeight="bold">
-                  {intl.formatMessage({ id: 'Facematch.settings.recommended' })}
+                  {intl.formatMessage({
+                    id: 'Facematch.settings.recommended',
+                  },
+                  {
+                    percentage: defaultThreshold,
+                  })}
                 </Box>
                 <Box color="common.black75" lineHeight={1.2}>
-                  {intl.formatMessage({ id: 'Facematch.settings.recommended.description' })}
+                  {intl.formatMessage({
+                    id: 'Facematch.settings.recommended.description',
+                  },
+                  {
+                    percentage: defaultThreshold,
+                  })}
                 </Box>
               </>
             )}
@@ -76,16 +88,33 @@ export function FaceMatchingThreshold({ facematchThreshold, onUpdate }: {
                     value={score || ''}
                     onChange={handleScoreChange}
                     onBlur={handleValidation}
-                    placeholder={`${FACEMATCH_MIN_THRESHOLD}-${FACEMATCH_MAX_THRESHOLD}`}
+                    placeholder={`${thresholds.LOW.MIN}-${thresholds.HIGH.MAX}`}
                     error={!!error}
-                    helperText={error && intl.formatMessage({ id: `Product.configuration.facematch.mode.custom.errors.${error}` })}
+                    helperText={error && intl.formatMessage({
+                      id: `Product.configuration.facematch.mode.custom.errors.${error}`,
+                    }, {
+                      min: thresholds.LOW.MIN,
+                      max: thresholds.HIGH.MAX,
+                    })}
                   />
                 </Box>
                 <Box mb={2} color="common.black75" lineHeight={1.2}>
-                  {intl.formatMessage({ id: 'Facematch.settings.custom.low' })}
+                  {intl.formatMessage({
+                    id: 'Facematch.settings.custom.low',
+                  },
+                  {
+                    min: thresholds.LOW.MIN,
+                    max: thresholds.LOW.MAX,
+                  })}
                 </Box>
                 <Box color="common.black75" lineHeight={1.2}>
-                  {intl.formatMessage({ id: 'Facematch.settings.custom.high' })}
+                  {intl.formatMessage({
+                    id: 'Facematch.settings.custom.high',
+                  },
+                  {
+                    min: thresholds.HIGH.MIN,
+                    max: thresholds.HIGH.MAX,
+                  })}
                 </Box>
               </Box>
             )}
