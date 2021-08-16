@@ -69,3 +69,9 @@ export function getCustomWatchlistStatusByError(step: CustomWatchlistStep, error
   }
   return step?.error?.code === errorCode ? StepStatus.Failure : StepStatus.Success;
 }
+
+export enum CustomWatchlistActions {
+  AutoReject = 'auto-reject',
+  Manual = 'manual',
+  NotifyWebhook = 'notify-webhook',
+}

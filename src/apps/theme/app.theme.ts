@@ -96,6 +96,26 @@ export const AppTheme = createTheme({
       startIcon: {
         width: '1rem',
       },
+      outlinedSizeLarge: {
+        paddingTop: '17px',
+        paddingBottom: '16px',
+        fontSize: '14px',
+        lineHeight: '17px',
+      },
+      containedSizeLarge: {
+        paddingTop: 17,
+        paddingBottom: 16,
+        fontSize: 14,
+        lineHeight: '17px',
+        border: '1px solid',
+        borderColor: appPalette.lightblue,
+        '&:hover': {
+          borderColor: 'rgb(56, 87, 165)',
+        },
+        '&:active': {
+          borderColor: 'transparent',
+        },
+      },
     },
     MuiTableCell: {
       root: {

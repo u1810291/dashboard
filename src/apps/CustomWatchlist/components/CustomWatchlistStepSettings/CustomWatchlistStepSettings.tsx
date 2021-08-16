@@ -1,5 +1,4 @@
 import { Box, Button, Grid, IconButton } from '@material-ui/core';
-import { DocumentSelect } from 'apps/documentVerification/components/DocumentSelect/DocumentSelect';
 import { useOverlay } from 'apps/overlay';
 import classNames from 'classnames';
 import { cloneDeep } from 'lodash';
@@ -7,6 +6,7 @@ import { DocumentListOrdered, DocumentTypes } from 'models/Document.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
+import { CustomWatchListModal } from '../CustomWatchListModal/CustomWatchListModal';
 import { useStyles } from './CustomWatchlistStepSettings.styles';
 
 export interface CustomWatchlistSettingsProps{
@@ -33,7 +33,7 @@ export function CustomWatchlistStepSettings({ steps, onUpdate }: CustomWatchlist
   }, [closeOverlay, onUpdate, steps]);
 
   const handleChangeStep = useCallback((stepIndex: number) => () => {
-    createOverlay(<DocumentSelect variant={stepIndex === lastStepNumber ? 'add' : 'change'} unavailable={checkedDocuments} checked={steps[stepIndex]} onSubmit={handleSubmitStep(stepIndex)} />);
+    createOverlay(<CustomWatchListModal />);
   }, [createOverlay, lastStepNumber, checkedDocuments, steps, handleSubmitStep]);
 
   const handleDeleteStep = useCallback((stepIndex: number) => () => {
@@ -57,7 +57,7 @@ export function CustomWatchlistStepSettings({ steps, onUpdate }: CustomWatchlist
           <Box mb={2}>
             <Grid container wrap="nowrap" alignItems="center">
               <Box color="common.black90" fontWeight="bold" mr={1}>
-                {intl.formatMessage({ id: 'DocumentVerification.settings.CustomWatchlist.title' }, { count: stepIndex + 1 })}
+                {intl.formatMessage({ id: 'CustomWatchlist.settings.step.title' }, { count: stepIndex !== 0 ? stepIndex + 1 : '' })}
               </Box>
               <Box ml="auto" flexShrink={0}>
                 <IconButton className={classNames(classes.button, classes.buttonEdit)} onClick={handleChangeStep(stepIndex)}>
@@ -86,10 +86,10 @@ export function CustomWatchlistStepSettings({ steps, onUpdate }: CustomWatchlist
         </Box>
       ))}
       {checkedDocuments?.length < DocumentListOrdered.length && (
-      <Button className={classes.buttonAdd} onClick={handleChangeStep(lastStepNumber)} color="primary" variant="outlined">
-        <FiPlus size={12} />
-        {intl.formatMessage({ id: 'DocumentVerification.settings.button.addStep' }, { count: steps?.length + 1 })}
-      </Button>
+        <Button className={classes.buttonAdd} onClick={handleChangeStep(lastStepNumber)} color="primary" variant="outlined">
+          <FiPlus size={12} />
+          {intl.formatMessage({ id: 'CustomWatchlist.settings.button' })}
+        </Button>
       )}
     </Box>
   );
