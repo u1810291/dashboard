@@ -1,5 +1,5 @@
 import { Box } from '@material-ui/core';
-import { flowBuilderGetTemporaryFlowId, flowBuilderSubscribeToTemporaryWebhook } from 'apps/flowBuilder/store/FlowBuilder.action';
+import { flowBuilderChangeableFlowUpdate, flowBuilderGetTemporaryFlowId, flowBuilderSubscribeToTemporaryWebhook } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { notification } from 'apps/ui';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectFlowBuilderChangeableFlowStyle } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { selectClientIdModel, selectCurrentFlowId } from 'state/merchant/merchant.selectors';
 import { useStyles } from './PreviewButton.styles';
+import { flowStyleUpdate } from 'state/merchant/merchant.actions';
+import { isColorValid } from 'models/SupportedColors.model';
 
 export function PreviewButton() {
   const flowStyle = useSelector(selectFlowBuilderChangeableFlowStyle);
@@ -23,6 +25,8 @@ export function PreviewButton() {
     event.stopPropagation();
     if (buttonRef.current) {
       try {
+        await dispatch(flowBuilderChangeableFlowUpdate({ style: { color: isColorValid(buttonRef.current.color) } }));
+        await dispatch(flowStyleUpdate({ color: isColorValid(buttonRef.current.color) }));
         const button = buttonRef.current.cloneNode(true);
         const temporaryFlowId = await dispatch(flowBuilderGetTemporaryFlowId());
         // @ts-ignore
