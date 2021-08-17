@@ -1,24 +1,16 @@
-import React, { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { useIntl } from 'react-intl';
-import { ColorPicker } from 'apps/ColorPicker';
 import { WebCodeSnippet } from 'apps/forDevelopers/components/WebCodeSnippet/WebCodeSnippet';
 import { DirectLinkCopy } from 'apps/forDevelopers/components/DirectLinkCopy/DirectLinkCopy';
-import { selectFlowBuilderChangeableFlowStyle } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { ButtonLink } from 'apps/ui/components/ButtonLink/ButtonLink';
 import { urls, TabID, LinkButtons } from 'models/Integration.model';
-import { flowBuilderChangeableFlowUpdate } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { Logo } from 'apps/logo';
+import { BoxBordered, Warning, WarningSize, WarningTypes } from 'apps/ui';
+import { appPalette } from 'apps/theme/app.palette';
 
 export function IntegrationSDK() {
   const intl = useIntl();
-  const dispatch = useDispatch();
-  const changeableFlowStyle = useSelector(selectFlowBuilderChangeableFlowStyle);
-
-  const handleChangeColor = useCallback((value) => {
-    dispatch(flowBuilderChangeableFlowUpdate({ style: { color: value } }));
-  }, [dispatch]);
 
   return (
     <Box>
@@ -28,12 +20,15 @@ export function IntegrationSDK() {
         </Typography>
         <Logo />
       </Box>
-      <Box mb={4}>
-        <Typography variant="subtitle2" gutterBottom>
-          {intl.formatMessage({ id: 'Product.configuration.buttonsColor' })}
-        </Typography>
-        <ColorPicker activeColor={changeableFlowStyle?.color} onChange={handleChangeColor} />
-      </Box>
+      <BoxBordered borderColor={appPalette.yellow} mt={1} mb={1}>
+        <Warning
+          type={WarningTypes.Warning}
+          size={WarningSize.Large}
+          label={intl.formatMessage({ id: 'ColorPickerWarning' })}
+          link="https://docs.getmati.com/#web-sdk-overview"
+          linkLabel="Documentation"
+        />
+      </BoxBordered>
       <Box mb={2}>
         <WebCodeSnippet />
       </Box>

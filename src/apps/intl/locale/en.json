@@ -193,6 +193,7 @@
   "color.pink": "Pink",
   "color.red": "Red",
   "color.yellow": "Yellow",
+  "ColorPickerWarning": "You can set the color of buttons in flow by a parameter in SDK.",
   "CompanyBar.namePlaceholder": "Your Mati dashboard",
   "CompanyBar.permalink": "Verification link",
   "confirm": "Confirm",
