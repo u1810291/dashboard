@@ -187,6 +187,7 @@
   "color.pink": "Rosado",
   "color.red": "Rojo",
   "color.yellow": "Amarillo",
+  "ColorPickerWarning": "Puede establecer el color de los botones en el flujo mediante un parámetro en SDK.",
   "CompanyBar.namePlaceholder": "Tu dashboard de Mati",
   "CompanyBar.permalink": "Enlace de verificación",
   "confirm": "Confirmar",

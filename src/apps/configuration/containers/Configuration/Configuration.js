@@ -10,15 +10,15 @@ import { ImageValidationConfiguration } from 'apps/imageValidation';
 import { PhoneValidationConfiguration } from 'apps/PhoneValidation';
 import { IpChecksConfiguration } from 'apps/IpChecks';
 import { OldLogo } from 'apps/logo';
-import { ButtonCollapsible } from 'apps/ui';
-import { ConfigureColor } from 'apps/WebSDKPreview';
+import { ButtonCollapsible, BoxBordered, Warning, WarningSize, WarningTypes } from 'apps/ui';
 import classnames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiAlertOctagon, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiMail, FiSlash, FiTrash, FiUser, FiSmartphone, FiMapPin } from 'react-icons/fi';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow, selectMerchantTags } from 'state/merchant/merchant.selectors';
+import { appPalette } from 'apps/theme/app.palette';
 
 export function Configuration() {
   const [active, setActive] = useState(0);
@@ -26,6 +26,7 @@ export function Configuration() {
   const currentFlowModel = useSelector(selectCurrentFlow);
   const [flowSteps, setFlowSteps] = useState([]);
   const tags = useSelector(selectMerchantTags);
+  const intl = useIntl();
 
   const updateConfiguration = useCallback((settings) => dispatch(merchantUpdateFlow(settings)), [dispatch]);
 
@@ -35,7 +36,17 @@ export function Configuration() {
         id: 'color',
         title: 'Product.configuration.buttonsColor',
         icon: <FiDroplet />,
-        body: <ConfigureColor />,
+        body: (
+          <BoxBordered borderColor={appPalette.yellow} mt={1} mb={1}>
+            <Warning
+              type={WarningTypes.Warning}
+              size={WarningSize.Large}
+              label={intl.formatMessage({ id: 'ColorPickerWarning' })}
+              link="https://docs.getmati.com/#web-sdk-overview"
+              linkLabel="Documentation"
+            />
+          </BoxBordered>
+        ),
       },
       {
         id: 'steps',

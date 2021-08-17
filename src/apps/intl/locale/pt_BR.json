@@ -187,6 +187,7 @@
   "color.pink": "Rosa",
   "color.red": "Vermelho",
   "color.yellow": "Amarelo",
+  "ColorPickerWarning": "Você pode definir a cor dos botões no fluxo por um parâmetro no SDK.",
   "CompanyBar.namePlaceholder": "Seu painel Mati",
   "CompanyBar.permalink": "Link de verificação",
   "confirm": "Confirmar",

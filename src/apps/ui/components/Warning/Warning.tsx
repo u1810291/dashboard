@@ -4,6 +4,7 @@ import React from 'react';
 import { FiActivity, FiAlertCircle } from 'react-icons/fi';
 import { WarningSize, WarningTypes } from '../../models/Warning.model';
 import { useStyles } from './Warning.styles';
+import Link from '@material-ui/core/Link';
 
 const IconMap = {
   [WarningTypes.Warning]: FiAlertCircle,
@@ -31,7 +32,7 @@ const ColorMap = {
   },
 };
 
-export function Warning({ title = '', label, type = WarningTypes.Warning, size = WarningSize.Normal, isLabelColored = false, bordered = false, className }: {
+export function Warning({ title = '', label, type = WarningTypes.Warning, size = WarningSize.Normal, isLabelColored = false, bordered = false, className, linkLabel = '', link = '' }: {
   title?: string;
   label: string | React.ReactNode;
   type?: WarningTypes;
@@ -39,6 +40,8 @@ export function Warning({ title = '', label, type = WarningTypes.Warning, size =
   className?: string;
   isLabelColored?: boolean;
   bordered?: boolean;
+  linkLabel?: string;
+  link?: string;
 }) {
   const classes = useStyles({ bordered });
 
@@ -58,6 +61,9 @@ export function Warning({ title = '', label, type = WarningTypes.Warning, size =
         )}
         <Box style={{ color: isLabelColored && style.titleColor }}>
           {label}
+        </Box>
+        <Box style={{ color: isLabelColored && style.titleColor }}>
+          <Link href={link}>{linkLabel}</Link>
         </Box>
       </Box>
     </Box>
