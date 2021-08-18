@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
 import { Box, FormControl, FormControlLabel, Grid, Switch } from '@material-ui/core';
-import { GovCheck, GovCheckConfigurations, govCheckCountriesOrder, govCheckParse, GovCheckTypesForStep } from 'apps/GovCheck/models/GovCheck.model';
+import { CreditCheck, CreditCheckConfigurations, creditCheckCountriesOrder, creditCheckParse } from 'apps/CreditCheck/models/CreditCheck.model';
 import { useIntl } from 'react-intl';
 import { VerificationPatterns } from 'models/VerificationPatterns.model';
 import { flags } from 'assets/flags';
-import { useStyles } from './GovCheckCountriesSettings.styles';
+import { useStyles } from './CreditCheckCountriesSettings.styles';
 
-export function GovCheckCountriesSettings({ verificationPattern, onChange }: {
+export function CreditCheckCountriesSettings({ verificationPattern, onChange }: {
      verificationPattern: Partial<VerificationPatterns>;
      onChange: (value: Partial<VerificationPatterns>) => void;
   }) {
@@ -14,31 +14,26 @@ export function GovCheckCountriesSettings({ verificationPattern, onChange }: {
   const classes = useStyles();
 
   const checkListForCountry = useCallback((country: string) => {
-    const found = GovCheckConfigurations.find((item) => item.country === country);
+    const found = CreditCheckConfigurations.find((item) => item.country === country);
     if (!found) {
       return null;
     }
 
-    return govCheckParse(found.checks, verificationPattern);
+    return creditCheckParse(found.checks, verificationPattern);
   }, [verificationPattern]);
 
-  const handleSwitch = useCallback((item: GovCheck) => (event) => {
-    let value;
-    if (item.stepTypeAlias) {
-      value = event.target.checked ? item.stepTypeAlias : GovCheckTypesForStep[item.id].none;
-    }
-
-    onChange({ [item.id]: value || event.target.checked });
+  const handleSwitch = useCallback((item: CreditCheck) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange({ [item.id]: event.target.checked });
   }, [onChange]);
 
   return (
     <FormControl className={classes.control}>
-      {govCheckCountriesOrder.map((country) => (
+      {creditCheckCountriesOrder.map((country) => (
         <Box key={country} className={classes.wrapper} p={1} pr={2} mt={1}>
           <Grid container alignItems="center" wrap="nowrap">
             <Box mr={1} className={classes.icon}>{flags[country]}</Box>
             <Box color="common.black90" fontWeight="bold">
-              {intl.formatMessage({ id: `GovCheck.country.${country}` })}
+              {intl.formatMessage({ id: `Countries.${country}` })}
             </Box>
           </Grid>
           {checkListForCountry(country).map((checkbox) => (
@@ -53,7 +48,7 @@ export function GovCheckCountriesSettings({ verificationPattern, onChange }: {
                   )}
                 label={(
                   <Box color="common.black75" fontWeight="bold">
-                    {intl.formatMessage({ id: `GovCheck.check.${checkbox.id}` })}
+                    {intl.formatMessage({ id: `CreditCheck.check.${checkbox.id}` })}
                   </Box>
                 )}
               />

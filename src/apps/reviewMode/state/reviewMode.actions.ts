@@ -1,7 +1,7 @@
 import { productManagerService, selectProductRegistered } from 'apps/Product';
 import { notification } from 'apps/ui';
 import { isObjectEmpty } from 'lib/object';
-import { ERROR_COMMON, IN_REVIEW_MODE_ERROR, isInReviewModeError } from 'models/Error.model';
+import { ErrorMessages, isInReviewModeError } from 'models/Error.model';
 import { ProductTypes } from 'models/Product.model';
 import { IdentityStatuses } from 'models/Status.model';
 import { VerificationResponse } from 'models/Verification.model';
@@ -58,7 +58,7 @@ export const verificationLoad = () => async (dispatch, getState) => {
     }
   } catch (error) {
     dispatch(reviewVerificationFailure(error));
-    notification.error(ERROR_COMMON, { toastId: ReviewModeActionTypes.REVIEW_VERIFICATION_FAILURE, autoClose: false });
+    notification.error(ErrorMessages.ERROR_COMMON, { toastId: ReviewModeActionTypes.REVIEW_VERIFICATION_FAILURE, autoClose: false });
     throw error;
   }
 };
@@ -69,7 +69,7 @@ export const verificationSkip = () => async (dispatch, getState) => {
   try {
     await api.requestSkipVerification(id);
   } catch (error) {
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -84,7 +84,7 @@ export const verificationStatusChange = (status: IdentityStatuses) => async (dis
     dispatch(reviewVerificationSuccess({ ...verification, isStatusSet: true }));
   } catch (error) {
     dispatch(reviewVerificationFailure(error));
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -96,7 +96,7 @@ export const reviewAwaitingCountLoad = () => async (dispatch) => {
     dispatch(reviewAwaitingCountSuccess(data?.countAwaitingVerifications || 0));
   } catch (error) {
     dispatch(reviewAwaitingCountFailure(error));
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -120,9 +120,9 @@ export const reviewPatchDocumentFields = (verificationId: string, documentType: 
   } catch (error) {
     dispatch(reviewVerificationFailure(error));
     if (isInReviewModeError(error)) {
-      notification.error(IN_REVIEW_MODE_ERROR, { autoClose: false });
+      notification.error(ErrorMessages.IN_REVIEW_MODE_ERROR, { autoClose: false });
     } else {
-      notification.error(ERROR_COMMON);
+      notification.error(ErrorMessages.ERROR_COMMON);
     }
     throw error;
   }

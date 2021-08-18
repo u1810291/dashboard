@@ -1,5 +1,5 @@
 import { notification } from 'apps/ui';
-import { ERROR_COMMON } from 'models/Error.model';
+import { ErrorMessages } from 'models/Error.model';
 import { types } from './agentHistory.store';
 import { getAgentHistory, getAgentEventsCount } from '../api/agentHistory.client';
 import { selectAgentHistoryFilterSerialized, selectAgentHistoryEventsList } from './agentHistory.selectors';
@@ -14,7 +14,7 @@ export const loadAgentEventsCount = (userId) => async (dispatch, getState) => {
     const { data } = await getAgentEventsCount(userId, { ...filter });
     dispatch({ type: types.AGENT_HISTORY_COUNT_LOAD, payload: data?.count });
   } catch (error) {
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -29,7 +29,7 @@ export const loadAgentHistory = (userId, page, isReload = true) => async (dispat
     dispatch({ type: types.AGENT_HISTORY_SUCCESS, payload: newData, isReset: isReload });
   } catch (error) {
     dispatch({ type: types.AGENT_HISTORY_FAILURE, payload: error });
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };

@@ -1,4 +1,4 @@
-import { ERROR_COMMON } from 'models/Error.model';
+import { ErrorMessages } from 'models/Error.model';
 import { Loadable } from 'models/Loadable.model';
 import { ActionSubTypes } from 'state/store.utils';
 
@@ -89,7 +89,7 @@ export class LoadableAdapter {
       ...model,
       isLoading: false,
       isFailed: true,
-      error: error || ERROR_COMMON,
+      error: error || ErrorMessages.ERROR_COMMON,
     };
   }
 

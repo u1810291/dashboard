@@ -10,6 +10,16 @@ export enum IdentityStatuses {
   unknown = 'unknown',
 }
 
+export enum VerificationStatusChangeReason {
+  SystemChange = 'systemChange',
+  ManualChange = 'manualChange',
+  GdprDepersonalize = 'gdprDepersonalize',
+  ManualDepersonalize = 'manualDepersonalize',
+  ExternalIntegrationUp = 'externalIntegrationUp',
+  ExternalIntegrationDown = 'externalIntegrationDown',
+  PremiumAmlWatchlistMatch = 'premiumAmlWatchlistMatch',
+}
+
 export interface IdentityStatus {
   id: IdentityStatuses;
   color: string;
