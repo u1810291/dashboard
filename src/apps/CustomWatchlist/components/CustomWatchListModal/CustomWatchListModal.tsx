@@ -1,13 +1,14 @@
-import React, { useMemo } from 'react';
-import { FiPlus } from 'react-icons/fi';
+import React, { useMemo, useCallback } from 'react';
+import { FiPlus, FiChevronLeft } from 'react-icons/fi';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { Box, Button, FormControlLabel, InputLabel, Select, MenuItem, Grid, Radio, RadioGroup, Switch, Typography } from '@material-ui/core';
 import { useIntl } from 'react-intl';
 import { CustomWatchlistActions } from 'models/CustomWatchlist.model';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import { useStyles } from './CustomWatchListModal.styles';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
+import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
 
 const placeholderOption = 'no-action';
 
@@ -33,6 +34,14 @@ export function CustomWatchListModal() {
       value: CustomWatchlistActions.NotifyWebhook,
     },
   ]), [intl]);
+
+  const handleUploadFile = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files[0];
+      console.log('upload file');
+    },
+    [],
+  );
 
   return (
     <Box className={classes.root}>
@@ -84,7 +93,7 @@ export function CustomWatchListModal() {
                       fullWidth
                       value={values.action}
                       onChange={handleChange}
-                      className={classNames({
+                      className={classnames({
                         [classes.placeholder]: values.action === placeholderOption,
                       })}
                     >
@@ -121,12 +130,13 @@ export function CustomWatchListModal() {
                       </Typography>
                     </InputLabel>
                     <input
-                      id="raised-button-file"
+                      id="file-load"
                       type="file"
                       accept=".xls, .csv"
+                      onChange={handleUploadFile}
                       hidden
                     />
-                    <label htmlFor="raised-button-file">
+                    <label htmlFor="file-load">
                       <Button
                         variant="outlined"
                         component="span"
@@ -149,17 +159,19 @@ export function CustomWatchListModal() {
                       {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.subTitle' })}
                     </Typography>
                   </Box>
-                  {true ? <FakeInputs /> : <div />}
+                  {true ? <ValidatedInputs /> : <FakeInputs />}
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <Button variant="outlined" color="primary" size="large" fullWidth>
+                    <FiChevronLeft />
+                    {' '}
                     {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.back' })}
                   </Button>
                 </Grid>
                 <Grid item xs={6}>
-                  <Button variant="contained" color="primary" size="large" fullWidth>
+                  <Button variant="contained" color="primary" size="large" fullWidth disabled>
                     {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.done' })}
                   </Button>
                 </Grid>

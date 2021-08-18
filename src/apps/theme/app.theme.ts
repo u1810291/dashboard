@@ -96,6 +96,13 @@ export const AppTheme = createTheme({
       startIcon: {
         width: '1rem',
       },
+      containedPrimary: {
+        '&:disabled': {
+          backgroundColor: appPalette.blue,
+          color: appPalette.white,
+          opacity: 0.3,
+        },
+      },
       outlinedSizeLarge: {
         paddingTop: '17px',
         paddingBottom: '16px',
@@ -112,7 +119,10 @@ export const AppTheme = createTheme({
         '&:hover': {
           borderColor: 'rgb(56, 87, 165)',
         },
-        '&:active': {
+        '&:focused': {
+          borderColor: 'transparent',
+        },
+        '&:disabled': {
           borderColor: 'transparent',
         },
       },

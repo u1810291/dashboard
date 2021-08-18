@@ -1,4 +1,4 @@
-import { Box, Button, FormControlLabel, Grid, Radio, RadioGroup, Switch, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { cloneDeep } from 'lodash';
 import { BoxBordered } from 'apps/ui';
 import { ProductSettingsProps } from 'models/Product.model';

@@ -1,5 +1,5 @@
-import { Box, Button, FormControlLabel, Grid, Radio, RadioGroup, Switch, Typography } from '@material-ui/core';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Grid } from '@material-ui/core';
+import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { FakeInput } from './FakeInput';
 
@@ -31,7 +31,7 @@ export function FakeInputs() {
 
   return (
     <Grid container direction="column" spacing={1}>
-      {fakeInputsFields.map((input) => <Grid item><FakeInput label={input.label} value={input.value} /></Grid>)}
+      {fakeInputsFields.map((input) => <Grid key={input.value} item><FakeInput label={input.label} value={input.value} /></Grid>)}
     </Grid>
   );
 }

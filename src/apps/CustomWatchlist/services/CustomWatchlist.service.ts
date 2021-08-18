@@ -1,11 +1,8 @@
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
-import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiFlag } from 'react-icons/fi';
-import { getCustomWatchlistStep, CustomWatchlistStep } from 'models/CustomWatchlist.model';
 import { VerificationResponse } from 'models/Verification.model';
-import { getStepStatus, StepStatus } from 'models/Step.model';
 import { CustomWatchlistVerification } from '../components/CustomWatchlistVerification/CustomWatchlistVerification';
 import { CustomWatchlistSettings } from '../components/CustomWatchlistSettings/CustomWatchlistSettings';
 import { CustomWatchlistCheckTypes, CustomWatchlistSettingsTypes } from '../models/CustomWatchlist.model';
@@ -62,15 +59,11 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
     return true;
   }
 
-  getVerification(verification: VerificationResponse): CustomWatchlistStep {
-    return getCustomWatchlistStep(verification?.steps);
+  getVerification(verification: VerificationResponse): any {
+    return verification;
   }
 
   hasFailedCheck(verification: VerificationResponse): boolean {
-    const customWatchlistStep = getCustomWatchlistStep(verification?.steps);
-    if (!customWatchlistStep) {
-      return false;
-    }
-    return getStepStatus(customWatchlistStep) === StepStatus.Failure;
+    return false;
   }
 }
