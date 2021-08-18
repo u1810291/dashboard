@@ -62,7 +62,7 @@ export abstract class ProductBaseService implements Partial<Product> {
     return null;
   }
 
-  onRemove(): Partial<IFlow> {
+  onRemove(flow: IFlow): Partial<IFlow> {
     return null;
   }
 

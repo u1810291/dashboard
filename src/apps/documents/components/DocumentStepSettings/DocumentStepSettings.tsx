@@ -8,20 +8,25 @@ import { DocumentListOrdered, DocumentTypes } from 'models/Document.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
+import { selectMerchantCustomDocumentsModel } from 'state/merchant/merchant.selectors';
 
 export interface DocumentStepSettingsProps{
-  steps: DocumentTypes[][];
-  onUpdate: (steps: DocumentTypes[][]) => void;
+  steps: (DocumentTypes | string)[][];
+  custom?: boolean;
+  onUpdate: (steps: (DocumentTypes | string)[][]) => void;
 }
 
-export function DocumentStepSettings({ steps, onUpdate }: DocumentStepSettingsProps) {
+export function DocumentStepSettings({ steps, onUpdate, custom }: DocumentStepSettingsProps) {
   const intl = useIntl();
   const classes = useStyles();
   const [createOverlay, closeOverlay] = useOverlay();
   const lastStepNumber = steps?.length;
-  const [checkedDocuments, setCheckedDocuments] = useState<DocumentTypes[]>([]);
 
-  const handleSubmitStep = useCallback((stepIndex: number) => (checked: DocumentTypes[]) => {
+  const merchantCustomDocumentsModel = useSelector(selectMerchantCustomDocumentsModel);
+  const [checkedDocuments, setCheckedDocuments] = useState<(DocumentTypes | string)[]>([]);
+
+  const handleSubmitStep = useCallback((stepIndex: number) => (checked: (DocumentTypes | string)[]) => {
     if (!steps || !checked) {
       return;
     }
@@ -33,8 +38,8 @@ export function DocumentStepSettings({ steps, onUpdate }: DocumentStepSettingsPr
   }, [closeOverlay, onUpdate, steps]);
 
   const handleChangeStep = useCallback((stepIndex: number) => () => {
-    createOverlay(<DocumentSelect variant={stepIndex === lastStepNumber ? 'add' : 'change'} unavailable={checkedDocuments} checked={steps[stepIndex]} onSubmit={handleSubmitStep(stepIndex)} />);
-  }, [createOverlay, lastStepNumber, checkedDocuments, steps, handleSubmitStep]);
+    createOverlay(<DocumentSelect custom={custom} variant={stepIndex === lastStepNumber ? 'add' : 'change'} unavailable={checkedDocuments} checked={steps[stepIndex]} onSubmit={handleSubmitStep(stepIndex)} />);
+  }, [createOverlay, lastStepNumber, checkedDocuments, steps, handleSubmitStep, custom]);
 
   const handleDeleteStep = useCallback((stepIndex: number) => () => {
     const newSettings = cloneDeep(steps);
@@ -73,7 +78,7 @@ export function DocumentStepSettings({ steps, onUpdate }: DocumentStepSettingsPr
             {step?.map((documentType, documentTypeIndex) => (
               <React.Fragment key={documentType}>
                 <Box color="common.black75" fontWeight="bold">
-                  {intl.formatMessage({ id: `flow.documentTypeStep.${documentType}` })}
+                  { custom ? merchantCustomDocumentsModel.value.find((el) => el.type === documentType)?.name : intl.formatMessage({ id: `flow.documentTypeStep.${documentType}` })}
                 </Box>
                 {documentTypeIndex + 1 !== step?.length && (
                   <Box my={1} color="common.black75">

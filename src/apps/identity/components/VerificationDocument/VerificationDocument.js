@@ -2,7 +2,7 @@ import { Box, Grid } from '@material-ui/core';
 import { VerificationSummaryChecksContainer } from 'apps/checks/components/VerificationSummaryChecksContainer/VerificationSummaryChecksContainer';
 import { SkeletonLoader } from 'apps/ui';
 import { PhotosOrientations } from 'models/Document.model';
-import { getDocumentStatus, StepStatus } from 'models/Step.model';
+import { StepStatus } from 'models/Step.model';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import IconEmpty from '../../../../assets/icon-empty-photo.svg';
@@ -16,7 +16,7 @@ export function VerificationDocument({ document, documentIndex }) {
   const classes = useStyles();
   const title = useDocumentTitle(document);
   const [shownPhoto, setShownPhoto] = useState(null);
-  const { photos = [], securityCheckSteps, documentFailedCheckSteps, premiumAmlWatchlistsStep, govChecksSteps } = document; // use these checks for children component
+  const { photos = [], securityCheckSteps, documentFailedCheckSteps, premiumAmlWatchlistsStep, govChecksSteps, documentStatus } = document; // use these checks for children component
   const photosOrientation = usePhotosOrientation(document);
 
   useEffect(() => {
@@ -29,7 +29,6 @@ export function VerificationDocument({ document, documentIndex }) {
   if (premiumAmlWatchlistsStep) {
     allSteps.push(premiumAmlWatchlistsStep);
   }
-  const documentStatus = getDocumentStatus(allSteps);
 
   return (
     <VerificationCheckCard
@@ -44,9 +43,7 @@ export function VerificationDocument({ document, documentIndex }) {
           )
         </VerificationSummaryTitle>
       )}
-      bottomComponent={(
-        <VerificationSummaryChecksContainer steps={allSteps} />
-      )}
+      bottomComponent={(documentStatus !== StepStatus.Skipped) ? <VerificationSummaryChecksContainer steps={allSteps} /> : null}
     >
       <Grid container className={classes.wrapper}>
         {documentStatus === StepStatus.Checking && !photos.length && (

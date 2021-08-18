@@ -3,40 +3,49 @@ import { Modal } from 'apps/overlay';
 import { DocumentListOrdered, DocumentTypes } from 'models/Document.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { getSelectedDocuments, SelectedDocuments } from '../../models/DocumentVerification.model';
+import { useSelector } from 'react-redux';
+import { selectMerchantCustomDocumentsModel } from 'state/merchant/merchant.selectors';
 import { useStyles } from './DocumentSelect.styles';
 
-export interface DocumentSelectProps {
-  checked: DocumentTypes[];
-  unavailable: DocumentTypes[];
-  onSubmit: (checked: DocumentTypes[]) => void;
+export function DocumentSelect({
+  checked,
+  onSubmit,
+  unavailable,
+  custom,
+  variant = 'add',
+}: {
+  checked: (DocumentTypes | string)[];
+  unavailable: (DocumentTypes | string)[];
+  onSubmit: (checked: (DocumentTypes | string)[]) => void;
   variant: 'change' | 'add';
-}
-
-export function DocumentSelect({ checked, onSubmit, unavailable, variant = 'add' }: DocumentSelectProps) {
+  custom?: boolean;
+}) {
   const intl = useIntl();
   const classes = useStyles();
-  const [availableDocumentTypes, setAvailableDocumentTypes] = useState<DocumentTypes[]>(DocumentListOrdered);
-  const [selectedDocuments, setSelectedDocuments] = useState<SelectedDocuments>(getSelectedDocuments(checked) ?? {} as SelectedDocuments);
-  const selectedDocumentsList: DocumentTypes[] = Object.keys(selectedDocuments).map((key) => selectedDocuments[key] && key).filter(Boolean) as DocumentTypes[];
+  const merchantCustomDocumentsModel = useSelector(selectMerchantCustomDocumentsModel);
+  const getDocTypesPool = useCallback(() => (custom ? merchantCustomDocumentsModel.value.map((customDocument) => customDocument.type) : DocumentListOrdered), [custom, merchantCustomDocumentsModel]);
+  const [availableDocumentTypes, setAvailableDocumentTypes] = useState<(DocumentTypes| string)[]>(getDocTypesPool());
+  const [selectedDocuments, setSelectedDocuments] = useState<(DocumentTypes | string)[]>(checked || []);
 
-  const handleCheck = useCallback((documentType: DocumentTypes) => (_, isChecked: boolean) => {
-    setSelectedDocuments((prevState) => {
-      const newState = { ...prevState };
-      newState[documentType] = isChecked;
-      return newState;
+  const handleCheck = useCallback((documentType: DocumentTypes | string) => () => {
+    setSelectedDocuments((selected) => {
+      if (selected.includes(documentType)) {
+        return [...selected].filter((item) => documentType !== item);
+      }
+
+      return [...selected, documentType];
     });
-  }, []);
+  }, [setSelectedDocuments]);
 
   const handleSubmit = useCallback(() => {
-    if (selectedDocumentsList?.length > 0) {
-      onSubmit(selectedDocumentsList);
+    if (selectedDocuments?.length > 0) {
+      onSubmit(selectedDocuments);
     }
-  }, [selectedDocumentsList, onSubmit]);
+  }, [selectedDocuments, onSubmit]);
 
   useEffect(() => {
-    setAvailableDocumentTypes(DocumentListOrdered.filter((doc) => checked?.includes(doc) || !unavailable?.includes(doc)));
-  }, [checked, unavailable]);
+    setAvailableDocumentTypes(getDocTypesPool().filter((doc) => checked?.includes(doc) || !unavailable?.includes(doc)));
+  }, [checked, unavailable, custom, getDocTypesPool]);
 
   return (
     <Modal className={classes.modal}>
@@ -53,19 +62,19 @@ export function DocumentSelect({ checked, onSubmit, unavailable, variant = 'add'
               <FormControlLabel
                 control={(
                   <Checkbox
-                    checked={!!selectedDocuments[documentType]}
+                    checked={selectedDocuments.includes(documentType)}
                     onChange={handleCheck(documentType)}
                     color="primary"
                   />
               )}
-                label={intl.formatMessage({ id: `flow.documentTypeStep.${documentType}` })}
+                label={custom ? merchantCustomDocumentsModel.value.find((el) => el.type === documentType)?.name : intl.formatMessage({ id: `flow.documentTypeStep.${documentType}` })}
               />
               {documentIndex < availableDocumentTypes?.length - 1 && (<Typography>{intl.formatMessage({ id: 'DocumentVerification.settings.documentStep.or' })}</Typography>)}
             </React.Fragment>
           ))}
         </Box>
         <Box mt="auto" textAlign="right">
-          <Button className={classes.button} variant="contained" color="primary" disabled={selectedDocumentsList?.length < 1} onClick={handleSubmit}>
+          <Button className={classes.button} variant="contained" color="primary" disabled={selectedDocuments?.length < 1} onClick={handleSubmit}>
             {intl.formatMessage({ id: variant === 'add' ? 'DocumentVerification.settings.button.add' : 'DocumentVerification.settings.button.save' })}
           </Button>
         </Box>

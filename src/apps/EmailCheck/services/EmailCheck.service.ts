@@ -76,7 +76,6 @@ export class EmailCheck extends ProductBaseService implements Product {
   }
 
   onRemove(): Partial<IFlow> {
-    super.onRemove();
     return {
       verificationPatterns: {
         [VerificationPatternTypes.EmailOwnershipValidation]: EmailCheckStepModes.None,

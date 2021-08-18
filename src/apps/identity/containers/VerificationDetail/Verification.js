@@ -10,6 +10,8 @@ import { LivenessStep } from 'apps/biometrics';
 import { DocumentStep } from 'apps/documents';
 import { VerificationMetadata } from 'apps/metadata';
 import { verificationDocumentUpdate } from 'state/identities/identities.actions';
+import { CustomDocumentVerification } from 'apps/customDocument/components/CustomDocumentVerification/CustomDocumentVerification';
+import { CUSTOM_DOCUMENT_PREFIX } from 'apps/customDocument/models/customDocument.model';
 import { Nom151Check } from 'apps/CertifiedTimestamp';
 import { VerificationSummary } from '../../components/VerificationSummary/VerificationSummary';
 
@@ -17,6 +19,8 @@ export function Verification({ identity }) {
   const dispatch = useDispatch();
   const verification = useSelector(selectReviewVerificationWithExtras);
   const downloadableFileName = getDownloadableFileName(verification);
+  const documents = verification.documents.filter((doc) => !doc.type.includes(CUSTOM_DOCUMENT_PREFIX));
+  const customDocuments = verification.documents.filter((doc) => doc.type.includes(CUSTOM_DOCUMENT_PREFIX));
 
   const handleDocumentUpdate = useCallback((documentType) => async (normalizedData) => {
     if (documentType && normalizedData) {
@@ -41,16 +45,29 @@ export function Verification({ identity }) {
       </Grid>
 
       {/* Documents */}
-      {verification.documents.map((doc, index) => (
+      {documents.map((doc, index) => (
         <Grid item key={doc.type}>
           <DocumentStep
-            onDocumentUpdate={handleDocumentUpdate(verification.documents[index]?.type)}
+            onDocumentUpdate={handleDocumentUpdate(documents[index]?.type)}
             identity={identity}
             document={doc}
             documentIndex={index}
           />
         </Grid>
       ))}
+
+      {/* Custom Documents */}
+      {customDocuments && (
+        customDocuments.map((doc) => (
+          <Grid item key={doc.type}>
+            <CustomDocumentVerification
+              onDocumentUpdate={handleDocumentUpdate(doc.type)}
+              identity={identity}
+              document={doc}
+            />
+          </Grid>
+        ))
+      )}
 
       {/* IP check */}
       {identity.ipCheck && (

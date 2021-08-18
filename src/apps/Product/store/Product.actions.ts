@@ -11,6 +11,7 @@ import { biometricVerificationInit } from 'apps/biometricVerification/state/Biom
 import { govCheckInit } from 'apps/GovCheck/state/GovCheck.actions';
 import { creditCheckInit } from 'apps/CreditCheck/state/CreditCheck.actions';
 import { deviceFingerprintInit } from 'apps/DeviceFingerPrint/state/deviceFingerprint.actions';
+import { customDocumentInit } from 'apps/customDocument/state/customDocument.actions';
 import { ProductActionTypes } from './Product.store';
 import { metadataInit } from '../../metadata/state/Metadata.actions';
 import { certifiedTimestampInit } from '../../CertifiedTimestamp/state/CertifiedTimestamp.actions';
@@ -31,6 +32,7 @@ export const productInit = () => (dispatch) => {
     dispatch(creditCheckInit()),
     dispatch(deviceFingerprintInit()),
     dispatch(metadataInit()),
+    dispatch(customDocumentInit()),
     dispatch(certifiedTimestampInit()),
   ];
   dispatch(productRegisteredUpdate(compact(registered)));
