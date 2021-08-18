@@ -2,6 +2,8 @@ import { agentHistoryReducer } from 'apps/agentHistory/state/agentHistory.reduce
 import { AGENT_HISTORY_STORE_KEY } from 'apps/agentHistory/state/agentHistory.store';
 import metrics from 'apps/Analytics/state/Analytics.reducer';
 import { METRICS_STORE_KEY } from 'apps/Analytics/state/Analytics.store';
+import { CUSTOM_DOCUMENT_STORE_KEY } from 'apps/customDocument/state/customDocument.store';
+import customDocument from 'apps/customDocument/state/customDocument.reducer';
 import auth from 'apps/auth/state/auth.reducer';
 import { AUTH_STORE_KEY, AuthActionGroups } from 'apps/auth/state/auth.store';
 import collaborators from 'apps/collaborators/state/collaborator.reducer';
@@ -52,6 +54,7 @@ export const appReducers = combineReducers({
   [PRODUCT_STORE_KEY]: productReducer,
   [IDENTITY_PROFILE_STORE_KEY]: identityProfileReducer,
   [VERIFICATION_STORE_KEY]: verificationReducer,
+  [CUSTOM_DOCUMENT_STORE_KEY]: customDocument,
 });
 
 export const rootReducers = (state, action) => {

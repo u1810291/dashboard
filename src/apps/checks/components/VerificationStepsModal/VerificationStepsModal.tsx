@@ -1,17 +1,40 @@
-import PropTypes from 'prop-types';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { Modal } from 'apps/overlay';
 import { Box, Button } from '@material-ui/core';
 import { CheckboxGroup } from 'apps/ui';
+import { CustomDocumentResponse } from 'models/CustomDocument.model';
 
-export function VerificationStepsModal({ items, onSave, values }) {
+export function VerificationStepsModal({
+  documents = [],
+  customDocuments = [],
+  onSave,
+  values,
+  mode = 'both',
+}: {
+  documents?: string[];
+  customDocuments?: CustomDocumentResponse[];
+  onSave: (selectedOptions: string[]) => void;
+  values: string[];
+  mode?: 'regular' | 'custom' | 'both';
+}) {
   const intl = useIntl();
   const [selectedOptions, setSelectedOptions] = useState(values);
-  const verificationOptions = items.map((item) => ({
-    label: intl.formatMessage({ id: `verification_items.${item}` }),
-    value: item,
-  }));
+  const verificationOptions = useMemo(() => {
+    const regularOptions = ['both', 'regular'].includes(mode) ? documents.map((item) => ({
+      label: intl.formatMessage({ id: `verification_items.${item}` }),
+      value: item,
+    })) : [];
+    const customOptions = ['both', 'custom'].includes(mode) ? customDocuments.map((item) => ({
+      label: item.name,
+      value: item.type,
+    })) : [];
+
+    return [
+      ...regularOptions,
+      ...customOptions,
+    ];
+  }, [documents, customDocuments, intl, mode]);
   const handleCheckboxGroupChange = useCallback((newValues) => {
     setSelectedOptions(newValues);
   }, [setSelectedOptions]);
@@ -50,15 +73,3 @@ export function VerificationStepsModal({ items, onSave, values }) {
     </Modal>
   );
 }
-
-VerificationStepsModal.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.string),
-  onSave: PropTypes.func,
-  values: PropTypes.arrayOf(PropTypes.string),
-};
-
-VerificationStepsModal.defaultProps = {
-  items: [],
-  onSave: () => {},
-  values: [],
-};

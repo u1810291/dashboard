@@ -63,7 +63,7 @@ export interface IFlow {
   style?: FlowStyle;
   supportedCountries?: string[];
   updatedAt?: string;
-  verificationSteps?: DocumentTypes[][];
+  verificationSteps?: (DocumentTypes | string)[][];
   verificationPatterns?: Partial<VerificationPatterns>;
   integrationType?: ProductIntegrationTypes;
   amlWatchlistsFuzzinessThreshold?: number;

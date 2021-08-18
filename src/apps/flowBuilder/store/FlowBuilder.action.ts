@@ -98,7 +98,9 @@ export const flowBuilderProductRemove = (productId: ProductTypes) => (dispatch, 
   if (selectedId === productId) {
     dispatch(flowBuilderProductSelect(null));
   }
-  dispatch(flowBuilderChangeableFlowUpdate(productManagerService.getProduct(productId).onRemove()));
+  const state = getState();
+  const changeableFlow = selectFlowBuilderChangeableFlow(state);
+  dispatch(flowBuilderChangeableFlowUpdate(productManagerService.getProduct(productId).onRemove(changeableFlow)));
 };
 
 export const flowBuilderGetTemporaryFlowId = () => async (dispatch, getState): Promise<string> => {

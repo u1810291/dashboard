@@ -1,10 +1,9 @@
-import { Box, Typography } from '@material-ui/core';
+import { Box, Link, Typography } from '@material-ui/core';
 import { appPalette } from 'apps/theme/app.palette';
 import React from 'react';
 import { FiActivity, FiAlertCircle, FiLoader } from 'react-icons/fi';
 import { WarningSize, WarningTypes } from '../../models/Warning.model';
 import { useStyles } from './Warning.styles';
-import Link from '@material-ui/core/Link';
 
 const IconMap = {
   [WarningTypes.Warning]: FiAlertCircle,
@@ -71,6 +70,7 @@ export function Warning({ title = '', label, type = WarningTypes.Warning, size =
         )}
         <Box style={{ color: isLabelColored && style.titleColor }}>
           {label}
+          <Link underline="always" href={link}>{linkLabel}</Link>
         </Box>
         <Box style={{ color: isLabelColored && style.titleColor }}>
           <Link href={link}>{linkLabel}</Link>

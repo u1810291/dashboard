@@ -45,6 +45,8 @@ export enum VerificationPatternTypes {
   SalvadorianTse = 'salvadorian-tse-validation',
   VenezuelanCne = 'venezuelan-cne-validation',
   VenezuelanSeniat = 'venezuelan-seniat-validation',
+  TemplateMatching = 'template-matching',
+  DocumentReading = 'document-reading',
   VpnDetection = 'vpn-detection',
 }
 

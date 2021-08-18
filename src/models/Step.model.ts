@@ -1,7 +1,7 @@
 import { getAlterationReason } from 'apps/alterationDetection/models/alterationDetection.model';
 import { getFacematchStepExtra } from 'apps/facematch/models/facematch.model';
 import { getTemplateMatchingStepExtraData } from 'apps/templateMatching/models/templateMatching.model';
-import { isEmpty } from 'lib/checks';
+import { isNil } from 'lib/isNil';
 import { get } from 'lodash';
 import { isCovidTolerance } from 'models/Covid.model';
 import { getFieldsExtra } from 'models/Field.model';
@@ -28,6 +28,7 @@ export enum StepStatus {
   Failure = 'failure',
   Incomplete = 'incomplete',
   Checking = 'checking',
+  Skipped = 'skipped',
 }
 
 export enum StepCodeStatus {
@@ -238,6 +239,11 @@ export const OptionalGovCheckErrorCodes = {
   [VerificationPatternTypes.PeruvianReniec]: ['peruvianReniec.fullNameMismatch'],
 };
 
+export const StepSkippedCodes = [
+  'customDocument.skipped',
+  'customDocument.notProvided',
+];
+
 function getAltered(step, identity, countries, document) {
   switch (step.id) {
     case DocumentStepTypes.AlternationDetection:
@@ -270,6 +276,10 @@ export function getStepStatus({ id, status, error }) {
   }
 
   const code = get(error, 'code');
+
+  if (StepSkippedCodes.includes(code)) {
+    return StepStatus.Skipped;
+  }
 
   return code && StepIncompletionErrors[id] && StepIncompletionErrors[id].includes(code)
     ? StepStatus.Incomplete
@@ -311,7 +321,7 @@ export function getReaderFrontendSteps(readerStep) {
 export function getComputedSteps(readerStep, identity, document) {
   const steps = [];
   const isDocumentExpired = identity?.computed?.isDocumentExpired?.data?.[document?.type];
-  const isUndetermined = isEmpty(isDocumentExpired);
+  const isUndetermined = isNil(isDocumentExpired);
   const isCovid = isCovidTolerance(document.fields?.expirationDate?.value, document.country);
 
   if (isUndetermined) {

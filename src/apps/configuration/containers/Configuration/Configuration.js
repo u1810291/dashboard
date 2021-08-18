@@ -1,6 +1,7 @@
 import { Box, Divider, Grid, Hidden } from '@material-ui/core';
 import { AgeCheckConfiguration } from 'apps/AgeCheck';
 import { EmailValidationConfiguration } from 'apps/EmailValidation';
+import { CustomDocumentConfiguration } from 'apps/customDocument';
 import { BiometricStep } from 'apps/biometrics';
 import { VerificationSteps } from 'apps/checks';
 import { Countries } from 'apps/countries';
@@ -13,7 +14,7 @@ import { OldLogo } from 'apps/logo';
 import { ButtonCollapsible, BoxBordered, Warning, WarningSize, WarningTypes } from 'apps/ui';
 import classnames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiAlertOctagon, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiMail, FiSlash, FiTrash, FiUser, FiSmartphone, FiMapPin } from 'react-icons/fi';
+import { FiAlertOctagon, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiMail, FiSlash, FiTrash, FiUser, FiSmartphone, FiMapPin, FiFilePlus } from 'react-icons/fi';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
@@ -21,7 +22,7 @@ import { selectCurrentFlow, selectMerchantTags } from 'state/merchant/merchant.s
 import { appPalette } from 'apps/theme/app.palette';
 
 export function Configuration() {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState('color');
   const dispatch = useDispatch();
   const currentFlowModel = useSelector(selectCurrentFlow);
   const [flowSteps, setFlowSteps] = useState([]);
@@ -117,6 +118,12 @@ export function Configuration() {
         icon: <FiMapPin />,
         body: <IpChecksConfiguration />,
       },
+      {
+        id: 'customDocument',
+        title: 'CustomDocument',
+        icon: <FiFilePlus />,
+        body: <CustomDocumentConfiguration />,
+      },
     ]);
   }, [currentFlowModel, updateConfiguration, tags]);
 
@@ -126,16 +133,16 @@ export function Configuration() {
         {/* menu */}
         <Grid item xs={false} md={5}>
           <Grid container spacing={1} direction="column">
-            {flowSteps.filter(({ hidden }) => !hidden).map((item, index) => (
+            {flowSteps.map((item) => (
               <Grid item key={item.id}>
                 <ButtonCollapsible
-                  className={classnames({ active: index === active })}
+                  className={classnames({ active: item.id === active })}
                   fullWidth
                   variant="contained"
                   disableElevation
                   size="large"
                   startIcon={item.icon}
-                  onClick={() => setActive(index)}
+                  onClick={() => setActive(item.id)}
                 >
                   <Hidden xsDown>
                     <FormattedMessage id={item.title} />
@@ -153,7 +160,7 @@ export function Configuration() {
         </Hidden>
         {/* content */}
         <Grid item xs md={7}>
-          {flowSteps[active] && flowSteps[active].body}
+          {flowSteps.find((item) => item.id === active) && flowSteps.find((item) => item.id === active).body}
         </Grid>
       </Grid>
     </Box>

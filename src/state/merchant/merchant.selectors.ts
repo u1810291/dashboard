@@ -119,6 +119,11 @@ export const selectLanguage = createSelector(
   }),
 );
 
+export const selectMerchantCustomDocumentsModel = createSelector(
+  selectMerchantStore,
+  (merchant) => merchant[SliceNames.CustomDocuments],
+);
+
 // -- flows
 
 export const selectMerchantFlowsModel = createSelector(

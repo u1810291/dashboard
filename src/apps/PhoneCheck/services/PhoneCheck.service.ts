@@ -20,7 +20,7 @@ export class PhoneCheck extends ProductBaseService implements Product {
   }
 
   id = ProductTypes.PhoneCheck;
-  order = 1000;
+  order = 600;
   integrationTypes = [
     ProductIntegrationTypes.Sdk,
   ];

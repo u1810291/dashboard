@@ -21,6 +21,7 @@ const initialState = {
       language: DEFAULT_LOCALE,
     },
   }),
+  [SliceNames.CustomDocuments]: LoadableAdapter.createState([]),
   [SliceNames.Flows]: LoadableAdapter.createState([]),
   [SliceNames.App]: LoadableAdapter.createState([
     // {
@@ -35,6 +36,7 @@ export default createReducer(initialState, {
   ...LoadableAdapter.createHandlers(MerchantActionGroups.Merchant, SliceNames.Merchant),
   ...LoadableAdapter.createHandlers(MerchantActionGroups.Configuration, SliceNames.Configuration),
   ...LoadableAdapter.createHandlers(MerchantActionGroups.App, SliceNames.App),
+  ...LoadableAdapter.createHandlers(MerchantActionGroups.CustomDocuments, SliceNames.CustomDocuments),
   ...LoadableAdapter.createHandlers(MerchantActionGroups.Flows, SliceNames.Flows),
 
   [types.CURRENT_FLOW_UPDATE](state, { payload }) {

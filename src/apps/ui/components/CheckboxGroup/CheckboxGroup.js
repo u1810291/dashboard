@@ -7,13 +7,17 @@ import { useStyles } from './CheckboxGroup.styles';
 export function CheckboxGroup({
   items = [],
   values = [],
-  onChange = () => {},
+  onChange,
   label = '',
   name = '',
 }) {
   const classes = useStyles();
 
   function handleCheckboxChange({ target }) {
+    if (!onChange) {
+      return;
+    }
+
     if (target.checked) {
       onChange([...(values || []), target.value]);
     } else {

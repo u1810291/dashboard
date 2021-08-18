@@ -19,6 +19,8 @@ export enum MerchantTags {
   CanDisableFullstory = 'can-disable-fullstory',
   CanUseVerificationPostponedTimeout = 'can-use-verification-postponed-timeout',
   CanUseReverificationFlow = 'can-use-reverification-flow',
+  CanUseCustomDocumentAdvancedValidation = 'can-use-custom-document-advanced-validations',
+  CanUseCustomDocument = 'can-use-custom-document',
   CanUsePhoneValidation = 'can-use-phone-validation',
   CanUseEmailValidation = 'can-use-email-validation',
 }

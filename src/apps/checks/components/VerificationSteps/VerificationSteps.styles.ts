@@ -6,7 +6,7 @@ export const useStyles = makeStyles(() => ({
   },
   value: {
     padding: 8,
-    border: [[1, 'solid', 'var(--mgi-theme-palette-lightgray)']],
+    border: '1px solid var(--mgi-theme-palette-lightgray)',
     '& + &': {
       marginTop: -1,
     },

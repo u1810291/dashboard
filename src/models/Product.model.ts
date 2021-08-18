@@ -13,6 +13,7 @@ export enum ProductTypes {
   DeviceFingerPrint = 'DeviceFingerPrint',
   PhoneCheck = 'PhoneCheck',
   EmailCheck = 'EmailCheck',
+  CustomDocuments = 'CustomDocuments',
   CertifiedTimestamp = 'CertifiedTimestamp',
   // additional
   Metadata = 'Metadata',
@@ -55,6 +56,7 @@ export enum ProductInputTypes {
   NationalId = 'nationalId',
   NameAndDobOrDocument = 'nameAndDobOrDocument',
   EmailAddress = 'emailAddress',
+  CustomDocuments = 'customDocuments',
 }
 
 export interface IProductCard {
@@ -80,7 +82,7 @@ export interface Product<T = ProductSettings> {
   isIssuesIgnored: boolean;
   parser(flow: IFlow, productsInGraph?: ProductTypes[]): T;
   serialize(settings: T): Partial<IFlow>;
-  onRemove(): Partial<IFlow>;
+  onRemove(flow: IFlow): Partial<IFlow>;
   onAdd(): Partial<IFlow>;
   getRemovingAlertComponent?(flow: IFlow): any;
   haveIssues?(flow: IFlow): boolean;
