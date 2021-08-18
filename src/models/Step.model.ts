@@ -30,6 +30,12 @@ export enum StepStatus {
   Checking = 'checking',
 }
 
+export enum StepCodeStatus {
+  Pending = 0,
+  Running = 100,
+  Complete = 200,
+}
+
 export const LEGACY_ERROR = 'LegacyError';
 export const FRONTEND_ERROR = 'FrontendError';
 export const SYSTEM_ERROR = 'SystemError';
@@ -46,13 +52,21 @@ export enum VerificationStepTypes {
   DuplicateUserValidation = 'duplicate-user-detection',
 }
 
+export type StepIds = VerificationPatternTypes | StepTypes | VerificationStepTypes;
+
 export interface IStep<DataType = any>{
-  data?: DataType;
   status: number;
-  id: VerificationPatternTypes | StepTypes | VerificationStepTypes;
-  error: StepError;
+  id: StepIds;
+  error: StepError | null;
   checkStatus: StepStatus;
+  isTip: boolean;
+  phase: string;
+  startCount: number;
+  startedAt: string;
+  completedAt: string;
+  data?: DataType;
   inner?: DataType;
+  startedManuallyAt?: string;
 }
 
 export const DocumentStepTypes = {
@@ -66,6 +80,8 @@ export const DocumentStepTypes = {
   INE: 'mexican-ine-validation',
   RFC: 'mexican-rfc-validation',
   BrazilianCpf: 'brazilian-cpf-validation',
+  CreditArgentinianFidelitas: VerificationPatternTypes.CreditArgentinianFidelitas,
+  CreditBrazilianSerasa: VerificationPatternTypes.CreditBrazilianSerasa,
   ChileanRegistroCivil: VerificationPatternTypes.ChileanRegistroCivil,
   ColombianNationalPolice: VerificationPatternTypes.ColombianNationalPolice,
   ColombianProcuraduria: VerificationPatternTypes.ColombianProcuraduria,
@@ -118,14 +134,15 @@ export const DocumentSecuritySteps = [
   DocumentStepTypes.FaceMatch,
 ];
 
-export const DocumentMxSteps = [
-  DocumentStepTypes.CURP,
-  DocumentStepTypes.INE,
-  DocumentStepTypes.RFC,
+export const CountrySpecificCreditChecks = [
+  DocumentStepTypes.CreditArgentinianFidelitas,
+  DocumentStepTypes.CreditBrazilianSerasa,
 ];
 
 export const CountrySpecificChecks = [
-  ...DocumentMxSteps,
+  DocumentStepTypes.CURP,
+  DocumentStepTypes.INE,
+  DocumentStepTypes.RFC,
   DocumentStepTypes.ArgentinianDni,
   DocumentStepTypes.ArgentinianRenaper,
   DocumentStepTypes.BolivianOep,

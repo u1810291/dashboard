@@ -1,4 +1,5 @@
 export * from './components/Warning/Warning';
+export * from './components/Alert/Alert';
 export * from './components/Badge/Badge';
 export * from './components/ButtonBase/ButtonBase.styles';
 export * from './components/ButtonCollapsible/ButtonCollasible.styles';

@@ -1,7 +1,7 @@
 import { Theme, makeStyles } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme, { bordered?: boolean }>((theme) => ({
-  root: ({ bordered }) => ({
+export const useStyles = makeStyles<Theme, { bordered?: boolean; filled?: boolean; color: string }>((theme) => ({
+  root: ({ bordered, filled, color }) => ({
     display: 'inline-flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -10,8 +10,9 @@ export const useStyles = makeStyles<Theme, { bordered?: boolean }>((theme) => ({
     textAlign: 'center',
     lineHeight: 1.25,
     border: bordered && `1px solid ${theme.palette.warning.main}`,
-    padding: bordered && '12px 34px 12px 10px',
-    borderRadius: bordered && '5px',
+    padding: (bordered || filled) && '20px 16px 20px 12px',
+    borderRadius: '5px',
+    background: filled && color,
 
     [theme.breakpoints.up('md')]: {
       flexDirection: 'row',

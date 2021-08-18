@@ -9,6 +9,8 @@ export enum VerificationPatternTypes {
   Biometrics = 'biometrics',
   BolivianOep = 'bolivian-oep-validation',
   BrazilianCpf = 'brazilian-cpf-validation',
+  CreditArgentinianFidelitas = 'credit-argentinian-fidelitas-validation',
+  CreditBrazilianSerasa = 'credit-brazilian-serasa-validation',
   ChileanRegistroCivil = 'chilean-registro-civil-validation',
   ColombianNationalPolice = 'colombian-national-police-validation',
   ColombianNit = 'colombian-nit-validation',
@@ -49,6 +51,8 @@ export enum VerificationPatternTypes {
 export interface VerificationPatterns {
   [VerificationPatternTypes.ArgentinianDni]?: boolean;
   [VerificationPatternTypes.ArgentinianRenaper]?: boolean;
+  [VerificationPatternTypes.CreditBrazilianSerasa]?: boolean;
+  [VerificationPatternTypes.CreditArgentinianFidelitas]?: boolean;
   // TODO: @ggrigorev move Biometric.model to ts
   [VerificationPatternTypes.Biometrics]?: string; // BiometricTypes
   [VerificationPatternTypes.BolivianOep]?: boolean;

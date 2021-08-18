@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Typography } from '@material-ui/core';
 import { PageLoader } from 'apps/layout';
 import { BoxBordered, notification } from 'apps/ui';
-import { ERROR_COMMON } from 'models/Error.model';
+import { ErrorMessages } from 'models/Error.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -50,7 +50,7 @@ export function AgeCheckConfiguration() {
         ageThreshold: mode === AgeCheckThresholdModes.Custom ? scoreAsNumber : AGE_CHECK_DEFAULT_THRESHOLD,
       }));
     } catch (err) {
-      notification.error(ERROR_COMMON);
+      notification.error(ErrorMessages.ERROR_COMMON);
     } finally {
       setLoading(false);
     }

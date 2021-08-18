@@ -25,8 +25,10 @@ const iconProps = {
 
 export const flags = {
   argentina: <ArgentinaIcon {...iconProps} />,
+  AR: <ArgentinaIcon {...iconProps} />,
   bolivia: <BoliviaIcon {...iconProps} />,
   brazil: <BrazilIcon {...iconProps} />,
+  BR: <BrazilIcon {...iconProps} />,
   chile: <ChileIcon {...iconProps} />,
   colombia: <ColombiaIcon {...iconProps} />,
   costaRica: <CostaRicaIcon {...iconProps} />,

@@ -9,6 +9,7 @@ import { storeAction } from 'state/store.utils';
 import { ProductTypes } from 'models/Product.model';
 import { biometricVerificationInit } from 'apps/biometricVerification/state/BiometricVerification.actions';
 import { govCheckInit } from 'apps/GovCheck/state/GovCheck.actions';
+import { creditCheckInit } from 'apps/CreditCheck/state/CreditCheck.actions';
 import { deviceFingerprintInit } from 'apps/DeviceFingerPrint/state/deviceFingerprint.actions';
 import { ProductActionTypes } from './Product.store';
 import { metadataInit } from '../../metadata/state/Metadata.actions';
@@ -27,6 +28,7 @@ export const productInit = () => (dispatch) => {
     dispatch(amlCheckInit()),
     dispatch(biometricVerificationInit()),
     dispatch(govCheckInit()),
+    dispatch(creditCheckInit()),
     dispatch(deviceFingerprintInit()),
     dispatch(metadataInit()),
     dispatch(certifiedTimestampInit()),

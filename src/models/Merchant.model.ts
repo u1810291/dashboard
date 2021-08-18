@@ -12,6 +12,7 @@ export interface Merchant {
 }
 
 export enum MerchantTags {
+  CanUseCreditChecks = 'can-use-credit-checks',
   CanUseLongPolling = 'can-use-long-polling',
   CanUseNom151 = 'can-use-nom-151',
   CanUseProofOfOwnership = 'can-use-proof-of-ownership',

@@ -2,9 +2,9 @@ import { Box, Grid, Typography } from '@material-ui/core';
 import { ButtonBase } from 'apps/ui';
 import classnames from 'classnames';
 import React, { useCallback, useState } from 'react';
+import { flags } from 'assets/flags';
 import { useIntl } from 'react-intl';
 import { GovCheckCountryTypes } from '../../models/GovCheck.model';
-import { flags } from '../../assets/flags';
 
 export function GovCheckCountries({ value, onChange }) {
   const intl = useIntl();

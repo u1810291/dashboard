@@ -9,6 +9,7 @@ export enum ProductTypes {
   IpCheck = 'IpCheck',
   ReVerification = 'ReVerification',
   GovernmentCheck = 'GovernmentCheck',
+  CreditCheck = 'CreditCheck',
   DeviceFingerPrint = 'DeviceFingerPrint',
   PhoneCheck = 'PhoneCheck',
   EmailCheck = 'EmailCheck',

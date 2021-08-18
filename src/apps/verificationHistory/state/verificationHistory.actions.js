@@ -1,5 +1,5 @@
 import { notification } from 'apps/ui';
-import { ERROR_COMMON } from 'models/Error.model';
+import { ErrorMessages } from 'models/Error.model';
 import { types } from './verificationHistory.store';
 import { getVerificationEventsCount, getVerificationHistory } from '../api/verificationHistory.client';
 import { selectVerificationChangesList, selectVerificationHistoryFilterSerialized } from './verificationHistory.selectors';
@@ -14,7 +14,7 @@ export const loadVerificationEventsCount = (userId) => async (dispatch, getState
     const { data } = await getVerificationEventsCount(userId, { ...filter });
     dispatch({ type: types.VERIFICATION_HISTORY_COUNT_LOAD, payload: data?.count });
   } catch (error) {
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -30,7 +30,7 @@ export const loadVerificationHistory = (identityId, page, isReload = true) => as
     dispatch({ type: types.VERIFICATION_CHANGES_LIST_SUCCESS, payload: newData, isReset: isReload });
   } catch (error) {
     dispatch({ type: types.VERIFICATION_CHANGES_LIST_FAILURE, error });
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };

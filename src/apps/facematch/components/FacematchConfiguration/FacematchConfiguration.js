@@ -2,7 +2,7 @@ import { Box, Button, FormControl, Grid, RadioGroup, Switch, Typography } from '
 import { PageLoader } from 'apps/layout';
 import { appPalette } from 'apps/theme';
 import { BoxBordered, notification, Warning, WarningSize, WarningTypes } from 'apps/ui';
-import { ERROR_COMMON } from 'models/Error.model';
+import { ErrorMessages } from 'models/Error.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -56,7 +56,7 @@ export function FacematchConfiguration() {
     } catch (e) {
       setIsPOO(prev);
       console.error('can\'t save POO', e);
-      notification.error(ERROR_COMMON);
+      notification.error(ErrorMessages.ERROR_COMMON);
     }
     setIsPOOLoading(false);
   }, [dispatch, isPOO]);
@@ -74,7 +74,7 @@ export function FacematchConfiguration() {
         facematchThreshold: mode === FacematchThresholdModes.Custom ? scoreAsNumber : null,
       }));
     } catch (err) {
-      notification.error(ERROR_COMMON);
+      notification.error(ErrorMessages.ERROR_COMMON);
     } finally {
       setLoading(false);
     }
