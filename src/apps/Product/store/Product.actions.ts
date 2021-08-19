@@ -1,6 +1,7 @@
 import { amlCheckInit } from 'apps/Aml/state/Aml.actions';
 import { documentVerificationInit } from 'apps/documentVerification/state/DocumentVerification.actions';
 import { ipCheckInit } from 'apps/IpCheck/state/IpCheck.actions';
+import { CustomWatchlistInit } from 'apps/CustomWatchlist/state/CustomWatchlist.actions';
 import { EmailCheckInit } from 'apps/EmailCheck/state/EmailCheck.actions';
 import { PhoneCheckInit } from 'apps/PhoneCheck/state/PhoneCheck.actions';
 import { reVerificationInit } from 'apps/reverification/state/ReVerification.actions';
@@ -34,6 +35,7 @@ export const productInit = () => (dispatch) => {
     dispatch(metadataInit()),
     dispatch(customDocumentInit()),
     dispatch(certifiedTimestampInit()),
+    dispatch(CustomWatchlistInit()),
   ];
   dispatch(productRegisteredUpdate(compact(registered)));
   dispatch(productIsInitedUpdate(true));
