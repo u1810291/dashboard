@@ -5,9 +5,16 @@ import { ValidatedInput } from './ValidatedInput';
 
 const placeholderKey = 'placeholder';
 
+export interface SelectedOptions {
+  [key: string]: {
+    label: string;
+    value: string;
+  };
+}
+
 export function ValidatedInputs() {
   const intl = useIntl();
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({});
 
   const inputOptions = useMemo(() => [
     {
@@ -41,10 +48,16 @@ export function ValidatedInputs() {
   ], [intl]);
 
   const handleChange = useCallback(
-    (values: { value: string; name?: string; }) => {
-      setSelectedOptions((prev) => [...prev, values.value]);
+    (values: { value: string; name?: string }) => {
+      setSelectedOptions((prev) => ({
+        ...prev,
+        [values.name]: {
+          label: inputOptions.find((option) => option.value === values.value).label,
+          value: values.value,
+        },
+      }));
     },
-    [],
+    [inputOptions],
   );
 
   return (
@@ -53,7 +66,8 @@ export function ValidatedInputs() {
         <Grid key={input} item>
           <ValidatedInput
             placeholderKey={placeholderKey}
-            label={input}
+            title={input}
+            name={input}
             onChange={handleChange}
             selectedOptions={selectedOptions}
             options={inputOptions}
