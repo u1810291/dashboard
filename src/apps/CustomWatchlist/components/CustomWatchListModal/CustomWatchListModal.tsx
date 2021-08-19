@@ -4,7 +4,7 @@ import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { Box, Button, FormControlLabel, InputLabel, Select, MenuItem, Grid, Radio, RadioGroup, Switch, Typography } from '@material-ui/core';
 import { useIntl } from 'react-intl';
-import { CustomWatchlistActions } from 'models/CustomWatchlist.model';
+import { CustomWatchlistActions, Watchlist } from 'models/CustomWatchlist.model';
 import classnames from 'classnames';
 import { useStyles } from './CustomWatchListModal.styles';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
@@ -12,9 +12,11 @@ import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
 
 const placeholderOption = 'no-action';
 
-export function CustomWatchListModal() {
+export function CustomWatchListModal({ watchlist }: { watchlist?: Watchlist }) {
   const intl = useIntl();
   const classes = useStyles();
+
+  const isEdit = !!watchlist;
 
   const actionOptions = useMemo(() => ([
     {

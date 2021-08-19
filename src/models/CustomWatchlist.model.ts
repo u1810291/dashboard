@@ -24,3 +24,12 @@ export enum CustomWatchlistActions {
   Manual = 'manual',
   NotifyWebhook = 'notify-webhook',
 }
+
+export interface Watchlist {
+  id: number;
+  name: string;
+  // eslint-disable-next-line camelcase
+  merchant_id: string;
+  'createdAt': string;
+  'updatedAt': string;
+}
