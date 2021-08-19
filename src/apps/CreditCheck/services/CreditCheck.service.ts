@@ -3,10 +3,9 @@ import { VerificationResponse } from 'models/Verification.model';
 import { IFlow } from 'models/Flow.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { FiCreditCard } from 'react-icons/fi';
-import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { CountrySpecificCreditChecks, StepStatus } from 'models/Step.model';
 import { CreditCheckSettings } from '../components/CreditCheckSettings/CreditCheckSettings';
-import { CreditCheckSettingTypes, CreditChecksTypes, verificationPatternsCountries } from '../models/CreditCheck.model';
+import { CreditCheckSettingTypes, CreditChecksTypes, verificationPatternsCreditChecksDefault } from '../models/CreditCheck.model';
 import { CreditCheckVerificationProduct } from '../components/CreditCheckVerificationProduct/CreditCheckVerificationProduct';
 
 type ProductSettingsCreditCheck = ProductSettings<CreditCheckSettingTypes>;
@@ -44,7 +43,7 @@ export class CreditCheck extends ProductBaseService implements Product<ProductSe
 
   isInFlow(flow: IFlow): boolean {
     const isCreditChecksEnabled = Object.entries(flow?.verificationPatterns).some(
-      ([key, value]) => verificationPatternsCountries.includes(key as VerificationPatternTypes) && value,
+      ([key, value]) => Object.prototype.hasOwnProperty.call(verificationPatternsCreditChecksDefault, key) && value,
     );
     return !!flow?.postponedTimeout || isCreditChecksEnabled;
   }
@@ -69,6 +68,12 @@ export class CreditCheck extends ProductBaseService implements Product<ProductSe
       [CreditCheckSettingTypes.CountriesCreditChecks]: {
         value: flow?.verificationPatterns,
       },
+    };
+  }
+
+  onRemove(): Partial<IFlow> {
+    return {
+      verificationPatterns: verificationPatternsCreditChecksDefault,
     };
   }
 

@@ -9,10 +9,10 @@ export enum CreditChecksTypes {
   CreditDatabaseCheck = 'creditDatabaseCheck'
 }
 
-export const verificationPatternsCountries: readonly VerificationPatternTypes[] = [
-  VerificationPatternTypes.CreditBrazilianSerasa,
-  VerificationPatternTypes.CreditArgentinianFidelitas,
-];
+export const verificationPatternsCreditChecksDefault = {
+  [VerificationPatternTypes.CreditArgentinianFidelitas]: false,
+  [VerificationPatternTypes.CreditBrazilianSerasa]: false,
+};
 
 export enum CreditCheckCountryTypes {
   Argentina = 'AR',
