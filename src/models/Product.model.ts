@@ -15,6 +15,7 @@ export enum ProductTypes {
   EmailCheck = 'EmailCheck',
   CustomDocuments = 'CustomDocuments',
   CertifiedTimestamp = 'CertifiedTimestamp',
+  CustomWatchlist = 'CustomWatchlist',
   // additional
   Metadata = 'Metadata',
 }
