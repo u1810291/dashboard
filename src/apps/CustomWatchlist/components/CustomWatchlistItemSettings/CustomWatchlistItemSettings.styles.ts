@@ -26,4 +26,16 @@ export const useStyles = makeStyles((theme) => createStyles({
     fontSize: 14,
     borderColor: theme.palette.common.lightblue,
   },
+  matchFollowsTo: {
+    display: 'flex',
+  },
+  colorGrey: {
+    color: theme.palette.common.black75,
+  },
+  colorGreen: {
+    color: theme.palette.common.green,
+  },
+  colorRed: {
+    color: theme.palette.common.red,
+  },
 }));

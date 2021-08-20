@@ -1,4 +1,4 @@
-import { Box, Button, Grid, IconButton } from '@material-ui/core';
+import { Box, Button, Grid, IconButton, Typography } from '@material-ui/core';
 import { useOverlay } from 'apps/overlay';
 import moment from 'moment';
 import classNames from 'classnames';
@@ -71,12 +71,23 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: CustomWatc
               </Box>
             </Grid>
             <Grid container>
-              <Box color="common.green">
-                Uploaded
-                {' '}
-                {moment(watchlist.createdAt).format('ll')}
-              </Box>
+              {false ? (
+                <Typography variant="subtitle2" className={classes.colorGreen}>
+                  Uploaded
+                  {' '}
+                  {moment(watchlist.createdAt).format('ll')}
+                </Typography>
+              ) : (
+                <Typography variant="subtitle2" className={classes.colorRed}>Validation error</Typography>
+              )}
             </Grid>
+            <Box mt={2}>
+              <Typography variant="subtitle2" className={classNames(classes.colorGrey, classes.matchFollowsTo)}>
+                Match follows to:
+                {' '}
+                <Box className={classes.colorRed}>Rejected</Box>
+              </Typography>
+            </Box>
           </Box>
         </Box>
       ))}
