@@ -75,14 +75,7 @@ export async function getIdentityWithNestedData(id, params) {
 
   if (livenessStep) {
     if (!videoUrl) {
-      const videoLink = get(data, '_links.video.href');
-      if (videoLink) {
-        const video = await http.getAuthorized(videoLink);
-        const fileUrl = get(video, 'data._links.file.href');
-        if (fileUrl) {
-          videoUrl = http.authorizedUrlFrom(fileUrl);
-        }
-      }
+      videoUrl = get(data, '_links.video.href');
     }
     (identity._embedded.verification.steps || []).forEach((step, index) => {
       if (step.id === BiometricTypes.liveness) {
