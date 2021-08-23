@@ -2,7 +2,7 @@ import { Box, Button, FormControl, Grid, RadioGroup, Switch, Typography } from '
 import { PageLoader } from 'apps/layout';
 import { appPalette } from 'apps/theme';
 import { BoxBordered, notification, Warning, WarningSize, WarningTypes } from 'apps/ui';
-import { ERROR_COMMON } from 'models/Error.model';
+import { ErrorMessages } from 'models/Error.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -11,7 +11,7 @@ import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { selectCanUseProofOfOwnership } from 'apps/ProofOfOwnership';
 import { selectIsVoiceLiveness } from 'state/merchant/merchant.selectors';
 import { RadioFacematchMode } from '../RadioFacematchMode/RadioFacematchMode';
-import { FACEMATCH_DEFAULT_THRESHOLD, FACEMATCH_MAX_THRESHOLD, FACEMATCH_MIN_THRESHOLD, FacematchThresholdModes, validateScore } from '../../models/facematch.model';
+import { FACEMATCH_DEFAULT_THRESHOLD, FACEMATCH_THRESHOLDS, FacematchThresholdModes, validateScore } from '../../models/facematch.model';
 import { selectFacematchThreshold, selectProofOfOwnership } from '../../state/facematch.selectors';
 import { InputScore } from './FacematchConfiguration.styles';
 
@@ -56,7 +56,7 @@ export function FacematchConfiguration() {
     } catch (e) {
       setIsPOO(prev);
       console.error('can\'t save POO', e);
-      notification.error(ERROR_COMMON);
+      notification.error(ErrorMessages.ERROR_COMMON);
     }
     setIsPOOLoading(false);
   }, [dispatch, isPOO]);
@@ -74,7 +74,7 @@ export function FacematchConfiguration() {
         facematchThreshold: mode === FacematchThresholdModes.Custom ? scoreAsNumber : null,
       }));
     } catch (err) {
-      notification.error(ERROR_COMMON);
+      notification.error(ErrorMessages.ERROR_COMMON);
     } finally {
       setLoading(false);
     }
@@ -134,7 +134,7 @@ export function FacematchConfiguration() {
                             <Grid item>
                               <Typography component="div" display="inline">
                                 <Box display="inline" fontWeight="bold">
-                                  {`${FACEMATCH_MIN_THRESHOLD}-${FACEMATCH_DEFAULT_THRESHOLD}%`}
+                                  {`${FACEMATCH_THRESHOLDS.LOW.MIN}-${FACEMATCH_THRESHOLDS.LOW.MAX}%`}
                                 </Box>
                                 {' - '}
                               </Typography>
@@ -148,7 +148,7 @@ export function FacematchConfiguration() {
                             <Grid item>
                               <Typography component="div" display="inline">
                                 <Box display="inline" fontWeight="bold">
-                                  {`${FACEMATCH_DEFAULT_THRESHOLD}-${FACEMATCH_MAX_THRESHOLD}%`}
+                                  {`${FACEMATCH_THRESHOLDS.HIGH.MIN}-${FACEMATCH_THRESHOLDS.HIGH.MAX}%`}
                                 </Box>
                                 {' - '}
                               </Typography>

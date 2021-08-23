@@ -17,7 +17,11 @@ export function EmailRisk({ step }: { step: EmailRiskStep }) {
         <Card raised={false} className={classes.card}>
           <CardContent>
             {step?.error && (
-              <Box>{intl.formatMessage({ id: `SecurityCheckStep.${step.error.code}` })}</Box>
+              <Box>
+                {intl.formatMessage({ id: `SecurityCheckStep.${step.error.code}`, defaultMessage: intl.formatMessage({ id: 'Error.common' }) }, {
+                  email: step.data.emailAddress,
+                })}
+              </Box>
             )}
             {step?.data && (
               <Box mt={0.5}>

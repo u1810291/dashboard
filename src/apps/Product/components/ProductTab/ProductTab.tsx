@@ -1,17 +1,16 @@
 import { IProductCard, Product, ProductTypes } from 'models/Product.model';
+import { VerificationResponse } from 'models/Verification.model';
 import React, { useMemo } from 'react';
 import { UIProductTab } from 'apps/ui';
-import { useSelector } from 'react-redux';
-import { selectVerificationModel } from 'apps/Verification';
 import { productManagerService } from '../../services/ProductManager.service';
 
-export function ProductTab({ id, isSelected, onSelect }: {
+export function ProductTab({ id, isSelected, onSelect, verification }: {
   id: ProductTypes;
   isSelected: boolean;
   onSelect: (id: ProductTypes) => void;
+  verification: VerificationResponse;
 }) {
   const product: Product = useMemo(() => productManagerService.getProduct(id), [id]);
-  const { value: verification } = useSelector(selectVerificationModel);
   const isFailed = useMemo(() => product?.hasFailedCheck(verification), [product, verification]);
   const card: IProductCard = useMemo(() => product?.getCard(), [product]);
 

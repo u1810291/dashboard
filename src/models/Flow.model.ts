@@ -51,6 +51,7 @@ export interface IFlow {
   denyUploadsFromMobileGallery?: boolean;
   digitalSignature?: DigitalSignatureProvider;
   facematchThreshold?: number;
+  reFacematchThreshold?: number;
   ipValidation?: IpValidation;
   inputTypes?: { id?: string }[];
   inputValidationChecks?: InputValidationCheck[];
@@ -62,7 +63,8 @@ export interface IFlow {
   style?: FlowStyle;
   supportedCountries?: string[];
   updatedAt?: string;
-  verificationSteps?: DocumentTypes[][];
+  verificationSteps?: (DocumentTypes | string)[][];
   verificationPatterns?: Partial<VerificationPatterns>;
   integrationType?: ProductIntegrationTypes;
+  amlWatchlistsFuzzinessThreshold?: number;
 }

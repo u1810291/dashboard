@@ -55,3 +55,8 @@ export const selectVerificationsGroupedByFlow = createSelector<any, Loadable<Ver
   selectVerificationsCollectionModel,
   selectModelValue((verifications: VerificationListItem[]) => groupVerificationsByFlow(verifications)),
 );
+
+export const selectAllVerificationSteps = createSelector(
+  selectNewVerificationWithExtras,
+  (verification) => [...verification.steps, ...verification.documents.reduce((acc, cur) => ([...acc, ...cur.steps]), [])],
+);

@@ -1,8 +1,11 @@
 import { productManagerService, selectProductRegistered } from 'apps/Product';
 import { notification } from 'apps/ui';
-import { ERROR_COMMON, IN_REVIEW_MODE_ERROR, isInReviewModeError } from 'models/Error.model';
+import { DocumentTypes } from 'models/Document.model';
+import { ErrorMessages, isInReviewModeError } from 'models/Error.model';
 import { IdentityStatuses } from 'models/Status.model';
+import { IStep } from 'models/Step.model';
 import { VerificationListItem, VerificationResponse } from 'models/Verification.model';
+import { selectNewVerificationWithExtras } from 'apps/Verification/state/Verification.selectors';
 import { Dispatch } from 'redux';
 import { types } from 'state/identities/identities.actions';
 import { selectIdentityModel } from 'state/identities/identities.selectors';
@@ -13,10 +16,10 @@ export const verificationListLoad = (identityId: string, asMerchantId: string) =
   dispatch({ type: VerificationActionTypes.VERIFICATIONS_PASSED_REQUEST });
   try {
     const { data }: { data: VerificationListItem[] } = await client.getVerificationList(identityId, { ...(asMerchantId && { asMerchantId }) });
-    dispatch({ type: VerificationActionTypes.VERIFICATIONS_PASSED_SUCCESS, payload: data });
+    dispatch({ type: VerificationActionTypes.VERIFICATIONS_PASSED_SUCCESS, isReset: true, payload: data });
   } catch (error) {
     dispatch({ type: VerificationActionTypes.VERIFICATIONS_PASSED_FAILURE, error });
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -44,10 +47,10 @@ export const verificationLoad = (verificationId: string, asMerchantId: string) =
   try {
     const { data }: { data: VerificationResponse } = await client.getVerification(verificationId, { ...(asMerchantId && { asMerchantId }) });
     dispatch(verificationProductListInit(data));
-    dispatch({ type: VerificationActionTypes.VERIFICATION_SUCCESS, payload: data });
+    dispatch({ type: VerificationActionTypes.VERIFICATION_SUCCESS, isReset: true, payload: data });
   } catch (error) {
     dispatch({ type: VerificationActionTypes.VERIFICATION_FAILURE, error });
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -72,11 +75,20 @@ export const verificationStatusUpdate = (verificationId: string, status: Identit
   } catch (error) {
     dispatch({ type: types.IDENTITY_FAILURE, error });
     if (isInReviewModeError(error)) {
-      notification.error(IN_REVIEW_MODE_ERROR, { autoClose: false });
+      notification.error(ErrorMessages.IN_REVIEW_MODE_ERROR, { autoClose: false });
     } else {
-      notification.error(ERROR_COMMON);
+      notification.error(ErrorMessages.ERROR_COMMON);
     }
 
     throw error;
   }
+};
+
+export const verificationDocumentStepsUpdate = <T extends unknown>(documentType: DocumentTypes, step: IStep<T>) => async (dispatch: Dispatch, getState) => {
+  const verification = selectNewVerificationWithExtras(getState());
+  const document = verification.documents.find((documentElm) => documentElm.type === documentType);
+  const stepIndex = document?.steps.findIndex((stepElm) => stepElm.id === step.id);
+  document.steps[stepIndex] = { ...document.steps[stepIndex], ...step };
+
+  dispatch({ type: VerificationActionTypes.VERIFICATION_SUCCESS, payload: verification });
 };

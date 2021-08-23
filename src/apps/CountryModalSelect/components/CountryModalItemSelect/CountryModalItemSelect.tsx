@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { Box, ListItem, FormLabel, FormControl } from '@material-ui/core';
-import { useIntl } from 'react-intl';
 import classnames from 'classnames';
 import { FixedSizeNodeComponentProps } from 'react-vtree';
 import { FiPlusCircle, FiMinusCircle } from 'react-icons/fi';
@@ -16,16 +15,17 @@ export interface CountryModalSelectItemProps extends FixedSizeNodeComponentProps
   countryCode?: string;
   id: string | symbol;
   isOpenByDefault: boolean;
- }> {
+  label: string;
+}> {
   treeData?: {
     selectedCountries: SelectedCountries;
     allRegionsSelected: {
       [country: string]: boolean;
     };
+    firstCountryId: string;
     handleSelectCountry: (country: string, region?: string) => (e: React.ChangeEvent<HTMLInputElement>) => void;
   };
 }
-
 export const CountryModalItemSelect = ({
   style,
   isOpen,
@@ -33,10 +33,9 @@ export const CountryModalItemSelect = ({
   data,
   treeData,
 }: CountryModalSelectItemProps) => {
-  const intl = useIntl();
   const classes = useStyles();
-  const { isLeaf, name, countryCode } = data;
-  const { selectedCountries, handleSelectCountry, allRegionsSelected } = treeData;
+  const { isLeaf, name, countryCode, label } = data;
+  const { selectedCountries, handleSelectCountry, allRegionsSelected, firstCountryId } = treeData;
 
   const parentCheckIcon = useMemo(() => {
     if (Object.prototype.hasOwnProperty.call(allRegionsSelected, name)) {
@@ -44,16 +43,15 @@ export const CountryModalItemSelect = ({
     }
     return <CheckboxOn />;
   }, [allRegionsSelected, name]);
-
   return (
-    <ListItem style={style} className={classnames(classes.listItem, { [classes.listItemChild]: isLeaf })}>
+    <ListItem style={style} className={classnames(classes.listItem, { [classes.listItemChild]: isLeaf }, { [classes.lineConnected]: !isLeaf && (firstCountryId !== name) })}>
       {!isLeaf && (
         <Box mr={0.5} className={classes.iconButton} onClick={toggle}>
           {isOpen ? <FiMinusCircle className={classes.icon} /> : <FiPlusCircle className={classes.icon} />}
         </Box>
       )}
       <FormLabel className={classnames(classes.listName, { [classes.listNameChild]: isLeaf })}>
-        {isLeaf ? `${name.toUpperCase()}: "${intl.formatMessage({ id: `Regions.${countryCode}.${name}` })}"` : intl.formatMessage({ id: `Countries.${name}` }) }
+        {label}
       </FormLabel>
       <Box ml={2}>
         <FormControl>

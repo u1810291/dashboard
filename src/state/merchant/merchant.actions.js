@@ -1,13 +1,14 @@
 import * as api from 'lib/client/merchant';
 import { createTypesSequence } from 'state/store.utils';
 import { getWebhooks } from 'state/webhooks/webhooks.actions';
-import { selectConfigurationModel, selectCurrentFlowId, selectMerchantFlowsModel, selectMerchantId, selectStyleModel } from 'state/merchant/merchant.selectors';
+import { selectConfigurationModel, selectCurrentFlowId, selectMerchantFlowsModel, selectMerchantId, selectStyleModel, selectMerchantCustomDocumentsModel } from './merchant.selectors';
 import { MerchantActionGroups } from './merchant.store';
 
 export const types = {
   ...createTypesSequence(MerchantActionGroups.Merchant),
   ...createTypesSequence(MerchantActionGroups.Configuration),
   ...createTypesSequence(MerchantActionGroups.App),
+  ...createTypesSequence(MerchantActionGroups.CustomDocuments),
   ...createTypesSequence(MerchantActionGroups.Flows),
   CURRENT_FLOW_UPDATE: 'CURRENT_FLOW_UPDATE',
   BUSINESS_NAME_UPDATE: 'BUSINESS_NAME_UPDATE',
@@ -87,6 +88,64 @@ export const dashboardUpdate = (data, isSync) => (dispatch) => {
 export const changeLanguage = (language, isSync) => (dispatch) => {
   dispatch(dashboardUpdate({ language }, isSync));
 };
+
+export const merchantCustomDocumentsLoad = () => async (dispatch, getState) => {
+  dispatch({ type: types.CUSTOM_DOCUMENTS_REQUEST });
+  const merchantId = selectMerchantId(getState());
+  try {
+    const { data } = await api.getMerchantCustomDocuments(merchantId);
+    if (Array.isArray(data) && data.length > 0 && data[0].type) {
+      dispatch({ type: types.CUSTOM_DOCUMENTS_SUCCESS, payload: data });
+    } else {
+      const error = new Error('Wrong data received from server');
+      dispatch({ type: types.CUSTOM_DOCUMENTS_FAILURE, error });
+      throw error;
+    }
+  } catch (error) {
+    dispatch({ type: types.CUSTOM_DOCUMENTS_FAILURE, error });
+    throw error;
+  }
+};
+
+export const merchantCreateCustomDocument = (payload) => async (dispatch, getState) => {
+  dispatch({ type: types.CUSTOM_DOCUMENTS_REQUEST });
+  try {
+    const merchantId = selectMerchantId(getState());
+    await api.createMerchantCustomDocument(merchantId, payload);
+    dispatch({ type: types.CUSTOM_DOCUMENTS_CLEAR, payload: [] });
+  } catch (error) {
+    dispatch({ type: types.CUSTOM_DOCUMENTS_FAILURE, error });
+    throw error;
+  }
+};
+
+export const merchantDeleteCustomDocument = (type) => async (dispatch, getState) => {
+  try {
+    const merchantId = selectMerchantId(getState());
+    const { value } = selectMerchantCustomDocumentsModel(getState());
+    const index = value.findIndex((customDocument) => customDocument.type === type);
+    await api.deleteCustomDocument(merchantId, type);
+    const payload = value.filter((_, i) => i !== index);
+    dispatch({ type: types.CUSTOM_DOCUMENTS_SUCCESS, payload, isReset: true });
+  } catch (error) {
+    dispatch({ type: types.CUSTOM_DOCUMENTS_FAILURE, error });
+    throw error;
+  }
+};
+
+export const merchantUpdateCustomDocument = (type, payload) => async (dispatch, getState) => {
+  const state = getState();
+  dispatch({ type: types.CUSTOM_DOCUMENTS_UPDATING });
+  try {
+    const merchantId = selectMerchantId(state);
+    const { data } = await api.updateCustomDocument(merchantId, type, payload);
+    dispatch({ type: types.CUSTOM_DOCUMENTS_SUCCESS, payload: data, isReset: true });
+  } catch (error) {
+    dispatch({ type: types.CUSTOM_DOCUMENTS_FAILURE, error });
+    throw error;
+  }
+};
+
 // flows
 
 export const updateCurrentFlowId = (data) => (dispatch) => {

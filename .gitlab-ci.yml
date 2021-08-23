@@ -1,14 +1,10 @@
 image: 'node:14.16.1-alpine3.13'
 
 stages:
-  - ci
+  - lint
 
-cache:
-  paths:
-    - node_modules/
-
-ci:
-  stage: ci
+lint:
+  stage: lint
   only:
     - branches
     - pushes
@@ -16,5 +12,6 @@ ci:
     - lokalize
     - /^lokalise-.*$/
   script:
-    - npm install
-    - npm run eslint
+    - npm ci
+    - npm run lint:typecheck
+    - npm run lint:eslint

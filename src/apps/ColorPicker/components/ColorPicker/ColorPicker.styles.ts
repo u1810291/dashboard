@@ -19,6 +19,7 @@ export const useStyles = makeStyles<Theme, { color?: string }>((theme) => ({
   },
   colorPicker: {
     position: 'absolute',
+    zIndex: 4,
   },
   colorPickerContainer: {
     width: 112,

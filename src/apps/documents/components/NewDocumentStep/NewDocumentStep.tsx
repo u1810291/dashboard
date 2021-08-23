@@ -7,30 +7,31 @@ import { DocumentSides, DocumentTypes, getDocumentSideLabel, PhotosOrientations,
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Verification } from 'models/Verification.model';
+import { AgeCheck } from 'apps/AgeCheck';
+import { DuplicateUserDetectionCheck } from 'apps/checks/components/DuplicateUserDetectionCheck/DuplicateUserDetectionCheck';
 import { useStyles } from './NewDocumentStep.styles';
 import { useDocumentTitle, usePhotosOrientation } from '../../hooks/document.hook';
 import { DocumentReadingStep } from '../DocumentReadingStep/DocumentReadingStep';
 
-export interface NewDocumentStepProps{
+export function NewDocumentStep({ document, verification, documentIndex, onDocumentUpdate }: {
   document: VerificationDocument;
   verification: Verification;
   documentIndex: number;
   onDocumentUpdate: (normalizedData: any, documentType: DocumentTypes) => Promise<void>;
-}
-
-export function NewDocumentStep({ document, verification, documentIndex, onDocumentUpdate }: NewDocumentStepProps) {
+}) {
   const intl = useIntl();
   const classes = useStyles();
   const title = useDocumentTitle(document);
   const photosOrientation = usePhotosOrientation(document);
 
-  const { type, securityCheckSteps, documentFailedCheckSteps, isSanctioned, fields, documentReadingStep, onReading, documentStatus, proofOfOwnership, photos, areTwoSides } = document;
+  const { ageCheck, duplicateUserDetectionStep, type, securityCheckSteps, documentFailedCheckSteps, isSanctioned, fields, documentReadingStep, onReading, documentStatus, proofOfOwnership, photos, areTwoSides } = document;
   const isFormEditable = verification.isEditable;
+
   return (
     <Box>
       <Box mb={2}>
         <Typography className={classes.title} variant="subtitle2" gutterBottom>{intl.formatMessage({ id: 'DocumentStep.Data.title' }, { index: documentIndex + 1 })}</Typography>
-        <Grid container>
+        <Grid container alignItems="center">
           <Typography className={classes.title} variant="subtitle2">{intl.formatMessage({ id: 'DocumentStep.Data.subtitle' })}</Typography>
           &nbsp;
           <Typography className={classes.title} variant="body1">{title}</Typography>
@@ -116,6 +117,8 @@ export function NewDocumentStep({ document, verification, documentIndex, onDocum
                       <CheckStepDetails step={step} />
                     </CheckBarExpandable>
                   ))}
+                  {ageCheck && (<AgeCheck stepData={ageCheck} />)}
+                  {duplicateUserDetectionStep && (<DuplicateUserDetectionCheck hideLink stepData={duplicateUserDetectionStep} />)}
                 </Grid>
               </Grid>
             )}

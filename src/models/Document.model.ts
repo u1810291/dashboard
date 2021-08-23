@@ -60,6 +60,9 @@ export interface VerificationDocument {
   checks: IStep[];
   isSanctioned: boolean;
   proofOfOwnership: any;
+  customDocumentStep: IStep;
+  duplicateUserDetectionStep?: IStep;
+  ageCheck?: IStep;
 }
 
 export const DocumentListOrdered: DocumentTypes[] = [
@@ -152,6 +155,19 @@ export function isDocumentWithTwoSides(documentType) {
   return [DocumentTypes.DrivingLicense, DocumentTypes.NationalId].includes(documentType);
 }
 
+export function isCustomDocument(documentType: DocumentTypes | string): boolean {
+  switch (documentType) {
+    case DocumentTypes.DrivingLicense:
+    case DocumentTypes.NationalId:
+    case DocumentTypes.Passport:
+    case DocumentTypes.ProofOfResidency:
+      return false;
+
+    default:
+      return true;
+  }
+}
+
 export function getOrderedDocuments(documents) {
   const docs = [...documents];
   docs.sort((first, second) => DocumentTypeWights[first.type] - DocumentTypeWights[second.type]);
@@ -173,16 +189,19 @@ export function getDocumentExtras(verification, countries, proofOfOwnership): Ve
       required,
     }));
 
+    const isSkipped = steps.some((step) => step.checkStatus === StepStatus.Skipped);
     const govChecksSteps = steps.filter((step) => CountrySpecificChecks.includes(step.id));
     const securityCheckSteps = steps.filter((step) => DocumentSecuritySteps.includes(step.id));
     const documentFailedCheckSteps = steps.filter((step) => DocumentFrontendSteps.includes(step.id)); // it is FRONTEND logic,
     const premiumAmlWatchlistsStep = steps.find((step) => DocumentStepTypes.PremiumAmlWatchlistsCheck === step.id);
     const watchlistsStep = steps?.find((item) => item?.id === DocumentStepTypes.Watchlists);
+    const customDocumentStep = steps?.find((step) => DocumentStepTypes.TemplateMatching === step.id);
 
     const allSteps = [...documentFailedCheckSteps, ...securityCheckSteps, ...govChecksSteps];
     if (premiumAmlWatchlistsStep) {
       allSteps.push(premiumAmlWatchlistsStep);
     }
+
     return {
       ...document,
       steps,
@@ -191,9 +210,10 @@ export function getDocumentExtras(verification, countries, proofOfOwnership): Ve
       securityCheckSteps,
       govChecksSteps,
       documentFailedCheckSteps,
+      customDocumentStep,
       premiumAmlWatchlistsStep,
       watchlistsStep,
-      documentStatus: getDocumentStatus(allSteps),
+      documentStatus: isSkipped ? StepStatus.Skipped : getDocumentStatus(allSteps),
       areTwoSides: isDocumentWithTwoSides(document.type),
       documentSides: DocumentSidesOrder,
       onReading: documentReadingStep?.status < 200,

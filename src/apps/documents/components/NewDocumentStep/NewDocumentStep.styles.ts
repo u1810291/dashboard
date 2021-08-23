@@ -7,13 +7,21 @@ export const useStyles = makeStyles((theme) => ({
       marginBottom: 0,
       paddingRight: 20,
     },
+    ...(theme.isDarkMode && ({
+      [theme.breakpoints.up('lg')]: {
+        maxWidth: '33.33%',
+        flexBasis: '33.33%',
+        marginBottom: 0,
+        paddingRight: 20,
+      },
+    })),
     '&:last-of-type': {
       marginBottom: 0,
       paddingRight: 0,
     },
   },
   itemWrapper: {
-    [theme.breakpoints.up('xl')]: {
+    [theme.isDarkMode ? theme.breakpoints.up('lg') : theme.breakpoints.up('xl')]: {
       height: '100%',
       padding: [[20, 15]],
       borderRadius: 5,
@@ -41,7 +49,7 @@ export const useStyles = makeStyles((theme) => ({
   image: {
     width: '100%',
     textAlign: 'center',
-    [theme.breakpoints.up('xl')]: {
+    [theme.isDarkMode ? theme.breakpoints.up('lg') : theme.breakpoints.up('xl')]: {
       '& > div': {
         maxHeight: 320,
       },
@@ -63,7 +71,7 @@ export const useStyles = makeStyles((theme) => ({
         margin: 0,
       },
     },
-    [theme.breakpoints.up('lg')]: {
+    [theme.isDarkMode ? theme.breakpoints.up('lg') : theme.breakpoints.up('xl')]: {
       '& > *': {
         maxWidth: '100%',
         minWidth: '50%',
@@ -81,7 +89,7 @@ export const useStyles = makeStyles((theme) => ({
         },
       },
     },
-    [theme.breakpoints.up('xl')]: {
+    [theme.isDarkMode ? theme.breakpoints.up('lg') : theme.breakpoints.up('xl')]: {
       '& > *': {
         maxWidth: 'calc(50% - 10px)',
         minWidth: 'auto',

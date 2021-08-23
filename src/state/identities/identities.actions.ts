@@ -2,7 +2,7 @@ import { notification } from 'apps/ui';
 import * as api from 'lib/client/identities';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { get } from 'lodash';
-import { ERROR_COMMON, IN_REVIEW_MODE_ERROR, isInReviewModeError } from 'models/Error.model';
+import { ErrorMessages, isInReviewModeError } from 'models/Error.model';
 import { filterSerialize } from 'models/Filter.model';
 import { REDUCE_DB_COUNT_CALLS } from 'models/Release.model';
 import { IdentityStatuses } from 'models/Status.model';
@@ -37,7 +37,7 @@ export const verificationsListLoad = (isReload: boolean, params?: { offset: numb
     dispatch({ type: types.IDENTITY_LIST_SUCCESS, payload: data || [], isReset: isReload });
   } catch (error) {
     dispatch({ type: types.IDENTITY_LIST_FAILURE, error });
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -55,7 +55,7 @@ export const identitiesListLoad = (isReload, offset) => async (dispatch, getStat
     dispatch({ type: types.IDENTITY_LIST_SUCCESS, payload, isReset: isReload });
   } catch (error) {
     dispatch({ type: types.IDENTITY_LIST_FAILURE, error });
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -75,7 +75,7 @@ export const verificationsManualReviewCountLoad = () => async (dispatch) => {
       type: types.MANUAL_REVIEW_COUNT_FAILURE,
       error,
     });
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -98,7 +98,7 @@ export const identitiesManualReviewCountLoad = () => async (dispatch) => {
       type: types.MANUAL_REVIEW_COUNT_FAILURE,
       error,
     });
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -120,7 +120,7 @@ export const identitiesCountLoad = () => async (dispatch, getState) => {
     }
   } catch (error) {
     dispatch({ type: types.IDENTITY_COUNT_FAILURE, error });
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -140,7 +140,7 @@ export const verificationsFilteredCountLoad = () => async (dispatch, getState) =
       type: types.FILTERED_COUNT_FAILURE,
       error,
     });
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -163,7 +163,7 @@ export const identitiesFilteredCountLoad = () => async (dispatch, getState) => {
       type: types.FILTERED_COUNT_FAILURE,
       error,
     });
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -182,7 +182,7 @@ export const verificationsPreliminaryCountLoad = (localFilter) => async (dispatc
       type: types.PRELIMINARY_FILTERED_COUNT_FAILURE,
       error,
     });
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -205,7 +205,7 @@ export const identitiesPreliminaryCountLoad = (localFilter) => async (dispatch, 
       type: types.PRELIMINARY_FILTERED_COUNT_FAILURE,
       error,
     });
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -219,7 +219,7 @@ export const downloadVerificationCSV = () => async (dispatch, getState) => {
       format: 'csv',
     });
   } catch (error) {
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     return null;
   }
 };
@@ -237,7 +237,7 @@ export const downloadCSV = () => (dispatch, getState) => {
       format: 'csv',
     });
   } catch (error) {
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     return null;
   }
 };
@@ -251,7 +251,7 @@ export const identityRemove = (id) => async (dispatch) => {
     await api.deleteIdentity(id);
     dispatch({ type: types.IDENTITY_REMOVE, payload: id });
   } catch (error) {
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };
@@ -326,9 +326,9 @@ export const verificationDocumentUpdate = (verificationId: string, documentType,
       error,
     });
     if (isInReviewModeError(error)) {
-      notification.error(IN_REVIEW_MODE_ERROR, { autoClose: false });
+      notification.error(ErrorMessages.IN_REVIEW_MODE_ERROR, { autoClose: false });
     } else {
-      notification.error(ERROR_COMMON);
+      notification.error(ErrorMessages.ERROR_COMMON);
     }
     throw error;
   }

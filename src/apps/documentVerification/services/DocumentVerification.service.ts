@@ -1,9 +1,11 @@
 import { DocumentVerificationProduct } from 'apps/documents';
 import { InputValidationType } from 'apps/imageValidation/models/imageValidation.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
+import { intersection } from 'lodash';
+import { DocumentTypes } from 'models/Document.model';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
-import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStep, getReaderFrontendSteps, getStepStatus, StepStatus } from 'models/Step.model';
+import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStep, getReaderFrontendSteps, getStepStatus, StepStatus, VerificationStepTypes } from 'models/Step.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiFileText } from 'react-icons/fi';
@@ -65,9 +67,15 @@ export class DocumentVerification extends ProductBaseService implements Product<
     const isBiometricStepsActive = productsInGraph.includes(ProductTypes.BiometricVerification);
     const isDuplicateUserDetectionActive = !!flow?.verificationPatterns?.[VerificationPatternTypes.DuplicateUserDetection];
 
+    const neededSteps = flow?.verificationSteps.filter((group) => intersection(group, [DocumentTypes.Passport, DocumentTypes.NationalId, DocumentTypes.DrivingLicense, DocumentTypes.ProofOfResidency]).length > 0);
+    const otherSteps = flow?.verificationSteps.filter((group) => !(intersection(group, [DocumentTypes.Passport, DocumentTypes.NationalId, DocumentTypes.DrivingLicense, DocumentTypes.ProofOfResidency]).length > 0));
+
     return {
       [DocumentVerificationSettingTypes.DocumentSteps]: {
-        value: flow?.verificationSteps,
+        value: neededSteps,
+      },
+      [DocumentVerificationSettingTypes.OtherSteps]: {
+        value: otherSteps,
       },
       [DocumentVerificationSettingTypes.DenyUploadRequirement]: {
         value: !!flow?.denyUploadsFromMobileGallery,
@@ -111,36 +119,37 @@ export class DocumentVerification extends ProductBaseService implements Product<
     };
   }
 
-  serialize(setting: ProductSettingsDocumentVerification): Partial<IFlow> {
+  serialize(settings: ProductSettingsDocumentVerification): Partial<IFlow> {
     return {
-      verificationSteps: setting.documentSteps.value,
-      denyUploadsFromMobileGallery: setting.denyUploadRequirement.value,
-      ageThreshold: setting.ageThreshold.value,
+      verificationSteps: [...settings.documentSteps.value, ...settings.otherSteps.value],
+      denyUploadsFromMobileGallery: settings.denyUploadRequirement.value,
+      ageThreshold: settings.ageThreshold.value,
       inputValidationChecks: [{
         id: InputValidationType.GrayscaleImage,
-        isDisabled: !setting.grayscaleImage.value,
+        isDisabled: !settings.grayscaleImage.value,
       }, {
         id: InputValidationType.SimilarImages,
-        isDisabled: !setting.similarImages.value,
+        isDisabled: !settings.similarImages.value,
       }, {
         id: InputValidationType.IdenticalImages,
-        isDisabled: !setting.similarImages.value,
+        isDisabled: !settings.similarImages.value,
       }, {
         id: InputValidationType.DocumentDetected,
         isDisabled: false,
       }],
-      supportedCountries: setting.countryRestriction.value,
-      facematchThreshold: setting.facematchThreshold.value,
+      supportedCountries: settings.countryRestriction.value,
+      facematchThreshold: settings.facematchThreshold.value,
       verificationPatterns: {
-        [VerificationPatternTypes.DuplicateUserDetection]: setting.duplicateUserDetection.value,
-        [VerificationPatternTypes.ProofOfOwnership]: setting.proofOfOwnership.value,
+        [VerificationPatternTypes.DuplicateUserDetection]: settings.duplicateUserDetection.value,
+        [VerificationPatternTypes.ProofOfOwnership]: settings.proofOfOwnership.value,
       },
     };
   }
 
-  onRemove(): Partial<IFlow> {
+  onRemove(flow: IFlow): Partial<IFlow> {
+    const otherSteps = flow?.verificationSteps.filter((group) => !(intersection(group, [DocumentTypes.Passport, DocumentTypes.NationalId, DocumentTypes.DrivingLicense, DocumentTypes.ProofOfResidency]).length > 0));
     return {
-      verificationSteps: [],
+      verificationSteps: [...otherSteps],
       denyUploadsFromMobileGallery: false,
       ageThreshold: undefined,
       inputValidationChecks: [{
@@ -166,11 +175,23 @@ export class DocumentVerification extends ProductBaseService implements Product<
   }
 
   isInFlow(flow: IFlow): boolean {
-    return flow?.verificationSteps?.length > 0;
+    const allSteps = flow?.verificationSteps?.flatMap((step) => step) || [];
+    const documents: string[] = Object.values(DocumentTypes).map((item: DocumentTypes) => item as string);
+
+    return allSteps.some((step) => documents.includes(step));
   }
 
   getVerification(verification: VerificationResponse): any {
-    return verification;
+    const documentTypes: string[] = Object.values(DocumentTypes).map((item: DocumentTypes) => item as string);
+
+    const documents = verification?.documents?.filter((el) => documentTypes.includes(el.type))
+      .map((doc) => {
+        const duplicateUserDetectionStep = doc?.steps?.find((item) => item?.id === VerificationStepTypes.DuplicateUserValidation);
+        const ageCheck = doc?.steps?.find((item) => item?.id === VerificationStepTypes.AgeValidation);
+        return { ...doc, duplicateUserDetectionStep, ageCheck };
+      });
+
+    return { ...verification, documents };
   }
 
   getIssuesComponent(flow: IFlow): any {

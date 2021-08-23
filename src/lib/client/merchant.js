@@ -20,6 +20,22 @@ export function saveBusinessName(businessName) {
   return http.patch('/api/v1/merchants/me', { businessName });
 }
 
+export function getMerchantCustomDocuments(merchantId) {
+  return http.get(`api/v1/merchants/${merchantId}/custom-documents`);
+}
+
+export function createMerchantCustomDocument(merchantId, data) {
+  return http.post(`api/v1/merchants/${merchantId}/custom-documents`, data);
+}
+
+export function updateCustomDocument(merchantId, type, data) {
+  return http.patch(`api/v1/merchants/${merchantId}/custom-documents/${type}`, data);
+}
+
+export function deleteCustomDocument(merchantId, type) {
+  return http.delete(`api/v1/merchants/${merchantId}/custom-documents/${type}`);
+}
+
 // flows api
 export function getMerchantFlows(merchantId, params) {
   return http.get(`api/v1/merchants/${merchantId}/flows`, params);

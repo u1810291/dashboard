@@ -166,7 +166,7 @@ export function IpChecksConfiguration() {
             >
               <BoxBordered mt={2}>
                 <FormControlLabel
-                  control={<Radio color="default" />}
+                  control={<Radio color="primary" />}
                   label={(
                     <Box color="common.black75">
                       <Typography variant="subtitle2">
@@ -185,7 +185,7 @@ export function IpChecksConfiguration() {
               </BoxBordered>
               <BoxBordered mt={2}>
                 <FormControlLabel
-                  control={<Radio color="default" />}
+                  control={<Radio color="primary" />}
                   label={(
                     <Box color="common.black75">
                       <Typography variant="subtitle2">
@@ -204,7 +204,7 @@ export function IpChecksConfiguration() {
               </BoxBordered>
               <BoxBordered mt={2}>
                 <FormControlLabel
-                  control={<Radio color="default" />}
+                  control={<Radio color="primary" />}
                   label={(
                     <Box color="common.black75">
                       <Typography variant="subtitle2">

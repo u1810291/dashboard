@@ -3,29 +3,31 @@ import { OpenFilter, useFilterParser, ByVerificationEventTypes, ByAgents } from 
 import { ButtonHeaderMenu } from 'apps/ui';
 import { selectVerificationHistoryFilter } from 'apps/verificationHistory/state/verificationHistory.selectors';
 import { QATags } from 'models/QA.model';
+import { IS_IDENTITY_PROFILE_RELEASED } from 'models/Release.model';
 import { Routes } from 'models/Router.model';
 import { verificationHistoryCleanFilter, verificationHistoryFilterStructure, allVerificationHistoryActions } from 'models/History.model';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import { IS_FLOW_BUILDER_RELEASED } from 'models/Release.model';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { useStyles } from './VerificationHistoryHeaderMenu.styles';
 
 export function VerificationHistoryHeaderMenu() {
   const intl = useIntl();
+  const history = useHistory();
   const classes = useStyles();
   const { id } = useParams();
   const verificationHistoryFilter = useSelector(selectVerificationHistoryFilter);
   const [, addToUrl] = useFilterParser(verificationHistoryFilterStructure);
+  const goBackPath = useMemo(() => history.location.state?.from || `${IS_IDENTITY_PROFILE_RELEASED ? Routes.identity.profile.root : Routes.list.root}/${id}`, [history, id]);
 
   return (
     <Grid container spacing={2} direction="column">
       <Grid item container justify="space-between">
         {/* Back to list */}
         <Grid item>
-          <Link to={`${IS_FLOW_BUILDER_RELEASED ? Routes.identity.profile.root : Routes.list.root}/${id}`}>
+          <Link to={goBackPath}>
             <ButtonHeaderMenu
               variant="contained"
               startIcon={<FiChevronLeft />}

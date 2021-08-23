@@ -68,12 +68,18 @@ export const ExpansionPanelSummary = withStyles((theme) => ({
     '&.error': {
       '&:hover, &:focus': {
         backgroundColor: theme.palette.common.redopacity,
+        ...(theme.isDarkMode && ({
+          backgroundColor: 'rgba(255, 231, 232, .15)',
+        })),
       },
       '& .MuiBox-root, & svg': {
         color: theme.palette.common.red,
       },
       '&$expanded': {
         backgroundColor: theme.palette.common.redopacity,
+        ...(theme.isDarkMode && ({
+          backgroundColor: 'rgba(255, 231, 232, .15)',
+        })),
       },
     },
     '&$focused': {

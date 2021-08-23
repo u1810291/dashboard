@@ -6,7 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: 5,
     border: '2px solid transparent',
     fontWeight: 'bold',
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     backgroundColor: theme.palette.foreground.main,
     cursor: 'pointer',
     transition: '.2s all ease-in-out',
@@ -15,7 +15,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   selected: {
-    color: theme.palette.common.black90,
+    color: theme.palette.text.secondary,
     borderColor: theme.palette.common.lightblue,
   },
 }));

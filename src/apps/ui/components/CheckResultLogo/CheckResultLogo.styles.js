@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core';
 import DocumentError from 'assets/icon-document-error.svg';
 import DocumentSuccess from 'assets/icon-document-success.svg';
 import DocumentWarning from 'assets/icon-document-warning.svg';
+import DocumentSkipped from 'assets/icon-document-skipped.svg';
 import LoadIcon from 'assets/icon-load.svg';
 import OtherChecksDisabled from 'assets/icon-other-checks-disabled.svg';
 import OtherChecksSuccess from 'assets/icon-other-checks-success.svg';
@@ -99,6 +100,12 @@ export const useStyles = makeStyles((theme) => {
       },
       ipCheckGeoWithVpn: {
         icon: LoadIcon,
+        color: theme.palette.text.main,
+      },
+    },
+    [StepStatus.Skipped]: {
+      document: {
+        icon: DocumentSkipped,
         color: theme.palette.text.main,
       },
     },

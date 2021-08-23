@@ -45,8 +45,8 @@ export class ReVerification extends ProductBaseService implements Product<Produc
       [ReVerificationSettingTypes.Biometrics]: {
         value: flow.verificationPatterns?.[VerificationPatternTypes.Biometrics],
       },
-      [ReVerificationSettingTypes.FacematchThreshold]: {
-        value: flow.facematchThreshold,
+      [ReVerificationSettingTypes.ReFacematchThreshold]: {
+        value: flow.reFacematchThreshold,
       },
       [ReVerificationSettingTypes.ProofOfOwnership]: {
         value: flow.verificationPatterns?.[VerificationPatternTypes.ProofOfOwnership],
@@ -56,7 +56,7 @@ export class ReVerification extends ProductBaseService implements Product<Produc
 
   serialize(settings: ProductSettingsReVerification): Partial<IFlow> {
     return {
-      facematchThreshold: settings[ReVerificationSettingTypes.FacematchThreshold].value,
+      reFacematchThreshold: settings[ReVerificationSettingTypes.ReFacematchThreshold].value,
       verificationPatterns: {
         [VerificationPatternTypes.Biometrics]: settings[ReVerificationSettingTypes.Biometrics].value,
         [VerificationPatternTypes.ProofOfOwnership]: settings[ReVerificationSettingTypes.ProofOfOwnership].value,

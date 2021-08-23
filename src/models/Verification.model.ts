@@ -2,7 +2,7 @@ import { titleize } from 'inflection';
 import { isObjectEmpty } from 'lib/object';
 import { getDocumentExtras, VerificationDocument } from 'models/Document.model';
 import { FieldTypes } from 'models/Field.model';
-import { IdentityStatuses, isChangeableStatus } from 'models/Status.model';
+import { IdentityStatuses, isChangeableStatus, VerificationStatusChangeReason } from 'models/Status.model';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { IFlow } from './Flow.model';
 import { getIpCheckStep } from './IpCheck.model';
@@ -28,6 +28,13 @@ export interface PassedVerificationByFlow {
     verifications: VerificationListItem[];
 }
 
+export interface IVerificationStatusDetails {
+  value: IdentityStatuses;
+  reasonCode: VerificationStatusChangeReason;
+  updatedAt: Date;
+  updatedBy: null | string;
+}
+
 export interface VerificationResponse {
   createdAt: string;
   documents: any[];
@@ -37,6 +44,7 @@ export interface VerificationResponse {
   steps: any[];
   summary: any;
   verificationStatus: IdentityStatuses;
+  verificationStatusDetails: IVerificationStatusDetails;
   _id?: string;
   id?: string;
   metadata: any;

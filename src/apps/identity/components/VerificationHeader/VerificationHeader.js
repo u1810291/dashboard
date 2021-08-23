@@ -86,7 +86,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
 
   const openVerificationHistory = useCallback(() => {
     if (identity.id) {
-      history.push(`${Routes.list.root}/${identity.id}${Routes.list.history.root}`);
+      history.push(`${Routes.list.root}/${identity.id}${Routes.list.history.root}`, { from: history.location.pathname });
     }
   }, [history, identity.id]);
 

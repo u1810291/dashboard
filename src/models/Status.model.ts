@@ -10,6 +10,16 @@ export enum IdentityStatuses {
   unknown = 'unknown',
 }
 
+export enum VerificationStatusChangeReason {
+  SystemChange = 'systemChange',
+  ManualChange = 'manualChange',
+  GdprDepersonalize = 'gdprDepersonalize',
+  ManualDepersonalize = 'manualDepersonalize',
+  ExternalIntegrationUp = 'externalIntegrationUp',
+  ExternalIntegrationDown = 'externalIntegrationDown',
+  PremiumAmlWatchlistMatch = 'premiumAmlWatchlistMatch',
+}
+
 export interface IdentityStatus {
   id: IdentityStatuses;
   color: string;
@@ -21,7 +31,7 @@ export interface IdentityStatus {
   isFilterable?: boolean;
 }
 
-export const IdentityStatusesMap: Array<IdentityStatus> = [
+export const IdentityStatusesMap: IdentityStatus[] = [
   {
     id: IdentityStatuses.verified,
     color: 'success.main',

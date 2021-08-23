@@ -1,7 +1,7 @@
 import { getAlterationReason } from 'apps/alterationDetection/models/alterationDetection.model';
 import { getFacematchStepExtra } from 'apps/facematch/models/facematch.model';
 import { getTemplateMatchingStepExtraData } from 'apps/templateMatching/models/templateMatching.model';
-import { isEmpty } from 'lib/checks';
+import { isNil } from 'lib/isNil';
 import { get } from 'lodash';
 import { isCovidTolerance } from 'models/Covid.model';
 import { getFieldsExtra } from 'models/Field.model';
@@ -28,6 +28,13 @@ export enum StepStatus {
   Failure = 'failure',
   Incomplete = 'incomplete',
   Checking = 'checking',
+  Skipped = 'skipped',
+}
+
+export enum StepCodeStatus {
+  Pending = 0,
+  Running = 100,
+  Complete = 200,
 }
 
 export const LEGACY_ERROR = 'LegacyError';
@@ -46,13 +53,21 @@ export enum VerificationStepTypes {
   DuplicateUserValidation = 'duplicate-user-detection',
 }
 
+export type StepIds = VerificationPatternTypes | StepTypes | VerificationStepTypes;
+
 export interface IStep<DataType = any>{
-  data?: DataType;
   status: number;
-  id: VerificationPatternTypes | StepTypes | VerificationStepTypes;
-  error: StepError;
+  id: StepIds;
+  error: StepError | null;
   checkStatus: StepStatus;
+  isTip: boolean;
+  phase: string;
+  startCount: number;
+  startedAt: string;
+  completedAt: string;
+  data?: DataType;
   inner?: DataType;
+  startedManuallyAt?: string;
 }
 
 export const DocumentStepTypes = {
@@ -66,6 +81,8 @@ export const DocumentStepTypes = {
   INE: 'mexican-ine-validation',
   RFC: 'mexican-rfc-validation',
   BrazilianCpf: 'brazilian-cpf-validation',
+  CreditArgentinianFidelitas: VerificationPatternTypes.CreditArgentinianFidelitas,
+  CreditBrazilianSerasa: VerificationPatternTypes.CreditBrazilianSerasa,
   ChileanRegistroCivil: VerificationPatternTypes.ChileanRegistroCivil,
   ColombianNationalPolice: VerificationPatternTypes.ColombianNationalPolice,
   ColombianProcuraduria: VerificationPatternTypes.ColombianProcuraduria,
@@ -118,14 +135,15 @@ export const DocumentSecuritySteps = [
   DocumentStepTypes.FaceMatch,
 ];
 
-export const DocumentMxSteps = [
-  DocumentStepTypes.CURP,
-  DocumentStepTypes.INE,
-  DocumentStepTypes.RFC,
+export const CountrySpecificCreditChecks = [
+  DocumentStepTypes.CreditArgentinianFidelitas,
+  DocumentStepTypes.CreditBrazilianSerasa,
 ];
 
 export const CountrySpecificChecks = [
-  ...DocumentMxSteps,
+  DocumentStepTypes.CURP,
+  DocumentStepTypes.INE,
+  DocumentStepTypes.RFC,
   DocumentStepTypes.ArgentinianDni,
   DocumentStepTypes.ArgentinianRenaper,
   DocumentStepTypes.BolivianOep,
@@ -221,6 +239,11 @@ export const OptionalGovCheckErrorCodes = {
   [VerificationPatternTypes.PeruvianReniec]: ['peruvianReniec.fullNameMismatch'],
 };
 
+export const StepSkippedCodes = [
+  'customDocument.skipped',
+  'customDocument.notProvided',
+];
+
 function getAltered(step, identity, countries, document) {
   switch (step.id) {
     case DocumentStepTypes.AlternationDetection:
@@ -253,6 +276,10 @@ export function getStepStatus({ id, status, error }) {
   }
 
   const code = get(error, 'code');
+
+  if (StepSkippedCodes.includes(code)) {
+    return StepStatus.Skipped;
+  }
 
   return code && StepIncompletionErrors[id] && StepIncompletionErrors[id].includes(code)
     ? StepStatus.Incomplete
@@ -294,7 +321,7 @@ export function getReaderFrontendSteps(readerStep) {
 export function getComputedSteps(readerStep, identity, document) {
   const steps = [];
   const isDocumentExpired = identity?.computed?.isDocumentExpired?.data?.[document?.type];
-  const isUndetermined = isEmpty(isDocumentExpired);
+  const isUndetermined = isNil(isDocumentExpired);
   const isCovid = isCovidTolerance(document.fields?.expirationDate?.value, document.country);
 
   if (isUndetermined) {

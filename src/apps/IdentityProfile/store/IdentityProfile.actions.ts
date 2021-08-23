@@ -1,5 +1,5 @@
 import { notification } from 'apps/ui';
-import { ERROR_COMMON } from 'models/Error.model';
+import { ErrorMessages } from 'models/Error.model';
 import { identityRemove } from 'state/identities/identities.actions';
 import * as client from '../client/IndentityProfile.client';
 import { IdentityProfileResponse } from '../models/IdentityProfile.model';
@@ -12,7 +12,7 @@ export const identityProfileLoad = (identityId: string, asMerchantId: string) =>
     dispatch({ type: IdentityProfileActionTypes.IDENTITY_PROFILE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: IdentityProfileActionTypes.IDENTITY_PROFILE_FAILURE, error });
-    notification.error(ERROR_COMMON);
+    notification.error(ErrorMessages.ERROR_COMMON);
     throw error;
   }
 };

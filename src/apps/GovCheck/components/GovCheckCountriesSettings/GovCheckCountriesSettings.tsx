@@ -3,7 +3,7 @@ import { Box, FormControl, FormControlLabel, Grid, Switch } from '@material-ui/c
 import { GovCheck, GovCheckConfigurations, govCheckCountriesOrder, govCheckParse, GovCheckTypesForStep } from 'apps/GovCheck/models/GovCheck.model';
 import { useIntl } from 'react-intl';
 import { VerificationPatterns } from 'models/VerificationPatterns.model';
-import { flags } from '../../assets/flags';
+import { flags } from 'assets/flags';
 import { useStyles } from './GovCheckCountriesSettings.styles';
 
 export function GovCheckCountriesSettings({ verificationPattern, onChange }: {
