@@ -1,6 +1,8 @@
 import { Box, Button, Grid, IconButton, Typography } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 import { useOverlay } from 'apps/overlay';
 import moment from 'moment';
+import { useLongPolling } from 'lib/longPolling.hook';
 import classNames from 'classnames';
 import { cloneDeep } from 'lodash';
 import { Watchlist } from 'models/CustomWatchlist.model';
@@ -10,6 +12,7 @@ import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { CustomWatchListModal } from '../CustomWatchListModal/CustomWatchListModal';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
+import { customWatchlistClear, customWatchlistLoad } from 'apps/CustomWatchlist/state/CustomWatchlist.actions';
 
 export interface CustomWatchlistSettingsProps{
   watchlists: Watchlist[];
@@ -19,6 +22,7 @@ export interface CustomWatchlistSettingsProps{
 export function CustomWatchlistItemSettings({ watchlists, onUpdate }: CustomWatchlistSettingsProps) {
   const intl = useIntl();
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [createOverlay, closeOverlay] = useOverlay();
   const lastStepNumber = watchlists?.length;
   const [checkedDocuments, setCheckedDocuments] = useState<Watchlist[]>([]);
@@ -47,6 +51,16 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: CustomWatc
   //   newSettings.splice(stepIndex, 1);
   //   onUpdate(newSettings);
   // }, [onUpdate, watchlist]);
+
+  const handleLoad = useCallback((isReload) => {
+    console.log('isReload', isReload);
+    // if (identityId) {
+    // }
+    dispatch(customWatchlistLoad('6123d52546e18f001d107e31', isReload));
+    return () => dispatch(customWatchlistClear());
+  }, [dispatch]);
+
+  useLongPolling(handleLoad, 3000, { isCheckMerchantTag: false });
 
   useEffect(() => {
     setCheckedDocuments(watchlists?.flat());

@@ -11,6 +11,7 @@ export function useLongPolling(callback, interval = 20000, { isCheckMerchantTag 
     let timer;
 
     if (!isCheckMerchantTag || tags.includes(MerchantTags.CanUseLongPolling)) {
+      console.log('tags', tags);
       if (isUseFirstInvoke) {
         // first invoke
         result = callback(false);
