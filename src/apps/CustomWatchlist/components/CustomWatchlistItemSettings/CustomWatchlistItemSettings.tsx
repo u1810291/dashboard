@@ -1,5 +1,5 @@
 import { Box, Button, Grid, IconButton, Typography } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useOverlay } from 'apps/overlay';
 import moment from 'moment';
 import { useLongPolling } from 'lib/longPolling.hook';
@@ -7,12 +7,13 @@ import classNames from 'classnames';
 import { cloneDeep } from 'lodash';
 import { Watchlist } from 'models/CustomWatchlist.model';
 import { DocumentListOrdered, DocumentTypes } from 'models/Document.model';
+import { customWatchlistClear, customWatchlistLoad } from 'apps/CustomWatchlist/state/CustomWatchlist.actions';
+import { selectMockData } from 'apps/CustomWatchlist/state/CustomWatchlist.selectors';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { CustomWatchListModal } from '../CustomWatchListModal/CustomWatchListModal';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
-import { customWatchlistClear, customWatchlistLoad } from 'apps/CustomWatchlist/state/CustomWatchlist.actions';
 
 export interface CustomWatchlistSettingsProps{
   watchlists: Watchlist[];
@@ -24,7 +25,8 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: CustomWatc
   const classes = useStyles();
   const dispatch = useDispatch();
   const [createOverlay, closeOverlay] = useOverlay();
-  const lastStepNumber = watchlists?.length;
+  const [isOk, setIsOk] = useState(false);
+  const mockData = useSelector(selectMockData);
   const [checkedDocuments, setCheckedDocuments] = useState<Watchlist[]>([]);
 
   // const handleSubmitStep = useCallback((stepIndex: number) => (checked: Watchlist[]) => {
@@ -38,9 +40,14 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: CustomWatc
   //   closeOverlay();
   // }, [closeOverlay, onUpdate, watchlist]);
 
+
+
   const handleChangeStep = useCallback((watchlist?: Watchlist) => () => {
-    createOverlay(<CustomWatchListModal watchlist={watchlist} />);
-  }, [createOverlay]);
+    createOverlay(<CustomWatchListModal watchlist={watchlist} onClose={closeOverlay} />);
+    setTimeout(() => {
+      setIsOk(true);
+    }, 3000);
+  }, [createOverlay, closeOverlay]);
 
   // const handleDeleteStep = useCallback((stepIndex: number) => () => {
   //   const newSettings = cloneDeep(watchlist);
@@ -60,7 +67,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: CustomWatc
     return () => dispatch(customWatchlistClear());
   }, [dispatch]);
 
-  useLongPolling(handleLoad, 3000, { isCheckMerchantTag: false });
+  useLongPolling(handleLoad, 3000, { isCheckMerchantTag: false, isDone: isOk });
 
   useEffect(() => {
     setCheckedDocuments(watchlists?.flat());

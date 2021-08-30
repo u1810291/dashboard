@@ -20,4 +20,14 @@ export const useStyles = makeStyles((theme) => createStyles({
   placeholder: {
     color: theme.palette.text.disabled,
   },
+  closeButton: {
+    cursor: 'pointer',
+    position: 'absolute',
+    top: '15px',
+    right: '15px',
+    width: '20px',
+    height: '20px',
+    // @ts-ignore
+    color: theme.palette.button.close.main,
+  },
 }));

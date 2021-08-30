@@ -3,9 +3,9 @@ import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { FiFlag } from 'react-icons/fi';
 import { VerificationResponse } from 'models/Verification.model';
+import { CustomWatchlistCheckTypes, CustomWatchlistSettingsTypes } from 'models/CustomWatchlist.model';
 import { CustomWatchlistVerification } from '../components/CustomWatchlistVerification/CustomWatchlistVerification';
 import { CustomWatchlistSettings } from '../components/CustomWatchlistSettings/CustomWatchlistSettings';
-import { CustomWatchlistCheckTypes, CustomWatchlistSettingsTypes } from '../models/CustomWatchlist.model';
 
 type ProductSettingsCustomWatchlist = ProductSettings<CustomWatchlistSettingsTypes>;
 

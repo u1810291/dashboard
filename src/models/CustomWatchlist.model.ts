@@ -1,6 +1,7 @@
-import { StepStatus } from 'models/Step.model';
-import { AllowedRegions, CustomWatchlistErrorCodes } from 'apps/CustomWatchlist/models/CustomWatchlist.model';
-import { VerificationPatternTypes } from './VerificationPatterns.model';
+export interface AllowedRegions {
+  country: string;
+  regions: string[];
+}
 
 export interface IpValidation {
   allowedRegions: AllowedRegions[];
@@ -33,3 +34,19 @@ export interface Watchlist {
   'createdAt': string;
   'updatedAt': string;
 }
+
+export enum CustomWatchlistSettingsTypes {
+  // TODO: mock
+  str = 'str',
+}
+
+export enum CustomWatchlistCheckTypes {
+  CustomDatabases = 'customDatabases',
+}
+
+export const getAllAllowedRegions = (countries) => (
+  countries.map((country) => ({
+    country: country.id,
+    regions: country.regions,
+  }))
+);

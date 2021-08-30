@@ -2,7 +2,8 @@ import React, { useMemo, useCallback } from 'react';
 import { FiPlus, FiChevronLeft } from 'react-icons/fi';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { Box, Button, FormControlLabel, InputLabel, Select, MenuItem, Grid, Radio, RadioGroup, Switch, Typography } from '@material-ui/core';
+import { Box, Button, IconButton, InputLabel, Select, MenuItem, Grid, Radio, RadioGroup, Switch, Typography } from '@material-ui/core';
+import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
 import { CustomWatchlistActions, Watchlist } from 'models/CustomWatchlist.model';
 import classnames from 'classnames';
@@ -12,7 +13,7 @@ import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
 
 const placeholderOption = 'no-action';
 
-export function CustomWatchListModal({ watchlist }: { watchlist?: Watchlist }) {
+export function CustomWatchListModal({ watchlist, onClose }: { watchlist?: Watchlist; onClose: Function }) {
   const intl = useIntl();
   const classes = useStyles();
 
@@ -45,11 +46,23 @@ export function CustomWatchListModal({ watchlist }: { watchlist?: Watchlist }) {
     [],
   );
 
+  const closeModal = useCallback(
+    () => {
+      onClose();
+    },
+    [onClose],
+  );
+
   return (
     <Box className={classes.root}>
-      <Typography variant="h3" className={classes.modalTitle}>
-        {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.title' })}
-      </Typography>
+      <Grid container justifyContent="space-between" alignItems="flex-start">
+        <Typography variant="h3" className={classes.modalTitle}>
+          {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.title' })}
+        </Typography>
+        <div onClick={closeModal} onKeyPress={closeModal} role="button" tabIndex={0} className={classes.closeButton}>
+          <Close />
+        </div>
+      </Grid>
       <Formik
         initialValues={{
           name: 'asdasd',

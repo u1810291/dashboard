@@ -5,8 +5,7 @@ import { ProductSettingsProps } from 'models/Product.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { Watchlist } from 'models/CustomWatchlist.model';
-import { CustomWatchlistSettingsTypes } from '../../models/CustomWatchlist.model';
+import { Watchlist, CustomWatchlistSettingsTypes } from 'models/CustomWatchlist.model';
 import { CustomWatchlistItemSettings } from '../CustomWatchlistItemSettings/CustomWatchlistItemSettings';
 
 const mock: Watchlist[] = [{
