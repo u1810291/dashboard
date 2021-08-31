@@ -833,7 +833,7 @@
   "GovCheck.check.argentinian-dni-validation": "DNI Card Validity Check",
   "GovCheck.check.argentinian-renaper-validation": "DNI Identity Validation",
   "GovCheck.check.bolivian-oep-validation": "OEP",
-  "GovCheck.check.brazilian-cpf-validation": "CPF",
+  "GovCheck.check.brazilian-cpf-validation": "Receita Federal",
   "GovCheck.check.brazilian-cpf-validation.facematch": "Government facematch",
   "GovCheck.check.brazilian-cpf-validation.facematch.description": "(Driver License only)",
   "GovCheck.check.chilean-registro-civil-validation": "Registro Civil",
