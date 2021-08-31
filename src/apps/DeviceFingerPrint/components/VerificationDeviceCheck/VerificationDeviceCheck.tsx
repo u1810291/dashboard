@@ -1,5 +1,6 @@
 import { Box, Grid, Typography } from '@material-ui/core';
-import { BrowserIcons, DeviceIcons, getDeviceBrowserLabel, getDeviceBrowserType, getDeviceModel, getDeviceOSLabel, getDeviceOSType, getDevicePlatformType, getDeviceType, OSIcons, PlatformTypes, DeviceTypes, OSTypes } from 'models/DeviceCheck.model';
+import { FiMapPin } from 'react-icons/fi';
+import { BrowserIcons, DeviceIcons, getDeviceBrowserLabel, getDeviceBrowserType, getDeviceModel, getDeviceOSLabel, getDeviceOSType, getDevicePlatformType, getDeviceType, getDeviceIpAddress, OSIcons, PlatformTypes, DeviceTypes, OSTypes } from 'models/DeviceCheck.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
@@ -19,6 +20,7 @@ export function VerificationDeviceCheck({ input }: {
   const osType = getDeviceOSType(input);
   const osLabel = getDeviceOSLabel(input);
   const browserLabel = getDeviceBrowserLabel(input);
+  const ipAddress = getDeviceIpAddress(input);
 
   const DeviceIcon = DeviceIcons[deviceType];
   const OSIcon = OSIcons[osType];
@@ -95,6 +97,22 @@ export function VerificationDeviceCheck({ input }: {
         </Grid>
       </Grid>
       )}
+      {/* ip */}
+      <Grid container alignItems="center" className={classes.check}>
+        <Grid item xs={6}>
+          <Box className={classes.labelWrap}>
+            <Box display="flex" flexShrink={0} color="common.black90" fontSize={17} className={classes.titleIcon}>
+              <FiMapPin />
+            </Box>
+            <Typography className={classes.label} variant="body1">
+              {intl.formatMessage({ id: 'DeviceCheck.ip' })}
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography className={classes.value} variant="subtitle2">{ipAddress}</Typography>
+        </Grid>
+      </Grid>
     </Box>
   );
 }

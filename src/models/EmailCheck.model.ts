@@ -49,6 +49,12 @@ export const EmailRiskFields = [
   { fieldName: 'riskThreshold', inline: true },
 ];
 
+export enum EmailRiskFieldTypes {
+  EmailAddress = 'emailAddress',
+  RiskScore = 'riskScore',
+  RiskThreshold = 'riskThreshold',
+}
+
 export function getEmailRiskExtra(emailRiskStep: IStep): EmailRiskStep {
   if (!emailRiskStep) {
     return null;

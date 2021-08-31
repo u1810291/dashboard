@@ -25,7 +25,7 @@ export function PhoneRisk({ step }: {
             {step.error && (
               <Box>
                 {intl.formatMessage({ id: `Checks.result.riskAnalysis.${step.error.code}`, defaultMessage: intl.formatMessage({ id: 'Error.common' }) }, {
-                  phone: step.data.phoneNumber,
+                  phone: step.data?.phoneNumber,
                 })}
               </Box>
             )}

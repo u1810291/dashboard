@@ -597,6 +597,7 @@
   "DeviceCheck.deviceType.mobile": "Mobile",
   "DeviceCheck.deviceType.tablet": "Tablet",
   "DeviceCheck.deviceType.title": "Device Type",
+  "DeviceCheck.ip": "IP Address",
   "DeviceCheck.model": "Model",
   "DeviceCheck.os": "OS",
   "DeviceFingerPrint.card.check.browser": "Browser check",

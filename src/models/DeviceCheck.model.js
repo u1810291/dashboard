@@ -46,6 +46,10 @@ export function getDeviceTypeValue(deviceFingerprint) {
   return get(deviceFingerprint, 'device.type', null);
 }
 
+export function getDeviceIpAddress(deviceFingerprint) {
+  return get(deviceFingerprint, 'ip', null);
+}
+
 export const DevicesTableTypes = {
   devices: 'devices',
   browsers: 'browsers',
