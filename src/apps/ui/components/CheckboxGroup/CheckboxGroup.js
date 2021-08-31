@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FormControlLabel, Checkbox, Box } from '@material-ui/core';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
@@ -13,7 +13,7 @@ export function CheckboxGroup({
 }) {
   const classes = useStyles();
 
-  function handleCheckboxChange({ target }) {
+  const handleCheckboxChange = useCallback(({ target }) => {
     if (!onChange) {
       return;
     }
@@ -23,7 +23,7 @@ export function CheckboxGroup({
     } else {
       onChange(values.filter((value) => value !== target.value));
     }
-  }
+  }, [onChange, values]);
 
   return (
     <fieldset className={classes.checkboxGroup}>

@@ -41,7 +41,7 @@ export function SideProfileMenu({ profile, onError }: {
       try {
         await dispatch(identityProfileLoad(identityId, asMerchantId));
       } catch (error) {
-        if (error?.response?.status === 404) {
+        if ((error as any)?.response?.status === 404) {
           onError(IdentityProfileErrorTypes.IdentityNotFound);
         } else {
           onError(IdentityProfileErrorTypes.RequestError);

@@ -2,13 +2,12 @@ import { notification } from 'apps/ui';
 import { ErrorMessages } from 'models/Error.model';
 import { identityRemove } from 'state/identities/identities.actions';
 import * as client from '../client/IndentityProfile.client';
-import { IdentityProfileResponse } from '../models/IdentityProfile.model';
 import { IdentityProfileActionTypes } from './IdentityProfile.store';
 
 export const identityProfileLoad = (identityId: string, asMerchantId: string) => async (dispatch) => {
   dispatch({ type: IdentityProfileActionTypes.IDENTITY_PROFILE_REQUEST });
   try {
-    const { data }: { data: IdentityProfileResponse } = await client.getIdentityProfile(identityId, { ...(asMerchantId && { asMerchantId }) });
+    const { data } = await client.getIdentityProfile(identityId, { ...(asMerchantId && { asMerchantId }) });
     dispatch({ type: IdentityProfileActionTypes.IDENTITY_PROFILE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: IdentityProfileActionTypes.IDENTITY_PROFILE_FAILURE, error });

@@ -24,7 +24,7 @@ export function VerificationDataButton({ className, verificationId }: {
       createOverlay(<VerificationWebhookModal webhook={data} onClose={closeOverlay} />);
     } catch (e) {
       // eslint-disable-next-line
-      console.error('error', e.message)
+      console.error('error', (e as any).message)
     }
     setIsLoading(false);
   }, [verificationId, createOverlay, closeOverlay, asMerchantId]);
