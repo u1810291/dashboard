@@ -6,7 +6,7 @@ import { isObjectEmpty } from 'lib/object';
 import { get } from 'lodash';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { getDocumentExtras } from './Document.model';
-import { getEmailRiskExtra } from './EmailRisk.model';
+import { getEmailRiskExtra } from './EmailCheck.model';
 import { getEmailVerificationExtra } from './EmailValidation.model';
 import { FilterRangesByLocal, FilterRangeTypes, initDateFilter } from './Filter.model';
 import { getIpCheckStep } from './IpCheck.model';

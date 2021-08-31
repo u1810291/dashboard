@@ -11,9 +11,14 @@ export interface RiskAnalysisProps {
   step: RiskAnalysisStep;
 }
 
-export function RiskAnalysis({ step = {} }: RiskAnalysisProps) {
+export function RiskAnalysis({ step }: RiskAnalysisProps) {
   const classes = useStyles();
   const intl = useIntl();
+
+  if (!step) {
+    return null;
+  }
+
   return (
     <Box p={1} pt={2} className={classes.bordered}>
       <CheckBarExpandable step={step} title="Checks.result.riskAnalysis.title">

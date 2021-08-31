@@ -58,6 +58,7 @@ export function IdentityDocumentPDF({ identity, nom151FileContent }) {
             phoneValidation={identity.phoneValidation}
             riskAnalysis={identity.riskAnalysis}
             emailValidationStep={identity.emailValidationStep}
+            emailRisk={identity.emailRiskStep}
           />
         </View>
         {/* Metadata */}

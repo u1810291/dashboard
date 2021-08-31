@@ -29,7 +29,7 @@ export function ButtonVerificationGeneratePdf({ verification, className }: Butto
       return;
     }
     handlePDFGenerating(true);
-    const { getIdentityDocumentBlob } = await import('../../IdentityDocument.pdf');
+    const { getIdentityDocumentBlob } = await import('../../VerificationDocument.pdf');
     const blob = await getIdentityDocumentBlob(verification);
     downloadBlob(blob, `mati-identity-${verification?._id}.pdf`);
     handlePDFGenerating(false);
