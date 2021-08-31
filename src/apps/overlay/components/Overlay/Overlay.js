@@ -22,7 +22,7 @@ export function Overlay({ withBlur = false, inline = false, onClose, options, ch
   const overlayRef = useRef();
 
   const handleClose = useCallback((e) => {
-    if (e.target === e.currentTarget && !options?.sticky) {
+    if (e.target === e.currentTarget && !options.sticky) {
       if (options?.onClose) {
         options.onClose();
       } else {

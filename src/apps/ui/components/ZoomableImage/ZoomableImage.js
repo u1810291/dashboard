@@ -1,28 +1,27 @@
 import { OverlayWithBlur } from 'apps/overlay';
 import React, { useCallback, useState } from 'react';
-import { FiRotateCcw, FiRotateCw, FiX, FiZoomIn } from 'react-icons/fi';
+import { FiRotateCcw, FiRotateCw, FiZoomIn } from 'react-icons/fi';
 import { Box } from '@material-ui/core';
-import { KeyboardKeys } from 'models/Keyboard.model';
 import { useStyles } from './ZoomableImage.styles';
 
-export function ZoomableImage({ src = '', alt = '' }: {src: string; alt?: string}) {
+export function ZoomableImage({ src = '', alt = '' }) {
   const classes = useStyles();
-  const [isModalShown, setIsModalShown] = useState<boolean>(false);
-  const [angle, rotate] = useState<number>(0);
+  const [isModalShown, setIsModalShown] = useState(false);
+  const [angle, rotate] = useState(0);
 
   const handleClose = () => {
     rotate(0);
     setIsModalShown(false);
   };
 
-  const rotateEvent = (event: React.KeyboardEvent) => {
-    if (event.key === KeyboardKeys.ArrowLeft) {
+  const rotateEvent = (event) => {
+    if (event.keyCode === 37) {
       rotate(angle - 90);
     }
-    if (event.key === KeyboardKeys.ArrowRight) {
+    if (event.keyCode === 39) {
       rotate(angle + 90);
     }
-    if (event.key === KeyboardKeys.Escape) {
+    if (event.keyCode === 27) {
       document.body.style.position = 'fixed';
       handleClose();
     }
@@ -37,14 +36,14 @@ export function ZoomableImage({ src = '', alt = '' }: {src: string; alt?: string
         className={classes.initImage}
         onKeyDown={rotateEvent}
         role="button"
-        tabIndex={0}
+        tabIndex="0"
       >
         <div
-          className={classes.hoverWrapper}
+          className="hoverWrapper"
           onClick={handleWrapperClick}
           onKeyUp={() => {}}
           role="button"
-          tabIndex={0}
+          tabIndex="0"
         >
           <FiZoomIn color="white" size={28} className="zoomIcon" />
         </div>
@@ -53,7 +52,7 @@ export function ZoomableImage({ src = '', alt = '' }: {src: string; alt?: string
         <OverlayWithBlur onClose={handleClose}>
           <Box className={classes.zoomContent}>
             <img
-              className={classes.zoomedImage}
+              className="zoomedImage"
               src={src}
               alt={alt}
               style={{ transform: `rotate(${angle}deg)` }}
@@ -61,30 +60,22 @@ export function ZoomableImage({ src = '', alt = '' }: {src: string; alt?: string
               role="presentation"
             />
 
-            <div className={classes.actions}>
+            <div className="actions">
               <FiRotateCcw
-                className={classes.actionIcon}
+                className="left"
                 color="white"
                 size="2em"
                 onClick={handleRotateLeftClick}
                 onKeyDown={rotateEvent}
-                tabIndex={0}
+                tabIndex="0"
               />
               <FiRotateCw
-                className={classes.actionIcon}
+                className="right"
                 color="white"
                 size="2em"
                 onClick={handleRotateRightClick}
                 onKeyDown={rotateEvent}
-                tabIndex={0}
-              />
-              <FiX
-                className={classes.actionIcon}
-                color="white"
-                size="2em"
-                onClick={handleClose}
-                onKeyDown={rotateEvent}
-                tabIndex={0}
+                tabIndex="0"
               />
             </div>
           </Box>
