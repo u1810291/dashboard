@@ -37,18 +37,18 @@ export function VerificationFlowHeader(props) {
     setEditable(false);
   }, [currentFlow]);
 
-  const handleClick = ({ currentTarget }: MouseEvent) => {
+  const handleClick = useCallback(({ currentTarget }: MouseEvent) => {
     setAnchorEl(currentTarget);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
-  function handleEdit() {
+  const handleEdit = useCallback(() => {
     setEditable(true);
     handleClose();
-  }
+  }, [handleClose]);
 
   const handleDelete = useCallback(async () => {
     if (merchantFlowList.length <= 1) {
@@ -78,9 +78,9 @@ export function VerificationFlowHeader(props) {
     setEditable(false);
   }, [dispatch]);
 
-  function cancelEditable() {
+  const cancelEditable = useCallback(() => {
     setEditable(false);
-  }
+  }, []);
 
   const handleCopyLink = useCallback(() => {
     const url = permalinkUrl({ clientId: appModel.value.clientId, flowId: currentFlow.id });

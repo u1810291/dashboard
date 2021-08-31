@@ -18,7 +18,7 @@ import { updateEditedCustomDocument, deleteCustomDocument, updateCustomDocumentM
 import { CustomDocumentWizard } from '../CustomDocumentWizard/CustomDocumentWizard';
 
 // TODO: delete compatibilityMode when old dashboard is fully deprecated
-export function CustonDocumentList({ compatibilityMode = false }: { compatibilityMode?: boolean}) {
+export function CustonDocumentList({ compatibilityMode = false }: { compatibilityMode?: boolean }) {
   const dispatch = useDispatch();
   const intl = useIntl();
   const classes = useStyles();
@@ -53,7 +53,13 @@ export function CustonDocumentList({ compatibilityMode = false }: { compatibilit
       await dispatch(deleteCustomDocument(customDocumentType));
     } catch (error) {
       console.error(error);
-      notification.error(intl.formatMessage({ id: error?.data?.code ? `CustomDocuments.settings.error.${error.data.code}` : ErrorMessages.ERROR_COMMON }, { flowName: error?.data?.flowName }));
+      notification.error(intl.formatMessage({
+        id: (error as any)?.data?.code
+          ? `CustomDocuments.settings.error.${(error as any).data.code}`
+          : ErrorMessages.ERROR_COMMON,
+      }, {
+        flowName: (error as any)?.data?.flowName,
+      }));
     }
   }, [dispatch, intl, customDocuments]);
 

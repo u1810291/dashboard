@@ -52,7 +52,7 @@ export function IpChecksConfiguration() {
         ipValidation: { allowedRegions },
       }));
     } catch (error) {
-      console.error('error', error.message);
+      console.error('error', (error as any).message);
       notification.error(intl.formatMessage({ id: 'Error.common' }));
     } finally {
       setIsLoading(false);

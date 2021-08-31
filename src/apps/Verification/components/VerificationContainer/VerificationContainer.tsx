@@ -36,7 +36,7 @@ export function VerificationContainer() {
         await dispatch(verificationLoad(verificationId, asMerchantId));
         setErrorType(null);
       } catch (error) {
-        if (error?.response?.status === 404) {
+        if ((error as any)?.response?.status === 404) {
           setErrorType(VerificationErrorTypes.VerificationNotFound);
         } else {
           setErrorType(VerificationErrorTypes.RequestError);

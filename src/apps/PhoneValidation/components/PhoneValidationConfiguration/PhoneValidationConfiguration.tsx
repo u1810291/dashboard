@@ -47,7 +47,7 @@ export function PhoneValidationConfiguration() {
         phoneRiskAnalysisThreshold: riskScore,
       }));
     } catch (e) {
-      console.error('error', e.message);
+      console.error('error', (e as any).message);
       notification.error(intl.formatMessage({ id: 'Error.common' }));
     } finally {
       setIsLoading(false);
@@ -75,7 +75,7 @@ export function PhoneValidationConfiguration() {
       await dispatch(merchantUpdateFlow(payload));
       setModeCurrentMethod(phoneOwnershipValidationValue);
     } catch (e) {
-      console.error('error', e.message);
+      console.error('error', (e as any).message);
       notification.error(intl.formatMessage({ id: 'Error.common' }));
     }
   }, [isRiskAnalysis, riskScore, dispatch, intl]);
@@ -92,7 +92,7 @@ export function PhoneValidationConfiguration() {
       }));
       setModeCurrentMethod(method);
     } catch (e) {
-      console.error('error', e.message);
+      console.error('error', (e as any).message);
       notification.error(intl.formatMessage({ id: 'Error.common' }));
     }
     setIsLoading(false);
