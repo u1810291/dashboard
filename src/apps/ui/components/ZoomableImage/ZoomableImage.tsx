@@ -2,9 +2,10 @@ import { OverlayWithBlur } from 'apps/overlay';
 import React, { useCallback, useState } from 'react';
 import { FiRotateCcw, FiRotateCw, FiZoomIn } from 'react-icons/fi';
 import { Box } from '@material-ui/core';
+import { PrivateImage } from 'apps/media';
 import { useStyles } from './ZoomableImage.styles';
 
-export function ZoomableImage({ src = '', alt = '' }) {
+export function ZoomableImage({ src = '', alt = '', isPublic }: {src: string; alt: string; isPublic?: boolean}) {
   const classes = useStyles();
   const [isModalShown, setIsModalShown] = useState(false);
   const [angle, rotate] = useState(0);
@@ -36,29 +37,40 @@ export function ZoomableImage({ src = '', alt = '' }) {
         className={classes.initImage}
         onKeyDown={rotateEvent}
         role="button"
-        tabIndex="0"
+        tabIndex={0}
       >
         <div
           className="hoverWrapper"
           onClick={handleWrapperClick}
           onKeyUp={() => {}}
           role="button"
-          tabIndex="0"
+          tabIndex={0}
         >
           <FiZoomIn color="white" size={28} className="zoomIcon" />
         </div>
-        <img src={src} alt={alt} className={classes.initImage} />
+        {isPublic ? <img src={src} alt={alt} className={classes.initImage} /> : <PrivateImage src={src} alt={alt} className={classes.initImage} />}
         {isModalShown && (
         <OverlayWithBlur onClose={handleClose}>
           <Box className={classes.zoomContent}>
-            <img
-              className="zoomedImage"
-              src={src}
-              alt={alt}
-              style={{ transform: `rotate(${angle}deg)` }}
-              onKeyDown={rotateEvent}
-              role="presentation"
-            />
+            {isPublic ? (
+              <img
+                className="zoomedImage"
+                src={src}
+                alt={alt}
+                style={{ transform: `rotate(${angle}deg)` }}
+                onKeyDown={rotateEvent}
+                role="presentation"
+              />
+            ) : (
+              <PrivateImage
+                className="zoomedImage"
+                src={src}
+                alt={alt}
+                style={{ transform: `rotate(${angle}deg)` }}
+                onKeyDown={rotateEvent}
+                role="presentation"
+              />
+            )}
 
             <div className="actions">
               <FiRotateCcw
@@ -67,7 +79,7 @@ export function ZoomableImage({ src = '', alt = '' }) {
                 size="2em"
                 onClick={handleRotateLeftClick}
                 onKeyDown={rotateEvent}
-                tabIndex="0"
+                tabIndex={0}
               />
               <FiRotateCw
                 className="right"
@@ -75,7 +87,7 @@ export function ZoomableImage({ src = '', alt = '' }) {
                 size="2em"
                 onClick={handleRotateRightClick}
                 onKeyDown={rotateEvent}
-                tabIndex="0"
+                tabIndex={0}
               />
             </div>
           </Box>

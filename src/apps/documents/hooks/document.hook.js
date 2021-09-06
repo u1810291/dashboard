@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectCountriesList } from 'state/countries/countries.selectors';
+import { getMedia } from 'apps/media';
 
 export function useDocumentTitle(document) {
   const intl = useIntl();
@@ -24,7 +25,10 @@ export function usePhotosOrientation(document) {
     const loadPhoto = async () => {
       if (document?.photos?.length) {
         try {
-          const orientation = await getPhotosOrientation(document.photos[0]);
+          const response = await getMedia(document.photos[0]);
+          const blob = await response.blob();
+          const objURL = URL.createObjectURL(blob);
+          const orientation = await getPhotosOrientation(objURL);
           setPhotosOrientation(orientation);
         } catch (e) {
           console.error('error loading photo', e);
