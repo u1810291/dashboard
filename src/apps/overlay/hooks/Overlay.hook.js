@@ -10,6 +10,7 @@ export function useOverlay() {
   }, [dispatch]);
 
   const createOverlay = useCallback((children, opts = {}) => {
+    console.log('opts', opts);
     dispatch(overlayCreate({
       children,
       options: {

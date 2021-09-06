@@ -18,6 +18,7 @@ export function OverlayContainer() {
     return () => rootEl.remove();
   }, []);
 
+  console.log('overlay', overlay);
   return overlay
     ? createPortal(<Overlay {...overlay} />, rootRef.current)
     : null;

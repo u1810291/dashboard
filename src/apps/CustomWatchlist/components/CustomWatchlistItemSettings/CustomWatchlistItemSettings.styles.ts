@@ -38,4 +38,10 @@ export const useStyles = makeStyles((theme) => createStyles({
   colorRed: {
     color: theme.palette.common.red,
   },
+  skeletonWrap: {
+    border: `1px solid ${theme.palette.common.black7}`,
+    borderRadius: 3,
+    padding: 20,
+    height: 154,
+  },
 }));

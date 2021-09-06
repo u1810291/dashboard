@@ -1,6 +1,7 @@
 import { Grid } from '@material-ui/core';
 import React, { useState, useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
+import { ValidatedInputsKeys } from 'models/CustomWatchlist.model';
 import { ValidatedInput } from './ValidatedInput';
 
 const placeholderKey = 'placeholder';
@@ -19,27 +20,27 @@ export function ValidatedInputs() {
   const inputOptions = useMemo(() => [
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.name' }),
-      value: 'name',
+      value: ValidatedInputsKeys.Name,
     },
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.dateOfBirth' }),
-      value: 'dateOfBirth',
+      value: ValidatedInputsKeys.DateOfBirth,
     },
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.nationalId' }),
-      value: 'nationalId',
+      value: ValidatedInputsKeys.NationalId,
     },
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.drivingLicense' }),
-      value: 'drivingLicense',
+      value: ValidatedInputsKeys.DrivingLicense,
     },
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.passportNumber' }),
-      value: 'passportNumber',
+      value: ValidatedInputsKeys.PassportNumber,
     },
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.countryCode' }),
-      value: 'countryCode',
+      value: ValidatedInputsKeys.CountryCode,
     },
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.notSelected' }),

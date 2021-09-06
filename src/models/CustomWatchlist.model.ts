@@ -3,23 +3,6 @@ export interface AllowedRegions {
   regions: string[];
 }
 
-export interface IpValidation {
-  allowedRegions: AllowedRegions[];
-}
-
-export interface CustomWatchlistStepData {
-  country: string;
-  countryCode: string;
-  region: string;
-  regionCode: string;
-  city: string;
-  zip: string;
-  latitude: number;
-  longitude: number;
-  safe: boolean;
-  mapUrl: string;
-}
-
 export enum CustomWatchlistActions {
   AutoReject = 'auto-reject',
   Manual = 'manual',
@@ -27,12 +10,12 @@ export enum CustomWatchlistActions {
 }
 
 export interface Watchlist {
-  id: number;
+  id: string;
   name: string;
-  // eslint-disable-next-line camelcase
-  merchant_id: string;
-  'createdAt': string;
-  'updatedAt': string;
+  createdAt: string;
+  updatedAt: string;
+  mapping: any | null;
+  deleted: boolean;
 }
 
 export enum CustomWatchlistSettingsTypes {
@@ -42,6 +25,15 @@ export enum CustomWatchlistSettingsTypes {
 
 export enum CustomWatchlistCheckTypes {
   CustomDatabases = 'customDatabases',
+}
+
+export enum ValidatedInputsKeys {
+  Name = 'name',
+  DateOfBirth = 'dateOfBirth',
+  NationalId = 'nationalId',
+  DrivingLicense = 'drivingLicense',
+  PassportNumber = 'passportNumber',
+  CountryCode = 'countryCode',
 }
 
 export const getAllAllowedRegions = (countries) => (

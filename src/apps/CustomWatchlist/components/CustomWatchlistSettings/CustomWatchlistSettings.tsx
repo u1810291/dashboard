@@ -8,14 +8,6 @@ import { useIntl } from 'react-intl';
 import { Watchlist, CustomWatchlistSettingsTypes } from 'models/CustomWatchlist.model';
 import { CustomWatchlistItemSettings } from '../CustomWatchlistItemSettings/CustomWatchlistItemSettings';
 
-const mock: Watchlist[] = [{
-  id: 1234,
-  name: 'Test Watchlist',
-  merchant_id: 'merchant_id',
-  createdAt: '2021-01-01T00:00:00.000Z',
-  updatedAt: '2021-01-01T00:00:00.000Z',
-}];
-
 export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsProps<CustomWatchlistSettingsTypes>) {
   const intl = useIntl();
 
@@ -32,7 +24,7 @@ export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsP
             </Typography>
           </Box>
         </Box>
-        <CustomWatchlistItemSettings watchlists={mock} onUpdate={(watchlists) => console.log('watchlist', watchlists)} />
+        <CustomWatchlistItemSettings />
       </Grid>
     </Grid>
   );

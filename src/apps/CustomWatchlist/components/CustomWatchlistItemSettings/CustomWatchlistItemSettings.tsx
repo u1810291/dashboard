@@ -2,121 +2,161 @@ import { Box, Button, Grid, IconButton, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useOverlay } from 'apps/overlay';
 import moment from 'moment';
-import { useLongPolling } from 'lib/longPolling.hook';
 import classNames from 'classnames';
-import { cloneDeep } from 'lodash';
+import { useLongPolling } from 'lib/longPolling.hook';
 import { Watchlist } from 'models/CustomWatchlist.model';
-import { DocumentListOrdered, DocumentTypes } from 'models/Document.model';
-import { customWatchlistClear, customWatchlistLoad } from 'apps/CustomWatchlist/state/CustomWatchlist.actions';
-import { selectMockData } from 'apps/CustomWatchlist/state/CustomWatchlist.selectors';
-import React, { useCallback, useEffect, useState } from 'react';
+import { customWatchlistClear, customWatchlistsLoad, deleteCustomWatchlist, customWatchlistCreate, customWatchlistUpdate } from 'apps/CustomWatchlist/state/CustomWatchlist.actions';
+import { selectIsWatchlistsLoaded, selectWatchlists } from 'apps/CustomWatchlist/state/CustomWatchlist.selectors';
+import React, { useEffect, useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
+import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { CustomWatchListModal } from '../CustomWatchListModal/CustomWatchListModal';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
+import { Skeleton } from './CustomWatchlistItemSkeleton';
 
-export interface CustomWatchlistSettingsProps{
-  watchlists: Watchlist[];
-  onUpdate: (watchlist: Watchlist[]) => void;
-}
-
-export function CustomWatchlistItemSettings({ watchlists, onUpdate }: CustomWatchlistSettingsProps) {
+export function CustomWatchlistItemSettings() {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
   const [createOverlay, closeOverlay] = useOverlay();
-  const [isOk, setIsOk] = useState(false);
-  const mockData = useSelector(selectMockData);
-  const [checkedDocuments, setCheckedDocuments] = useState<Watchlist[]>([]);
+  const merchantId = useSelector(selectMerchantId);
+  const watchlists = useSelector(selectWatchlists);
+  const isWatchlistsLoaded = useSelector(selectIsWatchlistsLoaded);
+  const [isDataPooling, setIsDataPooling] = useState(false);
+  const [selectedWatchlist, setSelectedWatchlist] = useState<Watchlist | undefined>();
 
-  // const handleSubmitStep = useCallback((stepIndex: number) => (checked: Watchlist[]) => {
-  //   if (!watchlist || !checked) {
-  //     return;
-  //   }
+  console.log({ isDataPooling, selectedWatchlist });
 
-  //   const newSteps = cloneDeep(watchlist);
-  //   newSteps[stepIndex] = checked;
-  //   onUpdate(newSteps);
-  //   closeOverlay();
-  // }, [closeOverlay, onUpdate, watchlist]);
+  const handleWatchlistLoad = useCallback(
+    (isReload: boolean) => {
+      console.log('isReload', isReload, selectedWatchlist);
+    },
+    [selectedWatchlist],
+  );
 
+  useLongPolling(handleWatchlistLoad, 3000, {
+    isCheckMerchantTag: false,
+    isUseFirstInvoke: false,
+    isDone: !isDataPooling,
+  });
 
+  const handleCloseOverlay = useCallback(
+    () => {
+      setSelectedWatchlist(undefined);
+      setIsDataPooling(false);
+      closeOverlay();
+    },
+    [closeOverlay],
+  );
+
+  const handleSubmitWatchlist = useCallback(
+    // TODO: add types for values
+    (watchlist?: Watchlist) => (values: Object) => {
+      console.log('submit', { watchlist, values });
+      setIsDataPooling(true);
+      if (watchlist) {
+        dispatch(customWatchlistUpdate(merchantId, watchlist.id, values));
+        return;
+      }
+      dispatch(customWatchlistCreate(merchantId, values));
+    },
+    [merchantId, dispatch],
+  );
 
   const handleChangeStep = useCallback((watchlist?: Watchlist) => () => {
-    createOverlay(<CustomWatchListModal watchlist={watchlist} onClose={closeOverlay} />);
-    setTimeout(() => {
-      setIsOk(true);
-    }, 3000);
-  }, [createOverlay, closeOverlay]);
+    setSelectedWatchlist(watchlist);
+    createOverlay(
+      <CustomWatchListModal
+        isEdit={!!watchlist}
+        onClose={handleCloseOverlay}
+        onSubmit={handleSubmitWatchlist(watchlist)}
+      />, { onClose: handleCloseOverlay },
+    );
+  }, [createOverlay, handleCloseOverlay, handleSubmitWatchlist]);
 
-  // const handleDeleteStep = useCallback((stepIndex: number) => () => {
+  const handleDeleteWatchList = useCallback(
+    (watchlistId: string) => () => {
+      dispatch(deleteCustomWatchlist(merchantId, watchlistId));
+    },
+    [merchantId, dispatch],
+  );
+
+  // const handleDeleteStep = useCallback((watchlistIndex: number) => () => {
   //   const newSettings = cloneDeep(watchlist);
   //   if (!watchlist) {
   //     return;
   //   }
 
-  //   newSettings.splice(stepIndex, 1);
+  //   newSettings.splice(watchlistIndex, 1);
   //   onUpdate(newSettings);
   // }, [onUpdate, watchlist]);
 
-  const handleLoad = useCallback((isReload) => {
-    console.log('isReload', isReload);
-    // if (identityId) {
-    // }
-    dispatch(customWatchlistLoad('6123d52546e18f001d107e31', isReload));
-    return () => dispatch(customWatchlistClear());
-  }, [dispatch]);
-
-  useLongPolling(handleLoad, 3000, { isCheckMerchantTag: false, isDone: isOk });
-
   useEffect(() => {
-    setCheckedDocuments(watchlists?.flat());
-  }, [watchlists]);
+    dispatch(customWatchlistsLoad(merchantId));
+    return () => {
+      dispatch(customWatchlistClear());
+    };
+  }, [merchantId, dispatch]);
 
   return (
     <Box>
-      {watchlists?.map((watchlist, stepIndex) => (
-        <Box className={classes.wrapper} p={2} mb={2} key={stepIndex}>
-          <Box mb={2}>
-            <Grid container wrap="nowrap" alignItems="center">
-              <Box color="common.black90" fontWeight="bold" mr={1}>
-                {intl.formatMessage({ id: 'CustomWatchlist.settings.step.title' }, { count: stepIndex !== 0 ? stepIndex + 1 : '' })}
+      {!isWatchlistsLoaded ? (
+        <Grid container spacing={2} direction="column">
+          <Grid item>
+            <Skeleton />
+          </Grid>
+          <Grid item>
+            <Skeleton />
+          </Grid>
+          <Grid item>
+            <Skeleton />
+          </Grid>
+        </Grid>
+      ) : (
+        <>
+          {watchlists?.map((watchlist, watchlistIndex) => (
+            <Box key={watchlist.id} className={classes.wrapper} p={2} mb={2}>
+              <Box mb={2}>
+                <Grid container wrap="nowrap" alignItems="center">
+                  <Box color="common.black90" fontWeight="bold" mr={1}>
+                    {intl.formatMessage({ id: 'CustomWatchlist.settings.step.title' }, { count: watchlistIndex !== 0 ? watchlistIndex + 1 : '' })}
+                  </Box>
+                  <Box ml="auto" flexShrink={0}>
+                    <IconButton className={classNames(classes.button, classes.buttonEdit)} onClick={handleChangeStep(watchlist)}>
+                      <FiEdit size={17} />
+                    </IconButton>
+                    <IconButton className={classNames(classes.button, classes.buttonTrash)} onClick={handleDeleteWatchList(watchlist.id)}>
+                      <FiTrash2 size={17} />
+                    </IconButton>
+                  </Box>
+                </Grid>
+                <Grid container>
+                  {/* TODO: watchlist.createdAt && ... no validation error ... */}
+                  {watchlist.createdAt ? (
+                    <Typography variant="subtitle2" className={classes.colorGreen}>
+                      Uploaded
+                      {' '}
+                      {moment(watchlist.createdAt).format('ll')}
+                    </Typography>
+                  ) : (
+                    <Typography variant="subtitle2" className={classes.colorRed}>Validation error</Typography>
+                  )}
+                </Grid>
+                <Box mt={2}>
+                  <Typography variant="subtitle2" className={classNames(classes.colorGrey, classes.matchFollowsTo)}>
+                    Match follows to:
+                    <Box className={classes.colorRed} ml={0.5}>Rejected</Box>
+                  </Typography>
+                </Box>
               </Box>
-              <Box ml="auto" flexShrink={0}>
-                <IconButton className={classNames(classes.button, classes.buttonEdit)} onClick={handleChangeStep(watchlist)}>
-                  <FiEdit size={17} />
-                </IconButton>
-                <IconButton className={classNames(classes.button, classes.buttonTrash)}>
-                  <FiTrash2 size={17} />
-                </IconButton>
-              </Box>
-            </Grid>
-            <Grid container>
-              {false ? (
-                <Typography variant="subtitle2" className={classes.colorGreen}>
-                  Uploaded
-                  {' '}
-                  {moment(watchlist.createdAt).format('ll')}
-                </Typography>
-              ) : (
-                <Typography variant="subtitle2" className={classes.colorRed}>Validation error</Typography>
-              )}
-            </Grid>
-            <Box mt={2}>
-              <Typography variant="subtitle2" className={classNames(classes.colorGrey, classes.matchFollowsTo)}>
-                Match follows to:
-                {' '}
-                <Box className={classes.colorRed}>Rejected</Box>
-              </Typography>
             </Box>
-          </Box>
-        </Box>
-      ))}
-      {checkedDocuments?.length < DocumentListOrdered.length && (
-        <Button className={classes.buttonAdd} onClick={handleChangeStep()} color="primary" variant="outlined">
-          <FiPlus size={12} />
-          {intl.formatMessage({ id: 'CustomWatchlist.settings.button' })}
-        </Button>
+          ))}
+          <Button className={classes.buttonAdd} onClick={handleChangeStep()} color="primary" variant="outlined">
+            <FiPlus size={12} />
+            {intl.formatMessage({ id: 'CustomWatchlist.settings.button' })}
+          </Button>
+        </>
       )}
     </Box>
   );

@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import { FiChevronDown } from 'react-icons/fi';
 import { Grid, Typography, MenuItem } from '@material-ui/core';
 import { appPalette } from 'apps/theme';
+import { ValidatedInputsKeys } from 'models/CustomWatchlist.model';
 import { useStyles, SelectStyled } from './ValidatedInputs.styles';
 import { SelectedOptions } from './ValidatedInputs';
 
@@ -33,22 +34,24 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
 
   const localOptions = useMemo(() => options.filter((option) => !Object.values(selectedOptions).map((x) => x.value).includes(option.value)), [options, selectedOptions]);
 
+  console.log('value', value);
   return (
-    <Grid container justifyContent="space-between" alignItems="center" direction="row" className={classes.input}>
-      <Grid item><Typography variant="subtitle2">{title}</Typography></Grid>
-      <Grid item className={classes.selectWrap}>
-        <SelectStyled
-          name={name}
-          variant="standard"
-          fullWidth
-          value={value}
-          onChange={handleChange}
-          IconComponent={() => <FiChevronDown size="18px" strokeWidth={3} color={appPalette.lightblue} />}
-          className={classnames(classes.colorBlue, {
-            [classes.placeholder]: value === placeholderKey,
-          })}
-        >
-          {selectedOptions[name] && (
+    <div>
+      <Grid container justifyContent="space-between" alignItems="center" direction="row" className={classes.input}>
+        <Grid item><Typography variant="subtitle2">{title}</Typography></Grid>
+        <Grid item className={classes.selectWrap}>
+          <SelectStyled
+            name={name}
+            variant="standard"
+            fullWidth
+            value={value}
+            onChange={handleChange}
+            IconComponent={() => <FiChevronDown size="18px" strokeWidth={3} color={appPalette.lightblue} />}
+            className={classnames(classes.colorBlue, {
+              [classes.placeholder]: value === placeholderKey,
+            })}
+          >
+            {selectedOptions[name] && (
             <MenuItem
               key={selectedOptions[name].value}
               value={selectedOptions[name].value}
@@ -56,30 +59,32 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
             >
               {selectedOptions[name].label}
             </MenuItem>
-          )}
-          {localOptions.map((item) => {
-            if (item.value === 'placeholder') {
+            )}
+            {localOptions.map((item) => {
+              if (item.value === 'placeholder') {
+                return (
+                  <MenuItem
+                    key={item.value}
+                    value={item.value}
+                    className={classes.placeholder}
+                  >
+                    {item.label}
+                  </MenuItem>
+                );
+              }
               return (
                 <MenuItem
-                  key={item.value}
+                  key={`${item.value}-${item.label}`}
                   value={item.value}
-                  className={classes.placeholder}
                 >
                   {item.label}
                 </MenuItem>
               );
-            }
-            return (
-              <MenuItem
-                key={`${item.value}-${item.label}`}
-                value={item.value}
-              >
-                {item.label}
-              </MenuItem>
-            );
-          })}
-        </SelectStyled>
+            })}
+          </SelectStyled>
+        </Grid>
       </Grid>
-    </Grid>
+      {value === ValidatedInputsKeys.Name && 'Hello'}
+    </div>
   );
 }

@@ -22,10 +22,13 @@ export function Overlay({ withBlur = false, inline = false, onClose, options, ch
   const overlayRef = useRef();
 
   const handleClose = useCallback((e) => {
+    console.log('handleClose');
     if (e.target === e.currentTarget && !options.sticky) {
       if (options?.onClose) {
+        console.log('options.onClose();', options);
         options.onClose();
       } else {
+        console.log('onClose();');
         onClose();
       }
     }

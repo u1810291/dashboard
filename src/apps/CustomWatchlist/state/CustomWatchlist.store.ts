@@ -1,21 +1,27 @@
+import { Watchlist } from 'models/CustomWatchlist.model';
 import { Loadable } from 'models/Loadable.model';
 import { createTypesSequence, TypesSequence } from 'state/store.utils';
 
 export const CUSTOM_WATCHLISTS_STORE_KEY = 'customWatchlists';
 
 export enum CustomWatchlistsActions {
-  list = 'CUSTOM_WATCHLISTS_LIST',
+  Watchlists = 'CUSTOM_WATCHLISTS_LIST',
+  WatchlistsSet = 'CUSTOM_WATCHLIST_SET',
+  WatchlistsUpdate = 'CUSTOM_WATCHLIST_UPDATE',
+  WatchlistsDelete = 'CUSTOM_WATCHLIST_DELETE',
 }
 
 export enum SliceNames {
-  List = 'list',
+  Watchlists = 'watchlists',
 }
 
 export const types: TypesSequence = {
-  ...createTypesSequence(CustomWatchlistsActions.list),
+  ...createTypesSequence(CustomWatchlistsActions.Watchlists),
+  ...createTypesSequence(CustomWatchlistsActions.WatchlistsSet),
+  ...createTypesSequence(CustomWatchlistsActions.WatchlistsUpdate),
+  ...createTypesSequence(CustomWatchlistsActions.WatchlistsDelete),
 };
 
 export interface CustomWatchlistsStore {
-  // TODO: @richvoronov add types
-  [CustomWatchlistsActions.list]: Loadable<{}>;
+  [SliceNames.Watchlists]: Loadable<Watchlist[]>;
 }

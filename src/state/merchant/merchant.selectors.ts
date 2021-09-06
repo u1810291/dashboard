@@ -22,7 +22,7 @@ export const selectMerchantModel = createSelector(
 
 export const selectMerchantId = createSelector(
   selectMerchantModel,
-  selectModelValue((merchant: Merchant) => merchant.id),
+  selectModelValue((merchant: Merchant): string => merchant.id),
 );
 
 export const selectIsOwnerModel = createSelector(
