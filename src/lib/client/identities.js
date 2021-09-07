@@ -101,5 +101,5 @@ export async function getVerificationData(id) {
 }
 
 export function postPdfDownloaded(identityId, verificationId) {
-  return http.post(`api/v1/dashboard/audit/identities/${identityId}/verifications/${verificationId}/pdf-downloaded`);
+  return http.post(`/api/v1/dashboard/audit/identities/${identityId}/verifications/${verificationId}/pdf-downloaded`);
 }
