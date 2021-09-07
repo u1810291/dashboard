@@ -44,7 +44,7 @@ export class HttpClient {
   // TODO @dkchv: !!! remove any
   async get<T = any>(url: string, config?: AxiosRequestConfig, isPrivate = true): Promise<ApiResponse<T>> {
     return this.client.request({
-      url,
+      url: this.getCorsURL(url),
       ...config,
       method: ClientMethodTypes.GET,
       headers: await this.getHeaders(ClientMethodTypes.GET, isPrivate),
