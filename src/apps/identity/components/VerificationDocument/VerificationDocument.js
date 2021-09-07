@@ -5,9 +5,8 @@ import { PhotosOrientations } from 'models/Document.model';
 import { StepStatus } from 'models/Step.model';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { PrivateImage } from 'apps/media';
-import { useDocumentTitle, usePhotosOrientation } from 'apps/documents';
 import IconEmpty from '../../../../assets/icon-empty-photo.svg';
+import { useDocumentTitle, usePhotosOrientation } from '../../../documents/hooks/document.hook';
 import { VerificationCheckCard } from '../VerificationCheckCard/VerificationCheckCard';
 import { VerificationSummaryTitle } from '../VerificationSummaryTitle/VerificationSummaryTitle';
 import { useStyles } from './VerificationDocument.styles';
@@ -64,18 +63,18 @@ export function VerificationDocument({ document, documentIndex }) {
 
         {photos.length === 1 && (
           <Grid item container justify="center" alignContent="center" className={`${classes.image} ${classes.imageWrapper}`}>
-            <PrivateImage alt="" src={photos[0]} />
+            <img alt="" src={photos[0]} />
           </Grid>
         )}
 
         {photos.length === 2 && (
           <Grid item container direction="column" justify="center" alignItems="center" alignContent="center" className={`${classes.imageWrapper} ${photosOrientation === PhotosOrientations.Horizontal ? `${classes.imageWrapperHorizontal}` : ''}`}>
             <Grid item className={`${photosOrientation === PhotosOrientations.Horizontal ? `${classes.imageBigHorizontal}` : `${classes.imageBigVertical}`}`}>
-              <PrivateImage alt="" src={shownPhoto} />
+              <img alt="" src={shownPhoto} />
             </Grid>
             <Grid item container justify="center" className={`${photosOrientation === PhotosOrientations.Horizontal ? `${classes.imageSmallHorizontal}` : `${classes.imageSmallVertical}`}`}>
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
-              {photos.map((photo) => <PrivateImage alt="" className={photo === shownPhoto ? classes.imageActive : ''} src={photo} onClick={() => setShownPhoto(photo)} key={photo} />)}
+              {photos.map((photo) => <img alt="" className={photo === shownPhoto ? classes.imageActive : ''} src={photo} onClick={() => setShownPhoto(photo)} key={photo} />)}
             </Grid>
           </Grid>
         )}

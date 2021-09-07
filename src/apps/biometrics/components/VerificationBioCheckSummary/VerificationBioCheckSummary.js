@@ -9,7 +9,6 @@ import { StepStatus } from 'models/Step.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import IconEmpty from 'assets/icon-empty-photo.svg';
-import { PrivateImage } from 'apps/media';
 import { useStyles } from './VerificationBioCheckSummary.styles';
 
 export function VerificationBioCheckSummary({ biometric, identity }) {
@@ -58,7 +57,7 @@ export function VerificationBioCheckSummary({ biometric, identity }) {
                 {/* Not Empty Photo */}
                 {status !== LivenessStepStatus.Disabled && biometric[0]?.selfieUrl && (
                   <Box align="center" height="100%">
-                    <PrivateImage alt="" src={biometric[0].selfieUrl} />
+                    <img alt="" src={biometric[0].selfieUrl} />
                   </Box>
                 )}
               </Grid>

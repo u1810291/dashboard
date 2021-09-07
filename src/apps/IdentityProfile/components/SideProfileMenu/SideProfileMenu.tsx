@@ -11,7 +11,6 @@ import { verificationListClear, verificationListLoad } from 'apps/Verification/s
 import { useQuery } from 'lib/url';
 import { PageLoader } from 'apps/layout';
 import { useParams } from 'react-router-dom';
-import { PrivateImage } from 'apps/media';
 import { selectIdentityProfileModel } from '../../store/IdentityProfile.selectors';
 import { ProfileInformation } from '../ProfileInformation/ProfileInformation';
 import { PassedFlows } from '../PassedFlows/PassedFlows';
@@ -77,7 +76,7 @@ export function SideProfileMenu({ profile, onError }: {
           <Grid container alignItems="center" justify="space-between">
             <RoundProfilePicture
               image={profile?.summary?.selfiePhotoUrl?.value
-                ? <PrivateImage src={profile.summary.selfiePhotoUrl.value} alt="profile" />
+                ? <img src={profile?.summary?.selfiePhotoUrl?.value} alt="profile" />
                 : <UserDeletedIcon />}
             />
             <IconButton onClick={handleToggleOpen} className={classNames(classes.button, { [classes.rotated]: isOpen })}>
