@@ -12,6 +12,7 @@ module.exports = function(app) {
     pathRewrite: {
       [`^${process.env.REACT_APP_CORS_PATH}`]: '',
     },
+    cookieDomainRewrite: 'localhost',
     onProxyReq: function(proxyReq) {
       proxyReq.setHeader('origin', process.env.REACT_APP_PUBLIC_URL);
     },

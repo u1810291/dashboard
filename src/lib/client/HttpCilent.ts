@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { ApiResponse, CLIENT_CSRF_HEADER_NAME, CLIENT_CSRF_URL, ClientCSRFResponse, ClientMethodTypes, ClientPrivateMethodList } from 'models/Client.model';
+import { ApiResponse, CLIENT_CSRF_HEADER_NAME, CLIENT_CSRF_URL, ClientCSRFResponse, ClientErrorTypes, ClientMethodTypes, ClientPrivateMethodList } from 'models/Client.model';
+import { devWarn } from 'lib/console';
 
 export class HttpClient {
   private bearerToken: string = null;
@@ -38,12 +39,27 @@ export class HttpClient {
 
   async resolveCSRFToken(): Promise<string> {
     const { data } = await this.get<ClientCSRFResponse>(CLIENT_CSRF_URL, null, false);
+    devWarn('New CSRF token:', data?.token);
     return data?.token;
+  }
+
+  async createRequest<T>(config: AxiosRequestConfig): Promise<ApiResponse<T>> {
+    try {
+      return await this.client.request(config);
+    } catch (e) {
+      const type = (e as any)?.response?.data?.details?.type;
+      if (type === ClientErrorTypes.CSRFTokenNotFound || type === ClientErrorTypes.CSRFTokenNotValid) {
+        // eslint-disable-next-line
+        console.error('CSRF error:', (e as any).message);
+        this.csrf = null;
+      }
+      throw e;
+    }
   }
 
   // TODO @dkchv: !!! remove any
   async get<T = any>(url: string, config?: AxiosRequestConfig, isPrivate = true): Promise<ApiResponse<T>> {
-    return this.client.request({
+    return this.createRequest<T>({
       url: this.getCorsURL(url),
       ...config,
       method: ClientMethodTypes.GET,
@@ -53,7 +69,7 @@ export class HttpClient {
   }
 
   async post<T>(url: string, data: any, config?: AxiosRequestConfig, isPrivate = true): Promise<ApiResponse<T>> {
-    return this.client.request({
+    return this.createRequest<T>({
       ...config,
       url: this.getCorsURL(url),
       data,
@@ -64,7 +80,7 @@ export class HttpClient {
   }
 
   async patch<T>(url: string, data: any, config?: AxiosRequestConfig, isPrivate = true): Promise<ApiResponse<T>> {
-    return this.client.request({
+    return this.createRequest<T>({
       ...config,
       url: this.getCorsURL(url),
       data,
@@ -75,7 +91,7 @@ export class HttpClient {
   }
 
   async put<T>(url: string, data: any, config?: AxiosRequestConfig, isPrivate = true): Promise<ApiResponse<T>> {
-    return this.client.request({
+    return this.createRequest<T>({
       ...config,
       url: this.getCorsURL(url),
       data,
@@ -86,7 +102,7 @@ export class HttpClient {
   }
 
   async delete<T>(url: string, config?: AxiosRequestConfig, isPrivate = true): Promise<ApiResponse<T>> {
-    return this.client.request({
+    return this.createRequest<T>({
       ...config,
       url: this.getCorsURL(url),
       method: ClientMethodTypes.DELETE,
