@@ -31,10 +31,10 @@ export function EditableField({
   const inputRef = useRef<HTMLInputElement>();
   const intl = useIntl();
 
-  function onChangeHandler(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
+  const onChangeHandler = useCallback((e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setError(null);
     setCurrentText(e.target.value);
-  }
+  }, []);
 
   const cancelEditableHandler = useCallback(() => {
     setCurrentText(value);

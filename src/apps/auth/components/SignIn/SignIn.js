@@ -3,7 +3,7 @@ import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { email, required } from 'lib/validations';
 import { pickBy } from 'lodash';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -35,7 +35,7 @@ export function SignIn() {
   const history = useHistory();
   const classes = useStyles();
 
-  async function handleSubmit(data, { setStatus, setFieldError }) {
+  const handleSubmit = useCallback(async (data, { setStatus, setFieldError }) => {
     setStatus({});
     try {
       await dispatch(signIn(data));
@@ -43,7 +43,7 @@ export function SignIn() {
     } catch (error) {
       setFieldError('password', intl.formatMessage({ id: 'SignIn.form.authError' }));
     }
-  }
+  }, [dispatch, history, intl]);
 
   return (
     <Grid container className={classes.container}>

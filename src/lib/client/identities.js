@@ -70,7 +70,7 @@ export async function getIdentityWithNestedData(id, params) {
     ...data,
     originalIdentity: data,
   };
-  const livenessStep = data._embedded.verification.steps.find((step) => step.id === BiometricTypes.liveness);
+  const livenessStep = data._embedded.verification?.steps.find((step) => step.id === BiometricTypes.liveness);
   let videoUrl = get(livenessStep, 'data.videoUrl');
 
   if (livenessStep) {
@@ -101,5 +101,5 @@ export async function getVerificationData(id) {
 }
 
 export function postPdfDownloaded(identityId, verificationId) {
-  return http.post(`api/v1/dashboard/audit/identities/${identityId}/verifications/${verificationId}/pdf-downloaded`);
+  return http.post(`/api/v1/dashboard/audit/identities/${identityId}/verifications/${verificationId}/pdf-downloaded`);
 }

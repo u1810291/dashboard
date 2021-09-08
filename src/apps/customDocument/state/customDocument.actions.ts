@@ -276,7 +276,7 @@ export const deleteCustomDocument = (documentType: string) => async (dispatch) =
   try {
     await dispatch(merchantDeleteCustomDocument(documentType));
   } catch (error) {
-    throw error?.response?.data;
+    throw (error as any)?.response?.data;
   }
 };
 

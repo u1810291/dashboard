@@ -8,9 +8,9 @@ export interface EmailValidationData {
   emailAddress: string;
 }
 
-export interface BaseEmailStep<D=EmailValidationData, E=BaseStepError> {
+export interface BaseEmailStep<D = EmailValidationData, E = BaseStepError> {
   status: number;
   id: string;
   error: E;
-  data: D;
+  data?: D;
 }

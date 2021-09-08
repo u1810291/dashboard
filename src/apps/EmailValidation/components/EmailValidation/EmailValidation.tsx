@@ -11,17 +11,21 @@ export function EmailValidation({ step }: { step: EmailValidationExtra }) {
   const classes = useStyles();
   const intl = useIntl();
 
+  if (!step) {
+    return null;
+  }
+
   return (
     <BoxBordered p={1} pt={2} className={classes.bordered}>
       <CheckBarExpandable step={step} title="SecurityCheckStep.emailOwnership.title">
         <Card raised={false} className={classes.card}>
           <CardContent>
-            {step?.error && (
+            {step.error && (
               <Box>
                 {intl.formatMessage({ id: `SecurityCheckStep.${step.error.code}` })}
               </Box>
             )}
-            {step?.data && (
+            {step.data && (
               <Box mt={0.5}>
                 <Grid container>
                   {EmailValidationFields.map(({ fieldName, inline }) => (!isNil(step?.data[fieldName])) && (

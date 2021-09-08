@@ -1,6 +1,6 @@
 {
   "name": "mati-dashboard",
-  "version": "2.0.20",
+  "version": "2.0.21",
   "private": true,
   "dependencies": {
     "@fullstory/browser": "^1.4.6",
@@ -58,6 +58,7 @@
     "start:dev01": "env-cmd -f .env.dev01 react-scripts start",
     "start:dev02": "env-cmd -f .env.dev02 react-scripts start",
     "start:dev04": "env-cmd -f .env.dev04 react-scripts start",
+    "start:devel04": "env-cmd -f .env.devel04 react-scripts start",
     "start:dev07": "env-cmd -f .env.dev07 react-scripts start",
     "start:dev08": "env-cmd -f .env.dev08 react-scripts start",
     "start:dev10": "env-cmd -f .env.dev10 react-scripts start",

@@ -29,5 +29,5 @@ export const store = createStore(
 export const persistor = persistStore(store, null, () => {
   // invoked after store rehydrate
   const token = selectAuthToken(store.getState());
-  http.setToken(token);
+  http.setBearerToken(token);
 });

@@ -20,12 +20,12 @@ export function PhoneValidation({ step }: { step: PhoneValidationStep }) {
       <CheckBarExpandable step={step} title="SecurityCheckStep.phoneOwnership.title" isOpenByDefault>
         <Card raised={false} className={classes.card}>
           <CardContent>
-            {step?.error && (
+            {step.error && (
               <Box>
                 {intl.formatMessage({ id: `SecurityCheckStep.${step.error.code}` })}
               </Box>
             )}
-            {step?.data && (
+            {step.data && (
               <Box mt={0.5}>
                 <Grid container>
                   {Object.keys(PhoneValidationTypes).map((fieldName) => (!isNil(step?.data[PhoneValidationTypes[fieldName]])) && (
