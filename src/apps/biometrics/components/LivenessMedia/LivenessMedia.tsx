@@ -3,9 +3,9 @@ import { ReactComponent as IconDownload } from 'assets/icon-download.svg';
 import { ReactComponent as Spinner } from 'assets/icon-load.svg';
 import { ReactComponent as IconSoundOff } from 'assets/icon-sound-off.svg';
 import { ReactComponent as IconSoundOn } from 'assets/icon-sound-on.svg';
-import axios from 'axios';
 import { downloadBlob } from 'lib/file';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { PrivateImage, PrivateVideo, getMedia } from 'apps/media';
 import { ReactComponent as IconPlay } from './icon-play.svg';
 import { useStyles } from './LivenessMedia.styles';
 import { ReactComponent as Placeholder } from './placeholder.svg';
@@ -66,7 +66,8 @@ export function LivenessMedia({ title, subtitle, image, video, withSoundButton =
     if (!isDownloading) {
       setIsDownloading(true);
       try {
-        const { data: blob } = await axios.get(image, { responseType: 'blob' });
+        const response = await getMedia(image);
+        const blob = await response.blob();
         downloadBlob(blob, `${downloadableFileName}.jpeg`);
         setIsDownloading(false);
       } catch (error) {
@@ -84,7 +85,7 @@ export function LivenessMedia({ title, subtitle, image, video, withSoundButton =
     <Box className={classes.root}>
       {image && (
         <Box className={classes.mediaBox}>
-          <img className={classes.media} src={image} alt={title} />
+          <PrivateImage className={classes.media} src={image} alt={title} />
           {isDownloading ? (
             <Spinner onClick={handleDownload} className={classes.load} />
           ) : (
@@ -95,8 +96,7 @@ export function LivenessMedia({ title, subtitle, image, video, withSoundButton =
       {video && (
         <Box className={`${classes.mediaBox} ${classes.videoBox}`}>
           <Box onClick={handlePlayerToggle}>
-            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-            <video
+            <PrivateVideo
               ref={videoRef}
               className={classes.media}
               autoPlay
