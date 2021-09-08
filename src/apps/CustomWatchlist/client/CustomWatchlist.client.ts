@@ -1,9 +1,8 @@
-import { AxiosResponse } from 'axios';
 import { http } from 'lib/client/http';
 import { Watchlist } from 'models/CustomWatchlist.model';
 
-export function getMerchantWatchlistsById(merchantId: string, params: Object): Promise<AxiosResponse<Watchlist[]>> {
-  return http.get(`/api/v1/merchants/${merchantId}/watchlists`, { params });
+export function getMerchantWatchlistsById(merchantId: string, params: Object) {
+  return http.get<Watchlist[]>(`/api/v1/merchants/${merchantId}/watchlists`, { params });
 }
 
 // TODO: check what delete handle return and maybe push response to store
