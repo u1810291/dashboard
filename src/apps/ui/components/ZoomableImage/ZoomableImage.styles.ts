@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles(() => ({
   initImage: {
     maxHeight: 220,
+    minHeight: 120,
     position: 'relative',
     display: 'block',
     outline: 'none',

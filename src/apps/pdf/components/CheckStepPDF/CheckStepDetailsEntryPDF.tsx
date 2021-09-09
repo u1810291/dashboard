@@ -5,7 +5,7 @@ import { Text, View } from '@react-pdf/renderer';
 import { styles } from './CheckStepPDF.styles';
 import { commonStyles } from '../../PDF.styles';
 
-export function CheckStepDetailsEntryPDF({ label, value, style }) {
+export function CheckStepDetailsEntryPDF({ label, value, style }: {label: string; value: any; style?: any }) {
   const intl = useIntl();
   const formatted = useFormattedValue(label, value);
 

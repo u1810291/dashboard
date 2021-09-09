@@ -70,4 +70,8 @@ export const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  selfieImage: {
+    minHeight: 140,
+    minWidth: 104,
+  },
 }));
