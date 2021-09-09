@@ -41,7 +41,6 @@ export function RiskAnalysisPDF({ step = {} }: RiskAnalysisPDFProps) {
             label={RiskAnalysisFieldTypes[fieldName]}
             value={step.data[RiskAnalysisFieldTypes[fieldName]]}
             key={RiskAnalysisFieldTypes[fieldName]}
-            style={styles.stepDetailsItem}
           />
         ))}
       </View>
