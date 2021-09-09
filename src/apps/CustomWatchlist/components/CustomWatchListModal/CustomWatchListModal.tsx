@@ -1,12 +1,13 @@
-import React, { useMemo, useCallback } from 'react';
-import { FiPlus, FiChevronLeft } from 'react-icons/fi';
+import React, { useMemo, useState, useCallback } from 'react';
+import { FiChevronLeft } from 'react-icons/fi';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { Box, Button, InputLabel, Select, MenuItem, Grid, Typography } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
-import { CustomWatchlistActions, Watchlist } from 'models/CustomWatchlist.model';
+import { CustomWatchlistActions } from 'models/CustomWatchlist.model';
 import classnames from 'classnames';
+import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
 import { useStyles } from './CustomWatchListModal.styles';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
@@ -25,6 +26,7 @@ export function CustomWatchListModal(
 ) {
   const intl = useIntl();
   const classes = useStyles();
+  const [fileName, setFileName] = useState<string>();
   const actionOptions = useMemo(() => ([
     {
       label: 'No action',
@@ -45,9 +47,12 @@ export function CustomWatchListModal(
   ]), [intl]);
 
   const handleUploadFile = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (setFieldValue: Function) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      console.log('Start');
       const file = event.target.files[0];
-      console.log('upload file');
+      console.log('upload file', file);
+      setFileName(file.name);
+      setFieldValue('file', file);
     },
     [],
   );
@@ -56,7 +61,7 @@ export function CustomWatchListModal(
     // TODO: Add types here
     (values: Object) => {
       console.log('submit', values);
-      onSubmit(values);
+      // onSubmit(values);
     },
     [onSubmit],
   );
@@ -155,25 +160,11 @@ export function CustomWatchListModal(
                       {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.upload.file.label.subTitle' })}
                     </Typography>
                   </InputLabel>
-                  <input
-                    id="file-load"
-                    type="file"
-                    accept=".xls, .csv"
-                    onChange={handleUploadFile}
-                    hidden
-                  />
-                  <label htmlFor="file-load">
-                    <Button
-                      variant="outlined"
-                      component="span"
-                      fullWidth
-                      color="primary"
-                      size="large"
-                    >
-                      <FiPlus size={12} />
-                      {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.upload.file' })}
-                    </Button>
-                  </label>
+                  {fileName ? (
+                    <div>hello</div>
+                  ) : (
+                    <FileUploadButton onChange={handleUploadFile(setFieldValue)} accept=".xls, .csv">{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.upload.file' })}</FileUploadButton>
+                  )}
                 </Box>
               </Grid>
               <Grid item xs={6}>
@@ -185,7 +176,7 @@ export function CustomWatchListModal(
                     {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.subTitle' })}
                   </Typography>
                 </Box>
-                {true ? <ValidatedInputs /> : <FakeInputs />}
+                {isEdit ? <ValidatedInputs /> : <FakeInputs />}
               </Grid>
             </Grid>
             <Grid container spacing={2}>

@@ -18,3 +18,8 @@ export function setMerchantWatchlistById(merchantId: string, body: Object) {
 export function updateMerchantWatchlistById(merchantId: string, watchlistId, body: Object) {
   return http.patch(`api/v1/merchants/${merchantId}/watchlists/${watchlistId}`, body);
 }
+
+// TODO: replace Object in params with normal type
+export function uploadMerchantWatchlistById(merchantId: string, watchlistId, body: Object) {
+  return http.post('v1/media', body);
+}
