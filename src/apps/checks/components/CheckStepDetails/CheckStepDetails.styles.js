@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import { appPalette } from 'apps/theme/app.palette';
 
 export const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -22,5 +23,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   label: {
     color: theme.palette.text.main,
+  },
+  failed: {
+    color: appPalette.red,
   },
 }));

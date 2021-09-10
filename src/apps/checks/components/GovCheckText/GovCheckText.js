@@ -12,23 +12,33 @@ export function GovCheckText({ step }) {
 
   const { error, checkStatus: status, id } = step;
   const data = { ...step.data };
+  let stepDataEntries = [];
 
-  if (status === StepStatus.Success) {
+  if (step.data) {
     const displayOption = govCheckDisplayOptions[step.id] || {};
-    const result = Object.keys(displayOption).map((entry) => {
+    stepDataEntries = Object.keys(displayOption).map((entry) => {
       delete data[entry];
-      if (displayOption[entry].hidden) {
+      if (displayOption[entry].hidden || (displayOption[entry].hiddenIfNotExists && !step.data[entry])) {
         return null;
       }
       return (
         <Grid xs={displayOption[entry].inline ? 6 : 12} item>
-          <CheckStepDetailsEntry label={entry} value={step.data[entry] !== null ? step.data[entry] : 'Null'} key={entry} />
+          <CheckStepDetailsEntry
+            label={entry}
+            value={step.data[entry] !== null ? step.data[entry] : 'Null'}
+            key={entry}
+            isMarkedAsFailed={!!displayOption[entry].dependentFieldForFailedCheck && step.data[displayOption[entry].dependentFieldForFailedCheck] !== true}
+          />
         </Grid>
       );
     });
+    stepDataEntries = stepDataEntries.concat(Object.entries(data).map(([key, value]) => <CheckStepDetailsEntry label={key} value={value} key={key} />));
+  }
+
+  if (status === StepStatus.Success) {
     return (
       <Grid container>
-        {result.concat(Object.entries(data).map(([key, value]) => <CheckStepDetailsEntry label={key} value={value} key={key} />))}
+        {stepDataEntries}
       </Grid>
     );
   }
@@ -47,11 +57,7 @@ export function GovCheckText({ step }) {
           </Box>
           <Box mt={2}>
             <Grid container>
-              {Object.entries(data).map(([key, value]) => (
-                <Grid xs={6} item key={key}>
-                  <CheckStepDetailsEntry label={key} value={value} key={key} />
-                </Grid>
-              ))}
+              {stepDataEntries}
             </Grid>
           </Box>
         </Box>
