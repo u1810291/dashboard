@@ -19,7 +19,7 @@ export class CreditCheck extends ProductBaseService implements Product<ProductSe
     ProductIntegrationTypes.Sdk,
     ProductIntegrationTypes.Api,
   ];
-  order = 300;
+  order = 1000;
   requiredProductType = ProductTypes.DocumentVerification;
   checks = [
     {
