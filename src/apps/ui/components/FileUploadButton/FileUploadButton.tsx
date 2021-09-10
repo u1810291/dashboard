@@ -9,11 +9,13 @@ export const FileUploadButton = ({
   },
   accept,
   onChange,
+  renderButton,
 }: {
-  children: React.ReactNode;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  children?: React.ReactNode;
   accept?: string;
   inputProps?: InputHTMLAttributes<HTMLInputElement>;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  renderButton?: React.ReactNode;
 }) => (
   <div>
     <input
@@ -24,16 +26,18 @@ export const FileUploadButton = ({
       onChange={onChange}
     />
     <label htmlFor="file-load">
-      <Button
-        variant="outlined"
-        component="span"
-        fullWidth
-        color="primary"
-        size="large"
-      >
-        <FiPlus size={12} />
-        {children}
-      </Button>
+      {renderButton || (
+        <Button
+          variant="outlined"
+          component="span"
+          fullWidth
+          color="primary"
+          size="large"
+        >
+          <FiPlus size={12} />
+          {children}
+        </Button>
+      )}
     </label>
   </div>
 );

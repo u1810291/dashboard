@@ -8,7 +8,7 @@ import { useIntl } from 'react-intl';
 import { CustomWatchlistActions } from 'models/CustomWatchlist.model';
 import classnames from 'classnames';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
-import { useStyles } from './CustomWatchListModal.styles';
+import { useStyles, RoundedButton } from './CustomWatchListModal.styles';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
 
@@ -154,16 +154,29 @@ export function CustomWatchListModal(
                 <Box mb={3}>
                   <InputLabel className={classes.marginBottom10} htmlFor="watchlist-name">
                     <Typography variant="subtitle2">
-                      {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.upload.file.label.title' })}
+                      {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile.label.title' })}
                     </Typography>
                     <Typography variant="body1" className={classes.colorGrey}>
-                      {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.upload.file.label.subTitle' })}
+                      {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile.label.subTitle' })}
                     </Typography>
                   </InputLabel>
                   {fileName ? (
-                    <div>hello</div>
+                    <Grid container className={classes.fileName} justifyContent="space-between" alignItems="center">
+                      <Grid item className={classes.fileNameTitle}>{fileName}</Grid>
+                      <Grid item>
+                        <FileUploadButton
+                          onChange={handleUploadFile(setFieldValue)}
+                          accept=".xls, .csv"
+                          renderButton={(
+                            <RoundedButton>
+                              {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile.reload' })}
+                            </RoundedButton>
+                          )}
+                        />
+                      </Grid>
+                    </Grid>
                   ) : (
-                    <FileUploadButton onChange={handleUploadFile(setFieldValue)} accept=".xls, .csv">{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.upload.file' })}</FileUploadButton>
+                    <FileUploadButton onChange={handleUploadFile(setFieldValue)} accept=".xls, .csv">{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile' })}</FileUploadButton>
                   )}
                 </Box>
               </Grid>

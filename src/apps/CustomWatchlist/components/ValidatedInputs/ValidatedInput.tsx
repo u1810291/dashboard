@@ -1,9 +1,10 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import classnames from 'classnames';
 import { FiChevronDown } from 'react-icons/fi';
-import { Grid, Typography, MenuItem } from '@material-ui/core';
+import { Grid, Typography, MenuItem, Box } from '@material-ui/core';
 import { appPalette } from 'apps/theme';
 import { ValidatedInputsKeys } from 'models/CustomWatchlist.model';
+import { RangeSlider } from 'apps/ui/components/RangeSlider/RangeSlider';
 import { useStyles, SelectStyled } from './ValidatedInputs.styles';
 import { SelectedOptions } from './ValidatedInputs';
 
@@ -21,6 +22,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
     selectedOptions: SelectedOptions;
     onChange: (values: { value: string; name?: string }) => void; }) {
   const [value, setValue] = useState(placeholderKey);
+  const [rangeSliderValue, setRangeSliderValue] = useState<number>(0);
   const classes = useStyles();
 
   const handleChange = useCallback(
@@ -30,6 +32,14 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
       onChange(target);
     },
     [onChange],
+  );
+
+  const handleSliderChange = useCallback(
+    (_: React.ChangeEvent<{}>, val: number | number[]) => {
+      console.log('range slider value', rangeSliderValue);
+      setRangeSliderValue(val as number);
+    },
+    [rangeSliderValue],
   );
 
   const localOptions = useMemo(() => options.filter((option) => !Object.values(selectedOptions).map((x) => x.value).includes(option.value)), [options, selectedOptions]);
@@ -84,7 +94,14 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
           </SelectStyled>
         </Grid>
       </Grid>
-      {value === ValidatedInputsKeys.Name && 'Hello'}
+      {value === ValidatedInputsKeys.Name && (
+        <Box mb={1.2}>
+          <RangeSlider
+            defaultValue={rangeSliderValue}
+            onChange={handleSliderChange}
+          />
+        </Box>
+      )}
     </div>
   );
 }

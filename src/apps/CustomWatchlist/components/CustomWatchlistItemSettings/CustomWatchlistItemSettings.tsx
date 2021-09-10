@@ -15,15 +15,13 @@ import { CustomWatchListModal } from '../CustomWatchListModal/CustomWatchListMod
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { Skeleton } from './CustomWatchlistItemSkeleton';
 
-const watchlists = [];
-
 export function CustomWatchlistItemSettings() {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
   const [createOverlay, closeOverlay] = useOverlay();
   const merchantId = useSelector(selectMerchantId);
-  // const watchlists = useSelector(selectWatchlists);
+  const watchlists = useSelector(selectWatchlists);
   const isWatchlistsLoaded = useSelector(selectIsWatchlistsLoaded);
   const [isDataPooling, setIsDataPooling] = useState(false);
   const [selectedWatchlist, setSelectedWatchlist] = useState<Watchlist | undefined>();
@@ -103,8 +101,7 @@ export function CustomWatchlistItemSettings() {
 
   return (
     <Box>
-      {/* {!isWatchlistsLoaded ? ( */}
-      {false ? (
+      {!isWatchlistsLoaded ? (
         <Grid container spacing={2} direction="column">
           <Grid item>
             <Skeleton />
