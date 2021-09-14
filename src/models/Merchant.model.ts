@@ -23,4 +23,5 @@ export enum MerchantTags {
   CanUseCustomDocument = 'can-use-custom-document',
   CanUsePhoneValidation = 'can-use-phone-validation',
   CanUseEmailValidation = 'can-use-email-validation',
+  CanUseCustomWatchlists = 'can-use-custom-watchlists',
 }
