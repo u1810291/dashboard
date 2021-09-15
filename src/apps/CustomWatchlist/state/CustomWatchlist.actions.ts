@@ -3,8 +3,15 @@ import { ProductTypes } from 'models/Product.model';
 import { CustomWatchlist } from '../services/CustomWatchlist.service';
 import * as api from '../client/CustomWatchlist.client';
 import { types } from './CustomWatchlist.store';
+import { selectCanUseCustomWatchlists } from './CustomWatchlist.selectors';
 
-export const customWatchlistInit = () => (): ProductTypes => {
+export const customWatchlistInit = () => (dispatch, getState): ProductTypes => {
+  const canUseCustomWatchlists = selectCanUseCustomWatchlists(getState());
+
+  if (!canUseCustomWatchlists) {
+    return null;
+  }
+
   const customWatchlist = new CustomWatchlist();
   productManagerService.register(customWatchlist);
   return customWatchlist.id;
