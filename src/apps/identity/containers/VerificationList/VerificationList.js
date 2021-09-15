@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { filterUpdate, identitiesCountLoad, identitiesFilteredCountLoad, identitiesListLoad, identitiesPreliminaryCountLoad, identityListClear } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityFilter, selectPreliminaryFilteredCountModel } from 'state/identities/identities.selectors';
-import { selectUserRegistrationDate } from 'apps/user/state/user.selectors';
+import { selectMerchantCreatedAt } from 'state/merchant/merchant.selectors';
 import { DownloadCSV } from '../../components/DownloadCSV/DownloadCSV';
 import { ManualReviewBanner } from '../../components/ManualReviewBanner/ManualReviewBanner';
 import { VerificationSearch } from '../../components/VerificationSearch/VerificationSearch';
@@ -25,7 +25,7 @@ export function VerificationList() {
   const intl = useIntl();
   const filteredCountModel = useSelector(selectFilteredCountModel);
   const identityFilter = useSelector(selectIdentityFilter);
-  const registrationDate = useSelector(selectUserRegistrationDate);
+  const registrationDate = useSelector(selectMerchantCreatedAt);
   const [, addToUrl] = useFilterParser(verificationsFilterStructure);
 
   useEffect(() => {
