@@ -27,6 +27,7 @@ export const AllDateParts = [DatePartTypes.Day, DatePartTypes.Month, DatePartTyp
 export const zeroTime = { hour: 0, minute: 0, second: 0, millisecond: 0 };
 export const dayEndTime = { hour: 23, minute: 59, second: 59, millisecond: 999 };
 export const todayMomentZeroTime = moment().set(zeroTime);
+export const todayMomentEndTime = moment().set(dayEndTime);
 
 const INPUT_DATE_FORMATS = [
   moment.ISO_8601,

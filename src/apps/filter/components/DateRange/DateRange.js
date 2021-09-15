@@ -1,9 +1,7 @@
 import { Box, Button, FormControl, Grid, MenuItem, Select } from '@material-ui/core';
 import { allDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, identifyRange, RangeParts, RangeSlices } from 'models/Filter.model';
-import { selectUserRegistrationDate } from 'apps/user/state/user.selectors';
 import classNames from 'classnames';
 import { DateFormat, dayEndTime, getYearsArray, toLocalDate, utcToLocalFormat, zeroTime } from 'lib/date';
-
 import { QATags } from 'models/QA.model';
 import moment from 'moment';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -12,12 +10,13 @@ import 'react-day-picker/lib/style.css';
 import { FiChevronDown } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
+import { selectMerchantCreatedAt } from 'state/merchant/merchant.selectors';
 import { useStyles } from './DateRange.styles';
 
 export function DateRange({ onChange, start, end, datePickerRanges = allDatePickerRanges, fromMonth, toMonth }) {
   const intl = useIntl();
   const classes = useStyles();
-  const registerDate = useSelector(selectUserRegistrationDate);
+  const registerDate = useSelector(selectMerchantCreatedAt);
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
   const [selectedRange, setSelectedRange] = useState(null);

@@ -7,6 +7,7 @@ import { FiCalendar, FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPreliminaryFilteredCountModel } from 'state/identities/identities.selectors';
+import { todayMomentEndTime } from 'lib/date';
 import { DateRange } from '../../components/DateRange/DateRange';
 import { useStyles } from './Filter.styles';
 
@@ -17,7 +18,7 @@ export function Filter({ children, onClose, onSetFilter, selectFilter, cleanFilt
   const preliminaryFilteredCountModel = useSelector(preliminaryCountSelector || selectPreliminaryFilteredCountModel);
   const [bufferedFilter, setBufferedFilter] = useState({ flowIds: [], ...selectFilter });
   const [isFirstRender, setIsFirstRender] = useState(true);
-  const [currentDate] = useState(new Date());
+  const [currentDate] = useState(todayMomentEndTime.toDate());
 
   const handleFilterChange = useCallback((params) => {
     setBufferedFilter((prevState) => ({ ...prevState, ...params }));
