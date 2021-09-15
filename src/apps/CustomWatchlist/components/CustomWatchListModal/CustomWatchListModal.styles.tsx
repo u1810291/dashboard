@@ -1,9 +1,9 @@
 import React from 'react';
-import { createStyles } from '@material-ui/styles';
 import { FiUpload } from 'react-icons/fi';
-import { makeStyles, withStyles, Button, ButtonProps } from '@material-ui/core';
+import { makeStyles, withStyles, ButtonProps } from '@material-ui/core';
+import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
 
-export const useStyles = makeStyles((theme) => createStyles({
+export const useStyles = makeStyles((theme) => ({
   root: {
     background: '#fff',
     padding: '21px 40px',
@@ -18,9 +18,6 @@ export const useStyles = makeStyles((theme) => createStyles({
   },
   colorGrey: {
     color: theme.palette.text.main,
-  },
-  placeholder: {
-    color: theme.palette.text.disabled,
   },
   closeButton: {
     cursor: 'pointer',
@@ -57,7 +54,7 @@ export const RoundedButton = withStyles((theme) => ({
     },
   },
 }))(({ classes, children }: ButtonProps) => (
-  <Button
+  <ButtonStyled
     component="span"
     size="small"
     color="inherit"
@@ -66,5 +63,5 @@ export const RoundedButton = withStyles((theme) => ({
     classes={classes}
   >
     {children}
-  </Button>
+  </ButtonStyled>
 ));

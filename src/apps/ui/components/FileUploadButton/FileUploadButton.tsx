@@ -1,6 +1,6 @@
 import React, { InputHTMLAttributes } from 'react';
 import { FiPlus } from 'react-icons/fi';
-import { Button } from '@material-ui/core';
+import { ButtonStyled } from '../ButtonStyled/ButtonStyled';
 
 export const FileUploadButton = ({
   children,
@@ -27,7 +27,7 @@ export const FileUploadButton = ({
     />
     <label htmlFor="file-load">
       {renderButton || (
-        <Button
+        <ButtonStyled
           variant="outlined"
           component="span"
           fullWidth
@@ -36,7 +36,7 @@ export const FileUploadButton = ({
         >
           <FiPlus size={12} />
           {children}
-        </Button>
+        </ButtonStyled>
       )}
     </label>
   </div>

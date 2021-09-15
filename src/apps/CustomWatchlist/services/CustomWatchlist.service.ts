@@ -30,14 +30,16 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
 
   parser(flow: IFlow): ProductSettingsCustomWatchlist {
     return {
-      [CustomWatchlistSettingsTypes.str]: {
-        value: 'str',
+      [CustomWatchlistSettingsTypes.Watchlists]: {
+        value: flow[CustomWatchlistSettingsTypes.Watchlists],
       },
     };
   }
 
   serialize(settings: ProductSettingsCustomWatchlist): Partial<IFlow> {
+    console.log('settings', settings);
     return {
+      [CustomWatchlistSettingsTypes.Watchlists]: settings[CustomWatchlistSettingsTypes.Watchlists].value,
     };
   }
 

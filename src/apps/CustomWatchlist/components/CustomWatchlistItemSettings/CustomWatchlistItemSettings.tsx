@@ -1,13 +1,13 @@
-import { Box, Button, Grid, IconButton, Typography } from '@material-ui/core';
+import { Box, Button, Grid, IconButton, Typography, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useOverlay } from 'apps/overlay';
 import moment from 'moment';
 import classNames from 'classnames';
 import { useLongPolling } from 'lib/longPolling.hook';
-import { Watchlist } from 'models/CustomWatchlist.model';
+import { CustomWatchlistActions, Watchlist } from 'models/CustomWatchlist.model';
 import { customWatchlistClear, customWatchlistsLoad, deleteCustomWatchlist, customWatchlistCreate, customWatchlistUpdate } from 'apps/CustomWatchlist/state/CustomWatchlist.actions';
 import { selectIsWatchlistsLoaded, selectWatchlists } from 'apps/CustomWatchlist/state/CustomWatchlist.selectors';
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
@@ -15,7 +15,7 @@ import { CustomWatchListModal } from '../CustomWatchListModal/CustomWatchListMod
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { Skeleton } from './CustomWatchlistItemSkeleton';
 
-export function CustomWatchlistItemSettings() {
+export function CustomWatchlistItemSettings({ onUpdate }: { onUpdate: (watchlist: any) => void }) {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -31,8 +31,7 @@ export function CustomWatchlistItemSettings() {
   const handleWatchlistLoad = useCallback(
     (isReload: boolean) => {
       console.log('isReload', isReload, selectedWatchlist);
-    },
-    [selectedWatchlist],
+    }, [selectedWatchlist],
   );
 
   useLongPolling(handleWatchlistLoad, 3000, {
@@ -46,8 +45,7 @@ export function CustomWatchlistItemSettings() {
       setSelectedWatchlist(undefined);
       setIsDataPooling(false);
       closeOverlay();
-    },
-    [closeOverlay],
+    }, [closeOverlay],
   );
 
   const handleSubmitWatchlist = useCallback(
@@ -60,8 +58,7 @@ export function CustomWatchlistItemSettings() {
         return;
       }
       dispatch(customWatchlistCreate(merchantId, values));
-    },
-    [merchantId, dispatch],
+    }, [merchantId, dispatch],
   );
 
   const handleChangeStep = useCallback((watchlist?: Watchlist) => () => {
@@ -78,8 +75,13 @@ export function CustomWatchlistItemSettings() {
   const handleDeleteWatchList = useCallback(
     (watchlistId: string) => () => {
       dispatch(deleteCustomWatchlist(merchantId, watchlistId));
-    },
-    [merchantId, dispatch],
+    }, [merchantId, dispatch],
+  );
+
+  const handleActionChange = useCallback(
+    (watchlist: Watchlist) => (event: React.ChangeEvent<{ value: unknown; name?: string; }>) => {
+      onUpdate({ ...watchlist, action: event.target.value as CustomWatchlistActions });
+    }, [onUpdate],
   );
 
   // const handleDeleteStep = useCallback((watchlistIndex: number) => () => {
@@ -98,6 +100,25 @@ export function CustomWatchlistItemSettings() {
       dispatch(customWatchlistClear());
     };
   }, [merchantId, dispatch]);
+
+  const actionOptions = useMemo(() => ([
+    {
+      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.noAction' }),
+      value: CustomWatchlistActions.NoAction,
+    },
+    {
+      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.rejected' }),
+      value: CustomWatchlistActions.Rejected,
+    },
+    {
+      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.reviewNeeded' }),
+      value: CustomWatchlistActions.ReviewNeeded,
+    },
+    {
+      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.notifyByWebhook' }),
+      value: CustomWatchlistActions.NotifyByWebhook,
+    },
+  ]), [intl]);
 
   return (
     <Box>
@@ -135,19 +156,51 @@ export function CustomWatchlistItemSettings() {
                   {/* TODO: watchlist.createdAt && ... no validation error ... */}
                   {watchlist.createdAt ? (
                     <Typography variant="subtitle2" className={classes.colorGreen}>
-                      Uploaded
+                      {intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.uploaded' })}
                       {' '}
                       {moment(watchlist.createdAt).format('ll')}
                     </Typography>
                   ) : (
-                    <Typography variant="subtitle2" className={classes.colorRed}>Validation error</Typography>
+                    <Typography variant="subtitle2" className={classes.colorRed}>{intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.validationError' })}</Typography>
                   )}
                 </Grid>
                 <Box mt={2}>
-                  <Typography variant="subtitle2" className={classNames(classes.colorGrey, classes.matchFollowsTo)}>
-                    Match follows to:
-                    <Box className={classes.colorRed} ml={0.5}>Rejected</Box>
-                  </Typography>
+                  <Select
+                    id="action-select"
+                    name="action"
+                    variant="outlined"
+                    fullWidth
+                    // value={values.action}
+                    onChange={handleActionChange(watchlist)}
+                    className={classNames(classes.actionSelect, {
+                      // [classes.placeholder]: values.action === placeholderOption,
+                      // [classes.colorGreen]: values.action === CustomWatchlistActions.NotifyByWebhook,
+                      // [classes.colorOrange]: values.action === CustomWatchlistActions.ReviewNeeded,
+                      // [classes.colorRed]: values.action === CustomWatchlistActions.Rejected,
+                    })}
+                  >
+                    {actionOptions.map((item) => {
+                      if (item.value === CustomWatchlistActions.NoAction) {
+                        return (
+                          <MenuItem
+                            key={CustomWatchlistActions.NoAction}
+                            value={item.value}
+                            className={classes.placeholder}
+                          >
+                            {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.placeholder' })}
+                          </MenuItem>
+                        );
+                      }
+                      return (
+                        <MenuItem
+                          key={`${item.value}-${item.label}`}
+                          value={item.value}
+                        >
+                          {item.label}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
                 </Box>
               </Box>
             </Box>

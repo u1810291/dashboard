@@ -26,9 +26,6 @@ export const useStyles = makeStyles((theme) => createStyles({
     fontSize: 14,
     borderColor: theme.palette.common.lightblue,
   },
-  matchFollowsTo: {
-    display: 'flex',
-  },
   colorGrey: {
     color: theme.palette.common.black75,
   },
@@ -38,10 +35,24 @@ export const useStyles = makeStyles((theme) => createStyles({
   colorRed: {
     color: theme.palette.common.red,
   },
+  colorOrange: {
+    color: theme.palette.common.orange,
+  },
   skeletonWrap: {
     border: `1px solid ${theme.palette.common.black7}`,
     borderRadius: 3,
     padding: 20,
     height: 154,
+  },
+  placeholder: {
+    color: theme.palette.text.disabled,
+  },
+  marginBottom10: {
+    marginBottom: 10,
+  },
+  actionSelect: {
+    '&.MuiInputBase-root': {
+      height: 50,
+    },
   },
 }));

@@ -1,18 +1,15 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { Box, Button, InputLabel, Select, MenuItem, Grid, Typography } from '@material-ui/core';
+import { Box, InputLabel, Grid, Typography } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
-import { CustomWatchlistActions } from 'models/CustomWatchlist.model';
-import classnames from 'classnames';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
+import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
 import { useStyles, RoundedButton } from './CustomWatchListModal.styles';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
-
-const placeholderOption = 'no-action';
 
 export function CustomWatchListModal(
   {
@@ -27,24 +24,6 @@ export function CustomWatchListModal(
   const intl = useIntl();
   const classes = useStyles();
   const [fileName, setFileName] = useState<string>();
-  const actionOptions = useMemo(() => ([
-    {
-      label: 'No action',
-      value: placeholderOption,
-    },
-    {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.autoReject' }),
-      value: CustomWatchlistActions.AutoReject,
-    },
-    {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.manual' }),
-      value: CustomWatchlistActions.Manual,
-    },
-    {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.notifyWebhook' }),
-      value: CustomWatchlistActions.NotifyWebhook,
-    },
-  ]), [intl]);
 
   const handleUploadFile = useCallback(
     (setFieldValue: Function) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +65,6 @@ export function CustomWatchListModal(
       <Formik
         initialValues={{
           name: 'asdasd',
-          action: 'no-action',
         }}
         onSubmit={handleSubmit}
       >
@@ -110,46 +88,6 @@ export function CustomWatchListModal(
                     disabled={false}
                     placeholder={intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.name.placeholder' })}
                   />
-                </Box>
-                <Box mb={3}>
-                  <InputLabel className={classes.marginBottom10} htmlFor="action-select">
-                    <Typography variant="subtitle2">
-                      {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.label' })}
-                    </Typography>
-                  </InputLabel>
-                  <Select
-                    id="action-select"
-                    name="action"
-                    variant="outlined"
-                    fullWidth
-                    value={values.action}
-                    onChange={handleChange}
-                    className={classnames({
-                      [classes.placeholder]: values.action === placeholderOption,
-                    })}
-                  >
-                    {actionOptions.map((item) => {
-                      if (item.value === placeholderOption) {
-                        return (
-                          <MenuItem
-                            key={placeholderOption}
-                            value={item.value}
-                            className={classes.placeholder}
-                          >
-                            {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.placeholder' })}
-                          </MenuItem>
-                        );
-                      }
-                      return (
-                        <MenuItem
-                          key={`${item.value}-${item.label}`}
-                          value={item.value}
-                        >
-                          {item.label}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
                 </Box>
                 <Box mb={3}>
                   <InputLabel className={classes.marginBottom10} htmlFor="watchlist-name">
@@ -194,15 +132,15 @@ export function CustomWatchListModal(
             </Grid>
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <Button variant="outlined" color="primary" size="large" fullWidth onClick={closeModal}>
+                <ButtonStyled variant="outlined" color="primary" size="large" fullWidth onClick={closeModal}>
                   <FiChevronLeft />
                   {' '}
                   {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.back' })}
-                </Button>
+                </ButtonStyled>
               </Grid>
               <Grid item xs={6}>
                 {/* TODO: изменить название кнопки до Валидации на Validation, как провалидировалось Done - при нажатии закрываем модалку  */}
-                <Button
+                <ButtonStyled
                   type="submit"
                   variant="contained"
                   color="primary"
@@ -210,7 +148,7 @@ export function CustomWatchListModal(
                   fullWidth
                 >
                   {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.done' })}
-                </Button>
+                </ButtonStyled>
               </Grid>
             </Grid>
           </Form>

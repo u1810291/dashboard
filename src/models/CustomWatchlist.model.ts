@@ -4,9 +4,10 @@ export interface AllowedRegions {
 }
 
 export enum CustomWatchlistActions {
-  AutoReject = 'auto-reject',
-  Manual = 'manual',
-  NotifyWebhook = 'notify-webhook',
+  NoAction = 'no-action',
+  Rejected = 'rejected',
+  NotifyByWebhook = 'notifyByWebhook',
+  ReviewNeeded = 'reviewNeeded',
 }
 
 export interface Watchlist {
@@ -18,9 +19,13 @@ export interface Watchlist {
   deleted: boolean;
 }
 
+export interface FlowWatchlist {
+  id: string;
+  action: CustomWatchlistActions;
+}
+
 export enum CustomWatchlistSettingsTypes {
-  // TODO: mock
-  str = 'str',
+  Watchlists = 'watchlists',
 }
 
 export enum CustomWatchlistCheckTypes {
