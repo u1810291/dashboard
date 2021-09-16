@@ -10,18 +10,25 @@ export enum CustomWatchlistActions {
   ReviewNeeded = 'reviewNeeded',
 }
 
+export interface WatchlistMappingOptions {
+  fuzziness?: number;
+}
+
+export interface WatchlistMapping {
+  systemField: string;
+  merchantField: string;
+  options?: WatchlistMappingOptions;
+}
+
 export interface Watchlist {
-  id: string;
+  id: number;
   name: string;
   createdAt: string;
   updatedAt: string;
-  mapping: any | null;
-  deleted: boolean;
-}
-
-export interface FlowWatchlist {
-  id: string;
-  action: CustomWatchlistActions;
+  merchantId: string;
+  mapping: WatchlistMapping | null;
+  severityOnMatch: CustomWatchlistActions;
+  watchlistId?: number;
 }
 
 export enum CustomWatchlistSettingsTypes {

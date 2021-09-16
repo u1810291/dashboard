@@ -13,9 +13,6 @@ export const useStyles = makeStyles((theme) => ({
     lineHeight: '29px',
     marginBottom: 40,
   },
-  marginBottom10: {
-    marginBottom: 10,
-  },
   colorGrey: {
     color: theme.palette.text.main,
   },
@@ -38,6 +35,12 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.main,
     textDecorationLine: 'underline',
     fontWeight: 'bold',
+  },
+  marginBottom10: {
+    marginBottom: 10,
+  },
+  marginTop50: {
+    marginTop: 50,
   },
 }));
 

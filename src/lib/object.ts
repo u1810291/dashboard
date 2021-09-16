@@ -52,3 +52,13 @@ export function mergeDeep(target, source) {
   }
   return output;
 }
+
+/**
+ * Replaces the key in obj with the specified name
+ */
+export function replaceObjKeyByName<T = {}>(obj: T, key: string, name: string): T {
+  const newObj: T = { ...obj, [name]: obj[key] };
+  delete newObj[key];
+
+  return newObj;
+}

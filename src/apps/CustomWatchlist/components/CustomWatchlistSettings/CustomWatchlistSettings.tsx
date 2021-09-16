@@ -41,7 +41,7 @@ export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsP
             </Typography>
           </Box>
         </Box>
-        <CustomWatchlistItemSettings onUpdate={handleUpdateItems} />
+        <CustomWatchlistItemSettings watchlists={settings[CustomWatchlistSettingsTypes.Watchlists].value} onUpdate={handleUpdateItems} />
       </Grid>
     </Grid>
   );

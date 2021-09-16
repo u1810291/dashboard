@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
@@ -7,27 +7,33 @@ import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
+import { Watchlist, WatchlistMapping } from 'models/CustomWatchlist.model';
 import { useStyles, RoundedButton } from './CustomWatchListModal.styles';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
 
+interface InitialValuesType {
+  name: string;
+  mapping: WatchlistMapping[];
+}
+
 export function CustomWatchListModal(
   {
-    isEdit,
+    watchlist,
     onClose,
     onSubmit,
   }: {
-    isEdit: boolean;
-    onClose: (callback?: Function) => void;
+    watchlist: Watchlist;
+    onClose: () => void;
     onSubmit: Function; },
 ) {
   const intl = useIntl();
   const classes = useStyles();
   const [fileName, setFileName] = useState<string>();
+  const isEdit = !!watchlist;
 
   const handleUploadFile = useCallback(
     (setFieldValue: Function) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      console.log('Start');
       const file = event.target.files[0];
       console.log('upload file', file);
       setFileName(file.name);
@@ -36,21 +42,28 @@ export function CustomWatchListModal(
     [],
   );
 
+  const initialValues: InitialValuesType = useMemo(() => ({
+    name: watchlist?.name || '',
+    // TODO: @richvoronv step 1, remove mock on step 2
+    mapping: [{
+      systemField: 'fullName',
+      merchantField: 'Full Name',
+      options: {
+        fuzziness: 0.5,
+      },
+    }, {
+      systemField: 'dateOfBirth',
+      merchantField: 'Date Of Birth',
+    }],
+  }), [watchlist]);
+
   const handleSubmit = useCallback(
-    // TODO: Add types here
-    (values: Object) => {
+    (values: InitialValuesType) => {
       console.log('submit', values);
-      // onSubmit(values);
+      onSubmit(values);
     },
     [onSubmit],
   );
-
-  const closeModal = useCallback(() => {
-    onClose();
-  },
-  [onClose]);
-
-  // TODO: пулинг только для модалки, модалка закрывается закрывается пулинг. Процесс загрузки документа синхронный
 
   return (
     <Box className={classes.root}>
@@ -58,17 +71,15 @@ export function CustomWatchListModal(
         <Typography variant="h3" className={classes.modalTitle}>
           {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.title' })}
         </Typography>
-        <div onClick={closeModal} onKeyPress={closeModal} role="button" tabIndex={0} className={classes.closeButton}>
+        <div onClick={onClose} onKeyPress={onClose} role="button" tabIndex={0} className={classes.closeButton}>
           <Close />
         </div>
       </Grid>
       <Formik
-        initialValues={{
-          name: 'asdasd',
-        }}
+        initialValues={initialValues}
         onSubmit={handleSubmit}
       >
-        {({ handleChange, values, setFieldValue }) => (
+        {({ values, setFieldValue }) => (
           <Form>
             <Grid container direction="row" spacing={2}>
               <Grid item xs={6}>
@@ -81,6 +92,7 @@ export function CustomWatchListModal(
                   <Field
                     id="watchlist-name"
                     name="name"
+                    value={values.name}
                     type="input"
                     variant="outlined"
                     fullWidth
@@ -130,9 +142,9 @@ export function CustomWatchListModal(
                 {isEdit ? <ValidatedInputs /> : <FakeInputs />}
               </Grid>
             </Grid>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} className={classes.marginTop50}>
               <Grid item xs={6}>
-                <ButtonStyled variant="outlined" color="primary" size="large" fullWidth onClick={closeModal}>
+                <ButtonStyled variant="outlined" color="primary" size="large" fullWidth onClick={onClose}>
                   <FiChevronLeft />
                   {' '}
                   {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.back' })}

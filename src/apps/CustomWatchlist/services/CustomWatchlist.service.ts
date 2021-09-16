@@ -29,6 +29,7 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
   componentVerification = CustomWatchlistVerification;
 
   parser(flow: IFlow): ProductSettingsCustomWatchlist {
+    console.log('FLOW', flow);
     return {
       [CustomWatchlistSettingsTypes.Watchlists]: {
         value: flow[CustomWatchlistSettingsTypes.Watchlists],
@@ -44,21 +45,11 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
   }
 
   onAdd(): Partial<IFlow> {
-    return {
-      verificationPatterns: {
-      },
-    };
-  }
-
-  onRemove(): Partial<IFlow> {
-    return {
-      verificationPatterns: {
-      },
-    };
+    return {};
   }
 
   isInFlow(flow: IFlow): boolean {
-    return true;
+    return flow[CustomWatchlistSettingsTypes.Watchlists].length !== 0;
   }
 
   getVerification(verification: VerificationResponse): any {
