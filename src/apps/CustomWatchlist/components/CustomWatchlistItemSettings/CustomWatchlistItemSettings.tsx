@@ -4,9 +4,9 @@ import { useOverlay } from 'apps/overlay';
 import moment from 'moment';
 import classNames from 'classnames';
 import { useLongPolling } from 'lib/longPolling.hook';
-import { CustomWatchlistActions, Watchlist } from 'models/CustomWatchlist.model';
+import { CustomWatchlistActions, CustomWatchlistModalSubmitType, Watchlist } from 'models/CustomWatchlist.model';
 import { customWatchlistClear, customWatchlistsLoad, deleteCustomWatchlist, customWatchlistCreate, customWatchlistUpdate } from 'apps/CustomWatchlist/state/CustomWatchlist.actions';
-import { selectIsWatchlistsLoaded, selectWatchlists } from 'apps/CustomWatchlist/state/CustomWatchlist.selectors';
+import { selectIsWatchlistsLoaded } from 'apps/CustomWatchlist/state/CustomWatchlist.selectors';
 import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -48,8 +48,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
   );
 
   const handleSubmitWatchlist = useCallback(
-    // TODO: add types for values
-    (watchlist?: Watchlist) => (values: Object) => {
+    (watchlist?: Watchlist) => (values: CustomWatchlistModalSubmitType) => {
       console.log('submit', { watchlist, values });
       setIsDataPooling(true);
       if (watchlist) {
@@ -138,7 +137,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
                     <IconButton className={classNames(classes.button, classes.buttonEdit)} onClick={handleChangeStep(watchlist)}>
                       <FiEdit size={17} />
                     </IconButton>
-                    <IconButton className={classNames(classes.button, classes.buttonTrash)} onClick={handleDeleteWatchList(watchlist.id)}>
+                    <IconButton className={classNames(classes.button, classes.buttonTrash)} onClick={handleDeleteWatchList(watchlist.watchlistId)}>
                       <FiTrash2 size={17} />
                     </IconButton>
                   </Box>

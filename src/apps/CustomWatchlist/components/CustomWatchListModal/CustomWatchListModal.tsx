@@ -7,15 +7,10 @@ import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
-import { Watchlist, WatchlistMapping } from 'models/CustomWatchlist.model';
+import { Watchlist, CustomWatchlistModalSubmitType } from 'models/CustomWatchlist.model';
 import { useStyles, RoundedButton } from './CustomWatchListModal.styles';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
-
-interface InitialValuesType {
-  name: string;
-  mapping: WatchlistMapping[];
-}
 
 export function CustomWatchListModal(
   {
@@ -25,12 +20,11 @@ export function CustomWatchListModal(
   }: {
     watchlist: Watchlist;
     onClose: () => void;
-    onSubmit: Function; },
+    onSubmit: (values: CustomWatchlistModalSubmitType) => void; },
 ) {
   const intl = useIntl();
   const classes = useStyles();
   const [fileName, setFileName] = useState<string>();
-  const isEdit = !!watchlist;
 
   const handleUploadFile = useCallback(
     (setFieldValue: Function) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,23 +36,24 @@ export function CustomWatchListModal(
     [],
   );
 
-  const initialValues: InitialValuesType = useMemo(() => ({
+  const initialValues: CustomWatchlistModalSubmitType = useMemo(() => ({
     name: watchlist?.name || '',
     // TODO: @richvoronv step 1, remove mock on step 2
-    mapping: [{
-      systemField: 'fullName',
-      merchantField: 'Full Name',
-      options: {
-        fuzziness: 0.5,
-      },
-    }, {
-      systemField: 'dateOfBirth',
-      merchantField: 'Date Of Birth',
-    }],
+    mapping: [],
+    // mapping: [{
+    //   systemField: 'fullName',
+    //   merchantField: 'Full Name',
+    //   options: {
+    //     fuzziness: 0.5,
+    //   },
+    // }, {
+    //   systemField: 'dateOfBirth',
+    //   merchantField: 'Date Of Birth',
+    // }],
   }), [watchlist]);
 
   const handleSubmit = useCallback(
-    (values: InitialValuesType) => {
+    (values: CustomWatchlistModalSubmitType) => {
       console.log('submit', values);
       onSubmit(values);
     },
@@ -139,7 +134,23 @@ export function CustomWatchListModal(
                     {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.subTitle' })}
                   </Typography>
                 </Box>
-                {isEdit ? <ValidatedInputs /> : <FakeInputs />}
+                {fileName ? (
+                  // TODO: @richvoronov replace fieldValues with recieved data
+                  <ValidatedInputs fieldValues={[
+                    {
+                      label: 'Name',
+                      value: 'fullName',
+                      options: {
+                        fuzziness: 0.5,
+                      },
+                    },
+                    {
+                      label: 'Date of birth',
+                      value: 'dateOfBirth',
+                    },
+                  ]}
+                  />
+                ) : <FakeInputs />}
               </Grid>
             </Grid>
             <Grid container spacing={2} className={classes.marginTop50}>

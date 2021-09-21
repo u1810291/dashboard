@@ -40,12 +40,17 @@ export enum CustomWatchlistCheckTypes {
 }
 
 export enum ValidatedInputsKeys {
-  Name = 'name',
+  FullName = 'fullName',
   DateOfBirth = 'dateOfBirth',
   NationalId = 'nationalId',
   DrivingLicense = 'drivingLicense',
   PassportNumber = 'passportNumber',
   CountryCode = 'countryCode',
+}
+
+export interface CustomWatchlistModalSubmitType {
+  name: string;
+  mapping: WatchlistMapping[];
 }
 
 export const getAllAllowedRegions = (countries) => (

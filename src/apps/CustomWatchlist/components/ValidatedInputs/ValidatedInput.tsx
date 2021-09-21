@@ -13,16 +13,18 @@ interface Option {
   value: string;
 }
 
-export function ValidatedInput({ title, name, options, selectedOptions, placeholderKey, onChange }:
+export function ValidatedInput({ title, name, options, selectedOptions, placeholderKey, value: propValue, onChange }:
   {
     title: string;
     name: string;
     placeholderKey: string;
     options: Option[];
     selectedOptions: SelectedOptions;
-    onChange: (values: { value: string; name?: string }) => void; }) {
-  const [value, setValue] = useState(placeholderKey);
-  const [rangeSliderValue, setRangeSliderValue] = useState<number>(0);
+    onChange: (values: { value: string; name?: string }) => void;
+    value?: string;
+  }) {
+  const [value, setValue] = useState(propValue || placeholderKey);
+  const [rangeSliderValue, setRangeSliderValue] = useState<number>(selectedOptions[name]?.options?.fuzziness || 20);
   const classes = useStyles();
 
   const handleChange = useCallback(
@@ -36,7 +38,6 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
 
   const handleSliderChange = useCallback(
     (_: React.ChangeEvent<{}>, val: number | number[]) => {
-      console.log('range slider value', rangeSliderValue);
       setRangeSliderValue(val as number);
     },
     [rangeSliderValue],
@@ -62,13 +63,13 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
             })}
           >
             {selectedOptions[name] && (
-            <MenuItem
-              key={selectedOptions[name].value}
-              value={selectedOptions[name].value}
-              disabled
-            >
-              {selectedOptions[name].label}
-            </MenuItem>
+              <MenuItem
+                key={selectedOptions[name].value}
+                value={selectedOptions[name].value}
+                disabled
+              >
+                {selectedOptions[name].label}
+              </MenuItem>
             )}
             {localOptions.map((item) => {
               if (item.value === 'placeholder') {
@@ -94,10 +95,11 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
           </SelectStyled>
         </Grid>
       </Grid>
-      {value === ValidatedInputsKeys.Name && (
+      {value === ValidatedInputsKeys.FullName && (
         <Box mb={1.2}>
           <RangeSlider
             defaultValue={rangeSliderValue}
+            value={rangeSliderValue}
             onChange={handleSliderChange}
           />
         </Box>

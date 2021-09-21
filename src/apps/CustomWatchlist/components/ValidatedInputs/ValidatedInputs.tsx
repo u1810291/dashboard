@@ -10,17 +10,36 @@ export interface SelectedOptions {
   [key: string]: {
     label: string;
     value: string;
+    options?: FieldValuesOptions;
   };
 }
 
-export function ValidatedInputs() {
+export interface FieldValuesOptions {
+  fuzziness?: number;
+}
+
+interface FieldValues {
+  label: string;
+  value: string;
+  options?: FieldValuesOptions;
+}
+
+export function ValidatedInputs({ fieldValues }: { fieldValues: FieldValues[] }) {
   const intl = useIntl();
-  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({});
+  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(fieldValues.reduce((prev, cur) => {
+    if (cur.value === ValidatedInputsKeys.FullName) {
+      return {
+        ...prev,
+        [cur.value]: cur,
+      };
+    }
+    return { ...prev, [cur.value]: cur };
+  }, {}));
 
   const inputOptions = useMemo(() => [
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.name' }),
-      value: ValidatedInputsKeys.Name,
+      value: ValidatedInputsKeys.FullName,
     },
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.dateOfBirth' }),
@@ -61,17 +80,19 @@ export function ValidatedInputs() {
     [inputOptions],
   );
 
+  console.log('selectedOptions', selectedOptions);
   return (
     <Grid container direction="column" spacing={1}>
-      {['a', 'b', 'c'].map((input) => (
-        <Grid key={input} item>
+      {fieldValues.map((input) => (
+        <Grid key={input.value} item>
           <ValidatedInput
             placeholderKey={placeholderKey}
-            title={input}
-            name={input}
+            title={input.label}
+            name={input.value}
             onChange={handleChange}
             selectedOptions={selectedOptions}
             options={inputOptions}
+            value={selectedOptions[input.value].value}
           />
         </Grid>
       ))}

@@ -49,6 +49,7 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
   }
 
   isInFlow(flow: IFlow): boolean {
+    console.log('flow', flow);
     return flow[CustomWatchlistSettingsTypes.Watchlists].length !== 0;
   }
 
