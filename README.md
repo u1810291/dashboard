@@ -2,11 +2,19 @@
 
 ## Start:
 
+0. Make sure you're using the required Node and npm versions defined in `package.json` (the project includes an `.nvmrc` file, so you can just use `nvm use` if you manage your Node installation with `nvm`)
+
+1. Install deps:
+```bash
+npm i
+```
+
+2. Run app:
 ```bash
 yarn start
 ```
 
-##Lint:
+## Lint:
 ```bash
 yarn eslint
 ```

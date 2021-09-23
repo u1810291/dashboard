@@ -25,12 +25,4 @@ export const useStyles = makeStyles((theme) => ({
       opacity: 0,
     },
   },
-  '@-webkit-keyframes logoInOut': {
-    '0%, 100%': {
-      opacity: 1,
-    },
-    '50%': {
-      opacity: 0,
-    },
-  },
 }));

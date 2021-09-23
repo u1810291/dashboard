@@ -4,6 +4,7 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     cursor: 'pointer',
     overflowY: 'hidden',
+    wordBreak: 'break-word',
     [theme.breakpoints.down('md')]: {
       position: 'relative',
       display: 'flex',

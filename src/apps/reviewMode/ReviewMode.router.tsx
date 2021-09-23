@@ -1,12 +1,14 @@
 import { Routes } from 'models/Router.model';
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
+import { WithAgent } from 'models/Collaborator.model';
+import { RoleGuardRoute } from 'apps/routing';
 import { ReviewContainer } from './components/ReviewContainer/ReviewContainer';
 
 export function ReviewModeRouter() {
   return (
     <Switch>
-      <Route path={Routes.review.root} component={ReviewContainer} />
+      <RoleGuardRoute roles={WithAgent} path={Routes.review.root} component={ReviewContainer} />
     </Switch>
   );
 }

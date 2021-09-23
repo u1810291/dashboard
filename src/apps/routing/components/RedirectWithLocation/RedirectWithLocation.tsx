@@ -9,5 +9,9 @@ export function RedirectWithLocation({ pathname = Routes.root }) {
     state: { from },
   };
 
-  return from.pathname !== pathname && <Redirect to={to} />;
+  if (from.pathname === pathname) {
+    return null;
+  }
+
+  return <Redirect to={to} />;
 }

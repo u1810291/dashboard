@@ -1,6 +1,8 @@
 import React from 'react';
 import { TeamSettings } from 'apps/collaborators';
 import { Grid, Container, Box } from '@material-ui/core';
+import { RoleRenderGuard } from 'apps/merchant/guards/RoleRenderGuard';
+import { WithAgent } from 'models/Collaborator.model';
 import { CompanySettings } from '../CompanySettings/CompanySettings';
 
 export function Settings() {
@@ -12,7 +14,9 @@ export function Settings() {
             <CompanySettings />
           </Grid>
           <Grid item xs={12} lg={6}>
-            <TeamSettings />
+            <RoleRenderGuard roles={WithAgent}>
+              <TeamSettings />
+            </RoleRenderGuard>
           </Grid>
         </Grid>
       </Box>

@@ -1,10 +1,14 @@
 import { appPalette } from 'apps/theme';
 import { stringHash } from 'lib/string';
 
-export const CollaboratorRoles = {
-  ADMIN: 1,
-  AGENT: 2,
-};
+export enum CollaboratorRoles {
+  ADMIN = 1,
+  AGENT = 2,
+  AUDITOR = 3,
+}
+
+export const WithAuditor = [CollaboratorRoles.ADMIN, CollaboratorRoles.AUDITOR];
+export const WithAgent = [CollaboratorRoles.ADMIN, CollaboratorRoles.AGENT];
 
 export const CollaboratorOptions = [
   {
@@ -15,6 +19,11 @@ export const CollaboratorOptions = [
     id: CollaboratorRoles.AGENT,
     label: 'teamTable.roles.agent',
   },
+  // TODO: @vladislav.snimshchikov open when backend will be ready
+/*  {
+    id: CollaboratorRoles.AUDITOR,
+    label: 'teamTable.roles.auditor',
+  }, */
 ];
 
 export const CollaboratorsColors = {

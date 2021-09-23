@@ -57,7 +57,7 @@ export const useStyles = makeStyles((theme) => ({
       justifyContent: 'space-between',
     },
     '& .DayPicker-Month': {
-      margin: [[20, 0, 0]],
+      margin: '20px 0 0',
       borderSpacing: '0 5px',
       borderCollapse: 'separate',
     },
@@ -118,13 +118,13 @@ export const useStyles = makeStyles((theme) => ({
     },
     '& .MuiButton-root': {
       minHeight: 28,
-      padding: [[3, 22]],
+      padding: '3px 22px',
       borderRadius: 40,
       justifyContent: 'flex-start',
       color: theme.palette.text.main,
       transition: 'none',
       [theme.breakpoints.down('sm')]: {
-        padding: [[3, 7]],
+        padding: '3px 7px',
       },
     },
     '& .MuiButton-root:hover': {
@@ -153,7 +153,7 @@ export const useStyles = makeStyles((theme) => ({
       display: 'flex',
       alignItems: 'center',
       minWidth: 60,
-      padding: [[5, 5, 5, 10]],
+      padding: '5px 5px 5px 10px',
       borderRadius: 30,
       fontSize: 18,
       fontWeight: 'bold',
@@ -175,7 +175,7 @@ export const useStyles = makeStyles((theme) => ({
   rangeDivider: {
     width: 10,
     height: 1,
-    margin: [[0, 15]],
+    margin: '0 15px',
     backgroundColor: theme.palette.common.black90,
     [theme.breakpoints.down('sm')]: {
       marginRight: 0,

@@ -1,8 +1,8 @@
-import { Loader } from 'apps/ui';
+import { notification } from 'apps/ui';
 import { downloadBlob } from 'lib/file';
 import { QATags } from 'models/QA.model';
 import React, { useCallback, useState } from 'react';
-import { FiDownload, FiLoader } from 'react-icons/fi';
+import { FiDownload } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { downloadCSV } from 'state/identities/identities.actions';
@@ -12,33 +12,34 @@ import { SideButton } from './DownloadCSV.styles';
 export function DownloadCSV() {
   const dispatch = useDispatch();
   const intl = useIntl();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const countModel = useSelector(selectIdentityCountModel);
   const filteredCountModel = useSelector(selectFilteredCountModel);
 
   const handleDownloadCSV = useCallback(async () => {
-    setIsLoading(true);
-    const response = await dispatch(downloadCSV());
-    setIsLoading(false);
-    if (!response) {
-      return;
+    if (!isDownloading) {
+      setIsDownloading(true);
+      const notificationId = notification.spinner(intl.formatMessage({ id: 'csv.loading' }));
+      const response = await dispatch(downloadCSV());
+      setIsDownloading(false);
+      notification.dismiss(notificationId);
+      if (!response) {
+        return;
+      }
+      const blob = new Blob([response.data]);
+      downloadBlob(blob, 'mati-verifications.zip');
     }
-    const blob = new Blob([response.data]);
-    downloadBlob(blob, 'mati-verifications.zip');
-  }, [dispatch]);
+  }, [dispatch, intl, isDownloading]);
 
   return (
-    <>
-      <SideButton
-        variant="contained"
-        onClick={handleDownloadCSV}
-        startIcon={isLoading ? <FiLoader /> : <FiDownload />}
-        disabled={isLoading || countModel.value === 0 || filteredCountModel.value === 0}
-        data-qa={QATags.VerificationList.DownloadCsv}
-      >
-        {intl.formatMessage({ id: 'identities.download-all-csv' })}
-      </SideButton>
-      {isLoading && <Loader />}
-    </>
+    <SideButton
+      variant="contained"
+      onClick={handleDownloadCSV}
+      startIcon={<FiDownload />}
+      disabled={isDownloading || countModel.value === 0 || filteredCountModel.value === 0}
+      data-qa={QATags.VerificationList.DownloadCsv}
+    >
+      {intl.formatMessage({ id: 'identities.download-all-csv' })}
+    </SideButton>
   );
 }

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TeamInviteModal } from '../../components/TeamInviteModal/TeamInviteModal';
 import { TeamTable } from '../../components/TeamTable/TeamTable';
 import { collaboratorAdd, collaboratorListLoad } from '../../state/collaborator.actions';
-import { selectCollaboratorCollectionModel, selectCollaboratorState } from '../../state/collaborator.selectors';
+import { selectCollaboratorCollectionWithOwnerModel, selectCollaboratorState } from '../../state/collaborator.selectors';
 import { useStyles } from './TeamSettings.styles';
 
 export function TeamSettings() {
@@ -17,7 +17,7 @@ export function TeamSettings() {
   const classes = useStyles();
   const [createOverlay, closeOverlay] = useOverlay();
   const state = useSelector(selectCollaboratorState);
-  const collaboratorList = useSelector(selectCollaboratorCollectionModel);
+  const collaboratorList = useSelector(selectCollaboratorCollectionWithOwnerModel);
 
   const handleInviteSubmit = useCallback(async (data) => {
     closeOverlay();

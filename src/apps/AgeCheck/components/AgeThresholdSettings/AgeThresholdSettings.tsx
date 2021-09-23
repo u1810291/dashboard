@@ -2,52 +2,49 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Box, FormControl, FormControlLabel, Grid, Radio, RadioGroup } from '@material-ui/core';
 import { useIntl } from 'react-intl';
 import { BoxBordered } from 'apps/ui';
-import { AGE_CHECK_DEFAULT_THRESHOLD, AGE_CHECK_MAX_THRESHOLD, AGE_CHECK_MIN_THRESHOLD, AgeCheckThresholdModes, validateAgeTheshold } from 'apps/AgeCheck/models/AgeCheck.model';
+import { AGE_CHECK_DEFAULT_THRESHOLD, AGE_CHECK_MAX_THRESHOLD, AGE_CHECK_MIN_THRESHOLD, AgeCheckThresholdModes, validateAgeThreshold } from 'apps/AgeCheck/models/AgeCheck.model';
 import { InputScore } from './AgeThresholdSettings.styles';
 
-export interface AgeThresholdSettingsProps {
-  ageThreshold: number;
-  onUpdate: (age: number) => void;
-}
-
-export function AgeThresholdSettings({ ageThreshold, onUpdate }: AgeThresholdSettingsProps) {
+export function AgeThresholdSettings({ ageThreshold, onUpdate }: { ageThreshold: number; onUpdate: (age: number) => void }) {
   const intl = useIntl();
 
   const [mode, setMode] = useState(ageThreshold ? AgeCheckThresholdModes.Custom : AgeCheckThresholdModes.Default);
   const [score, setScore] = useState(ageThreshold);
-  const [error, setError] = useState(validateAgeTheshold(score, mode));
+  const [error, setError] = useState(validateAgeThreshold(score, mode));
 
-  const handleScoreSubmit = useCallback((value) => {
+  const handleScoreSubmit = useCallback((value: string) => {
     const scoreAsNumber = parseInt(value, 10);
-    const validationError = validateAgeTheshold(scoreAsNumber, mode);
+    const validationError = validateAgeThreshold(scoreAsNumber, mode);
     if (validationError) {
       setError(validationError);
-      return;
     }
-    onUpdate(scoreAsNumber);
+    if (scoreAsNumber) {
+      onUpdate(scoreAsNumber);
+    }
   }, [mode, onUpdate]);
 
-  const handleModeChange = useCallback(({ target: { value } }) => {
-    setMode(value);
+  const handleModeChange = useCallback(({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+    setMode(value as AgeCheckThresholdModes);
     setScore(AGE_CHECK_DEFAULT_THRESHOLD);
     setError(null);
-    handleScoreSubmit(AGE_CHECK_DEFAULT_THRESHOLD);
+    handleScoreSubmit(String(AGE_CHECK_DEFAULT_THRESHOLD));
   }, [handleScoreSubmit]);
 
-  const handleScoreChange = useCallback(({ target: { value } }) => {
-    setScore(value);
+  const handleScoreChange = useCallback(({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+    setScore(parseInt(value, 10));
     setError(null);
     handleScoreSubmit(value);
   }, [handleScoreSubmit]);
 
-  const handleBlur = useCallback(({ target: { value } }) => {
-    setError(validateAgeTheshold(parseInt(value, 10), mode));
+  const handleBlur = useCallback(({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+    setError(validateAgeThreshold(parseInt(value, 10), mode));
   }, [mode]);
 
   useEffect(() => {
-    setMode(!ageThreshold || ageThreshold === AGE_CHECK_DEFAULT_THRESHOLD ? AgeCheckThresholdModes.Default : AgeCheckThresholdModes.Custom);
+    const ageThresholdMode = !ageThreshold || ageThreshold === AGE_CHECK_DEFAULT_THRESHOLD ? AgeCheckThresholdModes.Default : AgeCheckThresholdModes.Custom;
+    setMode(ageThresholdMode);
     setScore(ageThreshold);
-    setError(null);
+    setError(validateAgeThreshold(ageThreshold, ageThresholdMode));
   }, [ageThreshold]);
 
   return (

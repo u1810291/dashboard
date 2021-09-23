@@ -3,12 +3,13 @@ import { Field, Formik } from 'formik';
 import { pick, pickBy } from 'lodash';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { ReactComponent as ImgAdmin } from 'assets/modal-role-admin.svg';
-import { ReactComponent as ImgAgent } from 'assets/modal-role-agent.svg';
 import { cleanText, email, required } from 'lib/validations';
+import { QATags } from 'models/QA.model';
+import { ReactComponent as ImgAdmin } from '../../assets/modal-role-admin.svg';
+import { ReactComponent as ImgAgent } from '../../assets/modal-role-agent.svg';
+
 import CSS from './TeamInviteForm.module.scss';
 import { RoleField } from '../../RoleField/RoleField';
-import { QATags } from '../../../../models/QA.model';
 
 const formikSettings = {
   initialValues: {
@@ -54,6 +55,18 @@ export function TeamInviteForm({ onSubmit, innerRef }) {
       }),
       image: <ImgAgent />,
     },
+    // TODO: @vladislav.snimshchikov open when backend will be ready
+    /*    {
+      qaTag: QATags.Collaborators.Role.Agent,
+      label: intl.formatMessage({
+        id: 'teamTable.invite.form.roles.auditor',
+      }),
+      value: 3,
+      description: intl.formatMessage({
+        id: 'teamTable.invite.form.roles.description.auditor',
+      }),
+      image: <ImgAuditor style={{ marginTop: -4 }} />,
+    }, */
   ];
   const handleSubmit = useCallback((values, { setSubmitting, setStatus }) => {
     setStatus({});

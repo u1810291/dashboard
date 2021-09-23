@@ -12,6 +12,8 @@ import { filterUpdate, identityListClear, verificationsFilteredCountLoad, verifi
 import { selectFilteredCountModel, selectIdentityFilter, selectPreliminaryFilteredCountModel } from 'state/identities/identities.selectors';
 import { DownloadCSV } from 'apps/Csv';
 import { selectMerchantCreatedAt } from 'state/merchant/merchant.selectors';
+import { RoleRenderGuard } from 'apps/merchant/guards/RoleRenderGuard';
+import { WithAgent } from 'models/Collaborator.model';
 import { VerificationTable } from '../VerificationTable/VerificationTable';
 import { VerificationSearch } from '../VerificationSearch/VerificationSearch';
 import { ManualReviewBanner } from '../ManualReviewBanner/ManualReviewBanner';
@@ -60,7 +62,9 @@ export function VerificationList() {
             <Grid item xs={6} container justify="flex-end">
               <Grid item>
                 <Box mr={2} className={classes.downloadButton}>
-                  <DownloadCSV />
+                  <RoleRenderGuard roles={WithAgent}>
+                    <DownloadCSV />
+                  </RoleRenderGuard>
                 </Box>
               </Grid>
               {/* identityFilter */}

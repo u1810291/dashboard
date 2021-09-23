@@ -6,7 +6,7 @@ export function useQuery() {
   return Object.fromEntries(search) || {};
 }
 
-export function getQueryFromObject(queryParams) {
+export function getQueryFromObject(queryParams: {[p: string]: string}): string | null {
   return Object.entries(queryParams).map(([key, value]) => key && value && `${key}=${value}`).filter(Boolean).join('&') || null;
 }
 

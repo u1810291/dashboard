@@ -15,6 +15,8 @@ import { selectReviewVerificationWithExtras } from 'apps/Verification/state/Veri
 import { StatusSelector } from 'apps/Verification';
 import { VerificationNumber } from 'apps/Verification/components/VerificationNumber/VerificationNumber';
 import { VerificationDate } from 'apps/Verification/components/VerificationDate/VerificationDate';
+import { WithAgent } from 'models/Collaborator.model';
+import { useRole } from 'apps/collaborators';
 import { VerificationDocument } from '../VerificationDocument/VerificationDocument';
 import { VerificationFlow } from '../VerificationFlow/VerificationFlow';
 import { VerificationIpCheck } from '../VerificationIpCheck/VerificationIpCheck';
@@ -31,6 +33,7 @@ export function VerificationSummary({ identity }) {
   const previousStatus = useRef(null);
   const [status, setStatus] = useState(currentStatus.current);
   const verification = useSelector(selectReviewVerificationWithExtras);
+  const role = useRole();
 
   const handleUpdateIdentity = useCallback(async (value) => {
     await dispatch(verificationStatusUpdate(verification.id, value));
@@ -99,6 +102,7 @@ export function VerificationSummary({ identity }) {
                 isOpen={isOpen}
                 onSelect={handleStatusChange}
                 header={intl.formatMessage({ id: 'statusSelect.status' })}
+                isChangeable={WithAgent.includes(role)}
               />
             </Grid>
             <Grid item xs={12} lg={4}>

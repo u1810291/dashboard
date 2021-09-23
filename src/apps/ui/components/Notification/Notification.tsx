@@ -1,15 +1,19 @@
 import React from 'react';
+import { PreventClosingTabWrapper } from 'apps/routing/components/PreventClosingTabWrapper/PreventClosingTabWrapper';
 import { toast, ToastContainer, ToastContent, ToastOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './style.module.scss';
 
 export const notification = {
   ...toast,
-  spinner: (content: ToastContent, options?: ToastOptions) => toast(content, {
-    ...options,
-    autoClose: false,
-    className: 'Toastify__toast--spinner',
-  }),
+  spinner: (content: ToastContent, options?: ToastOptions) => toast(
+    <PreventClosingTabWrapper>{content}</PreventClosingTabWrapper>,
+    {
+      ...options,
+      autoClose: false,
+      className: 'Toastify__toast--spinner',
+    },
+  ),
 };
 
 export function NotificationsContainer() {
