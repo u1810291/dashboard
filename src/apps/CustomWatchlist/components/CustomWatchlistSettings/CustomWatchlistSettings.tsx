@@ -9,20 +9,13 @@ import { CustomWatchlistItemSettings } from '../CustomWatchlistItemSettings/Cust
 export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsProps<CustomWatchlistSettingsTypes>) {
   const intl = useIntl();
 
-  console.log('settings', settings);
-
-  const handleUpdateItems = useCallback(
+  const handleUpdateItem = useCallback(
     (watchlist: Watchlist) => {
       const newSettings = cloneDeep(settings);
-      const settingsWatchlists = newSettings[CustomWatchlistSettingsTypes.Watchlists].value;
-      const findedWatchlist = settingsWatchlists.find((item) => item.id);
+      const settingsWatchlists: Watchlist[] = newSettings[CustomWatchlistSettingsTypes.Watchlists].value;
+      const settingsWatchlistIndex = settingsWatchlists.findIndex((item) => item.watchlistId === watchlist.watchlistId);
 
-      if (findedWatchlist) {
-        settingsWatchlists[settingsWatchlists.findIndex((item) => item.id)] = watchlist;
-        onUpdate(newSettings);
-        return;
-      }
-      settingsWatchlists.push(watchlist);
+      settingsWatchlists[settingsWatchlistIndex] = watchlist;
       onUpdate(newSettings);
     },
     [settings, onUpdate],
@@ -41,7 +34,7 @@ export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsP
             </Typography>
           </Box>
         </Box>
-        <CustomWatchlistItemSettings watchlists={settings[CustomWatchlistSettingsTypes.Watchlists].value} onUpdate={handleUpdateItems} />
+        <CustomWatchlistItemSettings watchlists={settings[CustomWatchlistSettingsTypes.Watchlists].value} onUpdate={handleUpdateItem} />
       </Grid>
     </Grid>
   );

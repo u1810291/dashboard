@@ -25,8 +25,6 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
   const [isDataPooling, setIsDataPooling] = useState(false);
   const [selectedWatchlist, setSelectedWatchlist] = useState<Watchlist | undefined>();
 
-  console.log({ isDataPooling, selectedWatchlist });
-
   const handleWatchlistLoad = useCallback(
     (isReload: boolean) => {
       console.log('isReload', isReload, selectedWatchlist);
@@ -49,10 +47,9 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
 
   const handleSubmitWatchlist = useCallback(
     (watchlist?: Watchlist) => (values: CustomWatchlistModalSubmitType) => {
-      console.log('submit', { watchlist, values });
       setIsDataPooling(true);
       if (watchlist) {
-        dispatch(customWatchlistUpdate(merchantId, watchlist.id, values, handleCloseOverlay));
+        dispatch(customWatchlistUpdate(merchantId, watchlist.watchlistId, values, handleCloseOverlay));
         return;
       }
       dispatch(customWatchlistCreate(merchantId, values, handleCloseOverlay));
@@ -127,7 +124,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
       ) : (
         <>
           {watchlists?.map((watchlist, watchlistIndex) => (
-            <Box key={watchlist.id} className={classes.wrapper} p={2} mb={2}>
+            <Box key={watchlist.watchlistId} className={classes.wrapper} p={2} mb={2}>
               <Box mb={2}>
                 <Grid container wrap="nowrap" alignItems="center">
                   <Box color="common.black90" fontWeight="bold" mr={1}>

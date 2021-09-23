@@ -2,6 +2,7 @@ import { productManagerService, selectProductRegistered } from 'apps/Product';
 import { mergeDeep } from 'lib/object';
 import { cloneDeep } from 'lodash';
 import { ApiResponse } from 'models/Client.model';
+import { getProcessedWatchlistsToFlowUpdate } from 'models/CustomWatchlist.model';
 import { IFlow } from 'models/Flow.model';
 import { ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
 import { merchantDeleteFlow, merchantUpdateFlow, merchantUpdateFlowList } from 'state/merchant/merchant.actions';
@@ -132,6 +133,7 @@ export const flowBuilderSaveAndPublish = () => async (dispatch, getState) => {
       updatedAt: undefined,
       pinnedCountries: undefined,
       inputTypes: undefined,
+      watchlists: getProcessedWatchlistsToFlowUpdate(changeableFlow.watchlists) as any,
     });
 
     dispatch(merchantUpdateFlowList(changeableFlow.id, data));

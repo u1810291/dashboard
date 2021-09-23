@@ -1,12 +1,15 @@
 import React, { useState, useCallback, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { FiChevronLeft } from 'react-icons/fi';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { Box, InputLabel, Grid, Typography } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
+import { selectIsWatchlistsLoading } from 'apps/CustomWatchlist/state/CustomWatchlist.selectors';
 import { Watchlist, CustomWatchlistModalSubmitType } from 'models/CustomWatchlist.model';
 import { useStyles, RoundedButton } from './CustomWatchListModal.styles';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
@@ -22,6 +25,7 @@ export function CustomWatchListModal(
     onClose: () => void;
     onSubmit: (values: CustomWatchlistModalSubmitType) => void; },
 ) {
+  const isWatchlistsLoading = useSelector(selectIsWatchlistsLoading);
   const intl = useIntl();
   const classes = useStyles();
   const [fileName, setFileName] = useState<string>();
@@ -39,22 +43,21 @@ export function CustomWatchListModal(
   const initialValues: CustomWatchlistModalSubmitType = useMemo(() => ({
     name: watchlist?.name || '',
     // TODO: @richvoronv step 1, remove mock on step 2
-    mapping: [],
-    // mapping: [{
-    //   systemField: 'fullName',
-    //   merchantField: 'Full Name',
-    //   options: {
-    //     fuzziness: 0.5,
-    //   },
-    // }, {
-    //   systemField: 'dateOfBirth',
-    //   merchantField: 'Date Of Birth',
-    // }],
+    // mapping: [],
+    mapping: [{
+      systemField: 'fullName',
+      merchantField: 'Full Name',
+      options: {
+        fuzziness: 50,
+      },
+    }, {
+      systemField: 'dateOfBirth',
+      merchantField: 'Date Of Birth',
+    }],
   }), [watchlist]);
 
   const handleSubmit = useCallback(
     (values: CustomWatchlistModalSubmitType) => {
-      console.log('submit', values);
       onSubmit(values);
     },
     [onSubmit],
@@ -141,7 +144,7 @@ export function CustomWatchListModal(
                       label: 'Name',
                       value: 'fullName',
                       options: {
-                        fuzziness: 0.5,
+                        fuzziness: 50,
                       },
                     },
                     {
@@ -169,8 +172,9 @@ export function CustomWatchListModal(
                   color="primary"
                   size="large"
                   fullWidth
+                  disabled={isWatchlistsLoading}
                 >
-                  {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.done' })}
+                  {isWatchlistsLoading ? <CircularProgress color="inherit" size={17} /> : intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.done' })}
                 </ButtonStyled>
               </Grid>
             </Grid>

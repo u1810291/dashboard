@@ -27,7 +27,7 @@ export interface Watchlist {
   updatedAt: string;
   merchantId: string;
   mapping: WatchlistMapping | null;
-  severityOnMatch: CustomWatchlistActions;
+  severityOnMatch?: CustomWatchlistActions;
   watchlistId?: number;
 }
 
@@ -53,9 +53,19 @@ export interface CustomWatchlistModalSubmitType {
   mapping: WatchlistMapping[];
 }
 
+export interface CustomWatchlistsFlowUpdate {
+  watchlistId: number;
+  severityOnMatch: CustomWatchlistActions;
+}
+
 export const getAllAllowedRegions = (countries) => (
   countries.map((country) => ({
     country: country.id,
     regions: country.regions,
   }))
 );
+
+export const getProcessedWatchlistsToFlowUpdate = (watchlists: Watchlist[]): CustomWatchlistsFlowUpdate[] => watchlists.map((watchlist) => ({
+  watchlistId: watchlist.watchlistId,
+  severityOnMatch: watchlist.severityOnMatch,
+}));

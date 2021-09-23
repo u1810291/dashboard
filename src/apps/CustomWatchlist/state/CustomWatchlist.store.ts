@@ -5,10 +5,8 @@ import { createTypesSequence, TypesSequence } from 'state/store.utils';
 export const CUSTOM_WATCHLISTS_STORE_KEY = 'customWatchlists';
 
 export enum CustomWatchlistsActions {
-  Watchlists = 'CUSTOM_WATCHLISTS_LIST',
-  WatchlistsSet = 'CUSTOM_WATCHLIST_SET',
-  WatchlistsUpdate = 'CUSTOM_WATCHLIST_UPDATE',
-  WatchlistsDelete = 'CUSTOM_WATCHLIST_DELETE',
+  Watchlists = 'CUSTOM_WATCHLISTS',
+  WatchlistsDelete = 'CUSTOM_WATCHLISTS_DELETE',
 }
 
 export enum SliceNames {
@@ -17,8 +15,6 @@ export enum SliceNames {
 
 export const types: TypesSequence = {
   ...createTypesSequence(CustomWatchlistsActions.Watchlists),
-  ...createTypesSequence(CustomWatchlistsActions.WatchlistsSet),
-  ...createTypesSequence(CustomWatchlistsActions.WatchlistsUpdate),
   ...createTypesSequence(CustomWatchlistsActions.WatchlistsDelete),
 };
 

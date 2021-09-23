@@ -24,7 +24,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
     value?: string;
   }) {
   const [value, setValue] = useState(propValue || placeholderKey);
-  const [rangeSliderValue, setRangeSliderValue] = useState<number>(selectedOptions[name]?.options?.fuzziness || 20);
+  const [rangeSliderValue, setRangeSliderValue] = useState<number>(selectedOptions[name]?.options?.fuzziness || 50);
   const classes = useStyles();
 
   const handleChange = useCallback(
@@ -40,12 +40,11 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
     (_: React.ChangeEvent<{}>, val: number | number[]) => {
       setRangeSliderValue(val as number);
     },
-    [rangeSliderValue],
+    [],
   );
 
   const localOptions = useMemo(() => options.filter((option) => !Object.values(selectedOptions).map((x) => x.value).includes(option.value)), [options, selectedOptions]);
 
-  console.log('value', value);
   return (
     <div>
       <Grid container justifyContent="space-between" alignItems="center" direction="row" className={classes.input}>
