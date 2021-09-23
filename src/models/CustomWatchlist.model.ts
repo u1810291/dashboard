@@ -20,6 +20,16 @@ export interface WatchlistMapping {
   options?: WatchlistMappingOptions;
 }
 
+export interface FlowWatchlist {
+  watchlistId: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  merchantId: string;
+  mapping: WatchlistMapping | null;
+  severityOnMatch: CustomWatchlistActions;
+}
+
 export interface Watchlist {
   id: number;
   name: string;
@@ -27,8 +37,6 @@ export interface Watchlist {
   updatedAt: string;
   merchantId: string;
   mapping: WatchlistMapping | null;
-  severityOnMatch?: CustomWatchlistActions;
-  watchlistId?: number;
 }
 
 export enum CustomWatchlistSettingsTypes {
@@ -65,7 +73,7 @@ export const getAllAllowedRegions = (countries) => (
   }))
 );
 
-export const getProcessedWatchlistsToFlowUpdate = (watchlists: Watchlist[]): CustomWatchlistsFlowUpdate[] => watchlists.map((watchlist) => ({
+export const getProcessedWatchlistsToFlowUpdate = (watchlists: FlowWatchlist[]): CustomWatchlistsFlowUpdate[] => watchlists.map((watchlist) => ({
   watchlistId: watchlist.watchlistId,
   severityOnMatch: watchlist.severityOnMatch,
 }));

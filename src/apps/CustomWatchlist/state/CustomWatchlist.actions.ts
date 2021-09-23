@@ -1,8 +1,9 @@
 import { productManagerService } from 'apps/Product';
+import { get } from 'lodash';
 import { ProductTypes } from 'models/Product.model';
 import { flowBuilderChangeableFlowUpdate } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { replaceObjKeyByName } from 'lib/object';
-import { CustomWatchlistActions, CustomWatchlistModalSubmitType } from 'models/CustomWatchlist.model';
+import { CustomWatchlistActions, CustomWatchlistModalSubmitType, FlowWatchlist, Watchlist } from 'models/CustomWatchlist.model';
 import { selectFlowBuilderChangeableFlowModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { CustomWatchlist } from '../services/CustomWatchlist.service';
 import * as api from '../client/CustomWatchlist.client';
@@ -24,16 +25,20 @@ export const customWatchlistInit = () => (dispatch, getState): ProductTypes => {
 export const customWatchlistsLoad = (merchantId: string) => async (dispatch, getState) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_REQUEST });
   try {
-    const flowWatchlists = selectFlowBuilderChangeableFlowModel(getState()).value.watchlists;
+    const flowWatchlists: FlowWatchlist[] = get(selectFlowBuilderChangeableFlowModel(getState()), 'value.watchlists', []);
     const payload = await api.getMerchantWatchlistsById(merchantId, {});
-    const newPayload = payload.data.map((watchlist) => {
-      const findedWatchlist = flowWatchlists.find((flowWatchlist) => flowWatchlist.id === watchlist.id);
-      const processedWatchlist = { ...watchlist, ...findedWatchlist, severityOnMatch: findedWatchlist?.severityOnMatch ?? CustomWatchlistActions.NoAction };
-      return replaceObjKeyByName(processedWatchlist, 'id', 'watchlistId');
+    const newFlowWatchlistsPayload: FlowWatchlist[] = payload.data.map((watchlist) => {
+      const findedWatchlist = flowWatchlists.find((flowWatchlist) => flowWatchlist.watchlistId === watchlist.id);
+      return {
+        ...replaceObjKeyByName(watchlist, 'id', 'watchlistId'),
+        ...findedWatchlist,
+        severityOnMatch: findedWatchlist?.severityOnMatch ?? CustomWatchlistActions.NoAction,
+      };
     });
 
-    dispatch(flowBuilderChangeableFlowUpdate({ watchlists: newPayload }));
-    dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: newPayload, isReset: true });
+    // ! flow watchlists have different scheme for ui, so flow watchlists and watchlsts were parallelized to maintain immutability
+    dispatch(flowBuilderChangeableFlowUpdate({ watchlists: newFlowWatchlistsPayload }));
+    dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: payload.data, isReset: true });
   } catch (error) {
     dispatch({ type: types.CUSTOM_WATCHLISTS_FAILURE, error });
     throw error;
@@ -43,12 +48,12 @@ export const customWatchlistsLoad = (merchantId: string) => async (dispatch, get
 export const customWatchlistCreate = (merchantId: string, params: CustomWatchlistModalSubmitType, callback: () => void) => async (dispatch, getState) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_REQUEST });
   try {
+    const flowWatchlists: FlowWatchlist[] = get(selectFlowBuilderChangeableFlowModel(getState()), 'value.watchlists', []);
     const payload = await api.createMerchantWatchlistById(merchantId, params);
-    const watchlists = selectWatchlists(getState());
-    const mutatedWatchlists = replaceObjKeyByName(payload.data, 'id', 'watchlistId');
+    const mutatedWatchlists: FlowWatchlist = { ...replaceObjKeyByName(payload.data, 'id', 'watchlistId'), severityOnMatch: CustomWatchlistActions.NoAction };
 
-    dispatch(flowBuilderChangeableFlowUpdate({ watchlists: [...watchlists, mutatedWatchlists] }));
-    dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: [replaceObjKeyByName(payload.data, 'id', 'watchlistId')] });
+    dispatch(flowBuilderChangeableFlowUpdate({ watchlists: [...flowWatchlists, mutatedWatchlists] }));
+    dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: [payload.data] });
     callback();
   } catch (error) {
     dispatch({ type: types.CUSTOM_WATCHLISTS_FAILURE });
@@ -60,12 +65,14 @@ export const customWatchlistUpdate = (merchantId: string, watchlistId: number, p
   dispatch({ type: types.CUSTOM_WATCHLISTS_UPDATING });
   try {
     const payload = await api.updateMerchantWatchlistById(merchantId, watchlistId, params);
-    const watchlists = [...selectWatchlists(getState())];
-    const findWatchlistIndex = watchlists.findIndex((watchlist) => watchlist.watchlistId === payload.data.id);
-    const mutatedWatchlists = replaceObjKeyByName(payload.data, 'id', 'watchlistId');
-    watchlists[findWatchlistIndex] = mutatedWatchlists;
+    const watchlists: Watchlist[] = [...selectWatchlists(getState())];
+    const flowWatchlists: FlowWatchlist[] = [...get(selectFlowBuilderChangeableFlowModel(getState()), 'value.watchlists', [])];
+    const findWatchlistIndex = watchlists.findIndex((watchlist) => watchlist.id === payload.data.id);
+    const findFlowWatchlistIndex = flowWatchlists.findIndex((flowWatchlist) => flowWatchlist.watchlistId === payload.data.id);
+    flowWatchlists[findFlowWatchlistIndex] = { ...flowWatchlists[findFlowWatchlistIndex], ...replaceObjKeyByName(payload.data, 'id', 'watchlistId') };
+    watchlists[findWatchlistIndex] = payload.data;
 
-    dispatch(flowBuilderChangeableFlowUpdate({ watchlists }));
+    dispatch(flowBuilderChangeableFlowUpdate({ watchlists: flowWatchlists }));
     dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: watchlists, isReset: true });
     callback();
   } catch (error) {

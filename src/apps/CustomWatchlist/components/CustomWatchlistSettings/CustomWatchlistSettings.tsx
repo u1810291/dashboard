@@ -3,16 +3,16 @@ import { cloneDeep } from 'lodash';
 import { ProductSettingsProps } from 'models/Product.model';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { Watchlist, CustomWatchlistSettingsTypes } from 'models/CustomWatchlist.model';
+import { FlowWatchlist, CustomWatchlistSettingsTypes } from 'models/CustomWatchlist.model';
 import { CustomWatchlistItemSettings } from '../CustomWatchlistItemSettings/CustomWatchlistItemSettings';
 
 export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsProps<CustomWatchlistSettingsTypes>) {
   const intl = useIntl();
 
   const handleUpdateItem = useCallback(
-    (watchlist: Watchlist) => {
+    (watchlist: FlowWatchlist) => {
       const newSettings = cloneDeep(settings);
-      const settingsWatchlists: Watchlist[] = newSettings[CustomWatchlistSettingsTypes.Watchlists].value;
+      const settingsWatchlists: FlowWatchlist[] = newSettings[CustomWatchlistSettingsTypes.Watchlists].value;
       const settingsWatchlistIndex = settingsWatchlists.findIndex((item) => item.watchlistId === watchlist.watchlistId);
 
       settingsWatchlists[settingsWatchlistIndex] = watchlist;

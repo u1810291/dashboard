@@ -10,7 +10,7 @@ import { useIntl } from 'react-intl';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
 import { selectIsWatchlistsLoading } from 'apps/CustomWatchlist/state/CustomWatchlist.selectors';
-import { Watchlist, CustomWatchlistModalSubmitType } from 'models/CustomWatchlist.model';
+import { FlowWatchlist, CustomWatchlistModalSubmitType } from 'models/CustomWatchlist.model';
 import { useStyles, RoundedButton } from './CustomWatchListModal.styles';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
@@ -21,7 +21,7 @@ export function CustomWatchListModal(
     onClose,
     onSubmit,
   }: {
-    watchlist: Watchlist;
+    watchlist: FlowWatchlist;
     onClose: () => void;
     onSubmit: (values: CustomWatchlistModalSubmitType) => void; },
 ) {

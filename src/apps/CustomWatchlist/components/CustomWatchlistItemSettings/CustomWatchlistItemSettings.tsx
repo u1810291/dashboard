@@ -4,7 +4,7 @@ import { useOverlay } from 'apps/overlay';
 import moment from 'moment';
 import classNames from 'classnames';
 import { useLongPolling } from 'lib/longPolling.hook';
-import { CustomWatchlistActions, CustomWatchlistModalSubmitType, Watchlist } from 'models/CustomWatchlist.model';
+import { CustomWatchlistActions, CustomWatchlistModalSubmitType, FlowWatchlist } from 'models/CustomWatchlist.model';
 import { customWatchlistClear, customWatchlistsLoad, deleteCustomWatchlist, customWatchlistCreate, customWatchlistUpdate } from 'apps/CustomWatchlist/state/CustomWatchlist.actions';
 import { selectIsWatchlistsLoaded } from 'apps/CustomWatchlist/state/CustomWatchlist.selectors';
 import React, { useEffect, useMemo, useCallback, useState } from 'react';
@@ -15,7 +15,7 @@ import { CustomWatchListModal } from '../CustomWatchListModal/CustomWatchListMod
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { Skeleton } from './CustomWatchlistItemSkeleton';
 
-export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlists: Watchlist[]; onUpdate: (watchlist: Watchlist) => void }) {
+export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlists: FlowWatchlist[]; onUpdate: (watchlist: FlowWatchlist) => void }) {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
   const merchantId = useSelector(selectMerchantId);
   const isWatchlistsLoaded = useSelector(selectIsWatchlistsLoaded);
   const [isDataPooling, setIsDataPooling] = useState(false);
-  const [selectedWatchlist, setSelectedWatchlist] = useState<Watchlist | undefined>();
+  const [selectedWatchlist, setSelectedWatchlist] = useState<FlowWatchlist>();
 
   const handleWatchlistLoad = useCallback(
     (isReload: boolean) => {
@@ -46,7 +46,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
   );
 
   const handleSubmitWatchlist = useCallback(
-    (watchlist?: Watchlist) => (values: CustomWatchlistModalSubmitType) => {
+    (watchlist?: FlowWatchlist) => (values: CustomWatchlistModalSubmitType) => {
       setIsDataPooling(true);
       if (watchlist) {
         dispatch(customWatchlistUpdate(merchantId, watchlist.watchlistId, values, handleCloseOverlay));
@@ -56,7 +56,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
     }, [merchantId, handleCloseOverlay, dispatch],
   );
 
-  const handleChangeStep = useCallback((watchlist?: Watchlist) => () => {
+  const handleChangeStep = useCallback((watchlist?: FlowWatchlist) => () => {
     setSelectedWatchlist(watchlist);
     createOverlay(
       <CustomWatchListModal
@@ -74,7 +74,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
   );
 
   const handleSeverityChange = useCallback(
-    (watchlist: Watchlist) => (event: React.ChangeEvent<{ value: unknown; name?: string }>) => {
+    (watchlist: FlowWatchlist) => (event: React.ChangeEvent<{ value: unknown; name?: string }>) => {
       onUpdate({ ...watchlist, severityOnMatch: event.target.value as CustomWatchlistActions });
     }, [onUpdate],
   );
