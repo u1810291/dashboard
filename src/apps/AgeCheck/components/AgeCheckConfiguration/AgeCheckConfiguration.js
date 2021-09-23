@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
-import { AGE_CHECK_DEFAULT_THRESHOLD, AGE_CHECK_MAX_THRESHOLD, AGE_CHECK_MIN_THRESHOLD, AgeCheckThresholdModes, validateAgeTheshold } from '../../models/AgeCheck.model';
+import { AGE_CHECK_DEFAULT_THRESHOLD, AGE_CHECK_MAX_THRESHOLD, AGE_CHECK_MIN_THRESHOLD, AgeCheckThresholdModes, validateAgeThreshold } from 'apps/AgeCheck/models/AgeCheck.model';
 import { selectAgeCheckThreshold } from '../../state/AgeCheck.selectors';
 import { InputScore, useStyles } from './AgeCheckConfiguration.styles';
 
@@ -20,7 +20,7 @@ export function AgeCheckConfiguration() {
   const [isLoading, setLoading] = useState(false);
   const [mode, setMode] = useState(initialScore ? AgeCheckThresholdModes.Custom : AgeCheckThresholdModes.Default);
   const [score, setScore] = useState(initialScore);
-  const [error, setError] = useState(validateAgeTheshold(score, mode));
+  const [error, setError] = useState(validateAgeThreshold(score, mode));
 
   const handleModeChange = useCallback(({ target: { value } }) => {
     setMode(value);
@@ -34,12 +34,12 @@ export function AgeCheckConfiguration() {
   }, []);
 
   const handleBlur = useCallback(({ target: { value } }) => {
-    setError(validateAgeTheshold(parseInt(value, 10), mode));
+    setError(validateAgeThreshold(parseInt(value, 10), mode));
   }, [mode]);
 
   const handleSave = useCallback(async () => {
     const scoreAsNumber = parseInt(score, 10);
-    const validationError = validateAgeTheshold(scoreAsNumber, mode);
+    const validationError = validateAgeThreshold(scoreAsNumber, mode);
     if (validationError) {
       setError(validationError);
       return;

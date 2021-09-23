@@ -38,3 +38,8 @@ export const selectUserRegistrationDate = createSelector(
   selectUserModel,
   selectModelValue((user) => user && user.dateCreated),
 );
+
+export const selectUserIntercomHash = createSelector(
+  selectUserModel,
+  selectModelValue((user) => user?.intercomHash),
+);

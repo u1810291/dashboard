@@ -19,7 +19,7 @@ import { FiChevronLeft } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import { merchantFlowsLoad, updateCurrentFlowId } from 'state/merchant/merchant.actions';
+import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { flowBuilderChangeableFlowLoad, flowBuilderChangeableFlowUpdate, flowBuilderClearStore } from '../../store/FlowBuilder.action';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from '../../store/FlowBuilder.selectors';
 import { FlowBuilderIntegrationDetails } from '../FlowBuilderIntegrationDetails/FlowBuilderIntegrationDetails';
@@ -36,7 +36,8 @@ export function FlowBuilder() {
   const selectedId = useSelector(selectFlowBuilderSelectedId);
   const changeableFlowModel = useSelector(selectFlowBuilderChangeableFlowModel);
   const isProductInited = useSelector(selectProductIsInited);
-  const isBigScreen = useMediaQuery('(min-width:1280px)', { noSsr: true });
+  const isBigScreen = useMediaQuery('(min-width:768px)', { noSsr: true });
+  const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });
   const classes = useStyles();
   const intl = useIntl();
   const history = useHistory();
@@ -50,9 +51,6 @@ export function FlowBuilder() {
 
   useEffect(() => {
     const isChangedId = changeableFlowModel?.value?.id !== id;
-    if (asMerchantId) {
-      dispatch(merchantFlowsLoad(asMerchantId));
-    }
     if (isChangedId) {
       dispatch(updateCurrentFlowId(id));
     }
@@ -82,7 +80,7 @@ export function FlowBuilder() {
         onClick={handleSoftLaunchSwitch}
       />
       <Box p={2} className={classes.container}>
-        {isBigScreen ? (
+        {isBigScreen || isHoverableScreen ? (
           <Grid container spacing={2} className={classes.wrapper}>
             <Grid item container direction="column" wrap="nowrap" className={classes.sidebar}>
               <Box className={classes.flowInfo} px={0.5} py={2} mb={2}>

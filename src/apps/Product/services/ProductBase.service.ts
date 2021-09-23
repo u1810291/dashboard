@@ -62,6 +62,7 @@ export abstract class ProductBaseService implements Partial<Product> {
     return null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onRemove(flow: IFlow): Partial<IFlow> {
     return null;
   }

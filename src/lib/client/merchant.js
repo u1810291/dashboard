@@ -38,7 +38,7 @@ export function deleteCustomDocument(merchantId, type) {
 
 // flows api
 export function getMerchantFlows(merchantId, params) {
-  return http.get(`/api/v1/merchants/${merchantId}/flows`, params);
+  return http.get(`/api/v1/merchants/${merchantId}/flows`, { params });
 }
 
 export function createMerchantFlow(merchantId, data) {

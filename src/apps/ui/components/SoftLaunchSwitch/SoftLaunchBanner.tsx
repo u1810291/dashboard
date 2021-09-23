@@ -12,9 +12,9 @@ export function SoftLaunchBanner({ id, onClick }: {
   const intl = useIntl();
 
   return (
-    <Grid container wrap="nowrap" alignItems="center" className={classes.wrapper}>
+    <Grid container alignItems="center" className={classes.wrapper}>
       {intl.formatMessage({ id: 'SoftLaunchBanner.description' })}
-      <Box ml="auto" flexShrink={0} fontWeight="normal">
+      <Box mt={{ xs: 1, sm: 0 }} ml="auto" pl={{ xs: 0, sm: 2 }} flexShrink={0} fontWeight="normal">
         <Button className={classes.button} color="primary" variant="outlined" onClick={onClick}>
           {intl.formatMessage({ id: `SoftLaunchBanner.${id}Layout.button` })}
         </Button>

@@ -1,9 +1,10 @@
 import { userLoadSuccess } from 'apps/user/state/user.actions';
 import { http } from 'lib/client/http';
 import { pushEvent } from 'lib/gtm';
-import { merchantLoadSuccess, dashboardUpdate } from 'state/merchant/merchant.actions';
+import { dashboardUpdate, merchantLoadSuccess, merchantLoad } from 'state/merchant/merchant.actions';
 import { createTypesSequence } from 'state/store.utils';
-import { selectLanguage } from 'state/merchant/merchant.selectors';
+import { selectLanguage, selectMerchantModel } from 'state/merchant/merchant.selectors';
+import { LoadableAdapter } from 'lib/Loadable.adapter';
 import * as api from '../api/auth.client';
 import { AuthActionGroups } from './auth.store';
 
@@ -104,5 +105,19 @@ export const passwordChange = (credentials) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: types.PASSWORD_CHANGE_FAILURE });
     throw error;
+  }
+};
+
+export const merchantLoadWithCheck = () => async (dispatch, getState) => {
+  const merchantModel = selectMerchantModel(getState());
+  if (LoadableAdapter.isPristine(merchantModel)) {
+    try {
+      await dispatch(merchantLoad());
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        dispatch(signOut());
+      }
+      throw error;
+    }
   }
 };

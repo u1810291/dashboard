@@ -1,11 +1,10 @@
 import { Grid } from '@material-ui/core';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import { useRole } from 'apps/collaborators';
 import { useOverlay } from 'apps/overlay';
 import { ButtonHeaderMenu, VerificationWebhookModal } from 'apps/ui';
 import { downloadBlob } from 'lib/file';
 import { get } from 'lodash';
-import { CollaboratorRoles } from 'models/Collaborator.model';
+import { CollaboratorRoles, WithAgent } from 'models/Collaborator.model';
 import { getGoBackToListLink } from 'models/Identity.model';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
@@ -17,6 +16,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { identityRemove, pdfDownloaded, setPDFGenerating } from 'state/identities/identities.actions';
 import { selectIdentityIsPDFGenerating } from 'state/identities/identities.selectors';
+import { RoleRenderGuard } from 'apps/merchant';
+
+import { useRole } from 'apps/collaborators';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { useStyles } from './VerificationHeader.styles';
 
@@ -28,7 +30,6 @@ export function VerificationHeader({ identity, isDemo = false }) {
   const intl = useIntl();
   const history = useHistory();
   const classes = useStyles();
-  const role = useRole();
   const [createOverlay, closeOverlay] = useOverlay();
   const goBackToListLink = getGoBackToListLink(useLocation(), Routes.list.root);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -38,6 +39,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
     intl.formatMessage({ id: 'verificationModal.delete' }),
     intl.formatMessage({ id: 'verificationModal.delete.confirm' }),
   );
+  const role = useRole();
 
   const handlePDFGenerating = useCallback((flag) => {
     dispatch(setPDFGenerating(flag));
@@ -52,11 +54,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
     const blob = await getIdentityDocumentBlob(identity);
     downloadBlob(blob, `mati-identity-${identity.id}.pdf`);
     handlePDFGenerating(false);
-    try {
-      dispatch(pdfDownloaded(identity.id, verificationId));
-    } catch (error) {
-      console.error('post pdfDownloaded event error', error);
-    }
+    dispatch(pdfDownloaded(identity.id, verificationId));
   }, [isPDFGenerating, handlePDFGenerating, identity, dispatch, verificationId]);
 
   const handleDeleteIdentity = useCallback(async () => {
@@ -86,7 +84,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
 
   const openVerificationHistory = useCallback(() => {
     if (identity.id) {
-      history.push(`${Routes.list.root}/${identity.id}${Routes.list.history.root}`, { from: history.location.pathname });
+      history.push(`${Routes.list.root}/${identity.id}${Routes.list.history.root}`, { from: history.location.pathname + history.location.search });
     }
   }, [history, identity.id]);
 
@@ -108,17 +106,17 @@ export function VerificationHeader({ identity, isDemo = false }) {
         </Grid>
         {/* Download pdf */}
         {!isDemo && (
-          <Grid item className={classes.itemOffsetRight}>
-            <ButtonHeaderMenu
-              variant="contained"
-              onClick={handlePDFDownload}
-              startIcon={isPDFGenerating ? <FiLoader /> : <FiDownload />}
-              disabled={identity.status === IdentityStatuses.running}
-              data-qa={QATags.Verification.Buttons.DownloadPdf}
-            >
-              {intl.formatMessage({ id: 'verificationModal.downloadPDF' })}
-            </ButtonHeaderMenu>
-          </Grid>
+        <Grid item className={classes.itemOffsetRight}>
+          <ButtonHeaderMenu
+            variant="contained"
+            onClick={handlePDFDownload}
+            startIcon={isPDFGenerating ? <FiLoader /> : <FiDownload />}
+            disabled={!WithAgent.includes(role) || identity.status === IdentityStatuses.running}
+            data-qa={QATags.Verification.Buttons.DownloadPdf}
+          >
+            {intl.formatMessage({ id: 'verificationModal.downloadPDF' })}
+          </ButtonHeaderMenu>
+        </Grid>
         )}
         {/* Show verification data */}
         <Grid item className={classes.itemOffsetLeft}>
@@ -132,31 +130,35 @@ export function VerificationHeader({ identity, isDemo = false }) {
           </ButtonHeaderMenu>
         </Grid>
         {/* Verification history */}
-        <Grid item className={classes.itemOffsetLeft}>
-          <ButtonHeaderMenu
-            variant="contained"
-            onClick={openVerificationHistory}
-            startIcon={<ScheduleIcon />}
-            data-qa={QATags.Verification.Buttons.History}
-          >
-            {intl.formatMessage({ id: 'VerificationHistory.button.pageHistory' })}
-          </ButtonHeaderMenu>
-        </Grid>
-        {/* Delete Verification */}
-        {!isDemo && role === CollaboratorRoles.ADMIN && (
+        <RoleRenderGuard roles={WithAgent}>
           <Grid item className={classes.itemOffsetLeft}>
             <ButtonHeaderMenu
               variant="contained"
-              onClick={handleDeleteIdentity}
-              startIcon={isDeleting ? <FiLoader /> : <FiTrash2 />}
-              disabled={isDeleting || identity?.status === IdentityStatuses.reviewRunning}
-              className={classes.deleteButton}
-              data-qa={QATags.Verification.Buttons.Delete}
+              onClick={openVerificationHistory}
+              startIcon={<ScheduleIcon />}
+              data-qa={QATags.Verification.Buttons.History}
             >
-              {intl.formatMessage({ id: 'verificationModal.delete' })}
+              {intl.formatMessage({ id: 'VerificationHistory.button.pageHistory' })}
             </ButtonHeaderMenu>
           </Grid>
-        )}
+        </RoleRenderGuard>
+        {/* Delete Verification */}
+        <RoleRenderGuard roles={[CollaboratorRoles.ADMIN]}>
+          {!isDemo && (
+            <Grid item className={classes.itemOffsetLeft}>
+              <ButtonHeaderMenu
+                variant="contained"
+                onClick={handleDeleteIdentity}
+                startIcon={isDeleting ? <FiLoader /> : <FiTrash2 />}
+                disabled={isDeleting || identity?.status === IdentityStatuses.reviewRunning}
+                className={classes.deleteButton}
+                data-qa={QATags.Verification.Buttons.Delete}
+              >
+                {intl.formatMessage({ id: 'verificationModal.delete' })}
+              </ButtonHeaderMenu>
+            </Grid>
+          )}
+        </RoleRenderGuard>
       </Grid>
     </Grid>
   );

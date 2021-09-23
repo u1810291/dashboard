@@ -47,7 +47,7 @@ export interface IdentityProfileResponse {
 }
 
 export function getReasonToken(reasonCode: IdentityProfileReasonCodes) {
-  if (!reasonCode) {
+  if (!reasonCode || [IdentityProfileReasonCodes.CompleteVerification, IdentityProfileReasonCodes.ManualUpdate].includes(reasonCode)) {
     return 'IdentityProfile.summary.field.manualDepersonalize';
   }
   return `IdentityProfile.summary.field.${reasonCode}`;

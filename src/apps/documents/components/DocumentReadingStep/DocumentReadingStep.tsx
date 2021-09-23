@@ -15,6 +15,8 @@ import { sendWebhook } from 'state/webhooks/webhooks.actions';
 import { useDispatch } from 'react-redux';
 import { DocumentField, DocumentTypes } from 'models/Document.model';
 import { IStep } from 'models/Step.model';
+import { RoleRenderGuard } from 'apps/merchant/guards/RoleRenderGuard';
+import { WithAgent } from 'models/Collaborator.model';
 import { useStyles } from './DocumentReadingStep.styles';
 
 export interface DocumentReadingStepProps{
@@ -198,19 +200,21 @@ export function DocumentReadingStep({ documentType, step, fields = [], isEditabl
         })}
       </Grid>
 
-      {isEditable && (
-        <Box className={classes.buttonWrapper}>
-          <Button
-            className={classes.button}
-            fullWidth
-            onClick={() => setIsEditingMode(true)}
-            data-qa={QATags.Document.Change.EditData}
-          >
-            <FiEdit3 />
-            {intl.formatMessage({ id: 'DocumentReadingStep.btn.edit' })}
-          </Button>
-        </Box>
-      )}
+      <RoleRenderGuard roles={WithAgent}>
+        {isEditable && (
+          <Box className={classes.buttonWrapper}>
+            <Button
+              className={classes.button}
+              fullWidth
+              onClick={() => setIsEditingMode(true)}
+              data-qa={QATags.Document.Change.EditData}
+            >
+              <FiEdit3 />
+              {intl.formatMessage({ id: 'DocumentReadingStep.btn.edit' })}
+            </Button>
+          </Box>
+        )}
+      </RoleRenderGuard>
 
     </Grid>
   );

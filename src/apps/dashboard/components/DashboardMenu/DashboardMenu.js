@@ -21,6 +21,8 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import { selectIsOwnerModel, selectMerchantBusinessName } from 'state/merchant/merchant.selectors';
+import { useRole } from 'apps/collaborators';
+import { WithAuditor } from 'models/Collaborator.model';
 import { setIsDesktopMenuOpen } from '../../state/dashboard.actions';
 import { selectIsDesktopMenuOpen } from '../../state/dashboard.selectors';
 import { useLogout } from '../LogoutModal/LogoutModal';
@@ -42,6 +44,7 @@ export function DashboardMenu() {
   const name = useSelector(selectMerchantBusinessName);
   const [createOverlay, closeOverlay] = useOverlay();
   const logout = useLogout();
+  const role = useRole();
 
   const handleLogout = useCallback(async () => {
     await logout(intl.formatMessage({ id: 'confirm_string' }));
@@ -189,7 +192,7 @@ export function DashboardMenu() {
               icon={<FiSettings />}
               color="common.black7"
               qa={QATags.Menu.Account}
-              show={isOwner}
+              show={WithAuditor.includes(role)}
             />
           </Box>
           <Box className={classes.menuSelect}>

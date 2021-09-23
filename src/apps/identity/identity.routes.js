@@ -1,7 +1,8 @@
 import React, { lazy } from 'react';
-import { OwnerRoute } from 'apps/merchant';
 import { Route } from 'react-router-dom';
 import { Routes } from 'models/Router.model';
+import { RoleGuardRoute } from 'apps/routing';
+import { WithAgent } from 'models/Collaborator.model';
 
 const VerificationListLazy = lazy(async () => {
   const { VerificationList } = await import('./containers/VerificationList/VerificationList');
@@ -24,7 +25,7 @@ const VerificationHistoryLazy = lazy(async () => {
  */
 export const identityRoutes = [
   <Route key="demo" path={Routes.list.demo} component={VerificationDetailLazy} />,
-  <OwnerRoute key="verification-history" path={Routes.list.history.details} component={VerificationHistoryLazy} />,
+  <RoleGuardRoute roles={WithAgent} key="verification-history" path={Routes.list.history.details} component={VerificationHistoryLazy} />,
   <Route key="details" path={Routes.list.details} component={VerificationDetailLazy} />,
   <Route key="list" exact path={Routes.list.root} component={VerificationListLazy} />,
 ];

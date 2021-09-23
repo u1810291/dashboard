@@ -7,11 +7,12 @@ import { useOverlay } from 'apps/overlay';
 import { ButtonHeaderMenu, notification } from 'apps/ui';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FiChevronLeft, FiLoader, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
+import { selectOwnerId } from 'state/merchant/merchant.selectors';
 import { selectAgentHistoryFilter } from '../../state/agentHistory.selectors';
 import { useStyles } from './AgentHistoryMenu.styles';
 
@@ -25,8 +26,13 @@ export function AgentHistoryMenu({ collaborator }) {
   const { user } = collaborator || {};
   const agentHistoryFilter = useSelector(selectAgentHistoryFilter);
   const [, addToUrl] = useFilterParser(agentHistoryFilterStructure);
+  const ownerId = useSelector(selectOwnerId);
+  const isOwnerPage = useMemo(() => user?.id === ownerId, [ownerId, user?.id]);
 
   const handleRemove = useCallback((id) => {
+    if (isOwnerPage) {
+      return;
+    }
     try {
       dispatch(collaboratorRemove(id));
       history.push(Routes.settings.root);
@@ -37,7 +43,7 @@ export function AgentHistoryMenu({ collaborator }) {
       }));
       console.error(error);
     }
-  }, [dispatch, history, intl]);
+  }, [dispatch, history, intl, isOwnerPage]);
 
   const handleRemoveSubmit = useCallback(async (id) => {
     try {
@@ -77,7 +83,7 @@ export function AgentHistoryMenu({ collaborator }) {
       <Grid item>
         <Grid container>
           {/* Delete */}
-          {collaborator && (
+          {collaborator && !isOwnerPage && (
             <Grid item className={classes.itemOffsetLeft}>
               <ButtonHeaderMenu
                 variant="contained"

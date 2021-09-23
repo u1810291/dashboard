@@ -128,3 +128,7 @@ export function addMissingZeros(dateString = ' ') {
 export function dateSortCompare(a: string, b: string, isFromOldToNew: boolean = false): number {
   return isFromOldToNew ? moment.utc(a).diff(moment.utc(b)) : -moment.utc(a).diff(moment.utc(b));
 }
+
+export function getUnixTimestamp(date: Date) {
+  return Math.trunc((date.getTime() / 1000));
+}

@@ -12,7 +12,8 @@ import { useHistory } from 'react-router-dom';
 import { identitiesManualReviewCountLoad } from 'state/identities/identities.actions';
 import { selectIdentityFilter, selectManualReviewCountModel } from 'state/identities/identities.selectors';
 import { verificationsFilterInitialState, verificationsFilterStructure } from 'models/Identity.model';
-
+import { RoleRenderGuard } from 'apps/merchant';
+import { WithAgent } from 'models/Collaborator.model';
 import { useStyles } from './ManualReviewBanner.styles';
 
 export const ManualReviewBanner = () => {
@@ -53,7 +54,7 @@ export const ManualReviewBanner = () => {
   }, [history]);
 
   return (
-    <>
+    <RoleRenderGuard roles={WithAgent}>
       {manualReviewCount.value > 0 && (
         <Grid item>
           <Paper className={classes.banner}>
@@ -99,6 +100,6 @@ export const ManualReviewBanner = () => {
           </Paper>
         </Grid>
       )}
-    </>
+    </RoleRenderGuard>
   );
 };

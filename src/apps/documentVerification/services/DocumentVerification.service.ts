@@ -10,6 +10,7 @@ import { VerificationResponse } from 'models/Verification.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiFileText } from 'react-icons/fi';
 import { BiometricVerificationCheckTypes } from 'apps/biometricVerification/models/BiometricVerification.model';
+import { AGE_CHECK_MAX_THRESHOLD, AGE_CHECK_MIN_THRESHOLD } from 'apps/AgeCheck/models/AgeCheck.model';
 import { DocumentVerificationIssues } from '../components/DocumentVerificationIssues/DocumentVerificationIssues';
 import { DocumentVerificationSettings } from '../components/DocumentVerificationSettings/DocumentVerificationSettings';
 import { DocumentVerificationCheckTypes, DocumentVerificationSettingTypes, ProductSettingsDocumentVerification } from '../models/DocumentVerification.model';
@@ -192,6 +193,11 @@ export class DocumentVerification extends ProductBaseService implements Product<
       });
 
     return { ...verification, documents };
+  }
+
+  haveIssues(flow: IFlow): boolean {
+    const isAgeThresholdValid = !flow.ageThreshold || (flow.ageThreshold >= AGE_CHECK_MIN_THRESHOLD && flow.ageThreshold <= AGE_CHECK_MAX_THRESHOLD);
+    return !isAgeThresholdValid || super.haveIssues(flow);
   }
 
   getIssuesComponent(flow: IFlow): any {

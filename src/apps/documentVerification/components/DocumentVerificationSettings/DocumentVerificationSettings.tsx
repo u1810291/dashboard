@@ -3,7 +3,6 @@ import { AgeThresholdSettings } from 'apps/AgeCheck/components/AgeThresholdSetti
 import { CountryRestrictionSettings } from 'apps/countries/components/CountryRestrictionSettings/CountryRestrictionSettings';
 import { DocumentStepSettings } from 'apps/documents/components/DocumentStepSettings/DocumentStepSettings';
 import { FaceMatchingThreshold } from 'apps/facematch';
-import { FACEMATCH_DEFAULT_THRESHOLD } from 'apps/facematch/models/facematch.model';
 import { flowBuilderProductAdd } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { useOtherProductAdding } from 'apps/Product/hooks/OtherProductAdding.hook';
 import { useSettingsBuffer } from 'apps/flowBuilder/hooks/settingsBuffer.hook';
@@ -19,6 +18,7 @@ import { selectCanUseProofOfOwnership } from 'apps/ProofOfOwnership';
 import React, { useCallback, useMemo, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { AGE_CHECK_DEFAULT_THRESHOLD } from 'apps/AgeCheck/models/AgeCheck.model';
 import { DocumentVerificationSettingTypes } from '../../models/DocumentVerification.model';
 import { useStyles } from './DocumentVerificationSettings.styles';
 
@@ -49,7 +49,7 @@ export function DocumentVerificationSettings({ settings, onUpdate }: ProductSett
   const handleClick = useCallback((settingId: DocumentVerificationSettingTypes) => () => {
     const newSettings = cloneDeep(settings);
     if (settingId === DocumentVerificationSettingTypes.AgeThreshold) {
-      newSettings[settingId].value = settings[settingId].value ? undefined : (bufferedSettings[settingId] ?? FACEMATCH_DEFAULT_THRESHOLD);
+      newSettings[settingId].value = settings[settingId].value ? undefined : (bufferedSettings[settingId] ?? AGE_CHECK_DEFAULT_THRESHOLD);
     }
     if (settingId === DocumentVerificationSettingTypes.CountryRestriction) {
       setIsCountryRestrictionEnabled((prevState) => !prevState);

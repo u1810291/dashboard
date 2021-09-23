@@ -10,6 +10,8 @@ import { formatDate } from 'lib/date';
 import { EditableInput } from 'apps/ui';
 import { QATags } from 'models/QA.model';
 import { useOverlay } from 'apps/overlay';
+import { useRole } from 'apps/collaborators';
+import { WithAgent } from 'models/Collaborator.model';
 import { ChangePasswordModal } from '../../components/ChangePasswordModal/ChangePasswordModal';
 import { useStyles } from './CompanySettings.styles';
 
@@ -20,6 +22,7 @@ export function CompanySettings() {
   const email = useSelector(selectUserEmail);
   const companyName = useSelector(selectMerchantBusinessName);
   const createdAt = useSelector(selectMerchantCreatedAt);
+  const role = useRole();
   const [createOverlay, closeOverlay] = useOverlay();
 
   const handleSubmitPassword = useCallback(async (values, { setFormState }) => {
@@ -60,6 +63,7 @@ export function CompanySettings() {
             <EditableInput
               text={companyName}
               onSubmit={handleSubmitBusinessName}
+              isEditingAllow={WithAgent.includes(role)}
             />
             <Typography variant="body1" className={classes.title}>
               {intl.formatMessage({ id: 'Settings.companySettings.name' })}

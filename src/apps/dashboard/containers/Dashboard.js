@@ -1,5 +1,4 @@
 import { useFullStory } from 'apps/AppBootstrap';
-import { signOut } from 'apps/auth/state/auth.actions';
 import { Layout, PageError } from 'apps/layout';
 import { Loader } from 'apps/ui';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
@@ -8,13 +7,15 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { loadCountries, loadCountriesOnlyExisting } from 'state/countries/countries.actions';
 import { selectAllCountriesModel, selectCountriesOnlyExisting } from 'state/countries/countries.selectors';
-import { appLoad, merchantFlowsLoad, merchantLoad } from 'state/merchant/merchant.actions';
-import { selectClientIdModel, selectMerchantFlowsModel, selectMerchantModel } from 'state/merchant/merchant.selectors';
+import { appLoad, merchantFlowsLoad } from 'state/merchant/merchant.actions';
+import { selectClientIdModel, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { reloadPage } from 'lib/window';
 import { useIntercom } from 'apps/intercom';
+import { useLoadMerchant } from 'apps/merchant/hooks/loadMerchant.hook';
+import { useQuery } from 'lib/url';
 import { DashboardLoader } from '../components/DashboardLoader/DashboardLoader';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
 import { Footer } from '../components/Footer/Footer';
@@ -22,36 +23,17 @@ import { DashboardRouter } from './Dashboard.router';
 
 export function Dashboard() {
   const dispatch = useDispatch();
-  const history = useHistory();
   const intl = useIntl();
-  const merchantModel = useSelector(selectMerchantModel);
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
   const countriesModel = useSelector(selectAllCountriesModel);
   const countriesOnlyExistingModel = useSelector(selectCountriesOnlyExisting);
   const clientIdModel = useSelector(selectClientIdModel);
   const flowBuilderMatch = useRouteMatch(Routes.flow.details);
   const identityProfileMatch = useRouteMatch(Routes.identity.profile.details);
+  const { asMerchantId } = useQuery();
 
   const [isError, setIsError] = useState(false);
-
-  useEffect(() => {
-    const loadData = async () => {
-      if (LoadableAdapter.isPristine(merchantModel)) {
-        await dispatch(merchantLoad())
-          .catch((error) => {
-            if (error.response && error.response.status === 401) {
-              dispatch(signOut());
-              history.push(Routes.root);
-            } else {
-              setIsError(true);
-              throw error;
-            }
-          });
-      }
-    };
-
-    loadData();
-  }, [dispatch, history, merchantModel]);
+  const merchantModel = useLoadMerchant();
 
   useEffect(() => {
     const loadData = async () => {
@@ -96,13 +78,13 @@ export function Dashboard() {
 
   useEffect(() => {
     if (merchantModel.isLoaded && LoadableAdapter.isPristine(merchantFlowsModel)) {
-      dispatch(merchantFlowsLoad())
+      dispatch(merchantFlowsLoad(asMerchantId))
         .catch((error) => {
           setIsError(true);
           console.error(error);
         });
     }
-  }, [dispatch, merchantFlowsModel, merchantModel]);
+  }, [asMerchantId, dispatch, merchantFlowsModel, merchantModel]);
 
   useIntercom();
   useFullStory();

@@ -19,4 +19,7 @@ export const useStyles = makeStyles((theme) => createStyles({
       opacity: 0.5,
     },
   },
+  issues: {
+    color: theme.palette.common.red,
+  },
 }));

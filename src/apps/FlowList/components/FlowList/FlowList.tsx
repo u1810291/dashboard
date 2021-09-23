@@ -1,7 +1,6 @@
 import { Box, Container, Grid, Tooltip, Typography, useMediaQuery } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { useOverlay } from 'apps/overlay';
-import { useQuery } from 'lib/url';
 import { IFlow, MAX_NUMBER_OF_FLOWS } from 'models/Flow.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -9,7 +8,7 @@ import { FiPlus } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { appLoad, merchantCreateFlow, merchantFlowsLoad } from 'state/merchant/merchant.actions';
+import { merchantCreateFlow } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
 import { FlowsTable } from '../FlowsTable/FlowsTable';
@@ -27,17 +26,6 @@ export function FlowList() {
   const isMobile = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
   const isButtonDisabled = (merchantFlowList || []).length >= MAX_NUMBER_OF_FLOWS;
   const [open, setOpen] = useState(isButtonDisabled && isMobile);
-  const { asMerchantId } = useQuery();
-
-  useEffect((() => {
-    dispatch(appLoad());
-  }), [dispatch]);
-
-  useEffect(() => {
-    if (asMerchantId) {
-      dispatch(merchantFlowsLoad(asMerchantId));
-    }
-  }, [asMerchantId, dispatch]);
 
   useEffect(() => {
     setOpen(isButtonDisabled && isMobile);
