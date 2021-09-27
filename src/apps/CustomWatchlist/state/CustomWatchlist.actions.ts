@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import { ProductTypes } from 'models/Product.model';
 import { flowBuilderChangeableFlowUpdate } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { replaceObjKeyByName } from 'lib/object';
-import { CustomWatchlistActions, CustomWatchlistModalSubmitType, FlowWatchlist, Watchlist } from 'models/CustomWatchlist.model';
+import { CustomWatchlistSeverityOnMatch, CustomWatchlistModalSubmitType, FlowWatchlist, Watchlist } from 'models/CustomWatchlist.model';
 import { selectFlowBuilderChangeableFlowModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { CustomWatchlist } from '../services/CustomWatchlist.service';
 import * as api from '../client/CustomWatchlist.client';
@@ -32,7 +32,7 @@ export const customWatchlistsLoad = (merchantId: string) => async (dispatch, get
       return {
         ...replaceObjKeyByName(watchlist, 'id', 'watchlistId'),
         ...findedWatchlist,
-        severityOnMatch: findedWatchlist?.severityOnMatch ?? CustomWatchlistActions.NoAction,
+        severityOnMatch: findedWatchlist?.severityOnMatch ?? CustomWatchlistSeverityOnMatch.NoAction,
       };
     });
 
@@ -50,7 +50,7 @@ export const customWatchlistCreate = (merchantId: string, params: CustomWatchlis
   try {
     const flowWatchlists: FlowWatchlist[] = get(selectFlowBuilderChangeableFlowModel(getState()), 'value.watchlists', []);
     const payload = await api.createMerchantWatchlistById(merchantId, params);
-    const mutatedWatchlists: FlowWatchlist = { ...replaceObjKeyByName(payload.data, 'id', 'watchlistId'), severityOnMatch: CustomWatchlistActions.NoAction };
+    const mutatedWatchlists: FlowWatchlist = { ...replaceObjKeyByName(payload.data, 'id', 'watchlistId'), severityOnMatch: CustomWatchlistSeverityOnMatch.NoAction };
 
     dispatch(flowBuilderChangeableFlowUpdate({ watchlists: [...flowWatchlists, mutatedWatchlists] }));
     dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: [payload.data] });
