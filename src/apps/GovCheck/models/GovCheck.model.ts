@@ -452,7 +452,14 @@ export const govCheckDisplayOptions = {
   [DocumentStepTypes.MexicanPep]: {
     fullName: {},
     isPep: {},
+    Position: {},
+    State: {},
+    Institution: {},
+    Period: {},
     pepData: {
+      hidden: true,
+    },
+    stepExtra: {
       hidden: true,
     },
   },
