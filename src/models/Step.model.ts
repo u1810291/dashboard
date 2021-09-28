@@ -247,6 +247,7 @@ const StepIncompletionErrors = {
 export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.BrazilianCpf]: ['brazilianCpf.faceBiometricsMismatch'],
   [DocumentStepTypes.PeruvianReniec]: ['peruvianReniec.fullNameMismatch'],
+  [DocumentStepTypes.MexicanPep]: ['mexicanPep.matchFound'],
 };
 
 export const StepSkippedCodes = [
