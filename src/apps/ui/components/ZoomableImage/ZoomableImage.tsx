@@ -1,15 +1,20 @@
 import { OverlayWithBlur } from 'apps/overlay';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FiRotateCcw, FiRotateCw, FiX, FiZoomIn } from 'react-icons/fi';
 import { Box } from '@material-ui/core';
 import { KeyboardKeys } from 'models/Keyboard.model';
-import { PrivateImage } from 'apps/media';
+import { ImageContainer, MediaStatusTypes, useLoadPrivateMedia } from 'apps/media';
 import { useStyles } from './ZoomableImage.styles';
 
-export function ZoomableImage({ src = '', alt = '', isPublic }: {src: string; alt?: string; isPublic?: boolean}) {
+export function ZoomableImage({ src = '', alt = '', isNotLoaded = false }: {src: string | MediaStatusTypes; alt?: string; isNotLoaded?: boolean}) {
   const classes = useStyles();
   const [isModalShown, setIsModalShown] = useState<boolean>(false);
   const [angle, rotate] = useState<number>(0);
+  const [objectUrl, isLoading] = useLoadPrivateMedia(isNotLoaded ? src : null);
+
+  /* TODO @vladislav.snimshchikov: add proofOfOwnership caching on identity level and remove isNotLoaded logic */
+  const mediaSrc = useMemo(() => (isNotLoaded ? objectUrl : src), [isNotLoaded, objectUrl, src]);
+  const resultMediaSrc = useMemo(() => (isLoading ? MediaStatusTypes.MediaIsLoading : mediaSrc), [isLoading, mediaSrc]);
 
   const handleClose = () => {
     rotate(0);
@@ -49,30 +54,18 @@ export function ZoomableImage({ src = '', alt = '', isPublic }: {src: string; al
         >
           <FiZoomIn color="white" size={28} className="zoomIcon" />
         </div>
-        {isPublic ? <img src={src} alt={alt} className={classes.initImage} /> : <PrivateImage src={src} alt={alt} className={classes.initImage} />}
+        <ImageContainer src={resultMediaSrc} alt={alt} className={classes.initImage} />
         {isModalShown && (
         <OverlayWithBlur onClose={handleClose}>
           <Box className={classes.zoomContent}>
-            {isPublic ? (
-              <img
-                className={classes.zoomedImage}
-                src={src}
-                alt={alt}
-                style={{ transform: `rotate(${angle}deg)` }}
-                onKeyDown={rotateEvent}
-                role="presentation"
-              />
-            ) : (
-              <PrivateImage
-                className={classes.zoomedImage}
-                src={src}
-                alt={alt}
-                style={{ transform: `rotate(${angle}deg)` }}
-                onKeyDown={rotateEvent}
-                role="presentation"
-              />
-            )}
-
+            <ImageContainer
+              className={classes.zoomedImage}
+              src={resultMediaSrc}
+              alt={alt}
+              style={{ transform: `rotate(${angle}deg)` }}
+              onKeyDown={rotateEvent}
+              role="presentation"
+            />
             <div className={classes.actions}>
               <FiRotateCcw
                 className={classes.actionIcon}

@@ -175,6 +175,10 @@ export function getOrderedDocuments(documents) {
   return docs;
 }
 
+export function fillAllPhotosInDocument<T>(documents: VerificationDocument[], value: T): T[][] {
+  return documents?.map((doc) => doc.photos.map(() => value));
+}
+
 export function getDocumentExtras(verification, countries, proofOfOwnership): VerificationDocument[] {
   const documents = getOrderedDocuments(verification.documents || []);
 

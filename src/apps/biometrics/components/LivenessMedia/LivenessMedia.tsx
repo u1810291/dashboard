@@ -5,7 +5,8 @@ import { ReactComponent as IconSoundOff } from 'assets/icon-sound-off.svg';
 import { ReactComponent as IconSoundOn } from 'assets/icon-sound-on.svg';
 import { downloadBlob } from 'lib/file';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { PrivateImage, PrivateVideo, getMedia } from 'apps/media';
+import { getMedia, VideoContainer } from 'apps/media';
+import { ImageContainer } from 'apps/media/components/ImageContainer/ImageContainer';
 import { ReactComponent as IconPlay } from './icon-play.svg';
 import { useStyles } from './LivenessMedia.styles';
 import { ReactComponent as Placeholder } from './placeholder.svg';
@@ -85,7 +86,7 @@ export function LivenessMedia({ title, subtitle, image, video, withSoundButton =
     <Box className={classes.root}>
       {image && (
         <Box className={classes.mediaBox}>
-          <PrivateImage className={classes.media} src={image} alt={title} />
+          <ImageContainer className={classes.media} src={image} alt={title} />
           {isDownloading ? (
             <Spinner onClick={handleDownload} className={classes.load} />
           ) : (
@@ -96,7 +97,8 @@ export function LivenessMedia({ title, subtitle, image, video, withSoundButton =
       {video && (
         <Box className={`${classes.mediaBox} ${classes.videoBox}`}>
           <Box onClick={handlePlayerToggle}>
-            <PrivateVideo
+            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+            <VideoContainer
               ref={videoRef}
               className={classes.media}
               autoPlay

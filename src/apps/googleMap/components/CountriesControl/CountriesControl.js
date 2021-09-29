@@ -2,7 +2,7 @@ import { Box, Button, Grid } from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { selectChartStatisticsModel, selectIpCheckStatistics } from 'apps/Analytics/state/Analytics.selectors';
 import { appPalette } from 'apps/theme/app.palette';
-import cn from 'classnames';
+import classNames from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FiChevronDown, FiMenu, FiX } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -118,7 +118,7 @@ export function CountriesControl({ geocoder, mapRef, setIsCountriesControlOpen, 
               <Grid
                 container
                 wrap="nowrap"
-                className={cn(classes.countriesControl, {
+                className={classNames(classes.countriesControl, {
                   [classes.countriesControlActive]: country.code === activeCountryId,
                 })}
                 onClick={() => handleCountryClick(country.code)}
@@ -133,7 +133,7 @@ export function CountriesControl({ geocoder, mapRef, setIsCountriesControlOpen, 
                 {country.cities && (
                   <Box
                     color="common.black7"
-                    className={cn(classes.countriesArrow, {
+                    className={classNames(classes.countriesArrow, {
                       [classes.countriesArrowExpanded]: country.code === activeCountryId && areCitiesVisible,
                     })}
                   >
