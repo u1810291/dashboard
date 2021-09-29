@@ -58,7 +58,7 @@ export function VerificationBioCheckSummary({ biometric, identity }) {
                 {/* Not Empty Photo */}
                 {status !== LivenessStepStatus.Disabled && biometric[0]?.selfieUrl && (
                   <Box align="center" height="100%">
-                    <PrivateImage alt="" src={biometric[0].selfieUrl} />
+                    <PrivateImage alt="" src={biometric[0].selfieUrl} className={classes.selfieImage} />
                   </Box>
                 )}
               </Grid>

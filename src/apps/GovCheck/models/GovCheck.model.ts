@@ -22,6 +22,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.BolivianOep]: false,
   [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
   [VerificationPatternTypes.ChileanRegistroCivil]: false,
+  [VerificationPatternTypes.ColombianContraloria]: false,
   [VerificationPatternTypes.ColombianNationalPolice]: false,
   [VerificationPatternTypes.ColombianNit]: false,
   [VerificationPatternTypes.ColombianProcuraduria]: false,
@@ -32,6 +33,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.DominicanJce]: false,
   [VerificationPatternTypes.EcuadorianRegistroCivil]: false,
   [VerificationPatternTypes.EcuadorianSri]: false,
+  [VerificationPatternTypes.GhanaianGra]: false,
   [VerificationPatternTypes.GuatemalanTse]: false,
   [VerificationPatternTypes.HonduranRnp]: false,
   [VerificationPatternTypes.MexicanCurp]: false,
@@ -40,6 +42,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.MexicanRfc]: false,
   [VerificationPatternTypes.ParaguayanRcp]: false,
   [VerificationPatternTypes.PeruvianReniec]: false,
+  [VerificationPatternTypes.PeruvianSunat]: false,
   [VerificationPatternTypes.SalvadorianTse]: false,
   [VerificationPatternTypes.PanamenianTribunalElectoral]: false,
   [VerificationPatternTypes.VenezuelanCne]: false,
@@ -62,6 +65,7 @@ export enum GovCheckCountryTypes {
   Colombia = 'colombia',
   CostaRica = 'costaRica',
   Ecuador = 'ecuador',
+  Ghana = 'ghana',
   Guatemala = 'guatemala',
   Honduras = 'honduras',
   Dominican = 'dominican',
@@ -82,6 +86,7 @@ export const govCheckCountriesOrder = [
   GovCheckCountryTypes.CostaRica,
   GovCheckCountryTypes.Dominican,
   GovCheckCountryTypes.Ecuador,
+  GovCheckCountryTypes.Ghana,
   GovCheckCountryTypes.Guatemala,
   GovCheckCountryTypes.Honduras,
   GovCheckCountryTypes.Mexico,
@@ -133,11 +138,11 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         id: DocumentStepTypes.BrazilianCpf,
         default: false,
         stepTypeAlias: GovCheckTypesForStep[DocumentStepTypes.BrazilianCpf].cpf,
-        // option: {
-        //   id: 'facematch',
-        //   stepTypeAlias: GovCheckStepTypes[DocumentStepTypes.BrazilianCpf].cpfFacematch,
-        //   description: true,
-        // },
+        option: {
+          id: 'facematch',
+          stepTypeAlias: GovCheckTypesForStep[DocumentStepTypes.BrazilianCpf].cpfFacematch,
+          description: true,
+        },
       },
     ],
   }, {
@@ -151,6 +156,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
   }, {
     country: GovCheckCountryTypes.Colombia,
     checks: [
+      {
+        id: DocumentStepTypes.ColombianContraloria,
+        default: false,
+      },
       {
         id: DocumentStepTypes.ColombianNit,
         default: false,
@@ -203,6 +212,14 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     checks: [
       {
         id: DocumentStepTypes.HonduranRnp,
+        default: false,
+      },
+    ],
+  }, {
+    country: GovCheckCountryTypes.Ghana,
+    checks: [
+      {
+        id: DocumentStepTypes.GhanaianGra,
         default: false,
       },
     ],
@@ -260,6 +277,11 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         id: DocumentStepTypes.PeruvianReniec,
         default: false,
       },
+      // TODO: Arkadii: uncomment here after sunat scraper fix
+      // {
+      //   id: DocumentStepTypes.PeruvianSunat,
+      //   default: false,
+      // },
     ],
   },
   {
@@ -336,6 +358,13 @@ export const govCheckDisplayOptions = {
     expirationDate: {
       inline: true,
     },
+    governmentFaceMatched: {
+      hidden: true,
+    },
+    governmentFaceMatchScorePercentage: {
+      dependentFieldForFailedCheck: 'governmentFaceMatched',
+      hiddenIfNotExists: true,
+    },
   },
   [DocumentStepTypes.DominicanJce]: {
     fullName: {},
@@ -364,6 +393,15 @@ export const govCheckDisplayOptions = {
   },
   [DocumentStepTypes.GuatemalanTse]: {
     fullName: {},
+  },
+  [DocumentStepTypes.ColombianContraloria]: {
+    fiscalStatusValid: {},
+    documentNumber: {
+      inline: true,
+    },
+    verificationCode: {
+      inline: true,
+    },
   },
   [DocumentStepTypes.ColombianProcuraduria]: {
     fullName: {},
@@ -396,6 +434,12 @@ export const govCheckDisplayOptions = {
       inline: true,
     },
   },
+  [DocumentStepTypes.GhanaianGra]: {
+    personalNumber: {
+      inline: true,
+    },
+    taxStatusValid: {},
+  },
   [DocumentStepTypes.HonduranRnp]: {
     documentNumber: {
       inline: true,
@@ -408,7 +452,14 @@ export const govCheckDisplayOptions = {
   [DocumentStepTypes.MexicanPep]: {
     fullName: {},
     isPep: {},
+    Position: {},
+    State: {},
+    Institution: {},
+    Period: {},
     pepData: {
+      hidden: true,
+    },
+    stepExtra: {
       hidden: true,
     },
   },
@@ -425,6 +476,13 @@ export const govCheckDisplayOptions = {
     },
     state: {
       inline: true,
+    },
+  },
+  [DocumentStepTypes.PeruvianSunat]: {
+    fullName: {},
+    isSunat: {},
+    sunatData: {
+      hidden: true,
     },
   },
   [DocumentStepTypes.SalvadorianTse]: {

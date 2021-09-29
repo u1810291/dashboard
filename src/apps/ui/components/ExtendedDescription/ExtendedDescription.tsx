@@ -12,9 +12,11 @@ interface ExtendedDescriptionProps {
   className?: string;
   children?: ReactNode;
   isDisabled?: boolean;
+  textFontSize?: number;
+  titleColor?: string;
 }
 
-export function ExtendedDescription({ title, text, prefix, postfix, className, children, badge, isDisabled }: ExtendedDescriptionProps) {
+export function ExtendedDescription({ title, text, prefix, postfix, className, children, badge, isDisabled, textFontSize, titleColor = 'common.black90' }: ExtendedDescriptionProps) {
   const classes = useStyles();
 
   return (
@@ -22,7 +24,7 @@ export function ExtendedDescription({ title, text, prefix, postfix, className, c
       <Grid item xs={12} container alignItems="baseline" wrap="nowrap">
         {prefix && <Box mr={0.7}>{prefix}</Box>}
         <Box mr={0.7}>
-          <Box mb={0.5} fontWeight="bold" color="common.black90">{title}</Box>
+          <Box mb={0.5} fontWeight="bold" color={titleColor}>{title}</Box>
         </Box>
         <Box ml="auto">
           <Grid item container alignItems="center" wrap="nowrap">
@@ -35,7 +37,7 @@ export function ExtendedDescription({ title, text, prefix, postfix, className, c
           </Grid>
         </Box>
       </Grid>
-      <Box mr={postfix ? 2.5 : 0} color="common.black75">{text}</Box>
+      <Box mr={postfix ? 2.5 : 0} fontSize={textFontSize} color="common.black75">{text}</Box>
       {children && (
         <Grid item xs={12}>
           <Box mt={2}>

@@ -9,14 +9,12 @@ import { downloadCSV } from 'state/identities/identities.actions';
 import { selectFilteredCountModel } from 'state/identities/identities.selectors';
 import { REDUCE_DB_COUNT_CALLS } from 'models/Release.model';
 import { ButtonSide } from './DownloadCSV.styles';
-import { useWarningIfLeavingApp } from '../../hooks/warningIfLeavingApp.hook';
 
 export function DownloadCSV() {
   const dispatch = useDispatch();
   const intl = useIntl();
   const [isDownloading, setIsDownloading] = useState(false);
   const filteredCountModel = useSelector(selectFilteredCountModel);
-  useWarningIfLeavingApp(isDownloading);
 
   const handleDownloadCSV = useCallback(async () => {
     if (!isDownloading) {
@@ -34,16 +32,14 @@ export function DownloadCSV() {
   }, [dispatch, intl, isDownloading]);
 
   return (
-    <>
-      <ButtonSide
-        variant="contained"
-        onClick={handleDownloadCSV}
-        startIcon={<FiDownload />}
-        disabled={isDownloading || filteredCountModel.isLoading || (!REDUCE_DB_COUNT_CALLS && filteredCountModel.value === 0)}
-        data-qa={QATags.VerificationList.DownloadCsv}
-      >
-        {intl.formatMessage({ id: 'identities.download-all-csv' })}
-      </ButtonSide>
-    </>
+    <ButtonSide
+      variant="contained"
+      onClick={handleDownloadCSV}
+      startIcon={<FiDownload />}
+      disabled={isDownloading || filteredCountModel.isLoading || (!REDUCE_DB_COUNT_CALLS && filteredCountModel.value === 0)}
+      data-qa={QATags.VerificationList.DownloadCsv}
+    >
+      {intl.formatMessage({ id: 'identities.download-all-csv' })}
+    </ButtonSide>
   );
 }

@@ -1,14 +1,13 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Text, View, Image } from '@react-pdf/renderer';
-import { EmailRiskStep, EmailRiskFieldTypes, EmailValidationFields, EmailRiskFields } from 'models/EmailCheck.model';
+import { EmailRiskStep, EmailRiskFieldTypes } from 'models/EmailCheck.model';
 import { isNil } from 'lib/isNil';
 import { getStepStatus } from 'models/Step.model';
 import { styles } from './RiskEmailPDF.styles';
 import { commonStyles } from '../../PDF.styles';
 import { IconStatuses } from '../../assets';
 import { CheckStepDetailsEntryPDF } from '../CheckStepPDF/CheckStepDetailsEntryPDF';
-
 
 export function RiskEmailPDF({ step }: { step: EmailRiskStep}) {
   const intl = useIntl();
@@ -38,7 +37,6 @@ export function RiskEmailPDF({ step }: { step: EmailRiskStep}) {
             label={EmailRiskFieldTypes[fieldName]}
             value={step.data[EmailRiskFieldTypes[fieldName]]}
             key={EmailRiskFieldTypes[fieldName]}
-            style={styles.stepDetailsItem}
           />
         ))}
       </View>

@@ -12,6 +12,7 @@ module.exports = function(app) {
     pathRewrite: {
       [`^${process.env.REACT_APP_CORS_PATH}`]: '',
     },
+    cookieDomainRewrite: 'localhost',
     onProxyReq: function(proxyReq) {
       proxyReq.setHeader('origin', process.env.REACT_APP_PUBLIC_URL);
     },
@@ -22,6 +23,7 @@ module.exports = function(app) {
     target: process.env.REACT_APP_MEDIA_URL,
     changeOrigin: true,
     secure: true,
+    cookieDomainRewrite: 'localhost',
     logLevel: 'debug',
   }));
   app.use('/maps', proxy({

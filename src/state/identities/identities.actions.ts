@@ -291,8 +291,13 @@ export const identityDemoLoad = (id) => async (dispatch) => {
 export const setPDFGenerating = (flag) => ({ type: types.SET_PDF_GENERATING, payload: flag });
 
 export const pdfDownloaded = (identityId, verificationId) => async (dispatch) => {
-  await api.postPdfDownloaded(identityId, verificationId);
-  dispatch({ type: types.PDF_DOWNLOADED });
+  try {
+    await api.postPdfDownloaded(identityId, verificationId);
+    dispatch({ type: types.PDF_DOWNLOADED });
+  } catch (error) {
+    notification.error(ErrorMessages.ERROR_COMMON);
+    console.error('post pdfDownloaded event error', error);
+  }
 };
 
 export const verificationDocumentUpdate = (verificationId: string, documentType, fields) => async (dispatch: Dispatch, getState) => {

@@ -14,6 +14,7 @@ export const useStyles = makeStyles((theme) => createStyles({
     border: '2px solid transparent',
     transition: '.2s all ease-in-out',
     cursor: 'pointer',
+    wordBreak: 'break-word',
   },
   selected: {
     borderColor: theme.palette.common.lightblue,

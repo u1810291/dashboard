@@ -12,6 +12,7 @@ export enum VerificationPatternTypes {
   CreditArgentinianFidelitas = 'credit-argentinian-fidelitas-validation',
   CreditBrazilianSerasa = 'credit-brazilian-serasa-validation',
   ChileanRegistroCivil = 'chilean-registro-civil-validation',
+  ColombianContraloria = 'colombian-contraloria-validation',
   ColombianNationalPolice = 'colombian-national-police-validation',
   ColombianNit = 'colombian-nit-validation',
   ColombianProcuraduria = 'colombian-procuraduria-validation',
@@ -27,6 +28,7 @@ export enum VerificationPatternTypes {
   EcuadorianSri = 'ecuadorian-sri-validation',
   EmailOwnershipValidation = 'email-ownership-validation',
   EmailRiskValidation = 'email-risk-validation',
+  GhanaianGra = 'ghanaian-gra-validation',
   GuatemalanTse = 'guatemalan-tse-validation',
   IpValidation = 'ip-validation',
   HonduranRnp = 'honduran-rnp-validation',
@@ -37,6 +39,7 @@ export enum VerificationPatternTypes {
   PanamenianTribunalElectoral = 'panamenian-tribunal-electoral-validation',
   ParaguayanRcp = 'paraguayan-rcp-validation',
   PeruvianReniec = 'peruvian-reniec-validation',
+  PeruvianSunat = 'peruvian-sunat-validation',
   PhoneOwnershipValidation = 'phone-ownership-validation',
   PhoneRiskValidation = 'phone-risk-analysis-validation',
   PremiumAmlWatchListsSearchValidation = 'premium-aml-watchlists-search-validation',
@@ -81,6 +84,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.MexicanPep]?: boolean;
   [VerificationPatternTypes.MexicanRfc]?: boolean;
   [VerificationPatternTypes.PeruvianReniec]?: boolean;
+  [VerificationPatternTypes.PeruvianSunat]?: boolean;
   [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]?: AmlValidationTypes;
   [VerificationPatternTypes.ProofOfOwnership]?: boolean;
   [VerificationPatternTypes.SalvadorianTse]?: boolean;

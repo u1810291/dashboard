@@ -1,6 +1,5 @@
 import { Box, IconButton, Tooltip, Typography } from '@material-ui/core';
 import { PriorityHigh } from '@material-ui/icons';
-import { useRole } from 'apps/collaborators';
 import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
 import { StatusLabel } from 'apps/identity/components/StatusLabel';
 import { VerificationFlowName } from 'apps/identity/components/VerificationFlowName/VerificationFlowName';
@@ -18,6 +17,8 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { identityRemove } from 'state/identities/identities.actions';
 import { selectIdentityCollection } from 'state/identities/identities.selectors';
+import { RoleRenderGuard } from 'apps/merchant';
+import { useQuery } from 'lib/url';
 import { useStyles } from './VerificationTableRow.styles';
 
 export function VerificationTableRow({ index, style, data: { paddingBottom = 0 } = {} }) {
@@ -25,9 +26,9 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
   const intl = useIntl();
   const dispatch = useDispatch();
   const [deleting, setDeleting] = useState(null);
-  const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(Routes.list.root);
+  const { asMerchantId } = useQuery();
+  const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(Routes.list.root, { asMerchantId });
   const identityCollection = useSelector(selectIdentityCollection);
-  const role = useRole();
   const identity = useMemo(() => identityCollection?.value[index], [identityCollection, index]);
   const confirmDelete = useConfirmDelete(
     intl.formatMessage({ id: 'verificationModal.delete' }),
@@ -110,13 +111,14 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
             <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.status' })}</Box>
           </Box>
           <Box className={classes.itemIcons}>
-            {role === CollaboratorRoles.ADMIN && (
+            <RoleRenderGuard roles={[CollaboratorRoles.ADMIN]}>
               <Box className={classes.iconDeleteWrapper}>
                 <IconButton size="small" onMouseUp={handleRemove(identity.id)} tabIndex="-1" className={classes.iconButtonDelete}>
                   {identity.id === deleting ? <IconLoad /> : <FiTrash2 className="color-red" />}
                 </IconButton>
               </Box>
-            )}
+            </RoleRenderGuard>
+
             <Box className={classes.iconReviewWrapper} onClick={handleStopPropagation}>
               {identity.status === IdentityStatuses.reviewNeeded && (
                 <Tooltip

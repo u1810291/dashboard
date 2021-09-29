@@ -142,7 +142,7 @@ export function VerificationSteps({
         />,
       );
     },
-    [createOverlay, onChange, closeOverlay, steps, merchantCustomDocumentsModel, custom, regular],
+    [createOverlay, custom, avalibleCustomDocuments, closeOverlay, onChange, steps, regular.length],
   );
 
   useEffect(() => {

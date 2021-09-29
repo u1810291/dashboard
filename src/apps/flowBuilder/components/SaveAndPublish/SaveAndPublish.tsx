@@ -46,7 +46,7 @@ export function SaveAndPublish() {
   return (
     <Grid container>
       {haveIssues ? (
-        <TextBubble>
+        <TextBubble className={classes.issues}>
           {intl.formatMessage({ id: 'FlowBuilder.notification.issues' })}
         </TextBubble>
       ) : haveUnsavedChanges && (

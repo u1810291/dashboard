@@ -21,7 +21,7 @@ export function IpCheckPDF({ data = {}, isChecking }) {
       <View>
         {/* Google Map */}
         <View style={[commonStyles.mapBox, commonStyles.mb15]} wrap={false}>
-          <Image style={commonStyles.map} src={getMediaURL(data.mapUrl)} />
+          <Image style={commonStyles.map} src={getMediaURL(data.mapUrl, false)} />
         </View>
         {/* Detected location fields */}
         <View style={styles.fieldsWrapper}>

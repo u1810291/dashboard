@@ -2,9 +2,11 @@ import React, { useCallback } from 'react';
 import { Box, FormControl, FormControlLabel, Grid, Switch } from '@material-ui/core';
 import { GovCheck, GovCheckConfigurations, govCheckCountriesOrder, govCheckParse, GovCheckTypesForStep } from 'apps/GovCheck/models/GovCheck.model';
 import { useIntl } from 'react-intl';
-import { VerificationPatterns } from 'models/VerificationPatterns.model';
+import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { flags } from 'assets/flags';
 import { useStyles } from './GovCheckCountriesSettings.styles';
+import { ExtendedDescription } from 'apps/ui';
+import { BiometricTypes } from 'models/Biometric.model';
 
 export function GovCheckCountriesSettings({ verificationPattern, onChange }: {
      verificationPattern: Partial<VerificationPatterns>;
@@ -31,6 +33,10 @@ export function GovCheckCountriesSettings({ verificationPattern, onChange }: {
     onChange({ [item.id]: value || event.target.checked });
   }, [onChange]);
 
+  const handleSwitchOption = useCallback((item: GovCheck) => (event) => {
+    onChange({ [item.id]: event.target.checked ? item.option?.stepTypeAlias : item.stepTypeAlias });
+  }, [onChange]);
+
   return (
     <FormControl className={classes.control}>
       {govCheckCountriesOrder.map((country) => (
@@ -41,22 +47,43 @@ export function GovCheckCountriesSettings({ verificationPattern, onChange }: {
               {intl.formatMessage({ id: `GovCheck.country.${country}` })}
             </Box>
           </Grid>
-          {checkListForCountry(country).map((checkbox) => (
-            <Box key={checkbox.id} mt={1} className={classes.check}>
+          {checkListForCountry(country).map((govCheck) => (
+            <Box key={govCheck.id} mt={1} className={classes.check}>
               <FormControlLabel
                 control={(
                   <Switch
-                    checked={!!checkbox.value}
-                    onChange={handleSwitch(checkbox)}
+                    checked={!!govCheck.value}
+                    onChange={handleSwitch(govCheck)}
                     color="primary"
                   />
                   )}
                 label={(
                   <Box color="common.black75" fontWeight="bold">
-                    {intl.formatMessage({ id: `GovCheck.check.${checkbox.id}` })}
+                    {intl.formatMessage({ id: `GovCheck.check.${govCheck.id}` })}
                   </Box>
                 )}
               />
+              {govCheck.option && (
+                <Box display="flex" mt={0.3}>
+                  <Box className={classes.arrow} />
+                  <Box ml={0.5}>
+                    <ExtendedDescription
+                      title={intl.formatMessage({ id: `GovCheck.check.${govCheck.id}.${govCheck.option.id}` })}
+                      titleColor="common.black75"
+                      text={intl.formatMessage({ id: `GovCheck.check.${govCheck.id}.${govCheck.option.id}.description` })}
+                      textFontSize={10}
+                      postfix={(
+                        <Switch
+                          checked={!!govCheck.option.value}
+                          onChange={handleSwitchOption(govCheck)}
+                          color="primary"
+                          disabled={!govCheck.value || (!govCheck.option.value && verificationPattern[VerificationPatternTypes.Biometrics] !== BiometricTypes.selfie)}
+                        />
+                      )}
+                    />
+                  </Box>
+                </Box>
+              )}
             </Box>
           ))}
         </Box>

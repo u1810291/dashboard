@@ -9,13 +9,14 @@ import { Loadable } from 'models/Loadable.model';
 import { Merchant, MerchantTags } from 'models/Merchant.model';
 import { createSelector } from 'reselect';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
+import { CollaboratorRoles } from 'models/Collaborator.model';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
 
 export const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
 
 // -- merchant
 
-export const selectMerchantModel = createSelector(
+export const selectMerchantModel = createSelector<any, any, Loadable<Merchant>>(
   selectMerchantStore,
   (store): Loadable<Merchant> => store[SliceNames.Merchant],
 );
@@ -25,12 +26,35 @@ export const selectMerchantId = createSelector(
   selectModelValue((merchant: Merchant) => merchant.id),
 );
 
+export const selectOwnerId = createSelector(
+  selectMerchantModel,
+  selectModelValue((merchant: Merchant) => merchant?.owner),
+);
+
 export const selectIsOwnerModel = createSelector(
   selectMerchantModel,
   selectUserId,
   selectLoadableValue((merchant, userId) => {
     const collaborators = merchant.collaborators || [];
-    return collaborators.findIndex((item) => item.user === userId && item.role === 2) < 0;
+    return collaborators.findIndex((item) => item.user === userId && item.role > 1) < 0;
+  }),
+);
+
+export const selectUserRole = createSelector<any, any, any, CollaboratorRoles | null>(
+  selectMerchantModel,
+  selectUserId,
+  selectModelValue((merchant, userId) => {
+    if (!merchant) {
+      return null;
+    }
+
+    if (userId === merchant.owner) {
+      return CollaboratorRoles.ADMIN;
+    }
+
+    const collaborators = merchant.collaborators || [];
+    const collaborator = collaborators.find((item) => item?.user === userId);
+    return collaborator?.role;
   }),
 );
 
@@ -47,6 +71,11 @@ export const selectMerchantCreatedAt = createSelector(
 export const selectMerchantBusinessName = createSelector(
   selectMerchantModel,
   selectModelValue((merchant) => merchant.businessName),
+);
+
+export const selectMerchantEmail = createSelector(
+  selectMerchantModel,
+  selectModelValue((merchant) => merchant?.indexFields?.ownerEmail),
 );
 
 export const selectIsBlockedModel = createSelector(

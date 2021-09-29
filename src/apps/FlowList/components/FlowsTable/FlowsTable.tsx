@@ -15,6 +15,7 @@ import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant
 import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { NoFlows } from 'apps/oldProduct/components/NoFlows/NoFlows';
 import { TableRowHovered, useStyles } from 'apps/FlowList/components/FlowsTable/FlowsTable.styles';
+import { useQuery } from 'lib/url';
 
 export function FlowsTable({ onAddNewFlow }) {
   const intl = useIntl();
@@ -29,7 +30,8 @@ export function FlowsTable({ onAddNewFlow }) {
   );
   const dispatch = useDispatch();
   const isNewDesign = useSelector(selectIsNewDesign);
-  const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root);
+  const { asMerchantId } = useQuery();
+  const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
 
   const sortedFlowList = useMemo(() => [...merchantFlowList].sort((a, b) => dateSortCompare(a.createdAt, b.createdAt)), [merchantFlowList]);
 

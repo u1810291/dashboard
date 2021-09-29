@@ -7,14 +7,14 @@ import { FiChevronDown } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useStyles } from './StatusSelector.styles';
 
-export interface StatusSelectorProps{
-  value: any;
-  isOpen: boolean;
-  onSelect: (id: string) => Promise<void>;
-  header?: string;
-}
-
-export function StatusSelector({ value, isOpen, onSelect, header }: StatusSelectorProps) {
+export function StatusSelector({ value, isOpen, onSelect, header, isChangeable = true }:
+  {
+    value: any;
+    isOpen: boolean;
+    onSelect: (id: string) => Promise<void>;
+    header?: string;
+    isChangeable?: boolean;
+  }) {
   const intl = useIntl();
   const classes = useStyles();
   const [statuses] = useState(getExplanationStatuses());
@@ -26,8 +26,9 @@ export function StatusSelector({ value, isOpen, onSelect, header }: StatusSelect
     setOpen((prev) => !prev);
   }, []);
 
-  const handleOuterClick = useCallback((e) => {
-    if (!e?.path?.includes(statusSelectorRef.current)) {
+  const handleOuterClick = useCallback((event: Event) => {
+    const path = event.composedPath();
+    if (!path?.includes(statusSelectorRef.current)) {
       setOpen(false);
     }
   }, []);
@@ -41,14 +42,14 @@ export function StatusSelector({ value, isOpen, onSelect, header }: StatusSelect
     return () => document.removeEventListener('click', handleOuterClick);
   }, [open, handleOuterClick]);
 
-  const handleSelect = useCallback(async (id) => {
+  const handleSelect = useCallback((id: string) => async () => {
     setIsLoading(true);
-    if (onSelect) {
+    if (onSelect && isChangeable) {
       await onSelect(id);
     }
     setIsLoading(false);
     setOpen(false);
-  }, [onSelect]);
+  }, [isChangeable, onSelect]);
 
   return (
     <Card ref={statusSelectorRef} className={classes.wrapper} data-qa={QATags.Verification.StatusSelector.Button}>
@@ -74,34 +75,37 @@ export function StatusSelector({ value, isOpen, onSelect, header }: StatusSelect
         <Card className={classes.openItems}>
           <Box p={2} pl={1.5}>
             <Grid container direction="column" spacing={2} data-qa={QATags.Verification.StatusSelector.Content}>
-              {statuses.map((item) => (
-                <Grid
-                  className={item.isSelectable && value?.isChangeable ? classes.item : classes.itemNotChangeable}
-                  container
-                  wrap="nowrap"
-                  item
-                  key={item.id}
-                  onClick={() => handleSelect(item.id)}
-                >
-                  {item.isSelectable && value?.isChangeable && (
+              {statuses.map((item) => {
+                const isItemChangeable = isChangeable && item.isSelectable && value?.isChangeable;
+                return (
+                  <Grid
+                    className={isItemChangeable ? classes.item : classes.itemNotChangeable}
+                    container
+                    wrap="nowrap"
+                    item
+                    key={item.id}
+                    onClick={handleSelect(item.id)}
+                  >
+                    {isItemChangeable && (
                     <Box className={classes.itemIconWrapper}>
                       {value?.id === item.id && (
-                        <Box bgcolor={item.color} className={classes.itemIcon} />
+                      <Box bgcolor={item.color} className={classes.itemIcon} />
                       )}
                     </Box>
-                  )}
-                  <Box>
-                    <Box color={item.color}>
-                      <Typography variant="subtitle2" gutterBottom>
-                        {intl.formatMessage({ id: getIdentityStatusLabel(item.id) })}
+                    )}
+                    <Box>
+                      <Box color={item.color}>
+                        <Typography variant="subtitle2" gutterBottom>
+                          {intl.formatMessage({ id: getIdentityStatusLabel(item.id) })}
+                        </Typography>
+                      </Box>
+                      <Typography variant="body1" className={classes.text}>
+                        {intl.formatMessage({ id: getIdentityStatusDescription(item.id) })}
                       </Typography>
                     </Box>
-                    <Typography variant="body1" className={classes.text}>
-                      {intl.formatMessage({ id: getIdentityStatusDescription(item.id) })}
-                    </Typography>
-                  </Box>
-                </Grid>
-              ))}
+                  </Grid>
+                );
+              })}
             </Grid>
           </Box>
         </Card>

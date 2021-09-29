@@ -1,9 +1,7 @@
 import { Box, Button, FormControl, Grid, MenuItem, Select } from '@material-ui/core';
 import { allDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, identifyRange, RangeParts, RangeSlices } from 'models/Filter.model';
-import { selectUserRegistrationDate } from 'apps/user/state/user.selectors';
 import classNames from 'classnames';
 import { DateFormat, dayEndTime, getYearsArray, toLocalDate, utcToLocalFormat, zeroTime } from 'lib/date';
-
 import { QATags } from 'models/QA.model';
 import moment from 'moment';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -12,16 +10,19 @@ import 'react-day-picker/lib/style.css';
 import { FiChevronDown } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
+import { selectMerchantCreatedAt, selectLanguage } from 'state/merchant/merchant.selectors';
+import MomentLocaleUtils from 'react-day-picker/moment';
 import { useStyles } from './DateRange.styles';
 
 export function DateRange({ onChange, start, end, datePickerRanges = allDatePickerRanges, fromMonth, toMonth }) {
   const intl = useIntl();
   const classes = useStyles();
-  const registerDate = useSelector(selectUserRegistrationDate);
+  const registerDate = useSelector(selectMerchantCreatedAt);
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
   const [selectedRange, setSelectedRange] = useState(null);
   const [visibleMonth, setVisibleMonth] = useState(toMonth);
+  const currentLocale = useSelector(selectLanguage);
 
   const [yearsRange, setYearsRange] = useState({
     from: from?.getFullYear() || '',
@@ -82,7 +83,7 @@ export function DateRange({ onChange, start, end, datePickerRanges = allDatePick
     onChange({ [`dateCreated[${partName}]`]: !date ? null : moment(date) });
   }, [onChange]);
 
-  const handleStartRangeChanged = useCallback((startDate, isScrollToDate) => {
+  const handleStartRangeChanged = useCallback((startDate: Date, isScrollToDate: boolean = false) => {
     handlePartRangeChanged(RangeParts.Start, setFrom, startDate);
     if (isScrollToDate) {
       setVisibleMonth(startDate);
@@ -90,7 +91,7 @@ export function DateRange({ onChange, start, end, datePickerRanges = allDatePick
   },
   [handlePartRangeChanged]);
 
-  const handleEndRangeChanged = useCallback((endDate, isScrollToDate) => {
+  const handleEndRangeChanged = useCallback((endDate: Date, isScrollToDate: boolean = false) => {
     handlePartRangeChanged(RangeParts.End, setTo, endDate);
     if (isScrollToDate) {
       setVisibleMonth(endDate);
@@ -175,7 +176,7 @@ export function DateRange({ onChange, start, end, datePickerRanges = allDatePick
                 disabled={!yearsRange?.from}
                 disableUnderline
                 IconComponent={FiChevronDown}
-                SelectDisplayProps={{ 'data-qa': QATags.Filter.DatePicker.YearsFromSelect }}
+                SelectDisplayProps={{ 'data-qa': QATags.Filter.DatePicker.YearsFromSelect } as any}
               >
                 {availableYears.map((year) => (
                   <MenuItem className={classes.rangeSelectItem} key={year} value={year}>
@@ -198,7 +199,7 @@ export function DateRange({ onChange, start, end, datePickerRanges = allDatePick
                 disabled={!yearsRange?.to}
                 disableUnderline
                 IconComponent={FiChevronDown}
-                SelectDisplayProps={{ 'data-qa': QATags.Filter.DatePicker.YearsToSelect }}
+                SelectDisplayProps={{ 'data-qa': QATags.Filter.DatePicker.YearsToSelect } as any}
               >
                 {availableYears.map((year) => (
                   <MenuItem className={classes.rangeSelectItem} key={year} value={year}>
@@ -211,6 +212,8 @@ export function DateRange({ onChange, start, end, datePickerRanges = allDatePick
         </Grid>
         <DayPicker
           fixedWeeks
+          localeUtils={MomentLocaleUtils}
+          locale={currentLocale}
           onDayClick={handleDayClick}
           numberOfMonths={2}
           modifiers={modifiers}

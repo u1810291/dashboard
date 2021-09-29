@@ -4,8 +4,10 @@ import Link from '@material-ui/core/Link';
 import { useIntl } from 'react-intl';
 import { ReactComponent as TalkBoxIcon } from 'assets/icon-talk-box.svg';
 import classNames from 'classnames';
+import { SupportedLocales } from 'models/Intl.model';
 import { DarkFaqSection } from '../DarkFaqSection/DarkFaqSection';
 import { useStyles } from './ContactUs.styles';
+import { requestFeatureLinks } from '../../models/FAQ.model';
 
 export function ContactUs() {
   const intl = useIntl();
@@ -152,7 +154,7 @@ export function ContactUs() {
                   <Link
                     className={classes.emailLink}
                     color="primary"
-                    href="https://teammati.typeform.com/to/attXY1Et"
+                    href={requestFeatureLinks[intl.locale] ?? requestFeatureLinks[SupportedLocales.EN]}
                     rel="noopener"
                     target="_blank"
                   >

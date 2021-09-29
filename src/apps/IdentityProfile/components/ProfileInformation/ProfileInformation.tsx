@@ -68,7 +68,7 @@ export function ProfileInformation({ profileSummary, identityId, isShowFull = tr
               <Box mr={0.5} color={`common.black${dateOfBirth?.value ? 90 : 50}`} fontWeight="bold">
                 {dateOfBirth?.value
                   ? `${formatDate(dateOfBirth?.value, DateFormat.MonthShortWithSpace)} ${userAge ? `(${userAge})` : ''}`
-                  : intl.formatMessage({ id: getReasonToken(fullName?.reasonCode) }) }
+                  : intl.formatMessage({ id: getReasonToken(dateOfBirth?.reasonCode) }) }
               </Box>
             </Grid>
           </Box>

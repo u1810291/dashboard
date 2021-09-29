@@ -53,6 +53,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   inputsWrapper: {
+    wordBreak: 'break-word',
     [theme.breakpoints.up('lg')]: {
       flexDirection: 'column',
       justifyContent: 'flex-start',

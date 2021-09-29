@@ -1,11 +1,10 @@
 import { Typography } from '@material-ui/core';
-import { selectUserRegistrationDate } from 'apps/user/state/user.selectors';
 import { DateFormat, utcToLocalFormat } from 'lib/date';
 import { analyticsDatePickerRanges, FilterRangeTypes, identifyRange } from 'models/Filter.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { selectMerchantFlowsModel, selectMerchantCreatedAt } from 'state/merchant/merchant.selectors';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { selectFilter } from '../../state/Analytics.selectors';
 
@@ -14,16 +13,16 @@ export function DynamicHeader({ flows = [] }) {
   const metricsFilter = useSelector(selectFilter);
   const [flowName, setFlowName] = useState(intl.formatMessage({ id: 'VerificationFilter.flows.allFlows' }));
   const merchantFlowList = useSelector(selectMerchantFlowsModel);
-  const selectRegisterDate = useSelector(selectUserRegistrationDate);
+  const registrationDate = useSelector(selectMerchantCreatedAt);
   const [period, setPeriod] = useState(FilterRangeTypes.All);
 
   useEffect(() => {
     const start = metricsFilter['dateCreated[start]'];
     const end = metricsFilter['dateCreated[end]'];
     if (start || end) {
-      setPeriod(identifyRange(start, end, selectRegisterDate, analyticsDatePickerRanges));
+      setPeriod(identifyRange(start, end, registrationDate, analyticsDatePickerRanges));
     }
-  }, [metricsFilter, selectRegisterDate]);
+  }, [metricsFilter, registrationDate]);
 
   useEffect(() => {
     if (flows.includes(DEFAULT_FLOW)) {

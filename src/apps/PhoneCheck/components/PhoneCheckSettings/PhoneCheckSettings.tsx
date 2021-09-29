@@ -43,7 +43,7 @@ export function PhoneCheckSettings({ settings, onUpdate }: ProductSettingsProps<
   const handleCompanyNameChange = useCallback(({ target: { value } }) => {
     const validationError = validateMaxLength(value, COMPANY_NAME_LENGTH_LIMIT);
     if (validationError) {
-      setCompanyNameError(`PhoneValidation.companyName.${validationError}`);
+      setCompanyNameError(validationError);
       return;
     }
     setCompanyName(value);

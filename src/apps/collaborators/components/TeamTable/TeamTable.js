@@ -6,6 +6,8 @@ import { Routes } from 'models/Router.model';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectOwnerId } from 'state/merchant/merchant.selectors';
 import { TeamTablePlaceholder } from '../TeamTablePlaceholder/TeamTablePlaceholder';
 import { useStyles } from './TeamTable.styles';
 
@@ -13,6 +15,7 @@ export function TeamTable({ list, onInvite }) {
   const intl = useIntl();
   const classes = useStyles();
   const history = useHistory();
+  const ownerId = useSelector(selectOwnerId);
 
   const handleClickProfile = useCallback((id) => () => history.push(`${Routes.collaborators.agentProfile.root}/${id}`), [history]);
 
@@ -39,7 +42,9 @@ export function TeamTable({ list, onInvite }) {
                 </TableCell>
                 <TableCell className={classes.fullNameCell}>
                   <Box className={classes.fullName}>
-                    {`${item.user.firstName ?? ''} ${item.user.lastName ?? ''}`}
+                    {!item.user.firstName && !item.user.lastName ? '－' : `${item.user.firstName ?? ''} ${item.user.lastName ?? ''}`}
+                    &nbsp;
+                    {ownerId === item.user.id && `(${intl.formatMessage({ id: 'teamTable.roles.owner' })})`}
                   </Box>
                   <Box className={classes.email}>
                     {item.user.email}

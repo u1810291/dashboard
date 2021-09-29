@@ -5,12 +5,12 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectClientIdModel, selectCurrentFlowId, selectStyleModel } from 'state/merchant/merchant.selectors';
-import { Android, Apple, Monitor, PlayCircle } from '../../icons';
-import { PRODUCT_DEMO_CDN_URL } from '../../models/demoButton.model';
-import { DemoVideoButton, useStyles } from './DemoButton.styles';
 import { flowStyleUpdate } from 'state/merchant/merchant.actions';
 import { flowBuilderChangeableFlowUpdate } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { isColorValid } from 'models/SupportedColors.model';
+import { Android, Apple, Monitor, PlayCircle } from '../../icons';
+import { PRODUCT_DEMO_CDN_URL } from '../../models/demoButton.model';
+import { DemoVideoButton, useStyles } from './DemoButton.styles';
 
 export function DemoButton() {
   const intl = useIntl();
@@ -45,7 +45,7 @@ export function DemoButton() {
         notification.error(intl.formatMessage({ id: 'Error.common' }));
       }
     }
-  }, [dispatch]);
+  }, [dispatch, intl]);
 
   useEffect(() => {
     const buttonContainer = demoButtonContainerRef.current;

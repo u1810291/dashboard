@@ -1,28 +1,29 @@
 import { OverlayWithBlur } from 'apps/overlay';
 import React, { useCallback, useState } from 'react';
-import { FiRotateCcw, FiRotateCw, FiZoomIn } from 'react-icons/fi';
+import { FiRotateCcw, FiRotateCw, FiX, FiZoomIn } from 'react-icons/fi';
 import { Box } from '@material-ui/core';
+import { KeyboardKeys } from 'models/Keyboard.model';
 import { PrivateImage } from 'apps/media';
 import { useStyles } from './ZoomableImage.styles';
 
-export function ZoomableImage({ src = '', alt = '', isPublic }: {src: string; alt: string; isPublic?: boolean}) {
+export function ZoomableImage({ src = '', alt = '', isPublic }: {src: string; alt?: string; isPublic?: boolean}) {
   const classes = useStyles();
-  const [isModalShown, setIsModalShown] = useState(false);
-  const [angle, rotate] = useState(0);
+  const [isModalShown, setIsModalShown] = useState<boolean>(false);
+  const [angle, rotate] = useState<number>(0);
 
   const handleClose = () => {
     rotate(0);
     setIsModalShown(false);
   };
 
-  const rotateEvent = (event) => {
-    if (event.keyCode === 37) {
+  const rotateEvent = (event: React.KeyboardEvent) => {
+    if (event.key === KeyboardKeys.ArrowLeft) {
       rotate(angle - 90);
     }
-    if (event.keyCode === 39) {
+    if (event.key === KeyboardKeys.ArrowRight) {
       rotate(angle + 90);
     }
-    if (event.keyCode === 27) {
+    if (event.key === KeyboardKeys.Escape) {
       document.body.style.position = 'fixed';
       handleClose();
     }
@@ -40,7 +41,7 @@ export function ZoomableImage({ src = '', alt = '', isPublic }: {src: string; al
         tabIndex={0}
       >
         <div
-          className="hoverWrapper"
+          className={classes.hoverWrapper}
           onClick={handleWrapperClick}
           onKeyUp={() => {}}
           role="button"
@@ -54,7 +55,7 @@ export function ZoomableImage({ src = '', alt = '', isPublic }: {src: string; al
           <Box className={classes.zoomContent}>
             {isPublic ? (
               <img
-                className="zoomedImage"
+                className={classes.zoomedImage}
                 src={src}
                 alt={alt}
                 style={{ transform: `rotate(${angle}deg)` }}
@@ -63,7 +64,7 @@ export function ZoomableImage({ src = '', alt = '', isPublic }: {src: string; al
               />
             ) : (
               <PrivateImage
-                className="zoomedImage"
+                className={classes.zoomedImage}
                 src={src}
                 alt={alt}
                 style={{ transform: `rotate(${angle}deg)` }}
@@ -72,9 +73,9 @@ export function ZoomableImage({ src = '', alt = '', isPublic }: {src: string; al
               />
             )}
 
-            <div className="actions">
+            <div className={classes.actions}>
               <FiRotateCcw
-                className="left"
+                className={classes.actionIcon}
                 color="white"
                 size="2em"
                 onClick={handleRotateLeftClick}
@@ -82,10 +83,18 @@ export function ZoomableImage({ src = '', alt = '', isPublic }: {src: string; al
                 tabIndex={0}
               />
               <FiRotateCw
-                className="right"
+                className={classes.actionIcon}
                 color="white"
                 size="2em"
                 onClick={handleRotateRightClick}
+                onKeyDown={rotateEvent}
+                tabIndex={0}
+              />
+              <FiX
+                className={classes.actionIcon}
+                color="white"
+                size="2em"
+                onClick={handleClose}
                 onKeyDown={rotateEvent}
                 tabIndex={0}
               />
