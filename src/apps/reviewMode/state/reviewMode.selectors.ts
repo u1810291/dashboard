@@ -2,7 +2,7 @@ import { Loadable } from 'models/Loadable.model';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { ProductTypes } from 'models/Product.model';
 import { isObjectEmpty } from 'lib/object';
-import { getVerificationExtras, VerificationResponse, Verification } from 'models/Verification.model';
+import { getVerificationExtras, VerificationResponse, VerificationWithExtras } from 'models/Verification.model';
 import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
 import { REVIEW_MODE_KEY, ReviewModeSliceTypes, ReviewModeStore } from './reviewMode.store';
@@ -15,8 +15,8 @@ export const selectVerificationModel = createSelector(
 );
 
 export const selectVerification = createSelector(
-  selectVerificationModel,
-  selectModelValue(),
+  selectReviewModeStore,
+  (store: ReviewModeStore): VerificationResponse => store[ReviewModeSliceTypes.ReviewVerification].value,
 );
 
 export const selectVerificationProductList = createSelector(
@@ -60,7 +60,8 @@ export const selectReviewVerificationModelWithExtras = createSelector(
   selectLoadableValue((verification, countries) => getVerificationExtras(verification, countries)),
 );
 
-export const selectReviewVerificationWithExtras = createSelector<any, any, Verification>(
-  selectReviewVerificationModelWithExtras,
-  selectModelValue(),
+export const selectReviewVerificationWithExtras = createSelector<any, any, any, VerificationWithExtras>(
+  selectVerification,
+  selectCountriesList,
+  (verification, countries) => getVerificationExtras(verification, countries),
 );

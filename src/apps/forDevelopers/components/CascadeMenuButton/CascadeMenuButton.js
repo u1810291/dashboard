@@ -1,5 +1,5 @@
 import { Box, Button, Collapse } from '@material-ui/core';
-import cn from 'classnames';
+import classNames from 'classnames';
 import React, { useCallback, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -19,7 +19,7 @@ export function CascadeMenuButton({ tab, selectedId, defaultOpen = false, childr
   return (
     <Box>
       <Button
-        className={cn(classes.button, {
+        className={classNames(classes.button, {
           [classes.selected]: isSelected,
           [classes.open]: isOpen,
         })}

@@ -1,6 +1,6 @@
 import { Box, Grid } from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import cn from 'classnames';
+import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { InformationSources } from '../../models/googleMap.model';
@@ -29,7 +29,7 @@ export function InformationSourceControl({ isCountriesControlOpen, informationSo
                 container
                 alignItems="center"
                 justify="center"
-                className={cn(classes.informationIcon, {
+                className={classNames(classes.informationIcon, {
                   [classes.activeSourceIcon]: source.id === informationSource,
                 })}
               >
