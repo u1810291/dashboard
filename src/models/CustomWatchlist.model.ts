@@ -3,11 +3,11 @@ export interface AllowedRegions {
   regions: string[];
 }
 
-export enum CustomWatchlistActions {
+export enum CustomWatchlistSeverityOnMatch {
   NoAction = 'no-action',
-  Rejected = 'rejected',
-  NotifyByWebhook = 'notifyByWebhook',
-  ReviewNeeded = 'reviewNeeded',
+  Low = 'low',
+  Medium = 'medium',
+  Critical = 'critical',
 }
 
 export interface WatchlistMappingOptions {
@@ -27,7 +27,7 @@ export interface FlowWatchlist {
   updatedAt: string;
   merchantId: string;
   mapping: WatchlistMapping | null;
-  severityOnMatch: CustomWatchlistActions;
+  severityOnMatch: CustomWatchlistSeverityOnMatch;
 }
 
 export interface Watchlist {
@@ -63,7 +63,7 @@ export interface CustomWatchlistModalSubmitType {
 
 export interface CustomWatchlistsFlowUpdate {
   watchlistId: number;
-  severityOnMatch: CustomWatchlistActions;
+  severityOnMatch: CustomWatchlistSeverityOnMatch;
 }
 
 export const getAllAllowedRegions = (countries) => (
@@ -73,7 +73,9 @@ export const getAllAllowedRegions = (countries) => (
   }))
 );
 
-export const getProcessedWatchlistsToFlowUpdate = (watchlists: FlowWatchlist[]): CustomWatchlistsFlowUpdate[] => watchlists.map((watchlist) => ({
-  watchlistId: watchlist.watchlistId,
-  severityOnMatch: watchlist.severityOnMatch,
-}));
+export const getProcessedWatchlistsToFlowUpdate = (watchlists: FlowWatchlist[]): CustomWatchlistsFlowUpdate[] => watchlists
+  .filter(({ severityOnMatch }) => severityOnMatch !== CustomWatchlistSeverityOnMatch.NoAction)
+  .map((watchlist) => ({
+    watchlistId: watchlist.watchlistId,
+    severityOnMatch: watchlist.severityOnMatch,
+  }));

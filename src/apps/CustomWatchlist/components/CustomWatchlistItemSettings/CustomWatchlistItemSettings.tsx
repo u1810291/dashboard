@@ -4,7 +4,7 @@ import { useOverlay } from 'apps/overlay';
 import moment from 'moment';
 import classNames from 'classnames';
 import { useLongPolling } from 'lib/longPolling.hook';
-import { CustomWatchlistActions, CustomWatchlistModalSubmitType, FlowWatchlist } from 'models/CustomWatchlist.model';
+import { CustomWatchlistSeverityOnMatch, CustomWatchlistModalSubmitType, FlowWatchlist } from 'models/CustomWatchlist.model';
 import { customWatchlistClear, customWatchlistsLoad, deleteCustomWatchlist, customWatchlistCreate, customWatchlistUpdate } from 'apps/CustomWatchlist/state/CustomWatchlist.actions';
 import { selectIsWatchlistsLoaded } from 'apps/CustomWatchlist/state/CustomWatchlist.selectors';
 import React, { useEffect, useMemo, useCallback, useState } from 'react';
@@ -75,7 +75,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
 
   const handleSeverityChange = useCallback(
     (watchlist: FlowWatchlist) => (event: React.ChangeEvent<{ value: unknown; name?: string }>) => {
-      onUpdate({ ...watchlist, severityOnMatch: event.target.value as CustomWatchlistActions });
+      onUpdate({ ...watchlist, severityOnMatch: event.target.value as CustomWatchlistSeverityOnMatch });
     }, [onUpdate],
   );
 
@@ -89,19 +89,19 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
   const actionOptions = useMemo(() => ([
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.noAction' }),
-      value: CustomWatchlistActions.NoAction,
+      value: CustomWatchlistSeverityOnMatch.NoAction,
     },
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.rejected' }),
-      value: CustomWatchlistActions.Rejected,
+      value: CustomWatchlistSeverityOnMatch.Critical,
     },
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.reviewNeeded' }),
-      value: CustomWatchlistActions.ReviewNeeded,
+      value: CustomWatchlistSeverityOnMatch.Medium,
     },
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.notifyByWebhook' }),
-      value: CustomWatchlistActions.NotifyByWebhook,
+      value: CustomWatchlistSeverityOnMatch.Low,
     },
   ]), [intl]);
 
@@ -128,7 +128,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
               <Box mb={2}>
                 <Grid container wrap="nowrap" alignItems="center">
                   <Box color="common.black90" fontWeight="bold" mr={1}>
-                    { watchlist.name || intl.formatMessage({ id: 'CustomWatchlist.settings.step.title' }, { count: watchlistIndex + 1 })}
+                    {watchlist.name || intl.formatMessage({ id: 'CustomWatchlist.settings.step.title' }, { count: watchlistIndex + 1 })}
                   </Box>
                   <Box ml="auto" flexShrink={0}>
                     <IconButton className={classNames(classes.button, classes.buttonEdit)} onClick={handleChangeStep(watchlist)}>
@@ -157,21 +157,21 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
                     name="action"
                     variant="outlined"
                     fullWidth
-                    defaultValue={CustomWatchlistActions.NoAction}
+                    defaultValue={CustomWatchlistSeverityOnMatch.NoAction}
                     // value={values.action}
                     onChange={handleSeverityChange(watchlist)}
                     className={classNames(classes.actionSelect, {
-                      [classes.placeholder]: watchlist.severityOnMatch === CustomWatchlistActions.NoAction,
-                      [classes.colorGreen]: watchlist.severityOnMatch === CustomWatchlistActions.NotifyByWebhook,
-                      [classes.colorOrange]: watchlist.severityOnMatch === CustomWatchlistActions.ReviewNeeded,
-                      [classes.colorRed]: watchlist.severityOnMatch === CustomWatchlistActions.Rejected,
+                      [classes.placeholder]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatch.NoAction,
+                      [classes.colorGreen]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatch.Low,
+                      [classes.colorOrange]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatch.Medium,
+                      [classes.colorRed]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatch.Critical,
                     })}
                   >
                     {actionOptions.map((item) => {
-                      if (item.value === CustomWatchlistActions.NoAction) {
+                      if (item.value === CustomWatchlistSeverityOnMatch.NoAction) {
                         return (
                           <MenuItem
-                            key={CustomWatchlistActions.NoAction}
+                            key={CustomWatchlistSeverityOnMatch.NoAction}
                             value={item.value}
                             className={classes.placeholder}
                           >
