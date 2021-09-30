@@ -3,6 +3,7 @@ import { mergeDeep } from 'lib/object';
 import { cloneDeep } from 'lodash';
 import { ApiResponse } from 'models/Client.model';
 import { getProcessedWatchlistsToFlowUpdate } from 'models/CustomWatchlist.model';
+import { callFlowWatchlists } from 'apps/CustomWatchlist/state/CustomWatchlist.actions';
 import { IFlow } from 'models/Flow.model';
 import { ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
 import { merchantDeleteFlow, merchantUpdateFlow, merchantUpdateFlowList } from 'state/merchant/merchant.actions';
@@ -120,6 +121,15 @@ export const flowBuilderSubscribeToTemporaryWebhook = (temporaryFlowId: string) 
   }
 };
 
+// TODO: @richvoronov refactor this on stage 2
+const getProcessedFlowData = async (data: IFlow, getState) => {
+  const watchlists = await callFlowWatchlists(getState, data.watchlists);
+  return {
+    ...data,
+    watchlists,
+  };
+};
+
 export const flowBuilderSaveAndPublish = () => async (dispatch, getState) => {
   const state = getState();
   const changeableFlow = await selectFlowBuilderChangeableFlow(state);
@@ -136,8 +146,10 @@ export const flowBuilderSaveAndPublish = () => async (dispatch, getState) => {
       watchlists: getProcessedWatchlistsToFlowUpdate(changeableFlow.watchlists) as any,
     });
 
-    dispatch(merchantUpdateFlowList(changeableFlow.id, data));
-    dispatch({ type: types.CHANGEABLE_FLOW_SUCCESS, payload: data });
+    const processedFlowData = await getProcessedFlowData(data, getState);
+
+    dispatch(merchantUpdateFlowList(changeableFlow.id, processedFlowData));
+    dispatch({ type: types.CHANGEABLE_FLOW_SUCCESS, payload: processedFlowData });
     dispatch({ type: types.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
   } catch (error) {
     dispatch({ type: types.CHANGEABLE_FLOW_FAILURE, error });

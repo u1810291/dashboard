@@ -140,7 +140,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
                   </Box>
                 </Grid>
                 <Grid container>
-                  {/* TODO: watchlist.createdAt && ... no validation error ... */}
+                  {/* TODO: @richvoronov logic should be (watchlist.createdAt && ... no validation error ...) */}
                   {watchlist.createdAt ? (
                     <Typography variant="subtitle2" className={classes.colorGreen}>
                       {intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.uploaded' })}
@@ -158,7 +158,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
                     variant="outlined"
                     fullWidth
                     defaultValue={CustomWatchlistSeverityOnMatch.NoAction}
-                    // value={values.action}
+                    value={watchlist.severityOnMatch}
                     onChange={handleSeverityChange(watchlist)}
                     className={classNames(classes.actionSelect, {
                       [classes.placeholder]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatch.NoAction,

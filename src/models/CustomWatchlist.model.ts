@@ -1,3 +1,7 @@
+import { replaceObjKeyByName } from 'lib/object';
+import { selectFlowBuilderChangeableFlowModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
+import { get } from 'lodash';
+
 export interface AllowedRegions {
   country: string;
   regions: string[];
@@ -79,3 +83,15 @@ export const getProcessedWatchlistsToFlowUpdate = (watchlists: FlowWatchlist[]):
     watchlistId: watchlist.watchlistId,
     severityOnMatch: watchlist.severityOnMatch,
   }));
+
+export const getFlowWatchlists = (watchlists: Watchlist[], getState, flowWatchlists?: FlowWatchlist[]) => {
+  const flowWatchlistsValue: FlowWatchlist[] = flowWatchlists || get(selectFlowBuilderChangeableFlowModel(getState()), 'value.watchlists', []);
+  return watchlists.map((watchlist) => {
+    const findedWatchlist = flowWatchlistsValue.find((flowWatchlist) => flowWatchlist.watchlistId === watchlist.id);
+    return {
+      ...replaceObjKeyByName(watchlist, 'id', 'watchlistId'),
+      ...findedWatchlist,
+      severityOnMatch: findedWatchlist?.severityOnMatch ?? CustomWatchlistSeverityOnMatch.NoAction,
+    };
+  });
+};
