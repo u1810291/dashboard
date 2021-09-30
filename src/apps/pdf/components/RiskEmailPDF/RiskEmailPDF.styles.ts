@@ -17,4 +17,7 @@ export const styles = StyleSheet.create({
     marginLeft: 27,
     padding: 6,
   },
+  stepDetailsItem: {
+    marginTop: 10,
+  },
 });
