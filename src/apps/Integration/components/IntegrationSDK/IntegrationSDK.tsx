@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { WebCodeSnippet } from 'apps/forDevelopers/components/WebCodeSnippet/WebCodeSnippet';
 import { DirectLinkCopy } from 'apps/forDevelopers/components/DirectLinkCopy/DirectLinkCopy';
 import { ButtonLink } from 'apps/ui/components/ButtonLink/ButtonLink';
-import { urls, TabID, LinkButtons } from 'models/Integration.model';
+import { urls, TabID, LinkButton } from 'models/Integration.model';
 import { Logo } from 'apps/logo';
 import { BoxBordered, Warning, WarningSize, WarningTypes } from 'apps/ui';
 import { appPalette } from 'apps/theme/app.palette';
@@ -47,13 +47,11 @@ export function IntegrationSDK() {
         <Box mb={2} color="common.black75">
           {intl.formatMessage({ id: 'FlowBuilder.integration.mobileHybridSDKsnippet.subtitle' })}
         </Box>
-        {LinkButtons.map((id) => (
-          <Box key={id} mb={1}>
-            <ButtonLink url={urls[id].documentationURL}>
-              {intl.formatMessage({ id: 'forDevs.documentationBanner.button' }, { platform: urls[id].name })}
-            </ButtonLink>
-          </Box>
-        ))}
+        <Box mb={1}>
+          <ButtonLink url={LinkButton.documentationURL}>
+            {intl.formatMessage({ id: 'forDevs.documentationBanner.button' }, { platform: LinkButton.name })}
+          </ButtonLink>
+        </Box>
       </Box>
     </Box>
   );
