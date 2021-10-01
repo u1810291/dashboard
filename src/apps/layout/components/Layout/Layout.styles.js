@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
   },
@@ -10,5 +10,8 @@ export const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     minHeight: '100vh',
     flexGrow: 1,
+    [theme.breakpoints.down('md')]: {
+      overflow: 'auto',
+    },
   },
 }));

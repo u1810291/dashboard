@@ -24,11 +24,11 @@ export function ReviewModeVerificationNumber({
       <Box
         border={1}
         px={1}
-        py={1}
+        py={1.4}
         borderRadius={AppTheme.shape.borderRadius}
         borderColor={AppTheme.palette.foreground.main}
       >
-        <Typography className={classes.data} variant="subtitle2" gutterBottom>
+        <Typography className={classes.data} variant="subtitle2">
           <CopyToClipboard text={number} qa={QATags.Verification.Number.Copy}>
             <span data-qa={QATags.Verification.Number.Value}>
               {number}

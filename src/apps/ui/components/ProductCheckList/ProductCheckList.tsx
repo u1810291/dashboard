@@ -1,5 +1,5 @@
 import { List, ListItem } from '@material-ui/core';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { IProductCard } from 'models/Product.model';
 import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
@@ -17,7 +17,7 @@ export function ProductCheckList({ cards, isForceFlat = false }: {
 
   return (
     <List
-      className={cn(classes.stepStatusList, {
+      className={classNames(classes.stepStatusList, {
         [classes.fullWidth]: isForceFlat || allChecksLength <= 4,
       })}
     >

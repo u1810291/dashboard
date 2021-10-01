@@ -43,6 +43,7 @@ export const useStyles = makeStyles((theme) => createStyles({
   },
   wrapper: {
     height: '100%',
+    minWidth: 1060,
   },
   flowInfo: {
     position: 'relative',
@@ -73,21 +74,19 @@ export const useStyles = makeStyles((theme) => createStyles({
     },
   },
   graph: {
-    [theme.breakpoints.up('lg')]: {
-      minWidth: 330,
-      height: 'calc(100vh - 200px)',
-      overflowY: 'auto',
-      scrollbarWidth: 'thin',
-      '&::-webkit-scrollbar': {
-        height: 0,
-        width: 0,
-      },
-      '&::-webkit-scrollbar-track': {
-        backgroundColor: 'transparent',
-      },
-      '&::-webkit-scrollbar-corner': {
-        backgroundColor: 'transparent',
-      },
+    minWidth: 330,
+    height: 'calc(100vh - 200px)',
+    overflowY: 'auto',
+    scrollbarWidth: 'thin',
+    '&::-webkit-scrollbar': {
+      height: 0,
+      width: 0,
+    },
+    '&::-webkit-scrollbar-track': {
+      backgroundColor: 'transparent',
+    },
+    '&::-webkit-scrollbar-corner': {
+      backgroundColor: 'transparent',
     },
   },
   placeholder: {

@@ -1,7 +1,7 @@
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { Loadable } from 'models/Loadable.model';
 import { ProductTypes } from 'models/Product.model';
-import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFlow, VerificationListItem, Verification, VerificationResponse } from 'models/Verification.model';
+import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFlow, VerificationListItem, VerificationWithExtras, VerificationResponse } from 'models/Verification.model';
 import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
 import { selectIdentityModel } from 'state/identities/identities.selectors';
@@ -30,7 +30,7 @@ export const selectVerificationModelWithExtras = createSelector(
   selectLoadableValue((value, countries) => getVerificationExtras(value?._embedded?.verification, countries)),
 );
 
-export const selectReviewVerificationWithExtras = createSelector(
+export const selectReviewVerificationWithExtras = createSelector<any, any, VerificationWithExtras>(
   selectVerificationModelWithExtras,
   selectModelValue(),
 );
@@ -41,7 +41,7 @@ export const selectNewVerificationModelWithExtras = createSelector(
   selectLoadableValue((verification, countries) => getVerificationExtras(verification, countries)),
 );
 
-export const selectNewVerificationWithExtras = createSelector<any, any, Verification>(
+export const selectNewVerificationWithExtras = createSelector<any, any, VerificationWithExtras>(
   selectNewVerificationModelWithExtras,
   selectModelValue(),
 );

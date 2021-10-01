@@ -2,12 +2,15 @@ import { forDevsRoutes } from 'apps/forDevelopers';
 import { identityRoutes } from 'apps/identity';
 import { identityProfileRoutes } from 'apps/IdentityProfile';
 import { Page404, PageLoader } from 'apps/layout';
-import { MerchantGuard, OwnerRoute } from 'apps/merchant';
+import { MerchantGuard } from 'apps/merchant';
 import { appPalette } from 'apps/theme';
 import { Routes } from 'models/Router.model';
 import React, { lazy, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { verificationListRoutes } from 'apps/VerificationList';
+import { WithAuditor, CollaboratorRoles } from 'models/Collaborator.model';
+import { RoleGuardRoute } from 'apps/routing';
+import { RoleRoutingGuard } from 'apps/merchant/guards/RoleRoutingGuard';
 
 const InfoPageLazy = lazy(async () => {
   const { InfoPage } = await import('apps/FAQ');
@@ -50,18 +53,20 @@ export function DashboardRouter() {
     <Suspense fallback={<PageLoader size={50} color={appPalette.black50} />}>
       <Switch>
         <Redirect exact from={Routes.root} to={Routes.analytics.root} />
-        <OwnerRoute path={Routes.settings.root} component={SettingsLazy} />
+        <RoleGuardRoute roles={WithAuditor} path={Routes.settings.root} component={SettingsLazy} />
         <Route path={Routes.info.root} component={InfoPageLazy} />
         <MerchantGuard>
           {identityRoutes}
-          {forDevsRoutes}
           {identityProfileRoutes}
           {verificationListRoutes}
-          <OwnerRoute path={Routes.analytics.root} component={AnalyticsContainerLazy} />
-          <OwnerRoute path={Routes.flows.details} component={ProductLazy} />
-          <OwnerRoute exact path={Routes.flow.root} component={FlowListLazy} />
-          <OwnerRoute path={Routes.flow.details} component={FlowBuilderLazy} />
-          <OwnerRoute path={Routes.collaborators.agentProfile.details} component={AgentHistoryLazy} />
+          {forDevsRoutes}
+          <RoleRoutingGuard roles={[CollaboratorRoles.ADMIN]}>
+            <Route path={Routes.analytics.root} component={AnalyticsContainerLazy} />
+            <Route path={Routes.flows.details} component={ProductLazy} />
+            <Route exact path={Routes.flow.root} component={FlowListLazy} />
+            <Route path={Routes.flow.details} component={FlowBuilderLazy} />
+            <Route path={Routes.collaborators.agentProfile.details} component={AgentHistoryLazy} />
+          </RoleRoutingGuard>
           <Route path="*" component={Page404} />
         </MerchantGuard>
       </Switch>

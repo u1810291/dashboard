@@ -3,11 +3,12 @@ import { VerificationSummaryChecksContainer } from 'apps/checks/components/Verif
 import { SkeletonLoader } from 'apps/ui';
 import { PhotosOrientations } from 'models/Document.model';
 import { StepStatus } from 'models/Step.model';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { PrivateImage } from 'apps/media';
 import { useDocumentTitle, usePhotosOrientation } from 'apps/documents';
-import IconEmpty from '../../../../assets/icon-empty-photo.svg';
+import classNames from 'classnames';
+import IconEmpty from 'assets/icon-empty-photo.svg';
+import { MediaStatusTypes, ImageContainer } from 'apps/media';
 import { VerificationCheckCard } from '../VerificationCheckCard/VerificationCheckCard';
 import { VerificationSummaryTitle } from '../VerificationSummaryTitle/VerificationSummaryTitle';
 import { useStyles } from './VerificationDocument.styles';
@@ -21,10 +22,14 @@ export function VerificationDocument({ document, documentIndex }) {
   const photosOrientation = usePhotosOrientation(document);
 
   useEffect(() => {
-    if (!shownPhoto && photos.length) {
+    if ((!shownPhoto || shownPhoto === MediaStatusTypes.MediaIsLoading) && photos.length) {
       setShownPhoto(photos[0]);
     }
-  }, [shownPhoto, photos]);
+  }, [photos, shownPhoto]);
+
+  const handleSelectShownPhoto = useCallback((src) => () => {
+    setShownPhoto(src);
+  }, []);
 
   const allSteps = [...documentFailedCheckSteps, ...securityCheckSteps, ...govChecksSteps];
   if (premiumAmlWatchlistsStep) {
@@ -64,18 +69,25 @@ export function VerificationDocument({ document, documentIndex }) {
 
         {photos.length === 1 && (
           <Grid item container justify="center" alignContent="center" className={`${classes.image} ${classes.imageWrapper}`}>
-            <PrivateImage alt="" src={photos[0]} />
+            <ImageContainer src={photos[0]} alt="" />
           </Grid>
         )}
 
         {photos.length === 2 && (
           <Grid item container direction="column" justify="center" alignItems="center" alignContent="center" className={`${classes.imageWrapper} ${photosOrientation === PhotosOrientations.Horizontal ? `${classes.imageWrapperHorizontal}` : ''}`}>
-            <Grid item className={`${photosOrientation === PhotosOrientations.Horizontal ? `${classes.imageBigHorizontal}` : `${classes.imageBigVertical}`}`}>
-              <PrivateImage alt="" src={shownPhoto} />
+            <Grid item container justify="center" alignItems="center" className={`${photosOrientation === PhotosOrientations.Horizontal ? `${classes.imageBigHorizontal}` : `${classes.imageBigVertical}`}`}>
+              <ImageContainer alt="" src={shownPhoto} className={classes.bigImageMinConstraints} />
             </Grid>
             <Grid item container justify="center" className={`${photosOrientation === PhotosOrientations.Horizontal ? `${classes.imageSmallHorizontal}` : `${classes.imageSmallVertical}`}`}>
-              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
-              {photos.map((photo) => <PrivateImage alt="" className={photo === shownPhoto ? classes.imageActive : ''} src={photo} onClick={() => setShownPhoto(photo)} key={photo} />)}
+              {photos.map((photo, index) => (
+                <ImageContainer
+                  alt=""
+                  className={classNames({ [classes.imageActive]: photo === shownPhoto }, classes.smallImageMinConstraints)}
+                  src={photo}
+                  onClick={handleSelectShownPhoto(photo)}
+                  key={index}
+                />
+              ))}
             </Grid>
           </Grid>
         )}

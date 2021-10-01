@@ -1,6 +1,6 @@
 import { Theme, makeStyles } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme, { color: string; textColor: string; }>(() => ({
+export const useStyles = makeStyles<Theme, { color: string; textColor: string }>(() => ({
   root: ({ color }) => ({
     display: 'inline-flex',
     flexDirection: 'column',

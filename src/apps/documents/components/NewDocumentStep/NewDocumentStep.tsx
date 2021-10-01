@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { DocumentSides, DocumentTypes, getDocumentSideLabel, PhotosOrientations, VerificationDocument } from 'models/Document.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Verification } from 'models/Verification.model';
+import { VerificationWithExtras } from 'models/Verification.model';
 import { AgeCheck } from 'apps/AgeCheck';
 import { DuplicateUserDetectionCheck } from 'apps/checks/components/DuplicateUserDetectionCheck/DuplicateUserDetectionCheck';
 import { useStyles } from './NewDocumentStep.styles';
@@ -15,7 +15,7 @@ import { DocumentReadingStep } from '../DocumentReadingStep/DocumentReadingStep'
 
 export function NewDocumentStep({ document, verification, documentIndex, onDocumentUpdate }: {
   document: VerificationDocument;
-  verification: Verification;
+  verification: VerificationWithExtras;
   documentIndex: number;
   onDocumentUpdate: (normalizedData: any, documentType: DocumentTypes) => Promise<void>;
 }) {
@@ -73,6 +73,7 @@ export function NewDocumentStep({ document, verification, documentIndex, onDocum
             </Grid>
 
             {/* proof of ownership */}
+            {/* TODO @vladislav.snimshchikov: add proofOfOwnership caching on identity level */}
             {proofOfOwnership && (
               <Grid item className={classes.image}>
                 <POOImage step={proofOfOwnership} />

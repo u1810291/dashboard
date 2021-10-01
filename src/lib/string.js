@@ -32,7 +32,7 @@ export const FieldBooleanPatterns = [
 ];
 
 export const FieldMatchObjectPatterns = [
-  'governmentFaceMatch',
+  'governmentfacematchscorepercentage',
 ];
 
 export function titleCase(string = '') {
@@ -63,7 +63,8 @@ export function useFormattedValue(label, value) {
   const intl = useIntl();
 
   if (includesPattern(label, FieldMatchObjectPatterns)) {
-    return `${Math.floor((value.score) * 100)} ${intl.formatMessage({ id: `identity.field.${label}.units` })}`;
+    const number = !Number.isNaN(value) ? parseInt(value, 10) : '??';
+    return `${number}% ${intl.formatMessage({ id: 'identity.field.match' })}`;
   }
 
   if (includesPattern(label, FieldBooleanPatterns)) {

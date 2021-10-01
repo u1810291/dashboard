@@ -1,12 +1,12 @@
 import { Box, Grid } from '@material-ui/core';
-import { useRole } from 'apps/collaborators/hooks/Role/Role.hook';
 import { selectIdentityProfile } from 'apps/IdentityProfile';
 import { ButtonVerificationGeneratePdf } from 'apps/pdf';
 import classNames from 'classnames';
-import { CollaboratorRoles } from 'models/Collaborator.model';
+import { CollaboratorRoles, WithAgent } from 'models/Collaborator.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
+import { RoleRenderGuard } from 'apps/merchant/guards/RoleRenderGuard';
 import { selectNewVerificationWithExtras } from '../../state/Verification.selectors';
 import { VerificationDataButton } from '../VerificationDataButton/VerificationDataButton';
 import { VerificationDate } from '../VerificationDate/VerificationDate';
@@ -20,7 +20,6 @@ export function VerificationHeaderMenu() {
   const verification = useSelector(selectNewVerificationWithExtras);
   const identityProfile = useSelector(selectIdentityProfile);
   const classes = useStyles();
-  const role = useRole();
 
   if (!verification || !identityProfile) {
     return null;
@@ -51,12 +50,14 @@ export function VerificationHeaderMenu() {
         </Grid>
         <Grid container item xs={12} xl={6} spacing={2} alignItems="center" className={classes.buttons}>
           {/* Download pdf */}
-          <Grid item xs={12} className={classes.buttonWrapper}>
-            <ButtonVerificationGeneratePdf
-              className={classNames(classes.button, classes.topMenuButton)}
-              verification={verification}
-            />
-          </Grid>
+          <RoleRenderGuard roles={WithAgent}>
+            <Grid item xs={12} className={classes.buttonWrapper}>
+              <ButtonVerificationGeneratePdf
+                className={classNames(classes.button, classes.topMenuButton)}
+                verification={verification}
+              />
+            </Grid>
+          </RoleRenderGuard>
 
           {/* Show verification data */}
           <Grid item xs={12} className={classes.buttonWrapper}>
@@ -67,14 +68,15 @@ export function VerificationHeaderMenu() {
           </Grid>
 
           {/* Delete Verification */}
-          {role === CollaboratorRoles.ADMIN && (
+          <RoleRenderGuard roles={[CollaboratorRoles.ADMIN]}>
             <Grid item xs={12} className={classes.buttonWrapper}>
               <VerificationDeleteButton
                 verificationId={verification?._id}
                 className={classNames(classes.button, classes.deleteButton)}
               />
             </Grid>
-          )}
+          </RoleRenderGuard>
+
         </Grid>
       </Grid>
     </Box>

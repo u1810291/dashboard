@@ -5,6 +5,8 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
+import { WithAgent } from 'models/Collaborator.model';
+import { useRole } from 'apps/collaborators';
 import { verificationStatusUpdate } from '../../state/Verification.actions';
 import { StatusSelector } from '../StatusSelector/StatusSelector';
 import { useStyles } from './VerificationStatusChanger.styles';
@@ -25,6 +27,7 @@ export function VerificationStatusChanger({ verificationStatus, verificationId, 
   const [status, setStatus] = useState(getStatusById(verificationStatus));
   const [isOpen, setOpen] = useState(false);
   const identityId = useMemo(() => identity?._id, [identity]);
+  const role = useRole();
 
   const handleUpdateIdentity = useCallback(async (value) => {
     if (verificationId) {
@@ -86,5 +89,5 @@ export function VerificationStatusChanger({ verificationStatus, verificationId, 
     }
   }, [verificationStatus]);
 
-  return (<StatusSelector isOpen={isOpen} value={status} onSelect={handleStatusChange} />);
+  return (<StatusSelector isOpen={isOpen} value={status} onSelect={handleStatusChange} isChangeable={WithAgent.includes(role)} />);
 }

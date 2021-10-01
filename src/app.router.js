@@ -3,6 +3,8 @@ import { Loader } from 'apps/ui';
 import { Routes } from 'models/Router.model';
 import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { WithAgent } from 'models/Collaborator.model';
+import { RoleGuardRoute } from 'apps/routing';
 
 const DashboardLazy = lazy(async () => {
   const { Dashboard } = await import('apps/dashboard');
@@ -24,7 +26,7 @@ export function AppRouter() {
     <Suspense fallback={<Loader />}>
       <Switch>
         <Route path={Routes.auth.root} component={AuthLazy} />
-        <PrivateRoute path={Routes.review.root} component={ReviewModeLazy} />
+        <RoleGuardRoute roles={WithAgent} path={Routes.review.root} component={ReviewModeLazy} />
         <PrivateRoute path={Routes.root} component={DashboardLazy} />
       </Switch>
     </Suspense>

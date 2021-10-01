@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core';
 export const useStyles = makeStyles((theme) => createStyles({
   root: {
     position: 'relative',
-    minWidth: 200,
     minHeight: 43,
     marginRight: 14,
     padding: 16,

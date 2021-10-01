@@ -7,7 +7,7 @@ import ImageIosFlow from 'assets/information-user-ios.png';
 import ImageMobileFlow from 'assets/information-user-mobile.png';
 import ImageWebFlow from 'assets/information-user-web.svg';
 import { ReactComponent as Arrow } from 'assets/line-arrow.svg';
-import cn from 'classnames';
+import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { InformationImageTypes } from '../../models/ForDevelopers.model';
@@ -63,11 +63,11 @@ export function InformationImage({ type = InformationImageTypes.Mobile }) {
         justify="center"
         xs={12}
         lg={3}
-        className={cn({ [classes.wrapperApi]: type === InformationImageTypes.Api })}
+        className={classNames({ [classes.wrapperApi]: type === InformationImageTypes.Api })}
       >
         <Box mt="auto">
           <img
-            className={cn({
+            className={classNames({
               [classes.imageResult]: type === InformationImageTypes.Api,
               [classes.imageEntryPoint]: type !== InformationImageTypes.Api,
             })}
@@ -104,7 +104,7 @@ export function InformationImage({ type = InformationImageTypes.Mobile }) {
         justify="center"
         xs={12}
         lg={3}
-        className={cn({ [classes.wrapperApiFlow]: type === InformationImageTypes.Api })}
+        className={classNames({ [classes.wrapperApiFlow]: type === InformationImageTypes.Api })}
       >
         <Box mt="auto">
           <img src={ImageFlow} alt="" className={getImageFlowClassName()} />
@@ -138,7 +138,7 @@ export function InformationImage({ type = InformationImageTypes.Mobile }) {
         justify="center"
         xs={12}
         lg={4}
-        className={cn({ [classes.wrapperApi]: type === InformationImageTypes.Api })}
+        className={classNames({ [classes.wrapperApi]: type === InformationImageTypes.Api })}
       >
         <Box mt="auto">
           <img className={classes.imageResult} src={ImageResult} alt="" />

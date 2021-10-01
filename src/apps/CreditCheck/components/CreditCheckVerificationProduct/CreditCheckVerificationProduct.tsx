@@ -7,18 +7,16 @@ import ReactJsonViewer from 'react-json-view';
 import { Grid, Box, Typography, Button } from '@material-ui/core';
 import { IdentityStatuses, VerificationStatusChangeReason } from 'models/Status.model';
 import { selectVerification, selectAllVerificationSteps } from 'apps/Verification';
-import { VerificationDocument, DocumentTypes } from 'models/Document.model';
+import { DocumentTypes } from 'models/Document.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { IStep, StepCodeStatus, StepStatus } from 'models/Step.model';
+import { IStep, StepCodeStatus } from 'models/Step.model';
 import { CreditCheckStep } from 'models/CreditCheck.model';
 import { creditCheckDisplayOptions } from 'apps/CreditCheck/models/CreditCheck.model';
 import { creditCheckManualRun } from '../../state/CreditCheck.actions';
 import { Speedometr } from '../Speedometr/Speedometr';
 import { useStyles } from './CreditCheckVerificationProduct.styles';
 
-export function CreditCheckVerificationProduct({ data }: {
-  data: VerificationDocument[];
-}) {
+export function CreditCheckVerificationProduct() {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -36,7 +34,7 @@ export function CreditCheckVerificationProduct({ data }: {
   const isVerifiedBySystem = verificationStatus === IdentityStatuses.verified && reasonCode !== VerificationStatusChangeReason.ManualChange;
 
   const isShowManualCreditCheckButton = useMemo(() => isPostResultPhase && !isVerifiedBySystem && !creditDocumentStep?.startedManuallyAt,
-    [verification.verificationStatus, creditDocumentStep]);
+    [isPostResultPhase, isVerifiedBySystem, creditDocumentStep?.startedManuallyAt]);
   const isCheckInProgress = [StepCodeStatus.Pending, StepCodeStatus.Running].includes(creditDocumentStep.status) && !isShowManualCreditCheckButton;
 
   const handleCreditCheckManualRun = useCallback(

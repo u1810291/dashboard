@@ -3,7 +3,7 @@ import { FiEdit3 } from 'react-icons/fi';
 import { Box } from '@material-ui/core';
 import { useStyles } from './EditableInput.styles';
 
-export function EditableInput({ text, onSubmit }) {
+export function EditableInput({ text, onSubmit, isEditingAllow = true }) {
   const [isEditing, setEditing] = useState(false);
   const [inputText, setInputText] = useState(text);
 
@@ -44,8 +44,10 @@ export function EditableInput({ text, onSubmit }) {
   }, []);
 
   const handleOnClick = useCallback(() => {
-    setEditing(true);
-  }, []);
+    if (isEditingAllow) {
+      setEditing(true);
+    }
+  }, [isEditingAllow]);
 
   return (
     <Box>
@@ -70,7 +72,7 @@ export function EditableInput({ text, onSubmit }) {
           <span className={classes.name}>
             {inputText}
           </span>
-          <FiEdit3 className={classes.icon} />
+          {isEditingAllow && <FiEdit3 className={classes.icon} />}
         </Box>
       )}
     </Box>

@@ -125,7 +125,7 @@ export function Configuration() {
         body: <CustomDocumentConfiguration />,
       },
     ]);
-  }, [currentFlowModel, updateConfiguration, tags]);
+  }, [currentFlowModel, updateConfiguration, tags, intl]);
 
   return (
     <Box p={2}>

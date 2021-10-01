@@ -107,3 +107,7 @@ export const urls = {
 };
 
 export const LinkButtons = [TabID.Ios, TabID.Android, TabID.ReactNative, TabID.Xamarin, TabID.Cordova, TabID.CordovaIonic];
+export const LinkButton = {
+  name: 'MobileSDK',
+  documentationURL: 'https://github.com/GetMati/mati-mobile-examples',
+};

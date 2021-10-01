@@ -6,7 +6,7 @@ export function CheckText({ step }) {
   const intl = useIntl();
   const extraData = step.labelExtraData || {};
 
-  if ([DocumentStepTypes.AlternationDetection, DocumentStepTypes.ReFacematch].includes(step.id) && step.checkStatus === StepStatus.Failure) {
+  if ([DocumentStepTypes.AlternationDetection, DocumentStepTypes.ReFacematch, DocumentStepTypes.Watchlists].includes(step.id) && step.checkStatus === StepStatus.Failure) {
     const errorCode = get(step, 'error.code');
 
     return intl.formatMessage({

@@ -1,6 +1,6 @@
 import { Grid } from '@material-ui/core';
 import { Routes } from 'models/Router.model';
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FiChevronLeft } from 'react-icons/fi';
 import { getGoBackToListLink } from 'models/Identity.model';
@@ -9,13 +9,16 @@ import { useSelector } from 'react-redux';
 import { QATags } from 'models/QA.model';
 import { ButtonGoVerificationHistory } from 'apps/verificationHistory';
 import { ButtonHeaderMenu } from 'apps/ui';
+import { WithAgent } from 'models/Collaborator.model';
+import { RoleRenderGuard } from 'apps/merchant';
 import { selectIdentityProfile } from '../../store/IdentityProfile.selectors';
 import { useStyles } from './IdentityProfileHeaderMenu.styles';
 
 export function IdentityProfileHeaderMenu() {
   const intl = useIntl();
   const classes = useStyles();
-  const [goBackToListLink] = useState(getGoBackToListLink(useLocation(), Routes.identity.verification.root));
+  const location = useLocation();
+  const goBackToListLink = useMemo(() => getGoBackToListLink(location, Routes.identity.verification.root), [location]);
   const identity = useSelector(selectIdentityProfile);
 
   return (
@@ -36,16 +39,11 @@ export function IdentityProfileHeaderMenu() {
         </Grid>
 
         {/* Verification history */}
-        <Grid item className={classes.itemOffsetRight}>
-          <ButtonGoVerificationHistory identityId={identity?._id} />
-        </Grid>
-
-        {/* Delete Identity */}
-        {/*        { role === CollaboratorRoles.ADMIN && (
-        <Grid item className={classes.itemOffsetLeft}>
-          <IdentityDeleteButton identityId={identity?._id} />
-        </Grid>
-        )} */}
+        <RoleRenderGuard roles={WithAgent}>
+          <Grid item className={classes.itemOffsetRight}>
+            <ButtonGoVerificationHistory identityId={identity?._id} />
+          </Grid>
+        </RoleRenderGuard>
       </Grid>
     </Grid>
   );

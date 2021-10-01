@@ -133,4 +133,12 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     color: theme.palette.text.main,
   },
+  bigImageMinConstraints: {
+    minHeight: 80,
+    minWidth: 100,
+  },
+  smallImageMinConstraints: {
+    minHeight: 40,
+    minWidth: 60,
+  },
 }));

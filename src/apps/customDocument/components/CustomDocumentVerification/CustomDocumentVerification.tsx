@@ -8,7 +8,8 @@ import { CheckStepDetails } from 'apps/checks';
 import { DocumentReadingStep } from 'apps/documents/components/DocumentReadingStep/DocumentReadingStep';
 import { DocumentTypes } from 'models/Document.model';
 import { StepStatus } from 'models/Step.model';
-import { downloadUrl } from 'lib/file';
+import { downloadBlob } from 'lib/file';
+import { getMedia } from 'apps/media';
 import { useStyles } from './CustomDocumentVerification.styles';
 import { CustomVerificationDocument } from '../../models/customDocument.model';
 
@@ -28,8 +29,10 @@ export function CustomDocumentVerification({ document, identity, onDocumentUpdat
     return StepStatus.Success;
   }, [document]);
 
-  const handleDownloadPDF = useCallback(() => {
-    downloadUrl(document.pdf, document.name);
+  const handleDownloadPDF = useCallback(async () => {
+    const request = await getMedia(document.pdf);
+    const blob = await request.blob();
+    downloadBlob(blob, document.name);
   }, [document]);
 
   return (

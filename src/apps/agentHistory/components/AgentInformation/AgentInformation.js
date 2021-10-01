@@ -5,11 +5,12 @@ import { UserRoundAvatar } from 'apps/ui/components/UserRoundAvatar/UserRoundAva
 import { DateFormat, utcToLocalFormat } from 'lib/date';
 import { CollaboratorOptions } from 'models/Collaborator.model';
 import { QATags } from 'models/QA.model';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { selectOwnerId } from 'state/merchant/merchant.selectors';
 import { useStyles } from './AgentInformation.styles';
 
 export function AgentInformation({ collaborator }) {
@@ -17,9 +18,10 @@ export function AgentInformation({ collaborator }) {
   const dispatch = useDispatch();
   const [selectedRole, setSelectedRole] = useState(collaborator?.role);
   const { id: collaboratorId } = useParams();
-
+  const ownerId = useSelector(selectOwnerId);
   const classes = useStyles();
   const { user } = collaborator || {};
+  const isOwnerPage = useMemo(() => user?.id === ownerId, [ownerId, user?.id]);
 
   const handleUpdate = useCallback(async (id, data) => {
     try {
@@ -35,9 +37,12 @@ export function AgentInformation({ collaborator }) {
   }, [dispatch, intl]);
 
   const handleRoleChange = useCallback((id) => (e) => {
+    if (isOwnerPage) {
+      return;
+    }
     const role = e?.target?.value;
     handleUpdate(id, { role });
-  }, [handleUpdate]);
+  }, [handleUpdate, isOwnerPage]);
 
   if (!collaborator) {
     return null;
@@ -72,20 +77,24 @@ export function AgentInformation({ collaborator }) {
             </Box>
           </Grid>
           <Grid item xs={12} lg={2}>
-            <Select
-              className={classes.select}
-              disableUnderline
-              onChange={handleRoleChange(user.id)}
-              value={selectedRole}
-              IconComponent={FiChevronDown}
-              data-qa={QATags.AgentHistory.AgentRoleSelect}
-            >
-              {CollaboratorOptions.map((role) => (
-                <MenuItem key={role.id} value={role.id}>
-                  {intl.formatMessage({ id: role.label })}
-                </MenuItem>
-              ))}
-            </Select>
+            {isOwnerPage
+              ? (<Box mb={0.2} color="common.black90" fontWeight="bold">{intl.formatMessage({ id: 'teamTable.roles.owner' })}</Box>)
+              : (
+                <Select
+                  className={classes.select}
+                  disableUnderline
+                  onChange={handleRoleChange(user.id)}
+                  value={selectedRole}
+                  IconComponent={FiChevronDown}
+                  data-qa={QATags.AgentHistory.AgentRoleSelect}
+                >
+                  {CollaboratorOptions.map((role) => (
+                    <MenuItem key={role.id} value={role.id}>
+                      {intl.formatMessage({ id: role.label })}
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
             <Box mt={0.2} color="common.black75">
               {intl.formatMessage({ id: 'AgentHistory.agentInformation.role' })}
             </Box>

@@ -1,6 +1,7 @@
 import React, { lazy } from 'react';
 import { Routes } from 'models/Router.model';
-import { OwnerRoute } from '../merchant';
+import { RoleGuardRoute } from 'apps/routing';
+import { CollaboratorRoles } from 'models/Collaborator.model';
 
 const ForDevsLazy = lazy(async () => {
   const { ForDevs } = await import('./containers/ForDev/ForDevs');
@@ -8,5 +9,5 @@ const ForDevsLazy = lazy(async () => {
 });
 
 export const forDevsRoutes = [
-  <OwnerRoute key="dev" path={Routes.dev.root} component={ForDevsLazy} />,
+  <RoleGuardRoute key="dev" path={Routes.dev.root} component={ForDevsLazy} roles={[CollaboratorRoles.ADMIN]} />,
 ];
