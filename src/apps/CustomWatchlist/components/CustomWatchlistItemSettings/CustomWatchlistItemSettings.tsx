@@ -154,9 +154,9 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
                     onChange={handleSeverityChange(watchlist)}
                     className={classNames(classes.actionSelect, {
                       [classes.placeholder]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatchTypes.NoAction,
-                      [classes.colorGreen]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatchTypes.Low,
-                      [classes.colorOrange]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatchTypes.Medium,
-                      [classes.colorRed]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatchTypes.Critical,
+                      [CustomWatchlistSeverityOnMatchTypes.Low]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatchTypes.Low,
+                      [CustomWatchlistSeverityOnMatchTypes.Medium]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatchTypes.Medium,
+                      [CustomWatchlistSeverityOnMatchTypes.Critical]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatchTypes.Critical,
                     })}
                   >
                     {actionOptions.map((item) => {
