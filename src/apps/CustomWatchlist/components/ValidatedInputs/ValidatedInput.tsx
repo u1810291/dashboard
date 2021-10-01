@@ -27,21 +27,15 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
   const [rangeSliderValue, setRangeSliderValue] = useState<number>(selectedOptions[name]?.options?.fuzziness || 50);
   const classes = useStyles();
 
-  const handleChange = useCallback(
-    (event: React.ChangeEvent<{ value: any; name?: string }>) => {
-      const target = event.target;
-      setValue(target.value);
-      onChange(target);
-    },
-    [onChange],
-  );
+  const handleChange = useCallback((event: React.ChangeEvent<{ value: any; name?: string }>) => {
+    const target = event.target;
+    setValue(target.value);
+    onChange(target);
+  }, [onChange]);
 
-  const handleSliderChange = useCallback(
-    (_: React.ChangeEvent<{}>, val: number | number[]) => {
-      setRangeSliderValue(val as number);
-    },
-    [],
-  );
+  const handleSliderChange = useCallback((_: React.ChangeEvent<{}>, val: number | number[]) => {
+    setRangeSliderValue(val as number);
+  }, []);
 
   const localOptions = useMemo(() => options.filter((option) => !Object.values(selectedOptions).map((x) => x.value).includes(option.value)), [options, selectedOptions]);
 

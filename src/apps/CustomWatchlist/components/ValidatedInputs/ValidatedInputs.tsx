@@ -67,18 +67,15 @@ export function ValidatedInputs({ fieldValues }: { fieldValues: FieldValues[] })
     },
   ], [intl]);
 
-  const handleChange = useCallback(
-    (values: { value: string; name?: string }) => {
-      setSelectedOptions((prev) => ({
-        ...prev,
-        [values.name]: {
-          label: inputOptions.find((option) => option.value === values.value).label,
-          value: values.value,
-        },
-      }));
-    },
-    [inputOptions],
-  );
+  const handleChange = useCallback((values: { value: string; name?: string }) => {
+    setSelectedOptions((prev) => ({
+      ...prev,
+      [values.name]: {
+        label: inputOptions.find((option) => option.value === values.value).label,
+        value: values.value,
+      },
+    }));
+  }, [inputOptions]);
 
   return (
     <Grid container direction="column" spacing={1}>

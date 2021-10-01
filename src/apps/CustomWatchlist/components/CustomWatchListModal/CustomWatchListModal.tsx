@@ -9,7 +9,7 @@ import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
-import { FlowWatchlist, CustomWatchlistModalSubmitType } from 'models/CustomWatchlist.model';
+import { FlowWatchlist, CustomWatchlistModalSubmitType, CustomWatchlistAdditionalValues } from 'models/CustomWatchlist.model';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
 import { selectIsWatchlistsLoading } from '../../state/CustomWatchlist.selectors';
@@ -25,17 +25,15 @@ export function CustomWatchListModal({ watchlist, onClose, onSubmit }: {
   const classes = useStyles();
   const [fileName, setFileName] = useState<string>();
 
-  const handleUploadFile = useCallback(
-    (setFieldValue: Function) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files[0];
-      setFileName(file.name);
-      setFieldValue('file', file);
-    },
-    [],
-  );
+  const handleUploadFile = useCallback((setFieldValue: Function) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files[0];
+    setFileName(file.name);
+    setFieldValue([CustomWatchlistAdditionalValues.File], file);
+  }, []);
 
   const initialValues: CustomWatchlistModalSubmitType = useMemo(() => ({
     name: watchlist?.name || '',
+    [CustomWatchlistAdditionalValues.File]: null,
     // TODO: @richvoronv remove mock on STEP 2
     mapping: [{
       systemField: 'fullName',
@@ -49,12 +47,9 @@ export function CustomWatchListModal({ watchlist, onClose, onSubmit }: {
     }],
   }), [watchlist]);
 
-  const handleSubmit = useCallback(
-    (values: CustomWatchlistModalSubmitType) => {
-      onSubmit(values);
-    },
-    [onSubmit],
-  );
+  const handleSubmit = useCallback((values: CustomWatchlistModalSubmitType) => {
+    onSubmit(values);
+  }, [onSubmit]);
 
   return (
     <Box className={classes.root}>
@@ -66,6 +61,7 @@ export function CustomWatchListModal({ watchlist, onClose, onSubmit }: {
           <Close />
         </div>
       </Grid>
+      {/* TODO: @richvoronov STAGE 2, replace formik with react-hook-form */}
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
@@ -158,7 +154,7 @@ export function CustomWatchListModal({ watchlist, onClose, onSubmit }: {
                 </ButtonStyled>
               </Grid>
               <Grid item xs={6}>
-                {/* TODO: @richvoronov STEP 2 изменить название кнопки до Валидации на Validation, как провалидировалось Done - при нажатии закрываем модалку  */}
+                {/* TODO: @richvoronov STAGE 2 change column name before Validation to "Validation", after Validation button text must be "Done" - pressing the button "Done" closes Modal  */}
                 <ButtonStyled
                   type="submit"
                   variant="contained"

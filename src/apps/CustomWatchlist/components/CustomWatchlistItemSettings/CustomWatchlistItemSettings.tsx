@@ -4,18 +4,21 @@ import { useOverlay } from 'apps/overlay';
 import moment from 'moment';
 import classNames from 'classnames';
 import { useLongPolling } from 'lib/longPolling.hook';
-import { CustomWatchlistSeverityOnMatch, CustomWatchlistModalSubmitType, FlowWatchlist } from 'models/CustomWatchlist.model';
+import { CustomWatchlistSeverityOnMatchTypes, CustomWatchlistModalSubmitType, FlowWatchlist } from 'models/CustomWatchlist.model';
 import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
+import { SkeletonThreeRectTwoCircle } from 'apps/ui/components/SkeletonGroups';
 import { CustomWatchListModal } from '../CustomWatchListModal/CustomWatchListModal';
 import { customWatchlistClear, customWatchlistsLoad, deleteCustomWatchlist, customWatchlistCreate, customWatchlistUpdate } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
-import { Skeleton } from './CustomWatchlistItemSkeleton';
 
-export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlists: FlowWatchlist[]; onUpdate: (watchlist: FlowWatchlist) => void }) {
+export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
+  watchlists: FlowWatchlist[];
+  onUpdate: (watchlist: FlowWatchlist) => void;
+}) {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -23,13 +26,11 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
   const merchantId = useSelector(selectMerchantId);
   const isWatchlistsLoaded = useSelector(selectIsWatchlistsLoaded);
   const [isDataPooling, setIsDataPooling] = useState(false);
-  const [selectedWatchlist, setSelectedWatchlist] = useState<FlowWatchlist>();
+  const [selectedWatchlist, setSelectedWatchlist] = useState<FlowWatchlist | null>(null);
 
-  const handleWatchlistLoad = useCallback(
-    (isReload: boolean) => {
-      console.log('isReload', isReload, selectedWatchlist);
-    }, [selectedWatchlist],
-  );
+  const handleWatchlistLoad = useCallback((isReload: boolean) => {
+    console.log('isReload', isReload, selectedWatchlist);
+  }, [selectedWatchlist]);
 
   useLongPolling(handleWatchlistLoad, 3000, {
     isCheckMerchantTag: false,
@@ -37,24 +38,20 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
     isDone: !isDataPooling,
   });
 
-  const handleCloseOverlay = useCallback(
-    () => {
-      setSelectedWatchlist(undefined);
-      setIsDataPooling(false);
-      closeOverlay();
-    }, [closeOverlay],
-  );
+  const handleCloseOverlay = useCallback(() => {
+    setSelectedWatchlist(null);
+    setIsDataPooling(false);
+    closeOverlay();
+  }, [closeOverlay]);
 
-  const handleSubmitWatchlist = useCallback(
-    (watchlist?: FlowWatchlist) => (values: CustomWatchlistModalSubmitType) => {
-      setIsDataPooling(true);
-      if (watchlist) {
-        dispatch(customWatchlistUpdate(merchantId, watchlist.watchlistId, values, handleCloseOverlay));
-        return;
-      }
-      dispatch(customWatchlistCreate(merchantId, values, handleCloseOverlay));
-    }, [merchantId, handleCloseOverlay, dispatch],
-  );
+  const handleSubmitWatchlist = useCallback((watchlist?: FlowWatchlist) => (values: CustomWatchlistModalSubmitType) => {
+    setIsDataPooling(true);
+    if (watchlist) {
+      dispatch(customWatchlistUpdate(merchantId, watchlist.watchlistId, values, handleCloseOverlay));
+      return;
+    }
+    dispatch(customWatchlistCreate(merchantId, values, handleCloseOverlay));
+  }, [merchantId, handleCloseOverlay, dispatch]);
 
   const handleChangeStep = useCallback((watchlist?: FlowWatchlist) => () => {
     setSelectedWatchlist(watchlist);
@@ -63,21 +60,18 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
         watchlist={watchlist}
         onClose={handleCloseOverlay}
         onSubmit={handleSubmitWatchlist(watchlist)}
-      />, { onClose: handleCloseOverlay },
+      />,
+      { onClose: handleCloseOverlay },
     );
   }, [createOverlay, handleCloseOverlay, handleSubmitWatchlist]);
 
-  const handleDeleteWatchList = useCallback(
-    (watchlistId: number) => () => {
-      dispatch(deleteCustomWatchlist(merchantId, watchlistId));
-    }, [merchantId, dispatch],
-  );
+  const handleDeleteWatchList = useCallback((watchlistId: number) => () => {
+    dispatch(deleteCustomWatchlist(merchantId, watchlistId));
+  }, [merchantId, dispatch]);
 
-  const handleSeverityChange = useCallback(
-    (watchlist: FlowWatchlist) => (event: React.ChangeEvent<{ value: unknown; name?: string }>) => {
-      onUpdate({ ...watchlist, severityOnMatch: event.target.value as CustomWatchlistSeverityOnMatch });
-    }, [onUpdate],
-  );
+  const handleSeverityChange = useCallback((watchlist: FlowWatchlist) => (event: React.ChangeEvent<{ value: unknown; name?: string }>) => {
+    onUpdate({ ...watchlist, severityOnMatch: event.target.value as CustomWatchlistSeverityOnMatchTypes });
+  }, [onUpdate]);
 
   useEffect(() => {
     dispatch(customWatchlistsLoad(merchantId));
@@ -89,19 +83,19 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
   const actionOptions = useMemo(() => ([
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.noAction' }),
-      value: CustomWatchlistSeverityOnMatch.NoAction,
+      value: CustomWatchlistSeverityOnMatchTypes.NoAction,
     },
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.rejected' }),
-      value: CustomWatchlistSeverityOnMatch.Critical,
+      value: CustomWatchlistSeverityOnMatchTypes.Critical,
     },
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.reviewNeeded' }),
-      value: CustomWatchlistSeverityOnMatch.Medium,
+      value: CustomWatchlistSeverityOnMatchTypes.Medium,
     },
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.notifyByWebhook' }),
-      value: CustomWatchlistSeverityOnMatch.Low,
+      value: CustomWatchlistSeverityOnMatchTypes.Low,
     },
   ]), [intl]);
 
@@ -110,13 +104,13 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
       {!isWatchlistsLoaded ? (
         <Grid container spacing={2} direction="column">
           <Grid item>
-            <Skeleton />
+            <SkeletonThreeRectTwoCircle />
           </Grid>
           <Grid item>
-            <Skeleton />
+            <SkeletonThreeRectTwoCircle />
           </Grid>
           <Grid item>
-            <Skeleton />
+            <SkeletonThreeRectTwoCircle />
           </Grid>
         </Grid>
       ) : (
@@ -155,21 +149,21 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
                     name="action"
                     variant="outlined"
                     fullWidth
-                    defaultValue={CustomWatchlistSeverityOnMatch.NoAction}
+                    defaultValue={CustomWatchlistSeverityOnMatchTypes.NoAction}
                     value={watchlist.severityOnMatch}
                     onChange={handleSeverityChange(watchlist)}
                     className={classNames(classes.actionSelect, {
-                      [classes.placeholder]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatch.NoAction,
-                      [classes.colorGreen]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatch.Low,
-                      [classes.colorOrange]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatch.Medium,
-                      [classes.colorRed]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatch.Critical,
+                      [classes.placeholder]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatchTypes.NoAction,
+                      [classes.colorGreen]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatchTypes.Low,
+                      [classes.colorOrange]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatchTypes.Medium,
+                      [classes.colorRed]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatchTypes.Critical,
                     })}
                   >
                     {actionOptions.map((item) => {
-                      if (item.value === CustomWatchlistSeverityOnMatch.NoAction) {
+                      if (item.value === CustomWatchlistSeverityOnMatchTypes.NoAction) {
                         return (
                           <MenuItem
-                            key={CustomWatchlistSeverityOnMatch.NoAction}
+                            key={CustomWatchlistSeverityOnMatchTypes.NoAction}
                             value={item.value}
                             className={classes.placeholder}
                           >

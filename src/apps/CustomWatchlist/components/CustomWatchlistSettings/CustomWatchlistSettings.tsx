@@ -9,17 +9,15 @@ import { CustomWatchlistItemSettings } from '../CustomWatchlistItemSettings/Cust
 export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsProps<CustomWatchlistSettingsTypes>) {
   const intl = useIntl();
 
-  const handleUpdateItem = useCallback(
-    (watchlist: FlowWatchlist) => {
-      const newSettings = cloneDeep(settings);
-      const settingsWatchlists: FlowWatchlist[] = newSettings[CustomWatchlistSettingsTypes.Watchlists].value;
-      const settingsWatchlistIndex = settingsWatchlists.findIndex((item) => item.watchlistId === watchlist.watchlistId);
+  const handleUpdateItem = useCallback((watchlist: FlowWatchlist) => {
+    const newSettings = cloneDeep(settings);
+    const settingsWatchlists: FlowWatchlist[] = newSettings[CustomWatchlistSettingsTypes.Watchlists].value;
+    const settingsWatchlistIndex = settingsWatchlists.findIndex((item) => item.watchlistId === watchlist.watchlistId);
 
-      settingsWatchlists[settingsWatchlistIndex] = watchlist;
-      onUpdate(newSettings);
-    },
-    [settings, onUpdate],
-  );
+    settingsWatchlists[settingsWatchlistIndex] = watchlist;
+    onUpdate(newSettings);
+  },
+  [settings, onUpdate]);
 
   return (
     <Grid container direction="row" spacing={1}>

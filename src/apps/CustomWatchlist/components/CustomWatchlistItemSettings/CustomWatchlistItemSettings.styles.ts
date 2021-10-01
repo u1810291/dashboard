@@ -38,12 +38,6 @@ export const useStyles = makeStyles((theme) => createStyles({
   colorOrange: {
     color: theme.palette.common.orange,
   },
-  skeletonWrap: {
-    border: `1px solid ${theme.palette.common.black7}`,
-    borderRadius: 3,
-    padding: 20,
-    height: 154,
-  },
   placeholder: {
     color: theme.palette.text.disabled,
   },

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 import { Skeleton as SkeletonMaterial } from '@material-ui/lab';
-import { useStyles } from './CustomWatchlistItemSettings.styles';
+import { useStyles } from './SkeletonThreeRectTwoCircle.styles';
 
-export const Skeleton = () => {
+export function SkeletonThreeRectTwoCircle() {
   const classes = useStyles();
   return (
     <Grid container className={classes.skeletonWrap} justifyContent="space-between">
@@ -28,4 +28,4 @@ export const Skeleton = () => {
       </Grid>
     </Grid>
   );
-};
+}
