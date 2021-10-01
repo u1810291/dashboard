@@ -5,7 +5,7 @@ import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
 
 export const useStyles = makeStyles((theme) => ({
   root: {
-    background: '#fff',
+    background: theme.palette.common.white,
     padding: '21px 40px',
     width: 700,
   },
@@ -23,7 +23,6 @@ export const useStyles = makeStyles((theme) => ({
     right: '15px',
     width: '20px',
     height: '20px',
-    // @ts-ignore
     color: theme.palette.button.close.main,
   },
   fileName: {

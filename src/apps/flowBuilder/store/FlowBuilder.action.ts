@@ -121,7 +121,7 @@ export const flowBuilderSubscribeToTemporaryWebhook = (temporaryFlowId: string) 
   }
 };
 
-// TODO: @richvoronov refactor this on stage 2
+// TODO: @richvoronov check this again and maybe scale this on STAGE 2
 const getProcessedFlowData = async (data: IFlow, getState) => {
   const watchlists = await callFlowWatchlists(getState, data.watchlists);
   return {

@@ -26,7 +26,7 @@ export function useLongPolling(
       if (isDone) {
         return callback(false);
       }
-      console.log('tags', tags);
+
       if (isUseFirstInvoke) {
         // first invoke
         result = callback(false);

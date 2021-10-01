@@ -11,7 +11,7 @@ type ProductSettingsCustomWatchlist = ProductSettings<CustomWatchlistSettingsTyp
 
 export class CustomWatchlist extends ProductBaseService implements Product<ProductSettingsCustomWatchlist> {
   id = ProductTypes.CustomWatchlist;
-  order = 600;
+  order = 1200;
   integrationTypes = [
     ProductIntegrationTypes.Sdk,
     ProductIntegrationTypes.Api,

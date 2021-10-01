@@ -5,13 +5,13 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { useLongPolling } from 'lib/longPolling.hook';
 import { CustomWatchlistSeverityOnMatch, CustomWatchlistModalSubmitType, FlowWatchlist } from 'models/CustomWatchlist.model';
-import { customWatchlistClear, customWatchlistsLoad, deleteCustomWatchlist, customWatchlistCreate, customWatchlistUpdate } from 'apps/CustomWatchlist/state/CustomWatchlist.actions';
-import { selectIsWatchlistsLoaded } from 'apps/CustomWatchlist/state/CustomWatchlist.selectors';
 import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { CustomWatchListModal } from '../CustomWatchListModal/CustomWatchListModal';
+import { customWatchlistClear, customWatchlistsLoad, deleteCustomWatchlist, customWatchlistCreate, customWatchlistUpdate } from '../../state/CustomWatchlist.actions';
+import { selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { Skeleton } from './CustomWatchlistItemSkeleton';
 
@@ -105,8 +105,6 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
     },
   ]), [intl]);
 
-  console.log({ watchlists });
-
   return (
     <Box>
       {!isWatchlistsLoaded ? (
@@ -140,7 +138,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: { watchlis
                   </Box>
                 </Grid>
                 <Grid container>
-                  {/* TODO: @richvoronov logic should be (watchlist.createdAt && ... no validation error ...) */}
+                  {/* TODO: @richvoronov STEP 2, logic should be (watchlist.createdAt && ... no validation error ...) */}
                   {watchlist.createdAt ? (
                     <Typography variant="subtitle2" className={classes.colorGreen}>
                       {intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.uploaded' })}

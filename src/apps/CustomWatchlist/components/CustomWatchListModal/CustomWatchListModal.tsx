@@ -9,22 +9,17 @@ import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
-import { selectIsWatchlistsLoading } from 'apps/CustomWatchlist/state/CustomWatchlist.selectors';
 import { FlowWatchlist, CustomWatchlistModalSubmitType } from 'models/CustomWatchlist.model';
-import { useStyles, RoundedButton } from './CustomWatchListModal.styles';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
+import { selectIsWatchlistsLoading } from '../../state/CustomWatchlist.selectors';
+import { useStyles, RoundedButton } from './CustomWatchListModal.styles';
 
-export function CustomWatchListModal(
-  {
-    watchlist,
-    onClose,
-    onSubmit,
-  }: {
-    watchlist: FlowWatchlist;
-    onClose: () => void;
-    onSubmit: (values: CustomWatchlistModalSubmitType) => void; },
-) {
+export function CustomWatchListModal({ watchlist, onClose, onSubmit }: {
+  watchlist: FlowWatchlist;
+  onClose: () => void;
+  onSubmit: (values: CustomWatchlistModalSubmitType) => void;
+}) {
   const isWatchlistsLoading = useSelector(selectIsWatchlistsLoading);
   const intl = useIntl();
   const classes = useStyles();
@@ -33,7 +28,6 @@ export function CustomWatchListModal(
   const handleUploadFile = useCallback(
     (setFieldValue: Function) => (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files[0];
-      console.log('upload file', file);
       setFileName(file.name);
       setFieldValue('file', file);
     },
@@ -42,8 +36,7 @@ export function CustomWatchListModal(
 
   const initialValues: CustomWatchlistModalSubmitType = useMemo(() => ({
     name: watchlist?.name || '',
-    // TODO: @richvoronv step 1, remove mock on step 2
-    // mapping: [],
+    // TODO: @richvoronv remove mock on STEP 2
     mapping: [{
       systemField: 'fullName',
       merchantField: 'Full Name',
@@ -165,7 +158,7 @@ export function CustomWatchListModal(
                 </ButtonStyled>
               </Grid>
               <Grid item xs={6}>
-                {/* TODO: изменить название кнопки до Валидации на Validation, как провалидировалось Done - при нажатии закрываем модалку  */}
+                {/* TODO: @richvoronov STEP 2 изменить название кнопки до Валидации на Validation, как провалидировалось Done - при нажатии закрываем модалку  */}
                 <ButtonStyled
                   type="submit"
                   variant="contained"

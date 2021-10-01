@@ -80,7 +80,6 @@ export function ValidatedInputs({ fieldValues }: { fieldValues: FieldValues[] })
     [inputOptions],
   );
 
-  console.log('selectedOptions', selectedOptions);
   return (
     <Grid container direction="column" spacing={1}>
       {fieldValues.map((input) => (
