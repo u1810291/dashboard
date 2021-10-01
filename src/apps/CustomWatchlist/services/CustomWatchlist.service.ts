@@ -16,6 +16,7 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
     ProductIntegrationTypes.Sdk,
     ProductIntegrationTypes.Api,
   ];
+  // TODO: @richvoronov replace FiFlag icon with different becase FiFlag already used in GovChecks
   icon = FiFlag;
   inputs = [
     ProductInputTypes.NationalId,

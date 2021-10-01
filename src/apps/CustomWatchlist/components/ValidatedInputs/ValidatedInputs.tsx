@@ -2,9 +2,9 @@ import { Grid } from '@material-ui/core';
 import React, { useState, useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { ValidatedInputsKeys } from 'models/CustomWatchlist.model';
-import { ValidatedInput } from './ValidatedInput';
+import { ValidatedInput } from '../ValidatedInput/ValidatedInput';
 
-const placeholderKey = 'placeholder';
+export const placeholderKey = 'placeholder';
 
 export interface SelectedOptions {
   [key: string]: {

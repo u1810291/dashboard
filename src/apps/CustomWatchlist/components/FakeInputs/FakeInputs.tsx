@@ -1,7 +1,18 @@
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
-import { FakeInput } from './FakeInput';
+import { useStyles } from './FakeInputs.styles';
+
+export function FakeInput({ label, value }: { label: string; value: string }) {
+  const classes = useStyles();
+
+  return (
+    <Grid container justifyContent="space-between" alignItems="center" direction="row" className={classes.input}>
+      <Grid item><Typography variant="subtitle2">{label}</Typography></Grid>
+      <Grid item><Typography variant="subtitle2" className={classes.colorBlue}>{value}</Typography></Grid>
+    </Grid>
+  );
+}
 
 export function FakeInputs() {
   const intl = useIntl();

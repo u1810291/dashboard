@@ -5,8 +5,8 @@ import { Grid, Typography, MenuItem, Box } from '@material-ui/core';
 import { appPalette } from 'apps/theme';
 import { ValidatedInputsKeys } from 'models/CustomWatchlist.model';
 import { RangeSlider } from 'apps/ui/components/RangeSlider/RangeSlider';
-import { useStyles, SelectStyled } from './ValidatedInputs.styles';
-import { SelectedOptions } from './ValidatedInputs';
+import { SelectedOptions, placeholderKey as placeholderKeyConst } from '../ValidatedInputs/ValidatedInputs';
+import { useStyles, SelectStyled } from './ValidatedInput.styles';
 
 interface Option {
   label: string;
@@ -23,7 +23,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
     onChange: (values: { value: string; name?: string }) => void;
     value?: string;
   }) {
-  const [value, setValue] = useState(propValue || placeholderKey);
+  const [value, setValue] = useState<string>(propValue || placeholderKey);
   const [rangeSliderValue, setRangeSliderValue] = useState<number>(selectedOptions[name]?.options?.fuzziness || 50);
   const classes = useStyles();
 
@@ -37,10 +37,10 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
     setRangeSliderValue(val as number);
   }, []);
 
-  const localOptions = useMemo(() => options.filter((option) => !Object.values(selectedOptions).map((x) => x.value).includes(option.value)), [options, selectedOptions]);
+  const localOptions = useMemo(() => options.filter((option) => Object.values(selectedOptions).every((x) => x.value !== option.value)), [options, selectedOptions]);
 
   return (
-    <div>
+    <>
       <Grid container justifyContent="space-between" alignItems="center" direction="row" className={classes.input}>
         <Grid item><Typography variant="subtitle2">{title}</Typography></Grid>
         <Grid item className={classes.selectWrap}>
@@ -64,27 +64,15 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
                 {selectedOptions[name].label}
               </MenuItem>
             )}
-            {localOptions.map((item) => {
-              if (item.value === 'placeholder') {
-                return (
-                  <MenuItem
-                    key={item.value}
-                    value={item.value}
-                    className={classes.placeholder}
-                  >
-                    {item.label}
-                  </MenuItem>
-                );
-              }
-              return (
-                <MenuItem
-                  key={`${item.value}-${item.label}`}
-                  value={item.value}
-                >
-                  {item.label}
-                </MenuItem>
-              );
-            })}
+            {localOptions.map((item) => (
+              <MenuItem
+                key={`${item.value}-${item.label}`}
+                value={item.value}
+                className={classnames({ [classes.placeholder]: item.value === placeholderKeyConst })}
+              >
+                {item.label}
+              </MenuItem>
+            ))}
           </SelectStyled>
         </Grid>
       </Grid>
@@ -97,6 +85,6 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
           />
         </Box>
       )}
-    </div>
+    </>
   );
 }
