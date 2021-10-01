@@ -4,7 +4,7 @@ export const useStyles = makeStyles((theme) => ({
   button: {
     justifyContent: 'flex-start',
     marginBottom: 10,
-    padding: [[8, 10]],
+    padding: '8px 10px',
     fontSize: 14,
     fontWeight: 700,
     borderRadius: 5,

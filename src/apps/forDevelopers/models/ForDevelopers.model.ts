@@ -1,4 +1,8 @@
 import { QATags } from 'models/QA.model';
+import { LinkButton } from 'models/Integration.model';
+import React from 'react';
+import { WebCodeSnippet } from '../components/WebCodeSnippet/WebCodeSnippet';
+import { DirectLinkCopy } from '../components/DirectLinkCopy/DirectLinkCopy';
 
 export enum TabID {
   Api = 'api',
@@ -30,6 +34,16 @@ export interface Tab {
   qa: string;
   defaultOpen?: boolean;
   children?: Tab[];
+  link?: string;
+}
+
+export interface InformationPageData {
+  id: TabID;
+  imageType: InformationImageTypes;
+  videoURL: string;
+  videoCover: string;
+  documentationURL?: string;
+  childComponent?: React.ReactNode;
 }
 
 export const menuStructure: Tab[] = [
@@ -43,26 +57,7 @@ export const menuStructure: Tab[] = [
       {
         id: TabID.Mobile,
         qa: QATags.Integration.Tabs.Mobile,
-        children: [
-          {
-            id: TabID.Native,
-            qa: QATags.Integration.Tabs.Native,
-            children: [
-              { id: TabID.Ios, qa: QATags.Integration.Tabs.Ios },
-              { id: TabID.Android, qa: QATags.Integration.Tabs.Android },
-            ],
-          },
-          {
-            id: TabID.Hybrid,
-            qa: QATags.Integration.Tabs.Hybrid,
-            children: [
-              { id: TabID.ReactNative, qa: QATags.Integration.Tabs.ReactNative },
-              { id: TabID.Xamarin, qa: QATags.Integration.Tabs.Xamarin },
-              { id: TabID.Cordova, qa: QATags.Integration.Tabs.Cordova },
-              { id: TabID.CordovaIonic, qa: QATags.Integration.Tabs.CordovaIonic },
-            ],
-          },
-        ],
+        link: LinkButton.documentationURL,
       },
     ],
   },
@@ -74,3 +69,28 @@ export function getIsSelected(tab: Tab, selectedId: TabID): boolean {
   if (!tab.children) return false;
   return tab.children.some((child) => getIsSelected(child, selectedId));
 }
+
+export const pagesData: InformationPageData[] = [
+  {
+    id: TabID.Api,
+    imageType: InformationImageTypes.Api,
+    videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+API.mp4',
+    videoCover: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BAPI.png',
+    documentationURL: 'https://docs.getmati.com/#api-overview',
+  },
+  {
+    id: TabID.Web,
+    imageType: InformationImageTypes.Web,
+    videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Web+SDK.mp4',
+    videoCover: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BWeb%2BSDK.png',
+    documentationURL: 'https://docs.getmati.com/#web-sdk-overview',
+    childComponent: WebCodeSnippet,
+  },
+  {
+    id: TabID.DirectLink,
+    imageType: InformationImageTypes.DirectLink,
+    videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Direct+Link.mp4',
+    videoCover: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BDirect%2BLink.png',
+    childComponent: DirectLinkCopy,
+  },
+];
