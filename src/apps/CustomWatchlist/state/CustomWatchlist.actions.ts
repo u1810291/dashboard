@@ -1,5 +1,4 @@
 import { productManagerService } from 'apps/Product';
-import { get } from 'lodash';
 import { ProductTypes } from 'models/Product.model';
 import { flowBuilderChangeableFlowUpdate } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { replaceObjKeyByName } from 'lib/object';
@@ -14,9 +13,9 @@ import { selectCanUseCustomWatchlists, selectWatchlists } from './CustomWatchlis
 export const customWatchlistInit = () => (dispatch, getState): ProductTypes => {
   const canUseCustomWatchlists = selectCanUseCustomWatchlists(getState());
 
-  // if (!canUseCustomWatchlists) {
-  //   return null;
-  // }
+  if (!canUseCustomWatchlists) {
+    return null;
+  }
 
   const customWatchlist = new CustomWatchlist();
   productManagerService.register(customWatchlist);
@@ -51,7 +50,7 @@ export const customWatchlistsLoad = (merchantId: string) => async (dispatch, get
 export const customWatchlistCreate = (merchantId: string, params: CustomWatchlistModalSubmitType, callback: () => void) => async (dispatch, getState) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_REQUEST });
   try {
-    const flowWatchlists: FlowWatchlist[] = get(selectFlowBuilderChangeableFlowModel(getState()), 'value.watchlists', []);
+    const flowWatchlists: FlowWatchlist[] = [...selectFlowBuilderChangeableFlowModel(getState()).value.watchlists];
     const payload = await api.createMerchantWatchlistById(merchantId, params);
     const mutatedWatchlists: FlowWatchlist = { ...replaceObjKeyByName(payload.data, 'id', 'watchlistId'), severityOnMatch: CustomWatchlistSeverityOnMatchTypes.NoAction };
 
@@ -69,7 +68,7 @@ export const customWatchlistUpdate = (merchantId: string, watchlistId: number, p
   try {
     const payload = await api.updateMerchantWatchlistById(merchantId, watchlistId, params);
     const watchlists: Watchlist[] = [...selectWatchlists(getState())];
-    const flowWatchlists: FlowWatchlist[] = [...get(selectFlowBuilderChangeableFlowModel(getState()), 'value.watchlists', [])];
+    const flowWatchlists: FlowWatchlist[] = [...selectFlowBuilderChangeableFlowModel(getState()).value.watchlists];
     const findWatchlistIndex = watchlists.findIndex((watchlist) => watchlist.id === payload.data.id);
     const findFlowWatchlistIndex = flowWatchlists.findIndex((flowWatchlist) => flowWatchlist.watchlistId === payload.data.id);
     flowWatchlists[findFlowWatchlistIndex] = { ...flowWatchlists[findFlowWatchlistIndex], ...replaceObjKeyByName(payload.data, 'id', 'watchlistId') };
