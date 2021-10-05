@@ -72,5 +72,5 @@ export const deleteCustomWatchlist = (merchantId: string, watchlistId: number) =
 };
 
 export const customWatchlistClear = () => (dispatch) => {
-  dispatch({ type: types.CUSTOM_WATCHLISTS_CLEAR });
+  dispatch({ type: types.CUSTOM_WATCHLISTS_CLEAR, payload: [] });
 };

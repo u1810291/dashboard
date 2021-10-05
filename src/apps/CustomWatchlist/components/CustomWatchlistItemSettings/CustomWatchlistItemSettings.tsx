@@ -5,14 +5,14 @@ import moment from 'moment';
 import classnames from 'classnames';
 import { useLongPolling } from 'lib/longPolling.hook';
 import { CustomWatchlistModalValidationSubmitType, FlowWatchlist, FlowWatchlistUi } from 'models/CustomWatchlist.model';
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { SkeletonThreeRectTwoCircle } from 'apps/ui/components/SkeletonGroups';
 import { CustomWatchListModalValidation } from '../CustomWatchListModalValidation/CustomWatchListModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
-import { customWatchlistClear, customWatchlistsLoad, deleteCustomWatchlist, customWatchlistCreate, customWatchlistUpdate } from '../../state/CustomWatchlist.actions';
+import { deleteCustomWatchlist, customWatchlistCreate, customWatchlistUpdate } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 
@@ -69,13 +69,6 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
 
   const handleDeleteWatchList = useCallback((watchlistId: number) => () => {
     dispatch(deleteCustomWatchlist(merchantId, watchlistId));
-  }, [merchantId, dispatch]);
-
-  useEffect(() => {
-    dispatch(customWatchlistsLoad(merchantId));
-    return () => {
-      dispatch(customWatchlistClear());
-    };
   }, [merchantId, dispatch]);
 
   return (
