@@ -1,3 +1,4 @@
+import React from 'react';
 import { IFlow } from 'models/Flow.model';
 import { IconType } from 'react-icons';
 import { VerificationResponse } from './Verification.model';
@@ -62,7 +63,7 @@ export enum ProductInputTypes {
 
 export interface IProductCard {
   id: ProductTypes;
-  icon: IconType;
+  icon: IconType | (() => React.ReactNode);
   order: number;
   title: string;
   inputs: ProductInputTypes[];

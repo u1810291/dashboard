@@ -1,6 +1,4 @@
-import { replaceObjKeyByName } from 'lib/object';
 import { selectFlowBuilderChangeableFlowModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
-import { get } from 'lodash';
 
 export interface AllowedRegions {
   country: string;
@@ -25,7 +23,12 @@ export interface WatchlistMapping {
 }
 
 export interface FlowWatchlist {
-  watchlistId: number;
+  id: number;
+  severityOnMatch: CustomWatchlistSeverityOnMatchTypes;
+}
+
+export interface FlowWatchlistUi {
+  id: number;
   name: string;
   createdAt: string;
   updatedAt: string;
@@ -60,14 +63,14 @@ export enum ValidatedInputsKeys {
   CountryCode = 'countryCode',
 }
 
-export interface CustomWatchlistModalSubmitType {
+export interface CustomWatchlistModalValidationSubmitType {
   name: string;
   file: File | null;
   mapping: WatchlistMapping[];
 }
 
 export interface CustomWatchlistsFlowUpdate {
-  watchlistId: number;
+  id: number;
   severityOnMatch: CustomWatchlistSeverityOnMatchTypes;
 }
 
@@ -81,22 +84,3 @@ export const getAllAllowedRegions = (countries) => (
     regions: country.regions,
   }))
 );
-
-export const getProcessedWatchlistsToFlowUpdate = (watchlists: FlowWatchlist[]): CustomWatchlistsFlowUpdate[] => watchlists
-  .filter(({ severityOnMatch }) => severityOnMatch !== CustomWatchlistSeverityOnMatchTypes.NoAction)
-  .map((watchlist) => ({
-    watchlistId: watchlist.watchlistId,
-    severityOnMatch: watchlist.severityOnMatch,
-  }));
-
-export const getFlowWatchlists = (watchlists: Watchlist[], getState, flowWatchlists?: FlowWatchlist[]) => {
-  const flowWatchlistsValue: FlowWatchlist[] = flowWatchlists || get(selectFlowBuilderChangeableFlowModel(getState()), 'value.watchlists', []);
-  return watchlists.map((watchlist) => {
-    const findedWatchlist = flowWatchlistsValue.find((flowWatchlist) => flowWatchlist.watchlistId === watchlist.id);
-    return {
-      ...replaceObjKeyByName(watchlist, 'id', 'watchlistId'),
-      ...findedWatchlist,
-      severityOnMatch: findedWatchlist?.severityOnMatch ?? CustomWatchlistSeverityOnMatchTypes.NoAction,
-    };
-  });
-};

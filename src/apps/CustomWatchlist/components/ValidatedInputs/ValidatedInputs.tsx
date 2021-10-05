@@ -26,43 +26,35 @@ interface FieldValues {
 
 export function ValidatedInputs({ fieldValues }: { fieldValues: FieldValues[] }) {
   const intl = useIntl();
-  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(fieldValues.reduce((prev, cur) => {
-    if (cur.value === ValidatedInputsKeys.FullName) {
-      return {
-        ...prev,
-        [cur.value]: cur,
-      };
-    }
-    return { ...prev, [cur.value]: cur };
-  }, {}));
+  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(fieldValues.reduce((prev, cur) => ({ ...prev, [cur.value]: cur }), {}));
 
   const inputOptions = useMemo(() => [
     {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.name' }),
+      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.FullName}.label` }),
       value: ValidatedInputsKeys.FullName,
     },
     {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.dateOfBirth' }),
+      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DateOfBirth}.label` }),
       value: ValidatedInputsKeys.DateOfBirth,
     },
     {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.nationalId' }),
+      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.NationalId}.label` }),
       value: ValidatedInputsKeys.NationalId,
     },
     {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.drivingLicense' }),
+      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DrivingLicense}.label` }),
       value: ValidatedInputsKeys.DrivingLicense,
     },
     {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.passportNumber' }),
+      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.PassportNumber}.label` }),
       value: ValidatedInputsKeys.PassportNumber,
     },
     {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.countryCode' }),
+      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.CountryCode}.label` }),
       value: ValidatedInputsKeys.CountryCode,
     },
     {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.notSelected' }),
+      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.notSelected.label' }),
       value: placeholderKey,
     },
   ], [intl]);

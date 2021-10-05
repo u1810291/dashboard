@@ -1,9 +1,10 @@
+import React from 'react';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
-import { FiFlag } from 'react-icons/fi';
 import { VerificationResponse } from 'models/Verification.model';
 import { CustomWatchlistCheckTypes, CustomWatchlistSettingsTypes } from 'models/CustomWatchlist.model';
+import { ReactComponent as FilesWithEye } from '../assets/files-with-eye.svg';
 import { CustomWatchlistVerification } from '../components/CustomWatchlistVerification/CustomWatchlistVerification';
 import { CustomWatchlistSettings } from '../components/CustomWatchlistSettings/CustomWatchlistSettings';
 
@@ -16,8 +17,6 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
     ProductIntegrationTypes.Sdk,
     ProductIntegrationTypes.Api,
   ];
-  // TODO: @richvoronov replace FiFlag icon with different becase FiFlag already used in GovChecks
-  icon = FiFlag;
   inputs = [
     ProductInputTypes.NationalId,
   ];
@@ -26,6 +25,7 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
     id: CustomWatchlistCheckTypes.CustomDatabases,
     isActive: true,
   }];
+  icon = () => <FilesWithEye />;
   component = CustomWatchlistSettings;
   componentVerification = CustomWatchlistVerification;
 

@@ -22,7 +22,7 @@ export const ButtonStyled = withStyles((theme) => ({
     border: '1px solid',
     borderColor: theme.palette.common.lightblue,
     '&:hover': {
-      borderColor: 'rgb(56, 87, 165)',
+      borderColor: theme.palette.common.darkBlue,
     },
     '&:focused': {
       borderColor: 'transparent',

@@ -1,23 +1,45 @@
 import { Box, Grid, Typography } from '@material-ui/core';
 import { cloneDeep } from 'lodash';
 import { ProductSettingsProps } from 'models/Product.model';
-import React, { useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { FlowWatchlist, CustomWatchlistSettingsTypes } from 'models/CustomWatchlist.model';
+import { FlowWatchlist, CustomWatchlistSettingsTypes, CustomWatchlistSeverityOnMatchTypes, FlowWatchlistUi } from 'models/CustomWatchlist.model';
 import { CustomWatchlistItemSettings } from '../CustomWatchlistItemSettings/CustomWatchlistItemSettings';
+import { selectWatchlists } from '../../state/CustomWatchlist.selectors';
 
 export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsProps<CustomWatchlistSettingsTypes>) {
   const intl = useIntl();
+  const watchlists = useSelector(selectWatchlists);
 
   const handleUpdateItem = useCallback((watchlist: FlowWatchlist) => {
     const newSettings = cloneDeep(settings);
     const settingsWatchlists: FlowWatchlist[] = newSettings[CustomWatchlistSettingsTypes.Watchlists].value;
-    const settingsWatchlistIndex = settingsWatchlists.findIndex((item) => item.watchlistId === watchlist.watchlistId);
+    const settingsWatchlistIndex = settingsWatchlists.findIndex((item) => item.id === watchlist.id);
 
-    settingsWatchlists[settingsWatchlistIndex] = watchlist;
+    if (settingsWatchlistIndex > 0) {
+      settingsWatchlists[settingsWatchlistIndex] = watchlist;
+    }
+    if (settingsWatchlistIndex < 0) {
+      settingsWatchlists.push(watchlist);
+    }
+
+    newSettings[CustomWatchlistSettingsTypes.Watchlists].value = settingsWatchlists.filter((settingsWatchlist) => settingsWatchlist.severityOnMatch !== CustomWatchlistSeverityOnMatchTypes.NoAction);
     onUpdate(newSettings);
   },
   [settings, onUpdate]);
+
+  const flowAndCustomWatchlistsMerged: FlowWatchlistUi[] = useMemo(() => {
+    const flowWatchlists: FlowWatchlist[] = settings[CustomWatchlistSettingsTypes.Watchlists].value;
+    return watchlists.map((watchlist) => {
+      const findedWatchlist = flowWatchlists.find((flowWatchlist) => flowWatchlist.id === watchlist.id);
+      return {
+        ...watchlist,
+        ...findedWatchlist,
+        severityOnMatch: findedWatchlist?.severityOnMatch ?? CustomWatchlistSeverityOnMatchTypes.NoAction,
+      };
+    });
+  }, [settings, watchlists]);
 
   return (
     <Grid container direction="row" spacing={1}>
@@ -32,7 +54,7 @@ export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsP
             </Typography>
           </Box>
         </Box>
-        <CustomWatchlistItemSettings watchlists={settings[CustomWatchlistSettingsTypes.Watchlists].value} onUpdate={handleUpdateItem} />
+        <CustomWatchlistItemSettings watchlists={flowAndCustomWatchlistsMerged} onUpdate={handleUpdateItem} />
       </Grid>
     </Grid>
   );

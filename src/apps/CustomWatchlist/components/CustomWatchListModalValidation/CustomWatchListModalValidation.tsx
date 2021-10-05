@@ -9,16 +9,16 @@ import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
-import { FlowWatchlist, CustomWatchlistModalSubmitType, CustomWatchlistAdditionalValues } from 'models/CustomWatchlist.model';
+import { CustomWatchlistModalValidationSubmitType, CustomWatchlistAdditionalValues, FlowWatchlistUi } from 'models/CustomWatchlist.model';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
 import { selectIsWatchlistsLoading } from '../../state/CustomWatchlist.selectors';
-import { useStyles, RoundedButton } from './CustomWatchListModal.styles';
+import { useStyles, RoundedButton } from './CustomWatchListModalValidation.styles';
 
-export function CustomWatchListModal({ watchlist, onClose, onSubmit }: {
-  watchlist: FlowWatchlist;
+export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }: {
+  watchlist: FlowWatchlistUi;
   onClose: () => void;
-  onSubmit: (values: CustomWatchlistModalSubmitType) => void;
+  onSubmit: (values: CustomWatchlistModalValidationSubmitType) => void;
 }) {
   const isWatchlistsLoading = useSelector(selectIsWatchlistsLoading);
   const intl = useIntl();
@@ -31,7 +31,7 @@ export function CustomWatchListModal({ watchlist, onClose, onSubmit }: {
     setFieldValue([CustomWatchlistAdditionalValues.File], file);
   }, []);
 
-  const initialValues: CustomWatchlistModalSubmitType = useMemo(() => ({
+  const initialValues: CustomWatchlistModalValidationSubmitType = useMemo(() => ({
     name: watchlist?.name || '',
     [CustomWatchlistAdditionalValues.File]: null,
     // TODO: @richvoronv remove mock on STEP 2
@@ -47,7 +47,7 @@ export function CustomWatchListModal({ watchlist, onClose, onSubmit }: {
     }],
   }), [watchlist]);
 
-  const handleSubmit = useCallback((values: CustomWatchlistModalSubmitType) => {
+  const handleSubmit = useCallback((values: CustomWatchlistModalValidationSubmitType) => {
     onSubmit(values);
   }, [onSubmit]);
 
