@@ -16,6 +16,7 @@ import { reloadPage } from 'lib/window';
 import { useIntercom } from 'apps/intercom';
 import { useLoadMerchant } from 'apps/merchant/hooks/loadMerchant.hook';
 import { useQuery } from 'lib/url';
+import { useBeamerScript } from 'apps/beamer';
 import { DashboardLoader } from '../components/DashboardLoader/DashboardLoader';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
 import { Footer } from '../components/Footer/Footer';
@@ -29,7 +30,7 @@ export function Dashboard() {
   const countriesOnlyExistingModel = useSelector(selectCountriesOnlyExisting);
   const clientIdModel = useSelector(selectClientIdModel);
   const flowBuilderMatch = useRouteMatch(Routes.flow.details);
-  const identityProfileMatch = useRouteMatch(Routes.identity.profile.details);
+  const identityProfileMatch = useRouteMatch(Routes.identity.profile.details.root);
   const { asMerchantId } = useQuery();
 
   const [isError, setIsError] = useState(false);
@@ -88,6 +89,7 @@ export function Dashboard() {
 
   useIntercom();
   useFullStory();
+  useBeamerScript();
 
   if (isError) {
     return (
