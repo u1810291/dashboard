@@ -92,6 +92,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
               <Box mb={2}>
                 <Grid container wrap="nowrap" alignItems="center">
                   <Box color="common.black90" fontWeight="bold" mr={1}>
+                    {/* TODO: @richvoronov STAGE 2, Do we need this if the name field is required?  */}
                     {watchlist.name || intl.formatMessage({ id: 'CustomWatchlist.settings.step.title' }, { count: watchlistIndex + 1 })}
                   </Box>
                   <Box ml="auto" flexShrink={0}>

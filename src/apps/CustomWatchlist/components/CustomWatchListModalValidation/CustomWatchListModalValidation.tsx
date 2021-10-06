@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FiChevronLeft } from 'react-icons/fi';
@@ -30,9 +30,8 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
   const classes = useStyles();
   const [fileName, setFileName] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const { register, handleSubmit, setValue, formState: { errors, ...rest } } = useForm<CustomWatchlistModalValidationInputTypes>();
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<CustomWatchlistModalValidationInputTypes>();
 
-  console.log('isSubmitting', isSubmitting);
   const handleUploadFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
     setFileName(file.name);
