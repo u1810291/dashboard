@@ -6,11 +6,7 @@ import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 export function useLongPolling(
   callback: (isReload: boolean) => void,
   interval: number = 20000,
-  {
-    isCheckMerchantTag = true,
-    isUseFirstInvoke = true,
-    isDone = false,
-  }: {
+  { isCheckMerchantTag = true, isUseFirstInvoke = true, isDone = false }: {
     isCheckMerchantTag?: boolean;
     isUseFirstInvoke?: boolean;
     isDone?: boolean;

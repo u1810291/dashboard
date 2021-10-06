@@ -1,10 +1,3 @@
-import { selectFlowBuilderChangeableFlowModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
-
-export interface AllowedRegions {
-  country: string;
-  regions: string[];
-}
-
 export enum CustomWatchlistSeverityOnMatchTypes {
   NoAction = 'no-action',
   Low = 'low',
@@ -63,20 +56,8 @@ export enum ValidatedInputsKeys {
   CountryCode = 'countryCode',
 }
 
-export enum CustomWatchlistModalValidationInputEnum {
+export enum CustomWatchlistModalValidationInputs {
   Name = 'name',
   File = 'file',
   Mapping = 'mapping',
 }
-
-export interface CustomWatchlistsFlowUpdate {
-  id: number;
-  severityOnMatch: CustomWatchlistSeverityOnMatchTypes;
-}
-
-export const getAllAllowedRegions = (countries) => (
-  countries.map((country) => ({
-    country: country.id,
-    regions: country.regions,
-  }))
-);

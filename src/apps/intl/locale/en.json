@@ -507,6 +507,8 @@
   "CustomWatchlist.settings.modal.fakeInputs.fullName.value": "John Smith",
   "CustomWatchlist.settings.modal.fakeInputs.dateOfBirth.value": "YYYY-MM-DD",
   "CustomWatchlist.settings.modal.fakeInputs.countryCode.value": "EN",
+  "CustomWatchlist.settings.modal.fakeInputs.passportNumber.value": "12345678",
+  "CustomWatchlist.settings.modal.fakeInputs.nationalId.value": "12345678",
   "CustomWatchlist.settings.modal.validationFields.title": "Map file columns to verification attributes",
   "CustomWatchlist.settings.modal.validationFields.subTitle": "For values use the format demonstrated below.",
   "CustomWatchlist.settings.modal.validationFields.fullName.label": "Full name",

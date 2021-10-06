@@ -23,8 +23,7 @@ export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsP
 
     if (settingsWatchlistIndex >= 0) {
       settingsWatchlists[settingsWatchlistIndex] = watchlist;
-    }
-    if (settingsWatchlistIndex < 0) {
+    } else {
       settingsWatchlists.push(watchlist);
     }
 

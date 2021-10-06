@@ -8,16 +8,16 @@ import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
-import { FlowWatchlistUi, CustomWatchlistModalValidationInputEnum, WatchlistMapping } from 'models/CustomWatchlist.model';
+import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping } from 'models/CustomWatchlist.model';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
 import { selectIsWatchlistsLoading } from '../../state/CustomWatchlist.selectors';
 import { useStyles, RoundedButton } from './CustomWatchListModalValidation.styles';
 
 export interface CustomWatchlistModalValidationInputTypes {
-  [CustomWatchlistModalValidationInputEnum.Name]: string;
-  [CustomWatchlistModalValidationInputEnum.File]: File | null;
-  [CustomWatchlistModalValidationInputEnum.Mapping]: WatchlistMapping[];
+  [CustomWatchlistModalValidationInputs.Name]: string;
+  [CustomWatchlistModalValidationInputs.File]: File | null;
+  [CustomWatchlistModalValidationInputs.Mapping]: WatchlistMapping[];
 }
 
 export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }: {
@@ -35,10 +35,10 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
   const handleUploadFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
     setFileName(file.name);
-    setValue(CustomWatchlistModalValidationInputEnum.File, file);
+    setValue(CustomWatchlistModalValidationInputs.File, file);
   }, [setValue]);
 
-  const nameRegister = register(CustomWatchlistModalValidationInputEnum.Name, {
+  const nameRegister = register(CustomWatchlistModalValidationInputs.Name, {
     required: intl.formatMessage({ id: 'validations.required' }),
   });
 
@@ -47,7 +47,7 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
       setIsSubmitting(true);
       onSubmit({
         // TODO: @richvoronv remove mock on STAGE 2
-        [CustomWatchlistModalValidationInputEnum.File]: null,
+        [CustomWatchlistModalValidationInputs.File]: null,
         mapping: [{
           systemField: 'fullName',
           merchantField: 'Full Name',
@@ -76,7 +76,6 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
           <Close />
         </div>
       </Grid>
-      {/* TODO: @richvoronov STAGE 2, replace formik with react-hook-form */}
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <Grid container direction="row" spacing={2}>
           <Grid item xs={6}>
@@ -90,8 +89,8 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
                 {...nameRegister}
                 id="watchlist-name"
                 defaultValue={watchlist?.name || ''}
-                helperText={errors?.[CustomWatchlistModalValidationInputEnum.Name]?.message}
-                error={!!errors[CustomWatchlistModalValidationInputEnum.Name]}
+                helperText={errors?.[CustomWatchlistModalValidationInputs.Name]?.message}
+                error={!!errors[CustomWatchlistModalValidationInputs.Name]}
                 type="input"
                 variant="outlined"
                 fullWidth
@@ -177,7 +176,6 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
             </ButtonStyled>
           </Grid>
         </Grid>
-
       </form>
     </Box>
   );

@@ -40,13 +40,13 @@ export function FakeInputs() {
       <Grid item>
         <FakeInput
           label={intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.PassportNumber}.label` })}
-          value="12345678"
+          value={intl.formatMessage({ id: `CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.PassportNumber}.value` })}
         />
       </Grid>
       <Grid item>
         <FakeInput
           label={intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.NationalId}.label` })}
-          value="12345678"
+          value={intl.formatMessage({ id: `CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.NationalId}.value` })}
         />
       </Grid>
     </Grid>
