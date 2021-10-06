@@ -1,17 +1,18 @@
 import { productManagerService } from 'apps/Product';
 import { ProductTypes } from 'models/Product.model';
-import { CustomWatchlistModalValidationSubmitType, Watchlist } from 'models/CustomWatchlist.model';
+import { Watchlist } from 'models/CustomWatchlist.model';
 import { CustomWatchlist } from '../services/CustomWatchlist.service';
 import * as api from '../client/CustomWatchlist.client';
+import { CustomWatchlistModalValidationInputTypes } from '../components/CustomWatchListModalValidation/CustomWatchListModalValidation';
 import { types } from './CustomWatchlist.store';
 import { selectCanUseCustomWatchlists, selectWatchlists } from './CustomWatchlist.selectors';
 
 export const customWatchlistInit = () => (dispatch, getState): ProductTypes => {
   const canUseCustomWatchlists = selectCanUseCustomWatchlists(getState());
 
-  // if (!canUseCustomWatchlists) {
-  //   return null;
-  // }
+  if (!canUseCustomWatchlists) {
+    return null;
+  }
 
   const customWatchlist = new CustomWatchlist();
   productManagerService.register(customWatchlist);
@@ -29,7 +30,7 @@ export const customWatchlistsLoad = (merchantId: string) => async (dispatch) => 
   }
 };
 
-export const customWatchlistCreate = (merchantId: string, params: CustomWatchlistModalValidationSubmitType, callback: () => void) => async (dispatch, getState) => {
+export const customWatchlistCreate = (merchantId: string, params: CustomWatchlistModalValidationInputTypes, callback: () => void) => async (dispatch, getState) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_REQUEST });
   try {
     const payload = await api.createMerchantWatchlistById(merchantId, params);
@@ -42,7 +43,7 @@ export const customWatchlistCreate = (merchantId: string, params: CustomWatchlis
   }
 };
 
-export const customWatchlistUpdate = (merchantId: string, watchlistId: number, params: CustomWatchlistModalValidationSubmitType, callback: () => void) => async (dispatch, getState) => {
+export const customWatchlistUpdate = (merchantId: string, watchlistId: number, params: CustomWatchlistModalValidationInputTypes, callback: () => void) => async (dispatch, getState) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_UPDATING });
   try {
     const payload = await api.updateMerchantWatchlistById(merchantId, watchlistId, params);

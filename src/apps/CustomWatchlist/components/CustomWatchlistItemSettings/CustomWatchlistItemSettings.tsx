@@ -4,13 +4,13 @@ import { useOverlay } from 'apps/overlay';
 import moment from 'moment';
 import classnames from 'classnames';
 import { useLongPolling } from 'lib/longPolling.hook';
-import { CustomWatchlistModalValidationSubmitType, FlowWatchlist, FlowWatchlistUi } from 'models/CustomWatchlist.model';
+import { FlowWatchlist, FlowWatchlistUi } from 'models/CustomWatchlist.model';
 import React, { useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { SkeletonThreeRectTwoCircle } from 'apps/ui/components/SkeletonGroups';
-import { CustomWatchListModalValidation } from '../CustomWatchListModalValidation/CustomWatchListModalValidation';
+import { CustomWatchListModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchListModalValidation/CustomWatchListModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
 import { deleteCustomWatchlist, customWatchlistCreate, customWatchlistUpdate } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
@@ -46,7 +46,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
     closeOverlay();
   }, [closeOverlay]);
 
-  const handleSubmitWatchlist = useCallback((watchlist?: FlowWatchlist) => (values: CustomWatchlistModalValidationSubmitType) => {
+  const handleSubmitWatchlist = useCallback((watchlist?: FlowWatchlist) => (values: CustomWatchlistModalValidationInputTypes) => {
     setIsDataPooling(true);
     if (watchlist) {
       dispatch(customWatchlistUpdate(merchantId, watchlist.id, values, handleCloseOverlay));

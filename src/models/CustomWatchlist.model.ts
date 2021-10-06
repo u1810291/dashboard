@@ -63,19 +63,15 @@ export enum ValidatedInputsKeys {
   CountryCode = 'countryCode',
 }
 
-export interface CustomWatchlistModalValidationSubmitType {
-  name: string;
-  file: File | null;
-  mapping: WatchlistMapping[];
+export enum CustomWatchlistModalValidationInputEnum {
+  Name = 'name',
+  File = 'file',
+  Mapping = 'mapping',
 }
 
 export interface CustomWatchlistsFlowUpdate {
   id: number;
   severityOnMatch: CustomWatchlistSeverityOnMatchTypes;
-}
-
-export enum CustomWatchlistAdditionalValues {
-  File = 'file'
 }
 
 export const getAllAllowedRegions = (countries) => (
