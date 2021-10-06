@@ -1,17 +1,14 @@
 import { Menu } from 'apps/layout';
 import { QATags } from 'models/QA.model';
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { FiGift, FiHelpCircle } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { appPalette } from 'apps/theme/app.palette';
 import { Routes } from 'models/Router.model';
+import { BeamerSelectorId } from 'apps/beamer';
 
 export function SecondaryMenu({ isOpen, ...props }) {
   const intl = useIntl();
-
-  const handlerGoToWhatsUp = useCallback(() => {
-    window.open('https://update.dashboard.getmati.com/en?role=registered', '_blank');
-  }, []);
 
   const entries = useMemo(() => [{
     id: 'helpCenter',
@@ -22,14 +19,13 @@ export function SecondaryMenu({ isOpen, ...props }) {
     color: appPalette.black7,
   },
   {
-    id: 'whatsUp',
+    id: BeamerSelectorId,
     label: intl.formatMessage({ id: 'dashboard.menu.whatsNew' }),
     icon: <FiGift />,
     color: appPalette.red,
-    handler: handlerGoToWhatsUp,
     isOutlined: true,
     qa: QATags.Menu.WhatsNew,
-  }], [intl, handlerGoToWhatsUp]);
+  }], [intl]);
 
   const isWithOutlined = useMemo(() => entries.some((item) => item?.isOutlined), [entries]);
 

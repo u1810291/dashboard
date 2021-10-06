@@ -1,13 +1,14 @@
+import React, { useCallback, useState } from 'react';
 import { Box, RadioGroup, FormControlLabel, TextField } from '@material-ui/core';
 import { BoxBordered, RadioButton } from 'apps/ui';
-import React, { useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './FaceMatchingThreshold.styles';
 import { FACEMATCH_DEFAULT_THRESHOLD, FACEMATCH_THRESHOLDS, FacematchThresholdModes, validateScore } from '../../models/facematch.model';
 
-export function FaceMatchingThreshold({ defaultThreshold = FACEMATCH_DEFAULT_THRESHOLD, thresholds = FACEMATCH_THRESHOLDS, facematchThreshold, onUpdate }: {
+export function FaceMatchingThreshold({ defaultThreshold = FACEMATCH_DEFAULT_THRESHOLD, thresholds = FACEMATCH_THRESHOLDS, disabled = false, facematchThreshold, onUpdate }: {
   defaultThreshold?: number;
   thresholds?: any;
+  disabled?: boolean;
   facematchThreshold: number | null;
   onUpdate: (value: number | null) => void;
 }) {
@@ -15,15 +16,15 @@ export function FaceMatchingThreshold({ defaultThreshold = FACEMATCH_DEFAULT_THR
   const classes = useStyles();
   const [error, setError] = useState(null);
   const [score, setScore] = useState(facematchThreshold);
-  const mode = useMemo(() => (facematchThreshold ? FacematchThresholdModes.Custom : FacematchThresholdModes.Recommended), [facematchThreshold]);
+  const [mode, setMode] = useState(facematchThreshold && facematchThreshold !== defaultThreshold ? FacematchThresholdModes.Custom : FacematchThresholdModes.Recommended);
   const handleUpdate = useCallback((value: number) => {
     onUpdate(value);
   }, [onUpdate]);
   const handleModeChange = useCallback(({ target: { value } }) => {
     setError(null);
-    const updatedScore = (FacematchThresholdModes.Custom === value) ? defaultThreshold : null;
-    setScore(updatedScore);
-    handleUpdate(updatedScore);
+    setMode(value);
+    setScore(defaultThreshold);
+    handleUpdate(defaultThreshold);
   }, [defaultThreshold, handleUpdate]);
   const handleScoreChange = useCallback(({ target: { value } }) => {
     const parsed = parseInt(value, 10);
@@ -48,7 +49,7 @@ export function FaceMatchingThreshold({ defaultThreshold = FACEMATCH_DEFAULT_THR
         <BoxBordered mb={2} className={classes.wrapper}>
           <FormControlLabel
             value={FacematchThresholdModes.Recommended}
-            control={<RadioButton color="primary" />}
+            control={<RadioButton color="primary" disabled={disabled} />}
             label={(
               <>
                 <Box mb={0.5} color="common.black90" fontWeight="bold">
@@ -74,7 +75,7 @@ export function FaceMatchingThreshold({ defaultThreshold = FACEMATCH_DEFAULT_THR
         <BoxBordered className={classes.wrapper}>
           <FormControlLabel
             value={FacematchThresholdModes.Custom}
-            control={<RadioButton color="primary" />}
+            control={<RadioButton color="primary" disabled={disabled} />}
             label={(
               <Box>
                 <Box mb={1} color="common.black90" fontWeight="bold">

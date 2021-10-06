@@ -1,6 +1,7 @@
 import { Box, Button, Grid } from '@material-ui/core';
 import { selectFlowBuilderChangeableFlow, selectFlowBuilderProductsInGraph } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { flowNameValidator } from 'apps/FlowList/validators/FlowName.validator';
+import { overlayCloseAll } from 'apps/overlay';
 import { ProductCheckListAll } from 'apps/Product';
 import { useDeleteButtonHook, Warning } from 'apps/ui';
 import classNames from 'classnames';
@@ -42,6 +43,7 @@ export function FlowSettings({ onClose }: {
   }, [merchantFlowsModel.value]);
 
   const handleDeleteFlow = useCallback(async () => {
+    await dispatch(overlayCloseAll());
     await dispatch(flowBuilderDelete());
   }, [dispatch]);
 

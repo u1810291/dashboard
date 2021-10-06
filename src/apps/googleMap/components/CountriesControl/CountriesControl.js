@@ -52,11 +52,6 @@ export function CountriesControl({ geocoder, mapRef, setIsCountriesControlOpen, 
     markersRef.current = markers;
   }, [map]);
 
-  // TODO @grigorev add IpCheck
-  // useEffect(() => {
-  //   dispatch(getIpCheckStatistics(metricsFilter));
-  // }, [dispatch, metricsFilter]);
-
   useEffect(() => {
     if (informationSource === InformationSourceTypes.Documents) {
       setCountries(changeCountriesStructureForCountriesControl(statistics.byCountry));

@@ -2,7 +2,7 @@ import { Box, Button, Paper, TextField } from '@material-ui/core';
 import { get } from 'lodash';
 import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useOverlay } from '../../../overlay';
+import { useOverlay } from 'apps/overlay';
 import { useStyles } from './ChangePasswordModal.styles';
 
 export function ChangeEmailModal({ onSubmit }) {

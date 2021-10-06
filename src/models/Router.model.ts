@@ -24,11 +24,13 @@ export const Routes = {
   identity: {
     profile: {
       root: '/identity',
-      details: '/identity/:identityId',
+      details: {
+        root: '/identity/:identityId',
+        verificationDetails: '/identity/:identityId/verification/:verificationId',
+      },
     },
     verification: {
       root: '/verification',
-      details: '/verification/:verificationId',
     },
   },
   flow: {

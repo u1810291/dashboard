@@ -15,7 +15,7 @@ export function useProductRemoving() {
   const flow = useSelector(selectFlowBuilderChangeableFlow);
 
   return useCallback((productType: ProductTypes, onRemove: (productType: ProductTypes) => void) => {
-    const removingAlertComponent = productManagerService.getProduct(productType)?.getRemovingAlertComponent(flow);
+    const removingAlertComponent = productManagerService.getProduct(productType)?.getRemovingAlertComponent(flow, productsInGraph);
     const { dependentProductTypes } = productManagerService.getProduct(productType).getCard();
     const activeDependentProductTypes = dependentProductTypes.filter((dependentProductType) => productsInGraph.some((productInGraph) => productInGraph === dependentProductType));
     const isMoreThanOneDepProduct = activeDependentProductTypes.length === 2;

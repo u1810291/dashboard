@@ -20,6 +20,7 @@ export function TopMenuItem({
   isOutlined = false,
   isWithOutlined = false,
   isOpen = false,
+  id,
 }) {
   const classes = useStyles({ color });
   const menuItem = (
@@ -28,6 +29,7 @@ export function TopMenuItem({
       className={classnames(classes.menuItem, className)}
       onClick={handler}
       data-qa={qa}
+      id={id}
     >
       <Box
         display="flex"

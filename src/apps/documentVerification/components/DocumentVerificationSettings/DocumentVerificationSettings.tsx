@@ -251,6 +251,7 @@ export function DocumentVerificationSettings({ settings, onUpdate }: ProductSett
                 isDisabled={settings[DocumentVerificationSettingTypes.FacematchThreshold]?.isDisabled}
               >
                 <FaceMatchingThreshold
+                  disabled={settings[DocumentVerificationSettingTypes.FacematchThreshold]?.isDisabled}
                   facematchThreshold={settings[DocumentVerificationSettingTypes.FacematchThreshold]?.value}
                   onUpdate={handleUpdate(DocumentVerificationSettingTypes.FacematchThreshold)}
                 />

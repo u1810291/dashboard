@@ -29,6 +29,11 @@ export enum InformationImageTypes {
   Android = 'android',
 }
 
+export enum ForDevelopersInputTypes {
+  Secret = 'secret',
+  Url = 'url',
+}
+
 export interface Tab {
   id: TabID;
   qa: string;
