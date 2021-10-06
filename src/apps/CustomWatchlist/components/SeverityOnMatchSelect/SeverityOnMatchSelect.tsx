@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import classnames from 'classnames';
 import { Select, MenuItem } from '@material-ui/core';
@@ -11,24 +11,6 @@ export const SeverityOnMatchSelect = ({ watchlist, onUpdate }: {
 }) => {
   const intl = useIntl();
   const classes = useStyles();
-  const actionOptions = useMemo(() => ([
-    {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.noAction' }),
-      value: CustomWatchlistSeverityOnMatchTypes.NoAction,
-    },
-    {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.rejected' }),
-      value: CustomWatchlistSeverityOnMatchTypes.Critical,
-    },
-    {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.reviewNeeded' }),
-      value: CustomWatchlistSeverityOnMatchTypes.Medium,
-    },
-    {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.option.notifyByWebhook' }),
-      value: CustomWatchlistSeverityOnMatchTypes.Low,
-    },
-  ]), [intl]);
 
   const handleSeverityChange = useCallback((watchlistValue: FlowWatchlistUi) => (event: React.ChangeEvent<{ value: unknown; name?: string }>) => {
     onUpdate({ id: watchlistValue.id, severityOnMatch: event.target.value as CustomWatchlistSeverityOnMatchTypes });
@@ -47,27 +29,31 @@ export const SeverityOnMatchSelect = ({ watchlist, onUpdate }: {
         [classes.placeholder]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatchTypes.NoAction,
       })}
     >
-      {actionOptions.map((item) => {
-        if (item.value === CustomWatchlistSeverityOnMatchTypes.NoAction) {
-          return (
-            <MenuItem
-              key={CustomWatchlistSeverityOnMatchTypes.NoAction}
-              value={item.value}
-              className={classes.placeholder}
-            >
-              {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.placeholder' })}
-            </MenuItem>
-          );
-        }
-        return (
-          <MenuItem
-            key={`${item.value}-${item.label}`}
-            value={item.value}
-          >
-            {item.label}
-          </MenuItem>
-        );
-      })}
+      <MenuItem
+        key={CustomWatchlistSeverityOnMatchTypes.NoAction}
+        value={CustomWatchlistSeverityOnMatchTypes.NoAction}
+        className={classes.placeholder}
+      >
+        {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.placeholder' })}
+      </MenuItem>
+      <MenuItem
+        key={CustomWatchlistSeverityOnMatchTypes.Critical}
+        value={CustomWatchlistSeverityOnMatchTypes.Critical}
+      >
+        {intl.formatMessage({ id: `CustomWatchlist.settings.modal.input.action.option.${CustomWatchlistSeverityOnMatchTypes.Critical}` })}
+      </MenuItem>
+      <MenuItem
+        key={CustomWatchlistSeverityOnMatchTypes.Medium}
+        value={CustomWatchlistSeverityOnMatchTypes.Medium}
+      >
+        {intl.formatMessage({ id: `CustomWatchlist.settings.modal.input.action.option.${CustomWatchlistSeverityOnMatchTypes.Medium}` })}
+      </MenuItem>
+      <MenuItem
+        key={CustomWatchlistSeverityOnMatchTypes.Low}
+        value={CustomWatchlistSeverityOnMatchTypes.Low}
+      >
+        {intl.formatMessage({ id: `CustomWatchlist.settings.modal.input.action.option.${CustomWatchlistSeverityOnMatchTypes.Low}` })}
+      </MenuItem>
     </Select>
   );
 };
