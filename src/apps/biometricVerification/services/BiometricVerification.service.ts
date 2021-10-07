@@ -1,15 +1,15 @@
-import { BiometricVerificationRemovingAlert } from 'apps/biometricVerification/components/BiometricVerificationRemovingAlert';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiUserCheck } from 'react-icons/fi';
 import { IFlow } from 'models/Flow.model';
-import { BiometricVerificationSettings } from 'apps/biometricVerification/components/BiometricVerificationSettings';
 import { BiometricSteps, BiometricTypes } from 'models/Biometric.model';
-import { BiometricVerificationCheckTypes, BiometricVerificationSettingsTypes } from 'apps/biometricVerification/models/BiometricVerification.model';
 import { BiometricsVerificationProduct } from 'apps/biometrics';
 import { VerificationResponse } from 'models/Verification.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
+import { BiometricVerificationCheckTypes, BiometricVerificationSettingsTypes } from '../models/BiometricVerification.model';
+import { BiometricVerificationSettings } from '../components/BiometricVerificationSettings';
+import { BiometricVerificationRemovingAlert } from '../components/BiometricVerificationRemovingAlert';
 
 type ProductSettingsBiometric = ProductSettings<BiometricVerificationSettingsTypes>;
 
@@ -61,11 +61,8 @@ export class BiometricVerification extends ProductBaseService implements Product
     };
   }
 
-  getRemovingAlertComponent(flow: IFlow): any {
-    if (!flow?.verificationPatterns?.[VerificationPatternTypes.ProofOfOwnership] && !flow?.facematchThreshold) {
-      return null;
-    }
-    return BiometricVerificationRemovingAlert;
+  getRemovingAlertComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
+    return productsInGraph.includes(ProductTypes.DocumentVerification) ? BiometricVerificationRemovingAlert : null;
   }
 
   parser(flow: IFlow): ProductSettingsBiometric {

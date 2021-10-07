@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { Routes } from 'models/Router.model';
 
-export function useQuery() {
+export function useQuery(): {[key: string]: string} {
   const search = new URLSearchParams(useLocation().search);
   return Object.fromEntries(search) || {};
 }

@@ -52,9 +52,10 @@ export interface VerificationResponse {
 }
 
 /**
- * @deprecated use VerificationResponse in your product
+ * @deprecated use VerificationResponse in your product. When the old verification details page is replaced with an identity profile
+ * and verification data is created in review mode as in flow builder products, this interface can be removed
  */
-export interface Verification extends VerificationResponse {
+export interface VerificationWithExtras extends VerificationResponse {
   id: string;
   status: IdentityStatuses;
   deviceFingerprint: any;
@@ -82,7 +83,7 @@ export function getIdentityShortId(id) {
 /**
  * @deprecated use verification data directly in your product
  */
-export function getVerificationExtras(verification: VerificationResponse, countries): Verification {
+export function getVerificationExtras(verification: VerificationResponse, countries): VerificationWithExtras {
   if (!verification || isObjectEmpty(verification)) {
     return null;
   }

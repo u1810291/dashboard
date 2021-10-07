@@ -6,7 +6,7 @@ import { QATags } from 'models/QA.model';
 import styles from './Modal.module.scss';
 import { overlayClose } from '../../state/overlay.actions';
 
-export interface ModalProps{
+export function Modal({ children, onClose, className, imgSrc = '', title = '', subtitle = '', description, small = false, wideHeader = false, ...props }: {
   children?: React.ReactNode;
   onClose?: () => void;
   className?: string;
@@ -17,15 +17,14 @@ export interface ModalProps{
   small?: boolean;
   wideHeader?: boolean;
   [key: string]: any;
-}
-
-export function Modal({ children, onClose, className, imgSrc = '', title = '', subtitle = '', description, small = false, wideHeader = false, ...props }: ModalProps) {
+}) {
   const dispatch = useDispatch();
   const closeModal = useCallback(() => {
     if (onClose) {
       onClose();
+    } else {
+      dispatch(overlayClose());
     }
-    dispatch(overlayClose());
   }, [dispatch, onClose]);
 
   return (

@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import { useStyles } from './VerificationCheckCard.styles';
 
 export function VerificationCheckCard({ title, bottomComponent, children }: {
-  title: ReactNode;
+  title?: ReactNode;
   bottomComponent?: ReactNode;
   children: ReactNode;
 }) {
