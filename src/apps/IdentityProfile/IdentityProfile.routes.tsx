@@ -8,5 +8,5 @@ const IdentityProfileLazy = lazy(async () => {
 });
 
 export const identityProfileRoutes = [
-  <Route key="identity-profile" path={Routes.identity.profile.details} component={IdentityProfileLazy} />,
+  <Route key="identity-profile" path={Routes.identity.profile.details.root} component={IdentityProfileLazy} />,
 ];

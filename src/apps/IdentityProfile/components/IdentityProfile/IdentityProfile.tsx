@@ -37,7 +37,7 @@ export function IdentityProfile() {
             <SideProfileMenu onError={setErrorType} profile={identityProfileModel?.value} />
           </Grid>
           <Grid item xs={12} className={classes.content}>
-            <Route path={`${Routes.identity.profile.details}${Routes.identity.verification.details}`}>
+            <Route path={Routes.identity.profile.details.verificationDetails}>
               <VerificationContainer />
             </Route>
           </Grid>

@@ -7,7 +7,3 @@ export function getStatistics(params) {
 export function getCountStatistics(params) {
   return http.get('/api/v1/dashboard/analytics/verification/stat', { params });
 }
-
-export function getIpCheckStatistics(params) {
-  return http.get('/api/v1/merchants/me/identities/analytics/cities', { params });
-}

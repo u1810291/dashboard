@@ -32,7 +32,7 @@ export abstract class ProductBaseService implements Partial<Product> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getRemovingAlertComponent(flow: IFlow): any {
+  getRemovingAlertComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
     return null;
   }
 

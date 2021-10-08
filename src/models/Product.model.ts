@@ -86,7 +86,7 @@ export interface Product<T = ProductSettings> {
   serialize(settings: T): Partial<IFlow>;
   onRemove(flow: IFlow): Partial<IFlow>;
   onAdd(): Partial<IFlow>;
-  getRemovingAlertComponent?(flow: IFlow): any;
+  getRemovingAlertComponent?(flow: IFlow, productsInGraph?: ProductTypes[]): any;
   haveIssues?(flow: IFlow): boolean;
   isSdkOnly?(): boolean;
   getIssuesComponent?(flow: IFlow): any;

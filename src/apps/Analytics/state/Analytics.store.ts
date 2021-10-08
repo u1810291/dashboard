@@ -4,6 +4,7 @@ export enum AnalyticsActionGroups {
   Chart = 'CHART',
   Statistics = 'STATISTICS',
   IpCheckStatistics = 'IP_CHECK_STATISTICS',
+  Filter = 'FILTER',
 }
 
 export enum AnalyticsSliceNames {

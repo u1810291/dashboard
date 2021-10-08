@@ -10,9 +10,7 @@ export function BiometricVerificationRemovingAlert(): any {
   const flow = useSelector(selectFlowBuilderChangeableFlow);
   const settings: string[] = [];
 
-  if (flow?.facematchThreshold) {
-    settings.push(intl.formatMessage({ id: 'BiometricVerification.removingAlert.facematchCheck' }));
-  }
+  settings.push(intl.formatMessage({ id: 'BiometricVerification.removingAlert.facematchCheck' }));
   if (flow?.verificationPatterns?.[VerificationPatternTypes.ProofOfOwnership]) {
     settings.push(intl.formatMessage({ id: 'BiometricVerification.removingAlert.proofOfOwnership' }));
   }

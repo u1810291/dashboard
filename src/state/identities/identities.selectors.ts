@@ -1,11 +1,11 @@
 import { selectLoadableValue } from 'lib/loadable.selectors';
 import { getIdentityExtras } from 'models/Identity.model';
 import { createSelector } from 'reselect';
-import { filterSerialize } from '../../models/Filter.model';
+import { filterSerialize } from 'models/Filter.model';
+import { VerificationListItem } from 'models/Verification.model';
+import { Loadable } from 'models/Loadable.model';
 import { selectCountriesList } from '../countries/countries.selectors';
 import { IDENTITIES_STORE_KEY, SliceNames } from './identities.store';
-import { VerificationListItem } from '../../models/Verification.model';
-import { Loadable } from '../../models/Loadable.model';
 
 export const selectIdentityStore = (state) => state[IDENTITIES_STORE_KEY];
 
