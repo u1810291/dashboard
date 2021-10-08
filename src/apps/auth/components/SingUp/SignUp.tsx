@@ -55,7 +55,7 @@ export function SignUp() {
       }));
       setIsSubmitting(false);
       history.push(Routes.root);
-    } catch (e) {
+    } catch (e: any) {
       setIsSubmitting(false);
       // TODO: @ggrigorev rework signUp in DIO-773
       if (e?.response?.data?.details?.[0]?.type === 'string.email') {
