@@ -9,14 +9,16 @@ import { useIntl } from 'react-intl';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
 import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping } from 'models/CustomWatchlist.model';
+import { WithDescriptionActionBordered } from 'apps/ui/components/WithDescriptionActionBordered/WithDescriptionActionBordered';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
 import { selectIsWatchlistsLoading } from '../../state/CustomWatchlist.selectors';
 import { useStyles, RoundedButton } from './CustomWatchListModalValidation.styles';
+import * as api from '../../client/CustomWatchlist.client';
 
 export interface CustomWatchlistModalValidationInputTypes {
   [CustomWatchlistModalValidationInputs.Name]: string;
-  [CustomWatchlistModalValidationInputs.File]: File | null;
+  [CustomWatchlistModalValidationInputs.File]: string | null;
   [CustomWatchlistModalValidationInputs.Mapping]: WatchlistMapping[];
 }
 
@@ -30,13 +32,23 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
   const classes = useStyles();
   const [fileName, setFileName] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<CustomWatchlistModalValidationInputTypes>();
+  const { register, handleSubmit, setValue, setError, formState: { errors } } = useForm<CustomWatchlistModalValidationInputTypes>();
 
-  const handleUploadFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadFile = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
     setFileName(file.name);
-    setValue(CustomWatchlistModalValidationInputs.File, file);
-  }, [setValue]);
+    const form = new FormData();
+    form.append('media', file);
+    try {
+      const { data } = await api.uploadMerchantWatchlist(form);
+      setValue(CustomWatchlistModalValidationInputs.File, data.publicUrl);
+      setError(CustomWatchlistModalValidationInputs.File, {});
+    } catch {
+      setError(CustomWatchlistModalValidationInputs.File, {
+        message: intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.fileErrorUpload' }),
+      });
+    }
+  }, [intl, setValue, setError]);
 
   const nameRegister = register(CustomWatchlistModalValidationInputs.Name, {
     required: intl.formatMessage({ id: 'validations.required' }),
@@ -47,7 +59,6 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
       setIsSubmitting(true);
       onSubmit({
         // TODO: @richvoronv remove mock on STAGE 2
-        [CustomWatchlistModalValidationInputs.File]: null,
         mapping: [{
           systemField: 'fullName',
           merchantField: 'Full Name',
@@ -107,22 +118,21 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
                 </Typography>
               </InputLabel>
               {fileName ? (
-                <Grid container className={classes.fileName} justifyContent="space-between" alignItems="center">
-                  <Grid item className={classes.fileNameTitle}>{fileName}</Grid>
-                  <Grid item>
-                    <FileUploadButton
-                      onChange={handleUploadFile}
-                      accept=".xls, .csv"
-                      renderButton={(
-                        <RoundedButton>
-                          {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile.reload' })}
-                        </RoundedButton>
-                          )}
-                    />
-                  </Grid>
-                </Grid>
+                <WithDescriptionActionBordered description={fileName} error={errors[CustomWatchlistModalValidationInputs.File]?.message}>
+                  <FileUploadButton
+                    onChange={handleUploadFile}
+                    // accept=".xls, .csv"
+                    renderButton={(
+                      <RoundedButton>
+                        {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile.reload' })}
+                      </RoundedButton>
+                    )}
+                  />
+                </WithDescriptionActionBordered>
               ) : (
-                <FileUploadButton onChange={handleUploadFile} accept=".xls, .csv">{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile' })}</FileUploadButton>
+                <FileUploadButton onChange={handleUploadFile}>
+                  {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile' })}
+                </FileUploadButton>
               )}
             </Box>
           </Grid>

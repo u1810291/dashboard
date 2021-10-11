@@ -1,5 +1,5 @@
 import { http } from 'lib/client/http';
-import { Watchlist } from 'models/CustomWatchlist.model';
+import { Watchlist, CustomWatchlistUpload } from 'models/CustomWatchlist.model';
 
 // TODO: @richvoronov replace Object in params with normal type on STAGE 2
 export function getMerchantWatchlistsById(merchantId: string, params: Object) {
@@ -21,6 +21,6 @@ export function updateMerchantWatchlistById(merchantId: string, watchlistId: num
 }
 
 // TODO: @richvoronov replace Object in params with normal type on STAGE 2
-export function uploadMerchantWatchlist(body: Object) {
-  return http.post('/v1/media', body);
+export function uploadMerchantWatchlist(body: FormData) {
+  return http.post<CustomWatchlistUpload>('/v1/media', body);
 }
