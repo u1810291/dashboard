@@ -20,7 +20,6 @@ export function updateMerchantWatchlistById(merchantId: string, watchlistId: num
   return http.patch<Watchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}`, body);
 }
 
-// TODO: @richvoronov replace Object in params with normal type on STAGE 2
 export function uploadMerchantWatchlist(body: FormData) {
   return http.post<CustomWatchlistUpload>('/v1/media', body);
 }
