@@ -25,16 +25,6 @@ export const useStyles = makeStyles((theme) => ({
     height: '20px',
     color: theme.palette.button.close.main,
   },
-  fileName: {
-    border: `1px solid ${theme.palette.common.black7}`,
-    padding: '10px',
-    borderRadius: '5px',
-  },
-  fileNameTitle: {
-    color: theme.palette.text.main,
-    textDecorationLine: 'underline',
-    fontWeight: 'bold',
-  },
   marginBottom10: {
     marginBottom: 10,
   },

@@ -55,7 +55,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
     dispatch(customWatchlistCreate(merchantId, values, handleCloseOverlay));
   }, [merchantId, handleCloseOverlay, dispatch]);
 
-  const handleChangeStep = useCallback((watchlist?: FlowWatchlistUi) => () => {
+  const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {
     setSelectedWatchlist(watchlist);
     createOverlay(
       <CustomWatchListModalValidation
@@ -96,7 +96,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
                     {watchlist.name || intl.formatMessage({ id: 'CustomWatchlist.settings.step.title' }, { count: watchlistIndex + 1 })}
                   </Box>
                   <Box ml="auto" flexShrink={0}>
-                    <IconButton className={classnames(classes.button, classes.buttonEdit)} onClick={handleChangeStep(watchlist)}>
+                    <IconButton className={classnames(classes.button, classes.buttonEdit)} onClick={handleOpenWatchlist(watchlist)}>
                       <FiEdit size={17} />
                     </IconButton>
                     <IconButton className={classnames(classes.button, classes.buttonTrash)} onClick={handleDeleteWatchList(watchlist.id)}>
@@ -122,7 +122,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
               </Box>
             </Box>
           ))}
-          <Button className={classes.buttonAdd} onClick={handleChangeStep()} color="primary" variant="outlined">
+          <Button className={classes.buttonAdd} onClick={handleOpenWatchlist()} color="primary" variant="outlined">
             <FiPlus size={12} />
             {intl.formatMessage({ id: 'CustomWatchlist.settings.button' })}
           </Button>

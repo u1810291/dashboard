@@ -489,6 +489,7 @@
   "CustomWatchlist.settings.step.title": "Watchlist {count}",
   "CustomWatchlist.settings.button": "Add watchlist",
   "CustomWatchlist.settings.watchlist.uploaded": "Uploaded",
+  "CustomWatchlist.settings.watchlist.fileErrorUpload": "Error. Please try uploading the file again.",
   "CustomWatchlist.settings.watchlist.validationError": "Validation error",
   "CustomWatchlist.settings.modal.title": "Watchlist configuration",
   "CustomWatchlist.settings.modal.input.name.label": "Watchlist name",

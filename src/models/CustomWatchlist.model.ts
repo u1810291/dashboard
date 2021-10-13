@@ -39,6 +39,11 @@ export interface Watchlist {
   mapping: WatchlistMapping | null;
 }
 
+export interface CustomWatchlistUpload {
+  publicUrl: string;
+  url: string;
+}
+
 export enum CustomWatchlistSettingsTypes {
   Watchlists = 'watchlists',
 }
