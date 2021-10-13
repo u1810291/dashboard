@@ -1,9 +1,10 @@
 import React, { useState, useMemo, useCallback } from 'react';
+import { useDebounce } from 'lib/debounce.hook';
 import classnames from 'classnames';
 import { FiChevronDown } from 'react-icons/fi';
 import { Grid, Typography, MenuItem, Box } from '@material-ui/core';
 import { appPalette } from 'apps/theme';
-import { ValidatedInputsKeys } from 'models/CustomWatchlist.model';
+import { ValidatedInputsKeys, WatchlistMappingOptions } from 'models/CustomWatchlist.model';
 import { RangeSlider } from 'apps/ui/components/RangeSlider/RangeSlider';
 import { SelectedOptions, placeholderKey as placeholderKeyConst } from '../ValidatedInputs/ValidatedInputs';
 import { useStyles, SelectStyled } from './ValidatedInput.styles';
@@ -20,11 +21,12 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
     placeholderKey: string;
     options: Option[];
     selectedOptions: SelectedOptions;
-    onChange: (values: { value: string; name?: string }) => void;
+    onChange: (values: { value: string; name?: string; options?: WatchlistMappingOptions }) => void;
     value?: string;
   }) {
   const [value, setValue] = useState<string>(propValue || placeholderKey);
   const [rangeSliderValue, setRangeSliderValue] = useState<number>(selectedOptions[name]?.options?.fuzziness || 50);
+  const debounced = useDebounce();
   const classes = useStyles();
 
   const handleChange = useCallback((event: React.ChangeEvent<{ value: any; name?: string }>) => {
@@ -33,9 +35,16 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
     onChange(target);
   }, [onChange]);
 
-  const handleSliderChange = useCallback((_: React.ChangeEvent<{}>, val: number | number[]) => {
+  const handleSliderChange = useCallback((fieldValue: any, fieldName: string) => (_: React.ChangeEvent<{}>, val: number | number[]) => {
     setRangeSliderValue(val as number);
-  }, []);
+    debounced(() => onChange({
+      value: fieldValue,
+      name: fieldName,
+      options: {
+        fuzziness: val as number,
+      },
+    }));
+  }, [onChange, debounced]);
 
   const localOptions = useMemo(() => options.filter((option) => Object.values(selectedOptions).every((x) => x.value !== option.value)), [options, selectedOptions]);
 
@@ -81,7 +90,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
           <RangeSlider
             defaultValue={rangeSliderValue}
             value={rangeSliderValue}
-            onChange={handleSliderChange}
+            onChange={handleSliderChange(value, name)}
           />
         </Box>
       )}

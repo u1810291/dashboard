@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FiChevronLeft } from 'react-icons/fi';
@@ -57,25 +57,31 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
   const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback((values) => {
     try {
       setIsSubmitting(true);
-      onSubmit({
-        // TODO: @richvoronv remove mock on STAGE 2
-        mapping: [{
-          systemField: 'fullName',
-          merchantField: 'Full Name',
-          options: {
-            fuzziness: 50,
-          },
-        }, {
-          systemField: 'dateOfBirth',
-          merchantField: 'Date Of Birth',
-        }],
-        ...values,
-      });
+      onSubmit(values);
       setIsSubmitting(false);
     } catch (error) {
       setIsSubmitting(false);
     }
   }, [onSubmit]);
+
+  const onValidatedInputsChange = useCallback((validatedInputsValues) => {
+    setValue(CustomWatchlistModalValidationInputs.Mapping, validatedInputsValues);
+  }, [setValue]);
+
+  // TODO: STAGE 2, replace with dynamic data
+  const watchlistMapping = useMemo(() => [
+    {
+      label: 'Name',
+      value: 'fullName',
+      options: {
+        fuzziness: 50,
+      },
+    },
+    {
+      label: 'Date of birth',
+      value: 'dateOfBirth',
+    },
+  ], []);
 
   return (
     <Box className={classes.root}>
@@ -121,7 +127,7 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
                 <WithDescriptionActionBordered description={fileName} error={errors[CustomWatchlistModalValidationInputs.File]?.message}>
                   <FileUploadButton
                     onChange={handleUploadFile}
-                    // accept=".xls, .csv"
+                    accept=".xls, .csv"
                     renderButton={(
                       <RoundedButton>
                         {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile.reload' })}
@@ -130,7 +136,7 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
                   />
                 </WithDescriptionActionBordered>
               ) : (
-                <FileUploadButton onChange={handleUploadFile}>
+                <FileUploadButton onChange={handleUploadFile} accept=".xls, .csv">
                   {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile' })}
                 </FileUploadButton>
               )}
@@ -147,20 +153,7 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
             </Box>
             {fileName ? (
             // TODO: @richvoronov STAGE 2, replace fieldValues with recieved data
-              <ValidatedInputs fieldValues={[
-                {
-                  label: 'Name',
-                  value: 'fullName',
-                  options: {
-                    fuzziness: 50,
-                  },
-                },
-                {
-                  label: 'Date of birth',
-                  value: 'dateOfBirth',
-                },
-              ]}
-              />
+              <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} />
             ) : <FakeInputs />}
           </Grid>
         </Grid>

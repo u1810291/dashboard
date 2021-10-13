@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
-import { ValidatedInputsKeys } from 'models/CustomWatchlist.model';
+import { ValidatedInputsKeys, WatchlistMappingOptions } from 'models/CustomWatchlist.model';
 import { ValidatedInput } from '../ValidatedInput/ValidatedInput';
 
 export const placeholderKey = 'placeholder';
@@ -24,7 +24,7 @@ interface FieldValues {
   options?: FieldValuesOptions;
 }
 
-export function ValidatedInputs({ fieldValues }: { fieldValues: FieldValues[] }) {
+export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: FieldValues[]; onChange: Function }) {
   const intl = useIntl();
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(fieldValues.reduce((prev, cur) => ({ ...prev, [cur.value]: cur }), {}));
 
@@ -59,15 +59,20 @@ export function ValidatedInputs({ fieldValues }: { fieldValues: FieldValues[] })
     },
   ], [intl]);
 
-  const handleChange = useCallback((values: { value: string; name?: string }) => {
+  const handleChange = useCallback((values: { value: string; name?: string; options?: WatchlistMappingOptions }) => {
     setSelectedOptions((prev) => ({
       ...prev,
       [values.name]: {
         label: inputOptions.find((option) => option.value === values.value).label,
         value: values.value,
+        ...(values?.options && { options: values.options }),
       },
     }));
   }, [inputOptions]);
+
+  useEffect(() => {
+    onChange(selectedOptions);
+  }, [selectedOptions, onChange]);
 
   return (
     <Grid container direction="column" spacing={1}>
