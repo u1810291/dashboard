@@ -8,18 +8,20 @@ import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
-import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping } from 'models/CustomWatchlist.model';
+import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping, CustomWatchlistFileExt } from 'models/CustomWatchlist.model';
 import { WithDescriptionActionBordered } from 'apps/ui/components/WithDescriptionActionBordered/WithDescriptionActionBordered';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
 import { selectIsWatchlistsLoading } from '../../state/CustomWatchlist.selectors';
 import { useStyles, RoundedButton } from './CustomWatchListModalValidation.styles';
 import * as api from '../../client/CustomWatchlist.client';
+import { CSVDelimeterSelect } from '../CSVDelimeterSelect/CSVDelimeterSelect';
 
 export interface CustomWatchlistModalValidationInputTypes {
   [CustomWatchlistModalValidationInputs.Name]: string;
   [CustomWatchlistModalValidationInputs.File]: string | null;
   [CustomWatchlistModalValidationInputs.Mapping]: WatchlistMapping[];
+  [CustomWatchlistModalValidationInputs.CsvDelimiter]: null;
 }
 
 export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }: {
@@ -54,6 +56,8 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
     required: intl.formatMessage({ id: 'validations.required' }),
   });
 
+  const delimiterRegister = register(CustomWatchlistModalValidationInputs.CsvDelimiter);
+
   const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback((values) => {
     try {
       setIsSubmitting(true);
@@ -82,6 +86,17 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
       value: 'dateOfBirth',
     },
   ], []);
+
+  const extFile = useMemo(() => {
+    const arr = fileName?.split('.') || [];
+    if (arr?.length !== 0) {
+      return arr[arr.length - 1];
+    }
+
+    return '';
+  }, [fileName]);
+
+  console.log('extFile', extFile);
 
   return (
     <Box className={classes.root}>
@@ -151,10 +166,8 @@ export function CustomWatchListModalValidation({ watchlist, onClose, onSubmit }:
                 {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.subTitle' })}
               </Typography>
             </Box>
-            {fileName ? (
-            // TODO: @richvoronov STAGE 2, replace fieldValues with recieved data
-              <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} />
-            ) : <FakeInputs />}
+            {fileName ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} /> : <FakeInputs />}
+            {extFile === CustomWatchlistFileExt.Csv && <CSVDelimeterSelect {...delimiterRegister} />}
           </Grid>
         </Grid>
         <Grid container spacing={2} className={classes.marginTop50}>

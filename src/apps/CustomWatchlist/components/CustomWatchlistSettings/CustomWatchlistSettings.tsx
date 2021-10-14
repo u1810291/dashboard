@@ -40,6 +40,7 @@ export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsP
         ...watchlist,
         ...findedWatchlist,
         severityOnMatch: findedWatchlist?.severityOnMatch ?? CustomWatchlistSeverityOnMatchTypes.NoAction,
+        csvDelimiter: watchlist?.csvDelimiter ?? null,
       };
     });
   }, [settings, watchlists]);

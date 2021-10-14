@@ -501,6 +501,7 @@
   "CustomWatchlist.settings.addYourWatchlist.title": "Add your watchlist",
   "CustomWatchlist.settings.addYourWatchlist.subtitle": "Select the package of documents where one is require. Or add one more step if you want to make require more than one document.",
   "CustomWatchlist.settings.step.title": "Watchlist {count}",
+  "CustomWatchlist.settings.modal.select.csvDelimiter.title": "Specify the type of CSV delimeter:",
   "CustomWatchlist.settings.button": "Add watchlist",
   "CustomWatchlist.settings.watchlist.uploaded": "Uploaded",
   "CustomWatchlist.settings.watchlist.fileErrorUpload": "Error. Please try uploading the file again.",

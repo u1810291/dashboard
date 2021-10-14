@@ -5,6 +5,22 @@ export enum CustomWatchlistSeverityOnMatchTypes {
   Critical = 'critical',
 }
 
+export enum CsvDelimiterInputTypes {
+  Semicolon = 'semicolon',
+  Comma = 'comma',
+  Dot = 'dot',
+  Tab = 'tab',
+  Pipe = 'pipe',
+}
+
+export const CsvDelimiterTypes = {
+  [CsvDelimiterInputTypes.Semicolon]: ';',
+  [CsvDelimiterInputTypes.Comma]: ',',
+  [CsvDelimiterInputTypes.Dot]: '.',
+  [CsvDelimiterInputTypes.Tab]: '\t',
+  [CsvDelimiterInputTypes.Pipe]: '|',
+};
+
 export interface WatchlistMappingOptions {
   fuzziness?: number;
 }
@@ -28,6 +44,7 @@ export interface FlowWatchlistUi {
   merchantId: string;
   mapping: WatchlistMapping | null;
   severityOnMatch: CustomWatchlistSeverityOnMatchTypes;
+  csvDelimiter: string | null;
 }
 
 export interface Watchlist {
@@ -37,6 +54,7 @@ export interface Watchlist {
   updatedAt: string;
   merchantId: string;
   mapping: WatchlistMapping | null;
+  csvDelimiter: string | null;
 }
 
 export interface CustomWatchlistUpload {
@@ -65,4 +83,10 @@ export enum CustomWatchlistModalValidationInputs {
   Name = 'name',
   File = 'file',
   Mapping = 'mapping',
+  CsvDelimiter = 'csvDelimiter',
+}
+
+export enum CustomWatchlistFileExt {
+  Csv = 'csv',
+  Xls = 'xls',
 }
