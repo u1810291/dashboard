@@ -90,3 +90,9 @@ export enum CustomWatchlistFileExt {
   Csv = 'csv',
   Xls = 'xls',
 }
+
+export interface WatchlistContent {
+  url: string;
+  fileName: string;
+  csvSeparator: any;
+}
