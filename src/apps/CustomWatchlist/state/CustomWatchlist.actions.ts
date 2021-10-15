@@ -10,9 +10,9 @@ import { selectCanUseCustomWatchlists, selectWatchlists } from './CustomWatchlis
 export const customWatchlistInit = () => (dispatch, getState): ProductTypes => {
   const canUseCustomWatchlists = selectCanUseCustomWatchlists(getState());
 
-  if (!canUseCustomWatchlists) {
-    return null;
-  }
+  // if (!canUseCustomWatchlists) {
+  //   return null;
+  // }
 
   const customWatchlist = new CustomWatchlist();
   productManagerService.register(customWatchlist);
@@ -22,7 +22,7 @@ export const customWatchlistInit = () => (dispatch, getState): ProductTypes => {
 export const customWatchlistsLoad = (merchantId: string) => async (dispatch) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_REQUEST });
   try {
-    const { data } = await api.getMerchantWatchlistsById(merchantId, {});
+    const { data } = await api.getMerchantWatchlists(merchantId);
     dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: data, isReset: true });
   } catch (error) {
     dispatch({ type: types.CUSTOM_WATCHLISTS_FAILURE, error });
@@ -33,7 +33,7 @@ export const customWatchlistsLoad = (merchantId: string) => async (dispatch) => 
 export const customWatchlistCreate = (merchantId: string, params: CustomWatchlistModalValidationInputTypes, callback: () => void) => async (dispatch, getState) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_REQUEST });
   try {
-    const payload = await api.createMerchantWatchlistById(merchantId, params);
+    const payload = await api.createMerchantWatchlist(merchantId, params);
 
     dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: [payload.data] });
     callback();

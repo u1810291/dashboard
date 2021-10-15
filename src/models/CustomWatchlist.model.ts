@@ -66,3 +66,9 @@ export enum CustomWatchlistModalValidationInputs {
   File = 'file',
   Mapping = 'mapping',
 }
+
+export interface WatchlistContent {
+  url: string;
+  fileName: string;
+  csvSeparator: any;
+}
