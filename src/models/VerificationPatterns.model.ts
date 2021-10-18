@@ -21,6 +21,7 @@ export enum VerificationPatternTypes {
   CostaRicanAtv = 'costa-rican-atv-validation',
   CostaRicanTse = 'costa-rican-tse-validation',
   CostaRicanSocialSecurity = 'costa-rican-social-security-validation',
+  CustomWatchlistsValidation = 'custom-watchlists-validation',
   DominicanJce = 'dominican-jce-validation',
   DuplicateUserDetection = 'duplicate-user-detection',
   DuplicateUserValidation = 'duplicate-user-detection',
@@ -74,6 +75,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.CostaRicanAtv]?: boolean;
   [VerificationPatternTypes.CostaRicanTse]?: boolean;
   [VerificationPatternTypes.CostaRicanSocialSecurity]?: boolean;
+  [VerificationPatternTypes.CustomWatchlistsValidation]?: boolean;
   [VerificationPatternTypes.DominicanJce]?: boolean;
   [VerificationPatternTypes.ParaguayanRcp]?: boolean;
   [VerificationPatternTypes.DuplicateUserDetection]?: boolean;
