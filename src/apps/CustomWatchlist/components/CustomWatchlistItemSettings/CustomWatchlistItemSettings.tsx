@@ -10,9 +10,9 @@ import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { SkeletonThreeRectTwoCircle } from 'apps/ui/components/SkeletonGroups';
-import { CustomWatchListModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchListModalValidation/CustomWatchListModalValidation';
+import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
-import { deleteCustomWatchlist, customWatchlistCreate, customWatchlistUpdate } from '../../state/CustomWatchlist.actions';
+import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 
@@ -49,7 +49,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const handleSubmitWatchlist = useCallback((watchlist?: FlowWatchlist) => (values: CustomWatchlistModalValidationInputTypes) => {
     setIsDataPooling(true);
     if (watchlist) {
-      dispatch(customWatchlistUpdate(merchantId, watchlist.id, values, handleCloseOverlay));
+      dispatch(customWatchlistUpdateById(merchantId, watchlist.id, values, handleCloseOverlay));
       return;
     }
     dispatch(customWatchlistCreate(merchantId, values, handleCloseOverlay));
@@ -58,7 +58,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {
     setSelectedWatchlist(watchlist);
     createOverlay(
-      <CustomWatchListModalValidation
+      <CustomWatchlistModalValidation
         watchlist={watchlist}
         onClose={handleCloseOverlay}
         onSubmit={handleSubmitWatchlist(watchlist)}
@@ -68,7 +68,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   }, [createOverlay, handleCloseOverlay, handleSubmitWatchlist]);
 
   const handleDeleteWatchList = useCallback((watchlistId: number) => () => {
-    dispatch(deleteCustomWatchlist(merchantId, watchlistId));
+    dispatch(deleteCustomWatchlistById(merchantId, watchlistId));
   }, [merchantId, dispatch]);
 
   return (

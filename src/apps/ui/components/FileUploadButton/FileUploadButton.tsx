@@ -8,12 +8,16 @@ export const FileUploadButton = ({
   inputProps = {
     id: 'file-load',
   },
+  isPrefixIconDisplayed = true,
+  disabled,
   onChange,
   error,
   accept,
   renderButton,
 }: {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  isPrefixIconDisplayed?: boolean;
+  disabled?: boolean;
   error?: string;
   children?: React.ReactNode;
   accept?: string;
@@ -38,8 +42,9 @@ export const FileUploadButton = ({
             fullWidth
             color="primary"
             size="large"
+            disabled={disabled}
           >
-            <FiPlus size={12} />
+            {isPrefixIconDisplayed && <FiPlus size={12} />}
             {children}
           </ButtonStyled>
         )}

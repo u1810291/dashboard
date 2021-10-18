@@ -1,6 +1,6 @@
 import { http } from 'lib/client/http';
-import { Watchlist, CustomWatchlistUpload } from 'models/CustomWatchlist.model';
-import { CustomWatchlistModalValidationInputTypes } from '../components/CustomWatchListModalValidation/CustomWatchListModalValidation';
+import { Watchlist, CustomWatchlistUpload, WatchlistContentTypes } from 'models/CustomWatchlist.model';
+import { CustomWatchlistModalValidationInputTypes } from '../components/CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 
 export function getMerchantWatchlists(merchantId: string) {
   return http.get<Watchlist[]>(`/api/v1/merchants/${merchantId}/watchlists`);
@@ -18,7 +18,11 @@ export function updateMerchantWatchlistById(merchantId: string, watchlistId: num
   return http.patch<Watchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}`, body);
 }
 
-export function updateMerchantWatchlistContentById(merchantId: string, watchlistId: number, body: CustomWatchlistModalValidationInputTypes) {
+export function getMerchantWatchlistContentById(merchantId: string, watchlistId: number) {
+  return http.get<Watchlist>(`/${merchantId}/watchlists/${watchlistId}/content`);
+}
+
+export function updateMerchantWatchlistContentById(merchantId: string, watchlistId: number, body: WatchlistContentTypes) {
   return http.post<Watchlist>(`/${merchantId}/watchlists/${watchlistId}/content`, body);
 }
 

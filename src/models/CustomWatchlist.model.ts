@@ -5,6 +5,22 @@ export enum CustomWatchlistSeverityOnMatchTypes {
   Critical = 'critical',
 }
 
+export enum CsvDelimiterInputTypes {
+  Semicolon = 'semicolon',
+  Comma = 'comma',
+  Dot = 'dot',
+  Tab = 'tab',
+  Pipe = 'pipe',
+}
+
+export const CsvDelimiterTypes = {
+  [CsvDelimiterInputTypes.Semicolon]: ';',
+  [CsvDelimiterInputTypes.Comma]: ',',
+  [CsvDelimiterInputTypes.Dot]: '.',
+  [CsvDelimiterInputTypes.Tab]: '\t',
+  [CsvDelimiterInputTypes.Pipe]: '|',
+};
+
 export interface WatchlistMappingOptions {
   fuzziness?: number;
 }
@@ -65,10 +81,16 @@ export enum CustomWatchlistModalValidationInputs {
   Name = 'name',
   File = 'file',
   Mapping = 'mapping',
+  CsvDelimiter = 'csvDelimiter',
 }
 
-export interface WatchlistContent {
+export enum CustomWatchlistFileExt {
+  Csv = 'csv',
+  Xls = 'xls',
+}
+
+export interface WatchlistContentTypes {
   url: string;
   fileName: string;
-  csvSeparator: any;
+  csvSeparator: string;
 }

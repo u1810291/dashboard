@@ -8,7 +8,7 @@ import { FlowWatchlist, CustomWatchlistSettingsTypes, CustomWatchlistSeverityOnM
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { CustomWatchlistItemSettings } from '../CustomWatchlistItemSettings/CustomWatchlistItemSettings';
 import { selectWatchlists } from '../../state/CustomWatchlist.selectors';
-import { customWatchlistClear, customWatchlistsLoad } from '../../state/CustomWatchlist.actions';
+import { customWatchlistsClear, customWatchlistsLoad } from '../../state/CustomWatchlist.actions';
 
 export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsProps<CustomWatchlistSettingsTypes>) {
   const intl = useIntl();
@@ -47,7 +47,7 @@ export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsP
   useEffect(() => {
     dispatch(customWatchlistsLoad(merchantId));
     return () => {
-      dispatch(customWatchlistClear());
+      dispatch(customWatchlistsClear());
     };
   }, [merchantId, dispatch]);
 

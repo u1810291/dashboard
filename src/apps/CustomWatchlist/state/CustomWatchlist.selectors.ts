@@ -21,6 +21,11 @@ export const selectIsWatchlistsLoading = createSelector(
   (store): boolean => store.watchlists.isLoading,
 );
 
+export const selectIsWatchlistsContentLoading = createSelector(
+  selectCustomWatchlistsStore,
+  (store): boolean => store.watchlistContent.isLoading,
+);
+
 export const selectCanUseCustomWatchlists = createSelector(
   selectMerchantTags,
   (tags: MerchantTags[]): boolean => tags.includes(MerchantTags.CanUseCustomWatchlists),
