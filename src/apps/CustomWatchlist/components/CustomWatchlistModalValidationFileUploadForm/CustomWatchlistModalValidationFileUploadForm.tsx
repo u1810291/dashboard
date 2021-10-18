@@ -21,7 +21,9 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
   const isWatchlistsContentLoading = useSelector(selectIsWatchlistsContentLoading);
   const classes = useStyles();
   const [fileName, setFileName] = useState<string>();
-  const { register, setValue, setError, formState: { errors } } = useFormContext();
+  const { setValue, getValues, setError, formState: { errors } } = useFormContext();
+
+  console.log('getValues', getValues(CustomWatchlistModalValidationInputs.CsvDelimiter));
 
   const handleUploadFile = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
@@ -38,8 +40,6 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
       });
     }
   }, [intl, setValue, setError]);
-
-  const delimiterRegister = register(CustomWatchlistModalValidationInputs.CsvDelimiter);
 
   const extFile = useMemo(() => {
     const arr = fileName?.split('.') || [];
@@ -84,7 +84,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
           {isWatchlistsContentLoading ? <CircularProgress color="inherit" size={17} /> : intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile' })}
         </FileUploadButton>
       )}
-      {extFile === CustomWatchlistFileExt.Csv && <CSVDelimeterSelect {...delimiterRegister} />}
+      {extFile === CustomWatchlistFileExt.Csv && <CSVDelimeterSelect />}
     </>
   );
 }

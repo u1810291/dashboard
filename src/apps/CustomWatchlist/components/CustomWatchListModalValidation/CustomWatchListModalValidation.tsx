@@ -111,7 +111,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                   {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.subTitle' })}
                 </Typography>
               </Box>
-              {/* TODO: STAGE 2, ValidatedInputs shows when file has been loaded */}
+              {/* TODO: @richvoronov STAGE 2, ValidatedInputs shows when file has been loaded */}
               {false ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} /> : <FakeInputs />}
             </Grid>
           </Grid>

@@ -1,26 +1,30 @@
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
+import { useFormContext } from 'react-hook-form';
 import { Grid, Select, MenuItem } from '@material-ui/core';
-import { CustomWatchlistSeverityOnMatchTypes, FlowWatchlistUi, CsvDelimiterTypes, CsvDelimiterInputTypes } from 'models/CustomWatchlist.model';
+import { FlowWatchlistUi, CsvDelimiterTypes, CsvDelimiterInputTypes, CustomWatchlistModalValidationInputs } from 'models/CustomWatchlist.model';
 import { useStyles } from './CSVDelimeterSelect.styles';
 
-export const CSVDelimeterSelect = ({ ...register }: any) => {
+export const CSVDelimeterSelect = () => {
   const intl = useIntl();
   const classes = useStyles();
+  const { register } = useFormContext();
+
+  const delimiterRegister = register(CustomWatchlistModalValidationInputs.CsvDelimiter);
 
   const handleSeverityChange = useCallback((watchlistValue: FlowWatchlistUi) => (event: React.ChangeEvent<{ value: unknown; name?: string }>) => {
     // onUpdate({ id: watchlistValue.id, severityOnMatch: event.target.value as CustomWatchlistSeverityOnMatchTypes });
   }, []);
 
   return (
-    <Grid container>
-      <Grid item>{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.select.csvDelimiter.title' })}</Grid>
-      <Grid item>
+    <Grid container alignItems="center" justifyContent="space-between">
+      <Grid item className={classes.title}>{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.select.csvDelimiter.title' })}</Grid>
+      <Grid item className={classes.selectWrap}>
         <Select
-          {...register}
+          {...delimiterRegister}
           id="csv-delimiter"
           name="action"
-          variant="outlined"
+          variant="standard"
           fullWidth
           // defaultValue={csvDelimiter.NoAction}
           // value={watchlist.severityOnMatch}
@@ -28,6 +32,7 @@ export const CSVDelimeterSelect = ({ ...register }: any) => {
           // className={classnames(classes.actionSelect, classes[watchlist.severityOnMatch], {
           //   [classes.placeholder]: watchlist.severityOnMatch === CustomWatchlistSeverityOnMatchTypes.NoAction,
           // })}
+          className={classes.select}
         >
           {/* <MenuItem
             key={CustomWatchlistSeverityOnMatchTypes.NoAction}
