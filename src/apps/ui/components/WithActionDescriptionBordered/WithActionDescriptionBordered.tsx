@@ -1,9 +1,9 @@
 import React from 'react';
 import classnames from 'classnames';
 import { Grid } from '@material-ui/core';
-import { useStyles } from './WithDescriptionActionBordered.styles';
+import { useStyles } from './WithActionDescriptionBordered.styles';
 
-export const WithDescriptionActionBordered = ({
+export const WithActionDescriptionBordered = ({
   children,
   description,
   error,

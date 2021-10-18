@@ -4,8 +4,10 @@ import { CustomWatchlistsActions, CustomWatchlistsStore, SliceNames } from './Cu
 
 const initialState: CustomWatchlistsStore = {
   [SliceNames.Watchlists]: LoadableAdapter.createState([]),
+  [SliceNames.WatchlistContent]: LoadableAdapter.createState(null),
 };
 
 export default createReducer(initialState, {
   ...LoadableAdapter.createHandlers(CustomWatchlistsActions.Watchlists, SliceNames.Watchlists),
+  ...LoadableAdapter.createHandlers(CustomWatchlistsActions.WatchlistContent, SliceNames.WatchlistContent),
 });

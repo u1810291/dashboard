@@ -44,7 +44,6 @@ export interface FlowWatchlistUi {
   merchantId: string;
   mapping: WatchlistMapping | null;
   severityOnMatch: CustomWatchlistSeverityOnMatchTypes;
-  csvDelimiter: string | null;
 }
 
 export interface Watchlist {
@@ -54,7 +53,6 @@ export interface Watchlist {
   updatedAt: string;
   merchantId: string;
   mapping: WatchlistMapping | null;
-  csvDelimiter: string | null;
 }
 
 export interface CustomWatchlistUpload {
@@ -91,8 +89,8 @@ export enum CustomWatchlistFileExt {
   Xls = 'xls',
 }
 
-export interface WatchlistContent {
+export interface WatchlistContentTypes {
   url: string;
   fileName: string;
-  csvSeparator: any;
+  csvSeparator: string;
 }
