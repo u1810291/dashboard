@@ -3,6 +3,7 @@ import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/Verification.model';
+import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { CustomWatchlistCheckTypes, CustomWatchlistSettingsTypes } from 'models/CustomWatchlist.model';
 import { ReactComponent as FilesWithEye } from '../assets/files-with-eye.svg';
 import { CustomWatchlistVerification } from '../components/CustomWatchlistVerification/CustomWatchlistVerification';
@@ -44,17 +45,24 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
   }
 
   onAdd(): Partial<IFlow> {
-    return {};
+    return {
+      verificationPatterns: {
+        [VerificationPatternTypes.CustomWatchlistsValidation]: true,
+      },
+    };
   }
 
   onRemove(): Partial<IFlow> {
     return {
       [CustomWatchlistSettingsTypes.Watchlists]: [],
+      verificationPatterns: {
+        [VerificationPatternTypes.CustomWatchlistsValidation]: false,
+      },
     };
   }
 
   isInFlow(flow: IFlow): boolean {
-    return flow[CustomWatchlistSettingsTypes.Watchlists].length !== 0;
+    return flow.verificationPatterns[VerificationPatternTypes.CustomWatchlistsValidation];
   }
 
   getVerification(verification: VerificationResponse): any {
