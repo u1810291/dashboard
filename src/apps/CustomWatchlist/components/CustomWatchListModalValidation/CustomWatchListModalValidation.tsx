@@ -40,7 +40,9 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback((values) => {
     try {
       setIsSubmitting(true);
-      onSubmit(values);
+      console.log('values submit', values);
+      // @TODO: @richvoronov STAGE 2, separate values on 2 requests, to /content, and other
+      // onSubmit(values);
       setIsSubmitting(false);
     } catch (error) {
       setIsSubmitting(false);

@@ -21,9 +21,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
   const isWatchlistsContentLoading = useSelector(selectIsWatchlistsContentLoading);
   const classes = useStyles();
   const [fileName, setFileName] = useState<string>();
-  const { setValue, getValues, setError, formState: { errors } } = useFormContext();
-
-  console.log('getValues', getValues(CustomWatchlistModalValidationInputs.CsvDelimiter));
+  const { setValue, setError, formState: { errors } } = useFormContext();
 
   const handleUploadFile = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
@@ -81,7 +79,8 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
         </WithActionDescriptionBordered>
       ) : (
         <FileUploadButton onChange={handleUploadFile} accept=".xls, .csv" isPrefixIconDisplayed={!isWatchlistsContentLoading} disabled={isWatchlistsContentLoading}>
-          {isWatchlistsContentLoading ? <CircularProgress color="inherit" size={17} /> : intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile' })}
+          {isWatchlistsContentLoading && <CircularProgress color="inherit" size={17} />}
+          {!isWatchlistsContentLoading && intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile' })}
         </FileUploadButton>
       )}
       {extFile === CustomWatchlistFileExt.Csv && <CSVDelimeterSelect />}

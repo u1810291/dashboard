@@ -6,17 +6,24 @@ export const useStyles = makeStyles((theme) => createStyles({
     color: theme.palette.common.black75,
   },
   selectWrap: {
-    marginTop: 20,
     width: 60,
   },
   select: {
-    '.MuiSelect-root': {
+    '&.MuiInputBase-root': {
       textAlign: 'center',
       fontWeight: 'bold',
+      background: 'transparent',
+      fontSize: 17,
       color: theme.palette.common.black75,
-      '&:after': {
+      '&:before, &:after': {
         display: 'none',
       },
     },
+  },
+  marginTop20: {
+    marginTop: 20,
+  },
+  red: {
+    color: theme.palette.common.red,
   },
 }));
