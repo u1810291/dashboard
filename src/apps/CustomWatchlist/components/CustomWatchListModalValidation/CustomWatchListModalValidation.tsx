@@ -40,7 +40,9 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback((values) => {
     try {
       setIsSubmitting(true);
-      onSubmit(values);
+      console.log('values submit', values);
+      // @TODO: @richvoronov STAGE 2, separate values on 2 requests, to /content, and other
+      // onSubmit(values);
       setIsSubmitting(false);
     } catch (error) {
       setIsSubmitting(false);
@@ -111,7 +113,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                   {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.subTitle' })}
                 </Typography>
               </Box>
-              {/* TODO: STAGE 2, ValidatedInputs shows when file has been loaded */}
+              {/* TODO: @richvoronov STAGE 2, ValidatedInputs shows when file has been loaded */}
               {false ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} /> : <FakeInputs />}
             </Grid>
           </Grid>

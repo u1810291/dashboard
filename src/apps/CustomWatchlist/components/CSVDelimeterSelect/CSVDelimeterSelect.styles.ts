@@ -1,23 +1,29 @@
 import { createStyles } from '@material-ui/styles';
 import { makeStyles } from '@material-ui/core';
-import { CustomWatchlistSeverityOnMatchTypes } from 'models/CustomWatchlist.model';
 
 export const useStyles = makeStyles((theme) => createStyles({
-  placeholder: {
-    color: theme.palette.text.disabled,
+  title: {
+    color: theme.palette.common.black75,
   },
-  actionSelect: {
+  selectWrap: {
+    width: 60,
+  },
+  select: {
     '&.MuiInputBase-root': {
-      height: 50,
+      textAlign: 'center',
+      fontWeight: 'bold',
+      background: 'transparent',
+      fontSize: 17,
+      color: theme.palette.common.black75,
+      '&:before, &:after': {
+        display: 'none',
+      },
     },
   },
-  [CustomWatchlistSeverityOnMatchTypes.Low]: {
-    color: theme.palette.common.green,
+  marginTop20: {
+    marginTop: 20,
   },
-  [CustomWatchlistSeverityOnMatchTypes.Medium]: {
-    color: theme.palette.common.orange,
-  },
-  [CustomWatchlistSeverityOnMatchTypes.Critical]: {
+  red: {
     color: theme.palette.common.red,
   },
 }));
