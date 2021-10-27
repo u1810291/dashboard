@@ -10,11 +10,12 @@ import { GdprSettings } from 'apps/gdpr';
 import { ImageValidationConfiguration } from 'apps/imageValidation';
 import { PhoneValidationConfiguration } from 'apps/PhoneValidation';
 import { IpChecksConfiguration } from 'apps/IpChecks';
+import { ESignatureConfiguration } from 'apps/ESignature';
 import { OldLogo } from 'apps/logo';
 import { ButtonCollapsible, BoxBordered, Warning, WarningSize, WarningTypes } from 'apps/ui';
 import classnames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiAlertOctagon, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiMail, FiSlash, FiTrash, FiUser, FiSmartphone, FiMapPin, FiFilePlus } from 'react-icons/fi';
+import { FiAlertOctagon, FiDroplet, FiEye, FiFileText, FiFlag, FiImage, FiMail, FiSlash, FiTrash, FiUser, FiSmartphone, FiMapPin, FiFilePlus, FiEdit3 } from 'react-icons/fi';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
@@ -123,6 +124,12 @@ export function Configuration() {
         title: 'CustomDocument',
         icon: <FiFilePlus />,
         body: <CustomDocumentConfiguration />,
+      },
+      {
+        id: 'eSignature',
+        title: 'Product.configuration.eSignature',
+        icon: <FiEdit3 />,
+        body: <ESignatureConfiguration />,
       },
     ]);
   }, [currentFlowModel, updateConfiguration, tags, intl]);

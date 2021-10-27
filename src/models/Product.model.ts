@@ -15,6 +15,7 @@ export enum ProductTypes {
   EmailCheck = 'EmailCheck',
   CustomDocuments = 'CustomDocuments',
   CertifiedTimestamp = 'CertifiedTimestamp',
+  ESignatureCheck = 'eSignatureCheck',
   // additional
   Metadata = 'Metadata',
 }
@@ -57,6 +58,7 @@ export enum ProductInputTypes {
   NameAndDobOrDocument = 'nameAndDobOrDocument',
   EmailAddress = 'emailAddress',
   CustomDocuments = 'customDocuments',
+  Sign = 'sign'
 }
 
 export interface IProductCard {

@@ -1,3 +1,4 @@
+import { IESignatureFlow } from 'apps/ESignature';
 import { InputValidationCheck } from 'apps/imageValidation/models/imageValidation.model';
 import { Logo } from 'apps/logo/models/Logo.model';
 import { get } from 'lodash';
@@ -67,4 +68,5 @@ export interface IFlow {
   verificationPatterns?: Partial<VerificationPatterns>;
   integrationType?: ProductIntegrationTypes;
   amlWatchlistsFuzzinessThreshold?: number;
+  electronicSignature?: IESignatureFlow;
 }
