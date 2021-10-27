@@ -11,7 +11,7 @@ import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
 import { selectIsWatchlistsLoading } from '../../state/CustomWatchlist.selectors';
-import { useStyles } from './a.styles';
+import { useStyles } from './CustomWatchlistModalValidation.styles';
 import { CustomWatchlistModalValidationFileUploadForm } from '../CustomWatchlistModalValidationFileUploadForm/CustomWatchlistModalValidationFileUploadForm';
 
 export interface CustomWatchlistModalValidationInputTypes {
