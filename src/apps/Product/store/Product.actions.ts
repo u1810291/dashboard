@@ -12,6 +12,7 @@ import { govCheckInit } from 'apps/GovCheck/state/GovCheck.actions';
 import { creditCheckInit } from 'apps/CreditCheck/state/CreditCheck.actions';
 import { deviceFingerprintInit } from 'apps/DeviceFingerPrint/state/deviceFingerprint.actions';
 import { customDocumentInit } from 'apps/customDocument/state/customDocument.actions';
+import { eSignatureInit } from 'apps/ESignature/state/eSignature.actions';
 import { ProductActionTypes } from './Product.store';
 import { metadataInit } from '../../metadata/state/Metadata.actions';
 import { certifiedTimestampInit } from '../../CertifiedTimestamp/state/CertifiedTimestamp.actions';
@@ -34,6 +35,7 @@ export const productInit = () => (dispatch) => {
     dispatch(metadataInit()),
     dispatch(customDocumentInit()),
     dispatch(certifiedTimestampInit()),
+    dispatch(eSignatureInit()),
   ];
   dispatch(productRegisteredUpdate(compact(registered)));
   dispatch(productIsInitedUpdate(true));

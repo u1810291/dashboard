@@ -3,13 +3,11 @@ import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useStyles } from './PageLoader.styles';
 
-interface PageLoaderProps {
+export function PageLoader({ minHeight = 'auto', size, color }: {
   minHeight?: string;
   size?: number;
   color?: string;
-}
-
-export function PageLoader({ minHeight = 'auto', size, color }: PageLoaderProps) {
+}) {
   const classes = useStyles({ color });
   return (
     <Box

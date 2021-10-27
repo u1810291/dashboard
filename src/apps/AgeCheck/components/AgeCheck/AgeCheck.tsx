@@ -14,12 +14,12 @@ export function AgeCheck({ stepData }: { stepData: IStep }) {
   }
 
   return (
-    <CheckBarExpandable step={stepData} title={`Checks.result.ageCheck.${stepData?.checkStatus}.title`} isNoBadge>
+    <CheckBarExpandable step={stepData} title={`Checks.result.ageCheck.${stepData.checkStatus}.title`} isNoBadge>
       <Card raised={false} className={classes.card}>
         <CardContent>
           <Box>
-            {intl.formatMessage({ id: `Checks.result.ageCheck.${stepData?.checkStatus}.description` }, {
-              threshold: stepData?.data?.ageThreshold,
+            {intl.formatMessage({ id: `Checks.result.ageCheck.${stepData.checkStatus}.description` }, {
+              threshold: stepData.data?.ageThreshold,
             })}
           </Box>
         </CardContent>
