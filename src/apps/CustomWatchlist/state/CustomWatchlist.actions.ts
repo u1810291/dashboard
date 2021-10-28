@@ -3,7 +3,7 @@ import { ProductTypes } from 'models/Product.model';
 import { Watchlist, WatchlistContentTypes } from 'models/CustomWatchlist.model';
 import { CustomWatchlist } from '../services/CustomWatchlist.service';
 import * as api from '../client/CustomWatchlist.client';
-import { CustomWatchlistModalValidationInputTypes } from '../components/a/a';
+import { CustomWatchlistModalValidationInputTypes } from '../components/CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { types } from './CustomWatchlist.store';
 import { selectCanUseCustomWatchlists, selectWatchlists } from './CustomWatchlist.selectors';
 

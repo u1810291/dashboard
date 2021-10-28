@@ -10,7 +10,7 @@ import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { SkeletonThreeRectTwoCircle } from 'apps/ui/components/SkeletonGroups';
-import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../a/a';
+import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
 import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
