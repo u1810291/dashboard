@@ -1355,6 +1355,7 @@
   "SecurityCheckStep.brazilianCpf.LGPD.message": "Minor data blocked in compliance with the brazilian General Data Protection Law - LGPD",
   "SecurityCheckStep.brazilianCpf.dataMismatch.message": "One or more fields on the document do not match CPF records. Please review this profile before accepting/rejecting",
   "SecurityCheckStep.brazilianCpf.faceBiometricsMismatch.message": "The user's face does not match CPF records. Please review the document and selfie before accepting/rejecting the user.",
+  "SecurityCheckStep.brazilianCpf.taxStatusIrregular.message": "The CPF status is irregular according to Receita Federal database. Please review this profile before accepting/rejecting.",
   "SecurityCheckStep.brazilianCpf.notEnoughParams.message": "We could not extract all the necessary fields from the document to access the CPF database.",
   "SecurityCheckStep.brazilianCpf.notFound.message": "We could not find any records in the database",
   "SecurityCheckStep.brazilianCpf.notValidParams.message": "Invalid parameters",
