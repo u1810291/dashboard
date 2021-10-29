@@ -16,9 +16,10 @@ import { CustomWatchlistModalValidationFileUploadForm } from '../CustomWatchlist
 
 export interface CustomWatchlistModalValidationInputTypes {
   [CustomWatchlistModalValidationInputs.Name]: string;
-  [CustomWatchlistModalValidationInputs.File]: string | null;
+  [CustomWatchlistModalValidationInputs.FileUrl]: string | null;
   [CustomWatchlistModalValidationInputs.Mapping]: WatchlistMapping[];
-  [CustomWatchlistModalValidationInputs.CsvDelimiter]: null;
+  [CustomWatchlistModalValidationInputs.CsvSeparator]: null;
+  [CustomWatchlistModalValidationInputs.FileName]: string;
 }
 
 export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }: {
@@ -37,12 +38,10 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     required: intl.formatMessage({ id: 'validations.required' }),
   });
 
-  const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback((values) => {
+  const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback(async (values) => {
     try {
       setIsSubmitting(true);
-      console.log('values submit', values);
-      // @TODO: @richvoronov STAGE 2, separate values on 2 requests, to /content, and other
-      // onSubmit(values);
+      onSubmit(values);
       setIsSubmitting(false);
     } catch (error) {
       setIsSubmitting(false);

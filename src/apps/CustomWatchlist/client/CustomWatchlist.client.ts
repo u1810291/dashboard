@@ -3,7 +3,7 @@ import { Watchlist, CustomWatchlistUpload, WatchlistContentTypes } from 'models/
 import { CustomWatchlistModalValidationInputTypes } from '../components/CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 
 export function getMerchantWatchlists(merchantId: string) {
-  return http.get<Watchlist[]>(`/api/v1/merchants/${merchantId}/watchlists`);
+  return http.get<Watchlist[]>(`/api/v1/merchants/${merchantId}/watchlists?embed=process`);
 }
 
 export function deleteMerchantWatchlistById(merchantId: string, watchlistId: number) {
@@ -18,12 +18,8 @@ export function updateMerchantWatchlistById(merchantId: string, watchlistId: num
   return http.patch<Watchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}`, body);
 }
 
-export function getMerchantWatchlistContentById(merchantId: string, watchlistId: number) {
-  return http.get<Watchlist>(`/${merchantId}/watchlists/${watchlistId}/content`);
-}
-
 export function updateMerchantWatchlistContentById(merchantId: string, watchlistId: number, body: WatchlistContentTypes) {
-  return http.post<Watchlist>(`/${merchantId}/watchlists/${watchlistId}/content`, body);
+  return http.post<Watchlist>(`/api/v1/${merchantId}/watchlists/${watchlistId}/content`, body);
 }
 
 export function uploadMerchantWatchlist(body: FormData) {

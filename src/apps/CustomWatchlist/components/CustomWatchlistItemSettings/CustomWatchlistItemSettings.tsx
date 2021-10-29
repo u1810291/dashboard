@@ -12,7 +12,7 @@ import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { SkeletonThreeRectTwoCircle } from 'apps/ui/components/SkeletonGroups';
 import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
-import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById } from '../../state/CustomWatchlist.actions';
+import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 
@@ -48,6 +48,13 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
 
   const handleSubmitWatchlist = useCallback((watchlist?: FlowWatchlist) => (values: CustomWatchlistModalValidationInputTypes) => {
     setIsDataPooling(true);
+    // TODO: @richvoronov STAGE 2, separate values on 2 requests, to /content, and other
+
+    // dispatch(updateMerchantWatchlistContent(merchantId, watchlist.id, {
+    //   url: 'some url',
+    //   fileName: values.fileName,
+    //   csvSeparator: values.csvSeparator,
+    // }));
     if (watchlist) {
       dispatch(customWatchlistUpdateById(merchantId, watchlist.id, values, handleCloseOverlay));
       return;
