@@ -587,7 +587,7 @@
   "ESignature.method.description": "Here you can select how your users will sign the document you specified. They can either sign by typing their name or use our face signature.",
   "ESignature.method.document.description": "Users will be asked to upload an ID to accept the conditions described in the document and type their full names before signing. We will compare entered full name with the document. Only after we confirm the full name is the same will we consider the document to be signed.",
   "ESignature.method.document.title": "Name Typing and Document",
-  "ESignature.method.document.warning": "To validate Name you need to switch on Document Step (Passport, Driver’s License or National ID).",
+  "ESignature.method.document.warning": "To validate Name you need to switch on Document Verification Step (Passport, Driver’s License or National ID).",
   "ESignature.method.faceSignature.description": "Users will be asked to take a selfie and upload an ID to accept the conditions described in the document. We will compare this selfie with the document. Only after we confirm the face is the same will we consider the document to be signed.",
   "ESignature.method.faceSignature.title": "Face Signature",
   "ESignature.method.faceSignature.warning": "To choose Face Signature you need to switch on Biometric Step (Liveness or Selfie).",
