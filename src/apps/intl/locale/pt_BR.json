@@ -1333,6 +1333,7 @@
   "SecurityCheckStep.brazilianCpf.LGPD.message": "Dados de menores bloqueados em conformidade com a Lei Geral de Proteção de Dados - LGPD",
   "SecurityCheckStep.brazilianCpf.dataMismatch.message": "Um ou mais campos do documento não correspondem aos registros do CPF. Reveja este perfil antes de aceitar / rejeitar",
   "SecurityCheckStep.brazilianCpf.faceBiometricsMismatch.message": "",
+  "SecurityCheckStep.brazilianCpf.taxStatusIrregular.message": "O CPF está irregular de acordo com a base de dados da Receita Federal. Por favor revise o perfil antes de aceitar/rejeitar.",
   "SecurityCheckStep.brazilianCpf.notEnoughParams.message": "Não foi possível extrair todos os campos necessários do documento para acessar o banco de dados do CPF.",
   "SecurityCheckStep.brazilianCpf.notFound.message": "Não foi possível encontrar nenhum registro no banco de dados",
   "SecurityCheckStep.brazilianCpf.notValidParams.message": "Parâmetros inválidos",

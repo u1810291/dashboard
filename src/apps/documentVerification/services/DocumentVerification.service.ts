@@ -12,6 +12,7 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiFileText } from 'react-icons/fi';
 import { BiometricVerificationCheckTypes } from 'apps/biometricVerification/models/BiometricVerification.model';
 import { AGE_CHECK_MAX_THRESHOLD, AGE_CHECK_MIN_THRESHOLD } from 'apps/AgeCheck/models/AgeCheck.model';
+import { IESignatureFlow } from 'apps/ESignature';
 import { DocumentVerificationIssues } from '../components/DocumentVerificationIssues/DocumentVerificationIssues';
 import { DocumentVerificationSettings } from '../components/DocumentVerificationSettings/DocumentVerificationSettings';
 import { DocumentVerificationCheckTypes, DocumentVerificationSettingTypes, ProductSettingsDocumentVerification } from '../models/DocumentVerification.model';
@@ -150,6 +151,17 @@ export class DocumentVerification extends ProductBaseService implements Product<
 
   onRemove(flow: IFlow): Partial<IFlow> {
     const otherSteps = flow?.verificationSteps.filter((group) => !(intersection(group, [DocumentTypes.Passport, DocumentTypes.NationalId, DocumentTypes.DrivingLicense, DocumentTypes.ProofOfResidency]).length > 0));
+    let electronicSignature: IESignatureFlow = flow?.electronicSignature;
+    if (flow?.electronicSignature?.acceptanceCriteria.isDocumentsRequired) {
+      electronicSignature = {
+        ...flow.electronicSignature,
+        acceptanceCriteria: {
+          ...flow.electronicSignature.acceptanceCriteria,
+          isDocumentsRequired: false,
+          isFaceMatchRequired: false,
+        },
+      };
+    }
     return {
       verificationSteps: [...otherSteps],
       denyUploadsFromMobileGallery: false,
@@ -173,6 +185,7 @@ export class DocumentVerification extends ProductBaseService implements Product<
         [VerificationPatternTypes.DuplicateUserDetection]: false,
         [VerificationPatternTypes.ProofOfOwnership]: false,
       },
+      electronicSignature,
     };
   }
 

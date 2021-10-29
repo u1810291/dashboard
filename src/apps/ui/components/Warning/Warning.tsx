@@ -1,6 +1,6 @@
 import { Box, Link, Typography } from '@material-ui/core';
 import { appPalette } from 'apps/theme/app.palette';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { FiActivity, FiAlertCircle, FiLoader } from 'react-icons/fi';
 import { WarningSize, WarningTypes } from '../../models/Warning.model';
 import { useStyles } from './Warning.styles';
@@ -43,7 +43,7 @@ const ColorMap = {
 
 export function Warning({ title = '', label, type = WarningTypes.Warning, size = WarningSize.Normal, isLabelColored = false, bordered = false, className, filled, linkLabel = '', link = '' }: {
   title?: string;
-  label: string | React.ReactNode;
+  label: string | ReactNode;
   type?: WarningTypes;
   size?: WarningSize;
   filled?: boolean;

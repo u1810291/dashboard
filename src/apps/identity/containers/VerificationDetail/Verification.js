@@ -1,7 +1,6 @@
 import { Grid, Paper } from '@material-ui/core';
 import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
 import { Page404 } from 'apps/layout';
-import { selectReviewVerificationWithExtras } from 'apps/Verification';
 import { getDownloadableFileName } from 'models/Identity.model';
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +8,8 @@ import { VerificationAdditionalChecks } from 'apps/checks/components/Verificatio
 import { LivenessStep } from 'apps/biometrics';
 import { DocumentStep } from 'apps/documents';
 import { VerificationMetadata } from 'apps/metadata';
+import { selectReviewVerificationWithExtras } from 'apps/Verification';
+import { ESignature } from 'apps/ESignature/components/ESignature/ESignature';
 import { verificationDocumentUpdate } from 'state/identities/identities.actions';
 import { CustomDocumentVerification } from 'apps/customDocument/components/CustomDocumentVerification/CustomDocumentVerification';
 import { CUSTOM_DOCUMENT_PREFIX } from 'apps/customDocument/models/customDocument.model';
@@ -109,7 +110,11 @@ export function Verification({ identity }) {
           </Paper>
         </Grid>
       )}
-
+      {identity.eSignature && (
+        <Grid item>
+          <ESignature step={identity.eSignature} />
+        </Grid>
+      )}
     </Grid>
   );
 }
