@@ -1,9 +1,8 @@
 import { productManagerService } from 'apps/Product';
 import { ProductTypes } from 'models/Product.model';
-import { Watchlist, WatchlistContentTypes } from 'models/CustomWatchlist.model';
+import { Watchlist, WatchlistContentTypes, WatchlistCreateBodyTypes } from 'models/CustomWatchlist.model';
 import { CustomWatchlist } from '../services/CustomWatchlist.service';
 import * as api from '../client/CustomWatchlist.client';
-import { CustomWatchlistModalValidationInputTypes } from '../components/CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { types } from './CustomWatchlist.store';
 import { selectCanUseCustomWatchlists, selectWatchlists } from './CustomWatchlist.selectors';
 
@@ -30,20 +29,20 @@ export const customWatchlistsLoad = (merchantId: string) => async (dispatch) => 
   }
 };
 
-export const customWatchlistCreate = (merchantId: string, params: CustomWatchlistModalValidationInputTypes, callback: () => void) => async (dispatch, getState) => {
+export const customWatchlistCreate = (merchantId: string, params: WatchlistCreateBodyTypes, callback: (data: Watchlist) => void) => async (dispatch, getState) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_REQUEST });
   try {
     const payload = await api.createMerchantWatchlist(merchantId, params);
 
     dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: [payload.data] });
-    callback();
+    callback(payload.data);
   } catch (error) {
     dispatch({ type: types.CUSTOM_WATCHLISTS_FAILURE });
     throw error;
   }
 };
 
-export const customWatchlistUpdateById = (merchantId: string, watchlistId: number, params: CustomWatchlistModalValidationInputTypes, callback: () => void) => async (dispatch, getState) => {
+export const customWatchlistUpdateById = (merchantId: string, watchlistId: number, params: WatchlistCreateBodyTypes, callback: () => void) => async (dispatch, getState) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_UPDATING });
   try {
     const payload = await api.updateMerchantWatchlistById(merchantId, watchlistId, params);

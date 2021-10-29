@@ -18,7 +18,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
   const intl = useIntl();
   const isWatchlistsContentLoading = useSelector(selectIsWatchlistsContentLoading);
   const classes = useStyles();
-  const [fileName, setFileName] = useState<string>();
+  const [fileName, setFileName] = useState<string>(watchlist.process?.inputSourceFileName);
   const { setValue, setError, formState: { errors } } = useFormContext();
 
   const handleUploadFile = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,11 +30,11 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
     try {
       const { data } = await api.uploadMerchantWatchlist(form);
       setValue(CustomWatchlistModalValidationInputs.FileUrl, data.publicUrl);
-      // setError(CustomWatchlistModalValidationInputs.FileUrl, {});
+      setError(CustomWatchlistModalValidationInputs.FileUrl, {});
     } catch {
-      // setError(CustomWatchlistModalValidationInputs.FileUrl, {
-      //   message: intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.fileErrorUpload' }),
-      // });
+      setError(CustomWatchlistModalValidationInputs.FileUrl, {
+        message: intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.fileErrorUpload' }),
+      });
     }
   }, [intl, setValue, setError]);
 

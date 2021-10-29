@@ -4,7 +4,7 @@ import { useOverlay } from 'apps/overlay';
 import moment from 'moment';
 import classnames from 'classnames';
 import { useLongPolling } from 'lib/longPolling.hook';
-import { FlowWatchlist, FlowWatchlistUi } from 'models/CustomWatchlist.model';
+import { FlowWatchlist, FlowWatchlistUi, WatchlistContentTypes } from 'models/CustomWatchlist.model';
 import React, { useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -46,21 +46,38 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
     closeOverlay();
   }, [closeOverlay]);
 
+  const customWatchlistsContentUpdate = useCallback((watchlistId: number, values: WatchlistContentTypes) => {
+    dispatch(updateMerchantWatchlistContent(merchantId, watchlistId, values));
+  }, [merchantId, dispatch]);
+
   const handleSubmitWatchlist = useCallback((watchlist?: FlowWatchlist) => (values: CustomWatchlistModalValidationInputTypes) => {
     setIsDataPooling(true);
+    const watchlistRequestData = {
+      name: values.name,
+      mapping: values.mapping,
+    };
     // TODO: @richvoronov STAGE 2, separate values on 2 requests, to /content, and other
 
-    // dispatch(updateMerchantWatchlistContent(merchantId, watchlist.id, {
-    //   url: 'some url',
-    //   fileName: values.fileName,
-    //   csvSeparator: values.csvSeparator,
-    // }));
     if (watchlist) {
-      dispatch(customWatchlistUpdateById(merchantId, watchlist.id, values, handleCloseOverlay));
+      dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData, handleCloseOverlay));
+      customWatchlistsContentUpdate(watchlist.id, {
+        // TODO: @richvoronov STAGE 2, remove mock
+        fileUrl: 'https://file.liga.net/images/general/2020/09/08/20200908171549-5386.jpg?v=1599578314',
+        fileName: values.fileName,
+        csvSeparator: values.csvSeparator,
+      });
       return;
     }
-    dispatch(customWatchlistCreate(merchantId, values, handleCloseOverlay));
-  }, [merchantId, handleCloseOverlay, dispatch]);
+    dispatch(customWatchlistCreate(merchantId, watchlistRequestData, (watchlistData) => {
+      handleCloseOverlay();
+      customWatchlistsContentUpdate(watchlistData.id, {
+        // TODO: @richvoronov STAGE 2, remove mock
+        fileUrl: 'https://file.liga.net/images/general/2020/09/08/20200908171549-5386.jpg?v=1599578314',
+        fileName: values.fileName,
+        csvSeparator: values.csvSeparator,
+      });
+    }));
+  }, [merchantId, customWatchlistsContentUpdate, handleCloseOverlay, dispatch]);
 
   const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {
     setSelectedWatchlist(watchlist);
@@ -94,13 +111,12 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
         </Grid>
       ) : (
         <>
-          {watchlists?.map((watchlist, watchlistIndex) => (
+          {watchlists?.map((watchlist) => (
             <Box key={watchlist.id} className={classes.wrapper} p={2} mb={2}>
               <Box mb={2}>
                 <Grid container wrap="nowrap" alignItems="center">
                   <Box color="common.black90" fontWeight="bold" mr={1}>
-                    {/* TODO: @richvoronov STAGE 2, Do we need this if the name field is required?  */}
-                    {watchlist.name || intl.formatMessage({ id: 'CustomWatchlist.settings.step.title' }, { count: watchlistIndex + 1 })}
+                    {watchlist.name}
                   </Box>
                   <Box ml="auto" flexShrink={0}>
                     <IconButton className={classnames(classes.button, classes.buttonEdit)} onClick={handleOpenWatchlist(watchlist)}>

@@ -9,7 +9,7 @@ import { useIntl } from 'react-intl';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
 import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping } from 'models/CustomWatchlist.model';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
-import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
+import { ValidatedInputs, ValidatedInputsFieldTypes } from '../ValidatedInputs/ValidatedInputs';
 import { selectIsWatchlistsLoading } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistModalValidation.styles';
 import { CustomWatchlistModalValidationFileUploadForm } from '../CustomWatchlistModalValidationFileUploadForm/CustomWatchlistModalValidationFileUploadForm';
@@ -38,7 +38,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     required: intl.formatMessage({ id: 'validations.required' }),
   });
 
-  const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback(async (values) => {
+  const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback((values) => {
     try {
       setIsSubmitting(true);
       onSubmit(values);
@@ -48,24 +48,25 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     }
   }, [onSubmit]);
 
-  const onValidatedInputsChange = useCallback((validatedInputsValues) => {
-    setValue(CustomWatchlistModalValidationInputs.Mapping, validatedInputsValues);
+  const onValidatedInputsChange = useCallback((validatedInputsValues: ValidatedInputsFieldTypes[]) => {
+    const validatedInputsValuesFormated = validatedInputsValues.map((fields) => ({ merchantField: fields.label, systemField: fields.value, ...(fields?.options && { options: fields.options }) }));
+    setValue(CustomWatchlistModalValidationInputs.Mapping, validatedInputsValuesFormated);
   }, [setValue]);
 
-  // TODO: STAGE 2, replace with dynamic data
+  // TODO: STAGE 3, replace with dynamic data
   const watchlistMapping = useMemo(() => [
     {
-      label: 'Name',
-      value: 'fullName',
+      merchantField: 'Name',
+      systemField: 'fullName',
       options: {
         fuzziness: 50,
       },
     },
     {
-      label: 'Date of birth',
-      value: 'dateOfBirth',
+      merchantField: 'Date of birth',
+      systemField: 'dateOfBirth',
     },
-  ], []);
+  ].map((fields) => ({ label: fields.merchantField, value: fields.systemField, ...(fields?.options && { options: fields.options }) })), []);
 
   return (
     <Box className={classes.root}>
@@ -113,7 +114,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                 </Typography>
               </Box>
               {/* TODO: @richvoronov STAGE 2, ValidatedInputs shows when file has been loaded */}
-              {false ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} /> : <FakeInputs />}
+              {true ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} /> : <FakeInputs />}
             </Grid>
           </Grid>
           <Grid container spacing={2} className={classes.marginTop50}>

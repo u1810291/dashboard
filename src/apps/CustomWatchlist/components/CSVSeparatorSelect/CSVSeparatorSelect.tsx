@@ -5,6 +5,18 @@ import { Grid, Select, MenuItem } from '@material-ui/core';
 import { CsvDelimiterTypes, CsvSeparatorInputTypes, CustomWatchlistModalValidationInputs } from 'models/CustomWatchlist.model';
 import { useStyles } from './CSVSeparatorSelect.styles';
 
+function CSVSeparatorSelectMenuItem({ value }: { value: CsvSeparatorInputTypes }) {
+  const classes = useStyles();
+  return (
+    <>
+      <span className={classes.menuItemLabel}>
+        {value}
+      </span>
+      {CsvDelimiterTypes[value]}
+    </>
+  );
+}
+
 export const CSVSeparatorSelect = ({ defaultValue = CsvDelimiterTypes[CsvSeparatorInputTypes.Comma] }: { defaultValue?: string }) => {
   const intl = useIntl();
   const classes = useStyles();
@@ -27,21 +39,22 @@ export const CSVSeparatorSelect = ({ defaultValue = CsvDelimiterTypes[CsvSeparat
               fullWidth
               error={!!error}
               className={classes.select}
+              renderValue={(value) => value}
             >
               <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputTypes.Semicolon]}>
-                {CsvDelimiterTypes[CsvSeparatorInputTypes.Semicolon]}
+                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputTypes.Semicolon} />
               </MenuItem>
               <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputTypes.Comma]}>
-                {CsvDelimiterTypes[CsvSeparatorInputTypes.Comma]}
+                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputTypes.Comma} />
               </MenuItem>
               <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputTypes.Dot]}>
-                {CsvDelimiterTypes[CsvSeparatorInputTypes.Dot]}
+                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputTypes.Dot} />
               </MenuItem>
               <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputTypes.Tab]}>
-                {CsvDelimiterTypes[CsvSeparatorInputTypes.Tab]}
+                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputTypes.Tab} />
               </MenuItem>
               <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputTypes.Pipe]}>
-                {CsvDelimiterTypes[CsvSeparatorInputTypes.Pipe]}
+                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputTypes.Pipe} />
               </MenuItem>
             </Select>
           )}

@@ -1,3 +1,5 @@
+import { ErrorType } from './Error.model';
+
 export enum CustomWatchlistSeverityOnMatchTypes {
   NoAction = 'no-action',
   Low = 'low',
@@ -44,6 +46,32 @@ export interface FlowWatchlistUi {
   merchantId: string;
   mapping: WatchlistMapping | null;
   severityOnMatch: CustomWatchlistSeverityOnMatchTypes;
+  process: WatchlistProcess | null;
+}
+
+export enum WatchlistProcessName {
+  ContentParse = 'contentParse',
+}
+
+export enum WatchlistProcessStatus {
+  Pending = 'pending',
+  Running = 'running',
+  Completed = 'completed',
+}
+
+export interface WatchlistProcess {
+  completedAt: string | null;
+  createdAt: string | null;
+  error: ErrorType | null;
+  id: number;
+  inputSourceFileName: string;
+  inputSourceFileUri: string;
+  name: WatchlistProcessName;
+  startCount: number;
+  status: WatchlistProcessStatus;
+  startedAt: string | null;
+  updatedAt: string | null;
+  watchlistId: number;
 }
 
 export interface Watchlist {
@@ -53,7 +81,7 @@ export interface Watchlist {
   updatedAt: string;
   merchantId: string;
   mapping: WatchlistMapping | null;
-  process: null;
+  process: WatchlistProcess | null;
 }
 
 export interface CustomWatchlistUpload {
@@ -91,8 +119,13 @@ export enum CustomWatchlistFileExt {
   Xls = 'xls',
 }
 
+export interface WatchlistCreateBodyTypes {
+  name: string;
+  mapping: WatchlistMapping[];
+}
+
 export interface WatchlistContentTypes {
-  url: string;
+  fileUrl: string;
   fileName: string;
   csvSeparator: string;
 }

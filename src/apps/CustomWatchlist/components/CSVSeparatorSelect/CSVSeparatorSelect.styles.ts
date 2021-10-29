@@ -26,4 +26,10 @@ export const useStyles = makeStyles((theme) => createStyles({
   red: {
     color: theme.palette.common.red,
   },
+  menuItemLabel: {
+    display: 'inline-block',
+    marginRight: '5px',
+    textTransform: 'capitalize',
+    color: theme.palette.common.black75,
+  },
 }));
