@@ -20,6 +20,8 @@ export const FieldTitlizedDashedPatterns = [
 export const FieldDatePatterns = [
   'date',
   'emissionDate',
+  'readAt',
+  'signedAt',
 ];
 
 export const FieldBooleanPatterns = [

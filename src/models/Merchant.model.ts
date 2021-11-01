@@ -21,6 +21,7 @@ export enum MerchantTags {
   CanUseReverificationFlow = 'can-use-reverification-flow',
   CanUseCustomDocumentAdvancedValidation = 'can-use-custom-document-advanced-validations',
   CanUseCustomDocument = 'can-use-custom-document',
+  CanUseESignature = 'can-use-esignature',
   CanUsePhoneValidation = 'can-use-phone-validation',
   CanUseEmailValidation = 'can-use-email-validation',
 }

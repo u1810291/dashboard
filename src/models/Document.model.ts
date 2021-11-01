@@ -33,7 +33,7 @@ export type DocumentReadingStep = IStep<Record<string, DocumentField>>;
 export interface PremiumAmlWatchlistStepData {
   isMonitoringAvailable: boolean;
   nameSearched: string;
-  profileUrl: string;
+  profileUrl?: string;
   searchId: number;
   searchedOn: string;
 }

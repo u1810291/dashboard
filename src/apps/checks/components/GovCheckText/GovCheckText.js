@@ -25,7 +25,7 @@ export function GovCheckText({ step }) {
         <Grid xs={displayOption[entry].inline ? 6 : 12} item>
           <CheckStepDetailsEntry
             label={entry}
-            value={step.data[entry] !== null ? step.data[entry] : 'Null'}
+            value={step.data[entry] !== null ? step.data[entry] : '—'}
             key={entry}
             isMarkedAsFailed={!!displayOption[entry].dependentFieldForFailedCheck && step.data[displayOption[entry].dependentFieldForFailedCheck] !== true}
           />

@@ -102,6 +102,7 @@ export function getIdentityExtras(identity, countries) {
     riskAnalysis: getPhoneRiskValidationExtras(steps.find((item) => item.id === VerificationPatternTypes.PhoneRiskValidation)),
     digitalSignature: get(identity, '_embedded.digitalSignature'),
     deviceFingerprint: get(identity, '_embedded.verification.deviceFingerprint'),
+    eSignature: steps.find((item) => item.id === VerificationPatternTypes.ESignatureDocuments),
   };
 }
 

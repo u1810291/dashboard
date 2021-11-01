@@ -59,11 +59,13 @@ export function PremiumAmlWatchlistsStepDetails({ step }) {
                   <CheckStepDetailsEntry label="matchType" value={intl.formatMessage({ id: `SecurityCheckStep.premiumAmlWatchlists.match.${step.data.matchType}` })} />
                 </Box>
               </Box>
-              <Link href={step.data.profileUrl} underline="none">
-                <LinkButton className={classes.button} fullWidth endIcon={<FiExternalLink />}>
-                  {intl.formatMessage({ id: 'SecurityCheckStep.premiumAmlWatchlists.profileLink' })}
-                </LinkButton>
-              </Link>
+              {step.data.profileUrl && (
+                <Link href={step.data.profileUrl} underline="none">
+                  <LinkButton className={classes.button} fullWidth endIcon={<FiExternalLink />}>
+                    {intl.formatMessage({ id: 'SecurityCheckStep.premiumAmlWatchlists.profileLink' })}
+                  </LinkButton>
+                </Link>
+              )}
             </Box>
           )}
         </Box>

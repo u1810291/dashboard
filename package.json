@@ -1,6 +1,6 @@
 {
   "name": "mati-dashboard",
-  "version": "2.0.25",
+  "version": "2.0.26",
   "private": true,
   "dependencies": {
     "@fullstory/browser": "^1.4.6",
@@ -12,6 +12,7 @@
     "@sentry/browser": "^4.4.2",
     "@sentry/react": "^6.11.0",
     "@sentry/tracing": "^6.11.0",
+    "@types/react-beautiful-dnd": "^13.0.0",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "clipboard-polyfill": "^2.8.6",
@@ -24,6 +25,7 @@
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
+    "react-beautiful-dnd": "^13.1.0",
     "react-color": "^2.17.3",
     "react-day-picker": "^7.4.8",
     "react-dom": "^16.14.0",
@@ -66,6 +68,7 @@
     "start:devel10": "env-cmd -f .env.devel10 react-scripts start",
     "start:devel13": "env-cmd -f .env.devel13 react-scripts start",
     "start:dev11": "env-cmd -f .env.dev11 react-scripts start",
+    "start:dev12": "env-cmd -f .env.dev12 react-scripts start",
     "start:production": "env-cmd -f .env.production react-scripts start",
     "start:staging": "env-cmd -f .env.staging react-scripts start",
     "build": "REACT_APP_VERSION=$npm_package_version react-scripts build",
