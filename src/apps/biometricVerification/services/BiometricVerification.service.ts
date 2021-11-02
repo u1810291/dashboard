@@ -7,6 +7,7 @@ import { BiometricSteps, BiometricTypes } from 'models/Biometric.model';
 import { BiometricsVerificationProduct } from 'apps/biometrics';
 import { VerificationResponse } from 'models/Verification.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
+import { IESignatureFlow } from 'apps/ESignature';
 import { BiometricVerificationCheckTypes, BiometricVerificationSettingsTypes } from '../models/BiometricVerification.model';
 import { BiometricVerificationSettings } from '../components/BiometricVerificationSettings';
 import { BiometricVerificationRemovingAlert } from '../components/BiometricVerificationRemovingAlert';
@@ -51,13 +52,25 @@ export class BiometricVerification extends ProductBaseService implements Product
     };
   }
 
-  onRemove(): Partial<IFlow> {
+  onRemove(flow: IFlow): Partial<IFlow> {
+    let electronicSignature: IESignatureFlow = flow?.electronicSignature;
+    if (flow?.electronicSignature?.acceptanceCriteria.isFaceMatchRequired) {
+      electronicSignature = {
+        ...flow.electronicSignature,
+        acceptanceCriteria: {
+          ...flow.electronicSignature.acceptanceCriteria,
+          isDocumentsRequired: false,
+          isFaceMatchRequired: false,
+        },
+      };
+    }
     return {
       facematchThreshold: undefined,
       verificationPatterns: {
         [VerificationPatternTypes.Biometrics]: BiometricTypes.none,
         [VerificationPatternTypes.ProofOfOwnership]: false,
       },
+      electronicSignature,
     };
   }
 

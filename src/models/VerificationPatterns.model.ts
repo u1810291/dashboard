@@ -52,6 +52,7 @@ export enum VerificationPatternTypes {
   TemplateMatching = 'template-matching',
   DocumentReading = 'document-reading',
   VpnDetection = 'vpn-detection',
+  ESignatureDocuments = 'electronic-signature-document-validation',
 }
 
 export interface VerificationPatterns {
@@ -99,4 +100,6 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.VpnDetection]?: boolean;
   [VerificationPatternTypes.EmailRiskValidation]?: boolean;
   [VerificationPatternTypes.EmailOwnershipValidation]?: string;
+  [VerificationPatternTypes.VpnDetection]?: boolean;
+  [VerificationPatternTypes.ESignatureDocuments]?: boolean;
 }
