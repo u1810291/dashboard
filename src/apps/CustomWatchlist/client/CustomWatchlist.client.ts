@@ -14,7 +14,7 @@ export function createMerchantWatchlist(merchantId: string, body: WatchlistCreat
 }
 
 export function updateMerchantWatchlistById(merchantId: string, watchlistId: number, body: WatchlistCreateBodyTypes) {
-  return http.patch<Watchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}`, body);
+  return http.patch<Watchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}?embed=process`, body);
 }
 
 export function updateMerchantWatchlistContentById(merchantId: string, watchlistId: number, body: WatchlistContentTypes) {

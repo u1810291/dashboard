@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormContext } from 'react-hook-form';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -21,10 +21,15 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
   const [fileName, setFileName] = useState<string>(watchlist.process?.inputSourceFileName);
   const { setValue, setError, formState: { errors } } = useFormContext();
 
+  useEffect(() => {
+    if (fileName) {
+      setValue(CustomWatchlistModalValidationInputs.FileName, fileName);
+    }
+  }, [fileName, setValue]);
+
   const handleUploadFile = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
     setFileName(file.name);
-    setValue(CustomWatchlistModalValidationInputs.FileName, file.name);
     const form = new FormData();
     form.append('media', file);
     try {
@@ -32,9 +37,9 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
       setValue(CustomWatchlistModalValidationInputs.FileUrl, data.publicUrl);
       setError(CustomWatchlistModalValidationInputs.FileUrl, {});
     } catch {
-      setError(CustomWatchlistModalValidationInputs.FileUrl, {
-        message: intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.fileErrorUpload' }),
-      });
+      // setError(CustomWatchlistModalValidationInputs.FileUrl, {
+      //   message: intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.fileErrorUpload' }),
+      // });
     }
   }, [intl, setValue, setError]);
 

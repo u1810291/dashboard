@@ -533,6 +533,7 @@
   "CustomWatchlist.settings.modal.validationFields.passportNumber.label": "Passport number",
   "CustomWatchlist.settings.modal.validationFields.countryCode.label": "Country code",
   "CustomWatchlist.settings.modal.validationFields.notSelected.label": "Not selected",
+  "CustomWatchlist.settings.modal.submit.error": "Unexpected error sending data to server, please try again later",
   "CustomDocuments.settings.userDescription.subtitle": "Let your users know what you need them to do.",
   "CustomDocuments.settings.validationType": "Field type",
   "CustomDocuments.settings.validationType.dateSelection": "Date picker",

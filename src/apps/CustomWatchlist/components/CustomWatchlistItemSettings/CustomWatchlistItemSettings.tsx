@@ -9,12 +9,12 @@ import React, { useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
-import { SkeletonThreeRectTwoCircle } from 'apps/ui/components/SkeletonGroups';
 import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
 import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
+import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
 
 export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   watchlists: FlowWatchlistUi[];
@@ -97,19 +97,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
 
   return (
     <Box>
-      {!isWatchlistsLoaded ? (
-        <Grid container spacing={2} direction="column">
-          <Grid item>
-            <SkeletonThreeRectTwoCircle />
-          </Grid>
-          <Grid item>
-            <SkeletonThreeRectTwoCircle />
-          </Grid>
-          <Grid item>
-            <SkeletonThreeRectTwoCircle />
-          </Grid>
-        </Grid>
-      ) : (
+      {!isWatchlistsLoaded ? <CustomWatchlistsLoading /> : (
         <>
           {watchlists?.map((watchlist) => (
             <Box key={watchlist.id} className={classes.wrapper} p={2} mb={2}>

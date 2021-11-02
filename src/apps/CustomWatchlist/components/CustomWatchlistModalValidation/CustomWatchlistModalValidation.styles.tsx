@@ -31,6 +31,9 @@ export const useStyles = makeStyles((theme) => ({
   marginTop50: {
     marginTop: 50,
   },
+  error: {
+    color: theme.palette.common.red,
+  },
 }));
 
 export const RoundedButton = withStyles((theme) => ({

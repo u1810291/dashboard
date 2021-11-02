@@ -31,6 +31,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const intl = useIntl();
   const classes = useStyles();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isSubmittingError, setIsSubmittingError] = useState<boolean>(false);
   const formMethods = useForm<CustomWatchlistModalValidationInputTypes>();
   const { register, handleSubmit, setValue, formState: { errors } } = formMethods;
 
@@ -39,12 +40,15 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   });
 
   const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback((values) => {
+    console.log('values', values);
     try {
+      setIsSubmittingError(false);
       setIsSubmitting(true);
       onSubmit(values);
       setIsSubmitting(false);
     } catch (error) {
       setIsSubmitting(false);
+      setIsSubmittingError(true);
     }
   }, [onSubmit]);
 
@@ -115,6 +119,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
               </Box>
               {/* TODO: @richvoronov STAGE 2, ValidatedInputs shows when file has been loaded */}
               {true ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} /> : <FakeInputs />}
+              {isSubmittingError && <div className={classes.error}>{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.submit.error' })}</div>}
             </Grid>
           </Grid>
           <Grid container spacing={2} className={classes.marginTop50}>
