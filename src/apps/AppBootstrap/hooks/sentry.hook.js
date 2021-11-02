@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { matchPath } from 'react-router-dom';
 import { AppPaths } from 'apps/routing/AppPaths';
+import SentryFullStory from '../sentry/sentry-fullstory-integration';
 import { history } from '../../routing/history/history';
 
 export function useSentry() {
@@ -18,6 +19,7 @@ export function useSentry() {
         environment: process.env.REACT_APP_SENTRY_ENVIRONMENT,
         release: process.env.REACT_APP_VERSION,
         integrations: [
+          new SentryFullStory(process.env.REACT_APP_SENTRY_ORG),
           new Integrations.BrowserTracing({
             routingInstrumentation: Sentry.reactRouterV5Instrumentation(history, AppPaths, matchPath),
             tracingOrigins: [

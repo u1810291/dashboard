@@ -44,7 +44,7 @@ export function FlowInfo({ canEdit, isEditable, newFlowName, setIsEditable, onSu
       </Box>
       <Grid container alignItems="center">
         <Box color="common.black75">
-          {`${intl.formatMessage({ id: 'FlowBuilder.info.createdOn' })} ${formatDate(createdAt, DateFormat.MonthShortSpaced)}`}
+          {`${intl.formatMessage({ id: 'FlowBuilder.info.createdOn' })} ${formatDate(createdAt, DateFormat.MonthShortWithSpace)}`}
         </Box>
       </Grid>
     </Box>

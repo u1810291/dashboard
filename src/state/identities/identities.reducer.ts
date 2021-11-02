@@ -16,6 +16,8 @@ const initialState = {
   [SliceNames.ManualReviewCount]: LoadableAdapter.createState(0),
 };
 
+export type IdentitiesState = typeof initialState;
+
 export default createReducer(initialState, {
   ...LoadableAdapter.createHandlers(IdentityActionGroups.Identity, SliceNames.Identity),
   ...LoadableAdapter.createHandlers(IdentityActionGroups.IdentityList, SliceNames.IdentityList),

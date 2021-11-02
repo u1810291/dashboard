@@ -38,9 +38,7 @@ export function AnalyticsContainer() {
 
   useEffect(() => {
     const parsedFilter = parseFromURL(location.search, analyticsFilterStructure);
-    // TODO: @ggrigorev @pablo remove when merging conflicts
-    // @ts-ignore
-    const { start, end } = FilterRangesByLocal[FilterRangeTypes.Last7Days].getMomentPeriod();
+    const { start, end } = FilterRangesByLocal[FilterRangeTypes.Last7Days].getDateRange();
     const resultFilter = getFilterDatesIsValid(parsedFilter) ? parsedFilter : { ...analyticsCleanFilter, 'dateCreated[start]': start, 'dateCreated[end]': end };
 
     dispatch(filterUpdate(resultFilter));
