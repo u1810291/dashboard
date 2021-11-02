@@ -29,7 +29,7 @@ export function RoleField({ name, value, onChange, options }: {
               <Box display="flex" pt={1} className={classes.image}>
                 <Box width={40} height={40} color="textSecondary">
                   {/* @ts-ignore */}
-                  {role.icon ? <role.icon /> : <ImgAgent />}
+                  {role.icon ? <role.icon style={role.value === CollaboratorRoles.AUDITOR ? { marginTop: -4 } : null} /> : <ImgAgent />}
                 </Box>
                 <Box ml={1}>
                   <Box>

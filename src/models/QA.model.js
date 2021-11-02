@@ -83,6 +83,7 @@ export const QATags = {
     Role: {
       Agent: 'collaborators-radiobutton-role-agent',
       Admin: 'collaborators-radiobutton-role-admin',
+      Auditor: 'collaborators-radiobutton-role-auditor',
     },
   },
 

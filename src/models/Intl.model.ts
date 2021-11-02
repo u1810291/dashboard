@@ -1,12 +1,12 @@
-import 'moment/locale/es';
-import 'moment/locale/pt-br';
-// moment's locales must be imported before using
+import 'dayjs/locale/es';
+import 'dayjs/locale/pt-br';
+// dayjs locales must be imported before using
 
-export const SupportedLocales = {
-  EN: 'en',
-  ES: 'es',
-  ptBR: 'pt-BR',
-};
+export enum SupportedLocales {
+  EN = 'en',
+  ES = 'es',
+  ptBR = 'pt-BR',
+}
 
 export const DEFAULT_LOCALE = SupportedLocales.EN;
 

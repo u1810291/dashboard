@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
   header: {
-    padding: [[10, 20, 10]],
+    padding: '10px 20px 10px',
     position: 'fixed',
     top: 0,
     left: 0,
@@ -13,9 +13,9 @@ export const useStyles = makeStyles((theme) => ({
     background: theme.palette.common.white,
   },
   body: {
-    padding: [[45, 20, 70]],
+    padding: '45px 20px 70px',
     [theme.breakpoints.down('sm')]: {
-      padding: [[45, 20, 125]],
+      padding: '45px, 20px, 125px',
     },
   },
   footer: {
@@ -27,7 +27,7 @@ export const useStyles = makeStyles((theme) => ({
     bottom: 0,
     width: '100%',
     height: 70,
-    padding: [[10, 20]],
+    padding: '10px 20px',
     zIndex: 2,
     background: theme.palette.common.white,
     borderTop: `1px solid ${theme.palette.common.black7}`,
@@ -49,7 +49,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     '& .MuiButtonBase-root': {
       minHeight: 30,
-      padding: [[0, 5]],
+      padding: '0px 5px',
     },
   },
   footerLeft: {

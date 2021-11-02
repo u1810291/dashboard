@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMerchantBusinessName, selectMerchantCreatedAt } from 'state/merchant/merchant.selectors';
 import { merchantUpdateBusinessName } from 'state/merchant/merchant.actions';
-import { formatDate } from 'lib/date';
+import { DateFormat, formatDate } from 'lib/date';
 import { EditableInput } from 'apps/ui';
 import { QATags } from 'models/QA.model';
 import { useOverlay } from 'apps/overlay';
@@ -71,7 +71,7 @@ export function CompanySettings() {
           </Grid>
           <Grid item xs={12} md="auto" className={classes.dateWrapper}>
             <Typography variant="body1" className={classes.value}>
-              {formatDate(createdAt, 'D MMM, YYYY')}
+              {formatDate(createdAt, DateFormat.DayShortMonthShortWithSpace)}
             </Typography>
             <Typography variant="body1" className={classes.title}>
               {intl.formatMessage({ id: 'Settings.companySettings.registrationDate' })}

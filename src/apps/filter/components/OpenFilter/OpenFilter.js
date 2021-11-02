@@ -4,8 +4,8 @@ import React, { useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectMerchantCreatedAt } from 'state/merchant/merchant.selectors';
-import moment from 'moment';
 import { zeroTime } from 'lib/date';
+import dayjs from 'dayjs';
 import { Filter } from '../../containers/Filter/Filter';
 import { SideButton, useStyles } from './OpenFilter.styles';
 
@@ -26,7 +26,7 @@ export function OpenFilter({
   const openFilterModal = useCallback(() => {
     createOverlay((
       <Modal onClose={handleCloseModal} className={classes.modal}>
-        <Filter {...props} fromMonth={moment(registerDate).set(zeroTime).toDate()} onClose={handleCloseModal}>
+        <Filter {...props} fromMonth={dayjs(registerDate).set(zeroTime).toDate()} onClose={handleCloseModal}>
           {children}
         </Filter>
       </Modal>

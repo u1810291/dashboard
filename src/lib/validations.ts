@@ -3,7 +3,7 @@ import { ValidationError } from 'yup';
 import restrictedDomains from './emailDomains.json';
 
 export const ONLY_NUMBERS_REG_EXP = /[^0-9]/;
-export const EMAIL_REG_EXP = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i;
+export const EMAIL_REG_EXP = /^[A-Z0-9._%+-]+@([A-Z0-9.-]+\.[A-Z]{2,63})$/i;
 export const CLEAN_TEXT_REG_EXP = /^[^`~!@#$%^&*()+=[{\]}|\\'<,.>?";:]+$/;
 export const PASSWORD_REG_EXP = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\S]{8,}$/;
 

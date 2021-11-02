@@ -2,8 +2,8 @@ import { Box } from '@material-ui/core';
 import { useFormattedValue } from 'lib/string';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { useStyles } from './CheckStepDetails.styles';
 import classnames from 'classnames';
+import { useStyles } from './CheckStepDetails.styles';
 
 export function CheckStepDetailsEntry({ label, value, isMarkedAsFailed = false }) {
   const classes = useStyles();

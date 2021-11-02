@@ -9,11 +9,11 @@ import { SoftLaunchBanner } from 'apps/ui/components/SoftLaunchSwitch/SoftLaunch
 import { SoftLaunchBanners } from 'apps/ui/models/SoftLaunchBanner.model';
 import { PreviewButton } from 'apps/WebSDKPreview/components/PreviewButton/PreviewButton';
 import { ReactComponent as EmptyBuilderIcon } from 'assets/empty-flow-builder.svg';
+import dayjs from 'dayjs';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useQuery } from 'lib/url';
 import { IFlow } from 'models/Flow.model';
 import { Routes } from 'models/Router.model';
-import moment from 'moment';
 import React, { useCallback, useEffect } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -65,7 +65,7 @@ export function FlowBuilder() {
   }, [dispatch]);
 
   const handleSoftLaunchSwitch = useCallback(() => {
-    dispatch(dashboardShowOldDesignUntilUpdate(moment.utc().add(SHOW_OLD_DESIGN_RESET_PERIOD, 'd').toString()));
+    dispatch(dashboardShowOldDesignUntilUpdate(dayjs.utc().add(SHOW_OLD_DESIGN_RESET_PERIOD, 'd').toString()));
     history.push(`${Routes.flows.root}/${changeableFlowModel.value.id}`);
   }, [changeableFlowModel.value.id, dispatch, history]);
 
