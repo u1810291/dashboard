@@ -1599,7 +1599,7 @@
   "SignIn.description.text": "Perguntas? Dúvidas? Problemas em geral? Nossa equipe de Sucesso do Cliente está disponível 24/7 em nosso Call Center Virtual para responder suas perguntas, sugerir boas práticas ou resolver qualquer problema que você possa encontrar com nosso produto.",
   "SignIn.description.title": "Integração rápida, suporte constante",
   "SignIn.dontHaveAccount": "Ainda não possui uma conta? Entre em contato com nossa equipe",
-  "SignIn.form.authError": "A senha não está correta",
+  "SignIn.form.error.wrongCredentials": "A senha não está correta",
   "SignIn.form.labels.email": "Endereço de E-mail",
   "SignIn.form.labels.password": "Senha",
   "SignIn.form.placeholders.email": "E-mail",
