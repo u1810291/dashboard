@@ -5,6 +5,10 @@ export function getMerchantWatchlists(merchantId: string) {
   return http.get<Watchlist[]>(`/api/v1/merchants/${merchantId}/watchlists?embed=process`);
 }
 
+export function getMerchantWatchlistById(merchantId: string, watchlistId: number) {
+  return http.get(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}?embed=process`);
+}
+
 export function deleteMerchantWatchlistById(merchantId: string, watchlistId: number) {
   return http.delete(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}`);
 }

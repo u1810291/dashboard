@@ -7,7 +7,7 @@ import { Box, InputLabel, Grid, Typography, TextField } from '@material-ui/core'
 import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
-import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping } from 'models/CustomWatchlist.model';
+import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus } from 'models/CustomWatchlist.model';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs, ValidatedInputsFieldTypes } from '../ValidatedInputs/ValidatedInputs';
 import { selectIsWatchlistsLoading } from '../../state/CustomWatchlist.selectors';
@@ -35,12 +35,16 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const formMethods = useForm<CustomWatchlistModalValidationInputTypes>();
   const { register, handleSubmit, setValue, formState: { errors } } = formMethods;
 
+  const isWatchlistRunning = watchlist?.process?.status === WatchlistProcessStatus.Running;
+
   const nameRegister = register(CustomWatchlistModalValidationInputs.Name, {
     required: intl.formatMessage({ id: 'validations.required' }),
   });
 
   const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback((values) => {
-    console.log('values', values);
+    if (isWatchlistRunning) {
+      return;
+    }
     try {
       setIsSubmittingError(false);
       setIsSubmitting(true);
@@ -50,7 +54,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
       setIsSubmitting(false);
       setIsSubmittingError(true);
     }
-  }, [onSubmit]);
+  }, [isWatchlistRunning, onSubmit]);
 
   const onValidatedInputsChange = useCallback((validatedInputsValues: ValidatedInputsFieldTypes[]) => {
     const validatedInputsValuesFormated = validatedInputsValues.map((fields) => ({ merchantField: fields.label, systemField: fields.value, ...(fields?.options && { options: fields.options }) }));
@@ -138,9 +142,9 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                 color="primary"
                 size="large"
                 fullWidth
-                disabled={isWatchlistsLoading}
+                disabled={isWatchlistsLoading || isWatchlistRunning}
               >
-                {isWatchlistsLoading || isSubmitting ? <CircularProgress color="inherit" size={17} /> : intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.done' })}
+                {isWatchlistsLoading || isSubmitting || isWatchlistRunning ? <CircularProgress color="inherit" size={17} /> : intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.done' })}
               </ButtonStyled>
             </Grid>
           </Grid>

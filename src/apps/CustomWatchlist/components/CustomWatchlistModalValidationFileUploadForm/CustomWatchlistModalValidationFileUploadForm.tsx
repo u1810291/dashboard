@@ -18,7 +18,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
   const intl = useIntl();
   const isWatchlistsContentLoading = useSelector(selectIsWatchlistsContentLoading);
   const classes = useStyles();
-  const [fileName, setFileName] = useState<string>(watchlist.process?.inputSourceFileName);
+  const [fileName, setFileName] = useState<string>(watchlist?.process?.inputSourceFileName);
   const { setValue, setError, formState: { errors } } = useFormContext();
 
   useEffect(() => {
@@ -37,9 +37,9 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
       setValue(CustomWatchlistModalValidationInputs.FileUrl, data.publicUrl);
       setError(CustomWatchlistModalValidationInputs.FileUrl, {});
     } catch {
-      // setError(CustomWatchlistModalValidationInputs.FileUrl, {
-      //   message: intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.fileErrorUpload' }),
-      // });
+      setError(CustomWatchlistModalValidationInputs.FileUrl, {
+        message: intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.fileErrorUpload' }),
+      });
     }
   }, [intl, setValue, setError]);
 
