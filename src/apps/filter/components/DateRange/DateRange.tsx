@@ -1,9 +1,8 @@
 import { Box, Button, FormControl, Grid, MenuItem, Select } from '@material-ui/core';
-import { allDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, identifyRange, RangeParts, RangeSlices } from 'models/Filter.model';
+import { allDatePickerRanges, FilterDateParams, FilterRange, FilterRangesByLocal, FilterRangeTypes, identifyRange, RangeParts, RangeSlices } from 'models/Filter.model';
 import classNames from 'classnames';
-import { DateFormat, dayEndTime, getYearsArray, toLocalDate, utcToLocalFormat, zeroTime } from 'lib/date';
+import { DateFormat, dayEndTime, getYearsArray, utcToLocalFormat, zeroTime } from 'lib/date';
 import { QATags } from 'models/QA.model';
-import moment from 'moment';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
@@ -11,15 +10,25 @@ import { FiChevronDown } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectMerchantCreatedAt, selectLanguage } from 'state/merchant/merchant.selectors';
-import MomentLocaleUtils from 'react-day-picker/moment';
+import dayjs from 'dayjs';
 import { useStyles } from './DateRange.styles';
+import LocaleUtils from '../../../ui/models/ReactDayPicker.model';
 
-export function DateRange({ onChange, start, end, datePickerRanges = allDatePickerRanges, fromMonth, toMonth }) {
+type DateRangeProps = {
+  onChange: (filterUpdate: Partial<FilterDateParams>) => void;
+  start: Date | null;
+  end: Date | null;
+  datePickerRanges: FilterRange[];
+  fromMonth: Date;
+  toMonth: Date;
+}
+
+export function DateRange({ onChange, start, end, datePickerRanges = allDatePickerRanges, fromMonth, toMonth }: DateRangeProps) {
   const intl = useIntl();
   const classes = useStyles();
   const registerDate = useSelector(selectMerchantCreatedAt);
-  const [from, setFrom] = useState(null);
-  const [to, setTo] = useState(null);
+  const [from, setFrom] = useState<Date | null>(null);
+  const [to, setTo] = useState<Date | null>(null);
   const [selectedRange, setSelectedRange] = useState(null);
   const [visibleMonth, setVisibleMonth] = useState(toMonth);
   const currentLocale = useSelector(selectLanguage);
@@ -34,27 +43,27 @@ export function DateRange({ onChange, start, end, datePickerRanges = allDatePick
   });
 
   const availableYears = useMemo(() => {
-    if (moment(fromMonth)?.isValid() && moment(toMonth)?.isValid()) {
+    if (dayjs(fromMonth).isValid() && dayjs(toMonth).isValid()) {
       return getYearsArray(fromMonth.getFullYear(), toMonth.getFullYear());
     }
     return [];
   }, [fromMonth, toMonth]);
 
   // Restrict dates to today and registration date
-  const restrictMomentDate = useCallback((momentDate) => {
-    const registerMoment = moment(registerDate);
+  const restrictDate = useCallback((_date: Date) => {
+    const date = dayjs(_date);
 
-    if (momentDate.isBefore(registerMoment)) {
-      return registerMoment;
+    if (date.isBefore(registerDate)) {
+      return dayjs(registerDate).toDate();
     }
 
-    if (momentDate.isAfter(moment(toMonth))) {
-      return moment(toMonth);
+    if (date.isAfter(toMonth)) {
+      return toMonth;
     }
-    return momentDate;
+    return _date;
   }, [registerDate, toMonth]);
 
-  const changeRange = useCallback((startDate, endDate) => {
+  const changeRange = useCallback((startDate: Date, endDate: Date) => {
     setFrom(startDate);
     setTo(endDate);
     setModifiers({
@@ -69,7 +78,7 @@ export function DateRange({ onChange, start, end, datePickerRanges = allDatePick
     setSelectedRange(rangeId);
   }, [datePickerRanges, registerDate]);
 
-  const handlePartRangeChanged = useCallback((partName, setPart, date) => {
+  const handlePartRangeChanged = useCallback((partName: RangeParts, setPart: (date: Date) => void, date: Date) => {
     const stateFieldName = partName === RangeParts.Start ? RangeSlices.From : RangeSlices.To;
     setPart(date);
     setModifiers((prevState) => ({
@@ -80,7 +89,7 @@ export function DateRange({ onChange, start, end, datePickerRanges = allDatePick
       ...prevState,
       [stateFieldName]: date?.getFullYear() || '',
     }));
-    onChange({ [`dateCreated[${partName}]`]: !date ? null : moment(date) });
+    onChange({ [`dateCreated[${partName}]`]: date || null });
   }, [onChange]);
 
   const handleStartRangeChanged = useCallback((startDate: Date, isScrollToDate: boolean = false) => {
@@ -99,18 +108,15 @@ export function DateRange({ onChange, start, end, datePickerRanges = allDatePick
   },
   [handlePartRangeChanged]);
 
-  const handleOnRangeClick = useCallback((rangeItem) => {
-    const {
-      start: startMoment,
-      end: endMoment,
-    } = rangeItem.getMomentPeriod(rangeItem.id === FilterRangeTypes.All && registerDate);
+  const handleOnRangeClick = useCallback((rangeItem: FilterRange) => {
+    const range = rangeItem.getDateRange(rangeItem.id === FilterRangeTypes.All && registerDate);
 
-    const startDate = restrictMomentDate(startMoment).toDate();
-    const endDate = restrictMomentDate(endMoment).toDate();
+    const startDate = restrictDate(range.start);
+    const endDate = restrictDate(range.end);
     handleStartRangeChanged(startDate, true);
     handleEndRangeChanged(endDate, true);
     setSelectedRange(rangeItem.id);
-  }, [handleEndRangeChanged, handleStartRangeChanged, registerDate, restrictMomentDate]);
+  }, [handleEndRangeChanged, handleStartRangeChanged, registerDate, restrictDate]);
 
   const handleDayClick = useCallback((day, modif = {}) => {
     if (modif.disabled) {
@@ -120,43 +126,43 @@ export function DateRange({ onChange, start, end, datePickerRanges = allDatePick
       from,
       to,
     });
-    const fromDate = range.from && moment(range.from).set(zeroTime).toDate();
-    const toDate = range.to && moment(range.to).set(dayEndTime).toDate();
+    const fromDate = range.from && dayjs(range.from).set(zeroTime).toDate();
+    const toDate = range.to && dayjs(range.to).set(dayEndTime).toDate();
     handleStartRangeChanged(fromDate);
     handleEndRangeChanged(toDate);
     setSelectedRange(null);
   }, [from, handleEndRangeChanged, handleStartRangeChanged, to]);
 
-  const handleYearChange = useCallback((firstDate, secondDate, setDate) => ({ target: { value } }) => {
-    if (!value || !moment.isDate(firstDate) || !moment.isDate(secondDate)) {
+  const handleYearChange = useCallback((firstDate: Date, secondDate: Date, setDate: typeof handleEndRangeChanged) => ({ target: { value } }) => {
+    if (!value || !dayjs(firstDate).isValid() || !dayjs(secondDate).isValid()) {
       return;
     }
 
-    const momentDate = moment(firstDate).set({ year: value });
-    const dates = [moment(firstDate), moment(secondDate)];
-    const isFromDateFirst = moment(firstDate).isBefore(secondDate);
+    const updatedDate = dayjs(firstDate).set({ year: value });
+    const dates = [dayjs(firstDate), dayjs(secondDate)];
+    const isFromDateFirst = dayjs(firstDate).isBefore(secondDate);
     const [startDate, endDate] = isFromDateFirst ? dates : dates.reverse();
 
     // The start date cannot be greater than the end
-    if (isFromDateFirst && momentDate.isAfter(endDate)) {
+    if (isFromDateFirst && updatedDate.isAfter(endDate)) {
       setDate(endDate.subtract(1, 'day').toDate(), true);
       return;
     }
 
     // The end date cannot be less than the start date
-    if (!isFromDateFirst && momentDate.isBefore(startDate)) {
+    if (!isFromDateFirst && updatedDate.isBefore(startDate)) {
       setDate(startDate.add(1, 'day').toDate(), true);
       return;
     }
 
-    setDate(restrictMomentDate(momentDate).toDate(), true);
-  }, [restrictMomentDate]);
+    setDate(restrictDate(updatedDate.toDate()), true);
+  }, [restrictDate]);
 
   useEffect(() => {
     if (!start && !end) {
       handleOnRangeClick(FilterRangesByLocal[FilterRangeTypes.Last7Days]);
     } else {
-      changeRange(toLocalDate(start), toLocalDate(end));
+      changeRange(start, end);
     }
   }, [start, end, changeRange, handleOnRangeClick]);
 
@@ -212,7 +218,7 @@ export function DateRange({ onChange, start, end, datePickerRanges = allDatePick
         </Grid>
         <DayPicker
           fixedWeeks
-          localeUtils={MomentLocaleUtils}
+          localeUtils={LocaleUtils}
           locale={currentLocale}
           onDayClick={handleDayClick}
           numberOfMonths={2}

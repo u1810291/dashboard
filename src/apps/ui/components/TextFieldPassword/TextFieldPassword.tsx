@@ -4,9 +4,10 @@ import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { QATags } from 'models/QA.model';
 import { useStyles } from './TextFieldPassword.styles';
 
-export function TextFieldPassword({ name, setValue, value, ...props }: {
+export function TextFieldPassword({ name, setValue, value, submitCount, ...props }: {
   name: string;
   value: string;
+  submitCount: number;
   setValue: (name: any, value: string, config?: Object) => void;
   [x: string]: any;
 }) {
@@ -33,23 +34,19 @@ export function TextFieldPassword({ name, setValue, value, ...props }: {
     setIsBackspacePressed([event?.key, event?.code].includes('Backspace'));
   }, []);
 
-  const setFieldValue = useCallback((newValue: string) => {
-    setValue(name, newValue);
-  }, [setValue, name]);
-
-  const saveResult = useCallback((newValue, prevState, newInputEndPosition) => {
+  const handleSaveValue = useCallback((newValue, prevState, newInputEndPosition) => {
     const newPosition = isBackspacePressed ? startSelection - 1 : startSelection + 1;
     setSavedPosition(newInputEndPosition && newInputEndPosition > startSelection + 1 ? newInputEndPosition : newPosition);
-    setFieldValue(newValue);
+    setValue(name, newValue, { shouldValidate: submitCount > 0 }); // validate after first submit
     return newValue;
-  }, [isBackspacePressed, setFieldValue, startSelection]);
+  }, [isBackspacePressed, startSelection, name, submitCount, setValue]);
 
-  const inputNewValue = useCallback((newValue, prevState, newInputEndPosition) => {
+  const handleSaveSecretValue = useCallback((newValue, prevState, newInputEndPosition) => {
     const startSlice = prevState.substring(0, isBackspacePressed ? startSelection - 1 : startSelection);
     const endSlice = prevState.substring(endSelection);
     const localResult = `${startSlice}${newValue}${endSlice}`;
-    return saveResult(localResult, prevState, newInputEndPosition);
-  }, [endSelection, isBackspacePressed, saveResult, startSelection]);
+    return handleSaveValue(localResult, prevState, newInputEndPosition);
+  }, [endSelection, isBackspacePressed, handleSaveValue, startSelection]);
 
   const handleInputChange = useCallback((event) => {
     const inputValue = event?.target?.value || '';
@@ -60,12 +57,11 @@ export function TextFieldPassword({ name, setValue, value, ...props }: {
       const newInput = inputValue.substring(startSelection, newInputEndPosition);
 
       if (!isShowPassword) {
-        return inputNewValue(newInput, prevState, newInputEndPosition);
+        return handleSaveSecretValue(newInput, prevState, newInputEndPosition);
       }
-
-      return saveResult(inputValue, prevState, newInputEndPosition);
+      return handleSaveValue(inputValue, prevState, newInputEndPosition);
     });
-  }, [endSelection, inputNewValue, isBackspacePressed, isShowPassword, saveResult, startSelection]);
+  }, [endSelection, handleSaveSecretValue, isBackspacePressed, isShowPassword, handleSaveValue, startSelection]);
 
   useEffect(() => {
     const input = inputRef?.current?.querySelector('input') || {};

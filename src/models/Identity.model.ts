@@ -144,7 +144,7 @@ export const verificationsFilterInitialState = {
 };
 
 export function getVerificationsFilterInitialState(registrationDate: string) {
-  const period = FilterRangesByLocal[FilterRangeTypes.All].getMomentPeriod(registrationDate);
+  const period = FilterRangesByLocal[FilterRangeTypes.All].getDateRange(registrationDate);
   return {
     ...verificationsFilterInitialState,
     'dateCreated[start]': period.start,

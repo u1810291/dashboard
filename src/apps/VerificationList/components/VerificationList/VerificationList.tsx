@@ -94,7 +94,7 @@ export function VerificationList() {
                 <Typography variant="subtitle2" className={classes.title}>
                   <Box component="span">
                     {intl.formatMessage({ id: 'VerificationHistory.title' },
-                      { count: filteredCountModel.isLoaded ? filteredCountModel.value.count ?? filteredCountModel.value : 0 })}
+                      { count: filteredCountModel.isLoaded ? filteredCountModel.value : 0 })}
                   </Box>
                 </Typography>
               </Box>
