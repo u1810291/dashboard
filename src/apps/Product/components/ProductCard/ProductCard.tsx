@@ -1,4 +1,4 @@
-import { selectFlowBuilderChangeableFlow } from 'apps/flowBuilder/store/FlowBuilder.selectors';
+import { selectFlowBuilderChangeableFlow, selectFlowBuilderProductsInGraph } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { UIProductCard } from 'apps/ui';
 import { IProductCard, ProductTypes } from 'models/Product.model';
 import React, { useCallback, useMemo } from 'react';
@@ -15,6 +15,7 @@ export function ProductCard({ id, isIssues = false, isControls = false, isExpand
   onRemove?: (id: ProductTypes) => void;
 }) {
   const flow = useSelector(selectFlowBuilderChangeableFlow);
+  const productsInGraph = useSelector(selectFlowBuilderProductsInGraph);
 
   const card: IProductCard = useMemo(() => {
     const product = productManagerService.getProduct(id);
@@ -29,7 +30,7 @@ export function ProductCard({ id, isIssues = false, isControls = false, isExpand
     onRemove(id);
   }, [id, onRemove]);
 
-  const issuesComponent = useMemo(() => (isIssues && productManagerService.getProduct(id).getIssuesComponent(flow)), [flow, isIssues, id]);
+  const issuesComponent = useMemo(() => (isIssues && productManagerService.getProduct(id).getIssuesComponent(flow, productsInGraph)), [flow, isIssues, id]);
   return (
     <UIProductCard
       card={card}

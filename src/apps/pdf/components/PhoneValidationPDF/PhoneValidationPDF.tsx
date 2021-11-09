@@ -35,16 +35,18 @@ export function PhoneValidationPDF({ step = {} }: PhoneValidationPDFProps) {
           </Text>
         </View>
       )}
-      <View style={styles.stepDetailsContainer}>
-        {Object.keys(PhoneValidationTypes).map((fieldName) => !isNil(step?.data[PhoneValidationTypes[fieldName]]) && (
-          <CheckStepDetailsEntryPDF
-            label={PhoneValidationTypes[fieldName]}
-            value={step.data[PhoneValidationTypes[fieldName]]}
-            key={PhoneValidationTypes[fieldName]}
-            style={styles.stepDetailsItem}
-          />
-        ))}
-      </View>
+      {step?.data && (
+        <View style={styles.stepDetailsContainer}>
+          {Object.keys(PhoneValidationTypes).map((fieldName) => !isNil(step.data[PhoneValidationTypes[fieldName]]) && (
+            <CheckStepDetailsEntryPDF
+              label={PhoneValidationTypes[fieldName]}
+              value={step.data[PhoneValidationTypes[fieldName]]}
+              key={PhoneValidationTypes[fieldName]}
+              style={styles.stepDetailsItem}
+            />
+          ))}
+        </View>
+      )}
     </View>
   );
 }

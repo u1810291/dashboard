@@ -66,7 +66,7 @@ export function VerificationDocumentPDF({ verification, nom151FileContent }) {
             phoneValidation={getPhoneValidationExtras(verification.steps.find((item) => item.id === VerificationPatternTypes.PhoneOwnershipValidation))}
             riskAnalysis={getPhoneRiskValidationExtras(verification.steps.find((item) => item.id === VerificationPatternTypes.PhoneRiskValidation))}
             emailValidationStep={getEmailVerificationExtra(verification.steps.find((item) => item.id === VerificationPatternTypes.EmailOwnershipValidation))}
-            emailRisk={getEmailRiskStep(verification)}
+            emailRisk={getEmailRiskStep(verification.steps)}
           />
         </View>
         {/* Metadata */}

@@ -35,15 +35,17 @@ export function RiskAnalysisPDF({ step = {} }: RiskAnalysisPDFProps) {
           </Text>
         </View>
       )}
-      <View style={styles.stepDetailsContainer}>
-        {Object.keys(RiskAnalysisFieldTypes).map((fieldName) => (!isNil(step?.data[RiskAnalysisFieldTypes[fieldName]])) && (
-          <CheckStepDetailsEntryPDF
-            label={RiskAnalysisFieldTypes[fieldName]}
-            value={step.data[RiskAnalysisFieldTypes[fieldName]]}
-            key={RiskAnalysisFieldTypes[fieldName]}
-          />
-        ))}
-      </View>
+      {step?.data && (
+        <View style={styles.stepDetailsContainer}>
+          {Object.keys(RiskAnalysisFieldTypes).map((fieldName) => (!isNil(step.data[RiskAnalysisFieldTypes[fieldName]])) && (
+            <CheckStepDetailsEntryPDF
+              label={RiskAnalysisFieldTypes[fieldName]}
+              value={step.data[RiskAnalysisFieldTypes[fieldName]]}
+              key={RiskAnalysisFieldTypes[fieldName]}
+            />
+          ))}
+        </View>
+      )}
     </View>
   );
 }
