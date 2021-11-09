@@ -562,6 +562,7 @@
   "DocumentVerification.card.check.templateMatching": "Template matching",
   "DocumentVerification.card.title": "Document Verification",
   "DocumentVerification.issues.description": "Country Restriction will work only with SDK integration",
+  "DocumentVerification.issues.isStepNotSpecified.description": "Document verification will work only with at least one selected step",
   "DocumentVerification.name": "Document Verification",
   "DocumentVerification.settings.button.add": "Add",
   "DocumentVerification.settings.button.addBiometricProduct": "Add Biometric Verification",

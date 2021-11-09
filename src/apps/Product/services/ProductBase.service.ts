@@ -17,7 +17,7 @@ export abstract class ProductBaseService implements Partial<Product> {
   dependentProductTypes: ProductTypes[] = [];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getIssuesComponent(flow: IFlow): any {
+  getIssuesComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
     return null;
   }
 
@@ -25,7 +25,7 @@ export abstract class ProductBaseService implements Partial<Product> {
     return this.integrationTypes.every((integrationType) => integrationType !== ProductIntegrationTypes.Api);
   }
 
-  haveIssues(flow: IFlow): boolean {
+  haveIssues(flow: IFlow, productsInGraph?: ProductTypes[]): boolean {
     const integrationType = flow.integrationType;
     return (integrationType === ProductIntegrationTypes.Api && this.isSdkOnly()) || (!this.isIssuesIgnored && this.getIssuesComponent(flow) !== null);
   }
