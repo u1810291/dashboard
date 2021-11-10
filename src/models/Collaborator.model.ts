@@ -4,6 +4,7 @@ import { stringHash } from 'lib/string';
 import { QATags } from 'models/QA.model';
 import { ReactComponent as ImgAdmin } from 'apps/collaborators/assets/modal-role-admin.svg';
 import { ReactComponent as ImgAgent } from 'apps/collaborators/assets/modal-role-agent.svg';
+import { ReactComponent as ImgAuditor } from 'apps/collaborators/assets/modal-role-view-only.svg';
 
 export enum CollaboratorInputTypes {
   FirstName = 'firstName',
@@ -59,18 +60,13 @@ export const CollaboratorOptions: CollaboratorOption[] = [
     description: 'teamTable.invite.form.roles.description.agent',
     icon: ImgAgent,
   },
-  // TODO: @vladislav.snimshchikov open when backend will be ready
-/*    {
-  qaTag: QATags.Collaborators.Role.Agent,
-  label: intl.formatMessage({
-    id: 'teamTable.invite.form.roles.auditor',
-  }),
-  value: 3,
-  description: intl.formatMessage({
-    id: 'teamTable.invite.form.roles.description.auditor',
-  }),
-  image: <ImgAuditor style={{ marginTop: -4 }} />,
-}, */
+  {
+    qaTag: QATags.Collaborators.Role.Auditor,
+    label: 'teamTable.invite.form.roles.auditor',
+    value: CollaboratorRoles.AUDITOR,
+    description: 'teamTable.invite.form.roles.description.auditor',
+    icon: ImgAuditor,
+  },
 ];
 
 export enum CollaboratorRolesNames{

@@ -4,9 +4,9 @@ import { GovCheck, GovCheckConfigurations, govCheckCountriesOrder, govCheckParse
 import { useIntl } from 'react-intl';
 import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { flags } from 'assets/flags';
-import { useStyles } from './GovCheckCountriesSettings.styles';
 import { ExtendedDescription } from 'apps/ui';
 import { BiometricTypes } from 'models/Biometric.model';
+import { useStyles } from './GovCheckCountriesSettings.styles';
 
 export function GovCheckCountriesSettings({ verificationPattern, onChange }: {
      verificationPattern: Partial<VerificationPatterns>;

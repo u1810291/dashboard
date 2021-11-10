@@ -4,8 +4,8 @@ import { useIntl } from 'react-intl';
 import { DateFormat, formatDate } from 'lib/date';
 import { CopyToClipboard } from 'apps/ui';
 import { FiCalendar, FiMapPin } from 'react-icons/fi';
-import moment from 'moment';
 import { getReasonToken, IdentityProfileReasonCodes, IdentitySummary } from 'apps/IdentityProfile/models/IdentityProfile.model';
+import dayjs from 'dayjs';
 import { useStyles } from './ProfileInformation.styles';
 
 interface GoogleAddress {
@@ -22,7 +22,7 @@ export function ProfileInformation({ profileSummary, identityId, isShowFull = tr
   const intl = useIntl();
   const classes = useStyles();
   const { fullName, location, dateOfBirth } = profileSummary || {};
-  const userAge = useMemo(() => moment().diff(moment(dateOfBirth?.value), 'years') || '', [dateOfBirth?.value]);
+  const userAge = useMemo(() => dayjs().diff(dayjs(dateOfBirth?.value), 'year') || '', [dateOfBirth?.value]);
   const [geocoder, setGeocoder] = useState(null);
   const [locationName, setLocationName] = useState('');
 

@@ -6,8 +6,9 @@ import { VerificationListItem } from 'models/Verification.model';
 import { Loadable } from 'models/Loadable.model';
 import { selectCountriesList } from '../countries/countries.selectors';
 import { IDENTITIES_STORE_KEY, SliceNames } from './identities.store';
+import { IdentitiesState } from './identities.reducer';
 
-export const selectIdentityStore = (state) => state[IDENTITIES_STORE_KEY];
+export const selectIdentityStore = (state): IdentitiesState => state[IDENTITIES_STORE_KEY];
 
 export const selectIdentityCollection = createSelector<any, any, Loadable<VerificationListItem[]>>(
   selectIdentityStore,

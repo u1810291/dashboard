@@ -89,9 +89,9 @@ export interface Product<T = ProductSettings> {
   onRemove(flow: IFlow): Partial<IFlow>;
   onAdd(): Partial<IFlow>;
   getRemovingAlertComponent?(flow: IFlow, productsInGraph?: ProductTypes[]): any;
-  haveIssues?(flow: IFlow): boolean;
+  haveIssues?(flow: IFlow, productsInGraph?: ProductTypes[]): boolean;
   isSdkOnly?(): boolean;
-  getIssuesComponent?(flow: IFlow): any;
+  getIssuesComponent?(flow: IFlow, productsInGraph?: ProductTypes[]): any;
   getTitle(): string;
   getCard(): IProductCard;
   getVerification(verification: VerificationResponse): any;

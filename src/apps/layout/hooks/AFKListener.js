@@ -1,5 +1,4 @@
 import { throttle } from 'lodash';
-import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
 
 export function useAFKListener(delayInSeconds) {
@@ -7,8 +6,9 @@ export function useAFKListener(delayInSeconds) {
   const [isActive, setIsActive] = useState(true);
 
   const recordActivity = useCallback(() => throttle(() => {
-    setLastActivity(moment());
+    setLastActivity(Date.now());
     setIsActive(true);
+    // TODO: @pablosaucedo: what is this 0.8 about?
   }, Math.floor(delayInSeconds * 0.8 * 1000)), [delayInSeconds]);
 
   useEffect(() => {

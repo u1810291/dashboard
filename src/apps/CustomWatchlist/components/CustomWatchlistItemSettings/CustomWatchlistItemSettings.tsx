@@ -1,20 +1,21 @@
 import { Box, Button, Grid, IconButton, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useOverlay } from 'apps/overlay';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import classnames from 'classnames';
 import { useLongPolling } from 'lib/longPolling.hook';
-import { FlowWatchlist, FlowWatchlistUi } from 'models/CustomWatchlist.model';
+import { FlowWatchlist, FlowWatchlistUi, WatchlistContentTypes } from 'models/CustomWatchlist.model';
 import React, { useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
-import { SkeletonThreeRectTwoCircle } from 'apps/ui/components/SkeletonGroups';
+import { DateFormat } from 'lib/date';
 import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
-import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById } from '../../state/CustomWatchlist.actions';
+import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, customWatchlistLoadById } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
+import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
 
 export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   watchlists: FlowWatchlistUi[];
@@ -46,16 +47,41 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
     closeOverlay();
   }, [closeOverlay]);
 
+  const customWatchlistsContentUpdate = useCallback((watchlistId: number, values: WatchlistContentTypes) => {
+    dispatch(updateMerchantWatchlistContent(merchantId, watchlistId, values));
+  }, [merchantId, dispatch]);
+
   const handleSubmitWatchlist = useCallback((watchlist?: FlowWatchlist) => (values: CustomWatchlistModalValidationInputTypes) => {
     setIsDataPooling(true);
+    const watchlistRequestData = {
+      name: values.name,
+      mapping: values.mapping,
+    };
+    // TODO: @richvoronov STAGE 2, separate values on 2 requests, to /content, and other
+
     if (watchlist) {
-      dispatch(customWatchlistUpdateById(merchantId, watchlist.id, values, handleCloseOverlay));
+      dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData, handleCloseOverlay));
+      customWatchlistsContentUpdate(watchlist.id, {
+        // TODO: @richvoronov STAGE 2, remove mock
+        fileUrl: 'https://file.liga.net/images/general/2020/09/08/20200908171549-5386.jpg?v=1599578314',
+        fileName: values.fileName,
+        csvSeparator: values.csvSeparator,
+      });
       return;
     }
-    dispatch(customWatchlistCreate(merchantId, values, handleCloseOverlay));
-  }, [merchantId, handleCloseOverlay, dispatch]);
+    dispatch(customWatchlistCreate(merchantId, watchlistRequestData, (watchlistData) => {
+      handleCloseOverlay();
+      customWatchlistsContentUpdate(watchlistData.id, {
+        // TODO: @richvoronov STAGE 2, remove mock
+        fileUrl: 'https://file.liga.net/images/general/2020/09/08/20200908171549-5386.jpg?v=1599578314',
+        fileName: values.fileName,
+        csvSeparator: values.csvSeparator,
+      });
+    }));
+  }, [merchantId, customWatchlistsContentUpdate, handleCloseOverlay, dispatch]);
 
   const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {
+    dispatch(customWatchlistLoadById(merchantId, watchlist.id));
     setSelectedWatchlist(watchlist);
     createOverlay(
       <CustomWatchlistModalValidation
@@ -65,7 +91,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
       />,
       { onClose: handleCloseOverlay },
     );
-  }, [createOverlay, handleCloseOverlay, handleSubmitWatchlist]);
+  }, [createOverlay, handleCloseOverlay, handleSubmitWatchlist, dispatch]);
 
   const handleDeleteWatchList = useCallback((watchlistId: number) => () => {
     dispatch(deleteCustomWatchlistById(merchantId, watchlistId));
@@ -73,27 +99,14 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
 
   return (
     <Box>
-      {!isWatchlistsLoaded ? (
-        <Grid container spacing={2} direction="column">
-          <Grid item>
-            <SkeletonThreeRectTwoCircle />
-          </Grid>
-          <Grid item>
-            <SkeletonThreeRectTwoCircle />
-          </Grid>
-          <Grid item>
-            <SkeletonThreeRectTwoCircle />
-          </Grid>
-        </Grid>
-      ) : (
+      {!isWatchlistsLoaded ? <CustomWatchlistsLoading /> : (
         <>
-          {watchlists?.map((watchlist, watchlistIndex) => (
+          {watchlists?.map((watchlist) => (
             <Box key={watchlist.id} className={classes.wrapper} p={2} mb={2}>
               <Box mb={2}>
                 <Grid container wrap="nowrap" alignItems="center">
                   <Box color="common.black90" fontWeight="bold" mr={1}>
-                    {/* TODO: @richvoronov STAGE 2, Do we need this if the name field is required?  */}
-                    {watchlist.name || intl.formatMessage({ id: 'CustomWatchlist.settings.step.title' }, { count: watchlistIndex + 1 })}
+                    {watchlist.name}
                   </Box>
                   <Box ml="auto" flexShrink={0}>
                     <IconButton className={classnames(classes.button, classes.buttonEdit)} onClick={handleOpenWatchlist(watchlist)}>
@@ -110,7 +123,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
                     <Typography variant="subtitle2" className={classes.colorGreen}>
                       {intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.uploaded' })}
                       {' '}
-                      {moment(watchlist.createdAt).format('ll')}
+                      {dayjs(watchlist.createdAt).format(DateFormat.FullMonthDateAndFullYear)}
                     </Typography>
                   ) : (
                     <Typography variant="subtitle2" className={classes.colorRed}>{intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.validationError' })}</Typography>

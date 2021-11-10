@@ -1,22 +1,35 @@
 // url search object -> json
-import { dayEndTime, todayMomentZeroTime, zeroTime } from 'lib/date';
+import { dayEndTime, zeroTime } from 'lib/date';
 import { compact, identity, isString, pickBy } from 'lodash';
-import moment from 'moment';
 import { ITEMS_PER_PAGE } from 'models/Pagination.model';
+import dayjs from 'dayjs';
 
-export const FilterRangeTypes = {
-  All: 'All',
-  Today: 'Today',
-  Yesterday: 'Yesterday',
-  Last7Days: 'Last7Days',
-  Last30Days: 'Last30Days',
-  LastWeek: 'LastWeek',
-  LastMonth: 'LastMonth',
-  LastYear: 'LastYear',
-  ThisMonth: 'ThisMonth',
-  ThisWeek: 'ThisWeek',
-  ThisYear: 'ThisYear',
-};
+export enum FilterRangeTypes {
+  All = 'All',
+  Today = 'Today',
+  Yesterday = 'Yesterday',
+  Last7Days = 'Last7Days',
+  Last30Days = 'Last30Days',
+  LastWeek = 'LastWeek',
+  LastMonth = 'LastMonth',
+  LastYear = 'LastYear',
+  ThisMonth = 'ThisMonth',
+  ThisWeek = 'ThisWeek',
+  ThisYear = 'ThisYear',
+}
+
+export type FilterDateParams = {
+  'dateCreated[start]': Date | null;
+  'dateCreated[end]': Date | null;
+}
+
+export type FilterRange = {
+  id: FilterRangeTypes;
+  getDateRange: (startDate?: string) => {
+    start: Date;
+    end: Date;
+  };
+}
 
 export type FilterI = any;
 
@@ -25,60 +38,64 @@ export interface FilterChildrenProps {
   onFilterChange: (filter: FilterI) => void;
 }
 
-export const FilterRangesByLocal = {
+export const FilterRangesByLocal: Record<FilterRangeTypes, FilterRange> = {
   [FilterRangeTypes.All]:
     {
       id: FilterRangeTypes.All,
-      getMomentPeriod: (registerDate) => ({
-        start: moment(registerDate),
-        end: moment().set(dayEndTime),
+      getDateRange: (registerDate: string) => ({
+        start: dayjs(registerDate).toDate(),
+        end: dayjs().set(dayEndTime).toDate(),
       }),
     },
   [FilterRangeTypes.Today]: {
     id: FilterRangeTypes.Today,
-    getMomentPeriod: () => ({
-      start: todayMomentZeroTime,
-      end: moment().set(dayEndTime),
+    getDateRange: () => ({
+      start: dayjs().startOf('day').toDate(),
+      end: dayjs().set(dayEndTime).toDate(),
     }),
   },
   [FilterRangeTypes.Yesterday]: {
     id: FilterRangeTypes.Yesterday,
-    getMomentPeriod: () => ({
-      start: moment()
+    getDateRange: () => ({
+      start: dayjs()
         .subtract(1, 'days')
-        .set(zeroTime),
-      end: moment()
+        .startOf('day').toDate(),
+      end: dayjs()
         .subtract(1, 'days')
-        .set(dayEndTime),
+        .set(dayEndTime).toDate(),
     }),
   },
   [FilterRangeTypes.Last7Days]:
     {
       id: FilterRangeTypes.Last7Days,
-      getMomentPeriod: () => ({
-        start: moment()
+      getDateRange: () => ({
+        start: dayjs()
           .subtract(7, 'days')
-          .set(zeroTime),
-        end: moment().set(dayEndTime),
+          .set(zeroTime)
+          .toDate(),
+        end: dayjs().set(dayEndTime).toDate(),
       }),
     },
   [FilterRangeTypes.Last30Days]: {
     id: FilterRangeTypes.Last30Days,
-    getMomentPeriod: () => ({
-      start: moment()
+    getDateRange: () => ({
+      start: dayjs()
         .subtract(30, 'days')
-        .set(zeroTime),
-      end: moment().set(dayEndTime),
+        .set(zeroTime)
+        .toDate(),
+      end: dayjs().set(dayEndTime).toDate(),
     }),
   },
   [FilterRangeTypes.LastWeek]: {
     id: FilterRangeTypes.LastWeek,
-    getMomentPeriod: () => {
-      const start = moment()
+    getDateRange: () => {
+      const start = dayjs()
         .startOf('week')
-        .subtract(1, 'week');
-      const end = moment(start)
-        .endOf('week');
+        .subtract(1, 'week')
+        .toDate();
+      const end = dayjs(start)
+        .endOf('week')
+        .toDate();
       return {
         start,
         end,
@@ -87,12 +104,14 @@ export const FilterRangesByLocal = {
   },
   [FilterRangeTypes.LastMonth]: {
     id: FilterRangeTypes.LastMonth,
-    getMomentPeriod: () => {
-      const start = moment()
+    getDateRange: () => {
+      const start = dayjs()
         .startOf('month')
-        .subtract(1, 'month');
-      const end = moment(start)
-        .endOf('month');
+        .subtract(1, 'month')
+        .toDate();
+      const end = dayjs(start)
+        .endOf('month')
+        .toDate();
       return {
         start,
         end,
@@ -102,12 +121,14 @@ export const FilterRangesByLocal = {
   [FilterRangeTypes.LastYear]:
     {
       id: FilterRangeTypes.LastYear,
-      getMomentPeriod: () => {
-        const start = moment()
+      getDateRange: () => {
+        const start = dayjs()
           .startOf('year')
-          .subtract(1, 'year');
-        const end = moment(start)
-          .endOf('year');
+          .subtract(1, 'year')
+          .toDate();
+        const end = dayjs(start)
+          .endOf('year')
+          .toDate();
         return {
           start,
           end,
@@ -117,28 +138,28 @@ export const FilterRangesByLocal = {
   [FilterRangeTypes.ThisMonth]:
     {
       id: FilterRangeTypes.ThisMonth,
-      getMomentPeriod: () => ({
-        start: moment()
-          .startOf('month'),
-        end: moment().set(dayEndTime),
+      getDateRange: () => ({
+        start: dayjs()
+          .startOf('month').toDate(),
+        end: dayjs().set(dayEndTime).toDate(),
       }),
     },
   [FilterRangeTypes.ThisWeek]:
     {
       id: FilterRangeTypes.ThisWeek,
-      getMomentPeriod: () => ({
-        start: moment()
-          .startOf('week'),
-        end: moment().set(dayEndTime),
+      getDateRange: () => ({
+        start: dayjs()
+          .startOf('week').toDate(),
+        end: dayjs().set(dayEndTime).toDate(),
       }),
     },
   [FilterRangeTypes.ThisYear]:
     {
       id: FilterRangeTypes.ThisYear,
-      getMomentPeriod: () => ({
-        start: moment()
-          .startOf('year'),
-        end: moment().set(dayEndTime),
+      getDateRange: () => ({
+        start: dayjs()
+          .startOf('year').toDate(),
+        end: dayjs().set(dayEndTime).toDate(),
       }),
     },
 };
@@ -176,14 +197,13 @@ export const analyticsDatePickerRanges = [
   FilterRangesByLocal[FilterRangeTypes.ThisWeek],
 ];
 
-export function identifyRange(startDate, endDate, registerDate, allRanges) {
-  const startMoment = moment(startDate);
-  const endMoment = moment(endDate);
-  const startEndMomentRange = startMoment.diff(endMoment, 'days');
+export function identifyRange(startDate: Date, endDate: Date, registerDate: string, allRanges: FilterRange[]) {
+  const startDayjs = dayjs(startDate);
+  const inputDatesDifferenceInDays = startDayjs.diff(endDate, 'days');
   const foundRange = allRanges.find((rangeItem) => {
-    const { start, end } = rangeItem.getMomentPeriod(registerDate);
-    const startEndItemRange = start.diff(end, 'days');
-    return startMoment.isSame(start) && startEndMomentRange === startEndItemRange;
+    const { start, end } = rangeItem.getDateRange(registerDate);
+    const rangeItemDifferenceInDays = dayjs(start).diff(end, 'days');
+    return startDayjs.isSame(start) && inputDatesDifferenceInDays === rangeItemDifferenceInDays;
   });
   return foundRange?.id || null;
 }
@@ -205,12 +225,12 @@ export function filterParse({ search = '', status = '', flowIds = '', countries 
     ...(filterStructure.eventType && { eventType: stringTypeGuard(eventType) }),
     ...(filterStructure['dateCreated[start]'] && {
       'dateCreated[start]': values['dateCreated[start]']
-        ? moment(values['dateCreated[start]'])
+        ? new Date(values['dateCreated[start]'])
         : null,
     }),
     ...(filterStructure['dateCreated[end]'] && {
       'dateCreated[end]': values['dateCreated[end]']
-        ? moment(values['dateCreated[end]'])
+        ? new Date(values['dateCreated[end]'])
         : null,
     }),
     // For Customer Support
@@ -220,6 +240,7 @@ export function filterParse({ search = '', status = '', flowIds = '', countries 
 
 // json -> url search object
 export function filterSerialize(filter) {
+  // TODO: @pabloscdo: param reassign not a good practice
   const { status, flowIds, countries, updatedBy, eventType, ...serialized } = filter;
   serialized.status = status?.join(',');
   serialized.flowIds = flowIds?.join(',');
@@ -238,9 +259,8 @@ export function filterSerialize(filter) {
 }
 
 export function parseFromURL(url, filterStructure) {
-  const fromURL = Object.fromEntries(new URLSearchParams(url));
-  // TODO: @ggrigorev @pablo remove when merging conflicts
-  // @ts-ignore
+  // TODO: @pabloscdo Fix this any when filterParse is typed
+  const fromURL: any = Object.fromEntries(new URLSearchParams(url));
   return filterParse(fromURL, filterStructure);
 }
 
@@ -253,18 +273,16 @@ export const initDateFilter = {
   'dateCreated[end]': null,
 };
 
-// TODO: @ggrigorev @pablo remove when merging conflicts
-// @ts-ignore
-const defaultInitDateFilterPeriod = FilterRangesByLocal[FilterRangeTypes.Last7Days].getMomentPeriod();
+const defaultInitDateFilterPeriod = FilterRangesByLocal[FilterRangeTypes.Last7Days].getDateRange();
 export const lastSevenDaysFilter = {
   'dateCreated[start]': defaultInitDateFilterPeriod.start,
   'dateCreated[end]': defaultInitDateFilterPeriod.end,
 };
 
-export const RangeParts = {
-  Start: 'start',
-  End: 'end',
-};
+export enum RangeParts {
+  Start = 'start',
+  End = 'end',
+}
 
 export const RangeSlices = {
   From: 'from',

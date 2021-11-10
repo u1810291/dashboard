@@ -28,8 +28,15 @@ export const useStyles = makeStyles((theme) => ({
   marginBottom10: {
     marginBottom: 10,
   },
+  buttonRunning: {
+    marginRight: 10,
+    display: 'inline-block',
+  },
   marginTop50: {
     marginTop: 50,
+  },
+  error: {
+    color: theme.palette.common.red,
   },
 }));
 

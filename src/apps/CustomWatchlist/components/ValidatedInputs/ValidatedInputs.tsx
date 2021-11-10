@@ -6,25 +6,25 @@ import { ValidatedInput } from '../ValidatedInput/ValidatedInput';
 
 export const placeholderKey = 'placeholder';
 
+interface ValidatedInputsFieldValuesOptions {
+  fuzziness?: number;
+}
+
 export interface SelectedOptions {
   [key: string]: {
     label: string;
     value: string;
-    options?: FieldValuesOptions;
+    options?: ValidatedInputsFieldValuesOptions;
   };
 }
 
-export interface FieldValuesOptions {
-  fuzziness?: number;
-}
-
-interface FieldValues {
+export interface ValidatedInputsFieldTypes {
   label: string;
   value: string;
-  options?: FieldValuesOptions;
+  options?: ValidatedInputsFieldValuesOptions;
 }
 
-export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: FieldValues[]; onChange: Function }) {
+export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: ValidatedInputsFieldTypes[]; onChange: (mapping: ValidatedInputsFieldTypes[]) => void }) {
   const intl = useIntl();
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(fieldValues.reduce((prev, cur) => ({ ...prev, [cur.value]: cur }), {}));
 
@@ -71,7 +71,7 @@ export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: FieldV
   }, [inputOptions]);
 
   useEffect(() => {
-    onChange(selectedOptions);
+    onChange(Object.values(selectedOptions));
   }, [selectedOptions, onChange]);
 
   return (

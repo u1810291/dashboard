@@ -1,29 +1,28 @@
 import { http } from 'lib/client/http';
-import { Watchlist, CustomWatchlistUpload, WatchlistContentTypes } from 'models/CustomWatchlist.model';
-import { CustomWatchlistModalValidationInputTypes } from '../components/CustomWatchlistModalValidation/CustomWatchlistModalValidation';
+import { IWatchlist, CustomWatchlistUpload, WatchlistContentTypes, WatchlistCreateBodyTypes, WatchlistProcess } from 'models/CustomWatchlist.model';
 
 export function getMerchantWatchlists(merchantId: string) {
-  return http.get<Watchlist[]>(`/api/v1/merchants/${merchantId}/watchlists`);
+  return http.get<IWatchlist[]>(`/api/v1/merchants/${merchantId}/watchlists?embed=process`);
+}
+
+export function getMerchantWatchlistById(merchantId: string, watchlistId: number) {
+  return http.get<IWatchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}?embed=process`);
 }
 
 export function deleteMerchantWatchlistById(merchantId: string, watchlistId: number) {
   return http.delete(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}`);
 }
 
-export function createMerchantWatchlist(merchantId: string, body: CustomWatchlistModalValidationInputTypes) {
-  return http.post<Watchlist>(`/api/v1/merchants/${merchantId}/watchlists`, body);
+export function createMerchantWatchlist(merchantId: string, body: WatchlistCreateBodyTypes) {
+  return http.post<IWatchlist>(`/api/v1/merchants/${merchantId}/watchlists`, body);
 }
 
-export function updateMerchantWatchlistById(merchantId: string, watchlistId: number, body: CustomWatchlistModalValidationInputTypes) {
-  return http.patch<Watchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}`, body);
-}
-
-export function getMerchantWatchlistContentById(merchantId: string, watchlistId: number) {
-  return http.get<Watchlist>(`/${merchantId}/watchlists/${watchlistId}/content`);
+export function updateMerchantWatchlistById(merchantId: string, watchlistId: number, body: WatchlistCreateBodyTypes) {
+  return http.patch<IWatchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}?embed=process`, body);
 }
 
 export function updateMerchantWatchlistContentById(merchantId: string, watchlistId: number, body: WatchlistContentTypes) {
-  return http.post<Watchlist>(`/${merchantId}/watchlists/${watchlistId}/content`, body);
+  return http.post<{ id: number; process: Pick<WatchlistProcess, 'inputSourceFileName' | 'csvSeparator'> }>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}/content`, body);
 }
 
 export function uploadMerchantWatchlist(body: FormData) {

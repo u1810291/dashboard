@@ -1,7 +1,7 @@
-import moment from 'moment';
 import { createSelector } from 'reselect';
 import { selectModelValue } from 'lib/loadable.selectors';
 import { selectDashboardModel } from 'state/merchant/merchant.selectors';
+import dayjs from 'dayjs';
 import { DASHBOARD_STORE_KEY } from './dashboard.store';
 
 const selectDashboardStore = (state) => state[DASHBOARD_STORE_KEY];
@@ -13,5 +13,5 @@ export const selectIsDesktopMenuOpen = createSelector(
 
 export const selectIsNewDesign = createSelector(
   selectDashboardModel,
-  selectModelValue((dashboard) => !dashboard.showOldDesignUntil || moment.utc().isAfter(dashboard.showOldDesignUntil)),
+  selectModelValue((dashboard) => !dashboard.showOldDesignUntil || dayjs.utc().isAfter(dashboard.showOldDesignUntil)),
 );

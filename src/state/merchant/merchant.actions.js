@@ -2,7 +2,7 @@ import * as api from 'lib/client/merchant';
 import { createTypesSequence } from 'state/store.utils';
 import { getWebhooks } from 'state/webhooks/webhooks.actions';
 import { DEFAULT_LOCALE } from 'models/Intl.model';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { selectConfigurationModel, selectCurrentFlowId, selectMerchantFlowsModel, selectMerchantId, selectStyleModel, selectMerchantCustomDocumentsModel } from './merchant.selectors';
 import { MerchantActionGroups } from './merchant.store';
 
@@ -25,7 +25,7 @@ export const merchantLoadSuccess = (data, withDashboard = true) => (dispatch) =>
   }
   dispatch({ type: types.MERCHANT_SUCCESS, payload: merchant });
   dispatch({ type: types.CONFIGURATION_SUCCESS, payload: configurations });
-  moment.locale(configurations?.dashboard?.language || DEFAULT_LOCALE);
+  dayjs.locale(configurations?.dashboard?.language?.toLowerCase() || DEFAULT_LOCALE);
 };
 
 export const merchantLoad = () => async (dispatch) => {
@@ -90,7 +90,7 @@ export const dashboardUpdate = (data, isSync) => (dispatch) => {
 
 export const changeLanguage = (language, isSync) => (dispatch) => {
   dispatch(dashboardUpdate({ language }, isSync));
-  moment.locale(language);
+  dayjs.locale(language.toLowerCase());
 };
 
 export const merchantCustomDocumentsLoad = () => async (dispatch, getState) => {

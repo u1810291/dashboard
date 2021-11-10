@@ -31,15 +31,17 @@ export function RiskEmailPDF({ step }: { step: EmailRiskStep}) {
           </Text>
         </View>
       )}
-      <View style={styles.stepDetailsContainer}>
-        {Object.keys(EmailRiskFieldTypes).map((fieldName) => (!isNil(step?.data[EmailRiskFieldTypes[fieldName]])) && (
+      {step?.data && (
+        <View style={styles.stepDetailsContainer}>
+          {Object.keys(EmailRiskFieldTypes).map((fieldName) => (!isNil(step.data[EmailRiskFieldTypes[fieldName]])) && (
           <CheckStepDetailsEntryPDF
             label={EmailRiskFieldTypes[fieldName]}
             value={step.data[EmailRiskFieldTypes[fieldName]]}
             key={EmailRiskFieldTypes[fieldName]}
           />
-        ))}
-      </View>
+          ))}
+        </View>
+      )}
     </View>
   );
 }

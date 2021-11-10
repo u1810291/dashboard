@@ -7,18 +7,19 @@ import { Box, InputLabel, Grid, Typography, TextField } from '@material-ui/core'
 import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
-import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping } from 'models/CustomWatchlist.model';
+import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus } from 'models/CustomWatchlist.model';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
-import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
+import { ValidatedInputs, ValidatedInputsFieldTypes } from '../ValidatedInputs/ValidatedInputs';
 import { selectIsWatchlistsLoading } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistModalValidation.styles';
 import { CustomWatchlistModalValidationFileUploadForm } from '../CustomWatchlistModalValidationFileUploadForm/CustomWatchlistModalValidationFileUploadForm';
 
 export interface CustomWatchlistModalValidationInputTypes {
   [CustomWatchlistModalValidationInputs.Name]: string;
-  [CustomWatchlistModalValidationInputs.File]: string | null;
+  [CustomWatchlistModalValidationInputs.FileUrl]: string | null;
   [CustomWatchlistModalValidationInputs.Mapping]: WatchlistMapping[];
-  [CustomWatchlistModalValidationInputs.CsvDelimiter]: null;
+  [CustomWatchlistModalValidationInputs.CsvSeparator]: null;
+  [CustomWatchlistModalValidationInputs.FileName]: string;
 }
 
 export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }: {
@@ -30,43 +31,51 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const intl = useIntl();
   const classes = useStyles();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isSubmittingError, setIsSubmittingError] = useState<boolean>(false);
   const formMethods = useForm<CustomWatchlistModalValidationInputTypes>();
   const { register, handleSubmit, setValue, formState: { errors } } = formMethods;
+
+  const isWatchlistRunning = watchlist?.process?.status === WatchlistProcessStatus.Running;
+  console.log(watchlist);
 
   const nameRegister = register(CustomWatchlistModalValidationInputs.Name, {
     required: intl.formatMessage({ id: 'validations.required' }),
   });
 
   const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback((values) => {
+    if (isWatchlistRunning) {
+      return;
+    }
     try {
+      setIsSubmittingError(false);
       setIsSubmitting(true);
-      console.log('values submit', values);
-      // @TODO: @richvoronov STAGE 2, separate values on 2 requests, to /content, and other
-      // onSubmit(values);
+      onSubmit(values);
       setIsSubmitting(false);
     } catch (error) {
       setIsSubmitting(false);
+      setIsSubmittingError(true);
     }
-  }, [onSubmit]);
+  }, [isWatchlistRunning, onSubmit]);
 
-  const onValidatedInputsChange = useCallback((validatedInputsValues) => {
-    setValue(CustomWatchlistModalValidationInputs.Mapping, validatedInputsValues);
+  const onValidatedInputsChange = useCallback((validatedInputsValues: ValidatedInputsFieldTypes[]) => {
+    const validatedInputsValuesFormated = validatedInputsValues.map((fields) => ({ merchantField: fields.label, systemField: fields.value, ...(fields?.options && { options: fields.options }) }));
+    setValue(CustomWatchlistModalValidationInputs.Mapping, validatedInputsValuesFormated);
   }, [setValue]);
 
-  // TODO: STAGE 2, replace with dynamic data
+  // TODO: @richvoronov STAGE 3, replace with dynamic data
   const watchlistMapping = useMemo(() => [
     {
-      label: 'Name',
-      value: 'fullName',
+      merchantField: 'Name',
+      systemField: 'fullName',
       options: {
         fuzziness: 50,
       },
     },
     {
-      label: 'Date of birth',
-      value: 'dateOfBirth',
+      merchantField: 'Date of birth',
+      systemField: 'dateOfBirth',
     },
-  ], []);
+  ].map((fields) => ({ label: fields.merchantField, value: fields.systemField, ...(fields?.options && { options: fields.options }) })), []);
 
   return (
     <Box className={classes.root}>
@@ -113,8 +122,9 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                   {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.subTitle' })}
                 </Typography>
               </Box>
-              {/* TODO: @richvoronov STAGE 2, ValidatedInputs shows when file has been loaded */}
-              {false ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} /> : <FakeInputs />}
+              {/* TODO: @richvoronov STAGE 3, ValidatedInputs shows when file has been loaded */}
+              {true ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} /> : <FakeInputs />}
+              {isSubmittingError && <div className={classes.error}>{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.submit.error' })}</div>}
             </Grid>
           </Grid>
           <Grid container spacing={2} className={classes.marginTop50}>
@@ -133,9 +143,14 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                 color="primary"
                 size="large"
                 fullWidth
-                disabled={isWatchlistsLoading}
+                disabled={isWatchlistsLoading || isWatchlistRunning}
               >
-                {isWatchlistsLoading || isSubmitting ? <CircularProgress color="inherit" size={17} /> : intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.done' })}
+                {isWatchlistsLoading || isSubmitting || isWatchlistRunning ? (
+                  <>
+                    {isWatchlistRunning && <span className={classes.buttonRunning}>{intl.formatMessage({ id: `CustomWatchlist.settings.modal.button.status.${WatchlistProcessStatus.Running}` })}</span>}
+                    <CircularProgress color="inherit" size={17} />
+                  </>
+                ) : intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.done' })}
               </ButtonStyled>
             </Grid>
           </Grid>

@@ -20,12 +20,12 @@ export function EmailValidationPDF({ step }: { step: EmailValidationExtra }) {
           {intl.formatMessage({ id: 'SecurityCheckStep.emailOwnership.title' })}
         </Text>
       </View>
-      {!!step.error && (
+      {step.error && (
         <View>
           <Text>{intl.formatMessage({ id: `SecurityCheckStep.${step.error.code}` })}</Text>
         </View>
       )}
-      {!!step.data && (
+      {step?.data && (
         <View style={styles.stepDetailsContainer}>
           {EmailValidationFields.map(({ fieldName }) => {
             if (step.data[fieldName]) {
