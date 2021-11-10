@@ -1,6 +1,6 @@
 import { productManagerService } from 'apps/Product';
 import { ProductTypes } from 'models/Product.model';
-import { Watchlist, WatchlistContentTypes, WatchlistCreateBodyTypes } from 'models/CustomWatchlist.model';
+import { IWatchlist, WatchlistContentTypes, WatchlistCreateBodyTypes } from 'models/CustomWatchlist.model';
 import { CustomWatchlist } from '../services/CustomWatchlist.service';
 import * as api from '../client/CustomWatchlist.client';
 import { types } from './CustomWatchlist.store';
@@ -21,15 +21,31 @@ export const customWatchlistInit = () => (dispatch, getState): ProductTypes => {
 export const customWatchlistsLoad = (merchantId: string) => async (dispatch) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_REQUEST });
   try {
-    const { data } = await api.getMerchantWatchlists(merchantId);
-    dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: data, isReset: true });
+    const payload = await api.getMerchantWatchlists(merchantId);
+    dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: payload.data, isReset: true });
   } catch (error) {
     dispatch({ type: types.CUSTOM_WATCHLISTS_FAILURE, error });
     throw error;
   }
 };
 
-export const customWatchlistCreate = (merchantId: string, params: WatchlistCreateBodyTypes, callback: (data: Watchlist) => void) => async (dispatch, getState) => {
+export const customWatchlistLoadById = (merchantId: string, watchlistId: number) => async (dispatch, getState) => {
+  dispatch({ type: types.CUSTOM_WATCHLIST_REQUEST });
+  try {
+    const payload = await api.getMerchantWatchlistById(merchantId, watchlistId);
+    const watchlists: IWatchlist[] = [...selectWatchlists(getState())];
+    const watchlistIndexFind = watchlists.findIndex((watchlist) => watchlist.id === payload.data.id);
+    watchlists[watchlistIndexFind] = payload.data;
+
+    dispatch({ type: types.CUSTOM_WATCHLIST_SUCCESS });
+    dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: watchlists, isReset: true });
+  } catch (error) {
+    dispatch({ type: types.CUSTOM_WATCHLIST_FAILURE, error });
+    throw error;
+  }
+};
+
+export const customWatchlistCreate = (merchantId: string, params: WatchlistCreateBodyTypes, callback: (data: IWatchlist) => void) => async (dispatch, getState) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_REQUEST });
   try {
     const payload = await api.createMerchantWatchlist(merchantId, params);
@@ -46,7 +62,7 @@ export const customWatchlistUpdateById = (merchantId: string, watchlistId: numbe
   dispatch({ type: types.CUSTOM_WATCHLISTS_UPDATING });
   try {
     const payload = await api.updateMerchantWatchlistById(merchantId, watchlistId, params);
-    const watchlists: Watchlist[] = [...selectWatchlists(getState())];
+    const watchlists: IWatchlist[] = [...selectWatchlists(getState())];
     const watchlistIndexFind = watchlists.findIndex((watchlist) => watchlist.id === payload.data.id);
     watchlists[watchlistIndexFind] = payload.data;
 
@@ -71,12 +87,16 @@ export const deleteCustomWatchlistById = (merchantId: string, watchlistId: numbe
   }
 };
 
-export const updateMerchantWatchlistContent = (merchantId: string, watchlistId: number, body: WatchlistContentTypes) => async (dispatch) => {
+export const updateMerchantWatchlistContent = (merchantId: string, watchlistId: number, body: WatchlistContentTypes) => async (dispatch, getState) => {
   dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_UPDATING });
   try {
-    await api.updateMerchantWatchlistContentById(merchantId, watchlistId, body);
+    const payload = await api.updateMerchantWatchlistContentById(merchantId, watchlistId, body);
+    const watchlists: IWatchlist[] = [...selectWatchlists(getState())];
+    const watchlistIndexFind = watchlists.findIndex((watchlist) => watchlist.id === payload.data.id);
+    watchlists[watchlistIndexFind] = { ...watchlists[watchlistIndexFind], process: { ...watchlists[watchlistIndexFind].process, ...payload.data.process } };
 
     dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_SUCCESS });
+    dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: watchlists, isReset: true });
   } catch (error) {
     dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_FAILURE });
     throw error;

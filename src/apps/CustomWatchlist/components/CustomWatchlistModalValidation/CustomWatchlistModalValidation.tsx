@@ -36,6 +36,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const { register, handleSubmit, setValue, formState: { errors } } = formMethods;
 
   const isWatchlistRunning = watchlist?.process?.status === WatchlistProcessStatus.Running;
+  console.log(watchlist);
 
   const nameRegister = register(CustomWatchlistModalValidationInputs.Name, {
     required: intl.formatMessage({ id: 'validations.required' }),
@@ -61,7 +62,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     setValue(CustomWatchlistModalValidationInputs.Mapping, validatedInputsValuesFormated);
   }, [setValue]);
 
-  // TODO: STAGE 3, replace with dynamic data
+  // TODO: @richvoronov STAGE 3, replace with dynamic data
   const watchlistMapping = useMemo(() => [
     {
       merchantField: 'Name',
@@ -121,7 +122,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                   {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.subTitle' })}
                 </Typography>
               </Box>
-              {/* TODO: @richvoronov STAGE 2, ValidatedInputs shows when file has been loaded */}
+              {/* TODO: @richvoronov STAGE 3, ValidatedInputs shows when file has been loaded */}
               {true ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} /> : <FakeInputs />}
               {isSubmittingError && <div className={classes.error}>{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.submit.error' })}</div>}
             </Grid>
@@ -144,7 +145,12 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                 fullWidth
                 disabled={isWatchlistsLoading || isWatchlistRunning}
               >
-                {isWatchlistsLoading || isSubmitting || isWatchlistRunning ? <CircularProgress color="inherit" size={17} /> : intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.done' })}
+                {isWatchlistsLoading || isSubmitting || isWatchlistRunning ? (
+                  <>
+                    {isWatchlistRunning && <span className={classes.buttonRunning}>{intl.formatMessage({ id: `CustomWatchlist.settings.modal.button.status.${WatchlistProcessStatus.Running}` })}</span>}
+                    <CircularProgress color="inherit" size={17} />
+                  </>
+                ) : intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.done' })}
               </ButtonStyled>
             </Grid>
           </Grid>

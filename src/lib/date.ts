@@ -33,6 +33,7 @@ export enum DateFormat {
   ShortDayAndLocalizedDateWithShortMonth = 'ddd ll', // Wed, Sep 22, 2021
   FullMonthAndFullYear = 'MMMM YYYY', // September 2021
   LocalizedDayMonthYearSlashes = 'L', // 09/22/2021
+  FullMonthDateAndFullYear = 'll', // Mar 11, 1992
 }
 
 export const DatePartTypes = {

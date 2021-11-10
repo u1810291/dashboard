@@ -46,7 +46,7 @@ export interface FlowWatchlistUi {
   merchantId: string;
   mapping: WatchlistMapping | null;
   severityOnMatch: CustomWatchlistSeverityOnMatchTypes;
-  process: WatchlistProcess | null;
+  process: Partial<WatchlistProcess> | null;
 }
 
 export enum WatchlistProcessName {
@@ -72,16 +72,17 @@ export interface WatchlistProcess {
   startedAt: string | null;
   updatedAt: string | null;
   watchlistId: number;
+  csvSeparator: string;
 }
 
-export interface Watchlist {
+export interface IWatchlist {
   id: number;
   name: string;
   createdAt: string;
   updatedAt: string;
   merchantId: string;
   mapping: WatchlistMapping | null;
-  process: WatchlistProcess | null;
+  process: Partial<WatchlistProcess> | null;
 }
 
 export interface CustomWatchlistUpload {

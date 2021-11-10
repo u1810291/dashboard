@@ -1,7 +1,7 @@
 import { Box, Button, Grid, IconButton, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useOverlay } from 'apps/overlay';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import classnames from 'classnames';
 import { useLongPolling } from 'lib/longPolling.hook';
 import { FlowWatchlist, FlowWatchlistUi, WatchlistContentTypes } from 'models/CustomWatchlist.model';
@@ -9,9 +9,10 @@ import React, { useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
+import { DateFormat } from 'lib/date';
 import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
-import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent } from '../../state/CustomWatchlist.actions';
+import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, customWatchlistLoadById } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
@@ -80,6 +81,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   }, [merchantId, customWatchlistsContentUpdate, handleCloseOverlay, dispatch]);
 
   const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {
+    dispatch(customWatchlistLoadById(merchantId, watchlist.id));
     setSelectedWatchlist(watchlist);
     createOverlay(
       <CustomWatchlistModalValidation
@@ -89,7 +91,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
       />,
       { onClose: handleCloseOverlay },
     );
-  }, [createOverlay, handleCloseOverlay, handleSubmitWatchlist]);
+  }, [createOverlay, handleCloseOverlay, handleSubmitWatchlist, dispatch]);
 
   const handleDeleteWatchList = useCallback((watchlistId: number) => () => {
     dispatch(deleteCustomWatchlistById(merchantId, watchlistId));
@@ -121,7 +123,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
                     <Typography variant="subtitle2" className={classes.colorGreen}>
                       {intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.uploaded' })}
                       {' '}
-                      {moment(watchlist.createdAt).format('ll')}
+                      {dayjs(watchlist.createdAt).format(DateFormat.FullMonthDateAndFullYear)}
                     </Typography>
                   ) : (
                     <Typography variant="subtitle2" className={classes.colorRed}>{intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.validationError' })}</Typography>

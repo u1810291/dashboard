@@ -1,12 +1,12 @@
 import { http } from 'lib/client/http';
-import { Watchlist, CustomWatchlistUpload, WatchlistContentTypes, WatchlistCreateBodyTypes } from 'models/CustomWatchlist.model';
+import { IWatchlist, CustomWatchlistUpload, WatchlistContentTypes, WatchlistCreateBodyTypes, WatchlistProcess } from 'models/CustomWatchlist.model';
 
 export function getMerchantWatchlists(merchantId: string) {
-  return http.get<Watchlist[]>(`/api/v1/merchants/${merchantId}/watchlists?embed=process`);
+  return http.get<IWatchlist[]>(`/api/v1/merchants/${merchantId}/watchlists?embed=process`);
 }
 
 export function getMerchantWatchlistById(merchantId: string, watchlistId: number) {
-  return http.get(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}?embed=process`);
+  return http.get<IWatchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}?embed=process`);
 }
 
 export function deleteMerchantWatchlistById(merchantId: string, watchlistId: number) {
@@ -14,15 +14,15 @@ export function deleteMerchantWatchlistById(merchantId: string, watchlistId: num
 }
 
 export function createMerchantWatchlist(merchantId: string, body: WatchlistCreateBodyTypes) {
-  return http.post<Watchlist>(`/api/v1/merchants/${merchantId}/watchlists`, body);
+  return http.post<IWatchlist>(`/api/v1/merchants/${merchantId}/watchlists`, body);
 }
 
 export function updateMerchantWatchlistById(merchantId: string, watchlistId: number, body: WatchlistCreateBodyTypes) {
-  return http.patch<Watchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}?embed=process`, body);
+  return http.patch<IWatchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}?embed=process`, body);
 }
 
 export function updateMerchantWatchlistContentById(merchantId: string, watchlistId: number, body: WatchlistContentTypes) {
-  return http.post<Watchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}/content`, body);
+  return http.post<{ id: number; process: Pick<WatchlistProcess, 'inputSourceFileName' | 'csvSeparator'> }>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}/content`, body);
 }
 
 export function uploadMerchantWatchlist(body: FormData) {

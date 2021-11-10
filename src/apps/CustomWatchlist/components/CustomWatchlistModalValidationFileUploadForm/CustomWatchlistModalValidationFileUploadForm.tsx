@@ -37,9 +37,9 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
       setValue(CustomWatchlistModalValidationInputs.FileUrl, data.publicUrl);
       setError(CustomWatchlistModalValidationInputs.FileUrl, {});
     } catch {
-      setError(CustomWatchlistModalValidationInputs.FileUrl, {
-        message: intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.fileErrorUpload' }),
-      });
+      // setError(CustomWatchlistModalValidationInputs.FileUrl, {
+      //   message: intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.fileErrorUpload' }),
+      // });
     }
   }, [intl, setValue, setError]);
 
