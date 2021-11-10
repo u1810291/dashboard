@@ -25,7 +25,7 @@ export function ForDevsWebhookModal() {
   const webhook = useSelector<any, { secret: string; url: string; id: string }>(selectWebhook);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<ForDevsWebhookModalInputs>({
+  const { register, handleSubmit, watch, setValue, formState: { errors, submitCount } } = useForm<ForDevsWebhookModalInputs>({
     defaultValues: {
       [ForDevelopersInputTypes.Url]: webhook?.url || '',
       [ForDevelopersInputTypes.Secret]: webhook?.secret || '',
@@ -131,6 +131,7 @@ export function ForDevsWebhookModal() {
               helperText={errors?.[ForDevelopersInputTypes.Secret]?.message}
               error={!!errors[ForDevelopersInputTypes.Secret]}
               value={secretWatch}
+              submitCount={submitCount}
               type="input"
               variant="outlined"
               fullWidth

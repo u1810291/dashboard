@@ -55,12 +55,12 @@ export function SignUp() {
       }));
       setIsSubmitting(false);
       history.push(Routes.root);
-    } catch (e: any) {
+    } catch (error: any) {
       setIsSubmitting(false);
       // TODO: @ggrigorev rework signUp in DIO-773
-      if (e?.response?.data?.details?.[0]?.type === 'string.email') {
+      if (error?.response?.data?.details?.[0]?.type === 'string.email') {
         notification.error(intl.formatMessage({ id: 'validations.email' }));
-      } else if (e?.response?.data?.details?.[0]?.path === '_email.address') {
+      } else if (error?.response?.data?.details?.[0]?.path === '_email.address') {
         notification.error(intl.formatMessage({ id: 'validations.alreadyInUse' }));
       } else {
         notification.error(intl.formatMessage({ id: 'Error.common' }));

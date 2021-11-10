@@ -14,6 +14,7 @@ import { BiometricVerificationCheckTypes } from 'apps/biometricVerification/mode
 import { AGE_CHECK_MAX_THRESHOLD, AGE_CHECK_MIN_THRESHOLD } from 'apps/AgeCheck/models/AgeCheck.model';
 import { IESignatureFlow } from 'apps/ESignature';
 import { DocumentVerificationIssues } from '../components/DocumentVerificationIssues/DocumentVerificationIssues';
+import { DocumentIsStepNotSpecifiedIssues } from '../components/DocumentIsStepNotSpecifiedIssues/DocumentIsIsStepNotSpecifiedIssues';
 import { DocumentVerificationSettings } from '../components/DocumentVerificationSettings/DocumentVerificationSettings';
 import { DocumentVerificationCheckTypes, DocumentVerificationSettingTypes, ProductSettingsDocumentVerification } from '../models/DocumentVerification.model';
 
@@ -209,15 +210,25 @@ export class DocumentVerification extends ProductBaseService implements Product<
     return { ...verification, documents };
   }
 
-  haveIssues(flow: IFlow): boolean {
+  haveIssues(flow: IFlow, productsInGraph?: ProductTypes[]): boolean {
     const isAgeThresholdValid = !flow.ageThreshold || (flow.ageThreshold >= AGE_CHECK_MIN_THRESHOLD && flow.ageThreshold <= AGE_CHECK_MAX_THRESHOLD);
-    return !isAgeThresholdValid || super.haveIssues(flow);
+    const isDocumentStepNotSpecified = productsInGraph && !this.isInFlow(flow);
+
+    return !isAgeThresholdValid || super.haveIssues(flow) || isDocumentStepNotSpecified;
   }
 
-  getIssuesComponent(flow: IFlow): any {
-    if (flow?.integrationType === ProductIntegrationTypes.Api && flow?.supportedCountries?.length > 0) {
+  getIssuesComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
+    const isDocumentStepNotSpecified = productsInGraph && !this.isInFlow(flow);
+    const isAPICountryRestriction = flow?.integrationType === ProductIntegrationTypes.Api && flow?.supportedCountries?.length > 0;
+
+    if (isAPICountryRestriction) {
       return DocumentVerificationIssues;
     }
+
+    if (isDocumentStepNotSpecified) {
+      return DocumentIsStepNotSpecifiedIssues;
+    }
+
     return null;
   }
 

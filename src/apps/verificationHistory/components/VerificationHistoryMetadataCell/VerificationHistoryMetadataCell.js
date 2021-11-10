@@ -1,7 +1,6 @@
 import { Box, Grid, TableCell } from '@material-ui/core';
 import { UserRoundAvatar } from 'apps/ui';
-import { DateFormat } from 'lib/date';
-import moment from 'moment';
+import { DateFormat, formatDate } from 'lib/date';
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { findCollaboratorById } from 'models/Collaborator.model';
@@ -33,7 +32,7 @@ export function VerificationHistoryMetadataCell({ item, className, roundAvatar, 
             )} */}
           </Box>
           <Box color="common.black75">
-            {moment(item?.updatedAt).format(DateFormat.DateTime)}
+            {formatDate(item?.updatedAt, DateFormat.DateTime)}
           </Box>
         </Grid>
       </Grid>

@@ -63,7 +63,8 @@ export const selectMerchantName = createSelector(
   selectModelValue((merchant) => merchant.displayName),
 );
 
-export const selectMerchantCreatedAt = createSelector(
+// TODO: @pabloscdo: Remove this forced typing when Redux gets typed
+export const selectMerchantCreatedAt = createSelector<any, any, string>(
   selectMerchantModel,
   selectModelValue((merchant) => merchant.createdAt),
 );
