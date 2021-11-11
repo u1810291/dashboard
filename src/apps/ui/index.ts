@@ -48,6 +48,7 @@ export * from './components/UIProductTab/UIProductTab';
 export * from './components/TextBubble/TextBubble';
 export * from './components/VerificationWebhookModal/VerificationWebhookModal';
 export * from './components/ImageSkeleton/ImageSkeleton';
+export * from './components/InfoTooltip/InfoTooltip';
 
 export * from './models/Warning.model';
 export * from './models/SyntaxHighlighter.model';

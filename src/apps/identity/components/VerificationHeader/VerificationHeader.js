@@ -19,6 +19,7 @@ import { selectIdentityIsPDFGenerating } from 'state/identities/identities.selec
 import { RoleRenderGuard } from 'apps/merchant';
 
 import { useRole } from 'apps/collaborators';
+import { selectMerchantLegalAddress, selectMerchantLegalName, selectMerchantLegalRegNumber } from 'state/merchant/merchant.selectors';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { useStyles } from './VerificationHeader.styles';
 
@@ -35,6 +36,9 @@ export function VerificationHeader({ identity, isDemo = false }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const isPDFGenerating = useSelector(selectIdentityIsPDFGenerating);
   const verificationId = useMemo(() => identity?._embedded?.verification?.id, [identity]);
+  const legalName = useSelector(selectMerchantLegalName);
+  const legalAddress = useSelector(selectMerchantLegalAddress);
+  const legalRegNumber = useSelector(selectMerchantLegalRegNumber);
   const confirmDelete = useConfirmDelete(
     intl.formatMessage({ id: 'verificationModal.delete' }),
     intl.formatMessage({ id: 'verificationModal.delete.confirm' }),
@@ -51,11 +55,11 @@ export function VerificationHeader({ identity, isDemo = false }) {
     }
     handlePDFGenerating(true);
     const { getIdentityDocumentBlob } = await import('apps/pdf');
-    const blob = await getIdentityDocumentBlob(identity);
+    const blob = await getIdentityDocumentBlob(identity, { legalName, legalAddress, legalRegNumber });
     downloadBlob(blob, `mati-identity-${identity.id}.pdf`);
     handlePDFGenerating(false);
     dispatch(pdfDownloaded(identity.id, verificationId));
-  }, [isPDFGenerating, handlePDFGenerating, identity, dispatch, verificationId]);
+  }, [isPDFGenerating, handlePDFGenerating, identity, legalName, legalAddress, legalRegNumber, dispatch, verificationId]);
 
   const handleDeleteIdentity = useCallback(async () => {
     if (isDeleting) {

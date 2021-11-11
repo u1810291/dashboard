@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIdentityIsPDFGenerating } from 'state/identities/identities.selectors';
 import { useIntl } from 'react-intl';
 import { ButtonHeaderMenu } from 'apps/ui';
+import { selectMerchantLegalAddress, selectMerchantLegalName, selectMerchantLegalRegNumber } from 'state/merchant/merchant.selectors';
 import { VerificationResponse } from 'models/Verification.model';
 
 export interface ButtonVerificationGeneratePdfProps {
@@ -19,6 +20,9 @@ export function ButtonVerificationGeneratePdf({ verification, className }: Butto
   const dispatch = useDispatch();
   const intl = useIntl();
   const isPDFGenerating = useSelector(selectIdentityIsPDFGenerating);
+  const legalName = useSelector(selectMerchantLegalName);
+  const legalAddress = useSelector(selectMerchantLegalAddress);
+  const legalRegNumber = useSelector(selectMerchantLegalRegNumber);
 
   const handlePDFGenerating = useCallback((flag) => {
     dispatch(setPDFGenerating(flag));
@@ -29,12 +33,12 @@ export function ButtonVerificationGeneratePdf({ verification, className }: Butto
       return;
     }
     handlePDFGenerating(true);
-    const { getIdentityDocumentBlob } = await import('../../VerificationDocument.pdf');
-    const blob = await getIdentityDocumentBlob(verification);
+    const { getIdentityDocumentBlob } = await import('../../IdentityDocument.pdf');
+    const blob = await getIdentityDocumentBlob(verification, { legalName, legalAddress, legalRegNumber });
     downloadBlob(blob, `mati-identity-${verification?._id}.pdf`);
     handlePDFGenerating(false);
     dispatch(pdfDownloaded(verification?.identity, verification?._id));
-  }, [isPDFGenerating, handlePDFGenerating, verification, dispatch]);
+  }, [isPDFGenerating, handlePDFGenerating, verification, legalName, legalAddress, legalRegNumber, dispatch]);
 
   return (
     <ButtonHeaderMenu

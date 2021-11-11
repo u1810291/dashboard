@@ -84,6 +84,26 @@ export const selectIsBlockedModel = createSelector(
   selectLoadableValue((merchant) => !!merchant.blockedAt),
 );
 
+export const selectMerchantLegalName = createSelector(
+  selectMerchantModel,
+  selectModelValue((merchant) => merchant.legalName),
+);
+
+export const selectMerchantBrandName = createSelector(
+  selectMerchantModel,
+  selectModelValue((merchant) => merchant.brandName),
+);
+
+export const selectMerchantLegalRegNumber = createSelector(
+  selectMerchantModel,
+  selectModelValue((merchant) => merchant.legalRegNumber),
+);
+
+export const selectMerchantLegalAddress = createSelector(
+  selectMerchantModel,
+  selectModelValue((merchant) => merchant.legalAddress),
+);
+
 export const selectMerchantTags = createSelector(
   selectMerchantModel,
   selectModelValue((merchant: Merchant): MerchantTags[] => merchant.tags || []),
