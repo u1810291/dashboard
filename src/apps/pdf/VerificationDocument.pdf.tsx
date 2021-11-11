@@ -1,4 +1,4 @@
-import { Document, Page, pdf, View } from '@react-pdf/renderer';
+import { Document, Page, pdf, Text, View } from '@react-pdf/renderer';
 import { StoreProvider } from 'apps/store';
 import { getNom151FileContent } from 'models/Identity.model';
 import React from 'react';
@@ -8,6 +8,7 @@ import { getPhoneRiskValidationExtras } from 'apps/RiskAnalysis/models/RiskAnaly
 import { getEmailVerificationExtra } from 'models/EmailValidation.model';
 import { getIpCheckStep } from 'models/IpCheck.model';
 import { getEmailRiskStep } from 'models/EmailCheck.model';
+import { useIntl } from 'react-intl';
 import { AppIntlProvider } from '../intl';
 import { DocumentStepPDF } from './components/DocumentStepPDF/DocumentStepPDF';
 import { IpCheckPDF } from './components/IpCheckPDF/IpCheckPDF';
@@ -19,11 +20,13 @@ import { VerificationMetadataPDF } from './components/VerificationMetadataPDF/Ve
 import { VerificationSummaryPDF } from './components/VerificationSummaryPDF/VerificationSummaryPDF';
 import { commonStyles } from './PDF.styles';
 
-export function VerificationDocumentPDF({ verification, nom151FileContent }) {
+export function VerificationDocumentPDF({ verification, nom151FileContent, additionalData }) {
+  const intl = useIntl();
   if (!verification) {
     return null;
   }
 
+  const { legalName, legalRegNumber, legalAddress } = additionalData;
   const ipCheck = getIpCheckStep(verification.steps);
 
   return (
@@ -82,16 +85,30 @@ export function VerificationDocumentPDF({ verification, nom151FileContent }) {
           </View>
         )}
       </Page>
+      { /* footer */}
+      <View style={commonStyles.footer} fixed>
+        <Text>
+          {intl.formatMessage({ id: 'Pdf.footer.merchantLegalInformation' },
+            {
+              legalName: (<Text style={commonStyles.boldText}>{legalName}</Text>),
+              legalRegNumber,
+              verifiedBy: (<Text style={commonStyles.boldText}>{intl.formatMessage({ id: 'Pdf.footer.matilockInc' })}</Text>),
+            })}
+        </Text>
+        <Text>
+          {intl.formatMessage({ id: 'Pdf.footer.merchantLegalAddress' }, { legalAddress })}
+        </Text>
+      </View>
     </Document>
   );
 }
 
-export async function getIdentityDocumentBlob(verification) {
+export async function getIdentityDocumentBlob(verification, additionalData) {
   const nom151FileContent = await getNom151FileContent(verification.digitalSignature);
   return pdf(
     <StoreProvider>
       <AppIntlProvider>
-        <VerificationDocumentPDF verification={verification} nom151FileContent={nom151FileContent} />
+        <VerificationDocumentPDF verification={verification} additionalData={additionalData} nom151FileContent={nom151FileContent} />
       </AppIntlProvider>
     </StoreProvider>,
   ).toBlob();

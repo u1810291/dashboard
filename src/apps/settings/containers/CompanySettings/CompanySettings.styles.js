@@ -7,8 +7,15 @@ export const useStyles = makeStyles((theme) => ({
       borderBottom: `1px solid ${theme.palette.common.black7}`,
     },
   },
+  wrapperWithPadding: {
+    [theme.breakpoints.up('md')]: {
+      paddingBottom: 10,
+      paddingTop: 20,
+      borderBottom: `1px solid ${theme.palette.common.black7}`,
+    },
+  },
   inputWrapper: {
-    paddingBottom: 10,
+    paddingBottom: 20,
     fontSize: 24,
     [theme.breakpoints.down('sm')]: {
       marginBottom: 20,
@@ -17,11 +24,9 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   dateWrapper: {
-    [theme.breakpoints.up('md')]: {
-      paddingBottom: 10,
-    },
+    paddingBottom: 20,
   },
-  emailWrapper: {
+  fieldWrapper: {
     marginBottom: 20,
     [theme.breakpoints.up('md')]: {
       flexWrap: 'nowrap',
