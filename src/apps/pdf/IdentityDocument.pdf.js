@@ -1,7 +1,8 @@
-import { Document, Page, pdf, View } from '@react-pdf/renderer';
+import { Document, Page, pdf, View, Text } from '@react-pdf/renderer';
 import { StoreProvider } from 'apps/store';
 import { getNom151FileContent } from 'models/Identity.model';
 import React from 'react';
+import { useIntl } from 'react-intl';
 import { AppIntlProvider } from '../intl';
 import { DocumentStepPDF } from './components/DocumentStepPDF/DocumentStepPDF';
 import { IpCheckPDF } from './components/IpCheckPDF/IpCheckPDF';
@@ -13,7 +14,10 @@ import { VerificationMetadataPDF } from './components/VerificationMetadataPDF/Ve
 import { VerificationSummaryPDF } from './components/VerificationSummaryPDF/VerificationSummaryPDF';
 import { commonStyles } from './PDF.styles';
 
-export function IdentityDocumentPDF({ identity, nom151FileContent }) {
+export function IdentityDocumentPDF({ identity, nom151FileContent, additionalData = {} }) {
+  const { legalName, legalRegNumber, legalAddress } = additionalData;
+  const intl = useIntl();
+
   if (!identity) {
     return null;
   }
@@ -73,17 +77,31 @@ export function IdentityDocumentPDF({ identity, nom151FileContent }) {
             <Nom151CheckPDF data={identity.digitalSignature} nom151FileContent={nom151FileContent} />
           </View>
         )}
+        { /* footer */}
+        <View style={commonStyles.footer} fixed>
+          <Text>
+            {intl.formatMessage({ id: 'Pdf.footer.merchantLegalInformation' },
+              {
+                legalName: (<Text style={commonStyles.boldText}>{legalName}</Text>),
+                legalRegNumber,
+                verifiedBy: (<Text style={commonStyles.boldText}>{intl.formatMessage({ id: 'Pdf.footer.matilockInc' })}</Text>),
+              })}
+          </Text>
+          <Text>
+            {intl.formatMessage({ id: 'Pdf.footer.merchantLegalAddress' }, { legalAddress })}
+          </Text>
+        </View>
       </Page>
     </Document>
   );
 }
 
-export async function getIdentityDocumentBlob(identity) {
+export async function getIdentityDocumentBlob(identity, additionalData) {
   const nom151FileContent = await getNom151FileContent(identity.digitalSignature);
   return pdf(
     <StoreProvider>
       <AppIntlProvider>
-        <IdentityDocumentPDF identity={identity} nom151FileContent={nom151FileContent} />
+        <IdentityDocumentPDF identity={identity} additionalData={additionalData} nom151FileContent={nom151FileContent} />
       </AppIntlProvider>
     </StoreProvider>,
   ).toBlob();

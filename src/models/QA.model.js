@@ -211,6 +211,7 @@ export const QATags = {
     ChangePassword: {
       Change: 'settings-changePassword-button-change',
     },
+    ContactUs: 'settings-changePassword-button-contact',
   },
 
   Review: {

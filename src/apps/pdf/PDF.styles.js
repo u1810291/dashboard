@@ -100,4 +100,20 @@ export const commonStyles = StyleSheet.create({
     height: 26 * rem,
     borderRadius: 5,
   },
+  footer: {
+    width: '100vw',
+    height: 20,
+    display: 'flex',
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.black90,
+    color: colors.black7,
+    fontSize: 10,
+  },
+  boldText: {
+    fontWeight: 'bold',
+  },
 });
