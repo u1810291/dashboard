@@ -70,10 +70,9 @@ export function Warning({ title = '', label, type = WarningTypes.Warning, size =
         )}
         <Box style={{ color: isLabelColored && style.titleColor }}>
           {label}
-          <Link underline="always" href={link}>{linkLabel}</Link>
         </Box>
         <Box style={{ color: isLabelColored && style.titleColor }}>
-          <Link href={link}>{linkLabel}</Link>
+          <Link underline="always" href={link}>{linkLabel}</Link>
         </Box>
       </Box>
     </Box>
