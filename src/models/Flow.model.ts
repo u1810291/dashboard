@@ -7,7 +7,7 @@ import { ProductIntegrationTypes } from 'models/Product.model';
 import { IpValidation } from './IpCheck.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
 import { VerificationPatterns } from './VerificationPatterns.model';
-import { FlowWatchlist } from './CustomWatchlist.model';
+import { IFlowWatchlist } from './CustomWatchlist.model';
 
 export const MAX_NUMBER_OF_FLOWS = 100;
 
@@ -69,6 +69,6 @@ export interface IFlow {
   verificationPatterns?: Partial<VerificationPatterns>;
   integrationType?: ProductIntegrationTypes;
   amlWatchlistsFuzzinessThreshold?: number;
-  watchlists?: FlowWatchlist[];
+  watchlists?: IFlowWatchlist[];
   electronicSignature?: IESignatureFlow;
 }

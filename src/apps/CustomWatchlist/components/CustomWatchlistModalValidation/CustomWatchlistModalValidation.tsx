@@ -36,7 +36,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const { register, handleSubmit, setValue, formState: { errors } } = formMethods;
 
   const isWatchlistRunning = watchlist?.process?.status === WatchlistProcessStatus.Running;
-  console.log(watchlist);
+  // console.log(watchlist);
 
   const nameRegister = register(CustomWatchlistModalValidationInputs.Name, {
     required: intl.formatMessage({ id: 'validations.required' }),
@@ -62,20 +62,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     setValue(CustomWatchlistModalValidationInputs.Mapping, validatedInputsValuesFormated);
   }, [setValue]);
 
-  // TODO: @richvoronov STAGE 3, replace with dynamic data
-  const watchlistMapping = useMemo(() => [
-    {
-      merchantField: 'Name',
-      systemField: 'fullName',
-      options: {
-        fuzziness: 50,
-      },
-    },
-    {
-      merchantField: 'Date of birth',
-      systemField: 'dateOfBirth',
-    },
-  ].map((fields) => ({ label: fields.merchantField, value: fields.systemField, ...(fields?.options && { options: fields.options }) })), []);
+  const watchlistMapping = useMemo(() => watchlist?.mapping?.map((fields) => ({ label: fields.merchantField, value: fields.systemField, ...(fields?.options && { options: fields.options }) })), [watchlist?.mapping]);
 
   return (
     <Box className={classes.root}>
@@ -122,8 +109,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                   {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.subTitle' })}
                 </Typography>
               </Box>
-              {/* TODO: @richvoronov STAGE 3, ValidatedInputs shows when file has been loaded */}
-              {true ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} /> : <FakeInputs />}
+              {watchlistMapping?.length > 0 ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} /> : <FakeInputs />}
               {isSubmittingError && <div className={classes.error}>{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.submit.error' })}</div>}
             </Grid>
           </Grid>

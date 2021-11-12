@@ -4,7 +4,7 @@ import { useOverlay } from 'apps/overlay';
 import dayjs from 'dayjs';
 import classnames from 'classnames';
 import { useLongPolling } from 'lib/longPolling.hook';
-import { FlowWatchlist, FlowWatchlistUi, WatchlistContentTypes } from 'models/CustomWatchlist.model';
+import { IFlowWatchlist, FlowWatchlistUi, WatchlistContentTypes, WatchlistProcessStatus } from 'models/CustomWatchlist.model';
 import React, { useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -19,7 +19,7 @@ import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchl
 
 export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   watchlists: FlowWatchlistUi[];
-  onUpdate: (watchlist: FlowWatchlist) => void;
+  onUpdate: (watchlist: IFlowWatchlist) => void;
 }) {
   const intl = useIntl();
   const classes = useStyles();
@@ -28,12 +28,23 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const merchantId = useSelector(selectMerchantId);
   const isWatchlistsLoaded = useSelector(selectIsWatchlistsLoaded);
   const [isDataPooling, setIsDataPooling] = useState(false);
-  const [selectedWatchlist, setSelectedWatchlist] = useState<FlowWatchlist | null>(null);
+  const [selectedWatchlist, setSelectedWatchlist] = useState<IFlowWatchlist | null>(null);
 
-  const handleWatchlistLoad = useCallback((isReload: boolean) => {
-    // TODO: @richvoronov will use it on STAGE 2 of this feature
+  const handleWatchlistLoad = useCallback((isReload: boolean, watchlist?: IFlowWatchlist) => {
     // console.log('isReload', isReload, selectedWatchlist);
-  }, [selectedWatchlist]);
+    console.log({ selectedWatchlist });
+    const watchlistId = watchlist?.id || selectedWatchlist?.id;
+    if (watchlistId) {
+      dispatch(customWatchlistLoadById(merchantId, watchlistId, (watchlistData) => {
+        console.log('object', watchlistData?.process);
+        if (watchlistData?.process.status === WatchlistProcessStatus.Running) {
+          setIsDataPooling(true);
+        }
+        setIsDataPooling(false);
+      }));
+    }
+  }, [selectedWatchlist, merchantId, dispatch]);
+  console.log('isDataPooling', isDataPooling);
 
   useLongPolling(handleWatchlistLoad, 3000, {
     isCheckMerchantTag: false,
@@ -51,14 +62,12 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
     dispatch(updateMerchantWatchlistContent(merchantId, watchlistId, values));
   }, [merchantId, dispatch]);
 
-  const handleSubmitWatchlist = useCallback((watchlist?: FlowWatchlist) => (values: CustomWatchlistModalValidationInputTypes) => {
+  const handleSubmitWatchlist = useCallback((watchlist?: IFlowWatchlist) => (values: CustomWatchlistModalValidationInputTypes) => {
     setIsDataPooling(true);
     const watchlistRequestData = {
       name: values.name,
       mapping: values.mapping,
     };
-    // TODO: @richvoronov STAGE 2, separate values on 2 requests, to /content, and other
-
     if (watchlist) {
       dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData, handleCloseOverlay));
       customWatchlistsContentUpdate(watchlist.id, {
@@ -81,7 +90,6 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   }, [merchantId, customWatchlistsContentUpdate, handleCloseOverlay, dispatch]);
 
   const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {
-    dispatch(customWatchlistLoadById(merchantId, watchlist.id));
     setSelectedWatchlist(watchlist);
     createOverlay(
       <CustomWatchlistModalValidation
@@ -91,7 +99,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
       />,
       { onClose: handleCloseOverlay },
     );
-  }, [createOverlay, handleCloseOverlay, handleSubmitWatchlist, dispatch]);
+  }, [handleWatchlistLoad, createOverlay, handleCloseOverlay, handleSubmitWatchlist]);
 
   const handleDeleteWatchList = useCallback((watchlistId: number) => () => {
     dispatch(deleteCustomWatchlistById(merchantId, watchlistId));

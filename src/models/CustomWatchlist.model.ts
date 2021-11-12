@@ -33,7 +33,7 @@ export interface WatchlistMapping {
   options?: WatchlistMappingOptions;
 }
 
-export interface FlowWatchlist {
+export interface IFlowWatchlist {
   id: number;
   severityOnMatch: CustomWatchlistSeverityOnMatchTypes;
 }
@@ -44,7 +44,7 @@ export interface FlowWatchlistUi {
   createdAt: string;
   updatedAt: string;
   merchantId: string;
-  mapping: WatchlistMapping | null;
+  mapping: WatchlistMapping[] | null;
   severityOnMatch: CustomWatchlistSeverityOnMatchTypes;
   process: Partial<WatchlistProcess> | null;
 }
@@ -81,7 +81,7 @@ export interface IWatchlist {
   createdAt: string;
   updatedAt: string;
   merchantId: string;
-  mapping: WatchlistMapping | null;
+  mapping: WatchlistMapping[] | null;
   process: Partial<WatchlistProcess> | null;
 }
 

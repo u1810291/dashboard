@@ -2,12 +2,12 @@ import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import classnames from 'classnames';
 import { Select, MenuItem } from '@material-ui/core';
-import { CustomWatchlistSeverityOnMatchTypes, FlowWatchlist, FlowWatchlistUi } from 'models/CustomWatchlist.model';
+import { CustomWatchlistSeverityOnMatchTypes, IFlowWatchlist, FlowWatchlistUi } from 'models/CustomWatchlist.model';
 import { useStyles } from './SeverityOnMatchSelect.styles';
 
 export const SeverityOnMatchSelect = ({ watchlist, onUpdate }: {
   watchlist: FlowWatchlistUi;
-  onUpdate: (watchlist: FlowWatchlist) => void;
+  onUpdate: (watchlist: IFlowWatchlist) => void;
 }) => {
   const intl = useIntl();
   const classes = useStyles();
