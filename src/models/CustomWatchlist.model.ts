@@ -1,5 +1,7 @@
 import { ErrorType } from './Error.model';
 
+export const customWatchlistsPollingDelay = 30000;
+
 export enum CustomWatchlistSeverityOnMatchTypes {
   NoAction = 'no-action',
   Low = 'low',

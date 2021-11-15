@@ -8,7 +8,7 @@ import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
-import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus } from 'models/CustomWatchlist.model';
+import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus, customWatchlistsPollingDelay } from 'models/CustomWatchlist.model';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs, ValidatedInputsFieldTypes } from '../ValidatedInputs/ValidatedInputs';
 import { selectIsWatchlistsLoading } from '../../state/CustomWatchlist.selectors';
@@ -53,7 +53,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     }
   }, [watchlist, merchantId, dispatch]);
 
-  useLongPolling(handleWatchlistLoad, 3000, {
+  useLongPolling(handleWatchlistLoad, customWatchlistsPollingDelay, {
     isCheckMerchantTag: false,
     isUseFirstInvoke: false,
     isDone: !isDataPooling,
