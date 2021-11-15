@@ -1,18 +1,21 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { SubmitHandler, useForm, FormProvider } from 'react-hook-form';
 import { FiChevronLeft } from 'react-icons/fi';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { useLongPolling } from 'lib/longPolling.hook';
 import { Box, InputLabel, Grid, Typography, TextField } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
+import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus } from 'models/CustomWatchlist.model';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs, ValidatedInputsFieldTypes } from '../ValidatedInputs/ValidatedInputs';
 import { selectIsWatchlistsLoading } from '../../state/CustomWatchlist.selectors';
+import { customWatchlistLoadById } from '../../state/CustomWatchlist.actions';
 import { useStyles } from './CustomWatchlistModalValidation.styles';
 import { CustomWatchlistModalValidationFileUploadForm } from '../CustomWatchlistModalValidationFileUploadForm/CustomWatchlistModalValidationFileUploadForm';
+import { CustomWatchlistModalValidationSubmitButton } from '../CustomWatchlistModalValidationSubmitButton/CustomWatchlistModalValidationSubmitButton';
 
 export interface CustomWatchlistModalValidationInputTypes {
   [CustomWatchlistModalValidationInputs.Name]: string;
@@ -27,16 +30,34 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   onClose: () => void;
   onSubmit: (values: CustomWatchlistModalValidationInputTypes) => void;
 }) {
-  const isWatchlistsLoading = useSelector(selectIsWatchlistsLoading);
+  const dispatch = useDispatch();
   const intl = useIntl();
-  const classes = useStyles();
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const merchantId = useSelector(selectMerchantId);
+  const [isDataPooling, setIsDataPooling] = useState(false);
+  const isWatchlistsLoading = useSelector(selectIsWatchlistsLoading);
+  const [isFormSubmitting, setIsFormSubmitting] = useState<boolean>(false);
   const [isSubmittingError, setIsSubmittingError] = useState<boolean>(false);
   const formMethods = useForm<CustomWatchlistModalValidationInputTypes>();
   const { register, handleSubmit, setValue, formState: { errors } } = formMethods;
+  const classes = useStyles();
 
   const isWatchlistRunning = watchlist?.process?.status === WatchlistProcessStatus.Running;
-  // console.log(watchlist);
+
+  const handleWatchlistLoad = useCallback(() => {
+    if (watchlist?.id) {
+      dispatch(customWatchlistLoadById(merchantId, watchlist.id, (watchlistData) => {
+        if (watchlistData?.process.status === WatchlistProcessStatus.Completed) {
+          setIsDataPooling(false);
+        }
+      }));
+    }
+  }, [watchlist, merchantId, dispatch]);
+
+  useLongPolling(handleWatchlistLoad, 3000, {
+    isCheckMerchantTag: false,
+    isUseFirstInvoke: false,
+    isDone: !isDataPooling,
+  });
 
   const nameRegister = register(CustomWatchlistModalValidationInputs.Name, {
     required: intl.formatMessage({ id: 'validations.required' }),
@@ -48,11 +69,11 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     }
     try {
       setIsSubmittingError(false);
-      setIsSubmitting(true);
+      setIsFormSubmitting(true);
       onSubmit(values);
-      setIsSubmitting(false);
+      setIsFormSubmitting(false);
     } catch (error) {
-      setIsSubmitting(false);
+      setIsFormSubmitting(false);
       setIsSubmittingError(true);
     }
   }, [isWatchlistRunning, onSubmit]);
@@ -63,6 +84,14 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   }, [setValue]);
 
   const watchlistMapping = useMemo(() => watchlist?.mapping?.map((fields) => ({ label: fields.merchantField, value: fields.systemField, ...(fields?.options && { options: fields.options }) })), [watchlist?.mapping]);
+
+  useEffect(() => {
+    if (!isDataPooling) {
+      if (watchlist?.process.status === WatchlistProcessStatus.Running) {
+        setIsDataPooling(true);
+      }
+    }
+  }, [isDataPooling, watchlist]);
 
   return (
     <Box className={classes.root}>
@@ -122,22 +151,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
               </ButtonStyled>
             </Grid>
             <Grid item xs={6}>
-              {/* TODO: @richvoronov STAGE 2 change column name before Validation to "Validation", after Validation button text must be "Done" - pressing the button "Done" closes Modal  */}
-              <ButtonStyled
-                type="submit"
-                variant="contained"
-                color="primary"
-                size="large"
-                fullWidth
-                disabled={isWatchlistsLoading || isWatchlistRunning}
-              >
-                {isWatchlistsLoading || isSubmitting || isWatchlistRunning ? (
-                  <>
-                    {isWatchlistRunning && <span className={classes.buttonRunning}>{intl.formatMessage({ id: `CustomWatchlist.settings.modal.button.status.${WatchlistProcessStatus.Running}` })}</span>}
-                    <CircularProgress color="inherit" size={17} />
-                  </>
-                ) : intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.done' })}
-              </ButtonStyled>
+              <CustomWatchlistModalValidationSubmitButton isWatchlistsLoading={isWatchlistsLoading} isFormSubmitting={isFormSubmitting} isWatchlistRunning={isWatchlistRunning} />
             </Grid>
           </Grid>
         </form>

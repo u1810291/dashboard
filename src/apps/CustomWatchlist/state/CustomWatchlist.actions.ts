@@ -29,26 +29,32 @@ export const customWatchlistsLoad = (merchantId: string) => async (dispatch) => 
   }
 };
 
-export const customWatchlistLoadById = (merchantId: string, watchlistId: number, callback?: (data: IWatchlist) => void) => async (dispatch, getState) => {
-  dispatch({ type: types.CUSTOM_WATCHLIST_REQUEST });
+export const setCurrentWatchlist = (watchlistId) => (dispatch, getState) => {
+  const watchlists: IWatchlist[] = selectWatchlists(getState());
+  dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: watchlists.find((watchlistElem) => watchlistElem.id === watchlistId), isReset: true });
+};
+
+export const clearCurrentWatchlist = () => (dispatch) => {
+  dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_CLEAR, payload: null });
+};
+
+export const customWatchlistLoadById = (merchantId: string, watchlistId: number, callback?: (data: IWatchlist) => void) => async (dispatch) => {
+  dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_REQUEST });
   try {
     const payload = await api.getMerchantWatchlistById(merchantId, watchlistId);
-    const watchlists: IWatchlist[] = [...selectWatchlists(getState())];
-    const watchlistIndexFind = watchlists.findIndex((watchlist) => watchlist.id === payload.data.id);
-    watchlists[watchlistIndexFind] = payload.data;
+
     if (callback) {
       callback(payload.data);
     }
 
-    dispatch({ type: types.CUSTOM_WATCHLIST_SUCCESS });
-    dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: watchlists, isReset: true });
+    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: payload.data, isReset: true });
   } catch (error) {
-    dispatch({ type: types.CUSTOM_WATCHLIST_FAILURE, error });
+    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_FAILURE, error });
     throw error;
   }
 };
 
-export const customWatchlistCreate = (merchantId: string, params: WatchlistCreateBodyTypes, callback: (data: IWatchlist) => void) => async (dispatch, getState) => {
+export const customWatchlistCreate = (merchantId: string, params: WatchlistCreateBodyTypes, callback: (data: IWatchlist) => void) => async (dispatch) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_REQUEST });
   try {
     const payload = await api.createMerchantWatchlist(merchantId, params);

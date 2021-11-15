@@ -528,6 +528,7 @@
   "CustomWatchlist.settings.modal.button.uploadFile.reload": "Reload",
   "CustomWatchlist.settings.modal.button.back": "Back",
   "CustomWatchlist.settings.modal.button.done": "Done",
+  "CustomWatchlist.settings.modal.button.validate": "Validate",
   "CustomWatchlist.settings.modal.button.status.running": "Watchlist processing",
   "CustomWatchlist.settings.modal.fakeInputs.fullName.value": "John Smith",
   "CustomWatchlist.settings.modal.fakeInputs.dateOfBirth.value": "YYYY-MM-DD",

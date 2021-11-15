@@ -30,3 +30,14 @@ export const selectCanUseCustomWatchlists = createSelector(
   selectMerchantTags,
   (tags: MerchantTags[]): boolean => tags.includes(MerchantTags.CanUseCustomWatchlists),
 );
+
+export const selectCurrentCustomWatchlist = createSelector(
+  selectCustomWatchlistsStore,
+  (store): IWatchlist | null => store.currentWatchlist.value,
+);
+
+export const selectCurrentCustomWatchlistError = createSelector(
+  selectCustomWatchlistsStore,
+  // TODO: STAGE 3, @richvoronov set error type
+  (store): any | null => store.currentWatchlist.value?.process.error,
+);

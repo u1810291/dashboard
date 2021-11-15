@@ -3,16 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useOverlay } from 'apps/overlay';
 import dayjs from 'dayjs';
 import classnames from 'classnames';
-import { useLongPolling } from 'lib/longPolling.hook';
-import { IFlowWatchlist, FlowWatchlistUi, WatchlistContentTypes, WatchlistProcessStatus } from 'models/CustomWatchlist.model';
-import React, { useCallback, useState } from 'react';
+import { IFlowWatchlist, FlowWatchlistUi, WatchlistContentTypes } from 'models/CustomWatchlist.model';
+import React, { useCallback } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { DateFormat } from 'lib/date';
 import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
-import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, customWatchlistLoadById } from '../../state/CustomWatchlist.actions';
+import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearCurrentWatchlist } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
@@ -27,43 +26,17 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const [createOverlay, closeOverlay] = useOverlay();
   const merchantId = useSelector(selectMerchantId);
   const isWatchlistsLoaded = useSelector(selectIsWatchlistsLoaded);
-  const [isDataPooling, setIsDataPooling] = useState(false);
-  const [selectedWatchlist, setSelectedWatchlist] = useState<IFlowWatchlist | null>(null);
-
-  const handleWatchlistLoad = useCallback((isReload: boolean, watchlist?: IFlowWatchlist) => {
-    // console.log('isReload', isReload, selectedWatchlist);
-    console.log({ selectedWatchlist });
-    const watchlistId = watchlist?.id || selectedWatchlist?.id;
-    if (watchlistId) {
-      dispatch(customWatchlistLoadById(merchantId, watchlistId, (watchlistData) => {
-        console.log('object', watchlistData?.process);
-        if (watchlistData?.process.status === WatchlistProcessStatus.Running) {
-          setIsDataPooling(true);
-        }
-        setIsDataPooling(false);
-      }));
-    }
-  }, [selectedWatchlist, merchantId, dispatch]);
-  console.log('isDataPooling', isDataPooling);
-
-  useLongPolling(handleWatchlistLoad, 3000, {
-    isCheckMerchantTag: false,
-    isUseFirstInvoke: false,
-    isDone: !isDataPooling,
-  });
 
   const handleCloseOverlay = useCallback(() => {
-    setSelectedWatchlist(null);
-    setIsDataPooling(false);
     closeOverlay();
-  }, [closeOverlay]);
+    dispatch(clearCurrentWatchlist());
+  }, [dispatch, closeOverlay]);
 
   const customWatchlistsContentUpdate = useCallback((watchlistId: number, values: WatchlistContentTypes) => {
     dispatch(updateMerchantWatchlistContent(merchantId, watchlistId, values));
   }, [merchantId, dispatch]);
 
   const handleSubmitWatchlist = useCallback((watchlist?: IFlowWatchlist) => (values: CustomWatchlistModalValidationInputTypes) => {
-    setIsDataPooling(true);
     const watchlistRequestData = {
       name: values.name,
       mapping: values.mapping,
@@ -90,7 +63,9 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   }, [merchantId, customWatchlistsContentUpdate, handleCloseOverlay, dispatch]);
 
   const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {
-    setSelectedWatchlist(watchlist);
+    if (watchlist?.id) {
+      dispatch(setCurrentWatchlist(watchlist.id));
+    }
     createOverlay(
       <CustomWatchlistModalValidation
         watchlist={watchlist}
@@ -99,7 +74,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
       />,
       { onClose: handleCloseOverlay },
     );
-  }, [handleWatchlistLoad, createOverlay, handleCloseOverlay, handleSubmitWatchlist]);
+  }, [dispatch, createOverlay, handleCloseOverlay, handleSubmitWatchlist]);
 
   const handleDeleteWatchList = useCallback((watchlistId: number) => () => {
     dispatch(deleteCustomWatchlistById(merchantId, watchlistId));
