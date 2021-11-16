@@ -105,7 +105,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
       </Grid>
       <FormProvider {...formMethods}>
         <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <Grid container direction="row" spacing={2}>
+          <Grid container direction="row" spacing={2} className={classes.marginBottom50}>
             <Grid item xs={6}>
               <Box mb={3}>
                 <InputLabel className={classes.marginBottom10} htmlFor="watchlist-name">
@@ -142,7 +142,12 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
               {isSubmittingError && <div className={classes.error}>{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.submit.error' })}</div>}
             </Grid>
           </Grid>
-          <Grid container spacing={2} className={classes.marginTop50}>
+          <Grid container spacing={2} className={classes.buttonContainer}>
+            {isWatchlistRunning && (
+              <Grid className={classes.validationHelper}>
+                <Box>{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validation.helper' })}</Box>
+              </Grid>
+            )}
             <Grid item xs={6}>
               <ButtonStyled variant="outlined" color="primary" size="large" fullWidth onClick={onClose}>
                 <FiChevronLeft />

@@ -101,15 +101,14 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
                   </Box>
                 </Grid>
                 <Grid container>
-                  {/* TODO: @richvoronov STAGE 2, logic should be (watchlist.createdAt && ... no validation error ...) */}
-                  {watchlist.createdAt ? (
+                  {watchlist.createdAt && !watchlist.process?.error ? (
                     <Typography variant="subtitle2" className={classes.colorGreen}>
                       {intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.uploaded' })}
                       {' '}
                       {dayjs(watchlist.createdAt).format(DateFormat.FullMonthDateAndFullYear)}
                     </Typography>
                   ) : (
-                    <Typography variant="subtitle2" className={classes.colorRed}>{intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.validationError' })}</Typography>
+                    <Typography variant="subtitle2" className={classes.colorRed}>{intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.validation.error' })}</Typography>
                   )}
                 </Grid>
                 <Box mt={2}>

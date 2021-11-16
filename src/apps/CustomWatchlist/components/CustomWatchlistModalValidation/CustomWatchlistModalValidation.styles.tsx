@@ -32,11 +32,20 @@ export const useStyles = makeStyles((theme) => ({
     marginRight: 10,
     display: 'inline-block',
   },
-  marginTop50: {
-    marginTop: 50,
+  marginBottom50: {
+    marginBottom: 50,
   },
   error: {
     color: theme.palette.common.red,
+  },
+  buttonContainer: {
+    position: 'relative',
+  },
+  validationHelper: {
+    position: 'absolute',
+    top: -10,
+    left: 10,
+    color: theme.palette.common.black75,
   },
 }));
 
