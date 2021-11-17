@@ -1,3 +1,4 @@
+import { CountryCodes } from 'models/Country.model';
 import React from 'react';
 import { ReactComponent as ArgentinaIcon } from './argentina-flag.svg';
 import { ReactComponent as BoliviaIcon } from './bolivia-flag.svg';
@@ -24,7 +25,8 @@ const iconProps = {
   height: '25',
 };
 
-export const flags = {
+// @deprecated
+export const flagMap = {
   argentina: <ArgentinaIcon {...iconProps} />,
   AR: <ArgentinaIcon {...iconProps} />,
   bolivia: <BoliviaIcon {...iconProps} />,
@@ -46,4 +48,12 @@ export const flags = {
   peru: <PeruIcon {...iconProps} />,
   panama: <PanamaIcon {...iconProps} />,
   venezuela: <VenezuelaIcon {...iconProps} />,
+};
+
+export const codedFlagMap = {
+  [CountryCodes.AR]: <ArgentinaIcon {...iconProps} />,
+  [CountryCodes.BR]: <BrazilIcon {...iconProps} />,
+  [CountryCodes.CO]: <ColombiaIcon {...iconProps} />,
+  [CountryCodes.MX]: <MexicoIcon {...iconProps} />,
+  [CountryCodes.US]: <USAIcon {...iconProps} />,
 };

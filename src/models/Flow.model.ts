@@ -69,4 +69,13 @@ export interface IFlow {
   integrationType?: ProductIntegrationTypes;
   amlWatchlistsFuzzinessThreshold?: number;
   electronicSignature?: IESignatureFlow;
+  financialInformationBankAccountsRetrieving?: {
+    countryCodes: string[];
+  }
+  financialInformationWorkAccountsRetrieving?: {
+    countryCodes: string[];
+  };
+  financialInformationPayrollAccountsRetrieving?: {
+    countryCodes: string[];
+  };
 }

@@ -24,6 +24,7 @@ declare module '@material-ui/core/styles/createPalette' {
   }
   interface CommonColors {
     blue: string;
+    gray: string;
     gray68: string;
     lightblue: string;
     lightbluehover: string;
