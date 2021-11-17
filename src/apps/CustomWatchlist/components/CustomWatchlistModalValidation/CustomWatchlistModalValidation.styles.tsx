@@ -44,7 +44,7 @@ export const useStyles = makeStyles((theme) => ({
   validationHelper: {
     position: 'absolute',
     top: -10,
-    left: 10,
+    right: 10,
     color: theme.palette.common.black75,
   },
 }));

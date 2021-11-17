@@ -514,7 +514,7 @@
   "CustomWatchlist.settings.watchlist.uploaded": "Uploaded",
   "CustomWatchlist.settings.watchlist.fileErrorUpload": "Error. Please try uploading the file again.",
   "CustomWatchlist.settings.watchlist.validation.error": "Validation error",
-  "CustomWatchlist.settings.modal.validation.helper": "Custom watchlist validation can take up to 2 minutes.",
+  "CustomWatchlist.settings.modal.validation.helper": "Custom watchlist validation can take up to 2 mins",
   "CustomWatchlist.settings.modal.title": "Watchlist configuration",
   "CustomWatchlist.settings.modal.input.name.label": "Watchlist name",
   "CustomWatchlist.settings.modal.input.name.placeholder": "Specify watchlist name",
