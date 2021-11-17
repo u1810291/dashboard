@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export enum appPalette {
   blue = '#3757ff',
+  gray = '#F9F9F9',
   gray68 = '#ADADAD',
   lightblue = '#507DED',
   lightbluehover = '#608eed',

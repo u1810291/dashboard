@@ -52,6 +52,9 @@ export enum VerificationPatternTypes {
   DocumentReading = 'document-reading',
   VpnDetection = 'vpn-detection',
   ESignatureDocuments = 'electronic-signature-document-validation',
+  FinancialInformationBankAccountsRetrieving = 'financial-information-bank-accounts-retrieving',
+  FinancialInformationWorkAccountsRetrieving = 'financial-information-work-accounts-retrieving',
+  FinancialInformationPayrollAccountsRetrieving = 'financial-information-payroll-accounts-retrieving',
 }
 
 export interface VerificationPatterns {
@@ -100,4 +103,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.EmailOwnershipValidation]?: string;
   [VerificationPatternTypes.VpnDetection]?: boolean;
   [VerificationPatternTypes.ESignatureDocuments]?: boolean;
+  [VerificationPatternTypes.FinancialInformationBankAccountsRetrieving]?: boolean;
+  [VerificationPatternTypes.FinancialInformationWorkAccountsRetrieving]?: boolean;
+  [VerificationPatternTypes.FinancialInformationPayrollAccountsRetrieving]?: boolean;
 }

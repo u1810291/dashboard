@@ -3,7 +3,7 @@ import { Box, FormControl, FormControlLabel, Grid, Switch } from '@material-ui/c
 import { CreditCheck, CreditCheckConfigurations, creditCheckCountriesOrder, creditCheckParse } from 'apps/CreditCheck/models/CreditCheck.model';
 import { useIntl } from 'react-intl';
 import { VerificationPatterns } from 'models/VerificationPatterns.model';
-import { flags } from 'assets/flags';
+import { codedFlagMap } from 'assets/flags';
 import { useStyles } from './CreditCheckCountriesSettings.styles';
 
 export function CreditCheckCountriesSettings({ verificationPattern, onChange }: {
@@ -31,7 +31,7 @@ export function CreditCheckCountriesSettings({ verificationPattern, onChange }: 
       {creditCheckCountriesOrder.map((country) => (
         <Box key={country} className={classes.wrapper} p={1} pr={2} mt={1}>
           <Grid container alignItems="center" wrap="nowrap">
-            <Box mr={1} className={classes.icon}>{flags[country]}</Box>
+            <Box mr={1} className={classes.icon}>{codedFlagMap[country]}</Box>
             <Box color="common.black90" fontWeight="bold">
               {intl.formatMessage({ id: `Countries.${country}` })}
             </Box>

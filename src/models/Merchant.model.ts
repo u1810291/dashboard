@@ -24,4 +24,8 @@ export enum MerchantTags {
   CanUseESignature = 'can-use-esignature',
   CanUsePhoneValidation = 'can-use-phone-validation',
   CanUseEmailValidation = 'can-use-email-validation',
+  CanUseCreditScore = 'can-use-credit-score',
+  CanUseFinancialInformationBankAccountsRetrieving = 'can-use-financial-information-bank-accounts-retrieving',
+  CanUseFinancialInformationWorkAccountsRetrieving = 'can-use-financial-information-work-accounts-retrieving',
+  CanUseFinancialInformationPayrollAccountsRetrieving = 'can-use-financial-information-payroll-accounts-retrieving',
 }
