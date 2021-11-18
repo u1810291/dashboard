@@ -4,6 +4,7 @@ import metrics from 'apps/Analytics/state/Analytics.reducer';
 import { METRICS_STORE_KEY } from 'apps/Analytics/state/Analytics.store';
 import { CUSTOM_DOCUMENT_STORE_KEY } from 'apps/customDocument/state/customDocument.store';
 import customDocument from 'apps/customDocument/state/customDocument.reducer';
+import customWatchlist from 'apps/CustomWatchlist/state/CustomWatchlist.reducer';
 import auth from 'apps/auth/state/auth.reducer';
 import { AUTH_STORE_KEY, AuthActionGroups } from 'apps/auth/state/auth.store';
 import collaborators from 'apps/collaborators/state/collaborator.reducer';
@@ -35,6 +36,7 @@ import { identityProfileReducer } from 'apps/IdentityProfile/store/IdentityProfi
 import { IDENTITY_PROFILE_STORE_KEY } from 'apps/IdentityProfile/store/IdentityProfile.store';
 import { verificationReducer } from 'apps/Verification/state/Verification.reducer';
 import { VERIFICATION_STORE_KEY } from 'apps/Verification/state/Verification.store';
+import { CUSTOM_WATCHLISTS_STORE_KEY } from 'apps/CustomWatchlist/state/CustomWatchlist.store';
 
 export const appReducers = combineReducers({
   [USER_STORE_KEY]: user,
@@ -55,6 +57,7 @@ export const appReducers = combineReducers({
   [IDENTITY_PROFILE_STORE_KEY]: identityProfileReducer,
   [VERIFICATION_STORE_KEY]: verificationReducer,
   [CUSTOM_DOCUMENT_STORE_KEY]: customDocument,
+  [CUSTOM_WATCHLISTS_STORE_KEY]: customWatchlist,
 });
 
 export const rootReducers = (state, action) => {
