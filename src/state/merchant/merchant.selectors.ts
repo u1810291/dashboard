@@ -23,7 +23,7 @@ export const selectMerchantModel = createSelector<any, any, Loadable<Merchant>>(
 
 export const selectMerchantId = createSelector(
   selectMerchantModel,
-  selectModelValue((merchant: Merchant) => merchant.id),
+  selectModelValue((merchant: Merchant): string => merchant.id),
 );
 
 export const selectOwnerId = createSelector(
