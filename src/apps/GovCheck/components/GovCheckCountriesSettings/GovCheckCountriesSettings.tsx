@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
 import { Box, FormControl, FormControlLabel, Grid, Switch } from '@material-ui/core';
 import { GovCheck, GovCheckConfigurations, govCheckCountriesOrder, govCheckParse, GovCheckTypesForStep } from 'apps/GovCheck/models/GovCheck.model';
-import { useIntl } from 'react-intl';
+import { flagMap } from 'assets/flags';
 import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { flags } from 'assets/flags';
+import React, { useCallback } from 'react';
+import { useIntl } from 'react-intl';
 import { ExtendedDescription } from 'apps/ui';
 import { BiometricTypes } from 'models/Biometric.model';
 import { useStyles } from './GovCheckCountriesSettings.styles';
@@ -42,7 +42,7 @@ export function GovCheckCountriesSettings({ verificationPattern, onChange }: {
       {govCheckCountriesOrder.map((country) => (
         <Box key={country} className={classes.wrapper} p={1} pr={2} mt={1}>
           <Grid container alignItems="center" wrap="nowrap">
-            <Box mr={1} className={classes.icon}>{flags[country]}</Box>
+            <Box mr={1} className={classes.icon}>{flagMap[country]}</Box>
             <Box color="common.black90" fontWeight="bold">
               {intl.formatMessage({ id: `GovCheck.country.${country}` })}
             </Box>

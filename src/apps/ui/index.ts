@@ -47,6 +47,7 @@ export * from './components/ExtendedDescription/ExtendedDescription';
 export * from './components/UIProductTab/UIProductTab';
 export * from './components/TextBubble/TextBubble';
 export * from './components/VerificationWebhookModal/VerificationWebhookModal';
+export * from './components/CountrySwitch/CountrySwitch';
 export * from './components/ImageSkeleton/ImageSkeleton';
 export * from './components/InfoTooltip/InfoTooltip';
 

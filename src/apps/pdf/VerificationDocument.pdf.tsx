@@ -1,5 +1,8 @@
 import { Document, Page, pdf, Text, View } from '@react-pdf/renderer';
 import { StoreProvider } from 'apps/store';
+import { getWorkAccountData } from 'apps/WorkAccountData';
+import { getBankAccountData } from 'apps/BankAccountData';
+import { getPayrollAccountData } from 'apps/PayrollAccountData';
 import { getNom151FileContent } from 'models/Identity.model';
 import React from 'react';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
@@ -19,6 +22,9 @@ import { VerificationAdditionalChecksPDF } from './components/VerificationAdditi
 import { VerificationMetadataPDF } from './components/VerificationMetadataPDF/VerificationMetadataPDF';
 import { VerificationSummaryPDF } from './components/VerificationSummaryPDF/VerificationSummaryPDF';
 import { commonStyles } from './PDF.styles';
+import { BankAccountDataPDF } from './components/BankAccountDataPDF/BankAccountDataPDF';
+import { WorkAccountDataPDF } from './components/WorkAccountDataPDF/WorkAccountDataPDF';
+import { PayrollAccountDataPDF } from './components/PayrollAccountDataPDF/PayrollAccountDataPDF';
 
 export function VerificationDocumentPDF({ verification, nom151FileContent, additionalData }) {
   const intl = useIntl();
@@ -28,6 +34,9 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
 
   const { legalName, legalRegNumber, legalAddress } = additionalData;
   const ipCheck = getIpCheckStep(verification.steps);
+  const bankAccountData = getBankAccountData(verification);
+  const workAccountData = getWorkAccountData(verification);
+  const payrollAccountData = getPayrollAccountData(verification);
 
   return (
     <Document title={`Verification ${verification.id}`} author="Matilock, Inc. www.mati.io">
@@ -82,6 +91,22 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
         {verification.digitalSignature && (
           <View>
             <Nom151CheckPDF data={verification.digitalSignature} nom151FileContent={nom151FileContent} />
+          </View>
+        )}
+        {/* Financial Institutions Data */}
+        {bankAccountData && (
+          <View>
+            <BankAccountDataPDF data={bankAccountData} />
+          </View>
+        )}
+        {workAccountData && (
+          <View>
+            <WorkAccountDataPDF data={workAccountData} />
+          </View>
+        )}
+        {payrollAccountData && (
+          <View>
+            <PayrollAccountDataPDF data={payrollAccountData} />
           </View>
         )}
       </Page>

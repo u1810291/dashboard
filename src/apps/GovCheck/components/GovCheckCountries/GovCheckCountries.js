@@ -1,8 +1,8 @@
 import { Box, Grid, Typography } from '@material-ui/core';
 import { ButtonBase } from 'apps/ui';
+import { flagMap } from 'assets/flags';
 import classnames from 'classnames';
 import React, { useCallback, useState } from 'react';
-import { flags } from 'assets/flags';
 import { useIntl } from 'react-intl';
 import { GovCheckCountryTypes } from '../../models/GovCheck.model';
 
@@ -24,7 +24,7 @@ export function GovCheckCountries({ value, onChange }) {
           {Object.values(countries).map((item) => (
             <Grid item key={item}>
               <ButtonBase
-                startIcon={flags[item]}
+                startIcon={flagMap[item]}
                 // TODO: remove using active class
                 className={classnames({ active: item === value })}
                 onClick={() => handleSelect(item)}

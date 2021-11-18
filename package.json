@@ -1,6 +1,6 @@
 {
   "name": "mati-dashboard",
-  "version": "2.0.33",
+  "version": "2.0.34",
   "private": true,
   "dependencies": {
     "@fullstory/browser": "^1.4.6",
@@ -31,7 +31,7 @@
     "react-dropzone": "^10.2.2",
     "react-flow-renderer": "9.6.0",
     "react-helmet": "^5.2.1",
-    "react-hook-form": "^7.15.2",
+    "react-hook-form": "^7.17.1",
     "react-icons": "^3.9.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-intl": "^5.10.9",

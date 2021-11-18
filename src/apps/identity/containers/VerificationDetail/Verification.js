@@ -1,6 +1,12 @@
 import { Grid, Paper } from '@material-ui/core';
+import { getBankAccountData } from 'apps/BankAccountData';
 import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
+import { VerificationBankAccountDataCheck } from 'apps/checks/components/VerificationBankAccountkDataCheck/VerificationBankAccountDataCheck';
+import { VerificationWorkAccountDataCheck } from 'apps/checks/components/VerificationWorkAccountDataCheck/VerificationWorkAccountDataCheck';
+import { VerificationPayrollAccountDataCheck } from 'apps/checks/components/VerificationPayrollAccountDataCheck/VerificationPayrollAccountDataCheck';
 import { Page404 } from 'apps/layout';
+import { getWorkAccountData } from 'apps/WorkAccountData';
+import { getPayrollAccountData } from 'apps/PayrollAccountData';
 import { getDownloadableFileName } from 'models/Identity.model';
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +34,9 @@ export function Verification({ identity }) {
   const downloadableFileName = getDownloadableFileName(verification);
   const documents = useMemo(() => verificationWithPrivateMedia.documents?.filter((doc) => !doc?.type.includes(CUSTOM_DOCUMENT_PREFIX)), [verificationWithPrivateMedia.documents]);
   const customDocuments = useMemo(() => verificationWithPrivateMedia.documents?.filter((doc) => doc?.type.includes(CUSTOM_DOCUMENT_PREFIX)), [verificationWithPrivateMedia.documents]);
+  const bankAccountData = useMemo(() => getBankAccountData(verification), [verification]);
+  const workAccountData = useMemo(() => getWorkAccountData(verification), [verification]);
+  const payrollAccountData = useMemo(() => getPayrollAccountData(verification), [verification]);
 
   const handleDocumentUpdate = useCallback((documentType) => async (normalizedData) => {
     if (documentType && normalizedData) {
@@ -113,6 +122,22 @@ export function Verification({ identity }) {
       {identity.eSignature && (
         <Grid item>
           <ESignature step={identity.eSignature} />
+        </Grid>
+      )}
+      {/* Financial Institutions checks */}
+      {bankAccountData && (
+        <Grid item>
+          <VerificationBankAccountDataCheck data={bankAccountData} />
+        </Grid>
+      )}
+      {workAccountData && (
+        <Grid item>
+          <VerificationWorkAccountDataCheck data={workAccountData} />
+        </Grid>
+      )}
+      {payrollAccountData && (
+        <Grid item>
+          <VerificationPayrollAccountDataCheck data={payrollAccountData} />
         </Grid>
       )}
     </Grid>

@@ -1,9 +1,13 @@
 import { amlCheckInit } from 'apps/Aml/state/Aml.actions';
 import { documentVerificationInit } from 'apps/documentVerification/state/DocumentVerification.actions';
 import { ipCheckInit } from 'apps/IpCheck/state/IpCheck.actions';
+import { customWatchlistInit } from 'apps/CustomWatchlist/state/CustomWatchlist.actions';
 import { EmailCheckInit } from 'apps/EmailCheck/state/EmailCheck.actions';
 import { PhoneCheckInit } from 'apps/PhoneCheck/state/PhoneCheck.actions';
 import { reVerificationInit } from 'apps/reverification/state/ReVerification.actions';
+import { bankAccountDataInit } from 'apps/BankAccountData';
+import { workAccountDataInit } from 'apps/WorkAccountData';
+import { payrollAccountDataInit } from 'apps/PayrollAccountData';
 import { compact } from 'lodash';
 import { storeAction } from 'state/store.utils';
 import { ProductTypes } from 'models/Product.model';
@@ -32,9 +36,13 @@ export const productInit = () => (dispatch) => {
     dispatch(govCheckInit()),
     dispatch(creditCheckInit()),
     dispatch(deviceFingerprintInit()),
+    dispatch(bankAccountDataInit()),
+    dispatch(workAccountDataInit()),
+    dispatch(payrollAccountDataInit()),
     dispatch(metadataInit()),
     dispatch(customDocumentInit()),
     dispatch(certifiedTimestampInit()),
+    dispatch(customWatchlistInit()),
     dispatch(eSignatureInit()),
   ];
   dispatch(productRegisteredUpdate(compact(registered)));

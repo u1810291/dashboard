@@ -21,6 +21,7 @@ export enum VerificationPatternTypes {
   CostaRicanAtv = 'costa-rican-atv-validation',
   CostaRicanTse = 'costa-rican-tse-validation',
   CostaRicanSocialSecurity = 'costa-rican-social-security-validation',
+  CustomWatchlistsValidation = 'custom-watchlists-validation',
   DominicanJce = 'dominican-jce-validation',
   DuplicateUserDetection = 'duplicate-user-detection',
   DuplicateUserValidation = 'duplicate-user-detection',
@@ -52,6 +53,9 @@ export enum VerificationPatternTypes {
   DocumentReading = 'document-reading',
   VpnDetection = 'vpn-detection',
   ESignatureDocuments = 'electronic-signature-document-validation',
+  FinancialInformationBankAccountsRetrieving = 'financial-information-bank-accounts-retrieving',
+  FinancialInformationWorkAccountsRetrieving = 'financial-information-work-accounts-retrieving',
+  FinancialInformationPayrollAccountsRetrieving = 'financial-information-payroll-accounts-retrieving',
 }
 
 export interface VerificationPatterns {
@@ -75,6 +79,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.CostaRicanAtv]?: boolean;
   [VerificationPatternTypes.CostaRicanTse]?: boolean;
   [VerificationPatternTypes.CostaRicanSocialSecurity]?: boolean;
+  [VerificationPatternTypes.CustomWatchlistsValidation]?: boolean;
   [VerificationPatternTypes.DominicanJce]?: boolean;
   [VerificationPatternTypes.ParaguayanRcp]?: boolean;
   [VerificationPatternTypes.DuplicateUserDetection]?: boolean;
@@ -100,4 +105,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.EmailOwnershipValidation]?: string;
   [VerificationPatternTypes.VpnDetection]?: boolean;
   [VerificationPatternTypes.ESignatureDocuments]?: boolean;
+  [VerificationPatternTypes.FinancialInformationBankAccountsRetrieving]?: boolean;
+  [VerificationPatternTypes.FinancialInformationWorkAccountsRetrieving]?: boolean;
+  [VerificationPatternTypes.FinancialInformationPayrollAccountsRetrieving]?: boolean;
 }

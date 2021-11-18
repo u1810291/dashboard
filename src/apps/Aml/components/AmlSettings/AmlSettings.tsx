@@ -1,10 +1,10 @@
-import { Box, Switch, Typography, Slider } from '@material-ui/core';
+import { Box, Switch, Typography } from '@material-ui/core';
 import { BoxBordered, ExtendedDescription } from 'apps/ui';
 import { cloneDeep } from 'lodash';
 import { useDebounce } from 'lib/debounce.hook';
-import classnames from 'classnames';
 import { ProductSettingsProps } from 'models/Product.model';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { RangeSlider } from 'apps/ui/components/RangeSlider/RangeSlider';
 import { useIntl } from 'react-intl';
 import { AmlCheckTypes, AmlSettingsTypes } from '../../models/Aml.model';
 import { useStyles } from './AmsSettings.styles';
@@ -44,37 +44,13 @@ export function AmlSettings({ settings, onUpdate }: ProductSettingsProps<AmlSett
   }, [onUpdate, settings]);
 
   const handleSliderChange = useCallback(
-    (_: Object, value: number | number[]) => {
+    (event: React.ChangeEvent<{}>, value: number | number[]) => {
       const newSettings = cloneDeep(settings);
       newSettings[AmlSettingsTypes.AmlThreshold].value = value;
       debounced(() => onUpdate(newSettings));
     },
     [onUpdate, settings, debounced],
   );
-
-  const marks = useMemo(() => {
-    const result: { value: number; label?: React.ReactNode }[] = new Array(11).fill(1).map((_: number, index: number) => ({ value: index * 10 }));
-    result[0].label = (
-      <>
-        <span className={classes.sliderPointValue}>0</span>
-        <span className={classnames(classes.sliderPointText, classes.sliderPointFirst)}>{intl.formatMessage({ id: 'AmlCheck.settings.fuzzinessParameter.slider.StrictMatch' })}</span>
-      </>
-    );
-    result[5].label = (
-      <>
-        <span className={classes.sliderPointValue}>50</span>
-        <span className={classnames(classes.sliderPointText, classes.sliderPointMiddle)}>{intl.formatMessage({ id: 'AmlCheck.settings.fuzzinessParameter.slider.Optimal' })}</span>
-      </>
-    );
-    result[10].label = (
-      <>
-        <span className={classes.sliderPointValue}>100</span>
-        <span className={classnames(classes.sliderPointText, classes.sliderPointLast)}>{intl.formatMessage({ id: 'AmlCheck.settings.fuzzinessParameter.slider.FuzzyMatch' })}</span>
-      </>
-    );
-
-    return result;
-  }, [intl, classes]);
 
   return (
     <Box>
@@ -93,13 +69,8 @@ export function AmlSettings({ settings, onUpdate }: ProductSettingsProps<AmlSett
         <Box color="common.black75" mb={2}>
           {intl.formatMessage({ id: 'AmlCheck.settings.fuzzinessParameter.description' })}
         </Box>
-        <Slider
+        <RangeSlider
           defaultValue={amlThreshold}
-          valueLabelDisplay="auto"
-          step={10}
-          marks={marks}
-          min={0}
-          max={100}
           onChange={handleSliderChange}
         />
       </Box>

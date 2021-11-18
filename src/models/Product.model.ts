@@ -1,3 +1,4 @@
+import React from 'react';
 import { IFlow } from 'models/Flow.model';
 import { IconType } from 'react-icons';
 import { VerificationResponse } from './Verification.model';
@@ -15,7 +16,11 @@ export enum ProductTypes {
   EmailCheck = 'EmailCheck',
   CustomDocuments = 'CustomDocuments',
   CertifiedTimestamp = 'CertifiedTimestamp',
+  CustomWatchlist = 'CustomWatchlist',
   ESignatureCheck = 'eSignatureCheck',
+  BankAccountData = 'BankAccountData',
+  WorkAccountData = 'WorkAccountData',
+  PayrollAccountData = 'PayrollAccountData',
   // additional
   Metadata = 'Metadata',
 }
@@ -58,12 +63,13 @@ export enum ProductInputTypes {
   NameAndDobOrDocument = 'nameAndDobOrDocument',
   EmailAddress = 'emailAddress',
   CustomDocuments = 'customDocuments',
-  Sign = 'sign'
+  Sign = 'sign',
+  AccountCredentials = 'accountCredentials',
 }
 
 export interface IProductCard {
   id: ProductTypes;
-  icon: IconType;
+  icon: IconType | (() => React.ReactNode);
   order: number;
   title: string;
   inputs: ProductInputTypes[];
