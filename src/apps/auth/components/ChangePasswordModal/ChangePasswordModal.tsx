@@ -1,3 +1,4 @@
+import { ErrorStatuses } from 'models/Error.model';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -22,7 +23,7 @@ export function ChangePasswordModal({ onClose }: {
 }) {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { register, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm<ChangePasswordModalInputs>();
+  const { register, handleSubmit, watch, setError, formState: { errors, isSubmitting } } = useForm<ChangePasswordModalInputs>();
 
   const oldPasswordRegister = register(AuthInputTypes.OldPassword, { required: intl.formatMessage({ id: 'validations.required' }) });
   const passwordRegister = register(AuthInputTypes.Password, {
@@ -46,10 +47,28 @@ export function ChangePasswordModal({ onClose }: {
       await dispatch(passwordChange({ password, oldPassword }));
       onClose();
     } catch (error) {
-      // TODO: @ggrigorev DIO-777 prevent last passwords from being used again
-      notification.error(intl.formatMessage({ id: 'personalSettings.errors.password' }));
+      switch (error?.response?.status) {
+        case ErrorStatuses.ValidationError:
+          setError(AuthInputTypes.OldPassword, {
+            type: 'manual',
+            message: intl.formatMessage({ id: 'personalSettings.errors.password' }),
+          });
+          break;
+        case ErrorStatuses.PasswordWasUsedBefore:
+          setError(AuthInputTypes.Password, {
+            type: 'manual',
+            message: intl.formatMessage({ id: 'PasswordReset.error.usedPassword' }),
+          });
+          break;
+        case ErrorStatuses.TooManyRequests:
+          notification.error(intl.formatMessage({ id: 'SignIn.form.error.tooManyRequest' }));
+          break;
+        default:
+          notification.error(intl.formatMessage({ id: 'Error.common' }));
+          break;
+      }
     }
-  }, [onClose, dispatch, intl]);
+  }, [onClose, dispatch, setError, intl]);
 
   return (
     <Modal
