@@ -14,7 +14,7 @@ export function useOverlay(): [(children: React.ReactNode, opts?: OverlayOptions
     dispatch(overlayCreate({
       children,
       options: {
-        onClose: closeOverlay,
+        onClose: closeOverlay, // this onClose will be called when you click on the overlay around the modal
         ...opts,
       },
     }));
