@@ -21,10 +21,8 @@ import { useStyles } from './VerificationSteps.styles';
 type CustomizableDocumentType = DocumentTypes | string;
 type CustomizableVerificationSteps = CustomizableDocumentType[][];
 
-export function removeItem(steps: CustomizableVerificationSteps, index: number): CustomizableVerificationSteps {
-  const updatedSteps = [...steps];
-  updatedSteps.splice(index, 1);
-  return updatedSteps;
+export function removeItem(steps: CustomizableVerificationSteps, step: string[]): CustomizableVerificationSteps {
+  return steps.filter((item: CustomizableDocumentType[]) => item !== step);
 }
 
 export function replaceItem(steps: CustomizableVerificationSteps, index: number, values: CustomizableDocumentType[]): CustomizableVerificationSteps {
@@ -97,10 +95,10 @@ export function VerificationSteps({
   const avalibleCustomDocuments = useMemo(() => accessibleCustomItems(merchantCustomDocumentsModel?.value, custom), [merchantCustomDocumentsModel, custom]);
 
   const handleRemoveItem = useCallback(
-    async (index) => {
+    async (step) => {
       try {
         await confirm();
-        onChange({ verificationSteps: removeItem(steps, index) });
+        onChange({ verificationSteps: removeItem(steps, step) });
       } catch (e) {
         // none, canceled
       }
@@ -164,7 +162,7 @@ export function VerificationSteps({
 
       {/* regular documents */}
       {regular.map((step, index) => (
-        <React.Fragment key={index}>
+        <React.Fragment key={step}>
           <Box mt={2}>
             <Typography variant="h6" color="primary" gutterBottom>
               {intl.formatMessage({ id: 'flow.documentTypeStep.stepNo' })}
@@ -188,7 +186,7 @@ export function VerificationSteps({
                   <FiEdit2 />
                 </IconButton>
                 <Box ml={1}>
-                  <IconButton size="small" onClick={() => handleRemoveItem(index)}>
+                  <IconButton size="small" onClick={() => handleRemoveItem(step)}>
                     <FiTrash2 className="color-red" />
                   </IconButton>
                 </Box>
@@ -219,7 +217,7 @@ export function VerificationSteps({
           </Typography>
 
           {custom.map((step, index) => (
-            <React.Fragment key={index}>
+            <React.Fragment key={step}>
               <Box mt={2}>
                 <Typography variant="h6" color="primary" gutterBottom>
                   {intl.formatMessage({ id: 'flow.documentTypeStep.stepNo' })}
@@ -246,7 +244,7 @@ export function VerificationSteps({
                       </IconButton>
                     )}
                     <Box ml={1}>
-                      <IconButton size="small" onClick={() => handleRemoveItem(index)}>
+                      <IconButton size="small" onClick={() => handleRemoveItem(step)}>
                         <FiTrash2 className="color-red" />
                       </IconButton>
                     </Box>
