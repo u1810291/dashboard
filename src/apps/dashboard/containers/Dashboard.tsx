@@ -1,5 +1,5 @@
 import { useFullStory } from 'apps/AppBootstrap';
-import { Layout, PageError } from 'apps/layout';
+import { Layout, PageError, useAfkListenerLogout } from 'apps/layout';
 import { Loader } from 'apps/ui';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { Routes } from 'models/Router.model';
@@ -25,31 +25,34 @@ import { DashboardRouter } from './Dashboard.router';
 export function Dashboard() {
   const dispatch = useDispatch();
   const intl = useIntl();
+  const { asMerchantId } = useQuery();
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
   const countriesModel = useSelector(selectAllCountriesModel);
   const clientIdModel = useSelector(selectClientIdModel);
   const flowBuilderMatch = useRouteMatch(Routes.flow.details);
   const identityProfileMatch = useRouteMatch(Routes.identity.profile.details.root);
-  const { asMerchantId } = useQuery();
-
-  const [isError, setIsError] = useState(false);
   const merchantModel = useLoadMerchant();
+  const [isError, setIsError] = useState(false);
+  useFullStory();
+  useAfkListenerLogout();
+  useIntercom();
+  useBeamerScript();
 
   useEffect(() => {
-    const loadData = async () => {
+    (async () => {
       if (LoadableAdapter.isPristine(countriesModel)) {
-        await dispatch(loadCountries())
-          .catch((error) => {
-            setIsError(true);
-            console.error(error);
-          });
+        try {
+          await dispatch(loadCountries());
+        } catch (error) {
+          setIsError(true);
+          console.error(error);
+        }
       }
-    };
-    loadData();
+    })();
   }, [dispatch, countriesModel]);
 
   useEffect(() => {
-    const loadData = async () => {
+    (async () => {
       if (LoadableAdapter.isPristine(clientIdModel)) {
         try {
           await dispatch(appLoad());
@@ -58,23 +61,19 @@ export function Dashboard() {
           console.error(error);
         }
       }
-    };
-    loadData();
+    })();
   }, [clientIdModel, dispatch]);
 
   useEffect(() => {
     if (merchantModel.isLoaded && LoadableAdapter.isPristine(merchantFlowsModel)) {
-      dispatch(merchantFlowsLoad(asMerchantId))
-        .catch((error) => {
-          setIsError(true);
-          console.error(error);
-        });
+      try {
+        dispatch(merchantFlowsLoad(asMerchantId));
+      } catch (error) {
+        setIsError(true);
+        console.error(error);
+      }
     }
   }, [asMerchantId, dispatch, merchantFlowsModel, merchantModel]);
-
-  useIntercom();
-  useFullStory();
-  useBeamerScript();
 
   if (isError) {
     return (

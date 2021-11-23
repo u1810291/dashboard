@@ -1873,6 +1873,7 @@
   "csv.loading": "CSV loading...",
   "currency": "${value}",
   "dashboard.logout.quit": "Quit",
+  "dashboard.logout.afk": "Your account has been idle for last {duration} mins, you’ll be automatically logged out in a minute",
   "dashboard.logout.subtitle": "Are you sure you want to quit?",
   "dashboard.logout.title": "Logout",
   "dashboard.menu.account": "Account",
