@@ -15,6 +15,8 @@ import { isChangeableStatus } from './Status.model';
 import { DocumentStepTypes, getStepExtra, StepTypes } from './Step.model';
 import { VerificationPatternTypes } from './VerificationPatterns.model';
 
+export type IdentityId = string; // use only if you are sure that this is identity id, not verification id
+
 export enum VerificationSummaryTitleTypes {
   document = 'document',
   additional = 'additional',

@@ -1,15 +1,17 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Grid, Typography, InputLabel, AppBar, Box, TextField } from '@material-ui/core';
+import { notification } from 'apps/ui';
 import { EMAIL_REG_EXP } from 'lib/validations';
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3.svg';
 import SignInSession from 'assets/signin-session.png';
 import SignInService from 'assets/signin-service.png';
 import { IntlButton } from 'apps/intl';
 import { Routes } from 'models/Router.model';
+import { ErrorStatuses } from 'models/Error.model';
 import { QATags } from 'models/QA.model';
 import { useStyles } from './SignIn.styles';
 import { signIn } from '../../state/auth.actions';
@@ -26,8 +28,7 @@ export function SignIn() {
   const history = useHistory();
   const classes = useStyles();
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const { register, handleSubmit, setError, formState: { errors } } = useForm<SignInInputs>();
+  const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<SignInInputs>();
 
   const emailRegister = register(AuthInputTypes.Email, {
     required: intl.formatMessage({ id: 'validations.required' }),
@@ -40,16 +41,27 @@ export function SignIn() {
 
   const handleFormSubmit: SubmitHandler<SignInInputs> = useCallback(async (data) => {
     try {
-      setIsSubmitting(true);
       await dispatch(signIn(data));
-      setIsSubmitting(false);
       history.push(Routes.root);
     } catch (error) {
-      setIsSubmitting(false);
-      setError(AuthInputTypes.Password, {
-        type: 'manual',
-        message: intl.formatMessage({ id: 'SignIn.form.authError' }),
-      });
+      const status = error?.response?.status;
+
+      switch (status) {
+        case ErrorStatuses.WrongCredentials:
+          setError(AuthInputTypes.Password, {
+            type: 'manual',
+            message: intl.formatMessage({ id: 'SignIn.form.error.wrongCredentials' }),
+          });
+          break;
+        case ErrorStatuses.BlockedByMerchant:
+          notification.error(intl.formatMessage({ id: 'SignIn.form.error.blocked' }));
+          break;
+        case ErrorStatuses.TooManyRequests:
+          notification.error(intl.formatMessage({ id: 'SignIn.form.error.tooManyRequest' }));
+          break;
+        default:
+          notification.error(intl.formatMessage({ id: 'Error.common' }));
+      }
     }
   }, [dispatch, history, intl, setError]);
 

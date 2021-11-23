@@ -13,3 +13,7 @@ export function getQueryFromObject(queryParams: {[p: string]: string}): string |
 export function goToStartPage() {
   window.location.replace(`${Routes.analytics.root}`);
 }
+
+export function goToPage(url: string) {
+  window.location.replace(url);
+}

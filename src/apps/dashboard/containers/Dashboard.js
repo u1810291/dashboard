@@ -8,8 +8,8 @@ import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
-import { loadCountries, loadCountriesOnlyExisting } from 'state/countries/countries.actions';
-import { selectAllCountriesModel, selectCountriesOnlyExisting } from 'state/countries/countries.selectors';
+import { loadCountries } from 'state/countries/countries.actions';
+import { selectAllCountriesModel } from 'state/countries/countries.selectors';
 import { appLoad, merchantFlowsLoad } from 'state/merchant/merchant.actions';
 import { selectClientIdModel, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { reloadPage } from 'lib/window';
@@ -27,7 +27,6 @@ export function Dashboard() {
   const intl = useIntl();
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
   const countriesModel = useSelector(selectAllCountriesModel);
-  const countriesOnlyExistingModel = useSelector(selectCountriesOnlyExisting);
   const clientIdModel = useSelector(selectClientIdModel);
   const flowBuilderMatch = useRouteMatch(Routes.flow.details);
   const identityProfileMatch = useRouteMatch(Routes.identity.profile.details.root);
@@ -48,20 +47,6 @@ export function Dashboard() {
     };
     loadData();
   }, [dispatch, countriesModel]);
-
-  useEffect(() => {
-    const loadData = async () => {
-      if (LoadableAdapter.isPristine(countriesOnlyExistingModel)) {
-        try {
-          await dispatch(loadCountriesOnlyExisting());
-        } catch (error) {
-          setIsError(true);
-          console.error(error);
-        }
-      }
-    };
-    loadData();
-  }, [dispatch, countriesOnlyExistingModel]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -99,7 +84,7 @@ export function Dashboard() {
     );
   }
 
-  if (!countriesModel.isLoaded || !merchantFlowsModel.isLoaded || !countriesOnlyExistingModel.isLoaded) {
+  if (!countriesModel.isLoaded || !merchantFlowsModel.isLoaded) {
     return <Loader />;
   }
 

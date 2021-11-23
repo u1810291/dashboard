@@ -7,11 +7,10 @@ import { Routes } from 'models/Router.model';
 import { CenterContent } from '../../components/CenterContent/CenterContent';
 import { ReactComponent as Image500 } from './500.svg';
 
-export interface PageErrorProps{
-  onRetry: () => void;
-}
-
-export function PageError({ onRetry }: PageErrorProps) {
+export function PageError({ onRetry, linkTo = Routes.root }: {
+  onRetry?: () => void;
+  linkTo?: string;
+}) {
   const intl = useIntl();
 
   return (
@@ -24,7 +23,7 @@ export function PageError({ onRetry }: PageErrorProps) {
           <Typography variant="h2" gutterBottom>{intl.formatMessage({ id: 'PageError.title' })}</Typography>
           <Typography variant="subtitle1" gutterBottom>{intl.formatMessage({ id: 'PageError.subtitle' })}</Typography>
           <Box mt={2}>
-            <NavLink to={Routes.root}>
+            <NavLink to={linkTo}>
               <Button
                 color="primary"
                 variant="contained"

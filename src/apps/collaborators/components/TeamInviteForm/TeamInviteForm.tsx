@@ -6,7 +6,7 @@ import { notification } from 'apps/ui';
 import { CLEAN_TEXT_REG_EXP, EMAIL_REG_EXP } from 'lib/validations';
 import { CollaboratorInputTypes, CollaboratorOptions, CollaboratorRoles } from 'models/Collaborator.model';
 import { QATags } from 'models/QA.model';
-import { RoleField } from '../../RoleField/RoleField';
+import { RoleField } from '../RoleField/RoleField';
 import { useStyles } from './TeamInviteForm.styles';
 
 interface TeamInviteFormInputs {

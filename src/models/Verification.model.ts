@@ -7,8 +7,10 @@ import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { IFlow } from './Flow.model';
 import { getIpCheckStep } from './IpCheck.model';
 import { getReVerificationStep } from './ReVerification.model';
-import { DocumentStepTypes, getStepExtra, StepTypes, VerificationStepTypes } from './Step.model';
+import { DocumentStepTypes, getStepExtra, StepTypes, VerificationDocStepTypes } from './Step.model';
 import { DigitalSignature } from './DigitalSignature.model';
+
+export type VerificationId = string;
 
 export interface VerificationListItem {
   flowId: string;
@@ -23,9 +25,9 @@ export interface VerificationListItem {
 }
 
 export interface PassedVerificationByFlow {
-    flowName: string;
-    flowId: string;
-    verifications: VerificationListItem[];
+  flowName: string;
+  flowId: string;
+  verifications: VerificationListItem[];
 }
 
 export interface IVerificationStatusDetails {
@@ -35,12 +37,13 @@ export interface IVerificationStatusDetails {
   updatedBy: null | string;
 }
 
-export interface VerificationResponse {
+export interface VerificationResponse<StepData = any> {
   createdAt: string;
   documents: any[];
   flow: IFlow;
   identity: string;
   inputs: any[];
+  // steps: IStep<StepData>[];
   steps: any[];
   summary: any;
   verificationStatus: IdentityStatuses;
@@ -97,9 +100,9 @@ export function getVerificationExtras(verification: VerificationResponse, countr
   let ageCheck;
   let premiumAmlWatchlistsMonitoringStep;
   documents.forEach((doc) => {
-    duplicateUserDetectionStep = duplicateUserDetectionStep || doc?.steps?.find((item) => item.id === VerificationStepTypes.DuplicateUserValidation);
+    duplicateUserDetectionStep = duplicateUserDetectionStep || doc?.steps?.find((item) => item.id === VerificationDocStepTypes.DuplicateUserValidation);
 
-    const documentsAgeCheck = doc?.steps?.find((item) => item?.id === VerificationStepTypes.AgeValidation);
+    const documentsAgeCheck = doc?.steps?.find((item) => item?.id === VerificationDocStepTypes.AgeValidation);
     ageCheck = ageCheck?.error || !documentsAgeCheck ? ageCheck : documentsAgeCheck;
 
     const premiumAmlWatchlistsMonitoring = doc?.steps?.find((item) => item?.id === DocumentStepTypes.PremiumAmlWatchlistsCheck);

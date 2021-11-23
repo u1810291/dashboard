@@ -1,5 +1,6 @@
 import { DocumentStepTypes } from 'models/Step.model';
-import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
+import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
+import { BiometricTypes } from 'models/Biometric.model';
 
 export enum GovernmentCheckSettingTypes {
   PostponedTimeout = 'postponedTimeout',
@@ -17,11 +18,15 @@ export enum GovCheckStepTypes {
 }
 
 export const verificationPatternsGovchecksDefault = {
+  [VerificationPatternTypes.ArgentinianAfip]: false,
+  [VerificationPatternTypes.ArgentinianAnses]: false,
   [VerificationPatternTypes.ArgentinianDni]: false,
   [VerificationPatternTypes.ArgentinianRenaper]: false,
+  [VerificationPatternTypes.ArgentinianRenaperFacematch]: false,
   [VerificationPatternTypes.BolivianOep]: false,
   [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
   [VerificationPatternTypes.ChileanRegistroCivil]: false,
+  [VerificationPatternTypes.ColombianBdua]: false,
   [VerificationPatternTypes.ColombianContraloria]: false,
   [VerificationPatternTypes.ColombianNationalPolice]: false,
   [VerificationPatternTypes.ColombianNit]: false,
@@ -36,6 +41,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.GhanaianGra]: false,
   [VerificationPatternTypes.GuatemalanTse]: false,
   [VerificationPatternTypes.HonduranRnp]: false,
+  [VerificationPatternTypes.KenyanEcitizen]: false,
   [VerificationPatternTypes.MexicanCurp]: false,
   [VerificationPatternTypes.MexicanIne]: false,
   [VerificationPatternTypes.MexicanPep]: false,
@@ -69,6 +75,7 @@ export enum GovCheckCountryTypes {
   Guatemala = 'guatemala',
   Honduras = 'honduras',
   Dominican = 'dominican',
+  Kenya = 'kenya',
   Mexico = 'mexico',
   Paraguay = 'paraguay',
   Peru = 'peru',
@@ -90,6 +97,7 @@ export const govCheckCountriesOrder = [
   GovCheckCountryTypes.Guatemala,
   GovCheckCountryTypes.Honduras,
   GovCheckCountryTypes.Mexico,
+  GovCheckCountryTypes.Kenya,
   GovCheckCountryTypes.Paraguay,
   GovCheckCountryTypes.Peru,
   GovCheckCountryTypes.Salvador,
@@ -97,12 +105,22 @@ export const govCheckCountriesOrder = [
   GovCheckCountryTypes.Venezuela,
 ];
 
-export interface GovCheck{
+export interface GovCheckOptions {
+  description: boolean;
+  // TODO: @richvoronov figure out with types
   id: string;
+  stepTypeAlias?: GovCheckStepTypes;
+  value?: boolean;
+}
+
+export interface GovCheck {
+  // TODO: @richvoronov figure out with types
+  id: VerificationPatternTypes;
   default: boolean;
   stepTypeAlias?: GovCheckStepTypes;
-  option?: any;
+  option?: GovCheckOptions;
   value?: boolean;
+  description?: boolean;
 }
 
 export interface GovCheckConfiguration{
@@ -114,9 +132,22 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
   {
     country: GovCheckCountryTypes.Argentina,
     checks: [
+      // {
+      //   id: DocumentStepTypes.ArgentinianAnses,
+      //   default: false,
+      // },
       {
         id: DocumentStepTypes.ArgentinianRenaper,
         default: false,
+        option: {
+          id: DocumentStepTypes.ArgentinianAfip,
+          description: false,
+        },
+      },
+      {
+        id: DocumentStepTypes.ArgentinianRenaperFacematch,
+        default: false,
+        description: true,
       },
       {
         id: DocumentStepTypes.ArgentinianDni,
@@ -139,7 +170,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         default: false,
         stepTypeAlias: GovCheckTypesForStep[DocumentStepTypes.BrazilianCpf].cpf,
         option: {
-          id: 'facematch',
+          id: DocumentStepTypes.FaceMatch,
           stepTypeAlias: GovCheckTypesForStep[DocumentStepTypes.BrazilianCpf].cpfFacematch,
           description: true,
         },
@@ -156,6 +187,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
   }, {
     country: GovCheckCountryTypes.Colombia,
     checks: [
+      {
+        id: DocumentStepTypes.ColombianBdua,
+        default: false,
+      },
       {
         id: DocumentStepTypes.ColombianContraloria,
         default: false,
@@ -241,6 +276,15 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     ],
   },
   {
+    country: GovCheckCountryTypes.Kenya,
+    checks: [
+      {
+        id: DocumentStepTypes.KenyanEcitizen,
+        default: false,
+      },
+    ],
+  },
+  {
     country: GovCheckCountryTypes.Mexico,
     checks: [
       {
@@ -277,11 +321,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         id: DocumentStepTypes.PeruvianReniec,
         default: false,
       },
-      // TODO: Arkadii: uncomment here after sunat scraper fix
-      // {
-      //   id: DocumentStepTypes.PeruvianSunat,
-      //   default: false,
-      // },
+      {
+        id: DocumentStepTypes.PeruvianSunat,
+        default: false,
+      },
     ],
   },
   {
@@ -478,13 +521,7 @@ export const govCheckDisplayOptions = {
       inline: true,
     },
   },
-  [DocumentStepTypes.PeruvianSunat]: {
-    fullName: {},
-    isSunat: {},
-    sunatData: {
-      hidden: true,
-    },
-  },
+  [DocumentStepTypes.PeruvianSunat]: {},
   [DocumentStepTypes.SalvadorianTse]: {
     fullName: {},
     documentNumber: {},
@@ -516,25 +553,43 @@ export const govCheckDisplayOptions = {
   },
 };
 
-export function govCheckParse(list: GovCheck[], pattern): GovCheck[] {
+export function govCheckParse(list: GovCheck[], patterns: VerificationPatterns): GovCheck[] {
   return list.map((item) => {
-    let value;
     if (item.option) {
-      value = pattern[item.id] && pattern[item.id] !== GovCheckTypesForStep[item.id].none;
+      // VerificationPatters can have boolean or string type, so let's devide logic here for better readability
+      if (typeof patterns[item.id] === 'boolean') {
+        return {
+          ...item,
+          option: {
+            ...item.option,
+            value: patterns[item.option.id],
+          },
+          value: patterns[item.id],
+        };
+      }
+
+      if (typeof patterns[item.id] === 'string') {
+        const value = patterns[item.id] && patterns[item.id] !== GovCheckTypesForStep[item.id]?.none;
+        return {
+          ...item,
+          option: {
+            ...item.option,
+            value: item.option.stepTypeAlias === patterns[item.id],
+          },
+          value,
+        };
+      }
+
       return {
         ...item,
-        option: {
-          ...item.option,
-          value: item.option.stepTypeAlias === pattern[item.id],
-        },
-        value,
+        value: item.default,
       };
     }
 
     return {
       ...item,
-      value: pattern[item.id] !== undefined
-        ? pattern[item.id] && pattern[item.id] !== GovCheckTypesForStep[item.id]?.none
+      value: patterns[item.id] !== undefined
+        ? patterns[item.id] && patterns[item.id] !== GovCheckTypesForStep[item.id]?.none
         : item.default,
     };
   });
@@ -557,4 +612,26 @@ export function convertTimeToHoursAndMinutes(ptTime) {
     hours: parseInt(result[0], 10) || 0,
     minutes: parseInt(result[1], 10) || 0,
   };
+}
+
+export function isGovCheckOptionDisabled(govCheck: GovCheck, verificationPattern: VerificationPatterns): boolean {
+  if (govCheck.id === DocumentStepTypes.BrazilianCpf) {
+    const isCorrectBiometricsEnabled = [BiometricTypes.liveness.toString(), BiometricTypes.selfie.toString(), BiometricTypes.voiceLiveness.toString()].includes(verificationPattern[VerificationPatternTypes.Biometrics]);
+    return !govCheck.value || !isCorrectBiometricsEnabled;
+  }
+
+  if (govCheck.id === DocumentStepTypes.ArgentinianRenaper) {
+    return !govCheck.value;
+  }
+
+  return false;
+}
+
+export function isGovCheckDisabled(govCheck: GovCheck, verificationPattern: VerificationPatterns): boolean {
+  if (govCheck.id === DocumentStepTypes.ArgentinianRenaperFacematch) {
+    const isCorrectBiometricsEnabled = [BiometricTypes.liveness.toString(), BiometricTypes.selfie.toString(), BiometricTypes.voiceLiveness.toString()].includes(verificationPattern[VerificationPatternTypes.Biometrics]);
+    return !isCorrectBiometricsEnabled;
+  }
+
+  return false;
 }

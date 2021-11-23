@@ -13,7 +13,7 @@ export function getMerchantApps() {
 }
 
 export function uploadMerchantMedia(form) {
-  return http.post('/v1/media', form);
+  return http.post('/api/v1/media', form);
 }
 
 export function saveBusinessName(businessName) {

@@ -1,5 +1,9 @@
 import { transform, isEqual, isObject as lodashIsObject } from 'lodash';
 
+export type Serializable<T> = {
+  [Property in keyof T]?: string | number | boolean;
+}
+
 /**
  * Deep diff between two object, using lodash
  * @param  {Object} values Object compared

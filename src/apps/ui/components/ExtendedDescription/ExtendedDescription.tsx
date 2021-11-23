@@ -5,7 +5,7 @@ import { useStyles } from './ExtendedDescription.styles';
 
 interface ExtendedDescriptionProps {
   title: string;
-  text: ReactNode;
+  text?: ReactNode;
   prefix?: ReactNode;
   postfix?: ReactNode;
   badge?: ReactNode;
@@ -37,7 +37,7 @@ export function ExtendedDescription({ title, text, prefix, postfix, className, c
           </Grid>
         </Box>
       </Grid>
-      <Box mr={postfix ? 2.5 : 0} fontSize={textFontSize} color="common.black75">{text}</Box>
+      {text && <Box mr={postfix ? 2.5 : 0} fontSize={textFontSize} color="common.black75">{text}</Box>}
       {children && (
         <Grid item xs={12}>
           <Box mt={2}>

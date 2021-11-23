@@ -16,6 +16,7 @@ export enum AppDarkPalette {
   black90 = '#232939',
   black90opacity = 'rgba(35, 41, 57, 0.9)',
   red = '#fe7581',
+  redhover = '#fe8188',
   redorange = '#ff3636',
   redopacity = 'rgba(255, 231, 232, .6)',
   lightgray = '#dcdcdc',
