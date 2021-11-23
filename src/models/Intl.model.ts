@@ -8,6 +8,18 @@ export enum SupportedLocales {
   ptBR = 'pt-BR',
 }
 
+export enum FullSupportedLocales {
+  EN ='en-US',
+  ES = 'es-ES',
+  ptBR = 'pt-BR',
+}
+
+export const SupportedLocaleToFullLocale = {
+  [SupportedLocales.EN]: FullSupportedLocales.EN,
+  [SupportedLocales.ES]: FullSupportedLocales.ES,
+  [SupportedLocales.ptBR]: FullSupportedLocales.ptBR,
+};
+
 export const DEFAULT_LOCALE = SupportedLocales.EN;
 
 export const LanguageList = [
