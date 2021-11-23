@@ -6,6 +6,7 @@ import { InputLabel, Typography } from '@material-ui/core';
 import { useIntl } from 'react-intl';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
 import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, CustomWatchlistFileExt } from 'models/CustomWatchlist.model';
+import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { WithActionDescriptionBordered } from 'apps/ui/components/WithActionDescriptionBordered/WithActionDescriptionBordered';
 import { useStyles, RoundedButton } from './CustomWatchlistModalValidationFileUploadForm.styles';
 import * as api from '../../client/CustomWatchlist.client';
@@ -16,6 +17,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
   watchlist?: FlowWatchlistUi;
 }) {
   const intl = useIntl();
+  const merchantId = useSelector(selectMerchantId);
   const isWatchlistsContentLoading = useSelector(selectIsWatchlistsContentLoading);
   const classes = useStyles();
   const [fileName, setFileName] = useState<string>(watchlist?.process?.inputSourceFileName);
@@ -33,15 +35,16 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
     const form = new FormData();
     form.append('media', file);
     try {
-      const { data } = await api.uploadMerchantWatchlist(form);
+      const { data } = await api.uploadMerchantWatchlist(merchantId, form);
+      console.log(data);
       setValue(CustomWatchlistModalValidationInputs.FileUrl, data.publicUrl);
       setError(CustomWatchlistModalValidationInputs.FileUrl, {});
     } catch {
-      // setError(CustomWatchlistModalValidationInputs.FileUrl, {
-      //   message: intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.fileErrorUpload' }),
-      // });
+      setError(CustomWatchlistModalValidationInputs.FileUrl, {
+        message: intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.fileErrorUpload' }),
+      });
     }
-  }, [intl, setValue, setError]);
+  }, [merchantId, intl, setValue, setError]);
 
   const extFile = useMemo(() => {
     const arr = fileName?.split('.') || [];

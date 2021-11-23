@@ -25,6 +25,6 @@ export function updateMerchantWatchlistContentById(merchantId: string, watchlist
   return http.post<{ id: number; process: Pick<WatchlistProcess, 'inputSourceFileName' | 'csvSeparator'> }>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}/content`, body);
 }
 
-export function uploadMerchantWatchlist(body: FormData) {
-  return http.post<CustomWatchlistUpload>('/v1/media', body);
+export function uploadMerchantWatchlist(merchantId: string, body: FormData) {
+  return http.post<CustomWatchlistUpload>(`/api/v1/merchants/${merchantId}/watchlists/file`, body);
 }
