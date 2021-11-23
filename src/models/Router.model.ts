@@ -49,4 +49,5 @@ export const Routes = {
   },
   info: { root: '/info' },
   review: { root: '/review' },
+  productBoard: { root: '/roadmap' },
 };

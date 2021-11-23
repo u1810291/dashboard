@@ -151,7 +151,7 @@ export function DashboardMenu() {
             <Divider className={classes.menuDivider} />
           </Box>
           <Box>
-            <SecondaryMenu isOpen={open} />
+            <SecondaryMenu isOwner={isOwner} isOpen={open} />
           </Box>
         </Grid>
         <Grid item className={classes.contentBottom}>
