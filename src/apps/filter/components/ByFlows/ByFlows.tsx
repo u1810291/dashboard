@@ -1,7 +1,7 @@
 import { Box, Checkbox, FormControl, FormControlLabel, Grid, Paper, Typography } from '@material-ui/core';
 import { useFilterCheckbox } from 'apps/filter/hooks/filterBy.hook';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
-import { FilterChildrenProps } from 'models/Filter.model';
+import { FilterI } from 'models/Filter.model';
 import { verificationsFilterStructure } from 'models/Identity.model';
 import { QATags } from 'models/QA.model';
 import React from 'react';
@@ -13,7 +13,10 @@ import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { useStyles } from './ByFlows.styles';
 
-export const ByFlows = ({ bufferedFilter: { flowIds }, onFilterChange }: Partial<FilterChildrenProps>) => {
+export const ByFlows = ({ bufferedFilter: { flowIds }, onFilterChange }: {
+  bufferedFilter?: Partial<FilterI>;
+  onFilterChange?: (filter: FilterI) => void;
+}) => {
   const intl = useIntl();
   const classes = useStyles();
   const merchantFlowList = useSelector(selectMerchantFlowsModel);

@@ -47,43 +47,28 @@ export interface StepError {
   message: string;
 }
 
-export enum VerificationStepTypes {
+// TODO: @richvoronov refactor this, figure out with types of steps for documents
+export enum VerificationDocStepTypes {
   AgeValidation = 'age-check',
   IpValidation = 'ip-validation',
   DuplicateUserValidation = 'duplicate-user-detection',
 }
 
-export type StepIds = VerificationPatternTypes | StepTypes | VerificationStepTypes;
-
-export interface IStep<DataType = any>{
-  status: number;
-  id: StepIds;
-  error: StepError | null;
-  checkStatus: StepStatus;
-  isTip: boolean;
-  phase: string;
-  startCount: number;
-  startedAt: string;
-  completedAt: string;
-  data?: DataType;
-  inner?: DataType;
-  startedManuallyAt?: string;
-}
-
 export const DocumentStepTypes = {
-  AgeValidation: 'age-check',
-  BolivianOep: VerificationPatternTypes.BolivianOep,
-  DocumentReading: 'document-reading',
   AlternationDetection: 'alteration-detection',
   FaceMatch: 'facematch',
-  TemplateMatching: 'template-matching',
-  CURP: 'mexican-curp-validation',
-  INE: 'mexican-ine-validation',
-  RFC: 'mexican-rfc-validation',
-  BrazilianCpf: 'brazilian-cpf-validation',
+  AgeValidation: VerificationPatternTypes.AgeValidation,
+  BolivianOep: VerificationPatternTypes.BolivianOep,
+  DocumentReading: VerificationPatternTypes.DocumentReading,
+  TemplateMatching: VerificationPatternTypes.TemplateMatching,
+  CURP: VerificationPatternTypes.MexicanCurp,
+  INE: VerificationPatternTypes.MexicanIne,
+  RFC: VerificationPatternTypes.MexicanRfc,
+  BrazilianCpf: VerificationPatternTypes.BrazilianCpf,
   CreditArgentinianFidelitas: VerificationPatternTypes.CreditArgentinianFidelitas,
   CreditBrazilianSerasa: VerificationPatternTypes.CreditBrazilianSerasa,
   ChileanRegistroCivil: VerificationPatternTypes.ChileanRegistroCivil,
+  ColombianBdua: VerificationPatternTypes.ColombianBdua,
   ColombianContraloria: VerificationPatternTypes.ColombianContraloria,
   ColombianNationalPolice: VerificationPatternTypes.ColombianNationalPolice,
   ColombianProcuraduria: VerificationPatternTypes.ColombianProcuraduria,
@@ -91,6 +76,7 @@ export const DocumentStepTypes = {
   MexicanPep: VerificationPatternTypes.MexicanPep,
   ColombianRegistraduria: VerificationPatternTypes.ColombianRegistraduria,
   ArgentinianRenaper: VerificationPatternTypes.ArgentinianRenaper,
+  ArgentinianRenaperFacematch: VerificationPatternTypes.ArgentinianRenaperFacematch,
   EcuadorianSri: VerificationPatternTypes.EcuadorianSri,
   EcuadorianRegistroCivil: VerificationPatternTypes.EcuadorianRegistroCivil,
   GhanaianGra: VerificationPatternTypes.GhanaianGra,
@@ -104,15 +90,50 @@ export const DocumentStepTypes = {
   ArgentinianDni: VerificationPatternTypes.ArgentinianDni,
   SalvadorianTse: VerificationPatternTypes.SalvadorianTse,
   DominicanJce: VerificationPatternTypes.DominicanJce,
-  DuplicateUserDetectionCheck: 'duplicate-user-detection',
+  DuplicateUserDetectionCheck: VerificationPatternTypes.DuplicateUserDetection,
   HonduranRnp: VerificationPatternTypes.HonduranRnp,
-  PremiumAmlWatchlistsCheck: 'premium-aml-watchlists-search-validation',
-  PanamenianTribunalElectoral: 'panamenian-tribunal-electoral-validation',
+  PremiumAmlWatchlistsCheck: VerificationPatternTypes.PremiumAmlWatchListsSearchValidation,
+  PanamenianTribunalElectoral: VerificationPatternTypes.PanamenianTribunalElectoral,
   VenezuelanCne: VerificationPatternTypes.VenezuelanCne,
   VenezuelanSeniat: VerificationPatternTypes.VenezuelanSeniat,
   ReFacematch: VerificationPatternTypes.ReFacematch,
+  KenyanEcitizen: VerificationPatternTypes.KenyanEcitizen,
+  ArgentinianAfip: VerificationPatternTypes.ArgentinianAfip,
+  ArgentinianAnses: VerificationPatternTypes.ArgentinianAnses,
   ...AmlDocumentStepTypes,
 };
+
+export enum VerificationStepTypes {
+  EmailOwnershipValidation = 'email-ownership-validation',
+  EmailRiskValidation = 'email-risk-validation',
+  Liveness = 'liveness',
+  Voice = 'voice',
+  Selfie = 'selfie',
+  Ip = 'ip-validation',
+  PhoneOwnershipValidation = 'phone-ownership-validation',
+  PhoneRiskAnalysisValidation = 'phone-risk-analysis-validation',
+  PhoneRiskValidation = 'phone-risk-analysis-validation',
+  ReFacematch = 're-facematch',
+  DuplicateUserDetection = 'duplicate-user-detection',
+  BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
+}
+
+export type StepIds = VerificationPatternTypes | StepTypes | VerificationDocStepTypes | VerificationStepTypes;
+
+export interface IStep<DataType = any> {
+  status: StepCodeStatus;
+  id: StepIds;
+  error: StepError | null;
+  phase: string;
+  checkStatus?: StepStatus;
+  completedAt?: string;
+  isTip?: boolean;
+  startedAt?: string;
+  startCount?: number;
+  data?: DataType;
+  inner?: DataType;
+  startedManuallyAt?: string;
+}
 
 export enum BiometricStepTypes {
   Liveness = 'liveness',
@@ -147,11 +168,15 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.CURP,
   DocumentStepTypes.INE,
   DocumentStepTypes.RFC,
+  DocumentStepTypes.ArgentinianAfip,
+  DocumentStepTypes.ArgentinianAnses,
   DocumentStepTypes.ArgentinianDni,
   DocumentStepTypes.ArgentinianRenaper,
+  DocumentStepTypes.ArgentinianRenaperFacematch,
   DocumentStepTypes.BolivianOep,
   DocumentStepTypes.BrazilianCpf,
   DocumentStepTypes.ChileanRegistroCivil,
+  DocumentStepTypes.ColombianBdua,
   DocumentStepTypes.ColombianContraloria,
   DocumentStepTypes.ColombianNationalPolice,
   DocumentStepTypes.ColombianNit,
@@ -174,6 +199,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.VenezuelanCne,
   DocumentStepTypes.VenezuelanSeniat,
   DocumentStepTypes.CostaRicanSocialSecurity,
+  DocumentStepTypes.KenyanEcitizen,
 ];
 
 export function hasFailureStep(steps: IStep[]): boolean {
@@ -216,8 +242,11 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.PremiumAmlWatchlistsCheck]: ['premiumAmlWatchlists.notValidParams'],
   [DocumentStepTypes.ParaguayanRcp]: ['paraguayanRcp.notEnoughParams'],
   [DocumentStepTypes.Watchlists]: ['watchlists.notEnoughParams'],
+  [DocumentStepTypes.ArgentinianAfip]: ['argentinianAfip.notEnoughParams'],
+  [DocumentStepTypes.ArgentinianAnses]: ['argentinianAnses.notEnoughParams'],
   [DocumentStepTypes.ArgentinianDni]: ['argentinianDni.notEnoughParams'],
   [DocumentStepTypes.CostaRicanAtv]: ['costaRicanAtv.notEnoughParams'],
+  [DocumentStepTypes.ArgentinianRenaperFacematch]: ['argentinianRenaperFacematch.notEnoughParams'],
   [DocumentStepTypes.BolivianOep]: ['bolivianOep.notEnoughParams'],
   [DocumentStepTypes.ChileanRegistroCivil]: ['chileanRegistroCivil.notEnoughParams'],
   [DocumentStepTypes.ColombianContraloria]: ['colombianContraloria.notEnoughParams'],
@@ -229,6 +258,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.GuatemalanTse]: ['guatemalanTse.notEnoughParams'],
   [DocumentStepTypes.MexicanPep]: ['mexicanPep.notEnoughParams'],
   [DocumentStepTypes.SalvadorianTse]: ['salvadorianTse.notEnoughParams'],
+  [DocumentStepTypes.ColombianBdua]: ['colombianBdua.notEnoughParams'],
   [DocumentStepTypes.ColombianNationalPolice]: ['colombianNationPolice.notEnoughParams'],
   [DocumentStepTypes.ColombianNit]: ['colombianNit.notEnoughParams'],
   [DocumentStepTypes.CostaRicanSocialSecurity]: ['costaRicanSocialSecurity.notEnoughParams'],
@@ -241,6 +271,7 @@ const StepIncompletionErrors = {
   [StepTypes.EmailRisk]: ['emailRisk.notEnoughParams', 'emailRisk.skipped'],
   [DocumentStepTypes.VenezuelanSeniat]: ['venezuelanSeniat.notEnoughParams'],
   [StepTypes.PhoneOwnership]: ['phoneOwnership.notEnoughParams'],
+  [DocumentStepTypes.KenyanEcitizen]: ['kenyanEcitizen.notEnoughParams'],
   [DocumentStepTypes.PeruvianSunat]: ['peruvianSunat.notEnoughParams'],
 };
 
@@ -255,19 +286,19 @@ export const StepSkippedCodes = [
   'customDocument.notProvided',
 ];
 
-function getAltered(step, identity, countries, document) {
+function getAltered(step, verification, countries, document) {
   switch (step.id) {
     case DocumentStepTypes.AlternationDetection:
       return getAlterationReason(step);
     case DocumentStepTypes.FaceMatch: {
-      const steps = get(identity, '_embedded.verification.steps') || [];
+      const steps = get(verification, '_embedded.verification.steps') || [];
       const pooStep = steps.find((item) => item.id === StepTypes.ProofOfOwnership);
-      return getFacematchStepExtra(step, pooStep, identity, document);
+      return getFacematchStepExtra(step, pooStep, verification, document);
     }
     case DocumentStepTypes.TemplateMatching:
-      return getTemplateMatchingStepExtraData(step, identity, countries, document);
+      return getTemplateMatchingStepExtraData(step, verification, countries, document);
     case DocumentStepTypes.PremiumAmlWatchlistsCheck:
-      return getPremiumAmlWatchlistsCheckExtraData(step, document, identity);
+      return getPremiumAmlWatchlistsCheckExtraData(step, document, verification);
     default:
       return step;
   }
@@ -297,18 +328,18 @@ export function getStepStatus({ id, status, error }) {
     : StepStatus.Failure;
 }
 
-export function getStepExtra(step: IStep<any>, identity?: any, countries?: any, document?: any) {
+export function getStepExtra(step: IStep<any>, verification?: any, countries?: any, document?: any) {
   if (!step) {
     return step;
   }
 
-  const altered = getAltered(step, identity, countries, document);
+  const altered = getAltered(step, verification, countries, document);
 
   return {
     ...altered,
     checkStatus: getStepStatus(step),
     // extras (DocumentStepFrontendChecksTypes) and Gov-checks has no tip
-    isTip: Object.values(DocumentStepTypes).includes(step.id) && !CountrySpecificChecks.includes(step.id),
+    isTip: Object.values(DocumentStepTypes).includes(step.id) && !CountrySpecificChecks.includes(step.id as VerificationPatternTypes),
   };
 }
 
@@ -329,9 +360,9 @@ export function getReaderFrontendSteps(readerStep) {
   return steps;
 }
 
-export function getComputedSteps(readerStep, identity, document) {
+export function getComputedSteps(readerStep, verification, document) {
   const steps = [];
-  const isDocumentExpired = identity?.computed?.isDocumentExpired?.data?.[document?.type];
+  const isDocumentExpired = verification?.computed?.isDocumentExpired?.data?.[document?.type];
   const isUndetermined = isNil(isDocumentExpired);
   const isCovid = isCovidTolerance(document.fields?.expirationDate?.value, document.country);
 
@@ -351,14 +382,14 @@ export function getComputedSteps(readerStep, identity, document) {
   return steps;
 }
 
-export function getStepsExtra(steps = [], identity, countries, document) {
+export function getStepsExtra(steps = [], verification, countries, document) {
   const readerStep = getDocumentStep(DocumentStepTypes.DocumentReading, steps);
 
   return [
     ...getReaderFrontendSteps(readerStep),
-    ...getComputedSteps(readerStep, identity, document),
+    ...getComputedSteps(readerStep, verification, document),
     ...steps,
-  ].map((item) => getStepExtra(item, identity, countries, document));
+  ].map((item) => getStepExtra(item, verification, countries, document));
 }
 
 export function isSecondaryGovCheckError(id: string, errorCode: string): boolean {

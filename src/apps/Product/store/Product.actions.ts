@@ -14,6 +14,7 @@ import { ProductTypes } from 'models/Product.model';
 import { biometricVerificationInit } from 'apps/biometricVerification/state/BiometricVerification.actions';
 import { govCheckInit } from 'apps/GovCheck/state/GovCheck.actions';
 import { creditCheckInit } from 'apps/CreditCheck/state/CreditCheck.actions';
+import { backgroundCheckInit } from 'apps/BackgroundCheck/state/BackgroundCheck.actions';
 import { deviceFingerprintInit } from 'apps/DeviceFingerPrint/state/deviceFingerprint.actions';
 import { customDocumentInit } from 'apps/customDocument/state/customDocument.actions';
 import { eSignatureInit } from 'apps/ESignature/state/eSignature.actions';
@@ -42,6 +43,7 @@ export const productInit = () => (dispatch) => {
     dispatch(metadataInit()),
     dispatch(customDocumentInit()),
     dispatch(certifiedTimestampInit()),
+    dispatch(backgroundCheckInit()),
     dispatch(customWatchlistInit()),
     dispatch(eSignatureInit()),
   ];

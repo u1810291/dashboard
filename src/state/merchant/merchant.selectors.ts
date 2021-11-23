@@ -6,7 +6,7 @@ import { BiometricTypes } from 'models/Biometric.model';
 import { IFlow } from 'models/Flow.model';
 import { DEFAULT_LOCALE, LanguageList } from 'models/Intl.model';
 import { Loadable } from 'models/Loadable.model';
-import { Merchant, MerchantTags } from 'models/Merchant.model';
+import { Merchant, MerchantId, MerchantTags } from 'models/Merchant.model';
 import { createSelector } from 'reselect';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { CollaboratorRoles } from 'models/Collaborator.model';
@@ -21,7 +21,7 @@ export const selectMerchantModel = createSelector<any, any, Loadable<Merchant>>(
   (store): Loadable<Merchant> => store[SliceNames.Merchant],
 );
 
-export const selectMerchantId = createSelector(
+export const selectMerchantId = createSelector<any, Loadable<Merchant>, MerchantId>(
   selectMerchantModel,
   selectModelValue((merchant: Merchant): string => merchant.id),
 );

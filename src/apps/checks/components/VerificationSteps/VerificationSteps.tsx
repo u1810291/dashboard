@@ -1,5 +1,5 @@
 import { Box, Button, IconButton, Typography } from '@material-ui/core';
-import { useConfirm, useOverlay } from 'apps/overlay';
+import { useOverlay } from 'apps/overlay';
 import { difference, without } from 'lodash';
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,9 +12,10 @@ import { IFlow } from 'models/Flow.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { merchantCustomDocumentsLoad } from 'state/merchant/merchant.actions';
 import { selectMerchantCustomDocumentsModel, selectMerchantModel, selectMerchantTags } from 'state/merchant/merchant.selectors';
+import { useConfirm } from 'apps/overlay/hooks/oldConfirm.hook';
+import { DenyUploadRequirement } from 'apps/configuration/containers/DenyUploadRequirement/DenyUploadRequirement';
 import { VerificationStepsModal } from '../VerificationStepsModal/VerificationStepsModal';
 import { useStyles } from './VerificationSteps.styles';
-import { DenyUploadRequirement } from '../../../configuration/containers/DenyUploadRequirement/DenyUploadRequirement';
 
 // TODO: use sync with flowbuilder types when product is ready
 type CustomizableDocumentType = DocumentTypes | string;

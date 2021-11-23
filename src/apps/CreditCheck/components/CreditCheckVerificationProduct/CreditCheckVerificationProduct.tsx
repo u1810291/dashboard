@@ -6,10 +6,10 @@ import { Alert, Warning, WarningTypes } from 'apps/ui';
 import ReactJsonViewer from 'react-json-view';
 import { Grid, Box, Typography, Button } from '@material-ui/core';
 import { IdentityStatuses, VerificationStatusChangeReason } from 'models/Status.model';
-import { selectVerification, selectAllVerificationSteps } from 'apps/Verification';
+import { selectVerification, selectVerificationDocumentsSteps } from 'apps/Verification';
 import { DocumentTypes } from 'models/Document.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { IStep, StepCodeStatus } from 'models/Step.model';
+import { StepCodeStatus, IStep } from 'models/Step.model';
 import { CreditCheckStep } from 'models/CreditCheck.model';
 import { creditCheckDisplayOptions } from 'apps/CreditCheck/models/CreditCheck.model';
 import { creditCheckManualRun } from '../../state/CreditCheck.actions';
@@ -21,13 +21,11 @@ export function CreditCheckVerificationProduct() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const verification = useSelector(selectVerification);
-  const verificationSteps = useSelector(selectAllVerificationSteps);
+  const verificationDocumentsSteps = useSelector(selectVerificationDocumentsSteps);
 
-  // TODO: @richvoronov исправить логику поиска step, после внесения соответствующего изменения в бизнес процесс
-  // take all steps from all documents
   const creditDocumentStep: IStep<CreditCheckStep> = useMemo(() => (
-    verificationSteps.find((step) => step.id === VerificationPatternTypes.CreditArgentinianFidelitas || step.id === VerificationPatternTypes.CreditBrazilianSerasa)
-  ), [verificationSteps]);
+    verificationDocumentsSteps.find((step) => step.id === VerificationPatternTypes.CreditArgentinianFidelitas || step.id === VerificationPatternTypes.CreditBrazilianSerasa)
+  ), [verificationDocumentsSteps]);
 
   const { value: verificationStatus, reasonCode } = verification.verificationStatusDetails;
   const isPostResultPhase = [IdentityStatuses.reviewNeeded, IdentityStatuses.rejected, IdentityStatuses.verified].includes(verificationStatus);

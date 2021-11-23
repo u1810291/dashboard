@@ -45,11 +45,11 @@ export function GovCheckSettings({ settings, onUpdate }: ProductSettingsProps) {
               &nbsp;
               <Link href="mailto:support@mati.io">support@mati.io</Link>
             </>
-)}
+          )}
           className={classes.setting}
         >
           <GovCheckCountriesSettings
-            verificationPattern={settings[GovernmentCheckSettingTypes.CountriesGovChecks]?.value}
+            verificationPatterns={settings[GovernmentCheckSettingTypes.CountriesGovChecks]?.value}
             onChange={handleUpdate(GovernmentCheckSettingTypes.CountriesGovChecks)}
           />
         </ExtendedDescription>

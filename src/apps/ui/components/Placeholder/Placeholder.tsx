@@ -12,7 +12,7 @@ export interface PlaceholderProps{
 export function Placeholder({ icon, title, subtitle, text, mb = 0 }: PlaceholderProps) {
   return (
     <Box mb={mb}>
-      <Grid container direction="column" justify="center" alignItems="center">
+      <Grid container direction="column" justifyContent="center" alignItems="center">
         {icon && (
           <Box py={1.5}>{icon}</Box>
         )}

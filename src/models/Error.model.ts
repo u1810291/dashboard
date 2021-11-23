@@ -8,6 +8,9 @@ export enum ErrorTypes {
 }
 
 export enum ErrorStatuses {
+  WrongCredentials = 401,
+  BlockedByMerchant = 403,
+  TooManyRequests = 429,
   error400 = 400,
   error404 = 404,
   error500 = 500,

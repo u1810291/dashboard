@@ -13,14 +13,55 @@ export enum CollaboratorInputTypes {
   Email = 'email',
 }
 
+export type UserId = string;
+
+export interface Blocked {
+  blockedAt: Date;
+  blockedByEmail: string;
+  blockedUntil: Date;
+  blockedBy: UserId;
+}
+
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ * used only in legacy collaborator endpoint
+ * for the new features use IUser
+ */
 export interface User {
+  blocked: Partial<Blocked>;
   dateCreated: string;
   email: string;
   firstName: string;
   fullName: string;
-  id: string;
+  id: UserId;
   lastName: string;
   userType: string; // "merchant"
+}
+
+export interface UserEmail {
+  verified?: boolean;
+  address: string;
+}
+
+// taken from BE
+export interface IUser {
+  _id: UserId;
+  _email: UserEmail;
+  // admin: boolean;
+  blocked?: Partial<Blocked>;
+  // dateCreated: Date;
+  // dateUpdated: Date;
+  // deleted: boolean;
+  firstName?: string;
+  // intercomHash?: string;
+  lastName?: string;
+  // locale: string;
+  // location?: string;
+  // password?: string;
+  // roleInCompany?: string;
+  // status: string;
+  // timezone?: string;
 }
 
 export enum CollaboratorRoles {
@@ -42,6 +83,7 @@ export interface CollaboratorOption {
   label: string;
   value: CollaboratorRoles;
   description: string;
+  permissionsLabel: string;
   icon: React.ReactNode;
 }
 
@@ -51,6 +93,7 @@ export const CollaboratorOptions: CollaboratorOption[] = [
     label: 'teamTable.roles.admin',
     value: CollaboratorRoles.ADMIN,
     description: 'teamTable.invite.form.roles.description.admin',
+    permissionsLabel: 'teamTable.roles.permissions.admin',
     icon: ImgAdmin,
   },
   {
@@ -58,6 +101,7 @@ export const CollaboratorOptions: CollaboratorOption[] = [
     label: 'teamTable.roles.agent',
     value: CollaboratorRoles.AGENT,
     description: 'teamTable.invite.form.roles.description.agent',
+    permissionsLabel: 'teamTable.roles.permissions.agent',
     icon: ImgAgent,
   },
   {
@@ -65,6 +109,7 @@ export const CollaboratorOptions: CollaboratorOption[] = [
     label: 'teamTable.invite.form.roles.auditor',
     value: CollaboratorRoles.AUDITOR,
     description: 'teamTable.invite.form.roles.description.auditor',
+    permissionsLabel: 'teamTable.roles.permissions.auditor',
     icon: ImgAuditor,
   },
 ];

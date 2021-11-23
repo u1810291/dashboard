@@ -2138,6 +2138,7 @@
   "identity.field.method": "Método",
   "identity.field.mexican-curp-validation": "Validación de CURP",
   "identity.field.middleName": "Segundo nombre",
+  "identity.field.municipality": "Municipio",
   "identity.field.municipio": "Municipio",
   "identity.field.name": "Nombre",
   "identity.field.nameSearched": "Nombre completo",

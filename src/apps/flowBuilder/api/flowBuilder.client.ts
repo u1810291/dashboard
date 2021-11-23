@@ -7,5 +7,5 @@ export function changeableFlowPost(changeableFlow: IFlow): Promise<ApiResponse<{
 }
 
 export function flowUpdate(merchantId: string, flowId: string, flow: IFlow): Promise<ApiResponse<IFlow>> {
-  return http.put<IFlow>(`/api/v1/merchant/${merchantId}/flows/${flowId}`, flow);
+  return http.put<IFlow>(`/api/v1/merchants/${merchantId}/flows/${flowId}`, flow);
 }
