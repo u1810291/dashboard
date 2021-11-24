@@ -8,7 +8,7 @@ import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { filterUpdate, identitiesCountLoad, identitiesFilteredCountLoad, identitiesListLoad, identitiesPreliminaryCountLoad, identityListClear } from 'state/identities/identities.actions';
+import { filterUpdate, identitiesFilteredCountLoad, identitiesListLoad, identitiesPreliminaryCountLoad, identityListClear } from 'state/identities/identities.actions';
 import { selectFilteredCountModel, selectIdentityFilter, selectPreliminaryFilteredCountModel } from 'state/identities/identities.selectors';
 import { selectMerchantCreatedAt } from 'state/merchant/merchant.selectors';
 import { RoleRenderGuard } from 'apps/merchant';
@@ -31,16 +31,15 @@ export function VerificationList() {
   const [, addToUrl] = useFilterParser(verificationsFilterStructure);
 
   useEffect(() => {
-    dispatch(identitiesCountLoad());
-  }, [dispatch]);
-
-  useEffect(() => {
     if (!location.search) {
       addToUrl(getVerificationsFilterInitialState(registrationDate));
     }
   }, [addToUrl, location.search, registrationDate]);
 
   useEffect(() => {
+    if (!location.search) {
+      return () => {};
+    }
     dispatch(filterUpdate(parseFromURL(location.search, verificationsFilterStructure)));
     dispatch(identitiesListLoad(true));
     dispatch(identitiesFilteredCountLoad());
