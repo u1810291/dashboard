@@ -6,10 +6,10 @@ import React, { useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { TeamInviteModal } from '../../components/TeamInviteModal/TeamInviteModal';
-import { TeamTable } from '../../components/TeamTable/TeamTable';
 import { collaboratorAdd, collaboratorListLoad } from '../../state/collaborator.actions';
 import { selectCollaboratorCollectionWithOwnerModel, selectCollaboratorState } from '../../state/collaborator.selectors';
 import { useStyles } from './TeamSettings.styles';
+import { TeamTable } from '../../components/TeamTable/TeamTable';
 
 export function TeamSettings() {
   const dispatch = useDispatch();
@@ -69,10 +69,7 @@ export function TeamSettings() {
           </Typography>
         </Box>
         <Box mb={2}>
-          <TeamTable
-            list={collaboratorList}
-            onInvite={openInviteModal}
-          />
+          <TeamTable list={collaboratorList} />
         </Box>
         <Box align="center">
           {collaboratorList.isLoaded && collaboratorList.value.length > 0 && (

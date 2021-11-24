@@ -6,7 +6,7 @@ import { intersection } from 'lodash';
 import { DocumentTypes } from 'models/Document.model';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
-import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStep, getReaderFrontendSteps, getStepStatus, StepStatus, VerificationStepTypes } from 'models/Step.model';
+import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStep, getReaderFrontendSteps, getStepStatus, StepStatus, VerificationDocStepTypes } from 'models/Step.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiFileText } from 'react-icons/fi';
@@ -202,8 +202,8 @@ export class DocumentVerification extends ProductBaseService implements Product<
 
     const documents = verification?.documents?.filter((el) => documentTypes.includes(el.type))
       .map((doc) => {
-        const duplicateUserDetectionStep = doc?.steps?.find((item) => item?.id === VerificationStepTypes.DuplicateUserValidation);
-        const ageCheck = doc?.steps?.find((item) => item?.id === VerificationStepTypes.AgeValidation);
+        const duplicateUserDetectionStep = doc?.steps?.find((item) => item?.id === VerificationDocStepTypes.DuplicateUserValidation);
+        const ageCheck = doc?.steps?.find((item) => item?.id === VerificationDocStepTypes.AgeValidation);
         return { ...doc, duplicateUserDetectionStep, ageCheck };
       });
 

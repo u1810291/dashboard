@@ -6,5 +6,5 @@ export function getIdentityProfile(identityId: string, params: any) {
 }
 
 export function identityProfileRemove(id) {
-  return http.delete(`/v1/identity/${id}`);
+  return http.delete(`/api/v1/identity/${id}`);
 }

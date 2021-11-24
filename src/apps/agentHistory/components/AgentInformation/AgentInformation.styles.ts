@@ -5,7 +5,7 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     color: theme.palette.text.secondary,
     '& .MuiSelect-selectMenu': {
-      padding: [[0, 24, 0, 0]],
+      padding: '0 24px 0 0',
     },
     '& .MuiSelect-select:focus': {
       backgroundColor: 'transparent',

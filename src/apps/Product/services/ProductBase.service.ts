@@ -1,8 +1,8 @@
+import React from 'react';
 import { IFlow } from 'models/Flow.model';
 import { IProductCard, Product, ProductCheck, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { IconType } from 'react-icons';
 import { VerificationResponse } from 'models/Verification.model';
-import React from 'react';
 
 export abstract class ProductBaseService implements Partial<Product> {
   abstract id: ProductTypes;

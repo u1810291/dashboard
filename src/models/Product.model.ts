@@ -16,6 +16,7 @@ export enum ProductTypes {
   EmailCheck = 'EmailCheck',
   CustomDocuments = 'CustomDocuments',
   CertifiedTimestamp = 'CertifiedTimestamp',
+  BackgroundCheck = 'BackgroundCheck',
   CustomWatchlist = 'CustomWatchlist',
   ESignatureCheck = 'eSignatureCheck',
   BankAccountData = 'BankAccountData',

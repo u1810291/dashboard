@@ -68,7 +68,7 @@ export function ESignatureConfiguration() {
           },
         },
       }));
-    } catch (e) {
+    } catch (e: any) {
       console.error('error', e.message);
       notification.error(intl.formatMessage({ id: 'Error.common' }));
     } finally {
@@ -90,7 +90,7 @@ export function ESignatureConfiguration() {
           [VerificationPatternTypes.ESignatureDocuments]: checked,
         },
       }));
-    } catch (e) {
+    } catch (e: any) {
       console.error('error', e.message);
       notification.error(intl.formatMessage({ id: 'Error.common' }));
     } finally {

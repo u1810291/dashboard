@@ -8,6 +8,7 @@ import { VerificationListItem, VerificationResponse } from 'models/Verification.
 import { selectNewVerificationWithExtras } from 'apps/Verification/state/Verification.selectors';
 import { Dispatch } from 'redux';
 import { types } from 'state/identities/identities.actions';
+import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { selectIdentityModel } from 'state/identities/identities.selectors';
 import * as client from '../client/Verification.client';
 import { VerificationActionTypes } from './Verification.store';
@@ -82,6 +83,14 @@ export const verificationStatusUpdate = (verificationId: string, status: Identit
 
     throw error;
   }
+};
+
+export const verificationStepsUpdate = <T extends unknown>(stepType: VerificationPatternTypes, step: IStep<T>) => async (dispatch: Dispatch, getState) => {
+  const verification = selectNewVerificationWithExtras(getState());
+  const stepIndex = verification?.steps.findIndex((stepElm: IStep<T>) => stepElm.id === step.id);
+  verification.steps[stepIndex] = { ...verification.steps[stepIndex], ...step };
+
+  dispatch({ type: VerificationActionTypes.VERIFICATION_SUCCESS, payload: verification });
 };
 
 export const verificationDocumentStepsUpdate = <T extends unknown>(documentType: DocumentTypes, step: IStep<T>) => async (dispatch: Dispatch, getState) => {
