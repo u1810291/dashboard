@@ -11,7 +11,7 @@ import { SelectLight, useStyles } from 'apps/intl/components/IntlButton/IntlButt
 export function IntlButton({ isSync = true, fullLabel = false }: {isSync?: boolean; fullLabel?: boolean}) {
   const currentLocale = useSelector(selectLanguage);
   const dispatch = useDispatch();
-  const classes = useStyles();
+  const classes = useStyles({ fullLabel });
 
   const handleLangChange = useCallback((e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
     dispatch(changeLanguage(e.target.value, isSync));
@@ -22,7 +22,7 @@ export function IntlButton({ isSync = true, fullLabel = false }: {isSync?: boole
   ), [currentLocale, fullLabel]);
 
   return (
-    <Box display="flex" className={classes.topMenuItem}>
+    <Box mb={fullLabel ? 0 : 3.3} display="flex" className={classes.topMenuItem}>
       <IoEarthOutline className={classes.menuIcon} />
       <SelectLight
         disableUnderline
