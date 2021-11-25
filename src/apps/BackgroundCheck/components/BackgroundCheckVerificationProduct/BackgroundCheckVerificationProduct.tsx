@@ -44,8 +44,6 @@ export function BackgroundCheckVerificationProduct() {
     [dispatch, verification, backgroundStep],
   );
 
-  console.log('backgroundStep', backgroundStep);
-
   if (isShowManualBackgroundCheckButton) {
     return (
       <Box className={classes.manualButtonWrap}>

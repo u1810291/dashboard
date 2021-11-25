@@ -29,9 +29,10 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const [isDataPooling, setIsDataPooling] = useState(false);
   const [selectedWatchlist, setSelectedWatchlist] = useState<FlowWatchlist | null>(null);
 
-  const handleWatchlistLoad = useCallback((isReload: boolean) => {
+  const handleWatchlistLoad = useCallback(() => {
     // TODO: @richvoronov will use it on STAGE 2 of this feature
     // console.log('isReload', isReload, selectedWatchlist);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedWatchlist]);
 
   useLongPolling(handleWatchlistLoad, 3000, {
