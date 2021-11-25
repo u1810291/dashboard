@@ -6,14 +6,13 @@ import { FiDownload } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { downloadCSV } from 'state/identities/identities.actions';
-import { selectFilteredCountModel, selectIdentityCountModel } from 'state/identities/identities.selectors';
+import { selectFilteredCountModel } from 'state/identities/identities.selectors';
 import { SideButton } from './DownloadCSV.styles';
 
 export function DownloadCSV() {
   const dispatch = useDispatch();
   const intl = useIntl();
   const [isDownloading, setIsDownloading] = useState(false);
-  const countModel = useSelector(selectIdentityCountModel);
   const filteredCountModel = useSelector(selectFilteredCountModel);
 
   const handleDownloadCSV = useCallback(async () => {
@@ -36,7 +35,7 @@ export function DownloadCSV() {
       variant="contained"
       onClick={handleDownloadCSV}
       startIcon={<FiDownload />}
-      disabled={isDownloading || countModel.value === 0 || filteredCountModel.value === 0}
+      disabled={isDownloading || filteredCountModel.value === 0}
       data-qa={QATags.VerificationList.DownloadCsv}
     >
       {intl.formatMessage({ id: 'identities.download-all-csv' })}
