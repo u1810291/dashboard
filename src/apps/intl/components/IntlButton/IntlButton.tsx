@@ -1,19 +1,19 @@
-import { MenuItem } from '@material-ui/core';
-import { TopMenuItem } from 'apps/layout';
+import { Box, MenuItem } from '@material-ui/core';
 import { LanguageList } from 'models/Intl.model';
 import { QATags } from 'models/QA.model';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeLanguage } from 'state/merchant/merchant.actions';
 import { selectLanguage } from 'state/merchant/merchant.selectors';
-import { SelectLight, useStyles } from './IntlButton.styles';
+import { IoEarthOutline } from 'react-icons/all';
+import { SelectLight, useStyles } from 'apps/intl/components/IntlButton/IntlButton.styles';
 
-export function IntlButton({ isSync = true, fullLabel = false }) {
+export function IntlButton({ isSync = true, fullLabel = false }: {isSync?: boolean; fullLabel?: boolean}) {
   const currentLocale = useSelector(selectLanguage);
   const dispatch = useDispatch();
-  const classes = useStyles();
+  const classes = useStyles({ fullLabel });
 
-  const handleLangChange = useCallback((e) => {
+  const handleLangChange = useCallback((e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
     dispatch(changeLanguage(e.target.value, isSync));
   }, [dispatch, isSync]);
 
@@ -22,10 +22,12 @@ export function IntlButton({ isSync = true, fullLabel = false }) {
   ), [currentLocale, fullLabel]);
 
   return (
-    <TopMenuItem className={classes.topMenuItem}>
+    <Box mb={fullLabel ? 0 : 3.3} display="flex" className={classes.topMenuItem}>
+      <IoEarthOutline className={classes.menuIcon} />
       <SelectLight
         disableUnderline
         className={classes.select}
+        MenuProps={{ classes: { paper: classes.menuList } }}
         value={currentLocale}
         renderValue={renderLocale}
         onChange={handleLangChange}
@@ -38,6 +40,6 @@ export function IntlButton({ isSync = true, fullLabel = false }) {
           </MenuItem>
         ))}
       </SelectLight>
-    </TopMenuItem>
+    </Box>
   );
 }

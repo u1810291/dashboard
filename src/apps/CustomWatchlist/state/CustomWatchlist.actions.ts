@@ -30,7 +30,7 @@ export const customWatchlistsLoad = (merchantId: string) => async (dispatch) => 
   }
 };
 
-export const customWatchlistCreate = (merchantId: string, params: CustomWatchlistModalValidationInputTypes, callback: () => void) => async (dispatch, getState) => {
+export const customWatchlistCreate = (merchantId: string, params: CustomWatchlistModalValidationInputTypes, callback: () => void) => async (dispatch) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_REQUEST });
   try {
     const payload = await api.createMerchantWatchlistById(merchantId, params);

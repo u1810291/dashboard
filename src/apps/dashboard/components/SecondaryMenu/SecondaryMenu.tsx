@@ -7,7 +7,7 @@ import { appPalette } from 'apps/theme/app.palette';
 import { Routes } from 'models/Router.model';
 import { BeamerSelectorId } from 'apps/beamer';
 
-export function SecondaryMenu({ isOpen, ...props }) {
+export function SecondaryMenu({ isOpen, ...props }: { isOpen: boolean; isOwner: boolean}) {
   const intl = useIntl();
 
   const entries = useMemo(() => [{
@@ -18,6 +18,14 @@ export function SecondaryMenu({ isOpen, ...props }) {
     qa: QATags.Menu.FAQ,
     color: appPalette.black7,
   },
+  // {
+  //   id: 'roadmap',
+  //   show: isOwner,
+  //   to: Routes.productBoard.root,
+  //   label: intl.formatMessage({ id: 'dashboard.menu.feedbackBoard' }),
+  //   icon: <FiMessageSquare />,
+  //   qa: QATags.Menu.ProductBoard,
+  // },
   {
     id: BeamerSelectorId,
     label: intl.formatMessage({ id: 'dashboard.menu.whatsNew' }),

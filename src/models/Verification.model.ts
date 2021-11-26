@@ -37,6 +37,7 @@ export interface IVerificationStatusDetails {
   updatedBy: null | string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface VerificationResponse<StepData = any> {
   createdAt: string;
   documents: any[];

@@ -73,7 +73,7 @@ export interface IFlow {
   electronicSignature?: IESignatureFlow;
   financialInformationBankAccountsRetrieving?: {
     countryCodes: string[];
-  }
+  };
   financialInformationWorkAccountsRetrieving?: {
     countryCodes: string[];
   };
