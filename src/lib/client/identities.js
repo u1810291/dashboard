@@ -30,7 +30,7 @@ export function getIdentityVerifications(identityId) {
  * @deprecated
  */
 export function getIdentities(params) {
-  return http.get('/v1/identities', { params });
+  return http.get('/api/v1/identities', { params });
 }
 
 // TODO: @ggrigorev remove deprecated
@@ -38,7 +38,7 @@ export function getIdentities(params) {
  * @deprecated
  */
 export function downloadCSV(params) {
-  return http.get('/v1/identities', {
+  return http.get('/api/v1/identities', {
     params,
     responseType: 'blob',
   });
@@ -49,7 +49,7 @@ export function downloadCSV(params) {
  * @deprecated
  */
 export function getIdentitiesCount(params) {
-  return http.get('/v1/identities/count', { params });
+  return http.get('/api/v1/identities/count', { params });
 }
 
 export function patchVerificationDocument(verificationId, documentType, fields) {
@@ -57,11 +57,11 @@ export function patchVerificationDocument(verificationId, documentType, fields) 
 }
 
 export function deleteIdentity(id) {
-  return http.delete(`/v1/identities/${id}`);
+  return http.delete(`/api/v1/identities/${id}`);
 }
 
 export function getIdentity(id, params) {
-  return http.get(`/v1/identities/${id}?embed=verification`, { params });
+  return http.get(`/api/v1/identities/${id}?embed=verification`, { params });
 }
 
 export async function getIdentityWithNestedData(id, params) {
@@ -92,7 +92,7 @@ export async function putCustomerNotes(identityId, notes) {
 }
 
 export async function getVerificationData(id) {
-  const { data } = await http.get(`/v1/identities/demo/${id}`);
+  const { data } = await http.get(`/api/v1/identities/demo/${id}`);
   return {
     id,
     ...data,

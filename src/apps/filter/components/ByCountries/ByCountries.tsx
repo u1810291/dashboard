@@ -2,21 +2,25 @@ import { Box, Checkbox, FormControlLabel, Grid, Paper, Typography } from '@mater
 import { useFilterCheckbox } from 'apps/filter/hooks/filterBy.hook';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { analyticsFilterStructure } from 'models/Analytics.model';
-import { FilterChildrenProps } from 'models/Filter.model';
+import { FilterI } from 'models/Filter.model';
 import React from 'react';
 import { FiCheckCircle } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { selectCountriesOnlyExisting } from 'state/countries/countries.selectors';
+import { selectAllCountriesModel, selectCountriesList } from 'state/countries/countries.selectors';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { useStyles } from './ByCountries.styles';
 
-export function ByCountries({ bufferedFilter: { countries }, onFilterChange }: Partial<FilterChildrenProps>) {
+export function ByCountries({ bufferedFilter: { countries }, onFilterChange }: {
+  bufferedFilter?: Partial<FilterI>;
+  onFilterChange?: (filter: FilterI) => void;
+}) {
   const classes = useStyles();
   const intl = useIntl();
   const [handleSelectCountry, checkIsSelected] = useFilterCheckbox(analyticsFilterStructure.countries, countries, onFilterChange);
-  const countriesList = useSelector(selectCountriesOnlyExisting);
+  const countriesList = useSelector(selectCountriesList);
+  const allCountriesModel = useSelector(selectAllCountriesModel);
 
   return (
     <Grid item xs={12} md={6}>
@@ -27,7 +31,7 @@ export function ByCountries({ bufferedFilter: { countries }, onFilterChange }: P
         </Box>
       </Typography>
       <Paper className={classes.status}>
-        {!LoadableAdapter.isPristine(countriesList) && countriesList.value.map((item) => (
+        {!LoadableAdapter.isPristine(allCountriesModel) && countriesList.map((item) => (
           <FormControlLabel
             key={item.id}
             value={item.id}

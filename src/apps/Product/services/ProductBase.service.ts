@@ -1,3 +1,4 @@
+import React from 'react';
 import { IFlow } from 'models/Flow.model';
 import { IProductCard, Product, ProductCheck, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { IconType } from 'react-icons';
@@ -26,7 +27,7 @@ export abstract class ProductBaseService implements Partial<Product> {
     return this.integrationTypes.every((integrationType) => integrationType !== ProductIntegrationTypes.Api);
   }
 
-  haveIssues(flow: IFlow, productsInGraph?: ProductTypes[]): boolean {
+  haveIssues(flow: IFlow): boolean {
     const integrationType = flow.integrationType;
     return (integrationType === ProductIntegrationTypes.Api && this.isSdkOnly()) || (!this.isIssuesIgnored && this.getIssuesComponent(flow) !== null);
   }

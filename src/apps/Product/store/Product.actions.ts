@@ -5,12 +5,16 @@ import { customWatchlistInit } from 'apps/CustomWatchlist/state/CustomWatchlist.
 import { EmailCheckInit } from 'apps/EmailCheck/state/EmailCheck.actions';
 import { PhoneCheckInit } from 'apps/PhoneCheck/state/PhoneCheck.actions';
 import { reVerificationInit } from 'apps/reverification/state/ReVerification.actions';
+import { bankAccountDataInit } from 'apps/BankAccountData';
+import { workAccountDataInit } from 'apps/WorkAccountData';
+import { payrollAccountDataInit } from 'apps/PayrollAccountData';
 import { compact } from 'lodash';
 import { storeAction } from 'state/store.utils';
 import { ProductTypes } from 'models/Product.model';
 import { biometricVerificationInit } from 'apps/biometricVerification/state/BiometricVerification.actions';
 import { govCheckInit } from 'apps/GovCheck/state/GovCheck.actions';
 import { creditCheckInit } from 'apps/CreditCheck/state/CreditCheck.actions';
+import { backgroundCheckInit } from 'apps/BackgroundCheck/state/BackgroundCheck.actions';
 import { deviceFingerprintInit } from 'apps/DeviceFingerPrint/state/deviceFingerprint.actions';
 import { customDocumentInit } from 'apps/customDocument/state/customDocument.actions';
 import { eSignatureInit } from 'apps/ESignature/state/eSignature.actions';
@@ -33,9 +37,13 @@ export const productInit = () => (dispatch) => {
     dispatch(govCheckInit()),
     dispatch(creditCheckInit()),
     dispatch(deviceFingerprintInit()),
+    dispatch(bankAccountDataInit()),
+    dispatch(workAccountDataInit()),
+    dispatch(payrollAccountDataInit()),
     dispatch(metadataInit()),
     dispatch(customDocumentInit()),
     dispatch(certifiedTimestampInit()),
+    dispatch(backgroundCheckInit()),
     dispatch(customWatchlistInit()),
     dispatch(eSignatureInit()),
   ];

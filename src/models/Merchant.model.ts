@@ -1,6 +1,8 @@
+export type MerchantId = string;
+
 export interface Merchant {
   logoUrl: string;
-  id: string;
+  id: MerchantId;
   blockedAt: Date;
   collaborators: any[];
   createdAt: Date;
@@ -13,6 +15,7 @@ export interface Merchant {
 
 export enum MerchantTags {
   CanUseCreditChecks = 'can-use-credit-checks',
+  CanUseBackgroundChecks = 'can-use-background-checks',
   CanUseLongPolling = 'can-use-long-polling',
   CanUseNom151 = 'can-use-nom-151',
   CanUseProofOfOwnership = 'can-use-proof-of-ownership',
@@ -25,4 +28,8 @@ export enum MerchantTags {
   CanUsePhoneValidation = 'can-use-phone-validation',
   CanUseEmailValidation = 'can-use-email-validation',
   CanUseCustomWatchlists = 'can-use-custom-watchlists',
+  CanUseCreditScore = 'can-use-credit-score',
+  CanUseFinancialInformationBankAccountsRetrieving = 'can-use-financial-information-bank-accounts-retrieving',
+  CanUseFinancialInformationWorkAccountsRetrieving = 'can-use-financial-information-work-accounts-retrieving',
+  CanUseFinancialInformationPayrollAccountsRetrieving = 'can-use-financial-information-payroll-accounts-retrieving',
 }

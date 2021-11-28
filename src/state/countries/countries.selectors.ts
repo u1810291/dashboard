@@ -13,11 +13,6 @@ export const selectCountriesList = createSelector(
   selectModelValue((list) => list),
 );
 
-export const selectCountriesOnlyExisting = createSelector(
-  selectCountriesStore,
-  (store) => store.countriesOnlyExisting,
-);
-
 export const selectCountryGeojsons = createSelector(
   selectCountriesStore,
   (store) => store.countryGeojsons,

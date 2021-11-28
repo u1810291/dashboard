@@ -133,3 +133,7 @@ export function getIdentityStatusDescription(status) {
 export function getIdentityStatusExplanation(status) {
   return `statuses.${status}.explanation`;
 }
+
+export function getPostResultPhase(verificationStatus: IdentityStatuses) {
+  return [IdentityStatuses.reviewNeeded, IdentityStatuses.rejected, IdentityStatuses.verified].includes(verificationStatus);
+}

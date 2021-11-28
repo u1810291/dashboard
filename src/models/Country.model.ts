@@ -6,3 +6,11 @@ export interface Country {
     regions: string[];
     unsupported: boolean;
 }
+
+export enum CountryCodes {
+  AR = 'AR',
+  BR = 'BR',
+  CO = 'CO',
+  MX = 'MX',
+  US = 'US'
+}

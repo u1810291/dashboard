@@ -1,6 +1,7 @@
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { Loadable } from 'models/Loadable.model';
 import { ProductTypes } from 'models/Product.model';
+import { getStepExtra, IStep } from 'models/Step.model';
 import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFlow, VerificationListItem, VerificationWithExtras, VerificationResponse } from 'models/Verification.model';
 import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
@@ -56,7 +57,12 @@ export const selectVerificationsGroupedByFlow = createSelector<any, Loadable<Ver
   selectModelValue((verifications: VerificationListItem[]) => groupVerificationsByFlow(verifications)),
 );
 
-export const selectAllVerificationSteps = createSelector(
+export const selectVerificationStepsExtra = createSelector(
   selectNewVerificationWithExtras,
-  (verification) => [...verification.steps, ...verification.documents.reduce((acc, cur) => ([...acc, ...cur.steps]), [])],
+  (verification): IStep[] => verification.steps.map((step) => getStepExtra(step, verification)),
+);
+
+export const selectVerificationDocumentsSteps = createSelector(
+  selectNewVerificationWithExtras,
+  (verification) => [...verification.documents.reduce((acc, cur) => ([...acc, ...cur.steps]), [])],
 );

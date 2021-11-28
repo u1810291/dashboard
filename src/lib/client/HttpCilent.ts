@@ -1,6 +1,9 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { goToPage } from 'lib/url';
 import { ApiResponse, CLIENT_CSRF_HEADER_NAME, CLIENT_CSRF_URL, ClientCSRFResponse, ClientErrorTypes, ClientMethodTypes, ClientPrivateMethodList } from 'models/Client.model';
 import { devWarn } from 'lib/console';
+import { ErrorStatuses } from 'models/Error.model';
+import { Routes } from 'models/Router.model';
 
 export class HttpClient {
   private bearerToken: string = null;
@@ -48,6 +51,10 @@ export class HttpClient {
       return await this.client.request(config);
     } catch (e) {
       const type = (e as any)?.response?.data?.details?.type;
+      if (e?.response?.data?.status === ErrorStatuses.BlockedByMerchant && !window.location.pathname.startsWith(Routes.auth.signIn)) {
+        this.csrf = null;
+        goToPage(Routes.auth.signIn);
+      }
       if (type === ClientErrorTypes.CSRFTokenNotFound || type === ClientErrorTypes.CSRFTokenNotValid) {
         // eslint-disable-next-line
         console.error('CSRF error:', (e as any).message);
@@ -79,7 +86,7 @@ export class HttpClient {
     });
   }
 
-  async patch<T>(url: string, data: any, config?: AxiosRequestConfig, isPrivate = true): Promise<ApiResponse<T>> {
+  async patch<T>(url: string, data?: any, config?: AxiosRequestConfig, isPrivate = true): Promise<ApiResponse<T>> {
     return this.createRequest<T>({
       ...config,
       url: this.getCorsURL(url),

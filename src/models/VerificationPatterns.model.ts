@@ -4,14 +4,19 @@ import { IpCheckValidationTypes } from '../apps/IpCheck/models/IpCheck.model';
 
 export enum VerificationPatternTypes {
   AgeValidation = 'age-check',
+  ArgentinianAfip = 'argentinian-afip-validation',
+  ArgentinianAnses = 'argentinian-anses-validation',
   ArgentinianDni = 'argentinian-dni-validation',
+  ArgentinianRenaperFacematch = 'argentinian-renaper-facematch-validation',
   ArgentinianRenaper = 'argentinian-renaper-validation',
   Biometrics = 'biometrics',
   BolivianOep = 'bolivian-oep-validation',
   BrazilianCpf = 'brazilian-cpf-validation',
+  BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
   CreditArgentinianFidelitas = 'credit-argentinian-fidelitas-validation',
   CreditBrazilianSerasa = 'credit-brazilian-serasa-validation',
   ChileanRegistroCivil = 'chilean-registro-civil-validation',
+  ColombianBdua = 'colombian-bdua-validation',
   ColombianContraloria = 'colombian-contraloria-validation',
   ColombianNationalPolice = 'colombian-national-police-validation',
   ColombianNit = 'colombian-nit-validation',
@@ -33,6 +38,7 @@ export enum VerificationPatternTypes {
   GuatemalanTse = 'guatemalan-tse-validation',
   IpValidation = 'ip-validation',
   HonduranRnp = 'honduran-rnp-validation',
+  KenyanEcitizen = 'kenyan-ecitizen-validation',
   MexicanCurp = 'mexican-curp-validation',
   MexicanIne = 'mexican-ine-validation',
   MexicanPep = 'mexican-pep-validation',
@@ -53,11 +59,17 @@ export enum VerificationPatternTypes {
   DocumentReading = 'document-reading',
   VpnDetection = 'vpn-detection',
   ESignatureDocuments = 'electronic-signature-document-validation',
+  FinancialInformationBankAccountsRetrieving = 'financial-information-bank-accounts-retrieving',
+  FinancialInformationWorkAccountsRetrieving = 'financial-information-work-accounts-retrieving',
+  FinancialInformationPayrollAccountsRetrieving = 'financial-information-payroll-accounts-retrieving',
 }
 
 export interface VerificationPatterns {
+  [VerificationPatternTypes.ArgentinianAfip]?: boolean;
+  [VerificationPatternTypes.ArgentinianAnses]?: boolean;
   [VerificationPatternTypes.ArgentinianDni]?: boolean;
   [VerificationPatternTypes.ArgentinianRenaper]?: boolean;
+  [VerificationPatternTypes.ArgentinianRenaperFacematch]?: boolean;
   [VerificationPatternTypes.CreditBrazilianSerasa]?: boolean;
   [VerificationPatternTypes.CreditArgentinianFidelitas]?: boolean;
   // TODO: @ggrigorev move Biometric.model to ts
@@ -65,10 +77,12 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.BolivianOep]?: boolean;
   // TODO: @ggrigorev move GovCheck.model to ts
   [VerificationPatternTypes.BrazilianCpf]?: string; // GovCheckStepTypes.BrazilianCpf
+  [VerificationPatternTypes.BackgroundMexicanBuholegal]?: boolean;
   [VerificationPatternTypes.EcuadorianRegistroCivil]?: boolean;
   [VerificationPatternTypes.EcuadorianSri]?: boolean;
   [VerificationPatternTypes.HonduranRnp]?: boolean;
   [VerificationPatternTypes.ChileanRegistroCivil]?: boolean;
+  [VerificationPatternTypes.ColombianBdua]?: boolean;
   [VerificationPatternTypes.ColombianNationalPolice]?: boolean;
   [VerificationPatternTypes.ColombianNit]?: boolean;
   [VerificationPatternTypes.ColombianProcuraduria]?: boolean;
@@ -82,6 +96,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.DuplicateUserDetection]?: boolean;
   [VerificationPatternTypes.GuatemalanTse]?: boolean;
   [VerificationPatternTypes.IpValidation]?: IpCheckValidationTypes;
+  [VerificationPatternTypes.KenyanEcitizen]?: boolean;
   [VerificationPatternTypes.MexicanCurp]?: boolean;
   [VerificationPatternTypes.MexicanIne]?: boolean;
   [VerificationPatternTypes.MexicanPep]?: boolean;
@@ -102,4 +117,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.EmailOwnershipValidation]?: string;
   [VerificationPatternTypes.VpnDetection]?: boolean;
   [VerificationPatternTypes.ESignatureDocuments]?: boolean;
+  [VerificationPatternTypes.FinancialInformationBankAccountsRetrieving]?: boolean;
+  [VerificationPatternTypes.FinancialInformationWorkAccountsRetrieving]?: boolean;
+  [VerificationPatternTypes.FinancialInformationPayrollAccountsRetrieving]?: boolean;
 }

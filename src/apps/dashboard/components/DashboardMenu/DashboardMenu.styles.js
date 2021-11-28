@@ -158,7 +158,6 @@ export const useStyles = makeStyles((theme) => ({
       zIndex: 2,
       height: 50,
       paddingTop: 15,
-      paddingLeft: 58,
       color: theme.palette.common.black7,
       fontWeight: 'bold',
       boxSizing: 'border-box',

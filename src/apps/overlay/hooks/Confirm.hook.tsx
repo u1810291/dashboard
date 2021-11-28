@@ -1,29 +1,30 @@
 import React, { useCallback } from 'react';
-import { ConfirmModal } from '../components/Confirm/Confirm';
-import { useOverlay } from './Overlay.hook';
+import { useOverlay } from 'apps/overlay/hooks/Overlay.hook';
+import { ConfirmModal } from 'apps/overlay/components/ConfirmModal/ConfirmModal';
 
-export function useConfirm(message) {
+export function useConfirm(title?: React.ReactNode, subtitle?: React.ReactNode) {
   const [createOverlay, closeOverlay] = useOverlay();
 
-  return useCallback(() => new Promise<void>((resolve, reject) => {
-    const handleClose = () => {
+  return useCallback((replacementSubtitle?: React.ReactNode) => new Promise<void>((resolve, reject) => {
+    function onClose() {
       closeOverlay();
       reject();
-    };
+    }
 
-    const handleConfirm = () => {
+    function onConfirm() {
       closeOverlay();
       resolve();
-    };
+    }
 
     createOverlay(
       <ConfirmModal
-        message={message}
-        onClose={handleClose}
-        onConfirm={handleConfirm}
+        title={title}
+        subtitle={replacementSubtitle || subtitle}
+        onClose={onClose}
+        onConfirm={onConfirm}
       />, {
-        onClose: handleClose,
+        onClose,
       },
     );
-  }), [createOverlay, message, closeOverlay]);
+  }), [closeOverlay, createOverlay, subtitle, title]);
 }

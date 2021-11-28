@@ -48,6 +48,11 @@ const FlowListLazy = lazy(async () => {
   return { default: FlowList };
 });
 
+const ProductBoardLazy = lazy(async () => {
+  const { ProductBoard } = await import('apps/ProductBoard');
+  return { default: ProductBoard };
+});
+
 export function DashboardRouter() {
   return (
     <Suspense fallback={<PageLoader size={50} color={appPalette.black50} />}>
@@ -66,6 +71,7 @@ export function DashboardRouter() {
             <Route exact path={Routes.flow.root} component={FlowListLazy} />
             <Route path={Routes.flow.details} component={FlowBuilderLazy} />
             <Route path={Routes.collaborators.agentProfile.details} component={AgentHistoryLazy} />
+            <Route path={Routes.productBoard.root} component={ProductBoardLazy} />
           </RoleRoutingGuard>
           <Route path="*" component={Page404} />
         </MerchantGuard>

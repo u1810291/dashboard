@@ -1,48 +1,30 @@
 import React, { useCallback, useState, useMemo } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Box, Grid, MenuItem, Paper, Select } from '@material-ui/core';
-import { collaboratorUpdate } from 'apps/collaborators/state/collaborator.actions';
-import { notification, UserRoundAvatar } from 'apps/ui';
+import { UserRoundAvatar } from 'apps/ui';
 import { DateFormat, utcToLocalFormat } from 'lib/date';
 import { Collaborator, CollaboratorOptions, CollaboratorRoles } from 'models/Collaborator.model';
 import { QATags } from 'models/QA.model';
 import { selectOwnerId } from 'state/merchant/merchant.selectors';
+import { useChangeRole } from 'apps/collaborators';
 import { useStyles } from './AgentInformation.styles';
 
 export function AgentInformation({ collaborator }: {
   collaborator: Collaborator;
 }) {
   const intl = useIntl();
-  const dispatch = useDispatch();
   const [selectedRole, setSelectedRole] = useState<CollaboratorRoles>(collaborator?.role);
   const { id: collaboratorId } = useParams();
-  const ownerId = useSelector(selectOwnerId);
   const classes = useStyles();
   const { user } = collaborator || {};
+  const changeRole = useChangeRole(selectedRole);
+  const ownerId = useSelector(selectOwnerId);
   const isOwnerPage = useMemo(() => user?.id === ownerId, [ownerId, user?.id]);
 
-  const handleUpdate = useCallback(async (id: string, data: { role: CollaboratorRoles }) => {
-    try {
-      await dispatch(collaboratorUpdate(id, data));
-      setSelectedRole(data?.role);
-    } catch (error: any) {
-      notification.error(intl.formatMessage({
-        id: `Settings.teamSettings.update.${error.response?.data?.name}`,
-        defaultMessage: intl.formatMessage({ id: 'Error.common' }),
-      }));
-      console.error(error);
-    }
-  }, [dispatch, intl]);
-
-  const handleRoleChange = useCallback((id: string) => (e) => {
-    if (isOwnerPage) {
-      return;
-    }
-    handleUpdate(id, { role: e?.target?.value });
-  }, [handleUpdate, isOwnerPage]);
+  const handleRoleChange = useCallback((id: string) => (event: React.ChangeEvent<{ name?: string; value: unknown }>) => changeRole({ id, event, onSuccess: () => setSelectedRole(event.target.value as CollaboratorRoles) }), [changeRole]);
 
   if (!collaborator) {
     return null;
@@ -54,7 +36,7 @@ export function AgentInformation({ collaborator }: {
         <Box mb={2} color="common.black75" fontWeight="bold">
           {intl.formatMessage({ id: 'AgentHistory.agentInformation.agent' })}
         </Box>
-        <Grid container justify="space-between" spacing={2} alignItems="center">
+        <Grid container justifyContent="space-between" spacing={2} alignItems="center">
           <Grid item container xs={12} lg={3} alignItems="center" wrap="nowrap">
             <Box width={50} height={50} mr={1} flexShrink={0}>
               <UserRoundAvatar uniqueId={collaboratorId} name={user?.firstName} />

@@ -133,6 +133,7 @@ class SentryFullStory {
             ...getOriginalExceptionProperties(hint),
           });
         } catch (e) {
+          // eslint-disable-next-line no-console
           console.debug('Unable to report sentry error details to FullStory');
         }
       }

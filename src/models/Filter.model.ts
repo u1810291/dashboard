@@ -1,5 +1,6 @@
 // url search object -> json
 import { dayEndTime, zeroTime } from 'lib/date';
+import { Serializable } from 'lib/object';
 import { compact, identity, isString, pickBy } from 'lodash';
 import { ITEMS_PER_PAGE } from 'models/Pagination.model';
 import dayjs from 'dayjs';
@@ -31,11 +32,12 @@ export type FilterRange = {
   };
 }
 
-export type FilterI = any;
-
-export interface FilterChildrenProps {
-  bufferedFilter: FilterI;
-  onFilterChange: (filter: FilterI) => void;
+export interface FilterI {
+  eventType?: string[];
+  pageSize?: number;
+  'dateCreated[start]'?: any; // TODO: @ggrigorev add type after merge DIO-735: Replace Moment with DayJS
+  'dateCreated[end]'?: any;
+  [key: string]: any;
 }
 
 export const FilterRangesByLocal: Record<FilterRangeTypes, FilterRange> = {
@@ -239,21 +241,27 @@ export function filterParse({ search = '', status = '', flowIds = '', countries 
 }
 
 // json -> url search object
-export function filterSerialize(filter) {
-  // TODO: @pabloscdo: param reassign not a good practice
-  const { status, flowIds, countries, updatedBy, eventType, ...serialized } = filter;
-  serialized.status = status?.join(',');
-  serialized.flowIds = flowIds?.join(',');
-  serialized.countries = countries?.join(',');
-  serialized.updatedBy = updatedBy?.join(',');
-  serialized.eventType = eventType?.join(',');
+export function filterSerialize(filter: FilterI): Serializable<FilterI> {
+  const { status, flowIds, countries, updatedBy, eventType } = filter;
 
-  if (serialized['dateCreated[start]']) {
-    serialized['dateCreated[start]'] = serialized['dateCreated[start]'].toJSON();
+  let serializedDateCreatedStart: string;
+  let serializedDateCreatedEnd: string;
+  if (filter['dateCreated[start]']) {
+    serializedDateCreatedStart = filter['dateCreated[start]'].toJSON();
   }
-  if (serialized['dateCreated[end]']) {
-    serialized['dateCreated[end]'] = serialized['dateCreated[end]'].toJSON();
+  if (filter['dateCreated[end]']) {
+    serializedDateCreatedEnd = filter['dateCreated[end]'].toJSON();
   }
+  const serialized: Serializable<FilterI> = {
+    ...filter,
+    'dateCreated[start]': serializedDateCreatedStart,
+    'dateCreated[end]': serializedDateCreatedEnd,
+    status: status?.join(','),
+    flowIds: flowIds?.join(','),
+    countries: countries?.join(','),
+    updatedBy: updatedBy?.join(','),
+    eventType: eventType?.join(','),
+  };
 
   return pickBy(serialized, identity);
 }

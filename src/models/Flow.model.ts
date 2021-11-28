@@ -71,4 +71,13 @@ export interface IFlow {
   amlWatchlistsFuzzinessThreshold?: number;
   watchlists?: IFlowWatchlist[];
   electronicSignature?: IESignatureFlow;
+  financialInformationBankAccountsRetrieving?: {
+    countryCodes: string[];
+  };
+  financialInformationWorkAccountsRetrieving?: {
+    countryCodes: string[];
+  };
+  financialInformationPayrollAccountsRetrieving?: {
+    countryCodes: string[];
+  };
 }
