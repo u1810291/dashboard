@@ -3,22 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useOverlay } from 'apps/overlay';
 import dayjs from 'dayjs';
 import classnames from 'classnames';
-import { IFlowWatchlist, FlowWatchlistUi, WatchlistContentTypes } from 'models/CustomWatchlist.model';
-import React, { useCallback } from 'react';
+import { useLongPolling } from 'lib/longPolling.hook';
+import { FlowWatchlist, FlowWatchlistUi } from 'models/CustomWatchlist.model';
+import React, { useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
-import { DateFormat } from 'lib/date';
-import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
+import { SkeletonThreeRectTwoCircle } from 'apps/ui/components/SkeletonGroups';
+import { CustomWatchListModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchListModalValidation/CustomWatchListModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
-import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearCurrentWatchlist } from '../../state/CustomWatchlist.actions';
+import { deleteCustomWatchlist, customWatchlistCreate, customWatchlistUpdate } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
-import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
 
 export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   watchlists: FlowWatchlistUi[];
-  onUpdate: (watchlist: IFlowWatchlist) => void;
+  onUpdate: (watchlist: FlowWatchlist) => void;
 }) {
   const intl = useIntl();
   const classes = useStyles();
@@ -26,21 +26,29 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const [createOverlay, closeOverlay] = useOverlay();
   const merchantId = useSelector(selectMerchantId);
   const isWatchlistsLoaded = useSelector(selectIsWatchlistsLoaded);
+  const [isDataPooling, setIsDataPooling] = useState(false);
+  const [selectedWatchlist, setSelectedWatchlist] = useState<FlowWatchlist | null>(null);
+
+  const handleWatchlistLoad = useCallback(() => {
+    // TODO: @richvoronov will use it on STAGE 2 of this feature
+    // console.log('isReload', isReload, selectedWatchlist);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedWatchlist]);
+
+  useLongPolling(handleWatchlistLoad, 3000, {
+    isCheckMerchantTag: false,
+    isUseFirstInvoke: false,
+    isDone: !isDataPooling,
+  });
 
   const handleCloseOverlay = useCallback(() => {
+    setSelectedWatchlist(null);
+    setIsDataPooling(false);
     closeOverlay();
-    dispatch(clearCurrentWatchlist());
-  }, [dispatch, closeOverlay]);
+  }, [closeOverlay]);
 
-  const customWatchlistsContentUpdate = useCallback((watchlistId: number, values: WatchlistContentTypes) => {
-    dispatch(updateMerchantWatchlistContent(merchantId, watchlistId, values));
-  }, [merchantId, dispatch]);
-
-  const handleSubmitWatchlist = useCallback((watchlist?: IFlowWatchlist) => (values: CustomWatchlistModalValidationInputTypes) => {
-    const watchlistRequestData = {
-      name: values.name,
-      mapping: values.mapping,
-    };
+  const handleSubmitWatchlist = useCallback((watchlist?: FlowWatchlist) => (values: CustomWatchlistModalValidationInputTypes) => {
+    setIsDataPooling(true);
     if (watchlist) {
       dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData, handleCloseOverlay));
       customWatchlistsContentUpdate(watchlist.id, {
@@ -60,37 +68,48 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
     }));
   }, [merchantId, customWatchlistsContentUpdate, handleCloseOverlay, dispatch]);
 
-  const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {
-    if (watchlist?.id) {
-      dispatch(setCurrentWatchlist(watchlist.id));
-    }
+  const handleChangeStep = useCallback((watchlist?: FlowWatchlistUi) => () => {
+    setSelectedWatchlist(watchlist);
     createOverlay(
-      <CustomWatchlistModalValidation
+      <CustomWatchListModalValidation
         watchlist={watchlist}
         onClose={handleCloseOverlay}
         onSubmit={handleSubmitWatchlist(watchlist)}
       />,
       { onClose: handleCloseOverlay },
     );
-  }, [dispatch, createOverlay, handleCloseOverlay, handleSubmitWatchlist]);
+  }, [createOverlay, handleCloseOverlay, handleSubmitWatchlist]);
 
   const handleDeleteWatchList = useCallback((watchlistId: number) => () => {
-    dispatch(deleteCustomWatchlistById(merchantId, watchlistId));
+    dispatch(deleteCustomWatchlist(merchantId, watchlistId));
   }, [merchantId, dispatch]);
 
   return (
     <Box>
-      {!isWatchlistsLoaded ? <CustomWatchlistsLoading /> : (
+      {!isWatchlistsLoaded ? (
+        <Grid container spacing={2} direction="column">
+          <Grid item>
+            <SkeletonThreeRectTwoCircle />
+          </Grid>
+          <Grid item>
+            <SkeletonThreeRectTwoCircle />
+          </Grid>
+          <Grid item>
+            <SkeletonThreeRectTwoCircle />
+          </Grid>
+        </Grid>
+      ) : (
         <>
-          {watchlists?.map((watchlist) => (
+          {watchlists?.map((watchlist, watchlistIndex) => (
             <Box key={watchlist.id} className={classes.wrapper} p={2} mb={2}>
               <Box mb={2}>
                 <Grid container wrap="nowrap" alignItems="center">
                   <Box color="common.black90" fontWeight="bold" mr={1}>
-                    {watchlist.name}
+                    {/* TODO: @richvoronov STAGE 2, Do we need this if the name field is required?  */}
+                    {watchlist.name || intl.formatMessage({ id: 'CustomWatchlist.settings.step.title' }, { count: watchlistIndex + 1 })}
                   </Box>
                   <Box ml="auto" flexShrink={0}>
-                    <IconButton className={classnames(classes.button, classes.buttonEdit)} onClick={handleOpenWatchlist(watchlist)}>
+                    <IconButton className={classnames(classes.button, classes.buttonEdit)} onClick={handleChangeStep(watchlist)}>
                       <FiEdit size={17} />
                     </IconButton>
                     <IconButton className={classnames(classes.button, classes.buttonTrash)} onClick={handleDeleteWatchList(watchlist.id)}>
@@ -99,14 +118,15 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
                   </Box>
                 </Grid>
                 <Grid container>
-                  {watchlist.createdAt && !watchlist.process?.error ? (
+                  {/* TODO: @richvoronov STAGE 2, logic should be (watchlist.createdAt && ... no validation error ...) */}
+                  {watchlist.createdAt ? (
                     <Typography variant="subtitle2" className={classes.colorGreen}>
                       {intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.uploaded' })}
                       {' '}
-                      {dayjs(watchlist.createdAt).format(DateFormat.FullMonthDateAndFullYear)}
+                      {dayjs(watchlist.createdAt).format('ll')}
                     </Typography>
                   ) : (
-                    <Typography variant="subtitle2" className={classes.colorRed}>{intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.validation.error' })}</Typography>
+                    <Typography variant="subtitle2" className={classes.colorRed}>{intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.validationError' })}</Typography>
                   )}
                 </Grid>
                 <Box mt={2}>
@@ -115,7 +135,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
               </Box>
             </Box>
           ))}
-          <Button className={classes.buttonAdd} onClick={handleOpenWatchlist()} color="primary" variant="outlined">
+          <Button className={classes.buttonAdd} onClick={handleChangeStep()} color="primary" variant="outlined">
             <FiPlus size={12} />
             {intl.formatMessage({ id: 'CustomWatchlist.settings.button' })}
           </Button>

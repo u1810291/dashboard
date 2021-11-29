@@ -68,8 +68,8 @@ export function ESignatureConfiguration() {
           },
         },
       }));
-    } catch (error: any) {
-      console.error('error', error.message);
+    } catch (e: any) {
+      console.error('error', e.message);
       notification.error(intl.formatMessage({ id: 'Error.common' }));
     } finally {
       setIsLoading(false);
@@ -90,8 +90,8 @@ export function ESignatureConfiguration() {
           [VerificationPatternTypes.ESignatureDocuments]: checked,
         },
       }));
-    } catch (error: any) {
-      console.error('error', error.message);
+    } catch (e: any) {
+      console.error('error', e.message);
       notification.error(intl.formatMessage({ id: 'Error.common' }));
     } finally {
       setIsLoading(false);

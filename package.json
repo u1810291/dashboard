@@ -32,7 +32,7 @@
     "react-dropzone": "^10.2.2",
     "react-flow-renderer": "9.6.0",
     "react-helmet": "^5.2.1",
-    "react-hook-form": "^7.20.4",
+    "react-hook-form": "^7.15.2",
     "react-icons": "^4.3.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-intl": "^5.10.9",
