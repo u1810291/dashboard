@@ -4,11 +4,11 @@ import { ProductSettingsProps } from 'models/Product.model';
 import React, { useEffect, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { IFlowWatchlist, CustomWatchlistSettingsTypes, CustomWatchlistSeverityOnMatchTypes, FlowWatchlistUi } from 'models/CustomWatchlist.model';
+import { FlowWatchlist, CustomWatchlistSettingsTypes, CustomWatchlistSeverityOnMatchTypes, FlowWatchlistUi } from 'models/CustomWatchlist.model';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { CustomWatchlistItemSettings } from '../CustomWatchlistItemSettings/CustomWatchlistItemSettings';
 import { selectWatchlists } from '../../state/CustomWatchlist.selectors';
-import { customWatchlistsClear, customWatchlistsLoad } from '../../state/CustomWatchlist.actions';
+import { customWatchlistClear, customWatchlistsLoad } from '../../state/CustomWatchlist.actions';
 
 export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsProps<CustomWatchlistSettingsTypes>) {
   const intl = useIntl();
@@ -16,9 +16,9 @@ export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsP
   const merchantId = useSelector(selectMerchantId);
   const dispatch = useDispatch();
 
-  const handleUpdateItem = useCallback((watchlist: IFlowWatchlist) => {
+  const handleUpdateItem = useCallback((watchlist: FlowWatchlist) => {
     const newSettings = cloneDeep(settings);
-    const settingsWatchlists: IFlowWatchlist[] = newSettings[CustomWatchlistSettingsTypes.Watchlists].value;
+    const settingsWatchlists: FlowWatchlist[] = newSettings[CustomWatchlistSettingsTypes.Watchlists].value;
     const settingsWatchlistIndex = settingsWatchlists.findIndex((item) => item.id === watchlist.id);
 
     if (settingsWatchlistIndex >= 0) {
@@ -33,7 +33,7 @@ export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsP
   [settings, onUpdate]);
 
   const flowAndCustomWatchlistsMerged: FlowWatchlistUi[] = useMemo(() => {
-    const flowWatchlists: IFlowWatchlist[] = settings[CustomWatchlistSettingsTypes.Watchlists].value;
+    const flowWatchlists: FlowWatchlist[] = settings[CustomWatchlistSettingsTypes.Watchlists].value;
     return watchlists.map((watchlist) => {
       const findedWatchlist = flowWatchlists.find((flowWatchlist) => flowWatchlist.id === watchlist.id);
       return {
@@ -47,7 +47,7 @@ export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsP
   useEffect(() => {
     dispatch(customWatchlistsLoad(merchantId));
     return () => {
-      dispatch(customWatchlistsClear());
+      dispatch(customWatchlistClear());
     };
   }, [merchantId, dispatch]);
 
