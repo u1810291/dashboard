@@ -1,31 +1,35 @@
 import { Grid } from '@material-ui/core';
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { ValidatedInputsKeys } from 'models/CustomWatchlist.model';
+import { ValidatedInputsKeys, WatchlistMappingOptions } from 'models/CustomWatchlist.model';
 import { ValidatedInput } from '../ValidatedInput/ValidatedInput';
+import { selectCurrentCustomWatchlistError } from '../../state/CustomWatchlist.selectors';
 
 export const placeholderKey = 'placeholder';
+
+interface ValidatedInputsFieldValuesOptions {
+  fuzziness?: number;
+}
 
 export interface SelectedOptions {
   [key: string]: {
     label: string;
     value: string;
-    options?: FieldValuesOptions;
+    options?: ValidatedInputsFieldValuesOptions;
   };
 }
 
-export interface FieldValuesOptions {
-  fuzziness?: number;
-}
-
-interface FieldValues {
+export interface ValidatedInputsFieldTypes {
   label: string;
   value: string;
-  options?: FieldValuesOptions;
+  options?: ValidatedInputsFieldValuesOptions;
 }
 
-export function ValidatedInputs({ fieldValues }: { fieldValues: FieldValues[] }) {
+export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: ValidatedInputsFieldTypes[]; onChange: (mapping: ValidatedInputsFieldTypes[]) => void }) {
   const intl = useIntl();
+  // TODO: STAGE 3, @richvoronov get currentWatchlist.error and show in ui
+  const currentWatchlistError = useSelector(selectCurrentCustomWatchlistError);
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(fieldValues.reduce((prev, cur) => ({ ...prev, [cur.value]: cur }), {}));
 
   const inputOptions = useMemo(() => [
@@ -59,15 +63,20 @@ export function ValidatedInputs({ fieldValues }: { fieldValues: FieldValues[] })
     },
   ], [intl]);
 
-  const handleChange = useCallback((values: { value: string; name?: string }) => {
+  const handleChange = useCallback((values: { value: string; name?: string; options?: WatchlistMappingOptions }) => {
     setSelectedOptions((prev) => ({
       ...prev,
       [values.name]: {
         label: inputOptions.find((option) => option.value === values.value).label,
         value: values.value,
+        ...(values?.options && { options: values.options }),
       },
     }));
   }, [inputOptions]);
+
+  useEffect(() => {
+    onChange(Object.values(selectedOptions));
+  }, [selectedOptions, onChange]);
 
   return (
     <Grid container direction="column" spacing={1}>

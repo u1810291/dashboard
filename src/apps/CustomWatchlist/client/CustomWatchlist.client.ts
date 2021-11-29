@@ -1,26 +1,30 @@
 import { http } from 'lib/client/http';
-import { Watchlist } from 'models/CustomWatchlist.model';
+import { IWatchlist, CustomWatchlistUpload, WatchlistContentTypes, WatchlistCreateBodyTypes, WatchlistProcess } from 'models/CustomWatchlist.model';
 
-// TODO: @richvoronov replace Object in params with normal type on STAGE 2
-export function getMerchantWatchlistsById(merchantId: string, params: Object) {
-  return http.get<Watchlist[]>(`/api/v1/merchants/${merchantId}/watchlists`, { params });
+export function getMerchantWatchlists(merchantId: string) {
+  return http.get<IWatchlist[]>(`/api/v1/merchants/${merchantId}/watchlists?embed=process`);
+}
+
+export function getMerchantWatchlistById(merchantId: string, watchlistId: number) {
+  return http.get<IWatchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}?embed=process`);
 }
 
 export function deleteMerchantWatchlistById(merchantId: string, watchlistId: number) {
   return http.delete(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}`);
 }
 
-// TODO: @richvoronov replace Object in params with normal type on STAGE 2
-export function createMerchantWatchlistById(merchantId: string, body: Object) {
-  return http.post<Watchlist>(`/api/v1/merchants/${merchantId}/watchlists`, body);
+export function createMerchantWatchlist(merchantId: string, body: WatchlistCreateBodyTypes) {
+  return http.post<IWatchlist>(`/api/v1/merchants/${merchantId}/watchlists`, body);
 }
 
-// TODO: @richvoronov replace Object in params with normal type on STAGE 2
-export function updateMerchantWatchlistById(merchantId: string, watchlistId: number, body: Object) {
-  return http.patch<Watchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}`, body);
+export function updateMerchantWatchlistById(merchantId: string, watchlistId: number, body: WatchlistCreateBodyTypes) {
+  return http.patch<IWatchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}?embed=process`, body);
 }
 
-// TODO: @richvoronov replace Object in params with normal type on STAGE 2
-export function uploadMerchantWatchlist(body: Object) {
-  return http.post('/v1/media', body);
+export function updateMerchantWatchlistContentById(merchantId: string, watchlistId: number, body: WatchlistContentTypes) {
+  return http.post<{ id: number; process: Pick<WatchlistProcess, 'inputSourceFileName' | 'csvSeparator'> }>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}/content`, body);
+}
+
+export function uploadMerchantWatchlist(merchantId: string, body: FormData) {
+  return http.post<CustomWatchlistUpload>(`/api/v1/merchants/${merchantId}/watchlists/file`, body);
 }
