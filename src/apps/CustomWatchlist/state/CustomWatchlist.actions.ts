@@ -9,9 +9,9 @@ import { selectCanUseCustomWatchlists, selectWatchlists } from './CustomWatchlis
 export const customWatchlistInit = () => (dispatch, getState): ProductTypes => {
   const canUseCustomWatchlists = selectCanUseCustomWatchlists(getState());
 
-  // if (!canUseCustomWatchlists) {
-  //   return null;
-  // }
+  if (!canUseCustomWatchlists) {
+    return null;
+  }
 
   const customWatchlist = new CustomWatchlist();
   productManagerService.register(customWatchlist);
