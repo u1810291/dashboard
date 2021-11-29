@@ -22,7 +22,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
   const isWatchlistsContentLoading = useSelector(selectIsWatchlistsContentLoading);
   const classes = useStyles();
   const [fileName, setFileName] = useState<string>(watchlist?.process?.inputSourceFileName);
-  const { setValue, setError, formState: { errors } } = useFormContext();
+  const { setValue, setError, clearErrors, formState: { errors } } = useFormContext();
 
   useEffect(() => {
     if (fileName) {
@@ -39,13 +39,13 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
       const { data } = await api.uploadMerchantWatchlist(merchantId, form);
       onFileUploaded(data);
       setValue(CustomWatchlistModalValidationInputs.FileKey, data.key);
-      setError(CustomWatchlistModalValidationInputs.FileKey, {});
+      clearErrors(CustomWatchlistModalValidationInputs.FileKey);
     } catch {
       setError(CustomWatchlistModalValidationInputs.FileKey, {
         message: intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.fileErrorUpload' }),
       });
     }
-  }, [merchantId, intl, setValue, onFileUploaded, setError]);
+  }, [merchantId, intl, setValue, clearErrors, onFileUploaded, setError]);
 
   const extFile = useMemo(() => {
     const arr = fileName?.split('.') || [];

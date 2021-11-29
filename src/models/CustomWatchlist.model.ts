@@ -67,7 +67,6 @@ export interface WatchlistProcess {
   error: ErrorType | null;
   id: number;
   inputSourceFileName: string;
-  inputSourceFileUri: string;
   name: WatchlistProcessName;
   startCount: number;
   status: WatchlistProcessStatus;
@@ -127,7 +126,7 @@ export interface WatchlistCreateBodyTypes {
 }
 
 export interface WatchlistContentTypes {
-  fileUrl: string;
+  sourceFileKey: string;
   fileName: string;
   csvSeparator: string;
 }

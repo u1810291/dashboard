@@ -44,21 +44,19 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
     if (watchlist) {
       dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData, handleCloseOverlay));
       customWatchlistsContentUpdate(watchlist.id, {
-        // TODO: @richvoronov STAGE 2, remove mock
-        fileUrl: 'https://file.liga.net/images/general/2020/09/08/20200908171549-5386.jpg?v=1599578314',
+        sourceFileKey: values.fileKey,
         fileName: values.fileName,
         csvSeparator: values.csvSeparator,
       });
       return;
     }
     dispatch(customWatchlistCreate(merchantId, watchlistRequestData, (watchlistData) => {
-      handleCloseOverlay();
       customWatchlistsContentUpdate(watchlistData.id, {
-        // TODO: @richvoronov STAGE 2, remove mock
-        fileUrl: 'https://file.liga.net/images/general/2020/09/08/20200908171549-5386.jpg?v=1599578314',
+        sourceFileKey: values.fileKey,
         fileName: values.fileName,
         csvSeparator: values.csvSeparator,
       });
+      handleCloseOverlay();
     }));
   }, [merchantId, customWatchlistsContentUpdate, handleCloseOverlay, dispatch]);
 

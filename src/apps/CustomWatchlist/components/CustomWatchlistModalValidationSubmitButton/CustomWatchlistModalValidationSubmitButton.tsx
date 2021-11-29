@@ -32,8 +32,9 @@ export function CustomWatchlistModalValidationSubmitButton({ isWatchlistsLoading
         </>
       ) : (
         <>
+          {!currentWatchlist && intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.create' })}
           {currentWatchlist?.process.status === WatchlistProcessStatus.Completed && intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.done' })}
-          {!currentWatchlist?.process && intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.validate' })}
+          {(currentWatchlist?.id && !currentWatchlist?.process) && intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.validate' })}
         </>
       )}
     </ButtonStyled>
