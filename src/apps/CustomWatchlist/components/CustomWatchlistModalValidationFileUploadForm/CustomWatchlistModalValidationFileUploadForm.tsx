@@ -5,7 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { InputLabel, Typography } from '@material-ui/core';
 import { useIntl } from 'react-intl';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
-import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, CustomWatchlistFileExt } from 'models/CustomWatchlist.model';
+import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, CustomWatchlistFileExt, CustomWatchlistUpload } from 'models/CustomWatchlist.model';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { WithActionDescriptionBordered } from 'apps/ui/components/WithActionDescriptionBordered/WithActionDescriptionBordered';
 import { useStyles, RoundedButton } from './CustomWatchlistModalValidationFileUploadForm.styles';
@@ -13,8 +13,9 @@ import * as api from '../../client/CustomWatchlist.client';
 import { CSVSeparatorSelect } from '../CSVSeparatorSelect/CSVSeparatorSelect';
 import { selectIsWatchlistsContentLoading } from '../../state/CustomWatchlist.selectors';
 
-export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
+export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFileUploaded }: {
   watchlist?: FlowWatchlistUi;
+  onFileUploaded?: (data: CustomWatchlistUpload) => void;
 }) {
   const intl = useIntl();
   const merchantId = useSelector(selectMerchantId);
@@ -25,7 +26,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
 
   useEffect(() => {
     if (fileName) {
-      setValue(CustomWatchlistModalValidationInputs.FileName, fileName);
+      setValue(CustomWatchlistModalValidationInputs.FileKey, fileName);
     }
   }, [fileName, setValue]);
 
@@ -36,15 +37,15 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
     form.append('media', file);
     try {
       const { data } = await api.uploadMerchantWatchlist(merchantId, form);
-      console.log(data);
-      setValue(CustomWatchlistModalValidationInputs.FileUrl, data.publicUrl);
-      setError(CustomWatchlistModalValidationInputs.FileUrl, {});
+      onFileUploaded(data);
+      setValue(CustomWatchlistModalValidationInputs.FileKey, data.key);
+      setError(CustomWatchlistModalValidationInputs.FileKey, {});
     } catch {
-      setError(CustomWatchlistModalValidationInputs.FileUrl, {
+      setError(CustomWatchlistModalValidationInputs.FileKey, {
         message: intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.fileErrorUpload' }),
       });
     }
-  }, [merchantId, intl, setValue, setError]);
+  }, [merchantId, intl, setValue, onFileUploaded, setError]);
 
   const extFile = useMemo(() => {
     const arr = fileName?.split('.') || [];
@@ -66,7 +67,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist }: {
         </Typography>
       </InputLabel>
       {fileName ? (
-        <WithActionDescriptionBordered description={fileName} error={errors[CustomWatchlistModalValidationInputs.FileUrl]?.message}>
+        <WithActionDescriptionBordered description={fileName} error={errors[CustomWatchlistModalValidationInputs.FileKey]?.message}>
           <FileUploadButton
             onChange={handleUploadFile}
             accept=".csv"

@@ -8,7 +8,7 @@ import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
-import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus, customWatchlistsPollingDelay } from 'models/CustomWatchlist.model';
+import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus, customWatchlistsPollingDelay, CustomWatchlistUpload } from 'models/CustomWatchlist.model';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs, ValidatedInputsFieldTypes } from '../ValidatedInputs/ValidatedInputs';
 import { selectIsWatchlistsLoading } from '../../state/CustomWatchlist.selectors';
@@ -19,7 +19,7 @@ import { CustomWatchlistModalValidationSubmitButton } from '../CustomWatchlistMo
 
 export interface CustomWatchlistModalValidationInputTypes {
   [CustomWatchlistModalValidationInputs.Name]: string;
-  [CustomWatchlistModalValidationInputs.FileUrl]: string | null;
+  [CustomWatchlistModalValidationInputs.FileKey]: string | null;
   [CustomWatchlistModalValidationInputs.Mapping]: WatchlistMapping[];
   [CustomWatchlistModalValidationInputs.CsvSeparator]: null;
   [CustomWatchlistModalValidationInputs.FileName]: string;
@@ -37,6 +37,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const isWatchlistsLoading = useSelector(selectIsWatchlistsLoading);
   const [isFormSubmitting, setIsFormSubmitting] = useState<boolean>(false);
   const [isSubmittingError, setIsSubmittingError] = useState<boolean>(false);
+  const [fileKey, setFileKey] = useState<string | null>(null);
   const formMethods = useForm<CustomWatchlistModalValidationInputTypes>();
   const { register, handleSubmit, setValue, formState: { errors } } = formMethods;
   const classes = useStyles();
@@ -63,7 +64,6 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     required: intl.formatMessage({ id: 'validations.required' }),
   });
 
-  // TODO: @richvoronov STAGE 3 make validation if file not added
   const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback((values) => {
     if (isWatchlistRunning) {
       return;
@@ -83,6 +83,12 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     const validatedInputsValuesFormated = validatedInputsValues.map((fields) => ({ merchantField: fields.label, systemField: fields.value, ...(fields?.options && { options: fields.options }) }));
     setValue(CustomWatchlistModalValidationInputs.Mapping, validatedInputsValuesFormated);
   }, [setValue]);
+
+  const handleFileUploaded = useCallback((data: CustomWatchlistUpload) => {
+    if (data.key) {
+      setFileKey(data.key);
+    }
+  }, []);
 
   const watchlistMapping = useMemo(() => watchlist?.mapping?.map((fields) => ({ label: fields.merchantField, value: fields.systemField, ...(fields?.options && { options: fields.options }) })), [watchlist?.mapping]);
 
@@ -127,7 +133,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                 />
               </Box>
               <Box mb={3}>
-                <CustomWatchlistModalValidationFileUploadForm watchlist={watchlist} />
+                <CustomWatchlistModalValidationFileUploadForm watchlist={watchlist} onFileUploaded={handleFileUploaded} />
               </Box>
             </Grid>
             <Grid item xs={6}>
@@ -157,7 +163,12 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
               </ButtonStyled>
             </Grid>
             <Grid item xs={6}>
-              <CustomWatchlistModalValidationSubmitButton isWatchlistsLoading={isWatchlistsLoading} isFormSubmitting={isFormSubmitting} isWatchlistRunning={isWatchlistRunning} />
+              <CustomWatchlistModalValidationSubmitButton
+                isWatchlistsLoading={isWatchlistsLoading}
+                isFormSubmitting={isFormSubmitting}
+                isWatchlistRunning={isWatchlistRunning}
+                disabled={!fileKey || isWatchlistsLoading || isWatchlistRunning}
+              />
             </Grid>
           </Grid>
         </form>

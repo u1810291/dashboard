@@ -88,8 +88,7 @@ export interface IWatchlist {
 }
 
 export interface CustomWatchlistUpload {
-  publicUrl: string;
-  url: string;
+  key: string;
 }
 
 export enum CustomWatchlistSettingsTypes {
@@ -111,7 +110,7 @@ export enum ValidatedInputsKeys {
 
 export enum CustomWatchlistModalValidationInputs {
   Name = 'name',
-  FileUrl = 'fileUrl',
+  FileKey = 'fileKey',
   Mapping = 'mapping',
   CsvSeparator = 'csvSeparator',
   FileName = 'fileName'

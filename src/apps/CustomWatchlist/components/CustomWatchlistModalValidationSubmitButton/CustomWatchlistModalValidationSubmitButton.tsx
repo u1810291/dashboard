@@ -7,10 +7,11 @@ import { WatchlistProcessStatus } from 'models/CustomWatchlist.model';
 import { selectCurrentCustomWatchlist } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistModalValidationSubmitButton.styles';
 
-export function CustomWatchlistModalValidationSubmitButton({ isWatchlistsLoading, isWatchlistRunning, isFormSubmitting }: {
+export function CustomWatchlistModalValidationSubmitButton({ isWatchlistsLoading, isWatchlistRunning, isFormSubmitting, disabled }: {
   isWatchlistsLoading: boolean;
   isWatchlistRunning: boolean;
   isFormSubmitting: boolean;
+  disabled: boolean;
 }) {
   const intl = useIntl();
   const classes = useStyles();
@@ -22,7 +23,7 @@ export function CustomWatchlistModalValidationSubmitButton({ isWatchlistsLoading
       color="primary"
       size="large"
       fullWidth
-      disabled={isWatchlistsLoading || isWatchlistRunning}
+      disabled={disabled}
     >
       {isWatchlistsLoading || isFormSubmitting || isWatchlistRunning ? (
         <>
