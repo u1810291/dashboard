@@ -21,7 +21,7 @@ export interface CustomWatchlistModalValidationInputTypes {
   [CustomWatchlistModalValidationInputs.Name]: string;
   [CustomWatchlistModalValidationInputs.FileKey]: string | null;
   [CustomWatchlistModalValidationInputs.Mapping]: WatchlistMapping[];
-  [CustomWatchlistModalValidationInputs.CsvSeparator]: null;
+  [CustomWatchlistModalValidationInputs.CsvSeparator]: string | null;
   [CustomWatchlistModalValidationInputs.FileName]: string;
 }
 
@@ -93,10 +93,8 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const watchlistMapping = useMemo(() => watchlist?.mapping?.map((fields) => ({ label: fields.merchantField, value: fields.systemField, ...(fields?.options && { options: fields.options }) })), [watchlist?.mapping]);
 
   useEffect(() => {
-    if (!isDataPooling) {
-      if (watchlist?.process.status === WatchlistProcessStatus.Running) {
-        setIsDataPooling(true);
-      }
+    if (!isDataPooling && watchlist?.process.status === WatchlistProcessStatus.Running) {
+      setIsDataPooling(true);
     }
   }, [isDataPooling, watchlist]);
 

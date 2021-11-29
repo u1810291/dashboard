@@ -35,7 +35,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
     onChange(target);
   }, [onChange]);
 
-  const handleSliderChange = useCallback((fieldValue: any, fieldName: string) => (_: React.ChangeEvent<{}>, val: number | number[]) => {
+  const handleSliderChange = useCallback((fieldValue: string, fieldName: string) => (_: React.ChangeEvent<{}>, val: number | number[]) => {
     setRangeSliderValue(val as number);
     debounced(() => onChange({
       value: fieldValue,
