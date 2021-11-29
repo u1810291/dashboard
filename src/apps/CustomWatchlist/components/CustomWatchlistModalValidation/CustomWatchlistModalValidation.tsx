@@ -63,6 +63,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     required: intl.formatMessage({ id: 'validations.required' }),
   });
 
+  // TODO: @richvoronov STAGE 3 make validation if file not added
   const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback((values) => {
     if (isWatchlistRunning) {
       return;
