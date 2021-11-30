@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useFormContext, Controller } from 'react-hook-form';
 import { Grid, Select, MenuItem } from '@material-ui/core';
-import { CsvDelimiterTypes, CsvSeparatorInputEnum, CustomWatchlistModalValidationInputs } from 'models/CustomWatchlist.model';
+import { CsvDelimiterTypes, CsvSeparatorInputEnum, CustomWatchlistModalValidationInputs } from '../../models/CustomWatchlist.models';
 import { useStyles } from './CSVSeparatorSelect.styles';
 
 function CSVSeparatorSelectMenuItem({ value }: { value: CsvSeparatorInputEnum }) {

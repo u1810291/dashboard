@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { MerchantTags } from 'models/Merchant.model';
-import { IWatchlist } from 'models/CustomWatchlist.model';
 import { CustomWatchlistsStore, CUSTOM_WATCHLISTS_STORE_KEY } from './CustomWatchlist.store';
+import { IWatchlist } from '../models/CustomWatchlist.models';
 
 export const selectCustomWatchlistsStore = (state): CustomWatchlistsStore => state[CUSTOM_WATCHLISTS_STORE_KEY];
 

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useOverlay } from 'apps/overlay';
 import dayjs from 'dayjs';
 import classnames from 'classnames';
-import { IFlowWatchlist, FlowWatchlistUi, WatchlistContentTypes, ValidatedInputsKeys } from 'models/CustomWatchlist.model';
+import { IFlowWatchlist } from 'models/CustomWatchlist.model';
 import React, { useCallback } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -15,6 +15,7 @@ import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdate
 import { selectIsWatchlistsFailed, selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
+import { FlowWatchlistUi, WatchlistContentTypes, ValidatedInputsKeys } from '../../models/CustomWatchlist.models';
 
 // TODO: @richvoronov, remove mock on STAGE 4
 const mockMapping = [

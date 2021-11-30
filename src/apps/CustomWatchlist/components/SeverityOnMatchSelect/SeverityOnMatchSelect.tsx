@@ -2,7 +2,8 @@ import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import classnames from 'classnames';
 import { Select, MenuItem } from '@material-ui/core';
-import { CustomWatchlistSeverityOnMatchTypes, IFlowWatchlist, FlowWatchlistUi } from 'models/CustomWatchlist.model';
+import { CustomWatchlistSeverityOnMatchTypes, IFlowWatchlist } from 'models/CustomWatchlist.model';
+import { FlowWatchlistUi } from '../../models/CustomWatchlist.models';
 import { useStyles } from './SeverityOnMatchSelect.styles';
 
 export const SeverityOnMatchSelect = ({ watchlist, onUpdate }: {

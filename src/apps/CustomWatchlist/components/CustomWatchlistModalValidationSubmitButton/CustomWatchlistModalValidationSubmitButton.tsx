@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { WatchlistProcessStatus } from 'models/CustomWatchlist.model';
+import { WatchlistProcessStatus } from '../../models/CustomWatchlist.models';
 import { selectCurrentCustomWatchlist } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistModalValidationSubmitButton.styles';
 

@@ -2,9 +2,9 @@ import { Grid } from '@material-ui/core';
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { ValidatedInputsKeys, WatchlistMappingOptions } from 'models/CustomWatchlist.model';
 import { ValidatedInput } from '../ValidatedInput/ValidatedInput';
 import { selectCurrentCustomWatchlistError } from '../../state/CustomWatchlist.selectors';
+import { ValidatedInputsKeys, WatchlistMappingOptions } from '../../models/CustomWatchlist.models';
 
 export const placeholderKey = 'placeholder';
 

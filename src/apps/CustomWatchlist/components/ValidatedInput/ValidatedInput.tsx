@@ -4,10 +4,10 @@ import classnames from 'classnames';
 import { FiChevronDown } from 'react-icons/fi';
 import { Grid, Typography, MenuItem, Box } from '@material-ui/core';
 import { appPalette } from 'apps/theme';
-import { ValidatedInputsKeys, WatchlistMappingOptions } from 'models/CustomWatchlist.model';
 import { RangeSlider } from 'apps/ui/components/RangeSlider/RangeSlider';
 import { SelectedOptions, placeholderKey as placeholderKeyConst } from '../ValidatedInputs/ValidatedInputs';
 import { useStyles, SelectStyled } from './ValidatedInput.styles';
+import { ValidatedInputsKeys, WatchlistMappingOptions } from '../../models/CustomWatchlist.models';
 
 interface Option {
   label: string;

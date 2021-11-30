@@ -4,11 +4,12 @@ import { ProductSettingsProps } from 'models/Product.model';
 import React, { useEffect, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { IFlowWatchlist, CustomWatchlistSettingsTypes, CustomWatchlistSeverityOnMatchTypes, FlowWatchlistUi } from 'models/CustomWatchlist.model';
+import { CustomWatchlistSeverityOnMatchTypes, IFlowWatchlist } from 'models/CustomWatchlist.model';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { CustomWatchlistItemSettings } from '../CustomWatchlistItemSettings/CustomWatchlistItemSettings';
 import { selectWatchlists } from '../../state/CustomWatchlist.selectors';
 import { customWatchlistsClear, customWatchlistsLoad } from '../../state/CustomWatchlist.actions';
+import { CustomWatchlistSettingsTypes, FlowWatchlistUi } from '../../models/CustomWatchlist.models';
 
 export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsProps<CustomWatchlistSettingsTypes>) {
   const intl = useIntl();

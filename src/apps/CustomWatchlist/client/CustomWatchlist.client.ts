@@ -1,5 +1,5 @@
 import { http } from 'lib/client/http';
-import { IWatchlist, CustomWatchlistUpload, WatchlistContentTypes, WatchlistCreateBodyTypes, WatchlistProcess } from 'models/CustomWatchlist.model';
+import { IWatchlist, CustomWatchlistUpload, WatchlistContentTypes, WatchlistCreateBodyTypes, WatchlistProcess } from '../models/CustomWatchlist.models';
 
 export function getMerchantWatchlists(merchantId: string) {
   return http.get<IWatchlist[]>(`/api/v1/merchants/${merchantId}/watchlists?embed=process`);
