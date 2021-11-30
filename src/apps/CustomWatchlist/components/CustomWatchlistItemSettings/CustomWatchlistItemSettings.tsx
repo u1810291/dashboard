@@ -66,7 +66,6 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
       return;
     }
     dispatch(customWatchlistCreate(merchantId, watchlistRequestData, (watchlistData) => {
-      console.log('values', values);
       customWatchlistsContentUpdate(watchlistData.id, {
         sourceFileKey: values.fileKey,
         fileName: values.fileName,

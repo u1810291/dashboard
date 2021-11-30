@@ -44,5 +44,5 @@ export const selectCurrentCustomWatchlist = createSelector(
 export const selectCurrentCustomWatchlistError = createSelector(
   selectCustomWatchlistsStore,
   // TODO: STAGE 3, @richvoronov set error type
-  (store): any | null => store.currentWatchlist.value?.process.error,
+  (store): any | null => store.currentWatchlist.value?.process?.error,
 );

@@ -36,7 +36,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const [isDataPolling, setIsDataPolling] = useState(false);
   const isWatchlistsLoading = useSelector(selectIsWatchlistsLoading);
   const [isSubmittingError, setIsSubmittingError] = useState<boolean>(false);
-  const [fileKey, setFileKey] = useState<string | null>(null);
+  const [fileKey, setFileKey] = useState<string | null>(watchlist?.process?.inputSourceFileKey ?? null);
   const formMethods = useForm<CustomWatchlistModalValidationInputTypes>();
   const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = formMethods;
   const classes = useStyles();
@@ -87,7 +87,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const watchlistMapping = useMemo(() => watchlist?.mapping?.map((fields) => ({ label: fields.merchantField, value: fields.systemField, ...(fields?.options && { options: fields.options }) })), [watchlist?.mapping]);
 
   useEffect(() => {
-    if (!isDataPolling && watchlist?.process.status === WatchlistProcessStatus.Running) {
+    if (!isDataPolling && watchlist?.process?.status === WatchlistProcessStatus.Running) {
       setIsDataPolling(true);
     }
   }, [isDataPolling, watchlist]);

@@ -67,6 +67,7 @@ export interface WatchlistProcess {
   error: ErrorType | null;
   id: number;
   inputSourceFileName: string;
+  inputSourceFileKey: string;
   name: WatchlistProcessName;
   startCount: number;
   status: WatchlistProcessStatus;
