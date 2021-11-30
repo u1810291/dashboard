@@ -29,6 +29,7 @@ export interface ValidatedInputsFieldTypes {
 export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: ValidatedInputsFieldTypes[]; onChange: (mapping: ValidatedInputsFieldTypes[]) => void }) {
   const intl = useIntl();
   // TODO: STAGE 3, @richvoronov get currentWatchlist.error and show in ui
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const currentWatchlistError = useSelector(selectCurrentCustomWatchlistError);
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(fieldValues.reduce((prev, cur) => ({ ...prev, [cur.value]: cur }), {}));
 

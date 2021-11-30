@@ -69,7 +69,7 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
     return verification;
   }
 
-  hasFailedCheck(verification: VerificationResponse): boolean {
+  hasFailedCheck(): boolean {
     return false;
   }
 }
