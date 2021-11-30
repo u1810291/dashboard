@@ -2,10 +2,10 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useFormContext, Controller } from 'react-hook-form';
 import { Grid, Select, MenuItem } from '@material-ui/core';
-import { CsvDelimiterTypes, CsvSeparatorInputTypes, CustomWatchlistModalValidationInputs } from 'models/CustomWatchlist.model';
+import { CsvDelimiterTypes, CsvSeparatorInputEnum, CustomWatchlistModalValidationInputs } from 'models/CustomWatchlist.model';
 import { useStyles } from './CSVSeparatorSelect.styles';
 
-function CSVSeparatorSelectMenuItem({ value }: { value: CsvSeparatorInputTypes }) {
+function CSVSeparatorSelectMenuItem({ value }: { value: CsvSeparatorInputEnum }) {
   const classes = useStyles();
   return (
     <>
@@ -17,7 +17,7 @@ function CSVSeparatorSelectMenuItem({ value }: { value: CsvSeparatorInputTypes }
   );
 }
 
-export const CSVSeparatorSelect = ({ defaultValue = CsvDelimiterTypes[CsvSeparatorInputTypes.Comma] }: { defaultValue?: string }) => {
+export function CSVSeparatorSelect({ defaultValue = CsvDelimiterTypes[CsvSeparatorInputEnum.Comma] }: { defaultValue?: string }) {
   const intl = useIntl();
   const classes = useStyles();
   const { control, formState: { errors } } = useFormContext();
@@ -41,20 +41,20 @@ export const CSVSeparatorSelect = ({ defaultValue = CsvDelimiterTypes[CsvSeparat
               className={classes.select}
               renderValue={(value) => value}
             >
-              <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputTypes.Semicolon]}>
-                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputTypes.Semicolon} />
+              <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputEnum.Semicolon]}>
+                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputEnum.Semicolon} />
               </MenuItem>
-              <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputTypes.Comma]}>
-                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputTypes.Comma} />
+              <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputEnum.Comma]}>
+                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputEnum.Comma} />
               </MenuItem>
-              <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputTypes.Dot]}>
-                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputTypes.Dot} />
+              <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputEnum.Dot]}>
+                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputEnum.Dot} />
               </MenuItem>
-              <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputTypes.Tab]}>
-                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputTypes.Tab} />
+              <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputEnum.Tab]}>
+                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputEnum.Tab} />
               </MenuItem>
-              <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputTypes.Pipe]}>
-                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputTypes.Pipe} />
+              <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputEnum.Pipe]}>
+                <CSVSeparatorSelectMenuItem value={CsvSeparatorInputEnum.Pipe} />
               </MenuItem>
             </Select>
           )}
@@ -63,4 +63,4 @@ export const CSVSeparatorSelect = ({ defaultValue = CsvDelimiterTypes[CsvSeparat
       {errors[CustomWatchlistModalValidationInputs.CsvSeparator] && <span className={classes.red}>{errors[CustomWatchlistModalValidationInputs.CsvSeparator]?.message}</span>}
     </Grid>
   );
-};
+}

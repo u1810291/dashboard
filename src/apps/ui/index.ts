@@ -50,6 +50,7 @@ export * from './components/ImageSkeleton/ImageSkeleton';
 export * from './components/InfoTooltip/InfoTooltip';
 export * from './components/TimeoutModal/TimeoutModal';
 export * from './components/WithActionDescriptionBordered/WithActionDescriptionBordered';
+export * from './components/ButtonStyled/ButtonStyled';
 
 export * from './models/Warning.model';
 export * from './models/SyntaxHighlighter.model';

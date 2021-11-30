@@ -6,7 +6,7 @@ import { useLongPolling } from 'lib/longPolling.hook';
 import { Box, InputLabel, Grid, Typography, TextField } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { useIntl } from 'react-intl';
-import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
+import { ButtonStyled } from 'apps/ui';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus, customWatchlistsPollingDelay, CustomWatchlistUpload } from 'models/CustomWatchlist.model';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
@@ -35,11 +35,10 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const merchantId = useSelector(selectMerchantId);
   const [isDataPolling, setIsDataPolling] = useState(false);
   const isWatchlistsLoading = useSelector(selectIsWatchlistsLoading);
-  const [isFormSubmitting, setIsFormSubmitting] = useState<boolean>(false);
   const [isSubmittingError, setIsSubmittingError] = useState<boolean>(false);
   const [fileKey, setFileKey] = useState<string | null>(null);
   const formMethods = useForm<CustomWatchlistModalValidationInputTypes>();
-  const { register, handleSubmit, setValue, formState: { errors } } = formMethods;
+  const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = formMethods;
   const classes = useStyles();
 
   const isWatchlistRunning = watchlist?.process?.status === WatchlistProcessStatus.Running;
@@ -70,11 +69,8 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     }
     try {
       setIsSubmittingError(false);
-      setIsFormSubmitting(true);
       onSubmit(values);
-      setIsFormSubmitting(false);
     } catch (error) {
-      setIsFormSubmitting(false);
       setIsSubmittingError(true);
     }
   }, [isWatchlistRunning, onSubmit]);
@@ -163,7 +159,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
             <Grid item xs={6}>
               <CustomWatchlistModalValidationSubmitButton
                 isWatchlistsLoading={isWatchlistsLoading}
-                isFormSubmitting={isFormSubmitting}
+                isFormSubmitting={isSubmitting}
                 isWatchlistRunning={isWatchlistRunning}
                 disabled={!fileKey || isWatchlistsLoading || isWatchlistRunning}
               />

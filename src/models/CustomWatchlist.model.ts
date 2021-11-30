@@ -9,7 +9,7 @@ export enum CustomWatchlistSeverityOnMatchTypes {
   Critical = 'critical',
 }
 
-export enum CsvSeparatorInputTypes {
+export enum CsvSeparatorInputEnum {
   Semicolon = 'semicolon',
   Comma = 'comma',
   Dot = 'dot',
@@ -18,11 +18,11 @@ export enum CsvSeparatorInputTypes {
 }
 
 export const CsvDelimiterTypes = {
-  [CsvSeparatorInputTypes.Semicolon]: ';',
-  [CsvSeparatorInputTypes.Comma]: ',',
-  [CsvSeparatorInputTypes.Dot]: '.',
-  [CsvSeparatorInputTypes.Tab]: '\t',
-  [CsvSeparatorInputTypes.Pipe]: '|',
+  [CsvSeparatorInputEnum.Semicolon]: ';',
+  [CsvSeparatorInputEnum.Comma]: ',',
+  [CsvSeparatorInputEnum.Dot]: '.',
+  [CsvSeparatorInputEnum.Tab]: '\t',
+  [CsvSeparatorInputEnum.Pipe]: '|',
 };
 
 export interface WatchlistMappingOptions {
