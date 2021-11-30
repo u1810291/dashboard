@@ -33,7 +33,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const dispatch = useDispatch();
   const intl = useIntl();
   const merchantId = useSelector(selectMerchantId);
-  const [isDataPooling, setIsDataPooling] = useState(false);
+  const [isDataPolling, setIsDataPolling] = useState(false);
   const isWatchlistsLoading = useSelector(selectIsWatchlistsLoading);
   const [isFormSubmitting, setIsFormSubmitting] = useState<boolean>(false);
   const [isSubmittingError, setIsSubmittingError] = useState<boolean>(false);
@@ -48,7 +48,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     if (watchlist?.id) {
       dispatch(customWatchlistLoadById(merchantId, watchlist.id, (watchlistData) => {
         if (watchlistData?.process.status === WatchlistProcessStatus.Completed) {
-          setIsDataPooling(false);
+          setIsDataPolling(false);
         }
       }));
     }
@@ -57,7 +57,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   useLongPolling(handleWatchlistLoad, customWatchlistsPollingDelay, {
     isCheckMerchantTag: false,
     isUseFirstInvoke: false,
-    isDone: !isDataPooling,
+    isDone: !isDataPolling,
   });
 
   const nameRegister = register(CustomWatchlistModalValidationInputs.Name, {
@@ -93,10 +93,10 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const watchlistMapping = useMemo(() => watchlist?.mapping?.map((fields) => ({ label: fields.merchantField, value: fields.systemField, ...(fields?.options && { options: fields.options }) })), [watchlist?.mapping]);
 
   useEffect(() => {
-    if (!isDataPooling && watchlist?.process.status === WatchlistProcessStatus.Running) {
-      setIsDataPooling(true);
+    if (!isDataPolling && watchlist?.process.status === WatchlistProcessStatus.Running) {
+      setIsDataPolling(true);
     }
-  }, [isDataPooling, watchlist]);
+  }, [isDataPolling, watchlist]);
 
   return (
     <Box className={classes.root}>

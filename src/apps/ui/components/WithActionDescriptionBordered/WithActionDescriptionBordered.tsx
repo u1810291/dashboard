@@ -15,7 +15,7 @@ export const WithActionDescriptionBordered = ({
   const classes = useStyles();
   return (
     <>
-      <Grid container className={classnames(classes.wrapp, { [classes.wrappError]: !!error })} justifyContent="space-between" alignItems="center">
+      <Grid container className={classnames(classes.wrap, { [classes.wrapError]: !!error })} justifyContent="space-between" alignItems="center">
         <Grid item className={classes.description} title={description}>{description}</Grid>
         <Grid item>
           {children}

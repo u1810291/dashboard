@@ -1,12 +1,12 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => ({
-  wrapp: {
+  wrap: {
     border: `1px solid ${theme.palette.common.black7}`,
     padding: '10px',
     borderRadius: '5px',
   },
-  wrappError: {
+  wrapError: {
     borderColor: theme.palette.common.red,
   },
   description: {
