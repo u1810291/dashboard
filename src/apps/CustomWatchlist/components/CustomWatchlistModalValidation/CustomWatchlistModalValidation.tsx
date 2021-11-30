@@ -81,9 +81,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   }, [setValue]);
 
   const handleFileUploaded = useCallback((data: CustomWatchlistUpload) => {
-    if (data.key) {
-      setFileKey(data.key);
-    }
+    setFileKey(data?.key);
   }, []);
 
   const watchlistMapping = useMemo(() => watchlist?.mapping?.map((fields) => ({ label: fields.merchantField, value: fields.systemField, ...(fields?.options && { options: fields.options }) })), [watchlist?.mapping]);

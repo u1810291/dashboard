@@ -26,7 +26,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
 
   useEffect(() => {
     if (fileName) {
-      setValue(CustomWatchlistModalValidationInputs.FileKey, fileName);
+      setValue(CustomWatchlistModalValidationInputs.FileName, fileName);
     }
   }, [fileName, setValue]);
 
@@ -35,6 +35,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
     setFileName(file.name);
     const form = new FormData();
     form.append('media', file);
+    onFileUploaded(null);
     try {
       const { data } = await api.uploadMerchantWatchlist(merchantId, form);
       onFileUploaded(data);

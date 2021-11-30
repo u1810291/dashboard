@@ -16,6 +16,11 @@ export const selectIsWatchlistsLoaded = createSelector(
   (store): boolean => store.watchlists.isLoaded,
 );
 
+export const selectIsWatchlistsFailed = createSelector(
+  selectCustomWatchlistsStore,
+  (store): boolean => store.watchlists.isFailed,
+);
+
 export const selectIsWatchlistsLoading = createSelector(
   selectCustomWatchlistsStore,
   (store): boolean => store.watchlists.isLoading,

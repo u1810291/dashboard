@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useOverlay } from 'apps/overlay';
 import dayjs from 'dayjs';
 import classnames from 'classnames';
-import { IFlowWatchlist, FlowWatchlistUi, WatchlistContentTypes } from 'models/CustomWatchlist.model';
+import { IFlowWatchlist, FlowWatchlistUi, WatchlistContentTypes, ValidatedInputsKeys } from 'models/CustomWatchlist.model';
 import React, { useCallback } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -12,9 +12,22 @@ import { DateFormat } from 'lib/date';
 import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
 import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearCurrentWatchlist } from '../../state/CustomWatchlist.actions';
-import { selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
+import { selectIsWatchlistsFailed, selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
+
+// TODO: @richvoronov, remove mock on STAGE 4
+const mockMapping = [
+  {
+    systemField: ValidatedInputsKeys.FullName,
+    merchantField: 'merchantField',
+    options: { fuzziness: 10 },
+  },
+  {
+    systemField: ValidatedInputsKeys.NationalId,
+    merchantField: 'merchantField',
+  },
+];
 
 export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   watchlists: FlowWatchlistUi[];
@@ -26,6 +39,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const [createOverlay, closeOverlay] = useOverlay();
   const merchantId = useSelector(selectMerchantId);
   const isWatchlistsLoaded = useSelector(selectIsWatchlistsLoaded);
+  const isWatchlistsFailed = useSelector(selectIsWatchlistsFailed);
 
   const handleCloseOverlay = useCallback(() => {
     closeOverlay();
@@ -39,7 +53,8 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const handleSubmitWatchlist = useCallback((watchlist?: IFlowWatchlist) => (values: CustomWatchlistModalValidationInputTypes) => {
     const watchlistRequestData = {
       name: values.name,
-      mapping: values.mapping,
+      // mapping: values.mapping,
+      mapping: mockMapping,
     };
     if (watchlist) {
       dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData, handleCloseOverlay));
@@ -51,6 +66,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
       return;
     }
     dispatch(customWatchlistCreate(merchantId, watchlistRequestData, (watchlistData) => {
+      console.log('values', values);
       customWatchlistsContentUpdate(watchlistData.id, {
         sourceFileKey: values.fileKey,
         fileName: values.fileName,
@@ -80,7 +96,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
 
   return (
     <Box>
-      {!isWatchlistsLoaded ? <CustomWatchlistsLoading /> : (
+      {(!isWatchlistsLoaded && !isWatchlistsFailed) ? <CustomWatchlistsLoading /> : (
         <>
           {watchlists?.map((watchlist) => (
             <Box key={watchlist.id} className={classes.wrapper} p={2} mb={2}>

@@ -3,11 +3,7 @@ import classnames from 'classnames';
 import { Grid } from '@material-ui/core';
 import { useStyles } from './WithActionDescriptionBordered.styles';
 
-export const WithActionDescriptionBordered = ({
-  children,
-  description,
-  error,
-}: {
+export const WithActionDescriptionBordered = ({ children, description, error }: {
   children: React.ReactNode;
   description: string;
   error?: string;
