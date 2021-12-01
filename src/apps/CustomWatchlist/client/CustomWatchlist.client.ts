@@ -2,11 +2,11 @@ import { http } from 'lib/client/http';
 import { IWatchlist, CustomWatchlistUpload, WatchlistContentTypes, WatchlistCreateBodyTypes, WatchlistProcess } from '../models/CustomWatchlist.models';
 
 export function getMerchantWatchlists(merchantId: string) {
-  return http.get<IWatchlist[]>(`/api/v1/merchants/${merchantId}/watchlists?embed=process`);
+  return http.get<IWatchlist[]>(`/api/v1/merchants/${merchantId}/watchlists`, { params: { embed: 'process' } });
 }
 
 export function getMerchantWatchlistById(merchantId: string, watchlistId: number) {
-  return http.get<IWatchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}?embed=process`);
+  return http.get<IWatchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}`, { params: { embed: 'process' } });
 }
 
 export function deleteMerchantWatchlistById(merchantId: string, watchlistId: number) {
@@ -18,7 +18,7 @@ export function createMerchantWatchlist(merchantId: string, body: WatchlistCreat
 }
 
 export function updateMerchantWatchlistById(merchantId: string, watchlistId: number, body: WatchlistCreateBodyTypes) {
-  return http.patch<IWatchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}?embed=process`, body);
+  return http.patch<IWatchlist>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}`, body, { params: { embed: 'process' } });
 }
 
 export function updateMerchantWatchlistContentById(merchantId: string, watchlistId: number, body: WatchlistContentTypes) {
