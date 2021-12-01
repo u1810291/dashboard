@@ -12,7 +12,7 @@ export const eSignatureDocumentUpload = (form: FormData) => async (dispatch, get
   const state = getState();
   const documents = selectESignatureDocuments(state);
   const order = documents ? documents.order : [];
-  const list = documents ? documents.list.map((document: ESignatureDocumentModel) => ({
+  const list = documents ? documents.list.map((document: ESignatureDocumentModel | any) => ({
     id: document.id,
     originalDocument: {
       url: document.originalDocument.url,

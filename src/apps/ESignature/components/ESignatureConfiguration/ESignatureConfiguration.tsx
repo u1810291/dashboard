@@ -43,7 +43,7 @@ export function ESignatureConfiguration() {
     form.append('template-document', file);
     try {
       const newDocuments = await dispatch(eSignatureDocumentUpload(form));
-      setDocuments(newDocuments);
+      setDocuments(newDocuments as any);
     } catch (err) {
       notification.error(ErrorMessages.ERROR_COMMON);
     } finally {
@@ -59,7 +59,7 @@ export function ESignatureConfiguration() {
         electronicSignature: {
           templates: {
             order: documents.order,
-            list: documents.list.map((document) => getESignatureDocument(document)),
+            list: documents.list.map((document: any) => getESignatureDocument(document)),
           },
           acceptanceCriteria: {
             isFullNameRequired: eSignatureType === ESignatureTypes.NameTyping || eSignatureType === ESignatureTypes.Document || eSignatureType === ESignatureTypes.FaceSignature,
@@ -68,8 +68,8 @@ export function ESignatureConfiguration() {
           },
         },
       }));
-    } catch (e: any) {
-      console.error('error', e.message);
+    } catch (error: any) {
+      console.error('error', error.message);
       notification.error(intl.formatMessage({ id: 'Error.common' }));
     } finally {
       setIsLoading(false);
@@ -90,8 +90,8 @@ export function ESignatureConfiguration() {
           [VerificationPatternTypes.ESignatureDocuments]: checked,
         },
       }));
-    } catch (e: any) {
-      console.error('error', e.message);
+    } catch (error: any) {
+      console.error('error', error.message);
       notification.error(intl.formatMessage({ id: 'Error.common' }));
     } finally {
       setIsLoading(false);
@@ -286,7 +286,7 @@ export function ESignatureConfiguration() {
         {hasDocuments && (
           <Grid item>
             <DocumentsList
-              documents={documents}
+              documents={documents as any}
               onChangeOrder={handleChangeOrder}
               onDocumentDelete={handleDocumentDelete}
             />

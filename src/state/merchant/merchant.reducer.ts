@@ -2,9 +2,9 @@ import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { DEFAULT_LOCALE } from 'models/Intl.model';
 import { createReducer } from 'state/store.utils';
 import { types } from './merchant.actions';
-import { MerchantActionGroups, SliceNames } from './merchant.store';
+import { MerchantActionGroups, SliceNames, MerchantStore } from './merchant.store';
 
-const initialState = {
+const initialState: MerchantStore = {
   [SliceNames.Merchant]: LoadableAdapter.createState({
     // logoUrl: string;
     // id: string;
@@ -23,12 +23,7 @@ const initialState = {
   }),
   [SliceNames.CustomDocuments]: LoadableAdapter.createState([]),
   [SliceNames.Flows]: LoadableAdapter.createState([]),
-  [SliceNames.App]: LoadableAdapter.createState([
-    // {
-    //   clientId: string;
-    //   clientSecret: string;
-    // }
-  ]),
+  [SliceNames.App]: LoadableAdapter.createState([]),
   currentFlow: null,
 };
 
