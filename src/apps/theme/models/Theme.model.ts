@@ -26,6 +26,7 @@ declare module '@material-ui/core/styles/createPalette' {
     blue: string;
     gray: string;
     gray68: string;
+    gray70: string;
     lightblue: string;
     lightbluehover: string;
     lightblueopacity: string;

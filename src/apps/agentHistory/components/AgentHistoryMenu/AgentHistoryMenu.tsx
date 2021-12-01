@@ -45,7 +45,7 @@ export function AgentHistoryMenu({ collaborator }: {
       dispatch(collaboratorRemove(id));
       history.push(Routes.settings.root);
       notification.info(intl.formatMessage({ id: 'teamTable.deleteSuccess.description' }));
-    } catch (error) {
+    } catch (error: any) {
       if (!error) {
         return; // deletion cancelled
       }

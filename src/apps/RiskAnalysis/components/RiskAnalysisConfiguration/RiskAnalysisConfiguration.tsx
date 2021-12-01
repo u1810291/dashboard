@@ -44,8 +44,8 @@ export function RiskAnalysisConfiguration({ riskScore, onChangeRiskScore, onEnab
   }, [riskScoreType]);
 
   const handleToggle = useCallback(({ target: { checked } }) => {
-    const newMethod = (currentMethod === PhoneOwnershipValidationMethodTypes.None && checked) ? PhoneOwnershipValidationMethodTypes.Sms : currentMethod;
-    onEnableRiskAnalysis(newMethod, checked);
+    const newMethod = (currentMethod as string === PhoneOwnershipValidationMethodTypes.None && checked) ? PhoneOwnershipValidationMethodTypes.Sms : currentMethod;
+    onEnableRiskAnalysis(newMethod as PhoneOwnershipValidationMethodTypes, checked);
   }, [currentMethod, onEnableRiskAnalysis]);
 
   return (

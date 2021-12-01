@@ -6,12 +6,12 @@ import { MerchantTags } from '../../../models/Merchant.model';
 
 export const selectEmailOwnership = createSelector(
   selectCurrentFlow,
-  (flow) => flow.emailOwnership || {},
+  (flow) => flow.emailOwnership || { companyName: '' },
 );
 
 export const selectSenderName = createSelector(
   selectEmailOwnership,
-  (emailOwnership) => emailOwnership.companyName || '',
+  (emailOwnership) => emailOwnership.companyName,
 );
 
 export const selectEmailValidationThreshold = createSelector(

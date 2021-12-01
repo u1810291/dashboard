@@ -1,4 +1,4 @@
-import { Grid, Typography, Button, Box } from '@material-ui/core';
+import { Grid, Typography, Button, IconButton, Box } from '@material-ui/core';
 import { notification } from 'apps/ui';
 import { isNil } from 'lib/isNil';
 import compressImage from 'lib/compressImage';
@@ -23,6 +23,7 @@ export function CustomDocumentMedia() {
   const customDocument: Partial<CustomDocumentResponse> = useSelector(selectCustomDocumentModal);
   const [pageNumber, setPageNumber] = useState(1);
   const numberOfPages: CustomDocumentPageTypes = useMemo(() => getNumberOfPages(customDocument), [customDocument]);
+  const isMediaPresent: boolean = (customDocument?.example?.front?.publicUrl && pageNumber === 1) || (customDocument?.example?.back?.publicUrl && pageNumber === 2);
 
   const isFilesRequired = useMemo<boolean>(() => {
     if (numberOfPages === CustomDocumentPageTypes.Two) {
@@ -78,7 +79,7 @@ export function CustomDocumentMedia() {
   } = useDropzone({
     onDropAccepted,
     multiple: false,
-    accept: 'image/jpeg, image/jpg',
+    accept: 'image/jpeg, image/jpg, image/png',
   });
 
   return (
@@ -98,37 +99,6 @@ export function CustomDocumentMedia() {
         </Grid>
 
         <Grid item xs={6}>
-          <div className={classes.uploadBlock}>
-            {pageNumber === 1 ? (
-              customDocument?.example?.front?.publicUrl ? (
-                <img src={customDocument.example.front.publicUrl} alt="document-example-preview" className={classes.logoPreview} />
-              ) : (
-                <Box>
-                  <div className={classes.dropzoneHolder} {...getRootProps()}>
-                    <input type="file" className={classes.fileInput} {...getInputProps()} />
-
-                    <Typography variant="body1" color="primary">
-                      <BsUpload className={classes.uploadIcon} />
-                      {intl.formatMessage({ id: 'CustomDocuments.settings.documentSamplePhoto.uploadTitle' })}
-                    </Typography>
-                  </div>
-                </Box>
-              )
-            ) : customDocument?.example?.back?.publicUrl ? (
-              <img src={customDocument.example.back.publicUrl} alt="document-example-preview" className={classes.logoPreview} />
-            ) : (
-              <Box>
-                <div className={classes.dropzoneHolder} {...getRootProps()}>
-                  <input type="file" className={classes.fileInput} {...getInputProps()} />
-
-                  <Typography variant="body1" color="primary">
-                    <BsUpload className={classes.uploadIcon} />
-                    {intl.formatMessage({ id: 'CustomDocuments.settings.documentSamplePhoto.uploadTitle' })}
-                  </Typography>
-                </div>
-              </Box>
-            )}
-          </div>
           {numberOfPages === CustomDocumentPageTypes.Two && (
             <div className={classes.pageButtonsHolder}>
               <Button
@@ -143,13 +113,33 @@ export function CustomDocumentMedia() {
               >
                 2
               </Button>
-              {((pageNumber === 1 && customDocument?.example?.front?.publicUrl) || (pageNumber === 2 && customDocument?.example?.back?.publicUrl)) && (
-                <Button size="small" className={classes.pageButton} onClick={handleRemove}>
-                  <FiTrash2 className={classes.deleteButton} />
-                </Button>
-              )}
             </div>
           )}
+          <div className={isMediaPresent ? classes.mediaBlock : classes.uploadBlock}>
+            {isMediaPresent ? (
+              <>
+                <img
+                  src={(pageNumber === 1) ? customDocument.example.front.publicUrl : customDocument.example.back.publicUrl}
+                  alt="document-example-preview"
+                  className={classes.logoPreview}
+                />
+                <Button size="small" className={classes.deleteButton} onClick={handleRemove}>
+                  <FiTrash2 />
+                </Button>
+              </>
+            ) : (
+              <Box>
+                <div className={classes.dropzoneHolder} {...getRootProps()}>
+                  <input type="file" className={classes.fileInput} {...getInputProps()} />
+
+                  <Typography variant="body1" color="primary">
+                    <BsUpload className={classes.uploadIcon} />
+                    {intl.formatMessage({ id: 'CustomDocuments.settings.documentSamplePhoto.uploadTitle' })}
+                  </Typography>
+                </div>
+              </Box>
+            )}
+          </div>
         </Grid>
       </Grid>
 

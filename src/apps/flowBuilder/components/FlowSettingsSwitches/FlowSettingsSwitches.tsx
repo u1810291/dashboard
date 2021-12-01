@@ -41,9 +41,10 @@ export function FlowSettingsSwitches({ policyInterval, policyIntervalError, gdpr
               onBlur={onValidatePolicyInterval}
               placeholder={`${GDPRRangeTypes.From}-${GDPRRangeTypes.To}`}
               error={!!policyIntervalError}
-              helperText={!!policyIntervalError && intl.formatMessage({ id: `FlowBuilder.settings.gdpr.input.error.${policyIntervalError}` })}
+              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
             />
           </Grid>
+          {!!policyIntervalError && <span className={classes.error}>{intl.formatMessage({ id: `FlowBuilder.settings.gdpr.input.error.${policyIntervalError}` })}</span>}
         </Box>
       )}
       <Box mt={4}>

@@ -42,7 +42,7 @@ export function SignIn() {
     try {
       await dispatch(signIn(data));
       history.push(Routes.root);
-    } catch (error) {
+    } catch (error: any) {
       const status = error?.response?.status;
 
       switch (status) {

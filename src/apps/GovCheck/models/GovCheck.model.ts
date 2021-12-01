@@ -410,10 +410,7 @@ export const govCheckDisplayOptions = {
     },
   },
   [DocumentStepTypes.DominicanJce]: {
-    fullName: {},
-    documentNumber: {
-      inline: true,
-    },
+    valid: {},
   },
   [DocumentStepTypes.CostaRicanAtv]: {
     fullName: {},

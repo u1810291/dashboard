@@ -3,6 +3,7 @@ export enum appPalette {
   blue = '#3757ff',
   gray = '#F9F9F9',
   gray68 = '#ADADAD',
+  gray70 = '#EBEEFF',
   lightblue = '#507DED',
   lightbluehover = '#608eed',
   lightblueopacity = 'rgba(237, 242, 253, .5)',
