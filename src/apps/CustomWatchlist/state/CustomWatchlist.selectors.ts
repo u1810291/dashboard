@@ -6,43 +6,43 @@ import { IWatchlist } from '../models/CustomWatchlist.models';
 
 export const selectCustomWatchlistsStore = (state): CustomWatchlistsStore => state[CUSTOM_WATCHLISTS_STORE_KEY];
 
-export const selectWatchlists = createSelector(
+export const selectWatchlists = createSelector<any, CustomWatchlistsStore, IWatchlist[]>(
   selectCustomWatchlistsStore,
-  (store): IWatchlist[] => store.watchlists.value,
+  (store) => store.watchlists.value,
 );
 
-export const selectIsWatchlistsLoaded = createSelector(
+export const selectIsWatchlistsLoaded = createSelector<any, CustomWatchlistsStore, boolean>(
   selectCustomWatchlistsStore,
-  (store): boolean => store.watchlists.isLoaded,
+  (store) => store.watchlists.isLoaded,
 );
 
-export const selectIsWatchlistsFailed = createSelector(
+export const selectIsWatchlistsFailed = createSelector<any, CustomWatchlistsStore, boolean>(
   selectCustomWatchlistsStore,
-  (store): boolean => store.watchlists.isFailed,
+  (store) => store.watchlists.isFailed,
 );
 
-export const selectIsWatchlistsLoading = createSelector(
+export const selectIsWatchlistsLoading = createSelector<any, CustomWatchlistsStore, boolean>(
   selectCustomWatchlistsStore,
-  (store): boolean => store.watchlists.isLoading,
+  (store) => store.watchlists.isLoading,
 );
 
-export const selectIsWatchlistsContentLoading = createSelector(
+export const selectIsWatchlistsContentLoading = createSelector<any, CustomWatchlistsStore, boolean>(
   selectCustomWatchlistsStore,
-  (store): boolean => store.watchlistContent.isLoading,
+  (store) => store.watchlistContent.isLoading,
 );
 
-export const selectCanUseCustomWatchlists = createSelector(
+export const selectCanUseCustomWatchlists = createSelector<any, MerchantTags[], boolean>(
   selectMerchantTags,
-  (tags: MerchantTags[]): boolean => tags.includes(MerchantTags.CanUseCustomWatchlists),
+  (tags) => tags.includes(MerchantTags.CanUseCustomWatchlists),
 );
 
-export const selectCurrentCustomWatchlist = createSelector(
+export const selectCurrentCustomWatchlist = createSelector<any, CustomWatchlistsStore, IWatchlist | null>(
   selectCustomWatchlistsStore,
-  (store): IWatchlist | null => store.currentWatchlist.value,
+  (store) => store.currentWatchlist.value,
 );
 
-export const selectCurrentCustomWatchlistError = createSelector(
+// TODO: STAGE 3, @richvoronov set error type
+export const selectCurrentCustomWatchlistError = createSelector<any, CustomWatchlistsStore, any | null>(
   selectCustomWatchlistsStore,
-  // TODO: STAGE 3, @richvoronov set error type
-  (store): any | null => store.currentWatchlist.value?.process?.error,
+  (store) => store.currentWatchlist.value?.process?.error,
 );
