@@ -1,7 +1,12 @@
+import { HistoryChangingName } from 'apps/agentHistory/components/HistoryChangingName/HistoryChangingName';
+import { HistoryChangingRole } from 'apps/agentHistory/components/HistoryChangingRole/HistoryChangingRole';
+import { HistoryDataChanged, HistoryFileDownloaded, HistoryStatusChanged } from 'apps/ui';
 import { DocumentFieldEntry } from 'models/History.model';
 import React, { useMemo } from 'react';
-import { HistoryDataChanged, HistoryFileDownloaded, HistoryStatusChanged, HistoryBlockOrUnblock } from 'apps/ui';
 import { AgentHistoryEventBody, AgentHistoryEventTypes } from '../../models/AgentHistory.model';
+import { HistoryBlockOrUnblock } from '../HistoryBlockOrUnblock/HistoryBlockOrUnblock';
+import { HistoryInvitingTeammate } from '../HistoryInvitingTeammate/HistoryInvitingTeammate';
+import { HistoryVerificationDeleted } from '../HistoryVerificationDeleted/HistoryVerificationDeleted';
 
 export function AgentHistoryChangesSwitch({ eventType, eventBody, isCollapsed, changedFields }: {
   eventType: AgentHistoryEventTypes;
@@ -12,18 +17,32 @@ export function AgentHistoryChangesSwitch({ eventType, eventBody, isCollapsed, c
   // TODO: @ggrigorev remove deprecated during the rework of VerificationHistory
   const dataChanges = useMemo(() => ({ fields: changedFields, ...eventBody }), [changedFields, eventBody]);
   switch (eventType) {
-    case AgentHistoryEventTypes.StatusUpdated:
-      return (<HistoryStatusChanged changes={eventBody?.verificationStatus} />);
     case AgentHistoryEventTypes.UserBlockedTeammate:
     case AgentHistoryEventTypes.UserUnblockedTeammate:
     case AgentHistoryEventTypes.UserBlockedByTeammate:
     case AgentHistoryEventTypes.UserUnblockedByTeammate:
       return (<HistoryBlockOrUnblock eventType={eventType} triggeredUser={eventBody.user} />);
-    case AgentHistoryEventTypes.PdfDownloaded:
-    case AgentHistoryEventTypes.CsvDownloaded:
+    case AgentHistoryEventTypes.UserInvitedTeammate:
+    case AgentHistoryEventTypes.UserInvitedByTeammate:
+      return (<HistoryInvitingTeammate eventType={eventType} triggeredUser={eventBody.user} />);
+    case AgentHistoryEventTypes.UserNameChangedByTeammate:
+    case AgentHistoryEventTypes.UserChangedTeammateName:
+      return (<HistoryChangingName eventType={eventType} triggeredUser={eventBody.user} />);
+    case AgentHistoryEventTypes.UserRoleChangedByTeammate:
+    case AgentHistoryEventTypes.UserChangedTeammateRole:
+      return (<HistoryChangingRole eventType={eventType} triggeredUser={eventBody.user} />);
+    case AgentHistoryEventTypes.VerificationStatusUpdated:
+      return (<HistoryStatusChanged changes={eventBody?.verificationStatus} />);
+    case AgentHistoryEventTypes.VerificationPdfDownloaded:
+    case AgentHistoryEventTypes.VerificationCsvDownloaded:
       return (<HistoryFileDownloaded eventType={eventType} />);
-    case AgentHistoryEventTypes.DocumentFieldsUpdated:
+    case AgentHistoryEventTypes.VerificationDeleted:
+      return (<HistoryVerificationDeleted deletedId={eventBody.verificationId} />);
+    case AgentHistoryEventTypes.VerificationDocumentFieldsUpdated:
       return (<HistoryDataChanged changes={dataChanges} isCollapsed={isCollapsed} />);
+    case AgentHistoryEventTypes.PasswordChanged:
+    case AgentHistoryEventTypes.LoginFailed:
+    case AgentHistoryEventTypes.LoginSucceeded:
     default:
       return null;
   }

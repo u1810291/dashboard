@@ -1,4 +1,4 @@
-import { IUser, UserId } from 'models/Collaborator.model';
+import { CollaboratorRoles, IUser, UserId } from 'models/Collaborator.model';
 import { DocumentTypes } from 'models/Document.model';
 import { FilterI } from 'models/Filter.model';
 import { DocumentFieldValue, VerificationStatusValue } from 'models/History.model';
@@ -7,15 +7,25 @@ import { ITEMS_PER_PAGE } from 'models/Pagination.model';
 import { VerificationId } from 'models/Verification.model';
 
 export enum AgentHistoryEventTypes {
-  UserBlockedTeammate = 'userBlockedTeammate',
-  UserBlockedByTeammate = 'userBlockedByTeammate',
-  UserUnblockedTeammate = 'userUnblockedTeammate',
-  UserUnblockedByTeammate = 'userUnblockedByTeammate',
-  StatusUpdated = 'verificationStatusUpdated',
-  DocumentFieldsUpdated = 'verificationDocumentFieldsUpdated',
-  PdfDownloaded = 'verificationPdfDownloaded',
-  CsvDownloaded = 'verificationCsvDownloaded',
+  LoginFailed = 'loginFailed',
+  LoginSucceeded = 'loginSucceeded',
   ManualReview = 'manualReview',
+  PasswordChanged = 'passwordChanged',
+  UserBlockedByTeammate = 'userBlockedByTeammate',
+  UserBlockedTeammate = 'userBlockedTeammate',
+  UserChangedTeammateRole = 'userChangedTeammateRole',
+  UserChangedTeammateName = 'userChangedTeammateName',
+  UserInvitedByTeammate = 'userInvitedByTeammate',
+  UserInvitedTeammate = 'userInvitedTeammate',
+  UserNameChangedByTeammate = 'userNameChangedByTeammate',
+  UserRoleChangedByTeammate = 'userRoleChangedByTeammate',
+  UserUnblockedByTeammate = 'userUnblockedByTeammate',
+  UserUnblockedTeammate = 'userUnblockedTeammate',
+  VerificationCsvDownloaded = 'verificationCsvDownloaded',
+  VerificationDeleted = 'verificationDeleted',
+  VerificationDocumentFieldsUpdated = 'verificationDocumentFieldsUpdated',
+  VerificationPdfDownloaded = 'verificationPdfDownloaded',
+  VerificationStatusUpdated = 'verificationStatusUpdated',
 }
 
 export interface VerificationStatusUpdatedEventBody {
@@ -37,15 +47,41 @@ export interface VerificationPdfDownloadedEventBody {
   verificationId: VerificationId;
 }
 
-export interface UserBlockedOrUnblockedEventBody {
+export interface VerificationDeletedEventBody {
+  identityId?: IdentityId;
+  verificationId?: VerificationId;
+}
+
+export interface UserChangesEventBody { // for the invited/blocked/unblocked events
   user: IUser;
 }
 
-export type AgentHistoryEventBody = UserBlockedOrUnblockedEventBody &
-  VerificationStatusUpdatedEventBody &
+export interface UserRoleChangedEventBody extends UserChangesEventBody {
+  role: {
+    prevValue: CollaboratorRoles;
+    nextValue: CollaboratorRoles;
+  };
+}
+
+export interface UserNameChangedEventBody extends UserChangesEventBody {
+  firstName: {
+    prevValue: string;
+    nextValue: string;
+  };
+  lastName: {
+    prevValue: string;
+    nextValue: string;
+  };
+}
+
+export type AgentHistoryEventBody = UserChangesEventBody & // for the invited/blocked/unblocked events
+  UserRoleChangedEventBody &
+  UserNameChangedEventBody &
+  VerificationDeletedEventBody &
+  VerificationDocumentFieldsUpdatedEventBody &
   VerificationPdfDownloadedEventBody &
-  VerificationDocumentFieldsUpdatedEventBody;
-// verificationCsvDownloaded comes without event body
+  VerificationStatusUpdatedEventBody;
+// verificationCsvDownloaded passwordChanged loginFailed loginSucceeded come without event body
 
 export interface UpdatedBy {
   firstName: string;
@@ -66,10 +102,10 @@ export interface AgentHistoryEvent {
 }
 
 export const allAgentHistoryActions: AgentHistoryEventTypes[] = [
-  AgentHistoryEventTypes.StatusUpdated,
-  AgentHistoryEventTypes.DocumentFieldsUpdated,
-  AgentHistoryEventTypes.PdfDownloaded,
-  AgentHistoryEventTypes.CsvDownloaded,
+  AgentHistoryEventTypes.VerificationStatusUpdated,
+  AgentHistoryEventTypes.VerificationDocumentFieldsUpdated,
+  AgentHistoryEventTypes.VerificationPdfDownloaded,
+  AgentHistoryEventTypes.VerificationCsvDownloaded,
   AgentHistoryEventTypes.UserBlockedTeammate,
   AgentHistoryEventTypes.UserBlockedByTeammate,
   AgentHistoryEventTypes.UserUnblockedTeammate,
@@ -94,18 +130,17 @@ export const agentHistoryCleanFilter: AgentHistoryFilter = {
 
 export function getAgentEventToken(eventType: AgentHistoryEventTypes): string {
   switch (eventType) {
-    case AgentHistoryEventTypes.CsvDownloaded:
-    case AgentHistoryEventTypes.PdfDownloaded:
+    case AgentHistoryEventTypes.VerificationCsvDownloaded:
+    case AgentHistoryEventTypes.VerificationPdfDownloaded:
       return 'AgentHistory.event.verificationHasBeenDownloaded';
-    case AgentHistoryEventTypes.DocumentFieldsUpdated:
-    case AgentHistoryEventTypes.StatusUpdated:
+    case AgentHistoryEventTypes.VerificationDocumentFieldsUpdated:
+    case AgentHistoryEventTypes.VerificationStatusUpdated:
       return 'AgentHistory.event.verificationHasChanged';
     case AgentHistoryEventTypes.UserBlockedTeammate:
     case AgentHistoryEventTypes.UserUnblockedTeammate:
     case AgentHistoryEventTypes.UserBlockedByTeammate:
     case AgentHistoryEventTypes.UserUnblockedByTeammate:
-      return `AgentHistory.event.${eventType}`;
     default:
-      return null;
+      return `AgentHistory.event.${eventType}`;
   }
 }

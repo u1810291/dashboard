@@ -5,10 +5,10 @@ import { Routes } from 'models/Router.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { useStyles } from './HistoryBlockOrUnblock.styles';
+import { useStyles } from './HistoryChangingRole.styles';
 
-export function HistoryBlockOrUnblock({ eventType, triggeredUser }: {
-  eventType: AgentHistoryEventTypes;
+export function HistoryChangingRole({ eventType, triggeredUser }: {
+  eventType: AgentHistoryEventTypes.UserRoleChangedByTeammate | AgentHistoryEventTypes.UserChangedTeammateRole;
   triggeredUser: IUser;
 }) {
   const intl = useIntl();
@@ -16,8 +16,8 @@ export function HistoryBlockOrUnblock({ eventType, triggeredUser }: {
 
   return (
     <Box display="flex" alignItems="center" className={classes.status}>
-      <Box mr={1} color={eventType === AgentHistoryEventTypes.UserBlockedTeammate || eventType === AgentHistoryEventTypes.UserBlockedByTeammate ? 'error.main' : 'success.main'}>
-        {intl.formatMessage({ id: `AgentHistory.blockOrUnblock.${eventType}` })}
+      <Box mr={1} color="common.black">
+        {intl.formatMessage({ id: `AgentHistory.invitingTeammate.${eventType}` })}
       </Box>
       <Box color="common.black75" mr={1}>
         {triggeredUser?._email?.address}

@@ -19,6 +19,8 @@
   "AgentHistory.event.verificationHasBeenDownloaded": "Verification has been downloaded",
   "AgentHistory.event.verificationHasChanged": "Verification has been changed",
   "AgentHistory.event.verificationWasCreated": "Verification was created",
+  "AgentHistory.invitingTeammate.userInvitedByTeammate": "Added by",
+  "AgentHistory.invitingTeammate.userInvitedTeammate": "Added",
   "AgentHistory.placeholder": "Here you will see the actions of this agent",
   "AgentHistory.workedInReviewMode": "Worked in Review Mode",
   "AmlCheck.card.check.monitoring": "Premium watchlist monitoring",

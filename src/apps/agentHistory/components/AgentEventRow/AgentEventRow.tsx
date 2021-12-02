@@ -45,7 +45,7 @@ function AgentEventRowComponent({ event }: {
             </>
           )}
           {/* Expand cell */}
-          {event?.eventType === AgentHistoryEventTypes.DocumentFieldsUpdated && changedFields?.length > 1 && (
+          {event?.eventType === AgentHistoryEventTypes.VerificationDocumentFieldsUpdated && changedFields?.length > 1 && (
             <Box mt={1}>
               <Button className={classes.buttonExpand} onClick={handleOnExpand}>
                 <FiChevronDown className={classnames({ [classes.chevronUp]: isCollapsed })} size={17} />
