@@ -116,6 +116,7 @@ export enum VerificationStepTypes {
   ReFacematch = 're-facematch',
   DuplicateUserDetection = 'duplicate-user-detection',
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
+  CustomWatchlistsValidation = 'custom-watchlists-validation',
 }
 
 export type StepIds = VerificationPatternTypes | StepTypes | VerificationDocStepTypes | VerificationStepTypes;
@@ -124,7 +125,7 @@ export interface IStep<DataType = any> {
   status: StepCodeStatus;
   id: StepIds;
   error: StepError | null;
-  phase: string;
+  phase?: string;
   checkStatus?: StepStatus;
   completedAt?: string;
   isTip?: boolean;
@@ -308,7 +309,7 @@ export function getDocumentStep(id, steps = []) {
   return steps.find((step) => step.id === id) || {};
 }
 
-export function getStepStatus({ id, status, error }) {
+export function getStepStatus({ id, status, error }): StepStatus {
   if (status !== 200) {
     return StepStatus.Checking;
   }

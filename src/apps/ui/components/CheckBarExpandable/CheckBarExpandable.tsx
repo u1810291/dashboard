@@ -18,10 +18,11 @@ const IconStatuses = {
   [StepStatus.Checking]: <CheckBarIcon key="check-bar-icon" icon={<IconLoad />} />,
 };
 
-export function CheckBarExpandable({ step, children, title, isOpenByDefault = false, isNoBadge = false }: {
+export function CheckBarExpandable({ step, children, title, name, isOpenByDefault = false, isNoBadge = false }: {
   step: any;
   children?: React.ReactElement;
   title?: string;
+  name?: string;
   isOpenByDefault?: boolean;
   isNoBadge?: boolean;
 }) {
@@ -74,10 +75,11 @@ export function CheckBarExpandable({ step, children, title, isOpenByDefault = fa
             <Box key="check-bar-title" className={classes.labelContainer}>
               <Box className={classes.label}>
                 <Box fontWeight={600}>
-                  {intl.formatMessage({
+                  {!name && intl.formatMessage({
                     id: title || `SecurityCheckStep.${id}.title`,
                     defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${step.checkStatus}` }),
                   })}
+                  {name}
                 </Box>
               </Box>
             </Box>

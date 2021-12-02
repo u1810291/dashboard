@@ -72,4 +72,9 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
   hasFailedCheck(): boolean {
     return false;
   }
+
+  isInVerification(verification: VerificationResponse): boolean {
+    // TODO: @richvoronov make the logic when backend is ready
+    return true;
+  }
 }

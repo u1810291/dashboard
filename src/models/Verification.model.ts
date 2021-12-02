@@ -97,6 +97,40 @@ export function getVerificationExtras(verification: VerificationResponse, countr
   const documents = getDocumentExtras(verification, countries, proofOfOwnershipStep);
   const fullName = verification?.summary?.identity?.fullName || '';
 
+  // TODO: @richvoronov remove mock
+  steps.push({
+    id: 'custom-watchlists-validation',
+    status: 200,
+    error: {
+      type: 'StepError',
+      code: 'customWatchlists.matchFound',
+      message: 'The user was found at least in one custom watchlist',
+    },
+    data: [{
+      watchlist: {
+        id: '123',
+        name: 'watchlistName',
+      },
+      searchedAt: new Date(),
+      searchParams: {
+        fullName: 'Richard Nikita Sergey Eugene',
+        dateOfBirth: '01-01-2021',
+      },
+      searchResult: null,
+    }, {
+      watchlist: {
+        id: '1234',
+        name: 'watchlistName',
+      },
+      searchedAt: new Date(),
+      searchParams: {
+        fullName: 'Nikita Sergey Eugene',
+        dateOfBirth: '01-01-2021',
+      },
+      searchResult: null,
+    }],
+  });
+
   let duplicateUserDetectionStep;
   let ageCheck;
   let premiumAmlWatchlistsMonitoringStep;
