@@ -5,6 +5,7 @@ export * from './components/ButtonBase/ButtonBase.styles';
 export * from './components/ButtonCollapsible/ButtonCollasible.styles';
 export * from './components/Tabs/Tabs';
 export * from './components/BoxBordered/BoxBordered';
+export * from './components/BoxLabeled/BoxLabeled';
 export * from './components/CheckboxGroup/CheckboxGroup';
 export * from './components/MultiSelect/MultiSelect';
 export * from './components/SyntaxHighlighter/SyntaxHighlighter';

@@ -14,6 +14,7 @@
   "AgentHistory.error.notFound": "Agent not found",
   "AgentHistory.event.userBlockedByTeammate": "Blocked by teammate",
   "AgentHistory.event.userBlockedTeammate": "Blocked teammate",
+  "AgentHistory.event.userInvitedTeammate": "Added teammate",
   "AgentHistory.event.userUnblockedByTeammate": "Unblocked by teammate",
   "AgentHistory.event.userUnblockedTeammate": "Unblocked teammate",
   "AgentHistory.event.verificationHasBeenDownloaded": "Verification has been downloaded",

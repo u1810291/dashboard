@@ -1,11 +1,11 @@
 import { Box } from '@material-ui/core';
-import { AgentHistoryEventTypes } from 'apps/agentHistory/models/AgentHistory.model';
 import { IUser } from 'models/Collaborator.model';
 import { Routes } from 'models/Router.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { useStyles } from 'apps/agentHistory/components/HistoryBlockOrUnblock/HistoryBlockOrUnblock.styles';
+import { AgentHistoryEventTypes } from '../../models/AgentHistory.model';
+import { useStyles } from './HistoryBlockOrUnblock.styles';
 
 export function HistoryBlockOrUnblock({ eventType, triggeredUser }: {
   eventType: AgentHistoryEventTypes.UserBlockedTeammate | AgentHistoryEventTypes.UserBlockedByTeammate | AgentHistoryEventTypes.UserUnblockedTeammate | AgentHistoryEventTypes.UserUnblockedByTeammate;

@@ -74,13 +74,13 @@ export interface UserNameChangedEventBody extends UserChangesEventBody {
   };
 }
 
-export type AgentHistoryEventBody = UserChangesEventBody & // for the invited/blocked/unblocked events
+export type AgentHistoryEventBody = Partial<UserChangesEventBody & // for the invited/blocked/unblocked events
   UserRoleChangedEventBody &
   UserNameChangedEventBody &
   VerificationDeletedEventBody &
   VerificationDocumentFieldsUpdatedEventBody &
   VerificationPdfDownloadedEventBody &
-  VerificationStatusUpdatedEventBody;
+  VerificationStatusUpdatedEventBody>;
 // verificationCsvDownloaded passwordChanged loginFailed loginSucceeded come without event body
 
 export interface UpdatedBy {
@@ -93,7 +93,7 @@ export interface UpdatedBy {
 }
 
 export interface AgentHistoryEvent {
-  eventBody?: AgentHistoryEventBody;
+  eventBody: AgentHistoryEventBody;
   eventType: AgentHistoryEventTypes;
   updatedAt: string;
   updatedBy: UpdatedBy;
