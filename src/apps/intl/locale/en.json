@@ -687,6 +687,8 @@
   "ESignature.settings.signatureMethod.description": "Here you can select how your users will sign the document you specified. They can either sign by typing their name or use our face signature.",
   "ESignature.settings.signatureMethod.radio.faceAndDocumentSignature.description": "Users will be asked to upload an ID document, take a selfie photo/video, and type their full name to sign the document. We will check that the name the user types and their selfie matches their ID document. Configure input options in the Document Verification and Biometric Verification building blocks.",
   "ESignature.settings.signatureMethod.radio.faceAndDocumentSignature.label": "Biometric and Document enforced Signature",
+  "ESignature.settings.signatureMethod.radio.uploadDocumentAndTypeName.label": "Upload document and type name",
+  "ESignature.settings.signatureMethod.radio.uploadDocumentAndTypeName.description": "Users will be asked to upload an ID to accept the conditions described in the document and type their full names before signing. We will compare entered full name with the document. Only after we confirm the full name is the same will we consider the document to be signed.",
   "ESignature.settings.signatureMethod.radio.nameTyping.description": "Users will be asked to type their full name to sign the document.",
   "ESignature.settings.signatureMethod.radio.nameTyping.label": "Basic name typing",
   "ESignature.settings.signatureMethod.title": "Signature method",

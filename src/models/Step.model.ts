@@ -40,11 +40,12 @@ export enum StepCodeStatus {
 export const LEGACY_ERROR = 'LegacyError';
 export const FRONTEND_ERROR = 'FrontendError';
 export const SYSTEM_ERROR = 'SystemError';
+export const STEP_ERROR = 'StepError';
 
 export interface StepError {
-  type: typeof LEGACY_ERROR | typeof FRONTEND_ERROR | typeof SYSTEM_ERROR;
   code: string;
   message: string;
+  type?: typeof LEGACY_ERROR | typeof FRONTEND_ERROR | typeof SYSTEM_ERROR | typeof STEP_ERROR;
 }
 
 // TODO: @richvoronov refactor this, figure out with types of steps for documents
