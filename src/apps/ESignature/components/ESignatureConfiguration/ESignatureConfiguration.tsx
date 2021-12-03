@@ -11,8 +11,8 @@ import { selectBiometricPattern, selectCurrentFlow } from 'state/merchant/mercha
 import { BiometricTypes } from 'models/Biometric.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { ErrorMessages } from 'models/Error.model';
+import { getESignatureType, ESignatureDocumentId, ESignatureEnum, getESignatureDocument } from 'models/ESignature.model';
 import { useStyles } from './ESignatureConfiguration.styles';
-import { getESignatureType, ESignatureDocumentId, ESignatureTypes, getESignatureDocument } from '../../models/ESignature.model';
 import { DocumentsList } from '../DocumentList/DocumentsList';
 import { selectCanUseESignature, selectESignatureAcceptanceCriteria, selectESignatureDocuments, selectESignaturePattern } from '../../state/eSignature.selectors';
 import { eSignatureDocumentUpload } from '../../state/eSignature.actions';
@@ -62,9 +62,9 @@ export function ESignatureConfiguration() {
             list: documents.list.map((document: any) => getESignatureDocument(document)),
           },
           acceptanceCriteria: {
-            isFullNameRequired: eSignatureType === ESignatureTypes.NameTyping || eSignatureType === ESignatureTypes.Document || eSignatureType === ESignatureTypes.FaceSignature,
-            isDocumentsRequired: eSignatureType === ESignatureTypes.Document || eSignatureType === ESignatureTypes.FaceSignature,
-            isFaceMatchRequired: eSignatureType === ESignatureTypes.FaceSignature,
+            isFullNameRequired: eSignatureType === ESignatureEnum.NameTyping || eSignatureType === ESignatureEnum.Document || eSignatureType === ESignatureEnum.FaceSignature,
+            isDocumentsRequired: eSignatureType === ESignatureEnum.Document || eSignatureType === ESignatureEnum.FaceSignature,
+            isFaceMatchRequired: eSignatureType === ESignatureEnum.FaceSignature,
           },
         },
       }));
@@ -192,7 +192,7 @@ export function ESignatureConfiguration() {
                       {intl.formatMessage({ id: 'ESignature.method.nameTyping.title' })}
                     </Typography>
                   )}
-                  value={ESignatureTypes.NameTyping}
+                  value={ESignatureEnum.NameTyping}
                 />
                 <Box pl={3}>
                   <Typography variant="body2" color="textSecondary">
@@ -208,7 +208,7 @@ export function ESignatureConfiguration() {
                       {intl.formatMessage({ id: 'ESignature.method.document.title' })}
                     </Typography>
                   )}
-                  value={ESignatureTypes.Document}
+                  value={ESignatureEnum.Document}
                 />
                 <Box pl={3}>
                   <Typography variant="body2" color="textSecondary">
@@ -232,7 +232,7 @@ export function ESignatureConfiguration() {
                       {intl.formatMessage({ id: 'ESignature.method.faceSignature.title' })}
                     </Typography>
                   )}
-                  value={ESignatureTypes.FaceSignature}
+                  value={ESignatureEnum.FaceSignature}
                 />
                 <Box pl={3}>
                   <Typography variant="body2" color="textSecondary">

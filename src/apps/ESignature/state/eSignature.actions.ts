@@ -1,9 +1,9 @@
 import { merchantUpdateFlow } from 'state/merchant/merchant.actions';
 import { productManagerService } from 'apps/Product';
+import { ESignatureDocumentModel, getESignatureDocument } from 'models/ESignature.model';
 import { ProductTypes } from 'models/Product.model';
 import { selectESignatureDocuments } from './eSignature.selectors';
 import { uploadESignatureDocument } from '../api/ESignature.client';
-import { ESignatureDocumentModel, getESignatureDocument } from '../models/ESignature.model';
 import { ESignatureService } from '../services/ESignature.service';
 
 export const eSignatureDocumentUpload = (form: FormData) => async (dispatch, getState) => {

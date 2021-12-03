@@ -36,7 +36,7 @@ export const useStyles = makeStyles((theme) => ({
       },
     },
     '& img': {
-      margin: [[0, 'auto']],
+      margin: '0 auto',
       objectFit: 'cover',
       borderRadius: 5,
     },
@@ -65,7 +65,7 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.common.white,
     },
     '& .MuiOutlinedInput-input': {
-      padding: [[16, 14]],
+      padding: '16px 14px',
     },
     '& .MuiOutlinedInput-notchedOutline': {
       borderColor: theme.palette.common.black7,
