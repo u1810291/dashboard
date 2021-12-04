@@ -30,7 +30,7 @@ export function AgentHistoryChangesSwitch({ eventType, eventBody, isCollapsed, c
       return (<HistoryChangingName eventType={eventType} triggeredUser={eventBody.user} />);
     case AgentHistoryEventTypes.UserRoleChangedByTeammate:
     case AgentHistoryEventTypes.UserChangedTeammateRole:
-      return (<HistoryChangingRole eventType={eventType} triggeredUser={eventBody.user} />);
+      return (<HistoryChangingRole eventType={eventType} triggeredUser={eventBody.user} role={eventBody.role} />);
     case AgentHistoryEventTypes.VerificationStatusUpdated:
       return (<HistoryStatusChanged changes={eventBody?.verificationStatus} />);
     case AgentHistoryEventTypes.VerificationPdfDownloaded:

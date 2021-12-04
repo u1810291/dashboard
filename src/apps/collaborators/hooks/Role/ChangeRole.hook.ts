@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { CollaboratorOptions, CollaboratorRoles } from 'models/Collaborator.model';
+import { CollaboratorRoles, getCollaboratorOption } from 'models/Collaborator.model';
 import { collaboratorUpdate } from 'apps/collaborators/state/collaborator.actions';
 import { notification } from 'apps/ui';
 import { useIntl } from 'react-intl';
@@ -30,10 +30,10 @@ export function useChangeRole(previousRole: CollaboratorRoles): ({ id, event, on
 
   const handleConfirmation = useCallback(async (id: string, newRole: CollaboratorRoles, oldRole: CollaboratorRoles, onSuccess?: () => void) => {
     try {
-      const newRoleOptions = CollaboratorOptions.find((item) => item.value === newRole);
+      const newRoleOptions = getCollaboratorOption(newRole);
       const permissionsDescription = newRoleOptions?.permissionsLabel ? intl.formatMessage({ id: newRoleOptions.permissionsLabel }) : null;
       const newRoleText = newRoleOptions?.label ? intl.formatMessage({ id: newRoleOptions.label }) : null;
-      const previousRoleLabel = CollaboratorOptions.find((item) => item.value === oldRole)?.label;
+      const previousRoleLabel = getCollaboratorOption(oldRole)?.label;
       const previousRoleText = intl.formatMessage({ id: previousRoleLabel });
       await confirmRoleChanging(intl.formatMessage({ id: 'Settings.teamSettings.modal.confirmRoleChanging' }, { permissionsDescription, newRole: newRoleText, oldRole: previousRoleText }));
       await handleUpdate(id, { role: newRole });

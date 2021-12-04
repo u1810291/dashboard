@@ -1,4 +1,4 @@
-import { CollaboratorRoles, IUser, UserId } from 'models/Collaborator.model';
+import { CollaboratorRoles, IUser } from 'models/Collaborator.model';
 import { DocumentTypes } from 'models/Document.model';
 import { FilterI } from 'models/Filter.model';
 import { DocumentFieldValue, VerificationStatusValue } from 'models/History.model';
@@ -56,22 +56,18 @@ export interface UserChangesEventBody { // for the invited/blocked/unblocked eve
   user: IUser;
 }
 
+export interface ChangedValue<T> {
+  prevValue: T;
+  nextValue: T;
+}
+
 export interface UserRoleChangedEventBody extends UserChangesEventBody {
-  role: {
-    prevValue: CollaboratorRoles;
-    nextValue: CollaboratorRoles;
-  };
+  role: ChangedValue<CollaboratorRoles>;
 }
 
 export interface UserNameChangedEventBody extends UserChangesEventBody {
-  firstName: {
-    prevValue: string;
-    nextValue: string;
-  };
-  lastName: {
-    prevValue: string;
-    nextValue: string;
-  };
+  firstName: ChangedValue<string>;
+  lastName: ChangedValue<string>;
 }
 
 export type AgentHistoryEventBody = Partial<UserChangesEventBody & // for the invited/blocked/unblocked events
@@ -83,20 +79,11 @@ export type AgentHistoryEventBody = Partial<UserChangesEventBody & // for the in
   VerificationStatusUpdatedEventBody>;
 // verificationCsvDownloaded passwordChanged loginFailed loginSucceeded come without event body
 
-export interface UpdatedBy {
-  firstName: string;
-  lastName: string;
-  _email: {
-    address: string;
-  };
-  _id: UserId;
-}
-
 export interface AgentHistoryEvent {
   eventBody: AgentHistoryEventBody;
   eventType: AgentHistoryEventTypes;
   updatedAt: string;
-  updatedBy: UpdatedBy;
+  updatedBy: IUser;
   __v: number;
   _id: string;
 }

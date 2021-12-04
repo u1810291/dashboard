@@ -1,7 +1,7 @@
 import { Box, IconButton, TableCell, TableRow, Typography } from '@material-ui/core';
 import { notification, UserRoundAvatar } from 'apps/ui';
 import { selectUserId } from 'apps/user/state/user.selectors';
-import { Collaborator, CollaboratorOptions, User } from 'models/Collaborator.model';
+import { Collaborator, getCollaboratorOption, User } from 'models/Collaborator.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -86,7 +86,7 @@ export function TeamTableRow({ collaborator }: {
         <Typography>
           {isOwnerRow
             ? intl.formatMessage({ id: 'teamTable.roles.owner' })
-            : intl.formatMessage({ id: `${CollaboratorOptions.find((item) => item.value === collaborator.role)?.label}` })}
+            : intl.formatMessage({ id: `${getCollaboratorOption(collaborator.role)?.label}` })}
         </Typography>
       </TableCell>
       {/* Block unblock */}

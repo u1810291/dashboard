@@ -5,7 +5,15 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
   },
   link: {
-    textDecoration: 'underline',
-    color: theme.palette.common.black75,
+    fontWeight: 'bold',
+    color: theme.palette.common.black,
+  },
+  role: {
+    fontWeight: 'bold',
+    fontSize: 12,
+    background: '#E5F7EE',
+    padding: '0 5px',
+    border: '1px solid #5AC794',
+    borderRadius: 2,
   },
 }));
