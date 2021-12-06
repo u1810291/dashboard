@@ -1,19 +1,19 @@
-import { Box, Paper, Table, TableBody, TableContainer, TableRow, TableCell } from '@material-ui/core';
-import { PageLoader } from 'apps/layout';
-import { appPalette } from 'apps/theme';
-import { QATags } from 'models/QA.model';
 import React, { useCallback, useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { ReactComponent as EmptyListIcon } from 'assets/empty-list-round.svg';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { selectCollaborator } from 'apps/collaborators/state/collaborator.selectors';
-import { Placeholder } from 'apps/ui/components/Placeholder/Placeholder';
-import { ReactComponent as EmptyListIcon } from 'assets/empty-list-round.svg';
-import { selectAgentHistoryFilter, selectAgentHistoryLoadedCount, selectAgentHistoryModel, selectAgentHistoryEventsList, selectAgentHistoryTotalCount } from '../../state/agentHistory.selectors';
+import { PageLoader } from 'apps/layout';
+import { appPalette } from 'apps/theme';
+import { Placeholder } from 'apps/ui';
+import { QATags } from 'models/QA.model';
 import { loadAgentHistory } from '../../state/agentHistory.actions';
-import { useStyles } from './AgentEventsTable.styles';
+import { selectAgentHistoryEventsList, selectAgentHistoryFilter, selectAgentHistoryLoadedCount, selectAgentHistoryModel, selectAgentHistoryTotalCount } from '../../state/agentHistory.selectors';
 import { AgentEventRow } from '../AgentEventRow/AgentEventRow';
+import { useStyles } from './AgentEventsTable.styles';
 
 export function AgentEventsTable({ isLoading }: {
   isLoading: boolean;
@@ -28,7 +28,7 @@ export function AgentEventsTable({ isLoading }: {
   const agentHistory = useSelector(selectAgentHistoryModel);
   const historyLoadedCount = useSelector(selectAgentHistoryLoadedCount) || 0;
   const historyTotalLength = useSelector(selectAgentHistoryTotalCount) || 0;
-  const history = useSelector(selectAgentHistoryEventsList) || [];
+  const eventList = useSelector(selectAgentHistoryEventsList) || [];
 
   const handleNextData = useCallback(() => {
     if (!agentHistory.isLoading && hasMore) {
@@ -62,6 +62,16 @@ export function AgentEventsTable({ isLoading }: {
             scrollableTarget="scrollable-agent-history-table"
           >
             <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    {intl.formatMessage({ id: 'AgentHistory.tableHead.status' })}
+                  </TableCell>
+                  <TableCell>
+                    {intl.formatMessage({ id: 'AgentHistory.tableHead.additionalDetails' })}
+                  </TableCell>
+                </TableRow>
+              </TableHead>
               <TableBody data-qa={QATags.AgentHistory.HistoryTable}>
                 {(historyTotalLength === 0 || isLoading) ? (
                   <TableRow>
@@ -70,7 +80,7 @@ export function AgentEventsTable({ isLoading }: {
                         : <Placeholder icon={<EmptyListIcon />} subtitle={intl.formatMessage({ id: 'AgentHistory.placeholder' })} />}
                     </TableCell>
                   </TableRow>
-                ) : history?.map((row, index) => (<AgentEventRow key={index} event={row} />))}
+                ) : eventList?.map((row) => (<AgentEventRow key={row?._id} event={row} />))}
               </TableBody>
             </Table>
           </InfiniteScroll>

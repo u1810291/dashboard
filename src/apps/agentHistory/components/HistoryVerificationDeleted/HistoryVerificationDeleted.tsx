@@ -1,4 +1,5 @@
 import { Box } from '@material-ui/core';
+import { BoxLabeled } from 'apps/ui';
 import { VerificationId } from 'models/Verification.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -12,10 +13,9 @@ export function HistoryVerificationDeleted({ deletedId }: {
 
   return (
     <Box display="flex" alignItems="center" className={classes.status}>
-      <Box>
-        {intl.formatMessage({ id: 'deleted' })}
+      <BoxLabeled label={intl.formatMessage({ id: 'AgentHistory.verificationDeleted.verificationId' })}>
         {deletedId}
-      </Box>
+      </BoxLabeled>
     </Box>
   );
 }

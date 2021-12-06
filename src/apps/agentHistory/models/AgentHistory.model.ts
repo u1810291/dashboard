@@ -80,7 +80,7 @@ export type AgentHistoryEventBody = Partial<UserChangesEventBody & // for the in
 // verificationCsvDownloaded passwordChanged loginFailed loginSucceeded come without event body
 
 export interface AgentHistoryEvent {
-  eventBody: AgentHistoryEventBody;
+  eventBody?: AgentHistoryEventBody;
   eventType: AgentHistoryEventTypes;
   updatedAt: string;
   updatedBy: IUser;

@@ -27,7 +27,7 @@ export function AgentHistoryChangesSwitch({ eventType, eventBody, isCollapsed, c
       return (<HistoryInvitingTeammate eventType={eventType} triggeredUser={eventBody.user} />);
     case AgentHistoryEventTypes.UserNameChangedByTeammate:
     case AgentHistoryEventTypes.UserChangedTeammateName:
-      return (<HistoryChangingName eventType={eventType} triggeredUser={eventBody.user} />);
+      return (<HistoryChangingName eventType={eventType} triggeredUser={eventBody.user} firstName={eventBody.firstName} lastName={eventBody.lastName} />);
     case AgentHistoryEventTypes.UserRoleChangedByTeammate:
     case AgentHistoryEventTypes.UserChangedTeammateRole:
       return (<HistoryChangingRole eventType={eventType} triggeredUser={eventBody.user} role={eventBody.role} />);

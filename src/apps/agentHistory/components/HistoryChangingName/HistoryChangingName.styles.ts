@@ -1,11 +1,11 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => ({
-  status: {
-    fontWeight: 'bold',
-  },
   link: {
+    color: theme.palette.common.black,
+  },
+  contrastLink: {
     textDecoration: 'underline',
-    color: theme.palette.common.black75,
+    color: theme.palette.common.lightblue,
   },
 }));

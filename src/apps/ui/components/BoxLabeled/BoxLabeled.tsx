@@ -8,7 +8,7 @@ export function BoxLabeled({ label, children, ...props }: {
 }) {
   return (
     <Box {...props}>
-      <Box mb={0.5} fontSize={10} color="common.black75">
+      <Box mb={0.5} fontSize={10} color="common.black75" fontWeight="normal">
         {label}
       </Box>
       <Box>
