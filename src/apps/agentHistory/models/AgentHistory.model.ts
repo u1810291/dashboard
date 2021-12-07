@@ -123,16 +123,14 @@ export const agentHistoryEventGroups: AgentHistoryEventGroup[] = [
   }, {
     key: AgentHistoryEventGroupTypes.DataExport,
     value: [
-      AgentHistoryEventTypes.LoginFailed,
-      AgentHistoryEventTypes.LoginSucceeded,
+      AgentHistoryEventTypes.VerificationCsvDownloaded,
+      AgentHistoryEventTypes.VerificationPdfDownloaded,
     ],
   }, {
     key: AgentHistoryEventGroupTypes.VerificationChange,
     value: [
       AgentHistoryEventTypes.VerificationStatusUpdated,
       AgentHistoryEventTypes.VerificationDocumentFieldsUpdated,
-      AgentHistoryEventTypes.VerificationPdfDownloaded,
-      AgentHistoryEventTypes.VerificationCsvDownloaded,
       AgentHistoryEventTypes.VerificationDeleted,
     ],
   },
