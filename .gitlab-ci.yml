@@ -3,6 +3,7 @@ image: 'node:14.16.1-alpine3.13'
 stages:
   - lint
   - sonarqube-check
+  - version
 
 lint:
   stage: lint
@@ -35,3 +36,17 @@ sonarqube-check:
   only:
     - merge_requests
     - master
+
+version:
+  stage: version
+  only:
+    - /^rc-.*$/
+  before_script:
+    - apk update && apk add git
+    - PROJECT_URL=$(echo $CI_PROJECT_URL | sed -E 's/http(s)?:\/\///')
+    - git remote set-url origin https://oauth2:$CI_BOT_TOKEN@$PROJECT_URL.git
+    - git config --global user.email "$CI_BOT_EMAIL"
+    - git config --global user.name "$CI_BOT_NAME"
+  script:
+    - npm version patch
+    - git push origin HEAD:$CI_COMMIT_REF_NAME --tags --porcelain -o ci.skip

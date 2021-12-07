@@ -10,7 +10,7 @@ export function AuthDescription() {
   const intl = useIntl();
 
   return (
-    <Grid className={classes.description} direction="column" justify="center" alignItems="flex-start" container>
+    <Grid className={classes.description} direction="column" justifyContent="center" alignItems="flex-start" container>
       <Box className={classes.descriptionWrapper}>
         <Typography variant="h2" className={classes.descriptionTitle}>
           {intl.formatMessage({ id: 'SignIn.description.title' })}

@@ -3,7 +3,7 @@ export enum DigitalSignatureProvider {
   NOM151 = 'nom151',
 }
 
-export interface DigitalSignature{
+export interface DigitalSignature {
   hash: string;
   publicUrl: string;
 }

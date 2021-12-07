@@ -8,6 +8,7 @@ import { FiPlus } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { useFlowListLoad } from 'apps/FlowList';
 import { merchantCreateFlow } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
@@ -15,6 +16,7 @@ import { FlowsTable } from '../FlowsTable/FlowsTable';
 import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
 import { flowNameValidator } from '../../validators/FlowName.validator';
 import { useStyles } from './FlowList.styles';
+import { PageLoader } from 'apps/layout';
 
 export function FlowList() {
   const classes = useStyles();
@@ -26,6 +28,7 @@ export function FlowList() {
   const isMobile = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
   const isButtonDisabled = (merchantFlowList || []).length >= MAX_NUMBER_OF_FLOWS;
   const [open, setOpen] = useState(isButtonDisabled && isMobile);
+  const flowListModel = useFlowListLoad();
 
   useEffect(() => {
     setOpen(isButtonDisabled && isMobile);
@@ -56,6 +59,10 @@ export function FlowList() {
       setOpen(false);
     }
   }, [isMobile]);
+
+  if (!flowListModel.isLoaded) {
+    return <PageLoader />;
+  }
 
   return (
     <Container key="content" maxWidth={false}>

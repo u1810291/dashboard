@@ -1,17 +1,20 @@
 import { Box, Container, Grid } from '@material-ui/core';
 import { AdditionalChecks } from 'apps/checks';
 import { Configuration } from 'apps/configuration';
-import { VerificationFlowHeader } from 'apps/flows/components/VerificationFlowHeader/VerificationFlowHeader';
+import { LoadableAdapter } from 'lib/Loadable.adapter';
+import { useFlowListLoad, VerificationFlowHeader } from 'apps/FlowList';
 import { GovCheckSetup } from 'apps/GovCheck';
 import { Page404 } from 'apps/layout';
-import { Tabs } from 'apps/ui';
+import { Tabs, Loader } from 'apps/ui';
 import { DemoButton } from 'apps/WebSDKPreview';
 import { QATags } from 'models/QA.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
+import { loadCountries } from 'state/countries/countries.actions';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
+import { selectAllCountriesModel } from 'state/countries/countries.selectors';
 import { Routes } from 'models/Router.model';
 import { SoftLaunchBanner } from 'apps/ui/components/SoftLaunchSwitch/SoftLaunchBanner';
 import { SoftLaunchBanners } from 'apps/ui/models/SoftLaunchBanner.model';
@@ -24,7 +27,9 @@ export function Product() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const currentFlow = useSelector(selectCurrentFlow);
+  const countriesModel = useSelector(selectAllCountriesModel);
   const history = useHistory();
+  const flowListModel = useFlowListLoad();
 
   const [tabs] = useState([
     {
@@ -52,10 +57,26 @@ export function Product() {
     }
   }, [currentFlow, dispatch, id]);
 
+  useEffect(() => {
+    const loadData = async () => {
+      if (LoadableAdapter.isPristine(countriesModel)) {
+        await dispatch(loadCountries())
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    };
+    loadData();
+  }, [dispatch, countriesModel]);
+
   const handleSoftLaunchSwitch = useCallback(() => {
     dispatch(dashboardShowOldDesignUntilUpdate(null));
     history.push(`${Routes.flow.root}/${id}`);
   }, [id, history, dispatch]);
+
+  if (!flowListModel.isLoaded) {
+    return <Loader />;
+  }
 
   if (!currentFlow) {
     return <Page404 />;

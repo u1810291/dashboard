@@ -1,4 +1,4 @@
-import { Grid, Paper } from '@material-ui/core';
+import { Box, Grid, Paper } from '@material-ui/core';
 import { getBankAccountData } from 'apps/BankAccountData';
 import { IpCheck } from 'apps/checks/components/IpCheck/IpCheck';
 import { VerificationBankAccountDataCheck } from 'apps/checks/components/VerificationBankAccountkDataCheck/VerificationBankAccountDataCheck';
@@ -14,12 +14,13 @@ import { VerificationAdditionalChecks } from 'apps/checks/components/Verificatio
 import { LivenessStep } from 'apps/biometrics';
 import { DocumentStep } from 'apps/documents';
 import { VerificationMetadata } from 'apps/metadata';
-import { selectReviewVerificationWithExtras } from 'apps/Verification';
+import { selectReviewVerificationWithExtras, selectDataForCreditCheck } from 'apps/Verification';
 import { ESignature } from 'apps/ESignature/components/ESignature/ESignature';
 import { verificationDocumentUpdate } from 'state/identities/identities.actions';
 import { CustomDocumentVerification } from 'apps/customDocument/components/CustomDocumentVerification/CustomDocumentVerification';
 import { CUSTOM_DOCUMENT_PREFIX } from 'apps/customDocument/models/customDocument.model';
 import { Nom151Check } from 'apps/CertifiedTimestamp';
+import { CreditCheckVerificationProduct } from 'apps/CreditCheck';
 import { useDocsWithPrivateMedia, useBiometricsWithPrivateMedia } from 'apps/media';
 import { Routes } from 'models/Router.model';
 import { VerificationSummary } from '../../components/VerificationSummary/VerificationSummary';
@@ -27,6 +28,7 @@ import { VerificationSummary } from '../../components/VerificationSummary/Verifi
 export function Verification({ identity }) {
   const dispatch = useDispatch();
   const verification = useSelector(selectReviewVerificationWithExtras);
+  const creditDocumentStep = useSelector(selectDataForCreditCheck).creditDocumentStep;
   const documentsWithPrivateMedia = useDocsWithPrivateMedia(verification?.documents, Routes.list.root);
   const biometricsWithPrivateMedia = useBiometricsWithPrivateMedia(verification?.biometric);
   const verificationWithPrivateMedia = useMemo(() => ({ ...verification, documents: documentsWithPrivateMedia, biometric: biometricsWithPrivateMedia }), [biometricsWithPrivateMedia, documentsWithPrivateMedia, verification]);
@@ -89,6 +91,17 @@ export function Verification({ identity }) {
       {identity.ipCheck && (
         <Grid item>
           <IpCheck step={identity.ipCheck} />
+        </Grid>
+      )}
+
+      {/* Credit check */}
+      {creditDocumentStep && (
+        <Grid item>
+          <Paper>
+            <Box p={2}>
+              <CreditCheckVerificationProduct />
+            </Box>
+          </Paper>
         </Grid>
       )}
 

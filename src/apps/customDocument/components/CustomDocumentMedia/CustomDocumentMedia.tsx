@@ -1,4 +1,4 @@
-import { Grid, Typography, Button, IconButton, Box } from '@material-ui/core';
+import { Grid, Typography, Button, Box } from '@material-ui/core';
 import { notification } from 'apps/ui';
 import { isNil } from 'lib/isNil';
 import compressImage from 'lib/compressImage';

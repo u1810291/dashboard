@@ -119,7 +119,7 @@ export function NewDocumentStep({ document, verification, documentIndex, onDocum
                     </CheckBarExpandable>
                   ))}
                   {ageCheck && (<AgeCheck stepData={ageCheck} />)}
-                  {duplicateUserDetectionStep && (<DuplicateUserDetectionCheck hideLink stepData={duplicateUserDetectionStep} />)}
+                  {duplicateUserDetectionStep && (<DuplicateUserDetectionCheck stepData={duplicateUserDetectionStep} />)}
                 </Grid>
               </Grid>
             )}
