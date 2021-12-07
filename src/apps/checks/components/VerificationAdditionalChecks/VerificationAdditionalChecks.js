@@ -35,7 +35,7 @@ export function VerificationAdditionalChecks({ duplicateUserDetectionStep, ageCh
           {duplicateUserDetectionStep && (
             <Grid item xs={12} lg={4}>
               <BoxBordered p={1} pt={2} className={classes.bordered}>
-                <DuplicateUserDetectionCheck stepData={duplicateUserDetectionStep} />
+                <DuplicateUserDetectionCheck withLegacyVerificationDetailsLink stepData={duplicateUserDetectionStep} />
               </BoxBordered>
             </Grid>
           )}

@@ -1,1 +1,1 @@
-export * from './components/CreditCheckVerificationProduct/CreditCheckVerificationProduct';
+export { CreditCheckVerificationProduct } from './components/CreditCheckVerificationProduct/CreditCheckVerificationProduct';
