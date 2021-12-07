@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core';
 export const useStyles = makeStyles((theme) => ({
   container: {
     minHeight: '100vh',
-    backgroundColor: '#FAFAFA',
+    backgroundColor: theme.palette.common.palegray,
   },
   signIn: {
     width: '100%',

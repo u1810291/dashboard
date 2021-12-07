@@ -1,5 +1,5 @@
-import { CountryCodes } from 'models/Country.model';
 import React from 'react';
+import { CountryCodes } from 'models/Country.model';
 import { ReactComponent as ArgentinaIcon } from './argentina-flag.svg';
 import { ReactComponent as BoliviaIcon } from './bolivia-flag.svg';
 import { ReactComponent as BrazilIcon } from './brazil-flag.svg';
@@ -20,6 +20,7 @@ import { ReactComponent as PeruIcon } from './peru-flag.svg';
 import { ReactComponent as PanamaIcon } from './panama-flag.svg';
 import { ReactComponent as VenezuelaIcon } from './venezuela-flag.svg';
 import { ReactComponent as KenyaIcon } from './kenya-flag.svg';
+import { ReactComponent as UgandaIcon } from './uganda-flag.svg';
 
 const iconProps = {
   width: '25',
@@ -51,6 +52,7 @@ export const flagMap = {
   peru: <PeruIcon {...iconProps} />,
   panama: <PanamaIcon {...iconProps} />,
   venezuela: <VenezuelaIcon {...iconProps} />,
+  uganda: <UgandaIcon {...iconProps} />,
 };
 
 export const codedFlagMap = {

@@ -1,21 +1,23 @@
 import { useQuery } from 'lib/url';
-import { ErrorStatuses } from 'models/Error.model';
+import { PASSWORD_REG_EXP, SPECIAL_CHARACTERS_REG_EXP } from 'lib/validations';
+import { ErrorStatuses, PasswordInvalidErrorCodes } from 'models/Error.model';
 import { SupportedLocales } from 'models/Intl.model';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { AppBar, Box, Button, Grid, InputLabel, TextField, Typography } from '@material-ui/core';
+import classNames from 'classnames';
+import { AppBar, Box, Button, Grid, InputLabel, List, ListItem, ListItemText, TextField, Typography } from '@material-ui/core';
 import { IntlButton } from 'apps/intl';
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3.svg';
-import { notification } from 'apps/ui';
+import { notification, TextFieldPassword } from 'apps/ui';
 import { Routes } from 'models/Router.model';
 import { changeLanguage } from 'state/merchant/merchant.actions';
 import { AuthInputTypes } from '../../models/Auth.model';
 import { passwordReset } from '../../state/auth.actions';
 import { AuthDescription } from '../AuthDescription/AuthDescription';
-import { useStyles } from '../SignIn/SignIn.styles';
+import { useStyles } from './PasswordReset.styles';
 
 interface PasswordResetInputs {
   [AuthInputTypes.Password]: string;
@@ -30,7 +32,7 @@ export function PasswordReset() {
   const { token } = useParams();
   const { locale } = useQuery();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const { register, handleSubmit, watch, setError, formState: { errors } } = useForm<PasswordResetInputs>();
+  const { register, handleSubmit, watch, setError, formState: { errors, isSubmitted } } = useForm<PasswordResetInputs>();
 
   useEffect(() => {
     if (Object.values(SupportedLocales).includes(locale as SupportedLocales)) {
@@ -39,10 +41,19 @@ export function PasswordReset() {
   }, [locale, dispatch]);
 
   const passwordRegister = register(AuthInputTypes.Password, {
-    required: intl.formatMessage({ id: 'validations.required' }),
+    required: true,
+    pattern: PASSWORD_REG_EXP,
     deps: [AuthInputTypes.RepeatPassword],
   });
   const passwordWatch = watch(AuthInputTypes.Password);
+
+  const passwordValidationChecks = useMemo<{ id: string; isValid: boolean }[]>(() => ([
+    { id: 'PasswordReset.validationChecks.lowercase', isValid: /[a-z]/.test(passwordWatch) },
+    { id: 'PasswordReset.validationChecks.capital', isValid: /[A-Z]/.test(passwordWatch) },
+    { id: 'PasswordReset.validationChecks.number', isValid: /\d/.test(passwordWatch) },
+    { id: 'PasswordReset.validationChecks.specialCharacter', isValid: SPECIAL_CHARACTERS_REG_EXP.test(passwordWatch) },
+    { id: 'PasswordReset.validationChecks.minLength', isValid: passwordWatch?.length > 8 },
+  ]), [passwordWatch]);
 
   const repeatPasswordRegister = register(AuthInputTypes.RepeatPassword, {
     required: intl.formatMessage({ id: 'validations.required' }),
@@ -63,11 +74,18 @@ export function PasswordReset() {
         case ErrorStatuses.WrongCredentials:
           notification.error(intl.formatMessage({ id: 'PasswordReset.error.expiredLink' }));
           break;
-        case ErrorStatuses.PasswordWasUsedBefore:
-          setError(AuthInputTypes.Password, {
-            type: 'manual',
-            message: intl.formatMessage({ id: 'PasswordReset.error.usedPassword' }),
-          });
+        case ErrorStatuses.PasswordInvalid:
+          if (error?.response?.data?.errorCode === PasswordInvalidErrorCodes.PasswordUsedBefore) {
+            setError(AuthInputTypes.Password, {
+              type: 'manual',
+              message: intl.formatMessage({ id: 'PasswordReset.error.usedPassword' }),
+            });
+          } else {
+            setError(AuthInputTypes.Password, {
+              type: 'manual',
+              message: intl.formatMessage({ id: 'PasswordReset.error.weakPassword' }),
+            });
+          }
           break;
         default:
           notification.error(intl.formatMessage({ id: 'Error.common' }));
@@ -105,15 +123,22 @@ export function PasswordReset() {
                   <InputLabel className={classes.label}>
                     {intl.formatMessage({ id: 'passwordReset.form.labels.password' })}
                   </InputLabel>
-                  <TextField
+                  <TextFieldPassword
                     {...passwordRegister}
                     helperText={errors?.[AuthInputTypes.Password]?.message}
                     error={!!errors[AuthInputTypes.Password]}
+                    className={classes.passwordField}
                     autoComplete="new-password"
-                    type="password"
                     variant="outlined"
                     fullWidth
                   />
+                  <List className={classNames(classes.validationChecks, { [classes.validationChecksTouched]: isSubmitted })}>
+                    {passwordValidationChecks.map((check) => (
+                      <ListItem key={check.id} className={!!errors[AuthInputTypes.Password] && !check.isValid && classes.validationError}>
+                        <ListItemText primary={intl.formatMessage({ id: check.id })} />
+                      </ListItem>
+                    ))}
+                  </List>
                 </Grid>
                 <Grid item className={classes.inputWrapper}>
                   <InputLabel className={classes.label}>

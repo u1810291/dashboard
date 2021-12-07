@@ -36,6 +36,7 @@ export interface PremiumAmlWatchlistStepData {
   profileUrl?: string;
   searchId: number;
   searchedOn: string;
+  updatedOn?: string;
 }
 
 export type PremiumAmlWatchlistStep = IStep<PremiumAmlWatchlistStepData>;
