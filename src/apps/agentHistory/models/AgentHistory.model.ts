@@ -88,15 +88,54 @@ export interface AgentHistoryEvent {
   _id: string;
 }
 
-export const allAgentHistoryActions: AgentHistoryEventTypes[] = [
-  AgentHistoryEventTypes.VerificationStatusUpdated,
-  AgentHistoryEventTypes.VerificationDocumentFieldsUpdated,
-  AgentHistoryEventTypes.VerificationPdfDownloaded,
-  AgentHistoryEventTypes.VerificationCsvDownloaded,
-  AgentHistoryEventTypes.UserBlockedTeammate,
-  AgentHistoryEventTypes.UserBlockedByTeammate,
-  AgentHistoryEventTypes.UserUnblockedTeammate,
-  AgentHistoryEventTypes.UserUnblockedByTeammate,
+export enum AgentHistoryEventGroupTypes {
+  LoginAttempt = 'loginAttempt',
+  PasswordChange = 'passwordChange',
+  UserProfileChange = 'userProfileChange',
+  DataExport = 'dataExport',
+  VerificationChange = 'verificationChange',
+}
+
+export interface AgentHistoryEventGroup {
+  key: AgentHistoryEventGroupTypes;
+  value: AgentHistoryEventTypes[];
+}
+
+export const agentHistoryEventGroups: AgentHistoryEventGroup[] = [
+  {
+    key: AgentHistoryEventGroupTypes.LoginAttempt,
+    value: [
+      AgentHistoryEventTypes.LoginSucceeded,
+      AgentHistoryEventTypes.LoginFailed,
+    ],
+  }, {
+    key: AgentHistoryEventGroupTypes.PasswordChange,
+    value: [AgentHistoryEventTypes.PasswordChanged],
+  }, {
+    key: AgentHistoryEventGroupTypes.UserProfileChange,
+    value: [
+      AgentHistoryEventTypes.UserBlockedByTeammate,
+      AgentHistoryEventTypes.UserUnblockedByTeammate,
+      AgentHistoryEventTypes.UserInvitedByTeammate,
+      AgentHistoryEventTypes.UserRoleChangedByTeammate,
+      AgentHistoryEventTypes.UserNameChangedByTeammate,
+    ],
+  }, {
+    key: AgentHistoryEventGroupTypes.DataExport,
+    value: [
+      AgentHistoryEventTypes.LoginFailed,
+      AgentHistoryEventTypes.LoginSucceeded,
+    ],
+  }, {
+    key: AgentHistoryEventGroupTypes.VerificationChange,
+    value: [
+      AgentHistoryEventTypes.VerificationStatusUpdated,
+      AgentHistoryEventTypes.VerificationDocumentFieldsUpdated,
+      AgentHistoryEventTypes.VerificationPdfDownloaded,
+      AgentHistoryEventTypes.VerificationCsvDownloaded,
+      AgentHistoryEventTypes.VerificationDeleted,
+    ],
+  },
 ];
 
 export type AgentHistoryFilter = Pick<FilterI, 'eventType' | 'pageSize' | 'dateCreated[start]' | 'dateCreated[end]'>;

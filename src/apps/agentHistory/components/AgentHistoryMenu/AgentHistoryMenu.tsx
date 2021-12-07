@@ -2,7 +2,7 @@ import { Grid } from '@material-ui/core';
 import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
 import { Collaborator, UserId } from 'models/Collaborator.model';
 import { collaboratorRemove } from 'apps/collaborators/state/collaborator.actions';
-import { OpenFilter, useFilterParser, ByVerificationEventTypes } from 'apps/filter';
+import { OpenFilter, useFilterParser, ByAgentEventGroups } from 'apps/filter';
 import { ButtonHeaderMenu, notification } from 'apps/ui';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
@@ -14,7 +14,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { selectOwnerId } from 'state/merchant/merchant.selectors';
 import { selectAgentHistoryFilter } from '../../state/agentHistory.selectors';
 import { useStyles } from './AgentHistoryMenu.styles';
-import { agentHistoryCleanFilter, agentHistoryFilterStructure, allAgentHistoryActions } from '../../models/AgentHistory.model';
+import { agentHistoryCleanFilter, agentHistoryEventGroups, agentHistoryFilterStructure } from '../../models/AgentHistory.model';
 
 export function AgentHistoryMenu({ collaborator }: {
   collaborator: Collaborator;
@@ -100,7 +100,7 @@ export function AgentHistoryMenu({ collaborator }: {
               cleanFilter={agentHistoryCleanFilter}
               qa={QATags.AgentHistory.FilterButton}
             >
-              <ByVerificationEventTypes eventTypes={allAgentHistoryActions} />
+              <ByAgentEventGroups eventGroups={agentHistoryEventGroups} />
             </OpenFilter>
           </Grid>
         </Grid>
