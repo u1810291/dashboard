@@ -5,7 +5,7 @@ import { QATags } from 'models/QA.model';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectIdentityIsPDFGenerating, selectIdentityModelWithExtras } from 'state/identities/identities.selectors';
-import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { useLoadMerchant } from 'apps/merchant/hooks/loadMerchant.hook';
 
 /**
  * @return {null}
@@ -13,13 +13,13 @@ import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 export function DashboardLoader() {
   const statistics = useSelector(selectChartStatisticsModel); // analytic
   const identityModel = useSelector(selectIdentityModelWithExtras); // verification detail
-  const merchantFlowList = useSelector(selectMerchantFlowsModel); // verification flows
   const collaboratorList = useSelector(selectCollaboratorCollection); // team settings
   const isPDFGenerating = useSelector(selectIdentityIsPDFGenerating);
+  const merchantModel = useLoadMerchant();
 
   if (
     (!identityModel.isLoaded && identityModel.isLoading)
-    || (!merchantFlowList.isLoaded && merchantFlowList.isLoading)
+    || (!merchantModel.isLoaded)
     || (!collaboratorList.isLoaded && collaboratorList.isLoading)
     || (!statistics[2] && statistics[1])
     || isPDFGenerating

@@ -1,6 +1,6 @@
 import { titleize } from 'inflection';
 import { isObjectEmpty } from 'lib/object';
-import { getDocumentExtras, VerificationDocument } from 'models/Document.model';
+import { getDocumentExtras, VerificationDocument, DocumentTypes } from 'models/Document.model';
 import { FieldTypes } from 'models/Field.model';
 import { IdentityStatuses, isChangeableStatus, VerificationStatusChangeReason } from 'models/Status.model';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
@@ -37,6 +37,21 @@ export interface IVerificationStatusDetails {
   updatedBy: null | string;
 }
 
+export interface VerificationResponseComputedAge {
+  data: number;
+}
+
+export interface VerificationResponseComputedDocumentExpired {
+  data: {
+    [DocumentTypes.NationalId]: boolean;
+  };
+}
+
+export interface VerificationResponseComputed {
+  age: VerificationResponseComputedAge;
+  isDocumentExpired: VerificationResponseComputedDocumentExpired;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface VerificationResponse<StepData = any> {
   createdAt: string;
@@ -49,10 +64,11 @@ export interface VerificationResponse<StepData = any> {
   summary: any;
   verificationStatus: IdentityStatuses;
   verificationStatusDetails: IVerificationStatusDetails;
+  computed?: VerificationResponseComputed;
   _id?: string;
   id?: string;
-  metadata: any;
-  digitalSignature: DigitalSignature;
+  metadata?: any;
+  digitalSignature?: DigitalSignature;
 }
 
 /**

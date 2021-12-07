@@ -20,4 +20,7 @@ export const useStyles = makeStyles((theme) => ({
   chartWrapper: {
     maxWidth: '100%',
   },
+  loaderWrapper: {
+    height: '80vh',
+  },
 }));

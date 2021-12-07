@@ -19,9 +19,12 @@ import { FiChevronLeft } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
+import { useFlowListLoad } from 'apps/FlowList';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { flowBuilderChangeableFlowLoad, flowBuilderChangeableFlowUpdate, flowBuilderClearStore } from '../../store/FlowBuilder.action';
+import { loadCountries } from 'state/countries/countries.actions';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from '../../store/FlowBuilder.selectors';
+import { selectAllCountriesModel } from 'state/countries/countries.selectors';
 import { FlowBuilderIntegrationDetails } from '../FlowBuilderIntegrationDetails/FlowBuilderIntegrationDetails';
 import { FlowBuilderProductDetails } from '../FlowBuilderProductDetails/FlowBuilderProductDetails';
 import { FlowInfoContainer } from '../FlowInfoContainer/FlowInfoContainer';
@@ -35,6 +38,7 @@ export function FlowBuilder() {
   const { id } = useParams();
   const selectedId = useSelector(selectFlowBuilderSelectedId);
   const changeableFlowModel = useSelector(selectFlowBuilderChangeableFlowModel);
+  const countriesModel = useSelector(selectAllCountriesModel);
   const isProductInited = useSelector(selectProductIsInited);
   const isBigScreen = useMediaQuery('(min-width:768px)', { noSsr: true });
   const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });
@@ -42,12 +46,26 @@ export function FlowBuilder() {
   const intl = useIntl();
   const history = useHistory();
   const { asMerchantId } = useQuery();
+  const flowListModel = useFlowListLoad();
 
   useProduct();
 
   useEffect(() => () => {
     dispatch(flowBuilderClearStore());
   }, [dispatch]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      if (LoadableAdapter.isPristine(countriesModel)) {
+        try {
+          await dispatch(loadCountries());
+        } catch(error) {
+          console.error(error);
+        }
+      }
+    };
+    loadData();
+  }, [dispatch, countriesModel]);
 
   useEffect(() => {
     const isChangedId = changeableFlowModel?.value?.id !== id;
@@ -58,7 +76,7 @@ export function FlowBuilder() {
       dispatch(flowBuilderChangeableFlowLoad());
     }
     dagreGraphService.createGraph();
-  }, [dispatch, id, changeableFlowModel, asMerchantId]);
+  }, [dispatch, id, asMerchantId, flowListModel.isLoaded, changeableFlowModel]);
 
   const handleProductUpdate = useCallback((patch: Partial<IFlow>) => {
     dispatch(flowBuilderChangeableFlowUpdate(patch));
@@ -69,7 +87,7 @@ export function FlowBuilder() {
     history.push(`${Routes.flows.root}/${changeableFlowModel.value.id}`);
   }, [changeableFlowModel.value.id, dispatch, history]);
 
-  if (!isProductInited && !changeableFlowModel.isLoaded) {
+  if (!isProductInited && !flowListModel.isLoaded) {
     return <Loader />;
   }
 

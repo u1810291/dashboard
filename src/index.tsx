@@ -11,7 +11,7 @@ import 'core-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { history } from './apps/routing/history/history';
+import { history } from 'apps/routing/history/history';
 // Next line must stay on the top because of css variables
 import 'styles/global.scss';
 
