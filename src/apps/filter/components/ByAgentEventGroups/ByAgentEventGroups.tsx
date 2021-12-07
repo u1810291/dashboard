@@ -35,8 +35,7 @@ export function ByAgentEventGroups({ bufferedFilter: { eventType }, onFilterChan
               key={item.key}
               value={item.value}
               checked={checkIsSelected(item.value)}
-              // target.value can't be an array
-              control={<Checkbox onChange={() => handleSelectAction({ target: { value: item.value } })} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />}
+              control={<Checkbox onChange={handleSelectAction} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />}
               label={intl.formatMessage({ id: `History.filter.eventType.${item.key}` })}
             />
           ))}
