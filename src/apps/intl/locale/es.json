@@ -2,6 +2,7 @@
   "AgentHistory.agentInformation.agent": "Agente",
   "AgentHistory.agentInformation.dateOfRegistration": "Fecha de registro",
   "AgentHistory.agentInformation.email": "Email",
+  "AgentHistory.agentInformation.name": "Nombre",
   "AgentHistory.agentInformation.role": "Rol",
   "AgentHistory.blockOrUnblock.userBlockedByTeammate": "Bloqueado por",
   "AgentHistory.blockOrUnblock.userBlockedTeammate": "Bloqueado",

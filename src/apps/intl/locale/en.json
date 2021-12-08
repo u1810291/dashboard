@@ -6,6 +6,7 @@
   "AgentHistory.agentInformation.email": "Email",
   "AgentHistory.agentInformation.firstName": "First Name",
   "AgentHistory.agentInformation.lastName": "Last Name",
+  "AgentHistory.agentInformation.name": "Name",
   "AgentHistory.agentInformation.role": "Role",
   "AgentHistory.blockOrUnblock.userBlockedByTeammate": "Blocked by",
   "AgentHistory.blockOrUnblock.userBlockedTeammate": "Blocked",
