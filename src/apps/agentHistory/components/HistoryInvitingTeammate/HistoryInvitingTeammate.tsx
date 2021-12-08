@@ -26,18 +26,14 @@ export function HistoryInvitingTeammate({ eventType, triggeredUser }: {
           </BoxLabeled>
           <BoxLabeled label={intl.formatMessage({ id: 'AgentHistory.agentInformation.name' })}>
             <Link className={classes.link} to={`${Routes.collaborators.agentProfile.root}/${triggeredUser?._id}`}>
-              {triggeredUser.firstName}
-              {' '}
-              {triggeredUser.lastName}
+              {`${triggeredUser?.firstName} ${triggeredUser?.lastName}`}
             </Link>
           </BoxLabeled>
         </>
       ) : (
         <BoxLabeled label={intl.formatMessage({ id: 'AgentHistory.userInvitedByTeammate.teammate.label' })}>
           <Link className={classes.link} to={`${Routes.collaborators.agentProfile.root}/${triggeredUser?._id}`}>
-            {triggeredUser.firstName}
-            {' '}
-            {triggeredUser.lastName}
+            {`${triggeredUser?.firstName} ${triggeredUser?.lastName}`}
           </Link>
         </BoxLabeled>
       )}

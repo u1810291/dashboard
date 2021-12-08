@@ -24,9 +24,7 @@ export function HistoryBlockOrUnblock({ eventType, triggeredUser }: {
       </Box>
       <Box>
         <Link className={classes.link} to={`${Routes.collaborators.agentProfile.root}/${triggeredUser?._id}`}>
-          {triggeredUser.firstName}
-          {' '}
-          {triggeredUser.lastName}
+          {`${triggeredUser?.firstName} ${triggeredUser?.lastName}`}
         </Link>
       </Box>
     </Box>

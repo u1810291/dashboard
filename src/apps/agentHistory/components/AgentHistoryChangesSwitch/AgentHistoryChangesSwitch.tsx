@@ -1,6 +1,7 @@
 import { HistoryChangingName } from 'apps/agentHistory/components/HistoryChangingName/HistoryChangingName';
 import { HistoryChangingRole } from 'apps/agentHistory/components/HistoryChangingRole/HistoryChangingRole';
 import { HistoryDataChanged, HistoryFileDownloaded, HistoryStatusChanged } from 'apps/ui';
+import { IUser } from 'models/Collaborator.model';
 import { DocumentFieldEntry } from 'models/History.model';
 import React, { useMemo } from 'react';
 import { AgentHistoryEventBody, AgentHistoryEventTypes } from '../../models/AgentHistory.model';
@@ -8,9 +9,10 @@ import { HistoryBlockOrUnblock } from '../HistoryBlockOrUnblock/HistoryBlockOrUn
 import { HistoryInvitingTeammate } from '../HistoryInvitingTeammate/HistoryInvitingTeammate';
 import { HistoryVerificationDeleted } from '../HistoryVerificationDeleted/HistoryVerificationDeleted';
 
-export function AgentHistoryChangesSwitch({ eventType, eventBody, isCollapsed, changedFields }: {
+export function AgentHistoryChangesSwitch({ eventType, eventBody, updatedBy, isCollapsed, changedFields }: {
   eventType: AgentHistoryEventTypes;
   eventBody: AgentHistoryEventBody;
+  updatedBy: IUser;
   changedFields: DocumentFieldEntry[];
   isCollapsed: boolean;
 }) {
@@ -27,10 +29,10 @@ export function AgentHistoryChangesSwitch({ eventType, eventBody, isCollapsed, c
       return (<HistoryInvitingTeammate eventType={eventType} triggeredUser={eventBody.user} />);
     case AgentHistoryEventTypes.UserNameChangedByTeammate:
     case AgentHistoryEventTypes.UserChangedTeammateName:
-      return (<HistoryChangingName eventType={eventType} triggeredUser={eventBody.user} firstName={eventBody.firstName} lastName={eventBody.lastName} />);
+      return (<HistoryChangingName eventType={eventType} updatedBy={updatedBy} triggeredUser={eventBody.user} firstName={eventBody.firstName} lastName={eventBody.lastName} />);
     case AgentHistoryEventTypes.UserRoleChangedByTeammate:
     case AgentHistoryEventTypes.UserChangedTeammateRole:
-      return (<HistoryChangingRole eventType={eventType} triggeredUser={eventBody.user} role={eventBody.role} />);
+      return (<HistoryChangingRole eventType={eventType} updatedBy={updatedBy} triggeredUser={eventBody.user} role={eventBody.role} />);
     case AgentHistoryEventTypes.VerificationStatusUpdated:
       return (<HistoryStatusChanged changes={eventBody?.verificationStatus} />);
     case AgentHistoryEventTypes.VerificationPdfDownloaded:

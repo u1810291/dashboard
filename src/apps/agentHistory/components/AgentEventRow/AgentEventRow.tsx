@@ -34,6 +34,7 @@ function AgentEventRowComponent({ event }: {
           {event?.eventType !== AgentHistoryEventTypes.ManualReview ? (
             <AgentHistoryChangesSwitch
               eventType={event?.eventType}
+              updatedBy={event?.updatedBy}
               changedFields={changedFields}
               eventBody={event?.eventBody}
               isCollapsed={isCollapsed}
