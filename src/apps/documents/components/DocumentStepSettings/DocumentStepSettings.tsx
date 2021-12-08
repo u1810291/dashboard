@@ -4,7 +4,8 @@ import { DocumentSelect } from 'apps/documentVerification/components/DocumentSel
 import { useOverlay } from 'apps/overlay';
 import classNames from 'classnames';
 import { cloneDeep } from 'lodash';
-import { DocumentListOrdered, DocumentTypes } from 'models/Document.model';
+import { customDocumentListLimit } from 'models/CustomDocument.model';
+import { DocumentTypes } from 'models/Document.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -90,7 +91,7 @@ export function DocumentStepSettings({ steps, onUpdate, custom }: DocumentStepSe
           </Box>
         </Box>
       ))}
-      {checkedDocuments?.length < DocumentListOrdered.length && (
+      {checkedDocuments?.length < customDocumentListLimit && (
         <Button className={classes.buttonAdd} onClick={handleChangeStep(lastStepNumber)} color="primary" variant="outlined">
           <FiPlus size={12} />
           {intl.formatMessage({ id: 'DocumentVerification.settings.button.addStep' }, { count: steps?.length + 1 })}

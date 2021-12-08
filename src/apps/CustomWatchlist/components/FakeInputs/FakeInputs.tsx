@@ -1,8 +1,8 @@
 import { Grid, Typography } from '@material-ui/core';
-import { ValidatedInputsKeys } from 'models/CustomWatchlist.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './FakeInputs.styles';
+import { ValidatedInputsKeys } from '../../models/CustomWatchlist.models';
 
 export function FakeInput({ label, value }: { label: string; value: string }) {
   const classes = useStyles();

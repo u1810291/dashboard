@@ -3,6 +3,8 @@ import { VerificationPatternTypes } from './VerificationPatterns.model';
 import { DocumentSides } from './Document.model';
 import { Media } from './Media.model';
 
+export const customDocumentListLimit = 10;
+
 export enum CustomDocumentVerificationFlowFieldTypes {
   Text = 'Text',
   Date = 'Date',
