@@ -26,46 +26,42 @@ export function HistoryChangingRole({ eventType, triggeredUser, role }: {
         <>
           <BoxLabeled mr={4.5} label={intl.formatMessage({ id: 'AgentHistory.agentInformation.name' })}>
             <Link className={classes.link} to={`${Routes.collaborators.agentProfile.root}/${triggeredUser?._id}`}>
-              {triggeredUser.firstName}
-              {' '}
-              {triggeredUser.lastName}
+              {`${triggeredUser?.firstName} ${triggeredUser?.lastName}`}
             </Link>
           </BoxLabeled>
           <BoxLabeled label={intl.formatMessage({ id: 'AgentHistory.agentInformation.role' })} mr={4.5}>
             <Box display="flex" alignItems="center" fontWeight="bold">
               <Box className={classes.role}>
-                {intl.formatMessage({ id: getCollaboratorOption(role.prevValue)?.label })}
+                {intl.formatMessage({ id: getCollaboratorOption(role?.prevValue)?.label })}
               </Box>
               <Box display="flex" mx={1} fontSize={17} color="common.black75">
                 <FiArrowRight />
               </Box>
               <Box className={classes.role}>
-                {intl.formatMessage({ id: getCollaboratorOption(role.nextValue)?.label })}
+                {intl.formatMessage({ id: getCollaboratorOption(role?.nextValue)?.label })}
               </Box>
             </Box>
           </BoxLabeled>
         </>
       ) : (
         <>
-          {userId !== triggeredUser._id && (
+          {userId !== triggeredUser?._id && (
             <BoxLabeled mr={4.5} label={intl.formatMessage({ id: 'AgentHistory.userRoleChangedByTeammate.teammate.label' })}>
               <Link className={classes.link} to={`${Routes.collaborators.agentProfile.root}/${triggeredUser?._id}`}>
-                {triggeredUser.firstName}
-                {' '}
-                {triggeredUser.lastName}
+                {`${triggeredUser?.firstName} ${triggeredUser?.lastName}`}
               </Link>
             </BoxLabeled>
           )}
           <BoxLabeled label={intl.formatMessage({ id: 'AgentHistory.agentInformation.role' })} mr={4.5}>
             <Box display="flex" alignItems="center" fontWeight="bold">
               <Box className={classes.role}>
-                {intl.formatMessage({ id: getCollaboratorOption(role.prevValue)?.label })}
+                {intl.formatMessage({ id: getCollaboratorOption(role?.prevValue)?.label })}
               </Box>
               <Box display="flex" mx={1} fontSize={17} color="common.black75">
                 <FiArrowRight />
               </Box>
               <Box className={classes.role}>
-                {intl.formatMessage({ id: getCollaboratorOption(role.nextValue)?.label })}
+                {intl.formatMessage({ id: getCollaboratorOption(role?.nextValue)?.label })}
               </Box>
             </Box>
           </BoxLabeled>
