@@ -35,7 +35,7 @@ export function ByAgentEventGroups({ bufferedFilter: { eventType }, onFilterChan
               value={item.value}
               checked={checkIsSelected(item.value)}
               control={<Checkbox onChange={handleSelectAction} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />}
-              label={intl.formatMessage({ id: `History.filter.eventType.${item.key}` })}
+              label={intl.formatMessage({ id: `AgentHistory.filter.eventGroup.${item.key}` })}
             />
           ))}
         </FormControl>

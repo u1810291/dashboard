@@ -91,7 +91,8 @@ export interface AgentHistoryEvent {
 export enum AgentHistoryEventGroupTypes {
   LoginAttempt = 'loginAttempt',
   PasswordChange = 'passwordChange',
-  UserProfileChange = 'userProfileChange',
+  ProfileChange = 'profileChange',
+  TeammateProfileChange = 'teammateProfileChange',
   DataExport = 'dataExport',
   VerificationChange = 'verificationChange',
 }
@@ -112,13 +113,22 @@ export const agentHistoryEventGroups: AgentHistoryEventGroup[] = [
     key: AgentHistoryEventGroupTypes.PasswordChange,
     value: [AgentHistoryEventTypes.PasswordChanged],
   }, {
-    key: AgentHistoryEventGroupTypes.UserProfileChange,
+    key: AgentHistoryEventGroupTypes.ProfileChange,
     value: [
       AgentHistoryEventTypes.UserBlockedByTeammate,
       AgentHistoryEventTypes.UserUnblockedByTeammate,
       AgentHistoryEventTypes.UserInvitedByTeammate,
       AgentHistoryEventTypes.UserRoleChangedByTeammate,
       AgentHistoryEventTypes.UserNameChangedByTeammate,
+    ],
+  }, {
+    key: AgentHistoryEventGroupTypes.TeammateProfileChange,
+    value: [
+      AgentHistoryEventTypes.UserBlockedTeammate,
+      AgentHistoryEventTypes.UserUnblockedTeammate,
+      AgentHistoryEventTypes.UserInvitedTeammate,
+      AgentHistoryEventTypes.UserChangedTeammateRole,
+      AgentHistoryEventTypes.UserChangedTeammateName,
     ],
   }, {
     key: AgentHistoryEventGroupTypes.DataExport,
