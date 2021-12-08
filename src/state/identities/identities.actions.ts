@@ -4,7 +4,6 @@ import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { get } from 'lodash';
 import { ErrorMessages, isInReviewModeError } from 'models/Error.model';
 import { filterSerialize } from 'models/Filter.model';
-import { REDUCE_DB_COUNT_CALLS } from 'models/Release.model';
 import { IdentityStatuses } from 'models/Status.model';
 import { Dispatch } from 'redux';
 import { createTypesSequence, TypesSequence } from '../store.utils';
@@ -64,7 +63,7 @@ export const verificationsManualReviewCountLoad = () => async (dispatch) => {
   dispatch({ type: types.MANUAL_REVIEW_COUNT_UPDATING });
   try {
     const filter = { status: IdentityStatuses.reviewNeeded };
-    const apiCall = REDUCE_DB_COUNT_CALLS ? api.getIdentitiesCount : api.getVerificationsCount;
+    const apiCall = api.getVerificationsCount;
     const { data } = await apiCall(filter);
     dispatch({
       type: types.MANUAL_REVIEW_COUNT_SUCCESS,
@@ -129,7 +128,7 @@ export const verificationsFilteredCountLoad = () => async (dispatch, getState) =
   dispatch({ type: types.FILTERED_COUNT_UPDATING });
   try {
     const filter = selectIdentityFilterSerialized(getState());
-    const apiCall = REDUCE_DB_COUNT_CALLS ? api.getIdentitiesCount : api.getVerificationsCount;
+    const apiCall = api.getVerificationsCount;
     const { data } = await apiCall(filter);
     dispatch({
       type: types.FILTERED_COUNT_SUCCESS,
