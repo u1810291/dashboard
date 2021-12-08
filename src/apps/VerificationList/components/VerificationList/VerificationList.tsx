@@ -8,8 +8,8 @@ import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { filterUpdate, identityListClear, verificationsFilteredCountLoad, verificationsListLoad, verificationsPreliminaryCountLoad } from 'state/identities/identities.actions';
-import { selectFilteredCountModel, selectIdentityFilter, selectPreliminaryFilteredCountModel } from 'state/identities/identities.selectors';
+import { filterUpdate, identityListClear, verificationsListLoad, verificationsPreliminaryCountLoad } from 'state/identities/identities.actions';
+import { selectIdentityFilter, selectPreliminaryFilteredCountModel } from 'state/identities/identities.selectors';
 import { DownloadCSV } from 'apps/Csv';
 import { selectMerchantCreatedAt } from 'state/merchant/merchant.selectors';
 import { RoleRenderGuard } from 'apps/merchant/guards/RoleRenderGuard';
@@ -25,7 +25,6 @@ export function VerificationList() {
   const history = useHistory();
   const classes = useStyles();
   const intl = useIntl();
-  const filteredCountModel = useSelector(selectFilteredCountModel);
   const identityFilter = useSelector(selectIdentityFilter);
   const registrationDate = useSelector(selectMerchantCreatedAt);
   const [setURLFromFilter, addToUrl] = useFilterParser(verificationsFilterStructure);
@@ -40,7 +39,6 @@ export function VerificationList() {
     if (location.search) {
       dispatch(filterUpdate(parseFromURL(location.search, verificationsFilterStructure)));
       dispatch(verificationsListLoad(true));
-      dispatch(verificationsFilteredCountLoad());
     }
     return () => {
       if (!history.location.pathname.startsWith(Routes.identity.verification.root)) {
@@ -93,8 +91,7 @@ export function VerificationList() {
               <Box px={2} pt={{ xs: 0, lg: 2 }} pb={{ xs: 2, lg: 1.4 }}>
                 <Typography variant="subtitle2" className={classes.title}>
                   <Box component="span">
-                    {intl.formatMessage({ id: 'VerificationHistory.title' },
-                      { count: filteredCountModel.isLoaded ? filteredCountModel.value : 0 })}
+                    {intl.formatMessage({ id: 'VerificationHistory.title.withoutCount' })}
                   </Box>
                 </Typography>
               </Box>
