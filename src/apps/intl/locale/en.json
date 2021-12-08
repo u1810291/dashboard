@@ -1813,6 +1813,7 @@
   "VerificationHistory.placeholder": "Here you will see the actions about this verification",
   "VerificationHistory.reviewVerifications": "Review verifications",
   "VerificationHistory.title": "Verifications ({count})",
+  "VerificationHistory.title.withoutCount": "Verifications",
   "VerificationHistory.verificationCsvDownloaded": "Downloaded the CSV",
   "VerificationHistory.verificationPdfDownloaded": "Downloaded the PDF",
   "VerificationMetadata.title": "Metadata",

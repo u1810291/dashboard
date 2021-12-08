@@ -1801,6 +1801,7 @@
   "VerificationHistory.placeholder": "Aqui você verá as ações sobre esta verificação",
   "VerificationHistory.reviewVerifications": "Revisar verificações",
   "VerificationHistory.title": "Verificações ({count})",
+  "VerificationHistory.title.withoutCount": "Verificações",
   "VerificationHistory.verificationCsvDownloaded": "Baixou o CSV",
   "VerificationHistory.verificationPdfDownloaded": "Baixar PDF",
   "VerificationMetadata.title": "Metadados",
