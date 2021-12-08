@@ -11,9 +11,9 @@ export const useStyles = makeStyles((theme) => ({
   role: {
     fontWeight: 'bold',
     fontSize: 12,
-    background: '#E5F7EE',
+    background: theme.palette.common.greentransparent,
     padding: '0 5px',
-    border: '1px solid #5AC794',
+    border: `1px solid ${theme.palette.common.green}`,
     borderRadius: 2,
   },
 }));

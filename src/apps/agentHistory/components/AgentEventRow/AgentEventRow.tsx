@@ -25,7 +25,7 @@ function AgentEventRowComponent({ event }: {
         <AgentActionInfo
           actionTypeToken={actionTypeToken}
           date={event.updatedAt}
-          id={event?.eventBody?.verificationId}
+          id={event.eventType !== AgentHistoryEventTypes.VerificationDeleted && event?.eventBody?.verificationId}
         />
       </TableCell>
       {/* Changes cell */}

@@ -1,5 +1,4 @@
 import { Box, Checkbox, FormControl, FormControlLabel, Grid, Paper, Typography } from '@material-ui/core';
-import { AgentHistoryEventGroup } from 'apps/agentHistory/models/AgentHistory.model';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { FilterI } from 'models/Filter.model';
@@ -14,7 +13,7 @@ import { useStyles } from './ByAgentEventGroups.styles';
 export function ByAgentEventGroups({ bufferedFilter: { eventType }, onFilterChange, eventGroups }: {
   bufferedFilter?: Pick<FilterI, 'eventType'>;
   onFilterChange?: (filter: FilterI) => void;
-  eventGroups?: AgentHistoryEventGroup[];
+  eventGroups?: { key: string; value: string[] }[];
 }) {
   const classes = useStyles();
   const intl = useIntl();

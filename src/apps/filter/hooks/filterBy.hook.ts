@@ -1,4 +1,4 @@
-import { checkIfArrayIncludesArrayableValue } from 'lib/array';
+import { isArrayIncludesArrayableValue } from 'lib/array';
 import { FilterI } from 'models/Filter.model';
 import * as React from 'react';
 import { useCallback } from 'react';
@@ -15,7 +15,7 @@ export function useFilterCheckbox(filterFieldName: string, items: string[] = [],
     onFilterChange({ [filterFieldName]: value === '' ? [] : [...items, ...listValue] });
   }, [filterFieldName, items, onFilterChange]);
 
-  const checkIsSelected = useCallback((ids: string[] | string) => checkIfArrayIncludesArrayableValue<string>(items, ids), [items]);
+  const checkIsSelected = useCallback((ids: string[] | string) => isArrayIncludesArrayableValue<string>(items, ids), [items]);
 
   return [handleSelect, checkIsSelected];
 }

@@ -1,10 +1,10 @@
-import { HistoryChangingName } from 'apps/agentHistory/components/HistoryChangingName/HistoryChangingName';
-import { HistoryChangingRole } from 'apps/agentHistory/components/HistoryChangingRole/HistoryChangingRole';
 import { HistoryDataChanged, HistoryFileDownloaded, HistoryStatusChanged } from 'apps/ui';
 import { IUser } from 'models/Collaborator.model';
 import { DocumentFieldEntry } from 'models/History.model';
 import React, { useMemo } from 'react';
 import { AgentHistoryEventBody, AgentHistoryEventTypes } from '../../models/AgentHistory.model';
+import { HistoryChangingName } from '../HistoryChangingName/HistoryChangingName';
+import { HistoryChangingRole } from '../HistoryChangingRole/HistoryChangingRole';
 import { HistoryBlockOrUnblock } from '../HistoryBlockOrUnblock/HistoryBlockOrUnblock';
 import { HistoryInvitingTeammate } from '../HistoryInvitingTeammate/HistoryInvitingTeammate';
 import { HistoryVerificationDeleted } from '../HistoryVerificationDeleted/HistoryVerificationDeleted';
