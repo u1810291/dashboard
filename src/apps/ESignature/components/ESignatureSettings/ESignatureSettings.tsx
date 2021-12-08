@@ -1,5 +1,5 @@
 import { Box, Button, RadioGroup, Switch, Radio, FormControlLabel, Link } from '@material-ui/core';
-import { ESignatureCheckSettingsTypes, ESignatureRadioOptions, IESignatureTemplate } from 'apps/ESignature/models/ESignature.model';
+import { ESignatureCheckSettingsEnum, ESignatureRadioOptionsEnum, IESignatureTemplate } from 'models/ESignature.model';
 import { selectFlowBuilderProductsInGraphModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { ProductCard } from 'apps/Product';
 import { useOtherProductAdding } from 'apps/Product/hooks/OtherProductAdding.hook';
@@ -18,7 +18,7 @@ import classNames from 'classnames';
 import { useStyles } from './ESignatureSettings.style';
 import { DocumentsList } from '../DocumentList/DocumentsList';
 
-export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<ESignatureCheckSettingsTypes>) {
+export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<ESignatureCheckSettingsEnum>) {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -29,38 +29,38 @@ export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<
   const merchantTags: MerchantTags[] = useSelector(selectMerchantTags);
   const isProductEnabled = merchantTags.includes(MerchantTags.CanUseESignature);
 
-  const handleUpdateSettings = useCallback((field: ESignatureCheckSettingsTypes, value: any) => {
+  const handleUpdateSettings = useCallback((field: ESignatureCheckSettingsEnum, value: any) => {
     const newSettings = cloneDeep(settings);
     newSettings[field].value = value;
     onUpdate(newSettings);
   }, [settings, onUpdate]);
 
-  const handleSwitch = useCallback((field: ESignatureCheckSettingsTypes) => (e) => {
+  const handleSwitch = useCallback((field: ESignatureCheckSettingsEnum) => (e) => {
     handleUpdateSettings(field, e.target.checked);
   }, [handleUpdateSettings]);
 
-  const handleRadioButton = useCallback((field: ESignatureCheckSettingsTypes, value: ESignatureRadioOptions) => () => {
+  const handleRadioButton = useCallback((field: ESignatureCheckSettingsEnum, value: ESignatureRadioOptionsEnum) => () => {
     handleUpdateSettings(field, value);
   }, [handleUpdateSettings]);
 
   const handleFileInput = useCallback((files: IESignatureTemplate[], order: string[]) => {
     const newSettings = cloneDeep(settings);
-    newSettings[ESignatureCheckSettingsTypes.Terms].value = files;
-    newSettings[ESignatureCheckSettingsTypes.TermsOrder].value = order;
+    newSettings[ESignatureCheckSettingsEnum.Terms].value = files;
+    newSettings[ESignatureCheckSettingsEnum.TermsOrder].value = order;
     onUpdate(newSettings);
   }, [onUpdate, settings]);
 
   const handleAdd = useCallback((products: ProductTypes[]) => {
     products.forEach((product) => dispatch(flowBuilderProductAdd(product)));
-    handleUpdateSettings(ESignatureCheckSettingsTypes.SignatrureMethod, ESignatureRadioOptions.FaceAndDocumentSignature);
+    handleUpdateSettings(ESignatureCheckSettingsEnum.SignatureMethod, ESignatureRadioOptionsEnum.FaceAndDocumentSignature);
   }, [dispatch, handleUpdateSettings]);
 
-  const setToFaceAndDocuments = useCallback(() => {
+  const handleFaceAndDocuments = useCallback(() => {
     const hasDocumentVerification = productsInGraph?.includes(ProductTypes.DocumentVerification);
     const hasBiometricVerification = productsInGraph?.includes(ProductTypes.BiometricVerification);
 
     if (hasDocumentVerification && hasBiometricVerification) {
-      handleUpdateSettings(ESignatureCheckSettingsTypes.SignatrureMethod, ESignatureRadioOptions.FaceAndDocumentSignature);
+      handleUpdateSettings(ESignatureCheckSettingsEnum.SignatureMethod, ESignatureRadioOptionsEnum.FaceAndDocumentSignature);
       return;
     }
     if (hasDocumentVerification && !hasBiometricVerification) {
@@ -129,59 +129,72 @@ export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<
       )}
       <Box>
         <ExtendedDescription
-          title={intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsTypes.ESignatureEnabled}.title` })}
-          text={intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsTypes.ESignatureEnabled}.description` })}
+          title={intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsEnum.ESignatureEnabled}.title` })}
+          text={intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsEnum.ESignatureEnabled}.description` })}
           isDisabled={!isProductEnabled}
           postfix={(
             <Switch
               checked={settings?.eSignatureEnabled.value}
               color="primary"
-              onClick={handleSwitch(ESignatureCheckSettingsTypes.ESignatureEnabled)}
+              onClick={handleSwitch(ESignatureCheckSettingsEnum.ESignatureEnabled)}
             />
-        )}
+          )}
         />
       </Box>
-
       <Box mt={2}>
         <ExtendedDescription
-          title={intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsTypes.SignatrureMethod}.title` })}
-          text={intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsTypes.SignatrureMethod}.description` })}
+          title={intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsEnum.SignatureMethod}.title` })}
+          text={intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsEnum.SignatureMethod}.description` })}
           isDisabled={!isProductEnabled}
         />
         <Box mt={2} className={classNames(classes.root, { [classes.rootDisabled]: !isProductEnabled })}>
           <RadioGroup value={settings?.signatureMethod.value}>
             <FormControlLabel
               control={<Radio color="primary" />}
-              value={ESignatureRadioOptions.NameTyping}
+              value={ESignatureRadioOptionsEnum.NameTyping}
               disabled={!isProductEnabled}
-              onClick={handleRadioButton(ESignatureCheckSettingsTypes.SignatrureMethod, ESignatureRadioOptions.NameTyping)}
+              onClick={handleRadioButton(ESignatureCheckSettingsEnum.SignatureMethod, ESignatureRadioOptionsEnum.NameTyping)}
               label={(
                 <Box mt={0.5}>
                   <Box color="common.black90" fontWeight="bold">
                     {intl.formatMessage({
-                      id: `ESignature.settings.${ESignatureCheckSettingsTypes.SignatrureMethod}.radio.${ESignatureRadioOptions.NameTyping}.label`,
+                      id: `ESignature.settings.${ESignatureCheckSettingsEnum.SignatureMethod}.radio.${ESignatureRadioOptionsEnum.NameTyping}.label`,
                     })}
                   </Box>
                   <Box color="common.black75">
                     {intl.formatMessage({
-                      id: `ESignature.settings.${ESignatureCheckSettingsTypes.SignatrureMethod}.radio.${ESignatureRadioOptions.NameTyping}.description`,
+                      id: `ESignature.settings.${ESignatureCheckSettingsEnum.SignatureMethod}.radio.${ESignatureRadioOptionsEnum.NameTyping}.description`,
                     })}
                   </Box>
                 </Box>
-                  )}
+              )}
             />
             <Box mt={4}>
               <FormControlLabel
                 control={<Radio color="primary" />}
-                value={ESignatureRadioOptions.FaceAndDocumentSignature}
+                value={ESignatureRadioOptionsEnum.UploadDocumentAndTypeName}
                 disabled={!isProductEnabled}
-                onClick={setToFaceAndDocuments}
+                onClick={handleRadioButton(ESignatureCheckSettingsEnum.SignatureMethod, ESignatureRadioOptionsEnum.UploadDocumentAndTypeName)}
                 label={(
                   <Box mt={0.5}>
-                    <Box color="common.black90" fontWeight="bold">{intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsTypes.SignatrureMethod}.radio.${ESignatureRadioOptions.FaceAndDocumentSignature}.label` })}</Box>
-                    <Box color="common.black75">{intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsTypes.SignatrureMethod}.radio.${ESignatureRadioOptions.FaceAndDocumentSignature}.description` })}</Box>
+                    <Box color="common.black90" fontWeight="bold">{intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsEnum.SignatureMethod}.radio.${ESignatureRadioOptionsEnum.UploadDocumentAndTypeName}.label` })}</Box>
+                    <Box color="common.black75">{intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsEnum.SignatureMethod}.radio.${ESignatureRadioOptionsEnum.UploadDocumentAndTypeName}.description` })}</Box>
                   </Box>
-                  )}
+                )}
+              />
+            </Box>
+            <Box mt={4}>
+              <FormControlLabel
+                control={<Radio color="primary" />}
+                value={ESignatureRadioOptionsEnum.FaceAndDocumentSignature}
+                disabled={!isProductEnabled}
+                onClick={handleFaceAndDocuments}
+                label={(
+                  <Box mt={0.5}>
+                    <Box color="common.black90" fontWeight="bold">{intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsEnum.SignatureMethod}.radio.${ESignatureRadioOptionsEnum.FaceAndDocumentSignature}.label` })}</Box>
+                    <Box color="common.black75">{intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsEnum.SignatureMethod}.radio.${ESignatureRadioOptionsEnum.FaceAndDocumentSignature}.description` })}</Box>
+                  </Box>
+                )}
               />
             </Box>
           </RadioGroup>
@@ -190,8 +203,8 @@ export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<
 
       <Box mt={4}>
         <ExtendedDescription
-          title={intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsTypes.Terms}.title` })}
-          text={intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsTypes.Terms}.description` })}
+          title={intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsEnum.Terms}.title` })}
+          text={intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsEnum.Terms}.description` })}
           isDisabled={!isProductEnabled}
         />
         <Box mt={2}>
@@ -204,7 +217,7 @@ export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<
             startIcon={<FiUpload />}
             disabled={buttonLoading || !isProductEnabled}
           >
-            {intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsTypes.Terms}.upload` })}
+            {intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsEnum.Terms}.upload` })}
           </Button>
           <input
             className={classes.uploadInput}
@@ -215,12 +228,11 @@ export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<
             ref={fileUploadRef}
           />
         </Box>
-        {isProductEnabled
-           && (
-           <Box mt={2}>
-             <DocumentsList documents={{ order: settings?.termsOrder.value, list: settings?.terms.value }} onChangeOrder={onTermReorder} onDocumentDelete={onTermDelete} />
-           </Box>
-           )}
+        {isProductEnabled && (
+          <Box mt={2}>
+            <DocumentsList documents={{ order: settings?.termsOrder.value, list: settings?.terms.value }} onChangeOrder={onTermReorder} onDocumentDelete={onTermDelete} />
+          </Box>
+        )}
       </Box>
 
     </Box>

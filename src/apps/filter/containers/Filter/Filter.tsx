@@ -10,8 +10,8 @@ import { selectPreliminaryFilteredCountModel } from 'state/identities/identities
 import { Loadable } from 'models/Loadable.model';
 import { OutputSelector } from 'reselect';
 import dayjs from 'dayjs';
-import { useStyles } from './Filter.styles';
 import { DateRange } from '../../components/DateRange/DateRange';
+import { useStyles } from './Filter.styles';
 
 type FilterProps<FilterParams extends FilterDateParams> = React.PropsWithChildren<{
   onClose: () => void;
@@ -97,7 +97,6 @@ export function Filter<FilterType extends FilterDateParams>({ children, onClose,
               return child;
             })}
           </Grid>
-          <Grid />
         </Grid>
       </Box>
       <Box className={classes.footer}>

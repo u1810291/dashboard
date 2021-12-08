@@ -2,11 +2,11 @@ import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/Verification.model';
+import { ESignatureCheckSettingsEnum, ESignatureCheckEnum, getAcceptanceCriteria, getSigMethod } from 'models/ESignature.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiPenTool } from 'react-icons/fi';
 import { ESignatureSettings } from '../components/ESignatureSettings/ESignatureSettings';
 import { ESignatureVerification } from '../components/ESignatureVerification/ESignatureVerification';
-import { ESignatureCheckSettingsTypes, ESignatureCheckTypes, ESignatureRadioOptions } from '../models/ESignature.model';
 
 export class ESignatureService extends ProductBaseService implements Product {
     id = ProductTypes.ESignatureCheck;
@@ -16,13 +16,13 @@ export class ESignatureService extends ProductBaseService implements Product {
     ];
     icon = FiPenTool;
     checksDefault = [{
-      id: ESignatureCheckTypes.SignatureCheck,
+      id: ESignatureCheckEnum.SignatureCheck,
       isActive: true,
     }, {
-      id: ESignatureCheckTypes.GeoRestrictionCheck,
+      id: ESignatureCheckEnum.GeoRestrictionCheck,
       isActive: true,
     }, {
-      id: ESignatureCheckTypes.RiskyIpCheck,
+      id: ESignatureCheckEnum.RiskyIpCheck,
       isActive: true,
     }];
 
@@ -33,46 +33,36 @@ export class ESignatureService extends ProductBaseService implements Product {
     component = ESignatureSettings;
     componentVerification = ESignatureVerification;
 
-    parser(flow: IFlow, productsInGraph?: ProductTypes[]): ProductSettings<ESignatureCheckSettingsTypes> {
+    parser(flow: IFlow, productsInGraph?: ProductTypes[]): ProductSettings<ESignatureCheckSettingsEnum> {
       const acceptanceCriteria = flow?.electronicSignature?.acceptanceCriteria;
       const isEnabled = flow.verificationPatterns[VerificationPatternTypes.ESignatureDocuments];
 
       const neededProductsInFlow = productsInGraph?.includes(ProductTypes.BiometricVerification) && productsInGraph?.includes(ProductTypes.DocumentVerification);
-      const hasFlowSettings = acceptanceCriteria?.isFaceMatchRequired && acceptanceCriteria?.isDocumentsRequired;
-
-      const sigMethodValue = neededProductsInFlow && hasFlowSettings
-        ? ESignatureRadioOptions.FaceAndDocumentSignature
-        : ESignatureRadioOptions.NameTyping;
 
       return {
-        [ESignatureCheckSettingsTypes.ESignatureEnabled]: {
+        [ESignatureCheckSettingsEnum.ESignatureEnabled]: {
           value: isEnabled,
         },
-        [ESignatureCheckSettingsTypes.SignatrureMethod]: {
-          value: sigMethodValue,
+        [ESignatureCheckSettingsEnum.SignatureMethod]: {
+          value: getSigMethod(acceptanceCriteria, neededProductsInFlow),
         },
-        [ESignatureCheckSettingsTypes.Terms]: {
+        [ESignatureCheckSettingsEnum.Terms]: {
           value: flow?.electronicSignature?.templates?.list || [],
         },
-        [ESignatureCheckSettingsTypes.TermsOrder]: {
+        [ESignatureCheckSettingsEnum.TermsOrder]: {
           value: flow?.electronicSignature?.templates?.order || [],
         },
       };
     }
 
-    serialize(settings: ProductSettings<ESignatureCheckSettingsTypes>): Partial<IFlow> {
-      const needFaceAndDocs = settings.signatureMethod.value === ESignatureRadioOptions.FaceAndDocumentSignature;
+    serialize(settings: ProductSettings<ESignatureCheckSettingsEnum>): Partial<IFlow> {
       return {
         electronicSignature: {
           templates: {
             order: settings.termsOrder.value,
             list: settings.terms.value,
           },
-          acceptanceCriteria: {
-            isDocumentsRequired: needFaceAndDocs,
-            isFaceMatchRequired: needFaceAndDocs,
-            isFullNameRequired: true,
-          },
+          acceptanceCriteria: getAcceptanceCriteria(settings.signatureMethod.value),
         },
         verificationPatterns: {
           [VerificationPatternTypes.ESignatureDocuments]: settings.eSignatureEnabled.value,

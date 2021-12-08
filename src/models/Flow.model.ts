@@ -1,4 +1,4 @@
-import { IESignatureFlow } from 'apps/ESignature';
+import { IESignatureFlow } from 'models/ESignature.model';
 import { InputValidationCheck } from 'apps/imageValidation/models/imageValidation.model';
 import { Logo } from 'apps/logo/models/Logo.model';
 import { get } from 'lodash';

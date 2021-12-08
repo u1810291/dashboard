@@ -49,18 +49,18 @@ export class HttpClient {
   async createRequest<T>(config: AxiosRequestConfig): Promise<ApiResponse<T>> {
     try {
       return await this.client.request(config);
-    } catch (e) {
-      const type = (e as any)?.response?.data?.details?.type;
-      if (e?.response?.data?.status === ErrorStatuses.BlockedByMerchant && !window.location.pathname.startsWith(Routes.auth.signIn)) {
+    } catch (error: any) {
+      const type = error?.response?.data?.details?.type;
+      if (error?.response?.data?.status === ErrorStatuses.BlockedByMerchant && !window.location.pathname.startsWith(Routes.auth.signIn)) {
         this.csrf = null;
         goToPage(Routes.auth.signIn);
       }
       if (type === ClientErrorTypes.CSRFTokenNotFound || type === ClientErrorTypes.CSRFTokenNotValid) {
         // eslint-disable-next-line
-        console.error('CSRF error:', (e as any).message);
+        console.error('CSRF error:', error?.message);
         this.csrf = null;
       }
-      throw e;
+      throw error;
     }
   }
 

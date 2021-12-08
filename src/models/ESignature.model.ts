@@ -1,6 +1,7 @@
 import { downloadBlob } from 'lib/file';
 import { MediaUploadFile } from 'models/Media.model';
 import { getMedia } from 'apps/media';
+import { IStep } from './Step.model';
 
 export type ESignatureDocumentId = string;
 
@@ -28,16 +29,14 @@ export interface ESignatureReadDetails {
   documentTemplate: {
     originalDocument: MediaUploadFile;
   };
+  fullName: string;
 }
 
 export interface ESignatureStepData {
   readDetails: ESignatureReadDetails[];
 }
 
-export interface ESignatureStep {
-  data?: ESignatureStepData;
-  error?: any;
-}
+export type ESignatureStep = IStep<ESignatureStepData>;
 
 export interface ESignatureAcceptanceCriteria {
   isFullNameRequired: boolean;
@@ -45,32 +44,32 @@ export interface ESignatureAcceptanceCriteria {
   isFaceMatchRequired: boolean;
 }
 
-export enum ESignatureFieldTypes {
+export enum ESignatureFieldEnum {
   ReadAt = 'readAt',
   SignedAt = 'signedAt',
   TransactionId = 'documentId',
 }
 
-export enum ESignatureTypes {
+export enum ESignatureEnum {
   NameTyping = 'name-typing',
   Document = 'document',
   FaceSignature = 'face-signature',
 }
 
 export const ESignatureFields = [
-  ESignatureFieldTypes.ReadAt,
-  ESignatureFieldTypes.SignedAt,
-  ESignatureFieldTypes.TransactionId,
+  ESignatureFieldEnum.ReadAt,
+  ESignatureFieldEnum.SignedAt,
+  ESignatureFieldEnum.TransactionId,
 ];
 
-export function getESignatureType(criteria: ESignatureAcceptanceCriteria): ESignatureTypes {
+export function getESignatureType(criteria: ESignatureAcceptanceCriteria): ESignatureEnum {
   if (criteria?.isFaceMatchRequired) {
-    return ESignatureTypes.FaceSignature;
+    return ESignatureEnum.FaceSignature;
   }
   if (criteria?.isDocumentsRequired) {
-    return ESignatureTypes.Document;
+    return ESignatureEnum.Document;
   }
-  return ESignatureTypes.NameTyping;
+  return ESignatureEnum.NameTyping;
 }
 
 export async function getPdfImagesUrls(selectedDocument: ESignatureReadDetails): Promise<string[]> {
@@ -117,33 +116,36 @@ export function getESignatureDocument(eSignatureDocument: ESignatureDocumentMode
   };
 }
 
-export enum ESignatureCheckSettingsTypes {
+export enum ESignatureCheckSettingsEnum {
     ESignatureEnabled = 'eSignatureEnabled',
-    SignatrureMethod = 'signatureMethod',
+    SignatureMethod = 'signatureMethod',
     Terms = 'terms',
     TermsOrder = 'termsOrder'
 }
 
-export enum ESignatureCheckTypes {
+export enum ESignatureCheckEnum {
     SignatureCheck = 'signatureCheck',
     GeoRestrictionCheck = 'geoRestrictionCheck',
     RiskyIpCheck = 'riskyIpCheck'
 }
 
-export enum ESignatureRadioOptions {
+export enum ESignatureRadioOptionsEnum {
     NameTyping = 'nameTyping',
+    UploadDocumentAndTypeName = 'uploadDocumentAndTypeName',
     FaceAndDocumentSignature = 'faceAndDocumentSignature'
 }
 
-export interface IESignatureValidationTypes {
-  acceptanceCriteria: {
-    isDocumentsRequired: boolean;
-    isFaceMatchRequired: boolean;
-    isFullNameRequired: boolean;
-  };
+export interface ESignatureValidationAcceptanceCriteria {
+  isDocumentsRequired: boolean;
+  isFaceMatchRequired: boolean;
+  isFullNameRequired: boolean;
 }
 
-export interface IESignatureFlow extends IESignatureValidationTypes {
+export interface ESignatureValidation {
+  acceptanceCriteria: ESignatureValidationAcceptanceCriteria;
+}
+
+export interface IESignatureFlow extends ESignatureValidation {
   templates: {
     order: string[];
     list: IESignatureTemplate[];
@@ -157,4 +159,40 @@ export interface IESignatureTemplate {
         folder: string;
         originalFileName: string;
     };
+}
+
+export function getAcceptanceCriteria(value: ESignatureRadioOptionsEnum): ESignatureValidationAcceptanceCriteria {
+  if (value === ESignatureRadioOptionsEnum.FaceAndDocumentSignature) {
+    return {
+      isDocumentsRequired: true,
+      isFaceMatchRequired: true,
+      isFullNameRequired: true,
+    };
+  }
+
+  if (value === ESignatureRadioOptionsEnum.UploadDocumentAndTypeName) {
+    return {
+      isDocumentsRequired: true,
+      isFaceMatchRequired: false,
+      isFullNameRequired: true,
+    };
+  }
+
+  return {
+    isDocumentsRequired: false,
+    isFaceMatchRequired: false,
+    isFullNameRequired: true,
+  };
+}
+
+export function getSigMethod(values?: ESignatureValidationAcceptanceCriteria, neededProductsInFlow?: boolean): ESignatureRadioOptionsEnum {
+  if ((values?.isFaceMatchRequired && values?.isDocumentsRequired) && neededProductsInFlow) {
+    return ESignatureRadioOptionsEnum.FaceAndDocumentSignature;
+  }
+
+  if (values?.isDocumentsRequired && values?.isFullNameRequired) {
+    return ESignatureRadioOptionsEnum.UploadDocumentAndTypeName;
+  }
+
+  return ESignatureRadioOptionsEnum.NameTyping;
 }

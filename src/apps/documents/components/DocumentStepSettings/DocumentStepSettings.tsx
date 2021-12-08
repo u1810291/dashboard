@@ -91,10 +91,10 @@ export function DocumentStepSettings({ steps, onUpdate, custom }: DocumentStepSe
         </Box>
       ))}
       {checkedDocuments?.length < DocumentListOrdered.length && (
-      <Button className={classes.buttonAdd} onClick={handleChangeStep(lastStepNumber)} color="primary" variant="outlined">
-        <FiPlus size={12} />
-        {intl.formatMessage({ id: 'DocumentVerification.settings.button.addStep' }, { count: steps?.length + 1 })}
-      </Button>
+        <Button className={classes.buttonAdd} onClick={handleChangeStep(lastStepNumber)} color="primary" variant="outlined">
+          <FiPlus size={12} />
+          {intl.formatMessage({ id: 'DocumentVerification.settings.button.addStep' }, { count: steps?.length + 1 })}
+        </Button>
       )}
     </Box>
   );

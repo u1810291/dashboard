@@ -53,6 +53,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.PanamenianTribunalElectoral]: false,
   [VerificationPatternTypes.VenezuelanCne]: false,
   [VerificationPatternTypes.VenezuelanSeniat]: false,
+  [VerificationPatternTypes.UgandanElectoralCommission]: false,
 };
 
 export const GovCheckTypesForStep = {
@@ -82,6 +83,7 @@ export enum GovCheckCountryTypes {
   Salvador = 'salvador',
   Panama = 'panama',
   Venezuela = 'venezuela',
+  Uganda = 'uganda'
 }
 
 export const govCheckCountriesOrder = [
@@ -103,6 +105,7 @@ export const govCheckCountriesOrder = [
   GovCheckCountryTypes.Salvador,
   GovCheckCountryTypes.Panama,
   GovCheckCountryTypes.Venezuela,
+  GovCheckCountryTypes.Uganda,
 ];
 
 export interface GovCheckOptions {
@@ -358,6 +361,15 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       },
     ],
   },
+  {
+    country: GovCheckCountryTypes.Uganda,
+    checks: [
+      {
+        id: DocumentStepTypes.UgandanElectoralCommission,
+        default: false,
+      },
+    ],
+  },
 ];
 
 export const govCheckDisplayOptions = {
@@ -410,10 +422,7 @@ export const govCheckDisplayOptions = {
     },
   },
   [DocumentStepTypes.DominicanJce]: {
-    fullName: {},
-    documentNumber: {
-      inline: true,
-    },
+    valid: {},
   },
   [DocumentStepTypes.CostaRicanAtv]: {
     fullName: {},

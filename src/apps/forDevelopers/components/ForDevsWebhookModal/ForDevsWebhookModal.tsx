@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Box, Button, Grid, IconButton, InputLabel, TextField, Typography } from '@material-ui/core';
 import { Modal } from 'apps/overlay';
-import { notification, TextFieldPassword, VideoPlayer } from 'apps/ui';
+import { notification, TextFieldSecret, VideoPlayer } from 'apps/ui';
 import { QATags } from 'models/QA.model';
 import { deleteWebhook, getWebhooks, subscribeToWebhook } from 'state/webhooks/webhooks.actions';
 import { selectWebhook } from 'state/webhooks/webhooks.selectors';
@@ -125,7 +125,7 @@ export function ForDevsWebhookModal() {
             <InputLabel className={classes.label}>
               {intl.formatMessage({ id: 'forDevs.webhook.secret' })}
             </InputLabel>
-            <TextFieldPassword
+            <TextFieldSecret
               {...secretRegister}
               setValue={setValue}
               helperText={errors?.[ForDevelopersInputTypes.Secret]?.message}

@@ -7,6 +7,7 @@ import { filterSerialize } from 'models/Filter.model';
 import { REDUCE_DB_COUNT_CALLS } from 'models/Release.model';
 import { IdentityStatuses } from 'models/Status.model';
 import { Dispatch } from 'redux';
+import { VerificationActionTypes } from 'apps/Verification/state/Verification.store';
 import { createTypesSequence, TypesSequence } from '../store.utils';
 import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from './identities.selectors';
 import { IdentityActionGroups } from './identities.store';
@@ -262,8 +263,11 @@ export const identityLoad = (id, isReload, asMerchantId) => async (dispatch) => 
   dispatch({ type: isReload ? types.IDENTITY_UPDATING : types.IDENTITY_REQUEST });
   try {
     const payload = await api.getIdentityWithNestedData(id, { ...(asMerchantId && { asMerchantId }) });
+    dispatch({ type: VerificationActionTypes.VERIFICATION_SUCCESS, isReset: true, payload: payload._embedded.verification });
     dispatch({ type: types.IDENTITY_SUCCESS, payload, isReset: true });
   } catch (error) {
+    dispatch({ type: VerificationActionTypes.VERIFICATION_FAILURE, error });
+    notification.error(ErrorMessages.ERROR_COMMON);
     dispatch({ type: types.IDENTITY_FAILURE, error });
     throw error;
   }

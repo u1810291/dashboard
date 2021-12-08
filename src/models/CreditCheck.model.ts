@@ -1,5 +1,6 @@
-/* eslint-disable camelcase */
 import { VerificationDocument } from './Document.model';
+import { IStep } from './Step.model';
+import { VerificationResponse } from './Verification.model';
 
 export interface CreditCheckStep {
   age: number;
@@ -10,6 +11,12 @@ export interface CreditCheckStep {
   fullName: string;
   gender: string;
   taxpayerNumber: string;
+}
+
+export interface DataForCreditCheck {
+  creditDocumentStep: IStep<CreditCheckStep>;
+  verification: VerificationResponse;
+  id: string;
 }
 
 export interface CreditCheckManulRunResponse {

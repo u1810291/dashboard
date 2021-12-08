@@ -191,7 +191,7 @@ export const selectCurrentFlowId = createSelector(
   (store) => store.currentFlow,
 );
 
-export const selectCurrentFlow = createSelector(
+export const selectCurrentFlow = createSelector<any, Loadable<any>, any, IFlow>(
   selectMerchantFlowsModel,
   selectCurrentFlowId,
   selectModelValue((model, id) => model.find((item) => item.id === id)),
