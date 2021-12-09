@@ -38,7 +38,7 @@
   "AgentHistory.filter.eventGroup.passwordChange": "Password change",
   "AgentHistory.filter.eventGroup.profileChange": "Profile change",
   "AgentHistory.filter.eventGroup.teammateProfileChange": "Teammate profile change",
-  "AgentHistory.filter.eventGroup.verificationChange": "Verification change",
+  "AgentHistory.filter.eventGroup.verificationChange": "Verification update",
   "AgentHistory.placeholder": "Here you will see the actions of this agent",
   "AgentHistory.tableHead.additionalDetails": "Additional Details",
   "AgentHistory.tableHead.status": "Status",
