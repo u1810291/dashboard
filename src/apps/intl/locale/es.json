@@ -756,7 +756,7 @@
   "FAQ.contactUs.3.list.1": "Filip Victor, CEO - {email}",
   "FAQ.contactUs.3.list.2": "Amaury Soviche, CTO - {email}",
   "FAQ.contactUs.3.question": "Comparta pensamientos con la alta dirección",
-  "FAQ.contactUs.4.answer": "Nos encanta escuchar los comentarios de los clientes sobre cómo podemos mejorar y escalar nuestros servicios. Haz click aquí para compartir la nueva funcionalidad que te gustaría incluir en nuestro producto. ",
+  "FAQ.contactUs.4.answer": "Nos encanta escuchar los comentarios de los clientes sobre cómo podemos mejorar y escalar nuestros servicios. Haz click {link} para compartir la nueva funcionalidad que te gustaría incluir en nuestro producto. ",
   "FAQ.contactUs.4.question": "Envíanos tu solicitud sobre nuevas funcionalidades",
   "FAQ.contactUs.title": "Contáctanos",
   "FAQ.gettingStarted.0.answer": "Son recibidas identificaciones emitidas por el gobierno de cualquier país, pero su idioma debe contener caracteres del alfabeto latino. (No recibimos árabe, coreano, chino, etc.)",

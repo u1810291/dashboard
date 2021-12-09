@@ -4,7 +4,7 @@ import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { BiometricTypes } from 'models/Biometric.model';
 import { IFlow } from 'models/Flow.model';
-import { DEFAULT_LOCALE, LanguageList } from 'models/Intl.model';
+import { DEFAULT_LOCALE, LanguageList, SupportedLocales } from 'models/Intl.model';
 import { Loadable } from 'models/Loadable.model';
 import { Merchant, MerchantId, MerchantTags } from 'models/Merchant.model';
 import { createSelector } from 'reselect';
@@ -156,7 +156,7 @@ export const selectDashboardModel = createSelector(
 );
 
 // TODO @dkchv: move to intl feature
-export const selectLanguage = createSelector(
+export const selectLanguage = createSelector<any, Loadable<any>, SupportedLocales>(
   selectDashboardModel,
   selectModelValue((dashboard) => {
     const locale = dashboard.language;

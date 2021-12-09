@@ -1,20 +1,27 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
+import { devWarn } from 'lib/console';
+import { PrimitiveType } from 'lib/types';
 
-interface MessageDescriptor {
+interface MessageDescriptor<T> {
   id: string;
-  values?: Record<string, string | number | boolean | null | undefined | Date>;
-  description?: string;
-  defaultMessage?: React.ReactNode;
+  messageValues?: Record<string, T>;
+  defaultMessage?: string;
 }
 
-export function useFormatMessage(): (descriptor: MessageDescriptor) => string {
+type FormatMessage = {
+  (param: MessageDescriptor<PrimitiveType>): string;
+  (param: MessageDescriptor<JSX.Element>): React.ReactNode;
+}
+
+export function useFormatMessage(): FormatMessage {
   const intl = useIntl();
 
-  return (descriptor: MessageDescriptor) => {
+  return useCallback((descriptor: MessageDescriptor<any>): any => {
     if (!descriptor.id) {
+      devWarn('Format message id shouldn\'t be void');
       return '';
     }
-    return intl.formatMessage({ id: descriptor.id }, descriptor.values);
-  };
+    return intl.formatMessage({ id: descriptor.id, defaultMessage: descriptor.defaultMessage }, descriptor.messageValues);
+  }, [intl]);
 }

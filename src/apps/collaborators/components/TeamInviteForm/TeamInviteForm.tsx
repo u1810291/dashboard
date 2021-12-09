@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
-import { useIntl } from 'react-intl';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { TextField, InputLabel, Box, Button } from '@material-ui/core';
+import { useFormatMessage } from 'apps/intl';
 import { notification } from 'apps/ui';
 import { CLEAN_TEXT_REG_EXP, EMAIL_REG_EXP } from 'lib/validations';
 import { CollaboratorInputTypes, CollaboratorOptions, CollaboratorRoles } from 'models/Collaborator.model';
@@ -20,7 +20,7 @@ export function TeamInviteForm({ onSubmit, onClose }: {
   onSubmit: (data: TeamInviteFormInputs) => void;
   onClose: () => void;
 }) {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const classes = useStyles();
 
   const { register, handleSubmit, control, formState: { errors } } = useForm<TeamInviteFormInputs>({
@@ -30,24 +30,24 @@ export function TeamInviteForm({ onSubmit, onClose }: {
   });
 
   const emailRegister = register(CollaboratorInputTypes.Email, {
-    required: intl.formatMessage({ id: 'validations.required' }),
+    required: formatMessage({ id: 'validations.required' }),
     pattern: {
       value: EMAIL_REG_EXP,
-      message: intl.formatMessage({ id: 'validations.email' }),
+      message: formatMessage({ id: 'validations.email' }),
     },
   });
   const firstNameRegister = register(CollaboratorInputTypes.FirstName, {
-    required: intl.formatMessage({ id: 'validations.required' }),
+    required: formatMessage({ id: 'validations.required' }),
     pattern: {
       value: CLEAN_TEXT_REG_EXP,
-      message: intl.formatMessage({ id: 'validations.cleanText' }),
+      message: formatMessage({ id: 'validations.cleanText' }),
     },
   });
   const lastNameRegister = register(CollaboratorInputTypes.LastName, {
-    required: intl.formatMessage({ id: 'validations.required' }),
+    required: formatMessage({ id: 'validations.required' }),
     pattern: {
       value: CLEAN_TEXT_REG_EXP,
-      message: intl.formatMessage({ id: 'validations.cleanText' }),
+      message: formatMessage({ id: 'validations.cleanText' }),
     },
   });
 
@@ -55,9 +55,9 @@ export function TeamInviteForm({ onSubmit, onClose }: {
     try {
       onSubmit(data);
     } catch (error) {
-      notification.error(intl.formatMessage({ id: 'Error.common' }));
+      notification.error(formatMessage({ id: 'Error.common' }));
     }
-  }, [onSubmit, intl]);
+  }, [onSubmit, formatMessage]);
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -65,7 +65,7 @@ export function TeamInviteForm({ onSubmit, onClose }: {
         <Box className={classes.wrapper}>
           <Box mb={{ xs: 4, lg: 2 }}>
             <InputLabel>
-              {intl.formatMessage({ id: 'teamTable.invite.form.labels.firstName' })}
+              {formatMessage({ id: 'teamTable.invite.form.labels.firstName' })}
             </InputLabel>
             <TextField
               {...firstNameRegister}
@@ -79,7 +79,7 @@ export function TeamInviteForm({ onSubmit, onClose }: {
           </Box>
           <Box mb={{ xs: 4, lg: 2 }}>
             <InputLabel>
-              {intl.formatMessage({ id: 'teamTable.invite.form.labels.lastName' })}
+              {formatMessage({ id: 'teamTable.invite.form.labels.lastName' })}
             </InputLabel>
             <TextField
               {...lastNameRegister}
@@ -93,7 +93,7 @@ export function TeamInviteForm({ onSubmit, onClose }: {
           </Box>
           <Box mb={4}>
             <InputLabel>
-              {intl.formatMessage({ id: 'teamTable.invite.form.labels.email' })}
+              {formatMessage({ id: 'teamTable.invite.form.labels.email' })}
             </InputLabel>
             <TextField
               {...emailRegister}
@@ -132,7 +132,7 @@ export function TeamInviteForm({ onSubmit, onClose }: {
           disableElevation
           fullWidth
         >
-          {intl.formatMessage({ id: 'teamTable.invite.form.btn.send' })}
+          {formatMessage({ id: 'teamTable.invite.form.btn.send' })}
         </Button>
         <Button
           variant="contained"
@@ -140,7 +140,7 @@ export function TeamInviteForm({ onSubmit, onClose }: {
           fullWidth
           onClick={onClose}
         >
-          {intl.formatMessage({ id: 'cancel' })}
+          {formatMessage({ id: 'cancel' })}
         </Button>
       </Box>
     </form>
