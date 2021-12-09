@@ -12,7 +12,7 @@ import { getEmailVerificationExtra } from 'models/EmailValidation.model';
 import { getIpCheckStep } from 'models/IpCheck.model';
 import { getEmailRiskStep } from 'models/EmailCheck.model';
 import { useIntl } from 'react-intl';
-import { AppIntlProvider } from '../intl';
+import { AppIntlProvider } from 'apps/intl';
 import { DocumentStepPDF } from './components/DocumentStepPDF/DocumentStepPDF';
 import { IpCheckPDF } from './components/IpCheckPDF/IpCheckPDF';
 import { LivenessStepPDF } from './components/LivenessStepPDF/LivenessStepPDF';
