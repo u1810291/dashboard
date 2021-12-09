@@ -768,6 +768,7 @@
   "Error.eSignature.notValidParams": "Documento inválido ou a foto do documento não corresponde à selfie",
   "Error.eSignature.phoneStepFailed": "A etapa do telefone não foi aprovada",
   "Error.eSignature.selfieStepFailed": "A etapa de assinatura da selfie não foi aprovada",
+  "Error.intl": " ",
   "FAQ.banner.title": "Perguntas frequentes",
   "FAQ.banner.yourMerchantId": "Seu ID comercial:",
   "FAQ.contactUs.1.answer": "Esta é a maneira mais rápida para você conseguir o que precisa. Através deste canal, você terá a resposta e o atendimento que merece!",

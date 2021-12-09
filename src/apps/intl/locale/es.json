@@ -768,6 +768,7 @@
   "Error.eSignature.notValidParams": "El documento no es válido o la foto del documento no coincide con la selfie",
   "Error.eSignature.phoneStepFailed": "No se ha aprobado el paso del teléfono",
   "Error.eSignature.selfieStepFailed": "El paso de la firma del selfie no ha sido superado",
+  "Error.intl": " ",
   "FAQ.banner.title": "Preguntas frecuentes",
   "FAQ.banner.yourMerchantId": "Tu ID de cliente:",
   "FAQ.contactUs.1.answer": "La forma más rápida de obtener la ayuda que necesitas es a través de nuestro equipo de soporte. Es posible que nos tardemos un par de horas en responder, pero nos aseguraremos que recibas el apoyo que estás buscando. ",

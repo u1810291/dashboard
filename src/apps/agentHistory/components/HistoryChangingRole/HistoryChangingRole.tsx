@@ -30,13 +30,13 @@ export function HistoryChangingRole({ eventType, updatedBy, triggeredUser, role 
           <BoxLabeled label={intl.formatMessage({ id: 'AgentHistory.agentInformation.role' })} mr={4.5}>
             <Box display="flex" alignItems="center" fontWeight="bold">
               <Box className={classes.role}>
-                {role?.prevValue && intl.formatMessage({ id: getCollaboratorOption(role?.prevValue)?.label })}
+                {role?.prevValue && intl.formatMessage({ id: getCollaboratorOption(role?.prevValue)?.label || 'Error.intl' })}
               </Box>
               <Box display="flex" mx={1} fontSize={17} color="common.black75">
                 <FiArrowRight />
               </Box>
               <Box className={classes.role}>
-                {role?.nextValue && intl.formatMessage({ id: getCollaboratorOption(role?.nextValue)?.label })}
+                {role?.nextValue && intl.formatMessage({ id: getCollaboratorOption(role?.nextValue)?.label || 'Error.intl' })}
               </Box>
             </Box>
           </BoxLabeled>
@@ -53,13 +53,13 @@ export function HistoryChangingRole({ eventType, updatedBy, triggeredUser, role 
           <BoxLabeled label={intl.formatMessage({ id: 'AgentHistory.agentInformation.role' })} mr={4.5}>
             <Box display="flex" alignItems="center" fontWeight="bold">
               <Box className={classes.role}>
-                {role?.prevValue && intl.formatMessage({ id: getCollaboratorOption(role.prevValue)?.label })}
+                {role?.prevValue && intl.formatMessage({ id: getCollaboratorOption(role.prevValue)?.label || 'Error.intl' })}
               </Box>
               <Box display="flex" mx={1} fontSize={17} color="common.black75">
                 <FiArrowRight />
               </Box>
               <Box className={classes.role}>
-                {role?.nextValue && intl.formatMessage({ id: getCollaboratorOption(role.nextValue)?.label })}
+                {role?.nextValue && intl.formatMessage({ id: getCollaboratorOption(role.nextValue)?.label || 'Error.intl' })}
               </Box>
             </Box>
           </BoxLabeled>

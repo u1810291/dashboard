@@ -774,6 +774,7 @@
   "Error.eSignature.notValidParams": "Document invalid or photo on the document didn't match the selfie",
   "Error.eSignature.phoneStepFailed": "Phone step hasn't been passed",
   "Error.eSignature.selfieStepFailed": "Selfie signature step hasn't been passed",
+  "Error.intl": " ",
   "FAQ.banner.title": "Help Center",
   "FAQ.banner.yourMerchantId": "Your Merchant ID:",
   "FAQ.contactUs.1.answer": "This is the fastest way to get the help you need. It may take us a few hours to respond, but we'll make sure you receive the support you deserve.",

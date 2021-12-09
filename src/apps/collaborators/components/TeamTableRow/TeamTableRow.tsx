@@ -86,7 +86,7 @@ export function TeamTableRow({ collaborator }: {
         <Typography>
           {isOwnerRow
             ? intl.formatMessage({ id: 'teamTable.roles.owner' })
-            : intl.formatMessage({ id: `${getCollaboratorOption(collaborator.role)?.label}` })}
+            : intl.formatMessage({ id: getCollaboratorOption(collaborator.role)?.label || 'Error.intl' })}
         </Typography>
       </TableCell>
       {/* Block unblock */}
