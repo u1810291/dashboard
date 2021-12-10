@@ -21,7 +21,7 @@ export function EmailValidationConfiguration() {
 
   const [riskThresholdMode, setRiskThresholdMode] = useState(getDefaultRiskThresholdMode(initialRiskScore));
   const [senderName, setSenderName] = useState(useSelector(selectSenderName));
-  const [riskScore, setRiskScore] = useState(initialRiskScore);
+  const [riskScore, setRiskScore] = useState<string | number>(initialRiskScore);
   const [isCanUseEmailValidation] = useState(useSelector(selectCanUseEmailValidation));
   const [senderNameError, setSenderNameError] = useState(null);
   const [riskThresholdError, setRiskThresholdError] = useState(null);
@@ -99,7 +99,7 @@ export function EmailValidationConfiguration() {
   }, []);
 
   const handleSaveChanges = useCallback(async () => {
-    const riskThresholdAsNumber = parseInt(riskScore, 10);
+    const riskThresholdAsNumber = parseInt(riskScore as string, 10);
     if (riskThresholdError || senderNameError) {
       return;
     }

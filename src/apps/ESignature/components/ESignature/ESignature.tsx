@@ -1,11 +1,11 @@
 import { Box, Button, Card, CardContent, Grid, MenuItem, Paper, Select, Typography } from '@material-ui/core';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useMemo, useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { FiChevronDown } from 'react-icons/all';
+import { downloadESignaturePDFDocument, ESignatureDocumentId, ESignatureFields, ESignatureStep, getPdfImagesUrls } from 'models/ESignature.model';
 import { CheckStepDetailsEntry } from 'apps/checks/components/CheckStepDetails/CheckStepDetailsEntry';
 import { BoxBordered, CheckBarExpandable, ZoomableImage } from 'apps/ui';
 import { useStyles } from './ESignature.styles';
-import { downloadESignaturePDFDocument, ESignatureDocumentId, ESignatureFields, ESignatureStep, getPdfImagesUrls } from '../../models/ESignature.model';
 
 export function ESignature({ step }: {
   step: ESignatureStep;
@@ -39,6 +39,8 @@ export function ESignature({ step }: {
     }
   }, [step, loadDocumentImages]);
 
+  const isESignaturePdfDownloadButtonDisabled = useMemo(() => step?.error !== null || step?.data?.readDetails.some((detail) => detail.pdfDocument.documentImages.length === 0), [step]);
+
   if (!step) {
     return null;
   }
@@ -56,7 +58,7 @@ export function ESignature({ step }: {
                 <CardContent>
                   <Box>
                     {intl.formatMessage({
-                      id: `Error.${step.error.code}`,
+                      id: `Error.${step.error?.code}`,
                       defaultMessage: intl.formatMessage({ id: 'Error.common' }),
                     })}
                   </Box>
@@ -116,6 +118,7 @@ export function ESignature({ step }: {
                   onClick={handleDownload}
                   tabIndex={0}
                   className={classes.button}
+                  disabled={isESignaturePdfDownloadButtonDisabled}
                 >
                   {intl.formatMessage({ id: 'ESignature.step.button' })}
                 </Button>

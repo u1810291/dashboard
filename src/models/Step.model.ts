@@ -6,6 +6,7 @@ import { get } from 'lodash';
 import { isCovidTolerance } from 'models/Covid.model';
 import { getFieldsExtra } from 'models/Field.model';
 import { AmlDocumentStepTypes, getPremiumAmlWatchlistsCheckExtraData } from '../apps/Aml/models/Aml.model';
+import { PremiumAmlWatchlistStepData } from './Document.model';
 import { VerificationPatternTypes } from './VerificationPatterns.model';
 
 export type StepStatusType = 0 | 100 | 200;
@@ -40,11 +41,12 @@ export enum StepCodeStatus {
 export const LEGACY_ERROR = 'LegacyError';
 export const FRONTEND_ERROR = 'FrontendError';
 export const SYSTEM_ERROR = 'SystemError';
+export const STEP_ERROR = 'StepError';
 
 export interface StepError {
-  type: typeof LEGACY_ERROR | typeof FRONTEND_ERROR | typeof SYSTEM_ERROR;
   code: string;
   message: string;
+  type?: typeof LEGACY_ERROR | typeof FRONTEND_ERROR | typeof SYSTEM_ERROR | typeof STEP_ERROR;
 }
 
 // TODO: @richvoronov refactor this, figure out with types of steps for documents
@@ -100,6 +102,7 @@ export const DocumentStepTypes = {
   KenyanEcitizen: VerificationPatternTypes.KenyanEcitizen,
   ArgentinianAfip: VerificationPatternTypes.ArgentinianAfip,
   ArgentinianAnses: VerificationPatternTypes.ArgentinianAnses,
+  UgandanElectoralCommission: VerificationPatternTypes.UgandanElectoralCommission,
   ...AmlDocumentStepTypes,
 };
 
@@ -200,6 +203,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.VenezuelanSeniat,
   DocumentStepTypes.CostaRicanSocialSecurity,
   DocumentStepTypes.KenyanEcitizen,
+  DocumentStepTypes.UgandanElectoralCommission,
 ];
 
 export function hasFailureStep(steps: IStep[]): boolean {
@@ -273,12 +277,14 @@ const StepIncompletionErrors = {
   [StepTypes.PhoneOwnership]: ['phoneOwnership.notEnoughParams'],
   [DocumentStepTypes.KenyanEcitizen]: ['kenyanEcitizen.notEnoughParams'],
   [DocumentStepTypes.PeruvianSunat]: ['peruvianSunat.notEnoughParams'],
+  [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoralCommission.notEnoughParams'],
 };
 
 export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.BrazilianCpf]: ['brazilianCpf.faceBiometricsMismatch'],
   [DocumentStepTypes.PeruvianReniec]: ['peruvianReniec.fullNameMismatch'],
   [DocumentStepTypes.MexicanPep]: ['mexicanPep.matchFound'],
+  [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoral.fullNameMismatch'],
 };
 
 export const StepSkippedCodes = [
@@ -308,9 +314,17 @@ export function getDocumentStep(id, steps = []) {
   return steps.find((step) => step.id === id) || {};
 }
 
-export function getStepStatus({ id, status, error }) {
+// TODO fuction gets step as a param but we cant use IStep interface for now
+// because not all step typings are inherited from IStep
+export function getStepStatus({ id, status, data = {}, error }): StepStatus {
   if (status !== 200) {
     return StepStatus.Checking;
+  }
+
+  if (id === DocumentStepTypes.PremiumAmlWatchlistsCheck) {
+    if ((data as PremiumAmlWatchlistStepData)?.updatedOn) {
+      return StepStatus.Failure;
+    }
   }
 
   if (!error) {

@@ -30,7 +30,7 @@ export function ProductCard({ id, isIssues = false, isControls = false, isExpand
     onRemove(id);
   }, [id, onRemove]);
 
-  const issuesComponent = useMemo(() => (isIssues && productManagerService.getProduct(id).getIssuesComponent(flow, productsInGraph)), [flow, isIssues, id]);
+  const issuesComponent = useMemo(() => (isIssues && productManagerService.getProduct(id).getIssuesComponent(flow, productsInGraph)), [flow, productsInGraph, isIssues, id]);
   return (
     <UIProductCard
       card={card}

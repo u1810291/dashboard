@@ -24,7 +24,7 @@ export function PhoneValidationConfiguration() {
   const isRiskAnalysis = useSelector(selectPhoneRiskValidation);
   const [senderName, setSenderName] = useState(useSelector(selectSenderName));
   const [riskScore, setRiskScore] = useState(useSelector(selectPhoneRiskAnalysisThreshold));
-  const [currentMethod, setModeCurrentMethod] = useState(useSelector(selectPhoneValidationMode));
+  const [currentMethod, setModeCurrentMethod] = useState<string>(useSelector(selectPhoneValidationMode));
   const [isCanUsePhoneValidation] = useState(useSelector(selectCanUsePhoneValidation));
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -62,7 +62,7 @@ export function PhoneValidationConfiguration() {
 
   const handleChangeMode = useCallback((mode: PhoneOwnershipValidationMethodTypes, isOptionalMethod = false) => async ({ target: { checked } }) => {
     const method = isOptionalMethod ? PhoneOwnershipValidationMethodTypes.Sms : PhoneOwnershipValidationMethodTypes.None;
-    const phoneOwnershipValidationValue = checked ? mode : method;
+    const phoneOwnershipValidationValue: any = checked ? mode : method;
     const phoneRiskValidationValue = checked ? isRiskAnalysis : false;
     const payload = {
       phoneRiskAnalysisThreshold: riskScore,
@@ -90,7 +90,7 @@ export function PhoneValidationConfiguration() {
           [VerificationPatternTypes.PhoneRiskValidation]: checked,
         },
       }));
-      setModeCurrentMethod(method);
+      setModeCurrentMethod(method as any);
     } catch (e) {
       console.error('error', (e as any).message);
       notification.error(intl.formatMessage({ id: 'Error.common' }));
@@ -115,7 +115,7 @@ export function PhoneValidationConfiguration() {
                     name="phoneSms"
                     color="primary"
                     size="small"
-                    checked={(currentMethod === PhoneOwnershipValidationMethodTypes.SmsOptional) || (currentMethod === PhoneOwnershipValidationMethodTypes.Sms)}
+                    checked={(currentMethod === PhoneOwnershipValidationMethodTypes.SmsOptional) || (currentMethod as string === PhoneOwnershipValidationMethodTypes.Sms)}
                     onChange={handleChangeMode(PhoneOwnershipValidationMethodTypes.Sms)}
                     disabled={isLoading || !isCanUsePhoneValidation}
                   />

@@ -1,3 +1,4 @@
+import { Modal, useOverlay } from 'apps/overlay';
 import React, { useCallback } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useIntl } from 'react-intl';
@@ -7,15 +8,15 @@ import { Button, Grid, Typography, InputLabel, AppBar, Box, TextField } from '@m
 import { notification } from 'apps/ui';
 import { EMAIL_REG_EXP } from 'lib/validations';
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3.svg';
-import SignInSession from 'assets/signin-session.png';
-import SignInService from 'assets/signin-service.png';
 import { IntlButton } from 'apps/intl';
 import { Routes } from 'models/Router.model';
 import { ErrorStatuses } from 'models/Error.model';
 import { QATags } from 'models/QA.model';
 import { useStyles } from './SignIn.styles';
 import { signIn } from '../../state/auth.actions';
+import { AuthDescription } from '../AuthDescription/AuthDescription';
 import { AuthInputTypes } from '../../models/Auth.model';
+import UpdatePasswordIcon from '../../assets/update-password-icon.svg';
 
 interface SignInInputs {
   [AuthInputTypes.Password]: string;
@@ -27,6 +28,7 @@ export function SignIn() {
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
+  const [createOverlay] = useOverlay();
 
   const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<SignInInputs>();
 
@@ -43,7 +45,7 @@ export function SignIn() {
     try {
       await dispatch(signIn(data));
       history.push(Routes.root);
-    } catch (error) {
+    } catch (error: any) {
       const status = error?.response?.status;
 
       switch (status) {
@@ -59,11 +61,18 @@ export function SignIn() {
         case ErrorStatuses.TooManyRequests:
           notification.error(intl.formatMessage({ id: 'SignIn.form.error.tooManyRequest' }));
           break;
+        case ErrorStatuses.PasswordInvalid:
+          createOverlay(<Modal
+            title={intl.formatMessage({ id: 'SignIn.updatePasswordModal.title' })}
+            subtitle={intl.formatMessage({ id: 'SignIn.updatePasswordModal.subtitle' })}
+            imgSrc={UpdatePasswordIcon}
+          />);
+          break;
         default:
           notification.error(intl.formatMessage({ id: 'Error.common' }));
       }
     }
-  }, [dispatch, history, intl, setError]);
+  }, [dispatch, history, intl, setError, createOverlay]);
 
   return (
     <Grid container className={classes.container}>
@@ -142,32 +151,7 @@ export function SignIn() {
           </Box>
         </Grid>
       </Grid>
-      <Grid className={classes.description} direction="column" justify="center" alignItems="flex-start" container>
-        <Box className={classes.descriptionWrapper}>
-          <Typography variant="h2" className={classes.descriptionTitle}>
-            {intl.formatMessage({ id: 'SignIn.description.title' })}
-          </Typography>
-          <Box className={classes.descriptionList}>
-            <Typography variant="body1" className={classes.text}>
-              {intl.formatMessage({ id: 'SignIn.description.text' })}
-            </Typography>
-            <img src={SignInSession} alt="" className={classes.descriptionImage} />
-          </Box>
-          <Box className={classes.service}>
-            <img src={SignInService} alt="" />
-            <Typography variant="body1" className={classes.serviceTitle}>
-              {intl.formatMessage({ id: 'SignIn.description.serviceTitle' })}
-            </Typography>
-            <Typography variant="body1">
-              {intl.formatMessage({
-                id: 'SignIn.description.service',
-              }, {
-                breakingLine: <br />,
-              })}
-            </Typography>
-          </Box>
-        </Box>
-      </Grid>
+      <AuthDescription />
     </Grid>
   );
 }

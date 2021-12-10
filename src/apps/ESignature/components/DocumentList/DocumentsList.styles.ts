@@ -43,4 +43,8 @@ export const useStyles = makeStyles((theme) => ({
     marginRight: '10px',
     width: '60px',
   },
+  ellipsis: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
 }));

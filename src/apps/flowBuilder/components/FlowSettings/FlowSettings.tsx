@@ -1,4 +1,5 @@
 import { Box, Button, Grid } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { selectFlowBuilderChangeableFlow, selectFlowBuilderProductsInGraph } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { flowNameValidator } from 'apps/FlowList/validators/FlowName.validator';
 import { overlayCloseAll } from 'apps/overlay';
@@ -13,6 +14,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMerchantFlowsModel, selectNom151Check, selectPolicyInterval } from 'state/merchant/merchant.selectors';
+import { round } from 'lib/round';
 import { FlowSettingsModel, validatePolicyInterval } from '../../models/FlowBuilder.model';
 import { flowBuilderDelete, flowBuilderSaveAndPublishSettings } from '../../store/FlowBuilder.action';
 import { FlowInfo } from '../FlowInfo/FlowInfo';
@@ -29,12 +31,13 @@ export function FlowSettings({ onClose }: {
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
   const productsInGraph = useSelector(selectFlowBuilderProductsInGraph);
   const [isEditable, setIsEditable] = useState<boolean>(false);
-  const [isGDPRChecked, setIsGDPRChecked] = useState(false);
-  const [policyIntervalError, setPolicyIntervalError] = useState(null);
-  const [newFlowName, setNewFlowName] = useState('');
-  const [policyInterval, setPolicyInterval] = useState(useSelector(selectPolicyInterval));
-  const [digitalSignature, setDigitalSignature] = useState(useSelector(selectNom151Check));
-  const [isInit, setIsInit] = useState(true);
+  const [isSaveButtonLoading, setIsSaveButtonLoading] = useState<boolean>(false);
+  const [policyIntervalError, setPolicyIntervalError] = useState<string | null>(null);
+  const [newFlowName, setNewFlowName] = useState<string>('');
+  const [policyInterval, setPolicyInterval] = useState<string>(useSelector(selectPolicyInterval));
+  const [isGDPRChecked, setIsGDPRChecked] = useState<boolean>(!!useSelector(selectPolicyInterval));
+  const [digitalSignature, setDigitalSignature] = useState<DigitalSignatureProvider>(useSelector(selectNom151Check));
+  const [isInit, setIsInit] = useState<boolean>(true);
   const [oldSettings, setOldSettings] = useState<FlowSettingsModel>(null);
 
   const validator = useCallback((text: string) => {
@@ -66,6 +69,7 @@ export function FlowSettings({ onClose }: {
     setIsGDPRChecked(isChecked);
     if (!isChecked) {
       setPolicyInterval(null);
+      setPolicyIntervalError(null);
     }
   }, []);
 
@@ -78,12 +82,15 @@ export function FlowSettings({ onClose }: {
     if (policyIntervalError) {
       return;
     }
+    const roundedValue = round(parseInt(policyInterval, 10), 0);
     const payload = {
-      policyInterval: policyInterval ? toIsoPeriod(policyInterval) : null,
+      policyInterval: roundedValue ? toIsoPeriod(roundedValue) : null,
       digitalSignature,
       name: newFlowName,
     };
+    setIsSaveButtonLoading(true);
     await dispatch(flowBuilderSaveAndPublishSettings(payload));
+    setIsSaveButtonLoading(false);
     onClose();
   }, [dispatch, policyInterval, policyIntervalError, digitalSignature, newFlowName, onClose]);
 
@@ -105,10 +112,6 @@ export function FlowSettings({ onClose }: {
   useEffect(() => {
     setNewFlowName(flowName);
   }, [flowName]);
-
-  useEffect(() => {
-    setIsGDPRChecked(!!policyInterval);
-  }, [policyInterval]);
 
   useEffect(() => {
     if (isInit) {
@@ -174,7 +177,7 @@ export function FlowSettings({ onClose }: {
           <Warning label={intl.formatMessage({ id: 'FlowBuilder.settings.button.warning' })} />
         )}
         <Button className={classNames(classes.button, classes.buttonSave)} onClick={handleSaveAndPublish}>
-          {intl.formatMessage({ id: 'FlowBuilder.settings.button.save' })}
+          {isSaveButtonLoading ? <CircularProgress color="inherit" size={17} /> : intl.formatMessage({ id: 'FlowBuilder.settings.button.save' })}
         </Button>
       </Grid>
     </Grid>

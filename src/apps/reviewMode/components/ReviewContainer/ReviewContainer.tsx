@@ -1,8 +1,8 @@
 import { Box, Grid, Typography } from '@material-ui/core';
-import { useAFKListener } from 'apps/layout/hooks/AFKListener';
+import { useAfkListener } from 'apps/layout';
 import { useOverlay } from 'apps/overlay';
 import { useProduct } from 'apps/Product';
-import { ReviewModeTimeoutModal } from 'apps/reviewMode/components/ReviewModeTimeoutModal/ReviewModeTimeoutModal';
+import { TimeoutModal } from 'apps/ui';
 import { ReactComponent as IconLoad } from 'assets/icon-load-dark.svg';
 import { Routes } from 'models/Router.model';
 import { ProductTypes } from 'models/Product.model';
@@ -31,7 +31,7 @@ export function ReviewContainer() {
   const resultVerification = useMemo<VerificationWithExtras>(() => ({ ...verification, documents: documentsWithPrivateMedia, biometric: biometricsWithPrivateMedia }), [biometricsWithPrivateMedia, documentsWithPrivateMedia, verification]);
   const verificationModel = useSelector(selectReviewVerificationModelWithExtras);
   const productList = useSelector(selectVerificationProductList);
-  const isActive = useAFKListener(600);
+  const isActive = useAfkListener(600);
   const [createOverlay, closeOverlay] = useOverlay();
 
   const handleAFKExit = useCallback(() => {
@@ -50,9 +50,9 @@ export function ReviewContainer() {
 
   useEffect(() => {
     if (!isActive) {
-      createOverlay(<ReviewModeTimeoutModal onTimerEnd={handleAFKExit} timeoutSeconds={10} closeOverlay={closeOverlay} />);
+      createOverlay(<TimeoutModal title={intl.formatMessage({ id: 'ReviewMode.timeoutMessage' })} onTimerEnd={handleAFKExit} timeoutSeconds={10} onClose={closeOverlay} />);
     }
-  }, [closeOverlay, createOverlay, handleAFKExit, isActive]);
+  }, [closeOverlay, createOverlay, handleAFKExit, isActive, intl]);
 
   return (
     <>

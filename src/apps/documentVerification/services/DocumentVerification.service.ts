@@ -12,7 +12,7 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiFileText } from 'react-icons/fi';
 import { BiometricVerificationCheckTypes } from 'apps/biometricVerification/models/BiometricVerification.model';
 import { AGE_CHECK_MAX_THRESHOLD, AGE_CHECK_MIN_THRESHOLD } from 'apps/AgeCheck/models/AgeCheck.model';
-import { IESignatureFlow } from 'apps/ESignature';
+import { IESignatureFlow } from 'models/ESignature.model';
 import { DocumentVerificationIssues } from '../components/DocumentVerificationIssues/DocumentVerificationIssues';
 import { DocumentIsStepNotSpecifiedIssues } from '../components/DocumentIsStepNotSpecifiedIssues/DocumentIsIsStepNotSpecifiedIssues';
 import { DocumentVerificationSettings } from '../components/DocumentVerificationSettings/DocumentVerificationSettings';

@@ -6,41 +6,31 @@ import { Alert, Warning, WarningTypes } from 'apps/ui';
 import ReactJsonViewer from 'react-json-view';
 import { Grid, Box, Typography, Button } from '@material-ui/core';
 import { IdentityStatuses, VerificationStatusChangeReason } from 'models/Status.model';
-import { selectVerification, selectVerificationDocumentsSteps } from 'apps/Verification';
 import { DocumentTypes } from 'models/Document.model';
-import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { StepCodeStatus, IStep } from 'models/Step.model';
-import { CreditCheckStep } from 'models/CreditCheck.model';
+import { StepCodeStatus } from 'models/Step.model';
 import { creditCheckDisplayOptions } from 'apps/CreditCheck/models/CreditCheck.model';
 import { creditCheckManualRun } from '../../state/CreditCheck.actions';
-import { Speedometr } from '../Speedometr/Speedometr';
+import { Speedometer } from '../Speedometer/Speedometer';
 import { useStyles } from './CreditCheckVerificationProduct.styles';
+import { selectDataForCreditCheck } from '../../../Verification';
 
 export function CreditCheckVerificationProduct() {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const verification = useSelector(selectVerification);
-  const verificationDocumentsSteps = useSelector(selectVerificationDocumentsSteps);
+  const { verification, creditDocumentStep, id } = useSelector(selectDataForCreditCheck);
 
-  const creditDocumentStep: IStep<CreditCheckStep> = useMemo(() => (
-    verificationDocumentsSteps.find((step) => step.id === VerificationPatternTypes.CreditArgentinianFidelitas || step.id === VerificationPatternTypes.CreditBrazilianSerasa)
-  ), [verificationDocumentsSteps]);
-
-  const { value: verificationStatus, reasonCode } = verification.verificationStatusDetails;
+  const { value: verificationStatus, reasonCode } = verification?.verificationStatusDetails;
   const isPostResultPhase = [IdentityStatuses.reviewNeeded, IdentityStatuses.rejected, IdentityStatuses.verified].includes(verificationStatus);
   const isVerifiedBySystem = verificationStatus === IdentityStatuses.verified && reasonCode !== VerificationStatusChangeReason.ManualChange;
 
   const isShowManualCreditCheckButton = useMemo(() => isPostResultPhase && !isVerifiedBySystem && !creditDocumentStep?.startedManuallyAt,
     [isPostResultPhase, isVerifiedBySystem, creditDocumentStep?.startedManuallyAt]);
-  const isCheckInProgress = [StepCodeStatus.Pending, StepCodeStatus.Running].includes(creditDocumentStep.status) && !isShowManualCreditCheckButton;
+  const isCheckInProgress = [StepCodeStatus.Pending, StepCodeStatus.Running].includes(creditDocumentStep?.status) && !isShowManualCreditCheckButton;
 
-  const handleCreditCheckManualRun = useCallback(
-    () => {
-      dispatch(creditCheckManualRun(verification._id, DocumentTypes.NationalId, creditDocumentStep.id));
-    },
-    [dispatch, verification, creditDocumentStep],
-  );
+  const handleCreditCheckManualRun = useCallback(() => {
+    dispatch(creditCheckManualRun(id, DocumentTypes.NationalId, creditDocumentStep.id));
+  }, [dispatch, creditDocumentStep, id]);
 
   if (isShowManualCreditCheckButton) {
     return (
@@ -102,8 +92,8 @@ export function CreditCheckVerificationProduct() {
           {intl.formatMessage({ id: 'CreditCheck.verification.summary' })}
         </Typography>
         <Grid container spacing={3}>
-          <Grid item className={classes.speedometrWrap}>
-            <Speedometr value={creditDocumentStep.data.creditScore} />
+          <Grid item className={classes.speedometerWrap}>
+            <Speedometer value={creditDocumentStep.data.creditScore} />
           </Grid>
           <Grid container item className={classes.summaryList}>
             {Object.entries(creditDocumentStep.data).map(([key, value]) => {

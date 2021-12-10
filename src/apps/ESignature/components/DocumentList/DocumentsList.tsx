@@ -1,10 +1,11 @@
 import { Box, Card } from '@material-ui/core';
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import classnames from 'classnames';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { ReactComponent as DragButton } from 'assets/file-drag.svg';
 import { ReactComponent as DeleteButton } from 'assets/file-delete.svg';
 import { ReactComponent as DownloadButton } from 'assets/file-download.svg';
-import { ESignatureDocumentId, ESignatureDocumentModel, ESignatureDocumentsModel, reorderESignatureIds, downloadESignatureOriginalDocument } from '../../models/ESignature.model';
+import { ESignatureDocumentId, ESignatureDocumentModel, ESignatureDocumentsModel, reorderESignatureIds, downloadESignatureOriginalDocument } from 'models/ESignature.model';
 import { useStyles } from './DocumentsList.styles';
 
 export function DocumentsList({ documents, onChangeOrder, onDocumentDelete }: {
@@ -67,7 +68,7 @@ export function DocumentsList({ documents, onChangeOrder, onDocumentDelete }: {
                       <Box className={classes.dragButton} {...dragProvided.dragHandleProps}>
                         <DragButton />
                       </Box>
-                      <Box className={classes.fullWidth}>
+                      <Box className={classnames(classes.fullWidth, classes.ellipsis)}>
                         {documentNames[orderId]}
                       </Box>
                       <Box className={classes.buttonsGroup}>

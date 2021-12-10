@@ -8,12 +8,11 @@ import { notification } from 'apps/ui';
 import { IntlButton } from 'apps/intl';
 import { EMAIL_REG_EXP } from 'lib/validations';
 import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3.svg';
-import SignInSession from 'assets/signin-session.png';
-import SignInService from 'assets/signin-service.png';
 import { Routes } from 'models/Router.model';
 import { QATags } from 'models/QA.model';
 import { passwordRecovery } from '../../state/auth.actions';
 import { AuthInputTypes } from '../../models/Auth.model';
+import { AuthDescription } from '../AuthDescription/AuthDescription';
 import { useStyles } from '../SignIn/SignIn.styles';
 
 interface PasswordRecoveryInputs {
@@ -106,29 +105,7 @@ export function PasswordRecovery() {
           </Box>
         </Grid>
       </Grid>
-      <Grid className={classes.description} direction="column" justify="center" alignItems="flex-start" container>
-        <Box className={classes.descriptionWrapper}>
-          <Typography variant="h2" className={classes.descriptionTitle}>
-            {intl.formatMessage({ id: 'SignIn.description.title' })}
-          </Typography>
-          <Box className={classes.descriptionList}>
-            <Typography variant="body1" className={classes.text}>
-              {intl.formatMessage({ id: 'SignIn.description.text' })}
-            </Typography>
-            <img src={SignInSession} alt="" className={classes.descriptionImage} />
-          </Box>
-          <Box className={classes.service}>
-            <img src={SignInService} alt="" />
-            <Typography variant="body1">
-              {intl.formatMessage({
-                id: 'SignIn.description.service',
-              }, {
-                breakingLine: <br />,
-              })}
-            </Typography>
-          </Box>
-        </Box>
-      </Grid>
+      <AuthDescription />
     </Grid>
   );
 }

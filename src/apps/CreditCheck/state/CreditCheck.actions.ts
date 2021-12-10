@@ -16,12 +16,13 @@ export const types: TypesSequence = {
 
 export const creditCheckInit = () => (_, getState): ProductTypes | void => {
   const merchantTags = selectMerchantTags(getState());
-  if (merchantTags.includes(MerchantTags.CanUseCreditChecks)) {
-    const creditCheck = new CreditCheck();
-    productManagerService.register(creditCheck);
-    return creditCheck.id;
+  if (!merchantTags.includes(MerchantTags.CanUseCreditChecks)) {
+    return null;
   }
-  return null;
+
+  const creditCheck = new CreditCheck();
+  productManagerService.register(creditCheck);
+  return creditCheck.id;
 };
 
 export const creditCheckManualRun = (verificationId: string, documentType: DocumentTypes, stepId: StepIds) => async (dispatch) => {

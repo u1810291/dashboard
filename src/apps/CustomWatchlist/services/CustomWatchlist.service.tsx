@@ -4,7 +4,7 @@ import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { CustomWatchlistCheckTypes, CustomWatchlistSettingsTypes } from 'models/CustomWatchlist.model';
+import { CustomWatchlistCheckTypes, CustomWatchlistSettingsTypes } from '../models/CustomWatchlist.models';
 import { ReactComponent as FilesWithEye } from '../assets/files-with-eye.svg';
 import { CustomWatchlistVerification } from '../components/CustomWatchlistVerification/CustomWatchlistVerification';
 import { CustomWatchlistSettings } from '../components/CustomWatchlistSettings/CustomWatchlistSettings';
@@ -69,7 +69,7 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
     return verification;
   }
 
-  hasFailedCheck(verification: VerificationResponse): boolean {
+  hasFailedCheck(): boolean {
     return false;
   }
 }

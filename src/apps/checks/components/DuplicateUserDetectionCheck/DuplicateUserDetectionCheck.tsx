@@ -8,7 +8,7 @@ import { IStep } from 'models/Step.model';
 import { Routes } from 'models/Router.model';
 import { FiExternalLink } from 'react-icons/fi';
 
-export function DuplicateUserDetectionCheck({ stepData, hideLink }: { stepData: IStep; hideLink?: boolean }) {
+export function DuplicateUserDetectionCheck({ stepData, withLegacyVerificationDetailsLink = false }: { stepData: IStep; withLegacyVerificationDetailsLink?: boolean }) {
   const classes = useStyles();
   const intl = useIntl();
 
@@ -25,9 +25,9 @@ export function DuplicateUserDetectionCheck({ stepData, hideLink }: { stepData: 
           </Box>
           {stepData?.data?.duplicateIdentities && (
           <Box my={1}>
-            {!hideLink && stepData.data.duplicateIdentities?.map((entry, index) => (
+            {stepData.data.duplicateIdentities?.map((entry, index) => (
               <Box my={1} key={index}>
-                <Link to={`${Routes.list.root}/${entry}`}>
+                <Link to={withLegacyVerificationDetailsLink || !stepData.data.relatedRecords?.[index] ? `${Routes.list.root}/${entry}` : `${Routes.identity.profile.root}/${entry}/verification/${stepData.data.relatedRecords[index]}`}>
                   <LinkButton variant="contained" disableElevation endIcon={<FiExternalLink />}>
                     {`${intl.formatMessage({ id: 'Checks.result.DuplicateUserDetectionCheck.duplicatationLinks' })} ${index + 1}`}
                   </LinkButton>

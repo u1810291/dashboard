@@ -21,7 +21,7 @@ export function Modal({ children, onClose, className, imgSrc = '', title = '', s
   const dispatch = useDispatch();
   const closeModal = useCallback(() => {
     if (onClose) {
-      onClose();
+      onClose(); // this onClose will be called when you click on the closeButton (x)
     } else {
       dispatch(overlayClose());
     }
