@@ -1,4 +1,5 @@
 import { Box, Typography } from '@material-ui/core';
+import { BoxLabeled } from 'apps/ui';
 import { DateFormat, formatDate } from 'lib/date';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -16,12 +17,11 @@ export function AgentActionInfo({ id, actionTypeToken, date, linkTo }: {
 
   return (
     <Box color="common.black75">
-      <Box>
-        {date && formatDate(date, DateFormat.DateTime)}
-      </Box>
-      <Box mt={1} fontWeight="bold">
-        {actionTypeToken && intl.formatMessage({ id: actionTypeToken })}
-      </Box>
+      <BoxLabeled label={date && formatDate(date, DateFormat.DateTime)}>
+        <Box fontWeight="bold" color="common.black">
+          {actionTypeToken && intl.formatMessage({ id: actionTypeToken })}
+        </Box>
+      </BoxLabeled>
       {id && (
         <Typography className={classes.value}>
           {linkTo ? (

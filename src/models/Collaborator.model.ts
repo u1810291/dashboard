@@ -114,6 +114,10 @@ export const CollaboratorOptions: CollaboratorOption[] = [
   },
 ];
 
+export function getCollaboratorOption(role: CollaboratorRoles): CollaboratorOption {
+  return CollaboratorOptions.find((item) => item.value === role);
+}
+
 export enum CollaboratorRolesNames{
   Admin = 'admin',
   Agent = 'agent',
