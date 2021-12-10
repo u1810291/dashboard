@@ -20,6 +20,7 @@ import { RoleRenderGuard } from 'apps/merchant';
 
 import { useRole } from 'apps/collaborators';
 import { selectMerchantLegalAddress, selectMerchantLegalName, selectMerchantLegalRegNumber } from 'state/merchant/merchant.selectors';
+import { IS_REPLACE_PROFILE_TO_IDENTITY } from 'models/Release.model';
 import { useConfirmDelete } from '../DeleteModal/DeleteModal';
 import { useStyles } from './VerificationHeader.styles';
 
@@ -32,7 +33,7 @@ export function VerificationHeader({ identity, isDemo = false }) {
   const history = useHistory();
   const classes = useStyles();
   const [createOverlay, closeOverlay] = useOverlay();
-  const goBackToListLink = getGoBackToListLink(useLocation(), Routes.list.root);
+  const goBackToListLink = getGoBackToListLink(useLocation(), IS_REPLACE_PROFILE_TO_IDENTITY ? Routes.identity.verification.root : Routes.list.root);
   const [isDeleting, setIsDeleting] = useState(false);
   const isPDFGenerating = useSelector(selectIdentityIsPDFGenerating);
   const verificationId = useMemo(() => identity?._embedded?.verification?.id, [identity]);
