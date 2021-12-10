@@ -56,7 +56,7 @@ Also, a feature, as a rule, has a model.
 
 5. ```apps/models/``` - here is the feature model, in it you need to store interfaces and utility functions related to the feature
       - ```apps/models/NewFeature.model.ts``` - you need to use this way
-      - ```apps/NewFeature/models/NewFeature.model.ts``` - you can often find a model inside a feature, this way of specifying a model is outdated
+      - ```apps/NewFeature/models/NewFeature.model.ts``` - this is a private feature model, here we store all buisness logic which only used in the current feature
 
 The above are the most common entities that are used when adding a new feature. Also, a feature can include any other entities necessary to implement the feature, for example:
 

@@ -7,13 +7,13 @@ import { Box, IconButton, useMediaQuery } from '@material-ui/core';
 import { FiHelpCircle } from 'react-icons/fi';
 import { SupportedLocaleToFullLocale } from 'models/Intl.model';
 import { getProductBoardToken } from '../../state/ProductBoard.actions';
-import { selectProductBoardToken } from '../../state/ProductBoard.selectors';
+import { selectProductBoardModel, selectProductBoardModelValue } from '../../state/ProductBoard.selectors';
 import { getIframeSrc, ProductBoardIframeLinkByLocale, PRODUCT_BOARD_IFRAME_ID } from '../../model/ProductBoard.model';
 import { ProductBoardSidebar } from '../ProductBoardSidebar/ProductBoardSidebar';
 import { useStyles } from './ProductBoard.styles';
 
 export function ProductBoard() {
-  const token = useSelector(selectProductBoardToken);
+  const token = useSelector(selectProductBoardModelValue);
   const [isIframeLoaded, setIsIframeLoaded] = useState<boolean>(false);
   const intl = useIntl();
   const classes = useStyles();
@@ -21,6 +21,7 @@ export function ProductBoard() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(true);
 
+  const productBoardTokenModel = useSelector(selectProductBoardModel);
   const iframeSrc = getIframeSrc(ProductBoardIframeLinkByLocale[intl.locale], token);
 
   const handleIframeLoad = () => {
@@ -49,52 +50,38 @@ export function ProductBoard() {
     };
   }, []);
 
-  if (!isIframeLoaded) {
-    return (
-      <>
-        <PageLoader />
-        {token && (
-          <iframe
-            id={PRODUCT_BOARD_IFRAME_ID}
-            title="productBoard"
-            src={iframeSrc}
-            frameBorder="0"
-            height="100%"
-            className={classnames({
-              [classes.iframeOpen]: open,
-              [classes.iframeClosed]: !open,
-              [classes.iframeOpenMobile]: !isDesktop,
-            })}
-            onLoad={handleIframeLoad}
-          />
-        )}
-      </>
-    );
-  }
-
   return (
-    <>
+    <Box position="relative" height="100%">
+      <Box className={classnames(classes.loaderContainer, {
+        [classes.loaderContainerHidden]: isIframeLoaded,
+        [classes.iframeOpen]: open,
+        [classes.iframeClosed]: !open,
+        [classes.iframeOpenMobile]: !isDesktop,
+      })}
+      >
+        <PageLoader />
+      </Box>
       {!isDesktop && (
       <Box height="40px" display="flex" justifyContent="flex-end">
         <IconButton onClick={toggleDrawer}><FiHelpCircle size={17} /></IconButton>
       </Box>
       )}
-      {token && (
-      <iframe
-        id={PRODUCT_BOARD_IFRAME_ID}
-        title="productBoard"
-        src={iframeSrc}
-        frameBorder="0"
-        height="100%"
-        className={classnames({
-          [classes.iframeOpen]: open,
-          [classes.iframeClosed]: !open,
-          [classes.iframeOpenMobile]: !isDesktop,
-        })}
-        onLoad={handleIframeLoad}
-      />
+      {(productBoardTokenModel.isLoaded || productBoardTokenModel.isFailed) && (
+        <iframe
+          id={PRODUCT_BOARD_IFRAME_ID}
+          title="productBoard"
+          src={iframeSrc}
+          frameBorder="0"
+          height="100%"
+          className={classnames({
+            [classes.iframeOpen]: open,
+            [classes.iframeClosed]: !open,
+            [classes.iframeOpenMobile]: !isDesktop,
+          })}
+          onLoad={handleIframeLoad}
+        />
       )}
       <ProductBoardSidebar toggleDrawer={toggleDrawer} open={open} />
-    </>
+    </Box>
   );
 }

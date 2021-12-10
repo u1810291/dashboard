@@ -14,6 +14,7 @@ export interface Merchant {
 }
 
 export enum MerchantTags {
+  CanUseDashboardAutomaticLogout = 'can-use-dashboard-automatic-logout',
   CanUseCreditChecks = 'can-use-credit-checks',
   CanUseBackgroundChecks = 'can-use-background-checks',
   CanUseLongPolling = 'can-use-long-polling',

@@ -12,7 +12,7 @@ export function getIframeSrc(iframeLink: string, token: string, hideLogo: number
   return `${PRODUCT_BOARD_BASE_URL}/${iframeLink}?token=${token}&hide_logo=${hideLogo}`;
 }
 
-export interface ProductBoardTokenResponse{
+export interface ProductBoardTokenResponse {
   data: {
     token: string;
   };

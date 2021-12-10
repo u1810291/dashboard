@@ -39,72 +39,70 @@ export function ProductBoardSidebar({ toggleDrawer, open }: {
       <IconButton className={classes.button} onClick={toggleDrawer}>
         {open ? <FiChevronsRight size={17} /> : <FiChevronsLeft size={17} />}
       </IconButton>
-      {open && (
-        <Box
-          pl={2}
-          pr={2}
-          className={classnames({
-            [classes.drawerContent]: open,
-            [classes.drawerContentClosed]: !open,
-          })}
-        >
-          <img src={HeaderImage} alt=" " />
-          <Box>
-            <Typography variant="h5">
-              {intl.formatMessage({ id: 'productBoard.welcome.title' })}
-            </Typography>
-          </Box>
-          <Box mt={1}>
-            <Typography variant="body1">
-              {intl.formatMessage({ id: 'productBoard.welcome.subtitle' })}
-            </Typography>
-          </Box>
-          <Box mt={2} display="flex" alignItems="center">
-            <FiMail />
-            <Typography variant="subtitle2" className={classes.listSubheading}>
-              {intl.formatMessage({ id: 'productBoard.submitIdeas.title' })}
-            </Typography>
-          </Box>
-          <Box ml={2}>
-            <Typography variant="body1">
-              {intl.formatMessage({ id: 'productBoard.submitIdeas.subtitle' })}
-            </Typography>
-          </Box>
-          <Box mt={2} display="flex" alignItems="center">
-            <FiArrowUp />
-            <Typography variant="subtitle2" className={classes.listSubheading}>
-              {intl.formatMessage({ id: 'productBoard.upvoteFeatures.title' })}
-            </Typography>
-          </Box>
-          <Box ml={2}>
-            <Typography variant="body1">
-              {intl.formatMessage({ id: 'productBoard.upvoteFeatures.subtitle' })}
-            </Typography>
-          </Box>
-          <Box mt={2} display="flex" alignItems="center">
-            <FiBell />
-            <Typography variant="subtitle2" className={classes.listSubheading}>
-              {intl.formatMessage({ id: 'productBoard.stayInformed.title' })}
-            </Typography>
-          </Box>
-          <Box ml={2}>
-            <Typography variant="body1">
-              {intl.formatMessage({ id: 'productBoard.stayInformed.subtitle' })}
-            </Typography>
-          </Box>
-          <Box mt={2} display="flex" alignItems="center">
-            <FiTruck />
-            <Typography variant="subtitle2" className={classes.listSubheading}>
-              {intl.formatMessage({ id: 'productBoard.reviewAndShip.title' })}
-            </Typography>
-          </Box>
-          <Box ml={2}>
-            <Typography variant="body1">
-              {intl.formatMessage({ id: 'productBoard.reviewAndShip.subtitle' })}
-            </Typography>
-          </Box>
+      <Box
+        pl={2}
+        pr={2}
+        className={classnames({
+          [classes.drawerContent]: open,
+          [classes.drawerContentClosed]: !open,
+        })}
+      >
+        <img src={HeaderImage} alt=" " />
+        <Box>
+          <Typography variant="h5">
+            {intl.formatMessage({ id: 'productBoard.welcome.title' })}
+          </Typography>
         </Box>
-      )}
+        <Box mt={1}>
+          <Typography variant="body1">
+            {intl.formatMessage({ id: 'productBoard.welcome.subtitle' })}
+          </Typography>
+        </Box>
+        <Box mt={2} display="flex" alignItems="center">
+          <FiMail />
+          <Typography variant="subtitle2" className={classes.listSubheading}>
+            {intl.formatMessage({ id: 'productBoard.submitIdeas.title' })}
+          </Typography>
+        </Box>
+        <Box ml={2}>
+          <Typography variant="body1">
+            {intl.formatMessage({ id: 'productBoard.submitIdeas.subtitle' })}
+          </Typography>
+        </Box>
+        <Box mt={2} display="flex" alignItems="center">
+          <FiArrowUp />
+          <Typography variant="subtitle2" className={classes.listSubheading}>
+            {intl.formatMessage({ id: 'productBoard.upvoteFeatures.title' })}
+          </Typography>
+        </Box>
+        <Box ml={2}>
+          <Typography variant="body1">
+            {intl.formatMessage({ id: 'productBoard.upvoteFeatures.subtitle' })}
+          </Typography>
+        </Box>
+        <Box mt={2} display="flex" alignItems="center">
+          <FiBell />
+          <Typography variant="subtitle2" className={classes.listSubheading}>
+            {intl.formatMessage({ id: 'productBoard.stayInformed.title' })}
+          </Typography>
+        </Box>
+        <Box ml={2}>
+          <Typography variant="body1">
+            {intl.formatMessage({ id: 'productBoard.stayInformed.subtitle' })}
+          </Typography>
+        </Box>
+        <Box mt={2} display="flex" alignItems="center">
+          <FiTruck />
+          <Typography variant="subtitle2" className={classes.listSubheading}>
+            {intl.formatMessage({ id: 'productBoard.reviewAndShip.title' })}
+          </Typography>
+        </Box>
+        <Box ml={2}>
+          <Typography variant="body1">
+            {intl.formatMessage({ id: 'productBoard.reviewAndShip.subtitle' })}
+          </Typography>
+        </Box>
+      </Box>
     </Drawer>
   );
 }

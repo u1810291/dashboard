@@ -21,10 +21,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
-import { flowBuilderChangeableFlowLoad, flowBuilderChangeableFlowUpdate, flowBuilderClearStore } from '../../store/FlowBuilder.action';
 import { loadCountries } from 'state/countries/countries.actions';
-import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from '../../store/FlowBuilder.selectors';
 import { selectAllCountriesModel } from 'state/countries/countries.selectors';
+import { flowBuilderChangeableFlowLoad, flowBuilderChangeableFlowUpdate, flowBuilderClearStore } from '../../store/FlowBuilder.action';
+import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from '../../store/FlowBuilder.selectors';
 import { FlowBuilderIntegrationDetails } from '../FlowBuilderIntegrationDetails/FlowBuilderIntegrationDetails';
 import { FlowBuilderProductDetails } from '../FlowBuilderProductDetails/FlowBuilderProductDetails';
 import { FlowInfoContainer } from '../FlowInfoContainer/FlowInfoContainer';
@@ -59,7 +59,7 @@ export function FlowBuilder() {
       if (LoadableAdapter.isPristine(countriesModel)) {
         try {
           await dispatch(loadCountries());
-        } catch(error) {
+        } catch (error) {
           console.error(error);
         }
       }
