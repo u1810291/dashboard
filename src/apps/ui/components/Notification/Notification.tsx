@@ -4,8 +4,20 @@ import { toast, ToastContainer, ToastContent, ToastOptions } from 'react-toastif
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './style.module.scss';
 
+let blocked = false;
+
+const blockableErrorNotification: typeof toast.error = (...args) => {
+  if (blocked) {
+    return 'blocked';
+  }
+  return toast.error(...args);
+};
+
 export const notification = {
+  block: () => { blocked = true; },
+  unblock: () => { blocked = false; },
   ...toast,
+  error: blockableErrorNotification,
   spinner: (content: ToastContent, options?: ToastOptions) => toast(
     <PreventClosingTabWrapper>{content}</PreventClosingTabWrapper>,
     {
