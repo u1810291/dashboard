@@ -6,8 +6,8 @@ export interface Loadable<T> {
   value: T;
 }
 
-export type LoadableSelector = (value: any, ...args: any) => any;
+export type LoadableSelector<T = any> = (value: any, ...args: any) => T;
 
 export type LoadableModelSelector = (model: Loadable<any>, ...args: any) => Loadable<any>;
 
-export type LoadableValueSelector = (model: Loadable<any>, ...args: any) => any;
+export type LoadableValueSelector<T = any> = (model: Loadable<any>, ...args: any) => T;

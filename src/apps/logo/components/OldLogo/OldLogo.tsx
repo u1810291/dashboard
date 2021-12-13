@@ -14,7 +14,7 @@ export function OldLogo() {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const logoModel = useSelector(selectLogoModel);
+  const logoModel: any = useSelector(selectLogoModel);
   const merchantFlowModel = useSelector(selectMerchantFlowsModel);
 
   const showError = useCallback(() => {

@@ -104,7 +104,7 @@ export const selectMerchantLegalAddress = createSelector(
   selectModelValue((merchant) => merchant.legalAddress),
 );
 
-export const selectMerchantTags = createSelector(
+export const selectMerchantTags = createSelector<any, Loadable<Merchant>, MerchantTags[]>(
   selectMerchantModel,
   selectModelValue((merchant: Merchant): MerchantTags[] => merchant.tags || []),
 );
@@ -191,7 +191,7 @@ export const selectCurrentFlowId = createSelector(
   (store) => store.currentFlow,
 );
 
-export const selectCurrentFlow = createSelector(
+export const selectCurrentFlow = createSelector<any, Loadable<any>, any, IFlow>(
   selectMerchantFlowsModel,
   selectCurrentFlowId,
   selectModelValue((model, id) => model.find((item) => item.id === id)),

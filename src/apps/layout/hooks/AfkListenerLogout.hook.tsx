@@ -2,15 +2,19 @@ import { useFullStory } from 'apps/AppBootstrap';
 import { signOut } from 'apps/auth/state/auth.actions';
 import { useOverlay } from 'apps/overlay';
 import { TimeoutModal } from 'apps/ui';
+import { MerchantTags } from 'models/Merchant.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import throttle from 'lodash/throttle';
 import { useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { AFK_BEFORE_LOGOUT_MINUTES, getLastActivityLocalStorage, LAST_ACTIVITY_KEY, LOGOUT_ALERT_MINUTES, setLastActivityLocalStorage, THROTTLE_COEFFICIENT } from '../models/AfkListener.model';
 
 export function useAfkListenerLogout() {
+  const merchantTags = useSelector(selectMerchantTags);
+  const isListenerEnabled: boolean = merchantTags.includes(MerchantTags.CanUseDashboardAutomaticLogout);
   const [lastActivity, setLastActivity] = useState<number>(null);
   const [isActive, setIsActive] = useState<boolean>(true);
   const dispatch = useDispatch();
@@ -26,7 +30,7 @@ export function useAfkListenerLogout() {
 
   useEffect(() => {
     const throttledHandler = throttle(handleActivity, Math.floor(AFK_BEFORE_LOGOUT_MINUTES * 60 * THROTTLE_COEFFICIENT * 1000));
-    if (isActive) {
+    if (isListenerEnabled && isActive) {
       window.addEventListener('scroll', throttledHandler, { passive: true });
       window.addEventListener('mousemove', throttledHandler, { passive: true });
       window.addEventListener('touchstart', throttledHandler, { passive: true });
@@ -36,7 +40,7 @@ export function useAfkListenerLogout() {
       window.removeEventListener('mousemove', throttledHandler);
       window.removeEventListener('touchstart', throttledHandler);
     };
-  }, [handleActivity, isActive]);
+  }, [handleActivity, isActive, isListenerEnabled]);
 
   const handleLocalStorageChange = useCallback((event) => {
     if (event.key === LAST_ACTIVITY_KEY) {
@@ -49,18 +53,23 @@ export function useAfkListenerLogout() {
   }, [lastActivity]);
 
   useEffect(() => {
-    window.addEventListener('storage', handleLocalStorageChange);
+    if (isListenerEnabled) {
+      window.addEventListener('storage', handleLocalStorageChange);
+    }
     return () => {
       window.removeEventListener('storage', handleLocalStorageChange);
     };
-  }, [handleLocalStorageChange]);
+  }, [handleLocalStorageChange, isListenerEnabled]);
 
   useEffect(() => {
-    const newTimer = setTimeout(() => {
-      setIsActive(false);
-    }, AFK_BEFORE_LOGOUT_MINUTES * 60 * 1000);
+    let newTimer;
+    if (isListenerEnabled) {
+      newTimer = setTimeout(() => {
+        setIsActive(false);
+      }, AFK_BEFORE_LOGOUT_MINUTES * 60 * 1000);
+    }
     return () => { clearTimeout(newTimer); };
-  }, [lastActivity]);
+  }, [lastActivity, isListenerEnabled]);
 
   const [createOverlay, closeOverlay] = useOverlay();
 

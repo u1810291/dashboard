@@ -20,6 +20,10 @@ export function CustomWatchlistVerification({ data }: {
     return null;
   }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function CustomWatchlistVerification({ data: step }: {
+  data: any;
+}) {
   return (
     <BoxBordered p={1} pt={2} className={classes.bordered} width="300px">
       {step.data?.map((stepWatchlist) => (

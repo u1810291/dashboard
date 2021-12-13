@@ -10,12 +10,13 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectCurrentFlowId, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { useFlowListLoad } from 'apps/FlowList';
+import { useStyles } from './ForDev.styles';
 import { ClientDetails } from '../../components/ClientDetails/ClientDetails';
 import { ForDevsWebhookModal } from '../../components/ForDevsWebhookModal/ForDevsWebhookModal';
 import { Information } from '../../components/Information/Information';
 import { TabsMenu } from '../../components/TabsMenu/TabsMenu';
 import { TabID } from '../../models/ForDevelopers.model';
-import { useStyles } from './ForDev.styles';
 
 export function ForDevs() {
   const intl = useIntl();
@@ -27,6 +28,7 @@ export function ForDevs() {
   const [selectedFlow, setSelectedFlow] = useState(currentFlowId);
   const [createOverlay] = useOverlay();
   const [fade, setFade] = useState(true);
+  const flowListModel = useFlowListLoad();
 
   useEffect((() => {
     setSelectedFlow(currentFlowId);
@@ -75,7 +77,7 @@ export function ForDevs() {
             <Grid container spacing={2}>
               <Grid item xs={12} lg={4}>
                 <FormControl variant="outlined" fullWidth>
-                  {merchantFlowList.isLoaded && (
+                  {flowListModel.isLoaded ? (
                     <Select
                       labelId="demo-customized-select-label"
                       id="demo-customized-select"
@@ -95,6 +97,8 @@ export function ForDevs() {
                         </MenuItem>
                       ))}
                     </Select>
+                  ) : (
+                    <PageLoader />
                   )}
                 </FormControl>
               </Grid>

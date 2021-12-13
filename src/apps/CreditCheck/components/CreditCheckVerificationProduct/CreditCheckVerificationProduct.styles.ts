@@ -26,7 +26,7 @@ export const useStyles = makeStyles((theme) => createStyles({
   marginRight20: {
     marginRight: 20,
   },
-  speedometrWrap: {
+  speedometerWrap: {
     flexBasis: 180,
     marginTop: '15px',
   },

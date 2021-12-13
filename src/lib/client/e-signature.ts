@@ -1,4 +1,4 @@
-import { IESignatureTemplate } from 'apps/ESignature/models/ESignature.model';
+import { IESignatureTemplate } from 'models/ESignature.model';
 import { http } from 'lib/client/http';
 
 export function storeTemplate(form: FormData) {

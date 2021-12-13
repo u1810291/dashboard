@@ -8,6 +8,7 @@ export const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    overflow: 'hidden',
   },
   drawerClosed: {
     width: CLOSED_DRAWER_WIDTH,
@@ -15,6 +16,7 @@ export const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    overflow: 'hidden',
   },
   drawerOpenMobile: {
     width: 'calc(100% - 60px)',
@@ -22,6 +24,7 @@ export const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    overflow: 'hidden',
   },
   drawerClosedMobile: {
     width: CLOSED_DRAWER_WIDTH_MOBILE,
@@ -29,6 +32,7 @@ export const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    overflow: 'hidden',
   },
   button: {
     width: 42,
@@ -46,17 +50,25 @@ export const useStyles = makeStyles((theme) => ({
     marginLeft: 8,
   },
   drawerContent: {
-    opacity: 1,
-    transition: theme.transitions.create('opacity', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
+    transform: 'translateX(0)',
+    transition: theme.transitions.create('transform', {
+      easing: theme.transitions.easing.easeInOut,
+      duration: 600,
     }),
+    width: 275,
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
   },
   drawerContentClosed: {
-    opacity: 0,
-    transition: theme.transitions.create('opacity', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+    transform: 'translateX(260px)',
+    transition: theme.transitions.create('transform', {
+      easing: theme.transitions.easing.easeInOut,
+      duration: 600,
     }),
+    width: 275,
+    [theme.breakpoints.down('xs')]: {
+      width: 360,
+    },
   },
 }));

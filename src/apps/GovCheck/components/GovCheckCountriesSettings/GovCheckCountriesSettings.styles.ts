@@ -6,7 +6,7 @@ export const useStyles = makeStyles((theme) => createStyles({
     display: 'block',
   },
   wrapper: {
-    backgroundColor: theme.palette.common.palegray,
+    backgroundColor: theme.palette.common.gray,
     borderRadius: 10,
   },
   icon: {

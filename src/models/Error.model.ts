@@ -1,3 +1,8 @@
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ * Use {intl.formatMessage({ id: 'Error.common' })} instead
+ */
 export enum ErrorMessages {
   ERROR_COMMON = 'Something went wrong. Please retry',
   IN_REVIEW_MODE_ERROR = 'Cannot update verification running in review mode'
@@ -12,9 +17,14 @@ export enum ErrorStatuses {
   WrongCredentials = 401,
   BlockedByMerchant = 403,
   error404 = 404,
-  PasswordWasUsedBefore= 422,
+  PasswordInvalid= 422,
   TooManyRequests = 429,
   error500 = 500,
+}
+
+export enum PasswordInvalidErrorCodes {
+  PasswordUsedBefore = 'password.usedBefore',
+  PasswordWeak = 'password.weak',
 }
 
 export interface ErrorType {

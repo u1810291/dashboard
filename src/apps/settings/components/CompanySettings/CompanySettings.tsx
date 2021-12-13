@@ -1,5 +1,7 @@
 import { Button, Grid, Typography, Paper, Box, Link } from '@material-ui/core';
+import { passwordRecovery } from 'apps/auth/state/auth.actions';
 import { selectUserEmail } from 'apps/user/state/user.selectors';
+import KeysIcon from 'assets/keys.svg';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,10 +10,9 @@ import { merchantUpdateBusinessName } from 'state/merchant/merchant.actions';
 import { EditableInput, InfoTooltip } from 'apps/ui';
 import { DateFormat, formatDate } from 'lib/date';
 import { QATags } from 'models/QA.model';
-import { useOverlay } from 'apps/overlay';
+import { Modal, useOverlay } from 'apps/overlay';
 import { useRole } from 'apps/collaborators';
 import { WithAgent } from 'models/Collaborator.model';
-import { ChangePasswordModal } from 'apps/auth';
 import { useStyles } from './CompanySettings.styles';
 
 export function CompanySettings() {
@@ -25,15 +26,20 @@ export function CompanySettings() {
   const legalAddress = useSelector(selectMerchantLegalAddress);
   const legalRegNumber = useSelector(selectMerchantLegalRegNumber);
   const role = useRole();
-  const [createOverlay, closeOverlay] = useOverlay();
+  const [createOverlay] = useOverlay();
 
   const handleSubmitBusinessName = useCallback(async (name) => {
     await dispatch(merchantUpdateBusinessName(name));
   }, [dispatch]);
 
-  const openChangePasswordModal = useCallback(() => {
-    createOverlay(<ChangePasswordModal onClose={closeOverlay} />);
-  }, [createOverlay, closeOverlay]);
+  const handleSendResetLink = useCallback(() => {
+    dispatch(passwordRecovery({ email }));
+    createOverlay(<Modal
+      imgSrc={KeysIcon}
+      title={intl.formatMessage({ id: 'Settings.companySettings.changePassword' })}
+      subtitle={intl.formatMessage({ id: 'Settings.companySettings.subtitle' })}
+    />);
+  }, [dispatch, email, intl, createOverlay]);
 
   return (
     <Paper>
@@ -144,7 +150,7 @@ export function CompanySettings() {
             <Grid item xs={12} md="auto">
               <Button
                 variant="outlined"
-                onClick={openChangePasswordModal}
+                onClick={handleSendResetLink}
                 tabIndex={0}
                 className={classes.button}
                 data-qa={QATags.Settings.ChangePassword.Change}

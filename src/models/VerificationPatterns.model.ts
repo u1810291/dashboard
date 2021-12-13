@@ -62,6 +62,7 @@ export enum VerificationPatternTypes {
   FinancialInformationBankAccountsRetrieving = 'financial-information-bank-accounts-retrieving',
   FinancialInformationWorkAccountsRetrieving = 'financial-information-work-accounts-retrieving',
   FinancialInformationPayrollAccountsRetrieving = 'financial-information-payroll-accounts-retrieving',
+  UgandanElectoralCommission = 'ugandan-electoral-commission-validation',
 }
 
 export interface VerificationPatterns {
@@ -120,4 +121,5 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.FinancialInformationBankAccountsRetrieving]?: boolean;
   [VerificationPatternTypes.FinancialInformationWorkAccountsRetrieving]?: boolean;
   [VerificationPatternTypes.FinancialInformationPayrollAccountsRetrieving]?: boolean;
+  [VerificationPatternTypes.UgandanElectoralCommission]?: boolean;
 }

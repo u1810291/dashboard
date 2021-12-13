@@ -3,14 +3,16 @@ import { useFilterCheckbox } from 'apps/filter/hooks/filterBy.hook';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { analyticsFilterStructure } from 'models/Analytics.model';
 import { FilterI } from 'models/Filter.model';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FiCheckCircle } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAllCountriesModel, selectCountriesList } from 'state/countries/countries.selectors';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
+import { PageLoader } from 'apps/layout';
 import { useStyles } from './ByCountries.styles';
+import { loadCountries } from 'state/countries/countries.actions';
 
 export function ByCountries({ bufferedFilter: { countries }, onFilterChange }: {
   bufferedFilter?: Partial<FilterI>;
@@ -18,9 +20,22 @@ export function ByCountries({ bufferedFilter: { countries }, onFilterChange }: {
 }) {
   const classes = useStyles();
   const intl = useIntl();
+  const dispatch = useDispatch();
   const [handleSelectCountry, checkIsSelected] = useFilterCheckbox(analyticsFilterStructure.countries, countries, onFilterChange);
   const countriesList = useSelector(selectCountriesList);
   const allCountriesModel = useSelector(selectAllCountriesModel);
+
+  useEffect(() => {
+    (async () => {
+      if (LoadableAdapter.isPristine(allCountriesModel)) {
+        try {
+          await dispatch(loadCountries());
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    })();
+  }, [dispatch, allCountriesModel]);
 
   return (
     <Grid item xs={12} md={6}>
@@ -30,17 +45,21 @@ export function ByCountries({ bufferedFilter: { countries }, onFilterChange }: {
           <Box ml={0.6} component="span">{intl.formatMessage({ id: 'VerificationFilter.countries.title' })}</Box>
         </Box>
       </Typography>
-      <Paper className={classes.status}>
-        {!LoadableAdapter.isPristine(allCountriesModel) && countriesList.map((item) => (
-          <FormControlLabel
-            key={item.id}
-            value={item.id}
-            checked={checkIsSelected(item.id)}
-            control={<Checkbox onChange={handleSelectCountry} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />}
-            label={intl.formatMessage({ id: `Countries.${item.id}` })}
-          />
-        ))}
-      </Paper>
+      {allCountriesModel.isLoaded ? (
+        <Paper className={classes.status}>
+          {countriesList.map((item) => (
+            <FormControlLabel
+              key={item.id}
+              value={item.id}
+              checked={checkIsSelected(item.id)}
+              control={<Checkbox onChange={handleSelectCountry} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />}
+              label={intl.formatMessage({ id: `Countries.${item.id}` })}
+            />
+          ))}
+        </Paper>
+      ) : (
+        <PageLoader />
+      )}
     </Grid>
   );
 }

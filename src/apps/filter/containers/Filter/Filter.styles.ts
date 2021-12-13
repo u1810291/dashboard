@@ -44,6 +44,7 @@ export const useStyles = makeStyles((theme) => ({
     marginRight: -20,
   },
   checks: {
+    minHeight: 150,
     '& .MuiFormControlLabel-root': {
       color: theme.palette.text.secondary,
     },

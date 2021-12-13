@@ -91,7 +91,7 @@ export function AnalyticsContainer() {
           </Grid>
         </Box>
       ) : (
-        <Box>
+        <Box className={classes.loaderWrapper}>
           <PageLoader />
         </Box>
       )}

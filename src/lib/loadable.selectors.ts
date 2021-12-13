@@ -7,7 +7,7 @@ export function selectLoadableValue(selector: LoadableSelector): LoadableModelSe
   });
 }
 
-export function selectModelValue(selector?: LoadableSelector): LoadableValueSelector {
+export function selectModelValue<T = any>(selector?: LoadableSelector): LoadableValueSelector<T> {
   return (model: Loadable<any>, ...args) => (selector
     ? selector(model.value, ...args)
     : model.value);
