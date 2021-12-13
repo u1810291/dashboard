@@ -10,8 +10,8 @@ import { useIntl } from 'react-intl';
 import { useStyles } from './CustomWatchlistVerification.styles';
 
 export function CustomWatchlistVerification({ data }: {
-  data: VerificationDocument;
-}) {
+    data: VerificationDocument;
+  }) {
   const classes = useStyles();
   const intl = useIntl();
   const step = useMemo(() => getCustomWatchlistStepExtra(data.steps.find((dataStep) => dataStep.id === VerificationStepTypes.CustomWatchlistsValidation)), [data]);
@@ -19,11 +19,6 @@ export function CustomWatchlistVerification({ data }: {
   if (!step) {
     return null;
   }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function CustomWatchlistVerification({ data: step }: {
-  data: any;
-}) {
   return (
     <BoxBordered p={1} pt={2} className={classes.bordered} width="300px">
       {step.data?.map((stepWatchlist) => (
