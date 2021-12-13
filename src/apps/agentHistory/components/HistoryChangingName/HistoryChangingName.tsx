@@ -51,7 +51,7 @@ export function HistoryChangingName({ eventType, updatedBy, triggeredUser, first
             <FiArrowRight />
           </Box>
           <BoxLabeled label={intl.formatMessage({ id: 'AgentHistory.userChangedTeammateName.newName' })}>
-            {`${firstName?.nextValue} ${lastName?.nextValue}`}
+            {`${firstName?.nextValue || firstName?.prevValue} ${lastName?.nextValue || lastName?.prevValue}`}
           </BoxLabeled>
         </>
       )}
