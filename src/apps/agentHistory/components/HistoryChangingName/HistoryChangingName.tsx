@@ -31,7 +31,7 @@ export function HistoryChangingName({ eventType, updatedBy, triggeredUser, first
           </Box>
           <BoxLabeled label={intl.formatMessage({ id: 'AgentHistory.userChangedTeammateName.newName' })}>
             <Link className={classes.contrastLink} to={`${Routes.collaborators.agentProfile.root}/${triggeredUser?._id}`}>
-              {`${firstName?.nextValue} ${lastName?.nextValue}`}
+              {`${firstName?.nextValue || firstName?.prevValue} ${lastName?.nextValue || lastName?.prevValue}`}
             </Link>
           </BoxLabeled>
         </>
@@ -51,7 +51,7 @@ export function HistoryChangingName({ eventType, updatedBy, triggeredUser, first
             <FiArrowRight />
           </Box>
           <BoxLabeled label={intl.formatMessage({ id: 'AgentHistory.userChangedTeammateName.newName' })}>
-            {`${firstName?.nextValue} ${lastName?.nextValue}`}
+            {`${firstName?.nextValue || firstName?.prevValue} ${lastName?.nextValue || lastName?.prevValue}`}
           </BoxLabeled>
         </>
       )}
