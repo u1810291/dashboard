@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { devWarn } from 'lib/console';
-import { PrimitiveType } from 'lib/types';
 
 interface MessageDescriptor<T> {
   messageValues?: Record<string, T>;
@@ -9,7 +8,7 @@ interface MessageDescriptor<T> {
 }
 
 type FormatMessage = {
-  (id: string, descriptor?: MessageDescriptor<PrimitiveType>): string;
+  (id: string, descriptor?: MessageDescriptor<string | number>): string;
   (id: string, descriptor?: MessageDescriptor<JSX.Element>): React.ReactNode;
 }
 
