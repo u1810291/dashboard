@@ -30,24 +30,24 @@ export function TeamInviteForm({ onSubmit, onClose }: {
   });
 
   const emailRegister = register(CollaboratorInputTypes.Email, {
-    required: formatMessage({ id: 'validations.required' }),
+    required: formatMessage('validations.required'),
     pattern: {
       value: EMAIL_REG_EXP,
-      message: formatMessage({ id: 'validations.email' }),
+      message: formatMessage('validations.email'),
     },
   });
   const firstNameRegister = register(CollaboratorInputTypes.FirstName, {
-    required: formatMessage({ id: 'validations.required' }),
+    required: formatMessage('validations.required'),
     pattern: {
       value: CLEAN_TEXT_REG_EXP,
-      message: formatMessage({ id: 'validations.cleanText' }),
+      message: formatMessage('validations.cleanText'),
     },
   });
   const lastNameRegister = register(CollaboratorInputTypes.LastName, {
-    required: formatMessage({ id: 'validations.required' }),
+    required: formatMessage('validations.required'),
     pattern: {
       value: CLEAN_TEXT_REG_EXP,
-      message: formatMessage({ id: 'validations.cleanText' }),
+      message: formatMessage('validations.cleanText'),
     },
   });
 
@@ -55,7 +55,7 @@ export function TeamInviteForm({ onSubmit, onClose }: {
     try {
       onSubmit(data);
     } catch (error) {
-      notification.error(formatMessage({ id: 'Error.common' }));
+      notification.error(formatMessage('Error.common'));
     }
   }, [onSubmit, formatMessage]);
 
@@ -65,7 +65,7 @@ export function TeamInviteForm({ onSubmit, onClose }: {
         <Box className={classes.wrapper}>
           <Box mb={{ xs: 4, lg: 2 }}>
             <InputLabel>
-              {formatMessage({ id: 'teamTable.invite.form.labels.firstName' })}
+              {formatMessage('teamTable.invite.form.labels.firstName')}
             </InputLabel>
             <TextField
               {...firstNameRegister}
@@ -79,7 +79,7 @@ export function TeamInviteForm({ onSubmit, onClose }: {
           </Box>
           <Box mb={{ xs: 4, lg: 2 }}>
             <InputLabel>
-              {formatMessage({ id: 'teamTable.invite.form.labels.lastName' })}
+              {formatMessage('teamTable.invite.form.labels.lastName')}
             </InputLabel>
             <TextField
               {...lastNameRegister}
@@ -93,7 +93,7 @@ export function TeamInviteForm({ onSubmit, onClose }: {
           </Box>
           <Box mb={4}>
             <InputLabel>
-              {formatMessage({ id: 'teamTable.invite.form.labels.email' })}
+              {formatMessage('teamTable.invite.form.labels.email')}
             </InputLabel>
             <TextField
               {...emailRegister}
@@ -132,7 +132,7 @@ export function TeamInviteForm({ onSubmit, onClose }: {
           disableElevation
           fullWidth
         >
-          {formatMessage({ id: 'teamTable.invite.form.btn.send' })}
+          {formatMessage('teamTable.invite.form.btn.send')}
         </Button>
         <Button
           variant="contained"
@@ -140,7 +140,7 @@ export function TeamInviteForm({ onSubmit, onClose }: {
           fullWidth
           onClick={onClose}
         >
-          {formatMessage({ id: 'cancel' })}
+          {formatMessage('cancel')}
         </Button>
       </Box>
     </form>

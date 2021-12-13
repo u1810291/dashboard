@@ -17,8 +17,8 @@ export function TeamInviteModal({ onSubmit, isPosting }) {
     <Modal
       onClose={closeOverlay}
       imgSrc={Img}
-      title={formatMessage({ id: 'teamTable.inviteModal.title' })}
-      subtitle={formatMessage({ id: 'teamTable.inviteModal.subtitle' })}
+      title={formatMessage('teamTable.inviteModal.title')}
+      subtitle={formatMessage('teamTable.inviteModal.subtitle')}
       className={classes.modal}
       wideHeader
     >

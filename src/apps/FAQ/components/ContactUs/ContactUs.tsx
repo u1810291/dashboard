@@ -27,29 +27,28 @@ export function ContactUs() {
         <Grid container spacing={0} className={classes.wrapGrid}>
           <Grid item xs={12}>
             <Typography component="h3" className={classes.title}>
-              {formatMessage({ id: 'FAQ.contactUs.title' })}
+              {formatMessage('FAQ.contactUs.title')}
             </Typography>
           </Grid>
           <Grid item xs={12} />
           <Grid item xs={12}>
             <Typography variant="h5" component="h3" className={classes.question}>
-              {formatMessage({ id: 'FAQ.contactUs.1.question' })}
+              {formatMessage('FAQ.contactUs.1.question')}
             </Typography>
           </Grid>
           <Grid item xs={12} className={classes.bottomGutter}>
             <Typography variant="body2" className={classes.answer}>
-              {formatMessage({ id: 'FAQ.contactUs.1.answer' })}
+              {formatMessage('FAQ.contactUs.1.answer')}
             </Typography>
             <ul className={classNames(classes.list, classes.topGutter)}>
               <li>
                 <Typography variant="body2" className={classes.answer}>
-                  {formatMessage({ id: 'FAQ.contactUs.1.list.1' })}
+                  {formatMessage('FAQ.contactUs.1.list.1')}
                 </Typography>
               </li>
               <li>
                 <Typography variant="body2" className={classes.answer}>
-                  {formatMessage({
-                    id: 'FAQ.contactUs.1.list.2',
+                  {formatMessage('FAQ.contactUs.1.list.2', {
                     messageValues: {
                       email: (
                         <Link
@@ -69,13 +68,12 @@ export function ContactUs() {
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h5" component="h3" className={classes.question}>
-              {formatMessage({ id: 'FAQ.contactUs.2.question' })}
+              {formatMessage('FAQ.contactUs.2.question')}
             </Typography>
           </Grid>
           <Grid item xs={12} className={classes.bottomGutter}>
             <Typography variant="body2" className={classes.answer}>
-              {formatMessage({
-                id: 'FAQ.contactUs.2.answer',
+              {formatMessage('FAQ.contactUs.2.answer', {
                 messageValues: {
                   email: (
                     <Link
@@ -93,19 +91,18 @@ export function ContactUs() {
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h5" component="h3" className={classes.question}>
-              {formatMessage({ id: 'FAQ.contactUs.3.question' })}
+              {formatMessage('FAQ.contactUs.3.question')}
             </Typography>
           </Grid>
         </Grid>
         <Grid item xs={12} className={classes.bottomGutter}>
           <Typography variant="body2" className={classes.answer}>
-            {formatMessage({ id: 'FAQ.contactUs.3.answer' })}
+            {formatMessage('FAQ.contactUs.3.answer')}
           </Typography>
           <ul className={classNames(classes.topGutter, classes.list)}>
             <li>
               <Typography variant="body2" className={classes.answer}>
-                {formatMessage({
-                  id: 'FAQ.contactUs.3.list.1',
+                {formatMessage('FAQ.contactUs.3.list.1', {
                   messageValues: {
                     email: (
                       <Link
@@ -123,8 +120,7 @@ export function ContactUs() {
             </li>
             <li>
               <Typography variant="body2" className={classes.answer}>
-                {formatMessage({
-                  id: 'FAQ.contactUs.3.list.2',
+                {formatMessage('FAQ.contactUs.3.list.2', {
                   messageValues: {
                     email: (
                       <Link
@@ -144,13 +140,12 @@ export function ContactUs() {
         </Grid>
         <Grid item xs={12}>
           <Typography variant="h5" component="h3" className={classes.question}>
-            {formatMessage({ id: 'FAQ.contactUs.4.question' })}
+            {formatMessage('FAQ.contactUs.4.question')}
           </Typography>
         </Grid>
         <Grid item xs={12} className={classes.bottomGutter}>
           <Typography variant="body2" className={classes.answer}>
-            {formatMessage({
-              id: 'FAQ.contactUs.4.answer',
+            {formatMessage('FAQ.contactUs.4.answer', {
               messageValues: {
                 link: (
                   <Link
@@ -160,7 +155,7 @@ export function ContactUs() {
                     rel="noopener"
                     target="_blank"
                   >
-                    {formatMessage({ id: 'Link.here' })}
+                    {formatMessage('Link.here')}
                   </Link>
                 ),
               },
