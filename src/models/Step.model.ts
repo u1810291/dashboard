@@ -69,6 +69,7 @@ export const DocumentStepTypes = {
   BrazilianCpf: VerificationPatternTypes.BrazilianCpf,
   CreditArgentinianFidelitas: VerificationPatternTypes.CreditArgentinianFidelitas,
   CreditBrazilianSerasa: VerificationPatternTypes.CreditBrazilianSerasa,
+  ChileanDriverLicense: VerificationPatternTypes.ChileanDriverLicense,
   ChileanRegistroCivil: VerificationPatternTypes.ChileanRegistroCivil,
   ColombianBdua: VerificationPatternTypes.ColombianBdua,
   ColombianContraloria: VerificationPatternTypes.ColombianContraloria,
@@ -180,6 +181,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.BrazilianCpf,
   DocumentStepTypes.ChileanRegistroCivil,
   DocumentStepTypes.ColombianBdua,
+  DocumentStepTypes.ChileanDriverLicense,
   DocumentStepTypes.ColombianContraloria,
   DocumentStepTypes.ColombianNationalPolice,
   DocumentStepTypes.ColombianNit,
@@ -253,6 +255,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.ArgentinianRenaperFacematch]: ['argentinianRenaperFacematch.notEnoughParams'],
   [DocumentStepTypes.BolivianOep]: ['bolivianOep.notEnoughParams'],
   [DocumentStepTypes.ChileanRegistroCivil]: ['chileanRegistroCivil.notEnoughParams'],
+  [DocumentStepTypes.ChileanDriverLicense]: ['chileanDriverLicense.notEnoughParams'],
   [DocumentStepTypes.ColombianContraloria]: ['colombianContraloria.notEnoughParams'],
   [DocumentStepTypes.ColombianProcuraduria]: ['colombianProcuraduria.notEnoughParams'],
   [DocumentStepTypes.CostaRicanTse]: ['costaRicanTse.notEnoughParams'],
@@ -284,6 +287,7 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.BrazilianCpf]: ['brazilianCpf.faceBiometricsMismatch'],
   [DocumentStepTypes.PeruvianReniec]: ['peruvianReniec.fullNameMismatch'],
   [DocumentStepTypes.MexicanPep]: ['mexicanPep.matchFound'],
+  [DocumentStepTypes.ChileanDriverLicense]: ['chileanDriverLicense.fullNameMismatch', 'chileanDriverLicense.blocked'],
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoral.fullNameMismatch'],
 };
 

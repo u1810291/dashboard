@@ -25,6 +25,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.ArgentinianRenaperFacematch]: false,
   [VerificationPatternTypes.BolivianOep]: false,
   [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
+  [VerificationPatternTypes.ChileanDriverLicense]: false,
   [VerificationPatternTypes.ChileanRegistroCivil]: false,
   [VerificationPatternTypes.ColombianBdua]: false,
   [VerificationPatternTypes.ColombianContraloria]: false,
@@ -184,6 +185,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     checks: [
       {
         id: DocumentStepTypes.ChileanRegistroCivil,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.ChileanDriverLicense,
         default: false,
       },
     ],
@@ -559,6 +564,20 @@ export const govCheckDisplayOptions = {
   [DocumentStepTypes.CostaRicanSocialSecurity]: {
     fullName: {},
     insuranceStatus: {},
+  },
+  [DocumentStepTypes.ChileanDriverLicense]: {
+    blockType: {
+      hideIsField: false,
+      filedCondition: 'blocked',
+    },
+    blockedDate: {
+      hideIsField: false,
+      filedCondition: 'blocked',
+    },
+    blockedReason: {
+      hideIsField: false,
+      filedCondition: 'blocked',
+    },
   },
 };
 

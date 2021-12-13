@@ -3,6 +3,7 @@ import React from 'react';
 import { Grid, Box } from '@material-ui/core';
 import { govCheckDisplayOptions } from 'apps/GovCheck/models/GovCheck.model';
 import { useIntl } from 'react-intl';
+import has from 'lodash/has';
 import { CheckStepDetailsEntry } from '../CheckStepDetails/CheckStepDetailsEntry';
 import { useStyles } from './GovCheckText.styles';
 
@@ -19,6 +20,9 @@ export function GovCheckText({ step }) {
     stepDataEntries = Object.keys(displayOption).map((entry) => {
       delete data[entry];
       if (displayOption[entry].hidden || (displayOption[entry].hiddenIfNotExists && !step.data[entry])) {
+        return null;
+      }
+      if (has(displayOption[entry], 'hideIsField') && displayOption[entry].hideIsField === step.data[displayOption[entry].filedCondition]) {
         return null;
       }
       return (
