@@ -12,14 +12,19 @@ export function GovCheckText({ step }) {
   const classes = useStyles();
 
   const { error, checkStatus: status, id } = step;
-  const data = { ...step.data };
+  let data = { ...step.data };
   let stepDataEntries = [];
 
   if (step.data) {
     const displayOption = govCheckDisplayOptions[step.id] || {};
     stepDataEntries = Object.keys(displayOption).map((entry) => {
+      if (displayOption[entry]?.formatter) {
+        data = displayOption[entry].formatter(data[entry], data);
+      }
+      const value = data[entry];
+      const dependentFieldForFailedCheck = data[displayOption[entry]?.dependentFieldForFailedCheck];
       delete data[entry];
-      if (displayOption[entry].hidden || (displayOption[entry].hiddenIfNotExists && !step.data[entry])) {
+      if (displayOption[entry].hidden || (displayOption[entry].hiddenIfNotExists && !value)) {
         return null;
       }
       if (has(displayOption[entry], 'hideIsField') && displayOption[entry].hideIsField === step.data[displayOption[entry].filedCondition]) {
@@ -29,9 +34,9 @@ export function GovCheckText({ step }) {
         <Grid xs={displayOption[entry].inline ? 6 : 12} item>
           <CheckStepDetailsEntry
             label={entry}
-            value={step.data[entry] !== null ? step.data[entry] : '—'}
+            value={value ?? '—'}
             key={entry}
-            isMarkedAsFailed={!!displayOption[entry].dependentFieldForFailedCheck && step.data[displayOption[entry].dependentFieldForFailedCheck] !== true}
+            isMarkedAsFailed={!!displayOption[entry].dependentFieldForFailedCheck && dependentFieldForFailedCheck !== true}
           />
         </Grid>
       );

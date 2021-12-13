@@ -69,6 +69,7 @@ export const DocumentStepTypes = {
   BrazilianCpf: VerificationPatternTypes.BrazilianCpf,
   CreditArgentinianFidelitas: VerificationPatternTypes.CreditArgentinianFidelitas,
   CreditBrazilianSerasa: VerificationPatternTypes.CreditBrazilianSerasa,
+  ChileanRut: VerificationPatternTypes.ChileanRut,
   ChileanDriverLicense: VerificationPatternTypes.ChileanDriverLicense,
   ChileanRegistroCivil: VerificationPatternTypes.ChileanRegistroCivil,
   ColombianBdua: VerificationPatternTypes.ColombianBdua,
@@ -205,6 +206,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.VenezuelanSeniat,
   DocumentStepTypes.CostaRicanSocialSecurity,
   DocumentStepTypes.KenyanEcitizen,
+  DocumentStepTypes.ChileanRut,
   DocumentStepTypes.UgandanElectoralCommission,
 ];
 
@@ -287,6 +289,7 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.BrazilianCpf]: ['brazilianCpf.faceBiometricsMismatch'],
   [DocumentStepTypes.PeruvianReniec]: ['peruvianReniec.fullNameMismatch'],
   [DocumentStepTypes.MexicanPep]: ['mexicanPep.matchFound'],
+  [DocumentStepTypes.ChileanRut]: ['chileanRut.fullNameMismatch'],
   [DocumentStepTypes.ChileanDriverLicense]: ['chileanDriverLicense.fullNameMismatch', 'chileanDriverLicense.blocked'],
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoral.fullNameMismatch'],
 };
