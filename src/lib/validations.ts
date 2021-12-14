@@ -4,6 +4,7 @@ import restrictedDomains from './emailDomains.json';
 
 export const ONLY_NUMBERS_REG_EXP = /[^0-9]/;
 export const EMAIL_REG_EXP = /^[A-Z0-9._%+-]+@([A-Z0-9.-]+\.[A-Z]{2,63})$/i;
+export const EMAIL_REG_EXP_FOR_FORMATTING = /"*[A-Z0-9._%+-]+@([A-Z0-9.-]+\.[A-Z]{2,63})"*/gi;
 export const CLEAN_TEXT_REG_EXP = /^[^`~!@#$%^&*()+=[{\]}|\\'<,.>?";:]+$/;
 export const SPECIAL_CHARACTERS_REG_EXP = /[ !"#$%&'()*+,\-./\\:;<=>?@[\]^_`{|}~]/;
 export const PASSWORD_REG_EXP = /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[ !"#$%&'()*+,\-./\\:;<=>?@[\]^_`{|}~]).*$/;
@@ -39,4 +40,23 @@ export function validateMaxLength(name = '', limit) {
     return 'validations.tooLong';
   }
   return null;
+}
+
+export function formatEmailWithQuotes(value: string): string {
+  const matches = value.match(EMAIL_REG_EXP_FOR_FORMATTING) || [];
+  if (matches.length === 0) {
+    return value;
+  }
+  const formattedMatches = matches.map((match) => {
+    let formatResult = match;
+    if (formatResult[0] !== '"') {
+      formatResult = `"${formatResult}`;
+    }
+    if (formatResult[formatResult.length - 1] !== '"') {
+      formatResult = `${formatResult}"`;
+    }
+    return formatResult;
+  });
+
+  return formattedMatches.reduce((previous, current, index) => previous.replace(matches[index], current) || '', value);
 }

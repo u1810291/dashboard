@@ -8,8 +8,9 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectIdentityFilter } from 'state/identities/identities.selectors';
 import classNames from 'classnames';
+import { formatEmailWithQuotes } from 'lib/validations';
+import { KeyboardKeys } from 'models/Keyboard.model';
 import { IconButtonSearch, InputAdornmentSearch, TextFieldSearch, useStyles } from './VerificationSearch.styles';
-import { KeyboardKeys } from '../../../../models/Keyboard.model';
 
 export function VerificationSearch({ isInOverlay = false, onSetFilter }: {
   isInOverlay?: boolean;
@@ -28,7 +29,8 @@ export function VerificationSearch({ isInOverlay = false, onSetFilter }: {
   }, [identityFilter]);
 
   const handleChange = useCallback((newValue: string) => {
-    onSetFilter({ search: newValue });
+    const newValueFormatted = formatEmailWithQuotes(newValue);
+    onSetFilter({ search: newValueFormatted });
   }, [onSetFilter]);
 
   const handleSubmitMobileSearch = useCallback((event) => {
