@@ -1,6 +1,7 @@
 import { DocumentStepTypes } from 'models/Step.model';
 import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { BiometricTypes } from 'models/Biometric.model';
+import { dateSortCompare } from 'lib/date';
 
 export enum GovernmentCheckSettingTypes {
   PostponedTimeout = 'postponedTimeout',
@@ -25,6 +26,8 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.ArgentinianRenaperFacematch]: false,
   [VerificationPatternTypes.BolivianOep]: false,
   [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
+  [VerificationPatternTypes.ChileanRut]: false,
+  [VerificationPatternTypes.ChileanDriverLicense]: false,
   [VerificationPatternTypes.ChileanRegistroCivil]: false,
   [VerificationPatternTypes.ColombianBdua]: false,
   [VerificationPatternTypes.ColombianContraloria]: false,
@@ -184,6 +187,14 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     checks: [
       {
         id: DocumentStepTypes.ChileanRegistroCivil,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.ChileanDriverLicense,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.ChileanRut,
         default: false,
       },
     ],
@@ -559,6 +570,52 @@ export const govCheckDisplayOptions = {
   [DocumentStepTypes.CostaRicanSocialSecurity]: {
     fullName: {},
     insuranceStatus: {},
+  },
+  [DocumentStepTypes.ChileanRut]: {
+    fullName: {},
+    rut: {
+      inline: true,
+    },
+    active: {
+      inline: true,
+    },
+    economicActivities: {
+      hidden: true,
+      formatter: (economicActivities = [], data) => ({ ...data, ...economicActivities.sort((a, b) => dateSortCompare(a.createdAt, b.createdAt))[0] }),
+    },
+    activity: {
+      hiddenIfNotExists: true,
+    },
+    code: {
+      hiddenIfNotExists: true,
+      inline: true,
+    },
+    affectsVat: {
+      hiddenIfNotExists: true,
+      inline: true,
+    },
+    category: {
+      hiddenIfNotExists: true,
+      inline: true,
+    },
+    date: {
+      hiddenIfNotExists: true,
+      inline: true,
+    },
+  },
+  [DocumentStepTypes.ChileanDriverLicense]: {
+    blockType: {
+      hideIsField: false,
+      filedCondition: 'blocked',
+    },
+    blockedDate: {
+      hideIsField: false,
+      filedCondition: 'blocked',
+    },
+    blockedReason: {
+      hideIsField: false,
+      filedCondition: 'blocked',
+    },
   },
 };
 
