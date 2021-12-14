@@ -20,6 +20,7 @@ import { verificationRemove } from 'state/verification/verification.actions';
 import { CSSProperties } from '@material-ui/styles';
 import { RoleRenderGuard } from 'apps/merchant/guards/RoleRenderGuard';
 import { useQuery } from 'lib/url';
+import { IS_REPLACE_PROFILE_TO_IDENTITY } from 'models/Release.model';
 
 export function VerificationTableRow({ index, style, data: { paddingBottom = 0 } = {} }: {
   index: number;
@@ -33,7 +34,7 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
   const dispatch = useDispatch();
   const [deleting, setDeleting] = useState(null);
   const { asMerchantId } = useQuery();
-  const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(Routes.identity.profile.root, { asMerchantId });
+  const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(IS_REPLACE_PROFILE_TO_IDENTITY ? Routes.list.root : Routes.identity.profile.root, { asMerchantId });
   const verificationCollection = useSelector(selectIdentityCollection);
   const verification = useMemo(() => verificationCollection?.value[index], [verificationCollection, index]);
   const confirmDelete = useConfirmDelete(
@@ -61,7 +62,7 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
     }
   }, [dispatch, deleting, confirmDelete]);
 
-  const handleMouseUp = useCallback((identityId: string, verificationId: string) => (event: React.MouseEvent) => onMouseUpHandler(event, `${identityId}${Routes.identity.verification.root}/${verificationId}`),
+  const handleMouseUp = useCallback((identityId: string, verificationId: string) => (event: React.MouseEvent) => onMouseUpHandler(event, IS_REPLACE_PROFILE_TO_IDENTITY ? identityId : `${identityId}${Routes.identity.verification.root}/${verificationId}`),
     [onMouseUpHandler]);
 
   const handleStopPropagation = useCallback((event: React.MouseEvent) => event?.stopPropagation(), []);

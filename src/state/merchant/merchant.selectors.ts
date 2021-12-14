@@ -104,7 +104,7 @@ export const selectMerchantLegalAddress = createSelector(
   selectModelValue((merchant) => merchant.legalAddress),
 );
 
-export const selectMerchantTags = createSelector(
+export const selectMerchantTags = createSelector<any, Loadable<Merchant>, MerchantTags[]>(
   selectMerchantModel,
   selectModelValue((merchant: Merchant): MerchantTags[] => merchant.tags || []),
 );
