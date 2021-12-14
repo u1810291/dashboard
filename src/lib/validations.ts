@@ -42,6 +42,7 @@ export function validateMaxLength(name = '', limit) {
   return null;
 }
 
+// DIO-932 the backend requires you to send email inside quotes, otherwise @ will be considered a separator and the search will not work correctly
 export function formatEmailWithQuotes(value: string): string {
   const matches = value.match(EMAIL_REG_EXP_FOR_FORMATTING) || [];
   if (matches.length === 0) {
