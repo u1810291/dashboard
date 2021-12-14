@@ -32,6 +32,7 @@ export class DocumentVerification extends ProductBaseService implements Product<
   dependentProductTypes = [
     ProductTypes.AmlCheck,
     ProductTypes.GovernmentCheck,
+    ProductTypes.CustomWatchlist,
   ];
   checks = [
     {
