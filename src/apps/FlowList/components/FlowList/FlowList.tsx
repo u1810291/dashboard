@@ -5,7 +5,6 @@ import { IFlow, MAX_NUMBER_OF_FLOWS } from 'models/Flow.model';
 import { Routes } from 'models/Router.model';
 import { PageLoader } from 'apps/layout';
 import React, { useCallback, useEffect, useState } from 'react';
-import { PageLoader } from 'apps/layout';
 import { FiPlus } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
