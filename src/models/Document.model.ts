@@ -1,3 +1,4 @@
+import { CustomDocumentType } from './CustomDocument.model';
 import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getDocumentStatus, getStepsExtra, IStep, StepStatus } from './Step.model';
 
 export interface Document {
@@ -41,12 +42,14 @@ export interface PremiumAmlWatchlistStepData {
 
 export type PremiumAmlWatchlistStep = IStep<PremiumAmlWatchlistStepData>;
 
+export type VerificationDocumentTypes = DocumentTypes | CustomDocumentType;
+
 export interface VerificationDocument {
   country: string;
   fields: DocumentField[];
   region: any;
   steps: IStep[];
-  type: DocumentTypes;
+  type: VerificationDocumentTypes;
   documentReadingStep: DocumentReadingStep;
   securityCheckSteps: IStep<null>[];
   govChecksSteps: IStep[];
@@ -228,4 +231,8 @@ export function getDocumentExtras(verification, countries, proofOfOwnership): Ve
       proofOfOwnership: proofOfOwnership?.data?.documentType === document.type ? proofOfOwnership : null,
     };
   });
+}
+
+export function getDocumentsWithoutCustomDocument(data: VerificationDocument[]): VerificationDocument[] {
+  return data?.filter((item) => !item.type.startsWith('custom-'));
 }

@@ -1,5 +1,5 @@
 import { CustomDocumentResponse, CustomDocumentTemplateMatching, CustomDocumentTemplate, CustomDocumentDocumentReading, CustomDocumentReadingField } from 'models/CustomDocument.model';
-import { CustomDocumentWizardStepTypes } from '../models/customDocument.model';
+import { CustomDocumentWizardStepTypes } from '../models/CustomDocument.model';
 
 export const CUSTOM_DOCUMENT_STORE_KEY = 'customDocument';
 
