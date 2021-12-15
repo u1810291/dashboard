@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from '@material-ui/core';
-import { ExpandMore } from '@material-ui/icons';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React, { useEffect, useState } from 'react';
 import { FiCheckCircle } from 'react-icons/fi';
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, useStyles } from './CheckBarExpandableSummary.styles';
@@ -10,7 +10,7 @@ export function CheckBarExpandableSummary({ title, children }) {
   const [expanded, setExpanded] = useState('');
 
   useEffect(() => {
-    const icon = <ExpandMore />;
+    const icon = <ExpandMoreIcon />;
     setExpandIcon(icon);
   }, [
     setExpandIcon,

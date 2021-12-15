@@ -27,21 +27,21 @@ export function Footer() {
               href="https://www.facebook.com/mativerifications"
               target="_blank"
             >
-              <img src={facebookLogo} alt="facebook" />
+              <img src={facebookLogo} alt="facebook" className={classes.linkImage} />
             </Link>
             <Link
               className={classes.socialLink}
               href="https://www.linkedin.com/company/getmati"
               target="_blank"
             >
-              <img src={linkedInLogo} alt="linkedin" />
+              <img src={linkedInLogo} alt="linkedin" className={classes.linkImage} />
             </Link>
             <Link
               className={classes.socialLink}
               href="https://twitter.com/getmati"
               target="_blank"
             >
-              <img src={twitterLogo} alt="twitter" />
+              <img src={twitterLogo} alt="twitter" className={classes.linkImage} />
             </Link>
           </Grid>
         </Grid>

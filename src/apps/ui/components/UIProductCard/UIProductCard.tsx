@@ -1,5 +1,5 @@
 import { Box, Button, Grid, useMediaQuery, useTheme } from '@material-ui/core';
-import { ExpandMore } from '@material-ui/icons';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Modal, useOverlay } from 'apps/overlay';
 import classNames from 'classnames';
 import { IProductCard, ProductIntegrationTypes } from 'models/Product.model';
@@ -38,7 +38,7 @@ export function UIProductCard({ card, issuesComponent, isExpandable = true, isCo
   return (
     <Box className={classes.root}>
       <ExpansionPanel expanded={isExpanded} onChange={handleChange} onClick={isControls && onOpen} TransitionProps={{ unmountOnExit: true }}>
-        <ExpansionPanelSummary expandIcon={isExpandable && card.checks.length > 0 && <ExpandMore />}>
+        <ExpansionPanelSummary expandIcon={isExpandable && card.checks.length > 0 && <ExpandMoreIcon />}>
           <Grid container alignItems="center" wrap="nowrap">
             {card.icon && (
               <Grid container justify="center" alignItems="center" className={classes.iconWrapper}>

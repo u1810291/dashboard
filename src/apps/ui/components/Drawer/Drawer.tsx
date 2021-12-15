@@ -1,6 +1,6 @@
 import React, { useState, useCallback, ReactNode } from 'react';
 import { IconButton, DrawerProps as MaterialDrawerProps, Typography, Box } from '@material-ui/core';
-import { Close } from '@material-ui/icons';
+import CloseIcon from '@material-ui/icons/Close';
 import { StyledDrawer, useStyles } from './Drawer.styles';
 
 interface DrawerProps {
@@ -30,7 +30,7 @@ export function Drawer({ title, drawerProps, children }: DrawerProps) {
       <StyledDrawer anchor="right" open={open} onClose={onClose} ModalProps={ModalProps} {...drawerProps}>
         {title && <Typography variant="subtitle1" className={classes.title}>{title}</Typography>}
         <IconButton color="primary" component="span" onClick={onClose} className={classes.closeButton}>
-          <Close />
+          <CloseIcon />
         </IconButton>
         {children}
       </StyledDrawer>
