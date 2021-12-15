@@ -7,6 +7,7 @@ import { filterSerialize } from 'models/Filter.model';
 import { IdentityStatuses } from 'models/Status.model';
 import { Dispatch } from 'redux';
 import { VerificationActionTypes } from 'apps/Verification/state/Verification.store';
+import { formatEmailWithQuotes } from 'lib/validations';
 import { createTypesSequence, TypesSequence } from '../store.utils';
 import { selectFilteredCountModel, selectIdentityFilterSerialized, selectIdentityModel } from './identities.selectors';
 import { IdentityActionGroups } from './identities.store';
@@ -33,7 +34,8 @@ export const verificationsListLoad = (isReload: boolean, params?: { offset: numb
   dispatch({ type: isReload ? types.IDENTITY_LIST_REQUEST : types.IDENTITY_LIST_UPDATING });
   try {
     const filter = selectIdentityFilterSerialized(getState());
-    const { data } = await api.getVerifications({ ...filter, ...params });
+    const formattedFilter = { ...filter, ...(filter?.search && ({ search: formatEmailWithQuotes(filter.search as string) })) };
+    const { data } = await api.getVerifications({ ...formattedFilter, ...params });
     dispatch({ type: types.IDENTITY_LIST_SUCCESS, payload: data || [], isReset: isReload });
   } catch (error) {
     dispatch({ type: types.IDENTITY_LIST_FAILURE, error });
