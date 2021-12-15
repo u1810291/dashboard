@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import { useOverlay } from 'apps/overlay';
 import { IFlow, MAX_NUMBER_OF_FLOWS } from 'models/Flow.model';
 import { Routes } from 'models/Router.model';
+import { PageLoader } from 'apps/layout';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -16,7 +17,6 @@ import { FlowsTable } from '../FlowsTable/FlowsTable';
 import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
 import { flowNameValidator } from '../../validators/FlowName.validator';
 import { useStyles } from './FlowList.styles';
-import { PageLoader } from 'apps/layout';
 
 export function FlowList() {
   const classes = useStyles();

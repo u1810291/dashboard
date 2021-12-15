@@ -17,7 +17,6 @@ import { Link, useParams } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { loadCountries } from 'state/countries/countries.actions';
-import { selectAllCountriesModel } from 'state/countries/countries.selectors';
 import { flowBuilderChangeableFlowLoad, flowBuilderChangeableFlowUpdate, flowBuilderClearStore } from '../../store/FlowBuilder.action';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from '../../store/FlowBuilder.selectors';
 import { FlowBuilderIntegrationDetails } from '../FlowBuilderIntegrationDetails/FlowBuilderIntegrationDetails';
@@ -33,7 +32,6 @@ export function FlowBuilder() {
   const { id } = useParams();
   const selectedId = useSelector(selectFlowBuilderSelectedId);
   const changeableFlowModel = useSelector(selectFlowBuilderChangeableFlowModel);
-  const countriesModel = useSelector(selectAllCountriesModel);
   const isProductInited = useSelector(selectProductIsInited);
   const isBigScreen = useMediaQuery('(min-width:768px)', { noSsr: true });
   const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });
@@ -47,19 +45,6 @@ export function FlowBuilder() {
   useEffect(() => () => {
     dispatch(flowBuilderClearStore());
   }, [dispatch]);
-
-  useEffect(() => {
-    const loadData = async () => {
-      if (LoadableAdapter.isPristine(countriesModel)) {
-        try {
-          await dispatch(loadCountries());
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
-    loadData();
-  }, [dispatch, countriesModel]);
 
   useEffect(() => {
     const isChangedId = changeableFlowModel?.value?.id !== id;

@@ -1,7 +1,6 @@
 import { Box, Container, Grid } from '@material-ui/core';
 import { AdditionalChecks } from 'apps/checks';
 import { Configuration } from 'apps/configuration';
-import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useFlowListLoad, VerificationFlowHeader } from 'apps/FlowList';
 import { GovCheckSetup } from 'apps/GovCheck';
 import { Page404 } from 'apps/layout';
@@ -12,9 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
-import { loadCountries } from 'state/countries/countries.actions';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
-import { selectAllCountriesModel } from 'state/countries/countries.selectors';
 import { useStyles } from './Product.styles';
 
 export function Product() {
@@ -22,7 +19,6 @@ export function Product() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const currentFlow = useSelector(selectCurrentFlow);
-  const countriesModel = useSelector(selectAllCountriesModel);
   const flowListModel = useFlowListLoad();
 
   const [tabs] = useState([
@@ -50,18 +46,6 @@ export function Product() {
       dispatch(updateCurrentFlowId(id));
     }
   }, [currentFlow, dispatch, id]);
-
-  useEffect(() => {
-    const loadData = async () => {
-      if (LoadableAdapter.isPristine(countriesModel)) {
-        await dispatch(loadCountries())
-          .catch((error) => {
-            console.error(error);
-          });
-      }
-    };
-    loadData();
-  }, [dispatch, countriesModel]);
 
   if (!flowListModel.isLoaded) {
     return <Loader />;
