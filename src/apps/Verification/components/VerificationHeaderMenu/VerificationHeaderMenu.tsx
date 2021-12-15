@@ -3,6 +3,7 @@ import { selectIdentityProfile } from 'apps/IdentityProfile';
 import classNames from 'classnames';
 import { CollaboratorRoles, WithAgent } from 'models/Collaborator.model';
 import React, { lazy, Suspense } from 'react';
+import { PageLoader } from 'apps/layout';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { RoleRenderGuard } from 'apps/merchant/guards/RoleRenderGuard';
@@ -53,7 +54,7 @@ export function VerificationHeaderMenu() {
           {/* Download pdf */}
           <RoleRenderGuard roles={WithAgent}>
             <Grid item xs={12} className={classes.buttonWrapper}>
-              <Suspense fallback={<div> </div>}>
+              <Suspense fallback={<PageLoader />}>
                 <LazyButtonVerificationGeneratePdf
                   className={classNames(classes.button, classes.topMenuButton)}
                   verification={verification}
