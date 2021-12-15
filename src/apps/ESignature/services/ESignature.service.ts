@@ -90,7 +90,7 @@ export class ESignatureService extends ProductBaseService implements Product {
     }
 
     isInFlow(flow: IFlow): boolean {
-      return flow.verificationPatterns[VerificationPatternTypes.ESignatureDocuments];
+      return flow?.verificationPatterns?.[VerificationPatternTypes.ESignatureDocuments];
     }
 
     getVerification(verification: VerificationResponse): any {
