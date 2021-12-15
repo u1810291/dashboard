@@ -1,7 +1,7 @@
 import { getPhoneValidationStep, getPhoneRiskStep } from 'models/PhoneCheck.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
-import { Product, ProductIntegrationTypes, ProductSettings, ProductTypes, ProductInputTypes } from 'models/Product.model';
+import { Product, ProductSettings, ProductTypes, ProductInputTypes } from 'models/Product.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiPhone } from 'react-icons/fi';
 import { VerificationResponse } from 'models/Verification.model';
@@ -21,9 +21,7 @@ export class PhoneCheck extends ProductBaseService implements Product {
 
   id = ProductTypes.PhoneCheck;
   order = 600;
-  integrationTypes = [
-    ProductIntegrationTypes.Sdk,
-  ];
+  integrationTypes = [];
   icon = FiPhone;
   inputs = [
     ProductInputTypes.PhoneNumber,

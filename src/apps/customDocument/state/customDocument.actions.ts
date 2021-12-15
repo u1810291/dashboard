@@ -11,8 +11,8 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { merchantCreateCustomDocument, merchantUpdateCustomDocument, merchantDeleteCustomDocument } from 'state/merchant/merchant.actions';
 import { CustomDocumentActionTypes } from './customDocument.store';
 import { selectCustomDocumentModal, selectCustomDocumentDocumentReadingFieldSettings, selectEditedCustomDocument } from './customDocument.selectors';
-import { CustomDocumentWizardStepTypes, TEXT_DETECTION_RELEASE } from '../models/customDocument.model';
-import { CustomDocument } from '../services/customDocument.service';
+import { CustomDocumentWizardStepTypes, TEXT_DETECTION_RELEASE } from '../models/CustomDocument.model';
+import { CustomDocument } from '../services/CustomDocument.service';
 
 export const customDocumentTotalReset = () => (dispatch) => {
   dispatch({ type: CustomDocumentActionTypes.CUSTOM_DOCUMENT_TOTAL_RESET });

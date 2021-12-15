@@ -1,8 +1,8 @@
 import { Grid } from '@material-ui/core';
 import { CheckStepDetails } from 'apps/checks';
 import { CheckBarExpandable, ChecksByDocument } from 'apps/ui';
-import { VerificationDocument } from 'models/Document.model';
-import React from 'react';
+import { getDocumentsWithoutCustomDocument, VerificationDocument } from 'models/Document.model';
+import React, { useMemo } from 'react';
 import { useStyles } from './GovCheckVerificationProduct.styles';
 
 export function GovCheckVerificationProduct({ data }: {
@@ -10,9 +10,11 @@ export function GovCheckVerificationProduct({ data }: {
 }) {
   const classes = useStyles();
 
+  const filteredData = useMemo(() => getDocumentsWithoutCustomDocument(data), [data]);
+
   return (
     <Grid container spacing={2}>
-      {data.map(({ govChecksSteps, type, country, photos }, index) => (
+      {filteredData?.map(({ govChecksSteps, type, country, photos }, index) => (
         <Grid item xs={12} xl={4} className={classes.wrapper}>
           <ChecksByDocument photos={photos} country={country} docType={type} key={type || index}>
             {govChecksSteps?.map((step) => (

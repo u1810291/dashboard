@@ -4,7 +4,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useStyles } from './CustomDocumentWizard.styles';
 import { selectCustomDocumentWizardStep } from '../../state/customDocument.selectors';
-import { CustomDocumentWizardStepTypes } from '../../models/customDocument.model';
+import { CustomDocumentWizardStepTypes } from '../../models/CustomDocument.model';
 import { CustomDocumentBasicInfo } from '../CustomDocumentBasicInfo/CustomDocumentBasicInfo';
 import { CustomDocumentMedia } from '../CustomDocumentMedia/CustomDocumentMedia';
 import { CustomDocumentAdvancedSettings } from '../CustomDocumentAdvancedSettings/CustomDocumentAdvancedSettings';

@@ -1,18 +1,18 @@
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
-import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
+import { Product, ProductInputTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { FiFile } from 'react-icons/fi';
 import { CustomDocumentsSettings } from '../components/CustomDocumentSettings/CustomDocumentSettings';
 import { CustomDocumentVerificationProxy } from '../components/CustomDocumentVerificationProxy/CustomDocumentVerificationProxy';
-import { CustomDocumentCheckTypes, CustomDocumentSettingsTypes } from '../models/customDocument.model';
+import { CustomDocumentCheckTypes, CustomDocumentSettingsTypes, CUSTOM_DOCUMENT_PREFIX } from '../models/CustomDocument.model';
 
 type ProductSettingsCustomDocument = ProductSettings<CustomDocumentSettingsTypes>;
 
 export class CustomDocument extends ProductBaseService implements Product<ProductSettingsCustomDocument> {
     id = ProductTypes.CustomDocuments;
     order = 900;
-    integrationTypes = [ProductIntegrationTypes.Sdk];
+    integrationTypes = [];
     icon = FiFile;
     inputs = [ProductInputTypes.CustomDocuments];
 
@@ -28,8 +28,8 @@ export class CustomDocument extends ProductBaseService implements Product<Produc
     componentVerification = CustomDocumentVerificationProxy;
 
     parser(flow: IFlow): ProductSettingsCustomDocument {
-      const customDocumentSteps = flow.verificationSteps.filter((stepGroup) => !!stepGroup.find((docName) => docName.startsWith('custom-')));
-      const otherSteps = flow.verificationSteps.filter((stepsGroup) => !!stepsGroup.find((docName) => !docName.startsWith('custom-')));
+      const customDocumentSteps = flow.verificationSteps.filter((stepGroup) => !!stepGroup.find((docName) => docName.startsWith(CUSTOM_DOCUMENT_PREFIX)));
+      const otherSteps = flow.verificationSteps.filter((stepsGroup) => !!stepsGroup.find((docName) => !docName.startsWith(CUSTOM_DOCUMENT_PREFIX)));
       return {
         neededSteps: {
           value: customDocumentSteps,
@@ -48,18 +48,18 @@ export class CustomDocument extends ProductBaseService implements Product<Produc
 
     onRemove(flow: IFlow): Partial<IFlow> {
       return {
-        verificationSteps: [...flow.verificationSteps.filter((stepGroup) => !!stepGroup.find((documentName) => !documentName.startsWith('custom-')))],
+        verificationSteps: [...flow.verificationSteps.filter((stepGroup) => !!stepGroup.find((documentName) => !documentName.startsWith(CUSTOM_DOCUMENT_PREFIX)))],
       };
     }
 
     isInFlow(flow: IFlow): boolean {
-      return !!flow?.verificationSteps.find((step) => !!step.find((docType) => docType.startsWith('custom-')));
+      return !!flow?.verificationSteps?.find((step) => !!step.find((docType) => docType.startsWith(CUSTOM_DOCUMENT_PREFIX)));
     }
 
     getVerification(verification: VerificationResponse): any {
       return {
         ...verification,
-        documents: verification.documents.filter((el) => el.type.startsWith('custom-')),
+        documents: verification.documents.filter((el) => el.type.startsWith(CUSTOM_DOCUMENT_PREFIX)),
       };
     }
 }
