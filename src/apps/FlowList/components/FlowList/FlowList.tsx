@@ -16,7 +16,6 @@ import { FlowsTable } from '../FlowsTable/FlowsTable';
 import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
 import { flowNameValidator } from '../../validators/FlowName.validator';
 import { useStyles } from './FlowList.styles';
-import { PageLoader } from 'apps/layout';
 
 export function FlowList() {
   const classes = useStyles();

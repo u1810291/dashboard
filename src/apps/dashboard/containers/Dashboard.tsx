@@ -42,7 +42,6 @@ export function Dashboard() {
     loadData();
   }, [clientIdModel, dispatch]);
 
-
   return [
     <Helmet key="head">
       <title>{intl.formatMessage({ id: 'page.title' })}</title>
