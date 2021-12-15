@@ -56,7 +56,7 @@ export function AgentInformation({ collaborator }: {
     }
     const diff: FormAgentInformation = difference(data, defaultValues);
     if (Object.keys(diff).length > 0) {
-      await dispatch(collaboratorUpdate(user.id, { ...diff, role: data.role }));
+      await dispatch(collaboratorUpdate(user.id, { ...diff }));
     }
   }, [defaultValues, dispatch, user.id]);
 

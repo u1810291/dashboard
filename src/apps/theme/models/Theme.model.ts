@@ -52,6 +52,7 @@ declare module '@material-ui/core/styles/createPalette' {
     orange: string;
     yellow: string;
     green: string;
+    greentransparent: string;
     lightgreen: string;
     brightgreen: string;
     grayopacity: string;

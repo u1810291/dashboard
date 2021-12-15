@@ -15,8 +15,10 @@ export enum VerificationPatternTypes {
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
   CreditArgentinianFidelitas = 'credit-argentinian-fidelitas-validation',
   CreditBrazilianSerasa = 'credit-brazilian-serasa-validation',
+  ChileanRut = 'chilean-rut-validation',
   ChileanRegistroCivil = 'chilean-registro-civil-validation',
   ColombianBdua = 'colombian-bdua-validation',
+  ChileanDriverLicense = 'chilean-driver-license-validation',
   ColombianContraloria = 'colombian-contraloria-validation',
   ColombianNationalPolice = 'colombian-national-police-validation',
   ColombianNit = 'colombian-nit-validation',
@@ -82,8 +84,10 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.EcuadorianRegistroCivil]?: boolean;
   [VerificationPatternTypes.EcuadorianSri]?: boolean;
   [VerificationPatternTypes.HonduranRnp]?: boolean;
+  [VerificationPatternTypes.ChileanRut]?: boolean;
   [VerificationPatternTypes.ChileanRegistroCivil]?: boolean;
   [VerificationPatternTypes.ColombianBdua]?: boolean;
+  [VerificationPatternTypes.ChileanDriverLicense]?: boolean;
   [VerificationPatternTypes.ColombianNationalPolice]?: boolean;
   [VerificationPatternTypes.ColombianNit]?: boolean;
   [VerificationPatternTypes.ColombianProcuraduria]?: boolean;
