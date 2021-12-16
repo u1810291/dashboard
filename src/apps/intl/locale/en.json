@@ -586,6 +586,7 @@
   "CustomWatchlist.settings.watchlist.validation.error": "Validation error",
   "CustomWatchlist.settings.watchlist.validationError": "Validation error",
   "CustomWatchlist.verification.status.checking": "Validation against the custom watchlist is in progress.",
+  "CustomWatchlist.verification.error.customWatchlists.skipped": "No watchlists were enabled in flow",
   "DateRange.All": "All",
   "DateRange.Last30Days": "Last 30 Days",
   "DateRange.Last7Days": "Last 7 Days",
