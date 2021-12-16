@@ -8,7 +8,7 @@ import { useIntl } from 'react-intl';
 import { FiPlus, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useStyles } from './CustomDocumentTemplateMatchingSettings.styles';
 import { CustomDocumentWizadFooter } from '../CustomDocumentWizadFooter/CustomDocumentWizadFooter';
-import { CustomDocumentWizardStepTypes } from '../../models/customDocument.model';
+import { CustomDocumentWizardStepTypes } from '../../models/CustomDocument.model';
 import { updateCustomDocumentModal, updateCustomDocumentTemplateMatchingTemplateSettings, resetCustomDocumentTemplateMatchingTemplateSettings, updateCustomDocumentTemplateMatchingEditedTemplate, updateCustomDocumentWizardStep } from '../../state/customDocument.actions';
 import { selectCustomDocumentModal } from '../../state/customDocument.selectors';
 

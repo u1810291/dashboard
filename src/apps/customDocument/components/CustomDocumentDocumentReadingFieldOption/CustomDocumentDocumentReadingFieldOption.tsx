@@ -7,7 +7,7 @@ import { editCustomDocumentDocumentReadingFieldOption, updateCustomDocumentDocum
 import { useIntl } from 'react-intl';
 import { useStyles } from './CustomDocumentDocumentReadingFieldOption.styles';
 import { CustomDocumentWizadFooter } from '../CustomDocumentWizadFooter/CustomDocumentWizadFooter';
-import { CustomDocumentWizardStepTypes } from '../../models/customDocument.model';
+import { CustomDocumentWizardStepTypes } from '../../models/CustomDocument.model';
 
 export function CustomDocumentDocumentReadingFieldOption() {
   const intl = useIntl();

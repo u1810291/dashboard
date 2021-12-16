@@ -76,4 +76,7 @@ export const useStyles = makeStyles((theme) => ({
       color: theme.palette.common.black75,
     },
   },
+  error: {
+    color: theme.palette.common.red,
+  },
 }));

@@ -6,17 +6,17 @@ import { BsDownload } from 'react-icons/bs';
 import { CheckBarExpandable, CheckResultLogo, ZoomableImage } from 'apps/ui';
 import { CheckStepDetails } from 'apps/checks';
 import { DocumentReadingStep } from 'apps/documents/components/DocumentReadingStep/DocumentReadingStep';
-import { DocumentTypes } from 'models/Document.model';
+import { VerificationDocumentTypes } from 'models/Document.model';
 import { StepStatus } from 'models/Step.model';
 import { downloadBlob } from 'lib/file';
 import { getMedia } from 'apps/media';
 import { useStyles } from './CustomDocumentVerification.styles';
-import { CustomVerificationDocument } from '../../models/customDocument.model';
+import { CustomVerificationDocument } from '../../models/CustomDocument.model';
 
 export function CustomDocumentVerification({ document, identity, onDocumentUpdate, isFlowBuilder }: {
   document: CustomVerificationDocument;
   identity: any;
-  onDocumentUpdate: (normalizedData: any, documentType: DocumentTypes) => Promise<void>;
+  onDocumentUpdate: (normalizedData: any, documentType: VerificationDocumentTypes) => Promise<void>;
   isFlowBuilder?: boolean;
 }) {
   const intl = useIntl();
@@ -48,7 +48,7 @@ export function CustomDocumentVerification({ document, identity, onDocumentUpdat
             </Typography>
           )}
         </Box>
-        <Grid container className={classes.wrapper}>
+        <Grid container className={classes.wrapper} spacing={2}>
           <Grid item xs={12} lg={4} className={classes.imagesWrapper}>
             {document.pdf ? (
               <div className={classes.borderBox}>
@@ -77,8 +77,8 @@ export function CustomDocumentVerification({ document, identity, onDocumentUpdat
               </Grid>
             )}
           </Grid>
-          <Grid item xs={12} lg={4} className={classes.itemWrapper}>
-            {document.documentReadingStep && (
+          {document.documentReadingStep && (
+            <Grid item xs={12} lg={4} className={classes.itemWrapper}>
               <DocumentReadingStep
                 documentType={document.type}
                 step={document.documentReadingStep}
@@ -88,8 +88,8 @@ export function CustomDocumentVerification({ document, identity, onDocumentUpdat
                 onDocumentUpdate={onDocumentUpdate}
                 identityId={identity?.id}
               />
-            )}
-          </Grid>
+            </Grid>
+          )}
           <Grid item xs={12} lg={4} className={classes.itemWrapper}>
             <Grid container>
               <Box mx={{ xs: 'auto', md: 0.7 }}>

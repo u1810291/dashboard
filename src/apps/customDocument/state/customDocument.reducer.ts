@@ -3,7 +3,7 @@ import { OverlayActionTypes } from 'apps/overlay/state/overlay.actions';
 import { CustomDocumentVerificationFlowFieldTypes } from 'models/CustomDocument.model';
 import { createReducer } from 'state/store.utils';
 import { SliceNames, CustomDocumentActionTypes, CustomDocumentStore } from './customDocument.store';
-import { CustomDocumentWizardStepTypes } from '../models/customDocument.model';
+import { CustomDocumentWizardStepTypes, CUSTOM_DOCUMENT_PREFIX } from '../models/CustomDocument.model';
 
 const initialState: CustomDocumentStore = {
   [SliceNames.CustomDocumentWizardStep]: CustomDocumentWizardStepTypes.BasicInfo,
@@ -14,7 +14,7 @@ const initialState: CustomDocumentStore = {
     pages: 1,
     isSkippable: true,
     description: null,
-    type: 'custom-',
+    type: CUSTOM_DOCUMENT_PREFIX,
     inputValidationChecks: inputCustomDocumentValidationChecksDefaultValue,
   },
   [SliceNames.CustomDocumentTemplateMatchingSettings]: {

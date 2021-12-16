@@ -51,6 +51,7 @@ export * from './components/ImageSkeleton/ImageSkeleton';
 export * from './components/InfoTooltip/InfoTooltip';
 export * from './components/ButtonOutlined/ButtonOutlined.styles';
 export * from './components/TimeoutModal/TimeoutModal';
+export * from './components/SkeletonGroups';
 export * from './components/WithActionDescriptionBordered/WithActionDescriptionBordered';
 export * from './components/ButtonStyled/ButtonStyled';
 export * from './components/Spinner/Spinner';

@@ -1,9 +1,9 @@
 import { Box, Grid } from '@material-ui/core';
 import { selectIdentityProfile } from 'apps/IdentityProfile';
-import { ButtonVerificationGeneratePdf } from 'apps/pdf';
 import classNames from 'classnames';
 import { CollaboratorRoles, WithAgent } from 'models/Collaborator.model';
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
+import { PageLoader } from 'apps/layout';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { RoleRenderGuard } from 'apps/merchant/guards/RoleRenderGuard';
@@ -14,6 +14,8 @@ import { VerificationDeleteButton } from '../VerificationDeleteButton/Verificati
 import { VerificationNumber } from '../VerificationNumber/VerificationNumber';
 import { VerificationStatusChanger } from '../VerificationStatusChanger/VerificationStatusChanger';
 import { useStyles } from './VerificationHeaderMenu.styles';
+
+const LazyButtonVerificationGeneratePdf = lazy(() => import('apps/pdf').then((module) => ({ default: module.ButtonVerificationGeneratePdf })));
 
 export function VerificationHeaderMenu() {
   const intl = useIntl();
@@ -52,10 +54,12 @@ export function VerificationHeaderMenu() {
           {/* Download pdf */}
           <RoleRenderGuard roles={WithAgent}>
             <Grid item xs={12} className={classes.buttonWrapper}>
-              <ButtonVerificationGeneratePdf
-                className={classNames(classes.button, classes.topMenuButton)}
-                verification={verification}
-              />
+              <Suspense fallback={<PageLoader />}>
+                <LazyButtonVerificationGeneratePdf
+                  className={classNames(classes.button, classes.topMenuButton)}
+                  verification={verification}
+                />
+              </Suspense>
             </Grid>
           </RoleRenderGuard>
 

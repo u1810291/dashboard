@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Box } from '@material-ui/core';
-import { useSelector } from 'react-redux';
-import { selectAllCountriesModel } from 'state/countries/countries.selectors';
+import { PageLoader } from 'apps/layout';
+import { useCountriesLoad } from 'apps/countries';
 import { MultiSelect } from 'apps/ui';
 import { useStyles } from './CountryRestrictionSettings.styles';
 
@@ -11,7 +11,7 @@ export interface CountryRestrictionSettingsProps {
 }
 
 export function CountryRestrictionSettings({ onUpdate, countries = [] }: CountryRestrictionSettingsProps) {
-  const countriesModel = useSelector(selectAllCountriesModel);
+  const countriesModel = useCountriesLoad();
   const [value, setValue] = useState([]);
   const classes = useStyles();
 
@@ -44,11 +44,15 @@ export function CountryRestrictionSettings({ onUpdate, countries = [] }: Country
 
   return (
     <Box className={classes.wrapper}>
-      <MultiSelect
-        range={value}
-        options={countriesFormatted}
-        onChange={handleChange}
-      />
+      {countriesModel.isLoaded ? (
+        <MultiSelect
+          range={value}
+          options={countriesFormatted}
+          onChange={handleChange}
+        />
+      ) : (
+        <PageLoader />
+      )}
     </Box>
   );
 }

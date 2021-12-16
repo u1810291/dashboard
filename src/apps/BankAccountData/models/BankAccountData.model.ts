@@ -24,7 +24,7 @@ export interface IBankAccountDataVerification {
 }
 
 export function getBankAccountData(verification: VerificationResponse): IBankAccountDataVerification | null {
-  const bankAccountData = verification.inputs.find((item: InputStatus) => item.id === InputTypes.FinancialInformationBankCredentialsRequest);
+  const bankAccountData = verification?.inputs.find((item: InputStatus) => item.id === InputTypes.FinancialInformationBankCredentialsRequest);
 
   if (!bankAccountData) {
     return null;

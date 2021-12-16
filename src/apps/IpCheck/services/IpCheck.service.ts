@@ -1,6 +1,6 @@
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
-import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
+import { Product, ProductInputTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiMapPin } from 'react-icons/fi';
 import { getIpCheckStep, IpCheckStep } from 'models/IpCheck.model';
@@ -15,9 +15,7 @@ type ProductSettingsIpCheck = ProductSettings<IpCheckSettingsTypes>;
 export class IpCheck extends ProductBaseService implements Product<ProductSettingsIpCheck> {
   id = ProductTypes.IpCheck;
   order = 50;
-  integrationTypes = [
-    ProductIntegrationTypes.Sdk,
-  ];
+  integrationTypes = [];
   icon = FiMapPin;
   inputs = [
     ProductInputTypes.NoActiveInputs,

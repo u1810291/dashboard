@@ -1,10 +1,11 @@
 import { Grid, Button, Box } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 import { useOverlay } from 'apps/overlay';
-import { notification } from 'apps/ui';
+import { notification, Warning, WarningTypes } from 'apps/ui';
 import classnames from 'classnames';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { isNil } from 'lib/isNil';
-import { CustomDocumentResponse } from 'models/CustomDocument.model';
+import { CustomDocumentResponse, MAX_CUSTOMDOC_QTY } from 'models/CustomDocument.model';
 import { ErrorMessages } from 'models/Error.model';
 import { MerchantTags } from 'models/Merchant.model';
 import React, { useCallback, useEffect, useMemo } from 'react';
@@ -27,6 +28,7 @@ export function CustonDocumentList({ compatibilityMode = false }: { compatibilit
   const customDocuments = useSelector(selectMerchantCustomDocumentsModel);
   const tags = useSelector(selectMerchantTags);
   const isCustomDocumentAvailable = useMemo<boolean>(() => tags.includes(MerchantTags.CanUseCustomDocument), [tags]);
+  const isMaxCustomDocumentQty = customDocuments.value.length >= MAX_CUSTOMDOC_QTY;
 
   const handleSaveDocument = useCallback(async (customDocumetUpdate: Partial<CustomDocumentResponse>) => {
     try {
@@ -75,10 +77,20 @@ export function CustonDocumentList({ compatibilityMode = false }: { compatibilit
 
   return (
     <Box>
-      <Box mt={2}>
+      <Box mt={2} className={classes.buttonWrap}>
+        {isMaxCustomDocumentQty && (
+          <Box mb={0.5} className={classes.warningWrap}>
+            <Warning
+              type={WarningTypes.Notify}
+              label={intl.formatMessage({ id: 'CustomDocuments.settings.customDocumentList.help' }, { count: MAX_CUSTOMDOC_QTY })}
+              isLabelColored
+              isIconExist={false}
+            />
+          </Box>
+        )}
         <Button
           className={classnames(classes.addButton, { [classes.addButtonFullWidth]: !compatibilityMode })}
-          disabled={!isCustomDocumentAvailable}
+          disabled={!isCustomDocumentAvailable || isMaxCustomDocumentQty || !customDocuments.isLoaded}
           variant="contained"
           color="primary"
           size="large"
@@ -90,19 +102,30 @@ export function CustonDocumentList({ compatibilityMode = false }: { compatibilit
 
       {isCustomDocumentAvailable && (
         <Grid item xs={12}>
-          {customDocuments.isLoaded && customDocuments.value.map((customDocument: CustomDocumentResponse, index: number) => (
-            <Box className={classes.tag} key={customDocument.name}>
-              {customDocument.name}
-              <Box className={classes.buttonsHolder}>
-                <Button className={classes.editButton} onClick={handleEdit(index, customDocument)}>
-                  <FiEdit2 />
-                </Button>
-                <Button className={classes.deleteButton} onClick={handleDelete(index)}>
-                  <FiTrash2 />
-                </Button>
+          {customDocuments.isLoading ? (
+            <Grid container spacing={1} direction="column">
+              <Grid item>
+                <Skeleton variant="rect" width="100%" height={40} />
+              </Grid>
+              <Grid item>
+                <Skeleton variant="rect" width="100%" height={40} />
+              </Grid>
+            </Grid>
+          ) : (
+            customDocuments.value.map((customDocument: CustomDocumentResponse, index: number) => (
+              <Box className={classes.tag} key={customDocument.name}>
+                {customDocument.name}
+                <Box className={classes.buttonsHolder}>
+                  <Button className={classes.editButton} onClick={handleEdit(index, customDocument)}>
+                    <FiEdit2 />
+                  </Button>
+                  <Button className={classes.deleteButton} onClick={handleDelete(index)}>
+                    <FiTrash2 />
+                  </Button>
+                </Box>
               </Box>
-            </Box>
-          ))}
+            ))
+          )}
         </Grid>
       )}
     </Box>

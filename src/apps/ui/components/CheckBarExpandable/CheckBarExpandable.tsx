@@ -1,5 +1,5 @@
 import { Box } from '@material-ui/core';
-import { ExpandMore } from '@material-ui/icons';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { WarningBadge } from 'apps/ui/components/WarningBadge/WarningBadge';
 import { ReactComponent as IconData } from 'assets/icon-identity-data.svg';
 import { ReactComponent as IconDone } from 'assets/icon-identity-done.svg';
@@ -40,7 +40,7 @@ export function CheckBarExpandable({ step, children, title, isOpenByDefault = fa
       const isDisabled = [SYSTEM_ERROR, LEGACY_ERROR].includes((error || {}).type);
       setDisabledExpansion(isDisabled);
     }
-    const icon = <ExpandMore />;
+    const icon = <ExpandMoreIcon />;
     setExpandIcon(icon);
   }, [
     step.checkStatus,

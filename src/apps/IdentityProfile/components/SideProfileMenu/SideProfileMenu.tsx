@@ -14,7 +14,6 @@ import { useParams } from 'react-router-dom';
 import { PrivateImage } from 'apps/media';
 import { selectIdentityProfileModel } from '../../store/IdentityProfile.selectors';
 import { ProfileInformation } from '../ProfileInformation/ProfileInformation';
-import { PassedFlows } from '../PassedFlows/PassedFlows';
 import { useStyles } from './SideProfileMenu.styles';
 
 export function SideProfileMenu({ profile, onError }: {
@@ -88,7 +87,8 @@ export function SideProfileMenu({ profile, onError }: {
         <Box mb={4}>
           <ProfileInformation profileSummary={profile?.summary} isShowFull={isDesktop || isOpen} identityId={identityId} />
         </Box>
-        <PassedFlows />
+        {/* TODO: Enable passed flows when needed */}
+        {/* <PassedFlows /> */}
       </Box>
     </Paper>
   );

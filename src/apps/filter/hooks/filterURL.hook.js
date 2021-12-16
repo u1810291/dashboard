@@ -12,8 +12,9 @@ export function useFilterParser(filterStructure) {
     history.push({
       pathname: location.pathname,
       search: search.toString(),
+      state: location.state,
     });
-  }, [history, location.pathname]);
+  }, [history, location.pathname, location.state]);
 
   const addToUrl = useCallback((filter) => {
     const currentParams = parseFromURL(location.search || '', filterStructure);
@@ -23,8 +24,9 @@ export function useFilterParser(filterStructure) {
     history.push({
       pathname: location.pathname,
       search: search.toString(),
+      state: location.state,
     });
-  }, [filterStructure, history, location.pathname, location.search]);
+  }, [filterStructure, history, location.pathname, location.search, location.state]);
 
   return [setURLFromFilter, addToUrl];
 }

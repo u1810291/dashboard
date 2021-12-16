@@ -11,6 +11,7 @@ import { selectClientIdModel } from 'state/merchant/merchant.selectors';
 import { useRouteMatch } from 'react-router-dom';
 import { useIntercom } from 'apps/intercom';
 import { useBeamerScript } from 'apps/beamer';
+import { useLoadMerchant } from 'apps/merchant/hooks/loadMerchant.hook';
 import { DashboardLoader } from '../components/DashboardLoader/DashboardLoader';
 import { DashboardMenu } from '../components/DashboardMenu/DashboardMenu';
 import { Footer } from '../components/Footer/Footer';
@@ -22,6 +23,7 @@ export function Dashboard() {
   const flowBuilderMatch = useRouteMatch(Routes.flow.details);
   const identityProfileMatch = useRouteMatch(Routes.identity.profile.details.root);
   const clientIdModel = useSelector(selectClientIdModel);
+  useLoadMerchant();
   useIntercom();
   useFullStory();
   useBeamerScript();
@@ -39,7 +41,6 @@ export function Dashboard() {
     };
     loadData();
   }, [clientIdModel, dispatch]);
-
 
   return [
     <Helmet key="head">
