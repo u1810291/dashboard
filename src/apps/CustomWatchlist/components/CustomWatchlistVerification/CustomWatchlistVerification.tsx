@@ -1,9 +1,9 @@
 import { Box, Card, CardContent, Grid } from '@material-ui/core';
 import { CustomWatchlistSearchParamsKeysEnum, getCustomWatchlistStepExtra } from 'apps/CustomWatchlist/models/CustomWatchlist.models';
-import { BoxBordered, CheckBarExpandable } from 'apps/ui';
+import { BoxBordered, CheckBarExpandable, Warning, WarningTypes, Alert } from 'apps/ui';
 import { isNil } from 'lib/isNil';
 import { VerificationDocument } from 'models/Document.model';
-import { VerificationStepTypes } from 'models/Step.model';
+import { StepStatus, VerificationStepTypes } from 'models/Step.model';
 import { CheckStepDetailsEntry } from 'apps/checks/components/CheckStepDetails/CheckStepDetailsEntry';
 import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
@@ -16,9 +16,37 @@ export function CustomWatchlistVerification({ data }: {
   const intl = useIntl();
   const step = useMemo(() => getCustomWatchlistStepExtra(data.steps.find((dataStep) => dataStep.id === VerificationStepTypes.CustomWatchlistsValidation)), [data]);
 
+  console.log(step);
   if (!step) {
     return null;
   }
+
+  if (step?.checkStatus === StepStatus.Checking) {
+    return (
+      <Box mt={2}>
+        <Warning
+          type={WarningTypes.Notify}
+          label={intl.formatMessage({ id: `CustomWatchlist.verification.status.${step.checkStatus}` })}
+          filled
+          isLabelColored
+        />
+      </Box>
+    );
+  }
+
+  if (step?.checkStatus === StepStatus.Failure) {
+    return (
+      <Box mt={2}>
+        <Alert
+          title={intl.formatMessage({
+            id: `CustomWatchlist.verification.error.${step.error.code}`,
+            defaultMessage: intl.formatMessage({ id: 'SecurityCheckStep.system.internalError.message' }),
+          })}
+        />
+      </Box>
+    );
+  }
+
   return (
     <BoxBordered p={1} pt={2} className={classes.bordered} width="300px">
       {step.data?.map((stepWatchlist) => (
