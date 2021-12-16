@@ -16,7 +16,6 @@ export function CustomWatchlistVerification({ data }: {
   const intl = useIntl();
   const step = useMemo(() => getCustomWatchlistStepExtra(data.steps.find((dataStep) => dataStep.id === VerificationStepTypes.CustomWatchlistsValidation)), [data]);
 
-  console.log(step);
   if (!step) {
     return null;
   }
@@ -26,7 +25,7 @@ export function CustomWatchlistVerification({ data }: {
       <Box mt={2}>
         <Warning
           type={WarningTypes.Notify}
-          label={intl.formatMessage({ id: `CustomWatchlist.verification.status.${step.checkStatus}` })}
+          label={intl.formatMessage({ id: `SecurityCheckStep.customWatchlist.${step.checkStatus}` })}
           filled
           isLabelColored
         />
@@ -34,12 +33,12 @@ export function CustomWatchlistVerification({ data }: {
     );
   }
 
-  if (step?.checkStatus === StepStatus.Failure) {
+  if (!step?.data && step?.checkStatus === StepStatus.Failure) {
     return (
       <Box mt={2}>
         <Alert
           title={intl.formatMessage({
-            id: `CustomWatchlist.verification.error.${step.error.code}`,
+            id: `SecurityCheckStep.${step.error.code}`,
             defaultMessage: intl.formatMessage({ id: 'SecurityCheckStep.system.internalError.message' }),
           })}
         />
@@ -53,10 +52,9 @@ export function CustomWatchlistVerification({ data }: {
         <CheckBarExpandable key={stepWatchlist.watchlist.id} step={step} name={stepWatchlist.watchlist.name} isOpenByDefault>
           <Card raised={false} className={classes.card}>
             <CardContent>
-              {step.error && (
+              {step?.error && (
                 <Box>
                   {intl.formatMessage({
-                    // TODO: @richvoronov get all error codes
                     id: `SecurityCheckStep.${step.error.code}`,
                     defaultMessage: intl.formatMessage({ id: 'Error.common' }),
                   })}
