@@ -80,11 +80,10 @@ export function CheckBarExpandable({ step, children, title, name, isError, isOpe
             <Box key="check-bar-title" className={classes.labelContainer}>
               <Box className={classes.label}>
                 <Box fontWeight={600}>
-                  {!name && intl.formatMessage({
+                  {!name ? intl.formatMessage({
                     id: title || `SecurityCheckStep.${id}.title`,
                     defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${step.checkStatus}` }),
-                  })}
-                  {name}
+                  }) : name}
                 </Box>
               </Box>
             </Box>

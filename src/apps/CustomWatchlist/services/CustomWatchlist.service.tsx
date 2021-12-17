@@ -4,6 +4,7 @@ import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
+import { VerificationStepTypes } from 'models/Step.model';
 import { CustomWatchlistCheckTypes, CustomWatchlistSettingsTypes } from '../models/CustomWatchlist.models';
 import { ReactComponent as FilesWithEye } from '../assets/files-with-eye.svg';
 import { CustomWatchlistVerification } from '../components/CustomWatchlistVerification/CustomWatchlistVerification';
@@ -74,7 +75,6 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
   }
 
   isInVerification(verification: VerificationResponse): boolean {
-    // TODO: @richvoronov make the logic when backend is ready
-    return true;
+    return !!verification.steps.find((dataStep) => dataStep.id === VerificationStepTypes.CustomWatchlistsValidation);
   }
 }
