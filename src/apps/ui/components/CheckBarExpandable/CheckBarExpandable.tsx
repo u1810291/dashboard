@@ -1,4 +1,5 @@
 import { Box } from '@material-ui/core';
+import classNames from 'classnames';
 import { ExpandMore } from '@material-ui/icons';
 import { WarningBadge } from 'apps/ui/components/WarningBadge/WarningBadge';
 import { ReactComponent as IconData } from 'assets/icon-identity-data.svg';
@@ -18,8 +19,9 @@ const IconStatuses = {
   [StepStatus.Checking]: <CheckBarIcon key="check-bar-icon" icon={<IconLoad />} />,
 };
 
-export function CheckBarExpandable({ step, children, title, name, isOpenByDefault = false, isNoBadge = false }: {
+export function CheckBarExpandable({ step, children, title, name, isError, isOpenByDefault = false, isNoBadge = false }: {
   step: any;
+  isError?: boolean;
   children?: React.ReactElement;
   title?: string;
   name?: string;
@@ -38,7 +40,7 @@ export function CheckBarExpandable({ step, children, title, name, isOpenByDefaul
     if (isChecking) {
       setDisabledExpansion(true);
     } else {
-      const isDisabled = [SYSTEM_ERROR, LEGACY_ERROR].includes((error || {}).type);
+      const isDisabled = [SYSTEM_ERROR, LEGACY_ERROR].includes((error || {}).type) || isError;
       setDisabledExpansion(isDisabled);
     }
     const icon = <ExpandMore />;
@@ -48,6 +50,7 @@ export function CheckBarExpandable({ step, children, title, name, isOpenByDefaul
     setDisabledExpansion,
     setExpandIcon,
     error,
+    isError,
     disabledExpansion,
     isChecking,
   ]);
@@ -66,12 +69,14 @@ export function CheckBarExpandable({ step, children, title, name, isOpenByDefaul
           disabled={false}
         >
           <ExpansionPanelSummary
-            className={step.checkStatus === StepStatus.Failure ? 'error' : ''}
+            className={classNames({
+              error: step.checkStatus === StepStatus.Failure || isError,
+            })}
             expandIcon={expandIcon}
             aria-controls={`panel-${id}-content`}
             id={`panel-${id}-header`}
           >
-            {IconStatuses[step.checkStatus]}
+            {!isError ? IconStatuses[step.checkStatus] : IconStatuses[StepStatus.Failure]}
             <Box key="check-bar-title" className={classes.labelContainer}>
               <Box className={classes.label}>
                 <Box fontWeight={600}>

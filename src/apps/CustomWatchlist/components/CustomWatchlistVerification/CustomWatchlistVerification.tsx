@@ -49,10 +49,10 @@ export function CustomWatchlistVerification({ data }: {
   return (
     <BoxBordered p={1} pt={2} className={classes.bordered} width="300px">
       {step.data?.map((stepWatchlist) => (
-        <CheckBarExpandable key={stepWatchlist.watchlist.id} step={step} name={stepWatchlist.watchlist.name} isOpenByDefault>
+        <CheckBarExpandable key={stepWatchlist.watchlist.id} step={step} isError={!!stepWatchlist.searchResult} name={stepWatchlist.watchlist.name} isOpenByDefault>
           <Card raised={false} className={classes.card}>
             <CardContent>
-              {step?.error && (
+              {stepWatchlist.searchResult && step?.error && (
                 <Box>
                   {intl.formatMessage({
                     id: `SecurityCheckStep.${step.error.code}`,

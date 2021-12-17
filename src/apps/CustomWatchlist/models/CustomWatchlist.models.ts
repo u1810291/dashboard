@@ -94,8 +94,7 @@ export enum ValidatedInputsKeys {
   DateOfBirth = 'dateOfBirth',
   DocumentType = 'documentType',
   DocumentNumber = 'documentNumber',
-  // TODO: @richvoronov replace coutnry -> country on backend ready
-  Country = 'coutnry',
+  Country = 'country',
   EmailAddress = 'emailAddress',
   PhoneNumber = 'phoneNumber',
 }
@@ -135,14 +134,16 @@ export interface CustomWatchlistStepDataWatchlist {
 }
 
 export interface CustomWatchlistStepDataSearchParams {
-  fullName: string;
-  dateOfBirth: string;
+  fullName?: string;
+  dateOfBirth?: string;
+  documentType?: string;
+  documentNumber?: string;
+  coutnry?: string;
+  emailAddress?: string;
+  phoneNumber?: string;
 }
 
-export interface CustomWatchlistStepDataSearchResult {
-  fullName: string;
-  dateOfBirth: string;
-}
+export type CustomWatchlistStepDataSearchResult = Record<string, string>;
 
 export interface CustomWatchlistStepData {
   watchlist: CustomWatchlistStepDataWatchlist;
