@@ -30,7 +30,7 @@ const mockMapping = [
   },
   {
     systemField: ValidatedInputsKeys.Country,
-    merchantField: ValidatedInputsKeys.DateOfBirth,
+    merchantField: ValidatedInputsKeys.Country,
   },
   {
     systemField: ValidatedInputsKeys.DocumentNumber,
