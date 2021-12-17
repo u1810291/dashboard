@@ -30,7 +30,7 @@ const mockMapping = [
   },
   {
     systemField: ValidatedInputsKeys.Country,
-    merchantField: 'merchantField3',
+    merchantField: 'MX',
   },
   {
     systemField: ValidatedInputsKeys.DocumentNumber,

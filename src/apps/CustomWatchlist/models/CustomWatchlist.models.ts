@@ -94,7 +94,8 @@ export enum ValidatedInputsKeys {
   DateOfBirth = 'dateOfBirth',
   DocumentType = 'documentType',
   DocumentNumber = 'documentNumber',
-  Country = 'country',
+  // TODO: @richvoronov replace coutnry -> country on backend ready
+  Country = 'coutnry',
   EmailAddress = 'emailAddress',
   PhoneNumber = 'phoneNumber',
 }
