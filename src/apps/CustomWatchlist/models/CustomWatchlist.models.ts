@@ -92,10 +92,11 @@ export enum CustomWatchlistCheckTypes {
 export enum ValidatedInputsKeys {
   FullName = 'fullName',
   DateOfBirth = 'dateOfBirth',
-  NationalId = 'nationalId',
-  DrivingLicense = 'drivingLicense',
-  PassportNumber = 'passportNumber',
-  CountryCode = 'countryCode',
+  DocumentType = 'documentType',
+  DocumentNumber = 'documentNumber',
+  Country = 'country',
+  EmailAddress = 'emailAddress',
+  PhoneNumber = 'phoneNumber',
 }
 
 export enum CustomWatchlistModalValidationInputs {

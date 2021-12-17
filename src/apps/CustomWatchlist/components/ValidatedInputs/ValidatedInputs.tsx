@@ -43,20 +43,24 @@ export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: Valida
       value: ValidatedInputsKeys.DateOfBirth,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.NationalId}.label` }),
-      value: ValidatedInputsKeys.NationalId,
+      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DocumentNumber}.label` }),
+      value: ValidatedInputsKeys.DocumentNumber,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DrivingLicense}.label` }),
-      value: ValidatedInputsKeys.DrivingLicense,
+      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.Country}.label` }),
+      value: ValidatedInputsKeys.Country,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.PassportNumber}.label` }),
-      value: ValidatedInputsKeys.PassportNumber,
+      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DocumentType}.label` }),
+      value: ValidatedInputsKeys.DocumentType,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.CountryCode}.label` }),
-      value: ValidatedInputsKeys.CountryCode,
+      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.EmailAddress}.label` }),
+      value: ValidatedInputsKeys.EmailAddress,
+    },
+    {
+      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.PhoneNumber}.label` }),
+      value: ValidatedInputsKeys.PhoneNumber,
     },
     {
       label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.notSelected.label' }),
