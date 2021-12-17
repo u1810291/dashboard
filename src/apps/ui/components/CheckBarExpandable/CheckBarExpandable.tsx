@@ -7,7 +7,7 @@ import { ReactComponent as IconDone } from 'assets/icon-identity-done.svg';
 import { ReactComponent as IconError } from 'assets/icon-identity-error.svg';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { LEGACY_ERROR, StepStatus, SYSTEM_ERROR } from 'models/Step.model';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { CheckBarIcon } from '../CheckBarIcon/CheckBarIcon';
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, useStyles } from './CheckBarExpandable.styles';
@@ -30,34 +30,14 @@ export function CheckBarExpandable({ step, children, title, name, isError, isOpe
 }) {
   const intl = useIntl();
   const classes = useStyles();
-  const [disabledExpansion, setDisabledExpansion] = useState(false);
-  const [expandIcon, setExpandIcon] = useState(null);
-  const { id, error } = step;
+  const { id } = step;
   const [expanded, setExpanded] = useState<boolean>(isOpenByDefault);
   const isChecking = step.checkStatus === StepStatus.Checking;
+  const isManualError = typeof isError === 'boolean';
 
-  useEffect(() => {
-    if (isChecking) {
-      setDisabledExpansion(true);
-    } else {
-      const isDisabled = [SYSTEM_ERROR, LEGACY_ERROR].includes((error || {}).type) || isError;
-      setDisabledExpansion(isDisabled);
-    }
-    const icon = <ExpandMore />;
-    setExpandIcon(icon);
-  }, [
-    step.checkStatus,
-    setDisabledExpansion,
-    setExpandIcon,
-    error,
-    isError,
-    disabledExpansion,
-    isChecking,
-  ]);
-
-  const handleChange = (_, isExpanded: boolean) => {
+  const handleChange = useCallback((_, isExpanded: boolean) => {
     setExpanded(isExpanded);
-  };
+  }, []);
 
   return (
     <>
@@ -66,17 +46,17 @@ export function CheckBarExpandable({ step, children, title, name, isError, isOpe
           key={id}
           expanded={expanded}
           onChange={handleChange}
-          disabled={false}
         >
           <ExpansionPanelSummary
             className={classNames({
-              error: step.checkStatus === StepStatus.Failure || isError,
+              error: isManualError ? isError : step.checkStatus === StepStatus.Failure,
             })}
-            expandIcon={expandIcon}
+            expandIcon={<ExpandMore />}
             aria-controls={`panel-${id}-content`}
             id={`panel-${id}-header`}
           >
-            {!isError ? IconStatuses[step.checkStatus] : IconStatuses[StepStatus.Failure]}
+            {!isManualError && IconStatuses[step.checkStatus]}
+            {isManualError && IconStatuses[isError ? StepStatus.Failure : StepStatus.Success]}
             <Box key="check-bar-title" className={classes.labelContainer}>
               <Box className={classes.label}>
                 <Box fontWeight={600}>
