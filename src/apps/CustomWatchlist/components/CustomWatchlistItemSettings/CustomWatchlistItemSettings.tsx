@@ -21,32 +21,32 @@ import { FlowWatchlistUi, WatchlistContentTypes, ValidatedInputsKeys } from '../
 const mockMapping = [
   {
     systemField: ValidatedInputsKeys.FullName,
-    merchantField: 'merchantField1',
+    merchantField: ValidatedInputsKeys.FullName,
     options: { fuzziness: 10 },
   },
   {
     systemField: ValidatedInputsKeys.DateOfBirth,
-    merchantField: 'merchantField2',
+    merchantField: ValidatedInputsKeys.DateOfBirth,
   },
   {
     systemField: ValidatedInputsKeys.Country,
-    merchantField: 'merchantField3',
+    merchantField: ValidatedInputsKeys.DateOfBirth,
   },
   {
     systemField: ValidatedInputsKeys.DocumentNumber,
-    merchantField: 'merchantField4',
+    merchantField: ValidatedInputsKeys.DocumentNumber,
   },
   {
     systemField: ValidatedInputsKeys.DocumentType,
-    merchantField: 'merchantField5',
+    merchantField: ValidatedInputsKeys.DocumentType,
   },
   {
     systemField: ValidatedInputsKeys.EmailAddress,
-    merchantField: 'merchantField6',
+    merchantField: ValidatedInputsKeys.EmailAddress,
   },
   {
     systemField: ValidatedInputsKeys.PhoneNumber,
-    merchantField: 'merchantField7',
+    merchantField: ValidatedInputsKeys.PhoneNumber,
   },
 ];
 
