@@ -67,7 +67,7 @@ export function CheckBarExpandable({ step, children, title, name, isError, isOpe
                 </Box>
               </Box>
             </Box>
-            {!isNoBadge && step.checkStatus === StepStatus.Failure && <Box className={classes.warning}><WarningBadge /></Box>}
+            {!isNoBadge && (isManualError ? isError : step.checkStatus === StepStatus.Failure) && <Box className={classes.warning}><WarningBadge /></Box>}
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             {children}
