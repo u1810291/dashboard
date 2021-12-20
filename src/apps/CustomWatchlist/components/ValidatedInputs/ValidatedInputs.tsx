@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { ValidatedInput } from '../ValidatedInput/ValidatedInput';
 import { selectCurrentCustomWatchlistError } from '../../state/CustomWatchlist.selectors';
 import { ValidatedInputsKeys, WatchlistMappingOptions } from '../../models/CustomWatchlist.models';
@@ -27,46 +27,46 @@ export interface ValidatedInputsFieldTypes {
 }
 
 export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: ValidatedInputsFieldTypes[]; onChange: (mapping: ValidatedInputsFieldTypes[]) => void }) {
-  const intl = useIntl();
-  // TODO: STAGE 3, @richvoronov get currentWatchlist.error and show in ui
+  const formatMessage = useFormatMessage();
+  // TODO: STAGE 4, @richvoronov get currentWatchlist.error and show in ui
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const currentWatchlistError = useSelector(selectCurrentCustomWatchlistError);
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(fieldValues.reduce((prev, cur) => ({ ...prev, [cur.value]: cur }), {}));
 
   const inputOptions = useMemo(() => [
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.FullName}.label` }),
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.FullName}.label`),
       value: ValidatedInputsKeys.FullName,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DateOfBirth}.label` }),
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DateOfBirth}.label`),
       value: ValidatedInputsKeys.DateOfBirth,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DocumentNumber}.label` }),
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DocumentNumber}.label`),
       value: ValidatedInputsKeys.DocumentNumber,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.Country}.label` }),
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.Country}.label`),
       value: ValidatedInputsKeys.Country,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DocumentType}.label` }),
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DocumentType}.label`),
       value: ValidatedInputsKeys.DocumentType,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.EmailAddress}.label` }),
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.EmailAddress}.label`),
       value: ValidatedInputsKeys.EmailAddress,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.PhoneNumber}.label` }),
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.PhoneNumber}.label`),
       value: ValidatedInputsKeys.PhoneNumber,
     },
     {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.notSelected.label' }),
+      label: formatMessage('CustomWatchlist.settings.modal.validationFields.notSelected.label'),
       value: placeholderKey,
     },
-  ], [intl]);
+  ], [formatMessage]);
 
   const handleChange = useCallback((values: { value: string; name?: string; options?: WatchlistMappingOptions }) => {
     setSelectedOptions((prev) => ({

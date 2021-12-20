@@ -6,7 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     boxShadow: 'none',
   },
   bordered: {
-    borderColor: 'rgba(237, 240, 245, .6)',
+    borderColor: theme.palette.common.black7opacity,
   },
   labelError: {
     color: theme.palette.common.red,

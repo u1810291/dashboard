@@ -1,19 +1,19 @@
 import { Box, Card, CardContent, Grid } from '@material-ui/core';
-import { CustomWatchlistSearchParamsKeysEnum, getCustomWatchlistStepExtra } from 'apps/CustomWatchlist/models/CustomWatchlist.models';
 import { BoxBordered, CheckBarExpandable, Warning, WarningTypes, Alert } from 'apps/ui';
 import { isNil } from 'lib/isNil';
+import { useFormatMessage } from 'apps/intl';
 import { VerificationDocument } from 'models/Document.model';
 import { StepStatus, VerificationStepTypes } from 'models/Step.model';
 import { CheckStepDetailsEntry } from 'apps/checks/components/CheckStepDetails/CheckStepDetailsEntry';
 import React, { useMemo } from 'react';
-import { useIntl } from 'react-intl';
+import { CustomWatchlistSearchParamsKeysEnum, getCustomWatchlistStepExtra } from '../../models/CustomWatchlist.models';
 import { useStyles } from './CustomWatchlistVerification.styles';
 
 export function CustomWatchlistVerification({ data }: {
     data: VerificationDocument;
   }) {
   const classes = useStyles();
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const step = useMemo(() => getCustomWatchlistStepExtra(data.steps.find((dataStep) => dataStep.id === VerificationStepTypes.CustomWatchlistsValidation)), [data]);
 
   if (!step) {
@@ -25,7 +25,7 @@ export function CustomWatchlistVerification({ data }: {
       <Box mt={2}>
         <Warning
           type={WarningTypes.Notify}
-          label={intl.formatMessage({ id: `SecurityCheckStep.customWatchlist.${step.checkStatus}` })}
+          label={formatMessage(`SecurityCheckStep.customWatchlist.${step.checkStatus}`)}
           filled
           isLabelColored
         />
@@ -36,12 +36,7 @@ export function CustomWatchlistVerification({ data }: {
   if (!step?.data && step?.checkStatus === StepStatus.Failure) {
     return (
       <Box mt={2}>
-        <Alert
-          title={intl.formatMessage({
-            id: `SecurityCheckStep.${step.error.code}`,
-            defaultMessage: intl.formatMessage({ id: 'SecurityCheckStep.system.internalError.message' }),
-          })}
-        />
+        <Alert title={formatMessage(`SecurityCheckStep.${step.error.code}`, { defaultMessage: formatMessage('SecurityCheckStep.system.internalError.message') })} />
       </Box>
     );
   }
@@ -54,10 +49,7 @@ export function CustomWatchlistVerification({ data }: {
             <CardContent>
               {stepWatchlist.searchResult && step?.error && (
                 <Box>
-                  {intl.formatMessage({
-                    id: `SecurityCheckStep.${step.error.code}`,
-                    defaultMessage: intl.formatMessage({ id: 'Error.common' }),
-                  })}
+                  {formatMessage(`SecurityCheckStep.${step.error.code}`, { defaultMessage: formatMessage('Error.common') })}
                 </Box>
               )}
               {stepWatchlist.searchParams && (

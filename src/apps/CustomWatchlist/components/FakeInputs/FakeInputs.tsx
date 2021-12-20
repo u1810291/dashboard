@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@material-ui/core';
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { useStyles } from './FakeInputs.styles';
 import { ValidatedInputsKeys } from '../../models/CustomWatchlist.models';
 
@@ -16,49 +16,49 @@ export function FakeInput({ label, value }: { label: string; value: string }) {
 }
 
 export function FakeInputs() {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   return (
     <Grid container direction="column" spacing={1}>
       <Grid item>
         <FakeInput
-          label={intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.FullName}.label` })}
-          value={intl.formatMessage({ id: `CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.FullName}.value` })}
+          label={formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.FullName}.label`)}
+          value={formatMessage(`CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.FullName}.value`)}
         />
       </Grid>
       <Grid item>
         <FakeInput
-          label={intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DateOfBirth}.label` })}
-          value={intl.formatMessage({ id: `CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.DateOfBirth}.value` })}
+          label={formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DateOfBirth}.label`)}
+          value={formatMessage(`CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.DateOfBirth}.value`)}
         />
       </Grid>
       <Grid item>
         <FakeInput
-          label={intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.Country}.label` })}
-          value={intl.formatMessage({ id: `CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.Country}.value` })}
+          label={formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.Country}.label`)}
+          value={formatMessage(`CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.Country}.value`)}
         />
       </Grid>
       <Grid item>
         <FakeInput
-          label={intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DocumentNumber}.label` })}
-          value={intl.formatMessage({ id: `CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.DocumentNumber}.value` })}
+          label={formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DocumentNumber}.label`)}
+          value={formatMessage(`CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.DocumentNumber}.value`)}
         />
       </Grid>
       <Grid item>
         <FakeInput
-          label={intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DocumentType}.label` })}
-          value={intl.formatMessage({ id: `CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.DocumentType}.value` })}
+          label={formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DocumentType}.label`)}
+          value={formatMessage(`CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.DocumentType}.value`)}
         />
       </Grid>
       <Grid item>
         <FakeInput
-          label={intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.EmailAddress}.label` })}
-          value={intl.formatMessage({ id: `CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.EmailAddress}.value` })}
+          label={formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.EmailAddress}.label`)}
+          value={formatMessage(`CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.EmailAddress}.value`)}
         />
       </Grid>
       <Grid item>
         <FakeInput
-          label={intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.PhoneNumber}.label` })}
-          value={intl.formatMessage({ id: `CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.PhoneNumber}.value` })}
+          label={formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.PhoneNumber}.label`)}
+          value={formatMessage(`CustomWatchlist.settings.modal.fakeInputs.${ValidatedInputsKeys.PhoneNumber}.value`)}
         />
       </Grid>
     </Grid>

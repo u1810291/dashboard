@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useFormContext } from 'react-hook-form';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { InputLabel, Typography } from '@material-ui/core';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { FileUploadButton } from 'apps/ui/components/FileUploadButton/FileUploadButton';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { WithActionDescriptionBordered } from 'apps/ui/components/WithActionDescriptionBordered/WithActionDescriptionBordered';
@@ -17,7 +17,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
   watchlist?: FlowWatchlistUi;
   onFileUploaded?: (data: CustomWatchlistUpload) => void;
 }) {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const merchantId = useSelector(selectMerchantId);
   const isWatchlistsContentLoading = useSelector(selectIsWatchlistsContentLoading);
   const classes = useStyles();
@@ -43,10 +43,10 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
       clearErrors(CustomWatchlistModalValidationInputs.FileKey);
     } catch {
       setError(CustomWatchlistModalValidationInputs.FileKey, {
-        message: intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.fileErrorUpload' }),
+        message: formatMessage('CustomWatchlist.settings.watchlist.fileErrorUpload'),
       });
     }
-  }, [merchantId, intl, setValue, clearErrors, onFileUploaded, setError]);
+  }, [merchantId, formatMessage, setValue, clearErrors, onFileUploaded, setError]);
 
   const extFile = useMemo(() => {
     const arr = fileName?.split('.') || [];
@@ -61,10 +61,10 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
     <>
       <InputLabel className={classes.marginBottom10} htmlFor="watchlist-name">
         <Typography variant="subtitle2">
-          {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile.label.title' })}
+          {formatMessage('CustomWatchlist.settings.modal.button.uploadFile.label.title')}
         </Typography>
         <Typography variant="body1" className={classes.colorGrey}>
-          {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile.label.subTitle' })}
+          {formatMessage('CustomWatchlist.settings.modal.button.uploadFile.label.subTitle')}
         </Typography>
       </InputLabel>
       {fileName ? (
@@ -74,7 +74,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
             accept=".csv"
             renderButton={(
               <RoundedButton>
-                {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile.reload' })}
+                {formatMessage('CustomWatchlist.settings.modal.button.uploadFile.reload')}
               </RoundedButton>
             )}
           />
@@ -82,7 +82,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
       ) : (
         <FileUploadButton onChange={handleUploadFile} accept=".csv" isPrefixIconDisplayed={!isWatchlistsContentLoading} disabled={isWatchlistsContentLoading}>
           {isWatchlistsContentLoading && <CircularProgress color="inherit" size={17} />}
-          {!isWatchlistsContentLoading && intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.uploadFile' })}
+          {!isWatchlistsContentLoading && formatMessage('CustomWatchlist.settings.modal.button.uploadFile')}
         </FileUploadButton>
       )}
       {extFile === CustomWatchlistFileExt.Csv && <CSVSeparatorSelect />}
