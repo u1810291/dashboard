@@ -1183,7 +1183,7 @@
   "PayrollAccountData.settings.description": "Users will see accounts from the selections below that are enabled",
   "PayrollAccountData.settings.title": "Country Selection",
   "PayrollAccountData.title": "Payroll Account Data",
-  "Pdf.footer.matilockInc": "Metamaplock, Inc.",
+  "Pdf.footer.matilockInc": "MetaMap, from Matilock, Inc.",
   "Pdf.footer.merchantLegalAddress": "Address: {legalAddress}",
   "Pdf.footer.merchantLegalInformation": "User information verified by {verifiedBy} for {legalName}, Registration: {legalRegNumber}",
   "PermalinkSection.description": "Send that link to verify users via SMS, e-mail, Intercom or in any other way. It's always the simplest way to get started!",
