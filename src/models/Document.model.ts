@@ -1,5 +1,5 @@
 import { CustomDocumentType } from './CustomDocument.model';
-import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getDocumentStatus, getStepsExtra, IStep, StepStatus } from './Step.model';
+import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStatus, getReaderFrontendSteps, getStepsExtra, IStep, StepStatus } from './Step.model';
 
 export interface Document {
   country: string;
@@ -189,6 +189,17 @@ export function getDocumentExtras(verification, countries, proofOfOwnership): Ve
   return documents.map((document) => {
     const steps = getStepsExtra(document.steps, verification, countries, document);
     const documentReadingStep = steps.find((step) => step.id === DocumentStepTypes.DocumentReading);
+    const readerStep = getReaderFrontendSteps(documentReadingStep);
+    const computedStep = getComputedSteps(documentReadingStep, verification, document);
+    const filteredSteps = steps.filter((step) => [
+      ...DocumentSecuritySteps,
+      ...DocumentFrontendSteps].includes(step.id));
+
+    const allDocumentVerificationSteps = [
+      ...filteredSteps,
+      ...readerStep,
+      ...computedStep,
+    ];
 
     // @ts-ignore
     const fields = Object.entries(document.fields || {}).map(([id, { value, required }]) => ({
@@ -221,7 +232,7 @@ export function getDocumentExtras(verification, countries, proofOfOwnership): Ve
       customDocumentStep,
       premiumAmlWatchlistsStep,
       watchlistsStep,
-      documentStatus: isSkipped ? StepStatus.Skipped : getDocumentStatus(allSteps),
+      documentStatus: isSkipped ? StepStatus.Skipped : getDocumentStatus(allDocumentVerificationSteps),
       areTwoSides: isDocumentWithTwoSides(document.type),
       documentSides: DocumentSidesOrder,
       onReading: documentReadingStep?.status < 200,
