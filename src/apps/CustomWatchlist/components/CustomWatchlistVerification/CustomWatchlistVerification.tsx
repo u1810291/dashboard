@@ -4,7 +4,7 @@ import { isNil } from 'lib/isNil';
 import { useFormatMessage } from 'apps/intl';
 import { VerificationDocument } from 'models/Document.model';
 import { StepStatus, VerificationStepTypes } from 'models/Step.model';
-import { CheckStepDetailsEntry } from 'apps/checks/components/CheckStepDetails/CheckStepDetailsEntry';
+import { CheckStepDetailsEntry } from 'apps/checks';
 import React, { useMemo } from 'react';
 import { CustomWatchlistSearchParamsKeysEnum, getCustomWatchlistStepExtra } from '../../models/CustomWatchlist.models';
 import { useStyles } from './CustomWatchlistVerification.styles';
