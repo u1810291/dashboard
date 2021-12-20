@@ -98,13 +98,7 @@ export const merchantCustomDocumentsLoad = () => async (dispatch, getState) => {
   const merchantId = selectMerchantId(getState());
   try {
     const { data } = await api.getMerchantCustomDocuments(merchantId);
-    if (Array.isArray(data) && data.length > 0 && data[0].type) {
-      dispatch({ type: types.CUSTOM_DOCUMENTS_SUCCESS, payload: data });
-    } else {
-      const error = new Error('Wrong data received from server');
-      dispatch({ type: types.CUSTOM_DOCUMENTS_FAILURE, error });
-      throw error;
-    }
+    dispatch({ type: types.CUSTOM_DOCUMENTS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: types.CUSTOM_DOCUMENTS_FAILURE, error });
     throw error;

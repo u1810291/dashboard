@@ -9,7 +9,7 @@ import { Routes } from 'models/Router.model';
 export const sessionExpired: Middleware = (store) => (next) => (action) => {
   if (action.error) {
     const isAuthRoute = window.location.pathname.startsWith(Routes.auth.root);
-    if (!isAuthRoute && action.error.response.status === ErrorStatuses.WrongCredentials) {
+    if (!isAuthRoute && action.error.response?.status === ErrorStatuses.WrongCredentials) {
       const releaseNotifications = () => {
         notification.unblock();
       };
