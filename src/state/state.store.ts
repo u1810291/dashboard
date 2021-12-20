@@ -10,6 +10,7 @@ import storage from 'redux-persist/lib/storage';
 import ReduxThunk from 'redux-thunk';
 import { rootReducers } from 'state/reducers';
 import { DASHBOARD_STORE_KEY } from '../apps/dashboard/state/dashboard.store';
+import { sessionExpired } from './middleware/sessionExpired.redux-middleware';
 
 const persistedReducer = persistReducer({
   key: 'mgi-dashboard-4',
@@ -23,7 +24,7 @@ const persistedReducer = persistReducer({
 
 export const store = createStore(
   persistedReducer,
-  composeWithDevTools(applyMiddleware(ReduxThunk)),
+  composeWithDevTools(applyMiddleware(ReduxThunk, sessionExpired)),
 );
 
 export const persistor = persistStore(store, null, () => {

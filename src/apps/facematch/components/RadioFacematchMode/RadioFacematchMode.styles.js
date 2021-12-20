@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
-import { ExpandLess, ExpandMore } from '@material-ui/icons';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles(() => ({
@@ -24,6 +25,6 @@ export const ButtonExpand = withStyles(() => ({
 }))(({ classes, expanded, children, ...props }) => (
   <Button classes={classes} disableRipple {...props}>
     {children}
-    {expanded ? <ExpandLess /> : <ExpandMore />}
+    {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
   </Button>
 ));

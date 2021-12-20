@@ -1,7 +1,7 @@
 import { CustomDocumentResponse, CustomDocumentTemplateMatching, CustomDocumentTemplate, CustomDocumentDocumentReading, CustomDocumentReadingField } from 'models/CustomDocument.model';
 import { createSelector } from 'reselect';
 import { CUSTOM_DOCUMENT_STORE_KEY, SliceNames, CustomDocumentStore } from './customDocument.store';
-import { CustomDocumentWizardStepTypes } from '../models/customDocument.model';
+import { CustomDocumentWizardStepTypes } from '../models/CustomDocument.model';
 
 export const selectCustomDocumentStore = (state: any) => state[CUSTOM_DOCUMENT_STORE_KEY];
 

@@ -41,7 +41,7 @@ const ColorMap = {
   },
 };
 
-export function Warning({ title = '', label, type = WarningTypes.Warning, size = WarningSize.Normal, isLabelColored = false, bordered = false, className, filled, linkLabel = '', link = '' }: {
+export function Warning({ title = '', label, type = WarningTypes.Warning, size = WarningSize.Normal, isLabelColored = false, bordered = false, className, filled, linkLabel = '', link = '', isIconExist = true }: {
   title?: string;
   label: string | ReactNode;
   type?: WarningTypes;
@@ -52,6 +52,7 @@ export function Warning({ title = '', label, type = WarningTypes.Warning, size =
   bordered?: boolean;
   linkLabel?: string;
   link?: string;
+  isIconExist?: boolean;
 }) {
   const Icon = IconMap[type];
   const style = ColorMap[type];
@@ -59,9 +60,11 @@ export function Warning({ title = '', label, type = WarningTypes.Warning, size =
 
   return (
     <Box className={`${classes.root} ${className}`}>
-      <Box className={classes.icon}>
-        <Icon size={size} color={style.iconColor} />
-      </Box>
+      {isIconExist && (
+        <Box className={classes.icon}>
+          <Icon size={size} color={style.iconColor} />
+        </Box>
+      )}
       <Box className={classes.content}>
         {title && (
           <Typography variant="h4" gutterBottom style={{ color: style.titleColor }}>

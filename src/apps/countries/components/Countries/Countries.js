@@ -5,13 +5,13 @@ import { Warning, WarningSize, WarningTypes } from 'apps/ui';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { selectAllCountriesModel } from 'state/countries/countries.selectors';
 import { selectSupportedCountries } from 'state/merchant/merchant.selectors';
+import { useCountriesLoad } from '../../hooks/loadCountries.hook';
 import { CountriesModal } from '../CountriesModal/CountriesModal';
 
 export function Countries({ onSubmit }) {
   const intl = useIntl();
-  const countriesModel = useSelector(selectAllCountriesModel);
+  const countriesModel = useCountriesLoad();
   const supportedCountries = useSelector(selectSupportedCountries);
   const [createOverlay, closeOverlay] = useOverlay();
 

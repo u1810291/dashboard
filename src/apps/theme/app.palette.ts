@@ -31,6 +31,7 @@ export enum appPalette {
   orange = '#f2994a',
   yellow = '#FEC649',
   green = '#5ac794',
+  greentransparent = '#E5F7EE',
   lightgreen = '#B2E6C5',
   brightgreen = '#89C39B',
 }

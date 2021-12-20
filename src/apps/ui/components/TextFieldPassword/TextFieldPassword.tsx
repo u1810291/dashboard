@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { TextFieldProps } from '@material-ui/core/TextField/TextField';
 import { IconButton, InputAdornment, TextField } from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import { QATags } from 'models/QA.model';
 import { useStyles } from './TextFieldPassword.styles';
 
@@ -28,7 +29,7 @@ export const TextFieldPassword = React.forwardRef((props: TextFieldProps, ref) =
               onClick={handleShowPassword}
               edge="end"
             >
-              {isShowPassword ? <Visibility /> : <VisibilityOff />}
+              {isShowPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
             </IconButton>
           </InputAdornment>),
       }}

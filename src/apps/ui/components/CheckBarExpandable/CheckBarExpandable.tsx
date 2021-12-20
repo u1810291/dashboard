@@ -1,13 +1,13 @@
 import { Box } from '@material-ui/core';
 import classNames from 'classnames';
-import { ExpandMore } from '@material-ui/icons';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { WarningBadge } from 'apps/ui/components/WarningBadge/WarningBadge';
 import { ReactComponent as IconData } from 'assets/icon-identity-data.svg';
 import { ReactComponent as IconDone } from 'assets/icon-identity-done.svg';
 import { ReactComponent as IconError } from 'assets/icon-identity-error.svg';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
-import { LEGACY_ERROR, StepStatus, SYSTEM_ERROR } from 'models/Step.model';
-import React, { useEffect, useState, useCallback } from 'react';
+import { StepStatus } from 'models/Step.model';
+import React, { useState, useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { CheckBarIcon } from '../CheckBarIcon/CheckBarIcon';
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, useStyles } from './CheckBarExpandable.styles';
@@ -51,7 +51,7 @@ export function CheckBarExpandable({ step, children, title, name, isError, isOpe
             className={classNames({
               error: isManualError ? isError : step.checkStatus === StepStatus.Failure,
             })}
-            expandIcon={<ExpandMore />}
+            expandIcon={<ExpandMoreIcon />}
             aria-controls={`panel-${id}-content`}
             id={`panel-${id}-header`}
           >

@@ -58,6 +58,7 @@ export interface VerificationResponse<StepData = any> {
   documents: any[];
   flow: IFlow;
   identity: string;
+  isEditable: boolean;
   inputs: any[];
   // steps: IStep<StepData>[];
   steps: any[];

@@ -8,7 +8,7 @@ import { CustomDocumentReadingField, CustomDocumentVerificationFlowFieldTypes } 
 import { TextFieldInput, useStyles } from './CustomDocumentFieldSettings.styles';
 import { CustomDocumentWizadFooter } from '../CustomDocumentWizadFooter/CustomDocumentWizadFooter';
 import { updateCustomDocumentDocumentReadingField, editCustomDocumentDocumentReadingField, updateCustomDocumentWizardStep, updateCustomDocumentDocumentReadingEditedFieldOption, resetCustomDocumentDocumentReadingFieldOption, updateCustomDocumentDocumentReadingFieldOption } from '../../state/customDocument.actions';
-import { CustomDocumentWizardStepTypes } from '../../models/customDocument.model';
+import { CustomDocumentWizardStepTypes } from '../../models/CustomDocument.model';
 import { selectCustomDocumentDocumentReadingFieldSettings, selectCustomDocumentEditedField } from '../../state/customDocument.selectors';
 
 export function CustomDocumentFieldSettings() {
