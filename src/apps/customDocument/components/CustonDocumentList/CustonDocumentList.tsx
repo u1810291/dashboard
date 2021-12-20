@@ -67,11 +67,7 @@ export function CustonDocumentList({ compatibilityMode = false }: { compatibilit
 
   useEffect(() => {
     if (merchantModel.isLoaded && LoadableAdapter.isPristine(customDocuments) && !customDocuments.value?.length) {
-      try {
-        dispatch(merchantCustomDocumentsLoad());
-      } catch (error) {
-        console.error(error);
-      }
+      dispatch(merchantCustomDocumentsLoad());
     }
   }, [dispatch, customDocuments, merchantModel]);
 
