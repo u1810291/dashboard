@@ -40,7 +40,7 @@ sonarqube-check:
 version:
   stage: version
   only:
-    - /^rc-.*$/
+    - release_stage
   before_script:
     - apk update && apk add git
     - PROJECT_URL=$(echo $CI_PROJECT_URL | sed -E 's/http(s)?:\/\///')

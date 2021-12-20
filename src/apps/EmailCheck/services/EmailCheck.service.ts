@@ -1,6 +1,6 @@
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
-import { Product, ProductIntegrationTypes, ProductSettings, ProductTypes, ProductInputTypes } from 'models/Product.model';
+import { Product, ProductSettings, ProductTypes, ProductInputTypes } from 'models/Product.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiMail } from 'react-icons/fi';
 import { VerificationResponse } from 'models/Verification.model';
@@ -19,9 +19,7 @@ export class EmailCheck extends ProductBaseService implements Product {
 
   id = ProductTypes.EmailCheck;
   order = 700;
-  integrationTypes = [
-    ProductIntegrationTypes.Sdk,
-  ];
+  integrationTypes = [];
   icon = FiMail;
   inputs = [
     ProductInputTypes.EmailAddress,

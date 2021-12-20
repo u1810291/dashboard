@@ -24,7 +24,7 @@ export interface IPayrollAccountDataVerification {
 }
 
 export function getPayrollAccountData(verification: VerificationResponse): IPayrollAccountDataVerification | null {
-  const payrollAccountData = verification.inputs.find((item: InputStatus) => item.id === InputTypes.FinancialInformationPayrollCredentialsRequest);
+  const payrollAccountData = verification?.inputs.find((item: InputStatus) => item.id === InputTypes.FinancialInformationPayrollCredentialsRequest);
 
   if (!payrollAccountData) {
     return null;

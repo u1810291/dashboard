@@ -9,7 +9,7 @@ import { useIntl } from 'react-intl';
 import { FiChevronDown } from 'react-icons/fi';
 import { useStyles } from './CustomDocumentBasicInfo.styles';
 import { CustomDocumentWizadFooter } from '../CustomDocumentWizadFooter/CustomDocumentWizadFooter';
-import { CustomDocumentPageTypes, CustomDocumentWizardStepTypes, getNumberOfPages, TEXT_DETECTION_RELEASE } from '../../models/customDocument.model';
+import { CustomDocumentPageTypes, CustomDocumentWizardStepTypes, CUSTOM_DOCUMENT_PREFIX, getCustomDocumentBasicInfoValidation, getNumberOfPages, TEXT_DETECTION_RELEASE } from '../../models/CustomDocument.model';
 import { updateCustomDocumentModal, updateCustomDocumentWizardStep } from '../../state/customDocument.actions';
 import { selectEditedCustomDocument, selectCustomDocumentModal } from '../../state/customDocument.selectors';
 
@@ -22,20 +22,16 @@ export function CustomDocumentBasicInfo() {
   const isNewCustomDocument: boolean = useMemo(() => isNil(edited), [edited]);
   const numberOfPages: CustomDocumentPageTypes = useMemo(() => getNumberOfPages(customDocument), [customDocument]);
 
-  const isInvalidData: boolean = useMemo(() => {
-    const regexp = new RegExp('^[a-zA-Z0-9$@$!%*?&#^-_. +]+$');
-    return !(customDocument?.name?.length > 0 && customDocument?.name?.length <= 32 && regexp.test(customDocument?.name))
-      || !(customDocument?.description?.length > 0 && customDocument?.description?.length <= 128)
-      || !(customDocument?.type?.length > 7 && customDocument?.type?.length <= 32);
-  }, [customDocument]);
+  const invalidData = useMemo(() => getCustomDocumentBasicInfoValidation(customDocument), [customDocument]);
+  const canMoveForward = useMemo(() => Object.values(invalidData).indexOf(true) === -1, [invalidData]);
 
   const handleUpdateName = useCallback(({ target: { value } }) => {
     dispatch(updateCustomDocumentModal({ name: value || null }));
   }, [dispatch]);
 
   const handleUpdateType = useCallback(({ target: { value } }) => {
-    if (!(value as string).startsWith('custom-') || ((value as string).length < 7)) {
-      dispatch(updateCustomDocumentModal({ type: 'custom-' }));
+    if (!(value as string).startsWith(CUSTOM_DOCUMENT_PREFIX) || ((value as string).length < 7)) {
+      dispatch(updateCustomDocumentModal({ type: CUSTOM_DOCUMENT_PREFIX }));
       return;
     }
 
@@ -86,14 +82,10 @@ export function CustomDocumentBasicInfo() {
       <Grid container spacing={3} className={classes.contentHolder}>
         <Grid item xs={6}>
           <Typography variant="subtitle2" className={classes.subtitle}>
-            {intl.formatMessage({
-              id: 'CustomDocuments.settings.documentName',
-            })}
+            {intl.formatMessage({ id: 'CustomDocuments.settings.documentName' })}
           </Typography>
           <Typography variant="body1" className={classes.helpText}>
-            {intl.formatMessage({
-              id: 'CustomDocuments.settings.documentName.subtitle',
-            })}
+            {intl.formatMessage({ id: 'CustomDocuments.settings.documentName.subtitle' })}
           </Typography>
 
           <TextField
@@ -102,22 +94,17 @@ export function CustomDocumentBasicInfo() {
             type="text"
             value={customDocument?.name || ''}
             className={classes.input}
-            placeholder={intl.formatMessage({
-              id: 'CustomDocuments.settings.documentName.placeholder',
-            })}
+            placeholder={intl.formatMessage({ id: 'CustomDocuments.settings.documentName.placeholder' })}
           />
+          {(customDocument?.name?.length > 0 && invalidData.name) && <div className={classes.error}>{intl.formatMessage({ id: 'CustomDocuments.settings.documentName.error' })}</div>}
         </Grid>
 
         <Grid item xs={6}>
           <Typography variant="subtitle2" className={classes.subtitle}>
-            {intl.formatMessage({
-              id: 'CustomDocuments.settings.numberOfPages',
-            })}
+            {intl.formatMessage({ id: 'CustomDocuments.settings.numberOfPages' })}
           </Typography>
           <Typography variant="body1" className={classes.helpText}>
-            {intl.formatMessage({
-              id: 'CustomDocuments.settings.numberOfPages.subtitle',
-            })}
+            {intl.formatMessage({ id: 'CustomDocuments.settings.numberOfPages.subtitle' })}
           </Typography>
           <Select
             className={classes.select}
@@ -127,57 +114,41 @@ export function CustomDocumentBasicInfo() {
             IconComponent={FiChevronDown}
           >
             <MenuItem value={CustomDocumentPageTypes.One}>
-              {intl.formatMessage({
-                id: `CustomDocuments.settings.numberOfPages.${CustomDocumentPageTypes.One}`,
-              })}
+              {intl.formatMessage({ id: `CustomDocuments.settings.numberOfPages.${CustomDocumentPageTypes.One}` })}
             </MenuItem>
             <MenuItem value={CustomDocumentPageTypes.Two}>
-              {intl.formatMessage({
-                id: `CustomDocuments.settings.numberOfPages.${CustomDocumentPageTypes.Two}`,
-              })}
+              {intl.formatMessage({ id: `CustomDocuments.settings.numberOfPages.${CustomDocumentPageTypes.Two}` })}
             </MenuItem>
             <MenuItem value={CustomDocumentPageTypes.Many}>
-              {intl.formatMessage({
-                id: `CustomDocuments.settings.numberOfPages.${CustomDocumentPageTypes.Many}`,
-              })}
+              {intl.formatMessage({ id: `CustomDocuments.settings.numberOfPages.${CustomDocumentPageTypes.Many}` })}
             </MenuItem>
           </Select>
         </Grid>
 
         <Grid item xs={6}>
           <Typography variant="subtitle2" className={classes.subtitle}>
-            {intl.formatMessage({
-              id: 'CustomDocuments.settings.userDescription',
-            })}
+            {intl.formatMessage({ id: 'CustomDocuments.settings.userDescription' })}
           </Typography>
           <Typography variant="body1" className={classes.helpText}>
-            {intl.formatMessage({
-              id: 'CustomDocuments.settings.userDescription.subtitle',
-            })}
+            {intl.formatMessage({ id: 'CustomDocuments.settings.userDescription.subtitle' })}
           </Typography>
-
           <TextareaAutosize
             onChange={handleUpdateDescription}
             value={customDocument?.description || ''}
             rowsMax={3}
             rowsMin={3}
             className={classes.textarea}
-            placeholder={intl.formatMessage({
-              id: 'CustomDocuments.settings.userDescription.placeholder',
-            })}
+            placeholder={intl.formatMessage({ id: 'CustomDocuments.settings.userDescription.placeholder' })}
           />
+          {(customDocument?.description?.length > 0 && invalidData.description) && <div className={classes.error}>{intl.formatMessage({ id: 'CustomDocuments.settings.userDescription.error' })}</div>}
         </Grid>
 
         <Grid item xs={6}>
           <Typography variant="subtitle2" className={classes.subtitle}>
-            {intl.formatMessage({
-              id: 'CustomDocuments.settings.variableName',
-            })}
+            {intl.formatMessage({ id: 'CustomDocuments.settings.variableName' })}
           </Typography>
           <Typography variant="body1" className={classes.helpText}>
-            {intl.formatMessage({
-              id: 'CustomDocuments.settings.variableName.subtitle',
-            })}
+            {intl.formatMessage({ id: 'CustomDocuments.settings.variableName.subtitle' })}
           </Typography>
 
           <TextField
@@ -187,16 +158,15 @@ export function CustomDocumentBasicInfo() {
             type="text"
             className={classes.input}
             disabled={!isNewCustomDocument}
-            placeholder={intl.formatMessage({
-              id: 'CustomDocuments.settings.variableName.placeholder',
-            })}
+            placeholder={intl.formatMessage({ id: 'CustomDocuments.settings.variableName.placeholder' })}
           />
+          {(customDocument?.type?.replace(CUSTOM_DOCUMENT_PREFIX, '').length > 0 && invalidData.type) && <div className={classes.error}>{intl.formatMessage({ id: 'CustomDocuments.settings.variableName.error' })}</div>}
         </Grid>
       </Grid>
 
       <CustomDocumentWizadFooter
         onForward={onDone}
-        canMoveForward={!isInvalidData}
+        canMoveForward={canMoveForward}
         forwardTitle={intl.formatMessage({ id: 'CustomDocuments.settings.continue' })}
       />
 

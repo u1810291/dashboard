@@ -3,7 +3,7 @@ import { CheckStepDetails } from 'apps/checks';
 import { POOImage } from 'apps/ProofOfOwnership';
 import { CheckBarExpandable, CheckResultLogo, Warning, WarningTypes, ZoomableImage } from 'apps/ui';
 import classNames from 'classnames';
-import { DocumentSides, DocumentTypes, getDocumentSideLabel, PhotosOrientations, VerificationDocument } from 'models/Document.model';
+import { DocumentSides, getDocumentSideLabel, PhotosOrientations, VerificationDocument, VerificationDocumentTypes } from 'models/Document.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { VerificationWithExtras } from 'models/Verification.model';
@@ -17,7 +17,7 @@ export function NewDocumentStep({ document, verification, documentIndex, onDocum
   document: VerificationDocument;
   verification: VerificationWithExtras;
   documentIndex: number;
-  onDocumentUpdate: (normalizedData: any, documentType: DocumentTypes) => Promise<void>;
+  onDocumentUpdate: (normalizedData: any, documentType: VerificationDocumentTypes) => Promise<void>;
 }) {
   const intl = useIntl();
   const classes = useStyles();

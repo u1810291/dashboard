@@ -24,8 +24,10 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.red,
     verticalAlign: 'text-top',
   },
-  addButton: {
+  buttonWrap: {
     marginBottom: '39px',
+  },
+  addButton: {
 
     '&:disabled': {
       backgroundColor: theme.palette.common.lightblue,
@@ -55,7 +57,7 @@ export const useStyles = makeStyles((theme) => ({
     opacity: '0.5',
     marginTop: '20px',
   },
-  disabledSubtitle: {
-    color: theme.palette.common.black75,
+  warningWrap: {
+    fontSize: 13,
   },
 }));

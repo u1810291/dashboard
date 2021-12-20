@@ -86,4 +86,8 @@ export const useStyles = makeStyles((theme) => ({
       padding: [[10, 5, 5]],
     },
   },
+  linkImage: {
+    width: '100%',
+    height: '100%',
+  },
 }));

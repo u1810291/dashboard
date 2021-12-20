@@ -1,4 +1,4 @@
-import { FilterList } from '@material-ui/icons';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import { Modal, useOverlay } from 'apps/overlay';
 import React, { useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
@@ -39,7 +39,7 @@ export function OpenFilter({
     <SideButton
       variant="contained"
       onClick={openFilterModal}
-      startIcon={<FilterList />}
+      startIcon={<FilterListIcon />}
       data-qa={qa}
     >
       {intl.formatMessage({ id: 'VerificationFilter.title' })}

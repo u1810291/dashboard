@@ -30,6 +30,10 @@ export const useStyles = (isFlowBuilder: boolean = false) => (makeStyles((theme)
     [theme.breakpoints.up('lg')]: {
       marginBottom: 0,
     },
+
+    '&.MuiGrid-item': {
+      padding: 0,
+    },
   },
   images: {
     height: '100%',

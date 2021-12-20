@@ -1,5 +1,5 @@
 import { Box, IconButton, Tooltip, Typography } from '@material-ui/core';
-import { PriorityHigh } from '@material-ui/icons';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
 import { StatusLabel } from 'apps/identity/components/StatusLabel';
 import { SkeletonLoader } from 'apps/ui';
@@ -145,7 +145,7 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
                   title={intl.formatMessage({ id: 'VerificationTable.reviewNeeded' })}
                 >
                   <IconButton size="small" className={classes.iconButtonReview}>
-                    <PriorityHigh />
+                    <PriorityHighIcon />
                   </IconButton>
                 </Tooltip>
               )}

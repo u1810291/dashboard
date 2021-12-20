@@ -18,7 +18,7 @@ import { selectReviewVerificationWithExtras, selectDataForCreditCheck } from 'ap
 import { ESignature } from 'apps/ESignature/components/ESignature/ESignature';
 import { verificationDocumentUpdate } from 'state/identities/identities.actions';
 import { CustomDocumentVerification } from 'apps/customDocument/components/CustomDocumentVerification/CustomDocumentVerification';
-import { CUSTOM_DOCUMENT_PREFIX } from 'apps/customDocument/models/customDocument.model';
+import { CUSTOM_DOCUMENT_PREFIX } from 'apps/customDocument/models/CustomDocument.model';
 import { Nom151Check } from 'apps/CertifiedTimestamp';
 import { CreditCheckVerificationProduct } from 'apps/CreditCheck';
 import { useDocsWithPrivateMedia, useBiometricsWithPrivateMedia } from 'apps/media';

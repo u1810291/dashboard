@@ -1,5 +1,5 @@
 import { Box } from '@material-ui/core';
-import { CustomDocumentSettingsTypes } from 'apps/customDocument/models/customDocument.model';
+import { CustomDocumentSettingsTypes } from 'apps/customDocument/models/CustomDocument.model';
 import { DocumentStepSettings } from 'apps/documents/components/DocumentStepSettings/DocumentStepSettings';
 import { ExtendedDescription, Warning } from 'apps/ui';
 import { cloneDeep } from 'lodash';

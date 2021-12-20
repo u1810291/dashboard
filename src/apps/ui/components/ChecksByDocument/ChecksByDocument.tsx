@@ -1,12 +1,12 @@
 import React from 'react';
 import { Box, Grid } from '@material-ui/core';
-import { DocumentTypes } from 'models/Document.model';
+import { VerificationDocumentTypes } from 'models/Document.model';
 import { useIntl } from 'react-intl';
 import { ZoomableImage } from '../ZoomableImage/ZoomableImage';
 import { useStyles } from './ChecksByDocument.styles';
 
 export interface ChecksByDocumentProps{
-  docType?: DocumentTypes;
+  docType?: VerificationDocumentTypes;
   country?: string;
   children: React.ReactNode;
   photos: string[];

@@ -3,6 +3,7 @@ import { VerificationPatternTypes } from './VerificationPatterns.model';
 import { DocumentSides } from './Document.model';
 import { Media } from './Media.model';
 
+export const MAX_CUSTOMDOC_QTY = 20;
 export const customDocumentListLimit = 10;
 
 export enum CustomDocumentVerificationFlowFieldTypes {
@@ -55,3 +56,5 @@ export interface CustomDocumentResponse {
     [DocumentSides.Back]?: Media | null;
   };
 }
+
+export type CustomDocumentType = `custom-${string}`;

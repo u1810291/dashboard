@@ -13,7 +13,7 @@ import { BsUpload } from 'react-icons/bs';
 import compressImage from 'lib/compressImage';
 import { useStyles } from './CustomDocumentDocumentReadingSettings.styles';
 import { CustomDocumentWizadFooter } from '../CustomDocumentWizadFooter/CustomDocumentWizadFooter';
-import { MIN_MEDIA_WIDTH, MIN_MEDIA_HEIGHT, CustomDocumentPageTypes, CustomDocumentWizardStepTypes, getNumberOfPages } from '../../models/customDocument.model';
+import { MIN_MEDIA_WIDTH, MIN_MEDIA_HEIGHT, CustomDocumentPageTypes, CustomDocumentWizardStepTypes, getNumberOfPages } from '../../models/CustomDocument.model';
 import { updateCustomDocumentModal, customDocumentUpdateReadingMedia, resetCustomDocumentDocumentReadingField, updateCustomDocumentDocumentReadingField, updateCustomDocumentDocumentEditedReadingField, updateCustomDocumentWizardStep } from '../../state/customDocument.actions';
 import { selectCustomDocumentModal } from '../../state/customDocument.selectors';
 

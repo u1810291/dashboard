@@ -11,7 +11,7 @@ import { FiSettings } from 'react-icons/fi';
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { useStyles } from './CustomDocumentAdvancedSettings.styles';
 import { CustomDocumentWizadFooter } from '../CustomDocumentWizadFooter/CustomDocumentWizadFooter';
-import { CustomDocumentWizardStepTypes, CustomDocumentPageTypes, getNumberOfPages, TEXT_DETECTION_RELEASE } from '../../models/customDocument.model';
+import { CustomDocumentWizardStepTypes, CustomDocumentPageTypes, getNumberOfPages, TEXT_DETECTION_RELEASE } from '../../models/CustomDocument.model';
 import { updateCustomDocumentModal, updateCustomDocumentWizardStep } from '../../state/customDocument.actions';
 import { selectCustomDocumentModal } from '../../state/customDocument.selectors';
 

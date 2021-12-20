@@ -23,7 +23,7 @@ export interface IWorkAccountDataVerification {
 }
 
 export function getWorkAccountData(verification: VerificationResponse): IWorkAccountDataVerification | null {
-  const workAccountData = verification.inputs.find((item: InputStatus) => item.id === InputTypes.FinancialInformationWorkCredentialsRequest);
+  const workAccountData = verification?.inputs.find((item: InputStatus) => item.id === InputTypes.FinancialInformationWorkCredentialsRequest);
 
   if (!workAccountData) {
     return null;

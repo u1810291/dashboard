@@ -11,7 +11,7 @@ import { difference } from 'lib/object';
 import { formatValue } from 'lib/string';
 import { QATags } from 'models/QA.model';
 import { FieldsWithDate, EditedDateEmptyField } from 'models/Field.model';
-import { DocumentField, DocumentTypes } from 'models/Document.model';
+import { DocumentField, VerificationDocumentTypes } from 'models/Document.model';
 import { IStep } from 'models/Step.model';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
 import { RoleRenderGuard } from 'apps/merchant/guards/RoleRenderGuard';
@@ -23,12 +23,12 @@ interface DocumentReadingStepInputs {
 }
 
 export function DocumentReadingStep({ documentType, step, fields = [], isEditable, onReading, onDocumentUpdate, identityId }: {
-  documentType: DocumentTypes;
+  documentType: VerificationDocumentTypes;
   step: IStep;
   fields: DocumentField[];
   isEditable: boolean;
   onReading: boolean;
-  onDocumentUpdate: (normalizedData: any, documentType: DocumentTypes) => Promise<void>;
+  onDocumentUpdate: (normalizedData: any, documentType: VerificationDocumentTypes) => Promise<void>;
   identityId: string;
 }) {
   const intl = useIntl();

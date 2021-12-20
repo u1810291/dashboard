@@ -11,7 +11,7 @@ import { BsUpload } from 'react-icons/bs';
 import { FiTrash2 } from 'react-icons/fi';
 import { TextFieldInput, useStyles } from './CustomDocumentTemplateMatchingTemplate.styles';
 import { CustomDocumentWizadFooter } from '../CustomDocumentWizadFooter/CustomDocumentWizadFooter';
-import { MIN_MEDIA_WIDTH, MIN_MEDIA_HEIGHT, CustomDocumentWizardStepTypes, CustomDocumentTemplateTypes } from '../../models/customDocument.model';
+import { MIN_MEDIA_WIDTH, MIN_MEDIA_HEIGHT, CustomDocumentWizardStepTypes, CustomDocumentTemplateTypes } from '../../models/CustomDocument.model';
 import { editCustomDocumentTemplateMatchingTemplate, updateCustomDocumentTemplateMatchingTemplateSettings, customDocumentUpdateTemplateMedia, updateCustomDocumentWizardStep } from '../../state/customDocument.actions';
 import { selectCustomDocumentTemplateMatchingTemplateSettings, selectCustomDocumentTemplateMatchingEditedTemplate } from '../../state/customDocument.selectors';
 
