@@ -25,7 +25,7 @@ export function CreditCheckSettings({ settings, onUpdate }: ProductSettingsProps
       <ExtendedDescription
         title={intl.formatMessage({ id: `CreditCheck.settings.title.${CreditCheckSettingTypes.CountriesCreditChecks}` })}
         text={intl.formatMessage({ id: 'CreditCheck.settings.description.countriesCreditChecks' }, {
-          email: <Link href="mailto:support@mati.io">support@mati.io</Link>,
+          email: <Link href="mailto:support@metamap.com">support@metamap.com</Link>,
         })}
       >
         <CreditCheckCountriesSettings

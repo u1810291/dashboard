@@ -117,7 +117,7 @@ export function CompanySettings() {
               </Typography>
             </Grid>
             <Grid item xs={12} md="auto">
-              <Link href="mailto:support@mati.io">
+              <Link href="mailto:support@metamap.com">
                 <Button
                   variant="outlined"
                   tabIndex={0}
