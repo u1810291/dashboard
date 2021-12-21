@@ -2,10 +2,10 @@ import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SubmitHandler, useForm, FormProvider } from 'react-hook-form';
 import { FiChevronLeft } from 'react-icons/fi';
+import { useFormatMessage } from 'apps/intl';
 import { useLongPolling } from 'lib/longPolling.hook';
 import { Box, InputLabel, Grid, Typography, TextField } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
-import { useIntl } from 'react-intl';
 import { ButtonStyled } from 'apps/ui';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus, customWatchlistsPollingDelay, CustomWatchlistUpload } from '../../models/CustomWatchlist.models';
@@ -31,7 +31,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   onSubmit: (values: CustomWatchlistModalValidationInputTypes) => void;
 }) {
   const dispatch = useDispatch();
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const merchantId = useSelector(selectMerchantId);
   const [isDataPolling, setIsDataPolling] = useState(false);
   const isWatchlistsLoading = useSelector(selectIsWatchlistsLoading);
@@ -60,7 +60,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   });
 
   const nameRegister = register(CustomWatchlistModalValidationInputs.Name, {
-    required: intl.formatMessage({ id: 'validations.required' }),
+    required: formatMessage('validations.required'),
   });
 
   const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback((values) => {
@@ -99,7 +99,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     <Box className={classes.root}>
       <Grid container justifyContent="space-between" alignItems="flex-start">
         <Typography variant="h3" className={classes.modalTitle}>
-          {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.title' })}
+          {formatMessage('CustomWatchlist.settings.modal.title')}
         </Typography>
         <div onClick={onClose} onKeyPress={onClose} role="button" tabIndex={0} className={classes.closeButton}>
           <Close />
@@ -112,7 +112,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
               <Box mb={3}>
                 <InputLabel className={classes.marginBottom10} htmlFor="watchlist-name">
                   <Typography variant="subtitle2">
-                    {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.name.label' })}
+                    {formatMessage('CustomWatchlist.settings.modal.input.name.label')}
                   </Typography>
                 </InputLabel>
                 <TextField
@@ -124,7 +124,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                   type="input"
                   variant="outlined"
                   fullWidth
-                  placeholder={intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.name.placeholder' })}
+                  placeholder={formatMessage('CustomWatchlist.settings.modal.input.name.placeholder')}
                 />
               </Box>
               <Box mb={3}>
@@ -134,27 +134,27 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
             <Grid item xs={6}>
               <Box mb={2}>
                 <Typography variant="subtitle2">
-                  {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.title' })}
+                  {formatMessage('CustomWatchlist.settings.modal.validationFields.title')}
                 </Typography>
                 <Typography variant="body1" className={classes.colorGrey}>
-                  {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.subTitle' })}
+                  {formatMessage('CustomWatchlist.settings.modal.validationFields.subTitle')}
                 </Typography>
               </Box>
               {watchlistMapping?.length > 0 ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} /> : <FakeInputs />}
-              {isSubmittingError && <div className={classes.error}>{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.submit.error' })}</div>}
+              {isSubmittingError && <div className={classes.error}>{formatMessage('CustomWatchlist.settings.modal.submit.error')}</div>}
             </Grid>
           </Grid>
           <Grid container spacing={2} className={classes.buttonContainer}>
             {isWatchlistRunning && (
               <Grid className={classes.validationHelper}>
-                <Box>{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validation.helper' })}</Box>
+                <Box>{formatMessage('CustomWatchlist.settings.modal.validation.helper')}</Box>
               </Grid>
             )}
             <Grid item xs={6}>
               <ButtonStyled variant="outlined" color="primary" size="large" fullWidth onClick={onClose}>
                 <FiChevronLeft />
                 {' '}
-                {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.back' })}
+                {formatMessage('CustomWatchlist.settings.modal.button.back')}
               </ButtonStyled>
             </Grid>
             <Grid item xs={6}>
