@@ -4,11 +4,12 @@ import { useOverlay } from 'apps/overlay';
 import dayjs from 'dayjs';
 import classnames from 'classnames';
 import { IFlowWatchlist } from 'models/CustomWatchlist.model';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { DateFormat } from 'lib/date';
+import { notification } from 'apps/ui';
 import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
 import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearCurrentWatchlist } from '../../state/CustomWatchlist.actions';
@@ -41,6 +42,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const merchantId = useSelector(selectMerchantId);
   const isWatchlistsLoaded = useSelector(selectIsWatchlistsLoaded);
   const isWatchlistsFailed = useSelector(selectIsWatchlistsFailed);
+  const [watchlistDeletionId, setWatchlistDeletionId] = useState<number | null>(null);
 
   const handleCloseOverlay = useCallback(() => {
     closeOverlay();
@@ -90,8 +92,13 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
     );
   }, [dispatch, createOverlay, handleCloseOverlay, handleSubmitWatchlist]);
 
-  const handleDeleteWatchList = useCallback((watchlistId: number) => () => {
-    dispatch(deleteCustomWatchlistById(merchantId, watchlistId));
+  const handleDeleteWatchList = useCallback((watchlistId: number) => async () => {
+    setWatchlistDeletionId(watchlistId);
+    await dispatch(deleteCustomWatchlistById(merchantId, watchlistId, (error) => {
+      setWatchlistDeletionId(null);
+      notification.error(error.response?.data?.message);
+    }));
+    setWatchlistDeletionId(null);
   }, [merchantId, dispatch]);
 
   return (
@@ -106,10 +113,10 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
                     {watchlist.name}
                   </Box>
                   <Box ml="auto" flexShrink={0}>
-                    <IconButton className={classnames(classes.button, classes.buttonEdit)} onClick={handleOpenWatchlist(watchlist)}>
+                    <IconButton disabled={watchlistDeletionId === watchlist.id} className={classnames(classes.button, classes.buttonEdit)} onClick={handleOpenWatchlist(watchlist)}>
                       <FiEdit size={17} />
                     </IconButton>
-                    <IconButton className={classnames(classes.button, classes.buttonTrash)} onClick={handleDeleteWatchList(watchlist.id)}>
+                    <IconButton disabled={watchlistDeletionId === watchlist.id} className={classnames(classes.button, classes.buttonTrash)} onClick={handleDeleteWatchList(watchlist.id)}>
                       <FiTrash2 size={17} />
                     </IconButton>
                   </Box>

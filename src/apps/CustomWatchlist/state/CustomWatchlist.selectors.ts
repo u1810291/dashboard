@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { MerchantTags } from 'models/Merchant.model';
 import { CustomWatchlistsStore, CUSTOM_WATCHLISTS_STORE_KEY } from './CustomWatchlist.store';
-import { IWatchlist } from '../models/CustomWatchlist.models';
+import { ICurrentCustomWatchlist, IWatchlist } from '../models/CustomWatchlist.models';
 
 export const selectCustomWatchlistsStore = (state): CustomWatchlistsStore => state[CUSTOM_WATCHLISTS_STORE_KEY];
 
@@ -36,12 +36,12 @@ export const selectCanUseCustomWatchlists = createSelector<any, MerchantTags[], 
   (tags) => tags.includes(MerchantTags.CanUseCustomWatchlists),
 );
 
-export const selectCurrentCustomWatchlist = createSelector<any, CustomWatchlistsStore, IWatchlist | null>(
+export const selectCurrentCustomWatchlist = createSelector<any, CustomWatchlistsStore, ICurrentCustomWatchlist | null>(
   selectCustomWatchlistsStore,
   (store) => store.currentWatchlist.value,
 );
 
-// TODO: STAGE 3, @richvoronov set error type
+// TODO: STAGE 4, @richvoronov set error type
 export const selectCurrentCustomWatchlistError = createSelector<any, CustomWatchlistsStore, any | null>(
   selectCustomWatchlistsStore,
   (store) => store.currentWatchlist.value?.process?.error,

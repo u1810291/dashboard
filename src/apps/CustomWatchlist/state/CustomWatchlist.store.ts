@@ -1,6 +1,6 @@
 import { Loadable } from 'models/Loadable.model';
 import { createTypesSequence, TypesSequence } from 'state/store.utils';
-import { IWatchlist, WatchlistContentTypes } from '../models/CustomWatchlist.models';
+import { ICurrentCustomWatchlist, IWatchlist, WatchlistContentTypes } from '../models/CustomWatchlist.models';
 
 export const CUSTOM_WATCHLISTS_STORE_KEY = 'customWatchlists';
 
@@ -26,6 +26,6 @@ export const types: TypesSequence = {
 
 export interface CustomWatchlistsStore {
   [SliceNames.Watchlists]: Loadable<IWatchlist[]>;
-  [SliceNames.CurrentWatchlist]: Loadable<IWatchlist>;
+  [SliceNames.CurrentWatchlist]: Loadable<ICurrentCustomWatchlist>;
   [SliceNames.WatchlistContent]: Loadable<WatchlistContentTypes>;
 }

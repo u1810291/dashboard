@@ -76,6 +76,17 @@ export interface IWatchlist {
   process: Partial<WatchlistProcess> | null;
 }
 
+export interface ICurrentCustomWatchlist extends IWatchlist {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  merchantId: string;
+  mapping: WatchlistMapping[] | null;
+  process: Partial<WatchlistProcess> | null;
+  headers?: string[];
+}
+
 export interface CustomWatchlistUpload {
   key: string;
 }
@@ -120,3 +131,5 @@ export interface WatchlistContentTypes {
   fileName: string;
   csvSeparator: string;
 }
+
+export type CustomWatchlistHeaders = Pick<WatchlistContentTypes, 'sourceFileKey' | 'csvSeparator'>

@@ -1,5 +1,5 @@
 import { http } from 'lib/client/http';
-import { IWatchlist, CustomWatchlistUpload, WatchlistContentTypes, WatchlistCreateBodyTypes, WatchlistProcess } from '../models/CustomWatchlist.models';
+import { IWatchlist, CustomWatchlistUpload, WatchlistContentTypes, WatchlistCreateBodyTypes, WatchlistProcess, CustomWatchlistHeaders } from '../models/CustomWatchlist.models';
 
 export function getMerchantWatchlists(merchantId: string) {
   return http.get<IWatchlist[]>(`/api/v1/merchants/${merchantId}/watchlists`, { params: { embed: 'process' } });
@@ -27,4 +27,8 @@ export function updateMerchantWatchlistContentById(merchantId: string, watchlist
 
 export function uploadMerchantWatchlist(merchantId: string, body: FormData) {
   return http.post<CustomWatchlistUpload>(`/api/v1/merchants/${merchantId}/watchlists/file`, body);
+}
+
+export function getWatchlistHeaders(merchantId: string, body: CustomWatchlistHeaders) {
+  return http.post<string[]>(`/api/v1/merchants/${merchantId}/watchlists/extract-headers`, body);
 }

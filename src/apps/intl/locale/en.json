@@ -611,7 +611,6 @@
   "CustomWatchlist.settings.watchlist.fileErrorUpload": "Error. Please try uploading the file again.",
   "CustomWatchlist.settings.watchlist.uploaded": "Uploaded",
   "CustomWatchlist.settings.watchlist.validation.error": "Validation error",
-  "CustomWatchlist.settings.watchlist.validationError": "Validation error",
   "DateRange.All": "All",
   "DateRange.Last30Days": "Last 30 Days",
   "DateRange.Last7Days": "Last 7 Days",

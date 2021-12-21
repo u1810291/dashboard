@@ -12,7 +12,7 @@ import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, WatchlistMapping
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputs, ValidatedInputsFieldTypes } from '../ValidatedInputs/ValidatedInputs';
 import { selectIsWatchlistsLoading } from '../../state/CustomWatchlist.selectors';
-import { customWatchlistLoadById } from '../../state/CustomWatchlist.actions';
+import { customWatchlistLoadById, getCustomWatchlistHeaders } from '../../state/CustomWatchlist.actions';
 import { useStyles } from './CustomWatchlistModalValidation.styles';
 import { CustomWatchlistModalValidationFileUploadForm } from '../CustomWatchlistModalValidationFileUploadForm/CustomWatchlistModalValidationFileUploadForm';
 import { CustomWatchlistModalValidationSubmitButton } from '../CustomWatchlistModalValidationSubmitButton/CustomWatchlistModalValidationSubmitButton';
@@ -38,7 +38,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const [isSubmittingError, setIsSubmittingError] = useState<boolean>(false);
   const [fileKey, setFileKey] = useState<string | null>(watchlist?.process?.inputSourceFileKey ?? null);
   const formMethods = useForm<CustomWatchlistModalValidationInputTypes>();
-  const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = formMethods;
+  const { register, handleSubmit, setValue, getValues, formState: { errors, isSubmitting } } = formMethods;
   const classes = useStyles();
 
   const isWatchlistRunning = watchlist?.process?.status === WatchlistProcessStatus.Running;
@@ -82,7 +82,10 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
 
   const handleFileUploaded = useCallback((data: CustomWatchlistUpload) => {
     setFileKey(data?.key);
-  }, []);
+    console.log('CustomWatchlistUpload', data);
+    console.log('getValues()', getValues());
+    dispatch(getCustomWatchlistHeaders(merchantId, { sourceFileKey: data.key, csvSeparator: getValues().csvSeparator }));
+  }, [merchantId, dispatch, getValues]);
 
   const watchlistMapping = useMemo(() => watchlist?.mapping?.map((fields) => ({ label: fields.merchantField, value: fields.systemField, ...(fields?.options && { options: fields.options }) })), [watchlist?.mapping]);
 
