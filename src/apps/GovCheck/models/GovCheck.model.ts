@@ -225,6 +225,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         id: DocumentStepTypes.ColombianProcuraduria,
         default: false,
       },
+      {
+        id: DocumentStepTypes.ColombianUnifiedLegalSearch,
+        default: false,
+      }
     ],
   },
   {
