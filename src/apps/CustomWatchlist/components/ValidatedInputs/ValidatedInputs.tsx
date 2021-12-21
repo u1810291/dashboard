@@ -1,10 +1,12 @@
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormatMessage } from 'apps/intl';
 import { ValidatedInput } from '../ValidatedInput/ValidatedInput';
 import { selectCurrentCustomWatchlistError } from '../../state/CustomWatchlist.selectors';
 import { ValidatedInputsKeys, WatchlistMappingOptions } from '../../models/CustomWatchlist.models';
+import { CustomWatchlistValidatedInputsError } from '../CustomWatchlistValidatedInputsError/CustomWatchlistValidatedInputsError';
+import { useStyles } from './ValidatedInputs.styles';
 
 export const placeholderKey = 'placeholder';
 
@@ -27,6 +29,7 @@ export interface ValidatedInputsFieldTypes {
 }
 
 export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: ValidatedInputsFieldTypes[]; onChange: (mapping: ValidatedInputsFieldTypes[]) => void }) {
+  const classes = useStyles();
   const formatMessage = useFormatMessage();
   // TODO: STAGE 4, @richvoronov get currentWatchlist.error and show in ui
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -86,16 +89,21 @@ export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: Valida
   return (
     <Grid container direction="column" spacing={1}>
       {fieldValues.map((input) => (
-        <Grid key={input.value} item>
-          <ValidatedInput
-            placeholderKey={placeholderKey}
-            title={input.label}
-            name={input.value}
-            onChange={handleChange}
-            selectedOptions={selectedOptions}
-            options={inputOptions}
-            value={selectedOptions[input.value].value}
-          />
+        <Grid key={input.value} container item direction="column">
+          <Grid item>
+            <ValidatedInput
+              placeholderKey={placeholderKey}
+              title={input.label}
+              name={input.value}
+              onChange={handleChange}
+              selectedOptions={selectedOptions}
+              options={inputOptions}
+              value={selectedOptions[input.value].value}
+            />
+          </Grid>
+          <Grid item className={classes.marginTop10}>
+            <CustomWatchlistValidatedInputsError />
+          </Grid>
         </Grid>
       ))}
     </Grid>
