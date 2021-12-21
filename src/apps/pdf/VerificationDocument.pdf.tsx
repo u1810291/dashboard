@@ -39,7 +39,7 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
   const payrollAccountData = getPayrollAccountData(verification);
 
   return (
-    <Document title={`Verification ${verification.id}`} author="Matilock, Inc. www.mati.io">
+    <Document title={`Verification ${verification.id}`} author="MetaMap www.metamap.com">
       <Page size="A4" style={commonStyles.page}>
         {/* header */}
         <View>

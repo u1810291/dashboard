@@ -49,7 +49,7 @@ export function GovCheckSetup() {
         </Typography>
         <Typography variant="body1" color="textSecondary" gutterBottom>
           {intl.formatMessage({ id: 'GovCheck.subtitle' }, {
-            email: <a href="mailto:support@mati.io">support@mati.io</a>,
+            email: <a href="mailto:support@metamap.com">support@metamap.com</a>,
           })}
         </Typography>
         <GovCheckTimeout onChange={handleChangeTimeout} />

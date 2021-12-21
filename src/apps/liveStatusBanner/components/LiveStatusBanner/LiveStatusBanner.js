@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { ReactComponent as MatiLogo } from '../../icons/mati-small-logo.svg';
+import { ReactComponent as MatiLogo } from 'assets/metamap-logo-white.svg';
 import { useStyles } from './LiveStatusBanner.styles';
 
 export function LiveStatusBanner() {
@@ -11,9 +11,9 @@ export function LiveStatusBanner() {
   const classes = useStyles();
 
   return (
-    <Link underline="none" target="_blank" href="https://mati.statuspage.io/">
+    <Link underline="none" target="_blank" href="https://status.metamap.com/">
       <Box className={classes.badge}>
-        <MatiLogo className={classes.logo} />
+        <MatiLogo width={80} height={30} className={classes.logo} />
         <Typography className={classes.statusMessage}>
           {intl.formatMessage({ id: 'LiveStatus.goToStatuspage' })}
         </Typography>

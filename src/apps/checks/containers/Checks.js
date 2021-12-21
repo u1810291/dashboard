@@ -21,7 +21,7 @@ export function AdditionalChecks() {
     [CheckTypes.EmailCheck]: {
       component: CheckControlButton,
       props: {
-        link: `${DOCS_BASE_URL}#post-optional-email-validation`,
+        link: `${DOCS_BASE_URL}docs/email-check`,
         buttonText: 'Product.checks.emailCheck.buttonText',
       },
     },
