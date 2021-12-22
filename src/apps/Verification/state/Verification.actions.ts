@@ -5,7 +5,7 @@ import { ErrorMessages, isInReviewModeError } from 'models/Error.model';
 import { IdentityStatuses } from 'models/Status.model';
 import { IStep } from 'models/Step.model';
 import { VerificationListItem, VerificationResponse } from 'models/Verification.model';
-import { selectNewVerificationWithExtras } from 'apps/Verification/state/Verification.selectors';
+import { selectNewVerificationWithExtras, selectVerification } from 'apps/Verification/state/Verification.selectors';
 import { Dispatch } from 'redux';
 import { types } from 'state/identities/identities.actions';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
@@ -100,4 +100,26 @@ export const verificationDocumentStepsUpdate = <T extends unknown>(documentType:
   document.steps[stepIndex] = { ...document.steps[stepIndex], ...step };
 
   dispatch({ type: VerificationActionTypes.VERIFICATION_SUCCESS, payload: verification });
+};
+
+export const verificationDocumentUpdate = (verificationId: string, documentType, fields) => async (dispatch: Dispatch, getState) => {
+  dispatch({ type: VerificationActionTypes.VERIFICATION_UPDATING });
+  try {
+    await client.patchVerificationDocument(verificationId, documentType, fields);
+    const verification = selectVerification(getState());
+    const documents = verification.documents;
+    const documentIndex = documents.findIndex((item) => item.type === documentType);
+    const newDocuments = [...documents];
+    newDocuments[documentIndex].fields = { ...newDocuments[documentIndex].fields, ...fields };
+
+    const newVerificaiton = {
+      ...verification,
+      documents: newDocuments,
+    };
+
+    dispatch({ type: VerificationActionTypes.VERIFICATION_SUCCESS, isReset: true, payload: newVerificaiton });
+  } catch (error) {
+    dispatch({ type: VerificationActionTypes.VERIFICATION_FAILURE, error });
+    throw error;
+  }
 };
