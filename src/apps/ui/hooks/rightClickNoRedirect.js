@@ -30,7 +30,7 @@ export function useTableRightClickNoRedirect(redirectUrl, queryParams = {}) {
       handleRedirect(id);
     }
     if (event.button === 1) {
-      window.open(`${redirectUrl}/${id}${searchQuery ? `?${searchQuery}` : ''}`, '_blank');
+      window.open(`${redirectUrl}/${id}${searchQuery ? `?${searchQuery}` : ''}`, '_blank', 'noopener');
     }
   }, [handleRedirect, mouseUpExpired, redirectUrl, searchQuery]);
 
