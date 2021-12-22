@@ -44,7 +44,7 @@ export function Configuration() {
               type={WarningTypes.Warning}
               size={WarningSize.Large}
               label={intl.formatMessage({ id: 'ColorPickerWarning' })}
-              link="https://docs.getmati.com/#web-sdk-overview"
+              link="https://docs.metamap.com/docs/web"
               linkLabel="Documentation"
             />
           </BoxBordered>

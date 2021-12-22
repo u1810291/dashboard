@@ -133,10 +133,10 @@ export function ESignatureConfiguration() {
                   <Link
                     className={classes.email}
                     color="primary"
-                    href="mailto:sales@mati.io"
+                    href="mailto:sales@metamap.com"
                     rel="noopener"
                   >
-                    sales@mati.io
+                    sales@metamap.com
                   </Link>
                 ),
               })}

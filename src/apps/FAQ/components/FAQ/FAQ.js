@@ -121,7 +121,7 @@ export function FAQ() {
                 <Link
                   className={classes.emailLink}
                   color="primary"
-                  href="https://docs.getmati.com"
+                  href="https://docs.metamap.com/"
                   target="_blank"
                   rel="noopener"
                 >

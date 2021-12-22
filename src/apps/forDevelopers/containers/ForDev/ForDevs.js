@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectCurrentFlowId, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { useFlowListLoad } from 'apps/FlowList';
+import { DOCS_BASE_URL } from 'models/Documentation.model';
 import { useStyles } from './ForDev.styles';
 import { ClientDetails } from '../../components/ClientDetails/ClientDetails';
 import { ForDevsWebhookModal } from '../../components/ForDevsWebhookModal/ForDevsWebhookModal';
@@ -58,7 +59,7 @@ export function ForDevs() {
   }, [createOverlay]);
 
   const handleRedirect = useCallback(() => {
-    window.open('https://docs.getmati.com', '_blank');
+    window.open(DOCS_BASE_URL, '_blank');
   }, []);
 
   return (

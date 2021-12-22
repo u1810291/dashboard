@@ -33,7 +33,7 @@ export function IdentityDocumentPDF({ identity, nom151FileContent, additionalDat
   const payrollAccountData = getPayrollAccountData(identity?._embedded?.verification);
 
   return (
-    <Document title={`Identity ${identity.id}`} author="Matilock, Inc. www.mati.io">
+    <Document title={`Identity ${identity.id}`} author="MetaMap www.metamap.com">
       <Page size="A4" style={commonStyles.page}>
         {/* header */}
         <View>

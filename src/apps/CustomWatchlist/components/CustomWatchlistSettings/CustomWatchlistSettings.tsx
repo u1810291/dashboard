@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { CustomWatchlistSeverityOnMatchTypes, IFlowWatchlist } from 'models/CustomWatchlist.model';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
-import { CustomWatchlistItemSettings } from '../CustomWatchlistItemSettings/CustomWatchlistItemSettings';
+import { CustomWatchlistItemSettings } from 'apps/CustomWatchlist/components/CustomWatchlistItemSettings/CustomWatchlistItemSettings';
 import { selectWatchlists } from '../../state/CustomWatchlist.selectors';
 import { customWatchlistsClear, customWatchlistsLoad } from '../../state/CustomWatchlist.actions';
 import { CustomWatchlistSettingsTypes, FlowWatchlistUi } from '../../models/CustomWatchlist.models';
