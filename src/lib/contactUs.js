@@ -7,5 +7,5 @@ export function contactUsLink(lang) {
 }
 
 export function useContactUsLink(lang = SupportedLocales.EN, target = '_blank') {
-  return () => window.open(contactUsLink(lang), target);
+  return () => window.open(contactUsLink(lang), target, 'noopener');
 }

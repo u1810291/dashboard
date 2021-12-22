@@ -11,7 +11,7 @@ export function ButtonLink({ url, children }: {
   const classes = useStyles();
 
   const handleRedirect = useCallback(() => {
-    window.open(url, '_blank');
+    window.open(url, '_blank', 'noopener');
   }, [url]);
 
   return (
