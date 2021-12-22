@@ -1,12 +1,11 @@
-import { useSelector } from 'react-redux';
 import { Button, Box, Grid, List, Typography } from '@material-ui/core';
 import { useOverlay, Modal } from 'apps/overlay';
 import { FixedSizeTree } from 'react-vtree';
 import React, { useCallback, useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
-import { BoxBordered } from 'apps/ui';
+import { BoxBordered, Spinner } from 'apps/ui';
 import { AllowedRegions } from 'apps/IpCheck/models/IpCheck.model';
-import { selectCountriesList } from 'state/countries/countries.selectors';
+import { useCountriesLoad } from 'apps/countries';
 import { treeWalker, regionsConverting, getInitialSelectedCountries, SelectedCountries, Tree } from '../../models/CountryModalSelect.model';
 import { CountryModalItemSelect } from '../CountryModalItemSelect/CountryModalItemSelect';
 import { useStyles, StyledButtonBase } from './CountryModalSelect.styles';
@@ -18,7 +17,8 @@ export function CountryModalSelect({ onSubmit, initialValues }: {
   const intl = useIntl();
   const classes = useStyles();
   const [, closeOverlay] = useOverlay();
-  const countries = useSelector(selectCountriesList);
+  const countriesModel = useCountriesLoad();
+  const countries = countriesModel.value;
   const [selectedCountries, setSelectedCountries] = useState<SelectedCountries>(getInitialSelectedCountries(initialValues, countries));
 
   const updateSelectedCountries = useCallback(
@@ -88,6 +88,13 @@ export function CountryModalSelect({ onSubmit, initialValues }: {
   ), [countries, intl]);
   const handleTreeWalker = useCallback((refresh: boolean) => treeWalker(refresh, tree), [tree]);
 
+  const listItemData = useMemo(() => ({
+    handleSelectCountry,
+    selectedCountries,
+    allRegionsSelected,
+    firstCountryId: countries?.[0]?.id || '',
+  }), [allRegionsSelected, countries, handleSelectCountry, selectedCountries]);
+
   return (
     <Modal
       onClose={closeOverlay}
@@ -111,22 +118,23 @@ export function CountryModalSelect({ onSubmit, initialValues }: {
           </Box>
         </Grid>
         <BoxBordered mt={1} mb={2} className={classes.formBox}>
-          <List className={classes.tree}>
-            <FixedSizeTree
-              treeWalker={handleTreeWalker}
-              itemSize={30}
-              height={340}
-              width="100%"
-              itemData={{
-                handleSelectCountry,
-                selectedCountries,
-                allRegionsSelected,
-                firstCountryId: countries[0].id || '',
-              }}
-            >
-              {CountryModalItemSelect}
-            </FixedSizeTree>
-          </List>
+          {countriesModel.isLoading ? (
+            <Box height={340} display="flex" justifyContent="center" alignItems="center">
+              <Spinner />
+            </Box>
+          ) : (
+            <List className={classes.tree}>
+              <FixedSizeTree
+                treeWalker={handleTreeWalker}
+                itemSize={30}
+                height={340}
+                width="100%"
+                itemData={listItemData}
+              >
+                {CountryModalItemSelect}
+              </FixedSizeTree>
+            </List>
+          )}
         </BoxBordered>
         <Button variant="contained" color="primary" onClick={handleSubmit}>
           {intl.formatMessage({ id: 'Product.configuration.ipCheck.selectValidCountry.submit' })}

@@ -8,7 +8,7 @@ export function Spinner({ spinnerIcon = <ImSpinner2 />, className, size = 'small
   const classes = useStyles();
 
   return (
-    <Box display="flex" alignItems="center" className={classnames(classes.spinner, className, `spinner-${size}`)}>
+    <Box display="flex" alignItems="center" justifyContent="center" className={classnames(classes.spinner, className, `spinner-${size}`)}>
       {spinnerIcon}
     </Box>
   );
