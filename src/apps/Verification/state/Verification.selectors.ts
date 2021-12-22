@@ -6,6 +6,7 @@ import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFl
 import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
 import { selectIdentityModel } from 'state/identities/identities.selectors';
+import { ErrorType } from 'models/Error.model';
 import { CreditCheckStep, DataForCreditCheck } from 'models/CreditCheck.model';
 import { VERIFICATION_STORE_KEY, VerificationSliceTypes, VerificationStore } from './Verification.store';
 
@@ -41,6 +42,11 @@ export const selectNewVerificationModelWithExtras = createSelector(
   selectVerificationModel,
   selectCountriesList,
   selectLoadableValue((verification, countries) => getVerificationExtras(verification, countries)),
+);
+
+export const selectVerificationModelError = createSelector<any, any, ErrorType>(
+  selectVerificationModel,
+  (verification) => verification.error,
 );
 
 export const selectNewVerificationWithExtras = createSelector<any, any, VerificationWithExtras>(

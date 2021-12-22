@@ -59,7 +59,7 @@ export class CustomDocument extends ProductBaseService implements Product<Produc
     getVerification(verification: VerificationResponse): any {
       return {
         ...verification,
-        documents: verification.documents.filter((el) => el.type.startsWith(CUSTOM_DOCUMENT_PREFIX)),
+        documents: verification.documents?.filter((el) => el.type.startsWith(CUSTOM_DOCUMENT_PREFIX)),
       };
     }
 }

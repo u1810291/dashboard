@@ -88,21 +88,24 @@ export const useStyles = makeStyles((theme) => ({
       margin: [['auto', 0, -20, -15]],
     },
   },
+  buttonSave: {
+    width: 165,
+  },
   button: {
     fontSize: 14,
     color: theme.palette.button.document.contrastText,
     backgroundColor: theme.palette.button.document.main,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
-    '& svg': {
-      marginRight: 10,
-      fontSize: 17,
-    },
   },
   buttonHalf: {
     width: '100%',
     [theme.breakpoints.up('lg')]: {
       width: 'auto',
     },
+  },
+  buttonEditIcon: {
+    marginRight: 10,
+    fontSize: 17,
   },
 }));

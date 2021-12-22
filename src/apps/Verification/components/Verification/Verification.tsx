@@ -6,13 +6,16 @@ import { ProductVerification } from 'apps/Product/components/ProductVerification
 import { useDocsWithPrivateMedia, useBiometricsWithPrivateMedia } from 'apps/media';
 import { Routes } from 'models/Router.model';
 import { VerificationWithExtras } from 'models/Verification.model';
-import { selectVerificationProductList, selectNewVerificationWithExtras } from '../../state/Verification.selectors';
+import { ErrorMessages, isInReviewModeError } from 'models/Error.model';
+import { notification } from 'apps/ui';
+import { selectVerificationProductList, selectNewVerificationWithExtras, selectVerificationModelError } from '../../state/Verification.selectors';
 import { VerificationProductList } from '../VerificationProductList/VerificationProductList';
 import { useStyles } from './Verification.styles';
 
 export function Verification() {
   const productList = useSelector(selectVerificationProductList);
   const verificationWithExtra = useSelector(selectNewVerificationWithExtras);
+  const verificationError = useSelector(selectVerificationModelError);
   const documentsWithPrivateMedia = useDocsWithPrivateMedia(verificationWithExtra?.documents, Routes.identity.profile.root);
   const biometricsWithPrivateMedia = useBiometricsWithPrivateMedia(verificationWithExtra?.biometric);
   const verificationWithPrivateMedia = useMemo<VerificationWithExtras>(() => ({ ...verificationWithExtra, documents: documentsWithPrivateMedia, biometric: biometricsWithPrivateMedia }), [biometricsWithPrivateMedia, documentsWithPrivateMedia, verificationWithExtra]);
@@ -24,6 +27,16 @@ export function Verification() {
       setSelectedProduct(productList[0]);
     }
   }, [productList, selectedProduct]);
+
+  useEffect(() => {
+    if (verificationError) {
+      if (isInReviewModeError(verificationError)) {
+        notification.error(ErrorMessages.IN_REVIEW_MODE_ERROR, { autoClose: false });
+      } else {
+        notification.error(ErrorMessages.ERROR_COMMON);
+      }
+    }
+  }, [verificationError]);
 
   return (
     <Grid container className={classes.container}>
