@@ -1,6 +1,6 @@
 import { DocumentVerificationProduct } from 'apps/documents';
 import { FACEMATCH_DEFAULT_THRESHOLD } from 'apps/facematch/models/facematch.model';
-import { InputValidationType } from 'apps/imageValidation/models/imageValidation.model';
+import { InputValidationType } from 'models/ImageValidation.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { intersection } from 'lodash';
 import { DocumentTypes } from 'models/Document.model';

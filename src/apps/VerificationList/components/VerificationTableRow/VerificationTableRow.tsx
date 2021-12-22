@@ -1,7 +1,6 @@
 import { Box, IconButton, Tooltip, Typography } from '@material-ui/core';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
-import { StatusLabel } from 'apps/identity/components/StatusLabel';
 import { SkeletonLoader } from 'apps/ui';
 import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
@@ -9,7 +8,7 @@ import { utcToLocalFormat } from 'lib/date';
 import { titleCase } from 'lib/string';
 import { CollaboratorRoles } from 'models/Collaborator.model';
 import { Routes } from 'models/Router.model';
-import { IdentityStatuses } from 'models/Status.model';
+import { getIdentityStatusLabel, getStatusById, IdentityStatuses } from 'models/Status.model';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
@@ -41,6 +40,7 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
     intl.formatMessage({ id: 'verificationModal.delete' }),
     intl.formatMessage({ id: 'verificationModal.delete.confirm' }),
   );
+  const status = getStatusById(verification?.verificationStatus);
 
   const handleRemove = useCallback((verificationId: string) => async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -123,7 +123,9 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
         </Box>
         <Box className={classes.itemStatusWrapper}>
           <Box className={classes.itemStatus}>
-            <StatusLabel status={verification.verificationStatus} />
+            <Box component="span" color={status?.color || 'common.gray68'} className={status?.style}>
+              {intl.formatMessage({ id: getIdentityStatusLabel(status?.id || IdentityStatuses.unknown) })}
+            </Box>
             <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.status' })}</Box>
           </Box>
           <Box className={classes.itemIcons}>

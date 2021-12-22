@@ -26,7 +26,7 @@ export function IntegrationSDK() {
           size={WarningSize.Large}
           label={intl.formatMessage({ id: 'ColorPickerWarning' })}
           link="https://docs.metamap.com/docs/web"
-          linkLabel="Documentation"
+          linkLabel={intl.formatMessage({ id: 'ColorPickerWarning.link' })}
         />
       </BoxBordered>
       <Box mb={2}>

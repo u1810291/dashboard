@@ -183,6 +183,10 @@ export function fillAllPhotosInDocument<T>(documents: VerificationDocument[], va
   return documents?.map((doc) => doc.photos.map(() => value));
 }
 
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export function getDocumentExtras(verification, countries, proofOfOwnership): VerificationDocument[] {
   const documents = getOrderedDocuments(verification.documents || []);
 

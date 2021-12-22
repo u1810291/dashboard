@@ -218,6 +218,7 @@
   "Checks.result.riskAnalysis.phoneRisk.skipped": "User skipped this step",
   "Checks.result.riskAnalysis.title": "Phone risk profile",
   "ColorPickerWarning": "You can set the color of buttons in Metamap by a parameter in SDK",
+  "ColorPickerWarning.link": "Documentation",
   "CompanyBar.namePlaceholder": "Your Metamap dashboard",
   "CompanyBar.permalink": "Verification link",
   "Countries.AD": "Andorra",
