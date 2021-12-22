@@ -86,7 +86,7 @@ export const verificationStatusUpdate = (verificationId: string, status: Identit
 };
 
 export const verificationStepsUpdate = <T extends unknown>(stepType: VerificationPatternTypes, step: IStep<T>) => async (dispatch: Dispatch, getState) => {
-  const verification = selectNewVerificationWithExtras(getState());
+  const verification = selectVerification(getState());
   const stepIndex = verification?.steps.findIndex((stepElm: IStep<T>) => stepElm.id === step.id);
   verification.steps[stepIndex] = { ...verification.steps[stepIndex], ...step };
 

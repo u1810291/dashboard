@@ -10,10 +10,8 @@ const initialState = {
 
   [SliceNames.Identity]: LoadableAdapter.createState(null),
   [SliceNames.IdentityList]: LoadableAdapter.createState([]),
-  [SliceNames.IdentityCount]: LoadableAdapter.createState(0),
   [SliceNames.FilteredCount]: LoadableAdapter.createState(0),
   [SliceNames.PreliminaryFilteredCount]: LoadableAdapter.createState(0),
-  [SliceNames.ManualReviewCount]: LoadableAdapter.createState(0),
 };
 
 export type IdentitiesState = typeof initialState;
@@ -21,10 +19,8 @@ export type IdentitiesState = typeof initialState;
 export default createReducer(initialState, {
   ...LoadableAdapter.createHandlers(IdentityActionGroups.Identity, SliceNames.Identity),
   ...LoadableAdapter.createHandlers(IdentityActionGroups.IdentityList, SliceNames.IdentityList),
-  ...LoadableAdapter.createHandlers(IdentityActionGroups.IdentityCount, SliceNames.IdentityCount),
   ...LoadableAdapter.createHandlers(IdentityActionGroups.FilteredCount, SliceNames.FilteredCount),
   ...LoadableAdapter.createHandlers(IdentityActionGroups.PreliminaryFilteredCount, SliceNames.PreliminaryFilteredCount),
-  ...LoadableAdapter.createHandlers(IdentityActionGroups.ManualReviewCount, SliceNames.ManualReviewCount),
 
   [types.FILTER_UPDATE](state, { payload }) {
     return {
@@ -40,10 +36,6 @@ export default createReducer(initialState, {
       [SliceNames.IdentityList]: {
         ...state[SliceNames.IdentityList],
         value: state[SliceNames.IdentityList].value.filter((item) => item.id !== payload),
-      },
-      [SliceNames.IdentityCount]: {
-        ...state[SliceNames.IdentityCount],
-        value: state[SliceNames.IdentityCount].value - 1,
       },
       [SliceNames.FilteredCount]: {
         ...state[SliceNames.FilteredCount],

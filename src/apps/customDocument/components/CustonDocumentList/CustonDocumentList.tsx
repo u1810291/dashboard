@@ -18,8 +18,7 @@ import { useStyles } from './CustonDocumentList.styles';
 import { updateEditedCustomDocument, deleteCustomDocument, updateCustomDocumentModal, resetCustomDocumentModal, saveCustomDocument } from '../../state/customDocument.actions';
 import { CustomDocumentWizard } from '../CustomDocumentWizard/CustomDocumentWizard';
 
-// TODO: delete compatibilityMode when old dashboard is fully deprecated
-export function CustonDocumentList({ compatibilityMode = false }: { compatibilityMode?: boolean }) {
+export function CustonDocumentList() {
   const dispatch = useDispatch();
   const intl = useIntl();
   const classes = useStyles();
@@ -85,7 +84,7 @@ export function CustonDocumentList({ compatibilityMode = false }: { compatibilit
           </Box>
         )}
         <Button
-          className={classnames(classes.addButton, { [classes.addButtonFullWidth]: !compatibilityMode })}
+          className={classnames(classes.addButton, classes.addButtonFullWidth)}
           disabled={!isCustomDocumentAvailable || isMaxCustomDocumentQty || !customDocuments.isLoaded}
           variant="contained"
           color="primary"
