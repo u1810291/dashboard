@@ -33,9 +33,9 @@ export function ButtonVerificationGeneratePdf({ verification, className }: Butto
       return;
     }
     handlePDFGenerating(true);
-    const { getIdentityDocumentBlob } = await import('../../IdentityDocument.pdf');
-    const blob = await getIdentityDocumentBlob(verification, { legalName, legalAddress, legalRegNumber });
-    downloadBlob(blob, `mati-identity-${verification?._id}.pdf`);
+    const { getVerificationDocumentBlob } = await import('../../VerificationDocument.pdf');
+    const blob = await getVerificationDocumentBlob(verification, { legalName, legalAddress, legalRegNumber });
+    downloadBlob(blob, `metamap-verification-${verification?._id}.pdf`);
     handlePDFGenerating(false);
     dispatch(pdfDownloaded(verification?.identity, verification?._id));
   }, [isPDFGenerating, handlePDFGenerating, verification, legalName, legalAddress, legalRegNumber, dispatch]);

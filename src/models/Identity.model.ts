@@ -62,7 +62,7 @@ export function getDownloadableFileName(verification) {
   return `${flowName?.replaceAll(' ', '_').concat('_')}${name ? name.replaceAll(' ', '_') : id}`;
 }
 
-export async function getNom151FileContent(digitalSignatureData = {} as any) {
+export async function getNom151FileContent(digitalSignatureData = {} as any): Promise<string> {
   let fileContent;
   try {
     const file = await getFileContents(digitalSignatureData.publicUrl);
