@@ -1,6 +1,6 @@
 import { Box, Button, Switch } from '@material-ui/core';
 import { AgeThresholdSettings } from 'apps/AgeCheck/components/AgeThresholdSettings/AgeThresholdSettings';
-import { CountryRestrictionSettings } from 'apps/countries/components/CountryRestrictionSettings/CountryRestrictionSettings';
+import { CountryRestrictionSettings } from 'apps/countries';
 import { DocumentStepSettings } from 'apps/documents/components/DocumentStepSettings/DocumentStepSettings';
 import { FaceMatchingThreshold } from 'apps/facematch';
 import { flowBuilderProductAdd } from 'apps/flowBuilder/store/FlowBuilder.action';

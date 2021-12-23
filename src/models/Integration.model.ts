@@ -43,7 +43,7 @@ export const urls = {
     imageType: InformationImageTypes.Api,
     videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+API.mp4',
     videoCover: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BAPI.png',
-    documentationURL: 'https://docs.getmati.com/#api-overview',
+    documentationURL: 'https://docs.metamap.com/docs/api-guide',
   },
   [TabID.Web]: {
     id: TabID.Web,
@@ -51,7 +51,7 @@ export const urls = {
     videoURL: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati+Web+SDK.mp4',
     imageType: InformationImageTypes.Web,
     videoCover: 'https://s3.eu-central-1.amazonaws.com/io.mati.sharedfiles/Mati%2BWeb%2BSDK.png',
-    documentationURL: 'https://docs.getmati.com/#web-sdk-overview',
+    documentationURL: 'https://docs.metamap.com/docs/sdk',
   },
   [TabID.DirectLink]: {
     id: TabID.DirectLink,

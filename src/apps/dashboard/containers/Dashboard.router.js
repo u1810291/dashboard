@@ -1,5 +1,4 @@
 import { forDevsRoutes } from 'apps/forDevelopers';
-import { identityRoutes } from 'apps/identity';
 import { identityProfileRoutes } from 'apps/IdentityProfile';
 import { Page404, PageLoader } from 'apps/layout';
 import { MerchantGuard } from 'apps/merchant';
@@ -15,11 +14,6 @@ import { RoleRoutingGuard } from 'apps/merchant/guards/RoleRoutingGuard';
 const InfoPageLazy = lazy(async () => {
   const { InfoPage } = await import('apps/FAQ');
   return { default: InfoPage };
-});
-
-const ProductLazy = lazy(async () => {
-  const { Product } = await import('apps/oldProduct');
-  return { default: Product };
 });
 
 const FlowBuilderLazy = lazy(async () => {
@@ -61,13 +55,11 @@ export function DashboardRouter() {
         <RoleGuardRoute roles={WithAuditor} path={Routes.settings.root} component={SettingsLazy} />
         <Route path={Routes.info.root} component={InfoPageLazy} />
         <MerchantGuard>
-          {identityRoutes}
           {identityProfileRoutes}
           {verificationListRoutes}
           {forDevsRoutes}
           <RoleRoutingGuard roles={[CollaboratorRoles.ADMIN]}>
             <Route path={Routes.analytics.root} component={AnalyticsContainerLazy} />
-            <Route path={Routes.flows.details} component={ProductLazy} />
             <Route exact path={Routes.flow.root} component={FlowListLazy} />
             <Route path={Routes.flow.details} component={FlowBuilderLazy} />
             <Route path={Routes.collaborators.agentProfile.details} component={AgentHistoryLazy} />

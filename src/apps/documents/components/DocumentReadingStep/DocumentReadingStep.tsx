@@ -1,6 +1,8 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import classNames from 'classnames';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { SubmitHandler, useForm, useFormState } from 'react-hook-form';
 import { useIntl } from 'react-intl';
 import { FiEdit3 } from 'react-icons/fi';
 import { humanize, underscore } from 'inflection';
@@ -51,7 +53,8 @@ export function DocumentReadingStep({ documentType, step, fields = [], isEditabl
     [field.id]: field.value,
   }), {}), [fields]);
 
-  const { register, handleSubmit, setValue, watch } = useForm<DocumentReadingStepInputs>({ defaultValues });
+  const { register, handleSubmit, setValue, watch, control } = useForm<DocumentReadingStepInputs>({ defaultValues });
+  const { isSubmitting } = useFormState({ control });
   const values = watch();
 
   const handleFormSubmit: SubmitHandler<DocumentReadingStepInputs> = useCallback(async (data) => {
@@ -68,14 +71,15 @@ export function DocumentReadingStep({ documentType, step, fields = [], isEditabl
         }
         normalizedData[key] = { value: normalizeDate(data[key]) };
       });
+
       if (onDocumentUpdate) {
         await onDocumentUpdate(normalizedData, documentType);
       }
+      setIsEditingMode(false);
       if (identityId) {
         await dispatch(sendWebhook(identityId));
       }
       notification.success(intl.formatMessage({ id: 'identities.details.webhook.success' }));
-      setIsEditingMode(false);
     } catch (e) {
       console.error('webhook sending error', e);
     }
@@ -147,14 +151,15 @@ export function DocumentReadingStep({ documentType, step, fields = [], isEditabl
         })}
         <Grid container justify="space-between" className={classes.buttonWrapper}>
           <Button
-            className={`${classes.button} ${classes.buttonHalf}`}
+            className={classNames(classes.buttonSave, classes.button, classes.buttonHalf)}
             type="submit"
             data-qa={QATags.Document.Change.Save}
+            disabled={isSubmitting}
           >
-            {intl.formatMessage({ id: 'DocumentReadingStep.btn.save' })}
+            {!isSubmitting ? intl.formatMessage({ id: 'DocumentReadingStep.btn.save' }) : <CircularProgress color="inherit" size={17} />}
           </Button>
           <Button
-            className={`${classes.button} ${classes.buttonHalf}`}
+            className={classNames(classes.button, classes.buttonHalf)}
             onClick={() => setIsEditingMode(false)}
             data-qa={QATags.Document.Change.Cancel}
           >
@@ -209,7 +214,7 @@ export function DocumentReadingStep({ documentType, step, fields = [], isEditabl
               onClick={() => setIsEditingMode(true)}
               data-qa={QATags.Document.Change.EditData}
             >
-              <FiEdit3 />
+              <FiEdit3 className={classes.buttonEditIcon} />
               {intl.formatMessage({ id: 'DocumentReadingStep.btn.edit' })}
             </Button>
           </Box>

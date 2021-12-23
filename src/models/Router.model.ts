@@ -10,8 +10,6 @@ export const Routes = {
   analytics: { root: '/analytics' },
   list: {
     root: '/identities',
-    details: '/identities/:id',
-    demo: '/identities/demo/:demoId',
     history: {
       root: '/history',
       details: '/identities/:id/history',

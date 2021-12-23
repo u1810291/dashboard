@@ -1,4 +1,3 @@
-import { ChecksList } from 'apps/checks/models/Checks.model';
 import { selectUserId } from 'apps/user/state/user.selectors';
 import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
@@ -8,7 +7,6 @@ import { DEFAULT_LOCALE, LanguageList, SupportedLocales } from 'models/Intl.mode
 import { Loadable } from 'models/Loadable.model';
 import { Merchant, MerchantId, MerchantTags } from 'models/Merchant.model';
 import { createSelector } from 'reselect';
-import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { CollaboratorRoles } from 'models/Collaborator.model';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
 
@@ -109,16 +107,6 @@ export const selectMerchantTags = createSelector<any, Loadable<Merchant>, Mercha
   selectModelValue((merchant: Merchant): MerchantTags[] => merchant.tags || []),
 );
 
-export const selectAvailableChecks = createSelector(
-  selectMerchantTags,
-  (tags) => ChecksList.filter((check) => !check.availableOnlyForMerchantTag || tags.includes(check.availableOnlyForMerchantTag)),
-);
-
-export const selectCanUseVerificationPostponedTimeout = createSelector(
-  selectMerchantTags,
-  (tags) => tags.includes(MerchantTags.CanUseVerificationPostponedTimeout),
-);
-
 // -- app
 
 const selectAppModel = createSelector(
@@ -207,16 +195,6 @@ export const selectUploadDenial = createSelector(
   (flow) => flow.denyUploadsFromMobileGallery,
 );
 
-export const selectStyleModel = createSelector(
-  selectCurrentFlow,
-  (cfg) => cfg.style,
-);
-
-export const selectColor = createSelector(
-  selectStyleModel,
-  (style) => style.color,
-);
-
 export const selectPolicyInterval = createSelector(
   selectCurrentFlow,
   (flow) => fromIsoPeriod(flow.policyInterval),
@@ -235,16 +213,6 @@ export const selectBiometricPattern = createSelector(
 export const selectIsVoiceLiveness = createSelector(
   selectBiometricPattern,
   (pattern) => pattern === BiometricTypes.voiceLiveness,
-);
-
-export const selectIpCheck = createSelector(
-  selectVerificationPattern,
-  (flow) => flow[VerificationPatternTypes.IpValidation],
-);
-
-export const selectDuplicateUserDetectionCheck = createSelector(
-  selectVerificationPattern,
-  (flow) => flow[VerificationPatternTypes.DuplicateUserValidation],
 );
 
 export const selectNom151Check = createSelector(

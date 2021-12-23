@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import { AppBar, Box, Button, Grid, InputLabel, List, ListItem, ListItemText, TextField, Typography } from '@material-ui/core';
 import { IntlButton } from 'apps/intl';
-import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3.svg';
+import { ReactComponent as MatiLogo } from 'assets/metamap-logo.svg';
 import { notification, TextFieldPassword } from 'apps/ui';
 import { Routes } from 'models/Router.model';
 import { changeLanguage } from 'state/merchant/merchant.actions';
@@ -100,7 +100,7 @@ export function PasswordReset() {
         <Grid className={classes.formWrapper} direction="column" container>
           <AppBar color="transparent" position="static" elevation={0} className={classes.appBar}>
             <IntlButton isSync={false} />
-            <MatiLogo width={121} height={40} />
+            <MatiLogo width={160} height={40} />
           </AppBar>
           <Box className={classes.form}>
             <Box mb={5}>

@@ -11,7 +11,9 @@ import { IntlButton } from 'apps/intl';
 import { TopMenuItem } from 'apps/layout';
 import { useOverlay } from 'apps/overlay';
 import { notification } from 'apps/ui';
-import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3-white.svg';
+import { ReactComponent as MatiLogoWithText } from 'assets/metamap-logo-white.svg';
+import { ReactComponent as MatiLogo } from 'assets/metamap-logo-review.svg';
+
 import classnames from 'classnames';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
@@ -40,7 +42,7 @@ export function DashboardMenu() {
   const dispatch = useDispatch();
   const isDesktop = useMediaQuery('(min-width:768px)', { noSsr: true });
   const isDesktopMenuOpen = useSelector(selectIsDesktopMenuOpen);
-  const [open, setOpen] = useState(isDesktop && isDesktopMenuOpen);
+  const [isOpen, setIsOpen] = useState(isDesktop && isDesktopMenuOpen);
   const name = useSelector(selectMerchantBusinessName);
   const [createOverlay, closeOverlay] = useOverlay();
   const logout = useLogout();
@@ -75,45 +77,45 @@ export function DashboardMenu() {
 
   const openInviteModal = useCallback(() => {
     if (!isDesktop) {
-      setOpen(false);
+      setIsOpen(false);
     }
     createOverlay(<TeamInviteModal
       onSubmit={handleInviteSubmit}
       isPosting={state.isPosting}
     />);
-  }, [handleInviteSubmit, state, isDesktop, setOpen, createOverlay]);
+  }, [handleInviteSubmit, state, isDesktop, setIsOpen, createOverlay]);
 
   const toggleDrawerOpen = useCallback(() => {
-    setOpen((prev) => !prev);
-  }, [setOpen]);
+    setIsOpen((prev) => !prev);
+  }, [setIsOpen]);
 
   useEffect(() => history.listen(() => {
     if (!isDesktop) {
-      setOpen(false);
+      setIsOpen(false);
     }
   }), [history, isDesktop]);
 
   useEffect(() => {
     if (isDesktop) {
-      dispatch(setIsDesktopMenuOpen(open));
+      dispatch(setIsDesktopMenuOpen(isOpen));
     }
-  }, [open, dispatch, isDesktop]);
+  }, [isOpen, dispatch, isDesktop]);
 
-  const isTemporary = !isDesktop && open;
+  const isTemporary = !isDesktop && isOpen;
 
   return (
     <Drawer
       variant={isTemporary ? 'temporary' : 'permanent'}
-      open={open}
+      open={isOpen}
       onClose={toggleDrawerOpen}
       className={classnames(classes.drawer, {
-        [classes.drawerOpen]: open,
-        [classes.drawerClose]: !open,
+        [classes.drawerOpen]: isOpen,
+        [classes.drawerClose]: !isOpen,
       })}
       classes={{
         paper: classnames({
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
+          [classes.drawerOpen]: isOpen,
+          [classes.drawerClose]: !isOpen,
         }),
       }}
     >
@@ -124,8 +126,8 @@ export function DashboardMenu() {
             to={isOwner ? Routes.root : Routes.list.root}
             data-qa={QATags.Menu.Logo}
           >
-            <Box px={2} pt={2} pb={1} className={classes.logo}>
-              <MatiLogo width={100} height={30} />
+            <Box px={isOpen ? 2 : 0} mx={isOpen ? 0 : -1} pt={2} pb={1} className={classes.logo}>
+              {isOpen ? (<MatiLogoWithText width={110} height={30} />) : (<MatiLogo height={22} />)}
             </Box>
           </NavLink>
 
@@ -135,7 +137,7 @@ export function DashboardMenu() {
               variant="contained"
               color="primary"
               onClick={toggleDrawerOpen}
-              startIcon={open ? <FiChevronsLeft /> : <FiChevronsRight />}
+              startIcon={isOpen ? <FiChevronsLeft /> : <FiChevronsRight />}
               data-qa={QATags.Menu.RollUpButton}
             >
               {intl.formatMessage({ id: 'dashboard.menu.rollUp' })}
@@ -151,12 +153,12 @@ export function DashboardMenu() {
             <Divider className={classes.menuDivider} />
           </Box>
           <Box>
-            <SecondaryMenu isOwner={isOwner} isOpen={open} />
+            <SecondaryMenu isOwner={isOwner} isOpen={isOpen} />
           </Box>
         </Grid>
         <Grid item className={classes.contentBottom}>
           <Box px={1.6} pb={2.5} pt={2}>
-            {open ? <Typography variant="h4" className={classes.company}>{name}</Typography>
+            {isOpen ? <Typography variant="h4" className={classes.company}>{name}</Typography>
               : (
                 <Box className={classes.companyShort}>
                   <Typography
@@ -172,7 +174,7 @@ export function DashboardMenu() {
             <Box pr={2} pl={1.5}>
               <Button
                 className={classnames(classes.inviteButton, {
-                  [classes.inviteButtonSm]: !open,
+                  [classes.inviteButtonSm]: !isOpen,
                 })}
                 variant="contained"
                 color="primary"
@@ -180,7 +182,7 @@ export function DashboardMenu() {
                 startIcon={<FiPlusCircle />}
                 data-qa={QATags.Menu.InviteTeammate}
               >
-                {open && intl.formatMessage({ id: 'settings.teamSettings.inviteTeammate' })}
+                {isOpen && intl.formatMessage({ id: 'settings.teamSettings.inviteTeammate' })}
               </Button>
             </Box>
           )}
