@@ -11,7 +11,7 @@ export function GithubDocumentationBanner({ platform, documentationURL, tabId })
   const intl = useIntl();
 
   const handleRedirect = useCallback(() => {
-    window.open(documentationURL, '_blank');
+    window.open(documentationURL, '_blank', 'noopener');
   }, [documentationURL]);
 
   const getIcon = useCallback(() => {

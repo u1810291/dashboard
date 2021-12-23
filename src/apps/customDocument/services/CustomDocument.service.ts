@@ -3,9 +3,10 @@ import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { FiFile } from 'react-icons/fi';
+import { getStepStatus, StepStatus } from 'models/Step.model';
 import { CustomDocumentsSettings } from '../components/CustomDocumentSettings/CustomDocumentSettings';
 import { CustomDocumentVerificationProxy } from '../components/CustomDocumentVerificationProxy/CustomDocumentVerificationProxy';
-import { CustomDocumentCheckTypes, CustomDocumentSettingsTypes, CUSTOM_DOCUMENT_PREFIX } from '../models/CustomDocument.model';
+import { CUSTOM_DOCUMENT_PREFIX, CustomDocumentCheckTypes, CustomDocumentSettingsTypes } from '../models/CustomDocument.model';
 
 type ProductSettingsCustomDocument = ProductSettings<CustomDocumentSettingsTypes>;
 
@@ -59,7 +60,14 @@ export class CustomDocument extends ProductBaseService implements Product<Produc
     getVerification(verification: VerificationResponse): any {
       return {
         ...verification,
-        documents: verification.documents.filter((el) => el.type.startsWith(CUSTOM_DOCUMENT_PREFIX)),
+        documents: verification.documents?.filter((el) => el.type.startsWith(CUSTOM_DOCUMENT_PREFIX)),
       };
+    }
+
+    hasFailedCheck(verification: VerificationResponse): boolean {
+      const customDocs = verification?.documents?.filter((doc) => doc?.type.startsWith(CUSTOM_DOCUMENT_PREFIX));
+      const failedStatuses = [StepStatus.Incomplete, StepStatus.Failure, StepStatus.Skipped];
+
+      return customDocs?.some((doc) => doc?.steps?.some((step) => failedStatuses.includes(getStepStatus(step))));
     }
 }

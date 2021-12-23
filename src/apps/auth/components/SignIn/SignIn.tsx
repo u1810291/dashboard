@@ -7,7 +7,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Button, Grid, Typography, InputLabel, AppBar, Box, TextField } from '@material-ui/core';
 import { notification } from 'apps/ui';
 import { EMAIL_REG_EXP } from 'lib/validations';
-import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3.svg';
+import { ReactComponent as MatiLogo } from 'assets/metamap-logo.svg';
 import { IntlButton } from 'apps/intl';
 import { Routes } from 'models/Router.model';
 import { ErrorStatuses } from 'models/Error.model';
@@ -80,7 +80,7 @@ export function SignIn() {
         <Grid className={classes.formWrapper} direction="column" container>
           <AppBar color="transparent" position="static" elevation={0} className={classes.appBar}>
             <IntlButton isSync={false} />
-            <MatiLogo width={121} height={40} />
+            <MatiLogo width={160} height={40} />
           </AppBar>
           <Box className={classes.form}>
             <Box mb={5}>
@@ -92,7 +92,7 @@ export function SignIn() {
                   {intl.formatMessage({ id: 'SignIn.subtitle' })}
                 </Typography>
                 &nbsp;
-                <a href="https://www.getmati.com/contactus?utm_campaign=Product CTAs&utm_source=product&utm_medium=cta&utm_term=owned&utm_content=cta_signinpage" className={classes.link}>
+                <a href="https://www.metamap.com/mati-contact-us" className={classes.link}>
                   {intl.formatMessage({ id: 'SignIn.subtitle.link' })}
                 </a>
               </Grid>

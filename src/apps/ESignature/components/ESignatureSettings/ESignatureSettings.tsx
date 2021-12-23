@@ -121,7 +121,7 @@ export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<
             type={WarningTypes.Warning}
             size={WarningSize.Normal}
             label={intl.formatMessage({ id: 'ESignature.disabled' }, {
-              email: <Link color="primary" href="mailto:sales@mati.io" rel="noopener">sales@mati.io</Link>,
+              email: <Link color="primary" href="mailto:sales@metamap.com" rel="noopener">sales@metamap.com</Link>,
             })}
             bordered
           />

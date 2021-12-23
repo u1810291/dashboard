@@ -20,6 +20,10 @@ import { BankAccountDataPDF } from './components/BankAccountDataPDF/BankAccountD
 import { WorkAccountDataPDF } from './components/WorkAccountDataPDF/WorkAccountDataPDF';
 import { PayrollAccountDataPDF } from './components/PayrollAccountDataPDF/PayrollAccountDataPDF';
 
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export function IdentityDocumentPDF({ identity, nom151FileContent, additionalData = {} }) {
   const { legalName, legalRegNumber, legalAddress } = additionalData;
   const intl = useIntl();
@@ -33,7 +37,7 @@ export function IdentityDocumentPDF({ identity, nom151FileContent, additionalDat
   const payrollAccountData = getPayrollAccountData(identity?._embedded?.verification);
 
   return (
-    <Document title={`Identity ${identity.id}`} author="Matilock, Inc. www.mati.io">
+    <Document title={`Identity ${identity.id}`} author="MetaMap www.metamap.com">
       <Page size="A4" style={commonStyles.page}>
         {/* header */}
         <View>
@@ -122,6 +126,10 @@ export function IdentityDocumentPDF({ identity, nom151FileContent, additionalDat
   );
 }
 
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export async function getIdentityDocumentBlob(identity, additionalData) {
   const nom151FileContent = await getNom151FileContent(identity.digitalSignature);
   return pdf(

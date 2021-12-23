@@ -43,7 +43,7 @@ export function GovCheckSettings({ settings, onUpdate }: ProductSettingsProps) {
             <>
               {intl.formatMessage({ id: `GovernmentCheck.settings.description.${GovernmentCheckSettingTypes.CountriesGovChecks}` })}
               &nbsp;
-              <Link href="mailto:support@mati.io">support@mati.io</Link>
+              <Link href="mailto:support@metamap.com">support@metamap.com</Link>
             </>
           )}
           className={classes.setting}

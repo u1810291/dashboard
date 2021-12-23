@@ -2,7 +2,7 @@ import { Grid } from '@material-ui/core';
 import { VerificationResponse } from 'models/Verification.model';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { verificationDocumentUpdate } from 'state/identities/identities.actions';
+import { verificationDocumentUpdate } from 'apps/Verification/state/Verification.actions';
 import { CustomDocumentVerification } from '../CustomDocumentVerification/CustomDocumentVerification';
 
 export function CustomDocumentVerificationProxy({ data }: { data: VerificationResponse }) {

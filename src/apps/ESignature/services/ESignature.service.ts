@@ -5,6 +5,7 @@ import { VerificationResponse } from 'models/Verification.model';
 import { ESignatureCheckSettingsEnum, ESignatureCheckEnum, getAcceptanceCriteria, getSigMethod } from 'models/ESignature.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiPenTool } from 'react-icons/fi';
+import { getStepStatus, StepStatus } from 'models/Step.model';
 import { ESignatureSettings } from '../components/ESignatureSettings/ESignatureSettings';
 import { ESignatureVerification } from '../components/ESignatureVerification/ESignatureVerification';
 
@@ -95,5 +96,11 @@ export class ESignatureService extends ProductBaseService implements Product {
 
     getVerification(verification: VerificationResponse): any {
       return verification.steps.find((step) => step.id === VerificationPatternTypes.ESignatureDocuments);
+    }
+
+    hasFailedCheck(verification: VerificationResponse): boolean {
+      const eSigStep = verification?.steps?.find((step) => step?.id === VerificationPatternTypes.ESignatureDocuments);
+      const eSigStatus = getStepStatus(eSigStep);
+      return [StepStatus.Incomplete, StepStatus.Failure].includes(eSigStatus);
     }
 }

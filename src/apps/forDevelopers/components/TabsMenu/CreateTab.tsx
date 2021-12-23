@@ -15,7 +15,7 @@ export function CreateTab({ tab, onClick, selectedId }: {
   const intl = useIntl();
 
   const handleRedirect = useCallback((url: string) => {
-    window.open(url, '_blank');
+    window.open(url, '_blank', 'noopener');
   }, []);
 
   const handleClick = useCallback((tabData: Tab) => () => {

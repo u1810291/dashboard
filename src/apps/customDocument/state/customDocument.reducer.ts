@@ -1,4 +1,4 @@
-import { inputCustomDocumentValidationChecksDefaultValue } from 'apps/imageValidation/models/imageValidation.model';
+import { inputCustomDocumentValidationChecksDefaultValue } from 'models/ImageValidation.model';
 import { OverlayActionTypes } from 'apps/overlay/state/overlay.actions';
 import { CustomDocumentVerificationFlowFieldTypes } from 'models/CustomDocument.model';
 import { createReducer } from 'state/store.utils';
