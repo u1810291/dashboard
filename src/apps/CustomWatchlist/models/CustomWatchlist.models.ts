@@ -167,7 +167,7 @@ export interface CustomWatchlistStepDataSearchParams {
   dateOfBirth?: string;
   documentType?: string;
   documentNumber?: string;
-  coutnry?: string;
+  country?: string;
   emailAddress?: string;
   phoneNumber?: string;
 }
