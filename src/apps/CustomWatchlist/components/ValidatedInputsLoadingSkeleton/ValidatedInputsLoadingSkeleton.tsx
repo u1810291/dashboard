@@ -9,7 +9,7 @@ export interface SelectedOptions {
 export function ValidatedInputsLoadingSkeleton() {
   return (
     <>
-      {Object.values(ValidatedInputsKeys).map((inputKey) => <SkeletonStyled key={inputKey} height="50px" animation="wave" />)}
+      {Object.values(ValidatedInputsKeys).map((inputKey) => <SkeletonStyled key={inputKey} height="40px" animation="wave" />)}
     </>
   );
 }

@@ -193,7 +193,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                 isWatchlistsLoading={isWatchlistsLoading}
                 isFormSubmitting={isSubmitting}
                 isWatchlistRunning={isWatchlistRunning}
-                disabled={!fileKey || isWatchlistsLoading || isWatchlistRunning}
+                disabled={!fileKey || isWatchlistsLoading || isWatchlistRunning || isFileHeadersFlowLoading}
               />
             </Grid>
           </Grid>
