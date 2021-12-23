@@ -55,7 +55,7 @@ export * from './components/SkeletonGroups';
 export * from './components/WithActionDescriptionBordered/WithActionDescriptionBordered';
 export * from './components/ButtonStyled/ButtonStyled';
 export * from './components/Spinner/Spinner';
-export * from './components/FileUploadButton/FileUploadButton';
+export * from './components/FileSelectButton/FileSelectButton';
 
 export * from './models/Warning.model';
 export * from './models/SyntaxHighlighter.model';

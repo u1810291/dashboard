@@ -7,13 +7,18 @@ export const AccordionStyled = withStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.common.lightRed,
     color: theme.palette.common.red,
+    marginTop: 10,
+    boxShadow: 'none',
+    borderRadius: 5,
+    '&:before': {
+      display: 'none',
+    },
   },
 }))(Accordion);
 
 export const AccordionSummaryStyled = withStyles(({
   root: {
     minHeight: 'auto',
-    height: 32,
     padding: '0 10px',
   },
 }))(AccordionSummary);

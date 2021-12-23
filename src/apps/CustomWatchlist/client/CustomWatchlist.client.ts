@@ -1,5 +1,5 @@
 import { http } from 'lib/client/http';
-import { IWatchlist, CustomWatchlistUpload, WatchlistContentTypes, WatchlistCreateBodyTypes, WatchlistProcess, CustomWatchlistHeaders } from '../models/CustomWatchlist.models';
+import { IWatchlist, CustomWatchlistUpload, WatchlistContentTypes, WatchlistCreateBodyTypes, WatchlistProcess, CustomWatchlistHeaders, CustomWatchlistShortValidation, ICustomWatchlistValidationError } from '../models/CustomWatchlist.models';
 
 export function getMerchantWatchlists(merchantId: string) {
   return http.get<IWatchlist[]>(`/api/v1/merchants/${merchantId}/watchlists`, { params: { embed: 'process' } });
@@ -10,7 +10,7 @@ export function getMerchantWatchlistById(merchantId: string, watchlistId: number
 }
 
 export function deleteMerchantWatchlistById(merchantId: string, watchlistId: number) {
-  return http.delete(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}`);
+  return http.delete<boolean>(`/api/v1/merchants/${merchantId}/watchlists/${watchlistId}`);
 }
 
 export function createMerchantWatchlist(merchantId: string, body: WatchlistCreateBodyTypes) {
@@ -30,5 +30,9 @@ export function uploadMerchantWatchlist(merchantId: string, body: FormData) {
 }
 
 export function getWatchlistHeaders(merchantId: string, body: CustomWatchlistHeaders) {
-  return http.post<string[]>(`/api/v1/merchants/${merchantId}/watchlists/extract-headers`, body);
+  return http.post<{ headers: string[] }>(`/api/v1/merchants/${merchantId}/watchlists/extract-headers`, body);
+}
+
+export function getWatchlistShortValidation(merchantId: string, body: CustomWatchlistShortValidation) {
+  return http.post<ICustomWatchlistValidationError>(`/api/v1/merchants/${merchantId}/watchlists/short-validate`, body);
 }

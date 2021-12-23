@@ -27,15 +27,24 @@ export enum PasswordInvalidErrorCodes {
   PasswordWeak = 'password.weak',
 }
 
-export interface ErrorType {
+export interface ErrorTypeData {
+  code: string;
+  type: ErrorTypes;
+  message: ErrorMessages;
+}
+
+export interface ErrorType<T = ErrorTypeData> {
   response?: {
     status: ErrorStatuses;
-    data: {
-      code: string;
-      type: ErrorTypes;
-      message: ErrorMessages;
-    };
+    data: T;
   };
+}
+
+export interface BaseError<T = Record<string, any>> {
+  name: string;
+  status: number;
+  message: string;
+  details?: T;
 }
 
 export function isNotFound(error: ErrorType) {

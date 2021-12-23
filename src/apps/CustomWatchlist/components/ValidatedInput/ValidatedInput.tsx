@@ -5,7 +5,8 @@ import { FiChevronDown } from 'react-icons/fi';
 import { Grid, Typography, MenuItem, Box } from '@material-ui/core';
 import { appPalette } from 'apps/theme';
 import { RangeSlider } from 'apps/ui/components/RangeSlider/RangeSlider';
-import { SelectedOptions, placeholderKey as placeholderKeyConst } from '../ValidatedInputs/ValidatedInputs';
+import { useFormatMessage } from 'apps/intl';
+import { SelectedOptions } from '../ValidatedInputs/ValidatedInputs';
 import { useStyles, SelectStyled } from './ValidatedInput.styles';
 import { ValidatedInputsKeys, WatchlistMappingOptions } from '../../models/CustomWatchlist.models';
 
@@ -21,21 +22,29 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
     placeholderKey: string;
     options: Option[];
     selectedOptions: SelectedOptions;
-    onChange: (values: { value: string; name?: string; options?: WatchlistMappingOptions }) => void;
+    onChange: (values: { value: ValidatedInputsKeys; name?: string; options?: WatchlistMappingOptions }) => void;
     value?: string;
   }) {
-  const [value, setValue] = useState<string>(propValue || placeholderKey);
+  const formatMessage = useFormatMessage();
+  const [value, setValue] = useState<string>(propValue ?? placeholderKey);
   const [rangeSliderValue, setRangeSliderValue] = useState<number>(selectedOptions[name]?.options?.fuzziness || 50);
   const debounced = useDebounce();
   const classes = useStyles();
 
   const handleChange = useCallback((event: React.ChangeEvent<{ value: any; name?: string }>) => {
     const target = event.target;
-    setValue(target.value);
-    onChange(target);
-  }, [onChange]);
+    const newValue = target.value === ValidatedInputsKeys.FullName ? {
+      ...target,
+      options: {
+        fuzziness: rangeSliderValue,
+      },
+    } : target;
 
-  const handleSliderChange = useCallback((fieldValue: string, fieldName: string) => (_: React.ChangeEvent<{}>, val: number | number[]) => {
+    setValue(target.value);
+    onChange(newValue);
+  }, [rangeSliderValue, onChange]);
+
+  const handleSliderChange = useCallback((fieldValue: ValidatedInputsKeys, fieldName: string) => (_: React.ChangeEvent<{}>, val: number | number[]) => {
     setRangeSliderValue(val as number);
     debounced(() => onChange({
       value: fieldValue,
@@ -66,7 +75,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
           >
             {selectedOptions[name] && (
               <MenuItem
-                key={selectedOptions[name].value}
+                key={`${selectedOptions[name].value}-${selectedOptions[name].label}`}
                 value={selectedOptions[name].value}
                 disabled
               >
@@ -77,11 +86,20 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
               <MenuItem
                 key={`${item.value}-${item.label}`}
                 value={item.value}
-                className={classnames({ [classes.placeholder]: item.value === placeholderKeyConst })}
+                className={classnames({ [classes.placeholder]: item.value === placeholderKey })}
               >
                 {item.label}
               </MenuItem>
             ))}
+            {selectedOptions[name].value !== placeholderKey && (
+              <MenuItem
+                key={`${placeholderKey}-`}
+                value={placeholderKey}
+                className={classnames(classes.placeholder)}
+              >
+                {formatMessage('CustomWatchlist.settings.modal.validationFields.notSelected.label')}
+              </MenuItem>
+            )}
           </SelectStyled>
         </Grid>
       </Grid>

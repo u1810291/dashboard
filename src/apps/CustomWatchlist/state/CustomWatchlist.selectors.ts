@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { MerchantTags } from 'models/Merchant.model';
 import { CustomWatchlistsStore, CUSTOM_WATCHLISTS_STORE_KEY } from './CustomWatchlist.store';
-import { ICurrentCustomWatchlist, IWatchlist } from '../models/CustomWatchlist.models';
+import { CustomWatchlistValidationError, ICustomWatchlistValidationErrorFormated, getCustomWatchlistErrorsFormated, ICurrentCustomWatchlist, IWatchlist, ValidatedInputsKeys } from '../models/CustomWatchlist.models';
 
 export const selectCustomWatchlistsStore = (state): CustomWatchlistsStore => state[CUSTOM_WATCHLISTS_STORE_KEY];
 
@@ -41,8 +41,27 @@ export const selectCurrentCustomWatchlist = createSelector<any, CustomWatchlists
   (store) => store.currentWatchlist.value,
 );
 
-// TODO: STAGE 4, @richvoronov set error type
-export const selectCurrentCustomWatchlistError = createSelector<any, CustomWatchlistsStore, any | null>(
+export const selectBaseCurrentCustomWatchlist = createSelector<any, ICurrentCustomWatchlist | null, Partial<IWatchlist> | null>(
+  selectCurrentCustomWatchlist,
+  (currentWatchlist) => {
+    if (!currentWatchlist) {
+      return null;
+    }
+    const copyCurrentWatchlist = { ...currentWatchlist };
+    if (currentWatchlist?.headers) {
+      delete copyCurrentWatchlist.headers;
+    }
+
+    return Object.keys(copyCurrentWatchlist).length > 0 ? copyCurrentWatchlist : null;
+  },
+);
+
+export const selectCurrentCustomWatchlistError = createSelector<any, CustomWatchlistsStore, CustomWatchlistValidationError[] | null>(
   selectCustomWatchlistsStore,
   (store) => store.currentWatchlist.value?.process?.error,
+);
+
+export const selectCurrentCustomWatchlistErrorsFormated = createSelector<any, CustomWatchlistValidationError[] | null, Partial<Record<ValidatedInputsKeys, ICustomWatchlistValidationErrorFormated[]>> | null>(
+  selectCurrentCustomWatchlistError,
+  (errors) => getCustomWatchlistErrorsFormated(errors),
 );

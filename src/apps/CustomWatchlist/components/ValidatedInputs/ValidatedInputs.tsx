@@ -1,40 +1,28 @@
 import Grid from '@material-ui/core/Grid';
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { useFormatMessage } from 'apps/intl';
 import { ValidatedInput } from '../ValidatedInput/ValidatedInput';
-import { selectCurrentCustomWatchlistError } from '../../state/CustomWatchlist.selectors';
-import { ValidatedInputsKeys, WatchlistMappingOptions } from '../../models/CustomWatchlist.models';
+import { ValidatedInputsFieldTypesExtended, IValidatedInputsFieldTypes, ValidatedInputsKeys, WatchlistMappingOptions, placeholderKey } from '../../models/CustomWatchlist.models';
 import { CustomWatchlistValidatedInputsError } from '../CustomWatchlistValidatedInputsError/CustomWatchlistValidatedInputsError';
-import { useStyles } from './ValidatedInputs.styles';
-
-export const placeholderKey = 'placeholder';
-
-interface ValidatedInputsFieldValuesOptions {
-  fuzziness?: number;
-}
 
 export interface SelectedOptions {
-  [key: string]: {
-    label: string;
-    value: string;
-    options?: ValidatedInputsFieldValuesOptions;
-  };
+  [key: string]: ValidatedInputsFieldTypesExtended;
 }
 
-export interface ValidatedInputsFieldTypes {
-  label: string;
-  value: string;
-  options?: ValidatedInputsFieldValuesOptions;
-}
-
-export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: ValidatedInputsFieldTypes[]; onChange: (mapping: ValidatedInputsFieldTypes[]) => void }) {
-  const classes = useStyles();
+export function ValidatedInputs({ fieldValues, onChange }: {
+  fieldValues: ValidatedInputsFieldTypesExtended[];
+  onChange: (mapping: IValidatedInputsFieldTypes[]) => void;
+}) {
   const formatMessage = useFormatMessage();
-  // TODO: STAGE 4, @richvoronov get currentWatchlist.error and show in ui
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const currentWatchlistError = useSelector(selectCurrentCustomWatchlistError);
-  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(fieldValues.reduce((prev, cur) => ({ ...prev, [cur.value]: cur }), {}));
+  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(fieldValues?.reduce((prev, cur) => (
+    {
+      ...prev,
+      [cur.label]: {
+        label: cur.value === placeholderKey ? formatMessage('CustomWatchlist.settings.modal.validationFields.notSelected.label') : cur.label,
+        value: cur.value,
+      },
+    }
+  ), {}));
 
   const inputOptions = useMemo(() => [
     {
@@ -71,7 +59,7 @@ export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: Valida
     },
   ], [formatMessage]);
 
-  const handleChange = useCallback((values: { value: string; name?: string; options?: WatchlistMappingOptions }) => {
+  const handleChange = useCallback((values: { value: ValidatedInputsKeys; name?: string; options?: WatchlistMappingOptions }) => {
     setSelectedOptions((prev) => ({
       ...prev,
       [values.name]: {
@@ -83,27 +71,25 @@ export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: Valida
   }, [inputOptions]);
 
   useEffect(() => {
-    onChange(Object.values(selectedOptions));
+    onChange(Object.values(selectedOptions).filter((option) => option.value !== placeholderKey) as IValidatedInputsFieldTypes[]);
   }, [selectedOptions, onChange]);
 
   return (
     <Grid container direction="column" spacing={1}>
       {fieldValues.map((input) => (
-        <Grid key={input.value} container item direction="column">
+        <Grid key={`${input.label}-${input.value}`} container item direction="column">
           <Grid item>
             <ValidatedInput
               placeholderKey={placeholderKey}
               title={input.label}
-              name={input.value}
+              name={input.label}
               onChange={handleChange}
               selectedOptions={selectedOptions}
               options={inputOptions}
-              value={selectedOptions[input.value].value}
+              value={selectedOptions[input.label].value}
             />
           </Grid>
-          <Grid item className={classes.marginTop10}>
-            <CustomWatchlistValidatedInputsError />
-          </Grid>
+          {selectedOptions[input.label].value !== placeholderKey && <CustomWatchlistValidatedInputsError inputValue={selectedOptions[input.label].value as ValidatedInputsKeys} />}
         </Grid>
       ))}
     </Grid>

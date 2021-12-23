@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { WatchlistProcessStatus } from '../../models/CustomWatchlist.models';
-import { selectCurrentCustomWatchlist } from '../../state/CustomWatchlist.selectors';
+import { selectBaseCurrentCustomWatchlist } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistModalValidationSubmitButton.styles';
 
 export function CustomWatchlistModalValidationSubmitButton({ isWatchlistsLoading, isWatchlistRunning, isFormSubmitting, disabled }: {
@@ -15,7 +15,9 @@ export function CustomWatchlistModalValidationSubmitButton({ isWatchlistsLoading
 }) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
-  const currentWatchlist = useSelector(selectCurrentCustomWatchlist);
+  const baseCurrentWatchlist = useSelector(selectBaseCurrentCustomWatchlist);
+
+  // console.log('baseCurrentWatchlist', baseCurrentWatchlist);
   return (
     <ButtonStyled
       type="submit"
@@ -32,9 +34,9 @@ export function CustomWatchlistModalValidationSubmitButton({ isWatchlistsLoading
         </>
       ) : (
         <>
-          {!currentWatchlist && formatMessage('CustomWatchlist.settings.modal.button.create')}
-          {currentWatchlist?.process?.status === WatchlistProcessStatus.Completed && formatMessage('CustomWatchlist.settings.modal.button.done')}
-          {(currentWatchlist?.id && !currentWatchlist?.process) && formatMessage('CustomWatchlist.settings.modal.button.validate')}
+          {!baseCurrentWatchlist && formatMessage('CustomWatchlist.settings.modal.button.create')}
+          {baseCurrentWatchlist?.process?.status === WatchlistProcessStatus.Completed && formatMessage('CustomWatchlist.settings.modal.button.done')}
+          {(baseCurrentWatchlist?.id && !baseCurrentWatchlist?.process) && formatMessage('CustomWatchlist.settings.modal.button.validate')}
         </>
       )}
     </ButtonStyled>

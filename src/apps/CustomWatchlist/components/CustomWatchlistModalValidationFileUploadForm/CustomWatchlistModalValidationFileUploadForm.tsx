@@ -2,26 +2,31 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormContext } from 'react-hook-form';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { InputLabel, Typography } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import InputLabel from '@material-ui/core/InputLabel';
+import Typography from '@material-ui/core/Typography';
 import { useFormatMessage } from 'apps/intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
-import { WithActionDescriptionBordered, FileUploadButton } from 'apps/ui';
+import { WithActionDescriptionBordered, FileSelectButton } from 'apps/ui';
 import { useStyles, RoundedButton } from './CustomWatchlistModalValidationFileUploadForm.styles';
 import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, CustomWatchlistFileExt, CustomWatchlistUpload } from '../../models/CustomWatchlist.models';
 import * as api from '../../client/CustomWatchlist.client';
 import { CSVSeparatorSelect } from '../CSVSeparatorSelect/CSVSeparatorSelect';
-import { selectIsWatchlistsContentLoading } from '../../state/CustomWatchlist.selectors';
 
-export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFileUploaded }: {
+export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFileUploaded, onFileUploading }: {
   watchlist?: FlowWatchlistUi;
   onFileUploaded?: (data: CustomWatchlistUpload) => void;
+  onFileUploading?: (loading: boolean) => void;
 }) {
   const formatMessage = useFormatMessage();
   const merchantId = useSelector(selectMerchantId);
-  const isWatchlistsContentLoading = useSelector(selectIsWatchlistsContentLoading);
   const classes = useStyles();
+  const [isFileUploadLoading, setIsFileUploadLoading] = useState<boolean>(false);
+  const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>(watchlist?.process?.inputSourceFileName);
   const { setValue, setError, clearErrors, formState: { errors } } = useFormContext();
+
+  console.log('watchlist', watchlist);
 
   useEffect(() => {
     if (fileName) {
@@ -29,23 +34,36 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
     }
   }, [fileName, setValue]);
 
-  const handleUploadFile = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files[0];
-    setFileName(file.name);
+  useEffect(() => {
+    onFileUploading(isFileUploadLoading);
+  }, [isFileUploadLoading, onFileUploading]);
+
+  const handleSelectFile = useCallback(async () => {
     const form = new FormData();
     form.append('media', file);
-    onFileUploaded(null);
+    onFileUploaded({
+      key: null,
+    });
+    setIsFileUploadLoading(true);
     try {
       const { data } = await api.uploadMerchantWatchlist(merchantId, form);
       onFileUploaded(data);
       setValue(CustomWatchlistModalValidationInputs.FileKey, data.key);
       clearErrors(CustomWatchlistModalValidationInputs.FileKey);
+      setIsFileUploadLoading(false);
     } catch {
       setError(CustomWatchlistModalValidationInputs.FileKey, {
         message: formatMessage('CustomWatchlist.settings.watchlist.fileErrorUpload'),
       });
+      setIsFileUploadLoading(false);
     }
-  }, [merchantId, formatMessage, setValue, clearErrors, onFileUploaded, setError]);
+  }, [merchantId, file, formatMessage, setValue, clearErrors, onFileUploaded, setError]);
+
+  const handleUploadFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const eventFile = event.target.files[0];
+    setFile(eventFile);
+    setFileName(eventFile.name);
+  }, []);
 
   const extFile = useMemo(() => {
     const arr = fileName?.split('.') || [];
@@ -68,23 +86,38 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
       </InputLabel>
       {fileName ? (
         <WithActionDescriptionBordered description={fileName} error={errors[CustomWatchlistModalValidationInputs.FileKey]?.message}>
-          <FileUploadButton
+          <FileSelectButton
             onChange={handleUploadFile}
             accept=".csv"
             renderButton={(
               <RoundedButton>
-                {formatMessage('CustomWatchlist.settings.modal.button.uploadFile.reload')}
+                {formatMessage('CustomWatchlist.settings.modal.button.selectFile.reload')}
               </RoundedButton>
             )}
           />
         </WithActionDescriptionBordered>
       ) : (
-        <FileUploadButton onChange={handleUploadFile} accept=".csv" isPrefixIconDisplayed={!isWatchlistsContentLoading} disabled={isWatchlistsContentLoading}>
-          {isWatchlistsContentLoading && <CircularProgress color="inherit" size={17} />}
-          {!isWatchlistsContentLoading && formatMessage('CustomWatchlist.settings.modal.button.uploadFile')}
-        </FileUploadButton>
+        <FileSelectButton onChange={handleUploadFile} accept=".csv" isPrefixIconDisplayed={!isFileUploadLoading} disabled={isFileUploadLoading}>
+          {formatMessage('CustomWatchlist.settings.modal.button.selectFile')}
+        </FileSelectButton>
       )}
-      {extFile === CustomWatchlistFileExt.Csv && <CSVSeparatorSelect />}
+      {extFile === CustomWatchlistFileExt.Csv && <CSVSeparatorSelect defaultValue={watchlist?.process.csvSeparator} />}
+      {fileName && (
+        <>
+          <Button
+            className={classes.uploadButton}
+            onClick={handleSelectFile}
+            disabled={isFileUploadLoading || !file}
+            variant="contained"
+            color="primary"
+            fullWidth
+            size="large"
+          >
+            {!isFileUploadLoading ? formatMessage('CustomWatchlist.settings.modal.button.uploadFile') : <CircularProgress color="inherit" size={17} />}
+          </Button>
+          {!file && <span className={classes.uploadButtonHelper}>{formatMessage('CustomWatchlist.settings.modal.button.uploadFile.helper')}</span>}
+        </>
+      )}
     </>
   );
 }

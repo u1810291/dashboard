@@ -4,32 +4,21 @@ import { makeStyles, withStyles, ButtonProps } from '@material-ui/core';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
 
 export const useStyles = makeStyles((theme) => ({
-  root: {
-    background: theme.palette.common.white,
-    padding: '21px 40px',
-    width: 700,
-  },
-  modalTitle: {
-    lineHeight: '29px',
-    marginBottom: 40,
-  },
   colorGrey: {
     color: theme.palette.text.main,
-  },
-  closeButton: {
-    cursor: 'pointer',
-    position: 'absolute',
-    top: '15px',
-    right: '15px',
-    width: '20px',
-    height: '20px',
-    color: theme.palette.button.close.main,
   },
   marginBottom10: {
     marginBottom: 10,
   },
-  marginTop50: {
-    marginTop: 50,
+  uploadButton: {
+    marginTop: 20,
+    height: 40,
+  },
+  uploadButtonHelper: {
+    color: theme.palette.text.main,
+    textAlign: 'center',
+    display: 'inline-block',
+    width: '100%',
   },
 }));
 

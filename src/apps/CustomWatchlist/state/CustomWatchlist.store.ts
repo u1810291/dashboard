@@ -26,6 +26,6 @@ export const types: TypesSequence = {
 
 export interface CustomWatchlistsStore {
   [SliceNames.Watchlists]: Loadable<IWatchlist[]>;
-  [SliceNames.CurrentWatchlist]: Loadable<ICurrentCustomWatchlist>;
+  [SliceNames.CurrentWatchlist]: Loadable<ICurrentCustomWatchlist | null>;
   [SliceNames.WatchlistContent]: Loadable<WatchlistContentTypes>;
 }

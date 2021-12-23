@@ -16,40 +16,7 @@ import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdate
 import { selectIsWatchlistsFailed, selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
-import { FlowWatchlistUi, WatchlistContentTypes, ValidatedInputsKeys } from '../../models/CustomWatchlist.models';
-
-// TODO: @richvoronov, remove mock on STAGE 4
-const mockMapping = [
-  {
-    systemField: ValidatedInputsKeys.FullName,
-    merchantField: ValidatedInputsKeys.FullName,
-    options: { fuzziness: 10 },
-  },
-  {
-    systemField: ValidatedInputsKeys.DateOfBirth,
-    merchantField: ValidatedInputsKeys.DateOfBirth,
-  },
-  {
-    systemField: ValidatedInputsKeys.Country,
-    merchantField: ValidatedInputsKeys.Country,
-  },
-  {
-    systemField: ValidatedInputsKeys.DocumentNumber,
-    merchantField: ValidatedInputsKeys.DocumentNumber,
-  },
-  {
-    systemField: ValidatedInputsKeys.DocumentType,
-    merchantField: ValidatedInputsKeys.DocumentType,
-  },
-  {
-    systemField: ValidatedInputsKeys.EmailAddress,
-    merchantField: ValidatedInputsKeys.EmailAddress,
-  },
-  {
-    systemField: ValidatedInputsKeys.PhoneNumber,
-    merchantField: ValidatedInputsKeys.PhoneNumber,
-  },
-];
+import { CustomWatchlistModalValidationInputs, FlowWatchlistUi, WatchlistContentTypes } from '../../models/CustomWatchlist.models';
 
 export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   watchlists: FlowWatchlistUi[];
@@ -76,24 +43,21 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const handleSubmitWatchlist = useCallback((watchlist?: IFlowWatchlist) => (values: CustomWatchlistModalValidationInputTypes) => {
     const watchlistRequestData = {
       name: values.name,
-      // mapping: values.mapping,
-      mapping: mockMapping,
+      mapping: values.mapping,
     };
+    const watchlistContentValues = {
+      sourceFileKey: values[CustomWatchlistModalValidationInputs.FileKey],
+      fileName: values[CustomWatchlistModalValidationInputs.FileName],
+      csvSeparator: values[CustomWatchlistModalValidationInputs.CsvSeparator],
+    };
+
     if (watchlist) {
       dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData, handleCloseOverlay));
-      customWatchlistsContentUpdate(watchlist.id, {
-        sourceFileKey: values.fileKey,
-        fileName: values.fileName,
-        csvSeparator: values.csvSeparator,
-      });
+      customWatchlistsContentUpdate(watchlist.id, watchlistContentValues);
       return;
     }
     dispatch(customWatchlistCreate(merchantId, watchlistRequestData, (watchlistData) => {
-      customWatchlistsContentUpdate(watchlistData.id, {
-        sourceFileKey: values.fileKey,
-        fileName: values.fileName,
-        csvSeparator: values.csvSeparator,
-      });
+      customWatchlistsContentUpdate(watchlistData.id, watchlistContentValues);
       handleCloseOverlay();
     }));
   }, [merchantId, customWatchlistsContentUpdate, handleCloseOverlay, dispatch]);

@@ -5,7 +5,7 @@ export const useStyles = makeStyles((theme) => createStyles({
   input: {
     background: theme.palette.common.whiteblue,
     borderRadius: '5px',
-    padding: '10px',
+    padding: '5px 10px',
   },
   inputValue: {
     cursor: 'pointer',
