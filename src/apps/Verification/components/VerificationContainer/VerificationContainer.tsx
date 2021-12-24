@@ -61,7 +61,7 @@ export function VerificationContainer() {
     return <PageError onRetry={goToStartPage} />;
   }
 
-  if (verificationModel.isLoading) {
+  if (verificationModel.isLoading && !verificationModel.isLoaded) {
     return <PageLoader />;
   }
 

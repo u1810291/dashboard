@@ -30,8 +30,8 @@ export interface PassedVerificationByFlow {
   verifications: VerificationListItem[];
 }
 
-export interface IVerificationStatusDetails {
-  value: IdentityStatuses;
+export interface IVerificationDetails<T> {
+  value: T;
   reasonCode: VerificationStatusChangeReason;
   updatedAt: Date;
   updatedBy: null | string;
@@ -52,6 +52,11 @@ export interface VerificationResponseComputed {
   isDocumentExpired: VerificationResponseComputedDocumentExpired;
 }
 
+export interface IVerificationResponseSummary {
+  fullName: IVerificationDetails<string>;
+  dateOfBirth: IVerificationDetails<string>;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface VerificationResponse<StepData = any> {
   createdAt: string;
@@ -62,14 +67,18 @@ export interface VerificationResponse<StepData = any> {
   inputs: any[];
   // steps: IStep<StepData>[];
   steps: any[];
-  summary: any;
+  summary: IVerificationResponseSummary;
   verificationStatus: IdentityStatuses;
-  verificationStatusDetails: IVerificationStatusDetails;
+  verificationStatusDetails: IVerificationDetails<IdentityStatuses>;
   computed?: VerificationResponseComputed;
   _id?: string;
   id?: string;
   metadata?: any;
   digitalSignature?: DigitalSignature;
+  reVerification: any;
+  biometric: any;
+  duplicateUserDetectionStep: any;
+  ageCheck: any;
 }
 
 /**
@@ -112,7 +121,7 @@ export function getVerificationExtras(verification: VerificationResponse, countr
   const steps = verification.steps || [];
   const proofOfOwnershipStep = getStepExtra(steps.find((item) => item.id === StepTypes.ProofOfOwnership));
   const documents = getDocumentExtras(verification, countries, proofOfOwnershipStep);
-  const fullName = verification?.summary?.identity?.fullName || '';
+  const fullName = verification?.summary?.fullName?.value || '';
 
   let duplicateUserDetectionStep;
   let ageCheck;

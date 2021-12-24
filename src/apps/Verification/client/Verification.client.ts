@@ -19,3 +19,7 @@ export function deleteVerification(verificationId: string) {
 export function getVerificationWebhook(id: string, params: any) {
   return http.get(`/api/v1/dashboard/verification/${id}/webhook`, { params });
 }
+
+export function patchVerificationDocument(verificationId, documentType, fields) {
+  return http.patch(`/api/v1/dashboard/verifications/${verificationId}/documents/${documentType}/fields`, { fields });
+}

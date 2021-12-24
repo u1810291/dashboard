@@ -1,10 +1,10 @@
-import { IESignatureFlow } from 'models/ESignature.model';
-import { InputValidationCheck } from 'apps/imageValidation/models/imageValidation.model';
 import { Logo } from 'apps/logo/models/Logo.model';
 import { get } from 'lodash';
-import { DocumentTypes } from 'models/Document.model';
-import { ProductIntegrationTypes } from 'models/Product.model';
+import { IESignatureFlow } from './ESignature.model';
+import { DocumentTypes } from './Document.model';
+import { ProductIntegrationTypes } from './Product.model';
 import { IpValidation } from './IpCheck.model';
+import { InputValidationCheck } from './ImageValidation.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
 import { VerificationPatterns } from './VerificationPatterns.model';
 import { IFlowWatchlist } from './CustomWatchlist.model';

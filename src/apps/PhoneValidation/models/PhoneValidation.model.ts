@@ -1,5 +1,3 @@
-export const SENDER_NAME_LENGTH_LIMIT = 30;
-
 export enum PhoneValidationTypes {
   CountryCode = 'countryCode',
   PhoneNumber = 'phoneNumber',

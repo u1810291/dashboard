@@ -15,6 +15,8 @@ import { VerificationSummaryTitlePDF } from '../VerificationSummaryTitlePDF/Veri
 export function VerificationBioCheckSummaryPDF({ biometric, identity }) {
   const intl = useIntl();
   const status = getBiometricCheckStatus(biometric);
+  // TODO: @ggrigorev remove identity?.fullname when identityProfile is ready
+  const fullName = identity?.summary?.fullName?.value || identity?.fullName;
 
   return (
     <VerificationCheckCardPDF
@@ -55,10 +57,10 @@ export function VerificationBioCheckSummaryPDF({ biometric, identity }) {
             )}
           </View>
           <View style={styles.biometricText}>
-            {identity.fullName
+            {fullName
               ? (
                 <Text style={[commonStyles.data, styles.data]}>
-                  {identity.fullName}
+                  {fullName}
                 </Text>
               )
               : (

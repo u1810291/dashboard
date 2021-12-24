@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { IdentityProfileErrorTypes, IdentityProfileResponse } from 'apps/IdentityProfile/models/IdentityProfile.model';
 import { ReactComponent as UserDeletedIcon } from 'assets/profile-pic-round.svg';
 import { identityProfileClear, identityProfileLoad } from 'apps/IdentityProfile/store/IdentityProfile.actions';
-import { verificationListClear, verificationListLoad } from 'apps/Verification/state/Verification.actions';
+import { verificationListClear } from 'apps/Verification/state/Verification.actions';
 import { useQuery } from 'lib/url';
 import { PageLoader } from 'apps/layout';
 import { useParams } from 'react-router-dom';
@@ -53,7 +53,9 @@ export function SideProfileMenu({ profile, onError }: {
     loadData();
   }, [dispatch, asMerchantId, identityId, onError]);
 
-  useEffect(() => {
+  /* TODO: Enable passed flows when needed */
+
+  /*   useEffect(() => {
     const loadData = async () => {
       try {
         await dispatch(verificationListLoad(identityId, asMerchantId));
@@ -63,7 +65,7 @@ export function SideProfileMenu({ profile, onError }: {
       }
     };
     loadData();
-  }, [dispatch, asMerchantId, identityId, onError]);
+  }, [dispatch, asMerchantId, identityId, onError]); */
 
   if (identityProfileModel.isLoading) {
     return <PageLoader />;

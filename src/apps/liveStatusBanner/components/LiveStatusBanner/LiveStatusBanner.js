@@ -11,7 +11,7 @@ export function LiveStatusBanner() {
   const classes = useStyles();
 
   return (
-    <Link underline="none" target="_blank" href="https://status.metamap.com/">
+    <Link underline="none" target="_blank" href="https://status.metamap.com/" rel="noopener">
       <Box className={classes.badge}>
         <MatiLogo width={80} height={30} className={classes.logo} />
         <Typography className={classes.statusMessage}>

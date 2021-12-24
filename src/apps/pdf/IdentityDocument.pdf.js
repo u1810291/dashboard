@@ -20,6 +20,10 @@ import { BankAccountDataPDF } from './components/BankAccountDataPDF/BankAccountD
 import { WorkAccountDataPDF } from './components/WorkAccountDataPDF/WorkAccountDataPDF';
 import { PayrollAccountDataPDF } from './components/PayrollAccountDataPDF/PayrollAccountDataPDF';
 
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export function IdentityDocumentPDF({ identity, nom151FileContent, additionalData = {} }) {
   const { legalName, legalRegNumber, legalAddress } = additionalData;
   const intl = useIntl();
@@ -122,6 +126,10 @@ export function IdentityDocumentPDF({ identity, nom151FileContent, additionalDat
   );
 }
 
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export async function getIdentityDocumentBlob(identity, additionalData) {
   const nom151FileContent = await getNom151FileContent(identity.digitalSignature);
   return pdf(

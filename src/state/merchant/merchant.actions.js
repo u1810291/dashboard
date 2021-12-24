@@ -3,7 +3,7 @@ import { createTypesSequence } from 'state/store.utils';
 import { getWebhooks } from 'state/webhooks/webhooks.actions';
 import { DEFAULT_LOCALE } from 'models/Intl.model';
 import dayjs from 'dayjs';
-import { selectConfigurationModel, selectCurrentFlowId, selectMerchantFlowsModel, selectMerchantId, selectStyleModel, selectMerchantCustomDocumentsModel } from './merchant.selectors';
+import { selectConfigurationModel, selectCurrentFlowId, selectMerchantFlowsModel, selectMerchantId, selectMerchantCustomDocumentsModel } from './merchant.selectors';
 import { MerchantActionGroups } from './merchant.store';
 
 export const types = {
@@ -228,16 +228,6 @@ export const merchantDeleteFlow = (id) => async (dispatch, getState) => {
 };
 
 // flow update
-
-export const flowStyleUpdate = (data) => (dispatch, getState) => {
-  const cfg = selectStyleModel(getState());
-  return dispatch(merchantUpdateFlow({
-    style: {
-      ...cfg,
-      ...data,
-    },
-  }));
-};
 
 export const merchantUpdateMedia = (form) => async (dispatch) => {
   dispatch({ type: types.MERCHANT_UPDATING });

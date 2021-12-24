@@ -13,5 +13,6 @@ export function downloadUrl(publicUrl, fileName) {
   a.href = publicUrl;
   a.download = fileName;
   a.target = '_blank';
+  a.rel = 'noopener';
   a.click();
 }
