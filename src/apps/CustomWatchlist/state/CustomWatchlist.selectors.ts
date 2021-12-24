@@ -45,6 +45,10 @@ export const selectCurrentCustomWatchlistStatus = createSelector<any, CustomWatc
   selectCustomWatchlistsStore,
   (store) => store.currentWatchlist.value?.process?.status ?? null,
 );
+export const selectCurrentCustomWatchlistId = createSelector<any, CustomWatchlistsStore, number>(
+  selectCustomWatchlistsStore,
+  (store) => store.currentWatchlist.value?.id ?? null,
+);
 
 export const selectCurrentCustomWatchlistError = createSelector<any, CustomWatchlistsStore, CustomWatchlistValidationError[] | null>(
   selectCustomWatchlistsStore,

@@ -2,7 +2,7 @@ import { CustomWatchlistSeverityOnMatchTypes } from 'models/CustomWatchlist.mode
 import { ErrorStatuses } from 'models/Error.model';
 import { getStepStatus, IStep, StepStatus } from 'models/Step.model';
 
-export const customWatchlistsPollingDelay = 2000;
+export const customWatchlistsPollingDelay = 5000;
 
 export enum CsvSeparatorInputEnum {
   Semicolon = 'semicolon',

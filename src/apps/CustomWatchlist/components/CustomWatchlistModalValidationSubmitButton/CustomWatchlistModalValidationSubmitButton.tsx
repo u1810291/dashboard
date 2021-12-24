@@ -4,10 +4,11 @@ import { useSelector } from 'react-redux';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { WatchlistProcessStatus } from '../../models/CustomWatchlist.models';
-import { selectCurrentCustomWatchlist, selectCurrentCustomWatchlistError } from '../../state/CustomWatchlist.selectors';
+import { selectCurrentCustomWatchlistStatus, selectCurrentCustomWatchlistId, selectCurrentCustomWatchlistError } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistModalValidationSubmitButton.styles';
 
-export function CustomWatchlistModalValidationSubmitButton({ isWatchlistsLoading, isWatchlistRunning, isFormSubmitting, disabled }: {
+export function CustomWatchlistModalValidationSubmitButton({ isWatchlistsLoading, isWatchlistRunning, isFormSubmitting, isEdit, disabled }: {
+  isEdit: boolean;
   isWatchlistsLoading: boolean;
   isWatchlistRunning: boolean;
   isFormSubmitting: boolean;
@@ -15,20 +16,32 @@ export function CustomWatchlistModalValidationSubmitButton({ isWatchlistsLoading
 }) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
-  const currentWatchlist = useSelector(selectCurrentCustomWatchlist);
+  const currentWatchlistStatus = useSelector(selectCurrentCustomWatchlistStatus);
   const currentWatchlistError = useSelector(selectCurrentCustomWatchlistError);
   const isCurrentWatchlistError = Array.isArray(currentWatchlistError) && currentWatchlistError?.length !== 0;
-
-  // console.log('currentWatchlist', currentWatchlist);
-  // console.log({ currentWatchlistError, disabled, isCurrentWatchlistError });
+  const hasSpinner = isWatchlistsLoading || isFormSubmitting || isWatchlistRunning;
 
   const buttonText = useMemo(() => {
-    if (currentWatchlist?.process?.status === WatchlistProcessStatus.Completed) {
-      return formatMessage('CustomWatchlist.settings.modal.button.done');
+    if (hasSpinner) {
+      return (
+        <>
+          {isWatchlistRunning && <span className={classes.buttonRunning}>{formatMessage(`CustomWatchlist.settings.modal.button.status.${WatchlistProcessStatus.Running}`)}</span>}
+          <CircularProgress color="inherit" size={17} />
+        </>
+      );
     }
 
-    return formatMessage('CustomWatchlist.settings.modal.button.create');
-  }, [currentWatchlist, formatMessage]);
+    console.log({ isEdit, currentWatchlistStatus });
+    if (isEdit) {
+      return formatMessage('CustomWatchlist.settings.modal.button.update');
+    }
+
+    if (!isEdit) {
+      return formatMessage('CustomWatchlist.settings.modal.button.create');
+    }
+
+    return formatMessage('CustomWatchlist.settings.modal.button.done');
+  }, [isWatchlistRunning, isEdit, classes, hasSpinner, currentWatchlistStatus, formatMessage]);
 
   return (
     <ButtonStyled
@@ -39,19 +52,7 @@ export function CustomWatchlistModalValidationSubmitButton({ isWatchlistsLoading
       fullWidth
       disabled={disabled || isCurrentWatchlistError}
     >
-      {isWatchlistsLoading || isFormSubmitting || isWatchlistRunning ? (
-        <>
-          {isWatchlistRunning && <span className={classes.buttonRunning}>{formatMessage(`CustomWatchlist.settings.modal.button.status.${WatchlistProcessStatus.Running}`)}</span>}
-          <CircularProgress color="inherit" size={17} />
-        </>
-      ) : (
-        <>
-          {buttonText}
-          {/* {(!currentWatchlist) && formatMessage('CustomWatchlist.settings.modal.button.create')}
-          {currentWatchlist?.process?.status === WatchlistProcessStatus.Completed && formatMessage('CustomWatchlist.settings.modal.button.done')}
-          {((currentWatchlist?.id && !currentWatchlist?.process)) && formatMessage('CustomWatchlist.settings.modal.button.validate')} */}
-        </>
-      )}
+      {buttonText}
     </ButtonStyled>
   );
 }

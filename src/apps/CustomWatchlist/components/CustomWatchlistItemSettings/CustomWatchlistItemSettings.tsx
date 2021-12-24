@@ -12,7 +12,7 @@ import { DateFormat } from 'lib/date';
 import { notification } from 'apps/ui';
 import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
-import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, customWatchlistLoadById, setCurrentWatchlist, clearCurrentWatchlist, clearCurrentWatchlistHeaders } from '../../state/CustomWatchlist.actions';
+import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearCurrentWatchlist, clearCurrentWatchlistHeaders } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsFailed, selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
@@ -37,14 +37,14 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
     dispatch(clearCurrentWatchlistHeaders());
   }, [dispatch, closeOverlay]);
 
-  const customWatchlistsContentUpdate = useCallback((watchlistId: number, values: WatchlistContentTypes) => {
-    dispatch(updateMerchantWatchlistContent(merchantId, watchlistId, values));
+  const customWatchlistsContentUpdate = useCallback((watchlistId: number, values: WatchlistContentTypes, isCreateFlow?: boolean) => {
+    dispatch(updateMerchantWatchlistContent(merchantId, watchlistId, values, isCreateFlow));
   }, [merchantId, dispatch]);
 
-  const handleSubmitWatchlist = useCallback((watchlist?: IFlowWatchlist) => (values: CustomWatchlistModalValidationInputTypes) => {
+  const handleSubmitWatchlist = useCallback((values: CustomWatchlistModalValidationInputTypes, watchlist?: Partial<FlowWatchlistUi>) => {
     const watchlistRequestData = {
-      name: values.name,
-      mapping: values.mapping,
+      [CustomWatchlistModalValidationInputs.Name]: values.name,
+      [CustomWatchlistModalValidationInputs.Mapping]: values.mapping,
     };
     const watchlistContentValues = {
       [CustomWatchlistModalValidationInputs.FileKey]: values[CustomWatchlistModalValidationInputs.FileKey],
@@ -52,16 +52,16 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
       [CustomWatchlistModalValidationInputs.CsvSeparator]: values[CustomWatchlistModalValidationInputs.CsvSeparator],
     };
 
-    if (watchlist) {
+    if (watchlist?.id) {
       dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData, handleCloseOverlay));
       customWatchlistsContentUpdate(watchlist.id, watchlistContentValues);
       return;
     }
     dispatch(customWatchlistCreate(merchantId, watchlistRequestData, async (watchlistData) => {
-      await customWatchlistsContentUpdate(watchlistData.id, watchlistContentValues);
-      dispatch(setCurrentWatchlist(watchlistData.id));
+      await customWatchlistsContentUpdate(watchlistData.id, watchlistContentValues, true);
+      notification.info(formatMessage('CustomWatchlist.settings.watchlist.created'));
     }));
-  }, [merchantId, customWatchlistsContentUpdate, handleCloseOverlay, dispatch]);
+  }, [merchantId, formatMessage, customWatchlistsContentUpdate, handleCloseOverlay, dispatch]);
 
   const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {
     if (watchlist?.id) {
@@ -71,7 +71,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
       <CustomWatchlistModalValidation
         watchlist={watchlist}
         onClose={handleCloseOverlay}
-        onSubmit={handleSubmitWatchlist(watchlist)}
+        onSubmit={handleSubmitWatchlist}
       />,
       { onClose: handleCloseOverlay },
     );

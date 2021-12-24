@@ -30,7 +30,7 @@ export const customWatchlistsLoad = (merchantId: string) => async (dispatch) => 
 };
 
 export const setCurrentWatchlist = (watchlistId) => (dispatch, getState) => {
-  const watchlists: IWatchlist[] = selectWatchlists(getState());
+  const watchlists = selectWatchlists(getState());
   dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: watchlists.find((watchlistElem) => watchlistElem.id === watchlistId), isReset: true });
 };
 
@@ -42,16 +42,16 @@ export const clearCurrentWatchlistHeaders = () => (dispatch) => {
   dispatch({ type: types.CURRENT_CUSTOM_WATCHLISTS_HEADERS_CLEAR, payload: null });
 };
 
-export const customWatchlistLoadById = (merchantId: string, watchlistId: number, callback?: (data: IWatchlist) => void) => async (dispatch) => {
+export const customWatchlistLoadById = (merchantId: string, watchlistId: number) => async (dispatch, getState) => {
   dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_REQUEST });
   try {
     const payload = await api.getMerchantWatchlistById(merchantId, watchlistId);
-
-    if (callback) {
-      callback(payload.data);
-    }
+    const watchlists = [...selectWatchlists(getState())];
+    const watchlistIndexFind = watchlists.findIndex((watchlist) => watchlist.id === watchlistId);
+    watchlists[watchlistIndexFind] = payload.data;
 
     dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: payload.data, isReset: true });
+    dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: watchlists, isReset: true });
   } catch (error) {
     dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_FAILURE, error });
     throw error;
@@ -75,7 +75,7 @@ export const customWatchlistUpdateById = (merchantId: string, watchlistId: numbe
   dispatch({ type: types.CUSTOM_WATCHLISTS_UPDATING });
   try {
     const payload = await api.updateMerchantWatchlistById(merchantId, watchlistId, params);
-    const watchlists: IWatchlist[] = [...selectWatchlists(getState())];
+    const watchlists = [...selectWatchlists(getState())];
     const watchlistIndexFind = watchlists.findIndex((watchlist) => watchlist.id === payload.data.id);
     watchlists[watchlistIndexFind] = payload.data;
 
@@ -103,13 +103,17 @@ export const deleteCustomWatchlistById = (merchantId: string, watchlistId: numbe
   }
 };
 
-export const updateMerchantWatchlistContent = (merchantId: string, watchlistId: number, body: WatchlistContentTypes) => async (dispatch, getState) => {
+export const updateMerchantWatchlistContent = (merchantId: string, watchlistId: number, body: WatchlistContentTypes, isCreateFlow?: boolean) => async (dispatch, getState) => {
   dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_UPDATING });
   try {
     const payload = await api.updateMerchantWatchlistContentById(merchantId, watchlistId, body);
-    const watchlists: IWatchlist[] = [...selectWatchlists(getState())];
+    const watchlists = [...selectWatchlists(getState())];
     const watchlistIndexFind = watchlists.findIndex((watchlist) => watchlist.id === payload.data.id);
     watchlists[watchlistIndexFind] = { ...watchlists[watchlistIndexFind], process: { ...watchlists[watchlistIndexFind].process, ...payload.data.process } };
+
+    if (isCreateFlow) {
+      dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: payload.data, isReset: true });
+    }
 
     dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_SUCCESS });
     dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: watchlists, isReset: true });
