@@ -1,5 +1,5 @@
 import { Grid, Typography, TextareaAutosize, Select, MenuItem, TextField } from '@material-ui/core';
-import { inputCustomDocumentValidationChecksDefaultValue } from 'apps/imageValidation/models/imageValidation.model';
+import { inputCustomDocumentValidationChecksDefaultValue } from 'models/ImageValidation.model';
 import { isNil } from 'lib/isNil';
 import cloneDeep from 'lodash/cloneDeep';
 import { CustomDocumentResponse } from 'models/CustomDocument.model';

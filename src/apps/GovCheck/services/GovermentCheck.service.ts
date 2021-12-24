@@ -3,7 +3,7 @@ import { VerificationResponse } from 'models/Verification.model';
 import { IFlow } from 'models/Flow.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { FiFlag } from 'react-icons/fi';
-import { CountrySpecificChecks, StepStatus } from 'models/Step.model';
+import { CountrySpecificChecks, getStepStatus, StepStatus } from 'models/Step.model';
 import { GovCheckSettings } from '../components/GovCheckSettings/GovCheckSettings';
 import {
   GovCheckStepTypes,
@@ -61,7 +61,7 @@ export class GovernmentCheck extends ProductBaseService implements Product<Produ
     return verification?.documents?.some((document) => {
       const steps = document?.steps || [];
       const govChecksSteps = steps.filter((step) => CountrySpecificChecks.includes(step.id));
-      return govChecksSteps.some((step) => step.checkStatus === StepStatus.Failure);
+      return govChecksSteps.some((step) => getStepStatus(step) === StepStatus.Failure);
     });
   }
 

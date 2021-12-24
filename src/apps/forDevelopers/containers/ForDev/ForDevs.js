@@ -59,7 +59,7 @@ export function ForDevs() {
   }, [createOverlay]);
 
   const handleRedirect = useCallback(() => {
-    window.open(DOCS_BASE_URL, '_blank');
+    window.open(DOCS_BASE_URL, '_blank', 'noopener');
   }, []);
 
   return (

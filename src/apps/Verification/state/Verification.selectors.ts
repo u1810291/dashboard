@@ -6,6 +6,7 @@ import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFl
 import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
 import { selectIdentityModel } from 'state/identities/identities.selectors';
+import { ErrorType } from 'models/Error.model';
 import { CreditCheckStep, DataForCreditCheck } from 'models/CreditCheck.model';
 import { VERIFICATION_STORE_KEY, VerificationSliceTypes, VerificationStore } from './Verification.store';
 
@@ -26,23 +27,22 @@ export const selectVerificationProductList = createSelector(
   (store): ProductTypes[] => store.productList || [],
 );
 
-export const selectVerificationModelWithExtras = createSelector(
-  selectIdentityModel,
-  selectCountriesList,
-  selectLoadableValue((value, countries) => getVerificationExtras(value?._embedded?.verification, countries)),
-);
-
-export const selectReviewVerificationWithExtras = createSelector<any, any, VerificationWithExtras>(
-  selectVerificationModelWithExtras,
-  selectModelValue(),
-);
-
 export const selectNewVerificationModelWithExtras = createSelector(
   selectVerificationModel,
   selectCountriesList,
   selectLoadableValue((verification, countries) => getVerificationExtras(verification, countries)),
 );
 
+export const selectVerificationModelError = createSelector<any, any, ErrorType>(
+  selectVerificationModel,
+  (verification) => verification.error,
+);
+
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ * use selectVerification
+ */
 export const selectNewVerificationWithExtras = createSelector<any, any, VerificationWithExtras>(
   selectNewVerificationModelWithExtras,
   selectModelValue(),
@@ -58,11 +58,19 @@ export const selectVerificationsGroupedByFlow = createSelector<any, Loadable<Ver
   selectModelValue((verifications: VerificationListItem[]) => groupVerificationsByFlow(verifications)),
 );
 
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export const selectVerificationStepsExtra = createSelector(
   selectNewVerificationWithExtras,
   (verification): IStep[] => verification.steps.map((step) => getStepExtra(step, verification)),
 );
 
+// TODO: @ggrigorev remove deprecated
+/**
+ * @deprecated
+ */
 export const selectVerificationDocumentsSteps = createSelector(
   selectNewVerificationWithExtras,
   (verification): IStep[] => [...verification.documents.reduce((acc, cur) => ([...acc, ...cur.steps]), [])],

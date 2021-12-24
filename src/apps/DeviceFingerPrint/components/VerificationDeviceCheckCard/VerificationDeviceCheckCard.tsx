@@ -1,5 +1,5 @@
 import { VerificationCheckCard } from 'apps/identity/components/VerificationCheckCard/VerificationCheckCard';
-import { VerificationSummaryTitle } from 'apps/identity/components/VerificationSummaryTitle/VerificationSummaryTitle';
+import { VerificationSummaryTitle } from 'apps/identity';
 import { VerificationSummaryTitleTypes } from 'models/Identity.model';
 import { StepStatus } from 'models/Step.model';
 import React from 'react';

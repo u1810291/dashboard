@@ -1,4 +1,4 @@
-import { InputValidationCheck } from 'apps/imageValidation/models/imageValidation.model';
+import { InputValidationCheck } from './ImageValidation.model';
 import { VerificationPatternTypes } from './VerificationPatterns.model';
 import { DocumentSides } from './Document.model';
 import { Media } from './Media.model';

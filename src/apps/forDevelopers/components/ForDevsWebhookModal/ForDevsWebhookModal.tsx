@@ -54,7 +54,7 @@ export function ForDevsWebhookModal() {
   }, [dispatch, webhook, intl]);
 
   const handleRedirect = useCallback(() => {
-    window.open('https://docs.metamap.com/docs/webhook-specifications', '_blank');
+    window.open('https://docs.metamap.com/docs/webhook-specifications', '_blank', 'noopener');
   }, []);
 
   return (
