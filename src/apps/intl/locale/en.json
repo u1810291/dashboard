@@ -620,6 +620,7 @@
   "CustomWatchlist.settings.watchlist.fileErrorUpload": "Error. Please try uploading the file again.",
   "CustomWatchlist.settings.watchlist.uploaded": "Uploaded",
   "CustomWatchlist.settings.watchlist.validation.error": "Validation error",
+  "CustomWatchlist.settings.headers.watchlist.noHeaders": "File contains no headers or incorrect separator is specified",
   "DateRange.All": "All",
   "DateRange.Last30Days": "Last 30 Days",
   "DateRange.Last7Days": "Last 7 Days",

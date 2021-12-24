@@ -56,6 +56,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
   }, [onChange, debounced]);
 
   const localOptions = useMemo(() => options.filter((option) => Object.values(selectedOptions).every((x) => x.value !== option.value)), [options, selectedOptions]);
+  const currentOption = useMemo(() => options.find((option) => option.value === value), [value, options]);
 
   return (
     <>
@@ -79,7 +80,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
                 value={selectedOptions[name].value}
                 disabled
               >
-                {selectedOptions[name].label}
+                {currentOption.label}
               </MenuItem>
             )}
             {localOptions.map((item) => (

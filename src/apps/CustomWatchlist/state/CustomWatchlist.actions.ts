@@ -1,6 +1,6 @@
 import { productManagerService } from 'apps/Product';
 import { ProductTypes } from 'models/Product.model';
-import { CustomWatchlistHeaders, CustomWatchlistShortValidation, ICurrentCustomWatchlist, IWatchlist, WatchlistContentTypes, WatchlistCreateBodyTypes } from '../models/CustomWatchlist.models';
+import { CustomWatchlistHeaders, CustomWatchlistShortValidation, IWatchlist, WatchlistContentTypes, WatchlistCreateBodyTypes } from '../models/CustomWatchlist.models';
 import { CustomWatchlist } from '../services/CustomWatchlist.service';
 import * as api from '../client/CustomWatchlist.client';
 import { types } from './CustomWatchlist.store';
@@ -36,6 +36,10 @@ export const setCurrentWatchlist = (watchlistId) => (dispatch, getState) => {
 
 export const clearCurrentWatchlist = () => (dispatch) => {
   dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_CLEAR, payload: null });
+};
+
+export const clearCurrentWatchlistHeaders = () => (dispatch) => {
+  dispatch({ type: types.CURRENT_CUSTOM_WATCHLISTS_HEADERS_CLEAR, payload: null });
 };
 
 export const customWatchlistLoadById = (merchantId: string, watchlistId: number, callback?: (data: IWatchlist) => void) => async (dispatch) => {
@@ -119,19 +123,14 @@ export const customWatchlistsClear = () => (dispatch) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_CLEAR, payload: [] });
 };
 
-export const getCustomWatchlistHeaders = (merchantId: string, body: CustomWatchlistHeaders, setIsHeadersLoading: Function) => async (dispatch, getState) => {
-  dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_UPDATING });
+export const getCustomWatchlistHeaders = (merchantId: string, body: CustomWatchlistHeaders) => async (dispatch) => {
+  dispatch({ type: types.CURRENT_CUSTOM_WATCHLISTS_HEADERS_REQUEST });
   try {
-    setIsHeadersLoading(true);
     const payload = await api.getWatchlistHeaders(merchantId, body);
-    const currentWatchlists: ICurrentCustomWatchlist = { ...selectCurrentCustomWatchlist(getState()) };
-    currentWatchlists.headers = payload.data.headers;
 
-    setIsHeadersLoading(false);
-    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: currentWatchlists, isReset: true });
-  } catch (error) {
-    setIsHeadersLoading(false);
-    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_FAILURE, error });
+    dispatch({ type: types.CURRENT_CUSTOM_WATCHLISTS_HEADERS_SUCCESS, payload: payload.data.headers, isReset: true });
+  } catch (error: any) {
+    dispatch({ type: types.CURRENT_CUSTOM_WATCHLISTS_HEADERS_FAILURE, error: error?.response?.data?.type });
     throw error;
   }
 };
@@ -140,7 +139,7 @@ export const getCustomWatchlistShortValidation = (merchantId: string, body: Cust
   dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_UPDATING });
   try {
     const payload = await api.getWatchlistShortValidation(merchantId, body);
-    const currentWatchlists: ICurrentCustomWatchlist = { ...selectCurrentCustomWatchlist(getState()) };
+    const currentWatchlists: IWatchlist = { ...selectCurrentCustomWatchlist(getState()) };
     currentWatchlists.process = { ...currentWatchlists.process };
     currentWatchlists.process.error = payload.data?.errors ?? null;
 

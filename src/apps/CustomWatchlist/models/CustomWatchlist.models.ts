@@ -2,7 +2,7 @@ import { CustomWatchlistSeverityOnMatchTypes } from 'models/CustomWatchlist.mode
 import { ErrorStatuses } from 'models/Error.model';
 import { getStepStatus, IStep, StepStatus } from 'models/Step.model';
 
-export const customWatchlistsPollingDelay = 30000;
+export const customWatchlistsPollingDelay = 2000;
 
 export enum CsvSeparatorInputEnum {
   Semicolon = 'semicolon',
@@ -77,10 +77,6 @@ export interface IWatchlist {
   process: Partial<WatchlistProcess> | null;
 }
 
-export interface ICurrentCustomWatchlist extends Partial<IWatchlist> {
-  headers?: string[];
-}
-
 export interface CustomWatchlistUpload {
   key: string;
 }
@@ -101,14 +97,15 @@ export enum ValidatedInputsKeys {
   Country = 'country',
   EmailAddress = 'emailAddress',
   PhoneNumber = 'phoneNumber',
+  NotSelected = 'notSelected',
 }
 
 export enum CustomWatchlistModalValidationInputs {
   Name = 'name',
-  FileKey = 'sourceFileKey',
+  FileKey = 'inputSourceFileKey',
   Mapping = 'mapping',
   CsvSeparator = 'csvSeparator',
-  FileName = 'fileName'
+  FileName = 'inputSourceFileName'
 }
 
 export enum CustomWatchlistFileExt {
@@ -122,14 +119,14 @@ export interface WatchlistCreateBodyTypes {
 }
 
 export interface WatchlistContentTypes {
-  sourceFileKey: string;
-  fileName: string;
+  inputSourceFileKey: string;
+  inputSourceFileName: string;
   csvSeparator: string;
 }
 
-export type CustomWatchlistHeaders = Pick<WatchlistContentTypes, 'sourceFileKey' | 'csvSeparator'>
+export type CustomWatchlistHeaders = Pick<WatchlistContentTypes, 'inputSourceFileKey' | 'csvSeparator'>
 
-export interface CustomWatchlistShortValidation extends Pick<WatchlistContentTypes, 'sourceFileKey' | 'csvSeparator'>, Pick<IWatchlist, 'mapping'> {}
+export interface CustomWatchlistShortValidation extends Pick<WatchlistContentTypes, 'inputSourceFileKey' | 'csvSeparator'>, Pick<IWatchlist, 'mapping'> {}
 
 export interface CustomWatchlistValidationErrorData {
   fieldName: ValidatedInputsKeys;
@@ -195,18 +192,14 @@ export interface ValidatedInputsFieldValuesOptions {
   fuzziness?: number;
 }
 
-export const placeholderKey = 'notSelected';
-
-export type ValidatedInputsFieldTypesValue = ValidatedInputsKeys | typeof placeholderKey;
-
 export interface IValidatedInputsFieldTypes {
   label: string;
   value: ValidatedInputsKeys;
   options?: ValidatedInputsFieldValuesOptions;
 }
 
-export interface ValidatedInputsFieldTypesExtended extends Pick<IValidatedInputsFieldTypes, 'label' | 'options'> {
-  value: ValidatedInputsFieldTypesValue;
+export interface ValidatedInputsFieldTypesExtended extends IValidatedInputsFieldTypes {
+  inputLabel?: string;
 }
 
 export function getCustomWatchlistStepExtra(step: CustomWatchlistStep): CustomWatchlistStepExtended {
@@ -222,7 +215,7 @@ export function getCustomWatchlistStepExtra(step: CustomWatchlistStep): CustomWa
 
 export function getCustomWatchlistMapping(headers?: string[], mapping?: WatchlistMapping[]): ValidatedInputsFieldTypesExtended[] {
   if (headers) {
-    return headers.map((header) => ({ label: header, value: placeholderKey }));
+    return headers.map((header) => ({ label: header, value: ValidatedInputsKeys.NotSelected }));
   }
 
   if (mapping) {
@@ -231,55 +224,6 @@ export function getCustomWatchlistMapping(headers?: string[], mapping?: Watchlis
 
   return [];
 }
-
-// TODO: remove
-const mock = [
-  {
-    code: 500,
-    type: 'watchlistContentParse.invalidFormat',
-    data: {
-      fieldName: 'documentNumber',
-      row: 1,
-    },
-    retryable: false,
-  },
-  {
-    code: 500,
-    type: 'watchlistContentParse.invalidFormat',
-    data: {
-      fieldName: 'documentNumber',
-      row: 2,
-    },
-    retryable: false,
-  },
-  {
-    code: 500,
-    type: 'watchlistContentParse.invalidFormat',
-    data: {
-      fieldName: 'documentNumber',
-      row: 3,
-    },
-    retryable: false,
-  },
-  {
-    code: 500,
-    type: 'watchlistContentParse.invalidFormat',
-    data: {
-      fieldName: 'dateOfBirth',
-      row: 3,
-    },
-    retryable: false,
-  },
-  {
-    code: 500,
-    type: 'watchlistContentParse.invalidFormat',
-    data: {
-      fieldName: 'fullName',
-      row: 3,
-    },
-    retryable: false,
-  },
-];
 
 export function getCustomWatchlistErrorsFormated(errors?: CustomWatchlistValidationError[]): Partial<Record<ValidatedInputsKeys, ICustomWatchlistValidationErrorFormated[]>> | null {
   if (!errors) {

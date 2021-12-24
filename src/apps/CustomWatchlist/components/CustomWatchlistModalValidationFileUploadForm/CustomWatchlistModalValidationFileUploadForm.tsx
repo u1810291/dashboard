@@ -9,12 +9,12 @@ import { useFormatMessage } from 'apps/intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { WithActionDescriptionBordered, FileSelectButton } from 'apps/ui';
 import { useStyles, RoundedButton } from './CustomWatchlistModalValidationFileUploadForm.styles';
-import { FlowWatchlistUi, CustomWatchlistModalValidationInputs, CustomWatchlistFileExt, CustomWatchlistUpload } from '../../models/CustomWatchlist.models';
+import { CustomWatchlistModalValidationInputs, CustomWatchlistFileExt, CustomWatchlistUpload, IWatchlist } from '../../models/CustomWatchlist.models';
 import * as api from '../../client/CustomWatchlist.client';
 import { CSVSeparatorSelect } from '../CSVSeparatorSelect/CSVSeparatorSelect';
 
 export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFileUploaded, onFileUploading }: {
-  watchlist?: FlowWatchlistUi;
+  watchlist?: IWatchlist;
   onFileUploaded?: (data: CustomWatchlistUpload) => void;
   onFileUploading?: (loading: boolean) => void;
 }) {
@@ -25,8 +25,6 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>(watchlist?.process?.inputSourceFileName);
   const { setValue, setError, clearErrors, formState: { errors } } = useFormContext();
-
-  console.log('watchlist', watchlist);
 
   useEffect(() => {
     if (fileName) {
@@ -101,7 +99,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
           {formatMessage('CustomWatchlist.settings.modal.button.selectFile')}
         </FileSelectButton>
       )}
-      {extFile === CustomWatchlistFileExt.Csv && <CSVSeparatorSelect defaultValue={watchlist?.process.csvSeparator} />}
+      {extFile === CustomWatchlistFileExt.Csv && <CSVSeparatorSelect defaultValue={watchlist?.process?.csvSeparator} />}
       {fileName && (
         <>
           <Button

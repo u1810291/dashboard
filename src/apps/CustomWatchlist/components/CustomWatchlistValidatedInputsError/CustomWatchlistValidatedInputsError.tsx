@@ -32,11 +32,13 @@ export const CustomWatchlistValidatedInputsError = ({ inputValue }: {
         <Typography>{formatMessage(`CustomWatchlist.settings.modal.validationFields.error.${errors[0].type}`, { messageValues: { count: errors.length } })}</Typography>
       </AccordionSummaryStyled>
       <AccordionDetailsStyled>
-        <Typography>
-          {errors.map((error, index) => (
-            <Box key={`${error.systemField}-${index}`} mt={index !== 0 && 1}>{formatMessage('CustomWatchlist.settings.modal.validationFields.error.description', { messageValues: { count: error.row } })}</Box>
-          ))}
-        </Typography>
+        {errors.map((error, index) => (
+          <Box key={`${error.systemField}-${index}`} mt={index !== 0 ? 1 : 0}>
+            <Typography>
+              {formatMessage('CustomWatchlist.settings.modal.validationFields.error.description', { messageValues: { count: error.row } })}
+            </Typography>
+          </Box>
+        ))}
       </AccordionDetailsStyled>
     </AccordionStyled>
   );

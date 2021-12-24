@@ -2,7 +2,7 @@ import Grid from '@material-ui/core/Grid';
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useFormatMessage } from 'apps/intl';
 import { ValidatedInput } from '../ValidatedInput/ValidatedInput';
-import { ValidatedInputsFieldTypesExtended, IValidatedInputsFieldTypes, ValidatedInputsKeys, WatchlistMappingOptions, placeholderKey } from '../../models/CustomWatchlist.models';
+import { ValidatedInputsFieldTypesExtended, IValidatedInputsFieldTypes, ValidatedInputsKeys, WatchlistMappingOptions } from '../../models/CustomWatchlist.models';
 import { CustomWatchlistValidatedInputsError } from '../CustomWatchlistValidatedInputsError/CustomWatchlistValidatedInputsError';
 
 export interface SelectedOptions {
@@ -18,8 +18,9 @@ export function ValidatedInputs({ fieldValues, onChange }: {
     {
       ...prev,
       [cur.label]: {
-        label: cur.value === placeholderKey ? formatMessage('CustomWatchlist.settings.modal.validationFields.notSelected.label') : cur.label,
+        label: cur.label,
         value: cur.value,
+        // inputLabel: cur.value === ValidatedInputsKeys.NotSelected ? formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.NotSelected}.label`) : cur.label,
       },
     }
   ), {}));
@@ -54,8 +55,8 @@ export function ValidatedInputs({ fieldValues, onChange }: {
       value: ValidatedInputsKeys.PhoneNumber,
     },
     {
-      label: formatMessage('CustomWatchlist.settings.modal.validationFields.notSelected.label'),
-      value: placeholderKey,
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.NotSelected}.label`),
+      value: ValidatedInputsKeys.NotSelected,
     },
   ], [formatMessage]);
 
@@ -63,15 +64,15 @@ export function ValidatedInputs({ fieldValues, onChange }: {
     setSelectedOptions((prev) => ({
       ...prev,
       [values.name]: {
-        label: inputOptions.find((option) => option.value === values.value).label,
+        label: values.name,
         value: values.value,
         ...(values?.options && { options: values.options }),
       },
     }));
-  }, [inputOptions]);
+  }, []);
 
   useEffect(() => {
-    onChange(Object.values(selectedOptions).filter((option) => option.value !== placeholderKey) as IValidatedInputsFieldTypes[]);
+    onChange(Object.values(selectedOptions));
   }, [selectedOptions, onChange]);
 
   return (
@@ -80,7 +81,7 @@ export function ValidatedInputs({ fieldValues, onChange }: {
         <Grid key={`${input.label}-${input.value}`} container item direction="column">
           <Grid item>
             <ValidatedInput
-              placeholderKey={placeholderKey}
+              placeholderKey={ValidatedInputsKeys.NotSelected}
               title={input.label}
               name={input.label}
               onChange={handleChange}
@@ -89,7 +90,7 @@ export function ValidatedInputs({ fieldValues, onChange }: {
               value={selectedOptions[input.label].value}
             />
           </Grid>
-          {selectedOptions[input.label].value !== placeholderKey && <CustomWatchlistValidatedInputsError inputValue={selectedOptions[input.label].value as ValidatedInputsKeys} />}
+          {selectedOptions[input.label].value !== ValidatedInputsKeys.NotSelected && <CustomWatchlistValidatedInputsError inputValue={selectedOptions[input.label].value} />}
         </Grid>
       ))}
     </Grid>

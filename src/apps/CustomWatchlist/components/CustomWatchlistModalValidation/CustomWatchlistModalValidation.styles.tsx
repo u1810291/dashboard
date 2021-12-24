@@ -47,4 +47,10 @@ export const useStyles = makeStyles((theme) => ({
     right: 10,
     color: theme.palette.common.black75,
   },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: 'calc(100% - 70px)',
+  },
 }));

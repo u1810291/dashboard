@@ -12,7 +12,7 @@ import { DateFormat } from 'lib/date';
 import { notification } from 'apps/ui';
 import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
-import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearCurrentWatchlist } from '../../state/CustomWatchlist.actions';
+import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, customWatchlistLoadById, setCurrentWatchlist, clearCurrentWatchlist, clearCurrentWatchlistHeaders } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsFailed, selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
@@ -34,6 +34,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const handleCloseOverlay = useCallback(() => {
     closeOverlay();
     dispatch(clearCurrentWatchlist());
+    dispatch(clearCurrentWatchlistHeaders());
   }, [dispatch, closeOverlay]);
 
   const customWatchlistsContentUpdate = useCallback((watchlistId: number, values: WatchlistContentTypes) => {
@@ -46,9 +47,9 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
       mapping: values.mapping,
     };
     const watchlistContentValues = {
-      sourceFileKey: values[CustomWatchlistModalValidationInputs.FileKey],
-      fileName: values[CustomWatchlistModalValidationInputs.FileName],
-      csvSeparator: values[CustomWatchlistModalValidationInputs.CsvSeparator],
+      [CustomWatchlistModalValidationInputs.FileKey]: values[CustomWatchlistModalValidationInputs.FileKey],
+      [CustomWatchlistModalValidationInputs.FileName]: values[CustomWatchlistModalValidationInputs.FileName],
+      [CustomWatchlistModalValidationInputs.CsvSeparator]: values[CustomWatchlistModalValidationInputs.CsvSeparator],
     };
 
     if (watchlist) {
@@ -56,9 +57,9 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
       customWatchlistsContentUpdate(watchlist.id, watchlistContentValues);
       return;
     }
-    dispatch(customWatchlistCreate(merchantId, watchlistRequestData, (watchlistData) => {
-      customWatchlistsContentUpdate(watchlistData.id, watchlistContentValues);
-      handleCloseOverlay();
+    dispatch(customWatchlistCreate(merchantId, watchlistRequestData, async (watchlistData) => {
+      await customWatchlistsContentUpdate(watchlistData.id, watchlistContentValues);
+      dispatch(setCurrentWatchlist(watchlistData.id));
     }));
   }, [merchantId, customWatchlistsContentUpdate, handleCloseOverlay, dispatch]);
 

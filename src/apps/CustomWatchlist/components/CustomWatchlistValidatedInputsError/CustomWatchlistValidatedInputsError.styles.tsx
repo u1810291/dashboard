@@ -26,5 +26,7 @@ export const AccordionSummaryStyled = withStyles(({
 export const AccordionDetailsStyled = withStyles(({
   root: {
     padding: '0 10px 10px',
+    display: 'flex',
+    flexDirection: 'column',
   },
 }))(AccordionDetails);
