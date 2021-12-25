@@ -136,7 +136,11 @@ export interface CustomWatchlistValidationError {
   code: ErrorStatuses;
   type: string;
   data: CustomWatchlistValidationErrorData;
-  retryable: false;
+  // TODO: @richvoronov ask backend to remove this fields
+  retryable: boolean;
+  message?: string;
+  name?: string;
+  stack?: string;
 }
 export interface ICustomWatchlistValidationError {
   valid: boolean;
@@ -230,6 +234,7 @@ export function getCustomWatchlistErrorsFormated(errors?: CustomWatchlistValidat
     return null;
   }
 
+  console.log('errors', errors);
   return errors.reduce((memo, cur) => {
     const fieldName = cur.data.fieldName;
 

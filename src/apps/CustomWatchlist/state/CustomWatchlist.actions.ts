@@ -42,6 +42,11 @@ export const clearCurrentWatchlistHeaders = () => (dispatch) => {
   dispatch({ type: types.CURRENT_CUSTOM_WATCHLISTS_HEADERS_CLEAR, payload: null });
 };
 
+export const clearWatchlist = () => (dispatch) => {
+  dispatch(clearCurrentWatchlist());
+  dispatch(clearCurrentWatchlistHeaders());
+};
+
 export const customWatchlistLoadById = (merchantId: string, watchlistId: number) => async (dispatch, getState) => {
   dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_REQUEST });
   try {
@@ -71,7 +76,7 @@ export const customWatchlistCreate = (merchantId: string, params: WatchlistCreat
   }
 };
 
-export const customWatchlistUpdateById = (merchantId: string, watchlistId: number, params: WatchlistCreateBodyTypes, callback: () => void) => async (dispatch, getState) => {
+export const customWatchlistUpdateById = (merchantId: string, watchlistId: number, params: WatchlistCreateBodyTypes) => async (dispatch, getState) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_UPDATING });
   try {
     const payload = await api.updateMerchantWatchlistById(merchantId, watchlistId, params);
@@ -80,7 +85,6 @@ export const customWatchlistUpdateById = (merchantId: string, watchlistId: numbe
     watchlists[watchlistIndexFind] = payload.data;
 
     dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: watchlists, isReset: true });
-    callback();
   } catch (error) {
     dispatch({ type: types.CUSTOM_WATCHLISTS_FAILURE, error });
     throw error;
@@ -115,7 +119,7 @@ export const updateMerchantWatchlistContent = (merchantId: string, watchlistId: 
       dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: payload.data, isReset: true });
     }
 
-    dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_SUCCESS });
+    dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_SUCCESS, payload: null, isReset: true });
     dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: watchlists, isReset: true });
   } catch (error) {
     dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_FAILURE, error });

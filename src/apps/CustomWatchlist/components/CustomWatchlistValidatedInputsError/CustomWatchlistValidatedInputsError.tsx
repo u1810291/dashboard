@@ -8,6 +8,8 @@ import { AccordionStyled, AccordionSummaryStyled, AccordionDetailsStyled } from 
 import { selectCurrentCustomWatchlistErrorsFormated } from '../../state/CustomWatchlist.selectors';
 import { ICustomWatchlistValidationErrorFormated, ValidatedInputsKeys } from '../../models/CustomWatchlist.models';
 
+const ERRORS_LIMIT = 10;
+
 export const CustomWatchlistValidatedInputsError = ({ inputValue }: {
   inputValue: ValidatedInputsKeys;
 }) => {
@@ -15,7 +17,7 @@ export const CustomWatchlistValidatedInputsError = ({ inputValue }: {
   const currentWatchlistErrors = useSelector(selectCurrentCustomWatchlistErrorsFormated);
 
   // TODO: @richvoronov errors should be splitted by type and fieldName
-  const errors: ICustomWatchlistValidationErrorFormated[] | boolean = useMemo(() => currentWatchlistErrors && currentWatchlistErrors[inputValue], [inputValue, currentWatchlistErrors]);
+  const errors: ICustomWatchlistValidationErrorFormated[] | boolean = useMemo(() => currentWatchlistErrors && currentWatchlistErrors[inputValue]?.filter((_, index) => index < ERRORS_LIMIT), [inputValue, currentWatchlistErrors]);
 
   if (!errors) {
     return null;

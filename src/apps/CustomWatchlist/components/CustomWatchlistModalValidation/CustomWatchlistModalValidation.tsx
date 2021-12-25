@@ -15,7 +15,7 @@ import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { useDebounce } from 'lib/debounce.hook';
 import { CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus, customWatchlistsPollingDelay, CustomWatchlistUpload, getCustomWatchlistMapping, IValidatedInputsFieldTypes, ValidatedInputsKeys, IWatchlist, FlowWatchlistUi } from '../../models/CustomWatchlist.models';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
-import { selectCurrentCustomWatchlistHeadersErrorType, selectCurrentCustomWatchlistId, selectIsWatchlistsContentLoading, selectIsWatchlistsLoading, selectCurrentCustomWatchlistStatus, selectCurrentCustomWatchlistHeaders, selectCurrentCustomWatchlistHeadersIsLoading } from '../../state/CustomWatchlist.selectors';
+import { selectCurrentCustomWatchlistHeadersErrorType, selectCurrentCustomWatchlistId, selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsContentLoading, selectIsWatchlistsLoading, selectCurrentCustomWatchlistStatus, selectCurrentCustomWatchlistHeaders, selectCurrentCustomWatchlistHeadersIsLoading } from '../../state/CustomWatchlist.selectors';
 import { customWatchlistLoadById, getCustomWatchlistHeaders, getCustomWatchlistShortValidation } from '../../state/CustomWatchlist.actions';
 import { useStyles } from './CustomWatchlistModalValidation.styles';
 import { CustomWatchlistModalValidationFileUploadForm } from '../CustomWatchlistModalValidationFileUploadForm/CustomWatchlistModalValidationFileUploadForm';
@@ -38,29 +38,31 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
 }) {
   const dispatch = useDispatch();
   const formatMessage = useFormatMessage();
+  const classes = useStyles();
+  const debounced = useDebounce();
+
   const merchantId = useSelector(selectMerchantId);
   const currentWatchlistId = useSelector(selectCurrentCustomWatchlistId);
   const currentWatchlistStatus = useSelector(selectCurrentCustomWatchlistStatus);
   const isWatchlistsLoading = useSelector(selectIsWatchlistsLoading);
+  const isCurrentCustomWatchlistIsLoading = useSelector(selectCurrentCustomWatchlistIsLoading);
   const isWatchlistsContentLoading = useSelector(selectIsWatchlistsContentLoading);
   const currentCustomWatchlistHeaders = useSelector(selectCurrentCustomWatchlistHeaders);
   const currentCustomWatchlistHeadersErrorType = useSelector(selectCurrentCustomWatchlistHeadersErrorType);
   const currentCustomWatchlistHeadersIsLoading = useSelector(selectCurrentCustomWatchlistHeadersIsLoading);
-  console.log('isWatchlistsLoading', isWatchlistsLoading);
 
   const [isSubmittingError, setIsSubmittingError] = useState<boolean>(false);
   const [fileKey, setFileKey] = useState<string | null>(watchlist?.process?.inputSourceFileKey ?? null);
   const [isFileUploading, setIsFileUploading] = useState<boolean>(false);
   const formMethods = useForm<CustomWatchlistModalValidationInputTypes>();
   const { register, handleSubmit, setValue, getValues, formState: { errors, isSubmitting } } = formMethods;
-  const classes = useStyles();
-  const debounced = useDebounce();
 
   const isWatchlistCompleted = currentWatchlistStatus === WatchlistProcessStatus.Completed;
   const isWatchlistRunning = currentWatchlistStatus === WatchlistProcessStatus.Running;
   const isFileHeadersFlowLoading = isFileUploading || currentCustomWatchlistHeadersIsLoading;
-  const isSubmitRestricted = !fileKey || isWatchlistsLoading || isWatchlistsContentLoading || isWatchlistRunning || isFileHeadersFlowLoading || currentCustomWatchlistHeadersErrorType;
+  const isSubmitRestricted = !fileKey || isCurrentCustomWatchlistIsLoading || isWatchlistsLoading || isWatchlistsContentLoading || isWatchlistRunning || isFileHeadersFlowLoading || currentCustomWatchlistHeadersErrorType;
   const watchlistId = watchlist?.id || currentWatchlistId;
+  const isEdit = !!watchlist;
 
   const handleWatchlistLoad = useCallback((isReload: boolean) => {
     if (watchlistId && isReload) {
@@ -70,7 +72,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
 
   useLongPolling(handleWatchlistLoad, customWatchlistsPollingDelay, {
     isCheckMerchantTag: false,
-    isUseFirstInvoke: false,
+    isUseFirstInvoke: true,
     isDone: isWatchlistCompleted,
   });
 
@@ -83,19 +85,23 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
       return;
     }
 
-    if (isWatchlistCompleted) {
+    if (!isEdit && isWatchlistCompleted) {
       onClose();
       return;
     }
 
     try {
+      const submitValues = {
+        ...values,
+        [CustomWatchlistModalValidationInputs.FileKey]: values[CustomWatchlistModalValidationInputs.FileKey] || fileKey,
+      };
       // TODO: @richvoronov is there any other way to check for submit errors?
       setIsSubmittingError(false);
-      onSubmit(values, { ...watchlist, id: currentWatchlistId });
+      onSubmit(submitValues, { ...watchlist, id: watchlistId });
     } catch (error) {
       setIsSubmittingError(true);
     }
-  }, [watchlist, isWatchlistCompleted, currentWatchlistId, isSubmitRestricted, onClose, onSubmit]);
+  }, [watchlist, watchlistId, isSubmitRestricted, fileKey, isEdit, isWatchlistCompleted, onClose, onSubmit]);
 
   const handleInputValidate = useCallback((mapping: WatchlistMapping[]) => {
     const formValues = getValues();
@@ -198,11 +204,11 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
             </Grid>
             <Grid item xs={6}>
               <CustomWatchlistModalValidationSubmitButton
-                isWatchlistsLoading={isWatchlistsLoading}
-                isFormSubmitting={isSubmitting}
+                isWatchlistCompleted={isWatchlistCompleted}
+                loading={isWatchlistsLoading || isSubmitting || isWatchlistRunning || isWatchlistsContentLoading}
                 isWatchlistRunning={isWatchlistRunning}
                 disabled={isSubmitRestricted}
-                isEdit={!!watchlist}
+                isEdit={isEdit}
               />
             </Grid>
           </Grid>
