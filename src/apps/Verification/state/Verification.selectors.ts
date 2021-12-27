@@ -5,7 +5,6 @@ import { DocumentStepTypes, getStepExtra, IStep } from 'models/Step.model';
 import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFlow, VerificationListItem, VerificationWithExtras, VerificationResponse } from 'models/Verification.model';
 import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
-import { selectIdentityModel } from 'state/identities/identities.selectors';
 import { ErrorType } from 'models/Error.model';
 import { CreditCheckStep, DataForCreditCheck } from 'models/CreditCheck.model';
 import { VERIFICATION_STORE_KEY, VerificationSliceTypes, VerificationStore } from './Verification.store';

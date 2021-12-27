@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { ErrorMessages, isInReviewModeError } from 'models/Error.model';
 import { filterSerialize } from 'models/Filter.model';
 import { Dispatch } from 'redux';
-import { formatEmailWithQuotes } from 'lib/validations';
+import { EMAIL_REG_EXP_FOR_FORMATTING, formatFragmentWithQuotes, TEXT_WITH_DASHES } from 'lib/validations';
 import { createTypesSequence, TypesSequence } from '../store.utils';
 import { selectIdentityFilterSerialized, selectIdentityModel } from './identities.selectors';
 import { IdentityActionGroups } from './identities.store';
@@ -29,7 +29,7 @@ export const verificationsListLoad = (isReload: boolean, params?: { offset: numb
   dispatch({ type: isReload ? types.IDENTITY_LIST_REQUEST : types.IDENTITY_LIST_UPDATING });
   try {
     const filter = selectIdentityFilterSerialized(getState());
-    const formattedFilter = { ...filter, ...(filter?.search && ({ search: formatEmailWithQuotes(filter.search as string) })) };
+    const formattedFilter = { ...filter, ...(filter?.search && ({ search: formatFragmentWithQuotes(filter.search as string, [TEXT_WITH_DASHES, EMAIL_REG_EXP_FOR_FORMATTING]) })) };
     const { data } = await api.getVerifications({ ...formattedFilter, ...params });
     dispatch({ type: types.IDENTITY_LIST_SUCCESS, payload: data || [], isReset: isReload });
   } catch (error) {

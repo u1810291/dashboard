@@ -8,6 +8,7 @@ export const EMAIL_REG_EXP_FOR_FORMATTING = /"*[A-Z0-9._%+-]+@([A-Z0-9.-]+\.[A-Z
 export const CLEAN_TEXT_REG_EXP = /^[^`~!@#$%^&*()+=[{\]}|\\'<,.>?";:]+$/;
 export const SPECIAL_CHARACTERS_REG_EXP = /[ !"#$%&'()*+,\-./\\:;<=>?@[\]^_`{|}~]/;
 export const PASSWORD_REG_EXP = /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[ !"#$%&'()*+,\-./\\:;<=>?@[\]^_`{|}~]).*$/;
+export const TEXT_WITH_DASHES = /(?=\S*[-])([a-zA-Z0-9-]+)/gi;
 
 export function isBusinessEmail(value) {
   const match = EMAIL_REG_EXP.exec(value.toLowerCase());
@@ -43,21 +44,30 @@ export function validateMaxLength(name = '', limit) {
 }
 
 // DIO-932 the backend requires you to send email inside quotes, otherwise @ will be considered a separator and the search will not work correctly
-export function formatEmailWithQuotes(value: string): string {
-  const matches = value.match(EMAIL_REG_EXP_FOR_FORMATTING) || [];
-  if (matches.length === 0) {
-    return value;
-  }
-  const formattedMatches = matches.map((match) => {
-    let formatResult = match;
-    if (formatResult[0] !== '"') {
-      formatResult = `"${formatResult}`;
+export function formatFragmentWithQuotes(value: string, fragmentRegExp: RegExp | RegExp[]): string {
+  const fragmentsArray = Array.isArray(fragmentRegExp) ? fragmentRegExp : [fragmentRegExp];
+  let resultValue = value;
+
+  fragmentsArray.forEach((regExp) => {
+    const matches = resultValue.match(regExp) || [];
+    if (matches.length === 0) {
+      return;
     }
-    if (formatResult[formatResult.length - 1] !== '"') {
-      formatResult = `${formatResult}"`;
-    }
-    return formatResult;
+
+    const formattedMatches = matches.map((match) => {
+      let formatResult = match;
+      if (formatResult[0] !== '"') {
+        formatResult = `"${formatResult}`;
+      }
+      if (formatResult[formatResult.length - 1] !== '"') {
+        formatResult = `${formatResult}"`;
+      }
+
+      return formatResult;
+    });
+
+    resultValue = formattedMatches.reduce((previous, current, index) => previous.replace(matches[index], current) || '', resultValue);
   });
 
-  return formattedMatches.reduce((previous, current, index) => previous.replace(matches[index], current) || '', value);
+  return resultValue;
 }
