@@ -5,50 +5,18 @@ import { useFormatMessage } from 'apps/intl';
 import dayjs from 'dayjs';
 import classnames from 'classnames';
 import { IFlowWatchlist } from 'models/CustomWatchlist.model';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { DateFormat } from 'lib/date';
-import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from 'apps/CustomWatchlist/components/CustomWatchlistModalValidation/CustomWatchlistModalValidation';
+import { notification } from 'apps/ui';
+import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
-import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearCurrentWatchlist } from '../../state/CustomWatchlist.actions';
+import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearWatchlist } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsFailed, selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
-import { FlowWatchlistUi, WatchlistContentTypes, ValidatedInputsKeys } from '../../models/CustomWatchlist.models';
-
-// TODO: @richvoronov, remove mock on STAGE 4
-const mockMapping = [
-  {
-    systemField: ValidatedInputsKeys.FullName,
-    merchantField: ValidatedInputsKeys.FullName,
-    options: { fuzziness: 10 },
-  },
-  {
-    systemField: ValidatedInputsKeys.DateOfBirth,
-    merchantField: ValidatedInputsKeys.DateOfBirth,
-  },
-  {
-    systemField: ValidatedInputsKeys.Country,
-    merchantField: ValidatedInputsKeys.Country,
-  },
-  {
-    systemField: ValidatedInputsKeys.DocumentNumber,
-    merchantField: ValidatedInputsKeys.DocumentNumber,
-  },
-  {
-    systemField: ValidatedInputsKeys.DocumentType,
-    merchantField: ValidatedInputsKeys.DocumentType,
-  },
-  {
-    systemField: ValidatedInputsKeys.EmailAddress,
-    merchantField: ValidatedInputsKeys.EmailAddress,
-  },
-  {
-    systemField: ValidatedInputsKeys.PhoneNumber,
-    merchantField: ValidatedInputsKeys.PhoneNumber,
-  },
-];
+import { CustomWatchlistModalValidationInputs, FlowWatchlistUi, WatchlistContentTypes } from '../../models/CustomWatchlist.models';
 
 export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   watchlists: FlowWatchlistUi[];
@@ -61,40 +29,39 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const merchantId = useSelector(selectMerchantId);
   const isWatchlistsLoaded = useSelector(selectIsWatchlistsLoaded);
   const isWatchlistsFailed = useSelector(selectIsWatchlistsFailed);
+  const [watchlistDeletionId, setWatchlistDeletionId] = useState<number | null>(null);
 
   const handleCloseOverlay = useCallback(() => {
     closeOverlay();
-    dispatch(clearCurrentWatchlist());
+    dispatch(clearWatchlist());
   }, [dispatch, closeOverlay]);
 
-  const customWatchlistsContentUpdate = useCallback((watchlistId: number, values: WatchlistContentTypes) => {
-    dispatch(updateMerchantWatchlistContent(merchantId, watchlistId, values));
+  const customWatchlistsContentUpdate = useCallback(async (watchlistId: number, values: WatchlistContentTypes, isCreateFlow?: boolean) => {
+    await dispatch(updateMerchantWatchlistContent(merchantId, watchlistId, values, isCreateFlow));
   }, [merchantId, dispatch]);
 
-  const handleSubmitWatchlist = useCallback((watchlist?: IFlowWatchlist) => (values: CustomWatchlistModalValidationInputTypes) => {
+  const handleSubmitWatchlist = useCallback(async (values: CustomWatchlistModalValidationInputTypes, watchlist?: Partial<FlowWatchlistUi>) => {
     const watchlistRequestData = {
-      name: values.name,
-      // mapping: values.mapping,
-      mapping: mockMapping,
+      [CustomWatchlistModalValidationInputs.Name]: values.name,
+      [CustomWatchlistModalValidationInputs.Mapping]: values.mapping,
     };
-    if (watchlist) {
-      dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData, handleCloseOverlay));
-      customWatchlistsContentUpdate(watchlist.id, {
-        sourceFileKey: values.fileKey,
-        fileName: values.fileName,
-        csvSeparator: values.csvSeparator,
-      });
+    const watchlistContentValues = {
+      [CustomWatchlistModalValidationInputs.FileKey]: values[CustomWatchlistModalValidationInputs.FileKey],
+      [CustomWatchlistModalValidationInputs.FileName]: values[CustomWatchlistModalValidationInputs.FileName],
+      [CustomWatchlistModalValidationInputs.CsvSeparator]: values[CustomWatchlistModalValidationInputs.CsvSeparator],
+    };
+
+    if (watchlist?.id) {
+      await dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData));
+      await customWatchlistsContentUpdate(watchlist.id, watchlistContentValues, true);
+      notification.info(formatMessage('CustomWatchlist.settings.watchlist.updated', { messageValues: { name: watchlist.name } }));
       return;
     }
-    dispatch(customWatchlistCreate(merchantId, watchlistRequestData, (watchlistData) => {
-      customWatchlistsContentUpdate(watchlistData.id, {
-        sourceFileKey: values.fileKey,
-        fileName: values.fileName,
-        csvSeparator: values.csvSeparator,
-      });
-      handleCloseOverlay();
+    dispatch(customWatchlistCreate(merchantId, watchlistRequestData, async (watchlistData) => {
+      await customWatchlistsContentUpdate(watchlistData.id, watchlistContentValues, true);
+      notification.info(formatMessage('CustomWatchlist.settings.watchlist.created', { messageValues: { name: watchlistData.name } }));
     }));
-  }, [merchantId, customWatchlistsContentUpdate, handleCloseOverlay, dispatch]);
+  }, [merchantId, formatMessage, customWatchlistsContentUpdate, dispatch]);
 
   const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {
     if (watchlist?.id) {
@@ -104,14 +71,19 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
       <CustomWatchlistModalValidation
         watchlist={watchlist}
         onClose={handleCloseOverlay}
-        onSubmit={handleSubmitWatchlist(watchlist)}
+        onSubmit={handleSubmitWatchlist}
       />,
       { onClose: handleCloseOverlay },
     );
   }, [dispatch, createOverlay, handleCloseOverlay, handleSubmitWatchlist]);
 
-  const handleDeleteWatchList = useCallback((watchlistId: number) => () => {
-    dispatch(deleteCustomWatchlistById(merchantId, watchlistId));
+  const handleDeleteWatchList = useCallback((watchlistId: number) => async () => {
+    setWatchlistDeletionId(watchlistId);
+    await dispatch(deleteCustomWatchlistById(merchantId, watchlistId, (error) => {
+      setWatchlistDeletionId(null);
+      notification.error(error.response?.data?.message);
+    }));
+    setWatchlistDeletionId(null);
   }, [merchantId, dispatch]);
 
   return (
@@ -126,10 +98,10 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
                     {watchlist.name}
                   </Box>
                   <Box ml="auto" flexShrink={0}>
-                    <IconButton className={classnames(classes.button, classes.buttonEdit)} onClick={handleOpenWatchlist(watchlist)}>
+                    <IconButton disabled={watchlistDeletionId === watchlist.id} className={classnames(classes.button, classes.buttonEdit)} onClick={handleOpenWatchlist(watchlist)}>
                       <FiEdit size={17} />
                     </IconButton>
-                    <IconButton className={classnames(classes.button, classes.buttonTrash)} onClick={handleDeleteWatchList(watchlist.id)}>
+                    <IconButton disabled={watchlistDeletionId === watchlist.id} className={classnames(classes.button, classes.buttonTrash)} onClick={handleDeleteWatchList(watchlist.id)}>
                       <FiTrash2 size={17} />
                     </IconButton>
                   </Box>

@@ -19,6 +19,7 @@ export enum ErrorStatuses {
   error404 = 404,
   PasswordInvalid= 422,
   TooManyRequests = 429,
+  Locked = 423,
   error500 = 500,
 }
 
@@ -27,15 +28,24 @@ export enum PasswordInvalidErrorCodes {
   PasswordWeak = 'password.weak',
 }
 
-export interface ErrorType {
+export interface ErrorTypeData {
+  code: string;
+  type: ErrorTypes;
+  message: ErrorMessages;
+}
+
+export interface ErrorType<T = ErrorTypeData> {
   response?: {
     status: ErrorStatuses;
-    data: {
-      code: string;
-      type: ErrorTypes;
-      message: ErrorMessages;
-    };
+    data: T;
   };
+}
+
+export interface BaseError<T = Record<string, any>> {
+  name: string;
+  status: number;
+  message: string;
+  details?: T;
 }
 
 export function isNotFound(error: ErrorType) {

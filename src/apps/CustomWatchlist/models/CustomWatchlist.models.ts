@@ -1,8 +1,8 @@
 import { CustomWatchlistSeverityOnMatchTypes } from 'models/CustomWatchlist.model';
-import { ErrorType } from 'models/Error.model';
+import { ErrorStatuses } from 'models/Error.model';
 import { getStepStatus, IStep, StepStatus } from 'models/Step.model';
 
-export const customWatchlistsPollingDelay = 30000;
+export const customWatchlistsPollingDelay = 5000;
 
 export enum CsvSeparatorInputEnum {
   Semicolon = 'semicolon',
@@ -25,7 +25,7 @@ export interface WatchlistMappingOptions {
 }
 
 export interface WatchlistMapping {
-  systemField: string;
+  systemField: ValidatedInputsKeys;
   merchantField: string;
   options?: WatchlistMappingOptions;
 }
@@ -54,7 +54,7 @@ export enum WatchlistProcessStatus {
 export interface WatchlistProcess {
   completedAt: string | null;
   createdAt: string | null;
-  error: ErrorType | null;
+  error: CustomWatchlistValidationError[] | null;
   id: number;
   inputSourceFileName: string;
   inputSourceFileKey: string;
@@ -97,14 +97,15 @@ export enum ValidatedInputsKeys {
   Country = 'country',
   EmailAddress = 'emailAddress',
   PhoneNumber = 'phoneNumber',
+  NotSelected = 'notSelected',
 }
 
 export enum CustomWatchlistModalValidationInputs {
   Name = 'name',
-  FileKey = 'fileKey',
+  FileKey = 'inputSourceFileKey',
   Mapping = 'mapping',
   CsvSeparator = 'csvSeparator',
-  FileName = 'fileName'
+  FileName = 'inputSourceFileName'
 }
 
 export enum CustomWatchlistFileExt {
@@ -118,9 +119,38 @@ export interface WatchlistCreateBodyTypes {
 }
 
 export interface WatchlistContentTypes {
-  sourceFileKey: string;
-  fileName: string;
+  inputSourceFileKey: string;
+  inputSourceFileName: string;
   csvSeparator: string;
+}
+
+export type CustomWatchlistHeaders = Pick<WatchlistContentTypes, 'inputSourceFileKey' | 'csvSeparator'>
+
+export interface CustomWatchlistShortValidation extends Pick<WatchlistContentTypes, 'inputSourceFileKey' | 'csvSeparator'>, Pick<IWatchlist, 'mapping'> {}
+
+export interface CustomWatchlistValidationErrorData {
+  fieldName: ValidatedInputsKeys;
+  row: number;
+}
+export interface CustomWatchlistValidationError {
+  code: ErrorStatuses;
+  type: string;
+  data: CustomWatchlistValidationErrorData;
+  // TODO: @richvoronov ask backend to remove this fields
+  retryable: boolean;
+  message?: string;
+  name?: string;
+  stack?: string;
+}
+export interface ICustomWatchlistValidationError {
+  valid: boolean;
+  errors: CustomWatchlistValidationError[];
+}
+
+export interface ICustomWatchlistValidationErrorFormated {
+  systemField: ValidatedInputsKeys;
+  type: string;
+  row: number;
 }
 
 export enum CustomWatchlistSearchParamsKeysEnum {
@@ -138,7 +168,7 @@ export interface CustomWatchlistStepDataSearchParams {
   dateOfBirth?: string;
   documentType?: string;
   documentNumber?: string;
-  coutnry?: string;
+  country?: string;
   emailAddress?: string;
   phoneNumber?: string;
 }
@@ -162,6 +192,20 @@ export interface CustomWatchlistStepDataExtended extends CustomWatchlistStepData
 
 export type CustomWatchlistStepExtended = IStep<CustomWatchlistStepDataExtended[]>;
 
+export interface ValidatedInputsFieldValuesOptions {
+  fuzziness?: number;
+}
+
+export interface IValidatedInputsFieldTypes {
+  label: string;
+  value: ValidatedInputsKeys;
+  options?: ValidatedInputsFieldValuesOptions;
+}
+
+export interface ValidatedInputsFieldTypesExtended extends IValidatedInputsFieldTypes {
+  inputLabel?: string;
+}
+
 export function getCustomWatchlistStepExtra(step: CustomWatchlistStep): CustomWatchlistStepExtended {
   if (!step) {
     return step;
@@ -171,4 +215,36 @@ export function getCustomWatchlistStepExtra(step: CustomWatchlistStep): CustomWa
     ...step,
     checkStatus: getStepStatus(step),
   };
+}
+
+export function getCustomWatchlistMapping(headers?: string[], mapping?: WatchlistMapping[]): ValidatedInputsFieldTypesExtended[] {
+  if (headers) {
+    return headers.map((header) => ({ label: header, value: ValidatedInputsKeys.NotSelected }));
+  }
+
+  if (mapping) {
+    return mapping.map((fields) => ({ label: fields.merchantField, value: fields.systemField, ...(fields?.options && { options: fields.options }) }));
+  }
+
+  return [];
+}
+
+export function getCustomWatchlistErrorsFormated(errors?: CustomWatchlistValidationError[]): Partial<Record<ValidatedInputsKeys, ICustomWatchlistValidationErrorFormated[]>> | null {
+  if (!errors) {
+    return null;
+  }
+
+  return errors.reduce((memo, cur) => {
+    const fieldName = cur.data.fieldName;
+
+    memo[fieldName] = errors.filter((item) => item.data.fieldName === fieldName);
+
+    memo[fieldName] = memo[fieldName].map((item) => ({
+      systemField: item.data.fieldName,
+      // TODO: @richvoronov need to split by type too, do it after release custom watchlist 4
+      type: item.type,
+      row: item.data.row,
+    }));
+    return memo;
+  }, {});
 }
