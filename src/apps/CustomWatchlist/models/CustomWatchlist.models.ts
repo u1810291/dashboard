@@ -1,5 +1,6 @@
 import { CustomWatchlistSeverityOnMatchTypes } from 'models/CustomWatchlist.model';
 import { ErrorType } from 'models/Error.model';
+import { getStepStatus, IStep, StepStatus } from 'models/Step.model';
 
 export const customWatchlistsPollingDelay = 30000;
 
@@ -91,10 +92,11 @@ export enum CustomWatchlistCheckTypes {
 export enum ValidatedInputsKeys {
   FullName = 'fullName',
   DateOfBirth = 'dateOfBirth',
-  NationalId = 'nationalId',
-  DrivingLicense = 'drivingLicense',
-  PassportNumber = 'passportNumber',
-  CountryCode = 'countryCode',
+  DocumentType = 'documentType',
+  DocumentNumber = 'documentNumber',
+  Country = 'country',
+  EmailAddress = 'emailAddress',
+  PhoneNumber = 'phoneNumber',
 }
 
 export enum CustomWatchlistModalValidationInputs {
@@ -119,4 +121,54 @@ export interface WatchlistContentTypes {
   sourceFileKey: string;
   fileName: string;
   csvSeparator: string;
+}
+
+export enum CustomWatchlistSearchParamsKeysEnum {
+  fullName = 'fullName',
+  dateOfBirth = 'dateOfBirth',
+}
+
+export interface CustomWatchlistStepDataWatchlist {
+  id: string;
+  name: string;
+}
+
+export interface CustomWatchlistStepDataSearchParams {
+  fullName?: string;
+  dateOfBirth?: string;
+  documentType?: string;
+  documentNumber?: string;
+  coutnry?: string;
+  emailAddress?: string;
+  phoneNumber?: string;
+}
+
+export type CustomWatchlistStepDataSearchResult = Record<string, string>;
+
+export interface CustomWatchlistStepData {
+  watchlist: CustomWatchlistStepDataWatchlist;
+  searchedAt: Date;
+  searchParams: CustomWatchlistStepDataSearchParams | null;
+  searchResult: CustomWatchlistStepDataSearchResult | null;
+}
+
+export type CustomWatchlistStep = IStep<CustomWatchlistStepData[]>;
+
+interface StepExtra {
+  checkStatus?: StepStatus;
+}
+
+export interface CustomWatchlistStepDataExtended extends CustomWatchlistStepData, StepExtra {}
+
+export type CustomWatchlistStepExtended = IStep<CustomWatchlistStepDataExtended[]>;
+
+export function getCustomWatchlistStepExtra(step: CustomWatchlistStep): CustomWatchlistStepExtended {
+  if (!step) {
+    return step;
+  }
+
+  return {
+    ...step,
+    checkStatus: getStepStatus(step),
+  };
 }

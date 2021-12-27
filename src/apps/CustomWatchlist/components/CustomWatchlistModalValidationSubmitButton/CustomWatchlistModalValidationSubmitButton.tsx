@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { useSelector } from 'react-redux';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -13,7 +13,7 @@ export function CustomWatchlistModalValidationSubmitButton({ isWatchlistsLoading
   isFormSubmitting: boolean;
   disabled: boolean;
 }) {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const classes = useStyles();
   const currentWatchlist = useSelector(selectCurrentCustomWatchlist);
   return (
@@ -27,14 +27,14 @@ export function CustomWatchlistModalValidationSubmitButton({ isWatchlistsLoading
     >
       {isWatchlistsLoading || isFormSubmitting || isWatchlistRunning ? (
         <>
-          {isWatchlistRunning && <span className={classes.buttonRunning}>{intl.formatMessage({ id: `CustomWatchlist.settings.modal.button.status.${WatchlistProcessStatus.Running}` })}</span>}
+          {isWatchlistRunning && <span className={classes.buttonRunning}>{formatMessage(`CustomWatchlist.settings.modal.button.status.${WatchlistProcessStatus.Running}`)}</span>}
           <CircularProgress color="inherit" size={17} />
         </>
       ) : (
         <>
-          {!currentWatchlist && intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.create' })}
-          {currentWatchlist?.process?.status === WatchlistProcessStatus.Completed && intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.done' })}
-          {(currentWatchlist?.id && !currentWatchlist?.process) && intl.formatMessage({ id: 'CustomWatchlist.settings.modal.button.validate' })}
+          {!currentWatchlist && formatMessage('CustomWatchlist.settings.modal.button.create')}
+          {currentWatchlist?.process?.status === WatchlistProcessStatus.Completed && formatMessage('CustomWatchlist.settings.modal.button.done')}
+          {(currentWatchlist?.id && !currentWatchlist?.process) && formatMessage('CustomWatchlist.settings.modal.button.validate')}
         </>
       )}
     </ButtonStyled>

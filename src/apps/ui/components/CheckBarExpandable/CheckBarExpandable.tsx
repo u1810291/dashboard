@@ -1,12 +1,13 @@
 import { Box } from '@material-ui/core';
+import classNames from 'classnames';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { WarningBadge } from 'apps/ui/components/WarningBadge/WarningBadge';
 import { ReactComponent as IconData } from 'assets/icon-identity-data.svg';
 import { ReactComponent as IconDone } from 'assets/icon-identity-done.svg';
 import { ReactComponent as IconError } from 'assets/icon-identity-error.svg';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
-import { LEGACY_ERROR, StepStatus, SYSTEM_ERROR } from 'models/Step.model';
-import React, { useEffect, useState } from 'react';
+import { StepStatus } from 'models/Step.model';
+import React, { useState, useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { CheckBarIcon } from '../CheckBarIcon/CheckBarIcon';
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, useStyles } from './CheckBarExpandable.styles';
@@ -18,42 +19,25 @@ const IconStatuses = {
   [StepStatus.Checking]: <CheckBarIcon key="check-bar-icon" icon={<IconLoad />} />,
 };
 
-export function CheckBarExpandable({ step, children, title, isOpenByDefault = false, isNoBadge = false }: {
+export function CheckBarExpandable({ step, children, title, name, isError, isOpenByDefault = false, isNoBadge = false }: {
   step: any;
+  isError?: boolean;
   children?: React.ReactElement;
   title?: string;
+  name?: string;
   isOpenByDefault?: boolean;
   isNoBadge?: boolean;
 }) {
   const intl = useIntl();
   const classes = useStyles();
-  const [disabledExpansion, setDisabledExpansion] = useState(false);
-  const [expandIcon, setExpandIcon] = useState(null);
-  const { id, error } = step;
+  const { id } = step;
   const [expanded, setExpanded] = useState<boolean>(isOpenByDefault);
   const isChecking = step.checkStatus === StepStatus.Checking;
+  const isManualError = typeof isError === 'boolean';
 
-  useEffect(() => {
-    if (isChecking) {
-      setDisabledExpansion(true);
-    } else {
-      const isDisabled = [SYSTEM_ERROR, LEGACY_ERROR].includes((error || {}).type);
-      setDisabledExpansion(isDisabled);
-    }
-    const icon = <ExpandMoreIcon />;
-    setExpandIcon(icon);
-  }, [
-    step.checkStatus,
-    setDisabledExpansion,
-    setExpandIcon,
-    error,
-    disabledExpansion,
-    isChecking,
-  ]);
-
-  const handleChange = (_, isExpanded: boolean) => {
+  const handleChange = useCallback((_, isExpanded: boolean) => {
     setExpanded(isExpanded);
-  };
+  }, []);
 
   return (
     <>
@@ -62,26 +46,28 @@ export function CheckBarExpandable({ step, children, title, isOpenByDefault = fa
           key={id}
           expanded={expanded}
           onChange={handleChange}
-          disabled={false}
         >
           <ExpansionPanelSummary
-            className={step.checkStatus === StepStatus.Failure ? 'error' : ''}
-            expandIcon={expandIcon}
+            className={classNames({
+              error: isManualError ? isError : step.checkStatus === StepStatus.Failure,
+            })}
+            expandIcon={<ExpandMoreIcon />}
             aria-controls={`panel-${id}-content`}
             id={`panel-${id}-header`}
           >
-            {IconStatuses[step.checkStatus]}
+            {!isManualError && IconStatuses[step.checkStatus]}
+            {isManualError && IconStatuses[isError ? StepStatus.Failure : StepStatus.Success]}
             <Box key="check-bar-title" className={classes.labelContainer}>
               <Box className={classes.label}>
                 <Box fontWeight={600}>
-                  {intl.formatMessage({
+                  {!name ? intl.formatMessage({
                     id: title || `SecurityCheckStep.${id}.title`,
                     defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${step.checkStatus}` }),
-                  })}
+                  }) : name}
                 </Box>
               </Box>
             </Box>
-            {!isNoBadge && step.checkStatus === StepStatus.Failure && <Box className={classes.warning}><WarningBadge /></Box>}
+            {!isNoBadge && (isManualError ? isError : step.checkStatus === StepStatus.Failure) && <Box className={classes.warning}><WarningBadge /></Box>}
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             {children}
