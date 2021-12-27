@@ -1,12 +1,12 @@
 import { Box, Button, Grid, IconButton, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useOverlay } from 'apps/overlay';
+import { useFormatMessage } from 'apps/intl';
 import dayjs from 'dayjs';
 import classnames from 'classnames';
 import { IFlowWatchlist } from 'models/CustomWatchlist.model';
 import React, { useCallback } from 'react';
 import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
-import { useIntl } from 'react-intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { DateFormat } from 'lib/date';
 import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from 'apps/CustomWatchlist/components/CustomWatchlistModalValidation/CustomWatchlistModalValidation';
@@ -21,12 +21,32 @@ import { FlowWatchlistUi, WatchlistContentTypes, ValidatedInputsKeys } from '../
 const mockMapping = [
   {
     systemField: ValidatedInputsKeys.FullName,
-    merchantField: 'merchantField',
+    merchantField: ValidatedInputsKeys.FullName,
     options: { fuzziness: 10 },
   },
   {
-    systemField: ValidatedInputsKeys.NationalId,
-    merchantField: 'merchantField',
+    systemField: ValidatedInputsKeys.DateOfBirth,
+    merchantField: ValidatedInputsKeys.DateOfBirth,
+  },
+  {
+    systemField: ValidatedInputsKeys.Country,
+    merchantField: ValidatedInputsKeys.Country,
+  },
+  {
+    systemField: ValidatedInputsKeys.DocumentNumber,
+    merchantField: ValidatedInputsKeys.DocumentNumber,
+  },
+  {
+    systemField: ValidatedInputsKeys.DocumentType,
+    merchantField: ValidatedInputsKeys.DocumentType,
+  },
+  {
+    systemField: ValidatedInputsKeys.EmailAddress,
+    merchantField: ValidatedInputsKeys.EmailAddress,
+  },
+  {
+    systemField: ValidatedInputsKeys.PhoneNumber,
+    merchantField: ValidatedInputsKeys.PhoneNumber,
   },
 ];
 
@@ -34,7 +54,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   watchlists: FlowWatchlistUi[];
   onUpdate: (watchlist: IFlowWatchlist) => void;
 }) {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const classes = useStyles();
   const dispatch = useDispatch();
   const [createOverlay, closeOverlay] = useOverlay();
@@ -117,12 +137,12 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
                 <Grid container>
                   {watchlist.createdAt && !watchlist.process?.error ? (
                     <Typography variant="subtitle2" className={classes.colorGreen}>
-                      {intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.uploaded' })}
+                      {formatMessage('CustomWatchlist.settings.watchlist.uploaded')}
                       {' '}
                       {dayjs(watchlist.createdAt).format(DateFormat.FullMonthDateAndFullYear)}
                     </Typography>
                   ) : (
-                    <Typography variant="subtitle2" className={classes.colorRed}>{intl.formatMessage({ id: 'CustomWatchlist.settings.watchlist.validation.error' })}</Typography>
+                    <Typography variant="subtitle2" className={classes.colorRed}>{formatMessage('CustomWatchlist.settings.watchlist.validation.error')}</Typography>
                   )}
                 </Grid>
                 <Box mt={2}>
@@ -133,7 +153,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
           ))}
           <Button className={classes.buttonAdd} onClick={handleOpenWatchlist()} color="primary" variant="outlined">
             <FiPlus size={12} />
-            {intl.formatMessage({ id: 'CustomWatchlist.settings.button' })}
+            {formatMessage('CustomWatchlist.settings.button')}
           </Button>
         </>
       )}

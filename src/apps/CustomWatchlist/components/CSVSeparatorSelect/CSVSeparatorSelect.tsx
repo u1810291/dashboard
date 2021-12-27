@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { useFormContext, Controller } from 'react-hook-form';
 import { Grid, Select, MenuItem } from '@material-ui/core';
 import { CsvDelimiterTypes, CsvSeparatorInputEnum, CustomWatchlistModalValidationInputs } from '../../models/CustomWatchlist.models';
@@ -18,18 +18,18 @@ function CSVSeparatorSelectMenuItem({ value }: { value: CsvSeparatorInputEnum })
 }
 
 export function CSVSeparatorSelect({ defaultValue = CsvDelimiterTypes[CsvSeparatorInputEnum.Comma] }: { defaultValue?: string }) {
-  const intl = useIntl();
   const classes = useStyles();
+  const formatMessage = useFormatMessage();
   const { control, formState: { errors } } = useFormContext();
 
   return (
     <Grid container alignItems="center" justifyContent="space-between" className={classes.marginTop20}>
-      <Grid item className={classes.title}>{intl.formatMessage({ id: 'CustomWatchlist.settings.modal.select.csvSeparator.title' })}</Grid>
+      <Grid item className={classes.title}>{formatMessage('CustomWatchlist.settings.modal.select.csvSeparator.title')}</Grid>
       <Grid item className={classes.selectWrap}>
         <Controller
           name={CustomWatchlistModalValidationInputs.CsvSeparator}
           control={control}
-          rules={{ required: intl.formatMessage({ id: 'validations.required' }) }}
+          rules={{ required: formatMessage('validations.required') }}
           defaultValue={defaultValue}
           render={({ field, fieldState: { error } }) => (
             <Select
