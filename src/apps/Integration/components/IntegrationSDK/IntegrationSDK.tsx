@@ -25,8 +25,8 @@ export function IntegrationSDK() {
           type={WarningTypes.Warning}
           size={WarningSize.Large}
           label={intl.formatMessage({ id: 'ColorPickerWarning' })}
-          link="https://docs.getmati.com/#web-sdk-overview"
-          linkLabel="Documentation"
+          link="https://docs.metamap.com/docs/web"
+          linkLabel={intl.formatMessage({ id: 'ColorPickerWarning.link' })}
         />
       </BoxBordered>
       <Box mb={2}>

@@ -24,22 +24,25 @@ export function Footer() {
           <Grid item className={classes.links}>
             <Link
               className={classes.socialLink}
-              href="https://www.facebook.com/mativerifications"
+              href="https://www.facebook.com/viametamap"
               target="_blank"
+              rel="noopener"
             >
               <img src={facebookLogo} alt="facebook" className={classes.linkImage} />
             </Link>
             <Link
               className={classes.socialLink}
-              href="https://www.linkedin.com/company/getmati"
+              href="https://www.linkedin.com/company/metmap/"
               target="_blank"
+              rel="noopener"
             >
               <img src={linkedInLogo} alt="linkedin" className={classes.linkImage} />
             </Link>
             <Link
               className={classes.socialLink}
-              href="https://twitter.com/getmati"
+              href="https://twitter.com/viaMetaMap"
               target="_blank"
+              rel="noopener"
             >
               <img src={twitterLogo} alt="twitter" className={classes.linkImage} />
             </Link>

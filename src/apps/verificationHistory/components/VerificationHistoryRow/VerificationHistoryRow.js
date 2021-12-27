@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import { FiChevronDown } from 'react-icons/fi';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ReactComponent as MatiLogo } from 'assets/mati-logo-review.svg';
+import { ReactComponent as MatiLogo } from 'assets/metamap-logo-review.svg';
 import { getHistoryExtraData, VerificationHistoryEventTypes } from 'models/History.model';
 import { VerificationHistoryChangesSwitch } from 'apps/ui';
 import { VerificationHistoryMetadataCell } from '../VerificationHistoryMetadataCell/VerificationHistoryMetadataCell';

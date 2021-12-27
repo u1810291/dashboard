@@ -3,7 +3,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { dagreGraphService } from 'apps/flowBuilder/services/dagreGraph.service';
 import { selectProductIsInited, useProduct } from 'apps/Product';
 import { Loader, Placeholder } from 'apps/ui';
-import { PreviewButton } from 'apps/WebSDKPreview/components/PreviewButton/PreviewButton';
+import { PreviewButton } from 'apps/WebSDKPreview';
 import { ReactComponent as EmptyBuilderIcon } from 'assets/empty-flow-builder.svg';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useQuery } from 'lib/url';

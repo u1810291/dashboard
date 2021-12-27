@@ -1,12 +1,12 @@
 import { DocumentVerificationProduct } from 'apps/documents';
 import { FACEMATCH_DEFAULT_THRESHOLD } from 'apps/facematch/models/facematch.model';
-import { InputValidationType } from 'apps/imageValidation/models/imageValidation.model';
+import { InputValidationType } from 'models/ImageValidation.model';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { intersection } from 'lodash';
 import { DocumentTypes } from 'models/Document.model';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
-import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStep, getReaderFrontendSteps, getStepStatus, StepStatus, VerificationDocStepTypes } from 'models/Step.model';
+import { DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStep, getReaderFrontendSteps, getStepStatus, StepStatus, VerificationDocStepTypes } from 'models/Step.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiFileText } from 'react-icons/fi';
@@ -239,10 +239,8 @@ export class DocumentVerification extends ProductBaseService implements Product<
       const readerStep = getReaderFrontendSteps(documentStep);
       const computedStep = getComputedSteps(documentStep, verification, document);
       const filteredSteps = steps.filter((step) => [
-        ...CountrySpecificChecks,
         ...DocumentSecuritySteps,
-        ...DocumentFrontendSteps,
-        DocumentStepTypes.PremiumAmlWatchlistsCheck].includes(step.id));
+        ...DocumentFrontendSteps].includes(step.id));
 
       const allSteps = [
         ...filteredSteps,

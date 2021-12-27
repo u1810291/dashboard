@@ -1,5 +1,5 @@
 import { Box, Grid, Typography, Button, Switch } from '@material-ui/core';
-import { InputValidationCheck, InputValidationType } from 'apps/imageValidation/models/imageValidation.model';
+import { InputValidationCheck, InputValidationType } from 'models/ImageValidation.model';
 import { CustomDocumentResponse, CustomDocumentReadingField, CustomDocumentTemplate } from 'models/CustomDocument.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { MerchantTags } from 'models/Merchant.model';

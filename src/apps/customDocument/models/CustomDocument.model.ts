@@ -67,7 +67,7 @@ export function getCustomDocumentBasicInfoValidation(customDocument: Partial<Cus
   description: boolean;
   type: boolean;
 } {
-  const regexp = /^[a-zA-Z0-9$@!%*?&#^-_. +]+$/;
+  const regexp = /^[a-zA-Z0-9$@!%*?&#-_^. +]+$/;
 
   const isNameInvalid = !(customDocument?.name?.length > 0 && customDocument?.name?.length <= VALID_NAME_LENGTH);
   const isDescriptionInvalid = !(customDocument?.description?.length > 0 && customDocument?.description?.length <= VALID_DESCRIPTION_LENGTH);

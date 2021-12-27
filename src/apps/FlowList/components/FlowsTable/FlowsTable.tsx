@@ -11,11 +11,11 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { useQuery } from 'lib/url';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
-import { NoFlows } from 'apps/oldProduct/components/NoFlows/NoFlows';
-import { TableRowHovered, useStyles } from 'apps/FlowList/components/FlowsTable/FlowsTable.styles';
-import { useQuery } from 'lib/url';
+import { NoFlows } from '../NoFlows/NoFlows';
+import { TableRowHovered, useStyles } from './FlowsTable.styles';
 
 export function FlowsTable({ onAddNewFlow }) {
   const intl = useIntl();

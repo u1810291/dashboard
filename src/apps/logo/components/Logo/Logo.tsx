@@ -8,9 +8,9 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { flowBuilderChangeableFlowUpdate } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderChangeableLogoUrl } from 'apps/flowBuilder/store/FlowBuilder.selectors';
+import { ReactComponent as MatiLogo } from 'assets/metamap-logo.svg';
 import { useStyles } from './Logo.styles';
 import { flowBuilderSDKMediaUpdate } from '../../state/Logo.actions';
-import { ReactComponent as MatiLogo } from '../../assets/mati-logo.svg';
 
 export function Logo() {
   const intl = useIntl();
@@ -63,7 +63,7 @@ export function Logo() {
           : logoModel?.publicUrl
             ? <img src={logoModel?.publicUrl} alt="logo-preview" className={classes.logoPreview} />
             : (
-              <MatiLogo />
+              <MatiLogo width={120} />
             )}
       </div>
 

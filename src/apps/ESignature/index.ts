@@ -1,1 +1,1 @@
-export * from './components/ESignatureConfiguration/ESignatureConfiguration';
+export * from './state/eSignature.actions';
