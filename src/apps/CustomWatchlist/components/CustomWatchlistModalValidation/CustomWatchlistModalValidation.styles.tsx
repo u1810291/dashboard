@@ -5,7 +5,7 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.common.white,
     padding: '21px 40px',
-    height: 'calc(100vh - 42px)',
+    minHeight: 600,
     width: 700,
     overflowY: 'auto',
   },

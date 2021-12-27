@@ -19,6 +19,7 @@ export enum ErrorStatuses {
   error404 = 404,
   PasswordInvalid= 422,
   TooManyRequests = 429,
+  Locked = 423,
   error500 = 500,
 }
 

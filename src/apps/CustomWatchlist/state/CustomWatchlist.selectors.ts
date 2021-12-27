@@ -31,6 +31,11 @@ export const selectIsWatchlistsContentLoading = createSelector<any, CustomWatchl
   (store) => store.watchlistContent.isLoading,
 );
 
+export const selectWatchlistsContentErrorType = createSelector<any, CustomWatchlistsStore, string>(
+  selectCustomWatchlistsStore,
+  (store) => store.watchlistContent.error,
+);
+
 export const selectCanUseCustomWatchlists = createSelector<any, MerchantTags[], boolean>(
   selectMerchantTags,
   (tags) => tags.includes(MerchantTags.CanUseCustomWatchlists),

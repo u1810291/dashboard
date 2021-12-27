@@ -61,7 +61,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
   return (
     <>
       <Grid container justifyContent="space-between" alignItems="center" direction="row" className={classes.input}>
-        <Grid item><Typography variant="subtitle2">{title}</Typography></Grid>
+        <Grid item className={classes.headerWrap}><Typography variant="subtitle2" className={classes.headerItem}>{title}</Typography></Grid>
         <Grid item className={classes.selectWrap}>
           <SelectStyled
             name={name}

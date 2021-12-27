@@ -15,7 +15,7 @@ import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { useDebounce } from 'lib/debounce.hook';
 import { CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus, customWatchlistsPollingDelay, CustomWatchlistUpload, getCustomWatchlistMapping, IValidatedInputsFieldTypes, ValidatedInputsKeys, IWatchlist, FlowWatchlistUi } from '../../models/CustomWatchlist.models';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
-import { selectCurrentCustomWatchlistHeadersErrorType, selectCurrentCustomWatchlistId, selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsContentLoading, selectIsWatchlistsLoading, selectCurrentCustomWatchlistStatus, selectCurrentCustomWatchlistHeaders, selectCurrentCustomWatchlistHeadersIsLoading } from '../../state/CustomWatchlist.selectors';
+import { selectCurrentCustomWatchlistHeadersErrorType, selectCurrentCustomWatchlistId, selectWatchlistsContentErrorType, selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsContentLoading, selectIsWatchlistsLoading, selectCurrentCustomWatchlistStatus, selectCurrentCustomWatchlistHeaders, selectCurrentCustomWatchlistHeadersIsLoading } from '../../state/CustomWatchlist.selectors';
 import { customWatchlistLoadById, getCustomWatchlistHeaders, getCustomWatchlistShortValidation } from '../../state/CustomWatchlist.actions';
 import { useStyles } from './CustomWatchlistModalValidation.styles';
 import { CustomWatchlistModalValidationFileUploadForm } from '../CustomWatchlistModalValidationFileUploadForm/CustomWatchlistModalValidationFileUploadForm';
@@ -47,6 +47,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const isWatchlistsLoading = useSelector(selectIsWatchlistsLoading);
   const isCurrentCustomWatchlistIsLoading = useSelector(selectCurrentCustomWatchlistIsLoading);
   const isWatchlistsContentLoading = useSelector(selectIsWatchlistsContentLoading);
+  const watchlistsContentErrorType = useSelector(selectWatchlistsContentErrorType);
   const currentCustomWatchlistHeaders = useSelector(selectCurrentCustomWatchlistHeaders);
   const currentCustomWatchlistHeadersErrorType = useSelector(selectCurrentCustomWatchlistHeadersErrorType);
   const currentCustomWatchlistHeadersIsLoading = useSelector(selectCurrentCustomWatchlistHeadersIsLoading);
@@ -135,6 +136,19 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   }, []);
 
   const watchlistMapping = useMemo(() => getCustomWatchlistMapping(currentCustomWatchlistHeaders, watchlist?.mapping), [currentCustomWatchlistHeaders, watchlist?.mapping]);
+  const watchlsitError = useMemo(() => {
+    if (isSubmittingError) {
+      return <div className={classes.error}>{formatMessage('CustomWatchlist.settings.modal.submit.error.default')}</div>;
+    }
+    if (watchlistsContentErrorType) {
+      return <div className={classes.error}>{formatMessage(`CustomWatchlist.settings.modal.submit.error.${watchlistsContentErrorType}`)}</div>;
+    }
+    if (currentCustomWatchlistHeadersErrorType && !isFileHeadersFlowLoading) {
+      return <div className={classes.error}>{formatMessage(`CustomWatchlist.settings.headers.${currentCustomWatchlistHeadersErrorType}`)}</div>;
+    }
+
+    return null;
+  }, [classes, isSubmittingError, watchlistsContentErrorType, currentCustomWatchlistHeadersErrorType, isFileHeadersFlowLoading, formatMessage]);
 
   return (
     <Box className={classes.root}>
@@ -185,8 +199,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
               {!isFileHeadersFlowLoading && (
                 (fileKey && watchlistMapping.length !== 0 && !currentCustomWatchlistHeadersErrorType) ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} /> : <FakeInputs />
               )}
-              {isSubmittingError && <div className={classes.error}>{formatMessage('CustomWatchlist.settings.modal.submit.error')}</div>}
-              {(currentCustomWatchlistHeadersErrorType && !isFileHeadersFlowLoading) && <div className={classes.error}>{formatMessage(`CustomWatchlist.settings.headers.${currentCustomWatchlistHeadersErrorType}`)}</div>}
+              {watchlsitError}
             </Grid>
           </Grid>
           <Grid container spacing={2} className={classes.buttonContainer}>

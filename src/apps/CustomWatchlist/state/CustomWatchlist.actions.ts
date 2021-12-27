@@ -121,8 +121,8 @@ export const updateMerchantWatchlistContent = (merchantId: string, watchlistId: 
 
     dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_SUCCESS, payload: null, isReset: true });
     dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: watchlists, isReset: true });
-  } catch (error) {
-    dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_FAILURE, error });
+  } catch (error: any) {
+    dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_FAILURE, error: error?.response?.data?.type });
     throw error;
   }
 };
@@ -152,8 +152,8 @@ export const getCustomWatchlistShortValidation = (merchantId: string, body: Cust
     currentWatchlists.process.error = payload.data?.errors ?? null;
 
     dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: currentWatchlists, isReset: true });
-  } catch (error) {
-    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_FAILURE, error });
+  } catch (error: any) {
+    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_FAILURE, error: error?.response?.data?.type });
     throw error;
   }
 };

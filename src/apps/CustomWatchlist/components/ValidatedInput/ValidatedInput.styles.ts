@@ -27,6 +27,12 @@ export const useStyles = makeStyles((theme) => createStyles({
       display: 'none',
     },
   },
+  headerWrap: {
+    maxWidth: '50%',
+  },
+  headerItem: {
+    lineHeight: 1.1,
+  },
 }));
 
 export const SelectStyled = withStyles(() => ({
