@@ -8,6 +8,7 @@ import { useIntl } from 'react-intl';
 import { useOverlay } from 'apps/overlay';
 import { CountryModalSelect } from 'apps/CountryModalSelect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
+import { CountryModalSelectContainer } from 'apps/CountryModalSelect/components/CountryModalSelectContainer/CountryModalSelectContainer';
 import { AllowedRegions, IpCheckSettingsTypes, IpCheckValidationTypes, getAllAllowedRegions } from '../../models/IpCheck.model';
 
 export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpCheckSettingsTypes>) {
@@ -45,18 +46,22 @@ export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpC
     onUpdate(newSettings);
   }, [onUpdate, settings]);
 
+  const handleSubmitAllowedRegions = useCallback((data) => {
+    const newSettings = cloneDeep(settings);
+    newSettings[IpCheckSettingsTypes.AllowedRegions].value = data;
+    onUpdate(newSettings);
+  }, [onUpdate, settings]);
+
   const openCountryModal = useCallback(() => {
     createOverlay(
-      <CountryModalSelect
-        initialValues={allowedRegions}
-        onSubmit={(data) => {
-          const newSettings = cloneDeep(settings);
-          newSettings[IpCheckSettingsTypes.AllowedRegions].value = data;
-          onUpdate(newSettings);
-        }}
-      />,
+      <CountryModalSelectContainer>
+        <CountryModalSelect
+          initialValues={allowedRegions}
+          onSubmit={handleSubmitAllowedRegions}
+        />
+      </CountryModalSelectContainer>,
     );
-  }, [allowedRegions, createOverlay, onUpdate, settings]);
+  }, [allowedRegions, createOverlay, handleSubmitAllowedRegions]);
 
   return (
     <Grid container direction="row" spacing={1}>
