@@ -62,7 +62,7 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
   }
 
   isInFlow(flow: IFlow): boolean {
-    return flow.verificationPatterns[VerificationPatternTypes.CustomWatchlistsValidation];
+    return flow?.verificationPatterns?.[VerificationPatternTypes.CustomWatchlistsValidation];
   }
 
   getVerification(verification: VerificationResponse): any {
