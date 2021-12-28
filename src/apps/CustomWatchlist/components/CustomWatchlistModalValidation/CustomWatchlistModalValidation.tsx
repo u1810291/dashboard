@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SubmitHandler, useForm, FormProvider } from 'react-hook-form';
 import { FiChevronLeft } from 'react-icons/fi';
@@ -113,7 +113,6 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     }
 
     // TODO: @richvoronov make difference function between "mapping" and "watchlist.mapping" to prevent first invoke?
-    console.log(mapping, watchlist?.mapping);
     if ((formValues[CustomWatchlistModalValidationInputs.FileKey] || fileKey) && formValues[CustomWatchlistModalValidationInputs.CsvSeparator] && mapping.length !== 0) {
       dispatch(getCustomWatchlistShortValidation(merchantId, {
         [CustomWatchlistModalValidationInputs.FileKey]: formValues[CustomWatchlistModalValidationInputs.FileKey] || fileKey,
@@ -121,7 +120,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
         mapping,
       }));
     }
-  }, [dispatch, isEdit, fileKey, watchlist, getValues, merchantId]);
+  }, [dispatch, isEdit, fileKey, getValues, merchantId]);
 
   const onValidatedInputsChange = useCallback((validatedInputsValues: IValidatedInputsFieldTypes[]) => {
     const validatedInputsValuesFormated: WatchlistMapping[] = validatedInputsValues.map((fields) => ({ merchantField: fields.label, systemField: fields.value, ...(fields?.options && { options: fields.options }) }));
@@ -160,6 +159,13 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
 
     return null;
   }, [classes, isSubmittingError, watchlistsContentErrorType, currentCustomWatchlistHeadersErrorType, isFileHeadersFlowLoading, formatMessage]);
+
+
+  useEffect(() => {
+    if (isEdit) {
+      setValue(CustomWatchlistModalValidationInputs.Name, watchlist.name);
+    }
+  }, [isEdit, watchlist, setValue]);
 
   return (
     <Box className={classes.root}>
