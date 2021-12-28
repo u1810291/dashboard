@@ -61,7 +61,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const isWatchlistCompleted = currentWatchlistStatus === WatchlistProcessStatus.Completed;
   const isWatchlistRunning = currentWatchlistStatus === WatchlistProcessStatus.Running;
   const isFileHeadersFlowLoading = isFileUploading || currentCustomWatchlistHeadersIsLoading;
-  const isSubmitRestricted = !fileKey || isCurrentCustomWatchlistIsLoading || isWatchlistsLoading || isWatchlistsContentLoading || isWatchlistRunning || isFileHeadersFlowLoading || currentCustomWatchlistHeadersErrorType;
+  const isSubmitRestricted = !!(!fileKey || isCurrentCustomWatchlistIsLoading || isWatchlistsLoading || isWatchlistsContentLoading || isWatchlistRunning || isFileHeadersFlowLoading || currentCustomWatchlistHeadersErrorType);
   const watchlistId = watchlist?.id || currentWatchlistId;
   const isEdit = !!watchlist;
 
@@ -107,6 +107,13 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const handleInputValidate = useCallback((mapping: WatchlistMapping[]) => {
     const formValues = getValues();
 
+    // TODO: @richvoronov fix this on backend ready
+    if (isEdit) {
+      return;
+    }
+
+    // TODO: @richvoronov make difference function between "mapping" and "watchlist.mapping" to prevent first invoke?
+    console.log(mapping, watchlist?.mapping);
     if ((formValues[CustomWatchlistModalValidationInputs.FileKey] || fileKey) && formValues[CustomWatchlistModalValidationInputs.CsvSeparator] && mapping.length !== 0) {
       dispatch(getCustomWatchlistShortValidation(merchantId, {
         [CustomWatchlistModalValidationInputs.FileKey]: formValues[CustomWatchlistModalValidationInputs.FileKey] || fileKey,
@@ -114,7 +121,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
         mapping,
       }));
     }
-  }, [dispatch, fileKey, getValues, merchantId]);
+  }, [dispatch, isEdit, fileKey, watchlist, getValues, merchantId]);
 
   const onValidatedInputsChange = useCallback((validatedInputsValues: IValidatedInputsFieldTypes[]) => {
     const validatedInputsValuesFormated: WatchlistMapping[] = validatedInputsValues.map((fields) => ({ merchantField: fields.label, systemField: fields.value, ...(fields?.options && { options: fields.options }) }));
@@ -197,7 +204,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
               </Box>
               {isFileHeadersFlowLoading && <ValidatedInputsLoadingSkeleton />}
               {!isFileHeadersFlowLoading && (
-                (fileKey && watchlistMapping.length !== 0 && !currentCustomWatchlistHeadersErrorType) ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} /> : <FakeInputs />
+                (fileKey && watchlistMapping.length !== 0 && !currentCustomWatchlistHeadersErrorType) ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} isEdit={isEdit} /> : <FakeInputs />
               )}
               {watchlsitError}
             </Grid>
