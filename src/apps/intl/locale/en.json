@@ -604,7 +604,7 @@
   "CustomWatchlist.settings.modal.input.name.placeholder": "Specify watchlist name",
   "CustomWatchlist.settings.modal.select.csvSeparator.title": "Specify the type of CSV delimeter:",
   "CustomWatchlist.settings.modal.submit.error.default": "Unexpected error sending data to server, please try again later",
-  "CustomWatchlist.settings.modal.submit.error.watchlist.noFile": "File with provided key does not exist",
+  "CustomWatchlist.settings.modal.submit.error.watchlist.noFile": "The uploaded file does not exist, please upload again",
   "CustomWatchlist.settings.modal.title": "Watchlist configuration",
   "CustomWatchlist.settings.modal.validation.helper": "Custom watchlist validation can take up to 2 mins",
   "CustomWatchlist.settings.modal.validationFields.country.label": "Country",
