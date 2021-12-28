@@ -60,7 +60,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
   const handleUploadFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const eventFile = event.target.files[0];
     setFile(eventFile);
-    setFileName(eventFile.name);
+    setFileName(eventFile?.name);
   }, []);
 
   const extFile = useMemo(() => {
