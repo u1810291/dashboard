@@ -202,10 +202,6 @@ export interface IValidatedInputsFieldTypes {
   options?: ValidatedInputsFieldValuesOptions;
 }
 
-export interface ValidatedInputsFieldTypesExtended extends IValidatedInputsFieldTypes {
-  inputLabel?: string;
-}
-
 export function getCustomWatchlistStepExtra(step: CustomWatchlistStep): CustomWatchlistStepExtended {
   if (!step) {
     return step;
@@ -217,7 +213,7 @@ export function getCustomWatchlistStepExtra(step: CustomWatchlistStep): CustomWa
   };
 }
 
-export function getCustomWatchlistMapping(headers?: string[], mapping?: WatchlistMapping[]): ValidatedInputsFieldTypesExtended[] {
+export function getCustomWatchlistMapping(headers?: string[], mapping?: WatchlistMapping[]): IValidatedInputsFieldTypes[] {
   if (headers) {
     return headers.map((header) => ({ label: header, value: ValidatedInputsKeys.NotSelected }));
   }

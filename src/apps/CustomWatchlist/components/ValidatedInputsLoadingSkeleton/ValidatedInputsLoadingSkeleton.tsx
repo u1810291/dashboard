@@ -1,9 +1,9 @@
 import React from 'react';
-import { ValidatedInputsFieldTypesExtended, ValidatedInputsKeys } from '../../models/CustomWatchlist.models';
+import { IValidatedInputsFieldTypes, ValidatedInputsKeys } from '../../models/CustomWatchlist.models';
 import { SkeletonStyled } from './ValidatedInputsLoadingSkeleton.styles';
 
 export interface SelectedOptions {
-  [key: string]: ValidatedInputsFieldTypesExtended;
+  [key: string]: IValidatedInputsFieldTypes;
 }
 
 export function ValidatedInputsLoadingSkeleton() {

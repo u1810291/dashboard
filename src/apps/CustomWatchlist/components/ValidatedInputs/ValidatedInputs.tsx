@@ -2,15 +2,16 @@ import Grid from '@material-ui/core/Grid';
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useFormatMessage } from 'apps/intl';
 import { ValidatedInput } from '../ValidatedInput/ValidatedInput';
-import { ValidatedInputsFieldTypesExtended, IValidatedInputsFieldTypes, ValidatedInputsKeys, WatchlistMappingOptions } from '../../models/CustomWatchlist.models';
+import { IValidatedInputsFieldTypes, ValidatedInputsKeys, WatchlistMappingOptions } from '../../models/CustomWatchlist.models';
 import { CustomWatchlistValidatedInputsError } from '../CustomWatchlistValidatedInputsError/CustomWatchlistValidatedInputsError';
 
 export interface SelectedOptions {
-  [key: string]: ValidatedInputsFieldTypesExtended;
+  [key: string]: IValidatedInputsFieldTypes;
 }
 
-export function ValidatedInputs({ fieldValues, onChange }: {
-  fieldValues: ValidatedInputsFieldTypesExtended[];
+export function ValidatedInputs({ fieldValues, isEdit, onChange }: {
+  fieldValues: IValidatedInputsFieldTypes[];
+  isEdit: boolean;
   onChange: (mapping: IValidatedInputsFieldTypes[]) => void;
 }) {
   const formatMessage = useFormatMessage();
@@ -20,7 +21,6 @@ export function ValidatedInputs({ fieldValues, onChange }: {
       [cur.label]: {
         label: cur.label,
         value: cur.value,
-        // inputLabel: cur.value === ValidatedInputsKeys.NotSelected ? formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.NotSelected}.label`) : cur.label,
       },
     }
   ), {}));
@@ -88,6 +88,8 @@ export function ValidatedInputs({ fieldValues, onChange }: {
               selectedOptions={selectedOptions}
               options={inputOptions}
               value={selectedOptions[input.label].value}
+              // TODO: @richvoronov remove this on backend ready
+              disabled={isEdit}
             />
           </Grid>
           {selectedOptions[input.label].value !== ValidatedInputsKeys.NotSelected && <CustomWatchlistValidatedInputsError inputValue={selectedOptions[input.label].value} />}

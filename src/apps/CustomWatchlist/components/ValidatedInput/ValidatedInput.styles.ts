@@ -28,7 +28,7 @@ export const useStyles = makeStyles((theme) => createStyles({
     },
   },
   headerWrap: {
-    maxWidth: '50%',
+    maxWidth: '49%',
   },
   headerItem: {
     lineHeight: 1.1,

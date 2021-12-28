@@ -19,6 +19,9 @@ export function CustomWatchlistModalValidationSubmitButton({ loading, isWatchlis
   const currentWatchlistError = useSelector(selectCurrentCustomWatchlistError);
   const isCurrentWatchlistError = Array.isArray(currentWatchlistError) && currentWatchlistError?.length !== 0;
 
+  // TODO: @richvoronov remove this after backend fixies
+  const tempoAlfaReleaseFix = isEdit ? false : isCurrentWatchlistError;
+
   const buttonText = useMemo(() => {
     if (loading) {
       return (
@@ -47,7 +50,7 @@ export function CustomWatchlistModalValidationSubmitButton({ loading, isWatchlis
       color="primary"
       size="large"
       fullWidth
-      disabled={disabled || isCurrentWatchlistError}
+      disabled={disabled || tempoAlfaReleaseFix}
     >
       {buttonText}
     </ButtonStyled>
