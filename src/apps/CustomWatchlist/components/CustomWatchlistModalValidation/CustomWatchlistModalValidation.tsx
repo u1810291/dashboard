@@ -134,9 +134,13 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     setFileKey(data?.key);
     if (data?.key) {
       const headersBody = { [CustomWatchlistModalValidationInputs.FileKey]: data.key, [CustomWatchlistModalValidationInputs.CsvSeparator]: formValues[CustomWatchlistModalValidationInputs.CsvSeparator] };
-      await dispatch(getCustomWatchlistHeaders(merchantId, headersBody));
+
+      // TODO: @richvoronov remove this on backend ready
+      if (!isEdit) {
+        await dispatch(getCustomWatchlistHeaders(merchantId, headersBody));
+      }
     }
-  }, [merchantId, dispatch, getValues]);
+  }, [merchantId, isEdit, dispatch, getValues]);
 
   const handleFileUploading = useCallback((loading: boolean) => {
     setIsFileUploading(loading);
@@ -187,6 +191,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                   variant="outlined"
                   fullWidth
                   placeholder={formatMessage('CustomWatchlist.settings.modal.input.name.placeholder')}
+                  disabled={isEdit}
                 />
               </Box>
               <Box mb={3}>
