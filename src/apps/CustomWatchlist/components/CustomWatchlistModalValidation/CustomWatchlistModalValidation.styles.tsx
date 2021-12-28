@@ -6,8 +6,8 @@ export const useStyles = makeStyles((theme) => ({
     background: theme.palette.common.white,
     padding: '21px 40px',
     minHeight: 600,
+    height: 650,
     width: 700,
-    overflowY: 'auto',
   },
   modalTitle: {
     lineHeight: '29px',
@@ -39,12 +39,16 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.red,
   },
   buttonContainer: {
-    position: 'relative',
+    position: 'fixed',
+    bottom: 20,
+    left: 0,
+    padding: '0 40px',
+    background: theme.palette.common.white,
   },
   validationHelper: {
     position: 'absolute',
     top: -10,
-    right: 10,
+    right: 50,
     color: theme.palette.common.black75,
   },
   form: {
@@ -52,5 +56,6 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     height: 'calc(100% - 70px)',
+    overflowY: 'auto',
   },
 }));

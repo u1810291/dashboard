@@ -15,12 +15,13 @@ interface Option {
   value: string;
 }
 
-export function ValidatedInput({ title, name, options, selectedOptions, placeholderKey, value: propValue, onChange }:
+export function ValidatedInput({ title, name, options, selectedOptions, disabled, placeholderKey, value: propValue, onChange }:
   {
     title: string;
     name: string;
     placeholderKey: string;
     options: Option[];
+    disabled: boolean;
     selectedOptions: SelectedOptions;
     onChange: (values: { value: ValidatedInputsKeys; name?: string; options?: WatchlistMappingOptions }) => void;
     value?: string;
@@ -55,7 +56,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
     }));
   }, [onChange, debounced]);
 
-  const localOptions = useMemo(() => options.filter((option) => Object.values(selectedOptions).every((x) => x.value !== option.value)), [options, selectedOptions]);
+  const localOptions = useMemo(() => options.filter((option) => option.value !== ValidatedInputsKeys.NotSelected && Object.values(selectedOptions).every((x) => x.value !== option.value)), [options, selectedOptions]);
   const currentOption = useMemo(() => options.find((option) => option.value === value), [value, options]);
 
   return (
@@ -73,6 +74,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
             className={classnames(classes.colorBlue, {
               [classes.placeholder]: value === placeholderKey,
             })}
+            disabled={disabled}
           >
             {selectedOptions[name] && (
               <MenuItem
@@ -104,7 +106,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, placehol
           </SelectStyled>
         </Grid>
       </Grid>
-      {value === ValidatedInputsKeys.FullName && (
+      {(!disabled && value === ValidatedInputsKeys.FullName) && (
         <Box mb={1.2}>
           <RangeSlider
             defaultValue={rangeSliderValue}

@@ -42,9 +42,14 @@ export const clearCurrentWatchlistHeaders = () => (dispatch) => {
   dispatch({ type: types.CURRENT_CUSTOM_WATCHLISTS_HEADERS_CLEAR, payload: null });
 };
 
+export const clearWatchlistContent = () => (dispatch) => {
+  dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_CLEAR, payload: null });
+};
+
 export const clearWatchlist = () => (dispatch) => {
   dispatch(clearCurrentWatchlist());
   dispatch(clearCurrentWatchlistHeaders());
+  dispatch(clearWatchlistContent());
 };
 
 export const customWatchlistLoadById = (merchantId: string, watchlistId: number) => async (dispatch, getState) => {
