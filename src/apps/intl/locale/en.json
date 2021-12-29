@@ -589,7 +589,7 @@
   "CustomWatchlist.settings.modal.button.uploadFile.label.title": "Upload xls or csv file",
   "CustomWatchlist.settings.modal.button.validate": "Validate",
   "CustomWatchlist.settings.modal.fakeInputs.country.value": "EN",
-  "CustomWatchlist.settings.modal.fakeInputs.dateOfBirth.value": "YYYY-MM-DD",
+  "CustomWatchlist.settings.modal.fakeInputs.dateOfBirth.value": "DD-MM-YYYY",
   "CustomWatchlist.settings.modal.fakeInputs.documentNumber.value": "12345678",
   "CustomWatchlist.settings.modal.fakeInputs.documentType.value": "passport",
   "CustomWatchlist.settings.modal.fakeInputs.emailAddress.value": "emailAddress@email.com",
