@@ -47,7 +47,6 @@ export const clearWatchlistContent = () => (dispatch) => {
 };
 
 export const clearWatchlist = () => (dispatch) => {
-  dispatch(clearCurrentWatchlist());
   dispatch(clearCurrentWatchlistHeaders());
   dispatch(clearWatchlistContent());
 };

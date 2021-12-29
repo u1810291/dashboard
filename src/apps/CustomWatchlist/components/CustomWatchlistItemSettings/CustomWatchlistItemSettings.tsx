@@ -12,8 +12,8 @@ import { DateFormat } from 'lib/date';
 import { notification } from 'apps/ui';
 import { CustomWatchlistModalValidation } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
-import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearWatchlist } from '../../state/CustomWatchlist.actions';
-import { selectIsWatchlistsFailed, selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
+import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearWatchlist, clearCurrentWatchlist } from '../../state/CustomWatchlist.actions';
+import { selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsFailed, selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
 import { CustomWatchlistModalValidationInputs, CustomWatchlistModalValidationInputTypes, FlowWatchlistUi, WatchlistContentTypes } from '../../models/CustomWatchlist.models';
@@ -29,11 +29,13 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const merchantId = useSelector(selectMerchantId);
   const isWatchlistsLoaded = useSelector(selectIsWatchlistsLoaded);
   const isWatchlistsFailed = useSelector(selectIsWatchlistsFailed);
+  // TODO: @richvoronov, maybe other way to fix async GET watchlist update?
+  const isCurrentCustomWatchlistIsLoading = useSelector(selectCurrentCustomWatchlistIsLoading);
   const [watchlistDeletionId, setWatchlistDeletionId] = useState<number | null>(null);
 
   const handleCloseOverlay = useCallback(() => {
-    closeOverlay();
     dispatch(clearWatchlist());
+    closeOverlay();
   }, [dispatch, closeOverlay]);
 
   const customWatchlistsContentUpdate = useCallback(async (watchlistId: number, values: WatchlistContentTypes) => {
@@ -64,6 +66,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   }, [merchantId, formatMessage, customWatchlistsContentUpdate, dispatch]);
 
   const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {
+    dispatch(clearCurrentWatchlist());
     if (watchlist?.id) {
       dispatch(setCurrentWatchlist(watchlist.id));
     }
@@ -130,7 +133,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
               </Box>
             </Box>
           ))}
-          <Button className={classes.buttonAdd} onClick={handleOpenWatchlist()} color="primary" variant="outlined">
+          <Button className={classes.buttonAdd} onClick={handleOpenWatchlist()} color="primary" variant="outlined" disabled={isCurrentCustomWatchlistIsLoading}>
             <FiPlus size={12} />
             {formatMessage('CustomWatchlist.settings.button')}
           </Button>
