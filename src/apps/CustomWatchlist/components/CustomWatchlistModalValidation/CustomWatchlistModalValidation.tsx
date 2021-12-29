@@ -44,13 +44,13 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const currentCustomWatchlistHeaders = useSelector(selectCurrentCustomWatchlistHeaders);
   const currentCustomWatchlistHeadersErrorType = useSelector(selectCurrentCustomWatchlistHeadersErrorType);
   const currentCustomWatchlistHeadersIsLoading = useSelector(selectCurrentCustomWatchlistHeadersIsLoading);
-  // const currentWatchlistError = useSelector(selectCurrentCustomWatchlistError);
-  // const isCurrentWatchlistError = Array.isArray(currentWatchlistError) && currentWatchlistError?.length !== 0;
+  const currentWatchlistError = useSelector(selectCurrentCustomWatchlistError);
+  const isCurrentWatchlistError = Array.isArray(currentWatchlistError) && currentWatchlistError?.length !== 0;
 
   const [isSubmittingError, setIsSubmittingError] = useState<boolean>(false);
   const [fileKey, setFileKey] = useState<string | null>(watchlist?.process?.inputSourceFileKey ?? null);
   const [isFileUploading, setIsFileUploading] = useState<boolean>(false);
-  const [isWatchlistValid, setIsWatchlistValid] = useState<boolean>(false);
+  const [isWatchlistValid, setIsWatchlistValid] = useState<boolean>(!isCurrentWatchlistError);
   const formMethods = useForm<CustomWatchlistModalValidationInputTypes>();
   const { register, handleSubmit, setValue, getValues, formState: { errors, isSubmitting } } = formMethods;
 
@@ -59,6 +59,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const isFileHeadersFlowLoading = isFileUploading || currentCustomWatchlistHeadersIsLoading;
   const isSubmitRestricted = !!(!fileKey || isCurrentCustomWatchlistIsLoading || isWatchlistsLoading || isWatchlistsContentLoading || isWatchlistRunning || isFileHeadersFlowLoading || currentCustomWatchlistHeadersErrorType);
   const watchlistId = watchlist?.id || currentWatchlistId;
+  // TODO: @richvoronov, isEdit and isWatchlistExist the same entities?
   const isEdit = !!watchlist;
   const isWatchlistExist = !!(currentWatchlistId);
   const isWatchlistNeedsRevalidate = !isEdit && !isWatchlistValid && !!currentWatchlistId;
@@ -211,7 +212,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                   variant="outlined"
                   fullWidth
                   placeholder={formatMessage('CustomWatchlist.settings.modal.input.name.placeholder')}
-                  disabled={isEdit}
+                  disabled={isEdit || isWatchlistExist}
                 />
               </Box>
               <Box mb={3}>
