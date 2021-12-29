@@ -622,6 +622,7 @@
   "CustomWatchlist.settings.step.title": "Watchlist {count}",
   "CustomWatchlist.settings.watchlist.created": "Watchlist {name} successfully created",
   "CustomWatchlist.settings.watchlist.updated": "Watchlist {name} successfully updated",
+  "CustomWatchlist.settings.watchlist.deleted.customWatchlist.usedInFlow": "Watchlist {name} used in flow{ending} {flows}",
   "CustomWatchlist.settings.watchlist.fileErrorUpload": "Error. Please try uploading the file again.",
   "CustomWatchlist.settings.watchlist.uploaded": "Uploaded",
   "CustomWatchlist.settings.watchlist.validation.error": "Validation error",

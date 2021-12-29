@@ -33,6 +33,7 @@ export const FileSelectButton = ({
         {...inputProps}
         accept={accept}
         onChange={onChange}
+        disabled={disabled}
       />
       <label htmlFor="file-load">
         {renderButton || (

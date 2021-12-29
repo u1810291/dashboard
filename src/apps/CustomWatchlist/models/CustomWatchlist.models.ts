@@ -30,15 +30,8 @@ export interface WatchlistMapping {
   options?: WatchlistMappingOptions;
 }
 
-export interface FlowWatchlistUi {
-  id: number;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-  merchantId: string;
-  mapping: WatchlistMapping[] | null;
+export interface FlowWatchlistUi extends IWatchlist {
   severityOnMatch: CustomWatchlistSeverityOnMatchTypes;
-  process: Partial<WatchlistProcess> | null;
 }
 
 export enum WatchlistProcessName {
@@ -75,6 +68,7 @@ export interface IWatchlist {
   merchantId: string;
   mapping: WatchlistMapping[] | null;
   process: Partial<WatchlistProcess> | null;
+  isFileAvailable: boolean;
 }
 
 export interface CustomWatchlistUpload {
@@ -201,6 +195,15 @@ export interface IValidatedInputsFieldTypes {
   value: ValidatedInputsKeys;
   options?: ValidatedInputsFieldValuesOptions;
 }
+
+export interface CustomWatchlistModalValidationInputTypes {
+  [CustomWatchlistModalValidationInputs.Name]: string;
+  [CustomWatchlistModalValidationInputs.FileKey]: string | null;
+  [CustomWatchlistModalValidationInputs.Mapping]: WatchlistMapping[];
+  [CustomWatchlistModalValidationInputs.CsvSeparator]: string | null;
+  [CustomWatchlistModalValidationInputs.FileName]: string;
+}
+
 
 export function getCustomWatchlistStepExtra(step: CustomWatchlistStep): CustomWatchlistStepExtended {
   if (!step) {

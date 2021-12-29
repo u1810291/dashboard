@@ -13,8 +13,9 @@ import { CustomWatchlistModalValidationInputs, CustomWatchlistFileExt, CustomWat
 import * as api from '../../client/CustomWatchlist.client';
 import { CSVSeparatorSelect } from '../CSVSeparatorSelect/CSVSeparatorSelect';
 
-export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFileUploaded, onFileUploading }: {
+export function CustomWatchlistModalValidationFileUploadForm({ watchlist, disabled = false, onFileUploaded, onFileUploading }: {
   watchlist?: IWatchlist;
+  disabled?: boolean;
   onFileUploaded?: (data: CustomWatchlistUpload) => void;
   onFileUploading?: (loading: boolean) => void;
 }) {
@@ -45,9 +46,9 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
     setIsFileUploadLoading(true);
     try {
       const { data } = await api.uploadMerchantWatchlist(merchantId, form);
-      onFileUploaded(data);
       setValue(CustomWatchlistModalValidationInputs.FileKey, data.key);
       clearErrors(CustomWatchlistModalValidationInputs.FileKey);
+      onFileUploaded(data);
       setIsFileUploadLoading(false);
     } catch {
       setError(CustomWatchlistModalValidationInputs.FileKey, {
@@ -88,10 +89,11 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
             onChange={handleUploadFile}
             accept=".csv"
             renderButton={(
-              <RoundedButton>
+              <RoundedButton disabled={disabled}>
                 {formatMessage('CustomWatchlist.settings.modal.button.selectFile.reload')}
               </RoundedButton>
             )}
+            disabled={disabled}
           />
         </WithActionDescriptionBordered>
       ) : (
@@ -99,13 +101,13 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
           {formatMessage('CustomWatchlist.settings.modal.button.selectFile')}
         </FileSelectButton>
       )}
-      {extFile === CustomWatchlistFileExt.Csv && <CSVSeparatorSelect defaultValue={watchlist?.process?.csvSeparator} />}
+      {extFile === CustomWatchlistFileExt.Csv && <CSVSeparatorSelect defaultValue={watchlist?.process?.csvSeparator} disabled={disabled} />}
       {fileName && (
         <>
           <Button
             className={classes.uploadButton}
             onClick={handleSelectFile}
-            disabled={isFileUploadLoading || !file}
+            disabled={disabled || isFileUploadLoading || !file}
             variant="contained"
             color="primary"
             fullWidth

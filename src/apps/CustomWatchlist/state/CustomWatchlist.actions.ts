@@ -1,6 +1,6 @@
 import { productManagerService } from 'apps/Product';
 import { ProductTypes } from 'models/Product.model';
-import { CustomWatchlistHeaders, CustomWatchlistShortValidation, IWatchlist, WatchlistContentTypes, WatchlistCreateBodyTypes } from '../models/CustomWatchlist.models';
+import { CustomWatchlistHeaders, CustomWatchlistModalValidationInputs, CustomWatchlistModalValidationInputTypes, CustomWatchlistShortValidation, IWatchlist, WatchlistContentTypes, WatchlistCreateBodyTypes } from '../models/CustomWatchlist.models';
 import { CustomWatchlist } from '../services/CustomWatchlist.service';
 import * as api from '../client/CustomWatchlist.client';
 import { types } from './CustomWatchlist.store';
@@ -50,6 +50,29 @@ export const clearWatchlist = () => (dispatch) => {
   dispatch(clearCurrentWatchlist());
   dispatch(clearCurrentWatchlistHeaders());
   dispatch(clearWatchlistContent());
+};
+
+export const updateCurrentWatchlist = (formState: Partial<CustomWatchlistModalValidationInputTypes>) => (dispatch, getState) => {
+  dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_UPDATING });
+
+  try {
+    const currentWatchlist = { ...selectCurrentCustomWatchlist(getState()) };
+    const newCurrentWatchlist: Partial<IWatchlist> = {
+      ...currentWatchlist,
+      mapping: [],
+      process: {
+        ...currentWatchlist?.process,
+        error: null,
+        csvSeparator: formState[CustomWatchlistModalValidationInputs.CsvSeparator],
+        inputSourceFileName: formState[CustomWatchlistModalValidationInputs.FileName],
+        inputSourceFileKey: formState[CustomWatchlistModalValidationInputs.FileKey],
+      },
+    };
+
+    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: newCurrentWatchlist, isReset: true });
+  } catch {
+    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_FAILURE });
+  }
 };
 
 export const customWatchlistLoadById = (merchantId: string, watchlistId: number) => async (dispatch, getState) => {
@@ -152,11 +175,11 @@ export const getCustomWatchlistShortValidation = (merchantId: string, body: Cust
   dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_UPDATING });
   try {
     const payload = await api.getWatchlistShortValidation(merchantId, body);
-    const currentWatchlists: IWatchlist = { ...selectCurrentCustomWatchlist(getState()) };
-    currentWatchlists.process = { ...currentWatchlists.process };
-    currentWatchlists.process.error = payload.data?.errors ?? null;
+    const currentWatchlist = { ...selectCurrentCustomWatchlist(getState()) };
+    currentWatchlist.process = { ...currentWatchlist.process };
+    currentWatchlist.process.error = payload.data?.errors ?? null;
 
-    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: currentWatchlists, isReset: true });
+    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: currentWatchlist, isReset: true });
   } catch (error: any) {
     dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_FAILURE, error: error?.response?.data?.type });
     throw error;

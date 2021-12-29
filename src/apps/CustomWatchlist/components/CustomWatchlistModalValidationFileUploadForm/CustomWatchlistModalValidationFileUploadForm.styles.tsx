@@ -34,7 +34,7 @@ export const RoundedButton = withStyles((theme) => ({
       color: theme.palette.common.whiteblue,
     },
   },
-}))(({ classes, children }: ButtonProps) => (
+}))(({ classes, disabled, children }: ButtonProps) => (
   <ButtonStyled
     component="span"
     size="small"
@@ -42,6 +42,7 @@ export const RoundedButton = withStyles((theme) => ({
     variant="contained"
     startIcon={<FiUpload />}
     classes={classes}
+    disabled={disabled}
   >
     {children}
   </ButtonStyled>

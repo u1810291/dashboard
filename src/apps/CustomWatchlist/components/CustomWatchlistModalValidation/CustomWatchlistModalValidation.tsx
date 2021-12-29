@@ -13,23 +13,15 @@ import Close from '@material-ui/icons/Close';
 import { ButtonStyled } from 'apps/ui';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { useDebounce } from 'lib/debounce.hook';
-import { CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus, customWatchlistsPollingDelay, CustomWatchlistUpload, getCustomWatchlistMapping, IValidatedInputsFieldTypes, ValidatedInputsKeys, IWatchlist, FlowWatchlistUi } from '../../models/CustomWatchlist.models';
+import { CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus, customWatchlistsPollingDelay, CustomWatchlistUpload, getCustomWatchlistMapping, IValidatedInputsFieldTypes, ValidatedInputsKeys, FlowWatchlistUi, CustomWatchlistModalValidationInputTypes } from '../../models/CustomWatchlist.models';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
 import { selectCurrentCustomWatchlistHeadersErrorType, selectCurrentCustomWatchlistId, selectWatchlistsContentErrorType, selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsContentLoading, selectIsWatchlistsLoading, selectCurrentCustomWatchlistStatus, selectCurrentCustomWatchlistHeaders, selectCurrentCustomWatchlistHeadersIsLoading } from '../../state/CustomWatchlist.selectors';
-import { customWatchlistLoadById, getCustomWatchlistHeaders, getCustomWatchlistShortValidation } from '../../state/CustomWatchlist.actions';
+import { updateCurrentWatchlist, customWatchlistLoadById, getCustomWatchlistHeaders, getCustomWatchlistShortValidation } from '../../state/CustomWatchlist.actions';
 import { useStyles } from './CustomWatchlistModalValidation.styles';
 import { CustomWatchlistModalValidationFileUploadForm } from '../CustomWatchlistModalValidationFileUploadForm/CustomWatchlistModalValidationFileUploadForm';
 import { CustomWatchlistModalValidationSubmitButton } from '../CustomWatchlistModalValidationSubmitButton/CustomWatchlistModalValidationSubmitButton';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputsLoadingSkeleton } from '../ValidatedInputsLoadingSkeleton/ValidatedInputsLoadingSkeleton';
-
-export interface CustomWatchlistModalValidationInputTypes {
-  [CustomWatchlistModalValidationInputs.Name]: string;
-  [CustomWatchlistModalValidationInputs.FileKey]: string | null;
-  [CustomWatchlistModalValidationInputs.Mapping]: WatchlistMapping[];
-  [CustomWatchlistModalValidationInputs.CsvSeparator]: string | null;
-  [CustomWatchlistModalValidationInputs.FileName]: string;
-}
 
 export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }: {
   watchlist?: FlowWatchlistUi;
@@ -134,6 +126,8 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     if (data?.key) {
       const headersBody = { [CustomWatchlistModalValidationInputs.FileKey]: data.key, [CustomWatchlistModalValidationInputs.CsvSeparator]: formValues[CustomWatchlistModalValidationInputs.CsvSeparator] };
 
+      dispatch(updateCurrentWatchlist(formValues));
+
       // TODO: @richvoronov remove this on backend ready
       if (!isEdit) {
         await dispatch(getCustomWatchlistHeaders(merchantId, headersBody));
@@ -159,7 +153,6 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
 
     return null;
   }, [classes, isSubmittingError, watchlistsContentErrorType, currentCustomWatchlistHeadersErrorType, isFileHeadersFlowLoading, formatMessage]);
-
 
   useEffect(() => {
     if (isEdit) {
@@ -201,7 +194,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                 />
               </Box>
               <Box mb={3}>
-                <CustomWatchlistModalValidationFileUploadForm watchlist={watchlist} onFileUploaded={handleFileUploaded} onFileUploading={handleFileUploading} />
+                <CustomWatchlistModalValidationFileUploadForm watchlist={watchlist} onFileUploaded={handleFileUploaded} onFileUploading={handleFileUploading} disabled={!!(!isEdit && currentWatchlistId)} />
               </Box>
             </Grid>
             <Grid item xs={6}>
