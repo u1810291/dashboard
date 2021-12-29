@@ -17,7 +17,7 @@ function CSVSeparatorSelectMenuItem({ value }: { value: CsvSeparatorInputEnum })
   );
 }
 
-export function CSVSeparatorSelect({ disabled = false, defaultValue = CsvDelimiterTypes[CsvSeparatorInputEnum.Comma] }: { defaultValue?: string; disabled?: boolean; }) {
+export function CSVSeparatorSelect({ disabled = false, defaultValue = CsvDelimiterTypes[CsvSeparatorInputEnum.Comma] }: { defaultValue?: string; disabled?: boolean }) {
   const classes = useStyles();
   const formatMessage = useFormatMessage();
   const { control, formState: { errors } } = useFormContext();
