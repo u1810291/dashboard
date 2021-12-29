@@ -194,7 +194,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                 />
               </Box>
               <Box mb={3}>
-                <CustomWatchlistModalValidationFileUploadForm watchlist={watchlist} onFileUploaded={handleFileUploaded} onFileUploading={handleFileUploading} disabled={!!(!isEdit && currentWatchlistId)} />
+                <CustomWatchlistModalValidationFileUploadForm watchlist={watchlist} onFileUploaded={handleFileUploaded} onFileUploading={handleFileUploading} />
               </Box>
             </Grid>
             <Grid item xs={6}>
