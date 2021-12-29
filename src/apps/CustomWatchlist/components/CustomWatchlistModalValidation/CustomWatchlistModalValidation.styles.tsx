@@ -57,5 +57,6 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     height: 'calc(100% - 70px)',
     overflowY: 'auto',
+    overflowX: 'hidden',
   },
 }));

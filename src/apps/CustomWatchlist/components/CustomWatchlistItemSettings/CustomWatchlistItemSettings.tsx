@@ -10,13 +10,13 @@ import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { DateFormat } from 'lib/date';
 import { notification } from 'apps/ui';
-import { CustomWatchlistModalValidation, CustomWatchlistModalValidationInputTypes } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
+import { CustomWatchlistModalValidation } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
 import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearWatchlist } from '../../state/CustomWatchlist.actions';
 import { selectIsWatchlistsFailed, selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
-import { CustomWatchlistModalValidationInputs, FlowWatchlistUi, WatchlistContentTypes } from '../../models/CustomWatchlist.models';
+import { CustomWatchlistModalValidationInputs, CustomWatchlistModalValidationInputTypes, FlowWatchlistUi, WatchlistContentTypes } from '../../models/CustomWatchlist.models';
 
 export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   watchlists: FlowWatchlistUi[];
@@ -36,8 +36,8 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
     dispatch(clearWatchlist());
   }, [dispatch, closeOverlay]);
 
-  const customWatchlistsContentUpdate = useCallback(async (watchlistId: number, values: WatchlistContentTypes, isCreateFlow?: boolean) => {
-    await dispatch(updateMerchantWatchlistContent(merchantId, watchlistId, values, isCreateFlow));
+  const customWatchlistsContentUpdate = useCallback(async (watchlistId: number, values: WatchlistContentTypes) => {
+    await dispatch(updateMerchantWatchlistContent(merchantId, watchlistId, values));
   }, [merchantId, dispatch]);
 
   const handleSubmitWatchlist = useCallback(async (values: CustomWatchlistModalValidationInputTypes, watchlist?: Partial<FlowWatchlistUi>) => {
@@ -53,12 +53,12 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
 
     if (watchlist?.id) {
       await dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData));
-      await customWatchlistsContentUpdate(watchlist.id, watchlistContentValues, true);
+      await customWatchlistsContentUpdate(watchlist.id, watchlistContentValues);
       notification.info(formatMessage('CustomWatchlist.settings.watchlist.updated', { messageValues: { name: watchlist.name } }));
       return;
     }
     dispatch(customWatchlistCreate(merchantId, watchlistRequestData, async (watchlistData) => {
-      await customWatchlistsContentUpdate(watchlistData.id, watchlistContentValues, true);
+      await customWatchlistsContentUpdate(watchlistData.id, watchlistContentValues);
       notification.info(formatMessage('CustomWatchlist.settings.watchlist.created', { messageValues: { name: watchlistData.name } }));
     }));
   }, [merchantId, formatMessage, customWatchlistsContentUpdate, dispatch]);
@@ -77,14 +77,21 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
     );
   }, [dispatch, createOverlay, handleCloseOverlay, handleSubmitWatchlist]);
 
-  const handleDeleteWatchList = useCallback((watchlistId: number) => async () => {
-    setWatchlistDeletionId(watchlistId);
-    await dispatch(deleteCustomWatchlistById(merchantId, watchlistId, (error) => {
+  const handleDeleteWatchList = useCallback((watchlist: FlowWatchlistUi) => async () => {
+    setWatchlistDeletionId(watchlist.id);
+    await dispatch(deleteCustomWatchlistById(merchantId, watchlist.id, (error) => {
       setWatchlistDeletionId(null);
-      notification.error(error.response?.data?.message);
+      const details = error.response?.data?.details ?? {};
+      notification.error(formatMessage(`CustomWatchlist.settings.watchlist.deleted.${details.code}`, {
+        messageValues: {
+          name: watchlist.name,
+          ending: details?.flows.length > 1 ? 's' : '',
+          flows: details?.flows?.filter((_, i) => i < 3).join(', '),
+        },
+      }));
     }));
     setWatchlistDeletionId(null);
-  }, [merchantId, dispatch]);
+  }, [merchantId, dispatch, formatMessage]);
 
   return (
     <Box>
@@ -101,7 +108,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
                     <IconButton disabled={watchlistDeletionId === watchlist.id} className={classnames(classes.button, classes.buttonEdit)} onClick={handleOpenWatchlist(watchlist)}>
                       <FiEdit size={17} />
                     </IconButton>
-                    <IconButton disabled={watchlistDeletionId === watchlist.id} className={classnames(classes.button, classes.buttonTrash)} onClick={handleDeleteWatchList(watchlist.id)}>
+                    <IconButton disabled={watchlistDeletionId === watchlist.id} className={classnames(classes.button, classes.buttonTrash)} onClick={handleDeleteWatchList(watchlist)}>
                       <FiTrash2 size={17} />
                     </IconButton>
                   </Box>

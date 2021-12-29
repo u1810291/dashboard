@@ -30,15 +30,8 @@ export interface WatchlistMapping {
   options?: WatchlistMappingOptions;
 }
 
-export interface FlowWatchlistUi {
-  id: number;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-  merchantId: string;
-  mapping: WatchlistMapping[] | null;
+export interface FlowWatchlistUi extends IWatchlist {
   severityOnMatch: CustomWatchlistSeverityOnMatchTypes;
-  process: Partial<WatchlistProcess> | null;
 }
 
 export enum WatchlistProcessName {
@@ -75,6 +68,7 @@ export interface IWatchlist {
   merchantId: string;
   mapping: WatchlistMapping[] | null;
   process: Partial<WatchlistProcess> | null;
+  isFileAvailable: boolean;
 }
 
 export interface CustomWatchlistUpload {
@@ -202,6 +196,14 @@ export interface IValidatedInputsFieldTypes {
   options?: ValidatedInputsFieldValuesOptions;
 }
 
+export interface CustomWatchlistModalValidationInputTypes {
+  [CustomWatchlistModalValidationInputs.Name]: string;
+  [CustomWatchlistModalValidationInputs.FileKey]: string | null;
+  [CustomWatchlistModalValidationInputs.Mapping]: WatchlistMapping[];
+  [CustomWatchlistModalValidationInputs.CsvSeparator]: string | null;
+  [CustomWatchlistModalValidationInputs.FileName]: string;
+}
+
 export function getCustomWatchlistStepExtra(step: CustomWatchlistStep): CustomWatchlistStepExtended {
   if (!step) {
     return step;
@@ -215,7 +217,13 @@ export function getCustomWatchlistStepExtra(step: CustomWatchlistStep): CustomWa
 
 export function getCustomWatchlistMapping(headers?: string[], mapping?: WatchlistMapping[]): IValidatedInputsFieldTypes[] {
   if (headers) {
-    return headers.map((header) => ({ label: header, value: ValidatedInputsKeys.NotSelected }));
+    return headers.map((header) => {
+      const mappingFinded = mapping?.find((map) => map.merchantField === header);
+      return {
+        label: header,
+        value: mappingFinded?.systemField ?? ValidatedInputsKeys.NotSelected,
+      };
+    });
   }
 
   if (mapping) {
