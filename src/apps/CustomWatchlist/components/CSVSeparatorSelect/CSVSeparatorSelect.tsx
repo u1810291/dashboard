@@ -17,7 +17,7 @@ function CSVSeparatorSelectMenuItem({ value }: { value: CsvSeparatorInputEnum })
   );
 }
 
-export function CSVSeparatorSelect({ defaultValue = CsvDelimiterTypes[CsvSeparatorInputEnum.Comma] }: { defaultValue?: string }) {
+export function CSVSeparatorSelect({ disabled = false, defaultValue = CsvDelimiterTypes[CsvSeparatorInputEnum.Comma] }: { defaultValue?: string; disabled?: boolean; }) {
   const classes = useStyles();
   const formatMessage = useFormatMessage();
   const { control, formState: { errors } } = useFormContext();
@@ -40,6 +40,7 @@ export function CSVSeparatorSelect({ defaultValue = CsvDelimiterTypes[CsvSeparat
               error={!!error}
               className={classes.select}
               renderValue={(value) => value}
+              disabled={disabled}
             >
               <MenuItem value={CsvDelimiterTypes[CsvSeparatorInputEnum.Semicolon]}>
                 <CSVSeparatorSelectMenuItem value={CsvSeparatorInputEnum.Semicolon} />

@@ -45,9 +45,9 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
     setIsFileUploadLoading(true);
     try {
       const { data } = await api.uploadMerchantWatchlist(merchantId, form);
-      onFileUploaded(data);
       setValue(CustomWatchlistModalValidationInputs.FileKey, data.key);
       clearErrors(CustomWatchlistModalValidationInputs.FileKey);
+      onFileUploaded(data);
       setIsFileUploadLoading(false);
     } catch {
       setError(CustomWatchlistModalValidationInputs.FileKey, {

@@ -70,7 +70,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, disabled
             fullWidth
             value={value}
             onChange={handleChange}
-            IconComponent={() => <FiChevronDown size="18px" strokeWidth={3} color={appPalette.lightblue} />}
+            IconComponent={() => <FiChevronDown size="18px" strokeWidth={3} color={disabled ? appPalette.gray68 : appPalette.lightblue} />}
             className={classnames(classes.colorBlue, {
               [classes.placeholder]: value === placeholderKey,
             })}
@@ -107,7 +107,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, disabled
         </Grid>
       </Grid>
       {(!disabled && value === ValidatedInputsKeys.FullName) && (
-        <Box mb={1.2}>
+        <Box mb={1.2} pr={1.1}>
           <RangeSlider
             defaultValue={rangeSliderValue}
             value={rangeSliderValue}
