@@ -228,7 +228,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       {
         id: DocumentStepTypes.ColombianUnifiedLegalSearch,
         default: false,
-      }
+      },
     ],
   },
   {
