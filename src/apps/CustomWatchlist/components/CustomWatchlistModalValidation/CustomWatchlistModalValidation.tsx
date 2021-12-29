@@ -15,8 +15,8 @@ import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { useDebounce } from 'lib/debounce.hook';
 import { CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus, customWatchlistsPollingDelay, CustomWatchlistUpload, getCustomWatchlistMapping, IValidatedInputsFieldTypes, ValidatedInputsKeys, FlowWatchlistUi, CustomWatchlistModalValidationInputTypes } from '../../models/CustomWatchlist.models';
 import { ValidatedInputs } from '../ValidatedInputs/ValidatedInputs';
-import { selectCurrentCustomWatchlistHeadersErrorType, selectCurrentCustomWatchlistId, selectWatchlistsContentErrorType, selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsContentLoading, selectIsWatchlistsLoading, selectCurrentCustomWatchlistStatus, selectCurrentCustomWatchlistHeaders, selectCurrentCustomWatchlistHeadersIsLoading } from '../../state/CustomWatchlist.selectors';
-import { updateCurrentWatchlist, customWatchlistLoadById, getCustomWatchlistHeaders, getCustomWatchlistShortValidation } from '../../state/CustomWatchlist.actions';
+import { selectCurrentCustomWatchlistHeadersErrorType, selectCurrentCustomWatchlistId, selectWatchlistsContentErrorType, selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsContentLoading, selectIsWatchlistsLoading, selectCurrentCustomWatchlistStatus, selectCurrentCustomWatchlistMapping, selectCurrentCustomWatchlistHeaders, selectCurrentCustomWatchlistHeadersIsLoading, selectCurrentCustomWatchlistError } from '../../state/CustomWatchlist.selectors';
+import { updateCurrentWatchlist, customWatchlistLoadById, getCustomWatchlistHeaders, getCustomWatchlistShortValidation, updateMerchantWatchlistContent } from '../../state/CustomWatchlist.actions';
 import { useStyles } from './CustomWatchlistModalValidation.styles';
 import { CustomWatchlistModalValidationFileUploadForm } from '../CustomWatchlistModalValidationFileUploadForm/CustomWatchlistModalValidationFileUploadForm';
 import { CustomWatchlistModalValidationSubmitButton } from '../CustomWatchlistModalValidationSubmitButton/CustomWatchlistModalValidationSubmitButton';
@@ -36,6 +36,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const merchantId = useSelector(selectMerchantId);
   const currentWatchlistId = useSelector(selectCurrentCustomWatchlistId);
   const currentWatchlistStatus = useSelector(selectCurrentCustomWatchlistStatus);
+  const currentWatchlistMapping = useSelector(selectCurrentCustomWatchlistMapping);
   const isWatchlistsLoading = useSelector(selectIsWatchlistsLoading);
   const isCurrentCustomWatchlistIsLoading = useSelector(selectCurrentCustomWatchlistIsLoading);
   const isWatchlistsContentLoading = useSelector(selectIsWatchlistsContentLoading);
@@ -43,10 +44,13 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const currentCustomWatchlistHeaders = useSelector(selectCurrentCustomWatchlistHeaders);
   const currentCustomWatchlistHeadersErrorType = useSelector(selectCurrentCustomWatchlistHeadersErrorType);
   const currentCustomWatchlistHeadersIsLoading = useSelector(selectCurrentCustomWatchlistHeadersIsLoading);
+  // const currentWatchlistError = useSelector(selectCurrentCustomWatchlistError);
+  // const isCurrentWatchlistError = Array.isArray(currentWatchlistError) && currentWatchlistError?.length !== 0;
 
   const [isSubmittingError, setIsSubmittingError] = useState<boolean>(false);
   const [fileKey, setFileKey] = useState<string | null>(watchlist?.process?.inputSourceFileKey ?? null);
   const [isFileUploading, setIsFileUploading] = useState<boolean>(false);
+  const [isWatchlistValid, setIsWatchlistValid] = useState<boolean>(false);
   const formMethods = useForm<CustomWatchlistModalValidationInputTypes>();
   const { register, handleSubmit, setValue, getValues, formState: { errors, isSubmitting } } = formMethods;
 
@@ -56,10 +60,16 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
   const isSubmitRestricted = !!(!fileKey || isCurrentCustomWatchlistIsLoading || isWatchlistsLoading || isWatchlistsContentLoading || isWatchlistRunning || isFileHeadersFlowLoading || currentCustomWatchlistHeadersErrorType);
   const watchlistId = watchlist?.id || currentWatchlistId;
   const isEdit = !!watchlist;
+  const isWatchlistExist = !!(currentWatchlistId);
+  const isWatchlistNeedsRevalidate = !isEdit && !isWatchlistValid && !!currentWatchlistId;
 
   const handleWatchlistLoad = useCallback((isReload: boolean) => {
     if (watchlistId && isReload) {
-      dispatch(customWatchlistLoadById(merchantId, watchlistId));
+      dispatch(customWatchlistLoadById(merchantId, watchlistId, (dataWatchlist) => {
+        if (!dataWatchlist.process.error) {
+          setIsWatchlistValid(true);
+        }
+      }));
     }
   }, [watchlistId, merchantId, dispatch]);
 
@@ -75,6 +85,12 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
 
   const handleFormSubmit: SubmitHandler<CustomWatchlistModalValidationInputTypes> = useCallback((values) => {
     if (isSubmitRestricted) {
+      return;
+    }
+
+    if (isWatchlistNeedsRevalidate) {
+      // TODO: @richvoronov must't be here, hotfix for alfa release
+      dispatch(updateMerchantWatchlistContent(merchantId, watchlistId, values));
       return;
     }
 
@@ -94,7 +110,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     } catch (error) {
       setIsSubmittingError(true);
     }
-  }, [watchlist, watchlistId, isSubmitRestricted, fileKey, isEdit, isWatchlistCompleted, onClose, onSubmit]);
+  }, [watchlist, watchlistId, isSubmitRestricted, fileKey, isEdit, isWatchlistCompleted, isWatchlistNeedsRevalidate, merchantId, dispatch, onClose, onSubmit]);
 
   const handleInputValidate = useCallback((mapping: WatchlistMapping[]) => {
     const formValues = getValues();
@@ -126,20 +142,25 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
     if (data?.key) {
       const headersBody = { [CustomWatchlistModalValidationInputs.FileKey]: data.key, [CustomWatchlistModalValidationInputs.CsvSeparator]: formValues[CustomWatchlistModalValidationInputs.CsvSeparator] };
 
-      dispatch(updateCurrentWatchlist(formValues));
+      // TODO: @richvoronov refactor this after alfa release
+      if (watchlistId) {
+        setIsWatchlistValid(false);
+        await dispatch(updateCurrentWatchlist(formValues));
+      }
 
       // TODO: @richvoronov remove this on backend ready
       if (!isEdit) {
         await dispatch(getCustomWatchlistHeaders(merchantId, headersBody));
       }
     }
-  }, [merchantId, isEdit, dispatch, getValues]);
+  }, [merchantId, watchlistId, isEdit, dispatch, getValues]);
 
   const handleFileUploading = useCallback((loading: boolean) => {
     setIsFileUploading(loading);
   }, []);
 
-  const watchlistMapping = useMemo(() => getCustomWatchlistMapping(currentCustomWatchlistHeaders, watchlist?.mapping), [currentCustomWatchlistHeaders, watchlist?.mapping]);
+  // TODO: @richvoronov, currentWatchlistMapping must be the only one entry poin, update currentWatchlistMapping after watchlist PATCH
+  const watchlistMapping = useMemo(() => getCustomWatchlistMapping(currentCustomWatchlistHeaders, currentWatchlistMapping ?? watchlist?.mapping), [currentCustomWatchlistHeaders, watchlist, currentWatchlistMapping]);
   const watchlsitError = useMemo(() => {
     if (isSubmittingError) {
       return <div className={classes.error}>{formatMessage('CustomWatchlist.settings.modal.submit.error.default')}</div>;
@@ -208,7 +229,11 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
               </Box>
               {isFileHeadersFlowLoading && <ValidatedInputsLoadingSkeleton />}
               {!isFileHeadersFlowLoading && (
-                (fileKey && watchlistMapping.length !== 0 && !currentCustomWatchlistHeadersErrorType) ? <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} isEdit={isEdit} /> : <FakeInputs />
+                (fileKey && watchlistMapping.length !== 0 && !currentCustomWatchlistHeadersErrorType) ? (
+                  <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} disabled={isEdit || isWatchlistExist} />
+                ) : (
+                  <FakeInputs />
+                )
               )}
               {watchlsitError}
             </Grid>
@@ -231,6 +256,7 @@ export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }:
                 isWatchlistCompleted={isWatchlistCompleted}
                 loading={isWatchlistsLoading || isSubmitting || isWatchlistRunning || isWatchlistsContentLoading}
                 isWatchlistRunning={isWatchlistRunning}
+                isWatchlistNeedsRevalidate={isWatchlistNeedsRevalidate}
                 disabled={isSubmitRestricted}
                 isEdit={isEdit}
               />

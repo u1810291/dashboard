@@ -204,7 +204,6 @@ export interface CustomWatchlistModalValidationInputTypes {
   [CustomWatchlistModalValidationInputs.FileName]: string;
 }
 
-
 export function getCustomWatchlistStepExtra(step: CustomWatchlistStep): CustomWatchlistStepExtended {
   if (!step) {
     return step;
@@ -218,7 +217,13 @@ export function getCustomWatchlistStepExtra(step: CustomWatchlistStep): CustomWa
 
 export function getCustomWatchlistMapping(headers?: string[], mapping?: WatchlistMapping[]): IValidatedInputsFieldTypes[] {
   if (headers) {
-    return headers.map((header) => ({ label: header, value: ValidatedInputsKeys.NotSelected }));
+    return headers.map((header) => {
+      const mappingFinded = mapping?.find((map) => map.merchantField === header);
+      return {
+        label: header,
+        value: mappingFinded?.systemField ?? ValidatedInputsKeys.NotSelected,
+      };
+    });
   }
 
   if (mapping) {

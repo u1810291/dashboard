@@ -1,6 +1,6 @@
 import { productManagerService } from 'apps/Product';
 import { ProductTypes } from 'models/Product.model';
-import { CustomWatchlistHeaders, CustomWatchlistModalValidationInputs, CustomWatchlistModalValidationInputTypes, CustomWatchlistShortValidation, IWatchlist, WatchlistContentTypes, WatchlistCreateBodyTypes } from '../models/CustomWatchlist.models';
+import { CustomWatchlistHeaders, CustomWatchlistModalValidationInputs, CustomWatchlistModalValidationInputTypes, CustomWatchlistShortValidation, IWatchlist, WatchlistContentTypes, WatchlistCreateBodyTypes, WatchlistProcessStatus } from '../models/CustomWatchlist.models';
 import { CustomWatchlist } from '../services/CustomWatchlist.service';
 import * as api from '../client/CustomWatchlist.client';
 import { types } from './CustomWatchlist.store';
@@ -59,7 +59,6 @@ export const updateCurrentWatchlist = (formState: Partial<CustomWatchlistModalVa
     const currentWatchlist = { ...selectCurrentCustomWatchlist(getState()) };
     const newCurrentWatchlist: Partial<IWatchlist> = {
       ...currentWatchlist,
-      mapping: [],
       process: {
         ...currentWatchlist?.process,
         error: null,
@@ -75,7 +74,7 @@ export const updateCurrentWatchlist = (formState: Partial<CustomWatchlistModalVa
   }
 };
 
-export const customWatchlistLoadById = (merchantId: string, watchlistId: number) => async (dispatch, getState) => {
+export const customWatchlistLoadById = (merchantId: string, watchlistId: number, callback?: (value: IWatchlist) => void) => async (dispatch, getState) => {
   dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_REQUEST });
   try {
     const payload = await api.getMerchantWatchlistById(merchantId, watchlistId);
@@ -85,6 +84,10 @@ export const customWatchlistLoadById = (merchantId: string, watchlistId: number)
 
     dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: payload.data, isReset: true });
     dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: watchlists, isReset: true });
+
+    if (callback) {
+      callback(payload.data);
+    }
   } catch (error) {
     dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_FAILURE, error });
     throw error;
@@ -143,11 +146,8 @@ export const updateMerchantWatchlistContent = (merchantId: string, watchlistId: 
     const watchlistIndexFind = watchlists.findIndex((watchlist) => watchlist.id === payload.data.id);
     watchlists[watchlistIndexFind] = { ...watchlists[watchlistIndexFind], process: { ...watchlists[watchlistIndexFind].process, ...payload.data.process } };
 
-    if (isCreateFlow) {
-      dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: payload.data, isReset: true });
-    }
-
-    dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_SUCCESS, payload: null, isReset: true });
+    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: payload.data, isReset: true });
+    dispatch(clearWatchlistContent());
     dispatch({ type: types.CUSTOM_WATCHLISTS_SUCCESS, payload: watchlists, isReset: true });
   } catch (error: any) {
     dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_FAILURE, error: error?.response?.data?.type });
