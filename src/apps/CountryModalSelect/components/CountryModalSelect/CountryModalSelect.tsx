@@ -1,9 +1,9 @@
-import { Button, Box, Grid, List } from '@material-ui/core';
-import { useOverlay } from 'apps/overlay';
+import { Button, Box, Grid, List, Typography } from '@material-ui/core';
+import { useOverlay, Modal } from 'apps/overlay';
 import { FixedSizeTree } from 'react-vtree';
 import React, { useCallback, useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
-import { BoxBordered } from 'apps/ui';
+import { BoxBordered, Spinner } from 'apps/ui';
 import { AllowedRegions } from 'apps/IpCheck/models/IpCheck.model';
 import { useCountriesLoad } from 'apps/countries';
 import { treeWalker, regionsConverting, getInitialSelectedCountries, SelectedCountries, Tree } from '../../models/CountryModalSelect.model';
@@ -96,31 +96,50 @@ export function CountryModalSelect({ onSubmit, initialValues }: {
   }), [allRegionsSelected, countries, handleSelectCountry, selectedCountries]);
 
   return (
-    <>
-      <Grid container justify="flex-end">
-        <Box mr={2}>
-          <StyledButtonBase disableRipple onClick={handleSelectAll}>{intl.formatMessage({ id: 'Product.configuration.ipCheck.selectValidCountry.selectAll' })}</StyledButtonBase>
-        </Box>
-        <Box>
-          <StyledButtonBase disableRipple onClick={handleDeselectAll}>{intl.formatMessage({ id: 'Product.configuration.ipCheck.selectValidCountry.deselectAll' })}</StyledButtonBase>
-        </Box>
-      </Grid>
-      <BoxBordered mt={1} mb={2} className={classes.formBox}>
-        <List className={classes.tree}>
-          <FixedSizeTree
-            treeWalker={handleTreeWalker}
-            itemSize={30}
-            height={340}
-            width="100%"
-            itemData={listItemData}
-          >
-            {CountryModalItemSelect}
-          </FixedSizeTree>
-        </List>
-      </BoxBordered>
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
-        {intl.formatMessage({ id: 'Product.configuration.ipCheck.selectValidCountry.submit' })}
-      </Button>
-    </>
+    <Modal
+      onClose={closeOverlay}
+      description={(
+        <>
+          <Typography variant="h4" gutterBottom className={classes.modalTitle}>
+            {intl.formatMessage({ id: 'Product.configuration.ipCheck.selectValidCountry' })}
+          </Typography>
+          <Box className={classes.modalSubTitle}>{intl.formatMessage({ id: 'Product.configuration.ipCheck.selectValidCountry.subtitle' })}</Box>
+        </>
+      )}
+      className={classes.modal}
+    >
+      <>
+        <Grid container justify="flex-end">
+          <Box mr={2}>
+            <StyledButtonBase disableRipple onClick={handleSelectAll}>{intl.formatMessage({ id: 'Product.configuration.ipCheck.selectValidCountry.selectAll' })}</StyledButtonBase>
+          </Box>
+          <Box>
+            <StyledButtonBase disableRipple onClick={handleDeselectAll}>{intl.formatMessage({ id: 'Product.configuration.ipCheck.selectValidCountry.deselectAll' })}</StyledButtonBase>
+          </Box>
+        </Grid>
+        <BoxBordered mt={1} mb={2} className={classes.formBox}>
+          {countriesModel.isLoading ? (
+            <Box height={340} display="flex" justifyContent="center" alignItems="center">
+              <Spinner />
+            </Box>
+          ) : (
+            <List className={classes.tree}>
+              <FixedSizeTree
+                treeWalker={handleTreeWalker}
+                itemSize={30}
+                height={340}
+                width="100%"
+                itemData={listItemData}
+              >
+                {CountryModalItemSelect}
+              </FixedSizeTree>
+            </List>
+          )}
+        </BoxBordered>
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
+          {intl.formatMessage({ id: 'Product.configuration.ipCheck.selectValidCountry.submit' })}
+        </Button>
+      </>
+    </Modal>
   );
 }
