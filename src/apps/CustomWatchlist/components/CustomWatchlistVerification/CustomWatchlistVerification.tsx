@@ -6,7 +6,7 @@ import { VerificationDocument } from 'models/Document.model';
 import { StepStatus, VerificationStepTypes } from 'models/Step.model';
 import { CheckStepDetailsEntry } from 'apps/checks';
 import React, { useMemo } from 'react';
-import { CustomWatchlistSearchParamsKeysEnum, getCustomWatchlistStepExtra } from '../../models/CustomWatchlist.models';
+import { getCustomWatchlistStepExtra } from '../../models/CustomWatchlist.models';
 import { useStyles } from './CustomWatchlistVerification.styles';
 
 export function CustomWatchlistVerification({ data }: {
@@ -54,10 +54,15 @@ export function CustomWatchlistVerification({ data }: {
               )}
               {stepWatchlist.searchParams && (
                 <Box mt={0.5}>
-                  <Grid container spacing={1}>
-                    {Object.keys(CustomWatchlistSearchParamsKeysEnum).map((fieldName) => (!isNil(stepWatchlist.searchParams[CustomWatchlistSearchParamsKeysEnum[fieldName]])) && (
-                      <Grid xs={6} item key={CustomWatchlistSearchParamsKeysEnum[fieldName]}>
-                        <CheckStepDetailsEntry label={CustomWatchlistSearchParamsKeysEnum[fieldName]} value={stepWatchlist.searchParams[CustomWatchlistSearchParamsKeysEnum[fieldName]]} />
+                  <Grid container direction="column">
+                    {Object.entries(stepWatchlist.searchParams).map((value) => (!isNil(value[0])) && (
+                      <Grid container item spacing={1} key={value[0]}>
+                        <Grid xs={6} item>
+                          <CheckStepDetailsEntry label={value[0]} value={value[1]} />
+                        </Grid>
+                        <Grid xs={6} item>
+                          {stepWatchlist?.searchResult[value[0]] ? <CheckStepDetailsEntry label={value[0]} value={stepWatchlist.searchResult[value[0]]} /> : '-'}
+                        </Grid>
                       </Grid>
                     ))}
                   </Grid>
