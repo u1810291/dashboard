@@ -572,6 +572,8 @@
   "CustomDocuments.settings.variableName.subtitle": "Specify how you want us to refer to your field at the system level.",
   "CustomWatchlist.card.check.customDatabases": "Custom databases",
   "CustomWatchlist.card.title": "Custom watchlist",
+  "CustomWatchlist.verification.step.subtitle.searchParams": "Search criteria",
+  "CustomWatchlist.verification.step.subtitle.searchResult": "Record in watchlist",
   "CustomWatchlist.settings.addYourWatchlist.subtitle": "Select the package of documents where one is require. Or add one more step if you want to make require more than one document.",
   "CustomWatchlist.settings.addYourWatchlist.title": "Add your watchlist",
   "CustomWatchlist.settings.button": "Add watchlist",
