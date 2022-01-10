@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import classnames from 'classnames';
 import { Select, MenuItem } from '@material-ui/core';
 import { CustomWatchlistSeverityOnMatchTypes, IFlowWatchlist } from 'models/CustomWatchlist.model';
@@ -10,7 +10,7 @@ export const SeverityOnMatchSelect = ({ watchlist, onUpdate }: {
   watchlist: FlowWatchlistUi;
   onUpdate: (watchlist: IFlowWatchlist) => void;
 }) => {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const classes = useStyles();
 
   const handleSeverityChange = useCallback((watchlistValue: FlowWatchlistUi) => (event: React.ChangeEvent<{ value: unknown; name?: string }>) => {
@@ -31,16 +31,16 @@ export const SeverityOnMatchSelect = ({ watchlist, onUpdate }: {
       })}
     >
       <MenuItem value={CustomWatchlistSeverityOnMatchTypes.NoAction} className={classes.placeholder}>
-        {intl.formatMessage({ id: 'CustomWatchlist.settings.modal.input.action.placeholder' })}
+        {formatMessage('CustomWatchlist.settings.modal.input.action.placeholder')}
       </MenuItem>
       <MenuItem value={CustomWatchlistSeverityOnMatchTypes.Critical}>
-        {intl.formatMessage({ id: `CustomWatchlist.settings.modal.input.action.option.${CustomWatchlistSeverityOnMatchTypes.Critical}` })}
+        {formatMessage(`CustomWatchlist.settings.modal.input.action.option.${CustomWatchlistSeverityOnMatchTypes.Critical}`)}
       </MenuItem>
       <MenuItem value={CustomWatchlistSeverityOnMatchTypes.Medium}>
-        {intl.formatMessage({ id: `CustomWatchlist.settings.modal.input.action.option.${CustomWatchlistSeverityOnMatchTypes.Medium}` })}
+        {formatMessage(`CustomWatchlist.settings.modal.input.action.option.${CustomWatchlistSeverityOnMatchTypes.Medium}`)}
       </MenuItem>
       <MenuItem value={CustomWatchlistSeverityOnMatchTypes.Low}>
-        {intl.formatMessage({ id: `CustomWatchlist.settings.modal.input.action.option.${CustomWatchlistSeverityOnMatchTypes.Low}` })}
+        {formatMessage(`CustomWatchlist.settings.modal.input.action.option.${CustomWatchlistSeverityOnMatchTypes.Low}`)}
       </MenuItem>
     </Select>
   );

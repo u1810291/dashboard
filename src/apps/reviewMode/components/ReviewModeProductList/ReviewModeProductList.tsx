@@ -3,7 +3,7 @@ import { ProductTab } from 'apps/Product';
 import { Loadable } from 'models/Loadable.model';
 import { VerificationResponse } from 'models/Verification.model';
 import { ProductTypes } from 'models/Product.model';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { selectVerificationModel, selectVerificationProductList } from '../../state/reviewMode.selectors';
 
@@ -15,12 +15,13 @@ export function ReviewModeProductList({
   selectedId?: ProductTypes;
 }) {
   const productList: ProductTypes[] = useSelector(selectVerificationProductList);
+  const primaryProductList = useMemo(() => productList.filter((id) => id !== ProductTypes.Metadata), [productList]);
   const verification: Loadable<VerificationResponse> = useSelector(selectVerificationModel);
 
   return (
     <Box p={2}>
       <Box mb={{ xs: 1, lg: 5 }}>
-        {productList.map((item) => (
+        {primaryProductList.map((item) => (
           <ProductTab
             key={item}
             id={item}
