@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { MerchantTags } from 'models/Merchant.model';
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
@@ -12,6 +12,7 @@ export function useLongPolling(
     isDone?: boolean;
   } = {},
 ) {
+  const [isUseFirstInvokeDone, setIsUseFirstInvokeDone] = useState<boolean>(false);
   const tags = useSelector(selectMerchantTags);
 
   useEffect(() => {
@@ -19,13 +20,13 @@ export function useLongPolling(
     let timer;
 
     if (!isCheckMerchantTag || tags.includes(MerchantTags.CanUseLongPolling)) {
-      if (isDone) {
-        return callback(false);
+      if (isUseFirstInvoke && !isUseFirstInvokeDone) {
+        result = callback(true);
+        setIsUseFirstInvokeDone(true);
       }
 
-      if (isUseFirstInvoke) {
-        // first invoke
-        result = callback(false);
+      if (isDone) {
+        return callback(false);
       }
 
       timer = setInterval(() => {
@@ -41,5 +42,5 @@ export function useLongPolling(
       };
     }
     return callback(false);
-  }, [tags, callback, interval, isCheckMerchantTag, isUseFirstInvoke, isDone]);
+  }, [tags, callback, interval, isCheckMerchantTag, isUseFirstInvokeDone, isUseFirstInvoke, isDone]);
 }

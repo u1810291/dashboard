@@ -7,7 +7,7 @@ interface MessageDescriptor<T> {
   defaultMessage?: string;
 }
 
-type FormatMessage = {
+export type FormatMessage = {
   (id: string, descriptor?: MessageDescriptor<string | number>): string;
   (id: string, descriptor?: MessageDescriptor<JSX.Element>): React.ReactNode;
 }

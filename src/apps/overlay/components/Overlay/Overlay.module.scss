@@ -36,6 +36,7 @@
 
 .overlayContent {
   max-height: 100%;
+  overflow: hidden;
   opacity: 0;
   transform: translateY(-50px);
   transition: all 0.2s ease-in-out;

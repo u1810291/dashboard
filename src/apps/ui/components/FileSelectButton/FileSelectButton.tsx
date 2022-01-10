@@ -1,9 +1,9 @@
 import React, { InputHTMLAttributes } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { ButtonStyled } from '../ButtonStyled/ButtonStyled';
-import { useStyles } from './FileUploadButton.styles';
+import { useStyles } from './FileSelectButton.styles';
 
-export const FileUploadButton = ({
+export const FileSelectButton = ({
   children,
   inputProps = {
     id: 'file-load',
@@ -33,6 +33,7 @@ export const FileUploadButton = ({
         {...inputProps}
         accept={accept}
         onChange={onChange}
+        disabled={disabled}
       />
       <label htmlFor="file-load">
         {renderButton || (

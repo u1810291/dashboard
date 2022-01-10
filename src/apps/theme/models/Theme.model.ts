@@ -43,6 +43,7 @@ declare module '@material-ui/core/styles/createPalette' {
     black90: string;
     black90opacity: string;
     red: string;
+    lightRed: string;
     redhover: string;
     redorange: string;
     brightorange: string;
