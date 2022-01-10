@@ -63,7 +63,7 @@ export function CustomWatchlistVerification({ data }: {
                     </Grid>
                   </Grid>
                   <Grid container direction="column">
-                    {Object.entries(stepWatchlist.searchParams).map((value) => (!isNil(value[0])) && (
+                    {Object.entries(stepWatchlist.searchParams).map((value) => (
                       <Grid container item spacing={1} key={value[0]}>
                         <Grid xs={6} item>
                           <CheckStepDetailsEntry label={value[0]} value={value[1]} />
