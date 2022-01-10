@@ -9,49 +9,12 @@ import React, { useMemo } from 'react';
 import { getCustomWatchlistStepExtra } from '../../models/CustomWatchlist.models';
 import { useStyles } from './CustomWatchlistVerification.styles';
 
-const mockData = {
-  status: 200,
-  id: 'custom-watchlists-validation',
-  error: {
-    type: 'StepError',
-    code: 'customWatchlists.matchesFound',
-    message: 'User found in at least one watchlist',
-  },
-  data: [
-    {
-      watchlist: {
-        id: 23,
-        name: 'Banco BHD Leon',
-      },
-      searchParams: {
-        documentNumber: '165375237',
-        fullName: 'JOSE ANTONIO TRINIDAD VAZQUEZ MARTINEZ',
-        dateOfBirth: '05-05-1971',
-        documentType: 'national-id',
-        country: 'MX',
-      },
-      searchResult: {
-        watchlistId: 23,
-        fullName: 'JOSE ANTONIO VAZQUEZ MARTINEZ',
-        dateOfBirth: '05-05-1979',
-        country: null,
-        documentNumber: '165375237',
-        documentType: null,
-        emailAddress: null,
-        phoneNumber: null,
-      },
-      searchedAt: '2021-12-29T14:41:39.606Z',
-    },
-  ],
-};
-
 export function CustomWatchlistVerification({ data }: {
     data: VerificationDocument;
   }) {
   const classes = useStyles();
   const formatMessage = useFormatMessage();
-  // const step = useMemo(() => getCustomWatchlistStepExtra(data.steps.find((dataStep) => dataStep.id === VerificationStepTypes.CustomWatchlistsValidation)), [data]);
-  const step = useMemo(() => getCustomWatchlistStepExtra(mockData as any), []);
+  const step = useMemo(() => getCustomWatchlistStepExtra(data.steps.find((dataStep) => dataStep.id === VerificationStepTypes.CustomWatchlistsValidation)), [data]);
 
   if (!step) {
     return null;
