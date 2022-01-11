@@ -20,7 +20,7 @@ export enum appPalette {
   black75 = '#8392B8',
   black90 = '#232939',
   black90opacity = 'rgba(35, 41, 57, 0.9)',
-  lightRed = '#FFF1F1',
+  lightRed = '#FFE7E8',
   red = '#fe7581',
   redhover = '#fe8188',
   redorange = '#ff3636',

@@ -1,6 +1,6 @@
 import Box from '@material-ui/core/Box';
-import { ReactComponent as MatiLogoReview } from 'assets/mati-logo-review.svg';
-import { ReactComponent as MatiLogo } from 'assets/mati-logo-v3.svg';
+import { ReactComponent as MatiLogoReview } from 'assets/metamap-logo-review.svg';
+import { ReactComponent as MatiLogo } from 'assets/metamap-logo.svg';
 import React from 'react';
 import { useStyles } from './Loader.styles';
 
@@ -15,7 +15,7 @@ export function Loader({ qa = null, logoWithCompanyName = false }) {
         {logoWithCompanyName ? (
           <MatiLogoReview width={80} height={75} data-qa={qa} />
         ) : (
-          <MatiLogo width={135} height={45} data-qa={qa} />
+          <MatiLogo width={180} height={45} data-qa={qa} />
         )}
       </Box>
     </Box>

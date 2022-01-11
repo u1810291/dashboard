@@ -1,5 +1,5 @@
 import { Box, Grid, IconButton } from '@material-ui/core';
-import { EditableField } from 'apps/oldProduct/components/EditableField/EditableField';
+import { EditableField } from 'apps/ui';
 import { DateFormat, formatDate } from 'lib/date';
 import React, { Dispatch, SetStateAction } from 'react';
 import { FiEdit3 } from 'react-icons/fi';

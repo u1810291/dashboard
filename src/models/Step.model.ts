@@ -77,6 +77,7 @@ export const DocumentStepTypes = {
   ColombianNationalPolice: VerificationPatternTypes.ColombianNationalPolice,
   ColombianProcuraduria: VerificationPatternTypes.ColombianProcuraduria,
   ColombianNit: VerificationPatternTypes.ColombianNit,
+  ColombianRunt: VerificationPatternTypes.ColombianRunt,
   MexicanPep: VerificationPatternTypes.MexicanPep,
   ColombianRegistraduria: VerificationPatternTypes.ColombianRegistraduria,
   ColombianUnifiedLegalSearch: VerificationPatternTypes.ColombianUnifiedLegalSearch,
@@ -106,6 +107,8 @@ export const DocumentStepTypes = {
   ArgentinianAfip: VerificationPatternTypes.ArgentinianAfip,
   ArgentinianAnses: VerificationPatternTypes.ArgentinianAnses,
   UgandanElectoralCommission: VerificationPatternTypes.UgandanElectoralCommission,
+  NigerianDl: VerificationPatternTypes.NigerianDl,
+  NigerianNin: VerificationPatternTypes.NigerianNin,
   ...AmlDocumentStepTypes,
 };
 
@@ -122,6 +125,7 @@ export enum VerificationStepTypes {
   ReFacematch = 're-facematch',
   DuplicateUserDetection = 'duplicate-user-detection',
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
+  CustomWatchlistsValidation = 'custom-watchlists-validation',
 }
 
 export type StepIds = VerificationPatternTypes | StepTypes | VerificationDocStepTypes | VerificationStepTypes;
@@ -130,7 +134,7 @@ export interface IStep<DataType = any> {
   status: StepCodeStatus;
   id: StepIds;
   error: StepError | null;
-  phase: string;
+  phase?: string;
   checkStatus?: StepStatus;
   completedAt?: string;
   isTip?: boolean;
@@ -188,6 +192,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.ColombianNationalPolice,
   DocumentStepTypes.ColombianNit,
   DocumentStepTypes.ColombianProcuraduria,
+  DocumentStepTypes.ColombianRunt,
   DocumentStepTypes.ColombianRegistraduria,
   DocumentStepTypes.ColombianUnifiedLegalSearch,
   DocumentStepTypes.EcuadorianSri,
@@ -196,6 +201,8 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.GuatemalanTse,
   DocumentStepTypes.HonduranRnp,
   DocumentStepTypes.MexicanPep,
+  DocumentStepTypes.NigerianDl,
+  DocumentStepTypes.NigerianNin,
   DocumentStepTypes.ParaguayanRcp,
   DocumentStepTypes.PanamenianTribunalElectoral,
   DocumentStepTypes.DominicanJce,
@@ -262,12 +269,15 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.ChileanDriverLicense]: ['chileanDriverLicense.notEnoughParams'],
   [DocumentStepTypes.ColombianContraloria]: ['colombianContraloria.notEnoughParams'],
   [DocumentStepTypes.ColombianProcuraduria]: ['colombianProcuraduria.notEnoughParams'],
+  [DocumentStepTypes.ColombianRunt]: ['colombianRunt.notEnoughParams', 'colombianRunt.notValidParams'],
   [DocumentStepTypes.CostaRicanTse]: ['costaRicanTse.notEnoughParams'],
   [DocumentStepTypes.EcuadorianSri]: ['ecuadorianSri.notEnoughParams'],
   [DocumentStepTypes.EcuadorianRegistroCivil]: ['ecuadorianRegistroCivil.notEnoughParams'],
   [DocumentStepTypes.GhanaianGra]: ['ghanaianGra.notEnoughParams'],
   [DocumentStepTypes.GuatemalanTse]: ['guatemalanTse.notEnoughParams'],
   [DocumentStepTypes.MexicanPep]: ['mexicanPep.notEnoughParams'],
+  [DocumentStepTypes.NigerianDl]: ['nigerianDl.notEnoughParams'],
+  [DocumentStepTypes.NigerianNin]: ['nigerianNin.notEnoughParams'],
   [DocumentStepTypes.SalvadorianTse]: ['salvadorianTse.notEnoughParams'],
   [DocumentStepTypes.ColombianBdua]: ['colombianBdua.notEnoughParams'],
   [DocumentStepTypes.ColombianNationalPolice]: ['colombianNationPolice.notEnoughParams'],
@@ -295,6 +305,9 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.ChileanRut]: ['chileanRut.fullNameMismatch'],
   [DocumentStepTypes.ChileanDriverLicense]: ['chileanDriverLicense.fullNameMismatch', 'chileanDriverLicense.blocked'],
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoral.fullNameMismatch'],
+  [DocumentStepTypes.NigerianDl]: ['nigerianDl.fullNameMismatch'],
+  [DocumentStepTypes.NigerianNin]: ['nigerianNin.fullNameMismatch'],
+  [DocumentStepTypes.ColombianRunt]: ['colombianRunt.fullNameMismatch', 'colombianRunt.hasFines'],
 };
 
 export const StepSkippedCodes = [

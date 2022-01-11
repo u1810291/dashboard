@@ -25,6 +25,7 @@ export enum VerificationPatternTypes {
   ColombianProcuraduria = 'colombian-procuraduria-validation',
   ColombianRegistraduria = 'colombian-registraduria-validation',
   ColombianUnifiedLegalSearch = 'colombian-unified-legal-search-validation',
+  ColombianRunt = 'colombian-runt-validation',
   ComplyAdvantageValidation = 'comply-advantage-validation',
   CostaRicanAtv = 'costa-rican-atv-validation',
   CostaRicanTse = 'costa-rican-tse-validation',
@@ -46,6 +47,8 @@ export enum VerificationPatternTypes {
   MexicanIne = 'mexican-ine-validation',
   MexicanPep = 'mexican-pep-validation',
   MexicanRfc = 'mexican-rfc-validation',
+  NigerianDl = 'nigerian-dl-validation',
+  NigerianNin = 'nigerian-nin-validation',
   PanamenianTribunalElectoral = 'panamenian-tribunal-electoral-validation',
   ParaguayanRcp = 'paraguayan-rcp-validation',
   PeruvianReniec = 'peruvian-reniec-validation',
@@ -93,6 +96,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.ColombianNit]?: boolean;
   [VerificationPatternTypes.ColombianProcuraduria]?: boolean;
   [VerificationPatternTypes.ColombianRegistraduria]?: boolean;
+  [VerificationPatternTypes.ColombianRunt]?: boolean;
   [VerificationPatternTypes.CostaRicanAtv]?: boolean;
   [VerificationPatternTypes.CostaRicanTse]?: boolean;
   [VerificationPatternTypes.CostaRicanSocialSecurity]?: boolean;
@@ -107,6 +111,8 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.MexicanIne]?: boolean;
   [VerificationPatternTypes.MexicanPep]?: boolean;
   [VerificationPatternTypes.MexicanRfc]?: boolean;
+  [VerificationPatternTypes.NigerianDl]?: boolean;
+  [VerificationPatternTypes.NigerianNin]?: boolean;
   [VerificationPatternTypes.PeruvianReniec]?: boolean;
   [VerificationPatternTypes.PeruvianSunat]?: boolean;
   [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]?: AmlValidationTypes;

@@ -3,16 +3,16 @@ import { cloneDeep } from 'lodash';
 import { ProductSettingsProps } from 'models/Product.model';
 import React, { useEffect, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { CustomWatchlistSeverityOnMatchTypes, IFlowWatchlist } from 'models/CustomWatchlist.model';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
-import { CustomWatchlistItemSettings } from '../CustomWatchlistItemSettings/CustomWatchlistItemSettings';
+import { CustomWatchlistItemSettings } from 'apps/CustomWatchlist/components/CustomWatchlistItemSettings/CustomWatchlistItemSettings';
 import { selectWatchlists } from '../../state/CustomWatchlist.selectors';
 import { customWatchlistsClear, customWatchlistsLoad } from '../../state/CustomWatchlist.actions';
 import { CustomWatchlistSettingsTypes, FlowWatchlistUi } from '../../models/CustomWatchlist.models';
 
 export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsProps<CustomWatchlistSettingsTypes>) {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const watchlists = useSelector(selectWatchlists);
   const merchantId = useSelector(selectMerchantId);
   const dispatch = useDispatch();
@@ -57,11 +57,11 @@ export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsP
       <Grid item xs={12}>
         <Box mb={2}>
           <Typography variant="h4">
-            {intl.formatMessage({ id: 'CustomWatchlist.settings.addYourWatchlist.title' })}
+            {formatMessage('CustomWatchlist.settings.addYourWatchlist.title')}
           </Typography>
           <Box color="common.black75" mt={1}>
             <Typography variant="body1">
-              {intl.formatMessage({ id: 'CustomWatchlist.settings.addYourWatchlist.subtitle' })}
+              {formatMessage('CustomWatchlist.settings.addYourWatchlist.subtitle')}
             </Typography>
           </Box>
         </Box>

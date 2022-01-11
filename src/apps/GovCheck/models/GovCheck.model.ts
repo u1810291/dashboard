@@ -35,6 +35,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.ColombianNit]: false,
   [VerificationPatternTypes.ColombianProcuraduria]: false,
   [VerificationPatternTypes.ColombianRegistraduria]: false,
+  [VerificationPatternTypes.ColombianRunt]: false,
   [VerificationPatternTypes.CostaRicanAtv]: false,
   [VerificationPatternTypes.CostaRicanTse]: false,
   [VerificationPatternTypes.CostaRicanSocialSecurity]: false,
@@ -49,6 +50,8 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.MexicanIne]: false,
   [VerificationPatternTypes.MexicanPep]: false,
   [VerificationPatternTypes.MexicanRfc]: false,
+  [VerificationPatternTypes.NigerianDl]: false,
+  [VerificationPatternTypes.NigerianNin]: false,
   [VerificationPatternTypes.ParaguayanRcp]: false,
   [VerificationPatternTypes.PeruvianReniec]: false,
   [VerificationPatternTypes.PeruvianSunat]: false,
@@ -81,6 +84,7 @@ export enum GovCheckCountryTypes {
   Dominican = 'dominican',
   Kenya = 'kenya',
   Mexico = 'mexico',
+  Nigeria = 'nigeria',
   Paraguay = 'paraguay',
   Peru = 'peru',
   Salvador = 'salvador',
@@ -103,6 +107,7 @@ export const govCheckCountriesOrder = [
   GovCheckCountryTypes.Honduras,
   GovCheckCountryTypes.Mexico,
   GovCheckCountryTypes.Kenya,
+  GovCheckCountryTypes.Nigeria,
   GovCheckCountryTypes.Paraguay,
   GovCheckCountryTypes.Peru,
   GovCheckCountryTypes.Salvador,
@@ -229,6 +234,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         id: DocumentStepTypes.ColombianUnifiedLegalSearch,
         default: false,
       },
+      {
+        id: DocumentStepTypes.ColombianRunt,
+        default: false,
+      },
     ],
   },
   {
@@ -254,11 +263,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         id: DocumentStepTypes.EcuadorianRegistroCivil,
         default: false,
       },
-      // TODO: uncomment here after we get scraper fix
-      // {
-      //  id: DocumentStepTypes.EcuadorianSri,
-      //  default: false,
-      // },
+      {
+        id: DocumentStepTypes.EcuadorianSri,
+        default: false,
+      },
     ],
   }, {
     country: GovCheckCountryTypes.Honduras,
@@ -319,6 +327,19 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       },
       {
         id: DocumentStepTypes.RFC,
+        default: false,
+      },
+    ],
+  },
+  {
+    country: GovCheckCountryTypes.Nigeria,
+    checks: [
+      {
+        id: DocumentStepTypes.NigerianDl,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.NigerianNin,
         default: false,
       },
     ],
@@ -530,6 +551,69 @@ export const govCheckDisplayOptions = {
       hidden: true,
     },
   },
+  [DocumentStepTypes.NigerianDl]: {
+    firstName: {},
+    lastName: {},
+    issuedDate: {},
+    expiryDate: {},
+    stateOfIssue: {},
+    gender: {},
+    dateOfBirth: {},
+    middleName: '',
+  },
+  [DocumentStepTypes.NigerianNin]: {
+    firstName: {},
+    lastName: {},
+    middleName: {},
+    gender: {},
+    phone: {},
+    dateOfBirth: {},
+    nationality: {},
+    nin: {},
+    profession: {},
+    stateOfOrigin: {
+      hidden: true,
+    },
+    lgaOfOrigin: {
+      hidden: true,
+    },
+    placeOfOrigin: {
+      hidden: true,
+    },
+    title: {
+      hidden: true,
+    },
+    height: {
+      hidden: true,
+    },
+    email: {
+      hidden: true,
+    },
+    birthState: {
+      hidden: true,
+    },
+    birthCountry: {
+      hidden: true,
+    },
+    nextOfKin: {
+      hidden: true,
+    },
+    nspokenlang: {
+      hidden: true,
+    },
+    religion: {
+      hidden: true,
+    },
+    signature: {
+      hidden: true,
+    },
+    residence: {
+      hidden: true,
+    },
+    fieldMatches: {
+      hidden: true,
+    },
+  },
   [DocumentStepTypes.ParaguayanRcp]: {
     fullName: {},
     gender: {
@@ -619,6 +703,28 @@ export const govCheckDisplayOptions = {
     blockedReason: {
       hideIsField: false,
       filedCondition: 'blocked',
+    },
+  },
+  [DocumentStepTypes.ColombianRunt]: {
+    fullName: {},
+    documentNumber: {
+      inline: true,
+    },
+    activeDriver: {
+      inline: true,
+    },
+    dateOfRegistration: {
+      inline: true,
+    },
+    licenseData: {
+      hidden: true,
+      formatter: (licenseData: any = {}, data) => ({ ...data, hasFines: licenseData.hasFines, activeLicense: licenseData.driverLicenses.some((dl) => dl.activeLicense) }),
+    },
+    activeLicense: {
+      inline: true,
+    },
+    hasFines: {
+      inline: true,
     },
   },
 };

@@ -9,12 +9,14 @@ export enum CustomWatchlistsActions {
   CurrentWatchlist = 'CURRENT_CUSTOM_WATCHLIST',
   WatchlistContent = 'CUSTOM_WATCHLIST_CONTENT',
   WatchlistsDelete = 'CUSTOM_WATCHLISTS_DELETE',
+  CurrentWatchlistHeaders = 'CURRENT_CUSTOM_WATCHLISTS_HEADERS',
 }
 
 export enum SliceNames {
   Watchlists = 'watchlists',
   CurrentWatchlist = 'currentWatchlist',
   WatchlistContent = 'watchlistContent',
+  CurrentWatchlistHeaders = 'currentWatchlistHeaders',
 }
 
 export const types: TypesSequence = {
@@ -22,10 +24,12 @@ export const types: TypesSequence = {
   ...createTypesSequence(CustomWatchlistsActions.CurrentWatchlist),
   ...createTypesSequence(CustomWatchlistsActions.WatchlistContent),
   ...createTypesSequence(CustomWatchlistsActions.WatchlistsDelete),
+  ...createTypesSequence(CustomWatchlistsActions.CurrentWatchlistHeaders),
 };
 
 export interface CustomWatchlistsStore {
   [SliceNames.Watchlists]: Loadable<IWatchlist[]>;
-  [SliceNames.CurrentWatchlist]: Loadable<IWatchlist>;
+  [SliceNames.CurrentWatchlist]: Loadable<IWatchlist | null>;
   [SliceNames.WatchlistContent]: Loadable<WatchlistContentTypes>;
+  [SliceNames.CurrentWatchlistHeaders]: Loadable<string[]>;
 }

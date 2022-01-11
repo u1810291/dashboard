@@ -4,6 +4,7 @@ import { getWorkAccountData } from 'apps/WorkAccountData';
 import { getBankAccountData } from 'apps/BankAccountData';
 import { getPayrollAccountData } from 'apps/PayrollAccountData';
 import { getNom151FileContent } from 'models/Identity.model';
+import { VerificationResponse } from 'models/Verification.model';
 import React from 'react';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { getPhoneValidationExtras } from 'apps/PhoneValidation/models/PhoneValidation.model';
@@ -26,7 +27,17 @@ import { BankAccountDataPDF } from './components/BankAccountDataPDF/BankAccountD
 import { WorkAccountDataPDF } from './components/WorkAccountDataPDF/WorkAccountDataPDF';
 import { PayrollAccountDataPDF } from './components/PayrollAccountDataPDF/PayrollAccountDataPDF';
 
-export function VerificationDocumentPDF({ verification, nom151FileContent, additionalData }) {
+interface AdditionalData {
+  legalName: string;
+  legalRegNumber: number;
+  legalAddress: string;
+}
+
+export function VerificationDocumentPDF({ verification, nom151FileContent, additionalData }: {
+  verification: VerificationResponse;
+  nom151FileContent: string;
+  additionalData: AdditionalData;
+}) {
   const intl = useIntl();
   if (!verification) {
     return null;
@@ -39,7 +50,7 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
   const payrollAccountData = getPayrollAccountData(verification);
 
   return (
-    <Document title={`Verification ${verification.id}`} author="Matilock, Inc. www.mati.io">
+    <Document title={`Verification ${verification.id}`} author="MetaMap www.metamap.com">
       <Page size="A4" style={commonStyles.page}>
         {/* header */}
         <View>
@@ -109,26 +120,26 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
             <PayrollAccountDataPDF data={payrollAccountData} />
           </View>
         )}
+        { /* footer */}
+        <View style={commonStyles.footer} fixed>
+          <Text>
+            {intl.formatMessage({ id: 'Pdf.footer.merchantLegalInformation' },
+              {
+                legalName: (<Text style={commonStyles.boldText}>{legalName}</Text>),
+                legalRegNumber,
+                verifiedBy: (<Text style={commonStyles.boldText}>{intl.formatMessage({ id: 'Pdf.footer.matilockInc' })}</Text>),
+              })}
+          </Text>
+          <Text>
+            {intl.formatMessage({ id: 'Pdf.footer.merchantLegalAddress' }, { legalAddress })}
+          </Text>
+        </View>
       </Page>
-      { /* footer */}
-      <View style={commonStyles.footer} fixed>
-        <Text>
-          {intl.formatMessage({ id: 'Pdf.footer.merchantLegalInformation' },
-            {
-              legalName: (<Text style={commonStyles.boldText}>{legalName}</Text>),
-              legalRegNumber,
-              verifiedBy: (<Text style={commonStyles.boldText}>{intl.formatMessage({ id: 'Pdf.footer.matilockInc' })}</Text>),
-            })}
-        </Text>
-        <Text>
-          {intl.formatMessage({ id: 'Pdf.footer.merchantLegalAddress' }, { legalAddress })}
-        </Text>
-      </View>
     </Document>
   );
 }
 
-export async function getIdentityDocumentBlob(verification, additionalData) {
+export async function getVerificationDocumentBlob(verification, additionalData) {
   const nom151FileContent = await getNom151FileContent(verification.digitalSignature);
   return pdf(
     <StoreProvider>

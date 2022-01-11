@@ -33,10 +33,10 @@ export const FaqBanner = () => {
           <Link
             className={classes.email}
             color="primary"
-            href="mailto:support@getmati.com"
+            href="mailto:support@metamap.com"
             rel="noopener"
           >
-            support@getmati.com
+            support@metamap.com
           </Link>
         </Box>
       </Box>

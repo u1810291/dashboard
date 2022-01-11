@@ -6,10 +6,12 @@ const initialState: CustomWatchlistsStore = {
   [SliceNames.Watchlists]: LoadableAdapter.createState([]),
   [SliceNames.CurrentWatchlist]: LoadableAdapter.createState(null),
   [SliceNames.WatchlistContent]: LoadableAdapter.createState(null),
+  [SliceNames.CurrentWatchlistHeaders]: LoadableAdapter.createState(null),
 };
 
 export default createReducer(initialState, {
   ...LoadableAdapter.createHandlers(CustomWatchlistsActions.Watchlists, SliceNames.Watchlists),
   ...LoadableAdapter.createHandlers(CustomWatchlistsActions.CurrentWatchlist, SliceNames.CurrentWatchlist),
   ...LoadableAdapter.createHandlers(CustomWatchlistsActions.WatchlistContent, SliceNames.WatchlistContent),
+  ...LoadableAdapter.createHandlers(CustomWatchlistsActions.CurrentWatchlistHeaders, SliceNames.CurrentWatchlistHeaders),
 });

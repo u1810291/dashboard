@@ -54,10 +54,10 @@ export function ContactUs() {
                         <Link
                           className={classes.emailLink}
                           color="primary"
-                          href="mailto:support@getmati.com"
+                          href="mailto:support@metamap.com"
                           rel="noopener"
                         >
-                          support@getmati.com
+                          support@metamap.com
                         </Link>
                       ),
                     },
@@ -79,10 +79,10 @@ export function ContactUs() {
                     <Link
                       className={classes.emailLink}
                       color="primary"
-                      href="mailto:diana.cardoso@getmati.com"
+                      href="mailto:diana.cardoso@metamap.com"
                       rel="noopener"
                     >
-                      diana.cardoso@getmati.com
+                      diana.cardoso@metamap.com
                     </Link>
                   ),
                 },
@@ -108,10 +108,10 @@ export function ContactUs() {
                       <Link
                         className={classes.emailLink}
                         color="primary"
-                        href="mailto:fv@getmati.com"
+                        href="mailto:fv@metamap.com"
                         rel="noopener"
                       >
-                        fv@getmati.com
+                        fv@metamap.com
                       </Link>
                     ),
                   },
@@ -126,10 +126,10 @@ export function ContactUs() {
                       <Link
                         className={classes.emailLink}
                         color="primary"
-                        href="mailto:as@getmati.com"
+                        href="mailto:as@metamap.com"
                         rel="noopener"
                       >
-                        as@getmati.com
+                        as@metamap.com
                       </Link>
                     ),
                   },
