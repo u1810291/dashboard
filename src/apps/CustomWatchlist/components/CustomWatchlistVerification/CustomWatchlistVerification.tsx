@@ -1,6 +1,5 @@
 import { Box, Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { BoxBordered, CheckBarExpandable, Warning, WarningTypes, Alert } from 'apps/ui';
-import { isNil } from 'lib/isNil';
 import { useFormatMessage } from 'apps/intl';
 import { VerificationDocument } from 'models/Document.model';
 import { StepStatus, VerificationStepTypes } from 'models/Step.model';
@@ -69,7 +68,7 @@ export function CustomWatchlistVerification({ data }: {
                           <CheckStepDetailsEntry label={value[0]} value={value[1]} />
                         </Grid>
                         <Grid xs={6} item>
-                          {stepWatchlist?.searchResult[value[0]] ? <CheckStepDetailsEntry label={value[0]} value={stepWatchlist.searchResult[value[0]]} /> : '-'}
+                          {stepWatchlist?.searchResult && stepWatchlist.searchResult[value[0]] ? <CheckStepDetailsEntry label={value[0]} value={stepWatchlist.searchResult[value[0]]} /> : '-'}
                         </Grid>
                       </Grid>
                     ))}
