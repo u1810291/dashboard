@@ -15,10 +15,11 @@ interface Option {
   value: string;
 }
 
-export function ValidatedInput({ title, name, options, selectedOptions, disabled, placeholderKey, value: propValue, onChange }:
+export function ValidatedInput({ title, name, options, selectedOptions, disabled, placeholderKey, hasOptions, value: propValue, onChange }:
   {
     title: string;
     name: string;
+    hasOptions: boolean;
     placeholderKey: string;
     options: Option[];
     disabled: boolean;
@@ -106,7 +107,7 @@ export function ValidatedInput({ title, name, options, selectedOptions, disabled
           </SelectStyled>
         </Grid>
       </Grid>
-      {(!disabled && value === ValidatedInputsKeys.FullName) && (
+      {hasOptions && (value === ValidatedInputsKeys.FullName) && (
         <Box mb={1.2} pr={1.1}>
           <RangeSlider
             defaultValue={rangeSliderValue}
