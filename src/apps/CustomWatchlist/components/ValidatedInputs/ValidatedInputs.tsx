@@ -9,9 +9,10 @@ export interface SelectedOptions {
   [key: string]: IValidatedInputsFieldTypes;
 }
 
-export function ValidatedInputs({ fieldValues, disabled, onChange }: {
+export function ValidatedInputs({ fieldValues, disabled, hasOptions = true, onChange }: {
   fieldValues: IValidatedInputsFieldTypes[];
   disabled: boolean;
+  hasOptions: boolean;
   onChange: (mapping: IValidatedInputsFieldTypes[]) => void;
 }) {
   const formatMessage = useFormatMessage();
@@ -21,6 +22,7 @@ export function ValidatedInputs({ fieldValues, disabled, onChange }: {
       [cur.label]: {
         label: cur.label,
         value: cur.value,
+        ...(cur?.options && { options: cur.options }),
       },
     }
   ), {}));
@@ -88,8 +90,8 @@ export function ValidatedInputs({ fieldValues, disabled, onChange }: {
               selectedOptions={selectedOptions}
               options={inputOptions}
               value={selectedOptions[input.label].value}
-              // TODO: @richvoronov remove this on backend ready
               disabled={disabled}
+              hasOptions={hasOptions}
             />
           </Grid>
           {selectedOptions[input.label].value !== ValidatedInputsKeys.NotSelected && <CustomWatchlistValidatedInputsError inputValue={selectedOptions[input.label].value} />}

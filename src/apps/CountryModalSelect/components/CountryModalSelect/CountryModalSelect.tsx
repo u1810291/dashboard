@@ -3,7 +3,7 @@ import { useOverlay } from 'apps/overlay';
 import { FixedSizeTree } from 'react-vtree';
 import React, { useCallback, useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
-import { BoxBordered, Spinner } from 'apps/ui';
+import { BoxBordered } from 'apps/ui';
 import { AllowedRegions } from 'apps/IpCheck/models/IpCheck.model';
 import { useCountriesLoad } from 'apps/countries';
 import { treeWalker, regionsConverting, getInitialSelectedCountries, SelectedCountries, Tree } from '../../models/CountryModalSelect.model';
