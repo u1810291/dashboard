@@ -29,6 +29,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.ChileanRut]: false,
   [VerificationPatternTypes.ChileanDriverLicense]: false,
   [VerificationPatternTypes.ChileanRegistroCivil]: false,
+  [VerificationPatternTypes.ColombianUnifiedLegalSearch]: false,
   [VerificationPatternTypes.ColombianBdua]: false,
   [VerificationPatternTypes.ColombianContraloria]: false,
   [VerificationPatternTypes.ColombianNationalPolice]: false,
