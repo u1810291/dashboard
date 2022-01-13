@@ -46,9 +46,13 @@ export function CustomWatchlistVerification({ data }: {
         <CheckBarExpandable key={stepWatchlist.watchlist.id} step={step} isError={!!stepWatchlist.searchResult} isNoBadge name={stepWatchlist.watchlist.name} isOpenByDefault>
           <Card raised={false} className={classes.card}>
             <CardContent>
-              {stepWatchlist.searchResult && step?.error && (
+              {stepWatchlist?.searchResult ? (
                 <Box>
-                  {formatMessage(`SecurityCheckStep.${step.error.code}`, { defaultMessage: formatMessage('Error.common') })}
+                  {formatMessage('CustomWatchlist.verification.step.watchlist.matchFound', { messageValues: { watchlistName: stepWatchlist.watchlist.name } })}
+                </Box>
+              ) : (
+                <Box>
+                  {formatMessage('CustomWatchlist.verification.step.watchlist.noMatchFound', { messageValues: { watchlistName: stepWatchlist.watchlist.name } })}
                 </Box>
               )}
               {stepWatchlist.searchParams && (
@@ -57,19 +61,23 @@ export function CustomWatchlistVerification({ data }: {
                     <Grid item xs={6}>
                       <Typography variant="subtitle2" className={classes.title}>{formatMessage('CustomWatchlist.verification.step.subtitle.searchParams')}</Typography>
                     </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="subtitle2" className={classes.title}>{formatMessage('CustomWatchlist.verification.step.subtitle.searchResult')}</Typography>
-                    </Grid>
+                    {stepWatchlist?.searchResult && (
+                      <Grid item xs={6}>
+                        <Typography variant="subtitle2" className={classes.title}>{formatMessage('CustomWatchlist.verification.step.subtitle.searchResult')}</Typography>
+                      </Grid>
+                    )}
                   </Grid>
-                  <Grid container direction="column">
+                  <Grid container direction={stepWatchlist?.searchResult ? 'column' : 'row'}>
                     {Object.entries(stepWatchlist.searchParams).map((value) => (
-                      <Grid container item spacing={1} key={value[0]}>
+                      <Grid xs={stepWatchlist?.searchResult ? 12 : 6} container item spacing={stepWatchlist?.searchResult && 1} key={value[0]}>
                         <Grid xs={6} item>
                           <CheckStepDetailsEntry label={value[0]} value={value[1]} />
                         </Grid>
-                        <Grid xs={6} item>
-                          {stepWatchlist?.searchResult && stepWatchlist.searchResult[value[0]] ? <CheckStepDetailsEntry label={value[0]} value={stepWatchlist.searchResult[value[0]]} /> : '-'}
-                        </Grid>
+                        {stepWatchlist?.searchResult && (
+                          <Grid xs={6} item>
+                            {stepWatchlist.searchResult[value[0]] ? <CheckStepDetailsEntry label={value[0]} value={stepWatchlist.searchResult[value[0]]} /> : '-'}
+                          </Grid>
+                        )}
                       </Grid>
                     ))}
                   </Grid>
