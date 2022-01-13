@@ -147,11 +147,6 @@ export interface ICustomWatchlistValidationErrorFormated {
   row: number;
 }
 
-export enum CustomWatchlistSearchParamsKeysEnum {
-  fullName = 'fullName',
-  dateOfBirth = 'dateOfBirth',
-}
-
 export interface CustomWatchlistStepDataWatchlist {
   id: string;
   name: string;

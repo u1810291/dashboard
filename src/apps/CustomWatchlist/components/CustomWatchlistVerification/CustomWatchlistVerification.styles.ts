@@ -11,4 +11,8 @@ export const useStyles = makeStyles((theme) => ({
   labelError: {
     color: theme.palette.common.red,
   },
+  title: {
+    color: theme.palette.common.black,
+    marginBottom: 20,
+  },
 }));
