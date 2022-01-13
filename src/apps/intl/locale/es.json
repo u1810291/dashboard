@@ -1250,7 +1250,7 @@
   "Product.config.usersInput": "Entrada del usuario: {inputs}",
   "Product.configuration.ageCheck": "Restricción de edad",
   "Product.configuration.ageCheck.custom.empty": "Este campo no puede estar vacío",
-  "Product.configuration.ageCheck.custom.outOfRange": "Ingresa un valor entre 15 y 100",
+  "Product.configuration.ageCheck.custom.outOfRange": "Ingresa un valor entre 12 y 100",
   "Product.configuration.ageCheck.custom.subtitle": "años",
   "Product.configuration.ageCheck.custom.title": "Restricción de edad personalizada",
   "Product.configuration.ageCheck.default.subtitle": "18 años",
