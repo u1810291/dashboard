@@ -42,9 +42,9 @@ export function CustomWatchlistVerification({ data }: {
   }
 
   return (
-    <BoxBordered p={1} pt={2} className={classes.bordered} width="300px">
+    <BoxBordered p={1} pt={2} pb={1} className={classes.bordered} width="300px">
       {step.data?.map((stepWatchlist) => (
-        <CheckBarExpandable key={stepWatchlist.watchlist.id} step={step} isError={!!stepWatchlist.searchResult} name={stepWatchlist.watchlist.name} isOpenByDefault>
+        <CheckBarExpandable key={stepWatchlist.watchlist.id} step={step} isError={!!stepWatchlist.searchResult} isNoBadge name={stepWatchlist.watchlist.name} isOpenByDefault>
           <Card raised={false} className={classes.card}>
             <CardContent>
               {stepWatchlist.searchResult && step?.error && (
@@ -54,7 +54,7 @@ export function CustomWatchlistVerification({ data }: {
               )}
               {stepWatchlist.searchParams && (
                 <Box mt={0.5}>
-                  <Grid container>
+                  <Grid container spacing={1}>
                     {Object.keys(CustomWatchlistSearchParamsKeysEnum).map((fieldName) => (!isNil(stepWatchlist.searchParams[CustomWatchlistSearchParamsKeysEnum[fieldName]])) && (
                       <Grid xs={6} item key={CustomWatchlistSearchParamsKeysEnum[fieldName]}>
                         <CheckStepDetailsEntry label={CustomWatchlistSearchParamsKeysEnum[fieldName]} value={stepWatchlist.searchParams[CustomWatchlistSearchParamsKeysEnum[fieldName]]} />

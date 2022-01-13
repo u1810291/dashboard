@@ -5,7 +5,7 @@ import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, P
 import { VerificationResponse } from 'models/Verification.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { VerificationStepTypes } from 'models/Step.model';
-import { CustomWatchlistCheckTypes, CustomWatchlistSettingsTypes } from '../models/CustomWatchlist.models';
+import { CustomWatchlistCheckTypes, CustomWatchlistSettingsTypes, CustomWatchlistStep } from '../models/CustomWatchlist.models';
 import { ReactComponent as FilesWithEye } from '../assets/files-with-eye.svg';
 import { CustomWatchlistVerification } from '../components/CustomWatchlistVerification/CustomWatchlistVerification';
 import { CustomWatchlistSettings } from '../components/CustomWatchlistSettings/CustomWatchlistSettings';
@@ -70,8 +70,9 @@ export class CustomWatchlist extends ProductBaseService implements Product<Produ
     return verification;
   }
 
-  hasFailedCheck(): boolean {
-    return false;
+  hasFailedCheck(verifcation: VerificationResponse): boolean {
+    const step: CustomWatchlistStep = verifcation.steps.find((dataStep) => dataStep.id === VerificationStepTypes.CustomWatchlistsValidation);
+    return !!step?.error;
   }
 
   isInVerification(verification: VerificationResponse): boolean {
