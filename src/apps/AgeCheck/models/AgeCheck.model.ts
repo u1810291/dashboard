@@ -5,7 +5,7 @@ export enum AgeCheckThresholdModes {
 
 export const AGE_CHECK_DEFAULT_THRESHOLD = 18;
 
-export const AGE_CHECK_MIN_THRESHOLD = 12;
+export const AGE_CHECK_MIN_THRESHOLD = 15;
 
 export const AGE_CHECK_MAX_THRESHOLD = 100;
 
