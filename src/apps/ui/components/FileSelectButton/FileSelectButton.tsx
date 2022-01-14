@@ -35,7 +35,7 @@ export const FileSelectButton = ({
         onChange={onChange}
         disabled={disabled}
       />
-      <label htmlFor="file-load">
+      <label htmlFor={inputProps.id}>
         {renderButton || (
           <ButtonStyled
             variant="outlined"

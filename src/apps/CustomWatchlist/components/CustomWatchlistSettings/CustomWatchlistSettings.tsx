@@ -30,8 +30,7 @@ export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsP
 
     newSettings[CustomWatchlistSettingsTypes.Watchlists].value = settingsWatchlists.filter((settingsWatchlist) => settingsWatchlist.severityOnMatch !== CustomWatchlistSeverityOnMatchTypes.NoAction);
     onUpdate(newSettings);
-  },
-  [settings, onUpdate]);
+  }, [settings, onUpdate]);
 
   const flowAndCustomWatchlistsMerged: FlowWatchlistUi[] = useMemo(() => {
     const flowWatchlists: IFlowWatchlist[] = settings[CustomWatchlistSettingsTypes.Watchlists].value;

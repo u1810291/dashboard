@@ -147,11 +147,6 @@ export interface ICustomWatchlistValidationErrorFormated {
   row: number;
 }
 
-export enum CustomWatchlistSearchParamsKeysEnum {
-  fullName = 'fullName',
-  dateOfBirth = 'dateOfBirth',
-}
-
 export interface CustomWatchlistStepDataWatchlist {
   id: string;
   name: string;
@@ -231,6 +226,10 @@ export function getCustomWatchlistMapping(headers?: string[], mapping?: Watchlis
   }
 
   return [];
+}
+
+export function getCustomWatchlistValidMapping(inputFields: IValidatedInputsFieldTypes[]): WatchlistMapping[] {
+  return inputFields.map((fields) => ({ merchantField: fields.label, systemField: fields.value, ...(fields?.options && { options: fields.options }) }));
 }
 
 export function getCustomWatchlistErrorsFormated(errors?: CustomWatchlistValidationError[]): Partial<Record<ValidatedInputsKeys, ICustomWatchlistValidationErrorFormated[]>> | null {
