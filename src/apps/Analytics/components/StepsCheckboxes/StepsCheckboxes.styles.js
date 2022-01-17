@@ -41,6 +41,7 @@ export const useStyles = makeStyles((theme) => ({
     borderSpacing: '0 20px',
     borderCollapse: 'separate',
     '& .MuiTableCell-root': {
+      borderBottom: 'none',
       '&:first-child': {
         borderRadius: [[4, 0, 0, 4]],
         padding: [[10, 0, 10, 22]],
