@@ -1,4 +1,4 @@
-export default function stringify(object, indent = 2, isWithQuotes = false) {
+export default function stringify(object, indent = 2, isWithQuotes = false): string {
   if (!object) {
     return '';
   }
