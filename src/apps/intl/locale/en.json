@@ -1269,7 +1269,7 @@
   "Product.config.usersInput": "User's input: {inputs}",
   "Product.configuration.ageCheck": "Age restriction",
   "Product.configuration.ageCheck.custom.empty": "This field cannot be empty",
-  "Product.configuration.ageCheck.custom.outOfRange": "Enter a value between 12 and 100",
+  "Product.configuration.ageCheck.custom.outOfRange": "Enter a value between 15 and 100",
   "Product.configuration.ageCheck.custom.subtitle": "years old",
   "Product.configuration.ageCheck.custom.title": "Custom age restriction",
   "Product.configuration.ageCheck.default.subtitle": "18 years old",
