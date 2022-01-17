@@ -66,7 +66,6 @@ export function WatchlistMappingValidation({ isSubmittingError, isEdit, hasOptio
     debounced(() => handleInputValidate(validatedInputsValuesFormated));
   }, [setValue, debounced, handleInputValidate]);
 
-  console.log({ watchlistMapping, currentCustomWatchlistHeadersErrorType });
   return (
     <>
       {(isFileHeadersFlowLoading && !isEdit) && <ValidatedInputsLoadingSkeleton />}

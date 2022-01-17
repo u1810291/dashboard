@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SubmitHandler, useForm, FormProvider } from 'react-hook-form';
 import { FiChevronLeft } from 'react-icons/fi';
@@ -11,8 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { ButtonStyled } from 'apps/ui';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
-import { CustomWatchlistModalValidationInputs, WatchlistMapping, WatchlistProcessStatus, customWatchlistsPollingDelay, CustomWatchlistUpload, getCustomWatchlistMapping, IValidatedInputsFieldTypes, ValidatedInputsKeys, FlowWatchlistUi, CustomWatchlistModalValidationInputTypes, getCustomWatchlistValidMapping } from '../../models/CustomWatchlist.models';
-import { selectCurrentCustomWatchlistHeadersErrorType, selectCurrentCustomWatchlistId, selectWatchlistsContentErrorType, selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsContentLoading, selectIsWatchlistsLoading, selectCurrentCustomWatchlistStatus, selectCurrentCustomWatchlistMapping, selectCurrentCustomWatchlistHeaders, selectCurrentCustomWatchlistHeadersIsLoading } from '../../state/CustomWatchlist.selectors';
+import { CustomWatchlistModalValidationInputs, WatchlistProcessStatus, customWatchlistsPollingDelay, CustomWatchlistUpload, FlowWatchlistUi, CustomWatchlistModalValidationInputTypes } from '../../models/CustomWatchlist.models';
+import { selectCurrentCustomWatchlistHeadersErrorType, selectCurrentCustomWatchlistId, selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsContentLoading, selectIsWatchlistsLoading, selectCurrentCustomWatchlistStatus, selectCurrentCustomWatchlistHeadersIsLoading } from '../../state/CustomWatchlist.selectors';
 import { updateCurrentWatchlist, customWatchlistLoadById, getCustomWatchlistHeaders, getCustomWatchlistShortValidation } from '../../state/CustomWatchlist.actions';
 import { useStyles } from './CustomWatchlistModalValidationForm.styles';
 import { CustomWatchlistModalValidationFileUploadForm } from '../CustomWatchlistModalValidationFileUploadForm/CustomWatchlistModalValidationFileUploadForm';
@@ -90,7 +90,6 @@ export function CustomWatchlistModalValidationForm({ watchlist, onClose, onSubmi
       const headersBody = { [CustomWatchlistModalValidationInputs.FileKey]: data.key, [CustomWatchlistModalValidationInputs.CsvSeparator]: formValues[CustomWatchlistModalValidationInputs.CsvSeparator] };
 
       if (isEdit) {
-        console.log('formValues', formValues.mapping);
         dispatch(updateCurrentWatchlist(formValues));
         dispatch(getCustomWatchlistShortValidation(merchantId, {
           [CustomWatchlistModalValidationInputs.FileKey]: formValues[CustomWatchlistModalValidationInputs.FileKey] || fileKey,
