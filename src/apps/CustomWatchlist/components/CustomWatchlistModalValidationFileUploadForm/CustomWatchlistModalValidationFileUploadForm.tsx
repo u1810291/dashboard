@@ -12,6 +12,7 @@ import { useStyles, RoundedButton } from './CustomWatchlistModalValidationFileUp
 import { CustomWatchlistModalValidationInputs, CustomWatchlistFileExt, CustomWatchlistUpload, IWatchlist } from '../../models/CustomWatchlist.models';
 import * as api from '../../client/CustomWatchlist.client';
 import { CSVSeparatorSelect } from '../CSVSeparatorSelect/CSVSeparatorSelect';
+import { selectCurrentCustomWatchlistFileInfo } from '../../state/CustomWatchlist.selectors';
 
 export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFileUploaded }: {
   watchlist?: IWatchlist;
@@ -19,6 +20,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
 }) {
   const formatMessage = useFormatMessage();
   const merchantId = useSelector(selectMerchantId);
+  const currentCustomWatchlistFileInfo = useSelector(selectCurrentCustomWatchlistFileInfo);
   const classes = useStyles();
   const [isFileUploadLoading, setIsFileUploadLoading] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
@@ -67,6 +69,13 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
     return '';
   }, [fileName]);
 
+  useEffect(() => {
+    if (currentCustomWatchlistFileInfo?.fileKey && currentCustomWatchlistFileInfo?.fileName) {
+      setValue(CustomWatchlistModalValidationInputs.FileKey, currentCustomWatchlistFileInfo.fileKey);
+      setValue(CustomWatchlistModalValidationInputs.FileName, currentCustomWatchlistFileInfo.fileName);
+    }
+  }, [currentCustomWatchlistFileInfo, setValue]);
+
   return (
     <>
       <InputLabel className={classes.marginBottom10} htmlFor="watchlist-name">
@@ -108,6 +117,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
           >
             {!isFileUploadLoading ? formatMessage('CustomWatchlist.settings.modal.button.uploadFile') : <CircularProgress color="inherit" size={17} />}
           </Button>
+          {/* TODO: @richvornov, use isFileAvailable flag for this */}
           {!file && <span className={classes.uploadButtonHelper}>{formatMessage('CustomWatchlist.settings.modal.button.uploadFile.helper')}</span>}
         </>
       )}

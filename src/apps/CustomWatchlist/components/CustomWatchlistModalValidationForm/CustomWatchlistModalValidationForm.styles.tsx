@@ -14,9 +14,6 @@ export const useStyles = makeStyles((theme) => ({
   marginBottom50: {
     marginBottom: 50,
   },
-  error: {
-    color: theme.palette.common.red,
-  },
   buttonContainer: {
     position: 'fixed',
     bottom: 20,

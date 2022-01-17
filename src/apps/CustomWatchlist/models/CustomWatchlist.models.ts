@@ -60,6 +60,8 @@ export interface WatchlistProcess {
   csvSeparator: string;
 }
 
+export type WatchlistProcessPartial = Partial<WatchlistProcess> | null
+
 export interface IWatchlist {
   id: number;
   name: string;
@@ -67,7 +69,7 @@ export interface IWatchlist {
   updatedAt: string;
   merchantId: string;
   mapping: WatchlistMapping[] | null;
-  process: Partial<WatchlistProcess> | null;
+  process: WatchlistProcessPartial;
   isFileAvailable: boolean;
 }
 
@@ -250,4 +252,8 @@ export function getCustomWatchlistErrorsFormated(errors?: CustomWatchlistValidat
     }));
     return memo;
   }, {});
+}
+
+export function isMappingExist(mapping: WatchlistMapping[]): boolean {
+  return !!mapping?.filter((value) => value.systemField !== ValidatedInputsKeys.NotSelected)?.length;
 }
