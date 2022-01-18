@@ -3,6 +3,9 @@ import { ByCountries, ByFlows, OpenFilter, useFilterParser } from 'apps/filter';
 import { AnalyticsMap } from 'apps/googleMap/components/AnalyticsMap/AnalyticsMap';
 import { PageLoader } from 'apps/layout';
 import { StepsCheckboxes } from '../StepsCheckboxes/StepsCheckboxes';
+
+import { TemplateFilters } from '../StepsCheckboxes/TemplateFilters';
+
 import { analyticsCleanFilter, analyticsFilterStructure } from 'models/Analytics.model';
 import { analyticsDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, getFilterDatesIsValid, parseFromURL } from 'models/Filter.model';
 import { QATags } from 'models/QA.model';
@@ -56,6 +59,7 @@ export function AnalyticsContainer() {
       {isFilterDatesValid && !countStatisticsModel.isLoading && countStatisticsModel.isLoaded ? (
         <Box pb={2} className={classes.wrapper}>
           <StepsCheckboxes />
+          <TemplateFilters buttonTitle="Filter by Region" />
           <Box mb={2}>
             <Grid container alignItems="center">
               <Grid item xs={9}>

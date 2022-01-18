@@ -20,10 +20,10 @@ export function StepsCheckboxes() {
       <Typography variant="h3"> Complete these steps to get started </Typography>
       <Table className={classes.table}>
         <TableBody>
-          {MOCK_DATA.length > 0 && MOCK_DATA.map((item) => (
+          {MOCK_DATA.length > 0 && MOCK_DATA.map((item, idx) => (
             <TableRowHovered
               hover
-              key={item.id}
+              key={idx}
             >
               <TableCell>
                 <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color="common.black90">
