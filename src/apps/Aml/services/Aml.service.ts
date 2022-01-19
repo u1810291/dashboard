@@ -51,7 +51,7 @@ export class AmlCheck extends ProductBaseService implements Product<ProductSetti
         value: pattern === AmlValidationTypes.SearchMonitoring,
       },
       [AmlSettingsTypes.AmlThreshold]: {
-        value: flow?.amlWatchlistsFuzzinessThreshold || 50,
+        value: flow?.amlWatchlistsFuzzinessThreshold ?? 50,
       },
     };
   }
