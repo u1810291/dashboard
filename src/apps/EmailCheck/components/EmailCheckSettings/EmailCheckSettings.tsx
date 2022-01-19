@@ -1,29 +1,34 @@
-import { Box, FormControlLabel, RadioGroup, Switch } from '@material-ui/core';
+import { Box, FormControlLabel, RadioGroup, Switch, Select, MenuItem } from '@material-ui/core';
+import { FiChevronDown } from 'react-icons/fi';
 import { BoxBordered, ExtendedDescription, RadioButton, TextFieldName } from 'apps/ui';
 import { useSelector } from 'react-redux';
 import { useDebounce } from 'lib/debounce.hook';
 import { ONLY_NUMBERS_REG_EXP, validateMaxLength } from 'lib/validations';
 import { cloneDeep } from 'lodash';
 import { ProductSettingsProps } from 'models/Product.model';
-import React, { useCallback, useState } from 'react';
-import { useIntl } from 'react-intl';
+import React, { useCallback, useState, useMemo } from 'react';
+import { useFormatMessage } from 'apps/intl';
 import { HOCIsAccessAllowed } from 'apps/merchant';
 import { EmailCheckSettingTypes, EmailCheckStepModes, EmailRiskPredefinedThreshold, EmailRiskThresholdModes, getDefaultRiskThresholdMode, ScoreMapping, SENDER_NAME_LENGTH_LIMIT, validateRiskThreshold } from '../../models/EmailCheck.model';
 import { TextFieldInputScore, useStyles } from './EmailCheckSettings.style';
-import { selectCanUseEmailValidation } from '../../state/EmaiCheck.selectors';
+import { selectCanUseEmailValidation, selectSenderEmails } from '../../state/EmaiCheck.selectors';
 
 export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<EmailCheckSettingTypes>) {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const classes = useStyles();
   const debounced = useDebounce();
+  const senderEmails = useSelector(selectSenderEmails);
   const [senderName, setSenderName] = useState<string>(settings[EmailCheckSettingTypes.CompanyName].value);
   const [companyNameError, setCompanyNameError] = useState<string>('');
   const [currentMethod, setCurrentMethod] = useState<EmailCheckStepModes>(settings[EmailCheckSettingTypes.EmailOwnershipValidation].value);
   const [isCanUseEmailValidation] = useState<boolean>(useSelector(selectCanUseEmailValidation));
+  const [currentSenderId, setCurrentSenderId] = useState<string>(settings[EmailCheckSettingTypes.EmailFrom].value);
   const [riskThresholdMode, setRiskThresholdMode] = useState<EmailRiskThresholdModes>(getDefaultRiskThresholdMode(settings[EmailCheckSettingTypes.EmailRiskThreshold].value));
   const [riskScore, setRiskScore] = useState<EmailRiskPredefinedThreshold | number>(settings[EmailCheckSettingTypes.EmailRiskThreshold].value);
   const [riskThresholdError, setRiskThresholdError] = useState<string>();
   const [isEmailRiskEnabled, setIsEmailRiskEnabled] = useState<boolean>(settings[EmailCheckSettingTypes.EmailRiskValidation].value);
+
+  const senderEmailsVerified = useMemo(() => senderEmails.filter(({ verified }) => verified), [senderEmails]);
 
   const handleUpdate = useCallback((settingId: EmailCheckSettingTypes, value: unknown) => {
     const newSettings = cloneDeep(settings);
@@ -41,6 +46,11 @@ export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<
     }
 
     handleUpdate(EmailCheckSettingTypes.EmailOwnershipValidation, value);
+  }, [handleUpdate]);
+
+  const handleSenderIdChange = useCallback(({ target: { value } }) => {
+    setCurrentSenderId(value);
+    handleUpdate(EmailCheckSettingTypes.EmailFrom, value === 'default' ? '' : value);
   }, [handleUpdate]);
 
   const handleSenderNameChange = useCallback(({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,14 +91,14 @@ export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<
       <Box>
         <Box mb={4}>
           <ExtendedDescription
-            title={intl.formatMessage({ id: 'EmailCheck.settings.emailValidation.title' })}
-            text={intl.formatMessage({ id: 'EmailCheck.settings.emailValidation.description' })}
+            title={formatMessage('EmailCheck.settings.emailValidation.title')}
+            text={formatMessage('EmailCheck.settings.emailValidation.description')}
           />
         </Box>
-        <Box mb={4}>
+        <Box mb={2}>
           <ExtendedDescription
-            title={intl.formatMessage({ id: 'EmailCheck.settings.optionalStep.title' })}
-            text={intl.formatMessage({ id: 'EmailCheck.settings.optionalStep.description' })}
+            title={formatMessage('EmailCheck.settings.optionalStep.title')}
+            text={formatMessage('EmailCheck.settings.optionalStep.description')}
             postfix={(
               <Switch
                 name="makeStepOptional"
@@ -98,13 +108,38 @@ export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<
                 onChange={handleChangeMode(EmailCheckStepModes.Optional, EmailCheckStepModes.Forced)}
                 disabled={currentMethod === EmailCheckStepModes.None || !isCanUseEmailValidation}
               />
-          )}
+            )}
           />
         </Box>
+        {senderEmails.length > 0 && (
+          <Box width="100%" mb={2}>
+            <ExtendedDescription
+              title={formatMessage('EmailCheck.settings.senderId.title')}
+              text={formatMessage('EmailCheck.settings.senderId.description')}
+            />
+            <Select
+              className={classes.select}
+              disableUnderline
+              IconComponent={FiChevronDown}
+              onChange={handleSenderIdChange}
+              value={currentSenderId || 'default'}
+            >
+              <MenuItem value="default">
+                {formatMessage('EmailCheck.settings.senderId.default')}
+              </MenuItem>
+              {senderEmailsVerified
+                .map(({ address }) => (
+                  <MenuItem key={address} value={address}>
+                    {address}
+                  </MenuItem>
+                ))}
+            </Select>
+          </Box>
+        )}
         <Box mb={4}>
           <ExtendedDescription
-            title={intl.formatMessage({ id: 'EmailCheck.settings.companyName.title' })}
-            text={intl.formatMessage({ id: 'EmailCheck.settings.companyName.description' })}
+            title={formatMessage('EmailCheck.settings.companyName.title')}
+            text={formatMessage('EmailCheck.settings.companyName.description')}
           />
           <TextFieldName
             type="text"
@@ -113,14 +148,14 @@ export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<
             placeholder=""
             error={!!companyNameError}
             className={classes.senderName}
-            helperText={companyNameError && intl.formatMessage({ id: `EmailCheck.settings.companyName.${companyNameError}` })}
+            helperText={companyNameError && formatMessage(`EmailCheck.settings.companyName.${companyNameError}`)}
             disabled={currentMethod === EmailCheckStepModes.None || !isCanUseEmailValidation}
           />
         </Box>
         <Box mb={4}>
           <ExtendedDescription
-            title={intl.formatMessage({ id: 'EmailCheck.settings.riskAnalysis.title' })}
-            text={intl.formatMessage({ id: 'EmailCheck.settings.riskAnalysis.description' })}
+            title={formatMessage('EmailCheck.settings.riskAnalysis.title')}
+            text={formatMessage('EmailCheck.settings.riskAnalysis.description')}
             postfix={(
               <Switch
                 name="riskAnalysis"
@@ -130,7 +165,7 @@ export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<
                 onChange={handleEmailRiskCheckChange}
                 disabled={currentMethod === EmailCheckStepModes.None || !isCanUseEmailValidation}
               />
-          )}
+            )}
           />
           <RadioGroup
             aria-label="risk-analysis-configuration"
@@ -147,26 +182,26 @@ export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<
                   label={(
                     <>
                       <Box mb={0.5} color="common.black90" fontWeight="bold">
-                        {intl.formatMessage({ id: `EmailCheck.settings.riskAnalysis.${mode}.title` })}
+                        {formatMessage(`EmailCheck.settings.riskAnalysis.${mode}.title`)}
                       </Box>
                       {mode !== EmailRiskThresholdModes.Custom && (
-                      <Box color="common.black75" lineHeight={1.2}>
-                        {intl.formatMessage({ id: `EmailCheck.settings.riskAnalysis.${mode}.description` })}
-                      </Box>
+                        <Box color="common.black75" lineHeight={1.2}>
+                          {formatMessage(`EmailCheck.settings.riskAnalysis.${mode}.description`)}
+                        </Box>
                       )}
                       {mode === EmailRiskThresholdModes.Custom && (
-                      <TextFieldInputScore
-                        value={riskThresholdMode === mode ? riskScore : ''}
-                        onBlur={handleRiskScoreBlur}
-                        onChange={handleRiskScoreChange}
-                        placeholder={`${EmailRiskPredefinedThreshold.Min}-${EmailRiskPredefinedThreshold.Max}`}
-                        error={!!riskThresholdError}
-                        helperText={riskThresholdError && intl.formatMessage({ id: `EmailCheck.settings.riskAnalysis.${mode}.validations.${riskThresholdError}` })}
-                        disabled={!isEmailRiskEnabled || !isCanUseEmailValidation}
-                      />
+                        <TextFieldInputScore
+                          value={riskThresholdMode === mode ? riskScore : ''}
+                          onBlur={handleRiskScoreBlur}
+                          onChange={handleRiskScoreChange}
+                          placeholder={`${EmailRiskPredefinedThreshold.Min}-${EmailRiskPredefinedThreshold.Max}`}
+                          error={!!riskThresholdError}
+                          helperText={riskThresholdError && formatMessage(`EmailCheck.settings.riskAnalysis.${mode}.validations.${riskThresholdError}`)}
+                          disabled={!isEmailRiskEnabled || !isCanUseEmailValidation}
+                        />
                       )}
                     </>
-                )}
+                  )}
                   disabled={!isEmailRiskEnabled || !isCanUseEmailValidation}
                 />
               </BoxBordered>

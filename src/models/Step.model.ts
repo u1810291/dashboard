@@ -377,8 +377,13 @@ export function getStepExtra(step: IStep<any>, verification?: any, countries?: a
   };
 }
 
-export function getReaderFrontendSteps(readerStep) {
+export function getReaderFrontendSteps(readerStep?) {
   const steps = [];
+
+  if (!readerStep) {
+    return steps;
+  }
+
   const fields = getFieldsExtra(readerStep.data);
   const emptyFields = fields.filter((item) => !item.value);
 

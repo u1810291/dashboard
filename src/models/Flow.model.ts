@@ -31,6 +31,7 @@ export type IFlowPhoneOwnership = {
 
 export type IFlowEmailOwnership = {
   companyName: string;
+  emailFrom?: string;
 }
 
 export type IFlowSystemSettings = {
