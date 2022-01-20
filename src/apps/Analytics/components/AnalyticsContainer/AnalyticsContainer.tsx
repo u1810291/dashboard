@@ -1,11 +1,11 @@
-import { Box, Container, Grid } from '@material-ui/core';
+import { Box, Container, Grid, Button } from '@material-ui/core';
 import { ByCountries, ByFlows, OpenFilter, useFilterParser } from 'apps/filter';
 import { AnalyticsMap } from 'apps/googleMap/components/AnalyticsMap/AnalyticsMap';
 import { PageLoader } from 'apps/layout';
 import { analyticsCleanFilter, analyticsFilterStructure } from 'models/Analytics.model';
 import { analyticsDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, getFilterDatesIsValid, parseFromURL } from 'models/Filter.model';
 import { QATags } from 'models/QA.model';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from 'lib/url';
@@ -19,9 +19,16 @@ import { DocumentsStats } from '../DocumentsStats/DocumentsStats';
 import { DynamicHeader } from '../DynamicHeader/DynamicHeader';
 import { VerificationsTotal } from '../VerificationsTotal/VerificationsTotal';
 import { useStyles } from './AnalyticsContainer.styles';
+import { Modal, useOverlay } from 'apps/overlay';
+import { useIntl } from 'react-intl';
+import { passwordRecovery } from 'apps/auth/state/auth.actions';
+import { selectUserEmail } from 'apps/user/state/user.selectors';
+import KeysIcon from 'assets/keys.svg';
 
 export function AnalyticsContainer() {
   const classes = useStyles();
+  const intl = useIntl();
+  const email = useSelector(selectUserEmail);
   const location = useLocation();
   const dispatch = useDispatch();
   const [, addToUrl] = useFilterParser(analyticsFilterStructure);
@@ -31,6 +38,7 @@ export function AnalyticsContainer() {
   const countStatisticsModel = useSelector(selectCountStatisticsModel);
   const byDate = useSelector(selectStatisticsByDate);
   const { asMerchantId } = useQuery();
+  const [createOverlay] = useOverlay();
 
   useEffect(() => {
     setIsFilterDatesValid(getFilterDatesIsValid(metricsFilter));
@@ -50,6 +58,15 @@ export function AnalyticsContainer() {
     setFlows(metricsFilter?.flowIds?.length > 0 ? metricsFilter.flowIds : [DEFAULT_FLOW]);
   }, [dispatch, metricsFilter]);
 
+  const handleBuildMetamap = useCallback(() => {
+    dispatch(passwordRecovery({ email }));
+    createOverlay(<Modal
+      imgSrc={KeysIcon}
+      title={intl.formatMessage({ id: 'Settings.companySettings.changePassword' })}
+      subtitle={intl.formatMessage({ id: 'Settings.companySettings.subtitle' })}
+    />);
+  }, [dispatch, email, intl, createOverlay]);
+
   return (
     <Container maxWidth={false}>
       {isFilterDatesValid && !countStatisticsModel.isLoading && countStatisticsModel.isLoaded ? (
@@ -65,6 +82,13 @@ export function AnalyticsContainer() {
                   <ByCountries />
                 </OpenFilter>
               </Grid>
+              <Button
+                variant="outlined"
+                onClick={handleBuildMetamap}
+                tabIndex={0}
+              >
+                Open modal
+              </Button>
             </Grid>
           </Box>
           <Grid container spacing={2} direction="column">
