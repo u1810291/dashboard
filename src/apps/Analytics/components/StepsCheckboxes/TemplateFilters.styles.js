@@ -42,7 +42,7 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.common.black7,
   },
   filterOptions: {
-    maxHeight: 375,
+    maxHeight: 300,
     overflowY: 'auto',
     overflowX: 'hidden',
     wordBreak: 'break-word',

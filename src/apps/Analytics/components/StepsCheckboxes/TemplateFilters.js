@@ -51,7 +51,7 @@ export function TemplateFilters({ buttonTitle }) {
               className={classes.filterOption}
               key={idx}
               value={item}
-              control={<Checkbox color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />}
+              control={<Checkbox color="primary" defaultChecked={item === 'All' && true} checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />}
               label={item}
             />
           ))}
