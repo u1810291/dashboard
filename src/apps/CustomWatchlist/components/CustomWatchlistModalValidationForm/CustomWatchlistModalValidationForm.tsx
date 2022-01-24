@@ -110,7 +110,7 @@ export function CustomWatchlistModalValidationForm({ watchlist, onClose, onSubmi
   const handleInputValidate = useCallback((mapping: WatchlistMapping[]) => {
     const formValues = getValues();
     const isMappingExist = mapping.filter((value) => value.systemField !== ValidatedInputsKeys.NotSelected)?.length;
-    const isMustValidate = isMappingExist && currentWatchlistMapping && !isEqual(mapping, currentWatchlistMapping);
+    const isMustValidate = isMappingExist && !isEqual(mapping, currentWatchlistMapping ?? []);
 
     if ((formValues[CustomWatchlistModalValidationInputs.FileKey] || fileKey) && formValues[CustomWatchlistModalValidationInputs.CsvSeparator] && isMustValidate) {
       dispatch(getCustomWatchlistShortValidation(merchantId, {
