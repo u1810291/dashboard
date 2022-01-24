@@ -588,6 +588,7 @@
   "CustomWatchlist.settings.modal.button.update": "Update",
   "CustomWatchlist.settings.modal.button.uploadFile": "Upload File",
   "CustomWatchlist.settings.modal.button.uploadFile.helper": "Re-upload the file to make the button active",
+  "CustomWatchlist.settings.modal.button.uploadFile.error": "File does not exist, re-upload the file",
   "CustomWatchlist.settings.modal.button.uploadFile.label.subTitle": "Please upload a single tab file where the first line represents table headers.",
   "CustomWatchlist.settings.modal.button.uploadFile.label.title": "Upload xls or csv file",
   "CustomWatchlist.settings.modal.fakeInputs.country.value": "EN",
