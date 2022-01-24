@@ -14,6 +14,7 @@ import { CustomWatchlistModalValidationInputs, CustomWatchlistFileExt, CustomWat
 import * as api from '../../client/CustomWatchlist.client';
 import { CSVSeparatorSelect } from '../CSVSeparatorSelect/CSVSeparatorSelect';
 import { updateCurrentWatchlist } from '../../state/CustomWatchlist.actions';
+import { selectCurrentCustomWatchlistFileInfo } from '../../state/CustomWatchlist.selectors';
 
 export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFileUploaded }: {
   watchlist?: IWatchlist;
@@ -23,6 +24,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
   const dispatch = useDispatch();
   const merchantId = useSelector(selectMerchantId);
   const isFileAvailable = useSelector(selectCurrentCustomWatchlistIsFileAvailable);
+  const currentCustomWatchlistFileInfo = useSelector(selectCurrentCustomWatchlistFileInfo);
   const classes = useStyles();
   const [isFileUploadLoading, setIsFileUploadLoading] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
@@ -76,6 +78,13 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
 
     return '';
   }, [fileName]);
+
+  useEffect(() => {
+    if (currentCustomWatchlistFileInfo?.fileKey && currentCustomWatchlistFileInfo?.fileName) {
+      setValue(CustomWatchlistModalValidationInputs.FileKey, currentCustomWatchlistFileInfo.fileKey);
+      setValue(CustomWatchlistModalValidationInputs.FileName, currentCustomWatchlistFileInfo.fileName);
+    }
+  }, [currentCustomWatchlistFileInfo, setValue]);
 
   return (
     <>

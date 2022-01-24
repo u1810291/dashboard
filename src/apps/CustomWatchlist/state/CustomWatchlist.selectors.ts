@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { MerchantTags } from 'models/Merchant.model';
 import { CustomWatchlistsStore, CUSTOM_WATCHLISTS_STORE_KEY } from './CustomWatchlist.store';
-import { CustomWatchlistValidationError, ICustomWatchlistValidationErrorFormated, getCustomWatchlistErrorsFormated, IWatchlist, ValidatedInputsKeys, WatchlistProcessStatus, WatchlistMapping } from '../models/CustomWatchlist.models';
+import { CustomWatchlistValidationError, ICustomWatchlistValidationErrorFormated, WatchlistProcessPartial, getCustomWatchlistErrorsFormated, IWatchlist, ValidatedInputsKeys, WatchlistProcessStatus, WatchlistMapping } from '../models/CustomWatchlist.models';
 
 export const selectCustomWatchlistsStore = (state): CustomWatchlistsStore => state[CUSTOM_WATCHLISTS_STORE_KEY];
 
@@ -51,23 +51,37 @@ export const selectCurrentCustomWatchlistIsLoading = createSelector<any, CustomW
   (store) => store.currentWatchlist.isLoading,
 );
 
-export const selectCurrentCustomWatchlistStatus = createSelector<any, IWatchlist | null, WatchlistProcessStatus | null>(
-  selectCurrentCustomWatchlist,
-  (store) => store?.process?.status ?? null,
-);
 export const selectCurrentCustomWatchlistId = createSelector<any, IWatchlist | null, number>(
   selectCurrentCustomWatchlist,
-  (store) => store?.id ?? null,
+  (currentWatchlist) => currentWatchlist?.id ?? null,
 );
 
-export const selectCurrentCustomWatchlistError = createSelector<any, IWatchlist | null, CustomWatchlistValidationError[] | null>(
+export const selectCurrentCustomWatchlistProcess = createSelector<any, IWatchlist | null, WatchlistProcessPartial>(
   selectCurrentCustomWatchlist,
-  (store) => store?.process?.error,
+  (currentWatchlist) => currentWatchlist?.process,
+);
+
+export const selectCurrentCustomWatchlistStatus = createSelector<any, WatchlistProcessPartial, WatchlistProcessStatus | null>(
+  selectCurrentCustomWatchlistProcess,
+  (currentWatchlistProcess) => currentWatchlistProcess?.status ?? null,
+);
+
+export const selectCurrentCustomWatchlistError = createSelector<any, WatchlistProcessPartial, CustomWatchlistValidationError[] | null>(
+  selectCurrentCustomWatchlistProcess,
+  (currentWatchlistProcess) => currentWatchlistProcess?.error,
+);
+
+export const selectCurrentCustomWatchlistFileInfo = createSelector<any, WatchlistProcessPartial, Partial<{ fileKey: string; fileName: string }>>(
+  selectCurrentCustomWatchlistProcess,
+  (currentWatchlistProcess) => ({
+    fileKey: currentWatchlistProcess?.inputSourceFileKey,
+    fileName: currentWatchlistProcess?.inputSourceFileName,
+  }),
 );
 
 export const selectCurrentCustomWatchlistMapping = createSelector<any, IWatchlist | null, WatchlistMapping[] | null>(
   selectCurrentCustomWatchlist,
-  (store) => store?.mapping,
+  (currentWatchlist) => currentWatchlist?.mapping,
 );
 
 export const selectCurrentCustomWatchlistErrorsFormated = createSelector<any, CustomWatchlistValidationError[] | null, Partial<Record<ValidatedInputsKeys, ICustomWatchlistValidationErrorFormated[]>> | null>(

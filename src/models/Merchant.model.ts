@@ -1,5 +1,15 @@
 export type MerchantId = string;
 
+export interface ISenderEmail {
+  verified: boolean;
+  address: string;
+}
+export interface IMerchantSettings {
+  senderEmails: ISenderEmail[];
+  // TODO: @nikitaafanasyev add correct typing
+  customDocumentConfig: unknown[];
+}
+
 export interface Merchant {
   logoUrl: string;
   id: MerchantId;
@@ -11,6 +21,7 @@ export interface Merchant {
   owner: string;
   updatedAt: Date;
   tags: MerchantTags[];
+  settings: IMerchantSettings;
 }
 
 export enum MerchantTags {
