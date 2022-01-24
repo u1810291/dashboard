@@ -51,23 +51,23 @@ export const selectCurrentCustomWatchlistIsLoading = createSelector<any, CustomW
   (store) => store.currentWatchlist.isLoading,
 );
 
-export const selectCurrentCustomWatchlistStatus = createSelector<any, CustomWatchlistsStore, WatchlistProcessStatus | null>(
-  selectCustomWatchlistsStore,
-  (store) => store.currentWatchlist.value?.process?.status ?? null,
+export const selectCurrentCustomWatchlistStatus = createSelector<any, IWatchlist | null, WatchlistProcessStatus | null>(
+  selectCurrentCustomWatchlist,
+  (store) => store?.process?.status ?? null,
 );
-export const selectCurrentCustomWatchlistId = createSelector<any, CustomWatchlistsStore, number>(
-  selectCustomWatchlistsStore,
-  (store) => store.currentWatchlist.value?.id ?? null,
-);
-
-export const selectCurrentCustomWatchlistError = createSelector<any, CustomWatchlistsStore, CustomWatchlistValidationError[] | null>(
-  selectCustomWatchlistsStore,
-  (store) => store.currentWatchlist.value?.process?.error,
+export const selectCurrentCustomWatchlistId = createSelector<any, IWatchlist | null, number>(
+  selectCurrentCustomWatchlist,
+  (store) => store?.id ?? null,
 );
 
-export const selectCurrentCustomWatchlistMapping = createSelector<any, CustomWatchlistsStore, WatchlistMapping[] | null>(
-  selectCustomWatchlistsStore,
-  (store) => store.currentWatchlist.value?.mapping,
+export const selectCurrentCustomWatchlistError = createSelector<any, IWatchlist | null, CustomWatchlistValidationError[] | null>(
+  selectCurrentCustomWatchlist,
+  (store) => store?.process?.error,
+);
+
+export const selectCurrentCustomWatchlistMapping = createSelector<any, IWatchlist | null, WatchlistMapping[] | null>(
+  selectCurrentCustomWatchlist,
+  (store) => store?.mapping,
 );
 
 export const selectCurrentCustomWatchlistErrorsFormated = createSelector<any, CustomWatchlistValidationError[] | null, Partial<Record<ValidatedInputsKeys, ICustomWatchlistValidationErrorFormated[]>> | null>(
@@ -88,4 +88,9 @@ export const selectCurrentCustomWatchlistHeadersIsLoading = createSelector<any, 
 export const selectCurrentCustomWatchlistHeadersErrorType = createSelector<any, CustomWatchlistsStore, any>(
   selectCustomWatchlistsStore,
   (store) => store.currentWatchlistHeaders.error,
+);
+
+export const selectCurrentCustomWatchlistIsFileAvailable = createSelector<any, IWatchlist | null, boolean>(
+  selectCurrentCustomWatchlist,
+  (store) => store?.isFileAvailable ?? true,
 );

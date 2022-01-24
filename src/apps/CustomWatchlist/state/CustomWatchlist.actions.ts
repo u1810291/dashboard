@@ -51,11 +51,11 @@ export const clearWatchlist = () => (dispatch) => {
   dispatch(clearWatchlistContent());
 };
 
-export const updateCurrentWatchlist = (formState: Partial<CustomWatchlistModalValidationInputTypes>) => (dispatch, getState) => {
+export const updateCurrentWatchlistProcess = (formState: Partial<CustomWatchlistModalValidationInputTypes>) => (dispatch, getState) => {
   dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_UPDATING });
 
   try {
-    const currentWatchlist = { ...selectCurrentCustomWatchlist(getState()) };
+    const currentWatchlist = selectCurrentCustomWatchlist(getState());
     const newCurrentWatchlist: Partial<IWatchlist> = {
       ...currentWatchlist,
       process: {
@@ -65,6 +65,22 @@ export const updateCurrentWatchlist = (formState: Partial<CustomWatchlistModalVa
         inputSourceFileName: formState[CustomWatchlistModalValidationInputs.FileName],
         inputSourceFileKey: formState[CustomWatchlistModalValidationInputs.FileKey],
       },
+    };
+
+    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: newCurrentWatchlist, isReset: true });
+  } catch {
+    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_FAILURE });
+  }
+};
+
+export const updateCurrentWatchlist = (values: Partial<IWatchlist>) => (dispatch, getState) => {
+  dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_UPDATING });
+
+  try {
+    const currentWatchlist = selectCurrentCustomWatchlist(getState());
+    const newCurrentWatchlist: Partial<IWatchlist> = {
+      ...currentWatchlist,
+      ...values,
     };
 
     dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: newCurrentWatchlist, isReset: true });
