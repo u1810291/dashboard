@@ -49,7 +49,7 @@ export function WatchlistMappingValidation({ isSubmittingError, isEdit, hasOptio
 
   const handleInputValidate = useCallback((mapping: WatchlistMapping[]) => {
     const formValues = getValues();
-    const isMustValidate = isMappingExist(mapping) && currentWatchlistMapping && !isEqual(mapping, currentWatchlistMapping);
+    const isMustValidate = isMappingExist(mapping) && !isEqual(mapping, currentWatchlistMapping ?? []);
 
     if ((formValues[CustomWatchlistModalValidationInputs.FileKey]) && formValues[CustomWatchlistModalValidationInputs.CsvSeparator] && isMustValidate) {
       dispatch(getCustomWatchlistShortValidation(merchantId, {
