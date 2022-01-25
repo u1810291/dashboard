@@ -40,6 +40,9 @@ export class EmailCheck extends ProductBaseService implements Product {
       [EmailCheckSettingTypes.CompanyName]: {
         value: flow?.emailOwnership?.companyName,
       },
+      [EmailCheckSettingTypes.EmailFrom]: {
+        value: flow?.emailOwnership?.emailFrom ?? '',
+      },
       [EmailCheckSettingTypes.EmailRiskThreshold]: {
         value: flow?.emailRiskThreshold,
       },
@@ -56,6 +59,7 @@ export class EmailCheck extends ProductBaseService implements Product {
     return {
       emailOwnership: {
         [EmailCheckSettingTypes.CompanyName]: settings[EmailCheckSettingTypes.CompanyName].value,
+        [EmailCheckSettingTypes.EmailFrom]: settings[EmailCheckSettingTypes.EmailFrom].value,
       },
       emailRiskThreshold: settings[EmailCheckSettingTypes.EmailRiskThreshold].value,
       verificationPatterns: {

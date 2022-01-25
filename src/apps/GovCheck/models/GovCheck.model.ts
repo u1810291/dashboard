@@ -1,6 +1,7 @@
 import { DocumentStepTypes } from 'models/Step.model';
 import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { BiometricTypes } from 'models/Biometric.model';
+import { MerchantTags } from 'models/Merchant.model';
 import { dateSortCompare } from 'lib/date';
 
 export enum GovernmentCheckSettingTypes {
@@ -121,6 +122,7 @@ export interface GovCheckOptions {
   // TODO: @richvoronov figure out with types
   id: string;
   stepTypeAlias?: GovCheckStepTypes;
+  merchantTags?: MerchantTags[];
   value?: boolean;
 }
 
@@ -132,9 +134,10 @@ export interface GovCheck {
   option?: GovCheckOptions;
   value?: boolean;
   description?: boolean;
+  merchantTags?: MerchantTags[];
 }
 
-export interface GovCheckConfiguration{
+export interface GovCheckConfiguration {
   country: GovCheckCountryTypes;
   checks: GovCheck[];
 }
@@ -157,6 +160,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       },
       {
         id: DocumentStepTypes.ArgentinianRenaperFacematch,
+        merchantTags: [MerchantTags.CanUseFacematchCPFInAr],
         default: false,
         description: true,
       },
@@ -182,6 +186,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         stepTypeAlias: GovCheckTypesForStep[DocumentStepTypes.BrazilianCpf].cpf,
         option: {
           id: DocumentStepTypes.FaceMatch,
+          merchantTags: [MerchantTags.CanUseFacematchCPFInBr],
           stepTypeAlias: GovCheckTypesForStep[DocumentStepTypes.BrazilianCpf].cpfFacematch,
           description: true,
         },
@@ -786,7 +791,18 @@ export function convertTimeToHoursAndMinutes(ptTime) {
   };
 }
 
-export function isGovCheckOptionDisabled(govCheck: GovCheck, verificationPattern: VerificationPatterns): boolean {
+export function isCanUseGovCheck(govCheck: GovCheck | GovCheckOptions, merchantTags: MerchantTags[]): boolean {
+  if (!govCheck?.merchantTags) {
+    return true;
+  }
+  return govCheck?.merchantTags?.every((tag) => merchantTags.includes(tag));
+}
+
+export function isGovCheckOptionDisabled(govCheck: GovCheck, verificationPattern: VerificationPatterns, merchantTags: MerchantTags[]): boolean {
+  if (!isCanUseGovCheck(govCheck.option, merchantTags)) {
+    return true;
+  }
+
   if (govCheck.id === DocumentStepTypes.BrazilianCpf) {
     const isCorrectBiometricsEnabled = [BiometricTypes.liveness.toString(), BiometricTypes.selfie.toString(), BiometricTypes.voiceLiveness.toString()].includes(verificationPattern[VerificationPatternTypes.Biometrics]);
     return !govCheck.value || !isCorrectBiometricsEnabled;
@@ -799,7 +815,11 @@ export function isGovCheckOptionDisabled(govCheck: GovCheck, verificationPattern
   return false;
 }
 
-export function isGovCheckDisabled(govCheck: GovCheck, verificationPattern: VerificationPatterns): boolean {
+export function isGovCheckDisabled(govCheck: GovCheck, verificationPattern: VerificationPatterns, merchantTags: MerchantTags[]): boolean {
+  if (!isCanUseGovCheck(govCheck, merchantTags)) {
+    return true;
+  }
+
   if (govCheck.id === DocumentStepTypes.ArgentinianRenaperFacematch) {
     const isCorrectBiometricsEnabled = [BiometricTypes.liveness.toString(), BiometricTypes.selfie.toString(), BiometricTypes.voiceLiveness.toString()].includes(verificationPattern[VerificationPatternTypes.Biometrics]);
     return !isCorrectBiometricsEnabled;
