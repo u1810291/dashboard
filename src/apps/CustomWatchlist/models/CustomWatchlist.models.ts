@@ -255,5 +255,5 @@ export function getCustomWatchlistErrorsFormated(errors?: CustomWatchlistValidat
 }
 
 export function isMappingExist(mapping: WatchlistMapping[]): boolean {
-  return !!mapping?.filter((value) => value.systemField !== ValidatedInputsKeys.NotSelected)?.length;
+  return !!mapping?.some((value) => value.systemField !== ValidatedInputsKeys.NotSelected);
 }

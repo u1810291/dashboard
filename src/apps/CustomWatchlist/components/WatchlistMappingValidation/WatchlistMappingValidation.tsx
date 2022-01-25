@@ -10,7 +10,7 @@ import { useStyles } from './WatchlistMappingValidation.styles';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputsLoadingSkeleton } from '../ValidatedInputsLoadingSkeleton/ValidatedInputsLoadingSkeleton';
 import { selectWatchlistsContentErrorType, selectCurrentCustomWatchlistHeadersErrorType, selectCurrentCustomWatchlistHeadersIsLoading, selectCurrentCustomWatchlistMapping, selectCurrentCustomWatchlistHeaders } from '../../state/CustomWatchlist.selectors';
-import { CustomWatchlistModalValidationInputs, getCustomWatchlistMapping, getCustomWatchlistValidMapping, isMappingExist, IValidatedInputsFieldTypes, ValidatedInputsKeys, WatchlistMapping } from '../../models/CustomWatchlist.models';
+import { CustomWatchlistModalValidationInputs, getCustomWatchlistMapping, getCustomWatchlistValidMapping, isMappingExist, IValidatedInputsFieldTypes, WatchlistMapping } from '../../models/CustomWatchlist.models';
 import { getCustomWatchlistShortValidation } from '../../state/CustomWatchlist.actions';
 
 export function WatchlistMappingValidation({ isSubmittingError, isEdit, hasOptions }:

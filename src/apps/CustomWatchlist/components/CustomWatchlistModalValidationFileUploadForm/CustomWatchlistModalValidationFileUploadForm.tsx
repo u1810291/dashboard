@@ -8,13 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import { useFormatMessage } from 'apps/intl';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { WithActionDescriptionBordered, FileSelectButton } from 'apps/ui';
-import { selectCurrentCustomWatchlistIsFileAvailable } from '../../state/CustomWatchlist.selectors';
+import { selectCurrentCustomWatchlistIsFileAvailable, selectCurrentCustomWatchlistFileInfo } from '../../state/CustomWatchlist.selectors';
 import { useStyles, RoundedButton } from './CustomWatchlistModalValidationFileUploadForm.styles';
 import { CustomWatchlistModalValidationInputs, CustomWatchlistFileExt, CustomWatchlistUpload, IWatchlist } from '../../models/CustomWatchlist.models';
 import * as api from '../../client/CustomWatchlist.client';
 import { CSVSeparatorSelect } from '../CSVSeparatorSelect/CSVSeparatorSelect';
 import { updateCurrentWatchlist } from '../../state/CustomWatchlist.actions';
-import { selectCurrentCustomWatchlistFileInfo } from '../../state/CustomWatchlist.selectors';
 
 export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFileUploaded }: {
   watchlist?: IWatchlist;
