@@ -3,7 +3,18 @@ import { useFormatMessage } from 'apps/intl';
 // import { PageLoader } from 'apps/layout';
 import { useOverlay, Modal } from 'apps/overlay';
 import { useStyles } from './TemplatesModal.styles';
-import { Box, Typography } from '@material-ui/core';
+import { Box } from '@material-ui/core';
+import classnames from 'classnames';
+import { FiArrowRight, FiArrowDownLeft, FiArrowLeft } from 'react-icons/fi';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Pagination, Navigation } from 'swiper';
+import 'swiper/swiper.min.css';
+import 'swiper/components/navigation/navigation.min.css';
+import 'swiper/components/pagination/pagination.min.css';
+import { appPalette } from 'apps/theme';
+
+SwiperCore.use([Pagination, Navigation]);
 
 const mockTemplates = [
   {
@@ -44,12 +55,10 @@ const TemplateCard = ({ title, description }) => {
   const classes = useStyles();
 
   return (
-    <Box className={classes.templateContainer}>
-      <Box p={1.5}>
-        <span className={classes.templateCardTitle}>{title}</span>
-        <Box mt={1} className={classes.descriptionContainer}>
-          <span className={classes.description}>{description}</span>
-        </Box>
+    <Box p={1.5}>
+      <span className={classes.templateCardTitle}>{title}</span>
+      <Box mt={1} className={classes.descriptionContainer}>
+        <span className={classes.description}>{description}</span>
       </Box>
     </Box>
   );
@@ -58,25 +67,35 @@ const TemplateCard = ({ title, description }) => {
 const TemplatesGallery = () => {
   const classes = useStyles();
 
-  const handleClickRightNavigation = () => {
-    console.log('click');
-    document.getElementById('galleryContainer').scrollLeft += 220;
-  };
-
-  const handleClickLeftNavigation = () => {
-    document.getElementById('galleryContainer').scrollLeft -= 220;
-  };
-
   return (
-    <>
-      <Box className={classes.galleryContainer} id="galleryContainer">
-        {mockTemplates.map((mockTemplate) => <TemplateCard title={mockTemplate.title} description={mockTemplate.description} />)}
-        <Box className={classes.controlsContainer}>
-          <Box className={classes.navigationControl} onClick={handleClickLeftNavigation} />
-          <Box className={classes.navigationControl} onClick={handleClickRightNavigation} />
+    <Swiper
+      navigation={{
+        nextEl: '.navigation-right',
+        prevEl: '.navigation-left',
+        disabledClass: classes.navigationControlHidden,
+        hiddenClass: classes.navigationControlHidden,
+      }}
+      slidesPerView={6}
+      centeredSlides={false}
+      spaceBetween={30}
+      className={classes.swiper}
+      grabCursor={false}
+      allowTouchMove={false}
+    >
+      {mockTemplates.map((template) => (
+        <SwiperSlide className={classes.swiperSlide}>
+          <TemplateCard title={template.title} description={template.description} />
+        </SwiperSlide>
+      ))}
+      <Box className={classes.controlsContainer}>
+        <Box className={classnames(classes.navigationControl, 'navigation-left')}>
+          <FiArrowLeft color={appPalette.white} size={32} />
+        </Box>
+        <Box className={classnames(classes.navigationControl, 'navigation-right')}>
+          <FiArrowRight color={appPalette.white} size={32} />
         </Box>
       </Box>
-    </>
+    </Swiper>
   );
 };
 
