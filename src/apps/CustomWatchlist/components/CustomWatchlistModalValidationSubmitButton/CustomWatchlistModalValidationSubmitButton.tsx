@@ -7,11 +7,9 @@ import { WatchlistProcessStatus } from '../../models/CustomWatchlist.models';
 import { selectCurrentCustomWatchlistError } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistModalValidationSubmitButton.styles';
 
-export function CustomWatchlistModalValidationSubmitButton({ loading, isWatchlistCompleted, isWatchlistNeedsRevalidate, isWatchlistRunning, isEdit, disabled }: {
+export function CustomWatchlistModalValidationSubmitButton({ loading, isWatchlistRunning, isEdit, disabled }: {
   isEdit: boolean;
-  isWatchlistCompleted: boolean;
   isWatchlistRunning: boolean;
-  isWatchlistNeedsRevalidate: boolean;
   loading: boolean;
   disabled: boolean;
 }) {
@@ -33,20 +31,12 @@ export function CustomWatchlistModalValidationSubmitButton({ loading, isWatchlis
       );
     }
 
-    if (isWatchlistNeedsRevalidate) {
-      return formatMessage('CustomWatchlist.settings.modal.button.validate');
-    }
-
     if (isEdit) {
       return formatMessage('CustomWatchlist.settings.modal.button.update');
     }
 
-    if (isWatchlistCompleted) {
-      return formatMessage('CustomWatchlist.settings.modal.button.done');
-    }
-
     return formatMessage('CustomWatchlist.settings.modal.button.create');
-  }, [isWatchlistRunning, isWatchlistNeedsRevalidate, isEdit, isWatchlistCompleted, classes, loading, formatMessage]);
+  }, [isWatchlistRunning, isEdit, classes, loading, formatMessage]);
 
   return (
     <ButtonStyled
