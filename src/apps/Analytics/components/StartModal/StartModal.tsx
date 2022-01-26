@@ -3,7 +3,7 @@ import { Container, Button, Box, Typography } from '@material-ui/core';
 import { ReactComponent as GuideModal } from '../../assets/guide_modal.svg';
 import styles from './StartModal.module.scss';
 
-export const StartModal = ({ buttons }) => (
+export const StartModal = ({ intl }) => (
   <Container className={styles.container}>
     <GuideModal />
     <Box className={styles.buttonsGroup}>
@@ -11,18 +11,16 @@ export const StartModal = ({ buttons }) => (
         tabIndex={0}
         color="primary"
         variant="contained"
-        onClick={buttons[0].action}
       >
-        {buttons[0].title}
+        {intl.formatMessage({ id: 'StartModal.viewButton' })}
       </Button>
       <Typography variant="body1">Or</Typography>
       <Button
         tabIndex={0}
         color="primary"
         variant="outlined"
-        onClick={buttons[1].action}
       >
-        {buttons[1].title}
+        {intl.formatMessage({ id: 'StartModal.blankFlowButton' })}
       </Button>
     </Box>
   </Container>

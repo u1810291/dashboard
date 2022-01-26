@@ -1,20 +1,34 @@
-import React from 'react';
+/* eslint-disable no-console */
+import React, { useCallback } from 'react';
 import { Box, Typography, Table, TableBody, TableCell, Checkbox } from '@material-ui/core';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
+import { Modal, useOverlay } from 'apps/overlay';
 import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
+import { StartModal } from '../StartModal/StartModal';
 
-const MOCK_DATA = [
-  'Get to know MetamMap',
-  'Set up your profile',
-  'Invite a teammate',
-  'Complete profile authentication steps',
-  'Build your first metamap',
-];
-
-export function StepsCheckboxes() {
+export function StepsCheckboxes({ intl }) {
+  const [createOverlay] = useOverlay();
   const classes = useStyles();
+  const handleBuildMetamap = useCallback(() => {
+    createOverlay(
+      <Modal
+        style={{ width: '564px' }}
+        title={intl.formatMessage({ id: 'StartModal.title' })}
+        subtitle={intl.formatMessage({ id: 'StartModal.subtitle' })}
+      >
+        <StartModal intl={intl} />
+      </Modal>,
+    );
+  }, [intl, createOverlay]);
 
+  const MOCK_DATA = [
+    { title: 'Get to know MetamMap', action: () => console.log('Get to know MetamMap') },
+    { title: 'Set up your profile', action: () => console.log('Set up your profile') },
+    { title: 'Invite a teammate', action: () => console.log('Invite a teammate') },
+    { title: 'Complete profile authentication steps', action: () => console.log('Complete profile authentication steps') },
+    { title: 'Build your first metamap', action: handleBuildMetamap },
+  ];
   return (
     <Box mb={2}>
       <Typography variant="h3"> Complete these steps to get started </Typography>
@@ -24,12 +38,13 @@ export function StepsCheckboxes() {
             <TableRowHovered
               hover
               key={idx}
+              onClick={item.action}
             >
               <TableCell>
                 <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color="common.black90">
                   <Box component="span">
                     <Checkbox color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
-                    <Box component="span" className={classes.itemName}>{item}</Box>
+                    <Box component="span" className={classes.itemName}>{item.title}</Box>
                   </Box>
                 </Box>
               </TableCell>

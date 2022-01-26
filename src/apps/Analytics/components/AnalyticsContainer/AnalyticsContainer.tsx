@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Button } from '@material-ui/core';
+import { Box, Container, Grid } from '@material-ui/core';
 import { ByCountries, ByFlows, OpenFilter, useFilterParser } from 'apps/filter';
 import { AnalyticsMap } from 'apps/googleMap/components/AnalyticsMap/AnalyticsMap';
 import { PageLoader } from 'apps/layout';
@@ -6,11 +6,10 @@ import { PageLoader } from 'apps/layout';
 import { analyticsCleanFilter, analyticsFilterStructure } from 'models/Analytics.model';
 import { analyticsDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, getFilterDatesIsValid, parseFromURL } from 'models/Filter.model';
 import { QATags } from 'models/QA.model';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from 'lib/url';
-import { Modal, useOverlay } from 'apps/overlay';
 import { useIntl } from 'react-intl';
 import { TemplateFilters } from '../StepsCheckboxes/TemplateFilters';
 import { StepsCheckboxes } from '../StepsCheckboxes/StepsCheckboxes';
@@ -23,7 +22,6 @@ import { DevicesStats } from '../DevicesStats/DevicesStats';
 import { DocumentsStats } from '../DocumentsStats/DocumentsStats';
 import { DynamicHeader } from '../DynamicHeader/DynamicHeader';
 import { VerificationsTotal } from '../VerificationsTotal/VerificationsTotal';
-import { StartModal } from '../StartModal/StartModal';
 import { useStyles } from './AnalyticsContainer.styles';
 
 export function AnalyticsContainer() {
@@ -38,7 +36,6 @@ export function AnalyticsContainer() {
   const countStatisticsModel = useSelector(selectCountStatisticsModel);
   const byDate = useSelector(selectStatisticsByDate);
   const { asMerchantId } = useQuery();
-  const [createOverlay] = useOverlay();
 
   useEffect(() => {
     setIsFilterDatesValid(getFilterDatesIsValid(metricsFilter));
@@ -58,34 +55,11 @@ export function AnalyticsContainer() {
     setFlows(metricsFilter?.flowIds?.length > 0 ? metricsFilter.flowIds : [DEFAULT_FLOW]);
   }, [dispatch, metricsFilter]);
 
-  const handleBuildMetamap = useCallback(() => {
-    const buttons = [{
-      title: intl.formatMessage({ id: 'StartModal.viewButton' }),
-      // eslint-disable-next-line no-console
-      action: () => console.log('View template metamaps'),
-    },
-    {
-      title: intl.formatMessage({ id: 'StartModal.blankFlowButton' }),
-      // eslint-disable-next-line no-console
-      action: () => console.log('Start from a blank flow'),
-    },
-    ];
-    createOverlay(
-      <Modal
-        style={{ width: '564px' }}
-        title={intl.formatMessage({ id: 'StartModal.title' })}
-        subtitle={intl.formatMessage({ id: 'StartModal.subtitle' })}
-      >
-        <StartModal buttons={buttons} />
-      </Modal>,
-    );
-  }, [intl, createOverlay]);
-
   return (
     <Container maxWidth={false}>
       {isFilterDatesValid && !countStatisticsModel.isLoading && countStatisticsModel.isLoaded ? (
         <Box pb={2} className={classes.wrapper}>
-          <StepsCheckboxes />
+          <StepsCheckboxes intl={intl} />
           <TemplateFilters buttonTitle="Filter by Region" />
           <Box mb={2}>
             <Grid container alignItems="center">
@@ -98,13 +72,6 @@ export function AnalyticsContainer() {
                   <ByCountries />
                 </OpenFilter>
               </Grid>
-              <Button
-                variant="outlined"
-                onClick={handleBuildMetamap}
-                tabIndex={0}
-              >
-                Open modal
-              </Button>
             </Grid>
           </Box>
           <Grid container spacing={2} direction="column">
