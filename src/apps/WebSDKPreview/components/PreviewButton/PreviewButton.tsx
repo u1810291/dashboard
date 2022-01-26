@@ -47,9 +47,9 @@ export function PreviewButton() {
 
   return (
     <Box>
-      {clientIdModel.isLoaded && flowStyle && clientIdModel.value && (
-        <div ref={buttonContainerRef}>
-          {/* @ts-ignore */}
+      <div ref={buttonContainerRef}>
+        {clientIdModel.isLoaded && flowStyle && clientIdModel.value && (
+          // @ts-ignore
           <mati-button
             ref={buttonRef}
             class={classes.button}
@@ -60,8 +60,8 @@ export function PreviewButton() {
             signupHost={process.env.REACT_APP_SIGNUP_URL}
             flowId={flowId}
           />
-        </div>
-      )}
+        )}
+      </div>
     </Box>
   );
 }
