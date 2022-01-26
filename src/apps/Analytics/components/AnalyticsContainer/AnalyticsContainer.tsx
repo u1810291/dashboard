@@ -2,6 +2,7 @@ import { Box, Container, Grid, Button } from '@material-ui/core';
 import { ByCountries, ByFlows, OpenFilter, useFilterParser } from 'apps/filter';
 import { AnalyticsMap } from 'apps/googleMap/components/AnalyticsMap/AnalyticsMap';
 import { PageLoader } from 'apps/layout';
+
 import { analyticsCleanFilter, analyticsFilterStructure } from 'models/Analytics.model';
 import { analyticsDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, getFilterDatesIsValid, parseFromURL } from 'models/Filter.model';
 import { QATags } from 'models/QA.model';
@@ -11,6 +12,8 @@ import { useLocation } from 'react-router-dom';
 import { useQuery } from 'lib/url';
 import { Modal, useOverlay } from 'apps/overlay';
 import { useIntl } from 'react-intl';
+import { TemplateFilters } from '../StepsCheckboxes/TemplateFilters';
+import { StepsCheckboxes } from '../StepsCheckboxes/StepsCheckboxes';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
 import { countStatisticsLoad, filterUpdate, loadChartStatistics } from '../../state/Analytics.actions';
@@ -82,6 +85,8 @@ export function AnalyticsContainer() {
     <Container maxWidth={false}>
       {isFilterDatesValid && !countStatisticsModel.isLoading && countStatisticsModel.isLoaded ? (
         <Box pb={2} className={classes.wrapper}>
+          <StepsCheckboxes />
+          <TemplateFilters buttonTitle="Filter by Region" />
           <Box mb={2}>
             <Grid container alignItems="center">
               <Grid item xs={9}>
