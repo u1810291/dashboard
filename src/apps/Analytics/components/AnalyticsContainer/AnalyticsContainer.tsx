@@ -9,6 +9,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from 'lib/url';
+import { Modal, useOverlay } from 'apps/overlay';
+import { useIntl } from 'react-intl';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
 import { countStatisticsLoad, filterUpdate, loadChartStatistics } from '../../state/Analytics.actions';
@@ -18,17 +20,12 @@ import { DevicesStats } from '../DevicesStats/DevicesStats';
 import { DocumentsStats } from '../DocumentsStats/DocumentsStats';
 import { DynamicHeader } from '../DynamicHeader/DynamicHeader';
 import { VerificationsTotal } from '../VerificationsTotal/VerificationsTotal';
+import { StartModal } from '../StartModal/StartModal';
 import { useStyles } from './AnalyticsContainer.styles';
-import { Modal, useOverlay } from 'apps/overlay';
-import { useIntl } from 'react-intl';
-import { passwordRecovery } from 'apps/auth/state/auth.actions';
-import { selectUserEmail } from 'apps/user/state/user.selectors';
-import KeysIcon from 'assets/keys.svg';
 
 export function AnalyticsContainer() {
   const classes = useStyles();
   const intl = useIntl();
-  const email = useSelector(selectUserEmail);
   const location = useLocation();
   const dispatch = useDispatch();
   const [, addToUrl] = useFilterParser(analyticsFilterStructure);
@@ -59,13 +56,27 @@ export function AnalyticsContainer() {
   }, [dispatch, metricsFilter]);
 
   const handleBuildMetamap = useCallback(() => {
-    dispatch(passwordRecovery({ email }));
-    createOverlay(<Modal
-      imgSrc={KeysIcon}
-      title={intl.formatMessage({ id: 'Settings.companySettings.changePassword' })}
-      subtitle={intl.formatMessage({ id: 'Settings.companySettings.subtitle' })}
-    />);
-  }, [dispatch, email, intl, createOverlay]);
+    const buttons = [{
+      title: intl.formatMessage({ id: 'StartModal.viewButton' }),
+      // eslint-disable-next-line no-console
+      action: () => console.log('View template metamaps'),
+    },
+    {
+      title: intl.formatMessage({ id: 'StartModal.blankFlowButton' }),
+      // eslint-disable-next-line no-console
+      action: () => console.log('Start from a blank flow'),
+    },
+    ];
+    createOverlay(
+      <Modal
+        style={{ width: '564px' }}
+        title={intl.formatMessage({ id: 'StartModal.title' })}
+        subtitle={intl.formatMessage({ id: 'StartModal.subtitle' })}
+      >
+        <StartModal buttons={buttons} />
+      </Modal>,
+    );
+  }, [intl, createOverlay]);
 
   return (
     <Container maxWidth={false}>
