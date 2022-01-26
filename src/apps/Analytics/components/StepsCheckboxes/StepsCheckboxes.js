@@ -4,12 +4,26 @@ import { Box, Typography, Table, TableBody, TableCell, Checkbox } from '@materia
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { Modal, useOverlay } from 'apps/overlay';
+import { TemplatesModal } from 'apps/SolutionCatalog/components/TemplatesModal/TemplatesModal';
 import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
 import { StartModal } from '../StartModal/StartModal';
 
 export function StepsCheckboxes({ intl }) {
   const [createOverlay] = useOverlay();
   const classes = useStyles();
+  const handleTemplateModal = useCallback(() => {
+    /*
+      TODO: Maybe it is better to add prop for
+      Modal size === auto ? style={{ width: 'auto', height: 'auto' }} : size
+      and spread it inside div
+    */
+    createOverlay(
+      <Modal style={{ width: 'auto', height: 'auto' }}>
+        <TemplatesModal intl={intl} />
+      </Modal>,
+    );
+  }, [intl, createOverlay]);
+
   const handleBuildMetamap = useCallback(() => {
     createOverlay(
       <Modal
@@ -17,11 +31,10 @@ export function StepsCheckboxes({ intl }) {
         title={intl.formatMessage({ id: 'StartModal.title' })}
         subtitle={intl.formatMessage({ id: 'StartModal.subtitle' })}
       >
-        <StartModal intl={intl} />
+        <StartModal intl={intl} action={handleTemplateModal} />
       </Modal>,
     );
-  }, [intl, createOverlay]);
-
+  }, [intl, createOverlay, handleTemplateModal]);
   const MOCK_DATA = [
     { title: 'Get to know MetamMap', action: () => console.log('Get to know MetamMap') },
     { title: 'Set up your profile', action: () => console.log('Set up your profile') },
