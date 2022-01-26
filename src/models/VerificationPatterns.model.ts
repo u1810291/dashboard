@@ -52,6 +52,7 @@ export enum VerificationPatternTypes {
   ParaguayanRcp = 'paraguayan-rcp-validation',
   PeruvianReniec = 'peruvian-reniec-validation',
   PeruvianSunat = 'peruvian-sunat-validation',
+  PeruvianHealthSocialSecurity = 'peruvian-health-social-security',
   PhoneOwnershipValidation = 'phone-ownership-validation',
   PhoneRiskValidation = 'phone-risk-analysis-validation',
   PremiumAmlWatchListsSearchValidation = 'premium-aml-watchlists-search-validation',
