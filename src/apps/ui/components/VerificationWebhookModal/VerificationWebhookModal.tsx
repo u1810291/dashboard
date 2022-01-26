@@ -3,7 +3,7 @@ import { Modal } from 'apps/overlay';
 import { CopyToClipboard, SyntaxHighlighter, SyntaxHighlighterLanguages } from 'apps/ui/index';
 import stringify from 'lib/stringify';
 import { QATags } from 'models/QA.model';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './VerificationWebhookModal.styles';
 
@@ -14,6 +14,7 @@ export function VerificationWebhookModal({ webhook, onClose }: {
   const intl = useIntl();
   const classes: any = useStyles();
   const resourceUrl = `${process.env.REACT_APP_API_URL}/v2/verifications/${webhook?.id || webhook._id || ''}`;
+  const stringifyData = useMemo(() => stringify(webhook, 2, true), [webhook]);
 
   return (
     <Modal className={classes.modal}>
@@ -27,7 +28,7 @@ export function VerificationWebhookModal({ webhook, onClose }: {
         <SyntaxHighlighter
           isDarkTheme
           className={classes.webhookSyntax}
-          code={stringify(webhook)}
+          code={stringifyData}
           language={SyntaxHighlighterLanguages.JavaScript}
           withCopyText
           showLineNumbers
