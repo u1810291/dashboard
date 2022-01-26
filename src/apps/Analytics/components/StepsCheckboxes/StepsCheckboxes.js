@@ -9,7 +9,7 @@ import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
 import { StartModal } from '../StartModal/StartModal';
 
 export function StepsCheckboxes({ intl }) {
-  const [createOverlay] = useOverlay();
+  const [createOverlay, closeOverlay] = useOverlay();
   const classes = useStyles();
   const handleTemplateModal = useCallback(() => {
     /*
@@ -17,12 +17,9 @@ export function StepsCheckboxes({ intl }) {
       Modal size === auto ? style={{ width: 'auto', height: 'auto' }} : size
       and spread it inside div
     */
-    createOverlay(
-      <Modal style={{ width: 'auto', height: 'auto' }}>
-        <TemplatesModal intl={intl} />
-      </Modal>,
-    );
-  }, [intl, createOverlay]);
+    closeOverlay();
+    createOverlay(<TemplatesModal intl={intl} />);
+  }, [intl, createOverlay, closeOverlay]);
 
   const handleBuildMetamap = useCallback(() => {
     createOverlay(
