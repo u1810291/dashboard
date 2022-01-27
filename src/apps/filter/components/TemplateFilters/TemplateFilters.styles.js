@@ -3,7 +3,6 @@ import { Button, withStyles } from '@material-ui/core';
 
 export const FilterButton = withStyles((theme) => ({
   root: {
-    maxWidth: 245,
     width: '100%',
     height: 50,
     fontSize: 14,
@@ -11,7 +10,7 @@ export const FilterButton = withStyles((theme) => ({
     borderRadius: 5,
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.common.white,
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.05)',
     color: theme.palette.common.lightblue,
     [theme.breakpoints.down(1080)]: {
@@ -37,22 +36,24 @@ export const useStyles = makeStyles((theme) => ({
     marginLeft: '20px',
   },
   filterContainer: {
-    maxWidth: 245,
+    maxWidth: '13vw',
     width: '100%',
-    backgroundColor: theme.palette.common.black7,
+    marginRight: 14,
+    color: theme.palette.common.lightblue,
   },
   filterOptions: {
     maxHeight: 300,
+    maxWidth: '13vw',
+    width: '100%',
     overflowY: 'auto',
     overflowX: 'hidden',
     wordBreak: 'break-word',
+    boxSizing: 'border-box',
     scrollbarWidth: 'thin',
     backgroundColor: theme.palette.background.default,
     position: 'absolute',
     padding: [[20, 22, 22, 20]],
-    marginTop: 9,
-    maxWidth: 245,
-    width: '100%',
+    marginTop: '3%',
     zIndex: 200,
     '&::-webkit-scrollbar': {
       height: 5,

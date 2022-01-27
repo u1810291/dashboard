@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from 'lib/url';
 import { useIntl } from 'react-intl';
-import { TemplateFilters } from '../StepsCheckboxes/TemplateFilters';
 import { StepsCheckboxes } from '../StepsCheckboxes/StepsCheckboxes';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
@@ -60,7 +59,6 @@ export function AnalyticsContainer() {
       {isFilterDatesValid && !countStatisticsModel.isLoading && countStatisticsModel.isLoaded ? (
         <Box pb={2} className={classes.wrapper}>
           <StepsCheckboxes intl={intl} />
-          <TemplateFilters buttonTitle="Filter by Region" />
           <Box mb={2}>
             <Grid container alignItems="center">
               <Grid item xs={9}>

@@ -6,26 +6,7 @@ import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { useStyles, FilterButton } from './TemplateFilters.styles';
 
-const MOCK_DATA = [
-  'All',
-  'Oceania',
-  'India',
-  'Russia',
-  'North America',
-  'All',
-  'Oceania',
-  'India',
-  'Russia',
-  'North America',
-  'North America',
-  'All',
-  'Oceania',
-  'India',
-  'Russia',
-  'North America',
-];
-
-export function TemplateFilters({ buttonTitle }) {
+export function TemplateFilters({ buttonTitle, filterData }) {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
@@ -44,7 +25,7 @@ export function TemplateFilters({ buttonTitle }) {
         {isOpen
         && (
           <Paper className={classes.filterOptions}>
-            {MOCK_DATA.length > 0 && MOCK_DATA.map((item, idx) => (
+            {filterData.length > 0 && filterData.map((item, idx) => (
               <FormControlLabel
                 className={classes.filterOption}
                 key={idx}
