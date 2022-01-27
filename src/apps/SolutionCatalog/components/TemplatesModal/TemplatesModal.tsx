@@ -1,10 +1,10 @@
 /* eslint-disable import/no-unresolved */
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useFormatMessage } from 'apps/intl';
 // import { PageLoader } from 'apps/layout';
 import { useOverlay, Modal } from 'apps/overlay';
 // import { appPalette } from 'apps/theme';
-import { Box } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 // import classnames from 'classnames';
 // import { FiArrowRight, FiArrowDownLeft, FiArrowLeft } from 'react-icons/fi';
 // import { Swiper, SwiperSlide } from 'swiper/react';
@@ -134,13 +134,13 @@ const mockTemplates = [
 
 const mockFiltersData = [
   {
-    title: 'Filter by Industry',
+    title: 'Industry',
     data: [
       'All', 'Compliance', 'Work', 'Finance',
     ],
   },
   {
-    title: 'Filter by Region',
+    title: 'Country',
     data: [
       'All', 'North America', 'South and Central America', 'Asia', 'Europe', 'Africa', 'Oceania',
     ],
@@ -151,8 +151,16 @@ export function TemplatesModal({ onSubmit }) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
   const [, closeOverlay] = useOverlay();
+  const [currentValue, setCurrentValue] = useState({ Industry: [], Country: [] });
 
   const handleSubmit = useCallback((data) => onSubmit(data), [onSubmit]);
+
+  const filteredArray = (dataArray) => {
+    if (!currentValue.Industry.length) return dataArray;
+    return dataArray.filter((item) => currentValue.Industry.indexOf(item.name) >= 0);
+  };
+
+  const filteredResponse = filteredArray(mockTemplates);
 
   return (
     <Modal
@@ -171,13 +179,21 @@ export function TemplatesModal({ onSubmit }) {
           </Box>
           <Box className={classes.modalHeaderRight}>
             { mockFiltersData.map((filter, idx) => (
-              <TemplateFilters buttonTitle={filter.title} filterData={filter.data} />
+              <TemplateFilters
+                title={filter.title}
+                filterData={filter.data}
+                currentValue={currentValue}
+                setCurrentValue={setCurrentValue}
+              />
             ))}
           </Box>
         </Box>
         <Box mt={2}>
-          { mockTemplates.map((industry, idx) => (
-            <TemplatesGallery onSubmit={handleSubmit} title={industry.name} mockTemplates={industry.data} />
+          { filteredResponse.map((industry, idx) => (
+            <Box>
+              <Typography className={classes.swiperTitle}>{industry.name}</Typography>
+              <TemplatesGallery onSubmit={handleSubmit} mockTemplates={industry.data} />
+            </Box>
           ))}
         </Box>
       </Box>

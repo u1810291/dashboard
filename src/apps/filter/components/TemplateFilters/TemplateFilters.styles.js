@@ -39,7 +39,6 @@ export const useStyles = makeStyles((theme) => ({
     maxWidth: '13vw',
     width: '100%',
     marginRight: 14,
-    color: theme.palette.common.lightblue,
   },
   filterOptions: {
     maxHeight: 300,
@@ -72,5 +71,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   filterOption: {
     minWidth: '100%',
+    '& .MuiButtonBase-root': {
+      minHeight: 20,
+    },
   },
 }));

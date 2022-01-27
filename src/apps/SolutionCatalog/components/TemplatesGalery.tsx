@@ -11,7 +11,7 @@ import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
 import { TemplateCard } from './TemplateCard';
 
-export function TemplatesGallery({ onSubmit, title, mockTemplates }) {
+export function TemplatesGallery({ onSubmit, mockTemplates }) {
   const classes = useStyles();
 
   return (

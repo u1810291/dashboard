@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles((theme) => ({
   modal: {
     width: '65vw',
-    maxHeight: '70vh',
+    maxHeight: '75vh',
     backgroundColor: theme.palette.common.black7,
     borderRadius: 5,
     overflowY: 'auto',
@@ -32,7 +32,7 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 60,
+    marginBottom: 20,
   },
   modalHeaderLeft: {
     display: 'flex',
@@ -112,10 +112,15 @@ export const useStyles = makeStyles((theme) => ({
   swiper: {
     width: '100%',
     height: '100%',
-    paddingTop: '38px',
     paddingBottom: '8px',
     display: 'flex',
-    marginBottom: 45,
+  },
+  swiperTitle: {
+    paddingTop: '38px',
+    fontSize: 15,
+    fontWeight: 400,
+    color: theme.palette.common.black75,
+    marginBottom: 10,
   },
   swiperSlide: {
     borderRadius: '5px',

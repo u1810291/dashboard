@@ -6,11 +6,25 @@ import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { useStyles, FilterButton } from './TemplateFilters.styles';
 
-export function TemplateFilters({ buttonTitle, filterData }) {
+export function TemplateFilters({ title, filterData, currentValue, setCurrentValue }) {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const handleClickAway = () => setIsOpen(false);
+  const buttonTitle = `Filter by ${title}`;
+
+  function activeFilters(ev, item) {
+    const currentActiveFilters = currentValue[title];
+    if (item === 'All') { return setCurrentValue({ ...currentValue, [title]: [] }); }
+    return ev.target.checked
+      ? setCurrentValue({ ...currentValue, [title]: [...currentActiveFilters, item] })
+      : setCurrentValue({ ...currentValue, [title]: currentActiveFilters.filter((value) => value !== item) });
+  }
+
+  function isCheckboxChecked(item) {
+    if (item === 'All' && !currentValue[title].length) return true;
+    return currentValue[title].includes(item) && true;
+  }
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
@@ -30,8 +44,16 @@ export function TemplateFilters({ buttonTitle, filterData }) {
                 className={classes.filterOption}
                 key={idx}
                 value={item}
-                control={<Checkbox color="primary" defaultChecked={item === 'All' && true} checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />}
+                control={(
+                  <Checkbox
+                    color="primary"
+                    checked={isCheckboxChecked(item)}
+                    checkedIcon={<CheckboxOn />}
+                    icon={<CheckboxOff />}
+                  />
+                )}
                 label={item}
+                onChange={(ev) => activeFilters(ev, item)}
               />
             ))}
           </Paper>
