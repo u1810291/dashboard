@@ -29,8 +29,8 @@ export function TemplatesGallery({ onSubmit, mockTemplates }) {
       grabCursor={false}
       allowTouchMove={false}
     >
-      {mockTemplates.map((template) => (
-        <SwiperSlide className={classes.swiperSlide}>
+      {mockTemplates.map((template, idx) => (
+        <SwiperSlide className={classes.swiperSlide} key={idx}>
           <TemplateCard title={template.title} description={template.description} />
         </SwiperSlide>
       ))}

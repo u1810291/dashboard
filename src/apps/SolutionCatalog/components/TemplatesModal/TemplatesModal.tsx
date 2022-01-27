@@ -3,11 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { useFormatMessage } from 'apps/intl';
 // import { PageLoader } from 'apps/layout';
 import { useOverlay, Modal } from 'apps/overlay';
-// import { appPalette } from 'apps/theme';
 import { Box, Typography } from '@material-ui/core';
-// import classnames from 'classnames';
-// import { FiArrowRight, FiArrowDownLeft, FiArrowLeft } from 'react-icons/fi';
-// import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Pagination, Navigation } from 'swiper';
 import { TemplateFilters } from 'apps/filter';
 import { useStyles } from './TemplatesModal.styles';
@@ -15,6 +11,7 @@ import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
 import { TemplatesGallery } from '../TemplatesGalery';
+import { TemplatesChosenFilters } from '../TemplatesChosenFilters';
 
 SwiperCore.use([Pagination, Navigation]);
 
@@ -152,6 +149,7 @@ export function TemplatesModal({ onSubmit }) {
   const classes = useStyles();
   const [, closeOverlay] = useOverlay();
   const [currentValue, setCurrentValue] = useState({ Industry: [], Country: [] });
+  const filtersByDefault = !Object.values(currentValue).some((el) => !!el.length);
 
   const handleSubmit = useCallback((data) => onSubmit(data), [onSubmit]);
 
@@ -180,6 +178,7 @@ export function TemplatesModal({ onSubmit }) {
           <Box className={classes.modalHeaderRight}>
             { mockFiltersData.map((filter, idx) => (
               <TemplateFilters
+                key={idx}
                 title={filter.title}
                 filterData={filter.data}
                 currentValue={currentValue}
@@ -188,9 +187,12 @@ export function TemplatesModal({ onSubmit }) {
             ))}
           </Box>
         </Box>
-        <Box mt={2}>
+        {
+          !filtersByDefault && <TemplatesChosenFilters currentValue={currentValue} setCurrentValue={setCurrentValue} />
+        }
+        <Box>
           { filteredResponse.map((industry, idx) => (
-            <Box>
+            <Box key={idx}>
               <Typography className={classes.swiperTitle}>{industry.name}</Typography>
               <TemplatesGallery onSubmit={handleSubmit} mockTemplates={industry.data} />
             </Box>

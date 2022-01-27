@@ -10,9 +10,7 @@ export const FilterButton = withStyles((theme) => ({
     borderRadius: 5,
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: theme.palette.common.white,
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.05)',
-    color: theme.palette.common.lightblue,
     [theme.breakpoints.down(1080)]: {
       width: 50,
       minWidth: 50,
@@ -39,6 +37,11 @@ export const useStyles = makeStyles((theme) => ({
     maxWidth: '13vw',
     width: '100%',
     marginRight: 14,
+    '& .MuiButton-contained:not(.MuiButton-containedPrimary)': {
+      color: theme.palette.common.lightblue,
+      backgroundColor: theme.palette.common.white,
+      border: '1px solid #507DED',
+    },
   },
   filterOptions: {
     maxHeight: 300,
