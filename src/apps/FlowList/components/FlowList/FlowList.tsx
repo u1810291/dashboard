@@ -54,6 +54,10 @@ export function FlowList() {
     }
   }, [merchantFlowList]);
 
+  const handleCreateTemplate = () => {
+    history.push(Routes.flow.newTemplate);
+  };
+
   const handleClose = useCallback(() => {
     if (!isMobile) {
       setOpen(false);
@@ -74,7 +78,7 @@ export function FlowList() {
                 <Typography variant="h3">{intl.formatMessage({ id: 'VerificationFlow.page.title' })}</Typography>
               </Box>
             </Grid>
-            <Grid item container xs={12} md={6} justify="flex-end" className={classes.buttonWrapper}>
+            <Grid item container xs={12} md={6} justifyContent="flex-end" className={classes.buttonWrapper}>
               <Tooltip
                 enterTouchDelay={0}
                 placement={isMobile ? 'bottom' : 'left'}
@@ -93,9 +97,20 @@ export function FlowList() {
                 <span>
                   <Button
                     disabled={isButtonDisabled}
+                    onClick={handleAddNewFlow}
+                    className={classes.button}
                     variant="contained"
                     disableElevation
-                    onClick={handleAddNewFlow}
+                  >
+                    create flow
+                  </Button>
+
+                  <Button
+                    // disabled={isButtonDisabled}
+                    variant="contained"
+                    disableElevation
+                    // onClick={handleAddNewFlow}
+                    onClick={handleCreateTemplate}
                     className={classes.button}
                     data-qa={QATags.Flows.CreateNewFlowButton}
                   >

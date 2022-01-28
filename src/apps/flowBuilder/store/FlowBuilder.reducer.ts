@@ -1,7 +1,9 @@
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { createReducer } from 'state/store.utils';
+import { types as templateTypes } from 'apps/Templates/store/Templates.actions';
 import { types } from './FlowBuilder.action';
 import { FlowBuilderActionGroups, FlowBuilderStore, SliceNames } from './FlowBuilder.store';
+import { createEmptyFlow } from 'models/Flow.model';
 
 const initialState: FlowBuilderStore = {
   [SliceNames.ProductsInGraph]: LoadableAdapter.createState([]),
@@ -23,6 +25,16 @@ export const flowBuilderReducer = createReducer(initialState, {
     return {
       ...state,
       haveUnsavedChanges: payload,
+    };
+  },
+  [templateTypes.CREATE_EMPTY_FLOW](state: FlowBuilderStore) {
+    return {
+      ...state,
+      changeableFlow: {
+        ...state.changeableFlow,
+        isLoaded: true,
+        value: createEmptyFlow(),
+      },
     };
   },
 });

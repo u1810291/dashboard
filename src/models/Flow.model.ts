@@ -17,6 +17,62 @@ export function getNewFlowId(merchantFlowsModel, currentFlowId) {
   return get(merchantFlowsModel, `value[${newIndex}].id`, currentFlowId);
 }
 
+export function createEmptyFlow() {
+  return {
+    financialInformationBankAccountsRetrieving: [],
+    financialInformationPayrollAccountsRetrieving: [],
+    financialInformationWorkAccountsRetrieving: [],
+    style: {
+      color: 'blue',
+      language: 'en',
+    },
+    ipValidation: {
+      allowedRegions: [],
+    },
+    amlWatchlistsFuzzinessThreshold: 50,
+    computations: [
+      'age',
+      'isDocumentExpired',
+    ],
+    digitalSignature: 'none',
+    emailRiskThreshold: 80,
+    supportedCountries: [],
+    verificationSteps: [],
+    customDocumentConfig: [],
+    inputValidationChecks: [
+      {
+        id: 'GrayscaleImage',
+        isDisabled: true,
+      },
+      {
+        id: 'SimilarImages',
+        isDisabled: true,
+      },
+      {
+        id: 'IdenticalImages',
+        isDisabled: true,
+      },
+      {
+        id: 'DocumentDetected',
+        isDisabled: false,
+      },
+    ],
+    watchlists: [],
+    integrationType: 'sdk',
+    name: 'Untitled Template',
+    verificationPatterns: {},
+    denyUploadsFromMobileGallery: false,
+    createdAt: null,
+    updatedAt: null,
+    pinnedCountries: [
+      'US',
+      'MX',
+    ],
+    inputTypes: [],
+    id: null,
+  };
+}
+
 export interface FlowStyle {
   color?: string;
   language?: string;
