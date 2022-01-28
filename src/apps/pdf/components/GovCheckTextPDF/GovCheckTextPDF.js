@@ -9,8 +9,8 @@ export function GovCheckTextPDF({ step }) {
   const intl = useIntl();
   const { error, checkStatus: status } = step;
 
-  if (status === StepStatus.Success) {
-    return Object.entries(step?.data).map(([key, value]) => <CheckStepDetailsEntryPDF label={key} value={value} key={key} />);
+  if (status === StepStatus.Success && step?.data) {
+    return Object.entries(step.data).map(([key, value]) => <CheckStepDetailsEntryPDF label={key} value={value} key={key} />);
   }
 
   return (
