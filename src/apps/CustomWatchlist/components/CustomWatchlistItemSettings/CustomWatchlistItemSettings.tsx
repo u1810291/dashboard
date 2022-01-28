@@ -16,7 +16,7 @@ import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdate
 import { selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsFailed, selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
-import { CustomWatchlistModalValidationInputs, CustomWatchlistModalValidationInputTypes, FlowWatchlistUi, WatchlistContentTypes } from '../../models/CustomWatchlist.models';
+import { CustomWatchlistModalValidationInputs, CustomWatchlistModalValidationInputTypes, FlowWatchlistUi } from '../../models/CustomWatchlist.models';
 
 export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   watchlists: FlowWatchlistUi[];
@@ -38,10 +38,6 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
     closeOverlay();
   }, [dispatch, closeOverlay]);
 
-  const customWatchlistsContentUpdate = useCallback(async (watchlistId: number, values: WatchlistContentTypes) => {
-    await dispatch(updateMerchantWatchlistContent(merchantId, watchlistId, values));
-  }, [merchantId, dispatch]);
-
   const handleSubmitWatchlist = useCallback(async (values: CustomWatchlistModalValidationInputTypes, watchlist?: Partial<FlowWatchlistUi>) => {
     const watchlistRequestData = {
       [CustomWatchlistModalValidationInputs.Name]: values.name,
@@ -53,17 +49,21 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
       [CustomWatchlistModalValidationInputs.CsvSeparator]: values[CustomWatchlistModalValidationInputs.CsvSeparator],
     };
 
+    // edit flow
     if (watchlist?.id) {
       await dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData));
-      await customWatchlistsContentUpdate(watchlist.id, watchlistContentValues);
+      await dispatch(updateMerchantWatchlistContent(merchantId, watchlist.id, watchlistContentValues));
       notification.info(formatMessage('CustomWatchlist.settings.watchlist.updated', { messageValues: { name: watchlist.name } }));
       return;
     }
+
+    // create flow
     dispatch(customWatchlistCreate(merchantId, watchlistRequestData, async (watchlistData) => {
-      await customWatchlistsContentUpdate(watchlistData.id, watchlistContentValues);
+      dispatch(setCurrentWatchlist(watchlistData.id));
       notification.info(formatMessage('CustomWatchlist.settings.watchlist.created', { messageValues: { name: watchlistData.name } }));
+      await dispatch(updateMerchantWatchlistContent(merchantId, watchlistData.id, watchlistContentValues));
     }));
-  }, [merchantId, formatMessage, customWatchlistsContentUpdate, dispatch]);
+  }, [merchantId, formatMessage, dispatch]);
 
   const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {
     dispatch(clearCurrentWatchlist());
