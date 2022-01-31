@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useFormatMessage } from 'apps/intl';
 import { useOverlay, Modal } from 'apps/overlay';
-import { Box, Chip, TextareaAutosize, TextField, Button, Select, MenuItem, Checkbox, ListItemText } from '@material-ui/core';
+import { Box, Chip, TextareaAutosize, TextField, Button, Select, MenuItem, Checkbox, ListItemText, FormHelperText } from '@material-ui/core';
 import classnames from 'classnames';
 import { FiArrowRight, FiArrowDownLeft, FiArrowLeft } from 'react-icons/fi';
 import { appPalette } from 'apps/theme';
@@ -23,7 +23,7 @@ interface TemplateSaveInputs {
 const COUNTRIES_MOCK = ['North America', 'South and Central America', 'Asia', 'Europe', 'Africa', 'Oceania'];
 const INDUSTRIES_MOCK = ['Work', 'Finance', 'Neobanking', 'Crypto'];
 
-const renderChip = (values, onDelete, type) => values.map((value) => <Chip variant="outlined" key={value} label={value} onDelete={() => onDelete(value, type)} deleteIcon={<IoCloseOutline onMouseDown={(event) => event.stopPropagation()} />} />);
+// const renderChip = (values, onDelete, type) => values.map((value) => <Chip className={classes.chip} variant="outlined" key={value} label={value} onDelete={() => onDelete(value, type)} deleteIcon={<IoCloseOutline onMouseDown={(event) => event.stopPropagation()} />} />);
 
 export function TemplateSaveModal({ onSubmit }) {
   const formatMessage = useFormatMessage();
@@ -54,9 +54,11 @@ export function TemplateSaveModal({ onSubmit }) {
   });
   const industriesRegister = register(TemplateSaveInputsTypes.Industries, {
     required: formatMessage('validations.required'),
+    validate: (value) => value?.length > 0 || formatMessage('validations.required'),
   });
   const countriesRegister = register(TemplateSaveInputsTypes.Countries, {
     required: formatMessage('validations.required'),
+    validate: (value) => value?.length > 0 || formatMessage('validations.required'),
   });
   const descriptionRegister = register(TemplateSaveInputsTypes.Description, {
     required: formatMessage('validations.required'),
@@ -74,7 +76,9 @@ export function TemplateSaveModal({ onSubmit }) {
     console.log(valueToDelete);
     setValue(property, values[property].filter((value) => value !== valueToDelete));
   };
-  // TemplateSaveInputsTypes.Industries
+
+  const renderChip = useCallback((selectValues, onDelete, type) => selectValues.map((selectValue) => <Chip className={classes.chip} variant="outlined" key={selectValue} label={selectValue} onDelete={() => onDelete(selectValue, type)} deleteIcon={<IoCloseOutline onMouseDown={(event) => event.stopPropagation()} />} />), [classes]);
+
   return (
     <Modal
       onClose={closeOverlay}
@@ -129,7 +133,7 @@ export function TemplateSaveModal({ onSubmit }) {
                   value={values[TemplateSaveInputsTypes.Industries]}
                   multiple
                   disableUnderline
-                  className={classes.select}
+                  className={classnames(classes.select, { [classes.selectError]: !!errors[TemplateSaveInputsTypes.Industries] })}
                   MenuProps={{
                     anchorOrigin: {
                       vertical: 'bottom',
@@ -143,6 +147,7 @@ export function TemplateSaveModal({ onSubmit }) {
                   }}
                   renderValue={(selectValues) => renderChip(selectValues, handleDeleteChip, TemplateSaveInputsTypes.Industries)}
                   autoWidth={false}
+                  error={!!errors[TemplateSaveInputsTypes.Industries]}
                 >
                   {INDUSTRIES_MOCK.map((industry) => (
                     <MenuItem key={industry} value={industry} className={classes.menuItem}>
@@ -151,6 +156,7 @@ export function TemplateSaveModal({ onSubmit }) {
                     </MenuItem>
                   ))}
                 </Select>
+                {!!errors[TemplateSaveInputsTypes.Industries] && <FormHelperText className={classes.selectHelperText}>{(errors?.[TemplateSaveInputsTypes.Industries] as any)?.message}</FormHelperText>}
               </Box>
               <Box className={classes.inputLabelAndField} mt={3} justifyContent="end !important">
                 <Box mr={2}>
@@ -164,7 +170,7 @@ export function TemplateSaveModal({ onSubmit }) {
                   renderValue={(selectValues) => renderChip(selectValues, handleDeleteChip, TemplateSaveInputsTypes.Countries)}
                   multiple
                   disableUnderline
-                  className={classes.select}
+                  className={classnames(classes.select, { [classes.selectError]: !!errors[TemplateSaveInputsTypes.Countries] })}
                   autoWidth={false}
                   MenuProps={{
                     anchorOrigin: {
@@ -177,6 +183,7 @@ export function TemplateSaveModal({ onSubmit }) {
                       className: classes.dropdownMenuPaper,
                     },
                   }}
+                  error={!!errors[TemplateSaveInputsTypes.Countries]}
                 >
                   {COUNTRIES_MOCK.map((country) => (
                     <MenuItem key={country} value={country} className={classes.menuItem}>
@@ -185,6 +192,7 @@ export function TemplateSaveModal({ onSubmit }) {
                     </MenuItem>
                   ))}
                 </Select>
+                {!!errors[TemplateSaveInputsTypes.Countries] && <FormHelperText className={classes.selectHelperText}>{(errors[TemplateSaveInputsTypes.Countries] as any)?.message}</FormHelperText>}
               </Box>
             </Box>
           </Box>
@@ -195,10 +203,11 @@ export function TemplateSaveModal({ onSubmit }) {
             <Box flexBasis="85%">
               <TextareaAutosize
                 {...descriptionRegister}
-                className={classes.textArea}
+                className={classnames(classes.textArea, { [classes.selectError]: !!errors[TemplateSaveInputsTypes.Description] })}
                 maxRows={3}
                 minRows={3}
               />
+              {!!errors[TemplateSaveInputsTypes.Description] && <FormHelperText className={classes.textAreaHelperText}>{(errors[TemplateSaveInputsTypes.Description] as any)?.message}</FormHelperText>}
             </Box>
           </Box>
         </Box>

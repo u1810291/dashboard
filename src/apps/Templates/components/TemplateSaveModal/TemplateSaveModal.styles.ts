@@ -95,6 +95,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   select: {
     minHeight: 38,
+    maxHeight: 38,
     borderRadius: 4,
     border: '1px solid rgb(131, 146, 184)',
     // flexBasis: '70%',
@@ -138,5 +139,24 @@ export const useStyles = makeStyles((theme) => ({
     '&.Mui-selected': {
       backgroundColor: 'unset !important',
     },
+  },
+  chip: {
+    height: 22,
+    marginRight: 4,
+  },
+  selectHelperText: {
+    position: 'absolute',
+    color: theme.palette.common.red,
+    fontSize: 14,
+    marginRight: 200,
+    marginTop: 60,
+  },
+  selectError: {
+    border: `1px solid ${theme.palette.common.red}`,
+  },
+  textAreaHelperText: {
+    position: 'absolute',
+    color: theme.palette.common.red,
+    fontSize: 14,
   },
 }));
