@@ -1,13 +1,16 @@
 import React, { useCallback } from 'react';
 import { useFormatMessage } from 'apps/intl';
 import { useOverlay, Modal } from 'apps/overlay';
-import { Box, Grid, InputLabel, TextareaAutosize, TextField, Button, Select, MenuItem, Checkbox, ListItemText } from '@material-ui/core';
+import { Box, Chip, TextareaAutosize, TextField, Button, Select, MenuItem, Checkbox, ListItemText } from '@material-ui/core';
 import classnames from 'classnames';
 import { FiArrowRight, FiArrowDownLeft, FiArrowLeft } from 'react-icons/fi';
 import { appPalette } from 'apps/theme';
 import { useStyles } from './TemplateSaveModal.styles';
 import { useForm } from 'react-hook-form';
 import { TemplateSaveInputsTypes } from 'apps/Templates/model/Templates.model';
+import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
+import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
+import { IoCloseOutline } from 'react-icons/io5';
 
 interface TemplateSaveInputs {
   [TemplateSaveInputsTypes.TemplateTitle]: string;
@@ -20,12 +23,14 @@ interface TemplateSaveInputs {
 const COUNTRIES_MOCK = ['North America', 'South and Central America', 'Asia', 'Europe', 'Africa', 'Oceania'];
 const INDUSTRIES_MOCK = ['Work', 'Finance', 'Neobanking', 'Crypto'];
 
+const renderChip = (values, onDelete, type) => values.map((value) => <Chip variant="outlined" key={value} label={value} onDelete={() => onDelete(value, type)} deleteIcon={<IoCloseOutline onMouseDown={(event) => event.stopPropagation()} />} />);
+
 export function TemplateSaveModal({ onSubmit }) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
   const [, closeOverlay] = useOverlay();
 
-  const { register, handleSubmit, setError, watch, formState: { errors, isSubmitting, isValid, isDirty } } = useForm<TemplateSaveInputs>({
+  const { register, handleSubmit, setError, setValue, watch, formState: { errors, isSubmitting, isValid, isDirty } } = useForm<TemplateSaveInputs>({
     mode: 'onBlur',
     defaultValues: {
       [TemplateSaveInputsTypes.TemplateTitle]: '',
@@ -59,12 +64,17 @@ export function TemplateSaveModal({ onSubmit }) {
     maxLength: 20,
   });
 
-  console.log(errors, isValid, isDirty, isSubmitting);
+  console.log(errors, isValid, isDirty, isSubmitting, values);
 
   const handleSaveTemplate = () => {
 
   };
 
+  const handleDeleteChip = (valueToDelete, property) => {
+    console.log(valueToDelete);
+    setValue(property, values[property].filter((value) => value !== valueToDelete));
+  };
+  // TemplateSaveInputsTypes.Industries
   return (
     <Modal
       onClose={closeOverlay}
@@ -126,12 +136,17 @@ export function TemplateSaveModal({ onSubmit }) {
                       horizontal: 'left',
                     },
                     getContentAnchorEl: null,
+                    className: classes.dropdownMenu,
+                    PaperProps: {
+                      className: classes.dropdownMenuPaper,
+                    },
                   }}
+                  renderValue={(selectValues) => renderChip(selectValues, handleDeleteChip, TemplateSaveInputsTypes.Industries)}
                   autoWidth={false}
                 >
                   {INDUSTRIES_MOCK.map((industry) => (
-                    <MenuItem key={industry} value={industry}>
-                      <Checkbox checked={false} color="primary" />
+                    <MenuItem key={industry} value={industry} className={classes.menuItem}>
+                      <Checkbox checked={values[TemplateSaveInputsTypes.Industries].includes(industry)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
                       <ListItemText primary={industry} />
                     </MenuItem>
                   ))}
@@ -146,6 +161,7 @@ export function TemplateSaveModal({ onSubmit }) {
                 <Select
                   {...countriesRegister}
                   value={values[TemplateSaveInputsTypes.Countries]}
+                  renderValue={(selectValues) => renderChip(selectValues, handleDeleteChip, TemplateSaveInputsTypes.Countries)}
                   multiple
                   disableUnderline
                   className={classes.select}
@@ -156,11 +172,15 @@ export function TemplateSaveModal({ onSubmit }) {
                       horizontal: 'left',
                     },
                     getContentAnchorEl: null,
+                    className: classes.dropdownMenu,
+                    PaperProps: {
+                      className: classes.dropdownMenuPaper,
+                    },
                   }}
                 >
                   {COUNTRIES_MOCK.map((country) => (
-                    <MenuItem key={country} value={country}>
-                      <Checkbox checked={false} color="primary" />
+                    <MenuItem key={country} value={country} className={classes.menuItem}>
+                      <Checkbox checked={values[TemplateSaveInputsTypes.Countries].includes(country)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
                       <ListItemText primary={country} />
                     </MenuItem>
                   ))}
