@@ -3,14 +3,15 @@ import { useFormatMessage } from 'apps/intl';
 import { useOverlay, Modal } from 'apps/overlay';
 import { Box, Chip, TextareaAutosize, TextField, Button, Select, MenuItem, Checkbox, ListItemText, FormHelperText } from '@material-ui/core';
 import classnames from 'classnames';
-import { FiArrowRight, FiArrowDownLeft, FiArrowLeft } from 'react-icons/fi';
-import { appPalette } from 'apps/theme';
-import { useStyles } from './TemplateSaveModal.styles';
 import { useForm } from 'react-hook-form';
-import { TemplateSaveInputsTypes } from 'apps/Templates/model/Templates.model';
+import { COUNTRIES_MOCK_DATA, INDUSTRIES_MOCK_DATA, TemplateSaveInputsTypes } from 'apps/Templates/model/Templates.model';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { IoCloseOutline } from 'react-icons/io5';
+import { createTemplate } from 'apps/Templates/store/Templates.actions';
+import { useDispatch } from 'react-redux';
+import { useStyles } from './TemplateSaveModal.styles';
+import { notification } from 'apps/ui';
 
 interface TemplateSaveInputs {
   [TemplateSaveInputsTypes.TemplateTitle]: string;
@@ -20,17 +21,13 @@ interface TemplateSaveInputs {
   [TemplateSaveInputsTypes.Description]: string;
 }
 
-const COUNTRIES_MOCK = ['North America', 'South and Central America', 'Asia', 'Europe', 'Africa', 'Oceania'];
-const INDUSTRIES_MOCK = ['Work', 'Finance', 'Neobanking', 'Crypto'];
-
-// const renderChip = (values, onDelete, type) => values.map((value) => <Chip className={classes.chip} variant="outlined" key={value} label={value} onDelete={() => onDelete(value, type)} deleteIcon={<IoCloseOutline onMouseDown={(event) => event.stopPropagation()} />} />);
-
 export function TemplateSaveModal({ onSubmit }) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [, closeOverlay] = useOverlay();
 
-  const { register, handleSubmit, setError, setValue, watch, formState: { errors, isSubmitting, isValid, isDirty } } = useForm<TemplateSaveInputs>({
+  const { register, handleSubmit, setError, setValue, watch, trigger, formState: { errors, isSubmitting, isValid, isDirty } } = useForm<TemplateSaveInputs>({
     mode: 'onBlur',
     defaultValues: {
       [TemplateSaveInputsTypes.TemplateTitle]: '',
@@ -45,12 +42,12 @@ export function TemplateSaveModal({ onSubmit }) {
   const metamapNameRegister = register(TemplateSaveInputsTypes.MetamapName, {
     required: formatMessage('validations.required'),
     minLength: 3,
-    maxLength: 20,
+    maxLength: 40,
   });
   const templateTitleRegister = register(TemplateSaveInputsTypes.TemplateTitle, {
     required: formatMessage('validations.required'),
     minLength: 3,
-    maxLength: 20,
+    maxLength: 40,
   });
   const industriesRegister = register(TemplateSaveInputsTypes.Industries, {
     required: formatMessage('validations.required'),
@@ -63,18 +60,28 @@ export function TemplateSaveModal({ onSubmit }) {
   const descriptionRegister = register(TemplateSaveInputsTypes.Description, {
     required: formatMessage('validations.required'),
     minLength: 3,
-    maxLength: 20,
+    maxLength: 300,
   });
+
+  const handleSubmitForm = async () => {
+    await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Countries]]));
+  };
 
   console.log(errors, isValid, isDirty, isSubmitting, values);
 
-  const handleSaveTemplate = () => {
-
+  const handleSaveTemplate = async () => {
+    try {
+      await handleSubmit(handleSubmitForm)();
+    } catch (error) {
+      if (error) {
+        notification.error(formatMessage('Error.common'));
+      }
+    }
   };
 
   const handleDeleteChip = (valueToDelete, property) => {
-    console.log(valueToDelete);
     setValue(property, values[property].filter((value) => value !== valueToDelete));
+    trigger(property); // Force validation after deleting a value
   };
 
   const renderChip = useCallback((selectValues, onDelete, type) => selectValues.map((selectValue) => <Chip className={classes.chip} variant="outlined" key={selectValue} label={selectValue} onDelete={() => onDelete(selectValue, type)} deleteIcon={<IoCloseOutline onMouseDown={(event) => event.stopPropagation()} />} />), [classes]);
@@ -91,7 +98,7 @@ export function TemplateSaveModal({ onSubmit }) {
         <span className={classes.inputsHeaderTitle}>Fill in the following fields to create a new metamap template. When you Save, this template will be live to users</span>
         <Box mt={3}>
           <Box className={classes.inputsColumnsContainer}>
-            <Box className={classes.inputsColumn} id="col_1">
+            <Box className={classes.inputsColumn} id="col_1" flexBasis="52% !important">
               <Box className={classes.inputLabelAndField}>
                 <span className={classes.inputLabel}>
                   Metamap name:
@@ -149,10 +156,10 @@ export function TemplateSaveModal({ onSubmit }) {
                   autoWidth={false}
                   error={!!errors[TemplateSaveInputsTypes.Industries]}
                 >
-                  {INDUSTRIES_MOCK.map((industry) => (
-                    <MenuItem key={industry} value={industry} className={classes.menuItem}>
-                      <Checkbox checked={values[TemplateSaveInputsTypes.Industries].includes(industry)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
-                      <ListItemText primary={industry} />
+                  {INDUSTRIES_MOCK_DATA.map((industry) => (
+                    <MenuItem key={industry.name} value={industry.name} className={classes.menuItem}>
+                      <Checkbox checked={values[TemplateSaveInputsTypes.Industries].includes(industry.name)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
+                      <ListItemText primary={industry.name} />
                     </MenuItem>
                   ))}
                 </Select>
@@ -185,10 +192,10 @@ export function TemplateSaveModal({ onSubmit }) {
                   }}
                   error={!!errors[TemplateSaveInputsTypes.Countries]}
                 >
-                  {COUNTRIES_MOCK.map((country) => (
-                    <MenuItem key={country} value={country} className={classes.menuItem}>
-                      <Checkbox checked={values[TemplateSaveInputsTypes.Countries].includes(country)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
-                      <ListItemText primary={country} />
+                  {COUNTRIES_MOCK_DATA.map((country) => (
+                    <MenuItem key={country.name} value={country.name} className={classes.menuItem}>
+                      <Checkbox checked={values[TemplateSaveInputsTypes.Countries].includes(country.name)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
+                      <ListItemText primary={country.name} />
                     </MenuItem>
                   ))}
                 </Select>
