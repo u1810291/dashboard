@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
   modal: {
-    width: '100%',
+    width: '70vw',
     minHeight: '50vh',
     backgroundColor: theme.palette.common.white,
     borderRadius: 10,
@@ -25,28 +25,102 @@ export const useStyles = makeStyles((theme) => ({
   inputsColumnsContainer: {
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   inputsColumn: {
     display: 'flex',
     flexDirection: 'column',
-    width: '50%',
+    flexBasis: '50%',
+    maxWidth: '50%',
   },
-  smallInput: {
-    height: '38px',
-    '& .MuiInputBase-formControl': {
-      height: '38px',
-    },
+  inputLabelAndField: {
+    display: 'inline-flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   inputLabel: {
     display: 'inline-block',
     fontSize: '16px',
     color: theme.palette.common.slategray,
     whiteSpace: 'nowrap',
+    // flexBasis: '30%',
+    flexGrow: 0,
   },
-  inputLabelAndField: {
+  smallInput: {
+    height: '38px',
+    '& .MuiInputBase-formControl': {
+      height: '38px',
+    },
+    flexBasis: '70%',
+    // width: '70%',
+  },
+  textArea: {
+    width: '100%',
+    padding: '10px',
+    fontFamily: 'Lato',
+    lineHeight: '17px',
+    borderColor: theme.palette.common.black75,
+    borderRadius: '5px',
+    resize: 'none',
+    '&::placeholder': {
+      color: theme.palette.common.black50,
+    },
+    '&.focus-visible': {
+      border: `1px solid ${theme.palette.common.lightblue}`,
+      outline: 'none',
+    },
+    '&:hover': {
+      border: `1px solid ${theme.palette.common.lightblue}`,
+    },
+    // '&:focus': {
+    //   border: '1px solid red !important',
+    //   color: 'red',
+    //   outline: 'none',
+    // },
+    // '&:focus-visible': {
+    //   border: '1px solid red !important',
+    //   color: 'red',
+    //   outline: 'none',
+    // },
+  },
+  saveTemplateButtonContainer: {
     display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'end',
+  },
+  buttonSave: {
+    width: 258,
+    height: 50,
+  },
+  select: {
+    minHeight: 38,
+    borderRadius: 4,
+    border: '1px solid rgb(131, 146, 184)',
+    flexBasis: '70%',
+    maxWidth: '70%',
+    padding: '0 22px 0 10px',
+    color: theme.palette.common.black75,
+    '&:hover': {
+      cursor: 'pointer',
+      borderColor: theme.palette.common.lightblue,
+    },
+    input: {
+      display: 'none',
+    },
+    '& .MuiSelect-select:focus': {
+      backgroundColor: theme.palette.common.white,
+    },
+    '& .MuiOutlinedInput-input': {
+      display: 'none',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.common.black75,
+    },
+    '& .MuiSelect-icon': {
+      marginTop: 3,
+      fontSize: 17,
+      right: 12,
+      color: theme.palette.common.black75,
+    },
   },
 }));
