@@ -30,8 +30,6 @@ export const useStyles = makeStyles((theme) => ({
   inputsColumn: {
     display: 'flex',
     flexDirection: 'column',
-    flexBasis: '50%',
-    maxWidth: '50%',
   },
   inputLabelAndField: {
     display: 'inline-flex',
@@ -44,7 +42,6 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: '16px',
     color: theme.palette.common.slategray,
     whiteSpace: 'nowrap',
-    // flexBasis: '30%',
     flexGrow: 0,
   },
   smallInput: {
@@ -52,8 +49,6 @@ export const useStyles = makeStyles((theme) => ({
     '& .MuiInputBase-formControl': {
       height: '38px',
     },
-    // flexBasis: '70%',
-    // width: '70%',
     width: '317px',
   },
   textArea: {
@@ -74,16 +69,6 @@ export const useStyles = makeStyles((theme) => ({
     '&:hover': {
       border: `1px solid ${theme.palette.common.lightblue}`,
     },
-    // '&:focus': {
-    //   border: '1px solid red !important',
-    //   color: 'red',
-    //   outline: 'none',
-    // },
-    // '&:focus-visible': {
-    //   border: '1px solid red !important',
-    //   color: 'red',
-    //   outline: 'none',
-    // },
   },
   saveTemplateButtonContainer: {
     display: 'flex',
@@ -98,7 +83,6 @@ export const useStyles = makeStyles((theme) => ({
     maxHeight: 38,
     borderRadius: 4,
     border: '1px solid rgb(131, 146, 184)',
-    // flexBasis: '70%',
     width: '317px',
     maxWidth: '70%',
     padding: '0 22px 0 10px',
@@ -148,7 +132,7 @@ export const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     color: theme.palette.common.red,
     fontSize: 14,
-    marginRight: 200,
+    marginRight: 188,
     marginTop: 60,
   },
   selectError: {
