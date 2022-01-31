@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles((theme) => ({
   modal: {
     width: '65vw',
-    maxHeight: '75vh',
+    height: '75vh',
     backgroundColor: theme.palette.common.black7,
     borderRadius: 5,
     overflowY: 'auto',
@@ -76,12 +76,19 @@ export const useStyles = makeStyles((theme) => ({
     paddingLeft: 11,
     paddingRight: 11,
     marginRight: 13,
+    marginBottom: 5,
     borderRadius: 12,
     border: 'none',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.05)',
     backgroundColor: theme.palette.common.white,
     color: theme.palette.common.black75,
     cursor: 'pointer',
+    '& .MuiChip-deleteIcon': {
+      width: 15,
+      height: 15,
+      marginLeft: 2,
+      color: theme.palette.common.black75,
+    },
   },
   modalSubtitle: {
     maxWidth: 475,

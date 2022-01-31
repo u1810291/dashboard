@@ -22,12 +22,13 @@ export function TemplatesGallery({ onSubmit, mockTemplates }) {
         disabledClass: classes.navigationControlHidden,
         hiddenClass: classes.navigationControlHidden,
       }}
-      slidesPerView={6}
+      slidesPerView="auto"
+      slidesPerGroup={2}
       centeredSlides={false}
       spaceBetween={30}
       className={classes.swiper}
-      grabCursor={false}
       allowTouchMove={false}
+      grabCursor={false}
     >
       {mockTemplates.map((template, idx) => (
         <SwiperSlide className={classes.swiperSlide} key={idx}>

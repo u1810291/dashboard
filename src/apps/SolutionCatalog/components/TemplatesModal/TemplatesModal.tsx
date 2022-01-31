@@ -6,12 +6,12 @@ import { useOverlay, Modal } from 'apps/overlay';
 import { Box, Typography } from '@material-ui/core';
 import SwiperCore, { Pagination, Navigation } from 'swiper';
 import { TemplateFilters } from 'apps/filter';
-import { useStyles } from './TemplatesModal.styles';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
 import { TemplatesGallery } from '../TemplatesGalery';
 import { TemplatesChosenFilters } from '../TemplatesChosenFilters';
+import { useStyles } from './TemplatesModal.styles';
 
 SwiperCore.use([Pagination, Navigation]);
 
