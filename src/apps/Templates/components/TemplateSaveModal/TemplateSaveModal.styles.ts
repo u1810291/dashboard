@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
   modal: {
-    width: '70vw',
+    width: '100%',
     minHeight: '50vh',
     backgroundColor: theme.palette.common.white,
     borderRadius: 10,
@@ -52,8 +52,9 @@ export const useStyles = makeStyles((theme) => ({
     '& .MuiInputBase-formControl': {
       height: '38px',
     },
-    flexBasis: '70%',
+    // flexBasis: '70%',
     // width: '70%',
+    width: '317px',
   },
   textArea: {
     width: '100%',
@@ -96,7 +97,8 @@ export const useStyles = makeStyles((theme) => ({
     minHeight: 38,
     borderRadius: 4,
     border: '1px solid rgb(131, 146, 184)',
-    flexBasis: '70%',
+    // flexBasis: '70%',
+    width: '317px',
     maxWidth: '70%',
     padding: '0 22px 0 10px',
     color: theme.palette.common.black75,
@@ -121,6 +123,20 @@ export const useStyles = makeStyles((theme) => ({
       fontSize: 17,
       right: 12,
       color: theme.palette.common.black75,
+    },
+  },
+  dropdownMenu: {
+    width: '317px',
+  },
+  dropdownMenuPaper: {
+    width: '94%',
+    maxWidth: 'unset',
+    marginLeft: '-10px',
+    marginTop: '8px',
+  },
+  menuItem: {
+    '&.Mui-selected': {
+      backgroundColor: 'unset !important',
     },
   },
 }));
