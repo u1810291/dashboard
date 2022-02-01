@@ -9,7 +9,7 @@ import { FlowInfo } from '../FlowInfo/FlowInfo';
 import { FlowSettings } from '../FlowSettings/FlowSettings';
 import { useStyles } from './FlowInfoContainer.styles';
 
-export function FlowInfoContainer() {
+export function FlowInfoContainer({ isTemplate }: { isTemplate?: boolean }) {
   const classes = useStyles();
   const [createOverlay, closeOverlay] = useOverlay();
   const location = useLocation();
@@ -28,7 +28,7 @@ export function FlowInfoContainer() {
           <FiChevronLeft />
         </Link>
         <Box pr={2}>
-          <FlowInfo />
+          <FlowInfo isTemplate={isTemplate} />
         </Box>
       </Grid>
     </Box>
