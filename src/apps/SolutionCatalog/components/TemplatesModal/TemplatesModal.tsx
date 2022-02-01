@@ -133,32 +133,37 @@ const mockFiltersData = [
 ];
 
 export function TemplatesModal({ onSubmit }) {
+  const filtersNames = [...new Set(mockFiltersData.map((item) => item.type))];
+  const initialFiltersData = filtersNames.reduce((res, key) => {
+    const result = { ...res };
+    result[key] = [];
+    return result;
+  }, {});
   const formatMessage = useFormatMessage();
   const classes = useStyles();
   const [, closeOverlay] = useOverlay();
-  const [currentValue, setCurrentValue] = useState({ industry: [], country: [] });
-  const filtersByDefault = !Object.values(currentValue).some((el) => !!el.length);
+  const [currentFilters, setCurrentFilters] = useState(initialFiltersData);
+  const filtersByDefault = !Object.values(currentFilters).some((el) => !!el.length);
 
   const handleSubmit = useCallback((data) => onSubmit(data), [onSubmit]);
 
   // TODO:  this function just for example how filtering looks like , until we don't have response from backend
   const filteredArray = (dataArray) => {
-    if (!currentValue.industry.length) return dataArray;
-    const filterResult = dataArray;
-    return Object.keys(filterResult).forEach((industry) => currentValue.industry.indexOf(industry) <= 0 && delete filterResult[industry]);
+    if (!currentFilters.industry.length) return dataArray;
+    const chosenIndustry = currentFilters.industry.map((item) => item.name.toLowerCase());
+    const filterResults = Object.entries(dataArray).filter(([industry, data]) => chosenIndustry.includes(industry.toLowerCase()));
+    return Object.fromEntries(filterResults);
   };
 
   const filteredResponse = filteredArray(mockTemplates);
 
-  console.log(filteredResponse);
-
-  const getFiltersOptions = () => {
+  const getFiltersOptions = useCallback(() => {
     const titles = [...new Set(mockFiltersData.map((item) => item.type))];
     return titles.map((title) => {
       const uniqueOptions = mockFiltersData.filter((item) => item.type === title);
-      return { title, data: ['All', ...new Set(uniqueOptions.map((item) => item.name))] };
+      return { title, data: [...uniqueOptions] };
     });
-  };
+  }, [mockFiltersData]);
 
   const filtersOptions = getFiltersOptions();
 
@@ -183,14 +188,15 @@ export function TemplatesModal({ onSubmit }) {
                 key={idx}
                 title={filter.title}
                 filterData={filter.data}
-                currentValue={currentValue}
-                setCurrentValue={setCurrentValue}
+                currentFilters={currentFilters}
+                setCurrentFilters={setCurrentFilters}
               />
             ))}
           </Box>
         </Box>
         {
-          !filtersByDefault && <TemplatesChosenFilters currentValue={currentValue} setCurrentValue={setCurrentValue} />
+          !filtersByDefault
+          && <TemplatesChosenFilters currentValue={currentFilters} setCurrentValue={setCurrentFilters} initialData={initialFiltersData} />
         }
         <Box>
           { Object.entries(filteredResponse).map(([title, data], idx) => (
