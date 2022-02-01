@@ -2,7 +2,7 @@ import { Box, Grid, Paper } from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { dagreGraphService } from 'apps/flowBuilder/services/dagreGraph.service';
 import { selectProductIsInited, useProduct } from 'apps/Product';
-import { Placeholder } from 'apps/ui';
+import { Loader, Placeholder } from 'apps/ui';
 import { PreviewButton } from 'apps/WebSDKPreview';
 import { ReactComponent as EmptyBuilderIcon } from 'assets/empty-flow-builder.svg';
 import { IFlow } from 'models/Flow.model';
@@ -26,7 +26,6 @@ import { SaveAndPublishTemplate } from 'apps/Templates/components/SaveAndPublish
 
 export function TemplateBuilder() {
   const dispatch = useDispatch();
-  // const { id } = useParams();
   const selectedId = useSelector(selectFlowBuilderSelectedId);
   const changeableFlowModel = useSelector(selectFlowBuilderChangeableFlowModel);
   const isProductInited = useSelector(selectProductIsInited);
@@ -35,34 +34,24 @@ export function TemplateBuilder() {
   const classes = useStyles();
   const intl = useIntl();
 
-  console.log('@@@@@@@@ init templ builder');
   useProduct();
 
   useEffect(() => {
     dispatch(flowBuilderClearStore());
     dispatch(createEmptyFlow());
-    console.log('$$$$$$ use ef templ');
   }, [dispatch]);
 
   useEffect(() => {
-    // const isChangedId = changeableFlowModel?.value?.id !== id;
-    // if (isChangedId) {
-    //   dispatch(updateCurrentFlowId(id));
-    // }
-    // if (isChangedId || LoadableAdapter.isPristine(changeableFlowModel)) {
-    //   dispatch(flowBuilderChangeableFlowLoad());
-    // }
     dagreGraphService.createGraph();
   }, []);
 
   const handleProductUpdate = useCallback((patch: Partial<IFlow>) => {
-    console.log('prod update ', patch);
     dispatch(flowBuilderChangeableFlowUpdate(patch));
   }, [dispatch]);
 
-  // if (!isProductInited && !flowListModel.isLoaded) {
-  //   return <Loader />;
-  // }
+  if (!isProductInited) {
+    return <Loader />;
+  }
 
   return (
     <Box p={2} className={classes.container}>
