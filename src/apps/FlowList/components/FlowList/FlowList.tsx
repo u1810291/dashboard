@@ -11,8 +11,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { merchantCreateFlow } from 'state/merchant/merchant.actions';
-import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
+import { selectMerchantFlowList, selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
+import { MerchantTags } from 'models/Merchant.model';
 import { FlowsTable } from '../FlowsTable/FlowsTable';
 import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
 import { flowNameValidator } from '../../validators/FlowName.validator';
@@ -29,6 +30,8 @@ export function FlowList() {
   const isButtonDisabled = (merchantFlowList || []).length >= MAX_NUMBER_OF_FLOWS;
   const [open, setOpen] = useState(isButtonDisabled && isMobile);
   const flowListModel = useFlowListLoad();
+  const merchantTags: MerchantTags[] = useSelector(selectMerchantTags);
+  const canAddTemplate = merchantTags.includes(MerchantTags.CanUseAddSolutionToCatalog);
 
   useEffect(() => {
     setOpen(isButtonDisabled && isMobile);
@@ -55,7 +58,7 @@ export function FlowList() {
   }, [merchantFlowList]);
 
   const handleCreateTemplate = () => {
-    history.push(Routes.flow.newTemplate);
+    history.push(Routes.templates.newTemplate);
   };
 
   const handleClose = useCallback(() => {
@@ -63,6 +66,14 @@ export function FlowList() {
       setOpen(false);
     }
   }, [isMobile]);
+
+  const handleBuildMetamapButtonClick = () => {
+    if (canAddTemplate) {
+      handleCreateTemplate();
+    } else {
+      handleAddNewFlow();
+    }
+  };
 
   if (!flowListModel.isLoaded) {
     return <PageLoader />;
@@ -97,20 +108,9 @@ export function FlowList() {
                 <span>
                   <Button
                     disabled={isButtonDisabled}
-                    onClick={handleAddNewFlow}
-                    className={classes.button}
                     variant="contained"
                     disableElevation
-                  >
-                    create flow
-                  </Button>
-
-                  <Button
-                    // disabled={isButtonDisabled}
-                    variant="contained"
-                    disableElevation
-                    // onClick={handleAddNewFlow}
-                    onClick={handleCreateTemplate}
+                    onClick={handleBuildMetamapButtonClick}
                     className={classes.button}
                     data-qa={QATags.Flows.CreateNewFlowButton}
                   >
