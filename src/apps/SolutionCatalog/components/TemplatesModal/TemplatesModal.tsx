@@ -9,8 +9,8 @@ import { TemplateFilters } from 'apps/filter';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
-import { TemplatesGallery } from '../TemplatesGalery';
-import { TemplatesChosenFilters } from '../TemplatesChosenFilters';
+import { TemplatesGallery } from '../TemplatesGalery/TemplatesGalery';
+import { TemplatesChosenFilters } from '../TemplatesChosenFilters/TemplatesChosenFilters';
 import { useStyles } from './TemplatesModal.styles';
 
 SwiperCore.use([Pagination, Navigation]);
