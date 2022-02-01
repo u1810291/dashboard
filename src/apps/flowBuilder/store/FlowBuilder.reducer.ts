@@ -35,6 +35,11 @@ export const flowBuilderReducer = createReducer(initialState, {
         isLoaded: true,
         value: createEmptyFlow(),
       },
+      productsInGraph: {
+        ...state.productsInGraph,
+        isLoaded: true,
+        value: [],
+      },
     };
   },
 });
