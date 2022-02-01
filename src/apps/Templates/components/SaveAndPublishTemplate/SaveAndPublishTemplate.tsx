@@ -19,7 +19,7 @@ export function SaveAndPublishTemplate() {
   const [createOverlay] = useOverlay();
 
   const handleSaveFlow = () => {
-    createOverlay(<TemplateSaveModal onSubmit={() => {}} />);
+    createOverlay(<TemplateSaveModal />);
   };
 
   return (

@@ -10,8 +10,8 @@ import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { IoCloseOutline } from 'react-icons/io5';
 import { createTemplate } from 'apps/Templates/store/Templates.actions';
 import { useDispatch } from 'react-redux';
-import { useStyles } from './TemplateSaveModal.styles';
 import { notification } from 'apps/ui';
+import { useStyles } from './TemplateSaveModal.styles';
 
 interface TemplateSaveInputs {
   [TemplateSaveInputsTypes.TemplateTitle]: string;
@@ -21,7 +21,7 @@ interface TemplateSaveInputs {
   [TemplateSaveInputsTypes.Description]: string;
 }
 
-export function TemplateSaveModal({ onSubmit }) {
+export function TemplateSaveModal() {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -66,8 +66,6 @@ export function TemplateSaveModal({ onSubmit }) {
   const handleSubmitForm = async () => {
     await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Countries]]));
   };
-
-  console.log(errors, isValid, isDirty, isSubmitting, values);
 
   const handleSaveTemplate = async () => {
     try {
