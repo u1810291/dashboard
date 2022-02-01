@@ -1,4 +1,13 @@
-export interface ICreateTemplateResponse {}
+import { IFlow } from 'models/Flow.model';
+
+export interface ICreateTemplateResponse {
+  flow: IFlow;
+  _id: string;
+  name: string;
+  description?: string;
+  metadata: ITemplateMetadata[];
+  blocked: boolean;
+}
 
 export enum TemplateSaveInputsTypes {
   MetamapName = 'metamapName',
