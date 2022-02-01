@@ -12,8 +12,6 @@ import { FiChevronLeft } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-import { useStyles } from './TemplateBuilder.styles';
 import { ProductListSidebar } from 'apps/flowBuilder/components/ProductListSidebar/ProductListSidebar';
 import { FlowProductsGraph } from 'apps/flowBuilder/components/FlowProductsGraph/FlowProductsGraph';
 import { FlowInfoContainer } from 'apps/flowBuilder/components/FlowInfoContainer/FlowInfoContainer';
@@ -23,6 +21,7 @@ import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } fro
 import { flowBuilderChangeableFlowUpdate, flowBuilderClearStore } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { createEmptyFlow } from 'apps/Templates/store/Templates.actions';
 import { SaveAndPublishTemplate } from 'apps/Templates/components/SaveAndPublishTemplate/SaveAndPublishTemplate';
+import { useStyles } from './TemplateBuilder.styles';
 
 export function TemplateBuilder() {
   const dispatch = useDispatch();
@@ -60,7 +59,7 @@ export function TemplateBuilder() {
           <Grid item container direction="column" wrap="nowrap" className={classes.sidebar}>
             <Box className={classes.flowInfo} px={0.5} py={2} mb={2}>
               <Box mb={2}>
-                <FlowInfoContainer />
+                <FlowInfoContainer isTemplate />
               </Box>
               <Box ml={3}>
                 <PreviewButton />
