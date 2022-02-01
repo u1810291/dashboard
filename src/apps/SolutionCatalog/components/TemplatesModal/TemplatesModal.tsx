@@ -15,150 +15,157 @@ import { useStyles } from './TemplatesModal.styles';
 
 SwiperCore.use([Pagination, Navigation]);
 
-const mockTemplates = [
-  {
-    name: 'Compliance',
-    data: [
-      {
-        title: 'Lending Secured Loan Application',
-        description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
-      },
-      {
-        title: 'Crypto Account Opening',
-        description: 'A user wants to create account with crypto exchange and look around.',
-      },
-      {
-        title: 'Neobank Credit Card Application',
-        description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-      },
-      {
-        title: 'Neobank Account Opening',
-        description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-      },
-      {
-        title: 'Lending Secured Loan Application',
-        description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
-      },
-      {
-        title: 'Crypto Account Opening',
-        description: 'A user wants to create account with crypto exchange and look around.',
-      },
-      {
-        title: 'Neobank Credit Card Application',
-        description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-      },
-      {
-        title: 'Neobank Account Opening',
-        description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-      },
-    ],
-  },
-  {
-    name: 'Work',
-    data: [
-      {
-        title: 'Lending Secured Loan Application',
-        description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
-      },
-      {
-        title: 'Crypto Account Opening',
-        description: 'A user wants to create account with crypto exchange and look around.',
-      },
-      {
-        title: 'Neobank Credit Card Application',
-        description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-      },
-      {
-        title: 'Neobank Account Opening',
-        description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-      },
-      {
-        title: 'Lending Secured Loan Application',
-        description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
-      },
-      {
-        title: 'Crypto Account Opening',
-        description: 'A user wants to create account with crypto exchange and look around.',
-      },
-      {
-        title: 'Neobank Credit Card Application',
-        description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-      },
-      {
-        title: 'Neobank Account Opening',
-        description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-      },
-    ],
-  },
-  {
-    name: 'Finance',
-    data: [
-      {
-        title: 'Lending Secured Loan Application',
-        description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
-      },
-      {
-        title: 'Crypto Account Opening',
-        description: 'A user wants to create account with crypto exchange and look around.',
-      },
-      {
-        title: 'Neobank Credit Card Application',
-        description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-      },
-      {
-        title: 'Neobank Account Opening',
-        description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-      },
-      {
-        title: 'Lending Secured Loan Application',
-        description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
-      },
-      {
-        title: 'Crypto Account Opening',
-        description: 'A user wants to create account with crypto exchange and look around.',
-      },
-      {
-        title: 'Neobank Credit Card Application',
-        description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-      },
-      {
-        title: 'Neobank Account Opening',
-        description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-      },
-    ],
-  },
-];
+const mockTemplates = {
+  Compliance: [
+    {
+      title: 'Lending Secured Loan Application',
+      description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
+    },
+    {
+      title: 'Crypto Account Opening',
+      description: 'A user wants to create account with crypto exchange and look around.',
+    },
+    {
+      title: 'Neobank Credit Card Application',
+      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
+    },
+    {
+      title: 'Neobank Account Opening',
+      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
+    },
+    {
+      title: 'Lending Secured Loan Application',
+      description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
+    },
+    {
+      title: 'Crypto Account Opening',
+      description: 'A user wants to create account with crypto exchange and look around.',
+    },
+    {
+      title: 'Neobank Credit Card Application',
+      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
+    },
+    {
+      title: 'Neobank Account Opening',
+      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
+    },
+  ],
+  Work: [
+    {
+      title: 'Lending Secured Loan Application',
+      description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
+    },
+    {
+      title: 'Crypto Account Opening',
+      description: 'A user wants to create account with crypto exchange and look around.',
+    },
+    {
+      title: 'Neobank Credit Card Application',
+      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
+    },
+    {
+      title: 'Neobank Account Opening',
+      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
+    },
+    {
+      title: 'Lending Secured Loan Application',
+      description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
+    },
+    {
+      title: 'Crypto Account Opening',
+      description: 'A user wants to create account with crypto exchange and look around.',
+    },
+    {
+      title: 'Neobank Credit Card Application',
+      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
+    },
+    {
+      title: 'Neobank Account Opening',
+      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
+    },
+  ],
+  Finance: [
+    {
+      title: 'Lending Secured Loan Application',
+      description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
+    },
+    {
+      title: 'Crypto Account Opening',
+      description: 'A user wants to create account with crypto exchange and look around.',
+    },
+    {
+      title: 'Neobank Credit Card Application',
+      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
+    },
+    {
+      title: 'Neobank Account Opening',
+      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
+    },
+    {
+      title: 'Lending Secured Loan Application',
+      description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
+    },
+    {
+      title: 'Crypto Account Opening',
+      description: 'A user wants to create account with crypto exchange and look around.',
+    },
+    {
+      title: 'Neobank Credit Card Application',
+      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
+    },
+    {
+      title: 'Neobank Account Opening',
+      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
+    },
+  ],
+};
 
 const mockFiltersData = [
-  {
-    title: 'Industry',
-    data: [
-      'All', 'Compliance', 'Work', 'Finance',
-    ],
-  },
-  {
-    title: 'Country',
-    data: [
-      'All', 'North America', 'South and Central America', 'Asia', 'Europe', 'Africa', 'Oceania',
-    ],
-  },
+  { id: 1, type: 'industry', name: 'Compliance', description: 'Blablabla' },
+  { id: 2, type: 'industry', name: 'Work', description: 'Blablabla' },
+  { id: 3, type: 'industry', name: 'Finance', description: 'Blablabla' },
+  { id: 4, type: 'country', name: 'North America', description: 'Blablabla' },
+  { id: 5, type: 'country', name: 'South and Central America', description: 'Blablabla' },
+  { id: 6, type: 'country', name: 'Asia', description: 'Blablabla' },
+  { id: 7, type: 'country', name: 'Europe', description: 'Blablabla' },
+  { id: 8, type: 'country', name: 'Africa', description: 'Blablabla' },
+  { id: 9, type: 'country', name: 'Oceania', description: 'Blablabla' },
 ];
 
 export function TemplatesModal({ onSubmit }) {
+  const filtersNames = [...new Set(mockFiltersData.map((item) => item.type))];
+  const initialFiltersData = filtersNames.reduce((res, key) => {
+    const result = { ...res };
+    result[key] = [];
+    return result;
+  }, {});
   const formatMessage = useFormatMessage();
   const classes = useStyles();
   const [, closeOverlay] = useOverlay();
-  const [currentValue, setCurrentValue] = useState({ Industry: [], Country: [] });
-  const filtersByDefault = !Object.values(currentValue).some((el) => !!el.length);
+  const [currentFilters, setCurrentFilters] = useState(initialFiltersData);
+  const filtersByDefault = !Object.values(currentFilters).some((el) => !!el.length);
 
   const handleSubmit = useCallback((data) => onSubmit(data), [onSubmit]);
 
+  // TODO:  this function just for example how filtering looks like , until we don't have response from backend
   const filteredArray = (dataArray) => {
-    if (!currentValue.Industry.length) return dataArray;
-    return dataArray.filter((item) => currentValue.Industry.indexOf(item.name) >= 0);
+    if (!currentFilters.industry.length) return dataArray;
+    const chosenIndustry = currentFilters.industry.map((item) => item.name.toLowerCase());
+    const filterResults = Object.entries(dataArray).filter(([industry, data]) => chosenIndustry.includes(industry.toLowerCase()));
+    return Object.fromEntries(filterResults);
   };
 
   const filteredResponse = filteredArray(mockTemplates);
+
+  const getFiltersOptions = useCallback(() => {
+    const titles = [...new Set(mockFiltersData.map((item) => item.type))];
+    return titles.map((title) => {
+      const uniqueOptions = mockFiltersData.filter((item) => item.type === title);
+      return { title, data: [...uniqueOptions] };
+    });
+  }, [mockFiltersData]);
+
+  const filtersOptions = getFiltersOptions();
 
   return (
     <Modal
@@ -176,25 +183,26 @@ export function TemplatesModal({ onSubmit }) {
             </span>
           </Box>
           <Box className={classes.modalHeaderRight}>
-            { mockFiltersData.map((filter, idx) => (
+            { filtersOptions.map((filter, idx) => (
               <TemplateFilters
                 key={idx}
                 title={filter.title}
                 filterData={filter.data}
-                currentValue={currentValue}
-                setCurrentValue={setCurrentValue}
+                currentFilters={currentFilters}
+                setCurrentFilters={setCurrentFilters}
               />
             ))}
           </Box>
         </Box>
         {
-          !filtersByDefault && <TemplatesChosenFilters currentValue={currentValue} setCurrentValue={setCurrentValue} />
+          !filtersByDefault
+          && <TemplatesChosenFilters currentValue={currentFilters} setCurrentValue={setCurrentFilters} initialData={initialFiltersData} />
         }
         <Box>
-          { filteredResponse.map((industry, idx) => (
+          { Object.entries(filteredResponse).map(([title, data], idx) => (
             <Box key={idx}>
-              <Typography className={classes.swiperTitle}>{industry.name}</Typography>
-              <TemplatesGallery onSubmit={handleSubmit} mockTemplates={industry.data} />
+              <Typography className={classes.swiperTitle}>{title}</Typography>
+              <TemplatesGallery onSubmit={handleSubmit} mockTemplates={data} />
             </Box>
           ))}
         </Box>
