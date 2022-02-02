@@ -14,7 +14,7 @@ export function SaveAndPublishTemplate() {
   const classes = useStyles();
   const intl = useIntl();
   const productsInGraphModel = useSelector(selectFlowBuilderProductsInGraphModel);
-  const haveUnsavedChanges = useSelector(selectFlowBuilderHaveUnsavedChanges);
+  const haveUnsavedChanges = useSelector<any, boolean>(selectFlowBuilderHaveUnsavedChanges);
   const haveIssues = useProductsIssues(productsInGraphModel.value);
   const [createOverlay] = useOverlay();
 

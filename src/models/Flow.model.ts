@@ -21,9 +21,9 @@ export function getNewFlowId(merchantFlowsModel, currentFlowId) {
 
 export function createEmptyFlow() {
   return {
-    financialInformationBankAccountsRetrieving: [],
-    financialInformationPayrollAccountsRetrieving: [],
-    financialInformationWorkAccountsRetrieving: [],
+    financialInformationBankAccountsRetrieving: {},
+    financialInformationPayrollAccountsRetrieving: {},
+    financialInformationWorkAccountsRetrieving: {},
     style: {
       color: 'blue',
       language: 'en',
@@ -64,14 +64,6 @@ export function createEmptyFlow() {
     name: 'Untitled Template',
     verificationPatterns: {},
     denyUploadsFromMobileGallery: false,
-    createdAt: null,
-    updatedAt: null,
-    pinnedCountries: [
-      'US',
-      'MX',
-    ],
-    inputTypes: [],
-    id: null,
   };
 }
 

@@ -42,6 +42,8 @@ import { PRODUCT_BOARD_STORE_KEY } from 'apps/ProductBoard/state/ProductBoard.st
 import { productBoardReducer } from 'apps/ProductBoard/state/ProductBoard.reducer';
 import { WORKFLOW_BUILDER_STORE_KEY } from 'apps/WorkflowBuilder/store/WorkflowBuilder.store';
 import { workflowBuilderReducer } from 'apps/WorkflowBuilder/store/WorkflowBuilder.reducer';
+import { TEMPLATES_STORE_KEY } from 'apps/Templates/store/Templates.store';
+import { templatesReducer } from 'apps/Templates/store/Templates.reducer';
 
 export const appReducers = combineReducers({
   [USER_STORE_KEY]: user,
@@ -66,6 +68,7 @@ export const appReducers = combineReducers({
   [CUSTOM_WATCHLISTS_STORE_KEY]: customWatchlist,
   [CUSTOM_FIELD_STORE_KEY]: customFieldReducer,
   [PRODUCT_BOARD_STORE_KEY]: productBoardReducer,
+  [TEMPLATES_STORE_KEY]: templatesReducer,
 });
 
 export const rootReducers = (state, action) => {
