@@ -2,10 +2,6 @@ import { selectFlowBuilderChangeableFlow } from 'apps/flowBuilder/store/FlowBuil
 import { types } from './Templates.store';
 import { createTemplateRequest, getMetadataRequest } from '../api/Templates.client';
 
-export const createEmptyFlow = () => (dispatch) => {
-  dispatch({ type: types.CREATE_EMPTY_FLOW });
-};
-
 export const getMetadata = () => async (dispatch) => {
   dispatch({ type: types.GET_METADATA_LIST_UPDATING });
 

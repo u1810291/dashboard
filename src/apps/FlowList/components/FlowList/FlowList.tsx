@@ -30,7 +30,7 @@ export function FlowList() {
   const isButtonDisabled = (merchantFlowList || []).length >= MAX_NUMBER_OF_FLOWS;
   const [open, setOpen] = useState(isButtonDisabled && isMobile);
   const flowListModel = useFlowListLoad();
-  const merchantTags: MerchantTags[] = useSelector(selectMerchantTags);
+  const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
   const canAddTemplate = merchantTags.includes(MerchantTags.CanUseAddSolutionToCatalog);
 
   useEffect(() => {
@@ -57,10 +57,6 @@ export function FlowList() {
     }
   }, [merchantFlowList]);
 
-  const handleCreateTemplate = () => {
-    history.push(Routes.templates.newTemplate);
-  };
-
   const handleClose = useCallback(() => {
     if (!isMobile) {
       setOpen(false);
@@ -68,11 +64,12 @@ export function FlowList() {
   }, [isMobile]);
 
   const handleBuildMetamapButtonClick = () => {
-    if (canAddTemplate) {
-      handleCreateTemplate();
-    } else {
-      handleAddNewFlow();
-    }
+    // if (canAddTemplate) {
+    //   history.push(Routes.templates.newTemplate);
+    // } else {
+    //   handleAddNewFlow();
+    // }
+    history.push(Routes.templates.newTemplate);
   };
 
   if (!flowListModel.isLoaded) {
@@ -107,7 +104,7 @@ export function FlowList() {
                 {merchantFlowList?.length > 0 && (
                 <span>
                   <Button
-                    disabled={isButtonDisabled}
+                    // disabled={isButtonDisabled}
                     variant="contained"
                     disableElevation
                     onClick={handleBuildMetamapButtonClick}
