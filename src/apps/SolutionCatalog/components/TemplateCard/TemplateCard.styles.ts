@@ -28,21 +28,24 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-around',
     position: 'relative',
   },
-  selected: {
-    border: '1,5px solid #507DED',
-  },
-  selectButton: {
+  selectButton: () => ({
     cursor: 'pointer',
     minWidth: '64px',
     minHeight: '25px !important',
     maxWidth: '64px',
     maxHeight: '25px',
     marginTop: '15px',
-    background: '#507DED',
-    border: '1.5px solid #507DED',
+    color: '#8392B8',
+    background: '#FFFFFF',
+    border: '1.5px solid #8392B8',
     boxSizing: 'border-box',
     borderRadius: '12.5px',
-  },
+    '&:focus': {
+      background: '#507DED',
+      border: '1.5px solid #507DED',
+      color: 'white',
+    },
+  }),
   arrow: {
     color: theme.palette.common.black,
     left: '10px !important',

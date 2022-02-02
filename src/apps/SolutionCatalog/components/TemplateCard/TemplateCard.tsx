@@ -15,14 +15,14 @@ export function TemplateCard({ title, description }: TemplateCardProps) {
       <span className={classes.templateCardTitle}>{title}</span>
       <Tooltip
         arrow
-        classes={classes}
+        classes={{ tooltip: classes.tooltip, arrow: classes.arrow }}
         title={description}
       >
         <Box mt={1} className={classes.descriptionContainer}>
           <span className={classes.description}>{description}</span>
         </Box>
       </Tooltip>
-      <Button variant="contained" className={classes.selectButton} color="primary">Select</Button>
+      <Button className={classes.selectButton} color="primary">Select</Button>
     </Box>
   );
 }
