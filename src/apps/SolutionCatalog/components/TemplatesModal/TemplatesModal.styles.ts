@@ -22,7 +22,6 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.common.black7,
       borderRadius: 10,
     },
-    transition: 'overflow .5s',
   },
   modalTitle: {
     fontWeight: 700,
