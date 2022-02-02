@@ -30,15 +30,9 @@ export const flowBuilderReducer = createReducer(initialState, {
   [templateTypes.CREATE_EMPTY_FLOW](state: FlowBuilderStore) {
     return {
       ...state,
-      changeableFlow: {
-        ...state.changeableFlow,
-        isLoaded: true,
-        value: createEmptyFlow(),
-      },
       productsInGraph: {
         ...state.productsInGraph,
         isLoaded: true,
-        value: [],
       },
     };
   },

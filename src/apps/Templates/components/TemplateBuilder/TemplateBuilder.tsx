@@ -20,8 +20,7 @@ import { FlowInfoContainer } from 'apps/flowBuilder/components/FlowInfoContainer
 import { FlowBuilderProductDetails } from 'apps/flowBuilder/components/FlowBuilderProductDetails/FlowBuilderProductDetails';
 import { FlowBuilderIntegrationDetails } from 'apps/flowBuilder/components/FlowBuilderIntegrationDetails/FlowBuilderIntegrationDetails';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from 'apps/flowBuilder/store/FlowBuilder.selectors';
-import { flowBuilderChangeableFlowUpdate, flowBuilderClearStore } from 'apps/flowBuilder/store/FlowBuilder.action';
-import { createEmptyFlow } from 'apps/Templates/store/Templates.actions';
+import { flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { SaveAndPublishTemplate } from 'apps/Templates/components/SaveAndPublishTemplate/SaveAndPublishTemplate';
 import { useStyles } from './TemplateBuilder.styles';
 
@@ -39,7 +38,7 @@ export function TemplateBuilder() {
 
   useEffect(() => {
     dispatch(flowBuilderClearStore());
-    dispatch(createEmptyFlow());
+    dispatch(flowBuilderCreateEmptyFlow());
   }, [dispatch]);
 
   useEffect(() => {

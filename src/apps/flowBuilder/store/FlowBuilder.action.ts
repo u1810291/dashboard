@@ -1,8 +1,9 @@
 import { productManagerService, selectProductRegistered } from 'apps/Product';
+import { types as templateStoreTypes } from 'apps/Templates/store/Templates.store';
 import { mergeDeep } from 'lib/object';
 import { cloneDeep } from 'lodash';
 import { ApiResponse } from 'models/Client.model';
-import { IFlow } from 'models/Flow.model';
+import { createEmptyFlow, IFlow } from 'models/Flow.model';
 import { ProductTypes } from 'models/Product.model';
 import { merchantDeleteFlow, merchantUpdateFlow, merchantUpdateFlowList } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow, selectMerchantId } from 'state/merchant/merchant.selectors';
@@ -28,6 +29,12 @@ export const flowBuilderClearStore = () => (dispatch) => {
   dispatch({ type: types.PRODUCTS_IN_GRAPH_CLEAR, payload: [] });
   dispatch({ type: types.CHANGEABLE_FLOW_CLEAR, payload: {} });
   dispatch({ type: types.PRODUCT_SELECT, payload: null });
+};
+
+export const flowBuilderCreateEmptyFlow = () => (dispatch) => {
+  dispatch({ type: types.CHANGEABLE_FLOW_CLEAR, payload: createEmptyFlow() });
+  dispatch({ type: types.PRODUCTS_IN_GRAPH_CLEAR, payload: [] });
+  dispatch({ type: templateStoreTypes.CREATE_EMPTY_FLOW });
 };
 
 export const flowBuilderProductListInit = (flow) => (dispatch, getState) => {

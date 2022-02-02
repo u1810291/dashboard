@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { notification } from 'apps/ui';
 import { selectCountryMetadata, selectIndustryMetadata } from 'apps/Templates/store/Templates.selectors';
 import { useStyles } from './TemplateSaveModal.styles';
+import { useLoadMetadataList } from 'apps/Templates/hooks/UseLoadMetadataList';
 
 interface TemplateSaveInputs {
   [TemplateSaveInputsTypes.TemplateTitle]: string;
@@ -30,7 +31,7 @@ export function TemplateSaveModal() {
   const industries = useSelector(selectIndustryMetadata);
   const countries = useSelector(selectCountryMetadata);
 
-  const { register, handleSubmit, setError, setValue, watch, trigger, formState: { errors, isSubmitting, isValid, isDirty } } = useForm<TemplateSaveInputs>({
+  const { register, handleSubmit, setValue, watch, trigger, formState: { errors, isSubmitting, isValid, isDirty } } = useForm<TemplateSaveInputs>({
     mode: 'onBlur',
     defaultValues: {
       [TemplateSaveInputsTypes.TemplateTitle]: '',
@@ -66,9 +67,7 @@ export function TemplateSaveModal() {
     maxLength: 300,
   });
 
-  useEffect(() => {
-    dispatch(getMetadata());
-  }, [dispatch]);
+  useLoadMetadataList();
 
   const handleSubmitForm = async () => {
     await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Countries]]));
