@@ -8,7 +8,6 @@ import { useStyles } from './TemplatesChosenFilters.styles';
 
 export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialData }: TemplateFiltersProps) {
   const classes = useStyles();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const formatMessage = useFormatMessage();
 
   const chosenOptions: [] = Object.values(currentValue).reduce((a, b) => a.concat(b), []);

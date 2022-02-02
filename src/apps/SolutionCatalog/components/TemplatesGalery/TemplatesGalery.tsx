@@ -12,7 +12,7 @@ import { TemplateCard } from '../TemplateCard/TemplateCard';
 import { useStyles } from './TemplatesGalery.styles';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function TemplatesGallery({ onSubmit, mockTemplates }) {
+export function TemplatesGallery({ mockTemplates }) {
   const classes = useStyles();
   return (
     <Swiper

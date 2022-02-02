@@ -6,7 +6,7 @@ import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { useStyles, FilterButton } from './TemplateFilters.styles';
 
-export function TemplateFilters({ title, filterData, currentValue, setCurrentValue }) {
+export function TemplateFilters({ title, filterData, currentFilters, setCurrentFilters }) {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
@@ -14,16 +14,15 @@ export function TemplateFilters({ title, filterData, currentValue, setCurrentVal
   const buttonTitle = `Filter by ${title}`;
 
   function activeFilters(ev, item) {
-    const currentActiveFilters = currentValue[title];
-    if (item === 'All') { return setCurrentValue({ ...currentValue, [title]: [] }); }
+    const currentActiveFilters = currentFilters[title];
     return ev.target.checked
-      ? setCurrentValue({ ...currentValue, [title]: [...currentActiveFilters, item] })
-      : setCurrentValue({ ...currentValue, [title]: currentActiveFilters.filter((value) => value !== item) });
+      ? setCurrentFilters({ ...currentFilters, [title]: [...currentActiveFilters, item] })
+      : setCurrentFilters({ ...currentFilters, [title]: currentActiveFilters.filter((value) => value.name !== item.name) });
   }
 
   function isCheckboxChecked(item) {
-    if (item === 'All' && !currentValue[title].length) return true;
-    return currentValue[title].includes(item) && true;
+    if (!currentFilters[title].length) return false;
+    return !!currentFilters[title].find((filter) => filter.name === item.name) && true;
   }
 
   return (
@@ -39,11 +38,25 @@ export function TemplateFilters({ title, filterData, currentValue, setCurrentVal
         {isOpen
         && (
           <Paper className={classes.filterOptions}>
-            {filterData.length > 0 && filterData.map((item, idx) => (
+            <FormControlLabel
+              className={classes.filterOption}
+              value="All"
+              control={(
+                <Checkbox
+                  color="primary"
+                  checked={!currentFilters[title].length}
+                  checkedIcon={<CheckboxOn />}
+                  icon={<CheckboxOff />}
+                />
+              )}
+              label="All"
+              onChange={() => setCurrentFilters({ ...currentFilters, [title]: [] })}
+            />
+            {filterData.length > 0 && filterData.map((item) => (
               <FormControlLabel
                 className={classes.filterOption}
-                key={idx}
-                value={item}
+                key={item.id}
+                value={item.name}
                 control={(
                   <Checkbox
                     color="primary"
@@ -52,7 +65,7 @@ export function TemplateFilters({ title, filterData, currentValue, setCurrentVal
                     icon={<CheckboxOff />}
                   />
                 )}
-                label={item}
+                label={item.name}
                 onChange={(ev) => activeFilters(ev, item)}
               />
             ))}

@@ -6,12 +6,13 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
   },
   description: {
-    fontSize: 12,
     fontWeight: 400,
     color: theme.palette.common.black75,
   },
   descriptionContainer: {
-    height: '60px',
+    height: '42px',
+    lineHeight: '14px',
+    fontSize: 12,
     marginTop: '3px',
     overflow: 'hidden',
     display: '-webkit-box',
@@ -27,12 +28,16 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-around',
     position: 'relative',
   },
+  selected: {
+    border: '1,5px solid #507DED',
+  },
   selectButton: {
     cursor: 'pointer',
     minWidth: '64px',
     minHeight: '25px !important',
     maxWidth: '64px',
     maxHeight: '25px',
+    marginTop: '15px',
     background: '#507DED',
     border: '1.5px solid #507DED',
     boxSizing: 'border-box',

@@ -133,7 +133,7 @@ const mockFiltersData = [
 ];
 
 export function TemplatesModal({ onSubmit }) {
-  const filtersNames = Array.from(mockFiltersData.map((item) => item.type));
+  const filtersNames = Array.from(new Set(mockFiltersData.map((item) => item.type)));
   const initialFiltersData = filtersNames.reduce((res, key) => {
     const result = { ...res };
     result[key] = [];
@@ -160,7 +160,7 @@ export function TemplatesModal({ onSubmit }) {
   const filteredResponse = filteredArray(mockTemplates);
 
   const getFiltersOptions = useCallback(() => {
-    const titles = Array.from(mockFiltersData.map((item) => item.type));
+    const titles = Array.from(new Set(mockFiltersData.map((item) => item.type)));
     return titles.map((title) => {
       const uniqueOptions = mockFiltersData.filter((item) => item.type === title);
       return { title, data: [...uniqueOptions] };
@@ -204,7 +204,7 @@ export function TemplatesModal({ onSubmit }) {
           { Object.entries(filteredResponse).map(([title, data], idx) => (
             <Box key={idx}>
               <Typography className={classes.swiperTitle}>{title}</Typography>
-              <TemplatesGallery onSubmit={handleSubmit} mockTemplates={data} />
+              <TemplatesGallery mockTemplates={data} />
             </Box>
           ))}
         </Box>
