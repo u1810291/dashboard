@@ -152,12 +152,12 @@ export function TemplatesModal({ onSubmit }) {
 
   const handleSubmit = useCallback((data) => onSubmit(data), [onSubmit]);
 
-  // TODO: to check how endpoint works
-  useEffect(() => {
-    dispatch(loadTemplates([]));
-  }, [dispatch]);
+  // TODO: to check how new endpoint works
+  // useEffect(() => {
+  //   dispatch(loadTemplates([]));
+  // }, [dispatch]);
 
-  console.log(allTemplates);
+  // console.log(allTemplates);
 
   // TODO:  this function just for example how filtering looks like , until we don't have response from backend
   const filteredArray = (dataArray) => {
