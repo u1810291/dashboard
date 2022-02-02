@@ -1,5 +1,6 @@
 /* eslint-disable import/no-unresolved */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useFormatMessage } from 'apps/intl';
 // import { PageLoader } from 'apps/layout';
 import { useOverlay, Modal } from 'apps/overlay';
@@ -11,6 +12,8 @@ import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
 import { TemplatesGallery } from '../TemplatesGalery/TemplatesGalery';
 import { TemplatesChosenFilters } from '../TemplatesChosenFilters/TemplatesChosenFilters';
+import { loadTemplates } from '../../store/SolutionCatalog.action';
+import { selectAllTemplatesList } from '../../store/SolutionCatalog.selectors';
 import { useStyles } from './TemplatesModal.styles';
 
 SwiperCore.use([Pagination, Navigation]);
@@ -140,12 +143,21 @@ export function TemplatesModal({ onSubmit }) {
     return result;
   }, {});
   const formatMessage = useFormatMessage();
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [, closeOverlay] = useOverlay();
   const [currentFilters, setCurrentFilters] = useState<object>(initialFiltersData);
   const filtersByDefault = !Object.values(currentFilters).some((el) => !!el.length);
+  const allTemplates = useSelector(selectAllTemplatesList);
 
   const handleSubmit = useCallback((data) => onSubmit(data), [onSubmit]);
+
+  // TODO: to check how endpoint works
+  useEffect(() => {
+    dispatch(loadTemplates([]));
+  }, [dispatch]);
+
+  console.log(allTemplates);
 
   // TODO:  this function just for example how filtering looks like , until we don't have response from backend
   const filteredArray = (dataArray) => {
