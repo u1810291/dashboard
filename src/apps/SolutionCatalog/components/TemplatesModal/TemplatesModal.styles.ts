@@ -22,6 +22,7 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.common.black7,
       borderRadius: 10,
     },
+    transition: 'overflow .5s',
   },
   modalTitle: {
     fontWeight: 700,
@@ -57,8 +58,11 @@ export const useStyles = makeStyles((theme) => ({
   modalSubtitle: {
     maxWidth: 475,
     color: theme.palette.common.black75,
-    fontWeight: 700,
-    fontSize: 18,
-    wordBreak: 'break-all',
+    fontWeight: 500,
+    fontSize: '18px',
+    lineHeight: '21px',
+    '& a': {
+      cursor: 'pointer',
+    },
   },
 }));

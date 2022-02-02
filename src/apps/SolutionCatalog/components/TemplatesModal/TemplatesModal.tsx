@@ -130,6 +130,9 @@ const mockFiltersData = [
   { id: 7, type: 'country', name: 'Europe', description: 'Blablabla' },
   { id: 8, type: 'country', name: 'Africa', description: 'Blablabla' },
   { id: 9, type: 'country', name: 'Oceania', description: 'Blablabla' },
+  { id: 10, type: 'country', name: 'Uzbekistan', description: 'Blablabla' },
+  { id: 11, type: 'country', name: 'Moscow', description: 'Blablabla' },
+  { id: 12, type: 'country', name: 'Kyrgyzistan', description: 'Blablabla' },
 ];
 
 export function TemplatesModal({ onSubmit }) {
@@ -181,7 +184,11 @@ export function TemplatesModal({ onSubmit }) {
               Metamap Templates
             </span>
             <span className={classes.modalSubtitle}>
-              Filter by industry and country to get started with one of our template metamaps
+              Filter by industry and country to get started with one of our
+              template metamaps. If you don&apos;t see the template you&apos;re looking
+              for here, request it on our
+              {' '}
+              <a>Feedback Board</a>
             </span>
           </Box>
           <Box className={classes.modalHeaderRight}>
