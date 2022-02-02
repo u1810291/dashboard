@@ -14,5 +14,6 @@ export enum CountryCodes {
   MX = 'MX',
   NG = 'NG',
   US = 'US',
+  CL = 'CL',
   PE = 'PE',
 }
