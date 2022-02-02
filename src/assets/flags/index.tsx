@@ -64,4 +64,5 @@ export const codedFlagMap = {
   [CountryCodes.MX]: <MexicoIcon {...iconProps} />,
   [CountryCodes.NG]: <NigeriaIcon {...iconProps} />,
   [CountryCodes.US]: <USAIcon {...iconProps} />,
+  [CountryCodes.PE]: <PeruIcon {...iconProps} />,
 };
