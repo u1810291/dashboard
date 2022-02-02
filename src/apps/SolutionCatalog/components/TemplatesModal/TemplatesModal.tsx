@@ -133,7 +133,7 @@ const mockFiltersData = [
 ];
 
 export function TemplatesModal({ onSubmit }) {
-  const filtersNames = [...new Set(mockFiltersData.map((item) => item.type))];
+  const filtersNames = Array.from(mockFiltersData.map((item) => item.type));
   const initialFiltersData = filtersNames.reduce((res, key) => {
     const result = { ...res };
     result[key] = [];
@@ -142,14 +142,16 @@ export function TemplatesModal({ onSubmit }) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
   const [, closeOverlay] = useOverlay();
-  const [currentFilters, setCurrentFilters] = useState(initialFiltersData);
+  const [currentFilters, setCurrentFilters] = useState<object>(initialFiltersData);
   const filtersByDefault = !Object.values(currentFilters).some((el) => !!el.length);
 
   const handleSubmit = useCallback((data) => onSubmit(data), [onSubmit]);
 
   // TODO:  this function just for example how filtering looks like , until we don't have response from backend
   const filteredArray = (dataArray) => {
+    // @ts-ignore
     if (!currentFilters.industry.length) return dataArray;
+    // @ts-ignore
     const chosenIndustry = currentFilters.industry.map((item) => item.name.toLowerCase());
     const filterResults = Object.entries(dataArray).filter(([industry, data]) => chosenIndustry.includes(industry.toLowerCase()));
     return Object.fromEntries(filterResults);
@@ -158,7 +160,7 @@ export function TemplatesModal({ onSubmit }) {
   const filteredResponse = filteredArray(mockTemplates);
 
   const getFiltersOptions = useCallback(() => {
-    const titles = [...new Set(mockFiltersData.map((item) => item.type))];
+    const titles = Array.from(mockFiltersData.map((item) => item.type));
     return titles.map((title) => {
       const uniqueOptions = mockFiltersData.filter((item) => item.type === title);
       return { title, data: [...uniqueOptions] };
