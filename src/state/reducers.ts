@@ -39,6 +39,8 @@ import { VERIFICATION_STORE_KEY } from 'apps/Verification/state/Verification.sto
 import { CUSTOM_WATCHLISTS_STORE_KEY } from 'apps/CustomWatchlist/state/CustomWatchlist.store';
 import { PRODUCT_BOARD_STORE_KEY } from 'apps/ProductBoard/state/ProductBoard.store';
 import { productBoardReducer } from 'apps/ProductBoard/state/ProductBoard.reducer';
+import { TEMPLATES_STORE_KEY } from 'apps/Templates/store/Templates.store';
+import { templatesReducer } from 'apps/Templates/store/Templates.reducer';
 
 export const appReducers = combineReducers({
   [USER_STORE_KEY]: user,
@@ -61,6 +63,7 @@ export const appReducers = combineReducers({
   [CUSTOM_DOCUMENT_STORE_KEY]: customDocument,
   [CUSTOM_WATCHLISTS_STORE_KEY]: customWatchlist,
   [PRODUCT_BOARD_STORE_KEY]: productBoardReducer,
+  [TEMPLATES_STORE_KEY]: templatesReducer,
 });
 
 export const rootReducers = (state, action) => {

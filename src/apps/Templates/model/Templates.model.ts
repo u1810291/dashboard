@@ -21,7 +21,6 @@ export enum MetadataType {
   Country = 'country',
   Industry = 'industry',
 }
-
 export interface ITemplateMetadata {
   _id: string;
   type: MetadataType;

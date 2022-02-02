@@ -1,16 +1,17 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useFormatMessage } from 'apps/intl';
 import { useOverlay, Modal } from 'apps/overlay';
 import { Box, Chip, TextareaAutosize, TextField, Button, Select, MenuItem, Checkbox, ListItemText, FormHelperText } from '@material-ui/core';
 import classnames from 'classnames';
 import { useForm } from 'react-hook-form';
-import { COUNTRIES_MOCK_DATA, INDUSTRIES_MOCK_DATA, TemplateSaveInputsTypes } from 'apps/Templates/model/Templates.model';
+import { TemplateSaveInputsTypes } from 'apps/Templates/model/Templates.model';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { IoCloseOutline } from 'react-icons/io5';
-import { createTemplate } from 'apps/Templates/store/Templates.actions';
-import { useDispatch } from 'react-redux';
+import { createTemplate, getMetadata } from 'apps/Templates/store/Templates.actions';
+import { useDispatch, useSelector } from 'react-redux';
 import { notification } from 'apps/ui';
+import { selectCountryMetadata, selectIndustryMetadata } from 'apps/Templates/store/Templates.selectors';
 import { useStyles } from './TemplateSaveModal.styles';
 
 interface TemplateSaveInputs {
@@ -26,6 +27,8 @@ export function TemplateSaveModal() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [, closeOverlay] = useOverlay();
+  const industries = useSelector(selectIndustryMetadata);
+  const countries = useSelector(selectCountryMetadata);
 
   const { register, handleSubmit, setError, setValue, watch, trigger, formState: { errors, isSubmitting, isValid, isDirty } } = useForm<TemplateSaveInputs>({
     mode: 'onBlur',
@@ -63,6 +66,10 @@ export function TemplateSaveModal() {
     maxLength: 300,
   });
 
+  useEffect(() => {
+    dispatch(getMetadata());
+  }, [dispatch]);
+
   const handleSubmitForm = async () => {
     await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Countries]]));
   };
@@ -82,7 +89,7 @@ export function TemplateSaveModal() {
     trigger(property); // Force validation after deleting a value
   };
 
-  const renderChip = useCallback((selectValues, onDelete, type) => selectValues.map((selectValue) => <Chip className={classes.chip} variant="outlined" key={selectValue} label={selectValue} onDelete={() => onDelete(selectValue, type)} deleteIcon={<IoCloseOutline onMouseDown={(event) => event.stopPropagation()} />} />), [classes]);
+  const renderChip = useCallback((selectValues, onDelete, type) => selectValues.map((selectValue) => <Chip className={classes.chip} variant="outlined" key={selectValue.name} label={selectValue.name} onDelete={() => onDelete(selectValue, type)} deleteIcon={<IoCloseOutline onMouseDown={(event) => event.stopPropagation()} />} />), [classes]);
 
   return (
     <Modal
@@ -154,8 +161,9 @@ export function TemplateSaveModal() {
                   autoWidth={false}
                   error={!!errors[TemplateSaveInputsTypes.Industries]}
                 >
-                  {INDUSTRIES_MOCK_DATA.map((industry) => (
-                    <MenuItem key={industry.name} value={industry.name} className={classes.menuItem}>
+                  {industries.map((industry) => (
+                    // @ts-ignore
+                    <MenuItem key={industry.name} value={industry} className={classes.menuItem}>
                       <Checkbox checked={values[TemplateSaveInputsTypes.Industries].includes(industry.name)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
                       <ListItemText primary={industry.name} />
                     </MenuItem>
@@ -190,8 +198,9 @@ export function TemplateSaveModal() {
                   }}
                   error={!!errors[TemplateSaveInputsTypes.Countries]}
                 >
-                  {COUNTRIES_MOCK_DATA.map((country) => (
-                    <MenuItem key={country.name} value={country.name} className={classes.menuItem}>
+                  {countries.map((country) => (
+                    // @ts-ignore
+                    <MenuItem key={country.name} value={country} className={classes.menuItem}>
                       <Checkbox checked={values[TemplateSaveInputsTypes.Countries].includes(country.name)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
                       <ListItemText primary={country.name} />
                     </MenuItem>

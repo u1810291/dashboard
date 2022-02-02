@@ -1,4 +1,6 @@
-import { Box, Grid, Paper } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { dagreGraphService } from 'apps/flowBuilder/services/dagreGraph.service';
 import { selectProductIsInited, useProduct } from 'apps/Product';
