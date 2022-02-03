@@ -1,16 +1,17 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import { useFormatMessage } from 'apps/intl';
-import { Box, Chip } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Chip from '@material-ui/core/Chip';
 import { FiX } from 'react-icons/fi';
-import { TemplateFiltersProps, TemplateCardOptions } from 'models/TemplatesModal.model';
+import { TemplateChosenFiltersProps, TemplateCardOptions } from 'models/TemplatesModal.model';
 import { useStyles } from './TemplatesChosenFilters.styles';
 
-export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialData }: TemplateFiltersProps) {
+export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialData }: TemplateChosenFiltersProps) {
   const classes = useStyles();
   const formatMessage = useFormatMessage();
 
-  const chosenOptions: [] = Object.values(currentValue).reduce((a, b) => a.concat(b), []);
+  const chosenOptions: TemplateCardOptions[] = Object.values(currentValue).reduce((a, b) => a.concat(b), []);
 
   function handleDelete(option: TemplateCardOptions) {
     const result = {};
@@ -33,10 +34,10 @@ export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialD
         Reset filters
       </span>
       <Box mt={1.4} mb={0} className={classes.chipContainer}>
-        {chosenOptions.map((option: TemplateCardOptions) => (
+        {chosenOptions.map((option) => (
           <Chip
             className={classes.chip}
-            key={option.id}
+            key={option._id}
             label={option.name}
             onDelete={() => handleDelete(option)}
             deleteIcon={<FiX />}

@@ -6,7 +6,7 @@ export const FilterButton = withStyles((theme) => ({
     width: '100%',
     height: 50,
     fontSize: 14,
-    padding: [[6, 10]],
+    padding: '6px, 10px',
     borderRadius: 5,
     display: 'flex',
     justifyContent: 'center',
@@ -54,7 +54,7 @@ export const useStyles = makeStyles((theme) => ({
     scrollbarWidth: 'thin',
     backgroundColor: theme.palette.background.default,
     position: 'absolute',
-    padding: [[20, 22, 22, 20]],
+    padding: '20px, 22px, 22px, 20px',
     marginTop: '3%',
     zIndex: 200,
     '&::-webkit-scrollbar': {
