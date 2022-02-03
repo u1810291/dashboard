@@ -1,6 +1,6 @@
 export interface TemplateChosenFiltersProps {
   currentValue: Record<string, TemplateCardOptions[]>;
-  setCurrentValue: (object) => void;
+  setCurrentValue: (object:Record<string, TemplateCardOptions[]>) => void;
   initialData: Record<string, []>;
 }
 
@@ -25,7 +25,7 @@ export interface TempalteFilterProps {
   title: string;
   filterData: TemplateCardOptions[];
   currentFilters: Record<string, TemplateCardOptions[]>;
-  setCurrentFilters:(object) => void;
+  setCurrentFilters:(object:Record<string, TemplateCardOptions[]>) => void;
 }
 
 export interface TemplateGaleryProps {

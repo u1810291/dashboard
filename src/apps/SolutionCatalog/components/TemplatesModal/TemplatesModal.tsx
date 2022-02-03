@@ -11,12 +11,12 @@ import { TemplateFilters } from 'apps/filter';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
+import { TemplateCardOptions, CardsData } from 'models/TemplatesModal.model';
 import { TemplatesGallery } from '../TemplatesGalery/TemplatesGalery';
 import { TemplatesChosenFilters } from '../TemplatesChosenFilters/TemplatesChosenFilters';
 import { loadTemplates } from '../../store/SolutionCatalog.action';
 import { selectAllTemplatesList } from '../../store/SolutionCatalog.selectors';
 import { useStyles } from './TemplatesModal.styles';
-import { TemplateCardOptions, CardsData } from 'models/TemplatesModal.model';
 
 SwiperCore.use([Pagination, Navigation]);
 
@@ -140,7 +140,7 @@ const mockFiltersData = [
   { _id: 12, type: 'country', name: 'Kyrgyzistan', description: 'Blablabla' },
 ];
 
-export function TemplatesModal({ onSubmit }) {
+export function TemplatesModal() {
   const filtersNames = Array.from(new Set(mockFiltersData.map((item) => item.type)));
   const initialFiltersData = filtersNames.reduce((res, key) => {
     const result = { ...res };
@@ -154,8 +154,6 @@ export function TemplatesModal({ onSubmit }) {
   const [currentFilters, setCurrentFilters] = useState<Record<string, TemplateCardOptions[]>>(initialFiltersData);
   const filtersByDefault = !Object.values(currentFilters).some((el) => !!el.length);
   const allTemplates = useSelector<TemplateCardOptions[]>(selectAllTemplatesList);
-
-  const handleSubmit = useCallback((data) => onSubmit(data), [onSubmit]);
 
   // TODO: to check how new endpoint works
   // useEffect(() => {

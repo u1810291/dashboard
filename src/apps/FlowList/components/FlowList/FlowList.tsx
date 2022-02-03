@@ -17,7 +17,7 @@ import { FlowsTable } from '../FlowsTable/FlowsTable';
 import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
 import { flowNameValidator } from '../../validators/FlowName.validator';
 import { useStyles } from './FlowList.styles';
-import { TemplatesModal } from 'apps/SolutionCatalog/components/TemplatesModal/TemplatesModal';
+import { TemplatesModal } from 'apps/SolutionCatalog';
 
 export function FlowList() {
   const classes = useStyles();
@@ -61,8 +61,8 @@ export function FlowList() {
     }
   }, [isMobile]);
 
-  const handleOpenTemplates = () => {
-    createOverlay(<TemplatesModal onSubmit={() => {}} />);
+  const handleTemplatesOpen = () => {
+    createOverlay(<TemplatesModal />);
   };
 
   if (!flowListModel.isLoaded) {
@@ -99,7 +99,7 @@ export function FlowList() {
                   <Button
                     variant="contained"
                     disableElevation
-                    onClick={handleOpenTemplates}
+                    onClick={handleTemplatesOpen}
                     className={classes.button}
                   >
                     Templates

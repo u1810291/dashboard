@@ -1,10 +1,12 @@
 import React from 'react';
 import { Container, Button, Box, Typography } from '@material-ui/core';
 import { ReactComponent as GuideModal } from '../../assets/guide_modal.svg';
+import { useFormatMessage } from 'apps/intl';
 import { useStyles } from './StartModal.styles';
 
-export const StartModal = ({ intl, action }) => {
+export const StartModal = ({ action }) => {
   const classes = useStyles();
+  const formatMessage = useFormatMessage();
   return (
     <Container className={classes.container}>
       <GuideModal className={classes.svg} />
@@ -16,7 +18,7 @@ export const StartModal = ({ intl, action }) => {
           variant="contained"
           onClick={action}
         >
-          {intl.formatMessage({ id: 'StartModal.viewButton' })}
+          {formatMessage('StartModal.viewButton')}
         </Button>
         <Typography variant="body1">Or</Typography>
         <Button
@@ -25,7 +27,7 @@ export const StartModal = ({ intl, action }) => {
           className={classes.button}
           variant="outlined"
         >
-          {intl.formatMessage({ id: 'StartModal.blankFlowButton' })}
+          {formatMessage('StartModal.blankFlowButton')}
         </Button>
       </Box>
     </Container>

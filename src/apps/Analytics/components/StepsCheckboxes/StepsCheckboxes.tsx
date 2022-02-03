@@ -1,16 +1,23 @@
 /* eslint-disable no-console */
 import React, { useCallback } from 'react';
-import { Box, Typography, Table, TableBody, TableCell, Checkbox } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import Checkbox from '@material-ui/core/Checkbox';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { Modal, useOverlay } from 'apps/overlay';
 import { TemplatesModal } from 'apps/SolutionCatalog/components/TemplatesModal/TemplatesModal';
-import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
+import { useFormatMessage } from 'apps/intl';
 import { StartModal } from '../StartModal/StartModal';
+import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
 
-export function StepsCheckboxes({ intl }) {
+export function StepsCheckboxes() {
   const [createOverlay, closeOverlay] = useOverlay();
   const classes = useStyles();
+  const formatMessage = useFormatMessage();
   const handleTemplateModal = useCallback(() => {
     /*
       TODO: Maybe it is better to add prop for
@@ -18,26 +25,27 @@ export function StepsCheckboxes({ intl }) {
       and spread it inside div
     */
     closeOverlay();
-    createOverlay(<TemplatesModal intl={intl} />);
-  }, [intl, createOverlay, closeOverlay]);
+    createOverlay(<TemplatesModal />);
+  }, [createOverlay, closeOverlay]);
 
-  const handleBuildMetamap = useCallback(() => {
+  const handleMetamapBuild = () => {
     createOverlay(
       <Modal
-        style={{ width: '564px' }}
-        title={intl.formatMessage({ id: 'StartModal.title' })}
-        subtitle={intl.formatMessage({ id: 'StartModal.subtitle' })}
+        className={classes.startModal}
+        title={formatMessage('StartModal.title')}
+        subtitle={formatMessage('StartModal.subtitle')}
       >
-        <StartModal intl={intl} action={handleTemplateModal} />
+        <StartModal action={handleTemplateModal} />
       </Modal>,
     );
-  }, [intl, createOverlay, handleTemplateModal]);
+  };
+
   const MOCK_DATA = [
     { title: 'Get to know MetamMap', action: () => console.log('Get to know MetamMap') },
     { title: 'Set up your profile', action: () => console.log('Set up your profile') },
     { title: 'Invite a teammate', action: () => console.log('Invite a teammate') },
     { title: 'Complete profile authentication steps', action: () => console.log('Complete profile authentication steps') },
-    { title: 'Build your first metamap', action: handleBuildMetamap },
+    { title: 'Build your first metamap', action: handleMetamapBuild },
   ];
   return (
     <Box mb={2}>

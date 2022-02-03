@@ -39,8 +39,7 @@ import { VERIFICATION_STORE_KEY } from 'apps/Verification/state/Verification.sto
 import { CUSTOM_WATCHLISTS_STORE_KEY } from 'apps/CustomWatchlist/state/CustomWatchlist.store';
 import { PRODUCT_BOARD_STORE_KEY } from 'apps/ProductBoard/state/ProductBoard.store';
 import { productBoardReducer } from 'apps/ProductBoard/state/ProductBoard.reducer';
-import { SOLUTION_CATALOG_STORE_KEY } from 'apps/SolutionCatalog/store/SolutionCatalog.store';
-import { solutionCatalogReducer } from 'apps/SolutionCatalog/store/SolutionCatalog.reducer';
+import { SOLUTION_CATALOG_STORE_KEY, solutionCatalogReducer } from 'apps/SolutionCatalog';
 
 export const appReducers = combineReducers({
   [USER_STORE_KEY]: user,

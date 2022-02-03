@@ -58,7 +58,7 @@ export function AnalyticsContainer() {
     <Container maxWidth={false}>
       {isFilterDatesValid && !countStatisticsModel.isLoading && countStatisticsModel.isLoaded ? (
         <Box pb={2} className={classes.wrapper}>
-          <StepsCheckboxes intl={intl} />
+          <StepsCheckboxes />
           <Box mb={2}>
             <Grid container alignItems="center">
               <Grid item xs={9}>

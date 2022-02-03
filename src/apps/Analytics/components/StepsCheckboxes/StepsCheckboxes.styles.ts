@@ -43,12 +43,12 @@ export const useStyles = makeStyles((theme) => ({
     '& .MuiTableCell-root': {
       borderBottom: 'none',
       '&:first-child': {
-        borderRadius: [[4, 0, 0, 4]],
-        padding: [[10, 0, 10, 22]],
+        borderRadius: '4px 0px 0px 4px',
+        padding: '10px 0px 10px 22px',
       },
       '&:last-child': {
-        borderRadius: [[0, 4, 4, 0]],
-        padding: [[10, 31, 10, 0]],
+        borderRadius: '0px 4px 4px 0px',
+        padding: '10px 31px 10px 0px',
       },
     },
     '& .MuiBox-root': {
@@ -71,6 +71,9 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.black75,
     marginLeft: '25px',
   },
+  startModal: {
+    width: 564,
+  },
   arrowContainer: {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -79,7 +82,7 @@ export const useStyles = makeStyles((theme) => ({
     height: '12px',
     width: '12px',
     transform: 'rotate(45deg)',
-    borderWidth: [[1, 1, 0, 0]],
+    borderWidth: '1px 1px 0px 0px',
     border: '1px solid #507DED',
   },
 }));
