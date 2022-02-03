@@ -72,10 +72,10 @@ export function FlowsTable({ onAddNewFlow, canAddTemplate = false }) {
         await dispatch(getTemplate(id));
         history.push(`${Routes.templates.root}/${id}`);
       } catch (error) {
-        notification.error(formatMessage('Error.common'));
+        onMouseUpHandler({ ...event, button: 0 }, id);
       }
     } else {
-      onMouseUpHandler(event, id);
+      onMouseUpHandler({ ...event, button: 0 }, id);
     }
   };
 
@@ -98,6 +98,7 @@ export function FlowsTable({ onAddNewFlow, canAddTemplate = false }) {
               key={item.id}
               onMouseDown={onMouseDownHandler}
               onMouseUp={(event) => handleRowClicked(event, item.id)}
+              // onMouseUp={onMouseUpHandler}
             >
               <TableCell>
                 <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color="common.black90">
