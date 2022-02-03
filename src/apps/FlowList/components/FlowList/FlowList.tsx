@@ -13,7 +13,6 @@ import { useFlowListLoad } from 'apps/FlowList';
 import { merchantCreateFlow } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
-import { TemplatesModal } from 'apps/SolutionCatalog';
 import { FlowsTable } from '../FlowsTable/FlowsTable';
 import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
 import { flowNameValidator } from '../../validators/FlowName.validator';
@@ -61,10 +60,6 @@ export function FlowList() {
     }
   }, [isMobile]);
 
-  const handleTemplatesOpen = () => {
-    createOverlay(<TemplatesModal />);
-  };
-
   if (!flowListModel.isLoaded) {
     return <PageLoader />;
   }
@@ -96,14 +91,6 @@ export function FlowList() {
               >
                 {merchantFlowList?.length > 0 && (
                 <span>
-                  <Button
-                    variant="contained"
-                    disableElevation
-                    onClick={handleTemplatesOpen}
-                    className={classes.button}
-                  >
-                    Templates
-                  </Button>
                   <Button
                     disabled={isButtonDisabled}
                     variant="contained"

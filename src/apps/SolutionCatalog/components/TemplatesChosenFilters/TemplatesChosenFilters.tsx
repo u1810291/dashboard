@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import React from 'react';
 import { useFormatMessage } from 'apps/intl';
 import Box from '@material-ui/core/Box';

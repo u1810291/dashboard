@@ -20,7 +20,9 @@ export const StartModal = ({ action }) => {
         >
           {formatMessage('StartModal.viewButton')}
         </Button>
-        <Typography variant="body1">Or</Typography>
+        <Typography variant="body1">
+          {formatMessage('StartModal.or')}
+        </Typography>
         <Button
           tabIndex={0}
           color="primary"

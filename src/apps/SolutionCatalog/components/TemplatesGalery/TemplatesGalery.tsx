@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import React from 'react';
 import { appPalette } from 'apps/theme';
 import Box from '@material-ui/core/Box';

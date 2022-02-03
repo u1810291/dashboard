@@ -83,6 +83,6 @@ export const useStyles = makeStyles((theme) => ({
     width: '12px',
     transform: 'rotate(45deg)',
     borderWidth: '1px 1px 0px 0px',
-    border: '1px solid #507DED',
+    border: `1px solid ${theme.palette.common.lightblue}`,
   },
 }));

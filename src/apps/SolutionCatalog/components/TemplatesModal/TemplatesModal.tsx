@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import React, { useCallback, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormatMessage } from 'apps/intl';

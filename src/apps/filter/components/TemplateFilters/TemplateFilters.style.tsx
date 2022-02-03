@@ -40,7 +40,7 @@ export const useStyles = makeStyles((theme) => ({
     '& .MuiButton-contained:not(.MuiButton-containedPrimary)': {
       color: theme.palette.common.lightblue,
       backgroundColor: theme.palette.common.white,
-      border: '1px solid #507DED',
+      border: `1px solid ${theme.palette.common.lightblue}`,
     },
   },
   filterOptions: {

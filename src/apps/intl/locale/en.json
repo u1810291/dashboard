@@ -1856,6 +1856,7 @@
   "SoftLaunchBanner.newLayout.button": "Switch to old design",
   "SoftLaunchBanner.oldLayout.button": "Switch to new design",
   "StartModal.blankFlowButton": "Start from a blank flow",
+  "StartModal.or": "Or",
   "StartModal.subtitle": "Metamaps are flows that assess the identity, financial risk or merits of a person",
   "StartModal.title": "Let's start with createing metamap.",
   "StartModal.viewButton": "View template metamaps",

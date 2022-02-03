@@ -18,7 +18,7 @@ export function StepsCheckboxes() {
   const [createOverlay, closeOverlay] = useOverlay();
   const classes = useStyles();
   const formatMessage = useFormatMessage();
-  const handleTemplateModal = useCallback(() => {
+  const handleTemplateModal = () => {
     /*
       TODO: Maybe it is better to add prop for
       Modal size === auto ? style={{ width: 'auto', height: 'auto' }} : size
@@ -26,7 +26,7 @@ export function StepsCheckboxes() {
     */
     closeOverlay();
     createOverlay(<TemplatesModal />);
-  }, [createOverlay, closeOverlay]);
+  };
 
   const handleMetamapBuild = () => {
     createOverlay(
