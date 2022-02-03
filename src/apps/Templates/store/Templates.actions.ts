@@ -36,6 +36,6 @@ export const getTemplate = (id) => async (dispatch) => {
     return data;
   } catch (error) {
     dispatch({ type: types.GET_TEMPLATE_FAILURE, error });
-    return null;
+    throw error;
   }
 };
