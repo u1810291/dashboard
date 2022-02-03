@@ -1,5 +1,5 @@
 import { Logo } from 'apps/logo/models/Logo.model';
-import { get, uniqueId } from 'lodash';
+import { get } from 'lodash';
 import { IESignatureFlow } from './ESignature.model';
 import { DocumentTypes } from './Document.model';
 import { ProductIntegrationTypes } from './Product.model';
@@ -60,7 +60,6 @@ export function createEmptyFlow() {
     watchlists: [],
     integrationType: 'sdk',
     name: 'Untitled Template',
-    verificationPatterns: {},
     denyUploadsFromMobileGallery: false,
   };
 }

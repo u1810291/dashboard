@@ -36,6 +36,7 @@ export const Routes = {
     details: '/flow/:id',
   },
   templates: {
+    root: '/templates',
     newTemplate: '/templates/new_template',
     details: '/templates/:id',
   },
