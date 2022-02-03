@@ -33,7 +33,7 @@ export function VerificationSummaryPDF({ identity }) {
           <StatusSelectorPDF statusId={identity.status} />
         </View>
         <View style={styles.item}>
-          <VerificationDateAndNumberPDF date={identity.dateCreated} number={identity.id} />
+          <VerificationDateAndNumberPDF date={identity?.createdAt} number={identity.id} />
         </View>
         <View style={styles.item}>
           {!!verificationFlowName && <VerificationFlowPDF flowId={verificationFlowName} />}
