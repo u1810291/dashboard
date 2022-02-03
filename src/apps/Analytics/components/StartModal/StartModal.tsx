@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Button, Box, Typography } from '@material-ui/core';
-import { ReactComponent as GuideModal } from '../../assets/guide_modal.svg';
 import { useFormatMessage } from 'apps/intl';
+import { ReactComponent as GuideModal } from '../../assets/guide_modal.svg';
 import { useStyles } from './StartModal.styles';
 
 export const StartModal = ({ action }) => {

@@ -8,8 +8,8 @@ import { useFormatMessage } from 'apps/intl';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { useStyles, FilterButton } from './TemplateFilters.style';
 import { TempalteFilterProps, TemplateCardOptions } from 'models/TemplatesModal.model';
+import { useStyles, FilterButton } from './TemplateFilters.style';
 
 export function TemplateFilters({ title, filterData, currentFilters, setCurrentFilters }: TempalteFilterProps) {
   const classes = useStyles();

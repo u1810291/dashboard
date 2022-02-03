@@ -174,13 +174,13 @@ export function TemplatesModal() {
 
   const filteredResponse: Record<string, CardsData[]> = filteredArray(mockTemplates);
 
-  const getFiltersOptions = useCallback(() => {
+  const getFiltersOptions = () => {
     const titles = Array.from(new Set(mockFiltersData.map((item) => item.type)));
     return titles.map((title) => {
       const uniqueOptions = mockFiltersData.filter((item) => item.type === title);
       return { title, data: [...uniqueOptions] };
     });
-  }, [mockFiltersData]);
+  };
 
   const filtersOptions = getFiltersOptions();
 

@@ -5,12 +5,12 @@ import Box from '@material-ui/core/Box';
 import classnames from 'classnames';
 import { FiArrowRight, FiArrowLeft } from 'react-icons/fi';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { TemplateGaleryProps } from 'models/TemplatesModal.model';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
 import { TemplateCard } from '../TemplateCard/TemplateCard';
 import { useStyles } from './TemplatesGalery.styles';
-import { TemplateGaleryProps } from 'models/TemplatesModal.model';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function TemplatesGallery({ mockTemplates }: TemplateGaleryProps) {

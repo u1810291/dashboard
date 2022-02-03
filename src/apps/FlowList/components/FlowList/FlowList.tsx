@@ -13,11 +13,11 @@ import { useFlowListLoad } from 'apps/FlowList';
 import { merchantCreateFlow } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
+import { TemplatesModal } from 'apps/SolutionCatalog';
 import { FlowsTable } from '../FlowsTable/FlowsTable';
 import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
 import { flowNameValidator } from '../../validators/FlowName.validator';
 import { useStyles } from './FlowList.styles';
-import { TemplatesModal } from 'apps/SolutionCatalog';
 
 export function FlowList() {
   const classes = useStyles();

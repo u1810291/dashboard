@@ -10,7 +10,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from 'lib/url';
-import { useIntl } from 'react-intl';
 import { StepsCheckboxes } from '../StepsCheckboxes/StepsCheckboxes';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
