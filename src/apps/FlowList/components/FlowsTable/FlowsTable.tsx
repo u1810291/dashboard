@@ -6,20 +6,25 @@ import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { dateSortCompare } from 'lib/date';
 import { getNewFlowId } from 'models/Flow.model';
 import { QATags } from 'models/QA.model';
-import { Routes } from 'models/Router.model';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'lib/url';
+import { notification } from 'apps/ui';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { NoFlows } from '../NoFlows/NoFlows';
 import { TableRowHovered, useStyles } from './FlowsTable.styles';
+import { Routes } from 'models/Router.model';
+import { getTemplate } from 'apps/Templates/store/Templates.actions';
+import { useFormatMessage } from 'apps/intl';
+import { useHistory } from 'react-router-dom';
 
-export function FlowsTable({ onAddNewFlow }) {
+export function FlowsTable({ onAddNewFlow, canAddTemplate = false }) {
   const intl = useIntl();
   const classes = useStyles();
+  const history = useHistory();
   const [deleting, setDeleting] = useState(null);
   const merchantFlowModel = useSelector(selectMerchantFlowsModel);
   const merchantFlowList = useSelector(selectMerchantFlowList);
@@ -29,6 +34,7 @@ export function FlowsTable({ onAddNewFlow }) {
     intl.formatMessage({ id: 'VerificationFlow.modal.delete.subtitle' }),
   );
   const dispatch = useDispatch();
+  const formatMessage = useFormatMessage();
   const isNewDesign = useSelector(selectIsNewDesign);
   const { asMerchantId } = useQuery();
   const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
@@ -60,6 +66,19 @@ export function FlowsTable({ onAddNewFlow }) {
     }
   }, [dispatch, deleting, confirmDelete, merchantFlowModel, currentFlowId, sortedFlowList.length]);
 
+  const handleRowClicked = async (event, id) => {
+    if (canAddTemplate) {
+      try {
+        await dispatch(getTemplate(id));
+        history.push(`${Routes.templates.root}/${id}`);
+      } catch (error) {
+        notification.error(formatMessage('Error.common'));
+      }
+    } else {
+      onMouseUpHandler(event, id);
+    }
+  };
+
   return (
     <TableContainer className={classes.container}>
       <Table className={classes.table} data-qa={QATags.Flows.Table}>
@@ -78,7 +97,7 @@ export function FlowsTable({ onAddNewFlow }) {
               hover
               key={item.id}
               onMouseDown={onMouseDownHandler}
-              onMouseUp={(event) => onMouseUpHandler(event, item.id)}
+              onMouseUp={(event) => handleRowClicked(event, item.id)}
             >
               <TableCell>
                 <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color="common.black90">

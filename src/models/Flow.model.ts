@@ -62,7 +62,6 @@ export function createEmptyFlow() {
     watchlists: [],
     integrationType: 'sdk',
     name: 'Untitled Template',
-    verificationPatterns: {},
     denyUploadsFromMobileGallery: false,
   };
 }

@@ -4,22 +4,24 @@ import { useOverlay, Modal } from 'apps/overlay';
 import { Box, Chip, TextareaAutosize, TextField, Button, Select, MenuItem, Checkbox, ListItemText, FormHelperText } from '@material-ui/core';
 import classnames from 'classnames';
 import { useForm } from 'react-hook-form';
-import { TemplateSaveInputsTypes } from 'apps/Templates/model/Templates.model';
+import { ITemplateMetadata, TemplateSaveInputsTypes } from 'apps/Templates/model/Templates.model';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { IoCloseOutline } from 'react-icons/io5';
-import { createTemplate, getMetadata } from 'apps/Templates/store/Templates.actions';
+import { createTemplate } from 'apps/Templates/store/Templates.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { notification } from 'apps/ui';
-import { selectCountryMetadata, selectIndustryMetadata } from 'apps/Templates/store/Templates.selectors';
-import { useStyles } from './TemplateSaveModal.styles';
+import { Routes } from 'models/Router.model';
+import { useHistory } from 'react-router-dom';
 import { useLoadMetadataList } from 'apps/Templates/hooks/UseLoadMetadataList';
+import { selectCountryMetadata, selectIndustryMetadata, selectCurrentTemplateModelValue } from 'apps/Templates/store/Templates.selectors';
+import { useStyles } from './TemplateSaveModal.styles';
 
 interface TemplateSaveInputs {
   [TemplateSaveInputsTypes.TemplateTitle]: string;
   [TemplateSaveInputsTypes.MetamapName]: string;
-  [TemplateSaveInputsTypes.Industries]: string[];
-  [TemplateSaveInputsTypes.Countries]: string[];
+  [TemplateSaveInputsTypes.Industries]: ITemplateMetadata[];
+  [TemplateSaveInputsTypes.Countries]: ITemplateMetadata[];
   [TemplateSaveInputsTypes.Description]: string;
 }
 
@@ -28,8 +30,17 @@ export function TemplateSaveModal() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [, closeOverlay] = useOverlay();
+  const history = useHistory();
   const industries = useSelector(selectIndustryMetadata);
   const countries = useSelector(selectCountryMetadata);
+  const currentTemplate = useSelector(selectCurrentTemplateModelValue);
+
+  useEffect(() => {
+    if (currentTemplate !== null) {
+      history.push(`${Routes.templates.root}/${currentTemplate._id}`);
+      closeOverlay();
+    }
+  }, [currentTemplate, history, closeOverlay]);
 
   const { register, handleSubmit, setValue, watch, trigger, formState: { errors, isSubmitting, isValid, isDirty } } = useForm<TemplateSaveInputs>({
     mode: 'onBlur',
@@ -70,12 +81,13 @@ export function TemplateSaveModal() {
   useLoadMetadataList();
 
   const handleSubmitForm = async () => {
-    await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Countries]]));
+    const response = await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Countries]]));
+    return response;
   };
 
   const handleSaveTemplate = async () => {
     try {
-      await handleSubmit(handleSubmitForm)();
+      handleSubmit(handleSubmitForm)();
     } catch (error) {
       if (error) {
         notification.error(formatMessage('Error.common'));
@@ -88,7 +100,9 @@ export function TemplateSaveModal() {
     trigger(property); // Force validation after deleting a value
   };
 
-  const renderChip = useCallback((selectValues, onDelete, type) => selectValues.map((selectValue) => <Chip className={classes.chip} variant="outlined" key={selectValue.name} label={selectValue.name} onDelete={() => onDelete(selectValue, type)} deleteIcon={<IoCloseOutline onMouseDown={(event) => event.stopPropagation()} />} />), [classes]);
+  const renderChip = useCallback((selectValues: ITemplateMetadata[], onDelete: (value: ITemplateMetadata, type: TemplateSaveInputsTypes) => void, type: TemplateSaveInputsTypes) => selectValues.map((selectValue) => <Chip className={classes.chip} variant="outlined" key={selectValue.name} label={selectValue.name} onDelete={() => onDelete(selectValue, type)} deleteIcon={<IoCloseOutline onMouseDown={(event) => event.stopPropagation()} />} />), [classes]);
+
+  const getIsChecked = (value, type) => values[type].some((metadata) => metadata.name === value.name);
 
   return (
     <Modal
@@ -156,14 +170,14 @@ export function TemplateSaveModal() {
                       className: classes.dropdownMenuPaper,
                     },
                   }}
-                  renderValue={(selectValues) => renderChip(selectValues, handleDeleteChip, TemplateSaveInputsTypes.Industries)}
+                  renderValue={(selectValues) => renderChip(selectValues as any, handleDeleteChip, TemplateSaveInputsTypes.Industries)}
                   autoWidth={false}
                   error={!!errors[TemplateSaveInputsTypes.Industries]}
                 >
                   {industries.map((industry) => (
                     // @ts-ignore
                     <MenuItem key={industry.name} value={industry} className={classes.menuItem}>
-                      <Checkbox checked={values[TemplateSaveInputsTypes.Industries].includes(industry.name)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
+                      <Checkbox checked={getIsChecked(industry, TemplateSaveInputsTypes.Industries)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
                       <ListItemText primary={industry.name} />
                     </MenuItem>
                   ))}
@@ -179,7 +193,7 @@ export function TemplateSaveModal() {
                 <Select
                   {...countriesRegister}
                   value={values[TemplateSaveInputsTypes.Countries]}
-                  renderValue={(selectValues) => renderChip(selectValues, handleDeleteChip, TemplateSaveInputsTypes.Countries)}
+                  renderValue={(selectValues) => renderChip(selectValues as any, handleDeleteChip, TemplateSaveInputsTypes.Countries)}
                   multiple
                   disableUnderline
                   className={classnames(classes.select, { [classes.selectError]: !!errors[TemplateSaveInputsTypes.Countries] })}
@@ -200,7 +214,7 @@ export function TemplateSaveModal() {
                   {countries.map((country) => (
                     // @ts-ignore
                     <MenuItem key={country.name} value={country} className={classes.menuItem}>
-                      <Checkbox checked={values[TemplateSaveInputsTypes.Countries].includes(country.name)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
+                      <Checkbox checked={getIsChecked(country, TemplateSaveInputsTypes.Countries)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
                       <ListItemText primary={country.name} />
                     </MenuItem>
                   ))}

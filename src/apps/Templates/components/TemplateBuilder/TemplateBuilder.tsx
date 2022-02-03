@@ -23,6 +23,7 @@ import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } fro
 import { flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { SaveAndPublishTemplate } from 'apps/Templates/components/SaveAndPublishTemplate/SaveAndPublishTemplate';
 import { useStyles } from './TemplateBuilder.styles';
+import { clearCurrentTemplate } from 'apps/Templates/store/Templates.actions';
 
 export function TemplateBuilder() {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ export function TemplateBuilder() {
   useProduct();
 
   useEffect(() => {
+    dispatch(clearCurrentTemplate());
     dispatch(flowBuilderClearStore());
     dispatch(flowBuilderCreateEmptyFlow());
   }, [dispatch]);

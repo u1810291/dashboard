@@ -1,4 +1,4 @@
-import { ITemplateMetadata, MetadataType } from 'apps/Templates/model/Templates.model';
+import { ICreateTemplateResponse, ITemplateMetadata, MetadataType } from 'apps/Templates/model/Templates.model';
 import { createSelector } from 'reselect';
 import { Loadable } from 'models/Loadable.model';
 import { selectModelValue } from 'lib/loadable.selectors';
@@ -24,4 +24,14 @@ export const selectIndustryMetadata = createSelector<any, any, ITemplateMetadata
 export const selectCountryMetadata = createSelector<any, any, ITemplateMetadata[]>(
   selectMetadataListModel,
   selectModelValue((model) => model.filter((value) => value.type === MetadataType.Country)),
+);
+
+export const selectCurrentTemplateModel = createSelector<any, TemplatesStore, Loadable<ICreateTemplateResponse>>(
+  selectTemplatesStore,
+  (store) => store[SliceNames.CurrentTemplate],
+);
+
+export const selectCurrentTemplateModelValue = createSelector<any, any, ICreateTemplateResponse>(
+  selectCurrentTemplateModel,
+  selectModelValue(),
 );

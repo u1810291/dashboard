@@ -9,3 +9,7 @@ export function createTemplateRequest(name: string, description: string, metadat
 export function getMetadataRequest() {
   return http.get<ITemplateMetadata[]>('/api/v1/dashboard/template/metadata/list');
 }
+
+export function getTemplateRequest(id: string) {
+  return http.get<ICreateTemplateResponse>(`/api/v1/dashboard/template/${id}`);
+}
