@@ -1,4 +1,4 @@
-type cardOptions = Record<string, TemplateCardOptions[]>;;
+type cardOptions = Record<string, TemplateCardOptions[]>;
 
 export interface TemplateChosenFiltersProps {
   currentValue: cardOptions;
