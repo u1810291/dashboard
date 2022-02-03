@@ -23,7 +23,9 @@ export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialD
 
   return (
     <Box>
-      <span className={classes.appliedFilters}>Applied filters:</span>
+      <span className={classes.appliedFilters}>
+        {formatMessage('TemplateChosenFilters.title')}
+      </span>
       <span
         role="button"
         tabIndex={0}
@@ -31,7 +33,7 @@ export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialD
         onClick={() => setCurrentValue(initialData)}
         onKeyPress={() => setCurrentValue(initialData)}
       >
-        Reset filters
+        {formatMessage('TemplateChosenFilters.resetButton')}
       </span>
       <Box mt={1.4} mb={0} className={classes.chipContainer}>
         {chosenOptions.map((option) => (

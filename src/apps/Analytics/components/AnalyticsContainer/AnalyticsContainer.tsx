@@ -25,7 +25,6 @@ import { useStyles } from './AnalyticsContainer.styles';
 
 export function AnalyticsContainer() {
   const classes = useStyles();
-  const intl = useIntl();
   const location = useLocation();
   const dispatch = useDispatch();
   const [, addToUrl] = useFilterParser(analyticsFilterStructure);

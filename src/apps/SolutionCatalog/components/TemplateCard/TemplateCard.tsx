@@ -5,12 +5,15 @@ import Button from '@material-ui/core/Button';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
+import { useFormatMessage } from 'apps/intl';
 import { TemplateCardProps } from 'models/TemplatesModal.model';
 import Tooltip from '@material-ui/core/Tooltip';
 import { useStyles } from './TemplateCard.styles';
 
 export function TemplateCard({ title, description }: TemplateCardProps) {
   const classes = useStyles();
+  const formatMessage = useFormatMessage();
+
   return (
     <Box p={1.5} className={classes.templateCard}>
       <span className={classes.templateCardTitle}>{title}</span>
@@ -23,7 +26,7 @@ export function TemplateCard({ title, description }: TemplateCardProps) {
           <span className={classes.description}>{description}</span>
         </Box>
       </Tooltip>
-      <Button className={classes.selectButton} color="primary">Select</Button>
+      <Button className={classes.selectButton} color="primary">{formatMessage('TemplateCard.button')}</Button>
     </Box>
   );
 }

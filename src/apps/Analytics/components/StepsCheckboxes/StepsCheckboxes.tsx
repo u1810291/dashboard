@@ -9,7 +9,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { Modal, useOverlay } from 'apps/overlay';
-import { TemplatesModal } from 'apps/SolutionCatalog/components/TemplatesModal/TemplatesModal';
+import { TemplatesModal } from 'apps/SolutionCatalog';
 import { useFormatMessage } from 'apps/intl';
 import { StartModal } from '../StartModal/StartModal';
 import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
@@ -49,7 +49,7 @@ export function StepsCheckboxes() {
   ];
   return (
     <Box mb={2}>
-      <Typography variant="h3"> Complete these steps to get started </Typography>
+      <Typography variant="h3">{formatMessage('StepsCheckboxes.title')}</Typography>
       <Table className={classes.table}>
         <TableBody>
           {MOCK_DATA.length > 0 && MOCK_DATA.map((item, idx) => (

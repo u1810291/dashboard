@@ -4,6 +4,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Paper from '@material-ui/core/Paper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import { useFormatMessage } from 'apps/intl';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -13,9 +14,10 @@ import { TempalteFilterProps, TemplateCardOptions } from 'models/TemplatesModal.
 export function TemplateFilters({ title, filterData, currentFilters, setCurrentFilters }: TempalteFilterProps) {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const formatMessage = useFormatMessage();
   const toggle = () => setIsOpen(!isOpen);
   const handleClickAway = () => setIsOpen(false);
-  const buttonTitle = `Filter by ${title}`;
+  const buttonTitle = `${formatMessage('TemplateFilter.button')} ${title}`;
 
   function activeFilters(ev, item: TemplateCardOptions) {
     const currentActiveFilters = currentFilters[title];

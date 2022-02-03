@@ -184,8 +184,6 @@ export function TemplatesModal() {
 
   const filtersOptions = getFiltersOptions();
 
-  console.log(filtersOptions);
-
   return (
     <Modal
       onClose={closeOverlay}
@@ -195,14 +193,12 @@ export function TemplatesModal() {
         <Box className={classes.modalHeader}>
           <Box className={classes.modalHeaderLeft}>
             <span className={classes.modalTitle}>
-              Metamap Templates
+              {formatMessage('TemplatesModal.title')}
             </span>
             <span className={classes.modalSubtitle}>
-              Filter by industry and country to get started with one of our
-              template metamaps. If you don&apos;t see the template you&apos;re looking
-              for here, request it on our
+              {formatMessage('TemplatesModal.text')}
               {' '}
-              <a>Feedback Board</a>
+              <a>{formatMessage('TemplatesModal.link')}</a>
             </span>
           </Box>
           <Box className={classes.modalHeaderRight}>
