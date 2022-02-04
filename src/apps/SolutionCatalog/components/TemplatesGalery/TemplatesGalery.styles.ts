@@ -10,7 +10,7 @@ export const useStyles = makeStyles((theme) => ({
   swiperSlide: {
     borderRadius: '5px',
     backgroundColor: theme.palette.common.white,
-    filter: 'border: 1,5px solid rgba(80, 125, 237, 1)',
+    filter: `border: 1,5px solid ${theme.palette.common.blueopacity}`,
     minWidth: '220px',
     minHeight: '156px',
     maxWidth: '220px',

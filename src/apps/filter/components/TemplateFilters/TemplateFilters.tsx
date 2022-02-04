@@ -8,7 +8,7 @@ import { useFormatMessage } from 'apps/intl';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { TempalteFilterProps, TemplateCardOptions } from 'models/TemplatesModal.model';
+import { TempalteFilterProps, TemplateFilterOptions } from 'apps/SolutionCatalog';
 import { useStyles, FilterButton } from './TemplateFilters.style';
 
 export function TemplateFilters({ title, filterData, currentFilters, setCurrentFilters }: TempalteFilterProps) {
@@ -19,16 +19,16 @@ export function TemplateFilters({ title, filterData, currentFilters, setCurrentF
   const handleClickAway = () => setIsOpen(false);
   const buttonTitle = `${formatMessage('TemplateFilter.button')} ${title}`;
 
-  function activeFilters(ev, item: TemplateCardOptions) {
+  function activeFilters(event, item: TemplateFilterOptions) {
     const currentActiveFilters = currentFilters[title];
-    return ev.target.checked
+    return event.target.checked
       ? setCurrentFilters({ ...currentFilters, [title]: [...currentActiveFilters, item] })
       : setCurrentFilters({ ...currentFilters, [title]: currentActiveFilters.filter((value) => value.name !== item.name) });
   }
 
-  function isCheckboxChecked(item: TemplateCardOptions) {
+  function isCheckboxChecked(item: TemplateFilterOptions) {
     if (!currentFilters[title].length) return false;
-    return !!currentFilters[title].find((filter) => filter.name === item.name) && true;
+    return !!currentFilters[title].find((filter) => filter.name === item.name);
   }
 
   return (
@@ -72,7 +72,7 @@ export function TemplateFilters({ title, filterData, currentFilters, setCurrentF
                   />
                 )}
                 label={item.name}
-                onChange={(ev) => activeFilters(ev, item)}
+                onChange={(event) => activeFilters(event, item)}
               />
             ))}
           </Paper>

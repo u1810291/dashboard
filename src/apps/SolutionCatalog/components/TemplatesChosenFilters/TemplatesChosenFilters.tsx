@@ -3,17 +3,17 @@ import { useFormatMessage } from 'apps/intl';
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import { FiX } from 'react-icons/fi';
-import { TemplateChosenFiltersProps, TemplateCardOptions } from 'models/TemplatesModal.model';
+import { TemplateChosenFiltersProps, TemplateFilterOptions } from 'apps/SolutionCatalog';
 import { useStyles } from './TemplatesChosenFilters.styles';
 
 export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialData }: TemplateChosenFiltersProps) {
   const classes = useStyles();
   const formatMessage = useFormatMessage();
 
-  const chosenOptions: TemplateCardOptions[] = Object.values(currentValue).reduce((a, b) => a.concat(b), []);
+  const chosenOptions: TemplateFilterOptions[] = Object.values(currentValue).reduce((result, current) => result.concat(current), []);
 
-  function handleDelete(option: TemplateCardOptions) {
-    const result = {};
+  function handleDelete(option: TemplateFilterOptions) {
+    const result = initialData;
     Object.entries(currentValue).forEach(([filter, array]) => {
       result[filter] = array.filter((filterItem) => filterItem.name !== option.name);
     });

@@ -40,6 +40,7 @@ import { CUSTOM_WATCHLISTS_STORE_KEY } from 'apps/CustomWatchlist/state/CustomWa
 import { PRODUCT_BOARD_STORE_KEY } from 'apps/ProductBoard/state/ProductBoard.store';
 import { productBoardReducer } from 'apps/ProductBoard/state/ProductBoard.reducer';
 import { SOLUTION_CATALOG_STORE_KEY, solutionCatalogReducer } from 'apps/SolutionCatalog';
+import { TEMPLATES_STORE_KEY, templatesReducer } from 'apps/Templates';
 
 export const appReducers = combineReducers({
   [USER_STORE_KEY]: user,
@@ -63,6 +64,7 @@ export const appReducers = combineReducers({
   [CUSTOM_WATCHLISTS_STORE_KEY]: customWatchlist,
   [PRODUCT_BOARD_STORE_KEY]: productBoardReducer,
   [SOLUTION_CATALOG_STORE_KEY]: solutionCatalogReducer,
+  [TEMPLATES_STORE_KEY]: templatesReducer,
 });
 
 export const rootReducers = (state, action) => {

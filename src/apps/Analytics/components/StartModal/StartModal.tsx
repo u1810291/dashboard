@@ -1,5 +1,8 @@
 import React from 'react';
-import { Container, Button, Box, Typography } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import { useFormatMessage } from 'apps/intl';
 import { ReactComponent as GuideModal } from '../../assets/guide_modal.svg';
 import { useStyles } from './StartModal.styles';

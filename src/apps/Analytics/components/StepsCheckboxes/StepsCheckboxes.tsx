@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import React, { useCallback } from 'react';
+import React from 'react';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
@@ -52,7 +51,7 @@ export function StepsCheckboxes() {
       <Typography variant="h3">{formatMessage('StepsCheckboxes.title')}</Typography>
       <Table className={classes.table}>
         <TableBody>
-          {MOCK_DATA.length > 0 && MOCK_DATA.map((item, idx) => (
+          {MOCK_DATA.map((item, idx) => (
             <TableRowHovered
               hover
               key={idx}

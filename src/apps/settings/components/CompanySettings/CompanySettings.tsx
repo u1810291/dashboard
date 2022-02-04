@@ -15,7 +15,6 @@ import { useRole } from 'apps/collaborators';
 import { WithAgent } from 'models/Collaborator.model';
 import { useStyles } from './CompanySettings.styles';
 
-
 export function CompanySettings() {
   const intl = useIntl();
   const classes = useStyles();

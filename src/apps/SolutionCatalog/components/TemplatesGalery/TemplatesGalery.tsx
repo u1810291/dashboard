@@ -1,10 +1,10 @@
 import React from 'react';
 import { appPalette } from 'apps/theme';
 import Box from '@material-ui/core/Box';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import { FiArrowRight, FiArrowLeft } from 'react-icons/fi';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { TemplateGaleryProps } from 'models/TemplatesModal.model';
+import { TemplateGaleryProps } from 'apps/SolutionCatalog';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
@@ -36,10 +36,10 @@ export function TemplatesGallery({ mockTemplates }: TemplateGaleryProps) {
         </SwiperSlide>
       ))}
       <Box className={classes.controlsContainer}>
-        <Box className={classnames(classes.navigationControl, 'navigation-left')}>
+        <Box className={classNames(classes.navigationControl, 'navigation-left')}>
           <FiArrowLeft color={appPalette.white} size={32} />
         </Box>
-        <Box className={classnames(classes.navigationControl, 'navigation-right')}>
+        <Box className={classNames(classes.navigationControl, 'navigation-right')}>
           <FiArrowRight color={appPalette.white} size={32} />
         </Box>
       </Box>

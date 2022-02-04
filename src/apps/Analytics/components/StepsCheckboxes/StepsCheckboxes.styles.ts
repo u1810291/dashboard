@@ -1,5 +1,5 @@
-import { makeStyles } from '@material-ui/core/styles';
-import { TableRow, withStyles } from '@material-ui/core';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import TableRow from '@material-ui/core/TableRow';
 
 export const TableRowHovered = withStyles((theme) => ({
   root: {

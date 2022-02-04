@@ -107,7 +107,7 @@
     height: 170px;
     margin: 0 auto;
     border-radius: 50%;
-    background-color: #232939;
+    background-color: var(--mgi-theme-palette-darkblue);
   }
 
   :local(.titleWrapper) {
@@ -116,17 +116,17 @@
 
   :local(.subtitle) {
     max-width: 250px;
-    margin: 20px auto 20px;
-    color: #8392B8;
+    margin: 0 auto 20px;
+    color: var(--mgi-theme-palette-darkgrey);
   }
 
   :global(.btn-delete) {
-    color: #ffffff;
-    background-color: #FE7581;
+    color: var(--mgi-theme-palette-white);
+    background-color: var(--mgi-theme-palette-lightred);
 
     &:hover, &:focus {
-      color: #ffffff;
-      background-color: #fe8188;
+      color: var(--mgi-theme-palette-white);
+      background-color: var(--mgi-theme-palette-lightpink);
     }
   }
 
