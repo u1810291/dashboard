@@ -1,12 +1,13 @@
 import { Logo } from 'apps/logo/models/Logo.model';
 import { get } from 'lodash';
+import { BiometricTypes } from 'models/Biometric.model';
 import { IESignatureFlow } from './ESignature.model';
 import { DocumentTypes } from './Document.model';
 import { ProductIntegrationTypes } from './Product.model';
 import { IpValidation } from './IpCheck.model';
 import { InputValidationCheck } from './ImageValidation.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
-import { VerificationPatterns } from './VerificationPatterns.model';
+import { VerificationPatterns, VerificationPatternTypes } from './VerificationPatterns.model';
 import { IFlowWatchlist } from './CustomWatchlist.model';
 
 export const MAX_NUMBER_OF_FLOWS = 100;
@@ -61,6 +62,9 @@ export function createEmptyFlow() {
     integrationType: 'sdk',
     name: 'Untitled Template',
     denyUploadsFromMobileGallery: false,
+    verificationPatterns: {
+      [VerificationPatternTypes.Biometrics]: BiometricTypes.none,
+    },
   };
 }
 

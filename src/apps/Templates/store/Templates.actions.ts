@@ -1,16 +1,14 @@
 import { selectFlowBuilderChangeableFlow } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { flowBuilderProductListInit, types as flowBuilderTypes } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { selectCurrentTemplateModelValue } from 'apps/Templates/store/Templates.selectors';
-import { ITemplateMetadata } from 'apps/Templates/model/Templates.model';
-import { IFlow } from 'models/Flow.model';
-import { createTemplateRequest, getMetadataRequest, getTemplateRequest, updateTemplateRequest } from '../api/Templates.client';
 import { types } from './Templates.store';
+import { createTemplateRequest, getMetadataRequest, getTemplateRequest, updateTemplateRequest } from '../api/Templates.client';
 
 export const clearCurrentTemplate = () => ({ type: types.GET_TEMPLATE_CLEAR, payload: null });
 
 export const prepareTemplateToEdit = () => (dispatch, getState) => {
   const template = selectCurrentTemplateModelValue(getState());
-  dispatch({ type: flowBuilderTypes.CHANGEABLE_FLOW_CLEAR, payload: template.flow });
+  dispatch({ type: flowBuilderTypes.CHANGEABLE_FLOW_SUCCESS, payload: template.flow });
   dispatch(flowBuilderProductListInit(template.flow));
 };
 
