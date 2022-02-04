@@ -25,13 +25,3 @@ export const selectMetadataListModelValues = createSelector<any, any, ITemplateM
   selectMetadataListModel,
   selectModelValue(),
 );
-
-export const selectCurrentTemplateModel = createSelector<any, TemplatesStore, Loadable<ICreateTemplateResponse>>(
-  selectTemplatesStore,
-  (store) => store[SliceNames.CurrentTemplate],
-);
-
-export const selectCurrentTemplateModelValue = createSelector<any, any, ICreateTemplateResponse>(
-  selectCurrentTemplateModel,
-  selectModelValue(),
-);

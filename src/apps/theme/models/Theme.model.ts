@@ -60,6 +60,7 @@ declare module '@material-ui/core/styles/createPalette' {
     lightgreen: string;
     brightgreen: string;
     grayopacity: string;
+    lightgrayopacity: string;
   }
   interface PaletteOptions {
     text?: Partial<TypeText>;

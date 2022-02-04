@@ -23,7 +23,7 @@ export const TableRowHovered = withStyles((theme) => ({
       opacity: 0,
       visibility: 'hidden',
       transition: '.2s all ease-in-out',
-      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.15)',
+      boxShadow: `0 4px 14px ${theme.palette.common.lightgrayopacity}`,
     },
     [theme.breakpoints.down('md')]: {
       display: 'flex',
