@@ -51,7 +51,7 @@ export class AmlCheck extends ProductBaseService implements Product<ProductSetti
         value: pattern === AmlValidationTypes.SearchMonitoring,
       },
       [AmlSettingsTypes.AmlThreshold]: {
-        value: flow?.amlWatchlistsFuzzinessThreshold || 50,
+        value: flow?.amlWatchlistsFuzzinessThreshold ?? 50,
       },
     };
   }
@@ -94,7 +94,7 @@ export class AmlCheck extends ProductBaseService implements Product<ProductSetti
   }
 
   hasFailedCheck(verification: VerificationResponse): boolean {
-    return verification?.documents?.some((document) => document?.steps?.filter((step) => AmlDocumentSteps.includes(step)).map((step) => getStepStatus(step)).includes(StepStatus.Failure));
+    return verification?.documents?.some((document) => document?.steps?.filter((step) => AmlDocumentSteps.includes(step?.id)).map((step) => getStepStatus(step)).includes(StepStatus.Failure));
   }
 
   getVerification(verification: VerificationResponse): any {
