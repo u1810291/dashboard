@@ -289,7 +289,6 @@ const StepIncompletionErrors = {
   [StepTypes.EmailOwnership]: ['emailOwnership.notEnoughParams', 'emailOwnership.skipped'],
   [StepTypes.EmailRisk]: ['emailRisk.notEnoughParams', 'emailRisk.skipped'],
   [DocumentStepTypes.VenezuelanSeniat]: ['venezuelanSeniat.notEnoughParams'],
-  [StepTypes.PhoneOwnership]: ['phoneOwnership.notEnoughParams'],
   [DocumentStepTypes.KenyanEcitizen]: ['kenyanEcitizen.notEnoughParams'],
   [DocumentStepTypes.PeruvianSunat]: ['peruvianSunat.notEnoughParams'],
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoralCommission.notEnoughParams'],
