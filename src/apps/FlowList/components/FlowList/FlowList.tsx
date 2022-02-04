@@ -64,12 +64,11 @@ export function FlowList() {
   }, [isMobile]);
 
   const handleBuildMetamapButtonClick = () => {
-    // if (canAddTemplate) {
-    //   history.push(Routes.templates.newTemplate);
-    // } else {
-    //   handleAddNewFlow();
-    // }
-    history.push(Routes.templates.newTemplate);
+    if (canAddTemplate) {
+      history.push(Routes.templates.newTemplate);
+    } else {
+      handleAddNewFlow();
+    }
   };
 
   if (!flowListModel.isLoaded) {

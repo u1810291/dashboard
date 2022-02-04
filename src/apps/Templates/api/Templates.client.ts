@@ -13,3 +13,7 @@ export function getMetadataRequest() {
 export function getTemplateRequest(id: string) {
   return http.get<ICreateTemplateResponse>(`/api/v1/dashboard/template/${id}`);
 }
+
+export function updateTemplateRequest({ id, name, description, title, flow, metadata }: { id: string; title?: string; name?: string; description?: string; metadata?: ITemplateMetadata[]; flow?: IFlow }) {
+  return http.patch<ICreateTemplateResponse>(`/api/v1/dashboard/template/${id}`, { title, metadata, name, description, flow });
+}
