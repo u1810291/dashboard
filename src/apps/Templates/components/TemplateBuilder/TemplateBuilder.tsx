@@ -13,7 +13,7 @@ import React, { useCallback, useEffect } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { ProductListSidebar } from 'apps/flowBuilder/components/ProductListSidebar/ProductListSidebar';
 import { FlowProductsGraph } from 'apps/flowBuilder/components/FlowProductsGraph/FlowProductsGraph';
 import { FlowInfoContainer } from 'apps/flowBuilder/components/FlowInfoContainer/FlowInfoContainer';
@@ -22,10 +22,11 @@ import { FlowBuilderIntegrationDetails } from 'apps/flowBuilder/components/FlowB
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { SaveAndPublishTemplate } from 'apps/Templates/components/SaveAndPublishTemplate/SaveAndPublishTemplate';
+import { clearCurrentTemplate, prepareTemplateToEdit } from 'apps/Templates/store/Templates.actions';
 import { useStyles } from './TemplateBuilder.styles';
-import { clearCurrentTemplate } from 'apps/Templates/store/Templates.actions';
 
 export function TemplateBuilder() {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const selectedId = useSelector(selectFlowBuilderSelectedId);
   const changeableFlowModel = useSelector(selectFlowBuilderChangeableFlowModel);
@@ -37,11 +38,18 @@ export function TemplateBuilder() {
 
   useProduct();
 
+  const isEditMode = !!id;
+
   useEffect(() => {
-    dispatch(clearCurrentTemplate());
-    dispatch(flowBuilderClearStore());
-    dispatch(flowBuilderCreateEmptyFlow());
-  }, [dispatch]);
+    if (isEditMode) {
+      dispatch(prepareTemplateToEdit());
+      // if no templ - request it
+    } else {
+      dispatch(clearCurrentTemplate());
+      dispatch(flowBuilderClearStore());
+      dispatch(flowBuilderCreateEmptyFlow());
+    }
+  }, [dispatch, isEditMode]);
 
   useEffect(() => {
     dagreGraphService.createGraph();
@@ -73,7 +81,7 @@ export function TemplateBuilder() {
           <Grid item container direction="column" wrap="nowrap" className={classes.content}>
             <Grid item container justifyContent="flex-end">
               <Box mb={2}>
-                <SaveAndPublishTemplate />
+                <SaveAndPublishTemplate isEditMode={isEditMode} />
               </Box>
             </Grid>
             <Grid container item xs={12} justifyContent="space-between">

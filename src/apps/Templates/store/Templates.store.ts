@@ -8,6 +8,7 @@ export enum TemplatesActionGroup {
   createTemplate = 'CREATE_TEMPLATE',
   getMetadataList = 'GET_METADATA_LIST',
   getTemplate = 'GET_TEMPLATE',
+  updateTemplate = 'UPDATE_TEMPLATE',
 }
 
 export enum SliceNames {
@@ -25,4 +26,5 @@ export const types: TypesSequence = {
   ...createTypesSequence(TemplatesActionGroup.createTemplate),
   ...createTypesSequence(TemplatesActionGroup.getMetadataList),
   ...createTypesSequence(TemplatesActionGroup.getTemplate),
+  ...createTypesSequence(TemplatesActionGroup.updateTemplate),
 };

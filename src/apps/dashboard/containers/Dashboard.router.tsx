@@ -100,6 +100,7 @@ export function DashboardRouter() {
             <Route path={Routes.analytics.root} component={AnalyticsContainerLazy} />
             <Route exact path={Routes.flow.root} component={FlowListLazy} />
             <Route exact path={Routes.templates.details} component={TemplateBuilderLazy} />
+            <Route exact path={Routes.templates.newTemplate} component={TemplateBuilderLazy} />
             <Route path={Routes.flow.details} component={FlowBuilderLazy} />
             <Route path={Routes.workflow.details} component={WorkFlowBuilderLazy} />
             <Route path={Routes.collaborators.agentProfile.details} component={AgentHistoryLazy} />

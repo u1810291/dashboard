@@ -44,7 +44,7 @@ export const Routes = {
   },
   templates: {
     root: '/templates',
-    newTemplate: '/templates/new_template',
+    newTemplate: '/new_template',
     details: '/templates/:id',
   },
   workflow: {
