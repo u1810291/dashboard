@@ -49,8 +49,6 @@ export function TemplatesModal() {
     });
   };
 
-  console.log(currentFilters);
-
   const filtersOptions = getFiltersOptions();
 
   return (
