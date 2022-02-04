@@ -2,7 +2,6 @@ import { Box, Container, Grid } from '@material-ui/core';
 import { ByCountries, ByFlows, OpenFilter, useFilterParser } from 'apps/filter';
 import { AnalyticsMap } from 'apps/googleMap/components/AnalyticsMap/AnalyticsMap';
 import { PageLoader } from 'apps/layout';
-
 import { analyticsCleanFilter, analyticsFilterStructure } from 'models/Analytics.model';
 import { analyticsDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, getFilterDatesIsValid, parseFromURL } from 'models/Filter.model';
 import { QATags } from 'models/QA.model';
