@@ -24,6 +24,8 @@ import { flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCrea
 import { SaveAndPublishTemplate } from 'apps/Templates/components/SaveAndPublishTemplate/SaveAndPublishTemplate';
 import { clearCurrentTemplate, prepareTemplateToEdit } from 'apps/Templates/store/Templates.actions';
 import { useStyles } from './TemplateBuilder.styles';
+import { selectCurrentTemplateModelValue } from 'apps/Templates/store/Templates.selectors';
+import { useLoadCurrentTemplate } from 'apps/Templates/hooks/UseLoadCurrentTemplate';
 
 export function TemplateBuilder() {
   const { id } = useParams();
@@ -35,21 +37,24 @@ export function TemplateBuilder() {
   const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });
   const classes = useStyles();
   const intl = useIntl();
+  const currentTemplate = useSelector(selectCurrentTemplateModelValue);
 
   useProduct();
+  useLoadCurrentTemplate(id);
 
   const isEditMode = !!id;
 
   useEffect(() => {
     if (isEditMode) {
-      dispatch(prepareTemplateToEdit());
-      // if no templ - request it
+      if (currentTemplate) {
+        dispatch(prepareTemplateToEdit());
+      }
     } else {
       dispatch(clearCurrentTemplate());
       dispatch(flowBuilderClearStore());
       dispatch(flowBuilderCreateEmptyFlow());
     }
-  }, [dispatch, isEditMode]);
+  }, [dispatch, isEditMode, id, currentTemplate]);
 
   useEffect(() => {
     dagreGraphService.createGraph();
