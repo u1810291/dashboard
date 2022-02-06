@@ -43,7 +43,7 @@ export interface TemplateGaleryProps {
 }
 
 export const MOCK_TEMPLATES: Record<string, CardsOptions[]> = {
-  Compliance: [
+  Crypto: [
     {
       name: 'Lending Secured Loan Application',
       description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
@@ -77,7 +77,7 @@ export const MOCK_TEMPLATES: Record<string, CardsOptions[]> = {
       description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
     },
   ],
-  Work: [
+  LATAM: [
     {
       name: 'Lending Secured Loan Application',
       description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
@@ -111,7 +111,7 @@ export const MOCK_TEMPLATES: Record<string, CardsOptions[]> = {
       description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
     },
   ],
-  Finance: [
+  Bank: [
     {
       name: 'Lending Secured Loan Application',
       description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
