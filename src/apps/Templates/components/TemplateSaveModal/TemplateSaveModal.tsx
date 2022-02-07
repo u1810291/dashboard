@@ -4,7 +4,7 @@ import { useOverlay, Modal } from 'apps/overlay';
 import { Box, Chip, TextareaAutosize, TextField, Button, Select, MenuItem, Checkbox, ListItemText, FormHelperText } from '@material-ui/core';
 import classnames from 'classnames';
 import { useForm } from 'react-hook-form';
-import { ITemplateMetadata, TemplateSaveInputsTypes } from 'apps/Templates/model/Templates.model';
+import { ITemplateMetadata, TemplateSaveInputsTypes, TemplateSaveInputs, ICreateTemplateResponse, TEMPLATE_SAVE_FORM_INITIAL_STATE } from 'apps/Templates/model/Templates.model';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { IoCloseOutline } from 'react-icons/io5';
@@ -17,23 +17,15 @@ import { useLoadMetadataList } from 'apps/Templates/hooks/UseLoadMetadataList';
 import { selectCountryMetadata, selectIndustryMetadata, selectCurrentTemplateModelValue } from 'apps/Templates/store/Templates.selectors';
 import { useStyles } from './TemplateSaveModal.styles';
 
-interface TemplateSaveInputs {
-  [TemplateSaveInputsTypes.TemplateTitle]: string;
-  [TemplateSaveInputsTypes.MetamapName]: string;
-  [TemplateSaveInputsTypes.Industries]: ITemplateMetadata[];
-  [TemplateSaveInputsTypes.Countries]: ITemplateMetadata[];
-  [TemplateSaveInputsTypes.Description]: string;
-}
-
 export function TemplateSaveModal() {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
   const dispatch = useDispatch();
   const [, closeOverlay] = useOverlay();
   const history = useHistory();
-  const industries = useSelector(selectIndustryMetadata);
-  const countries = useSelector(selectCountryMetadata);
-  const currentTemplate = useSelector(selectCurrentTemplateModelValue);
+  const industries = useSelector<any, ITemplateMetadata[]>(selectIndustryMetadata);
+  const countries = useSelector<any, ITemplateMetadata[]>(selectCountryMetadata);
+  const currentTemplate = useSelector<any, ICreateTemplateResponse>(selectCurrentTemplateModelValue);
 
   useEffect(() => {
     if (currentTemplate !== null) {
@@ -44,13 +36,7 @@ export function TemplateSaveModal() {
 
   const { register, handleSubmit, setValue, watch, trigger, formState: { errors, isSubmitting, isValid, isDirty } } = useForm<TemplateSaveInputs>({
     mode: 'onBlur',
-    defaultValues: {
-      [TemplateSaveInputsTypes.TemplateTitle]: '',
-      [TemplateSaveInputsTypes.MetamapName]: '',
-      [TemplateSaveInputsTypes.Industries]: [],
-      [TemplateSaveInputsTypes.Countries]: [],
-      [TemplateSaveInputsTypes.Description]: '',
-    },
+    defaultValues: TEMPLATE_SAVE_FORM_INITIAL_STATE,
   });
   const values = watch();
 

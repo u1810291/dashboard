@@ -1,4 +1,5 @@
-import { Button, Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import { selectFlowBuilderHaveUnsavedChanges, selectFlowBuilderProductsInGraphModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { useProductsIssues } from 'apps/Product/hooks/ProductIssues.hook';
 import { TextBubble } from 'apps/ui';
@@ -7,14 +8,16 @@ import React from 'react';
 import { FiSave } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
-import { TemplateSaveModal } from 'apps/Templates/components/TemplateSaveModal/TemplateSaveModal';
+import { Loadable } from 'models/Loadable.model';
+import { ProductTypes } from 'models/Product.model';
+import { TemplateSaveModal } from 'apps/Templates';
 import { updateTemplate } from 'apps/Templates/store/Templates.actions';
 import { useStyles } from './SaveAndPublishTemplate.style';
 
 export function SaveAndPublishTemplate({ isEditMode = false }: { isEditMode?: boolean}) {
   const classes = useStyles();
   const intl = useIntl();
-  const productsInGraphModel = useSelector(selectFlowBuilderProductsInGraphModel);
+  const productsInGraphModel = useSelector<any, Loadable<ProductTypes[]>>(selectFlowBuilderProductsInGraphModel);
   const haveUnsavedChanges = useSelector<any, boolean>(selectFlowBuilderHaveUnsavedChanges);
   const haveIssues = useProductsIssues(productsInGraphModel.value);
   const [createOverlay] = useOverlay();

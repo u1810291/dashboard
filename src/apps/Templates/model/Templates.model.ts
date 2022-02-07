@@ -17,6 +17,14 @@ export enum TemplateSaveInputsTypes {
   Description = 'description',
 }
 
+export interface TemplateSaveInputs {
+  [TemplateSaveInputsTypes.TemplateTitle]: string;
+  [TemplateSaveInputsTypes.MetamapName]: string;
+  [TemplateSaveInputsTypes.Industries]: ITemplateMetadata[];
+  [TemplateSaveInputsTypes.Countries]: ITemplateMetadata[];
+  [TemplateSaveInputsTypes.Description]: string;
+}
+
 export enum MetadataType {
   Country = 'country',
   Industry = 'industry',
@@ -27,6 +35,14 @@ export interface ITemplateMetadata {
   name: string;
   description?: string;
 }
+
+export const TEMPLATE_SAVE_FORM_INITIAL_STATE = {
+  [TemplateSaveInputsTypes.TemplateTitle]: '',
+  [TemplateSaveInputsTypes.MetamapName]: '',
+  [TemplateSaveInputsTypes.Industries]: [],
+  [TemplateSaveInputsTypes.Countries]: [],
+  [TemplateSaveInputsTypes.Description]: '',
+};
 
 export const COUNTRIES_MOCK_DATA: ITemplateMetadata[] = [
   { _id: '0', type: MetadataType.Country, name: 'North America' },
