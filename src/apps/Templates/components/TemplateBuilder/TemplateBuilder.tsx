@@ -32,7 +32,7 @@ export function TemplateBuilder() {
   const dispatch = useDispatch();
   const selectedId = useSelector(selectFlowBuilderSelectedId);
   const changeableFlowModel = useSelector(selectFlowBuilderChangeableFlowModel);
-  const isProductInited = useSelector(selectProductIsInited);
+  const isProductInited = useSelector<any, boolean>(selectProductIsInited);
   const isBigScreen = useMediaQuery('(min-width:768px)', { noSsr: true });
   const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });
   const classes = useStyles();

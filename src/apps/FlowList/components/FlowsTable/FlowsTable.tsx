@@ -4,11 +4,10 @@ import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteMod
 import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { dateSortCompare } from 'lib/date';
-import { getNewFlowId } from 'models/Flow.model';
+import { getNewFlowId, IFlow } from 'models/Flow.model';
 import { QATags } from 'models/QA.model';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
-import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'lib/url';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
@@ -16,24 +15,24 @@ import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel }
 import { Routes } from 'models/Router.model';
 import { getTemplate } from 'apps/Templates/store/Templates.actions';
 import { useFormatMessage } from 'apps/intl';
+import { Loadable } from 'models/Loadable.model';
 import { useHistory } from 'react-router-dom';
 import { NoFlows } from '../NoFlows/NoFlows';
 import { TableRowHovered, useStyles } from './FlowsTable.styles';
 
-export function FlowsTable({ onAddNewFlow, canAddTemplate = false }) {
-  const intl = useIntl();
+export function FlowsTable({ onAddNewFlow, canAddTemplate = false }: { onAddNewFlow: () => void; canAddTemplate: boolean }) {
   const classes = useStyles();
   const history = useHistory();
-  const [deleting, setDeleting] = useState(null);
-  const merchantFlowModel = useSelector(selectMerchantFlowsModel);
-  const merchantFlowList = useSelector(selectMerchantFlowList);
-  const currentFlowId = useSelector(selectCurrentFlowId);
+  const [flowIdToDelete, setFlowIdToDelete] = useState<string>(null);
+  const merchantFlowModel = useSelector<any, Loadable<IFlow>>(selectMerchantFlowsModel);
+  const merchantFlowList = useSelector<any, IFlow[]>(selectMerchantFlowList);
+  const currentFlowId = useSelector<any, string>(selectCurrentFlowId);
+  const formatMessage = useFormatMessage();
   const confirmDelete = useConfirmDelete(
-    intl.formatMessage({ id: 'VerificationFlow.modal.delete.title' }),
-    intl.formatMessage({ id: 'VerificationFlow.modal.delete.subtitle' }),
+    formatMessage('VerificationFlow.modal.delete.title'),
+    formatMessage('VerificationFlow.modal.delete.subtitle'),
   );
   const dispatch = useDispatch();
-  const formatMessage = useFormatMessage();
   const isNewDesign = useSelector(selectIsNewDesign);
   const { asMerchantId } = useQuery();
   const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
@@ -42,12 +41,12 @@ export function FlowsTable({ onAddNewFlow, canAddTemplate = false }) {
 
   const handleDelete = useCallback(async (e, id) => {
     e.stopPropagation();
-    if (deleting || sortedFlowList.length <= 1) {
+    if (flowIdToDelete || sortedFlowList.length <= 1) {
       return;
     }
 
     try {
-      setDeleting(id);
+      setFlowIdToDelete(id);
       await confirmDelete();
       if (id === currentFlowId) {
         const newFlowId = getNewFlowId(merchantFlowModel, currentFlowId);
@@ -61,9 +60,9 @@ export function FlowsTable({ onAddNewFlow, canAddTemplate = false }) {
       }
       console.error('identity remove error', error);
     } finally {
-      setDeleting(null);
+      setFlowIdToDelete(null);
     }
-  }, [dispatch, deleting, confirmDelete, merchantFlowModel, currentFlowId, sortedFlowList.length]);
+  }, [dispatch, flowIdToDelete, confirmDelete, merchantFlowModel, currentFlowId, sortedFlowList.length]);
 
   const handleRowClicked = async (event, id) => {
     if (canAddTemplate) {
@@ -102,19 +101,19 @@ export function FlowsTable({ onAddNewFlow, canAddTemplate = false }) {
               <TableCell>
                 <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color="common.black90">
                   <Typography variant="h4">{item.name}</Typography>
-                  <Box className={classes.label}>{intl.formatMessage({ id: 'flow.table.field.name' })}</Box>
+                  <Box className={classes.label}>{formatMessage('flow.table.field.name')}</Box>
                 </Box>
               </TableCell>
               <TableCell>
                 <Box mb={{ xs: 2, lg: 0 }}>
                   <Box component="span" className={classes.itemType}>{item?.integrationType || '-'}</Box>
-                  <Box className={classes.label}>{intl.formatMessage({ id: 'flow.table.field.type' })}</Box>
+                  <Box className={classes.label}>{formatMessage('flow.table.field.type')}</Box>
                 </Box>
               </TableCell>
               <TableCell>
                 <Box mb={{ xs: 2, lg: 0 }}>
                   <Box component="span" className={classes.itemTypeId}>{item?.id}</Box>
-                  <Box className={classes.label}>{intl.formatMessage({ id: 'flow.table.field.flowId' })}</Box>
+                  <Box className={classes.label}>{formatMessage('flow.table.field.flowId')}</Box>
                 </Box>
               </TableCell>
               {sortedFlowList.length > 1 && (
@@ -125,7 +124,7 @@ export function FlowsTable({ onAddNewFlow, canAddTemplate = false }) {
                     tabIndex="-1"
                     className={classes.iconButtonDelete}
                   >
-                    {item.id === deleting ? <IconLoad /> : <FiTrash2 className="color-red" />}
+                    {item.id === flowIdToDelete ? <IconLoad /> : <FiTrash2 className="color-red" />}
                   </IconButton>
                 </TableCell>
               )}
