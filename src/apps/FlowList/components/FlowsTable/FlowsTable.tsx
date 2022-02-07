@@ -6,14 +6,14 @@ import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { dateSortCompare } from 'lib/date';
 import { getNewFlowId, IFlow } from 'models/Flow.model';
 import { QATags } from 'models/QA.model';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'lib/url';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
-import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { selectCurrentFlowId, selectFlowsAsTemplates, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { Routes } from 'models/Router.model';
-import { getTemplate } from 'apps/Templates/store/Templates.actions';
+import { getTemplate, getTemplates } from 'apps/Templates/store/Templates.actions';
 import { useFormatMessage } from 'apps/intl';
 import { Loadable } from 'models/Loadable.model';
 import { useHistory } from 'react-router-dom';
@@ -36,8 +36,12 @@ export function FlowsTable({ onAddNewFlow, canAddTemplate = false }: { onAddNewF
   const isNewDesign = useSelector<any, boolean>(selectIsNewDesign);
   const { asMerchantId } = useQuery();
   const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
-
+  const flowsAsTemplates = useSelector<any, IFlow[]>(selectFlowsAsTemplates);
   const sortedFlowList = useMemo(() => [...merchantFlowList].sort((a, b) => dateSortCompare(a.createdAt, b.createdAt)), [merchantFlowList]);
+
+  useEffect(() => {
+    dispatch(getTemplates());
+  }, [dispatch]);
 
   const handleDelete = useCallback(async (e, id) => {
     e.stopPropagation();
@@ -96,7 +100,6 @@ export function FlowsTable({ onAddNewFlow, canAddTemplate = false }: { onAddNewF
               key={item.id}
               onMouseDown={onMouseDownHandler}
               onMouseUp={(event) => handleRowClicked(event, item.id)}
-              // onMouseUp={onMouseUpHandler}
             >
               <TableCell>
                 <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color="common.black90">

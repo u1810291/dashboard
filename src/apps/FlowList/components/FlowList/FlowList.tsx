@@ -103,7 +103,7 @@ export function FlowList() {
                 {merchantFlowList?.length > 0 && (
                 <span>
                   <Button
-                    // disabled={isButtonDisabled}
+                    disabled={isButtonDisabled}
                     variant="contained"
                     disableElevation
                     onClick={handleBuildMetamapButtonClick}

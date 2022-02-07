@@ -251,8 +251,5 @@ export const selectPhoneRiskAnalysisThreshold = createSelector(
 export const selectFlowsAsTemplates = createSelector(
   selectMerchantFlowList,
   selectTemplatesList,
-  (a, b) => {
-    console.log(a, b);
-    return [];
-  },
+  (flowList, templatesList) => flowList.filter((flow) => templatesList.some((template) => template._id === flow.id)),
 );
