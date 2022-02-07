@@ -18,6 +18,7 @@ export function Verification() {
   const verificationError = useSelector(selectVerificationModelError);
   const documentsWithPrivateMedia = useDocsWithPrivateMedia(verificationWithExtra?.documents, Routes.identity.profile.root);
   const biometricsWithPrivateMedia = useBiometricsWithPrivateMedia(verificationWithExtra?.biometric);
+  // TODO: @all wrong desing, we don't mutate backend data on fly
   const stepsWithPrivateMedia = useDownloadAllPrivateMedia(verificationWithExtra?.steps);
   const verificationWithPrivateMedia = useMemo<VerificationWithExtras>(() => ({ ...verificationWithExtra, steps: stepsWithPrivateMedia, documents: documentsWithPrivateMedia, biometric: biometricsWithPrivateMedia }), [biometricsWithPrivateMedia, documentsWithPrivateMedia, stepsWithPrivateMedia, verificationWithExtra]);
   const [selectedProduct, setSelectedProduct] = useState<ProductTypes>(null);
