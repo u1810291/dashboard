@@ -11,15 +11,14 @@ import { FiTrash2 } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'lib/url';
-import { notification } from 'apps/ui';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
-import { NoFlows } from '../NoFlows/NoFlows';
-import { TableRowHovered, useStyles } from './FlowsTable.styles';
 import { Routes } from 'models/Router.model';
 import { getTemplate } from 'apps/Templates/store/Templates.actions';
 import { useFormatMessage } from 'apps/intl';
 import { useHistory } from 'react-router-dom';
+import { NoFlows } from '../NoFlows/NoFlows';
+import { TableRowHovered, useStyles } from './FlowsTable.styles';
 
 export function FlowsTable({ onAddNewFlow, canAddTemplate = false }) {
   const intl = useIntl();

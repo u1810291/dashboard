@@ -30,6 +30,7 @@ export const createTemplate = (title, name, description, metadata) => async (dis
     const flow = selectFlowBuilderChangeableFlow(getState());
     const { data } = await createTemplateRequest(title, description, metadata, { ...flow, name });
     dispatch({ type: types.CREATE_TEMPLATE_SUCCESS, payload: data });
+    dispatch({ type: flowBuilderTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
   } catch (error) {
     dispatch({ type: types.CREATE_TEMPLATE_FAILURE, error });
     throw error;
@@ -37,16 +38,19 @@ export const createTemplate = (title, name, description, metadata) => async (dis
 };
 
 export const updateTemplate = () => async (dispatch, getState) => {
-  dispatch({ type: types.CREATE_TEMPLATE_UPDATING });
+  dispatch({ type: types.UPDATE_TEMPLATE_UPDATING });
 
   try {
     const state = getState();
     const flow = selectFlowBuilderChangeableFlow(state);
     const { _id } = selectCurrentTemplateModelValue(state);
-    updateTemplateRequest({ id: _id, flow });
-    //
+    const { data } = await updateTemplateRequest({ id: _id, flow });
+    dispatch({ type: flowBuilderTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
+    dispatch({ type: flowBuilderTypes.CHANGEABLE_FLOW_SUCCESS, payload: data.flow });
+    dispatch({ type: types.UPDATE_TEMPLATE_SUCCESS, payload: data });
   } catch (error) {
-    //
+    dispatch({ type: types.UPDATE_TEMPLATE_FAILURE, error });
+    throw error;
   }
 };
 
