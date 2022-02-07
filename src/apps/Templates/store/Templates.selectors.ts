@@ -41,7 +41,7 @@ export const selectTemplatesListModel = createSelector<any, any, Loadable<ITempl
   (store) => store[SliceNames.Templates],
 );
 
-export const selectTemplatesList = createSelector<any, any, ITemplate>(
+export const selectTemplatesList = createSelector<any, any, ITemplate[]>(
   selectTemplatesListModel,
   selectModelValue(),
 );

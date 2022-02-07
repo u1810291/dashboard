@@ -11,12 +11,12 @@ import { IFlow } from 'models/Flow.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
-import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { SaveAndPublishTemplate } from 'apps/Templates';
+import { useFormatMessage } from 'apps/intl';
 import { ITemplate } from '../../model/Templates.model';
 import { clearCurrentTemplate, prepareTemplateToEdit } from '../../store/Templates.actions';
 import { selectCurrentTemplateModelValue } from '../../store/Templates.selectors';
@@ -32,7 +32,8 @@ export function TemplateBuilder() {
   const isBigScreen = useMediaQuery('(min-width:768px)', { noSsr: true });
   const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });
   const classes = useStyles();
-  const intl = useIntl();
+  // const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const currentTemplate = useSelector<any, ITemplate>(selectCurrentTemplateModelValue);
   const [isBuilderInitialized, setIsBuilderInitiazed] = useState<boolean>(false);
 
@@ -90,7 +91,7 @@ export function TemplateBuilder() {
             <Grid container item xs={12} justifyContent="space-between">
               <Grid item xs={12} container direction="column" alignItems="center" className={classes.content}>
                 <Box mb={1.5} color="common.black90" fontWeight="bold" textAlign="center">
-                  {intl.formatMessage({ id: 'FlowBuilder.graph.usersFlow' })}
+                  {formatMessage('FlowBuilder.graph.usersFlow')}
                 </Box>
                 <Grid container direction="column" alignItems="center" className={classes.graph}>
                   <FlowProductsGraph />
@@ -98,14 +99,14 @@ export function TemplateBuilder() {
               </Grid>
               <Grid item container direction="column" wrap="nowrap" className={classes.details}>
                 {selectedId && (
-                <FlowBuilderProductDetails
-                  flow={changeableFlowModel.value}
-                  productId={selectedId}
-                  onUpdate={handleProductUpdate}
-                />
+                  <FlowBuilderProductDetails
+                    flow={changeableFlowModel.value}
+                    productId={selectedId}
+                    onUpdate={handleProductUpdate}
+                  />
                 )}
                 {!selectedId && (
-                <FlowBuilderIntegrationDetails />
+                  <FlowBuilderIntegrationDetails />
                 )}
               </Grid>
             </Grid>
@@ -118,7 +119,7 @@ export function TemplateBuilder() {
           </Link>
           <Paper className={classes.placeholder}>
             <Placeholder
-              text={intl.formatMessage({ id: 'FlowBuilder.placeholder' })}
+              text={formatMessage('FlowBuilder.placeholder')}
               icon={<EmptyBuilderIcon />}
             />
           </Paper>
