@@ -3,6 +3,7 @@ import { IFlow } from 'models/Flow.model';
 import { IProductCard, Product, ProductCheck, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { IconType } from 'react-icons';
 import { VerificationResponse } from 'models/Verification.model';
+import { BankAccountDataCountriesNotSpecified } from '../../BankAccountData/components/BankAccountDataCountriesNotSpecified/BankAccountDataCountriesNotSpecified';
 
 export abstract class ProductBaseService implements Partial<Product> {
   abstract id: ProductTypes;
@@ -19,6 +20,12 @@ export abstract class ProductBaseService implements Partial<Product> {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getIssuesComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
+    const isBankDataHaveNoCountries = flow.financialInformationBankAccountsRetrieving.countryCodes.length === 0;
+
+    if (isBankDataHaveNoCountries) {
+      return BankAccountDataCountriesNotSpecified;
+    }
+
     return null;
   }
 
@@ -28,7 +35,8 @@ export abstract class ProductBaseService implements Partial<Product> {
 
   haveIssues(flow: IFlow): boolean {
     const integrationType = flow.integrationType;
-    return (integrationType === ProductIntegrationTypes.Api && this.isSdkOnly()) || (!this.isIssuesIgnored && this.getIssuesComponent(flow) !== null);
+    const isBankDataHaveNoCountries = flow.financialInformationBankAccountsRetrieving.countryCodes.length === 0;
+    return (integrationType === ProductIntegrationTypes.Api && this.isSdkOnly()) || (!this.isIssuesIgnored && this.getIssuesComponent(flow) !== null) || isBankDataHaveNoCountries;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
