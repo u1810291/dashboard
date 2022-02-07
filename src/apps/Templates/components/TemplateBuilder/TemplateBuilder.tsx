@@ -9,7 +9,7 @@ import { PreviewButton } from 'apps/WebSDKPreview';
 import { ReactComponent as EmptyBuilderIcon } from 'assets/empty-flow-builder.svg';
 import { IFlow } from 'models/Flow.model';
 import { Routes } from 'models/Router.model';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,9 +23,9 @@ import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } fro
 import { flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { SaveAndPublishTemplate } from 'apps/Templates/components/SaveAndPublishTemplate/SaveAndPublishTemplate';
 import { clearCurrentTemplate, prepareTemplateToEdit } from 'apps/Templates/store/Templates.actions';
-import { useStyles } from './TemplateBuilder.styles';
 import { selectCurrentTemplateModelValue } from 'apps/Templates/store/Templates.selectors';
 import { useLoadCurrentTemplate } from 'apps/Templates/hooks/UseLoadCurrentTemplate';
+import { useStyles } from './TemplateBuilder.styles';
 
 export function TemplateBuilder() {
   const { id } = useParams();
@@ -38,6 +38,7 @@ export function TemplateBuilder() {
   const classes = useStyles();
   const intl = useIntl();
   const currentTemplate = useSelector(selectCurrentTemplateModelValue);
+  const [isBuilderInitialized, setIsBuilderInitiazed] = useState<boolean>(false);
 
   useProduct();
   useLoadCurrentTemplate(id);
@@ -46,15 +47,17 @@ export function TemplateBuilder() {
 
   useEffect(() => {
     if (isEditMode) {
-      if (currentTemplate) {
+      if (currentTemplate && !isBuilderInitialized) {
+        console.log(' cur templ init');
         dispatch(prepareTemplateToEdit());
+        setIsBuilderInitiazed(true);
       }
     } else {
       dispatch(clearCurrentTemplate());
       dispatch(flowBuilderClearStore());
       dispatch(flowBuilderCreateEmptyFlow());
     }
-  }, [dispatch, isEditMode, id, currentTemplate]);
+  }, [dispatch, isEditMode, id, currentTemplate, isBuilderInitialized]);
 
   useEffect(() => {
     dagreGraphService.createGraph();
