@@ -10,7 +10,6 @@ export function BankAccountDataCountriesNotSpecified() {
   return (
     <Box className={classes.badge}>
       {intl.formatMessage({ id: 'BankAccountData.issues.isCountriesNotSpecified.description' })}
-      <img src="https://i.imgflip.com/646fwv.jpg" alt="samuel" />
     </Box>
   );
 }
