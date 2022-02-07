@@ -43,15 +43,13 @@ export function FlowInfo({ canEdit, isEditable, newFlowName, setIsEditable, onSu
           </Grid>
         ) : name}
       </Box>
-      {
-        !isTemplate && (
-          <Grid container alignItems="center">
-            <Box color="common.black75">
-              {`${intl.formatMessage({ id: 'FlowBuilder.info.createdOn' })} ${formatDate(createdAt, DateFormat.MonthShortWithSpace)}`}
-            </Box>
-          </Grid>
-        )
-      }
+      {!isTemplate && (
+        <Grid container alignItems="center">
+          <Box color="common.black75">
+            {`${intl.formatMessage({ id: 'FlowBuilder.info.createdOn' })} ${formatDate(createdAt, DateFormat.MonthShortWithSpace)}`}
+          </Box>
+        </Grid>
+      )}
     </Box>
   );
 }

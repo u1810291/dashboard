@@ -17,7 +17,7 @@ import { Link, useParams } from 'react-router-dom';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { SaveAndPublishTemplate } from 'apps/Templates';
-import { ICreateTemplateResponse } from '../../model/Templates.model';
+import { ITemplate } from '../../model/Templates.model';
 import { clearCurrentTemplate, prepareTemplateToEdit } from '../../store/Templates.actions';
 import { selectCurrentTemplateModelValue } from '../../store/Templates.selectors';
 import { useLoadCurrentTemplate } from '../../hooks/UseLoadCurrentTemplate';
@@ -33,7 +33,7 @@ export function TemplateBuilder() {
   const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });
   const classes = useStyles();
   const intl = useIntl();
-  const currentTemplate = useSelector<any, ICreateTemplateResponse>(selectCurrentTemplateModelValue);
+  const currentTemplate = useSelector<any, ITemplate>(selectCurrentTemplateModelValue);
   const [isBuilderInitialized, setIsBuilderInitiazed] = useState<boolean>(false);
 
   useProduct();

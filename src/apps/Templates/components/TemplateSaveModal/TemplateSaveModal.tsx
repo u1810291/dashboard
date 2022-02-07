@@ -13,7 +13,7 @@ import { Routes } from 'models/Router.model';
 import { useHistory } from 'react-router-dom';
 import { useLoadMetadataList } from '../../hooks/UseLoadMetadataList';
 import { selectCountryMetadata, selectIndustryMetadata, selectCurrentTemplateModelValue } from '../../store/Templates.selectors';
-import { ITemplateMetadata, TemplateSaveInputsTypes, TemplateSaveInputs, ICreateTemplateResponse, TEMPLATE_SAVE_FORM_INITIAL_STATE } from '../../model/Templates.model';
+import { ITemplateMetadata, TemplateSaveInputsTypes, TemplateSaveInputs, ITemplate, TEMPLATE_SAVE_FORM_INITIAL_STATE } from '../../model/Templates.model';
 import { createTemplate } from '../../store/Templates.actions';
 import { useStyles } from './TemplateSaveModal.styles';
 
@@ -25,7 +25,7 @@ export function TemplateSaveModal() {
   const history = useHistory();
   const industries = useSelector<any, ITemplateMetadata[]>(selectIndustryMetadata);
   const countries = useSelector<any, ITemplateMetadata[]>(selectCountryMetadata);
-  const currentTemplate = useSelector<any, ICreateTemplateResponse>(selectCurrentTemplateModelValue);
+  const currentTemplate = useSelector<any, ITemplate>(selectCurrentTemplateModelValue);
 
   useEffect(() => {
     if (currentTemplate !== null) {
