@@ -5,7 +5,7 @@ import { IESignatureFlow } from './ESignature.model';
 import { DocumentTypes } from './Document.model';
 import { ProductIntegrationTypes } from './Product.model';
 import { IpValidation } from './IpCheck.model';
-import { InputValidationCheck } from './ImageValidation.model';
+import { InputValidationCheck, InputValidationType } from './ImageValidation.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
 import { VerificationPatterns, VerificationPatternTypes } from './VerificationPatterns.model';
 import { IFlowWatchlist } from './CustomWatchlist.model';
@@ -18,11 +18,8 @@ export function getNewFlowId(merchantFlowsModel, currentFlowId) {
   return get(merchantFlowsModel, `value[${newIndex}].id`, currentFlowId);
 }
 
-export function createEmptyFlow() {
+export function createEmptyFlow(): IFlow {
   return {
-    financialInformationBankAccountsRetrieving: {},
-    financialInformationPayrollAccountsRetrieving: {},
-    financialInformationWorkAccountsRetrieving: {},
     style: {
       color: 'blue',
       language: 'en',
@@ -35,31 +32,30 @@ export function createEmptyFlow() {
       'age',
       'isDocumentExpired',
     ],
-    digitalSignature: 'none',
+    digitalSignature: DigitalSignatureProvider.NONE,
     emailRiskThreshold: 80,
     supportedCountries: [],
     verificationSteps: [],
-    customDocumentConfig: [],
     inputValidationChecks: [
       {
-        id: 'GrayscaleImage',
+        id: InputValidationType.GrayscaleImage,
         isDisabled: true,
       },
       {
-        id: 'SimilarImages',
+        id: InputValidationType.SimilarImages,
         isDisabled: true,
       },
       {
-        id: 'IdenticalImages',
+        id: InputValidationType.IdenticalImages,
         isDisabled: true,
       },
       {
-        id: 'DocumentDetected',
+        id: InputValidationType.DocumentDetected,
         isDisabled: false,
       },
     ],
     watchlists: [],
-    integrationType: 'sdk',
+    integrationType: ProductIntegrationTypes.Sdk,
     name: 'Untitled Template',
     denyUploadsFromMobileGallery: false,
     verificationPatterns: {

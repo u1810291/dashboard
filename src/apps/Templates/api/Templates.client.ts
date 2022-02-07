@@ -17,3 +17,7 @@ export function getTemplateRequest(id: string) {
 export function updateTemplateRequest({ id, name, description, title, flow, metadata }: { id: string; title?: string; name?: string; description?: string; metadata?: ITemplateMetadata[]; flow?: IFlow }) {
   return http.patch<ICreateTemplateResponse>(`/api/v1/dashboard/template/${id}`, { title, metadata, name, description, flow });
 }
+
+export function getTemplatesRequest() {
+  return http.get<ICreateTemplateResponse[]>('/api/v1/dashboard/template');
+}

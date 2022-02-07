@@ -35,3 +35,13 @@ export const selectCurrentTemplateModelValue = createSelector<any, any, ICreateT
   selectCurrentTemplateModel,
   selectModelValue(),
 );
+
+export const selectTemplatesListModel = createSelector<any, any, Loadable<ICreateTemplateResponse[]>>(
+  selectTemplatesStore,
+  (store) => store[SliceNames.Templates],
+);
+
+export const selectTemplatesList = createSelector<any, any, ICreateTemplateResponse>(
+  selectTemplatesListModel,
+  selectModelValue(),
+);

@@ -2,7 +2,7 @@ import { selectFlowBuilderChangeableFlow } from 'apps/flowBuilder/store/FlowBuil
 import { flowBuilderProductListInit, types as flowBuilderTypes } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { selectCurrentTemplateModelValue } from 'apps/Templates/store/Templates.selectors';
 import { types } from './Templates.store';
-import { createTemplateRequest, getMetadataRequest, getTemplateRequest, updateTemplateRequest } from '../api/Templates.client';
+import { createTemplateRequest, getMetadataRequest, getTemplateRequest, updateTemplateRequest, getTemplatesRequest } from '../api/Templates.client';
 
 export const clearCurrentTemplate = () => ({ type: types.GET_TEMPLATE_CLEAR, payload: null });
 
@@ -10,6 +10,20 @@ export const prepareTemplateToEdit = () => (dispatch, getState) => {
   const template = selectCurrentTemplateModelValue(getState());
   dispatch({ type: flowBuilderTypes.CHANGEABLE_FLOW_SUCCESS, payload: template.flow });
   dispatch(flowBuilderProductListInit(template.flow));
+};
+
+export const getTemplates = () => async (dispatch) => {
+  //
+  dispatch({ type: types.GET_TEMPLATES_UPDATING });
+
+  try {
+    const { data } = await getTemplatesRequest();
+    dispatch({ type: types.GET_TEMPLATES_SUCCESS, payload: data });
+    console.log(data);
+  } catch (error) {
+    dispatch({ type: types.GET_TEMPLATES_FAILURE, error });
+    throw error;
+  }
 };
 
 export const getMetadata = () => async (dispatch) => {

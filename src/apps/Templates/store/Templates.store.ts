@@ -9,16 +9,19 @@ export enum TemplatesActionGroup {
   getMetadataList = 'GET_METADATA_LIST',
   getTemplate = 'GET_TEMPLATE',
   updateTemplate = 'UPDATE_TEMPLATE',
+  getTemplates = 'GET_TEMPLATES',
 }
 
 export enum SliceNames {
   MetadataList = 'metadataList',
-  CurrentTemplate = 'currentTemplate'
+  CurrentTemplate = 'currentTemplate',
+  Templates = 'templates',
 }
 
 export interface TemplatesStore {
   [SliceNames.MetadataList]: Loadable<ITemplateMetadata[]>;
   [SliceNames.CurrentTemplate]: Loadable<ICreateTemplateResponse>;
+  [SliceNames.Templates]: Loadable<ICreateTemplateResponse[]>;
 }
 
 export const types: TypesSequence = {
@@ -26,4 +29,5 @@ export const types: TypesSequence = {
   ...createTypesSequence(TemplatesActionGroup.getMetadataList),
   ...createTypesSequence(TemplatesActionGroup.getTemplate),
   ...createTypesSequence(TemplatesActionGroup.updateTemplate),
+  ...createTypesSequence(TemplatesActionGroup.getTemplates),
 };
