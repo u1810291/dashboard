@@ -1,5 +1,4 @@
 import { productManagerService, selectProductRegistered } from 'apps/Product';
-import { types as templateStoreTypes } from 'apps/Templates/store/Templates.store';
 import { mergeDeep } from 'lib/object';
 import { cloneDeep } from 'lodash';
 import { ApiResponse } from 'models/Client.model';
@@ -33,8 +32,7 @@ export const flowBuilderClearStore = () => (dispatch) => {
 
 export const flowBuilderCreateEmptyFlow = () => (dispatch) => {
   dispatch({ type: types.CHANGEABLE_FLOW_CLEAR, payload: createEmptyFlow() });
-  dispatch({ type: types.PRODUCTS_IN_GRAPH_CLEAR, payload: [] });
-  dispatch({ type: templateStoreTypes.CREATE_EMPTY_FLOW });
+  dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, payload: [] });
 };
 
 export const flowBuilderProductListInit = (flow) => (dispatch, getState) => {

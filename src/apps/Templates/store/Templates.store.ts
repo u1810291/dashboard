@@ -22,7 +22,6 @@ export interface TemplatesStore {
 }
 
 export const types: TypesSequence = {
-  CREATE_EMPTY_FLOW: 'CREATE_EMPTY_FLOW',
   ...createTypesSequence(TemplatesActionGroup.createTemplate),
   ...createTypesSequence(TemplatesActionGroup.getMetadataList),
   ...createTypesSequence(TemplatesActionGroup.getTemplate),
