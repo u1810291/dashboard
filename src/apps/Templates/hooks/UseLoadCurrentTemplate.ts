@@ -12,7 +12,7 @@ export function useLoadCurrentTemplate(id: string) {
 
   useEffect(() => {
     const loadData = async () => {
-      if (LoadableAdapter.isPristine(templateModel)) {
+      if (LoadableAdapter.isPristine(templateModel) && !!id) {
         try {
           await dispatch(getTemplate(id));
         } catch (error) {

@@ -6,21 +6,22 @@ import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { dateSortCompare } from 'lib/date';
 import { getNewFlowId, IFlow } from 'models/Flow.model';
 import { QATags } from 'models/QA.model';
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'lib/url';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectCurrentFlowId, selectFlowsAsTemplates, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { Routes } from 'models/Router.model';
-import { getTemplate, getTemplates } from 'apps/Templates/store/Templates.actions';
+import { useLoadTemplatesList } from 'apps/Templates/hooks/UseLoadTemplatesList';
 import { useFormatMessage } from 'apps/intl';
 import { Loadable } from 'models/Loadable.model';
+import { blockTemplate } from 'apps/Templates/store/Templates.actions';
 import { useHistory } from 'react-router-dom';
 import { NoFlows } from '../NoFlows/NoFlows';
 import { TableRowHovered, useStyles } from './FlowsTable.styles';
 
-export function FlowsTable({ onAddNewFlow, canAddTemplate = false }: { onAddNewFlow: () => void; canAddTemplate: boolean }) {
+export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   const classes = useStyles();
   const history = useHistory();
   const [flowIdToDelete, setFlowIdToDelete] = useState<string>(null);
@@ -32,6 +33,10 @@ export function FlowsTable({ onAddNewFlow, canAddTemplate = false }: { onAddNewF
     formatMessage('VerificationFlow.modal.delete.title'),
     formatMessage('VerificationFlow.modal.delete.subtitle'),
   );
+  const confirmBlockTemplate = useConfirmDelete(
+    formatMessage(''),
+    formatMessage(''),
+  );
   const dispatch = useDispatch();
   const isNewDesign = useSelector<any, boolean>(selectIsNewDesign);
   const { asMerchantId } = useQuery();
@@ -39,12 +44,9 @@ export function FlowsTable({ onAddNewFlow, canAddTemplate = false }: { onAddNewF
   const flowsAsTemplates = useSelector<any, IFlow[]>(selectFlowsAsTemplates);
   const sortedFlowList = useMemo(() => [...merchantFlowList].sort((a, b) => dateSortCompare(a.createdAt, b.createdAt)), [merchantFlowList]);
 
-  useEffect(() => {
-    dispatch(getTemplates());
-  }, [dispatch]);
+  useLoadTemplatesList();
 
-  const handleDelete = useCallback(async (e, id) => {
-    e.stopPropagation();
+  const handleDelete = useCallback(async (id) => {
     if (flowIdToDelete || sortedFlowList.length <= 1) {
       return;
     }
@@ -68,14 +70,38 @@ export function FlowsTable({ onAddNewFlow, canAddTemplate = false }: { onAddNewF
     }
   }, [dispatch, flowIdToDelete, confirmDelete, merchantFlowModel, currentFlowId, sortedFlowList.length]);
 
-  const handleRowClicked = async (event, id) => {
-    if (canAddTemplate) {
-      try {
-        await dispatch(getTemplate(id));
-        history.push(`${Routes.templates.root}/${id}`);
-      } catch (error) {
-        onMouseUpHandler({ ...event, button: 0 }, id);
+  const handleBlockTemplate = async (id) => {
+    try {
+      setFlowIdToDelete(id);
+      await confirmDelete();
+      dispatch(blockTemplate(id));
+    } catch (error) {
+      if (!error) {
+        // cancelled
+        return;
       }
+    } finally {
+      setFlowIdToDelete(null);
+    }
+  };
+
+  const handleDeleteButtonClick = (event, id) => {
+    event.stopPropagation();
+    const isTemplate = flowsAsTemplates.some((flow) => flow.id === id);
+
+    if (isTemplate) {
+      handleBlockTemplate(id);
+    } else {
+      handleDelete(id);
+    }
+  };
+
+  const handleRowClicked = async (event, id) => {
+    event.stopPropagation();
+    const isTemplate = flowsAsTemplates.some((flow) => flow.id === id);
+
+    if (isTemplate) {
+      history.push(`${Routes.templates.root}/${id}`);
     } else {
       onMouseUpHandler({ ...event, button: 0 }, id);
     }
@@ -123,7 +149,7 @@ export function FlowsTable({ onAddNewFlow, canAddTemplate = false }: { onAddNewF
                 <TableCell className={classes.iconDeleteWrapper}>
                   <IconButton
                     size="small"
-                    onMouseUp={(e) => handleDelete(e, item.id)}
+                    onMouseUp={(e) => handleDeleteButtonClick(e, item.id)}
                     tabIndex="-1"
                     className={classes.iconButtonDelete}
                   >

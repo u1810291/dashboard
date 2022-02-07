@@ -1,8 +1,10 @@
 import { selectFlowBuilderChangeableFlow } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { flowBuilderProductListInit, types as flowBuilderTypes } from 'apps/flowBuilder/store/FlowBuilder.action';
+import { types as merchantActionTypes } from 'state/merchant/merchant.actions';
+import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import { selectCurrentTemplateModelValue } from './Templates.selectors';
 import { types } from './Templates.store';
-import { createTemplateRequest, getMetadataRequest, getTemplateRequest, updateTemplateRequest, getTemplatesRequest } from '../api/Templates.client';
+import { createTemplateRequest, getMetadataRequest, getTemplateRequest, updateTemplateRequest, getTemplatesRequest, blockTemplateRequest } from '../api/Templates.client';
 
 export const clearCurrentTemplate = () => ({ type: types.GET_TEMPLATE_CLEAR, payload: null });
 
@@ -75,5 +77,19 @@ export const getTemplate = (id: string) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: types.GET_TEMPLATE_FAILURE, error });
     throw error;
+  }
+};
+
+export const blockTemplate = (id: string) => async (dispatch, getState) => {
+  dispatch({ type: types.BLOCK_TEMPLATE_UPDATING });
+
+  try {
+    const { data: { _id } } = await blockTemplateRequest(id);
+    const flowList = selectMerchantFlowList(getState());
+    const newTemplatesList = flowList.filter((flow) => flow.id !== _id);
+    // @ts-ignore
+    dispatch({ type: merchantActionTypes.FLOWS_SUCCESS, payload: newTemplatesList, isReset: true });
+  } catch (error) {
+    dispatch({ type: types.BLOCK_TEMPLATE_FAILURE, payload: error });
   }
 };

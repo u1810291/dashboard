@@ -32,7 +32,6 @@ export function TemplateBuilder() {
   const isBigScreen = useMediaQuery('(min-width:768px)', { noSsr: true });
   const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });
   const classes = useStyles();
-  // const intl = useIntl();
   const formatMessage = useFormatMessage();
   const currentTemplate = useSelector<any, ITemplate>(selectCurrentTemplateModelValue);
   const [isBuilderInitialized, setIsBuilderInitiazed] = useState<boolean>(false);
