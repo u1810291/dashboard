@@ -113,7 +113,7 @@
   "BankAccountData.card.check.Identity": "Identity",
   "BankAccountData.card.check.Transactions": "Transactions",
   "BankAccountData.card.title": "Bank Account Data",
-  "BankAccountData.issues.isCountriesNotSpecified.description": "Countries not specified",
+  "BankAccountData.issues.isCountriesNotSpecified.description": "Please select at least one country",
   "BankAccountData.result.status": "Status",
   "BankAccountData.result.status.checking": "Checking",
   "BankAccountData.result.status.checking.description": "Verification is still being processed, please wait a few more seconds.",
