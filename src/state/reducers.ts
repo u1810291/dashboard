@@ -43,7 +43,7 @@ import { productBoardReducer } from 'apps/ProductBoard/state/ProductBoard.reduce
 import { WORKFLOW_BUILDER_STORE_KEY } from 'apps/WorkflowBuilder/store/WorkflowBuilder.store';
 import { workflowBuilderReducer } from 'apps/WorkflowBuilder/store/WorkflowBuilder.reducer';
 import { TEMPLATES_STORE_KEY } from 'apps/Templates/store/Templates.store';
-import { templatesReducer } from 'apps/Templates/store/Templates.reducer';
+import { templatesReducer } from 'apps/Templates';
 
 export const appReducers = combineReducers({
   [USER_STORE_KEY]: user,

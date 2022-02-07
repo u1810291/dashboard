@@ -34,8 +34,8 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
     formatMessage('VerificationFlow.modal.delete.subtitle'),
   );
   const confirmBlockTemplate = useConfirmDelete(
-    formatMessage(''),
-    formatMessage(''),
+    formatMessage('Templates.block.title'),
+    formatMessage('Templates.block.subtitle'),
   );
   const dispatch = useDispatch();
   const isNewDesign = useSelector<any, boolean>(selectIsNewDesign);
@@ -71,16 +71,18 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   }, [dispatch, flowIdToDelete, confirmDelete, merchantFlowModel, currentFlowId, sortedFlowList.length]);
 
   const handleBlockTemplate = async (id) => {
+    if (flowIdToDelete) return;
+
     try {
       setFlowIdToDelete(id);
-      await confirmDelete();
+      await confirmBlockTemplate();
       await dispatch(blockTemplate(id));
-      setFlowIdToDelete(null);
     } catch (error) {
       if (!error) {
         // cancelled
         return;
       }
+    } finally {
       setFlowIdToDelete(null);
     }
   };

@@ -13,22 +13,22 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
+import { Loadable } from 'models/Loadable.model';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { SaveAndPublishTemplate } from 'apps/Templates';
 import { useFormatMessage } from 'apps/intl';
+import { ProductTypes } from 'models/Product.model';
 import { ITemplate } from '../../model/Templates.model';
 import { clearCurrentTemplate, prepareTemplateToEdit, getTemplate } from '../../store/Templates.actions';
 import { selectCurrentTemplateModelValue, selectCurrentTemplateModel } from '../../store/Templates.selectors';
-import { useLoadCurrentTemplate } from '../../hooks/UseLoadCurrentTemplate';
 import { useStyles } from './TemplateBuilder.styles';
-import { Loadable } from 'models/Loadable.model';
 
 export function TemplateBuilder() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const selectedId = useSelector(selectFlowBuilderSelectedId);
-  const changeableFlowModel = useSelector(selectFlowBuilderChangeableFlowModel);
+  const selectedId = useSelector<any, ProductTypes>(selectFlowBuilderSelectedId);
+  const changeableFlowModel = useSelector<any, Loadable<IFlow>>(selectFlowBuilderChangeableFlowModel);
   const isProductInited = useSelector<any, boolean>(selectProductIsInited);
   const isBigScreen = useMediaQuery('(min-width:768px)', { noSsr: true });
   const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });

@@ -82,7 +82,7 @@ export const useStyles = makeStyles((theme) => ({
     minHeight: 38,
     maxHeight: 38,
     borderRadius: 4,
-    border: '1px solid rgb(131, 146, 184)',
+    border: `1px solid ${theme.palette.common.black75}`,
     width: '317px',
     maxWidth: '70%',
     padding: '0 22px 0 10px',
