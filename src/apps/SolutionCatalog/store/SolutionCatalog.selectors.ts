@@ -1,10 +1,11 @@
 import { createSelector } from 'reselect';
-import { SOLUTION_CATALOG_STORE_KEY } from './SolutionCatalog.store';
-import { ITemplateMetadata } from 'apps/Templates';
+import { Loadable } from 'models/Loadable.model';
+import { SOLUTION_CATALOG_STORE_KEY, SolutionCatalogStore } from './SolutionCatalog.store';
+import { CardsOptions } from 'apps/SolutionCatalog';
 
 export const selectSolutionCatalogStore = (state) => state[SOLUTION_CATALOG_STORE_KEY];
 
-export const selectAllTemplatesList = createSelector<any, any, ITemplateMetadata>(
+export const selectAllTemplatesList = createSelector<any, SolutionCatalogStore, Loadable<Record<string, CardsOptions[]>>>(
   selectSolutionCatalogStore,
   (store) => store.allTemplates,
 );

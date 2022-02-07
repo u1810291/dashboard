@@ -12,7 +12,7 @@ import 'swiper/components/pagination/pagination.min.css';
 import { TemplatesGallery } from '../TemplatesGalery/TemplatesGalery';
 import { TemplatesChosenFilters } from '../TemplatesChosenFilters/TemplatesChosenFilters';
 import { useMetadataLoad, CardsData } from 'apps/SolutionCatalog';
-import { MOCK_TEMPLATES } from '../../model/SolutionCatalog.model';
+import { MOCK_TEMPLATES, filteredArray, getFiltersOptions } from '../../model/SolutionCatalog.model';
 // import { loadTemplates } from '../../store/SolutionCatalog.action';
 // import { selectAllTemplatesList } from '../../store/SolutionCatalog.selectors';
 import { ITemplateMetadata, MetadataType } from 'apps/Templates';
@@ -28,28 +28,9 @@ export function TemplatesModal() {
   const initialFiltersData:Record<MetadataType, []> = { industry: [], country: [] };
   const [currentFilters, setCurrentFilters] = useState<Record<MetadataType, ITemplateMetadata[]>>(initialFiltersData);
   const filtersByDefault = !Object.values(currentFilters).some((el) => !!el.length);
-
   // TODO:  this function just for example how filtering looks like , until we don't have response from backend
-  const filteredArray = (dataArray) => {
-    // @ts-ignore
-    if (!currentFilters.industry.length) return dataArray;
-    // @ts-ignore
-    const chosenIndustry = currentFilters.industry.map((item) => item.name.toLowerCase());
-    const filterResults = Object.entries(dataArray).filter(([industry]) => chosenIndustry.includes(industry.toLowerCase()));
-    return Object.fromEntries(filterResults);
-  };
-
-  const filteredResponse: Record<string, CardsData[]> = filteredArray(MOCK_TEMPLATES);
-
-  const getFiltersOptions = () => {
-    const titles = Array.from(new Set(filtersData.value.map((item) => item.type)));
-    return titles.map((title) => {
-      const uniqueOptions = filtersData.value.filter((item) => item.type === title);
-      return { title, data: [...uniqueOptions] };
-    });
-  };
-
-  const filtersOptions = getFiltersOptions();
+  const filteredResponse: Record<string, CardsData[]> = filteredArray(MOCK_TEMPLATES, currentFilters);
+  const filtersOptions = getFiltersOptions(filtersData.value);
 
   return (
     <Modal

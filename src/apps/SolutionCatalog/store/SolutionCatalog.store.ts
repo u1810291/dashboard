@@ -1,3 +1,6 @@
+import { CardsOptions } from 'apps/SolutionCatalog';
+import { Loadable } from 'models/Loadable.model';
+
 export const SOLUTION_CATALOG_STORE_KEY = 'templatesModal';
 
 export enum SolutionCatalogActionGroups {
@@ -9,5 +12,5 @@ export enum SliceNames {
 }
 
 export interface SolutionCatalogStore {
-  [SliceNames.AllTemplates]: object;
+  [SliceNames.AllTemplates]: Loadable<Record<string, CardsOptions[]>>;
 }

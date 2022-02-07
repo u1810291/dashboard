@@ -26,6 +26,11 @@ export interface TemplateFilterOptions {
   description?: string;
 }
 
+export interface ModifiedFiltersOptions {
+  title: MetadataType;
+  data: TemplateFilterOptions[];
+}
+
 export interface CardsData {
   name: string;
   description: string;
@@ -146,3 +151,21 @@ export const MOCK_TEMPLATES: Record<string, CardsOptions[]> = {
     },
   ],
 };
+
+// TODO:  this function just for example how filtering looks like , until we don't have response from backend
+export function filteredArray(dataArray, currentFilters) {
+  // @ts-ignore
+  if (!currentFilters.industry.length) return dataArray;
+  // @ts-ignore
+  const chosenIndustry = currentFilters.industry.map((item) => item.name.toLowerCase());
+  const filterResults = Object.entries(dataArray).filter(([industry]) => chosenIndustry.includes(industry.toLowerCase()));
+  return Object.fromEntries(filterResults);
+}
+
+export function getFiltersOptions(filtersData:TemplateFilterOptions[]):ModifiedFiltersOptions[] {
+  const titles = Array.from(new Set(filtersData.map((item) => item.type)));
+  return titles.map((title) => {
+    const uniqueOptions = filtersData.filter((item) => item.type === title);
+    return { title, data: [...uniqueOptions] };
+  });
+}
