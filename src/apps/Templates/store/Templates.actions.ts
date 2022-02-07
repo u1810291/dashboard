@@ -1,6 +1,6 @@
 import { selectFlowBuilderChangeableFlow } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { flowBuilderProductListInit, types as flowBuilderTypes } from 'apps/flowBuilder/store/FlowBuilder.action';
-import { selectCurrentTemplateModelValue } from 'apps/Templates/store/Templates.selectors';
+import { selectCurrentTemplateModelValue } from './Templates.selectors';
 import { types } from './Templates.store';
 import { createTemplateRequest, getMetadataRequest, getTemplateRequest, updateTemplateRequest, getTemplatesRequest } from '../api/Templates.client';
 
@@ -13,13 +13,11 @@ export const prepareTemplateToEdit = () => (dispatch, getState) => {
 };
 
 export const getTemplates = () => async (dispatch) => {
-  //
   dispatch({ type: types.GET_TEMPLATES_UPDATING });
 
   try {
     const { data } = await getTemplatesRequest();
     dispatch({ type: types.GET_TEMPLATES_SUCCESS, payload: data });
-    console.log(data);
   } catch (error) {
     dispatch({ type: types.GET_TEMPLATES_FAILURE, error });
     throw error;

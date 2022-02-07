@@ -1,8 +1,8 @@
-import { ITemplate, ITemplateMetadata, MetadataType } from 'apps/Templates/model/Templates.model';
 import { createSelector } from 'reselect';
 import { Loadable } from 'models/Loadable.model';
 import { selectModelValue } from 'lib/loadable.selectors';
 import { SliceNames, TemplatesStore, TEMPLATES_STORE_KEY } from './Templates.store';
+import { ITemplate, ITemplateMetadata, MetadataType } from '../model/Templates.model';
 
 export const selectTemplatesStore = (state) => state[TEMPLATES_STORE_KEY];
 
