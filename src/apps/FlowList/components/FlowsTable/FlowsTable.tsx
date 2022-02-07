@@ -74,13 +74,13 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
     try {
       setFlowIdToDelete(id);
       await confirmDelete();
-      dispatch(blockTemplate(id));
+      await dispatch(blockTemplate(id));
+      setFlowIdToDelete(null);
     } catch (error) {
       if (!error) {
         // cancelled
         return;
       }
-    } finally {
       setFlowIdToDelete(null);
     }
   };

@@ -18,10 +18,11 @@ import { flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCrea
 import { SaveAndPublishTemplate } from 'apps/Templates';
 import { useFormatMessage } from 'apps/intl';
 import { ITemplate } from '../../model/Templates.model';
-import { clearCurrentTemplate, prepareTemplateToEdit } from '../../store/Templates.actions';
-import { selectCurrentTemplateModelValue } from '../../store/Templates.selectors';
+import { clearCurrentTemplate, prepareTemplateToEdit, getTemplate } from '../../store/Templates.actions';
+import { selectCurrentTemplateModelValue, selectCurrentTemplateModel } from '../../store/Templates.selectors';
 import { useLoadCurrentTemplate } from '../../hooks/UseLoadCurrentTemplate';
 import { useStyles } from './TemplateBuilder.styles';
+import { Loadable } from 'models/Loadable.model';
 
 export function TemplateBuilder() {
   const { id } = useParams();
@@ -33,25 +34,31 @@ export function TemplateBuilder() {
   const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });
   const classes = useStyles();
   const formatMessage = useFormatMessage();
+  const currentTemplateModel = useSelector<any, Loadable<ITemplate>>(selectCurrentTemplateModel);
   const currentTemplate = useSelector<any, ITemplate>(selectCurrentTemplateModelValue);
   const [isBuilderInitialized, setIsBuilderInitiazed] = useState<boolean>(false);
 
   useProduct();
-  useLoadCurrentTemplate(id);
 
   const isEditMode = !!id;
 
   useEffect(() => {
-    if (isEditMode) {
-      if (currentTemplate && !isBuilderInitialized) {
-        dispatch(prepareTemplateToEdit());
-        setIsBuilderInitiazed(true);
+    async function init() {
+      if (isEditMode) {
+        if (!isBuilderInitialized) {
+          setIsBuilderInitiazed(true);
+          dispatch(flowBuilderClearStore());
+          dispatch(clearCurrentTemplate());
+          await dispatch(getTemplate(id));
+          dispatch(prepareTemplateToEdit());
+        }
+      } else {
+        dispatch(clearCurrentTemplate());
+        dispatch(flowBuilderClearStore());
+        dispatch(flowBuilderCreateEmptyFlow());
       }
-    } else {
-      dispatch(clearCurrentTemplate());
-      dispatch(flowBuilderClearStore());
-      dispatch(flowBuilderCreateEmptyFlow());
     }
+    init();
   }, [dispatch, isEditMode, id, currentTemplate, isBuilderInitialized]);
 
   useEffect(() => {
@@ -62,7 +69,7 @@ export function TemplateBuilder() {
     dispatch(flowBuilderChangeableFlowUpdate(patch));
   }, [dispatch]);
 
-  if (!isProductInited) {
+  if (!isProductInited || (currentTemplateModel.isLoading && isEditMode)) {
     return <Loader />;
   }
 

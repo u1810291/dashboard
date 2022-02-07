@@ -10,8 +10,8 @@ export const clearCurrentTemplate = () => ({ type: types.GET_TEMPLATE_CLEAR, pay
 
 export const prepareTemplateToEdit = () => (dispatch, getState) => {
   const template = selectCurrentTemplateModelValue(getState());
-  dispatch({ type: flowBuilderTypes.CHANGEABLE_FLOW_SUCCESS, payload: template.flow });
   dispatch(flowBuilderProductListInit(template.flow));
+  dispatch({ type: flowBuilderTypes.CHANGEABLE_FLOW_SUCCESS, payload: template.flow });
 };
 
 export const getTemplates = () => async (dispatch) => {
