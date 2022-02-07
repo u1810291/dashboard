@@ -33,7 +33,7 @@ export function FlowsTable({ onAddNewFlow, canAddTemplate = false }: { onAddNewF
     formatMessage('VerificationFlow.modal.delete.subtitle'),
   );
   const dispatch = useDispatch();
-  const isNewDesign = useSelector(selectIsNewDesign);
+  const isNewDesign = useSelector<any, boolean>(selectIsNewDesign);
   const { asMerchantId } = useQuery();
   const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
 

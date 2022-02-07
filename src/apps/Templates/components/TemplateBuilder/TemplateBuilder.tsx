@@ -2,7 +2,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { dagreGraphService } from 'apps/flowBuilder/services/dagreGraph.service';
+import { dagreGraphService } from 'apps/flowBuilder';
 import { selectProductIsInited, useProduct } from 'apps/Product';
 import { Loader, Placeholder } from 'apps/ui';
 import { PreviewButton } from 'apps/WebSDKPreview';
@@ -21,7 +21,8 @@ import { FlowBuilderProductDetails } from 'apps/flowBuilder/components/FlowBuild
 import { FlowBuilderIntegrationDetails } from 'apps/flowBuilder/components/FlowBuilderIntegrationDetails/FlowBuilderIntegrationDetails';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder/store/FlowBuilder.action';
-import { SaveAndPublishTemplate } from 'apps/Templates/components/SaveAndPublishTemplate/SaveAndPublishTemplate';
+import { SaveAndPublishTemplate } from 'apps/Templates';
+import { ICreateTemplateResponse } from 'apps/Templates/model/Templates.model';
 import { clearCurrentTemplate, prepareTemplateToEdit } from 'apps/Templates/store/Templates.actions';
 import { selectCurrentTemplateModelValue } from 'apps/Templates/store/Templates.selectors';
 import { useLoadCurrentTemplate } from 'apps/Templates/hooks/UseLoadCurrentTemplate';
@@ -37,7 +38,7 @@ export function TemplateBuilder() {
   const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });
   const classes = useStyles();
   const intl = useIntl();
-  const currentTemplate = useSelector(selectCurrentTemplateModelValue);
+  const currentTemplate = useSelector<any, ICreateTemplateResponse>(selectCurrentTemplateModelValue);
   const [isBuilderInitialized, setIsBuilderInitiazed] = useState<boolean>(false);
 
   useProduct();
@@ -48,7 +49,6 @@ export function TemplateBuilder() {
   useEffect(() => {
     if (isEditMode) {
       if (currentTemplate && !isBuilderInitialized) {
-        console.log(' cur templ init');
         dispatch(prepareTemplateToEdit());
         setIsBuilderInitiazed(true);
       }

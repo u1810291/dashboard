@@ -96,16 +96,16 @@ export function TemplateSaveModal() {
       className={classes.modal}
     >
       <Box className={classes.headerContainer}>
-        <span className={classes.headerTitle}>Metamap template details</span>
+        <span className={classes.headerTitle}>{`${formatMessage('Templates.saveModal.title')}`}</span>
       </Box>
       <Box p={2} pl={3} pr={3}>
-        <span className={classes.inputsHeaderTitle}>Fill in the following fields to create a new metamap template. When you Save, this template will be live to users</span>
+        <span className={classes.inputsHeaderTitle}>{`${formatMessage('Templates.saveModal.subtitle')}`}</span>
         <Box mt={3}>
           <Box className={classes.inputsColumnsContainer}>
             <Box className={classes.inputsColumn} id="col_1" flexBasis="52% !important">
               <Box className={classes.inputLabelAndField}>
                 <span className={classes.inputLabel}>
-                  Metamap name:
+                  {`${formatMessage('Templates.saveModal.fields.name')}:`}
                 </span>
                 <TextField
                   {...metamapNameRegister}
@@ -119,7 +119,7 @@ export function TemplateSaveModal() {
               </Box>
               <Box className={classes.inputLabelAndField} mt={3}>
                 <span className={classes.inputLabel}>
-                  Template title:
+                  {`${formatMessage('Templates.saveModal.fields.title')}:`}
                 </span>
                 <TextField
                   {...templateTitleRegister}
@@ -136,7 +136,7 @@ export function TemplateSaveModal() {
               <Box className={classes.inputLabelAndField} justifyContent="end !important">
                 <Box mr={2}>
                   <span className={classes.inputLabel}>
-                    Industries:
+                    {`${formatMessage('Templates.saveModal.fields.industries')}:`}
                   </span>
                 </Box>
                 <Select
@@ -173,7 +173,7 @@ export function TemplateSaveModal() {
               <Box className={classes.inputLabelAndField} mt={3} justifyContent="end !important">
                 <Box mr={2}>
                   <span className={classes.inputLabel}>
-                    Countries:
+                    {`${formatMessage('Templates.saveModal.fields.countries')}:`}
                   </span>
                 </Box>
                 <Select
@@ -211,7 +211,7 @@ export function TemplateSaveModal() {
           </Box>
           <Box mt={3} display="flex" justifyContent="space-between">
             <span className={classes.inputLabel}>
-              Description:
+              {`${formatMessage('Templates.saveModal.fields.description')}:`}
             </span>
             <Box flexBasis="85%">
               <TextareaAutosize
@@ -233,7 +233,7 @@ export function TemplateSaveModal() {
           onClick={handleSaveTemplate}
           disabled={isSubmitting || !isValid || !isDirty}
         >
-          Save Template
+          {formatMessage('Templates.saveModal.saveButton')}
         </Button>
       </Box>
     </Modal>
