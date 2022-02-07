@@ -15,7 +15,7 @@ export const useStyles = makeStyles(() => ({
     backgroundRepeat: 'no-repeat',
     backgroundSize: '60px 500px',
     backgroundPosition: '-100px 0',
-    animation: '$shine 2s infinite',
+    // animation: '$shine 2s infinite',
   },
   container: {
     position: 'relative',
