@@ -7,6 +7,7 @@ import { BankAccountDataVerification } from '../components/BankAccountDataVerifi
 import { BankAccountDataSettings } from '../components/BankAccountDataSettings/BankAccountDataSettings';
 import { BankLogo } from '../components/BankLogo/BankLogo';
 import { getBankAccountData, BankAccountDataSettingTypes, IBankAccountDataVerification, BankAccountDataCheckTypes } from '../models/BankAccountData.model';
+import { BankAccountDataCountriesNotSpecified } from '../components/BankAccountDataCountriesNotSpecified/BankAccountDataCountriesNotSpecified';
 
 type ProductSettingsBankAccountData = ProductSettings<BankAccountDataSettingTypes>;
 
@@ -79,6 +80,20 @@ export class BankAccountData extends ProductBaseService implements Product<Produ
         [VerificationPatternTypes.FinancialInformationBankAccountsRetrieving]: false,
       },
     };
+  }
+
+  haveIssues(flow: IFlow): boolean {
+    return flow.financialInformationBankAccountsRetrieving.countryCodes.length === 0;
+  }
+
+  getIssuesComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
+    const isBankDataHaveNoCountries = flow.financialInformationBankAccountsRetrieving.countryCodes.length === 0;
+
+    if (isBankDataHaveNoCountries) {
+      return BankAccountDataCountriesNotSpecified;
+    }
+
+    return null;
   }
 
   isInFlow(flow: IFlow): boolean {

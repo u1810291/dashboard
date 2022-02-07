@@ -20,12 +20,6 @@ export abstract class ProductBaseService implements Partial<Product> {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getIssuesComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
-    const isBankDataHaveNoCountries = flow.financialInformationBankAccountsRetrieving.countryCodes.length === 0;
-
-    if (isBankDataHaveNoCountries) {
-      return BankAccountDataCountriesNotSpecified;
-    }
-
     return null;
   }
 
@@ -35,8 +29,7 @@ export abstract class ProductBaseService implements Partial<Product> {
 
   haveIssues(flow: IFlow): boolean {
     const integrationType = flow.integrationType;
-    const isBankDataHaveNoCountries = flow.financialInformationBankAccountsRetrieving.countryCodes.length === 0;
-    return (integrationType === ProductIntegrationTypes.Api && this.isSdkOnly()) || (!this.isIssuesIgnored && this.getIssuesComponent(flow) !== null) || isBankDataHaveNoCountries;
+    return (integrationType === ProductIntegrationTypes.Api && this.isSdkOnly()) || (!this.isIssuesIgnored && this.getIssuesComponent(flow) !== null);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
