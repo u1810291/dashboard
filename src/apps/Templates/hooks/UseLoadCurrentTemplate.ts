@@ -3,7 +3,7 @@ import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useEffect } from 'react';
 import { Loadable } from 'models/Loadable.model';
 import { selectCurrentTemplateModel } from 'apps/Templates/store/Templates.selectors';
-import { getTemplate } from 'apps/Templates/store/Templates.actions';
+import { getTemplate } from 'apps/Templates';
 import { ICreateTemplateResponse } from '../model/Templates.model';
 
 export function useLoadCurrentTemplate(id: string) {
