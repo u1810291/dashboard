@@ -1,6 +1,6 @@
 import { Loadable } from 'models/Loadable.model';
 import { createTypesSequence, TypesSequence } from 'state/store.utils';
-import { ITemplateMetadata, ICreateTemplateResponse } from '../model/Templates.model';
+import { ITemplateMetadata, ITemplate } from '../model/Templates.model';
 
 export const TEMPLATES_STORE_KEY = 'templates';
 
@@ -20,8 +20,8 @@ export enum SliceNames {
 
 export interface TemplatesStore {
   [SliceNames.MetadataList]: Loadable<ITemplateMetadata[]>;
-  [SliceNames.CurrentTemplate]: Loadable<ICreateTemplateResponse>;
-  [SliceNames.Templates]: Loadable<ICreateTemplateResponse[]>;
+  [SliceNames.CurrentTemplate]: Loadable<ITemplate>;
+  [SliceNames.Templates]: Loadable<ITemplate[]>;
 }
 
 export const types: TypesSequence = {

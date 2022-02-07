@@ -1,6 +1,6 @@
 import { IFlow } from 'models/Flow.model';
 
-export interface ICreateTemplateResponse {
+export interface ITemplate {
   flow: IFlow;
   _id: string;
   name: string;

@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Loadable } from 'models/Loadable.model';
 import { ProductTypes } from 'models/Product.model';
 import { TemplateSaveModal } from 'apps/Templates';
-import { updateTemplate } from 'apps/Templates/store/Templates.actions';
+import { updateTemplate } from '../../store/Templates.actions';
 import { useStyles } from './SaveAndPublishTemplate.style';
 
 export function SaveAndPublishTemplate({ isEditMode = false }: { isEditMode?: boolean}) {
