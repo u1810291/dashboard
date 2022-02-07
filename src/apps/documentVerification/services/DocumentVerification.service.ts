@@ -214,6 +214,7 @@ export class DocumentVerification extends ProductBaseService implements Product<
   haveIssues(flow: IFlow, productsInGraph?: ProductTypes[]): boolean {
     const isAgeThresholdValid = !flow.ageThreshold || (flow.ageThreshold >= AGE_CHECK_MIN_THRESHOLD && flow.ageThreshold <= AGE_CHECK_MAX_THRESHOLD);
     const isDocumentStepNotSpecified = productsInGraph && !this.isInFlow(flow);
+
     return !isAgeThresholdValid || super.haveIssues(flow) || isDocumentStepNotSpecified;
   }
 
