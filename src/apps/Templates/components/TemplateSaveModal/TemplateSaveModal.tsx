@@ -4,17 +4,17 @@ import { useOverlay, Modal } from 'apps/overlay';
 import { Box, Chip, TextareaAutosize, TextField, Button, Select, MenuItem, Checkbox, ListItemText, FormHelperText } from '@material-ui/core';
 import classnames from 'classnames';
 import { useForm } from 'react-hook-form';
-import { ITemplateMetadata, TemplateSaveInputsTypes, TemplateSaveInputs, ICreateTemplateResponse, TEMPLATE_SAVE_FORM_INITIAL_STATE } from 'apps/Templates/model/Templates.model';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { IoCloseOutline } from 'react-icons/io5';
-import { createTemplate } from 'apps/Templates/store/Templates.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { notification } from 'apps/ui';
 import { Routes } from 'models/Router.model';
 import { useHistory } from 'react-router-dom';
-import { useLoadMetadataList } from 'apps/Templates/hooks/UseLoadMetadataList';
-import { selectCountryMetadata, selectIndustryMetadata, selectCurrentTemplateModelValue } from 'apps/Templates/store/Templates.selectors';
+import { useLoadMetadataList } from '../../hooks/UseLoadMetadataList';
+import { selectCountryMetadata, selectIndustryMetadata, selectCurrentTemplateModelValue } from '../../store/Templates.selectors';
+import { ITemplateMetadata, TemplateSaveInputsTypes, TemplateSaveInputs, ICreateTemplateResponse, TEMPLATE_SAVE_FORM_INITIAL_STATE } from '../../model/Templates.model';
+import { createTemplate } from '../../store/Templates.actions';
 import { useStyles } from './TemplateSaveModal.styles';
 
 export function TemplateSaveModal() {
@@ -81,8 +81,8 @@ export function TemplateSaveModal() {
     }
   };
 
-  const handleDeleteChip = (valueToDelete, property) => {
-    setValue(property, values[property].filter((value) => value !== valueToDelete));
+  const handleDeleteChip = (valueToDelete: ITemplateMetadata, property: TemplateSaveInputsTypes) => {
+    setValue(property, (values[property] as ITemplateMetadata[]).filter((value) => value !== valueToDelete));
     trigger(property); // Force validation after deleting a value
   };
 

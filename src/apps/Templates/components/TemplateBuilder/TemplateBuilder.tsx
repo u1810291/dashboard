@@ -17,10 +17,10 @@ import { Link, useParams } from 'react-router-dom';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { SaveAndPublishTemplate } from 'apps/Templates';
-import { ICreateTemplateResponse } from 'apps/Templates/model/Templates.model';
-import { clearCurrentTemplate, prepareTemplateToEdit } from 'apps/Templates/store/Templates.actions';
-import { selectCurrentTemplateModelValue } from 'apps/Templates/store/Templates.selectors';
-import { useLoadCurrentTemplate } from 'apps/Templates/hooks/UseLoadCurrentTemplate';
+import { ICreateTemplateResponse } from '../../model/Templates.model';
+import { clearCurrentTemplate, prepareTemplateToEdit } from '../../store/Templates.actions';
+import { selectCurrentTemplateModelValue } from '../../store/Templates.selectors';
+import { useLoadCurrentTemplate } from '../../hooks/UseLoadCurrentTemplate';
 import { useStyles } from './TemplateBuilder.styles';
 
 export function TemplateBuilder() {
