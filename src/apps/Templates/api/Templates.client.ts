@@ -21,3 +21,7 @@ export function updateTemplateRequest({ id, name, description, title, flow, meta
 export function getTemplatesRequest() {
   return http.get<ITemplate[]>('/api/v1/dashboard/template');
 }
+
+export function blockTemplateRequest(id: string) {
+  return http.delete<ITemplate>(`/api/v1/dashboard/template/${id}`);
+}

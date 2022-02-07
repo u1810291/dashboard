@@ -12,6 +12,8 @@ import { Loadable } from 'models/Loadable.model';
 import { ProductTypes } from 'models/Product.model';
 import { TemplateSaveModal } from 'apps/Templates';
 import { updateTemplate } from '../../store/Templates.actions';
+import { ITemplate } from '../../model/Templates.model';
+import { selectCurrentTemplateModel } from '../../store/Templates.selectors';
 import { useStyles } from './SaveAndPublishTemplate.style';
 
 export function SaveAndPublishTemplate({ isEditMode = false }: { isEditMode?: boolean}) {
@@ -22,6 +24,7 @@ export function SaveAndPublishTemplate({ isEditMode = false }: { isEditMode?: bo
   const haveIssues = useProductsIssues(productsInGraphModel.value);
   const [createOverlay] = useOverlay();
   const dispatch = useDispatch();
+  const currentTemplateModel = useSelector<any, Loadable<ITemplate>>(selectCurrentTemplateModel);
 
   const handleSaveFlow = () => {
     createOverlay(<TemplateSaveModal />);
@@ -43,7 +46,7 @@ export function SaveAndPublishTemplate({ isEditMode = false }: { isEditMode?: bo
         </TextBubble>
       )}
       <Button
-        disabled={!productsInGraphModel.isLoaded || !haveUnsavedChanges || haveIssues}
+        disabled={!productsInGraphModel.isLoaded || !haveUnsavedChanges || haveIssues || currentTemplateModel.isLoading}
         className={classes.buttonSave}
         color="primary"
         variant="contained"

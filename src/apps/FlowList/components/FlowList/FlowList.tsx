@@ -120,7 +120,7 @@ export function FlowList() {
           </Grid>
         </Box>
         <Box py={{ xs: 2, lg: 0 }} className={classes.table}>
-          <FlowsTable onAddNewFlow={handleAddNewFlow} canAddTemplate={canAddTemplate} />
+          <FlowsTable onAddNewFlow={handleAddNewFlow} />
         </Box>
       </Box>
     </Container>
