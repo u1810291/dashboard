@@ -1,15 +1,15 @@
 import Box from '@material-ui/core/Box';
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { useStyles } from './BankAccountDataCountriesNotSpecified.styles';
 
 export function BankAccountDataCountriesNotSpecified() {
   const classes = useStyles();
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
 
   return (
     <Box className={classes.badge}>
-      {intl.formatMessage({ id: 'BankAccountData.issues.isCountriesNotSpecified.description' })}
+      {formatMessage('BankAccountData.issues.isCountriesNotSpecified.description')}
     </Box>
   );
 }
