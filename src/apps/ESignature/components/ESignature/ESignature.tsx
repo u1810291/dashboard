@@ -46,7 +46,6 @@ export function ESignature({ step }: {
     return null;
   }
 
-  console.log(selectedDocumentImages);
   return (
     <Paper>
       <Box p={2}>
