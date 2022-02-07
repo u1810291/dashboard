@@ -1862,6 +1862,8 @@
   "Templates.saveModal.fields.countries": "Countries",
   "Templates.saveModal.fields.description": "Description",
   "Templates.saveModal.saveButton": "Save Template",
+  "Templates.block.title": "Disable Template",
+  "Templates.block.subtitle": "Do you really want to disable this template?",
   "Verification.error.notFound": "Verification Not Found",
   "VerificationFilter.button.viewResults": "View Results",
   "VerificationFilter.clear-all": "Clear all",
