@@ -92,7 +92,7 @@ export function SignIn() {
                   {intl.formatMessage({ id: 'SignIn.subtitle' })}
                 </Typography>
                 &nbsp;
-                <a href="https://www.metamap.com/mati-contact-us" className={classes.link}>
+                <a href="https://www.metamap.com/contact-us" className={classes.link}>
                   {intl.formatMessage({ id: 'SignIn.subtitle.link' })}
                 </a>
               </Grid>

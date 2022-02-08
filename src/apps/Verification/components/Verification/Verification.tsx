@@ -3,7 +3,7 @@ import { ProductTypes } from 'models/Product.model';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ProductVerification } from 'apps/Product/components/ProductVerification/ProductVerification';
-import { useDocsWithPrivateMedia, useBiometricsWithPrivateMedia } from 'apps/media';
+import { useDocsWithPrivateMedia, useBiometricsWithPrivateMedia, useDownloadAllPrivateMedia } from 'apps/media';
 import { Routes } from 'models/Router.model';
 import { VerificationWithExtras } from 'models/Verification.model';
 import { ErrorMessages, isInReviewModeError } from 'models/Error.model';
@@ -18,7 +18,9 @@ export function Verification() {
   const verificationError = useSelector(selectVerificationModelError);
   const documentsWithPrivateMedia = useDocsWithPrivateMedia(verificationWithExtra?.documents, Routes.identity.profile.root);
   const biometricsWithPrivateMedia = useBiometricsWithPrivateMedia(verificationWithExtra?.biometric);
-  const verificationWithPrivateMedia = useMemo<VerificationWithExtras>(() => ({ ...verificationWithExtra, documents: documentsWithPrivateMedia, biometric: biometricsWithPrivateMedia }), [biometricsWithPrivateMedia, documentsWithPrivateMedia, verificationWithExtra]);
+  // TODO: @all wrong desing, we don't mutate backend data on fly
+  const stepsWithPrivateMedia = useDownloadAllPrivateMedia(verificationWithExtra?.steps);
+  const verificationWithPrivateMedia = useMemo<VerificationWithExtras>(() => ({ ...verificationWithExtra, steps: stepsWithPrivateMedia, documents: documentsWithPrivateMedia, biometric: biometricsWithPrivateMedia }), [biometricsWithPrivateMedia, documentsWithPrivateMedia, stepsWithPrivateMedia, verificationWithExtra]);
   const [selectedProduct, setSelectedProduct] = useState<ProductTypes>(null);
   const classes = useStyles();
 
