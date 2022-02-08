@@ -1,5 +1,4 @@
-import { selectFlowBuilderChangeableFlow } from 'apps/flowBuilder/store/FlowBuilder.selectors';
-import { flowBuilderProductListInit, types as flowBuilderTypes } from 'apps/flowBuilder/store/FlowBuilder.action';
+import { flowBuilderProductListInit, types as flowBuilderTypes, selectFlowBuilderChangeableFlow } from 'apps/flowBuilder';
 import { types as merchantActionTypes } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import { selectCurrentTemplateModelValue } from './Templates.selectors';
