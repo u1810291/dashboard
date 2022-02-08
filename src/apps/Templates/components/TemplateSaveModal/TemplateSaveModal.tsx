@@ -46,7 +46,7 @@ export function TemplateSaveModal() {
   }, [currentTemplate, history, closeOverlay]);
 
   const { register, handleSubmit, setValue, watch, trigger, formState: { errors, isSubmitting, isValid, isDirty } } = useForm<TemplateSaveInputs>({
-    mode: 'onBlur',
+    mode: 'onChange',
     defaultValues: TEMPLATE_SAVE_FORM_INITIAL_STATE,
   });
   const values = watch();
