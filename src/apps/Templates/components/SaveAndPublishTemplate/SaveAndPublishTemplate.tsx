@@ -46,7 +46,7 @@ export function SaveAndPublishTemplate({ isEditMode = false }: { isEditMode?: bo
         </TextBubble>
       )}
       <Button
-        disabled={!productsInGraphModel.isLoaded || !haveUnsavedChanges || haveIssues || currentTemplateModel.isLoading}
+        disabled={productsInGraphModel.value.length === 0 || !productsInGraphModel.isLoaded || !haveUnsavedChanges || haveIssues || currentTemplateModel.isLoading}
         className={classes.buttonSave}
         color="primary"
         variant="contained"
