@@ -46,4 +46,5 @@ export enum MerchantTags {
   CanUseFinancialInformationPayrollAccountsRetrieving = 'can-use-financial-information-payroll-accounts-retrieving',
   CanUseFacematchCPFInAr = 'can-use-facematch-in-ar-govchecks',
   CanUseFacematchCPFInBr = 'can-use-facematch-in-br-govchecks',
+  CanUseArRenaperExtended = 'can-use-ar-renaper-extended-govcheck',
 }
