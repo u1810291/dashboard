@@ -143,4 +143,20 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.red,
     fontSize: 14,
   },
+  closeIcon: {
+    position: 'absolute',
+    zIndex: 1,
+    right: 15,
+    top: 18,
+    width: 23,
+    height: 23,
+    color: theme.palette.common.black75,
+    cursor: 'pointer',
+    transition: '.25s all ease-in-out',
+
+    '&:hover, &:focus': {
+      filter: 'brightness(0.5)',
+      backgroundColor: 'transparent',
+    },
+  },
 }));

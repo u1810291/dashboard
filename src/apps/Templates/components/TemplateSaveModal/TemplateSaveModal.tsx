@@ -111,6 +111,7 @@ export function TemplateSaveModal() {
     <Modal
       onClose={closeOverlay}
       className={classes.modal}
+      customCloseIcon={<IoCloseOutline className={classes.closeIcon} />}
     >
       <Box className={classes.headerContainer}>
         <span className={classes.headerTitle}>{`${formatMessage('Templates.saveModal.title')}`}</span>
