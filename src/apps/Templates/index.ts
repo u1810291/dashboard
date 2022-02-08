@@ -4,3 +4,5 @@ export { TemplateSaveModal } from './components/TemplateSaveModal/TemplateSaveMo
 export { getTemplate } from './store/Templates.actions';
 
 export * from './store/Templates.reducer';
+export * from './store/Templates.actions';
+export * from './hooks/UseLoadTemplatesList';

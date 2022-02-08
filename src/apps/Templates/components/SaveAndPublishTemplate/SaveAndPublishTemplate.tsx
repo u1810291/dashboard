@@ -1,7 +1,7 @@
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { selectFlowBuilderHaveUnsavedChanges, selectFlowBuilderProductsInGraphModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
-import { useProductsIssues } from 'apps/Product/hooks/ProductIssues.hook';
+import { selectFlowBuilderHaveUnsavedChanges, selectFlowBuilderProductsInGraphModel } from 'apps/flowBuilder';
+import { useProductsIssues } from 'apps/Product';
 import { TextBubble } from 'apps/ui';
 import { useOverlay } from 'apps/overlay';
 import React from 'react';

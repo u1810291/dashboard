@@ -1,7 +1,16 @@
 import React, { useCallback, useEffect } from 'react';
 import { useFormatMessage } from 'apps/intl';
 import { useOverlay, Modal } from 'apps/overlay';
-import { Box, Chip, TextareaAutosize, TextField, Button, Select, MenuItem, Checkbox, ListItemText, FormHelperText } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Chip from '@material-ui/core/Chip';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import Checkbox from '@material-ui/core/Checkbox';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import classnames from 'classnames';
 import { useForm } from 'react-hook-form';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
