@@ -53,10 +53,6 @@ export function TemplateSaveModal() {
 
   const metamapNameRegister = register(TemplateSaveInputsTypes.MetamapName, {
     required: formatMessage('validations.required'),
-    minLength: {
-      value: 3,
-      message: intl.formatMessage({ id: 'Templates.saveModal.validation.min' }, { min: 3 }),
-    },
     maxLength: {
       value: 35,
       message: intl.formatMessage({ id: 'Templates.saveModal.validation.max' }, { max: 35 }),
@@ -64,10 +60,6 @@ export function TemplateSaveModal() {
   });
   const templateTitleRegister = register(TemplateSaveInputsTypes.TemplateTitle, {
     required: formatMessage('validations.required'),
-    minLength: {
-      value: 3,
-      message: intl.formatMessage({ id: 'Templates.saveModal.validation.min' }, { min: 3 }),
-    },
     maxLength: {
       value: 35,
       message: intl.formatMessage({ id: 'Templates.saveModal.validation.max' }, { max: 35 }),
@@ -83,10 +75,6 @@ export function TemplateSaveModal() {
   });
   const descriptionRegister = register(TemplateSaveInputsTypes.Description, {
     required: formatMessage('validations.required'),
-    minLength: {
-      value: 3,
-      message: intl.formatMessage({ id: 'Templates.saveModal.validation.min' }, { min: 3 }),
-    },
     maxLength: {
       value: 300,
       message: intl.formatMessage({ id: 'Templates.saveModal.validation.max' }, { max: 300 }),
