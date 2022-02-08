@@ -1993,6 +1993,8 @@
   "Templates.saveModal.fields.countries": "Countries",
   "Templates.saveModal.fields.description": "Description",
   "Templates.saveModal.saveButton": "Save Template",
+  "Templates.saveModal.validation.min": "At least {min} characters",
+  "Templates.saveModal.validation.max": "Maximum {max} characters",
   "Templates.block.title": "Disable Template",
   "Templates.block.subtitle": "Do you really want to disable this template?",
   "Verification.error.notFound": "Verification Not Found",

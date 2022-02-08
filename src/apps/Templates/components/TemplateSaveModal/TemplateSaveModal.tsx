@@ -25,6 +25,7 @@ import { selectCountryMetadata, selectIndustryMetadata, selectCurrentTemplateMod
 import { ITemplateMetadata, TemplateSaveInputsTypes, TemplateSaveInputs, ITemplate, TEMPLATE_SAVE_FORM_INITIAL_STATE } from '../../model/Templates.model';
 import { createTemplate } from '../../store/Templates.actions';
 import { useStyles } from './TemplateSaveModal.styles';
+import { useIntl } from 'react-intl';
 
 export function TemplateSaveModal() {
   const formatMessage = useFormatMessage();
@@ -35,6 +36,7 @@ export function TemplateSaveModal() {
   const industries = useSelector<any, ITemplateMetadata[]>(selectIndustryMetadata);
   const countries = useSelector<any, ITemplateMetadata[]>(selectCountryMetadata);
   const currentTemplate = useSelector<any, ITemplate>(selectCurrentTemplateModelValue);
+  const intl = useIntl();
 
   useEffect(() => {
     if (currentTemplate !== null) {
@@ -51,13 +53,25 @@ export function TemplateSaveModal() {
 
   const metamapNameRegister = register(TemplateSaveInputsTypes.MetamapName, {
     required: formatMessage('validations.required'),
-    minLength: 3,
-    maxLength: 40,
+    minLength: {
+      value: 3,
+      message: intl.formatMessage({ id: 'Templates.saveModal.validation.min' }, { min: 3 }),
+    },
+    maxLength: {
+      value: 35,
+      message: intl.formatMessage({ id: 'Templates.saveModal.validation.max' }, { max: 35 }),
+    },
   });
   const templateTitleRegister = register(TemplateSaveInputsTypes.TemplateTitle, {
     required: formatMessage('validations.required'),
-    minLength: 3,
-    maxLength: 40,
+    minLength: {
+      value: 3,
+      message: intl.formatMessage({ id: 'Templates.saveModal.validation.min' }, { min: 3 }),
+    },
+    maxLength: {
+      value: 35,
+      message: intl.formatMessage({ id: 'Templates.saveModal.validation.max' }, { max: 35 }),
+    },
   });
   const industriesRegister = register(TemplateSaveInputsTypes.Industries, {
     required: formatMessage('validations.required'),
@@ -69,8 +83,14 @@ export function TemplateSaveModal() {
   });
   const descriptionRegister = register(TemplateSaveInputsTypes.Description, {
     required: formatMessage('validations.required'),
-    minLength: 3,
-    maxLength: 300,
+    minLength: {
+      value: 3,
+      message: intl.formatMessage({ id: 'Templates.saveModal.validation.min' }, { min: 3 }),
+    },
+    maxLength: {
+      value: 300,
+      message: intl.formatMessage({ id: 'Templates.saveModal.validation.max' }, { max: 300 }),
+    },
   });
 
   useLoadMetadataList();
