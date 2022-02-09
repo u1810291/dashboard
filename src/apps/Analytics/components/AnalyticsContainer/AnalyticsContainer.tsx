@@ -12,7 +12,6 @@ import { useQuery } from 'lib/url';
 import { StepsCheckboxes } from '../StepsCheckboxes/StepsCheckboxes';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
-import { AllStepsCompleted } from '../StepsCheckboxes/model/StepsCheckboxes.model';
 import { countStatisticsLoad, filterUpdate, loadChartStatistics } from '../../state/Analytics.actions';
 import { selectCountStatisticsModel, selectFilter, selectStatisticsByDate } from '../../state/Analytics.selectors';
 import { Chart } from '../Chart/Chart';
@@ -56,6 +55,7 @@ export function AnalyticsContainer() {
     <Container maxWidth={false}>
       {isFilterDatesValid && !countStatisticsModel.isLoading && countStatisticsModel.isLoaded ? (
         <Box pb={2} className={classes.wrapper}>
+          <StepsCheckboxes />
           <Box mb={2}>
             <Grid container alignItems="center">
               <Grid item xs={9}>
