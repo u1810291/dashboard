@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFormattedValue } from 'lib/string';
+import { useFormattedValue } from 'lib/formatValue.hook';
 import { useIntl } from 'react-intl';
 import { Text, View } from '@react-pdf/renderer';
 import { styles } from './CheckStepPDF.styles';

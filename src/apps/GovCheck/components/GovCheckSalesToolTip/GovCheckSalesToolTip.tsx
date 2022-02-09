@@ -11,6 +11,7 @@ export function GovCheckSalesToolTip({ isGovCheckOption = false }: {isGovCheckOp
 
   return (
     <SalesTooltip
+      interactive
       title={(
         <Box display="flex" flexDirection="column">
           <span className={classes.tooltipTitle}>{intl.formatMessage({ id: 'GovCheck.tooltip.title' })}</span>

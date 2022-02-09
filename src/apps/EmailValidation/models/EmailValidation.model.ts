@@ -1,14 +1,11 @@
 import { getStepStatus } from 'models/Step.model';
 import { isNil } from 'lib/isNil';
+import { BaseError } from 'models/Error.model';
 
 export interface EmailValidationType {
   status: number;
   id: string;
-  error: {
-    type: string;
-    code: string;
-    message: string;
-  } | null;
+  error: BaseError | null;
   data: {
     emailAddress: string;
   } | null;

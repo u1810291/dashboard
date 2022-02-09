@@ -1,6 +1,7 @@
 export enum AppDarkPalette {
   blue = '#3757ff',
   gray = '#F9F9F9',
+  verydarkgray = '#515151',
   gray68 = '#ADADAD',
   lightblue = '#507DED',
   lightbluehover = '#608eed',
