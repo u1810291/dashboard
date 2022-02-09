@@ -3,7 +3,7 @@ import { useFormattedValue } from 'lib/formatValue.hook';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classnames from 'classnames';
-import { PrivateImage } from 'apps/media';
+import { ImageContainer } from 'apps/media';
 import { useStyles } from './CheckStepDetails.styles';
 import { ChecksWithImage } from '../../models/checks.model';
 
@@ -11,7 +11,7 @@ const CheckStepDetailsImage = (label, value) => {
   const classes = useStyles();
   return (
     <Box display="flex" justifyContent="center">
-      <PrivateImage src={value} className={classes.groupImage} alt={label} />
+      <ImageContainer src={value} className={classes.groupImage} alt={label} />
     </Box>
   );
 };
