@@ -9,13 +9,13 @@ import { TemplateFilters } from 'apps/filter';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
+import { useMetadataLoad, CardsData } from 'apps/SolutionCatalog';
+import { ITemplateMetadata, MetadataType } from 'apps/Templates';
 import { TemplatesGallery } from '../TemplatesGalery/TemplatesGalery';
 import { TemplatesChosenFilters } from '../TemplatesChosenFilters/TemplatesChosenFilters';
-import { useMetadataLoad, CardsData } from 'apps/SolutionCatalog';
 import { MOCK_TEMPLATES, filteredArray, getFiltersOptions } from '../../model/SolutionCatalog.model';
 // import { loadTemplates } from '../../store/SolutionCatalog.action';
 // import { selectAllTemplatesList } from '../../store/SolutionCatalog.selectors';
-import { ITemplateMetadata, MetadataType } from 'apps/Templates';
 import { useStyles } from './TemplatesModal.styles';
 
 SwiperCore.use([Pagination, Navigation]);
@@ -25,7 +25,7 @@ export function TemplatesModal() {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
   const [, closeOverlay] = useOverlay();
-  const initialFiltersData:Record<MetadataType, []> = { industry: [], country: [] };
+  const initialFiltersData: Record<MetadataType, []> = { industry: [], country: [] };
   const [currentFilters, setCurrentFilters] = useState<Record<MetadataType, ITemplateMetadata[]>>(initialFiltersData);
   const filtersByDefault = !Object.values(currentFilters).some((el) => !!el.length);
   // TODO:  this function just for example how filtering looks like , until we don't have response from backend

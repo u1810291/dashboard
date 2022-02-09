@@ -1861,6 +1861,7 @@
   "StartModal.title": "Let's start with createing metamap.",
   "StartModal.viewButton": "View template metamaps",
   "StepsCheckboxes.title": "Complete these steps to get started",
+  "StepsCheckboxes.completed": "Completed",
   "TemplateCard.button": "Select",
   "TemplateChosenFilters.title": "Applied filters:",
   "TemplateChosenFilters.resetButton": "Reset filters",
