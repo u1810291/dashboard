@@ -24,7 +24,6 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.ArgentinianAnses]: false,
   [VerificationPatternTypes.ArgentinianDni]: false,
   [VerificationPatternTypes.ArgentinianRenaper]: false,
-  [VerificationPatternTypes.ArgentinianRenaperExtended]: false,
   [VerificationPatternTypes.ArgentinianRenaperFacematch]: false,
   [VerificationPatternTypes.BolivianOep]: false,
   [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
@@ -135,7 +134,6 @@ export interface GovCheck {
   option?: GovCheckOptions;
   value?: boolean;
   description?: boolean;
-  canNotUsedWith?: VerificationPatternTypes[];
   merchantTags?: MerchantTags[];
 }
 
@@ -148,20 +146,17 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
   {
     country: GovCheckCountryTypes.Argentina,
     checks: [
+      // {
+      //   id: DocumentStepTypes.ArgentinianAnses,
+      //   default: false,
+      // },
       {
         id: DocumentStepTypes.ArgentinianRenaper,
-        canNotUsedWith: [VerificationPatternTypes.ArgentinianRenaperExtended],
         default: false,
         option: {
           id: DocumentStepTypes.ArgentinianAfip,
           description: false,
         },
-      },
-      {
-        id: VerificationPatternTypes.ArgentinianRenaperExtended,
-        merchantTags: [MerchantTags.CanUseArRenaperExtended],
-        canNotUsedWith: [VerificationPatternTypes.ArgentinianRenaper],
-        default: false,
       },
       {
         id: DocumentStepTypes.ArgentinianRenaperFacematch,
@@ -733,80 +728,6 @@ export const govCheckDisplayOptions = {
       inline: true,
     },
   },
-  [DocumentStepTypes.ArgentinianRenaperExtended]: {
-    fullName: {
-    },
-    firstName: {
-      inline: true,
-    },
-    surname: {
-      inline: true,
-    },
-    dateOfBirth: {
-      inline: true,
-    },
-    gender: {
-      inline: true,
-    },
-    nationality: {
-      inline: true,
-    },
-    dateOfDeath: {
-      inline: true,
-    },
-    documentNumber: {
-      inline: true,
-    },
-    dateOfIssue: {
-      inline: true,
-    },
-    dateOfExpiry: {
-      inline: true,
-    },
-    transactionNumber: {
-      inline: true,
-    },
-    version: {
-      inline: true,
-
-    },
-    taxIdType: {
-      inline: true,
-    },
-    taxNumber: {
-      inline: true,
-    },
-    activityCode: {
-      inline: true,
-    },
-    activityDescription: {
-    },
-    address: {
-    },
-    email: {
-    },
-    phoneNumbers: {
-      inline: true,
-    },
-    pep: {
-      inline: true,
-    },
-    sanctioned: {
-      inline: true,
-    },
-    sujetoObligado: {
-      inline: true,
-    },
-    dniNumber: {
-      hidden: true,
-    },
-    cuit: {
-      hidden: true,
-    },
-    deceased: {
-      hidden: true,
-    },
-  },
 };
 
 export function govCheckParse(list: GovCheck[], patterns: VerificationPatterns): GovCheck[] {
@@ -905,16 +826,4 @@ export function isGovCheckDisabled(govCheck: GovCheck, verificationPattern: Veri
   }
 
   return false;
-}
-
-export function handleGovCheckSwitch(item: GovCheck, valueChecked: boolean): Record<string, boolean | string> {
-  if (item?.stepTypeAlias) {
-    const value = valueChecked ? item.stepTypeAlias : GovCheckTypesForStep[item.id].none;
-    return { [item.id]: value || valueChecked };
-  }
-  if (item.option) {
-    return { [item.id]: valueChecked, [item.option.id]: valueChecked && item.option.value };
-  }
-
-  return { [item.id]: valueChecked };
 }

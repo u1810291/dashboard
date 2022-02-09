@@ -7,7 +7,7 @@ import { ExtendedDescription } from 'apps/ui';
 import { useSelector } from 'react-redux';
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { useStyles } from './GovCheckCountriesSettings.styles';
-import { GovCheck, GovCheckConfigurations, govCheckCountriesOrder, govCheckParse, GovCheckTypesForStep, isGovCheckDisabled, isGovCheckOptionDisabled, isCanUseGovCheck, handleGovCheckSwitch } from '../../models/GovCheck.model';
+import { GovCheck, GovCheckConfigurations, govCheckCountriesOrder, govCheckParse, GovCheckTypesForStep, isGovCheckDisabled, isGovCheckOptionDisabled, isCanUseGovCheck } from '../../models/GovCheck.model';
 import { GovCheckSalesToolTip } from '../GovCheckSalesToolTip/GovCheckSalesToolTip';
 
 export function GovCheckCountriesSettings({ verificationPatterns, onChange }: {
@@ -37,19 +37,19 @@ export function GovCheckCountriesSettings({ verificationPatterns, onChange }: {
 
   const handleSwitch = useCallback((item: GovCheck) => (event) => {
     const valueChecked: boolean = event.target.checked;
-    let changedItems = {};
-    if (valueChecked && item.canNotUsedWith.length) {
-      checkList.forEach(({ toggle }) => {
-        toggle.forEach((govCheck) => {
-          if (item.canNotUsedWith.includes(govCheck.id)) {
-            changedItems = { ...changedItems, ...handleGovCheckSwitch(govCheck, false) };
-          }
-        });
-      });
+
+    if (item?.stepTypeAlias) {
+      const value = valueChecked ? item.stepTypeAlias : GovCheckTypesForStep[item.id].none;
+      onChange({ [item.id]: value || valueChecked });
+      return;
     }
-    changedItems = { ...changedItems, ...handleGovCheckSwitch(item, valueChecked) };
-    onChange(changedItems);
-  }, [checkList, onChange]);
+    if (item.option) {
+      onChange({ [item.id]: valueChecked, [item.option.id]: valueChecked && item.option.value });
+      return;
+    }
+
+    onChange({ [item.id]: valueChecked });
+  }, [onChange]);
 
   const handleSwitchOption = useCallback((item: GovCheck) => (event) => {
     const valueChecked: boolean = event.target.checked;

@@ -7,7 +7,6 @@ export enum VerificationPatternTypes {
   ArgentinianAfip = 'argentinian-afip-validation',
   ArgentinianAnses = 'argentinian-anses-validation',
   ArgentinianDni = 'argentinian-dni-validation',
-  ArgentinianRenaperExtended = 'argentinian-renaper-extended-validation',
   ArgentinianRenaperFacematch = 'argentinian-renaper-facematch-validation',
   ArgentinianRenaper = 'argentinian-renaper-validation',
   Biometrics = 'biometrics',
@@ -76,7 +75,6 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.ArgentinianAnses]?: boolean;
   [VerificationPatternTypes.ArgentinianDni]?: boolean;
   [VerificationPatternTypes.ArgentinianRenaper]?: boolean;
-  [VerificationPatternTypes.ArgentinianRenaperExtended]?: boolean;
   [VerificationPatternTypes.ArgentinianRenaperFacematch]?: boolean;
   [VerificationPatternTypes.CreditBrazilianSerasa]?: boolean;
   [VerificationPatternTypes.CreditArgentinianFidelitas]?: boolean;

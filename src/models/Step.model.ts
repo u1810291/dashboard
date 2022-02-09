@@ -81,7 +81,6 @@ export const DocumentStepTypes = {
   MexicanPep: VerificationPatternTypes.MexicanPep,
   ColombianRegistraduria: VerificationPatternTypes.ColombianRegistraduria,
   ArgentinianRenaper: VerificationPatternTypes.ArgentinianRenaper,
-  ArgentinianRenaperExtended: VerificationPatternTypes.ArgentinianRenaperExtended,
   ArgentinianRenaperFacematch: VerificationPatternTypes.ArgentinianRenaperFacematch,
   EcuadorianSri: VerificationPatternTypes.EcuadorianSri,
   EcuadorianRegistroCivil: VerificationPatternTypes.EcuadorianRegistroCivil,
@@ -182,7 +181,6 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.ArgentinianAnses,
   DocumentStepTypes.ArgentinianDni,
   DocumentStepTypes.ArgentinianRenaper,
-  DocumentStepTypes.ArgentinianRenaperExtended,
   DocumentStepTypes.ArgentinianRenaperFacematch,
   DocumentStepTypes.BolivianOep,
   DocumentStepTypes.BrazilianCpf,
@@ -263,7 +261,6 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.ArgentinianAnses]: ['argentinianAnses.notEnoughParams'],
   [DocumentStepTypes.ArgentinianDni]: ['argentinianDni.notEnoughParams'],
   [DocumentStepTypes.CostaRicanAtv]: ['costaRicanAtv.notEnoughParams'],
-  [DocumentStepTypes.ArgentinianRenaperExtended]: ['argentinianRenaperExtended.notEnoughParams'],
   [DocumentStepTypes.ArgentinianRenaperFacematch]: ['argentinianRenaperFacematch.notEnoughParams'],
   [DocumentStepTypes.BolivianOep]: ['bolivianOep.notEnoughParams'],
   [DocumentStepTypes.ChileanRegistroCivil]: ['chileanRegistroCivil.notEnoughParams'],
@@ -298,7 +295,6 @@ const StepIncompletionErrors = {
 };
 
 export const OptionalGovCheckErrorCodes = {
-  [DocumentStepTypes.ArgentinianRenaperExtended]: ['argentinianRenaperExtended.deceasedPerson', 'argentinianRenaperExtended.dniMismatch', 'argentinianRenaperExtended.hasNoCuit'],
   [DocumentStepTypes.BrazilianCpf]: ['brazilianCpf.faceBiometricsMismatch'],
   [DocumentStepTypes.PeruvianReniec]: ['peruvianReniec.fullNameMismatch'],
   [DocumentStepTypes.MexicanPep]: ['mexicanPep.matchFound'],
