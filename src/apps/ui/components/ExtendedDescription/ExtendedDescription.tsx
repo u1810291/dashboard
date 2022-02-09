@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useStyles } from './ExtendedDescription.styles';
 
 interface ExtendedDescriptionProps {
-  title: string;
+  title: ReactNode;
   text?: ReactNode;
   prefix?: ReactNode;
   postfix?: ReactNode;
@@ -23,7 +23,7 @@ export function ExtendedDescription({ title, text, prefix, postfix, className, c
     <Grid container className={classNames(classes.extendedDescription, className, { [classes.disabled]: isDisabled })}>
       <Grid item xs={12} container alignItems="baseline" wrap="nowrap">
         {prefix && <Box mr={0.7}>{prefix}</Box>}
-        <Box mr={0.7}>
+        <Box>
           <Box mb={0.5} fontWeight="bold" color={titleColor}>{title}</Box>
         </Box>
         <Box ml="auto">

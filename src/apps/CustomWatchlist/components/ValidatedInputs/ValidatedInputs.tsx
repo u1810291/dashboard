@@ -1,79 +1,77 @@
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { ValidatedInput } from '../ValidatedInput/ValidatedInput';
-import { selectCurrentCustomWatchlistError } from '../../state/CustomWatchlist.selectors';
-import { ValidatedInputsKeys, WatchlistMappingOptions } from '../../models/CustomWatchlist.models';
-
-export const placeholderKey = 'placeholder';
-
-interface ValidatedInputsFieldValuesOptions {
-  fuzziness?: number;
-}
+import { IValidatedInputsFieldTypes, ValidatedInputsKeys, WatchlistMappingOptions } from '../../models/CustomWatchlist.models';
+import { CustomWatchlistValidatedInputsError } from '../CustomWatchlistValidatedInputsError/CustomWatchlistValidatedInputsError';
 
 export interface SelectedOptions {
-  [key: string]: {
-    label: string;
-    value: string;
-    options?: ValidatedInputsFieldValuesOptions;
-  };
+  [key: string]: IValidatedInputsFieldTypes;
 }
 
-export interface ValidatedInputsFieldTypes {
-  label: string;
-  value: string;
-  options?: ValidatedInputsFieldValuesOptions;
-}
-
-export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: ValidatedInputsFieldTypes[]; onChange: (mapping: ValidatedInputsFieldTypes[]) => void }) {
-  const intl = useIntl();
-  // TODO: STAGE 3, @richvoronov get currentWatchlist.error and show in ui
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const currentWatchlistError = useSelector(selectCurrentCustomWatchlistError);
-  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(fieldValues.reduce((prev, cur) => ({ ...prev, [cur.value]: cur }), {}));
+export function ValidatedInputs({ fieldValues, disabled, hasOptions = true, onChange }: {
+  fieldValues: IValidatedInputsFieldTypes[];
+  disabled: boolean;
+  hasOptions: boolean;
+  onChange: (mapping: IValidatedInputsFieldTypes[]) => void;
+}) {
+  const formatMessage = useFormatMessage();
+  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(fieldValues?.reduce((prev, cur) => (
+    {
+      ...prev,
+      [cur.label]: {
+        label: cur.label,
+        value: cur.value,
+        ...(cur?.options && { options: cur.options }),
+      },
+    }
+  ), {}));
 
   const inputOptions = useMemo(() => [
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.FullName}.label` }),
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.FullName}.label`),
       value: ValidatedInputsKeys.FullName,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DateOfBirth}.label` }),
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DateOfBirth}.label`),
       value: ValidatedInputsKeys.DateOfBirth,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.NationalId}.label` }),
-      value: ValidatedInputsKeys.NationalId,
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DocumentNumber}.label`),
+      value: ValidatedInputsKeys.DocumentNumber,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DrivingLicense}.label` }),
-      value: ValidatedInputsKeys.DrivingLicense,
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.Country}.label`),
+      value: ValidatedInputsKeys.Country,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.PassportNumber}.label` }),
-      value: ValidatedInputsKeys.PassportNumber,
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.DocumentType}.label`),
+      value: ValidatedInputsKeys.DocumentType,
     },
     {
-      label: intl.formatMessage({ id: `CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.CountryCode}.label` }),
-      value: ValidatedInputsKeys.CountryCode,
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.EmailAddress}.label`),
+      value: ValidatedInputsKeys.EmailAddress,
     },
     {
-      label: intl.formatMessage({ id: 'CustomWatchlist.settings.modal.validationFields.notSelected.label' }),
-      value: placeholderKey,
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.PhoneNumber}.label`),
+      value: ValidatedInputsKeys.PhoneNumber,
     },
-  ], [intl]);
+    {
+      label: formatMessage(`CustomWatchlist.settings.modal.validationFields.${ValidatedInputsKeys.NotSelected}.label`),
+      value: ValidatedInputsKeys.NotSelected,
+    },
+  ], [formatMessage]);
 
-  const handleChange = useCallback((values: { value: string; name?: string; options?: WatchlistMappingOptions }) => {
+  const handleChange = useCallback((values: { value: ValidatedInputsKeys; name?: string; options?: WatchlistMappingOptions }) => {
     setSelectedOptions((prev) => ({
       ...prev,
       [values.name]: {
-        label: inputOptions.find((option) => option.value === values.value).label,
+        label: values.name,
         value: values.value,
         ...(values?.options && { options: values.options }),
       },
     }));
-  }, [inputOptions]);
+  }, []);
 
   useEffect(() => {
     onChange(Object.values(selectedOptions));
@@ -82,16 +80,21 @@ export function ValidatedInputs({ fieldValues, onChange }: { fieldValues: Valida
   return (
     <Grid container direction="column" spacing={1}>
       {fieldValues.map((input) => (
-        <Grid key={input.value} item>
-          <ValidatedInput
-            placeholderKey={placeholderKey}
-            title={input.label}
-            name={input.value}
-            onChange={handleChange}
-            selectedOptions={selectedOptions}
-            options={inputOptions}
-            value={selectedOptions[input.value].value}
-          />
+        <Grid key={`${input.label}-${input.value}`} container item direction="column">
+          <Grid item>
+            <ValidatedInput
+              placeholderKey={ValidatedInputsKeys.NotSelected}
+              title={input.label}
+              name={input.label}
+              onChange={handleChange}
+              selectedOptions={selectedOptions}
+              options={inputOptions}
+              value={selectedOptions[input.label].value}
+              disabled={disabled}
+              hasOptions={hasOptions}
+            />
+          </Grid>
+          {selectedOptions[input.label].value !== ValidatedInputsKeys.NotSelected && <CustomWatchlistValidatedInputsError inputValue={selectedOptions[input.label].value} />}
         </Grid>
       ))}
     </Grid>

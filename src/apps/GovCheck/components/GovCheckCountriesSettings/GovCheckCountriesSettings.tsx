@@ -4,8 +4,11 @@ import { VerificationPatterns } from 'models/VerificationPatterns.model';
 import React, { useMemo, useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { ExtendedDescription } from 'apps/ui';
+import { useSelector } from 'react-redux';
+import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { useStyles } from './GovCheckCountriesSettings.styles';
-import { GovCheck, GovCheckConfigurations, govCheckCountriesOrder, govCheckParse, GovCheckTypesForStep, isGovCheckDisabled, isGovCheckOptionDisabled } from '../../models/GovCheck.model';
+import { GovCheck, GovCheckConfigurations, govCheckCountriesOrder, govCheckParse, GovCheckTypesForStep, isGovCheckDisabled, isGovCheckOptionDisabled, isCanUseGovCheck } from '../../models/GovCheck.model';
+import { GovCheckSalesToolTip } from '../GovCheckSalesToolTip/GovCheckSalesToolTip';
 
 export function GovCheckCountriesSettings({ verificationPatterns, onChange }: {
     verificationPatterns: VerificationPatterns;
@@ -13,6 +16,8 @@ export function GovCheckCountriesSettings({ verificationPatterns, onChange }: {
   }) {
   const intl = useIntl();
   const classes = useStyles();
+
+  const tags = useSelector(selectMerchantTags);
 
   const checkList = useMemo(() => {
     const checkListForCountry = (country: string) => {
@@ -75,7 +80,12 @@ export function GovCheckCountriesSettings({ verificationPatterns, onChange }: {
             {toggle.map((govCheck) => (
               <Box key={govCheck.id} mt={1} className={classes.check}>
                 <ExtendedDescription
-                  title={intl.formatMessage({ id: `GovCheck.check.${govCheck.id}` })}
+                  title={(
+                    <>
+                      {intl.formatMessage({ id: `GovCheck.check.${govCheck.id}` })}
+                      {!isCanUseGovCheck(govCheck, tags) && (<GovCheckSalesToolTip />)}
+                    </>
+                  )}
                   titleColor="common.black75"
                   text={govCheck.description && intl.formatMessage({ id: `GovCheck.check.${govCheck.id}.description` })}
                   textFontSize={10}
@@ -84,7 +94,7 @@ export function GovCheckCountriesSettings({ verificationPatterns, onChange }: {
                       checked={!!govCheck.value}
                       onChange={handleSwitch(govCheck)}
                       color="primary"
-                      disabled={isGovCheckDisabled(govCheck, verificationPatterns)}
+                      disabled={isGovCheckDisabled(govCheck, verificationPatterns, tags)}
                     />
                   )}
                 />
@@ -93,7 +103,12 @@ export function GovCheckCountriesSettings({ verificationPatterns, onChange }: {
                     <Box className={classes.arrow} />
                     <Box ml={0.5} width="100%">
                       <ExtendedDescription
-                        title={govCheck.option.stepTypeAlias ? intl.formatMessage({ id: `GovCheck.check.${govCheck.id}.${govCheck.option.id}` }) : intl.formatMessage({ id: `GovCheck.check.${govCheck.option.id}` })}
+                        title={(
+                          <>
+                            {govCheck.option.stepTypeAlias ? intl.formatMessage({ id: `GovCheck.check.${govCheck.id}.${govCheck.option.id}` }) : intl.formatMessage({ id: `GovCheck.check.${govCheck.option.id}` })}
+                            {!isCanUseGovCheck(govCheck.option, tags) && (<GovCheckSalesToolTip isGovCheckOption />)}
+                          </>
+                        )}
                         titleColor="common.black75"
                         text={govCheck.option.description && intl.formatMessage({ id: `GovCheck.check.${govCheck.id}.${govCheck.option.id}.description` })}
                         textFontSize={10}
@@ -102,7 +117,7 @@ export function GovCheckCountriesSettings({ verificationPatterns, onChange }: {
                             checked={!!govCheck.option.value}
                             onChange={handleSwitchOption(govCheck)}
                             color="primary"
-                            disabled={isGovCheckOptionDisabled(govCheck, verificationPatterns)}
+                            disabled={isGovCheckOptionDisabled(govCheck, verificationPatterns, tags)}
                           />
                         )}
                       />
