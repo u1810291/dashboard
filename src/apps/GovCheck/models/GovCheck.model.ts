@@ -1,8 +1,11 @@
-import { DocumentStepTypes } from 'models/Step.model';
+import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, StepStatus, VerificationStepTypes } from 'models/Step.model';
 import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { BiometricTypes } from 'models/Biometric.model';
 import { MerchantTags } from 'models/Merchant.model';
+import { NationalIdTypes, VerificationDocument } from 'models/Document.model';
+import { VerificationResponse } from 'models/Verification.model';
 import { dateSortCompare } from 'lib/date';
+import { BaseError } from '../../../models/Error.model';
 
 export enum GovernmentCheckSettingTypes {
   PostponedTimeout = 'postponedTimeout',
@@ -53,6 +56,8 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.MexicanRfc]: false,
   [VerificationPatternTypes.NigerianDl]: false,
   [VerificationPatternTypes.NigerianNin]: false,
+  [VerificationPatternTypes.NigerianVin]: false,
+  [VerificationPatternTypes.NigerianBvn]: false,
   [VerificationPatternTypes.ParaguayanRcp]: false,
   [VerificationPatternTypes.PeruvianReniec]: false,
   [VerificationPatternTypes.PeruvianSunat]: false,
@@ -117,6 +122,18 @@ export const govCheckCountriesOrder = [
   GovCheckCountryTypes.Uganda,
 ];
 
+export interface GovCheckStep {
+  status: number;
+  checkStatus: StepStatus;
+  error: BaseError | null;
+  data: any | null;
+}
+
+export interface GovCheckVerificationData {
+  document: VerificationDocument[];
+  govCheckWithoutDocument: IStep<GovCheckStep>[];
+}
+
 export interface GovCheckOptions {
   description: boolean;
   // TODO: @richvoronov figure out with types
@@ -124,6 +141,7 @@ export interface GovCheckOptions {
   stepTypeAlias?: GovCheckStepTypes;
   merchantTags?: MerchantTags[];
   value?: boolean;
+  isSupportFacematch?: boolean;
 }
 
 export interface GovCheck {
@@ -134,7 +152,19 @@ export interface GovCheck {
   option?: GovCheckOptions;
   value?: boolean;
   description?: boolean;
+  isSupportFacematch?: boolean;
   merchantTags?: MerchantTags[];
+  hideIsCantUse?: boolean;
+}
+
+export interface GovCheckOptionsParsed extends GovCheckOptions {
+  isDisabled?: boolean;
+  isCanUse?: boolean;
+}
+export interface GovCheckParsed extends GovCheck {
+  isDisabled: boolean;
+  isCanUse?: boolean;
+  option?: GovCheckOptionsParsed;
 }
 
 export interface GovCheckConfiguration {
@@ -163,6 +193,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         merchantTags: [MerchantTags.CanUseFacematchCPFInAr],
         default: false,
         description: true,
+        isSupportFacematch: true,
       },
       {
         id: DocumentStepTypes.ArgentinianDni,
@@ -189,6 +220,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
           merchantTags: [MerchantTags.CanUseFacematchCPFInBr],
           stepTypeAlias: GovCheckTypesForStep[DocumentStepTypes.BrazilianCpf].cpfFacematch,
           description: true,
+          isSupportFacematch: true,
         },
       },
     ],
@@ -338,10 +370,23 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       {
         id: DocumentStepTypes.NigerianDl,
         default: false,
+        isSupportFacematch: true,
       },
       {
-        id: DocumentStepTypes.NigerianNin,
+        id: VerificationPatternTypes.NigerianNin,
         default: false,
+        isSupportFacematch: true,
+      },
+      {
+        id: VerificationPatternTypes.NigerianVin,
+        default: false,
+      },
+      {
+        id: VerificationPatternTypes.NigerianBvn,
+        merchantTags: [MerchantTags.CanUseNigerianBNV],
+        hideIsCantUse: true,
+        default: false,
+        isSupportFacematch: true,
       },
     ],
   },
@@ -562,57 +607,183 @@ export const govCheckDisplayOptions = {
     dateOfBirth: {},
     middleName: '',
   },
-  [DocumentStepTypes.NigerianNin]: {
-    firstName: {},
-    lastName: {},
-    middleName: {},
-    gender: {},
-    phone: {},
-    dateOfBirth: {},
-    nationality: {},
-    nin: {},
-    profession: {},
-    stateOfOrigin: {
-      hidden: true,
+  [VerificationStepTypes.NigerianLegalValidation]: {
+    [VerificationPatternTypes.NigerianBvn]: {
+      govDBPhotoUrl: {
+        isCentered: true,
+        hiddenIfNotExists: true,
+      },
+      firstName: {
+        inline: true,
+      },
+      middleName: {
+        inline: true,
+      },
+      lastName: {
+        inline: true,
+      },
+      gender: {
+        inline: true,
+      },
+      dateOfBirth: {
+        inline: true,
+      },
+      nationality: {
+        inline: true,
+      },
+      bvn: {
+        hidden: true,
+        formatter: (bvn = [], data) => ({ ...data, documentNumber: bvn, documentType: NationalIdTypes.BVN }),
+      },
+      documentNumber: {
+      },
+      documentType: {
+        inline: true,
+      },
+      subStepId: {
+        hidden: true,
+      },
+      photo: {
+        hidden: true,
+      },
     },
-    lgaOfOrigin: {
-      hidden: true,
+    [VerificationPatternTypes.NigerianVin]: {
+      govDBPhotoUrl: {
+        isCentered: true,
+        hiddenIfNotExists: true,
+      },
+      firstName: {
+        inline: true,
+      },
+      middleName: {
+        inline: true,
+      },
+      lastName: {
+        inline: true,
+      },
+      gender: {
+        inline: true,
+      },
+      dateOfBirth: {
+        inline: true,
+      },
+      nationality: {
+        inline: true,
+      },
+      vin: {
+        hidden: true,
+        formatter: (vin = [], data) => ({ ...data, documentNumber: vin, documentType: NationalIdTypes.VIN }),
+      },
+      documentNumber: {
+      },
+      documentType: {
+        inline: true,
+      },
+      profession: {
+        inline: true,
+      },
+      subStepId: {
+        hidden: true,
+      },
+      pollingUnitCode: {
+        hidden: true,
+      },
+      fullName: {
+        hidden: true,
+      },
+      occupation: {
+        hidden: true,
+      },
+      photo: {
+        hidden: true,
+      },
     },
-    placeOfOrigin: {
-      hidden: true,
-    },
-    title: {
-      hidden: true,
-    },
-    height: {
-      hidden: true,
-    },
-    email: {
-      hidden: true,
-    },
-    birthState: {
-      hidden: true,
-    },
-    birthCountry: {
-      hidden: true,
-    },
-    nextOfKin: {
-      hidden: true,
-    },
-    nspokenlang: {
-      hidden: true,
-    },
-    religion: {
-      hidden: true,
-    },
-    signature: {
-      hidden: true,
-    },
-    residence: {
-      hidden: true,
-    },
-    fieldMatches: {
-      hidden: true,
+    [VerificationPatternTypes.NigerianNin]: {
+      govDBPhotoUrl: {
+        isCentered: true,
+        hiddenIfNotExists: true,
+      },
+      firstName: {
+        inline: true,
+      },
+      middleName: {
+        inline: true,
+      },
+      lastName: {
+        inline: true,
+      },
+      gender: {
+        inline: true,
+      },
+      dateOfBirth: {
+        inline: true,
+      },
+      nationality: {
+        inline: true,
+      },
+      nin: {
+        hidden: true,
+        formatter: (nin = [], data) => ({ ...data, documentNumber: nin, documentType: NationalIdTypes.NIN }),
+      },
+      documentNumber: {
+      },
+      documentType: {
+        inline: true,
+      },
+      profession: {
+        inline: true,
+      },
+      phone: {
+        inline: true,
+      },
+      subStepId: {
+        hidden: true,
+      },
+      photo: {
+        hidden: true,
+      },
+      stateOfOrigin: {
+        hidden: true,
+      },
+      lgaOfOrigin: {
+        hidden: true,
+      },
+      placeOfOrigin: {
+        hidden: true,
+      },
+      title: {
+        hidden: true,
+      },
+      height: {
+        hidden: true,
+      },
+      email: {
+        hidden: true,
+      },
+      birthState: {
+        hidden: true,
+      },
+      birthCountry: {
+        hidden: true,
+      },
+      nextOfKin: {
+        hidden: true,
+      },
+      nspokenlang: {
+        hidden: true,
+      },
+      religion: {
+        hidden: true,
+      },
+      signature: {
+        hidden: true,
+      },
+      residence: {
+        hidden: true,
+      },
+      fieldMatches: {
+        hidden: true,
+      },
     },
   },
   [DocumentStepTypes.ParaguayanRcp]: {
@@ -730,72 +901,12 @@ export const govCheckDisplayOptions = {
   },
 };
 
-export function govCheckParse(list: GovCheck[], patterns: VerificationPatterns): GovCheck[] {
-  return list.map((item) => {
-    if (item.option) {
-      // VerificationPatters can have boolean or string type, so let's devide logic here for better readability
-      if (typeof patterns[item.id] === 'boolean') {
-        return {
-          ...item,
-          option: {
-            ...item.option,
-            value: patterns[item.option.id],
-          },
-          value: patterns[item.id],
-        };
-      }
-
-      if (typeof patterns[item.id] === 'string') {
-        const value = patterns[item.id] && patterns[item.id] !== GovCheckTypesForStep[item.id]?.none;
-        return {
-          ...item,
-          option: {
-            ...item.option,
-            value: item.option.stepTypeAlias === patterns[item.id],
-          },
-          value,
-        };
-      }
-
-      return {
-        ...item,
-        value: item.default,
-      };
-    }
-
-    return {
-      ...item,
-      value: patterns[item.id] !== undefined
-        ? patterns[item.id] && patterns[item.id] !== GovCheckTypesForStep[item.id]?.none
-        : item.default,
-    };
-  });
-}
-
-// @ts-ignore
-export const GovTimeoutHours = [...Array(25).keys()];
-export const GovTimeoutMinutes = Array.from({ length: 12 }, (_, i) => i * 5);
-
-export function convertTimeToHoursAndMinutes(ptTime) {
-  const timeHMFormat = ptTime.replace('PT', '').replace('H', ':').replace('M', '');
-  const result = timeHMFormat.split(':');
-  if (result.length === 1) {
-    return {
-      hours: 0,
-      minutes: parseInt(result[0], 10) || 0,
-    };
-  }
-  return {
-    hours: parseInt(result[0], 10) || 0,
-    minutes: parseInt(result[1], 10) || 0,
-  };
-}
-
 export function isCanUseGovCheck(govCheck: GovCheck | GovCheckOptions, merchantTags: MerchantTags[]): boolean {
   if (!govCheck?.merchantTags) {
     return true;
   }
-  return govCheck?.merchantTags?.every((tag) => merchantTags.includes(tag));
+
+  return govCheck.merchantTags?.every((tag) => merchantTags.includes(tag));
 }
 
 export function isGovCheckOptionDisabled(govCheck: GovCheck, verificationPattern: VerificationPatterns, merchantTags: MerchantTags[]): boolean {
@@ -826,4 +937,99 @@ export function isGovCheckDisabled(govCheck: GovCheck, verificationPattern: Veri
   }
 
   return false;
+}
+
+export function govCheckParse(list: GovCheck[], patterns: VerificationPatterns, merchantTags: MerchantTags[]): GovCheckParsed[] {
+  return list.map((govCheck) => {
+    if (!isCanUseGovCheck(govCheck, merchantTags) && govCheck.hideIsCantUse) {
+      return null;
+    }
+
+    const item: GovCheckParsed = {
+      ...govCheck,
+      isDisabled: isGovCheckDisabled(govCheck, patterns, merchantTags),
+      isCanUse: isCanUseGovCheck(govCheck, merchantTags),
+    };
+
+    if (item.option) {
+      let parsedGovCheck = null;
+
+      // VerificationPatters can have boolean or string type, so let's devide logic here for better readability
+      if (typeof patterns[item.id] === 'boolean') {
+        parsedGovCheck = {
+          ...item,
+          option: {
+            ...item.option,
+            value: patterns[item.option.id],
+          },
+          value: patterns[item.id],
+        };
+      }
+
+      if (typeof patterns[item.id] === 'string') {
+        const value = patterns[item.id] && patterns[item.id] !== GovCheckTypesForStep[item.id]?.none;
+        parsedGovCheck = {
+          ...item,
+          option: {
+            ...item.option,
+            value: item.option.stepTypeAlias === patterns[item.id],
+          },
+          value,
+        };
+      }
+
+      if (!parsedGovCheck) {
+        parsedGovCheck = {
+          ...item,
+          value: item.default,
+        };
+      }
+
+      parsedGovCheck.option.isDisabled = isGovCheckOptionDisabled(parsedGovCheck, patterns, merchantTags);
+      parsedGovCheck.option.isCanUse = isCanUseGovCheck(parsedGovCheck.option, merchantTags);
+
+      return parsedGovCheck;
+    }
+
+    return {
+      ...item,
+      value: patterns[item.id] !== undefined
+        ? patterns[item.id] && patterns[item.id] !== GovCheckTypesForStep[item.id]?.none
+        : item.default,
+    };
+  }).filter(Boolean);
+}
+
+// @ts-ignore
+export const GovTimeoutHours = [...Array(25).keys()];
+export const GovTimeoutMinutes = Array.from({ length: 12 }, (_, i) => i * 5);
+
+export function convertTimeToHoursAndMinutes(ptTime) {
+  const timeHMFormat = ptTime.replace('PT', '').replace('H', ':').replace('M', '');
+  const result = timeHMFormat.split(':');
+  if (result.length === 1) {
+    return {
+      hours: 0,
+      minutes: parseInt(result[0], 10) || 0,
+    };
+  }
+  return {
+    hours: parseInt(result[0], 10) || 0,
+    minutes: parseInt(result[1], 10) || 0,
+  };
+}
+
+export function getGovCheckDocumentsSteps(verification: VerificationResponse): IStep<GovCheckStep>[] {
+  return verification?.documents?.map((document) => document?.steps.filter((step) => CountrySpecificChecks.includes(step.id))).flat() || [];
+}
+
+export function getGovCheckRootSteps(verification: VerificationResponse): IStep<GovCheckStep>[] {
+  return verification?.steps
+    .filter((step) => CountrySpecificChecks.includes(step.id)).map((step) => getStepExtra(step));
+}
+
+export function getGovCheckVerificationSteps(verification: VerificationResponse): IStep<GovCheckStep>[] {
+  const govCheckDocumentsSteps = getGovCheckDocumentsSteps(verification);
+  const govCheckRootSteps = getGovCheckRootSteps(verification);
+  return govCheckDocumentsSteps.concat(govCheckRootSteps);
 }
