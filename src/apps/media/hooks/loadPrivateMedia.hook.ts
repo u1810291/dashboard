@@ -20,8 +20,11 @@ export function useLoadPrivateMedia(src): [string, boolean] {
 
       try {
         setLoading(true);
+        console.log(src);
         const response = await getMedia(src);
+        console.log(response);
         const blob = await response.blob();
+        console.log(blob);
         updateImage(blob);
         setLoading(false);
       } catch (error) {
