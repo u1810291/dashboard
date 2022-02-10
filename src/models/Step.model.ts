@@ -107,7 +107,6 @@ export const DocumentStepTypes = {
   ArgentinianAnses: VerificationPatternTypes.ArgentinianAnses,
   UgandanElectoralCommission: VerificationPatternTypes.UgandanElectoralCommission,
   NigerianDl: VerificationPatternTypes.NigerianDl,
-  NigerianNin: VerificationPatternTypes.NigerianNin,
   ...AmlDocumentStepTypes,
 };
 
@@ -125,6 +124,7 @@ export enum VerificationStepTypes {
   DuplicateUserDetection = 'duplicate-user-detection',
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
   CustomWatchlistsValidation = 'custom-watchlists-validation',
+  NigerianLegalValidation = 'nigerian-legal-validation',
 }
 
 export type StepIds = VerificationPatternTypes | StepTypes | VerificationDocStepTypes | VerificationStepTypes;
@@ -200,7 +200,6 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.HonduranRnp,
   DocumentStepTypes.MexicanPep,
   DocumentStepTypes.NigerianDl,
-  DocumentStepTypes.NigerianNin,
   DocumentStepTypes.ParaguayanRcp,
   DocumentStepTypes.PanamenianTribunalElectoral,
   DocumentStepTypes.DominicanJce,
@@ -215,6 +214,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.KenyanEcitizen,
   DocumentStepTypes.ChileanRut,
   DocumentStepTypes.UgandanElectoralCommission,
+  VerificationStepTypes.NigerianLegalValidation,
 ];
 
 export function hasFailureStep(steps: IStep[]): boolean {
@@ -275,7 +275,6 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.GuatemalanTse]: ['guatemalanTse.notEnoughParams'],
   [DocumentStepTypes.MexicanPep]: ['mexicanPep.notEnoughParams'],
   [DocumentStepTypes.NigerianDl]: ['nigerianDl.notEnoughParams'],
-  [DocumentStepTypes.NigerianNin]: ['nigerianNin.notEnoughParams'],
   [DocumentStepTypes.SalvadorianTse]: ['salvadorianTse.notEnoughParams'],
   [DocumentStepTypes.ColombianBdua]: ['colombianBdua.notEnoughParams'],
   [DocumentStepTypes.ColombianNationalPolice]: ['colombianNationPolice.notEnoughParams'],
@@ -302,8 +301,8 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.ChileanDriverLicense]: ['chileanDriverLicense.fullNameMismatch', 'chileanDriverLicense.blocked'],
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoral.fullNameMismatch'],
   [DocumentStepTypes.NigerianDl]: ['nigerianDl.fullNameMismatch'],
-  [DocumentStepTypes.NigerianNin]: ['nigerianNin.fullNameMismatch'],
   [DocumentStepTypes.ColombianRunt]: ['colombianRunt.fullNameMismatch', 'colombianRunt.hasFines'],
+  [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
 };
 
 export const StepSkippedCodes = [

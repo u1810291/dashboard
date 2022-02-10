@@ -7,4 +7,4 @@ export * from './components/OverlayContainer/OverlayContainer';
 export * from './hooks/Overlay.hook';
 export * from './hooks/Confirm.hook';
 
-export { overlayCloseAll } from './state/overlay.actions';
+export { overlayCloseAll, overlayClose } from './state/overlay.actions';

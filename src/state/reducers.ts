@@ -37,6 +37,7 @@ import { IDENTITY_PROFILE_STORE_KEY } from 'apps/IdentityProfile/store/IdentityP
 import { verificationReducer } from 'apps/Verification/state/Verification.reducer';
 import { VERIFICATION_STORE_KEY } from 'apps/Verification/state/Verification.store';
 import { CUSTOM_WATCHLISTS_STORE_KEY } from 'apps/CustomWatchlist/state/CustomWatchlist.store';
+import { CUSTOM_FIELD_STORE_KEY, customFieldReducer } from 'apps/CustomField';
 import { PRODUCT_BOARD_STORE_KEY } from 'apps/ProductBoard/state/ProductBoard.store';
 import { productBoardReducer } from 'apps/ProductBoard/state/ProductBoard.reducer';
 
@@ -60,6 +61,7 @@ export const appReducers = combineReducers({
   [VERIFICATION_STORE_KEY]: verificationReducer,
   [CUSTOM_DOCUMENT_STORE_KEY]: customDocument,
   [CUSTOM_WATCHLISTS_STORE_KEY]: customWatchlist,
+  [CUSTOM_FIELD_STORE_KEY]: customFieldReducer,
   [PRODUCT_BOARD_STORE_KEY]: productBoardReducer,
 });
 

@@ -1,17 +1,31 @@
-import { IconButton, Tooltip } from '@material-ui/core';
+import Tooltip from '@material-ui/core/Tooltip';
 import { RiErrorWarningLine } from 'react-icons/all';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-export function InfoTooltip({ title }: { title?: React.ReactNode }) {
+type placementToolTipType =
+| 'bottom-end'
+| 'bottom-start'
+| 'bottom'
+| 'left-end'
+| 'left-start'
+| 'left'
+| 'right-end'
+| 'right-start'
+| 'right'
+| 'top-end'
+| 'top-start'
+| 'top';
+
+export function InfoTooltip({ title, placement = 'top', children = <RiErrorWarningLine /> }: { title?: React.ReactNode; placement?: placementToolTipType; children?: ReactNode }) {
   return (
     <Tooltip
-      placement="top"
+      placement={placement}
       arrow
       title={title}
     >
-      <IconButton size="small">
-        <RiErrorWarningLine />
-      </IconButton>
+      <span>
+        {children}
+      </span>
     </Tooltip>
   );
 }

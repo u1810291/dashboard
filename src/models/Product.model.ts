@@ -17,11 +17,13 @@ export enum ProductTypes {
   CustomDocuments = 'CustomDocuments',
   CertifiedTimestamp = 'CertifiedTimestamp',
   BackgroundCheck = 'BackgroundCheck',
+  CustomField = 'CustomField',
   CustomWatchlist = 'CustomWatchlist',
   ESignatureCheck = 'eSignatureCheck',
   BankAccountData = 'BankAccountData',
   WorkAccountData = 'WorkAccountData',
   PayrollAccountData = 'PayrollAccountData',
+  Facematch = 'Facematch',
   // additional
   Metadata = 'Metadata',
 }
@@ -63,9 +65,11 @@ export enum ProductInputTypes {
   NationalId = 'nationalId',
   NameAndDobOrDocument = 'nameAndDobOrDocument',
   EmailAddress = 'emailAddress',
+  CustomDataEntry = 'customDataEntry',
   CustomDocuments = 'customDocuments',
   Sign = 'sign',
   AccountCredentials = 'accountCredentials',
+  ImageSources = 'imageSources',
 }
 
 export interface IProductCard {

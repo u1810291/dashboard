@@ -148,3 +148,16 @@ export function dateSortCompare(a: string, b: string, isFromOldToNew: boolean = 
 export function getUnixTimestamp(date: Date) {
   return Math.trunc((date.getTime() / 1000));
 }
+
+export function dateToFormatString(value: Date | string, locale: string, format: DateFormat = DateFormat.LocalizedDayMonthYearSlashes): string {
+  const date = dayjs(value).locale(locale);
+  if (!date.isValid()) {
+    return value.toString();
+  }
+  return date.format(format);
+}
+
+export function getLocaleFormat(locale: string, format: DateFormat = DateFormat.LocalizedDayMonthYearSlashes): string {
+  return dayjs().locale(locale).localeData().longDateFormat(format)
+    .toLowerCase();
+}

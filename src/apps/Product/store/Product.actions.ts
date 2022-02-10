@@ -17,7 +17,9 @@ import { creditCheckInit } from 'apps/CreditCheck/state/CreditCheck.actions';
 import { backgroundCheckInit } from 'apps/BackgroundCheck/state/BackgroundCheck.actions';
 import { deviceFingerprintInit } from 'apps/DeviceFingerPrint/state/deviceFingerprint.actions';
 import { customDocumentInit } from 'apps/customDocument/state/customDocument.actions';
+import { FacematchInit } from 'apps/FacematchService/state/Facematch.actions';
 import { eSignatureInit } from 'apps/ESignature';
+import { CustomFieldInit } from 'apps/CustomField';
 import { metadataInit } from 'apps/metadata/state/Metadata.actions';
 import { certifiedTimestampInit } from 'apps/CertifiedTimestamp/state/CertifiedTimestamp.actions';
 import { ProductActionTypes } from './Product.store';
@@ -33,6 +35,7 @@ export const productInit = () => (dispatch) => {
     dispatch(documentVerificationInit()),
     dispatch(reVerificationInit()),
     dispatch(amlCheckInit()),
+    dispatch(FacematchInit()),
     dispatch(biometricVerificationInit()),
     dispatch(govCheckInit()),
     dispatch(creditCheckInit()),
@@ -46,6 +49,7 @@ export const productInit = () => (dispatch) => {
     dispatch(backgroundCheckInit()),
     dispatch(customWatchlistInit()),
     dispatch(eSignatureInit()),
+    dispatch(CustomFieldInit()),
   ];
   dispatch(productRegisteredUpdate(compact(registered)));
   dispatch(productIsInitedUpdate(true));

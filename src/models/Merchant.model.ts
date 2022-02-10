@@ -36,6 +36,7 @@ export enum MerchantTags {
   CanUseReverificationFlow = 'can-use-reverification-flow',
   CanUseCustomDocumentAdvancedValidation = 'can-use-custom-document-advanced-validations',
   CanUseCustomDocument = 'can-use-custom-document',
+  CanUseCustomField = 'can-use-custom-fields',
   CanUseESignature = 'can-use-esignature',
   CanUsePhoneValidation = 'can-use-phone-validation',
   CanUseEmailValidation = 'can-use-email-validation',
@@ -46,4 +47,5 @@ export enum MerchantTags {
   CanUseFinancialInformationPayrollAccountsRetrieving = 'can-use-financial-information-payroll-accounts-retrieving',
   CanUseFacematchCPFInAr = 'can-use-facematch-in-ar-govchecks',
   CanUseFacematchCPFInBr = 'can-use-facematch-in-br-govchecks',
+  CanUseNigerianBNV = 'can-use-nigerian-bvn',
 }

@@ -14,9 +14,11 @@ interface ExtendedDescriptionProps {
   isDisabled?: boolean;
   textFontSize?: number;
   titleColor?: string;
+  postfixColor?: string;
+  postfixFontWeight?: string;
 }
 
-export function ExtendedDescription({ title, text, prefix, postfix, className, children, badge, isDisabled, textFontSize, titleColor = 'common.black90' }: ExtendedDescriptionProps) {
+export function ExtendedDescription({ title, text, prefix, postfix, className, children, badge, isDisabled, textFontSize, titleColor = 'common.black90', postfixColor, postfixFontWeight }: ExtendedDescriptionProps) {
   const classes = useStyles();
 
   return (
@@ -30,7 +32,7 @@ export function ExtendedDescription({ title, text, prefix, postfix, className, c
           <Grid item container alignItems="center" wrap="nowrap">
             {badge && <Box mr={1} fontSize={12} fontWeight="bold" className={classes.badge}>{badge}</Box>}
             {postfix && (
-              <Box ml={0.7}>
+              <Box ml={0.7} color={postfixColor} fontWeight={postfixFontWeight}>
                 {postfix}
               </Box>
             )}
