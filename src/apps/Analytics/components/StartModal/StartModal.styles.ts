@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles(() => ({
   container: {
+    overflowY: 'hidden',
     minHeight: '562px',
     minWidth: '564px',
     margin: 0,

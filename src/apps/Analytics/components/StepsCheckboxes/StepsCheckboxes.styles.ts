@@ -77,12 +77,18 @@ export const useStyles = makeStyles((theme) => ({
   arrowContainer: {
     display: 'flex',
     justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   arrow: {
-    height: '12px',
-    width: '12px',
+    height: '11px',
+    width: '11px',
     transform: 'rotate(45deg)',
     borderWidth: '1px 1px 0px 0px',
     border: `1px solid ${theme.palette.common.lightblue}`,
+  },
+  completed: {
+    color: theme.palette.common.green,
+    fontSize: '12px',
+    marginRight: 29,
   },
 }));

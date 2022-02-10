@@ -1860,6 +1860,7 @@
   "StartModal.title": "Let's start with createing metamap.",
   "StartModal.viewButton": "View template metamaps",
   "StepsCheckboxes.title": "Complete these steps to get started",
+  "StepsCheckboxes.completed": "Completed",
   "Templates.block.title": "Disable Template",
   "Templates.block.subtitle": "Do you really want to disable this template?",
   "TemplateCard.button": "Select",

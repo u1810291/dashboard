@@ -6,7 +6,7 @@ type filterOptions = Record<MetadataType, TemplateFilterOptions[]>;
 
 export interface TemplateChosenFiltersProps {
   currentValue: filterOptions;
-  setCurrentValue:(object: filterOptions) => void;
+  setCurrentValue: (object: filterOptions) => void;
   initialData: Record<MetadataType, []>;
 }
 export enum MetadataType {
@@ -40,7 +40,7 @@ export interface TempalteFilterProps {
   title: string;
   filterData: TemplateFilterOptions[];
   currentFilters: filterOptions;
-  setCurrentFilters:(object: filterOptions) => void;
+  setCurrentFilters: (object: filterOptions) => void;
 }
 
 export interface TemplateGaleryProps {
@@ -162,7 +162,7 @@ export function filteredArray(dataArray, currentFilters) {
   return Object.fromEntries(filterResults);
 }
 
-export function getFiltersOptions(filtersData:TemplateFilterOptions[]):ModifiedFiltersOptions[] {
+export function getFiltersOptions(filtersData: TemplateFilterOptions[]): ModifiedFiltersOptions[] {
   const titles = Array.from(new Set(filtersData.map((item) => item.type)));
   return titles.map((title) => {
     const uniqueOptions = filtersData.filter((item) => item.type === title);
