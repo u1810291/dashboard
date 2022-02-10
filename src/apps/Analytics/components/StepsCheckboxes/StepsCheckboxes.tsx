@@ -119,10 +119,6 @@ export function StepsCheckboxes() {
                       checkedIcon={<CheckboxOn />}
                       icon={<CheckboxOff />}
                       checked={item.completed}
-                      onClick={(event) => {
-                        stepsProgressChange(item);
-                        event.stopPropagation();
-                      }}
                     />
                     <Box component="span" className={classes.itemName}>{item.title}</Box>
                   </Box>
