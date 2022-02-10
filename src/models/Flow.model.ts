@@ -1,12 +1,13 @@
 import { Logo } from 'apps/logo/models/Logo.model';
 import { get } from 'lodash';
+import { BiometricTypes } from 'models/Biometric.model';
 import { IESignatureFlow } from './ESignature.model';
 import { DocumentTypes } from './Document.model';
 import { ProductIntegrationTypes } from './Product.model';
 import { IpValidation } from './IpCheck.model';
-import { InputValidationCheck } from './ImageValidation.model';
+import { InputValidationCheck, InputValidationType } from './ImageValidation.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
-import { VerificationPatterns } from './VerificationPatterns.model';
+import { VerificationPatterns, VerificationPatternTypes } from './VerificationPatterns.model';
 import { IFlowWatchlist } from './CustomWatchlist.model';
 
 export const MAX_NUMBER_OF_FLOWS = 100;
@@ -15,6 +16,52 @@ export function getNewFlowId(merchantFlowsModel, currentFlowId) {
   const currentIndex = merchantFlowsModel.value.findIndex((flow) => flow.id === currentFlowId);
   const newIndex = currentIndex ? currentIndex - 1 : currentIndex + 1;
   return get(merchantFlowsModel, `value[${newIndex}].id`, currentFlowId);
+}
+
+export function createEmptyFlow(): IFlow {
+  return {
+    style: {
+      color: 'blue',
+      language: 'en',
+    },
+    ipValidation: {
+      allowedRegions: [],
+    },
+    amlWatchlistsFuzzinessThreshold: 50,
+    computations: [
+      'age',
+      'isDocumentExpired',
+    ],
+    digitalSignature: DigitalSignatureProvider.NONE,
+    emailRiskThreshold: 80,
+    supportedCountries: [],
+    verificationSteps: [],
+    inputValidationChecks: [
+      {
+        id: InputValidationType.GrayscaleImage,
+        isDisabled: true,
+      },
+      {
+        id: InputValidationType.SimilarImages,
+        isDisabled: true,
+      },
+      {
+        id: InputValidationType.IdenticalImages,
+        isDisabled: true,
+      },
+      {
+        id: InputValidationType.DocumentDetected,
+        isDisabled: false,
+      },
+    ],
+    watchlists: [],
+    integrationType: ProductIntegrationTypes.Sdk,
+    name: 'Untitled Template',
+    denyUploadsFromMobileGallery: false,
+    verificationPatterns: {
+      [VerificationPatternTypes.Biometrics]: BiometricTypes.none,
+    },
+  };
 }
 
 export interface FlowStyle {

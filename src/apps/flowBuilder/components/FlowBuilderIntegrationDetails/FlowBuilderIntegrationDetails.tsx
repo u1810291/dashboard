@@ -20,7 +20,7 @@ export function FlowBuilderIntegrationDetails() {
     <Box p={0.4} className={classes.root}>
       <Box p={1.6} className={classes.container}>
         <Box mb={4}>
-          <Grid container justify="space-between" alignItems="center" wrap="nowrap">
+          <Grid container justifyContent="space-between" alignItems="center" wrap="nowrap">
             <Box fontWeight="bold" color="common.black90">
               {intl.formatMessage({ id: 'FlowBuilder.integration' })}
             </Box>

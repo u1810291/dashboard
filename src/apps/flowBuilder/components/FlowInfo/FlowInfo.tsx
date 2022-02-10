@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { selectFlowBuilderChangeableFlow } from '../../store/FlowBuilder.selectors';
 import { useStyles } from './FlowInfo.styles';
 
-export function FlowInfo({ canEdit, isEditable, newFlowName, setIsEditable, onSubmit, onCancel, validator }: {
+export function FlowInfo({ canEdit, isEditable, newFlowName, setIsEditable, onSubmit, onCancel, validator, isTemplate }: {
   canEdit?: boolean;
   isEditable?: boolean;
   newFlowName?: string;
@@ -16,6 +16,7 @@ export function FlowInfo({ canEdit, isEditable, newFlowName, setIsEditable, onSu
   onSubmit?: (text: string) => void;
   onCancel?: () => void;
   validator?: (text: string) => void;
+  isTemplate?: boolean;
 }) {
   const intl = useIntl();
   const { name, createdAt } = useSelector(selectFlowBuilderChangeableFlow);
@@ -42,11 +43,13 @@ export function FlowInfo({ canEdit, isEditable, newFlowName, setIsEditable, onSu
           </Grid>
         ) : name}
       </Box>
-      <Grid container alignItems="center">
-        <Box color="common.black75">
-          {`${intl.formatMessage({ id: 'FlowBuilder.info.createdOn' })} ${formatDate(createdAt, DateFormat.MonthShortWithSpace)}`}
-        </Box>
-      </Grid>
+      {!isTemplate && (
+        <Grid container alignItems="center">
+          <Box color="common.black75">
+            {`${intl.formatMessage({ id: 'FlowBuilder.info.createdOn' })} ${formatDate(createdAt, DateFormat.MonthShortWithSpace)}`}
+          </Box>
+        </Grid>
+      )}
     </Box>
   );
 }

@@ -5,8 +5,13 @@ import { SliceNames, TemplatesActionGroup, TemplatesStore } from './Templates.st
 const initialState: TemplatesStore = {
   [SliceNames.MetadataList]: LoadableAdapter.createState([]),
   [SliceNames.CurrentTemplate]: LoadableAdapter.createState(null),
+  [SliceNames.Templates]: LoadableAdapter.createState([]),
 };
 
 export const templatesReducer = createReducer(initialState, {
   ...LoadableAdapter.createHandlers(TemplatesActionGroup.getMetadataList, SliceNames.MetadataList),
+  ...LoadableAdapter.createHandlers(TemplatesActionGroup.getTemplate, SliceNames.CurrentTemplate),
+  ...LoadableAdapter.createHandlers(TemplatesActionGroup.createTemplate, SliceNames.CurrentTemplate),
+  ...LoadableAdapter.createHandlers(TemplatesActionGroup.updateTemplate, SliceNames.CurrentTemplate),
+  ...LoadableAdapter.createHandlers(TemplatesActionGroup.getTemplates, SliceNames.Templates),
 });

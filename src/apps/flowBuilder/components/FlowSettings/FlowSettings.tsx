@@ -21,8 +21,9 @@ import { FlowInfo } from '../FlowInfo/FlowInfo';
 import { FlowSettingsSwitches } from '../FlowSettingsSwitches/FlowSettingsSwitches';
 import { useStyles } from './FlowSettings.styles';
 
-export function FlowSettings({ onClose }: {
+export function FlowSettings({ onClose, isTemplate = false }: {
   onClose: () => void;
+  isTemplate?: boolean;
 }) {
   const dispatch = useDispatch();
   const intl = useIntl();
@@ -134,19 +135,22 @@ export function FlowSettings({ onClose }: {
       <Grid item xs={12} lg={6}>
         <Box mb={3}>
           <FlowInfo
-            canEdit
+            canEdit={!isTemplate}
             isEditable={isEditable}
             newFlowName={newFlowName}
             setIsEditable={setIsEditable}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
             validator={validator}
+            isTemplate={isTemplate}
           />
         </Box>
-        <Box mb={3}>
-          <Box color="common.black90" mb={0.5}>{flowId}</Box>
-          <Box color="common.black75">{intl.formatMessage({ id: 'FlowBuilder.settings.title.flowId' })}</Box>
-        </Box>
+        {!isTemplate && (
+          <Box mb={3}>
+            <Box color="common.black90" mb={0.5}>{flowId}</Box>
+            <Box color="common.black75">{intl.formatMessage({ id: 'FlowBuilder.settings.title.flowId' })}</Box>
+          </Box>
+        )}
         <FlowSettingsSwitches
           policyInterval={policyInterval}
           policyIntervalError={policyIntervalError}
@@ -167,12 +171,14 @@ export function FlowSettings({ onClose }: {
         </Box>
       </Grid>
       <Grid container item xs={12} className={classes.buttonsWrapper}>
-        <Button variant="outlined" className={classNames(classes.button, classes.buttonCancel)} onClick={handleDelete}>
-          <FiTrash2 fontSize={17} />
-          <Box ml={1}>
-            {intl.formatMessage({ id: 'FlowBuilder.settings.button.delete' })}
-          </Box>
-        </Button>
+        {!isTemplate && (
+          <Button variant="outlined" className={classNames(classes.button, classes.buttonCancel)} onClick={handleDelete}>
+            <FiTrash2 fontSize={17} />
+            <Box ml={1}>
+              {intl.formatMessage({ id: 'FlowBuilder.settings.button.delete' })}
+            </Box>
+          </Button>
+        )}
         {showUnsavedChange && (
           <Warning label={intl.formatMessage({ id: 'FlowBuilder.settings.button.warning' })} />
         )}
