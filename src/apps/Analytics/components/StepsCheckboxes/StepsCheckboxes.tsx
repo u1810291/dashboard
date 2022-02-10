@@ -18,7 +18,7 @@ import { useFormatMessage } from 'apps/intl';
 import { selectCollaboratorState } from 'apps/collaborators/state/collaborator.selectors';
 import { collaboratorAdd } from 'apps/collaborators/state/collaborator.actions';
 import { StartModal } from '../StartModal/StartModal';
-import { MOCK_STEPS, StepsOptions, AllStepsCompleted } from './model/StepsCheckboxes.model';
+import { MOCK_STEPS, StepsOptions } from './model/StepsCheckboxes.model';
 import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
 
 export function StepsCheckboxes() {
@@ -68,7 +68,7 @@ export function StepsCheckboxes() {
       notification.info(formatMessage('teamTable.inviteSuccess.description'));
       stepsProgressChange(item, true);
     } catch (error) {
-      notification.error(formatMessage('Error.common'));
+      notification.error(formatMessage(`Settings.teamSettings.submit.${error.response?.data?.name}`, { defaultMessage: formatMessage('Error.common') }));
       console.error(error);
     }
   }, [dispatch, closeOverlay]);
