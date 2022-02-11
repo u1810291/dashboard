@@ -10,9 +10,14 @@ const ColorMap = {
   [WarningTypes.Warning]: appPalette.yellow,
   [WarningTypes.Error]: appPalette.red,
   [WarningTypes.Success]: appPalette.black75,
+  [WarningTypes.Checking]: appPalette.whiteblue,
 };
 
-export function WarningPDF({ title, label, type = WarningTypes.Warning }) {
+export function WarningPDF({ title, label, type = WarningTypes.Warning }: {
+  label: string;
+  type: WarningTypes;
+  title?: string;
+}) {
   const Icon = WarningIcons[type];
   const color = ColorMap[type];
 
