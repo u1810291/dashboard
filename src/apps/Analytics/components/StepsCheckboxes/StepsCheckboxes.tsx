@@ -85,11 +85,6 @@ export function StepsCheckboxes() {
     stepsProgressChange(item);
   };
 
-  // function changeTemplatesStepStatus(item) {
-  //   handleMetamapBuild();
-  //   stepsProgressChange(item);
-  // }
-
   const buildFirstMetamapComplete = (item) => (item.completed ? history.push(Routes.flow.root) : handleMetamapBuild());
 
   const currentStepAction = (item) => {
