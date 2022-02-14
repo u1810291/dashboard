@@ -37,14 +37,16 @@ sentry-job:
   only:
     - master
   script:
-    - echo "Create a new release $CI_COMMIT_SHA"
+    - apk update && apk add jq
+    - VERSION=`jq -r '.version' package.json`
+    - echo "Create a new release $VERSION"
     - export SENTRY_AUTH_TOKEN=$SENTRY_BASE_TOKEN
     - export SENTRY_ORG=$SENTRY_BASE_ORGANIZATION
     - export SENTRY_PROJECT=$SENTRY_BASE_PROJECT
-    - sentry-cli releases new $CI_COMMIT_SHA
-    - sentry-cli releases files $CI_COMMIT_SHA upload-sourcemaps $CI_PROJECT_DIR/build -x .js -x .map --validate --verbose --rewrite --strip-common-prefix
-    - sentry-cli releases finalize $CI_COMMIT_SHA
-    - echo "Finalized release for $CI_COMMIT_SHA"
+    - sentry-cli releases new $VERSION
+    - sentry-cli releases files $VERSION upload-sourcemaps $CI_PROJECT_DIR/build -x .js -x .map --validate --verbose --rewrite --strip-common-prefix
+    - sentry-cli releases finalize $VERSION
+    - echo "Finalized release for $VERSION"
 
 security-scan:
   stage: security
