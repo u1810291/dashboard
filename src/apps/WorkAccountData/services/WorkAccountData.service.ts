@@ -75,7 +75,7 @@ export class WorkAccountData extends ProductBaseService implements Product<Produ
     const isWorkAccountDataHaveNoCountries = flow.financialInformationWorkAccountsRetrieving.countryCodes.length === 0;
 
     if (isWorkAccountDataHaveNoCountries) {
-      return () => FlowIssue('FlowBuilder.issue.countiesNotSpecified');
+      return () => FlowIssue('FlowBuilder.issue.countriesNotSpecified');
     }
 
     return null;

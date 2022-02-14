@@ -90,7 +90,7 @@ export class PayrollAccountData extends ProductBaseService implements Product<Pr
     const isPayrollAccountDataHaveNoCountries = flow.financialInformationPayrollAccountsRetrieving.countryCodes.length === 0;
 
     if (isPayrollAccountDataHaveNoCountries) {
-      return () => FlowIssue('FlowBuilder.issue.countiesNotSpecified');
+      return () => FlowIssue('FlowBuilder.issue.countriesNotSpecified');
     }
 
     return null;

@@ -90,7 +90,7 @@ export class BankAccountData extends ProductBaseService implements Product<Produ
     const isBankDataHaveNoCountries = flow.financialInformationBankAccountsRetrieving.countryCodes.length === 0;
 
     if (isBankDataHaveNoCountries) {
-      return () => FlowIssue('FlowBuilder.issue.countiesNotSpecified');
+      return () => FlowIssue('FlowBuilder.issue.countriesNotSpecified');
     }
 
     return null;
