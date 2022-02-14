@@ -337,7 +337,7 @@ export const getNotSelectedMapping = (listFlattenFields: CustomField[], mapping:
     return [];
   }
   const notSelected = MAPPING_OPTIONS[mapping?.country].filter((option) => !listFlattenFields.find((field) => field?.atomicFieldParams?.mapping?.key === option)) || [];
-  if (oldMapping.country === mapping.country && oldMapping.key) {
+  if (oldMapping.country === mapping.country && !notSelected.includes(oldMapping.key)) {
     notSelected.push(oldMapping.key);
   }
   return notSelected;
