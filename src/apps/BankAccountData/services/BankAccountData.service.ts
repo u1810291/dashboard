@@ -8,7 +8,6 @@ import { BankAccountDataVerification } from '../components/BankAccountDataVerifi
 import { BankAccountDataSettings } from '../components/BankAccountDataSettings/BankAccountDataSettings';
 import { BankLogo } from '../components/BankLogo/BankLogo';
 import { getBankAccountData, BankAccountDataSettingTypes, IBankAccountDataVerification, BankAccountDataCheckTypes } from '../models/BankAccountData.model';
-import { BankAccountDataCountriesNotSpecified } from '../components/BankAccountDataCountriesNotSpecified/BankAccountDataCountriesNotSpecified';
 
 type ProductSettingsBankAccountData = ProductSettings<BankAccountDataSettingTypes>;
 
