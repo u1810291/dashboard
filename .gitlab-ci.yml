@@ -44,7 +44,7 @@ sentry-job:
     - sentry-cli releases new $CI_COMMIT_SHA
     - sentry-cli releases files $CI_COMMIT_SHA upload-sourcemaps $CI_PROJECT_DIR/build -x .js -x .map --validate --verbose --rewrite --strip-common-prefix
     - sentry-cli releases finalize $CI_COMMIT_SHA
-    - echo "Finalized release for $CI_COMMIT_SHA
+    - echo "Finalized release for $CI_COMMIT_SHA"
 
 security-scan:
   stage: security
