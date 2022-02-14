@@ -27,6 +27,11 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'space-around',
     position: 'relative',
+    boxShadow: `4px 4px 4px ${theme.palette.common.lightgrayopacity}`,
+    '&:hover': {
+      border: `1.5px solid ${theme.palette.common.lightblue}`,
+      borderRadius: 5,
+    },
   },
   selectButton: () => ({
     cursor: 'pointer',
@@ -34,7 +39,7 @@ export const useStyles = makeStyles((theme) => ({
     minHeight: '25px !important',
     maxWidth: '64px',
     maxHeight: '25px',
-    marginTop: '15px',
+    marginTop: '10px',
     color: theme.palette.common.black75,
     background: theme.palette.common.white,
     border: `1.5px solid ${theme.palette.common.black75}`,

@@ -47,10 +47,10 @@ export function StepsCheckboxes() {
     );
   };
 
-  const stepsProgressChange = (item: StepsOptions, done?: boolean) => {
+  const stepsProgressChange = (item: StepsOptions) => {
     const progressChanges = [...currentProgress];
     const itemNumber = currentProgress.findIndex((step) => step.title === item.title);
-    progressChanges[itemNumber] = { ...item, completed: done || !item.completed };
+    progressChanges[itemNumber] = { ...item, completed: true };
     setCurrentProgress(progressChanges);
   };
 
@@ -66,7 +66,7 @@ export function StepsCheckboxes() {
         },
       }));
       notification.info(formatMessage('teamTable.inviteSuccess.description'));
-      stepsProgressChange(item, true);
+      stepsProgressChange(item);
     } catch (error) {
       notification.error(formatMessage(`Settings.teamSettings.submit.${error.response?.data?.name}`, { defaultMessage: formatMessage('Error.common') }));
       console.error(error);
@@ -82,8 +82,13 @@ export function StepsCheckboxes() {
 
   const readDocsComplete = (item) => {
     window.open('https://docs.metamap.com', '_blank');
-    stepsProgressChange(item, true);
+    stepsProgressChange(item);
   };
+
+  // function changeTemplatesStepStatus(item) {
+  //   handleMetamapBuild();
+  //   stepsProgressChange(item);
+  // }
 
   const buildFirstMetamapComplete = (item) => (item.completed ? history.push(Routes.flow.root) : handleMetamapBuild());
 

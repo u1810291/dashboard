@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import 'swiper/swiper.min.css';
@@ -12,9 +12,15 @@ import { useStyles } from './TemplateCard.styles';
 export function TemplateCard({ title, description }: TemplateCardProps) {
   const classes = useStyles();
   const formatMessage = useFormatMessage();
+  const [isHovered, setIsHovered] = useState<boolean>(false);
 
   return (
-    <Box p={1.5} className={classes.templateCard}>
+    <Box
+      p={1.5}
+      className={classes.templateCard}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <span className={classes.templateCardTitle}>{title}</span>
       <Tooltip
         arrow
@@ -25,7 +31,9 @@ export function TemplateCard({ title, description }: TemplateCardProps) {
           <span className={classes.description}>{description}</span>
         </Box>
       </Tooltip>
-      <Button className={classes.selectButton} color="primary">{formatMessage('TemplateCard.button')}</Button>
+      {
+        isHovered && <Button className={classes.selectButton} color="primary">{formatMessage('TemplateCard.button')}</Button>
+      }
     </Box>
   );
 }

@@ -9,6 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from 'lib/url';
+import { FiCheck } from 'react-icons/fi';
 import { StepsCheckboxes } from '../StepsCheckboxes/StepsCheckboxes';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
@@ -32,6 +33,7 @@ export function AnalyticsContainer() {
   const countStatisticsModel = useSelector(selectCountStatisticsModel);
   const byDate = useSelector(selectStatisticsByDate);
   const { asMerchantId } = useQuery();
+  const allStepsCompleted = false;
 
   useEffect(() => {
     setIsFilterDatesValid(getFilterDatesIsValid(metricsFilter));
@@ -55,7 +57,16 @@ export function AnalyticsContainer() {
     <Container maxWidth={false}>
       {isFilterDatesValid && !countStatisticsModel.isLoading && countStatisticsModel.isLoaded ? (
         <Box pb={2} className={classes.wrapper}>
-          <StepsCheckboxes />
+          {allStepsCompleted ? (
+            <div className={classes.completedSteps}>
+              You&apos;re all set!
+              <span className={classes.blueSquare}>
+                <FiCheck className={classes.checkIcon} />
+              </span>
+            </div>
+          ) : (
+            <StepsCheckboxes />
+          )}
           <Box mb={2}>
             <Grid container alignItems="center">
               <Grid item xs={9}>

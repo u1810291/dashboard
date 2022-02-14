@@ -37,5 +37,5 @@ export enum appPalette {
   greentransparent = '#E5F7EE',
   lightgreen = '#B2E6C5',
   brightgreen = '#89C39B',
-  lightgrayopacity = 'rgba(0, 0, 0, 0.15)',
+  lightgrayopacity = 'rgba(0, 0, 0, 0.05)',
 }

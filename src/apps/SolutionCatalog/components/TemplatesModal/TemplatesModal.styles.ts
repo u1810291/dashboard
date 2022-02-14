@@ -55,7 +55,7 @@ export const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
   },
   modalSubtitle: {
-    maxWidth: 475,
+    maxWidth: 507,
     color: theme.palette.common.black75,
     fontWeight: 500,
     fontSize: '18px',
