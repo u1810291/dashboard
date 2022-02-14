@@ -4,6 +4,7 @@ import { FiBriefcase } from 'react-icons/fi';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { VerificationResponse } from 'models/Verification.model';
+import { FlowIssue } from 'apps/ui';
 import { PayrollAccountDataVerification } from '../components/PayrollAccountDataVerification/PayrollAccountDataVerification';
 import { PayrollAccountDataSettings } from '../components/PayrollAccountDataSettings/PayrollAccountDataSettings';
 import { getPayrollAccountData, PayrollAccountDataSettingTypes, IPayrollAccountDataVerification, PayrollAccountDataCheckTypes } from '../models/PayrollAccountData.model';
@@ -79,6 +80,20 @@ export class PayrollAccountData extends ProductBaseService implements Product<Pr
         [VerificationPatternTypes.FinancialInformationPayrollAccountsRetrieving]: false,
       },
     };
+  }
+
+  haveIssues(flow: IFlow): boolean {
+    return flow.financialInformationPayrollAccountsRetrieving.countryCodes.length === 0;
+  }
+
+  getIssuesComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
+    const isPayrollAccountDataHaveNoCountries = flow.financialInformationPayrollAccountsRetrieving.countryCodes.length === 0;
+
+    if (isPayrollAccountDataHaveNoCountries) {
+      return () => FlowIssue('FlowBuilder.issue.countiesNotSpecified');
+    }
+
+    return null;
   }
 
   isInFlow(flow: IFlow): boolean {

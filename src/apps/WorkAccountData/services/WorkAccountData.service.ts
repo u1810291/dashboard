@@ -4,6 +4,7 @@ import { FiBriefcase } from 'react-icons/fi';
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { VerificationResponse } from 'models/Verification.model';
+import { FlowIssue } from 'apps/ui';
 import { WorkAccountDataVerification } from '../components/WorkAccountDataVerification/WorkAccountDataVerification';
 import { WorkAccountDataSettings } from '../components/WorkAccountDataSettings/WorkAccountDataSettings';
 import { getWorkAccountData, WorkAccountDataSettingTypes, IWorkAccountDataVerification, WorkAccountDataCheckTypes } from '../models/WorkAccountData.model';
@@ -64,6 +65,20 @@ export class WorkAccountData extends ProductBaseService implements Product<Produ
         [VerificationPatternTypes.FinancialInformationWorkAccountsRetrieving]: true,
       },
     };
+  }
+
+  haveIssues(flow: IFlow): boolean {
+    return flow.financialInformationWorkAccountsRetrieving.countryCodes.length === 0;
+  }
+
+  getIssuesComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
+    const isWorkAccountDataHaveNoCountries = flow.financialInformationWorkAccountsRetrieving.countryCodes.length === 0;
+
+    if (isWorkAccountDataHaveNoCountries) {
+      return () => FlowIssue('FlowBuilder.issue.countiesNotSpecified');
+    }
+
+    return null;
   }
 
   onRemove(): Partial<IFlow> {
