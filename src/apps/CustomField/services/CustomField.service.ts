@@ -18,7 +18,7 @@ export class CustomFieldService extends ProductBaseService implements Product<Cu
   }
 
   id = ProductTypes.CustomField;
-  order = 200;
+  order = 75;
   integrationTypes = [
     ProductIntegrationTypes.Sdk,
   ];
