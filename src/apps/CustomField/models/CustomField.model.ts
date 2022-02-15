@@ -326,6 +326,9 @@ export const atomicFieldIsValid = (selectedCustomField: CustomField, listFlatten
   if (!isSetMainData(selectedCustomField.name, selectedCustomField.label)) {
     return false;
   }
+  if (selectedCustomField.atomicFieldParams.regex && !selectedCustomField.atomicFieldParams.placeholder) {
+    return false;
+  }
   if (selectedCustomField.atomicFieldParams.type === AtomicCustomFieldType.Select) {
     return isNameUniq(listFlattenFields, oldName, selectedCustomField.name) && isAllOptionsUniq(selectedCustomField.atomicFieldParams.selectOptions) && isAllOptionsFielded(selectedCustomField.atomicFieldParams.selectOptions);
   }
