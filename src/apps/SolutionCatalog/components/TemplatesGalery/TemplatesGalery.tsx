@@ -12,7 +12,7 @@ import { TemplateCard } from '../TemplateCard/TemplateCard';
 import { useStyles } from './TemplatesGalery.styles';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function TemplatesGallery({ mockTemplates }: TemplateGaleryProps) {
+export function TemplatesGallery({ templates }: TemplateGaleryProps) {
   const classes = useStyles();
   return (
     <Swiper
@@ -30,7 +30,7 @@ export function TemplatesGallery({ mockTemplates }: TemplateGaleryProps) {
       allowTouchMove={false}
       grabCursor={false}
     >
-      {mockTemplates.map((template, idx) => (
+      {templates.map((template, idx) => (
         <SwiperSlide className={classes.swiperSlide} key={idx}>
           <TemplateCard title={template.name} description={template.description} />
         </SwiperSlide>

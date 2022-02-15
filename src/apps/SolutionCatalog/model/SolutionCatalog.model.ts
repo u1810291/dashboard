@@ -1,7 +1,17 @@
 export interface CardsOptions {
   name: string;
   description: string;
+  __v?: number;
+  _id: string;
+  metadata: metadataOptions[];
 }
+
+export interface metadataOptions {
+  name: string;
+  type: string;
+  _id: string;
+}
+
 type filterOptions = Record<MetadataType, TemplateFilterOptions[]>;
 
 export interface TemplateChosenFiltersProps {
@@ -44,113 +54,8 @@ export interface TempalteFilterProps {
 }
 
 export interface TemplateGaleryProps {
-  mockTemplates: CardsData[];
+  templates: CardsData[];
 }
-
-export const MOCK_TEMPLATES: Record<string, CardsOptions[]> = {
-  Crypto: [
-    {
-      name: 'Lending Secured Loan Application',
-      description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
-    },
-    {
-      name: 'Crypto Account Opening',
-      description: 'A user wants to create account with crypto exchange and look around.',
-    },
-    {
-      name: 'Neobank Credit Card Application',
-      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-    },
-    {
-      name: 'Neobank Account Opening',
-      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-    },
-    {
-      name: 'Lending Secured Loan Application',
-      description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
-    },
-    {
-      name: 'Crypto Account Opening',
-      description: 'A user wants to create account with crypto exchange and look around.',
-    },
-    {
-      name: 'Neobank Credit Card Application',
-      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-    },
-    {
-      name: 'Neobank Account Opening',
-      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-    },
-  ],
-  LATAM: [
-    {
-      name: 'Lending Secured Loan Application',
-      description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
-    },
-    {
-      name: 'Crypto Account Opening',
-      description: 'A user wants to create account with crypto exchange and look around.',
-    },
-    {
-      name: 'Neobank Credit Card Application',
-      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-    },
-    {
-      name: 'Neobank Account Opening',
-      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-    },
-    {
-      name: 'Lending Secured Loan Application',
-      description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
-    },
-    {
-      name: 'Crypto Account Opening',
-      description: 'A user wants to create account with crypto exchange and look around.',
-    },
-    {
-      name: 'Neobank Credit Card Application',
-      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-    },
-    {
-      name: 'Neobank Account Opening',
-      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-    },
-  ],
-  Bank: [
-    {
-      name: 'Lending Secured Loan Application',
-      description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
-    },
-    {
-      name: 'Crypto Account Opening',
-      description: 'A user wants to create account with crypto exchange and look around.',
-    },
-    {
-      name: 'Neobank Credit Card Application',
-      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-    },
-    {
-      name: 'Neobank Account Opening',
-      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-    },
-    {
-      name: 'Lending Secured Loan Application',
-      description: 'A user applies for a secured loan - the asset (used vehicle) secures the loan.',
-    },
-    {
-      name: 'Crypto Account Opening',
-      description: 'A user wants to create account with crypto exchange and look around.',
-    },
-    {
-      name: 'Neobank Credit Card Application',
-      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-    },
-    {
-      name: 'Neobank Account Opening',
-      description: 'A user (at least 18 y.o.) wants to get a credit card from a neobank. The objective of the merchant is to get as much requests as possible however this is a clear trade-off between number of requests and volume of data associated with the user.',
-    },
-  ],
-};
 
 // TODO:  this function just for example how filtering looks like , until we don't have response from backend
 export function filteredArray(dataArray, currentFilters) {
