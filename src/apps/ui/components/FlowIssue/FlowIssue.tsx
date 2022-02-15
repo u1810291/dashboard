@@ -9,7 +9,7 @@ export function FlowIssue(message: string) {
   const formatMessage = useFormatMessage();
 
   return (
-    <Box className={classes.badge} data-qa={QATags.Flows.FlowIssueNotification}>
+    <Box className={classes.badge} data-qa={QATags.Flows.FlowIssueNotificationDesktop}>
       {formatMessage(message)}
     </Box>
   );

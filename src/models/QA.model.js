@@ -97,7 +97,9 @@ export const QATags = {
     },
     Table: 'flows-table',
     CountrySwitch: 'country-switch',
+    FlowIssueNotificationDesktop: 'desktop-flow-issue',
     FlowIssueNotification: 'flow-issue',
+    SaveButtonIssue: 'save-button-issue',
   },
 
   VerificationList: {

@@ -15,7 +15,7 @@ export function TextBubble({
   const classes = useStyles();
 
   return (
-    <Box className={classNames(classes.root, className)} qa-data={qaTag}>
+    <Box className={classNames(classes.root, className)} data-qa={qaTag}>
       {children}
     </Box>
   );

@@ -47,7 +47,7 @@ export function SaveAndPublish() {
   return (
     <Grid container>
       {haveIssues ? (
-        <TextBubble className={classes.issues} qaTag={QATags.Flows.FlowIssueNotification}>
+        <TextBubble className={classes.issues} qaTag={QATags.Flows.SaveButtonIssue}>
           {intl.formatMessage({ id: 'FlowBuilder.notification.issues' })}
         </TextBubble>
       ) : haveUnsavedChanges && (
