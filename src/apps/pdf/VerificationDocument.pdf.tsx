@@ -26,6 +26,10 @@ import { commonStyles } from './PDF.styles';
 import { BankAccountDataPDF } from './components/BankAccountDataPDF/BankAccountDataPDF';
 import { WorkAccountDataPDF } from './components/WorkAccountDataPDF/WorkAccountDataPDF';
 import { PayrollAccountDataPDF } from './components/PayrollAccountDataPDF/PayrollAccountDataPDF';
+import { InputTypes } from '../../models/Input.model';
+import { CustomFieldService } from '../CustomField/services/CustomField.service';
+import { AgeCheckPDF } from './components/AgeCheckPDF/AgeCheckPDF';
+import { CustomFieldPDF } from './components/CustomFieldPDF/CustomFieldPDF';
 
 interface AdditionalData {
   legalName: string;
@@ -48,6 +52,7 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
   const bankAccountData = getBankAccountData(verification);
   const workAccountData = getWorkAccountData(verification);
   const payrollAccountData = getPayrollAccountData(verification);
+  const customField = verification?.inputs?.find((input) => input?.id === InputTypes.CustomFields);
 
   return (
     <Document title={`Verification ${verification.id}`} author="MetaMap www.metamap.com">
@@ -80,6 +85,11 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
           <View>
             <IpCheckPDF data={ipCheck.data} isChecking={ipCheck.status < 200} />
           </View>
+        )}
+        {customField && (
+        <View style={[commonStyles.mb15]}>
+          <CustomFieldPDF input={customField} />
+        </View>
         )}
         {/* Additional checks */}
         <View>
