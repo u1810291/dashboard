@@ -1,7 +1,7 @@
 import { createTypesSequence, TypesSequence } from 'state/store.utils';
+import { TemplateFilterOptions } from 'apps/SolutionCatalog';
 import * as api from '../api/SolutionCatalog.client';
 import { SolutionCatalogActionGroups } from './SolutionCatalog.store';
-import { TemplateFilterOptions } from 'apps/SolutionCatalog';
 
 export const solutionCatalogTypes: TypesSequence = {
   ...createTypesSequence(SolutionCatalogActionGroups.AllTemplates),

@@ -16,7 +16,7 @@ type filterOptions = Record<MetadataType, TemplateFilterOptions[]>;
 
 export interface TemplateChosenFiltersProps {
   currentValue: filterOptions;
-  setCurrentValue:(object: filterOptions) => void;
+  setCurrentValue: (object: filterOptions) => void;
   initialData: Record<MetadataType, []>;
 }
 export enum MetadataType {
@@ -50,24 +50,14 @@ export interface TempalteFilterProps {
   title: string;
   filterData: TemplateFilterOptions[];
   currentFilters: filterOptions;
-  setCurrentFilters:(object: filterOptions) => void;
+  setCurrentFilters: (object: filterOptions) => void;
 }
 
 export interface TemplateGaleryProps {
   templates: CardsData[];
 }
 
-// TODO:  this function just for example how filtering looks like , until we don't have response from backend
-export function filteredArray(dataArray, currentFilters) {
-  // @ts-ignore
-  if (!currentFilters.industry.length) return dataArray;
-  // @ts-ignore
-  const chosenIndustry = currentFilters.industry.map((item) => item.name.toLowerCase());
-  const filterResults = Object.entries(dataArray).filter(([industry]) => chosenIndustry.includes(industry.toLowerCase()));
-  return Object.fromEntries(filterResults);
-}
-
-export function getFiltersOptions(filtersData:TemplateFilterOptions[]):ModifiedFiltersOptions[] {
+export function getFiltersOptions(filtersData: TemplateFilterOptions[]): ModifiedFiltersOptions[] {
   const titles = Array.from(new Set(filtersData.map((item) => item.type)));
   return titles.map((title) => {
     const uniqueOptions = filtersData.filter((item) => item.type === title);
