@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import Box from '@material-ui/core/Box';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -9,12 +8,11 @@ import { useFormatMessage } from 'apps/intl';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { TempalteFilterProps, TemplateFilterOptions, loadTemplates } from 'apps/SolutionCatalog';
+import { TempalteFilterProps, TemplateFilterOptions } from 'apps/SolutionCatalog';
 import { useStyles, FilterButton } from './TemplateFilters.style';
 
 export function TemplateFilters({ title, filterData, currentFilters, setCurrentFilters }: TempalteFilterProps) {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const formatMessage = useFormatMessage();
   const toggle = () => setIsOpen(!isOpen);
@@ -26,8 +24,6 @@ export function TemplateFilters({ title, filterData, currentFilters, setCurrentF
     const newActiveFilters = event.target.checked
       ? { ...currentFilters, [title]: [...currentActiveFilters, item] }
       : { ...currentFilters, [title]: currentActiveFilters.filter((value) => value.name !== item.name) };
-    const filtersData = Object.values(newActiveFilters).reduce((result, current) => result.concat(current), []);
-    dispatch(loadTemplates(filtersData));
     setCurrentFilters(newActiveFilters);
   }
 

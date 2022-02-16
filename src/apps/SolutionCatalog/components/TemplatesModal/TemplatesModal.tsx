@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useFormatMessage } from 'apps/intl';
 import { PageLoader } from 'apps/layout';
 import { useOverlay, Modal } from 'apps/overlay';
@@ -9,7 +10,7 @@ import { TemplateFilters } from 'apps/filter';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
-import { useMetadataLoad, useTemplatesLoad } from 'apps/SolutionCatalog';
+import { loadTemplates, useMetadataLoad, useTemplatesLoad } from 'apps/SolutionCatalog';
 import { ITemplateMetadata, MetadataType } from 'apps/Templates';
 import { TemplatesGallery } from '../TemplatesGalery/TemplatesGalery';
 import { TemplatesChosenFilters } from '../TemplatesChosenFilters/TemplatesChosenFilters';
@@ -19,6 +20,7 @@ import { useStyles } from './TemplatesModal.styles';
 SwiperCore.use([Pagination, Navigation]);
 
 export function TemplatesModal() {
+  const dispatch = useDispatch();
   const filtersData = useMetadataLoad();
   const templatesList = useTemplatesLoad();
   const formatMessage = useFormatMessage();
@@ -28,6 +30,11 @@ export function TemplatesModal() {
   const [currentFilters, setCurrentFilters] = useState<Record<MetadataType, ITemplateMetadata[]>>(initialFiltersData);
   const filtersByDefault = !Object.values(currentFilters).some((el) => !!el.length);
   const filtersOptions = getFiltersOptions(filtersData.value);
+
+  useEffect(() => {
+    const filtersArray = Object.values(currentFilters).reduce((result, current) => result.concat(current), []);
+    dispatch(loadTemplates(filtersArray));
+  }, [currentFilters]);
 
   return (
     <Modal

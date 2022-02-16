@@ -1,4 +1,5 @@
 import { http } from 'lib/client/http';
+/* eslint-disable import/no-unresolved */
 import Qs from 'qs';
 import { CardsOptions, TemplateFilterOptions } from 'apps/SolutionCatalog';
 

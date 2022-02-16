@@ -1,14 +1,12 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useFormatMessage } from 'apps/intl';
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import { FiX } from 'react-icons/fi';
-import { TemplateChosenFiltersProps, TemplateFilterOptions, loadTemplates } from 'apps/SolutionCatalog';
+import { TemplateChosenFiltersProps, TemplateFilterOptions } from 'apps/SolutionCatalog';
 import { useStyles } from './TemplatesChosenFilters.styles';
 
 export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialData }: TemplateChosenFiltersProps) {
-  const dispatch = useDispatch();
   const classes = useStyles();
   const formatMessage = useFormatMessage();
 
@@ -19,8 +17,6 @@ export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialD
     Object.entries(currentValue).forEach(([filter, array]) => {
       resultAfterDelete[filter] = array.filter((filterItem) => filterItem.name !== option.name);
     });
-    const resultArray = Object.values(resultAfterDelete).reduce((sum: TemplateFilterOptions[], current: TemplateFilterOptions[]) => sum.concat(current), []);
-    dispatch(loadTemplates(resultArray));
     setCurrentValue(resultAfterDelete);
   }
 
@@ -33,13 +29,8 @@ export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialD
         role="button"
         tabIndex={0}
         className={classes.resetFilters}
-        onClick={() => {
-          dispatch(loadTemplates([]));
-          setCurrentValue(initialData);
-        }}
-        onKeyPress={() => {
-          setCurrentValue(initialData);
-        }}
+        onClick={() => setCurrentValue(initialData)}
+        onKeyPress={() => setCurrentValue(initialData)}
       >
         {formatMessage('TemplateChosenFilters.resetButton')}
       </span>
