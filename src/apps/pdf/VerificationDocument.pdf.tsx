@@ -4,7 +4,7 @@ import { getWorkAccountData } from 'apps/WorkAccountData';
 import { getBankAccountData } from 'apps/BankAccountData';
 import { getPayrollAccountData } from 'apps/PayrollAccountData';
 import { getNom151FileContent } from 'models/Identity.model';
-import { VerificationResponse } from 'models/VerificationOld.model';
+import { VerificationResponse } from 'models/Verification.model';
 import React from 'react';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { getPhoneValidationExtras } from 'apps/PhoneValidation/models/PhoneValidation.model';

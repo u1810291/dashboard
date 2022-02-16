@@ -1,10 +1,10 @@
-import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
-import { Product, ProductSettings, ProductTypes } from 'models/Product.model';
-import { VerificationResponse } from 'models/VerificationOld.model';
-import { IFlow } from 'models/Flow.model';
+import { ProductBaseService } from '../../Product/services/ProductBase.service';
+import { Product, ProductSettings, ProductTypes } from '../../../models/Product.model';
+import { VerificationResponse } from '../../../models/Verification.model';
+import { IFlow } from '../../../models/Flow.model';
 import { Nom151Check } from '../components/Nom151Check/Nom151Check';
 
-export class CertifiedTimestamp extends ProductBaseFlowBuilder implements Product {
+export class CertifiedTimestamp extends ProductBaseService implements Product {
   id = ProductTypes.CertifiedTimestamp;
   order = 21000;
   icon = null;

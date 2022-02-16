@@ -1,6 +1,6 @@
 import React from 'react';
 import { getDownloadableFileName } from 'models/Identity.model';
-import { VerificationWithExtras } from 'models/VerificationOld.model';
+import { VerificationWithExtras } from 'models/Verification.model';
 import { NewLivenessStep } from '../NewLivenessStep/NewLivenessStep';
 
 export function BiometricsVerificationProduct({ data }: {

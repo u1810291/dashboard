@@ -1,12 +1,13 @@
 import { Box, Grid } from '@material-ui/core';
-import { IdentityProfileResponse } from 'apps/IdentityProfile';
+import { selectIdentityProfile } from 'apps/IdentityProfile';
 import classNames from 'classnames';
 import { CollaboratorRoles, WithAgent } from 'models/Collaborator.model';
-import { VerificationWithExtras } from 'models/VerificationOld.model';
 import React, { lazy, Suspense } from 'react';
 import { PageLoader } from 'apps/layout';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 import { RoleRenderGuard } from 'apps/merchant/guards/RoleRenderGuard';
+import { selectNewVerificationWithExtras } from '../../state/Verification.selectors';
 import { VerificationDataButton } from '../VerificationDataButton/VerificationDataButton';
 import { VerificationDate } from '../VerificationDate/VerificationDate';
 import { VerificationDeleteButton } from '../VerificationDeleteButton/VerificationDeleteButton';
@@ -16,14 +17,13 @@ import { useStyles } from './VerificationHeaderMenu.styles';
 
 const LazyButtonVerificationGeneratePdf = lazy(() => import('apps/pdf').then((module) => ({ default: module.ButtonVerificationGeneratePdf })));
 
-export function VerificationHeaderMenu({ verification, identity }: {
-  verification: VerificationWithExtras;
-  identity: IdentityProfileResponse;
-}) {
+export function VerificationHeaderMenu() {
   const intl = useIntl();
+  const verification = useSelector(selectNewVerificationWithExtras);
+  const identityProfile = useSelector(selectIdentityProfile);
   const classes = useStyles();
 
-  if (!verification || !identity) {
+  if (!verification || !identityProfile) {
     return null;
   }
 
@@ -33,7 +33,7 @@ export function VerificationHeaderMenu({ verification, identity }: {
         <Grid container item xs={12} xl={6} spacing={2} alignItems="center" className={classes.verification}>
           <Grid item xs={12} lg={5} className={classes.statusWrapper}>
             <VerificationStatusChanger
-              identity={identity}
+              identity={identityProfile}
               verificationId={verification?._id}
               verificationStatus={verification?.verificationStatus}
             />

@@ -1,9 +1,9 @@
 import { productManagerService } from 'apps/Product';
 import { ProductTypes } from 'models/Product.model';
-import { IpCheckMerit } from '../services/IpCheckMerit.service';
+import { IpCheck } from '../services/IpCheck.service';
 
 export const ipCheckInit = () => (): ProductTypes => {
-  const ipCheck = new IpCheckMerit();
+  const ipCheck = new IpCheck();
   productManagerService.register(ipCheck);
   return ipCheck.id;
 };

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { ProductIntegrationTypes } from 'models/Product.model';
 import { Routes } from 'models/Router.model';
 import { IdentityStatuses } from 'models/Status.model';
-import { VerificationListItem } from 'models/VerificationOld.model';
+import { VerificationListItem } from 'models/Verification.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { useSelector } from 'react-redux';

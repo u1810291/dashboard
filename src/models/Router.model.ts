@@ -31,20 +31,9 @@ export const Routes = {
       root: '/verification',
     },
   },
-  identityProfile: {
-    root: '/identity-profile',
-    details: {
-      root: '/identity-profile/:identityId',
-      verificationDetails: '/identity-profile/:identityId/verification/:verificationId',
-    },
-  },
   flow: {
     root: '/flow',
     details: '/flow/:id',
-  },
-  workflow: {
-    root: '/workflow',
-    details: '/workflow/:id',
   },
   dev: { root: '/dev' },
   settings: {

@@ -7,7 +7,7 @@ import { Loader } from 'apps/ui';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useLongPolling } from 'lib/longPolling.hook';
 import { Loadable } from 'models/Loadable.model';
-import { VerificationResponse } from 'models/VerificationOld.model';
+import { VerificationResponse } from 'models/Verification.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';

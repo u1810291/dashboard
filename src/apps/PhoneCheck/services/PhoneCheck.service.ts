@@ -1,19 +1,19 @@
 import { getPhoneValidationStep, getPhoneRiskStep } from 'models/PhoneCheck.model';
+import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductSettings, ProductTypes, ProductInputTypes } from 'models/Product.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiPhone } from 'react-icons/fi';
-import { VerificationResponse } from 'models/VerificationOld.model';
+import { VerificationResponse } from 'models/Verification.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
-import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { PhoneCheckCheckTypes, PhoneOwnershipValidationTypes, PhoneCheckSettingTypes } from '../models/PhoneCheck.model';
 import { PhoneCheckSettings } from '../components/PhoneCheckSettings/PhoneCheckSettings';
 import { PhoneCheckVerification, PhoneCheckVerificationData } from '../components/PhoneCheckVerification/PhoneCheckVerification';
 
 type PhoneCheckProductSettings = ProductSettings<PhoneCheckSettingTypes>;
 
-export class PhoneCheck extends ProductBaseFlowBuilder implements Product {
+export class PhoneCheck extends ProductBaseService implements Product {
   constructor(merchantTags: MerchantTags[]) {
     super();
     this.merchantTags = merchantTags;

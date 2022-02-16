@@ -1,16 +1,16 @@
+import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductSettings, ProductTypes } from 'models/Product.model';
-import { VerificationResponse } from 'models/VerificationOld.model';
+import { VerificationResponse } from 'models/Verification.model';
 import { FiFile } from 'react-icons/fi';
 import { getStepStatus, StepStatus } from 'models/Step.model';
-import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { CustomDocumentsSettings } from '../components/CustomDocumentSettings/CustomDocumentSettings';
 import { CustomDocumentVerificationProxy } from '../components/CustomDocumentVerificationProxy/CustomDocumentVerificationProxy';
 import { CUSTOM_DOCUMENT_PREFIX, CustomDocumentCheckTypes, CustomDocumentSettingsTypes } from '../models/CustomDocument.model';
 
 type ProductSettingsCustomDocument = ProductSettings<CustomDocumentSettingsTypes>;
 
-export class CustomDocument extends ProductBaseFlowBuilder implements Product {
+export class CustomDocument extends ProductBaseService implements Product<ProductSettingsCustomDocument> {
     id = ProductTypes.CustomDocuments;
     order = 900;
     integrationTypes = [];

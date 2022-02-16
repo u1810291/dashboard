@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { getSettingsValueByType } from '../models/FlowBuilder.model';
+import { getSettingsValueByType } from 'apps/flowBuilder/models/FlowBuilder.model';
 
 export function useSettingsBuffer<T extends string, S = any>(settings, initActions): [Record<T, any>, (settingId: T, newValue: S) => void] {
   const [isBufferInit, setIsBufferInit] = useState(false);

@@ -1,24 +1,20 @@
 import { Product, ProductTypes } from 'models/Product.model';
-import { IFlow } from 'models/Flow.model';
-import { VerificationResponse } from 'models/VerificationOld.model';
-import { IVerificationWorkflow } from 'models/Verification.model';
-import { IWorkflow } from 'models/Workflow.model';
 
-export class ProductManagerService<S = IFlow | IWorkflow, T = VerificationResponse | IVerificationWorkflow> {
-  private products: Product<S, T>[] = [];
+export class ProductManagerService {
+  private products: Product[] = [];
 
-  register(product: Product<S, T>): void {
+  register(product: Product): void {
     if (this.getProduct(product.id)) {
       return;
     }
     this.products.push(product);
   }
 
-  getProduct(id: ProductTypes): Product<S, T> {
+  getProduct(id: ProductTypes): Product {
     return this.products.find((item) => item.id === id);
   }
 
-  getProductsConfigurable(): Product<S, T>[] {
+  getProductsConfigurable(): Product[] {
     return this.products
       .sort((a, b) => a.order - b.order)
       .filter((product) => product.isConfigurable);

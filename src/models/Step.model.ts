@@ -5,7 +5,7 @@ import { isNil } from 'lib/isNil';
 import { get } from 'lodash';
 import { isCovidTolerance } from 'models/Covid.model';
 import { getFieldsExtra } from 'models/Field.model';
-import { AmlDocumentStepTypes, getPremiumAmlWatchlistsCheckExtraData } from 'apps/Aml/models/Aml.model';
+import { AmlDocumentStepTypes, getPremiumAmlWatchlistsCheckExtraData } from '../apps/Aml/models/Aml.model';
 import { PremiumAmlWatchlistStepData } from './Document.model';
 import { VerificationPatternTypes } from './VerificationPatterns.model';
 
@@ -332,10 +332,9 @@ export function getDocumentStep(id, steps = []) {
   return steps.find((step) => step.id === id) || {};
 }
 
-// TODO function gets step as a param but we cant use IStep interface for now
+// TODO fuction gets step as a param but we cant use IStep interface for now
 // because not all step typings are inherited from IStep
-export function getStepStatus(step): StepStatus {
-  const { id, status, data = {}, error } = step || {};
+export function getStepStatus({ id, status, data = {}, error }): StepStatus {
   if (status !== 200) {
     return StepStatus.Checking;
   }

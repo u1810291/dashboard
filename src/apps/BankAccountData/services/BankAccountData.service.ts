@@ -1,8 +1,8 @@
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductTypes, ProductIntegrationTypes, ProductSettings } from 'models/Product.model';
+import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { VerificationResponse } from 'models/VerificationOld.model';
-import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
+import { VerificationResponse } from 'models/Verification.model';
 import { BankAccountDataVerification } from '../components/BankAccountDataVerification/BankAccountDataVerification';
 import { BankAccountDataSettings } from '../components/BankAccountDataSettings/BankAccountDataSettings';
 import { BankLogo } from '../components/BankLogo/BankLogo';
@@ -10,7 +10,7 @@ import { getBankAccountData, BankAccountDataSettingTypes, IBankAccountDataVerifi
 
 type ProductSettingsBankAccountData = ProductSettings<BankAccountDataSettingTypes>;
 
-export class BankAccountData extends ProductBaseFlowBuilder implements Product {
+export class BankAccountData extends ProductBaseService implements Product<ProductSettingsBankAccountData> {
   id = ProductTypes.BankAccountData;
   order = 1200;
   integrationTypes = [

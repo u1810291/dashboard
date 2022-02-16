@@ -1,8 +1,8 @@
-import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
+import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { Product, ProductInputTypes, ProductSettings, ProductTypes } from 'models/Product.model';
-import { VerificationResponse } from 'models/VerificationOld.model';
+import { VerificationResponse } from 'models/Verification.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiUser } from 'react-icons/fi';
 import isNil from 'lodash/isNil';
@@ -13,7 +13,7 @@ import { FacematchSettings } from '../components/FacematchSettings/FacematchSett
 import { FacematchVerificationIssues } from '../components/FacematchVerificationIssues/FacematchVerificationIssues';
 import { FacematchVerification } from '../components/FacematchVerification/FacematchVerification';
 
-export class Facematch extends ProductBaseFlowBuilder implements Product {
+export class Facematch extends ProductBaseService implements Product<ProductSettings<FacematchCheckSettingsTypes>> {
   merchantTags: MerchantTags[] = [];
 
   id = ProductTypes.Facematch;

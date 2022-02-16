@@ -2,7 +2,7 @@ import { Loadable } from 'models/Loadable.model';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { ProductTypes } from 'models/Product.model';
 import { isObjectEmpty } from 'lib/object';
-import { getVerificationExtras, VerificationResponse, VerificationWithExtras } from 'models/VerificationOld.model';
+import { getVerificationExtras, VerificationResponse, VerificationWithExtras } from 'models/Verification.model';
 import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
 import { REVIEW_MODE_KEY, ReviewModeSliceTypes, ReviewModeStore } from './reviewMode.store';
