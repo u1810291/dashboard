@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import React, { useMemo } from 'react';
 import { formatDate } from 'lib/date';
 import { isNil } from 'lib/isNil';
-import { AtomicCustomFieldType, CustomField, MainCustomFieldType } from '../../models/CustomField.model';
+import { AtomicCustomFieldType, CustomField, formatedValue, MainCustomFieldType } from '../../models/CustomField.model';
 import { CustomFieldVerificationAtomicList } from '../CustomFieldVerificationList/CustomFieldVerificationList';
 import { useStyles } from './CustomFieldVerificationInfo.styles';
 
@@ -16,11 +16,7 @@ export function CustomFieldVerificationInfo({ field, value }: {
   return (
     <Box className={classes.infoWrapper} key={field.name}>
       <Typography className={classes.infoValue}>
-        {
-          field.type === MainCustomFieldType.Atomic && field.atomicFieldParams.type === AtomicCustomFieldType.Date
-            ? value ? formatDate(value) : ''
-            : !isNil(value) ? `${value}` : '-'
-        }
+        {formatedValue(field, value)}
       </Typography>
       <InputLabel className={classes.label}>
         {field.label}

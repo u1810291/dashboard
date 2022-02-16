@@ -1,8 +1,9 @@
 import { ProductSettings, ProductSettingsProps } from 'models/Product.model';
 import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
-import { DateFormat } from 'lib/date';
+import { DateFormat, formatDate } from 'lib/date';
 import { parseDate } from 'apps/ui/models/ReactDayPicker.model';
+import { isNil } from '../../../lib/isNil';
 
 export const FIELD_SYSTEM_NAME_PATTERN = '^([a-zA-Z-_]+)?$';
 
@@ -344,3 +345,7 @@ export const getNotSelectedMapping = (listFlattenFields: CustomField[], mapping:
 };
 
 export const isValidFieldSystemName = (value: string): boolean => new RegExp(FIELD_SYSTEM_NAME_PATTERN).test(value);
+
+export const formatedValue = (field: CustomField, value: string) => (field.type === MainCustomFieldType.Atomic && field.atomicFieldParams.type === AtomicCustomFieldType.Date
+  ? value ? formatDate(value) : ''
+  : !isNil(value) ? `${value}` : '-');

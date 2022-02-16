@@ -61,6 +61,12 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
         <View>
           <VerificationSummaryPDF identity={verification} />
         </View>
+        {/* Custom Field */}
+        {customField && (
+          <View style={[commonStyles.mb15]}>
+            <CustomFieldPDF input={customField} />
+          </View>
+        )}
         {/* Documents */}
         {verification.documents.map((doc, index) => (
           <View key={doc.type}>
@@ -85,11 +91,6 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
           <View>
             <IpCheckPDF data={ipCheck.data} isChecking={ipCheck.status < 200} />
           </View>
-        )}
-        {customField && (
-        <View style={[commonStyles.mb15]}>
-          <CustomFieldPDF input={customField} />
-        </View>
         )}
         {/* Additional checks */}
         <View>
