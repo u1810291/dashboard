@@ -49,16 +49,19 @@ export function WatchlistMappingValidation({ isSubmittingError, isEdit, hasOptio
 
   const handleInputValidate = useCallback((mapping: WatchlistMapping[]) => {
     const formValues = getValues();
-    const isMustValidate = isMappingExist(mapping) && !isEqual(mapping, currentWatchlistMapping ?? []);
+    const isMustValidate = isEdit ? !isEqual(mapping, currentWatchlistMapping ?? []) : true;
 
     if ((formValues[CustomWatchlistModalValidationInputs.FileKey]) && formValues[CustomWatchlistModalValidationInputs.CsvSeparator] && isMustValidate) {
-      dispatch(getCustomWatchlistShortValidation(merchantId, {
-        [CustomWatchlistModalValidationInputs.FileKey]: formValues[CustomWatchlistModalValidationInputs.FileKey],
-        [CustomWatchlistModalValidationInputs.CsvSeparator]: formValues[CustomWatchlistModalValidationInputs.CsvSeparator],
-        mapping,
-      }));
+      dispatch(getCustomWatchlistShortValidation(
+        merchantId, {
+          [CustomWatchlistModalValidationInputs.FileKey]: formValues[CustomWatchlistModalValidationInputs.FileKey],
+          [CustomWatchlistModalValidationInputs.CsvSeparator]: formValues[CustomWatchlistModalValidationInputs.CsvSeparator],
+          mapping,
+        },
+        isEdit,
+      ));
     }
-  }, [merchantId, currentWatchlistMapping, getValues, dispatch]);
+  }, [merchantId, isEdit, currentWatchlistMapping, getValues, dispatch]);
 
   const onValidatedInputsChange = useCallback((validatedInputsValues: IValidatedInputsFieldTypes[]) => {
     const validatedInputsValuesFormated = getCustomWatchlistValidMapping(validatedInputsValues);
