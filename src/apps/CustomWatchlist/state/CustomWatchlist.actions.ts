@@ -1,9 +1,10 @@
 import { productManagerService } from 'apps/Product';
 import { ProductTypes } from 'models/Product.model';
+import { ErrorStatuses } from 'models/Error.model';
 import { CustomWatchlistHeaders, CustomWatchlistModalValidationInputs, CustomWatchlistModalValidationInputTypes, CustomWatchlistShortValidation, IWatchlist, WatchlistContentTypes, WatchlistCreateBodyTypes } from '../models/CustomWatchlist.models';
 import { CustomWatchlist } from '../services/CustomWatchlist.service';
 import * as api from '../client/CustomWatchlist.client';
-import { types } from './CustomWatchlist.store';
+import { types, CustomWatchlistsActions } from './CustomWatchlist.store';
 import { selectCanUseCustomWatchlists, selectWatchlists, selectCurrentCustomWatchlist } from './CustomWatchlist.selectors';
 
 export const customWatchlistInit = () => (_dispatch, getState): ProductTypes => {
@@ -46,9 +47,15 @@ export const clearWatchlistContent = () => (dispatch) => {
   dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_CLEAR, payload: null });
 };
 
+export const clearCurrentWatchlistFileError = () => (dispatch) => {
+  dispatch({ type: CustomWatchlistsActions.CurrentWatchlistFileFailure, payload: null });
+};
+
 export const clearWatchlist = () => (dispatch) => {
   dispatch(clearCurrentWatchlistHeaders());
   dispatch(clearWatchlistContent());
+  dispatch(clearCurrentWatchlist());
+  dispatch(clearCurrentWatchlistFileError());
 };
 
 export const updateCurrentWatchlistProcess = (formState: Partial<CustomWatchlistModalValidationInputTypes>) => (dispatch, getState) => {
@@ -186,18 +193,31 @@ export const getCustomWatchlistHeaders = (merchantId: string, body: CustomWatchl
   }
 };
 
-export const getCustomWatchlistShortValidation = (merchantId: string, body: CustomWatchlistShortValidation) => async (dispatch, getState) => {
+export const getCustomWatchlistShortValidation = (merchantId: string, body: CustomWatchlistShortValidation, isEdit: boolean) => async (dispatch, getState) => {
   dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_UPDATING });
   try {
+    dispatch({ type: CustomWatchlistsActions.CurrentWatchlistFileFailure, payload: null });
     const payload = await api.getWatchlistShortValidation(merchantId, body);
     const currentWatchlist = { ...selectCurrentCustomWatchlist(getState()) };
     currentWatchlist.process = { ...currentWatchlist.process };
 
-    currentWatchlist.process.error = payload.data.valid ? currentWatchlist.process.error : (payload.data?.errors ?? null);
+    if (isEdit) {
+      currentWatchlist.process.error = payload.data.valid ? currentWatchlist.process.error : (payload.data?.errors ?? null);
+    }
+
+    if (!isEdit) {
+      currentWatchlist.process.error = payload.data?.errors ?? null;
+    }
+
+    const foundError = payload?.data?.errors?.find((value) => value.code === ErrorStatuses.UnprocessableEntity);
+    if (foundError) {
+      dispatch({ type: CustomWatchlistsActions.CurrentWatchlistFileFailure, payload: foundError?.type });
+      return;
+    }
 
     dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_SUCCESS, payload: currentWatchlist, isReset: true });
   } catch (error: any) {
-    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_FAILURE, error: error?.response?.data?.type });
+    dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_FAILURE, error });
     throw error;
   }
 };
