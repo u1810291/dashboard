@@ -8,8 +8,8 @@ import { Loadable } from 'models/Loadable.model';
 import { Merchant, MerchantId, MerchantTags, IMerchantSettings } from 'models/Merchant.model';
 import { createSelector } from 'reselect';
 import { CollaboratorRoles } from 'models/Collaborator.model';
+import { selectTemplatesListFlat } from 'apps/Templates/store/Templates.selectors';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
-import { selectTemplatesList } from 'apps/Templates/store/Templates.selectors';
 
 export const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
 
@@ -250,6 +250,6 @@ export const selectPhoneRiskAnalysisThreshold = createSelector(
 
 export const selectFlowsAsTemplates = createSelector(
   selectMerchantFlowList,
-  selectTemplatesList,
+  selectTemplatesListFlat,
   (flowList, templatesList) => flowList.filter((flow) => templatesList.some((template) => template._id === flow.id)),
 );

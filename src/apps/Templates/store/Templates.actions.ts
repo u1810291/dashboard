@@ -18,6 +18,7 @@ export const getTemplates = () => async (dispatch) => {
 
   try {
     const { data } = await getTemplatesRequest();
+    console.log(data);
     dispatch({ type: types.GET_TEMPLATES_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: types.GET_TEMPLATES_FAILURE, error });

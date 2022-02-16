@@ -22,7 +22,7 @@ export enum SliceNames {
 export interface TemplatesStore {
   [SliceNames.MetadataList]: Loadable<ITemplateMetadata[]>;
   [SliceNames.CurrentTemplate]: Loadable<ITemplate>;
-  [SliceNames.Templates]: Loadable<ITemplate[]>;
+  [SliceNames.Templates]: Loadable<Record<string, ITemplate[]>>;
 }
 
 export const types: TypesSequence = {
