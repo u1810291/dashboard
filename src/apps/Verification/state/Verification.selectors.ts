@@ -2,7 +2,7 @@ import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { Loadable } from 'models/Loadable.model';
 import { ProductTypes } from 'models/Product.model';
 import { DocumentStepTypes, getStepExtra, IStep } from 'models/Step.model';
-import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFlow, VerificationListItem, VerificationWithExtras, VerificationResponse } from 'models/Verification.model';
+import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFlow, VerificationListItem, VerificationWithExtras, VerificationResponse } from 'models/VerificationOld.model';
 import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
 import { ErrorType } from 'models/Error.model';

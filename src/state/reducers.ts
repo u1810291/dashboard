@@ -40,6 +40,8 @@ import { CUSTOM_WATCHLISTS_STORE_KEY } from 'apps/CustomWatchlist/state/CustomWa
 import { CUSTOM_FIELD_STORE_KEY, customFieldReducer } from 'apps/CustomField';
 import { PRODUCT_BOARD_STORE_KEY } from 'apps/ProductBoard/state/ProductBoard.store';
 import { productBoardReducer } from 'apps/ProductBoard/state/ProductBoard.reducer';
+import { WORKFLOW_BUILDER_STORE_KEY } from 'apps/WorkflowBuilder/store/WorkflowBuilder.store';
+import { workflowBuilderReducer } from 'apps/WorkflowBuilder/store/WorkflowBuilder.reducer';
 
 export const appReducers = combineReducers({
   [USER_STORE_KEY]: user,
@@ -56,6 +58,7 @@ export const appReducers = combineReducers({
   [OVERLAY_STORE_KEY]: overlay,
   [REVIEW_MODE_KEY]: reviewModeReducer,
   [FLOW_BUILDER_STORE_KEY]: flowBuilderReducer,
+  [WORKFLOW_BUILDER_STORE_KEY]: workflowBuilderReducer,
   [PRODUCT_STORE_KEY]: productReducer,
   [IDENTITY_PROFILE_STORE_KEY]: identityProfileReducer,
   [VERIFICATION_STORE_KEY]: verificationReducer,

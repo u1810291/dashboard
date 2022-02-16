@@ -1,6 +1,6 @@
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { VerificationDocument } from './Document.model';
 import { IStep } from './Step.model';
-import { VerificationResponse } from './Verification.model';
 
 export interface CreditCheckStep {
   age: number;

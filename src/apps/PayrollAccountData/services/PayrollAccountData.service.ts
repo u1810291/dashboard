@@ -1,9 +1,9 @@
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductTypes, ProductIntegrationTypes, ProductSettings } from 'models/Product.model';
 import { FiBriefcase } from 'react-icons/fi';
-import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
+import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { FlowIssue } from 'apps/ui';
 import { PayrollAccountDataVerification } from '../components/PayrollAccountDataVerification/PayrollAccountDataVerification';
 import { PayrollAccountDataSettings } from '../components/PayrollAccountDataSettings/PayrollAccountDataSettings';
@@ -11,7 +11,7 @@ import { getPayrollAccountData, PayrollAccountDataSettingTypes, IPayrollAccountD
 
 type ProductSettingsPayrollAccountData = ProductSettings<PayrollAccountDataSettingTypes>;
 
-export class PayrollAccountData extends ProductBaseService implements Product<ProductSettingsPayrollAccountData> {
+export class PayrollAccountData extends ProductBaseFlowBuilder implements Product {
   id = ProductTypes.PayrollAccountData;
   order = 1220;
   integrationTypes = [
