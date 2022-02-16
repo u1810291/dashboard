@@ -2,7 +2,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { dagreGraphService, FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, FlowBuilderIntegrationDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder';
+import { FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder';
 import { selectProductIsInited, useProduct } from 'apps/Product';
 import { Loader, Placeholder } from 'apps/ui';
 import { PreviewButton } from 'apps/WebSDKPreview';
@@ -17,6 +17,7 @@ import { Loadable } from 'models/Loadable.model';
 import { SaveAndPublishTemplate } from 'apps/Templates';
 import { useFormatMessage } from 'apps/intl';
 import { ProductTypes } from 'models/Product.model';
+import { dagreGraphService, WorkflowBuilderIntegrationDetails } from 'apps/WorkflowBuilder';
 import { ITemplate } from '../../model/Templates.model';
 import { clearCurrentTemplate, prepareTemplateToEdit, getTemplate } from '../../store/Templates.actions';
 import { selectCurrentTemplateModelValue, selectCurrentTemplateModel } from '../../store/Templates.selectors';
@@ -110,7 +111,7 @@ export function TemplateBuilder() {
                   />
                 )}
                 {!selectedId && (
-                  <FlowBuilderIntegrationDetails />
+                  <WorkflowBuilderIntegrationDetails />
                 )}
               </Grid>
             </Grid>
