@@ -88,6 +88,7 @@ export const WarningIcons = {
   [WarningTypes.Warning]: ChecksWarning,
   [WarningTypes.Success]: OtherChecksSuccess,
   [WarningTypes.Error]: OtherChecksError,
+  [WarningTypes.Checking]: IconLoad,
 };
 
 export const VerificationSummaryTitleStatuses = {
