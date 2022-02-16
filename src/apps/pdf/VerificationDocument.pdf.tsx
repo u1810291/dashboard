@@ -14,7 +14,8 @@ import { getIpCheckStep } from 'models/IpCheck.model';
 import { getEmailRiskStep } from 'models/EmailCheck.model';
 import { useIntl } from 'react-intl';
 import { AppIntlProvider } from 'apps/intl';
-import { InputTypes } from 'models/Input.model';
+import { InputStatus, InputTypes } from 'models/Input.model';
+import { VerificationCustomFieldsInputData } from 'apps/CustomField';
 import { DocumentStepPDF } from './components/DocumentStepPDF/DocumentStepPDF';
 import { IpCheckPDF } from './components/IpCheckPDF/IpCheckPDF';
 import { LivenessStepPDF } from './components/LivenessStepPDF/LivenessStepPDF';
@@ -50,7 +51,7 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
   const bankAccountData = getBankAccountData(verification);
   const workAccountData = getWorkAccountData(verification);
   const payrollAccountData = getPayrollAccountData(verification);
-  const customField = verification?.inputs?.find((input) => input?.id === InputTypes.CustomFields);
+  const customField: InputStatus<VerificationCustomFieldsInputData> = verification?.inputs?.find((input) => input?.id === InputTypes.CustomFields);
 
   return (
     <Document title={`Verification ${verification.id}`} author="MetaMap www.metamap.com">
