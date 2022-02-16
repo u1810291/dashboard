@@ -3,6 +3,7 @@ import { Product, ProductInputTypes, ProductTypes, ProductIntegrationTypes, Prod
 import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { VerificationResponse } from 'models/Verification.model';
+import { FlowIssue } from 'apps/ui';
 import { BankAccountDataVerification } from '../components/BankAccountDataVerification/BankAccountDataVerification';
 import { BankAccountDataSettings } from '../components/BankAccountDataSettings/BankAccountDataSettings';
 import { BankLogo } from '../components/BankLogo/BankLogo';
@@ -79,6 +80,20 @@ export class BankAccountData extends ProductBaseService implements Product<Produ
         [VerificationPatternTypes.FinancialInformationBankAccountsRetrieving]: false,
       },
     };
+  }
+
+  haveIssues(flow: IFlow): boolean {
+    return flow.financialInformationBankAccountsRetrieving.countryCodes.length === 0;
+  }
+
+  getIssuesComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
+    const isBankDataHaveNoCountries = flow.financialInformationBankAccountsRetrieving.countryCodes.length === 0;
+
+    if (isBankDataHaveNoCountries) {
+      return () => FlowIssue('FlowBuilder.issue.countriesNotSpecified');
+    }
+
+    return null;
   }
 
   isInFlow(flow: IFlow): boolean {

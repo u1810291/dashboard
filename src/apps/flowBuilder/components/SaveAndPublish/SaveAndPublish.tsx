@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { flowBuilderSaveAndPublish } from '../../store/FlowBuilder.action';
 import { selectFlowBuilderHaveUnsavedChanges, selectFlowBuilderProductsInGraphModel } from '../../store/FlowBuilder.selectors';
 import { useStyles } from './SaveAndPublish.styles';
+import { QATags } from '../../../../models/QA.model';
 
 export function SaveAndPublish() {
   const classes = useStyles();
@@ -46,7 +47,7 @@ export function SaveAndPublish() {
   return (
     <Grid container>
       {haveIssues ? (
-        <TextBubble className={classes.issues}>
+        <TextBubble className={classes.issues} qaTag={QATags.Flows.SaveButtonIssue}>
           {intl.formatMessage({ id: 'FlowBuilder.notification.issues' })}
         </TextBubble>
       ) : haveUnsavedChanges && (

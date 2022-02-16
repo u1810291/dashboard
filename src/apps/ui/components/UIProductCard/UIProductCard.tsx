@@ -6,6 +6,7 @@ import { IProductCard, ProductIntegrationTypes } from 'models/Product.model';
 import React, { useCallback, useState } from 'react';
 import { FiTrash2, FiInfo } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
+import { QATags } from 'models/QA.model';
 import { ProductCheckList } from '../ProductCheckList/ProductCheckList';
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, useStyles } from './UIProductCard.styles';
 
@@ -75,7 +76,7 @@ export function UIProductCard({ card, issuesComponent, isExpandable = true, isCo
             <FiTrash2 size={17} />
           </Button>
           {issuesComponent && isSmallScreen ? (
-            <Button className={classNames(classes.control, classes.controlIssues)} onClick={handleOpenIssuesPopup}>
+            <Button className={classNames(classes.control, classes.controlIssues)} onClick={handleOpenIssuesPopup} data-qa={QATags.Flows.FlowIssueNotification}>
               <FiInfo size={25} />
             </Button>
           ) : issuesComponent}
