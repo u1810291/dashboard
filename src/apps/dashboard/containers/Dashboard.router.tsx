@@ -47,6 +47,11 @@ const TemplateBuilderLazy = lazy(async () => {
   return { default: TemplateBuilder };
 });
 
+const DraftFlowBuilderLazy = lazy(async () => {
+  const { DraftFlowBuilder } = await import('apps/Templates');
+  return { default: DraftFlowBuilder };
+});
+
 const AnalyticsContainerLazy = lazy(async () => {
   const { AnalyticsContainer } = await import('apps/Analytics');
   return { default: AnalyticsContainer };
@@ -101,6 +106,8 @@ export function DashboardRouter() {
             <Route exact path={Routes.flow.root} component={FlowListLazy} />
             <Route exact path={Routes.templates.details} component={TemplateBuilderLazy} />
             <Route exact path={Routes.templates.newTemplate} component={TemplateBuilderLazy} />
+            <Route exact path={Routes.templates.draftFlow} component={DraftFlowBuilderLazy} />
+            <Route exact path={Routes.templates.draftFlowExisting} component={DraftFlowBuilderLazy} />
             <Route path={Routes.flow.details} component={FlowBuilderLazy} />
             <Route path={Routes.workflow.details} component={WorkFlowBuilderLazy} />
             <Route path={Routes.collaborators.agentProfile.details} component={AgentHistoryLazy} />

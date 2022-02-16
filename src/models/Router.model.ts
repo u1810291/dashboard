@@ -46,6 +46,8 @@ export const Routes = {
     root: '/templates',
     newTemplate: '/new_template',
     details: '/templates/:id',
+    draftFlow: '/draft',
+    draftFlowExisting: '/draft/:id',
   },
   workflow: {
     root: '/workflow',

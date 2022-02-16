@@ -1,6 +1,9 @@
 import { flowBuilderProductListInit, types as flowBuilderTypes, selectFlowBuilderChangeableFlow } from 'apps/flowBuilder';
-import { types as merchantActionTypes } from 'state/merchant/merchant.actions';
-import { selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { merchantCreateFlow, types as merchantActionTypes } from 'state/merchant/merchant.actions';
+import { selectMerchantFlowList, selectMerchantFlowsModel, selectMerchantId } from 'state/merchant/merchant.selectors';
+import { IFlow } from 'models/Flow.model';
+import { ApiResponse } from 'models/Client.model';
+import { flowUpdate } from 'apps/flowBuilder/api/flowBuilder.client';
 import { selectCurrentTemplateModelValue } from './Templates.selectors';
 import { types } from './Templates.store';
 import { createTemplateRequest, getMetadataRequest, getTemplateRequest, updateTemplateRequest, getTemplatesRequest, blockTemplateRequest } from '../api/Templates.client';
@@ -95,5 +98,30 @@ export const blockTemplate = (id: string) => async (dispatch, getState) => {
     dispatch({ type: merchantActionTypes.FLOWS_SUCCESS, payload: newTemplatesList, isReset: true });
   } catch (error) {
     dispatch({ type: types.BLOCK_TEMPLATE_FAILURE, payload: error });
+  }
+};
+
+export const createDraftFromTemplate = () => async (dispatch, getState) => {
+  const template = await selectCurrentTemplateModelValue(getState());
+  dispatch(flowBuilderProductListInit(template.flow));
+  dispatch({ type: flowBuilderTypes.CHANGEABLE_FLOW_SUCCESS, payload: template.flow });
+};
+
+export const createFlowFromTemplate = (name: string) => async (dispatch, getState) => {
+  try {
+    const newFlow = await dispatch(merchantCreateFlow({ name })) as IFlow;
+    const merchantId = selectMerchantId(getState());
+    const changeableFlow = await selectFlowBuilderChangeableFlow(getState());
+    const { data }: ApiResponse<IFlow> = await flowUpdate(merchantId, newFlow.id, {
+      ...changeableFlow,
+      createdAt: undefined,
+      id: undefined,
+      updatedAt: undefined,
+      pinnedCountries: undefined,
+      inputTypes: undefined,
+    });
+    
+  } catch (error) {
+    //
   }
 };

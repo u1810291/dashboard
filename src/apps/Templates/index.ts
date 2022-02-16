@@ -10,3 +10,4 @@ export * from './store/Templates.actions';
 export * from './hooks/UseLoadTemplatesList';
 export * from './store/Templates.store';
 export * from './model/Templates.model';
+export * from './components/DraftFlowBuilder/DraftFlowBuilder';

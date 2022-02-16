@@ -27,6 +27,8 @@ export enum MetadataType {
 export interface TemplateCardProps {
   title: string;
   description: string;
+  id: string;
+  closeOverlay: () => void;
 }
 
 export interface TemplateFilterOptions {
@@ -44,6 +46,7 @@ export interface ModifiedFiltersOptions {
 export interface CardsData {
   name: string;
   description: string;
+  id?: string;
 }
 
 export interface TempalteFilterProps {

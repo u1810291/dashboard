@@ -33,7 +33,7 @@ export function TemplatesGallery({ templates }: TemplateGaleryProps) {
     >
       {templates.map((template, idx) => (
         <SwiperSlide className={classes.swiperSlide} key={idx}>
-          <TemplateCard title={template.name} description={template.description} />
+          <TemplateCard title={template.name} description={template.description} id={template.id} closeOverlay={closeOverlay} />
         </SwiperSlide>
       ))}
       <Box className={classes.controlsContainer}>

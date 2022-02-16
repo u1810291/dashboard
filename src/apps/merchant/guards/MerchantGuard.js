@@ -12,9 +12,9 @@ export function MerchantGuard({ children }) {
     return <PageLoader />;
   }
 
-  if (blockedModel.value) {
-    return <BlockedSplash />;
-  }
+  // if (blockedModel.value) {
+  //   return <BlockedSplash />;
+  // }
 
   return (
     <Switch>
