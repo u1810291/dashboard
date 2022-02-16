@@ -1,4 +1,12 @@
-import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, StepStatus, VerificationStepTypes } from 'models/Step.model';
+import {
+  CountrySpecificChecks,
+  DocumentStepTypes,
+  getStepExtra,
+  IStep,
+  StepStatus,
+  VerificationStepTypes,
+  RootGovChecksErrorsToHide,
+} from 'models/Step.model';
 import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { BiometricTypes } from 'models/Biometric.model';
 import { MerchantTags } from 'models/Merchant.model';
@@ -1026,7 +1034,7 @@ export function getGovCheckDocumentsSteps(verification: VerificationResponse): I
 export function getGovCheckRootSteps(verification: VerificationResponse): IStep<GovCheckStep>[] {
   // Arkadiy: in some cases, we need to hide steps with special error
   return verification?.steps
-    .filter((step) => CountrySpecificChecks.includes(step.id) && step?.error?.code !== 'nigerianLegal.documentNotFound')
+    .filter((step) => CountrySpecificChecks.includes(step.id) && !(step?.error?.code && RootGovChecksErrorsToHide[step?.error?.code]))
     .map((step) => getStepExtra(step));
 }
 

@@ -305,6 +305,10 @@ export const OptionalGovCheckErrorCodes = {
   [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
 };
 
+export const RootGovChecksErrorsToHide = {
+  'nigerianLegal.documentNotFound': true,
+};
+
 export const StepSkippedCodes = [
   'customDocument.skipped',
   'customDocument.notProvided',
