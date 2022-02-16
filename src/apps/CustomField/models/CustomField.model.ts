@@ -3,7 +3,7 @@ import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
 import { DateFormat, formatDate } from 'lib/date';
 import { parseDate } from 'apps/ui/models/ReactDayPicker.model';
-import { isNil } from '../../../lib/isNil';
+import { isNil } from 'lib/isNil';
 
 export const FIELD_SYSTEM_NAME_PATTERN = '^([a-zA-Z-_]+)?$';
 

@@ -1,13 +1,10 @@
 import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, View } from '@react-pdf/renderer';
-import { CustomField } from 'apps/CustomField';
+import { CustomField, formatedValue, VerificationCustomFieldsInputData, CustomFieldVerificationAtomicList, CustomFieldVerificationList } from 'apps/CustomField';
+import { InputStatus } from 'models/Input.model';
 import { styles } from './CustomFieldPDF.styles';
 import { commonStyles } from '../../PDF.styles';
-import { CustomFieldVerificationAtomicList, CustomFieldVerificationList } from '../../../CustomField/components/CustomFieldVerificationList/CustomFieldVerificationList';
-import { AtomicCustomFieldType, formatedValue, MainCustomFieldType } from '../../../CustomField/models/CustomField.model';
-import { formatDate } from '../../../../lib/date';
-import { isNil } from '../../../../lib/isNil';
 
 export function CustomFieldVerificationInfoPDF({ field, value }: {
   field: CustomField;
@@ -39,7 +36,7 @@ export function CustomFieldVerificationSectionInfoPDF({ selection }: {
   );
 }
 
-export function CustomFieldPDF({ input }: { input: {data: {fields: CustomField[] }}}) {
+export function CustomFieldPDF({ input }: { input: InputStatus<VerificationCustomFieldsInputData>}) {
   const intl = useIntl();
   const { data: { fields } } = input;
   return (

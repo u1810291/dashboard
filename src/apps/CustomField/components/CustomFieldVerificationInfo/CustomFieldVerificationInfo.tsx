@@ -2,9 +2,7 @@ import Box from '@material-ui/core/Box';
 import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
 import React, { useMemo } from 'react';
-import { formatDate } from 'lib/date';
-import { isNil } from 'lib/isNil';
-import { AtomicCustomFieldType, CustomField, formatedValue, MainCustomFieldType } from '../../models/CustomField.model';
+import { CustomField, formatedValue } from '../../models/CustomField.model';
 import { CustomFieldVerificationAtomicList } from '../CustomFieldVerificationList/CustomFieldVerificationList';
 import { useStyles } from './CustomFieldVerificationInfo.styles';
 
