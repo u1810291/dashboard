@@ -3,9 +3,9 @@ import { VerificationPatterns, VerificationPatternTypes } from 'models/Verificat
 import { BiometricTypes } from 'models/Biometric.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { NationalIdTypes, VerificationDocument } from 'models/Document.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { dateSortCompare } from 'lib/date';
-import { BaseError } from '../../../models/Error.model';
+import { BaseError } from 'models/Error.model';
 
 export enum GovernmentCheckSettingTypes {
   PostponedTimeout = 'postponedTimeout',

@@ -1,12 +1,11 @@
-import { Box } from '@material-ui/core';
-import { CustomReactFlowMemorised } from 'apps/flowBuilder/components/ReactFlowMemorised/CustomReactFlowMemorised';
-import { areNodesLoaded, getElements, getLayoutedElements, getTotalGraphHeight } from 'apps/flowBuilder/models/FlowBuilder.model';
-import { selectFlowBuilderProductsInGraphModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
-import { Loader } from 'apps/ui';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Elements, ReactFlowProvider, useStoreState, Node } from 'react-flow-renderer';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
+import { Box } from '@material-ui/core';
+import { selectFlowBuilderProductsInGraphModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
+import { Loader } from 'apps/ui';
+import { areNodesLoaded, getElements, getLayoutedElements, getTotalGraphHeight, CustomReactFlowMemorised } from 'apps/WorkflowBuilder';
 import { useStyles } from './FlowProductGraph.styles';
 
 function FlowProductsGraphWithoutContext() {

@@ -1,7 +1,7 @@
 import { Box } from '@material-ui/core';
 import { ProductTab } from 'apps/Product';
 import { Loadable } from 'models/Loadable.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { ProductTypes } from 'models/Product.model';
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';

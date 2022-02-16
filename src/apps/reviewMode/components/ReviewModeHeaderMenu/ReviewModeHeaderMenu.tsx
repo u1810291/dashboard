@@ -5,7 +5,7 @@ import { StatusNotificationContent } from 'apps/reviewMode/components/StatusNoti
 import { notification } from 'apps/ui';
 import classNames from 'classnames';
 import { Loadable } from 'models/Loadable.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { QATags } from 'models/QA.model';
 import { IdentityStatuses } from 'models/Status.model';
 import React, { useCallback, useState } from 'react';

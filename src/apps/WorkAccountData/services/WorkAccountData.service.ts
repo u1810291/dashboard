@@ -1,16 +1,16 @@
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductTypes, ProductIntegrationTypes, ProductSettings } from 'models/Product.model';
 import { FiBriefcase } from 'react-icons/fi';
-import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
+import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { WorkAccountDataVerification } from '../components/WorkAccountDataVerification/WorkAccountDataVerification';
 import { WorkAccountDataSettings } from '../components/WorkAccountDataSettings/WorkAccountDataSettings';
 import { getWorkAccountData, WorkAccountDataSettingTypes, IWorkAccountDataVerification, WorkAccountDataCheckTypes } from '../models/WorkAccountData.model';
 
 type ProductSettingsWorkAccountData = ProductSettings<WorkAccountDataSettingTypes>;
 
-export class WorkAccountData extends ProductBaseService implements Product<ProductSettingsWorkAccountData> {
+export class WorkAccountData extends ProductBaseFlowBuilder implements Product {
   id = ProductTypes.WorkAccountData;
   order = 1210;
   integrationTypes = [
