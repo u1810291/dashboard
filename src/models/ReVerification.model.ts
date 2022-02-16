@@ -1,6 +1,6 @@
 import { getStepStatus, IStep, StepStatus } from 'models/Step.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { getDownloadableFileName } from 'models/Identity.model';
 
 export interface ReVerificationData {

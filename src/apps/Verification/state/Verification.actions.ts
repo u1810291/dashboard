@@ -4,7 +4,7 @@ import { DocumentTypes } from 'models/Document.model';
 import { ErrorMessages, isInReviewModeError } from 'models/Error.model';
 import { IdentityStatuses } from 'models/Status.model';
 import { IStep } from 'models/Step.model';
-import { VerificationListItem, VerificationResponse } from 'models/Verification.model';
+import { VerificationListItem, VerificationResponse } from 'models/VerificationOld.model';
 import { selectNewVerificationWithExtras, selectVerification } from 'apps/Verification/state/Verification.selectors';
 import { Dispatch } from 'redux';
 import { types } from 'state/identities/identities.actions';

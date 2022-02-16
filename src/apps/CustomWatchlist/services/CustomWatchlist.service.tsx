@@ -1,10 +1,10 @@
 import React from 'react';
-import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { VerificationStepTypes } from 'models/Step.model';
+import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { CustomWatchlistCheckTypes, CustomWatchlistSettingsTypes, CustomWatchlistStep } from '../models/CustomWatchlist.models';
 import { ReactComponent as FilesWithEye } from '../assets/files-with-eye.svg';
 import { CustomWatchlistVerification } from '../components/CustomWatchlistVerification/CustomWatchlistVerification';
@@ -12,7 +12,7 @@ import { CustomWatchlistSettings } from '../components/CustomWatchlistSettings/C
 
 type ProductSettingsCustomWatchlist = ProductSettings<CustomWatchlistSettingsTypes>;
 
-export class CustomWatchlist extends ProductBaseService implements Product<ProductSettingsCustomWatchlist> {
+export class CustomWatchlist extends ProductBaseFlowBuilder implements Product {
   id = ProductTypes.CustomWatchlist;
   order = 1200;
   integrationTypes = [

@@ -1,17 +1,17 @@
+import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { FiPlusSquare } from 'react-icons/fi';
-import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { MerchantTags } from 'models/Merchant.model';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { InputTypes } from 'models/Input.model';
 import { CustomField, CustomFieldProductSettings, CustomFieldSettingTypes, CustomFieldTypes, flattenTree } from '../models/CustomField.model';
 import { CustomFieldSettings } from '../components/CustomFieldSettings/CustomFieldSettings';
 import { CustomFieldVerification } from '../components/CustomFieldVerification/CustomFieldVerification';
 import { CustomFieldIssue } from '../components/CustomFieldIssue/CustomFieldIssue';
 
-export class CustomFieldService extends ProductBaseService implements Product<CustomFieldProductSettings> {
+export class CustomFieldService extends ProductBaseFlowBuilder implements Product {
   constructor(merchantTags: MerchantTags[]) {
     super();
     this.merchantTags = merchantTags;

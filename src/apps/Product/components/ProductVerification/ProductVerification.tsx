@@ -1,6 +1,7 @@
 import { Product, ProductTypes } from 'models/Product.model';
 import React, { useMemo } from 'react';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
+import { IVerificationWorkflow } from 'models/Verification.model';
 import { productManagerService } from '../../services/ProductManager.service';
 
 export function ProductVerification({
@@ -9,7 +10,7 @@ export function ProductVerification({
   isReviewMode,
 }: {
   productId: ProductTypes;
-  verification: VerificationResponse;
+  verification: VerificationResponse | IVerificationWorkflow;
   isReviewMode?: boolean;
 }) {
   const product: Product = useMemo(() => productManagerService.getProduct(productId), [productId]);
