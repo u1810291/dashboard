@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { filterSerialize } from 'models/Filter.model';
-import { VerificationListItem } from 'models/VerificationOld.model';
+import { VerificationListItem } from 'models/Verification.model';
 import { Loadable } from 'models/Loadable.model';
 import { IDENTITIES_STORE_KEY, SliceNames } from './identities.store';
 import { IdentitiesState } from './identities.reducer';

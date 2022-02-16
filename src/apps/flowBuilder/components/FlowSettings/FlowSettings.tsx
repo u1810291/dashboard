@@ -15,9 +15,10 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMerchantFlowsModel, selectNom151Check, selectPolicyInterval } from 'state/merchant/merchant.selectors';
 import { round } from 'lib/round';
-import { FlowSettingsModel, FlowSettingsSwitches, validatePolicyInterval } from 'apps/WorkflowBuilder';
+import { FlowSettingsModel, validatePolicyInterval } from '../../models/FlowBuilder.model';
 import { flowBuilderDelete, flowBuilderSaveAndPublishSettings } from '../../store/FlowBuilder.action';
 import { FlowInfo } from '../FlowInfo/FlowInfo';
+import { FlowSettingsSwitches } from '../FlowSettingsSwitches/FlowSettingsSwitches';
 import { useStyles } from './FlowSettings.styles';
 
 export function FlowSettings({ onClose }: {

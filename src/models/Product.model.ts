@@ -1,7 +1,7 @@
 import React from 'react';
 import { IFlow } from 'models/Flow.model';
 import { IconType } from 'react-icons';
-import { VerificationResponse } from 'models/VerificationOld.model';
+import { VerificationResponse } from './Verification.model';
 
 export enum ProductTypes {
   DocumentVerification = 'DocumentVerification',
@@ -84,7 +84,7 @@ export interface IProductCard {
   dependentProductTypes?: ProductTypes[];
 }
 
-export interface Product<S = IFlow, T = VerificationResponse> {
+export interface Product<T = ProductSettings> {
   id: ProductTypes;
   order: number;
   checks: ProductCheck[];
@@ -93,18 +93,18 @@ export interface Product<S = IFlow, T = VerificationResponse> {
   componentVerification: any;
   isConfigurable: boolean;
   isIssuesIgnored: boolean;
-  parser(flow: S, productsInGraph?: ProductTypes[]): ProductSettings;
-  serialize(settings: ProductSettings): Partial<S>;
-  onRemove(flow: S): Partial<S>;
-  onAdd(): Partial<S>;
-  getRemovingAlertComponent?(flow: S, productsInGraph?: ProductTypes[]): any;
-  haveIssues?(flow: S, productsInGraph?: ProductTypes[]): boolean;
+  parser(flow: IFlow, productsInGraph?: ProductTypes[]): T;
+  serialize(settings: T): Partial<IFlow>;
+  onRemove(flow: IFlow): Partial<IFlow>;
+  onAdd(): Partial<IFlow>;
+  getRemovingAlertComponent?(flow: IFlow, productsInGraph?: ProductTypes[]): any;
+  haveIssues?(flow: IFlow, productsInGraph?: ProductTypes[]): boolean;
   isSdkOnly?(): boolean;
-  getIssuesComponent?(flow: S, productsInGraph?: ProductTypes[]): any;
+  getIssuesComponent?(flow: IFlow, productsInGraph?: ProductTypes[]): any;
   getTitle(): string;
   getCard(): IProductCard;
-  getVerification(verification: T): any;
-  isInFlow(flow: S): boolean;
-  hasFailedCheck(verification: T): boolean;
-  isInVerification(verification: T): boolean;
+  getVerification(verification: VerificationResponse): any;
+  isInFlow(flow: IFlow): boolean;
+  hasFailedCheck(verification: VerificationResponse): boolean;
+  isInVerification(verification: VerificationResponse): boolean;
 }

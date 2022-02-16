@@ -1,24 +1,24 @@
 import { DocumentVerificationProduct } from 'apps/documents';
 import { FACEMATCH_DEFAULT_THRESHOLD } from 'apps/facematch/models/facematch.model';
-import { ProductBaseWorkflow } from 'apps/WorkflowBuilder';
 import { InputValidationType } from 'models/ImageValidation.model';
-import intersection from 'lodash/intersection';
+import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
+import { intersection } from 'lodash';
 import { DocumentTypes } from 'models/Document.model';
+import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
 import { DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStep, getReaderFrontendSteps, getStepStatus, StepStatus, VerificationDocStepTypes } from 'models/Step.model';
-import { IVerificationWorkflow } from 'models/Verification.model';
+import { VerificationResponse } from 'models/Verification.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { IWorkflow } from 'models/Workflow.model';
 import { FiFileText } from 'react-icons/fi';
 import { BiometricVerificationCheckTypes } from 'apps/biometricVerification/models/BiometricVerification.model';
 import { AGE_CHECK_MAX_THRESHOLD, AGE_CHECK_MIN_THRESHOLD } from 'apps/AgeCheck/models/AgeCheck.model';
 import { IESignatureFlow } from 'models/ESignature.model';
-import { DocumentVerificationCheckTypes, DocumentVerificationSettingTypes, ProductSettingsDocumentVerification } from 'apps/documentVerification/models/DocumentVerification.model';
 import { DocumentVerificationIssues } from '../components/DocumentVerificationIssues/DocumentVerificationIssues';
 import { DocumentIsStepNotSpecifiedIssues } from '../components/DocumentIsStepNotSpecifiedIssues/DocumentIsIsStepNotSpecifiedIssues';
 import { DocumentVerificationSettings } from '../components/DocumentVerificationSettings/DocumentVerificationSettings';
+import { DocumentVerificationCheckTypes, DocumentVerificationSettingTypes, ProductSettingsDocumentVerification } from '../models/DocumentVerification.model';
 
-export class DocumentVerificationMerit extends ProductBaseWorkflow implements Product<IWorkflow, IVerificationWorkflow> {
+export class DocumentVerification extends ProductBaseService implements Product<ProductSettingsDocumentVerification> {
   id = ProductTypes.DocumentVerification;
   order = 100;
   integrationTypes = [
@@ -66,7 +66,7 @@ export class DocumentVerificationMerit extends ProductBaseWorkflow implements Pr
   component = DocumentVerificationSettings;
   componentVerification = DocumentVerificationProduct;
 
-  parser(flow: IWorkflow, productsInGraph?: ProductTypes[]): ProductSettingsDocumentVerification {
+  parser(flow: IFlow, productsInGraph?: ProductTypes[]): ProductSettingsDocumentVerification {
     const isDocumentStepsActive = flow?.verificationSteps?.length > 0;
     const isBiometricStepsActive = productsInGraph.includes(ProductTypes.BiometricVerification);
     const isDuplicateUserDetectionActive = !!flow?.verificationPatterns?.[VerificationPatternTypes.DuplicateUserDetection];
@@ -123,7 +123,7 @@ export class DocumentVerificationMerit extends ProductBaseWorkflow implements Pr
     };
   }
 
-  serialize(settings: ProductSettingsDocumentVerification): Partial<IWorkflow> {
+  serialize(settings: ProductSettingsDocumentVerification): Partial<IFlow> {
     return {
       verificationSteps: [...settings.documentSteps.value, ...settings.otherSteps.value],
       denyUploadsFromMobileGallery: settings.denyUploadRequirement.value,
@@ -150,7 +150,7 @@ export class DocumentVerificationMerit extends ProductBaseWorkflow implements Pr
     };
   }
 
-  onRemove(flow: IWorkflow): Partial<IWorkflow> {
+  onRemove(flow: IFlow): Partial<IFlow> {
     const otherSteps = flow?.verificationSteps.filter((group) => !(intersection(group, [DocumentTypes.Passport, DocumentTypes.NationalId, DocumentTypes.DrivingLicense, DocumentTypes.ProofOfResidency]).length > 0));
     let electronicSignature: IESignatureFlow = flow?.electronicSignature;
     if (flow?.electronicSignature?.acceptanceCriteria.isDocumentsRequired) {
@@ -190,14 +190,14 @@ export class DocumentVerificationMerit extends ProductBaseWorkflow implements Pr
     };
   }
 
-  isInFlow(flow: IWorkflow): boolean {
+  isInFlow(flow: IFlow): boolean {
     const allSteps = flow?.verificationSteps?.flatMap((step) => step) || [];
     const documents: string[] = Object.values(DocumentTypes).map((item: DocumentTypes) => item as string);
 
     return allSteps.some((step) => documents.includes(step));
   }
 
-  getVerification(verification: IVerificationWorkflow): IVerificationWorkflow {
+  getVerification(verification: VerificationResponse): any {
     const documentTypes: string[] = Object.values(DocumentTypes).map((item: DocumentTypes) => item as string);
 
     const documents = verification?.documents?.filter((el) => documentTypes.includes(el.type))
@@ -210,14 +210,14 @@ export class DocumentVerificationMerit extends ProductBaseWorkflow implements Pr
     return { ...verification, documents };
   }
 
-  haveIssues(flow: IWorkflow, productsInGraph?: ProductTypes[]): boolean {
+  haveIssues(flow: IFlow, productsInGraph?: ProductTypes[]): boolean {
     const isAgeThresholdValid = !flow.ageThreshold || (flow.ageThreshold >= AGE_CHECK_MIN_THRESHOLD && flow.ageThreshold <= AGE_CHECK_MAX_THRESHOLD);
     const isDocumentStepNotSpecified = productsInGraph && !this.isInFlow(flow);
 
     return !isAgeThresholdValid || super.haveIssues(flow) || isDocumentStepNotSpecified;
   }
 
-  getIssuesComponent(flow: IWorkflow, productsInGraph?: ProductTypes[]): any {
+  getIssuesComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
     const isDocumentStepNotSpecified = productsInGraph && !this.isInFlow(flow);
     const isAPICountryRestriction = flow?.integrationType === ProductIntegrationTypes.Api && flow?.supportedCountries?.length > 0;
 
@@ -232,7 +232,7 @@ export class DocumentVerificationMerit extends ProductBaseWorkflow implements Pr
     return null;
   }
 
-  hasFailedCheck(verification: IVerificationWorkflow): boolean {
+  hasFailedCheck(verification: VerificationResponse): boolean {
     return verification?.documents?.some((document) => {
       const steps = document?.steps || [];
       const documentStep = getDocumentStep(DocumentStepTypes.DocumentReading, steps);

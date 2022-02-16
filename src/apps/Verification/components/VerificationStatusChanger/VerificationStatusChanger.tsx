@@ -11,11 +11,13 @@ import { verificationStatusUpdate } from '../../state/Verification.actions';
 import { StatusSelector } from '../StatusSelector/StatusSelector';
 import { useStyles } from './VerificationStatusChanger.styles';
 
-export function VerificationStatusChanger({ verificationStatus, verificationId, identity }: {
+export interface VerificationStatusChangerProps{
   verificationStatus: IdentityStatuses;
   verificationId: string;
   identity: any;
-}) {
+}
+
+export function VerificationStatusChanger({ verificationStatus, verificationId, identity }: VerificationStatusChangerProps) {
   const dispatch = useDispatch();
   const intl = useIntl();
   const classes = useStyles();

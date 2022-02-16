@@ -9,7 +9,7 @@ import { selectIdentityIsPDFGenerating } from 'state/identities/identities.selec
 import { useIntl } from 'react-intl';
 import { ButtonHeaderMenu } from 'apps/ui';
 import { selectMerchantLegalAddress, selectMerchantLegalName, selectMerchantLegalRegNumber } from 'state/merchant/merchant.selectors';
-import { VerificationResponse } from 'models/VerificationOld.model';
+import { VerificationResponse } from 'models/Verification.model';
 
 export interface ButtonVerificationGeneratePdfProps {
   verification: VerificationResponse;

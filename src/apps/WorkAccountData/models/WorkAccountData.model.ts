@@ -1,6 +1,6 @@
 import { CountryCodes } from 'models/Country.model';
 import { InputTypes, InputStatus } from 'models/Input.model';
-import { VerificationResponse } from 'models/VerificationOld.model';
+import { VerificationResponse } from 'models/Verification.model';
 
 export const SUPPORTED_COUNTRIES = [
   CountryCodes.BR,

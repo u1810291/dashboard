@@ -1,15 +1,15 @@
+import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
-import { VerificationResponse } from 'models/VerificationOld.model';
+import { VerificationResponse } from 'models/Verification.model';
 import { ESignatureCheckSettingsEnum, ESignatureCheckEnum, getAcceptanceCriteria, getSigMethod } from 'models/ESignature.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiPenTool } from 'react-icons/fi';
 import { getStepStatus, StepStatus } from 'models/Step.model';
-import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { ESignatureSettings } from '../components/ESignatureSettings/ESignatureSettings';
 import { ESignatureVerification } from '../components/ESignatureVerification/ESignatureVerification';
 
-export class ESignatureService extends ProductBaseFlowBuilder implements Product {
+export class ESignatureService extends ProductBaseService implements Product {
     id = ProductTypes.ESignatureCheck;
     order = 1000;
     integrationTypes = [
