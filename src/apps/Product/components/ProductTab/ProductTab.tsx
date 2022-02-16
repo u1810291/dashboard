@@ -1,5 +1,5 @@
 import { IProductCard, Product, ProductTypes } from 'models/Product.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import React, { useMemo } from 'react';
 import { UIProductTab } from 'apps/ui';
 import { productManagerService } from '../../services/ProductManager.service';

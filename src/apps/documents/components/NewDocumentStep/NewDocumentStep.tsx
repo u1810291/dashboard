@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { DocumentSides, getDocumentSideLabel, PhotosOrientations, VerificationDocument, VerificationDocumentTypes } from 'models/Document.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { VerificationWithExtras } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { AgeCheck } from 'apps/AgeCheck';
 import { DuplicateUserDetectionCheck } from 'apps/checks/components/DuplicateUserDetectionCheck/DuplicateUserDetectionCheck';
 import { useStyles } from './NewDocumentStep.styles';
@@ -15,7 +15,7 @@ import { DocumentReadingStep } from '../DocumentReadingStep/DocumentReadingStep'
 
 export function NewDocumentStep({ document, verification, documentIndex, onDocumentUpdate }: {
   document: VerificationDocument;
-  verification: VerificationWithExtras;
+  verification: VerificationResponse;
   documentIndex: number;
   onDocumentUpdate: (normalizedData: any, documentType: VerificationDocumentTypes) => Promise<void>;
 }) {
