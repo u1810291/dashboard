@@ -1024,8 +1024,10 @@ export function getGovCheckDocumentsSteps(verification: VerificationResponse): I
 }
 
 export function getGovCheckRootSteps(verification: VerificationResponse): IStep<GovCheckStep>[] {
+  // Arkadiy: in some cases, we need to hide steps with special error
   return verification?.steps
-    .filter((step) => CountrySpecificChecks.includes(step.id)).map((step) => getStepExtra(step));
+    .filter((step) => CountrySpecificChecks.includes(step.id) && step?.error?.code !== 'nigerianLegal.documentNotFound')
+    .map((step) => getStepExtra(step));
 }
 
 export function getGovCheckVerificationSteps(verification: VerificationResponse): IStep<GovCheckStep>[] {
