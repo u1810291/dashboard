@@ -14,6 +14,7 @@ import { getIpCheckStep } from 'models/IpCheck.model';
 import { getEmailRiskStep } from 'models/EmailCheck.model';
 import { useIntl } from 'react-intl';
 import { AppIntlProvider } from 'apps/intl';
+import { InputTypes } from 'models/Input.model';
 import { DocumentStepPDF } from './components/DocumentStepPDF/DocumentStepPDF';
 import { IpCheckPDF } from './components/IpCheckPDF/IpCheckPDF';
 import { LivenessStepPDF } from './components/LivenessStepPDF/LivenessStepPDF';
@@ -26,9 +27,6 @@ import { commonStyles } from './PDF.styles';
 import { BankAccountDataPDF } from './components/BankAccountDataPDF/BankAccountDataPDF';
 import { WorkAccountDataPDF } from './components/WorkAccountDataPDF/WorkAccountDataPDF';
 import { PayrollAccountDataPDF } from './components/PayrollAccountDataPDF/PayrollAccountDataPDF';
-import { InputTypes } from '../../models/Input.model';
-import { CustomFieldService } from '../CustomField/services/CustomField.service';
-import { AgeCheckPDF } from './components/AgeCheckPDF/AgeCheckPDF';
 import { CustomFieldPDF } from './components/CustomFieldPDF/CustomFieldPDF';
 
 interface AdditionalData {
