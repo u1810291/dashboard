@@ -18,7 +18,7 @@ import { useFormatMessage } from 'apps/intl';
 import { selectCollaboratorState } from 'apps/collaborators/state/collaborator.selectors';
 import { collaboratorAdd } from 'apps/collaborators/state/collaborator.actions';
 import { StartModal } from '../StartModal/StartModal';
-import { MOCK_STEPS, StepsOptions } from './model/StepsCheckboxes.model';
+import { MOCK_STEPS, StepsOptions, OnboardingSteps } from './model/StepsCheckboxes.model';
 import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
 
 export function StepsCheckboxes() {
@@ -49,7 +49,7 @@ export function StepsCheckboxes() {
 
   const stepsProgressChange = (item: StepsOptions, done?: boolean) => {
     const progressChanges = [...currentProgress];
-    const itemNumber = currentProgress.findIndex((step) => step.title === item.title);
+    const itemNumber = currentProgress.findIndex((step) => step.stepId === item.stepId);
     progressChanges[itemNumber] = { ...item, completed: done || !item.completed };
     setCurrentProgress(progressChanges);
   };
@@ -88,12 +88,12 @@ export function StepsCheckboxes() {
   const buildFirstMetamapComplete = (item) => (item.completed ? history.push(Routes.flow.root) : handleMetamapBuild());
 
   const currentStepAction = (item) => {
-    switch (item.title) {
-      case 'Read our docs to learn  about MetaMap':
+    switch (item.stepId) {
+      case 'read-our-docs':
         return readDocsComplete(item);
-      case 'Invite a teammate':
+      case 'invite-teammate':
         return inviteModalOpen(item);
-      case 'Build your first metamap':
+      case 'make-metamap':
         return buildFirstMetamapComplete(item);
       default:
         return console.error('no matches');
@@ -120,7 +120,7 @@ export function StepsCheckboxes() {
                       icon={<CheckboxOff />}
                       checked={item.completed}
                     />
-                    <Box component="span" className={classes.itemName}>{item.title}</Box>
+                    <Box component="span" className={classes.itemName}>{formatMessage(OnboardingSteps[item.stepId])}</Box>
                   </Box>
                 </Box>
               </TableCell>

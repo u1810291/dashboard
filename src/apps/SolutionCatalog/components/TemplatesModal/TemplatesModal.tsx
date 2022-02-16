@@ -4,6 +4,7 @@ import { PageLoader } from 'apps/layout';
 import { useOverlay, Modal } from 'apps/overlay';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+/* eslint-disable import/no-unresolved */
 import SwiperCore, { Pagination, Navigation } from 'swiper';
 import { TemplateFilters } from 'apps/filter';
 import 'swiper/swiper.min.css';

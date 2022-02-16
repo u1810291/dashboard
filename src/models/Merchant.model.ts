@@ -10,6 +10,11 @@ export interface IMerchantSettings {
   customDocumentConfig: unknown[];
 }
 
+export interface StepsOptions {
+  stepId: string;
+  completed: boolean;
+}
+
 export interface Merchant {
   logoUrl: string;
   id: MerchantId;
@@ -22,6 +27,7 @@ export interface Merchant {
   updatedAt: Date;
   tags: MerchantTags[];
   settings: IMerchantSettings;
+  onboardingSteps?: StepsOptions[];
 }
 
 export enum MerchantTags {
