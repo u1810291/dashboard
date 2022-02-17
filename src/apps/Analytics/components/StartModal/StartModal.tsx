@@ -7,7 +7,7 @@ import { useFormatMessage } from 'apps/intl';
 import { ReactComponent as GuideModal } from '../../assets/guide_modal.svg';
 import { useStyles } from './StartModal.styles';
 
-export const StartModal = ({ action }) => {
+export const StartModal = ({ action, completeStep }) => {
   const classes = useStyles();
   const formatMessage = useFormatMessage();
   return (
@@ -31,6 +31,7 @@ export const StartModal = ({ action }) => {
           color="primary"
           className={classes.button}
           variant="outlined"
+          onClick={completeStep}
         >
           {formatMessage('StartModal.blankFlowButton')}
         </Button>

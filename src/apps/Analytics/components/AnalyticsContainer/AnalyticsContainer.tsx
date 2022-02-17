@@ -14,6 +14,8 @@ import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
 import { countStatisticsLoad, filterUpdate, loadChartStatistics } from '../../state/Analytics.actions';
 import { selectCountStatisticsModel, selectFilter, selectStatisticsByDate } from '../../state/Analytics.selectors';
+import { selectMerchantOnboarding, merchantLoad } from 'state/merchant';
+import { StepsOptions } from '../StepsCheckboxes/model/StepsCheckboxes.model';
 import { Chart } from '../Chart/Chart';
 import { DevicesStats } from '../DevicesStats/DevicesStats';
 import { DocumentsStats } from '../DocumentsStats/DocumentsStats';
@@ -30,12 +32,17 @@ export function AnalyticsContainer() {
   const [isFilterDatesValid, setIsFilterDatesValid] = useState(false);
   const metricsFilter = useSelector(selectFilter);
   const countStatisticsModel = useSelector(selectCountStatisticsModel);
+  const onboardingProgress: StepsOptions[] = useSelector(selectMerchantOnboarding);
   const byDate = useSelector(selectStatisticsByDate);
   const { asMerchantId } = useQuery();
 
   useEffect(() => {
     setIsFilterDatesValid(getFilterDatesIsValid(metricsFilter));
   }, [metricsFilter]);
+
+  useEffect(() => {
+    if (!onboardingProgress) dispatch(merchantLoad());
+  }, []);
 
   useEffect(() => {
     const parsedFilter = parseFromURL(location.search, analyticsFilterStructure);

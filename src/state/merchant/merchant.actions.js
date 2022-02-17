@@ -21,7 +21,6 @@ export const types = {
 
 export const merchantLoadSuccess = (data, withDashboard = true) => (dispatch) => {
   const { configurations, ...merchant } = data;
-  console.log(merchant);
   if (!withDashboard) {
     delete configurations.dashboard;
   }
@@ -35,7 +34,6 @@ export const merchantLoad = () => async (dispatch) => {
   dispatch({ type: types.CONFIGURATION_REQUEST });
   try {
     const { data } = await api.getMerchant();
-    console.log(data);
     dispatch(merchantLoadSuccess(data));
   } catch (error) {
     dispatch({ type: types.MERCHANT_FAILURE, error });
@@ -248,7 +246,8 @@ export const merchantUpdateBusinessName = (businessName) => async (dispatch) => 
   dispatch({ type: types.BUSINESS_NAME_UPDATE, payload: { businessName: data.businessName } });
 };
 
-export const merchantUpdateOnboardingSteps = (onboardingSteps) => async (dispatch) => {
+export const merchantUpdateOnboardingSteps = (onboardingSteps, setShowStepsCompleted, oneStepLeft) => async (dispatch) => {
   const { data } = await api.patchOnboardingProgress(onboardingSteps);
   dispatch({ type: types.ONBOARDING_STEPS_UPDATE, payload: { onboardingSteps: data.onboardingSteps } });
+  if (oneStepLeft) setShowStepsCompleted(true);
 };
