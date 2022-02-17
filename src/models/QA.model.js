@@ -250,4 +250,19 @@ export const QATags = {
       SDK: 'flow-builder-integration-sdk',
     },
   },
+
+  TemplatesModal: {
+    ChosenFilters: {
+      DeleteAll: 'templates-modal-chosenFilters-deleteAll',
+      DeleteOne: 'templates-modal-chosenFilters-deleteOne',
+    },
+    Card: {
+      ChooseCard: 'templates-modal-card-deleteOne',
+    },
+    Filters: {
+      CheckboxOne: 'templates-modal-filters-checkboxOne',
+      CheckboxAll: 'templates-modal-filters-checkboxAll',
+      OpenButton: 'templates-modal-filters-openButton',
+    },
+  },
 };

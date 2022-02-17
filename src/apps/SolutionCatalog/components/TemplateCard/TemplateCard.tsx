@@ -1,6 +1,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import { QATags } from 'models/QA.model';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
@@ -25,7 +26,13 @@ export function TemplateCard({ title, description }: TemplateCardProps) {
           <span className={classes.description}>{description}</span>
         </Box>
       </Tooltip>
-      <Button className={classes.selectButton} color="primary">{formatMessage('TemplateCard.button')}</Button>
+      <Button
+        className={classes.selectButton}
+        color="primary"
+        data-qa={QATags.TemplatesModal.Card.ChooseCard}
+      >
+        {formatMessage('TemplateCard.button')}
+      </Button>
     </Box>
   );
 }

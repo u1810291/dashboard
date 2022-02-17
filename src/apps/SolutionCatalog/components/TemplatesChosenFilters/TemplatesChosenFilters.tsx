@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFormatMessage } from 'apps/intl';
+import { QATags } from 'models/QA.model';
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import { FiX } from 'react-icons/fi';
@@ -31,6 +32,7 @@ export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialD
         className={classes.resetFilters}
         onClick={() => setCurrentValue(initialData)}
         onKeyPress={() => setCurrentValue(initialData)}
+        data-qa={QATags.TemplatesModal.ChosenFilters.DeleteAll}
       >
         {formatMessage('TemplateChosenFilters.resetButton')}
       </span>
@@ -43,6 +45,7 @@ export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialD
             onDelete={() => handleDelete(option)}
             deleteIcon={<FiX />}
             variant="outlined"
+            data-qa={QATags.TemplatesModal.ChosenFilters.DeleteAll}
           />
         ))}
       </Box>

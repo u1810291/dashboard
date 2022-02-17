@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Box from '@material-ui/core/Box';
+import { QATags } from 'models/QA.model';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Paper from '@material-ui/core/Paper';
@@ -39,6 +40,7 @@ export function TemplateFilters({ title, filterData, currentFilters, setCurrentF
           onClick={toggle}
           variant="contained"
           startIcon={<FilterListIcon />}
+          data-qa={QATags.TemplatesModal.Filters.OpenButton}
         >
           <Box component="span" className={classes.buttonName}>{buttonTitle}</Box>
         </FilterButton>
@@ -57,6 +59,7 @@ export function TemplateFilters({ title, filterData, currentFilters, setCurrentF
                 />
               )}
               label="All"
+              data-qa={QATags.TemplatesModal.Filters.CheckboxAll}
               onChange={() => setCurrentFilters({ ...currentFilters, [title]: [] })}
             />
             {filterData.length > 0 && filterData.map((item) => (
@@ -64,6 +67,7 @@ export function TemplateFilters({ title, filterData, currentFilters, setCurrentF
                 className={classes.filterOption}
                 key={item._id}
                 value={item.name}
+                data-qa={QATags.TemplatesModal.Filters.CheckboxOne}
                 control={(
                   <Checkbox
                     color="primary"
