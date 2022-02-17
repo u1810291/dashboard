@@ -20,7 +20,7 @@ import { selectCollaboratorState } from 'apps/collaborators/state/collaborator.s
 import { collaboratorAdd } from 'apps/collaborators/state/collaborator.actions';
 import { selectMerchantOnboarding, merchantUpdateOnboardingSteps } from 'state/merchant';
 import { StartModal } from '../StartModal/StartModal';
-import { StepsOptions, OnboardingSteps, OneStepleft, AllStepsCompleted } from './model/StepsCheckboxes.model';
+import { StepsOptions, OnboardingSteps, AllStepsCompleted } from './model/StepsCheckboxes.model';
 import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
 
 export function StepsCheckboxes() {
@@ -34,10 +34,6 @@ export function StepsCheckboxes() {
   const formatMessage = useFormatMessage();
   const onboardingCompleted = AllStepsCompleted(onboardingProgress);
 
-  console.log(showStepsCompleted);
-  console.log(onboardingCompleted);
-  console.log(onboardingProgress);
-
   useEffect(() => {
     if (showStepsCompleted) setTimeout(() => setShowStepsCompleted(false), 5000);
   }, [showStepsCompleted]);
@@ -46,8 +42,7 @@ export function StepsCheckboxes() {
     const progressChanges = [...onboardingProgress];
     const itemNumber = onboardingProgress.findIndex((step) => step.stepId === item.stepId);
     progressChanges[itemNumber] = { ...item, completed: true };
-    const isOneStepLeft = OneStepleft(progressChanges);
-    dispatch(merchantUpdateOnboardingSteps(progressChanges, setShowStepsCompleted, isOneStepLeft));
+    dispatch(merchantUpdateOnboardingSteps(progressChanges, setShowStepsCompleted));
   }, [onboardingProgress]);
 
   const handleTemplateModal = () => {

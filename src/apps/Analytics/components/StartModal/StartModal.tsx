@@ -31,7 +31,7 @@ export const StartModal = ({ action, completeStep }) => {
           color="primary"
           className={classes.button}
           variant="outlined"
-          onClick={completeStep}
+          onClick={() => completeStep}
         >
           {formatMessage('StartModal.blankFlowButton')}
         </Button>

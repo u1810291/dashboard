@@ -17,7 +17,3 @@ export const MOCK_STEPS: StepsOptions[] = [
 export function AllStepsCompleted(stepsProgress: StepsOptions[]): boolean {
   return !stepsProgress.find((item) => item.completed === false);
 }
-
-export function OneStepleft(stepsProgress: StepsOptions[]):boolean {
-  return stepsProgress.filter((item) => item.completed === false).length === 1;
-}
