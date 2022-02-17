@@ -5,7 +5,7 @@ import { getBankAccountData } from 'apps/BankAccountData';
 import { getPayrollAccountData } from 'apps/PayrollAccountData';
 import { getNom151FileContent } from 'models/Identity.model';
 import { VerificationResponse } from 'models/Verification.model';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { getPhoneValidationExtras } from 'apps/PhoneValidation/models/PhoneValidation.model';
 import { getPhoneRiskValidationExtras } from 'apps/RiskAnalysis/models/RiskAnalysis.model';
@@ -43,6 +43,7 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
   additionalData: AdditionalData;
 }) {
   const intl = useIntl();
+  const customField: InputStatus<VerificationCustomFieldsInputData> = useMemo(() => verification?.inputs?.find((input) => input?.id === InputTypes.CustomFields), [verification?.inputs]);
   if (!verification) {
     return null;
   }
@@ -52,7 +53,6 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
   const bankAccountData = getBankAccountData(verification);
   const workAccountData = getWorkAccountData(verification);
   const payrollAccountData = getPayrollAccountData(verification);
-  const customField: InputStatus<VerificationCustomFieldsInputData> = verification?.inputs?.find((input) => input?.id === InputTypes.CustomFields);
 
   return (
     <Document title={`Verification ${verification.id}`} author="MetaMap www.metamap.com">
