@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
-import { useIntl } from 'react-intl';
 import { Text, View } from '@react-pdf/renderer';
 import { CustomField, formatedValue, VerificationCustomFieldsInputData, CustomFieldVerificationAtomicList, CustomFieldVerificationList } from 'apps/CustomField';
 import { InputStatus } from 'models/Input.model';
+import { useFormatMessage } from 'apps/intl';
 import { styles } from './CustomFieldPDF.styles';
 import { commonStyles } from '../../PDF.styles';
 
@@ -37,11 +37,11 @@ export function CustomFieldVerificationSectionInfoPDF({ selection }: {
 }
 
 export function CustomFieldPDF({ input }: { input: InputStatus<VerificationCustomFieldsInputData>}) {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const { data: { fields } } = input;
   return (
     <View style={commonStyles.paper}>
-      <Text style={[commonStyles.titleBoldMain, commonStyles.mb15]}>{intl.formatMessage({ id: 'CustomField.card.title' })}</Text>
+      <Text style={[commonStyles.titleBoldMain, commonStyles.mb15]}>{formatMessage('CustomField.card.title')}</Text>
       <View>
         <CustomFieldVerificationList
           fields={fields}
