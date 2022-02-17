@@ -29,6 +29,7 @@ import { BankAccountDataPDF } from './components/BankAccountDataPDF/BankAccountD
 import { WorkAccountDataPDF } from './components/WorkAccountDataPDF/WorkAccountDataPDF';
 import { PayrollAccountDataPDF } from './components/PayrollAccountDataPDF/PayrollAccountDataPDF';
 import { CustomFieldPDF } from './components/CustomFieldPDF/CustomFieldPDF';
+import { CustomWatchlistPDF } from './components/CustomWatchlistPDF/CustomWatchlistPDF';
 
 interface AdditionalData {
   legalName: string;
@@ -75,6 +76,8 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
             />
           </View>
         ))}
+        {/* custom watchlist */}
+        <CustomWatchlistPDF steps={verification.steps} />
         {/* biometric and reVerification */}
         {verification.reVerification ? (
           <View>
