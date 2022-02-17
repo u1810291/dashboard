@@ -346,6 +346,6 @@ export const getNotSelectedMapping = (listFlattenFields: CustomField[], mapping:
 
 export const isValidFieldSystemName = (value: string): boolean => new RegExp(FIELD_SYSTEM_NAME_PATTERN).test(value);
 
-export const formatedValue = (field: CustomField, value: string) => (field.type === MainCustomFieldType.Atomic && field.atomicFieldParams.type === AtomicCustomFieldType.Date
+export const formatedValue = (field: CustomField, value: string): string => (field.type === MainCustomFieldType.Atomic && field.atomicFieldParams.type === AtomicCustomFieldType.Date
   ? value ? formatDate(value) : ''
   : !isNil(value) ? `${value}` : '-');

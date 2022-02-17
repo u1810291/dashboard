@@ -26,7 +26,7 @@ export function CustomFieldVerificationInfo({ field, value }: {
 export function CustomFieldVerificationSectionInfo({ selection }: {
   selection: CustomField;
 }) {
-  const selectedGroup: CustomField = useMemo(() => selection?.children?.find((option) => option.name === selection.selectedGroup), [selection?.children, selection.selectedGroup]);
+  const selectedGroup = useMemo<CustomField>(() => selection?.children?.find((option: CustomField) => option.name === selection.selectedGroup), [selection?.children, selection.selectedGroup]);
   return (
     <>
       <CustomFieldVerificationInfo field={selection} value={selectedGroup?.label} />

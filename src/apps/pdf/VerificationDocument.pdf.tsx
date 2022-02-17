@@ -43,7 +43,7 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
   additionalData: AdditionalData;
 }) {
   const intl = useIntl();
-  const customField: InputStatus<VerificationCustomFieldsInputData> = useMemo(() => verification?.inputs?.find((input) => input?.id === InputTypes.CustomFields), [verification?.inputs]);
+  const customField = useMemo<InputStatus<VerificationCustomFieldsInputData>>(() => verification?.inputs?.find((input: InputStatus<unknown>) => input?.id === InputTypes.CustomFields), [verification?.inputs]);
   if (!verification) {
     return null;
   }
