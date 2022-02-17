@@ -9,12 +9,12 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from 'lib/url';
+import { selectMerchantOnboarding, merchantLoad } from 'state/merchant';
 import { StepsCheckboxes } from '../StepsCheckboxes/StepsCheckboxes';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
 import { countStatisticsLoad, filterUpdate, loadChartStatistics } from '../../state/Analytics.actions';
 import { selectCountStatisticsModel, selectFilter, selectStatisticsByDate } from '../../state/Analytics.selectors';
-import { selectMerchantOnboarding, merchantLoad } from 'state/merchant';
 import { StepsOptions } from '../StepsCheckboxes/model/StepsCheckboxes.model';
 import { Chart } from '../Chart/Chart';
 import { DevicesStats } from '../DevicesStats/DevicesStats';
@@ -42,7 +42,7 @@ export function AnalyticsContainer() {
 
   useEffect(() => {
     if (!onboardingProgress) dispatch(merchantLoad());
-  }, []);
+  }, [onboardingProgress, dispatch]);
 
   useEffect(() => {
     const parsedFilter = parseFromURL(location.search, analyticsFilterStructure);

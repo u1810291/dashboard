@@ -40,7 +40,7 @@ export function StepsCheckboxes() {
 
   const stepsProgressChange = useCallback((item: StepsOptions) => {
     const progressChanges = [...onboardingProgress];
-    const itemNumber = onboardingProgress.findIndex((step) => step.stepId === item.stepId);
+    const itemNumber = progressChanges.findIndex((step) => step.stepId === item.stepId);
     progressChanges[itemNumber] = { ...item, completed: true };
     dispatch(merchantUpdateOnboardingSteps(progressChanges, setShowStepsCompleted));
   }, [onboardingProgress]);
@@ -57,12 +57,12 @@ export function StepsCheckboxes() {
         title={formatMessage('StartModal.title')}
         subtitle={formatMessage('StartModal.subtitle')}
       >
-        <StartModal action={handleTemplateModal} completeStep={stepsProgressChange(item)} />
+        <StartModal action={handleTemplateModal} completeStep={() => stepsProgressChange(item)} closeOverlay={closeOverlay} />
       </Modal>,
     );
   };
 
-  const handleInviteSubmit = useCallback((item: StepsOptions) => async (data) => {
+  const handleInviteSubmit = (item: StepsOptions) => async (data) => {
     closeOverlay();
     try {
       await dispatch(collaboratorAdd({
@@ -73,13 +73,13 @@ export function StepsCheckboxes() {
           lastName: data.lastName,
         },
       }));
-      notification.info(formatMessage('teamTable.inviteSuccess.description'));
       stepsProgressChange(item);
+      notification.info(formatMessage('teamTable.inviteSuccess.description'));
     } catch (error) {
       notification.error(formatMessage(`Settings.teamSettings.submit.${error.response?.data?.name}`, { defaultMessage: formatMessage('Error.common') }));
       console.error(error);
     }
-  }, [dispatch, closeOverlay]);
+  };
 
   const inviteModalOpen = (item: StepsOptions) => {
     createOverlay(<TeamInviteModal
