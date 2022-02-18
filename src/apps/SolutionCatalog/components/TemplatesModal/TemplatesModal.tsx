@@ -15,8 +15,6 @@ import { ITemplateMetadata, MetadataType } from 'apps/Templates';
 import { TemplatesGallery } from '../TemplatesGalery/TemplatesGalery';
 import { TemplatesChosenFilters } from '../TemplatesChosenFilters/TemplatesChosenFilters';
 import { MOCK_TEMPLATES, filteredArray, getFiltersOptions } from '../../model/SolutionCatalog.model';
-// import { loadTemplates } from '../../store/SolutionCatalog.action';
-// import { selectAllTemplatesList } from '../../store/SolutionCatalog.selectors';
 import { useStyles } from './TemplatesModal.styles';
 
 SwiperCore.use([Pagination, Navigation]);
