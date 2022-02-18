@@ -15,12 +15,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { ProductTypes } from 'models/Product.model';
-import { dagreGraphService, FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, FlowBuilderIntegrationDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore } from 'apps/flowBuilder';
+import { dagreGraphService, FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, FlowBuilderIntegrationDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow, selectFlowBuilderChangeableFlow } from 'apps/flowBuilder';
 import { useStyles } from './DraftFlowBuilder.styles';
 import { ITemplate } from '../../model/Templates.model';
 import { selectCurrentTemplateModel } from 'apps/Templates/store/Templates.selectors';
 import { createDraftFromTemplate } from 'apps/Templates';
 import { SaveAndPublishDraft } from '../SaveAndPublishDraft/SaveAndPublishDraft';
+import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
+import { LoadableAdapter } from 'lib/Loadable.adapter';
 
 export function DraftFlowBuilder() {
   const classes = useStyles();
@@ -28,7 +30,6 @@ export function DraftFlowBuilder() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const selectedId = useSelector<any, ProductTypes>(selectFlowBuilderSelectedId);
-  const changeableFlowModel = useSelector<any, Loadable<IFlow>>(selectFlowBuilderChangeableFlowModel);
   const isProductInited = useSelector<any, boolean>(selectProductIsInited);
   const isBigScreen = useMediaQuery('(min-width:768px)', { noSsr: true });
   const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });
@@ -36,23 +37,38 @@ export function DraftFlowBuilder() {
   const flowListModel = useFlowListLoad();
   const currentTemplateModel = useSelector<any, Loadable<ITemplate>>(selectCurrentTemplateModel);
   const [isBuilderInitialized, setIsBuilderInitiazed] = useState<boolean>(false);
+  const changeableFlowModel = useSelector<any, Loadable<IFlow>>(selectFlowBuilderChangeableFlowModel);
 
   useProduct();
 
   const isEditMode = !!id;
 
   useEffect(() => {
+    if (isBuilderInitialized) return;
+    console.log('init flowb ', isBuilderInitialized);
+    setIsBuilderInitiazed(true);
     dispatch(flowBuilderClearStore());
 
-    const hasTemplate = currentTemplateModel.value;
-    console.log(currentTemplateModel);
+    if (!isEditMode) {
+      const hasTemplate = currentTemplateModel.value;
+      console.log(currentTemplateModel);
 
-    if (hasTemplate) {
-      dispatch(createDraftFromTemplate());
+      if (hasTemplate) {
+        // create flow from templates modal
+        dispatch(createDraftFromTemplate());
+      } else {
+        dispatch(flowBuilderCreateEmptyFlow({ name: 'Untitled' }));
+        // create flow from 'new metamap' button
+      }
     } else {
-      //
+      // open  flow from list
+      console.log('edit mode ', id, LoadableAdapter.isPristine(changeableFlowModel), changeableFlowModel);
+      if (LoadableAdapter.isPristine(changeableFlowModel)) {
+        dispatch(updateCurrentFlowId(id));
+        dispatch(flowBuilderChangeableFlowLoad());
+      }
     }
-  }, [dispatch, currentTemplateModel]);
+  }, [dispatch, currentTemplateModel, isBuilderInitialized, id, isEditMode, changeableFlowModel]);
 
   useEffect(() => {
     dagreGraphService.createGraph();

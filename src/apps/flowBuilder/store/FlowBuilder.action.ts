@@ -30,8 +30,8 @@ export const flowBuilderClearStore = () => (dispatch) => {
   dispatch({ type: types.PRODUCT_SELECT, payload: null });
 };
 
-export const flowBuilderCreateEmptyFlow = () => (dispatch) => {
-  dispatch({ type: types.CHANGEABLE_FLOW_CLEAR, payload: createEmptyFlow() });
+export const flowBuilderCreateEmptyFlow = (data?: Partial<IFlow>) => (dispatch) => {
+  dispatch({ type: types.CHANGEABLE_FLOW_CLEAR, payload: createEmptyFlow(data) });
   dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, payload: [] });
 };
 
@@ -45,7 +45,7 @@ export const flowBuilderProductListInit = (flow) => (dispatch, getState) => {
     return product.isInFlow(flow);
   });
   const sorted = productManagerService.sortProductTypes(activated);
-
+  console.log('prods ', flow, sorted);
   dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, payload: sorted });
 };
 

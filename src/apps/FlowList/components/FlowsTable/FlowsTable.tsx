@@ -104,7 +104,7 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
     if (isTemplate) {
       history.push(`${Routes.templates.root}/${id}`);
     } else {
-      onMouseUpHandler({ ...event, button: 0 }, id);
+      history.push(`${Routes.templates.draftFlow}/${id}`);
     }
   };
 

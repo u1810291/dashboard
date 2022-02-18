@@ -4,6 +4,8 @@ import { selectMerchantFlowList, selectMerchantFlowsModel, selectMerchantId } fr
 import { IFlow } from 'models/Flow.model';
 import { ApiResponse } from 'models/Client.model';
 import { flowUpdate } from 'apps/flowBuilder/api/flowBuilder.client';
+import { mergeDeep } from 'lib/object';
+import { types as flowBuilderActionTypes } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { selectCurrentTemplateModelValue } from './Templates.selectors';
 import { types } from './Templates.store';
 import { createTemplateRequest, getMetadataRequest, getTemplateRequest, updateTemplateRequest, getTemplatesRequest, blockTemplateRequest } from '../api/Templates.client';
@@ -104,24 +106,37 @@ export const blockTemplate = (id: string) => async (dispatch, getState) => {
 export const createDraftFromTemplate = () => async (dispatch, getState) => {
   const template = await selectCurrentTemplateModelValue(getState());
   dispatch(flowBuilderProductListInit(template.flow));
-  dispatch({ type: flowBuilderTypes.CHANGEABLE_FLOW_SUCCESS, payload: template.flow });
+  dispatch({ type: flowBuilderTypes.CHANGEABLE_FLOW_SUCCESS, payload: { ...template.flow, name: 'Untitled' } });
 };
 
-export const createFlowFromTemplate = (name: string) => async (dispatch, getState) => {
+export const createFlowFromTemplate = (name: string) => async (dispatch, getState): Promise<IFlow> => {
   try {
     const newFlow = await dispatch(merchantCreateFlow({ name })) as IFlow;
+    console.log('craeted flow ', newFlow);
     const merchantId = selectMerchantId(getState());
     const changeableFlow = await selectFlowBuilderChangeableFlow(getState());
+    console.log('chng flow ', changeableFlow);
     const { data }: ApiResponse<IFlow> = await flowUpdate(merchantId, newFlow.id, {
       ...changeableFlow,
+      name,
+      _id: undefined,
       createdAt: undefined,
       id: undefined,
       updatedAt: undefined,
       pinnedCountries: undefined,
       inputTypes: undefined,
     });
-    
+
+    const { value } = selectMerchantFlowsModel(getState());
+
+    const updatedFlow = mergeDeep(changeableFlow, data);
+    await dispatch({ type: flowBuilderActionTypes.CHANGEABLE_FLOW_SUCCESS, payload: data, isReset: true });
+    await dispatch({ type: flowBuilderActionTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
+    console.log('upd fl ', updatedFlow);
+    // @ts-ignore
+    return updatedFlow;
   } catch (error) {
     //
+    return error;
   }
 };

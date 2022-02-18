@@ -20,7 +20,7 @@ export function getNewFlowId(merchantFlowsModel, currentFlowId) {
   return get(merchantFlowsModel, `value[${newIndex}].id`, currentFlowId);
 }
 
-export function createEmptyFlow(): IFlow {
+export function createEmptyFlow(data?: Partial<IFlow>): IFlow {
   return {
     style: {
       color: 'blue',
@@ -63,6 +63,7 @@ export function createEmptyFlow(): IFlow {
     verificationPatterns: {
       [VerificationPatternTypes.Biometrics]: BiometricTypes.none,
     },
+    ...data,
   };
 }
 

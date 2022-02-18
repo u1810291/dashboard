@@ -67,7 +67,8 @@ export function FlowList() {
     if (canAddTemplate) {
       history.push(Routes.templates.newTemplate);
     } else {
-      handleAddNewFlow();
+      // handleAddNewFlow();
+      history.push(Routes.templates.draftFlow);
     }
   };
 

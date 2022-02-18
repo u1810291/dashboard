@@ -1,8 +1,8 @@
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { selectFlowBuilderHaveUnsavedChanges, selectFlowBuilderProductsInGraphModel } from 'apps/flowBuilder';
+import { flowBuilderSaveAndPublish, selectFlowBuilderChangeableFlow, selectFlowBuilderChangeableFlowModel, selectFlowBuilderHaveUnsavedChanges, selectFlowBuilderProductsInGraphModel } from 'apps/flowBuilder';
 import { useProductsIssues } from 'apps/Product';
-import { TextBubble } from 'apps/ui';
+import { notification, TextBubble } from 'apps/ui';
 import { useOverlay } from 'apps/overlay';
 import React from 'react';
 import { FiSave } from 'react-icons/fi';
@@ -18,7 +18,6 @@ import { ITemplate } from '../../model/Templates.model';
 import { selectCurrentTemplateModel } from '../../store/Templates.selectors';
 import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import { IFlow } from 'models/Flow.model';
-import { merchantCreateFlow } from 'state/merchant/merchant.actions';
 import { flowNameValidator } from 'apps/FlowList/validators/FlowName.validator';
 import { useStyles } from './SaveAndPublishDraft.style';
 
@@ -39,19 +38,26 @@ export function SaveAndPublishDraft({ isEditMode = false }: { isEditMode?: boole
 
     const duplicate = merchantFlowList.find((item) => item.name === value);
     await flowNameValidator({ hasDuplicate: !!duplicate, name: value });
-    const newFlow = await createFlowFromTemplate(value);
-    // const newFlow = await dispatch(merchantCreateFlow({ name: value })) as IFlow;
-    // push route for the existing flow
-    // create flow from template
-    // history.push(`${Routes.templates.draftFlow}/${newFlow.id}`);
+
+    console.log(currentTemplateModel);
+
+    const newFlow = await dispatch(createFlowFromTemplate(value));
+    console.log('new fl ', newFlow);
+    // @ts-ignore
+    history.push(`${Routes.templates.draftFlow}/${newFlow.id}`);
   };
 
   const handleSaveFlow = () => {
     createOverlay(<AddNewFlowModal submitNewFlow={submitNewFlow} />);
   };
 
-  const handleUpdateFlow = () => {
-    dispatch(updateTemplate());
+  const handleUpdateFlow = async () => {
+    try {
+      await dispatch(flowBuilderSaveAndPublish());
+      notification.info(intl.formatMessage({ id: 'FlowBuilder.notification.saved' }));
+    } catch (e) {
+      notification.error(intl.formatMessage({ id: 'Error.common' }));
+    }
   };
 
   return (
