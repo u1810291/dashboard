@@ -250,4 +250,12 @@ export const QATags = {
       SDK: 'flow-builder-integration-sdk',
     },
   },
+
+  Onboarding: {
+    Steps: {
+      Docs: 'onboarding-steps-read-docs',
+      Invite: 'onboarding-steps-invite-teammate',
+      Meta: 'onboarding-steps-create-meta',
+    },
+  },
 };

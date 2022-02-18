@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
+import { QATags } from 'models/QA.model';
 import TableCell from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
@@ -20,7 +21,7 @@ import { selectCollaboratorState } from 'apps/collaborators/state/collaborator.s
 import { collaboratorAdd } from 'apps/collaborators/state/collaborator.actions';
 import { selectMerchantOnboarding, merchantUpdateOnboardingSteps } from 'state/merchant';
 import { StartModal } from '../StartModal/StartModal';
-import { StepsOptions, OnboardingSteps, AllStepsCompleted } from './model/StepsCheckboxes.model';
+import { StepsOptions, OnboardingSteps, OnboardingQA, AllStepsCompleted } from './model/StepsCheckboxes.model';
 import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
 
 export function StepsCheckboxes() {
@@ -120,7 +121,7 @@ export function StepsCheckboxes() {
           </div>
         )
       }
-      { (!showStepsCompleted && !onboardingCompleted)
+      { (!showStepsCompleted)
         && (
         <Box>
           <Typography variant="h3">{formatMessage('StepsCheckboxes.title')}</Typography>
@@ -131,6 +132,7 @@ export function StepsCheckboxes() {
                   hover
                   key={idx}
                   onClick={() => currentStepAction(item)}
+                  data-qa={QATags.Onboarding.Steps[OnboardingQA[item.stepId]]}
                 >
                   <TableCell>
                     <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color="common.black90">
