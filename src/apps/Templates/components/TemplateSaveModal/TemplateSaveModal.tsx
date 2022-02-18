@@ -20,14 +20,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { notification } from 'apps/ui';
 import { Routes } from 'models/Router.model';
 import { useHistory } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 import { useLoadMetadataList } from '../../hooks/UseLoadMetadataList';
 import { selectCountryMetadata, selectIndustryMetadata, selectCurrentTemplateModelValue } from '../../store/Templates.selectors';
-import { ITemplateMetadata, TemplateSaveInputsTypes, TemplateSaveInputs, ITemplate, TEMPLATE_SAVE_FORM_INITIAL_STATE } from '../../model/Templates.model';
-import { createTemplate } from '../../store/Templates.actions';
+import {
+  ITemplateMetadata,
+  TemplateSaveInputsTypes,
+  TemplateSaveInputs,
+  ITemplate,
+  TEMPLATE_SAVE_FORM_INITIAL_STATE,
+  templateSaveFormEdit,
+  saveTemplateOptions,
+} from '../../model/Templates.model';
+import { createTemplate, updateTemplate } from '../../store/Templates.actions';
 import { useStyles } from './TemplateSaveModal.styles';
-import { useIntl } from 'react-intl';
 
-export function TemplateSaveModal() {
+export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -37,9 +45,11 @@ export function TemplateSaveModal() {
   const countries = useSelector<any, ITemplateMetadata[]>(selectCountryMetadata);
   const currentTemplate = useSelector<any, ITemplate>(selectCurrentTemplateModelValue);
   const intl = useIntl();
+  const TEMPLATE_SAVE_FORM_EDIT = edit && templateSaveFormEdit(currentTemplate);
+  const defaultValuesForModal = edit ? TEMPLATE_SAVE_FORM_EDIT : TEMPLATE_SAVE_FORM_INITIAL_STATE;
 
   useEffect(() => {
-    if (currentTemplate !== null) {
+    if (currentTemplate !== null && !edit) {
       history.push(`${Routes.templates.root}/${currentTemplate._id}`);
       closeOverlay();
     }
@@ -47,7 +57,7 @@ export function TemplateSaveModal() {
 
   const { register, handleSubmit, setValue, watch, trigger, formState: { errors, isSubmitting, isValid, isDirty } } = useForm<TemplateSaveInputs>({
     mode: 'onChange',
-    defaultValues: TEMPLATE_SAVE_FORM_INITIAL_STATE,
+    defaultValues: defaultValuesForModal,
   });
   const values = watch();
 
@@ -83,14 +93,21 @@ export function TemplateSaveModal() {
 
   useLoadMetadataList();
 
-  const handleSubmitForm = async () => {
+  const handleSubmitSaveForm = async () => {
     const response = await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Countries]]));
     return response;
   };
 
+  const handleSubmitPatchFrom = async () => {
+    const response = await dispatch(updateTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Countries]]));
+    closeOverlay();
+    return response;
+  };
+
   const handleSaveTemplate = async () => {
+    const currentAction = edit ? handleSubmitPatchFrom : handleSubmitSaveForm;
     try {
-      handleSubmit(handleSubmitForm)();
+      handleSubmit(currentAction)();
     } catch (error) {
       if (error) {
         notification.error(formatMessage('Error.common'));

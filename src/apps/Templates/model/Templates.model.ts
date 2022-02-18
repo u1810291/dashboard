@@ -17,6 +17,10 @@ export enum TemplateSaveInputsTypes {
   Description = 'description',
 }
 
+export interface saveTemplateOptions {
+  edit?: boolean;
+}
+
 export interface TemplateSaveInputs {
   [TemplateSaveInputsTypes.TemplateTitle]: string;
   [TemplateSaveInputsTypes.MetamapName]: string;
@@ -43,6 +47,26 @@ export const TEMPLATE_SAVE_FORM_INITIAL_STATE = {
   [TemplateSaveInputsTypes.Countries]: [],
   [TemplateSaveInputsTypes.Description]: '',
 };
+
+export function getFiltersOptions(filtersData: ITemplateMetadata[], type: MetadataType): ITemplateMetadata[] {
+  const titles = Array.from(new Set(filtersData.map((item) => item.type)));
+  const modifiedArray = titles.map((title) => {
+    const uniqueOptions = filtersData.filter((item) => item.type === title);
+    return { title, data: [...uniqueOptions] };
+  });
+  const currentFilterValues = modifiedArray.find((result) => result.title === type);
+  return currentFilterValues.data;
+}
+
+export const templateSaveFormEdit = (currentTemplate) => (
+  {
+    [TemplateSaveInputsTypes.TemplateTitle]: currentTemplate.name,
+    [TemplateSaveInputsTypes.MetamapName]: currentTemplate.flow.name,
+    [TemplateSaveInputsTypes.Industries]: getFiltersOptions(currentTemplate.metadata, MetadataType.Industry),
+    [TemplateSaveInputsTypes.Countries]: getFiltersOptions(currentTemplate.metadata, MetadataType.Country),
+    [TemplateSaveInputsTypes.Description]: currentTemplate.description,
+  }
+);
 
 export const COUNTRIES_MOCK_DATA: ITemplateMetadata[] = [
   { _id: '0', type: MetadataType.Country, name: 'North America' },

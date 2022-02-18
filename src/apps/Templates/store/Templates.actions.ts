@@ -55,14 +55,14 @@ export const createTemplate = (title, name, description, metadata) => async (dis
   }
 };
 
-export const updateTemplate = () => async (dispatch, getState) => {
+export const updateTemplate = (title?, name?, description?, metadata?) => async (dispatch, getState) => {
   dispatch({ type: types.UPDATE_TEMPLATE_UPDATING });
 
   try {
     const state = getState();
     const flow = selectFlowBuilderChangeableFlow(state);
     const { _id } = selectCurrentTemplateModelValue(state);
-    const { data } = await updateTemplateRequest({ id: _id, flow });
+    const { data } = await updateTemplateRequest({ id: _id, name, description, flow: { ...flow, name: title }, metadata });
     dispatch({ type: flowBuilderTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
     dispatch({ type: flowBuilderTypes.CHANGEABLE_FLOW_SUCCESS, payload: data.flow });
     dispatch({ type: types.UPDATE_TEMPLATE_SUCCESS, payload: data });

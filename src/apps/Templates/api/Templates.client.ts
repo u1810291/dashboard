@@ -14,8 +14,8 @@ export function getTemplateRequest(id: string) {
   return http.get<ITemplate>(`/api/v1/dashboard/template/${id}`);
 }
 
-export function updateTemplateRequest({ id, name, description, title, flow, metadata }: { id: string; title?: string; name?: string; description?: string; metadata?: ITemplateMetadata[]; flow?: IFlow }) {
-  return http.patch<ITemplate>(`/api/v1/dashboard/template/${id}`, { title, metadata, name, description, flow });
+export function updateTemplateRequest({ id, name, description, flow, metadata }: { id: string; name?: string; description?: string; metadata?: ITemplateMetadata[]; flow?: IFlow }) {
+  return http.patch<ITemplate>(`/api/v1/dashboard/template/${id}`, { metadata, name, description, flow });
 }
 
 export function getTemplatesRequest() {

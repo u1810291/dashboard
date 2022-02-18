@@ -253,5 +253,6 @@ export const QATags = {
       API: 'flow-builder-integration-api',
       SDK: 'flow-builder-integration-sdk',
     },
+    EditButton: 'flow-builder-edit-button',
   },
 };

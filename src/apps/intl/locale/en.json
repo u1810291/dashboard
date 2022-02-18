@@ -1087,6 +1087,7 @@
   "FlowBuilder.addingProductModal.requiredProductTitle": "You need to add this Merit as well:",
   "FlowBuilder.addingProductModal.title": "Adding new Merit",
   "FlowBuilder.button.saveAndPublish": "Save and publish",
+  "FlowBuilder.button.edit": "Edit",
   "FlowBuilder.graph.dropZone": "Drag one of the Merits here",
   "FlowBuilder.graph.usersFlow": "User's Experience",
   "FlowBuilder.info.createdIn": "Created in",

@@ -14,7 +14,7 @@ import { FiChevronLeft } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { Loadable } from 'models/Loadable.model';
-import { SaveAndPublishTemplate } from 'apps/Templates';
+import { SaveAndPublishTemplate, EditTemplate } from 'apps/Templates';
 import { useFormatMessage } from 'apps/intl';
 import { ProductTypes } from 'models/Product.model';
 import { dagreGraphService, WorkflowBuilderIntegrationDetails } from 'apps/WorkflowBuilder';
@@ -89,8 +89,9 @@ export function TemplateBuilder() {
           </Grid>
           <Grid item container direction="column" wrap="nowrap" className={classes.content}>
             <Grid item container justifyContent="flex-end">
-              <Box mb={2}>
+              <Box mb={2} className={classes.buttonsContainer}>
                 <SaveAndPublishTemplate isEditMode={isEditMode} />
+                {currentTemplate && <EditTemplate />}
               </Box>
             </Grid>
             <Grid container item xs={12} justifyContent="space-between">
