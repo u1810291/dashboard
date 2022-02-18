@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import { TemplateSaveModal } from 'apps/Templates/index';
 import { QATags } from 'models/QA.model';
 import { useFormatMessage } from 'apps/intl';
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import { useOverlay } from 'apps/overlay';
 import { useStyles } from './EditTemplate.styles';
 
@@ -23,7 +23,7 @@ export function EditTemplate() {
         className={classes.buttonEdit}
         color="primary"
         variant="contained"
-        data-qa={QATags.FlowBuilder.EditButton}
+        data-qa={QATags.Templates.EditButton}
         onClick={handleChangeFlow}
       >
         {formatMessage('FlowBuilder.button.edit')}

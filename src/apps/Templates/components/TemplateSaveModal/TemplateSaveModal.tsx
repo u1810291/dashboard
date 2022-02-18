@@ -13,6 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import classnames from 'classnames';
 import { useForm } from 'react-hook-form';
+import { QATags } from 'models/QA.model';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { IoCloseOutline } from 'react-icons/io5';
@@ -150,6 +151,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                   type="input"
                   variant="outlined"
                   fullWidth
+                  data-qa={QATags.Templates.Modal.MetamapName}
                 />
               </Box>
               <Box className={classes.inputLabelAndField} mt={3}>
@@ -164,6 +166,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                   type="input"
                   variant="outlined"
                   fullWidth
+                  data-qa={QATags.Templates.Modal.TemplateTitle}
                 />
               </Box>
             </Box>
@@ -194,6 +197,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                   renderValue={(selectValues) => renderChip(selectValues as any, handleDeleteChip, TemplateSaveInputsTypes.Industries)}
                   autoWidth={false}
                   error={!!errors[TemplateSaveInputsTypes.Industries]}
+                  data-qa={QATags.Templates.Modal.IndustriesSelect}
                 >
                   {industries.map((industry) => (
                     // @ts-ignore
@@ -231,6 +235,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                     },
                   }}
                   error={!!errors[TemplateSaveInputsTypes.Countries]}
+                  data-qa={QATags.Templates.Modal.CountriesSelect}
                 >
                   {countries.map((country) => (
                     // @ts-ignore
@@ -254,6 +259,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                 className={classnames(classes.textArea, { [classes.selectError]: !!errors[TemplateSaveInputsTypes.Description] })}
                 maxRows={3}
                 minRows={3}
+                data-qa={QATags.Templates.Modal.Description}
               />
               {!!errors[TemplateSaveInputsTypes.Description] && <FormHelperText className={classes.textAreaHelperText}>{(errors[TemplateSaveInputsTypes.Description] as any)?.message}</FormHelperText>}
             </Box>
@@ -263,6 +269,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
       <Box className={classes.saveTemplateButtonContainer} mt={3} pl={3} pr={3} pb={2}>
         <Button
           className={classes.buttonSave}
+          data-qa={QATags.Templates.Modal.SaveButton}
           color="primary"
           variant="contained"
           onClick={handleSaveTemplate}

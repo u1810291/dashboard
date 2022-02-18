@@ -253,6 +253,16 @@ export const QATags = {
       API: 'flow-builder-integration-api',
       SDK: 'flow-builder-integration-sdk',
     },
-    EditButton: 'flow-builder-edit-button',
+  },
+
+  Templates: {
+    Modal: {
+      SaveButton: 'templates-modal-save-button',
+      Description: 'templates-modal-description',
+      CountriesSelect: 'templates-modal-countries-select',
+      IndustriesSelect: 'templates-modal-industries-select',
+      MetamapName: 'templates-modal-metamap-name',
+    },
+    EditButton: 'templates-edit-button',
   },
 };
