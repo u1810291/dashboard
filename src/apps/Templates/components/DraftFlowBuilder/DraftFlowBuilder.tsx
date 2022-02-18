@@ -44,14 +44,12 @@ export function DraftFlowBuilder() {
   const isEditMode = !!id;
 
   useEffect(() => {
-    if (isBuilderInitialized) return;
-    console.log('init flowb ', isBuilderInitialized);
-    setIsBuilderInitiazed(true);
-    dispatch(flowBuilderClearStore());
+    if (isBuilderInitialized || !flowListModel.isLoaded || changeableFlowModel.isLoading) return;
 
     if (!isEditMode) {
+      dispatch(flowBuilderClearStore());
+      setIsBuilderInitiazed(true);
       const hasTemplate = currentTemplateModel.value;
-      console.log(currentTemplateModel);
 
       if (hasTemplate) {
         // create flow from templates modal
@@ -60,15 +58,17 @@ export function DraftFlowBuilder() {
         dispatch(flowBuilderCreateEmptyFlow({ name: 'Untitled' }));
         // create flow from 'new metamap' button
       }
-    } else {
-      // open  flow from list
-      console.log('edit mode ', id, LoadableAdapter.isPristine(changeableFlowModel), changeableFlowModel);
+    }
+
+    if (isEditMode) {
+      setIsBuilderInitiazed(true);
       if (LoadableAdapter.isPristine(changeableFlowModel)) {
+        dispatch(flowBuilderClearStore());
         dispatch(updateCurrentFlowId(id));
         dispatch(flowBuilderChangeableFlowLoad());
       }
     }
-  }, [dispatch, currentTemplateModel, isBuilderInitialized, id, isEditMode, changeableFlowModel]);
+  }, [dispatch, currentTemplateModel, isBuilderInitialized, id, isEditMode, changeableFlowModel, flowListModel.isLoaded]);
 
   useEffect(() => {
     dagreGraphService.createGraph();

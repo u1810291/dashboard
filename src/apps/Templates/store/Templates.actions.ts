@@ -112,10 +112,8 @@ export const createDraftFromTemplate = () => async (dispatch, getState) => {
 export const createFlowFromTemplate = (name: string) => async (dispatch, getState): Promise<IFlow> => {
   try {
     const newFlow = await dispatch(merchantCreateFlow({ name })) as IFlow;
-    console.log('craeted flow ', newFlow);
     const merchantId = selectMerchantId(getState());
     const changeableFlow = await selectFlowBuilderChangeableFlow(getState());
-    console.log('chng flow ', changeableFlow);
     const { data }: ApiResponse<IFlow> = await flowUpdate(merchantId, newFlow.id, {
       ...changeableFlow,
       name,
@@ -127,13 +125,10 @@ export const createFlowFromTemplate = (name: string) => async (dispatch, getStat
       inputTypes: undefined,
     });
 
-    const { value } = selectMerchantFlowsModel(getState());
-
     const updatedFlow = mergeDeep(changeableFlow, data);
+    await dispatch(flowBuilderProductListInit(data));
     await dispatch({ type: flowBuilderActionTypes.CHANGEABLE_FLOW_SUCCESS, payload: data, isReset: true });
     await dispatch({ type: flowBuilderActionTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
-    console.log('upd fl ', updatedFlow);
-    // @ts-ignore
     return updatedFlow;
   } catch (error) {
     //

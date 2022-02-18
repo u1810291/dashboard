@@ -38,11 +38,7 @@ export function SaveAndPublishDraft({ isEditMode = false }: { isEditMode?: boole
 
     const duplicate = merchantFlowList.find((item) => item.name === value);
     await flowNameValidator({ hasDuplicate: !!duplicate, name: value });
-
-    console.log(currentTemplateModel);
-
     const newFlow = await dispatch(createFlowFromTemplate(value));
-    console.log('new fl ', newFlow);
     // @ts-ignore
     history.push(`${Routes.templates.draftFlow}/${newFlow.id}`);
   };
