@@ -1,6 +1,6 @@
 {
   "name": "mati-dashboard",
-  "version": "22.2.28",
+  "version": "22.2.29",
   "private": true,
   "dependencies": {
     "@fullstory/browser": "^1.4.6",
