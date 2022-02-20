@@ -1,19 +1,16 @@
 import { Box } from '@material-ui/core';
 import { ProductTab } from 'apps/Product';
-import { selectVerificationModel } from 'apps/Verification';
-import { Loadable } from 'models/Loadable.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { ProductTypes } from 'models/Product.model';
 import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
-export function VerificationProductList({ productList, onSelect, selectedId }: {
+export function VerificationProductList({ productList, onSelect, selectedId, verification }: {
   productList: ProductTypes[];
   onSelect: (product: ProductTypes) => void;
+  verification: VerificationResponse;
   selectedId?: ProductTypes;
 }) {
   const primaryProductList = useMemo(() => productList.filter((id) => id !== ProductTypes.Metadata), [productList]);
-  const verification: Loadable<VerificationResponse> = useSelector(selectVerificationModel);
 
   return (
     <Box p={2}>
@@ -24,7 +21,7 @@ export function VerificationProductList({ productList, onSelect, selectedId }: {
             id={item}
             isSelected={selectedId === item}
             onSelect={onSelect}
-            verification={verification.value}
+            verification={verification}
           />
         ))}
         <Box mt={3}>
@@ -32,7 +29,7 @@ export function VerificationProductList({ productList, onSelect, selectedId }: {
             id={ProductTypes.Metadata}
             isSelected={selectedId === ProductTypes.Metadata}
             onSelect={onSelect}
-            verification={verification.value}
+            verification={verification}
           />
         </Box>
       </Box>
