@@ -11,12 +11,11 @@ import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Loadable } from 'models/Loadable.model';
 import { FiChevronLeft } from 'react-icons/fi';
-import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { ProductTypes } from 'models/Product.model';
-import { FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder';
+import { FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow, selectFlowBuilderHaveUnsavedChanges } from 'apps/flowBuilder';
 import { selectCurrentTemplateModel } from 'apps/Templates/store/Templates.selectors';
 import { createDraftFromTemplate, getTemplate } from 'apps/Templates';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
@@ -26,12 +25,12 @@ import { useFormatMessage } from 'apps/intl';
 import { TemplatesModal } from 'apps/SolutionCatalog';
 import { dagreGraphService, WorkflowBuilderIntegrationDetails } from 'apps/WorkflowBuilder';
 import { ITemplate, DRAFT_INITIAL_STATE } from '../../model/Templates.model';
+import { TemplateSelectAttemptModal } from '../TemplateSelectAttemptModal/TemplateSelectAttemptModal';
 import { SaveAndPublishDraft } from '../SaveAndPublishDraft/SaveAndPublishDraft';
 import { useStyles } from './DraftFlowBuilder.styles';
 
 export function DraftFlowBuilder() {
   const classes = useStyles();
-  const intl = useIntl();
   const [createOverlay, closeOverlay] = useOverlay();
   const dispatch = useDispatch();
   const formatMessage = useFormatMessage();
@@ -45,6 +44,7 @@ export function DraftFlowBuilder() {
   const currentTemplateModel = useSelector<any, Loadable<ITemplate>>(selectCurrentTemplateModel);
   const [isBuilderInitialized, setIsBuilderInitiazed] = useState<boolean>(false);
   const changeableFlowModel = useSelector<any, Loadable<IFlow>>(selectFlowBuilderChangeableFlowModel);
+  const haveUnsavedChanges = useSelector<any, boolean>(selectFlowBuilderHaveUnsavedChanges);
 
   useProduct();
 
@@ -57,7 +57,6 @@ export function DraftFlowBuilder() {
       dispatch(flowBuilderClearStore());
       setIsBuilderInitiazed(true);
       const hasTemplate = currentTemplateModel.value;
-
       if (hasTemplate) {
         // create flow from templates modal
         dispatch(createDraftFromTemplate());
@@ -99,8 +98,17 @@ export function DraftFlowBuilder() {
     await dispatch(getTemplate(templateId));
   };
 
-  const handleTemplatesButtonClick = () => {
+  const handleTemplatesContinueButtonClick = () => {
+    closeOverlay();
     createOverlay(<TemplatesModal handleCardClick={handleTemplateCardClick} />);
+  };
+
+  const handleTemplatesButtonClick = () => {
+    if (haveUnsavedChanges) {
+      createOverlay(<TemplateSelectAttemptModal handleContinue={handleTemplatesContinueButtonClick} closeOverlay={closeOverlay} />);
+    } else {
+      createOverlay(<TemplatesModal handleCardClick={handleTemplateCardClick} />);
+    }
   };
 
   if (!isProductInited && !flowListModel.isLoaded) {
