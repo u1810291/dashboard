@@ -17,6 +17,9 @@ export enum TemplateSaveInputsTypes {
   Description = 'description',
 }
 
+export const DRAFT_INITIAL_STATE = {
+  name: 'Untitled',
+};
 export interface saveTemplateOptions {
   edit?: boolean;
 }

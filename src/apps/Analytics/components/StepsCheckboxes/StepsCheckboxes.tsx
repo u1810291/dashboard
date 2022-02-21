@@ -47,7 +47,7 @@ export function StepsCheckboxes() {
     dispatch(merchantUpdateOnboardingSteps(progressChanges, setShowStepsCompleted));
   }, [onboardingProgress]);
 
-  const handleCardClick = async (id) => {
+  const handleCardClick = async (id: string) => {
     try {
       await dispatch(getTemplate(id));
       history.push(`${Routes.templates.draftFlow}`);

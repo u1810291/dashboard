@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { ProductTypes } from 'models/Product.model';
-import { dagreGraphService, FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, FlowBuilderIntegrationDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow, selectFlowBuilderChangeableFlow } from 'apps/flowBuilder';
+import { FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder';
 import { selectCurrentTemplateModel } from 'apps/Templates/store/Templates.selectors';
 import { createDraftFromTemplate, getTemplate } from 'apps/Templates';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
@@ -24,7 +24,8 @@ import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useOverlay } from 'apps/overlay';
 import { useFormatMessage } from 'apps/intl';
 import { TemplatesModal } from 'apps/SolutionCatalog';
-import { ITemplate } from '../../model/Templates.model';
+import { dagreGraphService, WorkflowBuilderIntegrationDetails } from 'apps/WorkflowBuilder';
+import { ITemplate, DRAFT_INITIAL_STATE } from '../../model/Templates.model';
 import { SaveAndPublishDraft } from '../SaveAndPublishDraft/SaveAndPublishDraft';
 import { useStyles } from './DraftFlowBuilder.styles';
 
@@ -61,7 +62,7 @@ export function DraftFlowBuilder() {
         // create flow from templates modal
         dispatch(createDraftFromTemplate());
       } else {
-        dispatch(flowBuilderCreateEmptyFlow({ name: 'Untitled' }));
+        dispatch(flowBuilderCreateEmptyFlow(DRAFT_INITIAL_STATE));
         // create flow from 'new metamap' button
       }
     }
@@ -153,7 +154,7 @@ export function DraftFlowBuilder() {
                 />
                 )}
                 {!selectedId && (
-                <FlowBuilderIntegrationDetails />
+                <WorkflowBuilderIntegrationDetails />
                 )}
               </Grid>
             </Grid>
