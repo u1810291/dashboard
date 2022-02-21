@@ -1,10 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { FiCheck } from 'react-icons/fi';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
+import { QATags } from 'models/QA.model';
 import TableCell from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
@@ -17,8 +19,9 @@ import { TeamInviteModal } from 'apps/collaborators/components/TeamInviteModal/T
 import { useFormatMessage } from 'apps/intl';
 import { selectCollaboratorState } from 'apps/collaborators/state/collaborator.selectors';
 import { collaboratorAdd } from 'apps/collaborators/state/collaborator.actions';
+import { selectMerchantOnboarding, merchantUpdateOnboardingSteps } from 'state/merchant';
 import { StartModal } from '../StartModal/StartModal';
-import { MOCK_STEPS, StepsOptions } from './model/StepsCheckboxes.model';
+import { StepsOptions, OnboardingSteps, OnboardingQA, AllStepsCompleted } from './model/StepsCheckboxes.model';
 import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
 
 export function StepsCheckboxes() {
@@ -26,35 +29,41 @@ export function StepsCheckboxes() {
   const history = useHistory();
   const dispatch = useDispatch();
   const state = useSelector(selectCollaboratorState);
+  const onboardingProgress: StepsOptions[] = useSelector(selectMerchantOnboarding);
+  const [showStepsCompleted, setShowStepsCompleted] = useState<boolean>(false);
   const classes = useStyles();
   const formatMessage = useFormatMessage();
-  const [currentProgress, setCurrentProgress] = useState<StepsOptions[]>(MOCK_STEPS);
+  const onboardingCompleted = AllStepsCompleted(onboardingProgress);
+
+  useEffect(() => {
+    if (showStepsCompleted) setTimeout(() => setShowStepsCompleted(false), 5000);
+  }, [showStepsCompleted]);
+
+  const stepsProgressChange = useCallback((item: StepsOptions) => {
+    const progressChanges = [...onboardingProgress];
+    const itemNumber = progressChanges.findIndex((step) => step.stepId === item.stepId);
+    progressChanges[itemNumber] = { ...item, completed: true };
+    dispatch(merchantUpdateOnboardingSteps(progressChanges, setShowStepsCompleted));
+  }, [onboardingProgress]);
 
   const handleTemplateModal = () => {
     closeOverlay();
     createOverlay(<TemplatesModal />);
   };
 
-  const handleMetamapBuild = () => {
+  const handleMetamapBuild = (item: StepsOptions) => {
     createOverlay(
       <Modal
         className={classes.startModal}
         title={formatMessage('StartModal.title')}
         subtitle={formatMessage('StartModal.subtitle')}
       >
-        <StartModal action={handleTemplateModal} />
+        <StartModal action={handleTemplateModal} completeStep={() => stepsProgressChange(item)} closeOverlay={closeOverlay} />
       </Modal>,
     );
   };
 
-  const stepsProgressChange = (item: StepsOptions) => {
-    const progressChanges = [...currentProgress];
-    const itemNumber = currentProgress.findIndex((step) => step.title === item.title);
-    progressChanges[itemNumber] = { ...item, completed: true };
-    setCurrentProgress(progressChanges);
-  };
-
-  const handleInviteSubmit = useCallback((item: StepsOptions) => async (data) => {
+  const handleInviteSubmit = (item: StepsOptions) => async (data) => {
     closeOverlay();
     try {
       await dispatch(collaboratorAdd({
@@ -65,13 +74,13 @@ export function StepsCheckboxes() {
           lastName: data.lastName,
         },
       }));
-      notification.info(formatMessage('teamTable.inviteSuccess.description'));
       stepsProgressChange(item);
+      notification.info(formatMessage('teamTable.inviteSuccess.description'));
     } catch (error) {
       notification.error(formatMessage(`Settings.teamSettings.submit.${error.response?.data?.name}`, { defaultMessage: formatMessage('Error.common') }));
       console.error(error);
     }
-  }, [dispatch, closeOverlay]);
+  };
 
   const inviteModalOpen = (item: StepsOptions) => {
     createOverlay(<TeamInviteModal
@@ -85,15 +94,15 @@ export function StepsCheckboxes() {
     stepsProgressChange(item);
   };
 
-  const buildFirstMetamapComplete = (item) => (item.completed ? history.push(Routes.flow.root) : handleMetamapBuild());
+  const buildFirstMetamapComplete = (item) => (item.completed ? history.push(Routes.flow.root) : handleMetamapBuild(item));
 
   const currentStepAction = (item) => {
-    switch (item.title) {
-      case 'Read our docs to learn  about MetaMap':
+    switch (item.stepId) {
+      case 'read-our-docs':
         return readDocsComplete(item);
-      case 'Invite a teammate':
+      case 'invite-teammate':
         return inviteModalOpen(item);
-      case 'Build your first metamap':
+      case 'make-metamap':
         return buildFirstMetamapComplete(item);
       default:
         return console.error('no matches');
@@ -102,42 +111,56 @@ export function StepsCheckboxes() {
 
   return (
     <Box mb={2}>
-      <Typography variant="h3">{formatMessage('StepsCheckboxes.title')}</Typography>
-      <Table className={classes.table}>
-        <TableBody>
-          {currentProgress.map((item, idx) => (
-            <TableRowHovered
-              hover
-              key={idx}
-              onClick={() => currentStepAction(item)}
-            >
-              <TableCell>
-                <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color="common.black90">
-                  <Box component="span">
-                    <Checkbox
-                      color="primary"
-                      checkedIcon={<CheckboxOn />}
-                      icon={<CheckboxOff />}
-                      checked={item.completed}
-                    />
-                    <Box component="span" className={classes.itemName}>{item.title}</Box>
-                  </Box>
-                </Box>
-              </TableCell>
-              <TableCell>
-                <Box mb={{ xs: 2, lg: 0 }}>
-                  <Box component="span" className={classes.arrowContainer}>
-                    {
-                      item.completed && <span className={classes.completed}>{formatMessage('StepsCheckboxes.completed')}</span>
-                    }
-                    <span className={classes.arrow} />
-                  </Box>
-                </Box>
-              </TableCell>
-            </TableRowHovered>
-          ))}
-        </TableBody>
-      </Table>
+      {
+        showStepsCompleted && (
+          <div className={classes.completedSteps}>
+            You&apos;re all set!
+            <span className={classes.blueSquare}>
+              <FiCheck className={classes.checkIcon} />
+            </span>
+          </div>
+        )
+      }
+      { (!showStepsCompleted && !onboardingCompleted)
+        && (
+        <Box>
+          <Typography variant="h3">{formatMessage('StepsCheckboxes.title')}</Typography>
+          <Table className={classes.table}>
+            <TableBody>
+              {onboardingProgress.map((item, idx) => (
+                <TableRowHovered
+                  hover
+                  key={idx}
+                  onClick={() => currentStepAction(item)}
+                  data-qa={QATags.Onboarding.Steps[OnboardingQA[item.stepId]]}
+                >
+                  <TableCell>
+                    <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color="common.black90">
+                      <Box component="span">
+                        <Checkbox
+                          color="primary"
+                          checkedIcon={<CheckboxOn />}
+                          icon={<CheckboxOff />}
+                          checked={item.completed}
+                        />
+                        <Box component="span" className={classes.itemName}>{formatMessage(OnboardingSteps[item.stepId])}</Box>
+                      </Box>
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box mb={{ xs: 2, lg: 0 }}>
+                      <Box component="span" className={classes.arrowContainer}>
+                        { item.completed && <span className={classes.completed}>{formatMessage('StepsCheckboxes.completed')}</span> }
+                        <span className={classes.arrow} />
+                      </Box>
+                    </Box>
+                  </TableCell>
+                </TableRowHovered>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
+        )}
     </Box>
   );
 }

@@ -14,6 +14,7 @@ export const types = {
   ...createTypesSequence(MerchantActionGroups.Flows),
   CURRENT_FLOW_UPDATE: 'CURRENT_FLOW_UPDATE',
   BUSINESS_NAME_UPDATE: 'BUSINESS_NAME_UPDATE',
+  ONBOARDING_STEPS_UPDATE: 'ONBOARDING_STEPS_UPDATE',
 };
 
 // -- merchant
@@ -243,4 +244,10 @@ export const merchantUpdateMedia = (form) => async (dispatch) => {
 export const merchantUpdateBusinessName = (businessName) => async (dispatch) => {
   const { data } = await api.saveBusinessName(businessName);
   dispatch({ type: types.BUSINESS_NAME_UPDATE, payload: { businessName: data.businessName } });
+};
+
+export const merchantUpdateOnboardingSteps = (onboardingSteps, setShowStepsCompleted) => async (dispatch) => {
+  const { data } = await api.patchOnboardingProgress(onboardingSteps);
+  dispatch({ type: types.ONBOARDING_STEPS_UPDATE, payload: { onboardingSteps: data.onboardingSteps } });
+  if (!data.onboardingSteps.find((item) => item.completed === false)) setShowStepsCompleted(true);
 };

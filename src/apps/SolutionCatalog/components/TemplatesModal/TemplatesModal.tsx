@@ -4,6 +4,7 @@ import { PageLoader } from 'apps/layout';
 import { useOverlay, Modal } from 'apps/overlay';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+/* eslint-disable import/no-unresolved */
 import SwiperCore, { Pagination, Navigation } from 'swiper';
 import { TemplateFilters } from 'apps/filter';
 import 'swiper/swiper.min.css';
@@ -14,8 +15,6 @@ import { ITemplateMetadata, MetadataType } from 'apps/Templates';
 import { TemplatesGallery } from '../TemplatesGalery/TemplatesGalery';
 import { TemplatesChosenFilters } from '../TemplatesChosenFilters/TemplatesChosenFilters';
 import { MOCK_TEMPLATES, filteredArray, getFiltersOptions } from '../../model/SolutionCatalog.model';
-// import { loadTemplates } from '../../store/SolutionCatalog.action';
-// import { selectAllTemplatesList } from '../../store/SolutionCatalog.selectors';
 import { useStyles } from './TemplatesModal.styles';
 
 SwiperCore.use([Pagination, Navigation]);

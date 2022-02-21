@@ -1,10 +1,20 @@
 export interface StepsOptions {
-  title: string;
+  stepId: string;
   completed: boolean;
 }
 
-export const MOCK_STEPS: StepsOptions[] = [
-  { title: 'Read our docs to learn  about MetaMap', completed: false },
-  { title: 'Invite a teammate', completed: false },
-  { title: 'Build your first metamap', completed: false },
-];
+export enum OnboardingSteps {
+ 'read-our-docs'='StepsCheckboxes.readDocs',
+ 'invite-teammate'='StepsCheckboxes.inviteTeammate',
+ 'make-metamap'='StepsCheckboxes.makeMeta',
+}
+
+export enum OnboardingQA {
+  'read-our-docs'='Docs',
+  'invite-teammate'='Invite',
+  'make-metamap'='Meta',
+}
+
+export function AllStepsCompleted(stepsProgress: StepsOptions[]): boolean {
+  return !stepsProgress.find((item) => item.completed === false);
+}
