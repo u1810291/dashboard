@@ -2,11 +2,11 @@ import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductTypes, ProductIntegrationTypes, ProductSettings } from 'models/Product.model';
 import { FiKey } from 'react-icons/fi';
 import { BiometricVerificationCheckTypes } from 'apps/biometricVerification/models/BiometricVerification.model';
-import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { BiometricTypes } from 'models/Biometric.model';
 import { getReVerificationStep } from 'models/ReVerification.model';
+import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { ReVerificationVerification } from '../components/ReVerificationVerification/ReVerificationVerification';
 import { ReVerificationSettings } from '../components/ReVerificationSettings/ReVerificationSettings';
 import { ReVerificationSettingTypes, IReverificationVerification } from '../models/ReVerification.model';
@@ -14,7 +14,7 @@ import { ReverificationIssues } from '../components/ReverificationIssues/Reverif
 
 type ProductSettingsReVerification = ProductSettings<ReVerificationSettingTypes>;
 
-export class ReVerification extends ProductBaseService implements Product<ProductSettingsReVerification> {
+export class ReVerification extends ProductBaseFlowBuilder implements Product {
   id = ProductTypes.ReVerification;
   order = 500;
   integrationTypes = [

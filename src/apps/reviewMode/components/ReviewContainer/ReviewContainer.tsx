@@ -3,6 +3,7 @@ import { useAfkListener } from 'apps/layout';
 import { useOverlay } from 'apps/overlay';
 import { useProduct } from 'apps/Product';
 import { TimeoutModal } from 'apps/ui';
+import { VerificationProductList } from 'apps/Verification';
 import { ReactComponent as IconLoad } from 'assets/icon-load-dark.svg';
 import { Routes } from 'models/Router.model';
 import { ProductTypes } from 'models/Product.model';
@@ -12,10 +13,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ProductVerification } from 'apps/Product/components/ProductVerification/ProductVerification';
 import { useDocsWithPrivateMedia, useBiometricsWithPrivateMedia } from 'apps/media';
-import { VerificationWithExtras } from 'models/Verification.model';
+import { VerificationWithExtras } from 'models/VerificationOld.model';
 import { reviewVerificationClear, verificationSkip } from '../../state/reviewMode.actions';
 import { selectReviewVerificationModelWithExtras, selectReviewVerificationWithExtras, selectVerificationProductList } from '../../state/reviewMode.selectors';
-import { ReviewModeProductList } from '../ReviewModeProductList/ReviewModeProductList';
 import { useStyles } from './ReviewContainer.styles';
 
 export function ReviewContainer() {
@@ -60,7 +60,9 @@ export function ReviewContainer() {
         <Box className={classes.container}>
           <Grid container>
             <Grid item xs={12} lg={4} xl={2} className={classes.selector}>
-              <ReviewModeProductList
+              <VerificationProductList
+                verification={verification}
+                productList={productList}
                 selectedId={selectedProduct}
                 onSelect={setSelectedProduct}
               />

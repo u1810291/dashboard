@@ -1,10 +1,10 @@
 import { Product, ProductSettings, ProductTypes } from 'models/Product.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { IFlow } from 'models/Flow.model';
-import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
+import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { MetadataVerificationProduct } from '../components/MetadataVerificationProduct/MetadataVerificationProduct';
 
-export class Metadata extends ProductBaseService implements Product {
+export class Metadata extends ProductBaseFlowBuilder implements Product {
   id = ProductTypes.Metadata;
   order = 20000;
   icon = null;

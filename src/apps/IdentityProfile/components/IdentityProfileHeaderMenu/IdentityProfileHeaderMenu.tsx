@@ -1,25 +1,25 @@
 import { Grid } from '@material-ui/core';
+import { IdentityProfileResponse } from 'apps/IdentityProfile';
 import { Routes } from 'models/Router.model';
 import React, { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FiChevronLeft } from 'react-icons/fi';
 import { getGoBackToListLink } from 'models/Identity.model';
 import { useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
 import { QATags } from 'models/QA.model';
 import { ButtonGoVerificationHistory } from 'apps/verificationHistory';
 import { ButtonHeaderMenu } from 'apps/ui';
 import { WithAgent } from 'models/Collaborator.model';
 import { RoleRenderGuard } from 'apps/merchant';
-import { selectIdentityProfile } from '../../store/IdentityProfile.selectors';
 import { useStyles } from './IdentityProfileHeaderMenu.styles';
 
-export function IdentityProfileHeaderMenu() {
+export function IdentityProfileHeaderMenu({ identity }: {
+  identity: IdentityProfileResponse;
+}) {
   const intl = useIntl();
   const classes = useStyles();
   const location = useLocation();
   const goBackToListLink = useMemo(() => getGoBackToListLink(location, Routes.identity.verification.root), [location]);
-  const identity = useSelector(selectIdentityProfile);
 
   return (
     <Grid container direction="column" spacing={2} className={classes.wrapper}>
