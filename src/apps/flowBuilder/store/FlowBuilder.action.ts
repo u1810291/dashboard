@@ -45,7 +45,6 @@ export const flowBuilderProductListInit = (flow) => (dispatch, getState) => {
     return product.isInFlow(flow);
   });
   const sorted = productManagerService.sortProductTypes(activated);
-  console.log('prods ', flow, sorted);
   dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, payload: sorted });
 };
 

@@ -20,6 +20,7 @@ import { useFormatMessage } from 'apps/intl';
 import { selectCollaboratorState } from 'apps/collaborators/state/collaborator.selectors';
 import { collaboratorAdd } from 'apps/collaborators/state/collaborator.actions';
 import { selectMerchantOnboarding, merchantUpdateOnboardingSteps } from 'state/merchant';
+import { getTemplate } from 'apps/Templates';
 import { StartModal } from '../StartModal/StartModal';
 import { StepsOptions, OnboardingSteps, OnboardingQA, AllStepsCompleted } from './model/StepsCheckboxes.model';
 import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
@@ -46,9 +47,19 @@ export function StepsCheckboxes() {
     dispatch(merchantUpdateOnboardingSteps(progressChanges, setShowStepsCompleted));
   }, [onboardingProgress]);
 
+  const handleCardClick = async (id) => {
+    try {
+      await dispatch(getTemplate(id));
+      history.push(`${Routes.templates.draftFlow}`);
+      closeOverlay();
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
   const handleTemplateModal = () => {
     closeOverlay();
-    createOverlay(<TemplatesModal />);
+    createOverlay(<TemplatesModal handleCardClick={handleCardClick} />);
   };
 
   const handleMetamapBuild = (item: StepsOptions) => {

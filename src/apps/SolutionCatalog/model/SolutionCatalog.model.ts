@@ -28,7 +28,7 @@ export interface TemplateCardProps {
   title: string;
   description: string;
   id: string;
-  closeOverlay: () => void;
+  handleCardClick: (id: string) => void;
 }
 
 export interface TemplateFilterOptions {

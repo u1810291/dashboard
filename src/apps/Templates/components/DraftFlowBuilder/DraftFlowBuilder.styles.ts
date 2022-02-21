@@ -111,4 +111,12 @@ export const useStyles = makeStyles((theme) => createStyles({
     backgroundColor: theme.palette.background.default,
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.05)',
   },
+  templatesButton: {
+    borderColor: theme.palette.common.lightblue,
+    color: theme.palette.common.lightblue,
+    minWidth: 120,
+    marginLeft: 16,
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
 }));

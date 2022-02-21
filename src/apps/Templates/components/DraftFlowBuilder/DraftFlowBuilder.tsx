@@ -1,4 +1,5 @@
 import { Box, Grid, Paper } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { selectProductIsInited, useProduct } from 'apps/Product';
 import { Loader, Placeholder } from 'apps/ui';
@@ -16,18 +17,23 @@ import { Link, useParams } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { ProductTypes } from 'models/Product.model';
 import { dagreGraphService, FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, FlowBuilderIntegrationDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow, selectFlowBuilderChangeableFlow } from 'apps/flowBuilder';
-import { useStyles } from './DraftFlowBuilder.styles';
-import { ITemplate } from '../../model/Templates.model';
 import { selectCurrentTemplateModel } from 'apps/Templates/store/Templates.selectors';
-import { createDraftFromTemplate } from 'apps/Templates';
-import { SaveAndPublishDraft } from '../SaveAndPublishDraft/SaveAndPublishDraft';
+import { createDraftFromTemplate, getTemplate } from 'apps/Templates';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
+import { useOverlay } from 'apps/overlay';
+import { useFormatMessage } from 'apps/intl';
+import { TemplatesModal } from 'apps/SolutionCatalog';
+import { ITemplate } from '../../model/Templates.model';
+import { SaveAndPublishDraft } from '../SaveAndPublishDraft/SaveAndPublishDraft';
+import { useStyles } from './DraftFlowBuilder.styles';
 
 export function DraftFlowBuilder() {
   const classes = useStyles();
   const intl = useIntl();
+  const [createOverlay, closeOverlay] = useOverlay();
   const dispatch = useDispatch();
+  const formatMessage = useFormatMessage();
   const { id } = useParams();
   const selectedId = useSelector<any, ProductTypes>(selectFlowBuilderSelectedId);
   const isProductInited = useSelector<any, boolean>(selectProductIsInited);
@@ -78,6 +84,24 @@ export function DraftFlowBuilder() {
     dispatch(flowBuilderChangeableFlowUpdate(patch));
   }, [dispatch]);
 
+  useEffect(() => {
+    if (!isBuilderInitialized || !currentTemplateModel.value) return;
+
+    const handleChangeTemplate = async () => {
+      await dispatch(flowBuilderChangeableFlowUpdate({ ...currentTemplateModel.value.flow, _id: undefined }));
+      closeOverlay();
+    };
+    handleChangeTemplate();
+  }, [currentTemplateModel, isBuilderInitialized, dispatch, closeOverlay]);
+
+  const handleTemplateCardClick = async (templateId: string) => {
+    await dispatch(getTemplate(templateId));
+  };
+
+  const handleTemplatesButtonClick = () => {
+    createOverlay(<TemplatesModal handleCardClick={handleTemplateCardClick} />);
+  };
+
   if (!isProductInited && !flowListModel.isLoaded) {
     return <Loader />;
   }
@@ -99,8 +123,16 @@ export function DraftFlowBuilder() {
           </Grid>
           <Grid item container direction="column" wrap="nowrap" className={classes.content}>
             <Grid item container justify="flex-end">
-              <Box mb={2}>
+              <Box mb={2} display="flex">
                 <SaveAndPublishDraft isEditMode={isEditMode} />
+                <Button
+                  className={classes.templatesButton}
+                  variant="outlined"
+                  disableElevation
+                  onClick={handleTemplatesButtonClick}
+                >
+                  {formatMessage('Templates.builder.templatesButton')}
+                </Button>
               </Box>
             </Grid>
             <Grid container item xs={12} justify="space-between">
