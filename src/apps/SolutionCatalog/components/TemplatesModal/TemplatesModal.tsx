@@ -22,7 +22,7 @@ import { useStyles } from './TemplatesModal.styles';
 
 SwiperCore.use([Pagination, Navigation]);
 
-export function TemplatesModal() {
+export function TemplatesModal({ handleCardClick }: { handleCardClick: (id: string) => void }) {
   const dispatch = useDispatch();
   const filtersData = useMetadataLoad();
   const templatesList = useTemplatesLoad();
@@ -88,7 +88,7 @@ export function TemplatesModal() {
             { Object.entries(templatesList.value).map(([title, data], idx) => (
               <Box key={idx}>
                 <Typography className={classes.swiperTitle}>{title}</Typography>
-                <TemplatesGallery templates={data} />
+                <TemplatesGallery handleCardClick={handleCardClick} templates={data} />
               </Box>
             ))}
           </Box>

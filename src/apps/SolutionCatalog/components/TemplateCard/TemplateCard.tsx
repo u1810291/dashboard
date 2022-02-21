@@ -16,8 +16,7 @@ export function TemplateCard({ title, description, id, handleCardClick }: Templa
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
   const handleSelectButtonClick = (templateId: string) => () => {
-    const tempId = templateId || '61fcf5958dcf8201a784b585';
-    handleCardClick(tempId);
+    handleCardClick(templateId);
   };
 
   return (

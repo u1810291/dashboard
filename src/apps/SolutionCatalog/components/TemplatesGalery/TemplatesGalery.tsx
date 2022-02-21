@@ -13,8 +13,9 @@ import { TemplateCard } from '../TemplateCard/TemplateCard';
 import { useStyles } from './TemplatesGalery.styles';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function TemplatesGallery({ templates }: TemplateGaleryProps) {
+export function TemplatesGallery({ templates, handleCardClick }: TemplateGaleryProps) {
   const classes = useStyles();
+
   return (
     <Swiper
       navigation={{
@@ -33,7 +34,7 @@ export function TemplatesGallery({ templates }: TemplateGaleryProps) {
     >
       {templates.map((template, idx) => (
         <SwiperSlide className={classes.swiperSlide} key={idx}>
-          <TemplateCard title={template.name} description={template.description} id={template.id} handleCardClick={handleCardClick} />
+          <TemplateCard title={template.name} description={template.description} id={template._id} handleCardClick={handleCardClick} />
         </SwiperSlide>
       ))}
       <Box className={classes.controlsContainer}>

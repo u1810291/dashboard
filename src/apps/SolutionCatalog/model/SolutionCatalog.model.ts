@@ -4,6 +4,7 @@ export interface CardsOptions {
   __v?: number;
   _id: string;
   metadata: metadataOptions[];
+  handleCardClick: (id: string) => void;
 }
 
 export interface metadataOptions {
@@ -47,6 +48,7 @@ export interface CardsData {
   name: string;
   description: string;
   id?: string;
+  _id?: string;
 }
 
 export interface TempalteFilterProps {
@@ -58,6 +60,7 @@ export interface TempalteFilterProps {
 
 export interface TemplateGaleryProps {
   templates: CardsData[];
+  handleCardClick: (id: string) => void;
 }
 
 export function getFiltersOptions(filtersData: TemplateFilterOptions[]): ModifiedFiltersOptions[] {
