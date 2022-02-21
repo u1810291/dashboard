@@ -6,6 +6,7 @@ import { ApiResponse } from 'models/Client.model';
 import { flowUpdate } from 'apps/flowBuilder/api/flowBuilder.client';
 import { mergeDeep } from 'lib/object';
 import { types as flowBuilderActionTypes } from 'apps/flowBuilder/store/FlowBuilder.action';
+import { DRAFT_INITIAL_STATE } from '../model/Templates.model';
 import { selectCurrentTemplateModelValue } from './Templates.selectors';
 import { types } from './Templates.store';
 import { createTemplateRequest, getMetadataRequest, getTemplateRequest, updateTemplateRequest, getTemplatesRequest, blockTemplateRequest } from '../api/Templates.client';
@@ -106,7 +107,7 @@ export const blockTemplate = (id: string) => async (dispatch, getState) => {
 export const createDraftFromTemplate = () => async (dispatch, getState) => {
   const template = await selectCurrentTemplateModelValue(getState());
   dispatch(flowBuilderProductListInit(template.flow));
-  dispatch({ type: flowBuilderTypes.CHANGEABLE_FLOW_SUCCESS, payload: { ...template.flow, name: 'Untitled' } });
+  dispatch({ type: flowBuilderTypes.CHANGEABLE_FLOW_SUCCESS, payload: { ...template.flow, ...DRAFT_INITIAL_STATE } });
 };
 
 export const createFlowFromTemplate = (name: string) => async (dispatch, getState): Promise<IFlow> => {

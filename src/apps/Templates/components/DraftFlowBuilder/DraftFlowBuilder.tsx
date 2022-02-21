@@ -139,7 +139,7 @@ export function DraftFlowBuilder() {
             <Grid container item xs={12} justify="space-between">
               <Grid item xs={12} container direction="column" alignItems="center" className={classes.content}>
                 <Box mb={1.5} color="common.black90" fontWeight="bold" textAlign="center">
-                  {intl.formatMessage({ id: 'FlowBuilder.graph.usersFlow' })}
+                  {formatMessage('FlowBuilder.graph.usersFlow')}
                 </Box>
                 <Grid container direction="column" alignItems="center" className={classes.graph}>
                   <FlowProductsGraph />
@@ -167,7 +167,7 @@ export function DraftFlowBuilder() {
           </Link>
           <Paper className={classes.placeholder}>
             <Placeholder
-              text={intl.formatMessage({ id: 'FlowBuilder.placeholder' })}
+              text={formatMessage('FlowBuilder.placeholder')}
               icon={<EmptyBuilderIcon />}
             />
           </Paper>
