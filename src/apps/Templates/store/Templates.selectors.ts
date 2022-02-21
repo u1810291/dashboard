@@ -45,3 +45,12 @@ export const selectTemplatesList = createSelector<any, any, ITemplate[]>(
   selectTemplatesListModel,
   selectModelValue(),
 );
+
+export const selectTemplatesListFlat = createSelector<any, any, ITemplate[]>(
+  selectTemplatesListModel,
+  selectModelValue((object) => {
+    const flatArray = [];
+    Object.keys(object).forEach((key) => flatArray.push(...object[key]));
+    return flatArray;
+  }),
+);

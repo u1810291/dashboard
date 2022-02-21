@@ -4,12 +4,12 @@ import { isObjectEmpty } from 'lib/object';
 import { ErrorMessages, isInReviewModeError } from 'models/Error.model';
 import { ProductTypes } from 'models/Product.model';
 import { IdentityStatuses } from 'models/Status.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
+import { DocumentTypes } from 'models/Document.model';
 import { storeAction } from 'state/store.utils';
 import * as api from '../api/reviewMode.client';
 import { selectReviewVerificationId, selectVerification, selectVerificationModel } from './reviewMode.selectors';
 import { ReviewModeActionTypes } from './reviewMode.store';
-import { DocumentTypes } from '../../../models/Document.model';
 
 const reviewVerificationRequest = storeAction<null>(ReviewModeActionTypes.REVIEW_VERIFICATION_REQUEST);
 const clearReviewVerification = storeAction<null>(ReviewModeActionTypes.REVIEW_VERIFICATION_CLEAR);

@@ -2,17 +2,16 @@ import { Box } from '@material-ui/core';
 import { ProductTab } from 'apps/Product';
 import { selectVerificationModel } from 'apps/Verification';
 import { Loadable } from 'models/Loadable.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { ProductTypes } from 'models/Product.model';
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { selectVerificationProductList } from '../../state/Verification.selectors';
 
-export function VerificationProductList({ onSelect, selectedId }: {
+export function VerificationProductList({ productList, onSelect, selectedId }: {
+  productList: ProductTypes[];
   onSelect: (product: ProductTypes) => void;
   selectedId?: ProductTypes;
 }) {
-  const productList: ProductTypes[] = useSelector(selectVerificationProductList);
   const primaryProductList = useMemo(() => productList.filter((id) => id !== ProductTypes.Metadata), [productList]);
   const verification: Loadable<VerificationResponse> = useSelector(selectVerificationModel);
 

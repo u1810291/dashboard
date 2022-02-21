@@ -13,6 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import classnames from 'classnames';
 import { useForm } from 'react-hook-form';
+import { QATags } from 'models/QA.model';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { IoCloseOutline } from 'react-icons/io5';
@@ -20,14 +21,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { notification } from 'apps/ui';
 import { Routes } from 'models/Router.model';
 import { useHistory } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 import { useLoadMetadataList } from '../../hooks/UseLoadMetadataList';
 import { selectCountryMetadata, selectIndustryMetadata, selectCurrentTemplateModelValue } from '../../store/Templates.selectors';
-import { ITemplateMetadata, TemplateSaveInputsTypes, TemplateSaveInputs, ITemplate, TEMPLATE_SAVE_FORM_INITIAL_STATE } from '../../model/Templates.model';
-import { createTemplate } from '../../store/Templates.actions';
+import {
+  ITemplateMetadata,
+  TemplateSaveInputsTypes,
+  TemplateSaveInputs,
+  ITemplate,
+  TEMPLATE_SAVE_FORM_INITIAL_STATE,
+  templateSaveFormEdit,
+  saveTemplateOptions,
+} from '../../model/Templates.model';
+import { createTemplate, updateTemplate } from '../../store/Templates.actions';
 import { useStyles } from './TemplateSaveModal.styles';
-import { useIntl } from 'react-intl';
 
-export function TemplateSaveModal() {
+export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -37,9 +46,11 @@ export function TemplateSaveModal() {
   const countries = useSelector<any, ITemplateMetadata[]>(selectCountryMetadata);
   const currentTemplate = useSelector<any, ITemplate>(selectCurrentTemplateModelValue);
   const intl = useIntl();
+  const TEMPLATE_SAVE_FORM_EDIT = edit && templateSaveFormEdit(currentTemplate);
+  const defaultValuesForModal = edit ? TEMPLATE_SAVE_FORM_EDIT : TEMPLATE_SAVE_FORM_INITIAL_STATE;
 
   useEffect(() => {
-    if (currentTemplate !== null) {
+    if (currentTemplate !== null && !edit) {
       history.push(`${Routes.templates.root}/${currentTemplate._id}`);
       closeOverlay();
     }
@@ -47,7 +58,7 @@ export function TemplateSaveModal() {
 
   const { register, handleSubmit, setValue, watch, trigger, formState: { errors, isSubmitting, isValid, isDirty } } = useForm<TemplateSaveInputs>({
     mode: 'onChange',
-    defaultValues: TEMPLATE_SAVE_FORM_INITIAL_STATE,
+    defaultValues: defaultValuesForModal,
   });
   const values = watch();
 
@@ -83,14 +94,21 @@ export function TemplateSaveModal() {
 
   useLoadMetadataList();
 
-  const handleSubmitForm = async () => {
+  const handleSubmitSaveForm = async () => {
     const response = await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Countries]]));
     return response;
   };
 
+  const handleSubmitPatchFrom = async () => {
+    const response = await dispatch(updateTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Countries]]));
+    closeOverlay();
+    return response;
+  };
+
   const handleSaveTemplate = async () => {
+    const currentAction = edit ? handleSubmitPatchFrom : handleSubmitSaveForm;
     try {
-      handleSubmit(handleSubmitForm)();
+      handleSubmit(currentAction)();
     } catch (error) {
       if (error) {
         notification.error(formatMessage('Error.common'));
@@ -133,6 +151,7 @@ export function TemplateSaveModal() {
                   type="input"
                   variant="outlined"
                   fullWidth
+                  data-qa={QATags.Templates.Modal.MetamapName}
                 />
               </Box>
               <Box className={classes.inputLabelAndField} mt={3}>
@@ -147,6 +166,7 @@ export function TemplateSaveModal() {
                   type="input"
                   variant="outlined"
                   fullWidth
+                  data-qa={QATags.Templates.Modal.TemplateTitle}
                 />
               </Box>
             </Box>
@@ -177,6 +197,7 @@ export function TemplateSaveModal() {
                   renderValue={(selectValues) => renderChip(selectValues as any, handleDeleteChip, TemplateSaveInputsTypes.Industries)}
                   autoWidth={false}
                   error={!!errors[TemplateSaveInputsTypes.Industries]}
+                  data-qa={QATags.Templates.Modal.IndustriesSelect}
                 >
                   {industries.map((industry) => (
                     // @ts-ignore
@@ -214,6 +235,7 @@ export function TemplateSaveModal() {
                     },
                   }}
                   error={!!errors[TemplateSaveInputsTypes.Countries]}
+                  data-qa={QATags.Templates.Modal.CountriesSelect}
                 >
                   {countries.map((country) => (
                     // @ts-ignore
@@ -237,6 +259,7 @@ export function TemplateSaveModal() {
                 className={classnames(classes.textArea, { [classes.selectError]: !!errors[TemplateSaveInputsTypes.Description] })}
                 maxRows={3}
                 minRows={3}
+                data-qa={QATags.Templates.Modal.Description}
               />
               {!!errors[TemplateSaveInputsTypes.Description] && <FormHelperText className={classes.textAreaHelperText}>{(errors[TemplateSaveInputsTypes.Description] as any)?.message}</FormHelperText>}
             </Box>
@@ -246,6 +269,7 @@ export function TemplateSaveModal() {
       <Box className={classes.saveTemplateButtonContainer} mt={3} pl={3} pr={3} pb={2}>
         <Button
           className={classes.buttonSave}
+          data-qa={QATags.Templates.Modal.SaveButton}
           color="primary"
           variant="contained"
           onClick={handleSaveTemplate}

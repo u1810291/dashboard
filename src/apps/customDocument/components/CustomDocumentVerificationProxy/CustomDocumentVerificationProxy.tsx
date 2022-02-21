@@ -1,5 +1,5 @@
 import { Grid } from '@material-ui/core';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { verificationDocumentUpdate } from 'apps/Verification/state/Verification.actions';

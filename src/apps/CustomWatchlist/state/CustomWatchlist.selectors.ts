@@ -84,6 +84,11 @@ export const selectCurrentCustomWatchlistMapping = createSelector<any, IWatchlis
   (currentWatchlist) => currentWatchlist?.mapping,
 );
 
+export const selectCurrentCustomWatchlistFileError = createSelector<any, CustomWatchlistsStore, string>(
+  selectCustomWatchlistsStore,
+  (store) => store.fileErrorType,
+);
+
 export const selectCurrentCustomWatchlistErrorsFormated = createSelector<any, CustomWatchlistValidationError[] | null, Partial<Record<ValidatedInputsKeys, ICustomWatchlistValidationErrorFormated[]>> | null>(
   selectCurrentCustomWatchlistError,
   (errors) => getCustomWatchlistErrorsFormated(errors),

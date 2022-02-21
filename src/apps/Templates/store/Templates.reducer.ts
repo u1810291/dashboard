@@ -5,7 +5,7 @@ import { SliceNames, TemplatesActionGroup, TemplatesStore } from './Templates.st
 const initialState: TemplatesStore = {
   [SliceNames.MetadataList]: LoadableAdapter.createState([]),
   [SliceNames.CurrentTemplate]: LoadableAdapter.createState(null),
-  [SliceNames.Templates]: LoadableAdapter.createState([]),
+  [SliceNames.Templates]: LoadableAdapter.createState({}),
 };
 
 export const templatesReducer = createReducer(initialState, {

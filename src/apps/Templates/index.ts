@@ -3,6 +3,7 @@ export { SaveAndPublishTemplate } from './components/SaveAndPublishTemplate/Save
 export { TemplateSaveModal } from './components/TemplateSaveModal/TemplateSaveModal';
 export { getTemplate, getMetadata } from './store/Templates.actions';
 export { selectMetadataListModel } from './store/Templates.selectors';
+export { EditTemplate } from './components/EditTemplate/EditTemplate';
 
 export * from './store/Templates.reducer';
 export * from './store/Templates.actions';

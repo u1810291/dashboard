@@ -18,6 +18,7 @@ export const QATags = {
     WhatsNew: 'menu-whats-new',
     ProductBoard: 'menu-roadmap',
   },
+
   Modal: {
     CloseButton: 'modal-button-close',
     Delete: {
@@ -96,6 +97,10 @@ export const QATags = {
       CancelButton: 'flows-create-button-denied',
     },
     Table: 'flows-table',
+    CountrySwitch: 'country-switch',
+    FlowIssueNotificationDesktop: 'desktop-flow-issue',
+    FlowIssueNotification: 'flow-issue',
+    SaveButtonIssue: 'save-button-issue',
   },
 
   VerificationList: {
@@ -257,5 +262,16 @@ export const QATags = {
       Invite: 'onboarding-steps-invite-teammate',
       Meta: 'onboarding-steps-create-meta',
     },
+  },
+
+  Templates: {
+    Modal: {
+      SaveButton: 'templates-modal-save-button',
+      Description: 'templates-modal-description',
+      CountriesSelect: 'templates-modal-countries-select',
+      IndustriesSelect: 'templates-modal-industries-select',
+      MetamapName: 'templates-modal-metamap-name',
+    },
+    EditButton: 'templates-edit-button',
   },
 };
