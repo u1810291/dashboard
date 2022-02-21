@@ -15,4 +15,5 @@ export const colors = {
   white: appPalette.white,
   green: appPalette.green,
   yellow: appPalette.yellow,
+  black7opacity: appPalette.black7opacity,
 };

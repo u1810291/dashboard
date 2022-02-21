@@ -1,9 +1,11 @@
 import { Logo } from 'apps/logo/models/Logo.model';
 import { get } from 'lodash';
 import { BiometricTypes } from 'models/Biometric.model';
+import { DocumentTypes } from 'models/Document.model';
+import { ProductIntegrationTypes } from 'models/Product.model';
+import { IFacematchFlow } from 'apps/FacematchService';
+import { CustomField } from 'apps/CustomField';
 import { IESignatureFlow } from './ESignature.model';
-import { DocumentTypes } from './Document.model';
-import { ProductIntegrationTypes } from './Product.model';
 import { IpValidation } from './IpCheck.model';
 import { InputValidationCheck, InputValidationType } from './ImageValidation.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
@@ -111,6 +113,7 @@ export interface IFlow {
   postponedTimeout?: string;
   pinnedCountries?: string[];
   style?: FlowStyle;
+  customFieldsConfig?: { fields: CustomField[] };
   supportedCountries?: string[];
   updatedAt?: string;
   verificationSteps?: (DocumentTypes | string)[][];
@@ -128,4 +131,5 @@ export interface IFlow {
   financialInformationPayrollAccountsRetrieving?: {
     countryCodes: string[];
   };
+  facematchServiceConfig?: IFacematchFlow;
 }

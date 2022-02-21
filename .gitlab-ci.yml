@@ -2,8 +2,10 @@ image: 'node:14.16.1-alpine3.13'
 
 stages:
   - lint
+  - sentry-job
   - sonarqube-check
   - version
+  - security
 
 lint:
   stage: lint
@@ -17,6 +19,47 @@ lint:
     - npm ci
     - npm run lint:typecheck
     - npm run lint:eslint
+
+build:
+  stage: lint
+  only:
+    - master
+  script:
+    - npm ci
+    - npm run build:production
+  artifacts:
+    paths:
+      - build/
+
+sentry-job:
+  stage: sentry-job
+  image: getsentry/sentry-cli
+  only:
+    - master
+  script:
+    - apk update && apk add jq
+    - VERSION=`jq -r '.version' package.json`
+    - echo "Create a new release $VERSION"
+    - export SENTRY_AUTH_TOKEN=$SENTRY_BASE_TOKEN
+    - export SENTRY_ORG=$SENTRY_BASE_ORGANIZATION
+    - export SENTRY_PROJECT=$SENTRY_BASE_PROJECT
+    - sentry-cli releases new $VERSION
+    - sentry-cli releases files $VERSION upload-sourcemaps $CI_PROJECT_DIR/build -x .js -x .map --validate --verbose --rewrite --strip-common-prefix
+    - sentry-cli releases finalize $VERSION
+    - echo "Finalized release for $VERSION"
+
+security-scan:
+  stage: security
+  image: 'node:alpine'
+  when: manual
+  allow_failure: true
+  script:
+    - apk update && apk add jq curl
+    - VERSION=`jq -r '.version' package.json`
+    - npm install -g @cyclonedx/bom
+    - npm install
+    - cyclonedx-bom
+    - 'curl -X "POST" "https://shield-api.ops.mati.io/api/v1/bom" -H "Content-Type: multipart/form-data" -H "X-Api-Key: ${SECURITY_SCAN_API}" -F "autoCreate=true" -F "projectName=${CI_PROJECT_NAME}" -F "projectVersion=${VERSION}" -F "bom=@bom.xml"'
 
 sonarqube-check:
   stage: sonarqube-check

@@ -17,6 +17,12 @@ export enum DocumentTypes {
   ProofOfResidency = 'proof-of-residency',
 }
 
+export enum NationalIdTypes {
+  VIN = 'VIN',
+  NIN = 'NIN',
+  BVN = 'BVN',
+}
+
 export enum FieldFormat {
   date = 'date',
 }

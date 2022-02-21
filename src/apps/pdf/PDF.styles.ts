@@ -74,7 +74,7 @@ export const commonStyles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 4,
     marginBottom: 4,
-    padding: [[6, 10]],
+    padding: '6px 10px',
     borderRadius: 5,
     backgroundColor: colors.black7,
   },

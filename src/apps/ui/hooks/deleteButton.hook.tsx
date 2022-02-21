@@ -10,8 +10,8 @@ export function useDeleteButtonHook(onDelete: () => Promise<void>, options: Dele
   const intl = useIntl();
 
   const confirmDelete = useConfirmDelete(
-    intl.formatMessage({ id: options.header || 'verificationModal.delete' }),
-    intl.formatMessage({ id: options.confirm || 'verificationModal.delete.confirm' }),
+    intl.formatMessage({ id: options.header || 'verificationModal.delete' }, options.headerOptions),
+    intl.formatMessage({ id: options.confirm || 'verificationModal.delete.confirm' }, options.confirmOptions),
   );
 
   const handleDelete = useCallback(async () => {

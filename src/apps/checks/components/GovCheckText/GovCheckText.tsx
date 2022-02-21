@@ -1,4 +1,4 @@
-import { StepStatus, isSecondaryGovCheckError } from 'models/Step.model';
+import { StepStatus, isSecondaryGovCheckError, IStep } from 'models/Step.model';
 import React from 'react';
 import { Grid, Box } from '@material-ui/core';
 import { govCheckDisplayOptions } from 'apps/GovCheck/models/GovCheck.model';
@@ -7,16 +7,15 @@ import has from 'lodash/has';
 import { CheckStepDetailsEntry } from '../CheckStepDetails/CheckStepDetailsEntry';
 import { useStyles } from './GovCheckText.styles';
 
-export function GovCheckText({ step }) {
+export function GovCheckText({ step }: {step: IStep}) {
   const intl = useIntl();
   const classes = useStyles();
-
   const { error, checkStatus: status, id } = step;
   let data = { ...step.data };
   let stepDataEntries = [];
 
   if (step.data) {
-    const displayOption = govCheckDisplayOptions[step.id] || {};
+    const displayOption = (step.data.subStepId ? govCheckDisplayOptions[step.id][step.data.subStepId] : govCheckDisplayOptions[step.id]) || {};
     stepDataEntries = Object.keys(displayOption).map((entry) => {
       if (displayOption[entry]?.formatter) {
         data = displayOption[entry].formatter(data[entry], data);
@@ -36,6 +35,7 @@ export function GovCheckText({ step }) {
             label={entry}
             value={value ?? '—'}
             key={entry}
+            isCentered={displayOption[entry].isCentered}
             isMarkedAsFailed={!!displayOption[entry].dependentFieldForFailedCheck && dependentFieldForFailedCheck !== true}
           />
         </Grid>
