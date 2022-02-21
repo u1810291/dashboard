@@ -274,4 +274,14 @@ export const QATags = {
     },
     EditButton: 'templates-edit-button',
   },
+
+  TemplatesModal: {
+    ChosenFilters: {
+      DeleteAll: 'templates-modal-chosenFilters-deleteAll',
+    },
+    Filters: {
+      industry: 'templates-modal-filters-industry-button',
+      country: 'templates-modal-filters-country-button',
+    },
+  },
 };

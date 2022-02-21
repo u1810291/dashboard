@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFormatMessage } from 'apps/intl';
+import { QATags } from 'models/QA.model';
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import { FiX } from 'react-icons/fi';
@@ -13,11 +14,11 @@ export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialD
   const chosenOptions: TemplateFilterOptions[] = Object.values(currentValue).reduce((result, current) => result.concat(current), []);
 
   function handleDelete(option: TemplateFilterOptions) {
-    const result = initialData;
+    const resultAfterDelete = initialData;
     Object.entries(currentValue).forEach(([filter, array]) => {
-      result[filter] = array.filter((filterItem) => filterItem.name !== option.name);
+      resultAfterDelete[filter] = array.filter((filterItem) => filterItem.name !== option.name);
     });
-    setCurrentValue(result);
+    setCurrentValue(resultAfterDelete);
   }
 
   return (
@@ -31,6 +32,7 @@ export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialD
         className={classes.resetFilters}
         onClick={() => setCurrentValue(initialData)}
         onKeyPress={() => setCurrentValue(initialData)}
+        data-qa={QATags.TemplatesModal.ChosenFilters.DeleteAll}
       >
         {formatMessage('TemplateChosenFilters.resetButton')}
       </span>
