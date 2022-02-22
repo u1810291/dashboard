@@ -246,8 +246,8 @@ export const merchantUpdateBusinessName = (businessName) => async (dispatch) => 
   dispatch({ type: types.BUSINESS_NAME_UPDATE, payload: { businessName: data.businessName } });
 };
 
-export const merchantUpdateOnboardingSteps = (onboardingSteps, setShowStepsCompleted) => async (dispatch) => {
+export const merchantUpdateOnboardingSteps = (onboardingSteps, setShowStepsCompleted, currentStep) => async (dispatch) => {
   const { data } = await api.patchOnboardingProgress(onboardingSteps);
   dispatch({ type: types.ONBOARDING_STEPS_UPDATE, payload: { onboardingSteps: data.onboardingSteps } });
-  if (!data.onboardingSteps.find((item) => item.completed === false)) setShowStepsCompleted(true);
+  if (!data.onboardingSteps.find((item) => item.completed === false) && currentStep !== 'make-metamap') setShowStepsCompleted(true);
 };

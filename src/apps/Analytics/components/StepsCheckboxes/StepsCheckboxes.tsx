@@ -19,8 +19,9 @@ import { TeamInviteModal } from 'apps/collaborators/components/TeamInviteModal/T
 import { useFormatMessage } from 'apps/intl';
 import { selectCollaboratorState } from 'apps/collaborators/state/collaborator.selectors';
 import { collaboratorAdd } from 'apps/collaborators/state/collaborator.actions';
-import { selectMerchantOnboarding, merchantUpdateOnboardingSteps } from 'state/merchant';
+import { selectMerchantOnboarding, merchantUpdateOnboardingSteps, selectMerchantFlowsModel } from 'state/merchant';
 import { getTemplate } from 'apps/Templates';
+import { useFlowListWithRulesLoad } from './hook/loadFlowsForSteps.hook';
 import { StartModal } from '../StartModal/StartModal';
 import { StepsOptions, OnboardingSteps, OnboardingQA, AllStepsCompleted } from './model/StepsCheckboxes.model';
 import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
@@ -28,9 +29,11 @@ import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
 export function StepsCheckboxes() {
   const [createOverlay, closeOverlay] = useOverlay();
   const history = useHistory();
+  const flowListModel = useFlowListWithRulesLoad();
   const dispatch = useDispatch();
   const state = useSelector(selectCollaboratorState);
   const onboardingProgress: StepsOptions[] = useSelector(selectMerchantOnboarding);
+  const merchantFlows = useSelector(selectMerchantFlowsModel);
   const [showStepsCompleted, setShowStepsCompleted] = useState<boolean>(false);
   const classes = useStyles();
   const formatMessage = useFormatMessage();
@@ -40,12 +43,16 @@ export function StepsCheckboxes() {
     if (showStepsCompleted) setTimeout(() => setShowStepsCompleted(false), 5000);
   }, [showStepsCompleted]);
 
-  const stepsProgressChange = useCallback((item: StepsOptions) => {
+  const stepsProgressChange = useCallback((currentStep: string) => {
     const progressChanges = [...onboardingProgress];
-    const itemNumber = progressChanges.findIndex((step) => step.stepId === item.stepId);
-    progressChanges[itemNumber] = { ...item, completed: true };
-    dispatch(merchantUpdateOnboardingSteps(progressChanges, setShowStepsCompleted));
+    const itemNumber = progressChanges.findIndex((step) => step.stepId === currentStep);
+    progressChanges[itemNumber] = { stepId: currentStep, completed: true };
+    dispatch(merchantUpdateOnboardingSteps(progressChanges, setShowStepsCompleted, currentStep));
   }, [onboardingProgress]);
+
+  useEffect(() => {
+    if (merchantFlows?.value.length) stepsProgressChange('make-metamap');
+  }, [merchantFlows]);
 
   const handleCardClick = async (id: string) => {
     try {
@@ -69,7 +76,7 @@ export function StepsCheckboxes() {
         title={formatMessage('StartModal.title')}
         subtitle={formatMessage('StartModal.subtitle')}
       >
-        <StartModal action={handleTemplateModal} completeStep={() => stepsProgressChange(item)} closeOverlay={closeOverlay} />
+        <StartModal action={handleTemplateModal} completeStep={() => stepsProgressChange(item.stepId)} closeOverlay={closeOverlay} />
       </Modal>,
     );
   };
@@ -85,7 +92,7 @@ export function StepsCheckboxes() {
           lastName: data.lastName,
         },
       }));
-      stepsProgressChange(item);
+      stepsProgressChange(item.stepId);
       notification.info(formatMessage('teamTable.inviteSuccess.description'));
     } catch (error) {
       notification.error(formatMessage(`Settings.teamSettings.submit.${error.response?.data?.name}`, { defaultMessage: formatMessage('Error.common') }));
