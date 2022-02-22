@@ -86,7 +86,7 @@ export class BankAccountData extends ProductBaseFlowBuilder implements Product {
     return flow.financialInformationBankAccountsRetrieving.countryCodes.length === 0;
   }
 
-  getIssuesComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
+  getIssuesComponent(flow: IFlow): any {
     const isBankDataHaveNoCountries = flow.financialInformationBankAccountsRetrieving.countryCodes.length === 0;
 
     if (isBankDataHaveNoCountries) {

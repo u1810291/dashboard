@@ -71,7 +71,7 @@ export class WorkAccountData extends ProductBaseFlowBuilder implements Product {
     return flow.financialInformationWorkAccountsRetrieving.countryCodes.length === 0;
   }
 
-  getIssuesComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
+  getIssuesComponent(flow: IFlow): any {
     const isWorkAccountDataHaveNoCountries = flow.financialInformationWorkAccountsRetrieving.countryCodes.length === 0;
 
     if (isWorkAccountDataHaveNoCountries) {
