@@ -1,10 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles';
+import GuideModal from '../../assets/guide_modal.svg';
 
 export const useStyles = makeStyles(() => ({
   container: {
     overflowY: 'hidden',
     minHeight: '562px',
-    minWidth: '564px',
+    minWidth: '564',
     margin: 0,
     padding: 0,
     bottom: '-10px',

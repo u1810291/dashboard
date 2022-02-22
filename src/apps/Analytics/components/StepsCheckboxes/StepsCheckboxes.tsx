@@ -39,6 +39,12 @@ export function StepsCheckboxes() {
     if (showStepsCompleted) setTimeout(() => setShowStepsCompleted(false), 5000);
   }, [showStepsCompleted]);
 
+  const MAKE_STEPS_INCOMPLETED = [
+    { completed: false, stepId: 'read-our-docs' },
+    { completed: false, stepId: 'invite-teammate' },
+    { completed: false, stepId: 'make-metamap' },
+  ];
+
   const stepsProgressChange = useCallback((item: StepsOptions) => {
     const progressChanges = [...onboardingProgress];
     const itemNumber = progressChanges.findIndex((step) => step.stepId === item.stepId);
@@ -131,18 +137,13 @@ export function StepsCheckboxes() {
                 <TableRowHovered
                   hover
                   key={idx}
+                  className={classes.itemRow}
                   onClick={() => currentStepAction(item)}
                   data-qa={QATags.Onboarding.Steps[OnboardingQA[item.stepId]]}
                 >
                   <TableCell>
                     <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color="common.black90">
                       <Box component="span">
-                        <Checkbox
-                          color="primary"
-                          checkedIcon={<CheckboxOn />}
-                          icon={<CheckboxOff />}
-                          checked={item.completed}
-                        />
                         <Box component="span" className={classes.itemName}>{formatMessage(OnboardingSteps[item.stepId])}</Box>
                       </Box>
                     </Box>

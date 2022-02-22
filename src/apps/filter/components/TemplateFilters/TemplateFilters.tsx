@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Box from '@material-ui/core/Box';
+import { PageLoader } from 'apps/layout';
 import { QATags } from 'models/QA.model';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -47,37 +48,43 @@ export function TemplateFilters({ title, filterData, currentFilters, setCurrentF
         {isOpen
         && (
           <Paper className={classes.filterOptions}>
-            <FormControlLabel
-              className={classes.filterOption}
-              value="All"
-              control={(
-                <Checkbox
-                  color="primary"
-                  checked={!currentFilters[title].length}
-                  checkedIcon={<CheckboxOn />}
-                  icon={<CheckboxOff />}
+            { filterData ? (
+              <Box>
+                <FormControlLabel
+                  className={classes.filterOption}
+                  value="All"
+                  control={(
+                    <Checkbox
+                      color="primary"
+                      checked={!currentFilters[title].length}
+                      checkedIcon={<CheckboxOn />}
+                      icon={<CheckboxOff />}
+                    />
+                  )}
+                  label="All"
+                  onChange={() => setCurrentFilters({ ...currentFilters, [title]: [] })}
                 />
-              )}
-              label="All"
-              onChange={() => setCurrentFilters({ ...currentFilters, [title]: [] })}
-            />
-            {filterData.length > 0 && filterData.map((item) => (
-              <FormControlLabel
-                className={classes.filterOption}
-                key={item._id}
-                value={item.name}
-                control={(
-                  <Checkbox
-                    color="primary"
-                    checked={isCheckboxChecked(item)}
-                    checkedIcon={<CheckboxOn />}
-                    icon={<CheckboxOff />}
+                {filterData.length > 0 && filterData.map((item) => (
+                  <FormControlLabel
+                    className={classes.filterOption}
+                    key={item._id}
+                    value={item.name}
+                    control={(
+                      <Checkbox
+                        color="primary"
+                        checked={isCheckboxChecked(item)}
+                        checkedIcon={<CheckboxOn />}
+                        icon={<CheckboxOff />}
+                      />
+                    )}
+                    label={item.name}
+                    onChange={(event) => activeFilters(event, item)}
                   />
-                )}
-                label={item.name}
-                onChange={(event) => activeFilters(event, item)}
-              />
-            ))}
+                ))}
+              </Box>
+            ) : (
+              <PageLoader />
+            )}
           </Paper>
         )}
       </Box>

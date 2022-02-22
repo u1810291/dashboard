@@ -12,7 +12,9 @@ export const StartModal = ({ action, completeStep, closeOverlay }) => {
   const formatMessage = useFormatMessage();
   return (
     <Container className={classes.container}>
-      <GuideModal className={classes.svg} />
+      <Box>
+        <GuideModal className={classes.svg} />
+      </Box>
       <Box className={classes.buttonsGroup}>
         <Button
           className={classes.button}

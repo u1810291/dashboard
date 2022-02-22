@@ -44,7 +44,7 @@ export function TemplatesModal() {
       onClose={closeOverlay}
       className={classes.modal}
     >
-      <Box ml={2} mr={2} mt={2} mb={2}>
+      <Box ml={2} mt={2} mb={2}>
         <Box className={classes.modalHeader}>
           <Box className={classes.modalHeaderLeft}>
             <span className={classes.modalTitle}>
@@ -61,21 +61,17 @@ export function TemplatesModal() {
               </Link>
             </span>
           </Box>
-          { !filtersData.isLoaded ? (
-            <PageLoader />
-          ) : (
-            <Box className={classes.modalHeaderRight}>
-              {filtersOptions.map((filter, idx) => (
-                <TemplateFilters
-                  key={idx}
-                  title={filter.title}
-                  filterData={filter.data}
-                  currentFilters={currentFilters}
-                  setCurrentFilters={setCurrentFilters}
-                />
-              ))}
-            </Box>
-          )}
+          <Box className={classes.modalHeaderRight}>
+            {filtersOptions.map((filter, idx) => (
+              <TemplateFilters
+                key={idx}
+                title={filter.title}
+                filterData={filter.data}
+                currentFilters={currentFilters}
+                setCurrentFilters={setCurrentFilters}
+              />
+            ))}
+          </Box>
         </Box>
         {
           !filtersByDefault
