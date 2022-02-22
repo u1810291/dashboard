@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { FiCheck } from 'react-icons/fi';
@@ -43,12 +43,12 @@ export function StepsCheckboxes() {
     if (showStepsCompleted) setTimeout(() => setShowStepsCompleted(false), 5000);
   }, [showStepsCompleted]);
 
-  const stepsProgressChange = useCallback((currentStep: string) => {
+  const stepsProgressChange = (currentStep: string) => {
     const progressChanges = [...onboardingProgress];
     const itemNumber = progressChanges.findIndex((step) => step.stepId === currentStep);
-    progressChanges[itemNumber] = { stepId: currentStep, completed: true };
+    progressChanges[itemNumber] = { completed: true, stepId: currentStep };
     dispatch(merchantUpdateOnboardingSteps(progressChanges, setShowStepsCompleted, currentStep));
-  }, [onboardingProgress]);
+  };
 
   useEffect(() => {
     if (merchantFlows?.value.length) stepsProgressChange('make-metamap');
@@ -109,7 +109,7 @@ export function StepsCheckboxes() {
 
   const readDocsComplete = (item) => {
     window.open('https://docs.metamap.com', '_blank');
-    stepsProgressChange(item);
+    stepsProgressChange(item.stepId);
   };
 
   const buildFirstMetamapComplete = (item) => (item.completed ? history.push(Routes.flow.root) : handleMetamapBuild(item));

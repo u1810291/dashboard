@@ -4,7 +4,7 @@ import {
   selectMerchantModel,
   selectMerchantOnboarding,
 } from 'state/merchant/merchant.selectors';
-import { AllStepsCompleted } from '../model/StepsCheckboxes.model';
+import { CreateMetamapCompleted } from '../model/StepsCheckboxes.model';
 import { useEffect } from 'react';
 import { useQuery } from 'lib/url';
 import { merchantFlowsLoad } from 'state/merchant/merchant.actions';
@@ -19,7 +19,7 @@ export function useFlowListWithRulesLoad() {
 
   useEffect(() => {
     (async () => {
-      if (merchantModel.isLoaded && LoadableAdapter.isPristine(flowListModel) && !AllStepsCompleted(onboardingProgress)) {
+      if (merchantModel.isLoaded && LoadableAdapter.isPristine(flowListModel) && !CreateMetamapCompleted(onboardingProgress)) {
         try {
           await dispatch(merchantFlowsLoad(asMerchantId));
         } catch (error) {
