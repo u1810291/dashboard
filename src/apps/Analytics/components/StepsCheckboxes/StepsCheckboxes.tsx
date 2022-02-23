@@ -8,9 +8,6 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import { QATags } from 'models/QA.model';
 import TableCell from '@material-ui/core/TableCell';
-import Checkbox from '@material-ui/core/Checkbox';
-import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
-import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { Routes } from 'models/Router.model';
 import { notification } from 'apps/ui';
 import { Modal, useOverlay } from 'apps/overlay';
@@ -139,7 +136,7 @@ export function StepsCheckboxes() {
           </div>
         )
       }
-      { (!showStepsCompleted && !onboardingCompleted)
+      { (!showStepsCompleted)
         && (
         <Box>
           <Typography variant="h3">{formatMessage('StepsCheckboxes.title')}</Typography>
@@ -149,18 +146,13 @@ export function StepsCheckboxes() {
                 <TableRowHovered
                   hover
                   key={idx}
+                  className={classes.itemRow}
                   onClick={() => currentStepAction(item)}
                   data-qa={QATags.Onboarding.Steps[OnboardingQA[item.stepId]]}
                 >
                   <TableCell>
                     <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color="common.black90">
                       <Box component="span">
-                        <Checkbox
-                          color="primary"
-                          checkedIcon={<CheckboxOn />}
-                          icon={<CheckboxOff />}
-                          checked={item.completed}
-                        />
                         <Box component="span" className={classes.itemName}>{formatMessage(OnboardingSteps[item.stepId])}</Box>
                       </Box>
                     </Box>

@@ -67,11 +67,15 @@ export const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  itemRow: {
+    height: 55,
+  },
   itemName: {
     color: theme.palette.common.black75,
     marginLeft: '25px',
   },
   startModal: {
+    overflow: 'hidden',
     width: 564,
   },
   arrowContainer: {

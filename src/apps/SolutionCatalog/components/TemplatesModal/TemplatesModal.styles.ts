@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles((theme) => ({
   modal: {
     width: '65vw',
+    padding: '20px 0 20px 20px',
     height: '75vh',
     backgroundColor: theme.palette.common.black7,
     borderRadius: 5,
@@ -58,9 +59,9 @@ export const useStyles = makeStyles((theme) => ({
     maxWidth: 507,
     color: theme.palette.common.black75,
     fontWeight: 500,
-    fontSize: '18px',
+    fontSize: '16px',
     lineHeight: '21px',
-    '& a': {
+    '& Link': {
       cursor: 'pointer',
     },
   },
