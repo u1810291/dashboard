@@ -136,7 +136,7 @@ export function StepsCheckboxes() {
           </div>
         )
       }
-      { (!showStepsCompleted)
+      { (!showStepsCompleted && !onboardingCompleted)
         && (
         <Box>
           <Typography variant="h3">{formatMessage('StepsCheckboxes.title')}</Typography>

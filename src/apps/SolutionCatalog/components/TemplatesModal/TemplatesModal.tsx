@@ -12,9 +12,9 @@ import { TemplateFilters } from 'apps/filter';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
-import { loadTemplates, useMetadataLoad, useTemplatesLoad } from 'apps/SolutionCatalog';
+import { loadTemplates, useTemplatesLoad } from 'apps/SolutionCatalog';
 import { Routes } from 'models/Router.model';
-import { ITemplateMetadata, MetadataType } from 'apps/Templates';
+import { ITemplateMetadata, MetadataType, useLoadMetadataList } from 'apps/Templates';
 import { TemplatesGallery } from '../TemplatesGalery/TemplatesGalery';
 import { TemplatesChosenFilters } from '../TemplatesChosenFilters/TemplatesChosenFilters';
 import { getFiltersOptions } from '../../model/SolutionCatalog.model';
@@ -24,7 +24,7 @@ SwiperCore.use([Pagination, Navigation]);
 
 export function TemplatesModal({ handleCardClick }: { handleCardClick: (id: string) => void }) {
   const dispatch = useDispatch();
-  const filtersData = useMetadataLoad();
+  const filtersData = useLoadMetadataList();
   const templatesList = useTemplatesLoad();
   const formatMessage = useFormatMessage();
   const classes = useStyles();
