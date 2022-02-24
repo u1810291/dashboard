@@ -25,6 +25,7 @@ export enum VerificationPatternTypes {
   ColombianProcuraduria = 'colombian-procuraduria-validation',
   ColombianRegistraduria = 'colombian-registraduria-validation',
   ColombianRunt = 'colombian-runt-validation',
+  ColombianSisben = 'colombian-sisben-validation',
   ComplyAdvantageValidation = 'comply-advantage-validation',
   CostaRicanAtv = 'costa-rican-atv-validation',
   CostaRicanTse = 'costa-rican-tse-validation',
@@ -101,6 +102,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.ColombianProcuraduria]?: boolean;
   [VerificationPatternTypes.ColombianRegistraduria]?: boolean;
   [VerificationPatternTypes.ColombianRunt]?: boolean;
+  [VerificationPatternTypes.ColombianSisben]?: boolean;
   [VerificationPatternTypes.CostaRicanAtv]?: boolean;
   [VerificationPatternTypes.CostaRicanTse]?: boolean;
   [VerificationPatternTypes.CostaRicanSocialSecurity]?: boolean;
