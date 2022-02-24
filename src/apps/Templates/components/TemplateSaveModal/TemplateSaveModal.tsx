@@ -19,6 +19,7 @@ import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { IoCloseOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 import { notification } from 'apps/ui';
+import { useFlowListLoad } from 'apps/FlowList';
 import { Routes } from 'models/Router.model';
 import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
@@ -38,6 +39,7 @@ import { useStyles } from './TemplateSaveModal.styles';
 
 export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   const formatMessage = useFormatMessage();
+  const flowListModel = useFlowListLoad();
   const classes = useStyles();
   const dispatch = useDispatch();
   const [, closeOverlay] = useOverlay();
@@ -68,6 +70,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
       value: 35,
       message: intl.formatMessage({ id: 'Templates.saveModal.validation.max' }, { max: 35 }),
     },
+    validate: (value) => !flowListModel?.value?.find((flow) => flow.name === value) || formatMessage('validators.nameOccupied'),
   });
   const templateTitleRegister = register(TemplateSaveInputsTypes.TemplateTitle, {
     required: formatMessage('validations.required'),
