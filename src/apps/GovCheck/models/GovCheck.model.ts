@@ -1,19 +1,11 @@
-import {
-  CountrySpecificChecks,
-  DocumentStepTypes,
-  getStepExtra,
-  IStep,
-  StepStatus,
-  VerificationStepTypes,
-  RootGovChecksErrorsToHide,
-} from 'models/Step.model';
+import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, StepStatus, VerificationStepTypes, RootGovChecksErrorsToHide } from 'models/Step.model';
 import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { BiometricTypes } from 'models/Biometric.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { NationalIdTypes, VerificationDocument } from 'models/Document.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { dateSortCompare } from 'lib/date';
-import { BaseError } from '../../../models/Error.model';
+import { BaseError } from 'models/Error.model';
 
 export enum GovernmentCheckSettingTypes {
   PostponedTimeout = 'postponedTimeout',
@@ -1035,7 +1027,7 @@ export function getGovCheckRootSteps(verification: VerificationResponse): IStep<
   // Arkadiy: in some cases, we need to hide steps with special error
   return verification?.steps
     .filter((step) => CountrySpecificChecks.includes(step.id) && !(step?.error?.code && RootGovChecksErrorsToHide[step?.error?.code]))
-    .map((step) => getStepExtra(step));
+    .map((step) => getStepExtra(step)) || [];
 }
 
 export function getGovCheckVerificationSteps(verification: VerificationResponse): IStep<GovCheckStep>[] {

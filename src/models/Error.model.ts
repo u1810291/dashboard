@@ -16,11 +16,13 @@ export enum ErrorStatuses {
   ValidationError = 400,
   WrongCredentials = 401,
   BlockedByMerchant = 403,
+  UnprocessableEntity = 422,
   error404 = 404,
   PasswordInvalid= 422,
   TooManyRequests = 429,
   Locked = 423,
   error500 = 500,
+  PayloadTooLarge = 413,
 }
 
 export enum PasswordInvalidErrorCodes {

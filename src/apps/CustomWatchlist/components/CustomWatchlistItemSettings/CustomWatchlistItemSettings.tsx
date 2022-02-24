@@ -12,7 +12,7 @@ import { DateFormat } from 'lib/date';
 import { notification } from 'apps/ui';
 import { CustomWatchlistModalValidation } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
-import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearWatchlist, clearCurrentWatchlist } from '../../state/CustomWatchlist.actions';
+import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearWatchlist } from '../../state/CustomWatchlist.actions';
 import { selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsFailed, selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
@@ -29,7 +29,6 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const merchantId = useSelector(selectMerchantId);
   const isWatchlistsLoaded = useSelector(selectIsWatchlistsLoaded);
   const isWatchlistsFailed = useSelector(selectIsWatchlistsFailed);
-  // TODO: @richvoronov, maybe other way to fix async GET watchlist update?
   const isCurrentCustomWatchlistIsLoading = useSelector(selectCurrentCustomWatchlistIsLoading);
   const [watchlistDeletionId, setWatchlistDeletionId] = useState<number | null>(null);
 
@@ -66,7 +65,7 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   }, [merchantId, formatMessage, dispatch]);
 
   const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {
-    dispatch(clearCurrentWatchlist());
+    dispatch(clearWatchlist());
     if (watchlist?.id) {
       dispatch(setCurrentWatchlist(watchlist.id));
     }

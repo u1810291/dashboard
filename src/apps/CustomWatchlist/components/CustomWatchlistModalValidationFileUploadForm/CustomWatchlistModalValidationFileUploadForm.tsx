@@ -6,9 +6,10 @@ import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
 import { useFormatMessage } from 'apps/intl';
+import { ErrorStatuses } from 'models/Error.model';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { WithActionDescriptionBordered, FileSelectButton } from 'apps/ui';
-import { selectCurrentCustomWatchlistIsFileAvailable, selectCurrentCustomWatchlistFileInfo } from '../../state/CustomWatchlist.selectors';
+import { selectCurrentCustomWatchlistIsFileAvailable, selectCurrentCustomWatchlistFileInfo, selectCurrentCustomWatchlistFileError } from '../../state/CustomWatchlist.selectors';
 import { useStyles, RoundedButton } from './CustomWatchlistModalValidationFileUploadForm.styles';
 import { CustomWatchlistModalValidationInputs, CustomWatchlistFileExt, CustomWatchlistUpload, IWatchlist } from '../../models/CustomWatchlist.models';
 import * as api from '../../client/CustomWatchlist.client';
@@ -19,12 +20,13 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
   watchlist?: IWatchlist;
   onFileUploaded?: (data: CustomWatchlistUpload) => void;
 }) {
+  const classes = useStyles();
   const formatMessage = useFormatMessage();
   const dispatch = useDispatch();
-  const merchantId = useSelector(selectMerchantId);
-  const isFileAvailable = useSelector(selectCurrentCustomWatchlistIsFileAvailable);
-  const currentCustomWatchlistFileInfo = useSelector(selectCurrentCustomWatchlistFileInfo);
-  const classes = useStyles();
+  const merchantId = useSelector<any, string>(selectMerchantId);
+  const isFileAvailable = useSelector<any, boolean>(selectCurrentCustomWatchlistIsFileAvailable);
+  const fileErrorType = useSelector<any, string>(selectCurrentCustomWatchlistFileError);
+  const currentCustomWatchlistFileInfo = useSelector<any, Partial<{ fileKey: string; fileName: string }>>(selectCurrentCustomWatchlistFileInfo);
   const [isFileUploadLoading, setIsFileUploadLoading] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>(watchlist?.process?.inputSourceFileName);
@@ -55,11 +57,20 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
       if (!isFileAvailable && isEdit) {
         dispatch(updateCurrentWatchlist({ isFileAvailable: true }));
       }
-    } catch {
+    } catch (error: any) {
+      setIsFileUploadLoading(false);
+
+      if (error?.response?.status === ErrorStatuses.PayloadTooLarge) {
+        setError(CustomWatchlistModalValidationInputs.FileKey, {
+          message: formatMessage('CustomWatchlist.settings.watchlist.fileSizeExceed'),
+        });
+
+        return;
+      }
+
       setError(CustomWatchlistModalValidationInputs.FileKey, {
         message: formatMessage('CustomWatchlist.settings.watchlist.fileErrorUpload'),
       });
-      setIsFileUploadLoading(false);
     }
   }, [merchantId, file, isFileAvailable, isEdit, formatMessage, setValue, clearErrors, onFileUploaded, setError, dispatch]);
 
@@ -84,6 +95,14 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
       setValue(CustomWatchlistModalValidationInputs.FileName, currentCustomWatchlistFileInfo.fileName);
     }
   }, [currentCustomWatchlistFileInfo, setValue]);
+
+  useEffect(() => {
+    if (fileErrorType) {
+      setError(CustomWatchlistModalValidationInputs.FileKey, {
+        message: formatMessage(`CustomWatchlist.settings.${fileErrorType}`),
+      });
+    }
+  }, [fileErrorType, setError, formatMessage]);
 
   return (
     <>
