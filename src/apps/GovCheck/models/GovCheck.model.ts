@@ -40,6 +40,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.ColombianProcuraduria]: false,
   [VerificationPatternTypes.ColombianRegistraduria]: false,
   [VerificationPatternTypes.ColombianRunt]: false,
+  [VerificationPatternTypes.ColombianSisben]: false,
   [VerificationPatternTypes.CostaRicanAtv]: false,
   [VerificationPatternTypes.CostaRicanTse]: false,
   [VerificationPatternTypes.CostaRicanSocialSecurity]: false,
@@ -269,6 +270,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       },
       {
         id: DocumentStepTypes.ColombianRunt,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.ColombianSisben,
         default: false,
       },
     ],
@@ -546,6 +551,24 @@ export const govCheckDisplayOptions = {
   },
   [DocumentStepTypes.ColombianNit]: {
     taxID: {},
+  },
+  [DocumentStepTypes.ColombianSisben]: {
+    sisbenGroup: {},
+    sisbenGroupDescription: {},
+    firstName: {
+      inline: true,
+    },
+    lastName: {
+      inline: true,
+    },
+    documentType: {},
+    documentNumber: {
+      inline: true,
+    },
+    municipality: {},
+    department: {},
+    surveyDate: {},
+    lastUpdate: {},
   },
   [DocumentStepTypes.CostaRicanTse]: {
     firstName: {
