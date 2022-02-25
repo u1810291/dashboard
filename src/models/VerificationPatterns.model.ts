@@ -12,6 +12,7 @@ export enum VerificationPatternTypes {
   Biometrics = 'biometrics',
   BolivianOep = 'bolivian-oep-validation',
   BrazilianCpf = 'brazilian-cpf-validation',
+  BrazilianNoCriminalRecordsValidation = 'brazilian-no-criminal-records-validation',
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
   CreditArgentinianFidelitas = 'credit-argentinian-fidelitas-validation',
   CreditBrazilianSerasa = 'credit-brazilian-serasa-validation',
