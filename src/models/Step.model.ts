@@ -78,6 +78,7 @@ export const DocumentStepTypes = {
   ColombianProcuraduria: VerificationPatternTypes.ColombianProcuraduria,
   ColombianNit: VerificationPatternTypes.ColombianNit,
   ColombianRunt: VerificationPatternTypes.ColombianRunt,
+  ColombianSisben: VerificationPatternTypes.ColombianSisben,
   MexicanPep: VerificationPatternTypes.MexicanPep,
   ColombianRegistraduria: VerificationPatternTypes.ColombianRegistraduria,
   ArgentinianRenaper: VerificationPatternTypes.ArgentinianRenaper,
@@ -193,6 +194,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.ColombianProcuraduria,
   DocumentStepTypes.ColombianRunt,
   DocumentStepTypes.ColombianRegistraduria,
+  DocumentStepTypes.ColombianSisben,
   DocumentStepTypes.EcuadorianSri,
   DocumentStepTypes.EcuadorianRegistroCivil,
   DocumentStepTypes.GhanaianGra,
@@ -268,6 +270,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.ColombianContraloria]: ['colombianContraloria.notEnoughParams'],
   [DocumentStepTypes.ColombianProcuraduria]: ['colombianProcuraduria.notEnoughParams'],
   [DocumentStepTypes.ColombianRunt]: ['colombianRunt.notEnoughParams', 'colombianRunt.notValidParams'],
+  [DocumentStepTypes.ColombianSisben]: ['colombianSisben.notEnoughParams', 'colombianSisben.notValidParams'],
   [DocumentStepTypes.CostaRicanTse]: ['costaRicanTse.notEnoughParams'],
   [DocumentStepTypes.EcuadorianSri]: ['ecuadorianSri.notEnoughParams'],
   [DocumentStepTypes.EcuadorianRegistroCivil]: ['ecuadorianRegistroCivil.notEnoughParams'],
@@ -303,6 +306,11 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.NigerianDl]: ['nigerianDl.fullNameMismatch'],
   [DocumentStepTypes.ColombianRunt]: ['colombianRunt.fullNameMismatch', 'colombianRunt.hasFines'],
   [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
+  [DocumentStepTypes.ColombianSisben]: ['colombianSisben.fullNameMismatch'],
+};
+
+export const RootGovChecksErrorsToHide = {
+  'nigerianLegal.documentNotFound': true,
 };
 
 export const StepSkippedCodes = [

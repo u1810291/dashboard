@@ -18,7 +18,7 @@ export class CustomFieldService extends ProductBaseFlowBuilder implements Produc
   }
 
   id = ProductTypes.CustomField;
-  order = 200;
+  order = 75;
   integrationTypes = [
     ProductIntegrationTypes.Sdk,
   ];

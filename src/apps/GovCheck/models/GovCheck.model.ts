@@ -1,4 +1,4 @@
-import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, StepStatus, VerificationStepTypes } from 'models/Step.model';
+import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, StepStatus, VerificationStepTypes, RootGovChecksErrorsToHide } from 'models/Step.model';
 import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { BiometricTypes } from 'models/Biometric.model';
 import { MerchantTags } from 'models/Merchant.model';
@@ -40,6 +40,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.ColombianProcuraduria]: false,
   [VerificationPatternTypes.ColombianRegistraduria]: false,
   [VerificationPatternTypes.ColombianRunt]: false,
+  [VerificationPatternTypes.ColombianSisben]: false,
   [VerificationPatternTypes.CostaRicanAtv]: false,
   [VerificationPatternTypes.CostaRicanTse]: false,
   [VerificationPatternTypes.CostaRicanSocialSecurity]: false,
@@ -269,6 +270,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       },
       {
         id: DocumentStepTypes.ColombianRunt,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.ColombianSisben,
         default: false,
       },
     ],
@@ -546,6 +551,24 @@ export const govCheckDisplayOptions = {
   },
   [DocumentStepTypes.ColombianNit]: {
     taxID: {},
+  },
+  [DocumentStepTypes.ColombianSisben]: {
+    sisbenGroup: {},
+    sisbenGroupDescription: {},
+    firstName: {
+      inline: true,
+    },
+    lastName: {
+      inline: true,
+    },
+    documentType: {},
+    documentNumber: {
+      inline: true,
+    },
+    municipality: {},
+    department: {},
+    surveyDate: {},
+    lastUpdate: {},
   },
   [DocumentStepTypes.CostaRicanTse]: {
     firstName: {
@@ -1024,8 +1047,10 @@ export function getGovCheckDocumentsSteps(verification: VerificationResponse): I
 }
 
 export function getGovCheckRootSteps(verification: VerificationResponse): IStep<GovCheckStep>[] {
+  // Arkadiy: in some cases, we need to hide steps with special error
   return verification?.steps
-    .filter((step) => CountrySpecificChecks.includes(step.id)).map((step) => getStepExtra(step)) || [];
+    .filter((step) => CountrySpecificChecks.includes(step.id) && !(step?.error?.code && RootGovChecksErrorsToHide[step?.error?.code]))
+    .map((step) => getStepExtra(step)) || [];
 }
 
 export function getGovCheckVerificationSteps(verification: VerificationResponse): IStep<GovCheckStep>[] {
