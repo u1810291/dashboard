@@ -2630,6 +2630,7 @@
   "off": "Off",
   "ok": "OK",
   "on": "On",
+  "onboarding.steps.completed" : "Congratulations, You have completed your onboarding!",
   "onboarding.webhook.facematch": "Face match",
   "onboarding.webhook.liveness": "Liveness",
   "onboarding.webhook.title": "Sample Webhook",

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { FiCheck } from 'react-icons/fi';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
@@ -16,40 +15,30 @@ import { TeamInviteModal } from 'apps/collaborators/components/TeamInviteModal/T
 import { useFormatMessage } from 'apps/intl';
 import { selectCollaboratorState } from 'apps/collaborators/state/collaborator.selectors';
 import { collaboratorAdd } from 'apps/collaborators/state/collaborator.actions';
-import { selectMerchantOnboarding, merchantUpdateOnboardingSteps, selectMerchantFlowsModel } from 'state/merchant';
+import { selectMerchantOnboarding, merchantUpdateOnboardingSteps, selectIsOwnerModel } from 'state/merchant';
 import { getTemplate } from 'apps/Templates';
-import { useFlowListWithRulesLoad } from './hook/loadFlowsForSteps.hook';
 import { StartModal } from '../StartModal/StartModal';
 import { StepsOptions, OnboardingSteps, OnboardingQA, AllStepsCompleted } from './model/StepsCheckboxes.model';
+import { Loadable } from 'models/Loadable.model';
 import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
 
 export function StepsCheckboxes() {
   const [createOverlay, closeOverlay] = useOverlay();
   const history = useHistory();
-  const flowListModel = useFlowListWithRulesLoad();
   const dispatch = useDispatch();
   const state = useSelector(selectCollaboratorState);
-  const onboardingProgress: StepsOptions[] = useSelector(selectMerchantOnboarding);
-  const merchantFlows = useSelector(selectMerchantFlowsModel);
-  const [showStepsCompleted, setShowStepsCompleted] = useState<boolean>(false);
+  const onboardingProgress = useSelector<any, StepsOptions[]>(selectMerchantOnboarding);
+  const ownerModel = useSelector<any, Loadable<boolean>>(selectIsOwnerModel);
   const classes = useStyles();
   const formatMessage = useFormatMessage();
   const onboardingCompleted = AllStepsCompleted(onboardingProgress);
-
-  useEffect(() => {
-    if (showStepsCompleted) setTimeout(() => setShowStepsCompleted(false), 5000);
-  }, [showStepsCompleted]);
 
   const stepsProgressChange = (currentStep: string) => {
     const progressChanges = [...onboardingProgress];
     const itemNumber = progressChanges.findIndex((step) => step.stepId === currentStep);
     progressChanges[itemNumber] = { completed: true, stepId: currentStep };
-    dispatch(merchantUpdateOnboardingSteps(progressChanges, setShowStepsCompleted, currentStep));
+    dispatch(merchantUpdateOnboardingSteps(progressChanges, currentStep, formatMessage));
   };
-
-  useEffect(() => {
-    if (merchantFlows?.value.length) stepsProgressChange('make-metamap');
-  }, [merchantFlows]);
 
   const handleCardClick = async (id: string) => {
     try {
@@ -126,17 +115,7 @@ export function StepsCheckboxes() {
 
   return (
     <Box mb={2}>
-      {
-        showStepsCompleted && (
-          <div className={classes.completedSteps}>
-            You&apos;re all set!
-            <span className={classes.blueSquare}>
-              <FiCheck className={classes.checkIcon} />
-            </span>
-          </div>
-        )
-      }
-      { (!showStepsCompleted && !onboardingCompleted)
+      { (!onboardingCompleted && ownerModel.value)
         && (
         <Box>
           <Typography variant="h3">{formatMessage('StepsCheckboxes.title')}</Typography>

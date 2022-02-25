@@ -5,6 +5,7 @@ import { DEFAULT_LOCALE } from 'models/Intl.model';
 import dayjs from 'dayjs';
 import { selectConfigurationModel, selectCurrentFlowId, selectMerchantFlowsModel, selectMerchantId, selectMerchantCustomDocumentsModel } from './merchant.selectors';
 import { MerchantActionGroups } from './merchant.store';
+import { notification } from 'apps/ui';
 
 export const types = {
   ...createTypesSequence(MerchantActionGroups.Merchant),
@@ -246,8 +247,8 @@ export const merchantUpdateBusinessName = (businessName) => async (dispatch) => 
   dispatch({ type: types.BUSINESS_NAME_UPDATE, payload: { businessName: data.businessName } });
 };
 
-export const merchantUpdateOnboardingSteps = (onboardingSteps, setShowStepsCompleted, currentStep) => async (dispatch) => {
+export const merchantUpdateOnboardingSteps = (onboardingSteps, currentStep, formatMessage) => async (dispatch) => {
   const { data } = await api.patchOnboardingProgress(onboardingSteps);
   dispatch({ type: types.ONBOARDING_STEPS_UPDATE, payload: { onboardingSteps: data.onboardingSteps } });
-  if (!data.onboardingSteps.find((item) => item.completed === false) && currentStep !== 'make-metamap') setShowStepsCompleted(true);
+  if (!data.onboardingSteps.find((item) => item.completed === false)) notification.info(formatMessage('onboarding.steps.completed'));
 };

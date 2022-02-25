@@ -1,7 +1,11 @@
 import { Box, Button, InputLabel, TextField } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
 import { useOverlay, Modal } from 'apps/overlay';
 import { validationHandler } from 'lib/validations';
 import React, { useCallback, useState } from 'react';
+import { useFormatMessage } from 'apps/intl';
+import { merchantUpdateOnboardingSteps, selectMerchantOnboarding } from 'state/merchant';
+import { StepsOptions, CreateMetamapCompleted } from 'apps/Analytics';
 import { useIntl } from 'react-intl';
 import { QATags } from 'models/QA.model';
 import Img from 'assets/modal-add-flow.png';
@@ -9,10 +13,23 @@ import { useStyles } from './AddNewFlowModal.styles';
 
 export function AddNewFlowModal({ submitNewFlow }) {
   const intl = useIntl();
+  const dispatch = useDispatch();
+  const formatMessage = useFormatMessage();
   const classes = useStyles();
+  const onboardingProgress: StepsOptions[] = useSelector(selectMerchantOnboarding);
   const [input, setInput] = useState('');
   const [error, setError] = useState(false);
   const [, closeOverlay] = useOverlay();
+  const isMetamapStepCompleted = CreateMetamapCompleted(onboardingProgress);
+
+  const stepsProgressChange = (currentStep: string) => {
+    if (!isMetamapStepCompleted) {
+      const progressChanges = [...onboardingProgress];
+      const itemNumber = progressChanges.findIndex((step) => step.stepId === currentStep);
+      progressChanges[itemNumber] = { completed: true, stepId: currentStep };
+      dispatch(merchantUpdateOnboardingSteps(progressChanges, currentStep, formatMessage));
+    }
+  };
 
   const handleSubmit = useCallback(async (text) => {
     try {
@@ -40,13 +57,13 @@ export function AddNewFlowModal({ submitNewFlow }) {
   return (
     <Modal
       imgSrc={Img}
-      title={intl.formatMessage({ id: 'VerificationFlow.menu.addDialog.title' })}
-      subtitle={intl.formatMessage({ id: 'VerificationFlow.menu.addDialog.subtitle' })}
+      title={formatMessage('VerificationFlow.menu.addDialog.title')}
+      subtitle={formatMessage('VerificationFlow.menu.addDialog.subtitle')}
       className={classes.addFlow}
     >
       <Box mb={2}>
         <InputLabel>
-          {intl.formatMessage({ id: 'VerificationFlow.menu.addDialog.label' })}
+          {formatMessage('VerificationFlow.menu.addDialog.label')}
         </InputLabel>
         <TextField
           autoFocus
@@ -66,10 +83,13 @@ export function AddNewFlowModal({ submitNewFlow }) {
         variant="contained"
         disableElevation
         fullWidth
-        onClick={handleSubmitDialog}
+        onClick={() => {
+          handleSubmitDialog();
+          stepsProgressChange('make-metamap');
+        }}
         data-qa={QATags.Flows.Create.CreateButton}
       >
-        {intl.formatMessage({ id: 'VerificationFlow.menu.addDialog.btn.create' })}
+        {formatMessage('VerificationFlow.menu.addDialog.btn.create')}
       </Button>
       <Button
         variant="contained"
@@ -78,7 +98,7 @@ export function AddNewFlowModal({ submitNewFlow }) {
         onClick={closeOverlay}
         data-qa={QATags.Flows.Create.CancelButton}
       >
-        {intl.formatMessage({ id: 'cancel' })}
+        {formatMessage('cancel')}
       </Button>
     </Modal>
   );
