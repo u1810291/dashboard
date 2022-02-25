@@ -1,7 +1,7 @@
 import { Box, IconButton, Tooltip, Typography } from '@material-ui/core';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
-import { SkeletonLoader } from 'apps/ui';
+import { SkeletonLoader, notification } from 'apps/ui';
 import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { utcToLocalFormat } from 'lib/date';
@@ -11,7 +11,7 @@ import { Routes } from 'models/Router.model';
 import { getIdentityStatusLabel, getStatusById, IdentityStatuses } from 'models/Status.model';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIdentityCollection } from 'state/identities/identities.selectors';
 import { useStyles } from 'apps/VerificationList/components/VerificationTableRow/VerificationTableRow.styles';
@@ -29,7 +29,7 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
   };
 }) {
   const classes = useStyles();
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const dispatch = useDispatch();
   const [deleting, setDeleting] = useState(null);
   const { asMerchantId } = useQuery();
@@ -37,8 +37,8 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
   const verificationCollection = useSelector(selectIdentityCollection);
   const verification = useMemo(() => verificationCollection?.value[index], [verificationCollection, index]);
   const confirmDelete = useConfirmDelete(
-    intl.formatMessage({ id: 'verificationModal.delete' }),
-    intl.formatMessage({ id: 'verificationModal.delete.confirm' }),
+    formatMessage('verificationModal.delete'),
+    formatMessage('verificationModal.delete.confirm'),
   );
   const status = getStatusById(verification?.verificationStatus);
 
@@ -57,17 +57,19 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
         return;
       }
       console.error('identity remove error', error);
+      notification.error(formatMessage('Error.common'));
+      throw error;
     } finally {
       setDeleting(null);
     }
-  }, [dispatch, deleting, confirmDelete]);
+  }, [deleting, confirmDelete, dispatch, formatMessage]);
 
   const handleMouseUp = useCallback((identityId: string, verificationId: string) => (event: React.MouseEvent) => onMouseUpHandler(event, IS_REPLACE_PROFILE_TO_IDENTITY ? identityId : `${identityId}${Routes.identity.verification.root}/${verificationId}`),
     [onMouseUpHandler]);
 
   const handleStopPropagation = useCallback((event: React.MouseEvent) => event?.stopPropagation(), []);
 
-  if (!verification) {
+  if (!verification || deleting) {
     return (
       // @ts-ignore
       <Box style={style} p={1.4} pt={2.4} width="100%" align="center" className={classes.loader}>
@@ -92,13 +94,13 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
               : !verification.fullName
                 ? (
                   <Typography variant="subtitle2" className={classes.itemNameEmpty}>
-                    {intl.formatMessage({ id: 'identity.nameNotFound' })}
+                    {formatMessage('identity.nameNotFound')}
                   </Typography>
                 )
                 : (
                   <Typography variant="subtitle2" className={classes.itemName}>{titleCase(verification.fullName)}</Typography>
                 )}
-            <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.fullName' })}</Box>
+            <Box className={classes.label}>{formatMessage('identity.field.fullName')}</Box>
           </Box>
         </Box>
         <Box className={classes.itemData}>
@@ -109,24 +111,24 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
               </Box>
             ) : (
               <Box color="text.disabled">
-                {intl.formatMessage({ id: 'statuses.deleted' })}
+                {formatMessage('statuses.deleted')}
               </Box>
             )}
-            <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.verificationFlow' })}</Box>
+            <Box className={classes.label}>{formatMessage('identity.field.verificationFlow')}</Box>
           </Box>
         </Box>
         <Box className={classes.itemData}>
           <Box mb={{ xs: 2, lg: 0 }}>
             {utcToLocalFormat(verification.sourceCreatedAt)}
-            <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.dateCreated' })}</Box>
+            <Box className={classes.label}>{formatMessage('identity.field.dateCreated')}</Box>
           </Box>
         </Box>
         <Box className={classes.itemStatusWrapper}>
           <Box className={classes.itemStatus}>
             <Box component="span" color={status?.color || 'common.gray68'} className={status?.style}>
-              {intl.formatMessage({ id: getIdentityStatusLabel(status?.id || IdentityStatuses.unknown) })}
+              {formatMessage(getIdentityStatusLabel(status?.id || IdentityStatuses.unknown))}
             </Box>
-            <Box className={classes.label}>{intl.formatMessage({ id: 'identity.field.status' })}</Box>
+            <Box className={classes.label}>{formatMessage('identity.field.status')}</Box>
           </Box>
           <Box className={classes.itemIcons}>
             <RoleRenderGuard roles={[CollaboratorRoles.ADMIN]}>
@@ -144,7 +146,7 @@ export function VerificationTableRow({ index, style, data: { paddingBottom = 0 }
                   placement="top"
                   arrow
                   classes={{ tooltip: classes.tooltip, arrow: classes.tooltipArrow }}
-                  title={intl.formatMessage({ id: 'VerificationTable.reviewNeeded' })}
+                  title={formatMessage('VerificationTable.reviewNeeded')}
                 >
                   <IconButton size="small" className={classes.iconButtonReview}>
                     <PriorityHighIcon />
