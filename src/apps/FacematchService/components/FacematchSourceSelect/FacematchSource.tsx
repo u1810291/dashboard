@@ -4,7 +4,7 @@ import { useOtherProductAdding } from 'apps/Product/hooks/OtherProductAdding.hoo
 import { ProductTypes } from 'models/Product.model';
 import { useDispatch } from 'react-redux';
 import { flowBuilderProductAdd } from 'apps/flowBuilder/store/FlowBuilder.action';
-import { GovCheck, GovCheckStepTypes, GovCheckTypesForStep } from 'apps/GovCheck/models/GovCheck.model';
+import { GovCheck, GovCheckStepTypes, GovCheckTypesForPattern } from 'apps/GovCheck';
 import remove from 'lodash/remove';
 import { DocumentStepTypes } from 'models/Step.model';
 import { useFormatMessage } from 'apps/intl';
@@ -36,11 +36,11 @@ export function FacematchSource({ availableSources, sources, index, onChange, do
 
   const getGovCheckValue = (govCheck: GovCheck, checked: boolean): Record<string, GovCheckStepTypes | boolean> => {
     if (govCheck.id === DocumentStepTypes.BrazilianCpf) {
-      return { [govCheck.id]: checked ? govCheck.option?.stepTypeAlias : GovCheckTypesForStep[govCheck.id].none };
+      return { [govCheck.id]: checked ? govCheck.option?.stepTypeAlias : GovCheckTypesForPattern[govCheck.id].none };
     }
 
     if (govCheck?.stepTypeAlias) {
-      const value = checked ? govCheck.stepTypeAlias : GovCheckTypesForStep[govCheck.id].none;
+      const value = checked ? govCheck.stepTypeAlias : GovCheckTypesForPattern[govCheck.id].none;
       return { [govCheck.id]: value || checked };
     }
     if (govCheck.option) {

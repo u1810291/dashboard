@@ -16,4 +16,9 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.black90,
   },
+  valueEntryFailed: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: colors.red,
+  },
 });

@@ -4,8 +4,8 @@ import { VerificationPatterns } from 'models/VerificationPatterns.model';
 import { useSelector } from 'react-redux';
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { useStyles } from './GovCheckCountriesSettings.styles';
+import { GovCheck, GovCheckConfigurations, govCheckCountriesOrder, govCheckParse, handleGovCheckSwitch } from '../../models/GovCheck.model';
 import { GovCheckCountrySettings } from '../GovCheckCountrySettings/GovCheckCountrySettings';
-import { GovCheck, GovCheckConfigurations, govCheckCountriesOrder, govCheckParse, GovCheckTypesForStep } from '../../models/GovCheck.model';
 
 export function GovCheckCountriesSettings({ verificationPatterns, onChange }: {
     verificationPatterns: VerificationPatterns;
@@ -33,19 +33,19 @@ export function GovCheckCountriesSettings({ verificationPatterns, onChange }: {
 
   const handleSwitch = useCallback((item: GovCheck) => (event) => {
     const valueChecked: boolean = event.target.checked;
-
-    if (item?.stepTypeAlias) {
-      const value = valueChecked ? item.stepTypeAlias : GovCheckTypesForStep[item.id].none;
-      onChange({ [item.id]: value || valueChecked });
-      return;
+    let changeableItems = {};
+    if (valueChecked && item?.canNotUsedWith?.length) {
+      checkList.forEach(({ toggle }) => {
+        toggle.forEach((govCheck) => {
+          if (item.canNotUsedWith.includes(govCheck.id)) {
+            changeableItems = { ...changeableItems, ...handleGovCheckSwitch(govCheck, false) };
+          }
+        });
+      });
     }
-    if (item.option) {
-      onChange({ [item.id]: valueChecked, [item.option.id]: valueChecked && item.option.value });
-      return;
-    }
-
-    onChange({ [item.id]: valueChecked });
-  }, [onChange]);
+    changeableItems = { ...changeableItems, ...handleGovCheckSwitch(item, valueChecked) };
+    onChange(changeableItems);
+  }, [checkList, onChange]);
 
   const handleSwitchOption = useCallback((item: GovCheck) => (event) => {
     const valueChecked: boolean = event.target.checked;
