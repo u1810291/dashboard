@@ -70,7 +70,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
       value: 35,
       message: intl.formatMessage({ id: 'Templates.saveModal.validation.max' }, { max: 35 }),
     },
-    validate: (value) => (currentTemplate.flow.name === value || !flowListModel?.value?.find((flow) => flow.name === value)) || formatMessage('validators.nameOccupied'),
+    validate: (value) => (currentTemplate?.flow?.name === value || !flowListModel?.value?.find((flow) => flow.name === value)) || formatMessage('validators.nameOccupied'),
   });
   const templateTitleRegister = register(TemplateSaveInputsTypes.TemplateTitle, {
     required: formatMessage('validations.required'),
