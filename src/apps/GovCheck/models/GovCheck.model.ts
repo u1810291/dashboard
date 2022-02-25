@@ -67,6 +67,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.VenezuelanCne]: false,
   [VerificationPatternTypes.VenezuelanSeniat]: false,
   [VerificationPatternTypes.UgandanElectoralCommission]: false,
+  [VerificationPatternTypes.BrazilianNoCriminalRecordsValidation]: false,
 };
 
 export const GovCheckTypesForStep = {
@@ -223,6 +224,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
           description: true,
           isSupportFacematch: true,
         },
+      },
+      {
+        id: DocumentStepTypes.BrazilianNoCriminalRecordsValidation,
+        default: false,
       },
     ],
   }, {

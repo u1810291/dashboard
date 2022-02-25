@@ -67,6 +67,7 @@ export const DocumentStepTypes = {
   INE: VerificationPatternTypes.MexicanIne,
   RFC: VerificationPatternTypes.MexicanRfc,
   BrazilianCpf: VerificationPatternTypes.BrazilianCpf,
+  BrazilianNoCriminalRecordsValidation: VerificationPatternTypes.BrazilianNoCriminalRecordsValidation,
   CreditArgentinianFidelitas: VerificationPatternTypes.CreditArgentinianFidelitas,
   CreditBrazilianSerasa: VerificationPatternTypes.CreditBrazilianSerasa,
   ChileanRut: VerificationPatternTypes.ChileanRut,
@@ -185,6 +186,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.ArgentinianRenaperFacematch,
   DocumentStepTypes.BolivianOep,
   DocumentStepTypes.BrazilianCpf,
+  DocumentStepTypes.BrazilianNoCriminalRecordsValidation,
   DocumentStepTypes.ChileanRegistroCivil,
   DocumentStepTypes.ColombianBdua,
   DocumentStepTypes.ChileanDriverLicense,
@@ -294,6 +296,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.KenyanEcitizen]: ['kenyanEcitizen.notEnoughParams'],
   [DocumentStepTypes.PeruvianSunat]: ['peruvianSunat.notEnoughParams'],
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoralCommission.notEnoughParams'],
+  [DocumentStepTypes.BrazilianNoCriminalRecordsValidation]: ['brazilianNoCriminalRecordsValidation.notEnoughParams'],
 };
 
 export const OptionalGovCheckErrorCodes = {
