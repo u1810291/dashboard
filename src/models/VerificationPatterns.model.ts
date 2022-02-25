@@ -4,9 +4,9 @@ import { IpCheckValidationTypes } from '../apps/IpCheck/models/IpCheck.model';
 
 export enum VerificationPatternTypes {
   AgeValidation = 'age-check',
-  ArgentinianAfip = 'argentinian-afip-validation',
   ArgentinianAnses = 'argentinian-anses-validation',
   ArgentinianDni = 'argentinian-dni-validation',
+  ArgentinianRenaperExtended = 'argentinian-renaper-extended-validation',
   ArgentinianRenaperFacematch = 'argentinian-renaper-facematch-validation',
   ArgentinianRenaper = 'argentinian-renaper-validation',
   Biometrics = 'biometrics',
@@ -78,10 +78,10 @@ export enum VerificationPatternTypes {
 }
 
 export interface VerificationPatterns {
-  [VerificationPatternTypes.ArgentinianAfip]?: boolean;
   [VerificationPatternTypes.ArgentinianAnses]?: boolean;
   [VerificationPatternTypes.ArgentinianDni]?: boolean;
-  [VerificationPatternTypes.ArgentinianRenaper]?: boolean;
+  [VerificationPatternTypes.ArgentinianRenaper]?: string;
+  [VerificationPatternTypes.ArgentinianRenaperExtended]?: boolean;
   [VerificationPatternTypes.ArgentinianRenaperFacematch]?: boolean;
   [VerificationPatternTypes.CreditBrazilianSerasa]?: boolean;
   [VerificationPatternTypes.CreditArgentinianFidelitas]?: boolean;
