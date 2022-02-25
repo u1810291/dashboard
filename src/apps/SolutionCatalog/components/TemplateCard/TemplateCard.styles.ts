@@ -4,6 +4,7 @@ export const useStyles = makeStyles((theme) => ({
   templateCardTitle: {
     fontSize: 18,
     fontWeight: 400,
+    wordWrap: 'break-word',
   },
   description: {
     fontWeight: 400,
@@ -13,12 +14,16 @@ export const useStyles = makeStyles((theme) => ({
     height: '42px',
     lineHeight: '14px',
     fontSize: 12,
+    wordWrap: 'break-word',
     marginTop: '3px',
     overflow: 'hidden',
     display: '-webkit-box',
     '-webkit-line-clamp': 3,
     '-webkit-box-orient': 'vertical',
     textOverflow: 'ellipsis',
+  },
+  boxContainer: {
+    height: 35,
   },
   templateCard: {
     width: '220px',

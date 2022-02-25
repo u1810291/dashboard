@@ -33,6 +33,12 @@ export function StepsCheckboxes() {
   const formatMessage = useFormatMessage();
   const onboardingCompleted = AllStepsCompleted(onboardingProgress);
 
+  const mockSteps = [
+    { completed: false, stepId: 'read-our-docs' },
+    { completed: false, stepId: 'invite-teammate' },
+    { completed: false, stepId: 'make-metamap' },
+  ];
+
   const stepsProgressChange = (currentStep: string) => {
     const progressChanges = [...onboardingProgress];
     const itemNumber = progressChanges.findIndex((step) => step.stepId === currentStep);

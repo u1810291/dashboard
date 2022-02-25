@@ -29,6 +29,7 @@ export function TemplateCard({ title, description, id, handleCardClick }: Templa
       <span className={classes.templateCardTitle}>{title}</span>
       <Tooltip
         arrow
+        disableHoverListener={description.length < 75}
         classes={{ tooltip: classes.tooltip, arrow: classes.arrow }}
         title={description}
       >
@@ -36,9 +37,11 @@ export function TemplateCard({ title, description, id, handleCardClick }: Templa
           <span className={classes.description}>{description}</span>
         </Box>
       </Tooltip>
-      {
-        isHovered && <Button onClick={handleSelectButtonClick(id)} className={classes.selectButton} color="primary">{formatMessage('TemplateCard.button')}</Button>
-      }
+      <Box className={classes.boxContainer}>
+        {
+          isHovered && <Button onClick={handleSelectButtonClick(id)} className={classes.selectButton} color="primary">{formatMessage('TemplateCard.button')}</Button>
+        }
+      </Box>
     </Box>
   );
 }
