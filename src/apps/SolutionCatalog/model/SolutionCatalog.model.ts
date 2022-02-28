@@ -21,8 +21,8 @@ export interface TemplateChosenFiltersProps {
   initialData: Record<MetadataType, []>;
 }
 export enum MetadataType {
-  Country = 'country',
   Industry = 'industry',
+  Country = 'country',
 }
 
 export interface TemplateCardProps {
@@ -64,8 +64,11 @@ export interface TemplateGaleryProps {
 }
 
 export function getFiltersOptions(filtersData: TemplateFilterOptions[]): ModifiedFiltersOptions[] {
-  const titles = Array.from(new Set(filtersData.map((item) => item.type)));
-  return titles.map((title) => {
+  // const titles = Array.from(new Set(filtersData.map((item) => item.type)));
+  // TODO: we hide countries filter till next version of onboarding, so now its commented
+  const titles = ['country', 'industry'];
+  // @ts-ignore
+  return titles.map((title: MetadataType) => {
     const uniqueOptions = filtersData.filter((item) => item.type === title);
     return { title, data: [...uniqueOptions] };
   });

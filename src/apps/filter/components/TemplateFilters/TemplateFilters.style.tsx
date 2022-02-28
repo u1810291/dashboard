@@ -72,6 +72,9 @@ export const useStyles = makeStyles((theme) => ({
       borderRadius: 10,
     },
   },
+  country: {
+    visibility: 'hidden',
+  },
   filterOption: {
     minWidth: '100%',
     '& .MuiButtonBase-root': {

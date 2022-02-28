@@ -42,6 +42,7 @@ export function TemplateFilters({ title, filterData, currentFilters, setCurrentF
           variant="contained"
           startIcon={<FilterListIcon />}
           data-qa={QATags.TemplatesModal.Filters[title]}
+          className={classes[title]}
         >
           <Box component="span" className={classes.buttonName}>{buttonTitle}</Box>
         </FilterButton>
