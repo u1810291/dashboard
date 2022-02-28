@@ -18,7 +18,7 @@ import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { IoCloseOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
-import { notification } from 'apps/ui';
+import { InfoTooltip, notification } from 'apps/ui';
 import { useFlowListLoad } from 'apps/FlowList';
 import { Routes } from 'models/Router.model';
 import { useHistory } from 'react-router-dom';
@@ -146,6 +146,12 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                 <span className={classes.inputLabel}>
                   {`${formatMessage('Templates.saveModal.fields.name')}:`}
                 </span>
+                <div className={classes.tooltip}>
+                  <InfoTooltip
+                    placement="top-start"
+                    title={formatMessage('Templates.saveModal.metamapName.tooltip')}
+                  />
+                </div>
                 <TextField
                   {...metamapNameRegister}
                   className={classes.smallInput}
@@ -161,6 +167,12 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                 <span className={classes.inputLabel}>
                   {`${formatMessage('Templates.saveModal.fields.title')}:`}
                 </span>
+                <div className={classes.tooltip}>
+                  <InfoTooltip
+                    placement="top-start"
+                    title={formatMessage('Templates.saveModal.metamapTitle.tooltip')}
+                  />
+                </div>
                 <TextField
                   {...templateTitleRegister}
                   className={classes.smallInput}

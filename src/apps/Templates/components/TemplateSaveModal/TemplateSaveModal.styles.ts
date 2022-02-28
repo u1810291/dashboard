@@ -32,6 +32,7 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   inputLabelAndField: {
+    position: 'relative',
     display: 'inline-flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -44,12 +45,19 @@ export const useStyles = makeStyles((theme) => ({
     whiteSpace: 'nowrap',
     flexGrow: 0,
   },
+  tooltip: {
+    position: 'relative',
+    bottom: -3,
+    marginLeft: 3,
+    color: theme.palette.common.lightblue,
+  },
   smallInput: {
     height: '38px',
     '& .MuiInputBase-formControl': {
       height: '38px',
     },
     width: '317px',
+    marginLeft: '5px',
   },
   textArea: {
     width: '100%',

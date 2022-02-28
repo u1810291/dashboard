@@ -2017,6 +2017,8 @@
   "Templates.saveModal.fields.industries": "Industries",
   "Templates.saveModal.fields.countries": "Countries",
   "Templates.saveModal.fields.description": "Description",
+  "Templates.saveModal.metamapName.tooltip" : "This will only be visible internally on this dashboard account. Use this format: Industry_UseCase_Country.",
+  "Templates.saveModal.metamapTitle.tooltip" : "This will be visible to external dashboard users on the templates screen.",
   "Templates.saveModal.saveButton": "Save Template",
   "Templates.saveModal.validation.min": "At least {min} characters",
   "Templates.saveModal.validation.max": "Maximum {max} characters",
