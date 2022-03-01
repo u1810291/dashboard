@@ -116,8 +116,7 @@ export const createFlowFromTemplate = (name: string) => async (dispatch, getStat
     const merchantId = selectMerchantId(getState());
     const changeableFlow = await selectFlowBuilderChangeableFlow(getState());
     const { data }: ApiResponse<IFlow> = await flowUpdate(merchantId, newFlow.id, {
-      ...changeableFlow,
-      name,
+      ...{ ...changeableFlow, name },
       _id: undefined,
       createdAt: undefined,
       id: undefined,
