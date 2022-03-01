@@ -1154,7 +1154,8 @@ export const parseExpandedGovCheck = (govChecksSteps: IStep): GovCheckIStep[] =>
   if (step.id === DocumentStepTypes.ArgentinianRenaper && Object.hasOwnProperty.call(step, 'data') && Object.hasOwnProperty.call(step.data, 'afip')) {
     const { afip } = step.data;
     delete step.data.afip;
-    return [{ ...step, title: `SecurityCheckStep.${step.id}.title` }, { ...step, data: afip, title: `SecurityCheckStep.${step.id}.${GovCheckTypesForPattern[DocumentStepTypes.ArgentinianRenaper].renaperAfip}.title`, isShowError: false }];
+    //  TODO: id: ('argentinian-afip-validation' as any) - hardcode for autotest
+    return [{ ...step, title: `SecurityCheckStep.${step.id}.title` }, { ...step, id: ('argentinian-afip-validation' as any), data: afip, title: `SecurityCheckStep.${step.id}.${GovCheckTypesForPattern[DocumentStepTypes.ArgentinianRenaper].renaperAfip}.title`, isShowError: false }];
   }
   return [{ ...step, title: `SecurityCheckStep.${step.id}.title` }];
 };
