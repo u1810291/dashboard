@@ -15,6 +15,10 @@ export const useStyles = makeStyles(() => ({
     position: 'absolute',
     left: 0,
   },
+  startModal: {
+    overflow: 'hidden',
+    width: 564,
+  },
   buttonsGroup: {
     height: '562px',
     width: '100%',

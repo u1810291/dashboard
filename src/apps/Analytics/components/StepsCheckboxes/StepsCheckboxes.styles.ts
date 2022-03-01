@@ -76,7 +76,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   startModal: {
     overflow: 'hidden',
-    width: 564,
+    width: '564',
   },
   arrowContainer: {
     display: 'flex',

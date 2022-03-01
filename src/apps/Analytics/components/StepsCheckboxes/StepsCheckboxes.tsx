@@ -9,7 +9,7 @@ import { QATags } from 'models/QA.model';
 import TableCell from '@material-ui/core/TableCell';
 import { Routes } from 'models/Router.model';
 import { notification } from 'apps/ui';
-import { Modal, useOverlay } from 'apps/overlay';
+import { useOverlay } from 'apps/overlay';
 import { TemplatesModal } from 'apps/SolutionCatalog';
 import { TeamInviteModal } from 'apps/collaborators/components/TeamInviteModal/TeamInviteModal';
 import { useFormatMessage } from 'apps/intl';
@@ -57,15 +57,7 @@ export function StepsCheckboxes() {
 
   const handleMetamapBuild = (item: StepsOptions) => {
     history.push(`${Routes.flow.root}`);
-    createOverlay(
-      <Modal
-        className={classes.startModal}
-        title={formatMessage('StartModal.title')}
-        subtitle={formatMessage('StartModal.subtitle')}
-      >
-        <StartModal action={handleTemplateModal} closeOverlay={closeOverlay} />
-      </Modal>,
-    );
+    createOverlay(<StartModal action={handleTemplateModal} closeOverlay={closeOverlay} />);
   };
 
   const handleInviteSubmit = (item: StepsOptions) => async (data) => {
