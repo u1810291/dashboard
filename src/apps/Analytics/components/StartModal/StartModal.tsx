@@ -1,14 +1,17 @@
 import React from 'react';
+import { Routes } from 'models/Router.model';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { useHistory } from 'react-router-dom';
 import { useFormatMessage } from 'apps/intl';
 import { ReactComponent as GuideModal } from '../../assets/guide_modal.svg';
 import { useStyles } from './StartModal.styles';
 
-export const StartModal = ({ action, completeStep, closeOverlay }) => {
+export const StartModal = ({ action, closeOverlay }) => {
   const classes = useStyles();
+  const history = useHistory();
   const formatMessage = useFormatMessage();
   return (
     <Container className={classes.container}>
@@ -34,7 +37,7 @@ export const StartModal = ({ action, completeStep, closeOverlay }) => {
           className={classes.button}
           variant="outlined"
           onClick={() => {
-            completeStep();
+            history.push(Routes.templates.draftFlow);
             closeOverlay();
           }}
         >

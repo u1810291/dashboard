@@ -17,9 +17,9 @@ import { selectCollaboratorState } from 'apps/collaborators/state/collaborator.s
 import { collaboratorAdd } from 'apps/collaborators/state/collaborator.actions';
 import { selectMerchantOnboarding, merchantUpdateOnboardingSteps, selectIsOwnerModel } from 'state/merchant';
 import { getTemplate } from 'apps/Templates';
+import { Loadable } from 'models/Loadable.model';
 import { StartModal } from '../StartModal/StartModal';
 import { StepsOptions, OnboardingSteps, OnboardingQA, AllStepsCompleted } from './model/StepsCheckboxes.model';
-import { Loadable } from 'models/Loadable.model';
 import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
 
 export function StepsCheckboxes() {
@@ -56,13 +56,14 @@ export function StepsCheckboxes() {
   };
 
   const handleMetamapBuild = (item: StepsOptions) => {
+    history.push(`${Routes.flow.root}`);
     createOverlay(
       <Modal
         className={classes.startModal}
         title={formatMessage('StartModal.title')}
         subtitle={formatMessage('StartModal.subtitle')}
       >
-        <StartModal action={handleTemplateModal} completeStep={() => stepsProgressChange(item.stepId)} closeOverlay={closeOverlay} />
+        <StartModal action={handleTemplateModal} closeOverlay={closeOverlay} />
       </Modal>,
     );
   };
@@ -87,6 +88,7 @@ export function StepsCheckboxes() {
   };
 
   const inviteModalOpen = (item: StepsOptions) => {
+    history.push(`${Routes.settings.root}`);
     createOverlay(<TeamInviteModal
       onSubmit={handleInviteSubmit(item)}
       isPosting={state.isPosting}

@@ -59,6 +59,9 @@ export const useStyles = makeStyles((theme) => ({
     width: '317px',
     marginLeft: '5px',
   },
+  hiddenFilter: {
+    visibility: 'hidden',
+  },
   textArea: {
     width: '100%',
     padding: '10px',
