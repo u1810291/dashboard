@@ -89,6 +89,7 @@ export const DocumentStepTypes = {
   ParaguayanRcp: VerificationPatternTypes.ParaguayanRcp,
   PeruvianReniec: VerificationPatternTypes.PeruvianReniec,
   PeruvianSunat: VerificationPatternTypes.PeruvianSunat,
+  PeruvianMigrationInstitute: VerificationPatternTypes.PeruvianMigrationInstitute,
   CostaRicanAtv: VerificationPatternTypes.CostaRicanAtv,
   CostaRicanTse: VerificationPatternTypes.CostaRicanTse,
   CostaRicanSocialSecurity: VerificationPatternTypes.CostaRicanSocialSecurity,
@@ -215,6 +216,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.KenyanEcitizen,
   DocumentStepTypes.ChileanRut,
   DocumentStepTypes.UgandanElectoralCommission,
+  DocumentStepTypes.PeruvianMigrationInstitute,
 ];
 
 export function hasFailureStep(steps: IStep[]): boolean {
@@ -293,6 +295,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.KenyanEcitizen]: ['kenyanEcitizen.notEnoughParams'],
   [DocumentStepTypes.PeruvianSunat]: ['peruvianSunat.notEnoughParams'],
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoralCommission.notEnoughParams'],
+  
 };
 
 export const OptionalGovCheckErrorCodes = {

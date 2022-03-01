@@ -68,6 +68,7 @@ export enum VerificationPatternTypes {
   FinancialInformationWorkAccountsRetrieving = 'financial-information-work-accounts-retrieving',
   FinancialInformationPayrollAccountsRetrieving = 'financial-information-payroll-accounts-retrieving',
   UgandanElectoralCommission = 'ugandan-electoral-commission-validation',
+  PeruvianMigrationInstitute = 'peruvian-migration-institute',
 }
 
 export interface VerificationPatterns {
