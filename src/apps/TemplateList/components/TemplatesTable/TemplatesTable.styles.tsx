@@ -1,5 +1,6 @@
-import { TableRow, withStyles } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import TableRow from '@material-ui/core/TableRow';
+import Switch from '@material-ui/core/Switch';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 export const TableRowHovered = withStyles((theme) => ({
   root: {
@@ -7,6 +8,7 @@ export const TableRowHovered = withStyles((theme) => ({
     backgroundColor: theme.palette.common.white,
     cursor: 'pointer',
     transition: '.2s all ease-in-out',
+    borderRadius: 10,
     '&:last-of-type': {
       marginBottom: 0,
     },
@@ -27,6 +29,8 @@ export const TableRowHovered = withStyles((theme) => ({
     },
     [theme.breakpoints.down('md')]: {
       display: 'flex',
+      width: '90%',
+      marginLeft: '10%',
       flexDirection: 'column',
       marginBottom: 20,
       padding: [[20, 0]],
@@ -34,6 +38,55 @@ export const TableRowHovered = withStyles((theme) => ({
     },
   },
 }))(TableRow);
+
+export const CustomSwitcher = withStyles((theme) => ({
+  root: {
+    width: 35,
+    height: 21,
+    padding: 0,
+    '& .MuiSwitch-switchBase': {
+      padding: 0,
+      margin: 2,
+      transitionDuration: '300ms',
+      '&.Mui-checked': {
+        transform: 'translateX(16px)',
+        color: theme.palette.common.white,
+        '& + .MuiSwitch-track': {
+          backgroundColor: theme.palette.common.green,
+          opacity: 1,
+          border: 0,
+        },
+        '&.Mui-disabled + .MuiSwitch-track': {
+          opacity: 0.5,
+        },
+      },
+      '&.Mui-focusVisible .MuiSwitch-thumb': {
+        color: theme.palette.common.green,
+        border: '6px solid #fff',
+      },
+      '&.Mui-disabled .MuiSwitch-thumb': {
+        color: theme.palette.common.black50,
+
+      },
+      '&.Mui-disabled + .MuiSwitch-track': {
+        opacity: 0.7,
+      },
+    },
+    '& .MuiSwitch-thumb': {
+      boxSizing: 'border-box',
+      width: 17,
+      height: 17,
+    },
+    '& .MuiSwitch-track': {
+      borderRadius: 21 / 2,
+      backgroundColor: theme.palette.common.black50,
+      opacity: 1,
+      transition: theme.transitions.create(['background-color'], {
+        duration: 500,
+      }),
+    },
+  },
+}))(Switch);
 
 export const useStyles = makeStyles((theme) => ({
   container: {
@@ -43,6 +96,8 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('lg')]: {
       borderCollapse: 'separate',
       borderSpacing: '0 20px',
+      width: '95%',
+      marginLeft: '5%',
     },
     '& .MuiTableCell-root': {
       padding: [[0, 20]],
@@ -88,19 +143,27 @@ export const useStyles = makeStyles((theme) => ({
   },
   itemType: {
     fontWeight: 'bold',
-    color: theme.palette.common.black75,
+    color: theme.palette.common.black90,
     textTransform: 'uppercase',
   },
   itemTypeId: {
     fontWeight: 'bold',
-    color: theme.palette.common.black75,
+    color: theme.palette.common.black90,
   },
   label: {
-    color: theme.palette.text.main,
+    color: theme.palette.common.black75,
     fontWeight: 'normal',
     [theme.breakpoints.up('lg')]: {
       display: 'none',
     },
+  },
+  switcher: {
+    [theme.breakpoints.down('md')]: {
+      top: '45%',
+    },
+    position: 'absolute',
+    top: 25,
+    left: -50,
   },
   iconDeleteWrapper: {
     width: 48,

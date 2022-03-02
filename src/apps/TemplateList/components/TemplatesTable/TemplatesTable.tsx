@@ -1,4 +1,12 @@
-import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import Switch from '@material-ui/core/Switch';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
 import { selectIsNewDesign } from 'apps/dashboard/state/dashboard.selectors';
 import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
 import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
@@ -18,12 +26,13 @@ import { useFormatMessage } from 'apps/intl';
 import { Loadable } from 'models/Loadable.model';
 import { useHistory } from 'react-router-dom';
 import { NoTemplates } from '../NoFlows/NoTemplates';
-import { TableRowHovered, useStyles } from './TemplatesTable.styles';
+import { TableRowHovered, useStyles, CustomSwitcher } from './TemplatesTable.styles';
 
 export function TemplatesTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   const classes = useStyles();
   const history = useHistory();
   const [flowIdToDelete, setFlowIdToDelete] = useState<string>(null);
+  const [checked, setChecked] = useState<boolean>(false);
   const merchantFlowModel = useSelector<any, Loadable<IFlow>>(selectMerchantFlowsModel);
   const merchantFlowList = useSelector<any, IFlow[]>(selectMerchantFlowList);
   const currentFlowId = useSelector<any, string>(selectCurrentFlowId);
@@ -130,20 +139,30 @@ export function TemplatesTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
             >
               <TableCell>
                 <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color="common.black90">
-                  <Typography variant="h4">{item.name}</Typography>
                   <Box className={classes.label}>{formatMessage('flow.table.field.name')}</Box>
+                  <Typography variant="h4">{item.name}</Typography>
                 </Box>
               </TableCell>
+              <CustomSwitcher
+                className={classes.switcher}
+                color="primary"
+                checked={checked}
+                onClick={(ev) => {
+                  ev.stopPropagation();
+                  setChecked(!checked);
+                }}
+                onMouseUp={(ev) => ev.stopPropagation()}
+              />
               <TableCell>
                 <Box mb={{ xs: 2, lg: 0 }}>
-                  <Box component="span" className={classes.itemType}>{item?.integrationType || '-'}</Box>
                   <Box className={classes.label}>{formatMessage('flow.table.field.type')}</Box>
+                  <Box component="span" className={classes.itemType}>{item?.integrationType || '-'}</Box>
                 </Box>
               </TableCell>
               <TableCell>
                 <Box mb={{ xs: 2, lg: 0 }}>
-                  <Box component="span" className={classes.itemTypeId}>{item?.id}</Box>
                   <Box className={classes.label}>{formatMessage('flow.table.field.flowId')}</Box>
+                  <Box component="span" className={classes.itemTypeId}>{item?.id}</Box>
                 </Box>
               </TableCell>
               {sortedFlowList.length > 1 && (

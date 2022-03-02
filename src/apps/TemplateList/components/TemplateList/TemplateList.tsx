@@ -1,4 +1,9 @@
-import { Box, Container, Grid, Tooltip, Typography, useMediaQuery } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Button from '@material-ui/core/Button';
 import { useOverlay } from 'apps/overlay';
 import { IFlow, MAX_NUMBER_OF_FLOWS } from 'models/Flow.model';

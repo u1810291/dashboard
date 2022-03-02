@@ -1,4 +1,6 @@
-import { Box, Typography, Button } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { useFormatMessage } from 'apps/intl';
 import { ReactComponent as EmptyFlowsIcon } from 'assets/empty-flows.svg';

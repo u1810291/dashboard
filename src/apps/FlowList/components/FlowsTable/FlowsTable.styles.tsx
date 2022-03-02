@@ -88,15 +88,15 @@ export const useStyles = makeStyles((theme) => ({
   },
   itemType: {
     fontWeight: 'bold',
-    color: theme.palette.common.black75,
+    color: theme.palette.common.black90,
     textTransform: 'uppercase',
   },
   itemTypeId: {
     fontWeight: 'bold',
-    color: theme.palette.common.black75,
+    color: theme.palette.common.black90,
   },
   label: {
-    color: theme.palette.text.main,
+    color: theme.palette.common.black75,
     fontWeight: 'normal',
     [theme.breakpoints.up('lg')]: {
       display: 'none',
