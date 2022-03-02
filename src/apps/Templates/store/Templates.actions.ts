@@ -128,7 +128,6 @@ export const createFlowFromTemplate = (name: string) => async (dispatch, getStat
     const updatedFlow = mergeDeep(changeableFlow, data);
     await dispatch({ type: flowBuilderActionTypes.CHANGEABLE_FLOW_SUCCESS, payload: data, isReset: true });
     await dispatch({ type: flowBuilderActionTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
-    console.log(data);
     return updatedFlow;
   } catch (error) {
     return error;
