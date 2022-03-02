@@ -295,7 +295,6 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.KenyanEcitizen]: ['kenyanEcitizen.notEnoughParams'],
   [DocumentStepTypes.PeruvianSunat]: ['peruvianSunat.notEnoughParams'],
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoralCommission.notEnoughParams'],
-  
 };
 
 export const OptionalGovCheckErrorCodes = {
