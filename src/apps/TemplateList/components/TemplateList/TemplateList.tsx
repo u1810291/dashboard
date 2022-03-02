@@ -9,17 +9,15 @@ import { FiPlus } from 'react-icons/fi';
 import { useFormatMessage } from 'apps/intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { useFlowListLoad } from 'apps/FlowList';
+import { AddNewFlowModal, flowNameValidator, useFlowListLoad } from 'apps/FlowList';
 import { merchantCreateFlow } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowList, selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
 import { MerchantTags } from 'models/Merchant.model';
-import { FlowsTable } from '../FlowsTable/FlowsTable';
-import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
-import { flowNameValidator } from '../../validators/FlowName.validator';
-import { useStyles } from './FlowList.styles';
+import { TemplatesTable } from '../TemplatesTable/TemplatesTable';
+import { useStyles } from './TemplateList.styles';
 
-export function FlowList() {
+export function TemplateList() {
   const classes = useStyles();
   const formatMessage = useFormatMessage();
   const [createOverlay] = useOverlay();
@@ -82,7 +80,7 @@ export function FlowList() {
           <Grid container alignItems="center">
             <Grid item xs={12} md={6}>
               <Box mb={{ xs: 1.4, md: 0 }}>
-                <Typography variant="h3">{formatMessage('VerificationFlow.page.title')}</Typography>
+                <Typography variant="h3">{formatMessage('Templates.page.title')}</Typography>
               </Box>
             </Grid>
             <Grid item container xs={12} md={6} justifyContent="flex-end" className={classes.buttonWrapper}>
@@ -111,7 +109,7 @@ export function FlowList() {
                     data-qa={QATags.Flows.CreateNewFlowButton}
                   >
                     <FiPlus />
-                    {formatMessage('VerificationFlow.page.button')}
+                    {formatMessage('Templates.page.button')}
                   </Button>
                 </span>
                 )}
@@ -120,7 +118,7 @@ export function FlowList() {
           </Grid>
         </Box>
         <Box py={{ xs: 2, lg: 0 }} className={classes.table}>
-          <FlowsTable onAddNewFlow={handleAddNewFlow} />
+          <TemplatesTable onAddNewFlow={handleAddNewFlow} />
         </Box>
       </Box>
     </Container>

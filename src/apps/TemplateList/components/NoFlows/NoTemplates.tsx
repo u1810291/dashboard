@@ -3,9 +3,9 @@ import React from 'react';
 import { useFormatMessage } from 'apps/intl';
 import { ReactComponent as EmptyFlowsIcon } from 'assets/empty-flows.svg';
 import { FiPlusCircle } from 'react-icons/fi';
-import { useStyles } from './NoFlows.styles';
+import { useStyles } from './NoTemplates.styles';
 
-export function NoFlows({ onAddNewFlow }: { onAddNewFlow: () => void }) {
+export function NoTemplates({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
 

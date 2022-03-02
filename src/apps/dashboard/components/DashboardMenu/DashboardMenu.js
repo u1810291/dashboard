@@ -22,9 +22,10 @@ import { FiChevronsLeft, FiChevronsRight, FiLogOut, FiPlusCircle, FiSettings } f
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
-import { selectIsOwnerModel, selectMerchantBusinessName } from 'state/merchant/merchant.selectors';
+import { selectIsOwnerModel, selectMerchantBusinessName, selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { useRole } from 'apps/collaborators';
 import { WithAuditor } from 'models/Collaborator.model';
+import { MerchantTags } from 'models/Merchant.model';
 import { setIsDesktopMenuOpen } from '../../state/dashboard.actions';
 import { selectIsDesktopMenuOpen } from '../../state/dashboard.selectors';
 import { useLogout } from '../LogoutModal/LogoutModal';
@@ -44,6 +45,8 @@ export function DashboardMenu() {
   const isDesktopMenuOpen = useSelector(selectIsDesktopMenuOpen);
   const [isOpen, setIsOpen] = useState(isDesktop && isDesktopMenuOpen);
   const name = useSelector(selectMerchantBusinessName);
+  const merchantTags = useSelector(selectMerchantTags);
+  const canAddTemplate = merchantTags.includes(MerchantTags.CanUseAddSolutionToCatalog);
   const [createOverlay, closeOverlay] = useOverlay();
   const logout = useLogout();
   const role = useRole();
@@ -147,7 +150,7 @@ export function DashboardMenu() {
             <Divider className={classes.menuDivider} />
           </Box>
           <Box>
-            <PrimaryMenu isOwner={isOwner} color="common.black7" />
+            <PrimaryMenu isOwner={isOwner} canAddTemplate={canAddTemplate} color="common.black7" />
           </Box>
           <Box p={2}>
             <Divider className={classes.menuDivider} />

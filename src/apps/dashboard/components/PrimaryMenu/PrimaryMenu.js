@@ -6,7 +6,7 @@ import { FiBarChart2, FiCode, FiList, FiUserCheck } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { IS_IDENTITY_PROFILE_RELEASED } from 'models/Release.model';
 
-export function PrimaryMenu({ isOwner = false, ...props }) {
+export function PrimaryMenu({ isOwner = false, canAddTemplate, ...props }) {
   const intl = useIntl();
 
   const entries = [
@@ -27,9 +27,17 @@ export function PrimaryMenu({ isOwner = false, ...props }) {
     },
     {
       id: 'flows',
-      show: isOwner,
+      show: isOwner && !canAddTemplate,
       to: Routes.flow.root,
       label: intl.formatMessage({ id: 'dashboard.menu.product' }),
+      icon: <FiUserCheck />,
+      qa: QATags.Menu.Product,
+    },
+    {
+      id: 'templates',
+      show: isOwner && canAddTemplate,
+      to: Routes.templates.root,
+      label: intl.formatMessage({ id: 'dashboard.menu.adminProduct' }),
       icon: <FiUserCheck />,
       qa: QATags.Menu.Product,
     },
