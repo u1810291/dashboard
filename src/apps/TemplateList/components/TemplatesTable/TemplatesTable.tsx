@@ -83,7 +83,6 @@ export function TemplatesTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
               key={item._id}
               onMouseDown={onMouseDownHandler}
               onMouseUp={(event) => !item.blocked && handleRowClicked(event, item._id)}
-              className={classes[item.blocked ? 'rowDisabled' : 'rowEnabled']}
             >
               <TableCell>
                 <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color={item.blocked ? 'common.black75' : 'common.black90'}>
