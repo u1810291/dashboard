@@ -1444,7 +1444,7 @@
   "Product.configuration.ipCheck.selectValidCountry.deselectAll": "Deseleccionar todo",
   "Product.configuration.ipCheck.selectValidCountry.selectAll": "Seleccionar todo",
   "Product.configuration.ipCheck.selectValidCountry.submit": "Hecho",
-  "Product.configuration.ipCheck.selectValidCountry.subtitle": "Marque las casillas para seleccionar desde qué ubicaciones se pueden verificar sus usuarios.",
+  "Product.configuration.ipCheck.selectValidCountry.subtitle": "Anule la selección de las casillas para elegir desde qué ubicaciones deben restringirse geográficamente sus usuarios",
   "Product.configuration.ipCheck.submit": "Guardar cambios",
   "Product.configuration.ipCheck.subtitle": "La verificación de IP le permite obtener más información sobre los usuarios a través de la API. Si esta verificación está habilitada, los webhooks y las respuestas de la API contendrán información sobre la ubicación del usuario según la IP y si están usando VPN o proxy.",
   "Product.configuration.ipCheck.vpnRestriction.subtitle": "Si detectamos VPN, no permitiremos que el usuario vaya más allá en el Metamap.",
