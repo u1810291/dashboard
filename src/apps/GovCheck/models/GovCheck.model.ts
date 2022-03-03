@@ -60,6 +60,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.VenezuelanCne]: false,
   [VerificationPatternTypes.VenezuelanSeniat]: false,
   [VerificationPatternTypes.UgandanElectoralCommission]: false,
+  [VerificationPatternTypes.PeruvianMigrationInstitute]: false,
 };
 
 export const GovCheckTypesForStep = {
@@ -358,6 +359,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       },
       {
         id: DocumentStepTypes.PeruvianSunat,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.PeruvianMigrationInstitute,
         default: false,
       },
     ],
