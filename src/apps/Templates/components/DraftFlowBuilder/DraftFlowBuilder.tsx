@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { ProductTypes } from 'models/Product.model';
-import { FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow, selectFlowBuilderHaveUnsavedChanges } from 'apps/flowBuilder';
+import { FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow, selectFlowBuilderHaveUnsavedChanges, flowBuilderProductListInit } from 'apps/flowBuilder';
 import { selectCurrentTemplateModel } from 'apps/Templates/store/Templates.selectors';
 import { createDraftFromTemplate, getTemplate } from 'apps/Templates';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
@@ -81,6 +81,7 @@ export function DraftFlowBuilder() {
   }, [dispatch, id, asMerchantId, flowListModel.isLoaded, changeableFlowModel]);
 
   const handleProductUpdate = useCallback((patch: Partial<IFlow>) => {
+    console.log(patch);
     dispatch(flowBuilderChangeableFlowUpdate(patch));
   }, [dispatch]);
 
@@ -88,13 +89,16 @@ export function DraftFlowBuilder() {
     if (!isBuilderInitialized || !currentTemplateModel.value) return;
 
     const handleChangeTemplate = async () => {
+      console.log('ch cur temp ', currentTemplateModel.value.flow);
       await dispatch(flowBuilderChangeableFlowUpdate({ ...currentTemplateModel.value.flow, _id: undefined }));
+      await dispatch(flowBuilderProductListInit(changeableFlowModel.value, true));
       closeOverlay();
     };
     handleChangeTemplate();
-  }, [currentTemplateModel, isBuilderInitialized, dispatch, closeOverlay]);
+  }, [currentTemplateModel, isBuilderInitialized, dispatch, closeOverlay, changeableFlowModel]);
 
   const handleTemplateCardClick = async (templateId: string) => {
+    console.log(templateId);
     await dispatch(getTemplate(templateId));
   };
 

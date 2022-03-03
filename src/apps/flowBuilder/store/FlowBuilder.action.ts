@@ -35,7 +35,7 @@ export const flowBuilderCreateEmptyFlow = (data?: Partial<IFlow>) => (dispatch) 
   dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, payload: [] });
 };
 
-export const flowBuilderProductListInit = (flow) => (dispatch, getState) => {
+export const flowBuilderProductListInit = (flow, isReset = false) => (dispatch, getState) => {
   const registered = selectProductRegistered(getState());
   const activated = registered.filter((item) => {
     const product = productManagerService.getProduct(item);
@@ -45,7 +45,7 @@ export const flowBuilderProductListInit = (flow) => (dispatch, getState) => {
     return product.isInFlow(flow);
   });
   const sorted = productManagerService.sortProductTypes(activated);
-  dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, payload: sorted });
+  dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, payload: sorted, isReset });
 };
 
 export const flowBuilderChangeableFlowLoad = () => (dispatch, getState) => {
