@@ -6,6 +6,8 @@ const initialState: TemplatesStore = {
   [SliceNames.MetadataList]: LoadableAdapter.createState([]),
   [SliceNames.CurrentTemplate]: LoadableAdapter.createState(null),
   [SliceNames.Templates]: LoadableAdapter.createState({}),
+  // @ts-ignore
+  [SliceNames.TemplatesList]: LoadableAdapter.createState({}),
 };
 
 export const templatesReducer = createReducer(initialState, {
@@ -14,4 +16,5 @@ export const templatesReducer = createReducer(initialState, {
   ...LoadableAdapter.createHandlers(TemplatesActionGroup.createTemplate, SliceNames.CurrentTemplate),
   ...LoadableAdapter.createHandlers(TemplatesActionGroup.updateTemplate, SliceNames.CurrentTemplate),
   ...LoadableAdapter.createHandlers(TemplatesActionGroup.getTemplates, SliceNames.Templates),
+  ...LoadableAdapter.createHandlers(TemplatesActionGroup.getTemplatesList, SliceNames.TemplatesList),
 });

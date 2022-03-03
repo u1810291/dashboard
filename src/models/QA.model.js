@@ -273,6 +273,7 @@ export const QATags = {
       MetamapName: 'templates-modal-metamap-name',
     },
     EditButton: 'templates-edit-button',
+    CreateNewTemplateButton: 'templates-create-new-template',
   },
 
   TemplatesModal: {

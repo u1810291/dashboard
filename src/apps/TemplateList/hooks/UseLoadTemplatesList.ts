@@ -1,25 +1,24 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useEffect } from 'react';
-import { selectTemplatesModel } from '../store/Templates.selectors';
-import { getTemplates } from '../store/Templates.actions';
+import { getTemplatesList, selectTemplatesListModel } from 'apps/Templates';
 
 export function useLoadTemplatesList() {
   const dispatch = useDispatch();
-  const templatesModel = useSelector(selectTemplatesModel);
+  const templatesListModel = useSelector(selectTemplatesListModel);
 
   useEffect(() => {
     const loadData = async () => {
-      if (LoadableAdapter.isPristine(templatesModel)) {
+      if (LoadableAdapter.isPristine(templatesListModel)) {
         try {
-          await dispatch(getTemplates());
+          await dispatch(getTemplatesList());
         } catch (error) {
           console.error(error);
         }
       }
     };
     loadData();
-  }, [dispatch, templatesModel]);
+  }, [dispatch, templatesListModel]);
 
-  return templatesModel;
+  return templatesListModel;
 }

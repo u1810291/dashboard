@@ -55,7 +55,7 @@ export function StepsCheckboxes() {
     createOverlay(<TemplatesModal handleCardClick={handleCardClick} />);
   };
 
-  const handleMetamapBuild = (item: StepsOptions) => {
+  const handleMetamapBuild = () => {
     history.push(`${Routes.flow.root}`);
     createOverlay(<StartModal action={handleTemplateModal} closeOverlay={closeOverlay} />);
   };
@@ -92,7 +92,7 @@ export function StepsCheckboxes() {
     stepsProgressChange(item.stepId);
   };
 
-  const buildFirstMetamapComplete = (item) => (item.completed ? history.push(Routes.flow.root) : handleMetamapBuild(item));
+  const buildFirstMetamapComplete = (item) => (item.completed ? history.push(Routes.flow.root) : handleMetamapBuild());
 
   const currentStepAction = (item) => {
     switch (item.stepId) {

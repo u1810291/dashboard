@@ -18,7 +18,6 @@ import { useFlowListLoad } from 'apps/FlowList';
 import { merchantCreateFlow } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowList, selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
-import { MerchantTags } from 'models/Merchant.model';
 import { FlowsTable } from '../FlowsTable/FlowsTable';
 import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
 import { flowNameValidator } from '../../validators/FlowName.validator';
@@ -35,8 +34,6 @@ export function FlowList() {
   const isButtonDisabled = (merchantFlowList || []).length >= MAX_NUMBER_OF_FLOWS;
   const [open, setOpen] = useState(isButtonDisabled && isMobile);
   const flowListModel = useFlowListLoad();
-  const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
-  const canAddTemplate = merchantTags.includes(MerchantTags.CanUseAddSolutionToCatalog);
 
   useEffect(() => {
     setOpen(isButtonDisabled && isMobile);
@@ -69,11 +66,7 @@ export function FlowList() {
   }, [isMobile]);
 
   const handleBuildMetamapButtonClick = () => {
-    if (canAddTemplate) {
-      history.push(Routes.templates.newTemplate);
-    } else {
-      history.push(Routes.templates.draftFlow);
-    }
+    history.push(Routes.templates.draftFlow);
   };
 
   if (!flowListModel.isLoaded) {

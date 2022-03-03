@@ -1996,6 +1996,7 @@
   "StepsCheckboxes.makeMeta": "Build your first metamap",
   "StepsCheckboxes.readDocs": "Read our docs to learn about MetaMap",
   "StepsCheckboxes.title": "Complete these steps to get started",
+  "Template.templateList.changeStatus": "You have successfully changed your template status!",
   "Templates.selectModal.title": "Selecting a template will override the metamap you are working on now.",
   "Templates.selectModal.subtitle": "Do you want to continue?",
   "Templates.selectModal.continueButton": "Continue",

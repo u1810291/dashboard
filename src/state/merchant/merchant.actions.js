@@ -3,9 +3,9 @@ import { createTypesSequence } from 'state/store.utils';
 import { getWebhooks } from 'state/webhooks/webhooks.actions';
 import { DEFAULT_LOCALE } from 'models/Intl.model';
 import dayjs from 'dayjs';
+import { notification } from 'apps/ui';
 import { selectConfigurationModel, selectCurrentFlowId, selectMerchantFlowsModel, selectMerchantId, selectMerchantCustomDocumentsModel } from './merchant.selectors';
 import { MerchantActionGroups } from './merchant.store';
-import { notification } from 'apps/ui';
 
 export const types = {
   ...createTypesSequence(MerchantActionGroups.Merchant),

@@ -1,15 +1,26 @@
 import { flowBuilderProductListInit, types as flowBuilderTypes, selectFlowBuilderChangeableFlow } from 'apps/flowBuilder';
 import { merchantCreateFlow, types as merchantActionTypes } from 'state/merchant/merchant.actions';
-import { selectMerchantFlowList, selectMerchantFlowsModel, selectMerchantId } from 'state/merchant/merchant.selectors';
+import { selectMerchantFlowsModel, selectMerchantId } from 'state/merchant/merchant.selectors';
 import { IFlow } from 'models/Flow.model';
 import { ApiResponse } from 'models/Client.model';
 import { flowUpdate } from 'apps/flowBuilder/api/flowBuilder.client';
 import { mergeDeep } from 'lib/object';
+import { FormatMessage } from 'apps/intl';
 import { types as flowBuilderActionTypes } from 'apps/flowBuilder/store/FlowBuilder.action';
+import { notification } from 'apps/ui';
 import { DRAFT_INITIAL_STATE } from '../model/Templates.model';
-import { selectCurrentTemplateModelValue } from './Templates.selectors';
+import { selectCurrentTemplateModelValue, selectTemplatesListModelValues } from './Templates.selectors';
 import { types } from './Templates.store';
-import { createTemplateRequest, getMetadataRequest, getTemplateRequest, updateTemplateRequest, getTemplatesRequest, blockTemplateRequest } from '../api/Templates.client';
+import {
+  createTemplateRequest,
+  getMetadataRequest,
+  getTemplateRequest,
+  updateTemplateRequest,
+  getTemplatesRequest,
+  blockTemplateRequest,
+  getTemplatesListRequest,
+  toggleTemplateRequest,
+} from '../api/Templates.client';
 
 export const clearCurrentTemplate = () => ({ type: types.GET_TEMPLATE_CLEAR, payload: null });
 
@@ -27,6 +38,18 @@ export const getTemplates = () => async (dispatch) => {
     dispatch({ type: types.GET_TEMPLATES_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: types.GET_TEMPLATES_FAILURE, error });
+    throw error;
+  }
+};
+
+export const getTemplatesList = () => async (dispatch) => {
+  dispatch({ type: types.GET_TEMPLATES_LIST_UPDATING });
+
+  try {
+    const { data } = await getTemplatesListRequest();
+    dispatch({ type: types.GET_TEMPLATES_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: types.GET_TEMPLATES_LIST_FAILURE, error });
     throw error;
   }
 };
@@ -95,12 +118,30 @@ export const blockTemplate = (id: string) => async (dispatch, getState) => {
 
   try {
     const { data: { _id } } = await blockTemplateRequest(id);
-    const flowList = selectMerchantFlowList(getState());
-    const newTemplatesList = flowList.filter((flow) => flow.id !== _id);
-    // @ts-ignore
-    dispatch({ type: merchantActionTypes.FLOWS_SUCCESS, payload: newTemplatesList, isReset: true });
+    const templatesList = selectTemplatesListModelValues(getState());
+    const newTemplatesListRows = templatesList.rows.filter((template) => template._id !== _id);
+    const newTemplatesList = { ...templatesList, rows: newTemplatesListRows };
+    dispatch({ type: types.GET_TEMPLATES_LIST_SUCCESS, payload: newTemplatesList });
   } catch (error) {
     dispatch({ type: types.BLOCK_TEMPLATE_FAILURE, payload: error });
+  }
+};
+
+// @ts-ignore
+export const toggleTemplate = (id: string, blocked?: boolean, formatMessage: FormatMessage) => async (dispatch, getState) => {
+  dispatch({ type: types.TOGGLE_TEMPLATE_UPDATING });
+  const toggle = blocked ? 'unblock' : 'block';
+
+  try {
+    const { data } = await toggleTemplateRequest(id, toggle);
+    const templatesList = selectTemplatesListModelValues(getState());
+    const toggleTemplateIndex = templatesList.rows.findIndex((template) => template._id === data._id);
+    if (toggleTemplateIndex >= 0) templatesList.rows[toggleTemplateIndex] = data;
+    dispatch({ type: types.GET_TEMPLATES_LIST_SUCCESS, payload: templatesList });
+    notification.info(formatMessage('Template.templateList.changeStatus'));
+  } catch (error) {
+    dispatch({ type: types.TOGGLE_TEMPLATE_FAILURE, payload: error });
+    notification.error(formatMessage(`Settings.teamSettings.submit.${error.response?.data?.name}`, { defaultMessage: formatMessage('Error.common') }));
   }
 };
 

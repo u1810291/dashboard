@@ -18,9 +18,9 @@ import { FiTrash2 } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'lib/url';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
-import { selectCurrentFlowId, selectFlowsAsTemplates, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
 import { Routes } from 'models/Router.model';
-import { useLoadTemplatesList, blockTemplate } from 'apps/Templates';
+import { useLoadTemplatesList } from 'apps/Templates';
 import { useFormatMessage } from 'apps/intl';
 import { Loadable } from 'models/Loadable.model';
 import { useHistory } from 'react-router-dom';
@@ -39,15 +39,10 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
     formatMessage('VerificationFlow.modal.delete.title'),
     formatMessage('VerificationFlow.modal.delete.subtitle'),
   );
-  const confirmBlockTemplate = useConfirmDelete(
-    formatMessage('Templates.block.title'),
-    formatMessage('Templates.block.subtitle'),
-  );
   const dispatch = useDispatch();
   const isNewDesign = useSelector<any, boolean>(selectIsNewDesign);
   const { asMerchantId } = useQuery();
   const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
-  const flowsAsTemplates = useSelector<any, IFlow[]>(selectFlowsAsTemplates);
   const sortedFlowList = useMemo(() => [...merchantFlowList].sort((a, b) => dateSortCompare(a.createdAt, b.createdAt)), [merchantFlowList]);
 
   useLoadTemplatesList();
@@ -76,43 +71,14 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
     }
   }, [dispatch, flowIdToDelete, confirmDelete, merchantFlowModel, currentFlowId, sortedFlowList.length]);
 
-  const handleBlockTemplate = async (id) => {
-    if (flowIdToDelete) return;
-
-    try {
-      setFlowIdToDelete(id);
-      await confirmBlockTemplate();
-      await dispatch(blockTemplate(id));
-    } catch (error) {
-      if (!error) {
-        // cancelled
-        return;
-      }
-    } finally {
-      setFlowIdToDelete(null);
-    }
-  };
-
   const handleDeleteButtonClick = (event, id) => {
     event.stopPropagation();
-    const isTemplate = flowsAsTemplates.some((flow) => flow.id === id);
-
-    if (isTemplate) {
-      handleBlockTemplate(id);
-    } else {
-      handleDelete(id);
-    }
+    handleDelete(id);
   };
 
   const handleRowClicked = async (event, id) => {
     event.stopPropagation();
-    const isTemplate = flowsAsTemplates.some((flow) => flow.id === id);
-
-    if (isTemplate) {
-      history.push(`${Routes.templates.root}/${id}`);
-    } else {
-      history.push(`${Routes.templates.draftFlow}/${id}`);
-    }
+    history.push(`${Routes.templates.draftFlow}/${id}`);
   };
 
   return (

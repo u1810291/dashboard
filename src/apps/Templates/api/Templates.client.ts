@@ -25,3 +25,11 @@ export function getTemplatesRequest() {
 export function blockTemplateRequest(id: string) {
   return http.delete<ITemplate>(`/api/v1/dashboard/template/${id}`);
 }
+
+export function toggleTemplateRequest(id: string, toggle: string) {
+  return http.patch<ITemplate>(`/api/v1/dashboard/template/${id}/${toggle}`);
+}
+
+export function getTemplatesListRequest() {
+  return http.get<[]>('/api/v1/dashboard/template/list', { params: { pageSize: 100 } });
+}

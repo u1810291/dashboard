@@ -1,12 +1,21 @@
 import { IFlow } from 'models/Flow.model';
 
 export interface ITemplate {
-  flow: IFlow;
+  flow?: IFlow;
   _id: string;
   name: string;
   description?: string;
   metadata: ITemplateMetadata[];
-  blocked: boolean;
+  blocked?: boolean;
+}
+
+export interface ITemplatesList {
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+  blocked?: boolean;
+  rows: ITemplate[];
 }
 
 export enum TemplateSaveInputsTypes {

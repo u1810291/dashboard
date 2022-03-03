@@ -8,7 +8,6 @@ import { Loadable } from 'models/Loadable.model';
 import { Merchant, MerchantId, MerchantTags, IMerchantSettings, StepsOptions } from 'models/Merchant.model';
 import { createSelector } from 'reselect';
 import { CollaboratorRoles } from 'models/Collaborator.model';
-import { selectTemplatesListFlat } from 'apps/Templates/store/Templates.selectors';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
 
 export const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
@@ -251,10 +250,4 @@ export const selectPostponedTimeout = createSelector(
 export const selectPhoneRiskAnalysisThreshold = createSelector(
   selectCurrentFlow,
   (flow) => flow.phoneRiskAnalysisThreshold,
-);
-
-export const selectFlowsAsTemplates = createSelector(
-  selectMerchantFlowList,
-  selectTemplatesListFlat,
-  (flowList, templatesList) => flowList.filter((flow) => templatesList.some((template) => template._id === flow.id)),
 );

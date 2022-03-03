@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles';
-import GuideModal from '../../assets/guide_modal.svg';
 
 export const useStyles = makeStyles(() => ({
   container: {

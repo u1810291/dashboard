@@ -146,9 +146,18 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.black90,
     textTransform: 'uppercase',
   },
-  itemTypeId: {
+  itemTypeBlocked: {
+    fontWeight: 'bold',
+    color: theme.palette.common.black75,
+    textTransform: 'uppercase',
+  },
+  itemId: {
     fontWeight: 'bold',
     color: theme.palette.common.black90,
+  },
+  itemIdBlocked: {
+    fontWeight: 'bold',
+    color: theme.palette.common.black75,
   },
   label: {
     color: theme.palette.common.black75,

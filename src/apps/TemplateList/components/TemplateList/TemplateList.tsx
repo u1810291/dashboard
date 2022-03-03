@@ -5,60 +5,42 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Button from '@material-ui/core/Button';
-import { useOverlay } from 'apps/overlay';
-import { IFlow, MAX_NUMBER_OF_FLOWS } from 'models/Flow.model';
+import { MAX_NUMBER_OF_FLOWS } from 'models/Flow.model';
 import { Routes } from 'models/Router.model';
 import { PageLoader } from 'apps/layout';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { useFormatMessage } from 'apps/intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { AddNewFlowModal, flowNameValidator, useFlowListLoad } from 'apps/FlowList';
-import { merchantCreateFlow } from 'state/merchant/merchant.actions';
-import { selectMerchantFlowList, selectMerchantTags } from 'state/merchant/merchant.selectors';
+import { ITemplatesList, selectTemplatesListModelValues } from 'apps/Templates';
+import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
 import { MerchantTags } from 'models/Merchant.model';
+import { useLoadTemplatesList } from '../../hooks/UseLoadTemplatesList';
 import { TemplatesTable } from '../TemplatesTable/TemplatesTable';
 import { useStyles } from './TemplateList.styles';
 
 export function TemplateList() {
   const classes = useStyles();
   const formatMessage = useFormatMessage();
-  const [createOverlay] = useOverlay();
-  const dispatch = useDispatch();
   const history = useHistory();
-  const merchantFlowList = useSelector(selectMerchantFlowList);
+  const templatesListValue = useSelector<any, ITemplatesList>(selectTemplatesListModelValues);
   const isMobile = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
-  const isButtonDisabled = (merchantFlowList || []).length >= MAX_NUMBER_OF_FLOWS;
+  const isButtonDisabled = (templatesListValue?.rows || []).length >= MAX_NUMBER_OF_FLOWS;
   const [open, setOpen] = useState(isButtonDisabled && isMobile);
-  const flowListModel = useFlowListLoad();
+  const templatesList = useLoadTemplatesList();
   const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
-  const canAddTemplate = merchantTags.includes(MerchantTags.CanUseAddSolutionToCatalog);
 
   useEffect(() => {
     setOpen(isButtonDisabled && isMobile);
   }, [isMobile, isButtonDisabled]);
 
-  const submitNewFlow = useCallback(async (text) => {
-    const value = (text || '').trim();
-    const duplicate = merchantFlowList.find((item) => item.name === value);
-    await flowNameValidator({ hasDuplicate: !!duplicate, name: value });
-    const newFlow = await dispatch(merchantCreateFlow({ name: value })) as IFlow;
-    history.push({
-      pathname: `${Routes.flow.root}/${newFlow.id}`,
-    });
-  }, [merchantFlowList, dispatch, history]);
-
-  const handleAddNewFlow = useCallback(() => {
-    createOverlay(<AddNewFlowModal submitNewFlow={submitNewFlow} />);
-  }, [submitNewFlow, createOverlay]);
-
   const handleOpen = useCallback(() => {
-    if (merchantFlowList?.length >= MAX_NUMBER_OF_FLOWS) {
+    if (templatesListValue?.rows.length >= MAX_NUMBER_OF_FLOWS) {
       setOpen(true);
     }
-  }, [merchantFlowList]);
+  }, [templatesListValue]);
 
   const handleClose = useCallback(() => {
     if (!isMobile) {
@@ -67,14 +49,10 @@ export function TemplateList() {
   }, [isMobile]);
 
   const handleBuildMetamapButtonClick = () => {
-    if (canAddTemplate) {
-      history.push(Routes.templates.newTemplate);
-    } else {
-      history.push(Routes.templates.draftFlow);
-    }
+    history.push(Routes.templates.newTemplate);
   };
 
-  if (!flowListModel.isLoaded) {
+  if (!templatesList.isLoaded) {
     return <PageLoader />;
   }
 
@@ -103,7 +81,7 @@ export function TemplateList() {
                 }}
                 title={formatMessage('VerificationFlow.page.tooltip')}
               >
-                {merchantFlowList?.length > 0 && (
+                {templatesListValue?.rows.length > 0 && (
                 <span>
                   <Button
                     disabled={isButtonDisabled}
@@ -111,7 +89,7 @@ export function TemplateList() {
                     disableElevation
                     onClick={handleBuildMetamapButtonClick}
                     className={classes.button}
-                    data-qa={QATags.Flows.CreateNewFlowButton}
+                    data-qa={QATags.Templates.CreateNewTemplateButton}
                   >
                     <FiPlus />
                     {formatMessage('Templates.page.button')}
@@ -123,7 +101,7 @@ export function TemplateList() {
           </Grid>
         </Box>
         <Box py={{ xs: 2, lg: 0 }} className={classes.table}>
-          <TemplatesTable onAddNewFlow={handleAddNewFlow} />
+          <TemplatesTable onAddNewFlow={handleBuildMetamapButtonClick} />
         </Box>
       </Box>
     </Container>
