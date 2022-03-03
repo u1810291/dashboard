@@ -1,3 +1,4 @@
+import { GovCheckIStep, parseExpandedGovCheck } from 'apps/GovCheck';
 import { CustomDocumentType } from './CustomDocument.model';
 import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStatus, getReaderFrontendSteps, getStepsExtra, IStep, StepStatus } from './Step.model';
 
@@ -58,7 +59,7 @@ export interface VerificationDocument {
   type: VerificationDocumentTypes;
   documentReadingStep: DocumentReadingStep;
   securityCheckSteps: IStep<null>[];
-  govChecksSteps: IStep[];
+  govChecksSteps: GovCheckIStep[];
   documentFailedCheckSteps: IStep[];
   premiumAmlWatchlistsStep: PremiumAmlWatchlistStep;
   watchlistsStep: IStep;
@@ -219,7 +220,7 @@ export function getDocumentExtras(verification, countries, proofOfOwnership): Ve
     }));
 
     const isSkipped = steps.some((step) => step.checkStatus === StepStatus.Skipped);
-    const govChecksSteps = steps.filter((step) => CountrySpecificChecks.includes(step.id));
+    const govChecksSteps = steps.filter((step) => CountrySpecificChecks.includes(step.id)).map((step) => parseExpandedGovCheck(step)).flat();
     const securityCheckSteps = steps.filter((step) => DocumentSecuritySteps.includes(step.id));
     const documentFailedCheckSteps = steps.filter((step) => DocumentFrontendSteps.includes(step.id)); // it is FRONTEND logic,
     const premiumAmlWatchlistsStep = steps.find((step) => DocumentStepTypes.PremiumAmlWatchlistsCheck === step.id);

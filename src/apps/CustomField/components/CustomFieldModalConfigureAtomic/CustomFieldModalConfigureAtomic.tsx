@@ -216,7 +216,7 @@ export function CustomFieldModalConfigureAtomic({ handleUpdateFields }: {
           <Grid item container direction="column">
             <Grid item>
               <Typography variant="subtitle2">
-                {formatMessage('CustomField.settings.fieldHint')}
+                {`${formatMessage('CustomField.settings.fieldHint')}${selectedCustomField.atomicFieldParams.regex && ' *'}`}
               </Typography>
             </Grid>
             <Grid item>

@@ -30,6 +30,7 @@ export function Verification({ verification, productList }: {
     <Grid container className={classes.container}>
       <Grid item xs={12} lg={4} xl={2} className={classes.selector}>
         <VerificationProductList
+          verification={verification}
           productList={productList}
           selectedId={selectedProduct}
           onSelect={setSelectedProduct}

@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { get } from 'lodash';
 import { Text, View } from '@react-pdf/renderer';
 import { getDevicePlatformType, PlatformTypes } from 'models/DeviceCheck.model';
+import { VerificationWithExtras } from 'models/VerificationOld.model';
 import { StatusSelectorPDF } from '../StatusSelectorPDF/StatusSelectorPDF';
 import { styles } from './VerificationSummaryPDF.styles';
 import { commonStyles } from '../../PDF.styles';
@@ -14,7 +15,7 @@ import { VerificationDocumentPDF } from '../VerificationDocumentPDF/Verification
 import { VerificationIpCheckPDF } from '../VerificationIpCheckPDF/VerificationIpCheckPDF';
 import { VerificationDeviceCheckPDF } from '../VerificationDeviceCheckPDF/VerificationDeviceCheckPDF';
 
-export function VerificationSummaryPDF({ identity }) {
+export function VerificationSummaryPDF({ identity }: { identity: VerificationWithExtras }) {
   const intl = useIntl();
 
   const { ipCheck, biometric, deviceFingerprint } = identity;

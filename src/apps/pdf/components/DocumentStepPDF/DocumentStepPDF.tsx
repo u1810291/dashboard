@@ -1,10 +1,10 @@
-import { Image, Text, View } from '@react-pdf/renderer';
+import { Text, View, Image } from '@react-pdf/renderer';
 import { useDocumentTitle } from 'apps/documents';
 import { WarningTypes } from 'apps/ui';
-import { getMediaURL } from 'lib/client/media';
-import { DocumentSides, getDocumentSideLabel } from 'models/Document.model';
+import { DocumentSides, getDocumentSideLabel, VerificationDocument } from 'models/Document.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { getMediaURL } from 'lib/client/media';
 import { commonStyles } from '../../PDF.styles';
 import { CheckResultLogoPDF } from '../CheckResultLogoPDF/CheckResultLogoPDF';
 import { CheckStepPDF } from '../CheckStepPDF/CheckStepPDF';
@@ -12,8 +12,12 @@ import { DocumentReadingStepPDF } from '../DocumentReadingStepPDF/DocumentReadin
 import { PremiumAmlWatchlistsStepDetailsPDF } from '../PremiumAmlWatchlistsStepDetailsPDF/PremiumAmlWatchlistsStepDetailsPDF';
 import { WarningPDF } from '../WarningPDF/WarningPDF';
 import { styles } from './DocumentStepPDF.styles';
+import { GovCheckTextPDF } from '../GovCheckTextPDF/GovCheckTextPDF';
 
-export function DocumentStepPDF({ document, documentIndex }) {
+export function DocumentStepPDF({ document, documentIndex }: {
+  document: VerificationDocument;
+  documentIndex: number;
+}) {
   const intl = useIntl();
   const title = useDocumentTitle(document);
 
@@ -89,7 +93,9 @@ export function DocumentStepPDF({ document, documentIndex }) {
                   <CheckStepPDF step={step} key={step.id} />
                 ))}
                 {govChecksSteps.map((step) => (
-                  <CheckStepPDF step={step} key={step.id} isGovCheck />
+                  <CheckStepPDF step={step} title={step.title} key={step.id}>
+                    <GovCheckTextPDF step={step} isShowError={step.isShowError} />
+                  </CheckStepPDF>
                 ))}
                 {premiumAmlWatchlistsStep
                   && (

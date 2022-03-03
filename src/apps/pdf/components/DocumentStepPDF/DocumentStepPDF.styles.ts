@@ -2,11 +2,14 @@ import { StyleSheet } from '@react-pdf/renderer';
 import { colors } from '../../PDF.theme.common';
 
 export const styles = StyleSheet.create({
+  itemWrapper: {
+    width: '100%',
+  },
   textWrapper: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    flexWrap: 'no-wrap',
+    flexWrap: 'nowrap',
   },
   subtitle: {
     marginTop: 6,
@@ -33,7 +36,7 @@ export const styles = StyleSheet.create({
     maxHeight: 200,
   },
   image: {
-    display: 'block',
+    display: 'flex',
     maxHeight: 200,
     maxWidth: '100%',
     objectFit: 'cover',

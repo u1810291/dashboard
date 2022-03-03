@@ -1,3 +1,5 @@
+import { GovCheckIssue } from 'apps/GovCheck/components/GovCheckIssue/GovCheckIssue';
+import { getDocumentsWithoutCustomDocument } from 'models/Document.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { IFlow } from 'models/Flow.model';
@@ -5,12 +7,7 @@ import { FiFlag } from 'react-icons/fi';
 import { CountrySpecificChecks, getStepStatus, StepStatus } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { GovCheckSettings } from 'apps/GovCheck/components/GovCheckSettings/GovCheckSettings';
-import {
-  GovCheckStepTypes,
-  GovernmentCheckSettingTypes,
-  GovernmentChecksTypes,
-  verificationPatternsGovchecksDefault,
-} from 'apps/GovCheck/models/GovCheck.model';
+import { getGovCheckRootSteps, getGovCheckVerificationSteps, GovCheckStepTypes, GovCheckVerificationData, GovernmentCheckSettingTypes, GovernmentChecksTypes, verificationPatternsGovchecksDefault } from 'apps/GovCheck/models/GovCheck.model';
 import { GovCheckVerificationProduct } from 'apps/GovCheck/components/GovCheckVerificationProduct/GovCheckVerificationProduct';
 
 type ProductSettingsGovCheck = ProductSettings<GovernmentCheckSettingTypes>;
@@ -38,8 +35,11 @@ export class GovernmentCheck extends ProductBaseFlowBuilder implements Product {
   component = GovCheckSettings;
   componentVerification = GovCheckVerificationProduct;
 
-  getVerification(verification: VerificationResponse): any {
-    return verification?.documents || [];
+  getVerification(verification: VerificationResponse): GovCheckVerificationData {
+    return {
+      document: getDocumentsWithoutCustomDocument(verification?.documents) || [],
+      govCheckWithoutDocument: getGovCheckRootSteps(verification),
+    };
   }
 
   isInFlow(flow: IFlow): boolean {
@@ -51,18 +51,24 @@ export class GovernmentCheck extends ProductBaseFlowBuilder implements Product {
   }
 
   isInVerification(verification: VerificationResponse): boolean {
-    return verification?.documents?.some((document) => {
-      const govChecksSteps = document?.steps.filter((step) => CountrySpecificChecks.includes(step.id));
-      return govChecksSteps?.length > 0;
-    });
+    // TODO: @anatoliy.turkin (step.id as any) look so sad
+    return getGovCheckVerificationSteps(verification).some((step) => CountrySpecificChecks.includes((step.id as any)));
+  }
+
+  haveIssues(flow: IFlow, productsInGraph?: ProductTypes[]): boolean {
+    return !productsInGraph.includes(ProductTypes.CustomField) && !productsInGraph.includes(ProductTypes.DocumentVerification);
+  }
+
+  getIssuesComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
+    if (this.haveIssues(flow, productsInGraph)) {
+      return GovCheckIssue;
+    }
+
+    return null;
   }
 
   hasFailedCheck(verification: VerificationResponse): boolean {
-    return verification?.documents?.some((document) => {
-      const steps = document?.steps || [];
-      const govChecksSteps = steps.filter((step) => CountrySpecificChecks.includes(step.id));
-      return govChecksSteps.some((step) => getStepStatus(step) === StepStatus.Failure);
-    });
+    return getGovCheckVerificationSteps(verification).some((step) => getStepStatus(step) === StepStatus.Failure);
   }
 
   parser(flow: IFlow): ProductSettingsGovCheck {
