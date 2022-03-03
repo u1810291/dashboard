@@ -1,6 +1,7 @@
 import { Grid, Box, Switch } from '@material-ui/core';
 import { codedFlagMap } from 'assets/flags';
 import { CountryCodes } from 'models/Country.model';
+import { QATags } from 'models/QA.model';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useStyles } from './CountrySwitch.styles';
@@ -36,6 +37,7 @@ export function CountrySwitch({
         </Grid>
         <Grid item>
           <Switch
+            inputProps={{ 'data-qa': QATags.Flows.CountrySwitch } as any}
             checked={value}
             onChange={handleChange}
             color="primary"

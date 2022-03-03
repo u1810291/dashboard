@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Tabs } from 'apps/flowBuilder/components/Tabs/Tabs';
+import { Tabs } from 'apps/WorkflowBuilder';
 import { ProductIntegrationTypes } from 'models/Product.model';
 import { QATags } from 'models/QA.model';
 import { selectFlowBuilderIntegrationType } from 'apps/flowBuilder/store/FlowBuilder.selectors';

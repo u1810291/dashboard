@@ -10,7 +10,7 @@ import { useStyles } from './WatchlistMappingValidation.styles';
 import { FakeInputs } from '../FakeInputs/FakeInputs';
 import { ValidatedInputsLoadingSkeleton } from '../ValidatedInputsLoadingSkeleton/ValidatedInputsLoadingSkeleton';
 import { selectWatchlistsContentErrorType, selectCurrentCustomWatchlistHeadersErrorType, selectCurrentCustomWatchlistHeadersIsLoading, selectCurrentCustomWatchlistMapping, selectCurrentCustomWatchlistHeaders } from '../../state/CustomWatchlist.selectors';
-import { CustomWatchlistModalValidationInputs, getCustomWatchlistMapping, getCustomWatchlistValidMapping, isMappingExist, IValidatedInputsFieldTypes, WatchlistMapping } from '../../models/CustomWatchlist.models';
+import { CustomWatchlistModalValidationInputs, getCustomWatchlistMapping, getCustomWatchlistValidMapping, IValidatedInputsFieldTypes, WatchlistMapping } from '../../models/CustomWatchlist.models';
 import { getCustomWatchlistShortValidation } from '../../state/CustomWatchlist.actions';
 
 export function WatchlistMappingValidation({ isSubmittingError, isEdit, hasOptions }:
@@ -49,16 +49,19 @@ export function WatchlistMappingValidation({ isSubmittingError, isEdit, hasOptio
 
   const handleInputValidate = useCallback((mapping: WatchlistMapping[]) => {
     const formValues = getValues();
-    const isMustValidate = isMappingExist(mapping) && !isEqual(mapping, currentWatchlistMapping ?? []);
+    const isMustValidate = isEdit ? !isEqual(mapping, currentWatchlistMapping ?? []) : true;
 
     if ((formValues[CustomWatchlistModalValidationInputs.FileKey]) && formValues[CustomWatchlistModalValidationInputs.CsvSeparator] && isMustValidate) {
-      dispatch(getCustomWatchlistShortValidation(merchantId, {
-        [CustomWatchlistModalValidationInputs.FileKey]: formValues[CustomWatchlistModalValidationInputs.FileKey],
-        [CustomWatchlistModalValidationInputs.CsvSeparator]: formValues[CustomWatchlistModalValidationInputs.CsvSeparator],
-        mapping,
-      }));
+      dispatch(getCustomWatchlistShortValidation(
+        merchantId, {
+          [CustomWatchlistModalValidationInputs.FileKey]: formValues[CustomWatchlistModalValidationInputs.FileKey],
+          [CustomWatchlistModalValidationInputs.CsvSeparator]: formValues[CustomWatchlistModalValidationInputs.CsvSeparator],
+          mapping,
+        },
+        isEdit,
+      ));
     }
-  }, [merchantId, currentWatchlistMapping, getValues, dispatch]);
+  }, [merchantId, isEdit, currentWatchlistMapping, getValues, dispatch]);
 
   const onValidatedInputsChange = useCallback((validatedInputsValues: IValidatedInputsFieldTypes[]) => {
     const validatedInputsValuesFormated = getCustomWatchlistValidMapping(validatedInputsValues);

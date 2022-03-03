@@ -1,8 +1,9 @@
 import { ProductSettings, ProductSettingsProps } from 'models/Product.model';
 import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
-import { DateFormat } from 'lib/date';
+import { DateFormat, formatDate } from 'lib/date';
 import { parseDate } from 'apps/ui/models/ReactDayPicker.model';
+import { isNil } from 'lib/isNil';
 
 export const FIELD_SYSTEM_NAME_PATTERN = '^([a-zA-Z-_]+)?$';
 
@@ -326,6 +327,9 @@ export const atomicFieldIsValid = (selectedCustomField: CustomField, listFlatten
   if (!isSetMainData(selectedCustomField.name, selectedCustomField.label)) {
     return false;
   }
+  if (selectedCustomField.atomicFieldParams.regex && !selectedCustomField.atomicFieldParams.placeholder) {
+    return false;
+  }
   if (selectedCustomField.atomicFieldParams.type === AtomicCustomFieldType.Select) {
     return isNameUniq(listFlattenFields, oldName, selectedCustomField.name) && isAllOptionsUniq(selectedCustomField.atomicFieldParams.selectOptions) && isAllOptionsFielded(selectedCustomField.atomicFieldParams.selectOptions);
   }
@@ -337,10 +341,14 @@ export const getNotSelectedMapping = (listFlattenFields: CustomField[], mapping:
     return [];
   }
   const notSelected = MAPPING_OPTIONS[mapping?.country].filter((option) => !listFlattenFields.find((field) => field?.atomicFieldParams?.mapping?.key === option)) || [];
-  if (oldMapping.country === mapping.country && oldMapping.key) {
+  if (oldMapping.country === mapping.country && !notSelected.includes(oldMapping.key)) {
     notSelected.push(oldMapping.key);
   }
   return notSelected;
 };
 
 export const isValidFieldSystemName = (value: string): boolean => new RegExp(FIELD_SYSTEM_NAME_PATTERN).test(value);
+
+export const formatedValue = (field: CustomField, value: string): string => (field.type === MainCustomFieldType.Atomic && field.atomicFieldParams.type === AtomicCustomFieldType.Date
+  ? value ? formatDate(value) : ''
+  : !isNil(value) ? `${value}` : '-');

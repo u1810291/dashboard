@@ -91,11 +91,15 @@ export function CustomWatchlistModalValidationForm({ watchlist, onClose, onSubmi
 
       if (isEdit) {
         dispatch(updateCurrentWatchlistProcess(formValues));
-        dispatch(getCustomWatchlistShortValidation(merchantId, {
-          [CustomWatchlistModalValidationInputs.FileKey]: formValues[CustomWatchlistModalValidationInputs.FileKey] || fileKey,
-          [CustomWatchlistModalValidationInputs.CsvSeparator]: formValues[CustomWatchlistModalValidationInputs.CsvSeparator],
-          mapping: formValues[CustomWatchlistModalValidationInputs.Mapping],
-        }));
+        dispatch(getCustomWatchlistShortValidation(
+          merchantId,
+          {
+            [CustomWatchlistModalValidationInputs.FileKey]: formValues[CustomWatchlistModalValidationInputs.FileKey] || fileKey,
+            [CustomWatchlistModalValidationInputs.CsvSeparator]: formValues[CustomWatchlistModalValidationInputs.CsvSeparator],
+            mapping: formValues[CustomWatchlistModalValidationInputs.Mapping],
+          },
+          isEdit,
+        ));
 
         return;
       }

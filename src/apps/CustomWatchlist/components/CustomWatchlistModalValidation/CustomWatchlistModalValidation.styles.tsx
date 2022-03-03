@@ -6,7 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: '21px 40px',
     minHeight: 600,
     height: 650,
-    width: 700,
+    width: 750,
   },
   modalTitle: {
     lineHeight: '29px',

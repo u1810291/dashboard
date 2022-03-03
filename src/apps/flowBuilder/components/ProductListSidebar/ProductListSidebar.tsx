@@ -7,7 +7,7 @@ import React, { useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { ProductTypes } from 'models/Product.model';
-import { useStyles } from './ProductListSidebar.styles';
+import { useStyles } from 'apps/flowBuilder/components/ProductListSidebar/ProductListSidebar.styles';
 
 export function ProductListSidebar() {
   const classes = useStyles();

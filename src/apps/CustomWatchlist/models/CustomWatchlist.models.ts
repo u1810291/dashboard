@@ -131,9 +131,7 @@ export interface CustomWatchlistValidationErrorData {
 export interface CustomWatchlistValidationError {
   code: ErrorStatuses;
   type: string;
-  data: CustomWatchlistValidationErrorData;
-  // TODO: @richvoronov ask backend to remove this fields
-  retryable: boolean;
+  data?: CustomWatchlistValidationErrorData;
   message?: string;
   name?: string;
   stack?: string;
@@ -246,14 +244,9 @@ export function getCustomWatchlistErrorsFormated(errors?: CustomWatchlistValidat
 
     memo[fieldName] = memo[fieldName].map((item) => ({
       systemField: item.data.fieldName,
-      // TODO: @richvoronov need to split by type too, do it after release custom watchlist 4
       type: item.type,
       row: item.data.row,
     }));
     return memo;
   }, {});
-}
-
-export function isMappingExist(mapping: WatchlistMapping[]): boolean {
-  return !!mapping?.some((value) => value.systemField !== ValidatedInputsKeys.NotSelected);
 }

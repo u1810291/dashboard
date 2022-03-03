@@ -1,13 +1,13 @@
-import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { InputTypes } from 'models/Input.model';
 import { Product, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { FiSmartphone } from 'react-icons/fi';
+import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { DeviceFingerPrintSettings } from '../components/DeviceFingerPrintSettings/DeviceFingerPrintSettings';
 import { DeviceFingerprintVerification } from '../components/DeviceFingerprintVerification/DeviceFingerPrintVerification';
 import { DeviceFingerPrintCheckTypes, DeviceFingerPrintInputData } from '../models/DeviceFingerPrint.model';
 
-export class DeviceFingerPrintService extends ProductBaseService implements Product {
+export class DeviceFingerPrintService extends ProductBaseFlowBuilder implements Product {
   id = ProductTypes.DeviceFingerPrint;
   order = 1100;
   icon = FiSmartphone;

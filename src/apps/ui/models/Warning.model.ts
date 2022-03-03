@@ -4,6 +4,7 @@ export enum WarningTypes {
   Error = 'error',
   ImportantWarning = 'importantWarning',
   Notify = 'notify',
+  Checking = 'checking',
 }
 
 export enum WarningSize {
