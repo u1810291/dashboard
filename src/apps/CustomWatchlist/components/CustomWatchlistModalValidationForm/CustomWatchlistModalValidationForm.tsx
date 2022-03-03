@@ -12,7 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import { ButtonStyled } from 'apps/ui';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { CustomWatchlistModalValidationInputs, WatchlistProcessStatus, customWatchlistsPollingDelay, CustomWatchlistUpload, FlowWatchlistUi, CustomWatchlistModalValidationInputTypes } from '../../models/CustomWatchlist.models';
-import { selectCurrentCustomWatchlistHeadersErrorType, selectCurrentCustomWatchlistId, selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsContentLoading, selectIsWatchlistsLoading, selectCurrentCustomWatchlistStatus, selectCurrentCustomWatchlistHeadersIsLoading, selectCurrentCustomWatchlistIsFileAvailable } from '../../state/CustomWatchlist.selectors';
+import { selectCurrentCustomWatchlistHeadersErrorType, selectCurrentCustomWatchlistId, selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsContentLoading, selectIsWatchlistsLoading, selectCurrentCustomWatchlistStatus, selectCurrentCustomWatchlistHeadersIsLoading, selectCurrentCustomWatchlistIsFileAvailable, selectCurrentCustomWatchlistIsLoaded } from '../../state/CustomWatchlist.selectors';
 import { updateCurrentWatchlistProcess, customWatchlistLoadById, getCustomWatchlistHeaders, getCustomWatchlistShortValidation } from '../../state/CustomWatchlist.actions';
 import { useStyles } from './CustomWatchlistModalValidationForm.styles';
 import { CustomWatchlistModalValidationFileUploadForm } from '../CustomWatchlistModalValidationFileUploadForm/CustomWatchlistModalValidationFileUploadForm';
@@ -32,6 +32,7 @@ export function CustomWatchlistModalValidationForm({ watchlist, onClose, onSubmi
   const currentWatchlistId = useSelector(selectCurrentCustomWatchlistId);
   const currentWatchlistStatus = useSelector(selectCurrentCustomWatchlistStatus);
   const isWatchlistsLoading = useSelector(selectIsWatchlistsLoading);
+  const isWatchlistsLoaded = useSelector(selectCurrentCustomWatchlistIsLoaded);
   const isCurrentCustomWatchlistIsLoading = useSelector(selectCurrentCustomWatchlistIsLoading);
   const isWatchlistsContentLoading = useSelector(selectIsWatchlistsContentLoading);
   const currentCustomWatchlistHeadersErrorType = useSelector(selectCurrentCustomWatchlistHeadersErrorType);
@@ -46,7 +47,8 @@ export function CustomWatchlistModalValidationForm({ watchlist, onClose, onSubmi
   const isWatchlistCompleted = currentWatchlistStatus === WatchlistProcessStatus.Completed;
   const isWatchlistPending = currentWatchlistStatus === WatchlistProcessStatus.Pending;
   const isWatchlistRunning = currentWatchlistStatus === WatchlistProcessStatus.Running;
-  const isSubmitRestricted = !!(!fileKey || isCurrentCustomWatchlistIsLoading || isWatchlistsLoading || isWatchlistsContentLoading || isWatchlistRunning || isCurrentCustomWatchlistHeadersLoading || currentCustomWatchlistHeadersErrorType || !isCurrentCustomWatchlistIsFileAvailable);
+  const isSubmitRestricted = [!fileKey || isCurrentCustomWatchlistIsLoading || isWatchlistsLoading || isWatchlistsContentLoading || isWatchlistRunning || isCurrentCustomWatchlistHeadersLoading || currentCustomWatchlistHeadersErrorType || !isCurrentCustomWatchlistIsFileAvailable].some(Boolean);
+  const hasMappingValidationOptions = ![isWatchlistsLoading || isWatchlistsContentLoading || isWatchlistRunning || isCurrentCustomWatchlistHeadersLoading || !isCurrentCustomWatchlistIsFileAvailable || !isWatchlistsLoaded].some(Boolean);
   const isEdit = !!(currentWatchlistId);
 
   const handleWatchlistLoad = (isReload: boolean) => {
@@ -75,7 +77,6 @@ export function CustomWatchlistModalValidationForm({ watchlist, onClose, onSubmi
         ...values,
         [CustomWatchlistModalValidationInputs.FileKey]: values[CustomWatchlistModalValidationInputs.FileKey] || fileKey,
       };
-      // TODO: @richvoronov is there any other way to check for submit errors?
       setIsSubmittingError(false);
       onSubmit(submitValues, { ...watchlist, id: currentWatchlistId });
     } catch (error) {
@@ -153,7 +154,7 @@ export function CustomWatchlistModalValidationForm({ watchlist, onClose, onSubmi
             <WatchlistMappingValidation
               isSubmittingError={isSubmittingError}
               isEdit={isEdit}
-              hasOptions={!(isWatchlistsLoading || isWatchlistsContentLoading || isWatchlistRunning || isCurrentCustomWatchlistHeadersLoading)}
+              hasOptions={hasMappingValidationOptions}
             />
           </Grid>
         </Grid>
