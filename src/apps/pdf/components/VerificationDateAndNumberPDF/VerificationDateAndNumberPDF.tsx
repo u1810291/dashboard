@@ -1,12 +1,14 @@
 import { useIntl } from 'react-intl';
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
+import { DateFormat, utcToLocalFormat } from 'lib/date';
 import { commonStyles } from '../../PDF.styles';
-import { DateFormat, utcToLocalFormat } from '../../../../lib/date';
 
-export function VerificationDateAndNumberPDF({ date, number }) {
+export function VerificationDateAndNumberPDF({ date, number }: {
+  date: string;
+  number: string;
+}) {
   const intl = useIntl();
-
   return (
     <>
       <View style={commonStyles.mb15}>

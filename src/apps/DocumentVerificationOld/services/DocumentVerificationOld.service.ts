@@ -31,7 +31,6 @@ export class DocumentVerificationOld extends ProductBaseFlowBuilder implements P
   ];
   dependentProductTypes = [
     ProductTypes.AmlCheck,
-    ProductTypes.GovernmentCheck,
     ProductTypes.CustomWatchlist,
   ];
   checks = [

@@ -78,3 +78,20 @@
 .color-blue {
   color: var(--mgi-theme-palette-azure);
 }
+
+#beamerLastPostTitle {
+  position: absolute;
+  will-change: transform;
+  top: -29px !important;
+  left: 0px;
+  transform: translate3d(225px, 554px, 0px) !important;
+}
+#beamerLastPostTitle .popper__arrow {
+  border-color: #fff;
+  left: 2px;
+  z-index: inherit;
+  top: 25px !important;
+  transform: rotate(180deg) !important;
+  position: absolute;
+}
+
