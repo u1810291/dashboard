@@ -32,6 +32,7 @@ export enum VerificationPatternTypes {
   CustomWatchlistsValidation = 'custom-watchlists-validation',
   CustomFieldsValidation = 'custom-fields-validation',
   DominicanJce = 'dominican-jce-validation',
+  DominicanRnc = 'dominican-rnc-validation',
   DuplicateUserDetection = 'duplicate-user-detection',
   DuplicateUserValidation = 'duplicate-user-detection',
   EcuadorianRegistroCivil = 'ecuadorian-registro-civil-validation',
@@ -107,6 +108,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.CustomWatchlistsValidation]?: boolean;
   [VerificationPatternTypes.CustomFieldsValidation]?: boolean;
   [VerificationPatternTypes.DominicanJce]?: boolean;
+  [VerificationPatternTypes.DominicanRnc]?: boolean;
   [VerificationPatternTypes.ParaguayanRcp]?: boolean;
   [VerificationPatternTypes.DuplicateUserDetection]?: boolean;
   [VerificationPatternTypes.GuatemalanTse]?: boolean;

@@ -33,7 +33,7 @@ export function GovCheckText({ step }: {step: IStep}) {
         <Grid xs={displayOption[entry].inline ? 6 : 12} item>
           <CheckStepDetailsEntry
             label={entry}
-            value={value ?? '—'}
+            value={value || '—'}
             key={entry}
             isCentered={displayOption[entry].isCentered}
             isMarkedAsFailed={!!displayOption[entry].dependentFieldForFailedCheck && dependentFieldForFailedCheck !== true}
