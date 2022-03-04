@@ -12,7 +12,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Loadable } from 'models/Loadable.model';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { ProductTypes } from 'models/Product.model';
 import { FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow, selectFlowBuilderHaveUnsavedChanges } from 'apps/flowBuilder';
@@ -33,7 +33,6 @@ export function DraftFlowBuilder() {
   const classes = useStyles();
   const [createOverlay, closeOverlay] = useOverlay();
   const dispatch = useDispatch();
-  const history = useHistory();
   const formatMessage = useFormatMessage();
   const { id } = useParams();
   const selectedId = useSelector<any, ProductTypes>(selectFlowBuilderSelectedId);

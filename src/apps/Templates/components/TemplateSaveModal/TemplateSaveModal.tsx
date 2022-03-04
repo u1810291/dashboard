@@ -58,8 +58,6 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
     }
   }, [currentTemplate, history, closeOverlay]);
 
-  console.log(currentTemplate);
-
   const { register, handleSubmit, setValue, watch, trigger, formState: { errors, isSubmitting, isValid, isDirty } } = useForm<TemplateSaveInputs>({
     mode: 'onChange',
     defaultValues: defaultValuesForModal,
@@ -109,8 +107,6 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
     closeOverlay();
     return response;
   };
-
-  console.log(currentTemplate);
 
   const handleSaveTemplate = async () => {
     const currentAction = edit ? handleSubmitPatchFrom : handleSubmitSaveForm;
