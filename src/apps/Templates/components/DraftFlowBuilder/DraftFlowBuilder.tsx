@@ -12,12 +12,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Loadable } from 'models/Loadable.model';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { ProductTypes } from 'models/Product.model';
 import { FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow, selectFlowBuilderHaveUnsavedChanges } from 'apps/flowBuilder';
 import { selectCurrentTemplateModel } from 'apps/Templates/store/Templates.selectors';
-import { createDraftFromTemplate, getTemplate } from 'apps/Templates';
+import { createDraftFromTemplate, getTemplate, clearCurrentTemplate } from 'apps/Templates';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useOverlay } from 'apps/overlay';
@@ -33,6 +33,7 @@ export function DraftFlowBuilder() {
   const classes = useStyles();
   const [createOverlay, closeOverlay] = useOverlay();
   const dispatch = useDispatch();
+  const history = useHistory();
   const formatMessage = useFormatMessage();
   const { id } = useParams();
   const selectedId = useSelector<any, ProductTypes>(selectFlowBuilderSelectedId);
@@ -75,6 +76,11 @@ export function DraftFlowBuilder() {
       }
     }
   }, [dispatch, currentTemplateModel, isBuilderInitialized, id, isEditMode, changeableFlowModel, flowListModel.isLoaded]);
+
+  useEffect(() => () => {
+    dispatch(clearCurrentTemplate());
+    dispatch(flowBuilderClearStore());
+  }, [dispatch]);
 
   useEffect(() => {
     dagreGraphService.createGraph();

@@ -90,6 +90,7 @@ export const updateTemplate = (title?, name?, description?, metadata?) => async 
     const state = getState();
     const flow = selectFlowBuilderChangeableFlow(state);
     const { _id } = selectCurrentTemplateModelValue(state);
+    console.log(_id);
     const changedFlow = title ? { ...flow, name: title } : flow;
     const { data } = await updateTemplateRequest({ id: _id, name, description, flow: changedFlow, metadata });
     dispatch({ type: flowBuilderTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
