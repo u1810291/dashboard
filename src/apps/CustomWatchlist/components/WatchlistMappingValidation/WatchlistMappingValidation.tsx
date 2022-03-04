@@ -74,7 +74,6 @@ export function WatchlistMappingValidation({ isSubmittingError, isEdit, hasOptio
       {(isFileHeadersFlowLoading && !isEdit) && <ValidatedInputsLoadingSkeleton />}
       {!isFileHeadersFlowLoading && (
         ((watchlistMapping.length !== 0 && !currentCustomWatchlistHeadersErrorType) || isEdit) ? (
-        // TODO: @richvornov, use isFileAvailable for hasOptions to prevent short-validate envoke
           <ValidatedInputs fieldValues={watchlistMapping} onChange={onValidatedInputsChange} disabled={isEdit} hasOptions={hasOptions} />
         ) : (
           <FakeInputs />

@@ -16,14 +16,12 @@ export const CustomWatchlistValidatedInputsError = ({ inputValue }: {
   const formatMessage = useFormatMessage();
   const currentWatchlistErrors = useSelector(selectCurrentCustomWatchlistErrorsFormated);
 
-  // TODO: @richvoronov errors should be splitted by type and fieldName
   const errors: ICustomWatchlistValidationErrorFormated[] | boolean = useMemo(() => currentWatchlistErrors && currentWatchlistErrors[inputValue]?.filter((_, index) => index < ERRORS_LIMIT), [inputValue, currentWatchlistErrors]);
 
   if (!errors) {
     return null;
   }
 
-  // TODO: @richvoronov return must use cycle throught the type filed and filedName
   return (
     <AccordionStyled>
       <AccordionSummaryStyled
