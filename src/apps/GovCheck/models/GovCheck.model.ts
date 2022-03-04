@@ -1,11 +1,11 @@
-import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, StepStatus, VerificationStepTypes } from 'models/Step.model';
+import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, VerificationStepTypes, RootGovChecksErrorsToHide } from 'models/Step.model';
 import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { BiometricTypes } from 'models/Biometric.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { NationalIdTypes, VerificationDocument } from 'models/Document.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { dateSortCompare } from 'lib/date';
-import { BaseError } from 'models/Error.model';
+import cloneDeep from 'lodash/cloneDeep';
 
 export enum GovernmentCheckSettingTypes {
   PostponedTimeout = 'postponedTimeout',
@@ -20,13 +20,15 @@ export enum GovCheckStepTypes {
   None = 'none',
   Cpf = 'cpf',
   CpfFacematch = 'cpf+facematch',
+  Renaper = 'renaper',
+  RenaperAfip = 'renaper+afip',
 }
 
 export const verificationPatternsGovchecksDefault = {
-  [VerificationPatternTypes.ArgentinianAfip]: false,
   [VerificationPatternTypes.ArgentinianAnses]: false,
   [VerificationPatternTypes.ArgentinianDni]: false,
-  [VerificationPatternTypes.ArgentinianRenaper]: false,
+  [VerificationPatternTypes.ArgentinianRenaper]: GovCheckStepTypes.None,
+  [VerificationPatternTypes.ArgentinianRenaperExtended]: false,
   [VerificationPatternTypes.ArgentinianRenaperFacematch]: false,
   [VerificationPatternTypes.BolivianOep]: false,
   [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
@@ -40,6 +42,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.ColombianProcuraduria]: false,
   [VerificationPatternTypes.ColombianRegistraduria]: false,
   [VerificationPatternTypes.ColombianRunt]: false,
+  [VerificationPatternTypes.ColombianSisben]: false,
   [VerificationPatternTypes.CostaRicanAtv]: false,
   [VerificationPatternTypes.CostaRicanTse]: false,
   [VerificationPatternTypes.CostaRicanSocialSecurity]: false,
@@ -67,13 +70,19 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.VenezuelanCne]: false,
   [VerificationPatternTypes.VenezuelanSeniat]: false,
   [VerificationPatternTypes.UgandanElectoralCommission]: false,
+  [VerificationPatternTypes.BrazilianNoCriminalRecordsValidation]: false,
 };
 
-export const GovCheckTypesForStep = {
-  [DocumentStepTypes.BrazilianCpf]: {
+export const GovCheckTypesForPattern = {
+  [VerificationPatternTypes.BrazilianCpf]: {
     none: GovCheckStepTypes.None,
     cpf: GovCheckStepTypes.Cpf,
     cpfFacematch: GovCheckStepTypes.CpfFacematch,
+  },
+  [VerificationPatternTypes.ArgentinianRenaper]: {
+    none: GovCheckStepTypes.None,
+    renaper: GovCheckStepTypes.Renaper,
+    renaperAfip: GovCheckStepTypes.RenaperAfip,
   },
 };
 
@@ -123,16 +132,13 @@ export const govCheckCountriesOrder = [
   GovCheckCountryTypes.Uganda,
 ];
 
-export interface GovCheckStep {
-  status: number;
-  checkStatus: StepStatus;
-  error: BaseError | null;
-  data: any | null;
-}
+type GovCheckStepData = {subStepId?: string} | null;
+
+export type GovCheckIStep = IStep<GovCheckStepData> & {title: string; isShowError?: boolean};
 
 export interface GovCheckVerificationData {
   document: VerificationDocument[];
-  govCheckWithoutDocument: IStep<GovCheckStep>[];
+  govCheckWithoutDocument: GovCheckIStep[];
 }
 
 export interface GovCheckOptions {
@@ -153,6 +159,7 @@ export interface GovCheck {
   option?: GovCheckOptions;
   value?: boolean;
   description?: boolean;
+  canNotUsedWith?: VerificationPatternTypes[];
   isSupportFacematch?: boolean;
   merchantTags?: MerchantTags[];
   hideIsCantUse?: boolean;
@@ -177,27 +184,32 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
   {
     country: GovCheckCountryTypes.Argentina,
     checks: [
-      // {
-      //   id: DocumentStepTypes.ArgentinianAnses,
-      //   default: false,
-      // },
       {
-        id: DocumentStepTypes.ArgentinianRenaper,
+        id: VerificationPatternTypes.ArgentinianRenaper,
+        canNotUsedWith: [VerificationPatternTypes.ArgentinianRenaperExtended],
         default: false,
+        stepTypeAlias: GovCheckTypesForPattern[DocumentStepTypes.ArgentinianRenaper].renaper,
         option: {
-          id: DocumentStepTypes.ArgentinianAfip,
+          id: GovCheckTypesForPattern[DocumentStepTypes.ArgentinianRenaper].renaperAfip,
+          stepTypeAlias: GovCheckTypesForPattern[DocumentStepTypes.ArgentinianRenaper].renaperAfip,
           description: false,
         },
       },
       {
-        id: DocumentStepTypes.ArgentinianRenaperFacematch,
+        id: VerificationPatternTypes.ArgentinianRenaperExtended,
+        merchantTags: [MerchantTags.CanUseArRenaperExtended],
+        canNotUsedWith: [VerificationPatternTypes.ArgentinianRenaper],
+        default: false,
+      },
+      {
+        id: VerificationPatternTypes.ArgentinianRenaperFacematch,
         merchantTags: [MerchantTags.CanUseFacematchCPFInAr],
         default: false,
         description: true,
         isSupportFacematch: true,
       },
       {
-        id: DocumentStepTypes.ArgentinianDni,
+        id: VerificationPatternTypes.ArgentinianDni,
         default: false,
       },
     ],
@@ -205,7 +217,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Bolivia,
     checks: [
       {
-        id: DocumentStepTypes.BolivianOep,
+        id: VerificationPatternTypes.BolivianOep,
         default: false,
       },
     ],
@@ -213,31 +225,36 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Brazil,
     checks: [
       {
-        id: DocumentStepTypes.BrazilianCpf,
+        id: VerificationPatternTypes.BrazilianCpf,
         default: false,
-        stepTypeAlias: GovCheckTypesForStep[DocumentStepTypes.BrazilianCpf].cpf,
+        stepTypeAlias: GovCheckTypesForPattern[VerificationPatternTypes.BrazilianCpf].cpf,
         option: {
+          // TODO: @Turkin It shouldn't work like that. It needs a different id. Make it similar to ArgentinianRenaper
           id: DocumentStepTypes.FaceMatch,
           merchantTags: [MerchantTags.CanUseFacematchCPFInBr],
-          stepTypeAlias: GovCheckTypesForStep[DocumentStepTypes.BrazilianCpf].cpfFacematch,
+          stepTypeAlias: GovCheckTypesForPattern[VerificationPatternTypes.BrazilianCpf].cpfFacematch,
           description: true,
           isSupportFacematch: true,
         },
+      },
+      {
+        id: DocumentStepTypes.BrazilianNoCriminalRecordsValidation,
+        default: false,
       },
     ],
   }, {
     country: GovCheckCountryTypes.Chile,
     checks: [
       {
-        id: DocumentStepTypes.ChileanRegistroCivil,
+        id: VerificationPatternTypes.ChileanRegistroCivil,
         default: false,
       },
       {
-        id: DocumentStepTypes.ChileanDriverLicense,
+        id: VerificationPatternTypes.ChileanDriverLicense,
         default: false,
       },
       {
-        id: DocumentStepTypes.ChileanRut,
+        id: VerificationPatternTypes.ChileanRut,
         default: false,
       },
     ],
@@ -245,31 +262,35 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Colombia,
     checks: [
       {
-        id: DocumentStepTypes.ColombianBdua,
+        id: VerificationPatternTypes.ColombianBdua,
         default: false,
       },
       {
-        id: DocumentStepTypes.ColombianContraloria,
+        id: VerificationPatternTypes.ColombianContraloria,
         default: false,
       },
       {
-        id: DocumentStepTypes.ColombianNit,
+        id: VerificationPatternTypes.ColombianNit,
         default: false,
       },
       {
-        id: DocumentStepTypes.ColombianRegistraduria,
+        id: VerificationPatternTypes.ColombianRegistraduria,
         default: false,
       },
       {
-        id: DocumentStepTypes.ColombianNationalPolice,
+        id: VerificationPatternTypes.ColombianNationalPolice,
         default: false,
       },
       {
-        id: DocumentStepTypes.ColombianProcuraduria,
+        id: VerificationPatternTypes.ColombianProcuraduria,
         default: false,
       },
       {
-        id: DocumentStepTypes.ColombianRunt,
+        id: VerificationPatternTypes.ColombianRunt,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.ColombianSisben,
         default: false,
       },
     ],
@@ -278,15 +299,15 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.CostaRica,
     checks: [
       {
-        id: DocumentStepTypes.CostaRicanAtv,
+        id: VerificationPatternTypes.CostaRicanAtv,
         default: false,
       },
       {
-        id: DocumentStepTypes.CostaRicanTse,
+        id: VerificationPatternTypes.CostaRicanTse,
         default: false,
       },
       {
-        id: DocumentStepTypes.CostaRicanSocialSecurity,
+        id: VerificationPatternTypes.CostaRicanSocialSecurity,
         default: false,
       },
     ],
@@ -294,11 +315,11 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Ecuador,
     checks: [
       {
-        id: DocumentStepTypes.EcuadorianRegistroCivil,
+        id: VerificationPatternTypes.EcuadorianRegistroCivil,
         default: false,
       },
       {
-        id: DocumentStepTypes.EcuadorianSri,
+        id: VerificationPatternTypes.EcuadorianSri,
         default: false,
       },
     ],
@@ -306,7 +327,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Honduras,
     checks: [
       {
-        id: DocumentStepTypes.HonduranRnp,
+        id: VerificationPatternTypes.HonduranRnp,
         default: false,
       },
     ],
@@ -314,7 +335,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Ghana,
     checks: [
       {
-        id: DocumentStepTypes.GhanaianGra,
+        id: VerificationPatternTypes.GhanaianGra,
         default: false,
       },
     ],
@@ -322,7 +343,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Guatemala,
     checks: [
       {
-        id: DocumentStepTypes.GuatemalanTse,
+        id: VerificationPatternTypes.GuatemalanTse,
         default: false,
       },
     ],
@@ -330,7 +351,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Dominican,
     checks: [
       {
-        id: DocumentStepTypes.DominicanJce,
+        id: VerificationPatternTypes.DominicanJce,
         default: false,
       },
       {
@@ -343,7 +364,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Kenya,
     checks: [
       {
-        id: DocumentStepTypes.KenyanEcitizen,
+        id: VerificationPatternTypes.KenyanEcitizen,
         default: false,
       },
     ],
@@ -352,19 +373,19 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Mexico,
     checks: [
       {
-        id: DocumentStepTypes.CURP,
+        id: VerificationPatternTypes.MexicanCurp,
         default: false,
       },
       {
-        id: DocumentStepTypes.INE,
+        id: VerificationPatternTypes.MexicanIne,
         default: false,
       },
       {
-        id: DocumentStepTypes.MexicanPep,
+        id: VerificationPatternTypes.MexicanPep,
         default: false,
       },
       {
-        id: DocumentStepTypes.RFC,
+        id: VerificationPatternTypes.MexicanRfc,
         default: false,
       },
     ],
@@ -373,7 +394,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Nigeria,
     checks: [
       {
-        id: DocumentStepTypes.NigerianDl,
+        id: VerificationPatternTypes.NigerianDl,
         default: false,
         isSupportFacematch: true,
       },
@@ -399,7 +420,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Paraguay,
     checks: [
       {
-        id: DocumentStepTypes.ParaguayanRcp,
+        id: VerificationPatternTypes.ParaguayanRcp,
         default: false,
       },
     ],
@@ -408,11 +429,11 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Peru,
     checks: [
       {
-        id: DocumentStepTypes.PeruvianReniec,
+        id: VerificationPatternTypes.PeruvianReniec,
         default: false,
       },
       {
-        id: DocumentStepTypes.PeruvianSunat,
+        id: VerificationPatternTypes.PeruvianSunat,
         default: false,
       },
     ],
@@ -421,11 +442,11 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Venezuela,
     checks: [
       {
-        id: DocumentStepTypes.VenezuelanCne,
+        id: VerificationPatternTypes.VenezuelanCne,
         default: false,
       },
       {
-        id: DocumentStepTypes.VenezuelanSeniat,
+        id: VerificationPatternTypes.VenezuelanSeniat,
         default: false,
       },
     ],
@@ -434,7 +455,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Panama,
     checks: [
       {
-        id: DocumentStepTypes.PanamenianTribunalElectoral,
+        id: VerificationPatternTypes.PanamenianTribunalElectoral,
         default: false,
       },
     ],
@@ -443,7 +464,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Salvador,
     checks: [
       {
-        id: DocumentStepTypes.SalvadorianTse,
+        id: VerificationPatternTypes.SalvadorianTse,
         default: false,
       },
     ],
@@ -452,7 +473,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Uganda,
     checks: [
       {
-        id: DocumentStepTypes.UgandanElectoralCommission,
+        id: VerificationPatternTypes.UgandanElectoralCommission,
         default: false,
       },
     ],
@@ -566,6 +587,24 @@ export const govCheckDisplayOptions = {
   },
   [DocumentStepTypes.ColombianNit]: {
     taxID: {},
+  },
+  [DocumentStepTypes.ColombianSisben]: {
+    sisbenGroup: {},
+    sisbenGroupDescription: {},
+    firstName: {
+      inline: true,
+    },
+    lastName: {
+      inline: true,
+    },
+    documentType: {},
+    documentNumber: {
+      inline: true,
+    },
+    municipality: {},
+    department: {},
+    surveyDate: {},
+    lastUpdate: {},
   },
   [DocumentStepTypes.CostaRicanTse]: {
     firstName: {
@@ -919,6 +958,80 @@ export const govCheckDisplayOptions = {
       inline: true,
     },
   },
+  [DocumentStepTypes.ArgentinianRenaperExtended]: {
+    fullName: {
+    },
+    firstName: {
+      inline: true,
+    },
+    surname: {
+      inline: true,
+    },
+    dateOfBirth: {
+      inline: true,
+    },
+    gender: {
+      inline: true,
+    },
+    nationality: {
+      inline: true,
+    },
+    dateOfDeath: {
+      inline: true,
+    },
+    documentNumber: {
+      inline: true,
+    },
+    dateOfIssue: {
+      inline: true,
+    },
+    dateOfExpiry: {
+      inline: true,
+    },
+    transactionNumber: {
+      inline: true,
+    },
+    version: {
+      inline: true,
+
+    },
+    taxIdType: {
+      inline: true,
+    },
+    taxNumber: {
+      inline: true,
+    },
+    activityCode: {
+      inline: true,
+    },
+    activityDescription: {
+    },
+    address: {
+    },
+    email: {
+    },
+    phoneNumbers: {
+      inline: true,
+    },
+    pep: {
+      inline: true,
+    },
+    sanctioned: {
+      inline: true,
+    },
+    sujetoObligado: {
+      inline: true,
+    },
+    dniNumber: {
+      hidden: true,
+    },
+    cuit: {
+      hidden: true,
+    },
+    deceased: {
+      hidden: true,
+    },
+  },
 };
 
 export function isCanUseGovCheck(govCheck: GovCheck | GovCheckOptions, merchantTags: MerchantTags[]): boolean {
@@ -987,7 +1100,7 @@ export function govCheckParse(list: GovCheck[], patterns: VerificationPatterns, 
       }
 
       if (typeof patterns[item.id] === 'string') {
-        const value = patterns[item.id] && patterns[item.id] !== GovCheckTypesForStep[item.id]?.none;
+        const value = patterns[item.id] && patterns[item.id] !== GovCheckTypesForPattern[item.id]?.none;
         parsedGovCheck = {
           ...item,
           option: {
@@ -1014,7 +1127,7 @@ export function govCheckParse(list: GovCheck[], patterns: VerificationPatterns, 
     return {
       ...item,
       value: patterns[item.id] !== undefined
-        ? patterns[item.id] && patterns[item.id] !== GovCheckTypesForStep[item.id]?.none
+        ? patterns[item.id] && patterns[item.id] !== GovCheckTypesForPattern[item.id]?.none
         : item.default,
     };
   }).filter(Boolean);
@@ -1039,17 +1152,42 @@ export function convertTimeToHoursAndMinutes(ptTime) {
   };
 }
 
-export function getGovCheckDocumentsSteps(verification: VerificationResponse): IStep<GovCheckStep>[] {
+export function getGovCheckDocumentsSteps(verification: VerificationResponse): GovCheckIStep[] {
   return verification?.documents?.map((document) => document?.steps.filter((step) => CountrySpecificChecks.includes(step.id))).flat() || [];
 }
 
-export function getGovCheckRootSteps(verification: VerificationResponse): IStep<GovCheckStep>[] {
+export function getGovCheckRootSteps(verification: VerificationResponse): GovCheckIStep[] {
+  // Arkadiy: in some cases, we need to hide steps with special error
   return verification?.steps
-    .filter((step) => CountrySpecificChecks.includes(step.id)).map((step) => getStepExtra(step)) || [];
+    .filter((step) => CountrySpecificChecks.includes(step.id) && !(step?.error?.code && RootGovChecksErrorsToHide[step?.error?.code]))
+    .map((step) => getStepExtra(step)) || [];
 }
 
-export function getGovCheckVerificationSteps(verification: VerificationResponse): IStep<GovCheckStep>[] {
+export function getGovCheckVerificationSteps(verification: VerificationResponse): GovCheckIStep[] {
   const govCheckDocumentsSteps = getGovCheckDocumentsSteps(verification);
   const govCheckRootSteps = getGovCheckRootSteps(verification);
   return govCheckDocumentsSteps.concat(govCheckRootSteps);
+}
+
+export const parseExpandedGovCheck = (govChecksSteps: IStep): GovCheckIStep[] => {
+  const step = cloneDeep(govChecksSteps);
+  if (step.id === DocumentStepTypes.ArgentinianRenaper && Object.hasOwnProperty.call(step, 'data') && Object.hasOwnProperty.call(step.data, 'afip')) {
+    const { afip } = step.data;
+    delete step.data.afip;
+    //  TODO: id: ('argentinian-afip-validation' as any) - hardcode for autotest
+    return [{ ...step, title: `SecurityCheckStep.${step.id}.title` }, { ...step, id: ('argentinian-afip-validation' as any), data: afip, title: `SecurityCheckStep.${step.id}.${GovCheckTypesForPattern[DocumentStepTypes.ArgentinianRenaper].renaperAfip}.title`, isShowError: false }];
+  }
+  return [{ ...step, title: `SecurityCheckStep.${step.id}.title` }];
+};
+
+export function handleGovCheckSwitch(item: GovCheck, valueChecked: boolean): Record<string, boolean | string> {
+  if (item?.stepTypeAlias) {
+    const value = valueChecked ? item.stepTypeAlias : GovCheckTypesForPattern[item.id].none;
+    return { [item.id]: value };
+  }
+  if (item.option) {
+    return { [item.id]: valueChecked, [item.option.id]: valueChecked && item.option.value };
+  }
+
+  return { [item.id]: valueChecked };
 }

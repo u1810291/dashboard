@@ -4,14 +4,15 @@ import { IpCheckValidationTypes } from '../apps/IpCheck/models/IpCheck.model';
 
 export enum VerificationPatternTypes {
   AgeValidation = 'age-check',
-  ArgentinianAfip = 'argentinian-afip-validation',
   ArgentinianAnses = 'argentinian-anses-validation',
   ArgentinianDni = 'argentinian-dni-validation',
+  ArgentinianRenaperExtended = 'argentinian-renaper-extended-validation',
   ArgentinianRenaperFacematch = 'argentinian-renaper-facematch-validation',
   ArgentinianRenaper = 'argentinian-renaper-validation',
   Biometrics = 'biometrics',
   BolivianOep = 'bolivian-oep-validation',
   BrazilianCpf = 'brazilian-cpf-validation',
+  BrazilianNoCriminalRecordsValidation = 'brazilian-no-criminal-records-validation',
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
   CreditArgentinianFidelitas = 'credit-argentinian-fidelitas-validation',
   CreditBrazilianSerasa = 'credit-brazilian-serasa-validation',
@@ -25,6 +26,7 @@ export enum VerificationPatternTypes {
   ColombianProcuraduria = 'colombian-procuraduria-validation',
   ColombianRegistraduria = 'colombian-registraduria-validation',
   ColombianRunt = 'colombian-runt-validation',
+  ColombianSisben = 'colombian-sisben-validation',
   ComplyAdvantageValidation = 'comply-advantage-validation',
   CostaRicanAtv = 'costa-rican-atv-validation',
   CostaRicanTse = 'costa-rican-tse-validation',
@@ -77,10 +79,10 @@ export enum VerificationPatternTypes {
 }
 
 export interface VerificationPatterns {
-  [VerificationPatternTypes.ArgentinianAfip]?: boolean;
   [VerificationPatternTypes.ArgentinianAnses]?: boolean;
   [VerificationPatternTypes.ArgentinianDni]?: boolean;
-  [VerificationPatternTypes.ArgentinianRenaper]?: boolean;
+  [VerificationPatternTypes.ArgentinianRenaper]?: string;
+  [VerificationPatternTypes.ArgentinianRenaperExtended]?: boolean;
   [VerificationPatternTypes.ArgentinianRenaperFacematch]?: boolean;
   [VerificationPatternTypes.CreditBrazilianSerasa]?: boolean;
   [VerificationPatternTypes.CreditArgentinianFidelitas]?: boolean;
@@ -102,6 +104,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.ColombianProcuraduria]?: boolean;
   [VerificationPatternTypes.ColombianRegistraduria]?: boolean;
   [VerificationPatternTypes.ColombianRunt]?: boolean;
+  [VerificationPatternTypes.ColombianSisben]?: boolean;
   [VerificationPatternTypes.CostaRicanAtv]?: boolean;
   [VerificationPatternTypes.CostaRicanTse]?: boolean;
   [VerificationPatternTypes.CostaRicanSocialSecurity]?: boolean;

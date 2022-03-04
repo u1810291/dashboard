@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Image, Text, View } from '@react-pdf/renderer';
 import { useIntl } from 'react-intl';
-import { CheckText } from 'apps/identity/components/CheckText/CheckText';
+import { CheckText } from 'apps/identity';
+import { IStep } from 'models/Step.model';
 import { styles } from './CheckStepPDF.styles';
 import { commonStyles } from '../../PDF.styles';
-import { GovCheckTextPDF } from '../GovCheckTextPDF/GovCheckTextPDF';
 import { IconStatuses } from '../../assets';
 
-export function CheckStepPDF({ step, isGovCheck = false }) {
+export function CheckStepPDF({ step, children, title }: {
+  step: IStep;
+  title?: string;
+  children?: ReactNode;
+}) {
   const intl = useIntl();
 
   return (
@@ -16,14 +20,14 @@ export function CheckStepPDF({ step, isGovCheck = false }) {
         <Image style={commonStyles.labelIcon} src={IconStatuses[step.checkStatus]} />
         <Text style={commonStyles.label}>
           {intl.formatMessage({
-            id: `SecurityCheckStep.${step.id}.title`,
+            id: title || `SecurityCheckStep.${step.id}.title`,
             defaultMessage: intl.formatMessage({ id: `SecurityCheckStep.${step.checkStatus}` }),
           })}
         </Text>
       </View>
-      {isGovCheck ? (
+      {children ? (
         <View style={styles.value}>
-          <GovCheckTextPDF step={step} />
+          {children}
         </View>
       ) : (
         <Text style={styles.value}>

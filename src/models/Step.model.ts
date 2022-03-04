@@ -24,6 +24,23 @@ export enum StepTypes {
   EmailRisk = 'email-risk-validation',
 }
 
+export enum VerificationStepTypes {
+  EmailOwnershipValidation = 'email-ownership-validation',
+  EmailRiskValidation = 'email-risk-validation',
+  Liveness = 'liveness',
+  Voice = 'voice',
+  Selfie = 'selfie',
+  Ip = 'ip-validation',
+  PhoneOwnershipValidation = 'phone-ownership-validation',
+  PhoneRiskAnalysisValidation = 'phone-risk-analysis-validation',
+  PhoneRiskValidation = 'phone-risk-analysis-validation',
+  ReFacematch = 're-facematch',
+  DuplicateUserDetection = 'duplicate-user-detection',
+  BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
+  CustomWatchlistsValidation = 'custom-watchlists-validation',
+  NigerianLegalValidation = 'nigerian-legal-validation',
+}
+
 export enum StepStatus {
   Success = 'success',
   Failure = 'failure',
@@ -63,10 +80,11 @@ export const DocumentStepTypes = {
   BolivianOep: VerificationPatternTypes.BolivianOep,
   DocumentReading: VerificationPatternTypes.DocumentReading,
   TemplateMatching: VerificationPatternTypes.TemplateMatching,
-  CURP: VerificationPatternTypes.MexicanCurp,
-  INE: VerificationPatternTypes.MexicanIne,
-  RFC: VerificationPatternTypes.MexicanRfc,
+  MexicanCurp: VerificationPatternTypes.MexicanCurp,
+  MexicanIne: VerificationPatternTypes.MexicanIne,
+  MexicanRfc: VerificationPatternTypes.MexicanRfc,
   BrazilianCpf: VerificationPatternTypes.BrazilianCpf,
+  BrazilianNoCriminalRecordsValidation: VerificationPatternTypes.BrazilianNoCriminalRecordsValidation,
   CreditArgentinianFidelitas: VerificationPatternTypes.CreditArgentinianFidelitas,
   CreditBrazilianSerasa: VerificationPatternTypes.CreditBrazilianSerasa,
   ChileanRut: VerificationPatternTypes.ChileanRut,
@@ -78,9 +96,11 @@ export const DocumentStepTypes = {
   ColombianProcuraduria: VerificationPatternTypes.ColombianProcuraduria,
   ColombianNit: VerificationPatternTypes.ColombianNit,
   ColombianRunt: VerificationPatternTypes.ColombianRunt,
+  ColombianSisben: VerificationPatternTypes.ColombianSisben,
   MexicanPep: VerificationPatternTypes.MexicanPep,
   ColombianRegistraduria: VerificationPatternTypes.ColombianRegistraduria,
   ArgentinianRenaper: VerificationPatternTypes.ArgentinianRenaper,
+  ArgentinianRenaperExtended: VerificationPatternTypes.ArgentinianRenaperExtended,
   ArgentinianRenaperFacematch: VerificationPatternTypes.ArgentinianRenaperFacematch,
   EcuadorianSri: VerificationPatternTypes.EcuadorianSri,
   EcuadorianRegistroCivil: VerificationPatternTypes.EcuadorianRegistroCivil,
@@ -104,29 +124,11 @@ export const DocumentStepTypes = {
   VenezuelanSeniat: VerificationPatternTypes.VenezuelanSeniat,
   ReFacematch: VerificationPatternTypes.ReFacematch,
   KenyanEcitizen: VerificationPatternTypes.KenyanEcitizen,
-  ArgentinianAfip: VerificationPatternTypes.ArgentinianAfip,
   ArgentinianAnses: VerificationPatternTypes.ArgentinianAnses,
   UgandanElectoralCommission: VerificationPatternTypes.UgandanElectoralCommission,
   NigerianDl: VerificationPatternTypes.NigerianDl,
   ...AmlDocumentStepTypes,
 };
-
-export enum VerificationStepTypes {
-  EmailOwnershipValidation = 'email-ownership-validation',
-  EmailRiskValidation = 'email-risk-validation',
-  Liveness = 'liveness',
-  Voice = 'voice',
-  Selfie = 'selfie',
-  Ip = 'ip-validation',
-  PhoneOwnershipValidation = 'phone-ownership-validation',
-  PhoneRiskAnalysisValidation = 'phone-risk-analysis-validation',
-  PhoneRiskValidation = 'phone-risk-analysis-validation',
-  ReFacematch = 're-facematch',
-  DuplicateUserDetection = 'duplicate-user-detection',
-  BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
-  CustomWatchlistsValidation = 'custom-watchlists-validation',
-  NigerianLegalValidation = 'nigerian-legal-validation',
-}
 
 export type StepIds = VerificationPatternTypes | StepTypes | VerificationDocStepTypes | VerificationStepTypes;
 
@@ -175,16 +177,17 @@ export const CountrySpecificCreditChecks = [
 ];
 
 export const CountrySpecificChecks = [
-  DocumentStepTypes.CURP,
-  DocumentStepTypes.INE,
-  DocumentStepTypes.RFC,
-  DocumentStepTypes.ArgentinianAfip,
+  DocumentStepTypes.MexicanCurp,
+  DocumentStepTypes.MexicanIne,
+  DocumentStepTypes.MexicanRfc,
   DocumentStepTypes.ArgentinianAnses,
   DocumentStepTypes.ArgentinianDni,
   DocumentStepTypes.ArgentinianRenaper,
+  DocumentStepTypes.ArgentinianRenaperExtended,
   DocumentStepTypes.ArgentinianRenaperFacematch,
   DocumentStepTypes.BolivianOep,
   DocumentStepTypes.BrazilianCpf,
+  DocumentStepTypes.BrazilianNoCriminalRecordsValidation,
   DocumentStepTypes.ChileanRegistroCivil,
   DocumentStepTypes.ColombianBdua,
   DocumentStepTypes.ChileanDriverLicense,
@@ -194,6 +197,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.ColombianProcuraduria,
   DocumentStepTypes.ColombianRunt,
   DocumentStepTypes.ColombianRegistraduria,
+  DocumentStepTypes.ColombianSisben,
   DocumentStepTypes.EcuadorianSri,
   DocumentStepTypes.EcuadorianRegistroCivil,
   DocumentStepTypes.GhanaianGra,
@@ -259,10 +263,10 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.PremiumAmlWatchlistsCheck]: ['premiumAmlWatchlists.notValidParams'],
   [DocumentStepTypes.ParaguayanRcp]: ['paraguayanRcp.notEnoughParams'],
   [DocumentStepTypes.Watchlists]: ['watchlists.notEnoughParams'],
-  [DocumentStepTypes.ArgentinianAfip]: ['argentinianAfip.notEnoughParams'],
   [DocumentStepTypes.ArgentinianAnses]: ['argentinianAnses.notEnoughParams'],
   [DocumentStepTypes.ArgentinianDni]: ['argentinianDni.notEnoughParams'],
   [DocumentStepTypes.CostaRicanAtv]: ['costaRicanAtv.notEnoughParams'],
+  [DocumentStepTypes.ArgentinianRenaperExtended]: ['argentinianRenaperExtended.notEnoughParams'],
   [DocumentStepTypes.ArgentinianRenaperFacematch]: ['argentinianRenaperFacematch.notEnoughParams'],
   [DocumentStepTypes.BolivianOep]: ['bolivianOep.notEnoughParams'],
   [DocumentStepTypes.ChileanRegistroCivil]: ['chileanRegistroCivil.notEnoughParams'],
@@ -270,6 +274,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.ColombianContraloria]: ['colombianContraloria.notEnoughParams'],
   [DocumentStepTypes.ColombianProcuraduria]: ['colombianProcuraduria.notEnoughParams'],
   [DocumentStepTypes.ColombianRunt]: ['colombianRunt.notEnoughParams', 'colombianRunt.notValidParams'],
+  [DocumentStepTypes.ColombianSisben]: ['colombianSisben.notEnoughParams', 'colombianSisben.notValidParams'],
   [DocumentStepTypes.CostaRicanTse]: ['costaRicanTse.notEnoughParams'],
   [DocumentStepTypes.EcuadorianSri]: ['ecuadorianSri.notEnoughParams'],
   [DocumentStepTypes.EcuadorianRegistroCivil]: ['ecuadorianRegistroCivil.notEnoughParams'],
@@ -294,9 +299,11 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.KenyanEcitizen]: ['kenyanEcitizen.notEnoughParams'],
   [DocumentStepTypes.PeruvianSunat]: ['peruvianSunat.notEnoughParams'],
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoralCommission.notEnoughParams'],
+  [DocumentStepTypes.BrazilianNoCriminalRecordsValidation]: ['brazilianNoCriminalRecordsValidation.notEnoughParams'],
 };
 
 export const OptionalGovCheckErrorCodes = {
+  [DocumentStepTypes.ArgentinianRenaperExtended]: ['argentinianRenaperExtended.deceasedPerson', 'argentinianRenaperExtended.dniMismatch', 'argentinianRenaperExtended.hasNoCuit'],
   [DocumentStepTypes.BrazilianCpf]: ['brazilianCpf.faceBiometricsMismatch'],
   [DocumentStepTypes.PeruvianReniec]: ['peruvianReniec.fullNameMismatch'],
   [DocumentStepTypes.MexicanPep]: ['mexicanPep.matchFound'],
@@ -305,7 +312,13 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoral.fullNameMismatch'],
   [DocumentStepTypes.NigerianDl]: ['nigerianDl.fullNameMismatch'],
   [DocumentStepTypes.ColombianRunt]: ['colombianRunt.fullNameMismatch', 'colombianRunt.hasFines'],
+  [DocumentStepTypes.ArgentinianRenaper]: ['argentinianRenaper.deceasedPerson', 'argentinianRenaper.fullNameMismatch'],
   [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
+  [DocumentStepTypes.ColombianSisben]: ['colombianSisben.fullNameMismatch'],
+};
+
+export const RootGovChecksErrorsToHide = {
+  'nigerianLegal.documentNotFound': true,
 };
 
 export const StepSkippedCodes = [

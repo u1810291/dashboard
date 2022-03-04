@@ -41,6 +41,7 @@ export function VerificationTable() {
   // +1 for loading spinner item
   const itemCount = useMemo(() => (hasMore ? verificationCollection?.value?.length + 1 : verificationCollection?.value?.length) || 0, [hasMore, verificationCollection]);
   const tableItemSize = useMemo(() => (isDesktop ? 50 + paddingBottom : 276 + paddingBottom), [isDesktop, paddingBottom]);
+  const [collectionCount, setCollectionCount] = useState(verificationCollection.value.length);
 
   useEffect(() => {
     setOffset(0);
@@ -48,15 +49,18 @@ export function VerificationTable() {
 
   useEffect(() => {
     if (REDUCE_DB_COUNT_CALLS) {
-      setHasMore(verificationCollection.isLoaded && verificationCollection.value.length % ITEMS_PER_PAGE === 0);
+      setHasMore(verificationCollection.isLoaded && (
+        verificationCollection.value.length > collectionCount
+        || verificationCollection.value.length % ITEMS_PER_PAGE === 0));
     } else {
       const difference = filteredCount.value - offset;
       setHasMore(verificationCollection.isLoaded && filteredCount.isLoaded && difference >= ITEMS_PER_PAGE);
     }
-  }, [filteredCount.isLoaded, filteredCount.value, verificationCollection.isLoaded, offset, verificationCollection.value]);
+  }, [filteredCount.isLoaded, filteredCount.value, verificationCollection.isLoaded, offset, verificationCollection.value, collectionCount]);
 
   const handleNextData = useCallback(() => {
     if (!verificationCollection.isLoading && hasMore) {
+      setCollectionCount(verificationCollection.value.length);
       const difference = filteredCount.value - offset;
       const maxOffset = REDUCE_DB_COUNT_CALLS
         ? ITEMS_PER_PAGE
@@ -64,7 +68,7 @@ export function VerificationTable() {
       dispatch(verificationsListLoad(false, { offset: offset + maxOffset, asMerchantId }));
       setOffset(((prevState) => prevState + maxOffset));
     }
-  }, [verificationCollection.isLoading, hasMore, dispatch, offset, asMerchantId, filteredCount.value]);
+  }, [verificationCollection.isLoading, verificationCollection.value.length, hasMore, filteredCount.value, offset, dispatch, asMerchantId]);
 
   const createSortHandler = useCallback((id: OrderKeyTypes) => () => {
     const isAsc = sortBy === VerificationTableSortByMap[id] && sortOrder === OrderDirections.asc;
@@ -75,7 +79,6 @@ export function VerificationTable() {
   }, [addToUrl, sortBy, sortOrder]);
 
   const isItemLoaded = useCallback((index) => !hasMore || index < verificationCollection?.value?.length, [hasMore, verificationCollection]);
-
   return (
     <TableContainer className={classes.container}>
       <Table className={classes.table} data-qa={QATags.VerificationList.Table}>

@@ -131,7 +131,7 @@ export interface CustomWatchlistValidationErrorData {
 export interface CustomWatchlistValidationError {
   code: ErrorStatuses;
   type: string;
-  data?: CustomWatchlistValidationErrorData;
+  data: CustomWatchlistValidationErrorData;
   message?: string;
   name?: string;
   stack?: string;

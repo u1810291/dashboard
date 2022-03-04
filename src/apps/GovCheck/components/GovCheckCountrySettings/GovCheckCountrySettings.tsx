@@ -1,6 +1,8 @@
 import React from 'react';
 import { flagMap } from 'assets/flags';
-import { Box, Grid, Switch } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Switch from '@material-ui/core/Switch';
 import { ExtendedDescription } from 'apps/ui';
 import { useIntl } from 'react-intl';
 import { GovCheck, GovCheckCountryTypes, GovCheckParsed } from 'apps/GovCheck/models/GovCheck.model';

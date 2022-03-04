@@ -51,6 +51,11 @@ export const selectCurrentCustomWatchlistIsLoading = createSelector<any, CustomW
   (store) => store.currentWatchlist.isLoading,
 );
 
+export const selectCurrentCustomWatchlistIsLoaded = createSelector<any, CustomWatchlistsStore, boolean>(
+  selectCustomWatchlistsStore,
+  (store) => store.currentWatchlist.isLoaded,
+);
+
 export const selectCurrentCustomWatchlistId = createSelector<any, IWatchlist | null, number>(
   selectCurrentCustomWatchlist,
   (currentWatchlist) => currentWatchlist?.id ?? null,
