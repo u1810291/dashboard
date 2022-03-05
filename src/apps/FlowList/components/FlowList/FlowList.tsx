@@ -15,7 +15,7 @@ import { useFormatMessage } from 'apps/intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
-import { merchantCreateFlow, merchantFlowsLoad } from 'state/merchant/merchant.actions';
+import { merchantCreateFlow } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
 import { clearCurrentTemplate } from 'apps/Templates';
@@ -31,7 +31,6 @@ export function FlowList() {
   const formatMessage = useFormatMessage();
   const [createOverlay] = useOverlay();
   const dispatch = useDispatch();
-  const { asMerchantId } = useQuery();
   const history = useHistory();
   const merchantFlowList = useSelector(selectMerchantFlowList);
   const isMobile = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));

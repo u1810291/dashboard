@@ -1,7 +1,6 @@
 import { flowBuilderProductListInit, types as flowBuilderTypes, selectFlowBuilderChangeableFlow } from 'apps/flowBuilder';
 import { merchantCreateFlow, merchantFlowsLoad, types as merchantTypes } from 'state/merchant/merchant.actions';
-import { selectMerchantFlowsModel, selectMerchantId } from 'state/merchant/merchant.selectors';
-import * as api from 'lib/client/merchant';
+import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { IFlow } from 'models/Flow.model';
 import { ApiResponse } from 'models/Client.model';
 import { flowUpdate } from 'apps/flowBuilder/api/flowBuilder.client';
