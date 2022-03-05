@@ -15,9 +15,12 @@ import { useFormatMessage } from 'apps/intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
-import { merchantCreateFlow } from 'state/merchant/merchant.actions';
-import { selectMerchantFlowList, selectMerchantTags } from 'state/merchant/merchant.selectors';
+import { merchantCreateFlow, merchantFlowsLoad } from 'state/merchant/merchant.actions';
+import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
+import { clearCurrentTemplate } from 'apps/Templates';
+import { flowBuilderClearStore } from 'apps/flowBuilder';
+import { useQuery } from 'lib/url';
 import { FlowsTable } from '../FlowsTable/FlowsTable';
 import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
 import { flowNameValidator } from '../../validators/FlowName.validator';
@@ -28,6 +31,7 @@ export function FlowList() {
   const formatMessage = useFormatMessage();
   const [createOverlay] = useOverlay();
   const dispatch = useDispatch();
+  const { asMerchantId } = useQuery();
   const history = useHistory();
   const merchantFlowList = useSelector(selectMerchantFlowList);
   const isMobile = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
@@ -38,6 +42,11 @@ export function FlowList() {
   useEffect(() => {
     setOpen(isButtonDisabled && isMobile);
   }, [isMobile, isButtonDisabled]);
+
+  useEffect(() => {
+    dispatch(clearCurrentTemplate());
+    dispatch(flowBuilderClearStore());
+  }, []);
 
   const submitNewFlow = useCallback(async (text) => {
     const value = (text || '').trim();

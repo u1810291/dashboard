@@ -7,7 +7,7 @@ import { notification } from 'apps/ui';
 import { selectConfigurationModel, selectCurrentFlowId, selectMerchantFlowsModel, selectMerchantId, selectMerchantCustomDocumentsModel } from './merchant.selectors';
 import { MerchantActionGroups } from './merchant.store';
 
-export const types = {
+export const types: any = {
   ...createTypesSequence(MerchantActionGroups.Merchant),
   ...createTypesSequence(MerchantActionGroups.Configuration),
   ...createTypesSequence(MerchantActionGroups.App),
@@ -86,7 +86,7 @@ export const configurationUpdate = (cfg, isSync) => async (dispatch, getState) =
   }
 };
 
-export const dashboardUpdate = (data, isSync) => (dispatch) => {
+export const dashboardUpdate = (data, isSync?) => (dispatch) => {
   dispatch(configurationUpdate({ dashboard: { ...data } }, isSync));
 };
 
@@ -179,7 +179,7 @@ export const merchantUpdateFlowList = (flowId, newFlow) => (dispatch, getState) 
     const { value } = selectMerchantFlowsModel(state);
     const index = value.findIndex((flow) => flow.id === flowId);
     const newFlowList = [...value];
-    newFlowList.splice(index, 1, newFlow);
+    newFlowList[index] = newFlow;
     dispatch({ type: types.FLOWS_SUCCESS, payload: newFlowList, isReset: true });
   } catch (error) {
     dispatch({ type: types.FLOWS_FAILURE, error });

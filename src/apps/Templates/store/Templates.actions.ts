@@ -1,6 +1,7 @@
 import { flowBuilderProductListInit, types as flowBuilderTypes, selectFlowBuilderChangeableFlow } from 'apps/flowBuilder';
-import { merchantCreateFlow, types as merchantActionTypes } from 'state/merchant/merchant.actions';
+import { merchantCreateFlow, merchantFlowsLoad, types as merchantTypes } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowsModel, selectMerchantId } from 'state/merchant/merchant.selectors';
+import * as api from 'lib/client/merchant';
 import { IFlow } from 'models/Flow.model';
 import { ApiResponse } from 'models/Client.model';
 import { flowUpdate } from 'apps/flowBuilder/api/flowBuilder.client';
@@ -9,7 +10,11 @@ import { FormatMessage } from 'apps/intl';
 import { types as flowBuilderActionTypes } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { notification } from 'apps/ui';
 import { DRAFT_INITIAL_STATE } from '../model/Templates.model';
-import { selectCurrentTemplateModelValue, selectTemplatesListModelValues } from './Templates.selectors';
+import {
+  selectCurrentTemplateModelValue,
+  selectTemplatesListModel,
+  selectTemplatesListModelValues,
+} from './Templates.selectors';
 import { types } from './Templates.store';
 import {
   createTemplateRequest,
@@ -71,12 +76,11 @@ export const createTemplate = (title, name, description, metadata) => async (dis
   try {
     const state = getState();
     const flow = selectFlowBuilderChangeableFlow(state);
-    const { value } = selectMerchantFlowsModel(state);
+    const { value } = selectTemplatesListModel(state);
     const { data } = await createTemplateRequest(title, description, metadata, { ...flow, name });
     dispatch({ type: types.CREATE_TEMPLATE_SUCCESS, payload: data });
-    dispatch({ type: flowBuilderTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
     // @ts-ignore
-    dispatch({ type: merchantActionTypes.FLOWS_SUCCESS, payload: [...value, data.flow], isReset: true });
+    dispatch({ type: types.GET_TEMPLATES_LIST_SUCCESS, payload: { ...value, rows: [data, ...value.rows] } });
   } catch (error) {
     dispatch({ type: types.CREATE_TEMPLATE_FAILURE, error });
     throw error;
@@ -151,11 +155,11 @@ export const createDraftFromTemplate = () => async (dispatch, getState) => {
   dispatch({ type: flowBuilderTypes.CHANGEABLE_FLOW_SUCCESS, payload: { ...template.flow, ...DRAFT_INITIAL_STATE } });
 };
 
-export const createFlowFromTemplate = (name: string) => async (dispatch, getState): Promise<IFlow> => {
+export const createFlowFromTemplate = (name: string, asMerchantId) => async (dispatch, getState): Promise<IFlow> => {
   try {
-    const newFlow = await dispatch(merchantCreateFlow({ name })) as IFlow;
     const merchantId = selectMerchantId(getState());
-    const changeableFlow = await selectFlowBuilderChangeableFlow(getState());
+    const newFlow = await dispatch(merchantCreateFlow({ name })) as IFlow;
+    const changeableFlow = selectFlowBuilderChangeableFlow(getState());
     const { data }: ApiResponse<IFlow> = await flowUpdate(merchantId, newFlow.id, {
       ...{ ...changeableFlow, name },
       _id: undefined,
@@ -169,6 +173,8 @@ export const createFlowFromTemplate = (name: string) => async (dispatch, getStat
     const updatedFlow = mergeDeep(changeableFlow, data);
     await dispatch({ type: flowBuilderActionTypes.CHANGEABLE_FLOW_SUCCESS, payload: data, isReset: true });
     await dispatch({ type: flowBuilderActionTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
+    await dispatch({ type: merchantTypes.FLOWS_SUCCESS, payload: [], isReset: true });
+    await dispatch(merchantFlowsLoad(asMerchantId));
     return updatedFlow;
   } catch (error) {
     return error;

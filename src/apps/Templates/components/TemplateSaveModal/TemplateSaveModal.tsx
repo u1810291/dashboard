@@ -103,7 +103,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   };
 
   const handleSubmitPatchFrom = async () => {
-    const response = await dispatch(updateTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Countries]]));
+    const response = await dispatch(updateTemplate(values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Countries]]));
     closeOverlay();
     return response;
   };

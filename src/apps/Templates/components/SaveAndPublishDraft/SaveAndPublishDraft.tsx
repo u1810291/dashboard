@@ -4,6 +4,7 @@ import { flowBuilderSaveAndPublish, selectFlowBuilderHaveUnsavedChanges, selectF
 import { useProductsIssues } from 'apps/Product';
 import { notification, TextBubble } from 'apps/ui';
 import { useOverlay } from 'apps/overlay';
+import { useQuery } from 'lib/url';
 import React from 'react';
 import { FiSave } from 'react-icons/fi';
 import { Routes } from 'models/Router.model';
@@ -26,6 +27,7 @@ export function SaveAndPublishDraft({ isEditMode = false }: { isEditMode?: boole
   const formatMessage = useFormatMessage();
   const dispatch = useDispatch();
   const history = useHistory();
+  const { asMerchantId } = useQuery();
   const productsInGraphModel = useSelector<any, Loadable<ProductTypes[]>>(selectFlowBuilderProductsInGraphModel);
   const haveUnsavedChanges = useSelector<any, boolean>(selectFlowBuilderHaveUnsavedChanges);
   const haveIssues = useProductsIssues(productsInGraphModel.value);
@@ -38,7 +40,7 @@ export function SaveAndPublishDraft({ isEditMode = false }: { isEditMode?: boole
 
     const duplicate = merchantFlowList.find((item) => item.name === value);
     await flowNameValidator({ hasDuplicate: !!duplicate, name: value });
-    const newFlow = await dispatch(createFlowFromTemplate(value));
+    const newFlow = await dispatch(createFlowFromTemplate(value, asMerchantId));
     // @ts-ignore
     history.push(`${Routes.templates.draftFlow}/${newFlow.id}`);
   };

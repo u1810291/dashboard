@@ -17,7 +17,7 @@ import { useFlowListLoad } from 'apps/FlowList';
 import { ProductTypes } from 'models/Product.model';
 import { FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow, selectFlowBuilderHaveUnsavedChanges } from 'apps/flowBuilder';
 import { selectCurrentTemplateModel } from 'apps/Templates/store/Templates.selectors';
-import { createDraftFromTemplate, getTemplate, clearCurrentTemplate } from 'apps/Templates';
+import { createDraftFromTemplate, getTemplate } from 'apps/Templates';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useOverlay } from 'apps/overlay';
@@ -75,11 +75,6 @@ export function DraftFlowBuilder() {
       }
     }
   }, [dispatch, currentTemplateModel, isBuilderInitialized, id, isEditMode, changeableFlowModel, flowListModel.isLoaded]);
-
-  useEffect(() => () => {
-    dispatch(clearCurrentTemplate());
-    dispatch(flowBuilderClearStore());
-  }, [dispatch]);
 
   useEffect(() => {
     dagreGraphService.createGraph();
