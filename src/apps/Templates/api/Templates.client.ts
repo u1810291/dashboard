@@ -1,6 +1,6 @@
 import { http } from 'lib/client/http';
 import { IFlow } from 'models/Flow.model';
-import { ITemplate, ITemplateMetadata } from '../model/Templates.model';
+import { ITemplate, ITemplateMetadata, ITemplatesList } from '../model/Templates.model';
 
 export function createTemplateRequest(name: string, description: string, metadata: ITemplateMetadata[], flow: IFlow) {
   return http.post<ITemplate>('/api/v1/dashboard/template', { metadata, name, description, flow });
@@ -31,5 +31,5 @@ export function toggleTemplateRequest(id: string, toggle: string) {
 }
 
 export function getTemplatesListRequest() {
-  return http.get<[]>('/api/v1/dashboard/template/list', { params: { pageSize: 100 } });
+  return http.get<ITemplatesList>('/api/v1/dashboard/template/list', { params: { pageSize: 100 } });
 }
