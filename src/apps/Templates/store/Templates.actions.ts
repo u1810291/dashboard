@@ -179,3 +179,7 @@ export const createFlowFromTemplate = (name: string, asMerchantId) => async (dis
     return error;
   }
 };
+
+export const resetUnsavedChanges = () => (dispatch) => {
+  dispatch({ type: flowBuilderActionTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
+};

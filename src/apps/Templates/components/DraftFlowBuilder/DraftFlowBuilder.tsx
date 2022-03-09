@@ -28,6 +28,7 @@ import { ITemplate, DRAFT_INITIAL_STATE } from '../../model/Templates.model';
 import { TemplateSelectAttemptModal } from '../TemplateSelectAttemptModal/TemplateSelectAttemptModal';
 import { SaveAndPublishDraft } from '../SaveAndPublishDraft/SaveAndPublishDraft';
 import { useStyles } from './DraftFlowBuilder.styles';
+import { resetUnsavedChanges } from 'apps/Templates/store/Templates.actions';
 
 export function DraftFlowBuilder() {
   const classes = useStyles();
@@ -90,6 +91,7 @@ export function DraftFlowBuilder() {
     const handleChangeTemplate = async () => {
       await dispatch(flowBuilderChangeableFlowUpdate({ ...currentTemplateModel.value.flow, _id: undefined }));
       await dispatch(flowBuilderProductListInit(currentTemplateModel.value.flow, true));
+      dispatch(resetUnsavedChanges());
       closeOverlay();
     };
     handleChangeTemplate();
