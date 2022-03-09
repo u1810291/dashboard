@@ -83,10 +83,11 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
     required: formatMessage('validations.required'),
     validate: (value) => value?.length > 0 || formatMessage('validations.required'),
   });
-  const countriesRegister = register(TemplateSaveInputsTypes.Countries, {
-    required: formatMessage('validations.required'),
-    validate: (value) => value?.length > 0 || formatMessage('validations.required'),
-  });
+  // const countriesRegister = register(TemplateSaveInputsTypes.Countries, {
+  //   required: formatMessage('validations.required'),
+  //   validate: (value) => value?.length > 0 || formatMessage('validations.required'),
+  // });
+  // we will return this part in Q2, we were told to put it away for a while
   const descriptionRegister = register(TemplateSaveInputsTypes.Description, {
     required: formatMessage('validations.required'),
     maxLength: {
@@ -98,12 +99,12 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   useLoadMetadataList();
 
   const handleSubmitSaveForm = async () => {
-    const response = await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Countries]]));
+    const response = await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries]]));
     return response;
   };
 
   const handleSubmitPatchFrom = async () => {
-    const response = await dispatch(updateTemplate(values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Countries]]));
+    const response = await dispatch(updateTemplate(values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries]]));
     closeOverlay();
     return response;
   };
@@ -120,13 +121,18 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   };
 
   const handleDeleteChip = (valueToDelete: ITemplateMetadata, property: TemplateSaveInputsTypes) => {
-    setValue(property, (values[property] as ITemplateMetadata[]).filter((value) => value !== valueToDelete));
+    setValue(property, (values[property] as ITemplateMetadata[]).filter((value) => value.name !== valueToDelete.name));
     trigger(property); // Force validation after deleting a value
   };
 
   const renderChip = useCallback((selectValues: ITemplateMetadata[], onDelete: (value: ITemplateMetadata, type: TemplateSaveInputsTypes) => void, type: TemplateSaveInputsTypes) => selectValues.map((selectValue) => <Chip className={classes.chip} variant="outlined" key={selectValue.name} label={selectValue.name} onDelete={() => onDelete(selectValue, type)} deleteIcon={<IoCloseOutline onMouseDown={(event) => event.stopPropagation()} />} />), [classes]);
 
-  const getIsChecked = (value, type) => values[type].some((metadata) => metadata.name === value.name);
+  const getIsChecked = (value, type) => values[type].some((metadata) => metadata._id === value._id);
+
+  const isCheckedChange = (value: ITemplateMetadata, type: TemplateSaveInputsTypes) => {
+    const isCurrentPointChecked = getIsChecked(value, type);
+    return isCurrentPointChecked && handleDeleteChip(value, type);
+  };
 
   return (
     <Modal
@@ -216,7 +222,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                 >
                   {industries.map((industry) => (
                     // @ts-ignore
-                    <MenuItem key={industry.name} value={industry} className={classes.menuItem}>
+                    <MenuItem key={industry._id} value={industry} className={classes.menuItem} onChange={() => isCheckedChange(industry, TemplateSaveInputsTypes.Industries)}>
                       <Checkbox checked={getIsChecked(industry, TemplateSaveInputsTypes.Industries)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
                       <ListItemText primary={industry.name} />
                     </MenuItem>
@@ -224,44 +230,45 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                 </Select>
                 {!!errors[TemplateSaveInputsTypes.Industries] && <FormHelperText className={classes.selectHelperText}>{(errors?.[TemplateSaveInputsTypes.Industries] as any)?.message}</FormHelperText>}
               </Box>
-              <Box className={classes.inputLabelAndField} mt={3} justifyContent="end !important">
-                <Box mr={2}>
-                  <span className={classes.inputLabel}>
-                    {`${formatMessage('Templates.saveModal.fields.countries')}:`}
-                  </span>
-                </Box>
-                <Select
-                  {...countriesRegister}
-                  value={values[TemplateSaveInputsTypes.Countries]}
-                  renderValue={(selectValues) => renderChip(selectValues as any, handleDeleteChip, TemplateSaveInputsTypes.Countries)}
-                  multiple
-                  disableUnderline
-                  className={classnames(classes.select, { [classes.selectError]: !!errors[TemplateSaveInputsTypes.Countries] })}
-                  autoWidth={false}
-                  MenuProps={{
-                    anchorOrigin: {
-                      vertical: 'bottom',
-                      horizontal: 'left',
-                    },
-                    getContentAnchorEl: null,
-                    className: classes.dropdownMenu,
-                    PaperProps: {
-                      className: classes.dropdownMenuPaper,
-                    },
-                  }}
-                  error={!!errors[TemplateSaveInputsTypes.Countries]}
-                  data-qa={QATags.Templates.Modal.CountriesSelect}
-                >
-                  {countries.map((country) => (
-                    // @ts-ignore
-                    <MenuItem key={country.name} value={country} className={classes.menuItem}>
-                      <Checkbox checked={getIsChecked(country, TemplateSaveInputsTypes.Countries)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
-                      <ListItemText primary={country.name} />
-                    </MenuItem>
-                  ))}
-                </Select>
-                {!!errors[TemplateSaveInputsTypes.Countries] && <FormHelperText className={classes.selectHelperText}>{(errors[TemplateSaveInputsTypes.Countries] as any)?.message}</FormHelperText>}
-              </Box>
+              {/* we will return this part in Q2, we were told to put it away for a while */}
+              {/* <Box className={classes.inputLabelAndField} mt={3} justifyContent="end !important"> */}
+              {/*  <Box mr={2}> */}
+              {/*    <span className={classes.inputLabel}> */}
+              {/*      {`${formatMessage('Templates.saveModal.fields.countries')}:`} */}
+              {/*    </span> */}
+              {/*  </Box> */}
+              {/*  <Select */}
+              {/*    {...countriesRegister} */}
+              {/*    value={values[TemplateSaveInputsTypes.Countries]} */}
+              {/*    renderValue={(selectValues) => renderChip(selectValues as any, handleDeleteChip, TemplateSaveInputsTypes.Countries)} */}
+              {/*    multiple */}
+              {/*    disableUnderline */}
+              {/*    className={classnames(classes.select, { [classes.selectError]: !!errors[TemplateSaveInputsTypes.Countries] })} */}
+              {/*    autoWidth={false} */}
+              {/*    MenuProps={{ */}
+              {/*      anchorOrigin: { */}
+              {/*        vertical: 'bottom', */}
+              {/*        horizontal: 'left', */}
+              {/*      }, */}
+              {/*      getContentAnchorEl: null, */}
+              {/*      className: classes.dropdownMenu, */}
+              {/*      PaperProps: { */}
+              {/*        className: classes.dropdownMenuPaper, */}
+              {/*      }, */}
+              {/*    }} */}
+              {/*    error={!!errors[TemplateSaveInputsTypes.Countries]} */}
+              {/*    data-qa={QATags.Templates.Modal.CountriesSelect} */}
+              {/*  > */}
+              {/*    {countries.map((country) => ( */}
+              {/*      // @ts-ignore */}
+              {/*      <MenuItem key={country.name} value={country} className={classes.menuItem}> */}
+              {/*        <Checkbox checked={getIsChecked(country, TemplateSaveInputsTypes.Countries)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} /> */}
+              {/*        <ListItemText primary={country.name} /> */}
+              {/*      </MenuItem> */}
+              {/*    ))} */}
+              {/*  </Select> */}
+              {/*  {!!errors[TemplateSaveInputsTypes.Countries] && <FormHelperText className={classes.selectHelperText}>{(errors[TemplateSaveInputsTypes.Countries] as any)?.message}</FormHelperText>} */}
+              {/* </Box> */}
             </Box>
           </Box>
           <Box mt={3} display="flex" justifyContent="space-between">
@@ -288,7 +295,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
           color="primary"
           variant="contained"
           onClick={handleSaveTemplate}
-          disabled={isSubmitting || !isValid || !isDirty}
+          disabled={isSubmitting || !isValid}
         >
           {formatMessage('Templates.saveModal.saveButton')}
         </Button>
