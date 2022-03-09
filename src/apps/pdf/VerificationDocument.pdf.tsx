@@ -14,6 +14,7 @@ import { getIpCheckStep } from 'models/IpCheck.model';
 import { getEmailRiskStep } from 'models/EmailCheck.model';
 import { useIntl } from 'react-intl';
 import { AppIntlProvider } from 'apps/intl';
+import { getGovCheckRootSteps } from 'apps/GovCheck';
 import { InputStatus, InputTypes } from 'models/Input.model';
 import { VerificationCustomFieldsInputData } from 'apps/CustomField';
 import { DocumentStepPDF } from './components/DocumentStepPDF/DocumentStepPDF';
@@ -28,8 +29,11 @@ import { commonStyles } from './PDF.styles';
 import { BankAccountDataPDF } from './components/BankAccountDataPDF/BankAccountDataPDF';
 import { WorkAccountDataPDF } from './components/WorkAccountDataPDF/WorkAccountDataPDF';
 import { PayrollAccountDataPDF } from './components/PayrollAccountDataPDF/PayrollAccountDataPDF';
+import { CheckStepPDF } from './components/CheckStepPDF/CheckStepPDF';
+import { GovCheckTextPDF } from './components/GovCheckTextPDF/GovCheckTextPDF';
 import { CustomFieldPDF } from './components/CustomFieldPDF/CustomFieldPDF';
 import { CustomWatchlistPDF } from './components/CustomWatchlistPDF/CustomWatchlistPDF';
+import { CreditCheckPDF } from './components/CreditCheckPDF/CreditCheckPDF';
 
 interface AdditionalData {
   legalName: string;
@@ -53,6 +57,7 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
   const bankAccountData = getBankAccountData(verification);
   const workAccountData = getWorkAccountData(verification);
   const payrollAccountData = getPayrollAccountData(verification);
+  const govCheckRootSteps = getGovCheckRootSteps(verification);
 
   return (
     <Document title={`Verification ${verification.id}`} author="MetaMap www.metamap.com">
@@ -76,8 +81,16 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
             />
           </View>
         ))}
+        {/* GovCheck from root step */}
+        {govCheckRootSteps?.map((step) => (
+          <CheckStepPDF step={step} title={step.title} key={step.id}>
+            <GovCheckTextPDF step={step} isShowError={step.isShowError} />
+          </CheckStepPDF>
+        ))}
         {/* custom watchlist */}
         <CustomWatchlistPDF steps={verification.steps} />
+        {/* credit check */}
+        <CreditCheckPDF />
         {/* biometric and reVerification */}
         {verification.reVerification ? (
           <View>
