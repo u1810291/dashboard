@@ -127,13 +127,11 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
 
   const renderChip = useCallback((selectValues: ITemplateMetadata[], onDelete: (value: ITemplateMetadata, type: TemplateSaveInputsTypes) => void, type: TemplateSaveInputsTypes) => selectValues.map((selectValue) => <Chip className={classes.chip} variant="outlined" key={selectValue.name} label={selectValue.name} onDelete={() => onDelete(selectValue, type)} deleteIcon={<IoCloseOutline onMouseDown={(event) => event.stopPropagation()} />} />), [classes]);
 
-  const getIsChecked = (value, type) => values[type].some((metadata) => metadata.name === value.name);
+  const getIsChecked = (value, type) => values[type].some((metadata) => metadata._id === value._id);
 
   const isCheckedChange = (value: ITemplateMetadata, type: TemplateSaveInputsTypes) => {
     const isCurrentPointChecked = getIsChecked(value, type);
-    if (isCurrentPointChecked) {
-      handleDeleteChip(value, type);
-    }
+    return isCurrentPointChecked && handleDeleteChip(value, type);
   };
 
   return (
@@ -224,7 +222,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                 >
                   {industries.map((industry) => (
                     // @ts-ignore
-                    <MenuItem key={industry.name} value={industry} className={classes.menuItem} onChange={() => isCheckedChange(industry, TemplateSaveInputsTypes.Industries)}>
+                    <MenuItem key={industry._id} value={industry} className={classes.menuItem} onChange={() => isCheckedChange(industry, TemplateSaveInputsTypes.Industries)}>
                       <Checkbox checked={getIsChecked(industry, TemplateSaveInputsTypes.Industries)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
                       <ListItemText primary={industry.name} />
                     </MenuItem>
@@ -297,7 +295,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
           color="primary"
           variant="contained"
           onClick={handleSaveTemplate}
-          disabled={isSubmitting || !isValid || !isDirty}
+          disabled={isSubmitting || !isValid}
         >
           {formatMessage('Templates.saveModal.saveButton')}
         </Button>
