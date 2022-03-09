@@ -36,7 +36,6 @@ import {
 } from '../../model/Templates.model';
 import { createTemplate, updateTemplate } from '../../store/Templates.actions';
 import { useStyles } from './TemplateSaveModal.styles';
-import { useLoadCurrentTemplate } from '../../hooks/UseLoadCurrentTemplate';
 
 export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   const formatMessage = useFormatMessage();
