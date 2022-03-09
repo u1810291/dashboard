@@ -81,7 +81,6 @@ export function DraftFlowBuilder() {
   }, [dispatch, id, asMerchantId, flowListModel.isLoaded, changeableFlowModel]);
 
   const handleProductUpdate = useCallback((patch: Partial<IFlow>) => {
-    console.log(patch);
     dispatch(flowBuilderChangeableFlowUpdate(patch));
   }, [dispatch]);
 
@@ -89,16 +88,14 @@ export function DraftFlowBuilder() {
     if (!isBuilderInitialized || !currentTemplateModel.value) return;
 
     const handleChangeTemplate = async () => {
-      console.log('ch cur temp ', currentTemplateModel.value.flow);
       await dispatch(flowBuilderChangeableFlowUpdate({ ...currentTemplateModel.value.flow, _id: undefined }));
-      await dispatch(flowBuilderProductListInit(changeableFlowModel.value, true));
+      await dispatch(flowBuilderProductListInit(currentTemplateModel.value.flow, true));
       closeOverlay();
     };
     handleChangeTemplate();
-  }, [currentTemplateModel, isBuilderInitialized, dispatch, closeOverlay, changeableFlowModel]);
+  }, [currentTemplateModel, isBuilderInitialized, dispatch, closeOverlay]);
 
   const handleTemplateCardClick = async (templateId: string) => {
-    console.log(templateId);
     await dispatch(getTemplate(templateId));
   };
 
