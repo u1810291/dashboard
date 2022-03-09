@@ -2419,6 +2419,9 @@
   "identities.total": "Total checks:",
   "identity.document.photo.back.title": "Back Side",
   "identity.document.photo.front.title": "Front Side",
+  "identity.field.readAt": "Terms read on",
+  "identity.field.signedAt": "Terms signed on",
+  "identity.field.documentId": "Transaction ID",
   "identity.field.active": "Active",
   "identity.field.activeDriver": "Active Driver",
   "identity.field.activeLicense": "Active License",
@@ -2916,5 +2919,6 @@
   "week.5": "Fri",
   "week.6": "Sat",
   "week.7": "Sun",
-  "yes": "Yes"
+  "yes": "Yes",
+  "noData": "No Data"
 }
