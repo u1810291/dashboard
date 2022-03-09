@@ -5,7 +5,7 @@ import { FiCreditCard } from 'react-icons/fi';
 import { CountrySpecificCreditChecks, StepStatus } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { CreditCheckSettings } from '../components/CreditCheckSettings/CreditCheckSettings';
-import { CreditCheckSettingTypes, CreditChecksTypes, verificationPatternsCreditChecksDefault } from '../models/CreditCheck.model';
+import { CreditCheckSettingTypes, CreditChecksTypes, creditIsInVerification, verificationPatternsCreditChecksDefault } from '../models/CreditCheck.model';
 import { CreditCheckVerificationProduct } from '../components/CreditCheckVerificationProduct/CreditCheckVerificationProduct';
 
 type ProductSettingsCreditCheck = ProductSettings<CreditCheckSettingTypes>;
@@ -49,10 +49,7 @@ export class CreditCheck extends ProductBaseFlowBuilder implements Product {
   }
 
   isInVerification(verification: VerificationResponse): boolean {
-    return verification?.documents?.some((document) => {
-      const creditChecksSteps = document?.steps.filter((step) => CountrySpecificCreditChecks.includes(step.id));
-      return creditChecksSteps?.length > 0;
-    });
+    return creditIsInVerification(verification);
   }
 
   hasFailedCheck(verification: VerificationResponse): boolean {

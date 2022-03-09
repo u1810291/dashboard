@@ -250,7 +250,3 @@ export function getCustomWatchlistErrorsFormated(errors?: CustomWatchlistValidat
     return memo;
   }, {});
 }
-
-export function isMappingExist(mapping: WatchlistMapping[]): boolean {
-  return !!mapping?.some((value) => value.systemField !== ValidatedInputsKeys.NotSelected);
-}
