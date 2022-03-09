@@ -57,7 +57,7 @@ export const TEMPLATE_SAVE_FORM_INITIAL_STATE = {
   [TemplateSaveInputsTypes.TemplateTitle]: '',
   [TemplateSaveInputsTypes.MetamapName]: '',
   [TemplateSaveInputsTypes.Industries]: [],
-  [TemplateSaveInputsTypes.Countries]: [],
+  // [TemplateSaveInputsTypes.Countries]: [],
   [TemplateSaveInputsTypes.Description]: '',
 };
 
@@ -68,7 +68,7 @@ export function getFiltersOptions(filtersData: ITemplateMetadata[], type: Metada
     return { title, data: [...uniqueOptions] };
   });
   const currentFilterValues = modifiedArray.find((result) => result.title === type);
-  return currentFilterValues.data;
+  return currentFilterValues?.data || [];
 }
 
 export const templateSaveFormEdit = (currentTemplate) => (
@@ -76,7 +76,7 @@ export const templateSaveFormEdit = (currentTemplate) => (
     [TemplateSaveInputsTypes.TemplateTitle]: currentTemplate.name,
     [TemplateSaveInputsTypes.MetamapName]: currentTemplate.flow.name,
     [TemplateSaveInputsTypes.Industries]: getFiltersOptions(currentTemplate.metadata, MetadataType.Industry),
-    [TemplateSaveInputsTypes.Countries]: getFiltersOptions(currentTemplate.metadata, MetadataType.Country),
+    // [TemplateSaveInputsTypes.Countries]: getFiltersOptions(currentTemplate.metadata, MetadataType.Country),
     [TemplateSaveInputsTypes.Description]: currentTemplate.description,
   }
 );
