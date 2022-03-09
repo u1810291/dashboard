@@ -4,6 +4,7 @@ import { CheckResultLogo } from 'apps/ui';
 import { StepTypes } from 'models/Step.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { MediaStatusTypes } from 'apps/media';
 import { LivenessMedia } from '../LivenessMedia/LivenessMedia';
 import { useStyles } from './NewLivenessStep.styles';
 import { LivenessConslusion } from '../LivenessConslusion/LivenessConslusion';
@@ -30,7 +31,7 @@ export function NewLivenessStep({ steps = [], downloadableFileName }: {
             {checkStatus !== LivenessStepStatus.FewData && steps.map((item, index) => (
               <React.Fragment key={item.id}>
                 {/* video */}
-                {item?.videoUrl && (
+                {item?.videoUrl !== MediaStatusTypes.MediaIsEmpty && (
                   <Grid
                     container
                     item
@@ -56,7 +57,7 @@ export function NewLivenessStep({ steps = [], downloadableFileName }: {
                 <LivenessMedia
                   image={steps[0].selfieUrl}
                   title={intl.formatMessage({ id: 'LivenessStep.Checks.selfie.title' })}
-                  subtitle={steps[0]?.videoUrl && intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
+                  subtitle={steps[0]?.videoUrl !== MediaStatusTypes.MediaIsEmpty && intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
                   downloadableFileName={downloadableFileName}
                 />
               )}
