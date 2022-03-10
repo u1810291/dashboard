@@ -81,7 +81,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   });
   const industriesRegister = register(TemplateSaveInputsTypes.Industries, {
     required: formatMessage('validations.required'),
-    // validate: (value) => value?.length > 0 || formatMessage('validations.required'),
+    validate: (value) => value?.length > 0 || formatMessage('validations.required'),
   });
   // const countriesRegister = register(TemplateSaveInputsTypes.Countries, {
   //   required: formatMessage('validations.required'),
@@ -226,13 +226,8 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                       value={industry}
                       key={industry._id}
                       className={classes.menuItem}
-                      onChange={(event) => {
+                      onChange={() => {
                         isCheckedChange(industry, TemplateSaveInputsTypes.Industries);
-                      }}
-                      onClick={(event) => {
-                        event.preventDefault();
-                        isCheckedChange(industry, TemplateSaveInputsTypes.Industries);
-                        event.preventDefault();
                       }}
                     >
                       <Checkbox checked={getIsChecked(industry, TemplateSaveInputsTypes.Industries)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
