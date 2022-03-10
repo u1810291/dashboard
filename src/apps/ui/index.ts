@@ -52,6 +52,8 @@ export * from './components/ButtonStyled/ButtonStyled';
 export * from './components/Spinner/Spinner';
 export * from './components/FileSelectButton/FileSelectButton';
 export { FlowIssue } from './components/FlowIssue/FlowIssue';
+export { NoData } from './components/NoData/NoData';
+export { Select } from './components/Select/Select';
 
 export * from './models/Warning.model';
 export * from './models/SyntaxHighlighter.model';
