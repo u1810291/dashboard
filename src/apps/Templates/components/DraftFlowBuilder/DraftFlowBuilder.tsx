@@ -17,18 +17,18 @@ import { useFlowListLoad } from 'apps/FlowList';
 import { ProductTypes } from 'models/Product.model';
 import { FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow, selectFlowBuilderHaveUnsavedChanges, flowBuilderProductListInit } from 'apps/flowBuilder';
 import { selectCurrentTemplateModel } from 'apps/Templates/store/Templates.selectors';
-import { createDraftFromTemplate, getTemplate } from 'apps/Templates';
+import { clearCurrentTemplate, createDraftFromTemplate, getTemplate } from 'apps/Templates';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useOverlay } from 'apps/overlay';
 import { useFormatMessage } from 'apps/intl';
 import { TemplatesModal } from 'apps/SolutionCatalog';
 import { dagreGraphService, WorkflowBuilderIntegrationDetails } from 'apps/WorkflowBuilder';
+import { resetUnsavedChanges } from 'apps/Templates/store/Templates.actions';
 import { ITemplate, DRAFT_INITIAL_STATE } from '../../model/Templates.model';
 import { TemplateSelectAttemptModal } from '../TemplateSelectAttemptModal/TemplateSelectAttemptModal';
 import { SaveAndPublishDraft } from '../SaveAndPublishDraft/SaveAndPublishDraft';
 import { useStyles } from './DraftFlowBuilder.styles';
-import { resetUnsavedChanges } from 'apps/Templates/store/Templates.actions';
 
 export function DraftFlowBuilder() {
   const classes = useStyles();
