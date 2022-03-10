@@ -24,6 +24,10 @@ export const flowBuilderProductSelect = (productId: ProductTypes) => (dispatch) 
   dispatch({ type: types.PRODUCT_SELECT, payload: productId });
 };
 
+export const flowHaveUnsavedChanges = () => (dispatch) => {
+  dispatch({ type: types.HAVE_UNSAVED_CHANGES_UPDATE, payload: true });
+};
+
 export const flowBuilderClearStore = () => (dispatch) => {
   dispatch({ type: types.PRODUCTS_IN_GRAPH_CLEAR, payload: [] });
   dispatch({ type: types.CHANGEABLE_FLOW_CLEAR, payload: {} });
@@ -121,7 +125,7 @@ export const flowBuilderSubscribeToTemporaryWebhook = (temporaryFlowId: string) 
   }
 };
 
-export const flowBuilderSaveAndPublish = () => async (dispatch, getState) => {
+export const flowBuilderSaveAndPublish = (name?: string) => async (dispatch, getState) => {
   const state = getState();
   const changeableFlow = await selectFlowBuilderChangeableFlow(state);
   dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
@@ -129,6 +133,7 @@ export const flowBuilderSaveAndPublish = () => async (dispatch, getState) => {
     const merchantId = selectMerchantId(state);
     const { data }: ApiResponse<IFlow> = await api.flowUpdate(merchantId, changeableFlow.id, {
       ...changeableFlow,
+      name: name || changeableFlow.name,
       createdAt: undefined,
       id: undefined,
       updatedAt: undefined,

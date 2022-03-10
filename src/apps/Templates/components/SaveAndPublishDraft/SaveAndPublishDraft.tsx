@@ -13,7 +13,7 @@ import { Loadable } from 'models/Loadable.model';
 import { ProductTypes } from 'models/Product.model';
 import { useHistory } from 'react-router-dom';
 import { AddNewFlowModal } from 'apps/FlowList/components/AddNewFlowModal/AddNewFlowModal';
-import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
+import { selectMerchantFlowList, selectCurrentFlow } from 'state/merchant/merchant.selectors';
 import { IFlow } from 'models/Flow.model';
 import { flowNameValidator } from 'apps/FlowList/validators/FlowName.validator';
 import { useFormatMessage } from 'apps/intl';
@@ -34,10 +34,10 @@ export function SaveAndPublishDraft({ isEditMode = false }: { isEditMode?: boole
   const [createOverlay] = useOverlay();
   const currentTemplateModel = useSelector<any, Loadable<ITemplate>>(selectCurrentTemplateModel);
   const merchantFlowList = useSelector<any, IFlow[]>(selectMerchantFlowList);
+  const currentFlow = useSelector(selectCurrentFlow);
 
   const newFlowSubmit = async (text: string) => {
     const value = (text || '').trim();
-
     const duplicate = merchantFlowList.find((item) => item.name === value);
     await flowNameValidator({ hasDuplicate: !!duplicate, name: value });
     const newFlow = await dispatch(createFlowFromTemplate(value, asMerchantId));
@@ -51,7 +51,7 @@ export function SaveAndPublishDraft({ isEditMode = false }: { isEditMode?: boole
 
   const handleFlowUpdate = async () => {
     try {
-      await dispatch(flowBuilderSaveAndPublish());
+      await dispatch(flowBuilderSaveAndPublish(currentFlow.name));
       notification.info(formatMessage('FlowBuilder.notification.saved'));
     } catch (e) {
       notification.error(formatMessage('Error.common'));

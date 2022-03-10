@@ -20,7 +20,6 @@ import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
 import { clearCurrentTemplate } from 'apps/Templates';
 import { flowBuilderClearStore } from 'apps/flowBuilder';
-import { useQuery } from 'lib/url';
 import { FlowsTable } from '../FlowsTable/FlowsTable';
 import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
 import { flowNameValidator } from '../../validators/FlowName.validator';
@@ -32,7 +31,7 @@ export function FlowList() {
   const [createOverlay] = useOverlay();
   const dispatch = useDispatch();
   const history = useHistory();
-  const merchantFlowList = useSelector(selectMerchantFlowList);
+  const merchantFlowList = useSelector<any, IFlow[]>(selectMerchantFlowList);
   const isMobile = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
   const isButtonDisabled = (merchantFlowList || []).length >= MAX_NUMBER_OF_FLOWS;
   const [open, setOpen] = useState(isButtonDisabled && isMobile);

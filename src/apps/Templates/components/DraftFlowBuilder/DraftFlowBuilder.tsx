@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { ProductTypes } from 'models/Product.model';
-import { FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow, selectFlowBuilderHaveUnsavedChanges, flowBuilderProductListInit } from 'apps/flowBuilder';
+import { FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow, selectFlowBuilderHaveUnsavedChanges, flowBuilderProductListInit, flowHaveUnsavedChanges } from 'apps/flowBuilder';
 import { selectCurrentTemplateModel } from 'apps/Templates/store/Templates.selectors';
 import { clearCurrentTemplate, createDraftFromTemplate, getTemplate } from 'apps/Templates';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
@@ -69,9 +69,9 @@ export function DraftFlowBuilder() {
 
     if (isEditMode) {
       setIsBuilderInitiazed(true);
+      dispatch(updateCurrentFlowId(id));
       if (LoadableAdapter.isPristine(changeableFlowModel)) {
         dispatch(flowBuilderClearStore());
-        dispatch(updateCurrentFlowId(id));
         dispatch(flowBuilderChangeableFlowLoad());
       }
     }
