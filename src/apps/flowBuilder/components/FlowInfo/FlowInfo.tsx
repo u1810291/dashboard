@@ -7,8 +7,8 @@ import { useParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { IFlow } from 'models/Flow.model';
-import { selectFlowBuilderChangeableFlow } from '../../store/FlowBuilder.selectors';
 import { selectCurrentFlow } from 'state/merchant/merchant.selectors';
+import { selectFlowBuilderChangeableFlow } from '../../store/FlowBuilder.selectors';
 import { useStyles } from './FlowInfo.styles';
 
 export function FlowInfo({ canEdit, isEditable, newFlowName, setIsEditable, onSubmit, onCancel, validator, isTemplate }: {

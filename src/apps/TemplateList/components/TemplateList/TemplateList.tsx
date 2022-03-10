@@ -30,7 +30,6 @@ export function TemplateList() {
   const isButtonDisabled = (templatesListValue?.rows || []).length >= MAX_NUMBER_OF_FLOWS;
   const [open, setOpen] = useState(isButtonDisabled && isMobile);
   const templatesList = useLoadTemplatesList();
-  const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
 
   useEffect(() => {
     setOpen(isButtonDisabled && isMobile);

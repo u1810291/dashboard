@@ -45,7 +45,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   const [, closeOverlay] = useOverlay();
   const history = useHistory();
   const industries = useSelector<any, ITemplateMetadata[]>(selectIndustryMetadata);
-  const countries = useSelector<any, ITemplateMetadata[]>(selectCountryMetadata);
+  // const countries = useSelector<any, ITemplateMetadata[]>(selectCountryMetadata);
   const currentTemplate = useSelector<any, ITemplate>(selectCurrentTemplateModelValue);
   const intl = useIntl();
   const TEMPLATE_SAVE_FORM_EDIT = edit && templateSaveFormEdit(currentTemplate);
@@ -58,7 +58,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
     }
   }, [currentTemplate, history, closeOverlay]);
 
-  const { register, handleSubmit, setValue, watch, trigger, formState: { errors, isSubmitting, isValid, isDirty } } = useForm<TemplateSaveInputs>({
+  const { register, handleSubmit, setValue, watch, trigger, formState: { errors, isSubmitting, isValid } } = useForm<TemplateSaveInputs>({
     mode: 'onChange',
     defaultValues: defaultValuesForModal,
   });
