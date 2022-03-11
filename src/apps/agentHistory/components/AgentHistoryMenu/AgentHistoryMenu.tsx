@@ -1,9 +1,8 @@
 import { Grid } from '@material-ui/core';
-import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
 import { Collaborator, UserId } from 'models/Collaborator.model';
 import { collaboratorRemove } from 'apps/collaborators/state/collaborator.actions';
 import { OpenFilter, useFilterParser, ByAgentEventGroups } from 'apps/filter';
-import { ButtonHeaderMenu, notification } from 'apps/ui';
+import { ButtonHeaderMenu, notification, useConfirmDelete } from 'apps/ui';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useState } from 'react';
