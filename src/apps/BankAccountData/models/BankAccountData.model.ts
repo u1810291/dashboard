@@ -10,6 +10,7 @@ export const SUPPORTED_COUNTRIES = [
   CountryCodes.CL,
   CountryCodes.PE,
   CountryCodes.PH,
+  CountryCodes.NG,
 ] as const;
 
 export enum BankAccountDataCheckTypes {
