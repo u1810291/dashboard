@@ -659,6 +659,7 @@
   "CustomWatchlist.settings.modal.button.update": "Update",
   "CustomWatchlist.settings.modal.button.uploadFile": "Upload File",
   "CustomWatchlist.settings.modal.button.uploadFile.error": "File does not exist, re-upload the file",
+  "CustomWatchlist.settings.modal.button.watchlists.maxRowCountReached": "Maximum number of records has exceeded (100,000 rows)",
   "CustomWatchlist.settings.modal.button.uploadFile.helper": "Re-upload the file to make the button active",
   "CustomWatchlist.settings.modal.button.uploadFile.label.subTitle": "Please upload a CSV file where the first line represents column headers.",
   "CustomWatchlist.settings.modal.button.uploadFile.label.title": "Upload csv file",
