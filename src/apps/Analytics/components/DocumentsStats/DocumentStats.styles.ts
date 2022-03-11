@@ -4,9 +4,9 @@ export const useStyles = makeStyles((theme) => ({
   item: {
     position: 'relative',
     marginBottom: 20,
-    padding: [[5, 20, 5, 0]],
+    padding: '5px 20px 5px 0px',
     '&:nth-child(2n)': {
-      padding: [[5, 0, 5, 20]],
+      padding: '5px 0px 5px 20px',
       '&::after': {
         content: '""',
         position: 'absolute',
@@ -21,7 +21,7 @@ export const useStyles = makeStyles((theme) => ({
       flexBasis: 'auto',
       maxWidth: 'none',
       marginBottom: 0,
-      padding: [[10, 40]],
+      padding: '10px 40px',
       '&::after': {
         content: '""',
         position: 'absolute',
@@ -32,13 +32,13 @@ export const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.common.black7,
       },
       '&:first-child': {
-        padding: [[10, 40, 10, 20]],
+        padding: '10px 40px 10px 20px',
         '&::after': {
           display: 'none',
         },
       },
       '&:nth-child(2n)': {
-        padding: [[10, 40]],
+        padding: '10px 40px',
       },
     },
   },
