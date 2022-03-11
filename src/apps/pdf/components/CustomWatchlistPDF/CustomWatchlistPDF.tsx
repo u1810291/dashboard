@@ -91,9 +91,15 @@ export function CustomWatchlistPDF({ steps }: {
                       <CheckStepDetailsEntryPDF label={value[0]} value={value[1]} />
                     </View>
                     {stepWatchlist?.searchResult && (
-                      <View style={styles.flexRowItem50}>
-                        {stepWatchlist.searchResult[value[0]] ? <CheckStepDetailsEntryPDF label={value[0]} value={stepWatchlist.searchResult[value[0]]} /> : '-'}
-                      </View>
+                    <View style={styles.flexRowItem50}>
+                      {stepWatchlist.searchResult[value[0]] ? (
+                        <CheckStepDetailsEntryPDF label={value[0]} value={stepWatchlist.searchResult[value[0]]} />
+                      ) : (
+                        <Text>
+                          -
+                        </Text>
+                      )}
+                    </View>
                     )}
                   </View>
                 ))}
