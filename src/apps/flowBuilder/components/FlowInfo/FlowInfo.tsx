@@ -1,5 +1,5 @@
 import { Box, Grid, IconButton } from '@material-ui/core';
-import { EditableField } from 'apps/ui';
+import { EditableField, Loader } from 'apps/ui';
 import { DateFormat, formatDate } from 'lib/date';
 import React, { Dispatch, SetStateAction } from 'react';
 import { FiEdit3 } from 'react-icons/fi';
@@ -25,7 +25,7 @@ export function FlowInfo({ canEdit, isEditable, newFlowName, setIsEditable, onSu
   const { id } = useParams();
   const currentFlowId = useSelector<any, IFlow>(selectCurrentFlow);
   const flowBuilderChangeableFlow = useSelector<any, IFlow>(selectFlowBuilderChangeableFlow);
-  const { name, createdAt } = (isTemplate || !id) ? flowBuilderChangeableFlow : (id && currentFlowId);
+  const { createdAt, name } = (isTemplate || !id || !currentFlowId) ? flowBuilderChangeableFlow : currentFlowId;
   const classes = useStyles();
 
   return (
