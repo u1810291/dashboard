@@ -37,7 +37,7 @@ export function TemplatesModal({ handleCardClick }: { handleCardClick: (id: stri
   useEffect(() => {
     const filtersArray = Object.values(currentFilters).reduce((result, current) => result.concat(current), []);
     dispatch(loadTemplates(filtersArray));
-  }, [currentFilters]);
+  }, [currentFilters, dispatch]);
 
   return (
     <Modal

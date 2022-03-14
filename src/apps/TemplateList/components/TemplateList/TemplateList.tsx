@@ -36,7 +36,7 @@ export function TemplateList() {
 
   useEffect(() => {
     dispatch(toggleUnsavedChanges(false));
-  }, []);
+  }, [dispatch]);
 
   const handleOpen = useCallback(() => {
     if (templatesListValue?.rows.length >= MAX_NUMBER_OF_FLOWS) {

@@ -24,11 +24,11 @@ import { getTemplate, useLoadTemplatesList } from 'apps/Templates';
 import { useFormatMessage } from 'apps/intl';
 import { Loadable } from 'models/Loadable.model';
 import { useHistory } from 'react-router-dom';
-import { NoFlows } from '../NoFlows/NoFlows';
-import { TableRowHovered, useStyles } from './FlowsTable.styles';
+import { StartModal, StepsOptions } from 'apps/Analytics';
 import { useOverlay } from 'apps/overlay';
 import { TemplatesModal } from 'apps/SolutionCatalog';
-import { StartModal, StepsOptions } from 'apps/Analytics';
+import { NoFlows } from '../NoFlows/NoFlows';
+import { TableRowHovered, useStyles } from './FlowsTable.styles';
 
 export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   const classes = useStyles();
@@ -77,7 +77,7 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
       closeOverlay();
       handleMetamapBuild();
     }
-  }, []);
+  }, [dispatch]);
 
   const handleDelete = useCallback(async (id) => {
     if (flowIdToDelete || sortedFlowList.length <= 1) {

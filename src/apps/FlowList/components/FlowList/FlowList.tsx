@@ -45,7 +45,7 @@ export function FlowList() {
     dispatch(clearCurrentTemplate());
     dispatch(flowBuilderClearStore());
     dispatch(toggleUnsavedChanges(false));
-  }, []);
+  }, [dispatch]);
 
   const submitNewFlow = useCallback(async (text) => {
     const value = (text || '').trim();
