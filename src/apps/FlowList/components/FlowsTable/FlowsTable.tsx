@@ -13,23 +13,28 @@ import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { dateSortCompare } from 'lib/date';
 import { getNewFlowId, IFlow } from 'models/Flow.model';
 import { QATags } from 'models/QA.model';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'lib/url';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
-import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel, selectMerchantOnboarding } from 'state/merchant/merchant.selectors';
 import { Routes } from 'models/Router.model';
-import { useLoadTemplatesList } from 'apps/Templates';
+import { getTemplate, useLoadTemplatesList } from 'apps/Templates';
 import { useFormatMessage } from 'apps/intl';
 import { Loadable } from 'models/Loadable.model';
 import { useHistory } from 'react-router-dom';
 import { NoFlows } from '../NoFlows/NoFlows';
 import { TableRowHovered, useStyles } from './FlowsTable.styles';
+import { useOverlay } from 'apps/overlay';
+import { TemplatesModal } from 'apps/SolutionCatalog';
+import { StartModal, StepsOptions } from 'apps/Analytics';
 
 export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   const classes = useStyles();
   const history = useHistory();
+  const [createOverlay, closeOverlay] = useOverlay();
+  const onboardingProgress = useSelector<any, StepsOptions[]>(selectMerchantOnboarding);
   const [flowIdToDelete, setFlowIdToDelete] = useState<string>(null);
   const merchantFlowModel = useSelector<any, Loadable<IFlow>>(selectMerchantFlowsModel);
   const merchantFlowList = useSelector<any, IFlow[]>(selectMerchantFlowList);
@@ -40,12 +45,39 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
     formatMessage('VerificationFlow.modal.delete.subtitle'),
   );
   const dispatch = useDispatch();
+  const isFirstMetamapCreated = onboardingProgress.find((step) => step.stepId === 'make-metamap').completed;
   const isNewDesign = useSelector<any, boolean>(selectIsNewDesign);
   const { asMerchantId } = useQuery();
   const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
   const sortedFlowList = useMemo(() => [...merchantFlowList].sort((a, b) => dateSortCompare(a.createdAt, b.createdAt)), [merchantFlowList]);
 
   useLoadTemplatesList();
+
+  const handleCardClick = async (id: string) => {
+    try {
+      await dispatch(getTemplate(id));
+      history.push(`${Routes.templates.draftFlow}`);
+      closeOverlay();
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
+  const handleTemplateModal = () => {
+    closeOverlay();
+    createOverlay(<TemplatesModal handleCardClick={handleCardClick} />);
+  };
+
+  const handleMetamapBuild = () => {
+    createOverlay(<StartModal action={handleTemplateModal} closeOverlay={closeOverlay} />);
+  };
+
+  useEffect(() => {
+    if (!isFirstMetamapCreated) {
+      closeOverlay();
+      handleMetamapBuild();
+    }
+  }, []);
 
   const handleDelete = useCallback(async (id) => {
     if (flowIdToDelete || sortedFlowList.length <= 1) {
