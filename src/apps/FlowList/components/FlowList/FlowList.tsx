@@ -18,7 +18,7 @@ import { useFlowListLoad } from 'apps/FlowList';
 import { merchantCreateFlow } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
-import { clearCurrentTemplate } from 'apps/Templates';
+import { clearCurrentTemplate, toggleUnsavedChanges } from 'apps/Templates';
 import { flowBuilderClearStore } from 'apps/flowBuilder';
 import { FlowsTable } from '../FlowsTable/FlowsTable';
 import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
@@ -44,6 +44,7 @@ export function FlowList() {
   useEffect(() => {
     dispatch(clearCurrentTemplate());
     dispatch(flowBuilderClearStore());
+    dispatch(toggleUnsavedChanges(false));
   }, []);
 
   const submitNewFlow = useCallback(async (text) => {

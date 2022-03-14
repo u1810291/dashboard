@@ -11,18 +11,17 @@ import { PageLoader } from 'apps/layout';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { useFormatMessage } from 'apps/intl';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { ITemplatesList, selectTemplatesListModelValues } from 'apps/Templates';
-import { selectMerchantTags } from 'state/merchant/merchant.selectors';
+import { ITemplatesList, selectTemplatesListModelValues, toggleUnsavedChanges } from 'apps/Templates';
 import { QATags } from 'models/QA.model';
-import { MerchantTags } from 'models/Merchant.model';
 import { useLoadTemplatesList } from '../../hooks/UseLoadTemplatesList';
 import { TemplatesTable } from '../TemplatesTable/TemplatesTable';
 import { useStyles } from './TemplateList.styles';
 
 export function TemplateList() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const formatMessage = useFormatMessage();
   const history = useHistory();
   const templatesListValue = useSelector<any, ITemplatesList>(selectTemplatesListModelValues);
@@ -34,6 +33,10 @@ export function TemplateList() {
   useEffect(() => {
     setOpen(isButtonDisabled && isMobile);
   }, [isMobile, isButtonDisabled]);
+
+  useEffect(() => {
+    dispatch(toggleUnsavedChanges(false));
+  }, []);
 
   const handleOpen = useCallback(() => {
     if (templatesListValue?.rows.length >= MAX_NUMBER_OF_FLOWS) {

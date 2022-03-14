@@ -180,6 +180,6 @@ export const createFlowFromTemplate = (name: string, asMerchantId) => async (dis
   }
 };
 
-export const resetUnsavedChanges = () => (dispatch) => {
-  dispatch({ type: flowBuilderActionTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
+export const toggleUnsavedChanges = (value: boolean) => (dispatch) => {
+  dispatch({ type: flowBuilderActionTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: value });
 };

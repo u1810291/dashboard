@@ -24,7 +24,6 @@ import { useOverlay } from 'apps/overlay';
 import { useFormatMessage } from 'apps/intl';
 import { TemplatesModal } from 'apps/SolutionCatalog';
 import { dagreGraphService, WorkflowBuilderIntegrationDetails } from 'apps/WorkflowBuilder';
-import { resetUnsavedChanges } from 'apps/Templates/store/Templates.actions';
 import { ITemplate, DRAFT_INITIAL_STATE } from '../../model/Templates.model';
 import { TemplateSelectAttemptModal } from '../TemplateSelectAttemptModal/TemplateSelectAttemptModal';
 import { SaveAndPublishDraft } from '../SaveAndPublishDraft/SaveAndPublishDraft';
@@ -91,7 +90,6 @@ export function DraftFlowBuilder() {
     const handleChangeTemplate = async () => {
       await dispatch(flowBuilderChangeableFlowUpdate({ ...currentTemplateModel.value.flow, _id: undefined }));
       await dispatch(flowBuilderProductListInit(currentTemplateModel.value.flow, true));
-      dispatch(resetUnsavedChanges());
       closeOverlay();
     };
     handleChangeTemplate();
