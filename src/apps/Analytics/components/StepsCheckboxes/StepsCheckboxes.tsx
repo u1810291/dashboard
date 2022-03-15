@@ -56,7 +56,7 @@ export function StepsCheckboxes() {
   };
 
   const handleMetamapBuild = () => {
-    history.push(`${Routes.flow.root}`);
+    history.push(`${Routes.flow.root}`, { dontShowModal: true });
     createOverlay(<StartModal action={handleTemplateModal} closeOverlay={closeOverlay} />);
   };
 

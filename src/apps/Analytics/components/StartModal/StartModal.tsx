@@ -30,7 +30,10 @@ export const StartModal = ({ action, closeOverlay }) => {
             tabIndex={0}
             color="primary"
             variant="contained"
-            onClick={action}
+            onClick={() => {
+              history.push(Routes.templates.draftFlow);
+              action();
+            }}
           >
             {formatMessage('StartModal.viewButton')}
           </Button>

@@ -73,7 +73,9 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   };
 
   useEffect(() => {
-    if (!isFirstMetamapCreated) {
+    const isOnboardingModalShowed = localStorage.getItem('onboardingModalShowed');
+    if (!isFirstMetamapCreated && !isOnboardingModalShowed && !history.location.state?.dontShowModal) {
+      localStorage.setItem('onboardingModalShowed', 'true');
       closeOverlay();
       handleMetamapBuild();
     }
