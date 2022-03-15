@@ -8,6 +8,7 @@ import { validationHandler } from 'lib/validations';
 import React, { useCallback, useState } from 'react';
 import { useFormatMessage } from 'apps/intl';
 import { merchantUpdateOnboardingSteps, selectMerchantOnboarding } from 'state/merchant';
+import { toggleUnsavedChanges } from 'apps/Templates';
 import { StepsOptions, CreateMetamapCompleted } from 'apps/Analytics';
 import { useIntl } from 'react-intl';
 import { QATags } from 'models/QA.model';
@@ -37,6 +38,7 @@ export function AddNewFlowModal({ submitNewFlow }) {
   const handleSubmit = useCallback(async (text) => {
     try {
       await submitNewFlow(text);
+      dispatch(toggleUnsavedChanges(false));
       closeOverlay();
     } catch (e) {
       validationHandler(e, intl, setError);
