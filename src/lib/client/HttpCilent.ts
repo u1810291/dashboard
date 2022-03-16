@@ -19,10 +19,7 @@ export class HttpClient {
   }
 
   async getHeaders(method: ClientMethodTypes, isPrivate: boolean) {
-    const headers: any = {
-      'x-mati-app': `platform=dashboard; version=${process.env.REACT_APP_VERSION}`,
-    };
-
+    const headers: any = {};
     if (isPrivate && this.bearerToken) {
       headers.Authorization = `Bearer ${this.bearerToken}`;
     }
