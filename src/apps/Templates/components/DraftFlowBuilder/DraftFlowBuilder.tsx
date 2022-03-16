@@ -17,7 +17,7 @@ import { useFlowListLoad } from 'apps/FlowList';
 import { ProductTypes } from 'models/Product.model';
 import { FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderChangeableFlowLoad, flowBuilderCreateEmptyFlow, selectFlowBuilderHaveUnsavedChanges, flowBuilderProductListInit } from 'apps/flowBuilder';
 import { selectCurrentTemplateModel } from 'apps/Templates/store/Templates.selectors';
-import { createDraftFromTemplate, getTemplate } from 'apps/Templates';
+import { createDraftFromTemplate, getTemplate, toggleUnsavedChanges } from 'apps/Templates';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useOverlay } from 'apps/overlay';
@@ -85,7 +85,7 @@ export function DraftFlowBuilder() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!isBuilderInitialized || !currentTemplateModel.value) return;
+    if (!isBuilderInitialized || !currentTemplateModel.value || !haveUnsavedChanges) return;
 
     const handleChangeTemplate = async () => {
       await dispatch(flowBuilderChangeableFlowUpdate({ ...currentTemplateModel.value.flow, _id: undefined }));
@@ -93,10 +93,11 @@ export function DraftFlowBuilder() {
       closeOverlay();
     };
     handleChangeTemplate();
-  }, [currentTemplateModel, isBuilderInitialized, dispatch, closeOverlay]);
+  }, [currentTemplateModel, isBuilderInitialized, dispatch, haveUnsavedChanges]);
 
   const handleTemplateCardClick = async (templateId: string) => {
     await dispatch(getTemplate(templateId));
+    dispatch(toggleUnsavedChanges(true));
   };
 
   const handleTemplatesContinueButtonClick = () => {
