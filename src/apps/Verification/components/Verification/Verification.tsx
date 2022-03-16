@@ -1,25 +1,19 @@
 import { Box, Grid } from '@material-ui/core';
 import { ProductTypes } from 'models/Product.model';
-import React, { useEffect, useMemo, useState } from 'react';
+import { IVerificationWorkflow } from 'models/Verification.model';
+import React, { useEffect, useState } from 'react';
 import { ProductVerification } from 'apps/Product/components/ProductVerification/ProductVerification';
-import { useDocsWithPrivateMedia, useBiometricsWithPrivateMedia, useDownloadAllPrivateMedia } from 'apps/media';
-import { Routes } from 'models/Router.model';
-import { VerificationWithExtras } from 'models/VerificationOld.model';
 import { VerificationProductList } from '../VerificationProductList/VerificationProductList';
 import { useStyles } from './Verification.styles';
 
 export function Verification({ verification, productList }: {
-  verification: VerificationWithExtras;
+  verification: IVerificationWorkflow;
   productList: ProductTypes[];
 }) {
-  const documentsWithPrivateMedia = useDocsWithPrivateMedia(verification?.documents, Routes.identity.profile.root);
-  const biometricsWithPrivateMedia = useBiometricsWithPrivateMedia(verification?.biometric);
-  // TODO: @all wrong desing, we don't mutate backend data on fly
-  const stepsWithPrivateMedia = useDownloadAllPrivateMedia(verification?.steps);
-  const verificationWithPrivateMedia = useMemo<VerificationWithExtras>(() => ({ ...verification, steps: stepsWithPrivateMedia, documents: documentsWithPrivateMedia, biometric: biometricsWithPrivateMedia }), [biometricsWithPrivateMedia, documentsWithPrivateMedia, stepsWithPrivateMedia, verification]);
   const [selectedProduct, setSelectedProduct] = useState<ProductTypes>(null);
   const classes = useStyles();
 
+  // TODO: @ggrigorev WF add privateMedia logic
   useEffect(() => {
     if (!selectedProduct || !productList.includes(selectedProduct)) {
       setSelectedProduct(productList[0]);
@@ -38,7 +32,7 @@ export function Verification({ verification, productList }: {
       </Grid>
       <Grid item xs={12} lg={8} xl={10} className={classes.products}>
         <Box p={2}>
-          <ProductVerification productId={selectedProduct} verification={verificationWithPrivateMedia} />
+          <ProductVerification productId={selectedProduct} verification={verification} />
         </Box>
       </Grid>
     </Grid>

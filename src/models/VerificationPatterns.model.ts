@@ -1,6 +1,6 @@
-import { AmlValidationTypes } from 'apps/Aml/models/Aml.model';
+import { AmlValidationTypes } from 'apps/Aml';
 import { PhoneOwnershipValidationTypes } from 'apps/PhoneCheck/models/PhoneCheck.model';
-import { IpCheckValidationTypes } from '../apps/IpCheck/models/IpCheck.model';
+import { IpCheckValidationTypes } from 'models/IpCheck.model';
 
 export enum VerificationPatternTypes {
   AgeValidation = 'age-check',

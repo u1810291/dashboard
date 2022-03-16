@@ -8,8 +8,10 @@ import { useIntl } from 'react-intl';
 import { useOverlay } from 'apps/overlay';
 import { CountryModalSelect } from 'apps/CountryModalSelect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
+import { AllowedRegions } from 'models/Country.model';
+import { IpCheckValidationTypes } from 'models/IpCheck.model';
 import { CountryModalSelectContainer } from 'apps/CountryModalSelect/components/CountryModalSelectContainer/CountryModalSelectContainer';
-import { AllowedRegions, IpCheckSettingsTypes, IpCheckValidationTypes, getAllAllowedRegions } from '../../models/IpCheck.model';
+import { IpCheckSettingsTypes, getAllAllowedRegions } from '../../models/IpCheck.model';
 
 export function IpCheckSettings({ settings, onUpdate }: ProductSettingsProps<IpCheckSettingsTypes>) {
   const intl = useIntl();

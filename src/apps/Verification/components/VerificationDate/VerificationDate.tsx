@@ -1,16 +1,14 @@
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import { useFormatMessage } from 'apps/intl';
 import { DateFormat, utcToLocalFormat } from 'lib/date';
 import { QATags } from 'models/QA.model';
 import React from 'react';
-import { useIntl } from 'react-intl';
 import { useStyles } from './VerificationDate.styles';
 
-export interface VerificationDateProps {
+export function VerificationDate({ date }: {
   date: string;
-}
-
-export function VerificationDate({ date }: VerificationDateProps) {
-  const intl = useIntl();
+}) {
+  const formatMessage = useFormatMessage();
   const classes = useStyles();
   return (
     <>
@@ -18,7 +16,7 @@ export function VerificationDate({ date }: VerificationDateProps) {
         {utcToLocalFormat(date, DateFormat.DateTime)}
       </Typography>
       <Typography className={classes.title} variant="body1">
-        {intl.formatMessage({ id: 'identity.summary.date' })}
+        {formatMessage('identity.summary.date')}
       </Typography>
     </>
   );

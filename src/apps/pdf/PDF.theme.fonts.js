@@ -1,8 +1,8 @@
 import { Font } from '@react-pdf/renderer';
-import LatoBold from 'apps/pdf/fonts/Lato-Bold.ttf';
-import LatoLight from 'apps/pdf/fonts/Lato-Light.ttf';
-import LatoRegular from 'apps/pdf/fonts/Lato-Regular.ttf';
-import { rem } from 'apps/pdf/PDF.theme.common';
+import LatoBold from './fonts/Lato-Bold.ttf';
+import LatoLight from './fonts/Lato-Light.ttf';
+import LatoRegular from './fonts/Lato-Regular.ttf';
+import { rem } from './PDF.theme.common';
 
 export const fontSize = {
   normal: 1.35 * rem,
