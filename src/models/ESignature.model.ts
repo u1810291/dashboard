@@ -72,19 +72,13 @@ export function getESignatureType(criteria: ESignatureAcceptanceCriteria): ESign
   return ESignatureEnum.NameTyping;
 }
 
-export async function getPdfImagesUrls(selectedDocument: ESignatureReadDetails): Promise<string[]> {
-  return Promise.all(selectedDocument?.pdfDocument.documentImages.map(async (url) => {
-    const response = await getMedia(url);
-    const blob = await response.blob();
-    return window.URL.createObjectURL(blob);
-  }, []));
-}
-
 export async function downloadESignaturePDFDocument(eSignaturePDF: ESignatureReadDetails) {
   if (!eSignaturePDF) {
     return;
   }
-  const response = await getMedia(eSignaturePDF.pdfDocument.publicUrl);
+
+  const publicUrl = await eSignaturePDF.pdfDocument.publicUrl;
+  const response = await getMedia(publicUrl);
   const blob = await response.blob();
   downloadBlob(blob, `${eSignaturePDF.documentTemplate.originalDocument.originalFileName}.pdf`);
 }
@@ -103,17 +97,6 @@ export function reorderESignatureIds(list: ESignatureDocumentId[], startIndex: n
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
   return result;
-}
-
-export function getESignatureDocument(eSignatureDocument: ESignatureDocumentModel) {
-  return {
-    ...eSignatureDocument,
-    originalDocument: {
-      fileName: eSignatureDocument.originalDocument.fileName,
-      folder: eSignatureDocument.originalDocument.folder,
-      originalFileName: eSignatureDocument.originalDocument.originalFileName,
-    },
-  };
 }
 
 export enum ESignatureCheckSettingsEnum {

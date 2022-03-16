@@ -7,6 +7,7 @@ const initialState: CustomWatchlistsStore = {
   [SliceNames.CurrentWatchlist]: LoadableAdapter.createState(null),
   [SliceNames.WatchlistContent]: LoadableAdapter.createState(null),
   [SliceNames.CurrentWatchlistHeaders]: LoadableAdapter.createState(null),
+  fileErrorType: null,
 };
 
 export default createReducer(initialState, {
@@ -14,4 +15,11 @@ export default createReducer(initialState, {
   ...LoadableAdapter.createHandlers(CustomWatchlistsActions.CurrentWatchlist, SliceNames.CurrentWatchlist),
   ...LoadableAdapter.createHandlers(CustomWatchlistsActions.WatchlistContent, SliceNames.WatchlistContent),
   ...LoadableAdapter.createHandlers(CustomWatchlistsActions.CurrentWatchlistHeaders, SliceNames.CurrentWatchlistHeaders),
+
+  [CustomWatchlistsActions.CurrentWatchlistFileFailure](state, { payload }) {
+    return {
+      ...state,
+      fileErrorType: payload,
+    };
+  },
 });

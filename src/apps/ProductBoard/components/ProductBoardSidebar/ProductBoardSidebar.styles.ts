@@ -59,6 +59,7 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       width: '100%',
     },
+    overflowY: 'auto',
   },
   drawerContentClosed: {
     transform: 'translateX(260px)',

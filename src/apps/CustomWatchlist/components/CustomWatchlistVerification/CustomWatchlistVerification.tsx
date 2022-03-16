@@ -1,12 +1,11 @@
-import { Box, Card, CardContent, Grid } from '@material-ui/core';
+import { Box, Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { BoxBordered, CheckBarExpandable, Warning, WarningTypes, Alert } from 'apps/ui';
-import { isNil } from 'lib/isNil';
 import { useFormatMessage } from 'apps/intl';
 import { VerificationDocument } from 'models/Document.model';
 import { StepStatus, VerificationStepTypes } from 'models/Step.model';
 import { CheckStepDetailsEntry } from 'apps/checks';
 import React, { useMemo } from 'react';
-import { CustomWatchlistSearchParamsKeysEnum, getCustomWatchlistStepExtra } from '../../models/CustomWatchlist.models';
+import { getCustomWatchlistStepExtra } from '../../models/CustomWatchlist.models';
 import { useStyles } from './CustomWatchlistVerification.styles';
 
 export function CustomWatchlistVerification({ data }: {
@@ -42,22 +41,43 @@ export function CustomWatchlistVerification({ data }: {
   }
 
   return (
-    <BoxBordered p={1} pt={2} className={classes.bordered} width="300px">
+    <BoxBordered p={1} pt={2} pb={1} className={classes.bordered} width="350px">
       {step.data?.map((stepWatchlist) => (
-        <CheckBarExpandable key={stepWatchlist.watchlist.id} step={step} isError={!!stepWatchlist.searchResult} name={stepWatchlist.watchlist.name} isOpenByDefault>
+        <CheckBarExpandable key={stepWatchlist.watchlist.id} step={step} isError={!!stepWatchlist.searchResult} isNoBadge name={stepWatchlist.watchlist.name} isOpenByDefault>
           <Card raised={false} className={classes.card}>
             <CardContent>
-              {stepWatchlist.searchResult && step?.error && (
+              {stepWatchlist?.searchResult ? (
                 <Box>
-                  {formatMessage(`SecurityCheckStep.${step.error.code}`, { defaultMessage: formatMessage('Error.common') })}
+                  {formatMessage('CustomWatchlist.verification.step.watchlist.matchFound', { messageValues: { watchlistName: stepWatchlist.watchlist.name } })}
+                </Box>
+              ) : (
+                <Box>
+                  {formatMessage('CustomWatchlist.verification.step.watchlist.noMatchFound', { messageValues: { watchlistName: stepWatchlist.watchlist.name } })}
                 </Box>
               )}
               {stepWatchlist.searchParams && (
                 <Box mt={0.5}>
                   <Grid container>
-                    {Object.keys(CustomWatchlistSearchParamsKeysEnum).map((fieldName) => (!isNil(stepWatchlist.searchParams[CustomWatchlistSearchParamsKeysEnum[fieldName]])) && (
-                      <Grid xs={6} item key={CustomWatchlistSearchParamsKeysEnum[fieldName]}>
-                        <CheckStepDetailsEntry label={CustomWatchlistSearchParamsKeysEnum[fieldName]} value={stepWatchlist.searchParams[CustomWatchlistSearchParamsKeysEnum[fieldName]]} />
+                    <Grid item xs={6}>
+                      <Typography variant="subtitle2" className={classes.title}>{formatMessage('CustomWatchlist.verification.step.subtitle.searchParams')}</Typography>
+                    </Grid>
+                    {stepWatchlist?.searchResult && (
+                      <Grid item xs={6}>
+                        <Typography variant="subtitle2" className={classes.title}>{formatMessage('CustomWatchlist.verification.step.subtitle.searchResult')}</Typography>
+                      </Grid>
+                    )}
+                  </Grid>
+                  <Grid container direction={stepWatchlist?.searchResult ? 'column' : 'row'}>
+                    {Object.entries(stepWatchlist.searchParams).map((value) => (
+                      <Grid xs={stepWatchlist?.searchResult ? 12 : 6} container item spacing={stepWatchlist?.searchResult && 1} key={value[0]}>
+                        <Grid xs={6} item>
+                          <CheckStepDetailsEntry label={value[0]} value={value[1]} />
+                        </Grid>
+                        {stepWatchlist?.searchResult && (
+                          <Grid xs={6} item>
+                            {stepWatchlist.searchResult[value[0]] ? <CheckStepDetailsEntry label={value[0]} value={stepWatchlist.searchResult[value[0]]} /> : '-'}
+                          </Grid>
+                        )}
                       </Grid>
                     ))}
                   </Grid>

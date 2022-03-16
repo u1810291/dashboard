@@ -1,7 +1,7 @@
 import React from 'react';
 import { IFlow } from 'models/Flow.model';
 import { IconType } from 'react-icons';
-import { VerificationResponse } from './Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 
 export enum ProductTypes {
   DocumentVerification = 'DocumentVerification',
@@ -17,11 +17,13 @@ export enum ProductTypes {
   CustomDocuments = 'CustomDocuments',
   CertifiedTimestamp = 'CertifiedTimestamp',
   BackgroundCheck = 'BackgroundCheck',
+  CustomField = 'CustomField',
   CustomWatchlist = 'CustomWatchlist',
   ESignatureCheck = 'eSignatureCheck',
   BankAccountData = 'BankAccountData',
   WorkAccountData = 'WorkAccountData',
   PayrollAccountData = 'PayrollAccountData',
+  Facematch = 'Facematch',
   // additional
   Metadata = 'Metadata',
 }
@@ -63,9 +65,11 @@ export enum ProductInputTypes {
   NationalId = 'nationalId',
   NameAndDobOrDocument = 'nameAndDobOrDocument',
   EmailAddress = 'emailAddress',
+  CustomDataEntry = 'customDataEntry',
   CustomDocuments = 'customDocuments',
   Sign = 'sign',
   AccountCredentials = 'accountCredentials',
+  ImageSources = 'imageSources',
 }
 
 export interface IProductCard {
@@ -80,7 +84,7 @@ export interface IProductCard {
   dependentProductTypes?: ProductTypes[];
 }
 
-export interface Product<T = ProductSettings> {
+export interface Product<S = IFlow, T = VerificationResponse> {
   id: ProductTypes;
   order: number;
   checks: ProductCheck[];
@@ -89,18 +93,18 @@ export interface Product<T = ProductSettings> {
   componentVerification: any;
   isConfigurable: boolean;
   isIssuesIgnored: boolean;
-  parser(flow: IFlow, productsInGraph?: ProductTypes[]): T;
-  serialize(settings: T): Partial<IFlow>;
-  onRemove(flow: IFlow): Partial<IFlow>;
-  onAdd(): Partial<IFlow>;
-  getRemovingAlertComponent?(flow: IFlow, productsInGraph?: ProductTypes[]): any;
-  haveIssues?(flow: IFlow, productsInGraph?: ProductTypes[]): boolean;
+  parser(flow: S, productsInGraph?: ProductTypes[]): ProductSettings;
+  serialize(settings: ProductSettings): Partial<S>;
+  onRemove(flow: S): Partial<S>;
+  onAdd(): Partial<S>;
+  getRemovingAlertComponent?(flow: S, productsInGraph?: ProductTypes[]): any;
+  haveIssues?(flow: S, productsInGraph?: ProductTypes[]): boolean;
   isSdkOnly?(): boolean;
-  getIssuesComponent?(flow: IFlow, productsInGraph?: ProductTypes[]): any;
+  getIssuesComponent?(flow: S, productsInGraph?: ProductTypes[]): any;
   getTitle(): string;
   getCard(): IProductCard;
-  getVerification(verification: VerificationResponse): any;
-  isInFlow(flow: IFlow): boolean;
-  hasFailedCheck(verification: VerificationResponse): boolean;
-  isInVerification(verification: VerificationResponse): boolean;
+  getVerification(verification: T): any;
+  isInFlow(flow: S): boolean;
+  hasFailedCheck(verification: T): boolean;
+  isInVerification(verification: T): boolean;
 }

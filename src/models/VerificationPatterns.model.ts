@@ -1,17 +1,18 @@
-import { AmlValidationTypes } from 'apps/Aml/models/Aml.model';
+import { AmlValidationTypes } from 'apps/Aml';
 import { PhoneOwnershipValidationTypes } from 'apps/PhoneCheck/models/PhoneCheck.model';
-import { IpCheckValidationTypes } from '../apps/IpCheck/models/IpCheck.model';
+import { IpCheckValidationTypes } from 'models/IpCheck.model';
 
 export enum VerificationPatternTypes {
   AgeValidation = 'age-check',
-  ArgentinianAfip = 'argentinian-afip-validation',
   ArgentinianAnses = 'argentinian-anses-validation',
   ArgentinianDni = 'argentinian-dni-validation',
+  ArgentinianRenaperExtended = 'argentinian-renaper-extended-validation',
   ArgentinianRenaperFacematch = 'argentinian-renaper-facematch-validation',
   ArgentinianRenaper = 'argentinian-renaper-validation',
   Biometrics = 'biometrics',
   BolivianOep = 'bolivian-oep-validation',
   BrazilianCpf = 'brazilian-cpf-validation',
+  BrazilianNoCriminalRecordsValidation = 'brazilian-no-criminal-records-validation',
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
   CreditArgentinianFidelitas = 'credit-argentinian-fidelitas-validation',
   CreditBrazilianSerasa = 'credit-brazilian-serasa-validation',
@@ -26,11 +27,13 @@ export enum VerificationPatternTypes {
   ColombianRegistraduria = 'colombian-registraduria-validation',
   ColombianUnifiedLegalSearch = 'colombian-unified-legal-search-validation',
   ColombianRunt = 'colombian-runt-validation',
+  ColombianSisben = 'colombian-sisben-validation',
   ComplyAdvantageValidation = 'comply-advantage-validation',
   CostaRicanAtv = 'costa-rican-atv-validation',
   CostaRicanTse = 'costa-rican-tse-validation',
   CostaRicanSocialSecurity = 'costa-rican-social-security-validation',
   CustomWatchlistsValidation = 'custom-watchlists-validation',
+  CustomFieldsValidation = 'custom-fields-validation',
   DominicanJce = 'dominican-jce-validation',
   DuplicateUserDetection = 'duplicate-user-detection',
   DuplicateUserValidation = 'duplicate-user-detection',
@@ -49,6 +52,9 @@ export enum VerificationPatternTypes {
   MexicanRfc = 'mexican-rfc-validation',
   NigerianDl = 'nigerian-dl-validation',
   NigerianNin = 'nigerian-nin-validation',
+  NigerianVin = 'nigerian-vin-validation',
+  NigerianBvn = 'nigerian-bvn-validation',
+  NigerianLegal = 'nigerian-legal-validation',
   PanamenianTribunalElectoral = 'panamenian-tribunal-electoral-validation',
   ParaguayanRcp = 'paraguayan-rcp-validation',
   PeruvianReniec = 'peruvian-reniec-validation',
@@ -68,14 +74,15 @@ export enum VerificationPatternTypes {
   FinancialInformationBankAccountsRetrieving = 'financial-information-bank-accounts-retrieving',
   FinancialInformationWorkAccountsRetrieving = 'financial-information-work-accounts-retrieving',
   FinancialInformationPayrollAccountsRetrieving = 'financial-information-payroll-accounts-retrieving',
+  Facematch = 'facematch-service-validation',
   UgandanElectoralCommission = 'ugandan-electoral-commission-validation',
 }
 
 export interface VerificationPatterns {
-  [VerificationPatternTypes.ArgentinianAfip]?: boolean;
   [VerificationPatternTypes.ArgentinianAnses]?: boolean;
   [VerificationPatternTypes.ArgentinianDni]?: boolean;
-  [VerificationPatternTypes.ArgentinianRenaper]?: boolean;
+  [VerificationPatternTypes.ArgentinianRenaper]?: string;
+  [VerificationPatternTypes.ArgentinianRenaperExtended]?: boolean;
   [VerificationPatternTypes.ArgentinianRenaperFacematch]?: boolean;
   [VerificationPatternTypes.CreditBrazilianSerasa]?: boolean;
   [VerificationPatternTypes.CreditArgentinianFidelitas]?: boolean;
@@ -97,10 +104,12 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.ColombianProcuraduria]?: boolean;
   [VerificationPatternTypes.ColombianRegistraduria]?: boolean;
   [VerificationPatternTypes.ColombianRunt]?: boolean;
+  [VerificationPatternTypes.ColombianSisben]?: boolean;
   [VerificationPatternTypes.CostaRicanAtv]?: boolean;
   [VerificationPatternTypes.CostaRicanTse]?: boolean;
   [VerificationPatternTypes.CostaRicanSocialSecurity]?: boolean;
   [VerificationPatternTypes.CustomWatchlistsValidation]?: boolean;
+  [VerificationPatternTypes.CustomFieldsValidation]?: boolean;
   [VerificationPatternTypes.DominicanJce]?: boolean;
   [VerificationPatternTypes.ParaguayanRcp]?: boolean;
   [VerificationPatternTypes.DuplicateUserDetection]?: boolean;
@@ -113,6 +122,8 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.MexicanRfc]?: boolean;
   [VerificationPatternTypes.NigerianDl]?: boolean;
   [VerificationPatternTypes.NigerianNin]?: boolean;
+  [VerificationPatternTypes.NigerianBvn]?: boolean;
+  [VerificationPatternTypes.NigerianVin]?: boolean;
   [VerificationPatternTypes.PeruvianReniec]?: boolean;
   [VerificationPatternTypes.PeruvianSunat]?: boolean;
   [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]?: AmlValidationTypes;
@@ -132,5 +143,6 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.FinancialInformationBankAccountsRetrieving]?: boolean;
   [VerificationPatternTypes.FinancialInformationWorkAccountsRetrieving]?: boolean;
   [VerificationPatternTypes.FinancialInformationPayrollAccountsRetrieving]?: boolean;
+  [VerificationPatternTypes.Facematch]?: boolean;
   [VerificationPatternTypes.UgandanElectoralCommission]?: boolean;
 }

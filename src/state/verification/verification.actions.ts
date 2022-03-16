@@ -5,6 +5,8 @@ import { ErrorMessages, isInReviewModeError } from 'models/Error.model';
 import { Dispatch } from 'redux';
 import { VerificationActionTypes } from 'apps/Verification/state/Verification.store';
 import { selectVerification } from 'apps/Verification';
+import { selectIdentityCollection } from 'state/identities/identities.selectors';
+import { types as IdentityTypes } from '../identities/identities.actions';
 
 export const newVerificationDocumentUpdate = (verificationId: string, documentType, fields) => async (dispatch: Dispatch, getState) => {
   dispatch({ type: VerificationActionTypes.VERIFICATION_UPDATING });
@@ -39,12 +41,15 @@ export const newVerificationDocumentUpdate = (verificationId: string, documentTy
   }
 };
 
-export const verificationRemove = (verificationId: string) => async (dispatch: Dispatch) => {
+export const verificationRemove = (verificationId: string) => async (dispatch: Dispatch, getState) => {
   try {
     await client.deleteVerification(verificationId);
-    dispatch({ type: VerificationActionTypes.VERIFICATION_REMOVE, payload: verificationId });
+    const state = selectIdentityCollection(getState());
+    const verifications = state.value.filter(({ _id }) => _id !== verificationId);
+    dispatch({ type: IdentityTypes.IDENTITY_LIST_SUCCESS, payload: verifications, isReset: true });
   } catch (error) {
-    notification.error(ErrorMessages.ERROR_COMMON);
+    dispatch({ type: IdentityTypes.IDENTITY_LIST_FAILURE, error });
+    console.error('identity remove error', error);
     throw error;
   }
 };

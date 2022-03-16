@@ -1,17 +1,17 @@
-import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductSettings, ProductTypes, ProductInputTypes } from 'models/Product.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiMail } from 'react-icons/fi';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { getEmailValidationStep, getEmailRiskStep } from 'models/EmailCheck.model';
+import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { EmailCheckCheckTypes, EmailCheckStepModes, EmailCheckSettingTypes, EmailCheckProductSettings } from '../models/EmailCheck.model';
 import { EmailCheckVerification, EmailCheckVerificationData } from '../components/EmailCheckVerification/EmailCheckVerification';
 import { EmailCheckSettings } from '../components/EmailCheckSettings/EmailCheckSettings';
 
-export class EmailCheck extends ProductBaseService implements Product {
+export class EmailCheck extends ProductBaseFlowBuilder implements Product {
   constructor(merchantTags: MerchantTags[]) {
     super();
     this.merchantTags = merchantTags;
@@ -40,6 +40,9 @@ export class EmailCheck extends ProductBaseService implements Product {
       [EmailCheckSettingTypes.CompanyName]: {
         value: flow?.emailOwnership?.companyName,
       },
+      [EmailCheckSettingTypes.EmailFrom]: {
+        value: flow?.emailOwnership?.emailFrom ?? '',
+      },
       [EmailCheckSettingTypes.EmailRiskThreshold]: {
         value: flow?.emailRiskThreshold,
       },
@@ -56,6 +59,7 @@ export class EmailCheck extends ProductBaseService implements Product {
     return {
       emailOwnership: {
         [EmailCheckSettingTypes.CompanyName]: settings[EmailCheckSettingTypes.CompanyName].value,
+        [EmailCheckSettingTypes.EmailFrom]: settings[EmailCheckSettingTypes.EmailFrom].value,
       },
       emailRiskThreshold: settings[EmailCheckSettingTypes.EmailRiskThreshold].value,
       verificationPatterns: {

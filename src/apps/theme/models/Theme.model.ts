@@ -25,6 +25,8 @@ declare module '@material-ui/core/styles/createPalette' {
   interface CommonColors {
     blue: string;
     gray: string;
+    verydarkgray: string;
+    slategray: string;
     gray68: string;
     brightgray: string;
     gray70: string;
@@ -36,6 +38,7 @@ declare module '@material-ui/core/styles/createPalette' {
     white: string;
     whiteopacity: string;
     black: string;
+    blackopacity: string;
     black7: string;
     black7opacity: string;
     black50: string;

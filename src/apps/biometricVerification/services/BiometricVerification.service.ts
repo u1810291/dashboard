@@ -1,11 +1,11 @@
-import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
+import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiUserCheck } from 'react-icons/fi';
 import { IFlow } from 'models/Flow.model';
 import { BiometricSteps, BiometricTypes } from 'models/Biometric.model';
 import { BiometricsVerificationProduct } from 'apps/biometrics';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { IESignatureFlow } from 'models/ESignature.model';
 import { BiometricVerificationCheckTypes, BiometricVerificationSettingsTypes } from '../models/BiometricVerification.model';
@@ -14,7 +14,7 @@ import { BiometricVerificationRemovingAlert } from '../components/BiometricVerif
 
 type ProductSettingsBiometric = ProductSettings<BiometricVerificationSettingsTypes>;
 
-export class BiometricVerification extends ProductBaseService implements Product<ProductSettingsBiometric> {
+export class BiometricVerification extends ProductBaseFlowBuilder implements Product {
   id = ProductTypes.BiometricVerification;
   order = 200;
   integrationTypes = [
@@ -95,7 +95,7 @@ export class BiometricVerification extends ProductBaseService implements Product
     };
   }
 
-  getVerification(verification: VerificationResponse): any {
+  getVerification(verification: VerificationResponse): VerificationResponse {
     return verification;
   }
 

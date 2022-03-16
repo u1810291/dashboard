@@ -1,6 +1,6 @@
 import { Loadable } from 'models/Loadable.model';
 import { createTypesSequence, TypesSequence } from 'state/store.utils';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { ProductTypes } from 'models/Product.model';
 
 export const REVIEW_MODE_KEY = 'reviewMode';

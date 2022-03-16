@@ -2,10 +2,11 @@ import { Box, Button, Grid, useMediaQuery, useTheme } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Modal, useOverlay } from 'apps/overlay';
 import classNames from 'classnames';
-import { IProductCard, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
+import { IProductCard, ProductIntegrationTypes } from 'models/Product.model';
 import React, { useCallback, useState } from 'react';
 import { FiTrash2, FiInfo } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
+import { QATags } from 'models/QA.model';
 import { ProductCheckList } from '../ProductCheckList/ProductCheckList';
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, useStyles } from './UIProductCard.styles';
 
@@ -49,13 +50,6 @@ export function UIProductCard({ card, issuesComponent, isExpandable = true, isCo
               {card.title && (
                 <Box mb={0.5} fontSize={16} color="common.black90">
                   {intl.formatMessage({ id: card.title })}
-                  {/* TODO: @richvoronov remove it after Custom watchlist alfa version release!!! */}
-                  {card.id === ProductTypes.CustomWatchlist && (
-                  <div>
-                    {' '}
-                    (Alfa version)
-                  </div>
-                  )}
                 </Box>
               )}
               <Box color="common.black75">
@@ -82,7 +76,7 @@ export function UIProductCard({ card, issuesComponent, isExpandable = true, isCo
             <FiTrash2 size={17} />
           </Button>
           {issuesComponent && isSmallScreen ? (
-            <Button className={classNames(classes.control, classes.controlIssues)} onClick={handleOpenIssuesPopup}>
+            <Button className={classNames(classes.control, classes.controlIssues)} onClick={handleOpenIssuesPopup} data-qa={QATags.Flows.FlowIssueNotification}>
               <FiInfo size={25} />
             </Button>
           ) : issuesComponent}

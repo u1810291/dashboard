@@ -83,19 +83,19 @@ export function VerificationDeviceCheck({ input }: {
       </Grid>
       {/* browser */}
       {(platform === PlatformTypes.WebMobile || platform === PlatformTypes.WebDesktop) && (
-      <Grid container alignItems="center" className={classes.check}>
-        <Grid item xs={6}>
-          <Box className={classes.labelWrap}>
-            <BrowserIcon className={classes.titleIcon} />
-            <Typography className={classes.label} variant="body1">
-              {intl.formatMessage({ id: 'DeviceCheck.browser' })}
-            </Typography>
-          </Box>
+        <Grid container alignItems="center" className={classes.check}>
+          <Grid item xs={6}>
+            <Box className={classes.labelWrap}>
+              <BrowserIcon className={classes.titleIcon} />
+              <Typography className={classes.label} variant="body1">
+                {intl.formatMessage({ id: 'DeviceCheck.browser' })}
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography className={classes.value} variant="subtitle2">{browserLabel}</Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <Typography className={classes.value} variant="subtitle2">{browserLabel}</Typography>
-        </Grid>
-      </Grid>
       )}
       {/* ip */}
       <Grid container alignItems="center" className={classes.check}>
