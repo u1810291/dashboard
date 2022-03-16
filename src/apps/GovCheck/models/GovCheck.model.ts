@@ -6,6 +6,8 @@ import { NationalIdTypes, VerificationDocument } from 'models/Document.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { dateSortCompare } from 'lib/date';
 import cloneDeep from 'lodash/cloneDeep';
+import { ProductTypes } from 'models/Product.model';
+import { IFlow } from 'models/Flow.model';
 
 export enum GovernmentCheckSettingTypes {
   PostponedTimeout = 'postponedTimeout',
@@ -290,7 +292,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         default: false,
       },
       {
-        id: DocumentStepTypes.ColombianSisben,
+        id: VerificationPatternTypes.ColombianSisben,
         default: false,
       },
     ],
@@ -395,16 +397,19 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     checks: [
       {
         id: VerificationPatternTypes.NigerianDl,
+        merchantTags: [MerchantTags.CanUseNigerianDL],
         default: false,
         isSupportFacematch: true,
       },
       {
         id: VerificationPatternTypes.NigerianNin,
+        merchantTags: [MerchantTags.CanUseNigerianNIN],
         default: false,
         isSupportFacematch: true,
       },
       {
         id: VerificationPatternTypes.NigerianVin,
+        merchantTags: [MerchantTags.CanUseNigerianVIN],
         default: false,
       },
       {
@@ -1190,4 +1195,16 @@ export function handleGovCheckSwitch(item: GovCheck, valueChecked: boolean): Rec
   }
 
   return { [item.id]: valueChecked };
+}
+
+export function isGovCheckHaveDependsIssue(flow: IFlow, productsInGraph?: ProductTypes[]): boolean {
+  return !productsInGraph.includes(ProductTypes.CustomField) && !productsInGraph.includes(ProductTypes.DocumentVerification);
+}
+
+export function isGovCheckInFlow(flow: IFlow): boolean {
+  const isGovChecksEnabled = Object.entries(flow?.verificationPatterns).some(
+    ([key, value]) => Object.prototype.hasOwnProperty.call(verificationPatternsGovchecksDefault, key)
+      && value && value !== GovCheckStepTypes.None,
+  );
+  return !!flow?.postponedTimeout || isGovChecksEnabled;
 }

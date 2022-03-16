@@ -659,6 +659,7 @@
   "CustomWatchlist.settings.modal.button.update": "Update",
   "CustomWatchlist.settings.modal.button.uploadFile": "Upload File",
   "CustomWatchlist.settings.modal.button.uploadFile.error": "File does not exist, re-upload the file",
+  "CustomWatchlist.settings.modal.button.watchlists.maxRowCountReached": "Maximum number of records has exceeded (100,000 rows)",
   "CustomWatchlist.settings.modal.button.uploadFile.helper": "Re-upload the file to make the button active",
   "CustomWatchlist.settings.modal.button.uploadFile.label.subTitle": "Please upload a CSV file where the first line represents column headers.",
   "CustomWatchlist.settings.modal.button.uploadFile.label.title": "Upload csv file",
@@ -1217,6 +1218,7 @@
   "GovernmentCheck.card.check.governmentDatabaseCheck": "Government database checks\n(Depending on country)",
   "GovernmentCheck.card.title": "Government Check",
   "GovernmentCheck.issues.description": "Government check requires Document Verification or Custom Input block in the flow.",
+  "GovernmentCheck.issues.noConfig.description": "Please enable at least one government check from the list.",
   "GovernmentCheck.settings.description.countriesGovChecks": "Enabling government database checks will increase the security level of each verification. Turning off these checks will help reduce your verification time but will also decrease de security level. Please check your business regulations or consult",
   "GovernmentCheck.settings.description.postponedTimeout": "Data providers may have some downtime due to maintenance work (usually for a few hours). Should this happen, MetaMap will wait until the database is back up to finish the verification process. Please indicate how long you want MetaMap to wait for data providers to be back up before completing verifications.",
   "GovernmentCheck.settings.title.countriesGovChecks": "Countries and checks",
@@ -2423,6 +2425,9 @@
   "identities.total": "Total checks:",
   "identity.document.photo.back.title": "Back Side",
   "identity.document.photo.front.title": "Front Side",
+  "identity.field.readAt": "Terms read on",
+  "identity.field.signedAt": "Terms signed on",
+  "identity.field.documentId": "Transaction ID",
   "identity.field.active": "Active",
   "identity.field.activeDriver": "Active Driver",
   "identity.field.activeLicense": "Active License",
@@ -2923,5 +2928,6 @@
   "week.5": "Fri",
   "week.6": "Sat",
   "week.7": "Sun",
-  "yes": "Yes"
+  "yes": "Yes",
+  "noData": "No Data"
 }

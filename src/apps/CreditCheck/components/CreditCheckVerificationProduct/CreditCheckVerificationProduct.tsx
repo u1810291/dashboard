@@ -1,33 +1,22 @@
-import React, { useMemo, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import classnames from 'classnames';
 import { Alert, Warning, WarningTypes } from 'apps/ui';
 import ReactJsonViewer from 'react-json-view';
 import { Grid, Box, Typography, Button } from '@material-ui/core';
-import { IdentityStatuses, VerificationStatusChangeReason } from 'models/Status.model';
 import { DocumentTypes } from 'models/Document.model';
-import { StepCodeStatus } from 'models/Step.model';
-import { creditCheckDisplayOptions } from 'apps/CreditCheck/models/CreditCheck.model';
+import { creditCheckDisplayOptions } from 'models/CreditCheck.model';
 import { creditCheckManualRun } from '../../state/CreditCheck.actions';
 import { Speedometer } from '../Speedometer/Speedometer';
 import { useStyles } from './CreditCheckVerificationProduct.styles';
-import { selectDataForCreditCheck } from '../../../Verification';
+import { useCreditCheck } from '../../hooks/creditCheck.hook';
 
 export function CreditCheckVerificationProduct() {
   const intl = useIntl();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { verification, creditDocumentStep, id } = useSelector(selectDataForCreditCheck);
-
-  const { value: verificationStatus, reasonCode } = verification?.verificationStatusDetails;
-  const isPostResultPhase = [IdentityStatuses.reviewNeeded, IdentityStatuses.rejected, IdentityStatuses.verified].includes(verificationStatus);
-  const isVerifiedBySystem = verificationStatus === IdentityStatuses.verified && reasonCode !== VerificationStatusChangeReason.ManualChange;
-
-  const isShowManualCreditCheckButton = useMemo(() => isPostResultPhase && !isVerifiedBySystem && !creditDocumentStep?.startedManuallyAt,
-    [isPostResultPhase, isVerifiedBySystem, creditDocumentStep?.startedManuallyAt]);
-  const isCheckInProgress = [StepCodeStatus.Pending, StepCodeStatus.Running].includes(creditDocumentStep?.status) && !isShowManualCreditCheckButton;
-
+  const { creditDocumentStep, id, isShowManualCreditCheckButton, isCheckInProgress, isPostResultPhase } = useCreditCheck();
   const handleCreditCheckManualRun = useCallback(() => {
     dispatch(creditCheckManualRun(id, DocumentTypes.NationalId, creditDocumentStep.id));
   }, [dispatch, creditDocumentStep, id]);

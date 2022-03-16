@@ -6,6 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     boxShadow: 'none',
   },
   wrapper: {
+    position: 'relative',
     maxHeight: '350px',
     overflowY: 'auto',
     scrollbarWidth: 'thin',
@@ -46,11 +47,12 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.main,
   },
   button: {
-    minWidth: 120,
+    position: 'absolute',
+    top: 0,
     padding: '12px 20px',
     fontSize: '14px',
-    marginLeft: 20,
-    borderColor: theme.palette.common.lightblue,
+    width: '100%',
+    borderColor: theme.palette.common.white,
     color: theme.palette.common.lightblue,
     '&:hover, &:focus': {
       backgroundColor: theme.palette.common.whiteblue,
@@ -60,20 +62,6 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   select: {
-    minHeight: 50,
-    '& .MuiSelect-select:focus': {
-      backgroundColor: theme.palette.common.white,
-    },
-    '& .MuiOutlinedInput-input': {
-      padding: '16px 14px',
-    },
-    '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: theme.palette.common.black7,
-    },
-    '& .MuiSelect-icon': {
-      marginTop: 3,
-      fontSize: 17,
-      color: theme.palette.text.main,
-    },
+    width: '100%',
   },
 }));
