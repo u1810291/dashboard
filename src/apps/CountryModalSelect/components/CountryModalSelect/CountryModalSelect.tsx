@@ -4,7 +4,7 @@ import { FixedSizeTree } from 'react-vtree';
 import React, { useCallback, useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { BoxBordered } from 'apps/ui';
-import { AllowedRegions } from 'apps/IpCheck/models/IpCheck.model';
+import { AllowedRegions } from 'models/Country.model';
 import { useCountriesLoad } from 'apps/countries';
 import { treeWalker, regionsConverting, getInitialSelectedCountries, SelectedCountries, Tree } from '../../models/CountryModalSelect.model';
 import { CountryModalItemSelect } from '../CountryModalItemSelect/CountryModalItemSelect';

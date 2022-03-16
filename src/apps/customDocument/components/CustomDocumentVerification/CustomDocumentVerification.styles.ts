@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { colors } from '../../../pdf/PDF.theme.common';
 
 export const useStyles = (isFlowBuilder: boolean = false) => (makeStyles((theme) => ({
   wrapper: isFlowBuilder ? {
@@ -93,7 +92,7 @@ export const useStyles = (isFlowBuilder: boolean = false) => (makeStyles((theme)
   header: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.black75,
+    color: theme.palette.common.black75,
     width: '100%',
   },
   name: {

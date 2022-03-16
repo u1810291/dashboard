@@ -10,7 +10,7 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { getPhoneValidationExtras } from 'apps/PhoneValidation/models/PhoneValidation.model';
 import { getPhoneRiskValidationExtras } from 'apps/RiskAnalysis/models/RiskAnalysis.model';
 import { getEmailVerificationExtra } from 'models/EmailValidation.model';
-import { getIpCheckStep } from 'models/IpCheck.model';
+import { getIpCheckStep } from 'models/IpCheckOld.model';
 import { getEmailRiskStep } from 'models/EmailCheck.model';
 import { useIntl } from 'react-intl';
 import { AppIntlProvider } from 'apps/intl';

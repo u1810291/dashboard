@@ -1,6 +1,6 @@
 import { StyleSheet } from '@react-pdf/renderer';
-import { rem, colors, pageGutter } from 'apps/pdf/PDF.theme.common';
-import { fontFamilyLato, fontSize, fontWeight } from 'apps/pdf/PDF.theme.fonts';
+import { rem, colors, pageGutter } from './PDF.theme.common';
+import { fontFamilyLato, fontSize, fontWeight } from './PDF.theme.fonts';
 
 export const commonStyles = StyleSheet.create({
   // common blocks

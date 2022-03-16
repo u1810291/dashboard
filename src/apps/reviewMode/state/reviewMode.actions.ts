@@ -1,10 +1,9 @@
-import { productManagerService, selectProductRegistered } from 'apps/Product';
+import { verificationProductListInit } from 'apps/Product';
 import { notification } from 'apps/ui';
 import { isObjectEmpty } from 'lib/object';
 import { ErrorMessages, isInReviewModeError } from 'models/Error.model';
 import { ProductTypes } from 'models/Product.model';
 import { IdentityStatuses } from 'models/Status.model';
-import { VerificationResponse } from 'models/VerificationOld.model';
 import { DocumentTypes } from 'models/Document.model';
 import { storeAction } from 'state/store.utils';
 import * as api from '../api/reviewMode.client';
@@ -26,19 +25,6 @@ export const reviewVerificationClear = () => (dispatch) => {
   dispatch(clearReviewVerification(null));
 };
 
-export const verificationProductListInit = (verification: VerificationResponse) => (dispatch, getState) => {
-  const registered = selectProductRegistered(getState());
-  const activated = registered.filter((item) => {
-    const product = productManagerService.getProduct(item);
-    if (!product) {
-      return false;
-    }
-    return product.isInVerification(verification);
-  });
-  const sorted = productManagerService.sortProductTypes(activated);
-  dispatch(verificationProductListUpdate(sorted));
-};
-
 export const verificationLoad = () => async (dispatch, getState) => {
   const verification = selectVerificationModel(getState());
   dispatch(reviewVerificationRequest(null));
@@ -49,7 +35,8 @@ export const verificationLoad = () => async (dispatch, getState) => {
       dispatch(reviewVerificationClear());
     } else {
       dispatch(reviewVerificationSuccess(data));
-      dispatch(verificationProductListInit(data));
+      const productList: ProductTypes[] = dispatch(verificationProductListInit(data));
+      dispatch(verificationProductListUpdate(productList));
     }
     dispatch(reviewLoadingNext(false));
 

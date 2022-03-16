@@ -1,4 +1,5 @@
-import React from 'react';
+import { ProductVerificationPdfProps } from 'models/PdfAdapter.model';
+import React, { FC } from 'react';
 import { IconType } from 'react-icons';
 import { IProductCard, Product, ProductCheck, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { IWorkflow } from 'models/Workflow.model';
@@ -16,6 +17,7 @@ export abstract class ProductBaseWorkflow implements Partial<Product<IWorkflow, 
   checks: ProductCheck[] = [];
   requiredProductType: ProductTypes = null;
   dependentProductTypes: ProductTypes[] = [];
+  abstract componentPdf: FC<ProductVerificationPdfProps<IVerificationWorkflow>>;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getIssuesComponent(flow: IWorkflow, productsInGraph?: ProductTypes[]): any {
@@ -70,9 +72,7 @@ export abstract class ProductBaseWorkflow implements Partial<Product<IWorkflow, 
 
   abstract isInFlow(flow: IWorkflow): boolean;
 
-  isInVerification(verification: IVerificationWorkflow): boolean {
-    return this.isInFlow(verification?.flow);
-  }
+  abstract isInVerification(verification: IVerificationWorkflow): boolean;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   hasFailedCheck(verification: IVerificationWorkflow): boolean {

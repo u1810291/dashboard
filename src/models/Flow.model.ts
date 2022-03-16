@@ -5,7 +5,7 @@ import { ProductIntegrationTypes } from 'models/Product.model';
 import { IFacematchFlow } from 'apps/FacematchService';
 import { VerificationCustomFieldsInputData } from 'apps/CustomField';
 import { IESignatureFlow } from './ESignature.model';
-import { IpValidation } from './IpCheck.model';
+import { IpValidation } from './IpCheckOld.model';
 import { InputValidationCheck } from './ImageValidation.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
 import { VerificationPatterns } from './VerificationPatterns.model';
