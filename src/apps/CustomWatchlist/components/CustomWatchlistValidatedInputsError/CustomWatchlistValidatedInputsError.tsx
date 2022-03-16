@@ -10,7 +10,7 @@ import { ICustomWatchlistValidationErrorFormated, ValidatedInputsKeys } from '..
 
 const ERRORS_LIMIT = 10;
 
-export const CustomWatchlistValidatedInputsError = ({ inputValue }: {
+const CustomWatchlistValidatedInputsErrorComponent = ({ inputValue }: {
   inputValue: ValidatedInputsKeys;
 }) => {
   const formatMessage = useFormatMessage();
@@ -43,3 +43,5 @@ export const CustomWatchlistValidatedInputsError = ({ inputValue }: {
     </AccordionStyled>
   );
 };
+
+export const CustomWatchlistValidatedInputsError = React.memo(CustomWatchlistValidatedInputsErrorComponent);
