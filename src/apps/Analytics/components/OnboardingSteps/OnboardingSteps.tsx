@@ -19,10 +19,10 @@ import { selectMerchantOnboarding, merchantUpdateOnboardingSteps, selectIsOwnerM
 import { getTemplate } from 'apps/Templates';
 import { Loadable } from 'models/Loadable.model';
 import { StartModal } from '../StartModal/StartModal';
-import { StepsOptions, OnboardingSteps, OnboardingQA, AllStepsCompleted } from './model/StepsCheckboxes.model';
-import { useStyles, TableRowHovered } from './StepsCheckboxes.styles';
+import { StepsOptions, Onboarding, OnboardingQA, AllStepsCompleted } from './model/OnboardingSteps.model';
+import { useStyles, TableRowHovered } from './OnboardingSteps.styles';
 
-export function StepsCheckboxes() {
+export function OnboardingSteps() {
   const [createOverlay, closeOverlay] = useOverlay();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -92,14 +92,14 @@ export function StepsCheckboxes() {
     stepsProgressChange(item.stepId);
   };
 
-  const buildFirstMetamapComplete = (item) => (item.completed ? history.push(Routes.flow.root) : handleMetamapBuild());
+  const buildFirstMetamapComplete = (item) => !item.completed && handleMetamapBuild();
 
   const currentStepAction = (item) => {
     switch (item.stepId) {
       case 'read-our-docs':
-        return readDocsComplete(item);
+        return !item.completed && readDocsComplete(item);
       case 'invite-teammate':
-        return inviteModalOpen(item);
+        return !item.completed && inviteModalOpen(item);
       case 'make-metamap':
         return buildFirstMetamapComplete(item);
       default:
@@ -112,7 +112,7 @@ export function StepsCheckboxes() {
       { (!onboardingCompleted && ownerModel.value)
         && (
         <Box>
-          <Typography variant="h3">{formatMessage('StepsCheckboxes.title')}</Typography>
+          <Typography variant="h3">{formatMessage('Onboarding.title')}</Typography>
           <Table className={classes.table}>
             <TableBody>
               {onboardingProgress.map((item, idx) => (
@@ -126,14 +126,17 @@ export function StepsCheckboxes() {
                   <TableCell>
                     <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color="common.black90">
                       <Box component="span">
-                        <Box component="span" className={classes.itemName}>{formatMessage(OnboardingSteps[item.stepId])}</Box>
+                        <Box component="span" className={classes[item.completed ? 'completedStep' : 'incompletedStep']}>
+                          &bull;&ensp;
+                          <span>{formatMessage(Onboarding[item.stepId])}</span>
+                        </Box>
                       </Box>
                     </Box>
                   </TableCell>
                   <TableCell>
                     <Box mb={{ xs: 2, lg: 0 }}>
                       <Box component="span" className={classes.arrowContainer}>
-                        { item.completed && <span className={classes.completed}>{formatMessage('StepsCheckboxes.completed')}</span> }
+                        { item.completed && <span className={classes.completed}>{formatMessage('Onboarding.completed')}</span> }
                         <span className={classes.arrow} />
                       </Box>
                     </Box>

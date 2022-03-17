@@ -159,6 +159,29 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     color: theme.palette.common.black75,
   },
+  tableLabel: {
+    display: 'flex',
+    width: '95%',
+    marginLeft: '5%',
+    marginTop: 30,
+    color: theme.palette.common.black75,
+    fontWeight: 'bold',
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
+  },
+  nameHeader: {
+    width: 500,
+    paddingLeft: 20,
+  },
+  idHeader: {
+    width: 350,
+    paddingLeft: 25,
+  },
+  typeHeader: {
+    width: 200,
+    paddingLeft: 20,
+  },
   label: {
     color: theme.palette.common.black75,
     fontWeight: 'normal',
@@ -166,12 +189,39 @@ export const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  nameCell: {
+    width: 500,
+    [theme.breakpoints.down('md')]: {
+      maxWidth: '100%',
+    },
+  },
+  typeCell: {
+    width: 200,
+    [theme.breakpoints.down('md')]: {
+      maxWidth: '100%',
+    },
+  },
+  description: {
+    paddingTop: 10,
+    fontWeight: 'normal',
+    fontSize: '12px',
+    [theme.breakpoints.down('md')]: {
+      paddingTop: 0,
+      fontWeight: 'bold',
+    },
+  },
+  itemName: {
+    fontSize: 14,
+    [theme.breakpoints.down('md')]: {
+      marginBottom: 20,
+    },
+  },
   switcher: {
     [theme.breakpoints.down('md')]: {
       top: '45%',
     },
     position: 'absolute',
-    top: 25,
+    top: '40%',
     left: -50,
   },
   iconDeleteWrapper: {

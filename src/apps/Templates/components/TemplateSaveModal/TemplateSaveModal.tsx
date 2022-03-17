@@ -34,7 +34,7 @@ import {
   templateSaveFormEdit,
   saveTemplateOptions,
 } from '../../model/Templates.model';
-import { createTemplate, updateTemplate } from '../../store/Templates.actions';
+import { createTemplate, updateTemplate, toggleUnsavedChanges } from '../../store/Templates.actions';
 import { useStyles } from './TemplateSaveModal.styles';
 
 export function TemplateSaveModal({ edit }: saveTemplateOptions) {
@@ -91,8 +91,8 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   const descriptionRegister = register(TemplateSaveInputsTypes.Description, {
     required: formatMessage('validations.required'),
     maxLength: {
-      value: 300,
-      message: intl.formatMessage({ id: 'Templates.saveModal.validation.max' }, { max: 300 }),
+      value: 100,
+      message: intl.formatMessage({ id: 'Templates.saveModal.validation.max' }, { max: 100 }),
     },
   });
 
@@ -100,6 +100,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
 
   const handleSubmitSaveForm = async () => {
     const response = await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries]]));
+    dispatch(toggleUnsavedChanges(false));
     return response;
   };
 

@@ -3,10 +3,10 @@ export interface StepsOptions {
   completed: boolean;
 }
 
-export enum OnboardingSteps {
- 'read-our-docs'='StepsCheckboxes.readDocs',
- 'invite-teammate'='StepsCheckboxes.inviteTeammate',
- 'make-metamap'='StepsCheckboxes.makeMeta',
+export enum Onboarding {
+ 'read-our-docs'='Onboarding.readDocs',
+ 'invite-teammate'='Onboarding.inviteTeammate',
+ 'make-metamap'='Onboarding.makeMeta',
 }
 
 export enum OnboardingQA {

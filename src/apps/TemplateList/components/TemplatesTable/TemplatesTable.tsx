@@ -66,6 +66,13 @@ export function TemplatesTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
 
   return (
     <TableContainer className={classes.container}>
+      {templatesListValue.rows.length > 0 && (
+        <Box className={classes.tableLabel}>
+          <Box className={classes.nameHeader}>{formatMessage('flow.table.field.name')}</Box>
+          <Box className={classes.typeHeader}>{formatMessage('flow.table.field.type')}</Box>
+          <Box className={classes.idHeader}>{formatMessage('flow.table.field.templateId')}</Box>
+        </Box>
+      )}
       <Table className={classes.table} data-qa={QATags.Flows.Table}>
         <TableBody>
           {/* No flows */}
@@ -84,10 +91,12 @@ export function TemplatesTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
               onMouseDown={onMouseDownHandler}
               onMouseUp={(event) => !item.blocked && handleRowClicked(event, item._id)}
             >
-              <TableCell>
+              <TableCell className={classes.nameCell}>
                 <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color={item.blocked ? 'common.black75' : 'common.black90'}>
                   <Box className={classes.label}>{formatMessage('flow.table.field.name')}</Box>
-                  <Typography variant="h4">{item.name}</Typography>
+                  <Typography variant="h4" className={classes.itemName}>{item.name}</Typography>
+                  <Box className={classes.label}>{formatMessage('flow.table.field.description')}</Box>
+                  <Typography variant="h4" className={classes.description}>{item.description}</Typography>
                 </Box>
               </TableCell>
               <CustomSwitcher
@@ -99,7 +108,7 @@ export function TemplatesTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
                 }}
                 onClick={() => dispatch(toggleTemplate(item._id, !!item.blocked, formatMessage))}
               />
-              <TableCell>
+              <TableCell className={classes.typeCell}>
                 <Box mb={{ xs: 2, lg: 0 }}>
                   <Box className={classes.label}>{formatMessage('flow.table.field.type')}</Box>
                   <Box component="span" className={item.blocked ? classes.itemTypeBlocked : classes.itemType}>{item?.flow?.integrationType || '-'}</Box>
@@ -107,7 +116,7 @@ export function TemplatesTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
               </TableCell>
               <TableCell>
                 <Box mb={{ xs: 2, lg: 0 }}>
-                  <Box className={classes.label}>{formatMessage('flow.table.field.flowId')}</Box>
+                  <Box className={classes.label}>{formatMessage('flow.table.field.templateId')}</Box>
                   <Box component="span" className={item.blocked ? classes.itemIdBlocked : classes.itemId}>{item?._id}</Box>
                 </Box>
               </TableCell>

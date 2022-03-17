@@ -11,12 +11,12 @@ import { useLocation } from 'react-router-dom';
 import { useQuery } from 'lib/url';
 import { FiCheck } from 'react-icons/fi';
 import { selectMerchantOnboarding, merchantLoad } from 'state/merchant';
-import { StepsCheckboxes } from '../StepsCheckboxes/StepsCheckboxes';
+import { OnboardingSteps } from '../OnboardingSteps/OnboardingSteps';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
 import { countStatisticsLoad, filterUpdate, loadChartStatistics } from '../../state/Analytics.actions';
 import { selectCountStatisticsModel, selectFilter, selectStatisticsByDate } from '../../state/Analytics.selectors';
-import { StepsOptions } from '../StepsCheckboxes/model/StepsCheckboxes.model';
+import { StepsOptions } from '../OnboardingSteps/model/OnboardingSteps.model';
 import { Chart } from '../Chart/Chart';
 import { DevicesStats } from '../DevicesStats/DevicesStats';
 import { DocumentsStats } from '../DocumentsStats/DocumentsStats';
@@ -72,7 +72,7 @@ export function AnalyticsContainer() {
               </span>
             </div>
           ) : (
-            <StepsCheckboxes />
+            <OnboardingSteps />
           )}
           <Box mb={2}>
             <Grid container alignItems="center">

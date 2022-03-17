@@ -70,9 +70,16 @@ export const useStyles = makeStyles((theme) => ({
   itemRow: {
     height: 55,
   },
-  itemName: {
+  incompletedStep: {
+    color: theme.palette.common.black90,
+    marginLeft: '25px',
+  },
+  completedStep: {
     color: theme.palette.common.black75,
     marginLeft: '25px',
+    '&> span': {
+      textDecoration: 'line-through',
+    },
   },
   startModal: {
     overflow: 'hidden',
