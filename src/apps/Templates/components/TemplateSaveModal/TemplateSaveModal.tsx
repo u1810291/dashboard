@@ -91,8 +91,8 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   const descriptionRegister = register(TemplateSaveInputsTypes.Description, {
     required: formatMessage('validations.required'),
     maxLength: {
-      value: 100,
-      message: intl.formatMessage({ id: 'Templates.saveModal.validation.max' }, { max: 100 }),
+      value: 150,
+      message: intl.formatMessage({ id: 'Templates.saveModal.validation.max' }, { max: 150 }),
     },
   });
 
