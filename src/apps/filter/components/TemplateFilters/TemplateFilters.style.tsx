@@ -10,7 +10,7 @@ export const FilterButton = withStyles((theme) => ({
     borderRadius: 5,
     display: 'flex',
     justifyContent: 'center',
-    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.05)',
+    boxShadow: `0px 4px 4px ${theme.palette.common.lightgrayopacity}`,
     [theme.breakpoints.down(1080)]: {
       width: 50,
       minWidth: 50,

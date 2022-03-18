@@ -73,9 +73,9 @@ export function FlowList() {
     }
   }, [isMobile]);
 
-  const handleBuildMetamapButtonClick = () => {
+  const handleBuildMetamapButtonClick = useCallback(() => {
     history.push(Routes.templates.draftFlow);
-  };
+  }, [history]);
 
   if (!flowListModel.isLoaded) {
     return <PageLoader />;

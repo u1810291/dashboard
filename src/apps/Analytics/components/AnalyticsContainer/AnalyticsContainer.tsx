@@ -33,7 +33,7 @@ export function AnalyticsContainer() {
   const [isFilterDatesValid, setIsFilterDatesValid] = useState(false);
   const metricsFilter = useSelector(selectFilter);
   const countStatisticsModel = useSelector(selectCountStatisticsModel);
-  const onboardingProgress: StepsOptions[] = useSelector(selectMerchantOnboarding);
+  const onboardingProgress = useSelector<any, StepsOptions[]>(selectMerchantOnboarding);
   const byDate = useSelector(selectStatisticsByDate);
   const { asMerchantId } = useQuery();
   const allStepsCompleted = false;

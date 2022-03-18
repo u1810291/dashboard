@@ -1,4 +1,6 @@
-import { Box, Grid, Paper } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { selectProductIsInited, useProduct } from 'apps/Product';
@@ -95,23 +97,23 @@ export function DraftFlowBuilder() {
     handleChangeTemplate();
   }, [currentTemplateModel, isBuilderInitialized, dispatch, haveUnsavedChanges]);
 
-  const handleTemplateCardClick = async (templateId: string) => {
+  const handleTemplateCardClick = useCallback(async (templateId: string) => {
     await dispatch(getTemplate(templateId));
     dispatch(toggleUnsavedChanges(true));
-  };
+  }, [dispatch]);
 
-  const handleTemplatesContinueButtonClick = () => {
+  const handleTemplatesContinueButtonClick = useCallback(() => {
     closeOverlay();
     createOverlay(<TemplatesModal handleCardClick={handleTemplateCardClick} />);
-  };
+  }, [closeOverlay, createOverlay, handleTemplateCardClick]);
 
-  const handleTemplatesButtonClick = () => {
+  const handleTemplatesButtonClick = useCallback(() => {
     if (haveUnsavedChanges) {
       createOverlay(<TemplateSelectAttemptModal handleContinue={handleTemplatesContinueButtonClick} closeOverlay={closeOverlay} />);
     } else {
       createOverlay(<TemplatesModal handleCardClick={handleTemplateCardClick} />);
     }
-  };
+  }, [closeOverlay, createOverlay, handleTemplateCardClick, haveUnsavedChanges]);
 
   if (!isProductInited && !flowListModel.isLoaded) {
     return <Loader />;

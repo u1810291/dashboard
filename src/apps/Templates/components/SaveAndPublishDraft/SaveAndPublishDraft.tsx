@@ -5,7 +5,7 @@ import { useProductsIssues } from 'apps/Product';
 import { notification, TextBubble } from 'apps/ui';
 import { useOverlay } from 'apps/overlay';
 import { useQuery } from 'lib/url';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FiSave } from 'react-icons/fi';
 import { Routes } from 'models/Router.model';
 import { useSelector, useDispatch } from 'react-redux';
@@ -36,14 +36,14 @@ export function SaveAndPublishDraft({ isEditMode = false }: { isEditMode?: boole
   const merchantFlowList = useSelector<any, IFlow[]>(selectMerchantFlowList);
   const currentFlow = useSelector(selectCurrentFlow);
 
-  const newFlowSubmit = async (text: string) => {
+  const newFlowSubmit = useCallback(async (text: string) => {
     const value = (text || '').trim();
     const duplicate = merchantFlowList.find((item) => item.name === value);
     await flowNameValidator({ hasDuplicate: !!duplicate, name: value });
     const newFlow = await dispatch(createFlowFromTemplate(value, asMerchantId));
     // @ts-ignore
     history.push(`${Routes.templates.draftFlow}/${newFlow.id}`);
-  };
+  }, [dispatch, history, asMerchantId, merchantFlowList]);
 
   const handleFlowSave = () => {
     createOverlay(<AddNewFlowModal submitNewFlow={newFlowSubmit} />);

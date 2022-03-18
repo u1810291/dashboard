@@ -26,14 +26,14 @@ export function AddNewFlowModal({ submitNewFlow }) {
   const [, closeOverlay] = useOverlay();
   const isMetamapStepCompleted = CreateMetamapCompleted(onboardingProgress);
 
-  const stepsProgressChange = (currentStep: string) => {
+  const stepsProgressChange = useCallback((currentStep: string) => {
     if (!isMetamapStepCompleted) {
       const progressChanges = [...onboardingProgress];
       const itemNumber = progressChanges.findIndex((step) => step.stepId === currentStep);
       progressChanges[itemNumber] = { completed: true, stepId: currentStep };
       dispatch(merchantUpdateOnboardingSteps(progressChanges, currentStep, formatMessage));
     }
-  };
+  }, [onboardingProgress, dispatch, formatMessage]);
 
   const handleSubmit = useCallback(async (text) => {
     try {

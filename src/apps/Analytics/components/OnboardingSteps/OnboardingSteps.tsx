@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
@@ -16,7 +16,7 @@ import { useFormatMessage } from 'apps/intl';
 import { selectCollaboratorState } from 'apps/collaborators/state/collaborator.selectors';
 import { collaboratorAdd } from 'apps/collaborators/state/collaborator.actions';
 import { selectMerchantOnboarding, merchantUpdateOnboardingSteps, selectIsOwnerModel } from 'state/merchant';
-import { getTemplate } from 'apps/Templates';
+import { getTemplate, toggleUnsavedChanges } from 'apps/Templates';
 import { Loadable } from 'models/Loadable.model';
 import { StartModal } from '../StartModal/StartModal';
 import { StepsOptions, Onboarding, OnboardingQA, AllStepsCompleted } from './model/OnboardingSteps.model';
@@ -33,22 +33,23 @@ export function OnboardingSteps() {
   const formatMessage = useFormatMessage();
   const onboardingCompleted = AllStepsCompleted(onboardingProgress);
 
-  const stepsProgressChange = (currentStep: string) => {
+  const stepsProgressChange = useCallback((currentStep: string) => {
     const progressChanges = [...onboardingProgress];
     const itemNumber = progressChanges.findIndex((step) => step.stepId === currentStep);
     progressChanges[itemNumber] = { completed: true, stepId: currentStep };
     dispatch(merchantUpdateOnboardingSteps(progressChanges, currentStep, formatMessage));
-  };
+  }, [onboardingProgress, dispatch, formatMessage]);
 
-  const handleCardClick = async (id: string) => {
+  const handleCardClick = useCallback(async (id: string) => {
     try {
       await dispatch(getTemplate(id));
+      dispatch(toggleUnsavedChanges(true));
       history.push(`${Routes.templates.draftFlow}`);
       closeOverlay();
     } catch (error) {
       console.warn(error);
     }
-  };
+  }, [closeOverlay, dispatch, history]);
 
   const handleTemplateModal = () => {
     closeOverlay();

@@ -50,9 +50,9 @@ export function TemplateList() {
     }
   }, [isMobile]);
 
-  const handleBuildMetamapButtonClick = () => {
+  const handleBuildMetamapButtonClick = useCallback(() => {
     history.push(Routes.templates.newTemplate);
-  };
+  }, [history]);
 
   if (!templatesList.isLoaded) {
     return <PageLoader />;

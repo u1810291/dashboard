@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useFormatMessage } from 'apps/intl';
 import { QATags } from 'models/QA.model';
 import Box from '@material-ui/core/Box';
@@ -13,13 +13,13 @@ export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialD
 
   const chosenOptions: TemplateFilterOptions[] = Object.values(currentValue).reduce((result, current) => result.concat(current), []);
 
-  function handleDelete(option: TemplateFilterOptions) {
+  const handleDelete = useCallback((option: TemplateFilterOptions) => {
     const resultAfterDelete = initialData;
     Object.entries(currentValue).forEach(([filter, array]) => {
       resultAfterDelete[filter] = array.filter((filterItem) => filterItem.name !== option.name);
     });
     setCurrentValue(resultAfterDelete);
-  }
+  }, [currentValue, setCurrentValue, initialData]);
 
   return (
     <Box>

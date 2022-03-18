@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 /* eslint-disable import/no-unresolved */
@@ -15,9 +15,9 @@ export function TemplateCard({ title, description, id, handleCardClick }: Templa
   const formatMessage = useFormatMessage();
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  const handleSelectButtonClick = (templateId: string) => () => {
+  const handleSelectButtonClick = useCallback((templateId: string) => () => {
     handleCardClick(templateId);
-  };
+  }, [handleCardClick]);
 
   return (
     <Box

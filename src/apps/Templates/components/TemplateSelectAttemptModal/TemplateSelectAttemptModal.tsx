@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Button } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import { useFormatMessage } from 'apps/intl';
 import { Modal } from 'apps/overlay';
 import { ReactComponent as ExclamationMarkIcon } from 'assets/exclamation-mark-icon.svg';

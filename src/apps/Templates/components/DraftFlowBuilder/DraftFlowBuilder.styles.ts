@@ -109,7 +109,7 @@ export const useStyles = makeStyles((theme) => createStyles({
     borderRadius: 5,
     color: theme.palette.common.black75,
     backgroundColor: theme.palette.background.default,
-    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.05)',
+    boxShadow: `0px 4px 4px ${theme.palette.common.lightgrayopacity}`,
   },
   templatesButton: {
     borderColor: theme.palette.common.lightblue,

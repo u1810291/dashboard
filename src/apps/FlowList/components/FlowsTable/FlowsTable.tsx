@@ -53,7 +53,7 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
 
   useLoadTemplatesList();
 
-  const handleCardClick = async (id: string) => {
+  const handleCardClick = useCallback(async (id: string) => {
     try {
       await dispatch(getTemplate(id));
       history.push(`${Routes.templates.draftFlow}`);
@@ -61,12 +61,12 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
     } catch (error) {
       console.warn(error);
     }
-  };
+  }, [closeOverlay, dispatch, history]);
 
-  const handleTemplateModal = () => {
+  const handleTemplateModal = useCallback(() => {
     closeOverlay();
     createOverlay(<TemplatesModal handleCardClick={handleCardClick} />);
-  };
+  }, [closeOverlay, createOverlay, handleCardClick]);
 
   const handleMetamapBuild = () => {
     createOverlay(<StartModal action={handleTemplateModal} closeOverlay={closeOverlay} />);

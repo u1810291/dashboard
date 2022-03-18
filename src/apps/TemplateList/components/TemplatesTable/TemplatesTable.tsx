@@ -11,7 +11,7 @@ import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteMod
 import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { QATags } from 'models/QA.model';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'lib/url';
@@ -54,15 +54,15 @@ export function TemplatesTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
     }
   };
 
-  const handleDeleteButtonClick = (event, id) => {
+  const handleDeleteButtonClick = useCallback((event, id) => {
     event.stopPropagation();
     handleBlockTemplate(id);
-  };
+  }, [handleBlockTemplate]);
 
-  const handleRowClicked = async (event, id) => {
+  const handleRowClicked = useCallback(async (event, id) => {
     event.stopPropagation();
     history.push(`${Routes.templates.root}/${id}`);
-  };
+  }, [history]);
 
   return (
     <TableContainer className={classes.container}>
