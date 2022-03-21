@@ -53,7 +53,7 @@ export const collaboratorAdd = (collaborator) => async (dispatch, getState) => {
   }
 };
 
-export const inviteCollaborator = (item: StepsOptions, formatMessage: FormatMessage, stepsProgressChange: (item: string) => void, data: TeamInviteFormInputs) => async (dispatch) => {
+export const inviteCollaborator = (formatMessage: FormatMessage, data: TeamInviteFormInputs, item?: StepsOptions, stepsProgressChange?: (item: string) => void) => async (dispatch) => {
   try {
     await dispatch(collaboratorAdd({
       // @ts-ignore
@@ -64,7 +64,7 @@ export const inviteCollaborator = (item: StepsOptions, formatMessage: FormatMess
         lastName: data.lastName,
       },
     }));
-    stepsProgressChange(item.stepId);
+    if (item) stepsProgressChange(item.stepId);
     notification.info(formatMessage('teamTable.inviteSuccess.description'));
   } catch (error) {
     notification.error(formatMessage(`Settings.teamSettings.submit.${error.response?.data?.name}`, { defaultMessage: formatMessage('Error.common') }));

@@ -56,7 +56,7 @@ export function OnboardingSteps() {
     createOverlay(<TeamInviteModal
       onSubmit={(data) => {
         closeOverlay();
-        dispatch(inviteCollaborator(item, formatMessage, stepsProgressChange, data));
+        dispatch(inviteCollaborator(formatMessage, data, item, stepsProgressChange));
       }}
       isPosting={state}
     />);
