@@ -10,7 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import { Routes } from 'models/Router.model';
 import { useOverlay } from 'apps/overlay';
 import { TemplatesModal } from 'apps/SolutionCatalog';
-import { TeamInviteModal, selectCollaboratorStateIsPosting, inviteCollaborator } from 'apps/collaborators';
+import { TeamInviteModal, selectCollaboratorStateIsPosting, collaboratorInvite } from 'apps/collaborators';
 import { useFormatMessage } from 'apps/intl';
 import { selectMerchantOnboarding, merchantUpdateOnboardingSteps, selectIsOwnerModel } from 'state/merchant';
 import { templateChoose } from 'apps/Templates';
@@ -56,7 +56,7 @@ export function OnboardingSteps() {
     createOverlay(<TeamInviteModal
       onSubmit={(data) => {
         closeOverlay();
-        dispatch(inviteCollaborator(formatMessage, data, item, stepsProgressChange));
+        dispatch(collaboratorInvite(formatMessage, data, item, stepsProgressChange));
       }}
       isPosting={state}
     />);

@@ -53,7 +53,7 @@ export const collaboratorAdd = (collaborator) => async (dispatch, getState) => {
   }
 };
 
-export const inviteCollaborator = (formatMessage: FormatMessage, data: TeamInviteFormInputs, item?: StepsOptions, stepsProgressChange?: (item: string) => void) => async (dispatch) => {
+export const collaboratorInvite = (formatMessage: FormatMessage, data: TeamInviteFormInputs, item?: StepsOptions, stepsProgressChange?: (item: string) => void) => async (dispatch) => {
   try {
     await dispatch(collaboratorAdd({
       // @ts-ignore

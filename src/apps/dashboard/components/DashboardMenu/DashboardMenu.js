@@ -18,7 +18,7 @@ import { FiChevronsLeft, FiChevronsRight, FiLogOut, FiPlusCircle, FiSettings } f
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import { selectIsOwnerModel, selectMerchantBusinessName, selectMerchantTags } from 'state/merchant/merchant.selectors';
-import { useRole, TeamInviteModal, inviteCollaborator, selectCollaboratorState } from 'apps/collaborators';
+import { useRole, TeamInviteModal, collaboratorInvite, selectCollaboratorState } from 'apps/collaborators';
 import { WithAuditor } from 'models/Collaborator.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { setIsDesktopMenuOpen } from '../../state/dashboard.actions';
@@ -59,7 +59,7 @@ export function DashboardMenu() {
     createOverlay(<TeamInviteModal
       onSubmit={(data) => {
         closeOverlay();
-        dispatch(inviteCollaborator(formatMessage, data));
+        dispatch(collaboratorInvite(formatMessage, data));
       }}
       isPosting={state.isPosting}
     />);

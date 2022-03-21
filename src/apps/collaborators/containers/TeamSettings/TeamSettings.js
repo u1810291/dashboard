@@ -6,7 +6,7 @@ import { LoadableAdapter } from 'lib/Loadable.adapter';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TeamInviteModal } from '../../components/TeamInviteModal/TeamInviteModal';
-import { collaboratorListLoad, inviteCollaborator } from '../../state/collaborator.actions';
+import { collaboratorListLoad, collaboratorInvite } from '../../state/collaborator.actions';
 import { selectCollaboratorCollectionWithOwnerModel, selectCollaboratorState } from '../../state/collaborator.selectors';
 import { useStyles } from './TeamSettings.styles';
 import { TeamTable } from '../../components/TeamTable/TeamTable';
@@ -24,7 +24,7 @@ export function TeamSettings() {
       <TeamInviteModal
         onSubmit={(data) => {
           closeOverlay();
-          dispatch(inviteCollaborator(formatMessage, data));
+          dispatch(collaboratorInvite(formatMessage, data));
         }}
         isPosting={state.isPosting}
       />,
