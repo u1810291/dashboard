@@ -49,11 +49,13 @@ export enum VerificationPatternTypes {
   MexicanIne = 'mexican-ine-validation',
   MexicanPep = 'mexican-pep-validation',
   MexicanRfc = 'mexican-rfc-validation',
+  NigerianCac = 'nigerian-cac-validation',
   NigerianDl = 'nigerian-dl-validation',
   NigerianNin = 'nigerian-nin-validation',
   NigerianVin = 'nigerian-vin-validation',
   NigerianBvn = 'nigerian-bvn-validation',
   NigerianLegal = 'nigerian-legal-validation',
+  NigerianTin = 'nigerian-tin-validation',
   PanamenianTribunalElectoral = 'panamenian-tribunal-electoral-validation',
   ParaguayanRcp = 'paraguayan-rcp-validation',
   PeruvianReniec = 'peruvian-reniec-validation',
@@ -119,10 +121,12 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.MexicanIne]?: boolean;
   [VerificationPatternTypes.MexicanPep]?: boolean;
   [VerificationPatternTypes.MexicanRfc]?: boolean;
+  [VerificationPatternTypes.NigerianCac]?: boolean;
   [VerificationPatternTypes.NigerianDl]?: boolean;
   [VerificationPatternTypes.NigerianNin]?: boolean;
   [VerificationPatternTypes.NigerianBvn]?: boolean;
   [VerificationPatternTypes.NigerianVin]?: boolean;
+  [VerificationPatternTypes.NigerianTin]?: boolean;
   [VerificationPatternTypes.PeruvianReniec]?: boolean;
   [VerificationPatternTypes.PeruvianSunat]?: boolean;
   [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]?: AmlValidationTypes;

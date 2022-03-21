@@ -9,6 +9,7 @@ import { getStepStatus, StepStatus } from 'models/Step.model';
 import { IESignatureFlow } from 'models/ESignature.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { BiometricVerificationSettings, BiometricVerificationRemovingAlert, BiometricVerificationCheckTypes, BiometricVerificationSettingsTypes } from 'apps/biometricVerification';
+import { GovCheckStepTypes } from 'apps/GovCheck';
 
 type ProductSettingsBiometric = ProductSettings<BiometricVerificationSettingsTypes>;
 
@@ -67,6 +68,8 @@ export class BiometricVerificationOld extends ProductBaseFlowBuilder implements 
       verificationPatterns: {
         [VerificationPatternTypes.Biometrics]: BiometricTypes.none,
         [VerificationPatternTypes.ProofOfOwnership]: false,
+        [VerificationPatternTypes.ArgentinianRenaperFacematch]: false,
+        [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
       },
       electronicSignature,
     };
