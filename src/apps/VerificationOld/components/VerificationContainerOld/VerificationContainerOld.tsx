@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import Paper from '@material-ui/core/Paper';
-import { verificationClear, verificationLoad, VerificationHeaderMenu, selectNewVerificationWithExtras, selectVerificationModel, selectVerificationProductList } from 'apps/Verification';
-import { selectIdentityProfile } from 'apps/IdentityProfile';
+import { selectIdentityProfile } from 'apps/IdentityProfileOld';
 import { PageError, PageLoader } from 'apps/layout';
 import { useProduct } from 'apps/Product';
 import { Placeholder } from 'apps/ui';
@@ -12,6 +11,9 @@ import { ProductTypes } from 'models/Product.model';
 import { VerificationErrorTypes } from 'models/VerificationOld.model';
 import { ReactComponent as UserDeletedIcon } from 'assets/profile-pic-round.svg';
 import { goToStartPage, useQuery } from 'lib/url';
+import { selectNewVerificationWithExtras, selectVerificationModel, selectVerificationProductList } from '../../state/VerificationOld.selectors';
+import { verificationClear, verificationLoad } from '../../state/VerificationOld.actions';
+import { VerificationHeaderMenuOld } from '../VerificationHeaderMenuOld/VerificationHeaderMenuOld';
 import { VerificationOld } from '../VerificationOld/VerificationOld';
 import { useStyles } from './VerificationContainerOld.styles';
 
@@ -75,7 +77,7 @@ export function VerificationContainerOld() {
 
   return (
     <Paper className={classes.paper}>
-      <VerificationHeaderMenu verification={verificationWithExtras} identity={identity} />
+      <VerificationHeaderMenuOld verification={verificationWithExtras} identity={identity} />
       <VerificationOld verification={verificationWithExtras} productList={productList} />
     </Paper>
   );

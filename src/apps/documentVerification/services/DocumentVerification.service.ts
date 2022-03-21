@@ -1,12 +1,11 @@
 import { DocumentVerificationProduct } from 'apps/documents';
 import { FACEMATCH_DEFAULT_THRESHOLD } from 'apps/facematch/models/facematch.model';
-import { ProductBaseWorkflow } from 'apps/WorkflowBuilder';
+import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { InputValidationType } from 'models/ImageValidation.model';
 import intersection from 'lodash/intersection';
 import { DocumentTypes } from 'models/Document.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
 import { DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStep, getReaderFrontendSteps, getStepStatus, StepStatus, VerificationDocStepTypes } from 'models/Step.model';
-import { IVerificationWorkflow } from 'models/Verification.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { IWorkflow } from 'models/Workflow.model';
 import { FiFileText } from 'react-icons/fi';
@@ -18,7 +17,9 @@ import { DocumentVerificationIssues } from '../components/DocumentVerificationIs
 import { DocumentIsStepNotSpecifiedIssues } from '../components/DocumentIsStepNotSpecifiedIssues/DocumentIsIsStepNotSpecifiedIssues';
 import { DocumentVerificationSettings } from '../components/DocumentVerificationSettings/DocumentVerificationSettings';
 
-export class DocumentVerificationMerit extends ProductBaseWorkflow implements Product<IWorkflow, IVerificationWorkflow> {
+type IVerificationWorkflowDraft = any;
+
+export class DocumentVerificationMerit extends ProductBaseFlowBuilder implements Product<IWorkflow, IVerificationWorkflowDraft> {
   id = ProductTypes.DocumentVerification;
   order = 100;
   integrationTypes = [
@@ -197,7 +198,7 @@ export class DocumentVerificationMerit extends ProductBaseWorkflow implements Pr
     return allSteps.some((step) => documents.includes(step));
   }
 
-  getVerification(verification: IVerificationWorkflow): IVerificationWorkflow {
+  getVerification(verification: IVerificationWorkflowDraft): IVerificationWorkflowDraft {
     const documentTypes: string[] = Object.values(DocumentTypes).map((item: DocumentTypes) => item as string);
 
     const documents = verification?.documents?.filter((el) => documentTypes.includes(el.type))
@@ -232,7 +233,7 @@ export class DocumentVerificationMerit extends ProductBaseWorkflow implements Pr
     return null;
   }
 
-  hasFailedCheck(verification: IVerificationWorkflow): boolean {
+  hasFailedCheck(verification: IVerificationWorkflowDraft): boolean {
     return verification?.documents?.some((document) => {
       const steps = document?.steps || [];
       const documentStep = getDocumentStep(DocumentStepTypes.DocumentReading, steps);

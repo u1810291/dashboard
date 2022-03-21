@@ -1,7 +1,7 @@
 import { notification } from 'apps/ui';
 import { ErrorMessages } from 'models/Error.model';
 import { identityRemove } from 'state/identities/identities.actions';
-import * as client from '../client/IndentityProfile.client';
+import * as client from '../client/IdentityProfile.client';
 import { IdentityProfileActionTypes } from './IdentityProfile.store';
 
 export const identityProfileLoad = (identityId: string, asMerchantId: string) => async (dispatch) => {

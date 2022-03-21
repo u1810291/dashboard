@@ -18,3 +18,8 @@ export enum CountryCodes {
   PE = 'PE',
   PH = 'PH',
 }
+
+export interface AllowedRegions {
+  country: string;
+  regions: string[];
+}

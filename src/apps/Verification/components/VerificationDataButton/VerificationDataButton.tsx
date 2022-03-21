@@ -1,18 +1,18 @@
-import { VerificationWebhookModal } from 'apps/ui/components/VerificationWebhookModal/VerificationWebhookModal';
+import { useFormatMessage } from 'apps/intl';
 import { useOverlay } from 'apps/overlay';
-import { ButtonHeaderMenu } from 'apps/ui';
+import { ButtonHeaderMenu, VerificationWebhookModal } from 'apps/ui';
 import { useQuery } from 'lib/url';
+import { ApiResponse } from 'models/Client.model';
 import { QATags } from 'models/QA.model';
 import React, { useCallback, useState } from 'react';
 import { FiCode, FiLoader } from 'react-icons/fi';
-import { useIntl } from 'react-intl';
-import { getVerificationWebhook } from '../../client/Verification.client';
 
-export function VerificationDataButton({ className, verificationId }: {
-  className: string;
+export function VerificationDataButton({ className, verificationId, onGetWebhook }: {
+  className?: string;
   verificationId: string;
+  onGetWebhook: (id: string, params: any) => Promise<ApiResponse<any>>;
 }) {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const [isLoading, setIsLoading] = useState(false);
   const [createOverlay, closeOverlay] = useOverlay();
   const { asMerchantId } = useQuery();
@@ -20,14 +20,14 @@ export function VerificationDataButton({ className, verificationId }: {
   const handleClick = useCallback(async () => {
     setIsLoading(true);
     try {
-      const { data } = await getVerificationWebhook(verificationId, { ...(asMerchantId && { asMerchantId }) });
+      const { data } = await onGetWebhook(verificationId, { ...(asMerchantId && { asMerchantId }) });
       createOverlay(<VerificationWebhookModal webhook={data} onClose={closeOverlay} />);
     } catch (e) {
       // eslint-disable-next-line
       console.error('error', (e as any).message)
     }
     setIsLoading(false);
-  }, [verificationId, createOverlay, closeOverlay, asMerchantId]);
+  }, [verificationId, createOverlay, closeOverlay, asMerchantId, onGetWebhook]);
 
   return (
     <ButtonHeaderMenu
@@ -38,7 +38,7 @@ export function VerificationDataButton({ className, verificationId }: {
       disabled={isLoading}
       data-qa={QATags.Verification.Buttons.Data}
     >
-      {intl.formatMessage({ id: 'verificationModal.webhookData' })}
+      {formatMessage('verificationModal.webhookData')}
     </ButtonHeaderMenu>
   );
 }
