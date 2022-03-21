@@ -2,13 +2,12 @@ import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiMapPin } from 'react-icons/fi';
-import { getIpCheckStep, IpCheckStep } from 'models/IpCheck.model';
+import { getIpCheckStep } from 'models/IpCheckOld.model';
+import { IpCheckValidationTypes } from 'models/IpCheck.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
-import { IpCheckVerification } from 'apps/IpCheck/components/IpCheckVerification/IpCheckVerification';
-import { IpCheckSettings } from 'apps/IpCheck/components/IpCheckSettings/IpCheckSettings';
-import { IpCheckCheckTypes, IpCheckSettingsTypes, IpCheckValidationTypes } from 'apps/IpCheck/models/IpCheck.model';
+import { IpCheckVerification, IpCheckSettings, IpCheckCheckTypes, IpCheckSettingsTypes, IpCheckErrorCodes, IpCheckVerificationOutput } from 'apps/IpCheck';
 
 type ProductSettingsIpCheck = ProductSettings<IpCheckSettingsTypes>;
 
@@ -80,8 +79,14 @@ export class IpCheckOld extends ProductBaseFlowBuilder implements Product {
     return flow?.verificationPatterns?.[VerificationPatternTypes.IpValidation] !== undefined && flow.verificationPatterns[VerificationPatternTypes.IpValidation] !== IpCheckValidationTypes.None;
   }
 
-  getVerification(verification: VerificationResponse): IpCheckStep {
-    return getIpCheckStep(verification?.steps);
+  getVerification(verification: VerificationResponse): IpCheckVerificationOutput {
+    const ipCheckStep = getIpCheckStep(verification?.steps);
+    return {
+      ...ipCheckStep?.data,
+      isRunning: ipCheckStep?.status < 200,
+      vpnDetection: ipCheckStep?.error?.code !== IpCheckErrorCodes.VpnDetected,
+      geoRestriction: ipCheckStep?.error?.code !== IpCheckErrorCodes.Restricted,
+    };
   }
 
   hasFailedCheck(verification: VerificationResponse): boolean {

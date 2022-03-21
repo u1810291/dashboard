@@ -1,18 +1,19 @@
+import { isNil } from 'lib/isNil';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
+import { IWorkflow } from 'models/Workflow.model';
 import { FiMapPin } from 'react-icons/fi';
-import { getIpCheckStep, IpCheckStep } from 'models/IpCheck.model';
-import { VerificationResponse } from 'models/VerificationOld.model';
-import { getStepStatus, StepStatus } from 'models/Step.model';
-import { IpCheckCheckTypes, IpCheckSettingsTypes, IpCheckValidationTypes } from 'apps/IpCheck/models/IpCheck.model';
+import { IpCheckValidationTypes } from 'models/IpCheck.model';
 import { ProductBaseWorkflow } from 'apps/WorkflowBuilder';
+import { IpCheckCheckTypes, IpCheckSettingsTypes, IpCheckVerificationOutput, IVerificationWithIpCheck } from '../models/IpCheck.model';
+import { IpCheckPdf } from '../components/IpCheckPdf/IpCheckPdf';
 import { IpCheckVerification } from '../components/IpCheckVerification/IpCheckVerification';
 import { IpCheckSettings } from '../components/IpCheckSettings/IpCheckSettings';
 
 type ProductSettingsIpCheck = ProductSettings<IpCheckSettingsTypes>;
 
-export class IpCheckMerit extends ProductBaseWorkflow implements Product {
+export class IpCheckMerit extends ProductBaseWorkflow implements Product<IWorkflow, IVerificationWithIpCheck> {
   id = ProductTypes.IpCheck;
   order = 50;
   integrationTypes = [];
@@ -32,6 +33,7 @@ export class IpCheckMerit extends ProductBaseWorkflow implements Product {
   }];
   component = IpCheckSettings;
   componentVerification = IpCheckVerification;
+  componentPdf = IpCheckPdf;
 
   parser(flow: IFlow): ProductSettingsIpCheck {
     return {
@@ -80,15 +82,16 @@ export class IpCheckMerit extends ProductBaseWorkflow implements Product {
     return flow?.verificationPatterns?.[VerificationPatternTypes.IpValidation] !== undefined && flow.verificationPatterns[VerificationPatternTypes.IpValidation] !== IpCheckValidationTypes.None;
   }
 
-  getVerification(verification: VerificationResponse): IpCheckStep {
-    return getIpCheckStep(verification?.steps);
+  isInVerification(verification: IVerificationWithIpCheck): boolean {
+    return !isNil(verification?.blocks?.ip?.output);
   }
 
-  hasFailedCheck(verification: VerificationResponse): boolean {
-    const ipCheckStep = getIpCheckStep(verification?.steps);
-    if (!ipCheckStep) {
-      return false;
-    }
-    return getStepStatus(ipCheckStep) === StepStatus.Failure;
+  getVerification(verification: IVerificationWithIpCheck): IpCheckVerificationOutput {
+    return verification?.blocks?.ip?.output;
+  }
+
+  hasFailedCheck(verification: IVerificationWithIpCheck): boolean {
+    const output = verification?.blocks?.ip?.output;
+    return output?.vpnDetection === false || output?.geoRestriction === false;
   }
 }

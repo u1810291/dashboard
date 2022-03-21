@@ -3,7 +3,7 @@ import { useFormatMessage } from 'apps/intl';
 import { useSelector } from 'react-redux';
 import { ButtonStyled } from 'apps/ui/components/ButtonStyled/ButtonStyled';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { WatchlistProcessStatus } from '../../models/CustomWatchlist.models';
+import { CustomWatchlistValidationError, WatchlistProcessStatus } from '../../models/CustomWatchlist.models';
 import { selectCurrentCustomWatchlistError } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistModalValidationSubmitButton.styles';
 
@@ -15,7 +15,7 @@ export function CustomWatchlistModalValidationSubmitButton({ loading, isWatchlis
 }) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
-  const currentWatchlistError = useSelector(selectCurrentCustomWatchlistError);
+  const currentWatchlistError = useSelector<any, CustomWatchlistValidationError[] | null>(selectCurrentCustomWatchlistError);
   const isCurrentWatchlistError = Array.isArray(currentWatchlistError) && currentWatchlistError?.length !== 0;
 
   const buttonText = useMemo(() => {

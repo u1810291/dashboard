@@ -33,7 +33,7 @@ export function AddNewFlowModal({ submitNewFlow }) {
       progressChanges[itemNumber] = { completed: true, stepId: currentStep };
       dispatch(merchantUpdateOnboardingSteps(progressChanges, currentStep, formatMessage));
     }
-  }, [onboardingProgress, dispatch, formatMessage]);
+  }, [onboardingProgress, dispatch, formatMessage, isMetamapStepCompleted]);
 
   const handleSubmit = useCallback(async (text) => {
     try {
@@ -43,7 +43,7 @@ export function AddNewFlowModal({ submitNewFlow }) {
     } catch (e) {
       validationHandler(e, intl, setError);
     }
-  }, [intl, submitNewFlow, closeOverlay]);
+  }, [intl, submitNewFlow, closeOverlay, dispatch]);
 
   const handleOnChange = useCallback((e) => {
     setInput(e.target.value);

@@ -1,5 +1,5 @@
 import { forDevsRoutes } from 'apps/forDevelopers';
-import { identityProfileRoutes } from 'apps/IdentityProfile';
+import { identityProfileOldRoutes } from 'apps/IdentityProfileOld';
 import { Page404, PageLoader } from 'apps/layout';
 import { MerchantGuard } from 'apps/merchant';
 import { appPalette } from 'apps/theme';
@@ -101,7 +101,7 @@ export function DashboardRouter() {
               </IdentityProfileLazy>
             )}
           />
-          {identityProfileRoutes}
+          {identityProfileOldRoutes}
           {verificationListRoutes}
           {forDevsRoutes}
           {/* TODO: @ggrigorev refactor Dashboard router. All of the problems are because of the Switch. It supports only <Route/> tags as children */}

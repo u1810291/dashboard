@@ -9,7 +9,7 @@ export function GovCheckIssue() {
 
   return (
     <Box className={classes.badge}>
-      {intl.formatMessage({ id: 'GovernmentCheck.issues.description' })}
+      {intl.formatMessage({ id: 'GovernmentCheck.issues.noConfig.description' })}
     </Box>
   );
 }

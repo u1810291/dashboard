@@ -19,7 +19,7 @@ export function VerificationSummaryChecksContainerPDF({ steps }) {
           <View style={commonStyles.labelContainer} wrap={false}>
             <Image src={IconDone} style={commonStyles.labelIcon} />
             <Text style={commonStyles.label}>
-              {formatMessage('verificationDetails.summary.checksPassed.title', { messageValues: { passedStepsCount } })}
+              {formatMessage('verificationDetails.summary.checksPassed.title', { messageValues: { count: passedStepsCount } })}
             </Text>
           </View>
           {passedSteps.map((step) => (

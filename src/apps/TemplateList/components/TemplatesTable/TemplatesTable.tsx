@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import { selectIsNewDesign } from 'apps/dashboard/state/dashboard.selectors';
-import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
+import { useConfirmDelete } from 'apps/ui/components/DeleteModal/DeleteModal';
 import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { QATags } from 'models/QA.model';
@@ -37,7 +37,7 @@ export function TemplatesTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   const { asMerchantId } = useQuery();
   const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
 
-  const handleBlockTemplate = async (id) => {
+  const handleBlockTemplate = useCallback(async (id) => {
     if (templateIdToDelete) return;
 
     try {
@@ -52,7 +52,7 @@ export function TemplatesTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
     } finally {
       setTemplateIdToDelete(null);
     }
-  };
+  }, [dispatch, confirmBlockTemplate, templateIdToDelete]);
 
   const handleDeleteButtonClick = useCallback((event, id) => {
     event.stopPropagation();

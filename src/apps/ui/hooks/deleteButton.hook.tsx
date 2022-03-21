@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
-import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import { DeleteButtonHookOptions } from '../models/DeleteButton.model';
+import { useConfirmDelete } from './confirmDelete.hook';
 
 export function useDeleteButtonHook(onDelete: () => Promise<void>, options: DeleteButtonHookOptions = {}) {
   const [isDeleting, setIsDeleting] = useState(false);

@@ -1,5 +1,6 @@
 import { Box } from '@material-ui/core';
 import { ProductTab } from 'apps/Product';
+import { IVerificationWorkflow } from 'models/Verification.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { ProductTypes } from 'models/Product.model';
 import React, { useMemo } from 'react';
@@ -7,8 +8,8 @@ import React, { useMemo } from 'react';
 export function VerificationProductList({ productList, onSelect, selectedId, verification }: {
   productList: ProductTypes[];
   onSelect: (product: ProductTypes) => void;
-  verification: VerificationResponse;
   selectedId?: ProductTypes;
+  verification: VerificationResponse | IVerificationWorkflow;
 }) {
   const primaryProductList = useMemo(() => productList.filter((id) => id !== ProductTypes.Metadata), [productList]);
 

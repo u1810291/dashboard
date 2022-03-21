@@ -1,18 +1,19 @@
+import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { IFlow } from 'models/Flow.model';
 import { FiFlag } from 'react-icons/fi';
 import { CountrySpecificChecks, getStepStatus, StepStatus } from 'models/Step.model';
-import { ProductBaseWorkflow } from 'apps/WorkflowBuilder';
 import { getDocumentsWithoutCustomDocument } from 'models/Document.model';
 import { GovCheckSettings } from '../components/GovCheckSettings/GovCheckSettings';
-import { getGovCheckRootSteps, getGovCheckVerificationSteps, GovCheckStepTypes, GovCheckVerificationData, GovernmentCheckSettingTypes, GovernmentChecksTypes, verificationPatternsGovchecksDefault } from '../models/GovCheck.model';
+import { getGovCheckRootSteps, getGovCheckVerificationSteps, GovCheckVerificationData, GovernmentCheckSettingTypes, GovernmentChecksTypes, isGovCheckHaveDependsIssue, isGovCheckInFlow, verificationPatternsGovchecksDefault } from '../models/GovCheck.model';
 import { GovCheckVerificationProduct } from '../components/GovCheckVerificationProduct/GovCheckVerificationProduct';
+import { GovCheckDependsIssue } from '../components/GovCheckDependsIssue/GovCheckDependsIssue';
 import { GovCheckIssue } from '../components/GovCheckIssue/GovCheckIssue';
 
 type ProductSettingsGovCheck = ProductSettings<GovernmentCheckSettingTypes>;
 
-export class GovernmentCheckMerit extends ProductBaseWorkflow implements Product {
+export class GovernmentCheckMerit extends ProductBaseFlowBuilder implements Product {
   id = ProductTypes.GovernmentCheck;
   inputs = [
     ProductInputTypes.NationalId,
@@ -43,24 +44,27 @@ export class GovernmentCheckMerit extends ProductBaseWorkflow implements Product
   }
 
   isInFlow(flow: IFlow): boolean {
-    const isGovChecksEnabled = Object.entries(flow?.verificationPatterns).some(
-      ([key, value]) => Object.prototype.hasOwnProperty.call(verificationPatternsGovchecksDefault, key)
-        && value && value !== GovCheckStepTypes.None,
-    );
-    return !!flow?.postponedTimeout || isGovChecksEnabled;
+    return isGovCheckInFlow(flow);
   }
 
   isInVerification(verification: VerificationResponse): boolean {
+    // TODO: @ggrigorev WF add conditions when GovChecks will be adapted for WF
+    return false;
     // TODO: @anatoliy.turkin (step.id as any) look so sad
+    // eslint-disable-next-line no-unreachable
     return getGovCheckVerificationSteps(verification).some((step) => CountrySpecificChecks.includes((step.id as any)));
   }
 
   haveIssues(flow: IFlow, productsInGraph?: ProductTypes[]): boolean {
-    return !productsInGraph.includes(ProductTypes.CustomField) && !productsInGraph.includes(ProductTypes.DocumentVerification);
+    return isGovCheckHaveDependsIssue(flow, productsInGraph) || !isGovCheckInFlow(flow);
   }
 
   getIssuesComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
-    if (this.haveIssues(flow, productsInGraph)) {
+    if (isGovCheckHaveDependsIssue(flow, productsInGraph)) {
+      return GovCheckDependsIssue;
+    }
+
+    if (!isGovCheckInFlow(flow)) {
       return GovCheckIssue;
     }
 
