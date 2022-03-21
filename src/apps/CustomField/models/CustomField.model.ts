@@ -70,7 +70,41 @@ export enum MappingValueKey {
   NationalIdFirstName = 'national-id.firstName',
   NationalIdLastName = 'national-id.lastName',
   NationalIdDateOfBirth = 'national-id.dateOfBirth',
+  CertificateOfTaxTINTin = 'certificate-of-tax.TIN.tin',
+  CertificateOfIncorporationCACRcBnNumber = 'certificate-of-incorporation.CAC.rc-bn-number',
 }
+
+export interface CONFIG {
+  regex: string;
+  type: AtomicCustomFieldType;
+}
+
+export const CONFIG_BY_KEY: Record<string, CONFIG> = {
+  [MappingValueKey.NationalIdNINDocumentNumber]: {
+    regex: '^[0-9]{11}$',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.NationalIdBVNDocumentNumber]: {
+    regex: '^[0-9]{11}$',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.NationalIdVINDocumentNumber]: {
+    regex: '^[a-zA-Z0-9]{19}$',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.NationalIdFirstName]: {
+    regex: '',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.NationalIdLastName]: {
+    regex: '',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.NationalIdDateOfBirth]: {
+    regex: '',
+    type: AtomicCustomFieldType.Date,
+  },
+};
 
 export enum MappingCountryTypes {
   Nigeria = 'NG',
@@ -88,6 +122,8 @@ export const MAPPING_OPTIONS = {
     MappingValueKey.NationalIdFirstName,
     MappingValueKey.NationalIdLastName,
     MappingValueKey.NationalIdDateOfBirth,
+    MappingValueKey.CertificateOfTaxTINTin,
+    MappingValueKey.CertificateOfIncorporationCACRcBnNumber,
   ],
 };
 
@@ -352,3 +388,5 @@ export const isValidFieldSystemName = (value: string): boolean => new RegExp(FIE
 export const formatedValue = (field: CustomField, value: string): string => (field.type === MainCustomFieldType.Atomic && field.atomicFieldParams.type === AtomicCustomFieldType.Date
   ? value ? formatDate(value) : ''
   : !isNil(value) ? `${value}` : '-');
+
+export const isTypeFromConfig = (selectedFieldMapping: Mapping): boolean => !!CONFIG_BY_KEY[selectedFieldMapping?.key]?.type;

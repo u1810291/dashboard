@@ -10,12 +10,13 @@ import { overlayClose } from 'apps/overlay';
 import { isNil } from 'lib/isNil';
 import { InfoTooltip } from 'apps/ui';
 import { useFormatMessage } from 'apps/intl';
-import { InfoIcon, SmallButton, TextFieldInput, useStyles } from './CustomFieldModalConfigureAtomic.styles';
+import { InfoIcon, TextFieldInput, useStyles } from './CustomFieldModalConfigureAtomic.styles';
 import { updateCustomFieldEditedField, updateCustomFieldModalStep } from '../../state/CustomField.actions';
-import { AtomicCustomFieldType, CustomFieldModalTypes, mutableFindChildren, HandleUpdateFields, prepareCustomField, CustomField, Mapping, EMPTY_SELECT_OPTIONS, atomicFieldIsValid, isValidFieldSystemName } from '../../models/CustomField.model';
+import { AtomicCustomFieldType, CustomFieldModalTypes, mutableFindChildren, HandleUpdateFields, prepareCustomField, CustomField, Mapping, atomicFieldIsValid, isValidFieldSystemName } from '../../models/CustomField.model';
 import { CustomFieldModalFooter } from '../CustomFieldModalFooter/CustomFieldModalFooter';
 import { selectCustomFieldEditedCustomField, selectCustomFieldEditedIndex, selectCustomFieldEditedParent, selectCustomFieldEditedSystemName, selectCustomFieldFlattenListFields, selectCustomFieldListFields, selectCustomFieldSelectedCustomFieldMapping } from '../../state/CustomField.selectors';
 import { CustomFieldSelectionOptions } from '../CustomFieldSelectionOptions/CustomFieldSelectionOptions';
+import { CustomFieldTypeChanger } from '../CustomFieldTypeChanger/CustomFieldTypeChanger';
 
 export function CustomFieldModalConfigureAtomic({ handleUpdateFields }: {
   handleUpdateFields: HandleUpdateFields;
@@ -59,15 +60,6 @@ export function CustomFieldModalConfigureAtomic({ handleUpdateFields }: {
       ...selectedCustomField,
       isMandatory: !selectedCustomField.isMandatory,
     }));
-  };
-
-  const handleFieldTypeChange = (type: AtomicCustomFieldType) => () => {
-    const clone = cloneDeep(selectedCustomField);
-    if (type === AtomicCustomFieldType.Select && !selectedCustomField.atomicFieldParams?.selectOptions) {
-      clone.atomicFieldParams.selectOptions = [...EMPTY_SELECT_OPTIONS];
-    }
-    clone.atomicFieldParams.type = type;
-    dispatch(updateCustomFieldEditedField(clone));
   };
 
   const onForward = useCallback(() => {
@@ -171,47 +163,7 @@ export function CustomFieldModalConfigureAtomic({ handleUpdateFields }: {
             />
           </Grid>
         </Grid>
-        <Grid item container direction="column">
-          <Grid item>
-            <Typography variant="subtitle2">
-              {formatMessage('CustomField.settings.fieldType')}
-            </Typography>
-          </Grid>
-          <Grid container item justify="space-between" xs={8}>
-            <SmallButton
-              onClick={handleFieldTypeChange(AtomicCustomFieldType.Text)}
-              color={selectedCustomField.atomicFieldParams.type === AtomicCustomFieldType.Text ? 'primary' : 'default'}
-              size="small"
-              variant="outlined"
-            >
-              {formatMessage('CustomField.settings.fieldType.text')}
-            </SmallButton>
-            <SmallButton
-              onClick={handleFieldTypeChange(AtomicCustomFieldType.Date)}
-              color={selectedCustomField.atomicFieldParams.type === AtomicCustomFieldType.Date ? 'primary' : 'default'}
-              size="small"
-              variant="outlined"
-            >
-              {formatMessage('CustomField.settings.fieldType.date')}
-            </SmallButton>
-            <SmallButton
-              onClick={handleFieldTypeChange(AtomicCustomFieldType.Checkbox)}
-              color={selectedCustomField.atomicFieldParams.type === AtomicCustomFieldType.Checkbox ? 'primary' : 'default'}
-              size="small"
-              variant="outlined"
-            >
-              {formatMessage('CustomField.settings.fieldType.checkbox')}
-            </SmallButton>
-            <SmallButton
-              onClick={handleFieldTypeChange(AtomicCustomFieldType.Select)}
-              color={selectedCustomField.atomicFieldParams.type === AtomicCustomFieldType.Select ? 'primary' : 'default'}
-              size="small"
-              variant="outlined"
-            >
-              {formatMessage('CustomField.settings.fieldType.selector')}
-            </SmallButton>
-          </Grid>
-        </Grid>
+        <CustomFieldTypeChanger />
         {!![AtomicCustomFieldType.Text, AtomicCustomFieldType.Date].includes(selectedCustomField.atomicFieldParams.type) && (
           <Grid item container direction="column">
             <Grid item>

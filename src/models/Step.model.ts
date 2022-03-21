@@ -38,7 +38,9 @@ export enum VerificationStepTypes {
   DuplicateUserDetection = 'duplicate-user-detection',
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
   CustomWatchlistsValidation = 'custom-watchlists-validation',
+  NigerianCacValidation = 'nigerian-cac-validation',
   NigerianLegalValidation = 'nigerian-legal-validation',
+  NigerianTinValidation = 'nigerian-tin-validation',
 }
 
 export enum StepStatus {
@@ -218,7 +220,9 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.KenyanEcitizen,
   DocumentStepTypes.ChileanRut,
   DocumentStepTypes.UgandanElectoralCommission,
+  VerificationPatternTypes.NigerianCac,
   VerificationStepTypes.NigerianLegalValidation,
+  VerificationStepTypes.NigerianTinValidation,
 ];
 
 export function hasFailureStep(steps: IStep[]): boolean {
