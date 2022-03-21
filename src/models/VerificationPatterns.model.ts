@@ -25,6 +25,7 @@ export enum VerificationPatternTypes {
   ColombianNit = 'colombian-nit-validation',
   ColombianProcuraduria = 'colombian-procuraduria-validation',
   ColombianRegistraduria = 'colombian-registraduria-validation',
+  ColombianUnifiedLegalSearch = 'colombian-unified-legal-search-validation',
   ColombianRunt = 'colombian-runt-validation',
   ColombianSisben = 'colombian-sisben-validation',
   ComplyAdvantageValidation = 'comply-advantage-validation',
