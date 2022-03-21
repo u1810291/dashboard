@@ -23,7 +23,7 @@ import { getTemplate, useLoadTemplatesList } from 'apps/Templates';
 import { useFormatMessage } from 'apps/intl';
 import { Loadable } from 'models/Loadable.model';
 import { useHistory } from 'react-router-dom';
-import { StartModal, StepsOptions } from 'apps/Analytics';
+import { StartModal, StepsOptions, OnboardingNames } from 'apps/Analytics';
 import { useOverlay } from 'apps/overlay';
 import { TemplatesModal } from 'apps/SolutionCatalog';
 import { NoFlows } from '../NoFlows/NoFlows';
@@ -44,7 +44,7 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
     formatMessage('VerificationFlow.modal.delete.subtitle'),
   );
   const dispatch = useDispatch();
-  const isFirstMetamapCreated = onboardingProgress.find((step) => step.stepId === 'make-metamap').completed;
+  const isFirstMetamapCreated = onboardingProgress.find((step) => step.stepId === OnboardingNames.metamap).completed;
   const isNewDesign = useSelector<any, boolean>(selectIsNewDesign);
   const { asMerchantId } = useQuery();
   const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
@@ -55,7 +55,7 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   const handleCardClick = useCallback(async (id: string) => {
     try {
       await dispatch(getTemplate(id));
-      history.push(`${Routes.templates.draftFlow}`);
+      history.push(Routes.templates.draftFlow);
       closeOverlay();
     } catch (error) {
       console.warn(error);

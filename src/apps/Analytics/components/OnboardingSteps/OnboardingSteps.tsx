@@ -11,22 +11,20 @@ import { Routes } from 'models/Router.model';
 import { notification } from 'apps/ui';
 import { useOverlay } from 'apps/overlay';
 import { TemplatesModal } from 'apps/SolutionCatalog';
-import { TeamInviteModal } from 'apps/collaborators/components/TeamInviteModal/TeamInviteModal';
+import { TeamInviteModal, selectCollaboratorStateIsPosting, collaboratorAdd } from 'apps/collaborators';
 import { useFormatMessage } from 'apps/intl';
-import { selectCollaboratorState } from 'apps/collaborators/state/collaborator.selectors';
-import { collaboratorAdd } from 'apps/collaborators/state/collaborator.actions';
 import { selectMerchantOnboarding, merchantUpdateOnboardingSteps, selectIsOwnerModel } from 'state/merchant';
-import { getTemplate, toggleUnsavedChanges } from 'apps/Templates';
+import { templateChoose } from 'apps/Templates';
 import { Loadable } from 'models/Loadable.model';
 import { StartModal } from '../StartModal/StartModal';
-import { StepsOptions, Onboarding, OnboardingQA, AllStepsCompleted } from './model/OnboardingSteps.model';
+import { StepsOptions, ONBOARDING, ONBOARDINGQA, AllStepsCompleted, OnboardingNames } from './model/OnboardingSteps.model';
 import { useStyles, TableRowHovered } from './OnboardingSteps.styles';
 
 export function OnboardingSteps() {
   const [createOverlay, closeOverlay] = useOverlay();
   const history = useHistory();
   const dispatch = useDispatch();
-  const state = useSelector(selectCollaboratorState);
+  const state = useSelector<any, boolean>(selectCollaboratorStateIsPosting);
   const onboardingProgress = useSelector<any, StepsOptions[]>(selectMerchantOnboarding);
   const ownerModel = useSelector<any, Loadable<boolean>>(selectIsOwnerModel);
   const classes = useStyles();
@@ -40,15 +38,8 @@ export function OnboardingSteps() {
     dispatch(merchantUpdateOnboardingSteps(progressChanges, currentStep, formatMessage));
   }, [onboardingProgress, dispatch, formatMessage]);
 
-  const handleCardClick = useCallback(async (id: string) => {
-    try {
-      await dispatch(getTemplate(id));
-      dispatch(toggleUnsavedChanges(true));
-      history.push(`${Routes.templates.draftFlow}`);
-      closeOverlay();
-    } catch (error) {
-      console.warn(error);
-    }
+  const handleCardClick = useCallback((id: string) => {
+    dispatch(templateChoose(id));
   }, [closeOverlay, dispatch, history]);
 
   const handleTemplateModal = () => {
@@ -57,7 +48,7 @@ export function OnboardingSteps() {
   };
 
   const handleMetamapBuild = () => {
-    history.push(`${Routes.flow.root}`, { dontShowModal: true });
+    history.push(Routes.flow.root, { dontShowModal: true });
     createOverlay(<StartModal action={handleTemplateModal} closeOverlay={closeOverlay} />);
   };
 
@@ -81,10 +72,10 @@ export function OnboardingSteps() {
   };
 
   const inviteModalOpen = (item: StepsOptions) => {
-    history.push(`${Routes.settings.root}`);
+    history.push(Routes.settings.root);
     createOverlay(<TeamInviteModal
       onSubmit={handleInviteSubmit(item)}
-      isPosting={state.isPosting}
+      isPosting={state}
     />);
   };
 
@@ -97,11 +88,11 @@ export function OnboardingSteps() {
 
   const currentStepAction = (item) => {
     switch (item.stepId) {
-      case 'read-our-docs':
+      case OnboardingNames.docs:
         return !item.completed && readDocsComplete(item);
-      case 'invite-teammate':
+      case OnboardingNames.teammate:
         return !item.completed && inviteModalOpen(item);
-      case 'make-metamap':
+      case OnboardingNames.metamap:
         return buildFirstMetamapComplete(item);
       default:
         return console.error('no matches');
@@ -122,14 +113,14 @@ export function OnboardingSteps() {
                   key={idx}
                   className={classes.itemRow}
                   onClick={() => currentStepAction(item)}
-                  data-qa={QATags.Onboarding.Steps[OnboardingQA[item.stepId]]}
+                  data-qa={QATags.Onboarding.Steps[ONBOARDINGQA[item.stepId]]}
                 >
                   <TableCell>
                     <Box mb={{ xs: 2, lg: 0 }} pr={{ xs: 3, lg: 0 }} color="common.black90">
                       <Box component="span">
                         <Box component="span" className={classes[item.completed ? 'completedStep' : 'incompletedStep']}>
                           &bull;&ensp;
-                          <span>{formatMessage(Onboarding[item.stepId])}</span>
+                          <span>{formatMessage(ONBOARDING[item.stepId])}</span>
                         </Box>
                       </Box>
                     </Box>

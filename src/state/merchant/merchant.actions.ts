@@ -86,7 +86,7 @@ export const configurationUpdate = (cfg, isSync) => async (dispatch, getState) =
   }
 };
 
-export const dashboardUpdate = (data, isSync?) => (dispatch) => {
+export const dashboardUpdate = (data, isSync: boolean = false) => (dispatch) => {
   dispatch(configurationUpdate({ dashboard: { ...data } }, isSync));
 };
 
@@ -248,7 +248,12 @@ export const merchantUpdateBusinessName = (businessName) => async (dispatch) => 
 };
 
 export const merchantUpdateOnboardingSteps = (onboardingSteps, currentStep, formatMessage) => async (dispatch) => {
-  const { data } = await api.patchOnboardingProgress(onboardingSteps);
-  dispatch({ type: types.ONBOARDING_STEPS_UPDATE, payload: { onboardingSteps: data.onboardingSteps } });
-  if (!data.onboardingSteps.find((item) => item.completed === false)) notification.info(formatMessage('onboarding.steps.completed'));
+  try {
+    const { data } = await api.patchOnboardingProgress(onboardingSteps);
+    dispatch({ type: types.ONBOARDING_STEPS_UPDATE, payload: { onboardingSteps: data.onboardingSteps } });
+    if (!data.onboardingSteps.find((item) => item.completed === false)) notification.info(formatMessage('onboarding.steps.completed'));
+  } catch (error) {
+    dispatch({ type: types.ONBOARDING_STEPS_FAILURE, error });
+    throw error;
+  }
 };

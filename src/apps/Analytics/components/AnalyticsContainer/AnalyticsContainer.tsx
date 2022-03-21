@@ -9,7 +9,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from 'lib/url';
-import { FiCheck } from 'react-icons/fi';
 import { selectMerchantOnboarding, merchantLoad } from 'state/merchant';
 import { OnboardingSteps } from '../OnboardingSteps/OnboardingSteps';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
@@ -36,7 +35,6 @@ export function AnalyticsContainer() {
   const onboardingProgress = useSelector<any, StepsOptions[]>(selectMerchantOnboarding);
   const byDate = useSelector(selectStatisticsByDate);
   const { asMerchantId } = useQuery();
-  const allStepsCompleted = false;
 
   useEffect(() => {
     setIsFilterDatesValid(getFilterDatesIsValid(metricsFilter));
@@ -64,16 +62,7 @@ export function AnalyticsContainer() {
     <Container maxWidth={false}>
       {isFilterDatesValid && !countStatisticsModel.isLoading && countStatisticsModel.isLoaded ? (
         <Box pb={2} className={classes.wrapper}>
-          {allStepsCompleted ? (
-            <div className={classes.completedSteps}>
-              You&apos;re all set!
-              <span className={classes.blueSquare}>
-                <FiCheck className={classes.checkIcon} />
-              </span>
-            </div>
-          ) : (
-            <OnboardingSteps />
-          )}
+          <OnboardingSteps />
           <Box mb={2}>
             <Grid container alignItems="center">
               <Grid item xs={9}>

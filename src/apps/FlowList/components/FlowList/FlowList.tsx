@@ -34,7 +34,7 @@ export function FlowList() {
   const merchantFlowList = useSelector<any, IFlow[]>(selectMerchantFlowList);
   const isMobile = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
   const isButtonDisabled = (merchantFlowList || []).length >= MAX_NUMBER_OF_FLOWS;
-  const [open, setOpen] = useState(isButtonDisabled && isMobile);
+  const [open, setOpen] = useState<boolean>(isButtonDisabled && isMobile);
   const flowListModel = useFlowListLoad();
 
   useEffect(() => {

@@ -8,6 +8,7 @@ import { mergeDeep } from 'lib/object';
 import { FormatMessage } from 'apps/intl';
 import { types as flowBuilderActionTypes } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { notification } from 'apps/ui';
+import { Routes } from 'models/Router.model';
 import { DRAFT_INITIAL_STATE } from '../model/Templates.model';
 import {
   selectCurrentTemplateModelValue,
@@ -117,6 +118,21 @@ export const getTemplate = (id: string) => async (dispatch) => {
   }
 };
 
+export const toggleUnsavedChanges = (value: boolean) => (dispatch) => {
+  dispatch({ type: flowBuilderActionTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: value });
+};
+
+export const templateChoose = (id: string) => async (dispatch, closeOverlay, history) => {
+  try {
+    await dispatch(getTemplate(id));
+    dispatch(toggleUnsavedChanges(true));
+    history.push(Routes.templates.draftFlow);
+    closeOverlay();
+  } catch (error) {
+    console.warn(error);
+  }
+};
+
 export const blockTemplate = (id: string) => async (dispatch, getState) => {
   dispatch({ type: types.BLOCK_TEMPLATE_UPDATING });
 
@@ -179,8 +195,4 @@ export const createFlowFromTemplate = (name: string, asMerchantId) => async (dis
   } catch (error) {
     return error;
   }
-};
-
-export const toggleUnsavedChanges = (value: boolean) => (dispatch) => {
-  dispatch({ type: flowBuilderActionTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: value });
 };

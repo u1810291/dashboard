@@ -20,7 +20,7 @@ export function AddNewFlowModal({ submitNewFlow }) {
   const dispatch = useDispatch();
   const formatMessage = useFormatMessage();
   const classes = useStyles();
-  const onboardingProgress: StepsOptions[] = useSelector(selectMerchantOnboarding);
+  const onboardingProgress = useSelector<any, StepsOptions[]>(selectMerchantOnboarding);
   const [input, setInput] = useState('');
   const [error, setError] = useState(false);
   const [, closeOverlay] = useOverlay();
