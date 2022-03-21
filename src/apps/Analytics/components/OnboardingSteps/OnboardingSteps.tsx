@@ -8,10 +8,9 @@ import TableBody from '@material-ui/core/TableBody';
 import { QATags } from 'models/QA.model';
 import TableCell from '@material-ui/core/TableCell';
 import { Routes } from 'models/Router.model';
-import { notification } from 'apps/ui';
 import { useOverlay } from 'apps/overlay';
 import { TemplatesModal } from 'apps/SolutionCatalog';
-import { TeamInviteModal, selectCollaboratorStateIsPosting, collaboratorAdd } from 'apps/collaborators';
+import { TeamInviteModal, selectCollaboratorStateIsPosting, inviteCollaborator } from 'apps/collaborators';
 import { useFormatMessage } from 'apps/intl';
 import { selectMerchantOnboarding, merchantUpdateOnboardingSteps, selectIsOwnerModel } from 'state/merchant';
 import { templateChoose } from 'apps/Templates';
@@ -52,39 +51,23 @@ export function OnboardingSteps() {
     createOverlay(<StartModal action={handleTemplateModal} closeOverlay={closeOverlay} />);
   };
 
-  const handleInviteSubmit = (item: StepsOptions) => async (data) => {
-    closeOverlay();
-    try {
-      await dispatch(collaboratorAdd({
-        role: parseInt(data.role, 10),
-        user: {
-          email: data.email,
-          firstName: data.firstName,
-          lastName: data.lastName,
-        },
-      }));
-      stepsProgressChange(item.stepId);
-      notification.info(formatMessage('teamTable.inviteSuccess.description'));
-    } catch (error) {
-      notification.error(formatMessage(`Settings.teamSettings.submit.${error.response?.data?.name}`, { defaultMessage: formatMessage('Error.common') }));
-      console.error(error);
-    }
-  };
-
   const inviteModalOpen = (item: StepsOptions) => {
     history.push(Routes.settings.root);
     createOverlay(<TeamInviteModal
-      onSubmit={handleInviteSubmit(item)}
+      onSubmit={(data) => {
+        closeOverlay();
+        dispatch(inviteCollaborator(item, formatMessage, stepsProgressChange, data));
+      }}
       isPosting={state}
     />);
   };
 
-  const readDocsComplete = (item) => {
+  const readDocsComplete = (item: StepsOptions) => {
     window.open('https://docs.metamap.com', '_blank');
     stepsProgressChange(item.stepId);
   };
 
-  const buildFirstMetamapComplete = (item) => !item.completed && handleMetamapBuild();
+  const buildFirstMetamapComplete = (item: StepsOptions) => !item.completed && handleMetamapBuild();
 
   const currentStepAction = (item) => {
     switch (item.stepId) {
