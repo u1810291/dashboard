@@ -23,8 +23,9 @@ import { useFlowListLoad } from 'apps/FlowList';
 import { Routes } from 'models/Router.model';
 import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
+import { flatten, groupBy, pickBy, uniqBy } from 'lodash';
 import { useLoadMetadataList } from '../../hooks/UseLoadMetadataList';
-import { selectCountryMetadata, selectIndustryMetadata, selectCurrentTemplateModelValue } from '../../store/Templates.selectors';
+import { selectIndustryMetadata, selectCurrentTemplateModelValue } from '../../store/Templates.selectors';
 import {
   ITemplateMetadata,
   TemplateSaveInputsTypes,
@@ -50,7 +51,6 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   const intl = useIntl();
   const TEMPLATE_SAVE_FORM_EDIT = edit && templateSaveFormEdit(currentTemplate);
   const defaultValuesForModal = edit ? TEMPLATE_SAVE_FORM_EDIT : TEMPLATE_SAVE_FORM_INITIAL_STATE;
-
   useEffect(() => {
     if (currentTemplate !== null && !edit) {
       history.push(`${Routes.templates.root}/${currentTemplate._id}`);
@@ -126,14 +126,11 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
     trigger(property); // Force validation after deleting a value
   };
 
-  const renderChip = useCallback((selectValues: ITemplateMetadata[], onDelete: (value: ITemplateMetadata, type: TemplateSaveInputsTypes) => void, type: TemplateSaveInputsTypes) => selectValues.map((selectValue) => <Chip className={classes.chip} variant="outlined" key={selectValue.name} label={selectValue.name} onDelete={() => onDelete(selectValue, type)} deleteIcon={<IoCloseOutline onMouseDown={(event) => event.stopPropagation()} />} />), [classes]);
+  const renderChip = useCallback((selectValues: ITemplateMetadata[], onDelete: (value: ITemplateMetadata, type: TemplateSaveInputsTypes) => void, type: TemplateSaveInputsTypes) => selectValues.map((selectValue) => <Chip className={classes.chip} variant="outlined" key={selectValue._id} label={selectValue.name} onDelete={() => onDelete(selectValue, type)} deleteIcon={<IoCloseOutline onMouseDown={(event) => event.stopPropagation()} />} />), [classes]);
 
   const getIsChecked = (value, type) => values[type].some((metadata) => metadata._id === value._id);
 
-  const isCheckedChange = (value: ITemplateMetadata, type: TemplateSaveInputsTypes) => {
-    const isCurrentPointChecked = getIsChecked(value, type);
-    return isCurrentPointChecked && handleDeleteChip(value, type);
-  };
+  const { onChange: industriesOnChange } = industriesRegister;
 
   return (
     <Modal
@@ -201,6 +198,20 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                 </Box>
                 <Select
                   {...industriesRegister}
+                  onChange={(event) => {
+                    const uniqueIndustries = uniqBy(event.target.value as any, (metadata: any) => metadata._id);
+                    // @ts-ignore
+                    const hasDups = event.target.value.length !== uniqueIndustries.length;
+                    if (hasDups) {
+                      // @ts-ignore
+                      const group = groupBy(event.target.value, (ind) => ind._id);
+                      const groupWithoutDups = pickBy(group, (property) => property.length < 2);
+                      // @ts-ignore
+                      // eslint-disable-next-line no-param-reassign
+                      event.target.value = flatten(Object.values(groupWithoutDups));
+                    }
+                    industriesOnChange(event);
+                  }}
                   value={values[TemplateSaveInputsTypes.Industries]}
                   multiple
                   disableUnderline
@@ -222,15 +233,8 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                   data-qa={QATags.Templates.Modal.IndustriesSelect}
                 >
                   {industries.map((industry) => (
-                    <MenuItem
-                      // @ts-ignore
-                      value={industry}
-                      key={industry._id}
-                      className={classes.menuItem}
-                      onChange={() => {
-                        isCheckedChange(industry, TemplateSaveInputsTypes.Industries);
-                      }}
-                    >
+                    // @ts-ignore
+                    <MenuItem key={industry._id} value={industry} className={classes.menuItem}>
                       <Checkbox checked={getIsChecked(industry, TemplateSaveInputsTypes.Industries)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
                       <ListItemText primary={industry.name} />
                     </MenuItem>
