@@ -39,7 +39,7 @@ export function OnboardingSteps() {
 
   const handleCardClick = useCallback((id: string) => {
     dispatch(templateChoose(id));
-  }, [closeOverlay, dispatch, history]);
+  }, [dispatch]);
 
   const handleTemplateModal = () => {
     closeOverlay();

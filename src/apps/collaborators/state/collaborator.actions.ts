@@ -1,10 +1,10 @@
 import { UserId, TeamInviteFormInputs } from 'models/Collaborator.model';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { createTypesSequence } from 'state/store.utils';
-import { CollaboratorActionGroups } from './collaborator.store';
 import { FormatMessage } from 'apps/intl';
 import { StepsOptions } from 'apps/Analytics';
 import { notification } from 'apps/ui';
+import { CollaboratorActionGroups } from './collaborator.store';
 import * as api from '../api/collaborators';
 import { selectCollaboratorCollection } from './collaborator.selectors';
 
