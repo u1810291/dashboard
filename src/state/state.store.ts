@@ -27,9 +27,6 @@ export const store = createStore(
   composeWithDevTools(applyMiddleware(ReduxThunk, sessionExpired)),
 );
 
-// @ts-ignore
-window.store = store;
-
 export const persistor = persistStore(store, null, () => {
   // invoked after store rehydrate
   const token = selectAuthToken(store.getState());
