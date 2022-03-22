@@ -136,6 +136,11 @@ export const selectMerchantSettings = createSelector<any, Loadable<Merchant>, IM
   selectModelValue((merchant) => merchant.settings),
 );
 
+export const selectMerchantAgentNotesConfig = createSelector(
+  selectMerchantSettings,
+  (settings) => settings?.agentNotesConfig,
+);
+
 // -- configuration
 
 export const selectConfigurationModel = createSelector(
