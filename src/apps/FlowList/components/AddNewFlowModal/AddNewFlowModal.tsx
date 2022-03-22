@@ -7,11 +7,12 @@ import { useOverlay, Modal } from 'apps/overlay';
 import { validationHandler } from 'lib/validations';
 import React, { useCallback, useState } from 'react';
 import { useFormatMessage } from 'apps/intl';
-import { merchantUpdateOnboardingSteps, selectMerchantOnboarding } from 'state/merchant';
+import { merchantUpdateOnboardingSteps, selectMerchantOnboarding, selectMerchantTags } from 'state/merchant';
 import { toggleUnsavedChanges } from 'apps/Templates';
 import { StepsOptions, CreateMetamapCompleted } from 'apps/Analytics';
 import { useIntl } from 'react-intl';
 import { QATags } from 'models/QA.model';
+import { MerchantTags } from 'models/Merchant.model';
 import Img from 'assets/modal-add-flow.png';
 import { useStyles } from './AddNewFlowModal.styles';
 
@@ -25,9 +26,11 @@ export function AddNewFlowModal({ submitNewFlow }) {
   const [error, setError] = useState(false);
   const [, closeOverlay] = useOverlay();
   const isMetamapStepCompleted = CreateMetamapCompleted(onboardingProgress);
+  const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
+  const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
 
   const stepsProgressChange = useCallback((currentStep: string) => {
-    if (!isMetamapStepCompleted) {
+    if (!isMetamapStepCompleted && canUseTemplates) {
       const progressChanges = [...onboardingProgress];
       const itemNumber = progressChanges.findIndex((step) => step.stepId === currentStep);
       if (itemNumber === -1) return;
