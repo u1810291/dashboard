@@ -54,4 +54,5 @@ export enum MerchantTags {
   CanUseNigerianDL = 'can-use-nigerian-dl',
   CanUseNigerianNIN = 'can-use-nigerian-nin',
   CanUseNigerianVIN = 'can-use-nigerian-vin',
+  CanUseDuplicateFaceDetection = 'can-use-duplicate-face-detection',
 }

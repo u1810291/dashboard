@@ -78,6 +78,7 @@ export enum VerificationPatternTypes {
   FinancialInformationPayrollAccountsRetrieving = 'financial-information-payroll-accounts-retrieving',
   Facematch = 'facematch-service-validation',
   UgandanElectoralCommission = 'ugandan-electoral-commission-validation',
+  DuplicateFaceDetection = 'duplicate-face-detection',
 }
 
 export interface VerificationPatterns {
@@ -149,4 +150,5 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.FinancialInformationPayrollAccountsRetrieving]?: boolean;
   [VerificationPatternTypes.Facematch]?: boolean;
   [VerificationPatternTypes.UgandanElectoralCommission]?: boolean;
+  [VerificationPatternTypes.DuplicateFaceDetection]?: boolean;
 }

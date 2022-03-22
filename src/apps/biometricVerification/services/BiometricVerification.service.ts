@@ -3,10 +3,10 @@ import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, P
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiUserCheck } from 'react-icons/fi';
 import { IFlow } from 'models/Flow.model';
-import { BiometricSteps, BiometricTypes } from 'models/Biometric.model';
+import { BiometricSteps, BiometricTypes, IDuplicateSelfieStepData, SelfieStepTypes } from 'models/Biometric.model';
 import { BiometricsVerificationProduct } from 'apps/biometrics';
 import { VerificationResponse } from 'models/VerificationOld.model';
-import { getStepStatus, StepStatus } from 'models/Step.model';
+import { getStepStatus, IStep, StepStatus } from 'models/Step.model';
 import { IESignatureFlow } from 'models/ESignature.model';
 import { GovCheckStepTypes } from 'apps/GovCheck';
 import { BiometricVerificationCheckTypes, BiometricVerificationSettingsTypes } from '../models/BiometricVerification.model';
@@ -49,6 +49,7 @@ export class BiometricVerification extends ProductBaseFlowBuilder implements Pro
     return {
       verificationPatterns: {
         [VerificationPatternTypes.Biometrics]: BiometricTypes.liveness,
+        [VerificationPatternTypes.DuplicateFaceDetection]: false,
       },
     };
   }
@@ -72,6 +73,7 @@ export class BiometricVerification extends ProductBaseFlowBuilder implements Pro
         [VerificationPatternTypes.ProofOfOwnership]: false,
         [VerificationPatternTypes.ArgentinianRenaperFacematch]: false,
         [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
+        [VerificationPatternTypes.DuplicateFaceDetection]: false,
       },
       electronicSignature,
     };
@@ -83,6 +85,9 @@ export class BiometricVerification extends ProductBaseFlowBuilder implements Pro
 
   parser(flow: IFlow): ProductSettingsBiometric {
     return {
+      [BiometricVerificationSettingsTypes.DuplicateFaceDetection]: {
+        value: flow?.verificationPatterns?.[VerificationPatternTypes.DuplicateFaceDetection],
+      },
       [BiometricVerificationSettingsTypes.Biometrics]: {
         value: flow?.verificationPatterns?.biometrics,
         isCantBeUsedWithOtherSetting: !!flow?.verificationPatterns?.[VerificationPatternTypes.ProofOfOwnership],
@@ -94,6 +99,7 @@ export class BiometricVerification extends ProductBaseFlowBuilder implements Pro
     return {
       verificationPatterns: {
         [VerificationPatternTypes.Biometrics]: settings[BiometricVerificationSettingsTypes.Biometrics].value,
+        [VerificationPatternTypes.DuplicateFaceDetection]: settings[BiometricVerificationSettingsTypes.DuplicateFaceDetection].value,
       },
     };
   }
@@ -105,9 +111,10 @@ export class BiometricVerification extends ProductBaseFlowBuilder implements Pro
   hasFailedCheck(verification: VerificationResponse): boolean {
     const steps = verification?.steps || [];
     const biometric = steps.filter((item) => BiometricSteps.includes(item?.id));
+    const duplicateFaceDetectionStep: IStep<IDuplicateSelfieStepData> = steps.find((step) => step.id === SelfieStepTypes.DuplicateSelfieValidation);
     if (biometric.length === 0) {
       return false;
     }
-    return biometric.some((step) => getStepStatus(step) === StepStatus.Failure);
+    return biometric.some((step) => getStepStatus(step) === StepStatus.Failure) || getStepStatus(duplicateFaceDetectionStep) === StepStatus.Failure;
   }
 }
