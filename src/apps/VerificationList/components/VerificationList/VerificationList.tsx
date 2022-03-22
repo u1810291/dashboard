@@ -5,13 +5,13 @@ import { getVerificationsFilterInitialState, verificationsCleanFilter, verificat
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
 import React, { useEffect } from 'react';
-import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { filterUpdate, identityListClear, verificationsListLoad, verificationsPreliminaryCountLoad } from 'state/identities/identities.actions';
 import { selectIdentityFilter, selectPreliminaryFilteredCountModel } from 'state/identities/identities.selectors';
 import { DownloadCSV } from 'apps/Csv';
-import { selectMerchantCreatedAt } from 'state/merchant/merchant.selectors';
+import { useFormatMessage } from 'apps/intl';
+import { selectMerchantCreatedAt, selectMerchantAgentNotesConfig } from 'state/merchant/merchant.selectors';
 import { RoleRenderGuard } from 'apps/merchant/guards/RoleRenderGuard';
 import { WithAgent } from 'models/Collaborator.model';
 import { VerificationTable } from '../VerificationTable/VerificationTable';
@@ -24,9 +24,10 @@ export function VerificationList() {
   const location = useLocation();
   const history = useHistory();
   const classes = useStyles();
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const identityFilter = useSelector(selectIdentityFilter);
   const registrationDate = useSelector(selectMerchantCreatedAt);
+  const agentNotesConfig = useSelector(selectMerchantAgentNotesConfig);
   const [setURLFromFilter, addToUrl] = useFilterParser(verificationsFilterStructure);
 
   useEffect(() => {
@@ -84,14 +85,14 @@ export function VerificationList() {
             </Grid>
           </Grid>
           {/* manual review banner */}
-          <ManualReviewBanner />
+          {!agentNotesConfig?.requiredOnChangeVerificationStatus && <ManualReviewBanner />}
           {/* content */}
           <Grid item>
             <Paper className={classes.paper}>
               <Box px={2} pt={{ xs: 0, lg: 2 }} pb={{ xs: 2, lg: 1.4 }}>
                 <Typography variant="subtitle2" className={classes.title}>
                   <Box component="span">
-                    {intl.formatMessage({ id: 'VerificationHistory.title.withoutCount' })}
+                    {formatMessage('VerificationHistory.title.withoutCount')}
                   </Box>
                 </Typography>
               </Box>

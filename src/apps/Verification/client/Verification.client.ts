@@ -8,8 +8,8 @@ export function getVerification(verificationId: string, params: any) {
   return http.get(`/api/v1/dashboard/verification/${verificationId}`, { params });
 }
 
-export function verificationStatusUpdate(verificationId, status) {
-  return http.put(`/api/v1/dashboard/verifications/${verificationId}/status`, { status });
+export function verificationStatusUpdate(verificationId: string, status: string, agentNote: string | null | undefined = undefined) {
+  return http.put(`/api/v1/dashboard/verifications/${verificationId}/status`, { status, agentNote });
 }
 
 export function deleteVerification(verificationId: string) {
@@ -20,6 +20,6 @@ export function getVerificationWebhook(id: string, params: any) {
   return http.get(`/api/v1/dashboard/verification/${id}/webhook`, { params });
 }
 
-export function patchVerificationDocument(verificationId, documentType, fields) {
+export function patchVerificationDocument(verificationId: string, documentType: string, fields: any) {
   return http.patch(`/api/v1/dashboard/verifications/${verificationId}/documents/${documentType}/fields`, { fields });
 }

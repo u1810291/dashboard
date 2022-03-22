@@ -4,7 +4,12 @@ export interface ISenderEmail {
   verified: boolean;
   address: string;
 }
+
+export interface IAgentNotesConfig {
+  requiredOnChangeVerificationStatus: boolean;
+}
 export interface IMerchantSettings {
+  agentNotesConfig: IAgentNotesConfig;
   senderEmails: ISenderEmail[];
   // TODO: @nikitaafanasyev add correct typing
   customDocumentConfig: unknown[];
