@@ -9,6 +9,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from 'lib/url';
+import { selectMerchantTags } from 'state/merchant/merchant.selectors';
+import { MerchantTags } from 'models/Merchant.model';
 import { selectMerchantOnboarding, merchantLoad } from 'state/merchant';
 import { OnboardingSteps } from '../OnboardingSteps/OnboardingSteps';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
@@ -33,6 +35,8 @@ export function AnalyticsContainer() {
   const metricsFilter = useSelector(selectFilter);
   const countStatisticsModel = useSelector(selectCountStatisticsModel);
   const onboardingProgress = useSelector<any, StepsOptions[]>(selectMerchantOnboarding);
+  const merchantTags = useSelector(selectMerchantTags);
+  const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
   const byDate = useSelector(selectStatisticsByDate);
   const { asMerchantId } = useQuery();
 
@@ -64,7 +68,7 @@ export function AnalyticsContainer() {
     <Container maxWidth={false}>
       {isFilterDatesValid && !countStatisticsModel.isLoading && countStatisticsModel.isLoaded ? (
         <Box pb={2} className={classes.wrapper}>
-          <OnboardingSteps />
+          {canUseTemplates && <OnboardingSteps />}
           <Box mb={2}>
             <Grid container alignItems="center">
               <Grid item xs={9}>

@@ -17,7 +17,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'lib/url';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
-import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel, selectMerchantOnboarding } from 'state/merchant/merchant.selectors';
+import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel, selectMerchantOnboarding, selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { Routes } from 'models/Router.model';
 import { getTemplate, useLoadTemplatesList } from 'apps/Templates';
 import { useFormatMessage } from 'apps/intl';
@@ -25,6 +25,7 @@ import { Loadable } from 'models/Loadable.model';
 import { useHistory } from 'react-router-dom';
 import { StartModal, StepsOptions, OnboardingNames } from 'apps/Analytics';
 import { useOverlay } from 'apps/overlay';
+import { MerchantTags } from 'models/Merchant.model';
 import { TemplatesModal } from 'apps/SolutionCatalog';
 import { NoFlows } from '../NoFlows/NoFlows';
 import { TableRowHovered, useStyles } from './FlowsTable.styles';
@@ -49,6 +50,8 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   const { asMerchantId } = useQuery();
   const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
   const sortedFlowList = useMemo(() => [...merchantFlowList].sort((a, b) => dateSortCompare(a.createdAt, b.createdAt)), [merchantFlowList]);
+  const merchantTags = useSelector(selectMerchantTags);
+  const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
 
   useLoadTemplatesList();
 
@@ -73,7 +76,7 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
 
   useEffect(() => {
     const isOnboardingModalShowed = localStorage.getItem('onboardingModalShowed');
-    if (!isFirstMetamapCreated && !isOnboardingModalShowed && !history.location.state?.dontShowModal) {
+    if (canUseTemplates && !isFirstMetamapCreated && !isOnboardingModalShowed && !history.location.state?.dontShowModal) {
       localStorage.setItem('onboardingModalShowed', 'true');
       closeOverlay();
       handleMetamapBuild();
@@ -110,8 +113,12 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   };
 
   const handleRowClicked = async (event, id) => {
-    event.stopPropagation();
-    history.push(`${Routes.templates.draftFlow}/${id}`);
+    if (!canUseTemplates) {
+      event.stopPropagation();
+      history.push(`${Routes.templates.draftFlow}/${id}`);
+    } else {
+      onMouseUpHandler(event, id);
+    }
   };
 
   return (

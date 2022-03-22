@@ -16,8 +16,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { merchantCreateFlow } from 'state/merchant/merchant.actions';
-import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
+import { selectMerchantFlowList, selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
+import { MerchantTags } from 'models/Merchant.model';
 import { clearCurrentTemplate, toggleUnsavedChanges } from 'apps/Templates';
 import { flowBuilderClearStore } from 'apps/flowBuilder';
 import { FlowsTable } from '../FlowsTable/FlowsTable';
@@ -36,6 +37,8 @@ export function FlowList() {
   const isButtonDisabled = (merchantFlowList || []).length >= MAX_NUMBER_OF_FLOWS;
   const [open, setOpen] = useState<boolean>(isButtonDisabled && isMobile);
   const flowListModel = useFlowListLoad();
+  const merchantTags = useSelector(selectMerchantTags);
+  const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
 
   useEffect(() => {
     setOpen(isButtonDisabled && isMobile);
@@ -73,9 +76,13 @@ export function FlowList() {
     }
   }, [isMobile]);
 
-  const handleBuildMetamapButtonClick = () => {
-    history.push(Routes.templates.draftFlow);
-  };
+  const handleBuildMetamapButtonClick = useCallback(() => {
+    if (canUseTemplates) {
+      history.push(Routes.templates.draftFlow);
+    } else {
+      handleAddNewFlow();
+    }
+  }, [history, canUseTemplates, handleAddNewFlow]);
 
   if (!flowListModel.isLoaded) {
     return <PageLoader />;
