@@ -30,11 +30,18 @@ export function OnboardingSteps() {
   const formatMessage = useFormatMessage();
   const onboardingCompleted = AllStepsCompleted(onboardingProgress);
 
+  const mockSteps = [
+    { completed: false, stepId: 'read-our-docs' },
+    { completed: false, stepId: 'invite-teammate' },
+    { completed: false, stepId: 'make-metamap' },
+  ];
+
   const stepsProgressChange = useCallback((currentStep: string) => {
     const progressChanges = [...onboardingProgress];
     const itemNumber = progressChanges.findIndex((step) => step.stepId === currentStep);
+    if (itemNumber === -1) return;
     progressChanges[itemNumber] = { completed: true, stepId: currentStep };
-    dispatch(merchantUpdateOnboardingSteps(progressChanges, currentStep, formatMessage));
+    dispatch(merchantUpdateOnboardingSteps(mockSteps, currentStep, formatMessage));
   }, [onboardingProgress, dispatch, formatMessage]);
 
   const handleCardClick = useCallback((id: string) => {
@@ -63,7 +70,7 @@ export function OnboardingSteps() {
   };
 
   const readDocsComplete = (item: StepsOptions) => {
-    window.open('https://docs.metamap.com', '_blank');
+    window.open(process.env.REACT_APP_DOCS_URL);
     stepsProgressChange(item.stepId);
   };
 
@@ -72,7 +79,7 @@ export function OnboardingSteps() {
   const currentStepAction = (item) => {
     switch (item.stepId) {
       case OnboardingNames.docs:
-        return !item.completed && readDocsComplete(item);
+        return readDocsComplete(item);
       case OnboardingNames.teammate:
         return !item.completed && inviteModalOpen(item);
       case OnboardingNames.metamap:

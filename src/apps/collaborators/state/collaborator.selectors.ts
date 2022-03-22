@@ -6,7 +6,10 @@ import { COLLABORATOR_STORE_KEY, CollaboratorSliceName } from './collaborator.st
 
 export const selectCollaboratorState = (state) => state[COLLABORATOR_STORE_KEY];
 
-export const selectCollaboratorStateIsPosting = (state) => state[COLLABORATOR_STORE_KEY].isPosting;
+export const selectCollaboratorStateIsPosting = createSelector<any, any, boolean>(
+  selectCollaboratorState,
+  (store) => store.isPosting,
+);
 
 export const selectCollaboratorCollectionModel = createSelector(
   selectCollaboratorState,

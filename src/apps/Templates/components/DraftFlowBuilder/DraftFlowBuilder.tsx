@@ -63,7 +63,7 @@ export function DraftFlowBuilder() {
         // create flow from templates modal
         dispatch(createDraftFromTemplate());
       } else {
-        dispatch(flowBuilderCreateEmptyFlow(DRAFT_INITIAL_STATE));
+        dispatch(flowBuilderCreateEmptyFlow(formatMessage, DRAFT_INITIAL_STATE));
         // create flow from 'new metamap' button
       }
     }

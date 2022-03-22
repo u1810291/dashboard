@@ -2042,6 +2042,7 @@
   "Templates.saveModal.saveButton": "Save Template",
   "Templates.saveModal.validation.min": "At least {min} characters",
   "Templates.saveModal.validation.max": "Maximum {max} characters",
+  "Untitled.template": "Untitled Template",
   "Verification.error.notFound": "Verification Not Found",
   "VerificationFilter.button.viewResults": "View Results",
   "VerificationFilter.clear-all": "Clear all",

@@ -4,6 +4,7 @@ import { BiometricTypes } from 'models/Biometric.model';
 import { DocumentTypes } from 'models/Document.model';
 import { ProductIntegrationTypes } from 'models/Product.model';
 import { IFacematchFlow } from 'apps/FacematchService';
+import { FormatMessage } from 'apps/intl';
 import { VerificationCustomFieldsInputData } from 'apps/CustomField';
 import { IESignatureFlow } from './ESignature.model';
 import { IpValidation } from './IpCheckOld.model';
@@ -20,7 +21,7 @@ export function getNewFlowId(merchantFlowsModel, currentFlowId) {
   return get(merchantFlowsModel, `value[${newIndex}].id`, currentFlowId);
 }
 
-export function createEmptyFlow(data?: Partial<IFlow>): IFlow {
+export function createEmptyFlow(formatMessage: FormatMessage, data?: Partial<IFlow>): IFlow {
   return {
     style: {
       color: 'blue',
@@ -58,7 +59,7 @@ export function createEmptyFlow(data?: Partial<IFlow>): IFlow {
     ],
     watchlists: [],
     integrationType: ProductIntegrationTypes.Sdk,
-    name: 'Untitled Template',
+    name: formatMessage('Untitled.template'),
     denyUploadsFromMobileGallery: false,
     verificationPatterns: {
       [VerificationPatternTypes.Biometrics]: BiometricTypes.none,

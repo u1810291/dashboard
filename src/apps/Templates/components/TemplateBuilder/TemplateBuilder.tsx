@@ -54,7 +54,7 @@ export function TemplateBuilder() {
       } else {
         dispatch(clearCurrentTemplate());
         dispatch(flowBuilderClearStore());
-        dispatch(flowBuilderCreateEmptyFlow());
+        dispatch(flowBuilderCreateEmptyFlow(formatMessage));
       }
     }
     init();

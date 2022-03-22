@@ -4,6 +4,7 @@ import { cloneDeep } from 'lodash';
 import { ApiResponse } from 'models/Client.model';
 import { createEmptyFlow, IFlow } from 'models/Flow.model';
 import { ProductTypes } from 'models/Product.model';
+import { FormatMessage } from 'apps/intl';
 import { merchantDeleteFlow, merchantUpdateFlow, merchantUpdateFlowList } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow, selectMerchantId } from 'state/merchant/merchant.selectors';
 import { createTypesSequence } from 'state/store.utils';
@@ -30,8 +31,8 @@ export const flowBuilderClearStore = () => (dispatch) => {
   dispatch({ type: types.PRODUCT_SELECT, payload: null });
 };
 
-export const flowBuilderCreateEmptyFlow = (data?: Partial<IFlow>) => (dispatch) => {
-  dispatch({ type: types.CHANGEABLE_FLOW_CLEAR, payload: createEmptyFlow(data) });
+export const flowBuilderCreateEmptyFlow = (formatMessage: FormatMessage, data?: Partial<IFlow>) => (dispatch) => {
+  dispatch({ type: types.CHANGEABLE_FLOW_CLEAR, payload: createEmptyFlow(formatMessage, data) });
   dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, payload: [] });
 };
 

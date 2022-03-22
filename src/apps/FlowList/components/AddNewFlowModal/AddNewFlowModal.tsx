@@ -30,6 +30,7 @@ export function AddNewFlowModal({ submitNewFlow }) {
     if (!isMetamapStepCompleted) {
       const progressChanges = [...onboardingProgress];
       const itemNumber = progressChanges.findIndex((step) => step.stepId === currentStep);
+      if (itemNumber === -1) return;
       progressChanges[itemNumber] = { completed: true, stepId: currentStep };
       dispatch(merchantUpdateOnboardingSteps(progressChanges, currentStep, formatMessage));
     }

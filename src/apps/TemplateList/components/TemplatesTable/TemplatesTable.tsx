@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import { selectIsNewDesign } from 'apps/dashboard/state/dashboard.selectors';
-import { useConfirmDelete } from 'apps/ui/components/DeleteModal/DeleteModal';
+import { useConfirmDelete } from 'apps/ui';
 import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { QATags } from 'models/QA.model';

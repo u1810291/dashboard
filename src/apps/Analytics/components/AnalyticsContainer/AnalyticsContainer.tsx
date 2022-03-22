@@ -41,7 +41,9 @@ export function AnalyticsContainer() {
   }, [metricsFilter]);
 
   useEffect(() => {
-    if (!onboardingProgress) dispatch(merchantLoad());
+    if (!onboardingProgress) {
+      dispatch(merchantLoad());
+    }
   }, [onboardingProgress, dispatch]);
 
   useEffect(() => {

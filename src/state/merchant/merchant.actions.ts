@@ -4,6 +4,8 @@ import { getWebhooks } from 'state/webhooks/webhooks.actions';
 import { DEFAULT_LOCALE } from 'models/Intl.model';
 import dayjs from 'dayjs';
 import { notification } from 'apps/ui';
+import { FormatMessage } from 'apps/intl';
+import { StepsOptions } from 'apps/Analytics';
 import { selectConfigurationModel, selectCurrentFlowId, selectMerchantFlowsModel, selectMerchantId, selectMerchantCustomDocumentsModel } from './merchant.selectors';
 import { MerchantActionGroups } from './merchant.store';
 
@@ -247,11 +249,11 @@ export const merchantUpdateBusinessName = (businessName) => async (dispatch) => 
   dispatch({ type: types.BUSINESS_NAME_UPDATE, payload: { businessName: data.businessName } });
 };
 
-export const merchantUpdateOnboardingSteps = (onboardingSteps, currentStep, formatMessage) => async (dispatch) => {
+export const merchantUpdateOnboardingSteps = (onboardingSteps: StepsOptions[], currentStep: string, formatMessage: FormatMessage) => async (dispatch) => {
   try {
     const { data } = await api.patchOnboardingProgress(onboardingSteps);
     dispatch({ type: types.ONBOARDING_STEPS_UPDATE, payload: { onboardingSteps: data.onboardingSteps } });
-    if (!data.onboardingSteps.find((item) => item.completed === false)) notification.info(formatMessage('onboarding.steps.completed'));
+    if (data.onboardingSteps.some((item) => !item.completed)) notification.info(formatMessage('onboarding.steps.completed'));
   } catch (error) {
     dispatch({ type: types.ONBOARDING_STEPS_FAILURE, error });
     throw error;

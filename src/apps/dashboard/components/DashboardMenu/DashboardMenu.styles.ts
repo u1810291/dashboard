@@ -56,10 +56,10 @@ export const useStyles = makeStyles((theme) => ({
   },
   logo: {
     '&:hover': {
-      background: 'rgba(255, 255, 255, 0.1)',
+      background: theme.palette.common.whitelightopacity,
     },
     '&:focus': {
-      background: 'rgba(255, 255, 255, 0.15)',
+      background: theme.palette.common.whitedimopacity,
     },
   },
   contentBottom: {
@@ -92,7 +92,7 @@ export const useStyles = makeStyles((theme) => ({
     height: 30,
     borderRadius: 60,
     boxShadow: 'none',
-    padding: [[3, 8]],
+    padding: '3px 8px',
     '&:hover, &:focus': {
       backgroundColor: theme.palette.common.lightbluehover,
     },
@@ -101,19 +101,19 @@ export const useStyles = makeStyles((theme) => ({
     },
     '& .MuiButton-startIcon': {
       width: 15,
-      margin: [[0, 8, 0, 0]],
+      margin: '0px 8px 0px 0px',
     },
   },
   inviteButtonSm: {
     width: 30,
-    padding: [[3, 8]],
+    padding: '3px 8px',
     '& .MuiButton-startIcon': {
       margin: 0,
     },
   },
   menuButton: {
     width: '100%',
-    padding: [[6, 22]],
+    padding: '6px 22px',
     minHeight: 50,
     justifyContent: 'flex-start',
     fontWeight: 'bold',
@@ -122,7 +122,7 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: 'transparent',
     boxShadow: 'none',
     '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      backgroundColor: theme.palette.common.whitelightopacity,
     },
     '& .MuiButton-label': {
       fontSize: 14,
@@ -140,7 +140,7 @@ export const useStyles = makeStyles((theme) => ({
       borderRadius: 0,
     },
     '& .MuiMenuItem-root:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      backgroundColor: theme.palette.common.whitelightopacity,
     },
     '& .MuiSelect-icon': {
       display: 'none',

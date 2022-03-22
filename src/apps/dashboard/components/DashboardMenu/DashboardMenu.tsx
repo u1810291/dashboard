@@ -40,13 +40,14 @@ export function DashboardMenu() {
   const isDesktopMenuOpen = useSelector(selectIsDesktopMenuOpen);
   const [isOpen, setIsOpen] = useState(isDesktop && isDesktopMenuOpen);
   const name = useSelector(selectMerchantBusinessName);
-  const merchantTags = useSelector(selectMerchantTags);
+  const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
   const canAddTemplate = merchantTags.includes(MerchantTags.CanUseAddSolutionToCatalog);
   const [createOverlay, closeOverlay] = useOverlay();
   const logout = useLogout();
   const role = useRole();
 
   const handleLogout = useCallback(async () => {
+    // @ts-ignore
     await logout(formatMessage('confirm_string'));
     dispatch(signOut());
     history.push(Routes.root);
@@ -167,6 +168,7 @@ export function DashboardMenu() {
             </Box>
           )}
           <Box pt={1}>
+            {/* @ts-ignore */}
             <TopMenuItem
               id="account"
               to={Routes.settings.root}
