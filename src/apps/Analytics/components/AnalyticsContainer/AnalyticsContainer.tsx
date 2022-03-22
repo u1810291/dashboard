@@ -35,7 +35,7 @@ export function AnalyticsContainer() {
   const metricsFilter = useSelector(selectFilter);
   const countStatisticsModel = useSelector(selectCountStatisticsModel);
   const onboardingProgress = useSelector<any, StepsOptions[]>(selectMerchantOnboarding);
-  const merchantTags = useSelector(selectMerchantTags);
+  const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
   const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
   const byDate = useSelector(selectStatisticsByDate);
   const { asMerchantId } = useQuery();

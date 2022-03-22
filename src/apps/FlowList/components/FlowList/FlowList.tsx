@@ -37,7 +37,7 @@ export function FlowList() {
   const isButtonDisabled = (merchantFlowList || []).length >= MAX_NUMBER_OF_FLOWS;
   const [open, setOpen] = useState<boolean>(isButtonDisabled && isMobile);
   const flowListModel = useFlowListLoad();
-  const merchantTags = useSelector(selectMerchantTags);
+  const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
   const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
 
   useEffect(() => {

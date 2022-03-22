@@ -50,7 +50,7 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   const { asMerchantId } = useQuery();
   const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
   const sortedFlowList = useMemo(() => [...merchantFlowList].sort((a, b) => dateSortCompare(a.createdAt, b.createdAt)), [merchantFlowList]);
-  const merchantTags = useSelector(selectMerchantTags);
+  const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
   const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
 
   useLoadTemplatesList();
