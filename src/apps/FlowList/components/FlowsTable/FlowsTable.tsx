@@ -113,7 +113,7 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   };
 
   const handleRowClicked = async (event, id) => {
-    if (!canUseTemplates) {
+    if (canUseTemplates) {
       event.stopPropagation();
       history.push(`${Routes.templates.draftFlow}/${id}`);
     } else {
