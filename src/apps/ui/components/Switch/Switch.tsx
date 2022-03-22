@@ -81,7 +81,7 @@ export const Switch = ({ onSwitch, checked, ...props }: {
   };
 
   if (onSwitch) {
-    return <StyledSwitch checked={isChecked} onChange={handleChange} {...props} />
+    return <StyledSwitch checked={isChecked} onChange={handleChange} {...props} />;
   }
 
   return (
