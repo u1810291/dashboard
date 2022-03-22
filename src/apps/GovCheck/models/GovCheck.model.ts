@@ -533,6 +533,7 @@ export const govCheckDisplayOptions = {
     valid: {},
   },
   [DocumentStepTypes.EcuadorianRegistroCivil]: {
+    fullName: {},
     documentNumber: {
       inline: true,
     },
@@ -540,7 +541,6 @@ export const govCheckDisplayOptions = {
       inline: true,
     },
     processNumber: {},
-    fullName: {},
     status: {},
     requestedDocumentNumber: {
       hidden: true,
