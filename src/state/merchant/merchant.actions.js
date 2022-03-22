@@ -14,6 +14,7 @@ export const types = {
   ...createTypesSequence(MerchantActionGroups.Flows),
   CURRENT_FLOW_UPDATE: 'CURRENT_FLOW_UPDATE',
   BUSINESS_NAME_UPDATE: 'BUSINESS_NAME_UPDATE',
+  SETTINGS_UPDATE: 'SETTINGS_UPDATE',
 };
 
 // -- merchant
@@ -243,4 +244,13 @@ export const merchantUpdateMedia = (form) => async (dispatch) => {
 export const merchantUpdateBusinessName = (businessName) => async (dispatch) => {
   const { data } = await api.saveBusinessName(businessName);
   dispatch({ type: types.BUSINESS_NAME_UPDATE, payload: { businessName: data.businessName } });
+};
+
+export const merchantUpdateSettings = (settings) => async (dispatch) => {
+  const { data } = await api.saveSettings(settings);
+  dispatch({ type: types.SETTINGS_UPDATE, payload: data.settings });
+};
+
+export const merchantUpdateAgentNotesConfig = (config) => (dispatch) => {
+  dispatch(merchantUpdateSettings({ agentNotesConfig: config }));
 };

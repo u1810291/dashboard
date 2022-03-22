@@ -52,4 +52,19 @@ export default createReducer(initialState, {
       },
     };
   },
+  [types.SETTINGS_UPDATE](state, { payload }) {
+    return {
+      ...state,
+      merchant: {
+        ...state.merchant,
+        value: {
+          ...state.merchant.value,
+          settings: {
+            ...state.merchant.value.settings,
+            ...payload,
+          },
+        },
+      },
+    };
+  },
 });
