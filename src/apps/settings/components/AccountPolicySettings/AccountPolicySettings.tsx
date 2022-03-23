@@ -1,4 +1,8 @@
-import { Grid, Typography, Paper, Box, FormControlLabel } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IAgentNotesConfig } from 'models/Merchant.model';
@@ -31,7 +35,7 @@ export function AccountPolicySettings() {
     notification.success(formatMessage('Settings.accountPolicySettings.notesDisabled'));
   }, [dispatch, formatMessage]);
 
-  const handleVerificationNotesChange = useCallback((checked, callback) => {
+  const handleVerificationNotesChange = useCallback((checked: boolean, callback: () => void) => {
     if (checked) {
       createOverlay(<NotesDialog onSubmit={handleVerificationNotesEnable(callback)} onReject={closeOverlay} />);
       return;

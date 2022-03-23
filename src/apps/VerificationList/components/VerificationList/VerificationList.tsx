@@ -4,6 +4,8 @@ import { parseFromURL } from 'models/Filter.model';
 import { getVerificationsFilterInitialState, verificationsCleanFilter, verificationsFilterInitialState, verificationsFilterStructure } from 'models/Identity.model';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
+import { WithAgent } from 'models/Collaborator.model';
+import { IAgentNotesConfig } from 'models/Merchant.model';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -13,7 +15,6 @@ import { DownloadCSV } from 'apps/Csv';
 import { useFormatMessage } from 'apps/intl';
 import { selectMerchantCreatedAt, selectMerchantAgentNotesConfig } from 'state/merchant/merchant.selectors';
 import { RoleRenderGuard } from 'apps/merchant/guards/RoleRenderGuard';
-import { WithAgent } from 'models/Collaborator.model';
 import { VerificationTable } from '../VerificationTable/VerificationTable';
 import { VerificationSearch } from '../VerificationSearch/VerificationSearch';
 import { ManualReviewBanner } from '../ManualReviewBanner/ManualReviewBanner';
@@ -27,7 +28,7 @@ export function VerificationList() {
   const formatMessage = useFormatMessage();
   const identityFilter = useSelector(selectIdentityFilter);
   const registrationDate = useSelector(selectMerchantCreatedAt);
-  const agentNotesConfig = useSelector(selectMerchantAgentNotesConfig);
+  const agentNotesConfig = useSelector<any, IAgentNotesConfig>(selectMerchantAgentNotesConfig);
   const [setURLFromFilter, addToUrl] = useFilterParser(verificationsFilterStructure);
 
   useEffect(() => {

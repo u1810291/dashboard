@@ -1,12 +1,13 @@
 import { PremiumAmlWatchlistsMonitoringNotification } from 'apps/Aml';
 import { notification } from 'apps/ui';
-import { getStatusById, IdentityStatuses } from 'models/Status.model';
+import { getStatusById, IdentityStatuses, IdentityStatus } from 'models/Status.model';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
 import { selectMerchantAgentNotesConfig } from 'state/merchant/merchant.selectors';
 import { WithAgent } from 'models/Collaborator.model';
+import { IAgentNotesConfig } from 'models/Merchant.model';
 import { useRole } from 'apps/collaborators';
 import { useOverlay } from 'apps/overlay';
 import { verificationStatusUpdate } from '../../state/Verification.actions';
@@ -25,12 +26,12 @@ export function VerificationStatusChanger({ verificationStatus, verificationId, 
   const isFallback = useRef(false);
   const currentStatus = useRef(null);
   const previousStatus = useRef(null);
-  const agentNote = useRef(undefined);
-  const agentNotesConfig = useSelector(selectMerchantAgentNotesConfig);
+  const agentNote = useRef(null);
+  const agentNotesConfig = useSelector<any, IAgentNotesConfig>(selectMerchantAgentNotesConfig);
   const [createOverlay, closeOverlay] = useOverlay();
-  const [status, setStatus] = useState(getStatusById(verificationStatus));
-  const [isOpen, setOpen] = useState(false);
-  const identityId = useMemo(() => identity?._id, [identity]);
+  const [status, setStatus] = useState<IdentityStatus>(getStatusById(verificationStatus));
+  const [isOpen, setOpen] = useState<boolean>(false);
+  const identityId = useMemo<string>(() => identity?._id, [identity]);
   const role = useRole();
 
   const handleUpdateIdentity = useCallback(async (value) => {
@@ -56,7 +57,7 @@ export function VerificationStatusChanger({ verificationStatus, verificationId, 
     isFallback.current = true;
   }, []);
 
-  const handleUpdateStatus = useCallback(async (newStatus) => {
+  const handleUpdateStatus = useCallback(async (newStatus: IdentityStatus) => {
     previousStatus.current = { ...currentStatus.current };
     currentStatus.current = { ...newStatus };
     setStatus(currentStatus.current);
@@ -78,13 +79,13 @@ export function VerificationStatusChanger({ verificationStatus, verificationId, 
     }
   }, [classes.ongoingMonitoringNotification, handleCloseNotification, handleEnableFallback, handleUpdateIdentity, identity]);
 
-  const handleVerificationStatusChangeDialogSubmit = useCallback((newStatus) => (note) => {
+  const handleVerificationStatusChangeDialogSubmit = useCallback((newStatus: IdentityStatus) => (note: string) => {
     agentNote.current = note;
     handleUpdateStatus(newStatus);
     closeOverlay();
   }, [handleUpdateStatus, closeOverlay]);
 
-  const handleStatusChange = useCallback(async (id) => {
+  const handleStatusChange = useCallback(async (id: string) => {
     const newStatus = getStatusById(id);
     if (!(newStatus?.isSelectable && currentStatus.current?.isChangeable && newStatus?.id !== currentStatus.current?.id)) {
       return;

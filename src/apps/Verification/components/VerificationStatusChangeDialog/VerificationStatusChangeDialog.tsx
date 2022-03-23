@@ -19,21 +19,19 @@ export function VerificationStatusChangeDialog({ onSubmit, onCancel, from, to }:
 
   const [note, setNote] = useState<string>('');
 
-  const handleNoteChange = (event) => setNote(event.target.value);
+  const handleNoteChange = (event: React.ChangeEvent<HTMLInputElement>) => setNote(event.target.value);
 
   const handleSubmit = () => onSubmit(note.trim());
 
-  const fromStatus = useMemo(() => <Box component="span" color={from?.color}>{formatMessage(getIdentityStatusLabel(from.id))}</Box>, [formatMessage, from]);
-  const toStatus = useMemo(() => <Box component="span" color={to?.color}>{formatMessage(getIdentityStatusLabel(to.id))}</Box>, [formatMessage, to]);
   const subtitle = useMemo(() => formatMessage(
     'VerificationStatusChangeDialog.subtitle',
     {
       messageValues: {
-        from: fromStatus,
-        to: toStatus,
+        from: <Box component="span" color={from?.color}>{formatMessage(getIdentityStatusLabel(from?.id))}</Box>,
+        to: <Box component="span" color={to?.color}>{formatMessage(getIdentityStatusLabel(to?.id))}</Box>,
       },
     },
-  ), [fromStatus, toStatus, formatMessage]);
+  ), [formatMessage, from, to]);
 
   return (
     <Modal className={classes.modal}>
