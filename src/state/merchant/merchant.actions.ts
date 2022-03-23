@@ -253,7 +253,7 @@ export const merchantUpdateOnboardingSteps = (onboardingSteps: StepsOptions[], c
   try {
     const { data } = await api.patchOnboardingProgress(onboardingSteps);
     dispatch({ type: types.ONBOARDING_STEPS_UPDATE, payload: { onboardingSteps: data.onboardingSteps } });
-    if (data.onboardingSteps.some((item) => !item.completed)) notification.info(formatMessage('onboarding.steps.completed'));
+    if (!data.onboardingSteps.some((item) => !item.completed)) notification.info(formatMessage('onboarding.steps.completed'));
   } catch (error) {
     dispatch({ type: types.ONBOARDING_STEPS_FAILURE, error });
     throw error;
