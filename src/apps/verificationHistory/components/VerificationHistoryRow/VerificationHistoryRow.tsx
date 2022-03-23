@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import { FiChevronDown } from 'react-icons/fi';
 import React, { useCallback, useMemo, useState } from 'react';
 import { ReactComponent as MatiLogo } from 'assets/metamap-logo-review.svg';
-import { getHistoryExtraData, VerificationHistoryEventTypes } from 'models/History.model';
+import { getHistoryExtraData, VerificationHistoryEventTypes, IVerificationChange } from 'models/History.model';
 import { VerificationHistoryChangesSwitch } from 'apps/ui';
 import { useFormatMessage } from 'apps/intl';
 import { VerificationHistoryMetadataCell } from '../VerificationHistoryMetadataCell/VerificationHistoryMetadataCell';
@@ -11,7 +11,7 @@ import { VerificationHistoryAgentNote } from '../VerificationHistoryAgentNote/Ve
 import { useStyles } from './VerificationHistoryRow.styles';
 
 function VerificationHistoryRowComponent({ rowData, isInitEvent }: {
-  rowData: any;
+  rowData: IVerificationChange;
   isInitEvent: boolean;
 }) {
   const formatMessage = useFormatMessage();
@@ -22,7 +22,7 @@ function VerificationHistoryRowComponent({ rowData, isInitEvent }: {
   const { changedFields, changedStatus, deletedOfGdpr } = useMemo(() => getHistoryExtraData(rowData), [rowData]);
 
   return (
-    <TableRow key={rowData} className={classes.tableRow}>
+    <TableRow key={rowData?._id} className={classes.tableRow}>
       {/* User information cell */}
       <VerificationHistoryMetadataCell
         roundAvatar={isInitEvent && (
