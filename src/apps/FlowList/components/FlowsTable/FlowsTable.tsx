@@ -76,7 +76,7 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
 
   useEffect(() => {
     const isOnboardingModalShowed = localStorage.getItem('onboardingModalShowed');
-    if (canUseTemplates && !isFirstMetamapCreated && !isOnboardingModalShowed && !history.location.state?.dontShowModal && onboardingProgress.length) {
+    if (canUseTemplates && !isFirstMetamapCreated && !isOnboardingModalShowed && !history.location.state?.dontShowModal && !!onboardingProgress.length) {
       localStorage.setItem('onboardingModalShowed', 'true');
       closeOverlay();
       handleMetamapBuild();
