@@ -1927,7 +1927,7 @@
   "Settings.accountPolicySettings.accountPolicies": "Account Policies",
   "Settings.accountPolicySettings.notesDescription": "Set whether teammates are required to enter a note when they change a verification status. When this policy is enabled, Review Mode on the verification tab will be disabled.",
   "Settings.accountPolicySettings.notesDialog.button.yes": "Yes, enable verification notes",
-  "Settings.accountPolicySettings.notesDialog.title": "Are you sure you want to enable verification notes and disable review mode?Notes are disabled",
+  "Settings.accountPolicySettings.notesDialog.title": "Are you sure you want to enable verification notes and disable review mode?",
   "Settings.accountPolicySettings.notesDisabled": "Verification notes disabled",
   "Settings.accountPolicySettings.notesEnabled": "Verification notes enabled",
   "Settings.accountPolicySettings.notesTitle": "Verification change notes",
