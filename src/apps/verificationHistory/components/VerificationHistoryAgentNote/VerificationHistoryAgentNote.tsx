@@ -2,17 +2,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import React, { useState, useCallback } from 'react';
 import { TextFieldEditAdornment } from 'apps/ui';
 import { selectUserId } from 'apps/user/state/user.selectors';
+import { IVerificationChange } from 'models/History.model';
 import { updateVerificationHistoryAgentNote } from '../../state/verificationHistory.actions';
 
 export function VerificationHistoryAgentNote({ audit }: {
-  audit: any;
+  audit: IVerificationChange;
 }) {
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
-  const [value, setValue] = useState(audit?.agentNote || '');
-  const [prevValue, setPrevValue] = useState(value);
+  const [value, setValue] = useState<string>(audit?.agentNote || '');
+  const [prevValue, setPrevValue] = useState<string>(value);
 
-  const handleChange = (event) => setValue(event.target.value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
 
   const handleSave = useCallback(() => {
     setPrevValue(value);

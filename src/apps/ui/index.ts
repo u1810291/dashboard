@@ -51,8 +51,8 @@ export * from './components/WithActionDescriptionBordered/WithActionDescriptionB
 export * from './components/ButtonStyled/ButtonStyled';
 export * from './components/Spinner/Spinner';
 export * from './components/FileSelectButton/FileSelectButton';
-export * from './components/TextFieldEditAdornment/TextFieldEditAdornment';
-export * from './components/Switch/Switch';
+export { TextFieldEditAdornment } from './components/TextFieldEditAdornment/TextFieldEditAdornment';
+export { Switch } from './components/Switch/Switch';
 export { FlowIssue } from './components/FlowIssue/FlowIssue';
 
 export * from './models/Warning.model';

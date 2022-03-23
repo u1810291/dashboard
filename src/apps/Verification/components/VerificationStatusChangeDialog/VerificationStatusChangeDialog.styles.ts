@@ -1,7 +1,6 @@
-import { createStyles, Theme } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles((theme: Theme) => createStyles({
+export const useStyles = makeStyles((theme: Theme) => ({
   modal: {
     [theme.breakpoints.up('lg')]: {
       width: 500,
