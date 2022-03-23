@@ -3,13 +3,14 @@ import React, { useState, useCallback } from 'react';
 import { TextFieldEditAdornment } from 'apps/ui';
 import { selectUserId } from 'apps/user/state/user.selectors';
 import { IVerificationChange } from 'models/History.model';
+import { UserId } from 'models/Collaborator.model';
 import { updateVerificationHistoryAgentNote } from '../../state/verificationHistory.actions';
 
 export function VerificationHistoryAgentNote({ audit }: {
   audit: IVerificationChange;
 }) {
   const dispatch = useDispatch();
-  const userId = useSelector(selectUserId);
+  const userId = useSelector<any, UserId>(selectUserId);
   const [value, setValue] = useState<string>(audit?.agentNote || '');
   const [prevValue, setPrevValue] = useState<string>(value);
 

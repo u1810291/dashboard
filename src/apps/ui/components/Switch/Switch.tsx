@@ -8,9 +8,9 @@ export const Switch = ({ onSwitch, checked, ...props }: {
   props?: SwitchProps;
 }) => {
   const classes = useStyles();
-  const [isChecked, setIsChecked] = useState(checked || false);
+  const [isChecked, setIsChecked] = useState<boolean>(checked || false);
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked: value } = event.target;
 
     if (value && onSwitch) {
