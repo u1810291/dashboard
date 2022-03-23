@@ -9,10 +9,10 @@ export function VerificationHistoryAgentNote({ audit }: {
 }) {
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
-  const [value, setValue] = useState(audit?.agentNote || '');
-  const [prevValue, setPrevValue] = useState(value);
+  const [value, setValue] = useState<string>(audit?.agentNote || '');
+  const [prevValue, setPrevValue] = useState<string>(value);
 
-  const handleChange = (event) => setValue(event.target.value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
 
   const handleSave = useCallback(() => {
     setPrevValue(value);

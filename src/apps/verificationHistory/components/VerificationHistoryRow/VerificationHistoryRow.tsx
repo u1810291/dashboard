@@ -16,7 +16,7 @@ function VerificationHistoryRowComponent({ rowData, isInitEvent }: {
 }) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
   const handleOnExpand = useCallback(() => setIsCollapsed((prevState) => !prevState), []);
   const { changedFields, changedStatus, deletedOfGdpr } = useMemo(() => getHistoryExtraData(rowData), [rowData]);

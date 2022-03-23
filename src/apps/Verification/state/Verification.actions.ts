@@ -61,7 +61,7 @@ export const verificationClear = () => async (dispatch: Dispatch) => {
   dispatch({ type: VerificationActionTypes.VERIFICATION_CLEAR, payload: {} });
 };
 
-export const verificationStatusUpdate = (verificationId: string, status: IdentityStatuses, agentNote?: string | undefined) => async (dispatch: Dispatch, getState) => {
+export const verificationStatusUpdate = (verificationId: string, status: IdentityStatuses, agentNote?: string) => async (dispatch: Dispatch, getState) => {
   dispatch({ type: types.IDENTITY_UPDATING });
   try {
     // we ignore response here cause returned identity without embed data
@@ -71,7 +71,6 @@ export const verificationStatusUpdate = (verificationId: string, status: Identit
     const updatedIdentity = {
       ...identityModel.value,
       status,
-      agentNote,
     };
     dispatch({ type: types.IDENTITY_SUCCESS, payload: updatedIdentity });
   } catch (error) {
