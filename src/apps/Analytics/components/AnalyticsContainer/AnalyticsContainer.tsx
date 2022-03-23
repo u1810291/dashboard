@@ -47,7 +47,7 @@ export function AnalyticsContainer() {
   }, [metricsFilter]);
 
   useEffect(() => {
-    if (!merchantModel) {
+    if (!merchantModel.isLoaded) {
       dispatch(merchantLoad());
     }
   }, [onboardingProgress, dispatch]);
