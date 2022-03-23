@@ -9,8 +9,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from 'lib/url';
-import { selectMerchantTags } from 'state/merchant/merchant.selectors';
-import { MerchantTags } from 'models/Merchant.model';
+import { selectMerchantModel, selectMerchantTags } from 'state/merchant/merchant.selectors';
+import { Merchant, MerchantTags } from 'models/Merchant.model';
 import { selectMerchantOnboarding, merchantLoad } from 'state/merchant';
 import { OnboardingSteps } from '../OnboardingSteps/OnboardingSteps';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
@@ -18,6 +18,7 @@ import { byDateStub } from '../../models/Metrics.model';
 import { countStatisticsLoad, filterUpdate, loadChartStatistics } from '../../state/Analytics.actions';
 import { selectCountStatisticsModel, selectFilter, selectStatisticsByDate } from '../../state/Analytics.selectors';
 import { StepsOptions } from '../OnboardingSteps/model/OnboardingSteps.model';
+import { Loadable } from 'models/Loadable.model';
 import { Chart } from '../Chart/Chart';
 import { DevicesStats } from '../DevicesStats/DevicesStats';
 import { DocumentsStats } from '../DocumentsStats/DocumentsStats';
@@ -36,6 +37,7 @@ export function AnalyticsContainer() {
   const countStatisticsModel = useSelector(selectCountStatisticsModel);
   const onboardingProgress = useSelector<any, StepsOptions[]>(selectMerchantOnboarding);
   const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
+  const merchantModel = useSelector<any, Loadable<Merchant>>(selectMerchantModel);
   const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
   const byDate = useSelector(selectStatisticsByDate);
   const { asMerchantId } = useQuery();
@@ -45,7 +47,7 @@ export function AnalyticsContainer() {
   }, [metricsFilter]);
 
   useEffect(() => {
-    if (!onboardingProgress) {
+    if (!merchantModel) {
       dispatch(merchantLoad());
     }
   }, [onboardingProgress, dispatch]);
@@ -68,7 +70,7 @@ export function AnalyticsContainer() {
     <Container maxWidth={false}>
       {isFilterDatesValid && !countStatisticsModel.isLoading && countStatisticsModel.isLoaded ? (
         <Box pb={2} className={classes.wrapper}>
-          {canUseTemplates && <OnboardingSteps />}
+          {onboardingProgress && canUseTemplates && <OnboardingSteps />}
           <Box mb={2}>
             <Grid container alignItems="center">
               <Grid item xs={9}>

@@ -94,7 +94,7 @@ export function AddNewFlowModal({ submitNewFlow }) {
         fullWidth
         onClick={() => {
           handleSubmitDialog();
-          stepsProgressChange('make-metamap');
+          if(onboardingProgress) stepsProgressChange('make-metamap');
         }}
         data-qa={QATags.Flows.Create.CreateButton}
       >

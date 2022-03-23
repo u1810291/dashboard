@@ -45,7 +45,7 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
     formatMessage('VerificationFlow.modal.delete.subtitle'),
   );
   const dispatch = useDispatch();
-  const isFirstMetamapCreated = onboardingProgress.find((step) => step.stepId === OnboardingNames.metamap).completed;
+  const isFirstMetamapCreated = onboardingProgress?.find((step) => step.stepId === OnboardingNames.metamap).completed;
   const isNewDesign = useSelector<any, boolean>(selectIsNewDesign);
   const { asMerchantId } = useQuery();
   const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
