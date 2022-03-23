@@ -293,11 +293,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         default: false,
       },
       {
-        id: DocumentStepTypes.ColombianUnifiedLegalSearch,
-        default: false,
-      },
-      {
-        id: DocumentStepTypes.ColombianRunt,
+        id: VerificationPatternTypes.ColombianUnifiedLegalSearch,
         default: false,
       },
       {
