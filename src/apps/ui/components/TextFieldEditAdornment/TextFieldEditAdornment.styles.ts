@@ -4,7 +4,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   iconButton: {
     marginRight: 0,
     padding: 5,
-    color: '#8392B8',
+    color: theme.palette.common.black75,
   },
   input: {
     '& input, & .MuiInputBase-root': {
