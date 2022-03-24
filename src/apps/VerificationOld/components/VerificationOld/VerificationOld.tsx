@@ -33,7 +33,7 @@ export function VerificationOld({ verification, productList }: {
           productList={productList}
           selectedId={selectedProduct}
           onSelect={setSelectedProduct}
-          verification={verification}
+          verification={verificationWithPrivateMedia}
         />
       </Grid>
       <Grid item xs={12} lg={8} xl={10} className={classes.products}>

@@ -8,6 +8,6 @@ const VerificationHistoryLazy = lazy(async () => {
   return { default: VerificationHistory };
 });
 
-export const identityProfileRoutes = [
+export const identityProfileOldRoutes = [
   <RoleGuardRoute roles={WithAgent} key="verification-history" path={Routes.list.history.details} component={VerificationHistoryLazy} />,
 ];

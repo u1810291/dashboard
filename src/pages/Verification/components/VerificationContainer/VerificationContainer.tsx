@@ -1,10 +1,11 @@
+import { Loadable } from 'models/Loadable.model';
+import { IVerificationWorkflow } from 'models/Verification.model';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import Paper from '@material-ui/core/Paper';
-import { verificationClear, verificationLoad, Verification, VerificationHeaderMenu, selectNewVerificationWithExtras, selectVerificationModel, selectVerificationProductList } from 'apps/Verification';
-import { selectIdentityProfile } from 'apps/IdentityProfile';
+import { verificationClear, verificationLoad, Verification, VerificationHeaderMenu, selectVerificationModel, selectVerificationProductList } from 'apps/Verification';
 import { PageError, PageLoader } from 'apps/layout';
 import { useMerit } from 'apps/Product';
 import { Placeholder } from 'apps/ui';
@@ -21,11 +22,8 @@ export function VerificationContainer() {
   const { asMerchantId } = useQuery();
   const classes = useStyles();
   const [errorType, setErrorType] = useState<VerificationErrorTypes>(null);
-  const verificationModel = useSelector(selectVerificationModel);
-  const verificationWithExtras = useSelector(selectNewVerificationWithExtras);
+  const verificationModel = useSelector<any, Loadable<IVerificationWorkflow>>(selectVerificationModel);
   const productList: ProductTypes[] = useSelector(selectVerificationProductList);
-  // TODO: @ggrigorev identity isn't really needed here. Change VerificationHeaderMenu to work with Verification data only
-  const identity = useSelector(selectIdentityProfile);
 
   useMerit();
 
@@ -74,8 +72,8 @@ export function VerificationContainer() {
 
   return (
     <Paper className={classes.paper}>
-      <VerificationHeaderMenu verification={verificationWithExtras} identity={identity} />
-      <Verification verification={verificationWithExtras} productList={productList} />
+      <VerificationHeaderMenu verification={verificationModel.value} productList={productList} />
+      <Verification verification={verificationModel.value} productList={productList} />
     </Paper>
   );
 }

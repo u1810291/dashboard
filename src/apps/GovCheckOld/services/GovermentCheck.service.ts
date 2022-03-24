@@ -1,4 +1,4 @@
-import { GovCheckIssue } from 'apps/GovCheck/components/GovCheckIssue/GovCheckIssue';
+import { GovCheckDependsIssue } from 'apps/GovCheck/components/GovCheckDependsIssue/GovCheckDependsIssue';
 import { getDocumentsWithoutCustomDocument } from 'models/Document.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
@@ -7,8 +7,9 @@ import { FiFlag } from 'react-icons/fi';
 import { CountrySpecificChecks, getStepStatus, StepStatus } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { GovCheckSettings } from 'apps/GovCheck/components/GovCheckSettings/GovCheckSettings';
-import { getGovCheckRootSteps, getGovCheckVerificationSteps, GovCheckStepTypes, GovCheckVerificationData, GovernmentCheckSettingTypes, GovernmentChecksTypes, verificationPatternsGovchecksDefault } from 'apps/GovCheck/models/GovCheck.model';
+import { getGovCheckRootSteps, getGovCheckVerificationSteps, GovCheckVerificationData, GovernmentCheckSettingTypes, GovernmentChecksTypes, isGovCheckHaveDependsIssue, isGovCheckInFlow, verificationPatternsGovchecksDefault } from 'apps/GovCheck/models/GovCheck.model';
 import { GovCheckVerificationProduct } from 'apps/GovCheck/components/GovCheckVerificationProduct/GovCheckVerificationProduct';
+import { GovCheckIssue } from 'apps/GovCheck/components/GovCheckIssue/GovCheckIssue';
 
 type ProductSettingsGovCheck = ProductSettings<GovernmentCheckSettingTypes>;
 
@@ -43,11 +44,7 @@ export class GovernmentCheck extends ProductBaseFlowBuilder implements Product {
   }
 
   isInFlow(flow: IFlow): boolean {
-    const isGovChecksEnabled = Object.entries(flow?.verificationPatterns).some(
-      ([key, value]) => Object.prototype.hasOwnProperty.call(verificationPatternsGovchecksDefault, key)
-        && value && value !== GovCheckStepTypes.None,
-    );
-    return !!flow?.postponedTimeout || isGovChecksEnabled;
+    return isGovCheckInFlow(flow);
   }
 
   isInVerification(verification: VerificationResponse): boolean {
@@ -56,11 +53,15 @@ export class GovernmentCheck extends ProductBaseFlowBuilder implements Product {
   }
 
   haveIssues(flow: IFlow, productsInGraph?: ProductTypes[]): boolean {
-    return !productsInGraph.includes(ProductTypes.CustomField) && !productsInGraph.includes(ProductTypes.DocumentVerification);
+    return isGovCheckHaveDependsIssue(flow, productsInGraph) || !isGovCheckInFlow(flow);
   }
 
   getIssuesComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
-    if (this.haveIssues(flow, productsInGraph)) {
+    if (isGovCheckHaveDependsIssue(flow, productsInGraph)) {
+      return GovCheckDependsIssue;
+    }
+
+    if (!isGovCheckInFlow(flow)) {
       return GovCheckIssue;
     }
 

@@ -38,7 +38,9 @@ export enum VerificationStepTypes {
   DuplicateUserDetection = 'duplicate-user-detection',
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
   CustomWatchlistsValidation = 'custom-watchlists-validation',
+  NigerianCacValidation = 'nigerian-cac-validation',
   NigerianLegalValidation = 'nigerian-legal-validation',
+  NigerianTinValidation = 'nigerian-tin-validation',
 }
 
 export enum StepStatus {
@@ -99,6 +101,7 @@ export const DocumentStepTypes = {
   ColombianSisben: VerificationPatternTypes.ColombianSisben,
   MexicanPep: VerificationPatternTypes.MexicanPep,
   ColombianRegistraduria: VerificationPatternTypes.ColombianRegistraduria,
+  ColombianUnifiedLegalSearch: VerificationPatternTypes.ColombianUnifiedLegalSearch,
   ArgentinianRenaper: VerificationPatternTypes.ArgentinianRenaper,
   ArgentinianRenaperExtended: VerificationPatternTypes.ArgentinianRenaperExtended,
   ArgentinianRenaperFacematch: VerificationPatternTypes.ArgentinianRenaperFacematch,
@@ -196,6 +199,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.ColombianProcuraduria,
   DocumentStepTypes.ColombianRunt,
   DocumentStepTypes.ColombianRegistraduria,
+  DocumentStepTypes.ColombianUnifiedLegalSearch,
   DocumentStepTypes.ColombianSisben,
   DocumentStepTypes.EcuadorianSri,
   DocumentStepTypes.EcuadorianRegistroCivil,
@@ -218,7 +222,9 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.KenyanEcitizen,
   DocumentStepTypes.ChileanRut,
   DocumentStepTypes.UgandanElectoralCommission,
+  VerificationPatternTypes.NigerianCac,
   VerificationStepTypes.NigerianLegalValidation,
+  VerificationStepTypes.NigerianTinValidation,
 ];
 
 export function hasFailureStep(steps: IStep[]): boolean {
@@ -284,6 +290,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.ColombianBdua]: ['colombianBdua.notEnoughParams'],
   [DocumentStepTypes.ColombianNationalPolice]: ['colombianNationPolice.notEnoughParams'],
   [DocumentStepTypes.ColombianNit]: ['colombianNit.notEnoughParams'],
+  [DocumentStepTypes.ColombianUnifiedLegalSearch]: ['colombianUnifiedLegalSearch.notEnoughParams', 'colombianUnifiedLegalSearch.notValidParams'],
   [DocumentStepTypes.CostaRicanSocialSecurity]: ['costaRicanSocialSecurity.notEnoughParams'],
   [DocumentStepTypes.PanamenianTribunalElectoral]: ['panamenianTribunalElectoral.notEnoughParams'],
   [DocumentStepTypes.DominicanJce]: ['dominicanJce.notEnoughParams'],
