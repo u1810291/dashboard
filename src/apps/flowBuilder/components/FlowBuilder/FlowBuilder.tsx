@@ -1,6 +1,5 @@
 import { Box, Grid, Paper } from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { dagreGraphService } from 'apps/flowBuilder/services/dagreGraph.service';
 import { selectProductIsInited, useProduct } from 'apps/Product';
 import { Loader, Placeholder } from 'apps/ui';
 import { PreviewButton } from 'apps/WebSDKPreview';
@@ -15,16 +14,16 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
+import { WorkflowBuilderIntegrationDetails, dagreGraphService } from 'apps/WorkflowBuilder';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
+import { ProductListSidebar } from 'apps/flowBuilder/components/ProductListSidebar/ProductListSidebar';
 import { flowBuilderChangeableFlowLoad, flowBuilderChangeableFlowUpdate, flowBuilderClearStore } from '../../store/FlowBuilder.action';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from '../../store/FlowBuilder.selectors';
-import { FlowBuilderIntegrationDetails } from '../FlowBuilderIntegrationDetails/FlowBuilderIntegrationDetails';
+import { useStyles } from './FlowBuilder.styles';
+import { SaveAndPublish } from '../SaveAndPublish/SaveAndPublish';
+import { FlowProductsGraph } from '../FlowProductsGraph/FlowProductsGraph';
 import { FlowBuilderProductDetails } from '../FlowBuilderProductDetails/FlowBuilderProductDetails';
 import { FlowInfoContainer } from '../FlowInfoContainer/FlowInfoContainer';
-import { FlowProductsGraph } from '../FlowProductsGraph/FlowProductsGraph';
-import { ProductListSidebar } from '../ProductListSidebar/ProductListSidebar';
-import { SaveAndPublish } from '../SaveAndPublish/SaveAndPublish';
-import { useStyles } from './FlowBuilder.styles';
 
 export function FlowBuilder() {
   const dispatch = useDispatch();
@@ -103,7 +102,7 @@ export function FlowBuilder() {
                 />
                 )}
                 {!selectedId && (
-                <FlowBuilderIntegrationDetails />
+                <WorkflowBuilderIntegrationDetails />
                 )}
               </Grid>
             </Grid>

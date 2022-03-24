@@ -1,7 +1,6 @@
 import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@material-ui/core';
 import { selectIsNewDesign } from 'apps/dashboard/state/dashboard.selectors';
-import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
-import { useTableRightClickNoRedirect } from 'apps/ui/hooks/rightClickNoRedirect';
+import { useConfirmDelete, useTableRightClickNoRedirect } from 'apps/ui';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { dateSortCompare } from 'lib/date';
 import { getNewFlowId } from 'models/Flow.model';

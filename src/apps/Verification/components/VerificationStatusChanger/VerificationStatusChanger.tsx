@@ -1,43 +1,24 @@
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { PremiumAmlWatchlistsMonitoringNotification } from 'apps/Aml';
 import { notification } from 'apps/ui';
 import { getStatusById, IdentityStatuses } from 'models/Status.model';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
-import { sendWebhook } from 'state/webhooks/webhooks.actions';
 import { WithAgent } from 'models/Collaborator.model';
 import { useRole } from 'apps/collaborators';
-import { verificationStatusUpdate } from '../../state/Verification.actions';
 import { StatusSelector } from '../StatusSelector/StatusSelector';
 import { useStyles } from './VerificationStatusChanger.styles';
 
-export interface VerificationStatusChangerProps{
+export function VerificationStatusChanger({ verificationStatus, isAmlMonitoringOn, onUpdateIdentityStatus }: {
   verificationStatus: IdentityStatuses;
-  verificationId: string;
-  identity: any;
-}
-
-export function VerificationStatusChanger({ verificationStatus, verificationId, identity }: VerificationStatusChangerProps) {
-  const dispatch = useDispatch();
-  const intl = useIntl();
+  isAmlMonitoringOn: boolean;
+  onUpdateIdentityStatus: (value: IdentityStatuses) => void;
+}) {
   const classes = useStyles();
   const isFallback = useRef(false);
   const currentStatus = useRef(null);
   const previousStatus = useRef(null);
   const [status, setStatus] = useState(getStatusById(verificationStatus));
   const [isOpen, setOpen] = useState(false);
-  const identityId = useMemo(() => identity?._id, [identity]);
   const role = useRole();
-
-  const handleUpdateIdentity = useCallback(async (value) => {
-    if (verificationId) {
-      await dispatch(verificationStatusUpdate(verificationId, value));
-    }
-    if (identityId) {
-      await dispatch(sendWebhook(identityId));
-    }
-    notification.info(intl.formatMessage({ id: 'identities.details.webhook.success' }));
-  }, [dispatch, identityId, intl, verificationId]);
 
   const handleCloseNotification = useCallback(() => {
     if (isFallback.current) {
@@ -45,8 +26,8 @@ export function VerificationStatusChanger({ verificationStatus, verificationId, 
       setStatus(currentStatus.current);
       return;
     }
-    handleUpdateIdentity(currentStatus.current.id);
-  }, [currentStatus, previousStatus, handleUpdateIdentity]);
+    onUpdateIdentityStatus(currentStatus.current.id);
+  }, [currentStatus, previousStatus, onUpdateIdentityStatus]);
 
   const handleEnableFallback = useCallback(() => {
     isFallback.current = true;
@@ -62,7 +43,7 @@ export function VerificationStatusChanger({ verificationStatus, verificationId, 
     currentStatus.current = { ...newStatus };
     setStatus(currentStatus.current);
     setOpen(false);
-    if (identity?.premiumAmlWatchlistsMonitoringStep) {
+    if (isAmlMonitoringOn) {
       isFallback.current = false;
       const isSwitchedToVerified = newStatus.id === IdentityStatuses.verified;
       await notification.info((
@@ -74,10 +55,9 @@ export function VerificationStatusChanger({ verificationStatus, verificationId, 
         className: classes.ongoingMonitoringNotification,
         onClose: handleCloseNotification,
       });
-    } else {
-      handleUpdateIdentity(currentStatus.current.id);
     }
-  }, [classes.ongoingMonitoringNotification, handleCloseNotification, handleEnableFallback, handleUpdateIdentity, identity]);
+    onUpdateIdentityStatus(currentStatus.current.id);
+  }, [classes.ongoingMonitoringNotification, handleCloseNotification, handleEnableFallback, onUpdateIdentityStatus, isAmlMonitoringOn]);
 
   useEffect(() => {
     if (verificationStatus) {

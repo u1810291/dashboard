@@ -12,11 +12,11 @@ import { DateFormat } from 'lib/date';
 import { notification } from 'apps/ui';
 import { CustomWatchlistModalValidation } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
-import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearWatchlist, clearCurrentWatchlist } from '../../state/CustomWatchlist.actions';
+import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearWatchlist } from '../../state/CustomWatchlist.actions';
 import { selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsFailed, selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
-import { CustomWatchlistModalValidationInputs, CustomWatchlistModalValidationInputTypes, FlowWatchlistUi, WatchlistContentTypes } from '../../models/CustomWatchlist.models';
+import { CustomWatchlistModalValidationInputs, CustomWatchlistModalValidationInputTypes, FlowWatchlistUi } from '../../models/CustomWatchlist.models';
 
 export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   watchlists: FlowWatchlistUi[];
@@ -29,7 +29,6 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   const merchantId = useSelector(selectMerchantId);
   const isWatchlistsLoaded = useSelector(selectIsWatchlistsLoaded);
   const isWatchlistsFailed = useSelector(selectIsWatchlistsFailed);
-  // TODO: @richvoronov, maybe other way to fix async GET watchlist update?
   const isCurrentCustomWatchlistIsLoading = useSelector(selectCurrentCustomWatchlistIsLoading);
   const [watchlistDeletionId, setWatchlistDeletionId] = useState<number | null>(null);
 
@@ -37,10 +36,6 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
     dispatch(clearWatchlist());
     closeOverlay();
   }, [dispatch, closeOverlay]);
-
-  const customWatchlistsContentUpdate = useCallback(async (watchlistId: number, values: WatchlistContentTypes) => {
-    await dispatch(updateMerchantWatchlistContent(merchantId, watchlistId, values));
-  }, [merchantId, dispatch]);
 
   const handleSubmitWatchlist = useCallback(async (values: CustomWatchlistModalValidationInputTypes, watchlist?: Partial<FlowWatchlistUi>) => {
     const watchlistRequestData = {
@@ -53,20 +48,24 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
       [CustomWatchlistModalValidationInputs.CsvSeparator]: values[CustomWatchlistModalValidationInputs.CsvSeparator],
     };
 
+    // edit flow
     if (watchlist?.id) {
       await dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData));
-      await customWatchlistsContentUpdate(watchlist.id, watchlistContentValues);
+      await dispatch(updateMerchantWatchlistContent(merchantId, watchlist.id, watchlistContentValues));
       notification.info(formatMessage('CustomWatchlist.settings.watchlist.updated', { messageValues: { name: watchlist.name } }));
       return;
     }
+
+    // create flow
     dispatch(customWatchlistCreate(merchantId, watchlistRequestData, async (watchlistData) => {
-      await customWatchlistsContentUpdate(watchlistData.id, watchlistContentValues);
+      dispatch(setCurrentWatchlist(watchlistData.id));
       notification.info(formatMessage('CustomWatchlist.settings.watchlist.created', { messageValues: { name: watchlistData.name } }));
+      await dispatch(updateMerchantWatchlistContent(merchantId, watchlistData.id, watchlistContentValues));
     }));
-  }, [merchantId, formatMessage, customWatchlistsContentUpdate, dispatch]);
+  }, [merchantId, formatMessage, dispatch]);
 
   const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {
-    dispatch(clearCurrentWatchlist());
+    dispatch(clearWatchlist());
     if (watchlist?.id) {
       dispatch(setCurrentWatchlist(watchlist.id));
     }

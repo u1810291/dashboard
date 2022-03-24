@@ -96,6 +96,10 @@ export const QATags = {
       CancelButton: 'flows-create-button-denied',
     },
     Table: 'flows-table',
+    CountrySwitch: 'country-switch',
+    FlowIssueNotificationDesktop: 'desktop-flow-issue',
+    FlowIssueNotification: 'flow-issue',
+    SaveButtonIssue: 'save-button-issue',
   },
 
   VerificationList: {

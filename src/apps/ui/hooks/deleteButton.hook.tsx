@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
-import { useConfirmDelete } from 'apps/identity/components/DeleteModal/DeleteModal';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import { DeleteButtonHookOptions } from '../models/DeleteButton.model';
+import { useConfirmDelete } from './confirmDelete.hook';
 
 export function useDeleteButtonHook(onDelete: () => Promise<void>, options: DeleteButtonHookOptions = {}) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -10,8 +10,8 @@ export function useDeleteButtonHook(onDelete: () => Promise<void>, options: Dele
   const intl = useIntl();
 
   const confirmDelete = useConfirmDelete(
-    intl.formatMessage({ id: options.header || 'verificationModal.delete' }),
-    intl.formatMessage({ id: options.confirm || 'verificationModal.delete.confirm' }),
+    intl.formatMessage({ id: options.header || 'verificationModal.delete' }, options.headerOptions),
+    intl.formatMessage({ id: options.confirm || 'verificationModal.delete.confirm' }, options.confirmOptions),
   );
 
   const handleDelete = useCallback(async () => {

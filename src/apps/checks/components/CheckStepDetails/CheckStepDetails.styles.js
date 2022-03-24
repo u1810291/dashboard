@@ -11,6 +11,11 @@ export const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginBottom: 16,
   },
+  centeredItem: {
+    display: 'flex',
+    flexFlow: 'column',
+    alignItems: 'center',
+  },
   card: {
     width: '100%',
     border: 'none',
@@ -26,5 +31,12 @@ export const useStyles = makeStyles((theme) => ({
   },
   failed: {
     color: appPalette.red,
+  },
+  groupImage: {
+    width: 'auto',
+    height: 'auto',
+    maxHeight: 350,
+    maxWidth: 250,
+    backgroundSize: 'cover',
   },
 }));

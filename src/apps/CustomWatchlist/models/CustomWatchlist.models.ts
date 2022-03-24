@@ -3,6 +3,7 @@ import { ErrorStatuses } from 'models/Error.model';
 import { getStepStatus, IStep, StepStatus } from 'models/Step.model';
 
 export const customWatchlistsPollingDelay = 5000;
+export const VALIDATION_ERROR_TYPE_MAX_COUNT = 'watchlists.maxRowCountReached';
 
 export enum CsvSeparatorInputEnum {
   Semicolon = 'semicolon',
@@ -60,6 +61,8 @@ export interface WatchlistProcess {
   csvSeparator: string;
 }
 
+export type WatchlistProcessPartial = Partial<WatchlistProcess> | null
+
 export interface IWatchlist {
   id: number;
   name: string;
@@ -67,7 +70,7 @@ export interface IWatchlist {
   updatedAt: string;
   merchantId: string;
   mapping: WatchlistMapping[] | null;
-  process: Partial<WatchlistProcess> | null;
+  process: WatchlistProcessPartial;
   isFileAvailable: boolean;
 }
 
@@ -130,8 +133,6 @@ export interface CustomWatchlistValidationError {
   code: ErrorStatuses;
   type: string;
   data: CustomWatchlistValidationErrorData;
-  // TODO: @richvoronov ask backend to remove this fields
-  retryable: boolean;
   message?: string;
   name?: string;
   stack?: string;
@@ -145,11 +146,6 @@ export interface ICustomWatchlistValidationErrorFormated {
   systemField: ValidatedInputsKeys;
   type: string;
   row: number;
-}
-
-export enum CustomWatchlistSearchParamsKeysEnum {
-  fullName = 'fullName',
-  dateOfBirth = 'dateOfBirth',
 }
 
 export interface CustomWatchlistStepDataWatchlist {
@@ -233,19 +229,26 @@ export function getCustomWatchlistMapping(headers?: string[], mapping?: Watchlis
   return [];
 }
 
+export function getCustomWatchlistValidMapping(inputFields: IValidatedInputsFieldTypes[]): WatchlistMapping[] {
+  return inputFields.map((fields) => ({ merchantField: fields.label, systemField: fields.value, ...(fields?.options && { options: fields.options }) }));
+}
+
 export function getCustomWatchlistErrorsFormated(errors?: CustomWatchlistValidationError[]): Partial<Record<ValidatedInputsKeys, ICustomWatchlistValidationErrorFormated[]>> | null {
   if (!errors) {
     return null;
   }
 
   return errors.reduce((memo, cur) => {
+    if (cur.code === ErrorStatuses.ValidationError) {
+      return null;
+    }
+
     const fieldName = cur.data.fieldName;
 
     memo[fieldName] = errors.filter((item) => item.data.fieldName === fieldName);
 
     memo[fieldName] = memo[fieldName].map((item) => ({
       systemField: item.data.fieldName,
-      // TODO: @richvoronov need to split by type too, do it after release custom watchlist 4
       type: item.type,
       row: item.data.row,
     }));

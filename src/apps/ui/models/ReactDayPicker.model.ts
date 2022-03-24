@@ -35,13 +35,13 @@ export function getMonths(locale = DEFAULT_LOCALE): [string, string, string, str
   return dayjs().locale(locale).localeData().months();
 }
 
-export function formatDate(date: Date, format = DateFormat.LocalizedDayMonthYearSlashes, locale = DEFAULT_LOCALE): string {
+export function formatDate(date: Date, format: string = DateFormat.LocalizedDayMonthYearSlashes, locale: string = DEFAULT_LOCALE): string {
   return dayjs(date)
     .locale(locale)
     .format(Array.isArray(format) ? format[0] : format);
 }
 
-export function parseDate(str: string, format = DateFormat.LocalizedDayMonthYearSlashes, locale = DEFAULT_LOCALE): Date | undefined {
+export function parseDate(str: string, format: string = DateFormat.LocalizedDayMonthYearSlashes, locale: string = DEFAULT_LOCALE): Date | undefined {
   const m = dayjs(str, format, locale, true);
   if (m.isValid()) {
     return m.toDate();

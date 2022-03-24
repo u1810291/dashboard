@@ -1,15 +1,13 @@
-import { Typography } from '@material-ui/core';
+import React from 'react';
+import Typography from '@material-ui/core/Typography';
 import { CopyToClipboard } from 'apps/ui';
 import { QATags } from 'models/QA.model';
-import React from 'react';
 import { useStyles } from './VerificationNumber.styles';
 
-export interface VerificationNumberProps{
+export function VerificationNumber({ number, summary }: {
   number: string;
   summary: string;
-}
-
-export function VerificationNumber({ number, summary }: VerificationNumberProps) {
+}) {
   const classes = useStyles();
   return (
     <>

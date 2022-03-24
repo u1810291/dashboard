@@ -13,5 +13,13 @@ export enum CountryCodes {
   CO = 'CO',
   MX = 'MX',
   NG = 'NG',
-  US = 'US'
+  US = 'US',
+  CL = 'CL',
+  PE = 'PE',
+  PH = 'PH',
+}
+
+export interface AllowedRegions {
+  country: string;
+  regions: string[];
 }
