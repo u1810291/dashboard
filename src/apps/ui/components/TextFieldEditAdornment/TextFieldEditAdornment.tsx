@@ -84,6 +84,8 @@ export const TextFieldEditAdornment = React.forwardRef(({ onSave, onCancel, isEd
       InputProps={{
         inputProps: {
           'data-qa': QATags.Webhook.Secret,
+          maxlength: 1024,
+          maxRows: 8,
         },
         classes: {
           adornedEnd: classes.adornment,
