@@ -25,6 +25,7 @@ export enum VerificationPatternTypes {
   ColombianNit = 'colombian-nit-validation',
   ColombianProcuraduria = 'colombian-procuraduria-validation',
   ColombianRegistraduria = 'colombian-registraduria-validation',
+  ColombianUnifiedLegalSearch = 'colombian-unified-legal-search-validation',
   ColombianRunt = 'colombian-runt-validation',
   ColombianSisben = 'colombian-sisben-validation',
   ComplyAdvantageValidation = 'comply-advantage-validation',
@@ -49,11 +50,13 @@ export enum VerificationPatternTypes {
   MexicanIne = 'mexican-ine-validation',
   MexicanPep = 'mexican-pep-validation',
   MexicanRfc = 'mexican-rfc-validation',
+  NigerianCac = 'nigerian-cac-validation',
   NigerianDl = 'nigerian-dl-validation',
   NigerianNin = 'nigerian-nin-validation',
   NigerianVin = 'nigerian-vin-validation',
   NigerianBvn = 'nigerian-bvn-validation',
   NigerianLegal = 'nigerian-legal-validation',
+  NigerianTin = 'nigerian-tin-validation',
   PanamenianTribunalElectoral = 'panamenian-tribunal-electoral-validation',
   ParaguayanRcp = 'paraguayan-rcp-validation',
   PeruvianReniec = 'peruvian-reniec-validation',
@@ -75,6 +78,7 @@ export enum VerificationPatternTypes {
   FinancialInformationPayrollAccountsRetrieving = 'financial-information-payroll-accounts-retrieving',
   Facematch = 'facematch-service-validation',
   UgandanElectoralCommission = 'ugandan-electoral-commission-validation',
+  DuplicateFaceDetection = 'duplicate-face-detection',
 }
 
 export interface VerificationPatterns {
@@ -119,10 +123,12 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.MexicanIne]?: boolean;
   [VerificationPatternTypes.MexicanPep]?: boolean;
   [VerificationPatternTypes.MexicanRfc]?: boolean;
+  [VerificationPatternTypes.NigerianCac]?: boolean;
   [VerificationPatternTypes.NigerianDl]?: boolean;
   [VerificationPatternTypes.NigerianNin]?: boolean;
   [VerificationPatternTypes.NigerianBvn]?: boolean;
   [VerificationPatternTypes.NigerianVin]?: boolean;
+  [VerificationPatternTypes.NigerianTin]?: boolean;
   [VerificationPatternTypes.PeruvianReniec]?: boolean;
   [VerificationPatternTypes.PeruvianSunat]?: boolean;
   [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]?: AmlValidationTypes;
@@ -144,4 +150,5 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.FinancialInformationPayrollAccountsRetrieving]?: boolean;
   [VerificationPatternTypes.Facematch]?: boolean;
   [VerificationPatternTypes.UgandanElectoralCommission]?: boolean;
+  [VerificationPatternTypes.DuplicateFaceDetection]?: boolean;
 }
