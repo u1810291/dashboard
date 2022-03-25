@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme) => ({
     minHeight: 64,
     display: 'flex',
     marginTop: 'auto',
-    padding: [[20, 0]],
+    padding: '20px 0',
     backgroundColor: 'transparent',
     '@media print': {
       display: 'none',
@@ -19,18 +19,9 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'stretch',
     alignItems: 'center',
-    padding: [[0, 20, 0, 20]],
+    padding: '0 20px 0 20px',
     [theme.breakpoints.up('sm')]: {
-      padding: [[0, 30, 0, 40]],
-    },
-  },
-  company: {
-    display: 'flex',
-    alignItems: 'center',
-    flexGrow: 1,
-    justifyContent: 'start',
-    [theme.breakpoints.down('xs')]: {
-      justifyContent: 'center',
+      padding: '0 30px 0 40px',
     },
   },
   img: {
@@ -50,11 +41,7 @@ export const useStyles = makeStyles((theme) => ({
       marginTop: 10,
     },
   },
-  statusPage: {
-    marginLeft: 20,
-  },
   links: {
-    flexGrow: 1,
     display: 'flex',
     height: '100%',
     justifyContent: 'flex-end',
@@ -80,10 +67,10 @@ export const useStyles = makeStyles((theme) => ({
   socialLink: {
     flexShrink: 0,
     display: 'block',
-    padding: [[10, 10, 5]],
+    padding: '10px 10px 15px',
     marginLeft: 5,
-    [theme.breakpoints.down('375')]: {
-      padding: [[10, 5, 5]],
+    [theme.breakpoints.down(375)]: {
+      padding: '10px 5px 5px',
     },
   },
   linkImage: {
