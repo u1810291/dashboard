@@ -4,7 +4,6 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { FlowIssue } from 'apps/ui';
-import { DeepPartial } from 'lib/object';
 import { BankAccountDataVerification } from '../components/BankAccountDataVerification/BankAccountDataVerification';
 import { BankAccountDataSettings } from '../components/BankAccountDataSettings/BankAccountDataSettings';
 import { BankLogo } from '../components/BankLogo/BankLogo';
@@ -53,7 +52,7 @@ export class BankAccountData extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  serialize(settings: ProductSettingsBankAccountData): DeepPartial<IFlow> {
+  serialize(settings: ProductSettingsBankAccountData): Partial<IFlow> {
     return {
       financialInformationBankAccountsRetrieving: {
         countryCodes: settings.countryCodes.value,
@@ -61,7 +60,7 @@ export class BankAccountData extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onAdd(): DeepPartial<IFlow> {
+  onAdd(): Partial<IFlow> {
     return {
       financialInformationBankAccountsRetrieving: {
         countryCodes: [],
@@ -72,7 +71,7 @@ export class BankAccountData extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onRemove(): DeepPartial<IFlow> {
+  onRemove(): Partial<IFlow> {
     return {
       financialInformationBankAccountsRetrieving: {
         countryCodes: [],

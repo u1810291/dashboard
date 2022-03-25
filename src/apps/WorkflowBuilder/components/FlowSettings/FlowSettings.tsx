@@ -18,6 +18,8 @@ import { IWorkflow } from 'models/Workflow.model';
 import { toIsoPeriod } from 'lib/date';
 import { useFormatMessage } from 'apps/intl';
 import { ProductTypes } from 'models/Product.model';
+import { Loadable } from 'models/Loadable.model';
+import { IFlow } from 'models/Flow.model';
 import { selectWorkflowBuilderChangeableFlow, selectWorkflowBuilderProductsInGraph, selectWorkflowPolicyInterval } from '../../store/WorkflowBuilder.selectors';
 import { validatePolicyInterval } from '../../models/WorkflowBuilder.model';
 import { workflowBuilderChangeableFlowUpdate, workflowBuilderDelete } from '../../store/WorkflowBuilder.action';
@@ -30,7 +32,7 @@ export function FlowSettings() {
   const classes = useStyles();
   const formatMessage = useFormatMessage();
   const { id: flowId, name: flowName, workflowSetting: { digitalSignature, gdprSetting: { interval } } } = useSelector<any, IWorkflow>(selectWorkflowBuilderChangeableFlow);
-  const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
+  const merchantFlowsModel = useSelector<any, Loadable<IFlow[]>>(selectMerchantFlowsModel);
   const productsInGraph = useSelector<any, ProductTypes[]>(selectWorkflowBuilderProductsInGraph);
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const policyIntervalFromStore = useSelector<any, GDPRSettings>(selectWorkflowPolicyInterval);
@@ -75,7 +77,7 @@ export function FlowSettings() {
               },
           },
         // TODO @vladislav.snimshchikov: resolve types problem in the next iteration of workflowbuilder
-      },
+      } as Partial<IWorkflow>,
     ));
   }, [dispatch, policyIntervalError]);
 
@@ -90,7 +92,7 @@ export function FlowSettings() {
         },
       },
       // TODO @vladislav.snimshchikov: resolve types problem in the next iteration of workflowbuilder
-    }));
+    } as Partial<IWorkflow>));
     if (!isChecked) {
       setPolicyIntervalError(null);
     }

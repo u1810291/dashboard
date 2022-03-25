@@ -1,9 +1,9 @@
 import { Product, ProductInputTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { isNil } from 'lib/isNil';
-import { IWorkflow } from 'models/Workflow.model';
+import { IWorkflow, removeBlock, updateBlock } from 'models/Workflow.model';
 import { FiMapPin } from 'react-icons/fi';
 import { ProductBaseWorkflow } from 'apps/WorkflowBuilder';
-import { DeepPartial } from 'lib/object';
+import { IpCheckValidationTypes } from 'models/IpCheck.model';
 import { IpCheckCheckTypes, IpCheckMeritId, IpCheckSettingsTypes, IpCheckVerificationOutput, IVerificationWithIpCheck } from '../models/IpCheck.model';
 import { IpCheckPdf } from '../components/IpCheckPdf/IpCheckPdf';
 import { IpCheckVerification } from '../components/IpCheckVerification/IpCheckVerification';
@@ -38,7 +38,7 @@ export class IpCheckMerit extends ProductBaseWorkflow implements Product<IWorkfl
     const productBlock = this.getProductBlock(flow);
     return {
       [IpCheckSettingsTypes.IpValidation]: {
-        value: productBlock.setting?.geoRestriction?.restriction,
+        value: productBlock?.setting?.geoRestriction?.restriction,
       },
       [IpCheckSettingsTypes.AllowedRegions]: {
         value: productBlock?.setting?.geoRestriction.allowedCountries,
@@ -49,25 +49,48 @@ export class IpCheckMerit extends ProductBaseWorkflow implements Product<IWorkfl
     };
   }
 
-  serialize(settings: ProductSettingsIpCheck): DeepPartial<IWorkflow> {
-    return {
-      block: [
-        {
-          meritId: this.meritId,
-          setting: {
-            vpnDetection: !!settings[IpCheckSettingsTypes.VpnDetection]?.value,
-            geoRestriction: {
-              allowedCountries: settings[IpCheckSettingsTypes.AllowedRegions]?.value,
-              restriction: settings[IpCheckSettingsTypes.IpValidation]?.value,
-            },
-          },
+  serialize(settings: ProductSettingsIpCheck, flow?: IWorkflow): Partial<IWorkflow> {
+    const newBlock = {
+      setting: {
+        vpnDetection: !!settings[IpCheckSettingsTypes.VpnDetection]?.value,
+        geoRestriction: {
+          allowedCountries: settings[IpCheckSettingsTypes.AllowedRegions]?.value,
+          restriction: settings[IpCheckSettingsTypes.IpValidation]?.value,
         },
-      ],
+      },
+    };
+    const resultBlockArray = updateBlock(this.meritId, flow.block, newBlock);
+
+    return {
+      block: resultBlockArray,
     };
   }
 
-  onRemove(): DeepPartial<IWorkflow> {
-    return {};
+  onAdd(flow: IWorkflow): Partial<IWorkflow> {
+    // TODO @vladislav.snimshchikov: Change the template when adding a new block, when information about the expected format appears
+    const meritBlock = {
+      id: this.order,
+      blockReferenceName: `${this.meritId}-${this.order}`,
+      name: '',
+      type: '',
+      setting: {
+        vpnDetection: false,
+        geoRestriction: {
+          allowedCountries: [],
+          restriction: IpCheckValidationTypes.Basic,
+        },
+      },
+    };
+
+    const resultBlockArray = [...flow.block, meritBlock];
+    return {
+      ...flow,
+      block: resultBlockArray,
+    };
+  }
+
+  onRemove(flow?: IWorkflow): Partial<IWorkflow> {
+    return { block: removeBlock(this.meritId, flow.block) };
   }
 
   isInFlow(workflow: IWorkflow): boolean {

@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import { DocumentTypes } from 'models/Document.model';
 import { ProductIntegrationTypes } from 'models/Product.model';
 import { IFacematchFlow } from 'apps/FacematchService';
-import { FlowStyle } from 'models/Workflow.model';
+import { IFlowStyle } from 'models/Workflow.model';
 import { IESignatureFlow } from './ESignature.model';
 import { IpValidation } from './IpCheckOld.model';
 import { InputValidationCheck } from './ImageValidation.model';
@@ -61,7 +61,7 @@ export interface IFlow {
   policyInterval?: string;
   postponedTimeout?: string;
   pinnedCountries?: string[];
-  style?: FlowStyle;
+  style?: IFlowStyle;
   customFieldsConfig?: Partial<VerificationCustomFieldsInputData>;
   supportedCountries?: string[];
   updatedAt?: string;

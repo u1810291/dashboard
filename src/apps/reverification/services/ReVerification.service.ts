@@ -7,7 +7,6 @@ import { VerificationResponse } from 'models/VerificationOld.model';
 import { BiometricTypes } from 'models/Biometric.model';
 import { getReVerificationStep } from 'models/ReVerification.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
-import { DeepPartial } from 'lib/object';
 import { ReVerificationVerification } from '../components/ReVerificationVerification/ReVerificationVerification';
 import { ReVerificationSettings } from '../components/ReVerificationSettings/ReVerificationSettings';
 import { ReVerificationSettingTypes, IReverificationVerification } from '../models/ReVerification.model';
@@ -55,7 +54,7 @@ export class ReVerification extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  serialize(settings: ProductSettingsReVerification): DeepPartial<IFlow> {
+  serialize(settings: ProductSettingsReVerification): Partial<IFlow> {
     return {
       reFacematchThreshold: settings[ReVerificationSettingTypes.ReFacematchThreshold].value,
       verificationPatterns: {
@@ -65,7 +64,7 @@ export class ReVerification extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onAdd(): DeepPartial<IFlow> {
+  onAdd(): Partial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.Biometrics]: BiometricTypes.liveness,
@@ -74,7 +73,7 @@ export class ReVerification extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onRemove(): DeepPartial<IFlow> {
+  onRemove(): Partial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.Biometrics]: BiometricTypes.none,

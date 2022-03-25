@@ -5,7 +5,6 @@ import { VerificationResponse } from 'models/VerificationOld.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { VerificationStepTypes } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
-import { DeepPartial } from 'lib/object';
 import { CustomWatchlistCheckTypes, CustomWatchlistSettingsTypes, CustomWatchlistStep } from '../models/CustomWatchlist.models';
 import { ReactComponent as FilesWithEye } from '../assets/files-with-eye.svg';
 import { CustomWatchlistVerification } from '../components/CustomWatchlistVerification/CustomWatchlistVerification';
@@ -40,13 +39,13 @@ export class CustomWatchlist extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  serialize(settings: ProductSettingsCustomWatchlist): DeepPartial<IFlow> {
+  serialize(settings: ProductSettingsCustomWatchlist): Partial<IFlow> {
     return {
       [CustomWatchlistSettingsTypes.Watchlists]: settings[CustomWatchlistSettingsTypes.Watchlists].value,
     };
   }
 
-  onAdd(): DeepPartial<IFlow> {
+  onAdd(): Partial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.CustomWatchlistsValidation]: true,
@@ -54,7 +53,7 @@ export class CustomWatchlist extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onRemove(): DeepPartial<IFlow> {
+  onRemove(): Partial<IFlow> {
     return {
       [CustomWatchlistSettingsTypes.Watchlists]: [],
       verificationPatterns: {

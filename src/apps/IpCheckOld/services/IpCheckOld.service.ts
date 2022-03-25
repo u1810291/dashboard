@@ -8,7 +8,6 @@ import { VerificationResponse } from 'models/VerificationOld.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { IpCheckVerification, IpCheckSettings, IpCheckCheckTypes, IpCheckSettingsTypes, IpCheckErrorCodes, IpCheckVerificationOutput } from 'apps/IpCheck';
-import { DeepPartial } from 'lib/object';
 
 type ProductSettingsIpCheck = ProductSettings<IpCheckSettingsTypes>;
 
@@ -47,7 +46,7 @@ export class IpCheckOld extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  serialize(settings: ProductSettingsIpCheck): DeepPartial<IFlow> {
+  serialize(settings: ProductSettingsIpCheck): Partial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.IpValidation]: settings[IpCheckSettingsTypes.IpValidation].value,
@@ -59,7 +58,7 @@ export class IpCheckOld extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onAdd(): DeepPartial<IFlow> {
+  onAdd(): Partial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.IpValidation]: IpCheckValidationTypes.Basic,
@@ -67,7 +66,7 @@ export class IpCheckOld extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onRemove(): DeepPartial<IFlow> {
+  onRemove(): Partial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.IpValidation]: IpCheckValidationTypes.None,

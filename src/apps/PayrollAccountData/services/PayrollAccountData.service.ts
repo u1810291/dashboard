@@ -5,7 +5,6 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { FlowIssue } from 'apps/ui';
-import { DeepPartial } from 'lib/object';
 import { PayrollAccountDataVerification } from '../components/PayrollAccountDataVerification/PayrollAccountDataVerification';
 import { PayrollAccountDataSettings } from '../components/PayrollAccountDataSettings/PayrollAccountDataSettings';
 import { getPayrollAccountData, PayrollAccountDataSettingTypes, IPayrollAccountDataVerification, PayrollAccountDataCheckTypes } from '../models/PayrollAccountData.model';
@@ -53,7 +52,7 @@ export class PayrollAccountData extends ProductBaseFlowBuilder implements Produc
     };
   }
 
-  serialize(settings: ProductSettingsPayrollAccountData): DeepPartial<IFlow> {
+  serialize(settings: ProductSettingsPayrollAccountData): Partial<IFlow> {
     return {
       financialInformationPayrollAccountsRetrieving: {
         countryCodes: settings.countryCodes.value,
@@ -61,7 +60,7 @@ export class PayrollAccountData extends ProductBaseFlowBuilder implements Produc
     };
   }
 
-  onAdd(): DeepPartial<IFlow> {
+  onAdd(): Partial<IFlow> {
     return {
       financialInformationPayrollAccountsRetrieving: {
         countryCodes: [],
@@ -72,7 +71,7 @@ export class PayrollAccountData extends ProductBaseFlowBuilder implements Produc
     };
   }
 
-  onRemove(): DeepPartial<IFlow> {
+  onRemove(): Partial<IFlow> {
     return {
       financialInformationPayrollAccountsRetrieving: {
         countryCodes: [],

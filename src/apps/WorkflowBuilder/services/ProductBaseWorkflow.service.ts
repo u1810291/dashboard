@@ -3,8 +3,7 @@ import React, { FC } from 'react';
 import { IconType } from 'react-icons';
 import { IProductCard, MeritId, Product, ProductCheck, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { IVerificationWorkflow } from 'models/Verification.model';
-import { WorkflowBlockResponse } from 'models/Workflow.model';
-import { DeepPartial } from 'lib/object';
+import { IWorkflowBlock } from 'models/Workflow.model';
 
 // WIP: All products that depend on IWorkflow will need to conform to its final IWorkflow interface.
 // "any" for now to unblock intermediary steps towards it. @pablo.saucedo
@@ -66,12 +65,13 @@ export abstract class ProductBaseWorkflow implements Partial<Product<IWorkflow, 
     };
   }
 
-  onAdd(): DeepPartial<IWorkflow> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onAdd(flow?: IWorkflow): Partial<IWorkflow> {
     return null;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onRemove(flow: IWorkflow): DeepPartial<IWorkflow> {
+  onRemove(flow: IWorkflow): Partial<IWorkflow> {
     return null;
   }
 
@@ -84,7 +84,7 @@ export abstract class ProductBaseWorkflow implements Partial<Product<IWorkflow, 
     return false;
   }
 
-  getProductBlock(workflow: IWorkflow): WorkflowBlockResponse {
+  getProductBlock(workflow: IWorkflow): IWorkflowBlock {
     return workflow?.block?.find((item) => item?.blockReferenceName?.includes(this.meritId));
   }
 }
