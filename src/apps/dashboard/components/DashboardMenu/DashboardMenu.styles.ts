@@ -84,36 +84,9 @@ export const useStyles = makeStyles((theme) => ({
       lineHeight: '28px',
     },
   },
-  inviteButton: {
-    backgroundColor: theme.palette.common.lightblue,
-    width: '100%',
-    justifyContent: 'flex-start',
-    minWidth: 0,
-    height: 30,
-    borderRadius: 60,
-    boxShadow: 'none',
-    padding: [[3, 8]],
-    '&:hover, &:focus': {
-      backgroundColor: theme.palette.common.lightbluehover,
-    },
-    '& .MuiButton-label': {
-      fontSize: 14,
-    },
-    '& .MuiButton-startIcon': {
-      width: 15,
-      margin: [[0, 8, 0, 0]],
-    },
-  },
-  inviteButtonSm: {
-    width: 30,
-    padding: [[3, 8]],
-    '& .MuiButton-startIcon': {
-      margin: 0,
-    },
-  },
   menuButton: {
     width: '100%',
-    padding: [[6, 22]],
+    padding: '6px 22px',
     minHeight: 50,
     justifyContent: 'flex-start',
     fontWeight: 'bold',

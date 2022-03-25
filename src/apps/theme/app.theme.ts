@@ -18,11 +18,14 @@ export const AppTheme = createTheme({
     background: {
       default: appPalette.white,
       loader: appPalette.whiteopacity,
+      hover: appPalette.white10,
+      focus: appPalette.white15,
     },
     text: {
       main: appPalette.black75,
       secondary: appPalette.black90,
       disabled: appPalette.black50,
+      light: appPalette.black7,
     },
     success: {
       main: appPalette.green,
