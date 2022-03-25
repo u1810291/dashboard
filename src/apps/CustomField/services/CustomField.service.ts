@@ -62,6 +62,8 @@ export class CustomFieldService extends ProductBaseFlowBuilder implements Produc
       customFieldsConfig: { fields: [] },
       verificationPatterns: {
         [VerificationPatternTypes.CustomFieldsValidation]: false,
+        [VerificationPatternTypes.NigerianTin]: false,
+        [VerificationPatternTypes.NigerianCac]: false,
       },
     };
   }
