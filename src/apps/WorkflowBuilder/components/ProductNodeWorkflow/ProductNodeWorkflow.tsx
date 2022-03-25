@@ -1,27 +1,26 @@
-import { Box } from '@material-ui/core';
-import { ProductCard } from 'apps/Product';
-import { useProductRemoving } from 'apps/Product/hooks/ProductRemoving.hook';
+import Box from '@material-ui/core/Box';
+import { ProductCard, useProductRemoving } from 'apps/Product';
 import classNames from 'classnames';
 import { ProductTypes } from 'models/Product.model';
 import React, { useCallback } from 'react';
 import { Position } from 'react-flow-renderer';
 import { useDispatch, useSelector } from 'react-redux';
-import { dagreGraphService } from 'apps/WorkflowBuilder/index';
-import { useStyles } from 'apps/WorkflowBuilder/components/ProductNode/ProductNode.styles';
-import { ReactFlowCustomHandler } from 'apps/WorkflowBuilder/components/ReactFlowCustomHandler/ReactFlowCustomHandler';
-import { flowBuilderProductRemove, flowBuilderProductSelect } from 'apps/flowBuilder/store/FlowBuilder.action';
-import { selectFlowBuilderSelectedId } from 'apps/flowBuilder/store/FlowBuilder.selectors';
+import { ReactFlowCustomHandler } from '../ReactFlowCustomHandler/ReactFlowCustomHandler';
+import { workflowBuilderProductRemove, workflowBuilderProductSelect } from '../../store/WorkflowBuilder.action';
+import { useStyles } from './ProductNodeWorkflow.styles';
+import { selectWorkflowBuilderSelectedId } from '../../store/WorkflowBuilder.selectors';
+import { dagreGraphService } from '../../services/dagreGraph.service';
 
-export function ProductNode({ id }: {
+export function ProductNodeWorkflow({ id }: {
   id: ProductTypes;
 }) {
   const dispatch = useDispatch();
   const removeProduct = useProductRemoving();
-  const selectedProduct = useSelector<ProductTypes>(selectFlowBuilderSelectedId);
+  const selectedProduct = useSelector<any, ProductTypes>(selectWorkflowBuilderSelectedId);
   const classes = useStyles();
 
-  const handleRemoveProduct = useCallback((productType) => {
-    dispatch(flowBuilderProductRemove(productType));
+  const handleRemoveProduct = useCallback((productType: ProductTypes) => {
+    dispatch(workflowBuilderProductRemove(productType));
     dagreGraphService.getGraph().removeNode(productType);
   }, [dispatch]);
 
@@ -30,7 +29,7 @@ export function ProductNode({ id }: {
   }, [handleRemoveProduct, id, removeProduct]);
 
   const handleSelect = useCallback(() => {
-    dispatch(flowBuilderProductSelect(id));
+    dispatch(workflowBuilderProductSelect(id));
   }, [dispatch, id]);
 
   return (

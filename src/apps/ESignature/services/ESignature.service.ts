@@ -6,7 +6,6 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiPenTool } from 'react-icons/fi';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
-import { DeepPartial } from 'lib/object';
 import { ESignatureSettings } from '../components/ESignatureSettings/ESignatureSettings';
 import { ESignatureVerification } from '../components/ESignatureVerification/ESignatureVerification';
 
@@ -57,7 +56,7 @@ export class ESignatureService extends ProductBaseFlowBuilder implements Product
       };
     }
 
-    serialize(settings: ProductSettings<ESignatureCheckSettingsEnum>): DeepPartial<IFlow> {
+    serialize(settings: ProductSettings<ESignatureCheckSettingsEnum>): Partial<IFlow> {
       return {
         electronicSignature: {
           templates: {
@@ -72,7 +71,7 @@ export class ESignatureService extends ProductBaseFlowBuilder implements Product
       };
     }
 
-    onRemove(): DeepPartial<IFlow> {
+    onRemove(): Partial<IFlow> {
       return {
         electronicSignature: {
           templates: {

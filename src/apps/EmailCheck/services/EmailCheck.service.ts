@@ -7,7 +7,6 @@ import { MerchantTags } from 'models/Merchant.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { getEmailValidationStep, getEmailRiskStep } from 'models/EmailCheck.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
-import { DeepPartial } from 'lib/object';
 import { EmailCheckCheckTypes, EmailCheckStepModes, EmailCheckSettingTypes, EmailCheckProductSettings } from '../models/EmailCheck.model';
 import { EmailCheckVerification, EmailCheckVerificationData } from '../components/EmailCheckVerification/EmailCheckVerification';
 import { EmailCheckSettings } from '../components/EmailCheckSettings/EmailCheckSettings';
@@ -56,7 +55,7 @@ export class EmailCheck extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  serialize(settings: ProductSettings<EmailCheckSettingTypes>): DeepPartial<IFlow> {
+  serialize(settings: ProductSettings<EmailCheckSettingTypes>): Partial<IFlow> {
     return {
       emailOwnership: {
         [EmailCheckSettingTypes.CompanyName]: settings[EmailCheckSettingTypes.CompanyName].value,
@@ -70,7 +69,7 @@ export class EmailCheck extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onAdd(): DeepPartial<IFlow> {
+  onAdd(): Partial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.EmailOwnershipValidation]: this.merchantTags.includes(MerchantTags.CanUseEmailValidation) ? EmailCheckStepModes.Forced : EmailCheckStepModes.None,
@@ -78,7 +77,7 @@ export class EmailCheck extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onRemove(): DeepPartial<IFlow> {
+  onRemove(): Partial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.EmailOwnershipValidation]: EmailCheckStepModes.None,

@@ -4,7 +4,6 @@ import { VerificationResponse } from 'models/VerificationOld.model';
 import { FiFile } from 'react-icons/fi';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
-import { DeepPartial } from 'lib/object';
 import { CustomDocumentsSettings } from '../components/CustomDocumentSettings/CustomDocumentSettings';
 import { CustomDocumentVerificationProxy } from '../components/CustomDocumentVerificationProxy/CustomDocumentVerificationProxy';
 import { CUSTOM_DOCUMENT_PREFIX, CustomDocumentCheckTypes, CustomDocumentSettingsTypes } from '../models/CustomDocument.model';
@@ -42,13 +41,13 @@ export class CustomDocument extends ProductBaseFlowBuilder implements Product {
       };
     }
 
-    serialize(settings: ProductSettingsCustomDocument): DeepPartial<IFlow> {
+    serialize(settings: ProductSettingsCustomDocument): Partial<IFlow> {
       return {
         verificationSteps: [...settings.restSteps.value, ...settings.neededSteps.value],
       };
     }
 
-    onRemove(flow: IFlow): DeepPartial<IFlow> {
+    onRemove(flow: IFlow): Partial<IFlow> {
       return {
         verificationSteps: [...flow.verificationSteps.filter((stepGroup) => !!stepGroup.find((documentName) => !documentName.startsWith(CUSTOM_DOCUMENT_PREFIX)))],
       };

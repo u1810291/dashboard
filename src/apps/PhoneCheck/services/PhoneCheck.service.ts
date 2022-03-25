@@ -7,7 +7,6 @@ import { VerificationResponse } from 'models/VerificationOld.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
-import { DeepPartial } from 'lib/object';
 import { PhoneCheckCheckTypes, PhoneOwnershipValidationTypes, PhoneCheckSettingTypes } from '../models/PhoneCheck.model';
 import { PhoneCheckSettings } from '../components/PhoneCheckSettings/PhoneCheckSettings';
 import { PhoneCheckVerification, PhoneCheckVerificationData } from '../components/PhoneCheckVerification/PhoneCheckVerification';
@@ -55,7 +54,7 @@ export class PhoneCheck extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  serialize(settings: ProductSettings<PhoneCheckSettingTypes>): DeepPartial<IFlow> {
+  serialize(settings: ProductSettings<PhoneCheckSettingTypes>): Partial<IFlow> {
     return {
       phoneOwnership: {
         [PhoneCheckSettingTypes.CompanyName]: settings[PhoneCheckSettingTypes.CompanyName].value,
@@ -68,7 +67,7 @@ export class PhoneCheck extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onRemove(): DeepPartial<IFlow> {
+  onRemove(): Partial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.PhoneOwnershipValidation]: PhoneOwnershipValidationTypes.None,
@@ -77,7 +76,7 @@ export class PhoneCheck extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onAdd(): DeepPartial<IFlow> {
+  onAdd(): Partial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.PhoneOwnershipValidation]: this.merchantTags.includes(MerchantTags.CanUsePhoneValidation) ? PhoneOwnershipValidationTypes.Sms : PhoneOwnershipValidationTypes.None,

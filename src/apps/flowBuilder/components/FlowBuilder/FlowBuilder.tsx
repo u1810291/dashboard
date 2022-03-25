@@ -1,4 +1,6 @@
-import { Box, Grid, Paper } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { selectProductIsInited, useProduct } from 'apps/Product';
 import { Loader, Placeholder } from 'apps/ui';
@@ -16,8 +18,8 @@ import { Link, useParams } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { WorkflowBuilderIntegrationDetails, dagreGraphService } from 'apps/WorkflowBuilder';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
-import { ProductListSidebar } from 'apps/flowBuilder/components/ProductListSidebar/ProductListSidebar';
-import { DeepPartial } from 'lib/object';
+import { Loadable } from 'models/Loadable.model';
+import { ProductListSidebar } from '../ProductListSidebar/ProductListSidebar';
 import { flowBuilderChangeableFlowLoad, flowBuilderChangeableFlowUpdate, flowBuilderClearStore } from '../../store/FlowBuilder.action';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from '../../store/FlowBuilder.selectors';
 import { useStyles } from './FlowBuilder.styles';
@@ -30,8 +32,8 @@ export function FlowBuilder() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const selectedId = useSelector(selectFlowBuilderSelectedId);
-  const changeableFlowModel = useSelector(selectFlowBuilderChangeableFlowModel);
-  const isProductInited = useSelector(selectProductIsInited);
+  const changeableFlowModel = useSelector<any, Loadable<IFlow>>(selectFlowBuilderChangeableFlowModel);
+  const isProductInited = useSelector<any, boolean>(selectProductIsInited);
   const isBigScreen = useMediaQuery('(min-width:768px)', { noSsr: true });
   const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });
   const classes = useStyles();
@@ -56,7 +58,7 @@ export function FlowBuilder() {
     dagreGraphService.createGraph();
   }, [dispatch, id, asMerchantId, flowListModel.isLoaded, changeableFlowModel]);
 
-  const handleProductUpdate = useCallback((patch: DeepPartial<IFlow>) => {
+  const handleProductUpdate = useCallback((patch: Partial<IFlow>) => {
     dispatch(flowBuilderChangeableFlowUpdate(patch));
   }, [dispatch]);
 

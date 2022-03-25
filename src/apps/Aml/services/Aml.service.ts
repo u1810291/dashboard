@@ -6,7 +6,6 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiDollarSign } from 'react-icons/fi';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
-import { DeepPartial } from 'lib/object';
 import { AmlSettings } from '../components/AmlSettings/AmlSettings';
 import { AmlVerificationProduct } from '../components/AmlVerificationProduct/AmlVerificationProduct';
 
@@ -57,7 +56,7 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  serialize(settings: ProductSettingsAml): DeepPartial<IFlow> {
+  serialize(settings: ProductSettingsAml): Partial<IFlow> {
     let pattern = AmlValidationTypes.None;
     if (settings[AmlSettingsTypes.Search].value) {
       pattern = AmlValidationTypes.Search;
@@ -74,7 +73,7 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onAdd(): DeepPartial<IFlow> {
+  onAdd(): Partial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]: AmlValidationTypes.Search,
@@ -82,7 +81,7 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onRemove(): DeepPartial<IFlow> {
+  onRemove(): Partial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]: AmlValidationTypes.None,

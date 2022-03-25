@@ -1,15 +1,15 @@
 import { GDPRSettings } from 'models/GDPR.model';
 import { Webhook } from 'models/Webhook.model';
-import { DeepPartial, mergeDeep } from 'lib/object';
+import { mergeDeep } from 'lib/object';
 import { MeritId } from 'models/Product.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
 
-export enum WorkflowStatus {
+export enum WorkflowStatusTypes {
   DRAFT = 'DRAFT',
   PUBLISHED = 'PUBLISHED'
 }
 
-enum WorkflowIntegrationType {
+enum WorkflowIntegrationTypes {
   SDK = 'SDK',
   API = 'API'
 }
@@ -18,12 +18,12 @@ export type WorkflowId = string
 export type ReferenceNameId = string
 export type IWorkflowInVerification = Pick<IWorkflow, 'id' | 'name' | 'version'>;
 
-export interface WorkflowResponse {
+export interface IWorkflowResponse {
   status: string;
-  workflow: IWorkflowResponse;
+  workflow: IWorkflow;
 }
 
-export interface WorkflowBlockResponse<SettingsType = any> {
+export interface IWorkflowBlock<SettingsType = any>{
   id: number;
   blockReferenceName: ReferenceNameId;
   name: string;
@@ -31,31 +31,27 @@ export interface WorkflowBlockResponse<SettingsType = any> {
   type: any;
 }
 
-export interface WorkflowBlock extends WorkflowBlockResponse{
-  meritId: MeritId;
-}
-
-export interface FlowStyle {
+export interface IFlowStyle {
   color?: string;
   language?: string;
 }
 
-export interface WorkflowSettings{
+export interface IWorkflowSettings {
     gdprSetting: GDPRSettings;
     digitalSignature: DigitalSignatureProvider;
-    style: FlowStyle;
+    style: IFlowStyle;
     logoUrl: null | string;
     webhook: Webhook;
 }
 
-export interface IWorkflowResponse{
+export interface IWorkflow{
   id: WorkflowId;
   name: string;
-  status: WorkflowStatus;
+  status: WorkflowStatusTypes;
   version: null | number;
   templateId: null | string;
-  block: WorkflowBlockResponse[];
-  integrationType: WorkflowIntegrationType;
+  block: IWorkflowBlock[];
+  integrationType: WorkflowIntegrationTypes;
   merchantId: string;
   merchantAgentId: string;
   clientId: string;
@@ -64,32 +60,30 @@ export interface IWorkflowResponse{
   /* TODO: @vladislav.snimshchikov: why date is number? */
   createdDate: number;
   updatedDate: number;
-  workflowSetting: WorkflowSettings;
+  workflowSetting: IWorkflowSettings;
 }
 
-export interface IWorkflow extends IWorkflowResponse{
-  block: WorkflowBlock[];
-}
-
-export function mergeBlocks(blocks: WorkflowBlock[], newBlocks: WorkflowBlock[]): WorkflowBlock[] | null {
-  if (!Array.isArray(blocks) || !Array.isArray(newBlocks)) {
+export function removeBlock(meritId: MeritId, blocks: IWorkflowBlock[]): IWorkflowBlock[] {
+  if (!Array.isArray(blocks)) {
     return null;
   }
 
-  return blocks.map((block) => {
-    const blockToMerge = newBlocks.find((item) => block?.blockReferenceName?.includes(item.meritId || ''));
-    if (blockToMerge) {
-      return mergeDeep(block, blockToMerge);
-    }
-    return block;
-  });
+  return blocks.filter((item) => !item.blockReferenceName.includes(meritId));
 }
 
-export function updateWorkflow(currentWorkflow: IWorkflow, newWorkflow: DeepPartial<IWorkflow>) {
-  const mergedWorkflow = mergeDeep(currentWorkflow, newWorkflow);
-  const mergedBlocks = mergeBlocks(currentWorkflow?.block, newWorkflow?.block as WorkflowBlock[]);
-  return {
-    ...mergedWorkflow,
-    block: mergedBlocks,
-  };
+export function updateBlock(meritId: MeritId, blocks: IWorkflowBlock[], newBlock: Partial<IWorkflowBlock>): IWorkflowBlock[] | null {
+  if (!Array.isArray(blocks)) {
+    return null;
+  }
+
+  const blockIndex = blocks.findIndex((item) => item.blockReferenceName.includes(meritId));
+  if (blockIndex === -1) {
+    return null;
+  }
+
+  const oldBlock = blocks[blockIndex];
+  const resultBlockArray = [...blocks];
+  resultBlockArray[blockIndex] = mergeDeep(oldBlock, newBlock);
+
+  return resultBlockArray;
 }
