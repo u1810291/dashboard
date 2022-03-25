@@ -26,6 +26,12 @@ module.exports = function(app) {
     cookieDomainRewrite: 'localhost',
     logLevel: 'debug',
   }));
+  app.use('/file', proxy({
+    target: process.env.REACT_APP_MEDIA_URL,
+    changeOrigin: true,
+    secure: true,
+    logLevel: 'debug',
+  }));
   app.use('/maps', proxy({
     target: process.env.REACT_APP_MAP_URL,
     changeOrigin: true,

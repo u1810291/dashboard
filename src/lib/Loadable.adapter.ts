@@ -1,6 +1,6 @@
 import { ErrorMessages } from 'models/Error.model';
 import { Loadable } from 'models/Loadable.model';
-import { ActionSubTypes } from 'state/store.utils';
+import { ActionSubTypes, ReducerHandlers } from 'state/store.utils';
 
 export class LoadableAdapter {
   static createState<T>(value: T): Loadable<T> {
@@ -23,7 +23,7 @@ export class LoadableAdapter {
       };
   }
 
-  static createHandlers(actionGroupName, sliceName) {
+  static createHandlers<T>(actionGroupName: string, sliceName: string): ReducerHandlers<T> {
     return {
       [`${actionGroupName}_${ActionSubTypes.Request}`](state) {
         return LoadableAdapter.applyAction(state, sliceName, LoadableAdapter.request);
