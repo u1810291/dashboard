@@ -6,6 +6,7 @@ import { Product, ProductInputTypes, ProductIntegrationTypes, ProductTypes } fro
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { InputTypes } from 'models/Input.model';
+import { DeepPartial } from 'lib/object';
 import { CustomField, CustomFieldProductSettings, CustomFieldSettingTypes, CustomFieldTypes, flattenTree } from '../models/CustomField.model';
 import { CustomFieldSettings } from '../components/CustomFieldSettings/CustomFieldSettings';
 import { CustomFieldVerification } from '../components/CustomFieldVerification/CustomFieldVerification';
@@ -57,7 +58,7 @@ export class CustomFieldService extends ProductBaseFlowBuilder implements Produc
     return verification.inputs.some((i) => i.id === InputTypes.CustomFields);
   }
 
-  onRemove(): Partial<IFlow> {
+  onRemove(): DeepPartial<IFlow> {
     return {
       customFieldsConfig: { fields: [] },
       verificationPatterns: {
@@ -68,7 +69,7 @@ export class CustomFieldService extends ProductBaseFlowBuilder implements Produc
     };
   }
 
-  onAdd(): Partial<IFlow> {
+  onAdd(): DeepPartial<IFlow> {
     return {
       customFieldsConfig: { fields: [] },
       verificationPatterns: {
@@ -77,7 +78,7 @@ export class CustomFieldService extends ProductBaseFlowBuilder implements Produc
     };
   }
 
-  serialize(settings: CustomFieldProductSettings): Partial<IFlow> {
+  serialize(settings: CustomFieldProductSettings): DeepPartial<IFlow> {
     const fields = settings[CustomFieldSettingTypes.fields].value;
     return {
       customFieldsConfig: { fields },

@@ -2,6 +2,7 @@ import { Product, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { IFlow } from 'models/Flow.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
+import { DeepPartial } from 'lib/object';
 import { MetadataVerificationProduct } from '../components/MetadataVerificationProduct/MetadataVerificationProduct';
 
 export class Metadata extends ProductBaseFlowBuilder implements Product {
@@ -37,7 +38,7 @@ export class Metadata extends ProductBaseFlowBuilder implements Product {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  serialize(settings: ProductSettings<any>): Partial<IFlow> {
+  serialize(settings: ProductSettings<any>): DeepPartial<IFlow> {
     return undefined;
   }
 }
