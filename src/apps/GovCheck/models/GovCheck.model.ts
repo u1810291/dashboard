@@ -34,6 +34,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.ArgentinianRenaperFacematch]: false,
   [VerificationPatternTypes.BolivianOep]: false,
   [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
+  [VerificationPatternTypes.BrazilianCpfLight]: false,
   [VerificationPatternTypes.ChileanRut]: false,
   [VerificationPatternTypes.ChileanDriverLicense]: false,
   [VerificationPatternTypes.ChileanRegistroCivil]: false,
@@ -239,6 +240,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
           description: true,
           isSupportFacematch: true,
         },
+      },
+      {
+        id: VerificationPatternTypes.BrazilianCpfLight,
+        default: false,
       },
       {
         id: VerificationPatternTypes.BrazilianNoCriminalRecordsValidation,
@@ -545,6 +550,15 @@ export const govCheckDisplayOptions = {
     governmentFaceMatchScorePercentage: {
       dependentFieldForFailedCheck: 'governmentFaceMatched',
       hiddenIfNotExists: true,
+    },
+  },
+  [DocumentStepTypes.BrazilianCpfLight]: {
+    fullName: {},
+    dateOfBirth: {
+      inline: true,
+    },
+    taxStatus: {
+      inline: true,
     },
   },
   [DocumentStepTypes.DominicanJce]: {
