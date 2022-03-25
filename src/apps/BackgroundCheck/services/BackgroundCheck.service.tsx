@@ -5,6 +5,7 @@ import { IFlow } from 'models/Flow.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { BackgroundChecksSteps, BackgroundCheckSettingTypes, BackgroundChecksTypes, backgroundCheckVerificationPatterns } from 'models/BackgroundCheck.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
+import { DeepPartial } from 'lib/object';
 import { BackgroundCheckSettings } from '../components/BackgroundCheckSettings/BackgroundCheckSettings';
 import { BackgroundCheckVerificationProduct } from '../components/BackgroundCheckVerificationProduct/BackgroundCheckVerificationProduct';
 import { ReactComponent as BackgroundCheckSVG } from '../assets/background-check.svg';
@@ -38,7 +39,7 @@ export class BackgroundCheck extends ProductBaseFlowBuilder implements Product {
     return verification?.documents || [];
   }
 
-  onAdd(): Partial<IFlow> {
+  onAdd(): DeepPartial<IFlow> {
     return {};
   }
 
@@ -67,13 +68,13 @@ export class BackgroundCheck extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  serialize(settings: ProductSettingsBackgroundCheck): Partial<IFlow> {
+  serialize(settings: ProductSettingsBackgroundCheck): DeepPartial<IFlow> {
     return {
       verificationPatterns: settings[BackgroundCheckSettingTypes.BackgroundChecksSetting]?.value,
     };
   }
 
-  onRemove(): Partial<IFlow> {
+  onRemove(): DeepPartial<IFlow> {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.BackgroundMexicanBuholegal]: false,

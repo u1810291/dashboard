@@ -17,6 +17,7 @@ import { DocumentVerificationIssues } from 'apps/documentVerification/components
 import { DocumentIsStepNotSpecifiedIssues } from 'apps/documentVerification/components/DocumentIsStepNotSpecifiedIssues/DocumentIsIsStepNotSpecifiedIssues';
 import { DocumentVerificationSettings } from 'apps/documentVerification/components/DocumentVerificationSettings/DocumentVerificationSettings';
 import { DocumentVerificationCheckTypes, DocumentVerificationSettingTypes, ProductSettingsDocumentVerification } from 'apps/documentVerification/models/DocumentVerification.model';
+import { DeepPartial } from 'lib/object';
 
 export class DocumentVerificationOld extends ProductBaseFlowBuilder implements Product {
   id = ProductTypes.DocumentVerification;
@@ -123,7 +124,7 @@ export class DocumentVerificationOld extends ProductBaseFlowBuilder implements P
     };
   }
 
-  serialize(settings: ProductSettingsDocumentVerification): Partial<IFlow> {
+  serialize(settings: ProductSettingsDocumentVerification): DeepPartial<IFlow> {
     return {
       verificationSteps: [...settings.documentSteps.value, ...settings.otherSteps.value],
       denyUploadsFromMobileGallery: settings.denyUploadRequirement.value,
@@ -150,7 +151,7 @@ export class DocumentVerificationOld extends ProductBaseFlowBuilder implements P
     };
   }
 
-  onRemove(flow: IFlow): Partial<IFlow> {
+  onRemove(flow: IFlow): DeepPartial<IFlow> {
     const otherSteps = flow?.verificationSteps.filter((group) => !(intersection(group, [DocumentTypes.Passport, DocumentTypes.NationalId, DocumentTypes.DrivingLicense, DocumentTypes.ProofOfResidency]).length > 0));
     let electronicSignature: IESignatureFlow = flow?.electronicSignature;
     if (flow?.electronicSignature?.acceptanceCriteria.isDocumentsRequired) {

@@ -10,6 +10,7 @@ import { GovCheckSettings } from 'apps/GovCheck/components/GovCheckSettings/GovC
 import { getGovCheckRootSteps, getGovCheckVerificationSteps, GovCheckVerificationData, GovernmentCheckSettingTypes, GovernmentChecksTypes, isGovCheckHaveDependsIssue, isGovCheckInFlow, verificationPatternsGovchecksDefault } from 'apps/GovCheck/models/GovCheck.model';
 import { GovCheckVerificationProduct } from 'apps/GovCheck/components/GovCheckVerificationProduct/GovCheckVerificationProduct';
 import { GovCheckIssue } from 'apps/GovCheck/components/GovCheckIssue/GovCheckIssue';
+import { DeepPartial } from 'lib/object';
 
 type ProductSettingsGovCheck = ProductSettings<GovernmentCheckSettingTypes>;
 
@@ -83,13 +84,13 @@ export class GovernmentCheck extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onRemove(): Partial<IFlow> {
+  onRemove(): DeepPartial<IFlow> {
     return {
       verificationPatterns: verificationPatternsGovchecksDefault,
     };
   }
 
-  serialize(settings: ProductSettingsGovCheck): Partial<IFlow> {
+  serialize(settings: ProductSettingsGovCheck): DeepPartial<IFlow> {
     return {
       postponedTimeout: settings[GovernmentCheckSettingTypes.PostponedTimeout]?.value,
       verificationPatterns: settings[GovernmentCheckSettingTypes.CountriesGovChecks]?.value,

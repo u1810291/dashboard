@@ -8,6 +8,7 @@ import { FiUser } from 'react-icons/fi';
 import isNil from 'lodash/isNil';
 import { getStepStatus, IStep, StepStatus } from 'models/Step.model';
 import { GovCheckStepTypes } from 'apps/GovCheck/models/GovCheck.model';
+import { DeepPartial } from 'lib/object';
 import { FacematchCheckSettingsTypes, FacematchCheckStepData, FacematchSourceTypes, FACEMATCH_DEFAULT_APPROVE_THRESHOLD, FACEMATCH_DEFAULT_REJECT_THRESHOLD, IFacematchSource, IFacematchSourceDocumentOptions, IFacematchSourceGovCheckOptions } from '../models/Facematch.model';
 import { FacematchSettings } from '../components/FacematchSettings/FacematchSettings';
 import { FacematchVerificationIssues } from '../components/FacematchVerificationIssues/FacematchVerificationIssues';
@@ -67,7 +68,7 @@ export class Facematch extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  serialize(settings: ProductSettings<FacematchCheckSettingsTypes>): Partial<IFlow> {
+  serialize(settings: ProductSettings<FacematchCheckSettingsTypes>): DeepPartial<IFlow> {
     return {
       verificationPatterns: {
         ...(settings[FacematchCheckSettingsTypes.CountriesGovChecks]?.value || {}),
@@ -91,7 +92,7 @@ export class Facematch extends ProductBaseFlowBuilder implements Product {
     return flow?.verificationPatterns?.[VerificationPatternTypes.Facematch];
   }
 
-  onAdd(): Partial<IFlow> {
+  onAdd(): DeepPartial<IFlow> {
     return {
       facematchServiceConfig: {
         sources: [],
@@ -104,7 +105,7 @@ export class Facematch extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onRemove(): Partial<IFlow> {
+  onRemove(): DeepPartial<IFlow> {
     return {
       facematchServiceConfig: {
         sources: [],

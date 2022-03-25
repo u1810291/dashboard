@@ -1,22 +1,18 @@
-import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
-import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiUserCheck } from 'react-icons/fi';
-import { IFlow } from 'models/Flow.model';
-import { BiometricSteps, BiometricTypes, IDuplicateSelfieStepData, SelfieStepTypes } from 'models/Biometric.model';
 import { BiometricsVerificationProduct } from 'apps/biometrics';
-import { VerificationResponse } from 'models/VerificationOld.model';
-import { getStepStatus, IStep, StepStatus } from 'models/Step.model';
-import { IESignatureFlow } from 'models/ESignature.model';
-import { GovCheckStepTypes } from 'apps/GovCheck';
-import { BiometricVerificationCheckTypes, BiometricVerificationSettingsTypes } from '../models/BiometricVerification.model';
+import { ProductBaseWorkflow } from 'apps/WorkflowBuilder';
+import { DeepPartial } from 'lib/object';
+import { IWorkflow } from 'models/Workflow.model';
+import { IVerificationWorkflow } from 'models/Verification.model';
+import { BiometricVerificationCheckTypes, BiometricVerificationId, BiometricVerificationSettingsTypes } from '../models/BiometricVerification.model';
 import { BiometricVerificationSettings } from '../components/BiometricVerificationSettings';
-import { BiometricVerificationRemovingAlert } from '../components/BiometricVerificationRemovingAlert';
 
 type ProductSettingsBiometric = ProductSettings<BiometricVerificationSettingsTypes>;
 
-export class BiometricVerification extends ProductBaseFlowBuilder implements Product {
+export class BiometricVerification extends ProductBaseWorkflow implements Product<IWorkflow, IVerificationWorkflow> {
   id = ProductTypes.BiometricVerification;
+  meritId = BiometricVerificationId;
   order = 200;
   integrationTypes = [
     ProductIntegrationTypes.Sdk,
@@ -40,81 +36,39 @@ export class BiometricVerification extends ProductBaseFlowBuilder implements Pro
   component = BiometricVerificationSettings;
   componentVerification = BiometricsVerificationProduct;
   requiredProductType = null;
+  componentPdf = null
 
-  isInFlow(flow: IFlow): boolean {
-    return flow?.verificationPatterns?.[VerificationPatternTypes.Biometrics] !== BiometricTypes.none && !flow?.verificationPatterns?.[VerificationPatternTypes.ReFacematch];
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  isInFlow(workflow: IWorkflow): boolean {
+    return false;
   }
 
-  onAdd(): Partial<IFlow> {
-    return {
-      verificationPatterns: {
-        [VerificationPatternTypes.Biometrics]: BiometricTypes.liveness,
-        [VerificationPatternTypes.DuplicateFaceDetection]: false,
-      },
-    };
+  onAdd(): DeepPartial<IWorkflow> {
+    return {};
   }
 
-  onRemove(flow: IFlow): Partial<IFlow> {
-    let electronicSignature: IESignatureFlow = flow?.electronicSignature;
-    if (flow?.electronicSignature?.acceptanceCriteria.isFaceMatchRequired) {
-      electronicSignature = {
-        ...flow.electronicSignature,
-        acceptanceCriteria: {
-          ...flow.electronicSignature.acceptanceCriteria,
-          isDocumentsRequired: false,
-          isFaceMatchRequired: false,
-        },
-      };
-    }
-    return {
-      facematchThreshold: undefined,
-      verificationPatterns: {
-        [VerificationPatternTypes.Biometrics]: BiometricTypes.none,
-        [VerificationPatternTypes.ProofOfOwnership]: false,
-        [VerificationPatternTypes.ArgentinianRenaperFacematch]: false,
-        [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
-        [VerificationPatternTypes.DuplicateFaceDetection]: false,
-      },
-      electronicSignature,
-    };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onRemove(flow: IWorkflow): DeepPartial<IWorkflow> {
+    return {};
   }
 
-  getRemovingAlertComponent(flow: IFlow, productsInGraph?: ProductTypes[]): any {
-    return productsInGraph.includes(ProductTypes.DocumentVerification) ? BiometricVerificationRemovingAlert : null;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  parser(workflow: IWorkflow): ProductSettingsBiometric {
+    return null;
   }
 
-  parser(flow: IFlow): ProductSettingsBiometric {
-    return {
-      [BiometricVerificationSettingsTypes.DuplicateFaceDetection]: {
-        value: flow?.verificationPatterns?.[VerificationPatternTypes.DuplicateFaceDetection],
-      },
-      [BiometricVerificationSettingsTypes.Biometrics]: {
-        value: flow?.verificationPatterns?.biometrics,
-        isCantBeUsedWithOtherSetting: !!flow?.verificationPatterns?.[VerificationPatternTypes.ProofOfOwnership],
-      },
-    };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  serialize(settings: ProductSettingsBiometric): DeepPartial<IWorkflow> {
+    return {};
   }
 
-  serialize(settings: ProductSettingsBiometric): Partial<IFlow> {
-    return {
-      verificationPatterns: {
-        [VerificationPatternTypes.Biometrics]: settings[BiometricVerificationSettingsTypes.Biometrics].value,
-        [VerificationPatternTypes.DuplicateFaceDetection]: settings[BiometricVerificationSettingsTypes.DuplicateFaceDetection].value,
-      },
-    };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  isInVerification(verification: IVerificationWorkflow): boolean {
+    return false;
   }
 
-  getVerification(verification: VerificationResponse): VerificationResponse {
-    return verification;
-  }
-
-  hasFailedCheck(verification: VerificationResponse): boolean {
-    const steps = verification?.steps || [];
-    const biometric = steps.filter((item) => BiometricSteps.includes(item?.id));
-    const duplicateFaceDetectionStep: IStep<IDuplicateSelfieStepData> = steps.find((step) => step.id === SelfieStepTypes.DuplicateSelfieValidation);
-    if (biometric.length === 0) {
-      return false;
-    }
-    return biometric.some((step) => getStepStatus(step) === StepStatus.Failure) || getStepStatus(duplicateFaceDetectionStep) === StepStatus.Failure;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getVerification(verification: IVerificationWorkflow): any {
+    return null;
   }
 }
