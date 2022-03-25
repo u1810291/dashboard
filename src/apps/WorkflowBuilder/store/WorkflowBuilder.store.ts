@@ -1,6 +1,6 @@
 import { Loadable } from 'models/Loadable.model';
 import { ProductTypes } from 'models/Product.model';
-import { IWorkflow, WorkflowResponse } from 'models/Workflow.model';
+import { IWorkflow, IWorkflowResponse } from 'models/Workflow.model';
 
 export const WORKFLOW_BUILDER_STORE_KEY = 'WorkflowBuilder';
 
@@ -19,7 +19,7 @@ export enum WorkFlowBuilderActionGroups {
 export interface WorkflowBuilderStore {
   [SliceNames.ProductsInGraph]: Loadable<ProductTypes[]>;
   [SliceNames.ChangeableWorkflow]: Loadable<IWorkflow>;
-  [SliceNames.LoadedWorkflow]: Loadable<WorkflowResponse>;
+  [SliceNames.LoadedWorkflow]: Loadable<IWorkflowResponse>;
   haveUnsavedChanges: boolean;
   selectedId: ProductTypes;
 }

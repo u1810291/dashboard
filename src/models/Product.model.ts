@@ -2,7 +2,6 @@ import React from 'react';
 import { IFlow } from 'models/Flow.model';
 import { IconType } from 'react-icons';
 import { VerificationResponse } from 'models/VerificationOld.model';
-import { DeepPartial } from 'lib/object';
 
 export enum ProductTypes {
   DocumentVerification = 'DocumentVerification',
@@ -97,9 +96,9 @@ export interface Product<S = IFlow, T = VerificationResponse> {
   isConfigurable: boolean;
   isIssuesIgnored: boolean;
   parser(flow: S, productsInGraph?: ProductTypes[]): ProductSettings;
-  serialize(settings: ProductSettings): DeepPartial<S>;
-  onRemove(flow: S): DeepPartial<S>;
-  onAdd(): DeepPartial<S>;
+  serialize(settings: ProductSettings, flow?: S): Partial<S>;
+  onRemove(flow: S): Partial<S>;
+  onAdd(flow?: S): Partial<S>;
   getRemovingAlertComponent?(flow: S, productsInGraph?: ProductTypes[]): any;
   haveIssues?(flow: S, productsInGraph?: ProductTypes[]): boolean;
   isSdkOnly?(): boolean;

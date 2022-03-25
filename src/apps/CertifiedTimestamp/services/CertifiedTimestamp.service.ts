@@ -2,7 +2,6 @@ import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { Product, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { IFlow } from 'models/Flow.model';
-import { DeepPartial } from 'lib/object';
 import { Nom151Check } from '../components/Nom151Check/Nom151Check';
 
 export class CertifiedTimestamp extends ProductBaseFlowBuilder implements Product {
@@ -28,7 +27,7 @@ export class CertifiedTimestamp extends ProductBaseFlowBuilder implements Produc
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  serialize(settings: ProductSettings<any>): DeepPartial<IFlow> {
+  serialize(settings: ProductSettings<any>): Partial<IFlow> {
     return undefined;
   }
 }

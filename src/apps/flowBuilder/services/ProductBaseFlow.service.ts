@@ -3,7 +3,6 @@ import { IProductCard, Product, ProductCheck, ProductInputTypes, ProductIntegrat
 import { IconType } from 'react-icons';
 import { IFlow } from 'models/Flow.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
-import { DeepPartial } from 'lib/object';
 
 export abstract class ProductBaseFlowBuilder implements Partial<Product> {
   abstract id: ProductTypes;
@@ -65,7 +64,7 @@ export abstract class ProductBaseFlowBuilder implements Partial<Product> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onRemove(flow: IFlow): DeepPartial<IFlow> {
+  onRemove(flow: IFlow): Partial<IFlow> {
     return null;
   }
 
