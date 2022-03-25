@@ -1,9 +1,10 @@
-import { Logo } from 'apps/logo/models/Logo.model';
+import { LogoUrls } from 'apps/logo';
 import { selectModelValue } from 'lib/loadable.selectors';
-import { IFlow, FlowStyle } from 'models/Flow.model';
+import { IFlow } from 'models/Flow.model';
 import { Loadable } from 'models/Loadable.model';
 import { ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
 import { createSelector } from 'reselect';
+import { FlowStyle } from 'models/Workflow.model';
 import { FLOW_BUILDER_STORE_KEY, FlowBuilderStore } from './FlowBuilder.store';
 
 export const flowBuilderStore = (state) => state[FLOW_BUILDER_STORE_KEY];
@@ -50,5 +51,5 @@ export const selectFlowBuilderChangeableFlowStyle = createSelector(
 
 export const selectFlowBuilderChangeableLogoUrl = createSelector(
   selectFlowBuilderChangeableFlow,
-  (flow: IFlow): Logo => flow.logo,
+  (flow: IFlow): LogoUrls => flow.logo,
 );

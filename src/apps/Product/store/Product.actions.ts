@@ -24,13 +24,10 @@ import { eSignatureInit } from 'apps/ESignature';
 import { CustomFieldInit } from 'apps/CustomField';
 import { metadataInit } from 'apps/metadata/state/Metadata.actions';
 import { certifiedTimestampInit } from 'apps/CertifiedTimestamp/state/CertifiedTimestamp.actions';
-import { ipCheckInit } from 'apps/IpCheck';
-import { documentVerificationInit } from 'apps/documentVerification/state/DocumentVerification.actions';
-import { biometricVerificationInit } from 'apps/biometricVerification/state/BiometricVerification.actions';
-import { govCheckInit } from 'apps/GovCheck/state/GovCheck.actions';
+import { ipCheckInit } from 'apps/IpCheck/state/IpCheck.actions';
+import { ProductActionTypes } from './Product.store';
 import { productManagerService } from '../services/ProductManager.service';
 import { selectProductRegistered } from './Product.selectors';
-import { ProductActionTypes } from './Product.store';
 
 export const productIsInitedUpdate = storeAction<boolean>(ProductActionTypes.ProductIsInitedUpdate);
 export const productRegisteredUpdate = storeAction<string[]>(ProductActionTypes.ProductRegistered);
@@ -66,9 +63,6 @@ export const productFlowbuilderInit = () => (dispatch) => {
 export const productWorkflowBuilderInit = () => (dispatch) => {
   const registered: ProductTypes[] = [
     dispatch(ipCheckInit()),
-    dispatch(documentVerificationInit()),
-    dispatch(biometricVerificationInit()),
-    dispatch(govCheckInit()),
   ];
   dispatch(productRegisteredUpdate(compact(registered)));
   dispatch(productIsInitedUpdate(true));

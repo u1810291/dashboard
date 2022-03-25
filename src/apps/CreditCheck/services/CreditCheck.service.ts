@@ -4,6 +4,7 @@ import { IFlow } from 'models/Flow.model';
 import { FiCreditCard } from 'react-icons/fi';
 import { CountrySpecificCreditChecks, StepStatus } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
+import { DeepPartial } from 'lib/object';
 import { CreditCheckSettings } from '../components/CreditCheckSettings/CreditCheckSettings';
 import { CreditCheckSettingTypes, CreditChecksTypes, creditIsInVerification, verificationPatternsCreditChecksDefault } from '../models/CreditCheck.model';
 import { CreditCheckVerificationProduct } from '../components/CreditCheckVerificationProduct/CreditCheckVerificationProduct';
@@ -37,7 +38,7 @@ export class CreditCheck extends ProductBaseFlowBuilder implements Product {
     return verification?.documents || [];
   }
 
-  onAdd(): Partial<IFlow> {
+  onAdd(): DeepPartial<IFlow> {
     return {};
   }
 
@@ -68,13 +69,13 @@ export class CreditCheck extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onRemove(): Partial<IFlow> {
+  onRemove(): DeepPartial<IFlow> {
     return {
       verificationPatterns: verificationPatternsCreditChecksDefault,
     };
   }
 
-  serialize(settings: ProductSettingsCreditCheck): Partial<IFlow> {
+  serialize(settings: ProductSettingsCreditCheck): DeepPartial<IFlow> {
     return {
       verificationPatterns: settings[CreditCheckSettingTypes.CountriesCreditChecks]?.value,
     };
