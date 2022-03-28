@@ -16,9 +16,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   tableCell: {
     borderColor: theme.palette.common.black7,
-    '&:first-child': {
-      verticalAlign: 'top',
-    },
+    verticalAlign: 'top',
     [theme.breakpoints.down('md')]: {
       display: 'block',
       marginBottom: 20,
