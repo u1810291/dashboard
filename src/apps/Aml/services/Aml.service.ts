@@ -1,17 +1,17 @@
 import { AmlCheckTypes, AmlDocumentSteps, AmlSettingsTypes, AmlValidationTypes } from 'apps/Aml/models/Aml.model';
-import { ProductBaseService } from 'apps/Product/services/ProductBase.service';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiDollarSign } from 'react-icons/fi';
 import { getStepStatus, StepStatus } from 'models/Step.model';
+import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { AmlSettings } from '../components/AmlSettings/AmlSettings';
 import { AmlVerificationProduct } from '../components/AmlVerificationProduct/AmlVerificationProduct';
 
 type ProductSettingsAml = ProductSettings<AmlSettingsTypes>;
 
-export class AmlCheck extends ProductBaseService implements Product<ProductSettingsAml> {
+export class AmlCheck extends ProductBaseFlowBuilder implements Product {
   id = ProductTypes.AmlCheck;
   order = 400;
   integrationTypes = [
@@ -51,7 +51,7 @@ export class AmlCheck extends ProductBaseService implements Product<ProductSetti
         value: pattern === AmlValidationTypes.SearchMonitoring,
       },
       [AmlSettingsTypes.AmlThreshold]: {
-        value: flow?.amlWatchlistsFuzzinessThreshold || 50,
+        value: flow?.amlWatchlistsFuzzinessThreshold ?? 50,
       },
     };
   }
@@ -94,7 +94,7 @@ export class AmlCheck extends ProductBaseService implements Product<ProductSetti
   }
 
   hasFailedCheck(verification: VerificationResponse): boolean {
-    return verification?.documents?.some((document) => document?.steps?.filter((step) => AmlDocumentSteps.includes(step)).map((step) => getStepStatus(step)).includes(StepStatus.Failure));
+    return verification?.documents?.some((document) => document?.steps?.filter((step) => AmlDocumentSteps.includes(step?.id)).map((step) => getStepStatus(step)).includes(StepStatus.Failure));
   }
 
   getVerification(verification: VerificationResponse): any {

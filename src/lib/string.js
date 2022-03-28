@@ -1,7 +1,6 @@
 import { titleize } from 'inflection';
 import { formatDate } from 'lib/date';
 import { startCase } from 'lodash';
-import { useIntl } from 'react-intl';
 import { isNil } from './isNil';
 
 export const FieldTitlizedPatterns = [
@@ -41,7 +40,7 @@ export function titleCase(string = '') {
   return typeof string === 'string' ? startCase(string.toLowerCase()) : string;
 }
 
-function includesPattern(name = '', keys) {
+export function includesPattern(name = '', keys) {
   return keys.some((key) => name.toLowerCase() === key);
 }
 
@@ -59,24 +58,6 @@ export function formatValue(label, value) {
   }
 
   return !isNil(value) ? `${value}` : '';
-}
-
-export function useFormattedValue(label, value) {
-  const intl = useIntl();
-
-  if (includesPattern(label, FieldMatchObjectPatterns)) {
-    const number = !Number.isNaN(value) ? parseInt(value, 10) : '??';
-    return `${number}% ${intl.formatMessage({ id: 'identity.field.match' })}`;
-  }
-
-  if (includesPattern(label, FieldBooleanPatterns)) {
-    return intl.formatMessage({
-      id: value ? `identity.field.${label}.positive` : `identity.field.${label}.negative`,
-      defaultMessage: intl.formatMessage({ id: value ? 'yes' : 'no' }),
-    });
-  }
-
-  return formatValue(label, value);
 }
 
 export function trimMiddle(string = '', begin = 30, end = 5, delimiter = '…') {

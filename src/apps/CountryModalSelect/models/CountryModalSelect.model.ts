@@ -1,5 +1,4 @@
-import { Country } from 'models/Country.model';
-import { AllowedRegions } from 'apps/IpCheck/models/IpCheck.model';
+import { Country, AllowedRegions } from 'models/Country.model';
 
 export interface SelectedCountries {
   [country: string]: {

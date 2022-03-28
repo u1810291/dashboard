@@ -20,6 +20,12 @@ export const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
     width: '100%',
   },
+  error: {
+    color: theme.palette.common.red,
+    textAlign: 'center',
+    display: 'inline-block',
+    width: '100%',
+  },
 }));
 
 export const RoundedButton = withStyles((theme) => ({

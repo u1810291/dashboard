@@ -1,13 +1,13 @@
 import { Grid } from '@material-ui/core';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { VerificationWithExtras } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { newVerificationDocumentUpdate } from 'state/verification/verification.actions';
 import { reviewPatchDocumentFields } from 'apps/reviewMode/state/reviewMode.actions';
 import { NewDocumentStep } from '../NewDocumentStep/NewDocumentStep';
 
 export function DocumentVerificationProduct({ data, isReviewMode }: {
-  data: VerificationWithExtras;
+  data: VerificationResponse;
   isReviewMode: boolean;
 }) {
   const dispatch = useDispatch();

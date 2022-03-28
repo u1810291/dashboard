@@ -1,10 +1,26 @@
 import { get } from 'lodash';
 import { getStepStatus, IStep, StepStatus, StepTypes } from 'models/Step.model';
+import { IdentityStatuses } from './Status.model';
 
 export interface BiometricStep extends IStep {
   checkStatus: StepStatus;
   videoUrl?: string;
   selfieUrl?: string;
+}
+
+export interface IDuplicateSelfie {
+  verificationUrl: string;
+  createdAt: string;
+  facematchScore: number;
+  verificationStatus: IdentityStatuses;
+}
+
+export interface IDuplicateSelfieStepData {
+  duplicates: IDuplicateSelfie[];
+}
+
+export enum SelfieStepTypes {
+  DuplicateSelfieValidation = 'duplicate-selfie-step',
 }
 
 export const BiometricTypes = {

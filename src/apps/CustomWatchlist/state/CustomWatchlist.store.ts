@@ -10,6 +10,7 @@ export enum CustomWatchlistsActions {
   WatchlistContent = 'CUSTOM_WATCHLIST_CONTENT',
   WatchlistsDelete = 'CUSTOM_WATCHLISTS_DELETE',
   CurrentWatchlistHeaders = 'CURRENT_CUSTOM_WATCHLISTS_HEADERS',
+  CurrentWatchlistFileFailure = 'CURRENT_CUSTOM_WATCHLIST_FILE_FAILURE',
 }
 
 export enum SliceNames {
@@ -32,4 +33,5 @@ export interface CustomWatchlistsStore {
   [SliceNames.CurrentWatchlist]: Loadable<IWatchlist | null>;
   [SliceNames.WatchlistContent]: Loadable<WatchlistContentTypes>;
   [SliceNames.CurrentWatchlistHeaders]: Loadable<string[]>;
+  fileErrorType: string | null;
 }

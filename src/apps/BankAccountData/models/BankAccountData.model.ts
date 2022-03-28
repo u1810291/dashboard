@@ -1,11 +1,16 @@
 import { CountryCodes } from 'models/Country.model';
 import { InputTypes, InputStatus } from 'models/Input.model';
-import { VerificationResponse } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 
 export const SUPPORTED_COUNTRIES = [
   CountryCodes.BR,
   CountryCodes.CO,
   CountryCodes.MX,
+  CountryCodes.AR,
+  CountryCodes.CL,
+  CountryCodes.PE,
+  CountryCodes.PH,
+  CountryCodes.NG,
 ] as const;
 
 export enum BankAccountDataCheckTypes {

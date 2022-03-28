@@ -18,6 +18,7 @@ export enum EmailCheckSettingTypes {
   EmailRiskThreshold = 'emailRiskThreshold',
   EmailOwnershipValidation = 'emailOwnershipValidation',
   EmailRiskValidation = 'emailRiskValidation',
+  EmailFrom = 'emailFrom',
 }
 
 export type EmailCheckProductSettings = ProductSettings<EmailCheckSettingTypes>;

@@ -1,6 +1,6 @@
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { VerificationDocument } from './Document.model';
-import { IStep } from './Step.model';
-import { VerificationResponse } from './Verification.model';
+import { DocumentStepTypes, IStep } from './Step.model';
 
 export interface CreditCheckStep {
   age: number;
@@ -23,3 +23,16 @@ export interface CreditCheckManulRunResponse {
   _id: string;
   documents: VerificationDocument[];
 }
+
+export const creditCheckDisplayOptions = {
+  [DocumentStepTypes.CreditArgentinianFidelitas]: {
+    stepExtra: {
+      hidden: true,
+    },
+  },
+  [DocumentStepTypes.CreditBrazilianSerasa]: {
+    stepExtra: {
+      hidden: true,
+    },
+  },
+};

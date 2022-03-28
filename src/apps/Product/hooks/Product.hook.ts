@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { productInit } from '../store/Product.actions';
+import { productFlowbuilderInit, productWorkflowBuilderInit } from '../store/Product.actions';
 import { selectProductIsInited } from '../store/Product.selectors';
 
 export function useProduct() {
@@ -9,7 +9,18 @@ export function useProduct() {
 
   useEffect(() => {
     if (!isProductInited) {
-      dispatch(productInit());
+      dispatch(productFlowbuilderInit());
+    }
+  }, [isProductInited, dispatch]);
+}
+
+export function useMerit() {
+  const dispatch = useDispatch();
+  const isProductInited = useSelector(selectProductIsInited);
+
+  useEffect(() => {
+    if (!isProductInited) {
+      dispatch(productWorkflowBuilderInit());
     }
   }, [isProductInited, dispatch]);
 }

@@ -7,6 +7,7 @@ export enum BiometricVerificationCheckTypes {
 
 export enum BiometricVerificationSettingsTypes {
   Biometrics = 'biometrics',
+  DuplicateFaceDetection = 'duplicateFaceDetection',
 }
 
 export enum BiometricVerificationTypes {

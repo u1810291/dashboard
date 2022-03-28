@@ -1,35 +1,33 @@
 import { Box, Grid, Typography } from '@material-ui/core';
+import { useFormatMessage } from 'apps/intl';
 import { CheckResultLogo, SkeletonLoader } from 'apps/ui';
 import classnames from 'classnames';
-import { IpCheckStep } from 'models/IpCheck.model';
 import { StepStatus } from 'models/Step.model';
 import React, { useMemo } from 'react';
-import { useIntl } from 'react-intl';
 import { Marker, StaticGoogleMap } from 'react-static-google-map';
 import { useStyles } from './IpCheckVerification.styles';
-import { IpCheckErrorCodes } from '../../models/IpCheck.model';
+import { IpCheckVerificationOutput } from '../../models/IpCheck.model';
 
-export function IpCheckVerification({ data: step }: {
-  data: IpCheckStep;
+export function IpCheckVerification({ data = {} as IpCheckVerificationOutput }: {
+  data: IpCheckVerificationOutput;
 }) {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const classes = useStyles();
-  const isChecking = useMemo(() => step?.status < 200, [step]);
-  const data = useMemo(() => step?.data, [step]);
+  const isChecking: boolean = data.isRunning;
 
   const vpnStatus = useMemo(() => {
-    if (step?.status < 200) {
+    if (isChecking) {
       return StepStatus.Checking;
     }
-    return step?.error?.code === IpCheckErrorCodes.VpnDetected ? StepStatus.Failure : StepStatus.Success;
-  }, [step]);
+    return data.vpnDetection ? StepStatus.Success : StepStatus.Failure;
+  }, [isChecking, data]);
 
   const geoStatus = useMemo(() => {
-    if (step?.status < 200) {
+    if (isChecking) {
       return StepStatus.Checking;
     }
-    return step?.error?.code === IpCheckErrorCodes.Restricted ? StepStatus.Failure : StepStatus.Success;
-  }, [step]);
+    return data.geoRestriction ? StepStatus.Success : StepStatus.Failure;
+  }, [isChecking, data]);
 
   return (
     <Box>
@@ -57,7 +55,7 @@ export function IpCheckVerification({ data: step }: {
                 )}
               </Typography>
               <Typography variant="body1" className={classes.title}>
-                {intl.formatMessage({ id: 'IpCheckStep.country' })}
+                {formatMessage('IpCheckStep.country')}
               </Typography>
             </Box>
             <Box mb={2}>
@@ -69,7 +67,7 @@ export function IpCheckVerification({ data: step }: {
                 )}
               </Typography>
               <Typography variant="body1" className={classes.title}>
-                {intl.formatMessage({ id: 'IpCheckStep.city' })}
+                {formatMessage('IpCheckStep.city')}
               </Typography>
             </Box>
           </Grid>
@@ -83,7 +81,7 @@ export function IpCheckVerification({ data: step }: {
                 )}
               </Typography>
               <Typography variant="body1" className={classes.title}>
-                {intl.formatMessage({ id: 'IpCheckStep.province' })}
+                {formatMessage('IpCheckStep.province')}
               </Typography>
             </Box>
             <Box mb={2}>
@@ -95,7 +93,7 @@ export function IpCheckVerification({ data: step }: {
                 )}
               </Typography>
               <Typography variant="body1" className={classes.title}>
-                {intl.formatMessage({ id: 'IpCheckStep.zipCode' })}
+                {formatMessage('IpCheckStep.zipCode')}
               </Typography>
             </Box>
           </Grid>

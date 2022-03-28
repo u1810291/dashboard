@@ -1,5 +1,6 @@
-import { DocumentStepTypes } from 'models/Step.model';
+import { CountrySpecificCreditChecks, DocumentStepTypes } from 'models/Step.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 
 export enum CreditCheckSettingTypes {
   CountriesCreditChecks = 'countriesCreditChecks'
@@ -54,22 +55,16 @@ export const CreditCheckConfigurations: CreditCheckConfiguration[] = [{
   ],
 }];
 
-export const creditCheckDisplayOptions = {
-  [DocumentStepTypes.CreditArgentinianFidelitas]: {
-    stepExtra: {
-      hidden: true,
-    },
-  },
-  [DocumentStepTypes.CreditBrazilianSerasa]: {
-    stepExtra: {
-      hidden: true,
-    },
-  },
-};
-
 export function creditCheckParse(list: CreditCheck[], pattern): CreditCheck[] {
   return list.map((item) => ({
     ...item,
     value: pattern[item.id] !== undefined ? pattern[item.id] : item.default,
   }));
+}
+
+export function creditIsInVerification(verification: VerificationResponse): boolean {
+  return verification?.documents?.some((document) => {
+    const creditChecksSteps = document?.steps.filter((step) => CountrySpecificCreditChecks.includes(step.id));
+    return creditChecksSteps?.length > 0;
+  });
 }

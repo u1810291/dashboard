@@ -1,30 +1,43 @@
-import { Box, Button, Card, CardContent, Grid, MenuItem, Paper, Select, Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import MenuItem from '@material-ui/core/MenuItem';
+import Grid from '@material-ui/core/Grid';
+import CardContent from '@material-ui/core/CardContent';
+import Card from '@material-ui/core/Card';
+import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
+import { FiDownload } from 'react-icons/fi';
 import React, { useMemo, useCallback, useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { FiChevronDown } from 'react-icons/all';
-import { downloadESignaturePDFDocument, ESignatureDocumentId, ESignatureFields, ESignatureStep, getPdfImagesUrls } from 'models/ESignature.model';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { useFormatMessage } from 'apps/intl';
+import { downloadESignaturePDFDocument, ESignatureDocumentId, ESignatureFields, ESignatureStep } from 'models/ESignature.model';
 import { CheckStepDetailsEntry } from 'apps/checks/components/CheckStepDetails/CheckStepDetailsEntry';
-import { BoxBordered, CheckBarExpandable, ZoomableImage } from 'apps/ui';
+import { BoxBordered, CheckBarExpandable, ZoomableImage, NoData, Select } from 'apps/ui';
 import { useStyles } from './ESignature.styles';
 
 export function ESignature({ step }: {
   step: ESignatureStep;
 }) {
   const classes = useStyles();
-  const intl = useIntl();
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [selectedDocumentImages, setSelectedDocumentImages] = useState([]);
+  const [isDocumentLoading, setIsDocumentLoading] = useState(false);
+  const formatMessage = useFormatMessage();
 
   const loadDocumentImages = useCallback(async (document) => {
-    setSelectedDocumentImages(await getPdfImagesUrls(document));
+    setSelectedDocumentImages(document.pdfDocument.documentImages);
   }, []);
 
   const handleSelect = useCallback(async (event) => {
     const id: ESignatureDocumentId = event.target.value;
+
     if (selectedDocument !== id) {
       const newDocument = step.data.readDetails.find((detail) => detail.documentId === id);
+
+      setIsDocumentLoading(true);
       setSelectedDocument(newDocument);
       await loadDocumentImages(newDocument);
+      setIsDocumentLoading(false);
     }
   }, [step, selectedDocument, loadDocumentImages]);
 
@@ -49,7 +62,7 @@ export function ESignature({ step }: {
     <Paper>
       <Box p={2}>
         <Box mb={2}>
-          <Typography className={classes.title} variant="subtitle2" gutterBottom>{intl.formatMessage({ id: 'ESignature.step.title' })}</Typography>
+          <Typography className={classes.title} variant="subtitle2" gutterBottom>{formatMessage('ESignature.step.title')}</Typography>
         </Box>
         {step.error && (
           <BoxBordered p={1} pt={2}>
@@ -57,10 +70,7 @@ export function ESignature({ step }: {
               <Card raised={false} className={classes.card}>
                 <CardContent>
                   <Box>
-                    {intl.formatMessage({
-                      id: `Error.${step.error?.code}`,
-                      defaultMessage: intl.formatMessage({ id: 'Error.common' }),
-                    })}
+                    {formatMessage(`Error.${step.error?.code}`, { defaultMessage: formatMessage('Error.common') })}
                   </Box>
                 </CardContent>
               </Card>
@@ -69,14 +79,14 @@ export function ESignature({ step }: {
         )}
         {step.data?.readDetails && (
           <Box mt={0.5}>
-            <Grid container>
-              <Grid item xs={12} lg={4}>
-                <BoxBordered>
+            <Grid container spacing={2}>
+              <Grid item xs={12} lg={5}>
+                <BoxBordered mb={2}>
                   <Select
                     labelId="document-label"
                     id="document"
+                    variant="outlined"
                     onChange={handleSelect}
-                    IconComponent={FiChevronDown}
                     className={classes.select}
                     value={selectedDocument ? selectedDocument.documentId : null}
                   >
@@ -87,41 +97,49 @@ export function ESignature({ step }: {
                     ))}
                   </Select>
                 </BoxBordered>
-                <BoxBordered>
-                  <Grid>
-                    {selectedDocument && (
+                {selectedDocument && (
+                  <BoxBordered>
+                    <Grid>
                       <Grid container direction="column">
                         {ESignatureFields.map((fieldName) => selectedDocument[fieldName] && (
-                          <Grid xs={6} item key={fieldName}>
+                          <Grid item key={fieldName}>
                             <CheckStepDetailsEntry label={fieldName} value={selectedDocument[fieldName]} />
                           </Grid>
                         ))}
                       </Grid>
-                    )}
-                  </Grid>
-                </BoxBordered>
+                    </Grid>
+                  </BoxBordered>
+                )}
               </Grid>
-              <Grid item xs={12} lg={4}>
-                <BoxBordered>
-                  <Grid container justify="center" className={classes.wrapper}>
-                    {selectedDocumentImages.map((url, index) => (
-                      <Grid item key={index} className={classes.image}>
-                        <ZoomableImage src={url} alt={url} />
-                      </Grid>
-                    ))}
-                  </Grid>
+              <Grid item xs={12} lg={7}>
+                <BoxBordered pt={0.5}>
+                  {isDocumentLoading && (
+                    <Grid container justify="center" alignItems="center">
+                      <CircularProgress color="inherit" size={28} />
+                    </Grid>
+                  )}
+                  {(!selectedDocument || selectedDocumentImages.length === 0) && <NoData />}
+                  {selectedDocument && (
+                    <Grid container justify="center" className={classes.wrapper}>
+                      <IconButton
+                        onClick={handleDownload}
+                        tabIndex={0}
+                        className={classes.button}
+                        disabled={isESignaturePdfDownloadButtonDisabled}
+                      >
+                        <FiDownload size={17} />
+                        <Box display="inline-block" ml={1}>{formatMessage('ESignature.step.button')}</Box>
+                      </IconButton>
+                      <Box mt={5}>
+                        {selectedDocumentImages.map((url, index) => (
+                          <Grid item key={`${url}-${index}`} className={classes.image}>
+                            <ZoomableImage src={url} alt={`document-${index}`} />
+                          </Grid>
+                        ))}
+                      </Box>
+                    </Grid>
+                  )}
                 </BoxBordered>
-              </Grid>
-              <Grid item xs={12} lg={4}>
-                <Button
-                  variant="outlined"
-                  onClick={handleDownload}
-                  tabIndex={0}
-                  className={classes.button}
-                  disabled={isESignaturePdfDownloadButtonDisabled}
-                >
-                  {intl.formatMessage({ id: 'ESignature.step.button' })}
-                </Button>
               </Grid>
             </Grid>
           </Box>

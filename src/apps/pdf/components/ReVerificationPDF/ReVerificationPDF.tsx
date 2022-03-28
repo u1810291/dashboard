@@ -2,6 +2,7 @@ import { Image, Text, View } from '@react-pdf/renderer';
 import { IReFacematchStep } from 'models/ReVerification.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { getMediaURL } from 'lib/client/media';
 import { commonStyles } from '../../PDF.styles';
 import { CheckResultLogoPDF } from '../CheckResultLogoPDF/CheckResultLogoPDF';
 import { CheckStepPDF } from '../CheckStepPDF/CheckStepPDF';
@@ -26,7 +27,7 @@ export function ReVerificationPDF({
             <View style={styles.mediaItem}>
               {reFacematch?.data?.currentSelfiePhotoUrl && (
                 <View style={styles.itemWrapper}>
-                  <Image style={styles.image} src={reFacematch?.data?.currentSelfiePhotoUrl} />
+                  <Image style={styles.image} src={getMediaURL(reFacematch?.data?.currentSelfiePhotoUrl) as any} />
                   <View style={commonStyles.mt1}>
                     <Text style={styles.itemTitle}>{intl.formatMessage({ id: 'ReVerification.result.pdf.currentBiometrics' })}</Text>
                   </View>
@@ -36,7 +37,7 @@ export function ReVerificationPDF({
             <View style={styles.mediaItem}>
               {reFacematch?.data?.previousSelfiePhotoUrl && (
                 <View style={styles.itemWrapper}>
-                  <Image style={styles.image} src={reFacematch?.data?.previousSelfiePhotoUrl} />
+                  <Image style={styles.image} src={getMediaURL(reFacematch?.data?.previousSelfiePhotoUrl) as any} />
                   <View style={commonStyles.mt1}>
                     <Text style={styles.itemTitle}>{intl.formatMessage({ id: 'ReVerification.result.pdf.originBiometrics' })}</Text>
                   </View>

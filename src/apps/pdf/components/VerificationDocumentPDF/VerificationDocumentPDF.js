@@ -12,6 +12,7 @@ import { VerificationSummaryTitlePDF } from '../VerificationSummaryTitlePDF/Veri
 export function VerificationDocumentPDF({ document, documentIndex }) {
   const intl = useIntl();
   const title = useDocumentTitle(document);
+
   const { photos = [], securityCheckSteps, documentFailedCheckSteps, premiumAmlWatchlistsStep, govChecksSteps, documentStatus } = document; // use these checks for children component
 
   const allSteps = [...documentFailedCheckSteps, ...securityCheckSteps, ...govChecksSteps];

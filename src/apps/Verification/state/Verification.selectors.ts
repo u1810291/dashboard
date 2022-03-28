@@ -2,17 +2,17 @@ import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { Loadable } from 'models/Loadable.model';
 import { ProductTypes } from 'models/Product.model';
 import { DocumentStepTypes, getStepExtra, IStep } from 'models/Step.model';
-import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFlow, VerificationListItem, VerificationWithExtras, VerificationResponse } from 'models/Verification.model';
+import { IVerificationWorkflow } from 'models/Verification.model';
+import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFlow, VerificationListItem, VerificationWithExtras, VerificationResponse } from 'models/VerificationOld.model';
 import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
-import { selectIdentityModel } from 'state/identities/identities.selectors';
 import { ErrorType } from 'models/Error.model';
 import { CreditCheckStep, DataForCreditCheck } from 'models/CreditCheck.model';
 import { VERIFICATION_STORE_KEY, VerificationSliceTypes, VerificationStore } from './Verification.store';
 
 export const verificationStore = (state): VerificationStore => state[VERIFICATION_STORE_KEY];
 
-export const selectVerificationModel = createSelector(
+export const selectVerificationModel = createSelector<any, any, Loadable<IVerificationWorkflow>>(
   verificationStore,
   (store) => store[VerificationSliceTypes.Verification],
 );

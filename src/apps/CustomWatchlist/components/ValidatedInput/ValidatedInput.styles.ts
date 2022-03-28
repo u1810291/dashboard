@@ -32,6 +32,7 @@ export const useStyles = makeStyles((theme) => createStyles({
   },
   headerItem: {
     lineHeight: 1.1,
+    wordBreak: 'break-word',
   },
 }));
 
