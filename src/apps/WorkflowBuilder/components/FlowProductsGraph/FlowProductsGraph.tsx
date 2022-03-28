@@ -2,24 +2,26 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Elements, ReactFlowProvider, useStoreState, Node } from 'react-flow-renderer';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { Box } from '@material-ui/core';
-import { selectFlowBuilderProductsInGraphModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
+import Box from '@material-ui/core/Box';
 import { Loader } from 'apps/ui';
-import { CustomReactFlowMemorised } from '../ReactFlowMemorised/CustomReactFlowMemorised';
+import { ProductTypes } from 'models/Product.model';
+import { Loadable } from 'models/Loadable.model';
+import { selectWorkflowBuilderProductsInGraphModel } from '../../store/WorkflowBuilder.selectors';
+import { CustomReactWorkflowMemorised } from '../ReactWorkflowMemorised/CustomReactWorkflowMemorised';
 import { areNodesLoaded, getElements, getLayoutedElements, getTotalGraphHeight } from '../../models/WorkflowBuilder.model';
 import { useStyles } from './FlowProductGraph.styles';
 
 function FlowProductsGraphWithoutContext() {
   const reactFlowWrapper = useRef(null);
   const [elements, setElements] = useState<Elements>([]);
-  const [isLayouted, setIsLayouted] = useState(false);
-  const [isCentered, setIsCentered] = useState(false);
+  const [isLayouted, setIsLayouted] = useState<boolean>(false);
+  const [isCentered, setIsCentered] = useState<boolean>(false);
   const [reactFlowWrapperHeight, setReactFlowWrapperHeight] = useState(0);
   const loadedNodes: Node[] = useStoreState((state) => state.nodes);
-  const productsInGraphModel = useSelector(selectFlowBuilderProductsInGraphModel);
+  const productsInGraphModel = useSelector<any, Loadable<ProductTypes[]>>(selectWorkflowBuilderProductsInGraphModel);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const intl = useIntl();
-  const [isLanguageChanged, setIsLanguageChanged] = useState(false);
+  const [isLanguageChanged, setIsLanguageChanged] = useState<boolean>(false);
   const classes = useStyles();
 
   // we should wait ReactFlow to load nodes to get their actual width and height before layouting
@@ -69,7 +71,7 @@ function FlowProductsGraphWithoutContext() {
   return (
     <Box className={classes.root}>
       <div className={classes.wrapper} style={{ height: reactFlowWrapperHeight }} ref={reactFlowWrapper}>
-        <CustomReactFlowMemorised onDragOver={handleDragOver} onLoad={handleLoad} elements={elements} />
+        <CustomReactWorkflowMemorised onDragOver={handleDragOver} onLoad={handleLoad} elements={elements} />
       </div>
     </Box>
   );

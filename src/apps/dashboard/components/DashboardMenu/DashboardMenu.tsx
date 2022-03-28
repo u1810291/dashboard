@@ -21,6 +21,8 @@ import { selectIsOwnerModel, selectMerchantBusinessName, selectMerchantTags } fr
 import { useRole, TeamInviteModal, collaboratorInvite, selectCollaboratorState } from 'apps/collaborators';
 import { WithAuditor } from 'models/Collaborator.model';
 import { MerchantTags } from 'models/Merchant.model';
+import { LiveStatusButton } from 'apps/liveStatus';
+import { Loadable } from 'models/Loadable.model';
 import { setIsDesktopMenuOpen } from '../../state/dashboard.actions';
 import { selectIsDesktopMenuOpen } from '../../state/dashboard.selectors';
 import { useLogout } from '../LogoutModal/LogoutModal';
@@ -29,11 +31,10 @@ import { SecondaryMenu } from '../SecondaryMenu/SecondaryMenu';
 import { useStyles } from './DashboardMenu.styles';
 
 export function DashboardMenu() {
-  const ownerModel = useSelector(selectIsOwnerModel);
+  const ownerModel = useSelector<any, Loadable<boolean>>(selectIsOwnerModel);
   const isOwner = ownerModel.isLoaded && ownerModel.value === true;
   const classes = useStyles();
   const state = useSelector(selectCollaboratorState);
-  const formatMessage = useFormatMessage();
   const history = useHistory();
   const dispatch = useDispatch();
   const isDesktop = useMediaQuery('(min-width:768px)', { noSsr: true });
@@ -45,6 +46,7 @@ export function DashboardMenu() {
   const [createOverlay, closeOverlay] = useOverlay();
   const logout = useLogout();
   const role = useRole();
+  const formatMessage = useFormatMessage();
 
   const handleLogout = useCallback(async () => {
     // @ts-ignore
@@ -136,6 +138,12 @@ export function DashboardMenu() {
           <Box>
             <SecondaryMenu isOwner={isOwner} isOpen={isOpen} />
           </Box>
+          <Box p={2}>
+            <Divider className={classes.menuDivider} />
+          </Box>
+          <Box>
+            <LiveStatusButton />
+          </Box>
         </Grid>
         <Grid item className={classes.contentBottom}>
           <Box px={1.6} pb={2.5} pt={2}>
@@ -151,22 +159,6 @@ export function DashboardMenu() {
                 </Box>
               )}
           </Box>
-          {isOwner && (
-            <Box pr={2} pl={1.5}>
-              <Button
-                className={classnames(classes.inviteButton, {
-                  [classes.inviteButtonSm]: !isOpen,
-                })}
-                variant="contained"
-                color="primary"
-                onClick={openInviteModal}
-                startIcon={<FiPlusCircle />}
-                data-qa={QATags.Menu.InviteTeammate}
-              >
-                {isOpen && formatMessage('settings.teamSettings.inviteTeammate')}
-              </Button>
-            </Box>
-          )}
           <Box pt={1}>
             {/* @ts-ignore */}
             <TopMenuItem

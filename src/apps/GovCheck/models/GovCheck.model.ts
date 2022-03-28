@@ -6,7 +6,7 @@ import { NationalIdTypes, VerificationDocument } from 'models/Document.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { dateSortCompare } from 'lib/date';
 import cloneDeep from 'lodash/cloneDeep';
-import { ProductTypes } from 'models/Product.model';
+import { MeritId, ProductTypes } from 'models/Product.model';
 import { IFlow } from 'models/Flow.model';
 
 export enum GovernmentCheckSettingTypes {
@@ -17,6 +17,8 @@ export enum GovernmentCheckSettingTypes {
 export enum GovernmentChecksTypes {
   GovernmentDatabaseCheck = 'governmentDatabaseCheck'
 }
+
+export const GovCheckMeritId: MeritId = 'gov-check';
 
 export enum GovCheckStepTypes {
   None = 'none',
@@ -34,6 +36,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.ArgentinianRenaperFacematch]: false,
   [VerificationPatternTypes.BolivianOep]: false,
   [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
+  [VerificationPatternTypes.BrazilianCpfLight]: false,
   [VerificationPatternTypes.ChileanRut]: false,
   [VerificationPatternTypes.ChileanDriverLicense]: false,
   [VerificationPatternTypes.ChileanRegistroCivil]: false,
@@ -239,6 +242,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
           description: true,
           isSupportFacematch: true,
         },
+      },
+      {
+        id: VerificationPatternTypes.BrazilianCpfLight,
+        default: false,
       },
       {
         id: VerificationPatternTypes.BrazilianNoCriminalRecordsValidation,
@@ -545,6 +552,15 @@ export const govCheckDisplayOptions = {
     governmentFaceMatchScorePercentage: {
       dependentFieldForFailedCheck: 'governmentFaceMatched',
       hiddenIfNotExists: true,
+    },
+  },
+  [DocumentStepTypes.BrazilianCpfLight]: {
+    fullName: {},
+    dateOfBirth: {
+      inline: true,
+    },
+    taxStatus: {
+      inline: true,
     },
   },
   [DocumentStepTypes.DominicanJce]: {

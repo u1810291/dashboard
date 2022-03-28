@@ -56,10 +56,10 @@ export const useStyles = makeStyles((theme) => ({
   },
   logo: {
     '&:hover': {
-      background: theme.palette.common.whitelightopacity,
+      background: theme.palette.common.white10,
     },
     '&:focus': {
-      background: theme.palette.common.whitedimopacity,
+      background: theme.palette.common.white15,
     },
   },
   contentBottom: {
@@ -122,7 +122,7 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: 'transparent',
     boxShadow: 'none',
     '&:hover': {
-      backgroundColor: theme.palette.common.whitelightopacity,
+      backgroundColor: theme.palette.common.white10,
     },
     '& .MuiButton-label': {
       fontSize: 14,
@@ -140,7 +140,7 @@ export const useStyles = makeStyles((theme) => ({
       borderRadius: 0,
     },
     '& .MuiMenuItem-root:hover': {
-      backgroundColor: theme.palette.common.whitelightopacity,
+      backgroundColor: theme.palette.common.white10,
     },
     '& .MuiSelect-icon': {
       display: 'none',

@@ -1,6 +1,6 @@
 {
   "name": "mati-dashboard",
-  "version": "22.2.50",
+  "version": "22.2.54",
   "private": true,
   "dependencies": {
     "@fullstory/browser": "^1.4.6",
@@ -84,6 +84,7 @@
     "build:production": "env-cmd -f .env.production npm run build",
     "test": "NODE_PATH=src react-scripts test --env=jsdom",
     "test:ci": "CI=true npm run test",
+    "lint": "npm run lint:eslint && npm run lint:typecheck",
     "lint:eslint": "eslint 'src/*/**/*.{js,jsx,ts,tsx}' --quiet",
     "lint:typecheck": "tsc --noEmit",
     "analyze:install": "npm i -g source-map-explorer",

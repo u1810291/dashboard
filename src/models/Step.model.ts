@@ -85,6 +85,7 @@ export const DocumentStepTypes = {
   MexicanIne: VerificationPatternTypes.MexicanIne,
   MexicanRfc: VerificationPatternTypes.MexicanRfc,
   BrazilianCpf: VerificationPatternTypes.BrazilianCpf,
+  BrazilianCpfLight: VerificationPatternTypes.BrazilianCpfLight,
   BrazilianNoCriminalRecordsValidation: VerificationPatternTypes.BrazilianNoCriminalRecordsValidation,
   CreditArgentinianFidelitas: VerificationPatternTypes.CreditArgentinianFidelitas,
   CreditBrazilianSerasa: VerificationPatternTypes.CreditBrazilianSerasa,
@@ -188,6 +189,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.ArgentinianRenaperFacematch,
   DocumentStepTypes.BolivianOep,
   DocumentStepTypes.BrazilianCpf,
+  DocumentStepTypes.BrazilianCpfLight,
   DocumentStepTypes.BrazilianNoCriminalRecordsValidation,
   DocumentStepTypes.ChileanRegistroCivil,
   DocumentStepTypes.ColombianBdua,
@@ -261,6 +263,7 @@ export function getDocumentStatus(steps) {
 
 const StepIncompletionErrors = {
   [DocumentStepTypes.AgeValidation]: ['underage.noDOB'],
+  [DocumentStepTypes.BrazilianCpfLight]: ['brazilianCpfLight.notEnoughParams'],
   [DocumentStepTypes.DuplicateUserDetectionCheck]: ['duplacateIdentityDetection.notValidParams'],
   [DocumentStepTypes.HonduranRnp]: ['honduranRnp.notEnoughParams'],
   [DocumentStepTypes.PremiumAmlWatchlistsCheck]: ['premiumAmlWatchlists.notValidParams'],
