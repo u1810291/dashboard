@@ -31,7 +31,10 @@ export function CustonDocumentList() {
 
   const handleSaveDocument = useCallback(async (customDocumetUpdate: Partial<CustomDocumentResponse>) => {
     try {
-      await dispatch(saveCustomDocument(customDocumetUpdate));
+      const newCustomDocumetUpdate = { ...customDocumetUpdate };
+      newCustomDocumetUpdate.type = newCustomDocumetUpdate.type?.trim();
+
+      await dispatch(saveCustomDocument(newCustomDocumetUpdate));
       closeOverlay();
     } catch (error) {
       console.error(error);

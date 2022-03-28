@@ -2,6 +2,9 @@ import { createStyles } from '@material-ui/styles';
 import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => createStyles({
+  link: {
+    color: 'inherit',
+  },
   loader: {
     background: `linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, ${theme.palette.common.white} 70%)`,
   },

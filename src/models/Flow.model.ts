@@ -1,11 +1,12 @@
-import { Logo } from 'apps/logo/models/Logo.model';
+import { LogoUrls } from 'apps/logo';
 import { get } from 'lodash';
 import { DocumentTypes } from 'models/Document.model';
 import { ProductIntegrationTypes } from 'models/Product.model';
 import { IFacematchFlow } from 'apps/FacematchService';
 import { VerificationCustomFieldsInputData } from 'apps/CustomField';
+import { IFlowStyle } from 'models/Workflow.model';
 import { IESignatureFlow } from './ESignature.model';
-import { IpValidation } from './IpCheck.model';
+import { IpValidation } from './IpCheckOld.model';
 import { InputValidationCheck } from './ImageValidation.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
 import { VerificationPatterns } from './VerificationPatterns.model';
@@ -17,11 +18,6 @@ export function getNewFlowId(merchantFlowsModel, currentFlowId) {
   const currentIndex = merchantFlowsModel.value.findIndex((flow) => flow.id === currentFlowId);
   const newIndex = currentIndex ? currentIndex - 1 : currentIndex + 1;
   return get(merchantFlowsModel, `value[${newIndex}].id`, currentFlowId);
-}
-
-export interface FlowStyle {
-  color?: string;
-  language?: string;
 }
 
 export type IFlowPhoneOwnership = {
@@ -60,12 +56,12 @@ export interface IFlow {
   ipValidation?: IpValidation;
   inputTypes?: { id?: string }[];
   inputValidationChecks?: InputValidationCheck[];
-  logo?: Logo;
+  logo?: LogoUrls;
   name?: string;
   policyInterval?: string;
   postponedTimeout?: string;
   pinnedCountries?: string[];
-  style?: FlowStyle;
+  style?: IFlowStyle;
   customFieldsConfig?: VerificationCustomFieldsInputData;
   supportedCountries?: string[];
   updatedAt?: string;

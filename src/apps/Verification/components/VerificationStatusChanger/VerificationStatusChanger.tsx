@@ -1,27 +1,22 @@
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { PremiumAmlWatchlistsMonitoringNotification } from 'apps/Aml';
 import { notification } from 'apps/ui';
-import { getStatusById, IdentityStatuses, IdentityStatus } from 'models/Status.model';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { sendWebhook } from 'state/webhooks/webhooks.actions';
+import { useSelector } from 'react-redux';
 import { selectMerchantAgentNotesConfig } from 'state/merchant/merchant.selectors';
+import { getStatusById, IdentityStatuses, IdentityStatus } from 'models/Status.model';
 import { WithAgent } from 'models/Collaborator.model';
 import { IAgentNotesConfig } from 'models/Merchant.model';
 import { useRole } from 'apps/collaborators';
 import { useOverlay } from 'apps/overlay';
-import { verificationStatusUpdate } from '../../state/Verification.actions';
 import { StatusSelector } from '../StatusSelector/StatusSelector';
 import { VerificationStatusChangeDialog } from '../VerificationStatusChangeDialog/VerificationStatusChangeDialog';
 import { useStyles } from './VerificationStatusChanger.styles';
 
-export function VerificationStatusChanger({ verificationStatus, verificationId, identity }: {
+export function VerificationStatusChanger({ verificationStatus, isAmlMonitoringOn, onUpdateIdentityStatus }: {
   verificationStatus: IdentityStatuses;
-  verificationId: string;
-  identity: any;
+  isAmlMonitoringOn: boolean;
+  onUpdateIdentityStatus: (value: IdentityStatuses, agentNote?: string | null) => void;
 }) {
-  const dispatch = useDispatch();
-  const intl = useIntl();
   const classes = useStyles();
   const isFallback = useRef(false);
   const currentStatus = useRef(null);
@@ -31,18 +26,7 @@ export function VerificationStatusChanger({ verificationStatus, verificationId, 
   const [createOverlay, closeOverlay] = useOverlay();
   const [status, setStatus] = useState<IdentityStatus>(getStatusById(verificationStatus));
   const [isOpen, setOpen] = useState<boolean>(false);
-  const identityId = useMemo<string>(() => identity?._id, [identity]);
   const role = useRole();
-
-  const handleUpdateIdentity = useCallback(async (value) => {
-    if (verificationId) {
-      await dispatch(verificationStatusUpdate(verificationId, value, agentNote.current));
-    }
-    if (identityId) {
-      await dispatch(sendWebhook(identityId));
-    }
-    notification.info(intl.formatMessage({ id: 'identities.details.webhook.success' }));
-  }, [dispatch, identityId, intl, verificationId]);
 
   const handleCloseNotification = useCallback(() => {
     if (isFallback.current) {
@@ -50,8 +34,8 @@ export function VerificationStatusChanger({ verificationStatus, verificationId, 
       setStatus(currentStatus.current);
       return;
     }
-    handleUpdateIdentity(currentStatus.current.id);
-  }, [currentStatus, previousStatus, handleUpdateIdentity]);
+    onUpdateIdentityStatus(currentStatus.current.id);
+  }, [currentStatus, previousStatus, onUpdateIdentityStatus]);
 
   const handleEnableFallback = useCallback(() => {
     isFallback.current = true;
@@ -62,7 +46,7 @@ export function VerificationStatusChanger({ verificationStatus, verificationId, 
     currentStatus.current = { ...newStatus };
     setStatus(currentStatus.current);
     setOpen(false);
-    if (identity?.premiumAmlWatchlistsMonitoringStep) {
+    if (isAmlMonitoringOn) {
       isFallback.current = false;
       const isSwitchedToVerified = newStatus.id === IdentityStatuses.verified;
       await notification.info((
@@ -74,10 +58,9 @@ export function VerificationStatusChanger({ verificationStatus, verificationId, 
         className: classes.ongoingMonitoringNotification,
         onClose: handleCloseNotification,
       });
-    } else {
-      handleUpdateIdentity(currentStatus.current.id);
     }
-  }, [classes.ongoingMonitoringNotification, handleCloseNotification, handleEnableFallback, handleUpdateIdentity, identity]);
+    onUpdateIdentityStatus(currentStatus.current.id, agentNote.current);
+  }, [classes.ongoingMonitoringNotification, handleCloseNotification, handleEnableFallback, onUpdateIdentityStatus, isAmlMonitoringOn]);
 
   const handleVerificationStatusChangeDialogSubmit = useCallback((newStatus: IdentityStatus) => (note: string) => {
     agentNote.current = note;

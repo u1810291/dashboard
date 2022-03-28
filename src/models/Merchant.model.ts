@@ -54,4 +54,11 @@ export enum MerchantTags {
   CanUseFacematchCPFInBr = 'can-use-facematch-in-br-govchecks',
   CanUseArRenaperExtended = 'can-use-ar-renaper-extended-govcheck',
   CanUseNigerianBNV = 'can-use-nigerian-bvn',
+  CanUseV2Workflow = 'can-use-v2-workflow',
+  CanUseNigerianCac = 'can-use-nigerian-cac',
+  CanUseNigerianTin = 'can-use-nigerian-tin',
+  CanUseNigerianDL = 'can-use-nigerian-dl',
+  CanUseNigerianNIN = 'can-use-nigerian-nin',
+  CanUseNigerianVIN = 'can-use-nigerian-vin',
+  CanUseDuplicateFaceDetection = 'can-use-duplicate-face-detection',
 }

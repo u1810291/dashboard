@@ -54,12 +54,12 @@ export function VerificationList() {
     <Container maxWidth={false}>
       <Box pt={{ xs: 2, lg: 4 }}>
         <Grid container spacing={2} direction="column">
-          <Grid item container justify="space-between">
+          <Grid item container justifyContent="space-between">
             {/* search */}
             <Grid item xs={6}>
               <VerificationSearch onSetFilter={addToUrl} />
             </Grid>
-            <Grid item xs={6} container justify="flex-end">
+            <Grid item xs={6} container justifyContent="flex-end">
               <Grid item>
                 <Box mr={2} className={classes.downloadButton}>
                   <RoleRenderGuard roles={WithAgent}>

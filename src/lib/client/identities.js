@@ -35,14 +35,6 @@ export function deleteIdentity(id) {
   return http.delete(`/api/v1/identities/${id}`);
 }
 
-export function getIdentity(id, params) {
-  return http.get(`/api/v1/identities/${id}?embed=verification`, { params });
-}
-
-export async function putCustomerNotes(identityId, notes) {
-  return http.put(`/api/v1/dashboard/identity/${identityId}/notes`, notes);
-}
-
 export function postPdfDownloaded(identityId, verificationId) {
   return http.post(`/api/v1/dashboard/audit/identities/${identityId}/verifications/${verificationId}/pdf-downloaded`);
 }

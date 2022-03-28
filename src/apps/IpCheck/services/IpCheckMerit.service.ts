@@ -1,19 +1,19 @@
-import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductSettings, ProductTypes } from 'models/Product.model';
-import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
+import { isNil } from 'lib/isNil';
+import { IWorkflow, removeBlock, updateBlock } from 'models/Workflow.model';
 import { FiMapPin } from 'react-icons/fi';
-import { getIpCheckStep, IpCheckStep } from 'models/IpCheck.model';
-import { VerificationResponse } from 'models/VerificationOld.model';
-import { getStepStatus, StepStatus } from 'models/Step.model';
-import { IpCheckCheckTypes, IpCheckSettingsTypes, IpCheckValidationTypes } from 'apps/IpCheck/models/IpCheck.model';
 import { ProductBaseWorkflow } from 'apps/WorkflowBuilder';
+import { IpCheckValidationTypes } from 'models/IpCheck.model';
+import { IpCheckCheckTypes, IpCheckMeritId, IpCheckSettingsTypes, IpCheckVerificationOutput, IVerificationWithIpCheck } from '../models/IpCheck.model';
+import { IpCheckPdf } from '../components/IpCheckPdf/IpCheckPdf';
 import { IpCheckVerification } from '../components/IpCheckVerification/IpCheckVerification';
 import { IpCheckSettings } from '../components/IpCheckSettings/IpCheckSettings';
 
 type ProductSettingsIpCheck = ProductSettings<IpCheckSettingsTypes>;
 
-export class IpCheckMerit extends ProductBaseWorkflow implements Product {
+export class IpCheckMerit extends ProductBaseWorkflow implements Product<IWorkflow, IVerificationWithIpCheck> {
   id = ProductTypes.IpCheck;
+  meritId = IpCheckMeritId
   order = 50;
   integrationTypes = [];
   icon = FiMapPin;
@@ -32,63 +32,81 @@ export class IpCheckMerit extends ProductBaseWorkflow implements Product {
   }];
   component = IpCheckSettings;
   componentVerification = IpCheckVerification;
+  componentPdf = IpCheckPdf;
 
-  parser(flow: IFlow): ProductSettingsIpCheck {
+  parser(flow: IWorkflow): ProductSettingsIpCheck {
+    const productBlock = this.getProductBlock(flow);
     return {
       [IpCheckSettingsTypes.IpValidation]: {
-        value: flow?.verificationPatterns?.[VerificationPatternTypes.IpValidation],
+        value: productBlock?.setting?.geoRestriction?.restriction,
       },
       [IpCheckSettingsTypes.AllowedRegions]: {
-        value: flow?.ipValidation?.allowedRegions,
+        value: productBlock?.setting?.geoRestriction.allowedCountries,
       },
       [IpCheckSettingsTypes.VpnDetection]: {
-        value: flow?.verificationPatterns?.[VerificationPatternTypes.VpnDetection],
+        value: productBlock?.setting?.vpnDetection,
       },
     };
   }
 
-  serialize(settings: ProductSettingsIpCheck): Partial<IFlow> {
+  serialize(settings: ProductSettingsIpCheck, flow?: IWorkflow): Partial<IWorkflow> {
+    const newBlock = {
+      setting: {
+        vpnDetection: !!settings[IpCheckSettingsTypes.VpnDetection]?.value,
+        geoRestriction: {
+          allowedCountries: settings[IpCheckSettingsTypes.AllowedRegions]?.value,
+          restriction: settings[IpCheckSettingsTypes.IpValidation]?.value,
+        },
+      },
+    };
+    const resultBlockArray = updateBlock(this.meritId, flow.block, newBlock);
+
     return {
-      verificationPatterns: {
-        [VerificationPatternTypes.IpValidation]: settings[IpCheckSettingsTypes.IpValidation].value,
-        [VerificationPatternTypes.VpnDetection]: settings[IpCheckSettingsTypes.VpnDetection].value,
-      },
-      ipValidation: {
-        allowedRegions: settings[IpCheckSettingsTypes.AllowedRegions].value,
-      },
+      block: resultBlockArray,
     };
   }
 
-  onAdd(): Partial<IFlow> {
+  onAdd(flow: IWorkflow): Partial<IWorkflow> {
+    // TODO @vladislav.snimshchikov: Change the template when adding a new block, when information about the expected format appears
+    const meritBlock = {
+      id: this.order,
+      blockReferenceName: `${this.meritId}-${this.order}`,
+      name: '',
+      type: '',
+      setting: {
+        vpnDetection: false,
+        geoRestriction: {
+          allowedCountries: [],
+          restriction: IpCheckValidationTypes.Basic,
+        },
+      },
+    };
+
+    const resultBlockArray = [...flow.block, meritBlock];
     return {
-      verificationPatterns: {
-        [VerificationPatternTypes.IpValidation]: IpCheckValidationTypes.Basic,
-      },
+      ...flow,
+      block: resultBlockArray,
     };
   }
 
-  onRemove(): Partial<IFlow> {
-    return {
-      verificationPatterns: {
-        [VerificationPatternTypes.IpValidation]: IpCheckValidationTypes.None,
-        [VerificationPatternTypes.VpnDetection]: false,
-      },
-    };
+  onRemove(flow?: IWorkflow): Partial<IWorkflow> {
+    return { block: removeBlock(this.meritId, flow.block) };
   }
 
-  isInFlow(flow: IFlow): boolean {
-    return flow?.verificationPatterns?.[VerificationPatternTypes.IpValidation] !== undefined && flow.verificationPatterns[VerificationPatternTypes.IpValidation] !== IpCheckValidationTypes.None;
+  isInFlow(workflow: IWorkflow): boolean {
+    return !!this.getProductBlock(workflow);
   }
 
-  getVerification(verification: VerificationResponse): IpCheckStep {
-    return getIpCheckStep(verification?.steps);
+  isInVerification(verification: IVerificationWithIpCheck): boolean {
+    return !isNil(verification?.blocks?.ip?.output);
   }
 
-  hasFailedCheck(verification: VerificationResponse): boolean {
-    const ipCheckStep = getIpCheckStep(verification?.steps);
-    if (!ipCheckStep) {
-      return false;
-    }
-    return getStepStatus(ipCheckStep) === StepStatus.Failure;
+  getVerification(verification: IVerificationWithIpCheck): IpCheckVerificationOutput {
+    return verification?.blocks?.ip?.output;
+  }
+
+  hasFailedCheck(verification: IVerificationWithIpCheck): boolean {
+    const output = verification?.blocks?.ip?.output;
+    return output?.vpnDetection === false || output?.geoRestriction === false;
   }
 }

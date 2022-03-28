@@ -3,6 +3,7 @@ import { ErrorStatuses } from 'models/Error.model';
 import { getStepStatus, IStep, StepStatus } from 'models/Step.model';
 
 export const customWatchlistsPollingDelay = 5000;
+export const VALIDATION_ERROR_TYPE_MAX_COUNT = 'watchlists.maxRowCountReached';
 
 export enum CsvSeparatorInputEnum {
   Semicolon = 'semicolon',
@@ -131,7 +132,7 @@ export interface CustomWatchlistValidationErrorData {
 export interface CustomWatchlistValidationError {
   code: ErrorStatuses;
   type: string;
-  data?: CustomWatchlistValidationErrorData;
+  data: CustomWatchlistValidationErrorData;
   message?: string;
   name?: string;
   stack?: string;
@@ -238,6 +239,10 @@ export function getCustomWatchlistErrorsFormated(errors?: CustomWatchlistValidat
   }
 
   return errors.reduce((memo, cur) => {
+    if (cur.code === ErrorStatuses.ValidationError) {
+      return null;
+    }
+
     const fieldName = cur.data.fieldName;
 
     memo[fieldName] = errors.filter((item) => item.data.fieldName === fieldName);

@@ -1,5 +1,5 @@
 import { forDevsRoutes } from 'apps/forDevelopers';
-import { identityProfileRoutes } from 'apps/IdentityProfile';
+import { identityProfileOldRoutes } from 'apps/IdentityProfileOld';
 import { Page404, PageLoader } from 'apps/layout';
 import { MerchantGuard } from 'apps/merchant';
 import { appPalette } from 'apps/theme';
@@ -62,6 +62,11 @@ const FlowListLazy = lazy(async () => {
   return { default: FlowList };
 });
 
+const WorkflowListLazy = lazy(async () => {
+  const { WorkflowListPage } = await import('pages/WorkflowList');
+  return { default: WorkflowListPage };
+});
+
 const ProductBoardLazy = lazy(async () => {
   const { ProductBoard } = await import('apps/ProductBoard');
   return { default: ProductBoard };
@@ -86,7 +91,7 @@ export function DashboardRouter() {
               </IdentityProfileLazy>
             )}
           />
-          {identityProfileRoutes}
+          {identityProfileOldRoutes}
           {verificationListRoutes}
           {forDevsRoutes}
           {/* TODO: @ggrigorev refactor Dashboard router. All of the problems are because of the Switch. It supports only <Route/> tags as children */}
@@ -94,6 +99,7 @@ export function DashboardRouter() {
           <RoleRoutingGuard roles={[CollaboratorRoles.ADMIN]}>
             <Route path={Routes.analytics.root} component={AnalyticsContainerLazy} />
             <Route exact path={Routes.flow.root} component={FlowListLazy} />
+            <Route exact path={Routes.workflow.root} component={WorkflowListLazy} />
             <Route path={Routes.flow.details} component={FlowBuilderLazy} />
             <Route path={Routes.workflow.details} component={WorkFlowBuilderLazy} />
             <Route path={Routes.collaborators.agentProfile.details} component={AgentHistoryLazy} />

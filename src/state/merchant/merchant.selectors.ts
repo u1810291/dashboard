@@ -29,7 +29,7 @@ export const selectOwnerId = createSelector(
   selectModelValue((merchant: Merchant) => merchant?.owner),
 );
 
-export const selectIsOwnerModel = createSelector(
+export const selectIsOwnerModel = createSelector<any, any, any, Loadable<boolean>>(
   selectMerchantModel,
   selectUserId,
   selectLoadableValue((merchant, userId) => {
@@ -67,7 +67,7 @@ export const selectMerchantCreatedAt = createSelector<any, any, string>(
   selectModelValue((merchant) => merchant.createdAt),
 );
 
-export const selectMerchantBusinessName = createSelector(
+export const selectMerchantBusinessName = createSelector<any, any, string>(
   selectMerchantModel,
   selectModelValue((merchant) => merchant.businessName),
 );

@@ -9,9 +9,9 @@ import { useFormatMessage } from 'apps/intl';
 import { ErrorStatuses } from 'models/Error.model';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { WithActionDescriptionBordered, FileSelectButton } from 'apps/ui';
-import { selectCurrentCustomWatchlistIsFileAvailable, selectCurrentCustomWatchlistFileInfo, selectCurrentCustomWatchlistFileError } from '../../state/CustomWatchlist.selectors';
+import { selectCurrentCustomWatchlistIsFileAvailable, selectCurrentCustomWatchlistFileInfo, selectCurrentCustomWatchlistFileError, selectCurrentCustomWatchlistError } from '../../state/CustomWatchlist.selectors';
 import { useStyles, RoundedButton } from './CustomWatchlistModalValidationFileUploadForm.styles';
-import { CustomWatchlistModalValidationInputs, CustomWatchlistFileExt, CustomWatchlistUpload, IWatchlist } from '../../models/CustomWatchlist.models';
+import { CustomWatchlistModalValidationInputs, CustomWatchlistFileExt, CustomWatchlistUpload, IWatchlist, CustomWatchlistValidationError, VALIDATION_ERROR_TYPE_MAX_COUNT } from '../../models/CustomWatchlist.models';
 import * as api from '../../client/CustomWatchlist.client';
 import { CSVSeparatorSelect } from '../CSVSeparatorSelect/CSVSeparatorSelect';
 import { updateCurrentWatchlist } from '../../state/CustomWatchlist.actions';
@@ -27,6 +27,7 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
   const isFileAvailable = useSelector<any, boolean>(selectCurrentCustomWatchlistIsFileAvailable);
   const fileErrorType = useSelector<any, string>(selectCurrentCustomWatchlistFileError);
   const currentCustomWatchlistFileInfo = useSelector<any, Partial<{ fileKey: string; fileName: string }>>(selectCurrentCustomWatchlistFileInfo);
+  const currentWatchlistError = useSelector<any, CustomWatchlistValidationError[] | null>(selectCurrentCustomWatchlistError);
   const [isFileUploadLoading, setIsFileUploadLoading] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>(watchlist?.process?.inputSourceFileName);
@@ -146,7 +147,18 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
             {!isFileUploadLoading ? formatMessage('CustomWatchlist.settings.modal.button.uploadFile') : <CircularProgress color="inherit" size={17} />}
           </Button>
           {(!file && isFileAvailable) && <span className={classes.uploadButtonHelper}>{formatMessage('CustomWatchlist.settings.modal.button.uploadFile.helper')}</span>}
-          {(!file && !isFileAvailable) && <span className={classes.error}>{formatMessage('CustomWatchlist.settings.modal.button.uploadFile.error')}</span>}
+          {(!file && !isFileAvailable) && (
+            <span className={classes.error}>
+              {formatMessage('CustomWatchlist.settings.modal.button.uploadFile.error')}
+              .
+            </span>
+          )}
+          {(currentWatchlistError && currentWatchlistError[0].type === VALIDATION_ERROR_TYPE_MAX_COUNT) && (
+            <span className={classes.error}>
+              {formatMessage(`CustomWatchlist.settings.modal.button.${currentWatchlistError[0].type}`)}
+              .
+            </span>
+          )}
         </>
       )}
     </>

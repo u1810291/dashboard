@@ -1,11 +1,12 @@
 import { http } from 'lib/client/http';
+import { IVerificationWorkflow } from 'models/Verification.model';
 
 export function getVerificationList(identityId: string, params: any) {
   return http.get(`/api/v1/dashboard/identity/${identityId}/verification`, { params });
 }
 
 export function getVerification(verificationId: string, params: any) {
-  return http.get(`/api/v1/dashboard/verification/${verificationId}`, { params });
+  return http.get<IVerificationWorkflow>(`/api/v3/dashboard/verification/${verificationId}`, { params });
 }
 
 export function verificationStatusUpdate(verificationId: string, status: string, agentNote?: string) {

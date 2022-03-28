@@ -63,15 +63,12 @@ export const flowBuilderChangeableFlowLoad = () => (dispatch, getState) => {
 export const flowBuilderChangeableFlowUpdate = (changes: Partial<IFlow>) => (dispatch, getState) => {
   const state = getState();
   const changeableFlow = selectFlowBuilderChangeableFlow(state);
-  // @ts-ignore
   dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
   try {
     const updatedFlow = mergeDeep(changeableFlow, changes);
     dispatch({ type: types.HAVE_UNSAVED_CHANGES_UPDATE, payload: true });
-    // @ts-ignore
     dispatch({ type: types.CHANGEABLE_FLOW_SUCCESS, payload: updatedFlow, isReset: true });
   } catch (error) {
-    // @ts-ignore
     dispatch({ type: types.CHANGEABLE_FLOW_FAILURE, error });
     throw error;
   }

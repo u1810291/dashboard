@@ -5,7 +5,7 @@ import { FieldTypes } from 'models/Field.model';
 import { IdentityStatuses, isChangeableStatus, VerificationStatusChangeReason } from 'models/Status.model';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { IFlow } from './Flow.model';
-import { getIpCheckStep } from './IpCheck.model';
+import { getIpCheckStep } from './IpCheckOld.model';
 import { getReVerificationStep } from './ReVerification.model';
 import { DocumentStepTypes, getStepExtra, StepTypes, VerificationDocStepTypes } from './Step.model';
 import { DigitalSignature } from './DigitalSignature.model';

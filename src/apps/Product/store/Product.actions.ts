@@ -2,7 +2,7 @@ import { amlCheckInit } from 'apps/Aml/state/Aml.actions';
 import { biometricVerificationOldInit } from 'apps/BiometricVerificationOld';
 import { documentVerificationOldInit } from 'apps/DocumentVerificationOld';
 import { govCheckOldInit } from 'apps/GovCheckOld';
-import { ipCheckOldInit } from 'apps/IpCheckOld/state/IpCheck.actions';
+import { ipCheckOldInit } from 'apps/IpCheckOld';
 import { customWatchlistInit } from 'apps/CustomWatchlist/state/CustomWatchlist.actions';
 import { EmailCheckInit } from 'apps/EmailCheck/state/EmailCheck.actions';
 import { PhoneCheckInit } from 'apps/PhoneCheck/state/PhoneCheck.actions';
@@ -11,6 +11,8 @@ import { bankAccountDataInit } from 'apps/BankAccountData';
 import { workAccountDataInit } from 'apps/WorkAccountData';
 import { payrollAccountDataInit } from 'apps/PayrollAccountData';
 import { compact } from 'lodash';
+import { IVerificationWorkflow } from 'models/Verification.model';
+import { VerificationResponse } from 'models/VerificationOld.model';
 import { storeAction } from 'state/store.utils';
 import { ProductTypes } from 'models/Product.model';
 import { creditCheckInit } from 'apps/CreditCheck/state/CreditCheck.actions';
@@ -23,10 +25,9 @@ import { CustomFieldInit } from 'apps/CustomField';
 import { metadataInit } from 'apps/metadata/state/Metadata.actions';
 import { certifiedTimestampInit } from 'apps/CertifiedTimestamp/state/CertifiedTimestamp.actions';
 import { ipCheckInit } from 'apps/IpCheck/state/IpCheck.actions';
-import { documentVerificationInit } from 'apps/documentVerification/state/DocumentVerification.actions';
-import { biometricVerificationInit } from 'apps/biometricVerification/state/BiometricVerification.actions';
-import { govCheckInit } from 'apps/GovCheck/state/GovCheck.actions';
 import { ProductActionTypes } from './Product.store';
+import { productManagerService } from '../services/ProductManager.service';
+import { selectProductRegistered } from './Product.selectors';
 
 export const productIsInitedUpdate = storeAction<boolean>(ProductActionTypes.ProductIsInitedUpdate);
 export const productRegisteredUpdate = storeAction<string[]>(ProductActionTypes.ProductRegistered);
@@ -62,10 +63,19 @@ export const productFlowbuilderInit = () => (dispatch) => {
 export const productWorkflowBuilderInit = () => (dispatch) => {
   const registered: ProductTypes[] = [
     dispatch(ipCheckInit()),
-    dispatch(documentVerificationInit()),
-    dispatch(biometricVerificationInit()),
-    dispatch(govCheckInit()),
   ];
   dispatch(productRegisteredUpdate(compact(registered)));
   dispatch(productIsInitedUpdate(true));
+};
+
+export const verificationProductListInit = (verification: VerificationResponse | IVerificationWorkflow) => (dispatch, getState): ProductTypes[] => {
+  const registered = selectProductRegistered(getState());
+  const activated = registered.filter((item) => {
+    const product = productManagerService.getProduct(item);
+    if (!product) {
+      return false;
+    }
+    return product.isInVerification(verification);
+  });
+  return productManagerService.sortProductTypes(activated);
 };
