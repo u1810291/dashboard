@@ -2,10 +2,8 @@ import { Product, ProductTypes } from 'models/Product.model';
 import { IFlow } from 'models/Flow.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { IVerificationWorkflow } from 'models/Verification.model';
+import { IWorkflow } from 'models/Workflow.model';
 
-// WIP: All products that depend on IWorkflow will need to conform to its final IWorkflow interface.
-// "any" for now to unblock intermediary steps towards it. @pablo.saucedo
-type IWorkflow = any;
 export class ProductManagerService<S = IFlow | IWorkflow, T = VerificationResponse | IVerificationWorkflow> {
   private products: Product<S, T>[] = [];
 

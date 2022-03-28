@@ -1,5 +1,3 @@
-import { AnyAction, Reducer } from 'redux';
-
 export enum ActionSubTypes {
   Request = 'REQUEST',
   Success = 'SUCCESS',
@@ -13,10 +11,9 @@ export type TypesSequence = {
 };
 
 export const storeAction = <T>(type: string) => (payload: T) => (dispatch) => dispatch({ type, payload });
-export type ReducerHandlers<State> = { [key: string]: (state: State, action: AnyAction & { isReset?: boolean }) => State }
 
-export function createReducer<State>(initialState: State, handlers: ReducerHandlers<State>): Reducer<State, AnyAction> {
-  return function reducer(state = initialState, action: AnyAction) {
+export function createReducer(initialState, handlers) {
+  return function reducer(state = initialState, action) {
     if (!Object.hasOwnProperty.call(handlers, action.type)) {
       return state;
     }

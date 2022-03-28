@@ -28,7 +28,7 @@ export function DropZoneNode() {
   }, [addProduct, handleAdd]);
 
   return (
-    <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.root} onDrop={handleDrop}>
+    <Grid container direction="column" justify="center" alignItems="center" className={classes.root} onDrop={handleDrop}>
       <Box color="common.black75" fontWeight="bold">
         {intl.formatMessage({ id: 'FlowBuilder.graph.dropZone' })}
       </Box>

@@ -3,12 +3,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route } from 'react-router-dom';
 import { Routes } from 'models/Router.model';
-import { selectUserId } from 'apps/user/state/user.selectors';
+import { selectAuthToken } from '../state/auth.selectors';
 
 export function PrivateRoute({ ...props }) {
-  const userId = useSelector(selectUserId);
+  const token = useSelector(selectAuthToken);
 
-  if (!userId) {
+  if (!token) {
     return <RedirectWithLocation pathname={Routes.auth.signIn} />;
   }
 

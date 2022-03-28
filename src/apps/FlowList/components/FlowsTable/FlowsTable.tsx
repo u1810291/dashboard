@@ -27,7 +27,7 @@ import { StartModal, StepsOptions, OnboardingNames } from 'apps/Analytics';
 import { useOverlay } from 'apps/overlay';
 import { MerchantTags } from 'models/Merchant.model';
 import { TemplatesModal } from 'apps/SolutionCatalog';
-import { NoFlows } from 'pages/WorkflowList/components/NoFlows/NoFlows';
+import { NoFlows } from '../NoFlows/NoFlows';
 import { TableRowHovered, useStyles } from './FlowsTable.styles';
 
 export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {

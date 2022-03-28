@@ -14,11 +14,18 @@ export class HttpClient {
     this.client = axios.create(options);
   }
 
-  async getHeaders(method: ClientMethodTypes) {
+  setBearerToken(token: string) {
+    this.bearerToken = token;
+  }
+
+  async getHeaders(method: ClientMethodTypes, isPrivate: boolean) {
     const headers: any = {
       'x-mati-app': `platform=dashboard; version=${process.env.REACT_APP_VERSION}`,
     };
 
+    if (isPrivate && this.bearerToken) {
+      headers.Authorization = `Bearer ${this.bearerToken}`;
+    }
     if (ClientPrivateMethodList.includes(method)) {
       headers[CLIENT_CSRF_HEADER_NAME] = await this.getCSRFToken();
     }
@@ -37,7 +44,7 @@ export class HttpClient {
   }
 
   async resolveCSRFToken(): Promise<string> {
-    const { data } = await this.get<ClientCSRFResponse>(CLIENT_CSRF_URL, null);
+    const { data } = await this.get<ClientCSRFResponse>(CLIENT_CSRF_URL, null, false);
     devWarn('New CSRF token:', data?.token);
     return data?.token;
   }
@@ -61,55 +68,55 @@ export class HttpClient {
   }
 
   // TODO @dkchv: !!! remove any
-  async get<T = any>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  async get<T = any>(url: string, config?: AxiosRequestConfig, isPrivate = true): Promise<ApiResponse<T>> {
     return this.createRequest<T>({
       url: this.getCorsURL(url),
       ...config,
       method: ClientMethodTypes.GET,
-      headers: await this.getHeaders(ClientMethodTypes.GET),
+      headers: await this.getHeaders(ClientMethodTypes.GET, isPrivate),
       withCredentials: true,
     });
   }
 
-  async post<T>(url: string, data: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  async post<T>(url: string, data: any, config?: AxiosRequestConfig, isPrivate = true): Promise<ApiResponse<T>> {
     return this.createRequest<T>({
       ...config,
       url: this.getCorsURL(url),
       data,
       method: ClientMethodTypes.POST,
-      headers: await this.getHeaders(ClientMethodTypes.POST),
+      headers: await this.getHeaders(ClientMethodTypes.POST, isPrivate),
       withCredentials: true,
     });
   }
 
-  async patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  async patch<T>(url: string, data?: any, config?: AxiosRequestConfig, isPrivate = true): Promise<ApiResponse<T>> {
     return this.createRequest<T>({
       ...config,
       url: this.getCorsURL(url),
       data,
       method: ClientMethodTypes.PATCH,
-      headers: await this.getHeaders(ClientMethodTypes.PATCH),
+      headers: await this.getHeaders(ClientMethodTypes.PATCH, isPrivate),
       withCredentials: true,
     });
   }
 
-  async put<T>(url: string, data: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  async put<T>(url: string, data: any, config?: AxiosRequestConfig, isPrivate = true): Promise<ApiResponse<T>> {
     return this.createRequest<T>({
       ...config,
       url: this.getCorsURL(url),
       data,
       method: ClientMethodTypes.PUT,
-      headers: await this.getHeaders(ClientMethodTypes.PUT),
+      headers: await this.getHeaders(ClientMethodTypes.PUT, isPrivate),
       withCredentials: true,
     });
   }
 
-  async delete<T>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  async delete<T>(url: string, config?: AxiosRequestConfig, isPrivate = true): Promise<ApiResponse<T>> {
     return this.createRequest<T>({
       ...config,
       url: this.getCorsURL(url),
       method: ClientMethodTypes.DELETE,
-      headers: await this.getHeaders(ClientMethodTypes.DELETE),
+      headers: await this.getHeaders(ClientMethodTypes.DELETE, isPrivate),
       withCredentials: true,
     });
   }

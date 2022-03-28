@@ -56,7 +56,6 @@ export enum MerchantTags {
   CanUseAddSolutionToCatalog = 'can-add-solution-to-catalog',
   CanUseArRenaperExtended = 'can-use-ar-renaper-extended-govcheck',
   CanUseNigerianBNV = 'can-use-nigerian-bvn',
-  CanUseV2Workflow = 'can-use-v2-workflow',
   CanUseNigerianCac = 'can-use-nigerian-cac',
   CanUseNigerianTin = 'can-use-nigerian-tin',
   CanUseNigerianDL = 'can-use-nigerian-dl',

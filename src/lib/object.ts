@@ -4,10 +4,6 @@ export type Serializable<T> = {
   [Property in keyof T]?: string | number | boolean;
 }
 
-export type DeepPartial<T> = {
-  [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K]
-}
-
 /**
  * Deep diff between two object, using lodash
  * @param  {Object} values Object compared
@@ -48,18 +44,15 @@ export function isObject(item) {
  */
 export function mergeDeep(target, source) {
   const output = { ...target };
-  if (!isObject(target) || !isObject(source)) {
-    return output;
+  if (isObject(target) && isObject(source)) {
+    Object.keys(source).forEach((key) => {
+      if (isObject(source[key])) {
+        if (!(key in target)) Object.assign(output, { [key]: source[key] });
+        else output[key] = mergeDeep(target[key], source[key]);
+      } else {
+        Object.assign(output, { [key]: source[key] });
+      }
+    });
   }
-
-  Object.keys(source).forEach((key) => {
-    if (isObject(source[key])) {
-      if (!(key in target)) Object.assign(output, { [key]: source[key] });
-      else output[key] = mergeDeep(target[key], source[key]);
-    } else {
-      Object.assign(output, { [key]: source[key] });
-    }
-  });
-
   return output;
 }

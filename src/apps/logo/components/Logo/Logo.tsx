@@ -68,7 +68,7 @@ export function Logo() {
       </div>
 
       {/* actions */}
-      <Grid container direction="column" justifyContent="space-between" className={classes.actions}>
+      <Grid container direction="column" justify="space-between" className={classes.actions}>
         <div {...getRootProps()}>
           <IconButton
             size="small"

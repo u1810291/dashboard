@@ -8,15 +8,18 @@ import { PreviewButton } from 'apps/WebSDKPreview';
 import { ReactComponent as EmptyBuilderIcon } from 'assets/empty-flow-builder.svg';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { useQuery } from 'lib/url';
+import { IFlow } from 'models/Flow.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { dagreGraphService, SaveAndPublish, FlowProductsGraph, FlowInfoContainer, ProductListSidebar, FlowBuilderProductDetails, WorkflowBuilderIntegrationDetails, workflowBuilderChangeableFlowLoad, workflowBuilderChangeableFlowUpdate, workflowBuilderClearStore, workflowBuilderLoadWorkflow, selectWorkflowBuilderChangeableFlowModel, selectWorkflowBuilderLoadedWorkflowModel, selectWorkflowBuilderSelectedId } from 'apps/WorkflowBuilder';
-import { IWorkflow } from 'models/Workflow.model';
-import { updateCurrentFlowId } from 'pages/WorkflowList';
+import { useFlowListLoad } from 'apps/FlowList';
+import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
+import { dagreGraphService, SaveAndPublish, FlowProductsGraph, FlowInfoContainer, ProductListSidebar, FlowBuilderProductDetails, WorkflowBuilderIntegrationDetails } from 'apps/WorkflowBuilder';
+import { workflowBuilderChangeableFlowLoad, workflowBuilderChangeableFlowUpdate, workflowBuilderClearStore } from 'apps/WorkflowBuilder/store/WorkflowBuilder.action';
+import { selectWorkflowBuilderChangeableFlowModel, selectWorkflowBuilderSelectedId } from 'apps/WorkflowBuilder/store/WorkflowBuilder.selectors';
 import { useStyles } from './WorkflowBuilder.styles';
 
 export function WorkflowBuilder() {
@@ -24,22 +27,15 @@ export function WorkflowBuilder() {
   const { id } = useParams();
   const selectedId = useSelector(selectWorkflowBuilderSelectedId);
   const changeableFlowModel = useSelector(selectWorkflowBuilderChangeableFlowModel);
-  const loadedWorkflowModel = useSelector(selectWorkflowBuilderLoadedWorkflowModel);
   const isProductInited = useSelector(selectProductIsInited);
   const isBigScreen = useMediaQuery('(min-width:768px)', { noSsr: true });
   const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });
   const classes = useStyles();
   const intl = useIntl();
   const { asMerchantId } = useQuery();
+  const flowListModel = useFlowListLoad();
 
   useMerit();
-
-  useEffect(() => {
-    if (!id || !LoadableAdapter.isPristine(loadedWorkflowModel)) {
-      return;
-    }
-    dispatch(workflowBuilderLoadWorkflow(id));
-  }, [dispatch, id, loadedWorkflowModel]);
 
   useEffect(() => () => {
     dispatch(workflowBuilderClearStore());
@@ -47,9 +43,6 @@ export function WorkflowBuilder() {
 
   useEffect(() => {
     const isChangedId = changeableFlowModel?.value?.id !== id;
-    if (loadedWorkflowModel.isLoading || !loadedWorkflowModel.isLoaded) {
-      return;
-    }
     if (isChangedId) {
       dispatch(updateCurrentFlowId(id));
     }
@@ -57,13 +50,13 @@ export function WorkflowBuilder() {
       dispatch(workflowBuilderChangeableFlowLoad());
     }
     dagreGraphService.createGraph();
-  }, [dispatch, id, asMerchantId, changeableFlowModel, loadedWorkflowModel.isLoading, loadedWorkflowModel.isLoaded]);
+  }, [dispatch, id, asMerchantId, flowListModel.isLoaded, changeableFlowModel]);
 
-  const handleProductUpdate = useCallback((patch: Partial<IWorkflow>) => {
+  const handleProductUpdate = useCallback((patch: Partial<IFlow>) => {
     dispatch(workflowBuilderChangeableFlowUpdate(patch));
   }, [dispatch]);
 
-  if (!isProductInited && !loadedWorkflowModel.isLoaded) {
+  if (!isProductInited && !flowListModel.isLoaded) {
     return <Loader />;
   }
 
@@ -83,12 +76,12 @@ export function WorkflowBuilder() {
             <ProductListSidebar />
           </Grid>
           <Grid item container direction="column" wrap="nowrap" className={classes.content}>
-            <Grid item container justifyContent="flex-end">
+            <Grid item container justify="flex-end">
               <Box mb={2}>
                 <SaveAndPublish />
               </Box>
             </Grid>
-            <Grid container item xs={12} justifyContent="space-between">
+            <Grid container item xs={12} justify="space-between">
               <Grid item xs={12} container direction="column" alignItems="center" className={classes.content}>
                 <Box mb={1.5} color="common.black90" fontWeight="bold" textAlign="center">
                   {intl.formatMessage({ id: 'FlowBuilder.graph.usersFlow' })}
