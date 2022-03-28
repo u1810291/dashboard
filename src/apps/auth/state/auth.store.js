@@ -6,4 +6,5 @@ export const AuthActionGroups = {
   SignOut: 'AUTH_SIGNOUT',
   Recovery: 'AUTH_RECOVERY',
   PasswordReset: 'PASSWORD_RESET',
+  PasswordChange: 'PASSWORD_CHANGE',
 };

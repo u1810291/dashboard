@@ -1,35 +1,33 @@
 import { userLoadSuccess } from 'apps/user/state/user.actions';
+import { http } from 'lib/client/http';
 import { pushEvent } from 'lib/gtm';
 import { dashboardUpdate, merchantLoadSuccess, merchantLoad } from 'state/merchant/merchant.actions';
-import { createTypesSequence, TypesSequence } from 'state/store.utils';
+import { createTypesSequence } from 'state/store.utils';
 import { selectLanguage, selectMerchantModel } from 'state/merchant/merchant.selectors';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
-import { AnyAction } from 'redux';
-import { ThunkAction } from 'redux-thunk';
 import * as api from '../api/auth.client';
 import { AuthActionGroups } from './auth.store';
-import { AuthStore } from './auth.reducer';
 
-export const types: TypesSequence = {
+export const types = {
   ...createTypesSequence(AuthActionGroups.SignIn),
   ...createTypesSequence(AuthActionGroups.SignUp),
   ...createTypesSequence(AuthActionGroups.SignOut),
   ...createTypesSequence(AuthActionGroups.Recovery),
   ...createTypesSequence(AuthActionGroups.PasswordReset),
+  ...createTypesSequence(AuthActionGroups.PasswordChange),
 };
 
-type AuthThunkAction = ThunkAction<Promise<void> | void, AuthStore, {}, AnyAction>;
-
-export const signIn = (credentials: { email: string; password: string}): AuthThunkAction => async (dispatch, getState): Promise<void> => {
+export const signIn = (credentials) => async (dispatch, getState) => {
   dispatch({ type: types.AUTH_SIGNIN_REQUEST });
   try {
     const { data } = await api.signin(credentials);
-    const { merchant, user } = data;
+    const { token, merchant, user } = data;
     const currentLang = selectLanguage(getState());
 
+    http.setBearerToken(token);
     dispatch(merchantLoadSuccess(merchant));
     dispatch(userLoadSuccess(user));
-    dispatch({ type: types.AUTH_SIGNIN_SUCCESS });
+    dispatch({ type: types.AUTH_SIGNIN_SUCCESS, payload: token });
 
     const updatedLang = selectLanguage(getState());
     if (currentLang !== updatedLang) {
@@ -43,32 +41,32 @@ export const signIn = (credentials: { email: string; password: string}): AuthThu
   }
 };
 
-export const signUpTrack = (email: string): AuthThunkAction => () => {
+export const signUpTrack = (merchant, email) => () => {
   pushEvent({ event: 'Sign Up Success' });
-  // @ts-ignore
   if (window.Appcues) {
-    // @ts-ignore
     window.Appcues.identify(email);
   }
 };
 
-export const signUp = (userData: { email: string; password: string }): AuthThunkAction => async (dispatch) => {
+export const signUp = (userData) => async (dispatch) => {
+  const { email, password, firstName, lastName } = userData;
   dispatch({ type: types.AUTH_SIGNUP_REQUEST });
 
   try {
-    const response = await api.signup(userData);
-    const { user, merchant } = response.data;
+    const response = await api.signup({ email, password, firstName, lastName });
+    const { token, user, merchant } = response.data;
+    http.setBearerToken(token);
     dispatch(merchantLoadSuccess(merchant, false));
     dispatch(userLoadSuccess(user));
-    dispatch({ type: types.AUTH_SIGNUP_SUCCESS });
-    dispatch(signUpTrack(userData.email));
+    dispatch({ type: types.AUTH_SIGNUP_SUCCESS, payload: token });
+    dispatch(signUpTrack(merchant, email));
   } catch (error) {
     dispatch({ type: types.AUTH_SIGNUP_FAILURE });
     throw error;
   }
 };
 
-export const signOut = (): AuthThunkAction => (dispatch) => {
+export const signOut = () => (dispatch) => {
   dispatch({ type: types.AUTH_SIGNOUT_REQUEST });
   window.localStorage.clear();
   if (window.Intercom) {
@@ -76,7 +74,7 @@ export const signOut = (): AuthThunkAction => (dispatch) => {
   }
 };
 
-export const passwordRecovery = (credentials: { email: string }): AuthThunkAction => async (dispatch) => {
+export const passwordRecovery = (credentials) => async (dispatch) => {
   dispatch({ type: types.AUTH_RECOVERY_REQUEST });
   try {
     const payload = await api.recovery(credentials);
@@ -87,7 +85,7 @@ export const passwordRecovery = (credentials: { email: string }): AuthThunkActio
   }
 };
 
-export const passwordReset = (credentials: { password: string; token: string }): AuthThunkAction => async (dispatch) => {
+export const passwordReset = (credentials) => async (dispatch) => {
   dispatch({ type: types.PASSWORD_RESET_REQUEST });
   try {
     const payload = await api.reset(credentials);
@@ -98,7 +96,19 @@ export const passwordReset = (credentials: { password: string; token: string }):
   }
 };
 
-export const merchantLoadWithCheck = (): AuthThunkAction => async (dispatch, getState) => {
+export const passwordChange = (credentials) => async (dispatch) => {
+  dispatch({ type: types.PASSWORD_CHANGE_REQUEST });
+  try {
+    const payload = await api.changePassword(credentials);
+    dispatch({ type: types.PASSWORD_CHANGE_SUCCESS, payload });
+    return payload;
+  } catch (error) {
+    dispatch({ type: types.PASSWORD_CHANGE_FAILURE });
+    throw error;
+  }
+};
+
+export const merchantLoadWithCheck = () => async (dispatch, getState) => {
   const merchantModel = selectMerchantModel(getState());
   if (LoadableAdapter.isPristine(merchantModel)) {
     try {
