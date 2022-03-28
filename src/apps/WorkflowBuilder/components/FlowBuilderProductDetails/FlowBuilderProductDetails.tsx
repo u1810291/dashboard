@@ -4,16 +4,17 @@ import { ProductTypes } from 'models/Product.model';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { FiX } from 'react-icons/fi';
-import { ProductSettings } from 'apps/Product';
+import { ProductSettings } from 'apps/Product/components/ProductSettings/ProductSettings';
 import { IWorkflow } from 'models/Workflow.model';
 import { useFormatMessage } from 'apps/intl';
+import { DeepPartial } from 'lib/object';
 import { workflowBuilderProductSelect } from '../../store/WorkflowBuilder.action';
 import { useStyles } from './FlowBuilderProductDetails.styles';
 
 export function FlowBuilderProductDetails({ flow, productId, onUpdate }: {
   flow: IWorkflow;
   productId: ProductTypes;
-  onUpdate: (patch: Partial<IWorkflow>) => void;
+  onUpdate: (patch: DeepPartial<IWorkflow>) => void;
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();

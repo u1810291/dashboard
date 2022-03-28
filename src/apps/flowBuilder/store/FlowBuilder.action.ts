@@ -1,5 +1,5 @@
 import { productManagerService, selectProductRegistered } from 'apps/Product';
-import { mergeDeep } from 'lib/object';
+import { DeepPartial, mergeDeep } from 'lib/object';
 import { cloneDeep } from 'lodash';
 import { ApiResponse } from 'models/Client.model';
 import { IFlow } from 'models/Flow.model';
@@ -60,7 +60,7 @@ export const flowBuilderChangeableFlowLoad = () => (dispatch, getState) => {
   }
 };
 
-export const flowBuilderChangeableFlowUpdate = (changes: Partial<IFlow>) => (dispatch, getState) => {
+export const flowBuilderChangeableFlowUpdate = (changes: DeepPartial<IFlow>) => (dispatch, getState) => {
   const state = getState();
   const changeableFlow = selectFlowBuilderChangeableFlow(state);
   dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
@@ -144,7 +144,7 @@ export const flowBuilderDelete = () => async (dispatch, getState) => {
   await dispatch(merchantDeleteFlow(flow.id));
 };
 
-export const flowBuilderSaveAndPublishSettings = (payload: Partial<IFlow>) => async (dispatch, getState) => {
+export const flowBuilderSaveAndPublishSettings = (payload: DeepPartial<IFlow>) => async (dispatch, getState) => {
   try {
     await dispatch(merchantUpdateFlow(payload));
     dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });

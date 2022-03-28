@@ -1,3 +1,5 @@
+import { DropZoneNode, ProductNode } from 'apps/WorkflowBuilder';
+import { dagreGraphService, EDGE_HEIGHT } from 'apps/WorkflowBuilder/services/dagreGraph.service';
 import { appPalette } from 'apps/theme';
 import dagre from 'dagre';
 import cloneDeep from 'lodash/cloneDeep';
@@ -5,9 +7,6 @@ import { DigitalSignatureProvider } from 'models/DigitalSignature.model';
 import { GDPRRangeTypes } from 'models/GDPR.model';
 import { ProductTypes } from 'models/Product.model';
 import { Elements, isNode, Node, Position } from 'react-flow-renderer';
-import { ProductNodeWorkflow } from '../components/ProductNodeWorkflow/ProductNodeWorkflow';
-import { dagreGraphService, EDGE_HEIGHT } from '../services/dagreGraph.service';
-import { DropZoneNode } from '../components/DropZoneNode/DropZoneNode';
 
 export const X_AXIS_COORDINATE = 0;
 
@@ -29,7 +28,7 @@ export enum NodeTypes {
 
 export const NodesMap = {
   [NodeTypes.DropZone]: DropZoneNode,
-  [NodeTypes.Product]: ProductNodeWorkflow,
+  [NodeTypes.Product]: ProductNode,
 };
 
 export enum WebhookInputTypes {

@@ -1,5 +1,5 @@
 export * from './services/ProductBaseWorkflow.service';
-export { ProductNodeWorkflow } from './components/ProductNodeWorkflow/ProductNodeWorkflow';
+export { ProductNode } from './components/ProductNode/ProductNode';
 export { DropZoneNode } from './components/DropZoneNode/DropZoneNode';
 export { Tabs } from './components/Tabs/Tabs';
 export * from './models/WorkflowBuilder.model';
@@ -14,6 +14,7 @@ export * from './components/SaveAndPublish/SaveAndPublish';
 // imported in apps/flowBuilder/components/FlowBuilder
 export * from './components/FlowInfoContainer/FlowInfoContainer';
 export * from './components/ReactFlowCustomHandler/ReactFlowCustomHandler';
+export * from './components/ReactFlowMemorised/CustomReactFlowMemorised';
 export * from './components/FlowSettingsSwitches/FlowSettingsSwitches';
 export * from './services/dagreGraph.service';
 

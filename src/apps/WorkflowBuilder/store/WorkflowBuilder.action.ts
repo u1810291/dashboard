@@ -1,5 +1,5 @@
 import { productManagerService, selectProductRegistered } from 'apps/Product';
-import { mergeDeep } from 'lib/object';
+import { DeepPartial } from 'lib/object';
 import { cloneDeep } from 'lodash';
 import { ApiResponse } from 'models/Client.model';
 import { ProductTypes } from 'models/Product.model';
@@ -7,7 +7,7 @@ import { merchantDeleteFlow, merchantUpdateFlow, merchantUpdateFlowList } from '
 import { createTypesSequence } from 'state/store.utils';
 import { subscribeToWebhook } from 'state/webhooks/webhooks.actions';
 import { selectWebhook } from 'state/webhooks/webhooks.selectors';
-import { IWorkflow, WorkflowId } from 'models/Workflow.model';
+import { IWorkflow, updateWorkflow, WorkflowId } from 'models/Workflow.model';
 import { selectCurrentFlowId, selectCurrentWorkflow } from 'pages/WorkflowList/state/workflow.selectors';
 import { WorkFlowBuilderActionGroups } from './WorkflowBuilder.store';
 import { selectWorkflowBuilderChangeableFlow, selectWorkflowBuilderLoadedWorkflow, selectWorkflowBuilderProductsInGraphModel } from './WorkflowBuilder.selectors';
@@ -72,12 +72,13 @@ export const workflowBuilderChangeableFlowLoad = () => (dispatch, getState) => {
   }
 };
 
-export const workflowBuilderChangeableFlowUpdate = (changes: Partial<IWorkflow>) => (dispatch, getState) => {
+export const workflowBuilderChangeableFlowUpdate = (changes: DeepPartial<IWorkflow>) => (dispatch, getState) => {
+  // eslint-disable-next-line no-debugger
   const state = getState();
   const changeableFlow = selectWorkflowBuilderChangeableFlow(state);
   dispatch({ type: types.CHANGEABLE_WORKFLOW_UPDATING });
   try {
-    const updatedFlow = mergeDeep(changeableFlow, changes);
+    const updatedFlow = updateWorkflow(changeableFlow, changes);
     dispatch({ type: types.HAVE_UNSAVED_CHANGES_UPDATE, payload: true });
     dispatch({ type: types.CHANGEABLE_WORKFLOW_SUCCESS, payload: updatedFlow, isReset: true });
   } catch (error) {
@@ -88,14 +89,13 @@ export const workflowBuilderChangeableFlowUpdate = (changes: Partial<IWorkflow>)
 
 export const workflowBuilderProductAdd = (productId: ProductTypes) => (dispatch, getState) => {
   const { value } = selectWorkflowBuilderProductsInGraphModel(getState());
-  const changeableFlow = selectWorkflowBuilderChangeableFlow(getState());
   if (value.includes(productId)) {
     return;
   }
   const payload = [...value, productId];
   dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, isReset: true, payload: productManagerService.sortProductTypes(payload) });
   dispatch(workflowBuilderProductSelect(productId));
-  dispatch(workflowBuilderChangeableFlowUpdate(productManagerService.getProduct(productId).onAdd(changeableFlow)));
+  dispatch(workflowBuilderChangeableFlowUpdate(productManagerService.getProduct(productId).onAdd()));
 };
 
 export const workflowBuilderProductRemove = (productId: ProductTypes) => (dispatch, getState) => {
@@ -154,7 +154,7 @@ export const workflowBuilderDelete = () => async (dispatch, getState) => {
   await dispatch(merchantDeleteFlow(flow.id));
 };
 
-export const workflowBuilderSaveAndPublishSettings = (payload: Partial<IWorkflow>) => async (dispatch, getState) => {
+export const workflowBuilderSaveAndPublishSettings = (payload: DeepPartial<IWorkflow>) => async (dispatch, getState) => {
   try {
     await dispatch(merchantUpdateFlow(payload));
     dispatch({ type: types.CHANGEABLE_WORKFLOW_UPDATING });

@@ -1,11 +1,11 @@
+import { LogoUrl } from 'apps/logo';
 import { selectModelValue } from 'lib/loadable.selectors';
 import { Loadable } from 'models/Loadable.model';
 import { ProductTypes } from 'models/Product.model';
 import { createSelector } from 'reselect';
-import { IFlowStyle, IWorkflow, IWorkflowResponse } from 'models/Workflow.model';
+import { FlowStyle, IWorkflow, WorkflowResponse } from 'models/Workflow.model';
 import { GDPRSettings } from 'models/GDPR.model';
 import { Webhook } from 'models/Webhook.model';
-import { LogoUrl } from 'apps/logo';
 import { SliceNames, WORKFLOW_BUILDER_STORE_KEY, WorkflowBuilderStore } from './WorkflowBuilder.store';
 
 export const workFlowBuilderStore = (state): WorkflowBuilderStore => state[WORKFLOW_BUILDER_STORE_KEY];
@@ -35,9 +35,9 @@ export const selectWorkflowBuilderChangeableFlow = createSelector<any, any, IWor
   selectModelValue(),
 );
 
-export const selectWorkflowBuilderChangeableFlowStyle = createSelector<any, any, IFlowStyle >(
+export const selectWorkflowBuilderChangeableFlowStyle = createSelector<any, any, FlowStyle >(
   selectWorkflowBuilderChangeableFlow,
-  (flow: IWorkflow): IFlowStyle => flow.workflowSetting.style,
+  (flow: IWorkflow): FlowStyle => flow.workflowSetting.style,
 );
 
 export const selectWorkflowBuilderChangeableLogoUrl = createSelector<any, any, null | string>(
@@ -50,12 +50,12 @@ export const selectWorkflowBuilderSelectedId = createSelector<any, any, ProductT
   (store: WorkflowBuilderStore): ProductTypes => store.selectedId,
 );
 
-export const selectWorkflowBuilderLoadedWorkflowModel = createSelector<any, any, Loadable<IWorkflowResponse>>(
+export const selectWorkflowBuilderLoadedWorkflowModel = createSelector<any, any, Loadable<WorkflowResponse>>(
   workFlowBuilderStore,
   (store: WorkflowBuilderStore) => store[SliceNames.LoadedWorkflow],
 );
 
-export const selectWorkflowBuilderLoadedWorkflow = createSelector<any, any, IWorkflowResponse>(
+export const selectWorkflowBuilderLoadedWorkflow = createSelector<any, any, WorkflowResponse>(
   selectWorkflowBuilderLoadedWorkflowModel,
   selectModelValue(),
 );

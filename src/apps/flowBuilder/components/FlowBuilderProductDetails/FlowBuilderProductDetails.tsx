@@ -1,19 +1,19 @@
-import Box from '@material-ui/core/Box';
-import IconButton from '@material-ui/core/IconButton';
+import { Box, IconButton } from '@material-ui/core';
 import { IFlow } from 'models/Flow.model';
 import { ProductTypes } from 'models/Product.model';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { FiX } from 'react-icons/fi';
-import { ProductSettings } from 'apps/Product';
+import { ProductSettings } from 'apps/Product/components/ProductSettings/ProductSettings';
+import { DeepPartial } from 'lib/object';
 import { flowBuilderProductSelect } from '../../store/FlowBuilder.action';
 import { useStyles } from './FlowBuilderProductDetails.styles';
 
 export function FlowBuilderProductDetails({ flow, productId, onUpdate }: {
   flow: IFlow;
   productId: ProductTypes;
-  onUpdate: (patch: Partial<IFlow>) => void;
+  onUpdate: (patch: DeepPartial<IFlow>) => void;
 }) {
   const classes = useStyles();
   const intl = useIntl();

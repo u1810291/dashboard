@@ -2,6 +2,7 @@ import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, P
 import { FiUserCheck } from 'react-icons/fi';
 import { BiometricsVerificationProduct } from 'apps/biometrics';
 import { ProductBaseWorkflow } from 'apps/WorkflowBuilder';
+import { DeepPartial } from 'lib/object';
 import { IWorkflow } from 'models/Workflow.model';
 import { IVerificationWorkflow } from 'models/Verification.model';
 import { BiometricVerificationCheckTypes, BiometricVerificationId, BiometricVerificationSettingsTypes } from '../models/BiometricVerification.model';
@@ -42,12 +43,12 @@ export class BiometricVerification extends ProductBaseWorkflow implements Produc
     return false;
   }
 
-  onAdd(): Partial<IWorkflow> {
+  onAdd(): DeepPartial<IWorkflow> {
     return {};
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onRemove(flow: IWorkflow): Partial<IWorkflow> {
+  onRemove(flow: IWorkflow): DeepPartial<IWorkflow> {
     return {};
   }
 
@@ -57,7 +58,7 @@ export class BiometricVerification extends ProductBaseWorkflow implements Produc
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  serialize(settings: ProductSettingsBiometric): Partial<IWorkflow> {
+  serialize(settings: ProductSettingsBiometric): DeepPartial<IWorkflow> {
     return {};
   }
 

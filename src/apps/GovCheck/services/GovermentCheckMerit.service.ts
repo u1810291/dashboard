@@ -5,6 +5,7 @@ import { IFlow } from 'models/Flow.model';
 import { FiFlag } from 'react-icons/fi';
 import { CountrySpecificChecks, getStepStatus, StepStatus } from 'models/Step.model';
 import { getDocumentsWithoutCustomDocument } from 'models/Document.model';
+import { DeepPartial } from 'lib/object';
 import { GovCheckSettings } from '../components/GovCheckSettings/GovCheckSettings';
 import { getGovCheckRootSteps, getGovCheckVerificationSteps, GovCheckVerificationData, GovernmentCheckSettingTypes, GovernmentChecksTypes, isGovCheckHaveDependsIssue, isGovCheckInFlow, verificationPatternsGovchecksDefault, GovCheckMeritId } from '../models/GovCheck.model';
 import { GovCheckVerificationProduct } from '../components/GovCheckVerificationProduct/GovCheckVerificationProduct';
@@ -87,13 +88,13 @@ export class GovernmentCheckMerit extends ProductBaseFlowBuilder implements Prod
     };
   }
 
-  onRemove(): Partial<IFlow> {
+  onRemove(): DeepPartial<IFlow> {
     return {
       verificationPatterns: verificationPatternsGovchecksDefault,
     };
   }
 
-  serialize(settings: ProductSettingsGovCheck): Partial<IFlow> {
+  serialize(settings: ProductSettingsGovCheck): DeepPartial<IFlow> {
     return {
       postponedTimeout: settings[GovernmentCheckSettingTypes.PostponedTimeout]?.value,
       verificationPatterns: settings[GovernmentCheckSettingTypes.CountriesGovChecks]?.value,

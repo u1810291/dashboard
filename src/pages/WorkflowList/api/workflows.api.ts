@@ -1,9 +1,9 @@
 import { http } from 'lib/client/http';
 import { ApiResponse } from 'models/Client.model';
-import { IWorkflow, WorkflowStatusTypes } from 'models/Workflow.model';
+import { IWorkflow, WorkflowStatus } from 'models/Workflow.model';
 
 type WorkflowListAPIParams = {
-  workflowType?: WorkflowStatusTypes;
+  workflowType?: WorkflowStatus;
   pageSize?: number;
   asMerchantId?: string;
 }

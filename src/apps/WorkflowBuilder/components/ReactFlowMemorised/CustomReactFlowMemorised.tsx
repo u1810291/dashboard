@@ -26,4 +26,4 @@ export function CustomReactFlow({ elements, onDragOver, onLoad }: CustomReactFlo
   );
 }
 
-export const CustomReactWorkflowMemorised = memo(CustomReactFlow);
+export const CustomReactFlowMemorised = memo(CustomReactFlow);

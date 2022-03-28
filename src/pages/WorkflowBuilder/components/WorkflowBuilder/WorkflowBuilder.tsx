@@ -17,6 +17,7 @@ import { Link, useParams } from 'react-router-dom';
 import { dagreGraphService, SaveAndPublish, FlowProductsGraph, FlowInfoContainer, ProductListSidebar, FlowBuilderProductDetails, WorkflowBuilderIntegrationDetails, workflowBuilderChangeableFlowLoad, workflowBuilderChangeableFlowUpdate, workflowBuilderClearStore, workflowBuilderLoadWorkflow, selectWorkflowBuilderChangeableFlowModel, selectWorkflowBuilderLoadedWorkflowModel, selectWorkflowBuilderSelectedId } from 'apps/WorkflowBuilder';
 import { IWorkflow } from 'models/Workflow.model';
 import { updateCurrentFlowId } from 'pages/WorkflowList';
+import { DeepPartial } from 'lib/object';
 import { useStyles } from './WorkflowBuilder.styles';
 
 export function WorkflowBuilder() {
@@ -59,7 +60,7 @@ export function WorkflowBuilder() {
     dagreGraphService.createGraph();
   }, [dispatch, id, asMerchantId, changeableFlowModel, loadedWorkflowModel.isLoading, loadedWorkflowModel.isLoaded]);
 
-  const handleProductUpdate = useCallback((patch: Partial<IWorkflow>) => {
+  const handleProductUpdate = useCallback((patch: DeepPartial<IWorkflow>) => {
     dispatch(workflowBuilderChangeableFlowUpdate(patch));
   }, [dispatch]);
 
