@@ -40,8 +40,6 @@ import { CUSTOM_WATCHLISTS_STORE_KEY } from 'apps/CustomWatchlist/state/CustomWa
 import { CUSTOM_FIELD_STORE_KEY, customFieldReducer } from 'apps/CustomField';
 import { PRODUCT_BOARD_STORE_KEY } from 'apps/ProductBoard/state/ProductBoard.store';
 import { productBoardReducer } from 'apps/ProductBoard/state/ProductBoard.reducer';
-import { WORKFLOW_STORE_KEY } from 'pages/WorkflowList/state/workflow.store';
-import workflowReducer from 'pages/WorkflowList/state/workflow.reducer';
 import { WORKFLOW_BUILDER_STORE_KEY } from 'apps/WorkflowBuilder/store/WorkflowBuilder.store';
 import { workflowBuilderReducer } from 'apps/WorkflowBuilder/store/WorkflowBuilder.reducer';
 
@@ -68,7 +66,6 @@ export const appReducers = combineReducers({
   [CUSTOM_WATCHLISTS_STORE_KEY]: customWatchlist,
   [CUSTOM_FIELD_STORE_KEY]: customFieldReducer,
   [PRODUCT_BOARD_STORE_KEY]: productBoardReducer,
-  [WORKFLOW_STORE_KEY]: workflowReducer,
 });
 
 export const rootReducers = (state, action) => {

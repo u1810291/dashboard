@@ -1,10 +1,12 @@
-import { Product, ProductInputTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { isNil } from 'lib/isNil';
+import { IFlow } from 'models/Flow.model';
+import { Product, ProductInputTypes, ProductSettings, ProductTypes } from 'models/Product.model';
+import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { IWorkflow } from 'models/Workflow.model';
 import { FiMapPin } from 'react-icons/fi';
+import { IpCheckValidationTypes } from 'models/IpCheck.model';
 import { ProductBaseWorkflow } from 'apps/WorkflowBuilder';
-import { DeepPartial } from 'lib/object';
-import { IpCheckCheckTypes, IpCheckMeritId, IpCheckSettingsTypes, IpCheckVerificationOutput, IVerificationWithIpCheck } from '../models/IpCheck.model';
+import { IpCheckCheckTypes, IpCheckSettingsTypes, IpCheckVerificationOutput, IVerificationWithIpCheck } from '../models/IpCheck.model';
 import { IpCheckPdf } from '../components/IpCheckPdf/IpCheckPdf';
 import { IpCheckVerification } from '../components/IpCheckVerification/IpCheckVerification';
 import { IpCheckSettings } from '../components/IpCheckSettings/IpCheckSettings';
@@ -13,7 +15,6 @@ type ProductSettingsIpCheck = ProductSettings<IpCheckSettingsTypes>;
 
 export class IpCheckMerit extends ProductBaseWorkflow implements Product<IWorkflow, IVerificationWithIpCheck> {
   id = ProductTypes.IpCheck;
-  meritId = IpCheckMeritId
   order = 50;
   integrationTypes = [];
   icon = FiMapPin;
@@ -34,44 +35,51 @@ export class IpCheckMerit extends ProductBaseWorkflow implements Product<IWorkfl
   componentVerification = IpCheckVerification;
   componentPdf = IpCheckPdf;
 
-  parser(flow: IWorkflow): ProductSettingsIpCheck {
-    const productBlock = this.getProductBlock(flow);
+  parser(flow: IFlow): ProductSettingsIpCheck {
     return {
       [IpCheckSettingsTypes.IpValidation]: {
-        value: productBlock.setting?.geoRestriction?.restriction,
+        value: flow?.verificationPatterns?.[VerificationPatternTypes.IpValidation],
       },
       [IpCheckSettingsTypes.AllowedRegions]: {
-        value: productBlock?.setting?.geoRestriction.allowedCountries,
+        value: flow?.ipValidation?.allowedRegions,
       },
       [IpCheckSettingsTypes.VpnDetection]: {
-        value: productBlock?.setting?.vpnDetection,
+        value: flow?.verificationPatterns?.[VerificationPatternTypes.VpnDetection],
       },
     };
   }
 
-  serialize(settings: ProductSettingsIpCheck): DeepPartial<IWorkflow> {
+  serialize(settings: ProductSettingsIpCheck): Partial<IFlow> {
     return {
-      block: [
-        {
-          meritId: this.meritId,
-          setting: {
-            vpnDetection: !!settings[IpCheckSettingsTypes.VpnDetection]?.value,
-            geoRestriction: {
-              allowedCountries: settings[IpCheckSettingsTypes.AllowedRegions]?.value,
-              restriction: settings[IpCheckSettingsTypes.IpValidation]?.value,
-            },
-          },
-        },
-      ],
+      verificationPatterns: {
+        [VerificationPatternTypes.IpValidation]: settings[IpCheckSettingsTypes.IpValidation].value,
+        [VerificationPatternTypes.VpnDetection]: settings[IpCheckSettingsTypes.VpnDetection].value,
+      },
+      ipValidation: {
+        allowedRegions: settings[IpCheckSettingsTypes.AllowedRegions].value,
+      },
     };
   }
 
-  onRemove(): DeepPartial<IWorkflow> {
-    return {};
+  onAdd(): Partial<IFlow> {
+    return {
+      verificationPatterns: {
+        [VerificationPatternTypes.IpValidation]: IpCheckValidationTypes.Basic,
+      },
+    };
   }
 
-  isInFlow(workflow: IWorkflow): boolean {
-    return !!this.getProductBlock(workflow);
+  onRemove(): Partial<IFlow> {
+    return {
+      verificationPatterns: {
+        [VerificationPatternTypes.IpValidation]: IpCheckValidationTypes.None,
+        [VerificationPatternTypes.VpnDetection]: false,
+      },
+    };
+  }
+
+  isInFlow(flow: IFlow): boolean {
+    return flow?.verificationPatterns?.[VerificationPatternTypes.IpValidation] !== undefined && flow.verificationPatterns[VerificationPatternTypes.IpValidation] !== IpCheckValidationTypes.None;
   }
 
   isInVerification(verification: IVerificationWithIpCheck): boolean {

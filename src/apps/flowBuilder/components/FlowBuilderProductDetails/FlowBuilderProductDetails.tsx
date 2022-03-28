@@ -6,14 +6,13 @@ import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { FiX } from 'react-icons/fi';
 import { ProductSettings } from 'apps/Product/components/ProductSettings/ProductSettings';
-import { DeepPartial } from 'lib/object';
 import { flowBuilderProductSelect } from '../../store/FlowBuilder.action';
 import { useStyles } from './FlowBuilderProductDetails.styles';
 
 export function FlowBuilderProductDetails({ flow, productId, onUpdate }: {
   flow: IFlow;
   productId: ProductTypes;
-  onUpdate: (patch: DeepPartial<IFlow>) => void;
+  onUpdate: (patch: Partial<IFlow>) => void;
 }) {
   const classes = useStyles();
   const intl = useIntl();

@@ -1,5 +1,5 @@
 import { productManagerService, selectProductRegistered } from 'apps/Product';
-import { DeepPartial, mergeDeep } from 'lib/object';
+import { mergeDeep } from 'lib/object';
 import { cloneDeep } from 'lodash';
 import { ApiResponse } from 'models/Client.model';
 import { IFlow } from 'models/Flow.model';
@@ -60,15 +60,18 @@ export const flowBuilderChangeableFlowLoad = () => (dispatch, getState) => {
   }
 };
 
-export const flowBuilderChangeableFlowUpdate = (changes: DeepPartial<IFlow>) => (dispatch, getState) => {
+export const flowBuilderChangeableFlowUpdate = (changes: Partial<IFlow>) => (dispatch, getState) => {
   const state = getState();
   const changeableFlow = selectFlowBuilderChangeableFlow(state);
+  // @ts-ignore
   dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
   try {
     const updatedFlow = mergeDeep(changeableFlow, changes);
     dispatch({ type: types.HAVE_UNSAVED_CHANGES_UPDATE, payload: true });
+    // @ts-ignore
     dispatch({ type: types.CHANGEABLE_FLOW_SUCCESS, payload: updatedFlow, isReset: true });
   } catch (error) {
+    // @ts-ignore
     dispatch({ type: types.CHANGEABLE_FLOW_FAILURE, error });
     throw error;
   }
@@ -144,7 +147,7 @@ export const flowBuilderDelete = () => async (dispatch, getState) => {
   await dispatch(merchantDeleteFlow(flow.id));
 };
 
-export const flowBuilderSaveAndPublishSettings = (payload: DeepPartial<IFlow>) => async (dispatch, getState) => {
+export const flowBuilderSaveAndPublishSettings = (payload: Partial<IFlow>) => async (dispatch, getState) => {
   try {
     await dispatch(merchantUpdateFlow(payload));
     dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });

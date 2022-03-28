@@ -1,42 +1,44 @@
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+import { Box, Button, Grid } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { selectFlowBuilderChangeableFlow, selectFlowBuilderProductsInGraph } from 'apps/flowBuilder/store/FlowBuilder.selectors';
+import { flowNameValidator } from 'apps/FlowList/validators/FlowName.validator';
 import { overlayCloseAll } from 'apps/overlay';
 import { ProductCheckListAll } from 'apps/Product';
-import { useDeleteButtonHook } from 'apps/ui';
+import { useDeleteButtonHook, Warning } from 'apps/ui';
 import classNames from 'classnames';
+import { toIsoPeriod } from 'lib/date';
 import { DigitalSignatureProvider } from 'models/DigitalSignature.model';
 import { Routes } from 'models/Router.model';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { selectMerchantFlowsModel, selectNom151Check, selectPolicyInterval } from 'state/merchant/merchant.selectors';
 import { round } from 'lib/round';
-import { flowNameValidator } from 'pages/WorkflowList/validators/FlowName.validator';
-import { GDPRSettings, GDPRUnitTypes } from 'models/GDPR.model';
-import { IWorkflow } from 'models/Workflow.model';
-import { toIsoPeriod } from 'lib/date';
-import { useFormatMessage } from 'apps/intl';
-import { ProductTypes } from 'models/Product.model';
-import { selectWorkflowBuilderChangeableFlow, selectWorkflowBuilderProductsInGraph, selectWorkflowPolicyInterval } from '../../store/WorkflowBuilder.selectors';
-import { validatePolicyInterval } from '../../models/WorkflowBuilder.model';
-import { workflowBuilderChangeableFlowUpdate, workflowBuilderDelete } from '../../store/WorkflowBuilder.action';
+import { FlowSettingsModel, validatePolicyInterval } from '../../models/WorkflowBuilder.model';
+import { workflowBuilderDelete, workflowBuilderSaveAndPublishSettings } from '../../store/WorkflowBuilder.action';
 import { FlowInfo } from '../FlowInfo/FlowInfo';
 import { FlowSettingsSwitches } from '../FlowSettingsSwitches/FlowSettingsSwitches';
 import { useStyles } from './FlowSettings.styles';
 
-export function FlowSettings() {
+export function FlowSettings({ onClose }: {
+  onClose: () => void;
+}) {
   const dispatch = useDispatch();
+  const intl = useIntl();
   const classes = useStyles();
-  const formatMessage = useFormatMessage();
-  const { id: flowId, name: flowName, workflowSetting: { digitalSignature, gdprSetting: { interval } } } = useSelector<any, IWorkflow>(selectWorkflowBuilderChangeableFlow);
+  const { id: flowId, name: flowName } = useSelector(selectFlowBuilderChangeableFlow);
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
-  const productsInGraph = useSelector<any, ProductTypes[]>(selectWorkflowBuilderProductsInGraph);
+  const productsInGraph = useSelector(selectFlowBuilderProductsInGraph);
   const [isEditable, setIsEditable] = useState<boolean>(false);
-  const policyIntervalFromStore = useSelector<any, GDPRSettings>(selectWorkflowPolicyInterval);
+  const [isSaveButtonLoading, setIsSaveButtonLoading] = useState<boolean>(false);
   const [policyIntervalError, setPolicyIntervalError] = useState<string | null>(null);
-  const [policyInterval, setPolicyInterval] = useState<string>(toIsoPeriod(policyIntervalFromStore.interval));
-  const [isGDPRChecked, setIsGDPRChecked] = useState<boolean>(!!policyIntervalFromStore?.interval);
+  const [newFlowName, setNewFlowName] = useState<string>('');
+  const [policyInterval, setPolicyInterval] = useState<string>(useSelector(selectPolicyInterval));
+  const [isGDPRChecked, setIsGDPRChecked] = useState<boolean>(!!useSelector(selectPolicyInterval));
+  const [digitalSignature, setDigitalSignature] = useState<DigitalSignatureProvider>(useSelector(selectNom151Check));
+  const [isInit, setIsInit] = useState<boolean>(true);
+  const [oldSettings, setOldSettings] = useState<FlowSettingsModel>(null);
 
   const validator = useCallback((text: string) => {
     const duplicate = merchantFlowsModel.value.find((item) => item.name === text.trim());
@@ -54,72 +56,79 @@ export function FlowSettings() {
     confirm: 'VerificationFlow.modal.delete.subtitle',
   });
 
-  const handleValidatePolicyInterval = useCallback(({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+  const handleValidatePolicyInterval = useCallback(({ target: { value } }) => {
     setPolicyIntervalError(validatePolicyInterval(parseInt(value, 10)));
   }, []);
 
-  const handleChangePolicyInterval = useCallback(({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangePolicyInterval = useCallback(({ target: { value } }) => {
     setPolicyInterval(value);
-    if (policyIntervalError) {
-      return;
-    }
-    const roundedValue = round(parseInt(value, 10), 0);
-    dispatch(workflowBuilderChangeableFlowUpdate(
-      {
-        workflowSetting:
-          {
-            gdprSetting:
-              {
-                interval: roundedValue?.toString() || null,
-                unit: GDPRUnitTypes.Day,
-              },
-          },
-        // TODO @vladislav.snimshchikov: resolve types problem in the next iteration of workflowbuilder
-      },
-    ));
-  }, [dispatch, policyIntervalError]);
+  }, []);
 
   const handleGDPRSwitcher = useCallback((e) => {
     const isChecked = e.target.checked;
     setIsGDPRChecked(isChecked);
-    dispatch(workflowBuilderChangeableFlowUpdate({
-      workflowSetting: {
-        gdprSetting: {
-          interval: null,
-          unit: GDPRUnitTypes.Day,
-        },
-      },
-      // TODO @vladislav.snimshchikov: resolve types problem in the next iteration of workflowbuilder
-    }));
     if (!isChecked) {
+      setPolicyInterval(null);
       setPolicyIntervalError(null);
     }
-  }, [dispatch]);
+  }, []);
 
-  const handleDigitalSignatureSwitcher = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDigitalSignatureSwitcher = useCallback((e) => {
     const isChecked = e.target.checked;
-    // TODO @vladislav.snimshchikov: resolve types problem in the next iteration of workflowbuilder
-    dispatch(workflowBuilderChangeableFlowUpdate({ workflowSetting: { digitalSignature: isChecked ? DigitalSignatureProvider.NOM151 : DigitalSignatureProvider.NONE } } as Partial<IWorkflow>));
-  }, [dispatch]);
+    setDigitalSignature(isChecked ? DigitalSignatureProvider.NOM151 : DigitalSignatureProvider.NONE);
+  }, []);
+
+  const handleSaveAndPublish = useCallback(async () => {
+    if (policyIntervalError) {
+      return;
+    }
+    const roundedValue = round(parseInt(policyInterval, 10), 0);
+    const payload = {
+      policyInterval: roundedValue ? toIsoPeriod(roundedValue) : null,
+      digitalSignature,
+      name: newFlowName,
+    };
+    setIsSaveButtonLoading(true);
+    await dispatch(workflowBuilderSaveAndPublishSettings(payload));
+    setIsSaveButtonLoading(false);
+    onClose();
+  }, [dispatch, policyInterval, policyIntervalError, digitalSignature, newFlowName, onClose]);
 
   const handleSubmit = useCallback((name: string) => {
-    dispatch(workflowBuilderChangeableFlowUpdate({ name }));
-  }, [dispatch]);
+    setNewFlowName(name);
+  }, []);
 
   const handleCancel = useCallback(() => {
     setIsEditable(false);
   }, []);
 
+  const showUnsavedChange = useMemo(() => {
+    if (!oldSettings) {
+      return false;
+    }
+    return policyInterval !== oldSettings.policyInterval || digitalSignature !== oldSettings.digitalSignature || newFlowName !== oldSettings.flowName;
+  }, [newFlowName, policyInterval, digitalSignature, oldSettings]);
+
   useEffect(() => {
-    setIsGDPRChecked(!!interval);
-    setPolicyInterval(interval);
-  }, [interval]);
+    setNewFlowName(flowName);
+  }, [flowName]);
+
+  useEffect(() => {
+    if (isInit) {
+      setOldSettings({
+        policyInterval,
+        digitalSignature,
+        flowName,
+      });
+      setIsInit(false);
+    }
+  }, [isInit, policyInterval, digitalSignature, flowName]);
 
   return (
     <Grid container spacing={2} alignItems="flex-start">
       <Grid item xs={12}>
         <Box color="common.black90" fontWeight="bold">
-          {formatMessage('FlowBuilder.settings.title.settings')}
+          {intl.formatMessage({ id: 'FlowBuilder.settings.title.settings' })}
         </Box>
       </Grid>
       <Grid item xs={12} lg={6}>
@@ -127,7 +136,7 @@ export function FlowSettings() {
           <FlowInfo
             canEdit
             isEditable={isEditable}
-            newFlowName={flowName}
+            newFlowName={newFlowName}
             setIsEditable={setIsEditable}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
@@ -136,7 +145,7 @@ export function FlowSettings() {
         </Box>
         <Box mb={3}>
           <Box color="common.black90" mb={0.5}>{flowId}</Box>
-          <Box color="common.black75">{formatMessage('FlowBuilder.settings.title.flowId')}</Box>
+          <Box color="common.black75">{intl.formatMessage({ id: 'FlowBuilder.settings.title.flowId' })}</Box>
         </Box>
         <FlowSettingsSwitches
           policyInterval={policyInterval}
@@ -152,7 +161,7 @@ export function FlowSettings() {
       <Grid item xs={12} lg={6}>
         <Box p={2} className={classes.wrapper}>
           <Box mb={2} color="common.black90" fontWeight="bold">
-            {`${formatMessage('FlowBuilder.settings.title.outputChecks')}:`}
+            {`${intl.formatMessage({ id: 'FlowBuilder.settings.title.outputChecks' })}:`}
           </Box>
           <ProductCheckListAll productList={productsInGraph} />
         </Box>
@@ -161,8 +170,14 @@ export function FlowSettings() {
         <Button variant="outlined" className={classNames(classes.button, classes.buttonCancel)} onClick={handleDelete}>
           <FiTrash2 fontSize={17} />
           <Box ml={1}>
-            {formatMessage('FlowBuilder.settings.button.delete')}
+            {intl.formatMessage({ id: 'FlowBuilder.settings.button.delete' })}
           </Box>
+        </Button>
+        {showUnsavedChange && (
+          <Warning label={intl.formatMessage({ id: 'FlowBuilder.settings.button.warning' })} />
+        )}
+        <Button className={classNames(classes.button, classes.buttonSave)} onClick={handleSaveAndPublish}>
+          {isSaveButtonLoading ? <CircularProgress color="inherit" size={17} /> : intl.formatMessage({ id: 'FlowBuilder.settings.button.save' })}
         </Button>
       </Grid>
     </Grid>

@@ -9,7 +9,6 @@ export const QATags = {
     Metrics: 'menu-metrics',
     VerificationList: 'menu-verificationList',
     Product: 'menu-verificationFlows',
-    Workflow: 'menu-workflows',
     ForDevelopers: 'menu-forDevelopers',
     FAQ: 'menu-faq',
     InviteTeammate: 'menu-inviteTeammate',

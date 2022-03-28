@@ -13,9 +13,9 @@ import { useFlowListLoad } from 'apps/FlowList';
 import { merchantCreateFlow } from 'state/merchant/merchant.actions';
 import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
-import { AddNewFlowModal } from 'pages/WorkflowList/components/AddNewFlowModal/AddNewFlowModal';
-import { flowNameValidator } from 'pages/WorkflowList/validators/FlowName.validator';
 import { FlowsTable } from '../FlowsTable/FlowsTable';
+import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
+import { flowNameValidator } from '../../validators/FlowName.validator';
 import { useStyles } from './FlowList.styles';
 
 export function FlowList() {

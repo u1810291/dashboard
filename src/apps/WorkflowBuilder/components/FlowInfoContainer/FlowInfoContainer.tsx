@@ -1,6 +1,4 @@
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
+import { Box, Grid, IconButton } from '@material-ui/core';
 import { Modal, useOverlay } from 'apps/overlay';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useMemo } from 'react';
@@ -17,7 +15,7 @@ export function FlowInfoContainer() {
   const location = useLocation();
   const goBackToListLink = useMemo(() => getGoBackToListLink(location, Routes.flow.root), [location]);
   const handleOpenFlowSettings = useCallback(() => {
-    createOverlay(<Modal className={classes.modal} onClose={closeOverlay}><FlowSettings /></Modal>);
+    createOverlay(<Modal className={classes.modal} onClose={closeOverlay}><FlowSettings onClose={closeOverlay} /></Modal>);
   }, [classes.modal, closeOverlay, createOverlay]);
 
   return (

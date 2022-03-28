@@ -4,18 +4,17 @@ import { Product, ProductSettingsProps, ProductTypes } from 'models/Product.mode
 import React, { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { selectFlowBuilderProductsInGraph } from 'apps/flowBuilder/store/FlowBuilder.selectors';
-import { ProductTitle } from 'apps/ui';
-import { DeepPartial } from 'lib/object';
+import { ProductTitle } from '../../../ui';
 import { productManagerService } from '../../services/ProductManager.service';
 
-export function ProductSettings<Flow = IFlow>({ flow, productId, onUpdate }: {
-  flow: Flow;
+export function ProductSettings({ flow, productId, onUpdate }: {
+  flow: IFlow;
   productId: ProductTypes;
-  onUpdate: (patch: DeepPartial<Flow>) => void;
+  onUpdate: (patch: Partial<IFlow>) => void;
 }) {
   const productsInGraph = useSelector(selectFlowBuilderProductsInGraph);
 
-  const product: Product<Flow> = useMemo(() => productManagerService.getProduct(productId), [productId]);
+  const product: Product = useMemo(() => productManagerService.getProduct(productId), [productId]);
   const settings = useMemo(() => product.parser(flow, productsInGraph), [product, flow, productsInGraph]);
   // TODO @dkchv: !!! review again
   // eslint-disable-next-line react-hooks/exhaustive-deps

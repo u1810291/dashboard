@@ -17,7 +17,6 @@ import { useFlowListLoad } from 'apps/FlowList';
 import { WorkflowBuilderIntegrationDetails, dagreGraphService } from 'apps/WorkflowBuilder';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { ProductListSidebar } from 'apps/flowBuilder/components/ProductListSidebar/ProductListSidebar';
-import { DeepPartial } from 'lib/object';
 import { flowBuilderChangeableFlowLoad, flowBuilderChangeableFlowUpdate, flowBuilderClearStore } from '../../store/FlowBuilder.action';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from '../../store/FlowBuilder.selectors';
 import { useStyles } from './FlowBuilder.styles';
@@ -56,7 +55,7 @@ export function FlowBuilder() {
     dagreGraphService.createGraph();
   }, [dispatch, id, asMerchantId, flowListModel.isLoaded, changeableFlowModel]);
 
-  const handleProductUpdate = useCallback((patch: DeepPartial<IFlow>) => {
+  const handleProductUpdate = useCallback((patch: Partial<IFlow>) => {
     dispatch(flowBuilderChangeableFlowUpdate(patch));
   }, [dispatch]);
 

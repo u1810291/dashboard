@@ -38,11 +38,11 @@ export function UIProductCard({ card, issuesComponent, isExpandable = true, isCo
 
   return (
     <Box className={classes.root}>
-      <ExpansionPanel expanded={isExpanded} onChange={handleChange} onClick={isControls ? onOpen : undefined} TransitionProps={{ unmountOnExit: true }}>
+      <ExpansionPanel expanded={isExpanded} onChange={handleChange} onClick={isControls && onOpen} TransitionProps={{ unmountOnExit: true }}>
         <ExpansionPanelSummary expandIcon={isExpandable && card.checks.length > 0 && <ExpandMoreIcon />}>
           <Grid container alignItems="center" wrap="nowrap">
             {card.icon && (
-              <Grid container justifyContent="center" alignItems="center" className={classes.iconWrapper}>
+              <Grid container justify="center" alignItems="center" className={classes.iconWrapper}>
                 <Box className={classes.icon}>{card.icon}</Box>
               </Grid>
             )}

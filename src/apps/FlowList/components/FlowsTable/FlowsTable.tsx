@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'lib/url';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
-import { NoFlows } from 'pages/WorkflowList/components/NoFlows/NoFlows';
+import { NoFlows } from '../NoFlows/NoFlows';
 import { TableRowHovered, useStyles } from './FlowsTable.styles';
 
 export function FlowsTable({ onAddNewFlow }) {

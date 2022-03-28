@@ -1,7 +1,7 @@
 import { Box, Button, Grid } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { selectFlowBuilderChangeableFlow, selectFlowBuilderProductsInGraph } from 'apps/flowBuilder/store/FlowBuilder.selectors';
-import { flowNameValidator } from 'pages/WorkflowList/validators/FlowName.validator';
+import { flowNameValidator } from 'apps/FlowList/validators/FlowName.validator';
 import { overlayCloseAll } from 'apps/overlay';
 import { ProductCheckListAll } from 'apps/Product';
 import { useDeleteButtonHook, Warning } from 'apps/ui';

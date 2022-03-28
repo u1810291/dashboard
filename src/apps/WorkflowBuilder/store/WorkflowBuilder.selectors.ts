@@ -1,71 +1,54 @@
-import { LogoUrl } from 'apps/logo';
+import { Logo } from 'apps/logo/models/Logo.model';
 import { selectModelValue } from 'lib/loadable.selectors';
+import { IFlow, FlowStyle } from 'models/Flow.model';
 import { Loadable } from 'models/Loadable.model';
-import { ProductTypes } from 'models/Product.model';
+import { ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
 import { createSelector } from 'reselect';
-import { FlowStyle, IWorkflow, WorkflowResponse } from 'models/Workflow.model';
-import { GDPRSettings } from 'models/GDPR.model';
-import { Webhook } from 'models/Webhook.model';
-import { SliceNames, WORKFLOW_BUILDER_STORE_KEY, WorkflowBuilderStore } from './WorkflowBuilder.store';
+import { WORKFLOW_BUILDER_STORE_KEY, WorkflowBuilderStore } from './WorkflowBuilder.store';
 
-export const workFlowBuilderStore = (state): WorkflowBuilderStore => state[WORKFLOW_BUILDER_STORE_KEY];
+export const workFlowBuilderStore = (state) => state[WORKFLOW_BUILDER_STORE_KEY];
 
-export const selectWorkflowBuilderHaveUnsavedChanges = createSelector<any, any, boolean>(
-  workFlowBuilderStore,
-  (store: WorkflowBuilderStore): boolean => store.haveUnsavedChanges,
-);
-
-export const selectWorkflowBuilderProductsInGraphModel = createSelector<any, any, Loadable<ProductTypes[]>>(
-  workFlowBuilderStore,
-  (store: WorkflowBuilderStore): Loadable<ProductTypes[]> => store.productsInGraph,
-);
-
-export const selectWorkflowBuilderProductsInGraph = createSelector<any, any, ProductTypes[]>(
-  selectWorkflowBuilderProductsInGraphModel,
-  selectModelValue(),
-);
-
-export const selectWorkflowBuilderChangeableFlowModel = createSelector<any, any, Loadable<IWorkflow>>(
-  workFlowBuilderStore,
-  (store: WorkflowBuilderStore): Loadable<IWorkflow> => store[SliceNames.ChangeableWorkflow],
-);
-
-export const selectWorkflowBuilderChangeableFlow = createSelector<any, any, IWorkflow>(
-  selectWorkflowBuilderChangeableFlowModel,
-  selectModelValue(),
-);
-
-export const selectWorkflowBuilderChangeableFlowStyle = createSelector<any, any, FlowStyle >(
-  selectWorkflowBuilderChangeableFlow,
-  (flow: IWorkflow): FlowStyle => flow.workflowSetting.style,
-);
-
-export const selectWorkflowBuilderChangeableLogoUrl = createSelector<any, any, null | string>(
-  selectWorkflowBuilderChangeableFlow,
-  (flow: IWorkflow): LogoUrl => flow.workflowSetting.logoUrl,
-);
-
-export const selectWorkflowBuilderSelectedId = createSelector<any, any, ProductTypes>(
+export const selectWorkflowBuilderSelectedId = createSelector(
   workFlowBuilderStore,
   (store: WorkflowBuilderStore): ProductTypes => store.selectedId,
 );
 
-export const selectWorkflowBuilderLoadedWorkflowModel = createSelector<any, any, Loadable<WorkflowResponse>>(
+export const selectWorkflowBuilderHaveUnsavedChanges = createSelector(
   workFlowBuilderStore,
-  (store: WorkflowBuilderStore) => store[SliceNames.LoadedWorkflow],
+  (store: WorkflowBuilderStore): boolean => store.haveUnsavedChanges,
 );
 
-export const selectWorkflowBuilderLoadedWorkflow = createSelector<any, any, WorkflowResponse>(
-  selectWorkflowBuilderLoadedWorkflowModel,
+export const selectWorkflowBuilderProductsInGraphModel = createSelector(
+  workFlowBuilderStore,
+  (store: WorkflowBuilderStore): Loadable<ProductTypes[]> => store.productsInGraph,
+);
+
+export const selectWorkflowBuilderProductsInGraph = createSelector(
+  selectWorkflowBuilderProductsInGraphModel,
   selectModelValue(),
 );
 
-export const selectWorkflowPolicyInterval = createSelector<any, any, GDPRSettings>(
-  selectWorkflowBuilderChangeableFlow,
-  (flow) => flow.workflowSetting.gdprSetting,
+export const selectWorkflowBuilderChangeableFlowModel = createSelector<any, any, Loadable<IFlow>>(
+  workFlowBuilderStore,
+  (store: WorkflowBuilderStore): Loadable<IFlow> => store.changeableFlow,
 );
 
-export const selectWebhookChangeableWorkflow = createSelector<any, any, Webhook>(
+export const selectWorkflowBuilderChangeableFlow = createSelector<any, any, IFlow>(
+  selectWorkflowBuilderChangeableFlowModel,
+  selectModelValue(),
+);
+
+export const selectWorkflowBuilderIntegrationType = createSelector(
   selectWorkflowBuilderChangeableFlow,
-  (flow) => flow.workflowSetting.webhook,
+  (flow: IFlow): ProductIntegrationTypes => flow.integrationType,
+);
+
+export const selectWorkflowBuilderChangeableFlowStyle = createSelector(
+  selectWorkflowBuilderChangeableFlow,
+  (flow: IFlow): FlowStyle => flow.style,
+);
+
+export const selectWorkflowBuilderChangeableLogoUrl = createSelector(
+  selectWorkflowBuilderChangeableFlow,
+  (flow: IFlow): Logo => flow.logo,
 );

@@ -51,7 +51,6 @@ export enum MerchantTags {
   CanUseNigerianBNV = 'can-use-nigerian-bvn',
   CanUseNigerianCac = 'can-use-nigerian-cac',
   CanUseNigerianTin = 'can-use-nigerian-tin',
-  CanUseV2Workflow = 'can-use-v2-workflow',
   CanUseNigerianDL = 'can-use-nigerian-dl',
   CanUseNigerianNIN = 'can-use-nigerian-nin',
   CanUseNigerianVIN = 'can-use-nigerian-vin',

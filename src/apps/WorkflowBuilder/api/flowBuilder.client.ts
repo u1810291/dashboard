@@ -1,14 +1,11 @@
 import { http } from 'lib/client/http';
-import { IWorkflow, WorkflowId, WorkflowResponse } from 'models/Workflow.model';
+import { ApiResponse } from 'models/Client.model';
+import { IFlow } from 'models/Flow.model';
 
-export function changeableFlowPost(changeableFlow: IWorkflow) {
+export function changeableFlowPost(changeableFlow: IFlow): Promise<ApiResponse<{ _id: string }>> {
   return http.post<{ _id: string }>('/api/v1/dashboard/flow', changeableFlow);
 }
 
-export function flowUpdate(workFlowId: WorkflowId, workflow: IWorkflow) {
-  return http.put<IWorkflow>(`/api/v1/dashboard/v3/workflow/${workFlowId}`, workflow);
-}
-
-export function getWorkflow(workFlowId: WorkflowId) {
-  return http.get<WorkflowResponse>(`/api/v1/dashboard/v3/workflow/${workFlowId}`);
+export function flowUpdate(merchantId: string, flowId: string, flow: IFlow): Promise<ApiResponse<IFlow>> {
+  return http.put<IFlow>(`/api/v1/merchants/${merchantId}/flows/${flowId}`, flow);
 }

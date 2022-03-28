@@ -62,11 +62,6 @@ const FlowListLazy = lazy(async () => {
   return { default: FlowList };
 });
 
-const WorkflowListLazy = lazy(async () => {
-  const { WorkflowListPage } = await import('pages/WorkflowList');
-  return { default: WorkflowListPage };
-});
-
 const ProductBoardLazy = lazy(async () => {
   const { ProductBoard } = await import('apps/ProductBoard');
   return { default: ProductBoard };
@@ -99,7 +94,6 @@ export function DashboardRouter() {
           <RoleRoutingGuard roles={[CollaboratorRoles.ADMIN]}>
             <Route path={Routes.analytics.root} component={AnalyticsContainerLazy} />
             <Route exact path={Routes.flow.root} component={FlowListLazy} />
-            <Route exact path={Routes.workflow.root} component={WorkflowListLazy} />
             <Route path={Routes.flow.details} component={FlowBuilderLazy} />
             <Route path={Routes.workflow.details} component={WorkFlowBuilderLazy} />
             <Route path={Routes.collaborators.agentProfile.details} component={AgentHistoryLazy} />

@@ -5,7 +5,6 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { FlowIssue } from 'apps/ui';
-import { DeepPartial } from 'lib/object';
 import { WorkAccountDataVerification } from '../components/WorkAccountDataVerification/WorkAccountDataVerification';
 import { WorkAccountDataSettings } from '../components/WorkAccountDataSettings/WorkAccountDataSettings';
 import { getWorkAccountData, WorkAccountDataSettingTypes, IWorkAccountDataVerification, WorkAccountDataCheckTypes } from '../models/WorkAccountData.model';
@@ -49,7 +48,7 @@ export class WorkAccountData extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  serialize(settings: ProductSettingsWorkAccountData): DeepPartial<IFlow> {
+  serialize(settings: ProductSettingsWorkAccountData): Partial<IFlow> {
     return {
       financialInformationWorkAccountsRetrieving: {
         countryCodes: settings.countryCodes.value,
@@ -57,7 +56,7 @@ export class WorkAccountData extends ProductBaseFlowBuilder implements Product {
     };
   }
 
-  onAdd(): DeepPartial<IFlow> {
+  onAdd(): Partial<IFlow> {
     return {
       financialInformationWorkAccountsRetrieving: {
         countryCodes: [],
@@ -82,7 +81,7 @@ export class WorkAccountData extends ProductBaseFlowBuilder implements Product {
     return null;
   }
 
-  onRemove(): DeepPartial<IFlow> {
+  onRemove(): Partial<IFlow> {
     return {
       financialInformationWorkAccountsRetrieving: {
         countryCodes: [],
