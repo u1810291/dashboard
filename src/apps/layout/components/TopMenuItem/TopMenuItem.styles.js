@@ -1,16 +1,16 @@
 import { makeStyles } from '@material-ui/styles';
-import { AppTheme } from 'apps/theme';
+import { appPalette } from 'apps/theme/app.palette';
 
-export const useStyles = makeStyles<typeof AppTheme, {color: string}>((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   desktopActive: {
     '& [role="menuitem"]': {
-      background: theme.palette.background.hover,
+      background: 'rgba(255, 255, 255, 0.1)',
     },
   },
   mobileActive: {
     '& [role="menuitem"]': {
-      background: theme.palette.background.hover,
-      borderLeft: `3px solid ${theme.palette.primary.main}`,
+      background: 'rgba(255, 255, 255, 0.1)',
+      borderLeft: [[3, 'solid', theme.palette.primary.main]],
     },
   },
   menuItem: {
@@ -19,13 +19,13 @@ export const useStyles = makeStyles<typeof AppTheme, {color: string}>((theme) =>
     lineHeight: 1,
     fontWeight: 'bold',
     borderBottom: '2px solid transparent',
-    padding: '6px 22px',
+    padding: [[6, 22]],
     transition: 'none',
     '&:hover': {
-      background: theme.palette.background.hover,
+      background: 'rgba(255, 255, 255, 0.1)',
     },
     '&:focus': {
-      background: theme.palette.background.focus,
+      background: 'rgba(255, 255, 255, 0.15)',
     },
   },
   outlined: (props) => ({
@@ -35,16 +35,16 @@ export const useStyles = makeStyles<typeof AppTheme, {color: string}>((theme) =>
     width: '100%',
   }),
   withOutlinedPadding: {
-    padding: '5px 10px',
+    padding: [[5, 10]],
   },
   textBox: {
-    color: theme.palette.text.light,
+    color: appPalette.black7,
   },
   icon: (props) => ({
     border: '2px solid',
     borderColor: props.color,
     borderRadius: 50,
-    padding: '5px 5px',
+    padding: [[5, 5]],
     marginLeft: -7,
   }),
 }));

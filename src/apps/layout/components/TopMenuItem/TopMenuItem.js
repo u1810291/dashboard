@@ -21,23 +21,6 @@ export function TopMenuItem({
   isWithOutlined = false,
   isOpen = false,
   id,
-}: {
-  children?: React.ReactNode;
-  className?: string;
-  label?: React.ReactNode;
-  isNoLink?: boolean;
-  show?: boolean;
-  to?: string;
-  handler?: () => void;
-  icon?: React.ReactNode;
-  qa: string;
-  color?: string;
-  isActive?: boolean;
-  isMobile?: boolean;
-  isOutlined?: boolean;
-  isWithOutlined?: boolean;
-  isOpen?: boolean;
-  id: string;
 }) {
   const classes = useStyles({ color });
   const menuItem = (
@@ -68,10 +51,10 @@ export function TopMenuItem({
             {icon}
           </Box>
           )}
+          {children}
           <Box className={classes.textBox} display="flex">
             {label}
           </Box>
-          {children}
         </Box>
       </Box>
     </MenuItem>
