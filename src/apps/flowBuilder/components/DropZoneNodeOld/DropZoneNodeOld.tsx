@@ -6,19 +6,19 @@ import { ProductTypes } from 'models/Product.model';
 import React from 'react';
 import { Position } from 'react-flow-renderer';
 import { useDispatch } from 'react-redux';
+import { flowBuilderProductAdd } from 'apps/flowBuilder/store/FlowBuilder.action';
+import { ReactFlowCustomHandler } from 'apps/WorkflowBuilder';
 import { useFormatMessage } from 'apps/intl';
-import { workflowBuilderProductAdd } from '../../store/WorkflowBuilder.action';
-import { ReactFlowCustomHandler } from '../ReactFlowCustomHandler/ReactFlowCustomHandler';
-import { useStyles } from './DropZoneNode.styles';
+import { useStyles } from './DropZoneNodeOld.styles';
 
-export function DropZoneNode() {
+export function DropZoneNodeOld() {
   const dispatch = useDispatch();
   const formatMessage = useFormatMessage();
   const classes = useStyles();
   const addProduct = useProductAdding();
 
   const handleAdd = (productType: ProductTypes) => {
-    dispatch(workflowBuilderProductAdd(productType));
+    dispatch(flowBuilderProductAdd(productType));
   };
 
   const handleDrop = (event) => {

@@ -1,5 +1,6 @@
 import { cloneDeep } from 'lodash';
-import { DropZoneNode, NodeTypes } from 'apps/WorkflowBuilder';
+import { NodeTypes } from 'apps/WorkflowBuilder';
+import { DropZoneNodeOld } from 'apps/flowBuilder/components/DropZoneNodeOld/DropZoneNodeOld';
 import { ProductNode } from '../components/ProductNode/ProductNode';
 
 export function getSettingsValueByType<T, S extends string>(settings: T): Record<S, any> {
@@ -14,6 +15,6 @@ export function getSettingsValueByType<T, S extends string>(settings: T): Record
 }
 
 export const NodesMapOld = {
-  [NodeTypes.DropZone]: DropZoneNode,
+  [NodeTypes.DropZone]: DropZoneNodeOld,
   [NodeTypes.Product]: ProductNode,
 };
