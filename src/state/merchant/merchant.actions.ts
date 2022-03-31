@@ -253,7 +253,7 @@ export const merchantUpdateBusinessName = (businessName) => async (dispatch) => 
 export const merchantUpdateOnboardingSteps = (onboardingSteps: StepsOptions[], currentStep: string, formatMessage: FormatMessage) => async (dispatch) => {
   try {
     const { data } = await api.patchOnboardingProgress(onboardingSteps);
-    dispatch({ type: types.ONBOARDING_STEPS_UPDATE, payload: { onboardingSteps: data.onboardingSteps }});
+    dispatch({ type: types.ONBOARDING_STEPS_UPDATE, payload: { onboardingSteps: data.onboardingSteps } });
     if (!data.onboardingSteps.some((item) => !item.completed)) notification.info(formatMessage('onboarding.steps.completed'));
   } catch (error) {
     dispatch({ type: types.ONBOARDING_STEPS_FAILURE, error });
