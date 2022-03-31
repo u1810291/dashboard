@@ -83,11 +83,11 @@ export class BankAccountData extends ProductBaseFlowBuilder implements Product {
   }
 
   haveIssues(flow: IFlow): boolean {
-    return flow.financialInformationBankAccountsRetrieving.countryCodes.length === 0;
+    return flow.financialInformationBankAccountsRetrieving?.countryCodes.length === 0;
   }
 
   getIssuesComponent(flow: IFlow): any {
-    const isBankDataHaveNoCountries = flow.financialInformationBankAccountsRetrieving.countryCodes.length === 0;
+    const isBankDataHaveNoCountries = flow.financialInformationBankAccountsRetrieving?.countryCodes.length === 0;
 
     if (isBankDataHaveNoCountries) {
       return () => FlowIssue('FlowBuilder.issue.countriesNotSpecified');
