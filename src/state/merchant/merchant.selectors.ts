@@ -5,7 +5,7 @@ import { BiometricTypes } from 'models/Biometric.model';
 import { IFlow } from 'models/Flow.model';
 import { DEFAULT_LOCALE, LanguageList, SupportedLocales } from 'models/Intl.model';
 import { Loadable } from 'models/Loadable.model';
-import { Merchant, MerchantId, MerchantTags, IMerchantSettings, IAgentNotesConfig } from 'models/Merchant.model';
+import { Merchant, MerchantId, MerchantTags, IMerchantSettings, IAgentNotesConfig, StepsOptions } from 'models/Merchant.model';
 import { createSelector } from 'reselect';
 import { CollaboratorRoles } from 'models/Collaborator.model';
 import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
@@ -22,6 +22,11 @@ export const selectMerchantModel = createSelector<any, any, Loadable<Merchant>>(
 export const selectMerchantId = createSelector<any, Loadable<Merchant>, MerchantId>(
   selectMerchantModel,
   selectModelValue((merchant: Merchant): string => merchant.id),
+);
+
+export const selectMerchantOnboarding = createSelector<any, Loadable<Merchant>, StepsOptions[]>(
+  selectMerchantModel,
+  selectModelValue((merchant: Merchant) => merchant.onboardingSteps),
 );
 
 export const selectOwnerId = createSelector(

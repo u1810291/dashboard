@@ -1,15 +1,7 @@
 import { appPalette } from 'apps/theme/app.palette';
-import { DocumentTypes } from 'models/Document.model';
 
 export const StubBarColor = appPalette.black7;
 export const StubTickColor = appPalette.black7;
-
-export const byDocumentTypes = [
-  { id: DocumentTypes.Passport },
-  { id: DocumentTypes.DrivingLicense },
-  { id: DocumentTypes.NationalId },
-  { id: DocumentTypes.ProofOfResidency },
-];
 
 export const byDateStub = [
   {
