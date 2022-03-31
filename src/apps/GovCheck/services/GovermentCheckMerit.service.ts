@@ -1,9 +1,9 @@
+import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { IFlow } from 'models/Flow.model';
 import { FiFlag } from 'react-icons/fi';
 import { CountrySpecificChecks, getStepStatus, StepStatus } from 'models/Step.model';
-import { ProductBaseWorkflow } from 'apps/WorkflowBuilder';
 import { getDocumentsWithoutCustomDocument } from 'models/Document.model';
 import { GovCheckSettings } from '../components/GovCheckSettings/GovCheckSettings';
 import { getGovCheckRootSteps, getGovCheckVerificationSteps, GovCheckVerificationData, GovernmentCheckSettingTypes, GovernmentChecksTypes, isGovCheckHaveDependsIssue, isGovCheckInFlow, verificationPatternsGovchecksDefault } from '../models/GovCheck.model';
@@ -13,7 +13,7 @@ import { GovCheckIssue } from '../components/GovCheckIssue/GovCheckIssue';
 
 type ProductSettingsGovCheck = ProductSettings<GovernmentCheckSettingTypes>;
 
-export class GovernmentCheckMerit extends ProductBaseWorkflow implements Product {
+export class GovernmentCheckMerit extends ProductBaseFlowBuilder implements Product {
   id = ProductTypes.GovernmentCheck;
   inputs = [
     ProductInputTypes.NationalId,
@@ -48,7 +48,10 @@ export class GovernmentCheckMerit extends ProductBaseWorkflow implements Product
   }
 
   isInVerification(verification: VerificationResponse): boolean {
+    // TODO: @ggrigorev WF add conditions when GovChecks will be adapted for WF
+    return false;
     // TODO: @anatoliy.turkin (step.id as any) look so sad
+    // eslint-disable-next-line no-unreachable
     return getGovCheckVerificationSteps(verification).some((step) => CountrySpecificChecks.includes((step.id as any)));
   }
 
