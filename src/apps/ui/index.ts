@@ -54,6 +54,8 @@ export { FileSelectButton } from './components/FileSelectButton/FileSelectButton
 export { FlowIssue } from './components/FlowIssue/FlowIssue';
 export { NoData } from './components/NoData/NoData';
 export { Select } from './components/Select/Select';
+export { TextFieldEditAdornment } from './components/TextFieldEditAdornment/TextFieldEditAdornment';
+export { Switch } from './components/Switch/Switch';
 
 export { WarningTypes, WarningSize } from './models/Warning.model';
 export { SyntaxHighlighterLanguages } from './models/SyntaxHighlighter.model';
