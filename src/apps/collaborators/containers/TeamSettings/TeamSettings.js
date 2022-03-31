@@ -1,53 +1,71 @@
 import { Box, Button, Paper, Typography } from '@material-ui/core';
 import { useOverlay } from 'apps/overlay';
 import { notification } from 'apps/ui';
-import { useFormatMessage } from 'apps/intl';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import React, { useCallback, useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { TeamInviteModal } from '../../components/TeamInviteModal/TeamInviteModal';
-import { collaboratorListLoad, collaboratorInvite } from '../../state/collaborator.actions';
+import { collaboratorAdd, collaboratorListLoad } from '../../state/collaborator.actions';
 import { selectCollaboratorCollectionWithOwnerModel, selectCollaboratorState } from '../../state/collaborator.selectors';
 import { useStyles } from './TeamSettings.styles';
 import { TeamTable } from '../../components/TeamTable/TeamTable';
 
 export function TeamSettings() {
   const dispatch = useDispatch();
-  const formatMessage = useFormatMessage();
+  const intl = useIntl();
   const classes = useStyles();
   const [createOverlay, closeOverlay] = useOverlay();
   const state = useSelector(selectCollaboratorState);
   const collaboratorList = useSelector(selectCollaboratorCollectionWithOwnerModel);
 
+  const handleInviteSubmit = useCallback(async (data) => {
+    closeOverlay();
+    try {
+      await dispatch(collaboratorAdd({
+        role: parseInt(data.role, 10),
+        user: {
+          email: data.email,
+          firstName: data.firstName,
+          lastName: data.lastName,
+        },
+      }));
+      notification.info(intl.formatMessage({ id: 'teamTable.inviteSuccess.description' }));
+    } catch (error) {
+      notification.error(intl.formatMessage({
+        id: `Settings.teamSettings.submit.${error.response?.data?.name}`,
+        defaultMessage: intl.formatMessage({ id: 'Error.common' }),
+      }));
+      console.error(error);
+    }
+  }, [dispatch, intl, closeOverlay]);
+
   const openInviteModal = useCallback(() => {
     createOverlay(
       <TeamInviteModal
-        onSubmit={(data) => {
-          closeOverlay();
-          dispatch(collaboratorInvite(formatMessage, data));
-        }}
+        onSubmit={handleInviteSubmit}
         isPosting={state.isPosting}
       />,
     );
-  }, [state, createOverlay]);
+  }, [handleInviteSubmit, state, createOverlay]);
 
   useEffect(() => {
     if (LoadableAdapter.isPristine(collaboratorList)) {
       try {
         dispatch(collaboratorListLoad());
       } catch (error) {
-        notification.error(formatMessage('Error.common'));
+        notification.error(intl.formatMessage({ id: 'Error.common' }));
         console.error(error);
       }
     }
-  }, [collaboratorList, dispatch]);
+  }, [collaboratorList, dispatch, intl]);
 
   return (
     <Paper>
       <Box p={2}>
         <Box mb={2}>
           <Typography variant="h3" className={classes.title}>
-            {formatMessage('Settings.teamSettings.team')}
+            {intl.formatMessage({ id: 'Settings.teamSettings.team' })}
           </Typography>
         </Box>
         <Box mb={2}>
@@ -60,7 +78,7 @@ export function TeamSettings() {
             onClick={openInviteModal}
             className={classes.button}
           >
-            {formatMessage('Settings.teamSettings.inviteTeammate')}
+            {intl.formatMessage({ id: 'Settings.teamSettings.inviteTeammate' })}
           </Button>
           )}
         </Box>

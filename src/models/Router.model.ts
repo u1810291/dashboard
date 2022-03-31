@@ -42,13 +42,6 @@ export const Routes = {
     root: '/flow',
     details: '/flow/:id',
   },
-  templates: {
-    root: '/templates',
-    newTemplate: '/new_template',
-    details: '/templates/:id',
-    draftFlow: '/draft',
-    draftFlowExisting: '/draft/:id',
-  },
   workflow: {
     root: '/workflow',
     details: '/workflow/:id',

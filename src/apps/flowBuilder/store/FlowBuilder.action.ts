@@ -2,9 +2,8 @@ import { productManagerService, selectProductRegistered } from 'apps/Product';
 import { mergeDeep } from 'lib/object';
 import { cloneDeep } from 'lodash';
 import { ApiResponse } from 'models/Client.model';
-import { createEmptyFlow, IFlow } from 'models/Flow.model';
+import { IFlow } from 'models/Flow.model';
 import { ProductTypes } from 'models/Product.model';
-import { FormatMessage } from 'apps/intl';
 import { merchantDeleteFlow, merchantUpdateFlow, merchantUpdateFlowList } from 'state/merchant/merchant.actions';
 import { selectCurrentFlow, selectMerchantId } from 'state/merchant/merchant.selectors';
 import { createTypesSequence } from 'state/store.utils';
@@ -31,12 +30,7 @@ export const flowBuilderClearStore = () => (dispatch) => {
   dispatch({ type: types.PRODUCT_SELECT, payload: null });
 };
 
-export const flowBuilderCreateEmptyFlow = (formatMessage: FormatMessage, data?: Partial<IFlow>) => (dispatch) => {
-  dispatch({ type: types.CHANGEABLE_FLOW_CLEAR, payload: createEmptyFlow(formatMessage, data) });
-  dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, payload: [] });
-};
-
-export const flowBuilderProductListInit = (flow, isReset = false) => (dispatch, getState) => {
+export const flowBuilderProductListInit = (flow) => (dispatch, getState) => {
   const registered = selectProductRegistered(getState());
   const activated = registered.filter((item) => {
     const product = productManagerService.getProduct(item);
@@ -46,7 +40,8 @@ export const flowBuilderProductListInit = (flow, isReset = false) => (dispatch, 
     return product.isInFlow(flow);
   });
   const sorted = productManagerService.sortProductTypes(activated);
-  dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, payload: sorted, isReset });
+
+  dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, payload: sorted });
 };
 
 export const flowBuilderChangeableFlowLoad = () => (dispatch, getState) => {
@@ -122,7 +117,7 @@ export const flowBuilderSubscribeToTemporaryWebhook = (temporaryFlowId: string) 
   }
 };
 
-export const flowBuilderSaveAndPublish = (name?: string) => async (dispatch, getState) => {
+export const flowBuilderSaveAndPublish = () => async (dispatch, getState) => {
   const state = getState();
   const changeableFlow = await selectFlowBuilderChangeableFlow(state);
   dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
@@ -130,7 +125,6 @@ export const flowBuilderSaveAndPublish = (name?: string) => async (dispatch, get
     const merchantId = selectMerchantId(state);
     const { data }: ApiResponse<IFlow> = await api.flowUpdate(merchantId, changeableFlow.id, {
       ...changeableFlow,
-      name: name || changeableFlow.name,
       createdAt: undefined,
       id: undefined,
       updatedAt: undefined,

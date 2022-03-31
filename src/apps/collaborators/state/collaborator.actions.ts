@@ -1,9 +1,6 @@
-import { UserId, TeamInviteFormInputs } from 'models/Collaborator.model';
+import { UserId } from 'models/Collaborator.model';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { createTypesSequence } from 'state/store.utils';
-import { FormatMessage } from 'apps/intl';
-import { StepsOptions } from 'apps/Analytics';
-import { notification } from 'apps/ui';
 import { CollaboratorActionGroups } from './collaborator.store';
 import * as api from '../api/collaborators';
 import { selectCollaboratorCollection } from './collaborator.selectors';
@@ -41,37 +38,6 @@ export const collaboratorListLoad = () => async (dispatch, getState) => {
   }
 };
 
-export const collaboratorAdd = (collaborator) => async (dispatch, getState) => {
-  dispatch({ type: types.COLLABORATOR_LIST_UPDATING });
-  try {
-    const merchantId = selectMerchantId(getState());
-    const { data } = await api.postCollaborators(merchantId, collaborator);
-    dispatch({ type: types.COLLABORATOR_LIST_SUCCESS, isReset: true, payload: data });
-  } catch (error) {
-    dispatch({ type: types.COLLABORATOR_LIST_FAILURE, error });
-    throw error;
-  }
-};
-
-export const collaboratorInvite = (formatMessage: FormatMessage, data: TeamInviteFormInputs, item?: StepsOptions, stepsProgressChange?: (item: string) => void) => async (dispatch) => {
-  try {
-    await dispatch(collaboratorAdd({
-      // @ts-ignore
-      role: parseInt(data.role, 10),
-      user: {
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-      },
-    }));
-    if (item) stepsProgressChange(item.stepId);
-    notification.info(formatMessage('teamTable.inviteSuccess.description'));
-  } catch (error) {
-    notification.error(formatMessage(`Settings.teamSettings.submit.${error.response?.data?.name}`, { defaultMessage: formatMessage('Error.common') }));
-    console.error(error);
-  }
-};
-
 export const collaboratorUpdate = (id, updateData) => async (dispatch, getState) => {
   dispatch({ type: types.COLLABORATOR_UPDATING });
   try {
@@ -92,6 +58,18 @@ export const collaboratorRemove = (id) => async (dispatch, getState) => {
     const state = getState();
     const merchantId = selectMerchantId(state);
     const { data } = await api.deleteCollaborators(merchantId, id);
+    dispatch({ type: types.COLLABORATOR_LIST_SUCCESS, isReset: true, payload: data });
+  } catch (error) {
+    dispatch({ type: types.COLLABORATOR_LIST_FAILURE, error });
+    throw error;
+  }
+};
+
+export const collaboratorAdd = (collaborator) => async (dispatch, getState) => {
+  dispatch({ type: types.COLLABORATOR_LIST_UPDATING });
+  try {
+    const merchantId = selectMerchantId(getState());
+    const { data } = await api.postCollaborators(merchantId, collaborator);
     dispatch({ type: types.COLLABORATOR_LIST_SUCCESS, isReset: true, payload: data });
   } catch (error) {
     dispatch({ type: types.COLLABORATOR_LIST_FAILURE, error });
