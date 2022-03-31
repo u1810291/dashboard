@@ -23,7 +23,7 @@
     "strictNullChecks": false,
     "outDir": "./build",
     "baseUrl": "./src",
-    "rootDir": "."
+    "rootDir": ".",
   },
   "typeRoots": [
     "node_modules/@types"

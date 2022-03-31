@@ -1,9 +1,4 @@
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { Box, Container, Grid, Tooltip, Typography, useMediaQuery } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { useOverlay } from 'apps/overlay';
 import { IFlow, MAX_NUMBER_OF_FLOWS } from 'models/Flow.model';
@@ -11,16 +6,13 @@ import { Routes } from 'models/Router.model';
 import { PageLoader } from 'apps/layout';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
-import { useFormatMessage } from 'apps/intl';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { merchantCreateFlow } from 'state/merchant/merchant.actions';
-import { selectMerchantFlowList, selectMerchantTags } from 'state/merchant/merchant.selectors';
+import { selectMerchantFlowList } from 'state/merchant/merchant.selectors';
 import { QATags } from 'models/QA.model';
-import { MerchantTags } from 'models/Merchant.model';
-import { clearCurrentTemplate, toggleUnsavedChanges } from 'apps/Templates';
-import { flowBuilderClearStore } from 'apps/flowBuilder';
 import { FlowsTable } from '../FlowsTable/FlowsTable';
 import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
 import { flowNameValidator } from '../../validators/FlowName.validator';
@@ -28,27 +20,19 @@ import { useStyles } from './FlowList.styles';
 
 export function FlowList() {
   const classes = useStyles();
-  const formatMessage = useFormatMessage();
+  const intl = useIntl();
   const [createOverlay] = useOverlay();
   const dispatch = useDispatch();
   const history = useHistory();
-  const merchantFlowList = useSelector<any, IFlow[]>(selectMerchantFlowList);
+  const merchantFlowList = useSelector(selectMerchantFlowList);
   const isMobile = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
   const isButtonDisabled = (merchantFlowList || []).length >= MAX_NUMBER_OF_FLOWS;
-  const [open, setOpen] = useState<boolean>(isButtonDisabled && isMobile);
+  const [open, setOpen] = useState(isButtonDisabled && isMobile);
   const flowListModel = useFlowListLoad();
-  const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
-  const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
 
   useEffect(() => {
     setOpen(isButtonDisabled && isMobile);
   }, [isMobile, isButtonDisabled]);
-
-  useEffect(() => {
-    dispatch(clearCurrentTemplate());
-    dispatch(flowBuilderClearStore());
-    dispatch(toggleUnsavedChanges(false));
-  }, [dispatch]);
 
   const submitNewFlow = useCallback(async (text) => {
     const value = (text || '').trim();
@@ -76,14 +60,6 @@ export function FlowList() {
     }
   }, [isMobile]);
 
-  const handleBuildMetamapButtonClick = useCallback(() => {
-    if (canUseTemplates) {
-      history.push(Routes.templates.draftFlow);
-    } else {
-      handleAddNewFlow();
-    }
-  }, [history, canUseTemplates, handleAddNewFlow]);
-
   if (!flowListModel.isLoaded) {
     return <PageLoader />;
   }
@@ -95,10 +71,10 @@ export function FlowList() {
           <Grid container alignItems="center">
             <Grid item xs={12} md={6}>
               <Box mb={{ xs: 1.4, md: 0 }}>
-                <Typography variant="h3">{formatMessage('VerificationFlow.page.title')}</Typography>
+                <Typography variant="h3">{intl.formatMessage({ id: 'VerificationFlow.page.title' })}</Typography>
               </Box>
             </Grid>
-            <Grid item container xs={12} md={6} justifyContent="flex-end" className={classes.buttonWrapper}>
+            <Grid item container xs={12} md={6} justify="flex-end" className={classes.buttonWrapper}>
               <Tooltip
                 enterTouchDelay={0}
                 placement={isMobile ? 'bottom' : 'left'}
@@ -111,7 +87,7 @@ export function FlowList() {
                   popper: classes.tooltipPopper,
                   arrow: classes.tooltipArrow,
                 }}
-                title={formatMessage('VerificationFlow.page.tooltip')}
+                title={intl.formatMessage({ id: 'VerificationFlow.page.tooltip' })}
               >
                 {merchantFlowList?.length > 0 && (
                 <span>
@@ -119,12 +95,12 @@ export function FlowList() {
                     disabled={isButtonDisabled}
                     variant="contained"
                     disableElevation
-                    onClick={handleBuildMetamapButtonClick}
+                    onClick={handleAddNewFlow}
                     className={classes.button}
                     data-qa={QATags.Flows.CreateNewFlowButton}
                   >
                     <FiPlus />
-                    {formatMessage('VerificationFlow.page.button')}
+                    {intl.formatMessage({ id: 'VerificationFlow.page.button' })}
                   </Button>
                 </span>
                 )}

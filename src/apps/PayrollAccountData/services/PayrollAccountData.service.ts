@@ -83,11 +83,11 @@ export class PayrollAccountData extends ProductBaseFlowBuilder implements Produc
   }
 
   haveIssues(flow: IFlow): boolean {
-    return flow.financialInformationPayrollAccountsRetrieving?.countryCodes.length === 0;
+    return flow.financialInformationPayrollAccountsRetrieving.countryCodes.length === 0;
   }
 
   getIssuesComponent(flow: IFlow): any {
-    const isPayrollAccountDataHaveNoCountries = flow.financialInformationPayrollAccountsRetrieving?.countryCodes.length === 0;
+    const isPayrollAccountDataHaveNoCountries = flow.financialInformationPayrollAccountsRetrieving.countryCodes.length === 0;
 
     if (isPayrollAccountDataHaveNoCountries) {
       return () => FlowIssue('FlowBuilder.issue.countriesNotSpecified');

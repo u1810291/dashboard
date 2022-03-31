@@ -88,15 +88,15 @@ export const useStyles = makeStyles((theme) => ({
   },
   itemType: {
     fontWeight: 'bold',
-    color: theme.palette.common.black90,
+    color: theme.palette.common.black75,
     textTransform: 'uppercase',
   },
   itemTypeId: {
     fontWeight: 'bold',
-    color: theme.palette.common.black90,
+    color: theme.palette.common.black75,
   },
   label: {
-    color: theme.palette.common.black75,
+    color: theme.palette.text.main,
     fontWeight: 'normal',
     [theme.breakpoints.up('lg')]: {
       display: 'none',
@@ -116,39 +116,6 @@ export const useStyles = makeStyles((theme) => ({
       '&.MuiTableCell-root': {
         padding: 0,
       },
-    },
-  },
-  tableLabel: {
-    display: 'flex',
-    marginTop: 30,
-    color: theme.palette.common.black75,
-    fontWeight: 'bold',
-    [theme.breakpoints.down('md')]: {
-      display: 'none',
-    },
-  },
-  nameHeader: {
-    width: 500,
-    paddingLeft: 20,
-  },
-  idHeader: {
-    width: 350,
-    paddingLeft: 25,
-  },
-  typeHeader: {
-    width: 200,
-    paddingLeft: 20,
-  },
-  nameCell: {
-    width: 500,
-    [theme.breakpoints.down('md')]: {
-      maxWidth: '100%',
-    },
-  },
-  typeCell: {
-    width: 200,
-    [theme.breakpoints.down('md')]: {
-      maxWidth: '100%',
     },
   },
   iconButtonDelete: {
