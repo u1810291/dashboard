@@ -6,6 +6,7 @@ import { notification } from 'apps/ui';
 import { ErrorMessages } from 'models/Error.model';
 
 export enum MediaStatusTypes {
+  MediaIsEmpty = 'MEDIA_IS_EMPTY',
   MediaIsLoading = 'MEDIA_IS_LOADING',
   MediaIsFailed = 'MEDIA_IS_FAILED'
 }

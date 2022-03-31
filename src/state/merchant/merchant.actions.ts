@@ -18,6 +18,7 @@ export const types: any = {
   CURRENT_FLOW_UPDATE: 'CURRENT_FLOW_UPDATE',
   BUSINESS_NAME_UPDATE: 'BUSINESS_NAME_UPDATE',
   ONBOARDING_STEPS_UPDATE: 'ONBOARDING_STEPS_UPDATE',
+  SETTINGS_UPDATE: 'SETTINGS_UPDATE',
 };
 
 // -- merchant
@@ -252,10 +253,19 @@ export const merchantUpdateBusinessName = (businessName) => async (dispatch) => 
 export const merchantUpdateOnboardingSteps = (onboardingSteps: StepsOptions[], currentStep: string, formatMessage: FormatMessage) => async (dispatch) => {
   try {
     const { data } = await api.patchOnboardingProgress(onboardingSteps);
-    dispatch({ type: types.ONBOARDING_STEPS_UPDATE, payload: { onboardingSteps: data.onboardingSteps } });
+    dispatch({ type: types.ONBOARDING_STEPS_UPDATE, payload: { onboardingSteps: data.onboardingSteps }});
     if (!data.onboardingSteps.some((item) => !item.completed)) notification.info(formatMessage('onboarding.steps.completed'));
   } catch (error) {
     dispatch({ type: types.ONBOARDING_STEPS_FAILURE, error });
     throw error;
   }
+};
+
+export const merchantUpdateSettings = (settings) => async (dispatch) => {
+  const { data } = await api.saveSettings(settings);
+  dispatch({ type: types.SETTINGS_UPDATE, payload: data.settings });
+};
+
+export const merchantUpdateAgentNotesConfig = (config) => (dispatch) => {
+  dispatch(merchantUpdateSettings({ agentNotesConfig: config }));
 };

@@ -12,6 +12,7 @@ import { ButtonHeaderMenu, notification, useDeleteButtonHook } from 'apps/ui';
 import { PageLoader } from 'apps/layout';
 import { CollaboratorRoles, WithAgent } from 'models/Collaborator.model';
 import { IVerificationWorkflow } from 'models/Verification.model';
+import { IdentityStatuses } from 'models/Status.model';
 import { RoleRenderGuard } from 'apps/merchant/guards/RoleRenderGuard';
 import { verificationRemove } from 'state/verification/verification.actions';
 import { sendWebhook } from 'state/webhooks/webhooks.actions';
@@ -33,9 +34,9 @@ export function VerificationHeaderMenu({ verification, productList }: {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const handleUpdateIdentityStatus = useCallback(async (value) => {
+  const handleUpdateIdentityStatus = useCallback(async (value: IdentityStatuses, agentNote?: string | null) => {
     if (verification?.id) {
-      await dispatch(verificationStatusUpdate(verification.id, value));
+      await dispatch(verificationStatusUpdate(verification.id, value, agentNote));
     }
     if (verification?.identityId) {
       await dispatch(sendWebhook(verification?.identityId));
