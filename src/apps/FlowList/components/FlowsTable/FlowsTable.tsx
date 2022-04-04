@@ -19,7 +19,7 @@ import { useQuery } from 'lib/url';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel, selectMerchantOnboarding, selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { Routes } from 'models/Router.model';
-import { getTemplate, useLoadTemplatesList } from 'apps/Templates';
+import { getTemplate } from 'apps/Templates';
 import { useFormatMessage } from 'apps/intl';
 import { Loadable } from 'models/Loadable.model';
 import { useHistory } from 'react-router-dom';
@@ -53,8 +53,6 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
   const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
 
-  useLoadTemplatesList();
-
   const handleCardClick = useCallback(async (id: string) => {
     try {
       await dispatch(getTemplate(id));
@@ -76,7 +74,7 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
 
   useEffect(() => {
     const isOnboardingModalShowed = localStorage.getItem('onboardingModalShowed');
-    if (canUseTemplates && !isFirstMetamapCreated && !isOnboardingModalShowed && !history.location.state?.dontShowModal && !!onboardingProgress.length) {
+    if (canUseTemplates && !isFirstMetamapCreated && !isOnboardingModalShowed && !history.location.state?.dontShowModal && !!onboardingProgress?.length) {
       localStorage.setItem('onboardingModalShowed', 'true');
       closeOverlay();
       handleMetamapBuild();

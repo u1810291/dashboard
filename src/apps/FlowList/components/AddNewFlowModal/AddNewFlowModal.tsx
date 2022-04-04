@@ -25,7 +25,7 @@ export function AddNewFlowModal({ submitNewFlow }) {
   const [input, setInput] = useState('');
   const [error, setError] = useState(false);
   const [, closeOverlay] = useOverlay();
-  const isMetamapStepCompleted = !!onboardingProgress.length && CreateMetamapCompleted(onboardingProgress);
+  const isMetamapStepCompleted = !!onboardingProgress?.length && CreateMetamapCompleted(onboardingProgress);
   const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
   const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
 
@@ -94,7 +94,7 @@ export function AddNewFlowModal({ submitNewFlow }) {
         fullWidth
         onClick={() => {
           handleSubmitDialog();
-          if(onboardingProgress.length) stepsProgressChange('make-metamap');
+          if(onboardingProgress?.length) stepsProgressChange('make-metamap');
         }}
         data-qa={QATags.Flows.Create.CreateButton}
       >
