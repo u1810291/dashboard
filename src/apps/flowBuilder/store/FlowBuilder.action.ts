@@ -27,6 +27,7 @@ export const flowBuilderProductSelect = (productId: ProductTypes) => (dispatch) 
 export const flowBuilderClearStore = () => (dispatch) => {
   dispatch({ type: types.PRODUCTS_IN_GRAPH_CLEAR, payload: [] });
   dispatch({ type: types.CHANGEABLE_FLOW_CLEAR, payload: {} });
+  dispatch({ type: types.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
   dispatch({ type: types.PRODUCT_SELECT, payload: null });
 };
 

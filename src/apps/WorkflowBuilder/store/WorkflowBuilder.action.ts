@@ -29,6 +29,7 @@ export const workflowBuilderProductSelect = (productId: ProductTypes) => (dispat
 export const workflowBuilderClearStore = () => (dispatch) => {
   dispatch({ type: types.PRODUCTS_IN_GRAPH_CLEAR, payload: [] });
   dispatch({ type: types.CHANGEABLE_WORKFLOW_CLEAR, payload: {} });
+  dispatch({ type: types.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
   dispatch({ type: types.PRODUCT_SELECT, payload: null });
 };
 
