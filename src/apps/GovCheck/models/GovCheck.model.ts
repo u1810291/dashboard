@@ -1095,10 +1095,10 @@ export const govCheckDisplayOptions = {
     companyEmail: {},
   },
   [VerificationStepTypes.IndonesianKTPValidation]: {
-    nik: {},
-    nikStatus: {},
     name: {},
     nameMatch: {},
+    nik: {},
+    nikStatus: {},
     dateOfBirth: {},
     dateOfBirthMatch: {},
     similarityThreshold: {
