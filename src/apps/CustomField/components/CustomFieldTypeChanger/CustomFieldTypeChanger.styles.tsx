@@ -1,6 +1,5 @@
 import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
-import React from 'react';
 
 export const SmallButton = withStyles({
   root: {
