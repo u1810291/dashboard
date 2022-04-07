@@ -1862,6 +1862,7 @@
   "SecurityCheckStep.honduranRnp.notFound.message": "We could not find any records in the RNP database. Please double-check there is no typo in the extracted fields before rejecting/accepting the user.",
   "SecurityCheckStep.honduranRnp.notValidParams.message": "The document number is invalid.",
   "SecurityCheckStep.incomplete": "We didn't get enough data to finish this check.",
+  "SecurityCheckStep.indonesian-ktp-validation.title": "Dukcapil KTP",
   "SecurityCheckStep.ine.notEnoughParams": "Not Found",
   "SecurityCheckStep.ine.notEnoughParams.message": "We could not extract all the necessary fields from the document to access the INE database. Please visit the INE website, or ask the user to verify their document again.",
   "SecurityCheckStep.ine.notFound": "Not Found",
