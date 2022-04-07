@@ -46,6 +46,7 @@ export enum VerificationPatternTypes {
   GuatemalanTse = 'guatemalan-tse-validation',
   IpValidation = 'ip-validation',
   HonduranRnp = 'honduran-rnp-validation',
+  IndonesianKPTValidation = 'indonesian-ktp-validation',
   KenyanEcitizen = 'kenyan-ecitizen-validation',
   MexicanCurp = 'mexican-curp-validation',
   MexicanIne = 'mexican-ine-validation',
@@ -120,6 +121,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.DuplicateUserDetection]?: boolean;
   [VerificationPatternTypes.GuatemalanTse]?: boolean;
   [VerificationPatternTypes.IpValidation]?: IpCheckValidationTypes;
+  [VerificationPatternTypes.IndonesianKPTValidation]?: string;
   [VerificationPatternTypes.KenyanEcitizen]?: boolean;
   [VerificationPatternTypes.MexicanCurp]?: boolean;
   [VerificationPatternTypes.MexicanIne]?: boolean;

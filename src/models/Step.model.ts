@@ -41,6 +41,7 @@ export enum VerificationStepTypes {
   NigerianCacValidation = 'nigerian-cac-validation',
   NigerianLegalValidation = 'nigerian-legal-validation',
   NigerianTinValidation = 'nigerian-tin-validation',
+  IndonesianKTPValidation = 'indonesian-ktp-validation',
 }
 
 export enum StepStatus {

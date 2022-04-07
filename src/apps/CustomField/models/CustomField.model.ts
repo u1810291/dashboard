@@ -72,6 +72,8 @@ export enum MappingValueKey {
   NationalIdDateOfBirth = 'national-id.dateOfBirth',
   CertificateOfTaxTINTin = 'certificate-of-tax.TIN.tin',
   CertificateOfIncorporationCACRcBnNumber = 'certificate-of-incorporation.CAC.rc-bn-number',
+  NationalIdKTPNik = 'national-id.KTP.nik',
+  NationalIdKTPName = 'national-id.KTP.name',
 }
 
 export interface CONFIG {
@@ -104,17 +106,36 @@ export const CONFIG_BY_KEY: Record<string, CONFIG> = {
     regex: '',
     type: AtomicCustomFieldType.Date,
   },
+  [MappingValueKey.NationalIdDateOfBirth]: {
+    regex: '',
+    type: AtomicCustomFieldType.Date,
+  },
+  [MappingValueKey.NationalIdKTPNik]: {
+    regex: '',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.NationalIdKTPName]: {
+    regex: '',
+    type: AtomicCustomFieldType.Text,
+  },
 };
 
 export enum MappingCountryTypes {
+  Indonesia = 'ID',
   Nigeria = 'NG',
 }
 
 export const MAPPING_ALLOWED_COUNTRIES = [
+  MappingCountryTypes.Indonesia,
   MappingCountryTypes.Nigeria,
 ];
 
 export const MAPPING_OPTIONS = {
+  [MappingCountryTypes.Indonesia]: [
+    MappingValueKey.NationalIdKTPName,
+    MappingValueKey.NationalIdKTPNik,
+    MappingValueKey.NationalIdDateOfBirth,
+  ],
   [MappingCountryTypes.Nigeria]: [
     MappingValueKey.NationalIdNINDocumentNumber,
     MappingValueKey.NationalIdBVNDocumentNumber,
