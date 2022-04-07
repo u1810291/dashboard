@@ -322,6 +322,7 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.ColombianRunt]: ['colombianRunt.fullNameMismatch', 'colombianRunt.hasFines'],
   [DocumentStepTypes.ArgentinianRenaper]: ['argentinianRenaper.deceasedPerson', 'argentinianRenaper.fullNameMismatch'],
   [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
+  [VerificationStepTypes.IndonesianKTPValidation]: ['indonesiaKTP.faceBiometricsMismatch', 'indonesiaKTP.dobMismatch', 'indonesiaKTP.nameMismatch'],
   [DocumentStepTypes.ColombianSisben]: ['colombianSisben.fullNameMismatch'],
 };
 
