@@ -228,6 +228,7 @@ export const CountrySpecificChecks = [
   VerificationPatternTypes.NigerianCac,
   VerificationStepTypes.NigerianLegalValidation,
   VerificationStepTypes.NigerianTinValidation,
+  VerificationStepTypes.IndonesianKTPValidation,
 ];
 
 export function hasFailureStep(steps: IStep[]): boolean {
