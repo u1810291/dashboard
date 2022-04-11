@@ -325,6 +325,7 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.ArgentinianRenaper]: ['argentinianRenaper.deceasedPerson', 'argentinianRenaper.fullNameMismatch'],
   [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
   [DocumentStepTypes.ColombianSisben]: ['colombianSisben.fullNameMismatch'],
+  [DocumentStepTypes.DominicanRnc]: ['dominicanRnc.nameMismatch'],
 };
 
 export const RootGovChecksErrorsToHide = {
