@@ -16,9 +16,10 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
-import { WorkflowBuilderIntegrationDetails, dagreGraphService } from 'apps/WorkflowBuilder';
+import { dagreGraphService } from 'apps/WorkflowBuilder';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { Loadable } from 'models/Loadable.model';
+import { FlowBuilderIntegrationDetails } from '../FlowBuilderIntegrationDetails/FlowBuilderIntegrationDetails';
 import { ProductListSidebar } from '../ProductListSidebar/ProductListSidebar';
 import { flowBuilderChangeableFlowLoad, flowBuilderChangeableFlowUpdate, flowBuilderClearStore } from '../../store/FlowBuilder.action';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId } from '../../store/FlowBuilder.selectors';
@@ -105,7 +106,7 @@ export function FlowBuilder() {
                 />
                 )}
                 {!selectedId && (
-                <WorkflowBuilderIntegrationDetails />
+                <FlowBuilderIntegrationDetails />
                 )}
               </Grid>
             </Grid>
