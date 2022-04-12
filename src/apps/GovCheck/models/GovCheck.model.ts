@@ -1095,12 +1095,24 @@ export const govCheckDisplayOptions = {
     companyEmail: {},
   },
   [VerificationStepTypes.IndonesianKTPValidation]: {
-    name: {},
-    nameMatch: {},
-    nik: {},
-    nikStatus: {},
-    dateOfBirth: {},
-    dateOfBirthMatch: {},
+    name: {
+      inline: true,
+    },
+    nameMatch: {
+      inline: true,
+    },
+    nik: {
+      inline: true,
+    },
+    nikStatus: {
+      inline: true,
+    },
+    dateOfBirth: {
+      inline: true,
+    },
+    dateOfBirthMatch: {
+      inline: true,
+    },
     similarityThreshold: {
       hiddenIfNotExists: true,
     },
