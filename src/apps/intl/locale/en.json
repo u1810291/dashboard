@@ -1191,7 +1191,7 @@
   "GovCheck.check.honduran-rnp-validation": "RNP",
   "GovCheck.check.indonesian-ktp-validation": "Dukcapil KTP",
   "GovCheck.check.indonesian-ktp-validation.ktp+facematch": "Dukcapil Facematch",
-  "GovCheck.check.indonesian-ktp-validation.ktp+facematch.description": "(Selfie required))",
+  "GovCheck.check.indonesian-ktp-validation.ktp+facematch.description": "(Selfie required)",
   "GovCheck.check.kenyan-ecitizen-validation": "E-Citizen",
   "GovCheck.check.mexican-curp-validation": "CURP",
   "GovCheck.check.mexican-ine-validation": "INE",
