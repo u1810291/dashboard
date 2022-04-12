@@ -387,7 +387,6 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         stepTypeAlias: GovCheckTypesForPattern[VerificationPatternTypes.IndonesianKPTValidation].ktp,
         option: {
           id: GovCheckTypesForPattern[VerificationPatternTypes.IndonesianKPTValidation].ktpFacematch,
-          merchantTags: [MerchantTags.CanUseFacematchCPFInBr],
           stepTypeAlias: GovCheckTypesForPattern[VerificationPatternTypes.IndonesianKPTValidation].ktpFacematch,
           description: true,
           isSupportFacematch: true,
@@ -1101,9 +1100,7 @@ export const govCheckDisplayOptions = {
     nameMatch: {
       inline: true,
     },
-    nik: {
-      inline: true,
-    },
+    nik: {},
     nikStatus: {
       inline: true,
     },
