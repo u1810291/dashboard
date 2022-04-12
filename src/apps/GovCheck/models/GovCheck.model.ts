@@ -1,13 +1,13 @@
-import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, VerificationStepTypes, RootGovChecksErrorsToHide } from 'models/Step.model';
-import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { BiometricTypes } from 'models/Biometric.model';
-import { MerchantTags } from 'models/Merchant.model';
-import { NationalIdTypes, VerificationDocument } from 'models/Document.model';
-import { VerificationResponse } from 'models/VerificationOld.model';
-import { dateSortCompare } from 'lib/date';
-import cloneDeep from 'lodash/cloneDeep';
-import { ProductTypes } from 'models/Product.model';
-import { IFlow } from 'models/Flow.model';
+import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, RootGovChecksErrorsToHide, VerificationStepTypes } from 'models/Step.model';
+import { VerificationPatterns, VerificationPatternTypes }                                                                  from 'models/VerificationPatterns.model';
+import { BiometricTypes }                                                                                                  from 'models/Biometric.model';
+import { MerchantTags }                                                                                                    from 'models/Merchant.model';
+import { NationalIdTypes, VerificationDocument }                                                                           from 'models/Document.model';
+import { VerificationResponse }                                                                                            from 'models/VerificationOld.model';
+import { dateSortCompare }                                                                                                 from 'lib/date';
+import cloneDeep                                                                                                           from 'lodash/cloneDeep';
+import { ProductTypes }                                                                                                    from 'models/Product.model';
+import { IFlow }                                                                                                           from 'models/Flow.model';
 
 export enum GovernmentCheckSettingTypes {
   PostponedTimeout = 'postponedTimeout',
@@ -385,11 +385,13 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         id: VerificationPatternTypes.IndonesianKPTValidation,
         default: false,
         stepTypeAlias: GovCheckTypesForPattern[VerificationPatternTypes.IndonesianKPTValidation].ktp,
+        merchantTags: [MerchantTags.CanUseIndonesianKTP],
         option: {
           id: GovCheckTypesForPattern[VerificationPatternTypes.IndonesianKPTValidation].ktpFacematch,
           stepTypeAlias: GovCheckTypesForPattern[VerificationPatternTypes.IndonesianKPTValidation].ktpFacematch,
           description: true,
           isSupportFacematch: true,
+          merchantTags: [MerchantTags.CanUseIndonesianKTP],
         },
       },
     ],
