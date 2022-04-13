@@ -1047,7 +1047,6 @@ export const govCheckDisplayOptions = {
     },
     version: {
       inline: true,
-
     },
     taxIdType: {
       inline: true,
@@ -1104,7 +1103,6 @@ export const govCheckDisplayOptions = {
     },
     nik: {},
     nikStatus: {
-      inline: true,
     },
     dateOfBirth: {
       inline: true,
@@ -1112,10 +1110,24 @@ export const govCheckDisplayOptions = {
     dateOfBirthMatch: {
       inline: true,
     },
-    similarityThreshold: {
+    similarity: {
+      formatter: (similarity, data) => {
+        if (similarity === undefined) {
+          return { ...data };
+        }
+        return { ...data, similarity: `${similarity} %` };
+      },
+      inline: true,
       hiddenIfNotExists: true,
     },
     faceMatch: {
+      formatter: (faceMatch, data) => {
+        if (faceMatch === undefined) {
+          return { ...data };
+        }
+        return { ...data, faceMatch: faceMatch.toString() };
+      },
+      inline: true,
       hiddenIfNotExists: true,
     },
   },

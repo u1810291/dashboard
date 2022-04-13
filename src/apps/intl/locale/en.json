@@ -2622,7 +2622,7 @@
   "identity.field.sanctioned": "Sanctioned",
   "identity.field.serviceIndustryDebtsCount": "Service Industry Debts Count",
   "identity.field.sex": "Sex",
-  "identity.field.similarityThreshold": "Facematch similarity",
+  "identity.field.similarity": "Facematch similarity",
   "identity.field.solidarityIndustryDebtsCount": "Solidarity Industry Debts Count",
   "identity.field.state": "State",
   "identity.field.status": "Status",
