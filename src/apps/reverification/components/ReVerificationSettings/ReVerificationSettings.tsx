@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import { BiometricConfiguration } from 'apps/biometricVerification';
 import { FaceMatchingThreshold } from 'apps/facematch';
 import { appPalette } from 'apps/theme';
@@ -40,6 +40,7 @@ export function ReVerificationSettings({ settings, onUpdate }: ProductSettingsPr
           text={intl.formatMessage({ id: 'ReVerification.settings.biometrics.description' })}
         >
           <BiometricConfiguration
+            isReVerification
             biometrics={settings.biometrics.value}
             proofOfOwnership={settings.proofOfOwnership.value}
             onUpdate={handleBiometricsChanges}
