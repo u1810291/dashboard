@@ -11,6 +11,7 @@ import { Dispatch } from 'redux';
 import { types } from 'state/identities/identities.actions';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { selectIdentityModel } from 'state/identities/identities.selectors';
+import { VerificationCustomFieldsInputData } from 'models/CustomField.model';
 import * as client from '../client/Verification.client';
 import { selectNewVerificationWithExtras, selectVerification } from './Verification.selectors';
 import { VerificationActionTypes } from './Verification.store';
@@ -80,6 +81,11 @@ export const verificationDocumentStepsUpdate = <T extends unknown>(documentType:
   document.steps[stepIndex] = { ...document.steps[stepIndex], ...step };
 
   dispatch({ type: VerificationActionTypes.VERIFICATION_SUCCESS, payload: verification });
+};
+
+export const verificationCustomFieldUpdate = (customFieldsDataCopy: VerificationCustomFieldsInputData) => (dispatch: Dispatch, getState) => {
+  const verification = selectVerification(getState());
+  dispatch({ type: VerificationActionTypes.VERIFICATION_SUCCESS, isReset: true, payload: { ...verification, customFieldsDataCopy } });
 };
 
 export const verificationDocumentUpdate = (verificationId: string, documentType, fields) => async (dispatch: Dispatch, getState) => {

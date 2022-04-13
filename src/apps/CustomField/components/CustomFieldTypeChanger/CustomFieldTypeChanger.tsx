@@ -4,8 +4,9 @@ import React from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormatMessage } from 'apps/intl';
+import { ICustomField, IMapping, AtomicCustomFieldType } from 'models/CustomField.model';
 import { SmallButton } from './CustomFieldTypeChanger.styles';
-import { AtomicCustomFieldType, isTypeFromConfig, CustomField, EMPTY_SELECT_OPTIONS, Mapping } from '../../models/CustomField.model';
+import { isTypeFromConfig, EMPTY_SELECT_OPTIONS } from '../../models/CustomField.model';
 import { updateCustomFieldEditedField } from '../../state/CustomField.actions';
 import { selectCustomFieldEditedCustomField, selectCustomFieldSelectedCustomFieldMapping } from '../../state/CustomField.selectors';
 
@@ -13,8 +14,8 @@ export function CustomFieldTypeChanger() {
   const formatMessage = useFormatMessage();
   const dispatch = useDispatch();
 
-  const selectedCustomField = useSelector<any, CustomField>(selectCustomFieldEditedCustomField);
-  const selectedFieldMapping = useSelector<any, Mapping>(selectCustomFieldSelectedCustomFieldMapping);
+  const selectedCustomField = useSelector<any, ICustomField>(selectCustomFieldEditedCustomField);
+  const selectedFieldMapping = useSelector<any, IMapping>(selectCustomFieldSelectedCustomFieldMapping);
 
   const isBlocked: boolean = isTypeFromConfig(selectedFieldMapping);
 
@@ -32,6 +33,8 @@ export function CustomFieldTypeChanger() {
       <Grid item>
         <Typography variant="subtitle2">
           {formatMessage('CustomField.settings.fieldType')}
+          {' '}
+          *
         </Typography>
       </Grid>
       <Grid container item justify="space-between" xs={8}>

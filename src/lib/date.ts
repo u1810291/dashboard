@@ -1,5 +1,6 @@
 import inRange from 'lodash/inRange';
 import dayjs, { Dayjs } from 'dayjs';
+import { DEFAULT_LOCALE, SupportedLocales } from 'models/Intl.model';
 
 import utcSupport from 'dayjs/plugin/utc';
 import objectSupport from 'dayjs/plugin/objectSupport';
@@ -160,4 +161,8 @@ export function dateToFormatString(value: Date | string, locale: string, format:
 export function getLocaleFormat(locale: string, format: DateFormat = DateFormat.LocalizedDayMonthYearSlashes): string {
   return dayjs().locale(locale).localeData().longDateFormat(format)
     .toLowerCase();
+}
+
+export function changeDateFormat(str: string, format: string = DateFormat.LocalizedDayMonthYearSlashes, locale: SupportedLocales = DEFAULT_LOCALE, newFormat: string = DateFormat.DateShortStroke): string {
+  return dayjs(str, format, locale, true).format(newFormat);
 }

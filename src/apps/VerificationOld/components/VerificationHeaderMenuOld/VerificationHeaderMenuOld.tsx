@@ -11,6 +11,7 @@ import classNames from 'classnames';
 import { CollaboratorRoles, WithAgent } from 'models/Collaborator.model';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
+import { IdentityStatuses } from 'models/Status.model';
 import { VerificationWithExtras } from 'models/VerificationOld.model';
 import { verificationRemove } from 'state/verification/verification.actions';
 import { PageLoader } from 'apps/layout';
@@ -32,9 +33,9 @@ export function VerificationHeaderMenuOld({ verification, identity }: {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const handleUpdateIdentityStatus = useCallback(async (value) => {
+  const handleUpdateIdentityStatus = useCallback(async (value: IdentityStatuses, agentNote?: string | null) => {
     if (verification?.id) {
-      await dispatch(verificationStatusUpdate(verification.id, value));
+      await dispatch(verificationStatusUpdate(verification.id, value, agentNote));
     }
     if (identity?._id) {
       await dispatch(sendWebhook(identity._id));
