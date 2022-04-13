@@ -6,9 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import cloneDeep from 'lodash/cloneDeep';
 import { FiTrash2 } from 'react-icons/fi';
 import { useFormatMessage } from 'apps/intl';
+import { ISelectOptions } from 'models/CustomField.model';
 import { TextFieldInput } from '../CustomFieldModalConfigureAtomic/CustomFieldModalConfigureAtomic.styles';
 import { updateCustomFieldEditedFieldSelectOptions } from '../../state/CustomField.actions';
-import { EMPTY_OPTION, MIN_SELECT_OPTIONS, SelectOptions } from '../../models/CustomField.model';
+import { EMPTY_OPTION, isValidFieldSystemName, MIN_SELECT_OPTIONS } from '../../models/CustomField.model';
 import { selectCustomFieldSelectedCustomFieldSelectOptions } from '../../state/CustomField.selectors';
 import { useStyles } from './CustomFieldSelectionOptions.style';
 
@@ -17,7 +18,7 @@ export function CustomFieldSelectionOptions() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const selectOptions = useSelector<any, SelectOptions[]>(selectCustomFieldSelectedCustomFieldSelectOptions);
+  const selectOptions = useSelector<any, ISelectOptions[]>(selectCustomFieldSelectedCustomFieldSelectOptions);
 
   const handleSelectOptionChange = (index: number) => ({ target: { value, name } }) => {
     const clone = cloneDeep(selectOptions);
@@ -32,6 +33,15 @@ export function CustomFieldSelectionOptions() {
   const handleSelectOptionRemove = (index: number) => () => {
     const clone = cloneDeep(selectOptions);
     clone.splice(index, 1);
+    dispatch(updateCustomFieldEditedFieldSelectOptions(clone));
+  };
+
+  const handleUpdateSystemName = (index: number) => ({ target: { value, name } }) => {
+    if (!isValidFieldSystemName(value)) {
+      return;
+    }
+    const clone = cloneDeep(selectOptions);
+    clone[index][name] = value;
     dispatch(updateCustomFieldEditedFieldSelectOptions(clone));
   };
 
@@ -63,7 +73,7 @@ export function CustomFieldSelectionOptions() {
                 value={option.value}
                 type="text"
                 name="value"
-                onChange={handleSelectOptionChange(index)}
+                onChange={handleUpdateSystemName(index)}
                 placeholder={formatMessage('CustomField.settings.selectionOptions.value.placeholder')}
               />
             </Grid>

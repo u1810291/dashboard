@@ -3,12 +3,13 @@ import Box from '@material-ui/core/Box';
 import { FiEdit2 } from 'react-icons/fi';
 import { DraggableProvided } from 'react-beautiful-dnd';
 import { ReactComponent as DragButton } from 'assets/file-drag.svg';
-import { CustomField, HandleOpenModal, HandleUpdateFields, MODAL_BY_FIELD_TYPE } from '../../models/CustomField.model';
+import { ICustomField } from 'models/CustomField.model';
+import { HandleOpenModal, HandleUpdateFields, MODAL_BY_FIELD_TYPE } from '../../models/CustomField.model';
 import { CustomFieldDeleteButton } from '../CustomFieldDeleteButton/CustomFieldDeleteButton';
 import { LightblueIconButton, useStyles } from './CustomFieldHeader.style';
 
 export const CustomFieldHeader = ({ handleUpdateFields, index, handleOpenModal, provided, field, parent }: {
-  field: CustomField;
+  field: ICustomField;
   handleUpdateFields: HandleUpdateFields;
   handleOpenModal: HandleOpenModal;
   index: number;

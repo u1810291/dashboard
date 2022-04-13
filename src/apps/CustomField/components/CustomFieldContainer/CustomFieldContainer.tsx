@@ -5,8 +5,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import { useOverlay } from 'apps/overlay';
 import { MerchantTags } from 'models/Merchant.model';
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
+import { ICustomField } from 'models/CustomField.model';
 import { CustomFieldActions } from '../CustomFieldActions/CustomFieldActions';
-import { CustomField, CustomFieldModalTypes, CustomFieldProductSettingsProps, CustomFieldSettingTypes, HandleOpenModal, HandleUpdateFields, MAIN_DROPPABLE_ID } from '../../models/CustomField.model';
+import { CustomFieldModalTypes, CustomFieldProductSettingsProps, CustomFieldSettingTypes, HandleOpenModal, HandleUpdateFields, MAIN_DROPPABLE_ID } from '../../models/CustomField.model';
 import { prepareDataForModal, setCustomFieldEditedIndex, setCustomFieldEditedParent, setCustomFieldFlattenListFields, setCustomFieldListFields } from '../../state/CustomField.actions';
 import { CustomFieldModal } from '../CustomFieldModal/CustomFieldModal';
 import { CustomFieldDragAndDrop } from '../CustomFieldDragAndDrop/CustomFieldDragAndDrop';
@@ -22,13 +23,13 @@ export function CustomFieldContainer({ onUpdate, settings }: CustomFieldProductS
     dispatch(setCustomFieldListFields(settings[CustomFieldSettingTypes.fields].value));
   }, [dispatch, settings]);
 
-  const handleUpdateFields: HandleUpdateFields = useCallback((fields: CustomField[]) => {
+  const handleUpdateFields: HandleUpdateFields = useCallback((fields: ICustomField[]) => {
     const newSettings = cloneDeep(settings);
     newSettings[CustomFieldSettingTypes.fields].value = [...fields];
     onUpdate(newSettings);
   }, [onUpdate, settings]);
 
-  const handleOpenModal: HandleOpenModal = useCallback((modalType: CustomFieldModalTypes, editedField: CustomField = null, index: number = null, parent: string = MAIN_DROPPABLE_ID) => () => {
+  const handleOpenModal: HandleOpenModal = useCallback((modalType: CustomFieldModalTypes, editedField: ICustomField = null, index: number = null, parent: string = MAIN_DROPPABLE_ID) => () => {
     dispatch(setCustomFieldEditedParent(parent));
     dispatch(setCustomFieldEditedIndex(index));
     dispatch(prepareDataForModal(modalType, editedField));
