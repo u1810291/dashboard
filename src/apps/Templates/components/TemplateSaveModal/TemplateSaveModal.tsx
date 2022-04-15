@@ -56,7 +56,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
       history.push(`${Routes.templates.root}/${currentTemplate._id}`);
       closeOverlay();
     }
-  }, [currentTemplate, history, closeOverlay]);
+  }, [currentTemplate, history, closeOverlay, edit]);
 
   const { register, handleSubmit, setValue, watch, trigger, formState: { errors, isSubmitting, isValid } } = useForm<TemplateSaveInputs>({
     mode: 'onChange',

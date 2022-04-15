@@ -14,7 +14,7 @@ export function FlowInfoContainer({ isTemplate }: { isTemplate?: boolean }) {
   const route = isTemplate ? 'templates' : 'flow';
   const [createOverlay, closeOverlay] = useOverlay();
   const location = useLocation();
-  const goBackToListLink = useMemo(() => getGoBackToListLink(location, Routes[route].root), [location]);
+  const goBackToListLink = useMemo(() => getGoBackToListLink(location, Routes[route].root), [location, route]);
   const handleOpenFlowSettings = useCallback(() => {
     createOverlay(<Modal className={classes.modal} onClose={closeOverlay}><FlowSettings isTemplate={isTemplate} onClose={closeOverlay} /></Modal>);
   }, [classes.modal, closeOverlay, createOverlay, isTemplate]);

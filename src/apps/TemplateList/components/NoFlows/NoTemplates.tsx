@@ -15,11 +15,11 @@ export function NoTemplates({ onAddNewFlow }: { onAddNewFlow: () => void }) {
     <Box mb="8vh">
       <Box py={1.5}><EmptyFlowsIcon /></Box>
       <Box mb={1}>
-        <Typography variant="h4">{formatMessage('VerificationFlow.page.title')}</Typography>
+        <Typography variant="h4">{formatMessage('VerificationTemplate.page.title')}</Typography>
       </Box>
       <Box mb={2} mx="auto" maxWidth={470} color="common.black75">
         <Typography variant="body1" align="center">
-          {formatMessage('VerificationFlow.emptyPage.text')}
+          {formatMessage('VerificationTemplate.emptyPage.text')}
         </Typography>
       </Box>
       <Button
@@ -29,7 +29,7 @@ export function NoTemplates({ onAddNewFlow }: { onAddNewFlow: () => void }) {
         className={classes.button}
       >
         <FiPlusCircle />
-        {formatMessage('VerificationFlow.page.button')}
+        {formatMessage('VerificationTemplate.page.button')}
       </Button>
     </Box>
   );

@@ -29,7 +29,7 @@ export function TeamSettings() {
         isPosting={state.isPosting}
       />,
     );
-  }, [state, createOverlay]);
+  }, [state, createOverlay, closeOverlay, dispatch, formatMessage]);
 
   useEffect(() => {
     if (LoadableAdapter.isPristine(collaboratorList)) {
@@ -40,7 +40,7 @@ export function TeamSettings() {
         console.error(error);
       }
     }
-  }, [collaboratorList, dispatch]);
+  }, [collaboratorList, dispatch, formatMessage]);
 
   return (
     <Paper>

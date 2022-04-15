@@ -35,7 +35,7 @@ export function TemplatesTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   const dispatch = useDispatch();
   const isNewDesign = useSelector<any, boolean>(selectIsNewDesign);
   const { asMerchantId } = useQuery();
-  const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
+  const [onMouseDownHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
 
   const handleBlockTemplate = useCallback(async (id) => {
     if (templateIdToDelete) return;

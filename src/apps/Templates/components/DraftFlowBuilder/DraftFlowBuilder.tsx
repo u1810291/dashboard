@@ -76,7 +76,7 @@ export function DraftFlowBuilder() {
         dispatch(flowBuilderChangeableFlowLoad());
       }
     }
-  }, [dispatch, currentTemplateModel, isBuilderInitialized, id, isEditMode, changeableFlowModel, flowListModel.isLoaded]);
+  }, [dispatch, currentTemplateModel, isBuilderInitialized, id, isEditMode, changeableFlowModel, flowListModel.isLoaded, formatMessage]);
 
   useEffect(() => {
     dagreGraphService.createGraph();
@@ -95,7 +95,7 @@ export function DraftFlowBuilder() {
       closeOverlay();
     };
     handleChangeTemplate();
-  }, [currentTemplateModel, isBuilderInitialized, dispatch, haveUnsavedChanges]);
+  }, [currentTemplateModel, isBuilderInitialized, dispatch, haveUnsavedChanges, closeOverlay]);
 
   const handleTemplateCardClick = useCallback(async (templateId: string) => {
     await dispatch(getTemplate(templateId));
@@ -113,7 +113,7 @@ export function DraftFlowBuilder() {
     } else {
       createOverlay(<TemplatesModal handleCardClick={handleTemplateCardClick} />);
     }
-  }, [closeOverlay, createOverlay, handleTemplateCardClick, haveUnsavedChanges]);
+  }, [closeOverlay, createOverlay, handleTemplateCardClick, haveUnsavedChanges, handleTemplatesContinueButtonClick]);
 
   if (!isProductInited && !flowListModel.isLoaded) {
     return <Loader />;

@@ -52,7 +52,7 @@ export function DashboardMenu() {
     await logout(formatMessage('confirm_string'));
     dispatch(signOut());
     history.push(Routes.root);
-  }, [dispatch, history, logout]);
+  }, [dispatch, history, logout, formatMessage]);
 
   const openInviteModal = useCallback(() => {
     if (!isDesktop) {
@@ -65,7 +65,7 @@ export function DashboardMenu() {
       }}
       isPosting={state.isPosting}
     />);
-  }, [state, isDesktop, setIsOpen, createOverlay]);
+  }, [state, isDesktop, setIsOpen, createOverlay, closeOverlay, dispatch, formatMessage]);
 
   const toggleDrawerOpen = useCallback(() => {
     setIsOpen((prev) => !prev);

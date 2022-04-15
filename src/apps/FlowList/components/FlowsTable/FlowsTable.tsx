@@ -79,7 +79,7 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
       closeOverlay();
       handleMetamapBuild();
     }
-  }, [dispatch]);
+  }, [dispatch, canUseTemplates, closeOverlay, handleMetamapBuild, isFirstMetamapCreated]);
 
   const handleDelete = useCallback(async (id) => {
     if (flowIdToDelete || sortedFlowList.length <= 1) {

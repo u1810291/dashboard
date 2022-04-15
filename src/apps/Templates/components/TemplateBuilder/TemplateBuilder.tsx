@@ -58,7 +58,7 @@ export function TemplateBuilder() {
       }
     }
     init();
-  }, [dispatch, isEditMode, id, currentTemplate, isBuilderInitialized]);
+  }, [dispatch, isEditMode, id, currentTemplate, isBuilderInitialized, formatMessage]);
 
   useEffect(() => {
     dagreGraphService.createGraph();

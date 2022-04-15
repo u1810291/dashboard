@@ -69,36 +69,36 @@ export function TemplateList() {
               </Box>
             </Grid>
             <Grid item container xs={12} md={6} justifyContent="flex-end" className={classes.buttonWrapper}>
-              <Tooltip
-                enterTouchDelay={0}
-                placement={isMobile ? 'bottom' : 'left'}
-                arrow
-                open={open}
-                onOpen={handleOpen}
-                onClose={handleClose}
-                classes={{
-                  tooltip: classes.tooltip,
-                  popper: classes.tooltipPopper,
-                  arrow: classes.tooltipArrow,
-                }}
-                title={formatMessage('VerificationFlow.page.tooltip')}
-              >
-                {templatesListValue?.rows.length > 0 && (
-                <span>
-                  <Button
-                    disabled={isButtonDisabled}
-                    variant="contained"
-                    disableElevation
-                    onClick={handleBuildMetamapButtonClick}
-                    className={classes.button}
-                    data-qa={QATags.Templates.CreateNewTemplateButton}
-                  >
-                    <FiPlus />
-                    {formatMessage('Templates.page.button')}
-                  </Button>
-                </span>
-                )}
-              </Tooltip>
+              { !!templatesListValue?.rows.length && (
+                <Tooltip
+                  enterTouchDelay={0}
+                  placement={isMobile ? 'bottom' : 'left'}
+                  arrow
+                  open={open}
+                  onOpen={handleOpen}
+                  onClose={handleClose}
+                  classes={{
+                    tooltip: classes.tooltip,
+                    popper: classes.tooltipPopper,
+                    arrow: classes.tooltipArrow,
+                  }}
+                  title={formatMessage('VerificationFlow.page.tooltip')}
+                >
+                  <span>
+                    <Button
+                      disabled={isButtonDisabled}
+                      variant="contained"
+                      disableElevation
+                      onClick={handleBuildMetamapButtonClick}
+                      className={classes.button}
+                      data-qa={QATags.Templates.CreateNewTemplateButton}
+                    >
+                      <FiPlus />
+                      {formatMessage('Templates.page.button')}
+                    </Button>
+                  </span>
+                </Tooltip>
+              )}
             </Grid>
           </Grid>
         </Box>
