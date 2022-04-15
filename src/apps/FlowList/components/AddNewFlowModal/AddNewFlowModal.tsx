@@ -13,6 +13,9 @@ export function AddNewFlowModal({ submitNewFlow }) {
   const [input, setInput] = useState('');
   const [error, setError] = useState(false);
   const [, closeOverlay] = useOverlay();
+  const isMetamapStepCompleted = !!onboardingProgress?.length && CreateMetamapCompleted(onboardingProgress);
+  const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
+  const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
 
   const handleSubmit = useCallback(async (text) => {
     try {
@@ -66,7 +69,10 @@ export function AddNewFlowModal({ submitNewFlow }) {
         variant="contained"
         disableElevation
         fullWidth
-        onClick={handleSubmitDialog}
+        onClick={() => {
+          handleSubmitDialog();
+          if(onboardingProgress?.length) stepsProgressChange('make-metamap');
+        }}
         data-qa={QATags.Flows.Create.CreateButton}
       >
         {intl.formatMessage({ id: 'VerificationFlow.menu.addDialog.btn.create' })}

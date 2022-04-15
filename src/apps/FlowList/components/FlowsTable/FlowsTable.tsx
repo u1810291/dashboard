@@ -12,7 +12,16 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'lib/url';
 import { merchantDeleteFlow, updateCurrentFlowId } from 'state/merchant/merchant.actions';
-import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel } from 'state/merchant/merchant.selectors';
+import { selectCurrentFlowId, selectMerchantFlowList, selectMerchantFlowsModel, selectMerchantOnboarding, selectMerchantTags } from 'state/merchant/merchant.selectors';
+import { Routes } from 'models/Router.model';
+import { getTemplate } from 'apps/Templates';
+import { useFormatMessage } from 'apps/intl';
+import { Loadable } from 'models/Loadable.model';
+import { useHistory } from 'react-router-dom';
+import { StartModal, StepsOptions, OnboardingNames } from 'apps/Analytics';
+import { useOverlay } from 'apps/overlay';
+import { MerchantTags } from 'models/Merchant.model';
+import { TemplatesModal } from 'apps/SolutionCatalog';
 import { NoFlows } from '../NoFlows/NoFlows';
 import { TableRowHovered, useStyles } from './FlowsTable.styles';
 
@@ -34,9 +43,36 @@ export function FlowsTable({ onAddNewFlow }) {
 
   const sortedFlowList = useMemo(() => [...merchantFlowList].sort((a, b) => dateSortCompare(a.createdAt, b.createdAt)), [merchantFlowList]);
 
-  const handleDelete = useCallback(async (e, id) => {
-    e.stopPropagation();
-    if (deleting || sortedFlowList.length <= 1) {
+  const handleCardClick = useCallback(async (id: string) => {
+    try {
+      await dispatch(getTemplate(id));
+      history.push(Routes.templates.draftFlow);
+      closeOverlay();
+    } catch (error) {
+      console.warn(error);
+    }
+  }, [closeOverlay, dispatch, history]);
+
+  const handleTemplateModal = useCallback(() => {
+    closeOverlay();
+    createOverlay(<TemplatesModal handleCardClick={handleCardClick} />);
+  }, [closeOverlay, createOverlay, handleCardClick]);
+
+  const handleMetamapBuild = () => {
+    createOverlay(<StartModal action={handleTemplateModal} closeOverlay={closeOverlay} />);
+  };
+
+  useEffect(() => {
+    const isOnboardingModalShowed = localStorage.getItem('onboardingModalShowed');
+    if (canUseTemplates && !isFirstMetamapCreated && !isOnboardingModalShowed && !history.location.state?.dontShowModal && !!onboardingProgress?.length) {
+      localStorage.setItem('onboardingModalShowed', 'true');
+      closeOverlay();
+      handleMetamapBuild();
+    }
+  }, [dispatch]);
+
+  const handleDelete = useCallback(async (id) => {
+    if (flowIdToDelete || sortedFlowList.length <= 1) {
       return;
     }
 
