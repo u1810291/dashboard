@@ -3,6 +3,7 @@ import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { BiometricTypes } from 'models/Biometric.model';
 import { IFlow } from 'models/Flow.model';
+import { StepsOptions } from 'apps/Analytics';
 import { DEFAULT_LOCALE, LanguageList, SupportedLocales } from 'models/Intl.model';
 import { Loadable } from 'models/Loadable.model';
 import { PasswordExpirationPolicyDurationValue } from 'models/Settings.model';

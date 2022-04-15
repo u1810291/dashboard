@@ -5,7 +5,6 @@ import { DocumentTypes } from 'models/Document.model';
 import { ProductIntegrationTypes } from 'models/Product.model';
 import { IFacematchFlow } from 'apps/FacematchService';
 import { FormatMessage } from 'apps/intl';
-import { VerificationCustomFieldsInputData } from 'apps/CustomField';
 import { IESignatureFlow } from './ESignature.model';
 import { IpValidation } from './IpCheckOld.model';
 import { InputValidationCheck, InputValidationType } from './ImageValidation.model';
