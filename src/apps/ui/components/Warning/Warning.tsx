@@ -41,7 +41,7 @@ const ColorMap = {
   },
 };
 
-export function Warning({ title = '', label, type = WarningTypes.Warning, size = WarningSize.Normal, isLabelColored = false, bordered = false, className, filled, linkLabel = '', link = '', isIconExist = true }: {
+export function Warning({ title = '', label, type = WarningTypes.Warning, size = WarningSize.Normal, isLabelColored = false, bordered = false, className, filled, linkLabel = '', link = '', isIconExist = true, icon }: {
   title?: string;
   label: string | ReactNode;
   type?: WarningTypes;
@@ -53,8 +53,9 @@ export function Warning({ title = '', label, type = WarningTypes.Warning, size =
   linkLabel?: string;
   link?: string;
   isIconExist?: boolean;
+  icon?: React.ReactNode;
 }) {
-  const Icon = IconMap[type];
+  const Icon = icon || IconMap[type];
   const style = ColorMap[type];
   const classes = useStyles({ bordered, filled, color: style.color });
 

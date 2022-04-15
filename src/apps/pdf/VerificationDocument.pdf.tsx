@@ -32,6 +32,7 @@ import { CheckStepPDF } from './components/CheckStepPDF/CheckStepPDF';
 import { GovCheckTextPDF } from './components/GovCheckTextPDF/GovCheckTextPDF';
 import { CustomFieldPDF } from './components/CustomFieldPDF/CustomFieldPDF';
 import { CustomWatchlistPDF } from './components/CustomWatchlistPDF/CustomWatchlistPDF';
+import { BasicWatchlistPDF } from './components/BasicWatchlistPDF/BasicWatchlistPDF';
 import { CreditCheckPDF } from './components/CreditCheckPDF/CreditCheckPDF';
 
 interface AdditionalData {
@@ -88,6 +89,8 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
         ))}
         {/* custom watchlist */}
         <CustomWatchlistPDF steps={verification.steps} />
+        {/* basic watchlist */}
+        <BasicWatchlistPDF steps={verification.steps} />
         {/* credit check */}
         <CreditCheckPDF />
         {/* biometric and reVerification */}
