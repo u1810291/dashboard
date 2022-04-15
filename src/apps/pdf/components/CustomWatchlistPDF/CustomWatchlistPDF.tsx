@@ -1,8 +1,8 @@
 import { Image, Text, View } from '@react-pdf/renderer';
-import { getCustomWatchlistStepExtra } from 'apps/CustomWatchlist/models/CustomWatchlist.models';
 import { useFormatMessage } from 'apps/intl';
 import { WarningTypes } from 'apps/ui';
-import { IStep, StepStatus, VerificationStepTypes } from 'models/Step.model';
+import { IStep, StepStatus, VerificationStepTypes, getStepExtra } from 'models/Step.model';
+import { CustomWatchlistStepType } from 'apps/CustomWatchlist/models/CustomWatchlist.model';
 import React, { useMemo } from 'react';
 import { IconStatuses } from '../../assets';
 import { commonStyles } from '../../PDF.styles';
@@ -14,7 +14,7 @@ export function CustomWatchlistPDF({ steps }: {
   steps: IStep[];
  }) {
   const formatMessage = useFormatMessage();
-  const step = useMemo(() => getCustomWatchlistStepExtra(steps.find((dataStep) => dataStep.id === VerificationStepTypes.CustomWatchlistsValidation)), [steps]);
+  const step = useMemo<CustomWatchlistStepType>(() => getStepExtra(steps.find((dataStep) => dataStep.id === VerificationStepTypes.CustomWatchlistsValidation)), [steps]);
 
   if (!step) {
     return null;
@@ -27,7 +27,7 @@ export function CustomWatchlistPDF({ steps }: {
         <View style={commonStyles.mt1}>
           <WarningPDF
             type={WarningTypes.Checking}
-            label={formatMessage(`SecurityCheckStep.customWatchlist.${step.checkStatus}`)}
+            label={formatMessage(`SecurityCheckStep.customWatchlist.${StepStatus.Checking}`)}
           />
         </View>
       </View>
@@ -62,22 +62,22 @@ export function CustomWatchlistPDF({ steps }: {
 
           {stepWatchlist?.searchResult ? (
             <Text style={styles.value}>
-              {formatMessage('CustomWatchlist.verification.step.watchlist.matchFound', { messageValues: { watchlistName: stepWatchlist.watchlist.name } })}
+              {formatMessage('Watchlist.verification.step.watchlist.matchFound', { messageValues: { watchlistName: stepWatchlist.watchlist.name } })}
             </Text>
           ) : (
             <Text style={styles.value}>
-              {formatMessage('CustomWatchlist.verification.step.watchlist.noMatchFound', { messageValues: { watchlistName: stepWatchlist.watchlist.name } })}
+              {formatMessage('Watchlist.verification.step.watchlist.noMatchFound', { messageValues: { watchlistName: stepWatchlist.watchlist.name } })}
             </Text>
           )}
           {stepWatchlist.searchParams && (
             <View style={{ ...styles.marginTop5, ...styles.valueBox }}>
               <View style={styles.flexRow}>
                 <View style={styles.flexRowItem50}>
-                  <Text style={styles.title}>{formatMessage('CustomWatchlist.verification.step.subtitle.searchParams')}</Text>
+                  <Text style={styles.title}>{formatMessage('Watchlist.verification.step.subtitle.searchParams')}</Text>
                 </View>
                 {stepWatchlist?.searchResult && (
                   <View style={styles.flexRowItem50}>
-                    <Text style={styles.title}>{formatMessage('CustomWatchlist.verification.step.subtitle.searchResult')}</Text>
+                    <Text style={styles.title}>{formatMessage('Watchlist.verification.step.subtitle.searchResult')}</Text>
                   </View>
                 )}
               </View>
@@ -87,19 +87,19 @@ export function CustomWatchlistPDF({ steps }: {
                     style={{ ...styles.flexRow, ...(stepWatchlist?.searchResult ? styles.flexRowItem100 : styles.flexRowItem50) }}
                     key={value[0]}
                   >
-                    <View style={styles.flexRowItem50}>
+                    <View style={{ ...styles.flexRowItem50, ...styles.pr5 }}>
                       <CheckStepDetailsEntryPDF label={value[0]} value={value[1]} />
                     </View>
                     {stepWatchlist?.searchResult && (
-                    <View style={styles.flexRowItem50}>
-                      {stepWatchlist.searchResult[value[0]] ? (
-                        <CheckStepDetailsEntryPDF label={value[0]} value={stepWatchlist.searchResult[value[0]]} />
-                      ) : (
-                        <Text>
-                          -
-                        </Text>
-                      )}
-                    </View>
+                      <View style={{ ...styles.flexRowItem50, ...styles.pr5 }}>
+                        {stepWatchlist.searchResult[value[0]] ? (
+                          <CheckStepDetailsEntryPDF label={value[0]} value={stepWatchlist.searchResult[value[0]]} />
+                        ) : (
+                          <Text>
+                            -
+                          </Text>
+                        )}
+                      </View>
                     )}
                   </View>
                 ))}

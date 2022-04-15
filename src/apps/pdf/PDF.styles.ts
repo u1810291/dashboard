@@ -40,6 +40,9 @@ export const commonStyles = StyleSheet.create({
   mb15: {
     marginBottom: 1.5 * rem,
   },
+  mb20: {
+    marginBottom: 2 * rem,
+  },
   pb0: {
     paddingBottom: 0,
   },

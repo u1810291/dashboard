@@ -1,94 +1,29 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormContext } from 'react-hook-form';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@material-ui/core/Button';
-import InputLabel from '@material-ui/core/InputLabel';
-import Typography from '@material-ui/core/Typography';
 import { useFormatMessage } from 'apps/intl';
 import { ErrorStatuses } from 'models/Error.model';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
-import { WithActionDescriptionBordered, FileSelectButton } from 'apps/ui';
-import { selectCurrentCustomWatchlistIsFileAvailable, selectCurrentCustomWatchlistFileInfo, selectCurrentCustomWatchlistFileError, selectCurrentCustomWatchlistError } from '../../state/CustomWatchlist.selectors';
-import { useStyles, RoundedButton } from './CustomWatchlistModalValidationFileUploadForm.styles';
-import { CustomWatchlistModalValidationInputs, CustomWatchlistFileExt, CustomWatchlistUpload, IWatchlist, CustomWatchlistValidationError, VALIDATION_ERROR_TYPE_MAX_COUNT } from '../../models/CustomWatchlist.models';
+import { WatchlistFileUpload, WatchlistApiCall, WatchlistFileUploadErrors } from 'apps/ui';
+import { IWatchlist, IWatchlistUpload } from 'models/Watchlist.model';
+import { selectCurrentCustomWatchlistIsFileAvailable, selectCurrentCustomWatchlistFileInfo, selectCurrentCustomWatchlistFileError } from '../../state/CustomWatchlist.selectors';
+import { CustomWatchlistModalValidationInputs } from '../../models/CustomWatchlist.model';
 import * as api from '../../client/CustomWatchlist.client';
-import { CSVSeparatorSelect } from '../CSVSeparatorSelect/CSVSeparatorSelect';
 import { updateCurrentWatchlist } from '../../state/CustomWatchlist.actions';
 
 export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFileUploaded }: {
   watchlist?: IWatchlist;
-  onFileUploaded?: (data: CustomWatchlistUpload) => void;
+  onFileUploaded?: (data: IWatchlistUpload) => void;
 }) {
-  const classes = useStyles();
   const formatMessage = useFormatMessage();
   const dispatch = useDispatch();
-  const merchantId = useSelector<any, string>(selectMerchantId);
-  const isFileAvailable = useSelector<any, boolean>(selectCurrentCustomWatchlistIsFileAvailable);
+  const merchantId = useSelector(selectMerchantId);
+  const isFileAvailable = useSelector(selectCurrentCustomWatchlistIsFileAvailable);
+  const currentCustomWatchlistFileInfo = useSelector(selectCurrentCustomWatchlistFileInfo);
   const fileErrorType = useSelector<any, string>(selectCurrentCustomWatchlistFileError);
-  const currentCustomWatchlistFileInfo = useSelector<any, Partial<{ fileKey: string; fileName: string }>>(selectCurrentCustomWatchlistFileInfo);
-  const currentWatchlistError = useSelector<any, CustomWatchlistValidationError[] | null>(selectCurrentCustomWatchlistError);
-  const [isFileUploadLoading, setIsFileUploadLoading] = useState<boolean>(false);
-  const [file, setFile] = useState<File | null>(null);
-  const [fileName, setFileName] = useState<string>(watchlist?.process?.inputSourceFileName);
   const { setValue, setError, clearErrors, formState: { errors } } = useFormContext();
 
   const isEdit = !!watchlist;
-
-  useEffect(() => {
-    if (fileName) {
-      setValue(CustomWatchlistModalValidationInputs.FileName, fileName);
-    }
-  }, [fileName, setValue]);
-
-  const handleSelectFile = useCallback(async () => {
-    const form = new FormData();
-    form.append('media', file);
-    onFileUploaded({
-      key: null,
-    });
-    setIsFileUploadLoading(true);
-    try {
-      const { data } = await api.uploadMerchantWatchlist(merchantId, form);
-      setValue(CustomWatchlistModalValidationInputs.FileKey, data.key);
-      clearErrors(CustomWatchlistModalValidationInputs.FileKey);
-      onFileUploaded(data);
-      setIsFileUploadLoading(false);
-
-      if (!isFileAvailable && isEdit) {
-        dispatch(updateCurrentWatchlist({ isFileAvailable: true }));
-      }
-    } catch (error: any) {
-      setIsFileUploadLoading(false);
-
-      if (error?.response?.status === ErrorStatuses.PayloadTooLarge) {
-        setError(CustomWatchlistModalValidationInputs.FileKey, {
-          message: formatMessage('CustomWatchlist.settings.watchlist.fileSizeExceed'),
-        });
-
-        return;
-      }
-
-      setError(CustomWatchlistModalValidationInputs.FileKey, {
-        message: formatMessage('CustomWatchlist.settings.watchlist.fileErrorUpload'),
-      });
-    }
-  }, [merchantId, file, isFileAvailable, isEdit, formatMessage, setValue, clearErrors, onFileUploaded, setError, dispatch]);
-
-  const handleUploadFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    const eventFile = event.target.files[0];
-    setFile(eventFile);
-    setFileName(eventFile?.name);
-  }, []);
-
-  const extFile = useMemo(() => {
-    const arr = fileName?.split('.') || [];
-    if (arr?.length !== 0) {
-      return arr[arr.length - 1];
-    }
-
-    return '';
-  }, [fileName]);
 
   useEffect(() => {
     if (currentCustomWatchlistFileInfo?.fileKey && currentCustomWatchlistFileInfo?.fileName) {
@@ -100,67 +35,51 @@ export function CustomWatchlistModalValidationFileUploadForm({ watchlist, onFile
   useEffect(() => {
     if (fileErrorType) {
       setError(CustomWatchlistModalValidationInputs.FileKey, {
-        message: formatMessage(`CustomWatchlist.settings.${fileErrorType}`),
+        message: formatMessage(`Watchlist.settings.${fileErrorType}`),
       });
     }
   }, [fileErrorType, setError, formatMessage]);
 
+  const onFileSelect = useCallback((valueFileName: string) => setValue(CustomWatchlistModalValidationInputs.FileName, valueFileName), [setValue]);
+  const apiCall = useMemo<WatchlistApiCall<IWatchlistUpload>>(() => ({
+    callTo: api.uploadMerchantWatchlist,
+    onSuccess: (data) => {
+      setValue(CustomWatchlistModalValidationInputs.FileKey, data.key);
+      clearErrors(CustomWatchlistModalValidationInputs.FileKey);
+      onFileUploaded(data);
+
+      if (!isFileAvailable && isEdit) {
+        dispatch(updateCurrentWatchlist({ isFileAvailable: true }));
+      }
+    },
+    onError: (error: any) => {
+      if (error?.response?.status === ErrorStatuses.PayloadTooLarge) {
+        setError(CustomWatchlistModalValidationInputs.FileKey, {
+          message: formatMessage('Watchlist.settings.watchlist.fileSizeExceed'),
+        });
+
+        return;
+      }
+      setError(CustomWatchlistModalValidationInputs.FileKey, {
+        message: formatMessage('Watchlist.settings.watchlist.fileErrorUpload'),
+      });
+    },
+  }), [isFileAvailable, isEdit, setValue, clearErrors, setError, onFileUploaded, formatMessage, dispatch]);
+
+  const watchlistFileUploadErrors = useMemo<WatchlistFileUploadErrors>(() => ({
+    fileKey: errors[CustomWatchlistModalValidationInputs.FileKey]?.message,
+    csvSeparator: errors[CustomWatchlistModalValidationInputs.CsvSeparator]?.message,
+  }), [errors]);
+
   return (
-    <>
-      <InputLabel className={classes.marginBottom10} htmlFor="watchlist-name">
-        <Typography variant="subtitle2">
-          {formatMessage('CustomWatchlist.settings.modal.button.uploadFile.label.title')}
-        </Typography>
-        <Typography variant="body1" className={classes.colorGrey}>
-          {formatMessage('CustomWatchlist.settings.modal.button.uploadFile.label.subTitle')}
-        </Typography>
-      </InputLabel>
-      {fileName ? (
-        <WithActionDescriptionBordered description={fileName} error={errors[CustomWatchlistModalValidationInputs.FileKey]?.message}>
-          <FileSelectButton
-            onChange={handleUploadFile}
-            accept=".csv"
-            renderButton={(
-              <RoundedButton>
-                {formatMessage('CustomWatchlist.settings.modal.button.selectFile.reload')}
-              </RoundedButton>
-            )}
-          />
-        </WithActionDescriptionBordered>
-      ) : (
-        <FileSelectButton onChange={handleUploadFile} accept=".csv" isPrefixIconDisplayed={!isFileUploadLoading} disabled={isFileUploadLoading}>
-          {formatMessage('CustomWatchlist.settings.modal.button.selectFile')}
-        </FileSelectButton>
-      )}
-      {extFile === CustomWatchlistFileExt.Csv && <CSVSeparatorSelect defaultValue={watchlist?.process?.csvSeparator} />}
-      {fileName && (
-        <>
-          <Button
-            className={classes.uploadButton}
-            onClick={handleSelectFile}
-            disabled={isFileUploadLoading || !file}
-            variant="contained"
-            color="primary"
-            fullWidth
-            size="large"
-          >
-            {!isFileUploadLoading ? formatMessage('CustomWatchlist.settings.modal.button.uploadFile') : <CircularProgress color="inherit" size={17} />}
-          </Button>
-          {(!file && isFileAvailable) && <span className={classes.uploadButtonHelper}>{formatMessage('CustomWatchlist.settings.modal.button.uploadFile.helper')}</span>}
-          {(!file && !isFileAvailable) && (
-            <span className={classes.error}>
-              {formatMessage('CustomWatchlist.settings.modal.button.uploadFile.error')}
-              .
-            </span>
-          )}
-          {(currentWatchlistError && currentWatchlistError[0].type === VALIDATION_ERROR_TYPE_MAX_COUNT) && (
-            <span className={classes.error}>
-              {formatMessage(`CustomWatchlist.settings.modal.button.${currentWatchlistError[0].type}`)}
-              .
-            </span>
-          )}
-        </>
-      )}
-    </>
+    <WatchlistFileUpload
+      initialFileName={watchlist?.process?.inputSourceFileName}
+      csvSeparatorFieldName={CustomWatchlistModalValidationInputs.CsvSeparator}
+      api={apiCall}
+      merchantId={merchantId}
+      errors={watchlistFileUploadErrors}
+      isFileAvailable={isFileAvailable}
+      onFileSelect={onFileSelect}
+    />
   );
 }
