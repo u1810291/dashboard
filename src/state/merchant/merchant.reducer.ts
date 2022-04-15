@@ -52,6 +52,18 @@ export default createReducer(initialState, {
       },
     };
   },
+  [types.ONBOARDING_STEPS_UPDATE](state, { payload }) {
+    return {
+      ...state,
+      merchant: {
+        ...state.merchant,
+        value: {
+          ...state.merchant.value,
+          ...payload,
+        },
+      },
+    };
+  },
   [types.SETTINGS_UPDATE](state, { payload }) {
     return {
       ...state,

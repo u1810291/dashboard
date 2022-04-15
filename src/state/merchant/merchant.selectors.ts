@@ -25,6 +25,11 @@ export const selectMerchantId = createSelector<any, Loadable<Merchant>, Merchant
   selectModelValue((merchant: Merchant): string => merchant.id),
 );
 
+export const selectMerchantOnboarding = createSelector<any, Loadable<Merchant>, StepsOptions[]>(
+  selectMerchantModel,
+  selectModelValue((merchant: Merchant) => merchant.onboardingSteps),
+);
+
 export const selectOwnerId = createSelector(
   selectMerchantModel,
   selectModelValue((merchant: Merchant) => merchant?.owner),
