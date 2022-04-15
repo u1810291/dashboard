@@ -11,7 +11,7 @@ import { useFormatMessage } from 'apps/intl';
 import { ICustomField, MainCustomFieldType } from 'models/CustomField.model';
 import { InfoIcon, TextFieldInput } from './CustomFieldModalConfigure.styles';
 import { updateCustomFieldEditedField } from '../../state/CustomField.actions';
-import { CUSTOM_FIELD_SELECTION_SECOND_OPTION_NAME, CUSTOM_FIELD_SELECTION_SECOND_OPTION_PREFIX, mutableFindChildren, HandleUpdateFields, prepareCustomField, CustomFieldModalTypes, prepareEmptyGroupToSection, fieldIsValid, isValidFieldSystemName } from '../../models/CustomField.model';
+import { CUSTOM_FIELD_SELECTION_SECOND_OPTION_NAME, CUSTOM_FIELD_SELECTION_SECOND_OPTION_PREFIX, mutableFindChildren, HandleUpdateFields, prepareCustomField, CustomFieldModalTypes, prepareEmptyGroupToSection, fieldIsValid, isValidFieldSystemName, REGEXP_BANNED_SYMBOLS_IN_FIELD_SYSTEM_NAME, REPLACEMENT_SYMBOL } from '../../models/CustomField.model';
 import { CustomFieldModalFooter } from '../CustomFieldModalFooter/CustomFieldModalFooter';
 import { selectCustomFieldEditedCustomField, selectCustomFieldEditedIndex, selectCustomFieldEditedParent, selectCustomFieldEditedSystemName, selectCustomFieldFlattenListFields, selectCustomFieldListFields, selectCustomFieldModalType, selectCustomFieldUploadingThumbnail } from '../../state/CustomField.selectors';
 import { CustomFieldUploadButton } from '../CustomFieldUploadButton/CustomFieldUploadButton';
@@ -40,11 +40,8 @@ export function CustomFieldModalConfigure({ handleUpdateFields }: {
     dispatch(updateCustomFieldEditedField({ ...selectedCustomField, [name]: value }));
   };
 
-  const handleUpdateField = ({ target: { value, name } }) => {
-    dispatch(updateCustomFieldEditedField({
-      ...selectedCustomField,
-      [name]: value,
-    }));
+  const handleUpdateField = ({ target: { value } }) => {
+    dispatch(updateCustomFieldEditedField({ ...selectedCustomField, label: value, name: value.replace(REGEXP_BANNED_SYMBOLS_IN_FIELD_SYSTEM_NAME, REPLACEMENT_SYMBOL) }));
   };
 
   const handleChangeSelectionIsMandatory = () => {
