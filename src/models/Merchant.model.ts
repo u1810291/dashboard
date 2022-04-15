@@ -1,3 +1,5 @@
+import { PasswordExpirationPolicyDurationValue } from 'models/Settings.model';
+
 export type MerchantId = string;
 
 export interface ISenderEmail {
