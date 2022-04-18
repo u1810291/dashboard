@@ -111,7 +111,7 @@ export const CONFIG_BY_KEY: Record<string, CONFIG> = {
     type: AtomicCustomFieldType.Date,
   },
   [MappingValueKey.NationalIdKTPNik]: {
-    regex: '',
+    regex: '^[0-9]{16}$',
     type: AtomicCustomFieldType.Text,
   },
   [MappingValueKey.NationalIdKTPName]: {
