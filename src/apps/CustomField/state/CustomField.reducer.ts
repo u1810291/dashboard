@@ -12,6 +12,7 @@ const initialState: CustomFieldStore = {
   [SliceNames.CustomFieldEditedParent]: LoadableAdapter.createState(null),
   [SliceNames.CustomFieldUploadingThumbnail]: LoadableAdapter.createState(false),
   [SliceNames.CustomFieldEditedSystemName]: LoadableAdapter.createState(null),
+  [SliceNames.CustomFieldUpdate]: LoadableAdapter.createState(null),
 };
 
 export const customFieldReducer = createReducer(initialState, {
@@ -23,6 +24,7 @@ export const customFieldReducer = createReducer(initialState, {
   ...LoadableAdapter.createHandlers(ActionGroupName.customFieldEditedParent, SliceNames.CustomFieldEditedParent),
   ...LoadableAdapter.createHandlers(ActionGroupName.customFieldUploadingThumbnail, SliceNames.CustomFieldUploadingThumbnail),
   ...LoadableAdapter.createHandlers(ActionGroupName.customFieldEditedSystemName, SliceNames.CustomFieldEditedSystemName),
+  ...LoadableAdapter.createHandlers(ActionGroupName.customFieldUpdate, SliceNames.CustomFieldUpdate),
   [types.CUSTOM_FIELD_EDITED_FIELD_MAPPING_SUCCESS](state, { payload }) {
     const value = { ...state[SliceNames.CustomFieldEditedField].value };
     value.atomicFieldParams.mapping = payload;

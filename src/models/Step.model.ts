@@ -309,6 +309,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.PeruvianSunat]: ['peruvianSunat.notEnoughParams'],
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoralCommission.notEnoughParams'],
   [DocumentStepTypes.BrazilianNoCriminalRecordsValidation]: ['brazilianNoCriminalRecordsValidation.notEnoughParams'],
+  [VerificationDocStepTypes.DuplicateUserValidation]: ['duplicateUserDetection.notValidParams'],
 };
 
 export const OptionalGovCheckErrorCodes = {

@@ -6,7 +6,8 @@ import { Product, ProductInputTypes, ProductIntegrationTypes, ProductTypes } fro
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { InputTypes } from 'models/Input.model';
-import { CustomField, CustomFieldProductSettings, CustomFieldSettingTypes, CustomFieldTypes, flattenTree } from '../models/CustomField.model';
+import { CustomFieldDataForVerificationComponent, getDataForVerificationComponent } from 'models/CustomField.model';
+import { CustomFieldProductSettings, CustomFieldSettingTypes, CustomFieldTypes, flattenTree } from '../models/CustomField.model';
 import { CustomFieldSettings } from '../components/CustomFieldSettings/CustomFieldSettings';
 import { CustomFieldVerification } from '../components/CustomFieldVerification/CustomFieldVerification';
 import { CustomFieldIssue } from '../components/CustomFieldIssue/CustomFieldIssue';
@@ -49,8 +50,8 @@ export class CustomFieldService extends ProductBaseFlowBuilder implements Produc
     return flow?.verificationPatterns?.[VerificationPatternTypes.CustomFieldsValidation] && !!flow?.customFieldsConfig?.fields?.length;
   }
 
-  getVerification(verification: VerificationResponse): CustomField[] {
-    return verification?.inputs?.find((input) => input?.id === InputTypes.CustomFields)?.data.fields;
+  getVerification(verification: VerificationResponse): CustomFieldDataForVerificationComponent {
+    return getDataForVerificationComponent(verification);
   }
 
   isInVerification(verification: VerificationResponse): boolean {

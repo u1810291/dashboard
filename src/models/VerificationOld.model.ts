@@ -3,6 +3,7 @@ import { isObjectEmpty } from 'lib/object';
 import { getDocumentExtras, VerificationDocument, DocumentTypes } from 'models/Document.model';
 import { FieldTypes } from 'models/Field.model';
 import { IdentityStatuses, isChangeableStatus, VerificationStatusChangeReason } from 'models/Status.model';
+import { VerificationCustomFieldsInputData } from 'models/CustomField.model';
 import { BiometricSteps, getBiometricExtras } from './Biometric.model';
 import { IFlow } from './Flow.model';
 import { getIpCheckStep } from './IpCheckOld.model';
@@ -79,6 +80,7 @@ export interface VerificationResponse<StepData = any> {
   biometric: any;
   duplicateUserDetectionStep: any;
   ageCheck: any;
+  customFieldsDataCopy?: VerificationCustomFieldsInputData;
 }
 
 /**

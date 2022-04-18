@@ -8,8 +8,13 @@ export function getVerification(verificationId: string, params: any) {
   return http.get(`/api/v1/dashboard/verification/${verificationId}`, { params });
 }
 
-export function verificationStatusUpdate(verificationId, status) {
-  return http.put(`/api/v1/dashboard/verifications/${verificationId}/status`, { status });
+export function verificationStatusUpdate(verificationId: string, status: string, agentNote?: string) {
+  const url = `/api/v1/dashboard/verifications/${verificationId}/status`;
+  if (agentNote === null) {
+    return http.put(url, { status });
+  }
+
+  return http.put(url, { status, agentNote });
 }
 
 export function deleteVerification(verificationId: string) {
