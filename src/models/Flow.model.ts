@@ -11,6 +11,7 @@ import { DigitalSignatureProvider } from './DigitalSignature.model';
 import { VerificationPatterns } from './VerificationPatterns.model';
 import { IFlowWatchlist } from './CustomWatchlist.model';
 import { VerificationCustomFieldsInputData } from './CustomField.model';
+import { BasicWatchlistIdType } from './Aml.model';
 
 export const MAX_NUMBER_OF_FLOWS = 100;
 
@@ -69,7 +70,8 @@ export interface IFlow {
   verificationPatterns?: Partial<VerificationPatterns>;
   integrationType?: ProductIntegrationTypes;
   amlWatchlistsFuzzinessThreshold?: number;
-  watchlists?: IFlowWatchlist[];
+  customWatchlists?: IFlowWatchlist[];
+  basicWatchlists?: BasicWatchlistIdType[];
   electronicSignature?: IESignatureFlow;
   financialInformationBankAccountsRetrieving?: {
     countryCodes: string[];

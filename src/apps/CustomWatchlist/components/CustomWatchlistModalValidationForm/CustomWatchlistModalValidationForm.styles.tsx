@@ -21,6 +21,9 @@ export const useStyles = makeStyles((theme) => ({
     padding: '0 40px',
     background: theme.palette.common.white,
   },
+  validationHelperWrap: {
+    position: 'relative',
+  },
   validationHelper: {
     position: 'absolute',
     top: -10,

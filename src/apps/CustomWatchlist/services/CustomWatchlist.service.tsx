@@ -5,7 +5,7 @@ import { VerificationResponse } from 'models/VerificationOld.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { VerificationStepTypes } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
-import { CustomWatchlistCheckTypes, CustomWatchlistSettingsTypes, CustomWatchlistStep } from '../models/CustomWatchlist.models';
+import { CustomWatchlistCheckTypes, CustomWatchlistSettingsTypes, CustomWatchlistStepType } from '../models/CustomWatchlist.model';
 import { ReactComponent as FilesWithEye } from '../assets/files-with-eye.svg';
 import { CustomWatchlistVerification } from '../components/CustomWatchlistVerification/CustomWatchlistVerification';
 import { CustomWatchlistSettings } from '../components/CustomWatchlistSettings/CustomWatchlistSettings';
@@ -33,15 +33,15 @@ export class CustomWatchlist extends ProductBaseFlowBuilder implements Product {
 
   parser(flow: IFlow): ProductSettingsCustomWatchlist {
     return {
-      [CustomWatchlistSettingsTypes.Watchlists]: {
-        value: flow[CustomWatchlistSettingsTypes.Watchlists],
+      [CustomWatchlistSettingsTypes.CustomWatchlists]: {
+        value: flow[CustomWatchlistSettingsTypes.CustomWatchlists],
       },
     };
   }
 
   serialize(settings: ProductSettingsCustomWatchlist): Partial<IFlow> {
     return {
-      [CustomWatchlistSettingsTypes.Watchlists]: settings[CustomWatchlistSettingsTypes.Watchlists].value,
+      [CustomWatchlistSettingsTypes.CustomWatchlists]: settings[CustomWatchlistSettingsTypes.CustomWatchlists].value,
     };
   }
 
@@ -55,7 +55,7 @@ export class CustomWatchlist extends ProductBaseFlowBuilder implements Product {
 
   onRemove(): Partial<IFlow> {
     return {
-      [CustomWatchlistSettingsTypes.Watchlists]: [],
+      [CustomWatchlistSettingsTypes.CustomWatchlists]: [],
       verificationPatterns: {
         [VerificationPatternTypes.CustomWatchlistsValidation]: false,
       },
@@ -66,12 +66,12 @@ export class CustomWatchlist extends ProductBaseFlowBuilder implements Product {
     return flow?.verificationPatterns?.[VerificationPatternTypes.CustomWatchlistsValidation];
   }
 
-  getVerification(verification: VerificationResponse): any {
+  getVerification(verification: VerificationResponse): VerificationResponse {
     return verification;
   }
 
   hasFailedCheck(verifcation: VerificationResponse): boolean {
-    const step: CustomWatchlistStep = verifcation.steps.find((dataStep) => dataStep.id === VerificationStepTypes.CustomWatchlistsValidation);
+    const step: CustomWatchlistStepType = verifcation.steps.find((dataStep) => dataStep.id === VerificationStepTypes.CustomWatchlistsValidation);
     return !!step?.error;
   }
 
