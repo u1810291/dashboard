@@ -50,6 +50,17 @@ export function CustomFieldActions({ handleOpenModal }: {handleOpenModal: Handle
       >
         {formatMessage('CustomField.settings.CustomFieldList.addSelection')}
       </Button>
+      <Button
+        fullWidth
+        className={classnames(classes.actionsButton)}
+        disabled={!isCustomDocumentAvailable}
+        variant="contained"
+        color="secondary"
+        size="large"
+        onClick={handleOpenModal(CustomFieldModalTypes.PreviewCustomField)}
+      >
+        {formatMessage('CustomField.settings.CustomFieldList.preview')}
+      </Button>
     </Box>
   );
 }
