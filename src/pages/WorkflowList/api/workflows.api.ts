@@ -14,7 +14,7 @@ export type WorkflowListResponse = {
 }
 
 export function getWorkflows(params: WorkflowListAPIParams) {
-  return http.get<WorkflowListResponse>('/api/v1/dashboard/v3/workflow', { params });
+  return http.get<WorkflowListResponse>('/api/v1/dashboard/workflow', { params });
 }
 
 export type CreateWorkflowPayload = { name: string; templateId?: string };
@@ -24,7 +24,7 @@ export type CreateWorkflowSuccess = {
 }
 
 export function createWorkflow(data: CreateWorkflowPayload) {
-  return http.post<CreateWorkflowSuccess>('/api/v1/dashboard/v3/workflow', data);
+  return http.post<CreateWorkflowSuccess>('/api/v1/dashboard/workflow', data);
 }
 
 export type DeleteWorkflowSuccess = {
@@ -33,5 +33,5 @@ export type DeleteWorkflowSuccess = {
 }
 
 export function deleteWorkflow(id: string): Promise<ApiResponse<DeleteWorkflowSuccess>> {
-  return http.delete<DeleteWorkflowSuccess>(`/api/v1/dashboard/v3/workflow/${id}`);
+  return http.delete<DeleteWorkflowSuccess>(`/api/v1/dashboard/workflow/${id}`);
 }
