@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import { SkeletonThreeRectTwoCircle } from 'apps/ui/components/SkeletonGroups';
+import { SkeletonThreeRectTwoCircle } from 'apps/ui';
 
 export function CustomWatchlistsLoading() {
   return (

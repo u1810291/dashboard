@@ -4,7 +4,6 @@ export const useStyles = makeStyles<Theme, { bordered?: boolean; filled?: boolea
   root: ({ bordered, filled, color }) => ({
     display: 'inline-flex',
     flexDirection: 'column',
-    alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
     textAlign: 'center',
@@ -16,7 +15,6 @@ export const useStyles = makeStyles<Theme, { bordered?: boolean; filled?: boolea
 
     [theme.breakpoints.up('md')]: {
       flexDirection: 'row',
-      alignItems: 'center',
       width: 'auto',
       textAlign: 'left',
     },

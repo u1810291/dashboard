@@ -39,6 +39,7 @@ export enum VerificationStepTypes {
   CustomWatchlistsValidation = 'custom-watchlists-validation',
   NigerianCacValidation = 'nigerian-cac-validation',
   NigerianLegalValidation = 'nigerian-legal-validation',
+  BasicWatchlistsValidation = 'basic-watchlists-validation',
   NigerianTinValidation = 'nigerian-tin-validation',
 }
 
@@ -147,6 +148,11 @@ export interface IStep<DataType = any> {
   data?: DataType;
   inner?: DataType;
   startedManuallyAt?: string;
+}
+
+export interface IStepExtra<T = any> extends IStep<T> {
+  checkStatus?: StepStatus;
+  isTip?: boolean;
 }
 
 export enum BiometricStepTypes {
@@ -393,7 +399,7 @@ export function getStepStatus(step): StepStatus {
     : StepStatus.Failure;
 }
 
-export function getStepExtra(step: IStep<any>, verification?: any, countries?: any, document?: any) {
+export function getStepExtra<T = any>(step: IStep<T>, verification?: any, countries?: any, document?: any) {
   if (!step) {
     return step;
   }

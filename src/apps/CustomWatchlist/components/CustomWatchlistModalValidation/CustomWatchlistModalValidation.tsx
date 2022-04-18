@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Close from '@material-ui/icons/Close';
 import { useStyles } from './CustomWatchlistModalValidation.styles';
 import { CustomWatchlistModalValidationForm } from '../CustomWatchlistModalValidationForm/CustomWatchlistModalValidationForm';
-import { CustomWatchlistModalValidationInputTypes, FlowWatchlistUi } from '../../models/CustomWatchlist.models';
+import { CustomWatchlistModalValidationInputTypes, FlowWatchlistUi } from '../../models/CustomWatchlist.model';
 
 export function CustomWatchlistModalValidation({ watchlist, onClose, onSubmit }: {
   watchlist?: FlowWatchlistUi;

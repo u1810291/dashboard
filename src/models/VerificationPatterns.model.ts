@@ -80,6 +80,7 @@ export enum VerificationPatternTypes {
   Facematch = 'facematch-service-validation',
   UgandanElectoralCommission = 'ugandan-electoral-commission-validation',
   DuplicateFaceDetection = 'duplicate-face-detection',
+  BasicWatchlistsValidation = 'basic-watchlists-validation',
 }
 
 export interface VerificationPatterns {
@@ -153,4 +154,5 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.Facematch]?: boolean;
   [VerificationPatternTypes.UgandanElectoralCommission]?: boolean;
   [VerificationPatternTypes.DuplicateFaceDetection]?: boolean;
+  [VerificationPatternTypes.BasicWatchlistsValidation]?: boolean;
 }
