@@ -1,4 +1,4 @@
-import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, VerificationStepTypes, RootGovChecksErrorsToHide } from 'models/Step.model';
+import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, RootGovChecksErrorsToHide, VerificationStepTypes } from 'models/Step.model';
 import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { BiometricTypes } from 'models/Biometric.model';
 import { MerchantTags } from 'models/Merchant.model';
@@ -24,6 +24,8 @@ export enum GovCheckStepTypes {
   CpfFacematch = 'cpf+facematch',
   Renaper = 'renaper',
   RenaperAfip = 'renaper+afip',
+  Ktp = 'ktp',
+  KtpFacematch = 'ktp+facematch',
 }
 
 export const verificationPatternsGovchecksDefault = {
@@ -56,6 +58,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.GhanaianGra]: false,
   [VerificationPatternTypes.GuatemalanTse]: false,
   [VerificationPatternTypes.HonduranRnp]: false,
+  [VerificationPatternTypes.IndonesianKPTValidation]: GovCheckStepTypes.None,
   [VerificationPatternTypes.KenyanEcitizen]: false,
   [VerificationPatternTypes.MexicanCurp]: false,
   [VerificationPatternTypes.MexicanIne]: false,
@@ -89,6 +92,11 @@ export const GovCheckTypesForPattern = {
     renaper: GovCheckStepTypes.Renaper,
     renaperAfip: GovCheckStepTypes.RenaperAfip,
   },
+  [VerificationPatternTypes.IndonesianKPTValidation]: {
+    none: GovCheckStepTypes.None,
+    ktp: GovCheckStepTypes.Ktp,
+    ktpFacematch: GovCheckStepTypes.KtpFacematch,
+  },
 };
 
 export enum GovCheckCountryTypes {
@@ -102,6 +110,7 @@ export enum GovCheckCountryTypes {
   Ghana = 'ghana',
   Guatemala = 'guatemala',
   Honduras = 'honduras',
+  Indonesia = 'indonesia',
   Dominican = 'dominican',
   Kenya = 'kenya',
   Mexico = 'mexico',
@@ -111,7 +120,7 @@ export enum GovCheckCountryTypes {
   Salvador = 'salvador',
   Panama = 'panama',
   Venezuela = 'venezuela',
-  Uganda = 'uganda'
+  Uganda = 'uganda',
 }
 
 export const govCheckCountriesOrder = [
@@ -126,6 +135,7 @@ export const govCheckCountriesOrder = [
   GovCheckCountryTypes.Ghana,
   GovCheckCountryTypes.Guatemala,
   GovCheckCountryTypes.Honduras,
+  GovCheckCountryTypes.Indonesia,
   GovCheckCountryTypes.Mexico,
   GovCheckCountryTypes.Kenya,
   GovCheckCountryTypes.Nigeria,
@@ -365,6 +375,24 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       {
         id: VerificationPatternTypes.DominicanJce,
         default: false,
+      },
+    ],
+  },
+  {
+    country: GovCheckCountryTypes.Indonesia,
+    checks: [
+      {
+        id: VerificationPatternTypes.IndonesianKPTValidation,
+        default: false,
+        stepTypeAlias: GovCheckTypesForPattern[VerificationPatternTypes.IndonesianKPTValidation].ktp,
+        merchantTags: [MerchantTags.CanUseIndonesianKTP],
+        option: {
+          id: GovCheckTypesForPattern[VerificationPatternTypes.IndonesianKPTValidation].ktpFacematch,
+          stepTypeAlias: GovCheckTypesForPattern[VerificationPatternTypes.IndonesianKPTValidation].ktpFacematch,
+          description: true,
+          isSupportFacematch: true,
+          merchantTags: [MerchantTags.CanUseIndonesianKTP],
+        },
       },
     ],
   },
@@ -1019,7 +1047,6 @@ export const govCheckDisplayOptions = {
     },
     version: {
       inline: true,
-
     },
     taxIdType: {
       inline: true,
@@ -1067,11 +1094,48 @@ export const govCheckDisplayOptions = {
     companyPhone: {},
     companyEmail: {},
   },
+  [VerificationStepTypes.IndonesianKTPValidation]: {
+    name: {
+      inline: true,
+    },
+    nameMatch: {
+      inline: true,
+    },
+    nik: {},
+    nikStatus: {
+    },
+    dateOfBirth: {
+      inline: true,
+    },
+    dateOfBirthMatch: {
+      inline: true,
+    },
+    similarity: {
+      formatter: (similarity, data) => {
+        if (similarity === undefined) {
+          return { ...data };
+        }
+        return { ...data, similarity: `${similarity} %` };
+      },
+      inline: true,
+      hiddenIfNotExists: true,
+    },
+    faceMatch: {
+      formatter: (faceMatch, data) => {
+        if (faceMatch === undefined) {
+          return { ...data };
+        }
+        return { ...data, faceMatch: faceMatch.toString() };
+      },
+      inline: true,
+      hiddenIfNotExists: true,
+    },
+  },
 };
 
 export const GovCheckRequiredProductType = {
   [VerificationPatternTypes.CustomFieldsValidation]: [VerificationPatternTypes.NigerianTin, VerificationPatternTypes.NigerianCac],
-  [VerificationPatternTypes.Biometrics]: [VerificationPatternTypes.ArgentinianRenaperFacematch, GovCheckTypesForPattern[VerificationPatternTypes.BrazilianCpf].cpfFacematch],
+  [VerificationPatternTypes.Biometrics]: [VerificationPatternTypes.ArgentinianRenaperFacematch, GovCheckTypesForPattern[VerificationPatternTypes.BrazilianCpf].cpfFacematch, GovCheckTypesForPattern[VerificationPatternTypes.IndonesianKPTValidation].ktpFacematch],
 };
 
 export function isCanUseGovCheck(govCheck: GovCheck | GovCheckOptions, merchantTags: MerchantTags[]): boolean {

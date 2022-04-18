@@ -71,6 +71,7 @@ export class BiometricVerificationOld extends ProductBaseFlowBuilder implements 
         [VerificationPatternTypes.ProofOfOwnership]: false,
         [VerificationPatternTypes.ArgentinianRenaperFacematch]: false,
         [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
+        [VerificationPatternTypes.IndonesianKPTValidation]: GovCheckStepTypes.None,
         [VerificationPatternTypes.DuplicateFaceDetection]: false,
       },
       electronicSignature,

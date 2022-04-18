@@ -41,6 +41,7 @@ export enum VerificationStepTypes {
   NigerianCacValidation = 'nigerian-cac-validation',
   NigerianLegalValidation = 'nigerian-legal-validation',
   NigerianTinValidation = 'nigerian-tin-validation',
+  IndonesianKTPValidation = 'indonesian-ktp-validation',
 }
 
 export enum StepStatus {
@@ -227,6 +228,7 @@ export const CountrySpecificChecks = [
   VerificationPatternTypes.NigerianCac,
   VerificationStepTypes.NigerianLegalValidation,
   VerificationStepTypes.NigerianTinValidation,
+  VerificationStepTypes.IndonesianKTPValidation,
 ];
 
 export function hasFailureStep(steps: IStep[]): boolean {
@@ -322,6 +324,7 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.ColombianRunt]: ['colombianRunt.fullNameMismatch', 'colombianRunt.hasFines'],
   [DocumentStepTypes.ArgentinianRenaper]: ['argentinianRenaper.deceasedPerson', 'argentinianRenaper.fullNameMismatch'],
   [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
+  [VerificationStepTypes.IndonesianKTPValidation]: ['indonesianKTP.faceBiometricsMismatch', 'indonesianKTP.dobMismatch', 'indonesianKTP.nameMismatch'],
   [DocumentStepTypes.ColombianSisben]: ['colombianSisben.fullNameMismatch'],
 };
 
