@@ -38,4 +38,7 @@ export const styles = StyleSheet.create({
   flexRowItem100: {
     flexBasis: '100%',
   },
+  pr5: {
+    paddingRight: 5,
+  },
 });
