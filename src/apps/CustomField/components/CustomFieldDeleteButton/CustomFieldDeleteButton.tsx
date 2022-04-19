@@ -3,15 +3,16 @@ import React, { useCallback } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import { useSelector } from 'react-redux';
 import { useDeleteButtonHook } from 'apps/ui';
+import { ICustomField } from 'models/CustomField.model';
 import { selectCustomFieldListFields } from '../../state/CustomField.selectors';
-import { CustomField, findAndDelete, HandleUpdateFields } from '../../models/CustomField.model';
+import { findAndDelete, HandleUpdateFields } from '../../models/CustomField.model';
 import { DeleteIconButton } from './CustomFieldDeleteButton.style';
 
 export function CustomFieldDeleteButton({ handleUpdateFields, field }: {
-  field: CustomField;
+  field: ICustomField;
   handleUpdateFields: HandleUpdateFields;
 }) {
-  const listFields = useSelector<any, CustomField[]>(selectCustomFieldListFields);
+  const listFields = useSelector<any, ICustomField[]>(selectCustomFieldListFields);
 
   const customFieldDelete = useCallback(async () => {
     const newFlattenListFields = findAndDelete(cloneDeep(listFields), field.name);

@@ -10,13 +10,15 @@ import { overlayClose } from 'apps/overlay';
 import { isNil } from 'lib/isNil';
 import { InfoTooltip } from 'apps/ui';
 import { useFormatMessage } from 'apps/intl';
+import { KeyboardKeys } from 'models/Keyboard.model';
+import { AtomicCustomFieldType, ICustomField, IMapping } from 'models/CustomField.model';
+import { CustomFieldModalTypes, mutableFindChildren, HandleUpdateFields, prepareCustomField, atomicFieldIsValid, isValidFieldSystemName, REGEXP_BANNED_SYMBOLS_IN_FIELD_SYSTEM_NAME, REPLACEMENT_SYMBOL, MAX_TEXT_INPUT_LENGTH } from '../../models/CustomField.model';
 import { InfoIcon, TextFieldInput, useStyles } from './CustomFieldModalConfigureAtomic.styles';
-import { updateCustomFieldEditedField, updateCustomFieldModalStep } from '../../state/CustomField.actions';
-import { AtomicCustomFieldType, CustomFieldModalTypes, mutableFindChildren, HandleUpdateFields, prepareCustomField, CustomField, Mapping, atomicFieldIsValid, isValidFieldSystemName } from '../../models/CustomField.model';
 import { CustomFieldModalFooter } from '../CustomFieldModalFooter/CustomFieldModalFooter';
 import { selectCustomFieldEditedCustomField, selectCustomFieldEditedIndex, selectCustomFieldEditedParent, selectCustomFieldEditedSystemName, selectCustomFieldFlattenListFields, selectCustomFieldListFields, selectCustomFieldSelectedCustomFieldMapping } from '../../state/CustomField.selectors';
 import { CustomFieldSelectionOptions } from '../CustomFieldSelectionOptions/CustomFieldSelectionOptions';
 import { CustomFieldTypeChanger } from '../CustomFieldTypeChanger/CustomFieldTypeChanger';
+import { updateCustomFieldEditedField, updateCustomFieldModalStep } from '../../state/CustomField.actions';
 
 export function CustomFieldModalConfigureAtomic({ handleUpdateFields }: {
   handleUpdateFields: HandleUpdateFields;
@@ -25,10 +27,10 @@ export function CustomFieldModalConfigureAtomic({ handleUpdateFields }: {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const selectedFieldMapping = useSelector<any, Mapping>(selectCustomFieldSelectedCustomFieldMapping);
-  const selectedCustomField = useSelector<any, CustomField>(selectCustomFieldEditedCustomField);
-  const listFields = useSelector<any, CustomField[]>(selectCustomFieldListFields);
-  const listFlattenFields = useSelector<any, CustomField[]>(selectCustomFieldFlattenListFields);
+  const selectedFieldMapping = useSelector<any, IMapping>(selectCustomFieldSelectedCustomFieldMapping);
+  const selectedCustomField = useSelector<any, ICustomField>(selectCustomFieldEditedCustomField);
+  const listFields = useSelector<any, ICustomField[]>(selectCustomFieldListFields);
+  const listFlattenFields = useSelector<any, ICustomField[]>(selectCustomFieldFlattenListFields);
   const editedParent = useSelector<any, string>(selectCustomFieldEditedParent);
   const editedIndex = useSelector<any, number>(selectCustomFieldEditedIndex);
   const oldName = useSelector<any, string>(selectCustomFieldEditedSystemName);
@@ -45,14 +47,20 @@ export function CustomFieldModalConfigureAtomic({ handleUpdateFields }: {
     dispatch(updateCustomFieldEditedField({ ...selectedCustomField, [name]: value }));
   };
 
-  const handleUpdateField = ({ target: { value, name } }) => {
-    dispatch(updateCustomFieldEditedField({ ...selectedCustomField, [name]: value }));
+  const handleUpdateField = ({ target: { value } }) => {
+    dispatch(updateCustomFieldEditedField({ ...selectedCustomField, label: value, name: value.replace(REGEXP_BANNED_SYMBOLS_IN_FIELD_SYSTEM_NAME, REPLACEMENT_SYMBOL) }));
   };
 
   const handleAtomicFieldParamsChange = ({ target: { value, name } }) => {
     const clone = cloneDeep(selectedCustomField);
     clone.atomicFieldParams[name] = value;
     dispatch(updateCustomFieldEditedField(clone));
+  };
+
+  const handleKeyDown = (event) => {
+    if (![KeyboardKeys.ArrowRight, KeyboardKeys.ArrowLeft, KeyboardKeys.Delete, KeyboardKeys.Backspace].includes(event.key) && event.target.value.length > MAX_TEXT_INPUT_LENGTH) {
+      event.preventDefault();
+    }
   };
 
   const handleChangeSelectionIsMandatory = () => {
@@ -86,6 +94,30 @@ export function CustomFieldModalConfigureAtomic({ handleUpdateFields }: {
           <Typography variant="h3">
             {formatMessage('CustomField.settings.modal.configureField.title')}
           </Typography>
+        </Grid>
+        <Grid item container direction="column">
+          <Grid item>
+            <Typography variant="subtitle2">
+              {formatMessage('CustomField.settings.fieldDisplayName')}
+              <InfoTooltip
+                placement="right"
+                title={formatMessage('CustomField.settings.displayName.tooltip')}
+              >
+                <InfoIcon />
+              </InfoTooltip>
+            </Typography>
+          </Grid>
+          <Grid item>
+            <TextFieldInput
+              fullWidth
+              type="text"
+              value={selectedCustomField.label}
+              name="label"
+              onChange={handleUpdateField}
+              onKeyDown={handleKeyDown}
+              placeholder={formatMessage('CustomField.settings.fieldDisplayName.placeholder')}
+            />
+          </Grid>
         </Grid>
         <Grid item container direction="column">
           <Grid item>
@@ -125,29 +157,6 @@ export function CustomFieldModalConfigureAtomic({ handleUpdateFields }: {
             </Link>
           </Grid>
         </Grid>
-        <Grid item container direction="column">
-          <Grid item>
-            <Typography variant="subtitle2">
-              {formatMessage('CustomField.settings.fieldDisplayName')}
-              <InfoTooltip
-                placement="right"
-                title={formatMessage('CustomField.settings.displayName.tooltip')}
-              >
-                <InfoIcon />
-              </InfoTooltip>
-            </Typography>
-          </Grid>
-          <Grid item>
-            <TextFieldInput
-              fullWidth
-              type="text"
-              value={selectedCustomField.label}
-              name="label"
-              onChange={handleUpdateField}
-              placeholder={formatMessage('CustomField.settings.fieldDisplayName.placeholder')}
-            />
-          </Grid>
-        </Grid>
         <Grid item container spacing={1} alignItems="center">
           <Grid item>
             <Typography variant="body1">
@@ -164,7 +173,7 @@ export function CustomFieldModalConfigureAtomic({ handleUpdateFields }: {
           </Grid>
         </Grid>
         <CustomFieldTypeChanger />
-        {!![AtomicCustomFieldType.Text, AtomicCustomFieldType.Date].includes(selectedCustomField.atomicFieldParams.type) && (
+        {(!selectedCustomField.atomicFieldParams.type || [AtomicCustomFieldType.Text, AtomicCustomFieldType.Date].includes(selectedCustomField.atomicFieldParams.type)) && (
           <Grid item container direction="column">
             <Grid item>
               <Typography variant="subtitle2">
@@ -178,12 +187,13 @@ export function CustomFieldModalConfigureAtomic({ handleUpdateFields }: {
                 type="text"
                 name="placeholder"
                 onChange={handleAtomicFieldParamsChange}
+                onKeyDown={handleKeyDown}
                 placeholder={formatMessage('CustomField.settings.fieldHint.placeholder')}
               />
             </Grid>
           </Grid>
         )}
-        {selectedCustomField.atomicFieldParams.type === AtomicCustomFieldType.Text && (
+        {(!selectedCustomField.atomicFieldParams.type || selectedCustomField.atomicFieldParams.type === AtomicCustomFieldType.Text) && (
           <Grid item container direction="column">
             <Grid item>
               <Typography variant="subtitle2">

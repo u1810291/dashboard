@@ -8,20 +8,23 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import LocaleUtils, { formatDate, parseDate } from 'apps/ui/models/ReactDayPicker.model';
 import { selectLanguage } from 'state/merchant/merchant.selectors';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
-import { dateToFormatString, getLocaleFormat } from 'lib/date';
+import { changeDateFormat, DateFormat, getLocaleFormat } from 'lib/date';
 import { useFormatMessage } from 'apps/intl';
-import { AtomicCustomFieldType, CustomField, validateDateInput } from '../../models/CustomField.model';
+import { SupportedLocales } from 'models/Intl.model';
+import { AtomicCustomFieldType, ICustomField, ISelectOptions } from 'models/CustomField.model';
+import { validateDateInput } from '../../models/CustomField.model';
+import { CustomFieldVerificationAtomicList } from '../CustomFieldVerificationList/CustomFieldVerificationList';
 import { useStyles } from './CustomFieldVerificationInput.styles';
 
 function CustomFieldVerificationInputMapping({ field }: {
-  field: CustomField;
+  field: ICustomField;
 }) {
-  const currentLocale = useSelector<any, string>(selectLanguage);
+  const currentLocale = useSelector<any, SupportedLocales>(selectLanguage);
   const formatMessage = useFormatMessage();
   const { control } = useFormContext();
   switch (field.atomicFieldParams.type) {
@@ -128,16 +131,19 @@ function CustomFieldVerificationInputMapping({ field }: {
             }),
             required: { value: field?.isMandatory, message: formatMessage('CustomField.verification.input.required') },
           }}
-          defaultValue={field.atomicFieldParams.value && dateToFormatString(field.atomicFieldParams.value, currentLocale)}
-          render={({ field: { name, onChange, ref }, fieldState: { invalid, error } }) => (
+          defaultValue={field.atomicFieldParams.value && changeDateFormat(field.atomicFieldParams.value, DateFormat.DateShortStroke, currentLocale, DateFormat.LocalizedDayMonthYearSlashes)}
+          render={({ field: { name, onChange, ref, value }, fieldState: { invalid, error } }) => (
             <>
               <DayPickerInput
-                value={field.atomicFieldParams.value && dateToFormatString(field.atomicFieldParams.value, currentLocale)}
+                value={value}
                 onDayChange={(day, DayModifiers, dayPickerInput) => {
                   onChange(dayPickerInput.getInput().value);
                 }}
                 style={{ display: 'unset' }}
-                inputProps={{ name }}
+                inputProps={{
+                  name,
+                  placeholder: field?.atomicFieldParams?.placeholder || field.label,
+                }}
                 ref={ref}
                 dayPickerProps={{
                   localeUtils: LocaleUtils,
@@ -150,7 +156,7 @@ function CustomFieldVerificationInputMapping({ field }: {
                 filled
                 error={invalid}
               >
-                {invalid ? error?.message : ' '}
+                {invalid ? error?.message : formatMessage('CustomField.verification.patternInfo', { messageValues: { format: getLocaleFormat(currentLocale) } })}
               </FormHelperText>
             </>
           )}
@@ -162,13 +168,78 @@ function CustomFieldVerificationInputMapping({ field }: {
 }
 
 export function CustomFieldVerificationInput({ field }: {
-  field: CustomField;
+  field: ICustomField;
 }) {
   const classes = useStyles();
+
   return (
     <Box className={classes.inputWrapper}>
       <Typography className={classes.label}>{field.label}</Typography>
       <CustomFieldVerificationInputMapping field={field} />
     </Box>
+  );
+}
+
+export function CustomFieldVerificationSectionInput({ selection, country }: {
+  selection: ICustomField;
+  country: string;
+}) {
+  const classes = useStyles();
+  const formatMessage = useFormatMessage();
+  const { watch, control } = useFormContext();
+  const [selectedOption, setSelectedOption] = useState<ICustomField | null>(null);
+  const watchGroupSelected = watch(selection.name);
+
+  const options = useMemo<ISelectOptions[]>(() => selection.children.map((child) => ({
+    value: child.name,
+    label: child.label,
+  })), [selection.children]);
+
+  useEffect(() => setSelectedOption(selection?.children.find((({ name }) => name === watchGroupSelected))), [selection, watchGroupSelected]);
+
+  return (
+    <>
+      <Box className={classes.inputWrapper}>
+        <Typography className={classes.label}>{selection.label}</Typography>
+        <Controller
+          name={selection.name}
+          control={control}
+          defaultValue={selection?.selectedGroup}
+          rules={{
+            required: {
+              value: selection?.isMandatory,
+              message: formatMessage('CustomField.verification.select.required'),
+            },
+          }}
+          render={({ field: props, fieldState: { invalid, error } }) => (
+            <>
+              <Select fullWidth {...props}>
+                {!selection?.isMandatory && (
+                  <MenuItem value={null}>
+                    <em>&nbsp;</em>
+                  </MenuItem>
+                )}
+                {
+                  options.map(({ label, value }) => <MenuItem key={value} value={value}>{label}</MenuItem>)
+                }
+              </Select>
+              <FormHelperText
+                filled
+                error={invalid}
+              >
+                {invalid ? error : ' '}
+              </FormHelperText>
+            </>
+          )}
+        />
+      </Box>
+      {selectedOption && (
+        <CustomFieldVerificationAtomicList
+          country={country}
+          fields={selectedOption?.children}
+          itemContainer={CustomFieldVerificationInput}
+        />
+      )}
+    </>
   );
 }

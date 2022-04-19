@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme: Theme) => ({
   tableRow: {
     [theme.breakpoints.down('md')]: {
       display: 'block',
@@ -16,9 +16,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   tableCell: {
     borderColor: theme.palette.common.black7,
-    '&:first-child': {
-      verticalAlign: 'top',
-    },
+    verticalAlign: 'top',
     [theme.breakpoints.down('md')]: {
       display: 'block',
       marginBottom: 20,

@@ -20,6 +20,10 @@ export function saveBusinessName(businessName) {
   return http.patch('/api/v1/merchants/me', { businessName });
 }
 
+export function saveSettings(settings) {
+  return http.patch('/api/v1/merchants/me', { settings });
+}
+
 export function getMerchantCustomDocuments(merchantId) {
   return http.get(`/api/v1/merchants/${merchantId}/custom-documents`);
 }
