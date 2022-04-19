@@ -9,6 +9,7 @@ export const QATags = {
     Metrics: 'menu-metrics',
     VerificationList: 'menu-verificationList',
     Product: 'menu-verificationFlows',
+    Templates: 'menu-tenplates',
     ForDevelopers: 'menu-forDevelopers',
     FAQ: 'menu-faq',
     InviteTeammate: 'menu-inviteTeammate',
@@ -18,6 +19,7 @@ export const QATags = {
     WhatsNew: 'menu-whats-new',
     ProductBoard: 'menu-roadmap',
   },
+
   Modal: {
     CloseButton: 'modal-button-close',
     Delete: {
@@ -252,6 +254,37 @@ export const QATags = {
     Integration: {
       API: 'flow-builder-integration-api',
       SDK: 'flow-builder-integration-sdk',
+    },
+  },
+
+  Onboarding: {
+    Steps: {
+      Docs: 'onboarding-steps-read-docs',
+      Invite: 'onboarding-steps-invite-teammate',
+      Meta: 'onboarding-steps-create-meta',
+    },
+  },
+
+  Templates: {
+    Modal: {
+      SaveButton: 'templates-modal-save-button',
+      Description: 'templates-modal-description',
+      CountriesSelect: 'templates-modal-countries-select',
+      IndustriesSelect: 'templates-modal-industries-select',
+      MetamapName: 'templates-modal-metamap-name',
+      TemplateTitle: 'templates-modal-template-title',
+    },
+    EditButton: 'templates-edit-button',
+    CreateNewTemplateButton: 'templates-create-new-template',
+  },
+
+  TemplatesModal: {
+    ChosenFilters: {
+      DeleteAll: 'templates-modal-chosenFilters-deleteAll',
+    },
+    Filters: {
+      industry: 'templates-modal-filters-industry-button',
+      country: 'templates-modal-filters-country-button',
     },
   },
 };
