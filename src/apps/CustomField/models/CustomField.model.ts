@@ -3,7 +3,7 @@ import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
 import { changeDateFormat, DateFormat } from 'lib/date';
 import { parseDate } from 'apps/ui/models/ReactDayPicker.model';
-import { SupportedLocales } from 'models/Intl.model';
+import { SupportedLocales, SupportedLocalesToLocaleAsPopup } from 'models/Intl.model';
 import { AtomicCustomFieldType, ICustomField, IMapping, ISelectOptions, MainCustomFieldType } from 'models/CustomField.model';
 
 export const FIELD_SYSTEM_NAME_PATTERN = '^([a-zA-Z-_0-9]+)?$';
@@ -394,3 +394,13 @@ export const getNotSelectedMapping = (listFlattenFields: ICustomField[], mapping
 export const isValidFieldSystemName = (value: string): boolean => new RegExp(FIELD_SYSTEM_NAME_PATTERN).test(value);
 
 export const isTypeFromConfig = (selectedFieldMapping: IMapping): boolean => !!CONFIG_BY_KEY[selectedFieldMapping?.key]?.type;
+
+export const generatePreviewMode = (listFields: ICustomField[], currentLocale: SupportedLocales): string => {
+  const previewUrl = new URL(`${process.env.REACT_APP_PRODUCT_REGISTRY_URL}/custom-input-product/`);
+
+  previewUrl.searchParams.append('isPreviewMode', 'true');
+  previewUrl.searchParams.append('fields', JSON.stringify(listFields));
+  previewUrl.searchParams.append('locale', SupportedLocalesToLocaleAsPopup[currentLocale]);
+
+  return previewUrl.href;
+};
