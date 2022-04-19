@@ -13,8 +13,8 @@ import { CustomFieldModalPreview } from '../CustomFieldModalPreview/CustomFieldM
 function CustomFieldModalRouter({ handleUpdateFields }: {
     handleUpdateFields: HandleUpdateFields;
 }) {
-  const type = useSelector<any, CustomFieldModalTypes>(selectCustomFieldModalType);
-  switch (type) {
+  const customFieldModalType = useSelector<any, CustomFieldModalTypes>(selectCustomFieldModalType);
+  switch (customFieldModalType) {
     case CustomFieldModalTypes.ConfigureField:
       return <CustomFieldModalConfigureAtomic handleUpdateFields={handleUpdateFields} />;
     case CustomFieldModalTypes.MappingFieldToDocument:
@@ -33,9 +33,9 @@ export function CustomFieldModal({ handleUpdateFields }: {
   handleUpdateFields: HandleUpdateFields;
 }) {
   const classes = useStyles();
-  const type = useSelector<any, CustomFieldModalTypes>(selectCustomFieldModalType);
+  const customFieldModalType = useSelector<any, CustomFieldModalTypes>(selectCustomFieldModalType);
   return (
-    <Modal className={classnames(classes.root, { [classes.previewRoot]: type === CustomFieldModalTypes.PreviewCustomField })}>
+    <Modal className={classnames(classes.root, { [classes.previewRoot]: customFieldModalType === CustomFieldModalTypes.PreviewCustomField })}>
       <CustomFieldModalRouter handleUpdateFields={handleUpdateFields} />
     </Modal>
   );

@@ -1,6 +1,5 @@
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
-import classnames from 'classnames';
 import React from 'react';
 import { useFormatMessage } from 'apps/intl';
 import { useSelector } from 'react-redux';
@@ -22,7 +21,7 @@ export function CustomFieldActions({ handleOpenModal }: {handleOpenModal: Handle
     <Box>
       <Button
         fullWidth
-        className={classnames(classes.actionsButton)}
+        className={classes.actionsButton}
         disabled={!isCustomDocumentAvailable}
         variant="contained"
         color="primary"
@@ -33,7 +32,7 @@ export function CustomFieldActions({ handleOpenModal }: {handleOpenModal: Handle
       </Button>
       <Button
         fullWidth
-        className={classnames(classes.actionsButton)}
+        className={classes.actionsButton}
         disabled={!isCustomDocumentAvailable}
         variant="contained"
         color="primary"
@@ -44,7 +43,7 @@ export function CustomFieldActions({ handleOpenModal }: {handleOpenModal: Handle
       </Button>
       <Button
         fullWidth
-        className={classnames(classes.actionsButton)}
+        className={classes.actionsButton}
         disabled={!isCustomDocumentAvailable}
         variant="contained"
         color="primary"
@@ -56,7 +55,7 @@ export function CustomFieldActions({ handleOpenModal }: {handleOpenModal: Handle
       {!!listFields.length && (
         <Button
           fullWidth
-          className={classnames(classes.actionsButton)}
+          className={classes.actionsButton}
           disabled={!isCustomDocumentAvailable}
           variant="contained"
           color="secondary"
