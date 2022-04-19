@@ -5,7 +5,7 @@ import { selectLanguage } from 'state/merchant/merchant.selectors';
 import { SupportedLocales } from 'models/Intl.model';
 import { useStyles } from './CustomFieldModalPreview.styles';
 import { selectCustomFieldListFields } from '../../state/CustomField.selectors';
-import { generatePreviewMode } from '../../models/CustomField.model';
+import { generatePreviewModeURL } from '../../models/CustomField.model';
 
 export function CustomFieldModalPreview() {
   const classes = useStyles();
@@ -13,7 +13,7 @@ export function CustomFieldModalPreview() {
   const listFields = useSelector<any, ICustomField[]>(selectCustomFieldListFields);
   const currentLocale = useSelector<any, SupportedLocales>(selectLanguage);
 
-  const previewUrl = generatePreviewMode(listFields, currentLocale);
+  const previewUrl = generatePreviewModeURL(listFields, currentLocale);
 
   return (
     <iframe

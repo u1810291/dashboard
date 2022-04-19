@@ -395,7 +395,7 @@ export const isValidFieldSystemName = (value: string): boolean => new RegExp(FIE
 
 export const isTypeFromConfig = (selectedFieldMapping: IMapping): boolean => !!CONFIG_BY_KEY[selectedFieldMapping?.key]?.type;
 
-export const generatePreviewMode = (listFields: ICustomField[], currentLocale: SupportedLocales): string => {
+export const generatePreviewModeURL = (listFields: ICustomField[], currentLocale: SupportedLocales): string => {
   const previewUrl = new URL(`${process.env.REACT_APP_PRODUCT_REGISTRY_URL}/custom-input-product/`);
 
   previewUrl.searchParams.append('isPreviewMode', 'true');
