@@ -41,6 +41,8 @@ import { CUSTOM_FIELD_STORE_KEY, customFieldReducer } from 'apps/CustomField';
 import { amlReducer, AML_STORE_KEY } from 'apps/Aml';
 import { PRODUCT_BOARD_STORE_KEY } from 'apps/ProductBoard/state/ProductBoard.store';
 import { productBoardReducer } from 'apps/ProductBoard/state/ProductBoard.reducer';
+import { SOLUTION_CATALOG_STORE_KEY, solutionCatalogReducer } from 'apps/SolutionCatalog';
+import { TEMPLATES_STORE_KEY, templatesReducer } from 'apps/Templates';
 import { WORKFLOW_BUILDER_STORE_KEY } from 'apps/WorkflowBuilder/store/WorkflowBuilder.store';
 import { workflowBuilderReducer } from 'apps/WorkflowBuilder/store/WorkflowBuilder.reducer';
 
@@ -68,6 +70,8 @@ export const appReducers = combineReducers({
   [CUSTOM_WATCHLISTS_STORE_KEY]: customWatchlist,
   [CUSTOM_FIELD_STORE_KEY]: customFieldReducer,
   [PRODUCT_BOARD_STORE_KEY]: productBoardReducer,
+  [SOLUTION_CATALOG_STORE_KEY]: solutionCatalogReducer,
+  [TEMPLATES_STORE_KEY]: templatesReducer,
 });
 
 export const rootReducers = (state, action) => {

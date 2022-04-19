@@ -8,6 +8,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.up('md')]: {
       paddingBottom: 10,
     },
+    borderBottom: `1px solid ${theme.palette.common.black7}`,
   },
   wrapperWithPadding: {
     [theme.breakpoints.up('md')]: {
@@ -29,5 +30,19 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   switch: {
     color: `${appPalette.green} !important`,
+  },
+  dropdownMenu: {
+    width: '317px',
+  },
+  dropdownMenuPaper: {
+    width: '94%',
+    maxWidth: '100%',
+    marginTop: '8px',
+  },
+  input: {
+    borderRadius: 4,
+    fontSize: 16,
+    width: '100%',
+    opacity: '.5',
   },
 }));

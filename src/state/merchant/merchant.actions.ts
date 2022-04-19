@@ -3,10 +3,13 @@ import { createTypesSequence } from 'state/store.utils';
 import { getWebhooks } from 'state/webhooks/webhooks.actions';
 import { DEFAULT_LOCALE } from 'models/Intl.model';
 import dayjs from 'dayjs';
+import { notification } from 'apps/ui';
+import { FormatMessage } from 'apps/intl';
+import { StepsOptions } from 'apps/Analytics';
 import { selectConfigurationModel, selectCurrentFlowId, selectMerchantFlowsModel, selectMerchantId, selectMerchantCustomDocumentsModel } from './merchant.selectors';
 import { MerchantActionGroups } from './merchant.store';
 
-export const types = {
+export const types: any = {
   ...createTypesSequence(MerchantActionGroups.Merchant),
   ...createTypesSequence(MerchantActionGroups.Configuration),
   ...createTypesSequence(MerchantActionGroups.App),
@@ -14,6 +17,7 @@ export const types = {
   ...createTypesSequence(MerchantActionGroups.Flows),
   CURRENT_FLOW_UPDATE: 'CURRENT_FLOW_UPDATE',
   BUSINESS_NAME_UPDATE: 'BUSINESS_NAME_UPDATE',
+  ONBOARDING_STEPS_UPDATE: 'ONBOARDING_STEPS_UPDATE',
   SETTINGS_UPDATE: 'SETTINGS_UPDATE',
 };
 
@@ -85,7 +89,7 @@ export const configurationUpdate = (cfg, isSync) => async (dispatch, getState) =
   }
 };
 
-export const dashboardUpdate = (data, isSync) => (dispatch) => {
+export const dashboardUpdate = (data, isSync: boolean = false) => (dispatch) => {
   dispatch(configurationUpdate({ dashboard: { ...data } }, isSync));
 };
 
@@ -178,7 +182,7 @@ export const merchantUpdateFlowList = (flowId, newFlow) => (dispatch, getState) 
     const { value } = selectMerchantFlowsModel(state);
     const index = value.findIndex((flow) => flow.id === flowId);
     const newFlowList = [...value];
-    newFlowList.splice(index, 1, newFlow);
+    newFlowList[index] = newFlow;
     dispatch({ type: types.FLOWS_SUCCESS, payload: newFlowList, isReset: true });
   } catch (error) {
     dispatch({ type: types.FLOWS_FAILURE, error });
@@ -244,6 +248,17 @@ export const merchantUpdateMedia = (form) => async (dispatch) => {
 export const merchantUpdateBusinessName = (businessName) => async (dispatch) => {
   const { data } = await api.saveBusinessName(businessName);
   dispatch({ type: types.BUSINESS_NAME_UPDATE, payload: { businessName: data.businessName } });
+};
+
+export const merchantUpdateOnboardingSteps = (onboardingSteps: StepsOptions[], currentStep: string, formatMessage: FormatMessage) => async (dispatch) => {
+  try {
+    const { data } = await api.patchOnboardingProgress(onboardingSteps);
+    dispatch({ type: types.ONBOARDING_STEPS_UPDATE, payload: { onboardingSteps: data.onboardingSteps } });
+    if (!data.onboardingSteps.some((item) => !item.completed)) notification.info(formatMessage('onboarding.steps.completed'));
+  } catch (error) {
+    dispatch({ type: types.ONBOARDING_STEPS_FAILURE, error });
+    throw error;
+  }
 };
 
 export const merchantUpdateSettings = (settings) => async (dispatch) => {

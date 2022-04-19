@@ -1,13 +1,13 @@
-import { Box } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import { useFormattedValue } from 'lib/formatValue.hook';
 import React from 'react';
-import { useIntl } from 'react-intl';
 import classnames from 'classnames';
 import { ImageContainer } from 'apps/media';
+import { useFormatMessage } from 'apps/intl';
 import { useStyles } from './CheckStepDetails.styles';
-import { ChecksWithImage } from '../../models/checks.model';
+import { ChecksWithImage, ICheckStepDetailsEntry } from '../../models/checks.model';
 
-const CheckStepDetailsImage = (label, value) => {
+const CheckStepDetailsImage = (label: string, value: string) => {
   const classes = useStyles();
   return (
     <Box display="flex" justifyContent="center">
@@ -16,19 +16,16 @@ const CheckStepDetailsImage = (label, value) => {
   );
 };
 
-export function CheckStepDetailsEntry({ label, value, isMarkedAsFailed = false, isCentered = false }) {
+export function CheckStepDetailsEntry({ label, value, isMarkedAsFailed = false, isCentered = false }: ICheckStepDetailsEntry) {
   const classes = useStyles();
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const formatted = useFormattedValue(label, value, ChecksWithImage, CheckStepDetailsImage);
-
+  if (!label) return null;
   return (
-    <Box key={label} className={classnames(classes.item, { [classes.centeredItem]: isCentered })}>
+    <Box className={classnames(classes.item, { [classes.centeredItem]: isCentered })}>
       <Box mb={0.4} className={classnames(classes.value, { [classes.failed]: isMarkedAsFailed })}>{formatted}</Box>
       <Box className={classes.label}>
-        {intl.formatMessage({
-          id: `identity.field.${label}`,
-          defaultMessage: label,
-        })}
+        {formatMessage(`identity.field.${label}`, { defaultMessage: label })}
       </Box>
     </Box>
   );
