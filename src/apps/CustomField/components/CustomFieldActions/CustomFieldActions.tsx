@@ -8,11 +8,14 @@ import { MerchantTags } from 'models/Merchant.model';
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { useStyles } from './CustomFieldActions.styles';
 import { CustomFieldModalTypes, HandleOpenModal } from '../../models/CustomField.model';
+import { ICustomField } from '../../../../models/CustomField.model';
+import { selectCustomFieldListFields } from '../../state/CustomField.selectors';
 
 export function CustomFieldActions({ handleOpenModal }: {handleOpenModal: HandleOpenModal}) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
   const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
+  const listFields = useSelector<any, ICustomField[]>(selectCustomFieldListFields);
   const isCustomDocumentAvailable = merchantTags.includes(MerchantTags.CanUseCustomField);
 
   return (
@@ -50,17 +53,19 @@ export function CustomFieldActions({ handleOpenModal }: {handleOpenModal: Handle
       >
         {formatMessage('CustomField.settings.CustomFieldList.addSelection')}
       </Button>
-      <Button
-        fullWidth
-        className={classnames(classes.actionsButton)}
-        disabled={!isCustomDocumentAvailable}
-        variant="contained"
-        color="secondary"
-        size="large"
-        onClick={handleOpenModal(CustomFieldModalTypes.PreviewCustomField)}
-      >
-        {formatMessage('CustomField.settings.CustomFieldList.preview')}
-      </Button>
+      {!!listFields.length && (
+        <Button
+          fullWidth
+          className={classnames(classes.actionsButton)}
+          disabled={!isCustomDocumentAvailable}
+          variant="contained"
+          color="secondary"
+          size="large"
+          onClick={handleOpenModal(CustomFieldModalTypes.PreviewCustomField)}
+        >
+          {formatMessage('CustomField.settings.CustomFieldList.preview')}
+        </Button>
+      )}
     </Box>
   );
 }
