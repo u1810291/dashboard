@@ -6,9 +6,9 @@ import { useFormatMessage } from 'apps/intl';
 import { useSelector } from 'react-redux';
 import { MerchantTags } from 'models/Merchant.model';
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
+import { ICustomField } from 'models/CustomField.model';
 import { useStyles } from './CustomFieldActions.styles';
 import { CustomFieldModalTypes, HandleOpenModal } from '../../models/CustomField.model';
-import { ICustomField } from '../../../../models/CustomField.model';
 import { selectCustomFieldListFields } from '../../state/CustomField.selectors';
 
 export function CustomFieldActions({ handleOpenModal }: {handleOpenModal: HandleOpenModal}) {
