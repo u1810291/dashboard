@@ -6,7 +6,7 @@ import { QATags } from 'models/QA.model';
 import styles from './Modal.module.scss';
 import { overlayClose } from '../../state/overlay.actions';
 
-export function Modal({ children, onClose, className, imgSrc = '', title = '', subtitle = '', description, small = false, wideHeader = false, customCloseIcon = null, ...props }: {
+export function Modal({ children, onClose, className, imgSrc = '', title = '', subtitle = '', description, small = false, wideHeader = false, ...props }: {
   children?: React.ReactNode;
   onClose?: () => void;
   className?: string;
@@ -16,7 +16,6 @@ export function Modal({ children, onClose, className, imgSrc = '', title = '', s
   description?: React.ReactNode;
   small?: boolean;
   wideHeader?: boolean;
-  customCloseIcon?: React.ReactElement;
   [key: string]: any;
 }) {
   const dispatch = useDispatch();
@@ -34,8 +33,7 @@ export function Modal({ children, onClose, className, imgSrc = '', title = '', s
       data-role="modal"
       {...props} // eslint-disable-line react/jsx-props-no-spreading
     >
-      {!customCloseIcon && <Button data-qa={QATags.Modal.CloseButton} className={styles.btnClose} onClick={closeModal} />}
-      {customCloseIcon && React.cloneElement(customCloseIcon, { 'data-qa': QATags.Modal.CloseButton, onClick: closeModal })}
+      <Button data-qa={QATags.Modal.CloseButton} className={styles.btnClose} onClick={closeModal} />
       <Box className={classNames({ [styles.wideHeader]: wideHeader })}>
         {imgSrc && (
           <Box mb={2}>

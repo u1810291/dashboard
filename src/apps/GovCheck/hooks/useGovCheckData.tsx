@@ -25,7 +25,7 @@ export const useGovCheckData = (step: GovCheckIStep, isPDF: boolean) => {
       }
       const props = {
         label: entry,
-        value: value || '—',
+        value: value ?? '—',
         key: entry,
         isMarkedAsFailed: !!displayOption[entry].dependentFieldForFailedCheck && dependentFieldForFailedCheck !== true,
       };
