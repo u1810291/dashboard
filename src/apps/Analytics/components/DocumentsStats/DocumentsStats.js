@@ -2,14 +2,14 @@ import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import { localeNumber } from 'lib/number';
 import React from 'react';
 import { FiFileText } from 'react-icons/fi';
-import { useFormatMessage } from 'apps/intl';
+import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { byDocumentTypes } from 'models/Document.model';
+import { byDocumentTypes } from '../../models/Metrics.model';
 import { selectDocumentsCount } from '../../state/Analytics.selectors';
 import { useStyles } from './DocumentStats.styles';
 
 export function DocumentsStats() {
-  const formatMessage = useFormatMessage();
+  const intl = useIntl();
   const classes = useStyles();
   const documents = useSelector(selectDocumentsCount);
 
@@ -22,7 +22,7 @@ export function DocumentsStats() {
               <FiFileText />
             </Box>
             <Typography variant="subtitle2">
-              {formatMessage('Analytics.documents.title')}
+              {intl.formatMessage({ id: 'Analytics.documents.title' })}
             </Typography>
           </Grid>
         </Box>
@@ -33,7 +33,7 @@ export function DocumentsStats() {
                 {documents && localeNumber(documents[document.id])}
               </Box>
               <Box color="common.black75">
-                {formatMessage(`flow.documentTypeStep.${document.id}`)}
+                {intl.formatMessage({ id: `flow.documentTypeStep.${document.id}` })}
               </Box>
             </Grid>
           ))}

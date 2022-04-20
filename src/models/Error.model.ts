@@ -9,9 +9,7 @@ export enum ErrorMessages {
 }
 
 export enum ErrorTypes {
-  SystemError = 'SystemError',
-  PasswordExpired = 'Password is expired',
-  PasswordInvalid = 'Unauthorized',
+  SystemError = 'SystemError'
 }
 
 export enum ErrorStatuses {

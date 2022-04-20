@@ -70,13 +70,6 @@ export enum CollaboratorRoles {
   AUDITOR = 3,
 }
 
-export interface TeamInviteFormInputs {
-  [CollaboratorInputTypes.FirstName]: string;
-  [CollaboratorInputTypes.LastName]: string;
-  [CollaboratorInputTypes.Email]: string;
-  [CollaboratorInputTypes.Role]: CollaboratorRoles;
-}
-
 export const WithAuditor = [CollaboratorRoles.ADMIN, CollaboratorRoles.AUDITOR];
 export const WithAgent = [CollaboratorRoles.ADMIN, CollaboratorRoles.AGENT];
 

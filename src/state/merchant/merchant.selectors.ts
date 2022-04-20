@@ -3,10 +3,8 @@ import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { BiometricTypes } from 'models/Biometric.model';
 import { IFlow } from 'models/Flow.model';
-import { StepsOptions } from 'apps/Analytics';
 import { DEFAULT_LOCALE, LanguageList, SupportedLocales } from 'models/Intl.model';
 import { Loadable } from 'models/Loadable.model';
-import { PasswordExpirationPolicyDurationValue } from 'models/Settings.model';
 import { Merchant, MerchantId, MerchantTags, IMerchantSettings, IAgentNotesConfig } from 'models/Merchant.model';
 import { createSelector } from 'reselect';
 import { CollaboratorRoles } from 'models/Collaborator.model';
@@ -24,11 +22,6 @@ export const selectMerchantModel = createSelector<any, any, Loadable<Merchant>>(
 export const selectMerchantId = createSelector<any, Loadable<Merchant>, MerchantId>(
   selectMerchantModel,
   selectModelValue((merchant: Merchant): string => merchant.id),
-);
-
-export const selectMerchantOnboarding = createSelector<any, Loadable<Merchant>, StepsOptions[]>(
-  selectMerchantModel,
-  selectModelValue((merchant: Merchant) => merchant.onboardingSteps),
 );
 
 export const selectOwnerId = createSelector(
@@ -146,11 +139,6 @@ export const selectMerchantSettings = createSelector<any, Loadable<Merchant>, IM
 export const selectMerchantAgentNotesConfig = createSelector<any, IMerchantSettings, IAgentNotesConfig>(
   selectMerchantSettings,
   (settings) => settings?.agentNotesConfig,
-);
-
-export const selectMerchantPasswordExpirationPolicy = createSelector<any, Loadable<Merchant>, PasswordExpirationPolicyDurationValue>(
-  selectMerchantModel,
-  selectModelValue((merchant) => merchant?.passwordExpirationPolicy),
 );
 
 // -- configuration

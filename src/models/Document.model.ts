@@ -1,6 +1,6 @@
 import { GovCheckIStep, parseExpandedGovCheck } from 'apps/GovCheck';
 import { CustomDocumentType } from './CustomDocument.model';
-import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStatus, getReaderFrontendSteps, getStepsExtra, IStep, StepStatus, PremiumAmlWatchlistStepData } from './Step.model';
+import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStatus, getReaderFrontendSteps, getStepsExtra, IStep, StepStatus } from './Step.model';
 
 export interface Document {
   country: string;
@@ -38,6 +38,15 @@ export interface DocumentField {
 
 export type DocumentReadingStep = IStep<Record<string, DocumentField>>;
 
+export interface PremiumAmlWatchlistStepData {
+  isMonitoringAvailable: boolean;
+  nameSearched: string;
+  profileUrl?: string;
+  searchId: number;
+  searchedOn: string;
+  updatedOn?: string;
+}
+
 export type PremiumAmlWatchlistStep = IStep<PremiumAmlWatchlistStepData>;
 
 export type VerificationDocumentTypes = DocumentTypes | CustomDocumentType;
@@ -66,13 +75,6 @@ export interface VerificationDocument {
   duplicateUserDetectionStep?: IStep;
   ageCheck?: IStep;
 }
-
-export const byDocumentTypes = [
-  { id: DocumentTypes.Passport },
-  { id: DocumentTypes.DrivingLicense },
-  { id: DocumentTypes.NationalId },
-  { id: DocumentTypes.ProofOfResidency },
-];
 
 export const DocumentListOrdered: DocumentTypes[] = [
   DocumentTypes.Passport,

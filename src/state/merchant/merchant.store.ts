@@ -10,7 +10,6 @@ export const MerchantActionGroups = {
   CustomDocuments: 'CUSTOM_DOCUMENTS',
   Flows: 'FLOWS',
   BusinessName: 'BUSINESS_NAME',
-  OnboardingSteps: 'ONBOARDING_STEPS',
 };
 
 export enum SliceNames {

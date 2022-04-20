@@ -2,7 +2,7 @@ import { Button, Grid, Typography, Paper, Box, Link } from '@material-ui/core';
 import { passwordRecovery } from 'apps/auth/state/auth.actions';
 import { selectUserEmail } from 'apps/user/state/user.selectors';
 import KeysIcon from 'assets/keys.svg';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMerchantBusinessName, selectMerchantLegalAddress, selectMerchantLegalName, selectMerchantLegalRegNumber, selectMerchantCreatedAt } from 'state/merchant/merchant.selectors';
@@ -110,7 +110,7 @@ export function CompanySettings() {
             </Grid>
           </Grid>
           )}
-          <Grid container justifyContent="space-between" alignItems="center" className={classes.fieldWrapper}>
+          <Grid container justify="space-between" alignItems="center" className={classes.fieldWrapper}>
             <Grid item xs={12} md={5}>
               <Typography variant="body1" className={classes.title}>
                 {intl.formatMessage({ id: 'Settings.companySettings.contactSupport' })}
@@ -131,7 +131,7 @@ export function CompanySettings() {
           </Grid>
         </Grid>
         <Box pt={2}>
-          <Grid container justifyContent="space-between" alignItems="center" className={classes.fieldWrapper}>
+          <Grid container justify="space-between" alignItems="center" className={classes.fieldWrapper}>
             <Grid item xs={12} md="auto">
               <Typography variant="body1" className={classes.value}>
                 {email}
