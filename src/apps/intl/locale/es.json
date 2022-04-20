@@ -2543,7 +2543,7 @@
   "identity.field.status": "Estado de la verificación",
   "identity.field.surname": "Primer apellido",
   "identity.field.taxCondition": "Condición fiscal",
-  "identity.field.taxID": "Identificación del impuesto",
+  "identity.field.taxId": "Identificación del impuesto",
   "identity.field.taxPayerType": "Tipo de contribuyente",
   "identity.field.taxStatus": "Situación fiscal",
   "identity.field.taxpayerNumber": "Número de contribuyente",

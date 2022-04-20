@@ -2665,7 +2665,7 @@
   "identity.field.status": "Status",
   "identity.field.surname": "Surname",
   "identity.field.taxCondition": "Tax Condition",
-  "identity.field.taxID": "Tax ID",
+  "identity.field.taxId": "Tax ID",
   "identity.field.taxIdNumber": "Tax ID Number",
   "identity.field.taxIdType": "Tax ID Type",
   "identity.field.taxNumber": "Tax Number",
