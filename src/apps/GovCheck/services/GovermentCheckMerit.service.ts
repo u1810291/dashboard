@@ -6,7 +6,7 @@ import { FiFlag } from 'react-icons/fi';
 import { CountrySpecificChecks, getStepStatus, StepStatus } from 'models/Step.model';
 import { getDocumentsWithoutCustomDocument } from 'models/Document.model';
 import { GovCheckSettings } from '../components/GovCheckSettings/GovCheckSettings';
-import { getGovCheckRootSteps, getGovCheckVerificationSteps, GovCheckVerificationData, GovernmentCheckSettingTypes, GovernmentChecksTypes, isGovCheckHaveDependsIssue, isGovCheckInFlow, verificationPatternsGovchecksDefault } from '../models/GovCheck.model';
+import { getGovCheckRootSteps, getGovCheckVerificationSteps, GovCheckVerificationData, GovernmentCheckSettingTypes, GovernmentChecksTypes, isGovCheckHaveDependsIssue, isGovCheckInFlow, verificationPatternsGovchecksDefault, GovCheckMeritId } from '../models/GovCheck.model';
 import { GovCheckVerificationProduct } from '../components/GovCheckVerificationProduct/GovCheckVerificationProduct';
 import { GovCheckDependsIssue } from '../components/GovCheckDependsIssue/GovCheckDependsIssue';
 import { GovCheckIssue } from '../components/GovCheckIssue/GovCheckIssue';
@@ -15,6 +15,7 @@ type ProductSettingsGovCheck = ProductSettings<GovernmentCheckSettingTypes>;
 
 export class GovernmentCheckMerit extends ProductBaseFlowBuilder implements Product {
   id = ProductTypes.GovernmentCheck;
+  meritId = GovCheckMeritId;
   inputs = [
     ProductInputTypes.NationalId,
   ];

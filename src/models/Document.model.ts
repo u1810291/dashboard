@@ -141,7 +141,7 @@ export const DocumentCountrySanctionList = [
   'ZW',
 ];
 
-export function getPhotosOrientation(photo) {
+export function getPhotosOrientation(photo): Promise<PhotosOrientations> {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.src = photo;

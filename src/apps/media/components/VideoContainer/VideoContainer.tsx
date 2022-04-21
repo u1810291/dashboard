@@ -1,17 +1,20 @@
-import React, { VideoHTMLAttributes } from 'react';
-import { MediaStatusTypes } from 'apps/media/models/Media.model';
+/* eslint-disable jsx-a11y/media-has-caption */
+import React, { VideoHTMLAttributes, useState } from 'react';
 import { ImageSkeleton } from 'apps/ui';
-import { useWaitMediaDownloading } from '../../hooks/waitMediaDownloading.hook';
+import { getMediaURL } from 'lib/client/media';
 
 function VideoContainerComponent({ src, forwardedRef, ...props }: VideoHTMLAttributes<HTMLVideoElement> & {src?: string | Promise<string>; forwardedRef?: any}) {
-  const [videoUrl, isMediaLoaded] = useWaitMediaDownloading(src);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  if (src === MediaStatusTypes.MediaIsLoading || !isMediaLoaded) {
-    return (<ImageSkeleton isVideoPlaceholder className={props.className} />);
-  }
+  const hideSkeletonLoader = () => setIsLoading(false);
 
-  // eslint-disable-next-line jsx-a11y/media-has-caption
-  return (<video src={videoUrl} ref={forwardedRef} {...props} />);
+  return (
+    <>
+      {isLoading && <ImageSkeleton className={props.className} />}
+      {/* TODO: Refine hide mechanism here */}
+      <video src={getMediaURL(src)} ref={forwardedRef} {...props} style={{ display: isLoading ? 'none' : 'inherit' }} onLoad={hideSkeletonLoader} />
+    </>
+  );
 }
 
 export const VideoContainer = React.forwardRef(

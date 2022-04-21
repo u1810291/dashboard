@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { useFormatMessage } from 'apps/intl';
 import { CheckBarExpandable, ZoomableImage } from 'apps/ui';
 import { IStep } from 'models/Step.model';
-import { FacematchCheckStepData, FacematchSourceTypes } from '../../models/Facematch.model';
+import { FacematchCheckStepData } from '../../models/Facematch.model';
 import { useStyles } from './FacematchVerification.styles';
 
 export function FacematchVerification({ data: step }: { data: IStep<FacematchCheckStepData> }) {
@@ -42,7 +42,7 @@ export function FacematchVerification({ data: step }: { data: IStep<FacematchChe
                         },
                       })}
                     </Typography>
-                    <ZoomableImage src={url} alt={type} isNotLoaded={type !== FacematchSourceTypes.MerchantDatabase} />
+                    <ZoomableImage src={url} alt={type} />
                   </Grid>
                 ))}
               </Box>

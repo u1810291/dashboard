@@ -5,7 +5,6 @@ import { IStep, StepTypes } from 'models/Step.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { DuplicateSelfieCheck } from 'apps/checks/components/DuplicateSelfieCheck/DuplicateSelfieCheck';
-import { MediaStatusTypes } from 'apps/media';
 import { LivenessMedia } from '../LivenessMedia/LivenessMedia';
 import { useStyles } from './NewLivenessStep.styles';
 import { LivenessConslusion } from '../LivenessConslusion/LivenessConslusion';
@@ -33,24 +32,22 @@ export function NewLivenessStep({ duplicateFaceDetection, steps = [], downloadab
             {checkStatus !== LivenessStepStatus.FewData && steps.map((item, index) => (
               <React.Fragment key={item.id}>
                 {/* video */}
-                {item?.videoUrl !== MediaStatusTypes.MediaIsEmpty && (
-                  <Grid
-                    container
-                    item
-                    xs={12}
-                    xl={steps.length === 2 ? 4 : 6}
-                    key={index}
-                    className={classes.mediaItem}
-                  >
-                    <Grid item xs={12}>
-                      <LivenessMedia
-                        video={item.videoUrl}
-                        title={intl.formatMessage({ id: `LivenessStep.Checks.${item.id}.title` })}
-                        withSoundButton={item.id === StepTypes.Voice}
-                      />
-                    </Grid>
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  xl={steps.length === 2 ? 4 : 6}
+                  key={index}
+                  className={classes.mediaItem}
+                >
+                  <Grid item xs={12}>
+                    <LivenessMedia
+                      video={item.videoUrl}
+                      title={intl.formatMessage({ id: `LivenessStep.Checks.${item.id}.title` })}
+                      withSoundButton={item.id === StepTypes.Voice}
+                    />
                   </Grid>
-                )}
+                </Grid>
               </React.Fragment>
             ))}
             <Grid item xs={12} xl={steps.length === 2 ? 4 : 6} className={classes.mediaItem}>
@@ -59,7 +56,7 @@ export function NewLivenessStep({ duplicateFaceDetection, steps = [], downloadab
                 <LivenessMedia
                   image={steps[0].selfieUrl}
                   title={intl.formatMessage({ id: 'LivenessStep.Checks.selfie.title' })}
-                  subtitle={steps[0]?.videoUrl !== MediaStatusTypes.MediaIsEmpty && intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
+                  subtitle={steps[0]?.videoUrl && intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
                   downloadableFileName={downloadableFileName}
                 />
               )}

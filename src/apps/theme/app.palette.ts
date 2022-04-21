@@ -15,6 +15,8 @@ export enum appPalette {
   whiteblue = '#EDF2FD',
   white = '#ffffff',
   whiteopacity = 'rgba(255, 255, 255, 0.95)',
+  white10 = 'rgba(255, 255, 255, 0.1)',
+  white15 = 'rgba(255, 255, 255, 0.15)',
   black = '#000000',
   blackopacity = 'rgba(0, 0, 0, .15)',
   black7 = '#EDF0F5',
