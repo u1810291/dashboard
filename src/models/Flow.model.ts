@@ -125,6 +125,7 @@ export interface IFlow {
   amlWatchlistsFuzzinessThreshold?: number;
   customWatchlists?: IFlowWatchlist[];
   basicWatchlists?: BasicWatchlistIdType[];
+  watchlists?: IFlowWatchlist[];
   electronicSignature?: IESignatureFlow;
   financialInformationBankAccountsRetrieving?: {
     countryCodes: string[];
