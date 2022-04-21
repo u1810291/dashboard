@@ -4,9 +4,12 @@ import { TypographyOptions, Typography } from '@material-ui/core/styles/createTy
 declare module '@material-ui/core/styles/createPalette' {
   interface TypeText {
     main: string;
+    light: string;
   }
   interface TypeBackground {
     loader: string;
+    hover: string;
+    focus: string;
   }
   interface Foreground {
     main: string;

@@ -35,6 +35,7 @@ export interface Merchant {
   tags: MerchantTags[];
   settings: IMerchantSettings;
   onboardingSteps?: StepsOptions[];
+  passwordExpirationPolicy: PasswordExpirationPolicyDurationValue;
 }
 
 export enum MerchantTags {
@@ -64,6 +65,7 @@ export enum MerchantTags {
   CanUseIndonesianKTP = 'can-use-indonesian-ktp',
   CanUseArRenaperExtended = 'can-use-ar-renaper-extended-govcheck',
   CanUseNigerianBNV = 'can-use-nigerian-bvn',
+  CanUseV2Workflow = 'can-use-v2-workflow',
   CanUseNigerianCac = 'can-use-nigerian-cac',
   CanUseNigerianTin = 'can-use-nigerian-tin',
   CanUseNigerianDL = 'can-use-nigerian-dl',

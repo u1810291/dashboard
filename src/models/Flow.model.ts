@@ -1,4 +1,4 @@
-import { Logo } from 'apps/logo/models/Logo.model';
+import { LogoUrls } from 'apps/logo';
 import { get } from 'lodash';
 import { BiometricTypes } from 'models/Biometric.model';
 import { DocumentTypes } from 'models/Document.model';
@@ -110,7 +110,7 @@ export interface IFlow {
   ipValidation?: IpValidation;
   inputTypes?: { id?: string }[];
   inputValidationChecks?: InputValidationCheck[];
-  logo?: Logo;
+  logo?: LogoUrls;
   name?: string;
   policyInterval?: string;
   postponedTimeout?: string;

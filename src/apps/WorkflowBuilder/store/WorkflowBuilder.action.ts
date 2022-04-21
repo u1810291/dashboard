@@ -2,20 +2,21 @@ import { productManagerService, selectProductRegistered } from 'apps/Product';
 import { mergeDeep } from 'lib/object';
 import { cloneDeep } from 'lodash';
 import { ApiResponse } from 'models/Client.model';
-import { IFlow } from 'models/Flow.model';
 import { ProductTypes } from 'models/Product.model';
 import { merchantDeleteFlow, merchantUpdateFlow, merchantUpdateFlowList } from 'state/merchant/merchant.actions';
-import { selectCurrentFlow, selectMerchantId } from 'state/merchant/merchant.selectors';
 import { createTypesSequence } from 'state/store.utils';
 import { subscribeToWebhook } from 'state/webhooks/webhooks.actions';
 import { selectWebhook } from 'state/webhooks/webhooks.selectors';
-import * as api from '../api/flowBuilder.client';
-import { selectWorkflowBuilderChangeableFlow, selectWorkflowBuilderProductsInGraphModel, selectWorkflowBuilderSelectedId } from './WorkflowBuilder.selectors';
+import { IWorkflow, WorkflowId } from 'models/Workflow.model';
+import { selectCurrentFlowId, selectCurrentWorkflow } from 'pages/WorkflowList/state/workflow.selectors';
+import * as api from '../api/workflowBuilder.client';
 import { WorkFlowBuilderActionGroups } from './WorkflowBuilder.store';
+import { selectWorkflowBuilderChangeableFlow, selectWorkflowBuilderLoadedWorkflow, selectWorkflowBuilderProductsInGraphModel } from './WorkflowBuilder.selectors';
 
 export const types: any = {
   ...createTypesSequence(WorkFlowBuilderActionGroups.ProductsInGraph),
-  ...createTypesSequence(WorkFlowBuilderActionGroups.ChangeableFlow),
+  ...createTypesSequence(WorkFlowBuilderActionGroups.ChangeableWorkflow),
+  ...createTypesSequence(WorkFlowBuilderActionGroups.LoadedWorkflow),
   HAVE_UNSAVED_CHANGES_UPDATE: 'HAVE_UNSAVED_CHANGES_UPDATE',
   PRODUCT_SELECT: 'PRODUCT_SELECT',
 };
@@ -26,7 +27,8 @@ export const workflowBuilderProductSelect = (productId: ProductTypes) => (dispat
 
 export const workflowBuilderClearStore = () => (dispatch) => {
   dispatch({ type: types.PRODUCTS_IN_GRAPH_CLEAR, payload: [] });
-  dispatch({ type: types.CHANGEABLE_FLOW_CLEAR, payload: {} });
+  dispatch({ type: types.CHANGEABLE_WORKFLOW_CLEAR, payload: {} });
+  dispatch({ type: types.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
   dispatch({ type: types.PRODUCT_SELECT, payload: null });
 };
 
@@ -40,57 +42,65 @@ export const workflowBuilderProductListInit = (flow) => (dispatch, getState) => 
     return product.isInFlow(flow);
   });
   const sorted = productManagerService.sortProductTypes(activated);
-
   dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, payload: sorted });
 };
 
-export const workflowBuilderChangeableFlowLoad = () => (dispatch, getState) => {
-  const state = getState();
-  const flow = selectCurrentFlow(state);
-  if (!flow) {
-    return;
-  }
-  dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
+export const workflowBuilderLoadWorkflow = (payload: WorkflowId) => async (dispatch) => {
   try {
-    dispatch(workflowBuilderProductListInit(flow));
-    dispatch({ type: types.CHANGEABLE_FLOW_SUCCESS, payload: cloneDeep(flow) });
+    dispatch({ type: types.LOADED_WORKFLOW_REQUEST });
+    const { data: workflow } = await api.getWorkflow(payload);
+    dispatch({ type: types.LOADED_WORKFLOW_SUCCESS, payload: workflow });
   } catch (error) {
-    dispatch({ type: types.CHANGEABLE_FLOW_FAILURE, error });
+    dispatch({ type: types.LOADED_WORKFLOW_FAILURE, error });
     throw error;
   }
 };
 
-export const workflowBuilderChangeableFlowUpdate = (changes: Partial<IFlow>) => (dispatch, getState) => {
+export const workflowBuilderChangeableFlowLoad = () => (dispatch, getState) => {
+  const state = getState();
+  const { workflow } = selectWorkflowBuilderLoadedWorkflow(state);
+  if (!workflow) {
+    return;
+  }
+  dispatch({ type: types.CHANGEABLE_WORKFLOW_UPDATING });
+  try {
+    dispatch(workflowBuilderProductListInit(workflow));
+    dispatch({ type: types.CHANGEABLE_WORKFLOW_SUCCESS, payload: cloneDeep(workflow) });
+  } catch (error) {
+    dispatch({ type: types.CHANGEABLE_WORKFLOW_FAILURE, error });
+    throw error;
+  }
+};
+
+export const workflowBuilderChangeableFlowUpdate = (changes: Partial<IWorkflow>) => (dispatch, getState) => {
   const state = getState();
   const changeableFlow = selectWorkflowBuilderChangeableFlow(state);
-  // @ts-ignore
-  dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
+  dispatch({ type: types.CHANGEABLE_WORKFLOW_UPDATING });
   try {
     const updatedFlow = mergeDeep(changeableFlow, changes);
     dispatch({ type: types.HAVE_UNSAVED_CHANGES_UPDATE, payload: true });
-    // @ts-ignore
-    dispatch({ type: types.CHANGEABLE_FLOW_SUCCESS, payload: updatedFlow, isReset: true });
+    dispatch({ type: types.CHANGEABLE_WORKFLOW_SUCCESS, payload: updatedFlow, isReset: true });
   } catch (error) {
-    // @ts-ignore
-    dispatch({ type: types.CHANGEABLE_FLOW_FAILURE, error });
+    dispatch({ type: types.CHANGEABLE_WORKFLOW_FAILURE, error });
     throw error;
   }
 };
 
 export const workflowBuilderProductAdd = (productId: ProductTypes) => (dispatch, getState) => {
   const { value } = selectWorkflowBuilderProductsInGraphModel(getState());
+  const changeableFlow = selectWorkflowBuilderChangeableFlow(getState());
   if (value.includes(productId)) {
     return;
   }
   const payload = [...value, productId];
   dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, isReset: true, payload: productManagerService.sortProductTypes(payload) });
   dispatch(workflowBuilderProductSelect(productId));
-  dispatch(workflowBuilderChangeableFlowUpdate(productManagerService.getProduct(productId).onAdd()));
+  dispatch(workflowBuilderChangeableFlowUpdate(productManagerService.getProduct(productId).onAdd(changeableFlow)));
 };
 
 export const workflowBuilderProductRemove = (productId: ProductTypes) => (dispatch, getState) => {
   const { value } = selectWorkflowBuilderProductsInGraphModel(getState());
-  const selectedId = selectWorkflowBuilderSelectedId(getState());
+  const selectedId = selectCurrentFlowId(getState());
   const payload = value.filter((item) => item !== productId);
   dispatch({ type: types.PRODUCTS_IN_GRAPH_SUCCESS, isReset: true, payload });
   if (selectedId === productId) {
@@ -120,42 +130,39 @@ export const workflowBuilderSubscribeToTemporaryWebhook = (temporaryFlowId: stri
 export const workflowBuilderSaveAndPublish = () => async (dispatch, getState) => {
   const state = getState();
   const changeableFlow = await selectWorkflowBuilderChangeableFlow(state);
-  dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
+  dispatch({ type: types.CHANGEABLE_WORKFLOW_UPDATING });
   try {
-    const merchantId = selectMerchantId(state);
-    const { data }: ApiResponse<IFlow> = await api.flowUpdate(merchantId, changeableFlow.id, {
+    const { data }: ApiResponse<IWorkflow> = await api.flowUpdate(changeableFlow.id, {
       ...changeableFlow,
-      createdAt: undefined,
+      createdDate: undefined,
       id: undefined,
-      updatedAt: undefined,
-      pinnedCountries: undefined,
-      inputTypes: undefined,
+      updatedDate: undefined,
     });
 
     dispatch(merchantUpdateFlowList(changeableFlow.id, data));
-    dispatch({ type: types.CHANGEABLE_FLOW_SUCCESS, payload: data });
+    dispatch({ type: types.CHANGEABLE_WORKFLOW_SUCCESS, payload: data });
     dispatch({ type: types.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
   } catch (error) {
-    dispatch({ type: types.CHANGEABLE_FLOW_FAILURE, error });
+    dispatch({ type: types.CHANGEABLE_WORKFLOW_FAILURE, error });
     throw error;
   }
 };
 
 export const workflowBuilderDelete = () => async (dispatch, getState) => {
   const state = getState();
-  const flow = selectCurrentFlow(state);
+  const flow = selectCurrentWorkflow(state);
   await dispatch(merchantDeleteFlow(flow.id));
 };
 
-export const workflowBuilderSaveAndPublishSettings = (payload: Partial<IFlow>) => async (dispatch, getState) => {
+export const workflowBuilderSaveAndPublishSettings = (payload: Partial<IWorkflow>) => async (dispatch, getState) => {
   try {
     await dispatch(merchantUpdateFlow(payload));
-    dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
+    dispatch({ type: types.CHANGEABLE_WORKFLOW_UPDATING });
     const state = getState();
     const changeableFlow = await selectWorkflowBuilderChangeableFlow(state);
-    dispatch({ type: types.CHANGEABLE_FLOW_SUCCESS, payload: { ...changeableFlow, ...payload } });
+    dispatch({ type: types.CHANGEABLE_WORKFLOW_SUCCESS, payload: { ...changeableFlow, ...payload } });
   } catch (error) {
-    dispatch({ type: types.CHANGEABLE_FLOW_FAILURE, error });
+    dispatch({ type: types.CHANGEABLE_WORKFLOW_FAILURE, error });
     throw error;
   }
 };

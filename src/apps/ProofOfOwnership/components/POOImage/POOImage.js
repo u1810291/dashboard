@@ -15,7 +15,7 @@ export function POOImage({ step }) {
         <Grid item className={classes.image}>
           {image
             ? (
-              <ZoomableImage isNotLoaded src={image} />
+              <ZoomableImage src={image} />
             )
             : (
               <SkeletonLoader animation="wave" variant="rect" width="100%" height={150} />

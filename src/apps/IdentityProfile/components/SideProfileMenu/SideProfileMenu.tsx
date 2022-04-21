@@ -5,7 +5,7 @@ import { FiChevronDown } from 'react-icons/fi';
 import classNames from 'classnames';
 import { IdentityProfileResponse } from 'apps/IdentityProfile/models/IdentityProfile.model';
 import { ReactComponent as UserDeletedIcon } from 'assets/profile-pic-round.svg';
-import { PrivateImage } from 'apps/media';
+import { ImageContainer } from 'apps/media';
 import { ProfileInformation } from '../ProfileInformation/ProfileInformation';
 import { useStyles } from './SideProfileMenu.styles';
 
@@ -25,9 +25,7 @@ export function SideProfileMenu({ identity }: {
         <Box mb={2}>
           <Grid container alignItems="center" justifyContent="space-between">
             <RoundProfilePicture
-              image={identity?.summary?.selfiePhotoUrl?.value
-                ? <PrivateImage src={identity.summary.selfiePhotoUrl.value} alt="profile" />
-                : <UserDeletedIcon />}
+              image={identity?.summary?.selfiePhotoUrl?.value ? <ImageContainer src={identity.summary.selfiePhotoUrl.value} alt="profile" /> : <UserDeletedIcon />}
             />
             <IconButton onClick={handleToggleOpen} className={classNames(classes.button, { [classes.rotated]: isOpen })}>
               <FiChevronDown />
