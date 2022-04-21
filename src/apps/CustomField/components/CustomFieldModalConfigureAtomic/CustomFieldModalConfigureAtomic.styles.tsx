@@ -1,5 +1,4 @@
 import withStyles from '@material-ui/core/styles/withStyles';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import React from 'react';
@@ -30,16 +29,6 @@ export const TextFieldInput = withStyles({
     {...props}
   />
 ));
-
-export const SmallButton = withStyles({
-  root: {
-    maxHeight: 30,
-    minHeight: 'unset !important',
-    minWidth: 'unset !important',
-    width: 'max-content',
-    borderRadius: 5,
-  },
-})(Button);
 
 export const InfoIcon = withStyles((theme) => ({
   root: {

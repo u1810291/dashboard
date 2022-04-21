@@ -3,9 +3,12 @@ import { ProductTypes } from 'models/Product.model';
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import cloneDeep from 'lodash/cloneDeep';
 import * as api from 'lib/client/merchant';
+import { verificationCustomFieldUpdate } from 'apps/Verification';
+import { ICustomField, IMapping, ISelectOptions } from 'models/CustomField.model';
+import * as client from '../client/CustomField.client';
 import { CustomFieldService } from '../services/CustomField.service';
 import { types } from './CustomField.store';
-import { CustomField, CustomFieldModalTypes, EMPTY_CUSTOM_ATOMIC_FIELD, EMPTY_CUSTOM_GROUP_FIELD, EMPTY_CUSTOM_SELECT_FIELD, Mapping, SelectOptions } from '../models/CustomField.model';
+import { CustomFieldModalTypes, EMPTY_CUSTOM_ATOMIC_FIELD, EMPTY_CUSTOM_GROUP_FIELD, EMPTY_CUSTOM_SELECT_FIELD } from '../models/CustomField.model';
 
 export const CustomFieldInit = () => (_, getState): ProductTypes => {
   const customField = new CustomFieldService(selectMerchantTags(getState()));
@@ -21,15 +24,15 @@ export const updateCustomUploadingThumbnail = (data: boolean) => (dispatch) => {
   dispatch({ type: types.CUSTOM_FIELD_UPLOADING_THUMBNAIL_SUCCESS, payload: data, isReset: true });
 };
 
-export const updateCustomFieldEditedField = (data: CustomField) => (dispatch) => {
+export const updateCustomFieldEditedField = (data: ICustomField) => (dispatch) => {
   dispatch({ type: types.CUSTOM_FIELD_EDITED_FIELD_SUCCESS, payload: data, isReset: true });
 };
 
-export const updateCustomFieldEditedFieldMapping = (data: Mapping) => (dispatch) => {
+export const updateCustomFieldEditedFieldMapping = (data: IMapping) => (dispatch) => {
   dispatch({ type: types.CUSTOM_FIELD_EDITED_FIELD_MAPPING_SUCCESS, payload: data, isReset: true });
 };
 
-export const updateCustomFieldEditedFieldSelectOptions = (data: SelectOptions[]) => (dispatch) => {
+export const updateCustomFieldEditedFieldSelectOptions = (data: ISelectOptions[]) => (dispatch) => {
   dispatch({ type: types.CUSTOM_FIELD_EDITED_FIELD_SELECT_OPTIONS_SUCCESS, payload: data, isReset: true });
 };
 
@@ -49,11 +52,11 @@ export const setCustomFieldEditedParent = (data: string) => (dispatch) => {
   dispatch({ type: types.CUSTOM_FIELD_EDITED_PARENT_SUCCESS, payload: data, isReset: true });
 };
 
-export const setCustomFieldFlattenListFields = (data: CustomField[]) => (dispatch) => {
+export const setCustomFieldFlattenListFields = (data: ICustomField[]) => (dispatch) => {
   dispatch({ type: types.CUSTOM_FIELD_FLATTEN_LIST_FIELDS_SUCCESS, payload: data, isReset: true });
 };
 
-export const setCustomFieldListFields = (data: CustomField[]) => (dispatch) => {
+export const setCustomFieldListFields = (data: ICustomField[]) => (dispatch) => {
   dispatch({ type: types.CUSTOM_FIELD_LIST_FIELDS_SUCCESS, payload: data, isReset: true });
 };
 
@@ -75,7 +78,7 @@ export const setEmptyField = (modalType: CustomFieldModalTypes) => (dispatch) =>
   dispatch(setCustomFieldEditedSystemName(null));
 };
 
-export const prepareDataForModal = (modalType: CustomFieldModalTypes, editedField: CustomField = null) => (dispatch) => {
+export const prepareDataForModal = (modalType: CustomFieldModalTypes, editedField: ICustomField = null) => (dispatch) => {
   if (!editedField) {
     dispatch(setEmptyField(modalType));
   } else {
@@ -96,4 +99,9 @@ export const uploadCustomFieldGroupThumbnail = (form: FormData) => async (dispat
     dispatch(updateCustomUploadingThumbnail(false));
     throw error;
   }
+};
+
+export const customFieldStartUpdate = (verificationId: string, fields: ICustomField[], country: string) => async (dispatch) => {
+  const { data: { customFieldsDataCopy } } = await client.customFieldUpdate(verificationId, fields, country);
+  dispatch(verificationCustomFieldUpdate(customFieldsDataCopy));
 };

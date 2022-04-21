@@ -3,7 +3,8 @@ import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { DragDropContext, Droppable, DroppableProvided, DropResult, BeforeCapture } from 'react-beautiful-dnd';
 import cloneDeep from 'lodash/cloneDeep';
 import dayjs from 'dayjs';
-import { mutableFindChildren, HandleOpenModal, HandleUpdateFields, MAIN_DROPPABLE_ID, CustomField } from '../../models/CustomField.model';
+import { ICustomField } from 'models/CustomField.model';
+import { mutableFindChildren, HandleOpenModal, HandleUpdateFields, MAIN_DROPPABLE_ID } from '../../models/CustomField.model';
 import { selectCustomFieldListFields } from '../../state/CustomField.selectors';
 import { CustomFieldItemList } from '../CustomFieldItemList/CustomFieldItemList';
 import { useStyles } from './CustomFieldDragAndDrop.style';
@@ -13,7 +14,7 @@ export function CustomFieldDragAndDrop({ handleOpenModal, handleUpdateFields }: 
   handleOpenModal: HandleOpenModal;
 }) {
   const classes = useStyles();
-  const listFields = useSelector<any, CustomField[]>(selectCustomFieldListFields);
+  const listFields = useSelector<any, ICustomField[]>(selectCustomFieldListFields);
 
   const [draggable, setDraggable] = useState<string>(null);
   const [reinitialized, setReinitialized] = useState<string>(null);

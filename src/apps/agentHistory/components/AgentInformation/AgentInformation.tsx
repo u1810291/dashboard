@@ -66,7 +66,7 @@ export function AgentInformation({ collaborator }: {
       try {
         await changeRole({ id: user.id, newRole: values.role });
         await handleSubmit(handleSubmitForm)();
-      } catch (error) {
+      } catch (error: any) {
         reset(defaultValues);
         if (error) {
           notification.error(intl.formatMessage({

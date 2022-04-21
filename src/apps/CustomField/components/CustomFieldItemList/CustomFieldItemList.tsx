@@ -1,6 +1,7 @@
 import React from 'react';
+import { ICustomField } from 'models/CustomField.model';
 import { CustomFieldItem } from '../CustomFieldItem/CustomFieldItem';
-import { CustomField, HandleOpenModal, HandleUpdateFields, MAIN_DROPPABLE_ID } from '../../models/CustomField.model';
+import { HandleOpenModal, HandleUpdateFields, MAIN_DROPPABLE_ID } from '../../models/CustomField.model';
 
 export const CustomFieldItemList = ({
   handleUpdateFields,
@@ -10,7 +11,7 @@ export const CustomFieldItemList = ({
   parent = MAIN_DROPPABLE_ID,
   isSubList = false,
 }: {
-  fields: CustomField[];
+  fields: ICustomField[];
   handleUpdateFields: HandleUpdateFields;
   handleOpenModal: HandleOpenModal;
   parent?: string;

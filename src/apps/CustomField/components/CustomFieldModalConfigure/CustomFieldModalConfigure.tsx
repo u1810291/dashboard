@@ -8,9 +8,10 @@ import cloneDeep from 'lodash/cloneDeep';
 import { overlayClose } from 'apps/overlay';
 import { InfoTooltip } from 'apps/ui';
 import { useFormatMessage } from 'apps/intl';
+import { ICustomField, MainCustomFieldType } from 'models/CustomField.model';
 import { InfoIcon, TextFieldInput } from './CustomFieldModalConfigure.styles';
 import { updateCustomFieldEditedField } from '../../state/CustomField.actions';
-import { CUSTOM_FIELD_SELECTION_SECOND_OPTION_NAME, CUSTOM_FIELD_SELECTION_SECOND_OPTION_PREFIX, mutableFindChildren, HandleUpdateFields, MainCustomFieldType, prepareCustomField, CustomField, CustomFieldModalTypes, prepareEmptyGroupToSection, fieldIsValid, isValidFieldSystemName } from '../../models/CustomField.model';
+import { CUSTOM_FIELD_SELECTION_SECOND_OPTION_NAME, CUSTOM_FIELD_SELECTION_SECOND_OPTION_PREFIX, mutableFindChildren, HandleUpdateFields, prepareCustomField, CustomFieldModalTypes, prepareEmptyGroupToSection, fieldIsValid, isValidFieldSystemName, REGEXP_BANNED_SYMBOLS_IN_FIELD_SYSTEM_NAME, REPLACEMENT_SYMBOL } from '../../models/CustomField.model';
 import { CustomFieldModalFooter } from '../CustomFieldModalFooter/CustomFieldModalFooter';
 import { selectCustomFieldEditedCustomField, selectCustomFieldEditedIndex, selectCustomFieldEditedParent, selectCustomFieldEditedSystemName, selectCustomFieldFlattenListFields, selectCustomFieldListFields, selectCustomFieldModalType, selectCustomFieldUploadingThumbnail } from '../../state/CustomField.selectors';
 import { CustomFieldUploadButton } from '../CustomFieldUploadButton/CustomFieldUploadButton';
@@ -22,9 +23,9 @@ export function CustomFieldModalConfigure({ handleUpdateFields }: {
   const dispatch = useDispatch();
 
   const isUploadingThumbnail = useSelector<any, boolean>(selectCustomFieldUploadingThumbnail);
-  const selectedCustomField = useSelector<any, CustomField>(selectCustomFieldEditedCustomField);
-  const listFields = useSelector<any, CustomField[]>(selectCustomFieldListFields);
-  const listFlattenFields = useSelector<any, CustomField[]>(selectCustomFieldFlattenListFields);
+  const selectedCustomField = useSelector<any, ICustomField>(selectCustomFieldEditedCustomField);
+  const listFields = useSelector<any, ICustomField[]>(selectCustomFieldListFields);
+  const listFlattenFields = useSelector<any, ICustomField[]>(selectCustomFieldFlattenListFields);
   const editedParent = useSelector<any, string>(selectCustomFieldEditedParent);
   const editedIndex = useSelector<any, number>(selectCustomFieldEditedIndex);
   const type = useSelector<any, CustomFieldModalTypes>(selectCustomFieldModalType);
@@ -39,11 +40,8 @@ export function CustomFieldModalConfigure({ handleUpdateFields }: {
     dispatch(updateCustomFieldEditedField({ ...selectedCustomField, [name]: value }));
   };
 
-  const handleUpdateField = ({ target: { value, name } }) => {
-    dispatch(updateCustomFieldEditedField({
-      ...selectedCustomField,
-      [name]: value,
-    }));
+  const handleUpdateField = ({ target: { value } }) => {
+    dispatch(updateCustomFieldEditedField({ ...selectedCustomField, label: value, name: value.replace(REGEXP_BANNED_SYMBOLS_IN_FIELD_SYSTEM_NAME, REPLACEMENT_SYMBOL) }));
   };
 
   const handleChangeSelectionIsMandatory = () => {
@@ -97,29 +95,6 @@ export function CustomFieldModalConfigure({ handleUpdateFields }: {
         <Grid item container direction="column">
           <Grid item>
             <Typography variant="subtitle2">
-              {formatMessage(`CustomField.settings.${type.toLowerCase()}SystemName`)}
-              <InfoTooltip
-                placement="right"
-                title={formatMessage('CustomField.settings.systemName.tooltip')}
-              >
-                <InfoIcon />
-              </InfoTooltip>
-            </Typography>
-          </Grid>
-          <Grid item>
-            <TextFieldInput
-              fullWidth
-              value={selectedCustomField.name}
-              type="text"
-              name="name"
-              onChange={handleUpdateSystemName}
-              placeholder={formatMessage(`CustomField.settings.${type.toLowerCase()}SystemName.placeholder`)}
-            />
-          </Grid>
-        </Grid>
-        <Grid item container direction="column">
-          <Grid item>
-            <Typography variant="subtitle2">
               {formatMessage(`CustomField.settings.${type.toLowerCase()}DisplayName`)}
               <InfoTooltip
                 placement="right"
@@ -137,6 +112,29 @@ export function CustomFieldModalConfigure({ handleUpdateFields }: {
               name="label"
               onChange={handleUpdateField}
               placeholder={formatMessage(`CustomField.settings.${type.toLowerCase()}DisplayName.placeholder`)}
+            />
+          </Grid>
+        </Grid>
+        <Grid item container direction="column">
+          <Grid item>
+            <Typography variant="subtitle2">
+              {formatMessage(`CustomField.settings.${type.toLowerCase()}SystemName`)}
+              <InfoTooltip
+                placement="right"
+                title={formatMessage('CustomField.settings.systemName.tooltip')}
+              >
+                <InfoIcon />
+              </InfoTooltip>
+            </Typography>
+          </Grid>
+          <Grid item>
+            <TextFieldInput
+              fullWidth
+              value={selectedCustomField.name}
+              type="text"
+              name="name"
+              onChange={handleUpdateSystemName}
+              placeholder={formatMessage(`CustomField.settings.${type.toLowerCase()}SystemName.placeholder`)}
             />
           </Grid>
         </Grid>

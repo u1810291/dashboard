@@ -2,12 +2,12 @@ import Box from '@material-ui/core/Box';
 import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
 import React, { useMemo } from 'react';
-import { CustomField, formatedValue } from '../../models/CustomField.model';
+import { ICustomField, formatedValue } from 'models/CustomField.model';
 import { CustomFieldVerificationAtomicList } from '../CustomFieldVerificationList/CustomFieldVerificationList';
 import { useStyles } from './CustomFieldVerificationInfo.styles';
 
 export function CustomFieldVerificationInfo({ field, value }: {
-  field: CustomField;
+  field: ICustomField;
   value: string;
 }) {
   const classes = useStyles();
@@ -23,14 +23,15 @@ export function CustomFieldVerificationInfo({ field, value }: {
   );
 }
 
-export function CustomFieldVerificationSectionInfo({ selection }: {
-  selection: CustomField;
+export function CustomFieldVerificationSectionInfo({ selection, country }: {
+  selection: ICustomField;
+  country: string;
 }) {
-  const selectedGroup = useMemo<CustomField>(() => selection?.children?.find((option: CustomField) => option.name === selection.selectedGroup), [selection?.children, selection.selectedGroup]);
+  const selectedGroup = useMemo<ICustomField>(() => selection?.children?.find((option: ICustomField) => option.name === selection.selectedGroup), [selection?.children, selection.selectedGroup]);
   return (
     <>
       <CustomFieldVerificationInfo field={selection} value={selectedGroup?.label} />
-      {selectedGroup && (<CustomFieldVerificationAtomicList fields={selectedGroup?.children} itemContainer={CustomFieldVerificationInfo} />)}
+      {selectedGroup && <CustomFieldVerificationAtomicList country={country} fields={selectedGroup?.children} itemContainer={CustomFieldVerificationInfo} />}
     </>
   );
 }

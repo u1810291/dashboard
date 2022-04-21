@@ -10,13 +10,14 @@ import { FiEdit, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { DateFormat } from 'lib/date';
 import { notification } from 'apps/ui';
+import { IWatchlist } from 'models/Watchlist.model';
 import { CustomWatchlistModalValidation } from '../CustomWatchlistModalValidation/CustomWatchlistModalValidation';
 import { SeverityOnMatchSelect } from '../SeverityOnMatchSelect/SeverityOnMatchSelect';
-import { deleteCustomWatchlistById, customWatchlistCreate, customWatchlistUpdateById, updateMerchantWatchlistContent, setCurrentWatchlist, clearWatchlist } from '../../state/CustomWatchlist.actions';
+import { deleteCustomWatchlistById, setCurrentWatchlist, clearWatchlist, customWatchlistsFlowSubmit } from '../../state/CustomWatchlist.actions';
 import { selectCurrentCustomWatchlistIsLoading, selectIsWatchlistsFailed, selectIsWatchlistsLoaded } from '../../state/CustomWatchlist.selectors';
 import { useStyles } from './CustomWatchlistItemSettings.styles';
 import { CustomWatchlistsLoading } from '../CustomWatchlistsLoading/CustomWatchlistsLoading';
-import { CustomWatchlistModalValidationInputs, CustomWatchlistModalValidationInputTypes, FlowWatchlistUi } from '../../models/CustomWatchlist.models';
+import { CustomWatchlistModalValidationInputTypes, FlowWatchlistUi } from '../../models/CustomWatchlist.model';
 
 export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   watchlists: FlowWatchlistUi[];
@@ -38,30 +39,16 @@ export function CustomWatchlistItemSettings({ watchlists, onUpdate }: {
   }, [dispatch, closeOverlay]);
 
   const handleSubmitWatchlist = useCallback(async (values: CustomWatchlistModalValidationInputTypes, watchlist?: Partial<FlowWatchlistUi>) => {
-    const watchlistRequestData = {
-      [CustomWatchlistModalValidationInputs.Name]: values.name,
-      [CustomWatchlistModalValidationInputs.Mapping]: values.mapping,
-    };
-    const watchlistContentValues = {
-      [CustomWatchlistModalValidationInputs.FileKey]: values[CustomWatchlistModalValidationInputs.FileKey],
-      [CustomWatchlistModalValidationInputs.FileName]: values[CustomWatchlistModalValidationInputs.FileName],
-      [CustomWatchlistModalValidationInputs.CsvSeparator]: values[CustomWatchlistModalValidationInputs.CsvSeparator],
+    const handleWatchlistCallback = (watchlistData: Partial<IWatchlist>) => {
+      if (watchlist?.id) {
+        notification.info(formatMessage('Watchlist.settings.watchlist.updated', { messageValues: { name: watchlist.name } }));
+        return;
+      }
+
+      notification.info(formatMessage('Watchlist.settings.watchlist.created', { messageValues: { name: watchlistData.name } }));
     };
 
-    // edit flow
-    if (watchlist?.id) {
-      await dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData));
-      await dispatch(updateMerchantWatchlistContent(merchantId, watchlist.id, watchlistContentValues));
-      notification.info(formatMessage('CustomWatchlist.settings.watchlist.updated', { messageValues: { name: watchlist.name } }));
-      return;
-    }
-
-    // create flow
-    dispatch(customWatchlistCreate(merchantId, watchlistRequestData, async (watchlistData) => {
-      dispatch(setCurrentWatchlist(watchlistData.id));
-      notification.info(formatMessage('CustomWatchlist.settings.watchlist.created', { messageValues: { name: watchlistData.name } }));
-      await dispatch(updateMerchantWatchlistContent(merchantId, watchlistData.id, watchlistContentValues));
-    }));
+    dispatch(customWatchlistsFlowSubmit(merchantId, values, handleWatchlistCallback, watchlist));
   }, [merchantId, formatMessage, dispatch]);
 
   const handleOpenWatchlist = useCallback((watchlist?: FlowWatchlistUi) => () => {

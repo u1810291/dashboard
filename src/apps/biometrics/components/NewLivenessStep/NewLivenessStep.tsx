@@ -1,14 +1,17 @@
 import { Box, Grid } from '@material-ui/core';
-import { BiometricStep, getBiometricCheckStatus, LivenessStepStatus } from 'models/Biometric.model';
+import { BiometricStep, getBiometricCheckStatus, IDuplicateSelfieStepData, LivenessStepStatus } from 'models/Biometric.model';
 import { CheckResultLogo } from 'apps/ui';
-import { StepTypes } from 'models/Step.model';
+import { IStep, StepTypes } from 'models/Step.model';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { DuplicateSelfieCheck } from 'apps/checks/components/DuplicateSelfieCheck/DuplicateSelfieCheck';
+import { MediaStatusTypes } from 'apps/media';
 import { LivenessMedia } from '../LivenessMedia/LivenessMedia';
 import { useStyles } from './NewLivenessStep.styles';
 import { LivenessConslusion } from '../LivenessConslusion/LivenessConslusion';
 
-export function NewLivenessStep({ steps = [], downloadableFileName }: {
+export function NewLivenessStep({ duplicateFaceDetection, steps = [], downloadableFileName }: {
+  duplicateFaceDetection: IStep<IDuplicateSelfieStepData>;
   steps: BiometricStep[];
   downloadableFileName: string;
 }) {
@@ -30,7 +33,7 @@ export function NewLivenessStep({ steps = [], downloadableFileName }: {
             {checkStatus !== LivenessStepStatus.FewData && steps.map((item, index) => (
               <React.Fragment key={item.id}>
                 {/* video */}
-                {item?.videoUrl && (
+                {item?.videoUrl !== MediaStatusTypes.MediaIsEmpty && (
                   <Grid
                     container
                     item
@@ -56,7 +59,7 @@ export function NewLivenessStep({ steps = [], downloadableFileName }: {
                 <LivenessMedia
                   image={steps[0].selfieUrl}
                   title={intl.formatMessage({ id: 'LivenessStep.Checks.selfie.title' })}
-                  subtitle={steps[0]?.videoUrl && intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
+                  subtitle={steps[0]?.videoUrl !== MediaStatusTypes.MediaIsEmpty && intl.formatMessage({ id: 'LivenessStep.Checks.selfieExtracted.title' })}
                   downloadableFileName={downloadableFileName}
                 />
               )}
@@ -65,6 +68,7 @@ export function NewLivenessStep({ steps = [], downloadableFileName }: {
         )}
         <LivenessConslusion steps={steps}>
           <CheckResultLogo status={checkStatus} type="biometric" />
+          {duplicateFaceDetection && <DuplicateSelfieCheck stepData={duplicateFaceDetection} />}
         </LivenessConslusion>
       </Grid>
     </Box>

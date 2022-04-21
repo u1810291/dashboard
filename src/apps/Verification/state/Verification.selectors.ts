@@ -2,16 +2,18 @@ import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { Loadable } from 'models/Loadable.model';
 import { ProductTypes } from 'models/Product.model';
 import { DocumentStepTypes, getStepExtra, IStep } from 'models/Step.model';
+import { IVerificationWorkflow } from 'models/Verification.model';
 import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFlow, VerificationListItem, VerificationWithExtras, VerificationResponse } from 'models/VerificationOld.model';
 import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
 import { ErrorType } from 'models/Error.model';
 import { CreditCheckStep, DataForCreditCheck } from 'models/CreditCheck.model';
+import { isChangeableStatus } from 'models/Status.model';
 import { VERIFICATION_STORE_KEY, VerificationSliceTypes, VerificationStore } from './Verification.store';
 
 export const verificationStore = (state): VerificationStore => state[VERIFICATION_STORE_KEY];
 
-export const selectVerificationModel = createSelector(
+export const selectVerificationModel = createSelector<any, any, Loadable<IVerificationWorkflow>>(
   verificationStore,
   (store) => store[VerificationSliceTypes.Verification],
 );
@@ -85,6 +87,11 @@ export const selectCreditDocumentStep = createSelector(
 export const selectVerificationId = createSelector(
   selectVerification,
   (verification): string => (verification?._id || verification?.id),
+);
+
+export const selectVerificationIsEditable = createSelector<any, VerificationResponse | null, boolean>(
+  selectVerification,
+  (verification) => isChangeableStatus(verification?.verificationStatus),
 );
 
 export const selectDataForCreditCheck = createSelector(

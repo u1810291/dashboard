@@ -1,6 +1,6 @@
 import { StyleSheet } from '@react-pdf/renderer';
-import { rem, colors, pageGutter } from 'apps/pdf/PDF.theme.common';
-import { fontFamilyLato, fontSize, fontWeight } from 'apps/pdf/PDF.theme.fonts';
+import { rem, colors, pageGutter } from './PDF.theme.common';
+import { fontFamilyLato, fontSize, fontWeight } from './PDF.theme.fonts';
 
 export const commonStyles = StyleSheet.create({
   // common blocks
@@ -39,6 +39,9 @@ export const commonStyles = StyleSheet.create({
   },
   mb15: {
     marginBottom: 1.5 * rem,
+  },
+  mb20: {
+    marginBottom: 2 * rem,
   },
   pb0: {
     paddingBottom: 0,

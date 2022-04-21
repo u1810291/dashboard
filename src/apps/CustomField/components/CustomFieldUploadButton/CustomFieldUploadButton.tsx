@@ -8,10 +8,11 @@ import { FiTrash2 } from 'react-icons/fi';
 import compressImage from 'lib/compressImage';
 import { useFormatMessage } from 'apps/intl';
 import { PageLoader } from 'apps/layout';
+import { ICustomField } from 'models/CustomField.model';
 import { AddCircledIcon, useStyles } from './CustomFieldUploadButton.style';
 import { updateCustomFieldEditedFieldThumbnail, uploadCustomFieldGroupThumbnail } from '../../state/CustomField.actions';
 import { selectCustomFieldEditedCustomField, selectCustomFieldModalType, selectCustomFieldUploadingThumbnail } from '../../state/CustomField.selectors';
-import { CustomField, CustomFieldModalTypes, MAX_THUMBNAIL_SIZE } from '../../models/CustomField.model';
+import { CustomFieldModalTypes, MAX_THUMBNAIL_SIZE } from '../../models/CustomField.model';
 
 export function CustomFieldUploadButton() {
   const formatMessage = useFormatMessage();
@@ -20,7 +21,7 @@ export function CustomFieldUploadButton() {
 
   const type = useSelector<any, CustomFieldModalTypes>(selectCustomFieldModalType);
   const isUploadingThumbnail = useSelector<any, boolean>(selectCustomFieldUploadingThumbnail);
-  const selectedCustomField = useSelector<any, CustomField>(selectCustomFieldEditedCustomField);
+  const selectedCustomField = useSelector<any, ICustomField>(selectCustomFieldEditedCustomField);
 
   const onDropAccepted = useCallback(async (files) => {
     const file = files[0];

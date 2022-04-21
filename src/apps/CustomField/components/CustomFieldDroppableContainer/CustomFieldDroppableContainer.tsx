@@ -2,8 +2,9 @@ import { useSelector } from 'react-redux';
 import { Droppable, DroppableProvided } from 'react-beautiful-dnd';
 import React, { ReactNode } from 'react';
 import classnames from 'classnames';
+import { ICustomField } from 'models/CustomField.model';
 import { selectCustomFieldFlattenListFields } from '../../state/CustomField.selectors';
-import { checkIsDropDisabled, CustomField } from '../../models/CustomField.model';
+import { checkIsDropDisabled } from '../../models/CustomField.model';
 import { useStyles } from './CustomFieldDroppableContainer.style';
 
 export const CustomFieldDroppableContainer = ({
@@ -19,7 +20,7 @@ export const CustomFieldDroppableContainer = ({
   id: string;
   isSubList?: boolean;
 }) => {
-  const flattenListFields = useSelector<any, CustomField[]>(selectCustomFieldFlattenListFields);
+  const flattenListFields = useSelector<any, ICustomField[]>(selectCustomFieldFlattenListFields);
   const classes = useStyles({ isDropDisabled });
   return (
     <Droppable

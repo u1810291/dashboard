@@ -1,14 +1,14 @@
-import { identityProfileClear, identityProfileLoad } from 'apps/IdentityProfile/store/IdentityProfile.actions';
-import { verificationListClear } from 'apps/Verification/state/Verification.actions';
-import { VerificationContainerOld } from 'apps/VerificationOld';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, useParams } from 'react-router-dom';
 import { Box, Grid } from '@material-ui/core';
 import { Page404, PageError, PageLoader } from 'apps/layout';
-import { SideProfileMenu, IdentityProfileHeaderMenu, IdentityProfileErrorTypes, selectIdentityProfileModel } from 'apps/IdentityProfile';
 import { goToStartPage, useQuery } from 'lib/url';
 import { Routes } from 'models/Router.model';
+import { VerificationContainerOld, verificationListClear } from 'apps/VerificationOld';
+import { SideProfileMenu, IdentityProfileHeaderMenu, IdentityProfileErrorTypes } from 'apps/IdentityProfile';
+import { identityProfileClear, identityProfileLoad } from '../../store/IdentityProfileOld.actions';
+import { selectIdentityProfileModel } from '../../store/IdentityProfileOld.selectors';
 import { useStyles } from './IdentityProfileOld.styles';
 
 export function IdentityProfileOld() {

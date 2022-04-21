@@ -10,23 +10,25 @@ import { useCountriesLoad } from 'apps/countries';
 import { PageLoader } from 'apps/layout';
 import { useFormatMessage } from 'apps/intl';
 import { Country } from 'models/Country.model';
+import { ICustomField, IMapping } from 'models/CustomField.model';
 import { CustomFieldModalFooter } from '../CustomFieldModalFooter/CustomFieldModalFooter';
-import { updateCustomFieldEditedFieldMapping, updateCustomFieldModalStep } from '../../state/CustomField.actions';
-import { CustomField, CustomFieldModalTypes, EMPTY_MAPPING, getNotSelectedMapping, Mapping, MappingValueKey } from '../../models/CustomField.model';
+import { updateCustomFieldEditedField, updateCustomFieldEditedFieldMapping, updateCustomFieldModalStep } from '../../state/CustomField.actions';
+import { CONFIG_BY_KEY, CustomFieldModalTypes, EMPTY_MAPPING, getNotSelectedMapping, MappingValueKey } from '../../models/CustomField.model';
 import { SelectUI } from './CustomFieldModalMapping.styles';
-import { selectCustomFieldCountriesForMapping, selectCustomFieldFlattenListFields, selectCustomFieldSelectedCustomFieldMapping } from '../../state/CustomField.selectors';
+import { selectCustomFieldCountriesForMapping, selectCustomFieldEditedCustomField, selectCustomFieldFlattenListFields, selectCustomFieldSelectedCustomFieldMapping } from '../../state/CustomField.selectors';
 
 export function CustomFieldModalMapping() {
   const formatMessage = useFormatMessage();
   const dispatch = useDispatch();
   const allCountriesModel = useCountriesLoad();
 
-  const selectedFieldMapping = useSelector<any, Mapping>(selectCustomFieldSelectedCustomFieldMapping);
+  const selectedFieldMapping = useSelector<any, IMapping>(selectCustomFieldSelectedCustomFieldMapping);
+  const selectedCustomField = useSelector<any, ICustomField>(selectCustomFieldEditedCustomField);
   const countriesList = useSelector<any, Country[]>(selectCustomFieldCountriesForMapping);
-  const listFlattenFields = useSelector<any, CustomField[]>(selectCustomFieldFlattenListFields);
+  const listFlattenFields = useSelector<any, ICustomField[]>(selectCustomFieldFlattenListFields);
 
-  const [mapping, setMapping] = useState<Mapping>(selectedFieldMapping || EMPTY_MAPPING);
-  const [oldMapping] = useState<Mapping>(selectedFieldMapping || EMPTY_MAPPING);
+  const [mapping, setMapping] = useState<IMapping>(selectedFieldMapping || EMPTY_MAPPING);
+  const [oldMapping] = useState<IMapping>(selectedFieldMapping || EMPTY_MAPPING);
 
   const isValid: boolean = Boolean(!mapping?.country && !mapping?.key) || Boolean(mapping?.country && mapping?.key);
   const documentOptionsList = useMemo<MappingValueKey[]>(() => getNotSelectedMapping(listFlattenFields, mapping, oldMapping), [oldMapping, listFlattenFields, mapping]);
@@ -57,9 +59,14 @@ export function CustomFieldModalMapping() {
   };
 
   const handleDone = useCallback(() => {
+    if (CONFIG_BY_KEY[mapping?.key]?.type || CONFIG_BY_KEY[mapping?.key]?.regex) {
+      const clone = cloneDeep(selectedCustomField);
+      clone.atomicFieldParams = { ...clone.atomicFieldParams, ...CONFIG_BY_KEY[mapping.key] };
+      dispatch(updateCustomFieldEditedField(clone));
+    }
     dispatch(updateCustomFieldEditedFieldMapping(mapping));
     dispatch(updateCustomFieldModalStep(CustomFieldModalTypes.ConfigureField));
-  }, [dispatch, mapping]);
+  }, [dispatch, mapping, selectedCustomField]);
 
   const backToConfigureField = useCallback(() => dispatch(updateCustomFieldModalStep(CustomFieldModalTypes.ConfigureField)),
     [dispatch]);

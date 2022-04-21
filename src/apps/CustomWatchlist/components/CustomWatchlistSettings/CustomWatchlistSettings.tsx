@@ -9,7 +9,7 @@ import { selectMerchantId } from 'state/merchant/merchant.selectors';
 import { CustomWatchlistItemSettings } from 'apps/CustomWatchlist/components/CustomWatchlistItemSettings/CustomWatchlistItemSettings';
 import { selectWatchlists } from '../../state/CustomWatchlist.selectors';
 import { customWatchlistsClear, customWatchlistsLoad } from '../../state/CustomWatchlist.actions';
-import { CustomWatchlistSettingsTypes, FlowWatchlistUi } from '../../models/CustomWatchlist.models';
+import { CustomWatchlistSettingsTypes, FlowWatchlistUi } from '../../models/CustomWatchlist.model';
 
 export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsProps<CustomWatchlistSettingsTypes>) {
   const formatMessage = useFormatMessage();
@@ -19,7 +19,7 @@ export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsP
 
   const handleUpdateItem = useCallback((watchlist: IFlowWatchlist) => {
     const newSettings = cloneDeep(settings);
-    const settingsWatchlists: IFlowWatchlist[] = newSettings[CustomWatchlistSettingsTypes.Watchlists].value;
+    const settingsWatchlists: IFlowWatchlist[] = newSettings[CustomWatchlistSettingsTypes.CustomWatchlists].value;
     const settingsWatchlistIndex = settingsWatchlists.findIndex((item) => item.id === watchlist.id);
 
     if (settingsWatchlistIndex >= 0) {
@@ -28,12 +28,12 @@ export function CustomWatchlistSettings({ settings, onUpdate }: ProductSettingsP
       settingsWatchlists.push(watchlist);
     }
 
-    newSettings[CustomWatchlistSettingsTypes.Watchlists].value = settingsWatchlists.filter((settingsWatchlist) => settingsWatchlist.severityOnMatch !== CustomWatchlistSeverityOnMatchTypes.NoAction);
+    newSettings[CustomWatchlistSettingsTypes.CustomWatchlists].value = settingsWatchlists.filter((settingsWatchlist) => settingsWatchlist.severityOnMatch !== CustomWatchlistSeverityOnMatchTypes.NoAction);
     onUpdate(newSettings);
   }, [settings, onUpdate]);
 
   const flowAndCustomWatchlistsMerged: FlowWatchlistUi[] = useMemo(() => {
-    const flowWatchlists: IFlowWatchlist[] = settings[CustomWatchlistSettingsTypes.Watchlists].value;
+    const flowWatchlists: IFlowWatchlist[] = settings[CustomWatchlistSettingsTypes.CustomWatchlists].value;
     return watchlists.map((watchlist) => {
       const findedWatchlist = flowWatchlists.find((flowWatchlist) => flowWatchlist.id === watchlist.id);
       return {
