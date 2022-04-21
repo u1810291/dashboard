@@ -73,6 +73,7 @@
     "start:devel20": "env-cmd -f .env.devel20 react-scripts start",
     "start:devel21": "env-cmd -f .env.devel21 react-scripts start",
     "start:devel22": "env-cmd -f .env.devel22 react-scripts start",
+    "start:devel33": "env-cmd -f .env.devel33 react-scripts start",
     "start:devel34": "env-cmd -f .env.devel34 react-scripts start",
     "start:production": "env-cmd -f .env.production react-scripts start",
     "start:staging": "env-cmd -f .env.staging react-scripts start",
