@@ -16,6 +16,12 @@ export function BiometricVerificationSettings({ settings, onUpdate }: ProductSet
     onUpdate(newSettings);
   }, [settings, onUpdate]);
 
+  const handlePatternsChange = useCallback(() => {
+    const newSettings = cloneDeep(settings);
+    newSettings[BiometricVerificationSettingsTypes.DuplicateFaceDetection].value = !settings[BiometricVerificationSettingsTypes.DuplicateFaceDetection].value;
+    onUpdate(newSettings);
+  }, [onUpdate, settings]);
+
   return (
     <Box>
       <ExtendedDescription
@@ -23,9 +29,11 @@ export function BiometricVerificationSettings({ settings, onUpdate }: ProductSet
         text={intl.formatMessage({ id: 'ReVerification.settings.biometrics.description' })}
       >
         <BiometricConfiguration
+          duplicateFaceDetection={settings[BiometricVerificationSettingsTypes.DuplicateFaceDetection].value}
           biometrics={settings[BiometricVerificationSettingsTypes.Biometrics].value}
           proofOfOwnership={settings[BiometricVerificationSettingsTypes.Biometrics].isCantBeUsedWithOtherSetting}
           onUpdate={handleBiometricsChanges}
+          onPatternsChange={handlePatternsChange}
         />
       </ExtendedDescription>
     </Box>

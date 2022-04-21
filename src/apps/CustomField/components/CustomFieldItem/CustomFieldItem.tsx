@@ -1,7 +1,8 @@
 import React from 'react';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import classnames from 'classnames';
-import { CustomField, HandleOpenModal, HandleUpdateFields, INPUT_TYPE_WITH_DROPPABLE } from '../../models/CustomField.model';
+import { ICustomField } from 'models/CustomField.model';
+import { HandleOpenModal, HandleUpdateFields, INPUT_TYPE_WITH_DROPPABLE } from '../../models/CustomField.model';
 import { CustomFieldDroppableContainer } from '../CustomFieldDroppableContainer/CustomFieldDroppableContainer';
 import { CustomFieldSubList } from '../CustomFieldSubList/CustomFieldSubList';
 import { CustomFieldHeader } from '../CustomFieldHeader/CustomFieldHeader';
@@ -16,7 +17,7 @@ export function CustomFieldItem({
   parent,
   isSubList = false,
 }: {
-  field: CustomField;
+  field: ICustomField;
   handleUpdateFields: HandleUpdateFields;
   handleOpenModal: HandleOpenModal;
   draggable: string;

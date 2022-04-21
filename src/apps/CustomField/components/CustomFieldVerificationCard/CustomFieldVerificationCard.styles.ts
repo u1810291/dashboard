@@ -21,9 +21,6 @@ export const useStyles = makeStyles((theme) => ({
       margin: [['auto', 0, -20, -15]],
     },
   },
-  buttonSave: {
-    width: 165,
-  },
   button: {
     fontSize: 14,
     color: theme.palette.button.document.contrastText,

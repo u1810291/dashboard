@@ -3,7 +3,9 @@ import { Loader } from 'apps/ui';
 import { Routes } from 'models/Router.model';
 import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { WithAgent } from 'models/Collaborator.model';
+import { selectMerchantAgentNotesConfig } from 'state/merchant/merchant.selectors';
 import { RoleGuardRoute } from 'apps/routing';
 
 const DashboardLazy = lazy(async () => {
@@ -22,11 +24,15 @@ const ReviewModeLazy = lazy(async () => {
 });
 
 export function AppRouter() {
+  const agentNotesConfig = useSelector(selectMerchantAgentNotesConfig);
+
   return (
     <Suspense fallback={<Loader />}>
       <Switch>
         <Route path={Routes.auth.root} component={AuthLazy} />
-        <RoleGuardRoute roles={WithAgent} path={Routes.review.root} component={ReviewModeLazy} />
+        {!agentNotesConfig?.requiredOnChangeVerificationStatus && (
+          <RoleGuardRoute roles={WithAgent} path={Routes.review.root} component={ReviewModeLazy} />
+        )}
         <PrivateRoute path={Routes.root} component={DashboardLazy} />
       </Switch>
     </Suspense>

@@ -4,7 +4,7 @@ import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, P
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiDollarSign } from 'react-icons/fi';
-import { getStepStatus, StepStatus } from 'models/Step.model';
+import { getStepStatus, StepStatus, VerificationStepTypes } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { AmlSettings } from '../components/AmlSettings/AmlSettings';
 import { AmlVerificationProduct } from '../components/AmlVerificationProduct/AmlVerificationProduct';
@@ -53,6 +53,9 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
       [AmlSettingsTypes.AmlThreshold]: {
         value: flow?.amlWatchlistsFuzzinessThreshold ?? 50,
       },
+      [AmlSettingsTypes.BasicWatchlists]: {
+        value: flow?.basicWatchlists,
+      },
     };
   }
 
@@ -70,6 +73,7 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
         [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]: pattern,
       },
       amlWatchlistsFuzzinessThreshold: settings[AmlSettingsTypes.AmlThreshold].value,
+      [AmlSettingsTypes.BasicWatchlists]: settings[AmlSettingsTypes.BasicWatchlists].value,
     };
   }
 
@@ -77,6 +81,7 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]: AmlValidationTypes.Search,
+        [VerificationPatternTypes.BasicWatchlistsValidation]: true,
       },
     };
   }
@@ -85,6 +90,7 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]: AmlValidationTypes.None,
+        [VerificationPatternTypes.BasicWatchlistsValidation]: false,
       },
     };
   }
@@ -94,10 +100,17 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
   }
 
   hasFailedCheck(verification: VerificationResponse): boolean {
-    return verification?.documents?.some((document) => document?.steps?.filter((step) => AmlDocumentSteps.includes(step?.id)).map((step) => getStepStatus(step)).includes(StepStatus.Failure));
+    const isAmlFailed = verification?.documents?.some((document) => document?.steps?.filter((step) => AmlDocumentSteps.includes(step?.id)).map((step) => getStepStatus(step)).includes(StepStatus.Failure));
+    const isBasicWatchlistsFailed = verification.steps?.filter((step) => step.id === VerificationPatternTypes.BasicWatchlistsValidation).map((step) => getStepStatus(step)).includes(StepStatus.Failure);
+
+    return isAmlFailed || isBasicWatchlistsFailed;
   }
 
-  getVerification(verification: VerificationResponse): any {
-    return verification?.documents;
+  getVerification(verification: VerificationResponse): VerificationResponse {
+    return verification;
+  }
+
+  isInVerification(verification: VerificationResponse): boolean {
+    return !!verification.steps.find((dataStep) => dataStep.id === VerificationStepTypes.BasicWatchlistsValidation) || !!verification?.documents;
   }
 }

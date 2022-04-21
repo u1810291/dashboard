@@ -1,21 +1,24 @@
-import { Box, Switch, Typography } from '@material-ui/core';
-import { BoxBordered, ExtendedDescription } from 'apps/ui';
+import Box from '@material-ui/core/Box';
+import Switch from '@material-ui/core/Switch';
+import Typography from '@material-ui/core/Typography';
+import { ExtendedDescription, RangeSlider } from 'apps/ui';
 import { cloneDeep } from 'lodash';
 import { useDebounce } from 'lib/debounce.hook';
 import { ProductSettingsProps } from 'models/Product.model';
+import { useFormatMessage } from 'apps/intl';
 import React, { useCallback, useEffect, useState } from 'react';
-import { RangeSlider } from 'apps/ui/components/RangeSlider/RangeSlider';
-import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 import { AmlCheckTypes, AmlSettingsTypes } from '../../models/Aml.model';
-import { useStyles } from './AmsSettings.styles';
+import { selectCanUseBasicWatchlists } from '../../state/Aml.selectors';
+import { BasicWatchlist } from '../BasicWatchlist/BasicWatchlist';
 
 export function AmlSettings({ settings, onUpdate }: ProductSettingsProps<AmlSettingsTypes>) {
-  const intl = useIntl();
-  const classes = useStyles();
   const debounced = useDebounce();
+  const canUseBasicWatchlists = useSelector(selectCanUseBasicWatchlists);
   const [search, setSearch] = useState<boolean>(settings[AmlSettingsTypes.Search].value);
   const [monitoring, setMonitoring] = useState<boolean>(settings[AmlSettingsTypes.Monitoring].value);
   const [amlThreshold, setAmlThreshold] = useState<number>(settings[AmlSettingsTypes.AmlThreshold].value);
+  const formatMessage = useFormatMessage();
 
   useEffect(() => {
     setSearch(settings[AmlSettingsTypes.Search].value);
@@ -43,41 +46,29 @@ export function AmlSettings({ settings, onUpdate }: ProductSettingsProps<AmlSett
     onUpdate(newSettings);
   }, [onUpdate, settings]);
 
-  const handleSliderChange = useCallback(
-    (event: React.ChangeEvent<{}>, value: number | number[]) => {
-      const newSettings = cloneDeep(settings);
-      newSettings[AmlSettingsTypes.AmlThreshold].value = value;
-      debounced(() => onUpdate(newSettings));
-    },
-    [onUpdate, settings, debounced],
-  );
+  const handleSliderChange = useCallback((event: React.ChangeEvent<{}>, value: number | number[]) => {
+    const newSettings = cloneDeep(settings);
+    newSettings[AmlSettingsTypes.AmlThreshold].value = value;
+    debounced(() => onUpdate(newSettings));
+  }, [onUpdate, settings, debounced]);
+
+  const handleBasicWatchlistsSelected = useCallback((watchlistChecked: number[]) => {
+    const newSettings = cloneDeep(settings);
+    newSettings[AmlSettingsTypes.BasicWatchlists].value = watchlistChecked;
+    onUpdate(newSettings);
+  }, [settings, onUpdate]);
 
   return (
     <Box>
-      <Box mb={4}>
-        <Typography variant="subtitle2" color="textPrimary" gutterBottom>
-          {intl.formatMessage({ id: 'AmlCheck.settings.watchlist.title' })}
-        </Typography>
-        <Box color="common.black75">
-          {intl.formatMessage({ id: 'AmlCheck.settings.watchlist.description' })}
+      {canUseBasicWatchlists && (
+        <Box mb={4}>
+          <BasicWatchlist basicWatchlistsIds={settings[AmlSettingsTypes.BasicWatchlists].value} onBasicWatchlistsSelected={handleBasicWatchlistsSelected} />
         </Box>
-      </Box>
+      )}
       <Box mb={4}>
-        <Typography variant="subtitle2" color="textPrimary" gutterBottom>
-          {intl.formatMessage({ id: 'AmlCheck.settings.fuzzinessParameter.title' })}
-        </Typography>
-        <Box color="common.black75" mb={2}>
-          {intl.formatMessage({ id: 'AmlCheck.settings.fuzzinessParameter.description' })}
-        </Box>
-        <RangeSlider
-          defaultValue={amlThreshold}
-          onChange={handleSliderChange}
-        />
-      </Box>
-      <BoxBordered px={2}>
         <ExtendedDescription
-          title={intl.formatMessage({ id: `AmlCheck.settings.${AmlCheckTypes.Search}.title` })}
-          text={intl.formatMessage({ id: `AmlCheck.settings.${AmlCheckTypes.Search}.description` })}
+          title={formatMessage('AmlCheck.settings.watchlist.title')}
+          text={formatMessage('AmlCheck.settings.watchlist.description')}
           postfix={(
             <Switch
               checked={search}
@@ -85,25 +76,31 @@ export function AmlSettings({ settings, onUpdate }: ProductSettingsProps<AmlSett
               color="primary"
             />
           )}
-        >
-          <Box display="flex">
-            <Box className={classes.arrow} />
-            <Box ml={0.5}>
-              <ExtendedDescription
-                title={intl.formatMessage({ id: `AmlCheck.settings.${AmlCheckTypes.Monitoring}.title` })}
-                text={intl.formatMessage({ id: `AmlCheck.settings.${AmlCheckTypes.Monitoring}.description` })}
-                postfix={(
-                  <Switch
-                    checked={monitoring}
-                    onChange={handleMonitoringToggle}
-                    color="primary"
-                  />
-                )}
-              />
-            </Box>
-          </Box>
-        </ExtendedDescription>
-      </BoxBordered>
+        />
+      </Box>
+      <Box mb={4}>
+        <Typography variant="subtitle2" color="textPrimary" gutterBottom>
+          {formatMessage('AmlCheck.settings.fuzzinessParameter.title')}
+        </Typography>
+        <Box color="common.black75" mb={2}>
+          {formatMessage('AmlCheck.settings.fuzzinessParameter.description')}
+        </Box>
+        <RangeSlider
+          defaultValue={amlThreshold}
+          onChange={handleSliderChange}
+        />
+      </Box>
+      <ExtendedDescription
+        title={formatMessage(`AmlCheck.settings.${AmlCheckTypes.Monitoring}.title`)}
+        text={formatMessage(`AmlCheck.settings.${AmlCheckTypes.Monitoring}.description`)}
+        postfix={(
+          <Switch
+            checked={monitoring}
+            onChange={handleMonitoringToggle}
+            color="primary"
+          />
+        )}
+      />
     </Box>
   );
 }

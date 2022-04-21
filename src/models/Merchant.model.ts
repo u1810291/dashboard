@@ -4,7 +4,12 @@ export interface ISenderEmail {
   verified: boolean;
   address: string;
 }
+
+export interface IAgentNotesConfig {
+  requiredOnChangeVerificationStatus: boolean;
+}
 export interface IMerchantSettings {
+  agentNotesConfig: IAgentNotesConfig;
   senderEmails: ISenderEmail[];
   // TODO: @nikitaafanasyev add correct typing
   customDocumentConfig: unknown[];
@@ -47,9 +52,15 @@ export enum MerchantTags {
   CanUseFinancialInformationPayrollAccountsRetrieving = 'can-use-financial-information-payroll-accounts-retrieving',
   CanUseFacematchCPFInAr = 'can-use-facematch-in-ar-govchecks',
   CanUseFacematchCPFInBr = 'can-use-facematch-in-br-govchecks',
+  CanUseIndonesianKTP = 'can-use-indonesian-ktp',
   CanUseArRenaperExtended = 'can-use-ar-renaper-extended-govcheck',
   CanUseNigerianBNV = 'can-use-nigerian-bvn',
+  CanUseNigerianCac = 'can-use-nigerian-cac',
+  CanUseNigerianTin = 'can-use-nigerian-tin',
   CanUseNigerianDL = 'can-use-nigerian-dl',
   CanUseNigerianNIN = 'can-use-nigerian-nin',
   CanUseNigerianVIN = 'can-use-nigerian-vin',
+  CanUseBasicWatchlists = 'can-use-basic-watchlists',
+  CanManageBasicWatchlists = 'can-manage-basic-watchlists',
+  CanUseDuplicateFaceDetection = 'can-use-duplicate-face-detection',
 }

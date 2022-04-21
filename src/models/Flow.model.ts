@@ -3,13 +3,14 @@ import { get } from 'lodash';
 import { DocumentTypes } from 'models/Document.model';
 import { ProductIntegrationTypes } from 'models/Product.model';
 import { IFacematchFlow } from 'apps/FacematchService';
-import { VerificationCustomFieldsInputData } from 'apps/CustomField';
 import { IESignatureFlow } from './ESignature.model';
 import { IpValidation } from './IpCheckOld.model';
 import { InputValidationCheck } from './ImageValidation.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
 import { VerificationPatterns } from './VerificationPatterns.model';
 import { IFlowWatchlist } from './CustomWatchlist.model';
+import { VerificationCustomFieldsInputData } from './CustomField.model';
+import { BasicWatchlistIdType } from './Aml.model';
 
 export const MAX_NUMBER_OF_FLOWS = 100;
 
@@ -66,14 +67,15 @@ export interface IFlow {
   postponedTimeout?: string;
   pinnedCountries?: string[];
   style?: FlowStyle;
-  customFieldsConfig?: VerificationCustomFieldsInputData;
+  customFieldsConfig?: Partial<VerificationCustomFieldsInputData>;
   supportedCountries?: string[];
   updatedAt?: string;
   verificationSteps?: (DocumentTypes | string)[][];
   verificationPatterns?: Partial<VerificationPatterns>;
   integrationType?: ProductIntegrationTypes;
   amlWatchlistsFuzzinessThreshold?: number;
-  watchlists?: IFlowWatchlist[];
+  customWatchlists?: IFlowWatchlist[];
+  basicWatchlists?: BasicWatchlistIdType[];
   electronicSignature?: IESignatureFlow;
   financialInformationBankAccountsRetrieving?: {
     countryCodes: string[];

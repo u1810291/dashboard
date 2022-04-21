@@ -1,7 +1,8 @@
 import { productManagerService } from 'apps/Product';
 import { ProductTypes } from 'models/Product.model';
 import { ErrorStatuses } from 'models/Error.model';
-import { CustomWatchlistHeaders, CustomWatchlistModalValidationInputs, CustomWatchlistModalValidationInputTypes, CustomWatchlistShortValidation, IWatchlist, WatchlistContentTypes, WatchlistCreateBodyTypes } from '../models/CustomWatchlist.models';
+import { IWatchlistHeaders, IWatchlistShortValidation, IWatchlist, IWatchlistCreateBody, IWatchlistContent, WatchlistTypes } from 'models/Watchlist.model';
+import { CustomWatchlistModalValidationInputs, CustomWatchlistModalValidationInputTypes } from '../models/CustomWatchlist.model';
 import { CustomWatchlist } from '../services/CustomWatchlist.service';
 import * as api from '../client/CustomWatchlist.client';
 import { types, CustomWatchlistsActions } from './CustomWatchlist.store';
@@ -116,7 +117,7 @@ export const customWatchlistLoadById = (merchantId: string, watchlistId: number,
   }
 };
 
-export const customWatchlistCreate = (merchantId: string, params: WatchlistCreateBodyTypes, callback: (data: IWatchlist) => void) => async (dispatch) => {
+export const customWatchlistCreate = (merchantId: string, params: IWatchlistCreateBody, callback: (data: IWatchlist) => void) => async (dispatch) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_REQUEST });
   try {
     const payload = await api.createMerchantWatchlist(merchantId, params);
@@ -129,7 +130,7 @@ export const customWatchlistCreate = (merchantId: string, params: WatchlistCreat
   }
 };
 
-export const customWatchlistUpdateById = (merchantId: string, watchlistId: number, params: WatchlistCreateBodyTypes) => async (dispatch, getState) => {
+export const customWatchlistUpdateById = (merchantId: string, watchlistId: number, params: IWatchlistCreateBody) => async (dispatch, getState) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_UPDATING });
   try {
     const payload = await api.updateMerchantWatchlistById(merchantId, watchlistId, params);
@@ -160,7 +161,7 @@ export const deleteCustomWatchlistById = (merchantId: string, watchlistId: numbe
   }
 };
 
-export const updateMerchantWatchlistContent = (merchantId: string, watchlistId: number, body: WatchlistContentTypes) => async (dispatch, getState) => {
+export const updateMerchantWatchlistContent = (merchantId: string, watchlistId: number, body: IWatchlistContent) => async (dispatch, getState) => {
   dispatch({ type: types.CUSTOM_WATCHLIST_CONTENT_UPDATING });
   try {
     const payload = await api.updateMerchantWatchlistContentById(merchantId, watchlistId, body);
@@ -181,7 +182,7 @@ export const customWatchlistsClear = () => (dispatch) => {
   dispatch({ type: types.CUSTOM_WATCHLISTS_CLEAR, payload: [] });
 };
 
-export const getCustomWatchlistHeaders = (merchantId: string, body: CustomWatchlistHeaders) => async (dispatch) => {
+export const getCustomWatchlistHeaders = (merchantId: string, body: IWatchlistHeaders) => async (dispatch) => {
   dispatch({ type: types.CURRENT_CUSTOM_WATCHLISTS_HEADERS_REQUEST });
   try {
     const payload = await api.getWatchlistHeaders(merchantId, body);
@@ -193,7 +194,7 @@ export const getCustomWatchlistHeaders = (merchantId: string, body: CustomWatchl
   }
 };
 
-export const getCustomWatchlistShortValidation = (merchantId: string, body: CustomWatchlistShortValidation, isEdit: boolean) => async (dispatch, getState) => {
+export const getCustomWatchlistShortValidation = (merchantId: string, body: IWatchlistShortValidation, isEdit: boolean) => async (dispatch, getState) => {
   dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_UPDATING });
   try {
     dispatch({ type: CustomWatchlistsActions.CurrentWatchlistFileFailure, payload: null });
@@ -220,4 +221,32 @@ export const getCustomWatchlistShortValidation = (merchantId: string, body: Cust
     dispatch({ type: types.CURRENT_CUSTOM_WATCHLIST_FAILURE, error });
     throw error;
   }
+};
+
+export const customWatchlistsFlowSubmit = (merchantId: string, values: Partial<CustomWatchlistModalValidationInputTypes>, callback: (watchlistData: Partial<IWatchlist>) => void, watchlist?: Partial<IWatchlist>) => async (dispatch) => {
+  const watchlistRequestData = {
+    name: values[CustomWatchlistModalValidationInputs.Name],
+    mapping: values[CustomWatchlistModalValidationInputs.Mapping],
+    groupId: null,
+    watchlistType: WatchlistTypes.Custom,
+  };
+  const watchlistContentValues = {
+    inputSourceFileKey: values[CustomWatchlistModalValidationInputs.FileKey],
+    inputSourceFileName: values[CustomWatchlistModalValidationInputs.FileName],
+    csvSeparator: values[CustomWatchlistModalValidationInputs.CsvSeparator],
+  };
+
+  if (watchlist?.id) {
+    await dispatch(customWatchlistUpdateById(merchantId, watchlist.id, watchlistRequestData));
+    await dispatch(updateMerchantWatchlistContent(merchantId, watchlist.id, watchlistContentValues));
+    callback(watchlist);
+    return;
+  }
+
+  dispatch(customWatchlistCreate(merchantId, watchlistRequestData, async (watchlistData: IWatchlist) => {
+    dispatch(setCurrentWatchlist(watchlistData.id));
+    await dispatch(updateMerchantWatchlistContent(merchantId, watchlistData.id, watchlistContentValues));
+
+    callback(watchlistData);
+  }));
 };

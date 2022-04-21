@@ -1,20 +1,32 @@
-import { Box, RadioGroup, FormControlLabel, Switch, Grid } from '@material-ui/core';
 import { appPalette } from 'apps/theme';
-import { BoxBordered, Warning, WarningSize, WarningTypes, RadioButton } from 'apps/ui';
+import { BoxBordered, Warning, WarningSize, WarningTypes, RadioButton, ExtendedDescription } from 'apps/ui';
 import React, { useMemo, useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import livenessDemoImage from 'assets/livenessDemo.png';
 import livenessDemoVideo from 'assets/livenessDemo.mp4';
+import { useSelector } from 'react-redux';
+import { MerchantTags } from 'models/Merchant.model';
+import { selectMerchantTags } from 'state/merchant/merchant.selectors';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Switch from '@material-ui/core/Switch';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { getVerificationType, hasVoiceVerification, getBiometricType, BiometricVerificationTypes } from '../../models/BiometricVerification.model';
 import { useStyles } from './BiometricConfiguration.styles';
 
-export function BiometricConfiguration({ biometrics, proofOfOwnership, onUpdate }: {
+export function BiometricConfiguration({ duplicateFaceDetection, biometrics, proofOfOwnership, isReVerification, onUpdate, onPatternsChange }: {
   biometrics: string | null;
   proofOfOwnership: boolean;
   onUpdate: (biometrics: string | null) => void;
+  duplicateFaceDetection?: boolean;
+  isReVerification?: boolean;
+  onPatternsChange?: () => void;
 }) {
   const intl = useIntl();
   const classes = useStyles();
+  const merchantTags: MerchantTags[] = useSelector(selectMerchantTags);
+  const isDuplicateFaceDetectionEnabled = useMemo(() => (merchantTags.includes(MerchantTags.CanUseDuplicateFaceDetection)), [merchantTags]);
   const { verificationType, hasVoiceCheck } = useMemo(() => ({
     verificationType: getVerificationType(biometrics),
     hasVoiceCheck: hasVoiceVerification(biometrics),
@@ -29,6 +41,21 @@ export function BiometricConfiguration({ biometrics, proofOfOwnership, onUpdate 
 
   return (
     <Box className={classes.root}>
+      {!isReVerification && isDuplicateFaceDetectionEnabled && (
+        <Box mb={4}>
+          <ExtendedDescription
+            title={intl.formatMessage({ id: 'Biometrics.settings.duplicateFaceDetection.title' })}
+            text={intl.formatMessage({ id: 'Biometrics.settings.duplicateFaceDetection.description' })}
+            postfix={(
+              <Switch
+                checked={duplicateFaceDetection}
+                onClick={onPatternsChange}
+                color="primary"
+              />
+            )}
+          />
+        </Box>
+      )}
       <RadioGroup
         aria-label="biometric-step"
         name="biometric-steps"

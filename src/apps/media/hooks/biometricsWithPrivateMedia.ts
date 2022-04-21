@@ -6,9 +6,9 @@ import { BiometricStep, BiometricTypes } from 'models/Biometric.model';
 export function useBiometricsWithPrivateMedia(biometrics: BiometricStep[]): BiometricStep[] {
   const voiceLiveness = useMemo(() => biometrics?.find((item) => item.id === BiometricTypes.voice), [biometrics]);
   const selfieLiveness = useMemo(() => biometrics?.find((item) => item.id === BiometricTypes.liveness || item.id === BiometricTypes.selfie), [biometrics]);
-  const [selfie, setSelfie] = useState<string | MediaStatusTypes>(MediaStatusTypes.MediaIsLoading);
-  const [liveness, setLiveness] = useState<string | MediaStatusTypes>(MediaStatusTypes.MediaIsLoading);
-  const [voice, setVoice] = useState<string | MediaStatusTypes>(MediaStatusTypes.MediaIsLoading);
+  const [selfie, setSelfie] = useState<string | MediaStatusTypes>(MediaStatusTypes.MediaIsEmpty);
+  const [liveness, setLiveness] = useState<string | MediaStatusTypes>(MediaStatusTypes.MediaIsEmpty);
+  const [voice, setVoice] = useState<string | MediaStatusTypes>(MediaStatusTypes.MediaIsEmpty);
 
   const biometricsWithPrivateMedia = useMemo(() => biometrics?.map((biometric) => ({ ...biometric, selfieUrl: selfie, videoUrl: biometric.id === BiometricTypes.voice ? voice : liveness })) ?? [], [biometrics, liveness, selfie, voice]);
 

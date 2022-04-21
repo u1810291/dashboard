@@ -54,9 +54,9 @@ export * from './store/NewFeature.selectors';
 
 Also, a feature, as a rule, has a model.
 
-5. ```apps/models/``` - here is the feature model, in it you need to store interfaces and utility functions related to the feature
-      - ```apps/models/NewFeature.model.ts``` - you need to use this way
-      - ```apps/NewFeature/models/NewFeature.model.ts``` - this is a private feature model, here we store all buisness logic which only used in the current feature
+5. ```apps/models/``` - here is the feature model, this is a place for business logic, here you can store interfaces and utility functions related to the feature
+      - ```apps/models/NewFeature.model.ts``` - this is a <strong>shared</strong> feature model, here you store anything related to feature and needed outside of the ```apps/NewFeature```
+      - ```apps/NewFeature/models/NewFeature.model.ts``` - this is a <strong>private</strong> feature model, here you can store all buisness logic which only used in the current feature
 
 The above are the most common entities that are used when adding a new feature. Also, a feature can include any other entities necessary to implement the feature, for example:
 

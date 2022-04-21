@@ -5,7 +5,7 @@ import { getBankAccountData } from 'apps/BankAccountData';
 import { getPayrollAccountData } from 'apps/PayrollAccountData';
 import { getNom151FileContent } from 'models/Identity.model';
 import { VerificationResponse, VerificationWithExtras } from 'models/VerificationOld.model';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { getPhoneValidationExtras } from 'apps/PhoneValidation/models/PhoneValidation.model';
 import { getPhoneRiskValidationExtras } from 'apps/RiskAnalysis/models/RiskAnalysis.model';
@@ -15,8 +15,7 @@ import { getEmailRiskStep } from 'models/EmailCheck.model';
 import { useIntl } from 'react-intl';
 import { AppIntlProvider } from 'apps/intl';
 import { getGovCheckRootSteps } from 'apps/GovCheck';
-import { InputStatus, InputTypes } from 'models/Input.model';
-import { VerificationCustomFieldsInputData } from 'apps/CustomField';
+import { getDataForVerificationComponent } from 'models/CustomField.model';
 import { DocumentStepPDF } from './components/DocumentStepPDF/DocumentStepPDF';
 import { IpCheckPDF } from './components/IpCheckPDF/IpCheckPDF';
 import { LivenessStepPDF } from './components/LivenessStepPDF/LivenessStepPDF';
@@ -33,6 +32,7 @@ import { CheckStepPDF } from './components/CheckStepPDF/CheckStepPDF';
 import { GovCheckTextPDF } from './components/GovCheckTextPDF/GovCheckTextPDF';
 import { CustomFieldPDF } from './components/CustomFieldPDF/CustomFieldPDF';
 import { CustomWatchlistPDF } from './components/CustomWatchlistPDF/CustomWatchlistPDF';
+import { BasicWatchlistPDF } from './components/BasicWatchlistPDF/BasicWatchlistPDF';
 import { CreditCheckPDF } from './components/CreditCheckPDF/CreditCheckPDF';
 
 interface AdditionalData {
@@ -47,7 +47,6 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
   additionalData: AdditionalData;
 }) {
   const intl = useIntl();
-  const customField = useMemo<InputStatus<VerificationCustomFieldsInputData>>(() => verification?.inputs?.find((input: InputStatus<unknown>) => input?.id === InputTypes.CustomFields), [verification?.inputs]);
   if (!verification) {
     return null;
   }
@@ -58,6 +57,7 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
   const workAccountData = getWorkAccountData(verification);
   const payrollAccountData = getPayrollAccountData(verification);
   const govCheckRootSteps = getGovCheckRootSteps(verification);
+  const customFieldData = getDataForVerificationComponent(verification);
 
   return (
     <Document title={`Verification ${verification.id}`} author="MetaMap www.metamap.com">
@@ -67,9 +67,9 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
           <VerificationSummaryPDF identity={verification as VerificationWithExtras} />
         </View>
         {/* Custom Field */}
-        {customField && (
+        {customFieldData && (
           <View style={[commonStyles.mb15]}>
-            <CustomFieldPDF input={customField} />
+            <CustomFieldPDF customFieldData={customFieldData} />
           </View>
         )}
         {/* Documents */}
@@ -89,6 +89,8 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
         ))}
         {/* custom watchlist */}
         <CustomWatchlistPDF steps={verification.steps} />
+        {/* basic watchlist */}
+        <BasicWatchlistPDF steps={verification.steps} />
         {/* credit check */}
         <CreditCheckPDF />
         {/* biometric and reVerification */}
