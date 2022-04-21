@@ -99,15 +99,21 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   useLoadMetadataList();
 
   const handleSubmitSaveForm = async () => {
-    const response = await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries]]));
-    dispatch(toggleUnsavedChanges(false));
-    return response;
+    try {
+      await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries]]));
+      dispatch(toggleUnsavedChanges(false));
+    } catch (error) {
+      notification.error(formatMessage('Error.common'));
+    }
   };
 
   const handleSubmitPatchFrom = async () => {
-    const response = await dispatch(updateTemplate(values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries]]));
-    closeOverlay();
-    return response;
+    try {
+      await dispatch(updateTemplate(values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries]]));
+      closeOverlay();
+    } catch (error) {
+      notification.error(formatMessage('Error.common'));
+    }
   };
 
   const handleSaveTemplate = async () => {
