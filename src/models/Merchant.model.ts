@@ -61,6 +61,7 @@ export enum MerchantTags {
   CanUseFacematchCPFInAr = 'can-use-facematch-in-ar-govchecks',
   CanUseFacematchCPFInBr = 'can-use-facematch-in-br-govchecks',
   CanUseAddSolutionToCatalog = 'can-add-solution-to-catalog',
+  CanUseIndonesianKTP = 'can-use-indonesian-ktp',
   CanUseArRenaperExtended = 'can-use-ar-renaper-extended-govcheck',
   CanUseNigerianBNV = 'can-use-nigerian-bvn',
   CanUseNigerianCac = 'can-use-nigerian-cac',
