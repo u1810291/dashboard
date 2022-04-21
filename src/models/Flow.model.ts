@@ -58,7 +58,7 @@ export function createEmptyFlow(formatMessage: FormatMessage, data?: Partial<IFl
         isDisabled: false,
       },
     ],
-    watchlists: [],
+    customWatchlists: [],
     integrationType: ProductIntegrationTypes.Sdk,
     name: formatMessage('Untitled.template'),
     denyUploadsFromMobileGallery: false,
