@@ -6,7 +6,6 @@ import { get } from 'lodash';
 import { isCovidTolerance } from 'models/Covid.model';
 import { getFieldsExtra } from 'models/Field.model';
 import { AmlDocumentStepTypes, getPremiumAmlWatchlistsCheckExtraData } from 'apps/Aml/models/Aml.model';
-import { PremiumAmlWatchlistStepData } from './Document.model';
 import { VerificationPatternTypes } from './VerificationPatterns.model';
 
 export type StepStatusType = 0 | 100 | 200;
@@ -42,6 +41,7 @@ export enum VerificationStepTypes {
   NigerianLegalValidation = 'nigerian-legal-validation',
   BasicWatchlistsValidation = 'basic-watchlists-validation',
   NigerianTinValidation = 'nigerian-tin-validation',
+  IndonesianKTPValidation = 'indonesian-ktp-validation',
 }
 
 export enum StepStatus {
@@ -233,6 +233,7 @@ export const CountrySpecificChecks = [
   VerificationPatternTypes.NigerianCac,
   VerificationStepTypes.NigerianLegalValidation,
   VerificationStepTypes.NigerianTinValidation,
+  VerificationStepTypes.IndonesianKTPValidation,
 ];
 
 export function hasFailureStep(steps: IStep[]): boolean {
@@ -328,6 +329,7 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.ColombianRunt]: ['colombianRunt.fullNameMismatch', 'colombianRunt.hasFines'],
   [DocumentStepTypes.ArgentinianRenaper]: ['argentinianRenaper.deceasedPerson', 'argentinianRenaper.fullNameMismatch'],
   [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
+  [VerificationStepTypes.IndonesianKTPValidation]: ['indonesianKTP.faceBiometricsMismatch', 'indonesianKTP.dobMismatch', 'indonesianKTP.nameMismatch'],
   [DocumentStepTypes.ColombianSisben]: ['colombianSisben.fullNameMismatch'],
 };
 
@@ -356,6 +358,15 @@ function getAltered(step, verification, countries, document) {
     default:
       return step;
   }
+}
+
+export interface PremiumAmlWatchlistStepData {
+  isMonitoringAvailable: boolean;
+  nameSearched: string;
+  profileUrl?: string;
+  searchId: number;
+  searchedOn: string;
+  updatedOn?: string;
 }
 
 export function getDocumentStep(id, steps = []) {

@@ -1,23 +1,25 @@
-import { Box, Typography, Button } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { ReactComponent as EmptyFlowsIcon } from 'assets/empty-flows.svg';
 import { FiPlusCircle } from 'react-icons/fi';
 import { useStyles } from './NoFlows.styles';
 
 export function NoFlows({ onAddNewFlow }: { onAddNewFlow: () => void }) {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const classes = useStyles();
 
   return (
     <Box mb="8vh">
       <Box py={1.5}><EmptyFlowsIcon /></Box>
       <Box mb={1}>
-        <Typography variant="h4">{intl.formatMessage({ id: 'VerificationFlow.page.title' })}</Typography>
+        <Typography variant="h4">{formatMessage('VerificationFlow.page.title')}</Typography>
       </Box>
       <Box mb={2} mx="auto" maxWidth={470} color="common.black75">
         <Typography variant="body1" align="center">
-          {intl.formatMessage({ id: 'VerificationFlow.emptyPage.text' })}
+          {formatMessage('VerificationFlow.emptyPage.text')}
         </Typography>
       </Box>
       <Button
@@ -27,7 +29,7 @@ export function NoFlows({ onAddNewFlow }: { onAddNewFlow: () => void }) {
         className={classes.button}
       >
         <FiPlusCircle />
-        {intl.formatMessage({ id: 'VerificationFlow.page.button' })}
+        {formatMessage('VerificationFlow.page.button')}
       </Button>
     </Box>
   );

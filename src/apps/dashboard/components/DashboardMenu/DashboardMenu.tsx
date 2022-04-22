@@ -16,11 +16,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FiChevronsLeft, FiChevronsRight, FiLogOut, FiSettings } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
-import { selectIsOwnerModel, selectMerchantBusinessName } from 'state/merchant/merchant.selectors';
+import { selectIsOwnerModel, selectMerchantBusinessName, selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { useRole } from 'apps/collaborators';
 import { WithAuditor } from 'models/Collaborator.model';
-import { LiveStatusButton } from 'apps/liveStatus';
+import { MerchantTags } from 'models/Merchant.model';
 import { Loadable } from 'models/Loadable.model';
+import { LiveStatusButton } from 'apps/liveStatus';
 import { setIsDesktopMenuOpen } from '../../state/dashboard.actions';
 import { selectIsDesktopMenuOpen } from '../../state/dashboard.selectors';
 import { useLogout } from '../LogoutModal/LogoutModal';
@@ -38,6 +39,8 @@ export function DashboardMenu() {
   const isDesktopMenuOpen = useSelector<any, boolean>(selectIsDesktopMenuOpen);
   const [isOpen, setIsOpen] = useState<boolean>(isDesktop && isDesktopMenuOpen);
   const name = useSelector<string>(selectMerchantBusinessName);
+  const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
+  const canAddTemplate = merchantTags.includes(MerchantTags.CanUseAddSolutionToCatalog);
   const logout = useLogout();
   const role = useRole();
   const formatMessage = useFormatMessage();
@@ -110,7 +113,7 @@ export function DashboardMenu() {
             <Divider className={classes.menuDivider} />
           </Box>
           <Box>
-            <PrimaryMenu isOwner={isOwner} color="common.black7" />
+            <PrimaryMenu isOwner={isOwner} canAddTemplate={canAddTemplate} color="common.black7" />
           </Box>
           <Box p={2}>
             <Divider className={classes.menuDivider} />
@@ -140,6 +143,7 @@ export function DashboardMenu() {
               )}
           </Box>
           <Box pt={1}>
+            {/* @ts-ignore */}
             <TopMenuItem
               id="account"
               to={Routes.settings.root}

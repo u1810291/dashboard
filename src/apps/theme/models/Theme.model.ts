@@ -36,6 +36,8 @@ declare module '@material-ui/core/styles/createPalette' {
     lightblue: string;
     lightbluehover: string;
     lightblueopacity: string;
+    white10: string;
+    white15: string;
     darkBlue: string;
     whiteblue: string;
     white: string;
@@ -48,6 +50,7 @@ declare module '@material-ui/core/styles/createPalette' {
     black75: string;
     black90: string;
     black90opacity: string;
+    blueopacity: string;
     red: string;
     lightRed: string;
     redhover: string;
@@ -63,6 +66,7 @@ declare module '@material-ui/core/styles/createPalette' {
     lightgreen: string;
     brightgreen: string;
     grayopacity: string;
+    lightgrayopacity: string;
   }
   interface PaletteOptions {
     text?: Partial<TypeText>;

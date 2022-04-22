@@ -1,14 +1,16 @@
 import { LogoUrls } from 'apps/logo';
 import { get } from 'lodash';
+import { BiometricTypes } from 'models/Biometric.model';
 import { DocumentTypes } from 'models/Document.model';
 import { ProductIntegrationTypes } from 'models/Product.model';
 import { IFacematchFlow } from 'apps/FacematchService';
 import { IFlowStyle } from 'models/Workflow.model';
+import { FormatMessage } from 'apps/intl';
 import { IESignatureFlow } from './ESignature.model';
 import { IpValidation } from './IpCheckOld.model';
-import { InputValidationCheck } from './ImageValidation.model';
+import { InputValidationCheck, InputValidationType } from './ImageValidation.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
-import { VerificationPatterns } from './VerificationPatterns.model';
+import { VerificationPatterns, VerificationPatternTypes } from './VerificationPatterns.model';
 import { IFlowWatchlist } from './CustomWatchlist.model';
 import { VerificationCustomFieldsInputData } from './CustomField.model';
 import { BasicWatchlistIdType } from './Aml.model';
@@ -19,6 +21,53 @@ export function getNewFlowId(merchantFlowsModel, currentFlowId) {
   const currentIndex = merchantFlowsModel.value.findIndex((flow) => flow.id === currentFlowId);
   const newIndex = currentIndex ? currentIndex - 1 : currentIndex + 1;
   return get(merchantFlowsModel, `value[${newIndex}].id`, currentFlowId);
+}
+
+export function createEmptyFlow(formatMessage: FormatMessage, data?: Partial<IFlow>): IFlow {
+  return {
+    style: {
+      color: 'blue',
+      language: 'en',
+    },
+    ipValidation: {
+      allowedRegions: [],
+    },
+    amlWatchlistsFuzzinessThreshold: 50,
+    computations: [
+      'age',
+      'isDocumentExpired',
+    ],
+    digitalSignature: DigitalSignatureProvider.NONE,
+    emailRiskThreshold: 80,
+    supportedCountries: [],
+    verificationSteps: [],
+    inputValidationChecks: [
+      {
+        id: InputValidationType.GrayscaleImage,
+        isDisabled: true,
+      },
+      {
+        id: InputValidationType.SimilarImages,
+        isDisabled: true,
+      },
+      {
+        id: InputValidationType.IdenticalImages,
+        isDisabled: true,
+      },
+      {
+        id: InputValidationType.DocumentDetected,
+        isDisabled: false,
+      },
+    ],
+    customWatchlists: [],
+    integrationType: ProductIntegrationTypes.Sdk,
+    name: formatMessage('Untitled.template'),
+    denyUploadsFromMobileGallery: false,
+    verificationPatterns: {
+      [VerificationPatternTypes.Biometrics]: BiometricTypes.none,
+    },
+    ...data,
+  };
 }
 
 export type IFlowPhoneOwnership = {
@@ -72,6 +121,7 @@ export interface IFlow {
   amlWatchlistsFuzzinessThreshold?: number;
   customWatchlists?: IFlowWatchlist[];
   basicWatchlists?: BasicWatchlistIdType[];
+  watchlists?: IFlowWatchlist[];
   electronicSignature?: IESignatureFlow;
   financialInformationBankAccountsRetrieving?: {
     countryCodes: string[];

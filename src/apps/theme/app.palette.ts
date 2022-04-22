@@ -6,6 +6,7 @@ export enum appPalette {
   slategray = '#6B7C93',
   gray68 = '#ADADAD',
   brightgray = '#F2F2F2',
+  blueopacity = 'rgba(80, 125, 237, 1)',
   gray70 = '#EBEEFF',
   lightblue = '#507DED',
   lightbluehover = '#608eed',
@@ -38,4 +39,5 @@ export enum appPalette {
   greentransparent = '#E5F7EE',
   lightgreen = '#B2E6C5',
   brightgreen = '#89C39B',
+  lightgrayopacity = 'rgba(0, 0, 0, 0.05)',
 }
