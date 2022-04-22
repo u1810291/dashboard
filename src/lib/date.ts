@@ -142,7 +142,7 @@ export function addMissingZeros(dateString = ' '): string | null {
   return null;
 }
 
-export function dateSortCompare(a: string | number, b: string | number, isFromOldToNew: boolean = false): number {
+export function dateSortCompare(a: string, b: string, isFromOldToNew: boolean = false): number {
   return isFromOldToNew ? dayjs.utc(a).diff(dayjs.utc(b)) : -dayjs.utc(a).diff(dayjs.utc(b));
 }
 

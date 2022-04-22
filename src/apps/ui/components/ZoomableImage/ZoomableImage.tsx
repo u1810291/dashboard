@@ -1,46 +1,20 @@
 import { OverlayWithBlur } from 'apps/overlay';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FiRotateCcw, FiRotateCw, FiX, FiZoomIn } from 'react-icons/fi';
 import { Box } from '@material-ui/core';
 import { KeyboardKeys } from 'models/Keyboard.model';
-import { ImageContainer } from 'apps/media';
-import { getMediaURL } from 'lib/client/media';
+import { ImageContainer, MediaStatusTypes, useLoadPrivateMedia } from 'apps/media';
 import { useStyles } from './ZoomableImage.styles';
 
-export function ZoomableImage({ src = '', alt = '' }: {src: string; alt?: string}) {
+export function ZoomableImage({ src = '', alt = '', isNotLoaded = false }: {src: string | MediaStatusTypes; alt?: string; isNotLoaded?: boolean}) {
   const classes = useStyles();
   const [isModalShown, setIsModalShown] = useState<boolean>(false);
   const [angle, rotate] = useState<number>(0);
-  const [imageUrl, setImageDataUrl] = useState('');
+  const [objectUrl, isLoading] = useLoadPrivateMedia(isNotLoaded ? src : null);
 
-  // To prevent the image from loading more than once (once thumbnail then +1 on
-  // each "zoom"), we store the image in a blob and serve that to the ImageContainers.
-  useEffect(() => {
-    const img = new Image();
-    img.crossOrigin = 'use-credentials';
-
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.height = img.naturalHeight;
-      canvas.width = img.naturalWidth;
-      ctx.drawImage(img, 0, 0);
-
-      canvas.toBlob((blob) => {
-        const objectUrl = URL.createObjectURL(blob);
-        setImageDataUrl(objectUrl);
-      });
-    };
-
-    img.src = getMediaURL(src);
-
-    return () => {
-      URL.revokeObjectURL(imageUrl);
-    };
-  // Disabling on purpose, we only regenerate the blob after src changes. If we
-  // add imageDataUrl as the linter suggests, we get an infinite loop.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [src]);
+  /* TODO @vladislav.snimshchikov: add proofOfOwnership caching on identity level and remove isNotLoaded logic */
+  const mediaSrc = useMemo(() => (isNotLoaded ? objectUrl : src), [isNotLoaded, objectUrl, src]);
+  const resultMediaSrc = useMemo(() => (isLoading ? MediaStatusTypes.MediaIsLoading : mediaSrc), [isLoading, mediaSrc]);
 
   const handleClose = () => {
     rotate(0);
@@ -80,13 +54,13 @@ export function ZoomableImage({ src = '', alt = '' }: {src: string; alt?: string
         >
           <FiZoomIn color="white" size={28} className="zoomIcon" />
         </div>
-        <ImageContainer src={imageUrl} alt={alt} className={classes.initImage} />
+        <ImageContainer src={resultMediaSrc} alt={alt} className={classes.initImage} />
         {isModalShown && (
         <OverlayWithBlur onClose={handleClose}>
           <Box className={classes.zoomContent}>
             <ImageContainer
               className={classes.zoomedImage}
-              src={imageUrl}
+              src={resultMediaSrc}
               alt={alt}
               style={{ transform: `rotate(${angle}deg)` }}
               onKeyDown={rotateEvent}

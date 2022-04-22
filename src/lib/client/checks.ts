@@ -1,7 +1,8 @@
+import axios, { AxiosResponse } from 'axios';
 import { http } from 'lib/client/http';
-import { ApiResponse } from 'models/Client.model';
+import { ClientMethodTypes } from 'models/Client.model';
 
-// TODO: Set actual type instead of generic
-export async function getFileContents<T>(url: string): Promise<ApiResponse<T>> {
-  return http.get(url);
+export async function getFileContents(url: string): Promise<AxiosResponse> {
+  const headers = await http.getHeaders(ClientMethodTypes.GET, true);
+  return axios.get(url, { headers });
 }

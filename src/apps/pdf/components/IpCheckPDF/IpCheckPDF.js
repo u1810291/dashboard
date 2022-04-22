@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { Image, Text, View } from '@react-pdf/renderer';
 import { StepStatus } from 'models/Step.model';
 import { getIpCheckUrl } from 'models/IpCheckOld.model';
+import { getMediaURL } from 'lib/client/media';
 import { CheckResultLogoPDF } from '../CheckResultLogoPDF/CheckResultLogoPDF';
 import { styles } from './IpCheckPDF.styles';
 import { commonStyles } from '../../PDF.styles';
@@ -21,7 +22,7 @@ export function IpCheckPDF({ data = {}, isChecking }) {
       <View>
         {/* Google Map */}
         <View style={[commonStyles.mapBox, commonStyles.mb15]} wrap={false}>
-          <Image style={commonStyles.map} src={getIpCheckUrl(data)} />
+          <Image style={commonStyles.map} src={getMediaURL(getIpCheckUrl(data), false)} />
         </View>
         {/* Detected location fields */}
         <View style={styles.fieldsWrapper}>

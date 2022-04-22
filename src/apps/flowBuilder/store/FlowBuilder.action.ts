@@ -28,7 +28,6 @@ export const flowBuilderProductSelect = (productId: ProductTypes) => (dispatch) 
 export const flowBuilderClearStore = () => (dispatch) => {
   dispatch({ type: types.PRODUCTS_IN_GRAPH_CLEAR, payload: [] });
   dispatch({ type: types.CHANGEABLE_FLOW_CLEAR, payload: {} });
-  dispatch({ type: types.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
   dispatch({ type: types.PRODUCT_SELECT, payload: null });
 };
 
@@ -69,12 +68,15 @@ export const flowBuilderChangeableFlowLoad = () => (dispatch, getState) => {
 export const flowBuilderChangeableFlowUpdate = (changes: Partial<IFlow>) => (dispatch, getState) => {
   const state = getState();
   const changeableFlow = selectFlowBuilderChangeableFlow(state);
+  // @ts-ignore
   dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
   try {
     const updatedFlow = mergeDeep(changeableFlow, changes);
     dispatch({ type: types.HAVE_UNSAVED_CHANGES_UPDATE, payload: true });
+    // @ts-ignore
     dispatch({ type: types.CHANGEABLE_FLOW_SUCCESS, payload: updatedFlow, isReset: true });
   } catch (error) {
+    // @ts-ignore
     dispatch({ type: types.CHANGEABLE_FLOW_FAILURE, error });
     throw error;
   }

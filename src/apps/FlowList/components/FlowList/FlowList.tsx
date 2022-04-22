@@ -21,9 +21,9 @@ import { QATags } from 'models/QA.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { clearCurrentTemplate, toggleUnsavedChanges } from 'apps/Templates';
 import { flowBuilderClearStore } from 'apps/flowBuilder';
-import { AddNewFlowModal } from 'pages/WorkflowList/components/AddNewFlowModal/AddNewFlowModal';
-import { flowNameValidator } from 'pages/WorkflowList/validators/FlowName.validator';
 import { FlowsTable } from '../FlowsTable/FlowsTable';
+import { AddNewFlowModal } from '../AddNewFlowModal/AddNewFlowModal';
+import { flowNameValidator } from '../../validators/FlowName.validator';
 import { useStyles } from './FlowList.styles';
 
 export function FlowList() {

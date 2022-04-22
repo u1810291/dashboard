@@ -1,6 +1,5 @@
 import { AllowedRegions } from 'models/Country.model';
 import { IVerificationMeritBlock, IVerificationWorkflow } from 'models/Verification.model';
-import { MeritId } from 'models/Product.model';
 
 export enum IpCheckSettingsTypes {
   IpValidation = 'ipValidation',
@@ -35,8 +34,6 @@ interface IpCheckVerificationSettings {
   geoRestriction: IpCheckGeoRestrictionVerificationSettings;
 }
 
-export const IpCheckMeritId: MeritId = 'ip-check';
-
 export interface IpCheckVerificationOutput {
   country: string;
   countryCode: string;
@@ -51,17 +48,6 @@ export interface IpCheckVerificationOutput {
   vpnDetection: boolean;
   geoRestriction: boolean;
   isRunning: boolean;
-}
-
-export interface GeoRestrictions {
-  allowedCountries: AllowedRegions;
-  restriction: string;
-}
-
-export interface IpCheckMeritSettings {
-  vpnDetection: boolean;
-  geoRestriction: GeoRestrictions;
-  relation: any;
 }
 
 export type IpCheckVerificationBlock = IVerificationMeritBlock<IpCheckVerificationSettings, IpCheckVerificationOutput>;
