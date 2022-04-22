@@ -592,6 +592,23 @@ export const govCheckDisplayOptions = {
   [DocumentStepTypes.DominicanJce]: {
     valid: {},
   },
+  [DocumentStepTypes.EcuadorianRegistroCivil]: {
+    fullName: {},
+    documentNumber: {
+      inline: true,
+    },
+    dateOfIssue: {
+      inline: true,
+    },
+    processNumber: {},
+    status: {},
+    requestedDocumentNumber: {
+      hidden: true,
+    },
+    requestorFullName: {
+      hidden: true,
+    },
+  },
   [DocumentStepTypes.CostaRicanAtv]: {
     fullName: {},
     registeredTaxPayer: {},
