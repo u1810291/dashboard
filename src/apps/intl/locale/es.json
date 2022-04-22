@@ -1930,7 +1930,7 @@
   "Settings.accountPolicySettings.notesDialog.title": "Está seguro de que desea habilitar las notas de verificación y deshabilitar el modo de revisión?",
   "Settings.accountPolicySettings.notesDisabled": "Notas de verificación inhabilitadas",
   "Settings.accountPolicySettings.notesEnabled": "Notas de verificación habilitadas",
-  "Settings.accountPolicySettings.notesTitle": "Notas de cambio de verificación",
+  "Settings.accountPolicySettings.notesTitle": "Políticas de cuenta",
   "Settings.accountPolicySettings.switch.disabled": "Las notas están deshabilitadas",
   "Settings.accountPolicySettings.switch.required": "Se requieren notas",
   "Settings.changeEmailModal.cancel": "Cancelar",
