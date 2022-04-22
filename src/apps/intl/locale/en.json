@@ -1708,7 +1708,7 @@
   "SecurityCheckStep.colombian-procuraduria-validation.title": "Colombian Procuraduria",
   "SecurityCheckStep.colombian-registraduria-validation.title": "Colombian Registraduría",
   "SecurityCheckStep.colombian-runt-validation.title": "Colombian RUNT",
-  "SecurityCheckStep.colombian-unified-legal-search-validation.activeProcesses.message": "We found one or more legal processes in which the user is bing used. Please duble-check before accepting/rececting this user.",
+  "SecurityCheckStep.colombian-unified-legal-search-validation.activeProcesses.message": "We found one or more legal processes in which the user is being used. Please double-check before accepting/rejecting this user.",
   "SecurityCheckStep.colombian-unified-legal-search-validation.manyResults.message": "There are too many results associated to the name on the ID card. Please duble-check before accepting/rececting this user.",
   "SecurityCheckStep.colombian-unified-legal-search-validation.notFound.message": "No results were found in the Unified Legal database",
   "SecurityCheckStep.colombian-unified-legal-search-validation.title": "Unified Legal Search",
