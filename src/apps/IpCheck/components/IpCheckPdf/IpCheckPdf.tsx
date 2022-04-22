@@ -2,6 +2,7 @@ import { useFormatMessage } from 'apps/intl';
 import { ProductVerificationPdfProps } from 'models/PdfAdapter.model';
 import { StepStatus } from 'models/Step.model';
 import React from 'react';
+import { getMediaURL } from 'lib/client/media';
 import { IpCheckVerificationOutput, IVerificationWithIpCheck, getIpCheckUrl } from '../../models/IpCheck.model';
 import { Statuses, styles } from './IpCheckPdf.styles';
 
@@ -24,7 +25,7 @@ export function IpCheckPdf({ pdfRendererAdapter, verification }: ProductVerifica
         {/* Google Map */}
         <View style={[commonStyles.mapBox, commonStyles.mb15]} wrap={false}>
           {/* @ts-ignore */}
-          <Image style={commonStyles.map} src={getIpCheckUrl(output)} />
+          <Image style={commonStyles.map} src={getMediaURL(getIpCheckUrl(output), false)} />
         </View>
         {/* Detected location fields */}
         <View style={styleSheet.fieldsWrapper}>

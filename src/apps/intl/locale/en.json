@@ -1970,7 +1970,7 @@
   "Settings.accountPolicySettings.notesDialog.title": "Are you sure you want to enable verification notes and disable review mode?",
   "Settings.accountPolicySettings.notesDisabled": "Verification notes disabled",
   "Settings.accountPolicySettings.notesEnabled": "Verification notes enabled",
-  "Settings.accountPolicySettings.notesTitle": "Verification notes",
+  "Settings.accountPolicySettings.notesTitle": "Verification change notes",
   "Settings.accountPolicySettings.switch.disabled": "Notes are disabled",
   "Settings.accountPolicySettings.switch.required": "Notes are required",
   "Settings.changeEmailModal.cancel": "Cancel",

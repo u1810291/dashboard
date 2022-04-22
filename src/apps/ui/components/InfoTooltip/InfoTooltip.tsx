@@ -16,14 +16,12 @@ type placementToolTipType =
 | 'top-start'
 | 'top';
 
-export function InfoTooltip({ title, placement = 'top', children = <RiErrorWarningLine />, popperClassname, isOpen }: { title?: React.ReactNode; placement?: placementToolTipType; children?: ReactNode; popperClassname?: any; isOpen?: boolean }) {
+export function InfoTooltip({ title, placement = 'top', children = <RiErrorWarningLine /> }: { title?: React.ReactNode; placement?: placementToolTipType; children?: ReactNode }) {
   return (
     <Tooltip
       placement={placement}
       arrow
       title={title}
-      classes={{ popper: popperClassname }}
-      open={isOpen}
     >
       <span>
         {children}

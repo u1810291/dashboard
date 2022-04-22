@@ -6,7 +6,7 @@ import { NationalIdTypes, VerificationDocument } from 'models/Document.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { dateSortCompare } from 'lib/date';
 import cloneDeep from 'lodash/cloneDeep';
-import { MeritId, ProductTypes } from 'models/Product.model';
+import { ProductTypes } from 'models/Product.model';
 import { IFlow } from 'models/Flow.model';
 
 export enum GovernmentCheckSettingTypes {
@@ -17,8 +17,6 @@ export enum GovernmentCheckSettingTypes {
 export enum GovernmentChecksTypes {
   GovernmentDatabaseCheck = 'governmentDatabaseCheck'
 }
-
-export const GovCheckMeritId: MeritId = 'gov-check';
 
 export enum GovCheckStepTypes {
   None = 'none',

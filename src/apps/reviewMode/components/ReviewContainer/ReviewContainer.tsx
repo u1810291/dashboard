@@ -7,11 +7,13 @@ import { VerificationProductList } from 'apps/Verification';
 import { ReactComponent as IconLoad } from 'assets/icon-load-dark.svg';
 import { Routes } from 'models/Router.model';
 import { ProductTypes } from 'models/Product.model';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ProductVerification } from 'apps/Product/components/ProductVerification/ProductVerification';
+import { useDocsWithPrivateMedia, useBiometricsWithPrivateMedia } from 'apps/media';
+import { VerificationWithExtras } from 'models/VerificationOld.model';
 import { reviewVerificationClear, verificationSkip } from '../../state/reviewMode.actions';
 import { selectReviewVerificationModelWithExtras, selectReviewVerificationWithExtras, selectVerificationProductList } from '../../state/reviewMode.selectors';
 import { useStyles } from './ReviewContainer.styles';
@@ -24,6 +26,9 @@ export function ReviewContainer() {
   const dispatch = useDispatch();
   const history = useHistory();
   const verification = useSelector(selectReviewVerificationWithExtras);
+  const documentsWithPrivateMedia = useDocsWithPrivateMedia(verification?.documents, Routes.review.root);
+  const biometricsWithPrivateMedia = useBiometricsWithPrivateMedia(verification?.biometric);
+  const resultVerification = useMemo<VerificationWithExtras>(() => ({ ...verification, documents: documentsWithPrivateMedia, biometric: biometricsWithPrivateMedia }), [biometricsWithPrivateMedia, documentsWithPrivateMedia, verification]);
   const verificationModel = useSelector(selectReviewVerificationModelWithExtras);
   const productList = useSelector(selectVerificationProductList);
   const isActive = useAfkListener(600);
@@ -64,7 +69,7 @@ export function ReviewContainer() {
             </Grid>
             <Grid item xs={12} lg={8} xl={10} className={classes.products}>
               <Box p={2}>
-                <ProductVerification isReviewMode productId={selectedProduct} verification={verification} />
+                <ProductVerification isReviewMode productId={selectedProduct} verification={resultVerification} />
               </Box>
             </Grid>
           </Grid>

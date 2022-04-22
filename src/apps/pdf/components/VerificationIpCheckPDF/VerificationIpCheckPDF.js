@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { Image, Text, View } from '@react-pdf/renderer';
 import { StepStatus } from 'models/Step.model';
 import { getIpCheckStatus, getIpCheckUrl } from 'models/IpCheckOld.model';
+import { getMediaURL } from 'lib/client/media';
 import { VerificationSummaryTitleTypes } from 'models/Identity.model';
 import { VerificationCheckCardPDF } from '../VerificationCheckCardPDF/VerificationCheckCardPDF';
 import { VerificationSummaryTitlePDF } from '../VerificationSummaryTitlePDF/VerificationSummaryTitlePDF';
@@ -33,7 +34,7 @@ export function VerificationIpCheckPDF({ ipCheck }) {
       noWrap
     >
       <View style={commonStyles.mapBox} wrap={false}>
-        <Image style={commonStyles.map} src={getIpCheckUrl(ipCheck?.data)} />
+        <Image style={commonStyles.map} src={getMediaURL(getIpCheckUrl(ipCheck?.data), false)} />
       </View>
     </VerificationCheckCardPDF>
   );

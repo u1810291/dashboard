@@ -1,17 +1,14 @@
-import React, { ImgHTMLAttributes, useState } from 'react';
+import React, { ImgHTMLAttributes } from 'react';
 import { ImageSkeleton } from 'apps/ui';
-import { getMediaURL } from 'lib/client/media';
+import { MediaStatusTypes } from '../../models/Media.model';
+import { useWaitMediaDownloading } from '../../hooks/waitMediaDownloading.hook';
 
-export function ImageContainer({ src, alt, ...props }: ImgHTMLAttributes<HTMLImageElement> & {src: string}) {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+export function ImageContainer({ src, alt, ...props }: ImgHTMLAttributes<HTMLImageElement> & {src: string | Promise<string>}) {
+  const [imageUrl, isMediaLoaded] = useWaitMediaDownloading(src);
 
-  const hideSkeletonLoader = () => setIsLoading(false);
+  if (src === MediaStatusTypes.MediaIsLoading || !isMediaLoaded) {
+    return (<ImageSkeleton className={props.className} />);
+  }
 
-  return (
-    <>
-      {isLoading && <ImageSkeleton className={props.className} />}
-      {/* TODO: Refine hide mechanism here */}
-      <img src={getMediaURL(src)} alt={alt} style={{ display: isLoading ? 'none' : 'inherit' }} {...props} onLoad={hideSkeletonLoader} />
-    </>
-  );
+  return (<img src={imageUrl} alt={alt} {...props} />);
 }

@@ -4,25 +4,25 @@ import { Product, ProductSettingsProps, ProductTypes } from 'models/Product.mode
 import React, { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { selectFlowBuilderProductsInGraph } from 'apps/flowBuilder/store/FlowBuilder.selectors';
-import { ProductTitle } from 'apps/ui';
+import { ProductTitle } from '../../../ui';
 import { productManagerService } from '../../services/ProductManager.service';
 
-export function ProductSettings<Flow = IFlow>({ flow, productId, onUpdate }: {
-  flow: Flow;
+export function ProductSettings({ flow, productId, onUpdate }: {
+  flow: IFlow;
   productId: ProductTypes;
-  onUpdate: (patch: Partial<Flow>) => void;
+  onUpdate: (patch: Partial<IFlow>) => void;
 }) {
   const productsInGraph = useSelector(selectFlowBuilderProductsInGraph);
 
-  const product: Product<Flow> = useMemo(() => productManagerService.getProduct(productId), [productId]);
+  const product: Product = useMemo(() => productManagerService.getProduct(productId), [productId]);
   const settings = useMemo(() => product.parser(flow, productsInGraph), [product, flow, productsInGraph]);
   // TODO @dkchv: !!! review again
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const card = useMemo(() => product.getCard(), [product, flow]);
 
   const handleUpdate = useCallback((newSettings: any) => {
-    onUpdate(product.serialize(newSettings, flow));
-  }, [onUpdate, product, flow]);
+    onUpdate(product.serialize(newSettings));
+  }, [product, onUpdate]);
 
   const settingsEl = useMemo(() => React.createElement<ProductSettingsProps>(product.component, {
     settings,
