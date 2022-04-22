@@ -9,6 +9,7 @@ export const QATags = {
     Metrics: 'menu-metrics',
     VerificationList: 'menu-verificationList',
     Product: 'menu-verificationFlows',
+    Workflow: 'menu-workflows',
     Templates: 'menu-tenplates',
     ForDevelopers: 'menu-forDevelopers',
     FAQ: 'menu-faq',
@@ -18,6 +19,7 @@ export const QATags = {
     Logout: 'menu-logout',
     WhatsNew: 'menu-whats-new',
     ProductBoard: 'menu-roadmap',
+    StatusPage: 'status-page',
   },
 
   Modal: {

@@ -43,6 +43,8 @@ import { PRODUCT_BOARD_STORE_KEY } from 'apps/ProductBoard/state/ProductBoard.st
 import { productBoardReducer } from 'apps/ProductBoard/state/ProductBoard.reducer';
 import { SOLUTION_CATALOG_STORE_KEY, solutionCatalogReducer } from 'apps/SolutionCatalog';
 import { TEMPLATES_STORE_KEY, templatesReducer } from 'apps/Templates';
+import { WORKFLOW_STORE_KEY } from 'pages/WorkflowList/state/workflow.store';
+import workflowReducer from 'pages/WorkflowList/state/workflow.reducer';
 import { WORKFLOW_BUILDER_STORE_KEY } from 'apps/WorkflowBuilder/store/WorkflowBuilder.store';
 import { workflowBuilderReducer } from 'apps/WorkflowBuilder/store/WorkflowBuilder.reducer';
 
@@ -72,6 +74,7 @@ export const appReducers = combineReducers({
   [PRODUCT_BOARD_STORE_KEY]: productBoardReducer,
   [SOLUTION_CATALOG_STORE_KEY]: solutionCatalogReducer,
   [TEMPLATES_STORE_KEY]: templatesReducer,
+  [WORKFLOW_STORE_KEY]: workflowReducer,
 });
 
 export const rootReducers = (state, action) => {

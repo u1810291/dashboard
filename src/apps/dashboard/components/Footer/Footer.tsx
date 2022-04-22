@@ -1,7 +1,6 @@
 import { Container, Paper } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
-import { LiveStatusBanner } from 'apps/liveStatusBanner';
 import React from 'react';
 import { useStyles } from './Footer.styles';
 import facebookLogo from './images/facebookLogo.svg';
@@ -14,11 +13,7 @@ export function Footer() {
   return (
     <Paper color="secondary" square elevation={0} className={classes.root}>
       <Container maxWidth={false} className={classes.container}>
-        <Grid container>
-          {/* left */}
-          <Grid item className={classes.company}>
-            <LiveStatusBanner />
-          </Grid>
+        <Grid justifyContent="flex-end" container>
 
           {/* right */}
           <Grid item className={classes.links}>

@@ -1,9 +1,10 @@
-import { Logo } from 'apps/logo/models/Logo.model';
+import { LogoUrls } from 'apps/logo';
 import { get } from 'lodash';
 import { BiometricTypes } from 'models/Biometric.model';
 import { DocumentTypes } from 'models/Document.model';
 import { ProductIntegrationTypes } from 'models/Product.model';
 import { IFacematchFlow } from 'apps/FacematchService';
+import { IFlowStyle } from 'models/Workflow.model';
 import { FormatMessage } from 'apps/intl';
 import { IESignatureFlow } from './ESignature.model';
 import { IpValidation } from './IpCheckOld.model';
@@ -69,11 +70,6 @@ export function createEmptyFlow(formatMessage: FormatMessage, data?: Partial<IFl
   };
 }
 
-export interface FlowStyle {
-  color?: string;
-  language?: string;
-}
-
 export type IFlowPhoneOwnership = {
   cooldownTimeout: 'PT1M' | string;
   codeAttemptLimit: number;
@@ -110,12 +106,12 @@ export interface IFlow {
   ipValidation?: IpValidation;
   inputTypes?: { id?: string }[];
   inputValidationChecks?: InputValidationCheck[];
-  logo?: Logo;
+  logo?: LogoUrls;
   name?: string;
   policyInterval?: string;
   postponedTimeout?: string;
   pinnedCountries?: string[];
-  style?: FlowStyle;
+  style?: IFlowStyle;
   customFieldsConfig?: Partial<VerificationCustomFieldsInputData>;
   supportedCountries?: string[];
   updatedAt?: string;

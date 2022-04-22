@@ -6,7 +6,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { signOut } from 'apps/auth/state/auth.actions';
 import { IntlButton, useFormatMessage } from 'apps/intl';
 import { TopMenuItem } from 'apps/layout';
-import { useOverlay } from 'apps/overlay';
 import { ReactComponent as MatiLogoWithText } from 'assets/metamap-logo-white.svg';
 import { ReactComponent as MatiLogo } from 'assets/metamap-logo-review.svg';
 
@@ -14,14 +13,15 @@ import classnames from 'classnames';
 import { QATags } from 'models/QA.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiChevronsLeft, FiChevronsRight, FiLogOut, FiPlusCircle, FiSettings } from 'react-icons/fi';
+import { FiChevronsLeft, FiChevronsRight, FiLogOut, FiSettings } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import { selectIsOwnerModel, selectMerchantBusinessName, selectMerchantTags } from 'state/merchant/merchant.selectors';
-import { useRole, TeamInviteModal, collaboratorInvite, selectCollaboratorState } from 'apps/collaborators';
+import { useRole } from 'apps/collaborators';
 import { WithAuditor } from 'models/Collaborator.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { Loadable } from 'models/Loadable.model';
+import { LiveStatusButton } from 'apps/liveStatus';
 import { setIsDesktopMenuOpen } from '../../state/dashboard.actions';
 import { selectIsDesktopMenuOpen } from '../../state/dashboard.selectors';
 import { useLogout } from '../LogoutModal/LogoutModal';
@@ -33,39 +33,23 @@ export function DashboardMenu() {
   const ownerModel = useSelector<any, Loadable<boolean>>(selectIsOwnerModel);
   const isOwner = ownerModel.isLoaded && ownerModel.value === true;
   const classes = useStyles();
-  const state = useSelector(selectCollaboratorState);
-  const formatMessage = useFormatMessage();
   const history = useHistory();
   const dispatch = useDispatch();
   const isDesktop = useMediaQuery('(min-width:768px)', { noSsr: true });
-  const isDesktopMenuOpen = useSelector(selectIsDesktopMenuOpen);
-  const [isOpen, setIsOpen] = useState(isDesktop && isDesktopMenuOpen);
-  const name = useSelector(selectMerchantBusinessName);
+  const isDesktopMenuOpen = useSelector<any, boolean>(selectIsDesktopMenuOpen);
+  const [isOpen, setIsOpen] = useState<boolean>(isDesktop && isDesktopMenuOpen);
+  const name = useSelector<string>(selectMerchantBusinessName);
   const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
   const canAddTemplate = merchantTags.includes(MerchantTags.CanUseAddSolutionToCatalog);
-  const [createOverlay, closeOverlay] = useOverlay();
   const logout = useLogout();
   const role = useRole();
+  const formatMessage = useFormatMessage();
 
   const handleLogout = useCallback(async () => {
-    // @ts-ignore
-    await logout(formatMessage('confirm_string'));
+    await logout();
     dispatch(signOut());
     history.push(Routes.root);
-  }, [dispatch, history, logout, formatMessage]);
-
-  const openInviteModal = useCallback(() => {
-    if (!isDesktop) {
-      setIsOpen(false);
-    }
-    createOverlay(<TeamInviteModal
-      onSubmit={(data) => {
-        closeOverlay();
-        dispatch(collaboratorInvite(formatMessage, data));
-      }}
-      isPosting={state.isPosting}
-    />);
-  }, [state, isDesktop, setIsOpen, createOverlay, closeOverlay, dispatch, formatMessage]);
+  }, [dispatch, history, logout]);
 
   const toggleDrawerOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -137,6 +121,12 @@ export function DashboardMenu() {
           <Box>
             <SecondaryMenu isOwner={isOwner} isOpen={isOpen} />
           </Box>
+          <Box p={2}>
+            <Divider className={classes.menuDivider} />
+          </Box>
+          <Box>
+            <LiveStatusButton />
+          </Box>
         </Grid>
         <Grid item className={classes.contentBottom}>
           <Box px={1.6} pb={2.5} pt={2}>
@@ -152,22 +142,6 @@ export function DashboardMenu() {
                 </Box>
               )}
           </Box>
-          {isOwner && (
-            <Box pr={2} pl={1.5}>
-              <Button
-                className={classnames(classes.inviteButton, {
-                  [classes.inviteButtonSm]: !isOpen,
-                })}
-                variant="contained"
-                color="primary"
-                onClick={openInviteModal}
-                startIcon={<FiPlusCircle />}
-                data-qa={QATags.Menu.InviteTeammate}
-              >
-                {isOpen && formatMessage('settings.teamSettings.inviteTeammate')}
-              </Button>
-            </Box>
-          )}
           <Box pt={1}>
             {/* @ts-ignore */}
             <TopMenuItem
