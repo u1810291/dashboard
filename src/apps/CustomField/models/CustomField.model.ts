@@ -130,7 +130,6 @@ export enum MappingCountryTypes {
 }
 
 export const MAPPING_ALLOWED_COUNTRIES = [
-  MappingCountryTypes.Global,
   MappingCountryTypes.Indonesia,
   MappingCountryTypes.Nigeria,
 ];
