@@ -630,6 +630,7 @@
   "CustomField.settings.fieldRegex.placeholder": "Specify format (?<=\\.) {2,}(?=[A-Z])",
   "CustomField.settings.fieldSpecificCountry": "Choose specific country for the input",
   "CustomField.settings.fieldSpecificDocument": "Choose specific document type / field",
+  "CustomField.settings.clearMapping": "Clear mapping",
   "CustomField.settings.fieldSpecificDocument.certificate-of-incorporation.CAC.rc-bn-number": "Certificate of incorporation / RC/BN number",
   "CustomField.settings.fieldSpecificDocument.certificate-of-tax.TIN.tin": "Certificate of tax identification / TIN",
   "CustomField.settings.fieldSpecificDocument.dateOfBirth": "Date Of Birth",

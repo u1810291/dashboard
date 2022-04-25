@@ -13,7 +13,7 @@ import { Country } from 'models/Country.model';
 import { ICustomField, IMapping } from 'models/CustomField.model';
 import { CustomFieldModalFooter } from '../CustomFieldModalFooter/CustomFieldModalFooter';
 import { updateCustomFieldEditedField, updateCustomFieldEditedFieldMapping, updateCustomFieldModalStep } from '../../state/CustomField.actions';
-import { CONFIG_BY_KEY, CustomFieldModalTypes, EMPTY_MAPPING, getNotSelectedMapping, MappingValueKey } from '../../models/CustomField.model';
+import { CONFIG_BY_KEY, CustomFieldModalTypes, EMPTY_MAPPING, getNotSelectedMapping, MappingCountryTypes, MappingValueKey } from '../../models/CustomField.model';
 import { SelectUI } from './CustomFieldModalMapping.styles';
 import { selectCustomFieldCountriesForMapping, selectCustomFieldEditedCustomField, selectCustomFieldFlattenListFields, selectCustomFieldSelectedCustomFieldMapping } from '../../state/CustomField.selectors';
 
@@ -105,23 +105,25 @@ export function CustomFieldModalMapping() {
             ))}
           </SelectUI>
         </Grid>
-        <Grid item container spacing={1} alignItems="center">
-          <Grid item>
-            <Typography variant="body1">
-              {formatMessage('CustomField.settings.fieldDisplayIfSelectingCountry')}
-            </Typography>
+        {mapping.country !== MappingCountryTypes.Global && (
+          <Grid item container spacing={1} alignItems="center">
+            <Grid item>
+              <Typography variant="body1">
+                {formatMessage('CustomField.settings.fieldDisplayIfSelectingCountry')}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Switch
+                disabled={!mapping?.country}
+                color="primary"
+                size="small"
+                name="shouldFilter"
+                checked={mapping.shouldFilter}
+                onChange={handleShouldFilterChange}
+              />
+            </Grid>
           </Grid>
-          <Grid item>
-            <Switch
-              disabled={!mapping?.country}
-              color="primary"
-              size="small"
-              name="shouldFilter"
-              checked={mapping.shouldFilter}
-              onChange={handleShouldFilterChange}
-            />
-          </Grid>
-        </Grid>
+        )}
         <Grid item>
           <Typography variant="subtitle2">
             {formatMessage('CustomField.settings.fieldSpecificDocument')}
@@ -145,7 +147,7 @@ export function CustomFieldModalMapping() {
             size="large"
             onClick={handleAtomicFieldMappingParamsClear}
           >
-            Clear mapping
+            {formatMessage('CustomField.settings.clearMapping')}
           </Button>
         </Grid>
 
