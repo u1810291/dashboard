@@ -98,6 +98,9 @@ export function CustomFieldModalMapping() {
             onChange={handleAtomicFieldMappingCountryChange}
             value={mapping?.country}
           >
+            <MenuItem value={MappingCountryTypes.Global}>
+              {formatMessage('Global')}
+            </MenuItem>
             {countriesList.map((country) => (
               <MenuItem key={country.code} value={country.code}>
                 {formatMessage(`Countries.${country.code}`)}
