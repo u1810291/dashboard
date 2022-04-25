@@ -172,27 +172,23 @@ export const createDraftFromTemplate = () => async (dispatch, getState) => {
 };
 
 export const createFlowFromTemplate = (name: string, asMerchantId) => async (dispatch, getState): Promise<IFlow> => {
-  try {
-    const merchantId = selectMerchantId(getState());
-    const newFlow = await dispatch(merchantCreateFlow({ name })) as IFlow;
-    const changeableFlow = selectFlowBuilderChangeableFlow(getState());
-    const { data }: ApiResponse<IFlow> = await flowUpdate(merchantId, newFlow.id, {
-      ...{ ...changeableFlow, name },
-      _id: undefined,
-      createdAt: undefined,
-      id: undefined,
-      updatedAt: undefined,
-      pinnedCountries: undefined,
-      inputTypes: undefined,
-    });
+  const merchantId = selectMerchantId(getState());
+  const newFlow = await dispatch(merchantCreateFlow({ name })) as IFlow;
+  const changeableFlow = selectFlowBuilderChangeableFlow(getState());
+  const { data }: ApiResponse<IFlow> = await flowUpdate(merchantId, newFlow.id, {
+    ...{ ...changeableFlow, name },
+    _id: undefined,
+    createdAt: undefined,
+    id: undefined,
+    updatedAt: undefined,
+    pinnedCountries: undefined,
+    inputTypes: undefined,
+  });
 
-    const updatedFlow = mergeDeep(changeableFlow, data);
-    await dispatch({ type: flowBuilderActionTypes.CHANGEABLE_FLOW_SUCCESS, payload: data, isReset: true });
-    await dispatch({ type: flowBuilderActionTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
-    await dispatch({ type: merchantTypes.FLOWS_SUCCESS, payload: [], isReset: true });
-    await dispatch(merchantFlowsLoad(asMerchantId));
-    return updatedFlow;
-  } catch (error) {
-    return error;
-  }
+  const updatedFlow = mergeDeep(changeableFlow, data);
+  await dispatch({ type: flowBuilderActionTypes.CHANGEABLE_FLOW_SUCCESS, payload: data, isReset: true });
+  await dispatch({ type: flowBuilderActionTypes.HAVE_UNSAVED_CHANGES_UPDATE, payload: false });
+  await dispatch({ type: merchantTypes.FLOWS_SUCCESS, payload: [], isReset: true });
+  await dispatch(merchantFlowsLoad(asMerchantId));
+  return updatedFlow;
 };

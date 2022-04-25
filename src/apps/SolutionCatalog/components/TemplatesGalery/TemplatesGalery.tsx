@@ -12,7 +12,6 @@ import 'swiper/components/pagination/pagination.min.css';
 import { TemplateCard } from '../TemplateCard/TemplateCard';
 import { useStyles } from './TemplatesGalery.styles';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function TemplatesGallery({ templates, handleCardClick }: TemplateGaleryProps) {
   const classes = useStyles();
 
