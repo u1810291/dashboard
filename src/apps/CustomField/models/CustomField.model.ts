@@ -61,13 +61,14 @@ export enum MappingValueKey {
   NationalIdNINDocumentNumber = 'national-id.NIN.documentNumber',
   NationalIdBVNDocumentNumber = 'national-id.BVN.documentNumber',
   NationalIdVINDocumentNumber = 'national-id.VIN.documentNumber',
-  NationalIdFirstName = 'national-id.firstName',
-  NationalIdLastName = 'national-id.lastName',
-  NationalIdDateOfBirth = 'national-id.dateOfBirth',
   CertificateOfTaxTINTin = 'certificate-of-tax.TIN.tin',
   CertificateOfIncorporationCACRcBnNumber = 'certificate-of-incorporation.CAC.rc-bn-number',
   NationalIdKTPNik = 'national-id.KTP.nik',
-  NationalIdKTPName = 'national-id.KTP.name',
+  FirstName = 'firstName',
+  LastName = 'lastName',
+  DateOfBirth = 'dateOfBirth',
+  FullName = 'fullName',
+  MiddleName = 'middleName',
 }
 
 export interface ICustomFieldConfig {
@@ -96,19 +97,19 @@ export const CONFIG_BY_KEY: Record<string, ICustomFieldConfig> = {
     regex: '^[a-zA-Z]{2}?\\s?[0-9]{6,7}$',
     type: AtomicCustomFieldType.Text,
   },
-  [MappingValueKey.NationalIdFirstName]: {
+  [MappingValueKey.FirstName]: {
     regex: '',
     type: AtomicCustomFieldType.Text,
   },
-  [MappingValueKey.NationalIdLastName]: {
+  [MappingValueKey.LastName]: {
     regex: '',
     type: AtomicCustomFieldType.Text,
   },
-  [MappingValueKey.NationalIdDateOfBirth]: {
+  [MappingValueKey.MiddleName]: {
     regex: '',
-    type: AtomicCustomFieldType.Date,
+    type: AtomicCustomFieldType.Text,
   },
-  [MappingValueKey.NationalIdDateOfBirth]: {
+  [MappingValueKey.DateOfBirth]: {
     regex: '',
     type: AtomicCustomFieldType.Date,
   },
@@ -116,35 +117,39 @@ export const CONFIG_BY_KEY: Record<string, ICustomFieldConfig> = {
     regex: '^[0-9]{16}$',
     type: AtomicCustomFieldType.Text,
   },
-  [MappingValueKey.NationalIdKTPName]: {
+  [MappingValueKey.FullName]: {
     regex: '',
     type: AtomicCustomFieldType.Text,
   },
 };
 
 export enum MappingCountryTypes {
+  Global = 'AA',
   Indonesia = 'ID',
   Nigeria = 'NG',
 }
 
 export const MAPPING_ALLOWED_COUNTRIES = [
+  MappingCountryTypes.Global,
   MappingCountryTypes.Indonesia,
   MappingCountryTypes.Nigeria,
 ];
 
 export const MAPPING_OPTIONS = {
+  [MappingCountryTypes.Global]: [
+    MappingValueKey.FirstName,
+    MappingValueKey.MiddleName,
+    MappingValueKey.LastName,
+    MappingValueKey.FullName,
+    MappingValueKey.DateOfBirth,
+  ],
   [MappingCountryTypes.Indonesia]: [
-    MappingValueKey.NationalIdKTPName,
     MappingValueKey.NationalIdKTPNik,
-    MappingValueKey.NationalIdDateOfBirth,
   ],
   [MappingCountryTypes.Nigeria]: [
     MappingValueKey.NationalIdNINDocumentNumber,
     MappingValueKey.NationalIdBVNDocumentNumber,
     MappingValueKey.NationalIdVINDocumentNumber,
-    MappingValueKey.NationalIdFirstName,
-    MappingValueKey.NationalIdLastName,
-    MappingValueKey.NationalIdDateOfBirth,
     MappingValueKey.CertificateOfTaxTINTin,
     MappingValueKey.CertificateOfIncorporationCACRcBnNumber,
   ],
@@ -404,6 +409,9 @@ export const atomicFieldIsValid = (selectedCustomField: ICustomField, listFlatte
 export const getNotSelectedMapping = (listFlattenFields: ICustomField[], mapping: IMapping, oldMapping: IMapping): MappingValueKey[] => {
   if (!mapping?.country) {
     return [];
+  }
+  if (mapping.country === MappingCountryTypes.Global) {
+    return MAPPING_OPTIONS[mapping?.country].slice();
   }
   const notSelected = MAPPING_OPTIONS[mapping?.country].filter((option) => !listFlattenFields.find((field) => field?.atomicFieldParams?.mapping?.key === option)) || [];
   if (oldMapping.country === mapping.country && !notSelected.includes(oldMapping.key)) {
