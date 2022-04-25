@@ -4,17 +4,10 @@ import { TextField, InputLabel, Box, Button } from '@material-ui/core';
 import { useFormatMessage } from 'apps/intl';
 import { notification } from 'apps/ui';
 import { CLEAN_TEXT_REG_EXP, EMAIL_REG_EXP } from 'lib/validations';
-import { CollaboratorInputTypes, CollaboratorOptions, CollaboratorRoles } from 'models/Collaborator.model';
+import { CollaboratorInputTypes, CollaboratorOptions, CollaboratorRoles, TeamInviteFormInputs } from 'models/Collaborator.model';
 import { QATags } from 'models/QA.model';
 import { RoleField } from '../RoleField/RoleField';
 import { useStyles } from './TeamInviteForm.styles';
-
-interface TeamInviteFormInputs {
-  [CollaboratorInputTypes.FirstName]: string;
-  [CollaboratorInputTypes.LastName]: string;
-  [CollaboratorInputTypes.Email]: string;
-  [CollaboratorInputTypes.Role]: CollaboratorRoles;
-}
 
 export function TeamInviteForm({ onSubmit, onClose }: {
   onSubmit: (data: TeamInviteFormInputs) => void;

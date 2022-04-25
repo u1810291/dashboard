@@ -1,11 +1,12 @@
-import { Box, IconButton } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
 import { IFlow } from 'models/Flow.model';
 import { ProductTypes } from 'models/Product.model';
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { FiX } from 'react-icons/fi';
-import { ProductSettings } from 'apps/Product/components/ProductSettings/ProductSettings';
+import { ProductSettings } from 'apps/Product';
 import { flowBuilderProductSelect } from '../../store/FlowBuilder.action';
 import { useStyles } from './FlowBuilderProductDetails.styles';
 

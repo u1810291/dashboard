@@ -45,6 +45,11 @@ export const useStyles = makeStyles((theme) => createStyles({
     height: '100%',
     minWidth: 1060,
   },
+  buttonsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   flowInfo: {
     position: 'relative',
     borderRadius: 10,

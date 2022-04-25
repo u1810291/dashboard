@@ -1,6 +1,6 @@
 import { useOverlay } from 'apps/overlay';
 import React, { useCallback } from 'react';
-import { DeleteModal } from '../components/DeleteModal/DeleteModal';
+import { DeleteModal } from 'apps/ui/components/DeleteModal/DeleteModal';
 
 export function useConfirmDelete(title?: React.ReactNode, subtitle?: React.ReactNode) {
   const [createOverlay, closeOverlay] = useOverlay();
