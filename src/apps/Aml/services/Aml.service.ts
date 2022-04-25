@@ -50,6 +50,9 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
       [AmlSettingsTypes.Monitoring]: {
         value: pattern === AmlValidationTypes.SearchMonitoring,
       },
+      [AmlSettingsTypes.BasicWatchlistsPattern]: {
+        value: flow?.verificationPatterns[VerificationPatternTypes.BasicWatchlistsValidation],
+      },
       [AmlSettingsTypes.AmlThreshold]: {
         value: flow?.amlWatchlistsFuzzinessThreshold ?? 50,
       },
@@ -71,6 +74,7 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]: pattern,
+        [VerificationPatternTypes.BasicWatchlistsValidation]: settings[AmlSettingsTypes.BasicWatchlistsPattern].value,
       },
       amlWatchlistsFuzzinessThreshold: settings[AmlSettingsTypes.AmlThreshold].value,
       [AmlSettingsTypes.BasicWatchlists]: settings[AmlSettingsTypes.BasicWatchlists].value,
@@ -81,7 +85,6 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]: AmlValidationTypes.Search,
-        [VerificationPatternTypes.BasicWatchlistsValidation]: true,
       },
     };
   }
