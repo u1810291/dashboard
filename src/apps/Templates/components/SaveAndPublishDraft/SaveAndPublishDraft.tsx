@@ -39,10 +39,13 @@ export function SaveAndPublishDraft({ isEditMode = false }: { isEditMode?: boole
     const value = (text || '').trim();
     const duplicate = merchantFlowList.find((item) => item.name === value);
     await flowNameValidator({ hasDuplicate: !!duplicate, name: value });
-    const newFlow = await dispatch(createFlowFromTemplate(value, asMerchantId));
-    // @ts-ignore
-    history.push(`${Routes.templates.draftFlow}/${newFlow.id}`);
-  }, [dispatch, history, asMerchantId, merchantFlowList]);
+    try {
+      const newFlow = await dispatch(createFlowFromTemplate(value, asMerchantId)) as IFlow;
+      history.push(`${Routes.templates.draftFlow}/${newFlow.id}`);
+    } catch (error) {
+      notification.error(formatMessage('Error.common'));
+    }
+  }, [dispatch, history, asMerchantId, merchantFlowList, formatMessage]);
 
   const handleFlowSave = () => {
     createOverlay(<AddNewFlowModal submitNewFlow={newFlowSubmit} />);
