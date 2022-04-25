@@ -121,6 +121,7 @@ export const DocumentStepTypes = {
   ArgentinianDni: VerificationPatternTypes.ArgentinianDni,
   SalvadorianTse: VerificationPatternTypes.SalvadorianTse,
   DominicanJce: VerificationPatternTypes.DominicanJce,
+  DominicanRnc: VerificationPatternTypes.DominicanRnc,
   DuplicateUserDetectionCheck: VerificationPatternTypes.DuplicateUserDetection,
   HonduranRnp: VerificationPatternTypes.HonduranRnp,
   PremiumAmlWatchlistsCheck: VerificationPatternTypes.PremiumAmlWatchListsSearchValidation,
@@ -220,6 +221,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.ParaguayanRcp,
   DocumentStepTypes.PanamenianTribunalElectoral,
   DocumentStepTypes.DominicanJce,
+  DocumentStepTypes.DominicanRnc,
   DocumentStepTypes.PeruvianReniec,
   DocumentStepTypes.PeruvianSunat,
   DocumentStepTypes.CostaRicanAtv,
@@ -305,6 +307,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.CostaRicanSocialSecurity]: ['costaRicanSocialSecurity.notEnoughParams'],
   [DocumentStepTypes.PanamenianTribunalElectoral]: ['panamenianTribunalElectoral.notEnoughParams'],
   [DocumentStepTypes.DominicanJce]: ['dominicanJce.notEnoughParams'],
+  [DocumentStepTypes.DominicanRnc]: ['dominicanRnc.notEnoughParams'],
   [DocumentStepTypes.VenezuelanCne]: ['venezuelanCne.notEnoughParams'],
   [StepTypes.PhoneOwnership]: ['phoneOwnership.notEnoughParams', 'phoneOwnership.skipped'],
   [StepTypes.PhoneRiskValidation]: ['phoneRisk.skipped'],
@@ -332,6 +335,7 @@ export const OptionalGovCheckErrorCodes = {
   [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
   [VerificationStepTypes.IndonesianKTPValidation]: ['indonesianKTP.faceBiometricsMismatch', 'indonesianKTP.dobMismatch', 'indonesianKTP.nameMismatch'],
   [DocumentStepTypes.ColombianSisben]: ['colombianSisben.fullNameMismatch'],
+  [DocumentStepTypes.DominicanRnc]: ['dominicanRnc.nameMismatch'],
 };
 
 export const RootGovChecksErrorsToHide = {

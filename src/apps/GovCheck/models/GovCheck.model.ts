@@ -53,6 +53,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.CostaRicanTse]: false,
   [VerificationPatternTypes.CostaRicanSocialSecurity]: false,
   [VerificationPatternTypes.DominicanJce]: false,
+  [VerificationPatternTypes.DominicanRnc]: false,
   [VerificationPatternTypes.EcuadorianRegistroCivil]: false,
   [VerificationPatternTypes.EcuadorianSri]: false,
   [VerificationPatternTypes.GhanaianGra]: false,
@@ -376,6 +377,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         id: VerificationPatternTypes.DominicanJce,
         default: false,
       },
+      {
+        id: DocumentStepTypes.DominicanRnc,
+        default: false,
+      },
     ],
   },
   {
@@ -592,22 +597,20 @@ export const govCheckDisplayOptions = {
   [DocumentStepTypes.DominicanJce]: {
     valid: {},
   },
-  [DocumentStepTypes.EcuadorianRegistroCivil]: {
+  [DocumentStepTypes.DominicanRnc]: {
+    valid: {
+      hidden: true,
+    },
     fullName: {},
-    documentNumber: {
+    rnc: {},
+    commercialName: {},
+    category: {
       inline: true,
     },
-    dateOfIssue: {
+    paymentScheme: {
       inline: true,
     },
-    processNumber: {},
     status: {},
-    requestedDocumentNumber: {
-      hidden: true,
-    },
-    requestorFullName: {
-      hidden: true,
-    },
   },
   [DocumentStepTypes.CostaRicanAtv]: {
     fullName: {},
