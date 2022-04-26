@@ -28,6 +28,8 @@ export enum ProductTypes {
   Metadata = 'Metadata',
 }
 
+export type MeritId = string;
+
 export interface ProductSetting {
   value: any;
   isDisabled?: boolean;
@@ -94,9 +96,9 @@ export interface Product<S = IFlow, T = VerificationResponse> {
   isConfigurable: boolean;
   isIssuesIgnored: boolean;
   parser(flow: S, productsInGraph?: ProductTypes[]): ProductSettings;
-  serialize(settings: ProductSettings): Partial<S>;
+  serialize(settings: ProductSettings, flow?: S): Partial<S>;
   onRemove(flow: S): Partial<S>;
-  onAdd(): Partial<S>;
+  onAdd(flow?: S): Partial<S>;
   getRemovingAlertComponent?(flow: S, productsInGraph?: ProductTypes[]): any;
   haveIssues?(flow: S, productsInGraph?: ProductTypes[]): boolean;
   isSdkOnly?(): boolean;

@@ -10,7 +10,7 @@ import { QATags } from 'models/QA.model';
 import { ProductCheckList } from '../ProductCheckList/ProductCheckList';
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, useStyles } from './UIProductCard.styles';
 
-export function UIProductCard({ card, issuesComponent, isExpandable = true, isControls = false, defaultExpanded = false, onOpen, onRemove }: {
+export function UIProductCard({ card, issuesComponent, isExpandable = true, isControls = false, defaultExpanded = false, onOpen = () => {}, onRemove }: {
   card: IProductCard;
   issuesComponent?: React.ReactNode;
   isExpandable?: boolean;
@@ -38,21 +38,21 @@ export function UIProductCard({ card, issuesComponent, isExpandable = true, isCo
 
   return (
     <Box className={classes.root}>
-      <ExpansionPanel expanded={isExpanded} onChange={handleChange} onClick={isControls && onOpen} TransitionProps={{ unmountOnExit: true }}>
+      <ExpansionPanel expanded={isExpanded} onChange={handleChange} onClick={isControls ? onOpen : undefined} TransitionProps={{ unmountOnExit: true }}>
         <ExpansionPanelSummary expandIcon={isExpandable && card.checks.length > 0 && <ExpandMoreIcon />}>
           <Grid container alignItems="center" wrap="nowrap">
             {card.icon && (
-              <Grid container justify="center" alignItems="center" className={classes.iconWrapper}>
-                <Box className={classes.icon}>{card.icon}</Box>
+              <Grid container justifyContent="center" alignItems="center" className={classes.iconWrapper}>
+                <Box className={classes.icon} color={issuesComponent && 'common.black50'}>{card.icon}</Box>
               </Grid>
             )}
             <Box ml={1} mr={2}>
               {card.title && (
-                <Box mb={0.5} fontSize={16} color="common.black90">
+                <Box mb={0.5} fontSize={16} color={issuesComponent ? 'common.black50' : 'common.black90'}>
                   {intl.formatMessage({ id: card.title })}
                 </Box>
               )}
-              <Box color="common.black75">
+              <Box color={issuesComponent ? 'common.black50' : 'common.black75'}>
                 {card.inputs.length > 0 && (
                   intl.formatMessage({ id: 'Product.card.usersInput' }, {
                     inputs: card.inputs.map((item) => intl.formatMessage({ id: `Product.userInput.${item}` })).join(', '),

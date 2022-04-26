@@ -1,3 +1,5 @@
+import { PasswordExpirationPolicyDurationValue } from 'models/Settings.model';
+
 export type MerchantId = string;
 
 export interface ISenderEmail {
@@ -15,6 +17,11 @@ export interface IMerchantSettings {
   customDocumentConfig: unknown[];
 }
 
+export interface StepsOptions {
+  stepId: string;
+  completed: boolean;
+}
+
 export interface Merchant {
   logoUrl: string;
   id: MerchantId;
@@ -27,6 +34,7 @@ export interface Merchant {
   updatedAt: Date;
   tags: MerchantTags[];
   settings: IMerchantSettings;
+  onboardingSteps?: StepsOptions[];
 }
 
 export enum MerchantTags {
@@ -52,9 +60,11 @@ export enum MerchantTags {
   CanUseFinancialInformationPayrollAccountsRetrieving = 'can-use-financial-information-payroll-accounts-retrieving',
   CanUseFacematchCPFInAr = 'can-use-facematch-in-ar-govchecks',
   CanUseFacematchCPFInBr = 'can-use-facematch-in-br-govchecks',
+  CanUseAddSolutionToCatalog = 'can-add-solution-to-catalog',
   CanUseIndonesianKTP = 'can-use-indonesian-ktp',
   CanUseArRenaperExtended = 'can-use-ar-renaper-extended-govcheck',
   CanUseNigerianBNV = 'can-use-nigerian-bvn',
+  CanUseV2Workflow = 'can-use-v2-workflow',
   CanUseNigerianCac = 'can-use-nigerian-cac',
   CanUseNigerianTin = 'can-use-nigerian-tin',
   CanUseNigerianDL = 'can-use-nigerian-dl',
@@ -63,4 +73,5 @@ export enum MerchantTags {
   CanUseBasicWatchlists = 'can-use-basic-watchlists',
   CanManageBasicWatchlists = 'can-manage-basic-watchlists',
   CanUseDuplicateFaceDetection = 'can-use-duplicate-face-detection',
+  CanUseSolutionTemplates = 'can-use-solution-templates',
 }
