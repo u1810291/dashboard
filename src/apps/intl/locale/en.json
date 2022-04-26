@@ -1831,6 +1831,7 @@
   "SecurityCheckStep.indonesian-ktp-validation.title": "Dukcapil KTP",
   "SecurityCheckStep.indonesianKTP.notFound.message": "The provided NIK wasn't found at Dukcapil",
   "SecurityCheckStep.indonesianKTP.faceBiometricsMismatch.message": "The biometric data didn’t match to the Dukcapil data",
+  "SecurityCheckStep.indonesianKTP.fullNameMismatch.message": "The name didn’t match to the Dukcapil data",
   "SecurityCheckStep.indonesianKTP.nameMismatch.message": "The name didn’t match to the Dukcapil data",
   "SecurityCheckStep.indonesianKTP.dobMismatch.message": "The date of birth didn’t match to the Dukcapil data",
   "SecurityCheckStep.indonesianKTP.notEnoughParams.message": "NIK number has not been provided",
