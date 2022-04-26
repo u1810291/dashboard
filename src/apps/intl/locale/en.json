@@ -1088,6 +1088,7 @@
   "FlowBuilder.integration.mobileHybridSDKsnippet.title": "Mobile native and hybrid SDK code snippet",
   "FlowBuilder.integration.sdk": "SDK",
   "FlowBuilder.integration.sdkOnly": "SDK only",
+  "FlowBuilder.issue.countriesNotSpecified": "Please select at least one country",
   "FlowBuilder.logo.sdk": "Logo inside SDK",
   "FlowBuilder.notification.issues": "Some merits on this metamap are not enabled for your account",
   "FlowBuilder.notification.saved": "Changes have been saved",
