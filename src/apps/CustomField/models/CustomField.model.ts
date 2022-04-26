@@ -405,16 +405,16 @@ export const atomicFieldIsValid = (selectedCustomField: ICustomField, listFlatte
   return isNameUniq(listFlattenFields, oldName, selectedCustomField.name);
 };
 
-export const getNotSelectedMapping = (listFlattenFields: ICustomField[], mapping: IMapping, oldMapping: IMapping): MappingValueKey[] => {
-  if (!mapping?.country) {
+export const getNotSelectedMapping = (listFlattenFields: ICustomField[], newMapping: IMapping, mapping: IMapping): MappingValueKey[] => {
+  if (!newMapping?.country) {
     return [];
   }
-  if (mapping.country === MappingCountryTypes.Global) {
-    return MAPPING_OPTIONS[mapping?.country].slice();
+  if (newMapping.country === MappingCountryTypes.Global) {
+    return MAPPING_OPTIONS[newMapping?.country].slice();
   }
-  const notSelected = MAPPING_OPTIONS[mapping?.country].filter((option) => !listFlattenFields.find((field) => field?.atomicFieldParams?.mapping?.key === option)) || [];
-  if (oldMapping.country === mapping.country && !notSelected.includes(oldMapping.key)) {
-    notSelected.push(oldMapping.key);
+  const notSelected = MAPPING_OPTIONS[newMapping?.country].filter((option) => !listFlattenFields.find((field) => field?.atomicFieldParams?.mapping?.key === option)) || [];
+  if (MappingValueKey?.[mapping.key] && mapping.country === newMapping.country && !notSelected.includes(mapping.key)) {
+    notSelected.push(mapping.key);
   }
   return notSelected;
 };
