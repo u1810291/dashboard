@@ -14,11 +14,14 @@ export function useDownloadAllPrivateMedia(objectWithMedia: any) {
   useEffect(() => {
     setMediaBlobUrls([]);
     // TODO: aturkin (Facematch) links can be internal (via authorisation) or from a merchant's database, where no authorisation is needed, fix logic next time
-    const faceMatchStep = objectWithMedia?.find((step) => step.id === VerificationPatternTypes.Facematch);
-    const newMediaWithDownload = startDownloadMedia(objectWithMedia?.filter((step) => ![VerificationPatternTypes.Facematch, BiometricVerificationCheckTypes.Liveness, BiometricVerificationCheckTypes.VoiceLiveness].includes(step.id)), handlePushToBlobCollection);
-    if (faceMatchStep) {
-      newMediaWithDownload.push(faceMatchStep);
-    }
+    const newMediaWithDownload = [];
+    objectWithMedia?.forEach((step) => {
+      if ([VerificationPatternTypes.Facematch, BiometricVerificationCheckTypes.Liveness, BiometricVerificationCheckTypes.VoiceLiveness].includes(step.id)) {
+        newMediaWithDownload.push(step);
+        return;
+      }
+      newMediaWithDownload.push(startDownloadMedia(step, handlePushToBlobCollection));
+    });
     setMediaWithDownload(newMediaWithDownload);
   }, [handlePushToBlobCollection, objectWithMedia]);
 
