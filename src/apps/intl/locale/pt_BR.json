@@ -2542,7 +2542,7 @@
   "identity.field.status": "Status",
   "identity.field.surname": "Sobrenome",
   "identity.field.taxCondition": "Condição fiscal",
-  "identity.field.taxID": "ID Fiscal",
+  "identity.field.taxId": "ID Fiscal",
   "identity.field.taxPayerType": "Tipo de contribuinte",
   "identity.field.taxStatus": "Status Fiscal",
   "identity.field.taxpayerNumber": "Número de contribuinte",
