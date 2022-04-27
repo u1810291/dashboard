@@ -1089,7 +1089,7 @@
   "FlowBuilder.integration.sdk": "SDK",
   "FlowBuilder.integration.sdkOnly": "SDK only",
   "FlowBuilder.logo.sdk": "Logo inside SDK",
-  "FlowBuilder.notification.issues": "Some merits on this metamap are not enabled for your account",
+  "FlowBuilder.notification.issues": "Your user's Metamap is not correctly configured",
   "FlowBuilder.notification.saved": "Changes have been saved",
   "FlowBuilder.notification.unsavedChanges": "You have unsaved changes",
   "FlowBuilder.placeholder": "Please go to the desktop to use this page",
