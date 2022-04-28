@@ -163,6 +163,7 @@ export const MAPPING_OPTIONS = {
     MappingValueKey.DateOfBirth,
   ],
   [MappingCountryTypes.Indonesia]: [
+    MappingValueKey.NationalIdDateOfBirth,
     MappingValueKey.NationalIdKTPName,
     MappingValueKey.NationalIdKTPNik,
   ],
