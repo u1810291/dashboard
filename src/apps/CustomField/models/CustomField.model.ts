@@ -58,11 +58,15 @@ export const MODAL_BY_FIELD_TYPE = {
 };
 
 export enum MappingValueKey {
+  NationalIdFirstName = 'national-id.firstName',
+  NationalIdLastName = 'national-id.lastName',
+  NationalIdDateOfBirth = 'national-id.dateOfBirth',
   NationalIdNINDocumentNumber = 'national-id.NIN.documentNumber',
   NationalIdBVNDocumentNumber = 'national-id.BVN.documentNumber',
   NationalIdVINDocumentNumber = 'national-id.VIN.documentNumber',
   CertificateOfTaxTINTin = 'certificate-of-tax.TIN.tin',
   CertificateOfIncorporationCACRcBnNumber = 'certificate-of-incorporation.CAC.rc-bn-number',
+  NationalIdKTPName = 'national-id.KTP.name',
   NationalIdKTPNik = 'national-id.KTP.nik',
   FirstName = 'firstName',
   LastName = 'lastName',
@@ -77,6 +81,18 @@ export interface ICustomFieldConfig {
 }
 
 export const CONFIG_BY_KEY: Record<string, ICustomFieldConfig> = {
+  [MappingValueKey.NationalIdFirstName]: {
+    regex: '',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.NationalIdLastName]: {
+    regex: '',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.NationalIdDateOfBirth]: {
+    regex: '',
+    type: AtomicCustomFieldType.Date,
+  },
   [MappingValueKey.NationalIdNINDocumentNumber]: {
     regex: '^[0-9]{11}$',
     type: AtomicCustomFieldType.Text,
@@ -97,6 +113,14 @@ export const CONFIG_BY_KEY: Record<string, ICustomFieldConfig> = {
     regex: '^[a-zA-Z]{2}?\\s?[0-9]{6,7}$',
     type: AtomicCustomFieldType.Text,
   },
+  [MappingValueKey.NationalIdKTPNik]: {
+    regex: '^[0-9]{16}$',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.NationalIdKTPName]: {
+    regex: '',
+    type: AtomicCustomFieldType.Text,
+  },
   [MappingValueKey.FirstName]: {
     regex: '',
     type: AtomicCustomFieldType.Text,
@@ -112,10 +136,6 @@ export const CONFIG_BY_KEY: Record<string, ICustomFieldConfig> = {
   [MappingValueKey.DateOfBirth]: {
     regex: '',
     type: AtomicCustomFieldType.Date,
-  },
-  [MappingValueKey.NationalIdKTPNik]: {
-    regex: '^[0-9]{16}$',
-    type: AtomicCustomFieldType.Text,
   },
   [MappingValueKey.FullName]: {
     regex: '',
@@ -143,9 +163,13 @@ export const MAPPING_OPTIONS = {
     MappingValueKey.DateOfBirth,
   ],
   [MappingCountryTypes.Indonesia]: [
+    MappingValueKey.NationalIdKTPName,
     MappingValueKey.NationalIdKTPNik,
   ],
   [MappingCountryTypes.Nigeria]: [
+    MappingValueKey.NationalIdFirstName,
+    MappingValueKey.NationalIdLastName,
+    MappingValueKey.NationalIdDateOfBirth,
     MappingValueKey.NationalIdNINDocumentNumber,
     MappingValueKey.NationalIdBVNDocumentNumber,
     MappingValueKey.NationalIdVINDocumentNumber,
