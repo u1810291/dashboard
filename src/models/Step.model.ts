@@ -36,6 +36,7 @@ export enum VerificationStepTypes {
   ReFacematch = 're-facematch',
   DuplicateUserDetection = 'duplicate-user-detection',
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
+  BackgroundBrazilianChecks = 'brazilian-background-checks',
   CustomWatchlistsValidation = 'custom-watchlists-validation',
   NigerianCacValidation = 'nigerian-cac-validation',
   NigerianLegalValidation = 'nigerian-legal-validation',

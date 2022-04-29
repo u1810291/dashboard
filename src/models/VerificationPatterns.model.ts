@@ -15,6 +15,7 @@ export enum VerificationPatternTypes {
   BrazilianCpfLight = 'brazilian-cpf-light-validation',
   BrazilianNoCriminalRecordsValidation = 'brazilian-no-criminal-records-validation',
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
+  BackgroundBrazilianChecks = 'brazilian-background-checks',
   CreditArgentinianFidelitas = 'credit-argentinian-fidelitas-validation',
   CreditBrazilianSerasa = 'credit-brazilian-serasa-validation',
   ChileanRut = 'chilean-rut-validation',
@@ -100,6 +101,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.BrazilianCpf]?: string; // GovCheckStepTypes.BrazilianCpf
   [VerificationPatternTypes.BrazilianCpfLight]?: boolean;
   [VerificationPatternTypes.BackgroundMexicanBuholegal]?: boolean;
+  [VerificationPatternTypes.BackgroundBrazilianChecks]?: boolean;
   [VerificationPatternTypes.EcuadorianRegistroCivil]?: boolean;
   [VerificationPatternTypes.EcuadorianSri]?: boolean;
   [VerificationPatternTypes.HonduranRnp]?: boolean;

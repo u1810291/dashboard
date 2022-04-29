@@ -14,32 +14,52 @@ export enum BackgroundChecksTypes {
 
 export enum BackgroundCheckCountryTypes {
   Mexico = 'MX',
+  Brazil = 'BR',
 }
 
 export const backgroundCheckCountriesOrder = [
   BackgroundCheckCountryTypes.Mexico,
+  BackgroundCheckCountryTypes.Brazil,
 ];
 
-export interface BackgroundCheck {
+export interface IBackgroundCheck {
   id: string;
   default: boolean;
   value?: boolean;
+  options?: Record<string, any>;
 }
 
-export interface BackgroundCheckConfiguration {
+export interface IBackgroundCheckConfiguration {
   country: BackgroundCheckCountryTypes;
-  checks: BackgroundCheck[];
+  checks: IBackgroundCheck[];
 }
 
-export const backgroundCheckConfigurations: BackgroundCheckConfiguration[] = [{
-  country: BackgroundCheckCountryTypes.Mexico,
-  checks: [
-    {
-      id: VerificationStepTypes.BackgroundMexicanBuholegal,
-      default: false,
-    },
-  ],
-}];
+export const backgroundCheckConfigurations: IBackgroundCheckConfiguration[] = [
+  {
+    country: BackgroundCheckCountryTypes.Mexico,
+    checks: [
+      {
+        id: VerificationStepTypes.BackgroundMexicanBuholegal,
+        default: false,
+        options: {
+          doubly: false,
+        },
+      },
+    ],
+  },
+  {
+    country: BackgroundCheckCountryTypes.Brazil,
+    checks: [
+      {
+        id: VerificationStepTypes.BackgroundBrazilianChecks,
+        default: false,
+        options: {
+          doubly: true,
+        },
+      },
+    ],
+  },
+];
 
 export const backgroundCheckDisplayOptions = {
   [VerificationStepTypes.BackgroundMexicanBuholegal]: {
@@ -58,26 +78,26 @@ export const backgroundCheckDisplayOptions = {
   },
 };
 
-export enum BackgroundCheckStatuses {
+export enum BackgroundCheckStatusesTypes {
   Accepted = 'Accepted',
   Rejected = 'Rejected',
 }
 
-export interface BackgroundCheckStepData {
+export interface IBackgroundCheckStepData {
   name: string | null;
   curp: string | null;
   dateOfBirth: string | null;
   age: number | null;
   gender: string | null;
-  status: BackgroundCheckStatuses;
+  status: BackgroundCheckStatusesTypes;
   resource: null;
   timestamp: null;
   stepExtra: any[];
 }
 
 export const backgroundCheckVerificationShieldIconsMap = {
-  [BackgroundCheckStatuses.Accepted]: <GreenShield />,
-  [BackgroundCheckStatuses.Rejected]: <RedShield />,
+  [BackgroundCheckStatusesTypes.Accepted]: <GreenShield />,
+  [BackgroundCheckStatusesTypes.Rejected]: <RedShield />,
 };
 
 export const BackgroundChecksSteps = [
@@ -88,7 +108,7 @@ export const backgroundCheckVerificationPatterns: readonly VerificationPatternTy
   VerificationPatternTypes.BackgroundMexicanBuholegal,
 ];
 
-export function backgroundCheckParse(list: BackgroundCheck[], pattern): BackgroundCheck[] {
+export function backgroundCheckParse(list: IBackgroundCheck[], pattern): IBackgroundCheck[] {
   return list.map((item) => ({
     ...item,
     value: pattern[item.id] !== undefined ? pattern[item.id] : item.default,

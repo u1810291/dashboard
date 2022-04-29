@@ -13,7 +13,7 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { IStep, StepCodeStatus } from 'models/Step.model';
 import { AlertTypes } from 'apps/ui/models/Alert.model';
 import { appPalette } from 'apps/theme';
-import { backgroundCheckDisplayOptions, backgroundCheckVerificationShieldIconsMap, BackgroundCheckStepData, BackgroundCheckStatuses } from 'models/BackgroundCheck.model';
+import { backgroundCheckDisplayOptions, backgroundCheckVerificationShieldIconsMap, IBackgroundCheckStepData, BackgroundCheckStatusesTypes } from 'models/BackgroundCheck.model';
 import { backgroundCheckManualRun } from '../../state/BackgroundCheck.actions';
 import { useStyles } from './BackgroundCheckVerificationProduct.styles';
 import { BackgroundCheckListItem } from '../BackgroundCheckListItem/BackgroundCheckListItem';
@@ -25,7 +25,7 @@ export function BackgroundCheckVerificationProduct() {
   const verification = useSelector(selectVerification);
   const verificationStepsExtra = useSelector(selectVerificationStepsExtra);
 
-  const backgroundStep: IStep<BackgroundCheckStepData> = useMemo(() => (
+  const backgroundStep: IStep<IBackgroundCheckStepData> = useMemo(() => (
     verificationStepsExtra.find((step) => step.id === VerificationPatternTypes.BackgroundMexicanBuholegal)
   ), [verificationStepsExtra]);
 
@@ -133,7 +133,7 @@ export function BackgroundCheckVerificationProduct() {
                   type={AlertTypes.TransparentError}
                 />
               )}
-              {backgroundStep.data.status === BackgroundCheckStatuses.Accepted && (
+              {backgroundStep.data.status === BackgroundCheckStatusesTypes.Accepted && (
                 <Alert
                   title={intl.formatMessage({ id: 'BackgroundCheck.verification.status.accepted' })}
                   type={AlertTypes.TransparentError}
