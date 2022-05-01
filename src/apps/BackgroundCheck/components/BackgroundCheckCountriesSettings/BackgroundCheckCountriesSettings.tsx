@@ -5,8 +5,8 @@ import { IBackgroundCheck, backgroundCheckConfigurations, backgroundCheckCountri
 import { useIntl } from 'react-intl';
 import { VerificationPatterns } from 'models/VerificationPatterns.model';
 import { flagMap } from 'assets/flags';
-import { useStyles } from './BackgroundCheckCountriesSettings.styles';
 import { ExtendedDescription } from 'apps/ui';
+import { useStyles } from './BackgroundCheckCountriesSettings.styles';
 
 export function BackgroundCheckCountriesSettings({ verificationPattern, onChange }: {
   verificationPattern: Partial<VerificationPatterns>;
@@ -32,11 +32,9 @@ export function BackgroundCheckCountriesSettings({ verificationPattern, onChange
   }, [verificationPattern]);
 
   const handleSwitch = useCallback((item: IBackgroundCheck) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('first');
     onChange({ [item.id]: event.target.checked });
   }, [onChange]);
   const handleSwitch2 = useCallback((item: IBackgroundCheck) => {
-    console.log('first2');
     onChange({ [item.id]: !item.value });
   }, [onChange]);
 

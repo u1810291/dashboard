@@ -102,10 +102,12 @@ export const backgroundCheckVerificationShieldIconsMap = {
 
 export const BackgroundChecksSteps = [
   VerificationStepTypes.BackgroundMexicanBuholegal,
+  VerificationStepTypes.BackgroundBrazilianChecks,
 ];
 
 export const backgroundCheckVerificationPatterns: readonly VerificationPatternTypes[] = [
   VerificationPatternTypes.BackgroundMexicanBuholegal,
+  VerificationPatternTypes.BackgroundBrazilianChecks,
 ];
 
 export function backgroundCheckParse(list: IBackgroundCheck[], pattern): IBackgroundCheck[] {
