@@ -36,6 +36,7 @@ export enum VerificationPatternTypes {
   CustomWatchlistsValidation = 'custom-watchlists-validation',
   CustomFieldsValidation = 'custom-fields-validation',
   DominicanJce = 'dominican-jce-validation',
+  DominicanRnc = 'dominican-rnc-validation',
   DuplicateUserDetection = 'duplicate-user-detection',
   DuplicateUserValidation = 'duplicate-user-detection',
   EcuadorianRegistroCivil = 'ecuadorian-registro-civil-validation',
@@ -46,6 +47,7 @@ export enum VerificationPatternTypes {
   GuatemalanTse = 'guatemalan-tse-validation',
   IpValidation = 'ip-validation',
   HonduranRnp = 'honduran-rnp-validation',
+  IndonesianKPTValidation = 'indonesian-ktp-validation',
   KenyanEcitizen = 'kenyan-ecitizen-validation',
   MexicanCurp = 'mexican-curp-validation',
   MexicanIne = 'mexican-ine-validation',
@@ -117,10 +119,12 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.CustomWatchlistsValidation]?: boolean;
   [VerificationPatternTypes.CustomFieldsValidation]?: boolean;
   [VerificationPatternTypes.DominicanJce]?: boolean;
+  [VerificationPatternTypes.DominicanRnc]?: boolean;
   [VerificationPatternTypes.ParaguayanRcp]?: boolean;
   [VerificationPatternTypes.DuplicateUserDetection]?: boolean;
   [VerificationPatternTypes.GuatemalanTse]?: boolean;
   [VerificationPatternTypes.IpValidation]?: IpCheckValidationTypes;
+  [VerificationPatternTypes.IndonesianKPTValidation]?: string;
   [VerificationPatternTypes.KenyanEcitizen]?: boolean;
   [VerificationPatternTypes.MexicanCurp]?: boolean;
   [VerificationPatternTypes.MexicanIne]?: boolean;

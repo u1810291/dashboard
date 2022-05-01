@@ -38,6 +38,7 @@ export enum AmlSettingsTypes {
   Monitoring = 'monitoring',
   AmlThreshold = 'amlThreshold',
   BasicWatchlists = 'basicWatchlists',
+  BasicWatchlistsPattern = 'basicWatchlistsPattern',
 }
 
 export enum AmlCheckTypes {

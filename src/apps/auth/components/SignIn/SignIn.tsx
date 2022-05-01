@@ -8,9 +8,9 @@ import { Button, Grid, Typography, InputLabel, AppBar, Box, TextField } from '@m
 import { notification } from 'apps/ui';
 import { EMAIL_REG_EXP } from 'lib/validations';
 import { ReactComponent as MatiLogo } from 'assets/metamap-logo.svg';
-import { IntlButton } from 'apps/intl';
+import { IntlButton, useFormatMessage } from 'apps/intl';
 import { Routes } from 'models/Router.model';
-import { ErrorStatuses } from 'models/Error.model';
+import { ErrorStatuses, ErrorTypes } from 'models/Error.model';
 import { QATags } from 'models/QA.model';
 import { useStyles } from './SignIn.styles';
 import { signIn } from '../../state/auth.actions';
@@ -29,6 +29,7 @@ export function SignIn() {
   const history = useHistory();
   const classes = useStyles();
   const [createOverlay] = useOverlay();
+  const formatMessage = useFormatMessage();
 
   const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<SignInInputs>();
 
@@ -47,32 +48,41 @@ export function SignIn() {
       history.push(Routes.root);
     } catch (error: any) {
       const status = error?.response?.status;
+      const details = error?.response.data.details;
 
       switch (status) {
         case ErrorStatuses.WrongCredentials:
-          setError(AuthInputTypes.Password, {
-            type: 'manual',
-            message: intl.formatMessage({ id: 'SignIn.form.error.wrongCredentials' }),
-          });
+          if (details === ErrorTypes.PasswordExpired) {
+            createOverlay(<Modal
+              title={formatMessage('SignIn.passwordExpiryModal.title')}
+              subtitle={formatMessage('SignIn.passwordExpiryModal.subtitle')}
+              imgSrc={UpdatePasswordIcon}
+            />);
+          } else {
+            setError(AuthInputTypes.Password, {
+              type: 'manual',
+              message: formatMessage('SignIn.form.error.wrongCredentials'),
+            });
+          }
           break;
         case ErrorStatuses.BlockedByMerchant:
-          notification.error(intl.formatMessage({ id: 'SignIn.form.error.blocked' }));
+          notification.error(formatMessage('SignIn.form.error.blocked'));
           break;
         case ErrorStatuses.TooManyRequests:
-          notification.error(intl.formatMessage({ id: 'SignIn.form.error.tooManyRequest' }));
+          notification.error(formatMessage('SignIn.form.error.tooManyRequest'));
           break;
         case ErrorStatuses.PasswordInvalid:
           createOverlay(<Modal
-            title={intl.formatMessage({ id: 'SignIn.updatePasswordModal.title' })}
-            subtitle={intl.formatMessage({ id: 'SignIn.updatePasswordModal.subtitle' })}
+            title={formatMessage('SignIn.updatePasswordModal.title')}
+            subtitle={formatMessage('SignIn.updatePasswordModal.subtitle')}
             imgSrc={UpdatePasswordIcon}
           />);
           break;
         default:
-          notification.error(intl.formatMessage({ id: 'Error.common' }));
+          notification.error(formatMessage('Error.common'));
       }
     }
-  }, [dispatch, history, intl, setError, createOverlay]);
+  }, [dispatch, history, formatMessage, setError, createOverlay]);
 
   return (
     <Grid container className={classes.container}>
@@ -85,15 +95,15 @@ export function SignIn() {
           <Box className={classes.form}>
             <Box mb={5}>
               <Typography variant="h1" gutterBottom>
-                {intl.formatMessage({ id: 'SignIn.title' })}
+                {formatMessage('SignIn.title')}
               </Typography>
               <Grid container alignItems="baseline">
                 <Typography variant="h4" className={classes.subtitle}>
-                  {intl.formatMessage({ id: 'SignIn.subtitle' })}
+                  {formatMessage('SignIn.subtitle')}
                 </Typography>
                 &nbsp;
                 <a href="https://www.metamap.com/contact-us" className={classes.link}>
-                  {intl.formatMessage({ id: 'SignIn.subtitle.link' })}
+                  {formatMessage('SignIn.subtitle.link')}
                 </a>
               </Grid>
             </Box>
@@ -101,7 +111,7 @@ export function SignIn() {
               <Grid container direction="column">
                 <Grid item className={classes.inputWrapper}>
                   <InputLabel className={classes.label}>
-                    {intl.formatMessage({ id: 'SignIn.form.labels.email' })}
+                    {formatMessage('SignIn.form.labels.email')}
                   </InputLabel>
                   <TextField
                     {...emailRegister}
@@ -117,10 +127,10 @@ export function SignIn() {
                 <Grid item className={classes.inputWrapper}>
                   <Grid container alignItems="baseline" justify="space-between">
                     <InputLabel className={classes.label}>
-                      {intl.formatMessage({ id: 'SignIn.form.labels.password' })}
+                      {formatMessage('SignIn.form.labels.password')}
                     </InputLabel>
                     <Link data-qa={QATags.Auth.Recovery.ForgotPasswordButton} to={Routes.auth.passwordRecovery}>
-                      {intl.formatMessage({ id: 'SignIn.recovery' })}
+                      {formatMessage('SignIn.recovery')}
                     </Link>
                   </Grid>
                   <TextField
@@ -144,7 +154,7 @@ export function SignIn() {
                   disabled={isSubmitting}
                   type="submit"
                 >
-                  {intl.formatMessage({ id: 'SignIn.title' })}
+                  {formatMessage('SignIn.title')}
                 </Button>
               </Grid>
             </form>

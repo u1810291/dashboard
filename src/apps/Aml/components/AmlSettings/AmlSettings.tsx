@@ -58,11 +58,22 @@ export function AmlSettings({ settings, onUpdate }: ProductSettingsProps<AmlSett
     onUpdate(newSettings);
   }, [settings, onUpdate]);
 
+  const handleBasicWatchlistValidationToggle = useCallback((_, checked: boolean) => {
+    const newSettings = cloneDeep(settings);
+    newSettings[AmlSettingsTypes.BasicWatchlistsPattern].value = checked;
+    onUpdate(newSettings);
+  }, [onUpdate, settings]);
+
   return (
     <Box>
       {canUseBasicWatchlists && (
         <Box mb={4}>
-          <BasicWatchlist basicWatchlistsIds={settings[AmlSettingsTypes.BasicWatchlists].value} onBasicWatchlistsSelected={handleBasicWatchlistsSelected} />
+          <BasicWatchlist
+            basicWatchlistsIds={settings[AmlSettingsTypes.BasicWatchlists].value}
+            isBasicWatchlistChecked={settings[AmlSettingsTypes.BasicWatchlistsPattern].value}
+            onBasicWatchlistsSelected={handleBasicWatchlistsSelected}
+            onBasicWatchlistValidationToggle={handleBasicWatchlistValidationToggle}
+          />
         </Box>
       )}
       <Box mb={4}>

@@ -6,7 +6,6 @@ import { get } from 'lodash';
 import { isCovidTolerance } from 'models/Covid.model';
 import { getFieldsExtra } from 'models/Field.model';
 import { AmlDocumentStepTypes, getPremiumAmlWatchlistsCheckExtraData } from 'apps/Aml/models/Aml.model';
-import { PremiumAmlWatchlistStepData } from './Document.model';
 import { VerificationPatternTypes } from './VerificationPatterns.model';
 
 export type StepStatusType = 0 | 100 | 200;
@@ -42,6 +41,7 @@ export enum VerificationStepTypes {
   NigerianLegalValidation = 'nigerian-legal-validation',
   BasicWatchlistsValidation = 'basic-watchlists-validation',
   NigerianTinValidation = 'nigerian-tin-validation',
+  IndonesianKTPValidation = 'indonesian-ktp-validation',
 }
 
 export enum StepStatus {
@@ -120,6 +120,7 @@ export const DocumentStepTypes = {
   ArgentinianDni: VerificationPatternTypes.ArgentinianDni,
   SalvadorianTse: VerificationPatternTypes.SalvadorianTse,
   DominicanJce: VerificationPatternTypes.DominicanJce,
+  DominicanRnc: VerificationPatternTypes.DominicanRnc,
   DuplicateUserDetectionCheck: VerificationPatternTypes.DuplicateUserDetection,
   HonduranRnp: VerificationPatternTypes.HonduranRnp,
   PremiumAmlWatchlistsCheck: VerificationPatternTypes.PremiumAmlWatchListsSearchValidation,
@@ -219,6 +220,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.ParaguayanRcp,
   DocumentStepTypes.PanamenianTribunalElectoral,
   DocumentStepTypes.DominicanJce,
+  DocumentStepTypes.DominicanRnc,
   DocumentStepTypes.PeruvianReniec,
   DocumentStepTypes.PeruvianSunat,
   DocumentStepTypes.CostaRicanAtv,
@@ -233,6 +235,7 @@ export const CountrySpecificChecks = [
   VerificationPatternTypes.NigerianCac,
   VerificationStepTypes.NigerianLegalValidation,
   VerificationStepTypes.NigerianTinValidation,
+  VerificationStepTypes.IndonesianKTPValidation,
 ];
 
 export function hasFailureStep(steps: IStep[]): boolean {
@@ -303,6 +306,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.CostaRicanSocialSecurity]: ['costaRicanSocialSecurity.notEnoughParams'],
   [DocumentStepTypes.PanamenianTribunalElectoral]: ['panamenianTribunalElectoral.notEnoughParams'],
   [DocumentStepTypes.DominicanJce]: ['dominicanJce.notEnoughParams'],
+  [DocumentStepTypes.DominicanRnc]: ['dominicanRnc.notEnoughParams'],
   [DocumentStepTypes.VenezuelanCne]: ['venezuelanCne.notEnoughParams'],
   [StepTypes.PhoneOwnership]: ['phoneOwnership.notEnoughParams', 'phoneOwnership.skipped'],
   [StepTypes.PhoneRiskValidation]: ['phoneRisk.skipped'],
@@ -328,7 +332,9 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.ColombianRunt]: ['colombianRunt.fullNameMismatch', 'colombianRunt.hasFines'],
   [DocumentStepTypes.ArgentinianRenaper]: ['argentinianRenaper.deceasedPerson', 'argentinianRenaper.fullNameMismatch'],
   [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
+  [VerificationStepTypes.IndonesianKTPValidation]: ['indonesianKTP.faceBiometricsMismatch', 'indonesianKTP.dobMismatch', 'indonesianKTP.nameMismatch'],
   [DocumentStepTypes.ColombianSisben]: ['colombianSisben.fullNameMismatch'],
+  [DocumentStepTypes.DominicanRnc]: ['dominicanRnc.nameMismatch'],
 };
 
 export const RootGovChecksErrorsToHide = {
@@ -356,6 +362,15 @@ function getAltered(step, verification, countries, document) {
     default:
       return step;
   }
+}
+
+export interface PremiumAmlWatchlistStepData {
+  isMonitoringAvailable: boolean;
+  nameSearched: string;
+  profileUrl?: string;
+  searchId: number;
+  searchedOn: string;
+  updatedOn?: string;
 }
 
 export function getDocumentStep(id, steps = []) {

@@ -6,3 +6,4 @@ export * from './components/ByFlows/ByFlows';
 export * from './components/ByStatuses/ByStatuses';
 export * from './components/ByVerificationEventTypes/ByVerificationEventTypes';
 export * from './hooks/filterURL.hook';
+export * from './components/TemplateFilters/TemplateFilters';
