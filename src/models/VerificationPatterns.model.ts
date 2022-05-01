@@ -86,7 +86,7 @@ export enum VerificationPatternTypes {
   BasicWatchlistsValidation = 'basic-watchlists-validation',
 }
 
-export interface VerificationPatterns {
+export interface IVerificationPatterns {
   [VerificationPatternTypes.ArgentinianAnses]?: boolean;
   [VerificationPatternTypes.ArgentinianDni]?: boolean;
   [VerificationPatternTypes.ArgentinianRenaper]?: string;

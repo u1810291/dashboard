@@ -3,14 +3,14 @@ import React, { useMemo, useCallback } from 'react';
 import { Box, FormControl, Grid, Switch } from '@material-ui/core';
 import { IBackgroundCheck, backgroundCheckConfigurations, backgroundCheckCountriesOrder, backgroundCheckParse } from 'models/BackgroundCheck.model';
 import { useIntl } from 'react-intl';
-import { VerificationPatterns } from 'models/VerificationPatterns.model';
+import { IVerificationPatterns } from 'models/VerificationPatterns.model';
 import { flagMap } from 'assets/flags';
 import { ExtendedDescription } from 'apps/ui';
 import { useStyles } from './BackgroundCheckCountriesSettings.styles';
 
 export function BackgroundCheckCountriesSettings({ verificationPattern, onChange }: {
-  verificationPattern: Partial<VerificationPatterns>;
-  onChange: (value: Partial<VerificationPatterns>) => void;
+  verificationPattern: Partial<IVerificationPatterns>;
+  onChange: (value: Partial<IVerificationPatterns>) => void;
 }) {
   const intl = useIntl();
   const classes = useStyles();

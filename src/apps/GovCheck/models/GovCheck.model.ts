@@ -1,5 +1,5 @@
 import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, RootGovChecksErrorsToHide, VerificationStepTypes } from 'models/Step.model';
-import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
+import { IVerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { BiometricTypes } from 'models/Biometric.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { NationalIdTypes, VerificationDocument } from 'models/Document.model';
@@ -1168,7 +1168,7 @@ export function isCanUseGovCheck(govCheck: GovCheck | GovCheckOptions, merchantT
   return govCheck.merchantTags?.every((tag) => merchantTags.includes(tag));
 }
 
-export function isGovCheckOptionDisabled(govCheck: GovCheck, verificationPattern: VerificationPatterns, merchantTags: MerchantTags[]): boolean {
+export function isGovCheckOptionDisabled(govCheck: GovCheck, verificationPattern: IVerificationPatterns, merchantTags: MerchantTags[]): boolean {
   if (!isCanUseGovCheck(govCheck.option, merchantTags)) {
     return true;
   }
@@ -1185,7 +1185,7 @@ export function isGovCheckOptionDisabled(govCheck: GovCheck, verificationPattern
   return false;
 }
 
-export function isGovCheckDisabled(govCheck: GovCheck, verificationPattern: VerificationPatterns, merchantTags: MerchantTags[]): boolean {
+export function isGovCheckDisabled(govCheck: GovCheck, verificationPattern: IVerificationPatterns, merchantTags: MerchantTags[]): boolean {
   if (!isCanUseGovCheck(govCheck, merchantTags)) {
     return true;
   }
@@ -1202,7 +1202,7 @@ export function isGovCheckDisabled(govCheck: GovCheck, verificationPattern: Veri
   return false;
 }
 
-export function govCheckParse(list: GovCheck[], patterns: VerificationPatterns, merchantTags: MerchantTags[]): GovCheckParsed[] {
+export function govCheckParse(list: GovCheck[], patterns: IVerificationPatterns, merchantTags: MerchantTags[]): GovCheckParsed[] {
   return list.map((govCheck) => {
     if (!isCanUseGovCheck(govCheck, merchantTags) && govCheck.hideIsCantUse) {
       return null;

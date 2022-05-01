@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Box } from '@material-ui/core';
 import { ExtendedDescription } from 'apps/ui';
 import { ProductSettingsProps } from 'models/Product.model';
-import { VerificationPatterns } from 'models/VerificationPatterns.model';
+import { IVerificationPatterns } from 'models/VerificationPatterns.model';
 import cloneDeep from 'lodash/cloneDeep';
 import { BackgroundCheckSettingTypes } from 'models/BackgroundCheck.model';
 import { useFormatMessage } from 'apps/intl';
@@ -10,7 +10,7 @@ import { BackgroundCheckCountriesSettings } from '../BackgroundCheckCountriesSet
 
 export function BackgroundCheckSettings({ settings, onUpdate }: ProductSettingsProps) {
   const formatMessage = useFormatMessage();
-  const handleUpdate = useCallback((settingId: BackgroundCheckSettingTypes) => (newValue: VerificationPatterns) => {
+  const handleUpdate = useCallback((settingId: BackgroundCheckSettingTypes) => (newValue: IVerificationPatterns) => {
     const newSettings = cloneDeep(settings);
     if (settingId === BackgroundCheckSettingTypes.BackgroundChecksSetting) {
       newSettings[settingId].value = { ...newSettings[settingId].value, ...newValue };

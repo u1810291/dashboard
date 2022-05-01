@@ -10,7 +10,7 @@ import { IESignatureFlow } from './ESignature.model';
 import { IpValidation } from './IpCheckOld.model';
 import { InputValidationCheck, InputValidationType } from './ImageValidation.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
-import { VerificationPatterns, VerificationPatternTypes } from './VerificationPatterns.model';
+import { IVerificationPatterns, VerificationPatternTypes } from './VerificationPatterns.model';
 import { IFlowWatchlist } from './CustomWatchlist.model';
 import { VerificationCustomFieldsInputData } from './CustomField.model';
 import { BasicWatchlistIdType } from './Aml.model';
@@ -116,7 +116,7 @@ export interface IFlow {
   supportedCountries?: string[];
   updatedAt?: string;
   verificationSteps?: (DocumentTypes | string)[][];
-  verificationPatterns?: Partial<VerificationPatterns>;
+  verificationPatterns?: Partial<IVerificationPatterns>;
   integrationType?: ProductIntegrationTypes;
   amlWatchlistsFuzzinessThreshold?: number;
   customWatchlists?: IFlowWatchlist[];
