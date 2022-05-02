@@ -2116,6 +2116,7 @@
   "PhoneCheck.settings.companyName.description": "We will use this name in the SMS so your users know it comes on your company’s behalf.",
   "PhoneCheck.settings.companyName.title": "Company name",
   "PhoneCheck.settings.companyName.validations.tooLong": "Company name is too long",
+  "PhoneCheck.settings.companyName.validations.empty": "Company name is required",
   "PhoneCheck.settings.optionalStep.description": "If enabled, phone validation will be an optional step and we will let users skip it.",
   "PhoneCheck.settings.optionalStep.title": "Make step optional",
   "PhoneCheck.settings.phoneValidation.description": "We will send your users a 4 digit code via SMS that they will have to enter during the verification on SDK. ",

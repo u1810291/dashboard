@@ -7,7 +7,9 @@ import { VerificationResponse } from 'models/VerificationOld.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
-import { PhoneCheckCheckTypes, PhoneOwnershipValidationTypes, PhoneCheckSettingTypes } from '../models/PhoneCheck.model';
+import { CompanySettings } from 'apps/settings/components/CompanySettings/CompanySettings';
+import { validateEmpty, validateMaxLength } from 'lib/validations';
+import { PhoneCheckCheckTypes, PhoneOwnershipValidationTypes, PhoneCheckSettingTypes, COMPANY_NAME_LENGTH_LIMIT } from '../models/PhoneCheck.model';
 import { PhoneCheckSettings } from '../components/PhoneCheckSettings/PhoneCheckSettings';
 import { PhoneCheckVerification, PhoneCheckVerificationData } from '../components/PhoneCheckVerification/PhoneCheckVerification';
 
@@ -82,6 +84,11 @@ export class PhoneCheck extends ProductBaseFlowBuilder implements Product {
         [VerificationPatternTypes.PhoneOwnershipValidation]: this.merchantTags.includes(MerchantTags.CanUsePhoneValidation) ? PhoneOwnershipValidationTypes.Sms : PhoneOwnershipValidationTypes.None,
       },
     };
+  }
+
+  haveIssues(flow: IFlow): boolean {
+    const isEmpty = validateEmpty(flow.phoneOwnership?.companyName);
+    return Boolean(validateMaxLength(flow.phoneOwnership?.companyName, COMPANY_NAME_LENGTH_LIMIT) || isEmpty);
   }
 
   isInFlow(flow: IFlow): boolean {
