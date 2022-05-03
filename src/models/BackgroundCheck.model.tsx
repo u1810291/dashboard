@@ -24,8 +24,8 @@ export const backgroundCheckCountriesOrder = [
 
 export interface IBackgroundCheck {
   id: string;
-  default: boolean;
-  value?: boolean;
+  default: boolean | string;
+  value?: boolean | string;
   options?: Record<string, any>;
 }
 
@@ -33,6 +33,21 @@ export interface IBackgroundCheckConfiguration {
   country: BackgroundCheckCountryTypes;
   checks: IBackgroundCheck[];
 }
+
+
+export enum BackgroundCheckTypes {
+  None = 'none',
+  LIGHT = 'light',
+  FULL = 'full',
+}
+
+export const BrazilGovCheckTypesForPattern = {
+  [VerificationPatternTypes.BackgroundBrazilianChecks]: {
+    NONE: BackgroundCheckTypes.None,
+    LIGHT: BackgroundCheckTypes.LIGHT,
+    FULL: BackgroundCheckTypes.FULL,
+  },
+};
 
 export const backgroundCheckConfigurations: IBackgroundCheckConfiguration[] = [
   {
@@ -52,8 +67,18 @@ export const backgroundCheckConfigurations: IBackgroundCheckConfiguration[] = [
     checks: [
       {
         id: VerificationStepTypes.BackgroundBrazilianChecks,
-        default: false,
+        default: BrazilGovCheckTypesForPattern[VerificationPatternTypes.BackgroundBrazilianChecks].NONE,
         options: {
+          list: [
+            {
+              title: 'Full check',
+              value: BrazilGovCheckTypesForPattern[VerificationPatternTypes.BackgroundBrazilianChecks].FULL,
+            },
+            {
+              title: 'Light check',
+              value: BrazilGovCheckTypesForPattern[VerificationPatternTypes.BackgroundBrazilianChecks].LIGHT,
+            },
+          ],
           doubly: true,
         },
       },

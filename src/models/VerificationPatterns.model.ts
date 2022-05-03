@@ -101,7 +101,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.BrazilianCpf]?: string; // GovCheckStepTypes.BrazilianCpf
   [VerificationPatternTypes.BrazilianCpfLight]?: boolean;
   [VerificationPatternTypes.BackgroundMexicanBuholegal]?: boolean;
-  [VerificationPatternTypes.BackgroundBrazilianChecks]?: boolean;
+  [VerificationPatternTypes.BackgroundBrazilianChecks]?: string;
   [VerificationPatternTypes.EcuadorianRegistroCivil]?: boolean;
   [VerificationPatternTypes.EcuadorianSri]?: boolean;
   [VerificationPatternTypes.HonduranRnp]?: boolean;
