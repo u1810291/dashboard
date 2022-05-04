@@ -48,6 +48,7 @@ export { InfoTooltip } from './components/InfoTooltip/InfoTooltip';
 export { ButtonOutlined } from './components/ButtonOutlined/ButtonOutlined.styles';
 export { TimeoutModal } from './components/TimeoutModal/TimeoutModal';
 export { SkeletonThreeRectTwoCircle } from './components/SkeletonGroups';
+export { SkeletonLoaderMultipleRect } from './components/SkeletonGroups';
 export { WithActionDescriptionBordered } from './components/WithActionDescriptionBordered/WithActionDescriptionBordered';
 export { ButtonStyled } from './components/ButtonStyled/ButtonStyled';
 export { Spinner } from './components/Spinner/Spinner';
@@ -61,7 +62,7 @@ export type { ValidatedInputsFieldValuesOptions, IValidatedInputsFieldTypes, IVa
 export { RangeSlider } from './components/RangeSlider/RangeSlider';
 export { FlowIssue } from './components/FlowIssue/FlowIssue';
 export { NoData } from './components/NoData/NoData';
-export { IsDataGenerated } from './components/IsDataGenerated/IsDataGenerated';
+export { DataGenerating } from './components/DataGenerating/DataGenerating';
 export { Select } from './components/Select/Select';
 export { WarningBadge } from './components/WarningBadge/WarningBadge';
 export { TextFieldEditAdornment } from './components/TextFieldEditAdornment/TextFieldEditAdornment';

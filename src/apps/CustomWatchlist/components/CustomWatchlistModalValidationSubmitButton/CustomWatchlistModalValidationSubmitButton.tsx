@@ -15,7 +15,7 @@ export function CustomWatchlistModalValidationSubmitButton({ loading, isWatchlis
 }) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
-  const currentWatchlistError = useSelector<any, IWatchlistValidationError[] | null>(selectCurrentCustomWatchlistError);
+  const currentWatchlistError = useSelector<any, Nullable<IWatchlistValidationError[]>>(selectCurrentCustomWatchlistError);
   const isCurrentWatchlistError = Array.isArray(currentWatchlistError) && currentWatchlistError?.length !== 0;
 
   const buttonText = useMemo(() => {
