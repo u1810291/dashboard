@@ -34,8 +34,8 @@ export function BackgroundCheckCountriesSettings({ verificationPattern, onChange
   const handleSwitch = useCallback((item: IBackgroundCheck) => (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange({ [item.id]: event.target.checked });
   }, [onChange]);
-  const handleSwitch2 = useCallback((item: IBackgroundCheck) => {
-    onChange({ [item.id]: !item.value });
+  const handleSwitch2 = useCallback((item: IBackgroundCheck, value: String) => {
+    onChange({ [item.id]: item.value === value ? item.default : value });
   }, [onChange]);
 
   return (
@@ -52,30 +52,20 @@ export function BackgroundCheckCountriesSettings({ verificationPattern, onChange
             </Grid>
             {toggle.map((checkbox) => (checkbox.options.doubly ? (
               <Box key={checkbox.id} className={classes.extendedDescription}>
-                <ExtendedDescription
-                  title="Full check"
-                  titleColor="common.black75"
-                  textFontSize={10}
-                  postfix={(
-                    <Switch
-                      checked={!!checkbox.value}
-                      onClick={() => handleSwitch2(checkbox)}
-                      color="primary"
-                    />
-                  )}
-                />
-                <ExtendedDescription
-                  title="Light check"
-                  titleColor="common.black75"
-                  textFontSize={10}
-                  postfix={(
-                    <Switch
-                      checked={!checkbox.value}
-                      onClick={() => handleSwitch2(checkbox)}
-                      color="primary"
-                    />
-                  )}
-                />
+                {checkbox.options.list.map(({ title, value }) => (
+                  <ExtendedDescription
+                    title={title}
+                    titleColor="common.black75"
+                    textFontSize={10}
+                    postfix={(
+                      <Switch
+                        checked={value === checkbox.value}
+                        onClick={() => handleSwitch2(checkbox, value)}
+                        color="primary"
+                      />
+                    )}
+                  />
+                ))}
               </Box>
             ) : (
               <Box key={checkbox.id} className={classes.check}>

@@ -26,7 +26,7 @@ export function BackgroundCheckVerificationProduct() {
   const verificationStepsExtra = useSelector(selectVerificationStepsExtra);
 
   const backgroundStep: IStep<IBackgroundCheckStepData> = useMemo(() => (
-    verificationStepsExtra.find((step) => step.id === VerificationPatternTypes.BackgroundMexicanBuholegal)
+    verificationStepsExtra.find((step) => (step.id === VerificationPatternTypes.BackgroundMexicanBuholegal || step.id === VerificationPatternTypes.BackgroundBrazilianChecks))
   ), [verificationStepsExtra]);
 
   const { value: verificationStatus, reasonCode } = verification.verificationStatusDetails;
