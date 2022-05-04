@@ -8,6 +8,7 @@ import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { BackgroundCheckSettings } from '../components/BackgroundCheckSettings/BackgroundCheckSettings';
 import { BackgroundCheckVerificationProduct } from '../components/BackgroundCheckVerificationProduct/BackgroundCheckVerificationProduct';
 import { ReactComponent as BackgroundCheckSVG } from '../assets/background-check.svg';
+import { BackgroundChecksErrorsToHide } from 'models/Step.model';
 
 type ProductSettingsBackgroundCheck = ProductSettings<BackgroundCheckSettingTypes>;
 
@@ -50,11 +51,11 @@ export class BackgroundCheck extends ProductBaseFlowBuilder implements Product {
   }
 
   isInVerification(verification: VerificationResponse): boolean {
-    return verification?.steps?.some((step) => BackgroundChecksSteps.includes(step.id));
+    return verification?.steps?.some((step) => BackgroundChecksSteps.includes(step.id) && !(step?.error?.code && BackgroundChecksErrorsToHide[step.error.code]));
   }
 
   hasFailedCheck(verification: VerificationResponse): boolean {
-    const backgroundChecksStep = verification?.steps?.find((step) => BackgroundChecksSteps.includes(step.id));
+    const backgroundChecksStep = verification?.steps?.find((step) => BackgroundChecksSteps.includes(step.id) && !(step?.error?.code && BackgroundChecksErrorsToHide[step.error.code]));
 
     return !!backgroundChecksStep.error?.type;
   }

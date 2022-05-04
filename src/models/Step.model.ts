@@ -321,6 +321,10 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoralCommission.notEnoughParams'],
   [DocumentStepTypes.BrazilianNoCriminalRecordsValidation]: ['brazilianNoCriminalRecordsValidation.notEnoughParams'],
   [VerificationDocStepTypes.DuplicateUserValidation]: ['duplicateUserDetection.notValidParams'],
+  [VerificationStepTypes.BackgroundBrazilianChecks]: ['brazilianBackgroundChecks.documentNotFound'],
+};
+export const BackgroundChecksErrorsToHide = {
+  'brazilianBackgroundChecks.documentNotFound': true,
 };
 
 export const OptionalGovCheckErrorCodes = {

@@ -108,6 +108,7 @@
   "BackgroundCheck.check.backgroundMexicanBuholegal.notEnoughParamsSurnameName.message": "Surname is not defined",
   "BackgroundCheck.check.backgroundMexicanBuholegal.notFound.message": "No results were found in the Fidelitas database",
   "BackgroundCheck.check.backgroundMexicanBuholegal.notValidParams.message": "Parameters are not valid",
+  "BackgroundCheck.check.brazilianBackgroundChecks.documentNotFound.message": "We could not obtain document to perform this check",
   "BackgroundCheck.report.subTitle": "Once you click on “Request Background Check” we will search among our sources to find out the user’s background.",
   "BackgroundCheck.report.title": "This user’s background check is available.",
   "BackgroundCheck.requestBackgroundCheckReport": "Request Background Check",
