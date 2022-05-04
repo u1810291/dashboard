@@ -50,17 +50,18 @@ export function BackgroundCheckCountriesSettings({ verificationPattern, onChange
                 {intl.formatMessage({ id: `Countries.${country}` })}
               </Box>
             </Grid>
-            {toggle.map((checkbox) => (checkbox.options.doubly ? (
+            {toggle.map((checkbox) => (checkbox.options?.list?.length ? (
               <Box key={checkbox.id} className={classes.extendedDescription}>
-                {checkbox.options.list.map(({ title, value }) => (
+                {checkbox.options.list.map((checks: { id: string; title: string; value: string }) => (
                   <ExtendedDescription
-                    title={title}
+                    key={checks.id}
+                    title={checks.title}
                     titleColor="common.black75"
                     textFontSize={10}
                     postfix={(
                       <Switch
-                        checked={value === checkbox.value}
-                        onClick={() => handleSwitch2(checkbox, value)}
+                        checked={checks.value === checkbox.value}
+                        onClick={() => handleSwitch2(checkbox, checks.value)}
                         color="primary"
                       />
                     )}

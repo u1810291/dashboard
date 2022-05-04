@@ -34,7 +34,6 @@ export interface IBackgroundCheckConfiguration {
   checks: IBackgroundCheck[];
 }
 
-
 export enum BackgroundCheckTypes {
   None = 'none',
   LIGHT = 'light',
@@ -56,9 +55,6 @@ export const backgroundCheckConfigurations: IBackgroundCheckConfiguration[] = [
       {
         id: VerificationStepTypes.BackgroundMexicanBuholegal,
         default: false,
-        options: {
-          doubly: false,
-        },
       },
     ],
   },
@@ -71,15 +67,16 @@ export const backgroundCheckConfigurations: IBackgroundCheckConfiguration[] = [
         options: {
           list: [
             {
+              id: VerificationStepTypes.BackgroundBrazilianChecksFull,
               title: 'Full check',
               value: BrazilGovCheckTypesForPattern[VerificationPatternTypes.BackgroundBrazilianChecks].FULL,
             },
             {
+              id: VerificationStepTypes.BackgroundBrazilianChecksLight,
               title: 'Light check',
               value: BrazilGovCheckTypesForPattern[VerificationPatternTypes.BackgroundBrazilianChecks].LIGHT,
             },
           ],
-          doubly: true,
         },
       },
     ],
