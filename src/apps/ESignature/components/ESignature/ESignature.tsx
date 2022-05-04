@@ -11,7 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useFormatMessage } from 'apps/intl';
 import { downloadESignaturePDFDocument, ESignatureDocumentId, ESignatureFields, ESignatureStep } from 'models/ESignature.model';
 import { CheckStepDetailsEntry } from 'apps/checks/components/CheckStepDetails/CheckStepDetailsEntry';
-import { BoxBordered, CheckBarExpandable, ZoomableImage, IsDataGenerated, NoData, Select, ButtonStyled } from 'apps/ui';
+import { BoxBordered, CheckBarExpandable, ZoomableImage, DataGenerating, NoData, Select, ButtonStyled } from 'apps/ui';
 import { useStyles } from './ESignature.styles';
 
 export function ESignature({ step }: {
@@ -124,7 +124,7 @@ export function ESignature({ step }: {
                   )}
                   {(selectedDocument && selectedDocumentImages.length === 0) && (
                     <Box mt={2}>
-                      <IsDataGenerated text={formatMessage('ESignature.verification.documentIsGenerating')} />
+                      <DataGenerating text={formatMessage('ESignature.verification.documentIsGenerating')} />
                     </Box>
                   )}
                   {(selectedDocument && selectedDocumentImages.length !== 0) && (

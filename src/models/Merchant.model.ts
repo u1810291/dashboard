@@ -74,4 +74,6 @@ export enum MerchantTags {
   CanManageBasicWatchlists = 'can-manage-basic-watchlists',
   CanUseDuplicateFaceDetection = 'can-use-duplicate-face-detection',
   CanUseSolutionTemplates = 'can-use-solution-templates',
+  CanUsePremiumAmlWatchlistsSearch = 'can-use-premium-aml-watchlists-search',
+  CanUsePremiumAmlWatchlistsSearchAndMonitoring = 'can-use-premium-aml-watchlists-search-and-monitoring',
 }

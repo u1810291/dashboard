@@ -38,32 +38,32 @@ export const selectWatchlistsContentErrorType = createSelector<any, AmlStore, st
   (store) => store.watchlistContent.error,
 );
 
-export const selectCurrentBasicWatchlist = createSelector<any, AmlStore, IWatchlist | null>(
+export const selectCurrentBasicWatchlist = createSelector<any, AmlStore, Nullable<IWatchlist>>(
   selectAmlStore,
   (store) => store.currentWatchlist.value,
 );
 
-export const selectCurrentBasicWatchlistModel = createSelector<any, AmlStore, Loadable<IWatchlist | null>>(
+export const selectCurrentBasicWatchlistModel = createSelector<any, AmlStore, Loadable<Nullable<IWatchlist>>>(
   selectAmlStore,
   (store) => store.currentWatchlist,
 );
 
-export const selectCurrentBasicWatchlistId = createSelector<any, IWatchlist | null, number>(
+export const selectCurrentBasicWatchlistId = createSelector<any, Nullable<IWatchlist>, number>(
   selectCurrentBasicWatchlist,
   (currentWatchlist) => currentWatchlist?.id ?? null,
 );
 
-export const selectCurrentBasicWatchlistProcess = createSelector<any, IWatchlist | null, IWatchlistProcessPartial>(
+export const selectCurrentBasicWatchlistProcess = createSelector<any, Nullable<IWatchlist>, IWatchlistProcessPartial>(
   selectCurrentBasicWatchlist,
   (currentWatchlist) => currentWatchlist?.process,
 );
 
-export const selectCurrentBasicWatchlistStatus = createSelector<any, IWatchlistProcessPartial, WatchlistProcessStatusTypes | null>(
+export const selectCurrentBasicWatchlistStatus = createSelector<any, IWatchlistProcessPartial, Nullable<WatchlistProcessStatusTypes>>(
   selectCurrentBasicWatchlistProcess,
   (currentWatchlistProcess) => currentWatchlistProcess?.status ?? null,
 );
 
-export const selectCurrentBasicWatchlistError = createSelector<any, IWatchlistProcessPartial, IWatchlistValidationError[] | null>(
+export const selectCurrentBasicWatchlistError = createSelector<any, IWatchlistProcessPartial, Nullable<IWatchlistValidationError[]>>(
   selectCurrentBasicWatchlistProcess,
   (currentWatchlistProcess) => currentWatchlistProcess?.error,
 );
@@ -76,17 +76,17 @@ export const selectCurrentBasicWatchlistFileInfo = createSelector<any, IWatchlis
   }),
 );
 
-export const selectCurrentBasicWatchlistMapping = createSelector<any, IWatchlist | null, IWatchlistMapping[] | null>(
+export const selectCurrentBasicWatchlistMapping = createSelector<any, Nullable<IWatchlist>, Nullable<IWatchlistMapping[]>>(
   selectCurrentBasicWatchlist,
   (currentWatchlist) => currentWatchlist?.mapping,
 );
 
-export const selectCurrentBasicWatchlistErrorsFormated = createSelector<any, IWatchlistValidationError[] | null, WatchlistValidatedInputsErrors | null>(
+export const selectCurrentBasicWatchlistErrorsFormated = createSelector<any, Nullable<IWatchlistValidationError[]>, Nullable<WatchlistValidatedInputsErrors>>(
   selectCurrentBasicWatchlistError,
   (errors) => getWatchlistErrorsFormated(errors),
 );
 
-export const selectCurrentBasicWatchlistHeaders = createSelector<any, AmlStore, string[] | null>(
+export const selectCurrentBasicWatchlistHeaders = createSelector<any, AmlStore, Nullable<string[]>>(
   selectAmlStore,
   (store) => store.currentWatchlistHeaders.value,
 );
@@ -96,7 +96,7 @@ export const selectCurrentBasicWatchlistHeadersModel = createSelector<any, AmlSt
   (store) => store.currentWatchlistHeaders,
 );
 
-export const selectCurrentBasicWatchlistIsFileAvailable = createSelector<any, IWatchlist | null, boolean>(
+export const selectCurrentBasicWatchlistIsFileAvailable = createSelector<any, Nullable<IWatchlist>, boolean>(
   selectCurrentBasicWatchlist,
   (store) => store?.isFileAvailable ?? true,
 );
@@ -114,4 +114,14 @@ export const selectCanUseBasicWatchlists = createSelector<any, MerchantTags[], b
 export const selectCanManageBasicWatchlists = createSelector<any, MerchantTags[], boolean>(
   selectMerchantTags,
   (tags) => tags.includes(MerchantTags.CanManageBasicWatchlists),
+);
+
+export const selectCanUsePremiumWatchlistsSearch = createSelector<any, MerchantTags[], boolean>(
+  selectMerchantTags,
+  (tags) => tags.includes(MerchantTags.CanUsePremiumAmlWatchlistsSearch),
+);
+
+export const selectCanUsePremiumWatchlistsSearchAndMonitoring = createSelector<any, MerchantTags[], boolean>(
+  selectMerchantTags,
+  (tags) => tags.includes(MerchantTags.CanUsePremiumAmlWatchlistsSearchAndMonitoring),
 );

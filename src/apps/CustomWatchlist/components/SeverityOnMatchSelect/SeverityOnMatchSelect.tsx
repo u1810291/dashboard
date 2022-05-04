@@ -23,7 +23,7 @@ export const SeverityOnMatchSelect = ({ watchlist, onUpdate }: {
       name="action"
       variant="outlined"
       fullWidth
-      defaultValue={CustomWatchlistSeverityOnMatchTypes.NoAction}
+      defaultValue={CustomWatchlistSeverityOnMatchTypes.Medium}
       value={watchlist.severityOnMatch}
       onChange={handleSeverityChange(watchlist)}
       className={classnames(classes.actionSelect, classes[watchlist.severityOnMatch], {
