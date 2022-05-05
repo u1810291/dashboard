@@ -12,7 +12,7 @@ export const useStyles = makeStyles((theme) => createStyles({
     'grid-template-columns': 'repeat(1fr, 2)',
     'grid-template-areas': `
                     'title checkbox'
-                    'doubly doubly'
+                    'description description'
     `,
   },
   icon: {
@@ -43,7 +43,7 @@ export const useStyles = makeStyles((theme) => createStyles({
   extendedDescription: {
     padding: '10px 0 0 27px',
     flexDirection: 'column',
-    'grid-area': 'doubly',
+    'grid-area': 'description',
     bottom: 0,
     '& label': {
       display: 'flex',

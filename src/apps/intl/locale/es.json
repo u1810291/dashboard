@@ -99,6 +99,7 @@
   "BackgroundCheck.check.backgroundMexicanBuholegal.notEnoughParamsSurnameName.message": "El apellido no está definido",
   "BackgroundCheck.check.backgroundMexicanBuholegal.notFound.message": "No se encontraron resultados en la base de datos de Fidelitas",
   "BackgroundCheck.check.backgroundMexicanBuholegal.notValidParams.message": "Los parámetros no son válidos",
+  "BackgroundCheck.check.brazilianBackgroundChecks.documentNotFound.message": "No pudimos obtener un documento para realizar esta verificación.",
   "BackgroundCheck.report.subTitle": "Una vez que haga clic en \"Solicitar verificación de antecedentes\", buscaremos entre nuestras fuentes para averiguar los antecedentes del usuario.",
   "BackgroundCheck.report.title": "La verificación de antecedentes de este usuario está disponible.",
   "BackgroundCheck.requestBackgroundCheckReport": "Solicitud de verificación de antecedentes",
