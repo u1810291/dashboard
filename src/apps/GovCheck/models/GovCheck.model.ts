@@ -6,7 +6,7 @@ import { NationalIdTypes, VerificationDocument } from 'models/Document.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { dateSortCompare } from 'lib/date';
 import cloneDeep from 'lodash/cloneDeep';
-import { ProductTypes } from 'models/Product.model';
+import { MeritId, ProductTypes } from 'models/Product.model';
 import { IFlow } from 'models/Flow.model';
 
 export enum GovernmentCheckSettingTypes {
@@ -17,6 +17,8 @@ export enum GovernmentCheckSettingTypes {
 export enum GovernmentChecksTypes {
   GovernmentDatabaseCheck = 'governmentDatabaseCheck'
 }
+
+export const GovCheckMeritId: MeritId = 'gov-check';
 
 export enum GovCheckStepTypes {
   None = 'none',
@@ -53,6 +55,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.CostaRicanTse]: false,
   [VerificationPatternTypes.CostaRicanSocialSecurity]: false,
   [VerificationPatternTypes.DominicanJce]: false,
+  [VerificationPatternTypes.DominicanRnc]: false,
   [VerificationPatternTypes.EcuadorianRegistroCivil]: false,
   [VerificationPatternTypes.EcuadorianSri]: false,
   [VerificationPatternTypes.GhanaianGra]: false,
@@ -377,6 +380,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         id: VerificationPatternTypes.DominicanJce,
         default: false,
       },
+      {
+        id: DocumentStepTypes.DominicanRnc,
+        default: false,
+      },
     ],
   },
   {
@@ -596,6 +603,21 @@ export const govCheckDisplayOptions = {
   },
   [DocumentStepTypes.DominicanJce]: {
     valid: {},
+  },
+  [DocumentStepTypes.DominicanRnc]: {
+    valid: {
+      hidden: true,
+    },
+    fullName: {},
+    rnc: {},
+    commercialName: {},
+    category: {
+      inline: true,
+    },
+    paymentScheme: {
+      inline: true,
+    },
+    status: {},
   },
   [DocumentStepTypes.CostaRicanAtv]: {
     fullName: {},

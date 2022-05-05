@@ -1,4 +1,5 @@
 import { BiometricTypes } from 'models/Biometric.model';
+import { MeritId } from 'models/Product.model';
 
 export enum BiometricVerificationCheckTypes {
   Liveness = 'liveness',
@@ -14,6 +15,8 @@ export enum BiometricVerificationTypes {
   SelfiePhoto = 'selfiePhoto',
   SelfieVideo = 'selfieVideo',
 }
+
+export const BiometricVerificationId: MeritId = 'biometric-verification';
 
 export function getVerificationType(value: string): BiometricVerificationTypes {
   if (BiometricTypes.selfie === value) {

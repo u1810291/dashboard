@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Box from '@material-ui/core/Box';
+import Switch from '@material-ui/core/Switch';
 import { FiPlus } from 'react-icons/fi';
-import { ButtonStyled, notification } from 'apps/ui';
+import { ButtonStyled, ExtendedDescription, notification } from 'apps/ui';
 import Typography from '@material-ui/core/Typography';
 import { useFormatMessage } from 'apps/intl';
 import { useOverlay } from 'apps/overlay';
@@ -19,9 +20,11 @@ import { useBasicWatchlistData } from '../hooks/useBasicWatchlistData';
 import { BasicWatchlistModalValidation } from '../BasicWatchlistModalValidation/BasicWatchlistModalValidation';
 import { BasicWatchlistSkeleton } from '../BasicWatchlistSkeleton/BasicWatchlistSkeleton';
 
-export function BasicWatchlist({ basicWatchlistsIds, onBasicWatchlistsSelected }: {
+export function BasicWatchlist({ basicWatchlistsIds, isBasicWatchlistChecked, onBasicWatchlistsSelected, onBasicWatchlistValidationToggle }: {
   basicWatchlistsIds: BasicWatchlistIdType[];
+  isBasicWatchlistChecked: boolean;
   onBasicWatchlistsSelected: (data: number[]) => void;
+  onBasicWatchlistValidationToggle: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void;
 }) {
   const dispatch = useDispatch();
   const formatMessage = useFormatMessage();
@@ -84,27 +87,34 @@ export function BasicWatchlist({ basicWatchlistsIds, onBasicWatchlistsSelected }
 
   return (
     <>
-      <Typography variant="subtitle2" color="textPrimary" gutterBottom>
-        {formatMessage('BasicWatchlist.settings.title')}
-      </Typography>
-      <Box color="common.black75" mb={2}>
-        {formatMessage('BasicWatchlist.settings.description')}
+      <ExtendedDescription
+        title={formatMessage('BasicWatchlist.settings.title')}
+        text={formatMessage('BasicWatchlist.settings.description')}
+        postfix={(
+          <Switch
+            checked={isBasicWatchlistChecked}
+            onChange={onBasicWatchlistValidationToggle}
+            color="primary"
+          />
+        )}
+      />
+      <Box mt={2}>
+        {(isWatchlistLoading || isGroupsLoading) ? (
+          <BasicWatchlistSkeleton />
+        ) : (
+          <AmlBasicWatchlistList
+            data={basicWatchlistData}
+            handleGroupItemSwitch={handleGroupItemSwitch}
+            isAdmin={canManageBasicWatchlists}
+            handleEditClick={handleEdit}
+            handleRemoveClick={removeGroup}
+            handleOpenWatchlist={handleOpenWatchlist}
+            disabled={isWatchlistLoading || isGroupsLoading}
+            runningWatchlists={runningWatchlists}
+            handleRefreshClick={handleRefreshClick}
+          />
+        )}
       </Box>
-      {(isWatchlistLoading || isGroupsLoading) ? (
-        <BasicWatchlistSkeleton />
-      ) : (
-        <AmlBasicWatchlistList
-          data={basicWatchlistData}
-          handleGroupItemSwitch={handleGroupItemSwitch}
-          isAdmin={canManageBasicWatchlists}
-          handleEditClick={handleEdit}
-          handleRemoveClick={removeGroup}
-          handleOpenWatchlist={handleOpenWatchlist}
-          disabled={isWatchlistLoading || isGroupsLoading}
-          runningWatchlists={runningWatchlists}
-          handleRefreshClick={handleRefreshClick}
-        />
-      )}
       {canManageBasicWatchlists && (
         <>
           <ButtonStyled color="primary" disabled={isWatchlistLoading || isGroupsLoading}>
