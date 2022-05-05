@@ -10,14 +10,13 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { getPhoneValidationExtras } from 'apps/PhoneValidation/models/PhoneValidation.model';
 import { getPhoneRiskValidationExtras } from 'apps/RiskAnalysis/models/RiskAnalysis.model';
 import { getEmailVerificationExtra } from 'models/EmailValidation.model';
-import { getIpCheckStep } from 'models/IpCheckOld.model';
 import { getEmailRiskStep } from 'models/EmailCheck.model';
 import { useIntl } from 'react-intl';
 import { AppIntlProvider } from 'apps/intl';
 import { getGovCheckRootSteps } from 'apps/GovCheck';
 import { getDataForVerificationComponent } from 'models/CustomField.model';
 import { DocumentStepPDF } from './components/DocumentStepPDF/DocumentStepPDF';
-import { IpCheckPDF } from './components/IpCheckPDF/IpCheckPDF';
+import { LocationIntelligenceOldPDF } from './components/LocationIntelligenceOldPDF/LocationIntelligenceOldPDF';
 import { LivenessStepPDF } from './components/LivenessStepPDF/LivenessStepPDF';
 import { ReVerificationPDF } from './components/ReVerificationPDF/ReVerificationPDF';
 import { Nom151CheckPDF } from './components/Nom151CheckPDF/Nom151CheckPDF';
@@ -34,6 +33,7 @@ import { CustomFieldPDF } from './components/CustomFieldPDF/CustomFieldPDF';
 import { CustomWatchlistPDF } from './components/CustomWatchlistPDF/CustomWatchlistPDF';
 import { BasicWatchlistPDF } from './components/BasicWatchlistPDF/BasicWatchlistPDF';
 import { CreditCheckPDF } from './components/CreditCheckPDF/CreditCheckPDF';
+import { getLocationIntelligenceStep } from '../LocationIntelligenceOld';
 
 interface AdditionalData {
   legalName: string;
@@ -52,7 +52,7 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
   }
 
   const { legalName, legalRegNumber, legalAddress } = additionalData;
-  const ipCheck = getIpCheckStep(verification.steps);
+  const LocationIntelligence = getLocationIntelligenceStep(verification.steps);
   const bankAccountData = getBankAccountData(verification);
   const workAccountData = getWorkAccountData(verification);
   const payrollAccountData = getPayrollAccountData(verification);
@@ -104,9 +104,9 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
           </View>
         )}
         {/* IP check */}
-        {ipCheck && !ipCheck.error && ipCheck.data && (
+        {LocationIntelligence && LocationIntelligence.data && (
           <View>
-            <IpCheckPDF data={ipCheck.data} isChecking={ipCheck.status < 200} />
+            <LocationIntelligenceOldPDF data={LocationIntelligence.data} />
           </View>
         )}
         {/* Additional checks */}

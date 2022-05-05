@@ -81,6 +81,10 @@ export const DeviceTypes = {
   Mobile: 'mobile',
 };
 
+export const IpTypes = {
+  Default: 'default',
+};
+
 export const BrowserTypes = {
   Chrome: 'Chrome',
   Unknown: 'Unknown',

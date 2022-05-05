@@ -75,6 +75,8 @@
     "start:devel20": "env-cmd -f .env.devel20 react-scripts start",
     "start:devel21": "env-cmd -f .env.devel21 react-scripts start",
     "start:devel22": "env-cmd -f .env.devel22 react-scripts start",
+    "start:devel26": "env-cmd -f .env.devel26 react-scripts start",
+    "start:devel27": "env-cmd -f .env.devel27 react-scripts start",
     "start:devel34": "env-cmd -f .env.devel34 react-scripts start",
     "start:devel29": "env-cmd -f .env.devel29 react-scripts start",
     "start:production": "env-cmd -f .env.production react-scripts start",
@@ -93,6 +95,7 @@
     "analyze": "if ! npm list source-map-explorer -g; then npm run analyze:install; fi; npm run analyze:start;"
   },
   "devDependencies": {
+    "@types/google.maps": "^3.48.1",
     "@types/history": "^4.7.9",
     "@types/intercom-web": "^2.8.12",
     "@types/jest": "^27.0.1",

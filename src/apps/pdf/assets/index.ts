@@ -1,6 +1,6 @@
 import { WarningTypes } from 'apps/ui';
 import { LivenessStepStatus } from 'models/Biometric.model';
-import { BrowserTypes, DeviceTypes, OSTypes } from 'models/DeviceCheck.model';
+import { BrowserTypes, DeviceTypes, IpTypes, OSTypes } from 'models/DeviceCheck.model';
 import { VerificationSummaryTitleTypes } from 'models/Identity.model';
 import { StepStatus } from 'models/Step.model';
 import { colors } from '../PDF.theme.common';
@@ -30,6 +30,7 @@ import IconData from './icon-identity-data.png';
 import IconDone from './icon-identity-done.png';
 import IconError from './icon-identity-error.png';
 import IconLoad from './icon-load.png';
+import IpIcon from './ip.png';
 import OtherChecksDisabled from './icon-other-checks-disabled.png';
 import OtherChecksError from './icon-other-checks-error.png';
 import OtherChecksSuccess from './icon-other-checks-success.png';
@@ -54,6 +55,10 @@ export const DeviceIcons = {
   [DeviceTypes.Mobile]: SmartphoneIcon,
   [DeviceTypes.Tablet]: SmartphoneIcon,
   [DeviceTypes.Desktop]: DesktopIcon,
+};
+
+export const IpIcons = {
+  [IpTypes.Default]: IpIcon,
 };
 
 export const OSIcons = {
