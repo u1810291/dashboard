@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import { useStyles } from './BackgroundCheckListItem.styles';
 
 export const BackgroundCheckListItem = ({ label, value }: { label: string; value: string }) => {
