@@ -12,7 +12,7 @@ import { VerificationFlowPDF } from '../VerificationFlowPDF/VerificationFlowPDF'
 import { VerificationBioCheckSummaryPDF } from '../VerificationBioCheckSummaryPDF/VerificationBioCheckSummaryPDF';
 import { VerificationSourcePDF } from '../VerificationSourcePDF/VerificationSourcePDF';
 import { VerificationDocumentPDF } from '../VerificationDocumentPDF/VerificationDocumentPDF';
-import { VerificationIpCheckPDF } from '../VerificationIpCheckPDF/VerificationIpCheckPDF';
+import { VerificationLocationIntelligencePDF } from '../VerificationLocationIntelligencePDF/VerificationLocationIntelligencePDF';
 import { VerificationDeviceCheckPDF } from '../VerificationDeviceCheckPDF/VerificationDeviceCheckPDF';
 
 export function VerificationSummaryPDF({ identity }: { identity: VerificationWithExtras }) {
@@ -57,7 +57,7 @@ export function VerificationSummaryPDF({ identity }: { identity: VerificationWit
         {/* Additional Checks */}
         {ipCheck && !ipCheck.error && ipCheck.data && (
         <View>
-          <VerificationIpCheckPDF ipCheck={ipCheck} />
+          <VerificationLocationIntelligencePDF ipCheck={ipCheck} />
         </View>
         )}
 

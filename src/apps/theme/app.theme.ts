@@ -137,6 +137,14 @@ export const AppTheme = createTheme({
         lineHeight: 1.2,
       },
     },
+    MuiTooltip: {
+      tooltip: {
+        fontSize: 12,
+        fontWeight: 400,
+        color: appPalette.white,
+        backgroundColor: appPalette.black90,
+      },
+    },
     MuiFormControl: {
       marginDense: {
         marginBottom: 0,

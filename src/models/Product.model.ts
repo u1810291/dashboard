@@ -7,7 +7,7 @@ export enum ProductTypes {
   DocumentVerification = 'DocumentVerification',
   BiometricVerification = 'BiometricVerification',
   AmlCheck = 'AmlCheck',
-  IpCheck = 'IpCheck',
+  LocationIntelligence = 'LocationIntelligence',
   ReVerification = 'ReVerification',
   GovernmentCheck = 'GovernmentCheck',
   CreditCheck = 'CreditCheck',
@@ -79,6 +79,7 @@ export interface IProductCard {
   icon: IconType | (() => React.ReactNode);
   order: number;
   title: string;
+  description?: string;
   inputs: ProductInputTypes[];
   checks: ProductCheck[];
   integrationTypes: ProductIntegrationTypes[];
