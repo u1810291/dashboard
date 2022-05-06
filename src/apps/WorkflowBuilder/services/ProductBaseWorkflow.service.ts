@@ -46,6 +46,10 @@ export abstract class ProductBaseWorkflow implements Partial<Product<IWorkflow, 
     return `${this.id}.card.title`;
   }
 
+  getDescription(): string {
+    return `${this.id}.card.description`;
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   parser(flow?: IWorkflow): ProductSettings {
     return null;
@@ -57,6 +61,7 @@ export abstract class ProductBaseWorkflow implements Partial<Product<IWorkflow, 
       icon: this.icon,
       order: this.order,
       title: this.getTitle(),
+      description: this.getDescription(),
       inputs: this.inputs,
       checks: this.checks,
       integrationTypes: this.integrationTypes,

@@ -37,22 +37,22 @@ export enum IWatchlistProcessNameType {
 }
 
 export interface IWatchlistProcess {
-  completedAt: string | null;
-  createdAt: string | null;
-  error: IWatchlistValidationError[] | null;
+  completedAt: Nullable<string>;
+  createdAt: Nullable<string>;
+  error: Nullable<IWatchlistValidationError[]>;
   id: number;
   inputSourceFileName: string;
   inputSourceFileKey: string;
   name: IWatchlistProcessNameType;
   startCount: number;
   status: WatchlistProcessStatusTypes;
-  startedAt: string | null;
-  updatedAt: string | null;
+  startedAt: Nullable<string>;
+  updatedAt: Nullable<string>;
   watchlistId: WatchlistIdType;
   csvSeparator: string;
 }
 
-export type IWatchlistProcessPartial = Partial<IWatchlistProcess> | null;
+export type IWatchlistProcessPartial = Partial<Nullable<IWatchlistProcess>>;
 
 export enum WatchlistProcessStatusTypes {
   Pending = 'pending',
@@ -79,7 +79,7 @@ export interface IWatchlistCreateBody {
   name: string;
   mapping: IWatchlistMapping[];
   watchlistType: WatchlistTypes;
-  groupId?: number | null;
+  groupId?: Nullable<number>;
 }
 
 export interface IWatchlistValidation {
@@ -97,11 +97,11 @@ export interface IWatchlist {
   createdAt: string;
   updatedAt: string;
   merchantId: string;
-  mapping: IWatchlistMapping[] | null;
+  mapping: Nullable<IWatchlistMapping[]>;
   process: IWatchlistProcessPartial;
   isFileAvailable: boolean;
-  groupId: number | null;
-  group: IWatchlistGroup | null;
+  groupId: Nullable<number>;
+  group: Nullable<IWatchlistGroup>;
 }
 
 export function getWatchlistMapping(headers?: string[], mapping?: IWatchlistMapping[]): IValidatedInputsFieldTypes[] {
@@ -126,7 +126,7 @@ export function getWatchlistValidMapping(inputFields: IValidatedInputsFieldTypes
   return inputFields.map((fields) => ({ merchantField: fields.label, systemField: fields.value, ...(fields?.options && { options: fields.options }) }));
 }
 
-export function getWatchlistErrorsFormated(errors?: IWatchlistValidationError[]): WatchlistValidatedInputsErrors | null {
+export function getWatchlistErrorsFormated(errors?: IWatchlistValidationError[]): Nullable<WatchlistValidatedInputsErrors> {
   if (!errors) {
     return null;
   }

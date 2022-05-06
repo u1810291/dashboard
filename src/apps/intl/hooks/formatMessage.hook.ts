@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { devWarn } from 'lib/console';
 
-interface MessageDescriptor<T> {
+export interface MessageDescriptor<T> {
   messageValues?: Record<string, T>;
   defaultMessage?: string;
 }

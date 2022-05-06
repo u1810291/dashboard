@@ -22,7 +22,7 @@ export const useStyles = makeStyles((theme) => createStyles({
     backgroundColor: theme.palette.common.redopacity,
   },
   buttonAdd: {
-    minWidth: 180,
+    width: '100%',
     minHeight: 50,
     fontSize: 14,
     borderColor: theme.palette.common.lightblue,
@@ -46,6 +46,10 @@ export const useStyles = makeStyles((theme) => createStyles({
     '&.MuiInputBase-root': {
       height: 50,
     },
+  },
+  warningWrap: {
+    fontSize: 13,
+    textAlign: 'center',
   },
   [CustomWatchlistSeverityOnMatchTypes.Low]: {
     color: theme.palette.common.green,
