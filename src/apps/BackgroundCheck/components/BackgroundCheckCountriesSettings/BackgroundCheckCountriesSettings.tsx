@@ -2,7 +2,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { Box, FormControl, Grid, Switch } from '@material-ui/core';
 import { BackgroundCheck, backgroundCheckConfigurations, backgroundCheckCountriesOrder, backgroundCheckParse } from 'models/BackgroundCheck.model';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { VerificationPatterns } from 'models/VerificationPatterns.model';
 import { flagMap } from 'assets/flags';
 import { useStyles } from './BackgroundCheckCountriesSettings.styles';
@@ -11,8 +11,8 @@ export function BackgroundCheckCountriesSettings({ verificationPattern, onChange
   verificationPattern: Partial<VerificationPatterns>;
   onChange: (value: Partial<VerificationPatterns>) => void;
 }) {
-  const intl = useIntl();
   const classes = useStyles();
+  const formatMessage = useFormatMessage();
 
   const checkList = useMemo(() => {
     const checkListForCountry = (country: string) => {
@@ -43,7 +43,7 @@ export function BackgroundCheckCountriesSettings({ verificationPattern, onChange
             <Grid container alignItems="center" wrap="nowrap">
               <Box mr={1} className={classes.icon}>{flagMap[country]}</Box>
               <Box color="common.black90" fontWeight="bold">
-                {intl.formatMessage({ id: `Countries.${country}` })}
+                {formatMessage(`Countries.${country}`)}
               </Box>
             </Grid>
             {toggle.map((checkbox) => (

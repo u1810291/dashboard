@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Box } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import { ExtendedDescription } from 'apps/ui';
 import { useIntl } from 'react-intl';
 import { ProductSettingsProps } from 'models/Product.model';
