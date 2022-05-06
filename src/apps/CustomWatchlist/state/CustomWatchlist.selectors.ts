@@ -42,7 +42,7 @@ export const selectCanUseCustomWatchlists = createSelector<any, MerchantTags[], 
   (tags) => tags.includes(MerchantTags.CanUseCustomWatchlists),
 );
 
-export const selectCurrentCustomWatchlist = createSelector<any, CustomWatchlistsStore, IWatchlist | null>(
+export const selectCurrentCustomWatchlist = createSelector<any, CustomWatchlistsStore, Nullable<IWatchlist>>(
   selectCustomWatchlistsStore,
   (store) => store.currentWatchlist.value,
 );
@@ -57,22 +57,22 @@ export const selectCurrentCustomWatchlistIsLoaded = createSelector<any, CustomWa
   (store) => store.currentWatchlist.isLoaded,
 );
 
-export const selectCurrentCustomWatchlistId = createSelector<any, IWatchlist | null, number>(
+export const selectCurrentCustomWatchlistId = createSelector<any, Nullable<IWatchlist>, number>(
   selectCurrentCustomWatchlist,
   (currentWatchlist) => currentWatchlist?.id ?? null,
 );
 
-export const selectCurrentCustomWatchlistProcess = createSelector<any, IWatchlist | null, IWatchlistProcessPartial>(
+export const selectCurrentCustomWatchlistProcess = createSelector<any, Nullable<IWatchlist>, IWatchlistProcessPartial>(
   selectCurrentCustomWatchlist,
   (currentWatchlist) => currentWatchlist?.process,
 );
 
-export const selectCurrentCustomWatchlistStatus = createSelector<any, IWatchlistProcessPartial, WatchlistProcessStatusTypes | null>(
+export const selectCurrentCustomWatchlistStatus = createSelector<any, IWatchlistProcessPartial, Nullable<WatchlistProcessStatusTypes>>(
   selectCurrentCustomWatchlistProcess,
   (currentWatchlistProcess) => currentWatchlistProcess?.status ?? null,
 );
 
-export const selectCurrentCustomWatchlistError = createSelector<any, IWatchlistProcessPartial, IWatchlistValidationError[] | null>(
+export const selectCurrentCustomWatchlistError = createSelector<any, IWatchlistProcessPartial, Nullable<IWatchlistValidationError[]>>(
   selectCurrentCustomWatchlistProcess,
   (currentWatchlistProcess) => currentWatchlistProcess?.error,
 );
@@ -85,7 +85,7 @@ export const selectCurrentCustomWatchlistFileInfo = createSelector<any, IWatchli
   }),
 );
 
-export const selectCurrentCustomWatchlistMapping = createSelector<any, IWatchlist | null, IWatchlistMapping[] | null>(
+export const selectCurrentCustomWatchlistMapping = createSelector<any, Nullable<IWatchlist>, Nullable<IWatchlistMapping[]>>(
   selectCurrentCustomWatchlist,
   (currentWatchlist) => currentWatchlist?.mapping,
 );
@@ -95,12 +95,12 @@ export const selectCurrentCustomWatchlistFileError = createSelector<any, CustomW
   (store) => store.fileErrorType,
 );
 
-export const selectCurrentCustomWatchlistErrorsFormated = createSelector<any, IWatchlistValidationError[] | null, Partial<Record<ValidatedInputsKeys, IValidationErrorFormated[]>> | null>(
+export const selectCurrentCustomWatchlistErrorsFormated = createSelector<any, Nullable<IWatchlistValidationError[]>, Partial<Nullable<Record<ValidatedInputsKeys, IValidationErrorFormated[]>>>>(
   selectCurrentCustomWatchlistError,
   (errors) => getWatchlistErrorsFormated(errors),
 );
 
-export const selectCurrentCustomWatchlistHeaders = createSelector<any, CustomWatchlistsStore, string[] | null>(
+export const selectCurrentCustomWatchlistHeaders = createSelector<any, CustomWatchlistsStore, Nullable<string[]>>(
   selectCustomWatchlistsStore,
   (store) => store.currentWatchlistHeaders.value,
 );
@@ -115,7 +115,7 @@ export const selectCurrentCustomWatchlistHeadersErrorType = createSelector<any, 
   (store) => store.currentWatchlistHeaders.error,
 );
 
-export const selectCurrentCustomWatchlistIsFileAvailable = createSelector<any, IWatchlist | null, boolean>(
+export const selectCurrentCustomWatchlistIsFileAvailable = createSelector<any, Nullable<IWatchlist>, boolean>(
   selectCurrentCustomWatchlist,
   (store) => store?.isFileAvailable ?? true,
 );

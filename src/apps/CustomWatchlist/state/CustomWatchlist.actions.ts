@@ -6,15 +6,9 @@ import { CustomWatchlistModalValidationInputs, CustomWatchlistModalValidationInp
 import { CustomWatchlist } from '../services/CustomWatchlist.service';
 import * as api from '../client/CustomWatchlist.client';
 import { types, CustomWatchlistsActions } from './CustomWatchlist.store';
-import { selectCanUseCustomWatchlists, selectWatchlists, selectCurrentCustomWatchlist } from './CustomWatchlist.selectors';
+import { selectWatchlists, selectCurrentCustomWatchlist } from './CustomWatchlist.selectors';
 
-export const customWatchlistInit = () => (_dispatch, getState): ProductTypes => {
-  const canUseCustomWatchlists = selectCanUseCustomWatchlists(getState());
-
-  if (!canUseCustomWatchlists) {
-    return null;
-  }
-
+export const customWatchlistInit = () => (): ProductTypes => {
   const customWatchlist = new CustomWatchlist();
   productManagerService.register(customWatchlist);
   return customWatchlist.id;

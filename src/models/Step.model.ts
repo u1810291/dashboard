@@ -29,7 +29,7 @@ export enum VerificationStepTypes {
   Liveness = 'liveness',
   Voice = 'voice',
   Selfie = 'selfie',
-  Ip = 'ip-validation',
+  LocationIntelligence = 'geolocation',
   PhoneOwnershipValidation = 'phone-ownership-validation',
   PhoneRiskAnalysisValidation = 'phone-risk-analysis-validation',
   PhoneRiskValidation = 'phone-risk-analysis-validation',
@@ -53,6 +53,7 @@ export enum StepStatus {
   Incomplete = 'incomplete',
   Checking = 'checking',
   Skipped = 'skipped',
+  Default = 'default',
 }
 
 export enum StepCodeStatus {

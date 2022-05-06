@@ -34,8 +34,8 @@ export const types: TypesSequence = {
 export interface AmlStore {
   [SliceNames.Watchlists]: Loadable<IWatchlist[]>;
   [SliceNames.WatchlistsGroups]: Loadable<IWatchlistGroup[]>;
-  [SliceNames.CurrentWatchlist]: Loadable<IWatchlist | null>;
+  [SliceNames.CurrentWatchlist]: Loadable<Nullable<IWatchlist>>;
   [SliceNames.WatchlistContent]: Loadable<IWatchlistContent>;
   [SliceNames.CurrentWatchlistHeaders]: Loadable<string[]>;
-  fileErrorType: string | null;
+  fileErrorType: Nullable<string>;
 }

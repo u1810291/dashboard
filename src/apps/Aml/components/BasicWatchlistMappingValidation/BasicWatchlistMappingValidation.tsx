@@ -25,8 +25,8 @@ export function BasicWatchlistMappingValidation({ isSubmittingError, isEdit, has
   const classes = useStyles();
   const merchantId = useSelector<any, string>(selectMerchantId);
   const watchlistsContentErrorType = useSelector<any, string>(selectWatchlistsContentErrorType);
-  const currentWatchlistMapping = useSelector<any, IWatchlistMapping[] | null>(selectCurrentBasicWatchlistMapping);
-  const currentBasicWatchlistHeaders = useSelector<any, string[] | null>(selectCurrentBasicWatchlistHeaders);
+  const currentWatchlistMapping = useSelector<any, Nullable<IWatchlistMapping[]>>(selectCurrentBasicWatchlistMapping);
+  const currentBasicWatchlistHeaders = useSelector<any, Nullable<string[]>>(selectCurrentBasicWatchlistHeaders);
   const currentWatchlistErrors = useSelector<any, WatchlistValidatedInputsErrors>(selectCurrentBasicWatchlistErrorsFormated);
   const { isLoading: isFileHeadersFlowLoading, error: currentBasicWatchlistHeadersErrorType } = useSelector<any, Loadable<string[]>>(selectCurrentBasicWatchlistHeadersModel);
 

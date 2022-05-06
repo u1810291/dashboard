@@ -4,6 +4,7 @@ import { CircledContent, ProductCheckList } from 'apps/ui';
 import { IProductCard } from 'models/Product.model';
 import { useIntl } from 'react-intl';
 import { useStyles } from './ProductTitle.styles';
+import { ProductDescription } from '../ProductDescription/ProductDescription';
 
 export function ProductTitle({ card }: {
   card: IProductCard;
@@ -12,7 +13,6 @@ export function ProductTitle({ card }: {
   const intl = useIntl();
   const { inputs, icon } = card;
   const inputList = useMemo(() => inputs.map((item) => intl.formatMessage({ id: `Product.userInput.${item}` })).join(', '), [intl, inputs]);
-
   return (
     <Box>
       <Grid container wrap="nowrap" alignItems="center">
@@ -31,6 +31,7 @@ export function ProductTitle({ card }: {
         </Box>
       </Grid>
       <Box mt={2}>
+        <ProductDescription card={card} />
         <ProductCheckList cards={[card]} />
       </Box>
     </Box>
