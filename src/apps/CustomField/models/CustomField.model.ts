@@ -58,6 +58,8 @@ export const MODAL_BY_FIELD_TYPE = {
 };
 
 export enum MappingValueKey {
+  UnifiedMultiPurposeIdUMIDSSNcrn = 'unified-multi-purpose-id.UMID_SSN.crn',
+  SocialSecuritySystemCardUMIDSSNssn = 'social-security-system-card.UMID_SSN.ssn',
   NationalIdNINDocumentNumber = 'national-id.NIN.documentNumber',
   NationalIdBVNDocumentNumber = 'national-id.BVN.documentNumber',
   NationalIdVINDocumentNumber = 'national-id.VIN.documentNumber',
@@ -68,6 +70,9 @@ export enum MappingValueKey {
   CertificateOfIncorporationCACRcBnNumber = 'certificate-of-incorporation.CAC.rc-bn-number',
   NationalIdKTPNik = 'national-id.KTP.nik',
   NationalIdKTPName = 'national-id.KTP.name',
+  DrivingLicenseNo = 'driver-license.DL.license-no',
+  DrivingLicenseSerialNumber = 'driver-license.DL.serial-number',
+  DrivingLicenseExpirationDate = 'driver-license.DL.expiration-date',
 }
 
 export interface ICustomFieldConfig {
@@ -76,6 +81,14 @@ export interface ICustomFieldConfig {
 }
 
 export const CONFIG_BY_KEY: Record<string, ICustomFieldConfig> = {
+  [MappingValueKey.UnifiedMultiPurposeIdUMIDSSNcrn]: {
+    regex: '^[0-9]{4}-?[0-9]{7}-?[0-9]$',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.SocialSecuritySystemCardUMIDSSNssn]: {
+    regex: '^[0-9]{2}-?[0-9]{7}-?[0-9]$',
+    type: AtomicCustomFieldType.Text,
+  },
   [MappingValueKey.NationalIdNINDocumentNumber]: {
     regex: '^[0-9]{11}$',
     type: AtomicCustomFieldType.Text,
@@ -120,15 +133,29 @@ export const CONFIG_BY_KEY: Record<string, ICustomFieldConfig> = {
     regex: '',
     type: AtomicCustomFieldType.Text,
   },
+  [MappingValueKey.DrivingLicenseNo]: {
+    regex: '^[a-zA-Z][0-9]{2}-?[0-9]{2}-?[0-9]{6}$',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.DrivingLicenseSerialNumber]: {
+    regex: '^[0-9]{9}$',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.DrivingLicenseExpirationDate]: {
+    regex: '',
+    type: AtomicCustomFieldType.Date,
+  },
 };
 
 export enum MappingCountryTypes {
   Indonesia = 'ID',
+  Philippines = 'PH',
   Nigeria = 'NG',
 }
 
 export const MAPPING_ALLOWED_COUNTRIES = [
   MappingCountryTypes.Indonesia,
+  MappingCountryTypes.Philippines,
   MappingCountryTypes.Nigeria,
 ];
 
@@ -137,6 +164,13 @@ export const MAPPING_OPTIONS = {
     MappingValueKey.NationalIdKTPName,
     MappingValueKey.NationalIdKTPNik,
     MappingValueKey.NationalIdDateOfBirth,
+  ],
+  [MappingCountryTypes.Philippines]: [
+    MappingValueKey.UnifiedMultiPurposeIdUMIDSSNcrn,
+    MappingValueKey.SocialSecuritySystemCardUMIDSSNssn,
+    MappingValueKey.DrivingLicenseNo,
+    MappingValueKey.DrivingLicenseSerialNumber,
+    MappingValueKey.DrivingLicenseExpirationDate,
   ],
   [MappingCountryTypes.Nigeria]: [
     MappingValueKey.NationalIdNINDocumentNumber,
