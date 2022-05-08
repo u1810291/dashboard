@@ -27,7 +27,7 @@ export function BackgroundJsonViewer({ data }: { data: BackgroundJsonViewerTypes
   const formatMessage = useFormatMessage();
   return (
     <>
-      {data.map((row) => (
+      {data?.map((row) => (
         <>
           {row.numero_resultados !== 0 && (
             <TableContainer component={Paper} className={classes.tableContainer}>

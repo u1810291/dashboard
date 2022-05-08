@@ -21,12 +21,11 @@ import { BackgroundCheckSummary } from '../BackgroundCheckSummary/BackgroundChec
 import ReactJsonViewer from 'react-json-view';
 import { backgroundCheckManualRun } from '../../state/BackgroundCheck.actions';
 import { useStyles } from './BackgroundCheckVerificationProduct.styles';
-import { BackgroundCheckListItem } from '../BackgroundCheckListItem/BackgroundCheckListItem';
 import { BackgroundJsonViewer } from '../BackgroundJsonViewer/BackgroundJsonViewer';
 
 export function BackgroundCheckVerificationProduct() {
   const formatMessage = useFormatMessage();
-  const [showJSON, setShowJSON] = useState<boolean>(false);
+  const [showJSON, setShowJSON] = useState<boolean>(true);
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -55,7 +54,7 @@ export function BackgroundCheckVerificationProduct() {
   );
 
   useEffect(() => {
-    setShowJSON(backgroundStep?.data?.stepExtra?.reduce((previous, current) => Math.max(previous, current.length), 0) === 0);
+    setShowJSON(backgroundStep?.data?.stepExtra?.reduce((previous, current) => Math.max(previous, current.length), 0) !== 0);
   }, [backgroundStep]);
 
   if (isShowManualBackgroundCheckButton) {
@@ -166,7 +165,7 @@ export function BackgroundCheckVerificationProduct() {
             </div>
           </Grid>
         </Grid>
-        {showJSON ? (
+        {showJSON && !backgroundStep?.data?.stepExtra?.length ? (
           <ReactJsonViewer
             src={backgroundStep}
             collapsed
