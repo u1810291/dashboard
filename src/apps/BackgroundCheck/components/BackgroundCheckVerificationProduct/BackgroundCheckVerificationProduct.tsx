@@ -1,15 +1,15 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import classnames from 'classnames';
 import { Alert, Warning, WarningTypes } from 'apps/ui';
-import ReactJsonViewer from 'react-json-view';
 import dayjs from 'dayjs';
 import { DateFormat } from 'lib/date';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
 import { getPostResultPhase, IdentityStatuses, VerificationStatusChangeReason } from 'models/Status.model';
 import { selectVerification, selectVerificationStepsExtra } from 'apps/Verification';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
@@ -17,12 +17,16 @@ import { IStep, StepCodeStatus } from 'models/Step.model';
 import { AlertTypes } from 'apps/ui/models/Alert.model';
 import { appPalette } from 'apps/theme';
 import { backgroundCheckDisplayOptions, backgroundCheckVerificationShieldIconsMap, IBackgroundCheckStepData, BackgroundCheckStatusesTypes } from 'models/BackgroundCheck.model';
+import ReactJsonViewer from 'react-json-view';
 import { backgroundCheckManualRun } from '../../state/BackgroundCheck.actions';
 import { useStyles } from './BackgroundCheckVerificationProduct.styles';
 import { BackgroundCheckListItem } from '../BackgroundCheckListItem/BackgroundCheckListItem';
+import { BackgroundJsonViewer } from '../BackgroundJsonViewer/BackgroundJsonViewer';
 
 export function BackgroundCheckVerificationProduct() {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
+  const [showJSON, setShowJSON] = useState<boolean>(false);
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const verification = useSelector(selectVerification);
@@ -31,6 +35,8 @@ export function BackgroundCheckVerificationProduct() {
   const backgroundStep: IStep<IBackgroundCheckStepData> = useMemo(() => (
     verificationStepsExtra.find((step) => (step.id === VerificationPatternTypes.BackgroundMexicanBuholegal || step.id === VerificationPatternTypes.BackgroundBrazilianChecks))
   ), [verificationStepsExtra]);
+
+  const showJSONDisabled = useMemo(() => backgroundStep?.data?.stepExtra?.reduce((previous, current) => Math.max(previous, current.length), 0) === 0, [backgroundStep]);
 
   const { value: verificationStatus, reasonCode } = verification.verificationStatusDetails;
   const isPostResultPhase = useMemo(() => getPostResultPhase(verificationStatus), [verificationStatus]);
@@ -47,14 +53,18 @@ export function BackgroundCheckVerificationProduct() {
     [dispatch, verification, backgroundStep],
   );
 
+  useEffect(() => {
+    setShowJSON(backgroundStep?.data?.stepExtra?.reduce((previous, current) => Math.max(previous, current.length), 0) === 0);
+  }, [backgroundStep]);
+
   if (isShowManualBackgroundCheckButton) {
     return (
       <Box className={classes.manualButtonWrap}>
         <Typography variant="h2" gutterBottom className={classnames(classes.reportTitle, classes.colorGrey)}>
-          {intl.formatMessage({ id: 'BackgroundCheck.report.title' })}
+          {formatMessage('BackgroundCheck.report.title')}
         </Typography>
         <Box mt={2.5} mb={2.3} className={classnames(classes.reportSubTitle, classes.colorGrey)}>
-          {intl.formatMessage({ id: 'BackgroundCheck.report.subTitle' })}
+          {formatMessage('BackgroundCheck.report.subTitle')}
         </Box>
         <Button
           color="primary"
@@ -63,7 +73,7 @@ export function BackgroundCheckVerificationProduct() {
           size="large"
           className={classes.ultraLargeButton}
         >
-          {intl.formatMessage({ id: 'BackgroundCheck.requestBackgroundCheckReport' })}
+          {formatMessage('BackgroundCheck.requestBackgroundCheckReport')}
         </Button>
       </Box>
     );
@@ -75,7 +85,7 @@ export function BackgroundCheckVerificationProduct() {
       <Box mt={2} className={classes.manualButtonWrap}>
         <Warning
           type={WarningTypes.Notify}
-          label={intl.formatMessage({ id: `BackgroundCheck.warning.${messageType}` })}
+          label={formatMessage(`BackgroundCheck.warning.${messageType}`)}
           filled
           isLabelColored
         />
@@ -88,10 +98,10 @@ export function BackgroundCheckVerificationProduct() {
       <Box mt={2} className={classes.manualButtonWrap}>
         <Box className={classes.labelError}>
           <Alert
-            title={intl.formatMessage({
-              id: `BackgroundCheck.check.${backgroundStep.error.code}.message`,
-              defaultMessage: intl.formatMessage({ id: 'SecurityCheckStep.system.internalError.message' }),
-            })}
+            title={
+              formatMessage(`BackgroundCheck.check.${backgroundStep.error.code}.message`,
+                { defaultMessage: 'SecurityCheckStep.system.internalError.message' })
+            }
           />
         </Box>
       </Box>
@@ -100,9 +110,9 @@ export function BackgroundCheckVerificationProduct() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      <Grid item>
         <Typography variant="subtitle2" className={classnames(classes.colorGrey, classes.marginBottom20)}>
-          {intl.formatMessage({ id: 'BackgroundCheck.verification.summary' })}
+          {formatMessage('BackgroundCheck.verification.summary')}
         </Typography>
         <Grid container spacing={3}>
           <Grid item className={classes.shieldIconWrap} xs={4}>
@@ -114,11 +124,11 @@ export function BackgroundCheckVerificationProduct() {
                 if (backgroundCheckDisplayOptions[backgroundStep.id]?.[key]?.hidden) {
                   return null;
                 }
-
-                const label = intl.formatMessage({ id: `identity.field.${key}` });
+                const backgroundCheckValue = key === 'dateOfBirth' ? dayjs(value).format(DateFormat.FullMonthDateAndFullYear) : value;
+                const label = formatMessage(`identity.field.${key}`);
 
                 if (key === 'dateOfBirth') {
-                  return <BackgroundCheckListItem key={key} label={label} value={dayjs(value).format(DateFormat.FullMonthDateAndFullYear)} />;
+                  return <BackgroundCheckListItem key={key} label={label} value={backgroundCheckValue} />;
                 }
 
                 return (
@@ -129,16 +139,14 @@ export function BackgroundCheckVerificationProduct() {
             <Grid item>
               {backgroundStep.error && (
                 <Alert
-                  title={intl.formatMessage({
-                    id: `BackgroundCheck.check.${backgroundStep.error.code}.message`,
-                    defaultMessage: intl.formatMessage({ id: 'SecurityCheckStep.system.internalError.message' }),
-                  })}
+                  title={formatMessage(`BackgroundCheck.check.${backgroundStep.error.code}.message`,
+                    { defaultMessage: 'SecurityCheckStep.system.internalError.message' })}
                   type={AlertTypes.TransparentError}
                 />
               )}
               {backgroundStep.data.status === BackgroundCheckStatusesTypes.Accepted && (
                 <Alert
-                  title={intl.formatMessage({ id: 'BackgroundCheck.verification.status.accepted' })}
+                  title={formatMessage('BackgroundCheck.verification.status.accepted')}
                   type={AlertTypes.TransparentError}
                   textColor={appPalette.black75}
                 />
@@ -147,10 +155,10 @@ export function BackgroundCheckVerificationProduct() {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12}>
+      <Grid xs={12}>
         <Grid container className={classes.marginBottom10} justify="space-between" alignItems="center">
           <Typography variant="subtitle2" className={classes.colorGrey}>
-            {intl.formatMessage({ id: 'BackgroundCheck.verification.checkDetails' })}
+            {formatMessage('BackgroundCheck.verification.checkDetails')}
           </Typography>
           <Grid container item className={classes.downloadButtonsBox}>
             <Button
@@ -158,17 +166,30 @@ export function BackgroundCheckVerificationProduct() {
               href={`data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(backgroundStep.data))}`}
               download="background_check.json"
             >
-              {intl.formatMessage({ id: 'BackgroundCheck.verification.downloadJson' })}
+              {formatMessage('BackgroundCheck.verification.downloadJson')}
             </Button>
+            <div className={classes.colorGrey}>
+              <span className={classes.checkboxLabel}>
+                {formatMessage('BackgroundCheck.verification.downloadJson.checkbox')}
+              </span>
+              <Switch
+                checked={showJSON}
+                color="primary"
+                disabled={showJSONDisabled}
+                onChange={() => setShowJSON((value: boolean) => !value)}
+              />
+            </div>
           </Grid>
         </Grid>
-        <ReactJsonViewer
-          src={backgroundStep.data}
-          collapsed
-          displayDataTypes={false}
-          displayObjectSize={false}
-          enableClipboard={false}
-        />
+        {showJSON ? (
+          <ReactJsonViewer
+            src={backgroundStep}
+            collapsed
+            displayDataTypes={false}
+            displayObjectSize={false}
+            enableClipboard={false}
+          />
+        ) : <BackgroundJsonViewer data={backgroundStep?.data?.stepExtra} />}
       </Grid>
     </Grid>
   );

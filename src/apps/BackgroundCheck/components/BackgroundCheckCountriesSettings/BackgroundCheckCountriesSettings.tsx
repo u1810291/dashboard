@@ -1,11 +1,8 @@
 /* eslint-disable consistent-return */
 import React, { useMemo, useCallback } from 'react';
-import Box from '@material-ui/core/Box';
-import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
-import Switch from '@material-ui/core/Switch';
+import { Box, FormControl, Grid, Switch } from '@material-ui/core';
 import { IBackgroundCheck, backgroundCheckConfigurations, backgroundCheckCountriesOrder, backgroundCheckParse } from 'models/BackgroundCheck.model';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { IVerificationPatterns } from 'models/VerificationPatterns.model';
 import { flagMap } from 'assets/flags';
 import { ExtendedDescription } from 'apps/ui';
@@ -15,8 +12,8 @@ export function BackgroundCheckCountriesSettings({ verificationPattern, onChange
   verificationPattern: Partial<IVerificationPatterns>;
   onChange: (value: Partial<IVerificationPatterns>) => void;
 }) {
-  const intl = useIntl();
   const classes = useStyles();
+  const formatMessage = useFormatMessage();
 
   const countryCheckList = useMemo(() => {
     const checkListForCountry = (country: string) => {
@@ -50,7 +47,7 @@ export function BackgroundCheckCountriesSettings({ verificationPattern, onChange
             <Grid container alignItems="center" wrap="nowrap" className={classes.title}>
               <Box mr={1} className={classes.icon}>{flagMap[country]}</Box>
               <Box color="common.black90" fontWeight="bold">
-                {intl.formatMessage({ id: `Countries.${country}` })}
+                {formatMessage(`Countries.${country}`)}
               </Box>
             </Grid>
             {countryToggle.map((toggle) => (toggle.options?.list?.length ? (
