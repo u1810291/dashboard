@@ -2,6 +2,9 @@ import React from 'react';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { ReactComponent as RedShield } from 'assets/step-redShield.svg';
 import { ReactComponent as GreenShield } from 'assets/step-greenShield.svg';
+import { ReactComponent as ApprovedSVG } from 'assets/icon-approved.svg';
+import { ReactComponent as LowRiskSVG } from 'assets/icon-low-risk.svg';
+import { ReactComponent as HighRiskSVG } from 'assets/icon-high-risk.svg';
 import { VerificationStepTypes } from './Step.model';
 
 export enum BackgroundCheckSettingTypes {
@@ -98,11 +101,23 @@ export const backgroundCheckDisplayOptions = {
       hidden: true,
     },
   },
+  [VerificationStepTypes.BackgroundBrazilianChecks]: {
+    results: {
+      hidden: true,
+    },
+  },
 };
 
 export enum BackgroundCheckStatusesTypes {
   Accepted = 'Accepted',
   Rejected = 'Rejected',
+  Approved = 'approved',
+  LowRisk = 'lowRisk',
+  HighRisk = 'highRisk',
+}
+
+export interface ICrawler {
+  status: BackgroundCheckStatusesTypes;
 }
 
 export interface IBackgroundCheckStepData {
@@ -113,6 +128,7 @@ export interface IBackgroundCheckStepData {
   gender: string | null;
   status: BackgroundCheckStatusesTypes;
   resource: null;
+  results?: ICrawler[];
   timestamp: null;
   stepExtra: any[];
 }
@@ -120,6 +136,9 @@ export interface IBackgroundCheckStepData {
 export const backgroundCheckVerificationShieldIconsMap = {
   [BackgroundCheckStatusesTypes.Accepted]: <GreenShield />,
   [BackgroundCheckStatusesTypes.Rejected]: <RedShield />,
+  [BackgroundCheckStatusesTypes.Approved]: <ApprovedSVG />,
+  [BackgroundCheckStatusesTypes.LowRisk]: <LowRiskSVG />,
+  [BackgroundCheckStatusesTypes.HighRisk]: <HighRiskSVG />,
 };
 
 export const BackgroundChecksSteps = [

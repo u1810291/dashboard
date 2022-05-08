@@ -4,8 +4,6 @@ import { useIntl } from 'react-intl';
 import classnames from 'classnames';
 import { Alert, Warning, WarningTypes } from 'apps/ui';
 import ReactJsonViewer from 'react-json-view';
-import dayjs from 'dayjs';
-import { DateFormat } from 'lib/date';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -16,10 +14,10 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { IStep, StepCodeStatus } from 'models/Step.model';
 import { AlertTypes } from 'apps/ui/models/Alert.model';
 import { appPalette } from 'apps/theme';
-import { backgroundCheckDisplayOptions, backgroundCheckVerificationShieldIconsMap, IBackgroundCheckStepData, BackgroundCheckStatusesTypes } from 'models/BackgroundCheck.model';
+import { backgroundCheckVerificationShieldIconsMap, IBackgroundCheckStepData, BackgroundCheckStatusesTypes } from 'models/BackgroundCheck.model';
 import { backgroundCheckManualRun } from '../../state/BackgroundCheck.actions';
 import { useStyles } from './BackgroundCheckVerificationProduct.styles';
-import { BackgroundCheckListItem } from '../BackgroundCheckListItem/BackgroundCheckListItem';
+import { BackgroundCheckSummary } from '../BackgroundCheckSummary/BackgroundCheckSummary';
 
 export function BackgroundCheckVerificationProduct() {
   const intl = useIntl();
@@ -109,23 +107,7 @@ export function BackgroundCheckVerificationProduct() {
             {backgroundCheckVerificationShieldIconsMap[backgroundStep.data.status]}
           </Grid>
           <Grid container item xs={8} direction="column">
-            <Grid item className={classes.summaryList}>
-              {Object.entries(backgroundStep.data).map(([key, value]: [string, string]) => {
-                if (backgroundCheckDisplayOptions[backgroundStep.id]?.[key]?.hidden) {
-                  return null;
-                }
-
-                const label = intl.formatMessage({ id: `identity.field.${key}` });
-
-                if (key === 'dateOfBirth') {
-                  return <BackgroundCheckListItem key={key} label={label} value={dayjs(value).format(DateFormat.FullMonthDateAndFullYear)} />;
-                }
-
-                return (
-                  <BackgroundCheckListItem key={key} label={label} value={value} />
-                );
-              })}
-            </Grid>
+            <BackgroundCheckSummary step={backgroundStep} />
             <Grid item>
               {backgroundStep.error && (
                 <Alert
