@@ -17,6 +17,7 @@ import { IStep, StepCodeStatus } from 'models/Step.model';
 import { AlertTypes } from 'apps/ui/models/Alert.model';
 import { appPalette } from 'apps/theme';
 import { backgroundCheckDisplayOptions, backgroundCheckVerificationShieldIconsMap, IBackgroundCheckStepData, BackgroundCheckStatusesTypes } from 'models/BackgroundCheck.model';
+import { BackgroundCheckSummary } from '../BackgroundCheckSummary/BackgroundCheckSummary';
 import ReactJsonViewer from 'react-json-view';
 import { backgroundCheckManualRun } from '../../state/BackgroundCheck.actions';
 import { useStyles } from './BackgroundCheckVerificationProduct.styles';
@@ -119,23 +120,7 @@ export function BackgroundCheckVerificationProduct() {
             {backgroundCheckVerificationShieldIconsMap[backgroundStep.data.status]}
           </Grid>
           <Grid container item xs={8} direction="column">
-            <Grid item className={classes.summaryList}>
-              {Object.entries(backgroundStep.data).map(([key, value]: [string, string]) => {
-                if (backgroundCheckDisplayOptions[backgroundStep.id]?.[key]?.hidden) {
-                  return null;
-                }
-                const backgroundCheckValue = key === 'dateOfBirth' ? dayjs(value).format(DateFormat.FullMonthDateAndFullYear) : value;
-                const label = formatMessage(`identity.field.${key}`);
-
-                if (key === 'dateOfBirth') {
-                  return <BackgroundCheckListItem key={key} label={label} value={backgroundCheckValue} />;
-                }
-
-                return (
-                  <BackgroundCheckListItem key={key} label={label} value={value} />
-                );
-              })}
-            </Grid>
+            <BackgroundCheckSummary step={backgroundStep} />
             <Grid item>
               {backgroundStep.error && (
                 <Alert
