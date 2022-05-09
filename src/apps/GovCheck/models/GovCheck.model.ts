@@ -39,7 +39,6 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.BolivianOep]: false,
   [VerificationPatternTypes.BrazilianCpf]: GovCheckStepTypes.None,
   [VerificationPatternTypes.BrazilianCpfLight]: false,
-  [VerificationPatternTypes.BackgroundBrazilianChecks]: GovCheckStepTypes.None,
   [VerificationPatternTypes.ChileanRut]: false,
   [VerificationPatternTypes.ChileanDriverLicense]: false,
   [VerificationPatternTypes.ChileanRegistroCivil]: false,
