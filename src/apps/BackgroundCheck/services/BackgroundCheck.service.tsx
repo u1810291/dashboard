@@ -3,7 +3,7 @@ import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, P
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { IFlow } from 'models/Flow.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
-import { BackgroundChecksSteps, BackgroundCheckSettingTypes, BackgroundChecksTypes, backgroundCheckVerificationPatterns } from 'models/BackgroundCheck.model';
+import { BackgroundChecksSteps, BackgroundCheckSettingTypes, BackgroundChecksTypes, BackgroundCheckTypes, backgroundCheckVerificationPatterns } from 'models/BackgroundCheck.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { BackgroundCheckSettings } from '../components/BackgroundCheckSettings/BackgroundCheckSettings';
 import { BackgroundCheckVerificationProduct } from '../components/BackgroundCheckVerificationProduct/BackgroundCheckVerificationProduct';
@@ -78,6 +78,7 @@ export class BackgroundCheck extends ProductBaseFlowBuilder implements Product {
     return {
       verificationPatterns: {
         [VerificationPatternTypes.BackgroundMexicanBuholegal]: false,
+        [VerificationPatternTypes.BackgroundBrazilianChecks]: BackgroundCheckTypes.None,
       },
     };
   }
