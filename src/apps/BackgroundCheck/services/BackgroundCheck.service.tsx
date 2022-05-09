@@ -44,10 +44,10 @@ export class BackgroundCheck extends ProductBaseFlowBuilder implements Product {
   }
 
   isInFlow(flow: IFlow): boolean {
-    const isBackgroundChecksEnabled = Object.entries(flow?.verificationPatterns).some(
-      ([key, value]) => backgroundCheckVerificationPatterns.includes(key as VerificationPatternTypes) && value,
-    );
-    return !!flow?.postponedTimeout || isBackgroundChecksEnabled;
+    const mexicanBuholegal = flow?.verificationPatterns[VerificationPatternTypes.BackgroundMexicanBuholegal];
+    const brazilianChecks = flow?.verificationPatterns[VerificationPatternTypes.BackgroundBrazilianChecks];
+    const isBackgroundChecksEnabled = mexicanBuholegal || (brazilianChecks !== BackgroundCheckTypes.None);
+    return Boolean(flow?.postponedTimeout) || isBackgroundChecksEnabled;
   }
 
   isInVerification(verification: VerificationResponse): boolean {
