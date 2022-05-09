@@ -16,9 +16,9 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { IStep, StepCodeStatus } from 'models/Step.model';
 import { AlertTypes } from 'apps/ui/models/Alert.model';
 import { appPalette } from 'apps/theme';
+import ReactJsonViewer from 'react-json-view';
 import { backgroundCheckDisplayOptions, backgroundCheckVerificationShieldIconsMap, IBackgroundCheckStepData, BackgroundCheckStatusesTypes } from 'models/BackgroundCheck.model';
 import { BackgroundCheckSummary } from '../BackgroundCheckSummary/BackgroundCheckSummary';
-import ReactJsonViewer from 'react-json-view';
 import { backgroundCheckManualRun } from '../../state/BackgroundCheck.actions';
 import { useStyles } from './BackgroundCheckVerificationProduct.styles';
 import { BackgroundJsonViewer } from '../BackgroundJsonViewer/BackgroundJsonViewer';
@@ -110,7 +110,7 @@ export function BackgroundCheckVerificationProduct() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item>
+      <Grid item className={classes.summaryContianer}>
         <Typography variant="subtitle2" className={classnames(classes.colorGrey, classes.marginBottom20)}>
           {formatMessage('BackgroundCheck.verification.summary')}
         </Typography>
@@ -118,7 +118,7 @@ export function BackgroundCheckVerificationProduct() {
           <Grid item className={classes.shieldIconWrap} xs={4}>
             {backgroundCheckVerificationShieldIconsMap[backgroundStep.data.status]}
           </Grid>
-          <Grid container item xs={8} direction="column">
+          <Grid item xs={8}>
             <BackgroundCheckSummary step={backgroundStep} />
             <Grid item>
               {backgroundStep.error && (
