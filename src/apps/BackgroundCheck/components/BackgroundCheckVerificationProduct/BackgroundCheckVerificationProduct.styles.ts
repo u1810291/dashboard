@@ -54,4 +54,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   labelError: {
     color: theme.palette.common.red,
   },
+  summaryContianer: {
+    width: '100%',
+  },
 }));

@@ -34,4 +34,13 @@ export const useStyles = makeStyles((theme) => createStyles({
     flexDirection: 'column',
     flexBasis: 'calc(100% - 281px - 30px)',
   },
+  description: {
+    gridGap: '10px',
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    width: '100%',
+  },
+  content: {
+    width: '100%',
+  },
 }));
