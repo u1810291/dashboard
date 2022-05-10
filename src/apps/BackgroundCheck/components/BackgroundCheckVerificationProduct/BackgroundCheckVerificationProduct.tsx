@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormatMessage } from 'apps/intl';
 import classnames from 'classnames';
 import { Alert, Warning, WarningTypes } from 'apps/ui';
-import dayjs from 'dayjs';
-import { DateFormat } from 'lib/date';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -14,10 +12,8 @@ import { getPostResultPhase, IdentityStatuses, VerificationStatusChangeReason } 
 import { selectVerification, selectVerificationStepsExtra } from 'apps/Verification';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { IStep, StepCodeStatus } from 'models/Step.model';
-import { AlertTypes } from 'apps/ui/models/Alert.model';
-import { appPalette } from 'apps/theme';
 import ReactJsonViewer from 'react-json-view';
-import { backgroundCheckDisplayOptions, backgroundCheckVerificationShieldIconsMap, IBackgroundCheckStepData, BackgroundCheckStatusesTypes } from 'models/BackgroundCheck.model';
+import { backgroundCheckVerificationShieldIconsMap, IBackgroundCheckStepData } from 'models/BackgroundCheck.model';
 import { BackgroundCheckSummary } from '../BackgroundCheckSummary/BackgroundCheckSummary';
 import { backgroundCheckManualRun } from '../../state/BackgroundCheck.actions';
 import { useStyles } from './BackgroundCheckVerificationProduct.styles';
@@ -120,22 +116,6 @@ export function BackgroundCheckVerificationProduct() {
           </Grid>
           <Grid item xs={8}>
             <BackgroundCheckSummary step={backgroundStep} />
-            <Grid item>
-              {backgroundStep.error && (
-                <Alert
-                  title={formatMessage(`BackgroundCheck.check.${backgroundStep.error.code}.message`,
-                    { defaultMessage: 'SecurityCheckStep.system.internalError.message' })}
-                  type={AlertTypes.TransparentError}
-                />
-              )}
-              {backgroundStep.data.status === BackgroundCheckStatusesTypes.Accepted && (
-                <Alert
-                  title={formatMessage('BackgroundCheck.verification.status.accepted')}
-                  type={AlertTypes.TransparentError}
-                  textColor={appPalette.black75}
-                />
-              )}
-            </Grid>
           </Grid>
         </Grid>
       </Grid>
