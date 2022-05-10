@@ -1,8 +1,53 @@
-import { createStyles } from '@material-ui/styles';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import { BackgroundCheckStatusesTypes } from 'models/BackgroundCheck.model';
 
-export const useStyles = makeStyles((theme) => createStyles({
+export const useStyles = makeStyles((theme: Theme) => ({
+  colorGrey: {
+    color: theme.palette.text.main,
+  },
+  checkboxLabel: {
+    fontSize: '0.875rem',
+  },
+  marginBottom10: {
+    marginBottom: 10,
+  },
+  marginBottom20: {
+    marginBottom: 20,
+  },
+  shieldIconWrap: {
+    flexBasis: 281,
+    marginTop: '15px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    '& svg': {
+      marginTop: '-40px',
+    },
+  },
+  downloadButtonsBox: {
+    width: 'auto',
+  },
+  manualButtonWrap: {
+    maxWidth: 514,
+  },
+  reportTitle: {
+    fontSize: 27,
+    fontWeight: 'bold',
+  },
+  reportSubTitle: {
+    maxWidth: 376,
+  },
+  ultraLargeButton: {
+    padding: '16px 65px',
+    fontSize: '14px',
+  },
+  labelError: {
+    color: theme.palette.common.red,
+  },
+  summaryContianer: {
+    width: '100%',
+  },
   label: {
     color: theme.palette.text.main,
   },

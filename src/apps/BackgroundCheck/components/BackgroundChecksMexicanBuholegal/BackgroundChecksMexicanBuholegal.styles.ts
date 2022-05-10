@@ -4,9 +4,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
   colorGrey: {
     color: theme.palette.text.main,
   },
-  checkboxLabel: {
-    fontSize: '0.875rem',
-  },
   summaryList: {
     height: 270,
     display: 'flex',
@@ -19,9 +16,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   marginBottom20: {
     marginBottom: 20,
-  },
-  marginRight20: {
-    marginRight: 20,
   },
   shieldIconWrap: {
     flexBasis: 281,
@@ -53,8 +47,5 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   labelError: {
     color: theme.palette.common.red,
-  },
-  summaryContianer: {
-    width: '100%',
   },
 }));
