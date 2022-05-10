@@ -76,6 +76,8 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.ParaguayanRcp]: false,
   [VerificationPatternTypes.PeruvianReniec]: false,
   [VerificationPatternTypes.PeruvianSunat]: false,
+  [VerificationPatternTypes.PhilippinesUMIDSSS]: false,
+  [VerificationPatternTypes.PhilippinianDl]: false,
   [VerificationPatternTypes.SalvadorianTse]: false,
   [VerificationPatternTypes.PanamenianTribunalElectoral]: false,
   [VerificationPatternTypes.VenezuelanCne]: false,
@@ -120,6 +122,7 @@ export enum GovCheckCountryTypes {
   Nigeria = 'nigeria',
   Paraguay = 'paraguay',
   Peru = 'peru',
+  Philippines = 'philippines',
   Salvador = 'salvador',
   Panama = 'panama',
   Venezuela = 'venezuela',
@@ -144,6 +147,7 @@ export const govCheckCountriesOrder = [
   GovCheckCountryTypes.Nigeria,
   GovCheckCountryTypes.Paraguay,
   GovCheckCountryTypes.Peru,
+  GovCheckCountryTypes.Philippines,
   GovCheckCountryTypes.Salvador,
   GovCheckCountryTypes.Panama,
   GovCheckCountryTypes.Venezuela,
@@ -519,6 +523,19 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     ],
   },
   {
+    country: GovCheckCountryTypes.Philippines,
+    checks: [
+      {
+        id: VerificationPatternTypes.PhilippinesUMIDSSS,
+        default: false,
+      },
+      {
+        id: VerificationPatternTypes.PhilippinianDl,
+        default: false,
+      },
+    ],
+  },
+  {
     country: GovCheckCountryTypes.Salvador,
     checks: [
       {
@@ -539,6 +556,12 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
 ];
 
 export const govCheckDisplayOptions = {
+  [VerificationStepTypes.PhilippinianUMIDSSNValidation]: {
+    documentNumber: {},
+    valid: {
+      formatter: (valid, data) => ({ ...data, valid: valid ? 'Valid' : 'Invalid' }),
+    },
+  },
   [DocumentStepTypes.ArgentinianDni]: {
     documentNumber: {
       hidden: true,
@@ -1152,6 +1175,15 @@ export const govCheckDisplayOptions = {
       inline: true,
       hiddenIfNotExists: true,
     },
+  },
+  [VerificationStepTypes.PhilippinianDlValidation]: {
+    licenseNumber: {},
+    serialNumber: {},
+    expirationDate: {},
+    fullName: {},
+    dateOfBirth: {},
+    gender: {},
+    valid: {},
   },
 };
 
