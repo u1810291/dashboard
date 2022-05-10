@@ -183,6 +183,8 @@
   "BackgroundCheck.verification.summary.lowRisk": "Low Risk",
   "BackgroundCheck.verification.summary.noMatch": "No Match",
   "BackgroundCheck.verification.summary.status": "Status",
+  "BackgroundCheck.verification.summary.status.registering": "Registering",
+  "BackgroundCheck.verification.summary.status.processing": "Processing",
   "BackgroundCheck.verification.summary.status.approved": "Approved",
   "BackgroundCheck.verification.summary.status.highRisk": "Rejected",
   "BackgroundCheck.verification.summary.status.lowRisk": "Manual Review",
