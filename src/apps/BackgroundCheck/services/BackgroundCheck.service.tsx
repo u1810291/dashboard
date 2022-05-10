@@ -1,3 +1,4 @@
+import { FlowIssue } from 'apps/ui';
 import React from 'react';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
@@ -58,6 +59,14 @@ export class BackgroundCheck extends ProductBaseFlowBuilder implements Product {
     const backgroundChecksStep = verification?.steps?.find((step) => BackgroundChecksSteps.includes(step.id) && !(step?.error?.code && BackgroundChecksErrorsToHide[step.error.code]));
 
     return !!backgroundChecksStep.error?.type;
+  }
+
+  getIssuesComponent(flow: IFlow): any {
+    if (!flow.verificationPatterns[VerificationPatternTypes.BackgroundMexicanBuholegal] && (flow.verificationPatterns[VerificationPatternTypes.BackgroundBrazilianChecks] === BackgroundCheckTypes.None)) {
+      return () => FlowIssue('FlowBuilder.issue.countriesNotSpecified');
+    }
+
+    return null;
   }
 
   parser(flow: IFlow): ProductSettingsBackgroundCheck {
