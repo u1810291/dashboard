@@ -69,11 +69,12 @@ export const backgroundCheckConfigurations: IBackgroundCheckConfiguration[] = [
         default: BrazilGovCheckTypesForPattern[VerificationPatternTypes.BackgroundBrazilianChecks].NONE,
         options: {
           list: [
-            {
-              id: VerificationStepTypes.BackgroundBrazilianChecksFull,
-              title: 'Full check',
-              value: BrazilGovCheckTypesForPattern[VerificationPatternTypes.BackgroundBrazilianChecks].FULL,
-            },
+            // commented for release of background check
+            // {
+            //   id: VerificationStepTypes.BackgroundBrazilianChecksFull,
+            //   title: 'Full check',
+            //   value: BrazilGovCheckTypesForPattern[VerificationPatternTypes.BackgroundBrazilianChecks].FULL,
+            // },
             {
               id: VerificationStepTypes.BackgroundBrazilianChecksLight,
               title: 'Light check',
