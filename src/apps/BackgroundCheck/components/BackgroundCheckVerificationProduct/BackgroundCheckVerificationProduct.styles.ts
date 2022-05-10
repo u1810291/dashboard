@@ -1,9 +1,11 @@
-import { createStyles } from '@material-ui/styles';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles((theme) => createStyles({
+export const useStyles = makeStyles((theme: Theme) => ({
   colorGrey: {
     color: theme.palette.text.main,
+  },
+  checkboxLabel: {
+    fontSize: '0.875rem',
   },
   summaryList: {
     height: 270,
@@ -51,5 +53,8 @@ export const useStyles = makeStyles((theme) => createStyles({
   },
   labelError: {
     color: theme.palette.common.red,
+  },
+  summaryContianer: {
+    width: '100%',
   },
 }));
