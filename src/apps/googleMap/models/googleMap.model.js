@@ -15,9 +15,9 @@ export const InformationSources = [
     id: InformationSourceTypes.Documents,
     icon: <FiFileText />,
   },
-  // TODO @grigorev add IpCheck
+  // TODO @grigorev add LocationIntelligence
   // {
-  //   id: InformationSourceTypes.IpCheck,
+  //   id: InformationSourceTypes.LocationIntelligence,
   //   icon: <FiMapPin />,
   // },
 ];

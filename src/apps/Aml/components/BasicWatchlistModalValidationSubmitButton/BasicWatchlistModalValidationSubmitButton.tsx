@@ -15,7 +15,7 @@ export function BasicWatchlistModalValidationSubmitButton({ loading, isWatchlist
 }) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
-  const currentWatchlistError = useSelector<any, IWatchlistValidationError[] | null>(selectCurrentBasicWatchlistError);
+  const currentWatchlistError = useSelector<any, Nullable<IWatchlistValidationError[]>>(selectCurrentBasicWatchlistError);
   const isCurrentWatchlistError = Array.isArray(currentWatchlistError) && currentWatchlistError?.length !== 0;
 
   const buttonText = useMemo<string | React.ReactNode>(() => {

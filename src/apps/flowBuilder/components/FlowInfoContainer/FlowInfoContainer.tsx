@@ -9,14 +9,15 @@ import { FlowInfo } from '../FlowInfo/FlowInfo';
 import { FlowSettings } from '../FlowSettings/FlowSettings';
 import { useStyles } from './FlowInfoContainer.styles';
 
-export function FlowInfoContainer() {
+export function FlowInfoContainer({ isTemplate }: { isTemplate?: boolean }) {
   const classes = useStyles();
+  const route = isTemplate ? 'templates' : 'flow';
   const [createOverlay, closeOverlay] = useOverlay();
   const location = useLocation();
-  const goBackToListLink = useMemo(() => getGoBackToListLink(location, Routes.flow.root), [location]);
+  const goBackToListLink = useMemo(() => getGoBackToListLink(location, Routes[route].root), [location, route]);
   const handleOpenFlowSettings = useCallback(() => {
-    createOverlay(<Modal className={classes.modal} onClose={closeOverlay}><FlowSettings onClose={closeOverlay} /></Modal>);
-  }, [classes.modal, closeOverlay, createOverlay]);
+    createOverlay(<Modal className={classes.modal} onClose={closeOverlay}><FlowSettings isTemplate={isTemplate} onClose={closeOverlay} /></Modal>);
+  }, [classes.modal, closeOverlay, createOverlay, isTemplate]);
 
   return (
     <Box className={classes.container}>
@@ -28,7 +29,7 @@ export function FlowInfoContainer() {
           <FiChevronLeft />
         </Link>
         <Box pr={2}>
-          <FlowInfo />
+          <FlowInfo isTemplate={isTemplate} />
         </Box>
       </Grid>
     </Box>

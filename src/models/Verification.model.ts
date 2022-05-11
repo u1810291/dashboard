@@ -62,3 +62,5 @@ export const verificationWorkflowMock: IVerificationWorkflow = {
     },
   },
 };
+
+export type VerificationResponse = any;

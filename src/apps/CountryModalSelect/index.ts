@@ -1,2 +1,2 @@
-export * from './components/CountryModalSelect/CountryModalSelect';
-export * from './components/CountryModalItemSelect/CountryModalItemSelect';
+export { CountryModalSelectContainer } from './components/CountryModalSelectContainer/CountryModalSelectContainer';
+export { CountryModalSelect } from './components/CountryModalSelect/CountryModalSelect';
