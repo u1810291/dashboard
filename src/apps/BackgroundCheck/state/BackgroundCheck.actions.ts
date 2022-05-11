@@ -2,7 +2,7 @@ import { productManagerService } from 'apps/Product';
 import { ProductTypes } from 'models/Product.model';
 import { createTypesSequence, TypesSequence } from 'state/store.utils';
 import { verificationStepsUpdate } from 'apps/Verification/state/Verification.actions';
-import { BackgroundCheckStepData } from 'models/BackgroundCheck.model';
+import { IBackgroundCheckStepData } from 'models/BackgroundCheck.model';
 import { StepIds } from 'models/Step.model';
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
@@ -33,7 +33,7 @@ export const backgroundCheckManualRun = (verificationId: string, stepType: Verif
     const step = manualRunResponse.data.steps.find((responseStep) => responseStep.id === stepId);
 
     dispatch({ type: types.BACKGROUND_CHECK_MANUAL_RUN_SUCCESS });
-    dispatch(verificationStepsUpdate<BackgroundCheckStepData>(stepType, step));
+    dispatch(verificationStepsUpdate<IBackgroundCheckStepData>(stepType, step));
   } catch (error) {
     dispatch({ type: types.BACKGROUND_CHECK_MANUAL_RUN_FAILURE });
     throw error;
