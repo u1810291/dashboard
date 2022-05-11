@@ -41,7 +41,7 @@ export function CustomWatchlistModalValidationForm({ watchlist, onClose, onSubmi
   const isCurrentCustomWatchlistIsFileAvailable = useSelector(selectCurrentCustomWatchlistIsFileAvailable);
 
   const [isSubmittingError, setIsSubmittingError] = useState<boolean>(false);
-  const [fileKey, setFileKey] = useState<string | null>(watchlist?.process?.inputSourceFileKey ?? null);
+  const [fileKey, setFileKey] = useState<Nullable<string>>(watchlist?.process?.inputSourceFileKey ?? null);
   const formMethods = useForm<CustomWatchlistModalValidationInputTypes>({
     defaultValues: {
       [CustomWatchlistModalValidationInputs.Name]: watchlist?.name,

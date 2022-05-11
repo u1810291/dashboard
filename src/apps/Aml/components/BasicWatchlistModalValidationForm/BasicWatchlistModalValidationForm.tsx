@@ -33,16 +33,16 @@ export function BasicWatchlistModalValidationForm({ watchlist, onClose, onSubmit
 
   const merchantId = useSelector<any, string>(selectMerchantId);
   const currentWatchlistId = useSelector<any, number>(selectCurrentBasicWatchlistId);
-  const currentWatchlistStatus = useSelector<any, WatchlistProcessStatusTypes | null>(selectCurrentBasicWatchlistStatus);
+  const currentWatchlistStatus = useSelector<any, Nullable<WatchlistProcessStatusTypes>>(selectCurrentBasicWatchlistStatus);
   const isCurrentBasicWatchlistIsFileAvailable = useSelector<any, boolean>(selectCurrentBasicWatchlistIsFileAvailable);
   const watchlistsGroups = useSelector<any, IWatchlistGroup[]>(selectWatchlistsGroups);
   const { isLoading: isCurrentBasicWatchlistHeadersLoading, error: currentBasicWatchlistHeadersErrorType } = useSelector<any, Loadable<string[]>>(selectCurrentBasicWatchlistHeadersModel);
-  const { isLoading: isCurrentBasicWatchlistIsLoading } = useSelector<any, Loadable<IWatchlist | null>>(selectCurrentBasicWatchlistModel);
+  const { isLoading: isCurrentBasicWatchlistIsLoading } = useSelector<any, Loadable<Nullable<IWatchlist>>>(selectCurrentBasicWatchlistModel);
   const { isLoading: isWatchlistsContentLoading } = useSelector<any, Loadable<IWatchlistContent>>(selectIsWatchlistsContentModel);
   const { isLoading: isWatchlistsLoading } = useSelector<any, Loadable<IWatchlist[]>>(selectWatchlistsModel);
 
   const [isSubmittingError, setIsSubmittingError] = useState<boolean>(false);
-  const [fileKey, setFileKey] = useState<string | null>(watchlist?.process?.inputSourceFileKey ?? null);
+  const [fileKey, setFileKey] = useState<Nullable<string>>(watchlist?.process?.inputSourceFileKey ?? null);
   const formMethods = useForm<IBasicWatchlistModalValidationInputs>({
     defaultValues: {
       [BasicWatchlistModalValidationInputTypes.Name]: watchlist?.name,

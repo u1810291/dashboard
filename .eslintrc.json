@@ -11,7 +11,8 @@
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly",
-    "JSX":"readonly"
+    "JSX":"readonly",
+    "Nullable": "readonly"
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -39,7 +40,7 @@
     "react/no-array-index-key": 0,
     "react/jsx-props-no-spreading": 0,
     "no-use-before-define": 0,
-    "no-nested-ternary": 0,
+    "no-nested-ternary": "warn",
     "jsx-a11y/anchor-is-valid": 0,
     "no-shadow": "off",
     "lines-between-class-members": 0,
@@ -83,7 +84,20 @@
       "tsx": "never",
       "js": "never",
       "jsx": "never"
-    }]
+    }],
+    "@typescript-eslint/naming-convention": [
+      "warn",
+      {
+        "selector": "interface",
+        "format": ["PascalCase"],
+        "prefix": ["I"]
+      },
+      {
+        "selector": "enum",
+        "format": ["PascalCase"],
+        "suffix": ["Types"]
+      }
+    ]
   },
   "settings": {
     "import/resolver": {

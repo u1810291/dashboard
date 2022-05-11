@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { IFlow } from 'models/Flow.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
@@ -6,6 +7,7 @@ import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FiPenTool } from 'react-icons/fi';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
+import { FlowIssue } from 'apps/ui';
 import { ESignatureSettings } from '../components/ESignatureSettings/ESignatureSettings';
 import { ESignatureVerification } from '../components/ESignatureVerification/ESignatureVerification';
 
@@ -96,6 +98,14 @@ export class ESignatureService extends ProductBaseFlowBuilder implements Product
 
     getVerification(verification: VerificationResponse): any {
       return verification.steps.find((step) => step.id === VerificationPatternTypes.ESignatureDocuments);
+    }
+
+    getIssuesComponent(flow: IFlow): FC | null {
+      if (!flow.electronicSignature?.templates.list.length) {
+        return () => FlowIssue('ESignature.issues.noDocumentUploaded');
+      }
+
+      return null;
     }
 
     hasFailedCheck(verification: VerificationResponse): boolean {

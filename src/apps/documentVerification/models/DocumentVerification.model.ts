@@ -1,4 +1,4 @@
-import { ProductSettings } from 'models/Product.model';
+import { MeritId, ProductSettings } from 'models/Product.model';
 import { get } from 'lodash';
 
 export enum DocumentVerificationSettingTypes {
@@ -27,6 +27,8 @@ export enum DocumentVerificationCheckTypes {
 }
 
 export type DocumentVerificationConfigSettings = ProductSettings<DocumentVerificationSettingTypes>;
+
+export const DocumentVerificationMeritId: MeritId = 'document-verification';
 
 export function getSettingByType(settings: ProductSettings<DocumentVerificationSettingTypes>, type: DocumentVerificationSettingTypes) {
   if (!settings || !type) {

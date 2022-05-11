@@ -18,11 +18,14 @@ export const AppTheme = createTheme({
     background: {
       default: appPalette.white,
       loader: appPalette.whiteopacity,
+      hover: appPalette.white10,
+      focus: appPalette.white15,
     },
     text: {
       main: appPalette.black75,
       secondary: appPalette.black90,
       disabled: appPalette.black50,
+      light: appPalette.black7,
     },
     success: {
       main: appPalette.green,
@@ -132,6 +135,14 @@ export const AppTheme = createTheme({
         marginLeft: 0,
         fontSize: 14,
         lineHeight: 1.2,
+      },
+    },
+    MuiTooltip: {
+      tooltip: {
+        fontSize: 12,
+        fontWeight: 400,
+        color: appPalette.white,
+        backgroundColor: appPalette.black90,
       },
     },
     MuiFormControl: {

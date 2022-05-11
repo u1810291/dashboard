@@ -1,26 +1,16 @@
 import { DocumentVerificationProduct } from 'apps/documents';
-import { FACEMATCH_DEFAULT_THRESHOLD } from 'apps/facematch/models/facematch.model';
-import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
-import { InputValidationType } from 'models/ImageValidation.model';
-import intersection from 'lodash/intersection';
-import { DocumentTypes } from 'models/Document.model';
+import { ProductBaseWorkflow } from 'apps/WorkflowBuilder';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
-import { DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStep, getReaderFrontendSteps, getStepStatus, StepStatus, VerificationDocStepTypes } from 'models/Step.model';
-import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { IWorkflow } from 'models/Workflow.model';
 import { FiFileText } from 'react-icons/fi';
-import { BiometricVerificationCheckTypes } from 'apps/biometricVerification/models/BiometricVerification.model';
-import { AGE_CHECK_MAX_THRESHOLD, AGE_CHECK_MIN_THRESHOLD } from 'apps/AgeCheck/models/AgeCheck.model';
-import { IESignatureFlow } from 'models/ESignature.model';
-import { DocumentVerificationCheckTypes, DocumentVerificationSettingTypes, ProductSettingsDocumentVerification } from 'apps/documentVerification/models/DocumentVerification.model';
-import { DocumentVerificationIssues } from '../components/DocumentVerificationIssues/DocumentVerificationIssues';
-import { DocumentIsStepNotSpecifiedIssues } from '../components/DocumentIsStepNotSpecifiedIssues/DocumentIsIsStepNotSpecifiedIssues';
+import { DocumentVerificationCheckTypes, DocumentVerificationMeritId, ProductSettingsDocumentVerification } from '../models/DocumentVerification.model';
 import { DocumentVerificationSettings } from '../components/DocumentVerificationSettings/DocumentVerificationSettings';
 
 type IVerificationWorkflowDraft = any;
 
-export class DocumentVerificationMerit extends ProductBaseFlowBuilder implements Product<IWorkflow, IVerificationWorkflowDraft> {
+export class DocumentVerificationMerit extends ProductBaseWorkflow implements Product<IWorkflow, IVerificationWorkflowDraft> {
   id = ProductTypes.DocumentVerification;
+  meritId = DocumentVerificationMeritId;
   order = 100;
   integrationTypes = [
     ProductIntegrationTypes.Sdk,
@@ -66,194 +56,50 @@ export class DocumentVerificationMerit extends ProductBaseFlowBuilder implements
 
   component = DocumentVerificationSettings;
   componentVerification = DocumentVerificationProduct;
+  componentPdf = null;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   parser(flow: IWorkflow, productsInGraph?: ProductTypes[]): ProductSettingsDocumentVerification {
-    const isDocumentStepsActive = flow?.verificationSteps?.length > 0;
-    const isBiometricStepsActive = productsInGraph.includes(ProductTypes.BiometricVerification);
-    const isDuplicateUserDetectionActive = !!flow?.verificationPatterns?.[VerificationPatternTypes.DuplicateUserDetection];
-
-    const neededSteps = flow?.verificationSteps.filter((group) => intersection(group, [DocumentTypes.Passport, DocumentTypes.NationalId, DocumentTypes.DrivingLicense, DocumentTypes.ProofOfResidency]).length > 0);
-    const otherSteps = flow?.verificationSteps.filter((group) => !(intersection(group, [DocumentTypes.Passport, DocumentTypes.NationalId, DocumentTypes.DrivingLicense, DocumentTypes.ProofOfResidency]).length > 0));
-
-    return {
-      [DocumentVerificationSettingTypes.DocumentSteps]: {
-        value: neededSteps,
-      },
-      [DocumentVerificationSettingTypes.OtherSteps]: {
-        value: otherSteps,
-      },
-      [DocumentVerificationSettingTypes.DenyUploadRequirement]: {
-        value: !!flow?.denyUploadsFromMobileGallery,
-        isDisabled: !isDocumentStepsActive,
-      },
-      [DocumentVerificationSettingTypes.AgeThreshold]: {
-        value: flow?.ageThreshold,
-        isDisabled: !isDocumentStepsActive,
-      },
-      [DocumentVerificationSettingTypes.GrayscaleImage]: {
-        value: flow?.inputValidationChecks?.some((check) => check.id === InputValidationType.GrayscaleImage && !check.isDisabled) || false,
-        isDisabled: !isDocumentStepsActive,
-      },
-      [DocumentVerificationSettingTypes.SimilarImages]: {
-        value: flow?.inputValidationChecks?.some((check) => (check.id === InputValidationType.SimilarImages || check.id === InputValidationType.IdenticalImages) && !check.isDisabled) || false,
-        isDisabled: !isDocumentStepsActive,
-      },
-      [DocumentVerificationSettingTypes.DuplicateUserDetection]: {
-        value: isDuplicateUserDetectionActive,
-        isDisabled: !isDocumentStepsActive,
-      },
-      [DocumentVerificationSettingTypes.CountryRestriction]: {
-        value: flow?.supportedCountries || [],
-        isDisabled: !isDocumentStepsActive,
-      },
-      [DocumentVerificationSettingTypes.FacematchThreshold]: {
-        value: flow?.facematchThreshold || FACEMATCH_DEFAULT_THRESHOLD,
-        isDisabled: !isDocumentStepsActive,
-        isRequireOtherProduct: !isBiometricStepsActive,
-      },
-      [DocumentVerificationSettingTypes.DuplicateUserDetection]: {
-        value: flow?.verificationPatterns?.[VerificationPatternTypes.DuplicateUserDetection],
-        isDisabled: !isDocumentStepsActive,
-      },
-      [DocumentVerificationSettingTypes.ProofOfOwnership]: {
-        value: !!flow?.verificationPatterns?.[VerificationPatternTypes.ProofOfOwnership],
-        isDisabled: !isDocumentStepsActive,
-        isRequireOtherProduct: !isBiometricStepsActive,
-        isCantBeUsedWithOtherSetting: flow?.verificationPatterns?.biometrics === BiometricVerificationCheckTypes.VoiceLiveness,
-      },
-    };
-  }
-
-  serialize(settings: ProductSettingsDocumentVerification): Partial<IWorkflow> {
-    return {
-      verificationSteps: [...settings.documentSteps.value, ...settings.otherSteps.value],
-      denyUploadsFromMobileGallery: settings.denyUploadRequirement.value,
-      ageThreshold: settings.ageThreshold.value,
-      inputValidationChecks: [{
-        id: InputValidationType.GrayscaleImage,
-        isDisabled: !settings.grayscaleImage.value,
-      }, {
-        id: InputValidationType.SimilarImages,
-        isDisabled: !settings.similarImages.value,
-      }, {
-        id: InputValidationType.IdenticalImages,
-        isDisabled: !settings.similarImages.value,
-      }, {
-        id: InputValidationType.DocumentDetected,
-        isDisabled: false,
-      }],
-      supportedCountries: settings.countryRestriction.value,
-      facematchThreshold: settings.facematchThreshold.value,
-      verificationPatterns: {
-        [VerificationPatternTypes.DuplicateUserDetection]: settings.duplicateUserDetection.value,
-        [VerificationPatternTypes.ProofOfOwnership]: settings.proofOfOwnership.value,
-      },
-    };
-  }
-
-  onRemove(flow: IWorkflow): Partial<IWorkflow> {
-    const otherSteps = flow?.verificationSteps.filter((group) => !(intersection(group, [DocumentTypes.Passport, DocumentTypes.NationalId, DocumentTypes.DrivingLicense, DocumentTypes.ProofOfResidency]).length > 0));
-    let electronicSignature: IESignatureFlow = flow?.electronicSignature;
-    if (flow?.electronicSignature?.acceptanceCriteria.isDocumentsRequired) {
-      electronicSignature = {
-        ...flow.electronicSignature,
-        acceptanceCriteria: {
-          ...flow.electronicSignature.acceptanceCriteria,
-          isDocumentsRequired: false,
-          isFaceMatchRequired: false,
-        },
-      };
-    }
-    return {
-      verificationSteps: [...otherSteps],
-      denyUploadsFromMobileGallery: false,
-      ageThreshold: undefined,
-      inputValidationChecks: [{
-        id: InputValidationType.GrayscaleImage,
-        isDisabled: true,
-      }, {
-        id: InputValidationType.SimilarImages,
-        isDisabled: true,
-      }, {
-        id: InputValidationType.IdenticalImages,
-        isDisabled: true,
-      }, {
-        id: InputValidationType.DocumentDetected,
-        isDisabled: false,
-      }],
-      supportedCountries: [],
-      facematchThreshold: undefined,
-      verificationPatterns: {
-        [VerificationPatternTypes.DuplicateUserDetection]: false,
-        [VerificationPatternTypes.ProofOfOwnership]: false,
-      },
-      electronicSignature,
-    };
-  }
-
-  isInFlow(flow: IWorkflow): boolean {
-    const allSteps = flow?.verificationSteps?.flatMap((step) => step) || [];
-    const documents: string[] = Object.values(DocumentTypes).map((item: DocumentTypes) => item as string);
-
-    return allSteps.some((step) => documents.includes(step));
-  }
-
-  getVerification(verification: IVerificationWorkflowDraft): IVerificationWorkflowDraft {
-    const documentTypes: string[] = Object.values(DocumentTypes).map((item: DocumentTypes) => item as string);
-
-    const documents = verification?.documents?.filter((el) => documentTypes.includes(el.type))
-      .map((doc) => {
-        const duplicateUserDetectionStep = doc?.steps?.find((item) => item?.id === VerificationDocStepTypes.DuplicateUserValidation);
-        const ageCheck = doc?.steps?.find((item) => item?.id === VerificationDocStepTypes.AgeValidation);
-        return { ...doc, duplicateUserDetectionStep, ageCheck };
-      });
-
-    return { ...verification, documents };
-  }
-
-  haveIssues(flow: IWorkflow, productsInGraph?: ProductTypes[]): boolean {
-    const isAgeThresholdValid = !flow.ageThreshold || (flow.ageThreshold >= AGE_CHECK_MIN_THRESHOLD && flow.ageThreshold <= AGE_CHECK_MAX_THRESHOLD);
-    const isDocumentStepNotSpecified = productsInGraph && !this.isInFlow(flow);
-
-    return !isAgeThresholdValid || super.haveIssues(flow) || isDocumentStepNotSpecified;
-  }
-
-  getIssuesComponent(flow: IWorkflow, productsInGraph?: ProductTypes[]): any {
-    const isDocumentStepNotSpecified = productsInGraph && !this.isInFlow(flow);
-    const isAPICountryRestriction = flow?.integrationType === ProductIntegrationTypes.Api && flow?.supportedCountries?.length > 0;
-
-    if (isAPICountryRestriction) {
-      return DocumentVerificationIssues;
-    }
-
-    if (isDocumentStepNotSpecified) {
-      return DocumentIsStepNotSpecifiedIssues;
-    }
-
     return null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  serialize(settings: ProductSettingsDocumentVerification): Partial<IWorkflow> {
+    return null;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onRemove(flow: IWorkflow): Partial<IWorkflow> {
+    return null;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  isInFlow(flow: IWorkflow): boolean {
+    return false;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getVerification(verification: IVerificationWorkflowDraft): IVerificationWorkflowDraft {
+    return null;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  haveIssues(flow: IWorkflow, productsInGraph?: ProductTypes[]): boolean {
+    return false;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getIssuesComponent(flow: IWorkflow, productsInGraph?: ProductTypes[]): any {
+    return null;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   hasFailedCheck(verification: IVerificationWorkflowDraft): boolean {
-    return verification?.documents?.some((document) => {
-      const steps = document?.steps || [];
-      const documentStep = getDocumentStep(DocumentStepTypes.DocumentReading, steps);
-      const readerStep = getReaderFrontendSteps(documentStep);
-      const computedStep = getComputedSteps(documentStep, verification, document);
-      const filteredSteps = steps.filter((step) => [
-        ...DocumentSecuritySteps,
-        ...DocumentFrontendSteps].includes(step.id));
+    return false;
+  }
 
-      const allSteps = [
-        ...filteredSteps,
-        ...readerStep,
-        ...computedStep,
-      ];
-
-      if (allSteps.length === 0) {
-        return false;
-      }
-
-      return allSteps.some((step) => getStepStatus(step) === StepStatus.Failure);
-    });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  isInVerification(verification: IVerificationWorkflowDraft): boolean {
+    return false;
   }
 }

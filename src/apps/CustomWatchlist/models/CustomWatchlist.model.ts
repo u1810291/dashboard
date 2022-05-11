@@ -3,6 +3,7 @@ import { IStepExtra } from 'models/Step.model';
 import { IWatchlistMapping, IWatchlist } from 'models/Watchlist.model';
 
 export const customWatchlistsPollingDelay = 5000;
+export const MAX_CUSTOMWATCHLISTS_QTY = 10;
 export const VALIDATION_ERROR_TYPE_MAX_COUNT = 'watchlists.maxRowCountReached';
 
 export interface FlowWatchlistUi extends IWatchlist {
@@ -45,16 +46,16 @@ export type CustomWatchlistStepDataSearchResult = Record<string, string>;
 export interface CustomWatchlistStepData {
   watchlist: CustomWatchlistStepDataWatchlist;
   searchedAt: Date;
-  searchParams: CustomWatchlistStepDataSearchParams | null;
-  searchResult: CustomWatchlistStepDataSearchResult | null;
+  searchParams: Nullable<CustomWatchlistStepDataSearchParams>;
+  searchResult: Nullable<CustomWatchlistStepDataSearchResult>;
 }
 
 export type CustomWatchlistStepType = IStepExtra<CustomWatchlistStepData[]>;
 
 export interface CustomWatchlistModalValidationInputTypes {
   [CustomWatchlistModalValidationInputs.Name]: string;
-  [CustomWatchlistModalValidationInputs.FileKey]: string | null;
+  [CustomWatchlistModalValidationInputs.FileKey]: Nullable<string>;
   [CustomWatchlistModalValidationInputs.Mapping]: IWatchlistMapping[];
-  [CustomWatchlistModalValidationInputs.CsvSeparator]: string | null;
+  [CustomWatchlistModalValidationInputs.CsvSeparator]: Nullable<string>;
   [CustomWatchlistModalValidationInputs.FileName]: string;
 }

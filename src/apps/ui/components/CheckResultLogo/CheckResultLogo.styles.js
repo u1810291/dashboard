@@ -10,10 +10,73 @@ import OtherChecksWarning from 'assets/icon-other-checks-warning.svg';
 import OtherChecksError from 'assets/icon-other-checks-error.svg';
 import ipCheckGeoSuccess from 'assets/icon-geo-checks-success.svg';
 import ipCheckGeoFailure from 'assets/icon-geo-checks-failure.svg';
+import ipCheckDesktop from 'apps/LocationIntelligence/assets/icon-desktop.svg';
+import ipCheckGeoposition from 'apps/LocationIntelligence/assets/icon-geoposition.svg';
+import ipCheckGeorestriction from 'apps/LocationIntelligence/assets/icon-georestriction.svg';
+import ipCheckHighAccuracy from 'apps/LocationIntelligence/assets/icon-highaccuracy.svg';
+import ipCheckMobile from 'apps/LocationIntelligence/assets/icon-mobile.svg';
+import ipCheckVpn from 'apps/LocationIntelligence/assets/icon-vpn.svg';
 import { LivenessStepStatus } from 'models/Biometric.model';
 import { StepStatus } from 'models/Step.model';
+import { LocationIntelligenceIconTypes } from '../../../LocationIntelligence';
 
 export const useStyles = makeStyles((theme) => {
+  const commonStyle = {
+    color: theme.palette.common.black75,
+    background: theme.palette.common.green,
+    backgroundSize: '80%',
+    borderRadius: '50%',
+    size: 32,
+    top: 5,
+    padding: '0 0 0 44px',
+    margin: '0 auto',
+    textAlign: 'left',
+    left: '0',
+    transform: 'none',
+  };
+  const iconStyle = {
+    [LocationIntelligenceIconTypes.Mobile]: {
+      icon: ipCheckMobile,
+      ...commonStyle,
+      color: theme.palette.common.black75,
+      background: theme.palette.common.black75,
+    },
+    [LocationIntelligenceIconTypes.Desktop]: {
+      icon: ipCheckDesktop,
+      ...commonStyle,
+      color: theme.palette.common.black75,
+      background: theme.palette.common.black75,
+    },
+    [LocationIntelligenceIconTypes.LatLong]: {
+      icon: ipCheckGeoposition,
+      ...commonStyle,
+    },
+    [LocationIntelligenceIconTypes.HighAccuracy]: {
+      icon: ipCheckHighAccuracy,
+      ...commonStyle,
+    },
+    [LocationIntelligenceIconTypes.VpnDetect]: {
+      icon: ipCheckVpn,
+      ...commonStyle,
+    },
+    [LocationIntelligenceIconTypes.GeoRestriction]: {
+      icon: ipCheckGeorestriction,
+      ...commonStyle,
+    },
+  };
+
+  function getIconCommonStyle(styles = {}) {
+    const commonStyles = {};
+
+    Object.keys(iconStyle).forEach((key) => {
+      commonStyles[key] = {
+        ...iconStyle[key],
+        ...styles,
+      };
+    });
+
+    return commonStyles;
+  }
   const statuses = {
     [StepStatus.Success]: {
       document: {
@@ -40,8 +103,10 @@ export const useStyles = makeStyles((theme) => {
         icon: ipCheckGeoSuccess,
         color: theme.palette.text.main,
       },
+      ...getIconCommonStyle(),
     },
     [StepStatus.Failure]: {
+      ...getIconCommonStyle({ background: theme.palette.common.red }),
       document: {
         icon: DocumentError,
         color: theme.palette.common.red,
@@ -68,6 +133,7 @@ export const useStyles = makeStyles((theme) => {
       },
     },
     [StepStatus.Incomplete]: {
+      ...getIconCommonStyle({ background: theme.palette.common.yellow }),
       document: {
         icon: DocumentWarning,
         color: theme.palette.common.yellow,
@@ -78,6 +144,7 @@ export const useStyles = makeStyles((theme) => {
       },
     },
     [StepStatus.Checking]: {
+      ...getIconCommonStyle({ background: theme.palette.text.main }),
       document: {
         icon: LoadIcon,
         color: theme.palette.text.main,
@@ -104,10 +171,14 @@ export const useStyles = makeStyles((theme) => {
       },
     },
     [StepStatus.Skipped]: {
+      ...getIconCommonStyle({ background: theme.palette.text.main }),
       document: {
         icon: DocumentSkipped,
         color: theme.palette.text.main,
       },
+    },
+    [StepStatus.Default]: {
+      ...getIconCommonStyle({ background: theme.palette.text.main }),
     },
     [LivenessStepStatus.FewData]: {
       biometric: {
@@ -122,30 +193,33 @@ export const useStyles = makeStyles((theme) => {
       },
     },
   };
-
+  // TODO When the redesign is completed, remove the conditions associated with "||"
   return ({
     result: ({ status, type }) => ({
       position: 'relative',
-      margin: [[0, 'auto', 20]],
-      padding: [[30, 20, 0]],
-      textAlign: 'center',
+      margin: statuses[status][type]?.margin || '0 auto 20',
+      padding: statuses[status][type]?.padding || '30 20 0',
+      textAlign: statuses[status][type]?.borderRadius || 'center',
       '&:after': {
         content: '""',
         position: 'absolute',
-        top: 0,
-        left: '50%',
-        width: 22,
-        height: 22,
+        top: statuses[status][type]?.top || 0,
+        left: statuses[status][type]?.left ?? '50%',
+        width: statuses[status][type]?.size || 22,
+        height: statuses[status][type]?.size || 22,
         background: `url(${statuses[status][type].icon}) no-repeat center center`,
-        transform: 'translateX(-50%)',
+        backgroundColor: statuses[status][type]?.background || '',
+        backgroundSize: statuses[status][type]?.backgroundSize || '',
+        borderRadius: statuses[status][type]?.borderRadius || '',
+        transform: statuses[status][type]?.transform || 'translateX(-50%)',
         [theme.breakpoints.up('md')]: {
           left: 0,
           transform: 'none',
         },
       },
       [theme.breakpoints.up('md')]: {
-        margin: [[0, 0, 20]],
-        padding: '0 0 0 34px',
+        margin: statuses[status][type]?.margin || [[0, 0, 20]],
+        padding: statuses[status][type]?.padding || '0 0 0 34px',
         textAlign: 'left',
       },
     }),
@@ -156,5 +230,16 @@ export const useStyles = makeStyles((theme) => {
       color: theme.palette.text.main,
       lineHeight: 1.1,
     },
+    resultTitleNew: ({ status, type }) => ({
+      color: statuses[status][type].color,
+      fontWeight: 400,
+      fontSize: 14,
+    }),
+    resultTextNew: ({ status, type }) => ({
+      color: statuses[status][type].color,
+      lineHeight: 1.1,
+      fontWeight: 700,
+      fontSize: 14,
+    }),
   });
 });

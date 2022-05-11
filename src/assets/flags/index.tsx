@@ -57,7 +57,7 @@ export const flagMap = {
   panama: <PanamaIcon {...iconProps} />,
   venezuela: <VenezuelaIcon {...iconProps} />,
   uganda: <UgandaIcon {...iconProps} />,
-  phillipines: <PhilippinesIcon {...iconProps} />,
+  philippines: <PhilippinesIcon {...iconProps} />,
   indonesia: <IndonesiaIcon {...iconProps} />,
 };
 
