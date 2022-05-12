@@ -314,8 +314,6 @@ export const flattenTree = (
   }, []);
 };
 
-export const findItem = (items: ICustomField[], itemName: string): ICustomField => items.find(({ name }) => name === itemName);
-
 function removeEmpty<T>(obj: T): T {
   return <T>Object.fromEntries(
     Object.entries(obj)
@@ -468,11 +466,8 @@ export const getNotSelectedMapping = (listFlattenFields: ICustomField[], newMapp
   if (!newMapping?.country) {
     return [];
   }
-  if (newMapping.country === MappingCountryTypes.Global) {
-    return MAPPING_OPTIONS[newMapping?.country].slice();
-  }
   const notSelected = MAPPING_OPTIONS[newMapping?.country].filter((option) => !listFlattenFields.find((field) => field?.atomicFieldParams?.mapping?.key === option)) || [];
-  if (MappingValueKey?.[mapping.key] && mapping.country === newMapping.country && !notSelected.includes(mapping.key)) {
+  if (mapping.country === newMapping.country && !notSelected.includes(mapping.key)) {
     notSelected.push(mapping.key);
   }
   return notSelected;
