@@ -66,7 +66,7 @@ export const collaboratorInvite = (formatMessage: FormatMessage, data: TeamInvit
     }));
     if (item) stepsProgressChange(item.stepId);
     notification.info(formatMessage('teamTable.inviteSuccess.description'));
-  } catch (error) {
+  } catch (error: any) {
     notification.error(formatMessage(`Settings.teamSettings.submit.${error.response?.data?.name}`, { defaultMessage: formatMessage('Error.common') }));
     console.error(error);
   }

@@ -32,8 +32,8 @@ export function AnalyticsContainer() {
   const [, addToUrl] = useFilterParser(analyticsFilterStructure);
   const [flows, setFlows] = useState([DEFAULT_FLOW]);
   const [isFilterDatesValid, setIsFilterDatesValid] = useState(false);
-  const metricsFilter = useSelector(selectFilter);
-  const countStatisticsModel = useSelector(selectCountStatisticsModel);
+  const metricsFilter = useSelector<any, any>(selectFilter);
+  const countStatisticsModel = useSelector<any, any>(selectCountStatisticsModel);
   const onboardingProgress = useSelector<any, StepsOptions[]>(selectMerchantOnboarding);
   const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
   const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
