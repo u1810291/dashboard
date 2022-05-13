@@ -7,7 +7,8 @@ import { MerchantTags } from 'models/Merchant.model';
 import { getStepStatus, StepStatus } from 'models/Step.model';
 import { getEmailValidationStep, getEmailRiskStep } from 'models/EmailCheck.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
-import { EmailCheckCheckTypes, EmailCheckStepModes, EmailCheckSettingTypes, EmailCheckProductSettings } from '../models/EmailCheck.model';
+import { validateEmpty, validateMaxLength } from 'lib/validations';
+import { EmailCheckCheckTypes, EmailCheckStepModes, EmailCheckSettingTypes, EmailCheckProductSettings, SENDER_NAME_LENGTH_LIMIT } from '../models/EmailCheck.model';
 import { EmailCheckVerification, EmailCheckVerificationData } from '../components/EmailCheckVerification/EmailCheckVerification';
 import { EmailCheckSettings } from '../components/EmailCheckSettings/EmailCheckSettings';
 
@@ -85,6 +86,12 @@ export class EmailCheck extends ProductBaseFlowBuilder implements Product {
       },
     };
   }
+
+  haveIssues(flow: IFlow): boolean {
+    const isEmpty: boolean = Boolean(validateEmpty(flow.emailOwnership?.companyName));
+    return Boolean(validateMaxLength(flow.emailOwnership?.companyName, SENDER_NAME_LENGTH_LIMIT) || isEmpty);
+  }
+
 
   isInFlow(flow: IFlow): boolean {
     return flow?.verificationPatterns?.[VerificationPatternTypes.EmailOwnershipValidation] !== undefined

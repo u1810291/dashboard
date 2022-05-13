@@ -1,17 +1,23 @@
-import { Box, FormControlLabel, RadioGroup, Switch, Select, MenuItem } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Switch from '@material-ui/core/Switch';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import { FiChevronDown } from 'react-icons/fi';
 import { BoxBordered, ExtendedDescription, RadioButton, TextFieldName } from 'apps/ui';
 import { useSelector } from 'react-redux';
 import { useDebounce } from 'lib/debounce.hook';
-import { ONLY_NUMBERS_REG_EXP, validateMaxLength } from 'lib/validations';
+import { ONLY_NUMBERS_REG_EXP, validateEmpty, validateMaxLength } from 'lib/validations';
+import { useFormatMessage } from 'apps/intl';
 import { cloneDeep } from 'lodash';
 import { ProductSettingsProps } from 'models/Product.model';
 import React, { useCallback, useState, useMemo } from 'react';
-import { useFormatMessage } from 'apps/intl';
 import { HOCIsAccessAllowed } from 'apps/merchant';
 import { EmailCheckSettingTypes, EmailCheckStepModes, EmailRiskPredefinedThreshold, EmailRiskThresholdModes, getDefaultRiskThresholdMode, ScoreMapping, SENDER_NAME_LENGTH_LIMIT, validateRiskThreshold } from '../../models/EmailCheck.model';
 import { TextFieldInputScore, useStyles } from './EmailCheckSettings.style';
 import { selectCanUseEmailValidation, selectSenderEmails } from '../../state/EmaiCheck.selectors';
+import { CompareArrowsOutlined } from '@material-ui/icons';
 
 export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<EmailCheckSettingTypes>) {
   const formatMessage = useFormatMessage();
@@ -54,11 +60,8 @@ export function EmailCheckSettings({ settings, onUpdate }: ProductSettingsProps<
   }, [handleUpdate]);
 
   const handleSenderNameChange = useCallback(({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
-    const validationError = validateMaxLength(value, SENDER_NAME_LENGTH_LIMIT);
-    if (validationError) {
-      setCompanyNameError(validationError);
-      return;
-    }
+    const validationError = validateMaxLength(value, SENDER_NAME_LENGTH_LIMIT) || validateEmpty(value);
+    setCompanyNameError(validationError);
     setSenderName(value);
     debounced(() => handleUpdate(EmailCheckSettingTypes.CompanyName, value));
   }, [handleUpdate, debounced]);
