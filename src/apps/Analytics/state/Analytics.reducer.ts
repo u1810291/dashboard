@@ -43,7 +43,7 @@ const initialState = {
       'driving-license': 0,
       'proof-of-residency': 0,
     },
-    deviceAndBrowserStats: {
+    deviceAndBrowserStat: {
       devices: [],
       browsers: [],
     },
