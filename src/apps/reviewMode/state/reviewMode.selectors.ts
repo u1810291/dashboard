@@ -7,7 +7,7 @@ import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
 import { REVIEW_MODE_KEY, ReviewModeSliceTypes, ReviewModeStore } from './reviewMode.store';
 
-export const selectReviewModeStore = (state: any): ReviewModeStore => state[REVIEW_MODE_KEY];
+export const selectReviewModeStore = (state: { REVIEW_MODE_KEY: ReviewModeStore }): ReviewModeStore => state[REVIEW_MODE_KEY];
 
 export const selectVerificationModel = createSelector(
   selectReviewModeStore,
@@ -60,7 +60,7 @@ export const selectReviewVerificationModelWithExtras = createSelector(
   selectLoadableValue((verification, countries) => getVerificationExtras(verification, countries)),
 );
 
-export const selectReviewVerificationWithExtras = createSelector<any, any, any, VerificationWithExtras>(
+export const selectReviewVerificationWithExtras = createSelector<[typeof selectVerification, typeof selectCountriesList], VerificationWithExtras>(
   selectVerification,
   selectCountriesList,
   (verification, countries) => getVerificationExtras(verification, countries),
