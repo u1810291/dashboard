@@ -1,7 +1,7 @@
 import { notification } from 'apps/ui';
 import { ErrorMessages } from 'models/Error.model';
 import { types } from './verificationHistory.store';
-import { getVerificationEventsCount, getVerificationHistory } from '../api/verificationHistory.client';
+import { getVerificationEventsCount, getVerificationHistory, saveVerificationAgentNote } from '../api/verificationHistory.client';
 import { selectVerificationChangesList, selectVerificationHistoryFilterSerialized } from './verificationHistory.selectors';
 
 export const filterUpdate = (data) => (dispatch) => {
@@ -37,4 +37,29 @@ export const loadVerificationHistory = (identityId, page, isReload = true) => as
 
 export const clearVerificationHistory = () => async (dispatch) => {
   dispatch({ type: types.VERIFICATION_CHANGES_LIST_CLEAR });
+};
+
+export const updateVerificationHistoryAgentNote = (identityId, auditId, value) => async (dispatch, getState) => {
+  dispatch({ type: types.VERIFICATION_CHANGE_AGENT_NOTE_REQUEST });
+  try {
+    const agentNote = value || null;
+    await saveVerificationAgentNote(identityId, auditId, { agentNote });
+    const changes = selectVerificationChangesList(getState()) || [];
+    const updatedChanges = changes.map((item) => {
+      if (item?._id === auditId) {
+        return {
+          ...item,
+          agentNote,
+        };
+      }
+
+      return item;
+    });
+
+    dispatch({ type: types.VERIFICATION_CHANGE_AGENT_NOTE_SUCCESS, payload: updatedChanges, isReset: true });
+  } catch (error) {
+    dispatch({ type: types.VERIFICATION_CHANGE_AGENT_NOTE_FAILURE, error });
+    notification.error(ErrorMessages.ERROR_COMMON);
+    throw error;
+  }
 };

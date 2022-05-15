@@ -1,27 +1,27 @@
-import { Box, Switch, Typography } from '@material-ui/core';
-import { BoxBordered, ExtendedDescription } from 'apps/ui';
+import Box from '@material-ui/core/Box';
+import Switch from '@material-ui/core/Switch';
+import Typography from '@material-ui/core/Typography';
+import { ExtendedDescription, RangeSlider, Warning } from 'apps/ui';
 import { cloneDeep } from 'lodash';
 import { useDebounce } from 'lib/debounce.hook';
 import { ProductSettingsProps } from 'models/Product.model';
-import React, { useCallback, useEffect, useState } from 'react';
-import { RangeSlider } from 'apps/ui/components/RangeSlider/RangeSlider';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
+import React, { useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import classNames from 'classnames';
 import { AmlCheckTypes, AmlSettingsTypes } from '../../models/Aml.model';
-import { useStyles } from './AmsSettings.styles';
+import { selectCanUseBasicWatchlists, selectCanUsePremiumWatchlistsSearch, selectCanUsePremiumWatchlistsSearchAndMonitoring } from '../../state/Aml.selectors';
+import { BasicWatchlist } from '../BasicWatchlist/BasicWatchlist';
+import { useStyles } from './AmlSettings.styles';
 
 export function AmlSettings({ settings, onUpdate }: ProductSettingsProps<AmlSettingsTypes>) {
-  const intl = useIntl();
-  const classes = useStyles();
   const debounced = useDebounce();
-  const [search, setSearch] = useState<boolean>(settings[AmlSettingsTypes.Search].value);
-  const [monitoring, setMonitoring] = useState<boolean>(settings[AmlSettingsTypes.Monitoring].value);
-  const [amlThreshold, setAmlThreshold] = useState<number>(settings[AmlSettingsTypes.AmlThreshold].value);
-
-  useEffect(() => {
-    setSearch(settings[AmlSettingsTypes.Search].value);
-    setMonitoring(settings[AmlSettingsTypes.Monitoring].value);
-    setAmlThreshold(settings[AmlSettingsTypes.AmlThreshold].value);
-  }, [settings]);
+  const canUseBasicWatchlists = useSelector<any, boolean>(selectCanUseBasicWatchlists);
+  const canUsePremiumWatchlistsSearch = useSelector<any, boolean>(selectCanUsePremiumWatchlistsSearch);
+  const canUsePremiumWatchlistsSearchAndMonitoring = useSelector<any, boolean>(selectCanUsePremiumWatchlistsSearchAndMonitoring);
+  const isSearchEnabled = canUsePremiumWatchlistsSearch || canUsePremiumWatchlistsSearchAndMonitoring;
+  const formatMessage = useFormatMessage();
+  const classes = useStyles();
 
   const handleSearchToggle = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const newSettings = cloneDeep(settings);
@@ -43,67 +43,87 @@ export function AmlSettings({ settings, onUpdate }: ProductSettingsProps<AmlSett
     onUpdate(newSettings);
   }, [onUpdate, settings]);
 
-  const handleSliderChange = useCallback(
-    (event: React.ChangeEvent<{}>, value: number | number[]) => {
-      const newSettings = cloneDeep(settings);
-      newSettings[AmlSettingsTypes.AmlThreshold].value = value;
-      debounced(() => onUpdate(newSettings));
-    },
-    [onUpdate, settings, debounced],
-  );
+  const handleSliderChange = useCallback((event: React.ChangeEvent<{}>, value: number | number[]) => {
+    const newSettings = cloneDeep(settings);
+    newSettings[AmlSettingsTypes.AmlThreshold].value = value;
+    debounced(() => onUpdate(newSettings));
+  }, [onUpdate, settings, debounced]);
+
+  const handleBasicWatchlistsSelected = useCallback((watchlistChecked: number[]) => {
+    const newSettings = cloneDeep(settings);
+    newSettings[AmlSettingsTypes.BasicWatchlists].value = watchlistChecked;
+    onUpdate(newSettings);
+  }, [settings, onUpdate]);
+
+  const handleBasicWatchlistValidationToggle = useCallback((_, checked: boolean) => {
+    const newSettings = cloneDeep(settings);
+    newSettings[AmlSettingsTypes.BasicWatchlistsPattern].value = checked;
+    onUpdate(newSettings);
+  }, [onUpdate, settings]);
 
   return (
     <Box>
-      <Box mb={4}>
-        <Typography variant="subtitle2" color="textPrimary" gutterBottom>
-          {intl.formatMessage({ id: 'AmlCheck.settings.watchlist.title' })}
-        </Typography>
-        <Box color="common.black75">
-          {intl.formatMessage({ id: 'AmlCheck.settings.watchlist.description' })}
+      {canUseBasicWatchlists && (
+        <Box mb={4}>
+          <BasicWatchlist
+            basicWatchlistsIds={settings[AmlSettingsTypes.BasicWatchlists].value}
+            isBasicWatchlistChecked={settings[AmlSettingsTypes.BasicWatchlistsPattern].value}
+            onBasicWatchlistsSelected={handleBasicWatchlistsSelected}
+            onBasicWatchlistValidationToggle={handleBasicWatchlistValidationToggle}
+          />
         </Box>
-      </Box>
-      <Box mb={4}>
-        <Typography variant="subtitle2" color="textPrimary" gutterBottom>
-          {intl.formatMessage({ id: 'AmlCheck.settings.fuzzinessParameter.title' })}
-        </Typography>
-        <Box color="common.black75" mb={2}>
-          {intl.formatMessage({ id: 'AmlCheck.settings.fuzzinessParameter.description' })}
+      )}
+      {(!canUsePremiumWatchlistsSearch && !canUsePremiumWatchlistsSearchAndMonitoring) && (
+        <Box mb={2}>
+          <Warning
+            label={formatMessage('AmlCheck.settings.amlNotAvailable')}
+            linkLabel={formatMessage('AmlCheck.settings.helpEmail')}
+            isLabelColored={false}
+            bordered
+          />
         </Box>
-        <RangeSlider
-          defaultValue={amlThreshold}
-          onChange={handleSliderChange}
-        />
-      </Box>
-      <BoxBordered px={2}>
+      )}
+      <Box mb={4}>
         <ExtendedDescription
-          title={intl.formatMessage({ id: `AmlCheck.settings.${AmlCheckTypes.Search}.title` })}
-          text={intl.formatMessage({ id: `AmlCheck.settings.${AmlCheckTypes.Search}.description` })}
+          isDisabled={!isSearchEnabled}
+          title={formatMessage('AmlCheck.settings.watchlist.title')}
+          text={formatMessage('AmlCheck.settings.watchlist.description')}
           postfix={(
             <Switch
-              checked={search}
+              checked={isSearchEnabled && settings[AmlSettingsTypes.Search].value}
               onChange={handleSearchToggle}
               color="primary"
+              disabled={!isSearchEnabled}
             />
           )}
-        >
-          <Box display="flex">
-            <Box className={classes.arrow} />
-            <Box ml={0.5}>
-              <ExtendedDescription
-                title={intl.formatMessage({ id: `AmlCheck.settings.${AmlCheckTypes.Monitoring}.title` })}
-                text={intl.formatMessage({ id: `AmlCheck.settings.${AmlCheckTypes.Monitoring}.description` })}
-                postfix={(
-                  <Switch
-                    checked={monitoring}
-                    onChange={handleMonitoringToggle}
-                    color="primary"
-                  />
-                )}
-              />
-            </Box>
-          </Box>
-        </ExtendedDescription>
-      </BoxBordered>
+        />
+      </Box>
+      <Box mb={4} className={classNames({ [classes.disabled]: !isSearchEnabled })}>
+        <Typography variant="subtitle2" color="textPrimary" gutterBottom>
+          {formatMessage('AmlCheck.settings.fuzzinessParameter.title')}
+        </Typography>
+        <Box color="common.black75" mb={2}>
+          {formatMessage('AmlCheck.settings.fuzzinessParameter.description')}
+        </Box>
+        <RangeSlider
+          defaultValue={settings[AmlSettingsTypes.AmlThreshold].value}
+          onChange={handleSliderChange}
+          disabled={!isSearchEnabled}
+        />
+      </Box>
+      <ExtendedDescription
+        isDisabled={!canUsePremiumWatchlistsSearchAndMonitoring}
+        title={formatMessage(`AmlCheck.settings.${AmlCheckTypes.Monitoring}.title`)}
+        text={formatMessage(`AmlCheck.settings.${AmlCheckTypes.Monitoring}.description`)}
+        postfix={(
+          <Switch
+            checked={canUsePremiumWatchlistsSearchAndMonitoring && settings[AmlSettingsTypes.Monitoring].value}
+            onChange={handleMonitoringToggle}
+            color="primary"
+            disabled={!canUsePremiumWatchlistsSearchAndMonitoring}
+          />
+        )}
+      />
     </Box>
   );
 }

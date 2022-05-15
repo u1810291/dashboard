@@ -7,7 +7,7 @@ export enum ProductTypes {
   DocumentVerification = 'DocumentVerification',
   BiometricVerification = 'BiometricVerification',
   AmlCheck = 'AmlCheck',
-  IpCheck = 'IpCheck',
+  LocationIntelligence = 'LocationIntelligence',
   ReVerification = 'ReVerification',
   GovernmentCheck = 'GovernmentCheck',
   CreditCheck = 'CreditCheck',
@@ -27,6 +27,8 @@ export enum ProductTypes {
   // additional
   Metadata = 'Metadata',
 }
+
+export type MeritId = string;
 
 export interface ProductSetting {
   value: any;
@@ -77,6 +79,7 @@ export interface IProductCard {
   icon: IconType | (() => React.ReactNode);
   order: number;
   title: string;
+  description?: string;
   inputs: ProductInputTypes[];
   checks: ProductCheck[];
   integrationTypes: ProductIntegrationTypes[];
@@ -94,9 +97,9 @@ export interface Product<S = IFlow, T = VerificationResponse> {
   isConfigurable: boolean;
   isIssuesIgnored: boolean;
   parser(flow: S, productsInGraph?: ProductTypes[]): ProductSettings;
-  serialize(settings: ProductSettings): Partial<S>;
+  serialize(settings: ProductSettings, flow?: S): Partial<S>;
   onRemove(flow: S): Partial<S>;
-  onAdd(): Partial<S>;
+  onAdd(flow?: S): Partial<S>;
   getRemovingAlertComponent?(flow: S, productsInGraph?: ProductTypes[]): any;
   haveIssues?(flow: S, productsInGraph?: ProductTypes[]): boolean;
   isSdkOnly?(): boolean;

@@ -8,6 +8,7 @@ import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
 import { ErrorType } from 'models/Error.model';
 import { CreditCheckStep, DataForCreditCheck } from 'models/CreditCheck.model';
+import { isChangeableStatus } from 'models/Status.model';
 import { VERIFICATION_STORE_KEY, VerificationSliceTypes, VerificationStore } from './Verification.store';
 
 export const verificationStore = (state): VerificationStore => state[VERIFICATION_STORE_KEY];
@@ -86,6 +87,11 @@ export const selectCreditDocumentStep = createSelector(
 export const selectVerificationId = createSelector(
   selectVerification,
   (verification): string => (verification?._id || verification?.id),
+);
+
+export const selectVerificationIsEditable = createSelector<any, VerificationResponse | null, boolean>(
+  selectVerification,
+  (verification) => isChangeableStatus(verification?.verificationStatus),
 );
 
 export const selectDataForCreditCheck = createSelector(

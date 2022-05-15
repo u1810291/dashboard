@@ -1,8 +1,9 @@
 import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
 import { Country } from 'models/Country.model';
+import { ICustomField, IMapping, ISelectOptions } from 'models/CustomField.model';
 import { CUSTOM_FIELD_STORE_KEY, CustomFieldStore, SliceNames } from './CustomField.store';
-import { CustomField, CustomFieldModalTypes, Mapping, MAPPING_ALLOWED_COUNTRIES, MappingCountryTypes, SelectOptions } from '../models/CustomField.model';
+import { CustomFieldModalTypes, MAPPING_ALLOWED_COUNTRIES, MappingCountryTypes } from '../models/CustomField.model';
 
 export const selectCustomFieldStore = (state): CustomFieldStore => state[CUSTOM_FIELD_STORE_KEY];
 
@@ -11,17 +12,17 @@ export const selectCustomFieldModalType = createSelector<any, CustomFieldStore, 
   (store) => store[SliceNames.CustomFieldModalType].value,
 );
 
-export const selectCustomFieldEditedCustomField = createSelector<any, CustomFieldStore, CustomField | null>(
+export const selectCustomFieldEditedCustomField = createSelector<any, CustomFieldStore, ICustomField | null>(
   selectCustomFieldStore,
   (store) => store[SliceNames.CustomFieldEditedField].value,
 );
 
-export const selectCustomFieldSelectedCustomFieldMapping = createSelector<any, CustomField, Mapping>(
+export const selectCustomFieldSelectedCustomFieldMapping = createSelector<any, ICustomField, IMapping>(
   selectCustomFieldEditedCustomField,
   (field) => field.atomicFieldParams.mapping,
 );
 
-export const selectCustomFieldSelectedCustomFieldSelectOptions = createSelector<any, CustomField, SelectOptions[]>(
+export const selectCustomFieldSelectedCustomFieldSelectOptions = createSelector<any, ICustomField, ISelectOptions[]>(
   selectCustomFieldEditedCustomField,
   (field) => field.atomicFieldParams.selectOptions,
 );
@@ -36,12 +37,12 @@ export const selectCustomFieldEditedSystemName = createSelector<any, CustomField
   (store) => store[SliceNames.CustomFieldEditedSystemName].value,
 );
 
-export const selectCustomFieldListFields = createSelector<any, CustomFieldStore, CustomField[]>(
+export const selectCustomFieldListFields = createSelector<any, CustomFieldStore, ICustomField[]>(
   selectCustomFieldStore,
   (store) => store[SliceNames.CustomFieldListFields].value,
 );
 
-export const selectCustomFieldFlattenListFields = createSelector<any, CustomFieldStore, CustomField[]>(
+export const selectCustomFieldFlattenListFields = createSelector<any, CustomFieldStore, ICustomField[]>(
   selectCustomFieldStore,
   (store) => store[SliceNames.CustomFieldFlattenListFields].value,
 );

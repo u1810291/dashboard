@@ -15,6 +15,7 @@ import { flowBuilderProductAdd } from 'apps/flowBuilder/store/FlowBuilder.action
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { MerchantTags } from 'models/Merchant.model';
 import classNames from 'classnames';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { useStyles } from './ESignatureSettings.style';
 import { DocumentsList } from '../DocumentList/DocumentsList';
 
@@ -24,7 +25,7 @@ export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<
   const dispatch = useDispatch();
   const createAddOtherProductModalOverlay = useOtherProductAdding();
   const productsInGraph = (useSelector(selectFlowBuilderProductsInGraphModel)).value;
-  const [buttonLoading, setButtonLoading] = useState<boolean>(false);
+  const [isDocLoading, setDocLoading] = useState<boolean>(false);
 
   const merchantTags: MerchantTags[] = useSelector(selectMerchantTags);
   const isProductEnabled = merchantTags.includes(MerchantTags.CanUseESignature);
@@ -91,7 +92,7 @@ export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<
   const fileUploadRef = useRef(null);
   const onFileUpload = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
     try {
-      setButtonLoading(true);
+      setDocLoading(true);
       const file = e.target.files[0];
       const form = new FormData();
       form.append('template-document', file);
@@ -101,7 +102,7 @@ export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<
     } catch (error) {
       console.error(error);
     } finally {
-      setButtonLoading(false);
+      setDocLoading(false);
     }
   }, [handleFileInput, settings]);
 
@@ -214,8 +215,8 @@ export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<
             variant="contained"
             size="large"
             onClick={() => fileUploadRef.current?.click()}
-            startIcon={<FiUpload />}
-            disabled={buttonLoading || !isProductEnabled}
+            startIcon={isDocLoading ? <CircularProgress color="inherit" size="1rem" thickness={7} /> : <FiUpload />}
+            disabled={isDocLoading || !isProductEnabled}
           >
             {intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsEnum.Terms}.upload` })}
           </Button>
@@ -230,7 +231,12 @@ export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<
         </Box>
         {isProductEnabled && (
           <Box mt={2}>
-            <DocumentsList documents={{ order: settings?.termsOrder.value, list: settings?.terms.value }} onChangeOrder={onTermReorder} onDocumentDelete={onTermDelete} />
+            <DocumentsList
+              documents={{ order: settings?.termsOrder.value, list: settings?.terms.value }}
+              onChangeOrder={onTermReorder}
+              onDocumentDelete={onTermDelete}
+              isLoading={isDocLoading}
+            />
           </Box>
         )}
       </Box>

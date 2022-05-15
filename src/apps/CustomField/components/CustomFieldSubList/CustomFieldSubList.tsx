@@ -1,8 +1,9 @@
 import Link from '@material-ui/core/Link';
 import React from 'react';
 import { useFormatMessage } from 'apps/intl';
+import { ICustomField, MainCustomFieldType } from 'models/CustomField.model';
 import { CustomFieldItemList } from '../CustomFieldItemList/CustomFieldItemList';
-import { CustomField, CustomFieldModalTypes, HandleOpenModal, HandleUpdateFields, MainCustomFieldType, MODAL_BY_FIELD_TYPE } from '../../models/CustomField.model';
+import { CustomFieldModalTypes, HandleOpenModal, HandleUpdateFields, MODAL_BY_FIELD_TYPE } from '../../models/CustomField.model';
 import { useStyles } from './CustomFieldSubList.style';
 
 export function CustomFieldSubList({
@@ -11,7 +12,7 @@ export function CustomFieldSubList({
   draggable,
   field,
 }: {
-  field: CustomField;
+  field: ICustomField;
   handleUpdateFields: HandleUpdateFields;
   handleOpenModal: HandleOpenModal;
   draggable: string;

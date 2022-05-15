@@ -3,9 +3,10 @@ import { Elements, ReactFlowProvider, useStoreState, Node } from 'react-flow-ren
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { Box } from '@material-ui/core';
-import { selectFlowBuilderProductsInGraphModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { Loader } from 'apps/ui';
-import { areNodesLoaded, getElements, getLayoutedElements, getTotalGraphHeight, CustomReactFlowMemorised } from 'apps/WorkflowBuilder';
+import { areNodesLoaded, getElements, getLayoutedElements, getTotalGraphHeight } from 'apps/WorkflowBuilder';
+import { selectFlowBuilderProductsInGraphModel } from '../../store/FlowBuilder.selectors';
+import { CustomReactFlowMemorised } from '../ReactFlowMemorised/CustomReactFlowMemorised';
 import { useStyles } from './FlowProductGraph.styles';
 
 function FlowProductsGraphWithoutContext() {

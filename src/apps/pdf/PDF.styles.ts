@@ -1,7 +1,10 @@
 import { StyleSheet } from '@react-pdf/renderer';
-import { rem, colors, pageGutter } from './PDF.theme.common';
-import { fontFamilyLato, fontSize, fontWeight } from './PDF.theme.fonts';
+import { rem, colors, pageGutter } from 'apps/pdf/PDF.theme.common';
+import { fontFamilyNoto, fontSize, fontWeight } from 'apps/pdf/PDF.theme.fonts';
 
+// For better support of most languages (as a example - Hindi), the Noto font family has been added.
+// If there are any problems, then use the old Lato font family.
+// If there are no problems, then delete the Lato font ASAP.
 export const commonStyles = StyleSheet.create({
   // common blocks
   page: {
@@ -9,7 +12,7 @@ export const commonStyles = StyleSheet.create({
     paddingLeft: pageGutter,
     paddingRight: pageGutter,
     paddingBottom: 2 * pageGutter,
-    fontFamily: fontFamilyLato,
+    fontFamily: fontFamilyNoto,
   },
 
   // box
@@ -39,6 +42,9 @@ export const commonStyles = StyleSheet.create({
   },
   mb15: {
     marginBottom: 1.5 * rem,
+  },
+  mb20: {
+    marginBottom: 2 * rem,
   },
   pb0: {
     paddingBottom: 0,

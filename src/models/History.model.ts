@@ -1,6 +1,9 @@
 import { IdentityStatuses } from 'models/Status.model';
+import { IUser } from './Collaborator.model';
 import { initDateFilter } from './Filter.model';
 import { ITEMS_PER_PAGE } from './Pagination.model';
+import { IdentityId } from './Identity.model';
+import { VerificationId } from './Verification.model';
 
 export enum VerificationHistoryEventTypes {
   StatusUpdated = 'verificationStatusUpdated',
@@ -41,6 +44,17 @@ export interface DocumentFieldValue {
 
 export interface DocumentFieldEntry extends DocumentFieldValue {
   id: string;
+}
+
+export interface IVerificationChange {
+  verificationId: VerificationId;
+  identityId: IdentityId;
+  agentNote: string | null;
+  eventType: VerificationHistoryEventTypes;
+  updatedAt: string;
+  updatedBy: IUser;
+  __v: number;
+  _id: string;
 }
 
 export function documentFieldsToArray(fields: Record<string, DocumentFieldValue>): DocumentFieldEntry[] {

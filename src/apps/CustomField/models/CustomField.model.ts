@@ -1,11 +1,16 @@
 import { ProductSettings, ProductSettingsProps } from 'models/Product.model';
 import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
-import { DateFormat, formatDate } from 'lib/date';
+import { changeDateFormat, DateFormat } from 'lib/date';
 import { parseDate } from 'apps/ui/models/ReactDayPicker.model';
-import { isNil } from 'lib/isNil';
+import { SupportedLocales } from 'models/Intl.model';
+import { AtomicCustomFieldType, ICustomField, IMapping, ISelectOptions, MainCustomFieldType } from 'models/CustomField.model';
 
-export const FIELD_SYSTEM_NAME_PATTERN = '^([a-zA-Z-_]+)?$';
+export const FIELD_SYSTEM_NAME_PATTERN = '^([a-zA-Z-_0-9]+)?$';
+
+export const REGEXP_BANNED_SYMBOLS_IN_FIELD_SYSTEM_NAME = /[^a-zA-Z-_0-9]/g;
+
+export const REPLACEMENT_SYMBOL = '_';
 
 export const MAX_THUMBNAIL_SIZE = 64;
 
@@ -14,6 +19,8 @@ export const MAIN_DROPPABLE_ID = 'MAIN_DROPPABLE_ID';
 export const MAIN_DROPPABLE_TYPE = MAIN_DROPPABLE_ID;
 
 export const MIN_SELECT_OPTIONS = 2;
+
+export const MAX_TEXT_INPUT_LENGTH = 40;
 
 export const CUSTOM_FIELD_SELECTION_OPTION_NAME = 'Option 1';
 export const CUSTOM_FIELD_SELECTION_SECOND_OPTION_NAME = 'Option 2';
@@ -44,19 +51,6 @@ export enum CustomFieldModalTypes {
   PreviewCustomField = 'previewCustomField',
 }
 
-export enum AtomicCustomFieldType {
-  Text = 'text',
-  Date = 'date',
-  Checkbox = 'checkbox',
-  Select = 'select',
-}
-
-export enum MainCustomFieldType {
-  Group = 'group',
-  Select = 'select',
-  Atomic = 'atomic',
-}
-
 export const MODAL_BY_FIELD_TYPE = {
   [MainCustomFieldType.Select]: CustomFieldModalTypes.ConfigureSelection,
   [MainCustomFieldType.Group]: CustomFieldModalTypes.ConfigureGroup,
@@ -64,6 +58,8 @@ export const MODAL_BY_FIELD_TYPE = {
 };
 
 export enum MappingValueKey {
+  UnifiedMultiPurposeIdUMIDSSNcrn = 'unified-multi-purpose-id.UMID_SSN.crn',
+  SocialSecuritySystemCardUMIDSSNssn = 'social-security-system-card.UMID_SSN.ssn',
   NationalIdNINDocumentNumber = 'national-id.NIN.documentNumber',
   NationalIdBVNDocumentNumber = 'national-id.BVN.documentNumber',
   NationalIdVINDocumentNumber = 'national-id.VIN.documentNumber',
@@ -72,14 +68,27 @@ export enum MappingValueKey {
   NationalIdDateOfBirth = 'national-id.dateOfBirth',
   CertificateOfTaxTINTin = 'certificate-of-tax.TIN.tin',
   CertificateOfIncorporationCACRcBnNumber = 'certificate-of-incorporation.CAC.rc-bn-number',
+  NationalIdKTPNik = 'national-id.KTP.nik',
+  NationalIdKTPName = 'national-id.KTP.name',
+  DrivingLicenseNo = 'driver-license.DL.license-no',
+  DrivingLicenseSerialNumber = 'driver-license.DL.serial-number',
+  DrivingLicenseExpirationDate = 'driver-license.DL.expiration-date',
 }
 
-export interface CONFIG {
+export interface ICustomFieldConfig {
   regex: string;
   type: AtomicCustomFieldType;
 }
 
-export const CONFIG_BY_KEY: Record<string, CONFIG> = {
+export const CONFIG_BY_KEY: Record<string, ICustomFieldConfig> = {
+  [MappingValueKey.UnifiedMultiPurposeIdUMIDSSNcrn]: {
+    regex: '^[0-9]{4}-?[0-9]{7}-?[0-9]$',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.SocialSecuritySystemCardUMIDSSNssn]: {
+    regex: '^[0-9]{2}-?[0-9]{7}-?[0-9]$',
+    type: AtomicCustomFieldType.Text,
+  },
   [MappingValueKey.NationalIdNINDocumentNumber]: {
     regex: '^[0-9]{11}$',
     type: AtomicCustomFieldType.Text,
@@ -90,6 +99,14 @@ export const CONFIG_BY_KEY: Record<string, CONFIG> = {
   },
   [MappingValueKey.NationalIdVINDocumentNumber]: {
     regex: '^[a-zA-Z0-9]{19}$',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.CertificateOfTaxTINTin]: {
+    regex: '^[0-9]{10}$|^[0-9]{8}-?[0-9]{4}$',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.CertificateOfIncorporationCACRcBnNumber]: {
+    regex: '^[a-zA-Z]{2}?\\s?[0-9]{6,7}$',
     type: AtomicCustomFieldType.Text,
   },
   [MappingValueKey.NationalIdFirstName]: {
@@ -104,17 +121,57 @@ export const CONFIG_BY_KEY: Record<string, CONFIG> = {
     regex: '',
     type: AtomicCustomFieldType.Date,
   },
+  [MappingValueKey.NationalIdDateOfBirth]: {
+    regex: '',
+    type: AtomicCustomFieldType.Date,
+  },
+  [MappingValueKey.NationalIdKTPNik]: {
+    regex: '^[0-9]{16}$',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.NationalIdKTPName]: {
+    regex: '',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.DrivingLicenseNo]: {
+    regex: '^[a-zA-Z][0-9]{2}-?[0-9]{2}-?[0-9]{6}$',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.DrivingLicenseSerialNumber]: {
+    regex: '^[0-9]{9}$',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.DrivingLicenseExpirationDate]: {
+    regex: '',
+    type: AtomicCustomFieldType.Date,
+  },
 };
 
 export enum MappingCountryTypes {
+  Indonesia = 'ID',
+  Philippines = 'PH',
   Nigeria = 'NG',
 }
 
 export const MAPPING_ALLOWED_COUNTRIES = [
+  MappingCountryTypes.Indonesia,
+  MappingCountryTypes.Philippines,
   MappingCountryTypes.Nigeria,
 ];
 
 export const MAPPING_OPTIONS = {
+  [MappingCountryTypes.Indonesia]: [
+    MappingValueKey.NationalIdKTPName,
+    MappingValueKey.NationalIdKTPNik,
+    MappingValueKey.NationalIdDateOfBirth,
+  ],
+  [MappingCountryTypes.Philippines]: [
+    MappingValueKey.UnifiedMultiPurposeIdUMIDSSNcrn,
+    MappingValueKey.SocialSecuritySystemCardUMIDSSNssn,
+    MappingValueKey.DrivingLicenseNo,
+    MappingValueKey.DrivingLicenseSerialNumber,
+    MappingValueKey.DrivingLicenseExpirationDate,
+  ],
   [MappingCountryTypes.Nigeria]: [
     MappingValueKey.NationalIdNINDocumentNumber,
     MappingValueKey.NationalIdBVNDocumentNumber,
@@ -133,63 +190,28 @@ export const AllowedGroupDrop = [MAIN_DROPPABLE_ID, MainCustomFieldType.Select];
 export const AllowedFieldDrop = [MAIN_DROPPABLE_ID, MainCustomFieldType.Group];
 export const AllowedSectionDrop = [MAIN_DROPPABLE_ID];
 
-export interface SelectOptions {
-  label: string;
+export interface IFlattenCustomField extends ICustomField {
   value: string;
 }
 
-export interface Mapping {
-  country: string;
-  key: string;
-  shouldCheckFormat: boolean;
-  shouldFilter: boolean;
-}
-
-export interface AtomicCustomField {
-  placeholder?: string;
-  type: AtomicCustomFieldType;
-  selectOptions?: SelectOptions[];
-  mapping?: Mapping;
-  regex?: string;
-  value?: string;
-}
-
-export interface CustomField {
-  name: string;
-  type: MainCustomFieldType;
-  isMandatory: boolean;
-  label: string;
-  thumbnail?: {
-    publicUrl: string;
-    url: string;
-  };
-  atomicFieldParams?: AtomicCustomField;
-  children?: CustomField[];
-  selectedGroup?: string;
-}
-
-export interface FlattenCustomField extends CustomField {
-  value: string;
-}
-
-export const EMPTY_OPTION: SelectOptions = {
+export const EMPTY_OPTION: ISelectOptions = {
   label: '',
   value: '',
 };
 
-export const EMPTY_SELECT_OPTIONS: SelectOptions[] = [
+export const EMPTY_SELECT_OPTIONS: ISelectOptions[] = [
   { ...EMPTY_OPTION },
   { ...EMPTY_OPTION },
 ];
 
-export const EMPTY_MAPPING: Mapping = {
+export const EMPTY_MAPPING: IMapping = {
   country: '',
   key: '',
   shouldCheckFormat: false,
   shouldFilter: false,
 };
 
-export const EMPTY_CUSTOM_ATOMIC_FIELD: CustomField = {
+export const EMPTY_CUSTOM_ATOMIC_FIELD: ICustomField = {
   name: '',
   label: '',
   type: MainCustomFieldType.Atomic,
@@ -199,11 +221,11 @@ export const EMPTY_CUSTOM_ATOMIC_FIELD: CustomField = {
     regex: '',
     mapping: null,
     selectOptions: [...EMPTY_SELECT_OPTIONS],
-    type: AtomicCustomFieldType.Text,
+    type: null,
   },
 };
 
-export const EMPTY_CUSTOM_GROUP_FIELD: CustomField = {
+export const EMPTY_CUSTOM_GROUP_FIELD: ICustomField = {
   name: '',
   label: '',
   type: MainCustomFieldType.Group,
@@ -211,7 +233,7 @@ export const EMPTY_CUSTOM_GROUP_FIELD: CustomField = {
   isMandatory: false,
 };
 
-export const EMPTY_CUSTOM_SELECT_FIELD: CustomField = {
+export const EMPTY_CUSTOM_SELECT_FIELD: ICustomField = {
   name: '',
   label: '',
   type: MainCustomFieldType.Select,
@@ -220,15 +242,11 @@ export const EMPTY_CUSTOM_SELECT_FIELD: CustomField = {
   selectedGroup: null,
 };
 
-export interface VerificationCustomFieldsInputData {
-  fields: CustomField[];
-}
+export type HandleUpdateFields = (fields: ICustomField[]) => void;
 
-export type HandleUpdateFields = (fields: CustomField[]) => void;
+export type HandleOpenModal = (modalType: CustomFieldModalTypes, editedField?: ICustomField, index?: number, parent?: string) => () => void;
 
-export type HandleOpenModal = (modalType: CustomFieldModalTypes, editedField?: CustomField, index?: number, parent?: string) => () => void;
-
-export const checkIsDropDisabled = (draggableId: string, droppableId: string, fields: CustomField[]): boolean => {
+export const checkIsDropDisabled = (draggableId: string, droppableId: string, fields: ICustomField[]): boolean => {
   if (!draggableId) {
     return false;
   }
@@ -245,14 +263,14 @@ export const checkIsDropDisabled = (draggableId: string, droppableId: string, fi
 };
 
 export const flattenTree = (
-  items: CustomField[],
+  items: ICustomField[],
   parent: string | null = MAIN_DROPPABLE_ID,
-): FlattenCustomField[] => {
+): IFlattenCustomField[] => {
   if (!items) {
     return [];
   }
   return items.reduce((acc, item) => {
-    let flattenChildren: CustomField[] = [];
+    let flattenChildren: ICustomField[] = [];
     if (item?.children?.length) {
       flattenChildren = flattenTree(item?.children, item.name);
     }
@@ -267,7 +285,7 @@ export const flattenTree = (
   }, []);
 };
 
-export const findItem = (items: CustomField[], itemName: string): CustomField => items.find(({ name }) => name === itemName);
+export const findItem = (items: ICustomField[], itemName: string): ICustomField => items.find(({ name }) => name === itemName);
 
 function removeEmpty<T>(obj: T): T {
   return <T>Object.fromEntries(
@@ -277,7 +295,7 @@ function removeEmpty<T>(obj: T): T {
   );
 }
 
-export function mutableFindChildren(fields: CustomField[], parentName: string): CustomField[] {
+export function mutableFindChildren(fields: ICustomField[], parentName: string): ICustomField[] {
   if (parentName === MAIN_DROPPABLE_ID) {
     return fields;
   }
@@ -296,7 +314,7 @@ export function mutableFindChildren(fields: CustomField[], parentName: string): 
   return undefined;
 }
 
-export function findAndDelete(fields: CustomField[], name: string): CustomField[] {
+export function findAndDelete(fields: ICustomField[], name: string): ICustomField[] {
   const result = fields;
   for (let i = 0; result.length > i; i += 1) {
     const field = result[i];
@@ -311,7 +329,49 @@ export function findAndDelete(fields: CustomField[], name: string): CustomField[
   return result;
 }
 
-export const prepareCustomField = (customField: CustomField): CustomField => {
+export function findAndSetValues(fields: ICustomField[], names: string[], values: (string | boolean | Date)[], locale: SupportedLocales): ICustomField[] {
+  for (let fieldIdx = 0; fields.length > fieldIdx; fieldIdx += 1) {
+    if (!names.length) {
+      break;
+    }
+    const field = fields[fieldIdx];
+    const index = names.indexOf(field.name);
+    if (index !== -1) {
+      names.splice(index, 1);
+      const value = values.splice(index, 1)[0];
+      if (value) {
+        if (field.type === MainCustomFieldType.Select) {
+          field.selectedGroup = value as string;
+        } else if (field.atomicFieldParams.type === AtomicCustomFieldType.Date) {
+          field.atomicFieldParams.value = changeDateFormat(value as string, DateFormat.LocalizedDayMonthYearSlashes, locale);
+        } else {
+          field.atomicFieldParams.value = value as string;
+        }
+      }
+      if (!value) {
+        if (field.type === MainCustomFieldType.Select) {
+          delete field.selectedGroup;
+        } else if (field.atomicFieldParams.type === AtomicCustomFieldType.Checkbox) {
+          field.atomicFieldParams.value = value as string;
+        } else {
+          delete field.atomicFieldParams.value;
+        }
+      }
+    }
+    if (field.type !== MainCustomFieldType.Atomic) {
+      findAndSetValues(field.children, names, values, locale);
+    }
+  }
+  return fields;
+}
+
+export const fillFieldsWithData = (data: unknown, fields: ICustomField[], locale: SupportedLocales): ICustomField[] => {
+  const names: string[] = Object.keys(data);
+  const values: (string | boolean | Date)[] = Object.values(data);
+  return findAndSetValues(cloneDeep(fields), names, values, locale);
+};
+
+export const prepareCustomField = (customField: ICustomField): ICustomField => {
   const result = cloneDeep(customField);
   if (result?.atomicFieldParams?.type !== AtomicCustomFieldType.Select) {
     delete result?.atomicFieldParams?.selectOptions;
@@ -324,7 +384,7 @@ export const prepareCustomField = (customField: CustomField): CustomField => {
 
 export const isSetMainData = (name: string, label: string): boolean => !!(name && label);
 
-export const isNameUniq = (listFlattenFields: CustomField[], oldName: string, newName: string): boolean => {
+export const isNameUniq = (listFlattenFields: ICustomField[], oldName: string, newName: string): boolean => {
   const duplicateNameFields = listFlattenFields.filter((field) => field.name === newName);
   if (duplicateNameFields.length === 1 && oldName === newName) {
     return true;
@@ -332,11 +392,11 @@ export const isNameUniq = (listFlattenFields: CustomField[], oldName: string, ne
   return duplicateNameFields.length === 0;
 };
 
-export const isAllOptionsUniq = (selectOptions: SelectOptions[]): boolean => uniqBy(selectOptions, 'value').length === selectOptions.length;
+export const isAllOptionsUniq = (selectOptions: ISelectOptions[]): boolean => uniqBy(selectOptions, 'value').length === selectOptions.length;
 
-export const isAllOptionsFielded = (selectOptions: SelectOptions[]): boolean => selectOptions.every((option) => option.value && option.label);
+export const isAllOptionsFielded = (selectOptions: ISelectOptions[]): boolean => selectOptions.every((option) => option.value && option.label);
 
-export const validateDateInput = (str: string, field: CustomField, locale: string): boolean => {
+export const validateDateInput = (str: string, field: ICustomField, locale: string): boolean => {
   if (!str && !field?.isMandatory) {
     return true;
   }
@@ -349,7 +409,7 @@ export const prepareEmptyGroupToSection = (parentName: string, prefix: string = 
   label,
 });
 
-export const fieldIsValid = (isUploadingThumbnail: boolean, selectedCustomField: CustomField, listFlattenFields: CustomField[], oldName: string): boolean => {
+export const fieldIsValid = (isUploadingThumbnail: boolean, selectedCustomField: ICustomField, listFlattenFields: ICustomField[], oldName: string): boolean => {
   if (isUploadingThumbnail) {
     return false;
   }
@@ -359,7 +419,10 @@ export const fieldIsValid = (isUploadingThumbnail: boolean, selectedCustomField:
   return isNameUniq(listFlattenFields, oldName, selectedCustomField.name);
 };
 
-export const atomicFieldIsValid = (selectedCustomField: CustomField, listFlattenFields: CustomField[], oldName: string): boolean => {
+export const atomicFieldIsValid = (selectedCustomField: ICustomField, listFlattenFields: ICustomField[], oldName: string): boolean => {
+  if (!selectedCustomField.atomicFieldParams.type) {
+    return false;
+  }
   if (!isSetMainData(selectedCustomField.name, selectedCustomField.label)) {
     return false;
   }
@@ -372,7 +435,7 @@ export const atomicFieldIsValid = (selectedCustomField: CustomField, listFlatten
   return isNameUniq(listFlattenFields, oldName, selectedCustomField.name);
 };
 
-export const getNotSelectedMapping = (listFlattenFields: CustomField[], mapping: Mapping, oldMapping: Mapping): MappingValueKey[] => {
+export const getNotSelectedMapping = (listFlattenFields: ICustomField[], mapping: IMapping, oldMapping: IMapping): MappingValueKey[] => {
   if (!mapping?.country) {
     return [];
   }
@@ -385,8 +448,4 @@ export const getNotSelectedMapping = (listFlattenFields: CustomField[], mapping:
 
 export const isValidFieldSystemName = (value: string): boolean => new RegExp(FIELD_SYSTEM_NAME_PATTERN).test(value);
 
-export const formatedValue = (field: CustomField, value: string): string => (field.type === MainCustomFieldType.Atomic && field.atomicFieldParams.type === AtomicCustomFieldType.Date
-  ? value ? formatDate(value) : ''
-  : !isNil(value) ? `${value}` : '-');
-
-export const isTypeFromConfig = (selectedFieldMapping: Mapping): boolean => !!CONFIG_BY_KEY[selectedFieldMapping?.key]?.type;
+export const isTypeFromConfig = (selectedFieldMapping: IMapping): boolean => !!CONFIG_BY_KEY[selectedFieldMapping?.key]?.type;

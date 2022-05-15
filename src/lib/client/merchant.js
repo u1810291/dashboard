@@ -16,8 +16,16 @@ export function uploadMerchantMedia(form) {
   return http.post('/api/v1/media', form);
 }
 
+export function patchOnboardingProgress(onboardingSteps) {
+  return http.patch('/api/v1/dashboard/user/onboarding-steps', { onboardingSteps });
+}
+
 export function saveBusinessName(businessName) {
   return http.patch('/api/v1/merchants/me', { businessName });
+}
+
+export function saveSettings(settings) {
+  return http.patch('/api/v1/merchants/me', { settings });
 }
 
 export function getMerchantCustomDocuments(merchantId) {

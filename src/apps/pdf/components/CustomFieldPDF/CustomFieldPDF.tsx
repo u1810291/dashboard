@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import { Text, View } from '@react-pdf/renderer';
-import { CustomField, formatedValue, VerificationCustomFieldsInputData, CustomFieldVerificationAtomicList, CustomFieldVerificationList } from 'apps/CustomField';
-import { InputStatus } from 'models/Input.model';
+import { CustomFieldVerificationAtomicList, CustomFieldVerificationList } from 'apps/CustomField';
 import { useFormatMessage } from 'apps/intl';
+import { ICustomField, formatedValue, CustomFieldDataForVerificationComponent } from 'models/CustomField.model';
 import { styles } from './CustomFieldPDF.styles';
 import { commonStyles } from '../../PDF.styles';
 
 export function CustomFieldVerificationInfoPDF({ field, value }: {
-  field: CustomField;
+  field: ICustomField;
   value: string;
 }) {
   return (
@@ -24,26 +24,28 @@ export function CustomFieldVerificationInfoPDF({ field, value }: {
   );
 }
 
-export function CustomFieldVerificationSectionInfoPDF({ selection }: {
-  selection: CustomField;
+export function CustomFieldVerificationSectionInfoPDF({ selection, country }: {
+  selection: ICustomField;
+  country: string;
 }) {
-  const selectedGroup = useMemo<CustomField>(() => selection?.children?.find((option: CustomField) => option.name === selection.selectedGroup), [selection?.children, selection.selectedGroup]);
+  const selectedGroup = useMemo<ICustomField>(() => selection?.children?.find((option: ICustomField) => option.name === selection.selectedGroup), [selection?.children, selection.selectedGroup]);
   return (
     <>
       <CustomFieldVerificationInfoPDF field={selection} value={selectedGroup?.label} />
-      {selectedGroup && (<CustomFieldVerificationAtomicList fields={selectedGroup?.children} itemContainer={CustomFieldVerificationInfoPDF} />)}
+      {selectedGroup && <CustomFieldVerificationAtomicList country={country} fields={selectedGroup?.children} itemContainer={CustomFieldVerificationInfoPDF} />}
     </>
   );
 }
 
-export function CustomFieldPDF({ input }: { input: InputStatus<VerificationCustomFieldsInputData>}) {
+export function CustomFieldPDF({ customFieldData }: { customFieldData: CustomFieldDataForVerificationComponent}) {
   const formatMessage = useFormatMessage();
-  const { data: { fields } } = input;
+  const { fields, country } = customFieldData;
   return (
     <View style={commonStyles.paper}>
       <Text style={[commonStyles.titleBoldMain, commonStyles.mb15]}>{formatMessage('CustomField.card.title')}</Text>
       <View>
         <CustomFieldVerificationList
+          country={country}
           fields={fields}
           atomicContainer={CustomFieldVerificationInfoPDF}
           sectionContainer={CustomFieldVerificationSectionInfoPDF}

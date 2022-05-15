@@ -68,11 +68,11 @@ export class WorkAccountData extends ProductBaseFlowBuilder implements Product {
   }
 
   haveIssues(flow: IFlow): boolean {
-    return flow.financialInformationWorkAccountsRetrieving.countryCodes.length === 0;
+    return flow.financialInformationWorkAccountsRetrieving?.countryCodes.length === 0;
   }
 
   getIssuesComponent(flow: IFlow): any {
-    const isWorkAccountDataHaveNoCountries = flow.financialInformationWorkAccountsRetrieving.countryCodes.length === 0;
+    const isWorkAccountDataHaveNoCountries = flow.financialInformationWorkAccountsRetrieving?.countryCodes.length === 0;
 
     if (isWorkAccountDataHaveNoCountries) {
       return () => FlowIssue('FlowBuilder.issue.countriesNotSpecified');

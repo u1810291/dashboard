@@ -23,8 +23,8 @@ export function ProductCard({ id, isIssues = false, isControls = false, isExpand
   }, [id]);
 
   const handleOpen = useCallback(() => {
-    onSelect(id);
-  }, [id, onSelect]);
+    if (isControls) onSelect(id);
+  }, [id, onSelect, isControls]);
 
   const handleRemove = useCallback(() => {
     onRemove(id);

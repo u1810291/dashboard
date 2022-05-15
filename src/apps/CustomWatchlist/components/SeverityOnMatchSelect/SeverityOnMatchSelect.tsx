@@ -3,7 +3,7 @@ import { useFormatMessage } from 'apps/intl';
 import classnames from 'classnames';
 import { Select, MenuItem } from '@material-ui/core';
 import { CustomWatchlistSeverityOnMatchTypes, IFlowWatchlist } from 'models/CustomWatchlist.model';
-import { FlowWatchlistUi } from '../../models/CustomWatchlist.models';
+import { FlowWatchlistUi } from '../../models/CustomWatchlist.model';
 import { useStyles } from './SeverityOnMatchSelect.styles';
 
 export const SeverityOnMatchSelect = ({ watchlist, onUpdate }: {
@@ -23,7 +23,7 @@ export const SeverityOnMatchSelect = ({ watchlist, onUpdate }: {
       name="action"
       variant="outlined"
       fullWidth
-      defaultValue={CustomWatchlistSeverityOnMatchTypes.NoAction}
+      defaultValue={CustomWatchlistSeverityOnMatchTypes.Medium}
       value={watchlist.severityOnMatch}
       onChange={handleSeverityChange(watchlist)}
       className={classnames(classes.actionSelect, classes[watchlist.severityOnMatch], {

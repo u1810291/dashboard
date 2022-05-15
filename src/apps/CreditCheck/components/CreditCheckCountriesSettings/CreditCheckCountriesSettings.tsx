@@ -2,13 +2,13 @@ import React, { useCallback } from 'react';
 import { Box, FormControl, FormControlLabel, Grid, Switch } from '@material-ui/core';
 import { CreditCheck, CreditCheckConfigurations, creditCheckCountriesOrder, creditCheckParse } from 'apps/CreditCheck/models/CreditCheck.model';
 import { useIntl } from 'react-intl';
-import { VerificationPatterns } from 'models/VerificationPatterns.model';
+import { IVerificationPatterns } from 'models/VerificationPatterns.model';
 import { codedFlagMap } from 'assets/flags';
 import { useStyles } from './CreditCheckCountriesSettings.styles';
 
 export function CreditCheckCountriesSettings({ verificationPattern, onChange }: {
-     verificationPattern: Partial<VerificationPatterns>;
-     onChange: (value: Partial<VerificationPatterns>) => void;
+     verificationPattern: Partial<IVerificationPatterns>;
+     onChange: (value: Partial<IVerificationPatterns>) => void;
   }) {
   const intl = useIntl();
   const classes = useStyles();

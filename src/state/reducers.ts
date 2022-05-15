@@ -38,8 +38,13 @@ import { verificationReducer } from 'apps/Verification/state/Verification.reduce
 import { VERIFICATION_STORE_KEY } from 'apps/Verification/state/Verification.store';
 import { CUSTOM_WATCHLISTS_STORE_KEY } from 'apps/CustomWatchlist/state/CustomWatchlist.store';
 import { CUSTOM_FIELD_STORE_KEY, customFieldReducer } from 'apps/CustomField';
+import { amlReducer, AML_STORE_KEY } from 'apps/Aml';
 import { PRODUCT_BOARD_STORE_KEY } from 'apps/ProductBoard/state/ProductBoard.store';
 import { productBoardReducer } from 'apps/ProductBoard/state/ProductBoard.reducer';
+import { SOLUTION_CATALOG_STORE_KEY, solutionCatalogReducer } from 'apps/SolutionCatalog';
+import { TEMPLATES_STORE_KEY, templatesReducer } from 'apps/Templates';
+import { WORKFLOW_STORE_KEY } from 'pages/WorkflowList/state/workflow.store';
+import workflowReducer from 'pages/WorkflowList/state/workflow.reducer';
 import { WORKFLOW_BUILDER_STORE_KEY } from 'apps/WorkflowBuilder/store/WorkflowBuilder.store';
 import { workflowBuilderReducer } from 'apps/WorkflowBuilder/store/WorkflowBuilder.reducer';
 
@@ -55,6 +60,7 @@ export const appReducers = combineReducers({
   [METRICS_STORE_KEY]: metrics,
   [VERIFICATION_HISTORY_STORE_KEY]: verificationHistory,
   [AGENT_HISTORY_STORE_KEY]: agentHistoryReducer,
+  [AML_STORE_KEY]: amlReducer,
   [OVERLAY_STORE_KEY]: overlay,
   [REVIEW_MODE_KEY]: reviewModeReducer,
   [FLOW_BUILDER_STORE_KEY]: flowBuilderReducer,
@@ -66,6 +72,9 @@ export const appReducers = combineReducers({
   [CUSTOM_WATCHLISTS_STORE_KEY]: customWatchlist,
   [CUSTOM_FIELD_STORE_KEY]: customFieldReducer,
   [PRODUCT_BOARD_STORE_KEY]: productBoardReducer,
+  [SOLUTION_CATALOG_STORE_KEY]: solutionCatalogReducer,
+  [TEMPLATES_STORE_KEY]: templatesReducer,
+  [WORKFLOW_STORE_KEY]: workflowReducer,
 });
 
 export const rootReducers = (state, action) => {

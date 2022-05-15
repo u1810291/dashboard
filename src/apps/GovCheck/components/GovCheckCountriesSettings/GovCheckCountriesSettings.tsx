@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { FormControl } from '@material-ui/core';
-import { VerificationPatterns } from 'models/VerificationPatterns.model';
+import { IVerificationPatterns } from 'models/VerificationPatterns.model';
 import { useSelector } from 'react-redux';
 import { selectMerchantTags } from 'state/merchant/merchant.selectors';
 import { useStyles } from './GovCheckCountriesSettings.styles';
@@ -8,8 +8,8 @@ import { GovCheck, GovCheckConfigurations, govCheckCountriesOrder, govCheckParse
 import { GovCheckCountrySettings } from '../GovCheckCountrySettings/GovCheckCountrySettings';
 
 export function GovCheckCountriesSettings({ verificationPatterns, onChange }: {
-    verificationPatterns: VerificationPatterns;
-    onChange: (value: VerificationPatterns) => void;
+    verificationPatterns: IVerificationPatterns;
+    onChange: (value: IVerificationPatterns) => void;
   }) {
   const classes = useStyles();
 
