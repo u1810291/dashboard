@@ -1,8 +1,11 @@
 import { Font } from '@react-pdf/renderer';
-import LatoBold from './fonts/Lato-Bold.ttf';
-import LatoLight from './fonts/Lato-Light.ttf';
-import LatoRegular from './fonts/Lato-Regular.ttf';
-import { rem } from './PDF.theme.common';
+import LatoBold from 'apps/pdf/fonts/Lato-Bold.ttf';
+import LatoLight from 'apps/pdf/fonts/Lato-Light.ttf';
+import LatoRegular from 'apps/pdf/fonts/Lato-Regular.ttf';
+import NotoLight from 'apps/pdf/fonts/NotoSans-Light.ttf';
+import NotoBold from 'apps/pdf/fonts/NotoSans-Bold.ttf';
+import NotoRegular from 'apps/pdf/fonts/NotoSans-Regular.ttf';
+import { rem } from 'apps/pdf/PDF.theme.common';
 
 export const fontSize = {
   normal: 1.35 * rem,
@@ -16,6 +19,7 @@ export const fontWeight = {
 };
 
 export const fontFamilyLato = 'Lato';
+export const fontFamilyNoto = 'Noto';
 
 Font.register({
   family: fontFamilyLato,
@@ -30,6 +34,24 @@ Font.register({
     },
     {
       src: LatoBold,
+      fontWeight: fontWeight.bold,
+    },
+  ],
+});
+
+Font.register({
+  family: fontFamilyNoto,
+  fonts: [
+    {
+      src: NotoLight,
+      fontWeight: fontWeight.light,
+    },
+    {
+      src: NotoRegular,
+      fontWeight: fontWeight.normal,
+    },
+    {
+      src: NotoBold,
       fontWeight: fontWeight.bold,
     },
   ],

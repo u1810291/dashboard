@@ -126,6 +126,7 @@ export const flowBuilderSaveAndPublish = (name?: string) => async (dispatch, get
   dispatch({ type: types.CHANGEABLE_FLOW_UPDATING });
   try {
     const merchantId = selectMerchantId(state);
+    console.log(changeableFlow);
     const { data }: ApiResponse<IFlow> = await api.flowUpdate(merchantId, changeableFlow.id, {
       ...changeableFlow,
       name: name || changeableFlow.name,

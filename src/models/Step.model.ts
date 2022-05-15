@@ -29,19 +29,24 @@ export enum VerificationStepTypes {
   Liveness = 'liveness',
   Voice = 'voice',
   Selfie = 'selfie',
-  Ip = 'ip-validation',
+  LocationIntelligence = 'geolocation',
   PhoneOwnershipValidation = 'phone-ownership-validation',
   PhoneRiskAnalysisValidation = 'phone-risk-analysis-validation',
   PhoneRiskValidation = 'phone-risk-analysis-validation',
   ReFacematch = 're-facematch',
   DuplicateUserDetection = 'duplicate-user-detection',
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
+  BackgroundBrazilianChecks = 'brazilian-background-checks',
+  BackgroundBrazilianChecksLight = 'brazilian-background-checks-light',
+  BackgroundBrazilianChecksFull = 'brazilian-background-checks-full',
   CustomWatchlistsValidation = 'custom-watchlists-validation',
   NigerianCacValidation = 'nigerian-cac-validation',
   NigerianLegalValidation = 'nigerian-legal-validation',
+  PhilippinianDlValidation = 'philippinian-dl-validation',
   BasicWatchlistsValidation = 'basic-watchlists-validation',
   NigerianTinValidation = 'nigerian-tin-validation',
   IndonesianKTPValidation = 'indonesian-ktp-validation',
+  PhilippinianUMIDSSNValidation = 'philippinian-umid-ssn-validation',
 }
 
 export enum StepStatus {
@@ -50,6 +55,7 @@ export enum StepStatus {
   Incomplete = 'incomplete',
   Checking = 'checking',
   Skipped = 'skipped',
+  Default = 'default',
 }
 
 export enum StepCodeStatus {
@@ -238,6 +244,8 @@ export const CountrySpecificChecks = [
   VerificationStepTypes.NigerianLegalValidation,
   VerificationStepTypes.NigerianTinValidation,
   VerificationStepTypes.IndonesianKTPValidation,
+  VerificationStepTypes.PhilippinianUMIDSSNValidation,
+  VerificationStepTypes.PhilippinianDlValidation,
 ];
 
 export function hasFailureStep(steps: IStep[]): boolean {
@@ -320,6 +328,10 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoralCommission.notEnoughParams'],
   [DocumentStepTypes.BrazilianNoCriminalRecordsValidation]: ['brazilianNoCriminalRecordsValidation.notEnoughParams'],
   [VerificationDocStepTypes.DuplicateUserValidation]: ['duplicateUserDetection.notValidParams'],
+  [VerificationStepTypes.BackgroundBrazilianChecks]: ['brazilianBackgroundChecks.documentNotFound'],
+};
+export const BackgroundChecksErrorsToHide = {
+  'brazilianBackgroundChecks.documentNotFound': true,
 };
 
 export const OptionalGovCheckErrorCodes = {
@@ -334,6 +346,7 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.ColombianRunt]: ['colombianRunt.fullNameMismatch', 'colombianRunt.hasFines'],
   [DocumentStepTypes.ArgentinianRenaper]: ['argentinianRenaper.deceasedPerson', 'argentinianRenaper.fullNameMismatch'],
   [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
+  [VerificationStepTypes.PhilippinianDlValidation]: ['philippinianDL.fullNameMismatch', 'philippinianDL.dateOfBirthMismatch'],
   [VerificationStepTypes.IndonesianKTPValidation]: ['indonesianKTP.faceBiometricsMismatch', 'indonesianKTP.dobMismatch', 'indonesianKTP.nameMismatch'],
   [DocumentStepTypes.ColombianSisben]: ['colombianSisben.fullNameMismatch'],
   [DocumentStepTypes.DominicanRnc]: ['dominicanRnc.nameMismatch'],

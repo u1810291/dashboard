@@ -51,6 +51,9 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   const intl = useIntl();
   const TEMPLATE_SAVE_FORM_EDIT = edit && templateSaveFormEdit(currentTemplate);
   const defaultValuesForModal = edit ? TEMPLATE_SAVE_FORM_EDIT : TEMPLATE_SAVE_FORM_INITIAL_STATE;
+
+  useLoadMetadataList();
+
   useEffect(() => {
     if (currentTemplate !== null && !edit) {
       history.push(`${Routes.templates.root}/${currentTemplate._id}`);
@@ -96,8 +99,6 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
     },
   });
 
-  useLoadMetadataList();
-
   const handleSubmitSaveForm = async () => {
     try {
       await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries]]));
@@ -107,7 +108,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
     }
   };
 
-  const handleSubmitPatchFrom = async () => {
+  const handleSubmitPatchForm = async () => {
     try {
       await dispatch(updateTemplate(values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries]]));
       closeOverlay();
@@ -117,7 +118,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   };
 
   const handleSaveTemplate = async () => {
-    const currentAction = edit ? handleSubmitPatchFrom : handleSubmitSaveForm;
+    const currentAction = edit ? handleSubmitPatchForm : handleSubmitSaveForm;
     try {
       handleSubmit(currentAction)();
     } catch (error) {

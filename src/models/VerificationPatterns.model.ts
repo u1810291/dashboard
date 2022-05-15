@@ -1,6 +1,6 @@
 import { AmlValidationTypes } from 'apps/Aml';
 import { PhoneOwnershipValidationTypes } from 'apps/PhoneCheck/models/PhoneCheck.model';
-import { IpCheckValidationTypes } from 'models/IpCheck.model';
+import { LocationIntelligenceValidationTypes } from 'apps/LocationIntelligenceOld';
 
 export enum VerificationPatternTypes {
   AgeValidation = 'age-check',
@@ -15,6 +15,7 @@ export enum VerificationPatternTypes {
   BrazilianCpfLight = 'brazilian-cpf-light-validation',
   BrazilianNoCriminalRecordsValidation = 'brazilian-no-criminal-records-validation',
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
+  BackgroundBrazilianChecks = 'brazilian-background-checks',
   CreditArgentinianFidelitas = 'credit-argentinian-fidelitas-validation',
   CreditBrazilianSerasa = 'credit-brazilian-serasa-validation',
   ChileanRut = 'chilean-rut-validation',
@@ -46,6 +47,7 @@ export enum VerificationPatternTypes {
   GhanaianGra = 'ghanaian-gra-validation',
   GuatemalanTse = 'guatemalan-tse-validation',
   IpValidation = 'ip-validation',
+  Geolocation = 'geolocation',
   HonduranRnp = 'honduran-rnp-validation',
   IndonesianKPTValidation = 'indonesian-ktp-validation',
   KenyanEcitizen = 'kenyan-ecitizen-validation',
@@ -65,6 +67,7 @@ export enum VerificationPatternTypes {
   PeruvianReniec = 'peruvian-reniec-validation',
   PeruvianSunat = 'peruvian-sunat-validation',
   PeruvianHealthSocialSecurity = 'peruvian-health-social-security',
+  PhilippinianDl = 'philippinian-dl-validation',
   PhoneOwnershipValidation = 'phone-ownership-validation',
   PhoneRiskValidation = 'phone-risk-analysis-validation',
   PremiumAmlWatchListsSearchValidation = 'premium-aml-watchlists-search-validation',
@@ -76,6 +79,7 @@ export enum VerificationPatternTypes {
   TemplateMatching = 'template-matching',
   DocumentReading = 'document-reading',
   VpnDetection = 'vpn-detection',
+  HighAccuracy='high-accuracy',
   ESignatureDocuments = 'electronic-signature-document-validation',
   FinancialInformationBankAccountsRetrieving = 'financial-information-bank-accounts-retrieving',
   FinancialInformationWorkAccountsRetrieving = 'financial-information-work-accounts-retrieving',
@@ -84,9 +88,10 @@ export enum VerificationPatternTypes {
   UgandanElectoralCommission = 'ugandan-electoral-commission-validation',
   DuplicateFaceDetection = 'duplicate-face-detection',
   BasicWatchlistsValidation = 'basic-watchlists-validation',
+  PhilippinesUMIDSSS = 'philippinian-umid-ssn-validation',
 }
 
-export interface VerificationPatterns {
+export interface IVerificationPatterns {
   [VerificationPatternTypes.ArgentinianAnses]?: boolean;
   [VerificationPatternTypes.ArgentinianDni]?: boolean;
   [VerificationPatternTypes.ArgentinianRenaper]?: string;
@@ -101,6 +106,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.BrazilianCpf]?: string; // GovCheckStepTypes.BrazilianCpf
   [VerificationPatternTypes.BrazilianCpfLight]?: boolean;
   [VerificationPatternTypes.BackgroundMexicanBuholegal]?: boolean;
+  [VerificationPatternTypes.BackgroundBrazilianChecks]?: string;
   [VerificationPatternTypes.EcuadorianRegistroCivil]?: boolean;
   [VerificationPatternTypes.EcuadorianSri]?: boolean;
   [VerificationPatternTypes.HonduranRnp]?: boolean;
@@ -124,8 +130,8 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.ParaguayanRcp]?: boolean;
   [VerificationPatternTypes.DuplicateUserDetection]?: boolean;
   [VerificationPatternTypes.GuatemalanTse]?: boolean;
-  [VerificationPatternTypes.IpValidation]?: IpCheckValidationTypes;
   [VerificationPatternTypes.IndonesianKPTValidation]?: string;
+  [VerificationPatternTypes.IpValidation]?: LocationIntelligenceValidationTypes;
   [VerificationPatternTypes.KenyanEcitizen]?: boolean;
   [VerificationPatternTypes.MexicanCurp]?: boolean;
   [VerificationPatternTypes.MexicanIne]?: boolean;
@@ -158,6 +164,7 @@ export interface VerificationPatterns {
   [VerificationPatternTypes.FinancialInformationPayrollAccountsRetrieving]?: boolean;
   [VerificationPatternTypes.Facematch]?: boolean;
   [VerificationPatternTypes.UgandanElectoralCommission]?: boolean;
+  [VerificationPatternTypes.HighAccuracy]?: boolean;
   [VerificationPatternTypes.DuplicateFaceDetection]?: boolean;
   [VerificationPatternTypes.BasicWatchlistsValidation]?: boolean;
 }

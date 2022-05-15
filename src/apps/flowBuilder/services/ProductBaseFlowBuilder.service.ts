@@ -40,6 +40,10 @@ export abstract class ProductBaseFlowBuilder implements Partial<Product> {
     return `${this.id}.card.title`;
   }
 
+  getDescription(): string {
+    return `${this.id}.card.description`;
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   parser(flow?: IFlow): ProductSettings {
     return null;
@@ -51,6 +55,7 @@ export abstract class ProductBaseFlowBuilder implements Partial<Product> {
       icon: this.icon,
       order: this.order,
       title: this.getTitle(),
+      description: this.getDescription(),
       inputs: this.inputs,
       checks: this.checks,
       integrationTypes: this.integrationTypes,

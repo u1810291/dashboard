@@ -83,8 +83,8 @@ export function CountryModalSelect({ onSubmit, initialValues }: {
       name: region,
       countryCode: country.code,
       label: intl.formatMessage({ id: `Regions.${country.code}.${region}` }),
-    })).sort((a, b) => (a.label < b.label ? -1 : 1)),
-  })).sort((a, b) => (a.label < b.label ? -1 : 1))
+    })).sort((a, b) => (a.label.localeCompare(b.label))),
+  })).sort((a, b) => (a.label.localeCompare(b.label)))
   ), [countries, intl]);
   const handleTreeWalker = useCallback((refresh: boolean) => treeWalker(refresh, tree), [tree]);
 

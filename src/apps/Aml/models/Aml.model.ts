@@ -18,9 +18,9 @@ export enum BasicWatchlistModalValidationInputTypes {
 
 export interface IBasicWatchlistModalValidationInputs {
   [BasicWatchlistModalValidationInputTypes.Name]: string;
-  [BasicWatchlistModalValidationInputTypes.FileKey]: string | null;
+  [BasicWatchlistModalValidationInputTypes.FileKey]: Nullable<string>;
   [BasicWatchlistModalValidationInputTypes.Mapping]: IWatchlistMapping[];
-  [BasicWatchlistModalValidationInputTypes.CsvSeparator]: string | null;
+  [BasicWatchlistModalValidationInputTypes.CsvSeparator]: Nullable<string>;
   [BasicWatchlistModalValidationInputTypes.FileName]: string;
   [BasicWatchlistModalValidationInputTypes.Group]: number;
 }
@@ -110,8 +110,8 @@ export type BasicWatchlistStepDataSearchResultType = Record<string, string>;
 export interface IBasicWatchlistStepData {
   watchlist: IBasicWatchlistStepDataWatchlist;
   searchedAt: string;
-  searchParams: IBasicWatchlistStepDataSearchParams | null;
-  searchResult: BasicWatchlistStepDataSearchResultType | null;
+  searchParams: Nullable<IBasicWatchlistStepDataSearchParams>;
+  searchResult: Nullable<BasicWatchlistStepDataSearchResultType>;
 }
 
 export type BasicWatchlistStepType = IStepExtra<IBasicWatchlistStepData[]>;

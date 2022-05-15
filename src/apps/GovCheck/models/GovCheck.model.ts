@@ -1,5 +1,5 @@
 import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, RootGovChecksErrorsToHide, VerificationStepTypes } from 'models/Step.model';
-import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
+import { IVerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { BiometricTypes } from 'models/Biometric.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { NationalIdTypes, VerificationDocument } from 'models/Document.model';
@@ -77,6 +77,8 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.PeruvianReniec]: false,
   [VerificationPatternTypes.PeruvianHealthSocialSecurity]: false,
   [VerificationPatternTypes.PeruvianSunat]: false,
+  [VerificationPatternTypes.PhilippinesUMIDSSS]: false,
+  [VerificationPatternTypes.PhilippinianDl]: false,
   [VerificationPatternTypes.SalvadorianTse]: false,
   [VerificationPatternTypes.PanamenianTribunalElectoral]: false,
   [VerificationPatternTypes.VenezuelanCne]: false,
@@ -121,6 +123,7 @@ export enum GovCheckCountryTypes {
   Nigeria = 'nigeria',
   Paraguay = 'paraguay',
   Peru = 'peru',
+  Philippines = 'philippines',
   Salvador = 'salvador',
   Panama = 'panama',
   Venezuela = 'venezuela',
@@ -145,6 +148,7 @@ export const govCheckCountriesOrder = [
   GovCheckCountryTypes.Nigeria,
   GovCheckCountryTypes.Paraguay,
   GovCheckCountryTypes.Peru,
+  GovCheckCountryTypes.Philippines,
   GovCheckCountryTypes.Salvador,
   GovCheckCountryTypes.Panama,
   GovCheckCountryTypes.Venezuela,
@@ -524,6 +528,19 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     ],
   },
   {
+    country: GovCheckCountryTypes.Philippines,
+    checks: [
+      {
+        id: VerificationPatternTypes.PhilippinesUMIDSSS,
+        default: false,
+      },
+      {
+        id: VerificationPatternTypes.PhilippinianDl,
+        default: false,
+      },
+    ],
+  },
+  {
     country: GovCheckCountryTypes.Salvador,
     checks: [
       {
@@ -544,6 +561,12 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
 ];
 
 export const govCheckDisplayOptions = {
+  [VerificationStepTypes.PhilippinianUMIDSSNValidation]: {
+    documentNumber: {},
+    valid: {
+      formatter: (valid, data) => ({ ...data, valid: valid ? 'Valid' : 'Invalid' }),
+    },
+  },
   [DocumentStepTypes.ArgentinianDni]: {
     documentNumber: {
       hidden: true,
@@ -1158,6 +1181,15 @@ export const govCheckDisplayOptions = {
       hiddenIfNotExists: true,
     },
   },
+  [VerificationStepTypes.PhilippinianDlValidation]: {
+    licenseNumber: {},
+    serialNumber: {},
+    expirationDate: {},
+    fullName: {},
+    dateOfBirth: {},
+    gender: {},
+    valid: {},
+  },
 };
 
 export const GovCheckRequiredProductType = {
@@ -1173,7 +1205,7 @@ export function isCanUseGovCheck(govCheck: GovCheck | GovCheckOptions, merchantT
   return govCheck.merchantTags?.every((tag) => merchantTags.includes(tag));
 }
 
-export function isGovCheckOptionDisabled(govCheck: GovCheck, verificationPattern: VerificationPatterns, merchantTags: MerchantTags[]): boolean {
+export function isGovCheckOptionDisabled(govCheck: GovCheck, verificationPattern: IVerificationPatterns, merchantTags: MerchantTags[]): boolean {
   if (!isCanUseGovCheck(govCheck.option, merchantTags)) {
     return true;
   }
@@ -1190,7 +1222,7 @@ export function isGovCheckOptionDisabled(govCheck: GovCheck, verificationPattern
   return false;
 }
 
-export function isGovCheckDisabled(govCheck: GovCheck, verificationPattern: VerificationPatterns, merchantTags: MerchantTags[]): boolean {
+export function isGovCheckDisabled(govCheck: GovCheck, verificationPattern: IVerificationPatterns, merchantTags: MerchantTags[]): boolean {
   if (!isCanUseGovCheck(govCheck, merchantTags)) {
     return true;
   }
@@ -1207,7 +1239,7 @@ export function isGovCheckDisabled(govCheck: GovCheck, verificationPattern: Veri
   return false;
 }
 
-export function govCheckParse(list: GovCheck[], patterns: VerificationPatterns, merchantTags: MerchantTags[]): GovCheckParsed[] {
+export function govCheckParse(list: GovCheck[], patterns: IVerificationPatterns, merchantTags: MerchantTags[]): GovCheckParsed[] {
   return list.map((govCheck) => {
     if (!isCanUseGovCheck(govCheck, merchantTags) && govCheck.hideIsCantUse) {
       return null;
