@@ -7,10 +7,10 @@ export enum SolutionCatalogActionGroups {
   AllTemplates = 'ALL_TEMPLATES',
 }
 
-export enum SliceNames {
+export enum SliceNameTypes {
   AllTemplates = 'allTemplates',
 }
 
 export interface SolutionCatalogStore {
-  [SliceNames.AllTemplates]: Loadable<Record<string, CardsOptions[]>>;
+  [SliceNameTypes.AllTemplates]: Loadable<Record<string, CardsOptions[]>>;
 }

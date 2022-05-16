@@ -1,19 +1,19 @@
 import { createSelector } from 'reselect';
 import { Loadable } from 'models/Loadable.model';
 import { selectModelValue } from 'lib/loadable.selectors';
-import { SliceNames, TemplatesStore, TEMPLATES_STORE_KEY } from './Templates.store';
+import { SliceNameTypes, TemplatesStore, TEMPLATES_STORE_KEY } from './Templates.store';
 import { ITemplate, ITemplateMetadata, MetadataType, ITemplatesList } from '../model/Templates.model';
 
 export const selectTemplatesStore = (state) => state[TEMPLATES_STORE_KEY];
 
 export const selectMetadataListModel = createSelector<any, TemplatesStore, Loadable<ITemplateMetadata[]>>(
   selectTemplatesStore,
-  (store) => store[SliceNames.MetadataList],
+  (store) => store[SliceNameTypes.MetadataList],
 );
 
 export const selectTemplatesListModel = createSelector<any, TemplatesStore, Loadable<ITemplatesList>>(
   selectTemplatesStore,
-  (store) => store[SliceNames.TemplatesList],
+  (store) => store[SliceNameTypes.TemplatesList],
 );
 
 export const selectTemplatesListModelValues = createSelector<any, any, ITemplatesList>(
@@ -38,7 +38,7 @@ export const selectCountryMetadata = createSelector<any, any, ITemplateMetadata[
 
 export const selectCurrentTemplateModel = createSelector<any, TemplatesStore, Loadable<ITemplate>>(
   selectTemplatesStore,
-  (store) => store[SliceNames.CurrentTemplate],
+  (store) => store[SliceNameTypes.CurrentTemplate],
 );
 
 export const selectCurrentTemplateModelValue = createSelector<any, any, ITemplate>(
@@ -48,7 +48,7 @@ export const selectCurrentTemplateModelValue = createSelector<any, any, ITemplat
 
 export const selectTemplatesModel = createSelector<any, any, Loadable<ITemplate[]>>(
   selectTemplatesStore,
-  (store) => store[SliceNames.Templates],
+  (store) => store[SliceNameTypes.Templates],
 );
 
 export const selectTemplates = createSelector<any, any, ITemplate[]>(

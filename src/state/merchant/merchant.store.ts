@@ -13,7 +13,7 @@ export const MerchantActionGroups = {
   OnboardingSteps: 'ONBOARDING_STEPS',
 };
 
-export enum SliceNames {
+export enum SliceNameTypes {
   Merchant = 'merchant',
   Configuration = 'configurations',
   App = 'app',
@@ -35,10 +35,10 @@ export interface MerchantApp {
 }
 
 export interface MerchantStore {
-  [SliceNames.Merchant]: Loadable<any>;
-  [SliceNames.Configuration]: Loadable<MerchantConfiguration>;
-  [SliceNames.App]: Loadable<MerchantApp[]>;
-  [SliceNames.CustomDocuments]: Loadable<any[]>;
-  [SliceNames.Flows]: Loadable<IFlow[]>;
+  [SliceNameTypes.Merchant]: Loadable<any>;
+  [SliceNameTypes.Configuration]: Loadable<MerchantConfiguration>;
+  [SliceNameTypes.App]: Loadable<MerchantApp[]>;
+  [SliceNameTypes.CustomDocuments]: Loadable<any[]>;
+  [SliceNameTypes.Flows]: Loadable<IFlow[]>;
   currentFlow: string | null;
 }

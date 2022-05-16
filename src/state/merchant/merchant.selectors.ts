@@ -10,7 +10,7 @@ import { PasswordExpirationPolicyDurationValue } from 'models/Settings.model';
 import { Merchant, MerchantId, MerchantTags, IMerchantSettings, IAgentNotesConfig } from 'models/Merchant.model';
 import { createSelector } from 'reselect';
 import { CollaboratorRoles } from 'models/Collaborator.model';
-import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
+import { MERCHANT_STORE_KEY, SliceNameTypes } from './merchant.store';
 
 export const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
 
@@ -18,7 +18,7 @@ export const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
 
 export const selectMerchantModel = createSelector<any, any, Loadable<Merchant>>(
   selectMerchantStore,
-  (store): Loadable<Merchant> => store[SliceNames.Merchant],
+  (store): Loadable<Merchant> => store[SliceNameTypes.Merchant],
 );
 
 export const selectMerchantId = createSelector<any, Loadable<Merchant>, MerchantId>(
@@ -118,7 +118,7 @@ export const selectMerchantTags = createSelector<any, Loadable<Merchant>, Mercha
 
 const selectAppModel = createSelector(
   selectMerchantStore,
-  (merchant) => merchant[SliceNames.App],
+  (merchant) => merchant[SliceNameTypes.App],
 );
 
 export const selectAppLastModel = createSelector(
@@ -157,7 +157,7 @@ export const selectMerchantPasswordExpirationPolicy = createSelector<any, Loadab
 
 export const selectConfigurationModel = createSelector(
   selectMerchantStore,
-  (merchant) => merchant[SliceNames.Configuration],
+  (merchant) => merchant[SliceNameTypes.Configuration],
 );
 
 // -- dashboard
@@ -183,14 +183,14 @@ export const selectLanguage = createSelector<any, Loadable<any>, SupportedLocale
 
 export const selectMerchantCustomDocumentsModel = createSelector(
   selectMerchantStore,
-  (merchant) => merchant[SliceNames.CustomDocuments],
+  (merchant) => merchant[SliceNameTypes.CustomDocuments],
 );
 
 // -- flows
 
 export const selectMerchantFlowsModel = createSelector(
   selectMerchantStore,
-  (merchant) => merchant[SliceNames.Flows],
+  (merchant) => merchant[SliceNameTypes.Flows],
 );
 
 export const selectMerchantFlowList = createSelector(

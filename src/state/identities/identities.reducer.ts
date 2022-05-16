@@ -2,25 +2,25 @@ import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { verificationsFilterInitialState } from 'models/Identity.model';
 import { createReducer } from 'state/store.utils';
 import { types } from './identities.actions';
-import { IdentityActionGroups, SliceNames } from './identities.store';
+import { IdentityActionGroups, SliceNameTypes } from './identities.store';
 
 const initialState = {
   isPDFGenerating: false,
   filter: verificationsFilterInitialState,
 
-  [SliceNames.Identity]: LoadableAdapter.createState(null),
-  [SliceNames.IdentityList]: LoadableAdapter.createState([]),
-  [SliceNames.FilteredCount]: LoadableAdapter.createState(0),
-  [SliceNames.PreliminaryFilteredCount]: LoadableAdapter.createState(0),
+  [SliceNameTypes.Identity]: LoadableAdapter.createState(null),
+  [SliceNameTypes.IdentityList]: LoadableAdapter.createState([]),
+  [SliceNameTypes.FilteredCount]: LoadableAdapter.createState(0),
+  [SliceNameTypes.PreliminaryFilteredCount]: LoadableAdapter.createState(0),
 };
 
 export type IdentitiesState = typeof initialState;
 
 export default createReducer(initialState, {
-  ...LoadableAdapter.createHandlers(IdentityActionGroups.Identity, SliceNames.Identity),
-  ...LoadableAdapter.createHandlers(IdentityActionGroups.IdentityList, SliceNames.IdentityList),
-  ...LoadableAdapter.createHandlers(IdentityActionGroups.FilteredCount, SliceNames.FilteredCount),
-  ...LoadableAdapter.createHandlers(IdentityActionGroups.PreliminaryFilteredCount, SliceNames.PreliminaryFilteredCount),
+  ...LoadableAdapter.createHandlers(IdentityActionGroups.Identity, SliceNameTypes.Identity),
+  ...LoadableAdapter.createHandlers(IdentityActionGroups.IdentityList, SliceNameTypes.IdentityList),
+  ...LoadableAdapter.createHandlers(IdentityActionGroups.FilteredCount, SliceNameTypes.FilteredCount),
+  ...LoadableAdapter.createHandlers(IdentityActionGroups.PreliminaryFilteredCount, SliceNameTypes.PreliminaryFilteredCount),
 
   [types.FILTER_UPDATE](state, { payload }) {
     return {
@@ -33,13 +33,13 @@ export default createReducer(initialState, {
     // remove identity and decrement counters
     return {
       ...state,
-      [SliceNames.IdentityList]: {
-        ...state[SliceNames.IdentityList],
-        value: state[SliceNames.IdentityList].value.filter((item) => item.id !== payload),
+      [SliceNameTypes.IdentityList]: {
+        ...state[SliceNameTypes.IdentityList],
+        value: state[SliceNameTypes.IdentityList].value.filter((item) => item.id !== payload),
       },
-      [SliceNames.FilteredCount]: {
-        ...state[SliceNames.FilteredCount],
-        value: state[SliceNames.FilteredCount].value - 1,
+      [SliceNameTypes.FilteredCount]: {
+        ...state[SliceNameTypes.FilteredCount],
+        value: state[SliceNameTypes.FilteredCount].value - 1,
       },
     };
   },

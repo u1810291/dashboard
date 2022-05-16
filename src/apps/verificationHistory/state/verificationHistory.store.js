@@ -7,7 +7,7 @@ export const VerificationHistoryActionGroups = {
   VERIFICATION_CHANGE_AGENT_NOTE: 'VERIFICATION_CHANGE_AGENT_NOTE',
 };
 
-export const SliceNames = {
+export const SliceNameTypes = {
   Filter: 'filter',
   Changes: 'changes',
   Count: 'count',

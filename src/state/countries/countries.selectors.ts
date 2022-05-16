@@ -1,11 +1,11 @@
 import { selectModelValue } from 'lib/loadable.selectors';
 import { createSelector } from 'reselect';
-import { COUNTRIES_STORE_KEY, SliceNames } from './countries.store';
+import { COUNTRIES_STORE_KEY, SliceNameTypes } from './countries.store';
 
 export const selectCountriesStore = (state) => state[COUNTRIES_STORE_KEY];
 export const selectAllCountriesModel = createSelector(
   selectCountriesStore,
-  (store) => store[SliceNames.AllCountries],
+  (store) => store[SliceNameTypes.AllCountries],
 );
 
 export const selectCountriesList = createSelector(

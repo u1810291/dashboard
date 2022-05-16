@@ -28,58 +28,60 @@ export enum AgentHistoryEventTypes {
   VerificationStatusUpdated = 'verificationStatusUpdated',
 }
 
-export interface VerificationStatusUpdatedEventBody {
+export interface IVerificationStatusUpdatedEventBody {
   identityId: IdentityId;
   verificationId: VerificationId;
   verificationStatus: VerificationStatusValue;
+  agentNote: string | null;
 }
 
-export interface VerificationDocumentFieldsUpdatedEventBody {
+export interface IVerificationDocumentFieldsUpdatedEventBody {
   documentFields: Record<string, DocumentFieldValue>;
   documentIndex: number;
   documentType: DocumentTypes;
   identityId: IdentityId;
   verificationId: VerificationId;
+  agentNote: string | null;
 }
 
-export interface VerificationPdfDownloadedEventBody {
+export interface IVerificationPdfDownloadedEventBody {
   identityId: IdentityId;
   verificationId: VerificationId;
 }
 
-export interface VerificationDeletedEventBody {
+export interface IVerificationDeletedEventBody {
   identityId?: IdentityId;
   verificationId?: VerificationId;
 }
 
-export interface UserChangesEventBody { // for the invited/blocked/unblocked events
+export interface IUserChangesEventBody { // for the invited/blocked/unblocked events
   user: IUser;
 }
 
-export interface ChangedValue<T> {
+export interface IChangedValue<T> {
   prevValue: T;
   nextValue: T;
 }
 
-export interface UserRoleChangedEventBody extends UserChangesEventBody {
-  role: ChangedValue<CollaboratorRoles>;
+export interface IUserRoleChangedEventBody extends IUserChangesEventBody {
+  role: IChangedValue<CollaboratorRoles>;
 }
 
-export interface UserNameChangedEventBody extends UserChangesEventBody {
-  firstName: ChangedValue<string>;
-  lastName: ChangedValue<string>;
+export interface IUserNameChangedEventBody extends IUserChangesEventBody {
+  firstName: IChangedValue<string>;
+  lastName: IChangedValue<string>;
 }
 
-export type AgentHistoryEventBody = Partial<UserChangesEventBody & // for the invited/blocked/unblocked events
-  UserRoleChangedEventBody &
-  UserNameChangedEventBody &
-  VerificationDeletedEventBody &
-  VerificationDocumentFieldsUpdatedEventBody &
-  VerificationPdfDownloadedEventBody &
-  VerificationStatusUpdatedEventBody>;
+export type AgentHistoryEventBody = Partial<IUserChangesEventBody & // for the invited/blocked/unblocked events
+  IUserRoleChangedEventBody &
+  IUserNameChangedEventBody &
+  IVerificationDeletedEventBody &
+  IVerificationDocumentFieldsUpdatedEventBody &
+  IVerificationPdfDownloadedEventBody &
+  IVerificationStatusUpdatedEventBody>;
 // verificationCsvDownloaded passwordChanged loginFailed loginSucceeded come without event body
 
-export interface AgentHistoryEvent {
+export interface IAgentHistoryEvent {
   eventBody?: AgentHistoryEventBody;
   eventType: AgentHistoryEventTypes;
   updatedAt: string;
@@ -97,12 +99,12 @@ export enum AgentHistoryEventGroupTypes {
   VerificationChange = 'verificationChange',
 }
 
-export interface AgentHistoryEventGroup {
+export interface IAgentHistoryEventGroup {
   key: AgentHistoryEventGroupTypes;
   value: AgentHistoryEventTypes[];
 }
 
-export const agentHistoryEventGroups: AgentHistoryEventGroup[] = [
+export const agentHistoryEventGroups: IAgentHistoryEventGroup[] = [
   {
     key: AgentHistoryEventGroupTypes.LoginAttempt,
     value: [

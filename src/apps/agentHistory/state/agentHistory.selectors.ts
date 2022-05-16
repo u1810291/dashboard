@@ -3,37 +3,37 @@ import { filterSerialize } from 'models/Filter.model';
 import { Loadable } from 'models/Loadable.model';
 import { createSelector } from 'reselect';
 import { selectModelValue } from 'lib/loadable.selectors';
-import { AGENT_HISTORY_STORE_KEY, AgentHistoryStore, SliceNames } from './agentHistory.store';
-import { AgentHistoryEvent, AgentHistoryFilter } from '../models/AgentHistory.model';
+import { AGENT_HISTORY_STORE_KEY, IAgentHistoryStore, SliceNameTypes } from './agentHistory.store';
+import { IAgentHistoryEvent, AgentHistoryFilter } from '../models/AgentHistory.model';
 
 export const selectAgentHistoryStore = (state) => state[AGENT_HISTORY_STORE_KEY];
 
-export const selectAgentHistoryFilter = createSelector<any, AgentHistoryStore, AgentHistoryFilter>(
+export const selectAgentHistoryFilter = createSelector<any, IAgentHistoryStore, AgentHistoryFilter>(
   selectAgentHistoryStore,
-  (store) => store[SliceNames.Filter],
+  (store) => store[SliceNameTypes.Filter],
 );
 
-export const selectAgentHistoryFilterSerialized = createSelector<any, AgentHistoryStore, Serializable<AgentHistoryFilter>>(
+export const selectAgentHistoryFilterSerialized = createSelector<any, IAgentHistoryStore, Serializable<AgentHistoryFilter>>(
   selectAgentHistoryStore,
-  (store) => filterSerialize(store[SliceNames.Filter]),
+  (store) => filterSerialize(store[SliceNameTypes.Filter]),
 );
 
-export const selectAgentHistoryTotalCount = createSelector<any, AgentHistoryStore, number>(
+export const selectAgentHistoryTotalCount = createSelector<any, IAgentHistoryStore, number>(
   selectAgentHistoryStore,
-  (store) => store[SliceNames.Count],
+  (store) => store[SliceNameTypes.Count],
 );
 
-export const selectAgentHistoryModel = createSelector<any, AgentHistoryStore, Loadable<AgentHistoryEvent[]>>(
+export const selectAgentHistoryModel = createSelector<any, IAgentHistoryStore, Loadable<IAgentHistoryEvent[]>>(
   selectAgentHistoryStore,
-  (store) => store[SliceNames.History],
+  (store) => store[SliceNameTypes.History],
 );
 
-export const selectAgentHistoryEventsList = createSelector<any, Loadable<AgentHistoryEvent[]>, AgentHistoryEvent[]>(
+export const selectAgentHistoryEventsList = createSelector<any, Loadable<IAgentHistoryEvent[]>, IAgentHistoryEvent[]>(
   selectAgentHistoryModel,
   selectModelValue((history) => history),
 );
 
-export const selectAgentHistoryLoadedCount = createSelector<any, AgentHistoryEvent[], number>(
+export const selectAgentHistoryLoadedCount = createSelector<any, IAgentHistoryEvent[], number>(
   selectAgentHistoryEventsList,
   (list) => list?.length,
 );

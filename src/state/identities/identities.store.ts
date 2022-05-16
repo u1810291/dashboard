@@ -7,7 +7,7 @@ export enum IdentityActionGroups {
   PreliminaryFilteredCount = 'PRELIMINARY_FILTERED_COUNT',
 }
 
-export enum SliceNames {
+export enum SliceNameTypes {
   Identity = 'identity',
   IdentityList = 'identityList',
   FilteredCount = 'filteredCount',
