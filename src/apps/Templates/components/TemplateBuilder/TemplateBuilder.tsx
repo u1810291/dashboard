@@ -2,7 +2,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { FlowInfoContainer, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder';
+import { FlowBuilderIntegrationDetails, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder';
 import { selectProductIsInited, useProduct } from 'apps/Product';
 import { Loader, Placeholder } from 'apps/ui';
 import { PreviewButton } from 'apps/WebSDKPreview';
@@ -17,10 +17,11 @@ import { Loadable } from 'models/Loadable.model';
 import { SaveAndPublishTemplate, EditTemplate } from 'apps/Templates';
 import { useFormatMessage } from 'apps/intl';
 import { ProductTypes } from 'models/Product.model';
-import { dagreGraphService, WorkflowBuilderIntegrationDetails } from 'apps/WorkflowBuilder';
+import { dagreGraphService } from 'apps/WorkflowBuilder';
 import { ITemplate } from '../../model/Templates.model';
 import { clearCurrentTemplate, prepareTemplateToEdit, getTemplate } from '../../store/Templates.actions';
 import { selectCurrentTemplateModelValue, selectCurrentTemplateModel } from '../../store/Templates.selectors';
+import { TemplateFlowInfoContainer } from '../TemplateFlowInfoContainer/TemplateFlowInfoContainer';
 import { useStyles } from './TemplateBuilder.styles';
 
 export function TemplateBuilder() {
@@ -42,23 +43,25 @@ export function TemplateBuilder() {
   const isEditMode = !!id;
 
   useEffect(() => {
-    async function init() {
-      if (isEditMode) {
-        if (!isBuilderInitialized) {
-          setIsBuilderInitiazed(true);
-          dispatch(flowBuilderClearStore());
-          dispatch(clearCurrentTemplate());
-          await dispatch(getTemplate(id));
-          dispatch(prepareTemplateToEdit());
-        }
-      } else {
-        dispatch(clearCurrentTemplate());
-        dispatch(flowBuilderClearStore());
-        dispatch(flowBuilderCreateEmptyFlow(formatMessage));
-      }
+    if (isEditMode && !currentTemplateModel.isLoaded) {
+      dispatch(flowBuilderClearStore());
+      dispatch(clearCurrentTemplate());
+      dispatch(getTemplate(id));
     }
-    init();
-  }, [dispatch, isEditMode, id, currentTemplate, isBuilderInitialized, formatMessage]);
+  }, [dispatch, isEditMode, id, currentTemplateModel.isLoaded]);
+
+  useEffect(() => {
+    if (isEditMode && !isBuilderInitialized && currentTemplateModel.isLoaded) {
+      setIsBuilderInitiazed(true);
+      dispatch(prepareTemplateToEdit());
+    }
+
+    if (!isEditMode) {
+      dispatch(clearCurrentTemplate());
+      dispatch(flowBuilderClearStore());
+      dispatch(flowBuilderCreateEmptyFlow(formatMessage));
+    }
+  }, [dispatch, isEditMode, id, currentTemplate, isBuilderInitialized, formatMessage, currentTemplateModel.isLoaded]);
 
   useEffect(() => {
     dagreGraphService.createGraph();
@@ -79,7 +82,7 @@ export function TemplateBuilder() {
           <Grid item container direction="column" wrap="nowrap" className={classes.sidebar}>
             <Box className={classes.flowInfo} px={0.5} py={2} mb={2}>
               <Box mb={2}>
-                <FlowInfoContainer isTemplate />
+                <TemplateFlowInfoContainer isTemplate />
               </Box>
               <Box ml={3}>
                 <PreviewButton />
@@ -112,7 +115,7 @@ export function TemplateBuilder() {
                   />
                 )}
                 {!selectedId && (
-                  <WorkflowBuilderIntegrationDetails />
+                  <FlowBuilderIntegrationDetails />
                 )}
               </Grid>
             </Grid>
