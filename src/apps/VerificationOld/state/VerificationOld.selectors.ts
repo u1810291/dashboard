@@ -5,11 +5,10 @@ import { DocumentStepTypes, getStepExtra, IStep } from 'models/Step.model';
 import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFlow, VerificationListItem, VerificationWithExtras, VerificationResponse } from 'models/VerificationOld.model';
 import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
-import { ErrorType } from 'models/Error.model';
 import { CreditCheckStep, DataForCreditCheck } from 'models/CreditCheck.model';
 import { VERIFICATION_STORE_KEY, VerificationSliceTypes, VerificationOldStore } from './VerificationOld.store';
 
-export const verificationStore = (state): VerificationOldStore => state[VERIFICATION_STORE_KEY];
+export const verificationStore = (state: {VERIFICATION_STORE_KEY: VerificationOldStore}): VerificationOldStore => state[VERIFICATION_STORE_KEY];
 
 export const selectVerificationModel = createSelector(
   verificationStore,
@@ -32,27 +31,22 @@ export const selectNewVerificationModelWithExtras = createSelector(
   selectLoadableValue((verification, countries) => getVerificationExtras(verification, countries)),
 );
 
-export const selectVerificationModelError = createSelector<any, any, ErrorType>(
-  selectVerificationModel,
-  (verification) => verification.error,
-);
-
 // TODO: @ggrigorev remove deprecated
 /**
  * @deprecated
  * use selectVerification
  */
-export const selectNewVerificationWithExtras = createSelector<any, any, VerificationWithExtras>(
+export const selectNewVerificationWithExtras = createSelector<[typeof selectNewVerificationModelWithExtras], VerificationWithExtras>(
   selectNewVerificationModelWithExtras,
   selectModelValue(),
 );
 
-export const selectVerification = createSelector<any, any, VerificationResponse | null>(
+export const selectVerification = createSelector<[typeof selectVerificationModel], VerificationResponse | null>(
   selectVerificationModel,
   selectModelValue<VerificationResponse | null>(),
 );
 
-export const selectVerificationsGroupedByFlow = createSelector<any, Loadable<VerificationListItem[]>, PassedVerificationByFlow[]>(
+export const selectVerificationsGroupedByFlow = createSelector<[typeof selectVerificationsCollectionModel], PassedVerificationByFlow[]>(
   selectVerificationsCollectionModel,
   selectModelValue((verifications: VerificationListItem[]) => groupVerificationsByFlow(verifications)),
 );

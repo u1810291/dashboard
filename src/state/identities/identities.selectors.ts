@@ -5,9 +5,9 @@ import { Loadable } from 'models/Loadable.model';
 import { IDENTITIES_STORE_KEY, SliceNameTypes } from './identities.store';
 import { IdentitiesState } from './identities.reducer';
 
-export const selectIdentityStore = (state): IdentitiesState => state[IDENTITIES_STORE_KEY];
+export const selectIdentityStore = (state: {IDENTITIES_STORE_KEY: IdentitiesState}): IdentitiesState => state[IDENTITIES_STORE_KEY];
 
-export const selectIdentityCollection = createSelector<any, any, Loadable<VerificationListItem[]>>(
+export const selectIdentityCollection = createSelector<[typeof selectIdentityStore], Loadable<VerificationListItem[]>>(
   selectIdentityStore,
   (store) => store[SliceNameTypes.IdentityList],
 );

@@ -3,7 +3,7 @@ import { Box, Link } from '@material-ui/core';
 import { ExtendedDescription } from 'apps/ui';
 import { useIntl } from 'react-intl';
 import { ProductSettingsProps } from 'models/Product.model';
-import { VerificationPatterns } from 'models/VerificationPatterns.model';
+import { IVerificationPatterns } from 'models/VerificationPatterns.model';
 import { cloneDeep } from 'lodash';
 import { CreditCheckSettingTypes } from '../../models/CreditCheck.model';
 import { CreditCheckCountriesSettings } from '../CreditCheckCountriesSettings/CreditCheckCountriesSettings';
@@ -11,7 +11,7 @@ import { CreditCheckCountriesSettings } from '../CreditCheckCountriesSettings/Cr
 export function CreditCheckSettings({ settings, onUpdate }: ProductSettingsProps) {
   const intl = useIntl();
 
-  const handleUpdate = useCallback((settingId: CreditCheckSettingTypes) => (newValue: VerificationPatterns) => {
+  const handleUpdate = useCallback((settingId: CreditCheckSettingTypes) => (newValue: IVerificationPatterns) => {
     const newSettings = cloneDeep(settings);
     if (settingId === CreditCheckSettingTypes.CountriesCreditChecks) {
       newSettings[settingId].value = { ...newSettings[settingId].value, ...newValue };
