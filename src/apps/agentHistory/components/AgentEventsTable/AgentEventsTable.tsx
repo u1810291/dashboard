@@ -50,7 +50,7 @@ export function AgentEventsTable({ isLoading }: {
 
   useEffect(() => {
     setHasMore(!agentHistory.isLoading && agentHistory.isLoaded && historyLoadedCount < historyTotalLength);
-  }, [agentHistory.isLoaded, agentHistory.isLoading, historyLoadedCount, historyTotalLength, page]);
+  }, [agentHistory.isLoading, agentHistory.isLoaded, historyLoadedCount, historyTotalLength, page]);
 
   return (
     <Box mt={2}>
