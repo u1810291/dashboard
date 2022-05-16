@@ -32,7 +32,7 @@ export interface IVerificationStatusUpdatedEventBody {
   identityId: IdentityId;
   verificationId: VerificationId;
   verificationStatus: VerificationStatusValue;
-  agentNote: string | null;
+  agentNote: Nullable<string>;
 }
 
 export interface IVerificationDocumentFieldsUpdatedEventBody {
@@ -41,7 +41,7 @@ export interface IVerificationDocumentFieldsUpdatedEventBody {
   documentType: DocumentTypes;
   identityId: IdentityId;
   verificationId: VerificationId;
-  agentNote: string | null;
+  agentNote: Nullable<string>;
 }
 
 export interface IVerificationPdfDownloadedEventBody {
