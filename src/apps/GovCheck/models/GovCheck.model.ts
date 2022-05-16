@@ -75,6 +75,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.NigerianTin]: false,
   [VerificationPatternTypes.ParaguayanRcp]: false,
   [VerificationPatternTypes.PeruvianReniec]: false,
+  [VerificationPatternTypes.PeruvianHealthSocialSecurity]: false,
   [VerificationPatternTypes.PeruvianSunat]: false,
   [VerificationPatternTypes.PhilippinesUMIDSSS]: false,
   [VerificationPatternTypes.PhilippinianDl]: false,
@@ -501,6 +502,10 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       },
       {
         id: DocumentStepTypes.PeruvianMigrationInstitute,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.PeruvianHealthSocialSecurity,
         default: false,
       },
     ],
