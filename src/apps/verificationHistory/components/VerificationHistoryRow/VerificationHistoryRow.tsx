@@ -40,7 +40,7 @@ function VerificationHistoryRowComponent({ rowData, isInitEvent }: {
       </TableCell>
       {/* Agent notes cell */}
       <TableCell className={classes.tableCell}>
-        <VerificationHistoryAgentNote audit={rowData} />
+        <VerificationHistoryAgentNote historyEvent={rowData} />
       </TableCell>
       {/* Expand cell */}
       {rowData?.eventType === VerificationHistoryEventTypes.DocumentFieldsUpdated && changedFields?.fields?.length > 1 ? (

@@ -5,7 +5,7 @@ import { CustomFieldModalTypes } from '../models/CustomField.model';
 
 export const CUSTOM_FIELD_STORE_KEY = 'customField';
 
-export enum SliceNames {
+export enum SliceNameTypes {
   CustomFieldModalType = 'customFieldModalType',
   CustomFieldFlattenListFields = 'customFieldListFields',
   CustomFieldListFields = 'CustomFieldListFields',
@@ -46,13 +46,13 @@ export const types: TypesSequence = {
 };
 
 export interface CustomFieldStore {
-  [SliceNames.CustomFieldModalType]: Loadable<CustomFieldModalTypes>;
-  [SliceNames.CustomFieldFlattenListFields]: Loadable<ICustomField[]>;
-  [SliceNames.CustomFieldListFields]: Loadable<ICustomField[]>;
-  [SliceNames.CustomFieldEditedField]: Loadable<ICustomField | null>;
-  [SliceNames.CustomFieldEditedIndex]: Loadable<number>;
-  [SliceNames.CustomFieldEditedParent]: Loadable<string>;
-  [SliceNames.CustomFieldUploadingThumbnail]: Loadable<boolean>;
-  [SliceNames.CustomFieldEditedSystemName]: Loadable<string>;
-  [SliceNames.CustomFieldUpdate]: Loadable<unknown>;
+  [SliceNameTypes.CustomFieldModalType]: Loadable<CustomFieldModalTypes>;
+  [SliceNameTypes.CustomFieldFlattenListFields]: Loadable<ICustomField[]>;
+  [SliceNameTypes.CustomFieldListFields]: Loadable<ICustomField[]>;
+  [SliceNameTypes.CustomFieldEditedField]: Loadable<ICustomField | null>;
+  [SliceNameTypes.CustomFieldEditedIndex]: Loadable<number>;
+  [SliceNameTypes.CustomFieldEditedParent]: Loadable<string>;
+  [SliceNameTypes.CustomFieldUploadingThumbnail]: Loadable<boolean>;
+  [SliceNameTypes.CustomFieldEditedSystemName]: Loadable<string>;
+  [SliceNameTypes.CustomFieldUpdate]: Loadable<unknown>;
 }
