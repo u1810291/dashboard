@@ -98,7 +98,7 @@ export default {
     color: 'var(--mgi-theme-palette-lightergray)',
   },
   operator: {
-    color: '#393A34',
+    color: appPalette.lightgray,
   },
   url: {
     color: appPalette.lightblue,
