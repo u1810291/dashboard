@@ -34,7 +34,7 @@ function AgentEventRowComponent({ event }: {
       </TableCell>
       {/* Changes cell */}
       <TableCell colSpan={2} className={classes.tableCell}>
-        {event?.eventType !== AgentHistoryEventTypes.ManualReview ? (
+        {event?.eventType !== AgentHistoryEventTypes.ManualReview && (
           <AgentHistoryChangesSwitch
             eventType={event?.eventType}
             updatedBy={event?.updatedBy}
@@ -42,11 +42,6 @@ function AgentEventRowComponent({ event }: {
             eventBody={event?.eventBody}
             isCollapsed={isCollapsed}
           />
-        ) : (
-          <>
-            {/* TODO @vladislav.snimshchikov: Add review mode row, when backend add reviewMode event
-            <HistoryManualReview onExpand={handleOnExpand} reviewChanges={rowData?.eventBody} workedTime={rowData?.eventBody?.workedTime} reviewedCount={rowData?.eventBody?.reviewedCount} isCollapsed={isCollapsed} /> */}
-          </>
         )}
       </TableCell>
       {/* Agent note cell */}
