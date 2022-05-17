@@ -76,8 +76,8 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.ParaguayanRcp]: false,
   [VerificationPatternTypes.PeruvianReniec]: false,
   [VerificationPatternTypes.PeruvianSunat]: false,
-  [VerificationPatternTypes.PhilippinesUMIDSSS]: false,
-  [VerificationPatternTypes.PhilippinianDl]: false,
+  [VerificationPatternTypes.PhilippineUMIDSSS]: false,
+  [VerificationPatternTypes.PhilippineDl]: false,
   [VerificationPatternTypes.SalvadorianTse]: false,
   [VerificationPatternTypes.PanamenianTribunalElectoral]: false,
   [VerificationPatternTypes.VenezuelanCne]: false,
@@ -526,11 +526,11 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     country: GovCheckCountryTypes.Philippines,
     checks: [
       {
-        id: VerificationPatternTypes.PhilippinesUMIDSSS,
+        id: VerificationPatternTypes.PhilippineUMIDSSS,
         default: false,
       },
       {
-        id: VerificationPatternTypes.PhilippinianDl,
+        id: VerificationPatternTypes.PhilippineDl,
         default: false,
       },
     ],
@@ -556,7 +556,7 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
 ];
 
 export const govCheckDisplayOptions = {
-  [VerificationStepTypes.PhilippinianUMIDSSNValidation]: {
+  [VerificationStepTypes.PhilippineUMIDSSNValidation]: {
     documentNumber: {},
     valid: {
       formatter: (valid, data) => ({ ...data, valid: valid ? 'Valid' : 'Invalid' }),
@@ -1176,7 +1176,7 @@ export const govCheckDisplayOptions = {
       hiddenIfNotExists: true,
     },
   },
-  [VerificationStepTypes.PhilippinianDlValidation]: {
+  [VerificationStepTypes.PhilippineDlValidation]: {
     licenseNumber: {},
     serialNumber: {},
     expirationDate: {},
