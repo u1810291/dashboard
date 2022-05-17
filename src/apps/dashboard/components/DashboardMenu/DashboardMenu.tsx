@@ -38,7 +38,7 @@ export function DashboardMenu() {
   const isDesktop = useMediaQuery('(min-width:768px)', { noSsr: true });
   const isDesktopMenuOpen = useSelector<any, boolean>(selectIsDesktopMenuOpen);
   const [isOpen, setIsOpen] = useState<boolean>(isDesktop && isDesktopMenuOpen);
-  const name = useSelector<string>(selectMerchantBusinessName);
+  const name = useSelector<any, string>(selectMerchantBusinessName);
   const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
   const canAddTemplate = merchantTags.includes(MerchantTags.CanUseAddSolutionToCatalog);
   const logout = useLogout();

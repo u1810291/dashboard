@@ -7,11 +7,11 @@ import { createSelector } from 'reselect';
 import { IFlowStyle } from 'models/Workflow.model';
 import { FLOW_BUILDER_STORE_KEY, FlowBuilderStore } from './FlowBuilder.store';
 
-export const flowBuilderStore = (state) => state[FLOW_BUILDER_STORE_KEY];
+export const flowBuilderStore = (state: {FLOW_BUILDER_STORE_KEY: FlowBuilderStore}): FlowBuilderStore => state[FLOW_BUILDER_STORE_KEY];
 
-export const selectFlowBuilderSelectedId = createSelector(
+export const selectFlowBuilderSelectedId = createSelector<[typeof flowBuilderStore], ProductTypes>(
   flowBuilderStore,
-  (store: FlowBuilderStore): ProductTypes => store.selectedId,
+  (store: FlowBuilderStore) => store.selectedId,
 );
 
 export const selectFlowBuilderHaveUnsavedChanges = createSelector(
@@ -29,12 +29,12 @@ export const selectFlowBuilderProductsInGraph = createSelector(
   selectModelValue(),
 );
 
-export const selectFlowBuilderChangeableFlowModel = createSelector<any, any, Loadable<IFlow>>(
+export const selectFlowBuilderChangeableFlowModel = createSelector<[typeof flowBuilderStore], Loadable<IFlow>>(
   flowBuilderStore,
   (store: FlowBuilderStore): Loadable<IFlow> => store.changeableFlow,
 );
 
-export const selectFlowBuilderChangeableFlow = createSelector<any, any, IFlow>(
+export const selectFlowBuilderChangeableFlow = createSelector<[typeof selectFlowBuilderChangeableFlowModel], IFlow>(
   selectFlowBuilderChangeableFlowModel,
   selectModelValue(),
 );
