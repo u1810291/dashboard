@@ -8,7 +8,7 @@ import { VerificationResponse } from 'models/VerificationOld.model';
 import { getStepStatus, IStep, StepStatus } from 'models/Step.model';
 import { IESignatureFlow } from 'models/ESignature.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
-import { BiometricVerificationSettings, BiometricVerificationRemovingAlert, BiometricVerificationCheckTypes, BiometricVerificationSettingsTypes } from 'apps/biometricVerification';
+import { BiometricVerificationSettings, BiometricVerificationRemovingAlert, BiometricVerificationCheckTypes, BiometricVerificationSettingsTypes, hasDuplicateFaceDetectionThresholdError, DEFAULT_DUPLICATE_FACE_DETECTION_THRESHOLD } from 'apps/biometricVerification';
 import { GovCheckStepTypes } from 'apps/GovCheck';
 
 type ProductSettingsBiometric = ProductSettings<BiometricVerificationSettingsTypes>;
@@ -45,6 +45,7 @@ export class BiometricVerificationOld extends ProductBaseFlowBuilder implements 
 
   onAdd(): Partial<IFlow> {
     return {
+      [BiometricVerificationSettingsTypes.DuplicateFaceDetectionThreshold]: DEFAULT_DUPLICATE_FACE_DETECTION_THRESHOLD,
       verificationPatterns: {
         [VerificationPatternTypes.Biometrics]: BiometricTypes.liveness,
         [VerificationPatternTypes.DuplicateFaceDetection]: false,
@@ -66,6 +67,7 @@ export class BiometricVerificationOld extends ProductBaseFlowBuilder implements 
     }
     return {
       facematchThreshold: undefined,
+      [BiometricVerificationSettingsTypes.DuplicateFaceDetectionThreshold]: undefined,
       verificationPatterns: {
         [VerificationPatternTypes.Biometrics]: BiometricTypes.none,
         [VerificationPatternTypes.ProofOfOwnership]: false,
@@ -84,6 +86,9 @@ export class BiometricVerificationOld extends ProductBaseFlowBuilder implements 
 
   parser(flow: IFlow): ProductSettingsBiometric {
     return {
+      [BiometricVerificationSettingsTypes.DuplicateFaceDetectionThreshold]: {
+        value: flow?.[BiometricVerificationSettingsTypes.DuplicateFaceDetectionThreshold],
+      },
       [BiometricVerificationSettingsTypes.DuplicateFaceDetection]: {
         value: flow?.verificationPatterns?.[VerificationPatternTypes.DuplicateFaceDetection],
       },
@@ -96,6 +101,7 @@ export class BiometricVerificationOld extends ProductBaseFlowBuilder implements 
 
   serialize(settings: ProductSettingsBiometric): Partial<IFlow> {
     return {
+      [BiometricVerificationSettingsTypes.DuplicateFaceDetectionThreshold]: settings[BiometricVerificationSettingsTypes.DuplicateFaceDetectionThreshold].value,
       verificationPatterns: {
         [VerificationPatternTypes.DuplicateFaceDetection]: settings[BiometricVerificationSettingsTypes.DuplicateFaceDetection].value,
         [VerificationPatternTypes.Biometrics]: settings[BiometricVerificationSettingsTypes.Biometrics].value,
@@ -105,6 +111,10 @@ export class BiometricVerificationOld extends ProductBaseFlowBuilder implements 
 
   getVerification(verification: VerificationResponse): VerificationResponse {
     return verification;
+  }
+
+  haveIssues(flow: IFlow): boolean {
+    return hasDuplicateFaceDetectionThresholdError(flow[BiometricVerificationSettingsTypes.DuplicateFaceDetectionThreshold]);
   }
 
   hasFailedCheck(verification: VerificationResponse): boolean {
