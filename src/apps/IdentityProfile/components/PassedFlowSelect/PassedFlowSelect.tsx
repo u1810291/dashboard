@@ -1,7 +1,6 @@
 import { Box, Collapse, Grid, IconButton } from '@material-ui/core';
 import { StatusBadge, VerificationItem } from 'apps/ui';
 import classNames from 'classnames';
-import { ProductIntegrationTypes } from 'models/Product.model';
 import { Routes } from 'models/Router.model';
 import { IdentityStatuses } from 'models/Status.model';
 import { VerificationListItem } from 'models/VerificationOld.model';
@@ -14,7 +13,6 @@ import { useStyles } from './PassedFlowSelect.styles';
 
 export interface PassedFlowSelectProps {
   flowName: string;
-  platformType: ProductIntegrationTypes;
   verifications?: VerificationListItem[];
   badgeStatusId: IdentityStatuses;
   setIsSelected: () => void;

@@ -3,25 +3,32 @@ import { fromIsoPeriod } from 'lib/date';
 import { selectLoadableValue, selectModelValue } from 'lib/loadable.selectors';
 import { BiometricTypes } from 'models/Biometric.model';
 import { IFlow } from 'models/Flow.model';
+import { StepsOptions } from 'apps/Analytics';
 import { DEFAULT_LOCALE, LanguageList, SupportedLocales } from 'models/Intl.model';
 import { Loadable } from 'models/Loadable.model';
+import { PasswordExpirationPolicyDurationValue } from 'models/Settings.model';
 import { Merchant, MerchantId, MerchantTags, IMerchantSettings, IAgentNotesConfig } from 'models/Merchant.model';
 import { createSelector } from 'reselect';
 import { CollaboratorRoles } from 'models/Collaborator.model';
-import { MERCHANT_STORE_KEY, SliceNames } from './merchant.store';
+import { MERCHANT_STORE_KEY, MerchantStore, SliceNames } from './merchant.store';
 
-export const selectMerchantStore = (state) => state[MERCHANT_STORE_KEY];
+export const selectMerchantStore = (state: { MERCHANT_STORE_KEY: MerchantStore }) => state[MERCHANT_STORE_KEY];
 
 // -- merchant
 
-export const selectMerchantModel = createSelector<any, any, Loadable<Merchant>>(
+export const selectMerchantModel = createSelector<[typeof selectMerchantStore], Loadable<Merchant>>(
   selectMerchantStore,
   (store): Loadable<Merchant> => store[SliceNames.Merchant],
 );
 
-export const selectMerchantId = createSelector<any, Loadable<Merchant>, MerchantId>(
+export const selectMerchantId = createSelector<[typeof selectMerchantModel], MerchantId>(
   selectMerchantModel,
   selectModelValue((merchant: Merchant): string => merchant.id),
+);
+
+export const selectMerchantOnboarding = createSelector<[typeof selectMerchantModel], StepsOptions[]>(
+  selectMerchantModel,
+  selectModelValue((merchant: Merchant) => merchant.onboardingSteps),
 );
 
 export const selectOwnerId = createSelector(
@@ -29,7 +36,7 @@ export const selectOwnerId = createSelector(
   selectModelValue((merchant: Merchant) => merchant?.owner),
 );
 
-export const selectIsOwnerModel = createSelector(
+export const selectIsOwnerModel = createSelector<[typeof selectMerchantModel, typeof selectUserId], Loadable<boolean>>(
   selectMerchantModel,
   selectUserId,
   selectLoadableValue((merchant, userId) => {
@@ -38,7 +45,7 @@ export const selectIsOwnerModel = createSelector(
   }),
 );
 
-export const selectUserRole = createSelector<any, any, any, CollaboratorRoles | null>(
+export const selectUserRole = createSelector<[typeof selectMerchantModel, typeof selectUserId], CollaboratorRoles | null>(
   selectMerchantModel,
   selectUserId,
   selectModelValue((merchant, userId) => {
@@ -62,12 +69,12 @@ export const selectMerchantName = createSelector(
 );
 
 // TODO: @pabloscdo: Remove this forced typing when Redux gets typed
-export const selectMerchantCreatedAt = createSelector<any, any, string>(
+export const selectMerchantCreatedAt = createSelector<[typeof selectMerchantModel], string>(
   selectMerchantModel,
   selectModelValue((merchant) => merchant.createdAt),
 );
 
-export const selectMerchantBusinessName = createSelector(
+export const selectMerchantBusinessName = createSelector<[typeof selectMerchantModel], string>(
   selectMerchantModel,
   selectModelValue((merchant) => merchant.businessName),
 );
@@ -102,7 +109,7 @@ export const selectMerchantLegalAddress = createSelector(
   selectModelValue((merchant) => merchant.legalAddress),
 );
 
-export const selectMerchantTags = createSelector<any, Loadable<Merchant>, MerchantTags[]>(
+export const selectMerchantTags = createSelector<[typeof selectMerchantModel], MerchantTags[]>(
   selectMerchantModel,
   selectModelValue((merchant: Merchant): MerchantTags[] => merchant.tags || []),
 );
@@ -131,14 +138,19 @@ export const selectClientId = createSelector(
 
 // -- settings
 
-export const selectMerchantSettings = createSelector<any, Loadable<Merchant>, IMerchantSettings>(
+export const selectMerchantSettings = createSelector<[typeof selectMerchantModel], IMerchantSettings>(
   selectMerchantModel,
   selectModelValue((merchant) => merchant.settings),
 );
 
-export const selectMerchantAgentNotesConfig = createSelector<any, IMerchantSettings, IAgentNotesConfig>(
+export const selectMerchantAgentNotesConfig = createSelector<[typeof selectMerchantSettings], IAgentNotesConfig>(
   selectMerchantSettings,
   (settings) => settings?.agentNotesConfig,
+);
+
+export const selectMerchantPasswordExpirationPolicy = createSelector<[typeof selectMerchantModel], PasswordExpirationPolicyDurationValue>(
+  selectMerchantModel,
+  selectModelValue((merchant) => merchant?.passwordExpirationPolicy),
 );
 
 // -- configuration
@@ -156,7 +168,7 @@ export const selectDashboardModel = createSelector(
 );
 
 // TODO @dkchv: move to intl feature
-export const selectLanguage = createSelector<any, Loadable<any>, SupportedLocales>(
+export const selectLanguage = createSelector<[typeof selectDashboardModel], SupportedLocales>(
   selectDashboardModel,
   selectModelValue((dashboard) => {
     const locale = dashboard.language;
@@ -191,7 +203,7 @@ export const selectCurrentFlowId = createSelector(
   (store) => store.currentFlow,
 );
 
-export const selectCurrentFlow = createSelector<any, Loadable<any>, any, IFlow>(
+export const selectCurrentFlow = createSelector<[typeof selectMerchantFlowsModel, typeof selectCurrentFlowId], IFlow>(
   selectMerchantFlowsModel,
   selectCurrentFlowId,
   selectModelValue((model, id) => model.find((item) => item.id === id)),

@@ -6,7 +6,6 @@ import { get } from 'lodash';
 import { isCovidTolerance } from 'models/Covid.model';
 import { getFieldsExtra } from 'models/Field.model';
 import { AmlDocumentStepTypes, getPremiumAmlWatchlistsCheckExtraData } from 'apps/Aml/models/Aml.model';
-import { PremiumAmlWatchlistStepData } from './Document.model';
 import { VerificationPatternTypes } from './VerificationPatterns.model';
 
 export type StepStatusType = 0 | 100 | 200;
@@ -30,17 +29,24 @@ export enum VerificationStepTypes {
   Liveness = 'liveness',
   Voice = 'voice',
   Selfie = 'selfie',
-  Ip = 'ip-validation',
+  LocationIntelligence = 'geolocation',
   PhoneOwnershipValidation = 'phone-ownership-validation',
   PhoneRiskAnalysisValidation = 'phone-risk-analysis-validation',
   PhoneRiskValidation = 'phone-risk-analysis-validation',
   ReFacematch = 're-facematch',
   DuplicateUserDetection = 'duplicate-user-detection',
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
+  BackgroundBrazilianChecks = 'brazilian-background-checks',
+  BackgroundBrazilianChecksLight = 'brazilian-background-checks-light',
+  BackgroundBrazilianChecksFull = 'brazilian-background-checks-full',
   CustomWatchlistsValidation = 'custom-watchlists-validation',
   NigerianCacValidation = 'nigerian-cac-validation',
   NigerianLegalValidation = 'nigerian-legal-validation',
+  PhilippinianDlValidation = 'philippinian-dl-validation',
+  BasicWatchlistsValidation = 'basic-watchlists-validation',
   NigerianTinValidation = 'nigerian-tin-validation',
+  IndonesianKTPValidation = 'indonesian-ktp-validation',
+  PhilippinianUMIDSSNValidation = 'philippinian-umid-ssn-validation',
 }
 
 export enum StepStatus {
@@ -49,6 +55,7 @@ export enum StepStatus {
   Incomplete = 'incomplete',
   Checking = 'checking',
   Skipped = 'skipped',
+  Default = 'default',
 }
 
 export enum StepCodeStatus {
@@ -119,6 +126,7 @@ export const DocumentStepTypes = {
   ArgentinianDni: VerificationPatternTypes.ArgentinianDni,
   SalvadorianTse: VerificationPatternTypes.SalvadorianTse,
   DominicanJce: VerificationPatternTypes.DominicanJce,
+  DominicanRnc: VerificationPatternTypes.DominicanRnc,
   DuplicateUserDetectionCheck: VerificationPatternTypes.DuplicateUserDetection,
   HonduranRnp: VerificationPatternTypes.HonduranRnp,
   PremiumAmlWatchlistsCheck: VerificationPatternTypes.PremiumAmlWatchListsSearchValidation,
@@ -148,6 +156,11 @@ export interface IStep<DataType = any> {
   data?: DataType;
   inner?: DataType;
   startedManuallyAt?: string;
+}
+
+export interface IStepExtra<T = any> extends IStep<T> {
+  checkStatus?: StepStatus;
+  isTip?: boolean;
 }
 
 export enum BiometricStepTypes {
@@ -213,6 +226,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.ParaguayanRcp,
   DocumentStepTypes.PanamenianTribunalElectoral,
   DocumentStepTypes.DominicanJce,
+  DocumentStepTypes.DominicanRnc,
   DocumentStepTypes.PeruvianReniec,
   DocumentStepTypes.PeruvianSunat,
   DocumentStepTypes.CostaRicanAtv,
@@ -227,6 +241,9 @@ export const CountrySpecificChecks = [
   VerificationPatternTypes.NigerianCac,
   VerificationStepTypes.NigerianLegalValidation,
   VerificationStepTypes.NigerianTinValidation,
+  VerificationStepTypes.IndonesianKTPValidation,
+  VerificationStepTypes.PhilippinianUMIDSSNValidation,
+  VerificationStepTypes.PhilippinianDlValidation,
 ];
 
 export function hasFailureStep(steps: IStep[]): boolean {
@@ -297,6 +314,7 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.CostaRicanSocialSecurity]: ['costaRicanSocialSecurity.notEnoughParams'],
   [DocumentStepTypes.PanamenianTribunalElectoral]: ['panamenianTribunalElectoral.notEnoughParams'],
   [DocumentStepTypes.DominicanJce]: ['dominicanJce.notEnoughParams'],
+  [DocumentStepTypes.DominicanRnc]: ['dominicanRnc.notEnoughParams'],
   [DocumentStepTypes.VenezuelanCne]: ['venezuelanCne.notEnoughParams'],
   [StepTypes.PhoneOwnership]: ['phoneOwnership.notEnoughParams', 'phoneOwnership.skipped'],
   [StepTypes.PhoneRiskValidation]: ['phoneRisk.skipped'],
@@ -308,6 +326,10 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoralCommission.notEnoughParams'],
   [DocumentStepTypes.BrazilianNoCriminalRecordsValidation]: ['brazilianNoCriminalRecordsValidation.notEnoughParams'],
   [VerificationDocStepTypes.DuplicateUserValidation]: ['duplicateUserDetection.notValidParams'],
+  [VerificationStepTypes.BackgroundBrazilianChecks]: ['brazilianBackgroundChecks.documentNotFound'],
+};
+export const BackgroundChecksErrorsToHide = {
+  'brazilianBackgroundChecks.documentNotFound': true,
 };
 
 export const OptionalGovCheckErrorCodes = {
@@ -322,7 +344,10 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.ColombianRunt]: ['colombianRunt.fullNameMismatch', 'colombianRunt.hasFines'],
   [DocumentStepTypes.ArgentinianRenaper]: ['argentinianRenaper.deceasedPerson', 'argentinianRenaper.fullNameMismatch'],
   [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
+  [VerificationStepTypes.IndonesianKTPValidation]: ['indonesianKTP.faceBiometricsMismatch', 'indonesianKTP.dobMismatch', 'indonesianKTP.fullNameMismatch'],
+  [VerificationStepTypes.PhilippinianDlValidation]: ['philippinianDL.fullNameMismatch', 'philippinianDL.dateOfBirthMismatch'],
   [DocumentStepTypes.ColombianSisben]: ['colombianSisben.fullNameMismatch'],
+  [DocumentStepTypes.DominicanRnc]: ['dominicanRnc.nameMismatch'],
 };
 
 export const RootGovChecksErrorsToHide = {
@@ -350,6 +375,15 @@ function getAltered(step, verification, countries, document) {
     default:
       return step;
   }
+}
+
+export interface PremiumAmlWatchlistStepData {
+  isMonitoringAvailable: boolean;
+  nameSearched: string;
+  profileUrl?: string;
+  searchId: number;
+  searchedOn: string;
+  updatedOn?: string;
 }
 
 export function getDocumentStep(id, steps = []) {
@@ -385,7 +419,7 @@ export function getStepStatus(step): StepStatus {
     : StepStatus.Failure;
 }
 
-export function getStepExtra(step: IStep<any>, verification?: any, countries?: any, document?: any) {
+export function getStepExtra<T = any>(step: IStep<T>, verification?: any, countries?: any, document?: any) {
   if (!step) {
     return step;
   }

@@ -1,12 +1,16 @@
 import { ProductVerificationPdfProps } from 'models/PdfAdapter.model';
 import React, { FC } from 'react';
 import { IconType } from 'react-icons';
-import { IProductCard, Product, ProductCheck, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
-import { IWorkflow } from 'models/Workflow.model';
+import { IProductCard, MeritId, Product, ProductCheck, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { IVerificationWorkflow } from 'models/Verification.model';
+import { IWorkflowBlock } from 'models/Workflow.model';
 
+// WIP: All products that depend on IWorkflow will need to conform to its final IWorkflow interface.
+// "any" for now to unblock intermediary steps towards it. @pablo.saucedo
+type IWorkflow = any;
 export abstract class ProductBaseWorkflow implements Partial<Product<IWorkflow, IVerificationWorkflow>> {
   abstract id: ProductTypes;
+  abstract meritId: MeritId;
   abstract order: number;
   abstract icon: IconType | (() => React.ReactNode);
 
@@ -42,6 +46,10 @@ export abstract class ProductBaseWorkflow implements Partial<Product<IWorkflow, 
     return `${this.id}.card.title`;
   }
 
+  getDescription(): string {
+    return `${this.id}.card.description`;
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   parser(flow?: IWorkflow): ProductSettings {
     return null;
@@ -53,6 +61,7 @@ export abstract class ProductBaseWorkflow implements Partial<Product<IWorkflow, 
       icon: this.icon,
       order: this.order,
       title: this.getTitle(),
+      description: this.getDescription(),
       inputs: this.inputs,
       checks: this.checks,
       integrationTypes: this.integrationTypes,
@@ -61,7 +70,8 @@ export abstract class ProductBaseWorkflow implements Partial<Product<IWorkflow, 
     };
   }
 
-  onAdd(): Partial<IWorkflow> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onAdd(flow?: IWorkflow): Partial<IWorkflow> {
     return null;
   }
 
@@ -77,5 +87,9 @@ export abstract class ProductBaseWorkflow implements Partial<Product<IWorkflow, 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   hasFailedCheck(verification: IVerificationWorkflow): boolean {
     return false;
+  }
+
+  getProductBlock(workflow: IWorkflow): IWorkflowBlock {
+    return workflow?.block?.find((item) => item?.blockReferenceName?.includes(this.meritId));
   }
 }

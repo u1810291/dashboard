@@ -1,16 +1,17 @@
-import { Logo } from 'apps/logo/models/Logo.model';
+import { LogoUrls } from 'apps/logo';
 import { selectModelValue } from 'lib/loadable.selectors';
-import { IFlow, FlowStyle } from 'models/Flow.model';
+import { IFlow } from 'models/Flow.model';
 import { Loadable } from 'models/Loadable.model';
 import { ProductIntegrationTypes, ProductTypes } from 'models/Product.model';
 import { createSelector } from 'reselect';
+import { IFlowStyle } from 'models/Workflow.model';
 import { FLOW_BUILDER_STORE_KEY, FlowBuilderStore } from './FlowBuilder.store';
 
-export const flowBuilderStore = (state) => state[FLOW_BUILDER_STORE_KEY];
+export const flowBuilderStore = (state: {FLOW_BUILDER_STORE_KEY: FlowBuilderStore}): FlowBuilderStore => state[FLOW_BUILDER_STORE_KEY];
 
-export const selectFlowBuilderSelectedId = createSelector(
+export const selectFlowBuilderSelectedId = createSelector<[typeof flowBuilderStore], ProductTypes>(
   flowBuilderStore,
-  (store: FlowBuilderStore): ProductTypes => store.selectedId,
+  (store: FlowBuilderStore) => store.selectedId,
 );
 
 export const selectFlowBuilderHaveUnsavedChanges = createSelector(
@@ -28,12 +29,12 @@ export const selectFlowBuilderProductsInGraph = createSelector(
   selectModelValue(),
 );
 
-export const selectFlowBuilderChangeableFlowModel = createSelector<any, any, Loadable<IFlow>>(
+export const selectFlowBuilderChangeableFlowModel = createSelector<[typeof flowBuilderStore], Loadable<IFlow>>(
   flowBuilderStore,
   (store: FlowBuilderStore): Loadable<IFlow> => store.changeableFlow,
 );
 
-export const selectFlowBuilderChangeableFlow = createSelector<any, any, IFlow>(
+export const selectFlowBuilderChangeableFlow = createSelector<[typeof selectFlowBuilderChangeableFlowModel], IFlow>(
   selectFlowBuilderChangeableFlowModel,
   selectModelValue(),
 );
@@ -45,10 +46,10 @@ export const selectFlowBuilderIntegrationType = createSelector(
 
 export const selectFlowBuilderChangeableFlowStyle = createSelector(
   selectFlowBuilderChangeableFlow,
-  (flow: IFlow): FlowStyle => flow.style,
+  (flow: IFlow): IFlowStyle => flow.style,
 );
 
 export const selectFlowBuilderChangeableLogoUrl = createSelector(
   selectFlowBuilderChangeableFlow,
-  (flow: IFlow): Logo => flow.logo,
+  (flow: IFlow): LogoUrls => flow.logo,
 );

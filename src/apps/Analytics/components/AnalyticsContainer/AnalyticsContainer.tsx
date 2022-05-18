@@ -9,16 +9,22 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from 'lib/url';
+import { selectMerchantTags } from 'state/merchant/merchant.selectors';
+import { MerchantTags } from 'models/Merchant.model';
+import { selectMerchantOnboarding, merchantLoad } from 'state/merchant';
+import { OnboardingSteps } from '../OnboardingSteps/OnboardingSteps';
 import { DEFAULT_FLOW } from '../../models/MetricFilter.model';
 import { byDateStub } from '../../models/Metrics.model';
 import { countStatisticsLoad, filterUpdate, loadChartStatistics } from '../../state/Analytics.actions';
-import { selectCountStatisticsModel, selectFilter, selectStatisticsByDate } from '../../state/Analytics.selectors';
+import { selectCountStatisticsModel, selectFilter, selectMerchantCanUseSigmaWidget, selectStatisticsByDate } from '../../state/Analytics.selectors';
+import { StepsOptions } from '../OnboardingSteps/model/OnboardingSteps.model';
 import { Chart } from '../Chart/Chart';
 import { DevicesStats } from '../DevicesStats/DevicesStats';
 import { DocumentsStats } from '../DocumentsStats/DocumentsStats';
 import { DynamicHeader } from '../DynamicHeader/DynamicHeader';
 import { VerificationsTotal } from '../VerificationsTotal/VerificationsTotal';
 import { useStyles } from './AnalyticsContainer.styles';
+import { SigmaAnalyticsWidget } from '../SigmaAnalyticsWidget/SigmaAnalyticsWidget';
 
 export function AnalyticsContainer() {
   const classes = useStyles();
@@ -27,14 +33,24 @@ export function AnalyticsContainer() {
   const [, addToUrl] = useFilterParser(analyticsFilterStructure);
   const [flows, setFlows] = useState([DEFAULT_FLOW]);
   const [isFilterDatesValid, setIsFilterDatesValid] = useState(false);
-  const metricsFilter = useSelector(selectFilter);
-  const countStatisticsModel = useSelector(selectCountStatisticsModel);
+  const metricsFilter = useSelector<any, any>(selectFilter);
+  const countStatisticsModel = useSelector<any, any>(selectCountStatisticsModel);
+  const onboardingProgress = useSelector<any, StepsOptions[]>(selectMerchantOnboarding);
+  const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
+  const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
+  const shouldUseSigmaWidget = useSelector(selectMerchantCanUseSigmaWidget);
   const byDate = useSelector(selectStatisticsByDate);
   const { asMerchantId } = useQuery();
 
   useEffect(() => {
     setIsFilterDatesValid(getFilterDatesIsValid(metricsFilter));
   }, [metricsFilter]);
+
+  useEffect(() => {
+    if (!onboardingProgress) {
+      dispatch(merchantLoad());
+    }
+  }, [onboardingProgress, dispatch]);
 
   useEffect(() => {
     const parsedFilter = parseFromURL(location.search, analyticsFilterStructure);
@@ -50,10 +66,15 @@ export function AnalyticsContainer() {
     setFlows(metricsFilter?.flowIds?.length > 0 ? metricsFilter.flowIds : [DEFAULT_FLOW]);
   }, [dispatch, metricsFilter]);
 
+  if (shouldUseSigmaWidget) {
+    return <SigmaAnalyticsWidget asMerchantId={asMerchantId} />;
+  }
+
   return (
     <Container maxWidth={false}>
       {isFilterDatesValid && !countStatisticsModel.isLoading && countStatisticsModel.isLoaded ? (
         <Box pb={2} className={classes.wrapper}>
+          {!!onboardingProgress?.length && canUseTemplates && <OnboardingSteps />}
           <Box mb={2}>
             <Grid container alignItems="center">
               <Grid item xs={9}>

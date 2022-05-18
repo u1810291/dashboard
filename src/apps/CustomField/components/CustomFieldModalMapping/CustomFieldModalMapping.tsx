@@ -13,7 +13,7 @@ import { Country } from 'models/Country.model';
 import { ICustomField, IMapping } from 'models/CustomField.model';
 import { CustomFieldModalFooter } from '../CustomFieldModalFooter/CustomFieldModalFooter';
 import { updateCustomFieldEditedField, updateCustomFieldEditedFieldMapping, updateCustomFieldModalStep } from '../../state/CustomField.actions';
-import { CONFIG_BY_KEY, CustomFieldModalTypes, EMPTY_MAPPING, getNotSelectedMapping, MappingValueKey } from '../../models/CustomField.model';
+import { CONFIG_BY_KEY, CustomFieldModalTypes, EMPTY_MAPPING, getNotSelectedMapping, MappingCountryTypes, MappingValueKey } from '../../models/CustomField.model';
 import { SelectUI } from './CustomFieldModalMapping.styles';
 import { selectCustomFieldCountriesForMapping, selectCustomFieldEditedCustomField, selectCustomFieldFlattenListFields, selectCustomFieldSelectedCustomFieldMapping } from '../../state/CustomField.selectors';
 
@@ -27,46 +27,46 @@ export function CustomFieldModalMapping() {
   const countriesList = useSelector<any, Country[]>(selectCustomFieldCountriesForMapping);
   const listFlattenFields = useSelector<any, ICustomField[]>(selectCustomFieldFlattenListFields);
 
-  const [mapping, setMapping] = useState<IMapping>(selectedFieldMapping || EMPTY_MAPPING);
-  const [oldMapping] = useState<IMapping>(selectedFieldMapping || EMPTY_MAPPING);
+  const [newMapping, setNewMapping] = useState<IMapping>(selectedFieldMapping || EMPTY_MAPPING);
+  const [mapping] = useState<IMapping>(selectedFieldMapping || EMPTY_MAPPING);
 
-  const isValid: boolean = Boolean(!mapping?.country && !mapping?.key) || Boolean(mapping?.country && mapping?.key);
-  const documentOptionsList = useMemo<MappingValueKey[]>(() => getNotSelectedMapping(listFlattenFields, mapping, oldMapping), [oldMapping, listFlattenFields, mapping]);
+  const isValid: boolean = Boolean(!newMapping?.country && !newMapping?.key) || Boolean(newMapping?.country && newMapping?.key);
+  const documentOptionsList = useMemo<MappingValueKey[]>(() => getNotSelectedMapping(listFlattenFields, newMapping, mapping), [mapping, listFlattenFields, newMapping]);
 
   const handleAtomicFieldMappingParamsChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
     const { name, value } = event.target;
-    setMapping({
-      ...mapping,
+    setNewMapping({
+      ...newMapping,
       [name]: value,
     });
   };
 
   const handleAtomicFieldMappingCountryChange = ({ target: { value } }) => {
-    const clone = cloneDeep(mapping);
+    const clone = cloneDeep(newMapping);
     clone.country = value;
-    setMapping(clone);
+    setNewMapping(clone);
   };
 
   const handleAtomicFieldMappingParamsClear = useCallback(() => {
-    setMapping(cloneDeep(EMPTY_MAPPING));
+    setNewMapping(cloneDeep(EMPTY_MAPPING));
   }, []);
 
   const handleShouldFilterChange = () => {
-    setMapping({
-      ...mapping,
-      shouldFilter: !mapping.shouldFilter,
+    setNewMapping({
+      ...newMapping,
+      shouldFilter: !newMapping.shouldFilter,
     });
   };
 
   const handleDone = useCallback(() => {
-    if (CONFIG_BY_KEY[mapping?.key]?.type || CONFIG_BY_KEY[mapping?.key]?.regex) {
+    if (CONFIG_BY_KEY[newMapping?.key]?.type || CONFIG_BY_KEY[newMapping?.key]?.regex) {
       const clone = cloneDeep(selectedCustomField);
-      clone.atomicFieldParams = { ...clone.atomicFieldParams, ...CONFIG_BY_KEY[mapping.key] };
+      clone.atomicFieldParams = { ...clone.atomicFieldParams, ...CONFIG_BY_KEY[newMapping.key] };
       dispatch(updateCustomFieldEditedField(clone));
     }
-    dispatch(updateCustomFieldEditedFieldMapping(mapping));
+    dispatch(updateCustomFieldEditedFieldMapping(newMapping));
     dispatch(updateCustomFieldModalStep(CustomFieldModalTypes.ConfigureField));
-  }, [dispatch, mapping, selectedCustomField]);
+  }, [dispatch, newMapping, selectedCustomField]);
 
   const backToConfigureField = useCallback(() => dispatch(updateCustomFieldModalStep(CustomFieldModalTypes.ConfigureField)),
     [dispatch]);
@@ -96,8 +96,11 @@ export function CustomFieldModalMapping() {
           <SelectUI
             name="country"
             onChange={handleAtomicFieldMappingCountryChange}
-            value={mapping?.country}
+            value={newMapping?.country}
           >
+            <MenuItem value={MappingCountryTypes.Global}>
+              {formatMessage('Global')}
+            </MenuItem>
             {countriesList.map((country) => (
               <MenuItem key={country.code} value={country.code}>
                 {formatMessage(`Countries.${country.code}`)}
@@ -105,23 +108,25 @@ export function CustomFieldModalMapping() {
             ))}
           </SelectUI>
         </Grid>
-        <Grid item container spacing={1} alignItems="center">
-          <Grid item>
-            <Typography variant="body1">
-              {formatMessage('CustomField.settings.fieldDisplayIfSelectingCountry')}
-            </Typography>
+        {newMapping.country !== MappingCountryTypes.Global && (
+          <Grid item container spacing={1} alignItems="center">
+            <Grid item>
+              <Typography variant="body1">
+                {formatMessage('CustomField.settings.fieldDisplayIfSelectingCountry')}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Switch
+                disabled={!newMapping?.country}
+                color="primary"
+                size="small"
+                name="shouldFilter"
+                checked={newMapping.shouldFilter}
+                onChange={handleShouldFilterChange}
+              />
+            </Grid>
           </Grid>
-          <Grid item>
-            <Switch
-              disabled={!mapping?.country}
-              color="primary"
-              size="small"
-              name="shouldFilter"
-              checked={mapping.shouldFilter}
-              onChange={handleShouldFilterChange}
-            />
-          </Grid>
-        </Grid>
+        )}
         <Grid item>
           <Typography variant="subtitle2">
             {formatMessage('CustomField.settings.fieldSpecificDocument')}
@@ -129,7 +134,7 @@ export function CustomFieldModalMapping() {
           <SelectUI
             name="key"
             onChange={handleAtomicFieldMappingParamsChange}
-            value={mapping.key}
+            value={newMapping.key}
           >
             {documentOptionsList.map((option) => (
               <MenuItem key={option} value={option}>
@@ -145,7 +150,7 @@ export function CustomFieldModalMapping() {
             size="large"
             onClick={handleAtomicFieldMappingParamsClear}
           >
-            Clear mapping
+            {formatMessage('CustomField.settings.clearMapping')}
           </Button>
         </Grid>
 

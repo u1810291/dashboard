@@ -49,7 +49,6 @@ export const useStyles = makeStyles((theme) => ({
   button: {
     position: 'absolute',
     top: 0,
-    padding: '12px 20px',
     fontSize: '14px',
     width: '100%',
     borderColor: theme.palette.common.white,

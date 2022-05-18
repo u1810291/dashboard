@@ -1,5 +1,7 @@
 import { Loadable } from 'models/Loadable.model';
 import { ProductTypes } from 'models/Product.model';
+import { IVerificationWorkflow } from 'models/Verification.model';
+import { VerificationListItem } from 'models/VerificationOld.model';
 import { createTypesSequence, TypesSequence } from 'state/store.utils';
 
 export const VERIFICATION_STORE_KEY = 'verification';
@@ -23,6 +25,6 @@ export const VerificationActionTypes: TypesSequence = {
 
 export interface VerificationStore {
   productList: ProductTypes[];
-  [VerificationSliceTypes.Verification]: Loadable<any>;
-  [VerificationSliceTypes.PassedVerifications]: Loadable<any[]>;
+  [VerificationSliceTypes.Verification]: Loadable<IVerificationWorkflow>;
+  [VerificationSliceTypes.PassedVerifications]: Loadable<VerificationListItem[]>;
 }

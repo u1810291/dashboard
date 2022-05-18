@@ -23,6 +23,7 @@ import { ReactComponent as KenyaIcon } from './kenya-flag.svg';
 import { ReactComponent as UgandaIcon } from './uganda-flag.svg';
 import { ReactComponent as NigeriaIcon } from './nigeria-flag.svg';
 import { ReactComponent as PhilippinesIcon } from './philippines-flag.svg';
+import { ReactComponent as IndonesiaIcon } from './indonesia-flag.svg';
 
 const iconProps = {
   width: '25',
@@ -56,7 +57,8 @@ export const flagMap = {
   panama: <PanamaIcon {...iconProps} />,
   venezuela: <VenezuelaIcon {...iconProps} />,
   uganda: <UgandaIcon {...iconProps} />,
-  phillipines: <PhilippinesIcon {...iconProps} />,
+  philippines: <PhilippinesIcon {...iconProps} />,
+  indonesia: <IndonesiaIcon {...iconProps} />,
 };
 
 export const codedFlagMap = {

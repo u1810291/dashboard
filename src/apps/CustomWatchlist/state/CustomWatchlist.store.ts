@@ -1,6 +1,6 @@
 import { Loadable } from 'models/Loadable.model';
 import { createTypesSequence, TypesSequence } from 'state/store.utils';
-import { IWatchlist, WatchlistContentTypes } from '../models/CustomWatchlist.models';
+import { IWatchlist, IWatchlistContent } from 'models/Watchlist.model';
 
 export const CUSTOM_WATCHLISTS_STORE_KEY = 'customWatchlists';
 
@@ -30,8 +30,8 @@ export const types: TypesSequence = {
 
 export interface CustomWatchlistsStore {
   [SliceNames.Watchlists]: Loadable<IWatchlist[]>;
-  [SliceNames.CurrentWatchlist]: Loadable<IWatchlist | null>;
-  [SliceNames.WatchlistContent]: Loadable<WatchlistContentTypes>;
+  [SliceNames.CurrentWatchlist]: Loadable<Nullable<IWatchlist>>;
+  [SliceNames.WatchlistContent]: Loadable<IWatchlistContent>;
   [SliceNames.CurrentWatchlistHeaders]: Loadable<string[]>;
-  fileErrorType: string | null;
+  fileErrorType: Nullable<string>;
 }

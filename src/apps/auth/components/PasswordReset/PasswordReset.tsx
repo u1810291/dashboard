@@ -68,7 +68,7 @@ export function PasswordReset() {
       setIsSubmitting(false);
       notification.success(intl.formatMessage({ id: 'PasswordReset.notification.passwordChanged' }));
       history.push(Routes.root);
-    } catch (error) {
+    } catch (error: any) {
       setIsSubmitting(false);
       switch (error?.response?.status) {
         case ErrorStatuses.WrongCredentials:

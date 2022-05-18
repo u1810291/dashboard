@@ -1,5 +1,4 @@
 import { Box } from '@material-ui/core';
-import { ProductIntegrationTypes } from 'models/Product.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -44,7 +43,6 @@ export function PassedFlows() {
           setIsSelected={handleSetOpened(flowId)}
           verifications={verifications}
           flowName={flowName}
-          platformType={ProductIntegrationTypes.Sdk}
           badgeStatusId={verifications[0]?.verificationStatus}
           onSetActive={handleSetActive(flowId)}
         />

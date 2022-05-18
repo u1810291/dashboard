@@ -5,14 +5,13 @@ import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
-import IconButton from '@material-ui/core/IconButton';
 import { FiDownload } from 'react-icons/fi';
 import React, { useMemo, useCallback, useEffect, useState } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useFormatMessage } from 'apps/intl';
 import { downloadESignaturePDFDocument, ESignatureDocumentId, ESignatureFields, ESignatureStep } from 'models/ESignature.model';
 import { CheckStepDetailsEntry } from 'apps/checks/components/CheckStepDetails/CheckStepDetailsEntry';
-import { BoxBordered, CheckBarExpandable, ZoomableImage, NoData, Select } from 'apps/ui';
+import { BoxBordered, CheckBarExpandable, ZoomableImage, DataGenerating, NoData, Select, ButtonStyled } from 'apps/ui';
 import { useStyles } from './ESignature.styles';
 
 export function ESignature({ step }: {
@@ -118,18 +117,28 @@ export function ESignature({ step }: {
                       <CircularProgress color="inherit" size={28} />
                     </Grid>
                   )}
-                  {(!selectedDocument || selectedDocumentImages.length === 0) && <NoData />}
-                  {selectedDocument && (
+                  {(!selectedDocument && selectedDocumentImages.length === 0) && (
+                    <Box mt={2}>
+                      <NoData />
+                    </Box>
+                  )}
+                  {(selectedDocument && selectedDocumentImages.length === 0) && (
+                    <Box mt={2}>
+                      <DataGenerating text={formatMessage('ESignature.verification.documentIsGenerating')} />
+                    </Box>
+                  )}
+                  {(selectedDocument && selectedDocumentImages.length !== 0) && (
                     <Grid container justify="center" className={classes.wrapper}>
-                      <IconButton
-                        onClick={handleDownload}
-                        tabIndex={0}
-                        className={classes.button}
-                        disabled={isESignaturePdfDownloadButtonDisabled}
-                      >
-                        <FiDownload size={17} />
-                        <Box display="inline-block" ml={1}>{formatMessage('ESignature.step.button')}</Box>
-                      </IconButton>
+                      {!isESignaturePdfDownloadButtonDisabled && (
+                        <ButtonStyled
+                          onClick={handleDownload}
+                          tabIndex={0}
+                          className={classes.button}
+                        >
+                          <FiDownload size={17} />
+                          <Box display="inline-block" ml={1}>{formatMessage('ESignature.step.button')}</Box>
+                        </ButtonStyled>
+                      )}
                       <Box mt={5}>
                         {selectedDocumentImages.map((url, index) => (
                           <Grid item key={`${url}-${index}`} className={classes.image}>

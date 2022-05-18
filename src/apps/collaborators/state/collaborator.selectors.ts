@@ -4,14 +4,21 @@ import { Collaborator, CollaboratorRoles, WithAuditor } from 'models/Collaborato
 import { selectUserRole, selectMerchantName, selectOwnerId, selectMerchantEmail } from 'state/merchant/merchant.selectors';
 import { COLLABORATOR_STORE_KEY, CollaboratorSliceName } from './collaborator.store';
 
-export const selectCollaboratorState = (state) => state[COLLABORATOR_STORE_KEY];
+type ICollaboratorStore = any;
+
+export const selectCollaboratorState = (state: {COLLABORATOR_STORE_KEY: ICollaboratorStore}) => state[COLLABORATOR_STORE_KEY];
+
+export const selectCollaboratorStateIsPosting = createSelector<[typeof selectCollaboratorState], boolean>(
+  selectCollaboratorState,
+  (store) => store.isPosting,
+);
 
 export const selectCollaboratorCollectionModel = createSelector(
   selectCollaboratorState,
   (store) => store[CollaboratorSliceName.CollaboratorList],
 );
 
-export const selectCollaboratorCollection = createSelector<any, any, Collaborator[]>(
+export const selectCollaboratorCollection = createSelector<[typeof selectCollaboratorCollectionModel], Collaborator[]>(
   selectCollaboratorCollectionModel,
   selectModelValue(),
 );

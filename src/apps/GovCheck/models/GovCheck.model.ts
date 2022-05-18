@@ -1,12 +1,12 @@
-import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, VerificationStepTypes, RootGovChecksErrorsToHide } from 'models/Step.model';
-import { VerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
+import { CountrySpecificChecks, DocumentStepTypes, getStepExtra, IStep, RootGovChecksErrorsToHide, VerificationStepTypes } from 'models/Step.model';
+import { IVerificationPatterns, VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { BiometricTypes } from 'models/Biometric.model';
 import { MerchantTags } from 'models/Merchant.model';
 import { NationalIdTypes, VerificationDocument } from 'models/Document.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { dateSortCompare } from 'lib/date';
 import cloneDeep from 'lodash/cloneDeep';
-import { ProductTypes } from 'models/Product.model';
+import { MeritId, ProductTypes } from 'models/Product.model';
 import { IFlow } from 'models/Flow.model';
 
 export enum GovernmentCheckSettingTypes {
@@ -18,12 +18,16 @@ export enum GovernmentChecksTypes {
   GovernmentDatabaseCheck = 'governmentDatabaseCheck'
 }
 
+export const GovCheckMeritId: MeritId = 'gov-check';
+
 export enum GovCheckStepTypes {
   None = 'none',
   Cpf = 'cpf',
   CpfFacematch = 'cpf+facematch',
   Renaper = 'renaper',
   RenaperAfip = 'renaper+afip',
+  Ktp = 'ktp',
+  KtpFacematch = 'ktp+facematch',
 }
 
 export const verificationPatternsGovchecksDefault = {
@@ -51,11 +55,13 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.CostaRicanTse]: false,
   [VerificationPatternTypes.CostaRicanSocialSecurity]: false,
   [VerificationPatternTypes.DominicanJce]: false,
+  [VerificationPatternTypes.DominicanRnc]: false,
   [VerificationPatternTypes.EcuadorianRegistroCivil]: false,
   [VerificationPatternTypes.EcuadorianSri]: false,
   [VerificationPatternTypes.GhanaianGra]: false,
   [VerificationPatternTypes.GuatemalanTse]: false,
   [VerificationPatternTypes.HonduranRnp]: false,
+  [VerificationPatternTypes.IndonesianKPTValidation]: GovCheckStepTypes.None,
   [VerificationPatternTypes.KenyanEcitizen]: false,
   [VerificationPatternTypes.MexicanCurp]: false,
   [VerificationPatternTypes.MexicanIne]: false,
@@ -70,6 +76,8 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.ParaguayanRcp]: false,
   [VerificationPatternTypes.PeruvianReniec]: false,
   [VerificationPatternTypes.PeruvianSunat]: false,
+  [VerificationPatternTypes.PhilippinesUMIDSSS]: false,
+  [VerificationPatternTypes.PhilippinianDl]: false,
   [VerificationPatternTypes.SalvadorianTse]: false,
   [VerificationPatternTypes.PanamenianTribunalElectoral]: false,
   [VerificationPatternTypes.VenezuelanCne]: false,
@@ -89,6 +97,11 @@ export const GovCheckTypesForPattern = {
     renaper: GovCheckStepTypes.Renaper,
     renaperAfip: GovCheckStepTypes.RenaperAfip,
   },
+  [VerificationPatternTypes.IndonesianKPTValidation]: {
+    none: GovCheckStepTypes.None,
+    ktp: GovCheckStepTypes.Ktp,
+    ktpFacematch: GovCheckStepTypes.KtpFacematch,
+  },
 };
 
 export enum GovCheckCountryTypes {
@@ -102,16 +115,18 @@ export enum GovCheckCountryTypes {
   Ghana = 'ghana',
   Guatemala = 'guatemala',
   Honduras = 'honduras',
+  Indonesia = 'indonesia',
   Dominican = 'dominican',
   Kenya = 'kenya',
   Mexico = 'mexico',
   Nigeria = 'nigeria',
   Paraguay = 'paraguay',
   Peru = 'peru',
+  Philippines = 'philippines',
   Salvador = 'salvador',
   Panama = 'panama',
   Venezuela = 'venezuela',
-  Uganda = 'uganda'
+  Uganda = 'uganda',
 }
 
 export const govCheckCountriesOrder = [
@@ -126,11 +141,13 @@ export const govCheckCountriesOrder = [
   GovCheckCountryTypes.Ghana,
   GovCheckCountryTypes.Guatemala,
   GovCheckCountryTypes.Honduras,
+  GovCheckCountryTypes.Indonesia,
   GovCheckCountryTypes.Mexico,
   GovCheckCountryTypes.Kenya,
   GovCheckCountryTypes.Nigeria,
   GovCheckCountryTypes.Paraguay,
   GovCheckCountryTypes.Peru,
+  GovCheckCountryTypes.Philippines,
   GovCheckCountryTypes.Salvador,
   GovCheckCountryTypes.Panama,
   GovCheckCountryTypes.Venezuela,
@@ -366,6 +383,28 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
         id: VerificationPatternTypes.DominicanJce,
         default: false,
       },
+      {
+        id: DocumentStepTypes.DominicanRnc,
+        default: false,
+      },
+    ],
+  },
+  {
+    country: GovCheckCountryTypes.Indonesia,
+    checks: [
+      {
+        id: VerificationPatternTypes.IndonesianKPTValidation,
+        default: false,
+        stepTypeAlias: GovCheckTypesForPattern[VerificationPatternTypes.IndonesianKPTValidation].ktp,
+        merchantTags: [MerchantTags.CanUseIndonesianKTP],
+        option: {
+          id: GovCheckTypesForPattern[VerificationPatternTypes.IndonesianKPTValidation].ktpFacematch,
+          stepTypeAlias: GovCheckTypesForPattern[VerificationPatternTypes.IndonesianKPTValidation].ktpFacematch,
+          description: true,
+          isSupportFacematch: true,
+          merchantTags: [MerchantTags.CanUseIndonesianKTP],
+        },
+      },
     ],
   },
   {
@@ -484,6 +523,19 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
     ],
   },
   {
+    country: GovCheckCountryTypes.Philippines,
+    checks: [
+      {
+        id: VerificationPatternTypes.PhilippinesUMIDSSS,
+        default: false,
+      },
+      {
+        id: VerificationPatternTypes.PhilippinianDl,
+        default: false,
+      },
+    ],
+  },
+  {
     country: GovCheckCountryTypes.Salvador,
     checks: [
       {
@@ -504,6 +556,12 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
 ];
 
 export const govCheckDisplayOptions = {
+  [VerificationStepTypes.PhilippinianUMIDSSNValidation]: {
+    documentNumber: {},
+    valid: {
+      formatter: (valid, data) => ({ ...data, valid: valid ? 'Valid' : 'Invalid' }),
+    },
+  },
   [DocumentStepTypes.ArgentinianDni]: {
     documentNumber: {
       hidden: true,
@@ -563,6 +621,21 @@ export const govCheckDisplayOptions = {
   },
   [DocumentStepTypes.DominicanJce]: {
     valid: {},
+  },
+  [DocumentStepTypes.DominicanRnc]: {
+    valid: {
+      hidden: true,
+    },
+    fullName: {},
+    rnc: {},
+    commercialName: {},
+    category: {
+      inline: true,
+    },
+    paymentScheme: {
+      inline: true,
+    },
+    status: {},
   },
   [DocumentStepTypes.CostaRicanAtv]: {
     fullName: {},
@@ -1019,7 +1092,6 @@ export const govCheckDisplayOptions = {
     },
     version: {
       inline: true,
-
     },
     taxIdType: {
       inline: true,
@@ -1067,11 +1139,57 @@ export const govCheckDisplayOptions = {
     companyPhone: {},
     companyEmail: {},
   },
+  [VerificationStepTypes.IndonesianKTPValidation]: {
+    name: {
+      inline: true,
+    },
+    nameMatch: {
+      inline: true,
+    },
+    nik: {},
+    nikStatus: {
+    },
+    dateOfBirth: {
+      inline: true,
+    },
+    dateOfBirthMatch: {
+      inline: true,
+    },
+    similarity: {
+      formatter: (similarity, data) => {
+        if (similarity === undefined) {
+          return { ...data };
+        }
+        return { ...data, similarity: `${similarity} %` };
+      },
+      inline: true,
+      hiddenIfNotExists: true,
+    },
+    faceMatch: {
+      formatter: (faceMatch, data) => {
+        if (faceMatch === undefined) {
+          return { ...data };
+        }
+        return { ...data, faceMatch: faceMatch.toString() };
+      },
+      inline: true,
+      hiddenIfNotExists: true,
+    },
+  },
+  [VerificationStepTypes.PhilippinianDlValidation]: {
+    licenseNumber: {},
+    serialNumber: {},
+    expirationDate: {},
+    fullName: {},
+    dateOfBirth: {},
+    gender: {},
+    valid: {},
+  },
 };
 
 export const GovCheckRequiredProductType = {
   [VerificationPatternTypes.CustomFieldsValidation]: [VerificationPatternTypes.NigerianTin, VerificationPatternTypes.NigerianCac],
-  [VerificationPatternTypes.Biometrics]: [VerificationPatternTypes.ArgentinianRenaperFacematch, GovCheckTypesForPattern[VerificationPatternTypes.BrazilianCpf].cpfFacematch],
+  [VerificationPatternTypes.Biometrics]: [VerificationPatternTypes.ArgentinianRenaperFacematch, GovCheckTypesForPattern[VerificationPatternTypes.BrazilianCpf].cpfFacematch, GovCheckTypesForPattern[VerificationPatternTypes.IndonesianKPTValidation].ktpFacematch],
 };
 
 export function isCanUseGovCheck(govCheck: GovCheck | GovCheckOptions, merchantTags: MerchantTags[]): boolean {
@@ -1082,7 +1200,7 @@ export function isCanUseGovCheck(govCheck: GovCheck | GovCheckOptions, merchantT
   return govCheck.merchantTags?.every((tag) => merchantTags.includes(tag));
 }
 
-export function isGovCheckOptionDisabled(govCheck: GovCheck, verificationPattern: VerificationPatterns, merchantTags: MerchantTags[]): boolean {
+export function isGovCheckOptionDisabled(govCheck: GovCheck, verificationPattern: IVerificationPatterns, merchantTags: MerchantTags[]): boolean {
   if (!isCanUseGovCheck(govCheck.option, merchantTags)) {
     return true;
   }
@@ -1099,7 +1217,7 @@ export function isGovCheckOptionDisabled(govCheck: GovCheck, verificationPattern
   return false;
 }
 
-export function isGovCheckDisabled(govCheck: GovCheck, verificationPattern: VerificationPatterns, merchantTags: MerchantTags[]): boolean {
+export function isGovCheckDisabled(govCheck: GovCheck, verificationPattern: IVerificationPatterns, merchantTags: MerchantTags[]): boolean {
   if (!isCanUseGovCheck(govCheck, merchantTags)) {
     return true;
   }
@@ -1116,7 +1234,7 @@ export function isGovCheckDisabled(govCheck: GovCheck, verificationPattern: Veri
   return false;
 }
 
-export function govCheckParse(list: GovCheck[], patterns: VerificationPatterns, merchantTags: MerchantTags[]): GovCheckParsed[] {
+export function govCheckParse(list: GovCheck[], patterns: IVerificationPatterns, merchantTags: MerchantTags[]): GovCheckParsed[] {
   return list.map((govCheck) => {
     if (!isCanUseGovCheck(govCheck, merchantTags) && govCheck.hideIsCantUse) {
       return null;
