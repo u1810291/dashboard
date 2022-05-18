@@ -79,7 +79,6 @@ export const createTemplate = (title, name, description, metadata) => async (dis
     const { value } = selectTemplatesListModel(state);
     const { data } = await createTemplateRequest(title, description, metadata, { ...flow, name });
     dispatch({ type: types.CREATE_TEMPLATE_SUCCESS, payload: data });
-    // @ts-ignore
     dispatch({ type: types.GET_TEMPLATES_LIST_SUCCESS, payload: { ...value, rows: [data, ...value.rows] } });
   } catch (error) {
     dispatch({ type: types.CREATE_TEMPLATE_FAILURE, error });
@@ -147,8 +146,7 @@ export const blockTemplate = (id: string) => async (dispatch, getState) => {
   }
 };
 
-// @ts-ignore
-export const toggleTemplate = (id: string, blocked?: boolean, formatMessage: FormatMessage) => async (dispatch, getState) => {
+export const toggleTemplate = (id: string, blocked: boolean, formatMessage: FormatMessage) => async (dispatch, getState) => {
   dispatch({ type: types.TOGGLE_TEMPLATE_UPDATING });
   const toggle = blocked ? 'unblock' : 'block';
 
@@ -159,7 +157,7 @@ export const toggleTemplate = (id: string, blocked?: boolean, formatMessage: For
     if (toggleTemplateIndex >= 0) templatesList.rows[toggleTemplateIndex] = data;
     dispatch({ type: types.GET_TEMPLATES_LIST_SUCCESS, payload: templatesList });
     notification.info(formatMessage('Template.templateList.changeStatus'));
-  } catch (error) {
+  } catch (error: any) {
     dispatch({ type: types.TOGGLE_TEMPLATE_FAILURE, payload: error });
     notification.error(formatMessage(`Settings.teamSettings.submit.${error.response?.data?.name}`, { defaultMessage: formatMessage('Error.common') }));
   }

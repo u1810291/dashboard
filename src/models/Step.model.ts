@@ -36,6 +36,9 @@ export enum VerificationStepTypes {
   ReFacematch = 're-facematch',
   DuplicateUserDetection = 'duplicate-user-detection',
   BackgroundMexicanBuholegal = 'background-mexican-buholegal-validation',
+  BackgroundBrazilianChecks = 'brazilian-background-checks',
+  BackgroundBrazilianChecksLight = 'brazilian-background-checks-light',
+  BackgroundBrazilianChecksFull = 'brazilian-background-checks-full',
   CustomWatchlistsValidation = 'custom-watchlists-validation',
   NigerianCacValidation = 'nigerian-cac-validation',
   NigerianLegalValidation = 'nigerian-legal-validation',
@@ -323,6 +326,10 @@ const StepIncompletionErrors = {
   [DocumentStepTypes.UgandanElectoralCommission]: ['ugandanElectoralCommission.notEnoughParams'],
   [DocumentStepTypes.BrazilianNoCriminalRecordsValidation]: ['brazilianNoCriminalRecordsValidation.notEnoughParams'],
   [VerificationDocStepTypes.DuplicateUserValidation]: ['duplicateUserDetection.notValidParams'],
+  [VerificationStepTypes.BackgroundBrazilianChecks]: ['brazilianBackgroundChecks.documentNotFound'],
+};
+export const BackgroundChecksErrorsToHide = {
+  'brazilianBackgroundChecks.documentNotFound': true,
 };
 
 export const OptionalGovCheckErrorCodes = {
@@ -337,8 +344,8 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.ColombianRunt]: ['colombianRunt.fullNameMismatch', 'colombianRunt.hasFines'],
   [DocumentStepTypes.ArgentinianRenaper]: ['argentinianRenaper.deceasedPerson', 'argentinianRenaper.fullNameMismatch'],
   [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
+  [VerificationStepTypes.IndonesianKTPValidation]: ['indonesianKTP.faceBiometricsMismatch', 'indonesianKTP.dobMismatch', 'indonesianKTP.fullNameMismatch'],
   [VerificationStepTypes.PhilippinianDlValidation]: ['philippinianDL.fullNameMismatch', 'philippinianDL.dateOfBirthMismatch'],
-  [VerificationStepTypes.IndonesianKTPValidation]: ['indonesianKTP.faceBiometricsMismatch', 'indonesianKTP.dobMismatch', 'indonesianKTP.nameMismatch'],
   [DocumentStepTypes.ColombianSisben]: ['colombianSisben.fullNameMismatch'],
   [DocumentStepTypes.DominicanRnc]: ['dominicanRnc.nameMismatch'],
 };

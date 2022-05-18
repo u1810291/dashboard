@@ -1,7 +1,6 @@
-import { createStyles } from '@material-ui/styles';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles((theme) => createStyles({
+export const useStyles = makeStyles((theme: Theme) => ({
   colorGrey: {
     color: theme.palette.text.main,
   },
@@ -17,9 +16,6 @@ export const useStyles = makeStyles((theme) => createStyles({
   },
   marginBottom20: {
     marginBottom: 20,
-  },
-  marginRight20: {
-    marginRight: 20,
   },
   shieldIconWrap: {
     flexBasis: 281,

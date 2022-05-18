@@ -99,15 +99,17 @@ export function TemplatesTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
                   <Typography variant="h4" className={classes.description}>{item.description}</Typography>
                 </Box>
               </TableCell>
-              <CustomSwitcher
-                className={classes.switcher}
-                color="primary"
-                checked={!item.blocked}
-                onMouseUp={(ev) => {
-                  ev.stopPropagation();
-                }}
-                onClick={() => dispatch(toggleTemplate(item._id, !!item.blocked, formatMessage))}
-              />
+              <TableCell>
+                <CustomSwitcher
+                  className={classes.switcher}
+                  color="primary"
+                  checked={!item.blocked}
+                  onMouseUp={(ev) => {
+                    ev.stopPropagation();
+                  }}
+                  onClick={() => dispatch(toggleTemplate(item._id, !!item.blocked, formatMessage))}
+                />
+              </TableCell>
               <TableCell className={classes.typeCell}>
                 <Box mb={{ xs: 2, lg: 0 }}>
                   <Box className={classes.label}>{formatMessage('flow.table.field.type')}</Box>
