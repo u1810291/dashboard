@@ -28,7 +28,7 @@ export function CustomFieldModalConfigure({ handleUpdateFields }: {
   const listFlattenFields = useSelector<any, ICustomField[]>(selectCustomFieldFlattenListFields);
   const editedParent = useSelector<any, string>(selectCustomFieldEditedParent);
   const editedIndex = useSelector<any, number>(selectCustomFieldEditedIndex);
-  const type = useSelector<any, CustomFieldModalTypes>(selectCustomFieldModalType);
+  const customFieldModalType = useSelector<any, CustomFieldModalTypes>(selectCustomFieldModalType);
   const oldName = useSelector<any, string>(selectCustomFieldEditedSystemName);
 
   const isValid: boolean = fieldIsValid(isUploadingThumbnail, selectedCustomField, listFlattenFields, oldName);
@@ -89,13 +89,13 @@ export function CustomFieldModalConfigure({ handleUpdateFields }: {
       <Grid container spacing={1} direction="column">
         <Grid item>
           <Typography variant="h3">
-            {formatMessage(`CustomField.settings.modal.configure${type}.title`)}
+            {formatMessage(`CustomField.settings.modal.configure${customFieldModalType}.title`)}
           </Typography>
         </Grid>
         <Grid item container direction="column">
           <Grid item>
             <Typography variant="subtitle2">
-              {formatMessage(`CustomField.settings.${type.toLowerCase()}DisplayName`)}
+              {formatMessage(`CustomField.settings.${customFieldModalType.toLowerCase()}DisplayName`)}
               <InfoTooltip
                 placement="right"
                 title={formatMessage('CustomField.settings.displayName.tooltip')}
@@ -111,14 +111,14 @@ export function CustomFieldModalConfigure({ handleUpdateFields }: {
               value={selectedCustomField.label}
               name="label"
               onChange={handleUpdateField}
-              placeholder={formatMessage(`CustomField.settings.${type.toLowerCase()}DisplayName.placeholder`)}
+              placeholder={formatMessage(`CustomField.settings.${customFieldModalType.toLowerCase()}DisplayName.placeholder`)}
             />
           </Grid>
         </Grid>
         <Grid item container direction="column">
           <Grid item>
             <Typography variant="subtitle2">
-              {formatMessage(`CustomField.settings.${type.toLowerCase()}SystemName`)}
+              {formatMessage(`CustomField.settings.${customFieldModalType.toLowerCase()}SystemName`)}
               <InfoTooltip
                 placement="right"
                 title={formatMessage('CustomField.settings.systemName.tooltip')}
@@ -134,7 +134,7 @@ export function CustomFieldModalConfigure({ handleUpdateFields }: {
               type="text"
               name="name"
               onChange={handleUpdateSystemName}
-              placeholder={formatMessage(`CustomField.settings.${type.toLowerCase()}SystemName.placeholder`)}
+              placeholder={formatMessage(`CustomField.settings.${customFieldModalType.toLowerCase()}SystemName.placeholder`)}
             />
           </Grid>
         </Grid>
