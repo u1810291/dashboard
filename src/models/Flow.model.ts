@@ -133,4 +133,5 @@ export interface IFlow {
     countryCodes: string[];
   };
   facematchServiceConfig?: IFacematchFlow;
+  duplicateFaceMatchThreshold?: number;
 }
