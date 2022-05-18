@@ -5,7 +5,7 @@ import { ProductSettingsProps } from 'models/Product.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useOverlay } from 'apps/overlay';
-import { CountryModalSelect, CountryModalSelectContainer } from 'apps/CountryModalSelect';
+import { CountryModalSelectContainer } from 'apps/CountryModalSelect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
 import { AllowedRegions, Country } from 'models/Country.model';
 import { useFormatMessage } from 'apps/intl';
@@ -16,7 +16,7 @@ import { getAllAllowedRegions, LocationIntelligenceSettingsTypes, LocationIntell
 
 export function LocationIntelligenceSettings({ settings, onUpdate }: ProductSettingsProps<LocationIntelligenceSettingsTypes>) {
   const [createOverlay] = useOverlay();
-  const countries = useSelector<any, Country[]>(selectCountriesList);
+  const allowedCountries = useSelector<any, Country[]>(selectCountriesList);
   const [currentMethod, setCurrentMethod] = useState<LocationIntelligenceValidationTypes>(LocationIntelligenceValidationTypes.None);
   const [isVpnRestricted, setIsVpnRestricted] = useState<boolean>(false);
   const [isHighAccuracyEnabled, setIsHighAccuracyEnabled] = useState<boolean>(false);
@@ -41,10 +41,10 @@ export function LocationIntelligenceSettings({ settings, onUpdate }: ProductSett
       newSettings[LocationIntelligenceSettingsTypes.VpnDetection].value = false;
     }
     if (modeOn === LocationIntelligenceValidationTypes.RestrictionInvisible && !!allowedRegions?.length) {
-      newSettings[LocationIntelligenceSettingsTypes.AllowedRegions].value = getAllAllowedRegions(countries);
+      newSettings[LocationIntelligenceSettingsTypes.AllowedRegions].value = getAllAllowedRegions(allowedCountries);
     }
     onUpdate(newSettings);
-  }, [onUpdate, settings, allowedRegions, countries]);
+  }, [onUpdate, settings, allowedRegions, allowedCountries]);
 
   const handleVpnRestricted = useCallback(({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
     const newSettings = cloneDeep(settings);
@@ -66,12 +66,11 @@ export function LocationIntelligenceSettings({ settings, onUpdate }: ProductSett
 
   const openCountryModal = useCallback(() => {
     createOverlay(
-      <CountryModalSelectContainer>
-        <CountryModalSelect
-          initialValues={allowedRegions}
-          onSubmit={handleSubmitAllowedRegions}
-        />
-      </CountryModalSelectContainer>,
+      <CountryModalSelectContainer
+        initialValues={allowedRegions}
+        showRegions
+        onSubmit={handleSubmitAllowedRegions}
+      />,
     );
   }, [allowedRegions, createOverlay, handleSubmitAllowedRegions]);
 

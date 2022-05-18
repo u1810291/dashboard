@@ -1,56 +1,40 @@
-import { Button, Box, Grid, List } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import List from '@material-ui/core/List';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import SearchIcon from '@material-ui/icons/Search';
+import { useDebounce } from 'lib/debounce.hook';
 import { useOverlay } from 'apps/overlay';
 import { FixedSizeTree } from 'react-vtree';
 import React, { useCallback, useState, useMemo } from 'react';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { BoxBordered } from 'apps/ui';
-import { AllowedRegions } from 'models/Country.model';
-import { useCountriesLoad } from 'apps/countries';
-import { treeWalker, regionsConverting, getInitialSelectedCountries, SelectedCountries, Tree } from '../../models/CountryModalSelect.model';
+import { AllowedRegions, Country } from 'models/Country.model';
+import { treeWalker, regionsConverting, getInitialSelectedCountries, SelectedCountries, Tree, markLocationChecked } from '../../models/CountryModalSelect.model';
 import { CountryModalItemSelect } from '../CountryModalItemSelect/CountryModalItemSelect';
 import { useStyles, StyledButtonBase } from './CountryModalSelect.styles';
 
-export function CountryModalSelect({ onSubmit, initialValues }: {
+export function CountryModalSelect({ onSubmit, onCancel, initialValues, countries }: {
   onSubmit: (data: AllowedRegions[]) => void;
+  onCancel: () => void;
   initialValues: AllowedRegions[] | null;
+  countries: Country[];
 }) {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const classes = useStyles();
   const [, closeOverlay] = useOverlay();
-  const countriesModel = useCountriesLoad();
-  const countries = countriesModel.value;
   const [selectedCountries, setSelectedCountries] = useState<SelectedCountries>(getInitialSelectedCountries(initialValues, countries));
+  const debounced = useDebounce();
 
-  const updateSelectedCountries = useCallback(
-    (country: string, checked: boolean, region?: string) => {
-      if (region) {
-        return {
-          ...selectedCountries,
-          [country]: {
-            ...countries.find((elm) => elm.id === country).regions.reduce(regionsConverting(false), {}),
-            ...selectedCountries[country],
-            [region]: checked,
-          },
-        };
-      }
-      return {
-        ...selectedCountries,
-        [country]: checked ? countries.find(({ id }) => id === country).regions.reduce(regionsConverting(true), {}) : null,
-      };
+  const handleSelectCountry = useCallback(
+    (checked: boolean, location: string, countryCode?: string) => {
+      setSelectedCountries(markLocationChecked(selectedCountries, countries, checked, location, countryCode));
     },
     [selectedCountries, countries],
   );
 
-  const handleSelectCountry = useCallback(
-    (country: string, region?: string) => (e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-      const payload = updateSelectedCountries(country, checked, region);
-      setSelectedCountries(payload);
-    },
-    [updateSelectedCountries],
-  );
-
   const handleSelectAll = useCallback(() => {
-    setSelectedCountries(countries.reduce((memo, { id, regions }) => {
+    setSelectedCountries(countries.reduce((memo: SelectedCountries, { id, regions }) => {
       memo[id] = regions.reduce(regionsConverting(true), {});
       return memo;
     }, {}));
@@ -61,10 +45,13 @@ export function CountryModalSelect({ onSubmit, initialValues }: {
   }, []);
 
   const handleSubmit = useCallback(() => {
-    onSubmit(countries.filter(({ id }) => !!selectedCountries[id]).map(({ id, regions }) => ({
-      country: id,
-      regions: regions.filter((region) => !!selectedCountries[id]?.[region]),
-    })));
+    const submittedCountries = countries
+      .filter((country) => selectedCountries[country.id])
+      .map((country) => ({
+        country: country.id,
+        regions: country.regions.filter((region) => selectedCountries[country.id]?.[region]),
+      }));
+    onSubmit(submittedCountries);
     closeOverlay();
   }, [onSubmit, countries, closeOverlay, selectedCountries]);
 
@@ -73,20 +60,30 @@ export function CountryModalSelect({ onSubmit, initialValues }: {
     return memo;
   }, {}), [selectedCountries]);
 
-  const tree = useMemo<Tree[]>(() => (countries.map((country, index) => ({
+  const createTree = useCallback((countryList: Country[]) => (countryList.map((country, index) => ({
     // id must be unique
     id: `${country.id}-${index}`,
-    name: country.code,
-    label: intl.formatMessage({ id: `Countries.${country.code}` }),
+    location: country.code,
+    label: formatMessage(`Countries.${country.code}`),
     children: country.regions.map((region) => ({
       id: region,
-      name: region,
+      location: region,
       countryCode: country.code,
-      label: intl.formatMessage({ id: `Regions.${country.code}.${region}` }),
+      label: formatMessage(`Regions.${country.code}.${region}`),
     })).sort((a, b) => (a.label.localeCompare(b.label))),
   })).sort((a, b) => (a.label.localeCompare(b.label)))
-  ), [countries, intl]);
+  ), [formatMessage]);
+
+  const [tree, setTree] = useState<Tree[]>(createTree(countries));
   const handleTreeWalker = useCallback((refresh: boolean) => treeWalker(refresh, tree), [tree]);
+
+  const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const query = event.target.value.toLowerCase();
+    debounced(() => {
+      const filteredCountries = countries.filter((country) => country.name.toLowerCase().includes(query));
+      setTree(createTree(filteredCountries));
+    });
+  }, [countries, createTree, debounced]);
 
   const listItemData = useMemo(() => ({
     handleSelectCountry,
@@ -97,15 +94,27 @@ export function CountryModalSelect({ onSubmit, initialValues }: {
 
   return (
     <>
-      <Grid container justify="flex-end">
+      <Box className={classes.headerControls}>
+        <Box className={classes.selectedAmount}>
+          {Object.keys(selectedCountries).filter((key) => selectedCountries[key]).length}
+          {formatMessage('CountryModalSelect.selectedAmount')}
+        </Box>
         <Box mr={2}>
-          <StyledButtonBase disableRipple onClick={handleSelectAll}>{intl.formatMessage({ id: 'Product.configuration.ipCheck.selectValidCountry.selectAll' })}</StyledButtonBase>
+          <StyledButtonBase disableRipple onClick={handleSelectAll}>{formatMessage('CountryModalSelect.selectAll')}</StyledButtonBase>
         </Box>
         <Box>
-          <StyledButtonBase disableRipple onClick={handleDeselectAll}>{intl.formatMessage({ id: 'Product.configuration.ipCheck.selectValidCountry.deselectAll' })}</StyledButtonBase>
+          <StyledButtonBase disableRipple onClick={handleDeselectAll}>{formatMessage('CountryModalSelect.deselectAll')}</StyledButtonBase>
         </Box>
-      </Grid>
+      </Box>
       <BoxBordered mt={1} mb={2} className={classes.formBox}>
+        <OutlinedInput
+          fullWidth
+          className={classes.searchInput}
+          type="search"
+          startAdornment={<SearchIcon className={classes.searchIcon} />}
+          placeholder={formatMessage('CountryModalSelect.filter')}
+          onChange={handleSearchChange}
+        />
         <List className={classes.tree}>
           <FixedSizeTree
             treeWalker={handleTreeWalker}
@@ -118,9 +127,14 @@ export function CountryModalSelect({ onSubmit, initialValues }: {
           </FixedSizeTree>
         </List>
       </BoxBordered>
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
-        {intl.formatMessage({ id: 'Product.configuration.ipCheck.selectValidCountry.submit' })}
-      </Button>
+      <Box className={classes.footer}>
+        <Button variant="text" color="primary" onClick={onCancel}>
+          {formatMessage('CountryModalSelect.cancel')}
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.submitButton}>
+          {formatMessage('CountryModalSelect.submit')}
+        </Button>
+      </Box>
     </>
   );
 }
