@@ -19,6 +19,7 @@ export function ProductSettings<Flow = IFlow>({ flow, productId, onUpdate }: {
   // TODO @dkchv: !!! review again
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const card = useMemo(() => product.getCard(), [product, flow]);
+  const isLocationIntelligence = useMemo(() => card.id === ProductTypes.LocationIntelligence, [card]);
 
   const handleUpdate = useCallback((newSettings: any) => {
     onUpdate(product.serialize(newSettings, flow));
@@ -36,7 +37,7 @@ export function ProductSettings<Flow = IFlow>({ flow, productId, onUpdate }: {
   return (
     <Box>
       <Box mb={2}>
-        <ProductTitle card={card} />
+        <ProductTitle card={card} hasDescription={isLocationIntelligence} />
       </Box>
       <Box>
         {settingsEl}
