@@ -13,7 +13,7 @@ import { DigitalSignatureProvider } from './DigitalSignature.model';
 import { IVerificationPatterns, VerificationPatternTypes } from './VerificationPatterns.model';
 import { IFlowWatchlist } from './CustomWatchlist.model';
 import { VerificationCustomFieldsInputData } from './CustomField.model';
-import { BasicWatchlistIdType } from './Aml.model';
+import { BasicWatchlistIdType, IPremiumAmlWatchlists, premiumAmlWatchlistsInitialValue } from './Aml.model';
 
 export const MAX_NUMBER_OF_FLOWS = 100;
 
@@ -32,13 +32,13 @@ export function createEmptyFlow(formatMessage: FormatMessage, data?: Partial<IFl
     ipValidation: {
       allowedRegions: [],
     },
-    amlWatchlistsFuzzinessThreshold: 50,
     computations: [
       'age',
       'isDocumentExpired',
     ],
     digitalSignature: DigitalSignatureProvider.NONE,
     emailRiskThreshold: 80,
+    premiumAmlWatchlists: premiumAmlWatchlistsInitialValue,
     supportedCountries: [],
     verificationSteps: [],
     inputValidationChecks: [
@@ -111,6 +111,7 @@ export interface IFlow {
   policyInterval?: string;
   postponedTimeout?: string;
   pinnedCountries?: string[];
+  premiumAmlWatchlists?: IPremiumAmlWatchlists;
   style?: IFlowStyle;
   customFieldsConfig?: Partial<VerificationCustomFieldsInputData>;
   supportedCountries?: string[];
@@ -118,7 +119,6 @@ export interface IFlow {
   verificationSteps?: (DocumentTypes | string)[][];
   verificationPatterns?: Partial<IVerificationPatterns>;
   integrationType?: ProductIntegrationTypes;
-  amlWatchlistsFuzzinessThreshold?: number;
   customWatchlists?: IFlowWatchlist[];
   basicWatchlists?: BasicWatchlistIdType[];
   watchlists?: IFlowWatchlist[];

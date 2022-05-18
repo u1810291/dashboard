@@ -22,9 +22,12 @@ export const useStyles = makeStyles((theme) => ({
     width: '255px !important',
   },
   listName: {
-    width: 150,
+    width: 270,
     fontWeight: 700,
     color: theme.palette.text.main,
+  },
+  noRegions: {
+    marginRight: 25,
   },
   listNameChild: {
     width: 210,
