@@ -1,8 +1,11 @@
-import { Box, FormControlLabel, RadioGroup, Switch } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Switch from '@material-ui/core/Switch';
 import { BoxBordered, ExtendedDescription, RadioButton, TextFieldName } from 'apps/ui';
 import { useDebounce } from 'lib/debounce.hook';
-import { ONLY_NUMBERS_REG_EXP, validateMaxLength } from 'lib/validations';
-import { cloneDeep } from 'lodash';
+import { ONLY_NUMBERS_REG_EXP, validateMaxLength, validateEmpty } from 'lib/validations';
+import cloneDeep from 'lodash/cloneDeep';
 import { ProductSettingsProps } from 'models/Product.model';
 import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -41,11 +44,8 @@ export function PhoneCheckSettings({ settings, onUpdate }: ProductSettingsProps<
   }, [handleUpdate]);
 
   const handleCompanyNameChange = useCallback(({ target: { value } }) => {
-    const validationError = validateMaxLength(value, COMPANY_NAME_LENGTH_LIMIT);
-    if (validationError) {
-      setCompanyNameError(validationError);
-      return;
-    }
+    const validationError = validateMaxLength(value, COMPANY_NAME_LENGTH_LIMIT) || validateEmpty(value);
+    setCompanyNameError(validationError);
     setCompanyName(value);
     debounced(() => handleUpdate(PhoneCheckSettingTypes.CompanyName, value));
   }, [handleUpdate, debounced]);
