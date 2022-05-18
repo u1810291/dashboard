@@ -1,10 +1,9 @@
 import { IWorkflow } from 'models/Workflow.model';
 import { createSelector } from 'reselect';
-import { Loadable } from 'models/Loadable.model';
 import { selectModelValue } from 'lib/loadable.selectors';
-import { WORKFLOW_STORE_KEY, SliceNames } from './workflow.store';
+import { WORKFLOW_STORE_KEY, SliceNames, WorkflowStore } from './workflow.store';
 
-export const selectWorkflowsStore = (store) => store[WORKFLOW_STORE_KEY];
+export const selectWorkflowsStore = (store: {WORKFLOW_STORE_KEY: WorkflowStore}): WorkflowStore => store[WORKFLOW_STORE_KEY];
 
 export const selectWorkflowsModel = createSelector(
   selectWorkflowsStore,
@@ -21,7 +20,7 @@ export const selectCurrentFlowId = createSelector(
   (store) => store.currentFlow,
 );
 
-export const selectCurrentWorkflow = createSelector<any, Loadable<any>, any, IWorkflow>(
+export const selectCurrentWorkflow = createSelector<[typeof selectWorkflowsModel, typeof selectCurrentFlowId], IWorkflow>(
   selectWorkflowsModel,
   selectCurrentFlowId,
   selectModelValue((model, id) => model.find((item) => item.id === id)),

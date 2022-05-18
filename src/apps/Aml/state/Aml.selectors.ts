@@ -6,69 +6,69 @@ import { MerchantTags } from 'models/Merchant.model';
 import { Loadable } from 'models/Loadable.model';
 import { AmlStore, AML_STORE_KEY } from './Aml.store';
 
-export const selectAmlStore = (state): AmlStore => state[AML_STORE_KEY];
+export const selectAmlStore = (state: {AML_STORE_KEY: AmlStore}): AmlStore => state[AML_STORE_KEY];
 
-export const selectWatchlistsModel = createSelector<any, AmlStore, Loadable<IWatchlist[]>>(
+export const selectWatchlistsModel = createSelector<[typeof selectAmlStore], Loadable<IWatchlist[]>>(
   selectAmlStore,
   (store) => store.watchlists,
 );
 
-export const selectWatchlists = createSelector<any, AmlStore, IWatchlist[]>(
+export const selectWatchlists = createSelector<[typeof selectAmlStore], IWatchlist[]>(
   selectAmlStore,
   (store) => store.watchlists.value,
 );
 
-export const selectWatchlistsGroupsModel = createSelector<any, AmlStore, Loadable<IWatchlistGroup[]>>(
+export const selectWatchlistsGroupsModel = createSelector<[typeof selectAmlStore], Loadable<IWatchlistGroup[]>>(
   selectAmlStore,
   (store) => store.watchlistsGroups,
 );
 
-export const selectWatchlistsGroups = createSelector<any, AmlStore, IWatchlistGroup[]>(
+export const selectWatchlistsGroups = createSelector<[typeof selectAmlStore], IWatchlistGroup[]>(
   selectAmlStore,
   (store) => store.watchlistsGroups.value,
 );
 
-export const selectIsWatchlistsContentModel = createSelector<any, AmlStore, Loadable<IWatchlistContent>>(
+export const selectIsWatchlistsContentModel = createSelector<[typeof selectAmlStore], Loadable<IWatchlistContent>>(
   selectAmlStore,
   (store) => store.watchlistContent,
 );
 
-export const selectWatchlistsContentErrorType = createSelector<any, AmlStore, string>(
+export const selectWatchlistsContentErrorType = createSelector<[typeof selectAmlStore], string>(
   selectAmlStore,
   (store) => store.watchlistContent.error,
 );
 
-export const selectCurrentBasicWatchlist = createSelector<any, AmlStore, Nullable<IWatchlist>>(
+export const selectCurrentBasicWatchlist = createSelector<[typeof selectAmlStore], Nullable<IWatchlist>>(
   selectAmlStore,
   (store) => store.currentWatchlist.value,
 );
 
-export const selectCurrentBasicWatchlistModel = createSelector<any, AmlStore, Loadable<Nullable<IWatchlist>>>(
+export const selectCurrentBasicWatchlistModel = createSelector<[typeof selectAmlStore], Loadable<Nullable<IWatchlist>>>(
   selectAmlStore,
   (store) => store.currentWatchlist,
 );
 
-export const selectCurrentBasicWatchlistId = createSelector<any, Nullable<IWatchlist>, number>(
+export const selectCurrentBasicWatchlistId = createSelector<[typeof selectCurrentBasicWatchlist], number>(
   selectCurrentBasicWatchlist,
   (currentWatchlist) => currentWatchlist?.id ?? null,
 );
 
-export const selectCurrentBasicWatchlistProcess = createSelector<any, Nullable<IWatchlist>, IWatchlistProcessPartial>(
+export const selectCurrentBasicWatchlistProcess = createSelector<[typeof selectCurrentBasicWatchlist], IWatchlistProcessPartial>(
   selectCurrentBasicWatchlist,
   (currentWatchlist) => currentWatchlist?.process,
 );
 
-export const selectCurrentBasicWatchlistStatus = createSelector<any, IWatchlistProcessPartial, Nullable<WatchlistProcessStatusTypes>>(
+export const selectCurrentBasicWatchlistStatus = createSelector<[typeof selectCurrentBasicWatchlistProcess], Nullable<WatchlistProcessStatusTypes>>(
   selectCurrentBasicWatchlistProcess,
   (currentWatchlistProcess) => currentWatchlistProcess?.status ?? null,
 );
 
-export const selectCurrentBasicWatchlistError = createSelector<any, IWatchlistProcessPartial, Nullable<IWatchlistValidationError[]>>(
+export const selectCurrentBasicWatchlistError = createSelector<[typeof selectCurrentBasicWatchlistProcess], Nullable<IWatchlistValidationError[]>>(
   selectCurrentBasicWatchlistProcess,
   (currentWatchlistProcess) => currentWatchlistProcess?.error,
 );
 
-export const selectCurrentBasicWatchlistFileInfo = createSelector<any, IWatchlistProcessPartial, Partial<{ fileKey: string; fileName: string }>>(
+export const selectCurrentBasicWatchlistFileInfo = createSelector<[typeof selectCurrentBasicWatchlistProcess], Partial<{ fileKey: string; fileName: string }>>(
   selectCurrentBasicWatchlistProcess,
   (currentWatchlistProcess) => ({
     fileKey: currentWatchlistProcess?.inputSourceFileKey,
@@ -76,52 +76,52 @@ export const selectCurrentBasicWatchlistFileInfo = createSelector<any, IWatchlis
   }),
 );
 
-export const selectCurrentBasicWatchlistMapping = createSelector<any, Nullable<IWatchlist>, Nullable<IWatchlistMapping[]>>(
+export const selectCurrentBasicWatchlistMapping = createSelector<[typeof selectCurrentBasicWatchlist], Nullable<IWatchlistMapping[]>>(
   selectCurrentBasicWatchlist,
   (currentWatchlist) => currentWatchlist?.mapping,
 );
 
-export const selectCurrentBasicWatchlistErrorsFormated = createSelector<any, Nullable<IWatchlistValidationError[]>, Nullable<WatchlistValidatedInputsErrors>>(
+export const selectCurrentBasicWatchlistErrorsFormated = createSelector<[typeof selectCurrentBasicWatchlistError], Nullable<WatchlistValidatedInputsErrors>>(
   selectCurrentBasicWatchlistError,
   (errors) => getWatchlistErrorsFormated(errors),
 );
 
-export const selectCurrentBasicWatchlistHeaders = createSelector<any, AmlStore, Nullable<string[]>>(
+export const selectCurrentBasicWatchlistHeaders = createSelector<[typeof selectAmlStore], Nullable<string[]>>(
   selectAmlStore,
   (store) => store.currentWatchlistHeaders.value,
 );
 
-export const selectCurrentBasicWatchlistHeadersModel = createSelector<any, AmlStore, Loadable<string[]>>(
+export const selectCurrentBasicWatchlistHeadersModel = createSelector<[typeof selectAmlStore], Loadable<string[]>>(
   selectAmlStore,
   (store) => store.currentWatchlistHeaders,
 );
 
-export const selectCurrentBasicWatchlistIsFileAvailable = createSelector<any, Nullable<IWatchlist>, boolean>(
+export const selectCurrentBasicWatchlistIsFileAvailable = createSelector<[typeof selectCurrentBasicWatchlist], boolean>(
   selectCurrentBasicWatchlist,
   (store) => store?.isFileAvailable ?? true,
 );
 
-export const selectCurrentBasicWatchlistFileError = createSelector<any, AmlStore, string>(
+export const selectCurrentBasicWatchlistFileError = createSelector<[typeof selectAmlStore], string>(
   selectAmlStore,
   (store) => store.fileErrorType,
 );
 
-export const selectCanUseBasicWatchlists = createSelector<any, MerchantTags[], boolean>(
+export const selectCanUseBasicWatchlists = createSelector<[typeof selectMerchantTags], boolean>(
   selectMerchantTags,
   (tags) => tags.includes(MerchantTags.CanUseBasicWatchlists),
 );
 
-export const selectCanManageBasicWatchlists = createSelector<any, MerchantTags[], boolean>(
+export const selectCanManageBasicWatchlists = createSelector<[typeof selectMerchantTags], boolean>(
   selectMerchantTags,
   (tags) => tags.includes(MerchantTags.CanManageBasicWatchlists),
 );
 
-export const selectCanUsePremiumWatchlistsSearch = createSelector<any, MerchantTags[], boolean>(
+export const selectCanUsePremiumWatchlistsSearch = createSelector<[typeof selectMerchantTags], boolean>(
   selectMerchantTags,
   (tags) => tags.includes(MerchantTags.CanUsePremiumAmlWatchlistsSearch),
 );
 
-export const selectCanUsePremiumWatchlistsSearchAndMonitoring = createSelector<any, MerchantTags[], boolean>(
+export const selectCanUsePremiumWatchlistsSearchAndMonitoring = createSelector<[typeof selectMerchantTags], boolean>(
   selectMerchantTags,
   (tags) => tags.includes(MerchantTags.CanUsePremiumAmlWatchlistsSearchAndMonitoring),
 );

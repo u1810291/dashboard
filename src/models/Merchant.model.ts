@@ -77,4 +77,5 @@ export enum MerchantTags {
   CanUseSolutionTemplates = 'can-use-solution-templates',
   CanUsePremiumAmlWatchlistsSearch = 'can-use-premium-aml-watchlists-search',
   CanUsePremiumAmlWatchlistsSearchAndMonitoring = 'can-use-premium-aml-watchlists-search-and-monitoring',
+  UseSigmaAnalyticsWidget = 'can-use-sigma-widget'
 }

@@ -1,8 +1,10 @@
 import { selectModelValue } from 'lib/loadable.selectors';
+import { MerchantTags } from 'models/Merchant.model';
 import { createSelector } from 'reselect';
-import { AnalyticsSliceNames, METRICS_STORE_KEY } from './Analytics.store';
+import { selectMerchantTags } from 'state/merchant/merchant.selectors';
+import { AnalyticsSliceNames, IAnalyticsStore, METRICS_STORE_KEY } from './Analytics.store';
 
-export const selectMetricsStore = (state) => state[METRICS_STORE_KEY];
+export const selectMetricsStore: (state: any) => IAnalyticsStore = (state) => state[METRICS_STORE_KEY];
 
 export const selectFilter = createSelector(
   selectMetricsStore,
@@ -45,4 +47,9 @@ export const selectDevicesStatistics = createSelector(
 export const selectIpCheckStatistics = createSelector(
   selectMetricsStore,
   (store) => store[AnalyticsSliceNames.IpCheckStatistics],
+);
+
+export const selectMerchantCanUseSigmaWidget = createSelector(
+  selectMerchantTags,
+  (store) => store.includes(MerchantTags.UseSigmaAnalyticsWidget),
 );
