@@ -356,6 +356,7 @@ export const OptionalGovCheckErrorCodes = {
 
 export const RootGovChecksErrorsToHide = {
   'nigerianLegal.documentNotFound': true,
+  'peruvianMigrationInstitute.documentNotFound': true,
 };
 
 export const StepSkippedCodes = [
