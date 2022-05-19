@@ -57,7 +57,7 @@ export const CountryModalItemSelect = ({
       >
         {label}
       </FormLabel>
-      <Box ml={2}>
+      <Box ml={0.5}>
         <FormControl>
           <StyledCheckbox
             disableRipple

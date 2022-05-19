@@ -574,7 +574,7 @@
   "CountryModalSelect.selectAll": "Select all",
   "CountryModalSelect.selectedAmount": " selected",
   "CountryModalSelect.submit": "Apply",
-  "CountryModalSelect.subtitle": "Unselect the boxes to choose from which locations your users should be geo-restricted.",
+  "CountryModalSelect.subtitle": "Select the boxes to choose from which locations your users should be allowed.",
   "CountryModalSelect.title": "Geo Restrictions",
   "CreditCheck.card.check.creditDatabaseCheck": "Credit database checks\n(Depending on country)",
   "CreditCheck.card.title": "Credit Check",
