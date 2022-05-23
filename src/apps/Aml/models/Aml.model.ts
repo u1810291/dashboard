@@ -39,12 +39,13 @@ export enum AmlSettingsTypes {
   AmlThreshold = 'amlThreshold',
   BasicWatchlists = 'basicWatchlists',
   BasicWatchlistsPattern = 'basicWatchlistsPattern',
+  CountriesSearched = 'countriesSearched',
 }
 
 export enum AmlCheckTypes {
   Watchlist = 'watchlist',
   Search = 'search',
-  Monitoring = 'monitoring'
+  Monitoring = 'monitoring',
 }
 
 export const MatchTypes = {
@@ -115,11 +116,6 @@ export interface IBasicWatchlistStepData {
 }
 
 export type BasicWatchlistStepType = IStepExtra<IBasicWatchlistStepData[]>;
-
-export enum BasicWatchlistVerificationStepNamesTypes {
-  nameSearched = 'Full Name',
-  dateOfBirth = 'Date of Birth',
-}
 
 export function getPremiumAmlWatchlistsCheckExtraData(step, document, identity) {
   if (!step?.data) {

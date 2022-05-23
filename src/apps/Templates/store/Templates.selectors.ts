@@ -1,19 +1,19 @@
 import { createSelector } from 'reselect';
 import { Loadable } from 'models/Loadable.model';
 import { selectModelValue } from 'lib/loadable.selectors';
-import { SliceNames, TemplatesStore, TEMPLATES_STORE_KEY } from './Templates.store';
+import { SliceNameTypes, TemplatesStore, TEMPLATES_STORE_KEY } from './Templates.store';
 import { ITemplate, ITemplateMetadata, MetadataType, ITemplatesList } from '../model/Templates.model';
 
 export const selectTemplatesStore = (state: {TEMPLATES_STORE_KEY: TemplatesStore}): TemplatesStore => state[TEMPLATES_STORE_KEY];
 
 export const selectMetadataListModel = createSelector<[typeof selectTemplatesStore], Loadable<ITemplateMetadata[]>>(
   selectTemplatesStore,
-  (store) => store[SliceNames.MetadataList],
+  (store) => store[SliceNameTypes.MetadataList],
 );
 
 export const selectTemplatesListModel = createSelector<[typeof selectTemplatesStore], Loadable<ITemplatesList>>(
   selectTemplatesStore,
-  (store) => store[SliceNames.TemplatesList],
+  (store) => store[SliceNameTypes.TemplatesList],
 );
 
 export const selectTemplatesListModelValues = createSelector<[typeof selectTemplatesListModel], ITemplatesList>(
@@ -38,7 +38,7 @@ export const selectCountryMetadata = createSelector<[typeof selectMetadataListMo
 
 export const selectCurrentTemplateModel = createSelector<[typeof selectTemplatesStore], Loadable<ITemplate>>(
   selectTemplatesStore,
-  (store) => store[SliceNames.CurrentTemplate],
+  (store) => store[SliceNameTypes.CurrentTemplate],
 );
 
 export const selectCurrentTemplateModelValue = createSelector<[typeof selectCurrentTemplateModel], ITemplate>(
@@ -48,7 +48,7 @@ export const selectCurrentTemplateModelValue = createSelector<[typeof selectCurr
 
 export const selectTemplatesModel = createSelector<[typeof selectTemplatesStore], Loadable<Record<string, ITemplate[]>>>(
   selectTemplatesStore,
-  (store) => store[SliceNames.Templates],
+  (store) => store[SliceNameTypes.Templates],
 );
 
 export const selectTemplates = createSelector<[typeof selectTemplatesModel], ITemplate[]>(

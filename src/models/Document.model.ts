@@ -1,6 +1,6 @@
 import { GovCheckIStep, parseExpandedGovCheck } from 'apps/GovCheck';
 import { CustomDocumentType } from './CustomDocument.model';
-import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStatus, getReaderFrontendSteps, getStepsExtra, IStep, StepStatus, PremiumAmlWatchlistStepData } from './Step.model';
+import { CountrySpecificChecks, DocumentFrontendSteps, DocumentSecuritySteps, DocumentStepTypes, getComputedSteps, getDocumentStatus, getReaderFrontendSteps, getStepsExtra, IStep, StepStatus, IPremiumAmlWatchlistStepData } from './Step.model';
 
 export interface Document {
   country: string;
@@ -38,7 +38,7 @@ export interface DocumentField {
 
 export type DocumentReadingStep = IStep<Record<string, DocumentField>>;
 
-export type PremiumAmlWatchlistStep = IStep<PremiumAmlWatchlistStepData>;
+export type PremiumAmlWatchlistStep = IStep<IPremiumAmlWatchlistStepData>;
 
 export type VerificationDocumentTypes = DocumentTypes | CustomDocumentType;
 
