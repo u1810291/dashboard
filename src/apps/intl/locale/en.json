@@ -1280,7 +1280,6 @@
   "Footer.support": "Contact support",
   "Footer.withLove.heart": "❤️",
   "Footer.withLove.text": "Created with{heart}in San Francisco",
-<<<<<<< HEAD
   "forDevs.clientDetails.id": "Client id",
   "forDevs.clientDetails.secret": "Client Secret",
   "forDevs.clientDetails.title": "Client Details",
@@ -1463,8 +1462,6 @@
   "Global": "Global",
   "global-watchlist": "Global Watchlist",
   "got-it": "Got it",
-=======
->>>>>>> origin/master
   "GovCheck.check.argentinian-afip-validation": "AFIP",
   "GovCheck.check.argentinian-anses-validation": "ANSES",
   "GovCheck.check.argentinian-dni-validation": "DNI Card Validity Check",
