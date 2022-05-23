@@ -10,8 +10,8 @@ import { useStyles, StyledCheckbox } from './CountryModalItemSelect.styles';
 import { SelectedCountries } from '../../models/CountryModalSelect.model';
 
 export interface CountryModalSelectItemProps extends FixedSizeNodeComponentProps<{
-  isLeaf: boolean;
-  name: string;
+  hasChildren: boolean;
+  location: string;
   countryCode?: string;
   id: string | symbol;
   isOpenByDefault: boolean;
@@ -23,7 +23,7 @@ export interface CountryModalSelectItemProps extends FixedSizeNodeComponentProps
       [country: string]: boolean;
     };
     firstCountryId: string;
-    handleSelectCountry: (country: string, region?: string) => (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleSelectCountry: (isSelected: boolean, location: string, countryCode?: string) => void;
   };
 }
 export const CountryModalItemSelect = ({
@@ -34,32 +34,36 @@ export const CountryModalItemSelect = ({
   treeData,
 }: CountryModalSelectItemProps) => {
   const classes = useStyles();
-  const { isLeaf, name, countryCode, label } = data;
+  const { hasChildren, location, countryCode, label } = data;
   const { selectedCountries, handleSelectCountry, allRegionsSelected, firstCountryId } = treeData;
 
   const parentCheckIcon = useMemo(() => {
-    if (Object.prototype.hasOwnProperty.call(allRegionsSelected, name)) {
-      return allRegionsSelected[name] ? <CheckboxOn /> : <CheckboxPartial />;
+    if (Object.prototype.hasOwnProperty.call(allRegionsSelected, location)) {
+      return allRegionsSelected[location] ? <CheckboxOn /> : <CheckboxPartial />;
     }
     return <CheckboxOn />;
-  }, [allRegionsSelected, name]);
+  }, [allRegionsSelected, location]);
+
   return (
-    <ListItem style={style} className={classnames(classes.listItem, { [classes.listItemChild]: isLeaf }, { [classes.lineConnected]: !isLeaf && (firstCountryId !== name) })}>
-      {!isLeaf && (
+    <ListItem style={style} className={classnames(classes.listItem, { [classes.listItemChild]: countryCode }, { [classes.lineConnected]: hasChildren && (firstCountryId !== location) })}>
+      {hasChildren && (
         <Box mr={0.5} className={classes.iconButton} onClick={toggle}>
           {isOpen ? <FiMinusCircle className={classes.icon} /> : <FiPlusCircle className={classes.icon} />}
         </Box>
       )}
-      <FormLabel className={classnames(classes.listName, { [classes.listNameChild]: isLeaf })}>
+      <FormLabel
+        className={classnames(classes.listName, { [classes.listNameChild]: countryCode, [classes.noRegions]: !countryCode && !hasChildren })}
+        htmlFor="name"
+      >
         {label}
       </FormLabel>
-      <Box ml={2}>
+      <Box ml={0.5}>
         <FormControl>
           <StyledCheckbox
             disableRipple
-            onChange={isLeaf ? handleSelectCountry(countryCode, name) : handleSelectCountry(name)}
-            value={name}
-            checked={isLeaf ? !!selectedCountries[countryCode]?.[name] : !!selectedCountries[name]}
+            onChange={(_, checked) => handleSelectCountry(checked, location, countryCode)}
+            name={location}
+            checked={countryCode ? Boolean(selectedCountries[countryCode]?.[location]) : Boolean(selectedCountries[location])}
             color="primary"
             checkedIcon={parentCheckIcon}
             icon={<CheckboxOff />}

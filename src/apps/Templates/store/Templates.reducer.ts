@@ -1,20 +1,20 @@
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { createReducer } from 'state/store.utils';
-import { SliceNames, TemplatesActionGroup, TemplatesStore } from './Templates.store';
+import { SliceNameTypes, TemplatesActionGroup, TemplatesStore } from './Templates.store';
 
 const initialState: TemplatesStore = {
-  [SliceNames.MetadataList]: LoadableAdapter.createState([]),
-  [SliceNames.CurrentTemplate]: LoadableAdapter.createState(null),
-  [SliceNames.Templates]: LoadableAdapter.createState({}),
+  [SliceNameTypes.MetadataList]: LoadableAdapter.createState([]),
+  [SliceNameTypes.CurrentTemplate]: LoadableAdapter.createState(null),
+  [SliceNameTypes.Templates]: LoadableAdapter.createState({}),
   // @ts-ignore
-  [SliceNames.TemplatesList]: LoadableAdapter.createState({}),
+  [SliceNameTypes.TemplatesList]: LoadableAdapter.createState({}),
 };
 
 export const templatesReducer = createReducer(initialState, {
-  ...LoadableAdapter.createHandlers(TemplatesActionGroup.getMetadataList, SliceNames.MetadataList),
-  ...LoadableAdapter.createHandlers(TemplatesActionGroup.getTemplate, SliceNames.CurrentTemplate),
-  ...LoadableAdapter.createHandlers(TemplatesActionGroup.createTemplate, SliceNames.CurrentTemplate),
-  ...LoadableAdapter.createHandlers(TemplatesActionGroup.updateTemplate, SliceNames.CurrentTemplate),
-  ...LoadableAdapter.createHandlers(TemplatesActionGroup.getTemplates, SliceNames.Templates),
-  ...LoadableAdapter.createHandlers(TemplatesActionGroup.getTemplatesList, SliceNames.TemplatesList),
+  ...LoadableAdapter.createHandlers(TemplatesActionGroup.getMetadataList, SliceNameTypes.MetadataList),
+  ...LoadableAdapter.createHandlers(TemplatesActionGroup.getTemplate, SliceNameTypes.CurrentTemplate),
+  ...LoadableAdapter.createHandlers(TemplatesActionGroup.createTemplate, SliceNameTypes.CurrentTemplate),
+  ...LoadableAdapter.createHandlers(TemplatesActionGroup.updateTemplate, SliceNameTypes.CurrentTemplate),
+  ...LoadableAdapter.createHandlers(TemplatesActionGroup.getTemplates, SliceNameTypes.Templates),
+  ...LoadableAdapter.createHandlers(TemplatesActionGroup.getTemplatesList, SliceNameTypes.TemplatesList),
 });

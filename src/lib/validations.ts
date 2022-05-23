@@ -43,6 +43,13 @@ export function validateMaxLength(name = '', limit) {
   return null;
 }
 
+export function validateEmpty(text: string): string | null {
+  if (text?.length === 0) {
+    return 'validations.empty';
+  }
+  return null;
+}
+
 // DIO-932 the backend requires you to send email inside quotes, otherwise @ will be considered a separator and the search will not work correctly
 export function formatFragmentWithQuotes(value: string, fragmentRegExp: RegExp | RegExp[]): string {
   const fragmentsArray = Array.isArray(fragmentRegExp) ? fragmentRegExp : [fragmentRegExp];

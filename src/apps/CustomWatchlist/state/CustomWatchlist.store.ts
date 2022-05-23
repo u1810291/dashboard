@@ -13,7 +13,7 @@ export enum CustomWatchlistsActions {
   CurrentWatchlistFileFailure = 'CURRENT_CUSTOM_WATCHLIST_FILE_FAILURE',
 }
 
-export enum SliceNames {
+export enum SliceNameTypes {
   Watchlists = 'watchlists',
   CurrentWatchlist = 'currentWatchlist',
   WatchlistContent = 'watchlistContent',
@@ -29,9 +29,9 @@ export const types: TypesSequence = {
 };
 
 export interface CustomWatchlistsStore {
-  [SliceNames.Watchlists]: Loadable<IWatchlist[]>;
-  [SliceNames.CurrentWatchlist]: Loadable<Nullable<IWatchlist>>;
-  [SliceNames.WatchlistContent]: Loadable<IWatchlistContent>;
-  [SliceNames.CurrentWatchlistHeaders]: Loadable<string[]>;
+  [SliceNameTypes.Watchlists]: Loadable<IWatchlist[]>;
+  [SliceNameTypes.CurrentWatchlist]: Loadable<Nullable<IWatchlist>>;
+  [SliceNameTypes.WatchlistContent]: Loadable<IWatchlistContent>;
+  [SliceNameTypes.CurrentWatchlistHeaders]: Loadable<string[]>;
   fileErrorType: Nullable<string>;
 }

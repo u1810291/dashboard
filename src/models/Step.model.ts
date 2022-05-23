@@ -377,13 +377,14 @@ function getAltered(step, verification, countries, document) {
   }
 }
 
-export interface PremiumAmlWatchlistStepData {
+export interface IPremiumAmlWatchlistStepData {
   isMonitoringAvailable: boolean;
   nameSearched: string;
   profileUrl?: string;
   searchId: number;
   searchedOn: string;
   updatedOn?: string;
+  searchedCountries?: string[];
 }
 
 export function getDocumentStep(id, steps = []) {
@@ -399,7 +400,7 @@ export function getStepStatus(step): StepStatus {
   }
 
   if (id === DocumentStepTypes.PremiumAmlWatchlistsCheck) {
-    if ((data as PremiumAmlWatchlistStepData)?.updatedOn) {
+    if ((data as IPremiumAmlWatchlistStepData)?.updatedOn) {
       return StepStatus.Failure;
     }
   }

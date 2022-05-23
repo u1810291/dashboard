@@ -20,6 +20,5 @@ export function useCountriesLoad() {
     };
     loadData();
   }, [dispatch, countriesModel]);
-
   return countriesModel;
 }

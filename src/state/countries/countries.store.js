@@ -5,7 +5,7 @@ export const CountriesActionGroups = {
   CountryGeojsons: 'COUNTRY_GEOJSONS',
 };
 
-export const SliceNames = {
+export const SliceNameTypes = {
   AllCountries: 'allCountries',
   CountryGeojsons: 'countryGeojsons',
 };
