@@ -1833,6 +1833,8 @@
   "Product.customization.buttonTitle": "Try your web SDK now",
   "Product.customization.demoButtons": "SDKs demo video",
   "Product.customization.newFeatures": "New features",
+  "Product.error.contactSupport": "For help, email {supportEmail} or message us using our chat",
+  "Product.error.internal": "Internal error in processing this merit",
   "Product.switcher.customization": "Customization",
   "Product.switcher.integration": "Integration",
   "Product.tab.checks": "Additional checks",

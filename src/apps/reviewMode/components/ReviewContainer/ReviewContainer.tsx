@@ -1,7 +1,9 @@
-import { Box, Grid, Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import { useAfkListener } from 'apps/layout';
 import { useOverlay } from 'apps/overlay';
-import { useProduct } from 'apps/Product';
+import { useCrashedProducts, useProduct } from 'apps/Product';
 import { TimeoutModal } from 'apps/ui';
 import { VerificationProductList } from 'apps/Verification';
 import { ReactComponent as IconLoad } from 'assets/icon-load-dark.svg';
@@ -14,6 +16,7 @@ import { useHistory } from 'react-router-dom';
 import { ProductVerification } from 'apps/Product/components/ProductVerification/ProductVerification';
 import { useDocsWithPrivateMedia, useBiometricsWithPrivateMedia } from 'apps/media';
 import { VerificationWithExtras } from 'models/VerificationOld.model';
+import { ErrorCatch, ProductErrorPlaceholder } from 'apps/Error';
 import { reviewVerificationClear, verificationSkip } from '../../state/reviewMode.actions';
 import { selectReviewVerificationModelWithExtras, selectReviewVerificationWithExtras, selectVerificationProductList } from '../../state/reviewMode.selectors';
 import { useStyles } from './ReviewContainer.styles';
@@ -33,6 +36,7 @@ export function ReviewContainer() {
   const productList = useSelector(selectVerificationProductList);
   const isActive = useAfkListener(600);
   const [createOverlay, closeOverlay] = useOverlay();
+  const [onError, productsWithError] = useCrashedProducts(selectedProduct);
 
   const handleAFKExit = useCallback(() => {
     dispatch(verificationSkip());
@@ -65,11 +69,18 @@ export function ReviewContainer() {
                 productList={productList}
                 selectedId={selectedProduct}
                 onSelect={setSelectedProduct}
+                crashedProducts={productsWithError}
               />
             </Grid>
             <Grid item xs={12} lg={8} xl={10} className={classes.products}>
               <Box p={2}>
-                <ProductVerification isReviewMode productId={selectedProduct} verification={resultVerification} />
+                <ErrorCatch onError={onError}>
+                  {!productsWithError.has(selectedProduct) ? (
+                    <ProductVerification productId={selectedProduct} verification={resultVerification} />
+                  ) : (
+                    <ProductErrorPlaceholder />
+                  )}
+                </ErrorCatch>
               </Box>
             </Grid>
           </Grid>
