@@ -6,8 +6,8 @@ import { useDispatch } from 'react-redux';
 import { flowBuilderProductAdd } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { GovCheck, GovCheckStepTypes, GovCheckTypesForPattern } from 'apps/GovCheck';
 import remove from 'lodash/remove';
-import { DocumentStepTypes } from 'models/Step.model';
 import { useFormatMessage } from 'apps/intl';
+import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
 import { FacematchSourceSelect, IFacematchSourceSelectMenuItem } from './FacematchSourceSelect';
 import { FacematchGovCheckSettings } from '../FacematchGovCheckSettings/FacematchGovCheckSettings';
 import { IFacematchSourceDocumentOptions, IFacematchSourceGovCheckOptions, FacematchSourceTypes, IFacematchSource } from '../../models/Facematch.model';
@@ -34,15 +34,19 @@ export function FacematchSource({ availableSources, sources, index, onChange, do
   const currentDocumentType = useMemo<number>(() => (sources[index]?.options as IFacematchSourceDocumentOptions)?.verificationStepIndex, [index, sources]);
   const currentGovCheckList = useMemo<string[]>(() => (sources[index]?.options as IFacematchSourceGovCheckOptions)?.govCheckIds, [index, sources]);
 
+  // TODO: @anatoliy.turkin move in model
   const getGovCheckValue = (govCheck: GovCheck, checked: boolean): Record<string, GovCheckStepTypes | boolean> => {
-    if (govCheck.id === DocumentStepTypes.BrazilianCpf) {
+    // TODO: @anatoliy.turkin make it prettier
+    if (govCheck.id === VerificationPatternTypes.BrazilianCpf || govCheck.id === VerificationPatternTypes.IndonesianKPTValidation) {
       return { [govCheck.id]: checked ? govCheck.option?.stepTypeAlias : GovCheckTypesForPattern[govCheck.id].none };
     }
 
+    // TODO: @anatoliy.turkin use handleGovCheckSwitch
     if (govCheck?.stepTypeAlias) {
       const value = checked ? govCheck.stepTypeAlias : GovCheckTypesForPattern[govCheck.id].none;
       return { [govCheck.id]: value || checked };
     }
+
     if (govCheck.option) {
       return { [govCheck.id]: checked, [govCheck.option.id]: checked && govCheck.option.value };
     }

@@ -6,7 +6,7 @@ import { IFlowStyle, IWorkflow, IWorkflowResponse } from 'models/Workflow.model'
 import { GDPRSettings } from 'models/GDPR.model';
 import { Webhook } from 'models/Webhook.model';
 import { LogoUrl } from 'apps/logo';
-import { SliceNames, WORKFLOW_BUILDER_STORE_KEY, WorkflowBuilderStore } from './WorkflowBuilder.store';
+import { SliceNameTypes, WORKFLOW_BUILDER_STORE_KEY, WorkflowBuilderStore } from './WorkflowBuilder.store';
 
 export const workFlowBuilderStore = (state: {WORKFLOW_BUILDER_STORE_KEY: WorkflowBuilderStore}): WorkflowBuilderStore => state[WORKFLOW_BUILDER_STORE_KEY];
 
@@ -27,7 +27,7 @@ export const selectWorkflowBuilderProductsInGraph = createSelector<[typeof selec
 
 export const selectWorkflowBuilderChangeableFlowModel = createSelector<[typeof workFlowBuilderStore], Loadable<IWorkflow>>(
   workFlowBuilderStore,
-  (store: WorkflowBuilderStore): Loadable<IWorkflow> => store[SliceNames.ChangeableWorkflow],
+  (store: WorkflowBuilderStore): Loadable<IWorkflow> => store[SliceNameTypes.ChangeableWorkflow],
 );
 
 export const selectWorkflowBuilderChangeableFlow = createSelector<[typeof selectWorkflowBuilderChangeableFlowModel], IWorkflow>(
@@ -52,7 +52,7 @@ export const selectWorkflowBuilderSelectedId = createSelector<[typeof workFlowBu
 
 export const selectWorkflowBuilderLoadedWorkflowModel = createSelector<[typeof workFlowBuilderStore], Loadable<IWorkflowResponse>>(
   workFlowBuilderStore,
-  (store: WorkflowBuilderStore) => store[SliceNames.LoadedWorkflow],
+  (store: WorkflowBuilderStore) => store[SliceNameTypes.LoadedWorkflow],
 );
 
 export const selectWorkflowBuilderLoadedWorkflow = createSelector<[typeof selectWorkflowBuilderLoadedWorkflowModel], IWorkflowResponse>(

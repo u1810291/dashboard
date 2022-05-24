@@ -1,15 +1,23 @@
 import { useCountriesLoad } from 'apps/countries';
 import { Modal, useOverlay } from 'apps/overlay';
-import { Box, Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { Spinner } from 'apps/ui';
+import { AllowedRegions } from 'models/Country.model';
+import { CountryModalSelect } from '../CountryModalSelect/CountryModalSelect';
 import { useStyles } from './CountryModalSelectContainer.styles';
 
-export function CountryModalSelectContainer({ children }) {
+export function CountryModalSelectContainer({ onSubmit, initialValues, showRegions }: {
+  onSubmit: (data: AllowedRegions[]) => void;
+  initialValues: AllowedRegions[] | null;
+  showRegions?: boolean;
+}) {
   const countriesModel = useCountriesLoad();
+  const countries = showRegions ? countriesModel.value : countriesModel.value.map((country) => ({ ...country, regions: [] }));
   const [, closeOverlay] = useOverlay();
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const classes = useStyles();
 
   return (
@@ -18,16 +26,22 @@ export function CountryModalSelectContainer({ children }) {
       description={(
         <>
           <Typography variant="h4" gutterBottom className={classes.modalTitle}>
-            {intl.formatMessage({ id: 'Product.configuration.ipCheck.selectValidCountry' })}
+            {formatMessage('CountryModalSelect.title')}
           </Typography>
-          <Box className={classes.modalSubTitle}>{intl.formatMessage({ id: 'Product.configuration.ipCheck.selectValidCountry.subtitle' })}</Box>
+          <Box className={classes.modalSubTitle}>{formatMessage('CountryModalSelect.subtitle')}</Box>
         </>
     )}
       className={classes.modal}
     >
       {!countriesModel.isLoading && countriesModel.isLoaded
-        ? children
-        : (
+        ? (
+          <CountryModalSelect
+            initialValues={initialValues}
+            countries={countries}
+            onSubmit={onSubmit}
+            onCancel={closeOverlay}
+          />
+        ) : (
           <Box height={340} display="flex" justifyContent="center" alignItems="center">
             <Spinner />
           </Box>

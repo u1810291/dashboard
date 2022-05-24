@@ -348,8 +348,8 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.ColombianRunt]: ['colombianRunt.fullNameMismatch', 'colombianRunt.hasFines'],
   [DocumentStepTypes.ArgentinianRenaper]: ['argentinianRenaper.deceasedPerson', 'argentinianRenaper.fullNameMismatch'],
   [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
+  [VerificationStepTypes.IndonesianKTPValidation]: ['indonesianKTP.faceBiometricsMismatch', 'indonesianKTP.dobMismatch', 'indonesianKTP.fullNameMismatch'],
   [VerificationStepTypes.PhilippinianDlValidation]: ['philippinianDL.fullNameMismatch', 'philippinianDL.dateOfBirthMismatch'],
-  [VerificationStepTypes.IndonesianKTPValidation]: ['indonesianKTP.faceBiometricsMismatch', 'indonesianKTP.dobMismatch', 'indonesianKTP.nameMismatch'],
   [DocumentStepTypes.ColombianSisben]: ['colombianSisben.fullNameMismatch'],
   [DocumentStepTypes.DominicanRnc]: ['dominicanRnc.nameMismatch'],
 };
@@ -382,13 +382,14 @@ function getAltered(step, verification, countries, document) {
   }
 }
 
-export interface PremiumAmlWatchlistStepData {
+export interface IPremiumAmlWatchlistStepData {
   isMonitoringAvailable: boolean;
   nameSearched: string;
   profileUrl?: string;
   searchId: number;
   searchedOn: string;
   updatedOn?: string;
+  searchedCountries?: string[];
 }
 
 export function getDocumentStep(id, steps = []) {
@@ -404,7 +405,7 @@ export function getStepStatus(step): StepStatus {
   }
 
   if (id === DocumentStepTypes.PremiumAmlWatchlistsCheck) {
-    if ((data as PremiumAmlWatchlistStepData)?.updatedOn) {
+    if ((data as IPremiumAmlWatchlistStepData)?.updatedOn) {
       return StepStatus.Failure;
     }
   }

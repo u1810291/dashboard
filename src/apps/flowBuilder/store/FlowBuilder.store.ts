@@ -4,7 +4,7 @@ import { ProductTypes } from 'models/Product.model';
 
 export const FLOW_BUILDER_STORE_KEY = 'FlowBuilder';
 
-export enum SliceNames {
+export enum SliceNameTypes {
   ProductsInGraph = 'productsInGraph',
   ChangeableFlow = 'changeableFlow',
 }
@@ -15,8 +15,8 @@ export enum FlowBuilderActionGroups {
 }
 
 export interface FlowBuilderStore {
-  [SliceNames.ProductsInGraph]: Loadable<ProductTypes[]>;
-  [SliceNames.ChangeableFlow]: Loadable<IFlow>;
+  [SliceNameTypes.ProductsInGraph]: Loadable<ProductTypes[]>;
+  [SliceNameTypes.ChangeableFlow]: Loadable<IFlow>;
   haveUnsavedChanges: boolean;
   selectedId: ProductTypes;
 }

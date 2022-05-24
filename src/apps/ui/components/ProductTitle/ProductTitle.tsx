@@ -1,18 +1,21 @@
 import React, { useMemo } from 'react';
-import { Box, Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import { CircledContent, ProductCheckList } from 'apps/ui';
 import { IProductCard } from 'models/Product.model';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { useStyles } from './ProductTitle.styles';
 import { ProductDescription } from '../ProductDescription/ProductDescription';
 
-export function ProductTitle({ card }: {
+export function ProductTitle({ card, hasDescription }: {
   card: IProductCard;
+  hasDescription?: boolean;
 }) {
   const classes = useStyles();
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const { inputs, icon } = card;
-  const inputList = useMemo(() => inputs.map((item) => intl.formatMessage({ id: `Product.userInput.${item}` })).join(', '), [intl, inputs]);
+  const inputList = useMemo(() => inputs.map((item) => formatMessage(`Product.userInput.${item}`)).join(', '), [formatMessage, inputs]);
+
   return (
     <Box>
       <Grid container wrap="nowrap" alignItems="center">
@@ -23,15 +26,17 @@ export function ProductTitle({ card }: {
         </Box>
         <Box ml={1}>
           <Box className={classes.title}>
-            {intl.formatMessage({ id: card.title })}
+            {formatMessage(card.title)}
           </Box>
           <Box color="common.black75">
-            {intl.formatMessage({ id: 'Product.card.usersInput' }, { inputs: inputList })}
+            {formatMessage('Product.card.usersInput', { messageValues: { inputs: inputList } })}
           </Box>
         </Box>
       </Grid>
       <Box mt={2}>
-        <ProductDescription card={card} />
+        {hasDescription && (
+          <ProductDescription card={card} />
+        )}
         <ProductCheckList cards={[card]} />
       </Box>
     </Box>

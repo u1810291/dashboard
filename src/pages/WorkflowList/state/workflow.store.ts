@@ -7,11 +7,11 @@ export const WorkflowActionGroups = {
   Workflow: 'WORKFLOWS',
 };
 
-export enum SliceNames {
+export enum SliceNameTypes {
   Workflows = 'workflows',
 }
 
 export interface WorkflowStore {
-  [SliceNames.Workflows]: Loadable<IWorkflow[]>;
+  [SliceNameTypes.Workflows]: Loadable<IWorkflow[]>;
   currentFlow: string | null;
 }

@@ -1,16 +1,16 @@
 import { createReducer } from 'state/store.utils';
 import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { verificationHistoryCleanFilter } from 'models/History.model';
-import { SliceNames, types, VerificationHistoryActionGroups } from './verificationHistory.store';
+import { SliceNameTypes, types, VerificationHistoryActionGroups } from './verificationHistory.store';
 
 const initialState = {
   filter: verificationHistoryCleanFilter,
-  [SliceNames.Changes]: LoadableAdapter.createState(null),
-  [SliceNames.Count]: 0,
+  [SliceNameTypes.Changes]: LoadableAdapter.createState(null),
+  [SliceNameTypes.Count]: 0,
 };
 
 export default createReducer(initialState, {
-  ...LoadableAdapter.createHandlers(VerificationHistoryActionGroups.VERIFICATION_CHANGES, SliceNames.Changes),
+  ...LoadableAdapter.createHandlers(VerificationHistoryActionGroups.VERIFICATION_CHANGES, SliceNameTypes.Changes),
   [types.FILTER_UPDATE](state, { payload }) {
     return {
       ...state,
@@ -20,7 +20,7 @@ export default createReducer(initialState, {
   [types.VERIFICATION_HISTORY_COUNT_LOAD](state, { payload }) {
     return {
       ...state,
-      [SliceNames.Count]: payload,
+      [SliceNameTypes.Count]: payload,
     };
   },
 

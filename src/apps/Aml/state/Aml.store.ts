@@ -14,7 +14,7 @@ export enum BasicWatchlistsActions {
   CurrentWatchlistFileFailure = 'CURRENT_BASIC_WATCHLIST_FILE_FAILURE',
 }
 
-export enum SliceNames {
+export enum SliceNameTypes {
   Watchlists = 'watchlists',
   WatchlistsGroups = 'watchlistsGroups',
   CurrentWatchlist = 'currentWatchlist',
@@ -32,10 +32,10 @@ export const types: TypesSequence = {
 };
 
 export interface AmlStore {
-  [SliceNames.Watchlists]: Loadable<IWatchlist[]>;
-  [SliceNames.WatchlistsGroups]: Loadable<IWatchlistGroup[]>;
-  [SliceNames.CurrentWatchlist]: Loadable<Nullable<IWatchlist>>;
-  [SliceNames.WatchlistContent]: Loadable<IWatchlistContent>;
-  [SliceNames.CurrentWatchlistHeaders]: Loadable<string[]>;
+  [SliceNameTypes.Watchlists]: Loadable<IWatchlist[]>;
+  [SliceNameTypes.WatchlistsGroups]: Loadable<IWatchlistGroup[]>;
+  [SliceNameTypes.CurrentWatchlist]: Loadable<Nullable<IWatchlist>>;
+  [SliceNameTypes.WatchlistContent]: Loadable<IWatchlistContent>;
+  [SliceNameTypes.CurrentWatchlistHeaders]: Loadable<string[]>;
   fileErrorType: Nullable<string>;
 }
