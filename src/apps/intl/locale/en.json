@@ -2287,16 +2287,8 @@
   "SecurityCheckStep.peruvianSunat.notFound.message": "The document number provided was not found in the SUNAT Database",
   "SecurityCheckStep.peruvianSunat.notValidParams": "Invalid parameters",
   "SecurityCheckStep.peruvianSunat.notValidParams.message": "The document number is invalid.",
-<<<<<<< HEAD
   "SecurityCheckStep.peruvian-migration-institute.title": "National Migration Institute",
-  "SecurityCheckStep.philippinian-umid-ssn-validation.title": "UMID/SSS",
-  "SecurityCheckStep.philippinianDL.dateOfBirthMismatch.message": "The date of birth didn’t match to the DL data",
-  "SecurityCheckStep.philippinianDL.fullNameMismatch.message": "The name on the document does not match DL records. Please review both names before rejecting/accepting the user.",
-  "SecurityCheckStep.philippinianDL.notValidParams.message": "The provided driving license number or serial number has an incorrect format",
-  "SecurityCheckStep.philippinianUMIDSSN.notValidParams.message": "The provided UMID/SSN is invalid",
-=======
   "SecurityCheckStep.philippinian-umid-ssn-validation.title": "UMID/SSN",
->>>>>>> e421ca244d631548d650f5d5641f14983410d05b
   "SecurityCheckStep.phoneOwnership.notEnoughParams": "The user did not submit any valid phone number within the time limit.",
   "SecurityCheckStep.phoneOwnership.skipped": "The user skipped phone number input.",
   "SecurityCheckStep.phoneOwnership.smsSendLimitExceeded": "We were unable to send the SMS with the verification code due to the SMS sending limit.",
