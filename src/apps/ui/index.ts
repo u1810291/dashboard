@@ -67,6 +67,8 @@ export { Select } from './components/Select/Select';
 export { WarningBadge } from './components/WarningBadge/WarningBadge';
 export { TextFieldEditAdornment } from './components/TextFieldEditAdornment/TextFieldEditAdornment';
 export { Switch } from './components/Switch/Switch';
+export { CountryModalSelectContainer } from './components/CountryModalSelect/components/CountryModalSelectContainer/CountryModalSelectContainer';
+export { ToggleFloatingButtonGroup } from './components/ToggleFloatingButtonGroup/ToggleFloatingButtonGroup';
 
 export { WarningTypes, WarningSize } from './models/Warning.model';
 export { SyntaxHighlighterLanguages } from './models/SyntaxHighlighter.model';

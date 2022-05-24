@@ -179,3 +179,15 @@ export function getSigMethod(values?: ESignatureValidationAcceptanceCriteria, ne
 
   return ESignatureRadioOptionsEnum.NameTyping;
 }
+
+export const electronicSignatureFlowInitialState = {
+  templates: {
+    order: [],
+    list: [],
+  },
+  acceptanceCriteria: {
+    isDocumentsRequired: false,
+    isFaceMatchRequired: false,
+    isFullNameRequired: false,
+  },
+};

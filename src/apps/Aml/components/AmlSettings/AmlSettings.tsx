@@ -2,7 +2,7 @@ import Box from '@material-ui/core/Box';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import { ExtendedDescription, RangeSlider, Warning, BoxBordered } from 'apps/ui';
+import { ExtendedDescription, RangeSlider, Warning, BoxBordered, CountryModalSelectContainer, ToggleFloatingButtonGroup } from 'apps/ui';
 import cloneDeep from 'lodash/cloneDeep';
 import { useDebounce } from 'lib/debounce.hook';
 import { ProductSettingsProps } from 'models/Product.model';
@@ -10,10 +10,9 @@ import { useFormatMessage } from 'apps/intl';
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useOverlay } from 'apps/overlay';
-import { CountryModalSelectContainer } from 'apps/CountryModalSelect';
 import classNames from 'classnames';
 import { AllowedRegions } from 'models/Country.model';
-import { AmlCheckTypes, AmlSettingsTypes } from '../../models/Aml.model';
+import { AmlCheckTypes, AmlSettingsTypes, SearchModeTypes } from '../../models/Aml.model';
 import { selectCanUseBasicWatchlists, selectCanUsePremiumWatchlistsSearch, selectCanUsePremiumWatchlistsSearchAndMonitoring } from '../../state/Aml.selectors';
 import { BasicWatchlist } from '../BasicWatchlist/BasicWatchlist';
 import { useStyles } from './AmlSettings.styles';
@@ -61,11 +60,18 @@ export function AmlSettings({ settings, onUpdate }: ProductSettingsProps<AmlSett
     const initialValues = settings[AmlSettingsTypes.CountriesSearched].value.map((countryCode: string) => ({ country: countryCode, regions: [] }));
     createOverlay(
       <CountryModalSelectContainer
+        title={formatMessage('AmlCheck.settings.countriesModal.title')}
+        description={formatMessage('AmlCheck.settings.countriesModal.description')}
         initialValues={initialValues}
         onSubmit={handleSubmitAllowedRegions}
       />,
     );
-  }, [createOverlay, handleSubmitAllowedRegions, settings]);
+  }, [createOverlay, handleSubmitAllowedRegions, formatMessage, settings]);
+
+  const searchModeOptions = [
+    { name: formatMessage('AmlCheck.settings.searchMode.fuzzy'), value: SearchModeTypes.Fuzzy },
+    { name: formatMessage('AmlCheck.settings.searchMode.exact'), value: SearchModeTypes.Exact },
+  ];
 
   return (
     <Box>
@@ -105,15 +111,27 @@ export function AmlSettings({ settings, onUpdate }: ProductSettingsProps<AmlSett
         />
         <Box mt={2} className={classNames({ [classes.disabled]: isPremiumEnabled && !settings[AmlSettingsTypes.Search].value })}>
           <ExtendedDescription
-            title={formatMessage('AmlCheck.settings.fuzzinessParameter.title')}
-            text={formatMessage('AmlCheck.settings.fuzzinessParameter.description')}
+            title={formatMessage('AmlCheck.settings.searchMode.title')}
+            text={formatMessage('AmlCheck.settings.searchMode.description')}
           >
-            <RangeSlider
-              defaultValue={settings[AmlSettingsTypes.AmlThreshold].value}
-              onChange={(_, value) => updateSettingField(AmlSettingsTypes.AmlThreshold, value)}
-              disabled={!isPremiumEnabled}
+            <ToggleFloatingButtonGroup
+              value={settings[AmlSettingsTypes.SearchMode].value}
+              options={searchModeOptions}
+              onChange={(mode) => updateSettingField(AmlSettingsTypes.SearchMode, mode)}
             />
           </ExtendedDescription>
+          {settings[AmlSettingsTypes.SearchMode].value === SearchModeTypes.Fuzzy && (
+            <ExtendedDescription
+              title={formatMessage('AmlCheck.settings.fuzzinessParameter.title')}
+              className={classes.productBlock}
+            >
+              <RangeSlider
+                defaultValue={settings[AmlSettingsTypes.AmlThreshold].value}
+                onChange={(_, value) => updateSettingField(AmlSettingsTypes.AmlThreshold, value)}
+                disabled={!isPremiumEnabled}
+              />
+            </ExtendedDescription>
+          )}
           <ExtendedDescription
             title={formatMessage(`AmlCheck.settings.${AmlSettingsTypes.CountriesSearched}.title`)}
             text={formatMessage(`AmlCheck.settings.${AmlSettingsTypes.CountriesSearched}.description`)}

@@ -40,12 +40,18 @@ export enum AmlSettingsTypes {
   BasicWatchlists = 'basicWatchlists',
   BasicWatchlistsPattern = 'basicWatchlistsPattern',
   CountriesSearched = 'countriesSearched',
+  SearchMode = 'searchMode',
 }
 
 export enum AmlCheckTypes {
   Watchlist = 'watchlist',
   Search = 'search',
   Monitoring = 'monitoring',
+}
+
+export enum SearchModeTypes {
+  Exact = 'Exact',
+  Fuzzy = 'Fuzzy',
 }
 
 export const MatchTypes = {

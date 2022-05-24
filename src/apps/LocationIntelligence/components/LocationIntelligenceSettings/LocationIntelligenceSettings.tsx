@@ -1,11 +1,17 @@
-import { Box, Button, FormControlLabel, Grid, Radio, RadioGroup, Switch, Typography } from '@material-ui/core';
-import { cloneDeep } from 'lodash';
-import { BoxBordered, Warning } from 'apps/ui';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Switch from '@material-ui/core/Switch';
+import Typography from '@material-ui/core/Typography';
+import cloneDeep from 'lodash/cloneDeep';
+import { BoxBordered, Warning, CountryModalSelectContainer } from 'apps/ui';
 import { ProductSettingsProps } from 'models/Product.model';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useOverlay } from 'apps/overlay';
-import { CountryModalSelectContainer } from 'apps/CountryModalSelect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
 import { AllowedRegions, Country } from 'models/Country.model';
 import { useFormatMessage } from 'apps/intl';
@@ -20,7 +26,7 @@ export function LocationIntelligenceSettings({ settings, onUpdate }: ProductSett
   const [currentMethod, setCurrentMethod] = useState<LocationIntelligenceValidationTypes>(LocationIntelligenceValidationTypes.None);
   const [isVpnRestricted, setIsVpnRestricted] = useState<boolean>(false);
   const [isHighAccuracyEnabled, setIsHighAccuracyEnabled] = useState<boolean>(false);
-  const [allowedRegions, setAllowedRegions] = useState<AllowedRegions[] | null>([]);
+  const [allowedRegions, setAllowedRegions] = useState<Nullable<AllowedRegions[]>>([]);
   const merchantTags: MerchantTags[] = useSelector(selectMerchantTags);
   const isProductEnabled = merchantTags.includes(MerchantTags.CanUseHighAccuracyLocationTracking);
 
@@ -64,17 +70,19 @@ export function LocationIntelligenceSettings({ settings, onUpdate }: ProductSett
     onUpdate(newSettings);
   }, [onUpdate, settings]);
 
+  const formatMessage = useFormatMessage();
+
   const openCountryModal = useCallback(() => {
     createOverlay(
       <CountryModalSelectContainer
+        title={formatMessage('Product.configuration.LocInt.countriesModal.title')}
+        description={formatMessage('Product.configuration.LocInt.countriesModal.description')}
         initialValues={allowedRegions}
         showRegions
         onSubmit={handleSubmitAllowedRegions}
       />,
     );
-  }, [allowedRegions, createOverlay, handleSubmitAllowedRegions]);
-
-  const formatMessage = useFormatMessage();
+  }, [allowedRegions, formatMessage, createOverlay, handleSubmitAllowedRegions]);
 
   return (
     <Grid container direction="row" spacing={1}>
