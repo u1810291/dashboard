@@ -1,8 +1,11 @@
-import { Box, Grid } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 import { ProductTypes } from 'models/Product.model';
 import { IVerificationWorkflow } from 'models/Verification.model';
 import React, { useEffect, useState } from 'react';
 import { ProductVerification } from 'apps/Product/components/ProductVerification/ProductVerification';
+import { ErrorCatch, ProductErrorPlaceholder } from 'apps/Error';
+import { useCrashedProducts } from 'apps/Product';
 import { VerificationProductList } from '../VerificationProductList/VerificationProductList';
 import { useStyles } from './Verification.styles';
 
@@ -12,6 +15,7 @@ export function Verification({ verification, productList }: {
 }) {
   const [selectedProduct, setSelectedProduct] = useState<ProductTypes>(null);
   const classes = useStyles();
+  const [onError, productsWithError] = useCrashedProducts(selectedProduct);
 
   // TODO: @ggrigorev WF add privateMedia logic
   useEffect(() => {
@@ -28,11 +32,18 @@ export function Verification({ verification, productList }: {
           productList={productList}
           selectedId={selectedProduct}
           onSelect={setSelectedProduct}
+          crashedProducts={productsWithError}
         />
       </Grid>
       <Grid item xs={12} lg={8} xl={10} className={classes.products}>
         <Box p={2}>
-          <ProductVerification productId={selectedProduct} verification={verification} />
+          <ErrorCatch onError={onError}>
+            {!productsWithError.has(selectedProduct) ? (
+              <ProductVerification productId={selectedProduct} verification={verification} />
+            ) : (
+              <ProductErrorPlaceholder />
+            )}
+          </ErrorCatch>
         </Box>
       </Grid>
     </Grid>

@@ -1,10 +1,12 @@
-import { Grid, Box, IconButton } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import { useFormatMessage } from 'apps/intl';
 import { notification } from 'apps/ui';
 import compressImage from 'lib/compressImage';
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FiLoader, FiTrash2, FiUpload } from 'react-icons/fi';
-import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { flowBuilderChangeableFlowUpdate } from 'apps/flowBuilder/store/FlowBuilder.action';
 import { selectFlowBuilderChangeableFlowModel, selectFlowBuilderChangeableLogoUrl } from 'apps/flowBuilder/store/FlowBuilder.selectors';
@@ -13,23 +15,22 @@ import { useStyles } from './Logo.styles';
 import { flowBuilderSDKMediaUpdate } from '../../state/Logo.actions';
 
 export function Logo() {
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const classes = useStyles();
   const dispatch = useDispatch();
   const logoModel = useSelector(selectFlowBuilderChangeableLogoUrl);
   const flowModel = useSelector(selectFlowBuilderChangeableFlowModel);
 
   const showError = useCallback(() => {
-    notification.error(intl.formatMessage({ id: 'flow.logoStep.button.error' }));
-  }, [intl]);
+    notification.error(formatMessage('flow.logoStep.button.error'));
+  }, [formatMessage]);
 
   const onDropAccepted = useCallback(async (files) => {
     try {
       const file = files[0];
       const form = new FormData();
       const compressedFile = await compressImage(file, {
-        maxSideSize: 159,
-        type: file.type === 'image/png' ? file.type : 'image/jpeg',
+        type: file.type,
       });
       form.append('media', compressedFile);
       dispatch(flowBuilderSDKMediaUpdate(form));
