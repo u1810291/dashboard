@@ -86,7 +86,7 @@ export enum VerificationPatternTypes {
   FinancialInformationPayrollAccountsRetrieving = 'financial-information-payroll-accounts-retrieving',
   Facematch = 'facematch-service-validation',
   UgandanElectoralCommission = 'ugandan-electoral-commission-validation',
-  PeruvianMigrationInstitute = 'peruvian-migration-institute',
+  PeruvianMigrationInstitute = 'peruvian-national-migration-institute',
   DuplicateFaceDetection = 'duplicate-face-detection',
   BasicWatchlistsValidation = 'basic-watchlists-validation',
   PhilippinesUMIDSSS = 'philippinian-umid-ssn-validation',
