@@ -1,4 +1,4 @@
-import { AmlCheckTypes, AmlDocumentSteps, AmlSettingsTypes, AmlValidationTypes } from 'apps/Aml/models/Aml.model';
+import { AmlCheckTypes, AmlDocumentSteps, AmlSettingsTypes, AmlValidationTypes, SearchModeTypes } from 'apps/Aml/models/Aml.model';
 import { IFlow } from 'models/Flow.model';
 import { DEFAULT_AML_FUZZINESS_THRESHOLD, premiumAmlWatchlistsInitialValue } from 'models/Aml.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
@@ -63,6 +63,9 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
       [AmlSettingsTypes.CountriesSearched]: {
         value: flow.premiumAmlWatchlists?.countryCodes,
       },
+      [AmlSettingsTypes.SearchMode]: {
+        value: flow.premiumAmlWatchlists?.exactMatch ? SearchModeTypes.Exact : SearchModeTypes.Fuzzy,
+      },
     };
   }
 
@@ -84,6 +87,7 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
       premiumAmlWatchlists: {
         fuzzinessThreshold: settings[AmlSettingsTypes.AmlThreshold].value,
         countryCodes: settings[AmlSettingsTypes.CountriesSearched].value,
+        exactMatch: settings[AmlSettingsTypes.SearchMode].value === SearchModeTypes.Exact,
       },
     };
   }

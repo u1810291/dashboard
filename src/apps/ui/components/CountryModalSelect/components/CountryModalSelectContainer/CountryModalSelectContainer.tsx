@@ -3,21 +3,21 @@ import { Modal, useOverlay } from 'apps/overlay';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
-import { useFormatMessage } from 'apps/intl';
 import { Spinner } from 'apps/ui';
 import { AllowedRegions } from 'models/Country.model';
 import { CountryModalSelect } from '../CountryModalSelect/CountryModalSelect';
 import { useStyles } from './CountryModalSelectContainer.styles';
 
-export function CountryModalSelectContainer({ onSubmit, initialValues, showRegions }: {
-  onSubmit: (data: AllowedRegions[]) => void;
+export function CountryModalSelectContainer({ title, description, initialValues, showRegions, onSubmit }: {
+  title: string;
+  description: string;
   initialValues: AllowedRegions[] | null;
   showRegions?: boolean;
+  onSubmit: (data: AllowedRegions[]) => void;
 }) {
   const countriesModel = useCountriesLoad();
   const countries = showRegions ? countriesModel.value : countriesModel.value.map((country) => ({ ...country, regions: [] }));
   const [, closeOverlay] = useOverlay();
-  const formatMessage = useFormatMessage();
   const classes = useStyles();
 
   return (
@@ -25,10 +25,8 @@ export function CountryModalSelectContainer({ onSubmit, initialValues, showRegio
       onClose={closeOverlay}
       description={(
         <>
-          <Typography variant="h4" gutterBottom className={classes.modalTitle}>
-            {formatMessage('CountryModalSelect.title')}
-          </Typography>
-          <Box className={classes.modalSubTitle}>{formatMessage('CountryModalSelect.subtitle')}</Box>
+          <Typography variant="h4" gutterBottom className={classes.modalTitle}>{title}</Typography>
+          <Box className={classes.modalSubTitle}>{description}</Box>
         </>
     )}
       className={classes.modal}

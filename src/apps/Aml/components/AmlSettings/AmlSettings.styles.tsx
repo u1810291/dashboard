@@ -17,7 +17,6 @@ export const useStyles = makeStyles((theme) => ({
   },
   openCountriesButton: {
     width: '100%',
-    marginBottom: 24,
   },
   productBlock: {
     marginTop: 25,
