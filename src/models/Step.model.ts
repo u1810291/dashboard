@@ -328,9 +328,6 @@ const StepIncompletionErrors = {
   [VerificationDocStepTypes.DuplicateUserValidation]: ['duplicateUserDetection.notValidParams'],
   [VerificationStepTypes.BackgroundBrazilianChecks]: ['brazilianBackgroundChecks.documentNotFound'],
 };
-export const BackgroundChecksErrorsToHide = {
-  'brazilianBackgroundChecks.documentNotFound': true,
-};
 
 export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.ArgentinianRenaperExtended]: ['argentinianRenaperExtended.deceasedPerson', 'argentinianRenaperExtended.dniMismatch', 'argentinianRenaperExtended.hasNoCuit'],
@@ -350,6 +347,10 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.DominicanRnc]: ['dominicanRnc.nameMismatch'],
 };
 
+export const BackgroundChecksErrorsToHide = {
+  'brazilianBackgroundChecks.documentNotFound': true,
+};
+
 export const RootGovChecksErrorsToHide = {
   'nigerianLegal.documentNotFound': true,
 };
@@ -357,6 +358,10 @@ export const RootGovChecksErrorsToHide = {
 export const StepSkippedCodes = [
   'customDocument.skipped',
   'customDocument.notProvided',
+];
+
+export const MinorErrorCodes = [
+  'philippineDL.incompleteDataReceived',
 ];
 
 function getAltered(step, verification, countries, document) {
@@ -398,10 +403,8 @@ export function getStepStatus(step): StepStatus {
     return StepStatus.Checking;
   }
 
-  if (id === DocumentStepTypes.PremiumAmlWatchlistsCheck) {
-    if ((data as PremiumAmlWatchlistStepData)?.updatedOn) {
-      return StepStatus.Failure;
-    }
+  if (id === DocumentStepTypes.PremiumAmlWatchlistsCheck && (data as PremiumAmlWatchlistStepData)?.updatedOn) {
+    return StepStatus.Failure;
   }
 
   if (!error) {
@@ -414,9 +417,13 @@ export function getStepStatus(step): StepStatus {
     return StepStatus.Skipped;
   }
 
+  if (MinorErrorCodes.includes(code)) {
+    return StepStatus.Success;
+  }
+
   return code && StepIncompletionErrors[id] && StepIncompletionErrors[id].includes(code)
     ? StepStatus.Incomplete
-    : StepStatus.Failure;
+    : StepStatus.Checking;
 }
 
 export function getStepExtra<T = any>(step: IStep<T>, verification?: any, countries?: any, document?: any) {
