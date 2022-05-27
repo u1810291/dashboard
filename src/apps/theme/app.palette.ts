@@ -1,4 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/naming-convention
+/* eslint-disable @typescript-eslint/naming-convention */
+// TODO: @ggrigorev remove deprecated mark once appPalette is replaced with theme.palette in all places
+/**
+ * @deprecated
+ * In components and styles use theme.palette instead.
+ * We want to add darkTheme in future.
+ */
 export enum appPalette {
   blue = '#3757ff',
   gray = '#F9F9F9',
