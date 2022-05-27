@@ -2,7 +2,7 @@ import { Box, Container, Grid } from '@material-ui/core';
 import { ByCountries, ByFlows, OpenFilter, useFilterParser } from 'apps/filter';
 import { AnalyticsMap } from 'apps/googleMap/components/AnalyticsMap/AnalyticsMap';
 import { PageLoader } from 'apps/layout';
-import { analyticsCleanFilter, analyticsFilterStructure } from 'models/Analytics.model';
+import { analyticsCleanFilter, analyticsFilterStructure, analyticsUserTypes } from 'models/Analytics.model';
 import { analyticsDatePickerRanges, FilterRangesByLocal, FilterRangeTypes, getFilterDatesIsValid, parseFromURL } from 'models/Filter.model';
 import { QATags } from 'models/QA.model';
 import React, { useEffect, useState } from 'react';
@@ -36,8 +36,8 @@ export function AnalyticsContainer() {
   const metricsFilter = useSelector<any, any>(selectFilter);
   const countStatisticsModel = useSelector<any, any>(selectCountStatisticsModel);
   const onboardingProgress = useSelector<any, StepsOptions[]>(selectMerchantOnboarding);
+  const userType = onboardingProgress?.length ? analyticsUserTypes.newUser : analyticsUserTypes.oldUser;
   const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
-  const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
   const shouldUseSigmaWidget = useSelector(selectMerchantCanUseSigmaWidget);
   const byDate = useSelector(selectStatisticsByDate);
   const { asMerchantId } = useQuery();
@@ -72,9 +72,10 @@ export function AnalyticsContainer() {
 
   return (
     <Container maxWidth={false}>
+      <div data-analytics-usertype={userType} />
       {isFilterDatesValid && !countStatisticsModel.isLoading && countStatisticsModel.isLoaded ? (
         <Box pb={2} className={classes.wrapper}>
-          {!!onboardingProgress?.length && canUseTemplates && <OnboardingSteps />}
+          {!!onboardingProgress?.length && <OnboardingSteps />}
           <Box mb={2}>
             <Grid container alignItems="center">
               <Grid item xs={9}>

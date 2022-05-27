@@ -5,14 +5,14 @@ import Box from '@material-ui/core/Box';
 import classNames from 'classnames';
 import { FiArrowRight, FiArrowLeft } from 'react-icons/fi';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { TemplateGaleryProps } from 'apps/SolutionCatalog';
+import { ITemplateGaleryProps } from 'apps/SolutionCatalog';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
 import { TemplateCard } from '../TemplateCard/TemplateCard';
 import { useStyles } from './TemplatesGalery.styles';
 
-export function TemplatesGallery({ templates, handleCardClick }: TemplateGaleryProps) {
+export function TemplatesGallery({ templates, handleCardClick }: ITemplateGaleryProps) {
   const classes = useStyles();
 
   return (

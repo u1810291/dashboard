@@ -21,5 +21,13 @@ export const useStyles = makeStyles((theme) => createStyles({
   },
   issues: {
     color: theme.palette.common.red,
+    position: 'absolute !important' as any,
+    right: 355,
+    top: -3,
+  },
+  unsavedChanges: {
+    position: 'absolute !important' as any,
+    right: 355,
+    top: -3,
   },
 }));

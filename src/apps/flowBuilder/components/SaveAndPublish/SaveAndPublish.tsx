@@ -51,7 +51,7 @@ export function SaveAndPublish() {
           {intl.formatMessage({ id: 'FlowBuilder.notification.issues' })}
         </TextBubble>
       ) : haveUnsavedChanges && (
-        <TextBubble>
+        <TextBubble className={classes.unsavedChanges}>
           {intl.formatMessage({ id: 'FlowBuilder.notification.unsavedChanges' })}
         </TextBubble>
       )}

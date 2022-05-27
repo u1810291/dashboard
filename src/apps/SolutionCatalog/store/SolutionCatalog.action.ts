@@ -1,5 +1,5 @@
 import { createTypesSequence, TypesSequence } from 'state/store.utils';
-import { TemplateFilterOptions } from 'apps/SolutionCatalog';
+import { ITemplateFilterOptions } from 'apps/SolutionCatalog';
 import * as api from '../api/SolutionCatalog.client';
 import { SolutionCatalogActionGroups } from './SolutionCatalog.store';
 
@@ -7,7 +7,7 @@ export const solutionCatalogTypes: TypesSequence = {
   ...createTypesSequence(SolutionCatalogActionGroups.AllTemplates),
 };
 
-export const loadTemplates = (filters: TemplateFilterOptions[]) => async (dispatch) => {
+export const loadTemplates = (filters: ITemplateFilterOptions[]) => async (dispatch) => {
   dispatch({ type: solutionCatalogTypes.ALL_TEMPLATES_UPDATING });
 
   try {
