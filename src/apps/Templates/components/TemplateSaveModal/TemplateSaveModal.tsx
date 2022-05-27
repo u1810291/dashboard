@@ -25,7 +25,7 @@ import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { flatten, groupBy, pickBy, uniqBy } from 'lodash';
 import { useLoadMetadataList } from '../../hooks/UseLoadMetadataList';
-import { selectIndustryMetadata, selectCurrentTemplateModelValue } from '../../store/Templates.selectors';
+import { selectIndustryMetadata, selectCountryMetadata, selectCurrentTemplateModelValue } from '../../store/Templates.selectors';
 import {
   ITemplateMetadata,
   TemplateSaveInputsTypes,
@@ -34,6 +34,7 @@ import {
   TEMPLATE_SAVE_FORM_INITIAL_STATE,
   templateSaveFormEdit,
   saveTemplateOptions,
+  IFieldValidation,
 } from '../../model/Templates.model';
 import { createTemplate, updateTemplate, toggleUnsavedChanges } from '../../store/Templates.actions';
 import { useStyles } from './TemplateSaveModal.styles';
@@ -46,7 +47,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   const [, closeOverlay] = useOverlay();
   const history = useHistory();
   const industries = useSelector<any, ITemplateMetadata[]>(selectIndustryMetadata);
-  // const countries = useSelector<any, ITemplateMetadata[]>(selectCountryMetadata);
+  const regions = useSelector<any, ITemplateMetadata[]>(selectCountryMetadata);
   const currentTemplate = useSelector<any, ITemplate>(selectCurrentTemplateModelValue);
   const intl = useIntl();
   const TEMPLATE_SAVE_FORM_EDIT = edit && templateSaveFormEdit(currentTemplate);
@@ -70,7 +71,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   const metamapNameRegister = register(TemplateSaveInputsTypes.MetamapName, {
     required: formatMessage('validations.required'),
     maxLength: {
-      value: 35,
+      value: 30,
       message: intl.formatMessage({ id: 'Templates.saveModal.validation.max' }, { max: 35 }),
     },
     validate: (value) => (currentTemplate?.flow?.name === value || !flowListModel?.value?.find((flow) => flow.name === value)) || formatMessage('validators.nameOccupied'),
@@ -86,11 +87,10 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
     required: formatMessage('validations.required'),
     validate: (value) => value?.length > 0 || formatMessage('validations.required'),
   });
-  // const countriesRegister = register(TemplateSaveInputsTypes.Countries, {
-  //   required: formatMessage('validations.required'),
-  //   validate: (value) => value?.length > 0 || formatMessage('validations.required'),
-  // });
-  // we will return this part in Q2, we were told to put it away for a while
+  const regionsRegister = register(TemplateSaveInputsTypes.Regions, {
+    required: formatMessage('validations.required'),
+    validate: (value) => value?.length > 0 || formatMessage('validations.required'),
+  });
   const descriptionRegister = register(TemplateSaveInputsTypes.Description, {
     required: formatMessage('validations.required'),
     maxLength: {
@@ -101,7 +101,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
 
   const handleSubmitSaveForm = async () => {
     try {
-      await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries]]));
+      await dispatch(createTemplate(values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Regions]]));
       dispatch(toggleUnsavedChanges(false));
     } catch (error) {
       notification.error(formatMessage('Error.common'));
@@ -110,7 +110,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
 
   const handleSubmitPatchForm = async () => {
     try {
-      await dispatch(updateTemplate(values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries]]));
+      await dispatch(updateTemplate(values[TemplateSaveInputsTypes.MetamapName], values[TemplateSaveInputsTypes.TemplateTitle], values[TemplateSaveInputsTypes.Description], [...values[TemplateSaveInputsTypes.Industries], ...values[TemplateSaveInputsTypes.Regions]]));
       closeOverlay();
     } catch (error) {
       notification.error(formatMessage('Error.common'));
@@ -138,6 +138,20 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
   const getIsChecked = (value, type) => values[type].some((metadata) => metadata._id === value._id);
 
   const { onChange: industriesOnChange } = industriesRegister;
+  const { onChange: regionsOnChange } = regionsRegister;
+
+  const chipChange = (event, IndustryField: boolean) => {
+    const uniqueIndustries = uniqBy(event.target.value as [], (metadata: ITemplateMetadata) => metadata._id);
+    const hasDuplicates = event.target.value.length !== uniqueIndustries.length;
+    if (hasDuplicates) {
+      const group = groupBy(event.target.value, (ind) => ind._id);
+      const groupWithoutDups = pickBy(group, (property) => property.length < 2);
+      // eslint-disable-next-line no-param-reassign
+      event.target.value = flatten(Object.values(groupWithoutDups));
+    }
+    if (IndustryField) industriesOnChange(event);
+    regionsOnChange(event);
+  };
 
   return (
     <Modal
@@ -205,19 +219,9 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                 </Box>
                 <Select
                   {...industriesRegister}
-                  onChange={(event) => {
-                    const uniqueIndustries = uniqBy(event.target.value as any, (metadata: any) => metadata._id);
-                    // @ts-ignore
-                    const hasDups = event.target.value.length !== uniqueIndustries.length;
-                    if (hasDups) {
-                      // @ts-ignore
-                      const group = groupBy(event.target.value, (ind) => ind._id);
-                      const groupWithoutDups = pickBy(group, (property) => property.length < 2);
-                      // @ts-ignore
-                      // eslint-disable-next-line no-param-reassign
-                      event.target.value = flatten(Object.values(groupWithoutDups));
-                    }
-                    industriesOnChange(event);
+                  // @ts-ignore
+                  onChange={(event: React.ChangeEvent<{ name?: string; value: ITemplateMetadata[]}>) => {
+                    chipChange(event, true);
                   }}
                   value={values[TemplateSaveInputsTypes.Industries]}
                   multiple
@@ -234,7 +238,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                       className: classes.dropdownMenuPaper,
                     },
                   }}
-                  renderValue={(selectValues) => renderChip(selectValues as any, handleDeleteChip, TemplateSaveInputsTypes.Industries)}
+                  renderValue={(selectValues) => renderChip(selectValues as ITemplateMetadata[], handleDeleteChip, TemplateSaveInputsTypes.Industries)}
                   autoWidth={false}
                   error={!!errors[TemplateSaveInputsTypes.Industries]}
                   data-qa={QATags.Templates.Modal.IndustriesSelect}
@@ -247,54 +251,57 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                     </MenuItem>
                   ))}
                 </Select>
-                {!!errors[TemplateSaveInputsTypes.Industries] && <FormHelperText className={classes.selectHelperText}>{(errors?.[TemplateSaveInputsTypes.Industries] as any)?.message}</FormHelperText>}
+                {!!errors[TemplateSaveInputsTypes.Industries] && <FormHelperText className={classes.selectHelperText}>{(errors?.[TemplateSaveInputsTypes.Industries] as IFieldValidation)?.message}</FormHelperText>}
               </Box>
-              {/* we will return this part in Q2, we were told to put it away for a while */}
-              {/* <Box className={classes.inputLabelAndField} mt={3} justifyContent="end !important"> */}
-              {/*  <Box mr={2}> */}
-              {/*    <span className={classes.inputLabel}> */}
-              {/*      {`${formatMessage('Templates.saveModal.fields.countries')}:`} */}
-              {/*    </span> */}
-              {/*  </Box> */}
-              {/*  <Select */}
-              {/*    {...countriesRegister} */}
-              {/*    value={values[TemplateSaveInputsTypes.Countries]} */}
-              {/*    renderValue={(selectValues) => renderChip(selectValues as any, handleDeleteChip, TemplateSaveInputsTypes.Countries)} */}
-              {/*    multiple */}
-              {/*    disableUnderline */}
-              {/*    className={classnames(classes.select, { [classes.selectError]: !!errors[TemplateSaveInputsTypes.Countries] })} */}
-              {/*    autoWidth={false} */}
-              {/*    MenuProps={{ */}
-              {/*      anchorOrigin: { */}
-              {/*        vertical: 'bottom', */}
-              {/*        horizontal: 'left', */}
-              {/*      }, */}
-              {/*      getContentAnchorEl: null, */}
-              {/*      className: classes.dropdownMenu, */}
-              {/*      PaperProps: { */}
-              {/*        className: classes.dropdownMenuPaper, */}
-              {/*      }, */}
-              {/*    }} */}
-              {/*    error={!!errors[TemplateSaveInputsTypes.Countries]} */}
-              {/*    data-qa={QATags.Templates.Modal.CountriesSelect} */}
-              {/*  > */}
-              {/*    {countries.map((country) => ( */}
-              {/*      // @ts-ignore */}
-              {/*      <MenuItem key={country.name} value={country} className={classes.menuItem}> */}
-              {/*        <Checkbox checked={getIsChecked(country, TemplateSaveInputsTypes.Countries)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} /> */}
-              {/*        <ListItemText primary={country.name} /> */}
-              {/*      </MenuItem> */}
-              {/*    ))} */}
-              {/*  </Select> */}
-              {/*  {!!errors[TemplateSaveInputsTypes.Countries] && <FormHelperText className={classes.selectHelperText}>{(errors[TemplateSaveInputsTypes.Countries] as any)?.message}</FormHelperText>} */}
-              {/* </Box> */}
+              <Box className={classes.inputLabelAndField} mt={3} justifyContent="end !important">
+                <Box mr={2}>
+                  <span className={classes.inputLabel}>
+                    {`${formatMessage('Templates.saveModal.fields.regions')}:`}
+                  </span>
+                </Box>
+                <Select
+                  {...regionsRegister}
+                  // @ts-ignore
+                  onChange={(event: React.ChangeEvent<{ name?: string; value: ITemplateMetadata[]}>) => {
+                    chipChange(event, false);
+                  }}
+                  value={values[TemplateSaveInputsTypes.Regions]}
+                  multiple
+                  disableUnderline
+                  className={classnames(classes.select, { [classes.selectError]: !!errors[TemplateSaveInputsTypes.Regions] })}
+                  autoWidth={false}
+                  MenuProps={{
+                    anchorOrigin: {
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                    },
+                    getContentAnchorEl: null,
+                    className: classes.dropdownMenu,
+                    PaperProps: {
+                      className: classes.dropdownMenuPaper,
+                    },
+                  }}
+                  renderValue={(selectValues) => renderChip(selectValues as ITemplateMetadata[], handleDeleteChip, TemplateSaveInputsTypes.Regions)}
+                  error={!!errors[TemplateSaveInputsTypes.Regions]}
+                  data-qa={QATags.Templates.Modal.CountriesSelect}
+                >
+                  {regions.map((region) => (
+                    // @ts-ignore
+                    <MenuItem key={region.name} value={region} className={classes.menuItem}>
+                      <Checkbox checked={getIsChecked(region, TemplateSaveInputsTypes.Regions)} color="primary" checkedIcon={<CheckboxOn />} icon={<CheckboxOff />} />
+                      <ListItemText primary={region.name} />
+                    </MenuItem>
+                  ))}
+                </Select>
+                {!!errors[TemplateSaveInputsTypes.Regions] && <FormHelperText className={classes.selectHelperText}>{(errors[TemplateSaveInputsTypes.Regions] as IFieldValidation)?.message}</FormHelperText>}
+              </Box>
             </Box>
           </Box>
           <Box mt={3} display="flex" justifyContent="space-between">
             <span className={classes.inputLabel}>
               {`${formatMessage('Templates.saveModal.fields.description')}:`}
             </span>
-            <Box flexBasis="85%">
+            <Box flexBasis="84.4%">
               <TextareaAutosize
                 {...descriptionRegister}
                 className={classnames(classes.textArea, { [classes.selectError]: !!errors[TemplateSaveInputsTypes.Description] })}
@@ -302,7 +309,7 @@ export function TemplateSaveModal({ edit }: saveTemplateOptions) {
                 minRows={3}
                 data-qa={QATags.Templates.Modal.Description}
               />
-              {!!errors[TemplateSaveInputsTypes.Description] && <FormHelperText className={classes.textAreaHelperText}>{(errors[TemplateSaveInputsTypes.Description] as any)?.message}</FormHelperText>}
+              {!!errors[TemplateSaveInputsTypes.Description] && <FormHelperText className={classes.textAreaHelperText}>{(errors[TemplateSaveInputsTypes.Description] as IFieldValidation)?.message}</FormHelperText>}
             </Box>
           </Box>
         </Box>

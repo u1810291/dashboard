@@ -6,11 +6,15 @@ import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
 import { useFormatMessage } from 'apps/intl';
-import { TemplateCardProps } from 'apps/SolutionCatalog';
 import Tooltip from '@material-ui/core/Tooltip';
 import { useStyles } from './TemplateCard.styles';
 
-export function TemplateCard({ title, description, id, handleCardClick }: TemplateCardProps) {
+export function TemplateCard({ title, description, id, handleCardClick }: {
+  title: string;
+  description: string;
+  id: string;
+  handleCardClick: (id: string) => void;
+}) {
   const classes = useStyles();
   const formatMessage = useFormatMessage();
   const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -26,7 +30,7 @@ export function TemplateCard({ title, description, id, handleCardClick }: Templa
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <span className={classes.templateCardTitle}>{title}</span>
+      <span className={classes.templateCardTitle} data-analytics-templateId={id}>{title}</span>
       <Tooltip
         arrow
         disableHoverListener={description.length < 75}

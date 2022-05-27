@@ -6,12 +6,8 @@ import { useOverlay, Modal } from 'apps/overlay';
 import { Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-/* eslint-disable import/no-unresolved */
 import SwiperCore, { Pagination, Navigation } from 'swiper';
 import { TemplateFilters } from 'apps/filter';
-import 'swiper/swiper.min.css';
-import 'swiper/components/navigation/navigation.min.css';
-import 'swiper/components/pagination/pagination.min.css';
 import { loadTemplates, useTemplatesLoad } from 'apps/SolutionCatalog';
 import { Routes } from 'models/Router.model';
 import { ITemplateMetadata, MetadataType, useLoadMetadataList } from 'apps/Templates';
@@ -19,6 +15,9 @@ import { TemplatesGallery } from '../TemplatesGalery/TemplatesGalery';
 import { TemplatesChosenFilters } from '../TemplatesChosenFilters/TemplatesChosenFilters';
 import { getFiltersOptions } from '../../model/SolutionCatalog.model';
 import { useStyles } from './TemplatesModal.styles';
+import 'swiper/swiper.min.css';
+import 'swiper/components/navigation/navigation.min.css';
+import 'swiper/components/pagination/pagination.min.css';
 
 SwiperCore.use([Pagination, Navigation]);
 

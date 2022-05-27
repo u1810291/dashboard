@@ -2,10 +2,9 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { FlowBuilderIntegrationDetails, FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder';
+import { FlowProductsGraph, FlowBuilderProductDetails, ProductListSidebar, selectFlowBuilderChangeableFlowModel, selectFlowBuilderSelectedId, flowBuilderChangeableFlowUpdate, flowBuilderClearStore, flowBuilderCreateEmptyFlow } from 'apps/flowBuilder';
 import { selectProductIsInited, useProduct } from 'apps/Product';
 import { Loader, Placeholder } from 'apps/ui';
-import { PreviewButton } from 'apps/WebSDKPreview';
 import { ReactComponent as EmptyBuilderIcon } from 'assets/empty-flow-builder.svg';
 import { IFlow } from 'models/Flow.model';
 import { Routes } from 'models/Router.model';
@@ -18,10 +17,12 @@ import { SaveAndPublishTemplate, EditTemplate } from 'apps/Templates';
 import { useFormatMessage } from 'apps/intl';
 import { ProductTypes } from 'models/Product.model';
 import { dagreGraphService } from 'apps/WorkflowBuilder';
+import { TemplateFlowBuilderIntegrationDetails } from '../TemplateFlowBuilderIntegrationDetails/TemplateFlowBuilderIntegrationDetails';
 import { ITemplate } from '../../model/Templates.model';
 import { clearCurrentTemplate, prepareTemplateToEdit, getTemplate } from '../../store/Templates.actions';
 import { selectCurrentTemplateModelValue, selectCurrentTemplateModel } from '../../store/Templates.selectors';
 import { TemplateFlowInfoContainer } from '../TemplateFlowInfoContainer/TemplateFlowInfoContainer';
+import { TemplatePreviewButton } from '../TemplatePreviewButton/TemplatePreviewButton';
 import { useStyles } from './TemplateBuilder.styles';
 
 export function TemplateBuilder() {
@@ -59,7 +60,7 @@ export function TemplateBuilder() {
     if (!isEditMode) {
       dispatch(clearCurrentTemplate());
       dispatch(flowBuilderClearStore());
-      dispatch(flowBuilderCreateEmptyFlow(formatMessage));
+      dispatch(flowBuilderCreateEmptyFlow({ name: formatMessage('Untitled.template') }));
     }
   }, [dispatch, isEditMode, id, currentTemplate, isBuilderInitialized, formatMessage, currentTemplateModel.isLoaded]);
 
@@ -81,12 +82,14 @@ export function TemplateBuilder() {
         <Grid container spacing={2} className={classes.wrapper}>
           <Grid item container direction="column" wrap="nowrap" className={classes.sidebar}>
             <Box className={classes.flowInfo} px={0.5} py={2} mb={2}>
-              <Box mb={2}>
-                <TemplateFlowInfoContainer isTemplate />
+              <Box mb={isEditMode ?? 2}>
+                <TemplateFlowInfoContainer />
               </Box>
-              <Box ml={3}>
-                <PreviewButton />
-              </Box>
+              {isEditMode && (
+                <Box ml={3}>
+                  <TemplatePreviewButton />
+                </Box>
+              )}
             </Box>
             <ProductListSidebar />
           </Grid>
@@ -115,7 +118,7 @@ export function TemplateBuilder() {
                   />
                 )}
                 {!selectedId && (
-                  <FlowBuilderIntegrationDetails />
+                  <TemplateFlowBuilderIntegrationDetails />
                 )}
               </Grid>
             </Grid>

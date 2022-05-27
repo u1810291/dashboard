@@ -1,6 +1,6 @@
-import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles((theme) => createStyles({
+export const useStyles = makeStyles((theme) => ({
   buttonSave: {
     minWidth: 220,
     minHeight: 43,
@@ -20,5 +20,24 @@ export const useStyles = makeStyles((theme) => createStyles({
   },
   issues: {
     color: theme.palette.common.red,
+    position: 'absolute !important' as any,
+    right: 345,
+    top: 17,
+  },
+  issuesNotCreated: {
+    color: theme.palette.common.red,
+    position: 'absolute !important' as any,
+    right: 235,
+    top: 17,
+  },
+  unsavedChangesNotCreated: {
+    position: 'absolute !important' as any,
+    right: 235,
+    top: 17,
+  },
+  unsavedChanges: {
+    position: 'absolute !important' as any,
+    right: 345,
+    top: 17,
   },
 }));

@@ -5,6 +5,12 @@ export const analyticsCleanFilter = {
   flowIds: [],
   countries: [],
 };
+
+export enum analyticsUserTypes {
+  'newUser' = 'newUser',
+  'oldUser' = 'oldUser',
+}
+
 export const analyticsFilterStructure = {
   flowIds: 'flowIds',
   countries: 'countries',

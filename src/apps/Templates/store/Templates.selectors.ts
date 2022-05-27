@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 import { Loadable } from 'models/Loadable.model';
 import { selectModelValue } from 'lib/loadable.selectors';
+import { fromIsoPeriod } from 'lib/date';
+import { DigitalSignatureProvider } from 'models/DigitalSignature.model';
 import { SliceNameTypes, TemplatesStore, TEMPLATES_STORE_KEY } from './Templates.store';
 import { ITemplate, ITemplateMetadata, MetadataType, ITemplatesList } from '../model/Templates.model';
 
@@ -9,6 +11,11 @@ export const selectTemplatesStore = (state: {TEMPLATES_STORE_KEY: TemplatesStore
 export const selectMetadataListModel = createSelector<[typeof selectTemplatesStore], Loadable<ITemplateMetadata[]>>(
   selectTemplatesStore,
   (store) => store[SliceNameTypes.MetadataList],
+);
+
+export const selectTemplateApplicationState = createSelector<[typeof selectTemplatesStore], boolean>(
+  selectTemplatesStore,
+  (store) => store?.isTemplateApplying,
 );
 
 export const selectTemplatesListModel = createSelector<[typeof selectTemplatesStore], Loadable<ITemplatesList>>(
@@ -54,4 +61,14 @@ export const selectTemplatesModel = createSelector<[typeof selectTemplatesStore]
 export const selectTemplates = createSelector<[typeof selectTemplatesModel], ITemplate[]>(
   selectTemplatesModel,
   selectModelValue(),
+);
+
+export const selectCurrentTemplatePolicyInterval = createSelector<[typeof selectCurrentTemplateModel], string>(
+  selectCurrentTemplateModel,
+  selectModelValue((template) => fromIsoPeriod(template.flow?.policyInterval)),
+);
+
+export const selectCurrentTemplateNom151Check = createSelector<[typeof selectCurrentTemplateModel], DigitalSignatureProvider>(
+  selectCurrentTemplateModel,
+  selectModelValue((template) => template.flow?.digitalSignature),
 );

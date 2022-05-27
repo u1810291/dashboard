@@ -4,16 +4,16 @@ import { QATags } from 'models/QA.model';
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import { FiX } from 'react-icons/fi';
-import { TemplateChosenFiltersProps, TemplateFilterOptions } from 'apps/SolutionCatalog';
+import { ITemplateChosenFiltersProps, ITemplateFilterOptions } from 'apps/SolutionCatalog';
 import { useStyles } from './TemplatesChosenFilters.styles';
 
-export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialData }: TemplateChosenFiltersProps) {
+export function TemplatesChosenFilters({ currentValue, setCurrentValue, initialData }: ITemplateChosenFiltersProps) {
   const classes = useStyles();
   const formatMessage = useFormatMessage();
 
-  const chosenOptions: TemplateFilterOptions[] = Object.values(currentValue).reduce((result, current) => result.concat(current), []);
+  const chosenOptions: ITemplateFilterOptions[] = Object.values(currentValue).reduce((result, current) => result.concat(current), []);
 
-  const handleDelete = useCallback((option: TemplateFilterOptions) => {
+  const handleDelete = useCallback((option: ITemplateFilterOptions) => {
     const resultAfterDelete = initialData;
     Object.entries(currentValue).forEach(([filter, array]) => {
       resultAfterDelete[filter] = array.filter((filterItem) => filterItem.name !== option.name);
