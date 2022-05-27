@@ -1,3 +1,4 @@
 export { appPalette } from './app.palette';
-export * from './app.theme';
+export { AppTheme } from './app.theme';
+export { AppDarkTheme } from './appDark.theme';
 export * from './app.typography';
