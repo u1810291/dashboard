@@ -120,6 +120,8 @@ export const DocumentStepTypes = {
   ParaguayanRcp: VerificationPatternTypes.ParaguayanRcp,
   PeruvianReniec: VerificationPatternTypes.PeruvianReniec,
   PeruvianSunat: VerificationPatternTypes.PeruvianSunat,
+  PeruvianMigrationInstitute: VerificationPatternTypes.PeruvianMigrationInstitute,
+  PeruvianHealthSocialSecurity: VerificationPatternTypes.PeruvianHealthSocialSecurity,
   CostaRicanAtv: VerificationPatternTypes.CostaRicanAtv,
   CostaRicanTse: VerificationPatternTypes.CostaRicanTse,
   CostaRicanSocialSecurity: VerificationPatternTypes.CostaRicanSocialSecurity,
@@ -229,6 +231,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.DominicanRnc,
   DocumentStepTypes.PeruvianReniec,
   DocumentStepTypes.PeruvianSunat,
+  DocumentStepTypes.PeruvianHealthSocialSecurity,
   DocumentStepTypes.CostaRicanAtv,
   DocumentStepTypes.CostaRicanTse,
   DocumentStepTypes.SalvadorianTse,
@@ -238,6 +241,7 @@ export const CountrySpecificChecks = [
   DocumentStepTypes.KenyanEcitizen,
   DocumentStepTypes.ChileanRut,
   DocumentStepTypes.UgandanElectoralCommission,
+  DocumentStepTypes.PeruvianMigrationInstitute,
   VerificationPatternTypes.NigerianCac,
   VerificationStepTypes.NigerianLegalValidation,
   VerificationStepTypes.NigerianTinValidation,
@@ -344,14 +348,15 @@ export const OptionalGovCheckErrorCodes = {
   [DocumentStepTypes.ColombianRunt]: ['colombianRunt.fullNameMismatch', 'colombianRunt.hasFines'],
   [DocumentStepTypes.ArgentinianRenaper]: ['argentinianRenaper.deceasedPerson', 'argentinianRenaper.fullNameMismatch'],
   [VerificationStepTypes.NigerianLegalValidation]: ['nigerianLegal.fullNameMismatch', 'nigerianLegal.faceMismatch'],
+  [VerificationStepTypes.IndonesianKTPValidation]: ['indonesianKTP.faceBiometricsMismatch', 'indonesianKTP.dobMismatch', 'indonesianKTP.fullNameMismatch'],
   [VerificationStepTypes.PhilippinianDlValidation]: ['philippinianDL.fullNameMismatch', 'philippinianDL.dateOfBirthMismatch'],
-  [VerificationStepTypes.IndonesianKTPValidation]: ['indonesianKTP.faceBiometricsMismatch', 'indonesianKTP.dobMismatch', 'indonesianKTP.nameMismatch'],
   [DocumentStepTypes.ColombianSisben]: ['colombianSisben.fullNameMismatch'],
   [DocumentStepTypes.DominicanRnc]: ['dominicanRnc.nameMismatch'],
 };
 
 export const RootGovChecksErrorsToHide = {
   'nigerianLegal.documentNotFound': true,
+  'peruvianMigrationInstitute.documentNotFound': true,
 };
 
 export const StepSkippedCodes = [

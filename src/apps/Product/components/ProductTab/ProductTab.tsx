@@ -5,11 +5,12 @@ import React, { useMemo } from 'react';
 import { UIProductTab } from 'apps/ui';
 import { productManagerService } from '../../services/ProductManager.service';
 
-export function ProductTab({ id, isSelected, onSelect, verification }: {
+export function ProductTab({ id, isSelected, onSelect, verification, isDisabled }: {
   id: ProductTypes;
   isSelected: boolean;
   onSelect: (id: ProductTypes) => void;
   verification: VerificationResponse | IVerificationWorkflow;
+  isDisabled?: boolean;
 }) {
   const product: Product = useMemo(() => productManagerService.getProduct(id), [id]);
   const isFailed = useMemo(() => product?.hasFailedCheck(verification as any), [product, verification]);
@@ -24,7 +25,8 @@ export function ProductTab({ id, isSelected, onSelect, verification }: {
       card={card}
       onSelect={onSelect}
       isSelected={isSelected}
-      hasBadge={isFailed}
+      hasBadge={!isDisabled && isFailed}
+      isDisabled={isDisabled}
     />
   );
 }

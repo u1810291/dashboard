@@ -19,7 +19,7 @@ export function CustomFieldUploadButton() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const type = useSelector<any, CustomFieldModalTypes>(selectCustomFieldModalType);
+  const customFieldModalType = useSelector<any, CustomFieldModalTypes>(selectCustomFieldModalType);
   const isUploadingThumbnail = useSelector<any, boolean>(selectCustomFieldUploadingThumbnail);
   const selectedCustomField = useSelector<any, ICustomField>(selectCustomFieldEditedCustomField);
 
@@ -51,7 +51,7 @@ export function CustomFieldUploadButton() {
     <Grid item container spacing={1} direction="column">
       <Grid item>
         <Typography variant="subtitle2">
-          {formatMessage(`CustomField.settings.${type.toLowerCase()}Thumbnail`)}
+          {formatMessage(`CustomField.settings.${customFieldModalType.toLowerCase()}Thumbnail`)}
         </Typography>
       </Grid>
       <Grid item container spacing={1} alignItems="center">

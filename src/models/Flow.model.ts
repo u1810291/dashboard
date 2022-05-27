@@ -7,7 +7,7 @@ import { IFacematchFlow } from 'apps/FacematchService';
 import { LocationValidation } from 'apps/LocationIntelligenceOld';
 import { IFlowStyle } from 'models/Workflow.model';
 import { FormatMessage } from 'apps/intl';
-import { IESignatureFlow } from './ESignature.model';
+import { electronicSignatureFlowInitialState, IESignatureFlow } from './ESignature.model';
 import { InputValidationCheck, InputValidationType } from './ImageValidation.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
 import { IVerificationPatterns, VerificationPatternTypes } from './VerificationPatterns.model';
@@ -66,6 +66,7 @@ export function createEmptyFlow(formatMessage: FormatMessage, data?: Partial<IFl
     verificationPatterns: {
       [VerificationPatternTypes.Biometrics]: BiometricTypes.none,
     },
+    electronicSignature: electronicSignatureFlowInitialState,
     ...data,
   };
 }

@@ -5,4 +5,7 @@ export const useStyles = makeStyles(() => ({
     width: 600,
     padding: '20px 35px',
   },
+  previewRoot: {
+    width: 480,
+  },
 }));

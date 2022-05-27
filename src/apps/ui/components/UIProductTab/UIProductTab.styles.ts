@@ -18,4 +18,7 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     borderColor: theme.palette.common.lightblue,
   },
+  disabled: {
+    backgroundColor: theme.palette.common.lightRed,
+  },
 }));

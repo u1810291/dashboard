@@ -101,7 +101,7 @@ export class ESignatureService extends ProductBaseFlowBuilder implements Product
     }
 
     getIssuesComponent(flow: IFlow): FC | null {
-      if (!flow.electronicSignature?.templates.list.length) {
+      if (!flow.electronicSignature?.templates?.list.length) {
         return () => FlowIssue('ESignature.issues.noDocumentUploaded');
       }
 

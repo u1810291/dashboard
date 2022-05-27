@@ -20,6 +20,18 @@ export const SupportedLocaleToFullLocale = {
   [SupportedLocales.ptBR]: FullSupportedLocales.ptBR,
 };
 
+export enum LocaleAsPopup {
+  EN ='en',
+  ES = 'es',
+  PT = 'pt',
+}
+
+export const SupportedLocalesToLocaleAsPopup = {
+  [SupportedLocales.EN]: LocaleAsPopup.EN,
+  [SupportedLocales.ES]: LocaleAsPopup.ES,
+  [SupportedLocales.ptBR]: LocaleAsPopup.PT,
+};
+
 export const DEFAULT_LOCALE = SupportedLocales.EN;
 
 export const LanguageList = [

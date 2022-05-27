@@ -22,6 +22,7 @@ export function FacematchSettings({ settings, onUpdate }: ProductSettingsProps<F
   const classes = useStyles();
   const [rejectThreshold, setRejectThreshold] = useState<number>(settings[FacematchCheckSettingsTypes.RejectThreshold].value);
   const [approveThreshold, setApproveThreshold] = useState<number>(settings[FacematchCheckSettingsTypes.ApproveThreshold].value);
+  // TODO: @anatoliy.turkin why is it not an array!? fix me
   const [sources, setSources] = useState<Record<number, IFacematchSource>>({});
   const [error, setError] = useState<string | null>(null);
 
@@ -74,9 +75,9 @@ export function FacematchSettings({ settings, onUpdate }: ProductSettingsProps<F
     const isValid = rejectThreshold < approveThreshold;
     if (!isValid) {
       setError(formatMessage('Facematch.issues.rejectLessThanApprove.description'));
-    } else {
-      setError(null);
+      return;
     }
+    setError(null);
   }, [rejectThreshold, approveThreshold, formatMessage]);
 
   const handleSourceChange = useCallback((index: number, source: Partial<IFacematchSource>, govCheckValue?: unknown) => {
@@ -86,6 +87,7 @@ export function FacematchSettings({ settings, onUpdate }: ProductSettingsProps<F
       ...newSources[index],
       ...source,
     };
+
     if (source.type) {
       switch (source.type) {
         case FacematchSourceTypes.Document: {

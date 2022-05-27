@@ -10,6 +10,11 @@ export const SPECIAL_CHARACTERS_REG_EXP = /[ !"#$%&'()*+,\-./\\:;<=>?@[\]^_`{|}~
 export const PASSWORD_REG_EXP = /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[ !"#$%&'()*+,\-./\\:;<=>?@[\]^_`{|}~]).*$/;
 export const TEXT_WITH_DASHES = /(?=\S*[-])([a-zA-Z0-9-]+)/gi;
 
+export enum ValidationTypes {
+  TOOLONG = 'validations.tooLong',
+  EMPTY = 'validations.empty'
+}
+
 export function isBusinessEmail(value) {
   const match = EMAIL_REG_EXP.exec(value.toLowerCase());
   return !(match && restrictedDomains.includes(match[1]));
@@ -36,16 +41,16 @@ export function validationHandler(error, intl, setError) {
   }
 }
 
-export function validateMaxLength(name = '', limit) {
+export function validateMaxLength(name: string = '', limit: number): Nullable<ValidationTypes> {
   if (name.length > limit) {
-    return 'validations.tooLong';
+    return ValidationTypes.TOOLONG;
   }
   return null;
 }
 
-export function validateEmpty(text: string): string | null {
+export function validateEmpty(text: string): Nullable<ValidationTypes> {
   if (text?.length === 0) {
-    return 'validations.empty';
+    return ValidationTypes.EMPTY;
   }
   return null;
 }

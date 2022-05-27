@@ -9,7 +9,7 @@ import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { useStyles, StyledCheckbox } from './CountryModalItemSelect.styles';
 import { SelectedCountries } from '../../models/CountryModalSelect.model';
 
-export interface CountryModalSelectItemProps extends FixedSizeNodeComponentProps<{
+interface ICountryModalSelectItemProps extends FixedSizeNodeComponentProps<{
   hasChildren: boolean;
   location: string;
   countryCode?: string;
@@ -32,7 +32,7 @@ export const CountryModalItemSelect = ({
   toggle,
   data,
   treeData,
-}: CountryModalSelectItemProps) => {
+}: ICountryModalSelectItemProps) => {
   const classes = useStyles();
   const { hasChildren, location, countryCode, label } = data;
   const { selectedCountries, handleSelectCountry, allRegionsSelected, firstCountryId } = treeData;

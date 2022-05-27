@@ -7,7 +7,7 @@ import { StepsOptions } from 'apps/Analytics';
 import { DEFAULT_LOCALE, LanguageList, SupportedLocales } from 'models/Intl.model';
 import { Loadable } from 'models/Loadable.model';
 import { PasswordExpirationPolicyDurationValue } from 'models/Settings.model';
-import { Merchant, MerchantId, MerchantTags, IMerchantSettings, IAgentNotesConfig } from 'models/Merchant.model';
+import { IMerchant, MerchantId, MerchantTags, IMerchantSettings, IAgentNotesConfig } from 'models/Merchant.model';
 import { createSelector } from 'reselect';
 import { CollaboratorRoles } from 'models/Collaborator.model';
 import { MERCHANT_STORE_KEY, MerchantStore, SliceNameTypes } from './merchant.store';
@@ -16,24 +16,24 @@ export const selectMerchantStore = (state: { MERCHANT_STORE_KEY: MerchantStore }
 
 // -- merchant
 
-export const selectMerchantModel = createSelector<[typeof selectMerchantStore], Loadable<Merchant>>(
+export const selectMerchantModel = createSelector<[typeof selectMerchantStore], Loadable<IMerchant>>(
   selectMerchantStore,
-  (store): Loadable<Merchant> => store[SliceNameTypes.Merchant],
+  (store): Loadable<IMerchant> => store[SliceNameTypes.Merchant],
 );
 
 export const selectMerchantId = createSelector<[typeof selectMerchantModel], MerchantId>(
   selectMerchantModel,
-  selectModelValue((merchant: Merchant): string => merchant.id),
+  selectModelValue((merchant: IMerchant): string => merchant.id),
 );
 
 export const selectMerchantOnboarding = createSelector<[typeof selectMerchantModel], StepsOptions[]>(
   selectMerchantModel,
-  selectModelValue((merchant: Merchant) => merchant.onboardingSteps),
+  selectModelValue((merchant: IMerchant) => merchant.onboardingSteps),
 );
 
 export const selectOwnerId = createSelector(
   selectMerchantModel,
-  selectModelValue((merchant: Merchant) => merchant?.owner),
+  selectModelValue((merchant: IMerchant) => merchant?.owner),
 );
 
 export const selectIsOwnerModel = createSelector<[typeof selectMerchantModel, typeof selectUserId], Loadable<boolean>>(
@@ -111,7 +111,7 @@ export const selectMerchantLegalAddress = createSelector(
 
 export const selectMerchantTags = createSelector<[typeof selectMerchantModel], MerchantTags[]>(
   selectMerchantModel,
-  selectModelValue((merchant: Merchant): MerchantTags[] => merchant.tags || []),
+  selectModelValue((merchant: IMerchant): MerchantTags[] => merchant.tags || []),
 );
 
 // -- app

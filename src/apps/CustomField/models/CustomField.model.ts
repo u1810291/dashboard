@@ -3,7 +3,7 @@ import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
 import { changeDateFormat, DateFormat } from 'lib/date';
 import { parseDate } from 'apps/ui/models/ReactDayPicker.model';
-import { SupportedLocales } from 'models/Intl.model';
+import { SupportedLocales, SupportedLocalesToLocaleAsPopup } from 'models/Intl.model';
 import { AtomicCustomFieldType, ICustomField, IMapping, ISelectOptions, MainCustomFieldType } from 'models/CustomField.model';
 
 export const FIELD_SYSTEM_NAME_PATTERN = '^([a-zA-Z-_0-9]+)?$';
@@ -60,16 +60,21 @@ export const MODAL_BY_FIELD_TYPE = {
 export enum MappingValueKey {
   UnifiedMultiPurposeIdUMIDSSNcrn = 'unified-multi-purpose-id.UMID_SSN.crn',
   SocialSecuritySystemCardUMIDSSNssn = 'social-security-system-card.UMID_SSN.ssn',
-  NationalIdNINDocumentNumber = 'national-id.NIN.documentNumber',
-  NationalIdBVNDocumentNumber = 'national-id.BVN.documentNumber',
-  NationalIdVINDocumentNumber = 'national-id.VIN.documentNumber',
   NationalIdFirstName = 'national-id.firstName',
   NationalIdLastName = 'national-id.lastName',
   NationalIdDateOfBirth = 'national-id.dateOfBirth',
+  NationalIdNINDocumentNumber = 'national-id.NIN.documentNumber',
+  NationalIdBVNDocumentNumber = 'national-id.BVN.documentNumber',
+  NationalIdVINDocumentNumber = 'national-id.VIN.documentNumber',
   CertificateOfTaxTINTin = 'certificate-of-tax.TIN.tin',
   CertificateOfIncorporationCACRcBnNumber = 'certificate-of-incorporation.CAC.rc-bn-number',
-  NationalIdKTPNik = 'national-id.KTP.nik',
   NationalIdKTPName = 'national-id.KTP.name',
+  NationalIdKTPNik = 'national-id.KTP.nik',
+  FirstName = 'firstName',
+  LastName = 'lastName',
+  DateOfBirth = 'dateOfBirth',
+  FullName = 'fullName',
+  MiddleName = 'middleName',
   DrivingLicenseNo = 'driver-license.DL.license-no',
   DrivingLicenseSerialNumber = 'driver-license.DL.serial-number',
   DrivingLicenseExpirationDate = 'driver-license.DL.expiration-date',
@@ -81,6 +86,18 @@ export interface ICustomFieldConfig {
 }
 
 export const CONFIG_BY_KEY: Record<string, ICustomFieldConfig> = {
+  [MappingValueKey.NationalIdFirstName]: {
+    regex: '',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.NationalIdLastName]: {
+    regex: '',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.NationalIdDateOfBirth]: {
+    regex: '',
+    type: AtomicCustomFieldType.Date,
+  },
   [MappingValueKey.UnifiedMultiPurposeIdUMIDSSNcrn]: {
     regex: '^[0-9]{4}-?[0-9]{7}-?[0-9]$',
     type: AtomicCustomFieldType.Text,
@@ -109,27 +126,31 @@ export const CONFIG_BY_KEY: Record<string, ICustomFieldConfig> = {
     regex: '^[a-zA-Z]{2}?\\s?[0-9]{6,7}$',
     type: AtomicCustomFieldType.Text,
   },
-  [MappingValueKey.NationalIdFirstName]: {
-    regex: '',
-    type: AtomicCustomFieldType.Text,
-  },
-  [MappingValueKey.NationalIdLastName]: {
-    regex: '',
-    type: AtomicCustomFieldType.Text,
-  },
-  [MappingValueKey.NationalIdDateOfBirth]: {
-    regex: '',
-    type: AtomicCustomFieldType.Date,
-  },
-  [MappingValueKey.NationalIdDateOfBirth]: {
-    regex: '',
-    type: AtomicCustomFieldType.Date,
-  },
   [MappingValueKey.NationalIdKTPNik]: {
     regex: '^[0-9]{16}$',
     type: AtomicCustomFieldType.Text,
   },
   [MappingValueKey.NationalIdKTPName]: {
+    regex: '',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.FirstName]: {
+    regex: '',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.LastName]: {
+    regex: '',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.MiddleName]: {
+    regex: '',
+    type: AtomicCustomFieldType.Text,
+  },
+  [MappingValueKey.DateOfBirth]: {
+    regex: '',
+    type: AtomicCustomFieldType.Date,
+  },
+  [MappingValueKey.FullName]: {
     regex: '',
     type: AtomicCustomFieldType.Text,
   },
@@ -148,6 +169,7 @@ export const CONFIG_BY_KEY: Record<string, ICustomFieldConfig> = {
 };
 
 export enum MappingCountryTypes {
+  Global = 'AA',
   Indonesia = 'ID',
   Philippines = 'PH',
   Nigeria = 'NG',
@@ -160,10 +182,17 @@ export const MAPPING_ALLOWED_COUNTRIES = [
 ];
 
 export const MAPPING_OPTIONS = {
+  [MappingCountryTypes.Global]: [
+    MappingValueKey.FirstName,
+    MappingValueKey.MiddleName,
+    MappingValueKey.LastName,
+    MappingValueKey.FullName,
+    MappingValueKey.DateOfBirth,
+  ],
   [MappingCountryTypes.Indonesia]: [
+    MappingValueKey.NationalIdDateOfBirth,
     MappingValueKey.NationalIdKTPName,
     MappingValueKey.NationalIdKTPNik,
-    MappingValueKey.NationalIdDateOfBirth,
   ],
   [MappingCountryTypes.Philippines]: [
     MappingValueKey.UnifiedMultiPurposeIdUMIDSSNcrn,
@@ -173,12 +202,12 @@ export const MAPPING_OPTIONS = {
     MappingValueKey.DrivingLicenseExpirationDate,
   ],
   [MappingCountryTypes.Nigeria]: [
-    MappingValueKey.NationalIdNINDocumentNumber,
-    MappingValueKey.NationalIdBVNDocumentNumber,
-    MappingValueKey.NationalIdVINDocumentNumber,
     MappingValueKey.NationalIdFirstName,
     MappingValueKey.NationalIdLastName,
     MappingValueKey.NationalIdDateOfBirth,
+    MappingValueKey.NationalIdNINDocumentNumber,
+    MappingValueKey.NationalIdBVNDocumentNumber,
+    MappingValueKey.NationalIdVINDocumentNumber,
     MappingValueKey.CertificateOfTaxTINTin,
     MappingValueKey.CertificateOfIncorporationCACRcBnNumber,
   ],
@@ -284,8 +313,6 @@ export const flattenTree = (
     ];
   }, []);
 };
-
-export const findItem = (items: ICustomField[], itemName: string): ICustomField => items.find(({ name }) => name === itemName);
 
 function removeEmpty<T>(obj: T): T {
   return <T>Object.fromEntries(
@@ -435,13 +462,13 @@ export const atomicFieldIsValid = (selectedCustomField: ICustomField, listFlatte
   return isNameUniq(listFlattenFields, oldName, selectedCustomField.name);
 };
 
-export const getNotSelectedMapping = (listFlattenFields: ICustomField[], mapping: IMapping, oldMapping: IMapping): MappingValueKey[] => {
-  if (!mapping?.country) {
+export const getNotSelectedMapping = (listFlattenFields: ICustomField[], newMapping: IMapping, mapping: IMapping): MappingValueKey[] => {
+  if (!newMapping?.country) {
     return [];
   }
-  const notSelected = MAPPING_OPTIONS[mapping?.country].filter((option) => !listFlattenFields.find((field) => field?.atomicFieldParams?.mapping?.key === option)) || [];
-  if (oldMapping.country === mapping.country && !notSelected.includes(oldMapping.key)) {
-    notSelected.push(oldMapping.key);
+  const notSelected = MAPPING_OPTIONS[newMapping?.country].filter((option) => !listFlattenFields.find((field) => field?.atomicFieldParams?.mapping?.key === option)) || [];
+  if (mapping.country === newMapping.country && !notSelected.includes(mapping.key)) {
+    notSelected.push(mapping.key);
   }
   return notSelected;
 };
@@ -449,3 +476,13 @@ export const getNotSelectedMapping = (listFlattenFields: ICustomField[], mapping
 export const isValidFieldSystemName = (value: string): boolean => new RegExp(FIELD_SYSTEM_NAME_PATTERN).test(value);
 
 export const isTypeFromConfig = (selectedFieldMapping: IMapping): boolean => !!CONFIG_BY_KEY[selectedFieldMapping?.key]?.type;
+
+export const generatePreviewModeURL = (listFields: ICustomField[], currentLocale: SupportedLocales): string => {
+  const previewUrl = new URL(`${process.env.REACT_APP_PRODUCT_REGISTRY_URL}/custom-input-product/`);
+
+  previewUrl.searchParams.append('isPreviewMode', 'true');
+  previewUrl.searchParams.append('fields', JSON.stringify(listFields));
+  previewUrl.searchParams.append('locale', SupportedLocalesToLocaleAsPopup[currentLocale]);
+
+  return previewUrl.href;
+};

@@ -87,7 +87,7 @@ export class PhoneCheck extends ProductBaseFlowBuilder implements Product {
   }
 
   haveIssues(flow: IFlow): boolean {
-    const isEmpty = validateEmpty(flow.phoneOwnership?.companyName);
+    const isEmpty: boolean = Boolean(validateEmpty(flow.phoneOwnership?.companyName));
     return Boolean(validateMaxLength(flow.phoneOwnership?.companyName, COMPANY_NAME_LENGTH_LIMIT) || isEmpty);
   }
 

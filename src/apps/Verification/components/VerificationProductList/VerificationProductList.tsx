@@ -5,11 +5,12 @@ import { VerificationResponse } from 'models/VerificationOld.model';
 import { ProductTypes } from 'models/Product.model';
 import React, { useMemo } from 'react';
 
-export function VerificationProductList({ productList, onSelect, selectedId, verification }: {
+export function VerificationProductList({ productList, onSelect, selectedId, verification, crashedProducts }: {
   productList: ProductTypes[];
   onSelect: (product: ProductTypes) => void;
   selectedId?: ProductTypes;
   verification: VerificationResponse | IVerificationWorkflow;
+  crashedProducts?: Map<ProductTypes, Error>;
 }) {
   const primaryProductList = useMemo(() => productList.filter((id) => id !== ProductTypes.Metadata), [productList]);
 
@@ -23,6 +24,7 @@ export function VerificationProductList({ productList, onSelect, selectedId, ver
             isSelected={selectedId === item}
             onSelect={onSelect}
             verification={verification}
+            isDisabled={crashedProducts?.has(item)}
           />
         ))}
         <Box mt={3}>
@@ -31,6 +33,7 @@ export function VerificationProductList({ productList, onSelect, selectedId, ver
             isSelected={selectedId === ProductTypes.Metadata}
             onSelect={onSelect}
             verification={verification}
+            isDisabled={crashedProducts?.has(ProductTypes.Metadata)}
           />
         </Box>
       </Box>
