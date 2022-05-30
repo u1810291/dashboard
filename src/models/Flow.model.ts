@@ -6,6 +6,7 @@ import { ProductIntegrationTypes } from 'models/Product.model';
 import { IFacematchFlow } from 'apps/FacematchService';
 import { LocationValidation } from 'apps/LocationIntelligenceOld';
 import { IFlowStyle } from 'models/Workflow.model';
+import { BackgroundCheckTypes } from 'models/BackgroundCheck.model';
 import { electronicSignatureFlowInitialState, IESignatureFlow } from './ESignature.model';
 import { InputValidationCheck, InputValidationType } from './ImageValidation.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
@@ -58,10 +59,12 @@ export function createEmptyFlow(data?: Partial<IFlow>): IFlow {
       },
     ],
     customWatchlists: [],
+    basicWatchlists: [],
     integrationType: ProductIntegrationTypes.Sdk,
     denyUploadsFromMobileGallery: false,
     verificationPatterns: {
       [VerificationPatternTypes.Biometrics]: BiometricTypes.none,
+      [VerificationPatternTypes.BackgroundBrazilianChecks]: BackgroundCheckTypes.None,
     },
     electronicSignature: electronicSignatureFlowInitialState,
     ...data,
