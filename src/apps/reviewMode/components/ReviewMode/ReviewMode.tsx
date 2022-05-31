@@ -92,7 +92,7 @@ export function ReviewMode() {
         {!isLongPolling && (isLoadingNext || !verificationModel.isLoaded) && (
           <Loader logoWithCompanyName />
         )}
-        {!isNoVerifications && <ReviewModeRouter />}
+        <ReviewModeRouter />
       </ReviewModeLayout>
     </MuiThemeProvider>,
   ];
