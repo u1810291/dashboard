@@ -6,14 +6,14 @@ import { ProductIntegrationTypes } from 'models/Product.model';
 import { IFacematchFlow } from 'apps/FacematchService';
 import { LocationValidation } from 'apps/LocationIntelligenceOld';
 import { IFlowStyle } from 'models/Workflow.model';
-import { FormatMessage } from 'apps/intl';
+import { BackgroundCheckTypes } from 'models/BackgroundCheck.model';
 import { electronicSignatureFlowInitialState, IESignatureFlow } from './ESignature.model';
 import { InputValidationCheck, InputValidationType } from './ImageValidation.model';
 import { DigitalSignatureProvider } from './DigitalSignature.model';
 import { IVerificationPatterns, VerificationPatternTypes } from './VerificationPatterns.model';
 import { IFlowWatchlist } from './CustomWatchlist.model';
 import { VerificationCustomFieldsInputData } from './CustomField.model';
-import { BasicWatchlistIdType, IPremiumAmlWatchlists, premiumAmlWatchlistsInitialValue } from './Aml.model';
+import { BasicWatchlistIdType, IPremiumAmlWatchlists } from './Aml.model';
 
 export const MAX_NUMBER_OF_FLOWS = 100;
 
@@ -23,7 +23,7 @@ export function getNewFlowId(merchantFlowsModel, currentFlowId) {
   return get(merchantFlowsModel, `value[${newIndex}].id`, currentFlowId);
 }
 
-export function createEmptyFlow(formatMessage: FormatMessage, data?: Partial<IFlow>): IFlow {
+export function createEmptyFlow(data?: Partial<IFlow>): IFlow {
   return {
     style: {
       color: 'blue',
@@ -38,7 +38,6 @@ export function createEmptyFlow(formatMessage: FormatMessage, data?: Partial<IFl
     ],
     digitalSignature: DigitalSignatureProvider.NONE,
     emailRiskThreshold: 80,
-    premiumAmlWatchlists: premiumAmlWatchlistsInitialValue,
     supportedCountries: [],
     verificationSteps: [],
     inputValidationChecks: [
@@ -60,11 +59,12 @@ export function createEmptyFlow(formatMessage: FormatMessage, data?: Partial<IFl
       },
     ],
     customWatchlists: [],
+    basicWatchlists: [],
     integrationType: ProductIntegrationTypes.Sdk,
-    name: formatMessage('Untitled.template'),
     denyUploadsFromMobileGallery: false,
     verificationPatterns: {
       [VerificationPatternTypes.Biometrics]: BiometricTypes.none,
+      [VerificationPatternTypes.BackgroundBrazilianChecks]: BackgroundCheckTypes.None,
     },
     electronicSignature: electronicSignatureFlowInitialState,
     ...data,

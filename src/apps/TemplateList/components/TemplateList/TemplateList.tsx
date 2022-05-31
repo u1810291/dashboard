@@ -13,7 +13,7 @@ import { FiPlus } from 'react-icons/fi';
 import { useFormatMessage } from 'apps/intl';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { ITemplatesList, selectTemplatesListModelValues, toggleUnsavedChanges } from 'apps/Templates';
+import { ITemplatesList, selectTemplatesListModelValues, clearCurrentTemplate, toggleUnsavedChanges } from 'apps/Templates';
 import { QATags } from 'models/QA.model';
 import { useLoadTemplatesList } from '../../hooks/UseLoadTemplatesList';
 import { TemplatesTable } from '../TemplatesTable/TemplatesTable';
@@ -35,6 +35,7 @@ export function TemplateList() {
   }, [isMobile, isButtonDisabled]);
 
   useEffect(() => {
+    dispatch(clearCurrentTemplate());
     dispatch(toggleUnsavedChanges(false));
   }, [dispatch]);
 

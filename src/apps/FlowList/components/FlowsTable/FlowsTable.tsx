@@ -50,8 +50,6 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
   const { asMerchantId } = useQuery();
   const [onMouseDownHandler, onMouseUpHandler] = useTableRightClickNoRedirect(isNewDesign ? Routes.flow.root : Routes.flows.root, { asMerchantId });
   const sortedFlowList = useMemo(() => [...merchantFlowList].sort((a, b) => dateSortCompare(a.createdAt, b.createdAt)), [merchantFlowList]);
-  const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
-  const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
 
   const handleCardClick = useCallback(async (id: string) => {
     try {
@@ -74,12 +72,12 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
 
   useEffect(() => {
     const isOnboardingModalShowed = localStorage.getItem('onboardingModalShowed');
-    if (canUseTemplates && !isFirstMetamapCreated && !isOnboardingModalShowed && !history.location.state?.dontShowModal && !!onboardingProgress?.length) {
+    if (!isFirstMetamapCreated && !isOnboardingModalShowed && !history.location.state?.dontShowModal && !!onboardingProgress?.length) {
       localStorage.setItem('onboardingModalShowed', 'true');
       closeOverlay();
       handleMetamapBuild();
     }
-  }, [dispatch, canUseTemplates, closeOverlay, handleMetamapBuild, isFirstMetamapCreated]);
+  }, [dispatch, closeOverlay, handleMetamapBuild, isFirstMetamapCreated]);
 
   const handleDelete = useCallback(async (id) => {
     if (flowIdToDelete || sortedFlowList.length <= 1) {
@@ -110,13 +108,8 @@ export function FlowsTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
     handleDelete(id);
   };
 
-  const handleRowClicked = async (event, id) => {
-    if (canUseTemplates) {
-      event.stopPropagation();
-      history.push(`${Routes.templates.draftFlow}/${id}`);
-    } else {
-      onMouseUpHandler(event, id);
-    }
+  const handleRowClicked = (event, id) => {
+    onMouseUpHandler(event, id);
   };
 
   return (

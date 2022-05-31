@@ -10,18 +10,18 @@ import { useFormatMessage } from 'apps/intl';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { TempalteFilterProps, TemplateFilterOptions } from 'apps/SolutionCatalog';
+import { ITempalteFilterProps, ITemplateFilterOptions } from 'apps/SolutionCatalog';
 import { useStyles, FilterButton } from './TemplateFilters.style';
 
-export function TemplateFilters({ title, filterData, currentFilters, setCurrentFilters }: TempalteFilterProps) {
+export function TemplateFilters({ title, filterData, currentFilters, setCurrentFilters }: ITempalteFilterProps) {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const formatMessage = useFormatMessage();
   const toggle = () => setIsOpen(!isOpen);
   const handleClickAway = () => setIsOpen(false);
-  const buttonTitle = `${formatMessage('TemplateFilter.button')} ${title}`;
+  const buttonTitle = `${formatMessage(`TemplateFilter.button.${title}`)}`;
 
-  function activeFilters(event, item: TemplateFilterOptions) {
+  function activeFilters(event, item: ITemplateFilterOptions) {
     const currentActiveFilters = currentFilters[title];
     const newActiveFilters = event.target.checked
       ? { ...currentFilters, [title]: [...currentActiveFilters, item] }
@@ -29,7 +29,7 @@ export function TemplateFilters({ title, filterData, currentFilters, setCurrentF
     setCurrentFilters(newActiveFilters);
   }
 
-  function isCheckboxChecked(item: TemplateFilterOptions) {
+  function isCheckboxChecked(item: ITemplateFilterOptions) {
     if (!currentFilters[title].length) return false;
     return !!currentFilters[title].find((filter) => filter.name === item.name);
   }

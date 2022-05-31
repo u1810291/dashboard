@@ -12,13 +12,14 @@ import { IFlow } from 'models/Flow.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
-import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useFlowListLoad } from 'apps/FlowList';
 import { dagreGraphService } from 'apps/WorkflowBuilder';
 import { updateCurrentFlowId } from 'state/merchant/merchant.actions';
 import { Loadable } from 'models/Loadable.model';
+import { useFormatMessage } from 'apps/intl';
+import { clearCurrentTemplate, TemplatesButton, selectTemplateApplicationState } from 'apps/Templates';
 import { FlowBuilderIntegrationDetails } from '../FlowBuilderIntegrationDetails/FlowBuilderIntegrationDetails';
 import { ProductListSidebar } from '../ProductListSidebar/ProductListSidebar';
 import { flowBuilderChangeableFlowLoad, flowBuilderChangeableFlowUpdate, flowBuilderClearStore } from '../../store/FlowBuilder.action';
@@ -35,16 +36,18 @@ export function FlowBuilder() {
   const selectedId = useSelector(selectFlowBuilderSelectedId);
   const changeableFlowModel = useSelector<any, Loadable<IFlow>>(selectFlowBuilderChangeableFlowModel);
   const isProductInited = useSelector<any, boolean>(selectProductIsInited);
+  const isTemplateApplying = useSelector<any, boolean>(selectTemplateApplicationState);
   const isBigScreen = useMediaQuery('(min-width:768px)', { noSsr: true });
   const isHoverableScreen = useMediaQuery('(hover:hover) and (pointer:fine)', { noSsr: true });
   const classes = useStyles();
-  const intl = useIntl();
   const { asMerchantId } = useQuery();
   const flowListModel = useFlowListLoad();
+  const formatMessage = useFormatMessage();
 
   useProduct();
 
   useEffect(() => () => {
+    dispatch(clearCurrentTemplate());
     dispatch(flowBuilderClearStore());
   }, [dispatch]);
 
@@ -63,7 +66,7 @@ export function FlowBuilder() {
     dispatch(flowBuilderChangeableFlowUpdate(patch));
   }, [dispatch]);
 
-  if (!isProductInited && !flowListModel.isLoaded) {
+  if ((!isProductInited && !flowListModel.isLoaded) || isTemplateApplying) {
     return <Loader />;
   }
 
@@ -83,15 +86,18 @@ export function FlowBuilder() {
             <ProductListSidebar />
           </Grid>
           <Grid item container direction="column" wrap="nowrap" className={classes.content}>
-            <Grid item container justify="flex-end">
-              <Box mb={2}>
-                <SaveAndPublish />
-              </Box>
-            </Grid>
+            <Box position="relative">
+              <Grid item container justify="flex-end">
+                <Box mb={2}>
+                  <SaveAndPublish />
+                </Box>
+                <TemplatesButton />
+              </Grid>
+            </Box>
             <Grid container item xs={12} justify="space-between">
               <Grid item xs={12} container direction="column" alignItems="center" className={classes.content}>
                 <Box mb={1.5} color="common.black90" fontWeight="bold" textAlign="center">
-                  {intl.formatMessage({ id: 'FlowBuilder.graph.usersFlow' })}
+                  {formatMessage('FlowBuilder.graph.usersFlow')}
                 </Box>
                 <Grid container direction="column" alignItems="center" className={classes.graph}>
                   <FlowProductsGraph />
@@ -119,7 +125,7 @@ export function FlowBuilder() {
           </Link>
           <Paper className={classes.placeholder}>
             <Placeholder
-              text={intl.formatMessage({ id: 'FlowBuilder.placeholder' })}
+              text={formatMessage('FlowBuilder.placeholder')}
               icon={<EmptyBuilderIcon />}
             />
           </Paper>

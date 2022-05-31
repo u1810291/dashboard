@@ -17,7 +17,6 @@ import { useHistory } from 'react-router-dom';
 import { Routes } from 'models/Router.model';
 import { PasswordExpirationPolicyDurationValue } from 'models/Settings.model';
 import { ExpiryModal } from '../ExpiryModal/ExpiryModal';
-import { PasswordExpirationPolicyDuration } from '../../model/Settings.model';
 import { updatePasswordExpiration } from '../../state/Settings.actions';
 import { useStyles } from './AccountPolicySettings.styles';
 import { NotesDialog } from './NotesDialog';
@@ -117,10 +116,10 @@ export function AccountPolicySettings() {
               variant="outlined"
             >
               <MenuItem value="" disabled hidden>{formatMessage('settings.passwordExpiry.placeholder')}</MenuItem>
-              <MenuItem value={PasswordExpirationPolicyDurationValue.Never}>{PasswordExpirationPolicyDuration.Never}</MenuItem>
-              <MenuItem value={PasswordExpirationPolicyDurationValue.For30Days}>{PasswordExpirationPolicyDuration.For30Days}</MenuItem>
-              <MenuItem value={PasswordExpirationPolicyDurationValue.For60Days}>{PasswordExpirationPolicyDuration.For60Days}</MenuItem>
-              <MenuItem value={PasswordExpirationPolicyDurationValue.For90Days}>{PasswordExpirationPolicyDuration.For90Days}</MenuItem>
+              <MenuItem value={PasswordExpirationPolicyDurationValue.Never}>{formatMessage('PasswordExpirationPolicyDuration.Never')}</MenuItem>
+              <MenuItem value={PasswordExpirationPolicyDurationValue.For30Days}>{formatMessage('PasswordExpirationPolicyDuration.For30Days')}</MenuItem>
+              <MenuItem value={PasswordExpirationPolicyDurationValue.For60Days}>{formatMessage('PasswordExpirationPolicyDuration.For60Days')}</MenuItem>
+              <MenuItem value={PasswordExpirationPolicyDurationValue.For90Days}>{formatMessage('PasswordExpirationPolicyDuration.For90Days')}</MenuItem>
             </Select>
           </Grid>
         </Grid>

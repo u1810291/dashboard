@@ -1,4 +1,4 @@
-import { CardsOptions } from 'apps/SolutionCatalog';
+import { ICardsOptions } from 'apps/SolutionCatalog';
 import { Loadable } from 'models/Loadable.model';
 
 export const SOLUTION_CATALOG_STORE_KEY = 'templatesModal';
@@ -12,5 +12,5 @@ export enum SliceNameTypes {
 }
 
 export interface SolutionCatalogStore {
-  [SliceNameTypes.AllTemplates]: Loadable<Record<string, CardsOptions[]>>;
+  [SliceNameTypes.AllTemplates]: Loadable<Record<string, ICardsOptions[]>>;
 }

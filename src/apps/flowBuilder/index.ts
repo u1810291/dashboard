@@ -9,3 +9,4 @@ export { FlowBuilderIntegrationDetails } from './components/FlowBuilderIntegrati
 
 export * from './store/FlowBuilder.action';
 export * from './store/FlowBuilder.selectors';
+export * from './api/flowBuilder.client';

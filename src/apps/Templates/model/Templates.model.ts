@@ -14,7 +14,6 @@ export interface ITemplatesList {
   pageSize: number;
   total: number;
   totalPages: number;
-  blocked?: boolean;
   rows: ITemplate[];
 }
 
@@ -22,7 +21,7 @@ export enum TemplateSaveInputsTypes {
   MetamapName = 'metamapName',
   TemplateTitle = 'templateTitle',
   Industries = 'industries',
-  Countries = 'countries',
+  Regions = 'regions',
   Description = 'description',
 }
 
@@ -38,7 +37,7 @@ export interface TemplateSaveInputs {
   [TemplateSaveInputsTypes.TemplateTitle]: string;
   [TemplateSaveInputsTypes.MetamapName]: string;
   [TemplateSaveInputsTypes.Industries]: ITemplateMetadata[];
-  [TemplateSaveInputsTypes.Countries]: ITemplateMetadata[];
+  [TemplateSaveInputsTypes.Regions]: ITemplateMetadata[];
   [TemplateSaveInputsTypes.Description]: string;
 }
 
@@ -53,11 +52,15 @@ export interface ITemplateMetadata {
   description?: string;
 }
 
+export interface IFieldValidation {
+  message?: string;
+}
+
 export const TEMPLATE_SAVE_FORM_INITIAL_STATE = {
   [TemplateSaveInputsTypes.TemplateTitle]: '',
   [TemplateSaveInputsTypes.MetamapName]: '',
   [TemplateSaveInputsTypes.Industries]: [],
-  // [TemplateSaveInputsTypes.Countries]: [],
+  [TemplateSaveInputsTypes.Regions]: [],
   [TemplateSaveInputsTypes.Description]: '',
 };
 
@@ -76,7 +79,7 @@ export const templateSaveFormEdit = (currentTemplate) => (
     [TemplateSaveInputsTypes.TemplateTitle]: currentTemplate.name,
     [TemplateSaveInputsTypes.MetamapName]: currentTemplate.flow.name,
     [TemplateSaveInputsTypes.Industries]: getFiltersOptions(currentTemplate.metadata, MetadataType.Industry),
-    // [TemplateSaveInputsTypes.Countries]: getFiltersOptions(currentTemplate.metadata, MetadataType.Country),
+    [TemplateSaveInputsTypes.Regions]: getFiltersOptions(currentTemplate.metadata, MetadataType.Country),
     [TemplateSaveInputsTypes.Description]: currentTemplate.description,
   }
 );
