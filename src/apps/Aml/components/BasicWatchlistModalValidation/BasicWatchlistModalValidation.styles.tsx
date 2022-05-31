@@ -10,7 +10,10 @@ export const useStyles = makeStyles((theme) => ({
   },
   modalTitle: {
     lineHeight: '29px',
-    marginBottom: 40,
+  },
+  modalSubTitle: {
+    marginTop: 5,
+    color: theme.palette.text.main,
   },
   colorGrey: {
     color: theme.palette.text.main,
