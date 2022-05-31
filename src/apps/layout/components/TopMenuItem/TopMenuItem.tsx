@@ -1,4 +1,5 @@
-import { Box, MenuItem } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import MenuItem from '@material-ui/core/MenuItem';
 import classnames from 'classnames';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
@@ -18,7 +19,6 @@ export function TopMenuItem({
   isActive = true,
   isMobile = false,
   isOutlined = false,
-  isWithOutlined = false,
   isOpen = false,
   id,
 }: {
@@ -35,7 +35,6 @@ export function TopMenuItem({
   isActive?: boolean;
   isMobile?: boolean;
   isOutlined?: boolean;
-  isWithOutlined?: boolean;
   isOpen?: boolean;
   id: string;
 }) {
@@ -43,7 +42,9 @@ export function TopMenuItem({
   const menuItem = (
     <MenuItem
       divider={false}
-      className={classnames(classes.menuItem, className)}
+      className={classnames(classes.menuItem, className, {
+        [classes.withOutlinedPadding]: isOutlined && isOpen,
+      })}
       onClick={handler}
       data-qa={qa}
       id={id}
@@ -53,7 +54,6 @@ export function TopMenuItem({
         alignItems="center"
         className={classnames({
           [classes.outlined]: isOutlined && isOpen,
-          [classes.withOutlinedPadding]: (isWithOutlined || isOutlined) && isOpen,
         })}
       >
         <Box display="flex" alignItems="center">
