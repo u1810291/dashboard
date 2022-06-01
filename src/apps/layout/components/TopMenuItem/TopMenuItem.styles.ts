@@ -33,9 +33,10 @@ export const useStyles = makeStyles<typeof AppTheme, {color: string}>((theme) =>
     borderRadius: 50,
     borderColor: props.color,
     width: '100%',
+    padding: '5px 10px',
   }),
   withOutlinedPadding: {
-    padding: '5px 10px',
+    paddingLeft: 10,
   },
   textBox: {
     color: theme.palette.text.light,

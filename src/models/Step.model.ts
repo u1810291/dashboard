@@ -405,6 +405,11 @@ export function getDocumentStep(id, steps = []) {
 // because not all step typings are inherited from IStep
 export function getStepStatus(step): StepStatus {
   const { id, status, data = {}, error } = step || {};
+
+  if (error?.type === FRONTEND_ERROR && error.code === DocumentStepFrontendChecksTypes.EmptyFields) {
+    return StepStatus.Success;
+  }
+
   if (status !== 200) {
     return StepStatus.Checking;
   }

@@ -1,5 +1,4 @@
 import { TopMenuItem } from 'apps/layout';
-import { RiErrorWarningLine } from 'react-icons/ri';
 import { QATags } from 'models/QA.model';
 import React, { useCallback, useState } from 'react';
 import { useFormatMessage } from 'apps/intl';
@@ -30,22 +29,22 @@ export function LiveStatusButton() {
       <TopMenuItem
         id="status-page"
         label={formatMessage('dashboard.menu.statusPage')}
-        icon={<RiErrorWarningLine className={classes.icon} />}
+        icon={(
+          <InfoTooltip
+            title={formatMessage(tooltipMessageId)}
+            popperClassname={classes.tooltip}
+            placement="top-end"
+            isOpen={isShowTooltip && status !== LiveStatuses.Initialization}
+          >
+            <Box className={classes.marker} p={1}>
+              &#8226;
+            </Box>
+          </InfoTooltip>
+        )}
         color="common.black7"
         qa={QATags.Menu.StatusPage}
         handler={onClick}
-      >
-        <InfoTooltip
-          title={formatMessage(tooltipMessageId)}
-          popperClassname={classes.tooltip}
-          placement="top-end"
-          isOpen={isShowTooltip && status !== LiveStatuses.Initialization}
-        >
-          <Box className={classes.marker} p={1}>
-            &#8226;
-          </Box>
-        </InfoTooltip>
-      </TopMenuItem>
+      />
     </Box>
   );
 }
