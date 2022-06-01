@@ -1,5 +1,3 @@
-import { PasswordExpirationPolicyDurationValue } from 'models/Settings.model';
-
 export type MerchantId = string;
 
 export interface ISenderEmail {
@@ -17,12 +15,12 @@ export interface IMerchantSettings {
   customDocumentConfig: unknown[];
 }
 
-export interface StepsOptions {
+export interface IStepsOptions {
   stepId: string;
   completed: boolean;
 }
 
-export interface Merchant {
+export interface IMerchant {
   logoUrl: string;
   id: MerchantId;
   blockedAt: Date;
@@ -34,7 +32,7 @@ export interface Merchant {
   updatedAt: Date;
   tags: MerchantTags[];
   settings: IMerchantSettings;
-  onboardingSteps?: StepsOptions[];
+  onboardingSteps?: IStepsOptions[];
 }
 
 export enum MerchantTags {
@@ -77,4 +75,7 @@ export enum MerchantTags {
   CanUseSolutionTemplates = 'can-use-solution-templates',
   CanUsePremiumAmlWatchlistsSearch = 'can-use-premium-aml-watchlists-search',
   CanUsePremiumAmlWatchlistsSearchAndMonitoring = 'can-use-premium-aml-watchlists-search-and-monitoring',
+  UseSigmaAnalyticsWidget = 'can-use-sigma-widget'
 }
+
+export const SupportEmail = 'support@metamap.com';

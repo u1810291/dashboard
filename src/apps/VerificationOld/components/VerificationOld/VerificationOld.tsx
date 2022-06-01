@@ -1,4 +1,5 @@
-import { Box, Grid } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 import { ProductTypes } from 'models/Product.model';
 import React, { useEffect, useMemo, useState } from 'react';
 import { ProductVerification } from 'apps/Product/components/ProductVerification/ProductVerification';
@@ -6,6 +7,8 @@ import { useDocsWithPrivateMedia, useBiometricsWithPrivateMedia, useDownloadAllP
 import { Routes } from 'models/Router.model';
 import { VerificationWithExtras } from 'models/VerificationOld.model';
 import { VerificationProductList } from 'apps/Verification';
+import { ErrorCatch, ProductErrorPlaceholder } from 'apps/Error';
+import { useCrashedProducts } from 'apps/Product';
 import { useStyles } from './VerificationOld.styles';
 
 export function VerificationOld({ verification, productList }: {
@@ -18,6 +21,7 @@ export function VerificationOld({ verification, productList }: {
   const stepsWithPrivateMedia = useDownloadAllPrivateMedia(verification?.steps);
   const verificationWithPrivateMedia = useMemo<VerificationWithExtras>(() => ({ ...verification, steps: stepsWithPrivateMedia, documents: documentsWithPrivateMedia, biometric: biometricsWithPrivateMedia }), [biometricsWithPrivateMedia, documentsWithPrivateMedia, stepsWithPrivateMedia, verification]);
   const [selectedProduct, setSelectedProduct] = useState<ProductTypes>(null);
+  const [onError, productsWithError] = useCrashedProducts(selectedProduct);
   const classes = useStyles();
 
   useEffect(() => {
@@ -34,11 +38,18 @@ export function VerificationOld({ verification, productList }: {
           selectedId={selectedProduct}
           onSelect={setSelectedProduct}
           verification={verificationWithPrivateMedia}
+          crashedProducts={productsWithError}
         />
       </Grid>
       <Grid item xs={12} lg={8} xl={10} className={classes.products}>
         <Box p={2}>
-          <ProductVerification productId={selectedProduct} verification={verificationWithPrivateMedia} />
+          <ErrorCatch onError={onError}>
+            {!productsWithError.has(selectedProduct) ? (
+              <ProductVerification productId={selectedProduct} verification={verificationWithPrivateMedia} />
+            ) : (
+              <ProductErrorPlaceholder />
+            )}
+          </ErrorCatch>
         </Box>
       </Grid>
     </Grid>

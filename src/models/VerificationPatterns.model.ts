@@ -68,6 +68,7 @@ export enum VerificationPatternTypes {
   PeruvianSunat = 'peruvian-sunat-validation',
   PhilippineDl = 'philippine-dl-validation',
   PhilippineUMIDSSS = 'philippine-umid-ssn-validation',
+  PeruvianHealthSocialSecurity = 'peruvian-health-social-security',
   PhoneOwnershipValidation = 'phone-ownership-validation',
   PhoneRiskValidation = 'phone-risk-analysis-validation',
   PremiumAmlWatchListsSearchValidation = 'premium-aml-watchlists-search-validation',
@@ -86,6 +87,7 @@ export enum VerificationPatternTypes {
   FinancialInformationPayrollAccountsRetrieving = 'financial-information-payroll-accounts-retrieving',
   Facematch = 'facematch-service-validation',
   UgandanElectoralCommission = 'ugandan-electoral-commission-validation',
+  PeruvianMigrationInstitute = 'peruvian-national-migration-institute',
   DuplicateFaceDetection = 'duplicate-face-detection',
   BasicWatchlistsValidation = 'basic-watchlists-validation',
 }

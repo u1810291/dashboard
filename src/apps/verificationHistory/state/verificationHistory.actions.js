@@ -39,14 +39,14 @@ export const clearVerificationHistory = () => async (dispatch) => {
   dispatch({ type: types.VERIFICATION_CHANGES_LIST_CLEAR });
 };
 
-export const updateVerificationHistoryAgentNote = (identityId, auditId, value) => async (dispatch, getState) => {
+export const updateVerificationHistoryAgentNote = (identityId, eventId, value) => async (dispatch, getState) => {
   dispatch({ type: types.VERIFICATION_CHANGE_AGENT_NOTE_REQUEST });
   try {
     const agentNote = value || null;
-    await saveVerificationAgentNote(identityId, auditId, { agentNote });
+    await saveVerificationAgentNote(identityId, eventId, { agentNote });
     const changes = selectVerificationChangesList(getState()) || [];
     const updatedChanges = changes.map((item) => {
-      if (item?._id === auditId) {
+      if (item?._id === eventId) {
         return {
           ...item,
           agentNote,

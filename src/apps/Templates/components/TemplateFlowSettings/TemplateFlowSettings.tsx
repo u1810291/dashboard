@@ -5,7 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { flowNameValidator } from 'pages/WorkflowList/validators/FlowName.validator';
 import { overlayCloseAll } from 'apps/overlay';
 import { ProductCheckListAll } from 'apps/Product';
-import { useDeleteButtonHook, Warning } from 'apps/ui';
+import { useDeleteButtonHook, Warning, notification } from 'apps/ui';
 import classNames from 'classnames';
 import { toIsoPeriod } from 'lib/date';
 import { DigitalSignatureProvider } from 'models/DigitalSignature.model';
@@ -13,33 +13,36 @@ import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectMerchantFlowsModel, selectNom151Check, selectPolicyInterval } from 'state/merchant';
+import { selectMerchantFlowsModel } from 'state/merchant';
 import { round } from 'lib/round';
 import { Loadable } from 'models/Loadable.model';
 import { useFormatMessage } from 'apps/intl';
 import { IFlow } from 'models/Flow.model';
+import { ITemplate, selectCurrentTemplateModelValue } from 'apps/Templates';
 import { FlowSettingsModel, FlowSettingsSwitches, validatePolicyInterval } from 'apps/WorkflowBuilder';
-import { flowBuilderDelete, flowBuilderSaveAndPublishSettings, selectFlowBuilderChangeableFlow, selectFlowBuilderProductsInGraph } from 'apps/flowBuilder';
+import { selectFlowBuilderChangeableFlow, selectFlowBuilderProductsInGraph } from 'apps/flowBuilder';
+import { selectCurrentTemplatePolicyInterval, selectCurrentTemplateNom151Check } from '../../store/Templates.selectors';
+import { templateBuilderSaveAndPublishSettings, blockTemplate } from '../../store/Templates.actions';
 import { TemplateFlowInfo } from '../TemplateFlowInfo/TemplateFlowInfo';
 import { useStyles } from './TemplateFlowSettings.styles';
 
-export function TemplateFlowSettings({ onClose, isTemplate = false }: {
+export function TemplateFlowSettings({ onClose }: {
   onClose: () => void;
-  isTemplate?: boolean;
 }) {
   const dispatch = useDispatch();
   const formatMessage = useFormatMessage();
   const classes = useStyles();
-  const { id: flowId, name: flowName } = useSelector<any, IFlow>(selectFlowBuilderChangeableFlow);
+  const { name: flowName } = useSelector<any, IFlow>(selectFlowBuilderChangeableFlow);
   const merchantFlowsModel = useSelector<any, Loadable<IFlow[]>>(selectMerchantFlowsModel);
+  const currentTemplateModelValue = useSelector<any, ITemplate>(selectCurrentTemplateModelValue);
   const productsInGraph = useSelector(selectFlowBuilderProductsInGraph);
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [isSaveButtonLoading, setIsSaveButtonLoading] = useState<boolean>(false);
   const [policyIntervalError, setPolicyIntervalError] = useState<string | null>(null);
   const [newFlowName, setNewFlowName] = useState<string>('');
-  const [policyInterval, setPolicyInterval] = useState<string>(useSelector(selectPolicyInterval));
-  const [isGDPRChecked, setIsGDPRChecked] = useState<boolean>(!!useSelector(selectPolicyInterval));
-  const [digitalSignature, setDigitalSignature] = useState<DigitalSignatureProvider>(useSelector(selectNom151Check));
+  const [policyInterval, setPolicyInterval] = useState<string>(useSelector(selectCurrentTemplatePolicyInterval));
+  const [isGDPRChecked, setIsGDPRChecked] = useState<boolean>(!!useSelector(selectCurrentTemplatePolicyInterval));
+  const [digitalSignature, setDigitalSignature] = useState<DigitalSignatureProvider>(useSelector(selectCurrentTemplateNom151Check));
   const [isInit, setIsInit] = useState<boolean>(true);
   const [oldSettings, setOldSettings] = useState<FlowSettingsModel>(null);
 
@@ -50,13 +53,13 @@ export function TemplateFlowSettings({ onClose, isTemplate = false }: {
 
   const handleDeleteFlow = useCallback(async () => {
     await dispatch(overlayCloseAll());
-    await dispatch(flowBuilderDelete());
-  }, [dispatch]);
+    await dispatch(blockTemplate(currentTemplateModelValue._id));
+  }, [dispatch, currentTemplateModelValue._id]);
 
   const { handleDelete } = useDeleteButtonHook(handleDeleteFlow, {
-    redirectUrl: Routes.flow.root,
-    header: 'VerificationFlow.modal.delete.title',
-    confirm: 'VerificationFlow.modal.delete.subtitle',
+    redirectUrl: Routes.templates.root,
+    header: 'Templates.block.title',
+    confirm: 'Templates.block.subtitle',
   });
 
   const handleValidatePolicyInterval = useCallback(({ target: { value } }) => {
@@ -92,10 +95,19 @@ export function TemplateFlowSettings({ onClose, isTemplate = false }: {
       name: newFlowName,
     };
     setIsSaveButtonLoading(true);
-    await dispatch(flowBuilderSaveAndPublishSettings(payload));
+    try {
+      await dispatch(templateBuilderSaveAndPublishSettings(payload));
+      notification.success(formatMessage('FlowBuilder.notification.saved'));
+      setIsSaveButtonLoading(false);
+      onClose();
+    } catch (error) {
+      notification.error(formatMessage('Error.common'));
+      setIsSaveButtonLoading(false);
+      onClose();
+    }
     setIsSaveButtonLoading(false);
     onClose();
-  }, [dispatch, policyInterval, policyIntervalError, digitalSignature, newFlowName, onClose]);
+  }, [dispatch, policyInterval, policyIntervalError, digitalSignature, newFlowName, onClose, formatMessage]);
 
   const handleSubmit = useCallback((name: string) => {
     setNewFlowName(name);
@@ -131,26 +143,14 @@ export function TemplateFlowSettings({ onClose, isTemplate = false }: {
     <Grid container spacing={2} alignItems="flex-start">
       <Grid item xs={12}>
         <Box color="common.black90" fontWeight="bold">
-          {formatMessage('FlowBuilder.settings.title.settings')}
+          {formatMessage('FlowBuilder.settings.title.template')}
         </Box>
       </Grid>
       <Grid item xs={12} lg={6}>
-        <Box mb={3}>
-          <TemplateFlowInfo
-            canEdit={!isTemplate}
-            isEditable={isEditable}
-            newFlowName={newFlowName}
-            setIsEditable={setIsEditable}
-            onSubmit={handleSubmit}
-            onCancel={handleCancel}
-            validator={validator}
-            isTemplate={isTemplate}
-          />
-        </Box>
-        {!isTemplate && (
+        {currentTemplateModelValue._id && (
           <Box mb={3}>
-            <Box color="common.black90" mb={0.5}>{flowId}</Box>
-            <Box color="common.black75">{formatMessage('FlowBuilder.settings.title.flowId')}</Box>
+            <Box color="common.black90" mb={0.5}>{currentTemplateModelValue._id}</Box>
+            <Box color="common.black75">{formatMessage('FlowBuilder.settings.title.templateId')}</Box>
           </Box>
         )}
         <FlowSettingsSwitches
@@ -173,18 +173,18 @@ export function TemplateFlowSettings({ onClose, isTemplate = false }: {
         </Box>
       </Grid>
       <Grid container item xs={12} className={classes.buttonsWrapper}>
-        {!isTemplate && (
+        {currentTemplateModelValue._id && (
           <Button variant="outlined" className={classNames(classes.button, classes.buttonCancel)} onClick={handleDelete}>
             <FiTrash2 fontSize={17} />
             <Box ml={1}>
-              {formatMessage('FlowBuilder.settings.button.delete')}
+              {formatMessage('Templates.block.title')}
             </Box>
           </Button>
         )}
         {showUnsavedChange && (
           <Warning label={formatMessage('FlowBuilder.settings.button.warning')} />
         )}
-        <Button className={classNames(classes.button, classes.buttonSave)} onClick={handleSaveAndPublish}>
+        <Button disabled={isSaveButtonLoading} className={classNames(classes.button, classes.buttonSave)} onClick={handleSaveAndPublish}>
           {isSaveButtonLoading ? <CircularProgress color="inherit" size={17} /> : formatMessage('FlowBuilder.settings.button.save')}
         </Button>
       </Grid>

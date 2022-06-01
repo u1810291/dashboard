@@ -6,6 +6,7 @@
   },
   "extends": [
     "plugin:react/recommended",
+    "plugin:storybook/recommended",
     "airbnb"
   ],
   "globals": {
@@ -32,6 +33,7 @@
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "object-curly-newline": ["error", { "multiline": true, "consistent": true }],
     "import/prefer-default-export": 0,
+    "newline-per-chained-call": ["warn", { "ignoreChainWithDepth": 2 }],
     "no-underscore-dangle": ["error", { "allow": ["_id", "_embedded", "_links", "_email"] }],
     "react/require-default-props": 0,
     "react/prop-types": 0,
@@ -106,5 +108,17 @@
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.stories.*",
+        "**/*.test.*"
+      ],
+      "rules": {
+        "import/no-anonymous-default-export": "off",
+        "import/no-extraneous-dependencies": "off"
+      }
+    }
+  ]
 }

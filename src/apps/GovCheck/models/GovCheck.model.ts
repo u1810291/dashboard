@@ -75,6 +75,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.NigerianTin]: false,
   [VerificationPatternTypes.ParaguayanRcp]: false,
   [VerificationPatternTypes.PeruvianReniec]: false,
+  [VerificationPatternTypes.PeruvianHealthSocialSecurity]: false,
   [VerificationPatternTypes.PeruvianSunat]: false,
   [VerificationPatternTypes.PhilippineUMIDSSS]: false,
   [VerificationPatternTypes.PhilippineDl]: false,
@@ -83,6 +84,7 @@ export const verificationPatternsGovchecksDefault = {
   [VerificationPatternTypes.VenezuelanCne]: false,
   [VerificationPatternTypes.VenezuelanSeniat]: false,
   [VerificationPatternTypes.UgandanElectoralCommission]: false,
+  [VerificationPatternTypes.PeruvianMigrationInstitute]: false,
   [VerificationPatternTypes.BrazilianNoCriminalRecordsValidation]: false,
 };
 
@@ -496,6 +498,14 @@ export const GovCheckConfigurations: GovCheckConfiguration[] = [
       },
       {
         id: VerificationPatternTypes.PeruvianSunat,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.PeruvianMigrationInstitute,
+        default: false,
+      },
+      {
+        id: DocumentStepTypes.PeruvianHealthSocialSecurity,
         default: false,
       },
     ],

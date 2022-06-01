@@ -6,17 +6,20 @@ import { useIntl } from 'react-intl';
 import { WarningBadge } from '../WarningBadge/WarningBadge';
 import { useStyles } from './UIProductTab.styles';
 
-export function UIProductTab({ card, isSelected, hasBadge, onSelect }: {
+export function UIProductTab({ card, isSelected, hasBadge, onSelect, isDisabled }: {
   card: IProductCard;
   isSelected?: boolean;
   hasBadge?: boolean;
   onSelect: (id: ProductTypes) => void;
+  isDisabled?: boolean;
 }) {
   const intl = useIntl();
 
   const handleClick = useCallback(() => {
-    onSelect(card.id);
-  }, [onSelect, card.id]);
+    if (!isDisabled) {
+      onSelect(card.id);
+    }
+  }, [isDisabled, onSelect, card.id]);
 
   const classes = useStyles();
 
@@ -27,6 +30,7 @@ export function UIProductTab({ card, isSelected, hasBadge, onSelect }: {
       onClick={handleClick}
       className={classNames(classes.tab, {
         [classes.selected]: isSelected,
+        [classes.disabled]: isDisabled,
       })}
     >
       {hasBadge && <WarningBadge />}

@@ -1,13 +1,13 @@
 import { createSelector } from 'reselect';
 import { selectModelValue } from 'lib/loadable.selectors';
 import { filterSerialize } from 'models/Filter.model';
-import { SliceNames, VERIFICATION_HISTORY_STORE_KEY } from './verificationHistory.store';
+import { SliceNameTypes, VERIFICATION_HISTORY_STORE_KEY } from './verificationHistory.store';
 
 export const selectVerificationHistoryStore = (state) => state[VERIFICATION_HISTORY_STORE_KEY];
 
 export const selectVerificationHistoryFilter = createSelector(
   selectVerificationHistoryStore,
-  (store) => store[SliceNames.Filter],
+  (store) => store[SliceNameTypes.Filter],
 );
 
 export const selectVerificationHistoryFilterSerialized = createSelector(
@@ -17,12 +17,12 @@ export const selectVerificationHistoryFilterSerialized = createSelector(
 
 export const selectVerificationChangesTotalCount = createSelector(
   selectVerificationHistoryStore,
-  (store) => store[SliceNames.Count] || 0,
+  (store) => store[SliceNameTypes.Count] || 0,
 );
 
 export const selectVerificationChangesModel = createSelector(
   selectVerificationHistoryStore,
-  (store) => store[SliceNames.Changes],
+  (store) => store[SliceNameTypes.Changes],
 );
 
 export const selectVerificationChangesList = createSelector(

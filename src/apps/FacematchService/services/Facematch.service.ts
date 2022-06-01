@@ -162,7 +162,8 @@ export class Facematch extends ProductBaseFlowBuilder implements Product {
                 VerificationPatternTypes.NigerianBvn,
               ].some((pattern) => verificationPatterns[pattern] === true);
             }
-            return verificationPatterns[id] === true || verificationPatterns[id] === GovCheckStepTypes.CpfFacematch;
+            // TODO: @anatoliy.turkin make it prettier
+            return verificationPatterns[id] === true || verificationPatterns[id] === GovCheckStepTypes.CpfFacematch || verificationPatterns[id] === GovCheckStepTypes.KtpFacematch;
           });
 
           return govCheckOptions.length && isEnabledGovchecks;

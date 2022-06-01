@@ -3,8 +3,17 @@ import { LoadableAdapter } from 'lib/Loadable.adapter';
 import { selectAllCountriesModel } from 'state/countries/countries.selectors';
 import { useEffect } from 'react';
 import { loadCountries } from 'state/countries/countries.actions';
+import { Country } from 'models/Country.model';
 
-export function useCountriesLoad() {
+interface ICountriesResponse {
+  value: Country[];
+  isLoaded: boolean;
+  isLoading: boolean;
+  error: Nullable<string>;
+  isFailed: boolean;
+}
+
+export function useCountriesLoad(): ICountriesResponse {
   const dispatch = useDispatch();
   const countriesModel = useSelector(selectAllCountriesModel);
 
@@ -20,6 +29,5 @@ export function useCountriesLoad() {
     };
     loadData();
   }, [dispatch, countriesModel]);
-
   return countriesModel;
 }

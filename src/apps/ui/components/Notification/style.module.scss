@@ -30,7 +30,7 @@
       transform: translateY(-50%);
     }
   }
-  
+
   :global(.Toastify__toast--error) {
     &::before {
       background-color: #FE7581;
@@ -62,6 +62,10 @@
       background-color: #FE7581;
       background-image: url('./notification-warn.svg');
     }
+  }
+
+  :global(.Toastify__toast-icon) {
+    display: none;
   }
 
   :global(.Toastify__toast--info) {

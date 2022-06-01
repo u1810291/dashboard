@@ -37,8 +37,6 @@ export function FlowList() {
   const isButtonDisabled = (merchantFlowList || []).length >= MAX_NUMBER_OF_FLOWS;
   const [open, setOpen] = useState<boolean>(isButtonDisabled && isMobile);
   const flowListModel = useFlowListLoad();
-  const merchantTags = useSelector<any, MerchantTags[]>(selectMerchantTags);
-  const canUseTemplates = merchantTags.includes(MerchantTags.CanUseSolutionTemplates);
 
   useEffect(() => {
     setOpen(isButtonDisabled && isMobile);
@@ -77,12 +75,8 @@ export function FlowList() {
   }, [isMobile]);
 
   const handleBuildMetamapButtonClick = useCallback(() => {
-    if (canUseTemplates) {
-      history.push(Routes.templates.draftFlow);
-    } else {
-      handleAddNewFlow();
-    }
-  }, [history, canUseTemplates, handleAddNewFlow]);
+    handleAddNewFlow();
+  }, [handleAddNewFlow]);
 
   if (!flowListModel.isLoaded) {
     return <PageLoader />;

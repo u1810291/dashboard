@@ -25,6 +25,7 @@ export function SaveAndPublishTemplate({ isEditMode = false }: { isEditMode?: bo
   const [createOverlay] = useOverlay();
   const dispatch = useDispatch();
   const currentTemplateModel = useSelector<any, Loadable<ITemplate>>(selectCurrentTemplateModel);
+  const isTemplateCreated = currentTemplateModel?.value;
 
   const handleSaveFlow = () => {
     createOverlay(<TemplateSaveModal />);
@@ -37,11 +38,11 @@ export function SaveAndPublishTemplate({ isEditMode = false }: { isEditMode?: bo
   return (
     <Grid container>
       {haveIssues ? (
-        <TextBubble className={classes.issues}>
+        <TextBubble className={isTemplateCreated ? classes.issues : classes.issuesNotCreated}>
           {intl.formatMessage({ id: 'FlowBuilder.notification.issues' })}
         </TextBubble>
       ) : haveUnsavedChanges && (
-        <TextBubble>
+        <TextBubble className={isTemplateCreated ? classes.unsavedChanges : classes.unsavedChangesNotCreated}>
           {intl.formatMessage({ id: 'FlowBuilder.notification.unsavedChanges' })}
         </TextBubble>
       )}

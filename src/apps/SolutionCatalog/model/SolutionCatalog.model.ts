@@ -1,21 +1,21 @@
-export interface CardsOptions {
+export interface ICardsOptions {
   name: string;
   description: string;
   __v?: number;
   _id: string;
-  metadata: metadataOptions[];
+  metadata: IMetadataOptions[];
   handleCardClick: (id: string) => void;
 }
 
-export interface metadataOptions {
+export interface IMetadataOptions {
   name: string;
   type: string;
   _id: string;
 }
 
-type filterOptions = Record<MetadataType, TemplateFilterOptions[]>;
+type filterOptions = Record<MetadataType, ITemplateFilterOptions[]>;
 
-export interface TemplateChosenFiltersProps {
+export interface ITemplateChosenFiltersProps {
   currentValue: filterOptions;
   setCurrentValue: (object: filterOptions) => void;
   initialData: Record<MetadataType, []>;
@@ -25,49 +25,39 @@ export enum MetadataType {
   Country = 'country',
 }
 
-export interface TemplateCardProps {
-  title: string;
-  description: string;
-  id: string;
-  handleCardClick: (id: string) => void;
-}
-
-export interface TemplateFilterOptions {
+export interface ITemplateFilterOptions {
   _id: string;
   type: MetadataType;
   name: string;
   description?: string;
 }
 
-export interface ModifiedFiltersOptions {
+export interface IModifiedFiltersOptions {
   title: MetadataType;
-  data: TemplateFilterOptions[];
+  data: ITemplateFilterOptions[];
 }
 
-export interface CardsData {
+export interface ICardsData {
   name: string;
   description: string;
   id?: string;
   _id?: string;
 }
 
-export interface TempalteFilterProps {
+export interface ITempalteFilterProps {
   title: string;
-  filterData: TemplateFilterOptions[];
+  filterData: ITemplateFilterOptions[];
   currentFilters: filterOptions;
   setCurrentFilters: (object: filterOptions) => void;
 }
 
-export interface TemplateGaleryProps {
-  templates: CardsData[];
+export interface ITemplateGaleryProps {
+  templates: ICardsData[];
   handleCardClick: (id: string) => void;
 }
 
-export function getFiltersOptions(filtersData: TemplateFilterOptions[]): ModifiedFiltersOptions[] {
-  // const titles = Array.from(new Set(filtersData.map((item) => item.type)));
-  // TODO: we hide countries filter till next version of onboarding, so now its commented
-  const titles = ['country', 'industry'];
-  // @ts-ignore
+export function getFiltersOptions(filtersData: ITemplateFilterOptions[]): IModifiedFiltersOptions[] {
+  const titles = Array.from(new Set(filtersData.map((item) => item.type)));
   return titles.map((title: MetadataType) => {
     const uniqueOptions = filtersData.filter((item) => item.type === title);
     return { title, data: [...uniqueOptions] };

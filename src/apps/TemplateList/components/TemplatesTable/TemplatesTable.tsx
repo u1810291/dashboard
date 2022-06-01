@@ -98,8 +98,6 @@ export function TemplatesTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
                   <Box className={classes.label}>{formatMessage('flow.table.field.description')}</Box>
                   <Typography variant="h4" className={classes.description}>{item.description}</Typography>
                 </Box>
-              </TableCell>
-              <TableCell>
                 <CustomSwitcher
                   className={classes.switcher}
                   color="primary"
@@ -122,7 +120,7 @@ export function TemplatesTable({ onAddNewFlow }: { onAddNewFlow: () => void }) {
                   <Box component="span" className={item.blocked ? classes.itemIdBlocked : classes.itemId}>{item?._id}</Box>
                 </Box>
               </TableCell>
-              {templatesListValue.rows.length > 1 && !item.blocked && (
+              {!item.blocked && (
                 <TableCell className={classes.iconDeleteWrapper}>
                   <IconButton
                     size="small"

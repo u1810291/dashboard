@@ -1,6 +1,6 @@
 import { Box } from '@material-ui/core';
 import React from 'react';
-import PrismLight from 'react-syntax-highlighter/prism-light';
+import { PrismLight } from 'react-syntax-highlighter';
 import { CopyToClipboard } from '../CopyToClipboard/CopyToClipboard';
 import lightTheme from './light';
 import lightYellowTheme from './light-yellow';

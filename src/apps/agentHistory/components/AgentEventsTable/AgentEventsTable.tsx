@@ -1,14 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import { ReactComponent as EmptyListIcon } from 'assets/empty-list-round.svg';
 import { ReactComponent as IconLoad } from 'assets/icon-load.svg';
 import { selectCollaborator } from 'apps/collaborators/state/collaborator.selectors';
 import { PageLoader } from 'apps/layout';
 import { appPalette } from 'apps/theme';
 import { Placeholder } from 'apps/ui';
+import { useFormatMessage } from 'apps/intl';
 import { QATags } from 'models/QA.model';
 import { loadAgentHistory } from '../../state/agentHistory.actions';
 import { selectAgentHistoryEventsList, selectAgentHistoryFilter, selectAgentHistoryLoadedCount, selectAgentHistoryModel, selectAgentHistoryTotalCount } from '../../state/agentHistory.selectors';
@@ -20,7 +27,7 @@ export function AgentEventsTable({ isLoading }: {
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(false);
   const collaboratorModel = useSelector(selectCollaborator);
@@ -43,7 +50,7 @@ export function AgentEventsTable({ isLoading }: {
 
   useEffect(() => {
     setHasMore(!agentHistory.isLoading && agentHistory.isLoaded && historyLoadedCount < historyTotalLength);
-  }, [agentHistory.isLoaded, agentHistory.isLoading, historyLoadedCount, historyTotalLength, page]);
+  }, [agentHistory.isLoading, agentHistory.isLoaded, historyLoadedCount, historyTotalLength, page]);
 
   return (
     <Box mt={2}>
@@ -62,13 +69,13 @@ export function AgentEventsTable({ isLoading }: {
             scrollableTarget="scrollable-agent-history-table"
           >
             <Table>
-              <TableHead>
+              <TableHead className={classes.tableHead}>
                 <TableRow>
                   <TableCell>
-                    {intl.formatMessage({ id: 'AgentHistory.tableHead.status' })}
+                    {formatMessage('AgentHistory.tableHead.status')}
                   </TableCell>
                   <TableCell>
-                    {intl.formatMessage({ id: 'AgentHistory.tableHead.additionalDetails' })}
+                    {formatMessage('AgentHistory.tableHead.additionalDetails')}
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -77,7 +84,7 @@ export function AgentEventsTable({ isLoading }: {
                   <TableRow>
                     <TableCell className={classes.itemEmpty} colSpan={6} align="center">
                       {isLoading ? <Box py={2.5}><PageLoader size={50} color={appPalette.black50} /></Box>
-                        : <Placeholder icon={<EmptyListIcon />} subtitle={intl.formatMessage({ id: 'AgentHistory.placeholder' })} />}
+                        : <Placeholder icon={<EmptyListIcon />} subtitle={formatMessage('AgentHistory.placeholder')} />}
                     </TableCell>
                   </TableRow>
                 ) : eventList?.map((row) => (<AgentEventRow key={row?._id} event={row} />))}

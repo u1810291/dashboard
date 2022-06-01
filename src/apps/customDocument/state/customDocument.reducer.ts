@@ -2,13 +2,13 @@ import { inputCustomDocumentValidationChecksDefaultValue } from 'models/ImageVal
 import { OverlayActionTypes } from 'apps/overlay/state/overlay.actions';
 import { CustomDocumentVerificationFlowFieldTypes } from 'models/CustomDocument.model';
 import { createReducer } from 'state/store.utils';
-import { SliceNames, CustomDocumentActionTypes, CustomDocumentStore } from './customDocument.store';
+import { SliceNameTypes, CustomDocumentActionTypes, CustomDocumentStore } from './customDocument.store';
 import { CustomDocumentWizardStepTypes, CUSTOM_DOCUMENT_PREFIX } from '../models/CustomDocument.model';
 
 const initialState: CustomDocumentStore = {
-  [SliceNames.CustomDocumentWizardStep]: CustomDocumentWizardStepTypes.BasicInfo,
-  [SliceNames.EditedCustomDocument]: null,
-  [SliceNames.CustomDocument]: {
+  [SliceNameTypes.CustomDocumentWizardStep]: CustomDocumentWizardStepTypes.BasicInfo,
+  [SliceNameTypes.EditedCustomDocument]: null,
+  [SliceNameTypes.CustomDocument]: {
     name: null,
     isSingleFile: false,
     pages: 1,
@@ -17,29 +17,29 @@ const initialState: CustomDocumentStore = {
     type: CUSTOM_DOCUMENT_PREFIX,
     inputValidationChecks: inputCustomDocumentValidationChecksDefaultValue,
   },
-  [SliceNames.CustomDocumentTemplateMatchingSettings]: {
+  [SliceNameTypes.CustomDocumentTemplateMatchingSettings]: {
     instructions: null,
     templates: [],
   },
-  [SliceNames.CustomDocumentTemplateEditedTemplate]: null,
-  [SliceNames.CustomDocumentTemplateMatchingTemplateSettings]: {
+  [SliceNameTypes.CustomDocumentTemplateEditedTemplate]: null,
+  [SliceNameTypes.CustomDocumentTemplateMatchingTemplateSettings]: {
     caption: null,
     isAcceptable: false,
     image: null,
   },
-  [SliceNames.CustomDocumentDocumentReadingSettings]: {
+  [SliceNameTypes.CustomDocumentDocumentReadingSettings]: {
     fields: [],
     images: [],
   },
-  [SliceNames.CustomDocumentEditedField]: null,
-  [SliceNames.CustomDocumentDocumentReadingFieldSettings]: {
+  [SliceNameTypes.CustomDocumentEditedField]: null,
+  [SliceNameTypes.CustomDocumentDocumentReadingFieldSettings]: {
     id: '',
     type: CustomDocumentVerificationFlowFieldTypes.Text,
     label: '',
     options: [],
   },
-  [SliceNames.CustomDocumentDocumentReadingEditedFieldOption]: null,
-  [SliceNames.CustomDocumentDocumentReadingFieldOption]: null,
+  [SliceNameTypes.CustomDocumentDocumentReadingEditedFieldOption]: null,
+  [SliceNameTypes.CustomDocumentDocumentReadingFieldOption]: null,
 };
 
 export default createReducer(initialState, {
@@ -56,14 +56,14 @@ export default createReducer(initialState, {
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_EDITED_DOCUMENT_UPDATE](state, { payload }) {
     return {
       ...state,
-      [SliceNames.EditedCustomDocument]: payload,
+      [SliceNameTypes.EditedCustomDocument]: payload,
     };
   },
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_MODAL_UPDATE](state, { payload }) {
     return {
       ...state,
-      [SliceNames.CustomDocument]: {
-        ...state[SliceNames.CustomDocument],
+      [SliceNameTypes.CustomDocument]: {
+        ...state[SliceNameTypes.CustomDocument],
         ...payload,
       },
     };
@@ -76,8 +76,8 @@ export default createReducer(initialState, {
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_UPLOAD_MODAL_UPDATE](state, { payload }) {
     return {
       ...state,
-      [SliceNames.CustomDocumentUpload]: {
-        ...state[SliceNames.CustomDocumentUpload],
+      [SliceNameTypes.CustomDocumentUpload]: {
+        ...state[SliceNameTypes.CustomDocumentUpload],
         ...payload,
       },
     };
@@ -90,20 +90,20 @@ export default createReducer(initialState, {
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_SETTINGS_MODAL_UPDATE](state, { payload }) {
     return {
       ...state,
-      [SliceNames.CustomDocumentSettings]: payload,
+      [SliceNameTypes.CustomDocumentSettings]: payload,
     };
   },
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_TEMPLATE_MATCHING_SETTINGS_MODAL_RESET](state) {
     return {
       ...state,
-      [SliceNames.CustomDocumentTemplateMatchingSettings]: initialState[SliceNames.CustomDocumentTemplateMatchingSettings],
+      [SliceNameTypes.CustomDocumentTemplateMatchingSettings]: initialState[SliceNameTypes.CustomDocumentTemplateMatchingSettings],
     };
   },
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_TEMPLATE_MATCHING_SETTINGS_MODAL_UPDATE](state, { payload }) {
     return {
       ...state,
-      [SliceNames.CustomDocumentTemplateMatchingSettings]: {
-        ...state[SliceNames.CustomDocumentTemplateMatchingSettings],
+      [SliceNameTypes.CustomDocumentTemplateMatchingSettings]: {
+        ...state[SliceNameTypes.CustomDocumentTemplateMatchingSettings],
         ...payload,
       },
     };
@@ -111,20 +111,20 @@ export default createReducer(initialState, {
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_TEMPLATE_MATCHING_EDITED_TEMPLATE_UPDATE](state, { payload }) {
     return {
       ...state,
-      [SliceNames.CustomDocumentTemplateEditedTemplate]: payload,
+      [SliceNameTypes.CustomDocumentTemplateEditedTemplate]: payload,
     };
   },
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_TEMPLATE_MATCHING_TEMPLATE_RESET](state) {
     return {
       ...state,
-      [SliceNames.CustomDocumentTemplateMatchingTemplateSettings]: initialState[SliceNames.CustomDocumentTemplateMatchingTemplateSettings],
+      [SliceNameTypes.CustomDocumentTemplateMatchingTemplateSettings]: initialState[SliceNameTypes.CustomDocumentTemplateMatchingTemplateSettings],
     };
   },
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_TEMPLATE_MATCHING_TEMPLATE_UPDATE](state, { payload }) {
     return {
       ...state,
-      [SliceNames.CustomDocumentTemplateMatchingTemplateSettings]: {
-        ...state[SliceNames.CustomDocumentTemplateMatchingTemplateSettings],
+      [SliceNameTypes.CustomDocumentTemplateMatchingTemplateSettings]: {
+        ...state[SliceNameTypes.CustomDocumentTemplateMatchingTemplateSettings],
         ...payload,
       },
     };
@@ -132,8 +132,8 @@ export default createReducer(initialState, {
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_DOCUMENT_READING_SETTINGS_MODAL_UPDATE](state, { payload }) {
     return {
       ...state,
-      [SliceNames.CustomDocumentDocumentReadingSettings]: {
-        ...state[SliceNames.CustomDocumentDocumentReadingSettings],
+      [SliceNameTypes.CustomDocumentDocumentReadingSettings]: {
+        ...state[SliceNameTypes.CustomDocumentDocumentReadingSettings],
         ...payload,
       },
     };
@@ -141,14 +141,14 @@ export default createReducer(initialState, {
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_DOCUMENT_EDITED_READING_FIELD_UPDATE](state, { payload }) {
     return {
       ...state,
-      [SliceNames.CustomDocumentEditedField]: payload,
+      [SliceNameTypes.CustomDocumentEditedField]: payload,
     };
   },
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_DOCUMENT_READING_FIELD_UPDATE](state, { payload }) {
     return {
       ...state,
-      [SliceNames.CustomDocumentDocumentReadingFieldSettings]: {
-        ...state[SliceNames.CustomDocumentDocumentReadingFieldSettings],
+      [SliceNameTypes.CustomDocumentDocumentReadingFieldSettings]: {
+        ...state[SliceNameTypes.CustomDocumentDocumentReadingFieldSettings],
         ...payload,
       },
     };
@@ -156,7 +156,7 @@ export default createReducer(initialState, {
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_DOCUMENT_READING_FIELD_RESET](state) {
     return {
       ...state,
-      [SliceNames.CustomDocumentDocumentReadingFieldSettings]: {
+      [SliceNameTypes.CustomDocumentDocumentReadingFieldSettings]: {
         ...initialState.CustomDocumentDocumentReadingFieldSettings,
       },
     };
@@ -164,25 +164,25 @@ export default createReducer(initialState, {
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_DOCUMENT_READING_FIELD_OPTION_RESET](state) {
     return {
       ...state,
-      [SliceNames.CustomDocumentDocumentReadingFieldOption]: initialState.CustomDocumentDocumentReadingFieldOption,
+      [SliceNameTypes.CustomDocumentDocumentReadingFieldOption]: initialState.CustomDocumentDocumentReadingFieldOption,
     };
   },
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_DOCUMENT_READING_FIELD_OPTION_UPDATE](state, { payload }) {
     return {
       ...state,
-      [SliceNames.CustomDocumentDocumentReadingFieldOption]: payload,
+      [SliceNameTypes.CustomDocumentDocumentReadingFieldOption]: payload,
     };
   },
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_DOCUMENT_READING_EDITED_FIELD_OPTION_UPDATE](state, { payload }) {
     return {
       ...state,
-      [SliceNames.CustomDocumentDocumentReadingEditedFieldOption]: payload,
+      [SliceNameTypes.CustomDocumentDocumentReadingEditedFieldOption]: payload,
     };
   },
   [CustomDocumentActionTypes.CUSTOM_DOCUMENT_DOCUMENT_WIZARD_STEP_UPDATE](state, { payload }) {
     return {
       ...state,
-      [SliceNames.CustomDocumentWizardStep]: payload,
+      [SliceNameTypes.CustomDocumentWizardStep]: payload,
     };
   },
 });

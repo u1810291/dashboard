@@ -3,7 +3,7 @@ import { CustomDocumentWizardStepTypes } from '../models/CustomDocument.model';
 
 export const CUSTOM_DOCUMENT_STORE_KEY = 'customDocument';
 
-export enum SliceNames {
+export enum SliceNameTypes {
   CustomDocumentWizardStep = 'customDocumentWizardStep',
   CustomDocument ='customDocument',
   EditedCustomDocument ='editedCustomDocument',
@@ -45,15 +45,15 @@ export enum CustomDocumentActionTypes {
 }
 
 export interface CustomDocumentStore {
-  [SliceNames.CustomDocumentWizardStep]: CustomDocumentWizardStepTypes;
-  [SliceNames.EditedCustomDocument]: number | null;
-  [SliceNames.CustomDocument]: Partial<CustomDocumentResponse>;
-  [SliceNames.CustomDocumentTemplateMatchingSettings]: CustomDocumentTemplateMatching;
-  [SliceNames.CustomDocumentTemplateMatchingTemplateSettings]: CustomDocumentTemplate;
-  [SliceNames.CustomDocumentTemplateEditedTemplate]: number | null;
-  [SliceNames.CustomDocumentDocumentReadingSettings]: CustomDocumentDocumentReading;
-  [SliceNames.CustomDocumentEditedField]: number | null;
-  [SliceNames.CustomDocumentDocumentReadingFieldSettings]: CustomDocumentReadingField;
-  [SliceNames.CustomDocumentDocumentReadingEditedFieldOption]: number | null;
-  [SliceNames.CustomDocumentDocumentReadingFieldOption]: string | null;
+  [SliceNameTypes.CustomDocumentWizardStep]: CustomDocumentWizardStepTypes;
+  [SliceNameTypes.EditedCustomDocument]: number | null;
+  [SliceNameTypes.CustomDocument]: Partial<CustomDocumentResponse>;
+  [SliceNameTypes.CustomDocumentTemplateMatchingSettings]: CustomDocumentTemplateMatching;
+  [SliceNameTypes.CustomDocumentTemplateMatchingTemplateSettings]: CustomDocumentTemplate;
+  [SliceNameTypes.CustomDocumentTemplateEditedTemplate]: number | null;
+  [SliceNameTypes.CustomDocumentDocumentReadingSettings]: CustomDocumentDocumentReading;
+  [SliceNameTypes.CustomDocumentEditedField]: number | null;
+  [SliceNameTypes.CustomDocumentDocumentReadingFieldSettings]: CustomDocumentReadingField;
+  [SliceNameTypes.CustomDocumentDocumentReadingEditedFieldOption]: number | null;
+  [SliceNameTypes.CustomDocumentDocumentReadingFieldOption]: string | null;
 }

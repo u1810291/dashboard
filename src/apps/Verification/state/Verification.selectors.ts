@@ -6,37 +6,31 @@ import { IVerificationWorkflow } from 'models/Verification.model';
 import { getVerificationExtras, groupVerificationsByFlow, PassedVerificationByFlow, VerificationListItem, VerificationWithExtras, VerificationResponse } from 'models/VerificationOld.model';
 import { createSelector } from 'reselect';
 import { selectCountriesList } from 'state/countries/countries.selectors';
-import { ErrorType } from 'models/Error.model';
 import { CreditCheckStep, DataForCreditCheck } from 'models/CreditCheck.model';
 import { isChangeableStatus } from 'models/Status.model';
 import { VERIFICATION_STORE_KEY, VerificationSliceTypes, VerificationStore } from './Verification.store';
 
-export const verificationStore = (state): VerificationStore => state[VERIFICATION_STORE_KEY];
+export const selectVerificationStore = (state: {VERIFICATION_STORE_KEY: VerificationStore}): VerificationStore => state[VERIFICATION_STORE_KEY];
 
-export const selectVerificationModel = createSelector<any, any, Loadable<IVerificationWorkflow>>(
-  verificationStore,
+export const selectVerificationModel = createSelector<[typeof selectVerificationStore], Loadable<IVerificationWorkflow>>(
+  selectVerificationStore,
   (store) => store[VerificationSliceTypes.Verification],
 );
 
-export const selectVerificationsCollectionModel = createSelector(
-  verificationStore,
-  (store): Loadable<any[]> => store[VerificationSliceTypes.PassedVerifications],
+export const selectVerificationsCollectionModel = createSelector<[typeof selectVerificationStore], Loadable<VerificationListItem[]>>(
+  selectVerificationStore,
+  (store) => store[VerificationSliceTypes.PassedVerifications],
 );
 
-export const selectVerificationProductList = createSelector(
-  verificationStore,
-  (store): ProductTypes[] => store.productList || [],
+export const selectVerificationProductList = createSelector<[typeof selectVerificationStore], ProductTypes[]>(
+  selectVerificationStore,
+  (store) => store.productList,
 );
 
-export const selectNewVerificationModelWithExtras = createSelector(
+export const selectNewVerificationModelWithExtras = createSelector<[typeof selectVerificationModel, typeof selectCountriesList], Loadable<VerificationWithExtras>>(
   selectVerificationModel,
   selectCountriesList,
   selectLoadableValue((verification, countries) => getVerificationExtras(verification, countries)),
-);
-
-export const selectVerificationModelError = createSelector<any, any, ErrorType>(
-  selectVerificationModel,
-  (verification) => verification.error,
 );
 
 // TODO: @ggrigorev remove deprecated
@@ -44,17 +38,17 @@ export const selectVerificationModelError = createSelector<any, any, ErrorType>(
  * @deprecated
  * use selectVerification
  */
-export const selectNewVerificationWithExtras = createSelector<any, any, VerificationWithExtras>(
+export const selectNewVerificationWithExtras = createSelector<[typeof selectNewVerificationModelWithExtras], VerificationWithExtras>(
   selectNewVerificationModelWithExtras,
   selectModelValue(),
 );
 
-export const selectVerification = createSelector<any, any, VerificationResponse | null>(
+export const selectVerification = createSelector<[typeof selectVerificationModel], VerificationResponse | null>(
   selectVerificationModel,
   selectModelValue<VerificationResponse | null>(),
 );
 
-export const selectVerificationsGroupedByFlow = createSelector<any, Loadable<VerificationListItem[]>, PassedVerificationByFlow[]>(
+export const selectVerificationsGroupedByFlow = createSelector<[typeof selectVerificationsCollectionModel], PassedVerificationByFlow[]>(
   selectVerificationsCollectionModel,
   selectModelValue((verifications: VerificationListItem[]) => groupVerificationsByFlow(verifications)),
 );
@@ -89,7 +83,7 @@ export const selectVerificationId = createSelector(
   (verification): string => (verification?._id || verification?.id),
 );
 
-export const selectVerificationIsEditable = createSelector<any, VerificationResponse | null, boolean>(
+export const selectVerificationIsEditable = createSelector<[typeof selectVerification], boolean>(
   selectVerification,
   (verification) => isChangeableStatus(verification?.verificationStatus),
 );

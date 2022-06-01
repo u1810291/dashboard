@@ -4,7 +4,7 @@ import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, P
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { IFlow } from 'models/Flow.model';
 import { FiFlag } from 'react-icons/fi';
-import { CountrySpecificChecks, getStepStatus, StepStatus } from 'models/Step.model';
+import { CountrySpecificChecks, getStepStatus, StepStatus, RootGovChecksErrorsToHide } from 'models/Step.model';
 import { ProductBaseFlowBuilder } from 'apps/flowBuilder';
 import { GovCheckSettings } from 'apps/GovCheck/components/GovCheckSettings/GovCheckSettings';
 import { getGovCheckRootSteps, getGovCheckVerificationSteps, GovCheckVerificationData, GovernmentCheckSettingTypes, GovernmentChecksTypes, isGovCheckHaveDependsIssue, isGovCheckInFlow, verificationPatternsGovchecksDefault } from 'apps/GovCheck/models/GovCheck.model';
@@ -49,7 +49,7 @@ export class GovernmentCheck extends ProductBaseFlowBuilder implements Product {
 
   isInVerification(verification: VerificationResponse): boolean {
     // TODO: @anatoliy.turkin (step.id as any) look so sad
-    return getGovCheckVerificationSteps(verification).some((step) => CountrySpecificChecks.includes((step.id as any)));
+    return getGovCheckVerificationSteps(verification).some((step) => CountrySpecificChecks.includes((step.id as any)) && !(step?.error?.code && RootGovChecksErrorsToHide[step.error.code]));
   }
 
   haveIssues(flow: IFlow, productsInGraph?: ProductTypes[]): boolean {
@@ -69,7 +69,7 @@ export class GovernmentCheck extends ProductBaseFlowBuilder implements Product {
   }
 
   hasFailedCheck(verification: VerificationResponse): boolean {
-    return getGovCheckVerificationSteps(verification).some((step) => getStepStatus(step) === StepStatus.Failure);
+    return getGovCheckVerificationSteps(verification).some((step) => getStepStatus(step) === StepStatus.Failure && !(step?.error?.code && RootGovChecksErrorsToHide[step.error.code]));
   }
 
   parser(flow: IFlow): ProductSettingsGovCheck {

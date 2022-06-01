@@ -13,9 +13,10 @@ export enum TemplatesActionGroup {
   getTemplates = 'GET_TEMPLATES',
   blockTemplate = 'BLOCK_TEMPLATE',
   toggleTemplate = 'TOGGLE_TEMPLATE',
+  toggleTemplateApplying = 'TOGGLE_TEMPLATE_APPLYING',
 }
 
-export enum SliceNames {
+export enum SliceNameTypes {
   MetadataList = 'metadataList',
   CurrentTemplate = 'currentTemplate',
   Templates = 'templates',
@@ -23,10 +24,11 @@ export enum SliceNames {
 }
 
 export interface TemplatesStore {
-  [SliceNames.MetadataList]: Loadable<ITemplateMetadata[]>;
-  [SliceNames.CurrentTemplate]: Loadable<ITemplate>;
-  [SliceNames.Templates]: Loadable<Record<string, ITemplate[]>>;
-  [SliceNames.TemplatesList]: Loadable<ITemplatesList>;
+  [SliceNameTypes.MetadataList]: Loadable<ITemplateMetadata[]>;
+  [SliceNameTypes.CurrentTemplate]: Loadable<ITemplate>;
+  [SliceNameTypes.Templates]: Loadable<Record<string, ITemplate[]>>;
+  [SliceNameTypes.TemplatesList]: Loadable<ITemplatesList>;
+  isTemplateApplying: boolean;
 }
 
 export const types: TypesSequence = {
@@ -38,4 +40,5 @@ export const types: TypesSequence = {
   ...createTypesSequence(TemplatesActionGroup.blockTemplate),
   ...createTypesSequence(TemplatesActionGroup.getTemplatesList),
   ...createTypesSequence(TemplatesActionGroup.toggleTemplate),
+  TOGGLE_TEMPLATE_APPLYING: 'TOGGLE_TEMPLATE_APPLYING',
 };

@@ -51,8 +51,9 @@ sentry-job:
 security-scan:
   stage: security
   image: 'node:alpine'
-  when: manual
   allow_failure: true
+  only:
+    - master
   script:
     - apk update && apk add jq curl
     - VERSION=`jq -r '.version' package.json`

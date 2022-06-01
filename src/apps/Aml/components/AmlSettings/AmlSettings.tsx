@@ -1,65 +1,77 @@
 import Box from '@material-ui/core/Box';
 import Switch from '@material-ui/core/Switch';
-import Typography from '@material-ui/core/Typography';
-import { ExtendedDescription, RangeSlider, Warning } from 'apps/ui';
-import { cloneDeep } from 'lodash';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import { ExtendedDescription, RangeSlider, Warning, BoxBordered, CountryModalSelectContainer, ToggleFloatingButtonGroup } from 'apps/ui';
+import cloneDeep from 'lodash/cloneDeep';
 import { useDebounce } from 'lib/debounce.hook';
 import { ProductSettingsProps } from 'models/Product.model';
 import { useFormatMessage } from 'apps/intl';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useOverlay } from 'apps/overlay';
 import classNames from 'classnames';
-import { AmlCheckTypes, AmlSettingsTypes } from '../../models/Aml.model';
+import { AllowedRegions } from 'models/Country.model';
+import { AmlCheckTypes, AmlSettingsTypes, SearchModeTypes } from '../../models/Aml.model';
 import { selectCanUseBasicWatchlists, selectCanUsePremiumWatchlistsSearch, selectCanUsePremiumWatchlistsSearchAndMonitoring } from '../../state/Aml.selectors';
 import { BasicWatchlist } from '../BasicWatchlist/BasicWatchlist';
 import { useStyles } from './AmlSettings.styles';
 
 export function AmlSettings({ settings, onUpdate }: ProductSettingsProps<AmlSettingsTypes>) {
   const debounced = useDebounce();
+  const [createOverlay] = useOverlay();
+  const formatMessage = useFormatMessage();
+  const classes = useStyles();
+  const allowedCountriesAmount = settings[AmlSettingsTypes.CountriesSearched].value?.length || 0;
   const canUseBasicWatchlists = useSelector<any, boolean>(selectCanUseBasicWatchlists);
   const canUsePremiumWatchlistsSearch = useSelector<any, boolean>(selectCanUsePremiumWatchlistsSearch);
   const canUsePremiumWatchlistsSearchAndMonitoring = useSelector<any, boolean>(selectCanUsePremiumWatchlistsSearchAndMonitoring);
-  const isSearchEnabled = canUsePremiumWatchlistsSearch || canUsePremiumWatchlistsSearchAndMonitoring;
-  const formatMessage = useFormatMessage();
-  const classes = useStyles();
+  const isPremiumEnabled = canUsePremiumWatchlistsSearch || canUsePremiumWatchlistsSearchAndMonitoring;
+  const [isCountriesSearchEnabled, setCountriesSearch] = useState<boolean>(Boolean(allowedCountriesAmount) && isPremiumEnabled);
 
-  const handleSearchToggle = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchToggle = useCallback((_, checked: boolean) => {
     const newSettings = cloneDeep(settings);
-    const newValue = e.target.checked;
-    newSettings[AmlSettingsTypes.Search].value = newValue;
-    if (!newValue) {
+    newSettings[AmlSettingsTypes.Search].value = checked;
+    if (!checked) {
       newSettings[AmlSettingsTypes.Monitoring].value = false;
+      newSettings[AmlSettingsTypes.CountriesSearched].value = [];
+      setCountriesSearch(false);
     }
     onUpdate(newSettings);
   }, [onUpdate, settings]);
 
-  const handleMonitoringToggle = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const updateSettingField = useCallback((field: AmlSettingsTypes, value: unknown) => {
     const newSettings = cloneDeep(settings);
-    const newValue = e.target.checked;
-    if (!newValue) {
-      newSettings[AmlSettingsTypes.Search].value = false;
-    }
-    newSettings[AmlSettingsTypes.Monitoring].value = newValue;
-    onUpdate(newSettings);
-  }, [onUpdate, settings]);
-
-  const handleSliderChange = useCallback((event: React.ChangeEvent<{}>, value: number | number[]) => {
-    const newSettings = cloneDeep(settings);
-    newSettings[AmlSettingsTypes.AmlThreshold].value = value;
+    newSettings[field].value = value;
     debounced(() => onUpdate(newSettings));
-  }, [onUpdate, settings, debounced]);
+  }, [settings, debounced, onUpdate]);
 
-  const handleBasicWatchlistsSelected = useCallback((watchlistChecked: number[]) => {
-    const newSettings = cloneDeep(settings);
-    newSettings[AmlSettingsTypes.BasicWatchlists].value = watchlistChecked;
-    onUpdate(newSettings);
-  }, [settings, onUpdate]);
+  const handleCountriesToggle = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    updateSettingField(AmlSettingsTypes.CountriesSearched, []);
+    setCountriesSearch(event.target.checked);
+  }, [updateSettingField]);
 
-  const handleBasicWatchlistValidationToggle = useCallback((_, checked: boolean) => {
-    const newSettings = cloneDeep(settings);
-    newSettings[AmlSettingsTypes.BasicWatchlistsPattern].value = checked;
-    onUpdate(newSettings);
-  }, [onUpdate, settings]);
+  const handleSubmitAllowedRegions = useCallback((data: AllowedRegions[]) => {
+    updateSettingField(AmlSettingsTypes.CountriesSearched, data.map((item: AllowedRegions) => item.country));
+    setCountriesSearch(Boolean(data.length));
+  }, [updateSettingField]);
+
+  const openCountryModal = useCallback(() => {
+    const initialValues = settings[AmlSettingsTypes.CountriesSearched].value.map((countryCode: string) => ({ country: countryCode, regions: [] }));
+    createOverlay(
+      <CountryModalSelectContainer
+        title={formatMessage('AmlCheck.settings.countriesModal.title')}
+        description={formatMessage('AmlCheck.settings.countriesModal.description')}
+        initialValues={initialValues}
+        onSubmit={handleSubmitAllowedRegions}
+      />,
+    );
+  }, [createOverlay, handleSubmitAllowedRegions, formatMessage, settings]);
+
+  const searchModeOptions = [
+    { name: formatMessage('AmlCheck.settings.searchMode.fuzzy'), value: SearchModeTypes.Fuzzy },
+    { name: formatMessage('AmlCheck.settings.searchMode.exact'), value: SearchModeTypes.Exact },
+  ];
 
   return (
     <Box>
@@ -68,13 +80,14 @@ export function AmlSettings({ settings, onUpdate }: ProductSettingsProps<AmlSett
           <BasicWatchlist
             basicWatchlistsIds={settings[AmlSettingsTypes.BasicWatchlists].value}
             isBasicWatchlistChecked={settings[AmlSettingsTypes.BasicWatchlistsPattern].value}
-            onBasicWatchlistsSelected={handleBasicWatchlistsSelected}
-            onBasicWatchlistValidationToggle={handleBasicWatchlistValidationToggle}
+            onBasicWatchlistsSelected={(watchlistChecked) => updateSettingField(AmlSettingsTypes.BasicWatchlists, watchlistChecked)}
+            onBasicWatchlistValidationToggle={(_, checked: boolean) => updateSettingField(AmlSettingsTypes.BasicWatchlistsPattern, checked)}
           />
         </Box>
       )}
-      {(!canUsePremiumWatchlistsSearch && !canUsePremiumWatchlistsSearchAndMonitoring) && (
-        <Box mb={2}>
+      <Divider className={classes.divider} />
+      {!isPremiumEnabled && (
+        <Box mb={2} mt={2}>
           <Warning
             label={formatMessage('AmlCheck.settings.amlNotAvailable')}
             linkLabel={formatMessage('AmlCheck.settings.helpEmail')}
@@ -83,47 +96,88 @@ export function AmlSettings({ settings, onUpdate }: ProductSettingsProps<AmlSett
           />
         </Box>
       )}
-      <Box mb={4}>
+      <BoxBordered mt={2} className={classNames(classes.boxBordered, { [classes.disabled]: !isPremiumEnabled })}>
         <ExtendedDescription
-          isDisabled={!isSearchEnabled}
           title={formatMessage('AmlCheck.settings.watchlist.title')}
           text={formatMessage('AmlCheck.settings.watchlist.description')}
           postfix={(
             <Switch
-              checked={isSearchEnabled && settings[AmlSettingsTypes.Search].value}
+              checked={isPremiumEnabled && settings[AmlSettingsTypes.Search].value}
               onChange={handleSearchToggle}
               color="primary"
-              disabled={!isSearchEnabled}
+              disabled={!isPremiumEnabled}
             />
           )}
         />
-      </Box>
-      <Box mb={4} className={classNames({ [classes.disabled]: !isSearchEnabled })}>
-        <Typography variant="subtitle2" color="textPrimary" gutterBottom>
-          {formatMessage('AmlCheck.settings.fuzzinessParameter.title')}
-        </Typography>
-        <Box color="common.black75" mb={2}>
-          {formatMessage('AmlCheck.settings.fuzzinessParameter.description')}
-        </Box>
-        <RangeSlider
-          defaultValue={settings[AmlSettingsTypes.AmlThreshold].value}
-          onChange={handleSliderChange}
-          disabled={!isSearchEnabled}
-        />
-      </Box>
-      <ExtendedDescription
-        isDisabled={!canUsePremiumWatchlistsSearchAndMonitoring}
-        title={formatMessage(`AmlCheck.settings.${AmlCheckTypes.Monitoring}.title`)}
-        text={formatMessage(`AmlCheck.settings.${AmlCheckTypes.Monitoring}.description`)}
-        postfix={(
-          <Switch
-            checked={canUsePremiumWatchlistsSearchAndMonitoring && settings[AmlSettingsTypes.Monitoring].value}
-            onChange={handleMonitoringToggle}
-            color="primary"
-            disabled={!canUsePremiumWatchlistsSearchAndMonitoring}
+        <Box mt={2} className={classNames({ [classes.disabled]: isPremiumEnabled && !settings[AmlSettingsTypes.Search].value })}>
+          <ExtendedDescription
+            title={formatMessage('AmlCheck.settings.searchMode.title')}
+            text={formatMessage('AmlCheck.settings.searchMode.description')}
+          >
+            <ToggleFloatingButtonGroup
+              value={settings[AmlSettingsTypes.SearchMode].value}
+              options={searchModeOptions}
+              onChange={(mode) => updateSettingField(AmlSettingsTypes.SearchMode, mode)}
+            />
+          </ExtendedDescription>
+          {settings[AmlSettingsTypes.SearchMode].value === SearchModeTypes.Fuzzy && (
+            <ExtendedDescription
+              title={formatMessage('AmlCheck.settings.fuzzinessParameter.title')}
+              className={classes.productBlock}
+            >
+              <RangeSlider
+                defaultValue={settings[AmlSettingsTypes.AmlThreshold].value}
+                onChange={(_, value) => updateSettingField(AmlSettingsTypes.AmlThreshold, value)}
+                disabled={!isPremiumEnabled}
+              />
+            </ExtendedDescription>
+          )}
+          <ExtendedDescription
+            title={formatMessage(`AmlCheck.settings.${AmlSettingsTypes.CountriesSearched}.title`)}
+            text={formatMessage(`AmlCheck.settings.${AmlSettingsTypes.CountriesSearched}.description`)}
+            className={classes.productBlock}
+            postfix={(
+              <Switch
+                checked={isPremiumEnabled && isCountriesSearchEnabled}
+                onChange={handleCountriesToggle}
+                color="primary"
+              />
+            )}
+          >
+            {Boolean(allowedCountriesAmount) && isPremiumEnabled && (
+              <Box mb={1} className={classes.countriesAmount}>
+                {allowedCountriesAmount}
+                {formatMessage(`AmlCheck.settings.${AmlSettingsTypes.CountriesSearched}.amount`)}
+              </Box>
+            )}
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={openCountryModal}
+              disabled={!isCountriesSearchEnabled || !isPremiumEnabled}
+              className={classes.openCountriesButton}
+            >
+              {formatMessage(`AmlCheck.settings.${AmlSettingsTypes.CountriesSearched}.editButton`)}
+            </Button>
+          </ExtendedDescription>
+          <Divider className={classes.divider} />
+          <ExtendedDescription
+            isDisabled={isPremiumEnabled && settings[AmlSettingsTypes.Search].value && !canUsePremiumWatchlistsSearchAndMonitoring}
+            title={formatMessage(`AmlCheck.settings.${AmlCheckTypes.Monitoring}.title`)}
+            text={formatMessage(`AmlCheck.settings.${AmlCheckTypes.Monitoring}.description`)}
+            className={classes.productBlock}
+            postfix={(
+              <Switch
+                checked={canUsePremiumWatchlistsSearchAndMonitoring && settings[AmlSettingsTypes.Monitoring].value}
+                onChange={(_, checked) => updateSettingField(AmlSettingsTypes.Monitoring, checked)}
+                color="primary"
+                disabled={!canUsePremiumWatchlistsSearchAndMonitoring}
+              />
+            )}
           />
-        )}
-      />
+        </Box>
+      </BoxBordered>
     </Box>
   );
 }

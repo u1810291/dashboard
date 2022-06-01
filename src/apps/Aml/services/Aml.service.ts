@@ -1,5 +1,6 @@
-import { AmlCheckTypes, AmlDocumentSteps, AmlSettingsTypes, AmlValidationTypes } from 'apps/Aml/models/Aml.model';
+import { AmlCheckTypes, AmlDocumentSteps, AmlSettingsTypes, AmlValidationTypes, SearchModeTypes } from 'apps/Aml/models/Aml.model';
 import { IFlow } from 'models/Flow.model';
+import { DEFAULT_AML_FUZZINESS_THRESHOLD, premiumAmlWatchlistsInitialValue } from 'models/Aml.model';
 import { Product, ProductInputTypes, ProductIntegrationTypes, ProductSettings, ProductTypes } from 'models/Product.model';
 import { VerificationResponse } from 'models/VerificationOld.model';
 import { VerificationPatternTypes } from 'models/VerificationPatterns.model';
@@ -54,10 +55,16 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
         value: flow?.verificationPatterns[VerificationPatternTypes.BasicWatchlistsValidation],
       },
       [AmlSettingsTypes.AmlThreshold]: {
-        value: flow?.amlWatchlistsFuzzinessThreshold ?? 50,
+        value: flow?.premiumAmlWatchlists?.fuzzinessThreshold || DEFAULT_AML_FUZZINESS_THRESHOLD,
       },
       [AmlSettingsTypes.BasicWatchlists]: {
         value: flow?.basicWatchlists,
+      },
+      [AmlSettingsTypes.CountriesSearched]: {
+        value: flow.premiumAmlWatchlists?.countryCodes,
+      },
+      [AmlSettingsTypes.SearchMode]: {
+        value: flow.premiumAmlWatchlists?.exactMatch ? SearchModeTypes.Exact : SearchModeTypes.Fuzzy,
       },
     };
   }
@@ -76,8 +83,12 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
         [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]: pattern,
         [VerificationPatternTypes.BasicWatchlistsValidation]: settings[AmlSettingsTypes.BasicWatchlistsPattern].value,
       },
-      amlWatchlistsFuzzinessThreshold: settings[AmlSettingsTypes.AmlThreshold].value,
       [AmlSettingsTypes.BasicWatchlists]: settings[AmlSettingsTypes.BasicWatchlists].value,
+      premiumAmlWatchlists: {
+        fuzzinessThreshold: settings[AmlSettingsTypes.AmlThreshold].value,
+        countryCodes: settings[AmlSettingsTypes.CountriesSearched].value,
+        exactMatch: settings[AmlSettingsTypes.SearchMode].value === SearchModeTypes.Exact,
+      },
     };
   }
 
@@ -86,6 +97,7 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
       verificationPatterns: {
         [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]: AmlValidationTypes.Search,
       },
+      premiumAmlWatchlists: premiumAmlWatchlistsInitialValue,
     };
   }
 
@@ -95,6 +107,7 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
         [VerificationPatternTypes.PremiumAmlWatchListsSearchValidation]: AmlValidationTypes.None,
         [VerificationPatternTypes.BasicWatchlistsValidation]: false,
       },
+      premiumAmlWatchlists: premiumAmlWatchlistsInitialValue,
     };
   }
 
@@ -114,6 +127,6 @@ export class AmlCheck extends ProductBaseFlowBuilder implements Product {
   }
 
   isInVerification(verification: VerificationResponse): boolean {
-    return !!verification.steps.find((dataStep) => dataStep.id === VerificationStepTypes.BasicWatchlistsValidation) || !!verification?.documents;
+    return verification.steps.some((dataStep) => dataStep.id === VerificationStepTypes.BasicWatchlistsValidation) || Boolean(verification?.documents);
   }
 }
