@@ -423,7 +423,7 @@ export function getStepStatus(step): StepStatus {
 
   return code && StepIncompletionErrors[id] && StepIncompletionErrors[id].includes(code)
     ? StepStatus.Incomplete
-    : StepStatus.Checking;
+    : StepStatus.Failure;
 }
 
 export function getStepExtra<T = any>(step: IStep<T>, verification?: any, countries?: any, document?: any) {
