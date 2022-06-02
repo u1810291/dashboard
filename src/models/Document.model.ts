@@ -59,12 +59,14 @@ export interface VerificationDocument {
   documentSides: typeof DocumentSidesOrder;
   onReading: boolean;
   photos: string[];
+  documentImages?: string[];
   checks: IStep[];
   isSanctioned: boolean;
   proofOfOwnership: any;
   customDocumentStep: IStep;
   duplicateUserDetectionStep?: IStep;
   ageCheck?: IStep;
+  name?: string;
 }
 
 export const byDocumentTypes = [

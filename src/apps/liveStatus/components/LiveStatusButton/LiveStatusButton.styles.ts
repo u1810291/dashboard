@@ -5,8 +5,9 @@ export const useStyles = makeStyles<typeof AppTheme, {color: string}>((theme) =>
   marker: {
     display: 'flex',
     alignItems: 'center',
-    fontSize: 22,
-    padding: '0px 10px',
+    fontSize: 30,
+    padding: 0,
+    paddingBottom: 5,
     color: (props) => props.color || theme.palette.common.gray,
   },
   icon: {
