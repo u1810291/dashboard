@@ -41,4 +41,8 @@ export const useStyles = makeStyles(() => ({
   'fileIconDrag:hover': {
     cursor: 'grabbing',
   },
+  warningWrap: {
+    fontSize: 13,
+    textAlign: 'center',
+  },
 }));

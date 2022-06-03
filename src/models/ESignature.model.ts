@@ -4,6 +4,7 @@ import { getMedia } from 'apps/media';
 import { IStep } from './Step.model';
 
 export type ESignatureDocumentId = string;
+export const MAX_DOCUMENT_SIZE_MB = 2;
 
 export interface ESignatureDocumentsModel {
   order: ESignatureDocumentId[];

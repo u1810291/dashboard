@@ -8,12 +8,13 @@ import { AllowedRegions } from 'models/Country.model';
 import { CountryModalSelect } from '../CountryModalSelect/CountryModalSelect';
 import { useStyles } from './CountryModalSelectContainer.styles';
 
-export function CountryModalSelectContainer({ title, description, initialValues, showRegions, onSubmit }: {
+export function CountryModalSelectContainer({ title, description, initialValues, showRegions, onSubmit, flat }: {
   title: string;
   description: string;
   initialValues: AllowedRegions[] | null;
   showRegions?: boolean;
   onSubmit: (data: AllowedRegions[]) => void;
+  flat?: boolean;
 }) {
   const countriesModel = useCountriesLoad();
   const countries = showRegions ? countriesModel.value : countriesModel.value.map((country) => ({ ...country, regions: [] }));
@@ -38,6 +39,7 @@ export function CountryModalSelectContainer({ title, description, initialValues,
             countries={countries}
             onSubmit={onSubmit}
             onCancel={closeOverlay}
+            flat={flat}
           />
         ) : (
           <Box height={340} display="flex" justifyContent="center" alignItems="center">

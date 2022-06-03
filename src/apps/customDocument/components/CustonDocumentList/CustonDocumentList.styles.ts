@@ -59,5 +59,6 @@ export const useStyles = makeStyles((theme) => ({
   },
   warningWrap: {
     fontSize: 13,
+    textAlign: 'center',
   },
 }));

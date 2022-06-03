@@ -1,10 +1,11 @@
 import { Box, Button, RadioGroup, Switch, Radio, FormControlLabel, Link } from '@material-ui/core';
-import { ESignatureCheckSettingsEnum, ESignatureRadioOptionsEnum, IESignatureTemplate } from 'models/ESignature.model';
+import { ESignatureCheckSettingsEnum, ESignatureRadioOptionsEnum, IESignatureTemplate, MAX_DOCUMENT_SIZE_MB } from 'models/ESignature.model';
 import { selectFlowBuilderProductsInGraphModel } from 'apps/flowBuilder/store/FlowBuilder.selectors';
 import { ProductCard } from 'apps/Product';
 import { useOtherProductAdding } from 'apps/Product/hooks/OtherProductAdding.hook';
 import { ExtendedDescription, WarningSize, WarningTypes, Warning } from 'apps/ui';
 import { cloneDeep } from 'lodash';
+import { getBytes } from 'lib/convertFileSize';
 import { ProductSettingsProps, ProductTypes } from 'models/Product.model';
 import React, { useState, useCallback, useRef, ChangeEvent } from 'react';
 import { FiUpload } from 'react-icons/fi';
@@ -26,6 +27,7 @@ export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<
   const createAddOtherProductModalOverlay = useOtherProductAdding();
   const productsInGraph = (useSelector(selectFlowBuilderProductsInGraphModel)).value;
   const [isDocLoading, setDocLoading] = useState<boolean>(false);
+  const [hasFileSizeError, setFileSizeError] = useState<boolean>(false);
 
   const merchantTags: MerchantTags[] = useSelector(selectMerchantTags);
   const isProductEnabled = merchantTags.includes(MerchantTags.CanUseESignature);
@@ -92,8 +94,13 @@ export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<
   const fileUploadRef = useRef(null);
   const onFileUpload = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
     try {
-      setDocLoading(true);
       const file = e.target.files[0];
+      if (file.size > getBytes(MAX_DOCUMENT_SIZE_MB)) {
+        setFileSizeError(true);
+        return;
+      }
+      setFileSizeError(false);
+      setDocLoading(true);
       const form = new FormData();
       form.append('template-document', file);
 
@@ -209,6 +216,16 @@ export function ESignatureSettings({ settings, onUpdate }: ProductSettingsProps<
           isDisabled={!isProductEnabled}
         />
         <Box mt={2}>
+          {hasFileSizeError && (
+            <Box mb={0.5} className={classes.warningWrap}>
+              <Warning
+                type={WarningTypes.Error}
+                label={intl.formatMessage({ id: `ESignature.settings.${ESignatureCheckSettingsEnum.Terms}.fileSizeError` }, { maxSize: MAX_DOCUMENT_SIZE_MB })}
+                isLabelColored
+                isIconExist={false}
+              />
+            </Box>
+          )}
           <Button
             className={classes.uploadButton}
             color="primary"

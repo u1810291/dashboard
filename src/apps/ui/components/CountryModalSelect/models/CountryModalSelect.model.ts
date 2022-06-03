@@ -19,6 +19,16 @@ export interface Tree {
   label: string;
 }
 
+export interface IListItemData {
+  selectedCountries: SelectedCountries;
+  allRegionsSelected: {
+    [country: string]: boolean;
+  };
+  firstCountryId: string;
+  handleSelectCountry: (isSelected: boolean, location: string, countryCode?: string) => void;
+  flat: boolean;
+}
+
 export function* treeWalker(refresh: boolean, tree: Tree[]) {
   // render each item in the tree
   for (let k = 0; k < tree.length; k += 1) {
