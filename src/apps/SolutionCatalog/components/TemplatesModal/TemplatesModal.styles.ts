@@ -23,6 +23,9 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.common.black7,
       borderRadius: 10,
     },
+    [theme.breakpoints.down(1080)]: {
+      width: '85vw',
+    },
   },
   modalTitle: {
     fontWeight: 700,

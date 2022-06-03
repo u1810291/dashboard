@@ -12,8 +12,8 @@ export const FilterButton = withStyles((theme) => ({
     justifyContent: 'center',
     boxShadow: `0px 4px 4px ${theme.palette.common.lightgrayopacity}`,
     [theme.breakpoints.down(1080)]: {
-      width: 50,
-      minWidth: 50,
+      width: 120,
+      minWidth: 120,
       overflow: 'hidden',
     },
   },
@@ -24,7 +24,8 @@ export const FilterButton = withStyles((theme) => ({
     width: 17,
     marginRight: 10,
     [theme.breakpoints.down(1080)]: {
-      marginRight: 20,
+      width: 12,
+      marginRight: 10,
     },
   },
 }))(Button);
@@ -32,6 +33,10 @@ export const FilterButton = withStyles((theme) => ({
 export const useStyles = makeStyles((theme) => ({
   buttonName: {
     marginLeft: '20px',
+    [theme.breakpoints.down(1080)]: {
+      marginLeft: '0',
+      fontSize: 12,
+    },
   },
   filterContainer: {
     maxWidth: '13vw',
@@ -71,9 +76,6 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.common.black7,
       borderRadius: 10,
     },
-  },
-  country: {
-    visibility: 'hidden',
   },
   filterOption: {
     minWidth: '100%',

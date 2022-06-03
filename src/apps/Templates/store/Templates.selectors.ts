@@ -25,7 +25,7 @@ export const selectTemplatesListModel = createSelector<[typeof selectTemplatesSt
 
 export const selectTemplatesListModelValues = createSelector<[typeof selectTemplatesListModel], ITemplatesList>(
   selectTemplatesListModel,
-  selectModelValue(),
+  selectModelValue((value) => ({ ...value, rows: value.rows.sort((a, b) => a.name.localeCompare(b.name)) })),
 );
 
 export const selectMetadataListModelValues = createSelector<[typeof selectMetadataListModel], ITemplateMetadata[]>(

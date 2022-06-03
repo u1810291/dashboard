@@ -1,20 +1,25 @@
-/* eslint-disable import/no-unresolved */
 import React from 'react';
-import { appPalette } from 'apps/theme';
 import Box from '@material-ui/core/Box';
 import classNames from 'classnames';
 import { FiArrowRight, FiArrowLeft } from 'react-icons/fi';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { ITemplateGaleryProps } from 'apps/SolutionCatalog';
+import { ICardsData } from 'apps/SolutionCatalog';
+import { useTheme } from '@material-ui/core';
+import SwiperCore, { Pagination, Navigation } from 'swiper';
+import { TemplateCard } from '../TemplateCard/TemplateCard';
+import { useStyles } from './TemplatesGalery.styles';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
-import { TemplateCard } from '../TemplateCard/TemplateCard';
-import { useStyles } from './TemplatesGalery.styles';
 
-export function TemplatesGallery({ templates, handleCardClick }: ITemplateGaleryProps) {
+SwiperCore.use([Pagination, Navigation]);
+
+export function TemplatesGallery({ templates, handleCardClick }: {
+  templates: ICardsData[];
+  handleCardClick: (id: string) => void;
+}) {
   const classes = useStyles();
-
+  const theme = useTheme();
   return (
     <Swiper
       navigation={{
@@ -33,15 +38,15 @@ export function TemplatesGallery({ templates, handleCardClick }: ITemplateGalery
     >
       {templates.map((template, idx) => (
         <SwiperSlide className={classes.swiperSlide} key={idx}>
-          <TemplateCard title={template.name} description={template.description} id={template._id} handleCardClick={handleCardClick} />
+          <TemplateCard title={template.name} description={template.description} id={template._id} handleCardClick={handleCardClick} meritsList={template.meritsList} />
         </SwiperSlide>
       ))}
       <Box className={classes.controlsContainer}>
         <Box className={classNames(classes.navigationControl, 'navigation-left')}>
-          <FiArrowLeft color={appPalette.white} size={32} />
+          <FiArrowLeft color={theme.palette.background.default} size={32} />
         </Box>
         <Box className={classNames(classes.navigationControl, 'navigation-right')}>
-          <FiArrowRight color={appPalette.white} size={32} />
+          <FiArrowRight color={theme.palette.background.default} size={32} />
         </Box>
       </Box>
     </Swiper>
