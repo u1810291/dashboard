@@ -7,7 +7,7 @@ import { ReactComponent as CheckboxOff } from 'assets/icon-checkbox-off.svg';
 import { ReactComponent as CheckboxPartial } from 'assets/icon-checkbox-partial.svg';
 import { ReactComponent as CheckboxOn } from 'assets/icon-checkbox-on.svg';
 import { useStyles, StyledCheckbox } from './CountryModalItemSelect.styles';
-import { SelectedCountries } from '../../models/CountryModalSelect.model';
+import { IListItemData } from '../../models/CountryModalSelect.model';
 
 interface ICountryModalSelectItemProps extends FixedSizeNodeComponentProps<{
   hasChildren: boolean;
@@ -17,14 +17,7 @@ interface ICountryModalSelectItemProps extends FixedSizeNodeComponentProps<{
   isOpenByDefault: boolean;
   label: string;
 }> {
-  treeData?: {
-    selectedCountries: SelectedCountries;
-    allRegionsSelected: {
-      [country: string]: boolean;
-    };
-    firstCountryId: string;
-    handleSelectCountry: (isSelected: boolean, location: string, countryCode?: string) => void;
-  };
+  treeData?: IListItemData;
 }
 export const CountryModalItemSelect = ({
   style,
@@ -35,7 +28,7 @@ export const CountryModalItemSelect = ({
 }: ICountryModalSelectItemProps) => {
   const classes = useStyles();
   const { hasChildren, location, countryCode, label } = data;
-  const { selectedCountries, handleSelectCountry, allRegionsSelected, firstCountryId } = treeData;
+  const { selectedCountries, handleSelectCountry, allRegionsSelected, flat } = treeData;
 
   const parentCheckIcon = useMemo(() => {
     if (Object.prototype.hasOwnProperty.call(allRegionsSelected, location)) {
@@ -45,14 +38,14 @@ export const CountryModalItemSelect = ({
   }, [allRegionsSelected, location]);
 
   return (
-    <ListItem style={style} className={classnames(classes.listItem, { [classes.listItemChild]: countryCode }, { [classes.lineConnected]: hasChildren && (firstCountryId !== location) })}>
+    <ListItem style={style} className={classnames(classes.listItem, { [classes.listItemChild]: countryCode }, { [classes.lineConnected]: !countryCode && !flat })}>
       {hasChildren && (
         <Box mr={0.5} className={classes.iconButton} onClick={toggle}>
           {isOpen ? <FiMinusCircle className={classes.icon} /> : <FiPlusCircle className={classes.icon} />}
         </Box>
       )}
       <FormLabel
-        className={classnames(classes.listName, { [classes.listNameChild]: countryCode, [classes.noRegions]: !countryCode && !hasChildren })}
+        className={classnames(classes.listName, { [classes.listNameChild]: countryCode, [classes.noRegions]: !countryCode && !hasChildren, [classes.listNameChildFlat]: flat })}
         htmlFor="name"
       >
         {label}
