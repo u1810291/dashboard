@@ -11,10 +11,10 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: '5px',
     backgroundColor: theme.palette.common.white,
     filter: `border: 1,5px solid ${theme.palette.common.blueopacity}`,
-    minWidth: '220px',
-    minHeight: '156px',
-    maxWidth: '220px',
-    maxHeight: '156px',
+    minWidth: '252px',
+    minHeight: '186px',
+    maxWidth: '252px',
+    maxHeight: '186px',
   },
   controlsContainer: {
     position: 'absolute',
@@ -39,5 +39,6 @@ export const useStyles = makeStyles((theme) => ({
   },
   navigationControlHidden: {
     opacity: 0,
+    pointerEvents: 'none',
   },
 }));

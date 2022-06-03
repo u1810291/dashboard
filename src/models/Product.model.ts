@@ -88,6 +88,7 @@ export interface IProductCard {
 }
 
 export interface Product<S = IFlow, T = VerificationResponse> {
+  icon: React.ReactNode;
   id: ProductTypes;
   order: number;
   checks: ProductCheck[];

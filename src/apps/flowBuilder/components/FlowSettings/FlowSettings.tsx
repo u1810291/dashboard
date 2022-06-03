@@ -11,7 +11,7 @@ import { DigitalSignatureProvider } from 'models/DigitalSignature.model';
 import { Routes } from 'models/Router.model';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
-import { useIntl } from 'react-intl';
+import { useFormatMessage } from 'apps/intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMerchantFlowsModel, selectNom151Check, selectPolicyInterval } from 'state/merchant/merchant.selectors';
 import { round } from 'lib/round';
@@ -20,12 +20,11 @@ import { flowBuilderDelete, flowBuilderSaveAndPublishSettings } from '../../stor
 import { FlowInfo } from '../FlowInfo/FlowInfo';
 import { useStyles } from './FlowSettings.styles';
 
-export function FlowSettings({ onClose, isTemplate = false }: {
+export function FlowSettings({ onClose }: {
   onClose: () => void;
-  isTemplate?: boolean;
 }) {
   const dispatch = useDispatch();
-  const intl = useIntl();
+  const formatMessage = useFormatMessage();
   const classes = useStyles();
   const { id: flowId, name: flowName } = useSelector(selectFlowBuilderChangeableFlow);
   const merchantFlowsModel = useSelector(selectMerchantFlowsModel);
@@ -128,28 +127,25 @@ export function FlowSettings({ onClose, isTemplate = false }: {
     <Grid container spacing={2} alignItems="flex-start">
       <Grid item xs={12}>
         <Box color="common.black90" fontWeight="bold">
-          {intl.formatMessage({ id: 'FlowBuilder.settings.title.settings' })}
+          {formatMessage('FlowBuilder.settings.title.settings')}
         </Box>
       </Grid>
       <Grid item xs={12} lg={6}>
         <Box mb={3}>
           <FlowInfo
-            canEdit={!isTemplate}
+            canEdit
             isEditable={isEditable}
             newFlowName={newFlowName}
             setIsEditable={setIsEditable}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
             validator={validator}
-            isTemplate={isTemplate}
           />
         </Box>
-        {!isTemplate && (
-          <Box mb={3}>
-            <Box color="common.black90" mb={0.5}>{flowId}</Box>
-            <Box color="common.black75">{intl.formatMessage({ id: 'FlowBuilder.settings.title.flowId' })}</Box>
-          </Box>
-        )}
+        <Box mb={3}>
+          <Box color="common.black90" mb={0.5}>{flowId}</Box>
+          <Box color="common.black75">{formatMessage('FlowBuilder.settings.title.flowId')}</Box>
+        </Box>
         <FlowSettingsSwitches
           policyInterval={policyInterval}
           policyIntervalError={policyIntervalError}
@@ -164,25 +160,23 @@ export function FlowSettings({ onClose, isTemplate = false }: {
       <Grid item xs={12} lg={6}>
         <Box p={2} className={classes.wrapper}>
           <Box mb={2} color="common.black90" fontWeight="bold">
-            {`${intl.formatMessage({ id: 'FlowBuilder.settings.title.outputChecks' })}:`}
+            {`${formatMessage('FlowBuilder.settings.title.outputChecks')}:`}
           </Box>
           <ProductCheckListAll productList={productsInGraph} />
         </Box>
       </Grid>
       <Grid container item xs={12} className={classes.buttonsWrapper}>
-        {!isTemplate && (
-          <Button variant="outlined" className={classNames(classes.button, classes.buttonCancel)} onClick={handleDelete}>
-            <FiTrash2 fontSize={17} />
-            <Box ml={1}>
-              {intl.formatMessage({ id: 'FlowBuilder.settings.button.delete' })}
-            </Box>
-          </Button>
-        )}
+        <Button variant="outlined" className={classNames(classes.button, classes.buttonCancel)} onClick={handleDelete}>
+          <FiTrash2 fontSize={17} />
+          <Box ml={1}>
+            {formatMessage('FlowBuilder.settings.button.delete')}
+          </Box>
+        </Button>
         {showUnsavedChange && (
-          <Warning label={intl.formatMessage({ id: 'FlowBuilder.settings.button.warning' })} />
+          <Warning label={formatMessage('FlowBuilder.settings.button.warning')} />
         )}
         <Button className={classNames(classes.button, classes.buttonSave)} onClick={handleSaveAndPublish}>
-          {isSaveButtonLoading ? <CircularProgress color="inherit" size={17} /> : intl.formatMessage({ id: 'FlowBuilder.settings.button.save' })}
+          {isSaveButtonLoading ? <CircularProgress color="inherit" size={17} /> : formatMessage('FlowBuilder.settings.button.save')}
         </Button>
       </Grid>
     </Grid>

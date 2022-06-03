@@ -2239,6 +2239,7 @@
   "StartModal.title": "Let's start with creating metamap.",
   "StartModal.viewButton": "View template metamaps",
   "Template.templateList.changeStatus": "You have successfully changed your template status!",
+  "TemplateCard.and.more": "... and more",
   "TemplateCard.button": "Select",
   "TemplateChosenFilters.resetButton": "Reset filters",
   "TemplateChosenFilters.title": "Applied filters:",
