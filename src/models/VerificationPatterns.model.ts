@@ -66,8 +66,9 @@ export enum VerificationPatternTypes {
   ParaguayanRcp = 'paraguayan-rcp-validation',
   PeruvianReniec = 'peruvian-reniec-validation',
   PeruvianSunat = 'peruvian-sunat-validation',
+  PhilippineDl = 'philippine-dl-validation',
+  PhilippineUMIDSSS = 'philippine-umid-ssn-validation',
   PeruvianHealthSocialSecurity = 'peruvian-health-social-security',
-  PhilippinianDl = 'philippinian-dl-validation',
   PhoneOwnershipValidation = 'phone-ownership-validation',
   PhoneRiskValidation = 'phone-risk-analysis-validation',
   PremiumAmlWatchListsSearchValidation = 'premium-aml-watchlists-search-validation',
@@ -89,7 +90,6 @@ export enum VerificationPatternTypes {
   PeruvianMigrationInstitute = 'peruvian-national-migration-institute',
   DuplicateFaceDetection = 'duplicate-face-detection',
   BasicWatchlistsValidation = 'basic-watchlists-validation',
-  PhilippinesUMIDSSS = 'philippinian-umid-ssn-validation',
 }
 
 export interface IVerificationPatterns {
@@ -152,6 +152,8 @@ export interface IVerificationPatterns {
   [VerificationPatternTypes.PanamenianTribunalElectoral]?: boolean;
   [VerificationPatternTypes.PhoneOwnershipValidation]?: PhoneOwnershipValidationTypes;
   [VerificationPatternTypes.PhoneRiskValidation]?: boolean;
+  [VerificationPatternTypes.PhilippineDl]?: boolean;
+  [VerificationPatternTypes.PhilippineUMIDSSS]?: boolean;
   [VerificationPatternTypes.VenezuelanCne]?: boolean;
   [VerificationPatternTypes.VenezuelanSeniat]?: boolean;
   [VerificationPatternTypes.ReFacematch]?: boolean;

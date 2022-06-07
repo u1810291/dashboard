@@ -9,6 +9,7 @@ export const colors = {
   black50: appPalette.black50,
   black75: appPalette.black75,
   black90: appPalette.black90,
+  gray68: appPalette.gray68,
   lightblue: appPalette.lightblue,
   red: appPalette.red,
   redopacity: '#f1cfd5',

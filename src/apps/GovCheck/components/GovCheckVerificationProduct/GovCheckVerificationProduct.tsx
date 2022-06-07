@@ -12,7 +12,7 @@ export function GovCheckVerificationProduct({ data }: {
   return (
     <Grid container spacing={2}>
       {data.document?.map(({ govChecksSteps, type, country, photos }, index) => (
-        <Grid item xs={8}>
+        <Grid item xs={12} xl={8}>
           <ChecksByDocument photos={photos} country={country} docType={type} key={type || index}>
             {govChecksSteps?.filter(({ error }) => !error || !RootGovChecksErrorsToHide[error.code]).map((step) => (
               <CheckBarExpandable step={step} key={step.title} title={step.title}>
@@ -25,7 +25,7 @@ export function GovCheckVerificationProduct({ data }: {
         </Grid>
       ))}
       {data.govCheckWithoutDocument?.map((step) => (
-        <Grid item xs={8}>
+        <Grid item xs={12} xl={8}>
           <CheckBarExpandable step={step} key={step.id}>
             <CheckStepDetails step={step}>
               <GovCheckText step={step} />

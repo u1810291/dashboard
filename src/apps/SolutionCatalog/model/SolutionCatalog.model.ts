@@ -1,8 +1,16 @@
+import { IFlow } from 'models/Flow.model';
+import { ProductTypes } from 'models/Product.model';
+import { productManagerService } from 'apps/Product';
+
+export const MAX_NUMBER_OF_MERITS = 10;
+
 export interface ICardsOptions {
   name: string;
   description: string;
   __v?: number;
   _id: string;
+  flow?: IFlow;
+  meritsList?: ProductTypes[];
   metadata: IMetadataOptions[];
   handleCardClick: (id: string) => void;
 }
@@ -42,6 +50,7 @@ export interface ICardsData {
   description: string;
   id?: string;
   _id?: string;
+  meritsList?: ProductTypes[];
 }
 
 export interface ITempalteFilterProps {
@@ -51,11 +60,6 @@ export interface ITempalteFilterProps {
   setCurrentFilters: (object: filterOptions) => void;
 }
 
-export interface ITemplateGaleryProps {
-  templates: ICardsData[];
-  handleCardClick: (id: string) => void;
-}
-
 export function getFiltersOptions(filtersData: ITemplateFilterOptions[]): IModifiedFiltersOptions[] {
   const titles = Array.from(new Set(filtersData.map((item) => item.type)));
   return titles.map((title: MetadataType) => {
@@ -63,3 +67,15 @@ export function getFiltersOptions(filtersData: ITemplateFilterOptions[]): IModif
     return { title, data: [...uniqueOptions] };
   });
 }
+
+export const flowBuilderProductListForTemplates = (flow: IFlow, registered: ProductTypes[]): ProductTypes[] => {
+  const activated = registered.filter((item) => {
+    const product = productManagerService.getProduct(item);
+    if (!product) {
+      return false;
+    }
+    return product.isInFlow(flow);
+  });
+  const sorted = productManagerService.sortProductTypes(activated);
+  return sorted;
+};

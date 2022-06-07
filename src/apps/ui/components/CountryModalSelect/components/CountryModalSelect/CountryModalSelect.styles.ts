@@ -73,5 +73,6 @@ export const StyledButtonBase = withStyles((theme) => ({
     background: theme.palette.common.gray,
     padding: '6px 12px',
     borderRadius: 40,
+    lineHeight: '17px',
   },
 }))(Button);

@@ -10,15 +10,16 @@ import React, { useCallback, useState, useMemo } from 'react';
 import { useFormatMessage } from 'apps/intl';
 import { BoxBordered } from 'apps/ui';
 import { AllowedRegions, Country } from 'models/Country.model';
-import { treeWalker, regionsConverting, getInitialSelectedCountries, SelectedCountries, Tree, markLocationChecked } from '../../models/CountryModalSelect.model';
+import { treeWalker, regionsConverting, getInitialSelectedCountries, SelectedCountries, Tree, markLocationChecked, IListItemData } from '../../models/CountryModalSelect.model';
 import { CountryModalItemSelect } from '../CountryModalItemSelect/CountryModalItemSelect';
 import { useStyles, StyledButtonBase } from './CountryModalSelect.styles';
 
-export function CountryModalSelect({ onSubmit, onCancel, initialValues, countries }: {
+export function CountryModalSelect({ onSubmit, onCancel, initialValues, countries, flat }: {
   onSubmit: (data: AllowedRegions[]) => void;
   onCancel: () => void;
   initialValues: AllowedRegions[] | null;
   countries: Country[];
+  flat?: boolean;
 }) {
   const formatMessage = useFormatMessage();
   const classes = useStyles();
@@ -64,7 +65,7 @@ export function CountryModalSelect({ onSubmit, onCancel, initialValues, countrie
     // id must be unique
     id: `${country.id}-${index}`,
     location: country.code,
-    label: formatMessage(`Countries.${country.code}`),
+    label: formatMessage(`Countries.${country.code}`, { defaultMessage: country.name }),
     children: country.regions.map((region) => ({
       id: region,
       location: region,
@@ -85,12 +86,13 @@ export function CountryModalSelect({ onSubmit, onCancel, initialValues, countrie
     });
   }, [countries, createTree, debounced]);
 
-  const listItemData = useMemo(() => ({
+  const listItemData = useMemo<IListItemData>(() => ({
     handleSelectCountry,
     selectedCountries,
     allRegionsSelected,
     firstCountryId: countries?.[0]?.id || '',
-  }), [allRegionsSelected, countries, handleSelectCountry, selectedCountries]);
+    flat,
+  }), [allRegionsSelected, countries, handleSelectCountry, selectedCountries, flat]);
 
   return (
     <>
@@ -99,14 +101,14 @@ export function CountryModalSelect({ onSubmit, onCancel, initialValues, countrie
           {Object.keys(selectedCountries).filter((key) => selectedCountries[key]).length}
           {formatMessage('CountryModalSelect.selectedAmount')}
         </Box>
-        <Box mr={2}>
+        <Box mr={0.4}>
           <StyledButtonBase disableRipple onClick={handleSelectAll}>{formatMessage('CountryModalSelect.selectAll')}</StyledButtonBase>
         </Box>
         <Box>
           <StyledButtonBase disableRipple onClick={handleDeselectAll}>{formatMessage('CountryModalSelect.deselectAll')}</StyledButtonBase>
         </Box>
       </Box>
-      <BoxBordered mt={1} mb={2} className={classes.formBox}>
+      <BoxBordered mb={2} className={classes.formBox}>
         <OutlinedInput
           fullWidth
           className={classes.searchInput}

@@ -25,11 +25,17 @@ export const commonStyles = StyleSheet.create({
     border: `1pt solid ${colors.black7}`,
     borderRadius: 0.5 * rem,
   },
+  mt5: {
+    marginTop: 0.5 * rem,
+  },
   mt1: {
     marginTop: rem,
   },
   mr05: {
     marginRight: 0.5 * rem,
+  },
+  ml1: {
+    marginLeft: rem,
   },
   mb0: {
     marginBottom: 0,
@@ -121,5 +127,11 @@ export const commonStyles = StyleSheet.create({
   },
   boldText: {
     fontWeight: 'bold',
+  },
+  container: {
+    display: 'flex',
+  },
+  column: {
+    flexDirection: 'column',
   },
 });

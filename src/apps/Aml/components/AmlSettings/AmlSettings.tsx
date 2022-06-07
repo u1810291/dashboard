@@ -64,6 +64,7 @@ export function AmlSettings({ settings, onUpdate }: ProductSettingsProps<AmlSett
         description={formatMessage('AmlCheck.settings.countriesModal.description')}
         initialValues={initialValues}
         onSubmit={handleSubmitAllowedRegions}
+        flat
       />,
     );
   }, [createOverlay, handleSubmitAllowedRegions, formatMessage, settings]);

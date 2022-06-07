@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
   modal: {
-    width: 380,
+    width: 400,
     height: 640,
     maxHeight: 'none',
   },

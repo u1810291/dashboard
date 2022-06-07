@@ -87,7 +87,7 @@ export function ESignature({ step }: {
                     variant="outlined"
                     onChange={handleSelect}
                     className={classes.select}
-                    value={selectedDocument ? selectedDocument.documentId : null}
+                    value={selectedDocument?.documentId ?? null}
                   >
                     {step.data.readDetails.map((details) => (
                       <MenuItem key={details.documentId} value={details.documentId}>

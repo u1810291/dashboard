@@ -33,6 +33,7 @@ import { CustomFieldPDF } from './components/CustomFieldPDF/CustomFieldPDF';
 import { CustomWatchlistPDF } from './components/CustomWatchlistPDF/CustomWatchlistPDF';
 import { BasicWatchlistPDF } from './components/BasicWatchlistPDF/BasicWatchlistPDF';
 import { CreditCheckPDF } from './components/CreditCheckPDF/CreditCheckPDF';
+import { ESignaturePDF } from './components/ESignaturePDF/ESignaturePDF';
 import { getLocationIntelligenceStep } from '../LocationIntelligenceOld';
 
 interface AdditionalData {
@@ -148,6 +149,8 @@ export function VerificationDocumentPDF({ verification, nom151FileContent, addit
             <PayrollAccountDataPDF data={payrollAccountData} />
           </View>
         )}
+        {/* esignature check */}
+        <ESignaturePDF steps={verification.steps} />
         { /* footer */}
         <View style={commonStyles.footer} fixed>
           <Text>
