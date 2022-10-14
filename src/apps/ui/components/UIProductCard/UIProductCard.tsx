@@ -43,7 +43,6 @@ export function UIProductCard({ card, issuesComponent, isExpandable = true, isCo
           <Grid container alignItems="center" wrap="nowrap">
             {card.icon && (
               <Grid container justifyContent="center" alignItems="center" className={classes.iconWrapper}>
-                {console.log(card)}
                 <Box className={classes.icon} color={issuesComponent && 'common.black50'}>{card.icon}</Box>
               </Grid>
             )}
